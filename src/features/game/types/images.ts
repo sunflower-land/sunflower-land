@@ -7,11 +7,743 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 import { LanguageCode } from "lib/i18n/dictionaries/dictionary";
 
+import magicBean from "assets/crops/magic_bean.png";
+import appleSeed from "assets/fruit/apple/apple_seed.png";
+import orangeSeed from "assets/fruit/orange/orange_seed.png";
+import blueberrySeed from "assets/fruit/blueberry/blueberry_seed.png";
+import bananaPlant from "assets/fruit/banana/banana_plant.png";
+import sunpetalSeed from "assets/flowers/sunpetal_seed.webp";
+import bloomSeed from "assets/flowers/bloom_seed.webp";
+import lilySeed from "assets/flowers/lily_seed.webp";
+import grape from "assets/greenhouse/grape.webp";
+import grapeSeed from "assets/greenhouse/grape_seed.webp";
+import olive from "assets/greenhouse/olive.webp";
+import oliveSeed from "assets/greenhouse/olive_seed.webp";
+import rice from "assets/greenhouse/rice.webp";
+import riceSeed from "assets/greenhouse/rice_seed.webp";
+
+import communityEgg from "assets/sfts/easter_donation_egg.webp";
+import hungryHare from "assets/sfts/hungryHare.png";
+
+// NFTs
+import grinxsHammer from "assets/sfts/grinx_hammer.png";
+import chickenCoop from "assets/sfts/chicken_coop.png";
+import christmasTree from "assets/sfts/christmas_tree.png";
+import farmCat from "assets/sfts/farm_cat.gif";
+import farmDog from "assets/sfts/farm_dog.gif";
+import gnome from "assets/decorations/scarlet.png";
+import goldEgg from "assets/sfts/gold_egg.png";
+import potatoStatue from "assets/sfts/potato_statue.png";
+import scarecrow from "assets/sfts/scarecrow.png";
+import sunflowerStatue from "assets/sfts/sunflower_statue.png";
+import sunflowerRock from "assets/sfts/sunflower_rock.png";
+import sunflowerTombstone from "assets/sfts/sunflower_tombstone.png";
+import goldenCauliflower from "assets/sfts/golden_cauliflower.webp";
+import crown from "assets/sfts/goblin_crown.png";
+import fountain from "assets/sfts/fountain.gif";
+import beaver from "assets/sfts/beaver.gif";
+import apprenticeBeaver from "assets/sfts/apprentice_beaver.gif";
+import constructionBeaver from "assets/sfts/construction_beaver.gif";
+import mysteriousParsnip from "assets/sfts/mysterious_parsnip.png";
+import carrotSword from "assets/sfts/carrot_sword.png";
+import goldenBonsai from "assets/sfts/golden_bonsai.png";
+import nancy from "assets/sfts/nancy.png";
+import kuebiko from "assets/sfts/kuebiko.gif";
+import nyonStatue from "assets/sfts/nyon_statue.png";
+import homelessTent from "assets/sfts/homeless_tent.png";
+import farmerBath from "assets/sfts/farmer_bath.png";
+import mysteriousHead from "assets/sfts/mysterious_head.png";
+import tunnelMole from "assets/sfts/tunnel_mole.gif";
+import rockyMole from "assets/sfts/rocky_mole.gif";
+import nugget from "assets/sfts/nugget.gif";
+import rockGolem from "assets/sfts/rock_golem.gif";
+import rooster from "assets/animals/chickens/rooster.gif";
+import undeadChicken from "assets/animals/chickens/undead_chicken.gif";
+import wickerMan from "assets/sfts/wicker_man.png";
+import wendy from "assets/sfts/wood_nymph_wendy.gif";
+import cabbageBoy from "assets/sfts/cabbage_boy.gif";
+import cabbageGirl from "assets/sfts/cabbage_girl.gif";
+import prizedPotato from "assets/sfts/peeled_potato.gif";
+import immortalPear from "assets/sfts/immortal_pear.webp";
+import ladybug from "assets/sfts/ladybug.gif";
+import blackBear from "assets/sfts/black_bear.gif";
+import squirrelMonkey from "assets/sfts/squirrel_monkey.gif";
+import luminousLantern from "assets/decorations/lanterns/luminous_lantern.webp";
+import auroraLantern from "assets/decorations/lanterns/aurora_lantern.webp";
+import radianceLantern from "assets/decorations/lanterns/radiance_lantern.webp";
+import oceanLantern from "assets/decorations/lanterns/ocean_lantern.png";
+import solarLantern from "assets/decorations/lanterns/solar_lantern.png";
+import bumpkinLantern from "assets/decorations/lanterns/bumpkin_lantern.png";
+import bettyLantern from "assets/decorations/lanterns/betty_lantern.png";
+import goblinLantern from "assets/decorations/lanterns/goblin_lantern.png";
+import poppy from "assets/sfts/poppy.png";
+import kernaldo from "assets/sfts/kernaldo.png";
+import walrus from "assets/sfts/walrus.webp";
+import alba from "assets/sfts/alba.webp";
+import knowledgeCrab from "assets/sfts/knowledge_crab.webp";
+import anchor from "assets/sfts/anchor.webp";
+import rubberDucky from "assets/sfts/rubber_ducky.webp";
+import krakenTentacle from "assets/sfts/kraken_tentacle.webp";
+import krakenHead from "assets/sfts/kraken_head.webp";
+import skillShrimpy from "assets/sfts/skill_shrimpy.png";
+import soilKrabby from "assets/sfts/soil_krabby.webp";
+import nana from "assets/sfts/nana.webp";
+import hummingBird from "assets/sfts/hummingbird.webp";
+import queenBee from "assets/sfts/queen_bee.webp";
+import flowerFox from "assets/sfts/flower_fox.webp";
+import hungryCaterpillar from "assets/sfts/hungry_caterpillar.webp";
+import sunriseBloomRug from "assets/sfts/sunrise_bloom_rug.webp";
+import blossomRoyale from "assets/sfts/blossom_royale.webp";
+import rainbow from "assets/sfts/rainbow.webp";
+import enchantedRose from "assets/sfts/enchanted_rose.webp";
+import flowerCart from "assets/sfts/flower_cart.webp";
+import capybara from "assets/sfts/capybara.webp";
+import flowerRug from "assets/sfts/flower_rug.webp";
+import teaRug from "assets/sfts/tea_rug.webp";
+import greenFieldRug from "assets/sfts/green_field_rug.webp";
+import gauchoRug from "assets/sfts/gaucho_rug.webp";
+// Clash of Factions
+import turboSprout from "assets/sfts/turbo_sprout.webp";
+import soybliss from "assets/sfts/soybliss.webp";
+import grapeGranny from "assets/sfts/grape_granny.webp";
+import royalThrone from "assets/sfts/royal_throne.webp";
+import lilyEgg from "assets/sfts/lily_egg.webp";
+import goblet from "assets/sfts/goblet.webp";
+import fancyRug from "assets/sfts/fancy_rug.webp";
+import vinny from "assets/sfts/vinny.webp";
+import clock from "assets/sfts/clock.webp";
+
+// AoE items
+import basicScarecrow from "assets/sfts/aoe/basic_scarecrow.png";
+import emeraldTurtle from "assets/sfts/aoe/emerald_turtle.webp";
+import tinTurtle from "assets/sfts/aoe/tin_turtle.webp";
+import bale from "assets/sfts/aoe/bale.png";
+import scaryMike from "assets/sfts/aoe/scary_mike.png";
+import laurie from "assets/sfts/aoe/laurie.png";
+import queenCornelia from "assets/sfts/aoe/queen_cornelia.png";
+
+// Mutant Chickens
+import speedChicken from "assets/animals/chickens/speed_chicken.gif";
+import fatChicken from "assets/animals/chickens/fat_chicken.gif";
+import richChicken from "assets/animals/chickens/rich_chicken.webp";
+import elPolloVeloz from "assets/animals/chickens/el_pollo_veloz.gif";
+import ayamCemani from "assets/animals/chickens/ayam_cemani.gif";
+import bananaChicken from "assets/animals/chickens/banana_chicken.png";
+import crimPeckster from "assets/animals/chickens/crim_peckster.png";
+import knightChicken from "assets/animals/chickens/knight_chicken.webp";
+
+// Foods
+import roastedCauliflower from "assets/food/roasted_cauliflower.png";
+import radishPie from "assets/food/radish_pie.png";
+
+// Flags
+import australiaFlag from "assets/sfts/flags/australia_flag.gif";
+import belgiumFlag from "assets/sfts/flags/belgium_flag.gif";
+import brazilFlag from "assets/sfts/flags/brazil_flag.gif";
+import chinaFlag from "assets/sfts/flags/china_flag.gif";
+import finlandFlag from "assets/sfts/flags/finland_flag.gif";
+import franceFlag from "assets/sfts/flags/france_flag.gif";
+import germanFlag from "assets/sfts/flags/germany_flag.gif";
+import indiaFlag from "assets/sfts/flags/india_flag.gif";
+import indonesiaFlag from "assets/sfts/flags/indonesia_flag.gif";
+import iranFlag from "assets/sfts/flags/iran_flag.gif";
+import italyFlag from "assets/sfts/flags/italy_flag.gif";
+import japanFlag from "assets/sfts/flags/japan_flag.gif";
+import moroccoFlag from "assets/sfts/flags/morocco_flag.gif";
+import netherlandsFlag from "assets/sfts/flags/netherlands_flag.gif";
+import phillipinesFlag from "assets/sfts/flags/philippines_flag.gif";
+import polandFlag from "assets/sfts/flags/poland_flag.gif";
+import portugalFlag from "assets/sfts/flags/portugal_flag.gif";
+import russiaFlag from "assets/sfts/flags/russia_flag.gif";
+import saudiArabiaFlag from "assets/sfts/flags/saudi_arabia_flag.gif";
+import southKoreaFlag from "assets/sfts/flags/south_korea_flag.gif";
+import sunflowerFlag from "assets/sfts/flags/sunflower_flag.gif";
+import spainFlag from "assets/sfts/flags/spain_flag.gif";
+import thailandFlag from "assets/sfts/flags/thailand_flag.gif";
+import turkeyFlag from "assets/sfts/flags/turkey_flag.gif";
+import ukraineFlag from "assets/sfts/flags/ukraine_flag.gif";
+import usaFlag from "assets/sfts/flags/usa_flag.gif";
+import vietnamFlag from "assets/sfts/flags/vietnam_flag.gif";
+import algerian_flag from "assets/sfts/flags/algerian_flag.gif";
+import argentinian_flag from "assets/sfts/flags/argentinian_flag.gif";
+import british_flag from "assets/sfts/flags/british_flag.gif";
+import canadian_flag from "assets/sfts/flags/canadian_flag.gif";
+import colombian_flag from "assets/sfts/flags/colombian_flag.gif";
+import dominican_republic_flag from "assets/sfts/flags/dominican_republic_flag.gif";
+import goblin_flag from "assets/sfts/flags/goblin_flag.gif";
+import lithuanian_flag from "assets/sfts/flags/lithuanian_flag.gif";
+import malaysian_flag from "assets/sfts/flags/malaysian_flag.gif";
+import mexican_flag from "assets/sfts/flags/mexican_flag.gif";
+import pirate_flag from "assets/sfts/flags/pirate_flag.gif";
+import rainbow_flag from "assets/sfts/flags/rainbow_flag.gif";
+import romanian_flag from "assets/sfts/flags/romanian_flag.gif";
+import sierra_leone_flag from "assets/sfts/flags/sierra_leone_flag.gif";
+import singaporean_flag from "assets/sfts/flags/singaporean_flag.gif";
+
+import generosityFlag from "assets/sfts/generosity_flag.png";
+import splendorFlag from "assets/sfts/splendor_flag.png";
+import benevolenceFlag from "assets/sfts/benevolence_flag.png";
+import devotionFlag from "assets/sfts/devotion_flag.png";
+
+import paintCan from "assets/sfts/paint_can.png";
+import jellyLamp from "assets/sfts/jelly_lamp.webp";
+
+// Resources
+import iron from "assets/resources/iron_ore.png";
+import gold from "assets/resources/gold_ore.png";
+import crimstone from "assets/resources/crimstone.png";
+import sunstone from "assets/resources/sunstone/sunstone.png";
+import honey from "assets/resources/honey.png";
+import apple from "assets/resources/apple.png";
+import orange from "assets/resources/orange.png";
+import blueberry from "assets/resources/blueberry.png";
+import banana from "assets/resources/banana.png";
+import oil from "assets/resources/oil.webp";
+
+// Skills
+import greenThumb from "assets/skills/green_thumb.png";
+import goldRush from "assets/skills/gold_rush.png";
+import prospector from "assets/skills/prospector.png";
+import wrangler from "assets/skills/wrangler.png";
+import barnManager from "assets/skills/barn_manager.png";
+import seedSpecialist from "assets/skills/seed_specialist.png";
+import logger from "assets/skills/logger.png";
+import lumberjack from "assets/skills/lumberjack.png";
+import warrior from "assets/skills/warrior.png";
+import artist from "assets/skills/artist.png";
+import coder from "assets/skills/coder.png";
+import discord from "assets/skills/discord.png";
+import liquidityProvider from "assets/skills/liquidity_provider.png";
+
+// Achievements
+
+import bumpkinChainsawAmateur from "assets/achievements/bumpkin_chainsaw_amateur.png";
+import twentyTwentyVision from "assets/achievements/20-20-vision.png";
+import bakersDozen from "assets/achievements/bakers_dozen.png";
+import beetrootBeast from "assets/achievements/beetrootBeast.png";
+import bigSpender from "assets/achievements/big_spender.png";
+import brilliantBumpkin from "assets/achievements/brilliant_bumpkin.png";
+import bumpkinBillionaire from "assets/achievements/bumpkin_billionaire.png";
+import craftmanship from "assets/achievements/craftmanship.png";
+import busyBumpkin from "assets/achievements/busy_bumpkin.png";
+import cabbageKing from "assets/achievements/cabbage_king.png";
+import canary from "assets/achievements/canary.png";
+import chefDeCuisine from "assets/achievements/chef_de_cuisine.png";
+import contractor from "assets/achievements/contractor.png";
+import coolCauliflower from "assets/achievements/cool_cauliflower.png";
+import jackOLantern from "assets/achievements/jack_o_lantern.png";
+import cropChampion from "assets/achievements/crop_champion.png";
+import driller from "assets/achievements/driller.png";
+import elDorado from "assets/achievements/el-dorado.png";
+import goldFever from "assets/achievements/gold_fever.png";
+import ironEyes from "assets/achievements/iron_eyes.png";
+import stapleCrop from "assets/achievements/staple_crop.png";
+import kissTheCook from "assets/achievements/kiss_the_cook.png";
+import museum from "assets/achievements/museum.png";
+import myLifeIsPotato from "assets/achievements/my_life_is_potato.png";
+import patientParsnip from "assets/achievements/patient_parsnip.png";
+import rapidRadish from "assets/achievements/rapidRadish.png";
+import somethingShiny from "assets/achievements/something_shiny.png";
+import sunSeeker from "assets/achievements/sun_seeker.png";
+import sunflowerSuperstar from "assets/achievements/sunflower_superstar.png";
+import timberrr from "assets/achievements/timber.png";
+import timeToChop from "assets/achievements/time_to_chop.png";
+import breadWinner from "assets/achievements/bread_winner.png";
+import explorer from "assets/achievements/explorer.png";
+import farmHand from "assets/achievements/farm_hand.png";
+import highRoller from "assets/achievements/high_roller.png";
+import orangeSqueeze from "assets/achievements/orange_squeeze.png";
+import appleOfMyEye from "assets/achievements/apple_of_my_eye.png";
+import blueChip from "assets/achievements/blue_chip.png";
+import fruitPlatter from "assets/achievements/fruit_platter.png";
+
+// Coupons
+import ticket from "assets/icons/ticket.png";
+import blockBuck from "assets/icons/block_buck.png";
+import goldPass from "assets/icons/gold-pass.png";
+import warBond from "assets/icons/warBond.png";
+import betaPass from "assets/icons/beta_pass.png";
+import solarFlareTicket from "assets/icons/solar_flare_ticket.png";
+import dawnBreakerTicket from "assets/icons/dawn_breaker_ticket.png";
+import potionPoint from "assets/icons/potion_point.png";
+import crowFeather from "assets/icons/crow_feather.webp";
+import mermaidScale from "assets/icons/mermaid_scale.webp";
+import tulipBulb from "assets/icons/tulip_bulb.png";
+import scroll from "assets/icons/scroll.webp";
+import goblinEmblem from "assets/icons/goblin_emblem.webp";
+import bumpkinEmblem from "assets/icons/bumpkin_emblem.webp";
+import sunflorianEmblem from "assets/icons/sunflorian_emblem.webp";
+import nightshadeEmblem from "assets/icons/nightshade_emblem.webp";
+import mark from "assets/icons/faction_mark.webp";
+import supporterTicket from "assets/icons/supporter_ticket.png";
+import solarFlareBanner from "assets/decorations/banners/solar_flare_banner.png";
+import dawnBreakerBanner from "assets/decorations/banners/dawn_breaker_banner.png";
+import witchesEveBanner from "assets/decorations/banners/witches_eve_banner.webp";
+import catchTheKrakenBanner from "assets/decorations/banners/catch_the_kraken_banner.webp";
+import springBlossomBanner from "assets/decorations/banners/spring_banner.gif";
+import clashOfFactionsBanner from "assets/decorations/banners/clash_of_factions_banner.webp";
+import lifetimeFarmerBanner from "assets/decorations/banners/lifetime_farmer_banner.png";
+import budTicket from "assets/icons/bud_ticket.png";
+import prizeTicket from "assets/icons/prize_ticket.png";
+import budSeedling from "assets/icons/bud_seedling.png";
+import earnAllianceBanner from "assets/sfts/earn_alliance_banner.png";
+
+// Banners
+import goblinBanner from "assets/decorations/banners/goblin_banner.png";
+import humanBanner from "assets/decorations/banners/human_banner.png";
+
+// Egg
+import redEgg from "src/assets/sfts/easter/red_egg.png";
+import yellowEgg from "src/assets/sfts/easter/yellow_egg.png";
+import purpleEgg from "src/assets/sfts/easter/purple_egg.png";
+import blueEgg from "src/assets/sfts/easter/blue_egg.png";
+import greenEgg from "src/assets/sfts/easter/green_egg.png";
+import orangeEgg from "src/assets/sfts/easter/orange_egg.png";
+import pinkEgg from "src/assets/sfts/easter/pink_egg.png";
+import easterBasket from "src/assets/sfts/easter/basket.png";
+import easterBunny from "src/assets/sfts/easter/easter_bunny.gif";
+import pabloBunny from "src/assets/sfts/pablo_bunny.gif";
+import easterBush from "src/assets/sfts/easter_bush.gif";
+import giantCarrot from "assets/sfts/giant_carrot.png";
+
+//MOM Event
+import momCoreEngine from "src/assets/sfts/mom/engine_core.png";
+import observatory from "src/assets/sfts/mom/observatory.gif";
+
+// Cakes
+import carrotCake from "src/assets/food/cakes/carrot_cake.png";
+import radishCake from "src/assets/food/cakes/radish_cake.png";
+import beetrootCake from "src/assets/food/cakes/beetroot_cake.png";
+import cabbageCake from "src/assets/food/cakes/cabbage_cake.png";
+import cauliflowerCake from "src/assets/food/cakes/cauliflower_cake.png";
+import parsnipCake from "src/assets/food/cakes/parsnip_cake.png";
+import potatoCake from "src/assets/food/cakes/potato_cake.png";
+import pumpkinCake from "src/assets/food/cakes/pumpkin_cake.png";
+import sunflowerCake from "src/assets/food/cakes/sunflower_cake.png";
+import wheatCake from "src/assets/food/cakes/wheat_cake.png";
+
+// Food
+import mashedPotato from "assets/food/mashed_potato.png";
+import pumpkinSoup from "assets/food/pumpkin_soup.png";
+import bumpkinBroth from "assets/food/bumpkin_broth.png";
+import boiledEgg from "assets/food/boiled_eggs.png";
+import goblinsTreat from "assets/food/goblins_treat.png";
+import cauliflowerBurger from "assets/food/cauliflower_burger.png";
+import pancakes from "assets/food/pancakes.png";
+import roastVeggies from "assets/food/roast_veggies.png";
+import clubSandwich from "assets/food/club_sandwich.png";
+import bumpkinSalad from "assets/food/bumpkin_salad.png";
+import blueberryJam from "assets/food/blueberry_jam.png";
+import honeyCake from "assets/food/cakes/honey_cake.png";
+import kaleStew from "assets/food/kale_stew.png";
+import mushroomSoup from "assets/food/mushroom_soup.png";
+import orangeCake from "assets/food/cakes/orange_cake.png";
+import sunflowerCrunch from "assets/food/sunflower_crunch.png";
+import applePie from "assets/food/apple_pie.png";
+import mushroomJacketPotato from "assets/food/mushroom_jacket_potato.png";
+import kaleMushroomPie from "assets/food/mushroom_kale_pie.png";
+import reindeerCarrot from "assets/food/reindeer_carrot.png";
+import fermentedCarrots from "assets/food/fermented_carrots.png";
+import sauerkraut from "assets/food/sauerkraut.png";
+import appleJuice from "assets/food/apple_juice.png";
+import orangeJuice from "assets/food/orange_juice.png";
+import purpleSmoothie from "assets/food/purple_smoothie.png";
+import bumpkinDetox from "assets/food/bumpkin_detox.png";
+import powerSmoothie from "assets/food/power_smoothie.png";
+import bumpkinRoast from "assets/food/bumpkin_roast.png";
+import goblinBrunch from "assets/food/goblin_brunch.png";
+import fruitSalad from "assets/food/fruit_salad.png";
+import kaleOmelette from "assets/food/kale_omelette.png";
+import cabbersNMash from "assets/food/cabbers_n_mash.png";
+import fancyFries from "assets/food/fancy_fries.png";
+import bumpkinGanoush from "assets/food/bumpkin_ganoush.png";
+import eggplantCake from "assets/food/cakes/eggplant_cake.png";
+import cornBread from "assets/food/corn_bread.png";
+import popcorn from "assets/food/popcorn.png";
+import chowder from "assets/food/chowder.png";
+import gumbo from "assets/food/gumbo.png";
+import fermentedFish from "assets/food/fermented_fish.png";
+import bananaBlast from "assets/food/banana_blast.png";
+import beetrootBlaze from "assets/food/beetroot_blaze.png";
+import shroomSyrup from "assets/food/shroom_syrup.png";
+import rapidRoast from "assets/food/rapid_roast.png";
+import theLot from "assets/food/the_lot.webp";
+import antipasto from "assets/food/antipasto.webp";
+import carrotJuice from "assets/food/carrot_juice.webp";
+import fishBasket from "assets/food/seafood_basket.webp";
+import fishBurger from "assets/food/fish_burger.webp";
+import fishnChips from "assets/food/fish_and_chips.webp";
+import fishOmelette from "assets/food/fish_omelette.webp";
+import friedCalamari from "assets/food/fried_calamari.webp";
+import grapeJuice from "assets/food/grape_juice.webp";
+import oceansOlive from "assets/food/oceans_olive.webp";
+import quickJuice from "assets/food/quick_juice.webp";
+import riceBun from "assets/food/rice_bun.webp";
+import slowJuice from "assets/food/slow_juice.webp";
+import redRice from "assets/food/red_rice.webp";
+import sushiRoll from "assets/food/sushi_roll.webp";
+import friedTofu from "assets/food/fried_tofu.png";
+import tofuScramble from "assets/food/tofu_scramble.png";
+
+import goblinKey from "src/assets/sfts/quest/goblin_key.png";
+import sunflowerKey from "src/assets/sfts/quest/sunflower_key.png";
+import rareKey from "src/assets/sfts/quest/rare_key.png";
+import luxuryKey from "src/assets/sfts/quest/luxury_key.png";
+import ancientGoblinSword from "src/assets/sfts/quest/ancient_goblin_sword.png";
+import ancientHumanWarhammer from "src/assets/sfts/quest/ancient_human_warhammer.png";
+
+// Fertiliser
+import rapidGrowth from "src/assets/fertilisers/rapidGrowth.png";
+
+// Buildings
+import firePit from "src/assets/buildings/fire_pit.png";
+import kitchen from "src/assets/buildings/kitchen.png";
+import market from "src/assets/buildings/bettys_market.png";
+import townCenter from "src/assets/buildings/town_center.png";
+import workbench from "src/assets/buildings/workbench.png";
+import tent from "src/assets/buildings/tent.png";
+import well from "src/assets/buildings/well1.png";
+import chickenHouse from "src/assets/buildings/hen_house.png";
+import bakery from "src/assets/buildings/bakery.png";
+import deli from "src/assets/buildings/deli.png";
+import greenhouse from "src/assets/buildings/greenhouse.webp";
+import smoothieShack from "src/assets/buildings/smoothie_shack.webp";
+import toolshed from "src/assets/buildings/toolshed.png";
+import warehouse from "src/assets/buildings/warehouse.png";
+import basicComposter from "assets/composters/composter_basic.png";
+import advancedComposter from "assets/composters/composter_advanced.png";
+import expertComposter from "assets/composters/composter_expert.png";
+import house from "assets/buildings/house.png";
+import manor from "assets/buildings/manor.png";
+import cropMachine from "assets/buildings/crop_machine.wep.webp";
+
+// Composter Bait
+import earthworm from "assets/composters/earthworm.png";
+import grub from "assets/composters/grub.png";
+import redWiggler from "assets/composters/red_wiggler.png";
+import fishingLure from "assets/composters/fishing_lure.png";
+
+// Compost
+import sproutMix from "assets/composters/sprout_mix.png";
+import fruitfulBlend from "assets/composters/fruitful_blend.png";
+import rapidRoot from "assets/composters/rapid_root.png";
+
+// Clothing
+import chefHat from "src/assets/icons/chef_hat.png";
+
+import skull from "src/assets/decorations/war_skulls.png";
+import warTombstone from "src/assets/decorations/war_tombstone.png";
+import jackOLanternItem from "src/assets/sfts/jack_o_lantern.png";
+import victoriaSisters from "src/assets/sfts/victoria_sisters.gif";
+
+//Decorations
+import snowglobe from "src/assets/decorations/snowglobe.gif";
+import pottedSunflower from "src/assets/decorations/potted_sunflower.png";
+import pottedPumpkin from "src/assets/decorations/potted_pumpkin.webp";
+import pottedPotato from "src/assets/decorations/potted_potato.png";
+import whiteTulips from "src/assets/decorations/white_tulips.png";
+import cactus from "src/assets/decorations/cactus.png";
+import basicBear from "src/assets/sfts/bears/basic_bear.png";
+import chefBear from "src/assets/sfts/bears/chef_bear.png";
+import constructionBear from "src/assets/sfts/bears/construction_bear.png";
+import angelBear from "src/assets/sfts/bears/angel_bear.png";
+import devilBear from "src/assets/sfts/bears/devil_bear.png";
+import badassBear from "src/assets/sfts/bears/badass_bear.png";
+import sunflowerBear from "src/assets/sfts/bears/sunflower_bear.png";
+import brilliantBear from "src/assets/sfts/bears/brilliant_bear.png";
+import classyBear from "src/assets/sfts/bears/classy_bear.png";
+import farmerBear from "src/assets/sfts/bears/farmer_bear.png";
+import richBear from "src/assets/sfts/bears/rich_bear.png";
+import bearTrap from "src/assets/sfts/bears/bear_trap.png";
+import christmasBear from "src/assets/sfts/bears/christmas_bear.png";
+import betaBear from "src/assets/sfts/bears/sfl_bear.png";
+import rainbowArtistBear from "src/assets/sfts/bears/rainbow_artist_bear.png";
+import cyborgBear from "src/assets/sfts/bears/cyborg_bear.png";
+import collectibleBear from "src/assets/sfts/bears/collectible_bear.png";
+import manekiNeko from "src/assets/sfts/maneki_neko.gif";
+import redEnvelope from "src/assets/icons/red_envelope.png";
+import loveLetter from "src/assets/icons/love_letter.png";
+import communityCoin from "src/assets/icons/community_coin.png";
+import tikiTotem from "src/assets/sfts/tiki_totem.webp";
+import timeWarpTotem from "src/assets/sfts/time_warp_totem.webp";
+import lunarCalendar from "src/assets/sfts/lunar_calendar.webp";
+import valentineBear from "src/assets/sfts/bears/love_bear.png";
+import easterBear from "src/assets/sfts/bears/easter_bear.png";
+import ironIdol from "src/assets/sfts/iron_idol.webp";
+import genieBear from "src/assets/sfts/bears/genie_bear.png";
+import eggplantBear from "src/assets/sfts/bears/eggplant_bear.png";
+import dawnFlower from "src/assets/sfts/dawn_flower.png";
+import candles from "src/assets/decorations/candles.png";
+import spookyTree from "src/assets/decorations/spooky_tree.png";
+import hauntedStump from "src/assets/decorations/haunted_stump.png";
+import sign from "src/assets/decorations/woodsign.png";
+import observer from "src/assets/decorations/observer.webp";
+import crowRock from "src/assets/decorations/crow_rock.webp";
+import miniCornMaze from "src/assets/decorations/mini_corn_maze.webp";
+import whiteCrow from "src/assets/decorations/white_crow.webp";
+import lifeguardRing from "src/assets/decorations/lifeguard_ring.webp";
+import surfboard from "src/assets/decorations/surfboard.webp";
+import hideawayHerman from "src/assets/decorations/hideaway_herman.webp";
+import shiftySheldon from "src/assets/decorations/shifty_sheldon.webp";
+import tikiTorch from "src/assets/decorations/tiki_torch.webp";
+import beachUmbrella from "src/assets/decorations/beach_umbrella.webp";
+
+import pineTree from "src/assets/decorations/pine_tree.png";
+import fieldMaple from "src/assets/decorations/field_maple.webp";
+import redMaple from "src/assets/decorations/red_maple.webp";
+import goldenMaple from "src/assets/decorations/golden_maple.webp";
+
+// Treasure
+import abandonedBear from "assets/sfts/bears/abandoned_bear.png";
+import pearl from "assets/sfts/treasure/pearl.webp";
+import pipi from "assets/sfts/treasure/pipi.webp";
+import turtleBear from "assets/sfts/bears/turtle_bear.webp";
+import tRexSkull from "assets/sfts/t_rex_skull.webp";
+import parasaurSkull from "assets/sfts/parasaur_skull.webp";
+import clamShell from "assets/sfts/treasure/clam_shell.webp";
+import lifeguardBear from "assets/sfts/bears/lifeguard_bear.webp";
+import snorkelBear from "assets/sfts/bears/snorkel_bear.webp";
+import whaleBear from "assets/sfts/bears/whale_bear.webp";
+import goblinBear from "assets/sfts/bears/goblin_bear.webp";
+import goldenBearHead from "assets/sfts/golden_bear_head.webp";
+import humanBear from "assets/sfts/bears/human_bear.webp";
+import pirateBear from "assets/sfts/bears/pirate_bear.webp";
+import seaweed from "assets/sfts/treasure/seaweed.webp";
+import sunflowerCoin from "assets/sfts/sunflower_coin.webp";
+import galleon from "assets/sfts/galleon.webp";
+import treasureMap from "assets/sfts/treasure/treasure_map.webp";
+import woodenCompass from "assets/sfts/treasure/wooden_compass.webp";
+import ironCompass from "assets/sfts/treasure/iron_compass.webp";
+import emeraldCompass from "assets/sfts/treasure/emerald_compass.webp";
+import heartOfDavyJones from "assets/sfts/heart_of_davy_jones.gif";
+import heartBalloons from "assets/events/valentine/sfts/heart_balloons.png";
+import flamingo from "assets/events/valentine/sfts/flamingo.webp";
+import blossomTree from "assets/events/valentine/sfts/blossom_tree.png";
+import skeletonKingStaff from "assets/sfts/skeleton_king_staff.webp";
+import foliant from "assets/sfts/foliant.webp";
+import dinosaurBone from "assets/sfts/dinosaur_bone.webp";
+import pirateCake from "assets/food/cakes/pirate_cake.webp";
+import drill from "assets/icons/drill.png";
+import karkinos from "assets/seasons/solar-flare/karkinos.png";
+import palmTree from "assets/seasons/solar-flare/palm_tree.webp";
+import beachBall from "assets/seasons/solar-flare/beach_ball.webp";
+import dirt from "assets/sfts/dirt_path.png";
+import bush from "assets/decorations/bush.png";
+import shrub from "assets/decorations/shrub.png";
+import fence from "assets/decorations/fence.png";
+import stoneFence from "assets/decorations/stone_fence.png";
+import mushroomHouse from "assets/seasons/dawn-breaker/mushroom_house.png";
+import genieLamp from "assets/sfts/genie_lamp.png";
+import oldBottle from "assets/sfts/treasure/old_bottle.png";
+import oilDrill from "assets/icons/oil_drill.webp";
+
+import bonniesTombstone from "assets/decorations/bonnies_tombstone.png";
+import grubnashTombstone from "assets/decorations/grubnash_tombstone.png";
+import crimsonCap from "assets/decorations/crimson_cap.png";
+import toadstoolSeat from "assets/decorations/toadstool_seat.png";
+import chestnutStool from "assets/decorations/chestnut_fungi_stool.png";
+import mahoganyCap from "assets/decorations/mahogony_cap.png";
+import clementine from "assets/decorations/clementine.png";
+import blossombeard from "assets/sfts/blossom_beard.webp";
+import desertgnome from "assets/sfts/desert_gnome.webp";
+import cobalt from "assets/decorations/cobalt.png";
+import dawnUmbrellaSeat from "assets/decorations/dawn_umbrella_seat.png";
+import eggplantGrill from "assets/decorations/eggplant_grill.png";
+import giantDawnMushroom from "assets/decorations/giant_dawn_mushroom.png";
+import shroomGlow from "assets/decorations/shroom_glow.png";
+import purpleTrail from "assets/sfts/purple_trail.png";
+import obie from "assets/sfts/obie.png";
+import maximus from "assets/sfts/maximus.png";
+import hoot from "assets/sfts/hoot.png";
+import sirGoldenSnout from "assets/sfts/aoe/sir_goldensnout.png";
+import freyaFox from "assets/sfts/freya_fox.png";
+import grainGrinder from "assets/sfts/grain_grinder.png";
+
+import goldRock from "assets/resources/gold_small.png";
+import ironRock from "assets/resources/iron_small.png";
+import stoneRock from "assets/resources/stone_small.png";
+import crimstoneRock from "assets/resources/crimstone/crimstone_rock_1.webp";
+import sunstoneRock from "assets/resources/sunstone/sunstone_rock_1.webp";
+import oilReserve from "assets/resources/oil/oil_reserve_full.webp";
+
+// Potion House
+import giantCabbage from "assets/sfts/giant_cabbage.png";
+import giantPumpkin from "assets/sfts/giant_pumpkin.png";
+import giantPotato from "assets/sfts/giant_potato.png";
+import labGrownCarrot from "assets/sfts/lab_grown_carrot.gif";
+import labGrownPumpkin from "assets/sfts/lab_grown_pumpkin.gif";
+import labGrownRadish from "assets/sfts/lab_grown_radish.gif";
+import adirondackPotato from "assets/potion_house/adirondack_potato.png";
+import goldenHelios from "assets/potion_house/golden_helios.png";
+import chiogga from "assets/potion_house/chiogga.png";
+import blackMagic from "assets/potion_house/black_magic.png";
+import purpleCauliflower from "assets/potion_house/purple_cauliflower.png";
+import whiteCarrot from "assets/potion_house/white_carrot.png";
+import wartyGoblinPumpkin from "assets/potion_house/warty_goblin_pumpkin.png";
+import potatoMutant from "assets/sfts/potato_mutant.gif";
+import radishMutant from "assets/sfts/radish_mutant.gif";
+import sunflowerMutant from "assets/sfts/sunflower_mutant.gif";
+
+import battleCryDrum from "assets/sfts/battlecry_drum.webp";
+import bullseyBoard from "assets/sfts/bullseye_board.webp";
+import chessRug from "assets/sfts/chess_rug.webp";
+import cluckapult from "assets/sfts/cluckapult.webp";
+import goldenGallant from "assets/sfts/golden_gallant.webp";
+import goldenGarrison from "assets/sfts/golden_garrison.webp";
+import goldenGurdian from "assets/sfts/golden_guardian.webp";
+import noviceKnight from "assets/sfts/novice_knight.webp";
+import regularPawn from "assets/sfts/regular_pawn.webp";
+import rookieRook from "assets/sfts/rookie_rook.webp";
+import silverSentinel from "assets/sfts/silver_sentinel.webp";
+import silverSquire from "assets/sfts/silver_squire.webp";
+import silverStallion from "assets/sfts/silver_stallion.webp";
+import traineeTarget from "assets/sfts/trainee_target.webp";
+import twisterRug from "assets/sfts/twister_rug.webp";
+import ricePanda from "assets/sfts/rice_panda.webp";
+
+import anchovy from "assets/fish/anchovy.png";
+import barredKnifejaw from "assets/fish/barred_knifejaw.png";
+import blowfish from "assets/fish/blowfish.png";
+import blueMarlin from "assets/fish/blue_marlin.png";
+import butterflyfish from "assets/fish/butterfly_fish.png";
+import clownfish from "assets/fish/clownfish.png";
+import coelacanth from "assets/fish/coelacanth.png";
+import footballFish from "assets/fish/football_fish.png";
+import hammerheadShark from "assets/fish/hammerhead_shark.png";
+import horseMackerel from "assets/fish/horse_mackerel.png";
+import mahiMahi from "assets/fish/mahi_mahi.png";
+import morayEel from "assets/fish/moray_eel.png";
+import napoleonfish from "assets/fish/napoleonfish.png";
+import oarfish from "assets/fish/oarfish.png";
+import oliveFlounder from "assets/fish/olive_flounder.png";
+import ray from "assets/fish/ray.png";
+import redSnapper from "assets/fish/red_snapper.png";
+import sawShark from "assets/fish/saw_shark.png";
+import seaBass from "assets/fish/sea_bass.png";
+import seahorse from "assets/fish/seahorse.png";
+import squid from "assets/fish/squid.png";
+import sunfish from "assets/fish/sunfish.png";
+import surgeonfish from "assets/fish/surgeonfish.png";
+import tuna from "assets/fish/tuna.png";
+import whaleShark from "assets/fish/whale_shark.png";
+import whiteShark from "assets/fish/white_shark.png";
+import zebraTurkeyfish from "assets/fish/zebra_turkeyfish.png";
+import twilightAnglerfish from "assets/fish/twilight_anglerfish.png";
+import startlightTuna from "assets/fish/starlight_tuna.png";
+import radiantRay from "assets/fish/radiant_ray.png";
+import phantomBarracuda from "assets/fish/phantom_barracuda.png";
+import gildedSwordfish from "assets/fish/gilded_swordfish.png";
+import crimsonCarp from "assets/fish/crimson_carp.png";
+import halibut from "assets/fish/halibut.png";
+import angelFish from "assets/fish/angel_fish.png";
+import parrotFish from "assets/fish/parrot_fish.png";
+import battleFish from "assets/fish/battle_fish.webp";
+
+import festiveTree from "assets/sfts/festive_tree.png";
+import nutcracker from "assets/sfts/bumpkin_nutcracker.png";
+import whiteFestiveFox from "assets/sfts/white-xmas-fox.png";
+
+import sapoDocuras from "assets/sfts/sapo_docuras.gif";
+import sapoTravessura from "assets/sfts/sapo_travessura.gif";
+
+// Flowers
+import beehive from "assets/sfts/beehive.webp";
+import flowerBed from "assets/flowers/empty.webp";
+import redPansy from "assets/flowers/red_pansy.webp";
+import yellowPansy from "assets/flowers/yellow_pansy.webp";
+import bluePansy from "assets/flowers/blue_pansy.webp";
+import whitePansy from "assets/flowers/white_pansy.webp";
+import purplePansy from "assets/flowers/purple_pansy.webp";
+import redCosmos from "assets/flowers/red_cosmos.webp";
+import yellowCosmos from "assets/flowers/yellow_cosmos.webp";
+import blueCosmos from "assets/flowers/blue_cosmos.webp";
+import whiteCosmos from "assets/flowers/white_cosmos.webp";
+import purpleCosmos from "assets/flowers/purple_cosmos.webp";
+import redBalloonFlower from "assets/flowers/red_balloon_flower.webp";
+import yellowBalloonFlower from "assets/flowers/yellow_balloon_flower.webp";
+import blueBalloonFlower from "assets/flowers/blue_balloon_flower.webp";
+import whiteBalloonFlower from "assets/flowers/white_balloon_flower.webp";
+import purpleBalloonFlower from "assets/flowers/purple_balloon_flower.webp";
+import redCarnation from "assets/flowers/red_carnation.png";
+import yellowCarnation from "assets/flowers/yellow_carnation.png";
+import blueCarnation from "assets/flowers/blue_carnation.png";
+import whiteCarnation from "assets/flowers/white_carnation.png";
+import purpleCarnation from "assets/flowers/purple_carnation.png";
+import prismPetal from "assets/flowers/prism_petal.webp";
+import celestialFrostbloom from "assets/flowers/celestial_frostbloom.webp";
+import primulaEnigma from "assets/flowers/primula_enigma.webp";
+import redDaffodil from "assets/flowers/red_daffodil.webp";
+import yellowDaffodil from "assets/flowers/yellow_daffodil.webp";
+import blueDaffodil from "assets/flowers/blue_daffodil.webp";
+import whiteDaffodil from "assets/flowers/white_daffodil.webp";
+import purpleDaffodil from "assets/flowers/purple_daffodil.webp";
+import redLotus from "assets/flowers/red_lotus.webp";
+import yellowLotus from "assets/flowers/yellow_lotus.webp";
+import blueLotus from "assets/flowers/blue_lotus.webp";
+import whiteLotus from "assets/flowers/white_lotus.webp";
+import purpleLotus from "assets/flowers/purple_lotus.webp";
+
+import babyPanda from "assets/sfts/baby_panda.png";
+import baozi from "assets/sfts/baozi.webp";
+
+// Faction Banners
+import sunflorianFactionBanner from "assets/decorations/banners/factions/sunflorians_banner.webp";
+import nightshadeFactionBanner from "assets/decorations/banners/factions/nightshades_banner.webp";
+import bumpkinFactionBanner from "assets/decorations/banners/factions/bumpkins_banner.webp";
+import goblinFactionBanner from "assets/decorations/banners/factions/goblins_banner.webp";
+
+// Faction Shop
+
+import sunflorianThrone from "assets/factions/sunflorian_throne.webp";
+import nightshadeThrone from "assets/factions/nightshade_throne.webp";
+import goblinThrone from "assets/factions/goblin_throne.webp";
+import bumpkinThrone from "assets/factions/bumpkins_throne.webp";
+import goldenSunflorianEgg from "assets/factions/golden_sunflorian_egg.webp";
+import goblinMischiefEgg from "assets/factions/goblin_mischief_egg.webp";
+import bumpkinCharmEgg from "assets/factions/bumpkin_charm_egg.webp";
+import nightshadeVeilEgg from "assets/factions/nightshade_veil_egg.webp";
+import emeraldGoblinGoblet from "assets/factions/emerald_goblin_goblet.webp";
+import opalSunflorianGoblet from "assets/factions/opal_sunflorian_goblet.webp";
+import sapphireBumpkinGoblet from "assets/factions/sapphire_bumpkin_goblet.webp";
+import amethystNightshadeGoblet from "assets/factions/amethyst_nightshade_goblet.webp";
+import goldenFactionGoblet from "assets/factions/golden_faction_goblet.webp";
+import rubyFactionGoblet from "assets/factions/ruby_faction_goblet.webp";
+import sunflorianBunting from "assets/factions/sunflorian_victory_bunting.webp";
+import nightshadeBunting from "assets/factions/nightshade_victory_bunting.webp";
+import goblinBunting from "assets/factions/goblin_victory_bunting.webp";
+import bumpkinBunting from "assets/factions/bumpkin_victory_bunting.webp";
+import sunflorianCandles from "assets/factions/sunflorian_candles.webp";
+import nightshadeCandles from "assets/factions/nightshade_candles.webp";
+import goblinCandles from "assets/factions/goblin_candles.webp";
+import bumpkinCandles from "assets/factions/bumpkin_candles.webp";
+import sunflorianLeftWall from "assets/factions/sunflorian_left_wall_candle.webp";
+import nightshadeLeftWall from "assets/factions/nightshade_left_wall_candle.webp";
+import goblinLeftWall from "assets/factions/goblin_left_wall_candle.webp";
+import bumpkinLeftWall from "assets/factions/bumpkin_left_wall_candle.webp";
+import sunflorianRightWall from "assets/factions/sunflorian_right_wall_candle.webp";
+import nightshadeRightWall from "assets/factions/nightshade_right_wall_candle.webp";
+import goblinRightWall from "assets/factions/goblin_right_wall_candle.webp";
+import bumpkinRightWall from "assets/factions/bumpkin_right_wall_candle.webp";
+import gourmetHourglass from "assets/factions/boosts/cooking_boost_full.webp";
+import harvestHourglass from "assets/factions/boosts/crop_boost_full.webp";
+import timberHourglass from "assets/factions/boosts/wood_boost_full.webp";
+import oreHourglass from "assets/factions/boosts/mineral_boost_full.webp";
+import orchardHourglass from "assets/factions/boosts/fruit_boost_full.webp";
+import blossomHourglass from "assets/factions/boosts/flower_boost_full.webp";
+import fishersHourglass from "assets/factions/boosts/fish_boost_full.webp";
+import sunflorianFactionRug from "assets/factions/sunflorian_faction_rug.webp";
+import nightshadeFactionRug from "assets/factions/nightshade_faction_rug.webp";
+import goblinFactionRug from "assets/factions/goblin_faction_rug.webp";
+import bumpkinFactionRug from "assets/factions/bumpkin_faction_rug.webp";
+import goblinGoldChampion from "assets/sfts/goblin_gold_champion.png";
+import goblinSilverChampion from "assets/sfts/goblin_silver_champion.png";
+
 export interface Attribute {
   trait_type?: string;
   value: string | number;
   display_type?: string;
 }
+
 type TranslatedDescriptions = Record<LanguageCode, string>;
 
 export interface ItemDetails {
@@ -32,9 +764,6 @@ export interface ItemDetails {
 
 type Items = Record<InventoryItemName | AchievementName, ItemDetails>;
 
-const crops = CROPS();
-const seeds = CROP_SEEDS();
-
 export const ITEM_DETAILS: Items = {
   Sunflower: {
     image: CROP_LIFECYCLE.Sunflower.crop,
@@ -47,7 +776,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "A crop grown at Sunflower Land.\n\nA sunny flower.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -73,7 +801,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A crop grown at Sunflower Land.\n\nHealthier than you might think!",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -98,7 +825,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "A crop grown at Sunflower Land.\n\nOoooh, spoookyy",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -124,7 +850,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A crop grown at Sunflower Land.\n\nThey’re good for your eyes!",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -150,7 +875,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A crop grown at Sunflower Land.\n\nOnce a luxury, now a food for many.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -176,7 +900,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A crop grown at Sunflower Land.\n\nApparently, they’re an aphrodisiac...",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -202,7 +925,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A crop grown at Sunflower Land.\n\nNow in 4 different colours!",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -228,7 +950,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A crop grown at Sunflower Land.\n\nNot to be mistaken for carrots.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -254,7 +975,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A crop grown at Sunflower Land.\n\nNature's edible work of art.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -280,7 +1000,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A crop grown at Sunflower Land.\n\nGolden corn, a gift from celestial lands, bestowed bountiful harvests upon humankind",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -306,7 +1025,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A crop grown at Sunflower Land.\n\nLegend says these were once used in melee combat.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -332,7 +1050,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A crop grown at Sunflower Land.\n\nTraditionally only grown by Goblins.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -357,7 +1074,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "A crop grown at Sunflower Land.\n\nA Bumpkin Power Food!",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -382,7 +1098,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "A crop grown at Sunflower Land.\n\nA versatile legume!",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -398,7 +1113,7 @@ export const ITEM_DETAILS: Items = {
   },
   "Sunflower Seed": {
     image: CROP_LIFECYCLE.Sunflower.seed,
-    secondaryImage: CROP_LIFECYCLE.Sunflower.crop,
+    secondaryImage: "undefined/crops/sunflower/crop.png",
     description: {
       en: "A sunny flower",
       pt: "A sunny flower",
@@ -409,7 +1124,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A seed used to grow sunflowers. The most basic resource used to start your farming empire.\n\nYou can buy sunflower seeds in game at the market.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -425,7 +1139,7 @@ export const ITEM_DETAILS: Items = {
   },
   "Potato Seed": {
     image: CROP_LIFECYCLE.Potato.seed,
-    secondaryImage: CROP_LIFECYCLE.Potato.crop,
+    secondaryImage: "undefined/crops/potato/crop.png",
     description: {
       en: "Healthier than you might think.",
       pt: "Healthier than you might think.",
@@ -436,7 +1150,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A seed used to grow potatoes. All great hustlers start with a potato seed.\n\nYou can buy potato seeds in game at the market.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -452,7 +1165,7 @@ export const ITEM_DETAILS: Items = {
   },
   "Pumpkin Seed": {
     image: CROP_LIFECYCLE.Pumpkin.seed,
-    secondaryImage: CROP_LIFECYCLE.Pumpkin.crop,
+    secondaryImage: "undefined/crops/pumpkin/crop.png",
     description: {
       en: "There's more to pumpkin than pie.",
       pt: "There's more to pumpkin than pie.",
@@ -463,7 +1176,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A seed used to grow pumpkins. A goblin's favourite!\n\nYou can buy pumpkin seeds in game at the market.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -479,7 +1191,7 @@ export const ITEM_DETAILS: Items = {
   },
   "Carrot Seed": {
     image: CROP_LIFECYCLE.Carrot.seed,
-    secondaryImage: CROP_LIFECYCLE.Carrot.crop,
+    secondaryImage: "undefined/crops/carrot/crop.png",
     description: {
       en: "They're good for your eyes!",
       pt: "They're good for your eyes!",
@@ -490,7 +1202,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A seed used to grow carrots. An easy to grow and staple vegetable in all Bumpkin's diets!\n\nYou can buy carrot seeds in game at the market.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -506,7 +1217,7 @@ export const ITEM_DETAILS: Items = {
   },
   "Cabbage Seed": {
     image: CROP_LIFECYCLE.Cabbage.seed,
-    secondaryImage: CROP_LIFECYCLE.Cabbage.crop,
+    secondaryImage: "undefined/crops/cabbage/crop.png",
     description: {
       en: "Once a luxury, now a food for many.",
       pt: "Once a luxury, now a food for many.",
@@ -517,7 +1228,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A seed used to grow cabbage.\n\nYou can buy cabbage seeds in game at the market.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -533,7 +1243,7 @@ export const ITEM_DETAILS: Items = {
   },
   "Beetroot Seed": {
     image: CROP_LIFECYCLE.Beetroot.seed,
-    secondaryImage: CROP_LIFECYCLE.Beetroot.crop,
+    secondaryImage: "undefined/crops/beetroot/crop.png",
     description: {
       en: "Good for hangovers!",
       pt: "Good for hangovers!",
@@ -544,7 +1254,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A seed used to grow beetroot.\n\nYou can buy beetroot seeds in game at the market.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -560,7 +1269,7 @@ export const ITEM_DETAILS: Items = {
   },
   "Cauliflower Seed": {
     image: CROP_LIFECYCLE.Cauliflower.seed,
-    secondaryImage: CROP_LIFECYCLE.Cauliflower.crop,
+    secondaryImage: "undefined/crops/cauliflower/crop.png",
     description: {
       en: "Excellent rice substitute!",
       pt: "Excellent rice substitute!",
@@ -571,7 +1280,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A seed used to grow cauliflower.\n\nYou can buy cauliflower seeds in game at the market.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -587,7 +1295,7 @@ export const ITEM_DETAILS: Items = {
   },
   "Parsnip Seed": {
     image: CROP_LIFECYCLE.Parsnip.seed,
-    secondaryImage: CROP_LIFECYCLE.Parsnip.crop,
+    secondaryImage: "undefined/crops/parsnip/crop.png",
     description: {
       en: "Not to be mistaken for carrots.",
       pt: "Not to be mistaken for carrots.",
@@ -598,7 +1306,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A seed used to grow parsnip.\n\nYou can buy parsnip seeds in game at the market.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -614,7 +1321,7 @@ export const ITEM_DETAILS: Items = {
   },
   "Eggplant Seed": {
     image: CROP_LIFECYCLE.Eggplant.seed,
-    secondaryImage: CROP_LIFECYCLE.Eggplant.crop,
+    secondaryImage: "undefined/crops/eggplant/crop.png",
     description: {
       en: "Nature's edible work of art.",
       pt: "Nature's edible work of art.",
@@ -625,7 +1332,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A seed used to grow eggplant.\n\nYou can buy eggplant seeds in game at the market.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -641,7 +1347,7 @@ export const ITEM_DETAILS: Items = {
   },
   "Corn Seed": {
     image: CROP_LIFECYCLE.Corn.seed,
-    secondaryImage: CROP_LIFECYCLE.Corn.crop,
+    secondaryImage: "undefined/crops/corn/crop.png",
     description: {
       en: "Sun-kissed kernels of delight, nature's summer treasure.",
       pt: "Sun-kissed kernels of delight, nature's summer treasure.",
@@ -652,7 +1358,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A seed used to grow corn.\n\nYou can buy corn seeds in game at the market.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -668,7 +1373,7 @@ export const ITEM_DETAILS: Items = {
   },
   "Radish Seed": {
     image: CROP_LIFECYCLE.Radish.seed,
-    secondaryImage: CROP_LIFECYCLE.Radish.crop,
+    secondaryImage: "undefined/crops/radish/crop.png",
     description: {
       en: "Takes time but is worth the wait!",
       pt: "Takes time but is worth the wait!",
@@ -679,7 +1384,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A seed used to grow radishes.\n\nYou can buy radish seeds in game at the market.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -695,7 +1399,7 @@ export const ITEM_DETAILS: Items = {
   },
   "Wheat Seed": {
     image: CROP_LIFECYCLE.Wheat.seed,
-    secondaryImage: CROP_LIFECYCLE.Wheat.crop,
+    secondaryImage: "undefined/crops/wheat/crop.png",
     description: {
       en: "The most harvested crop in the world.",
       pt: "The most harvested crop in the world.",
@@ -706,7 +1410,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A seed used to grow wheat.\n\nYou can buy wheat seeds in game at the market.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -721,7 +1424,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Magic Bean": {
-    image: "assets/crops/magic_bean.png",
+    image: magicBean,
     description: {
       en: "What will grow?",
       pt: "What will grow?",
@@ -732,7 +1435,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "Plant, wait and discover rare items, mutant crops & more surprises!",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -758,7 +1460,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A seed used to grow kale.\n\nYou can buy kale seeds in game at the market.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -784,7 +1485,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A seed used to grow soybean.\n\nYou can buy soybean seeds in game at the market.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -799,7 +1499,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Apple Seed": {
-    image: "assets/fruit/apple/apple_seed.png",
+    image: appleSeed,
     description: {
       en: "Perfect for homemade Apple Pie",
       pt: "Perfect for homemade Apple Pie",
@@ -810,7 +1510,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A seed used to grow apple.\n\nYou can buy apple seeds in game at the market.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -825,7 +1524,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Blueberry Seed": {
-    image: "assets/fruit/blueberry/blueberry_seed.png",
+    image: blueberrySeed,
     description: {
       en: "A Goblin's weakness",
       pt: "A Goblin's weakness",
@@ -836,7 +1535,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A seed used to grow blueberry.\n\nYou can buy blueberry seeds in game at the market.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -851,7 +1549,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Orange Seed": {
-    image: "assets/fruit/orange/orange_seed.png",
+    image: orangeSeed,
     description: {
       en: "Vitamin C to keep your Bumpkin Healthy",
       pt: "Vitamin C to keep your Bumpkin Healthy",
@@ -862,7 +1560,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A seed used to grow orange.\n\nYou can buy orange seeds in game at the market.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -877,7 +1574,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Banana Plant": {
-    image: "assets/fruit/banana/banana_plant.png",
+    image: bananaPlant,
     description: {
       en: "Oh banana!",
       pt: "Oh banana!",
@@ -888,7 +1585,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A plant used to grow bananas.\n\nYou can buy banana plants in game at the market.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -903,7 +1599,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Sunpetal Seed": {
-    image: "assets/flowers/sunpetal_seed.webp",
+    image: sunpetalSeed,
     description: {
       en: "A sunpetal seed",
       pt: "A sunpetal seed",
@@ -914,7 +1610,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A seed used to grow flowers. Experiment to find all the variants.\n\nYou can buy Sunpetal seeds in game at the market.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -933,7 +1628,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Bloom Seed": {
-    image: "assets/flowers/bloom_seed.webp",
+    image: bloomSeed,
     description: {
       en: "A bloom seed",
       pt: "A bloom seed",
@@ -944,7 +1639,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A seed used to grow flowers. Experiment to find all the variants.\n\nYou can buy Bloom seeds in game at the market.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -963,7 +1657,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Lily Seed": {
-    image: "assets/flowers/lily_seed.webp",
+    image: lilySeed,
     description: {
       en: "A lily seed",
       pt: "A lily seed",
@@ -974,7 +1668,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A seed used to grow flowers. Experiment to find all the variants.\n\nYou can buy Lily seeds in game at the market.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -993,7 +1686,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Apple Pie": {
-    image: "assets/food/apple_pie.png",
+    image: applePie,
     description: {
       en: "Bumpkin Betty's famous recipe",
       pt: "Bumpkin Betty's famous recipe",
@@ -1003,7 +1696,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "Bumpkin Betty's famous recipe. Cook this at the bakery",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -1018,7 +1710,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Blueberry Jam": {
-    image: "assets/food/blueberry_jam.png",
+    image: blueberryJam,
     description: {
       en: "Goblins will do anything for this jam",
       pt: "Goblins will do anything for this jam",
@@ -1029,7 +1721,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "Goblins will do anything for this jam. You can cook this at the Deli.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -1044,7 +1735,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Honey Cake": {
-    image: "assets/food/cakes/honey_cake.png",
+    image: honeyCake,
     description: {
       en: "A scrumptious cake!",
       pt: "A scrumptious cake!",
@@ -1054,7 +1745,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "A scrumptious cake! You can cook this at the Bakery",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -1069,7 +1759,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Kale & Mushroom Pie": {
-    image: "assets/food/mushroom_kale_pie.png",
+    image: kaleMushroomPie,
     description: {
       en: "A traditional Sapphiron recipe",
       pt: "A traditional Sapphiron recipe",
@@ -1080,7 +1770,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A traditional Sapphiron recipe. You can cook this at the Bakery",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -1095,7 +1784,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Kale Stew": {
-    image: "assets/food/kale_stew.png",
+    image: kaleStew,
     description: {
       en: "A perfect Bumpkin Booster!",
       pt: "A perfect Bumpkin Booster!",
@@ -1106,7 +1795,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A perfect Bumpkin Booster. You can cook this at the Fire Pit.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -1121,7 +1809,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Mushroom Jacket Potatoes": {
-    image: "assets/food/mushroom_jacket_potato.png",
+    image: mushroomJacketPotato,
     description: {
       en: "Cram them taters with what ya got!",
       pt: "Cram them taters with what ya got!",
@@ -1132,7 +1820,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "Cram them taters with what ya got! You can cook this at the Kitchen.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -1147,7 +1834,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Mushroom Soup": {
-    image: "assets/food/mushroom_soup.png",
+    image: mushroomSoup,
     description: {
       en: "Warm your Bumpkin's soul.",
       pt: "Warm your Bumpkin's soul.",
@@ -1158,7 +1845,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "Warm your Bumpkin's soul. You can can cook these at the Fire Pit.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -1173,7 +1859,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Orange Cake": {
-    image: "assets/food/cakes/orange_cake.png",
+    image: orangeCake,
     description: {
       en: "Orange you glad we aren't cooking apples",
       pt: "Orange you glad we aren't cooking apples",
@@ -1184,7 +1870,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "Orange you glad we aren't cooking apples. You can can cook these at the Bakery.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -1199,7 +1884,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Sunflower Crunch": {
-    image: "assets/food/sunflower_crunch.png",
+    image: sunflowerCrunch,
     description: {
       en: "Crunchy goodness. Try not to burn it.",
       pt: "Crunchy goodness. Try not to burn it.",
@@ -1210,7 +1895,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "Crunchy goodness. Try not to burn it! You can can cook these at the Fire Pit.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -1235,7 +1919,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "Used to cook advanced recipes.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -1260,7 +1943,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "Used to cook basic recipes.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -1275,7 +1957,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   Apple: {
-    image: "assets/resources/apple.png",
+    image: apple,
     description: {
       en: "Perfect for homemade Apple Pie",
       pt: "Perfect for homemade Apple Pie",
@@ -1286,7 +1968,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A fruit grown at Sunflower Land.\n\nPerfect for homemade Apple Pie",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -1301,7 +1982,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   Blueberry: {
-    image: "assets/resources/blueberry.png",
+    image: blueberry,
     description: {
       en: "A Goblin's weakness",
       pt: "A Goblin's weakness",
@@ -1311,7 +1992,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "A fruit grown at Sunflower Land.\n\nA Goblin's weakness",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -1326,7 +2006,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   Orange: {
-    image: "assets/resources/orange.png",
+    image: orange,
     description: {
       en: "Vitamin C to keep your Bumpkin Healthy",
       pt: "Vitamin C to keep your Bumpkin Healthy",
@@ -1337,7 +2017,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A fruit grown at Sunflower Land.\n\nVitamin C to keep your Bumpkin Healthy",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -1352,7 +2031,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   Banana: {
-    image: "assets/resources/banana.png",
+    image: banana,
     description: {
       en: "Oh banana!",
       pt: "Oh banana!",
@@ -1362,7 +2041,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "A fruit grown at Sunflower Land.\n\nOh banana!",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -1377,7 +2055,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   Honey: {
-    image: "assets/resources/honey.png",
+    image: honey,
     description: {
       en: "Used to sweeten your cooking",
       pt: "Used to sweeten your cooking",
@@ -1387,7 +2065,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "Used to sweeten your cooking.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -1402,7 +2079,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Apple Juice": {
-    image: "assets/food/apple_juice.png",
+    image: appleJuice,
     description: {
       en: "A crisp refreshing beverage",
       pt: "A crisp refreshing beverage",
@@ -1413,7 +2090,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A crisp refreshing beverage. You can can prepare these at the Smoothie Shack.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -1428,7 +2104,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Orange Juice": {
-    image: "assets/food/orange_juice.png",
+    image: orangeJuice,
     description: {
       en: "OJ matches perfectly with a Club Sandwich",
       pt: "OJ matches perfectly with a Club Sandwich",
@@ -1439,7 +2115,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "OJ matches perfectly with a Club Sandwich. You can can prepare these at the Smoothie Shack.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -1454,7 +2129,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Purple Smoothie": {
-    image: "assets/food/purple_smoothie.png",
+    image: purpleSmoothie,
     description: {
       en: "You can hardly taste the Cabbage",
       pt: "You can hardly taste the Cabbage",
@@ -1465,7 +2140,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "You can hardly taste the Cabbage. You can can prepare these at the Smoothie Shack.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -1480,7 +2154,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Bumpkin Detox": {
-    image: "assets/food/bumpkin_detox.png",
+    image: bumpkinDetox,
     description: {
       en: "Wash away the sins of last night",
       pt: "Wash away the sins of last night",
@@ -1491,7 +2165,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "Wash away the sins of last night. You can can prepare these at the Smoothie Shack.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -1506,7 +2179,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Power Smoothie": {
-    image: "assets/food/power_smoothie.png",
+    image: powerSmoothie,
     description: {
       en: "Official drink of the Bumpkin Powerlifting Society",
       pt: "Official drink of the Bumpkin Powerlifting Society",
@@ -1517,7 +2190,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "Official drink of the Bumpkin Powerlifting Society. You can can prepare these at the Smoothie Shack.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -1532,7 +2204,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Bumpkin Roast": {
-    image: "assets/food/bumpkin_roast.png",
+    image: bumpkinRoast,
     description: {
       en: "A traditional Bumpkin dish",
       pt: "A traditional Bumpkin dish",
@@ -1543,7 +2215,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A traditional Bumpkin dish. You can cook this at the Kitchen.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -1558,7 +2229,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Goblin Brunch": {
-    image: "assets/food/goblin_brunch.png",
+    image: goblinBrunch,
     description: {
       en: "A traditional Goblin dish",
       pt: "A traditional Goblin dish",
@@ -1569,7 +2240,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A traditional Goblin dish. You can cook this at the Kitchen.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -1584,7 +2254,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Fruit Salad": {
-    image: "assets/food/fruit_salad.png",
+    image: fruitSalad,
     description: {
       en: "Fruit Salad, Yummy Yummy",
       pt: "Fruit Salad, Yummy Yummy",
@@ -1594,7 +2264,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "Fruit Salad. You can cook this at the Kitchen.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -1609,7 +2278,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Kale Omelette": {
-    image: "assets/food/kale_omelette.png",
+    image: kaleOmelette,
     description: {
       en: "A healthy breakfast",
       pt: "A healthy breakfast",
@@ -1620,7 +2289,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A healthy breakfast. You can can cook this at the Fire Pit.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -1635,7 +2303,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Cabbers n Mash": {
-    image: "assets/food/cabbers_n_mash.png",
+    image: cabbersNMash,
     description: {
       en: "Cabbages and Mashed Potatoes",
       pt: "Cabbages and Mashed Potatoes",
@@ -1646,7 +2314,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "Cabbages and Mashed Potatoes. You can can cook this at the Fire Pit.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -1661,7 +2328,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Fancy Fries": {
-    image: "assets/food/fancy_fries.png",
+    image: fancyFries,
     description: {
       en: "Fantastic Fries",
       pt: "Fantastic Fries",
@@ -1671,7 +2338,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "Fantastic Fries. You can cook this at the Deli.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -1686,7 +2352,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Banana Blast": {
-    image: "assets/food/banana_blast.png",
+    image: bananaBlast,
     description: {
       en: "The ultimate fruity fuel for those with a peel for power!",
       pt: "The ultimate fruity fuel for those with a peel for power!",
@@ -1696,7 +2362,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "The ultimate fruity fuel for those with a peel for power!",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -1722,7 +2387,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A resource collected by chopping down trees.\n\nIt is used in a range of different crafting recipes.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -1748,7 +2412,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A resource collected by mining stone mines.\n\nIt is used in a range of different crafting recipes.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -1763,7 +2426,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   Iron: {
-    image: "assets/resources/iron_ore.png",
+    image: iron,
     description: {
       en: "Used to craft items",
       pt: "Used to craft items",
@@ -1774,7 +2437,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A resource collected by mining iron mines.\n\nIt is used in a range of different crafting recipes.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -1789,7 +2451,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   Crimstone: {
-    image: "assets/resources/crimstone.png",
+    image: crimstone,
     description: {
       en: "Used to craft items",
       pt: "Used to craft items",
@@ -1800,7 +2462,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A resource collected by mining crimstone mines.\n\nIt is used in a range of different crafting recipes.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -1815,7 +2476,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   Gold: {
-    image: "assets/resources/gold_ore.png",
+    image: gold,
     description: {
       en: "Used to craft items",
       pt: "Used to craft items",
@@ -1826,7 +2487,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A resource collected by mining gold mines.\n\nIt is used in a range of different crafting recipes.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -1852,7 +2512,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A resource collected by mining diamond mines.\n\nIt is used in a range of different crafting recipes.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -1867,7 +2526,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   Sunstone: {
-    image: "assets/resources/sunstone/sunstone.png",
+    image: sunstone,
     description: {
       en: "Used to craft items",
       pt: "Used to craft items",
@@ -1878,7 +2537,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A resource collected by mining sunstone mines.\n\nIt is used in a range of different crafting recipes.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -1893,7 +2551,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   Oil: {
-    image: "assets/resources/oil.webp",
+    image: oil,
     description: {
       en: "Used to craft items",
       pt: "Used to craft items",
@@ -1904,7 +2562,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A resource collected by mining oil mines.\n\nIt is used to power machinery and boost cooking speed.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -1930,7 +2587,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A resource collected by taking care of chickens.\n\nIt is used in a range of different crafting recipes.\n\nAt Sunflower Land, the egg came first.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -1956,7 +2612,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A resource used to collect eggs.\n\nIt can be purchased at the barn.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -1982,7 +2637,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A resource used to collect milk.\n\nIt can be purchased at the barn.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -2008,7 +2662,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A resource used to collect wool.\n\nIt can be purchased at the barn.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -2034,7 +2687,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A resource used to collect manure.\n\nIt can be purchased at the barn.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -2060,7 +2712,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A tool used to chop wood. It is burnt after use.\n\nYou can craft an axe at the Blacksmith in the game.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -2086,7 +2737,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A tool used to mine stone. It is burnt after use.\n\nYou can craft a pickaxe at the Blacksmith in the game.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -2112,7 +2762,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A tool used to mine iron. It is burnt after use.\n\nYou can craft a stone pickaxe at the Blacksmith in the game.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -2138,7 +2787,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A tool used to mine gold. It is burnt after use.\n\nYou can craft an iron pickaxe at the Blacksmith in the game.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -2164,7 +2812,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A tool used to mine crimstones and sunstones. It is burnt after use.\n\nYou can craft a gold pickaxe at the Blacksmith in the game.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -2190,7 +2837,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A tool used to upgrade buildings.\n\nYou can craft a hammer at the Blacksmith in the game.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -2216,7 +2862,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A tool used to capture fish.\n\nYou can craft a rod at the Blacksmith in the game.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -2242,7 +2887,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "Used to remove buildings and collectibles\n\nYou can craft a rusty shovel at the Workbench in the game.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -2268,7 +2912,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A tool used to remove unwanted crops.\n\nYou can craft a shovel at the Workbench in the game.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -2294,7 +2937,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "There are rumours that the Bumpkin pirates hid their treasure somewhere. These shovels can be used to dig for treasure!",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -2309,7 +2951,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Sand Drill": {
-    image: "assets/icons/drill.png",
+    image: drill,
     description: {
       en: "Drill deep for uncommon or rare treasure",
       pt: "Perfurar profundamente por tesouros incomuns ou raros",
@@ -2319,7 +2961,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "Drill deep for uncommon or rare treasure",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -2334,7 +2975,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Oil Drill": {
-    image: "assets/icons/oil_drill.webp",
+    image: oilDrill,
     description: {
       en: "Drill for oil",
       pt: "Drill for oil",
@@ -2345,7 +2986,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A tool used to drill for oil. It is burnt after use.\n\nYou can craft an oil drill at the Blacksmith in the game.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -2360,7 +3000,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Block Buck": {
-    image: "assets/icons/block_buck.png",
+    image: blockBuck,
     description: {
       en: "A valuable token in Sunflower Land!",
       pt: "Um token valioso em Sunflower Land!",
@@ -2370,7 +3010,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "A valuable token in Sunflower Land!",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -2385,7 +3024,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Sunflower Statue": {
-    image: "assets/sfts/sunflower_statue.png",
+    image: sunflowerStatue,
     description: {
       en: "A symbol of the holy token",
       pt: "A symbol of the holy token",
@@ -2396,7 +3035,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A symbol of the holy Sunflower Land Token. Flex your loyalty and farming status with this rare statue.\n\n~~You can craft this item at the Goblin Blacksmith~~ **Sold out!**",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -2411,7 +3049,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Potato Statue": {
-    image: "assets/sfts/potato_statue.png",
+    image: potatoStatue,
     description: {
       en: "The OG potato hustler flex",
       pt: "The OG potato hustler flex",
@@ -2422,7 +3060,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A rare collectible for the potato hustlers of Sunflower Land.\n\n~~You can craft this item at the Goblin Blacksmith~~ **Sold out!**",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -2437,7 +3074,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   Nancy: {
-    image: "assets/sfts/nancy.png",
+    image: nancy,
     description: {
       en: "Keeps a few crows away. Crops grow 15% faster",
       pt: "Keeps a few crows away. Crops grow 15% faster",
@@ -2448,7 +3085,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A brave scarecrow that keeps your crops safe from crows. Ensures your crops grow faster when placed on your farm.",
-
       attributes: [
         {
           trait_type: "Boost",
@@ -2468,7 +3104,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   Scarecrow: {
-    image: "assets/sfts/scarecrow.png",
+    image: scarecrow,
     description: {
       en: "A goblin scarecrow. Yield 20% more crops",
       pt: "A goblin scarecrow. Yield 20% more crops",
@@ -2479,7 +3115,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "Ensures your crops grow faster when placed on your farm.\n\nRumour has it that it is crafted with a Goblin head from the great war.\n\nIncludes boosts from [Nancy](https://opensea.io/assets/matic/0x22d5f9b75c524fec1d6619787e582644cd4d7422/420).",
-
       attributes: [
         {
           trait_type: "Boost",
@@ -2504,7 +3139,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   Kuebiko: {
-    image: "assets/sfts/kuebiko.gif",
+    image: kuebiko,
     description: {
       en: "Even the shopkeeper is scared of this scarecrow. Seeds are free",
       pt: "Even the shopkeeper is scared of this scarecrow. Seeds are free",
@@ -2516,7 +3151,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "An extremely rare item in Sunflower Land. This scarecrow cannot move but has in-depth knowledge of the history of the Sunflower Wars.\n\nThis scarecrow is so scary that it even frightens Bumpkins. If you have this item, all seeds are free from the market.\n\nIncludes boosts from [Scarecrow](https://opensea.io/assets/matic/0x22d5f9b75c524fec1d6619787e582644cd4d7422/404) and [Nancy](https://opensea.io/assets/matic/0x22d5f9b75c524fec1d6619787e582644cd4d7422/420).",
-
       attributes: [
         {
           trait_type: "Boost",
@@ -2546,7 +3180,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Christmas Tree": {
-    image: "assets/sfts/christmas_tree.png",
+    image: christmasTree,
     description: {
       en: "Receive a Santa Airdrop on Christmas day",
       pt: "Receive a Santa Airdrop on Christmas day",
@@ -2557,7 +3191,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "Place on your farm during the Festive Season to get a spot and Santa's nice list!",
-
       attributes: [
         {
           trait_type: "Boost",
@@ -2576,7 +3209,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   Gnome: {
-    image: "assets/decorations/scarlet.png",
+    image: gnome,
     description: {
       en: "A lucky gnome",
       pt: "A lucky gnome",
@@ -2587,7 +3220,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A lucky gnome. Currently used for decoration purposes\n\n~~You can craft a gnome at the Goblin Blacksmith in the game.~~ **Sold out!**",
-
       attributes: [
         {
           trait_type: "Boost",
@@ -2617,7 +3249,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Gold Egg": {
-    image: "assets/sfts/gold_egg.png",
+    image: goldEgg,
     description: {
       en: "Feed chickens without needing wheat",
       pt: "Feed chickens without needing wheat",
@@ -2628,7 +3260,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A golden egg. What lays inside is known to be the bearer of good fortune.\n\n\n\nFeed chickens without wheat.",
-
       attributes: [
         {
           trait_type: "Boost",
@@ -2648,7 +3279,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Farm Cat": {
-    image: "assets/sfts/farm_cat.gif",
+    image: farmCat,
     description: {
       en: "Keep the rats away",
       pt: "Keep the rats away",
@@ -2659,7 +3290,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "Keep the rats away with this rare item. Currently used for decoration purposes.\n\n~~You can craft a Cat at the Goblin Farmer in the game.~~ **Sold out!**",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -2674,7 +3304,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Farm Dog": {
-    image: "assets/sfts/farm_dog.gif",
+    image: farmDog,
     description: {
       en: "Herd sheep with your farm dog",
       pt: "Herd sheep with your farm dog",
@@ -2685,7 +3315,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "Sheep are no longer lazy when this farm dog is around. Increases wool production. Currently used for decoration purposes.\n\n~~You can craft a dog at the Goblin Farmer in the game.~~ **Sold out!**",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -2700,7 +3329,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Chicken Coop": {
-    image: "assets/sfts/chicken_coop.png",
+    image: chickenCoop,
     description: {
       en: "Collect 2x the amount of eggs",
       pt: "Collect 2x the amount of eggs",
@@ -2711,7 +3340,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A chicken coop that can be used to raise chickens. Increase egg production with this rare coop on your farm.\n\n~~You can craft a chicken coop at the Goblin Farmer in the game.~~ **Sold out!**",
-
       attributes: [
         {
           trait_type: "Boost",
@@ -2736,7 +3364,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Golden Cauliflower": {
-    image: "assets/sfts/golden_cauliflower.webp",
+    image: goldenCauliflower,
     description: {
       en: "Doubles cauliflower yield",
       pt: "Doubles cauliflower yield",
@@ -2747,7 +3375,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "It is rumoured that a farmer created a golden fertiliser which produced this magical Cauliflower.\n\nFor some reason, when this Cauliflower is on your farm you receive twice the rewards from growing Cauliflowers.\n\n~~You can craft a Golden Cauliflower at the Goblin Farmer in the game.~~ **Sold out!**",
-
       attributes: [
         {
           trait_type: "Boost",
@@ -2767,7 +3394,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Sunflower Rock": {
-    image: "assets/sfts/sunflower_rock.png",
+    image: sunflowerRock,
     description: {
       en: "The game that broke Polygon",
       pt: "The game that broke Polygon",
@@ -2778,7 +3405,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "Remember the time Sunflower Farmers 'broke' Polygon? Those days are gone with Sunflower Land!\n\nThis is an extremely rare decoration for your farm.\n\n~~You can craft this item at the Goblin Blacksmith in the game.~~ **Sold out!**",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -2793,7 +3419,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Sunflower Tombstone": {
-    image: "assets/sfts/sunflower_tombstone.png",
+    image: sunflowerTombstone,
     description: {
       en: "In memory of Sunflower Farmers",
       pt: "In memory of Sunflower Farmers",
@@ -2804,7 +3430,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A commemorative homage to Sunflower Farmers, the prototype which birthed Sunflower Land.\n\nThis item was airdropped to anyone who maxed out their farm to level 5.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -2819,7 +3444,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Goblin Crown": {
-    image: "assets/sfts/goblin_crown.png",
+    image: crown,
     description: {
       en: "Summon the leader of the Goblins",
       pt: "Summon the leader of the Goblins",
@@ -2830,7 +3455,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "Summon the Goblin leader and reveal who the mastermind is behind the Goblin resistance.\n\n~~You can craft this item at the Goblin Blacksmith in the game.~~ **Sold out!**",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -2845,7 +3469,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   Fountain: {
-    image: "assets/sfts/fountain.gif",
+    image: fountain,
     description: {
       en: "A relaxing fountain for your farm",
       pt: "A relaxing fountain for your farm",
@@ -2856,7 +3480,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A beautiful fountain that relaxes all Bumpkins.\n\n~~You can craft this item at the Goblin Blacksmith in the game.~~ **Sold out!**",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -2871,7 +3494,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Woody the Beaver": {
-    image: "assets/sfts/beaver.gif",
+    image: beaver,
     description: {
       en: "Increase wood drops by 20%",
       pt: "Increase wood drops by 20%",
@@ -2882,7 +3505,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "During the great wood shortage, Bumpkins created an alliance with the Beaver population.\n\nIncreases wood production.\n\nYou can craft this item at the Goblin Blacksmith in the game.",
-
       attributes: [
         {
           trait_type: "Boost",
@@ -2902,7 +3524,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Apprentice Beaver": {
-    image: "assets/sfts/apprentice_beaver.gif",
+    image: apprenticeBeaver,
     description: {
       en: "Trees recover 50% faster",
       pt: "Trees recover 50% faster",
@@ -2913,7 +3535,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A well trained Beaver who has aspirations of creating a wood monopoly.\n\nIncreases wood replenishment rates.\n\n~~You can craft this item at the Goblin Blacksmith in the game.~~ **Sold out!**\n\nIncludes boosts from [Woody the Beaver](https://opensea.io/assets/matic/0x22d5f9b75c524fec1d6619787e582644cd4d7422/415).",
-
       attributes: [
         {
           trait_type: "Boost",
@@ -2938,7 +3559,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Foreman Beaver": {
-    image: "assets/sfts/construction_beaver.gif",
+    image: constructionBeaver,
     description: {
       en: "Cut trees without axes",
       pt: "Cut trees without axes",
@@ -2949,7 +3570,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A master of construction, carving and all things wood related.\n\nChop trees without axes.\n\nIncludes boosts from [Apprentice Beaver](https://opensea.io/assets/matic/0x22d5f9b75c524fec1d6619787e582644cd4d7422/416) and [Woody the Beaver](https://opensea.io/assets/matic/0x22d5f9b75c524fec1d6619787e582644cd4d7422/415).",
-
       attributes: [
         {
           trait_type: "Boost",
@@ -2979,7 +3599,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Mysterious Parsnip": {
-    image: "assets/sfts/mysterious_parsnip.png",
+    image: mysteriousParsnip,
     description: {
       en: "Parsnips grow 50% faster",
       pt: "Parsnips grow 50% faster",
@@ -2990,7 +3610,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "No one knows where this parsnip came from, but when it is on your farm Parsnips grow 50% faster.\n\n~~You can craft this item at the Goblin Farmer in the game.~~ **Sold out!**",
-
       attributes: [
         {
           trait_type: "Boost",
@@ -3010,7 +3629,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Carrot Sword": {
-    image: "assets/sfts/carrot_sword.png",
+    image: carrotSword,
     description: {
       en: "Increase chance of a mutant crop appearing",
       pt: "Increase chance of a mutant crop appearing",
@@ -3021,7 +3640,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "Legend has it that only a true farmer can yield this sword.\n\nIncreases the chance of finding a mutant crop by 300%!\n\n~~You can craft this item at the Goblin Farmer in the game.~~ **Sold out!**",
-
       attributes: [
         {
           trait_type: "Boost",
@@ -3041,7 +3659,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Golden Bonsai": {
-    image: "assets/sfts/golden_bonsai.png",
+    image: goldenBonsai,
     description: {
       en: "Goblins love bonsai too",
       pt: "Goblins love bonsai too",
@@ -3052,7 +3670,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "The pinnacle of goblin style and sophistication. A Golden Bonsai is the perfect piece to tie your farm together.\n\n~~You can only get this item trading with the Traveling Salesman in the game. ~~ **Sold out!**",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -3067,7 +3684,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Nyon Statue": {
-    image: "assets/sfts/nyon_statue.png",
+    image: nyonStatue,
     description: {
       en: "In memory of Nyon Lann",
       pt: "In memory of Nyon Lann",
@@ -3078,7 +3695,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A homage to Sir Nyon who died at the battle of the Goblin mines.\n\n~~You can craft the Nyon Statue at the Goblin Blacksmith in the game.~~ **Sold out!**",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -3093,7 +3709,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Homeless Tent": {
-    image: "assets/sfts/homeless_tent.png",
+    image: homelessTent,
     description: {
       en: "A nice and cozy tent",
       pt: "A nice and cozy tent",
@@ -3104,7 +3720,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A nice and cozy tent.\n\n~~You can craft the Homeless Tent at the Goblin Blacksmith in the game.~~ **Sold out!**",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -3119,7 +3734,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Farmer Bath": {
-    image: "assets/sfts/farmer_bath.png",
+    image: farmerBath,
     description: {
       en: "A beetroot scented bath for the farmers",
       pt: "A beetroot scented bath for the farmers",
@@ -3130,7 +3745,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A beetroot scented bath for your farmer.\n\nAfter a long day of farming potatoes and fighting off Goblins, this is the perfect relaxation device for your hard working farmer.\n\nYou can craft the Farmer Bath at the Goblin Blacksmith in the game.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -3145,7 +3759,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Mysterious Head": {
-    image: "assets/sfts/mysterious_head.png",
+    image: mysteriousHead,
     description: {
       en: "A statue thought to protect farmers",
       pt: "A statue thought to protect farmers",
@@ -3156,7 +3770,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A Mysterious Head said to protect farmers.\n\nYou can craft the Mysterious Head at the Goblin Blacksmith in the game.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -3171,7 +3784,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Tunnel Mole": {
-    image: "assets/sfts/tunnel_mole.gif",
+    image: tunnelMole,
     description: {
       en: "Gives a 25% increase to stone mines",
       pt: "Gives a 25% increase to stone mines",
@@ -3182,7 +3795,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "The tunnel mole gives a 25% increase to stone mines.\n\n~~You can craft this item at the Goblin Blacksmith in the game.~~ **Sold out!**",
-
       attributes: [
         {
           trait_type: "Boost",
@@ -3202,7 +3814,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Rocky the Mole": {
-    image: "assets/sfts/rocky_mole.gif",
+    image: rockyMole,
     description: {
       en: "Gives a 25% increase to iron mines",
       pt: "Gives a 25% increase to iron mines",
@@ -3213,7 +3825,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "\"Life's not about how much iron you can mine... it's about how much more you can mine, and still keep mining.\" - Rocky the Mole\n\nRocky the Mole gives a 25% increase to iron mines.\n\nYou can craft this item at the Goblin Blacksmith in the game.",
-
       attributes: [
         {
           trait_type: "Boost",
@@ -3233,7 +3844,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   Nugget: {
-    image: "assets/sfts/nugget.gif",
+    image: nugget,
     description: {
       en: "Gives a 25% increase to gold mines",
       pt: "Gives a 25% increase to gold mines",
@@ -3244,7 +3855,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "Seldom seen above ground, this gold digger burrows day and night searching for the next gold rush.\n\nStrike gold with this little critter! Eureka!\n\nNugget gives a 25% increase to gold mines.\n\nYou can craft this item at the Goblin Blacksmith in the game.",
-
       attributes: [
         {
           trait_type: "Boost",
@@ -3264,7 +3874,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Rock Golem": {
-    image: "assets/sfts/rock_golem.gif",
+    image: rockGolem,
     description: {
       en: "Gives a 10% chance to get 3x stone",
       pt: "Gives a 10% chance to get 3x stone",
@@ -3275,7 +3885,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "The Rock Golem is the protector of Stone.\n\nMining stone causes the Golem to be become enraged giving a 10% chance to get 3x stone from stone mines.\n\n~~You can craft this item at the Goblin Blacksmith in the game.~~ **Sold out!**",
-
       attributes: [
         {
           trait_type: "Boost",
@@ -3300,7 +3909,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   Rooster: {
-    image: "assets/animals/chickens/rooster.gif",
+    image: rooster,
     description: {
       en: "Doubles the chance of dropping a mutant chicken",
       pt: "Doubles the chance of dropping a mutant chicken",
@@ -3311,7 +3920,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "Rooster increases the chance of getting a mutant chicken 2x.\n\nYou can craft this item at the Goblin Farmer in the game.",
-
       attributes: [
         {
           display_type: "boost_percentage",
@@ -3331,7 +3939,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Wicker Man": {
-    image: "assets/sfts/wicker_man.png",
+    image: wickerMan,
     description: {
       en: "Join hands and make a chain, the shadow of the Wicker Man will rise up again",
       pt: "Join hands and make a chain, the shadow of the Wicker Man will rise up again",
@@ -3343,7 +3951,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "Join hands and make a chain, the shadow of the Wicker Man will rise up again.\n\nYou can only get this item trading with the Traveling Salesman in the game.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -3358,7 +3965,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Pumpkin Soup": {
-    image: "assets/food/pumpkin_soup.png",
+    image: pumpkinSoup,
     description: {
       en: "A creamy soup that goblins love",
       pt: "A creamy soup that goblins love",
@@ -3369,7 +3976,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A creamy soup that Goblins love! Owning this item unlocks fields and new seeds.\n\nYou can craft this at the Kitchen in the game.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -3384,7 +3990,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Roasted Cauliflower": {
-    image: "assets/food/roasted_cauliflower.png",
+    image: roastedCauliflower,
     description: {
       en: "A Goblin's favourite",
       pt: "A Goblin's favourite",
@@ -3395,7 +4001,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A Goblin’s favourite! Owning this item unlocks fields and new seeds.\n\nYou can craft this at the Kitchen in the game.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -3410,7 +4015,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Radish Pie": {
-    image: "assets/food/radish_pie.png",
+    image: radishPie,
     description: {
       en: "Despised by humans, loved by goblins",
       pt: "Despised by humans, loved by goblins",
@@ -3421,7 +4026,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "Despised by humans, loved by Goblins! Owning this item unlocks crop seeds.\n\nYou can craft this item at the Kitchen in the game.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -3436,7 +4040,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Beetroot Cake": {
-    image: "assets/food/cakes/beetroot_cake.png",
+    image: beetrootCake,
     description: {
       en: "Beetroot Cake",
       pt: "Beetroot Cake",
@@ -3447,7 +4051,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A special cake that is only available during certain times of the year for the great bake off!\n\nYou can bake a cake at the in-game Kitchen using eggs, wheat and the necessary crops.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -3462,7 +4065,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Cabbage Cake": {
-    image: "assets/food/cakes/cabbage_cake.png",
+    image: cabbageCake,
     description: {
       en: "Cabbage Cake",
       pt: "Cabbage Cake",
@@ -3473,7 +4076,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A special cake that is only available during certain times of the year for the great bake off!\n\nYou can bake a cake at the in-game Kitchen using eggs, wheat and the necessary crops.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -3488,7 +4090,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Carrot Cake": {
-    image: "assets/food/cakes/carrot_cake.png",
+    image: carrotCake,
     description: {
       en: "Carrot Cake",
       pt: "Carrot Cake",
@@ -3499,7 +4101,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A special cake that is only available during certain times of the year for the great bake off!\n\nYou can bake a cake at the in-game Kitchen using eggs, wheat and the necessary crops.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -3514,7 +4115,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Cauliflower Cake": {
-    image: "assets/food/cakes/cauliflower_cake.png",
+    image: cauliflowerCake,
     description: {
       en: "Cauliflower Cake",
       pt: "Cauliflower Cake",
@@ -3525,7 +4126,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A special cake that is only available during certain times of the year for the great bake off!\n\nYou can bake a cake at the in-game Kitchen using eggs, wheat and the necessary crops.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -3540,7 +4140,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Parsnip Cake": {
-    image: "assets/food/cakes/parsnip_cake.png",
+    image: parsnipCake,
     description: {
       en: "Parsnip Cake",
       pt: "Parsnip Cake",
@@ -3551,7 +4151,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A special cake that is only available during certain times of the year for the great bake off!\n\nYou can bake a cake at the in-game Kitchen using eggs, wheat and the necessary crops.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -3566,7 +4165,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Potato Cake": {
-    image: "assets/food/cakes/potato_cake.png",
+    image: potatoCake,
     description: {
       en: "Potato Cake",
       pt: "Potato Cake",
@@ -3577,7 +4176,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A special cake that is only available during certain times of the year for the great bake off!\n\nYou can bake a cake at the in-game Kitchen using eggs, wheat and the necessary crops.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -3592,7 +4190,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Pumpkin Cake": {
-    image: "assets/food/cakes/pumpkin_cake.png",
+    image: pumpkinCake,
     description: {
       en: "Pumpkin Cake",
       pt: "Pumpkin Cake",
@@ -3603,7 +4201,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A special cake that is only available during certain times of the year for the great bake off!\n\nYou can bake a cake at the in-game Kitchen using eggs, wheat and the necessary crops.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -3618,7 +4215,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Radish Cake": {
-    image: "assets/food/cakes/radish_cake.png",
+    image: radishCake,
     description: {
       en: "Radish Cake",
       pt: "Radish Cake",
@@ -3629,7 +4226,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A special cake that is only available during certain times of the year for the great bake off!\n\nYou can bake a cake at the in-game Kitchen using eggs, wheat and the necessary crops.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -3644,7 +4240,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Sunflower Cake": {
-    image: "assets/food/cakes/sunflower_cake.png",
+    image: sunflowerCake,
     description: {
       en: "Sunflower Cake",
       pt: "Sunflower Cake",
@@ -3655,7 +4251,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A special cake that is only available during certain times of the year for the great bake off!\n\nYou can bake a cake at the in-game Kitchen using eggs, wheat and the necessary crops.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -3670,7 +4265,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Wheat Cake": {
-    image: "assets/food/cakes/wheat_cake.png",
+    image: wheatCake,
     description: {
       en: "Wheat Cake",
       pt: "Wheat Cake",
@@ -3681,7 +4276,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A special cake that is only available during certain times of the year for the great bake off!\n\nYou can bake a cake at the in-game Kitchen using eggs, wheat and the necessary crops.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -3696,7 +4290,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Green Thumb": {
-    image: "assets/skills/green_thumb.png",
+    image: greenThumb,
     description: {
       en: "Crops are worth 5% more",
       pt: "Crops are worth 5% more",
@@ -3707,7 +4301,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "~~A skill that can be earned when reaching level 5 in farming.~~\n\n~~It can be minted only through gameplay.~~ **Not Available**",
-
       attributes: [
         {
           trait_type: "Boost",
@@ -3740,7 +4333,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Barn Manager": {
-    image: "assets/skills/barn_manager.png",
+    image: barnManager,
     description: {
       en: "Animals yield 10% more goods",
       pt: "Animals yield 10% more goods",
@@ -3751,7 +4344,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "~~A skill that can be earned when reaching level 5 in farming.~~\n\n~~It can be minted only through gameplay.~~ **Not Available**",
-
       attributes: [
         {
           trait_type: "Boost",
@@ -3779,7 +4371,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Seed Specialist": {
-    image: "assets/skills/seed_specialist.png",
+    image: seedSpecialist,
     description: {
       en: "Crops grow 10% faster",
       pt: "Crops grow 10% faster",
@@ -3790,7 +4382,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "~~A skill that can be earned when reaching level 10 in farming.~~\n\n~~It can be minted only through gameplay.~~ **Not Available**",
-
       attributes: [
         {
           trait_type: "Boost",
@@ -3823,7 +4414,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   Wrangler: {
-    image: "assets/skills/wrangler.png",
+    image: wrangler,
     description: {
       en: "Animals produce goods 10% faster",
       pt: "Animals produce goods 10% faster",
@@ -3834,7 +4425,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "~~A skill that can be learnt when reaching level 10 in farming.~~\n\n~~It can be minted only through gameplay.~~ **Not Available**",
-
       attributes: [
         {
           trait_type: "Boost",
@@ -3862,7 +4452,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   Lumberjack: {
-    image: "assets/skills/lumberjack.png",
+    image: lumberjack,
     description: {
       en: "Increase wood drops by 10%",
       pt: "Increase wood drops by 10%",
@@ -3873,7 +4463,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "~~A skill that can be earned when reaching level 5 in gathering.~~\n\n~~It can be minted only through gameplay.~~ **Not Available**",
-
       attributes: [
         {
           trait_type: "Boost",
@@ -3901,7 +4490,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   Prospector: {
-    image: "assets/skills/prospector.png",
+    image: prospector,
     description: {
       en: "Increase stone drops by 20%",
       pt: "Increase stone drops by 20%",
@@ -3912,7 +4501,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "~~A skill that can be earned when reaching level 5 in gathering.~~\n\n~~It can be minted only through gameplay.~~ **Not Available**",
-
       attributes: [
         {
           trait_type: "Boost",
@@ -3940,7 +4528,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   Logger: {
-    image: "assets/skills/logger.png",
+    image: logger,
     description: {
       en: "Axes last 50% longer",
       pt: "Axes last 50% longer",
@@ -3951,7 +4539,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "~~A skill that can be earned when reaching level 10 in gathering.~~\n\n~~It can be minted only through gameplay.~~ **Not Available**",
-
       attributes: [
         {
           trait_type: "Boost",
@@ -3979,7 +4566,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Gold Rush": {
-    image: "assets/skills/gold_rush.png",
+    image: goldRush,
     description: {
       en: "Increase gold drops by 50%",
       pt: "Increase gold drops by 50%",
@@ -3990,7 +4577,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "~~A skill that can be earned when reaching level 10 in gathering.~~\n\n~~It can be minted only through gameplay.~~ **Not Available**",
-
       attributes: [
         {
           trait_type: "Boost",
@@ -4018,7 +4604,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   Artist: {
-    image: "assets/skills/artist.png",
+    image: artist,
     description: {
       en: "Save 10% on shop & blacksmith tools",
       pt: "Save 10% on shop & blacksmith tools",
@@ -4029,7 +4615,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "~~A skill that can be earned by contributing art to the game.~~ **Not Available**",
-
       attributes: [
         {
           trait_type: "Boost",
@@ -4057,7 +4642,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   Coder: {
-    image: "assets/skills/coder.png",
+    image: coder,
     description: {
       en: "Crops yield 20% more",
       pt: "Crops yield 20% more",
@@ -4068,7 +4653,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "~~A skill that can be earned by contributing code to the game.~~ **Not Available**",
-
       attributes: [
         {
           trait_type: "Boost",
@@ -4096,7 +4680,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Liquidity Provider": {
-    image: "assets/skills/liquidity_provider.png",
+    image: liquidityProvider,
     description: {
       en: "50% reduced SFL withdrawal fee",
       pt: "50% reduced SFL withdrawal fee",
@@ -4107,7 +4691,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "~~A skill that can be earned by providing liquidity.~~ **Not Available**",
-
       attributes: [
         {
           trait_type: "Boost",
@@ -4135,7 +4718,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Discord Mod": {
-    image: "assets/skills/discord.png",
+    image: discord,
     description: {
       en: "Yield 35% more wood",
       pt: "Yield 35% more wood",
@@ -4146,7 +4729,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "~~A skill that can be earned by moderating Discord.~~ **Not Available**",
-
       attributes: [
         {
           trait_type: "Boost",
@@ -4174,7 +4756,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   Warrior: {
-    image: "assets/skills/warrior.png",
+    image: warrior,
     description: {
       en: "Early access to land expansion",
       pt: "Early access to land expansion",
@@ -4185,7 +4767,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "~~A skill earned by the top 10 warriors each week.~~ **Not Available**",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -4200,7 +4781,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Trading Ticket": {
-    image: "assets/icons/ticket.png",
+    image: ticket,
     description: {
       en: "Free Trades! Woohoo!",
       pt: "Negociações grátis! Uhu!",
@@ -4211,7 +4792,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "This ticket grants the owner a free ride in the hot air balloon (a free trade).\n\nUsed automatically when posting a trade.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -4226,7 +4806,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Beta Pass": {
-    image: "assets/icons/beta_pass.png",
+    image: betaPass,
     description: {
       en: "Gain early access to features for testing.",
       pt: "Acesso antecipado a recursos para teste.",
@@ -4236,7 +4816,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "Gain early access to features for testing.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -4251,7 +4830,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "War Bond": {
-    image: "assets/icons/warBond.png",
+    image: warBond,
     description: {
       en: "A mark of a true warrior",
       pt: "Uma marca de um verdadeiro guerreiro",
@@ -4262,7 +4841,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A war is brewing in Sunflower Land and both sides are preparing resources to crush their enemies.\n\nWill you show your support?\n\nFor a limited time, the war collectors are offering rare War Bonds in exchange for resources. You can use these to buy rare items in Goblin Village.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -4288,7 +4866,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A war is brewing in Sunflower Land and both sides are preparing resources to crush their enemies.\n\nHere you can view the support team Goblin is providing.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -4314,7 +4891,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A war is brewing in Sunflower Land and both sides are preparing resources to crush their enemies.\n\nHere you can view the support team Human is providing.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -4329,7 +4905,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Human War Banner": {
-    image: "assets/decorations/banners/human_banner.png",
+    image: humanBanner,
     description: {
       en: "A display of allegiance to the Human cause",
       pt: "Uma exibição de lealdade à causa humana",
@@ -4340,7 +4916,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A war is brewing in Sunflower Land.\n\nThis banner represents an allegiance to the Human cause.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -4355,7 +4930,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Goblin War Banner": {
-    image: "assets/decorations/banners/goblin_banner.png",
+    image: goblinBanner,
     description: {
       en: "A display of allegiance to the Goblin cause",
       pt: "Uma exibição de lealdade à causa dos Goblins",
@@ -4366,7 +4941,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A war is brewing in Sunflower Land.\n\nThis banner represents an allegiance to the Goblin cause.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -4381,7 +4955,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Sunflorian Faction Banner": {
-    image: "assets/decorations/banners/factions/sunflorians_banner.webp",
+    image: sunflorianFactionBanner,
     description: {
       en: "A display of allegiance to the Sunflorian Faction",
       pt: "A display of allegiance to the Sunflorian Faction",
@@ -4392,7 +4966,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A banner that shows your allegiance to the Sunflorian Faction.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -4407,7 +4980,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Nightshade Faction Banner": {
-    image: "assets/decorations/banners/factions/nightshades_banner.webp",
+    image: nightshadeFactionBanner,
     description: {
       en: "A display of allegiance to the Nightshade Faction",
       pt: "A display of allegiance to the Nightshade Faction",
@@ -4418,7 +4991,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A banner that shows your allegiance to the Nightshade Faction.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -4433,7 +5005,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Bumpkin Faction Banner": {
-    image: "assets/decorations/banners/factions/bumpkins_banner.webp",
+    image: bumpkinFactionBanner,
     description: {
       en: "A display of allegiance to the Bumpkin Faction",
       pt: "A display of allegiance to the Bumpkin Faction",
@@ -4444,7 +5016,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A banner that shows your allegiance to the Bumpkin Faction.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -4459,7 +5030,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Goblin Faction Banner": {
-    image: "assets/decorations/banners/factions/goblins_banner.webp",
+    image: goblinFactionBanner,
     description: {
       en: "A display of allegiance to the Goblin Faction",
       pt: "A display of allegiance to the Goblin Faction",
@@ -4469,7 +5040,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "A banner that shows your allegiance to the Goblin Faction.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -4484,7 +5054,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Australian Flag": {
-    image: "assets/sfts/flags/australia_flag.gif",
+    image: australiaFlag,
     description: {
       en: "Australian flag",
       pt: "Australian flag",
@@ -4495,7 +5065,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A limited edition flag to fly proudly on your farm\n\nYou can craft this item at the Goblin Tailor in the game.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -4510,7 +5079,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Belgian Flag": {
-    image: "assets/sfts/flags/belgium_flag.gif",
+    image: belgiumFlag,
     description: {
       en: "Belgian flag",
       pt: "Belgian flag",
@@ -4521,7 +5090,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A limited edition flag to fly proudly on your farm\n\nYou can craft this item at the Goblin Tailor in the game.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -4536,7 +5104,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Brazilian Flag": {
-    image: "assets/sfts/flags/brazil_flag.gif",
+    image: brazilFlag,
     description: {
       en: "Brazilian flag",
       pt: "Brazilian flag",
@@ -4547,7 +5115,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A limited edition flag to fly proudly on your farm\n\nYou can craft this item at the Goblin Tailor in the game.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -4562,7 +5129,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Chinese Flag": {
-    image: "assets/sfts/flags/china_flag.gif",
+    image: chinaFlag,
     description: {
       en: "Chinese flag",
       pt: "Chinese flag",
@@ -4573,7 +5140,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A limited edition flag to fly proudly on your farm\n\nYou can craft this item at the Goblin Tailor in the game.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -4588,7 +5154,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Finnish Flag": {
-    image: "assets/sfts/flags/finland_flag.gif",
+    image: finlandFlag,
     description: {
       en: "Finnish flag",
       pt: "Finnish flag",
@@ -4599,7 +5165,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A limited edition flag to fly proudly on your farm\n\nYou can craft this item at the Goblin Tailor in the game.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -4614,7 +5179,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "French Flag": {
-    image: "assets/sfts/flags/france_flag.gif",
+    image: franceFlag,
     description: {
       en: "French flag",
       pt: "French flag",
@@ -4625,7 +5190,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A limited edition flag to fly proudly on your farm\n\nYou can craft this item at the Goblin Tailor in the game.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -4640,7 +5204,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "German Flag": {
-    image: "assets/sfts/flags/germany_flag.gif",
+    image: germanFlag,
     description: {
       en: "German flag",
       pt: "German flag",
@@ -4651,7 +5215,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A limited edition flag to fly proudly on your farm\n\nYou can craft this item at the Goblin Tailor in the game.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -4666,7 +5229,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Indonesian Flag": {
-    image: "assets/sfts/flags/indonesia_flag.gif",
+    image: indonesiaFlag,
     description: {
       en: "Indonesian flag",
       pt: "Indonesian flag",
@@ -4677,7 +5240,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A limited edition flag to fly proudly on your farm\n\nYou can craft this item at the Goblin Tailor in the game.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -4692,7 +5254,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Indian Flag": {
-    image: "assets/sfts/flags/india_flag.gif",
+    image: indiaFlag,
     description: {
       en: "Indian flag",
       pt: "Indian flag",
@@ -4703,7 +5265,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A limited edition flag to fly proudly on your farm\n\nYou can craft this item at the Goblin Tailor in the game.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -4718,7 +5279,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Iranian Flag": {
-    image: "assets/sfts/flags/iran_flag.gif",
+    image: iranFlag,
     description: {
       en: "Iranian flag",
       pt: "Iranian flag",
@@ -4729,7 +5290,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A limited edition flag to fly proudly on your farm\n\nYou can craft this item at the Goblin Tailor in the game.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -4744,7 +5304,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Italian Flag": {
-    image: "assets/sfts/flags/italy_flag.gif",
+    image: italyFlag,
     description: {
       en: "Italian flag",
       pt: "Italian flag",
@@ -4755,7 +5315,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A limited edition flag to fly proudly on your farm\n\nYou can craft this item at the Goblin Tailor in the game.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -4770,7 +5329,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Japanese Flag": {
-    image: "assets/sfts/flags/japan_flag.gif",
+    image: japanFlag,
     description: {
       en: "Japanese flag",
       pt: "Japanese flag",
@@ -4781,7 +5340,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A limited edition flag to fly proudly on your farm\n\nYou can craft this item at the Goblin Tailor in the game.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -4796,7 +5354,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Moroccan Flag": {
-    image: "assets/sfts/flags/morocco_flag.gif",
+    image: moroccoFlag,
     description: {
       en: "Moroccan flag",
       pt: "Moroccan flag",
@@ -4807,7 +5365,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A limited edition flag to fly proudly on your farm\n\nYou can craft this item at the Goblin Tailor in the game.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -4822,7 +5379,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Dutch Flag": {
-    image: "assets/sfts/flags/netherlands_flag.gif",
+    image: netherlandsFlag,
     description: {
       en: "Dutch flag",
       pt: "Dutch flag",
@@ -4833,7 +5390,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A limited edition flag to fly proudly on your farm\n\nYou can craft this item at the Goblin Tailor in the game.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -4848,7 +5404,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Philippine Flag": {
-    image: "assets/sfts/flags/philippines_flag.gif",
+    image: phillipinesFlag,
     description: {
       en: "Philippine flag",
       pt: "Philippine flag",
@@ -4859,7 +5415,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A limited edition flag to fly proudly on your farm\n\nYou can craft this item at the Goblin Tailor in the game.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -4874,7 +5429,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Polish Flag": {
-    image: "assets/sfts/flags/poland_flag.gif",
+    image: polandFlag,
     description: {
       en: "Polish flag",
       pt: "Polish flag",
@@ -4885,7 +5440,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A limited edition flag to fly proudly on your farm\n\nYou can craft this item at the Goblin Tailor in the game.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -4900,7 +5454,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Portuguese Flag": {
-    image: "assets/sfts/flags/portugal_flag.gif",
+    image: portugalFlag,
     description: {
       en: "Portuguese flag",
       pt: "Portuguese flag",
@@ -4911,7 +5465,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A limited edition flag to fly proudly on your farm\n\nYou can craft this item at the Goblin Tailor in the game.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -4926,7 +5479,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Russian Flag": {
-    image: "assets/sfts/flags/russia_flag.gif",
+    image: russiaFlag,
     description: {
       en: "Russian flag",
       pt: "Russian flag",
@@ -4937,7 +5490,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A limited edition flag to fly proudly on your farm\n\nYou can craft this item at the Goblin Tailor in the game.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -4952,7 +5504,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Saudi Arabian Flag": {
-    image: "assets/sfts/flags/saudi_arabia_flag.gif",
+    image: saudiArabiaFlag,
     description: {
       en: "Saudi Arabian flag",
       pt: "Saudi Arabian flag",
@@ -4963,7 +5515,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A limited edition flag to fly proudly on your farm\n\nYou can craft this item at the Goblin Tailor in the game.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -4978,7 +5529,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "South Korean Flag": {
-    image: "assets/sfts/flags/south_korea_flag.gif",
+    image: southKoreaFlag,
     description: {
       en: "South Korean flag",
       pt: "South Korean flag",
@@ -4989,7 +5540,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A limited edition flag to fly proudly on your farm\n\nYou can craft this item at the Goblin Tailor in the game.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -5004,7 +5554,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Spanish Flag": {
-    image: "assets/sfts/flags/spain_flag.gif",
+    image: spainFlag,
     description: {
       en: "Spanish flag",
       pt: "Spanish flag",
@@ -5015,7 +5565,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A limited edition flag to fly proudly on your farm\n\nYou can craft this item at the Goblin Tailor in the game.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -5030,7 +5579,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Sunflower Flag": {
-    image: "assets/sfts/flags/sunflower_flag.gif",
+    image: sunflowerFlag,
     description: {
       en: "Sunflower flag",
       pt: "Sunflower flag",
@@ -5041,7 +5590,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A limited edition flag to fly proudly on your farm\n\nYou can craft this item at the Goblin Tailor in the game.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -5056,7 +5604,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Thai Flag": {
-    image: "assets/sfts/flags/thailand_flag.gif",
+    image: thailandFlag,
     description: {
       en: "Thai flag",
       pt: "Thai flag",
@@ -5067,7 +5615,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A limited edition flag to fly proudly on your farm\n\nYou can craft this item at the Goblin Tailor in the game.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -5082,7 +5629,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Turkish Flag": {
-    image: "assets/sfts/flags/turkey_flag.gif",
+    image: turkeyFlag,
     description: {
       en: "Turkish flag",
       pt: "Turkish flag",
@@ -5093,7 +5640,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A limited edition flag to fly proudly on your farm\n\nYou can craft this item at the Goblin Tailor in the game.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -5108,7 +5654,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Ukrainian Flag": {
-    image: "assets/sfts/flags/ukraine_flag.gif",
+    image: ukraineFlag,
     description: {
       en: "Ukrainian flag",
       pt: "Ukrainian flag",
@@ -5119,7 +5665,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A limited edition flag to fly proudly on your farm\n\nYou can craft this item at the Goblin Tailor in the game.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -5134,7 +5679,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "American Flag": {
-    image: "assets/sfts/flags/usa_flag.gif",
+    image: usaFlag,
     description: {
       en: "American flag",
       pt: "American flag",
@@ -5145,7 +5690,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A limited edition flag to fly proudly on your farm\n\nYou can craft this item at the Goblin Tailor in the game.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -5160,7 +5704,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Vietnamese Flag": {
-    image: "assets/sfts/flags/vietnam_flag.gif",
+    image: vietnamFlag,
     description: {
       en: "Vietnamese flag",
       pt: "Vietnamese flag",
@@ -5171,7 +5715,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A limited edition flag to fly proudly on your farm\n\nYou can craft this item at the Goblin Tailor in the game.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -5186,7 +5729,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Canadian Flag": {
-    image: "assets/sfts/flags/canadian_flag.gif",
+    image: canadian_flag,
     description: {
       en: "Canadian flag",
       pt: "Canadian flag",
@@ -5197,7 +5740,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A limited edition flag to fly proudly on your farm\n\nYou can craft this item at the Goblin Tailor in the game.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -5212,7 +5754,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Singaporean Flag": {
-    image: "assets/sfts/flags/singaporean_flag.gif",
+    image: singaporean_flag,
     description: {
       en: "Singaporean flag",
       pt: "Singaporean flag",
@@ -5223,7 +5765,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A limited edition flag to fly proudly on your farm\n\nYou can craft this item at the Goblin Tailor in the game.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -5238,7 +5779,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "British Flag": {
-    image: "assets/sfts/flags/british_flag.gif",
+    image: british_flag,
     description: {
       en: "British flag",
       pt: "British flag",
@@ -5249,7 +5790,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A limited edition flag to fly proudly on your farm\n\nYou can craft this item at the Goblin Tailor in the game.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -5264,7 +5804,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Sierra Leone Flag": {
-    image: "assets/sfts/flags/sierra_leone_flag.gif",
+    image: sierra_leone_flag,
     description: {
       en: "Sierra Leone flag",
       pt: "Sierra Leone flag",
@@ -5275,7 +5815,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A limited edition flag to fly proudly on your farm\n\nYou can craft this item at the Goblin Tailor in the game.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -5290,7 +5829,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Romanian Flag": {
-    image: "assets/sfts/flags/romanian_flag.gif",
+    image: romanian_flag,
     description: {
       en: "Romanian flag",
       pt: "Romanian flag",
@@ -5301,7 +5840,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A limited edition flag to fly proudly on your farm\n\nYou can craft this item at the Goblin Tailor in the game.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -5316,7 +5854,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Rainbow Flag": {
-    image: "assets/sfts/flags/rainbow_flag.gif",
+    image: rainbow_flag,
     description: {
       en: "Rainbow flag",
       pt: "Rainbow flag",
@@ -5327,7 +5865,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A limited edition flag to fly proudly on your farm\n\nYou can craft this item at the Goblin Tailor in the game.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -5342,7 +5879,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Goblin Flag": {
-    image: "assets/sfts/flags/goblin_flag.gif",
+    image: goblin_flag,
     description: {
       en: "Goblin flag",
       pt: "Goblin flag",
@@ -5353,7 +5890,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A limited edition flag to fly proudly on your farm\n\nYou can craft this item at the Goblin Tailor in the game.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -5368,7 +5904,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Pirate Flag": {
-    image: "assets/sfts/flags/pirate_flag.gif",
+    image: pirate_flag,
     description: {
       en: "Pirate flag",
       pt: "Pirate flag",
@@ -5379,7 +5915,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A limited edition flag to fly proudly on your farm\n\nYou can craft this item at the Goblin Tailor in the game.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -5394,7 +5929,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Algerian Flag": {
-    image: "assets/sfts/flags/algerian_flag.gif",
+    image: algerian_flag,
     description: {
       en: "Algerian flag",
       pt: "Algerian flag",
@@ -5405,7 +5940,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A limited edition flag to fly proudly on your farm\n\nYou can craft this item at the Goblin Tailor in the game.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -5420,7 +5954,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Mexican Flag": {
-    image: "assets/sfts/flags/mexican_flag.gif",
+    image: mexican_flag,
     description: {
       en: "Mexican flag",
       pt: "Mexican flag",
@@ -5431,7 +5965,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A limited edition flag to fly proudly on your farm\n\nYou can craft this item at the Goblin Tailor in the game.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -5446,7 +5979,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Dominican Republic Flag": {
-    image: "assets/sfts/flags/dominican_republic_flag.gif",
+    image: dominican_republic_flag,
     description: {
       en: "Dominican Republic flag",
       pt: "Dominican Republic flag",
@@ -5457,7 +5990,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A limited edition flag to fly proudly on your farm\n\nYou can craft this item at the Goblin Tailor in the game.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -5472,7 +6004,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Argentinian Flag": {
-    image: "assets/sfts/flags/argentinian_flag.gif",
+    image: argentinian_flag,
     description: {
       en: "Argentinian flag",
       pt: "Argentinian flag",
@@ -5483,7 +6015,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A limited edition flag to fly proudly on your farm\n\nYou can craft this item at the Goblin Tailor in the game.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -5498,7 +6029,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Lithuanian Flag": {
-    image: "assets/sfts/flags/lithuanian_flag.gif",
+    image: lithuanian_flag,
     description: {
       en: "Lithuanian flag",
       pt: "Lithuanian flag",
@@ -5509,7 +6040,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A limited edition flag to fly proudly on your farm\n\nYou can craft this item at the Goblin Tailor in the game.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -5524,7 +6054,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Malaysian Flag": {
-    image: "assets/sfts/flags/malaysian_flag.gif",
+    image: malaysian_flag,
     description: {
       en: "Malaysian flag",
       pt: "Malaysian flag",
@@ -5535,7 +6065,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A limited edition flag to fly proudly on your farm\n\nYou can craft this item at the Goblin Tailor in the game.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -5550,7 +6079,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Colombian Flag": {
-    image: "assets/sfts/flags/colombian_flag.gif",
+    image: colombian_flag,
     description: {
       en: "Colombian flag",
       pt: "Colombian flag",
@@ -5561,7 +6090,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A limited edition flag to fly proudly on your farm\n\nYou can craft this item at the Goblin Tailor in the game.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -5576,7 +6104,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Egg Basket": {
-    image: "assets/sfts/easter/basket.png",
+    image: easterBasket,
     description: {
       en: "Easter Event",
       pt: "Evento de Páscoa",
@@ -5587,7 +6115,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "An item that starts the Easter Egg Hunt.\n\nYou have 7 days to collect the 7 eggs. Every few hours an egg may appear on your farm to collect. Limited edition item!",
-
       attributes: [
         {
           trait_type: "Tradable",
@@ -5602,7 +6129,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Easter Bunny": {
-    image: "assets/sfts/easter/easter_bunny.gif",
+    image: easterBunny,
     description: {
       en: "Earn 20% more Carrots",
       pt: "Ganhe 20% mais cenouras",
@@ -5613,7 +6140,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A limited edition bunny that can be crafted by those who collect all 7 eggs in the Easter Egg Hunt.",
-
       attributes: [
         {
           display_type: "boost_percentage",
@@ -5633,7 +6159,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Pablo The Bunny": {
-    image: "assets/sfts/pablo_bunny.gif",
+    image: pabloBunny,
     description: {
       en: "A magical Easter bunny",
       pt: "Um coelho mágico de Páscoa",
@@ -5643,7 +6169,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "The magical bunny that increases your carrot harvests",
-
       attributes: [
         {
           trait_type: "Boost",
@@ -5663,7 +6188,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Blue Egg": {
-    image: "assets/sfts/easter/blue_egg.png",
+    image: blueEgg,
     description: {
       en: "A blue easter egg",
       pt: "Um ovo de Páscoa azul",
@@ -5674,7 +6199,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A limited edition easter egg that can be found on your farm during Easter.\n\nCollect the 7 special eggs to mint an Easter surprise.",
-
       attributes: [
         {
           trait_type: "Tradable",
@@ -5689,7 +6213,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Orange Egg": {
-    image: "assets/sfts/easter/orange_egg.png",
+    image: orangeEgg,
     description: {
       en: "An orange easter egg",
       pt: "Um ovo de Páscoa laranja",
@@ -5700,7 +6224,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A limited edition easter egg that can be found on your farm during Easter.\n\nCollect the 7 special eggs to mint an Easter surprise.",
-
       attributes: [
         {
           trait_type: "Tradable",
@@ -5715,7 +6238,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Green Egg": {
-    image: "assets/sfts/easter/green_egg.png",
+    image: greenEgg,
     description: {
       en: "A green easter egg",
       pt: "Um ovo de Páscoa verde",
@@ -5726,7 +6249,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A limited edition easter egg that can be found on your farm during Easter.\n\nCollect the 7 special eggs to mint an Easter surprise.",
-
       attributes: [
         {
           trait_type: "Tradable",
@@ -5741,7 +6263,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Yellow Egg": {
-    image: "assets/sfts/easter/yellow_egg.png",
+    image: yellowEgg,
     description: {
       en: "A yellow easter egg",
       pt: "Um ovo de Páscoa amarelo",
@@ -5752,7 +6274,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A limited edition easter egg that can be found on your farm during Easter.\n\nCollect the 7 special eggs to mint an Easter surprise.",
-
       attributes: [
         {
           trait_type: "Tradable",
@@ -5767,7 +6288,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Red Egg": {
-    image: "assets/sfts/easter/red_egg.png",
+    image: redEgg,
     description: {
       en: "A red easter egg",
       pt: "Um ovo de Páscoa vermelho",
@@ -5778,7 +6299,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A limited edition easter egg that can be found on your farm during Easter.\n\nCollect the 7 special eggs to mint an Easter surprise.",
-
       attributes: [
         {
           trait_type: "Tradable",
@@ -5793,7 +6313,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Pink Egg": {
-    image: "assets/sfts/easter/pink_egg.png",
+    image: pinkEgg,
     description: {
       en: "A pink easter egg",
       pt: "Um ovo de Páscoa rosa",
@@ -5804,7 +6324,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A limited edition easter egg that can be found on your farm during Easter.\n\nCollect the 7 special eggs to mint an Easter surprise.",
-
       attributes: [
         {
           trait_type: "Tradable",
@@ -5819,7 +6338,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Purple Egg": {
-    image: "assets/sfts/easter/purple_egg.png",
+    image: purpleEgg,
     description: {
       en: "A purple easter egg",
       pt: "Um ovo de Páscoa roxo",
@@ -5830,7 +6349,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A limited edition easter egg that can be found on your farm during Easter.\n\nCollect the 7 special eggs to mint an Easter surprise.",
-
       attributes: [
         {
           trait_type: "Tradable",
@@ -5845,7 +6363,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Engine Core": {
-    image: "assets/sfts/mom/engine_core.png",
+    image: momCoreEngine,
     description: {
       en: "The power of the sunflower",
       pt: "The power of the sunflower",
@@ -5856,7 +6374,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "An exclusive event item for Million on Mars x Sunflower Land cross-over.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -5871,7 +6388,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   Observatory: {
-    image: "assets/sfts/mom/observatory.gif",
+    image: observatory,
     description: {
       en: "Explore the stars and improve scientific development",
       pt: "Explore the stars and improve scientific development",
@@ -5882,7 +6399,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A limited edition Observatory gained from completing the mission from Million on Mars x Sunflower Land crossover event.",
-
       attributes: [
         {
           display_type: "boost_percentage",
@@ -5902,7 +6418,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Goblin Key": {
-    image: "assets/sfts/quest/goblin_key.png",
+    image: goblinKey,
     description: {
       en: "The Goblin Key",
       pt: "A Chave do Goblin",
@@ -5912,7 +6428,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "A Goblin Key",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -5927,7 +6442,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Sunflower Key": {
-    image: "assets/sfts/quest/sunflower_key.png",
+    image: sunflowerKey,
     description: {
       en: "The Sunflower Key",
       pt: "A Chave do Girassol",
@@ -5937,7 +6452,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "A Sunflower Key",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -5952,7 +6466,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Ancient Goblin Sword": {
-    image: "assets/sfts/quest/ancient_goblin_sword.png",
+    image: ancientGoblinSword,
     description: {
       en: "An Ancient Goblin Sword",
       pt: "Uma Antiga Espada de Goblin",
@@ -5962,7 +6476,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "An Ancient Goblin Sword",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -5977,7 +6490,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Ancient Human Warhammer": {
-    image: "assets/sfts/quest/ancient_human_warhammer.png",
+    image: ancientHumanWarhammer,
     description: {
       en: "An Ancient Human Warhammer",
       pt: "Um Antigo Martelo de Guerra Humano",
@@ -5987,7 +6500,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "An Ancient Human Warhammer",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -6002,7 +6514,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Speed Chicken": {
-    image: "assets/animals/chickens/speed_chicken.gif",
+    image: speedChicken,
     description: {
       en: "Produces eggs 10% faster",
       pt: "Produces eggs 10% faster",
@@ -6013,7 +6525,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A mutant chicken that can be found by chance when collecting an egg.\n\nThis mutant increases the speed of egg production by 10%.\n\nThere is a 1/1000 chance of producing a mutant chicken.",
-
       attributes: [
         {
           display_type: "boost_percentage",
@@ -6033,7 +6544,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Fat Chicken": {
-    image: "assets/animals/chickens/fat_chicken.gif",
+    image: fatChicken,
     description: {
       en: "10% less wheat needed to feed a chicken",
       pt: "10% less wheat needed to feed a chicken",
@@ -6044,7 +6555,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A mutant chicken that can be found by chance when collecting an egg.\n\nThis mutant reduces the wheat required to feed a chicken by 10%.\n\nThere is a 1/1000 chance of producing a mutant chicken.",
-
       attributes: [
         {
           display_type: "boost_percentage",
@@ -6064,7 +6574,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Rich Chicken": {
-    image: "assets/animals/chickens/rich_chicken.webp",
+    image: richChicken,
     description: {
       en: "Yields 10% more eggs",
       pt: "Yields 10% more eggs",
@@ -6075,7 +6585,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A mutant chicken that can be found by chance when collecting an egg.\n\nThis mutant adds a boost of 10% higher egg yield.\n\nThere is a 1/1000 chance of producing a mutant chicken.",
-
       attributes: [
         {
           display_type: "boost_number",
@@ -6105,7 +6614,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "Legacy item, DO NOT BUY!",
-
       attributes: [
         {
           display_type: "boost_percentage",
@@ -6125,7 +6633,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Chef Hat": {
-    image: "assets/icons/chef_hat.png",
+    image: chefHat,
     description: {
       en: "La couronne d'un boulanger légendaire !",
       pt: "A coroa de um padeiro lendário!",
@@ -6135,7 +6643,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "Legacy item, DO NOT BUY!",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -6150,7 +6657,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Rapid Growth": {
-    image: "assets/fertilisers/rapidGrowth.png",
+    image: rapidGrowth,
     description: {
       en: "Apply to a crop to grow twice as fast",
       pt: "Apply to a crop to grow twice as fast",
@@ -6161,7 +6668,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A rare fertiliser. ~~Apply to your crops to grow twice as fast~~ Legacy Item",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -6176,7 +6682,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Fire Pit": {
-    image: "assets/buildings/fire_pit.png",
+    image: firePit,
     description: {
       en: "Roast your Sunflowers, feed and level up your Bumpkin",
       pt: "Faça comidas, alimente e evolua seu Bumpkin",
@@ -6186,7 +6692,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "A fire pit used to cook basic recipes in game.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -6201,7 +6706,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   Market: {
-    image: "assets/buildings/bettys_market.png",
+    image: market,
     description: {
       en: "Buy and sell at the Farmer's Market",
       pt: "Compre e venda no Mercado dos Agricultores",
@@ -6211,7 +6716,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "A market used to buy seeds and sell crops in game.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -6226,7 +6730,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Town Center": {
-    image: "assets/buildings/town_center.png",
+    image: townCenter,
     description: {
       en: "Gather around the town center for the latest news",
       pt: "Reúna-se ao redor do centro da cidade para as últimas notícias",
@@ -6236,7 +6740,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "Gather round the town center and hear the latest news!",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -6251,7 +6754,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   House: {
-    image: "assets/buildings/house.png",
+    image: house,
     description: {
       en: "A place to rest your head",
       pt: "Um lugar para descansar a cabeça",
@@ -6261,7 +6764,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "?",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -6276,7 +6778,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   Manor: {
-    image: "assets/buildings/manor.png",
+    image: manor,
     description: {
       en: "A place to rest your head",
       pt: "Um lugar para descansar a cabeça",
@@ -6286,7 +6788,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "?",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -6301,7 +6802,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Crop Machine": {
-    image: "assets/buildings/crop_machine.wep.webp",
+    image: cropMachine,
     description: {
       en: "Automate your crop production",
       pt: "Automatize suas plantações",
@@ -6312,7 +6813,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "Technology arrives at the farm! Crop Machine is here to help!",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -6327,7 +6827,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   Kitchen: {
-    image: "assets/buildings/kitchen.png",
+    image: kitchen,
     description: {
       en: "Step up your cooking game",
       pt: "Melhore sua habilidade culinária",
@@ -6337,7 +6837,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "A kitchen used to cook recipes in Sunflower Land.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -6352,7 +6851,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   Bakery: {
-    image: "assets/buildings/bakery.png",
+    image: bakery,
     description: {
       en: "Bake your favourite cakes",
       pt: "Asse seus bolos favoritos",
@@ -6362,7 +6861,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "A bakery used to cook recipes in Sunflower Land.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -6377,7 +6875,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   Workbench: {
-    image: "assets/buildings/workbench.png",
+    image: workbench,
     description: {
       en: "Craft tools to collect resources",
       pt: "Faça ferramentas para coletar recursos",
@@ -6387,7 +6885,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "A workbench used to craft tools in Sunflower Land.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -6402,7 +6899,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Water Well": {
-    image: "assets/buildings/well1.png",
+    image: well,
     description: {
       en: "Crops need water!",
       pt: "As plantações precisam de água!",
@@ -6412,7 +6909,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "A water well to support more crops in Sunflower Land.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -6427,7 +6923,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   Tent: {
-    image: "assets/buildings/tent.png",
+    image: tent,
     description: {
       en: "(Discontinued)",
       pt: "(Descontinuado)",
@@ -6438,7 +6934,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "Every Bumpkin needs a tent. Adding a tent to your land supports adding more Bumpkins (coming soon) to your land.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -6453,7 +6948,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Hen House": {
-    image: "assets/buildings/hen_house.png",
+    image: chickenHouse,
     description: {
       en: "Grow your chicken empire",
       pt: "Expanda seu império de galinhas",
@@ -6463,7 +6958,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "A hen house used to support chickens.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -6478,7 +6972,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   Deli: {
-    image: "assets/buildings/deli.png",
+    image: deli,
     description: {
       en: "Satisfy your appetite with these delicatessen foods!",
       pt: "Satisfaça seu apetite com esses alimentos delicatessen!",
@@ -6488,7 +6982,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "A deli used to cook advanced recipes at Sunflower Land.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -6503,7 +6996,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Smoothie Shack": {
-    image: "assets/buildings/smoothie_shack.webp",
+    image: smoothieShack,
     description: {
       en: "Freshly squeezed!",
       pt: "Produz sucos e batidas espremidos na hora!",
@@ -6514,7 +7007,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A Smoothie Shack is used to prepare juices in Sunflower Land.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -6529,7 +7021,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   Toolshed: {
-    image: "assets/buildings/toolshed.png",
+    image: toolshed,
     description: {
       en: "Increase your workbench tool stock by 50%",
       pt: "Aumente seu estoque de ferramentas em 50%",
@@ -6539,7 +7031,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "A Toolshed increases your tool stocks by 50%",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -6554,7 +7045,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   Warehouse: {
-    image: "assets/buildings/warehouse.png",
+    image: warehouse,
     description: {
       en: "Increase your seed stocks by 20%",
       pt: "Aumente seu estoque de sementes em 20%",
@@ -6564,7 +7055,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "A Warehouse increases your seed stocks by 20%",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -6589,7 +7079,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "Legacy item, DO NOT BUY!",
-
       attributes: [
         {
           display_type: "boost_percentage",
@@ -6619,7 +7108,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "Legacy item, DO NOT BUY!",
-
       attributes: [
         {
           display_type: "boost_percentage",
@@ -6649,7 +7137,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "Legacy item, DO NOT BUY!",
-
       attributes: [
         {
           display_type: "boost_percentage",
@@ -6679,7 +7166,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "Legacy item, DO NOT BUY!",
-
       attributes: [
         {
           display_type: "boost_number",
@@ -6709,7 +7195,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "Legacy item, DO NOT BUY!",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -6734,7 +7219,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "Legacy item, DO NOT BUY!",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -6759,7 +7243,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "Legacy item, DO NOT BUY!",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -6784,7 +7267,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "Legacy item, DO NOT BUY!",
-
       attributes: [
         {
           display_type: "boost_number",
@@ -6814,7 +7296,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "Legacy item, DO NOT BUY!",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -6829,7 +7310,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "War Skull": {
-    image: "assets/decorations/war_skulls.png",
+    image: skull,
     description: {
       en: "Decorate the land with the bones of your enemies.",
       pt: "Decore a terra com os ossos de seus inimigos.",
@@ -6839,7 +7320,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "Decorate the land with the bones of your enemies.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -6854,7 +7334,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "War Tombstone": {
-    image: "assets/decorations/war_tombstone.png",
+    image: warTombstone,
     description: {
       en: "R.I.P",
       pt: "R.I.P",
@@ -6864,7 +7344,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "R.I.P",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -6879,7 +7358,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Undead Rooster": {
-    image: "assets/animals/chickens/undead_chicken.gif",
+    image: undeadChicken,
     description: {
       en: "An unfortunate casualty of the war. 10% increased egg yield.",
       pt: "Uma casualidade da guerra. 10% de aumento na produção de ovos.",
@@ -6890,7 +7369,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "An unfortunate casualty of the war. 10% increased egg yield.",
-
       attributes: [
         {
           display_type: "boost_number",
@@ -6910,7 +7388,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Boiled Eggs": {
-    image: "assets/food/boiled_eggs.png",
+    image: boiledEgg,
     description: {
       en: "Boiled Eggs are great for breakfast",
       pt: "Ovos cozidos são ótimos para o café da manhã",
@@ -6921,7 +7399,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "Boiled Eggs are great for breakfast. You can cook this at the Fire Pit.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -6936,7 +7413,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Bumpkin Broth": {
-    image: "assets/food/bumpkin_broth.png",
+    image: bumpkinBroth,
     description: {
       en: "A nutritious broth to replenish your Bumpkin",
       pt: "Um caldo nutritivo para repor seu Bumpkin",
@@ -6947,7 +7424,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A perfect broth for a cold day. You can cook this at the Fire Pit.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -6962,7 +7438,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Mashed Potato": {
-    image: "assets/food/mashed_potato.png",
+    image: mashedPotato,
     description: {
       en: "My life is potato.",
       pt: "Minha vida é batata.",
@@ -6972,7 +7448,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "My life is potato. You can cook this at the Fire Pit.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -6987,7 +7462,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Bumpkin Salad": {
-    image: "assets/food/bumpkin_salad.png",
+    image: bumpkinSalad,
     description: {
       en: "Gotta keep your Bumpkin healthy!",
       pt: "Você precisa manter seu Bumpkin saudável!",
@@ -6998,7 +7473,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "Gotta keep your Bumpkin healthy! You can cook this at the Kitchen.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -7013,7 +7487,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Goblin's Treat": {
-    image: "assets/food/goblins_treat.png",
+    image: goblinsTreat,
     description: {
       en: "Goblins go crazy for this stuff!",
       pt: "Goblins ficam loucos por isso!",
@@ -7024,7 +7498,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "Goblins go crazy for this stuff! You can cook this at the Kitchen.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -7039,7 +7512,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Cauliflower Burger": {
-    image: "assets/food/cauliflower_burger.png",
+    image: cauliflowerBurger,
     description: {
       en: "Calling all cauliflower lovers!",
       pt: "Chamando todos os amantes de couve-flor!",
@@ -7050,7 +7523,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "Calling all cauliflower lovers! You can cook this at the Kitchen.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -7065,7 +7537,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Club Sandwich": {
-    image: "assets/food/club_sandwich.png",
+    image: clubSandwich,
     description: {
       en: "Filled with Carrots and Roasted Sunflower Seeds",
       pt: "Recheado com cenouras e sementes de girassol torradas",
@@ -7076,7 +7548,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "Filled with Carrots and Roasted Sunflower Seeds. You can cook this at the Kitchen",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -7091,7 +7562,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Roast Veggies": {
-    image: "assets/food/roast_veggies.png",
+    image: roastVeggies,
     description: {
       en: "Even Goblins need to eat their veggies!",
       pt: "Até os Goblins precisam comer seus vegetais!",
@@ -7102,7 +7573,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "Even Goblins need to eat their veggies! You can can cook these at the Fire Pit.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -7117,7 +7587,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   Pancakes: {
-    image: "assets/food/pancakes.png",
+    image: pancakes,
     description: {
       en: "A great start to a Bumpkins day",
       pt: "Um ótimo começo para o dia de um Bumpkin",
@@ -7128,7 +7598,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A great start to a Bumpkins day. You can can cook these at the Kitchen.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -7143,7 +7612,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Fermented Carrots": {
-    image: "assets/food/fermented_carrots.png",
+    image: fermentedCarrots,
     description: {
       en: "Got a surplus of carrots?",
       pt: "Tem um excedente de cenouras?",
@@ -7153,7 +7622,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "Got a surplus of carrots? You can cook this at the Deli.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -7168,7 +7636,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   Sauerkraut: {
-    image: "assets/food/sauerkraut.png",
+    image: sauerkraut,
     description: {
       en: "No more boring Cabbage!",
       pt: "Não mais repolho chato!",
@@ -7179,7 +7647,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "Fermented Cabbage! Owning this item unlocks fields and new seeds.\n\nYou can craft this at the Kitchen in the game.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -7194,7 +7661,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Reindeer Carrot": {
-    image: "assets/food/reindeer_carrot.png",
+    image: reindeerCarrot,
     description: {
       en: "Rudolph can't stop eating them!",
       pt: "Rudolph não consegue parar de comê-los!",
@@ -7205,7 +7672,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "Rudolph can't stop eating them! You can can cook these at the Fire Pit.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -7220,7 +7686,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Bumpkin ganoush": {
-    image: "assets/food/bumpkin_ganoush.png",
+    image: bumpkinGanoush,
     description: {
       en: "Zesty roasted eggplant spread.",
       pt: "Espalhe berinjela assada com zeste.",
@@ -7230,7 +7696,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "Zesty roasted eggplant spread.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -7245,7 +7710,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Eggplant Cake": {
-    image: "assets/food/cakes/eggplant_cake.png",
+    image: eggplantCake,
     description: {
       en: "Sweet farm-fresh dessert surprise.",
       pt: "Surpresa de sobremesa fresca da fazenda.",
@@ -7255,7 +7720,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "Sweet farm-fresh dessert surprise.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -7270,7 +7734,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   Cornbread: {
-    image: "assets/food/corn_bread.png",
+    image: cornBread,
     description: {
       en: "Hearty golden farm-fresh bread.",
       pt: "Pão de fazenda dourado e saudável.",
@@ -7280,7 +7744,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "Hearty golden farm-fresh bread.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -7295,7 +7758,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   Popcorn: {
-    image: "assets/food/popcorn.png",
+    image: popcorn,
     description: {
       en: "Classic homegrown crunchy snack.",
       pt: "Lanche crocante caseiro clássico.",
@@ -7305,7 +7768,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "Classic homegrown crunchy snack.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -7320,7 +7782,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   Chowder: {
-    image: "assets/food/chowder.png",
+    image: chowder,
     description: {
       en: "Sailor's delight in a bowl! Dive in, there's treasure inside!",
       pt: "Delícia de marinheiro em uma tigela! Mergulhe, há tesouro dentro!",
@@ -7331,7 +7793,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "Sailor's delight in a bowl! Dive in, there's treasure inside!",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -7346,7 +7807,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   Gumbo: {
-    image: "assets/food/gumbo.png",
+    image: gumbo,
     description: {
       en: "A pot full of magic! Every spoonful's a Mardi Gras parade!",
       pt: "Uma panela cheia de magia! Cada colherada é um desfile de Mardi Gras!",
@@ -7356,7 +7817,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "A pot full of magic! Every spoonful's a Mardi Gras parade!",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -7371,7 +7831,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Fermented Fish": {
-    image: "assets/food/fermented_fish.png",
+    image: fermentedFish,
     description: {
       en: "Daring delicacy! Unleash the Viking within with every bite!",
       pt: "Delicadeza audaciosa! Liberte o Viking que há dentro com cada mordida!",
@@ -7382,7 +7842,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "Daring delicacy! Unleash the Viking within with every bite!",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -7397,7 +7856,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   Explorer: {
-    image: "assets/achievements/explorer.png",
+    image: explorer,
     description: {
       en: "Expand your Land",
       pt: "Expand your Land",
@@ -7407,7 +7866,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Busy Bumpkin": {
-    image: "assets/achievements/busy_bumpkin.png",
+    image: busyBumpkin,
     description: {
       en: "Reach level 2",
       pt: "Reach level 2",
@@ -7417,7 +7876,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Brilliant Bumpkin": {
-    image: "assets/achievements/brilliant_bumpkin.png",
+    image: brilliantBumpkin,
     description: {
       en: "Reach level 20",
       pt: "Reach level 20",
@@ -7427,7 +7886,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Sun Seeker": {
-    image: "assets/achievements/sun_seeker.png",
+    image: sunSeeker,
     description: {
       en: "Harvest Sunflower 100 times",
       pt: "Harvest Sunflower 100 times",
@@ -7437,7 +7896,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Sunflower Superstar": {
-    image: "assets/achievements/sunflower_superstar.png",
+    image: sunflowerSuperstar,
     description: {
       en: "Harvest Sunflower 100,000 times",
       pt: "Harvest Sunflower 100,000 times",
@@ -7447,7 +7906,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "My life is potato": {
-    image: "assets/achievements/my_life_is_potato.png",
+    image: myLifeIsPotato,
     description: {
       en: "Harvest Potato 5,000 times",
       pt: "Harvest Potato 5,000 times",
@@ -7457,7 +7916,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Jack O'Latern": {
-    image: "assets/achievements/jack_o_lantern.png",
+    image: jackOLantern,
     description: {
       en: "Harvest Pumpkin 500 times",
       pt: "Harvest Pumpkin 500 times",
@@ -7467,7 +7926,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "20/20 Vision": {
-    image: "assets/achievements/20-20-vision.png",
+    image: twentyTwentyVision,
     description: {
       en: "Harvest Carrot 10,000 times",
       pt: "Harvest Carrot 10,000 times",
@@ -7477,7 +7936,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Cabbage King": {
-    image: "assets/achievements/cabbage_king.png",
+    image: cabbageKing,
     description: {
       en: "Harvest Cabbage 200 times",
       pt: "Harvest Cabbage 200 times",
@@ -7487,7 +7946,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Beetroot Beast": {
-    image: "assets/achievements/beetrootBeast.png",
+    image: beetrootBeast,
     description: {
       en: "Harvest Beetroot 2,000 times",
       pt: "Harvest Beetroot 2,000 times",
@@ -7497,7 +7956,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Cool Flower": {
-    image: "assets/achievements/cool_cauliflower.png",
+    image: coolCauliflower,
     description: {
       en: "Harvest Cauliflower 100 times",
       pt: "Harvest Cauliflower 100 times",
@@ -7507,7 +7966,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Patient Parsnips": {
-    image: "assets/achievements/patient_parsnip.png",
+    image: patientParsnip,
     description: {
       en: "Harvest Parsnip 5,000 times",
       pt: "Harvest Parsnip 5,000 times",
@@ -7517,7 +7976,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Rapid Radish": {
-    image: "assets/achievements/rapidRadish.png",
+    image: rapidRadish,
     description: {
       en: "Harvest Radish 200 times",
       pt: "Harvest Radish 200 times",
@@ -7527,7 +7986,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Staple Crop": {
-    image: "assets/achievements/staple_crop.png",
+    image: stapleCrop,
     description: {
       en: "Harvest Wheat 10,000 times",
       pt: "Harvest Wheat 10,000 times",
@@ -7537,7 +7996,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Farm Hand": {
-    image: "assets/achievements/farm_hand.png",
+    image: farmHand,
     description: {
       en: "Harvest crops 10,000 times",
       pt: "Harvest crops 10,000 times",
@@ -7547,7 +8006,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Crop Champion": {
-    image: "assets/achievements/crop_champion.png",
+    image: cropChampion,
     description: {
       en: "Harvest 1 million crops",
       pt: "Harvest 1 million crops",
@@ -7557,7 +8016,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Bread Winner": {
-    image: "assets/achievements/bread_winner.png",
+    image: breadWinner,
     description: {
       en: "Earn 0.001 SFL",
       pt: "Earn 0.001 SFL",
@@ -7567,7 +8026,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Bumpkin Billionaire": {
-    image: "assets/achievements/bumpkin_billionaire.png",
+    image: bumpkinBillionaire,
     description: {
       en: "Earn 5,000 SFL",
       pt: "Earn 5,000 SFL",
@@ -7577,7 +8036,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Big Spender": {
-    image: "assets/achievements/big_spender.png",
+    image: bigSpender,
     description: {
       en: "Spend 10 SFL",
       pt: "Spend 10 SFL",
@@ -7587,7 +8046,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "High Roller": {
-    image: "assets/achievements/high_roller.png",
+    image: highRoller,
     description: {
       en: "Spend 7,500 SFL",
       pt: "Spend 7,500 SFL",
@@ -7597,7 +8056,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   Timbeerrr: {
-    image: "assets/achievements/timber.png",
+    image: timberrr,
     description: {
       en: "Chop 150 trees",
       pt: "Chop 150 trees",
@@ -7607,7 +8066,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Bumpkin Chainsaw Amateur": {
-    image: "assets/achievements/bumpkin_chainsaw_amateur.png",
+    image: bumpkinChainsawAmateur,
     description: {
       en: "Chop 5,000 trees",
       pt: "Chop 5,000 trees",
@@ -7617,7 +8076,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   Driller: {
-    image: "assets/achievements/driller.png",
+    image: driller,
     description: {
       en: "Mine 50 stone rocks",
       pt: "Mine 50 stone rocks",
@@ -7627,7 +8086,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   Canary: {
-    image: "assets/achievements/canary.png",
+    image: canary,
     description: {
       en: "Mine 1,000 stone rocks",
       pt: "Mine 1,000 stone rocks",
@@ -7637,7 +8096,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Iron Eyes": {
-    image: "assets/achievements/iron_eyes.png",
+    image: ironEyes,
     description: {
       en: "Mine 50 iron rocks",
       pt: "Mine 50 iron rocks",
@@ -7647,7 +8106,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Something Shiny": {
-    image: "assets/achievements/something_shiny.png",
+    image: somethingShiny,
     description: {
       en: "Mine 500 iron rocks",
       pt: "Mine 500 iron rocks",
@@ -7657,7 +8116,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "El Dorado": {
-    image: "assets/achievements/el-dorado.png",
+    image: elDorado,
     description: {
       en: "Mine 50 gold rocks",
       pt: "Mine 50 gold rocks",
@@ -7667,7 +8126,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Gold Fever": {
-    image: "assets/achievements/gold_fever.png",
+    image: goldFever,
     description: {
       en: "Mine 500 gold rocks",
       pt: "Mine 500 gold rocks",
@@ -7677,7 +8136,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Kiss the Cook": {
-    image: "assets/achievements/kiss_the_cook.png",
+    image: kissTheCook,
     description: {
       en: "Cook 20 meals",
       pt: "Cook 20 meals",
@@ -7687,7 +8146,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Bakers Dozen": {
-    image: "assets/achievements/bakers_dozen.png",
+    image: bakersDozen,
     description: {
       en: "Bake 13 cakes",
       pt: "Bake 13 cakes",
@@ -7697,7 +8156,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Chef de Cuisine": {
-    image: "assets/achievements/chef_de_cuisine.png",
+    image: chefDeCuisine,
     description: {
       en: "Cook 5,000 meals",
       pt: "Cook 5,000 meals",
@@ -7707,7 +8166,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   Craftmanship: {
-    image: "assets/achievements/craftmanship.png",
+    image: craftmanship,
     description: {
       en: "Craft 100 tools",
       pt: "Craft 100 tools",
@@ -7717,7 +8176,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Time to chop": {
-    image: "assets/achievements/time_to_chop.png",
+    image: timeToChop,
     description: {
       en: "Craft 500 axes",
       pt: "Craft 500 axes",
@@ -7727,7 +8186,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   Contractor: {
-    image: "assets/achievements/contractor.png",
+    image: contractor,
     description: {
       en: "Have 10 buildings constructed on your land",
       pt: "Have 10 buildings constructed on your land",
@@ -7737,7 +8196,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   Museum: {
-    image: "assets/achievements/museum.png",
+    image: museum,
     description: {
       en: "Have 10 different kinds of rare items placed on your land",
       pt: "Have 10 different kinds of rare items placed on your land",
@@ -7857,7 +8316,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "White Tulips": {
-    image: "assets/decorations/white_tulips.png",
+    image: whiteTulips,
     description: {
       en: "Keep the smell of goblins away.",
       pt: "Mantenha o cheiro dos goblins afastado.",
@@ -7868,7 +8327,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "Keep the smell of goblins away. You can craft this at the Decorations shop at Helios.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -7879,7 +8337,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Potted Sunflower": {
-    image: "assets/decorations/potted_sunflower.png",
+    image: pottedSunflower,
     description: {
       en: "Brighten up your land.",
       pt: "Ilumine sua terra.",
@@ -7890,7 +8348,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "Brighten up your land. You can craft this at the Decorations shop at Helios.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -7901,7 +8358,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   Cactus: {
-    image: "assets/decorations/cactus.png",
+    image: cactus,
     description: {
       en: "Saves water and makes your farm look stunning!",
       pt: "Economiza água e deixa sua fazenda deslumbrante!",
@@ -7912,7 +8369,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "Saves water and makes your farm look stunning! You can craft this at the Decorations shop at Helios.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -7923,7 +8379,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Jack-o-lantern": {
-    image: "assets/sfts/jack_o_lantern.png",
+    image: jackOLanternItem,
     description: {
       en: "A Halloween special event item",
       pt: "Um item especial de evento de Halloween",
@@ -7933,7 +8389,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "A Halloween special event item.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -7948,7 +8403,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Victoria Sisters": {
-    image: "assets/sfts/victoria_sisters.gif",
+    image: victoriaSisters,
     description: {
       en: "The pumpkin loving sisters",
       pt: "As irmãs amantes de abóbora",
@@ -7959,7 +8414,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A Halloween collectible. Increase Pumpkin yield by 20% and summon the necromancer.\n\nTo craft this item you must collect 50 Jack-o-lantern's and trade with the Traveling Salesman.",
-
       attributes: [
         {
           trait_type: "Boost",
@@ -7979,7 +8433,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Basic Bear": {
-    image: "assets/sfts/bears/basic_bear.png",
+    image: basicBear,
     description: {
       en: "A basic bear. Use this at Goblin Retreat to build a bear!",
       pt: "A basic bear. Use this at Goblin Retreat to build a bear!",
@@ -7989,7 +8443,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "A basic bear. Use this to craft advanced bears!",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -8004,7 +8457,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Chef Bear": {
-    image: "assets/sfts/bears/chef_bear.png",
+    image: chefBear,
     description: {
       en: "Every chef needs a helping hand",
       pt: "Todo chef precisa de uma mãozinha",
@@ -8015,7 +8468,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "Every chef needs a helping hand! Bake 13 cakes to unlock this bear.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -8030,7 +8482,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Construction Bear": {
-    image: "assets/sfts/bears/construction_bear.png",
+    image: constructionBear,
     description: {
       en: "Always build in a bear market",
       pt: "Sempre construa em um mercado em baixa",
@@ -8041,7 +8493,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "Always build in a bear market. Build 10 buildings to claim this bear",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -8056,7 +8507,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Angel Bear": {
-    image: "assets/sfts/bears/angel_bear.png",
+    image: angelBear,
     description: {
       en: "Time to transcend peasant farming",
       pt: "Hora de transcender a agricultura camponesa",
@@ -8067,7 +8518,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "Time to transcend peasant farming. Harvest 1 million crops to unlock this bear.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -8082,7 +8532,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Badass Bear": {
-    image: "assets/sfts/bears/badass_bear.png",
+    image: badassBear,
     description: {
       en: "Nothing stands in your way.",
       pt: "Nada fica no seu caminho.",
@@ -8093,7 +8543,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "Nothing stands in your way. Chop 5,000 trees to unlock this bear",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -8108,7 +8557,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Bear Trap": {
-    image: "assets/sfts/bears/bear_trap.png",
+    image: bearTrap,
     description: {
       en: "It's a trap!",
       pt: "É uma armadilha!",
@@ -8119,7 +8568,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "It's a trap! Unlock the high roller achievement to claim this bear",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -8134,7 +8582,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Brilliant Bear": {
-    image: "assets/sfts/bears/brilliant_bear.png",
+    image: brilliantBear,
     description: {
       en: "Pure brilliance!",
       pt: "Pura genialidade!",
@@ -8144,7 +8592,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "Pure brilliance! Reach lvl 20 to claim this bear",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -8159,7 +8606,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Classy Bear": {
-    image: "assets/sfts/bears/classy_bear.png",
+    image: classyBear,
     description: {
       en: "More SFL than you know what to do with it!",
       pt: "Mais SFL do que você sabe o que fazer com isso!",
@@ -8170,7 +8617,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "More SFL than you know what to do with it! Mine 500 gold rocks to claim this bear",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -8185,7 +8631,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Farmer Bear": {
-    image: "assets/sfts/bears/farmer_bear.png",
+    image: farmerBear,
     description: {
       en: "Nothing quite like a hard day's work!",
       pt: "Nada como um dia de trabalho árduo!",
@@ -8196,7 +8642,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "Nothing quite like a hard day's work! Harvest 10,000 crops to unlock this bear",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -8211,7 +8656,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Rich Bear": {
-    image: "assets/sfts/bears/rich_bear.png",
+    image: richBear,
     description: {
       en: "A prized possession",
       pt: "Uma posse valorizada",
@@ -8222,7 +8667,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A prized possession. Unlock the Bumpkin Billionaire achievement to claim this bear",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -8237,7 +8681,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Sunflower Bear": {
-    image: "assets/sfts/bears/sunflower_bear.png",
+    image: sunflowerBear,
     description: {
       en: "A Bear's cherished crop",
       pt: "Uma colheita apreciada pelo urso",
@@ -8248,7 +8692,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A Bear's cherished crop. Harvest 100,000 Sunflowers to unlock this bear.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -8263,7 +8706,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Christmas Bear": {
-    image: "assets/sfts/bears/christmas_bear.png",
+    image: christmasBear,
     description: {
       en: "Santa's favorite",
       pt: "Santa's favorite",
@@ -8273,7 +8716,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "Santa's favourite.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -8288,7 +8730,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Beta Bear": {
-    image: "assets/sfts/bears/sfl_bear.png",
+    image: betaBear,
     description: {
       en: "A bear found through special testing events",
       pt: "Um urso encontrado através de eventos de teste especiais",
@@ -8298,7 +8740,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "A bear found during special testing events",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -8313,7 +8754,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Rainbow Artist Bear": {
-    image: "assets/sfts/bears/rainbow_artist_bear.png",
+    image: rainbowArtistBear,
     description: {
       en: "The owner is a beautiful bear artist!",
       pt: "O proprietário é um belo artista urso!",
@@ -8323,7 +8764,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "The owner is a beautiful bear artist!",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -8338,7 +8778,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Cabbage Boy": {
-    image: "assets/sfts/cabbage_boy.gif",
+    image: cabbageBoy,
     description: {
       en: "Don't wake the baby!",
       pt: "Não acorde o bebê!",
@@ -8348,7 +8788,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "Don't wake the baby!",
-
       attributes: [
         {
           trait_type: "Boost",
@@ -8373,7 +8812,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Cabbage Girl": {
-    image: "assets/sfts/cabbage_girl.gif",
+    image: cabbageGirl,
     description: {
       en: "Shhh it's sleeping",
       pt: "Shhh, está dormindo",
@@ -8383,7 +8822,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "Don't wake the baby!",
-
       attributes: [
         {
           trait_type: "Boost",
@@ -8403,7 +8841,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Wood Nymph Wendy": {
-    image: "assets/sfts/wood_nymph_wendy.gif",
+    image: wendy,
     description: {
       en: "Cast an enchantment to entice the wood fairies.",
       pt: "Lance um encantamento para atrair as fadas da madeira.",
@@ -8413,7 +8851,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "Cast an enchantment to entice the wood fairies.",
-
       attributes: [
         {
           trait_type: "Boost",
@@ -8433,7 +8870,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Peeled Potato": {
-    image: "assets/sfts/peeled_potato.gif",
+    image: prizedPotato,
     description: {
       en: "A precious potato, encourages bonus potatoes on harvest.",
       pt: "Uma batata preciosa, incentiva batatas extras na colheita.",
@@ -8444,7 +8881,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A prized possession. Discover a bonus potato 20% of harvests.",
-
       attributes: [
         {
           trait_type: "Boost",
@@ -8469,7 +8905,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Potent Potato": {
-    image: "assets/sfts/potato_mutant.gif",
+    image: potatoMutant,
     description: {
       en: "Potent! Grants a 3% chance to get +10 potatoes on harvest.",
       pt: "Potente! Concede 3% de chance de obter +10 batatas na colheita.",
@@ -8479,7 +8915,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "Potent! Grants a 3% chance to get +10 potatoes on harvest.",
-
       attributes: [
         {
           trait_type: "Boost",
@@ -8504,7 +8939,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Radical Radish": {
-    image: "assets/sfts/radish_mutant.gif",
+    image: radishMutant,
     description: {
       en: "Radical! Grants a 3% chance to get +10 radishes on harvest.",
       pt: "Radical! Concede 3% de chance de obter +10 rabanetes na colheita.",
@@ -8515,7 +8950,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "Radical! Grants a 3% chance to get +10 radishes on harvest.",
-
       attributes: [
         {
           trait_type: "Boost",
@@ -8540,7 +8974,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Stellar Sunflower": {
-    image: "assets/sfts/sunflower_mutant.gif",
+    image: sunflowerMutant,
     description: {
       en: "Stellar! Grants a 3% chance to get +10 sunflowers on harvest.",
       pt: "Estelar! Concede 3% de chance de obter +10 girassóis na colheita.",
@@ -8551,7 +8985,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "Stellar! Grants a 3% chance to get +10 sunflowers on harvest.",
-
       attributes: [
         {
           trait_type: "Boost",
@@ -8576,7 +9009,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Potted Potato": {
-    image: "assets/decorations/potted_potato.png",
+    image: pottedPotato,
     description: {
       en: "Potato blood runs through your Bumpkin.",
       pt: "O sangue da batata corre pelo seu Bumpkin.",
@@ -8587,7 +9020,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "Potato blood runs through your Bumpkin. You can craft this at the Decorations shop at Helios.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -8598,7 +9030,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Potted Pumpkin": {
-    image: "assets/decorations/potted_pumpkin.webp",
+    image: pottedPumpkin,
     description: {
       en: "Pumpkins for Bumpkins",
       pt: "Pumpkins for Bumpkins",
@@ -8609,7 +9041,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "Pumpkins for Bumpkins. You can craft this at the Decorations shop at Helios.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -8620,7 +9051,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Golden Crop": {
-    image: "assets/events/golden_crop/golden_crop.gif",
+    image: SUNNYSIDE.icons.expression_confused,
     description: {
       en: "A shiny golden crop",
       pt: "Uma safra dourada brilhante",
@@ -8630,7 +9061,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "A shiny golden crop",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -8645,7 +9075,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Christmas Snow Globe": {
-    image: "assets/decorations/snowglobe.gif",
+    image: snowglobe,
     description: {
       en: "Swirl the snow and watch it come to life",
       pt: "Gire a neve e veja-a ganhar vida",
@@ -8656,7 +9086,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "Swirl the snow and watch it come to life. A Christmas collectible.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -8671,7 +9100,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Immortal Pear": {
-    image: "assets/sfts/immortal_pear.webp",
+    image: immortalPear,
     description: {
       en: "Increase the survival of your fruit patches.",
       pt: "Increase the survival of your fruit patches.",
@@ -8682,7 +9111,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "This long-lived pear ensures your fruit tree survives +1 bonus harvest.",
-
       attributes: [
         {
           trait_type: "Boost",
@@ -8706,7 +9134,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Lady Bug": {
-    image: "assets/sfts/ladybug.gif",
+    image: ladybug,
     description: {
       en: "An incredible bug that feeds on aphids. Improves Apple quality.",
       pt: "Um inseto incrível que se alimenta de pulgões. Melhora a qualidade da maçã.",
@@ -8717,7 +9145,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "An incredible bug that feeds on aphids. Improves Apple quality. +0.25 Apples each harvest",
-
       attributes: [
         {
           trait_type: "Boost",
@@ -8737,7 +9164,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Squirrel Monkey": {
-    image: "assets/sfts/squirrel_monkey.gif",
+    image: squirrelMonkey,
     description: {
       en: "A natural orange predator. Orange Trees are scared when a Squirrel Monkey is around.",
       pt: "Um predador natural de laranjas. As árvores de laranja ficam assustadas quando um Macaco-Esquilo está por perto.",
@@ -8748,7 +9175,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A natural orange predator. Orange Trees are scared when a Squirrel Monkey is around. 1/2 Orange Tree grow time.",
-
       attributes: [
         {
           trait_type: "Boost",
@@ -8768,7 +9194,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Black Bearry": {
-    image: "assets/sfts/black_bear.gif",
+    image: blackBear,
     description: {
       en: "His favorite treat - plump, juicy blueberries. Gobbles them up by the handful!",
       pt: "Seu deleite favorito - Mirtilos suculentos e rechonchudos. Devora-os a punhados!",
@@ -8779,7 +9205,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "His favorite treat - plump, juicy blueberries. Gobbles them up by the handful! +1 Blueberry each Harvest",
-
       attributes: [
         {
           trait_type: "Boost",
@@ -8799,7 +9224,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Devil Bear": {
-    image: "assets/sfts/bears/devil_bear.png",
+    image: devilBear,
     description: {
       en: "Better the Devil you know than the Devil you don't",
       pt: "Melhor o Diabo que você conhece do que o Diabo que você não conhece",
@@ -8809,7 +9234,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "Better the Devil you know than the Devil you don't.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -8824,7 +9248,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Orange Squeeze": {
-    image: "assets/achievements/orange_squeeze.png",
+    image: orangeSqueeze,
     description: {
       en: "Harvest Orange 100 times",
       pt: "Harvest Orange 100 times",
@@ -8834,7 +9258,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Apple of my Eye": {
-    image: "assets/achievements/apple_of_my_eye.png",
+    image: appleOfMyEye,
     description: {
       en: "Harvest Apple 500 times",
       pt: "Harvest Apple 500 times",
@@ -8844,7 +9268,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Blue Chip": {
-    image: "assets/achievements/blue_chip.png",
+    image: blueChip,
     description: {
       en: "Harvest Blueberry 5,000 times",
       pt: "Harvest Blueberry 5,000 times",
@@ -8854,7 +9278,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Fruit Platter": {
-    image: "assets/achievements/fruit_platter.png",
+    image: fruitPlatter,
     description: {
       en: "Harvest 50,000 fruits",
       pt: "Harvest 50,000 fruits",
@@ -8864,7 +9288,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Ayam Cemani": {
-    image: "assets/animals/chickens/ayam_cemani.gif",
+    image: ayamCemani,
     description: {
       en: "The rarest chicken in existence!",
       pt: "O frango mais raro que existe!",
@@ -8875,7 +9299,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "The rarest chicken in Sunflower Land. This mutant adds a boost of +0.2 egg yield.",
-
       attributes: [
         {
           display_type: "boost_number",
@@ -8895,7 +9318,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Collectible Bear": {
-    image: "assets/sfts/bears/collectible_bear.png",
+    image: collectibleBear,
     description: {
       en: "A prized bear, still in mint condition!",
       pt: "Um urso valioso, ainda em condição de menta!",
@@ -8905,7 +9328,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "A prized bear, still in mint condition!",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -8920,7 +9342,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Cyborg Bear": {
-    image: "assets/sfts/bears/cyborg_bear.png",
+    image: cyborgBear,
     description: {
       en: "Hasta la vista, bear",
       pt: "Hasta la vista, urso",
@@ -8930,7 +9352,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "Hasta la vista, bear",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -8945,7 +9366,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Maneki Neko": {
-    image: "assets/sfts/maneki_neko.gif",
+    image: manekiNeko,
     description: {
       en: "The beckoning cat. Pull its arm and good luck will come",
       pt: "O gato da sorte. Puxe o braço e a boa sorte virá",
@@ -8956,7 +9377,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "The beckoning cat. Pull its arm and good luck will come. A special event item from Lunar New Year!",
-
       attributes: [
         {
           trait_type: "Boost",
@@ -8976,7 +9396,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Red Envelope": {
-    image: "assets/icons/red_envelope.png",
+    image: redEnvelope,
     description: {
       en: "Wow, you are lucky!",
       pt: "Uau, você tem sorte!",
@@ -8987,7 +9407,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "Wow, you are lucky! An item from Lunar New Year special event.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -9002,7 +9421,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Love Letter": {
-    image: "assets/icons/love_letter.png",
+    image: loveLetter,
     description: {
       en: "Convey feelings of love",
       pt: "Expressar sentimentos de amor",
@@ -9012,7 +9431,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "Convey feelings of love",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -9027,7 +9445,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Clam Shell": {
-    image: "assets/sfts/treasure/clam_shell.webp",
+    image: clamShell,
     description: {
       en: "A clam shell.",
       pt: "Uma concha de marisco.",
@@ -9037,7 +9455,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "Find at Treasure Island ???",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -9062,7 +9479,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "Find at Treasure Island ???",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -9087,7 +9503,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "Find at Treasure Island ???",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -9112,7 +9527,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "Find at Treasure Island ???",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -9137,7 +9551,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "Find at Treasure Island ???",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -9162,7 +9575,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "A bounty for a pirate. It's worth a lot of money.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -9177,7 +9589,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Pirate Cake": {
-    image: "assets/food/cakes/pirate_cake.webp",
+    image: pirateCake,
     description: {
       en: "Great for Pirate themed birthday parties.",
       pt: "Great for Pirate themed birthday parties.",
@@ -9187,7 +9599,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "Great for Pirate themed birthday parties.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -9202,7 +9613,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Abandoned Bear": {
-    image: "assets/sfts/bears/abandoned_bear.png",
+    image: abandonedBear,
     description: {
       en: "A bear that was left behind on the island.",
       pt: "Um urso que foi deixado para trás na ilha.",
@@ -9212,7 +9623,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "A bear that was left behind on the island.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -9227,7 +9637,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Turtle Bear": {
-    image: "assets/sfts/bears/turtle_bear.webp",
+    image: turtleBear,
     description: {
       en: "Turtley enough for the turtle club.",
       pt: "Suficientemente tartarugoso para o clube da tartaruga.",
@@ -9237,7 +9647,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "Turtley enough for the turtle club.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -9252,7 +9661,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "T-Rex Skull": {
-    image: "assets/sfts/t_rex_skull.webp",
+    image: tRexSkull,
     description: {
       en: "A skull from a T-Rex! Amazing!",
       pt: "Um crânio de um T-Rex! Incrível!",
@@ -9262,7 +9671,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "A skull from a T-Rex! Amazing!",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -9277,7 +9685,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Sunflower Coin": {
-    image: "assets/sfts/sunflower_coin.webp",
+    image: sunflowerCoin,
     description: {
       en: "A coin made of sunflowers.",
       pt: "Uma moeda feita de girassóis.",
@@ -9287,7 +9695,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "A coin made of sunflowers.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -9302,7 +9709,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   Foliant: {
-    image: "assets/sfts/foliant.webp",
+    image: foliant,
     description: {
       en: "A book of spells.",
       pt: "Um livro de feitiços.",
@@ -9312,7 +9719,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "A book of spells.",
-
       attributes: [
         {
           trait_type: "Boost",
@@ -9336,7 +9742,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Skeleton King Staff": {
-    image: "assets/sfts/skeleton_king_staff.webp",
+    image: skeletonKingStaff,
     description: {
       en: "All hail the Skeleton King!",
       pt: "Toda a glória ao Rei Esquelético!",
@@ -9346,7 +9752,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "All hail the Skeleton King!",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -9361,7 +9766,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Lifeguard Bear": {
-    image: "assets/sfts/bears/lifeguard_bear.webp",
+    image: lifeguardBear,
     description: {
       en: "Lifeguard Bear is here to save the day!",
       pt: "O Urso Salva-vidas está aqui para salvar o dia!",
@@ -9371,7 +9776,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "Lifeguard Bear is here to save the day!",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -9386,7 +9790,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Snorkel Bear": {
-    image: "assets/sfts/bears/snorkel_bear.webp",
+    image: snorkelBear,
     description: {
       en: "Snorkel Bear loves to swim.",
       pt: "O Urso Snorkel adora nadar.",
@@ -9396,7 +9800,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "Snorkel Bear loves to swim.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -9411,7 +9814,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Parasaur Skull": {
-    image: "assets/sfts/parasaur_skull.webp",
+    image: parasaurSkull,
     description: {
       en: "A skull from a parasaur!",
       pt: "Um crânio de um parasaur!",
@@ -9421,7 +9824,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "A skull from a parasaur!",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -9436,7 +9838,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Goblin Bear": {
-    image: "assets/sfts/bears/goblin_bear.webp",
+    image: goblinBear,
     description: {
       en: "A goblin bear. It's a bit scary.",
       pt: "Um urso goblin. É um pouco assustador.",
@@ -9446,7 +9848,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "A goblin bear. It's a bit scary.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -9461,7 +9862,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Golden Bear Head": {
-    image: "assets/sfts/golden_bear_head.webp",
+    image: goldenBearHead,
     description: {
       en: "Spooky, but cool.",
       pt: "Assustador, mas legal.",
@@ -9471,7 +9872,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "Spooky, but cool.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -9486,7 +9886,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Pirate Bear": {
-    image: "assets/sfts/bears/pirate_bear.webp",
+    image: pirateBear,
     description: {
       en: "Argh, matey! Hug me!",
       pt: "Argh, pirata! Abraço!",
@@ -9496,7 +9896,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "Argh, matey! Hug me!",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -9511,7 +9910,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   Galleon: {
-    image: "assets/sfts/galleon.webp",
+    image: galleon,
     description: {
       en: "A toy ship, still in pretty good nick.",
       pt: "Um navio de brinquedo, ainda em muito bom estado.",
@@ -9521,7 +9920,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "A toy ship, still in pretty good nick.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -9536,7 +9934,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Dinosaur Bone": {
-    image: "assets/sfts/dinosaur_bone.webp",
+    image: dinosaurBone,
     description: {
       en: "A Dinosaur Bone! What kind of creature was this?",
       pt: "Um Osso de Dinossauro! Que tipo de criatura era esta?",
@@ -9546,7 +9944,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "A Dinosaur Bone! What kind of creature was this?",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -9561,7 +9958,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Human Bear": {
-    image: "assets/sfts/bears/human_bear.webp",
+    image: humanBear,
     description: {
       en: "A human bear. Even scarier than a goblin bear.",
       pt: "Um urso humano. Ainda mais assustador do que um urso goblin.",
@@ -9571,7 +9968,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "A human bear. Even scarier than a goblin bear.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -9586,7 +9982,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Wooden Compass": {
-    image: "assets/sfts/treasure/wooden_compass.webp",
+    image: woodenCompass,
     description: {
       en: "It may not be high-tech, but it will always steer you in the right direction, wood you believe it?",
       pt: "Pode não ser alta tecnologia, mas sempre vai te guiar na direção certa, você acreditaria nisso?",
@@ -9598,7 +9994,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "It may not be high-tech, but it will always steer you in the right direction, wood you believe it?",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -9613,7 +10008,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Iron Compass": {
-    image: "assets/sfts/treasure/iron_compass.webp",
+    image: ironCompass,
     description: {
       en: "Iron out your path to treasure! This compass is 'attract'-ive, and not just to the magnetic North!",
       pt: "Endireite seu caminho para o tesouro! Esta bússola é 'atrativa', e não apenas para o Norte magnético!",
@@ -9625,7 +10020,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "Iron out your path to treasure! This compass is 'attract'-ive, and not just to the magnetic North!",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -9640,7 +10034,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Emerald Compass": {
-    image: "assets/sfts/treasure/emerald_compass.webp",
+    image: emeraldCompass,
     description: {
       en: "Guide your way through the lush mysteries of life! This compass doesn't just point North, it points towards opulence and grandeur!",
       pt: "Guie seu caminho através dos mistérios exuberantes da vida! Esta bússola aponta para a opulência e grandiosidade!",
@@ -9652,7 +10046,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "Guide your way through the lush mysteries of life! This compass doesn't just point North, it points towards opulence and grandeur!",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -9667,7 +10060,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Old Bottle": {
-    image: "assets/sfts/treasure/old_bottle.png",
+    image: oldBottle,
     description: {
       en: "Antique pirate bottle, echoing tales of high seas adventure.",
       pt: "Garrafa de pirata antiga, ecoando contos de aventura em alto mar.",
@@ -9678,7 +10071,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "Antique pirate bottle, echoing tales of high seas adventure.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -9693,7 +10085,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Tiki Totem": {
-    image: "assets/sfts/tiki_totem.webp",
+    image: tikiTotem,
     description: {
       en: "The Tiki Totem adds 0.1 wood to every tree you chop.",
       pt: "O Totem Tiki adiciona 0,1 madeira a cada árvore que você corta.",
@@ -9703,7 +10095,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "The Tiki Totem adds 0.1 wood to every tree you chop.",
-
       attributes: [
         {
           trait_type: "Boost",
@@ -9723,7 +10114,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Lunar Calendar": {
-    image: "assets/sfts/lunar_calendar.webp",
+    image: lunarCalendar,
     description: {
       en: "Crops now follow the lunar cycle! 10% increase to crop growth speed.",
       pt: "Os cultivos agora seguem o ciclo lunar! Aumento de 10% na velocidade de crescimento das plantações.",
@@ -9734,7 +10125,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "Crops now follow the lunar cycle! 10% reduction in growth time.",
-
       attributes: [
         {
           trait_type: "Boost",
@@ -9754,7 +10144,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Heart of Davy Jones": {
-    image: "assets/sfts/heart_of_davy_jones.gif",
+    image: heartOfDavyJones,
     description: {
       en: "Whoever possesses it holds immense power over the seven seas, can dig for treasure without tiring.",
       pt: "Quem o possui detém um poder imenso sobre os sete mares, pode cavar tesouros sem se cansar.",
@@ -9765,7 +10155,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "Whoever possesses it holds immense power over the seven seas, can dig for treasure without tiring.",
-
       attributes: [
         {
           trait_type: "Boost",
@@ -9785,7 +10174,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Treasure Map": {
-    image: "assets/sfts/treasure/treasure_map.webp",
+    image: treasureMap,
     description: {
       en: "An enchanted map that leads the holder to valuable treasure. +20% profit from beach bounty items.",
       pt: "Um mapa encantado que leva o portador a tesouros valiosos. +20% de lucro com a venda de itens de recompensa da praia.",
@@ -9796,7 +10185,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "An enchanted map that leads the holder to valuable treasure. +20% profit from beach bounty items.",
-
       attributes: [
         {
           trait_type: "Boost",
@@ -9816,7 +10204,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Heart Balloons": {
-    image: "assets/events/valentine/sfts/heart_balloons.png",
+    image: heartBalloons,
     description: {
       en: "Use them as decorations for romantic occasions.",
       pt: "Use-os como decoração para ocasiões românticas.",
@@ -9826,7 +10214,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "Use them as decorations for romantic occasions.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -9841,7 +10228,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   Flamingo: {
-    image: "assets/events/valentine/sfts/flamingo.webp",
+    image: flamingo,
     description: {
       en: "Represents a symbol of love's beauty standing tall and confident.",
       pt: "Representa um símbolo da beleza do amor, alto e confiante.",
@@ -9852,7 +10239,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "Represents a symbol of love's beauty standing tall and confident.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -9867,7 +10253,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Blossom Tree": {
-    image: "assets/events/valentine/sfts/blossom_tree.png",
+    image: blossomTree,
     description: {
       en: "Its delicate petals symbolizes the beauty and fragility of love.",
       pt: "Suas delicadas pétalas simbolizam a beleza e fragilidade do amor.",
@@ -9878,7 +10264,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "Its delicate petals symbolizes the beauty and fragility of love.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -9893,7 +10278,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   Pearl: {
-    image: "assets/sfts/treasure/pearl.webp",
+    image: pearl,
     description: {
       en: "Shimmers in the sun.",
       pt: "Brilha ao sol.",
@@ -9903,7 +10288,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "Shimmers in the sun.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -9918,7 +10302,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   Pipi: {
-    image: "assets/sfts/treasure/pipi.webp",
+    image: pipi,
     description: {
       en: "Plebidonax deltoides, found in the Pacific Ocean.",
       pt: "Plebidonax deltoides, encontrado no Oceano Pacífico.",
@@ -9928,7 +10312,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "Plebidonax deltoides, found in the Pacific Ocean.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -9943,7 +10326,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   Seaweed: {
-    image: "assets/sfts/treasure/seaweed.webp",
+    image: seaweed,
     description: {
       en: "Seaweed.",
       pt: "Algas marinhas.",
@@ -9953,7 +10336,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "Seaweed.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -9968,7 +10350,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Whale Bear": {
-    image: "assets/sfts/bears/whale_bear.webp",
+    image: whaleBear,
     description: {
       en: "It has a round, furry body like a bear, but with the fins, tail, and blowhole of a whale.",
       pt: "Tem um corpo redondo e peludo como um urso, mas com as barbatanas, cauda e sopro de uma baleia.",
@@ -9979,7 +10361,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "It has a round, furry body like a bear, but with the fins, tail, and blowhole of a whale.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -9994,7 +10375,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Valentine Bear": {
-    image: "assets/sfts/bears/love_bear.png",
+    image: valentineBear,
     description: {
       en: "For those who love.",
       pt: "Para aqueles que amam.",
@@ -10005,7 +10386,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A bear for those who love. Awarded to people who showed some love",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -10020,7 +10400,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Easter Bear": {
-    image: "assets/sfts/bears/easter_bear.png",
+    image: easterBear,
     description: {
       en: "How can a Bunny lay eggs?",
       pt: "Como um coelho pode botar ovos?",
@@ -10030,7 +10410,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "A bear with bunny ears?",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -10045,7 +10424,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Easter Bush": {
-    image: "assets/sfts/easter_bush.gif",
+    image: easterBush,
     description: {
       en: "What is inside?",
       pt: "O que tem dentro?",
@@ -10055,7 +10434,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "What is inside?",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -10070,7 +10448,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Giant Carrot": {
-    image: "assets/sfts/giant_carrot.png",
+    image: giantCarrot,
     description: {
       en: "A giant carrot stood, casting fun shadows, as rabbits gazed in wonder.",
       pt: "Uma cenoura gigante ficou, lançando sombras divertidas, enquanto coelhos observavam maravilhados.",
@@ -10081,7 +10459,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A giant carrot stood, casting fun shadows, as rabbits gazed in wonder.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -10096,7 +10473,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Iron Idol": {
-    image: "assets/sfts/iron_idol.webp",
+    image: ironIdol,
     description: {
       en: "The Idol adds 1 iron every time you mine iron.",
       pt: "O Ídolo adiciona 1 ferro toda vez que você minera ferro.",
@@ -10106,7 +10483,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "The Idol adds 1 iron every time you mine iron.",
-
       attributes: [
         {
           trait_type: "Boost",
@@ -10130,7 +10506,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Genie Lamp": {
-    image: "assets/sfts/genie_lamp.png",
+    image: genieLamp,
     description: {
       en: "A magical lamp that contains a genie who will grant you three wishes.",
       pt: "Uma lâmpada mágica que contém um gênio que concederá três desejos.",
@@ -10141,7 +10517,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A magical lamp that contains a genie who will grant you three wishes.",
-
       attributes: [
         {
           trait_type: "Boost",
@@ -10161,7 +10536,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Emerald Turtle": {
-    image: "assets/sfts/aoe/emerald_turtle.webp",
+    image: emeraldTurtle,
     description: {
       en: "The Emerald Turtle gives +0.5 to any minerals you mine within its Area of Effect.",
       pt: "A Tartaruga Esmeralda dá +0,5 a quaisquer minerais que você minera dentro de sua Área de Efeito.",
@@ -10173,7 +10548,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "The Emerald Turtle gives +0.5 to any minerals you mine within its Area of Effect.",
-
       attributes: [
         {
           trait_type: "Boost",
@@ -10202,7 +10576,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Tin Turtle": {
-    image: "assets/sfts/aoe/tin_turtle.webp",
+    image: tinTurtle,
     description: {
       en: "The Tin Turtle gives +0.1 to Stones you mine within its Area of Effect.",
       pt: "A Tartaruga de Estanho dá +0,1 a Pedras que você minera dentro de sua Área de Efeito.",
@@ -10213,7 +10587,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "The Tin Turtle gives +0.1 to Stones you mine within its Area of Effect.",
-
       attributes: [
         {
           trait_type: "Boost",
@@ -10242,7 +10615,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Basic Scarecrow": {
-    image: "assets/sfts/aoe/basic_scarecrow.png",
+    image: basicScarecrow,
     description: {
       en: "Boost nearby Sunflowers, Potatoes and Pumpkins.",
       pt: "Boost nearby Sunflowers, Potatoes and Pumpkins.",
@@ -10252,7 +10625,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "Choosy defender of your farm's VIP (Very Important Plants)",
-
       attributes: [
         {
           trait_type: "Boost",
@@ -10281,7 +10653,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   Bale: {
-    image: "assets/sfts/aoe/bale.png",
+    image: bale,
     description: {
       en: "Boost nearby chickens.",
       pt: "Vizinho favorito das aves, fornece um retiro aconchegante para as galinhas",
@@ -10292,7 +10664,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A poultry's favorite neighbor, providing a cozy retreat for chickens",
-
       attributes: [
         {
           trait_type: "Boost",
@@ -10321,7 +10692,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Sir Goldensnout": {
-    image: "assets/sfts/aoe/sir_goldensnout.png",
+    image: sirGoldenSnout,
     description: {
       en: "A royal member, Sir GoldenSnout infuses your farm with sovereign prosperity through its golden manure.",
       pt: "A royal member, Sir GoldenSnout infuses your farm with sovereign prosperity through its golden manure.",
@@ -10333,7 +10704,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A royal member, Sir GoldenSnout infuses your farm with sovereign prosperity through its golden manure.",
-
       attributes: [
         {
           trait_type: "Boost",
@@ -10362,7 +10732,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Scary Mike": {
-    image: "assets/sfts/aoe/scary_mike.png",
+    image: scaryMike,
     description: {
       en: "Boost nearby Carrots, Cabbages, Soybeans, Beetroots, Cauliflowers and Parsnips",
       pt: "Boost nearby Carrots, Cabbages, Soybeans, Beetroots, Cauliflowers and Parsnips",
@@ -10374,7 +10744,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "The veggie whisperer and champion of frightfully good harvests!",
-
       attributes: [
         {
           trait_type: "Boost",
@@ -10403,7 +10772,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Laurie the Chuckle Crow": {
-    image: "assets/sfts/aoe/laurie.png",
+    image: laurie,
     description: {
       en: "Boost nearby Eggplant, Corn, Radish, Wheat and Kale",
       pt: "Boost nearby Eggplant, Corn, Radish, Wheat and Kale",
@@ -10414,7 +10783,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "With her disconcerting chuckle, she shooes peckers away from your crops!",
-
       attributes: [
         {
           trait_type: "Boost",
@@ -10443,7 +10811,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Freya Fox": {
-    image: "assets/sfts/freya_fox.png",
+    image: freyaFox,
     description: {
       en: "Enchanting guardian, boosts pumpkin growth with her mystical charm. Harvest abundant pumpkins under her watchful gaze.",
       pt: "Enchanting guardian, boosts pumpkin growth with her mystical charm. Harvest abundant pumpkins under her watchful gaze.",
@@ -10455,7 +10823,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "Enchanting guardian, boosts pumpkin growth with her mystical charm. Harvest abundant pumpkins under her watchful gaze.",
-
       attributes: [
         {
           trait_type: "Boost",
@@ -10475,7 +10842,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Queen Cornelia": {
-    image: "assets/sfts/aoe/queen_cornelia.png",
+    image: queenCornelia,
     description: {
       en: "Command the regal power of Queen Cornelia and experience a magnificent Area of Effect boost to your corn production. +1 Corn.",
       pt: "Comande o poder régio da Rainha Cornelia e experimente um magnífico impulso de Área de Efeito para a produção de milho. +1 Milho.",
@@ -10487,7 +10854,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "Command the regal power of Queen Cornelia and experience a magnificent Area of Effect boost to your corn production. +1 Corn.",
-
       attributes: [
         {
           trait_type: "Boost",
@@ -10516,7 +10882,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Compost Bin": {
-    image: "assets/composters/composter_basic.png",
+    image: basicComposter,
     description: {
       en: "Produces bait & fertiliser on a regular basis.",
       pt: "Produz iscas e fertilizantes regularmente.",
@@ -10527,7 +10893,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "Creates a nurturing Sprout Mix compost and unearths Earthworm bait for your fishing adventures!",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -10542,7 +10907,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Turbo Composter": {
-    image: "assets/composters/composter_advanced.png",
+    image: advancedComposter,
     description: {
       en: "Produces advanced bait & fertiliser on a regular basis.",
       pt: "Produz iscas e fertilizantes avançados regularmente.",
@@ -10553,7 +10918,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "Produces a bountiful Fruitful Blend compost and discovers Grub bait eager to join you in fishing!",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -10568,7 +10932,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Premium Composter": {
-    image: "assets/composters/composter_expert.png",
+    image: expertComposter,
     description: {
       en: "Produces expert bait & fertiliser on a regular basis.",
       pt: "Produz iscas e fertilizantes especialistas regularmente.",
@@ -10579,7 +10943,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "Generates a robust Rapid Root compost mix and reveals Red Wiggler bait for the perfect fishing expedition!",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -10594,7 +10957,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Solar Flare Ticket": {
-    image: "assets/icons/solar_flare_ticket.png",
+    image: solarFlareTicket,
     description: {
       en: "A ticket used during the Solar Flare Season",
       pt: "Um ticket usado durante a Temporada de Solar Flare",
@@ -10604,7 +10967,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "A ticket used during the Solar Flare Season",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -10619,7 +10981,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Dawn Breaker Ticket": {
-    image: "assets/icons/dawn_breaker_ticket.png",
+    image: dawnBreakerTicket,
     description: {
       en: "A ticket used during the Dawn Breaker Season",
       pt: "Um ticket usado durante a Temporada Danw Breaker",
@@ -10629,7 +10991,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "A ticket used during the Dawn Breaker Season",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -10644,7 +11005,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Crow Feather": {
-    image: "assets/icons/crow_feather.webp",
+    image: crowFeather,
     description: {
       en: "A ticket used during the Witches' Eve Ticket Season",
       pt: "Um ticket usado durante Whiches' Eve",
@@ -10654,7 +11015,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "A ticket used during the Witches' Eve Season",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -10669,7 +11029,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Mermaid Scale": {
-    image: "assets/icons/mermaid_scale.webp",
+    image: mermaidScale,
     description: {
       en: "A ticket used during the Catch the Kraken Season",
       pt: "Um ticket usado durante a Temporada de Catch the Kraken",
@@ -10679,7 +11039,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "A ticket used during the Catch the Kraken Season",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -10694,7 +11053,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Tulip Bulb": {
-    image: "assets/icons/tulip_bulb.png",
+    image: tulipBulb,
     description: {
       en: "A ticket used during the Spring Blossom",
       pt: "Um ticket usado durante a ",
@@ -10704,7 +11063,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "A ticket used during the Spring Blossom",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -10719,7 +11077,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   Scroll: {
-    image: "assets/icons/scroll.webp",
+    image: scroll,
     description: {
       en: "A ticket used during the Clash of Factions Season",
       pt: "Um ticket usado durante a temporada Clash of Factions",
@@ -10729,7 +11087,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "A ticket used during the Clash of Factions Season",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -10744,7 +11101,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Bumpkin Emblem": {
-    image: "assets/icons/bumpkin_emblem.webp",
+    image: bumpkinEmblem,
     description: {
       en: "Show your allegiance to the Bumpkins",
       pt: "Show your allegiance to the Bumpkins",
@@ -10755,7 +11112,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A symbol of the Bumpkin Faction. Show your support for the Bumpkin Faction with this emblem.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -10766,7 +11122,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Goblin Emblem": {
-    image: "assets/icons/goblin_emblem.webp",
+    image: goblinEmblem,
     description: {
       en: "Show your allegiance to the Goblins",
       pt: "Show your allegiance to the Goblins",
@@ -10777,7 +11133,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A symbol of the Goblin Faction. Show your support for the Goblin Faction with this emblem.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -10788,7 +11143,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Nightshade Emblem": {
-    image: "assets/icons/nightshade_emblem.webp",
+    image: nightshadeEmblem,
     description: {
       en: "Show your allegiance to the Nightshades",
       pt: "Show your allegiance to the Nightshades",
@@ -10799,7 +11154,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A symbol of the Nightshade Faction. Show your support for the Nightshade Faction with this emblem.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -10810,7 +11164,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Sunflorian Emblem": {
-    image: "assets/icons/sunflorian_emblem.webp",
+    image: sunflorianEmblem,
     description: {
       en: "Show your allegiance to the Sunflorians",
       pt: "Show your allegiance to the Sunflorians",
@@ -10821,7 +11175,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A symbol of the Sunflorian Faction. Show your support for the Sunflorian Faction with this emblem.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -10832,7 +11185,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   Mark: {
-    image: "assets/icons/faction_mark.webp",
+    image: mark,
     description: {
       en: "Use these in the faction shop",
       pt: "Use these in the faction shop",
@@ -10842,7 +11195,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "Currency of the Factions. Use this in the Marks Shop.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -10853,7 +11205,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Sunflower Supporter": {
-    image: "assets/icons/supporter_ticket.png",
+    image: supporterTicket,
     description: {
       en: "The mark of a true supporter of the game!",
       pt: "A marca de um verdadeiro apoiador do jogo!",
@@ -10863,7 +11215,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "A true supporter of the project",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -10878,7 +11229,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Treasure Key": {
-    image: "assets/sfts/quest/sunflower_key.png",
+    image: sunflowerKey,
     description: {
       en: "Visit the plaza to unlock your reward",
       pt: "Visite o Plaza para desbloquear sua recompensa",
@@ -10888,7 +11239,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "A magic key that can unlock rewards in the plaza",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -10903,7 +11253,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Beach Ball": {
-    image: "assets/seasons/solar-flare/beach_ball.webp",
+    image: beachBall,
     description: {
       en: "Bouncy ball brings beachy vibes, blows boredom away.",
       pt: "A bola saltitante traz vibrações de praia, afasta o tédio.",
@@ -10913,7 +11263,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "Bouncy ball brings beachy vibes, blows boredom away.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -10928,7 +11277,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Palm Tree": {
-    image: "assets/seasons/solar-flare/palm_tree.webp",
+    image: palmTree,
     description: {
       en: "Tall, beachy, shady and chic, palm trees make waves sashay.",
       pt: "Alto, de praia, sombreado e chique, as palmeiras fazem as ondas gingarem.",
@@ -10939,7 +11288,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "Tall, beachy, shady and chic, palm trees make waves sashay.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -10954,7 +11302,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   Karkinos: {
-    image: "assets/seasons/solar-flare/karkinos.png",
+    image: karkinos,
     description: {
       en: "Pinchy but kind, the crabby cabbage-boosting addition to your farm!",
       pt: "Afiado mas gentil, adição de repolho “caranguejo” à sua fazenda!",
@@ -10965,7 +11313,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "Pinchy but kind, the crabby cabbage-boosting addition to your farm!",
-
       attributes: [
         {
           trait_type: "Boost",
@@ -10985,7 +11332,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Mushroom House": {
-    image: "assets/seasons/dawn-breaker/mushroom_house.png",
+    image: mushroomHouse,
     description: {
       en: "A whimsical, fungi-abode where the walls sprout with charm and even the furniture has a 'spore-tacular' flair!",
       pt: "Uma morada fungosa e caprichosa onde as paredes brotam com charme e até os móveis têm um toque 'esporacular'!",
@@ -10996,7 +11343,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A whimsical, fungi-abode where the walls sprout with charm and even the furniture has a 'spore-tacular' flair!",
-
       attributes: [
         {
           trait_type: "Boost",
@@ -11030,7 +11376,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "Build your farming empire with this basic piece of land",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -11055,7 +11400,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "A precious piece of soil used to plant crops.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -11070,7 +11414,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Sunstone Rock": {
-    image: "assets/resources/sunstone/sunstone_rock_1.webp",
+    image: sunstoneRock,
     description: {
       en: "A mineable rock to collect sunstone",
       pt: "A mineable rock to collect sunstone",
@@ -11080,7 +11424,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "A radiant gem, essential for advanced crafting.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -11095,7 +11438,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Gold Rock": {
-    image: "assets/resources/gold_small.png",
+    image: goldRock,
     description: {
       en: "A mineable rock to collect gold",
       pt: "Uma rocha minerável para coletar ouro",
@@ -11105,7 +11448,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "A scarce resource that can be used to mine gold",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -11120,7 +11462,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Iron Rock": {
-    image: "assets/resources/iron_small.png",
+    image: ironRock,
     description: {
       en: "A mineable rock to collect iron",
       pt: "Uma rocha minerável para coletar ferro",
@@ -11130,7 +11472,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "Wow, a shiny iron rock. Used to mine iron ore",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -11145,7 +11486,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Stone Rock": {
-    image: "assets/resources/stone_small.png",
+    image: stoneRock,
     description: {
       en: "A mineable rock to collect stone",
       pt: "Uma rocha minerável para coletar pedra",
@@ -11155,7 +11496,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "A staple mineral for your mining journey",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -11170,7 +11510,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Crimstone Rock": {
-    image: "assets/resources/crimstone/crimstone_rock_1.webp",
+    image: crimstoneRock,
     description: {
       en: "A mineable rock to collect crimstone",
       pt: "Uma rocha minerável para coletar Crimstone",
@@ -11180,7 +11520,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "A rare resource used to mine crimstones",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -11195,7 +11534,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Oil Reserve": {
-    image: "assets/resources/oil/oil_reserve_full.webp",
+    image: oilReserve,
     description: {
       en: "A source of oil",
       pt: "Uma reserva para coletar petróleo",
@@ -11205,7 +11544,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "A valuable resource used to mine oil",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -11230,7 +11568,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "Nature's most precious resource. Used to collect wood",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -11255,7 +11592,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "A bountiful piece of land used to plant fruit",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -11270,7 +11606,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Flower Bed": {
-    image: "assets/flowers/empty.webp",
+    image: flowerBed,
     description: {
       en: "An empty plot to plant flowers on",
       pt: "Um terreno vazio para plantar flores",
@@ -11280,7 +11616,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "A beautiful piece of land used to plant flowers",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -11305,7 +11640,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "???",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -11320,7 +11654,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Dirt Path": {
-    image: "assets/sfts/dirt_path.png",
+    image: dirt,
     description: {
       en: "Keep your farmer boots clean with a well trodden path.",
       pt: "Mantenha suas botas de fazendeiro limpas com um caminho bem pisado.",
@@ -11330,7 +11664,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "Keep your farmer boots clean and travel on paths!",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -11345,7 +11678,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   Bush: {
-    image: "assets/decorations/bush.png",
+    image: bush,
     description: {
       en: "What's lurking in the bushes?",
       pt: "O que está espreitando nas moitas?",
@@ -11355,7 +11688,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "Keep your Bumpkins happy with these bushy bushes.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -11370,7 +11702,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   Fence: {
-    image: "assets/decorations/fence.png",
+    image: fence,
     description: {
       en: "Add a touch of rustic charm to your farm.",
       pt: "Adicione um toque de charme rústico à sua fazenda.",
@@ -11380,7 +11712,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "Those cheeky chickens won't be escaping anymore!",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -11395,7 +11726,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Stone Fence": {
-    image: "assets/decorations/stone_fence.png",
+    image: stoneFence,
     description: {
       en: "Embrace the timeless elegance of a stone fence.",
       pt: "Abrace a elegância atemporal de uma cerca de pedra.",
@@ -11405,7 +11736,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "Embrace the timeless elegance of a stone fence.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -11420,7 +11750,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   Shrub: {
-    image: "assets/decorations/shrub.png",
+    image: shrub,
     description: {
       en: "Enhance your in-game landscaping with a beautiful shrub",
       pt: "Melhore seu paisagismo no jogo com um arbusto bonito",
@@ -11431,7 +11761,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "It aint much, but it adds some green to your beautiful island",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -11446,7 +11775,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Pine Tree": {
-    image: "assets/decorations/pine_tree.png",
+    image: pineTree,
     description: {
       en: "Standing tall and mighty, a needle-clad dream.",
       pt: "De pé alto e poderoso.",
@@ -11456,7 +11785,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "Standing tall and mighty, a needle-clad dream.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -11471,7 +11799,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Field Maple": {
-    image: "assets/decorations/field_maple.webp",
+    image: fieldMaple,
     description: {
       en: "A petite charmer that spreads its leaves like a delicate green canopy.",
       pt: "Um charme pequeno que espalha suas folhas como um dossel verde delicado.",
@@ -11482,7 +11810,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A petite charmer that spreads its leaves like a delicate green canopy.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -11497,7 +11824,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Red Maple": {
-    image: "assets/decorations/red_maple.webp",
+    image: redMaple,
     description: {
       en: "Fiery foliage and a heart full of autumnal warmth.",
       pt: "Folhagem ardente e um coração cheio de calor outonal.",
@@ -11507,7 +11834,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "Fiery foliage and a heart full of autumnal warmth.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -11522,7 +11848,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Golden Maple": {
-    image: "assets/decorations/golden_maple.webp",
+    image: goldenMaple,
     description: {
       en: "Radiating brilliance with its shimmering golden leaves.",
       pt: "Irradiando brilho com suas folhas douradas cintilantes.",
@@ -11532,7 +11858,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "Radiating brilliance with its shimmering golden leaves.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -11547,7 +11872,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Solar Flare Banner": {
-    image: "assets/decorations/banners/solar_flare_banner.png",
+    image: solarFlareBanner,
     description: {
       en: "?",
       pt: "?",
@@ -11558,7 +11883,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "The temperature is rising in Sunflower Land. The mark of a participant in our inaugural season.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -11573,7 +11897,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Dawn Breaker Banner": {
-    image: "assets/decorations/banners/dawn_breaker_banner.png",
+    image: dawnBreakerBanner,
     description: {
       en: "?",
       pt: "?",
@@ -11584,7 +11908,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A mysterious darkness is plaguing Sunflower Land. The mark of a participant in the Dawn Breaker Season.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -11599,7 +11922,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Witches' Eve Banner": {
-    image: "assets/decorations/banners/witches_eve_banner.webp",
+    image: witchesEveBanner,
     description: {
       en: "?",
       pt: "?",
@@ -11610,7 +11933,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "The season of the witch has begun. The mark of a participant in the Witches' Eve Season.\n\nGrants 2 extra crow feathers per feather delivery during Witches' Eve Season",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -11630,7 +11952,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Catch the Kraken Banner": {
-    image: "assets/decorations/banners/catch_the_kraken_banner.webp",
+    image: catchTheKrakenBanner,
     description: {
       en: "The Kraken is here! The mark of a participant in the Catch the Kraken Season.",
       pt: "O Kraken está aqui! O símbolo de um participante na Temporada de Pegar o Kraken.",
@@ -11641,7 +11963,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "The Kraken is here! The mark of a participant in the Catch the Kraken Season.\n\nGrants 2 extra mermaid scales per mermaid scale delivery during Catch the Kraken Season",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -11666,7 +11987,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Spring Blossom Banner": {
-    image: "assets/decorations/banners/spring_banner.gif",
+    image: springBlossomBanner,
     description: {
       en: "",
       pt: "",
@@ -11676,7 +11997,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -11701,7 +12021,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Clash of Factions Banner": {
-    image: "assets/decorations/banners/clash_of_factions_banner.webp",
+    image: clashOfFactionsBanner,
     description: {
       en: "",
       pt: "",
@@ -11711,7 +12031,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -11731,7 +12050,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Lifetime Farmer Banner": {
-    image: "assets/decorations/banners/lifetime_farmer_banner.png",
+    image: lifetimeFarmerBanner,
     description: {
       en: "",
       pt: "",
@@ -11741,7 +12060,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "Gives lifetime access to all seasons and VIP access.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -11761,7 +12079,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Luminous Lantern": {
-    image: "assets/decorations/lanterns/luminous_lantern.webp",
+    image: luminousLantern,
     description: {
       en: "A bright paper lantern that illuminates the way.",
       pt: "Uma lanterna de papel brilhante que ilumina o caminho.",
@@ -11771,7 +12089,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "A bright paper lantern that illuminates the way.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -11786,7 +12103,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Radiance Lantern": {
-    image: "assets/decorations/lanterns/radiance_lantern.webp",
+    image: radianceLantern,
     description: {
       en: "A radiant paper lantern that shines with a powerful light.",
       pt: "Uma lanterna de papel radiante que brilha com uma luz poderosa.",
@@ -11796,7 +12113,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "A radiant paper lantern that shines with a powerful light.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -11811,7 +12127,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Ocean Lantern": {
-    image: "assets/decorations/lanterns/ocean_lantern.png",
+    image: oceanLantern,
     description: {
       en: "A wavy paper lantern that sways with the bobbing of the tide.",
       pt: "Uma lanterna de papel ondulante que balança com o movimento da maré.",
@@ -11822,7 +12138,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A wavy paper lantern that sways with the bobbing of the tide.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -11837,7 +12152,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Solar Lantern": {
-    image: "assets/decorations/lanterns/solar_lantern.png",
+    image: solarLantern,
     description: {
       en: "Harnessing the vibrant essence of sunflowers, the Solar Lantern emanates a warm and radiant glow.",
       pt: "Aproveitando a essência vibrante dos girassóis, a Lanterna Solar emana um brilho quente e radiante.",
@@ -11848,7 +12163,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "Harnessing the vibrant essence of sunflowers, the Solar Lantern emanates a warm and radiant glow, reminiscent of a blossoming field under the golden sun.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -11863,7 +12177,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Aurora Lantern": {
-    image: "assets/decorations/lanterns/aurora_lantern.webp",
+    image: auroraLantern,
     description: {
       en: "A paper lantern that transforms any space into a magical wonderland.",
       pt: "Uma lanterna de papel que transforma qualquer espaço em um mundo mágico.",
@@ -11874,7 +12188,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A paper lantern that transforms any space into a magical wonderland.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -11889,7 +12202,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Bonnie's Tombstone": {
-    image: "assets/decorations/bonnies_tombstone.png",
+    image: bonniesTombstone,
     description: {
       en: "A spooky addition to any farm, Bonnie's Human Tombstone will send shivers down your spine.",
       pt: "A spooky addition to any farm, Bonnie's Human Tombstone will send shivers down your spine.",
@@ -11901,7 +12214,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A spooky addition to any farm, Bonnie's Human Tombstone will send shivers down your spine.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -11916,7 +12228,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Chestnut Fungi Stool": {
-    image: "assets/decorations/chestnut_fungi_stool.png",
+    image: chestnutStool,
     description: {
       en: "The Chestnut Fungi Stool is a sturdy and rustic addition to any farm.",
       pt: "The Chestnut Fungi Stool is a sturdy and rustic addition to any farm.",
@@ -11928,7 +12240,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "The Chestnut Fungi Stool is a sturdy and rustic addition to any farm.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -11943,7 +12254,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Crimson Cap": {
-    image: "assets/decorations/crimson_cap.png",
+    image: crimsonCap,
     description: {
       en: "A towering and vibrant mushroom, the Crimson Cap Giant Mushroom will bring life to your farm.",
       pt: "A towering and vibrant mushroom, the Crimson Cap Giant Mushroom will bring life to your farm.",
@@ -11955,7 +12266,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A towering and vibrant mushroom, the Crimson Cap Giant Mushroom will bring life to your farm.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -11970,7 +12280,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Dawn Umbrella Seat": {
-    image: "assets/decorations/dawn_umbrella_seat.png",
+    image: dawnUmbrellaSeat,
     description: {
       en: "Keep those Eggplants dry during those rainy days with the Dawn Umbrella Seat.",
       pt: "Mantenha essas Berinjelas secas durante os dias chuvosos com o Guarda-chuva Assento da Aurora.",
@@ -11981,7 +12291,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "Keep those Eggplants dry during those rainy days with the Dawn Umbrella Seat.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -11996,7 +12305,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Eggplant Grill": {
-    image: "assets/decorations/eggplant_grill.png",
+    image: eggplantGrill,
     description: {
       en: "Get cooking with the Eggplant Grill, perfect for any outdoor meal.",
       pt: "Comece a cozinhar com a Churrasqueira de Berinjela, perfeita para qualquer refeição ao ar livre.",
@@ -12007,7 +12316,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "Get cooking with the Eggplant Grill, perfect for any outdoor meal.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -12022,7 +12330,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Giant Dawn Mushroom": {
-    image: "assets/decorations/giant_dawn_mushroom.png",
+    image: giantDawnMushroom,
     description: {
       en: "The Giant Dawn Mushroom is a majestic and magical addition to any farm.",
       pt: "O Cogumelo Gigante da Aurora é uma adição majestosa e mágica para qualquer fazenda.",
@@ -12033,7 +12341,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "The Giant Dawn Mushroom is a majestic and magical addition to any farm.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -12048,7 +12355,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Grubnash's Tombstone": {
-    image: "assets/decorations/grubnash_tombstone.png",
+    image: grubnashTombstone,
     description: {
       en: "Add some mischievous charm with Grubnash's Goblin Tombstone.",
       pt: "Add some mischievous charm with Grubnash's Goblin Tombstone.",
@@ -12059,7 +12366,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "Add some mischievous charm with Grubnash's Goblin Tombstone.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -12074,7 +12380,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Mahogany Cap": {
-    image: "assets/decorations/mahogony_cap.png",
+    image: mahoganyCap,
     description: {
       en: "Add a touch of sophistication with the Mahogany Cap Giant Mushroom.",
       pt: "Add a touch of sophistication with the Mahogany Cap Giant Mushroom.",
@@ -12086,7 +12392,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "Add a touch of sophistication with the Mahogany Cap Giant Mushroom.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -12101,7 +12406,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Shroom Glow": {
-    image: "assets/decorations/shroom_glow.png",
+    image: shroomGlow,
     description: {
       en: "Illuminate your farm with the enchanting glow of Shroom Glow.",
       pt: "Ilumine sua fazenda com o brilho encantador do Brilho dos Cogumelos.",
@@ -12112,7 +12417,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "Illuminate your farm with the enchanting glow of Shroom Glow.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -12127,7 +12431,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Toadstool Seat": {
-    image: "assets/decorations/toadstool_seat.png",
+    image: toadstoolSeat,
     description: {
       en: "Sit back and relax on the whimsical Toadstool Mushroom Seat.",
       pt: "Sit back and relax on the whimsical Toadstool Mushroom Seat.",
@@ -12138,7 +12442,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "Sit back and relax on the whimsical Toadstool Mushroom Seat.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -12153,7 +12456,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   Clementine: {
-    image: "assets/decorations/clementine.png",
+    image: clementine,
     description: {
       en: "The Clementine Gnome is a cheerful companion for your farming adventures.",
       pt: "O Gnomo Clementine é um companheiro alegre para suas aventuras na fazenda.",
@@ -12164,7 +12467,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "The Clementine Gnome is a cheerful companion for your farming adventures.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -12179,7 +12481,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   Blossombeard: {
-    image: "assets/sfts/blossom_beard.webp",
+    image: blossombeard,
     description: {
       en: "The Blossombeard Gnome is a powerful companion for your farming adventures.",
       pt: "O Gnomo Blossombeard é um companheiro poderoso para suas aventuras na fazenda.",
@@ -12190,7 +12492,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "The Blossombeard Gnome is a powerful companion for your farming adventures.",
-
       attributes: [
         {
           trait_type: "Tradable",
@@ -12210,7 +12511,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Desert Gnome": {
-    image: "assets/sfts/desert_gnome.webp",
+    image: desertgnome,
     description: {
       en: "A gnome that can survive the harshest of conditions.",
       pt: "A gnome that can survive the harshest of conditions.",
@@ -12221,7 +12522,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "The Blossombeard Gnome is a powerful companion for your farming adventures.",
-
       attributes: [
         {
           trait_type: "Tradable",
@@ -12241,7 +12541,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   Cobalt: {
-    image: "assets/decorations/cobalt.png",
+    image: cobalt,
     description: {
       en: "The Cobalt Gnome adds a pop of color to your farm with his vibrant hat.",
       pt: "O Gnomo Cobalt adiciona um toque de cor à sua fazenda com seu chapéu vibrante.",
@@ -12252,7 +12552,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "The Cobalt Gnome adds a pop of color to your farm with his vibrant hat.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -12267,7 +12566,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Purple Trail": {
-    image: "assets/sfts/purple_trail.png",
+    image: purpleTrail,
     description: {
       en: "Leave your opponents in a trail of envy with the mesmerizing and unique Purple Trail",
       pt: "Deixe seus oponentes com inveja com a trilha roxa única e fascinante",
@@ -12278,7 +12577,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "Leave your opponents in a trail of envy with the mesmerizing and unique Purple Trail",
-
       attributes: [
         {
           trait_type: "Boost",
@@ -12298,7 +12596,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   Maximus: {
-    image: "assets/sfts/maximus.png",
+    image: maximus,
     description: {
       en: "Squash the competition with plump Maximus",
       pt: "Esmague a competição com o robusto Maximus",
@@ -12308,7 +12606,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "Squash the competition with plump Maximus",
-
       attributes: [
         {
           trait_type: "Boost",
@@ -12328,7 +12625,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   Obie: {
-    image: "assets/sfts/obie.png",
+    image: obie,
     description: {
       en: "A fierce eggplant soldier",
       pt: "Um feroz soldado de Berinjela",
@@ -12338,7 +12635,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "A fierce eggplant soldier",
-
       attributes: [
         {
           trait_type: "Boost",
@@ -12358,7 +12654,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   Hoot: {
-    image: "assets/sfts/hoot.png",
+    image: hoot,
     description: {
       en: "Hoot hoot! Have you solved my riddle yet?",
       pt: "Hoot hoot! Você já resolveu meu enigma?",
@@ -12368,7 +12664,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "Hoot hoot! Have you solved my riddle yet?",
-
       attributes: [
         {
           trait_type: "Boost",
@@ -12388,7 +12683,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Genie Bear": {
-    image: "assets/sfts/bears/genie_bear.png",
+    image: genieBear,
     description: {
       en: "Exactly what I wished for!",
       pt: "Exatamente o que eu desejei!",
@@ -12398,7 +12693,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "Exactly what I wished for!",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -12413,7 +12707,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Betty Lantern": {
-    image: "assets/decorations/lanterns/betty_lantern.png",
+    image: bettyLantern,
     description: {
       en: "It looks so real! I wonder how they crafted this.",
       pt: "Parece tão real! Eu me pergunto como eles fizeram isso.",
@@ -12423,7 +12717,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "It looks so real! I wonder how they crafted this.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -12438,7 +12731,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Bumpkin Lantern": {
-    image: "assets/decorations/lanterns/bumpkin_lantern.png",
+    image: bumpkinLantern,
     description: {
       en: "Moving closer you hear murmurs of a living Bumpkin...creepy!",
       pt: "Aproximando-se, você ouve murmúrios de um Bumpkin vivo... assustador!",
@@ -12449,7 +12742,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "Moving closer you hear murmurs of a living Bumpkin...creepy!",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -12464,7 +12756,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Eggplant Bear": {
-    image: "assets/sfts/bears/eggplant_bear.png",
+    image: eggplantBear,
     description: {
       en: "The mark of a generous eggplant whale.",
       pt: "O símbolo de uma baleia berinjela generosa.",
@@ -12474,7 +12766,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "The mark of a generous eggplant whale.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -12489,7 +12780,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Goblin Lantern": {
-    image: "assets/decorations/lanterns/goblin_lantern.png",
+    image: goblinLantern,
     description: {
       en: "A scary looking lantern",
       pt: "Uma lanterna com uma aparência assustadora",
@@ -12499,7 +12790,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "A scary looking lantern",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -12514,7 +12804,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Dawn Flower": {
-    image: "assets/sfts/dawn_flower.png",
+    image: dawnFlower,
     description: {
       en: "Embrace the radiant beauty of the Dawn Flower as its delicate petals shimmer with the first light of day",
       pt: "Abraçe a beleza radiante da Flor da Aurora enquanto suas pétalas delicadas brilham com a primeira luz do dia",
@@ -12525,7 +12815,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "Embrace the radiant beauty of the Dawn Flower as its delicate petals shimmer with the first light of day.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -12540,7 +12829,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Gold Pass": {
-    image: "assets/icons/gold-pass.png",
+    image: goldPass,
     description: {
       en: "An exclusive pass that enables the holder to craft rare NFTs, trade, withdraw and access bonus content.",
       pt: "Um passe exclusivo que permite ao portador criar NFTs raros, negociar, sacar e acessar conteúdo bônus.",
@@ -12552,7 +12841,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "An exclusive pass that enables the holder to craft rare NFTs, trade, withdraw and access bonus content.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -12567,7 +12855,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   Poppy: {
-    image: "assets/sfts/poppy.png",
+    image: poppy,
     description: {
       en: "The mystical corn kernel. +0.1 Corn per harvest,",
       pt: "O grão de milho místico. +0,1 Milho por colheita,",
@@ -12577,7 +12865,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "The mystical corn kernel. +0.1 Corn per harvest.",
-
       attributes: [
         {
           trait_type: "Boost",
@@ -12597,7 +12884,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "El Pollo Veloz": {
-    image: "assets/animals/chickens/el_pollo_veloz.gif",
+    image: elPolloVeloz,
     description: {
       en: "Give me those eggs, fast! 4 hour speed boost on egg laying.",
       pt: "Dê-me esses ovos rápido! Aumento de velocidade de 4 horas na postura de ovos.",
@@ -12608,7 +12895,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "Give me those eggs, fast! 4 hour speed boost on egg laying.",
-
       attributes: [
         {
           trait_type: "Boost",
@@ -12628,7 +12914,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Grain Grinder": {
-    image: "assets/sfts/grain_grinder.png",
+    image: grainGrinder,
     description: {
       en: "Grind your grain and experience a delectable surge in Cake XP.",
       pt: "Moa seu grão e experimente um aumento delicioso no XP do bolo.",
@@ -12639,7 +12925,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "Grind your grain and experience a delectable surge in Cake XP.",
-
       attributes: [
         {
           trait_type: "Boost",
@@ -12659,7 +12944,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   Kernaldo: {
-    image: "assets/sfts/kernaldo.png",
+    image: kernaldo,
     description: {
       en: "The magical corn whisperer. +25% Corn Growth Speed.",
       pt: "O sussurro de milho mágico. +25% de Velocidade de Crescimento de Milho.",
@@ -12669,7 +12954,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "The magical corn whisperer.",
-
       attributes: [
         {
           trait_type: "Boost",
@@ -12689,7 +12973,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   Candles: {
-    image: "assets/decorations/candles.png",
+    image: candles,
     description: {
       en: "Enchant your farm with flickering spectral flames during Witches' Eve.",
       pt: "Encante sua fazenda com chamas espectrais cintilantes durante a Véspera das Bruxas.",
@@ -12700,7 +12984,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "Enchant your farm with flickering spectral flames during Witches' Eve.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -12715,7 +12998,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Haunted Stump": {
-    image: "assets/decorations/haunted_stump.png",
+    image: hauntedStump,
     description: {
       en: "Summon spirits and add eerie charm to your farm.",
       pt: "Chame espíritos e adicione charme sinistro à sua fazenda.",
@@ -12725,7 +13008,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "Summon spirits and add eerie charm to your farm.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -12740,7 +13022,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Spooky Tree": {
-    image: "assets/decorations/spooky_tree.png",
+    image: spookyTree,
     description: {
       en: "A hauntingly fun addition to your farm's decor!",
       pt: "Uma adição assustadoramente divertida à decoração da sua fazenda!",
@@ -12750,7 +13032,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "A hauntingly fun addition to your farm's decor!",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -12765,7 +13046,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   Observer: {
-    image: "assets/decorations/observer.webp",
+    image: observer,
     description: {
       en: "A perpetually roving eyeball, always vigilant and ever-watchful!",
       pt: "Um globo ocular em movimento perpétuo, sempre vigilante e sempre atento!",
@@ -12776,7 +13057,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A perpetually roving eyeball, always vigilant and ever-watchful!",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -12791,7 +13071,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Crow Rock": {
-    image: "assets/decorations/crow_rock.webp",
+    image: crowRock,
     description: {
       en: "A crow perched atop a mysterious rock.",
       pt: "Um corvo empoleirado em uma rocha misteriosa.",
@@ -12801,7 +13081,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "A crow perched atop a mysterious rock.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -12816,7 +13095,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Mini Corn Maze": {
-    image: "assets/decorations/mini_corn_maze.webp",
+    image: miniCornMaze,
     description: {
       en: "A memento of the beloved maze from the 2023 Witches' Eve season.",
       pt: "Uma lembrança do adorado labirinto da temporada Witches' Eve de 2023.",
@@ -12827,7 +13106,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A memento of the beloved maze from the 2023 Witches' Eve season.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -12842,7 +13120,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Giant Cabbage": {
-    image: "assets/sfts/giant_cabbage.png",
+    image: giantCabbage,
     description: {
       en: "A giant cabbage.",
       pt: "A giant cabbage.",
@@ -12852,7 +13130,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "A giant cabbage!",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -12867,7 +13144,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Giant Potato": {
-    image: "assets/sfts/giant_potato.png",
+    image: giantPotato,
     description: {
       en: "A giant potato.",
       pt: "A giant potato.",
@@ -12877,7 +13154,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "A giant potato!",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -12892,7 +13168,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Giant Pumpkin": {
-    image: "assets/sfts/giant_pumpkin.png",
+    image: giantPumpkin,
     description: {
       en: "A giant pumpkin.",
       pt: "A giant pumpkin.",
@@ -12902,7 +13178,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "A giant pumpkin!",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -12917,7 +13192,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Potion Ticket": {
-    image: "assets/icons/potion_point.png",
+    image: potionPoint,
     description: {
       en: "A reward from the Potion House. Use this to buy items from Garth.",
       pt: "A reward from the Potion House. Use this to buy items from Garth.",
@@ -12928,7 +13203,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "A Potion Ticket!",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -12943,7 +13217,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Lab Grown Carrot": {
-    image: "assets/sfts/lab_grown_carrot.gif",
+    image: labGrownCarrot,
     description: {
       en: "+0.2 Carrot Yield",
       pt: "+0.2 Carrot Yield",
@@ -12953,7 +13227,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "A lab grown carrot! +0.2 Carrot Yield.",
-
       attributes: [
         {
           trait_type: "Boost",
@@ -12973,7 +13246,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Lab Grown Pumpkin": {
-    image: "assets/sfts/lab_grown_pumpkin.gif",
+    image: labGrownPumpkin,
     description: {
       en: "+0.3 Pumpkin Yield",
       pt: "+0.3 Pumpkin Yield",
@@ -12983,7 +13256,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "A lab grown pumpkin! +0.3 Pumpkin Yield.",
-
       attributes: [
         {
           trait_type: "Boost",
@@ -13003,7 +13275,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Lab Grown Radish": {
-    image: "assets/sfts/lab_grown_radish.gif",
+    image: labGrownRadish,
     description: {
       en: "+0.4 Radish Yield",
       pt: "+0.4 Radish Yield",
@@ -13013,7 +13285,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "A lab grown radish! +0.4 Radish Yield.",
-
       attributes: [
         {
           trait_type: "Boost",
@@ -13033,7 +13304,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Adirondack Potato": {
-    image: "assets/potion_house/adirondack_potato.png",
+    image: adirondackPotato,
     description: {
       en: "A rugged spud, Adirondack style!",
       pt: "A rugged spud, Adirondack style!",
@@ -13043,7 +13314,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "A rugged spud, Adirondack style!",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -13058,7 +13328,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Black Magic": {
-    image: "assets/potion_house/black_magic.png",
+    image: blackMagic,
     description: {
       en: "A dark and mysterious flower!",
       pt: "A dark and mysterious flower!",
@@ -13068,7 +13338,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "A dark and mysterious flower!",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -13083,7 +13352,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   Chiogga: {
-    image: "assets/potion_house/chiogga.png",
+    image: chiogga,
     description: {
       en: "A rainbow beet!",
       pt: "A rainbow beet!",
@@ -13093,7 +13362,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "A rainbow beet!",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -13108,7 +13376,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Golden Helios": {
-    image: "assets/potion_house/golden_helios.png",
+    image: goldenHelios,
     description: {
       en: "Sun-kissed grandeur!",
       pt: "Sun-kissed grandeur!",
@@ -13118,7 +13386,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "Sun-kissed grandeur!",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -13133,7 +13400,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Purple Cauliflower": {
-    image: "assets/potion_house/purple_cauliflower.png",
+    image: purpleCauliflower,
     description: {
       en: "A regal purple cauliflowser",
       pt: "A regal purple cauliflowser",
@@ -13143,7 +13410,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "A regal purple cauliflower",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -13158,7 +13424,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Warty Goblin Pumpkin": {
-    image: "assets/potion_house/warty_goblin_pumpkin.png",
+    image: wartyGoblinPumpkin,
     description: {
       en: "A whimsical, wart-covered pumpkin",
       pt: "A whimsical, wart-covered pumpkin",
@@ -13168,7 +13434,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "A whimsical, wart-covered pumpkin",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -13183,7 +13448,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "White Carrot": {
-    image: "assets/potion_house/white_carrot.png",
+    image: whiteCarrot,
     description: {
       en: "A pale carrot with pale roots",
       pt: "A pale carrot with pale roots",
@@ -13193,7 +13458,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "A pale carrot with pale roots",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -13208,7 +13472,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Bud Ticket": {
-    image: "assets/icons/bud_ticket.png",
+    image: budTicket,
     description: {
       en: "A guaranteed spot to mint a Bud at the Sunflower Land Buds NFT drop.",
       pt: "Um lugar garantido para mintar um Bud no lançamento de NFTs do Sunflower Land Buds.",
@@ -13220,7 +13484,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A guaranteed spot to mint a Bud at the Sunflower Land Buds NFT drop.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -13235,7 +13498,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Bud Seedling": {
-    image: "assets/icons/bud_seedling.png",
+    image: budSeedling,
     description: {
       en: "A seedling to be exchanged for a free Bud NFT",
       pt: "Uma muda a ser trocada por um Bud NFT gratuito",
@@ -13245,7 +13508,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "A seedling that was exchanged for a bud NFT",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -13260,7 +13522,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Town Sign": {
-    image: "assets/decorations/woodsign.png",
+    image: sign,
     description: {
       en: "Show your farm ID with pride!",
       pt: "Mostre sua identificação da fazenda com orgulho!",
@@ -13270,7 +13532,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "Show your farm ID with pride!",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -13285,7 +13546,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "White Crow": {
-    image: "assets/decorations/white_crow.webp",
+    image: whiteCrow,
     description: {
       en: "A mysterious and ethereal white crow",
       pt: "Um corvo branco misterioso e etéreo",
@@ -13295,7 +13556,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "A mysterious and ethereal white crow.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -13310,7 +13570,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   Earthworm: {
-    image: "assets/composters/earthworm.png",
+    image: earthworm,
     description: {
       en: "A wriggly worm that attracts small fish.",
       pt: "A wriggly worm that attracts small fish.",
@@ -13320,7 +13580,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "A wriggly worm used to catch fish.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -13335,7 +13594,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   Grub: {
-    image: "assets/composters/grub.png",
+    image: grub,
     description: {
       en: "A juicy grub - perfect for advanced fish.",
       pt: "A juicy grub - perfect for advanced fish.",
@@ -13345,7 +13604,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "A juicy grub used to catch fish.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -13360,7 +13618,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Red Wiggler": {
-    image: "assets/composters/red_wiggler.png",
+    image: redWiggler,
     description: {
       en: "An exotic worm that entices rare fish.",
       pt: "An exotic worm that entices rare fish.",
@@ -13370,7 +13628,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "A red wiggler used to catch fish.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -13385,7 +13642,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Fishing Lure": {
-    image: "assets/composters/fishing_lure.png",
+    image: fishingLure,
     description: {
       en: "Great for catching rare fish ! ",
       pt: "Great for catching rare fish ! ",
@@ -13395,7 +13652,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "A fishing lure! Great for catching big fish!",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -13416,7 +13672,7 @@ export const ITEM_DETAILS: Items = {
         description: "Sprout Mix increases your crop yield from plots by +0.4",
       },
     ],
-    image: "assets/composters/sprout_mix.png",
+    image: "sproutMix",
     description: {
       en: "Sprout Mix increases your crop yield from plots by +0.2",
       pt: "Sprout Mix increases your crop yield from plots by +0.2",
@@ -13426,7 +13682,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "Sprout Mix increases your crop yield by +0.2",
-
       attributes: [
         {
           trait_type: "Boost",
@@ -13450,7 +13705,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Fruitful Blend": {
-    image: "assets/composters/fruitful_blend.png",
+    image: fruitfulBlend,
     description: {
       en: "Fruitful Blend boosts the yield of each fruit growing on fruit patches by +0.1",
       pt: "Fruitful Blend boosts the yield of each fruit growing on fruit patches by +0.1",
@@ -13461,7 +13716,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "This compost boosts each fruit yield by +0.1",
-
       attributes: [
         {
           trait_type: "Boost",
@@ -13485,7 +13739,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Rapid Root": {
-    image: "assets/composters/rapid_root.png",
+    image: rapidRoot,
     description: {
       en: "Rapid Root reduces crop growth time from plots by 50%",
       pt: "Rapid Root reduces crop growth time from plots by 50%",
@@ -13495,7 +13749,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "Rapid Root reduces crop growth time by 50%",
-
       attributes: [
         {
           trait_type: "Boost",
@@ -13519,7 +13772,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   Anchovy: {
-    image: "assets/fish/anchovy.png",
+    image: anchovy,
     howToGetItem: [
       {
         en: "Ocean fishing",
@@ -13538,7 +13791,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "?",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -13553,7 +13805,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   Butterflyfish: {
-    image: "assets/fish/butterfly_fish.png",
+    image: butterflyfish,
     howToGetItem: [
       {
         en: "Ocean fishing",
@@ -13572,7 +13824,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "?",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -13587,7 +13838,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   Blowfish: {
-    image: "assets/fish/blowfish.png",
+    image: blowfish,
     howToGetItem: [
       {
         en: "Ocean fishing",
@@ -13606,7 +13857,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "?",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -13621,7 +13871,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   Clownfish: {
-    image: "assets/fish/clownfish.png",
+    image: clownfish,
     howToGetItem: [
       {
         en: "Ocean fishing",
@@ -13640,7 +13890,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "?",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -13655,7 +13904,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Sea Bass": {
-    image: "assets/fish/sea_bass.png",
+    image: seaBass,
     howToGetItem: [
       {
         en: "Ocean fishing",
@@ -13674,7 +13923,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "?",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -13689,7 +13937,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Sea Horse": {
-    image: "assets/fish/seahorse.png",
+    image: seahorse,
     howToGetItem: [
       {
         en: "Ocean fishing",
@@ -13708,7 +13956,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "?",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -13723,7 +13970,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Horse Mackerel": {
-    image: "assets/fish/horse_mackerel.png",
+    image: horseMackerel,
     howToGetItem: [
       {
         en: "Ocean fishing",
@@ -13742,7 +13989,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "?",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -13757,7 +14003,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   Squid: {
-    image: "assets/fish/squid.png",
+    image: squid,
     howToGetItem: [
       {
         en: "Ocean fishing",
@@ -13776,7 +14022,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "?",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -13791,7 +14036,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Red Snapper": {
-    image: "assets/fish/red_snapper.png",
+    image: redSnapper,
     howToGetItem: [
       {
         en: "Ocean fishing",
@@ -13810,7 +14055,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "?",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -13825,7 +14069,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Moray Eel": {
-    image: "assets/fish/moray_eel.png",
+    image: morayEel,
     howToGetItem: [
       {
         en: "Ocean fishing",
@@ -13844,7 +14088,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "?",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -13859,7 +14102,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Olive Flounder": {
-    image: "assets/fish/olive_flounder.png",
+    image: oliveFlounder,
     howToGetItem: [
       {
         en: "Ocean fishing",
@@ -13878,7 +14121,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "?",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -13893,7 +14135,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   Napoleanfish: {
-    image: "assets/fish/napoleonfish.png",
+    image: napoleonfish,
     howToGetItem: [
       {
         en: "Ocean fishing",
@@ -13912,7 +14154,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "?",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -13927,7 +14168,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   Surgeonfish: {
-    image: "assets/fish/surgeonfish.png",
+    image: surgeonfish,
     howToGetItem: [
       {
         en: "Ocean fishing",
@@ -13946,7 +14187,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "?",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -13961,7 +14201,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Zebra Turkeyfish": {
-    image: "assets/fish/zebra_turkeyfish.png",
+    image: zebraTurkeyfish,
     howToGetItem: [
       {
         en: "Ocean fishing",
@@ -13980,7 +14220,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "?",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -13995,7 +14234,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   Ray: {
-    image: "assets/fish/ray.png",
+    image: ray,
     howToGetItem: [
       {
         en: "Ocean fishing",
@@ -14014,7 +14253,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "?",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -14029,7 +14267,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Hammerhead shark": {
-    image: "assets/fish/hammerhead_shark.png",
+    image: hammerheadShark,
     howToGetItem: [
       {
         en: "Ocean fishing",
@@ -14048,7 +14286,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "?",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -14063,7 +14300,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   Tuna: {
-    image: "assets/fish/tuna.png",
+    image: tuna,
     howToGetItem: [
       {
         en: "Ocean fishing",
@@ -14082,7 +14319,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "?",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -14097,7 +14333,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Mahi Mahi": {
-    image: "assets/fish/mahi_mahi.png",
+    image: mahiMahi,
     howToGetItem: [
       {
         en: "Ocean fishing",
@@ -14116,7 +14352,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "?",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -14131,7 +14366,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Blue Marlin": {
-    image: "assets/fish/blue_marlin.png",
+    image: blueMarlin,
     howToGetItem: [
       {
         en: "Ocean fishing",
@@ -14150,7 +14385,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "?",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -14165,7 +14399,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   Oarfish: {
-    image: "assets/fish/oarfish.png",
+    image: oarfish,
     howToGetItem: [
       {
         en: "Ocean fishing",
@@ -14184,7 +14418,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "?",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -14199,7 +14432,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Football fish": {
-    image: "assets/fish/football_fish.png",
+    image: footballFish,
     howToGetItem: [
       {
         en: "Ocean fishing",
@@ -14218,7 +14451,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "?",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -14233,7 +14465,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   Sunfish: {
-    image: "assets/fish/sunfish.png",
+    image: sunfish,
     howToGetItem: [
       {
         en: "Ocean fishing",
@@ -14252,7 +14484,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "?",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -14267,7 +14498,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   Coelacanth: {
-    image: "assets/fish/coelacanth.png",
+    image: coelacanth,
     howToGetItem: [
       {
         en: "Ocean fishing",
@@ -14286,7 +14517,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "?",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -14301,7 +14531,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Whale Shark": {
-    image: "assets/fish/whale_shark.png",
+    image: whaleShark,
     howToGetItem: [
       {
         en: "Ocean fishing",
@@ -14320,7 +14550,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "?",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -14335,7 +14564,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Barred Knifejaw": {
-    image: "assets/fish/barred_knifejaw.png",
+    image: barredKnifejaw,
     howToGetItem: [
       {
         en: "Ocean fishing",
@@ -14354,7 +14583,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "?",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -14369,7 +14597,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Saw Shark": {
-    image: "assets/fish/saw_shark.png",
+    image: sawShark,
     howToGetItem: [
       {
         en: "Ocean fishing",
@@ -14388,7 +14616,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "?",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -14403,7 +14630,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "White Shark": {
-    image: "assets/fish/white_shark.png",
+    image: whiteShark,
     howToGetItem: [
       {
         en: "Ocean fishing",
@@ -14422,7 +14649,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "?",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -14437,7 +14663,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Twilight Anglerfish": {
-    image: "assets/fish/twilight_anglerfish.png",
+    image: twilightAnglerfish,
     howToGetItem: [
       {
         en: "Ocean fishing",
@@ -14457,7 +14683,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "?",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -14472,7 +14697,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Starlight Tuna": {
-    image: "assets/fish/starlight_tuna.png",
+    image: startlightTuna,
     howToGetItem: [
       {
         en: "Ocean fishing",
@@ -14492,7 +14717,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "?",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -14507,7 +14731,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Radiant Ray": {
-    image: "assets/fish/radiant_ray.png",
+    image: radiantRay,
     howToGetItem: [
       {
         en: "Ocean fishing",
@@ -14527,7 +14751,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "?",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -14551,7 +14774,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Phantom Barracuda": {
-    image: "assets/fish/phantom_barracuda.png",
+    image: phantomBarracuda,
     howToGetItem: [
       {
         en: "Ocean fishing",
@@ -14571,7 +14794,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "?",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -14586,7 +14808,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Gilded Swordfish": {
-    image: "assets/fish/gilded_swordfish.png",
+    image: gildedSwordfish,
     howToGetItem: [
       {
         en: "Ocean fishing",
@@ -14606,7 +14828,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "?",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -14630,7 +14851,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Crimson Carp": {
-    image: "assets/fish/crimson_carp.png",
+    image: crimsonCarp,
     howToGetItem: [
       {
         en: "Ocean fishing",
@@ -14650,7 +14871,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "A rare, vibrant jewel of the Spring waters.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -14674,7 +14894,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Battle Fish": {
-    image: "assets/fish/battle_fish.webp",
+    image: battleFish,
     howToGetItem: [
       {
         en: "Ocean fishing",
@@ -14694,7 +14914,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "The rare armored swimmer of faction season!",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -14718,7 +14937,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Kraken Tentacle": {
-    image: "assets/sfts/kraken_tentacle.webp",
+    image: krakenTentacle,
     description: {
       en: "Dive into deep-sea mystery! This tentacle teases tales of ancient ocean legends and watery wonders.",
       pt: "Mergulhe no mistério do mar profundo! Este tentáculo provoca contos de lendas oceânicas antigas e maravilhas aquáticas.",
@@ -14728,7 +14947,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "Protect the beach and catch the Kraken!",
-
       attributes: [
         {
           trait_type: "Tradable",
@@ -14743,7 +14961,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Sapo Docuras": {
-    image: "assets/sfts/sapo_docuras.gif",
+    image: sapoDocuras,
     description: {
       en: "A real treat!",
       pt: "Um verdadeiro agrado!",
@@ -14753,7 +14971,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "A real treat this halloween!",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -14768,7 +14985,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Sapo Travessuras": {
-    image: "assets/sfts/sapo_travessura.gif",
+    image: sapoTravessura,
     description: {
       en: "Oh oh...someone was naughty",
       pt: "Oh oh... alguém foi travesso",
@@ -14778,7 +14995,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "Oh oh....someone was naughty!",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -14793,7 +15009,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Lifeguard Ring": {
-    image: "assets/decorations/lifeguard_ring.webp",
+    image: lifeguardRing,
     description: {
       en: "Stay afloat with style, your seaside savior!",
       pt: "Mantenha-se à tona com estilo, seu salvador à beira-mar!",
@@ -14803,7 +15019,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "Stay afloat with style, your seaside savior!",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -14818,7 +15033,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Beach Umbrella": {
-    image: "assets/decorations/beach_umbrella.webp",
+    image: beachUmbrella,
     description: {
       en: "Shade, shelter, and seaside chic in one sunny setup!",
       pt: "Sombra, abrigo e elegância à beira-mar em um único conjunto ensolarado!",
@@ -14828,7 +15043,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "Shade, shelter, and seaside chic in one sunny setup!",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -14843,7 +15057,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Hideaway Herman": {
-    image: "assets/decorations/hideaway_herman.webp",
+    image: hideawayHerman,
     description: {
       en: "Herman's here to hide, but always peeks for a party!",
       pt: "Herman está aqui para se esconder, mas sempre dá uma espiada em uma festa!",
@@ -14853,7 +15067,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "Herman's here to hide, but always peeks for a party!",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -14868,7 +15081,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Shifty Sheldon": {
-    image: "assets/decorations/shifty_sheldon.webp",
+    image: shiftySheldon,
     description: {
       en: "Sheldon's sly, always scuttling to the next sandy surprise!",
       pt: "Sheldon é astuto, sempre se movendo para a próxima surpresa arenosa!",
@@ -14879,7 +15092,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "Sheldon's sly, always scuttling to the next sandy surprise!",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -14894,7 +15106,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Tiki Torch": {
-    image: "assets/decorations/tiki_torch.webp",
+    image: tikiTorch,
     description: {
       en: "Light the night, tropical vibes burning bright!",
       pt: "Ilumine a noite, vibrações tropicais brilhando intensamente!",
@@ -14904,7 +15116,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "Light the night, tropical vibes burning bright!",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -14919,7 +15130,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   Surfboard: {
-    image: "assets/decorations/surfboard.webp",
+    image: surfboard,
     description: {
       en: "Ride the waves of wonder, beach bliss on board!",
       pt: "Surfe nas ondas da maravilha, bliss de praia a bordo!",
@@ -14929,7 +15140,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "Ride the waves of wonder, beach bliss on board!",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -14944,7 +15154,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   Walrus: {
-    image: "assets/sfts/walrus.webp",
+    image: walrus,
     description: {
       en: "With his trusty tusks and love for the deep, he'll ensure you reel in an extra fish every time",
       pt: "Com suas presas confiáveis e amor pelo fundo do mar, ele garantirá que você pesque um peixe extra toda vez",
@@ -14956,7 +15166,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "With his trusty tusks and love for the deep, he'll ensure you reel in an extra fish every time",
-
       attributes: [
         {
           trait_type: "Tradable",
@@ -14976,7 +15185,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   Alba: {
-    image: "assets/sfts/alba.webp",
+    image: alba,
     description: {
       en: "With her keen instincts, she ensures you get a little extra splash in your catch. 50% chance of +1 Basic Fish!",
       pt: "Com seus instintos afiados, ela garante que você receba um pouco de splash extra em sua pesca. 50% de chance de +1 Peixe Básico!",
@@ -14988,7 +15197,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "With her keen instincts, she ensures you get a little extra splash in your catch. 50% chance of +1 Basic Fish!",
-
       attributes: [
         {
           trait_type: "Tradable",
@@ -15008,7 +15216,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Knowledge Crab": {
-    image: "assets/sfts/knowledge_crab.webp",
+    image: knowledgeCrab,
     description: {
       en: "The Knowledge Crab doubles your Sprout Mix effect, making your soil treasures as rich as sea plunder!",
       pt: "O Caranguejo do Conhecimento duplica o efeito da sua Mistura de Broto, tornando seus tesouros de solo tão ricos quanto pilhagem do mar!",
@@ -15020,7 +15228,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "The Knowledge Crab doubles your Sprout Mix effect, making your soil treasures as rich as sea plunder!",
-
       attributes: [
         {
           trait_type: "Tradable",
@@ -15040,7 +15247,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   Anchor: {
-    image: "assets/sfts/anchor.webp",
+    image: anchor,
     description: {
       en: "Drop anchor with this nautical gem, making every spot seaworthy and splash-tastically stylish!",
       pt: "Ancore com esta joia náutica, tornando cada local próprio para navegação e estilisticamente espirituoso!",
@@ -15051,7 +15258,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "Drop anchor' with this nautical gem, making every spot seaworthy and splash-tastically stylish!",
-
       attributes: [
         {
           trait_type: "Tradable",
@@ -15066,7 +15272,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Rubber Ducky": {
-    image: "assets/sfts/rubber_ducky.webp",
+    image: rubberDucky,
     description: {
       en: "Float on fun with this classic quacker, bringing bubbly joy to every corner!",
       pt: "Flutue na diversão com este patinho clássico, trazendo alegria borbulhante para todos os cantos!",
@@ -15077,7 +15283,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "Float on fun with this classic quacker, bringing bubbly joy to every corner!",
-
       attributes: [
         {
           trait_type: "Tradable",
@@ -15092,7 +15297,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Kraken Head": {
-    image: "assets/sfts/kraken_head.webp",
+    image: krakenHead,
     description: {
       en: "Dive into deep-sea mystery! This head teases tales of ancient ocean legends and watery wonders.",
       pt: "Mergulhe no mistério do mar profundo! Esta cabeça provoca contos de lendas oceânicas antigas e maravilhas aquáticas.",
@@ -15103,7 +15308,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "Dive into deep-sea mystery! This head teases tales of ancient ocean legends and watery wonders.",
-
       attributes: [
         {
           trait_type: "Tradable",
@@ -15118,7 +15322,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Banana Chicken": {
-    image: "assets/animals/chickens/banana_chicken.png",
+    image: bananaChicken,
     description: {
       en: "A chicken that boosts bananas. What a world we live in.",
       pt: "Um frango que impulsiona bananas. Em que mundo vivemos?!",
@@ -15128,7 +15332,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "A chicken that boosts bananas. What a world we live in.",
-
       attributes: [
         {
           trait_type: "Boost",
@@ -15148,7 +15351,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Crim Peckster": {
-    image: "assets/animals/chickens/crim_peckster.png",
+    image: crimPeckster,
     description: {
       en: "A gem detective with a knack for unearthing Crimstones.",
       pt: "Um detetive de gemas com habilidade para desenterrar Crimstones.",
@@ -15158,7 +15361,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "A gem detective with a knack for unearthing Crimstones.",
-
       attributes: [
         {
           trait_type: "Boost",
@@ -15178,7 +15380,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Knight Chicken": {
-    image: "assets/animals/chickens/knight_chicken.webp",
+    image: knightChicken,
     description: {
       en: "A strong and noble chicken boosting your oil yield.",
       pt: "A strong and noble chicken boosting your oil yield.",
@@ -15188,7 +15390,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "A strong and noble chicken boosting your oil yield.",
-
       attributes: [
         {
           trait_type: "Boost",
@@ -15208,7 +15409,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Skill Shrimpy": {
-    image: "assets/sfts/skill_shrimpy.png",
+    image: skillShrimpy,
     description: {
       en: "Shrimpy's here to help! He'll ensure you get that extra XP from fish.",
       pt: "Shrimpy está aqui para ajudar! Ele garantirá que você obtenha XP extra de peixes.",
@@ -15219,7 +15420,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "Shrimpy's here to help! He'll ensure you get that extra XP from fish.",
-
       attributes: [
         {
           trait_type: "Tradable",
@@ -15239,7 +15439,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Soil Krabby": {
-    image: "assets/sfts/soil_krabby.webp",
+    image: soilKrabby,
     description: {
       en: "Speedy sifting with a smile! Enjoy a 10% composter speed boost with this crustaceous champ.",
       pt: "Peneira rápida com um sorriso! Desfrute de um aumento de velocidade de 10% no composto com este campeão crustáceo.",
@@ -15250,7 +15450,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "Speedy sifting with a smile! Enjoy a 10% composter speed boost with this crustaceous champ.",
-
       attributes: [
         {
           trait_type: "Tradable",
@@ -15270,7 +15469,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   Nana: {
-    image: "assets/sfts/nana.webp",
+    image: nana,
     description: {
       en: "This rare beauty is a surefire way to boost your banana harvests.",
       pt: "Esta beleza rara é uma maneira infalível de impulsionar suas colheitas de banana.",
@@ -15281,7 +15480,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "This rare beauty is a surefire way to boost your banana harvests.",
-
       attributes: [
         {
           trait_type: "Tradable",
@@ -15301,7 +15499,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Time Warp Totem": {
-    image: "assets/sfts/time_warp_totem.webp",
+    image: timeWarpTotem,
     description: {
       en: "2x speed for crops, trees, fruits, cooking & minerals. Only lasts for 2 hours",
       pt: "2x speed for crops, trees, fruits, cooking & minerals. Only lasts for 2 hours",
@@ -15313,7 +15511,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "The Time Warp Totem temporarily boosts your cooking, crops, trees & mineral time. Make the most of it!",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -15342,7 +15539,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Community Coin": {
-    image: "assets/icons/community_coin.png",
+    image: communityCoin,
     description: {
       en: "A valued coin that can be exchanged for rewards",
       pt: "Uma moeda valiosa que pode ser trocada por recompensas",
@@ -15352,7 +15549,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "?",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -15367,7 +15563,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Arcade Token": {
-    image: "assets/icons/community_coin.png",
+    image: communityCoin,
     description: {
       en: "A token earned from mini-games and adventures. Can be exchanged for rewards.",
       pt: "Um token ganho de minijogos e aventuras. Pode ser trocado por recompensas.",
@@ -15377,7 +15573,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "?",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -15392,7 +15587,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Bumpkin Nutcracker": {
-    image: "assets/sfts/bumpkin_nutcracker.png",
+    image: nutcracker,
     description: {
       en: "A festive decoration from 2023.",
       pt: "Uma decoração festiva de 2023.",
@@ -15402,7 +15597,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "?",
-
       attributes: [
         {
           trait_type: "Tradable",
@@ -15417,7 +15611,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Festive Tree": {
-    image: "assets/sfts/festive_tree.png",
+    image: festiveTree,
     description: {
       en: "A festive tree available each holiday season. I wonder if it is big enough for santa to see?",
       pt: "Uma árvore festiva disponível em cada temporada de festas. Eu me pergunto se é grande o suficiente para o Papai Noel ver?",
@@ -15428,7 +15622,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A festive tree that can be attained each festive season. I wonder if it is big enough for santa to see?",
-
       attributes: [
         {
           trait_type: "Tradable",
@@ -15443,7 +15636,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "White Festive Fox": {
-    image: "assets/sfts/white-xmas-fox.png",
+    image: whiteFestiveFox,
     description: {
       en: "The blessing of the White Fox inhabits the generous farms",
       pt: "A bênção da Raposa Branca habita as fazendas generosas",
@@ -15453,7 +15646,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "The blessing of the White Fox inhabits the generous farms.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -15468,7 +15660,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Grinx's Hammer": {
-    image: "assets/sfts/grinx_hammer.png",
+    image: grinxsHammer,
     description: {
       en: "The magical hammer from Grinx, the legendary Goblin Blacksmith.",
       pt: "O martelo mágico de Grinx, o lendário Ferreiro Goblin.",
@@ -15479,7 +15671,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "The magical hammer from Grinx, the legendary Goblin Blacksmith. Halves expansion natural resource requirements.",
-
       attributes: [
         {
           trait_type: "Tradable",
@@ -15499,7 +15690,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   Angelfish: {
-    image: "assets/fish/angel_fish.png",
+    image: angelFish,
     howToGetItem: [
       {
         en: "Beach fishing",
@@ -15518,7 +15709,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "?",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -15533,7 +15723,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   Halibut: {
-    image: "assets/fish/halibut.png",
+    image: halibut,
     howToGetItem: [
       {
         en: "Beach fishing",
@@ -15552,7 +15742,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "?",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -15567,7 +15756,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   Parrotfish: {
-    image: "assets/fish/parrot_fish.png",
+    image: parrotFish,
     howToGetItem: [
       {
         en: "Beach fishing",
@@ -15586,7 +15775,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "?",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -15611,7 +15799,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "?",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -15636,7 +15823,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "?",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -15651,7 +15837,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Farmhand Coupon": {
-    image: "assets/icons/bud_ticket.png",
+    image: budTicket,
     description: {
       en: "?",
       pt: "?",
@@ -15661,7 +15847,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "?",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -15686,7 +15871,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "A helpful farmhand to assist you with your farm.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -15701,7 +15885,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   Beehive: {
-    image: "assets/sfts/beehive.webp",
+    image: beehive,
     description: {
       en: "A bustling beehive, producing honey from actively growing flowers; 10% chance upon Honey harvest to summon a bee swarm which will pollinate all growing crops with a +0.2 boost!",
       pt: "Uma colmeia agitada, produzindo mel a partir de flores em crescimento ativo; 10% de chance ao colher Mel de invocar um enxame de abelhas que polinizará todas as plantações em crescimento com um impulso de +0.2!",
@@ -15713,7 +15897,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A bustling beehive, producing honey from actively growing flowers; 10% chance upon Honey harvest to summon a bee swarm which will pollinate all growing crops with a +0.2 boost!",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -15742,7 +15925,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Red Pansy": {
-    image: "assets/flowers/red_pansy.webp",
+    image: redPansy,
     description: {
       en: "A red pansy.",
       pt: "Uma pansy vermelha.",
@@ -15752,7 +15935,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "A flower",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -15767,7 +15949,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Yellow Pansy": {
-    image: "assets/flowers/yellow_pansy.webp",
+    image: yellowPansy,
     description: {
       en: "A yellow pansy.",
       pt: "Uma pansy amarela.",
@@ -15777,7 +15959,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "A flower",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -15792,7 +15973,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Purple Pansy": {
-    image: "assets/flowers/purple_pansy.webp",
+    image: purplePansy,
     description: {
       en: "A purple pansy.",
       pt: "Uma pansy roxa.",
@@ -15802,7 +15983,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "A flower",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -15817,7 +15997,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "White Pansy": {
-    image: "assets/flowers/white_pansy.webp",
+    image: whitePansy,
     description: {
       en: "A white pansy.",
       pt: "Uma pansy branca.",
@@ -15827,7 +16007,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "A flower",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -15842,7 +16021,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Blue Pansy": {
-    image: "assets/flowers/blue_pansy.webp",
+    image: bluePansy,
     description: {
       en: "A blue pansy.",
       pt: "Uma pansy azul.",
@@ -15852,7 +16031,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "A flower",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -15867,7 +16045,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Red Cosmos": {
-    image: "assets/flowers/red_cosmos.webp",
+    image: redCosmos,
     description: {
       en: "A red cosmos.",
       pt: "Um cosmos vermelho.",
@@ -15877,7 +16055,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "A flower",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -15892,7 +16069,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Yellow Cosmos": {
-    image: "assets/flowers/yellow_cosmos.webp",
+    image: yellowCosmos,
     description: {
       en: "A yellow cosmos.",
       pt: "Um cosmos amarelo.",
@@ -15902,7 +16079,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "A flower",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -15917,7 +16093,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Purple Cosmos": {
-    image: "assets/flowers/purple_cosmos.webp",
+    image: purpleCosmos,
     description: {
       en: "A purple cosmos.",
       pt: "Um cosmos roxo.",
@@ -15927,7 +16103,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "A flower",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -15942,7 +16117,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "White Cosmos": {
-    image: "assets/flowers/white_cosmos.webp",
+    image: whiteCosmos,
     description: {
       en: "A white cosmos.",
       pt: "Um cosmos branco.",
@@ -15952,7 +16127,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "A flower",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -15967,7 +16141,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Blue Cosmos": {
-    image: "assets/flowers/blue_cosmos.webp",
+    image: blueCosmos,
     description: {
       en: "A blue cosmos.",
       pt: "Um cosmos azul.",
@@ -15977,7 +16151,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "A flower",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -15992,7 +16165,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Red Balloon Flower": {
-    image: "assets/flowers/red_balloon_flower.webp",
+    image: redBalloonFlower,
     description: {
       en: "A red balloon flower.",
       pt: "Uma flor de balão vermelho.",
@@ -16002,7 +16175,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "A flower",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -16017,7 +16189,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Yellow Balloon Flower": {
-    image: "assets/flowers/yellow_balloon_flower.webp",
+    image: yellowBalloonFlower,
     description: {
       en: "A yellow balloon flower.",
       pt: "Uma flor de balão amarelo.",
@@ -16027,7 +16199,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "A flower",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -16042,7 +16213,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Purple Balloon Flower": {
-    image: "assets/flowers/purple_balloon_flower.webp",
+    image: purpleBalloonFlower,
     description: {
       en: "A purple balloon flower.",
       pt: "Uma flor de balão roxo.",
@@ -16052,7 +16223,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "A flower",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -16067,7 +16237,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "White Balloon Flower": {
-    image: "assets/flowers/white_balloon_flower.webp",
+    image: whiteBalloonFlower,
     description: {
       en: "A white balloon flower.",
       pt: "Uma flor de balão branca.",
@@ -16077,7 +16247,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "A flower",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -16092,7 +16261,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Blue Balloon Flower": {
-    image: "assets/flowers/blue_balloon_flower.webp",
+    image: blueBalloonFlower,
     description: {
       en: "A blue balloon flower.",
       pt: "Uma flor de balão azul.",
@@ -16102,7 +16271,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "A flower",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -16117,7 +16285,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Red Carnation": {
-    image: "assets/flowers/red_carnation.png",
+    image: redCarnation,
     description: {
       en: "A red carnation.",
       pt: "Um cravo vermelho.",
@@ -16127,7 +16295,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "A flower",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -16142,7 +16309,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Yellow Carnation": {
-    image: "assets/flowers/yellow_carnation.png",
+    image: yellowCarnation,
     description: {
       en: "A yellow carnation.",
       pt: "Um cravo amarelo.",
@@ -16152,7 +16319,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "A flower",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -16167,7 +16333,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Purple Carnation": {
-    image: "assets/flowers/purple_carnation.png",
+    image: purpleCarnation,
     description: {
       en: "A purple carnation.",
       pt: "Um cravo roxo.",
@@ -16177,7 +16343,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "A flower",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -16192,7 +16357,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "White Carnation": {
-    image: "assets/flowers/white_carnation.png",
+    image: whiteCarnation,
     description: {
       en: "A white carnation.",
       pt: "Um cravo branco.",
@@ -16202,7 +16367,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "A flower",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -16217,7 +16381,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Blue Carnation": {
-    image: "assets/flowers/blue_carnation.png",
+    image: blueCarnation,
     description: {
       en: "A blue carnation.",
       pt: "Um cravo azul.",
@@ -16227,7 +16391,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "A flower",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -16242,7 +16405,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Humming Bird": {
-    image: "assets/sfts/hummingbird.webp",
+    image: hummingBird,
     description: {
       en: "A tiny jewel of the sky, the Humming Bird flits with colorful grace.",
       pt: "Um joia minúscula do céu, o Beija-flor flutua com graça colorida.",
@@ -16253,7 +16416,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A tiny jewel of the sky, the Humming Bird flits with colorful grace.",
-
       attributes: [
         {
           trait_type: "Boost",
@@ -16278,7 +16440,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Queen Bee": {
-    image: "assets/sfts/queen_bee.webp",
+    image: queenBee,
     description: {
       en: "Majestic ruler of the hive, the Queen Bee buzzes with regal authority.",
       pt: "Régia majestosa da colmeia, a Abelha Rainha zumbindo com autoridade régia.",
@@ -16289,7 +16451,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "Majestic ruler of the hive, the Queen Bee buzzes with regal authority.",
-
       attributes: [
         {
           trait_type: "Boost",
@@ -16309,7 +16470,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Flower Fox": {
-    image: "assets/sfts/flower_fox.webp",
+    image: flowerFox,
     description: {
       en: "The Flower Fox, a playful creature adorned with petals, brings joy to the garden.",
       pt: "A Raposa Flor, uma criatura lúdica adornada com pétalas, traz alegria ao jardim.",
@@ -16320,7 +16481,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "The Flower Fox, a playful creature adorned with petals, brings joy to the garden.",
-
       attributes: [
         {
           trait_type: "Boost",
@@ -16340,7 +16500,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Hungry Caterpillar": {
-    image: "assets/sfts/hungry_caterpillar.webp",
+    image: hungryCaterpillar,
     description: {
       en: "Munching through leaves, the Hungry Caterpillar is always ready for a tasty adventure.",
       pt: "Devorando folhas, a Lagarta Faminta está sempre pronta para uma aventura saborosa.",
@@ -16351,7 +16511,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "Munching through leaves, the Hungry Caterpillar is always ready for a tasty adventure.",
-
       attributes: [
         {
           trait_type: "Boost",
@@ -16371,7 +16530,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Sunrise Bloom Rug": {
-    image: "assets/sfts/sunrise_bloom_rug.webp",
+    image: sunriseBloomRug,
     description: {
       en: "Step onto the Sunrise Bloom Rug, where petals dance around a floral sunrise.",
       pt: "Pise no Tapete de Flores do Amanhecer, onde pétalas dançam ao redor de um nascer do sol floral.",
@@ -16382,7 +16541,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "Step onto the Sunrise Bloom Rug, where petals dance around a floral sunrise.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -16397,7 +16555,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Flower Rug": {
-    image: "assets/sfts/flower_rug.webp",
+    image: flowerRug,
     description: {
       en: "Add a touch of nature's elegance to your home.",
       pt: "Add a touch of nature's elegance to your home.",
@@ -16407,7 +16565,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "Add a touch of nature's elegance to your home.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -16422,7 +16579,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Tea Rug": {
-    image: "assets/sfts/tea_rug.webp",
+    image: teaRug,
     description: {
       en: "Rug boasting a warm and inviting tea-colored hue that exudes comfort.",
       pt: "Rug boasting a warm and inviting tea-colored hue that exudes comfort.",
@@ -16434,7 +16591,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "Rug boasting a warm and inviting tea-colored hue that exudes comfort.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -16449,7 +16605,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Green Field Rug": {
-    image: "assets/sfts/green_field_rug.webp",
+    image: greenFieldRug,
     description: {
       en: "A beautiful rug of deep green hue's reminiscent of a vibrant meadow in full bloom.",
       pt: "A beautiful rug of deep green hue's reminiscent of a vibrant meadow in full bloom.",
@@ -16461,7 +16617,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A beautiful rug of deep green hue's reminiscent of a vibrant meadow in full bloom.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -16476,7 +16631,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Blossom Royale": {
-    image: "assets/sfts/blossom_royale.webp",
+    image: blossomRoyale,
     description: {
       en: "The Blossom Royale, a giant flower in vibrant blue and pink, stands in majestic bloom.",
       pt: "O Royale da Flor, uma flor gigante em azul e rosa vibrantes, está em majestosa floração.",
@@ -16487,7 +16642,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "The Blossom Royale, a giant flower in vibrant blue and pink, stands in majestic bloom.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -16502,7 +16656,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   Rainbow: {
-    image: "assets/sfts/rainbow.webp",
+    image: rainbow,
     description: {
       en: "A cheerful Rainbow, bridging sky and earth with its colorful arch.",
       pt: "Um Arco-íris alegre, unindo o céu e a terra com seu arco colorido.",
@@ -16513,7 +16667,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A cheerful Rainbow, bridging sky and earth with its colorful arch.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -16528,7 +16681,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Enchanted Rose": {
-    image: "assets/sfts/enchanted_rose.webp",
+    image: enchantedRose,
     description: {
       en: "The Enchanted Rose, a symbol of eternal beauty, captivates with its magical allure.",
       pt: "A Rosa Encantada, um símbolo de beleza eterna, cativa com seu fascínio mágico.",
@@ -16539,7 +16692,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "The Enchanted Rose, a symbol of eternal beauty, captivates with its magical allure.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -16554,7 +16706,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Flower Cart": {
-    image: "assets/sfts/flower_cart.webp",
+    image: flowerCart,
     description: {
       en: "The Flower Cart, brimming with blooms, is a mobile garden of floral delights.",
       pt: "O Carrinho de Flores, transbordante de flores, é um jardim móvel de delícias florais.",
@@ -16565,7 +16717,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "The Flower Cart, brimming with blooms, is a mobile garden of floral delights.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -16580,7 +16731,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   Capybara: {
-    image: "assets/sfts/capybara.webp",
+    image: capybara,
     description: {
       en: "The Capybara, a laid-back friend, enjoys lazy days by the water's edge.",
       pt: "A Capivara, uma amiga tranquila, desfruta de dias preguiçosos à beira da água.",
@@ -16591,7 +16742,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "The Capybara, a laid-back friend, enjoys lazy days by the water's edge.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -16606,7 +16756,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Prism Petal": {
-    image: "assets/flowers/prism_petal.webp",
+    image: prismPetal,
     description: {
       en: "Wow! What a beautiful flower! I think this one is worthy of placing on your farm.",
       pt: "Uau! Que flor bonita! Acho que esta vale a pena colocar em sua fazenda.",
@@ -16617,7 +16767,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "Wow! What a beautiful flower! I think this one is worthy of placing on your farm",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -16636,7 +16785,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Celestial Frostbloom": {
-    image: "assets/flowers/celestial_frostbloom.webp",
+    image: celestialFrostbloom,
     description: {
       en: "Wow! What a beautiful flower! I think this one is worthy of placing on your farm.",
       pt: "Uau! Que flor bonita! Acho que esta vale a pena colocar em sua fazenda.",
@@ -16647,7 +16796,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "Wow! What a beautiful flower! I think this one is worthy of placing on your farm",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -16666,7 +16814,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Primula Enigma": {
-    image: "assets/flowers/primula_enigma.webp",
+    image: primulaEnigma,
     description: {
       en: "Wow! What a beautiful flower! I think this one is worthy of placing on your farm.",
       pt: "Uau! Que flor bonita! Acho que esta vale a pena colocar em sua fazenda.",
@@ -16677,7 +16825,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "Wow! What a beautiful flower! I think this one is worthy of placing on your farm",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -16696,7 +16843,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Red Daffodil": {
-    image: "assets/flowers/red_daffodil.webp",
+    image: redDaffodil,
     description: {
       en: "A red daffodil.",
       pt: "Um narciso vermelho.",
@@ -16706,7 +16853,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "A flower",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -16721,7 +16867,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Yellow Daffodil": {
-    image: "assets/flowers/yellow_daffodil.webp",
+    image: yellowDaffodil,
     description: {
       en: "A yellow daffodil.",
       pt: "Um narciso amarelo.",
@@ -16731,7 +16877,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "A flower",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -16746,7 +16891,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Purple Daffodil": {
-    image: "assets/flowers/purple_daffodil.webp",
+    image: purpleDaffodil,
     description: {
       en: "A purple daffodil.",
       pt: "Um narciso roxo.",
@@ -16756,7 +16901,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "A flower",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -16771,7 +16915,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "White Daffodil": {
-    image: "assets/flowers/white_daffodil.webp",
+    image: whiteDaffodil,
     description: {
       en: "A white daffodil.",
       pt: "Um narciso branco.",
@@ -16781,7 +16925,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "A flower",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -16796,7 +16939,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Blue Daffodil": {
-    image: "assets/flowers/blue_daffodil.webp",
+    image: blueDaffodil,
     description: {
       en: "A blue daffodil.",
       pt: "Um narciso azul.",
@@ -16806,7 +16949,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "A flower",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -16821,7 +16963,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Red Lotus": {
-    image: "assets/flowers/red_lotus.webp",
+    image: redLotus,
     description: {
       en: "A red lotus.",
       pt: "Um lótus vermelho.",
@@ -16831,7 +16973,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "A flower",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -16846,7 +16987,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Yellow Lotus": {
-    image: "assets/flowers/yellow_lotus.webp",
+    image: yellowLotus,
     description: {
       en: "A yellow lotus.",
       pt: "Um lótus amarelo.",
@@ -16856,7 +16997,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "A flower",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -16871,7 +17011,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Purple Lotus": {
-    image: "assets/flowers/purple_lotus.webp",
+    image: purpleLotus,
     description: {
       en: "A purple lotus.",
       pt: "Um lótus roxo.",
@@ -16881,7 +17021,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "A flower",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -16896,7 +17035,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "White Lotus": {
-    image: "assets/flowers/white_lotus.webp",
+    image: whiteLotus,
     description: {
       en: "A white lotus.",
       pt: "Um lótus branco.",
@@ -16906,7 +17045,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "A flower",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -16921,7 +17059,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Blue Lotus": {
-    image: "assets/flowers/blue_lotus.webp",
+    image: blueLotus,
     description: {
       en: "A blue lotus.",
       pt: "Um lótus azul.",
@@ -16931,7 +17069,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "A flower",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -16946,7 +17083,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Earn Alliance Banner": {
-    image: "assets/sfts/earn_alliance_banner.png",
+    image: earnAllianceBanner,
     description: {
       en: "A special event banner",
       pt: "Um banner de evento especial",
@@ -16957,7 +17094,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A special event banner. Gave a starter bonus of 2x XP in February 2024 for players on the beginner island.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -16972,7 +17108,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Luxury Key": {
-    image: "assets/sfts/quest/luxury_key.png",
+    image: luxuryKey,
     description: {
       en: "Visit the plaza near woodlands to unlock your reward",
       pt: "Visite o Plaza perto de Woodlands para desbloquear sua recompensa",
@@ -16982,7 +17118,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "A magic key that can unlock rewards in the plaza",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -16997,7 +17132,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Rare Key": {
-    image: "assets/sfts/quest/rare_key.png",
+    image: rareKey,
     description: {
       en: "Visit the beach to unlock your reward",
       pt: "Visite a praia para desbloquear sua recompensa",
@@ -17007,7 +17142,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "A magic key that can unlock rewards in the plaza",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -17022,7 +17156,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Prize Ticket": {
-    image: "assets/icons/prize_ticket.png",
+    image: prizeTicket,
     description: {
       en: "A prized ticket. You can use it to enter the monthly goblin raffle.",
       pt: "Um ticket para entrar nos sorteios de prêmios",
@@ -17033,7 +17167,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "A free entry into the end of season giveaway",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -17048,7 +17181,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Baby Panda": {
-    image: "assets/sfts/baby_panda.png",
+    image: babyPanda,
     description: {
       en: "A cute panda from the Gas Hero event. Double experience for beginners during March.",
       pt: "A cute panda from the Gas Hero event. Double experience for beginners during March.",
@@ -17060,7 +17193,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A baby panda earned during the Gas Hero collaboration event. Gives new players double XP during March 2024.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -17075,7 +17207,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   Baozi: {
-    image: "assets/sfts/baozi.webp",
+    image: baozi,
     description: {
       en: "A delicious treat from the Lunar New Year event.",
       pt: "A delicious treat from the Lunar New Year event.",
@@ -17086,7 +17218,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A delicious steamed bun. A special event item from Lunar New Year 2024.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -17101,7 +17232,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Community Egg": {
-    image: "assets/sfts/easter_donation_egg.webp",
+    image: communityEgg,
     description: {
       en: "Wow, you must really care about the community!",
       pt: "Wow, you must really care about the community!",
@@ -17111,7 +17242,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "Wow, you must really care about the community",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -17126,7 +17256,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Hungry Hare": {
-    image: "assets/sfts/hungryHare.png",
+    image: hungryHare,
     description: {
       en: "This ravenous rabbit hops through your farm. A special event item from Easter 2024",
       pt: "This ravenous rabbit hops through your farm. A special event item from Easter 2024",
@@ -17137,7 +17267,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "This ravenous rabbit hops through your farm. A special event item from Easter 2024",
-
       attributes: [
         {
           trait_type: "Tradable",
@@ -17157,7 +17286,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Turbo Sprout": {
-    image: "assets/sfts/turbo_sprout.webp",
+    image: turboSprout,
     description: {
       en: "An engine that reduces the Green House's growth time by 50%.",
       pt: "An engine that reduces the Green House's growth time by 50%.",
@@ -17168,7 +17297,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "An engine that boosts the Green House's growth speed by 50%.",
-
       attributes: [
         {
           trait_type: "Tradable",
@@ -17188,7 +17316,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   Soybliss: {
-    image: "assets/sfts/soybliss.webp",
+    image: soybliss,
     description: {
       en: "A unique soy creature that gives +1 Soybean yield.",
       pt: "A unique soy creature that gives +1 Soybean yield.",
@@ -17198,7 +17326,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "A unique soy creature that gives +1 Soybean yield.",
-
       attributes: [
         {
           trait_type: "Tradable",
@@ -17218,7 +17345,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Grape Granny": {
-    image: "assets/sfts/grape_granny.webp",
+    image: grapeGranny,
     description: {
       en: "Wise matriarch nurturing grapes to flourish with +1 yield.",
       pt: "Wise matriarch nurturing grapes to flourish with +1 yield.",
@@ -17228,7 +17355,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "Wise matriarch nurturing grapes to flourish with +1 yield.",
-
       attributes: [
         {
           trait_type: "Tradable",
@@ -17248,7 +17374,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Royal Throne": {
-    image: "assets/sfts/royal_throne.webp",
+    image: royalThrone,
     description: {
       en: "A throne fit for the highest ranking farmer.",
       pt: "A throne fit for the highest ranking farmer.",
@@ -17258,7 +17384,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "A throne fit for the highest ranking farmer.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -17273,7 +17398,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Lily Egg": {
-    image: "assets/sfts/lily_egg.webp",
+    image: lilyEgg,
     description: {
       en: "Tiny delight, grand beauty, endless wonder.",
       pt: "Tiny delight, grand beauty, endless wonder.",
@@ -17283,7 +17408,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "Tiny delight, grand beauty, endless wonder.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -17298,7 +17422,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   Goblet: {
-    image: "assets/sfts/goblet.webp",
+    image: goblet,
     description: {
       en: "A goblet that holds the finest of wines.",
       pt: "A goblet that holds the finest of wines.",
@@ -17308,7 +17432,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "A goblet that holds the finest of wines.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -17323,7 +17446,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Fancy Rug": {
-    image: "assets/sfts/fancy_rug.webp",
+    image: fancyRug,
     description: {
       en: "A rug that brings a touch of elegance to any room.",
       pt: "A rug that brings a touch of elegance to any room.",
@@ -17333,7 +17456,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "A rug that adds a touch of elegance to any room.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -17348,7 +17470,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   Clock: {
-    image: "assets/sfts/clock.webp",
+    image: clock,
     description: {
       en: "A Clock that keeps time with the gentle ticking of the seasons.",
       pt: "A Clock that keeps time with the gentle ticking of the seasons.",
@@ -17359,7 +17481,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A Clock that keeps time with the gentle ticking of the seasons.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -17374,7 +17495,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   Vinny: {
-    image: "assets/sfts/vinny.webp",
+    image: vinny,
     description: {
       en: "Vinny, a friendly grapevine, is always ready for a chat.",
       pt: "Vinny, a friendly grapevine, is always ready for a chat.",
@@ -17384,7 +17505,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "Vinny, a friendly grapevine, is always ready for a chat.",
-
       attributes: [
         {
           trait_type: "Boost",
@@ -17404,7 +17524,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Beetroot Blaze": {
-    image: "assets/food/beetroot_blaze.png",
+    image: beetrootBlaze,
     description: {
       en: "A spicy beetroot-infused magic mushroom dish",
       pt: "A spicy beetroot-infused magic mushroom dish",
@@ -17414,7 +17534,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "A spicy beetroot-infused magic mushroom dish",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -17429,7 +17548,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Rapid Roast": {
-    image: "assets/food/rapid_roast.png",
+    image: rapidRoast,
     description: {
       en: "For Bumpkins in a hurry...",
       pt: "For Bumpkins in a hurry...",
@@ -17439,7 +17558,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "When you are in a hurry",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -17454,7 +17572,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Shroom Syrup": {
-    image: "assets/food/shroom_syrup.png",
+    image: shroomSyrup,
     description: {
       en: "The essence of bees and enchanted fungi",
       pt: "The essence of bees and enchanted fungi",
@@ -17464,7 +17582,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "The essence of bees and enchanted fungi",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -17479,7 +17596,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Gaucho Rug": {
-    image: "assets/sfts/gaucho_rug.webp",
+    image: gauchoRug,
     description: {
       en: "A commerative rug to support South Brazil.",
       pt: "A commerative rug to support South Brazil.",
@@ -17489,7 +17606,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "A commerative rug to support South Brazil.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -17500,7 +17616,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Battlecry Drum": {
-    image: "assets/sfts/battlecry_drum.webp",
+    image: battleCryDrum,
     description: {
       en: "",
       pt: "",
@@ -17510,7 +17626,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -17521,7 +17636,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Bullseye Board": {
-    image: "assets/sfts/bullseye_board.webp",
+    image: bullseyBoard,
     description: {
       en: "",
       pt: "",
@@ -17531,7 +17646,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "Hit the mark every time.!",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -17542,7 +17656,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Chess Rug": {
-    image: "assets/sfts/chess_rug.webp",
+    image: chessRug,
     description: {
       en: "",
       pt: "",
@@ -17552,7 +17666,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "Checkmate.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -17563,7 +17676,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   Cluckapult: {
-    image: "assets/sfts/cluckapult.webp",
+    image: cluckapult,
     description: {
       en: "",
       pt: "",
@@ -17573,7 +17686,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -17584,7 +17696,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Golden Gallant": {
-    image: "assets/sfts/golden_gallant.webp",
+    image: goldenGallant,
     description: {
       en: "",
       pt: "",
@@ -17594,7 +17706,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -17605,7 +17716,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Golden Garrison": {
-    image: "assets/sfts/golden_garrison.webp",
+    image: goldenGarrison,
     description: {
       en: "",
       pt: "",
@@ -17616,7 +17727,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "Defend your territory in style with this shimmering garrison, a true fortress of flair.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -17627,7 +17737,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Golden Guardian": {
-    image: "assets/sfts/golden_guardian.webp",
+    image: goldenGurdian,
     description: {
       en: "",
       pt: "",
@@ -17637,7 +17747,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -17648,7 +17757,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Novice Knight": {
-    image: "assets/sfts/novice_knight.webp",
+    image: noviceKnight,
     description: {
       en: "",
       pt: "",
@@ -17658,7 +17767,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "Every move is an adventure.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -17669,7 +17777,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Regular Pawn": {
-    image: "assets/sfts/regular_pawn.webp",
+    image: regularPawn,
     description: {
       en: "",
       pt: "",
@@ -17680,7 +17788,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "Small but mighty! This pawn may just make a big move in your collection.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -17691,7 +17798,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Rookie Rook": {
-    image: "assets/sfts/rookie_rook.webp",
+    image: rookieRook,
     description: {
       en: "",
       pt: "",
@@ -17701,7 +17808,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -17712,7 +17818,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Silver Sentinel": {
-    image: "assets/sfts/silver_sentinel.webp",
+    image: silverSentinel,
     description: {
       en: "",
       pt: "",
@@ -17722,7 +17828,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -17733,7 +17838,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Silver Squire": {
-    image: "assets/sfts/silver_squire.webp",
+    image: silverSquire,
     description: {
       en: "",
       pt: "",
@@ -17743,7 +17848,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "Add some shine to your collection.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -17754,7 +17858,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Silver Stallion": {
-    image: "assets/sfts/silver_stallion.webp",
+    image: silverStallion,
     description: {
       en: "",
       pt: "",
@@ -17764,7 +17868,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -17775,7 +17878,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Trainee Target": {
-    image: "assets/sfts/trainee_target.webp",
+    image: traineeTarget,
     description: {
       en: "",
       pt: "",
@@ -17786,7 +17889,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "Every champion starts somewhere! Perfect your aim with the Trainee Target.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -17797,7 +17899,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Twister Rug": {
-    image: "assets/sfts/twister_rug.webp",
+    image: twisterRug,
     description: {
       en: "",
       pt: "",
@@ -17808,7 +17910,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "Twist, turn, and tie your decor together with this playful rug.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -17819,7 +17920,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Grape Seed": {
-    image: "assets/greenhouse/grape_seed.webp",
+    image: grapeSeed,
     description: {
       en: "A zesty and desired fruit.",
       pt: "A zesty and desired fruit.",
@@ -17829,7 +17930,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "A zesty and desired fruit.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -17840,7 +17940,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Olive Seed": {
-    image: "assets/greenhouse/olive_seed.webp",
+    image: oliveSeed,
     description: {
       en: "A luxury for advanced farmers.",
       pt: "A luxury for advanced farmers.",
@@ -17850,7 +17950,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "A luxury for advanced farmers.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -17861,7 +17960,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Rice Seed": {
-    image: "assets/greenhouse/rice_seed.webp",
+    image: riceSeed,
     description: {
       en: "Perfect for rations!",
       pt: "Perfect for rations!",
@@ -17871,7 +17970,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "Perfect for rations...",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -17882,7 +17980,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   Grape: {
-    image: "assets/greenhouse/grape.webp",
+    image: grape,
     description: {
       en: "A zesty and desired fruit.",
       pt: "A zesty and desired fruit.",
@@ -17892,7 +17990,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "A zesty and desired fruit.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -17903,7 +18000,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   Olive: {
-    image: "assets/greenhouse/olive.webp",
+    image: olive,
     description: {
       en: "A luxury for advanced farmers.",
       pt: "A luxury for advanced farmers.",
@@ -17913,7 +18010,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "A luxury for advanced farmers.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -17924,7 +18020,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   Rice: {
-    image: "assets/greenhouse/rice.webp",
+    image: rice,
     description: {
       en: "Perfect for rations!",
       pt: "Perfect for rations!",
@@ -17934,7 +18030,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "Perfect for rations...",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -17945,7 +18040,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   Antipasto: {
-    image: "assets/food/antipasto.webp",
+    image: antipasto,
     description: {
       en: "Assorted bites, perfect for sharing.",
       pt: "Assorted bites, perfect for sharing.",
@@ -17955,7 +18050,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "A selection of savory bites to start your meal",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -17966,7 +18060,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Carrot Juice": {
-    image: "assets/food/carrot_juice.webp",
+    image: carrotJuice,
     description: {
       en: "Refreshing juice, pressed fresh by bumpkins.",
       pt: "Refreshing juice, pressed fresh by bumpkins.",
@@ -17976,7 +18070,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "Refreshing drink from farm-fresh carrots",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -17987,7 +18080,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Seafood Basket": {
-    image: "assets/food/seafood_basket.webp",
+    image: fishBasket,
     description: {
       en: "Oceanic flavors, sourced by goblins.",
       pt: "Oceanic flavors, sourced by goblins.",
@@ -17997,7 +18090,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "A bountiful basket of fresh ocean delights",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -18008,7 +18100,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Fish Burger": {
-    image: "assets/food/fish_burger.webp",
+    image: fishBurger,
     description: {
       en: "Succulent burger, loved by seaside adventurers.",
       pt: "Succulent burger, loved by seaside adventurers.",
@@ -18018,7 +18110,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "Succulent burger made with freshly caught fish",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -18029,7 +18120,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Fish n Chips": {
-    image: "assets/food/fish_and_chips.webp",
+    image: fishnChips,
     description: {
       en: "Classic seaside meal, loved by all.",
       pt: "Classic seaside meal, loved by all.",
@@ -18039,7 +18130,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "Crispy chips paired with tender fish fillets",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -18050,7 +18140,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Fish Omelette": {
-    image: "assets/food/fish_omelette.webp",
+    image: fishOmelette,
     description: {
       en: "Flavorful omelette, filled with oceanic treasures.",
       pt: "Flavorful omelette, filled with oceanic treasures.",
@@ -18060,7 +18150,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "Fluffy omelette with a flavorful fish filling",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -18071,7 +18160,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Fried Calamari": {
-    image: "assets/food/fried_calamari.webp",
+    image: friedCalamari,
     description: {
       en: "Crispy calamari rings, a delicious indulgence.",
       pt: "Crispy calamari rings, a delicious indulgence.",
@@ -18081,7 +18170,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "Crispy calamari rings, a seafood delight",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -18092,7 +18180,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Fried Tofu": {
-    image: "assets/food/fried_tofu.png",
+    image: friedTofu,
     description: {
       en: "Golden fried tofu, crafted with care.",
       pt: "Golden fried tofu, crafted with care.",
@@ -18102,7 +18190,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "Crispy tofu bites, a vegetarian favorite",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -18113,7 +18200,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Grape Juice": {
-    image: "assets/food/grape_juice.webp",
+    image: grapeJuice,
     description: {
       en: "Sweet and tangy juice, freshly squeezed.",
       pt: "Sweet and tangy juice, freshly squeezed.",
@@ -18123,7 +18210,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "Sweet and refreshing juice from sun-ripened grapes",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -18134,7 +18220,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Ocean's Olive": {
-    image: "assets/food/oceans_olive.webp",
+    image: oceansOlive,
     description: {
       en: "Delightful oceanic dish, a true Sunflorian delicacy.",
       pt: "Delightful oceanic dish, a true Sunflorian delicacy.",
@@ -18144,7 +18230,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "Savor the taste of the sea with these ocean-infused olives",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -18155,7 +18240,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Quick Juice": {
-    image: "assets/food/quick_juice.webp",
+    image: quickJuice,
     description: {
       en: "Quick energy boost, a Goblin favourite.",
       pt: "Quick energy boost, a Goblin favourite.",
@@ -18165,7 +18250,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "A swift and energizing juice for busy days",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -18176,7 +18260,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Rice Bun": {
-    image: "assets/food/rice_bun.webp",
+    image: riceBun,
     description: {
       en: "Soft and fluffy rice bun, a favorite.",
       pt: "Soft and fluffy rice bun, a favorite.",
@@ -18186,7 +18270,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "Soft buns made with rice flour, perfect for snacking",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -18197,7 +18280,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Slow Juice": {
-    image: "assets/food/slow_juice.webp",
+    image: slowJuice,
     description: {
       en: "Nutrient-rich juice, handcrafted by bumpkins.",
       pt: "Nutrient-rich juice, handcrafted by bumpkins.",
@@ -18207,7 +18290,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "Slowly pressed juice for a burst of natural flavors",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -18218,7 +18300,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Steamed Red Rice": {
-    image: "assets/food/red_rice.webp",
+    image: redRice,
     description: {
       en: "Perfectly steamed red rice, a bumpkin's delight.",
       pt: "Perfectly steamed red rice, a bumpkin's delight.",
@@ -18228,7 +18310,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "Nutritious red rice, steamed to perfection",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -18239,7 +18320,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Sushi Roll": {
-    image: "assets/food/sushi_roll.webp",
+    image: sushiRoll,
     description: {
       en: "Delicious sushi roll, skillfully prepared.",
       pt: "Delicious sushi roll, skillfully prepared.",
@@ -18249,7 +18330,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "Delicious sushi rolls filled with fresh ingredients",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -18260,7 +18340,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "The Lot": {
-    image: "assets/food/the_lot.webp",
+    image: theLot,
     description: {
       en: "Flavorful fruit blend, refreshing and nutritious.",
       pt: "Flavorful fruit blend, refreshing and nutritious.",
@@ -18270,7 +18350,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "A medley of fruits for the adventurous palate",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -18281,7 +18360,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Tofu Scramble": {
-    image: "assets/food/tofu_scramble.png",
+    image: tofuScramble,
     description: {
       en: "Hearty scramble, packed with protein and flavor.",
       pt: "Hearty scramble, packed with protein and flavor.",
@@ -18292,7 +18371,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "Scrambled tofu with a mix of vegetables, a hearty breakfast",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -18303,7 +18381,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   Greenhouse: {
-    image: "assets/buildings/greenhouse.webp",
+    image: greenhouse,
     description: {
       en: "A sanctuary for sensitive crops",
       pt: "A sanctuary for sensitive crops",
@@ -18313,7 +18391,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "A safehaven for sensitive crops",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -18324,7 +18401,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Rice Panda": {
-    image: "assets/sfts/rice_panda.webp",
+    image: ricePanda,
     description: {
       en: "A smart panda never forgets to water the rice.",
       pt: "A smart panda never forgets to water the rice.",
@@ -18334,7 +18411,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "A smart panda never forgets to water the rice.",
-
       attributes: [
         {
           trait_type: "Boost",
@@ -18354,7 +18430,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Benevolence Flag": {
-    image: "assets/sfts/benevolence_flag.png",
+    image: benevolenceFlag,
     description: {
       en: "For players who have shown great benevolence by contributing significantly to the Bumpkins.",
       pt: "For players who have shown great benevolence by contributing significantly to the Bumpkins.",
@@ -18366,7 +18442,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "For players who have shown great benevolence by contributing significantly to the Bumpkins.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -18377,7 +18452,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Devotion Flag": {
-    image: "assets/sfts/devotion_flag.png",
+    image: devotionFlag,
     description: {
       en: "For players who have shown unwavering devotion by donating extensively to the Nightshades, reflecting their cult-like dedication",
       pt: "For players who have shown unwavering devotion by donating extensively to the Nightshades, reflecting their cult-like dedication",
@@ -18389,7 +18464,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "For players who have shown unwavering devotion by donating extensively to the Nightshades, reflecting their cult-like dedication",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -18400,7 +18474,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Generosity Flag": {
-    image: "assets/sfts/generosity_flag.png",
+    image: generosityFlag,
     description: {
       en: "For players who have donated substantial resources to the Goblins.",
       pt: "For players who have donated substantial resources to the Goblins.",
@@ -18412,7 +18486,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "For players who have donated substantial resources to the Goblins.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -18423,7 +18496,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Splendor Flag": {
-    image: "assets/sfts/splendor_flag.png",
+    image: splendorFlag,
     description: {
       en: "For players who have generously supported the Sunflorians, symbolizing their splendor in generosity.",
       pt: "For players who have generously supported the Sunflorians, symbolizing their splendor in generosity.",
@@ -18435,7 +18508,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "For players who have generously supported the Sunflorians, symbolizing their splendor in generosity.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -18446,7 +18518,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Jelly Lamp": {
-    image: "assets/sfts/jelly_lamp.webp",
+    image: jellyLamp,
     description: {
       en: "A lamp that brings a touch of luxury to any room.",
       pt: "A lamp that brings a touch of luxury to any room.",
@@ -18457,7 +18529,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A decorative lamp that emits a light that emits a light that emits a light.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -18468,7 +18539,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Paint Can": {
-    image: "assets/sfts/paint_can.png",
+    image: paintCan,
     description: {
       en: "A paint can discovered in the festival of colors",
       pt: "A paint can discovered in the festival of colors",
@@ -18478,7 +18549,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "A can of paint found during the Festival of Colors.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -18489,7 +18559,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Sunflorian Throne": {
-    image: "assets/factions/sunflorian_throne.webp",
+    image: sunflorianThrone,
     description: {
       en: "A throne fit for a Sunflorian.",
       pt: "A throne fit for a Sunflorian.",
@@ -18499,7 +18569,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "A throne fit for a Sunflorian.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -18510,7 +18579,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Nightshade Throne": {
-    image: "assets/factions/nightshade_throne.webp",
+    image: nightshadeThrone,
     description: {
       en: "A throne fit for a Nightshade.",
       pt: "A throne fit for a Nightshade.",
@@ -18520,7 +18589,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "A throne fit for a Sunflorian.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -18531,7 +18599,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Goblin Throne": {
-    image: "assets/factions/goblin_throne.webp",
+    image: goblinThrone,
     description: {
       en: "A throne fit for a Goblin.",
       pt: "A throne fit for a Goblin.",
@@ -18541,7 +18609,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "A throne fit for a Sunflorian.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -18552,7 +18619,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Bumpkin Throne": {
-    image: "public/assets/factions/bumpkins_throne.webp",
+    image: bumpkinThrone,
     description: {
       en: "A throne fit for a Bumpkin.",
       pt: "A throne fit for a Bumpkin.",
@@ -18562,7 +18629,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "A throne fit for a Sunflorian.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -18573,7 +18639,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Golden Sunflorian Egg": {
-    image: "assets/factions/golden_sunflorian_egg.webp",
+    image: goldenSunflorianEgg,
     description: {
       en: "A jewelled egg created by the House of Sunflorian.",
       pt: "A jewelled egg created by the House of Sunflorian.",
@@ -18583,7 +18649,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "A jewelled egg created by the House of Sunflorian.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -18594,7 +18659,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Goblin Mischief Egg": {
-    image: "assets/factions/goblin_mischief_egg.webp",
+    image: goblinMischiefEgg,
     description: {
       en: "A jewelled egg created by the House of Goblin.",
       pt: "A jewelled egg created by the House of Goblin.",
@@ -18604,7 +18669,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "A jewelled egg created by the House of Goblin.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -18615,7 +18679,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Bumpkin Charm Egg": {
-    image: "assets/factions/bumpkin_charm_egg.webp",
+    image: bumpkinCharmEgg,
     description: {
       en: "A jewelled egg created by the House of Bumpkin.",
       pt: "A jewelled egg created by the House of Bumpkin.",
@@ -18625,7 +18689,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "A jewelled egg created by the House of Bumpkin.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -18636,7 +18699,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Nightshade Veil Egg": {
-    image: "assets/factions/nightshade_veil_egg.webp",
+    image: nightshadeVeilEgg,
     description: {
       en: "A jewelled egg created by the House of Nightshade.",
       pt: "A jewelled egg created by the House of Nightshade.",
@@ -18646,7 +18709,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "A jewelled egg created by the House of Nightshade.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -18657,7 +18719,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Emerald Goblin Goblet": {
-    image: "assets/factions/emerald_goblin_goblet.webp",
+    image: emeraldGoblinGoblet,
     description: {
       en: "An emerald encrusted goblet.",
       pt: "An emerald encrusted goblet.",
@@ -18667,7 +18729,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "An emerald encrusted goblet.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -18678,7 +18739,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Opal Sunflorian Goblet": {
-    image: "assets/factions/opal_sunflorian_goblet.webp",
+    image: opalSunflorianGoblet,
     description: {
       en: "An opal encrusted goblet.",
       pt: "An opal encrusted goblet.",
@@ -18688,7 +18749,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "An opal encrusted goblet.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -18699,7 +18759,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Sapphire Bumpkin Goblet": {
-    image: "assets/factions/sapphire_bumpkin_goblet.webp",
+    image: sapphireBumpkinGoblet,
     description: {
       en: "A sapphire encrusted goblet.",
       pt: "A sapphire encrusted goblet.",
@@ -18709,7 +18769,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "A sapphire encrusted goblet.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -18720,7 +18779,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Amethyst Nightshade Goblet": {
-    image: "assets/factions/amethyst_nightshade_goblet.webp",
+    image: amethystNightshadeGoblet,
     description: {
       en: "An amethyst encrusted goblet.",
       pt: "An amethyst encrusted goblet.",
@@ -18730,7 +18789,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "An amethyst encrusted goblet",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -18741,7 +18799,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Golden Faction Goblet": {
-    image: "assets/factions/golden_faction_goblet.webp",
+    image: goldenFactionGoblet,
     description: {
       en: "A golden goblet.",
       pt: "A golden goblet.",
@@ -18751,7 +18809,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "A golden goblet.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -18762,7 +18819,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Ruby Faction Goblet": {
-    image: "assets/factions/ruby_faction_goblet.webp",
+    image: rubyFactionGoblet,
     description: {
       en: "A ruby encrusted goblet.",
       pt: "A ruby encrusted goblet.",
@@ -18772,7 +18829,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "A ruby encrusted goblet.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -18783,7 +18839,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Sunflorian Bunting": {
-    image: "assets/factions/sunflorian_victory_bunting.webp",
+    image: sunflorianBunting,
     description: {
       en: "Colorful flags celebrating the Sunflorian Faction.",
       pt: "Colorful flags celebrating the Sunflorian Faction.",
@@ -18793,7 +18849,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "Colorful flags celebrating the Sunflorian Faction.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -18804,7 +18859,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Nightshade Bunting": {
-    image: "assets/factions/nightshade_victory_bunting.webp",
+    image: nightshadeBunting,
     description: {
       en: "Colorful flags celebrating the Nightshade faction.",
       pt: "Colorful flags celebrating the Nightshade faction.",
@@ -18814,7 +18869,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "Colorful flags celebrating the Nightshade faction.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -18825,7 +18879,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Goblin Bunting": {
-    image: "assets/factions/goblin_victory_bunting.webp",
+    image: goblinBunting,
     description: {
       en: "Colorful flags celebrating the Goblin faction.",
       pt: "Colorful flags celebrating the Goblin faction.",
@@ -18835,7 +18889,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "Colorful flags celebrating the Goblin faction.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -18846,7 +18899,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Bumpkin Bunting": {
-    image: "assets/factions/bumpkin_victory_bunting.webp",
+    image: bumpkinBunting,
     description: {
       en: "Colorful flags celebrating the Bumpkin faction.",
       pt: "Colorful flags celebrating the Bumpkin faction.",
@@ -18856,7 +18909,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "Colorful flags celebrating the Bumpkin faction.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -18867,7 +18919,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Sunflorian Candles": {
-    image: "assets/factions/sunflorian_candles.webp",
+    image: sunflorianCandles,
     description: {
       en: "Sunflorian Faction decorative candles.",
       pt: "Sunflorian Faction decorative candles.",
@@ -18877,7 +18929,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "Sunflorian Faction decorative candles.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -18888,7 +18939,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Nightshade Candles": {
-    image: "assets/factions/nightshade_candles.webp",
+    image: nightshadeCandles,
     description: {
       en: "Nightshade Faction decorative candles.",
       pt: "Nightshade Faction decorative candles.",
@@ -18898,7 +18949,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "Nightshade Faction decorative candles.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -18909,7 +18959,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Goblin Candles": {
-    image: "assets/factions/goblin_candles.webp",
+    image: goblinCandles,
     description: {
       en: "Goblin Faction decorative candles.",
       pt: "Goblin Faction decorative candles.",
@@ -18919,7 +18969,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "Goblin Faction decorative candles.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -18930,7 +18979,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Bumpkin Candles": {
-    image: "assets/factions/bumpkin_candles.webp",
+    image: bumpkinCandles,
     description: {
       en: "Bumpkin Faction decorative candles.",
       pt: "Bumpkin Faction decorative candles.",
@@ -18940,7 +18989,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "Bumpkin Faction decorative candles.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -18951,7 +18999,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Sunflorian Left Wall Sconce": {
-    image: "assets/factions/sunflorian_left_wall_candle.webp",
+    image: sunflorianLeftWall,
     description: {
       en: "Illuminate your living quarters with a Sunflorian Wall Sconce.",
       pt: "Illuminate your living quarters with a Sunflorian Wall Sconce.",
@@ -18962,7 +19010,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "Illuminate your living quarters with a Sunflorian Wall Sconce.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -18973,7 +19020,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Nightshade Left Wall Sconce": {
-    image: "assets/factions/nightshade_left_wall_candle.webp",
+    image: nightshadeLeftWall,
     description: {
       en: "Illuminate your living quarters with a Nightshade Wall Sconce.",
       pt: "Illuminate your living quarters with a Nightshade Wall Sconce.",
@@ -18984,7 +19031,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "Illuminate your living quarters with a Nightshade Wall Sconce.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -18995,7 +19041,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Goblin Left Wall Sconce": {
-    image: "assets/factions/goblin_left_wall_candle.webp",
+    image: goblinLeftWall,
     description: {
       en: "Illuminate your living quarters with a Goblin Wall Sconce.",
       pt: "Illuminate your living quarters with a Goblin Wall Sconce.",
@@ -19005,7 +19051,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "Illuminate your living quarters with a Goblin Wall Sconce.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -19016,7 +19061,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Bumpkin Left Wall Sconce": {
-    image: "assets/factions/bumpkin_left_wall_candle.webp",
+    image: bumpkinLeftWall,
     description: {
       en: "Illuminate your living quarters with a Bumpkin Wall Sconce.",
       pt: "Illuminate your living quarters with a Bumpkin Wall Sconce.",
@@ -19027,7 +19072,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "Illuminate your living quarters with a Bumpkin Wall Sconce.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -19038,7 +19082,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Sunflorian Right Wall Sconce": {
-    image: "assets/factions/sunflorian_right_wall_candle.webp",
+    image: sunflorianRightWall,
     description: {
       en: "Illuminate your living quarters with a Sunflorian Wall Sconce.",
       pt: "Illuminate your living quarters with a Sunflorian Wall Sconce.",
@@ -19049,7 +19093,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "Illuminate your living quarters with a Sunflorian Wall Sconce.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -19060,7 +19103,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Nightshade Right Wall Sconce": {
-    image: "assets/factions/nightshade_right_wall_candle.webp",
+    image: nightshadeRightWall,
     description: {
       en: "Illuminate your living quarters with a Nightshade Wall Sconce.",
       pt: "Illuminate your living quarters with a Nightshade Wall Sconce.",
@@ -19071,7 +19114,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "Illuminate your living quarters with a Nightshade Wall Sconce.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -19082,7 +19124,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Goblin Right Wall Sconce": {
-    image: "assets/factions/goblin_right_wall_candle.webp",
+    image: goblinRightWall,
     description: {
       en: "Illuminate your living quarters with a Goblin Wall Sconce.",
       pt: "Illuminate your living quarters with a Goblin Wall Sconce.",
@@ -19092,7 +19134,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "Illuminate your living quarters with a Goblin Wall Sconce.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -19103,7 +19144,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Bumpkin Right Wall Sconce": {
-    image: "assets/factions/bumpkin_right_wall_candle.webp",
+    image: bumpkinRightWall,
     description: {
       en: "Illuminate your living quarters with a Bumpkin Wall Sconce.",
       pt: "Illuminate your living quarters with a Bumpkin Wall Sconce.",
@@ -19114,7 +19155,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "Illuminate your living quarters with a Bumpkin Wall Sconce.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -19125,7 +19165,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Gourmet Hourglass": {
-    image: "assets/factions/boosts/cooking_boost_full.webp",
+    image: gourmetHourglass,
     description: {
       en: "Reduces cooking time by 50% for 4 hours.",
       pt: "Reduces cooking time by 50% for 4 hours.",
@@ -19135,7 +19175,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "Reduces cooking time by 50% for 4 hours.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -19146,7 +19185,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Harvest Hourglass": {
-    image: "assets/factions/boosts/crop_boost_full.webp",
+    image: harvestHourglass,
     description: {
       en: "Reduces crop growth time by 25% for 6 hours.",
       pt: "Reduces crop growth time by 25% for 6 hours.",
@@ -19156,7 +19195,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "Reduces crop growth time by 25% for 6 hours.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -19167,7 +19205,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Timber Hourglass": {
-    image: "assets/factions/boosts/wood_boost_full.webp",
+    image: timberHourglass,
     description: {
       en: "Reduces tree recovery time by 25% for 4 hours.",
       pt: "Reduces tree recovery time by 25% for 4 hours.",
@@ -19177,7 +19215,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "Currency of the Factions. Use this in the Marks Shop.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -19188,7 +19225,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Ore Hourglass": {
-    image: "assets/factions/boosts/mineral_boost_full.webp",
+    image: oreHourglass,
     description: {
       en: "Reduces mineral replenish cooldown by 50% for 3 hours.",
       pt: "Reduces mineral replenish cooldown by 50% for 3 hours.",
@@ -19198,7 +19235,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "Reduces mineral replenish cooldown by 50% for 3 hours.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -19209,7 +19245,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Orchard Hourglass": {
-    image: "assets/factions/boosts/fruit_boost_full.webp",
+    image: orchardHourglass,
     description: {
       en: "Reduces fruit growth time by 25% for 6 hours.",
       pt: "Reduces fruit growth time by 25% for 6 hours.",
@@ -19219,7 +19255,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "Reduces fruit growth time by 25% for 6 hours.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -19230,7 +19265,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Blossom Hourglass": {
-    image: "assets/factions/boosts/flower_boost_full.webp",
+    image: blossomHourglass,
     description: {
       en: "Reduces flower growth time by 25% for 4 hours.",
       pt: "Reduces flower growth time by 25% for 4 hours.",
@@ -19240,7 +19275,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "Reduces flower growth time by 25% for 4 hours.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -19251,7 +19285,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Fisher's Hourglass": {
-    image: "assets/factions/boosts/fish_boost_full.webp",
+    image: fishersHourglass,
     description: {
       en: "Gives a 50% chance of +1 fish for 4 hours.",
       pt: "Gives a 50% chance of +1 fish for 4 hours.",
@@ -19261,7 +19295,6 @@ export const ITEM_DETAILS: Items = {
     },
     opensea: {
       description: "Gives a 50% chance of +1 fish for 4 hours.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -19272,7 +19305,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Sunflorian Faction Rug": {
-    image: "assets/factions/sunflorian_faction_rug.webp",
+    image: sunflorianFactionRug,
     description: {
       en: "A magnificent rug made by the talented Sunflorian faction artisans.",
       pt: "A magnificent rug made by the talented Sunflorian faction artisans.",
@@ -19284,7 +19317,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A magnificent rug made by the talented Sunflorian faction artisans.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -19295,7 +19327,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Nightshade Faction Rug": {
-    image: "assets/factions/nightshade_faction_rug.webp",
+    image: nightshadeFactionRug,
     description: {
       en: "A magnificent rug made by the talented Nightshade faction artisans.",
       pt: "A magnificent rug made by the talented Nightshade faction artisans.",
@@ -19307,7 +19339,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A magnificent rug made by the talented Nightshade faction artisans.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -19318,7 +19349,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Goblin Faction Rug": {
-    image: "assets/factions/goblin_faction_rug.webp",
+    image: goblinFactionRug,
     description: {
       en: "A magnificent rug made by the talented Goblin faction artisans.",
       pt: "A magnificent rug made by the talented Goblin faction artisans.",
@@ -19330,7 +19361,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A magnificent rug made by the talented Goblin faction artisans.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -19341,7 +19371,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Bumpkin Faction Rug": {
-    image: "assets/factions/bumpkin_faction_rug.webp",
+    image: bumpkinFactionRug,
     description: {
       en: "A magnificent rug made by the talented Bumpkin faction artisans.",
       pt: "A magnificent rug made by the talented Bumpkin faction artisans.",
@@ -19353,7 +19383,6 @@ export const ITEM_DETAILS: Items = {
     opensea: {
       description:
         "A magnificent rug made by the talented Bumpkin faction artisans.",
-
       attributes: [
         {
           trait_type: "Purpose",
@@ -19364,7 +19393,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Goblin Gold Champion": {
-    image: "assets/sfts/goblin_gold_champion.png",
+    image: goblinGoldChampion,
     description: {
       en: "TODO",
       pt: "TODO",
@@ -19374,7 +19403,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Goblin Silver Champion": {
-    image: "assets/sfts/goblin_silver_champion.png",
+    image: goblinSilverChampion,
     description: {
       en: "TODO",
       pt: "TODO",
