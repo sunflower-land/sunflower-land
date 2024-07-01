@@ -28,7 +28,7 @@ export async function purchaseItem(request: Request) {
         item: request.item,
         amount: request.amount,
       }),
-    }
+    },
   );
 
   if (response.status === 429) {

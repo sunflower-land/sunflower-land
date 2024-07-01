@@ -1,6 +1,6 @@
 import React from "react";
 
-import surfboard from "src/assets/decorations/surfboard.webp";
+import surfboard from "assets/decorations/surfboard.webp";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const Surfboard: React.FC = () => {

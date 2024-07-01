@@ -5,8 +5,8 @@ import { Button } from "components/ui/Button";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 
-import tutorial from "src/assets/tutorials/composting.png";
-import powerup from "src/assets/icons/level_up.png";
+import tutorial from "assets/tutorials/composting.png";
+import powerup from "assets/icons/level_up.png";
 
 import compost from "assets/composters/compost.png";
 import basicIdle from "assets/composters/composter_basic.png";
@@ -257,7 +257,7 @@ export const ComposterModal: React.FC<Props> = ({
                       composterInfo.eggBoostMilliseconds / 1000,
                       {
                         length: "short",
-                      }
+                      },
                     )} Boost`}
                   </Label>
                   <RequirementLabel
@@ -277,7 +277,7 @@ export const ComposterModal: React.FC<Props> = ({
                   disabled={
                     !boost &&
                     !state.inventory.Egg?.gte(
-                      composterInfo.eggBoostRequirements
+                      composterInfo.eggBoostRequirements,
                     )
                   }
                   onClick={() => showConfirmBoostModal(true)}
@@ -294,7 +294,7 @@ export const ComposterModal: React.FC<Props> = ({
                         composterInfo.eggBoostMilliseconds / 1000,
                         {
                           length: "short",
-                        }
+                        },
                       ),
                     }),
                   ]}
@@ -303,7 +303,7 @@ export const ComposterModal: React.FC<Props> = ({
                   confirmButtonLabel={t("guide.compost.addEggs")}
                   disabled={
                     !state.inventory.Egg?.gte(
-                      composterInfo.eggBoostRequirements
+                      composterInfo.eggBoostRequirements,
                     )
                   }
                 />
@@ -322,7 +322,7 @@ export const ComposterModal: React.FC<Props> = ({
                     composterInfo.eggBoostMilliseconds / 1000,
                     {
                       length: "short",
-                    }
+                    },
                   )} Boosted`}
                 </Label>
                 <Label type="default" icon={ITEM_DETAILS.Egg.image}>
@@ -638,7 +638,7 @@ export const CraftingRequirements: React.FC<CraftingProps> = ({
         {getItemDetail({ hideDescription })}
         {limit && (
           <p className="my-1 text-xs text-left sm:text-center">{`${t(
-            "max"
+            "max",
           )} ${limit} ${t("statements.perplayer")}`}</p>
         )}
         {getRequirements()}

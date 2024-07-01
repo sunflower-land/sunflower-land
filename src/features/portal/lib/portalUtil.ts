@@ -43,7 +43,7 @@ export function purchase({
         sfl,
         items,
       },
-      "*"
+      "*",
     );
   } else {
     // Ask parent to confirm
@@ -63,7 +63,7 @@ export function donate({ matic, address }: { matic: number; address: string }) {
         matic,
         address,
       },
-      "*"
+      "*",
     );
   } else {
     // Ask parent to confirm

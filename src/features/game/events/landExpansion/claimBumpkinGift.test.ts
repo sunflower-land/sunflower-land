@@ -11,7 +11,7 @@ describe("claimBumpkinGift", () => {
           type: "gift.claimed",
         },
         state: TEST_FARM,
-      })
+      }),
     ).toThrow("Bumpkin does not exist");
   });
 
@@ -34,7 +34,7 @@ describe("claimBumpkinGift", () => {
             },
           },
         },
-      })
+      }),
     ).toThrow("Friendship is not strong enough");
   });
 
@@ -59,7 +59,7 @@ describe("claimBumpkinGift", () => {
     });
 
     expect(
-      state.npcs?.["pumpkin' pete"]?.friendship?.giftClaimedAtPoints
+      state.npcs?.["pumpkin' pete"]?.friendship?.giftClaimedAtPoints,
     ).toEqual(5);
 
     expect(() =>
@@ -69,7 +69,7 @@ describe("claimBumpkinGift", () => {
           type: "gift.claimed",
         },
         state,
-      })
+      }),
     ).toThrow("Friendship is not strong enough");
   });
 
@@ -95,7 +95,7 @@ describe("claimBumpkinGift", () => {
     });
 
     expect(
-      state.npcs?.["pumpkin' pete"]?.friendship?.giftClaimedAtPoints
+      state.npcs?.["pumpkin' pete"]?.friendship?.giftClaimedAtPoints,
     ).toEqual(5);
     expect(state.inventory["Block Buck"]).toEqual(new Decimal(1));
   });
@@ -122,7 +122,7 @@ describe("claimBumpkinGift", () => {
     });
 
     expect(
-      state.npcs?.["pumpkin' pete"]?.friendship?.giftClaimedAtPoints
+      state.npcs?.["pumpkin' pete"]?.friendship?.giftClaimedAtPoints,
     ).toEqual(50);
     expect(state.wardrobe["Pumpkin Hat"]).toEqual(1);
   });
@@ -151,7 +151,7 @@ describe("claimBumpkinGift", () => {
     });
 
     expect(
-      state.npcs?.["pumpkin' pete"]?.friendship?.giftClaimedAtPoints
+      state.npcs?.["pumpkin' pete"]?.friendship?.giftClaimedAtPoints,
     ).toEqual(100);
     expect(state.coins).toEqual(640);
   });
@@ -217,7 +217,7 @@ describe("claimBumpkinGift", () => {
     });
 
     expect(
-      state.npcs?.["pumpkin' pete"]?.friendship?.giftClaimedAtPoints
+      state.npcs?.["pumpkin' pete"]?.friendship?.giftClaimedAtPoints,
     ).toEqual(200);
 
     expect(state.inventory["Block Buck"]).toEqual(new Decimal(1));
@@ -245,7 +245,7 @@ describe("claimBumpkinGift", () => {
             },
           },
         },
-      })
+      }),
     ).toThrow("Friendship is not strong enough");
   });
 
@@ -271,7 +271,7 @@ describe("claimBumpkinGift", () => {
     });
 
     expect(
-      state.npcs?.["pumpkin' pete"]?.friendship?.giftClaimedAtPoints
+      state.npcs?.["pumpkin' pete"]?.friendship?.giftClaimedAtPoints,
     ).toEqual(200);
 
     expect(state.inventory["Treasure Key"]).toEqual(new Decimal(1));

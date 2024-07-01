@@ -31,7 +31,7 @@ export function placeCrimstone({
   const game = cloneDeep(state) as GameState;
 
   const available = (game.inventory["Crimstone Rock"] || new Decimal(0)).minus(
-    Object.keys(game.crimstones).length
+    Object.keys(game.crimstones).length,
   );
 
   if (available.lt(1)) {

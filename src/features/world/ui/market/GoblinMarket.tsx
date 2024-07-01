@@ -42,7 +42,7 @@ export const GoblinMarket: React.FC<Props> = ({ onClose }) => {
         const marketPrices = await getMarketPrices(
           gameService.state.context.farmId,
           gameService.state.context.transactionId as string,
-          authState.context.user.rawToken as string
+          authState.context.user.rawToken as string,
         );
         setCachedMarketPrices(marketPrices);
         setMarketPrices({ prices: marketPrices, cachedAt: Date.now() });

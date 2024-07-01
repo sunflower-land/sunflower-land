@@ -45,7 +45,7 @@ describe("equipFarmHand", () => {
             "Farmer Overalls": 3,
           },
         },
-      })
+      }),
     ).toThrow(`Farm hand does not exist`);
   });
 
@@ -92,7 +92,7 @@ describe("equipFarmHand", () => {
             "Farmer Overalls": 3,
           },
         },
-      })
+      }),
     ).toThrow(`Red Farmer Shirt is not available for use`);
   });
 

@@ -1,6 +1,6 @@
 import React from "react";
 
-import oceanLantern from "src/assets/decorations/lanterns/ocean_lantern.png";
+import oceanLantern from "assets/decorations/lanterns/ocean_lantern.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const OceanLantern: React.FC = () => {

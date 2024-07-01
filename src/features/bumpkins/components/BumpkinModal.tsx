@@ -49,7 +49,7 @@ export const BumpkinLevel: React.FC<{ experience?: number }> = ({
     if (!maxLevel) {
       progressRatio = Math.min(
         1,
-        currentExperienceProgress / experienceToNextLevel
+        currentExperienceProgress / experienceToNextLevel,
       );
     }
 
@@ -69,7 +69,7 @@ export const BumpkinLevel: React.FC<{ experience?: number }> = ({
 
       {/* XP progress text */}
       <p className="font-secondary mt-0.5 ml-2">{`${Math.floor(
-        currentExperienceProgress
+        currentExperienceProgress,
       )}/${maxLevel ? "-" : Math.floor(experienceToNextLevel)} XP`}</p>
     </div>
   );
@@ -126,7 +126,7 @@ export const BumpkinModal: React.FC<Props> = ({
       const load = async () => {
         setIsLoading(true);
         const floorPrices = await getListingsFloorPrices(
-          authState.context.user.rawToken
+          authState.context.user.rawToken,
         );
         setFloorPrices((prevFloorPrices) => ({
           ...prevFloorPrices,

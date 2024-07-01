@@ -1,7 +1,7 @@
 import React from "react";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import goblinFactionRug from "src/assets/factions/goblin_faction_rug.webp";
+import goblinFactionRug from "assets/factions/goblin_faction_rug.webp";
 
 export const GoblinFactionRug: React.FC = () => {
   return (

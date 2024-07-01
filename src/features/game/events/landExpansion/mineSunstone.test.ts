@@ -51,7 +51,7 @@ describe("mineSunstone", () => {
           type: "sunstoneRock.mined",
           index: "0",
         } as MineSunstoneAction,
-      })
+      }),
     ).toThrow("You do not have a Bumpkin");
   });
 
@@ -70,7 +70,7 @@ describe("mineSunstone", () => {
           type: "sunstoneRock.mined",
           index: "3",
         },
-      })
+      }),
     ).toThrow(EVENT_ERRORS.NO_SUNSTONE);
   });
 
@@ -87,7 +87,7 @@ describe("mineSunstone", () => {
           type: "sunstoneRock.mined",
           index: "0",
         },
-      })
+      }),
     ).toThrow(EVENT_ERRORS.NO_PICKAXES);
   });
 

@@ -7,7 +7,7 @@ export const useStepper = (props: {
   max: number;
 }) => {
   const [value, setValue] = useState<number>(
-    Math.min(Math.max(props.initial, props.min), props.max)
+    Math.min(Math.max(props.initial, props.min), props.max),
   );
 
   const decrease = () => {

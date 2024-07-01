@@ -50,7 +50,7 @@ export const BuildingImageWrapper: React.FC<Props> = ({
 
   const bumpkinLevelRequired = getBuildingBumpkinLevelRequired(
     name as BuildingName,
-    index ?? 0
+    index ?? 0,
   );
   const bumpkinTooLow = bumpkinLevel < bumpkinLevelRequired;
   const { t } = useAppTranslation();
@@ -65,7 +65,7 @@ export const BuildingImageWrapper: React.FC<Props> = ({
             <img src={lockIcon} className="w-20 my-2" />
             <p className="text-sm">{`${name} requires Bumpkin level ${bumpkinLevelRequired} to use.`}</p>
           </div>
-        </CloseButtonPanel>
+        </CloseButtonPanel>,
       );
     };
 
@@ -95,7 +95,7 @@ export const BuildingImageWrapper: React.FC<Props> = ({
             ? bumpkinTooLow
               ? "opacity-50"
               : ""
-            : "cursor-pointer hover:img-highlight"
+            : "cursor-pointer hover:img-highlight",
         )}
         onClick={
           !enabled

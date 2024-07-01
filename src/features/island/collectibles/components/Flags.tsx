@@ -32,5 +32,5 @@ export const flags = getKeys(FLAGS).reduce(
     ...previous,
     [flagName]: () => <FlagsImages flagName={flagName} />,
   }),
-  {} as Record<Flag, React.FC>
+  {} as Record<Flag, React.FC>,
 );

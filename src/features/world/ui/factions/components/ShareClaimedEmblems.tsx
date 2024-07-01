@@ -25,7 +25,7 @@ export const ShareClaimedEmblems: React.FC<Props> = ({ faction, onBack }) => {
   const shareMessage = `I just received ${
     faction.points
   } Emblems in Sunflower Land! I am now an owner in the ${capitalize(
-    faction.name
+    faction.name,
   )} Faction! 🌻🚀 \n\n https://www.sunflower-land.com \n\n #SunflowerLand #ClashOfFactions`;
 
   const { t } = useAppTranslation();

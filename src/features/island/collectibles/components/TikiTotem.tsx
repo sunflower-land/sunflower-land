@@ -1,6 +1,6 @@
 import React from "react";
 
-import tikiTotem from "src/assets/sfts/tiki_totem.webp";
+import tikiTotem from "assets/sfts/tiki_totem.webp";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const TikiTotem: React.FC = () => {

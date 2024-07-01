@@ -84,7 +84,7 @@ export const Box: React.FC<BoxProps> = ({
   // re-execute function on count change
   useEffect(
     () => setShortCount(shortenCount(precisionCount)),
-    [precisionCount]
+    [precisionCount],
   );
 
   const canClick = !locked && !disabled && !!onClick;
@@ -95,7 +95,7 @@ export const Box: React.FC<BoxProps> = ({
     {
       delay: 500,
       interval: 20,
-    }
+    },
   );
 
   const clickEvents = canBeLongPressed
@@ -178,7 +178,7 @@ export const Box: React.FC<BoxProps> = ({
             "absolute flex justify-center items-center w-full h-full",
             {
               "opacity-75": locked,
-            }
+            },
           )}
         >
           <SquareIcon

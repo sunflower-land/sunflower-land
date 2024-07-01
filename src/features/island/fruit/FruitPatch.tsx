@@ -30,12 +30,12 @@ import { FRUIT_PATCH_VARIANTS } from "../lib/alternateArt";
 const HasAxes = (
   inventory: Partial<Record<InventoryItemName, Decimal>>,
   game: GameState,
-  fruit?: PlantedFruit
+  fruit?: PlantedFruit,
 ) => {
   const axesNeeded = getRequiredAxeAmount(
     fruit?.name as FruitName,
     inventory,
-    game
+    game,
   );
 
   // has enough axes to chop the tree
@@ -74,7 +74,7 @@ export const FruitPatch: React.FC<Props> = ({ id, index }) => {
   const fruitPatch = useSelector(
     gameService,
     (state) => state.context.state.fruitPatches[id],
-    compareFruit
+    compareFruit,
   );
   const fruit = fruitPatch?.fruit;
   const fertiliser = fruitPatch.fertiliser;
@@ -82,7 +82,7 @@ export const FruitPatch: React.FC<Props> = ({ id, index }) => {
   const inventory = useSelector(
     gameService,
     selectInventory,
-    (prev, next) => HasAxes(prev, game, fruit) === HasAxes(next, game, fruit)
+    (prev, next) => HasAxes(prev, game, fruit) === HasAxes(next, game, fruit),
   );
   const island = useSelector(gameService, _island);
 

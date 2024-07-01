@@ -36,12 +36,12 @@ export const AudioMenu: React.FC<Props> = ({
 }) => {
   const { t } = useAppTranslation();
   const [audioMuted, setAudioMuted] = useState<boolean>(
-    getCachedAudioSetting<boolean>(AudioLocalStorageKeys.audioMuted, false)
+    getCachedAudioSetting<boolean>(AudioLocalStorageKeys.audioMuted, false),
   );
   const [musicPaused, setMusicPaused] = useState<boolean>(
     // by the default Chrome policy doesn't allow autoplay
     !!navigator.userAgent.match(/chrome|chromium|crios/i) ||
-      getCachedAudioSetting<boolean>(AudioLocalStorageKeys.musicPaused, false)
+      getCachedAudioSetting<boolean>(AudioLocalStorageKeys.musicPaused, false),
   );
 
   useEffect(() => {

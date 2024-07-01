@@ -15,7 +15,7 @@ describe("boosts", () => {
           createdAt: Date.now() - 1 * 60 * 60 * 1000,
         },
         now: new Date(),
-      })
+      }),
     ).toEqual(CROPS().Sunflower.sellPrice * 2);
   });
 
@@ -31,7 +31,7 @@ describe("boosts", () => {
           createdAt: now.getTime() - 2 * 60 * 60 * 1000 - 1,
         },
         now,
-      })
+      }),
     ).toEqual(CROPS().Sunflower.sellPrice);
   });
 });

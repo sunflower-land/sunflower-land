@@ -25,7 +25,7 @@ describe("treasureSold", () => {
           item: "Clam Shell",
           amount: 1,
         },
-      })
+      }),
     ).toThrow("You do not have a Bumpkin");
   });
 
@@ -38,7 +38,7 @@ describe("treasureSold", () => {
           item: "Sunflower" as BeachBountyTreasure,
           amount: 1,
         },
-      })
+      }),
     ).toThrow("Not for sale");
   });
 
@@ -56,7 +56,7 @@ describe("treasureSold", () => {
           item: "Clam Shell",
           amount: 1.5,
         },
-      })
+      }),
     ).toThrow("Invalid amount");
   });
 
@@ -69,7 +69,7 @@ describe("treasureSold", () => {
           item: "Clam Shell",
           amount: 1,
         },
-      })
+      }),
     ).toThrow("Insufficient quantity to sell");
   });
 
@@ -90,7 +90,7 @@ describe("treasureSold", () => {
 
     expect(state.inventory["Clam Shell"]).toEqual(new Decimal(4));
     expect(state.coins).toEqual(
-      GAME_STATE.coins + SELLABLE_TREASURE["Clam Shell"].sellPrice
+      GAME_STATE.coins + SELLABLE_TREASURE["Clam Shell"].sellPrice,
     );
   });
 
@@ -111,7 +111,7 @@ describe("treasureSold", () => {
 
     expect(state.inventory["Wooden Compass"]).toEqual(new Decimal(4));
     expect(state.coins).toEqual(
-      GAME_STATE.coins + SELLABLE_TREASURE["Wooden Compass"].sellPrice
+      GAME_STATE.coins + SELLABLE_TREASURE["Wooden Compass"].sellPrice,
     );
   });
 
@@ -142,7 +142,7 @@ describe("treasureSold", () => {
 
     expect(state.inventory["Clam Shell"]).toEqual(new Decimal(4));
     expect(state.coins).toEqual(
-      GAME_STATE.coins + SELLABLE_TREASURE["Clam Shell"].sellPrice * 1.2
+      GAME_STATE.coins + SELLABLE_TREASURE["Clam Shell"].sellPrice * 1.2,
     );
   });
 
@@ -163,7 +163,7 @@ describe("treasureSold", () => {
 
     expect(state.inventory["Clam Shell"]).toEqual(new Decimal(1));
     expect(state.coins).toEqual(
-      GAME_STATE.coins + SELLABLE_TREASURE["Clam Shell"].sellPrice * 4
+      GAME_STATE.coins + SELLABLE_TREASURE["Clam Shell"].sellPrice * 4,
     );
   });
 
@@ -181,7 +181,7 @@ describe("treasureSold", () => {
           item: "Clam Shell",
           amount: 4,
         },
-      })
+      }),
     ).toThrow("Insufficient quantity to sell");
   });
 
@@ -200,7 +200,7 @@ describe("treasureSold", () => {
       },
     });
     expect(state.bumpkin?.activity?.["Coins Earned"]).toEqual(
-      SELLABLE_TREASURE["Clam Shell"].sellPrice
+      SELLABLE_TREASURE["Clam Shell"].sellPrice,
     );
   });
 

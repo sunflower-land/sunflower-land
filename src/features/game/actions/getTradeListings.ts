@@ -17,7 +17,7 @@ export type Listing = {
 
 export async function getTradeListings(
   type: string,
-  token?: string
+  token?: string,
 ): Promise<Listing[]> {
   // Append the `type` query parameter to the URL
   const url = new URL(`${API_URL}/listings`);

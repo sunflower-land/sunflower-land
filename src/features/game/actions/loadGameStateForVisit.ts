@@ -16,7 +16,7 @@ type VisitGameState = Omit<
 
 export async function loadGameStateForVisit(
   id: number,
-  token?: string
+  token?: string,
 ): Promise<{
   state: VisitGameState;
   isBanned: boolean;

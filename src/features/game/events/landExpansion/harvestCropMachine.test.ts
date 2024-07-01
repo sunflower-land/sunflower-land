@@ -18,7 +18,7 @@ describe("harvestCropMachine", () => {
           type: "cropMachine.harvested",
           packIndex: 0,
         },
-      })
+      }),
     ).toThrow("Bumpkin does not exist");
   });
 
@@ -30,7 +30,7 @@ describe("harvestCropMachine", () => {
           type: "cropMachine.harvested",
           packIndex: 0,
         },
-      })
+      }),
     ).toThrow("Crop Machine does not exist");
   });
 
@@ -56,7 +56,7 @@ describe("harvestCropMachine", () => {
           type: "cropMachine.harvested",
           packIndex: 0,
         },
-      })
+      }),
     ).toThrow("Nothing in the queue");
   });
 
@@ -90,7 +90,7 @@ describe("harvestCropMachine", () => {
           type: "cropMachine.harvested",
           packIndex: 1,
         },
-      })
+      }),
     ).toThrow("Pack does not exist");
   });
 
@@ -124,7 +124,7 @@ describe("harvestCropMachine", () => {
           type: "cropMachine.harvested",
           packIndex: 0,
         },
-      })
+      }),
     ).toThrow("The pack is not ready yet");
   });
 
@@ -203,7 +203,7 @@ describe("harvestCropMachine", () => {
     });
 
     expect(
-      result.buildings["Crop Machine"]?.[0].queue?.[packIndex]
+      result.buildings["Crop Machine"]?.[0].queue?.[packIndex],
     ).toBeUndefined();
   });
 

@@ -1,37 +1,22 @@
-import sunflowerProcSprite from "assets/crops/sunflower/proc_sprite.png";
-import potatoProcSprite from "assets/crops/potato/proc_sprite.png";
-import pumpkinProcSprite from "assets/crops/pumpkin/proc_sprite.png";
-import carrotProcSprite from "assets/crops/carrot/proc_sprite.png";
-import cabbageProcSprite from "assets/crops/cabbage/proc_sprite.png";
-import beetrootProcSprite from "assets/crops/beetroot/proc_sprite.png";
-import cauliflowerProcSprite from "assets/crops/cauliflower/proc_sprite.png";
-import parsnipProcSprite from "assets/crops/parsnip/proc_sprite.png";
-import eggplantProcSprite from "assets/crops/eggplant/proc_sprite.png";
-import cornProcSprite from "assets/crops/corn/proc_sprite.png";
-import radishProcSprite from "assets/crops/radish/proc_sprite.png";
-import wheatProcSprite from "assets/crops/wheat/proc_sprite.png";
-import kaleProcSprite from "assets/crops/kale/proc_sprite.png";
-import soybeanProcSprite from "assets/crops/soybean/proc_sprite.png";
-
 import { CropName } from "features/game/types/crops";
 import { getKeys } from "features/game/types/craftables";
 import { CONFIG } from "lib/config";
 
 const HARVEST_PROC_SPRITES: Record<CropName, any> = {
-  Sunflower: sunflowerProcSprite,
-  Potato: potatoProcSprite,
-  Pumpkin: pumpkinProcSprite,
-  Carrot: carrotProcSprite,
-  Cabbage: cabbageProcSprite,
-  Beetroot: beetrootProcSprite,
-  Cauliflower: cauliflowerProcSprite,
-  Parsnip: parsnipProcSprite,
-  Eggplant: eggplantProcSprite,
-  Corn: cornProcSprite,
-  Radish: radishProcSprite,
-  Wheat: wheatProcSprite,
-  Kale: kaleProcSprite,
-  Soybean: soybeanProcSprite,
+  Sunflower: "assets/crops/sunflower/proc_sprite.png",
+  Potato: "assets/crops/potato/proc_sprite.png",
+  Pumpkin: "assets/crops/pumpkin/proc_sprite.png",
+  Carrot: "assets/crops/carrot/proc_sprite.png",
+  Cabbage: "assets/crops/cabbage/proc_sprite.png",
+  Beetroot: "assets/crops/beetroot/proc_sprite.png",
+  Cauliflower: "assets/crops/cauliflower/proc_sprite.png",
+  Parsnip: "assets/crops/parsnip/proc_sprite.png",
+  Eggplant: "assets/crops/eggplant/proc_sprite.png",
+  Corn: "assets/crops/corn/proc_sprite.png",
+  Radish: "assets/crops/radish/proc_sprite.png",
+  Wheat: "assets/crops/wheat/proc_sprite.png",
+  Kale: "assets/crops/kale/proc_sprite.png",
+  Soybean: "assets/crops/soybean/proc_sprite.png",
 };
 
 export const HARVEST_PROC_ANIMATION = {
@@ -70,7 +55,7 @@ export const IMAGES: Record<CropName, string> = {
 };
 
 export const CROP_LIFECYCLE: Record<CropName, Lifecycle> = getKeys(
-  IMAGES
+  IMAGES,
 ).reduce(
   (acc, name) => ({
     ...acc,
@@ -83,5 +68,5 @@ export const CROP_LIFECYCLE: Record<CropName, Lifecycle> = getKeys(
       seed: `${URL}/${IMAGES[name]}/seed.png`,
     },
   }),
-  {} as Record<CropName, Lifecycle>
+  {} as Record<CropName, Lifecycle>,
 );

@@ -13,7 +13,7 @@ import { onboardingAnalytics } from "lib/onboardingAnalytics";
 type PWAInstallContextType = React.MutableRefObject<PWAInstallElement | null>;
 
 const PWAInstallContext = createContext<PWAInstallContextType | undefined>(
-  undefined
+  undefined,
 );
 
 type PWAInstallProviderProps = {
@@ -43,23 +43,23 @@ export const PWAInstallProvider: React.FC<PWAInstallProviderProps> = ({
     if (currentElement) {
       currentElement.addEventListener(
         "pwa-install-success-event",
-        handleInstallSuccess
+        handleInstallSuccess,
       );
 
       currentElement.addEventListener(
         "pwa-user-choice-result-event",
-        handleUserChoiceResult
+        handleUserChoiceResult,
       );
 
       return () => {
         currentElement.removeEventListener(
           "pwa-install-success-event",
-          handleInstallSuccess
+          handleInstallSuccess,
         );
 
         currentElement.removeEventListener(
           "pwa-user-choice-result-event",
-          handleUserChoiceResult
+          handleUserChoiceResult,
         );
       };
     }

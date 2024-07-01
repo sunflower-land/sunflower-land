@@ -1,6 +1,6 @@
 import React from "react";
 
-import hideawayHerman from "src/assets/decorations/hideaway_herman.webp";
+import hideawayHerman from "assets/decorations/hideaway_herman.webp";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const HideawayHerman: React.FC = () => {

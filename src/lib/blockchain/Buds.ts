@@ -11,13 +11,13 @@ const contractAddress = CONFIG.BUD_CONTRACT;
 export async function getBudsBalance(
   web3: Web3,
   address: string,
-  attempts = 0
+  attempts = 0,
 ): Promise<number[]> {
   try {
     const buds = await (
       new web3.eth.Contract(
         BudABI as AbiItem[],
-        contractAddress as string
+        contractAddress as string,
       ) as unknown as Buds
     ).methods
       .tokensOfOwner(address)

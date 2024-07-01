@@ -39,12 +39,12 @@ export type FarmSlot = {
 
 export async function getFarmSlots(
   web3: Web3,
-  farmId: number
+  farmId: number,
 ): Promise<FarmSlot[]> {
   const farmSlots = await (
     new web3.eth.Contract(
       TraderJSON as AbiItem[],
-      address as string
+      address as string,
     ) as unknown as SunflowerLandTrader
   ).methods
     .getFarmSlots(farmId, 3)
@@ -63,8 +63,8 @@ export async function getFarmSlots(
         resourceAmount: Number(
           fromWei(
             slot.resourceAmount,
-            getItemUnit(KNOWN_ITEMS[slot.resourceId])
-          )
+            getItemUnit(KNOWN_ITEMS[slot.resourceId]),
+          ),
         ),
         sfl: Number(fromWei(slot.sfl)),
         tax: Number(slot.tax) / 1000,

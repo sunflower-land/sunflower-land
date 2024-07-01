@@ -105,8 +105,8 @@ class Spritesheet extends React.Component<Props> {
     this.frame = this.startAt
       ? this.startAt
       : this.direction === "rewind"
-      ? this.steps - 1
-      : 0;
+        ? this.steps - 1
+        : 0;
   }
 
   componentDidMount() {
@@ -174,7 +174,7 @@ class Spritesheet extends React.Component<Props> {
         className: "react-responsive-spritesheet-container",
         style: containerStyles,
       },
-      elMove
+      elMove,
     );
 
     const elSprite = React.createElement(
@@ -192,7 +192,7 @@ class Spritesheet extends React.Component<Props> {
         onMouseDown: () => onMouseDown(this.setInstance()),
         onMouseUp: () => onMouseUp(this.setInstance()),
       },
-      elContainer
+      elContainer,
     );
 
     return elSprite;
@@ -207,7 +207,7 @@ class Spritesheet extends React.Component<Props> {
 
     this.spriteEl = document.querySelector(`.${this.id}`);
     this.spriteElContainer = this.spriteEl.querySelector(
-      ".react-responsive-spritesheet-container"
+      ".react-responsive-spritesheet-container",
     );
     this.resize(false);
 
@@ -224,7 +224,7 @@ class Spritesheet extends React.Component<Props> {
             : this.imageSprite.height / heightFrame;
 
         this.spriteElMove = this.spriteElContainer.querySelector(
-          ".react-responsive-spritesheet-container__move"
+          ".react-responsive-spritesheet-container__move",
         );
 
         window.addEventListener("resize", this.resize);
@@ -266,7 +266,7 @@ class Spritesheet extends React.Component<Props> {
           this.setIntervalPlayFunctions();
           this.isPlaying = true;
         },
-        withTimeout ? timeout : 0
+        withTimeout ? timeout : 0,
       );
     }
   };
@@ -320,8 +320,8 @@ class Spritesheet extends React.Component<Props> {
           this.frame = this.startAt
             ? this.startAt
             : this.direction === "rewind"
-            ? this.steps - 1
-            : 0;
+              ? this.steps - 1
+              : 0;
         } else {
           this.pause();
         }
@@ -400,7 +400,7 @@ class Spritesheet extends React.Component<Props> {
         return this.completeLoopCycles;
       default:
         throw new Error(
-          `Invalid param \`${param}\` requested by Spritesheet.getinfo(). See the documentation on https://github.com/danilosetra/react-responsive-spritesheet`
+          `Invalid param \`${param}\` requested by Spritesheet.getinfo(). See the documentation on https://github.com/danilosetra/react-responsive-spritesheet`,
         );
     }
   };

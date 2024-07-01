@@ -20,7 +20,7 @@ export const SeedSelection: React.FC<Props> = ({ onPlant, inventory }) => {
   const [seed, setSeed] = useState<SeedName>();
 
   const availableSeeds = getKeys(CROP_SEEDS()).filter((name) =>
-    inventory[name]?.gte(1)
+    inventory[name]?.gte(1),
   );
 
   const yields = seed && SEEDS()[seed].yield;

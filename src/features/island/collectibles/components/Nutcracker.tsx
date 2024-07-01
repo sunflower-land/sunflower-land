@@ -1,6 +1,6 @@
 import React from "react";
 
-import image from "src/assets/sfts/bumpkin_nutcracker.png";
+import image from "assets/sfts/bumpkin_nutcracker.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const Nutcracker: React.FC = () => {

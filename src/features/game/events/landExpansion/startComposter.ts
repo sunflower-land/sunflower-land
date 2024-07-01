@@ -68,7 +68,7 @@ export function startComposter({
     }
 
     stateCopy.inventory[name as InventoryItemName] = previous.minus(
-      composter.requires?.[name] ?? 0
+      composter.requires?.[name] ?? 0,
     );
   });
 

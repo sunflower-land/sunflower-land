@@ -1,7 +1,7 @@
 import React from "react";
 
-import heartOfDavyJones from "src/assets/sfts/heart_of_davy_jones.gif";
-import shadow from "src/assets/sfts/heart_of_davy_jones_shadow.webp";
+import heartOfDavyJones from "assets/sfts/heart_of_davy_jones.gif";
+import shadow from "assets/sfts/heart_of_davy_jones_shadow.webp";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const HeartOfDavyJones: React.FC = () => {

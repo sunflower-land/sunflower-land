@@ -40,7 +40,7 @@ export const FishingModal: React.FC = () => {
 
     const reelSubscription = PubSub.subscribe("BEACH_FISHERMAN_REEL", () => {
       const fish = getKeys(
-        gameService.state.context.state.fishing.beach?.caught ?? {}
+        gameService.state.context.state.fishing.beach?.caught ?? {},
       ).find((fish) => fish in FISH);
 
       reelIn(fish as FishName);

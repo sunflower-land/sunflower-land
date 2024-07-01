@@ -26,7 +26,7 @@ export function collectRecipe({
   const { bumpkin } = game;
 
   const building = game.buildings[action.building]?.find(
-    (b) => b.id === action.buildingId
+    (b) => b.id === action.buildingId,
   );
 
   if (!building) {

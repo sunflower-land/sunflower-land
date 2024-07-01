@@ -16,7 +16,7 @@ describe("readMessage", () => {
             read: [{ id: "1", createdAt: 0 }],
           },
         },
-      })
+      }),
     ).toThrow("Message already read");
   });
 });

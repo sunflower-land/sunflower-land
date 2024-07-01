@@ -12,7 +12,7 @@ describe("harvestFlower", () => {
       harvestFlower({
         state: { ...GAME_STATE, bumpkin: undefined },
         action: { type: "flower.harvested", id: "1" },
-      })
+      }),
     ).toThrow("You do not have a Bumpkin");
   });
 
@@ -21,7 +21,7 @@ describe("harvestFlower", () => {
       harvestFlower({
         state: GAME_STATE,
         action: { type: "flower.harvested", id: "1" },
-      })
+      }),
     ).toThrow("Flower bed does not exist");
   });
 
@@ -45,7 +45,7 @@ describe("harvestFlower", () => {
           },
         },
         action: { type: "flower.harvested", id: flowerBedId },
-      })
+      }),
     ).toThrow("Flower bed does not have a flower");
   });
 
@@ -74,7 +74,7 @@ describe("harvestFlower", () => {
           },
         },
         action: { type: "flower.harvested", id: flowerBedId },
-      })
+      }),
     ).toThrow("Flower is not ready to harvest");
   });
 

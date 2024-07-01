@@ -28,7 +28,7 @@ type Options = {
 export function getRequiredAxeAmount(
   fruitName: FruitName,
   inventory: Inventory,
-  game: GameState
+  game: GameState,
 ) {
   // Apply boost for Trees
   if (fruitName === "Apple" || fruitName === "Orange") {
@@ -69,7 +69,7 @@ export function removeFruitTree({
   const requiredAxes = getRequiredAxeAmount(
     patch.fruit.name,
     inventory,
-    stateCopy
+    stateCopy,
   );
 
   if (action.selectedItem !== "Axe" && requiredAxes.gt(0)) {

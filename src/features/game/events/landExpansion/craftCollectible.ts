@@ -43,7 +43,7 @@ type Options = {
 };
 
 const isPotionHouseItem = (
-  name: HeliosBlacksmithItem | PotionHouseItemName
+  name: HeliosBlacksmithItem | PotionHouseItemName,
 ): name is PotionHouseItemName => {
   return name in POTION_HOUSE_ITEMS;
 };
@@ -100,7 +100,7 @@ export function craftCollectible({
         [ingredientName]: count.sub(totalAmount),
       };
     },
-    stateCopy.inventory
+    stateCopy.inventory,
   );
 
   const oldAmount = stateCopy.inventory[action.name] || new Decimal(0);

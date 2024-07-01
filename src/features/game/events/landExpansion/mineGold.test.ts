@@ -56,7 +56,7 @@ describe("mineGold", () => {
           type: "goldRock.mined",
           index: "0",
         },
-      })
+      }),
     ).toThrow(EVENT_ERRORS.NO_PICKAXES);
   });
 
@@ -75,7 +75,7 @@ describe("mineGold", () => {
           type: "goldRock.mined",
           index: "3",
         },
-      })
+      }),
     ).toThrow("No gold");
   });
 
@@ -102,7 +102,7 @@ describe("mineGold", () => {
         state: game,
         action: payload.action,
         createdAt: Date.now(),
-      })
+      }),
     ).toThrow("Gold is still recovering");
   });
 
@@ -203,7 +203,7 @@ describe("mineGold", () => {
           type: "goldRock.mined",
           index: "0",
         } as LandExpansionMineGoldAction,
-      })
+      }),
     ).toThrow("You do not have a Bumpkin");
   });
 

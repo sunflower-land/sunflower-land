@@ -90,7 +90,7 @@ export const ChatUI: React.FC<Props> = ({
 
       const similarity = stringSimilarity.compareTwoStrings(
         message.text.toLowerCase(),
-        text.toLowerCase()
+        text.toLowerCase(),
       );
 
       return similarity > 0.6;
@@ -115,7 +115,7 @@ export const ChatUI: React.FC<Props> = ({
       <div
         className={classNames(
           "absolute top-48 left-3 transition-transform origin-top-left ease-in-out duration-300",
-          { "scale-0": !showChatMessages, "scale-100": showChatMessages }
+          { "scale-0": !showChatMessages, "scale-100": showChatMessages },
         )}
         // eslint-disable-next-line no-console
         onClick={console.log}
@@ -130,7 +130,7 @@ export const ChatUI: React.FC<Props> = ({
       <div
         className={classNames(
           "absolute top-44 left-3 transition-transform origin-top-left ease-in-out duration-300",
-          { "scale-0": !showReactions, "scale-100": showReactions }
+          { "scale-0": !showReactions, "scale-100": showReactions },
         )}
         // eslint-disable-next-line no-console
         onClick={console.log}
@@ -150,7 +150,7 @@ export const ChatUI: React.FC<Props> = ({
             "scale-50": showOptions,
             "opacity-50": isMuted,
             "cursor-not-allowed": isMuted,
-          }
+          },
         )}
         style={{
           left: `${PIXEL_SCALE * 4}px`,
@@ -182,7 +182,7 @@ export const ChatUI: React.FC<Props> = ({
             "absolute top-36 left-12 cursor-pointer transition-transform origin-top-left ease-in-out duration-300 scale-0",
             {
               "scale-50": showOptions,
-            }
+            },
           )}
           style={{
             left: `${PIXEL_SCALE * 18}px`,
@@ -207,7 +207,7 @@ export const ChatUI: React.FC<Props> = ({
           "absolute top-36 left-20 cursor-pointer transition-transform origin-top-left ease-in-out duration-300 scale-0",
           {
             "scale-50": showOptions,
-          }
+          },
         )}
         style={{
           left: `${PIXEL_SCALE * 32}px`,

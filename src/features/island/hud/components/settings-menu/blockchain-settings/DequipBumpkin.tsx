@@ -32,7 +32,7 @@ export const DequipBumpkin: React.FC = () => {
     const load = async () => {
       const walletBumpkins = await loadBumpkins(
         wallet.web3Provider,
-        wallet.myAccount as string
+        wallet.myAccount as string,
       );
 
       setWalletBumpkins(walletBumpkins);
@@ -45,7 +45,7 @@ export const DequipBumpkin: React.FC = () => {
 
   const dequip = async () => {
     const bumpkin = (walletBumpkins ?? []).find(
-      (b) => Number(b.tokenId) === selectedBumpkinId
+      (b) => Number(b.tokenId) === selectedBumpkinId,
     );
 
     if (!bumpkin) {
@@ -57,7 +57,7 @@ export const DequipBumpkin: React.FC = () => {
     // Get all the IDs + Amounts currently on the Bumpkin
     const wearables = await loadWearablesBalanceBatch(
       wallet.web3Provider,
-      bumpkin.wardrobe // Bumpkin wallet address
+      bumpkin.wardrobe, // Bumpkin wallet address
     );
 
     await dequipBumpkin({
@@ -104,7 +104,7 @@ export const DequipBumpkin: React.FC = () => {
   }
 
   const selected = (walletBumpkins ?? []).find(
-    (b) => Number(b.tokenId) === selectedBumpkinId
+    (b) => Number(b.tokenId) === selectedBumpkinId,
   );
 
   const equipped = interpretTokenUri(selected?.tokenURI ?? "0_0").equipped;

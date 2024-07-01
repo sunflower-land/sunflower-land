@@ -126,13 +126,13 @@ export const Home: React.FC = () => {
             </MapPlacement>
           );
         });
-      })
+      }),
   );
 
   mapPlacements.push(
     ...getKeys(buds)
       .filter(
-        (budId) => !!buds[budId].coordinates && buds[budId].location === "home"
+        (budId) => !!buds[budId].coordinates && buds[budId].location === "home",
       )
       .flatMap((id) => {
         const { x, y } = buds[id]!.coordinates!;
@@ -142,7 +142,7 @@ export const Home: React.FC = () => {
             <Bud id={String(id)} x={x} y={y} />
           </MapPlacement>
         );
-      })
+      }),
   );
 
   const bounds = HOME_BOUNDS[state.island.type];
@@ -187,7 +187,7 @@ export const Home: React.FC = () => {
                   {
                     "opacity-0": !landscaping,
                     "opacity-100": landscaping,
-                  }
+                  },
                 )}
                 style={{
                   // Offset the walls

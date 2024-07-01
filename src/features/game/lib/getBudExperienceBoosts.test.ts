@@ -29,8 +29,8 @@ describe("getBudExperienceBoosts", () => {
             type: "Woodlands",
           },
         },
-        CONSUMABLES["Chowder"]
-      )
+        CONSUMABLES["Chowder"],
+      ),
     ).toEqual(1);
   });
 
@@ -43,8 +43,8 @@ describe("getBudExperienceBoosts", () => {
             type: "Port",
           },
         },
-        CONSUMABLES["Chowder"]
-      )
+        CONSUMABLES["Chowder"],
+      ),
     ).toEqual(1.1);
   });
 
@@ -58,8 +58,8 @@ describe("getBudExperienceBoosts", () => {
             aura: "Basic",
           },
         },
-        CONSUMABLES["Chowder"]
-      )
+        CONSUMABLES["Chowder"],
+      ),
     ).toEqual(1.105);
   });
 
@@ -73,8 +73,8 @@ describe("getBudExperienceBoosts", () => {
             aura: "Green",
           },
         },
-        CONSUMABLES["Chowder"]
-      )
+        CONSUMABLES["Chowder"],
+      ),
     ).toEqual(1.12);
   });
 
@@ -88,8 +88,8 @@ describe("getBudExperienceBoosts", () => {
             aura: "Rare",
           },
         },
-        CONSUMABLES["Chowder"]
-      )
+        CONSUMABLES["Chowder"],
+      ),
     ).toEqual(1.2);
   });
 
@@ -103,8 +103,8 @@ describe("getBudExperienceBoosts", () => {
             aura: "Mythical",
           },
         },
-        CONSUMABLES["Chowder"]
-      )
+        CONSUMABLES["Chowder"],
+      ),
     ).toEqual(1.5);
   });
 
@@ -128,8 +128,8 @@ describe("getBudExperienceBoosts", () => {
             aura: "Rare",
           },
         },
-        CONSUMABLES["Chowder"]
-      )
+        CONSUMABLES["Chowder"],
+      ),
     ).toEqual(1.5);
   });
 
@@ -144,8 +144,8 @@ describe("getBudExperienceBoosts", () => {
             coordinates: undefined,
           },
         },
-        CONSUMABLES["Chowder"]
-      )
+        CONSUMABLES["Chowder"],
+      ),
     ).toEqual(1);
   });
 });

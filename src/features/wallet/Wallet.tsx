@@ -201,7 +201,7 @@ export const Wallet: React.FC<Props> = ({
             {t("wallet.walletAlreadyLinked")}
           </Label>
           <p className="my-2 text-sm">{`Wallet ${shortAddress(
-            walletState.context.address as string
+            walletState.context.address as string,
           )} has already been linked to an account.`}</p>
           <p className="text-xs my-2">
             {t("wallet.linkAnotherWallet")}
@@ -218,7 +218,7 @@ export const Wallet: React.FC<Props> = ({
             {t("wallet.walletAlreadyLinked")}
           </Label>
           <p className="my-2 text-sm">{`Wallet ${shortAddress(
-            walletState.context.address as string
+            walletState.context.address as string,
           )} has already been linked to an account.`}</p>
           <p className="text-xs my-2">
             {t("wallet.transferFarm")}
@@ -476,7 +476,7 @@ export const PortalWallet: React.FC<Props> = ({
             {t("wallet.walletAlreadyLinked")}
           </Label>
           <p className="my-2 text-sm">{`Wallet ${shortAddress(
-            walletState.context.address as string
+            walletState.context.address as string,
           )} has already been linked to an account.`}</p>
           <p className="text-xs my-2">
             {t("wallet.linkAnotherWallet")}
@@ -493,7 +493,7 @@ export const PortalWallet: React.FC<Props> = ({
             {t("wallet.walletAlreadyLinked")}
           </Label>
           <p className="my-2 text-sm">{`Wallet ${shortAddress(
-            walletState.context.address as string
+            walletState.context.address as string,
           )} has already been linked to an account.`}</p>
           <p className="text-xs my-2">
             {t("wallet.transferFarm")}

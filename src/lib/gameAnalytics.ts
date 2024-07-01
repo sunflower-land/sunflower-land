@@ -54,7 +54,7 @@ class GameAnalyticTracker {
 
       GameAnalytics.initialize(
         CONFIG.GAME_ANALYTICS_APP_ID,
-        CONFIG.GAME_ANALYTICS_PUB_KEY
+        CONFIG.GAME_ANALYTICS_PUB_KEY,
       );
 
       GameAnalytics.startSession();
@@ -95,7 +95,7 @@ class GameAnalyticTracker {
       item.replace(/\s/g, ""), // Camel Case naming
       amount,
       type.replace(/\s/g, ""), // Camel Case naming,
-      from.replace(/\s/g, "") // Camel Case naming
+      from.replace(/\s/g, ""), // Camel Case naming
     );
   }
 
@@ -118,7 +118,7 @@ class GameAnalyticTracker {
       currency.replace(/\s/g, ""), // Camel Case naming
       amount,
       type.replace(/\s/g, ""), // Camel Case naming,
-      item.replace(/\s/g, "") // Camel Case naming
+      item.replace(/\s/g, ""), // Camel Case naming
     );
   }
 
@@ -139,7 +139,7 @@ class GameAnalyticTracker {
     const { event } = milestone;
 
     GameAnalytics.addDesignEvent(
-      event.replace(/\s/g, "") // Camel Case naming
+      event.replace(/\s/g, ""), // Camel Case naming
     );
 
     this.executed[key] = true;

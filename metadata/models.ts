@@ -12,7 +12,7 @@ export type MetadataObject = {
 };
 
 export type Images = {
-  [key in typeof IDS[number]]?: string;
+  [key in (typeof IDS)[number]]?: string;
 };
 
 export type MarkdownSections = {

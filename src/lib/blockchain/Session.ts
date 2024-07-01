@@ -9,11 +9,11 @@ const address = CONFIG.SESSION_CONTRACT;
 export async function getSessionId(
   web3: Web3,
   farmId: number,
-  attempts = 0
+  attempts = 0,
 ): Promise<string> {
   const contract = new web3.eth.Contract(
     SessionABI as AbiItem[],
-    address as string
+    address as string,
   );
 
   await new Promise((res) => setTimeout(res, 3000 * attempts));
@@ -39,7 +39,7 @@ export async function getNextSessionId(
   web3: Web3,
   account: string,
   farmId: number,
-  oldSessionId: string
+  oldSessionId: string,
 ): Promise<string> {
   await new Promise((res) => setTimeout(res, 3000));
 

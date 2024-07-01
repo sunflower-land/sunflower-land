@@ -19,7 +19,7 @@ export async function migrate(request: Request) {
         "X-Transaction-ID": request.transactionId,
         Authorization: `Bearer ${request.jwt}`,
       },
-    }
+    },
   );
 
   if (response.status >= 400) {

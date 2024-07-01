@@ -28,7 +28,7 @@ const FACTION_JOINED_INTROS: Record<FactionName, FactionTranslations> = {
 };
 
 const SEASONAL_DELIVERIES_START_DATE = new Date(
-  "2024-05-07T00:00:00Z"
+  "2024-05-07T00:00:00Z",
 ).getTime();
 
 const _farmId = (state: MachineState) => state.context.farmId;

@@ -20,7 +20,7 @@ describe("placeBeehive", () => {
           },
           type: "beehive.placed",
         },
-      })
+      }),
     ).toThrow("You do not have any available beehives");
   });
 

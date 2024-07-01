@@ -1,6 +1,6 @@
 import React from "react";
 
-import image from "src/assets/sfts/baozi.webp";
+import image from "assets/sfts/baozi.webp";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const Baozi: React.FC = () => {

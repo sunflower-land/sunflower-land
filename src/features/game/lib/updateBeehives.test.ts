@@ -354,7 +354,7 @@ describe("updateBeehives", () => {
     });
 
     expect(updatedBeehives[beehiveId].honey.produced).toEqual(
-      DEFAULT_HONEY_PRODUCTION_TIME - tenMinutes
+      DEFAULT_HONEY_PRODUCTION_TIME - tenMinutes,
     );
   });
 
@@ -396,7 +396,7 @@ describe("updateBeehives", () => {
     });
 
     expect(updatedBeehives[beehiveId].honey.produced).toEqual(
-      DEFAULT_HONEY_PRODUCTION_TIME
+      DEFAULT_HONEY_PRODUCTION_TIME,
     );
   });
 
@@ -442,7 +442,7 @@ describe("updateBeehives", () => {
 
     expect(updatedBeehives[beehiveId1].flowers.length).toEqual(2);
     expect(updatedBeehives[beehiveId1].flowers[1].attachedAt).toEqual(
-      now + halfTime
+      now + halfTime,
     );
   });
 
@@ -476,7 +476,7 @@ describe("updateBeehives", () => {
     });
 
     expect(updatedBeehives[beehiveId1].flowers[0].attachedUntil).toEqual(
-      now + halfTime
+      now + halfTime,
     );
   });
 
@@ -511,7 +511,7 @@ describe("updateBeehives", () => {
     });
 
     expect(updatedBeehives[beehiveId1].flowers[0].attachedUntil).toEqual(
-      now + threeQuarterTime
+      now + threeQuarterTime,
     );
   });
 
@@ -613,7 +613,7 @@ describe("updateBeehives", () => {
     expect(updatedBeehives[beehiveId2].flowers.length).toEqual(1);
     expect(updatedBeehives[beehiveId2].flowers[0].attachedAt).toEqual(now);
     expect(updatedBeehives[beehiveId2].flowers[0].attachedUntil).toEqual(
-      now + DEFAULT_HONEY_PRODUCTION_TIME
+      now + DEFAULT_HONEY_PRODUCTION_TIME,
     );
   });
 
@@ -769,10 +769,10 @@ describe("updateBeehives", () => {
 
     expect(finalBeehives["abc"].flowers.length).toEqual(2);
     expect(finalBeehives["abc"].flowers[0].attachedUntil).toEqual(
-      now + DEFAULT_HONEY_PRODUCTION_TIME / 2
+      now + DEFAULT_HONEY_PRODUCTION_TIME / 2,
     );
     expect(finalBeehives["abc"].flowers[1].attachedUntil).toEqual(
-      now + (3 * DEFAULT_HONEY_PRODUCTION_TIME) / 4
+      now + (3 * DEFAULT_HONEY_PRODUCTION_TIME) / 4,
     );
   });
 
@@ -843,10 +843,10 @@ describe("updateBeehives", () => {
 
     expect(finalBeehives["abc"].flowers.length).toEqual(2);
     expect(finalBeehives["abc"].flowers[0].attachedUntil).toEqual(
-      now + DEFAULT_HONEY_PRODUCTION_TIME / 4
+      now + DEFAULT_HONEY_PRODUCTION_TIME / 4,
     );
     expect(finalBeehives["abc"].flowers[1].attachedUntil).toEqual(
-      now + DEFAULT_HONEY_PRODUCTION_TIME
+      now + DEFAULT_HONEY_PRODUCTION_TIME,
     );
   });
 

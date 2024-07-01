@@ -22,7 +22,7 @@ export const Verifying: React.FC = () => {
       const eventer = window[eventMethod as any] as unknown as (
         name: any,
         fn: (event: MessageEvent) => void,
-        propogate: boolean
+        propogate: boolean,
       ) => void;
       const messageEvent =
         eventMethod == "attachEvent" ? "onmessage" : "message";
@@ -46,7 +46,7 @@ export const Verifying: React.FC = () => {
             });
           }
         },
-        false
+        false,
       );
     };
 

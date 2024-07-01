@@ -1,6 +1,6 @@
 import React from "react";
 
-import shiftySheldon from "src/assets/decorations/shifty_sheldon.webp";
+import shiftySheldon from "assets/decorations/shifty_sheldon.webp";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const ShiftySheldon: React.FC = () => {

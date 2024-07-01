@@ -218,7 +218,7 @@ export class PlazaScene extends BaseScene {
 
     const audioMuted = getCachedAudioSetting<boolean>(
       AudioLocalStorageKeys.audioMuted,
-      false
+      false,
     );
 
     if (!audioMuted) {
@@ -274,7 +274,7 @@ export class PlazaScene extends BaseScene {
         .sprite(
           (this.currentPlayer?.x ?? 0) + 2,
           (this.currentPlayer?.y ?? 0) - 4,
-          "arrows_to_move"
+          "arrows_to_move",
         )
         .setDepth(1000000000000);
     }

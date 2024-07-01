@@ -44,7 +44,7 @@ if (import.meta.env.PROD) {
           maxEntries: 60,
         }),
       ],
-    })
+    }),
   );
 
   // Google Fonts

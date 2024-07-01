@@ -2,7 +2,7 @@ export class Label extends Phaser.GameObjects.Container {
   constructor(
     scene: Phaser.Scene,
     text: string,
-    type: "brown" | "grey" = "grey"
+    type: "brown" | "grey" = "grey",
   ) {
     super(scene, 0, 0);
     this.scene = scene;
@@ -14,7 +14,7 @@ export class Label extends Phaser.GameObjects.Container {
       1,
       "Teeny Tiny Pixls",
       text,
-      5
+      5,
     );
     const bounds = name.getBounds();
 

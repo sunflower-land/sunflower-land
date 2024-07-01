@@ -20,7 +20,7 @@ describe("feed chickens", () => {
       feedChicken({
         state: GAME_STATE,
         action: { type: "chicken.fed", id: "3" },
-      })
+      }),
     ).toThrow("This chicken does not exist");
   });
 
@@ -38,7 +38,7 @@ describe("feed chickens", () => {
           },
         },
         action: { type: "chicken.fed", id: "0" },
-      })
+      }),
     ).toThrow("This chicken is not hungry");
   });
 
@@ -56,7 +56,7 @@ describe("feed chickens", () => {
           },
         },
         action: { type: "chicken.fed", id: "0" },
-      })
+      }),
     ).toThrow("No wheat to feed chickens");
   });
 

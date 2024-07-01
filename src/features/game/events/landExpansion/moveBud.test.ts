@@ -23,7 +23,7 @@ describe("moveBud", () => {
           id: "1",
           coordinates: { x: 2, y: 2 },
         },
-      })
+      }),
     ).toThrow(MOVE_BUD_ERRORS.NO_BUD);
   });
 
@@ -47,7 +47,7 @@ describe("moveBud", () => {
           id: "1",
           coordinates: { x: 2, y: 2 },
         },
-      })
+      }),
     ).toThrow(MOVE_BUD_ERRORS.BUD_NOT_PLACED);
   });
 

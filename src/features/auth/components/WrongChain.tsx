@@ -13,7 +13,7 @@ export const WrongChain: React.FC = () => {
   const goToPolygonSetupDocs = () => {
     window.open(
       "https://docs.sunflower-land.com/guides/getting-setup#polygon-setup",
-      "_blank"
+      "_blank",
     );
   };
 

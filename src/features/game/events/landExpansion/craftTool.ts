@@ -82,7 +82,7 @@ export function craftTool({ state, action }: Options) {
         [ingredientName]: count.sub(totalAmount),
       };
     },
-    stateCopy.inventory
+    stateCopy.inventory,
   );
 
   const oldAmount = stateCopy.inventory[action.tool] || new Decimal(0);
@@ -90,12 +90,12 @@ export function craftTool({ state, action }: Options) {
   bumpkin.activity = trackActivity(
     `${action.tool} Crafted`,
     bumpkin.activity,
-    new Decimal(amount)
+    new Decimal(amount),
   );
   bumpkin.activity = trackActivity(
     "Coins Spent",
     bumpkin.activity,
-    new Decimal(price)
+    new Decimal(price),
   );
 
   stateCopy.coins = stateCopy.coins - price;

@@ -7,7 +7,7 @@ import { BumpkinLevel } from "features/game/lib/level";
 
 export function getBuildingBumpkinLevelRequired(
   name: BuildingName,
-  index?: number
+  index?: number,
 ): number {
   let requiredExpansionLevel = 1;
   const blueprint = BUILDINGS[name];
@@ -20,7 +20,7 @@ export function getBuildingBumpkinLevelRequired(
 export function isBuildingEnabled(
   bumpkinLevel: BumpkinLevel,
   name: BuildingName,
-  index?: number
+  index?: number,
 ): boolean {
   return bumpkinLevel >= getBuildingBumpkinLevelRequired(name, index);
 }

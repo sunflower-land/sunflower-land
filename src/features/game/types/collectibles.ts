@@ -134,10 +134,10 @@ export type CraftableCollectible = {
 
 export const HELIOS_BLACKSMITH_ITEMS: (
   game?: GameState,
-  date?: Date
+  date?: Date,
 ) => Partial<Record<HeliosBlacksmithItem, CraftableCollectible>> = (
   state,
-  date = new Date()
+  date = new Date(),
 ) => ({
   "Basic Scarecrow": {
     description: translate("description.basic.scarecrow"),

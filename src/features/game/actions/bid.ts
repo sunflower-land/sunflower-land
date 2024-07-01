@@ -26,7 +26,7 @@ export async function bid(request: Request) {
         auctionId: request.auctionId,
         tickets: request.tickets,
       }),
-    }
+    },
   );
 
   if (response.status === 429) {

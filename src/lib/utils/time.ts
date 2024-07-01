@@ -38,7 +38,7 @@ const timeUnitToString = (
   options: TimeFormatOptions = {
     length: "medium", // unused but still have to be set because the field is not optional
     isShortFormat: false,
-  }
+  },
 ) => {
   const value = duration.value;
   const unit = duration.unit;
@@ -55,7 +55,7 @@ const timeUnitToString = (
 
 export const secondsToString = (
   seconds: number,
-  options: TimeFormatOptions
+  options: TimeFormatOptions,
 ) => {
   // rounding method for time units
   const roundingFunction =
@@ -168,7 +168,7 @@ export function getSecondsToTomorrow() {
   const tomorrow = new Date(
     now.getFullYear(),
     now.getMonth(),
-    now.getDate() + 1
+    now.getDate() + 1,
   );
 
   const diff = tomorrow.getTime() - now.getTime(); // difference in ms
@@ -242,7 +242,7 @@ export function formatDateRange(fromDate: Date, toDate: Date): string {
   const toDay = toDate.getDate();
 
   return `${fromMonth} ${fromDay}${getOrdinalSuffix(
-    fromDay
+    fromDay,
   )} - ${toMonth} ${toDay}${getOrdinalSuffix(toDay)}`;
 }
 

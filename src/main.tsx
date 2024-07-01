@@ -10,7 +10,7 @@ if (CONFIG.PORTAL_APP) {
     <React.StrictMode>
       <PortalApp />
     </React.StrictMode>,
-    document.getElementById("root")
+    document.getElementById("root"),
   );
 } else {
   // Main Game
@@ -18,6 +18,6 @@ if (CONFIG.PORTAL_APP) {
     <React.StrictMode>
       <App />
     </React.StrictMode>,
-    document.getElementById("root")
+    document.getElementById("root"),
   );
 }

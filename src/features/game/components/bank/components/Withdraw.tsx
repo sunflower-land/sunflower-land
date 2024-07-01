@@ -67,7 +67,7 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
 
   const onWithdrawWearables = async (
     wearableIds: number[],
-    wearableAmounts: number[]
+    wearableAmounts: number[],
   ) => {
     withdrawAmount.current = {
       ids: [],

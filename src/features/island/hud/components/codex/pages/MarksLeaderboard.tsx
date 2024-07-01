@@ -145,7 +145,7 @@ const FilterCheckbox: React.FC<FilterCheckboxProps> = ({
 }) => (
   <OuterPanel
     className={classNames(
-      "flex items-center relative p-0.5 mb-1 cursor-pointer"
+      "flex items-center relative p-0.5 mb-1 cursor-pointer",
     )}
     onClick={onClick}
     style={{
@@ -178,7 +178,7 @@ export const MarksLeaderboard: React.FC = () => {
   return (
     <InnerPanel
       className={classNames(
-        "flex flex-col h-full overflow-hidden overflow-y-auto scrollable"
+        "flex flex-col h-full overflow-hidden overflow-y-auto scrollable",
       )}
     >
       <div className="flex justify-between">
@@ -208,13 +208,13 @@ export const MarksLeaderboard: React.FC = () => {
                 className="flex text-xxs"
                 onClick={() =>
                   setLeaderboard((prev) =>
-                    prev === "marks" ? "emblems" : "marks"
+                    prev === "marks" ? "emblems" : "marks",
                   )
                 }
               >
                 <OuterPanel
                   className={classNames(
-                    "flex items-center relative cursor-pointer"
+                    "flex items-center relative cursor-pointer",
                   )}
                   style={{
                     background: leaderboard === "marks" ? "#ead4aa" : undefined,
@@ -294,7 +294,7 @@ export const MarksLeaderboard: React.FC = () => {
                     </div>
                   </td>
                 </tr>
-              )
+              ),
             )}
           <tr>
             <td colSpan={3}>
@@ -358,7 +358,7 @@ export const MarksLeaderboard: React.FC = () => {
                     </div>
                   </td>
                 </tr>
-              )
+              ),
             )}
         </tbody>
       </table>

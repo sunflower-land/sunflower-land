@@ -17,7 +17,7 @@ export const ResourceDropAnimatorComponent: React.FC<Props> = ({
   resourceAmount,
 }: Props) => {
   const { current: direction } = useRef<"left" | "right">(
-    randomInt(0, 2) === 0 ? "left" : "right"
+    randomInt(0, 2) === 0 ? "left" : "right",
   );
   const textRef = useRef<HTMLSpanElement>(null);
   const [playing, setPlaying] = useState(true);
@@ -40,7 +40,7 @@ export const ResourceDropAnimatorComponent: React.FC<Props> = ({
             {
               "drop-animation-left": direction === "left",
               "drop-animation-right": direction === "right",
-            }
+            },
           )}
           style={{
             transition: "opacity 0.2s ease-in",

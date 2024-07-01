@@ -18,14 +18,14 @@ const isFarmIdValid = (farmId: number) => {
 const CommandeMute = (args: string[]) => {
   const farmId = Number(args[0]);
   const localMutedFarmIds = JSON.parse(
-    localStorage.getItem("plaza-settings.mutedFarmIds") || "[]"
+    localStorage.getItem("plaza-settings.mutedFarmIds") || "[]",
   );
 
   if (isFarmIdValid(farmId) && !localMutedFarmIds.includes(farmId)) {
     localMutedFarmIds.push(farmId);
     localStorage.setItem(
       "plaza-settings.mutedFarmIds",
-      JSON.stringify(localMutedFarmIds)
+      JSON.stringify(localMutedFarmIds),
     );
   }
 };
@@ -33,7 +33,7 @@ const CommandeMute = (args: string[]) => {
 const CommandeUnmute = (args: string[]) => {
   const farmId = Number(args[0]);
   const localMutedFarmIds = JSON.parse(
-    localStorage.getItem("plaza-settings.mutedFarmIds") || "[]"
+    localStorage.getItem("plaza-settings.mutedFarmIds") || "[]",
   );
 
   if (isFarmIdValid(farmId)) {
@@ -42,7 +42,7 @@ const CommandeUnmute = (args: string[]) => {
       localMutedFarmIds.splice(index, 1);
       localStorage.setItem(
         "plaza-settings.mutedFarmIds",
-        JSON.stringify(localMutedFarmIds)
+        JSON.stringify(localMutedFarmIds),
       );
     }
   }

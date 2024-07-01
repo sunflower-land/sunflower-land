@@ -61,14 +61,14 @@ const selectHarvests = (state: MachineState) =>
     (total, crop) =>
       total +
       (state.context.state.bumpkin?.activity?.[`${crop} Harvested`] ?? 0),
-    0
+    0,
   );
 
 const selectPlants = (state: MachineState) =>
   getKeys(CROPS()).reduce(
     (total, crop) =>
       total + (state.context.state.bumpkin?.activity?.[`${crop} Planted`] ?? 0),
-    0
+    0,
   );
 
 const selectCropsSold = (state: MachineState) =>
@@ -76,7 +76,7 @@ const selectCropsSold = (state: MachineState) =>
 
 const compareBuildings = (
   prev: Partial<Record<BuildingName, PlacedItem[]>>,
-  next: Partial<Record<BuildingName, PlacedItem[]>>
+  next: Partial<Record<BuildingName, PlacedItem[]>>,
 ) => {
   return getCompletedWellCount(prev) === getCompletedWellCount(next);
 };
@@ -167,7 +167,7 @@ export const Plot: React.FC<Props> = ({ id, index }) => {
           fps={HARVEST_PROC_ANIMATION.fps}
           steps={HARVEST_PROC_ANIMATION.steps}
           onPause={() => setProcAnimation(<></>)}
-        />
+        />,
       );
     }
 
@@ -398,7 +398,7 @@ export const Plot: React.FC<Props> = ({ id, index }) => {
             }}
           >{`+${setPrecision(
             new Decimal(harvested.current?.amount ?? 0),
-            2
+            2,
           )}`}</span>
         </Transition>
       )}

@@ -48,7 +48,7 @@ export const HeliosBlacksmithItems: React.FC = () => {
 
   const lessIngredients = () =>
     getKeys(selectedItem.ingredients).some((name) =>
-      selectedItem.ingredients[name]?.greaterThan(inventory[name] || 0)
+      selectedItem.ingredients[name]?.greaterThan(inventory[name] || 0),
     );
 
   const craft = () => {
@@ -141,7 +141,7 @@ export const HeliosBlacksmithItems: React.FC = () => {
           {getKeys(HELIOS_BLACKSMITH_ITEMS(state)).map(
             (name: HeliosBlacksmithItem) => {
               const isTimeLimited = isNotReady(
-                HELIOS_BLACKSMITH_ITEMS(state)[name] as CraftableCollectible
+                HELIOS_BLACKSMITH_ITEMS(state)[name] as CraftableCollectible,
               );
 
               return (
@@ -167,7 +167,7 @@ export const HeliosBlacksmithItems: React.FC = () => {
                   }
                 />
               );
-            }
+            },
           )}
         </>
       }

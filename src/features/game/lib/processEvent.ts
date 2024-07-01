@@ -235,7 +235,7 @@ export const maxItems: Inventory = {
       ...acc,
       [name]: new Decimal(50),
     }),
-    {}
+    {},
   ),
 
   // Max of 1000 food item
@@ -244,7 +244,7 @@ export const maxItems: Inventory = {
       ...acc,
       [name]: new Decimal(1000),
     }),
-    {}
+    {},
   ),
 
   // Max of 1 skill badge
@@ -253,7 +253,7 @@ export const maxItems: Inventory = {
       ...acc,
       [name]: new Decimal(1),
     }),
-    {}
+    {},
   ),
 
   ...(Object.keys(EXOTIC_CROPS) as InventoryItemName[]).reduce(
@@ -261,7 +261,7 @@ export const maxItems: Inventory = {
       ...acc,
       [name]: new Decimal(50),
     }),
-    {}
+    {},
   ),
 
   // Max of 100 basic decoration
@@ -270,7 +270,7 @@ export const maxItems: Inventory = {
       ...acc,
       [name]: new Decimal(100),
     }),
-    {}
+    {},
   ),
 
   // Max of 100 fish
@@ -279,7 +279,7 @@ export const maxItems: Inventory = {
       ...acc,
       [name]: new Decimal(100),
     }),
-    {}
+    {},
   ),
 
   Anchovy: new Decimal(300),
@@ -289,25 +289,25 @@ export const maxItems: Inventory = {
   // Max of 1000 landscaping decoration, but only 100 for mushrooms
   ...(Object.keys(LANDSCAPING_DECORATIONS()) as LandscapingDecorationName[])
     .filter(
-      (name) => !LANDSCAPING_DECORATIONS()[name].ingredients["Wild Mushroom"]
+      (name) => !LANDSCAPING_DECORATIONS()[name].ingredients["Wild Mushroom"],
     )
     .reduce(
       (acc, name) => ({
         ...acc,
         [name]: new Decimal(1000),
       }),
-      {}
+      {},
     ),
   ...(Object.keys(LANDSCAPING_DECORATIONS()) as LandscapingDecorationName[])
     .filter(
-      (name) => LANDSCAPING_DECORATIONS()[name].ingredients["Wild Mushroom"]
+      (name) => LANDSCAPING_DECORATIONS()[name].ingredients["Wild Mushroom"],
     )
     .reduce(
       (acc, name) => ({
         ...acc,
         [name]: new Decimal(100),
       }),
-      {}
+      {},
     ),
 };
 

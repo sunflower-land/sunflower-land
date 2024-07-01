@@ -19,6 +19,6 @@ export const getCachedMarketPrices = ():
 export const setCachedMarketPrices = (marketPrices: MarketPrices) => {
   localStorage.setItem(
     LOCAL_STORAGE_KEY,
-    JSON.stringify({ prices: marketPrices, cachedAt: Date.now() })
+    JSON.stringify({ prices: marketPrices, cachedAt: Date.now() }),
   );
 };

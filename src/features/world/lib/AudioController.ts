@@ -50,7 +50,7 @@ export class AudioController {
       playerX,
       playerY,
       this.audio.coordinates.x,
-      this.audio.coordinates.y
+      this.audio.coordinates.y,
     );
 
     let normalizedSound =
@@ -63,7 +63,7 @@ export class AudioController {
       this.audio.sound.volume = Phaser.Math.Clamp(
         volume,
         0,
-        this.audio.maxVolume
+        this.audio.maxVolume,
       );
     }
 

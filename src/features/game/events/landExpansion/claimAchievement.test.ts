@@ -19,7 +19,7 @@ describe("claim achievements", () => {
           type: "achievement.claimed",
           achievement: "Explorer",
         },
-      })
+      }),
     ).toThrow("You do not have a Bumpkin");
   });
 
@@ -38,7 +38,7 @@ describe("claim achievements", () => {
           type: "achievement.claimed",
           achievement: "Busy Bumpkin",
         },
-      })
+      }),
     ).toThrow("You do not meet the requirements");
   });
 
@@ -59,7 +59,7 @@ describe("claim achievements", () => {
           type: "achievement.claimed",
           achievement: "Busy Bumpkin",
         },
-      })
+      }),
     ).toThrow("You already have this achievement");
   });
 

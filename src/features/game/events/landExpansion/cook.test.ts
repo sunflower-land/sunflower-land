@@ -29,7 +29,7 @@ describe("cook", () => {
           item: "Boiled Eggs",
           buildingId: "123",
         },
-      })
+      }),
     ).toThrow(`Required building does not exist`);
   });
 
@@ -61,7 +61,7 @@ describe("cook", () => {
           item: "Boiled Eggs",
           buildingId: "64eca77c-10fb-4088-a71f-3743b2ef6b16",
         },
-      })
+      }),
     ).toThrow("Cooking already in progress");
   });
 
@@ -90,7 +90,7 @@ describe("cook", () => {
           item: "Boiled Eggs",
           buildingId: "64eca77c-10fb-4088-a71f-3743b2ef6b16",
         },
-      })
+      }),
     ).toThrow("Insufficient ingredient: Egg");
   });
 
@@ -189,7 +189,7 @@ describe("cook", () => {
       expect.objectContaining({
         name: "Boiled Eggs",
         readyAt: expect.any(Number),
-      })
+      }),
     );
   });
 
@@ -265,7 +265,7 @@ describe("cook", () => {
       expect.objectContaining({
         name: "Fancy Fries",
         readyAt: readyAt,
-      })
+      }),
     );
   });
 });

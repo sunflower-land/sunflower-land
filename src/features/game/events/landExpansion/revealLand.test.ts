@@ -66,7 +66,7 @@ describe("getRewards", () => {
     });
 
     expect(rewards[0].items).toEqual(
-      EXPANSION_REQUIREMENTS.basic[10].resources
+      EXPANSION_REQUIREMENTS.basic[10].resources,
     );
   });
   it("returns correct maximum refund rewards", () => {
@@ -85,7 +85,7 @@ describe("getRewards", () => {
     });
 
     expect(rewards[0].items).toEqual(
-      EXPANSION_REQUIREMENTS.basic[23].resources
+      EXPANSION_REQUIREMENTS.basic[23].resources,
     );
   });
 
@@ -123,7 +123,7 @@ describe("getRewards", () => {
     });
 
     expect(rewards[0].items).toEqual(
-      EXPANSION_REQUIREMENTS.spring[17].resources
+      EXPANSION_REQUIREMENTS.spring[17].resources,
     );
   });
 });
@@ -208,7 +208,7 @@ describe("revealLand", () => {
           expansionConstruction: { createdAt: 0, readyAt: 0 },
           inventory: { "Basic Land": new Decimal(1000) },
         },
-      })
+      }),
     ).toThrow("Land Does Not Exists");
   });
 
@@ -223,7 +223,7 @@ describe("revealLand", () => {
           ...TEST_FARM,
           inventory: { "Basic Land": new Decimal(1000) },
         },
-      })
+      }),
     ).toThrow("Land is not in construction");
   });
 
@@ -514,7 +514,7 @@ describe("revealLand", () => {
     });
 
     expect(state.trees[1].wood.choppedAt).toBeLessThan(
-      now - TREE_RECOVERY_TIME * 1000
+      now - TREE_RECOVERY_TIME * 1000,
     );
   });
 
@@ -548,7 +548,7 @@ describe("revealLand", () => {
     });
 
     expect(state.stones[1].stone.minedAt).toBeLessThan(
-      now - STONE_RECOVERY_TIME * 1000
+      now - STONE_RECOVERY_TIME * 1000,
     );
   });
 
@@ -582,7 +582,7 @@ describe("revealLand", () => {
     });
 
     expect(state.iron[1].stone.minedAt).toBeLessThan(
-      now - IRON_RECOVERY_TIME * 1000
+      now - IRON_RECOVERY_TIME * 1000,
     );
   });
 
@@ -616,7 +616,7 @@ describe("revealLand", () => {
     });
 
     expect(state.gold[1].stone.minedAt).toBeLessThan(
-      now - GOLD_RECOVERY_TIME * 1000
+      now - GOLD_RECOVERY_TIME * 1000,
     );
   });
 
@@ -651,7 +651,7 @@ describe("revealLand", () => {
     });
 
     expect(state.crimstones[1].stone.minedAt).toBeLessThanOrEqual(
-      now - CRIMSTONE_RECOVERY_TIME * 1000
+      now - CRIMSTONE_RECOVERY_TIME * 1000,
     );
   });
 });

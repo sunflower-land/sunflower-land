@@ -23,7 +23,7 @@ export const Pontoon: React.FC<Props> = ({ expansion, onDone }) => {
 
   const [showPopover, setShowPopover] = useState(false);
   const [secondsLeft, setSecondsLeft] = useState(
-    (expansion.readyAt - Date.now()) / 1000
+    (expansion.readyAt - Date.now()) / 1000,
   );
   const { t } = useAppTranslation();
 
@@ -43,7 +43,7 @@ export const Pontoon: React.FC<Props> = ({ expansion, onDone }) => {
 
   // Land is still being built
   const constructionTime = Math.floor(
-    (expansion.readyAt - expansion.createdAt) / 1000
+    (expansion.readyAt - expansion.createdAt) / 1000,
   );
 
   return (

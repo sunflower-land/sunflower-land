@@ -5,15 +5,15 @@ import { Context } from "../lib/Provider";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
-import metamaskIcon from "src/assets/icons/metamask_pixel.png";
-import walletIcon from "src/assets/icons/wallet.png";
-import phantomIcon from "src/assets/icons/phantom.svg";
-import okxIcon from "src/assets/icons/okx.svg";
-import cryptoComIcon from "src/assets/icons/crypto-com-logo.svg";
-import bitgetIcon from "src/assets/icons/bitget_logo.svg";
-import googleIcon from "src/assets/icons/sign_in_with_google.svg";
-import wechatIcon from "src/assets/icons/wechat.png";
-import greyButton from "src/assets/ui/grey_button.png";
+import metamaskIcon from "assets/icons/metamask_pixel.png";
+import walletIcon from "assets/icons/wallet.png";
+import phantomIcon from "assets/icons/phantom.svg";
+import okxIcon from "assets/icons/okx.svg";
+import cryptoComIcon from "assets/icons/crypto-com-logo.svg";
+import bitgetIcon from "assets/icons/bitget_logo.svg";
+import googleIcon from "assets/icons/sign_in_with_google.svg";
+import wechatIcon from "assets/icons/wechat.png";
+import greyButton from "assets/ui/grey_button.png";
 
 import { Label } from "components/ui/Label";
 import { Web3SupportedProviders } from "lib/web3SupportedProviders";

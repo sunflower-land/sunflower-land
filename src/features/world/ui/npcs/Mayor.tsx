@@ -27,7 +27,7 @@ export const Mayor: React.FC<MayorProps> = ({ onClose }) => {
   const [gameState] = useActor(gameService);
 
   const [username, setUsername] = useState<string>(
-    gameState.context.state.username ?? ""
+    gameState.context.state.username ?? "",
   );
   const [validationState, setValidationState] = useState<string | null>(null);
 
@@ -52,7 +52,7 @@ export const Mayor: React.FC<MayorProps> = ({ onClose }) => {
         setState("idle");
       }
     }, 300),
-    []
+    [],
   );
 
   const applyUsername = async () => {
@@ -63,7 +63,7 @@ export const Mayor: React.FC<MayorProps> = ({ onClose }) => {
       const result = await saveUsername(
         authState.context.user.rawToken as string,
         farmId,
-        username as string
+        username as string,
       );
       if (result.success === false) {
         setValidationState("Username already taken");
@@ -160,7 +160,7 @@ export const Mayor: React.FC<MayorProps> = ({ onClose }) => {
                     if (!validationState) {
                       debouncedCheckUsername(
                         authState.context.user.rawToken as string,
-                        e.target.value
+                        e.target.value,
                       );
                     } else {
                       setState("idle");
@@ -186,14 +186,14 @@ export const Mayor: React.FC<MayorProps> = ({ onClose }) => {
               {state === "idle"
                 ? t("submit")
                 : state === "loading"
-                ? t("submitting")
-                : state === "success"
-                ? t("success")
-                : state === "error"
-                ? t("error")
-                : state === "checking"
-                ? "Checking availability..."
-                : t("submit")}
+                  ? t("submitting")
+                  : state === "success"
+                    ? t("success")
+                    : state === "error"
+                      ? t("error")
+                      : state === "checking"
+                        ? "Checking availability..."
+                        : t("submit")}
             </Button>
           </>
         </CloseButtonPanel>

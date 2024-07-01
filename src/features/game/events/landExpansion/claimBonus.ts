@@ -50,7 +50,7 @@ export function claimBonus({
         [itemName]: previous + (bonus.reward.wearables[itemName] || 0),
       };
     },
-    game.wardrobe
+    game.wardrobe,
   );
 
   return {

@@ -195,7 +195,7 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
           messages={[
             t("confirmation.buyCrops", {
               coinAmount: setPrecision(
-                new Decimal(price).mul(bulkSeedBuyAmount)
+                new Decimal(price).mul(bulkSeedBuyAmount),
               ).toNumber(),
               seedNo: bulkSeedBuyAmount,
               seedName: selectedName,
@@ -225,7 +225,7 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
       return getFruitPatchTime(
         selectedName as FruitSeedName,
         state,
-        (state.bumpkin as Bumpkin)?.equipped ?? {}
+        (state.bumpkin as Bumpkin)?.equipped ?? {},
       );
 
     if (
@@ -361,7 +361,7 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
                   .filter(
                     (name) =>
                       name in GREENHOUSE_SEEDS() ||
-                      name in GREENHOUSE_FRUIT_SEEDS()
+                      name in GREENHOUSE_FRUIT_SEEDS(),
                   )
                   .map((name: SeedName) => (
                     <Box

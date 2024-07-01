@@ -41,7 +41,7 @@ export type MachineInterpreter = Interpreter<Context, any, Event, State>;
 type GrowingQueueItem = CropMachineQueueItem & { startTime: number };
 
 function getGrowingCropPackStage(
-  item: CropMachineQueueItem & { startTime: number }
+  item: CropMachineQueueItem & { startTime: number },
 ): CropMachineGrowingStage {
   const now = Date.now();
 
@@ -100,7 +100,7 @@ export function isCropPackReady(item: CropMachineQueueItem, now = Date.now()) {
 
 function updateQueueAndUnallocatedOil(
   updatedQueue: CropMachineQueueItem[],
-  updatedOilRemaining: number
+  updatedOilRemaining: number,
 ) {
   const cropPackIndex = findGrowingCropPackIndex(updatedQueue);
   const cropPack =
@@ -261,5 +261,5 @@ export const cropStateMachine = createMachine<Context, Event, State>(
         return !!cropPack.growsUntil && cropPack.growsUntil <= Date.now();
       },
     },
-  }
+  },
 );

@@ -23,8 +23,8 @@ describe("getBudYieldBoosts", () => {
     expect(
       getBudYieldBoosts(
         { 1: { ...NON_BOOSTED_TRAITS, type: "Plaza", aura: "Basic" } },
-        "Stone"
-      )
+        "Stone",
+      ),
     ).toEqual(0);
   });
 
@@ -36,8 +36,8 @@ describe("getBudYieldBoosts", () => {
           2: { ...NON_BOOSTED_TRAITS, type: "Cave", aura: "Basic" },
           3: { ...NON_BOOSTED_TRAITS, type: "Cave" },
         },
-        "Stone"
-      )
+        "Stone",
+      ),
     ).toEqual(0.21);
   });
 
@@ -54,8 +54,8 @@ describe("getBudYieldBoosts", () => {
           },
           3: { ...NON_BOOSTED_TRAITS, type: "Cave", coordinates: undefined },
         },
-        "Stone"
-      )
+        "Stone",
+      ),
     ).toEqual(0);
   });
 
@@ -64,8 +64,8 @@ describe("getBudYieldBoosts", () => {
       expect(
         getBudYieldBoosts(
           { 1: { ...NON_BOOSTED_TRAITS, type: "Cave" } },
-          "Stone"
-        )
+          "Stone",
+        ),
       ).toEqual(0.2);
     });
 
@@ -73,8 +73,8 @@ describe("getBudYieldBoosts", () => {
       expect(
         getBudYieldBoosts(
           { 1: { ...NON_BOOSTED_TRAITS, type: "Cave" } },
-          "Iron"
-        )
+          "Iron",
+        ),
       ).toEqual(0.2);
     });
 
@@ -82,8 +82,8 @@ describe("getBudYieldBoosts", () => {
       expect(
         getBudYieldBoosts(
           { 1: { ...NON_BOOSTED_TRAITS, type: "Cave" } },
-          "Gold"
-        )
+          "Gold",
+        ),
       ).toEqual(0.2);
     });
 
@@ -91,8 +91,8 @@ describe("getBudYieldBoosts", () => {
       expect(
         getBudYieldBoosts(
           { 1: { ...NON_BOOSTED_TRAITS, type: "Plaza" } },
-          "Stone"
-        )
+          "Stone",
+        ),
       ).toEqual(0);
     });
 
@@ -100,8 +100,8 @@ describe("getBudYieldBoosts", () => {
       expect(
         getBudYieldBoosts(
           { 1: { ...NON_BOOSTED_TRAITS, type: "Plaza", stem: "Diamond Gem" } },
-          "Stone"
-        )
+          "Stone",
+        ),
       ).toEqual(0.2);
     });
 
@@ -109,8 +109,8 @@ describe("getBudYieldBoosts", () => {
       expect(
         getBudYieldBoosts(
           { 1: { ...NON_BOOSTED_TRAITS, type: "Cave", stem: "Diamond Gem" } },
-          "Stone"
-        )
+          "Stone",
+        ),
       ).toEqual(0.4);
     });
 
@@ -118,8 +118,8 @@ describe("getBudYieldBoosts", () => {
       expect(
         getBudYieldBoosts(
           { 1: { ...NON_BOOSTED_TRAITS, type: "Plaza", stem: "Gold Gem" } },
-          "Gold"
-        )
+          "Gold",
+        ),
       ).toEqual(0.2);
     });
 
@@ -127,8 +127,8 @@ describe("getBudYieldBoosts", () => {
       expect(
         getBudYieldBoosts(
           { 1: { ...NON_BOOSTED_TRAITS, type: "Cave", stem: "Gold Gem" } },
-          "Gold"
-        )
+          "Gold",
+        ),
       ).toEqual(0.4);
     });
 
@@ -136,8 +136,8 @@ describe("getBudYieldBoosts", () => {
       expect(
         getBudYieldBoosts(
           { 1: { ...NON_BOOSTED_TRAITS, type: "Plaza", stem: "Miner Hat" } },
-          "Iron"
-        )
+          "Iron",
+        ),
       ).toEqual(0.2);
     });
 
@@ -145,8 +145,8 @@ describe("getBudYieldBoosts", () => {
       expect(
         getBudYieldBoosts(
           { 1: { ...NON_BOOSTED_TRAITS, type: "Cave", stem: "Miner Hat" } },
-          "Iron"
-        )
+          "Iron",
+        ),
       ).toEqual(0.4);
     });
 
@@ -154,8 +154,8 @@ describe("getBudYieldBoosts", () => {
       expect(
         getBudYieldBoosts(
           { 1: { ...NON_BOOSTED_TRAITS, type: "Plaza", stem: "Ruby Gem" } },
-          "Stone"
-        )
+          "Stone",
+        ),
       ).toEqual(0.2);
     });
 
@@ -163,8 +163,8 @@ describe("getBudYieldBoosts", () => {
       expect(
         getBudYieldBoosts(
           { 1: { ...NON_BOOSTED_TRAITS, type: "Cave", stem: "Ruby Gem" } },
-          "Stone"
-        )
+          "Stone",
+        ),
       ).toEqual(0.4);
     });
 
@@ -179,8 +179,8 @@ describe("getBudYieldBoosts", () => {
               aura: "Basic",
             },
           },
-          "Stone"
-        )
+          "Stone",
+        ),
       ).toEqual(0.21);
     });
 
@@ -195,8 +195,8 @@ describe("getBudYieldBoosts", () => {
               aura: "Basic",
             },
           },
-          "Stone"
-        )
+          "Stone",
+        ),
       ).toEqual(0.42);
     });
 
@@ -211,8 +211,8 @@ describe("getBudYieldBoosts", () => {
               aura: "Green",
             },
           },
-          "Stone"
-        )
+          "Stone",
+        ),
       ).toEqual(0.24);
     });
 
@@ -227,8 +227,8 @@ describe("getBudYieldBoosts", () => {
               aura: "Green",
             },
           },
-          "Stone"
-        )
+          "Stone",
+        ),
       ).toEqual(0.48);
     });
 
@@ -243,8 +243,8 @@ describe("getBudYieldBoosts", () => {
               aura: "Rare",
             },
           },
-          "Stone"
-        )
+          "Stone",
+        ),
       ).toEqual(0.4);
     });
 
@@ -259,8 +259,8 @@ describe("getBudYieldBoosts", () => {
               aura: "Rare",
             },
           },
-          "Stone"
-        )
+          "Stone",
+        ),
       ).toEqual(0.8);
     });
 
@@ -275,8 +275,8 @@ describe("getBudYieldBoosts", () => {
               aura: "Mythical",
             },
           },
-          "Stone"
-        )
+          "Stone",
+        ),
       ).toEqual(1);
     });
 
@@ -291,8 +291,8 @@ describe("getBudYieldBoosts", () => {
               aura: "Mythical",
             },
           },
-          "Stone"
-        )
+          "Stone",
+        ),
       ).toEqual(2);
     });
   });
@@ -302,8 +302,8 @@ describe("getBudYieldBoosts", () => {
       expect(
         getBudYieldBoosts(
           { 1: { ...NON_BOOSTED_TRAITS, type: "Cave" } },
-          "Sunflower"
-        )
+          "Sunflower",
+        ),
       ).toEqual(0);
     });
 
@@ -313,8 +313,8 @@ describe("getBudYieldBoosts", () => {
           {
             1: { ...NON_BOOSTED_TRAITS, type: "Cave", stem: "3 Leaf Clover" },
           },
-          "Sunflower"
-        )
+          "Sunflower",
+        ),
       ).toEqual(0.5);
     });
 
@@ -324,8 +324,8 @@ describe("getBudYieldBoosts", () => {
           {
             1: { ...NON_BOOSTED_TRAITS, type: "Plaza", stem: "3 Leaf Clover" },
           },
-          "Sunflower"
-        )
+          "Sunflower",
+        ),
       ).toEqual(0.8);
     });
 
@@ -335,8 +335,8 @@ describe("getBudYieldBoosts", () => {
           {
             1: { ...NON_BOOSTED_TRAITS, type: "Cave", stem: "Carrot Head" },
           },
-          "Carrot"
-        )
+          "Carrot",
+        ),
       ).toEqual(0.3);
     });
 
@@ -346,8 +346,8 @@ describe("getBudYieldBoosts", () => {
           {
             1: { ...NON_BOOSTED_TRAITS, type: "Cave", stem: "Sunflower Hat" },
           },
-          "Sunflower"
-        )
+          "Sunflower",
+        ),
       ).toEqual(0.5);
     });
 
@@ -357,8 +357,8 @@ describe("getBudYieldBoosts", () => {
           {
             1: { ...NON_BOOSTED_TRAITS, type: "Plaza", stem: "Sunflower Hat" },
           },
-          "Sunflower"
-        )
+          "Sunflower",
+        ),
       ).toEqual(0.8);
     });
 
@@ -373,8 +373,8 @@ describe("getBudYieldBoosts", () => {
               aura: "Basic",
             },
           },
-          "Sunflower"
-        )
+          "Sunflower",
+        ),
       ).toEqual(0.21);
     });
 
@@ -389,8 +389,8 @@ describe("getBudYieldBoosts", () => {
               aura: "Green",
             },
           },
-          "Sunflower"
-        )
+          "Sunflower",
+        ),
       ).toEqual(0.6);
     });
 
@@ -405,8 +405,8 @@ describe("getBudYieldBoosts", () => {
               aura: "Rare",
             },
           },
-          "Sunflower"
-        )
+          "Sunflower",
+        ),
       ).toEqual(0.4);
     });
 
@@ -421,8 +421,8 @@ describe("getBudYieldBoosts", () => {
               aura: "Rare",
             },
           },
-          "Sunflower"
-        )
+          "Sunflower",
+        ),
       ).toEqual(1);
     });
 
@@ -437,8 +437,8 @@ describe("getBudYieldBoosts", () => {
               aura: "Mythical",
             },
           },
-          "Sunflower"
-        )
+          "Sunflower",
+        ),
       ).toEqual(1);
     });
 
@@ -453,8 +453,8 @@ describe("getBudYieldBoosts", () => {
               aura: "Mythical",
             },
           },
-          "Sunflower"
-        )
+          "Sunflower",
+        ),
       ).toEqual(2.5);
     });
 
@@ -469,8 +469,8 @@ describe("getBudYieldBoosts", () => {
               aura: "Mythical",
             },
           },
-          "Sunflower"
-        )
+          "Sunflower",
+        ),
       ).toEqual(4);
     });
   });
@@ -480,8 +480,8 @@ describe("getBudYieldBoosts", () => {
       expect(
         getBudYieldBoosts(
           { 1: { ...NON_BOOSTED_TRAITS, type: "Plaza" } },
-          "Sunflower"
-        )
+          "Sunflower",
+        ),
       ).toEqual(0.3);
     });
 
@@ -489,8 +489,8 @@ describe("getBudYieldBoosts", () => {
       expect(
         getBudYieldBoosts(
           { 1: { ...NON_BOOSTED_TRAITS, type: "Plaza" } },
-          "Eggplant"
-        )
+          "Eggplant",
+        ),
       ).toEqual(0);
     });
 
@@ -498,8 +498,8 @@ describe("getBudYieldBoosts", () => {
       expect(
         getBudYieldBoosts(
           { 1: { ...NON_BOOSTED_TRAITS, type: "Cave", stem: "Basic Leaf" } },
-          "Sunflower"
-        )
+          "Sunflower",
+        ),
       ).toEqual(0.2);
     });
   });
@@ -509,8 +509,8 @@ describe("getBudYieldBoosts", () => {
       expect(
         getBudYieldBoosts(
           { 1: { ...NON_BOOSTED_TRAITS, type: "Castle" } },
-          "Sunflower"
-        )
+          "Sunflower",
+        ),
       ).toEqual(0);
     });
 
@@ -518,8 +518,8 @@ describe("getBudYieldBoosts", () => {
       expect(
         getBudYieldBoosts(
           { 1: { ...NON_BOOSTED_TRAITS, type: "Castle" } },
-          "Cauliflower"
-        )
+          "Cauliflower",
+        ),
       ).toEqual(0.3);
     });
   });
@@ -529,8 +529,8 @@ describe("getBudYieldBoosts", () => {
       expect(
         getBudYieldBoosts(
           { 1: { ...NON_BOOSTED_TRAITS, type: "Snow" } },
-          "Sunflower"
-        )
+          "Sunflower",
+        ),
       ).toEqual(0);
     });
 
@@ -538,8 +538,8 @@ describe("getBudYieldBoosts", () => {
       expect(
         getBudYieldBoosts(
           { 1: { ...NON_BOOSTED_TRAITS, type: "Snow" } },
-          "Eggplant"
-        )
+          "Eggplant",
+        ),
       ).toEqual(0.3);
     });
   });
@@ -549,8 +549,8 @@ describe("getBudYieldBoosts", () => {
       expect(
         getBudYieldBoosts(
           { 1: { ...NON_BOOSTED_TRAITS, type: "Woodlands" } },
-          "Wood"
-        )
+          "Wood",
+        ),
       ).toEqual(0.2);
     });
 
@@ -558,8 +558,8 @@ describe("getBudYieldBoosts", () => {
       expect(
         getBudYieldBoosts(
           { 1: { ...NON_BOOSTED_TRAITS, type: "Plaza" } },
-          "Wood"
-        )
+          "Wood",
+        ),
       ).toEqual(0);
     });
 
@@ -567,8 +567,8 @@ describe("getBudYieldBoosts", () => {
       expect(
         getBudYieldBoosts(
           { 1: { ...NON_BOOSTED_TRAITS, type: "Cave", stem: "Acorn Hat" } },
-          "Wood"
-        )
+          "Wood",
+        ),
       ).toEqual(0.1);
     });
 
@@ -578,8 +578,8 @@ describe("getBudYieldBoosts", () => {
           {
             1: { ...NON_BOOSTED_TRAITS, type: "Woodlands", stem: "Acorn Hat" },
           },
-          "Wood"
-        )
+          "Wood",
+        ),
       ).toEqual(0.3);
     });
 
@@ -587,8 +587,8 @@ describe("getBudYieldBoosts", () => {
       expect(
         getBudYieldBoosts(
           { 1: { ...NON_BOOSTED_TRAITS, type: "Cave", stem: "Tree Hat" } },
-          "Wood"
-        )
+          "Wood",
+        ),
       ).toEqual(0.2);
     });
 
@@ -598,8 +598,8 @@ describe("getBudYieldBoosts", () => {
           {
             1: { ...NON_BOOSTED_TRAITS, type: "Woodlands", stem: "Tree Hat" },
           },
-          "Wood"
-        )
+          "Wood",
+        ),
       ).toEqual(0.4);
     });
   });
@@ -609,8 +609,8 @@ describe("getBudYieldBoosts", () => {
       expect(
         getBudYieldBoosts(
           { 1: { ...NON_BOOSTED_TRAITS, type: "Retreat" } },
-          "Egg"
-        )
+          "Egg",
+        ),
       ).toEqual(0.2);
     });
 
@@ -618,8 +618,8 @@ describe("getBudYieldBoosts", () => {
       expect(
         getBudYieldBoosts(
           { 1: { ...NON_BOOSTED_TRAITS, type: "Plaza" } },
-          "Egg"
-        )
+          "Egg",
+        ),
       ).toEqual(0);
     });
 
@@ -627,8 +627,8 @@ describe("getBudYieldBoosts", () => {
       expect(
         getBudYieldBoosts(
           { 1: { ...NON_BOOSTED_TRAITS, type: "Cave", stem: "Egg Head" } },
-          "Egg"
-        )
+          "Egg",
+        ),
       ).toEqual(0.2);
     });
 
@@ -636,8 +636,8 @@ describe("getBudYieldBoosts", () => {
       expect(
         getBudYieldBoosts(
           { 1: { ...NON_BOOSTED_TRAITS, type: "Retreat", stem: "Egg Head" } },
-          "Egg"
-        )
+          "Egg",
+        ),
       ).toEqual(0.4);
     });
   });
@@ -647,8 +647,8 @@ describe("getBudYieldBoosts", () => {
       expect(
         getBudYieldBoosts(
           { 1: { ...NON_BOOSTED_TRAITS, type: "Beach" } },
-          "Apple"
-        )
+          "Apple",
+        ),
       ).toEqual(0.2);
     });
 
@@ -656,8 +656,8 @@ describe("getBudYieldBoosts", () => {
       expect(
         getBudYieldBoosts(
           { 1: { ...NON_BOOSTED_TRAITS, type: "Plaza" } },
-          "Apple"
-        )
+          "Apple",
+        ),
       ).toEqual(0);
     });
 
@@ -665,8 +665,8 @@ describe("getBudYieldBoosts", () => {
       expect(
         getBudYieldBoosts(
           { 1: { ...NON_BOOSTED_TRAITS, type: "Cave", stem: "Banana" } },
-          "Apple"
-        )
+          "Apple",
+        ),
       ).toEqual(0.2);
     });
 
@@ -674,8 +674,8 @@ describe("getBudYieldBoosts", () => {
       expect(
         getBudYieldBoosts(
           { 1: { ...NON_BOOSTED_TRAITS, type: "Beach", stem: "Banana" } },
-          "Apple"
-        )
+          "Apple",
+        ),
       ).toEqual(0.4);
     });
 
@@ -683,8 +683,8 @@ describe("getBudYieldBoosts", () => {
       expect(
         getBudYieldBoosts(
           { 1: { ...NON_BOOSTED_TRAITS, type: "Cave", stem: "Apple Head" } },
-          "Apple"
-        )
+          "Apple",
+        ),
       ).toEqual(0.2);
     });
 
@@ -692,8 +692,8 @@ describe("getBudYieldBoosts", () => {
       expect(
         getBudYieldBoosts(
           { 1: { ...NON_BOOSTED_TRAITS, type: "Beach", stem: "Apple Head" } },
-          "Apple"
-        )
+          "Apple",
+        ),
       ).toEqual(0.4);
     });
   });
@@ -703,8 +703,8 @@ describe("getBudYieldBoosts", () => {
       expect(
         getBudYieldBoosts(
           { 1: { ...NON_BOOSTED_TRAITS, type: "Plaza" } },
-          "Wild Mushroom"
-        )
+          "Wild Mushroom",
+        ),
       ).toEqual(0);
     });
 
@@ -712,8 +712,8 @@ describe("getBudYieldBoosts", () => {
       expect(
         getBudYieldBoosts(
           { 1: { ...NON_BOOSTED_TRAITS, type: "Cave", stem: "Mushroom" } },
-          "Wild Mushroom"
-        )
+          "Wild Mushroom",
+        ),
       ).toEqual(0.3);
     });
 
@@ -723,8 +723,8 @@ describe("getBudYieldBoosts", () => {
           {
             1: { ...NON_BOOSTED_TRAITS, type: "Plaza", stem: "Magic Mushroom" },
           },
-          "Magic Mushroom"
-        )
+          "Magic Mushroom",
+        ),
       ).toEqual(0.2);
     });
   });

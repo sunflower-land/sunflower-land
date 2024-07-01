@@ -46,7 +46,7 @@ export const SkillPath = ({
         <div className="flex justify-center" key={index}>
           {level.map((skill) => {
             const availableSkillPoints = getAvailableBumpkinSkillPoints(
-              state.bumpkin
+              state.bumpkin,
             );
             const hasSkill = !!bumpkin.skills[skill];
 

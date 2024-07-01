@@ -34,7 +34,7 @@ describe("moveBuilding", () => {
           id: "1",
           coordinates: { x: 2, y: 2 },
         },
-      })
+      }),
     ).toThrow(MOVE_BUILDING_ERRORS.NO_BUILDINGS);
   });
 
@@ -60,7 +60,7 @@ describe("moveBuilding", () => {
           id: "1",
           coordinates: { x: 2, y: 2 },
         },
-      })
+      }),
     ).toThrow(MOVE_BUILDING_ERRORS.BUILDING_NOT_PLACED);
   });
 

@@ -118,14 +118,14 @@ export const ChatText: React.FC<Props> = ({
       <div
         className={classNames(
           "bg-gray-900 bg-opacity-25 relative rounded-md w-64 sm:w-96 pt-1",
-          { "mt-2": hasMessages }
+          { "mt-2": hasMessages },
         )}
         style={{ lineHeight: "10px", fontSize: "14px" }}
       >
         <div
           className={classNames(
             "min-h-[60px] max-h-48 overflow-y-scroll flex flex-col-reverse break-words text-xs p-2 text-shadow",
-            { "mb-1": hasMessages }
+            { "mb-1": hasMessages },
           )}
         >
           {messages

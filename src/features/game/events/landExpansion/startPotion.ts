@@ -37,7 +37,7 @@ export function startPotion({ state }: Options): GameState {
   bumpkin.activity = trackActivity(
     "Coins Spent",
     bumpkin?.activity,
-    new Decimal(GAME_FEE)
+    new Decimal(GAME_FEE),
   );
 
   stateCopy.potionHouse = {

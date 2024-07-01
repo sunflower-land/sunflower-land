@@ -14,19 +14,19 @@ export const PlazaSettings: React.FC<ContentComponentProps> = ({
   const { t } = useAppTranslation();
 
   const [step, setStep] = useState<"MAIN" | "MUTED_PLAYERS" | "KEYBINDS">(
-    "MAIN"
+    "MAIN",
   );
 
   const [mutedPlayers, setMutedPlayers] = useState<string[]>([]);
 
   useEffect(() => {
     setMutedPlayers(
-      JSON.parse(localStorage.getItem("plaza-settings.mutedFarmIds") || "[]")
+      JSON.parse(localStorage.getItem("plaza-settings.mutedFarmIds") || "[]"),
     );
   }, []);
 
   const mmoLocalSettings = JSON.parse(
-    localStorage.getItem("mmo_settings") ?? "{}"
+    localStorage.getItem("mmo_settings") ?? "{}",
   );
 
   const removeMutedPlayer = (farmId: string) => {

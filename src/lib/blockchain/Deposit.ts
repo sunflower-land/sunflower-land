@@ -38,7 +38,7 @@ export async function depositToFarm({
   const depositFn = (
     new web3.eth.Contract(
       BudDepositAbi as AbiItem[],
-      budsDepositAddress as string
+      budsDepositAddress as string,
     ) as unknown as IBudDeposit
   ).methods.depositToFarm(
     farmId,
@@ -47,7 +47,7 @@ export async function depositToFarm({
     itemAmounts,
     wearableIds,
     wearableAmounts,
-    budIds
+    budIds,
   );
 
   await new Promise((resolve, reject) => {
@@ -67,9 +67,8 @@ export async function depositToFarm({
           // Sequence wallet doesn't resolve the receipt. Therefore
           // We try to fetch it after we have a tx hash returned
           // From Sequence.
-          const receipt: any = await web3.eth.getTransactionReceipt(
-            transactionHash
-          );
+          const receipt: any =
+            await web3.eth.getTransactionReceipt(transactionHash);
 
           if (receipt) resolve(receipt);
         } catch (e) {
@@ -111,7 +110,7 @@ export async function depositBumpkinTransaction({
     (
       new web3.eth.Contract(
         DepositAbi as AbiItem[],
-        address as string
+        address as string,
       ) as unknown as IDeposit
     ).methods
       .depositBumpkin(
@@ -121,7 +120,7 @@ export async function depositBumpkinTransaction({
         bumpkinId,
         ids,
         amounts,
-        tokenUri
+        tokenUri,
       )
       .send({ from: account, gasPrice })
       .on("error", function (error: any) {
@@ -138,9 +137,8 @@ export async function depositBumpkinTransaction({
           // Sequence wallet doesn't resolve the receipt. Therefore
           // We try to fetch it after we have a tx hash returned
           // From Sequence.
-          const receipt: any = await web3.eth.getTransactionReceipt(
-            transactionHash
-          );
+          const receipt: any =
+            await web3.eth.getTransactionReceipt(transactionHash);
 
           if (receipt) resolve(receipt);
         } catch (e) {

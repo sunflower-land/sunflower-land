@@ -31,7 +31,7 @@ export async function buyBlockBucksMATIC({
   await new Promise((resolve, reject) => {
     new web3.eth.Contract(
       BuyBlockBucksAbi as AbiItem[],
-      address as string
+      address as string,
     ).methods
       .buyBlockBucksMATIC(signature, farmId, amount, fee, deadline)
       .send({ from: account, value: fee, gasPrice })
@@ -49,9 +49,8 @@ export async function buyBlockBucksMATIC({
           // Sequence wallet doesn't resolve the receipt. Therefore
           // We try to fetch it after we have a tx hash returned
           // From Sequence.
-          const receipt: any = await web3.eth.getTransactionReceipt(
-            transactionHash
-          );
+          const receipt: any =
+            await web3.eth.getTransactionReceipt(transactionHash);
 
           if (receipt) resolve(receipt);
         } catch (e) {

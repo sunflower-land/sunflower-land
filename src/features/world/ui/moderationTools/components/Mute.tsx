@@ -36,7 +36,7 @@ export const MuteModal: React.FC<Props> = ({
   >("idle");
 
   const [farmId, setFarmId] = useState<number | undefined>(
-    player?.farmId || undefined
+    player?.farmId || undefined,
   );
   const [duration, setDuration] = useState<MuteDuration>(5);
   const [reason, setReason] = useState("");

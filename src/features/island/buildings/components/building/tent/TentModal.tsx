@@ -29,7 +29,7 @@ const selectBuildings = (state: MachineState) => state.context.state.buildings;
 
 const compareBuildings = (
   prev: Partial<Record<BuildingName, PlacedItem[]>>,
-  next: Partial<Record<BuildingName, PlacedItem[]>>
+  next: Partial<Record<BuildingName, PlacedItem[]>>,
 ) => {
   return prev.Tent?.length === next.Tent?.length;
 };

@@ -125,7 +125,7 @@ const getIslandElements = ({
             </MapPlacement>
           );
         });
-      })
+      }),
   );
 
   mapPlacements.push(
@@ -162,7 +162,7 @@ const getIslandElements = ({
             </MapPlacement>
           );
         });
-      })
+      }),
   );
 
   mapPlacements.push(
@@ -185,7 +185,7 @@ const getIslandElements = ({
             <ChickenElement key={`chicken-${id}`} id={id} x={x} y={y} />
           </MapPlacement>
         );
-      })
+      }),
   );
 
   mapPlacements.push(
@@ -212,7 +212,7 @@ const getIslandElements = ({
           />
         </MapPlacement>
       );
-    })
+    }),
   );
 
   mapPlacements.push(
@@ -239,7 +239,7 @@ const getIslandElements = ({
           />
         </MapPlacement>
       );
-    })
+    }),
   );
 
   mapPlacements.push(
@@ -266,7 +266,7 @@ const getIslandElements = ({
           />
         </MapPlacement>
       );
-    })
+    }),
   );
 
   mapPlacements.push(
@@ -293,7 +293,7 @@ const getIslandElements = ({
           />
         </MapPlacement>
       );
-    })
+    }),
   );
 
   mapPlacements.push(
@@ -320,7 +320,7 @@ const getIslandElements = ({
           />
         </MapPlacement>
       );
-    })
+    }),
   );
 
   mapPlacements.push(
@@ -347,7 +347,7 @@ const getIslandElements = ({
           />
         </MapPlacement>
       );
-    })
+    }),
   );
 
   mapPlacements.push(
@@ -373,7 +373,7 @@ const getIslandElements = ({
           />
         </MapPlacement>
       );
-    })
+    }),
   );
 
   mapPlacements.push(
@@ -399,7 +399,7 @@ const getIslandElements = ({
           />
         </MapPlacement>
       );
-    })
+    }),
   );
 
   mapPlacements.push(
@@ -425,7 +425,7 @@ const getIslandElements = ({
           />
         </MapPlacement>
       );
-    })
+    }),
   );
 
   mapPlacements.push(
@@ -451,7 +451,7 @@ const getIslandElements = ({
           />
         </MapPlacement>
       );
-    })
+    }),
   );
 
   {
@@ -476,7 +476,7 @@ const getIslandElements = ({
               />
             </MapPlacement>
           );
-        })
+        }),
       );
   }
 
@@ -487,7 +487,7 @@ const getIslandElements = ({
           .filter(
             (budId) =>
               !!buds[budId].coordinates &&
-              (!buds[budId].location || buds[budId].location === "farm")
+              (!buds[budId].location || buds[budId].location === "farm"),
           )
           .flatMap((id) => {
             const { x, y } = buds[id]!.coordinates!;
@@ -497,7 +497,7 @@ const getIslandElements = ({
                 <Bud id={String(id)} x={x} y={y} />
               </MapPlacement>
             );
-          })
+          }),
       );
   }
 
@@ -520,7 +520,7 @@ const getIslandElements = ({
               <Airdrop key={`airdrop-${airdrop.id}`} airdrop={airdrop} />
             </MapPlacement>
           );
-        })
+        }),
     );
   }
 
@@ -547,7 +547,7 @@ const getIslandElements = ({
           />
         </MapPlacement>
       );
-    })
+    }),
   );
 
   return mapPlacements;
@@ -667,7 +667,7 @@ export const Land: React.FC = () => {
                 {
                   "opacity-0": !landscaping,
                   "opacity-100": landscaping,
-                }
+                },
               )}
               style={{
                 backgroundSize: `${GRID_WIDTH_PX}px ${GRID_WIDTH_PX}px`,
@@ -717,7 +717,7 @@ export const Land: React.FC = () => {
             {
               "opacity-0": !landscaping,
               "opacity-50": landscaping,
-            }
+            },
           )}
         />
       </div>

@@ -80,7 +80,7 @@ export const Recipes: React.FC<Props> = ({
 
   const lessIngredients = () =>
     getKeys(selected.ingredients).some((name) =>
-      selected?.ingredients[name]?.greaterThan(inventory[name] || 0)
+      selected?.ingredients[name]?.greaterThan(inventory[name] || 0),
     );
 
   const cook = () => {
@@ -115,7 +115,7 @@ export const Recipes: React.FC<Props> = ({
 
     return hasFeatureAccess(
       state,
-      FLAGGED_RECIPES[recipes.name as ConsumableName] as FeatureName
+      FLAGGED_RECIPES[recipes.name as ConsumableName] as FeatureName,
     );
   });
 
@@ -145,13 +145,13 @@ export const Recipes: React.FC<Props> = ({
                   selected,
                   state.bumpkin as Bumpkin,
                   state,
-                  state.buds ?? {}
-                )
+                  state.buds ?? {},
+                ),
               ),
               timeSeconds: getCookingTime(
                 getCookingOilBoost(selected.name, state, buildingId).timeToCook,
                 state.bumpkin,
-                state
+                state,
               ),
             }}
             actionView={Action()}

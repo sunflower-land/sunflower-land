@@ -1,6 +1,6 @@
 import React from "react";
 
-import tikiTorch from "src/assets/decorations/tiki_torch.webp";
+import tikiTorch from "assets/decorations/tiki_torch.webp";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const TikiTorch: React.FC = () => {

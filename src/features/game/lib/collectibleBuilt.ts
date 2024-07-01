@@ -15,7 +15,7 @@ export function isCollectibleBuilt({
   const placedInHome =
     game.home.collectibles[name] &&
     game.home.collectibles[name]?.some(
-      (placed) => placed.readyAt <= Date.now()
+      (placed) => placed.readyAt <= Date.now(),
     );
 
   return !!placedOnFarm || !!placedInHome;
@@ -48,13 +48,13 @@ export function isCollectibleActive({
   const placedOnFarm =
     game.collectibles[name] &&
     game.collectibles[name]?.some(
-      (placed) => placed.createdAt + cooldown > Date.now()
+      (placed) => placed.createdAt + cooldown > Date.now(),
     );
 
   const placedInHome =
     game.home.collectibles[name] &&
     game.home.collectibles[name]?.some(
-      (placed) => placed.createdAt + cooldown > Date.now()
+      (placed) => placed.createdAt + cooldown > Date.now(),
     );
 
   return !!placedOnFarm || !!placedInHome;

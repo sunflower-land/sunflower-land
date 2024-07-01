@@ -129,7 +129,7 @@ export const MixingPotion: React.FC<{
     const lastAttempt = previousAttempts[previousAttempts.length - 1] ?? [];
 
     const isGuessing = lastAttempt.some(
-      (potion) => potion.status === "pending"
+      (potion) => potion.status === "pending",
     );
     const score = isGuessing ? null : calculateScore(lastAttempt);
 

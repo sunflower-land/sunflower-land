@@ -23,7 +23,7 @@ export const UnMuteModal: React.FC<Props> = ({
   >("idle");
 
   const [farmId, setFarmId] = useState<number | undefined>(
-    player?.farmId || undefined
+    player?.farmId || undefined,
   );
 
   const handleUnmuteAction = async () => {

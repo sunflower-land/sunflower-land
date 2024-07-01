@@ -13,7 +13,7 @@ describe("refundBid", () => {
           ...TEST_FARM,
           auctioneer: {},
         },
-      })
+      }),
     ).toThrow("No bid was placed");
   });
 

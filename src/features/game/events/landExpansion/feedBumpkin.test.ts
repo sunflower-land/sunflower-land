@@ -13,7 +13,7 @@ describe("feedBumpkin", () => {
       feedBumpkin({
         state,
         action: { type: "bumpkin.feed", food: "Boiled Eggs", amount: 1 },
-      })
+      }),
     ).toThrow(FEED_BUMPKIN_ERRORS.MISSING_BUMPKIN);
   });
 
@@ -23,7 +23,7 @@ describe("feedBumpkin", () => {
       feedBumpkin({
         state,
         action: { type: "bumpkin.feed", food: "Boiled Eggs", amount: -1 },
-      })
+      }),
     ).toThrow(FEED_BUMPKIN_ERRORS.INVALID_AMOUNT);
   });
 
@@ -33,7 +33,7 @@ describe("feedBumpkin", () => {
       feedBumpkin({
         state,
         action: { type: "bumpkin.feed", food: "Boiled Eggs", amount: 1 },
-      })
+      }),
     ).toThrow(FEED_BUMPKIN_ERRORS.NOT_ENOUGH_FOOD);
   });
 
@@ -46,7 +46,7 @@ describe("feedBumpkin", () => {
       feedBumpkin({
         state,
         action: { type: "bumpkin.feed", food: "Boiled Eggs", amount: 9 },
-      })
+      }),
     ).toThrow(FEED_BUMPKIN_ERRORS.NOT_ENOUGH_FOOD);
   });
 
@@ -91,7 +91,7 @@ describe("feedBumpkin", () => {
 
     expect(stateCopy.bumpkin?.experience).toBe(
       (state.bumpkin?.experience as number) +
-        CONSUMABLES["Boiled Eggs"].experience
+        CONSUMABLES["Boiled Eggs"].experience,
     );
   });
 
@@ -108,7 +108,7 @@ describe("feedBumpkin", () => {
 
     expect(stateCopy.bumpkin?.experience).toBe(
       (state.bumpkin?.experience as number) +
-        CONSUMABLES["Boiled Eggs"].experience * 7
+        CONSUMABLES["Boiled Eggs"].experience * 7,
     );
   });
 
@@ -129,7 +129,7 @@ describe("feedBumpkin", () => {
     });
 
     expect(result.bumpkin?.experience).toBe(
-      new Decimal(CONSUMABLES["Boiled Eggs"].experience).mul(1.05).toNumber()
+      new Decimal(CONSUMABLES["Boiled Eggs"].experience).mul(1.05).toNumber(),
     );
   });
 
@@ -153,7 +153,7 @@ describe("feedBumpkin", () => {
     });
 
     expect(result.bumpkin?.experience).toBe(
-      new Decimal(CONSUMABLES["Boiled Eggs"].experience).mul(1.1).toNumber()
+      new Decimal(CONSUMABLES["Boiled Eggs"].experience).mul(1.1).toNumber(),
     );
   });
 
@@ -188,7 +188,7 @@ describe("feedBumpkin", () => {
     });
 
     expect(result.bumpkin?.experience).toBe(
-      CONSUMABLES["Boiled Eggs"].experience * 1.05
+      CONSUMABLES["Boiled Eggs"].experience * 1.05,
     );
   });
 
@@ -221,7 +221,7 @@ describe("feedBumpkin", () => {
     });
 
     expect(result.bumpkin?.experience).toBe(
-      CONSUMABLES["Sunflower Cake"].experience * 1.2
+      CONSUMABLES["Sunflower Cake"].experience * 1.2,
     );
   });
 
@@ -254,7 +254,7 @@ describe("feedBumpkin", () => {
     });
 
     expect(result.bumpkin?.experience).toBe(
-      CONSUMABLES["Sauerkraut"].experience
+      CONSUMABLES["Sauerkraut"].experience,
     );
   });
 
@@ -284,7 +284,7 @@ describe("feedBumpkin", () => {
     });
 
     expect(result.bumpkin?.experience).toBe(
-      CONSUMABLES["Gumbo"].experience * 1.1
+      CONSUMABLES["Gumbo"].experience * 1.1,
     );
   });
 
@@ -311,7 +311,7 @@ describe("feedBumpkin", () => {
     });
 
     expect(result.bumpkin?.experience).toBe(
-      CONSUMABLES["Gumbo"].experience * 1.5
+      CONSUMABLES["Gumbo"].experience * 1.5,
     );
   });
 
@@ -338,7 +338,7 @@ describe("feedBumpkin", () => {
     });
 
     expect(result.bumpkin?.experience).toBe(
-      CONSUMABLES["Anchovy"].experience * 1.5
+      CONSUMABLES["Anchovy"].experience * 1.5,
     );
   });
 
@@ -371,7 +371,7 @@ describe("feedBumpkin", () => {
     });
 
     expect(result.bumpkin?.experience).toBe(
-      CONSUMABLES["Anchovy"].experience * 1.2
+      CONSUMABLES["Anchovy"].experience * 1.2,
     );
   });
 
@@ -404,7 +404,7 @@ describe("feedBumpkin", () => {
     });
 
     expect(result.bumpkin?.experience).toBe(
-      CONSUMABLES["Gumbo"].experience * 1.2
+      CONSUMABLES["Gumbo"].experience * 1.2,
     );
   });
 
@@ -437,7 +437,7 @@ describe("feedBumpkin", () => {
     });
 
     expect(result.bumpkin?.experience).toBe(
-      CONSUMABLES["Fermented Carrots"].experience * 2
+      CONSUMABLES["Fermented Carrots"].experience * 2,
     );
   });
   it("provides 10% more experience when Seasonal Banner is placed", () => {
@@ -469,7 +469,7 @@ describe("feedBumpkin", () => {
     });
 
     expect(result.bumpkin?.experience).toBe(
-      new Decimal(CONSUMABLES["Boiled Eggs"].experience).mul(1.1).toNumber()
+      new Decimal(CONSUMABLES["Boiled Eggs"].experience).mul(1.1).toNumber(),
     );
   });
 
@@ -502,7 +502,7 @@ describe("feedBumpkin", () => {
     });
 
     expect(result.bumpkin?.experience).toBe(
-      new Decimal(CONSUMABLES["Boiled Eggs"].experience).mul(1.1).toNumber()
+      new Decimal(CONSUMABLES["Boiled Eggs"].experience).mul(1.1).toNumber(),
     );
   });
 });

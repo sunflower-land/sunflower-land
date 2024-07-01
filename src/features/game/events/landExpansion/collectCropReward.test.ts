@@ -15,7 +15,7 @@ describe("collectCropReward", () => {
           plotIndex: "30",
         },
         createdAt: dateNow,
-      })
+      }),
     ).toThrow("Plot does not exist");
   });
 
@@ -39,7 +39,7 @@ describe("collectCropReward", () => {
           plotIndex: "0",
         },
         createdAt: dateNow,
-      })
+      }),
     ).toThrow("Plot does not have a crop");
   });
 
@@ -68,7 +68,7 @@ describe("collectCropReward", () => {
           plotIndex: "0",
         },
         createdAt: dateNow,
-      })
+      }),
     ).toThrow("Crop does not have a reward");
   });
 
@@ -105,7 +105,7 @@ describe("collectCropReward", () => {
           plotIndex: "0",
         },
         createdAt: dateNow,
-      })
+      }),
     ).toThrow("Not ready");
   });
 

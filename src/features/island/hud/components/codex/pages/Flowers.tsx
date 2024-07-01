@@ -50,7 +50,7 @@ export const Flowers: React.FC<Props> = ({ onMilestoneReached }) => {
   const crossBreeds = (selectedFlower && discovered[selectedFlower]) ?? [];
 
   const [foundFlowersCount] = useState<number>(() =>
-    getTotalFlowersFound(farmActivity)
+    getTotalFlowersFound(farmActivity),
   );
 
   const handleMilestoneExpand = (milestoneIndex: number) => {
@@ -69,13 +69,13 @@ export const Flowers: React.FC<Props> = ({ onMilestoneReached }) => {
 
   const milestoneNames = getKeys(FLOWER_MILESTONES);
   const unclaimedMilestones = milestoneNames.filter(
-    (milestone) => !milestones[milestone]
+    (milestone) => !milestones[milestone],
   );
   const claimedMilestoneCount =
     milestoneNames.length - unclaimedMilestones.length;
   const experienceLevel = getExperienceLevelForMilestones(
     claimedMilestoneCount,
-    milestoneNames.length
+    milestoneNames.length,
   );
 
   if (selectedFlower) {

@@ -10,7 +10,7 @@ export const MultipleWallets: React.FC = () => {
   const goToDocs = () => {
     window.open(
       "https://docs.sunflower-land.com/getting-started/web3-wallets#multiple-wallets",
-      "_blank"
+      "_blank",
     );
   };
 

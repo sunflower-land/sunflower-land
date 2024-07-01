@@ -36,7 +36,7 @@ export function removeBeehive({
     copy.beehives[action.id].honey.produced / DEFAULT_HONEY_PRODUCTION_TIME;
 
   copy.inventory.Honey = (copy.inventory.Honey ?? new Decimal(0)).add(
-    totalHoneyProduced
+    totalHoneyProduced,
   );
 
   delete copy.beehives[action.id];

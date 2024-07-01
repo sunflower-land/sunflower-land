@@ -48,7 +48,7 @@ export function buyMegaStoreItem({
 
       if (currentAmount >= item.limit) {
         throw new Error(
-          "You already have reached the max allowed for this item"
+          "You already have reached the max allowed for this item",
         );
       }
     } else {
@@ -57,7 +57,7 @@ export function buyMegaStoreItem({
 
       if (currentAmount.greaterThanOrEqualTo(item.limit)) {
         throw new Error(
-          "You already have reached the max allowed for this item"
+          "You already have reached the max allowed for this item",
         );
       }
     }
@@ -77,7 +77,7 @@ export function buyMegaStoreItem({
     stateCopy.bumpkin.activity = trackActivity(
       "SFL Spent",
       stateCopy.bumpkin.activity,
-      item.price
+      item.price,
     );
   } else {
     // Handle inventory item purchase

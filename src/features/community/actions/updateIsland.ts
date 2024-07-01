@@ -30,7 +30,7 @@ const API_URL = CONFIG.API_URL;
  * Only exceptions are low-risk/impact situations. Assume your data can be changed at will
  */
 export async function updateIsland(
-  request: Request
+  request: Request,
 ): Promise<Response | undefined> {
   if (!API_URL) return;
 
@@ -53,7 +53,7 @@ export async function updateIsland(
         burnItems: request.burnItems,
         burnSFL: request.burnSFL,
       }),
-    }
+    },
   );
 
   if (response.status === 503) {
@@ -98,7 +98,7 @@ export async function resetIsland(request: Request) {
         accept: "application/json",
         "X-Transaction-ID": request.transactionId ?? "",
       },
-    }
+    },
   );
 
   if (response.status === 503) {

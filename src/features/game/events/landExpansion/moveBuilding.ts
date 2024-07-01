@@ -39,7 +39,7 @@ export function moveBuilding({
   }
 
   const collectibleToMoveIndex = buildings.findIndex(
-    (collectible) => collectible.id === action.id
+    (collectible) => collectible.id === action.id,
   );
 
   if (collectibleToMoveIndex < 0) {

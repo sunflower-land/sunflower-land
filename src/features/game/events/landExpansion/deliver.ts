@@ -137,14 +137,14 @@ const DELIVERY_FRIENDSHIP_POINTS = 3;
 export function populateOrders(
   game: GameState,
   createdAt: number = Date.now(),
-  isSkipped = false
+  isSkipped = false,
 ) {
   const orders = game.delivery.orders;
   const slots = getTotalSlots(game);
 
   while (orders.length < slots) {
     const upcomingOrderTimes = game.delivery.orders.map(
-      (order) => order.readyAt
+      (order) => order.readyAt,
     );
     const baseTime = Math.max(...upcomingOrderTimes, createdAt);
 
@@ -280,7 +280,7 @@ export function deliverOrder({
     bumpkin.activity = trackActivity(
       "Coins Earned",
       bumpkin.activity,
-      new Decimal(coinsReward)
+      new Decimal(coinsReward),
     );
   }
 

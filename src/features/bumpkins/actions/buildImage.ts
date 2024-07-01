@@ -21,7 +21,7 @@ export async function buildImageRequest({ fileName }: { fileName: string }) {
         "content-type": "application/json;charset=UTF-8",
         accept: "application/json",
       },
-    }
+    },
   );
 
   if (response.status === 429) {

@@ -29,7 +29,7 @@ export type MilestoneName = FishMilestoneName | FlowerMilestoneName;
 type MilestoneReward = InventoryItemName | BumpkinItem;
 
 export const isInventoryItemReward = (
-  reward: MilestoneReward
+  reward: MilestoneReward,
 ): reward is InventoryItemName => {
   return reward in KNOWN_IDS;
 };
@@ -48,12 +48,12 @@ export const FISH_MILESTONES: Record<FishMilestoneName, Milestone> = {
     task: translate("quest.basic.fish"),
     percentageComplete: (farmActivity: GameState["farmActivity"]) => {
       const caughtFish = FISH_BY_TYPE.basic.filter(
-        (name) => (farmActivity[`${name} Caught`] ?? 0) >= 1
+        (name) => (farmActivity[`${name} Caught`] ?? 0) >= 1,
       );
 
       return Math.min(
         (caughtFish.length / FISH_BY_TYPE.basic.length) * 100,
-        100
+        100,
       );
     },
     reward: {
@@ -64,12 +64,12 @@ export const FISH_MILESTONES: Record<FishMilestoneName, Milestone> = {
     task: translate("quest.advanced.fish"),
     percentageComplete: (farmActivity: GameState["farmActivity"]) => {
       const caughtFish = FISH_BY_TYPE.advanced.filter(
-        (name) => (farmActivity[`${name} Caught`] ?? 0) >= 1
+        (name) => (farmActivity[`${name} Caught`] ?? 0) >= 1,
       );
 
       return Math.min(
         (caughtFish.length / FISH_BY_TYPE.advanced.length) * 100,
-        100
+        100,
       );
     },
     reward: {
@@ -83,7 +83,7 @@ export const FISH_MILESTONES: Record<FishMilestoneName, Milestone> = {
 
       const totalFishCaught = getKeys(FISH).reduce(
         (total, name) => total + (farmActivity[`${name} Caught`] ?? 0),
-        0
+        0,
       );
 
       return Math.min((totalFishCaught / totalFishRequired) * 100, 100);
@@ -101,7 +101,7 @@ export const FISH_MILESTONES: Record<FishMilestoneName, Milestone> = {
       const totalFishCaught = encyclopediaFish.reduce(
         (total, name) =>
           total + Math.min(farmActivity[`${name} Caught`] ?? 0, 1),
-        0
+        0,
       );
 
       return Math.min((totalFishCaught / totalFishRequired) * 100, 100);
@@ -117,7 +117,7 @@ export const FISH_MILESTONES: Record<FishMilestoneName, Milestone> = {
 
       const totalFishCaught = getKeys(FISH).reduce(
         (total, name) => total + (farmActivity[`${name} Caught`] ?? 0),
-        0
+        0,
       );
 
       return Math.min((totalFishCaught / totalFishRequired) * 100, 100);
@@ -134,7 +134,7 @@ export const FISH_MILESTONES: Record<FishMilestoneName, Milestone> = {
       const totalFishCaught = FISH_BY_TYPE["marine marvel"].reduce(
         (total, name) =>
           total + Math.min(farmActivity[`${name} Caught`] ?? 0, 1),
-        0
+        0,
       );
 
       return Math.min((totalFishCaught / totalFishRequired) * 100, 100);
@@ -150,7 +150,7 @@ export const FISH_MILESTONES: Record<FishMilestoneName, Milestone> = {
 
       const fishComplete = encyclopediaFish.filter(
         (name) => (farmActivity[`${name} Caught`] ?? 0) >= 5,
-        0
+        0,
       );
 
       return (fishComplete.length / encyclopediaFish.length) * 100;
@@ -167,13 +167,13 @@ export const FLOWER_MILESTONES: Record<FlowerMilestoneName, Milestone> = {
     reward: {},
     percentageComplete: (farmActivity: GameState["farmActivity"]) => {
       const sunpetalFlowers = getKeys(FLOWERS).filter(
-        (name) => FLOWERS[name].seed === "Sunpetal Seed"
+        (name) => FLOWERS[name].seed === "Sunpetal Seed",
       );
 
       const uniqueFlowersDiscovered = sunpetalFlowers.reduce(
         (total, name) =>
           total + Math.min(farmActivity[`${name} Harvested`] ?? 0, 1),
-        0
+        0,
       );
 
       return Math.min((uniqueFlowersDiscovered / 12) * 100, 100);
@@ -184,13 +184,13 @@ export const FLOWER_MILESTONES: Record<FlowerMilestoneName, Milestone> = {
     reward: {},
     percentageComplete: (farmActivity: GameState["farmActivity"]) => {
       const sunpetalFlowers = getKeys(FLOWERS).filter(
-        (name) => FLOWERS[name].seed === "Bloom Seed"
+        (name) => FLOWERS[name].seed === "Bloom Seed",
       );
 
       const uniqueFlowersDiscovered = sunpetalFlowers.reduce(
         (total, name) =>
           total + Math.min(farmActivity[`${name} Harvested`] ?? 0, 1),
-        0
+        0,
       );
 
       return Math.min((uniqueFlowersDiscovered / 12) * 100, 100);
@@ -201,13 +201,13 @@ export const FLOWER_MILESTONES: Record<FlowerMilestoneName, Milestone> = {
     reward: {},
     percentageComplete: (farmActivity: GameState["farmActivity"]) => {
       const sunpetalFlowers = getKeys(FLOWERS).filter(
-        (name) => FLOWERS[name].seed === "Lily Seed"
+        (name) => FLOWERS[name].seed === "Lily Seed",
       );
 
       const uniqueFlowersDiscovered = sunpetalFlowers.reduce(
         (total, name) =>
           total + Math.min(farmActivity[`${name} Harvested`] ?? 0, 1),
-        0
+        0,
       );
 
       return Math.min((uniqueFlowersDiscovered / 12) * 100, 100);
@@ -231,7 +231,7 @@ export type ExperienceLevel = "Novice" | "Experienced" | "Expert";
  */
 export const getExperienceLevelForMilestones = (
   claimed: number,
-  totalMilestones: number
+  totalMilestones: number,
 ) => {
   // Calculate the thresholds as a fraction of the total milestones
   const noviceThreshold: number = totalMilestones * 0.4; // 40% of total milestones

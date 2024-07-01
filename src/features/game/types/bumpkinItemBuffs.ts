@@ -128,7 +128,7 @@ export const BUMPKIN_ITEM_BUFF_LABELS: Partial<Record<BumpkinItem, BuffLabel>> =
     },
     "Luminous Anglerfish Topper": {
       shortDescription: translate(
-        "bumpkinItemBuff.luminous.anglerfish.topper.boost"
+        "bumpkinItemBuff.luminous.anglerfish.topper.boost",
       ),
       labelType: "success",
       boostTypeIcon: powerup,

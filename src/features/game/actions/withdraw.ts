@@ -137,7 +137,7 @@ export async function withdrawWearables({
         ids,
         amounts,
       }),
-    }
+    },
   );
 
   if (response.status === 429) {

@@ -75,13 +75,13 @@ export function buyWearable({
         [ingredient]: count.sub(desiredCount),
       };
     },
-    stateCopy.inventory
+    stateCopy.inventory,
   );
 
   bumpkin.activity = trackActivity(
     "Coins Spent",
     bumpkin?.activity,
-    new Decimal(price)
+    new Decimal(price),
   );
 
   const oldAmount = stateCopy.wardrobe[name] ?? 0;

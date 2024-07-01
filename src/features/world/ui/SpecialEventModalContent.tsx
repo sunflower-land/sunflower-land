@@ -135,13 +135,13 @@ export const SpecialEventModalContent: React.FC<{
       (itemName) => {
         if (
           (inventory[itemName] ?? new Decimal(0)).lt(
-            task.requirements.items[itemName] ?? 0
+            task.requirements.items[itemName] ?? 0,
           )
         ) {
           return false;
         }
         return true;
-      }
+      },
     );
 
     if (!hasItemRequirement) return false;
@@ -155,20 +155,20 @@ export const SpecialEventModalContent: React.FC<{
     const previousTaskIndex = taskIndex - 1;
 
     const currentDay = Math.floor(
-      (Date.now() - event.startAt) / TWENTY_FOUR_HOURS
+      (Date.now() - event.startAt) / TWENTY_FOUR_HOURS,
     );
 
     const previousTask = event.tasks[previousTaskIndex];
 
     if (previousTask?.completedAt) {
       const previousDay = Math.floor(
-        (previousTask.completedAt - event.startAt) / TWENTY_FOUR_HOURS
+        (previousTask.completedAt - event.startAt) / TWENTY_FOUR_HOURS,
       );
       return new Date(event.startAt + (previousDay + 1) * 24 * 60 * 60 * 1000);
     }
 
     return new Date(
-      event.startAt + (currentDay + taskIndex) * 24 * 60 * 60 * 1000
+      event.startAt + (currentDay + taskIndex) * 24 * 60 * 60 * 1000,
     );
   };
 
@@ -297,7 +297,7 @@ export const SpecialEventModalContent: React.FC<{
                       "w-full cursor-pointer hover:bg-brown-200 !py-2 relative",
                       {
                         "!bg-brown-200": selectedIndex === index,
-                      }
+                      },
                     )}
                     style={{ paddingBottom: "20px" }}
                     onClick={() => {
@@ -377,7 +377,7 @@ export const SpecialEventModalContent: React.FC<{
                   !!event?.tasks[selectedIndex - 1].completedAt && (
                     <Label type="info" icon={lock}>
                       {formatDateTime(
-                        getTaskStartDate(selectedIndex + 1).toISOString()
+                        getTaskStartDate(selectedIndex + 1).toISOString(),
                       )}
                     </Label>
                   )}

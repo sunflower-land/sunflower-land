@@ -20,7 +20,7 @@ describe("supplyCookingOil", () => {
           oilQuantity: 1,
         },
         createdAt: Date.now(),
-      })
+      }),
     ).toThrow("Building does not exist");
   });
 
@@ -47,7 +47,7 @@ describe("supplyCookingOil", () => {
           oilQuantity: 1,
         },
         createdAt: Date.now(),
-      })
+      }),
     ).toThrow("Building does not exist");
   });
 
@@ -74,7 +74,7 @@ describe("supplyCookingOil", () => {
           oilQuantity: 1,
         },
         createdAt: Date.now(),
-      })
+      }),
     ).toThrow("Not enough oil");
   });
 
@@ -165,7 +165,7 @@ describe("supplyCookingOil", () => {
           oilQuantity: 2,
         },
         createdAt: Date.now(),
-      })
+      }),
     ).toThrow("Oil capacity exceeded");
   });
 
@@ -196,7 +196,7 @@ describe("supplyCookingOil", () => {
           oilQuantity: 2,
         },
         createdAt: Date.now(),
-      })
+      }),
     ).toThrow("Oil capacity exceeded");
   });
 });

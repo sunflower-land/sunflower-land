@@ -6,7 +6,7 @@
  */
 export function calculateFPS(
   frameDurations: number[],
-  totalDurationSeconds: number
+  totalDurationSeconds: number,
 ): number[] {
   // Calculate total number of frames
   const totalFrames: number = frameDurations.length;
@@ -17,7 +17,7 @@ export function calculateFPS(
 
   // Calculate fps for each frame
   const fpsArray: number[] = frameDurations.map(
-    (duration) => 1 / (duration / 1000)
+    (duration) => 1 / (duration / 1000),
   );
 
   // Scale the fps values to fit the total duration of the sprite sheet

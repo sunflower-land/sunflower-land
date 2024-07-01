@@ -226,7 +226,7 @@ export class KingdomScene extends BaseScene {
 
     const audioMuted = getCachedAudioSetting<boolean>(
       AudioLocalStorageKeys.audioMuted,
-      false
+      false,
     );
 
     if (!audioMuted) {

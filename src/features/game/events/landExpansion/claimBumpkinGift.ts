@@ -33,7 +33,7 @@ export function getNextGift({
 
   let gifts = bumpkin.planned ?? [];
   gifts = gifts.sort((a, b) =>
-    a.friendshipPoints > b.friendshipPoints ? 1 : -1
+    a.friendshipPoints > b.friendshipPoints ? 1 : -1,
   );
 
   let nextGift = gifts.find((gift) => gift.friendshipPoints > lastClaimedAt);

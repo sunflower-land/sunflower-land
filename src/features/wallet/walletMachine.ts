@@ -143,7 +143,7 @@ export const walletMachine = createMachine<Context, WalletEvent, WalletState>({
 
           const web3ConnectStrategy = web3ConnectStrategyFactory(chosenWallet);
           onboardingAnalytics.logEvent(
-            web3ConnectStrategy.getConnectEventType()
+            web3ConnectStrategy.getConnectEventType(),
           );
           if (!web3ConnectStrategy.isAvailable()) {
             web3ConnectStrategy.whenUnavailableAction();
@@ -298,14 +298,14 @@ export const walletMachine = createMachine<Context, WalletEvent, WalletState>({
           const createdAt = await getCreatedAt(
             wallet.web3Provider,
             context.address as string,
-            context.address as string
+            context.address as string,
           );
 
           if (createdAt) {
             // Ensure they still have a farm (wasn't a long time ago)
             const farms = await getFarms(
               wallet.web3Provider,
-              context.address as string
+              context.address as string,
             );
             if (farms.length >= 1) {
               return {

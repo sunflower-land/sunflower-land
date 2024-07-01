@@ -19,7 +19,7 @@ describe("plantGreenhouse", () => {
           seed: "Rice Seed",
         },
         state: farm,
-      })
+      }),
     ).toThrow("Greenhouse does not exist");
   });
 
@@ -44,7 +44,7 @@ describe("plantGreenhouse", () => {
             ],
           },
         },
-      })
+      }),
     ).toThrow("Missing Rice Seed");
   });
 
@@ -72,7 +72,7 @@ describe("plantGreenhouse", () => {
             ],
           },
         },
-      })
+      }),
     ).toThrow("Not enough Oil");
   });
 
@@ -104,7 +104,7 @@ describe("plantGreenhouse", () => {
             ],
           },
         },
-      })
+      }),
     ).toThrow("Not a valid pot");
   });
 
@@ -144,7 +144,7 @@ describe("plantGreenhouse", () => {
             ],
           },
         },
-      })
+      }),
     ).toThrow("Plant already exists");
   });
 

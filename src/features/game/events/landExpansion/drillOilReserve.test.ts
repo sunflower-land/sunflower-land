@@ -31,7 +31,7 @@ describe("drillOilReserve", () => {
             },
           },
         },
-      })
+      }),
     ).toThrow("Oil reserve #2 not found");
   });
 
@@ -59,7 +59,7 @@ describe("drillOilReserve", () => {
             },
           },
         },
-      })
+      }),
     ).toThrow("No oil drills available");
   });
 
@@ -94,7 +94,7 @@ describe("drillOilReserve", () => {
           },
         },
         createdAt: now,
-      })
+      }),
     ).toThrow("Oil reserve is still recovering");
   });
 

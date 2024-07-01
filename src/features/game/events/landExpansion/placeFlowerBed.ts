@@ -28,7 +28,7 @@ export function placeFlowerBed({
   const game = cloneDeep(state) as GameState;
 
   const available = (game.inventory["Flower Bed"] || new Decimal(0)).minus(
-    Object.keys(game.flowers.flowerBeds).length
+    Object.keys(game.flowers.flowerBeds).length,
   );
 
   if (available.lt(1)) {

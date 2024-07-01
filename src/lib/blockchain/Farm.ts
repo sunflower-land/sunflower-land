@@ -16,14 +16,14 @@ type FarmAccount = {
 export async function getFarms(
   web3: Web3,
   account: string,
-  attempts = 0
+  attempts = 0,
 ): Promise<FarmAccount[]> {
   await new Promise((res) => setTimeout(res, 3000 * attempts));
 
   try {
     const accounts = await new web3.eth.Contract(
       FarmABI as AbiItem[],
-      address as string
+      address as string,
     ).methods
       .getFarms(account)
       .call({ from: account });
@@ -42,11 +42,11 @@ export async function getFarms(
 export async function ownerOf(
   web3: Web3,
   account: string,
-  tokenId: string
+  tokenId: string,
 ): Promise<string> {
   const owner = await new web3.eth.Contract(
     FarmABI as AbiItem[],
-    address as string
+    address as string,
   ).methods
     .ownerOf(tokenId)
     .call();
@@ -56,11 +56,11 @@ export async function ownerOf(
 
 export async function getFarm(
   web3: Web3,
-  tokenId: number
+  tokenId: number,
 ): Promise<FarmAccount> {
   const farm = await new web3.eth.Contract(
     FarmABI as AbiItem[],
-    address as string
+    address as string,
   ).methods
     .getFarm(tokenId)
     .call();
@@ -70,7 +70,7 @@ export async function getFarm(
 
 export async function getNewFarm(
   web3: Web3,
-  account: string
+  account: string,
 ): Promise<FarmAccount> {
   await new Promise((res) => setTimeout(res, 3000));
 
@@ -93,14 +93,14 @@ export async function getNewFarm(
 export async function getTotalSupply(
   web3: Web3,
   account: string,
-  attempts = 0
+  attempts = 0,
 ): Promise<number> {
   await new Promise((res) => setTimeout(res, 3000 * attempts));
 
   try {
     const accounts = await new web3.eth.Contract(
       FarmABI as AbiItem[],
-      address as string
+      address as string,
     ).methods
       .totalSupply()
       .call({ from: account });
@@ -147,9 +147,8 @@ export async function transfer({
           // Sequence wallet doesn't resolve the receipt. Therefore
           // We try to fetch it after we have a tx hash returned
           // From Sequence.
-          const receipt: any = await web3.eth.getTransactionReceipt(
-            transactionHash
-          );
+          const receipt: any =
+            await web3.eth.getTransactionReceipt(transactionHash);
 
           if (receipt) resolve(receipt);
         } catch (e) {

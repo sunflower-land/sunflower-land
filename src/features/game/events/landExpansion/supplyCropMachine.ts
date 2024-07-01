@@ -33,7 +33,7 @@ export const MAX_OIL_CAPACITY_IN_MILLIS = 48 * 60 * 60 * 1000;
 export function getTotalOilMillisInMachine(
   queue: CropMachineQueueItem[],
   unallocatedOilTime: number,
-  now: number = Date.now()
+  now: number = Date.now(),
 ) {
   const oil = queue.reduce((totalOil, item) => {
     // There is no oil to allocated to this pack
@@ -88,7 +88,7 @@ export function getOilTimeInMillis(oil: number) {
 export function getPackYieldAmount(
   amount: number,
   crop: CropName,
-  state: GameState
+  state: GameState,
 ): number {
   if (!state.bumpkin) {
     throw new Error("You do not have a Bumpkin");
@@ -139,7 +139,7 @@ export function updateCropMachine({
         cropMachine,
         index,
         previousQueueItemReadyAt,
-        now
+        now,
       );
     } else {
       partiallyAllocatedPack(
@@ -147,7 +147,7 @@ export function updateCropMachine({
         cropMachine,
         index,
         previousQueueItemReadyAt,
-        now
+        now,
       );
     }
   });
@@ -163,7 +163,7 @@ function completelyAllocatePack(
   cropMachine: CropMachineBuilding,
   index: number,
   previousQueueItemReadyAt: number,
-  now: number
+  now: number,
 ) {
   setPackStartTime(pack, index, previousQueueItemReadyAt, now);
 
@@ -194,7 +194,7 @@ function partiallyAllocatedPack(
   cropMachine: CropMachineBuilding,
   index: number,
   previousQueueItemReadyAt: number,
-  now: number
+  now: number,
 ) {
   setPackStartTime(pack, index, previousQueueItemReadyAt, now);
 
@@ -202,7 +202,7 @@ function partiallyAllocatedPack(
     pack,
     previousQueueItemReadyAt,
     now,
-    cropMachine.unallocatedOilTime as number
+    cropMachine.unallocatedOilTime as number,
   );
 
   pack.growTimeRemaining -= cropMachine.unallocatedOilTime as number;
@@ -216,7 +216,7 @@ function setPackStartTime(
   pack: CropMachineQueueItem,
   index: number,
   previousQueueItemReadyAt: number,
-  now: number
+  now: number,
 ) {
   if (!pack.startTime) {
     pack.startTime =
@@ -231,7 +231,7 @@ function updateGrowsUntil(
   pack: CropMachineQueueItem,
   previousQueueItemReadyAt: number,
   now: number,
-  unallocatedOilTime: number
+  unallocatedOilTime: number,
 ) {
   if (pack.growsUntil) {
     pack.growsUntil =
@@ -294,7 +294,7 @@ export function supplyCropMachine({
 
   // removes seeds from the player's inventory
   stateCopy.inventory[seedsAdded.type] = previousSeedsInInventory.minus(
-    seedsAdded.amount
+    seedsAdded.amount,
   );
 
   const previousOilInInventory = stateCopy.inventory["Oil"] ?? new Decimal(0);
@@ -307,7 +307,7 @@ export function supplyCropMachine({
 
   const oilMillisInMachine = getTotalOilMillisInMachine(
     queue,
-    cropMachine.unallocatedOilTime ?? 0
+    cropMachine.unallocatedOilTime ?? 0,
   );
 
   if (

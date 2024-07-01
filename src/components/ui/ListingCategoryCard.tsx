@@ -42,7 +42,7 @@ export const ListingCategoryCard: React.FC<Props> = ({
         {
           "cursor-not-allowed opacity-75": disabled,
           "cursor-pointer hover:bg-brown-200": !disabled,
-        }
+        },
       )}
       onClick={onClick}
     >

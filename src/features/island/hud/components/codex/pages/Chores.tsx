@@ -31,7 +31,7 @@ export const Chores: React.FC<Props> = ({ farmId }) => {
                   secondsTillReset(),
                   {
                     length: "short",
-                  }
+                  },
                 )}`}
               </Label>
             </div>

@@ -7,6 +7,7 @@ import { GameState, InventoryItemName } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import React from "react";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { translateTerms } from "lib/i18n/translate";
 
 interface Props {
   farmActivity: GameState["farmActivity"];
@@ -59,7 +60,7 @@ export const FishCaught: React.FC<Props> = ({
               <span className="text-sm mb-2">{name}</span>
               <img src={ITEM_DETAILS[name]?.image} className="h-12 mb-2" />
               <span className="text-xs text-center mb-2">
-                {ITEM_DETAILS[name].description}
+                {translateTerms(ITEM_DETAILS[name].description)}
               </span>
             </div>
           );

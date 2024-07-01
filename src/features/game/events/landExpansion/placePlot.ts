@@ -31,7 +31,7 @@ export function placePlot({
   const game = cloneDeep(state) as GameState;
 
   const available = (game.inventory["Crop Plot"] || new Decimal(0)).minus(
-    Object.keys(game.crops).length
+    Object.keys(game.crops).length,
   );
 
   if (available.lt(1)) {

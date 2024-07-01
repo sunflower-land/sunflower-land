@@ -26,13 +26,13 @@ interface Props {
 
 // type guard for WearablesItem | CollectiblesItem
 export const isWearablesItem = (
-  item: FactionShopWearable | FactionShopCollectible | null
+  item: FactionShopWearable | FactionShopCollectible | null,
 ): item is FactionShopWearable => {
   return (item as FactionShopWearable).name in ITEM_IDS;
 };
 
 export const getItemImage = (
-  item: FactionShopWearable | FactionShopCollectible | null
+  item: FactionShopWearable | FactionShopCollectible | null,
 ): string => {
   if (!item) return "";
 
@@ -44,7 +44,7 @@ export const getItemImage = (
 };
 
 export const getItemBuffLabel = (
-  item: FactionShopWearable | FactionShopCollectible | null
+  item: FactionShopWearable | FactionShopCollectible | null,
 ): BuffLabel | undefined => {
   if (!item) return;
 
@@ -68,17 +68,17 @@ export const FactionShop: React.FC<Props> = ({ onClose }) => {
   }, [selectedItem, isVisible]);
 
   const handleClickItem = (
-    item: FactionShopWearable | FactionShopCollectible
+    item: FactionShopWearable | FactionShopCollectible,
   ) => {
     setSelectedItem(item);
   };
 
   const wearables = Object.values(FACTION_SHOP_ITEMS).filter(
-    (item) => item.type === "wearable"
+    (item) => item.type === "wearable",
   );
 
   const collectibles = Object.values(FACTION_SHOP_ITEMS).filter(
-    (item) => item.type === "collectible"
+    (item) => item.type === "collectible",
   );
 
   const { t } = useAppTranslation();

@@ -76,7 +76,7 @@ const TimeToEgg = ({ showTimeToEgg, service }: TimeToEggProps) => {
         {
           "opacity-100": showTimeToEgg,
           "opacity-0": !showTimeToEgg,
-        }
+        },
       )}
     >
       <div className="flex flex-col text-xxs ml-2 mr-2">
@@ -136,25 +136,25 @@ const PlaceableChicken: React.FC<Props> = ({ id }) => {
 
   const chickens = ["chicken_1", "chicken_2"] as const;
   const chickenSound = useSound(
-    chickens[Math.floor(Math.random() * chickens.length)]
+    chickens[Math.floor(Math.random() * chickens.length)],
   );
   const chickenCollects = ["chicken_collect_1", "chicken_collect_2"] as const;
   const chickenCollectSound = useSound(
-    chickenCollects[Math.floor(Math.random() * chickenCollects.length)]
+    chickenCollects[Math.floor(Math.random() * chickenCollects.length)],
   );
   const no = useSound("no");
 
   const chicken = useSelector(
     gameService,
     (state) => state.context.state.chickens[id],
-    compareChicken
+    compareChicken,
   );
   const game = useSelector(gameService, selectGame, compareGame);
   const inventoryWheatCount = useSelector(
     gameService,
     selectInventoryWheatCount,
     (prev: Decimal, next: Decimal) =>
-      HasWheat(prev, game) === HasWheat(next, game)
+      HasWheat(prev, game) === HasWheat(next, game),
   );
 
   const percentageComplete = getPercentageComplete(chicken?.fedAt);

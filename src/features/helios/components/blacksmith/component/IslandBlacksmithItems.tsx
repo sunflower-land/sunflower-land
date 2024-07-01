@@ -47,7 +47,7 @@ export const IslandBlacksmithItems: React.FC = () => {
 
   const lessIngredients = () =>
     getKeys(selectedItem.ingredients).some((name) =>
-      selectedItem.ingredients[name]?.greaterThan(inventory[name] || 0)
+      selectedItem.ingredients[name]?.greaterThan(inventory[name] || 0),
     );
 
   const craft = () => {

@@ -94,7 +94,7 @@ export const PickServer: React.FC<Props> = ({ mmoService }) => {
                     "flex relative items-center justify-between !p-2 mb-1 cursor-pointer hover:bg-brown-200",
                     {
                       "cursor-not-allowed": isServerFull(servers, server.id),
-                    }
+                    },
                   )}
                   key={server.id}
                   onClick={() =>
@@ -122,7 +122,7 @@ export const PickServer: React.FC<Props> = ({ mmoService }) => {
                     {progressBar(
                       serverCurrentPopulation(servers, server.id),
                       serverMaxCapacity,
-                      servers.findIndex((s) => s.id === server.id) + 1
+                      servers.findIndex((s) => s.id === server.id) + 1,
                     )}
 
                     <img

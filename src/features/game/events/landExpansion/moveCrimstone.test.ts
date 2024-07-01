@@ -14,7 +14,7 @@ describe("moveCrimstone", () => {
           id: "1",
           coordinates: { x: 2, y: 2 },
         },
-      })
+      }),
     ).toThrow(MOVE_CRIMSTONE_ERRORS.NO_BUMPKIN);
   });
 
@@ -42,7 +42,7 @@ describe("moveCrimstone", () => {
           id: "2",
           coordinates: { x: 2, y: 2 },
         },
-      })
+      }),
     ).toThrow(MOVE_CRIMSTONE_ERRORS.CRIMSTONE_NOT_PLACED);
   });
 

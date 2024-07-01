@@ -51,7 +51,7 @@ export function removeCollectible({ state, action }: Options) {
   }
 
   const collectibleToRemove = collectibleGroup.find(
-    (collectible) => collectible.id === action.id
+    (collectible) => collectible.id === action.id,
   );
 
   if (!collectibleToRemove) {
@@ -65,7 +65,7 @@ export function removeCollectible({ state, action }: Options) {
   }
 
   collectibleGroup = collectibleGroup.filter(
-    (collectible) => collectible.id !== collectibleToRemove.id
+    (collectible) => collectible.id !== collectibleToRemove.id,
   );
 
   // Remove collectible key if there are none placed
@@ -90,7 +90,7 @@ export function removeCollectible({ state, action }: Options) {
   if (action.name === "Chicken Coop") {
     if (areUnsupportedChickensBrewing(stateCopy)) {
       throw new Error(
-        REMOVE_COLLECTIBLE_ERRORS.CHICKEN_COOP_REMOVE_BREWING_CHICKEN
+        REMOVE_COLLECTIBLE_ERRORS.CHICKEN_COOP_REMOVE_BREWING_CHICKEN,
       );
     }
 

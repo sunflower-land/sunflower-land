@@ -15,7 +15,7 @@ describe("completeEventTask", () => {
           task: 1,
         },
         state: TEST_FARM,
-      })
+      }),
     ).toThrow("Event does not exist");
   });
 
@@ -44,7 +44,7 @@ describe("completeEventTask", () => {
             },
           },
         },
-      })
+      }),
     ).toThrow("Task does not exist");
   });
 
@@ -78,7 +78,7 @@ describe("completeEventTask", () => {
             },
           },
         },
-      })
+      }),
     ).toThrow("Lunar New Year has not started");
   });
 
@@ -112,7 +112,7 @@ describe("completeEventTask", () => {
             },
           },
         },
-      })
+      }),
     ).toThrow("Lunar New Year has finished");
   });
 
@@ -148,7 +148,7 @@ describe("completeEventTask", () => {
             },
           },
         },
-      })
+      }),
     ).toThrow("Task 1 already completed");
   });
 
@@ -188,7 +188,7 @@ describe("completeEventTask", () => {
             },
           },
         },
-      })
+      }),
     ).toThrow("Task already completed today");
   });
 
@@ -229,7 +229,7 @@ describe("completeEventTask", () => {
             },
           },
         },
-      })
+      }),
     ).toThrow("Task 1 not completed");
   });
 
@@ -263,7 +263,7 @@ describe("completeEventTask", () => {
             },
           },
         },
-      })
+      }),
     ).toThrow("Anchovy requirements not met");
   });
 
@@ -297,7 +297,7 @@ describe("completeEventTask", () => {
             },
           },
         },
-      })
+      }),
     ).toThrow("SFL requirement not met");
   });
 
@@ -406,7 +406,7 @@ describe("completeEventTask", () => {
     });
 
     expect(
-      state.specialEvents.current["Lunar New Year"]?.tasks[0].completedAt
+      state.specialEvents.current["Lunar New Year"]?.tasks[0].completedAt,
     ).toBe(now);
   });
 
@@ -449,7 +449,7 @@ describe("completeEventTask", () => {
     });
 
     expect(
-      state.specialEvents.current["Lunar New Year"]?.tasks[1].completedAt
+      state.specialEvents.current["Lunar New Year"]?.tasks[1].completedAt,
     ).toBe(now);
   });
 
@@ -667,7 +667,7 @@ describe("completeEventTask", () => {
             },
           },
         },
-      })
+      }),
     ).toThrow("You are not eligible");
   });
 });

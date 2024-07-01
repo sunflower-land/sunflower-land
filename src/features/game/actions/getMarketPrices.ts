@@ -12,7 +12,7 @@ export type MarketPrices = {
 export async function getMarketPrices(
   farmId: number,
   transactionId: string,
-  token: string
+  token: string,
 ): Promise<MarketPrices> {
   // Append the `type` query parameter to the URL
   const url = new URL(`${API_URL}/market/${farmId}`);

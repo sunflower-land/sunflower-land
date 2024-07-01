@@ -27,7 +27,7 @@ export const PackGrowthProgressBar = ({
       readyAt,
       growsUntil,
       growTimeRemaining,
-    })
+    }),
   );
 
   useEffect(() => {
@@ -40,7 +40,7 @@ export const PackGrowthProgressBar = ({
             readyAt,
             growsUntil,
             growTimeRemaining,
-          })
+          }),
         );
       }, 1000);
       return () => clearInterval(interval);

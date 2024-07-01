@@ -31,7 +31,7 @@ export const PersonhoodContent: React.FC = () => {
     return await loadPersonhoodDetails(
       Number(gameService.state.context.farmId),
       authState.context.user.rawToken as string,
-      authState.context.transactionId as string
+      authState.context.transactionId as string,
     );
   };
 
@@ -68,9 +68,9 @@ export const PersonhoodContent: React.FC = () => {
       wallet.web3Provider.eth.personal.sign(
         String(payload),
         wallet.myAccount as string,
-        ""
+        "",
       ),
-    [wallet.myAccount]
+    [wallet.myAccount],
   );
 
   if (loading) {

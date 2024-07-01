@@ -38,7 +38,7 @@ export async function portal(request: Request) {
       body: JSON.stringify({
         farmId: request.farmId,
       }),
-    }
+    },
   );
 
   if (response.status >= 400) {

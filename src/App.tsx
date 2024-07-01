@@ -23,12 +23,12 @@ const NoServiceWorker = () => {
       if ("serviceWorker" in navigator) {
         const registrations = await navigator.serviceWorker.getRegistrations();
         const unregisterPromises = registrations.map((registration) =>
-          registration.unregister()
+          registration.unregister(),
         );
 
         const allCaches = await caches.keys();
         const cacheDeletionPromises = allCaches.map((cache) =>
-          caches.delete(cache)
+          caches.delete(cache),
         );
 
         await Promise.all([...unregisterPromises, ...cacheDeletionPromises]);

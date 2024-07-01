@@ -33,7 +33,7 @@ export const getSellPrice = (item: SellableTreasure, game: GameState) => {
 };
 
 export const isExoticCrop = (
-  item: BeachBountyTreasure | ExoticCropName
+  item: BeachBountyTreasure | ExoticCropName,
 ): item is ExoticCropName => {
   return item in EXOTIC_CROPS;
 };
@@ -70,13 +70,13 @@ export function sellTreasure({ state, action }: Options) {
   bumpkin.activity = trackActivity(
     "Coins Earned",
     bumpkin.activity,
-    new Decimal(earned)
+    new Decimal(earned),
   );
 
   bumpkin.activity = trackActivity(
     `${item} Sold`,
     bumpkin?.activity,
-    new Decimal(amount)
+    new Decimal(amount),
   );
 
   game.coins = coins + earned;

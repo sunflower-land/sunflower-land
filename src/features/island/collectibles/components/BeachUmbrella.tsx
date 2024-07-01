@@ -1,6 +1,6 @@
 import React from "react";
 
-import beachUmbrella from "src/assets/decorations/beach_umbrella.webp";
+import beachUmbrella from "assets/decorations/beach_umbrella.webp";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const BeachUmbrella: React.FC = () => {

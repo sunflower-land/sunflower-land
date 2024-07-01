@@ -13,7 +13,7 @@ type Request = {
 };
 
 export async function deleteListingRequest(
-  request: Request
+  request: Request,
 ): Promise<GameState> {
   const response = await window.fetch(`${API_URL}/listings`, {
     method: "DELETE",

@@ -1,6 +1,6 @@
 import React from "react";
 
-import image from "src/assets/sfts/baby_panda.png";
+import image from "assets/sfts/baby_panda.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const BabyPanda: React.FC = () => {

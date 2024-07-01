@@ -44,7 +44,7 @@ export const FlowerBedContent: React.FC<Props> = ({ id, onClose }) => {
   const { inventory, flowers } = state;
 
   const [selecting, setSelecting] = useState<"seed" | "crossbreed" | null>(
-    "seed"
+    "seed",
   );
   const [seed, setSeed] = useState<FlowerSeedName>();
   const [crossbreed, setCrossBreed] = useState<FlowerCrossBreedName>();
@@ -70,12 +70,12 @@ export const FlowerBedContent: React.FC<Props> = ({ id, onClose }) => {
   };
 
   const seedFlowers = getKeys(FLOWERS).filter(
-    (flowerName) => FLOWERS[flowerName].seed === seed
+    (flowerName) => FLOWERS[flowerName].seed === seed,
   );
   const resultFlower =
     crossbreed &&
     seedFlowers.find((seedFlower) =>
-      (flowers.discovered[seedFlower] ?? []).includes(crossbreed)
+      (flowers.discovered[seedFlower] ?? []).includes(crossbreed),
     );
 
   const hasSeedRequirements = !!(seed && inventory[seed]?.gte(1));
@@ -126,7 +126,7 @@ export const FlowerBedContent: React.FC<Props> = ({ id, onClose }) => {
           <div
             className={classNames(
               "absolute z-40 cursor-pointer bg-green-800 border-t-4 border-green-900 rounded-md",
-              {}
+              {},
             )}
             onClick={() => setSelecting("seed")}
             style={{
@@ -209,7 +209,7 @@ export const FlowerBedContent: React.FC<Props> = ({ id, onClose }) => {
                         getFlowerTime(seed, gameService.state.context.state),
                         {
                           length: "medium",
-                        }
+                        },
                       )}
                     </Label>
                   ) : (
@@ -233,7 +233,7 @@ export const FlowerBedContent: React.FC<Props> = ({ id, onClose }) => {
                   (name) =>
                     !isFlower(name) ||
                     !!state.farmActivity[`${name} Harvested`] ||
-                    !!state.inventory[name]
+                    !!state.inventory[name],
                 )
                 .map((name) => (
                   <Box

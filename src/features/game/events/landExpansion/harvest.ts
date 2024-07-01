@@ -59,7 +59,7 @@ export const isOvernightCrop = (cropName: CropName | GreenHouseCropName) => {
 export const isReadyToHarvest = (
   createdAt: number,
   plantedCrop: PlantedCrop,
-  cropDetails: Crop
+  cropDetails: Crop,
 ) => {
   return createdAt - plantedCrop.plantedAt >= cropDetails.harvestSeconds * 1000;
 };

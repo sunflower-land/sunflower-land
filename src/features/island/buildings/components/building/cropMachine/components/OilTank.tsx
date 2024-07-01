@@ -31,11 +31,11 @@ export const OilTank = ({
 
   const calculatePercentageFull = (
     queue: CropMachineQueueItem[],
-    unallocatedOilTime: number
+    unallocatedOilTime: number,
   ) => {
     const totalOilMillis = getTotalOilMillisInMachine(
       queue,
-      unallocatedOilTime
+      unallocatedOilTime,
     );
 
     return (totalOilMillis / MAX_OIL_CAPACITY_IN_MILLIS) * 100;
@@ -43,21 +43,21 @@ export const OilTank = ({
 
   const calculateOilTimeRemaining = (
     queue: CropMachineQueueItem[],
-    unallocatedOilTime: number
+    unallocatedOilTime: number,
   ) => {
     const totalOilMillis = getTotalOilMillisInMachine(
       queue,
-      unallocatedOilTime
+      unallocatedOilTime,
     );
     return totalOilMillis / 1000; // Convert milliseconds to seconds
   };
 
   // Initial state
   const [oilInTank, setOilInTank] = useState(
-    calculatePercentageFull(queue, unallocatedOilTime)
+    calculatePercentageFull(queue, unallocatedOilTime),
   );
   const [runtime, setRuntime] = useState(
-    calculateOilTimeRemaining(queue, unallocatedOilTime)
+    calculateOilTimeRemaining(queue, unallocatedOilTime),
   );
 
   useEffect(() => {

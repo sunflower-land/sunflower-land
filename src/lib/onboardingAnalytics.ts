@@ -77,13 +77,13 @@ class OnboardingAnalytics {
     eventParams?: {
       [key: string]: any;
     },
-    options?: AnalyticsCallOptions
+    options?: AnalyticsCallOptions,
   ): void {
     logEvent(
       this.analytics,
       eventName as CustomEventName<OnboardingGameAnalyticEvent>,
       eventParams,
-      options
+      options,
     );
   }
 }

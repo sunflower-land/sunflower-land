@@ -73,53 +73,53 @@ export function changeFont(font: Font) {
 
   document.documentElement.style.setProperty(
     "--font-family",
-    config.fontFamily
+    config.fontFamily,
   );
 
   document.documentElement.style.setProperty(
     "--text-xxs-size",
-    config.xxs[0] + "px"
+    config.xxs[0] + "px",
   );
   document.documentElement.style.setProperty(
     "--text-xxs-line-height",
-    config.xxs[1] + "px"
+    config.xxs[1] + "px",
   );
 
   document.documentElement.style.setProperty(
     "--text-xs-size",
-    config.xs[0] + "px"
+    config.xs[0] + "px",
   );
   document.documentElement.style.setProperty(
     "--text-xs-line-height",
-    config.xs[1] + "px"
+    config.xs[1] + "px",
   );
 
   document.documentElement.style.setProperty(
     "--text-sm-size",
-    config.sm[0] + "px"
+    config.sm[0] + "px",
   );
   document.documentElement.style.setProperty(
     "--text-sm-line-height",
-    config.sm[1] + "px"
+    config.sm[1] + "px",
   );
 
   document.documentElement.style.setProperty(
     "--text-base-size",
-    config.base[0] + "px"
+    config.base[0] + "px",
   );
   document.documentElement.style.setProperty(
     "--text-base-line-height",
-    config.base[1] + "px"
+    config.base[1] + "px",
   );
 
   document.documentElement.style.setProperty(
     "--text-lg-size",
-    config.lg[0] + "px"
+    config.lg[0] + "px",
   );
 
   document.documentElement.style.setProperty(
     "--text-lg-line-height",
-    config.lg[1] + "px"
+    config.lg[1] + "px",
   );
 
   cacheFont(font);

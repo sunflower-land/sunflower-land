@@ -13,7 +13,7 @@ export enum DELIVER_FACTION_KITCHEN_ERRORS {
 }
 
 export const FACTION_KITCHEN_START_TIME = new Date(
-  "2024-07-01T00:00:00Z"
+  "2024-07-01T00:00:00Z",
 ).getTime();
 export const BASE_POINTS = 20;
 

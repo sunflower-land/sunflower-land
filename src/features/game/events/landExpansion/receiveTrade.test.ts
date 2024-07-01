@@ -11,7 +11,7 @@ describe("receiveTrade", () => {
           type: "trade.received",
         },
         state: TEST_FARM,
-      })
+      }),
     ).toThrow("Trade #123 does not exist");
   });
 

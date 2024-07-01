@@ -7,7 +7,7 @@ import { ModerationEvent } from "features/world/Phaser";
 
 export const calculateMuteTime = (
   time: number,
-  type: "until" | "remaining"
+  type: "until" | "remaining",
 ) => {
   if (!time) return "Unknown";
   switch (type) {
@@ -22,7 +22,7 @@ export const calculateMuteTime = (
 
       const days = Math.floor(remaining / (1000 * 60 * 60 * 24));
       const hours = Math.floor(
-        (remaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+        (remaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60),
       );
       const minutes = Math.floor((remaining % (1000 * 60 * 60)) / (1000 * 60));
       const seconds = Math.floor((remaining % (1000 * 60)) / 1000);

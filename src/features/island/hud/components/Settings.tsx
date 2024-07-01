@@ -103,7 +103,7 @@ export const Settings: React.FC<Props> = ({ isFarming }) => {
   const settingButton = (
     index: number,
     onClick: () => void,
-    children: JSX.Element
+    children: JSX.Element,
   ) => {
     const rightMargin = 8;
 
@@ -149,7 +149,7 @@ export const Settings: React.FC<Props> = ({ isFarming }) => {
           left: `${PIXEL_SCALE * 4}px`,
           width: `${PIXEL_SCALE * 14}px`,
         }}
-      />
+      />,
     );
 
   const audioButton = (index: number) =>
@@ -166,7 +166,7 @@ export const Settings: React.FC<Props> = ({ isFarming }) => {
           left: `${PIXEL_SCALE * 5}px`,
           width: `${PIXEL_SCALE * 13}px`,
         }}
-      />
+      />,
     );
 
   const progressBarButton = (index: number) =>
@@ -187,7 +187,7 @@ export const Settings: React.FC<Props> = ({ isFarming }) => {
           percentage={70}
           type={showTimers ? "progress" : "error"}
         />
-      </div>
+      </div>,
     );
 
   const moreButton = (index: number) =>
@@ -204,7 +204,7 @@ export const Settings: React.FC<Props> = ({ isFarming }) => {
           left: `${PIXEL_SCALE * 6}px`,
           width: `${PIXEL_SCALE * 10}px`,
         }}
-      />
+      />,
     );
 
   // list of buttons to show in the HUD from right to left in order

@@ -107,7 +107,7 @@ export const Modal: React.FC<ModalProps> = ({
                     "max-w-[500px]": !fullscreen && size === undefined,
                     "max-w-[800px]": !fullscreen && size === "lg",
                     "w-screen h-full": !!fullscreen,
-                  }
+                  },
                 )}
               >
                 <div ref={ref}>{children}</div>

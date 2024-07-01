@@ -1,6 +1,12 @@
 import { BumpkinItem } from "features/game/types/bumpkin";
 import { InventoryItemName } from "../src/features/game/types/game";
 import { Attribute } from "./models";
+import { getKeys } from "features/game/types/craftables";
+import {
+  DECORATION_TEMPLATES,
+  TemplateDecorationName,
+} from "features/game/types/decorations";
+import { KNOWN_IDS } from "features/game/types";
 
 type Metadata = {
   description: string;
@@ -8325,9 +8331,24 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
       "A magnificent rug made by the talented Bumpkin faction artisans.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "../public/erc1155/images/2081png",
+    image: "../public/erc1155/images/2081.png",
     attributes: [{ trait_type: "Purpose", value: "Decoration" }],
   },
+
+  ...getKeys(DECORATION_TEMPLATES).reduce(
+    (acc, key) => ({
+      ...acc,
+      [key]: {
+        description: "A beautiful collection for your Sunflower Land farm.",
+        decimals: 0,
+        attributes: [{ trait_type: "Purpose", value: "Decoration" }],
+        external_url: "https://docs.sunflower-land.com/getting-started/about",
+        image: `../public/erc1155/images/${KNOWN_IDS[key]}.png`,
+        name: key,
+      },
+    }),
+    {} as Record<TemplateDecorationName, Metadata>,
+  ),
 };
 
 export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {

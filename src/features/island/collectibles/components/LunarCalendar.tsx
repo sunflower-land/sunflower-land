@@ -1,6 +1,6 @@
 import React from "react";
 
-import lunarCalendar from "src/assets/sfts/lunar_calendar.webp";
+import lunarCalendar from "assets/sfts/lunar_calendar.webp";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const LunarCalendar: React.FC = () => {

@@ -24,7 +24,7 @@ export const TimerPopover: React.FC<Props> = ({
         {
           "opacity-100": showPopover,
           "opacity-0": !showPopover,
-        }
+        },
       )}
     >
       <div className="flex flex-col text-xs mx-2">

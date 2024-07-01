@@ -94,7 +94,7 @@ export const CommunityToasts: React.FC = () => {
               </div>
             ))}
           </InnerPanel>,
-          document.body
+          document.body,
         )}
     </>
   );

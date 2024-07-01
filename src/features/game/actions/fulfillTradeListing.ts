@@ -18,7 +18,7 @@ type Response = {
 };
 
 export async function fulfillTradeListingRequest(
-  request: Request
+  request: Request,
 ): Promise<Response> {
   const response = await window.fetch(`${API_URL}/listings`, {
     method: "PUT",

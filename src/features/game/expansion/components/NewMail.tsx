@@ -27,7 +27,7 @@ export const NewMail: React.FC = () => {
     // Ensure they haven't read it already
     .sort(
       (a, b) =>
-        (announcements[b].announceAt ?? 0) - (announcements[a].announceAt ?? 0)
+        (announcements[b].announceAt ?? 0) - (announcements[a].announceAt ?? 0),
     )
     .find((id) => {
       return !mailbox.read.find((message) => message.id === id);

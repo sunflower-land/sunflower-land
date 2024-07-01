@@ -21,7 +21,7 @@ describe("placeFlowerBed", () => {
             "Flower Bed": new Decimal(0),
           },
         },
-      })
+      }),
     ).toThrow("No flower beds available");
   });
 
@@ -54,7 +54,7 @@ describe("placeFlowerBed", () => {
             },
           },
         },
-      })
+      }),
     ).toThrow("No flower beds available");
   });
 
@@ -88,7 +88,7 @@ describe("placeFlowerBed", () => {
             },
           },
         },
-      })
+      }),
     ).toThrow("Flower Bed collides");
   });
 
@@ -122,7 +122,7 @@ describe("placeFlowerBed", () => {
             },
           },
         },
-      })
+      }),
     ).toThrow("ID exists");
   });
 

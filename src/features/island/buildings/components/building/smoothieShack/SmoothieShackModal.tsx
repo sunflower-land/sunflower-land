@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 import { Modal } from "components/ui/Modal";
-import chefHat from "src/assets/icons/chef_hat.png";
+import chefHat from "assets/icons/chef_hat.png";
 
 import { Recipes } from "../../ui/Recipes";
 import {
@@ -30,11 +30,11 @@ export const SmoothieShackModal: React.FC<Props> = ({
   craftingService,
 }) => {
   const JuiceRecipes = Object.values(JUICE_COOKABLES).sort(
-    (a, b) => a.experience - b.experience // Sorts Foods based on their cooking time
+    (a, b) => a.experience - b.experience, // Sorts Foods based on their cooking time
   );
   const [selected, setSelected] = useState<Cookable>(
     JuiceRecipes.find((recipe) => recipe.name === itemInProgress) ||
-      JuiceRecipes[0]
+      JuiceRecipes[0],
   );
 
   return (

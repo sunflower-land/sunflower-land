@@ -14,7 +14,7 @@ describe("tradeFlowerShop", () => {
         state: { ...TEST_FARM, flowerShop: undefined },
         action: { type: "flowerShop.traded", flower: "Yellow Pansy" },
         createdAt: createdAt + 1,
-      })
+      }),
     ).toThrow("Flower shop is not open");
   });
 
@@ -27,7 +27,7 @@ describe("tradeFlowerShop", () => {
         },
         action: { type: "flowerShop.traded", flower: "Yellow Pansy" },
         createdAt: createdAt + sevenDays + 1,
-      })
+      }),
     ).toThrow("Flower shop has not been updated");
   });
 
@@ -40,7 +40,7 @@ describe("tradeFlowerShop", () => {
         },
         action: { type: "flowerShop.traded", flower: "Yellow Pansy" },
         createdAt: createdAt + 1,
-      })
+      }),
     ).toThrow("Flower is not the current weeks flower");
   });
 
@@ -54,7 +54,7 @@ describe("tradeFlowerShop", () => {
         },
         action: { type: "flowerShop.traded", flower: "Red Pansy" },
         createdAt: createdAt + 1,
-      })
+      }),
     ).toThrow("Not enough flowers");
   });
 
@@ -77,7 +77,7 @@ describe("tradeFlowerShop", () => {
         state: firstState,
         action: { type: "flowerShop.traded", flower: "Red Pansy" },
         createdAt: createdAt + 1,
-      })
+      }),
     ).toThrow("Already claimed reward");
   });
 
@@ -119,7 +119,7 @@ describe("tradeFlowerShop", () => {
     });
 
     expect(
-      state.inventory[getSeasonalTicket(new Date(createdAt + 1))]?.toNumber()
+      state.inventory[getSeasonalTicket(new Date(createdAt + 1))]?.toNumber(),
     ).toBeGreaterThanOrEqual(1);
   });
 });

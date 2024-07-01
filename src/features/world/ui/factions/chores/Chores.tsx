@@ -101,7 +101,7 @@ export const Chores: React.FC<Props> = ({ chores }) => {
                 .filter(
                   (choreId) =>
                     chores.chores[choreId].active &&
-                    chores.chores[choreId].completedAt === undefined
+                    chores.chores[choreId].completedAt === undefined,
                 )
                 .map((choreId) => (
                   <Box

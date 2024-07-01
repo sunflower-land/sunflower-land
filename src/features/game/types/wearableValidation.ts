@@ -17,7 +17,7 @@ import { GameState } from "./game";
 
 export const canWithdrawBoostedWearable = (
   name: BumpkinItem,
-  state?: GameState
+  state?: GameState,
 ) => {
   if (!state) return false;
 

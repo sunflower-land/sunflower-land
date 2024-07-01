@@ -22,6 +22,7 @@ import {
   Shovel,
   ToolName,
   TravelingSalesmanItem,
+  getKeys,
 } from "./craftables";
 import {
   Coupons,
@@ -52,11 +53,13 @@ import { BuildingName } from "./buildings";
 import { ConsumableName } from "./consumables";
 import {
   AchievementDecorationName,
+  DECORATION_TEMPLATES,
   EventDecorationName,
   InteriorDecorationName,
   PotionHouseDecorationName,
   SeasonalDecorationName,
   ShopDecorationName,
+  TemplateDecorationName,
 } from "./decorations";
 import {
   BeachBountyTreasure,
@@ -1077,6 +1080,14 @@ export const WITHDRAWABLES: Record<InventoryItemName, () => boolean> = {
   ...interiors,
   ...factionBanners,
   ...factionShopCollectibles,
+
+  ...getKeys(DECORATION_TEMPLATES).reduce(
+    (acc, key) => ({
+      ...acc,
+      [key]: DECORATION_TEMPLATES[key]?.isWithdrawable ?? (() => false),
+    }),
+    {} as Record<TemplateDecorationName, () => boolean>,
+  ),
 };
 
 export const BUMPKIN_WITHDRAWABLES: Record<

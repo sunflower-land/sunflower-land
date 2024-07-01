@@ -12,7 +12,7 @@ export async function hasCompletedQuest(
   account: string,
   questIds: number[],
   bumpkinId: number,
-  attempts = 0
+  attempts = 0,
 ): Promise<boolean[]> {
   await new Promise((res) => setTimeout(res, 3000 * attempts));
 
@@ -20,7 +20,7 @@ export async function hasCompletedQuest(
     const statues: boolean[] = await (
       new web3.eth.Contract(
         ABI as AbiItem[],
-        address as string
+        address as string,
       ) as unknown as BumpkinQuest
     ).methods
       .questStatuses(questIds, bumpkinId)
@@ -35,7 +35,7 @@ export async function hasCompletedQuest(
         account,
         questIds,
         bumpkinId,
-        attempts + 1
+        attempts + 1,
       );
     }
 
@@ -64,7 +64,7 @@ export async function mintQuestItemOnChain({
     (
       new web3.eth.Contract(
         ABI as AbiItem[],
-        address as string
+        address as string,
       ) as unknown as BumpkinQuest
     ).methods
       .mint(signature, questId, bumpkinId, deadline)
@@ -82,9 +82,8 @@ export async function mintQuestItemOnChain({
           // Sequence wallet doesn't resolve the receipt. Therefore
           // We try to fetch it after we have a tx hash returned
           // From Sequence.
-          const receipt: any = await web3.eth.getTransactionReceipt(
-            transactionHash
-          );
+          const receipt: any =
+            await web3.eth.getTransactionReceipt(transactionHash);
 
           if (receipt) resolve(receipt);
         } catch (e) {

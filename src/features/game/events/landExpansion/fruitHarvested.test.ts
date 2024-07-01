@@ -53,8 +53,8 @@ describe("fruitHarvested", () => {
             harvestsLeft: 3,
             harvestedAt: 0,
           },
-          FRUIT().Apple
-        )
+          FRUIT().Apple,
+        ),
       ).toBeFalsy();
     });
 
@@ -69,8 +69,8 @@ describe("fruitHarvested", () => {
             harvestsLeft: 2,
             harvestedAt: appleSeed.plantSeconds,
           },
-          FRUIT().Apple
-        )
+          FRUIT().Apple,
+        ),
       ).toBeFalsy();
     });
 
@@ -85,8 +85,8 @@ describe("fruitHarvested", () => {
             harvestsLeft: 3,
             harvestedAt: 0,
           },
-          FRUIT().Apple
-        )
+          FRUIT().Apple,
+        ),
       ).toBeFalsy();
     });
 
@@ -101,8 +101,8 @@ describe("fruitHarvested", () => {
             harvestsLeft: 2,
             harvestedAt: appleSeed.plantSeconds,
           },
-          FRUIT().Apple
-        )
+          FRUIT().Apple,
+        ),
       ).toBeFalsy();
     });
   });
@@ -119,7 +119,7 @@ describe("fruitHarvested", () => {
           index: "0",
         },
         createdAt: dateNow,
-      })
+      }),
     ).toThrow("You do not have a Bumpkin");
   });
 
@@ -132,7 +132,7 @@ describe("fruitHarvested", () => {
           index: "-1",
         },
         createdAt: dateNow,
-      })
+      }),
     ).toThrow("Fruit patch does not exist");
   });
 
@@ -145,7 +145,7 @@ describe("fruitHarvested", () => {
           index: "1",
         },
         createdAt: dateNow,
-      })
+      }),
     ).toThrow("Nothing was planted");
   });
 
@@ -175,7 +175,7 @@ describe("fruitHarvested", () => {
           index: "0",
         },
         createdAt: dateNow,
-      })
+      }),
     ).toThrow("Not ready");
   });
 
@@ -205,7 +205,7 @@ describe("fruitHarvested", () => {
           index: "0",
         },
         createdAt: dateNow,
-      })
+      }),
     ).toThrow("Fruit is still replenishing");
   });
 
@@ -235,7 +235,7 @@ describe("fruitHarvested", () => {
           index: "0",
         },
         createdAt: dateNow,
-      })
+      }),
     ).toThrow("No harvest left");
   });
 
@@ -461,7 +461,7 @@ describe("fruitHarvested", () => {
 
     expect(fruit?.amount).toEqual(1);
     expect(fruit?.harvestedAt).toEqual(
-      dateNow - (FRUIT_SEEDS()["Orange Seed"].plantSeconds * 1000) / 2
+      dateNow - (FRUIT_SEEDS()["Orange Seed"].plantSeconds * 1000) / 2,
     );
   });
 

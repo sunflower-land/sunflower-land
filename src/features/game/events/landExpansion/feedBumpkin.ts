@@ -61,8 +61,8 @@ export function feedBumpkin({
       bumpkin,
       stateCopy,
       buds ?? {},
-      createdAt
-    )
+      createdAt,
+    ),
   );
 
   bumpkin.experience += Number(foodExperience.mul(feedAmount));
@@ -71,7 +71,7 @@ export function feedBumpkin({
   bumpkin.activity = trackActivity(
     `${action.food} Fed`,
     bumpkin.activity,
-    feedAmount
+    feedAmount,
   );
 
   // return new state

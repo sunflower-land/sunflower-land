@@ -1,6 +1,6 @@
 import React from "react";
 
-import auroraLantern from "src/assets/decorations/lanterns/aurora_lantern.webp";
+import auroraLantern from "assets/decorations/lanterns/aurora_lantern.webp";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const AuroraLantern: React.FC = () => {

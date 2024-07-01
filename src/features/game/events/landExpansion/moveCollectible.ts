@@ -46,7 +46,7 @@ export function moveCollectible({
   }
 
   const collectibleToMoveIndex = collectibleGroup.findIndex(
-    (collectible) => collectible.id === action.id
+    (collectible) => collectible.id === action.id,
   );
 
   if (collectibleToMoveIndex < 0) {
@@ -56,7 +56,7 @@ export function moveCollectible({
   const [isRestricted, restrictionReason] = hasMoveRestriction(
     action.name,
     action.id,
-    stateCopy
+    stateCopy,
   );
 
   if (isRestricted) {

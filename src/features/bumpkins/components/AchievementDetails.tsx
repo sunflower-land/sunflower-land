@@ -89,7 +89,7 @@ export const AchievementDetails: React.FC<Props> = ({
                           }}
                         />
                         <span className="text-xxs ml-2">{`${setPrecision(
-                          new Decimal(progress)
+                          new Decimal(progress),
                         )}/${achievement.requirement}`}</span>
                       </div>
                     )}

@@ -1,6 +1,6 @@
 import React from "react";
 
-import bettyLantern from "src/assets/decorations/lanterns/betty_lantern.png";
+import bettyLantern from "assets/decorations/lanterns/betty_lantern.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const BettyLantern: React.FC = () => {

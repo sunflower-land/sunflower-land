@@ -41,7 +41,7 @@ export const Tools: React.FC<Props> = ({ onClose }) => {
 
   const lessIngredients = (amount = 1) =>
     getKeys(selected.ingredients).some((name) =>
-      selected.ingredients[name]?.mul(amount).greaterThan(inventory[name] || 0)
+      selected.ingredients[name]?.mul(amount).greaterThan(inventory[name] || 0),
     );
 
   const lessFunds = (amount = 1) => {
@@ -142,7 +142,7 @@ export const Tools: React.FC<Props> = ({ onClose }) => {
             const { requiredIsland } = WORKBENCH_TOOLS[toolName];
             const isLocked = !hasRequiredIslandExpansion(
               state.island.type,
-              requiredIsland
+              requiredIsland,
             );
 
             return (

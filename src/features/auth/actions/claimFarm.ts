@@ -17,7 +17,7 @@ export async function claimFarm(request: Request) {
         Authorization: `Bearer ${request.token}`,
         "X-Transaction-ID": request.transactionId,
       },
-    }
+    },
   );
 
   if (response.status === 429) {

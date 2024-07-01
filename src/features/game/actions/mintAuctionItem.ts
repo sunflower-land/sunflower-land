@@ -32,7 +32,7 @@ export async function mintAuctionItem(request: Request) {
       body: JSON.stringify({
         auctionId: request.auctionId,
       }),
-    }
+    },
   );
 
   if (response.status === 429) {

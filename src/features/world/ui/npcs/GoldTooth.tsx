@@ -60,11 +60,11 @@ export const GoldTooth: React.FC<Props> = ({ onClose }) => {
 const TreasureShopSell: React.FC = () => {
   const { t } = useAppTranslation();
   const beachBountyTreasure = getKeys(SELLABLE_TREASURE).sort(
-    (a, b) => SELLABLE_TREASURE[a].sellPrice - SELLABLE_TREASURE[b].sellPrice
+    (a, b) => SELLABLE_TREASURE[a].sellPrice - SELLABLE_TREASURE[b].sellPrice,
   );
 
   const [selectedName, setSelectedName] = useState<BeachBountyTreasure>(
-    beachBountyTreasure[0]
+    beachBountyTreasure[0],
   );
 
   const selected = SELLABLE_TREASURE[selectedName];

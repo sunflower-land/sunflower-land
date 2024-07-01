@@ -35,7 +35,7 @@ export const validateUsername = (username?: string) => {
 export const saveUsername = async (
   token: string,
   farmId: number,
-  username: string
+  username: string,
 ) => {
   const response = await window.fetch(`${API_URL}/username/${farmId}`, {
     method: "POST",

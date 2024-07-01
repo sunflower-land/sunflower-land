@@ -31,7 +31,7 @@ const tool = "Axe";
 
 const HasTool = (
   inventory: Partial<Record<InventoryItemName, Decimal>>,
-  gameState: GameState
+  gameState: GameState,
 ) => {
   const axesNeeded = getRequiredAxeAmount(inventory, gameState);
 
@@ -92,7 +92,7 @@ export const Tree: React.FC<Props> = ({ id }) => {
   const resource = useSelector(
     gameService,
     (state) => state.context.state.trees[id],
-    compareResource
+    compareResource,
   );
   const game = useSelector(gameService, selectGame, compareGame);
   const inventory = useSelector(
@@ -100,7 +100,7 @@ export const Tree: React.FC<Props> = ({ id }) => {
     selectInventory,
     (prev, next) =>
       HasTool(prev, game) === HasTool(next, game) &&
-      (prev.Logger ?? new Decimal(0)).equals(next.Logger ?? new Decimal(0))
+      (prev.Logger ?? new Decimal(0)).equals(next.Logger ?? new Decimal(0)),
   );
 
   const treesChopped = useSelector(gameService, selectTreesChopped);

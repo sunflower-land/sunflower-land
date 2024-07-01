@@ -31,7 +31,7 @@ export function getPlantedAt(
   fruitSeedName: FruitSeedName,
   wearables: BumpkinParts,
   game: GameState,
-  createdAt: number
+  createdAt: number,
 ) {
   if (!fruitSeedName) return createdAt;
 
@@ -72,7 +72,7 @@ export function getFruitTime({
 export const getFruitPatchTime = (
   fruitSeedName: FruitSeedName,
   game: GameState,
-  _: BumpkinParts
+  _: BumpkinParts,
 ) => {
   let seconds = FRUIT_SEEDS()[fruitSeedName]?.plantSeconds ?? 0;
 
@@ -167,7 +167,7 @@ export function plantFruit({
       action.seed,
       (stateCopy.bumpkin as Bumpkin).equipped,
       stateCopy,
-      createdAt
+      createdAt,
     ),
     amount: getFruitYield({
       name: fruitName,
@@ -182,7 +182,7 @@ export function plantFruit({
   bumpkin.activity = trackActivity(
     `${action.seed} Planted`,
     bumpkin?.activity,
-    new Decimal(1)
+    new Decimal(1),
   );
 
   return stateCopy;

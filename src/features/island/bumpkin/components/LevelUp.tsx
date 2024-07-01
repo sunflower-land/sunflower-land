@@ -70,29 +70,32 @@ function generateUnlockLabels(): Record<
 > {
   const levels = getKeys(LEVEL_EXPERIENCE);
 
-  const unlocks = levels.reduce((acc, id) => {
-    const level = Number(id);
-    const crops = getKeys(CROPS())
-      .filter((name) => CROPS()[name].bumpkinLevel === level)
-      .map((name) => ({ text: name, icon: ITEM_DETAILS[name].image }));
+  const unlocks = levels.reduce(
+    (acc, id) => {
+      const level = Number(id);
+      const crops = getKeys(CROPS())
+        .filter((name) => CROPS()[name].bumpkinLevel === level)
+        .map((name) => ({ text: name, icon: ITEM_DETAILS[name].image }));
 
-    const buildings = getKeys(BUILDINGS)
-      .filter((name) =>
-        BUILDINGS[name].find(
-          (b) =>
-            EXPANSION_REQUIREMENTS[b.unlocksAtLevel as Land]?.bumpkinLevel ===
-            level
+      const buildings = getKeys(BUILDINGS)
+        .filter((name) =>
+          BUILDINGS[name].find(
+            (b) =>
+              EXPANSION_REQUIREMENTS[b.unlocksAtLevel as Land]?.bumpkinLevel ===
+              level,
+          ),
         )
-      )
-      .map((name) => ({ text: name, icon: ITEM_DETAILS[name].image }));
+        .map((name) => ({ text: name, icon: ITEM_DETAILS[name].image }));
 
-    const bonus = BONUS_UNLOCKS[level] ?? [];
+      const bonus = BONUS_UNLOCKS[level] ?? [];
 
-    return {
-      ...acc,
-      [level]: [...bonus, ...crops, ...buildings],
-    };
-  }, {} as Record<number, { text: string; icon: string }[]>);
+      return {
+        ...acc,
+        [level]: [...bonus, ...crops, ...buildings],
+      };
+    },
+    {} as Record<number, { text: string; icon: string }[]>,
+  );
 
   return unlocks;
 }

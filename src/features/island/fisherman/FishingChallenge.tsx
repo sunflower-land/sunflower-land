@@ -171,7 +171,7 @@ export const FishingChallengeComponent: React.FC<Props> = ({
     const degreeDifference = Math.abs(
       ((normaliseAngle(greenBarAngle) - normaliseAngle(tentacleAngle) + 180) %
         360) -
-        180
+        180,
     );
 
     const hit = degreeDifference < halfBarDegreesWithTolerance;

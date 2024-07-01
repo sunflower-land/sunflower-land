@@ -21,7 +21,7 @@ describe("collectCompost", () => {
           buildingId: "123",
         },
         createdAt: Date.now(),
-      })
+      }),
     ).toThrow("Composter does not exist");
   });
 
@@ -47,7 +47,7 @@ describe("collectCompost", () => {
           buildingId: "123",
         },
         createdAt: Date.now(),
-      })
+      }),
     ).toThrow("Composter is not producing anything");
   });
 
@@ -78,7 +78,7 @@ describe("collectCompost", () => {
           buildingId: "123",
         },
         createdAt: Date.now(),
-      })
+      }),
     ).toThrow("Compost is not ready");
   });
 

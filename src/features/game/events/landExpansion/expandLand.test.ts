@@ -30,7 +30,7 @@ describe("expandLand", () => {
             type: "desert",
           },
         },
-      })
+      }),
     ).toThrow("Insufficient coins");
   });
 

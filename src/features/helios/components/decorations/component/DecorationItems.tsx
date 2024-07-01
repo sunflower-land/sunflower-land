@@ -33,7 +33,7 @@ interface Props {
 export const DecorationItems: React.FC<Props> = ({ items }) => {
   const { t } = useAppTranslation();
   const [selected, setSelected] = useState<Decoration>(
-    items[getKeys(items)[0]] as Decoration
+    items[getKeys(items)[0]] as Decoration,
   );
   const { gameService, shortcutItem } = useContext(Context);
   const [
@@ -53,7 +53,7 @@ export const DecorationItems: React.FC<Props> = ({ items }) => {
 
   const lessIngredients = () =>
     getKeys(selected.ingredients).some((name) =>
-      selected.ingredients[name]?.greaterThan(inventory[name] || 0)
+      selected.ingredients[name]?.greaterThan(inventory[name] || 0),
     );
 
   const buy = () => {

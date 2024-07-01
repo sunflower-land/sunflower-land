@@ -34,7 +34,7 @@ import { IslandType } from "features/game/types/game";
 import { DIRT_PATH_VARIANTS } from "features/island/lib/alternateArt";
 
 export const PLACEABLES: (
-  island: IslandType
+  island: IslandType,
 ) => Record<PlaceableName | "Bud", React.FC<any>> = (island) => ({
   Chicken: () => <Chicken x={0} y={0} id="123" />, // Temp id for placing, when placed action will assign a random UUID and the temp one will be overridden.
   ...READONLY_COLLECTIBLES,
@@ -58,7 +58,7 @@ export const getInitialCoordinates = (origin?: Coordinates) => {
   // This container helps us to calculate the scroll pixels as in our application
   // window do not scroll but this container dose
   const pageScrollContainer = document.getElementsByClassName(
-    "page-scroll-container"
+    "page-scroll-container",
   )[0];
 
   const viewportMidPointX =
@@ -240,7 +240,7 @@ export const Placeable: React.FC<Props> = ({ location }) => {
                 {
                   "bg-green-background/80": !collisionDetected,
                   "bg-red-background/80": collisionDetected,
-                }
+                },
               )}
               style={{
                 width: `${dimensions.width * GRID_WIDTH_PX}px`,

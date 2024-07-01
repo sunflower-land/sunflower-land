@@ -18,11 +18,11 @@ export const SkillBadges: React.FC<{
   bumpkin: Bumpkin;
 }> = ({ inventory, bumpkin }) => {
   const SKILLS: BumpkinSkillName[] = Object.keys(BUMPKIN_SKILL_TREE).map(
-    (skill) => skill as BumpkinSkillName
+    (skill) => skill as BumpkinSkillName,
   );
 
   const BADGES: InventoryItemName[] = Object.keys(SKILL_TREE).map(
-    (badge) => badge as InventoryItemName
+    (badge) => badge as InventoryItemName,
   );
 
   const badges = BADGES.map((badge) => {

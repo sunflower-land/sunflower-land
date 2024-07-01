@@ -15,7 +15,7 @@ export const InfoPopover: React.FC<Props> = ({ showPopover, children }) => {
         {
           "opacity-100": showPopover,
           "opacity-0": !showPopover,
-        }
+        },
       )}
     >
       {children}

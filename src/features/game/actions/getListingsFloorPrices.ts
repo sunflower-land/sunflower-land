@@ -7,7 +7,7 @@ const API_URL = CONFIG.API_URL;
 export type FloorPrices = Partial<Record<InventoryItemName, number>>;
 
 export async function getListingsFloorPrices(
-  token?: string
+  token?: string,
 ): Promise<FloorPrices[]> {
   // Append the `type` query parameter to the URL
   const url = new URL(`${API_URL}/listingsFloor`);

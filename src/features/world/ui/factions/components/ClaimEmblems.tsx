@@ -87,11 +87,11 @@ export const ClaimEmblems: React.FC<ClaimEmblemsProps> = ({
   const { t } = useTranslation();
 
   const [screen, setScreen] = useState<"claiming" | "claimed" | "sharing">(
-    "claiming"
+    "claiming",
   );
 
   const [statistics, setStatistics] = useState<Statistics | null | undefined>(
-    undefined
+    undefined,
   );
 
   useEffect(() => {
@@ -106,7 +106,7 @@ export const ClaimEmblems: React.FC<ClaimEmblemsProps> = ({
         }
 
         const rankDetails = data.factions.farmRankingDetails?.find(
-          (rank) => rank.id === playerName
+          (rank) => rank.id === playerName,
         );
         const yourRank = rankDetails?.rank;
 
@@ -200,7 +200,7 @@ export const ClaimEmblems: React.FC<ClaimEmblemsProps> = ({
                     {t("faction.claimEmblems.percentile", {
                       percentile: setPrecision(
                         new Decimal(statistics.yourPercentile),
-                        2
+                        2,
                       ).toString(),
                     })}
                   </Label>
@@ -310,7 +310,7 @@ export const ClaimEmblems: React.FC<ClaimEmblemsProps> = ({
               rank: statistics.yourRank,
               percentile: setPrecision(
                 new Decimal(statistics.yourPercentile),
-                2
+                2,
               ).toString(),
             })}
           </span>

@@ -37,7 +37,7 @@ export function removeBud({
 
   const [isRestricted, restrictionReason] = hasBudRemoveRestriction(
     stateCopy,
-    bud
+    bud,
   );
 
   if (isRestricted) {

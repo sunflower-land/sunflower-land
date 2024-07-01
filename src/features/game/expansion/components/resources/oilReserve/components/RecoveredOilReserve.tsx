@@ -32,7 +32,7 @@ export const RecoveredOilReserve: React.FC<Props> = ({ hasDrill, onDrill }) => {
         {
           "cursor-pointer hover:img-highlight": !showDrillWarning,
           "cursor-not-allowed": showDrillWarning,
-        }
+        },
       )}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}

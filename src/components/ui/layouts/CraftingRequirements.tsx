@@ -19,6 +19,7 @@ import { NPC } from "features/island/bumpkin/components/NPC";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { getImageUrl } from "lib/utils/getImageURLS";
 import { ITEM_ICONS } from "features/island/hud/components/inventory/Chest";
+import { translateTerms } from "lib/i18n/translate";
 
 /**
  * The props for the details for items.
@@ -99,7 +100,7 @@ interface Props {
 
 function getDetails(
   game: GameState,
-  details: ItemDetailsProps
+  details: ItemDetailsProps,
 ): {
   limit: Decimal;
   count: Decimal;
@@ -113,7 +114,7 @@ function getDetails(
 
     return {
       count: inventoryCount,
-      description: ITEM_DETAILS[details.item].description,
+      description: translateTerms(ITEM_DETAILS[details.item].description),
       image:
         ITEM_ICONS(game.island.type)[details.item] ??
         ITEM_DETAILS[details.item].image,
@@ -323,7 +324,7 @@ export const CraftingRequirements: React.FC<Props> = ({
         {getItemDetail({ hideDescription })}
         {limit && (
           <p className="my-1 text-xs text-left sm:text-center">{`${t(
-            "max"
+            "max",
           )} ${limit} ${t("statements.perplayer")}`}</p>
         )}
         {getBoost()}

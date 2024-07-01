@@ -65,7 +65,7 @@ export const PlayerModal: React.FC<Props> = ({
     if (!maxLevel) {
       progressRatio = Math.min(
         1,
-        currentExperienceProgress / experienceToNextLevel
+        currentExperienceProgress / experienceToNextLevel,
       );
     }
 
@@ -97,7 +97,7 @@ export const PlayerModal: React.FC<Props> = ({
   };
 
   const latestMute = player.moderation?.muted.sort(
-    (a, b) => b.mutedUntil - a.mutedUntil
+    (a, b) => b.mutedUntil - a.mutedUntil,
   )[0];
   const isMuted = latestMute && latestMute.mutedUntil > Date.now();
 
@@ -147,7 +147,7 @@ export const PlayerModal: React.FC<Props> = ({
                 <div className="flex items-center mt-1">
                   <p className="text-xxs mr-2">
                     {`${Math.floor(currentExperienceProgress)}/${Math.floor(
-                      experienceToNextLevel
+                      experienceToNextLevel,
                     )} XP`}
                   </p>
 

@@ -2,8 +2,8 @@ import { Button } from "components/ui/Button";
 import React, { useContext, useEffect } from "react";
 import confetti from "canvas-confetti";
 
-import token from "src/assets/icons/sfl.webp";
-import coins from "src/assets/icons/coins.webp";
+import token from "assets/icons/sfl.webp";
+import coins from "assets/icons/coins.webp";
 import powerup from "assets/icons/level_up.png";
 import factionPoint from "assets/icons/faction_point.webp";
 import { getKeys } from "features/game/types/craftables";
@@ -21,6 +21,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
 import { InlineDialogue } from "features/world/ui/TypingMessage";
 import { getImageUrl } from "lib/utils/getImageURLS";
+import { translateTerms } from "lib/i18n/translate";
 
 interface ClaimRewardProps {
   reward: IAirdrop;
@@ -106,7 +107,7 @@ export const ClaimReward: React.FC<ClaimRewardProps> = ({
                     <div className="flex items-center">
                       <Label type="default" className="mr-2 ">
                         {`${setPrecision(
-                          new Decimal(airdrop.items[name] ?? 1)
+                          new Decimal(airdrop.items[name] ?? 1),
                         ).toString()} x ${name}`}
                       </Label>
                       {name in CONSUMABLES && (
@@ -116,13 +117,13 @@ export const ClaimReward: React.FC<ClaimRewardProps> = ({
                           className="mr-2 font-secondary"
                         >{`+${setPrecision(
                           new Decimal(
-                            CONSUMABLES[name as ConsumableName].experience
-                          )
+                            CONSUMABLES[name as ConsumableName].experience,
+                          ),
                         ).toString()}XP`}</Label>
                       )}
                     </div>
                     <p className="text-xs mt-0.5">
-                      {ITEM_DETAILS[name].description}
+                      {translateTerms(ITEM_DETAILS[name].description)}
                     </p>
                     {buff && (
                       <Label
@@ -145,7 +146,7 @@ export const ClaimReward: React.FC<ClaimRewardProps> = ({
                 <Box image={getImageUrl(ITEM_IDS[name])} />
                 <div>
                   <Label type="default">{`${setPrecision(
-                    new Decimal(airdrop.wearables[name] ?? 1)
+                    new Decimal(airdrop.wearables[name] ?? 1),
                   ).toString()} x ${name}`}</Label>
                   <p className="text-xs">{t("reward.wearable")}</p>
                 </div>

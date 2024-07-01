@@ -11,16 +11,16 @@ export abstract class Preloader extends Phaser.Scene {
   preload() {
     const errorLogger = createErrorLogger(
       "phaser_preloader_scene",
-      Number(this.id)
+      Number(this.id),
     );
 
     this.load.on(
       Phaser.Loader.Events.FILE_LOAD_ERROR,
       (file: Phaser.Loader.File) => {
         errorLogger(
-          `File load error ${JSON.stringify({ name: file.key, url: file.url })}`
+          `File load error ${JSON.stringify({ name: file.key, url: file.url })}`,
         );
-      }
+      },
     );
 
     try {
@@ -37,12 +37,12 @@ export abstract class Preloader extends Phaser.Scene {
       // Phaser assets must be served from an URL
       this.load.image(
         "tileset",
-        `${CONFIG.PROTECTED_IMAGE_URL}/world/map-extruded.png`
+        `${CONFIG.PROTECTED_IMAGE_URL}/world/map-extruded.png`,
       );
 
       this.load.image(
         "easter-tileset",
-        `${CONFIG.PROTECTED_IMAGE_URL}/world/easter-map-extruded.png`
+        `${CONFIG.PROTECTED_IMAGE_URL}/world/easter-map-extruded.png`,
       );
 
       this.load.image("speech_bubble", "world/speech_bubble.png");
@@ -80,7 +80,7 @@ export abstract class Preloader extends Phaser.Scene {
       this.load.bitmapFont(
         "Teeny Tiny Pixls",
         "world/Teeny Tiny Pixls5.png",
-        "world/Teeny Tiny Pixls5.xml"
+        "world/Teeny Tiny Pixls5.xml",
       );
       this.load.bitmapFont("pixelmix", "world/7px.png", "world/7px.xml");
 

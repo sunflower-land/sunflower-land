@@ -59,7 +59,7 @@ describe("mineCrimstone", () => {
           expansionIndex: 0,
           index: 0,
         } as MineCrimstoneAction,
-      })
+      }),
     ).toThrow("You do not have a Bumpkin");
   });
 
@@ -76,7 +76,7 @@ describe("mineCrimstone", () => {
           type: "crimstoneRock.mined",
           index: 0,
         },
-      })
+      }),
     ).toThrow("No gold pickaxes left");
   });
 
@@ -93,7 +93,7 @@ describe("mineCrimstone", () => {
           type: "crimstoneRock.mined",
           index: 3,
         },
-      })
+      }),
     ).toThrow("Crimstone does not exist");
   });
 
@@ -118,7 +118,7 @@ describe("mineCrimstone", () => {
       mineCrimstone({
         state: game,
         action: payload.action,
-      })
+      }),
     ).toThrow("Rock is still recovering");
   });
 

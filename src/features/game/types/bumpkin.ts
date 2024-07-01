@@ -739,7 +739,7 @@ export const ITEM_IDS: Record<BumpkinItem, number> = {
 // The reverse of above
 export const ITEM_NAMES: Record<string, BumpkinItem> = Object.assign(
   {},
-  ...Object.entries(ITEM_IDS).map(([a, b]) => ({ [b]: a }))
+  ...Object.entries(ITEM_IDS).map(([a, b]) => ({ [b]: a })),
 );
 
 export const IDS = Object.values(ITEM_IDS);
@@ -792,7 +792,7 @@ export const UNLIMITED_SUPPLY = 1000000;
 // The reverse of above
 export const BUMPKIN_ITEMS: Record<string, number> = Object.assign(
   {},
-  ...Object.entries(ITEM_IDS).map(([a, b]) => ({ [b]: a }))
+  ...Object.entries(ITEM_IDS).map(([a, b]) => ({ [b]: a })),
 );
 
 export const BUMPKIN_ITEMS_IDS = Object.values(ITEM_IDS);

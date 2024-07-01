@@ -61,7 +61,7 @@ const LastUpdated: React.FC<{ cachedAt: number }> = ({ cachedAt }) => {
   useUiRefresher();
   return (
     <span className="text-xs">{`${t("last.updated")} ${getRelativeTime(
-      cachedAt
+      cachedAt,
     )}`}</span>
   );
 };
@@ -142,7 +142,7 @@ export const SalesPanel: React.FC<{
 
   const unitPrice = marketPrices?.prices?.currentPrices?.[selected] || "0.0000";
   const bundlePrice = (MARKET_BUNDLES[selected] * Number(unitPrice))?.toFixed(
-    4
+    4,
   );
   const canSell =
     state.inventory[selected]?.gte(MARKET_BUNDLES[selected]) &&
@@ -268,7 +268,7 @@ export const SalesPanel: React.FC<{
                 <div
                   className={classNames(
                     "flex items-center justify-start sm:justify-end w-64",
-                    { "opacity-75": !hasVIP }
+                    { "opacity-75": !hasVIP },
                   )}
                 >
                   <LastUpdated cachedAt={marketPrices.cachedAt ?? 0} />
@@ -280,7 +280,7 @@ export const SalesPanel: React.FC<{
               {getKeys(MARKET_BUNDLES).map((name) => {
                 const priceMovement = getPriceMovement(
                   marketPrices?.prices?.currentPrices?.[name] ?? 0,
-                  marketPrices?.prices?.yesterdayPrices?.[name] ?? 0
+                  marketPrices?.prices?.yesterdayPrices?.[name] ?? 0,
                 );
 
                 return (

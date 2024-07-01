@@ -16,7 +16,7 @@ const getBudSpeedBoost = (bud: Bud, resource: Resource): number => {
 
 export const getBudSpeedBoosts = (
   buds: NonNullable<GameState["buds"]>,
-  resource: Resource
+  resource: Resource,
 ): number => {
   const boosts = Object.values(buds)
     // Bud must be placed to give a boost

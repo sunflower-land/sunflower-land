@@ -12,14 +12,14 @@ export function makeGame(farm: any): GameState {
         ...items,
         [item]: new Decimal(farm.inventory[item]),
       }),
-      {} as Record<InventoryItemName, Decimal>
+      {} as Record<InventoryItemName, Decimal>,
     ),
     previousInventory: Object.keys(farm.previousInventory).reduce(
       (items, item) => ({
         ...items,
         [item]: new Decimal(farm.previousInventory[item]),
       }),
-      {} as Record<InventoryItemName, Decimal>
+      {} as Record<InventoryItemName, Decimal>,
     ),
     wardrobe: farm.wardrobe,
     previousWardrobe: farm.previousWardrobe,
@@ -28,7 +28,7 @@ export function makeGame(farm: any): GameState {
         ...items,
         [item]: new Decimal(farm.stock[item]),
       }),
-      {} as Record<InventoryItemName, Decimal>
+      {} as Record<InventoryItemName, Decimal>,
     ),
     island: farm.island,
     home: farm.home,

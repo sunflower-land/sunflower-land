@@ -177,5 +177,5 @@ export const chickenMachine = createMachine<
       timeToTransition: (context) =>
         context.timeElapsed > context.timeInCurrentState,
     },
-  }
+  },
 );

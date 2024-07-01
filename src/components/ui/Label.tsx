@@ -108,7 +108,7 @@ export const Label: React.FC<Props> = ({
         {
           relative: !className?.includes("absolute"),
           "cursor-pointer": !!onClick,
-        }
+        },
       )}
       style={{
         ...LABEL_STYLES[type].borderStyle,

@@ -53,7 +53,7 @@ export const Inventory: React.FC<Props> = ({
   }, []);
 
   const buds = getKeys(state.buds ?? {}).map(
-    (budId) => `Bud-${budId}` as BudName
+    (budId) => `Bud-${budId}` as BudName,
   );
 
   const [selectedChestItem, setSelectedChestItem] = useState<
@@ -62,9 +62,9 @@ export const Inventory: React.FC<Props> = ({
     [
       ...buds,
       ...getKeys(getChestItems(state)).sort(
-        (a, b) => KNOWN_IDS[a] - KNOWN_IDS[b]
+        (a, b) => KNOWN_IDS[a] - KNOWN_IDS[b],
       ),
-    ][0]
+    ][0],
   );
 
   const shortcuts = getShortcuts();
@@ -128,7 +128,7 @@ export const Inventory: React.FC<Props> = ({
                 image={ITEM_DETAILS[item]?.image}
                 secondaryImage={ITEM_DETAILS[item]?.secondaryImage}
                 count={state.inventory[item]?.sub(
-                  state.collectibles[item as CollectibleName]?.length ?? 0
+                  state.collectibles[item as CollectibleName]?.length ?? 0,
                 )}
                 onClick={() => handleBasketItemClick(item)}
               />

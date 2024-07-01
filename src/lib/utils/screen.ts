@@ -69,7 +69,7 @@ class ScreenTracker {
           const distance = calcDistancePointToLine(
             vectors[0],
             vectors[vectors.length - 1],
-            vector
+            vector,
           );
           return distance === 0;
         });

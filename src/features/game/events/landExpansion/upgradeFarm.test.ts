@@ -13,7 +13,7 @@ describe("upgradeFarm", () => {
         state: {
           ...TEST_FARM,
         },
-      })
+      }),
     ).toThrow("Player has not met the expansion requirements");
   });
 
@@ -30,7 +30,7 @@ describe("upgradeFarm", () => {
             Gold: new Decimal(1),
           },
         },
-      })
+      }),
     ).toThrow("Insufficient Gold");
   });
 
@@ -318,7 +318,7 @@ describe("upgradeFarm", () => {
             Gold: new Decimal(1000000000000),
           },
         },
-      })
+      }),
     ).toThrow("Not implemented");
   });
 
@@ -523,7 +523,7 @@ describe("upgradeFarm", () => {
     });
 
     expect(state.island.sunstones).toEqual(
-      TOTAL_EXPANSION_NODES["spring"][16]["Sunstone Rock"]
+      TOTAL_EXPANSION_NODES["spring"][16]["Sunstone Rock"],
     );
   });
 

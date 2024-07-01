@@ -83,11 +83,11 @@ export const AddSFL: React.FC = () => {
 
   const maticBalString = fromWei(toBN(maticBalance.toString()));
   const formattedMaticBalance = setPrecision(
-    new Decimal(maticBalString)
+    new Decimal(maticBalString),
   ).toString();
 
   const amountGreaterThanBalance = toBN(toWei(maticAmount.toString())).gt(
-    toBN(maticBalance.toString())
+    toBN(maticBalance.toString()),
   );
 
   if (isLoading) {
@@ -113,7 +113,7 @@ export const AddSFL: React.FC = () => {
                   "text-shadow shadow-inner shadow-black bg-brown-200 w-full p-2",
                   {
                     "text-error": amountGreaterThanBalance,
-                  }
+                  },
                 )}
               />
               <span className="text-xxs absolute top-1/2 -translate-y-1/2 right-2">

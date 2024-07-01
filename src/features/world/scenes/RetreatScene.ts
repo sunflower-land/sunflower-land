@@ -265,7 +265,7 @@ export class RetreatScene extends BaseScene {
       getMarketPrices(
         this.gameService.state.context.farmId,
         this.gameService.state.context.transactionId as string,
-        this.authService.state.context.user.rawToken as string
+        this.authService.state.context.user.rawToken as string,
       ).then(setCachedMarketPrices);
     }
   }

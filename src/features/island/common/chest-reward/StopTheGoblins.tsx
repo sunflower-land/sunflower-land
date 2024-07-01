@@ -65,7 +65,7 @@ const moonSeekers = [
 
 const generateImages = (
   isMoonSeekerMode: boolean,
-  collectedItem?: InventoryItemName
+  collectedItem?: InventoryItemName,
 ) => {
   const newImageItem = (src: any, isGoblin: boolean): Item => {
     return {
@@ -90,13 +90,13 @@ const generateImages = (
       ...getKeys(COMMODITIES),
     ];
     resourceImages = resourceImages.filter(
-      (name: InventoryItemName) => name !== collectedItem
+      (name: InventoryItemName) => name !== collectedItem,
     );
   } else {
     resourceImages = getKeys(CONSUMABLES);
   }
   const availableResourceImages = resourceImages.map(
-    (name) => ITEM_DETAILS[name].image
+    (name) => ITEM_DETAILS[name].image,
   );
 
   const enemies = isMoonSeekerMode ? moonSeekers : goblins;

@@ -7,12 +7,12 @@ interface PortalContext {
 }
 
 export const PortalContext = React.createContext<PortalContext>(
-  {} as PortalContext
+  {} as PortalContext,
 );
 
 export const PortalProvider: React.FC = ({ children }) => {
   const portalService = useInterpret(
-    portalMachine
+    portalMachine,
   ) as unknown as MachineInterpreter;
 
   /**

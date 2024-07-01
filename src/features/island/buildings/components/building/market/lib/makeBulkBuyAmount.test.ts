@@ -22,10 +22,10 @@ describe("makeBulkBuyTools", () => {
 
   it("should round down if stock some how not integer", () => {
     expect(makeBulkBuyTools(new Decimal(MAX_BULK_BUY_AMOUNT - 0.3))).toBe(
-      MAX_BULK_BUY_AMOUNT - 1
+      MAX_BULK_BUY_AMOUNT - 1,
     );
     expect(makeBulkBuyTools(new Decimal(MAX_BULK_BUY_AMOUNT - 1.5))).toBe(
-      MAX_BULK_BUY_AMOUNT - 2
+      MAX_BULK_BUY_AMOUNT - 2,
     );
   });
 });
@@ -36,20 +36,20 @@ describe("makeBulkBuySeeds", () => {
     expect(
       makeBulkBuySeeds(
         new Decimal(state.stock["Sunflower Seed"] ?? new Decimal(0)),
-        new Decimal(INVENTORY_LIMIT(state)["Sunflower Seed"] ?? new Decimal(0))
-      )
+        new Decimal(INVENTORY_LIMIT(state)["Sunflower Seed"] ?? new Decimal(0)),
+      ),
     ).toBe(400);
     expect(
       makeBulkBuySeeds(
         new Decimal(state.stock["Potato Seed"] ?? new Decimal(0)),
-        new Decimal(INVENTORY_LIMIT(state)["Potato Seed"] ?? new Decimal(0))
-      )
+        new Decimal(INVENTORY_LIMIT(state)["Potato Seed"] ?? new Decimal(0)),
+      ),
     ).toBe(200);
     expect(
       makeBulkBuySeeds(
         new Decimal(state.stock["Pumpkin Seed"] ?? new Decimal(0)),
-        new Decimal(INVENTORY_LIMIT(state)["Pumpkin Seed"] ?? new Decimal(0))
-      )
+        new Decimal(INVENTORY_LIMIT(state)["Pumpkin Seed"] ?? new Decimal(0)),
+      ),
     ).toBe(150);
   });
   it("should return the difference between inventory limit and inventory amount if sum of stock and inventory amount exceeds inventory limit", () => {
@@ -57,25 +57,25 @@ describe("makeBulkBuySeeds", () => {
       makeBulkBuySeeds(
         new Decimal(state.stock["Sunflower Seed"] ?? new Decimal(0)),
         new Decimal(
-          INVENTORY_LIMIT(state)["Sunflower Seed"] ?? new Decimal(0)
-        ).minus(772)
-      )
+          INVENTORY_LIMIT(state)["Sunflower Seed"] ?? new Decimal(0),
+        ).minus(772),
+      ),
     ).toBe(228);
     expect(
       makeBulkBuySeeds(
         new Decimal(state.stock["Potato Seed"] ?? new Decimal(0)),
         new Decimal(
-          INVENTORY_LIMIT(state)["Potato Seed"] ?? new Decimal(0)
-        ).minus(416)
-      )
+          INVENTORY_LIMIT(state)["Potato Seed"] ?? new Decimal(0),
+        ).minus(416),
+      ),
     ).toBe(84);
     expect(
       makeBulkBuySeeds(
         new Decimal(state.stock["Pumpkin Seed"] ?? new Decimal(0)),
         new Decimal(
-          INVENTORY_LIMIT(state)["Pumpkin Seed"] ?? new Decimal(0)
-        ).minus(255)
-      )
+          INVENTORY_LIMIT(state)["Pumpkin Seed"] ?? new Decimal(0),
+        ).minus(255),
+      ),
     ).toBe(145);
   });
   it("should return the remaining stock if stock less than the difference between inventory limit and inventory amount", () => {
@@ -83,9 +83,9 @@ describe("makeBulkBuySeeds", () => {
       makeBulkBuySeeds(
         new Decimal(100),
         new Decimal(
-          INVENTORY_LIMIT(state)["Sunflower Seed"] ?? new Decimal(0)
-        ).minus(772)
-      )
+          INVENTORY_LIMIT(state)["Sunflower Seed"] ?? new Decimal(0),
+        ).minus(772),
+      ),
     ).toBe(100);
   });
 });

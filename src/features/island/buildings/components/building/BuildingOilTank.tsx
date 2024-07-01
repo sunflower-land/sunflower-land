@@ -49,7 +49,7 @@ export const BuildingOilTank = ({
   const [totalOilToAdd, setTotalOilToAdd] = useState(0);
 
   const building = game.buildings[buildingName]?.find(
-    (building) => building.id === buildingId
+    (building) => building.id === buildingId,
   );
 
   const oilRemainingInBuilding = building?.oil || 0;
@@ -122,7 +122,7 @@ export const BuildingOilTank = ({
     }
 
     const buildingTimeCapacity = getOilTimeInMillis(
-      BUILDING_DAILY_OIL_CAPACITY[buildingName]
+      BUILDING_DAILY_OIL_CAPACITY[buildingName],
     );
 
     const percentage = (totalOilMillis / buildingTimeCapacity) * 100;
@@ -254,8 +254,8 @@ export const BuildingOilTank = ({
                   {t("cropMachine.availableInventory", {
                     amount: setPrecision(
                       new Decimal(
-                        (game.inventory.Oil?.toNumber() ?? 0) - totalOilToAdd
-                      )
+                        (game.inventory.Oil?.toNumber() ?? 0) - totalOilToAdd,
+                      ),
                     ),
                   })}
                 </Label>
@@ -275,7 +275,7 @@ export const BuildingOilTank = ({
                             length: "full",
                             isShortFormat: true,
                             removeTrailingZeros: true,
-                          }
+                          },
                         ),
                       })}
                     </span>

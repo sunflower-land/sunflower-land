@@ -17,7 +17,7 @@ describe("claim milestone", () => {
           type: "milestone.claimed",
           milestone: "Novice Angler",
         },
-      })
+      }),
     ).toThrow("You do not meet the requirements");
   });
 
@@ -34,18 +34,21 @@ describe("claim milestone", () => {
           type: "milestone.claimed",
           milestone: "Novice Angler",
         },
-      })
+      }),
     ).toThrow("You already have this milestone");
   });
 
   it("claims Novice Angler milestone", () => {
     const basicFish = getFishByType().basic;
 
-    const farmActivity = basicFish.reduce((acc, fish) => {
-      acc[`${fish} Caught`] = 5;
+    const farmActivity = basicFish.reduce(
+      (acc, fish) => {
+        acc[`${fish} Caught`] = 5;
 
-      return acc;
-    }, {} as GameState["farmActivity"]);
+        return acc;
+      },
+      {} as GameState["farmActivity"],
+    );
 
     const state = claimMilestone({
       state: {
@@ -64,11 +67,14 @@ describe("claim milestone", () => {
   it("adds a wearable reward to wardrobe when milestone is claimed", () => {
     const basicFish = getFishByType().basic;
 
-    const farmActivity = basicFish.reduce((acc, fish) => {
-      acc[`${fish} Caught`] = 5;
+    const farmActivity = basicFish.reduce(
+      (acc, fish) => {
+        acc[`${fish} Caught`] = 5;
 
-      return acc;
-    }, {} as GameState["farmActivity"]);
+        return acc;
+      },
+      {} as GameState["farmActivity"],
+    );
 
     const state = claimMilestone({
       state: {
@@ -86,6 +92,6 @@ describe("claim milestone", () => {
 
   // Add test when we add a milestone that rewards an inventory item
   it.todo(
-    "adds a inventory item reward to inventory when milestone is claimed"
+    "adds a inventory item reward to inventory when milestone is claimed",
   );
 });

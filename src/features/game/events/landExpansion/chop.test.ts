@@ -50,7 +50,7 @@ describe("chop", () => {
           item: "Axe",
           index: "0",
         },
-      })
+      }),
     ).toThrow(CHOP_ERRORS.NO_AXES);
   });
 
@@ -76,7 +76,7 @@ describe("chop", () => {
       chop({
         state: game,
         action: payload.action,
-      })
+      }),
     ).toThrow(CHOP_ERRORS.STILL_GROWING);
   });
 
@@ -306,7 +306,7 @@ describe("chop", () => {
           item: "Axe",
           index: "0",
         } as LandExpansionChopAction,
-      })
+      }),
     ).toThrow("You do not have a Bumpkin");
   });
 

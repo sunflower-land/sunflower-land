@@ -44,7 +44,7 @@ export const ZoomProvider: React.FC = ({ children }) => {
       target: document.body,
       pointer: { touch: true },
       scaleBounds: { min: minScale, max: maxScale },
-    }
+    },
   );
 
   return (

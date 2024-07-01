@@ -1,6 +1,6 @@
 import React from "react";
 
-import lifeguardRing from "src/assets/decorations/lifeguard_ring.webp";
+import lifeguardRing from "assets/decorations/lifeguard_ring.webp";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const LifeguardRing: React.FC = () => {

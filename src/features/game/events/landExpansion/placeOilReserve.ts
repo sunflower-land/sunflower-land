@@ -27,7 +27,7 @@ export function placeOilReserve({
   const game = cloneDeep(state) as GameState;
 
   const available = (game.inventory["Oil Reserve"] || new Decimal(0)).minus(
-    Object.keys(game.oilReserves).length
+    Object.keys(game.oilReserves).length,
   );
 
   if (available.lt(1)) {

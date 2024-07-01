@@ -74,13 +74,16 @@ export function buyFarmhand({
   };
 
   // Add wearables to wardrobe
-  game.wardrobe = Object.values(FARM_HAND_PARTS).reduce((wardrobe, part) => {
-    const total = (wardrobe[part] ?? 0) + 1;
-    return {
-      ...wardrobe,
-      [part]: total,
-    };
-  }, game.wardrobe ?? ({} as Wardrobe));
+  game.wardrobe = Object.values(FARM_HAND_PARTS).reduce(
+    (wardrobe, part) => {
+      const total = (wardrobe[part] ?? 0) + 1;
+      return {
+        ...wardrobe,
+        [part]: total,
+      };
+    },
+    game.wardrobe ?? ({} as Wardrobe),
+  );
 
   const previous = game.inventory.Farmhand ?? new Decimal(0);
   game.inventory.Farmhand = previous.add(1);

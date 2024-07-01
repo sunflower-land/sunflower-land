@@ -2,7 +2,7 @@ import { Button } from "components/ui/Button";
 import React, { useContext } from "react";
 import { Context } from "../lib/Provider";
 
-import walletIcon from "src/assets/icons/wallet.png";
+import walletIcon from "assets/icons/wallet.png";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 

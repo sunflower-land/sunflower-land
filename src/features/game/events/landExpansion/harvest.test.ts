@@ -30,7 +30,7 @@ describe("harvest", () => {
           index: "-1",
         },
         createdAt: dateNow,
-      })
+      }),
     ).toThrow("Plot does not exist");
   });
 
@@ -43,7 +43,7 @@ describe("harvest", () => {
           index: "1.2",
         },
         createdAt: dateNow,
-      })
+      }),
     ).toThrow("Plot does not exist");
   });
 
@@ -67,7 +67,7 @@ describe("harvest", () => {
           index: "1",
         },
         createdAt: dateNow,
-      })
+      }),
     ).toThrow("Nothing was planted");
   });
 
@@ -96,7 +96,7 @@ describe("harvest", () => {
           index: "0",
         },
         createdAt: dateNow,
-      })
+      }),
     ).toThrow("Not ready");
   });
 

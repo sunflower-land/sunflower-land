@@ -58,7 +58,7 @@ export const BumpkinEquip: React.FC<Props> = ({ equipment, onEquip, game }) => {
   const [equipped, setEquipped] = useState(equipment);
   const [selectedBumpkinPart, setSelectedBumpkinPart] = useState(REQUIRED[0]);
   const [selectedBumpkinItem, setSelectedBumpkinItem] = useState(
-    equipped[REQUIRED[0]]
+    equipped[REQUIRED[0]],
   );
   const [filteredWardrobeNames, setFilteredWardrobeNames] = useState<
     BumpkinItem[]
@@ -72,7 +72,7 @@ export const BumpkinEquip: React.FC<Props> = ({ equipment, onEquip, game }) => {
       ...acc,
       [name]: 1,
     }),
-    availableWardrobe(game)
+    availableWardrobe(game),
   );
 
   const equipPart = (name: BumpkinItem) => {
@@ -162,17 +162,17 @@ export const BumpkinEquip: React.FC<Props> = ({ equipment, onEquip, game }) => {
   };
 
   const sortedWardrobeNames = getKeys(wardrobe).sort((a, b) =>
-    a.localeCompare(b)
+    a.localeCompare(b),
   );
   const wardrobeSortedByBuff = sortedWardrobeNames
     .filter((name) => BUMPKIN_ITEM_BUFF_LABELS[name])
     .concat(
-      sortedWardrobeNames.filter((name) => !BUMPKIN_ITEM_BUFF_LABELS[name])
+      sortedWardrobeNames.filter((name) => !BUMPKIN_ITEM_BUFF_LABELS[name]),
     );
 
   useEffect(() => {
     const filteredWardrobe = wardrobeSortedByBuff.filter(
-      (name) => BUMPKIN_ITEM_PART[name] === selectedBumpkinPart
+      (name) => BUMPKIN_ITEM_PART[name] === selectedBumpkinPart,
     );
     setFilteredWardrobeNames(filteredWardrobe);
     setSelectedBumpkinItem(equipped[selectedBumpkinPart]);
@@ -218,7 +218,7 @@ export const BumpkinEquip: React.FC<Props> = ({ equipment, onEquip, game }) => {
           <OuterPanel className="w-full flex flex-col !pt-1 !pb-0 !px-1 min-h-[106px]">
             <div className="w-full pb-1">
               <Label type="default">{`${t(
-                `equip.${selectedBumpkinPart}`
+                `equip.${selectedBumpkinPart}`,
               )}`}</Label>
             </div>
             <div className="flex-col flex-1 overflow-y-auto scrollable justify-center items-center">
@@ -241,7 +241,7 @@ export const BumpkinEquip: React.FC<Props> = ({ equipment, onEquip, game }) => {
                             "cursor-pointer":
                               !equippedItems.includes(name) ||
                               !REQUIRED.includes(BUMPKIN_ITEM_PART[name]),
-                          }
+                          },
                         )}
                         onClick={() => {
                           setSelectedBumpkinItem(name);

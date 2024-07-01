@@ -117,7 +117,7 @@ export const DailyChore: React.FC<Props> = ({
               }}
             />
             <span className="text-xs ml-2 font-secondary">{`${setPrecision(
-              new Decimal(progress)
+              new Decimal(progress),
             )}/${chore.requirement}`}</span>
           </div>
         </div>

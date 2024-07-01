@@ -186,7 +186,7 @@ export const BUILDING_COMPONENTS: Record<
 };
 
 export const READONLY_BUILDINGS: (
-  island: IslandType
+  island: IslandType,
 ) => Record<BuildingName, React.FC<any>> = (island) => ({
   ...BUILDING_COMPONENTS,
   "Fire Pit": () => (

@@ -17,7 +17,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 export const GarbageSale: React.FC = () => {
   const { t } = useAppTranslation();
   const garbage = getKeys(GARBAGE).sort(
-    (a, b) => GARBAGE[a].sellPrice - GARBAGE[b].sellPrice
+    (a, b) => GARBAGE[a].sellPrice - GARBAGE[b].sellPrice,
   );
 
   const [selectedName, setSelectedName] = useState<GarbageName>(garbage[0]);

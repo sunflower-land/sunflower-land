@@ -30,13 +30,13 @@ import { ConfirmationModal } from "components/ui/ConfirmationModal";
 import { NPC_WEARABLES } from "lib/npcs";
 
 export const isExoticCrop = (
-  item: Crop | Fruit | ExoticCrop
+  item: Crop | Fruit | ExoticCrop,
 ): item is ExoticCrop => {
   return item.name in EXOTIC_CROPS;
 };
 export const Crops: React.FC = () => {
   const [selected, setSelected] = useState<Crop | Fruit | ExoticCrop>(
-    CROPS().Sunflower
+    CROPS().Sunflower,
   );
   const [isSellAllModalOpen, showSellAllModal] = useState(false);
   const { gameService } = useContext(Context);
@@ -125,7 +125,7 @@ export const Crops: React.FC = () => {
       {} as Record<
         ExoticCropName,
         ExoticCrop & { disabled: false; bumpkinLevel: 0 }
-      >
+      >,
     );
 
   const cropsAndFruits = Object.values({
@@ -265,7 +265,7 @@ export const Crops: React.FC = () => {
                     (crop) =>
                       !!crop.sellPrice &&
                       (crop.name in GREENHOUSE_CROPS() ||
-                        crop.name in GREENHOUSE_FRUIT())
+                        crop.name in GREENHOUSE_FRUIT()),
                   )
                   .map((item) => (
                     <Box
@@ -294,7 +294,7 @@ export const Crops: React.FC = () => {
             cropAmount: cropAmount,
             cropName: selected.name,
             coinAmount: setPrecision(
-              new Decimal(displaySellPrice(selected)).mul(cropAmount)
+              new Decimal(displaySellPrice(selected)).mul(cropAmount),
             ),
           }),
         ]}

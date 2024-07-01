@@ -51,7 +51,7 @@ describe("mineIron", () => {
           type: "ironRock.mined",
           index: "0",
         },
-      })
+      }),
     ).toThrow("No pickaxes left");
   });
 
@@ -70,7 +70,7 @@ describe("mineIron", () => {
           type: "ironRock.mined",
           index: "3",
         },
-      })
+      }),
     ).toThrow("No iron");
   });
 
@@ -97,7 +97,7 @@ describe("mineIron", () => {
         state: game,
         action: payload.action,
         createdAt: Date.now(),
-      })
+      }),
     ).toThrow("Iron is still recovering");
   });
 
@@ -196,7 +196,7 @@ describe("mineIron", () => {
           type: "ironRock.mined",
           index: "0",
         } as LandExpansionIronMineAction,
-      })
+      }),
     ).toThrow("You do not have a Bumpkin");
   });
 

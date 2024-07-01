@@ -37,7 +37,7 @@ export async function withdrawSFLTransaction({
     (
       new web3.eth.Contract(
         WithdrawalABI as AbiItem[],
-        address as string
+        address as string,
       ) as unknown as Withdrawals
     ).methods
       .withdrawSFL(
@@ -47,7 +47,7 @@ export async function withdrawSFLTransaction({
         deadline,
         farmId,
         sfl,
-        tax
+        tax,
       )
       .send({ from: account, gasPrice })
       .on("error", function (error: any) {
@@ -63,9 +63,8 @@ export async function withdrawSFLTransaction({
           // Sequence wallet doesn't resolve the receipt. Therefore
           // We try to fetch it after we have a tx hash returned
           // From Sequence.
-          const receipt: any = await web3.eth.getTransactionReceipt(
-            transactionHash
-          );
+          const receipt: any =
+            await web3.eth.getTransactionReceipt(transactionHash);
 
           if (receipt) resolve(receipt);
         } catch (e) {
@@ -83,7 +82,7 @@ export async function withdrawSFLTransaction({
     web3,
     account,
     farmId,
-    oldSessionId
+    oldSessionId,
   );
   return newSessionId;
 }
@@ -117,7 +116,7 @@ export async function withdrawItemsTransaction({
     (
       new web3.eth.Contract(
         WithdrawalABI as AbiItem[],
-        address as string
+        address as string,
       ) as unknown as Withdrawals
     ).methods
       .withdrawItems(
@@ -127,7 +126,7 @@ export async function withdrawItemsTransaction({
         deadline,
         farmId,
         ids,
-        amounts
+        amounts,
       )
       .send({ from: account, gasPrice })
       .on("error", function (error: any) {
@@ -143,9 +142,8 @@ export async function withdrawItemsTransaction({
           // Sequence wallet doesn't resolve the receipt. Therefore
           // We try to fetch it after we have a tx hash returned
           // From Sequence.
-          const receipt: any = await web3.eth.getTransactionReceipt(
-            transactionHash
-          );
+          const receipt: any =
+            await web3.eth.getTransactionReceipt(transactionHash);
 
           if (receipt) resolve(receipt);
         } catch (e) {
@@ -163,7 +161,7 @@ export async function withdrawItemsTransaction({
     web3,
     account,
     farmId,
-    oldSessionId
+    oldSessionId,
   );
   return newSessionId;
 }
@@ -207,7 +205,7 @@ export async function withdrawWearablesTransaction({
     (
       new web3.eth.Contract(
         WithdrawalABI as AbiItem[],
-        address as string
+        address as string,
       ) as unknown as Withdrawals
     ).methods
       .withdrawWearables(
@@ -217,7 +215,7 @@ export async function withdrawWearablesTransaction({
         deadline,
         farmId,
         ids,
-        amounts
+        amounts,
       )
       .send({ from: account, gasPrice })
       .on("error", function (error: any) {
@@ -233,9 +231,8 @@ export async function withdrawWearablesTransaction({
           // Sequence wallet doesn't resolve the receipt. Therefore
           // We try to fetch it after we have a tx hash returned
           // From Sequence.
-          const receipt: any = await web3.eth.getTransactionReceipt(
-            transactionHash
-          );
+          const receipt: any =
+            await web3.eth.getTransactionReceipt(transactionHash);
 
           if (receipt) resolve(receipt);
         } catch (e) {
@@ -253,7 +250,7 @@ export async function withdrawWearablesTransaction({
     web3,
     account,
     farmId,
-    oldSessionId
+    oldSessionId,
   );
   return newSessionId;
 }
@@ -285,7 +282,7 @@ export async function withdrawBudsTransaction({
     (
       new web3.eth.Contract(
         WithdrawalABI as AbiItem[],
-        address as string
+        address as string,
       ) as unknown as Withdrawals
     ).methods
       .withdrawBuds(
@@ -294,7 +291,7 @@ export async function withdrawBudsTransaction({
         nextSessionId,
         deadline,
         farmId,
-        budIds
+        budIds,
       )
       .send({ from: account, gasPrice })
       .on("error", function (error: any) {
@@ -310,9 +307,8 @@ export async function withdrawBudsTransaction({
           // Sequence wallet doesn't resolve the receipt. Therefore
           // We try to fetch it after we have a tx hash returned
           // From Sequence.
-          const receipt: any = await web3.eth.getTransactionReceipt(
-            transactionHash
-          );
+          const receipt: any =
+            await web3.eth.getTransactionReceipt(transactionHash);
 
           if (receipt) resolve(receipt);
         } catch (e) {
@@ -330,7 +326,7 @@ export async function withdrawBudsTransaction({
     web3,
     account,
     farmId,
-    oldSessionId
+    oldSessionId,
   );
   return newSessionId;
 }

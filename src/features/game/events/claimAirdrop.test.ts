@@ -14,7 +14,7 @@ describe("claimAirdrop", () => {
           type: "airdrop.claimed",
           id: "1",
         },
-      })
+      }),
     ).toThrow("No airdrops exist");
   });
 
@@ -38,7 +38,7 @@ describe("claimAirdrop", () => {
           type: "airdrop.claimed",
           id: "2",
         },
-      })
+      }),
     ).toThrow("Airdrop #2 does not exist");
   });
 

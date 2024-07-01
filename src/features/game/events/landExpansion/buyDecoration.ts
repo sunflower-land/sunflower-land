@@ -69,7 +69,7 @@ export function buyDecoration({
         [ingredient]: count.sub(desiredCount),
       };
     },
-    stateCopy.inventory
+    stateCopy.inventory,
   );
 
   const oldAmount = stateCopy.inventory[name] ?? new Decimal(0);
@@ -77,12 +77,12 @@ export function buyDecoration({
   bumpkin.activity = trackActivity(
     "Coins Spent",
     bumpkin?.activity,
-    new Decimal(price)
+    new Decimal(price),
   );
   bumpkin.activity = trackActivity(
     `${name} Bought`,
     bumpkin?.activity,
-    new Decimal(1)
+    new Decimal(1),
   );
 
   if (action.coordinates && action.id) {

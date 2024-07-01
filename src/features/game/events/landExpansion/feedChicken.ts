@@ -22,7 +22,7 @@ const makeFedAt = (
   inventory: Inventory,
   gameState: GameState,
   createdAt: number,
-  bumpkin: Bumpkin
+  bumpkin: Bumpkin,
 ) => {
   const { skills } = bumpkin;
   let milliseconds = CHICKEN_TIME_TO_EGG;

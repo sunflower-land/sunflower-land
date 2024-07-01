@@ -1050,7 +1050,7 @@ export const ANIMALS: Record<Animal, CraftableItem> = {
  * getKeys is a ref to Object.keys, but the return is typed literally.
  */
 export const getKeys = Object.keys as <T extends object>(
-  obj: T
+  obj: T,
 ) => Array<keyof T>;
 
 /**
@@ -1058,7 +1058,7 @@ export const getKeys = Object.keys as <T extends object>(
  */
 type Entries<T> = { [K in keyof T]: [K, T[K]] }[keyof T];
 export const getEntries = Object.entries as <T extends object>(
-  obj: T
+  obj: T,
 ) => Entries<T>[];
 
 export type Dimensions = { width: number; height: number };
@@ -1071,7 +1071,7 @@ const flagsDimension = getKeys(FLAGS).reduce(
       height: 1,
     },
   }),
-  {} as Record<Flag, Dimensions>
+  {} as Record<Flag, Dimensions>,
 );
 
 export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {

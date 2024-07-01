@@ -39,7 +39,7 @@ function getInitialNodes(name: string) {
         width: 1,
       },
     }),
-    {}
+    {},
   );
 }
 

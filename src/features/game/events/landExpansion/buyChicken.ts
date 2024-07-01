@@ -43,7 +43,7 @@ export function buyChicken({ state, action }: Options): GameState {
   bumpkin.activity = trackActivity(
     "Coins Spent",
     bumpkin.activity,
-    new Decimal(price)
+    new Decimal(price),
   );
 
   stateCopy.chickens[action.id] = {

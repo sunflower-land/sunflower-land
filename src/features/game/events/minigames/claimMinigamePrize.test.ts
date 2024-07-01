@@ -20,7 +20,7 @@ describe("minigame.prizeClaimed", () => {
           id: "not-a-game" as any,
           type: "minigame.prizeClaimed",
         },
-      })
+      }),
     ).toThrow("not-a-game is not a valid minigame");
   });
 
@@ -32,7 +32,7 @@ describe("minigame.prizeClaimed", () => {
           id: "chicken-rescue",
           type: "minigame.prizeClaimed",
         },
-      })
+      }),
     ).toThrow("No prize found for chicken-rescue");
   });
 
@@ -59,7 +59,7 @@ describe("minigame.prizeClaimed", () => {
           id: "chicken-rescue",
           type: "minigame.prizeClaimed",
         },
-      })
+      }),
     ).toThrow("Prize is no longer available");
   });
 
@@ -87,7 +87,7 @@ describe("minigame.prizeClaimed", () => {
           id: "chicken-rescue",
           type: "minigame.prizeClaimed",
         },
-      })
+      }),
     ).toThrow("No history found for chicken-rescue");
   });
 
@@ -126,7 +126,7 @@ describe("minigame.prizeClaimed", () => {
           type: "minigame.prizeClaimed",
         },
         createdAt: date.getTime(),
-      })
+      }),
     ).toThrow("Score 10 is less than 20");
   });
 
@@ -166,7 +166,7 @@ describe("minigame.prizeClaimed", () => {
           type: "minigame.prizeClaimed",
         },
         createdAt: date.getTime(),
-      })
+      }),
     ).toThrow("Already claimed chicken-rescue prize");
   });
 
@@ -233,7 +233,7 @@ describe("minigame.prizeClaimed", () => {
     expect(
       state.minigames.games["chicken-rescue"]?.history?.[
         date.toISOString().substring(0, 10)
-      ].prizeClaimedAt
+      ].prizeClaimedAt,
     ).toEqual(date.getTime());
   });
 
@@ -281,7 +281,7 @@ describe("minigame.prizeClaimed", () => {
     expect(
       state.minigames.games["chicken-rescue"]?.history?.[
         date.toISOString().substring(0, 10)
-      ].prizeClaimedAt
+      ].prizeClaimedAt,
     ).toEqual(date.getTime());
   });
 
@@ -338,7 +338,7 @@ describe("minigame.prizeClaimed", () => {
     expect(
       state.minigames.games["chicken-rescue"]?.history?.[
         date.toISOString().substring(0, 10)
-      ].prizeClaimedAt
+      ].prizeClaimedAt,
     ).toEqual(date.getTime());
   });
 });

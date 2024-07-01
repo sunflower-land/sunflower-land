@@ -156,7 +156,7 @@ export const DeliveryOrders: React.FC<Props> = ({
   const progress = Math.min(
     delivery.milestone.goal,
     delivery.milestone.goal -
-      (delivery.milestone.total - delivery.fulfilledCount)
+      (delivery.milestone.total - delivery.fulfilledCount),
   );
 
   const makeRewardAmountForLabel = (order: Order) => {
@@ -188,7 +188,7 @@ export const DeliveryOrders: React.FC<Props> = ({
 
   const level = getBumpkinLevel(gameState.bumpkin?.experience ?? 0);
   const nextNpcUnlock = getKeys(DELIVERY_LEVELS).find(
-    (npc) => level < (DELIVERY_LEVELS?.[npc] ?? 0)
+    (npc) => level < (DELIVERY_LEVELS?.[npc] ?? 0),
   );
 
   return (
@@ -198,7 +198,7 @@ export const DeliveryOrders: React.FC<Props> = ({
           "flex flex-col h-full overflow-hidden overflow-y-auto scrollable md:flex flex-col w-full md:w-2/3 h-full",
           {
             hidden: selectedId,
-          }
+          },
         )}
       >
         <div className="p-1">
@@ -210,7 +210,7 @@ export const DeliveryOrders: React.FC<Props> = ({
                   secondsTillReset(),
                   {
                     length: "short",
-                  }
+                  },
                 )}`}
               </Label>
             )}
@@ -385,7 +385,7 @@ export const DeliveryOrders: React.FC<Props> = ({
               <ButtonPanel
                 disabled
                 className={classNames(
-                  "w-full  !py-2 relative h-full flex items-center justify-center cursor-not-allowed"
+                  "w-full  !py-2 relative h-full flex items-center justify-center cursor-not-allowed",
                 )}
                 style={{ paddingBottom: "20px" }}
               >
@@ -460,7 +460,7 @@ export const DeliveryOrders: React.FC<Props> = ({
             "md:ml-1 md:flex md:flex-col items-center flex-1 relative h-auto w-full",
             {
               hidden: !selectedId,
-            }
+            },
           )}
         >
           <img
@@ -470,7 +470,7 @@ export const DeliveryOrders: React.FC<Props> = ({
               {
                 hidden: !selectedId,
                 block: !!selectedId,
-              }
+              },
             )}
             onClick={() => onSelect(undefined)}
           />
@@ -630,8 +630,8 @@ export const DeliveryOrders: React.FC<Props> = ({
                       previewOrder.reward.coins
                         ? coinsImg
                         : previewOrder.reward.sfl
-                        ? sflIcon
-                        : ITEM_DETAILS[getSeasonalTicket()].image
+                          ? sflIcon
+                          : ITEM_DETAILS[getSeasonalTicket()].image
                     }
                     width={7}
                   />
@@ -647,8 +647,8 @@ export const DeliveryOrders: React.FC<Props> = ({
                     previewOrder.reward.coins
                       ? t("coins")
                       : previewOrder.reward.sfl
-                      ? "SFL"
-                      : `${getSeasonalTicket()}s`
+                        ? "SFL"
+                        : `${getSeasonalTicket()}s`
                   }`}</span>
                 </Label>
               </div>
@@ -666,7 +666,7 @@ export const DeliveryOrders: React.FC<Props> = ({
                       {
                         if (
                           RETREAT_BUMPKINS.includes(
-                            previewOrder?.from as NPCName
+                            previewOrder?.from as NPCName,
                           )
                         ) {
                           navigate("/world/retreat");
@@ -676,7 +676,7 @@ export const DeliveryOrders: React.FC<Props> = ({
                           navigate("/world/beach");
                         } else if (
                           KINGDOM_BUMPKINS.includes(
-                            previewOrder?.from as NPCName
+                            previewOrder?.from as NPCName,
                           )
                         ) {
                           navigate("/world/kingdom");
@@ -688,16 +688,16 @@ export const DeliveryOrders: React.FC<Props> = ({
                   >
                     {t("world.travelTo", {
                       location: RETREAT_BUMPKINS.includes(
-                        previewOrder?.from as NPCName
+                        previewOrder?.from as NPCName,
                       )
                         ? t("world.retreat")
                         : BEACH_BUMPKINS.includes(previewOrder?.from as NPCName)
-                        ? t("world.beach")
-                        : KINGDOM_BUMPKINS.includes(
-                            previewOrder?.from as NPCName
-                          )
-                        ? t("world.kingdom")
-                        : t("world.plaza"),
+                          ? t("world.beach")
+                          : KINGDOM_BUMPKINS.includes(
+                                previewOrder?.from as NPCName,
+                              )
+                            ? t("world.kingdom")
+                            : t("world.plaza"),
                     })}
                   </Button>
                 )}

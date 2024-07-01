@@ -62,7 +62,7 @@ export const Bert: React.FC<Props> = ({ onClose }) => {
   const obsessionCompletedAt = game.npcs?.bert?.questCompletedAt;
 
   const obsessionDialogue = useRandomItem(
-    obsessionDialogues(currentObsession?.name as string)
+    obsessionDialogues(currentObsession?.name as string),
   );
 
   const obsessionName = game.bertObsession?.name;

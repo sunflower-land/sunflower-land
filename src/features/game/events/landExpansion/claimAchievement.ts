@@ -53,7 +53,7 @@ export function claimAchievement({ state, action }: Options): GameState {
       const previousAmount = stateCopy.inventory[name] || new Decimal(0);
 
       stateCopy.inventory[name] = previousAmount.add(
-        achievement.rewards?.[name] || 0
+        achievement.rewards?.[name] || 0,
       );
     });
   }

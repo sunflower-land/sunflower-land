@@ -280,7 +280,7 @@ export const RANKS: Record<FactionRank, Rank> = {
 
 export const getFactionRanking = (
   faction: FactionName,
-  emblems: number
+  emblems: number,
 ): Rank => {
   const ranks = Object.values(RANKS)
     .filter((rank) => rank.faction === faction)

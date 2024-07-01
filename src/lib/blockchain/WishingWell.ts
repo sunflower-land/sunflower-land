@@ -11,7 +11,7 @@ export async function wish(web3: Web3, account: string) {
   return new Promise((resolve, reject) => {
     new web3.eth.Contract(
       WishingWellJSON as AbiItem[],
-      address as string
+      address as string,
     ).methods
       .wish()
       .send({ from: account, gasPrice })
@@ -28,9 +28,8 @@ export async function wish(web3: Web3, account: string) {
           // Sequence wallet doesn't resolve the receipt. Therefore
           // We try to fetch it after we have a tx hash returned
           // From Sequence.
-          const receipt: any = await web3.eth.getTransactionReceipt(
-            transactionHash
-          );
+          const receipt: any =
+            await web3.eth.getTransactionReceipt(transactionHash);
 
           if (receipt) resolve(receipt);
         } catch (e) {
@@ -65,7 +64,7 @@ export async function collectFromWellOnChain({
   return new Promise((resolve, reject) => {
     new web3.eth.Contract(
       WishingWellJSON as AbiItem[],
-      address as string
+      address as string,
     ).methods
       .collectFromWell(signature, tokens, deadline, farmId)
       .send({ from: account, gasPrice })
@@ -82,9 +81,8 @@ export async function collectFromWellOnChain({
           // Sequence wallet doesn't resolve the receipt. Therefore
           // We try to fetch it after we have a tx hash returned
           // From Sequence.
-          const receipt: any = await web3.eth.getTransactionReceipt(
-            transactionHash
-          );
+          const receipt: any =
+            await web3.eth.getTransactionReceipt(transactionHash);
 
           if (receipt) resolve(receipt);
         } catch (e) {
@@ -105,7 +103,7 @@ export async function collectFromWellOnChain({
 export async function getWellBalance(web3: Web3, account: string) {
   const balance = await new web3.eth.Contract(
     WishingWellJSON as AbiItem[],
-    address as string
+    address as string,
   ).methods
     .balanceOf(account)
     .call({ from: account });
@@ -115,11 +113,11 @@ export async function getWellBalance(web3: Web3, account: string) {
 
 export async function canCollectFromWell(
   web3: Web3,
-  account: string
+  account: string,
 ): Promise<boolean> {
   const canCollect = await new web3.eth.Contract(
     WishingWellJSON as AbiItem[],
-    address as string
+    address as string,
   ).methods
     .canCollect(account)
     .call({ from: account });
@@ -129,11 +127,11 @@ export async function canCollectFromWell(
 
 export async function lastCollectedFromWell(
   web3: Web3,
-  account: string
+  account: string,
 ): Promise<number> {
   const lastUpdatedAt = await new web3.eth.Contract(
     WishingWellJSON as AbiItem[],
-    address as string
+    address as string,
   ).methods
     .lastUpdatedAt(account)
     .call({ from: account });
@@ -143,11 +141,11 @@ export async function lastCollectedFromWell(
 
 export async function getLockedPeriod(
   web3: Web3,
-  account: string
+  account: string,
 ): Promise<number> {
   const getLockedPeriod = await new web3.eth.Contract(
     WishingWellJSON as AbiItem[],
-    address as string
+    address as string,
   ).methods
     .getLockedPeriod()
     .call({ from: account });

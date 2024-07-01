@@ -18,7 +18,7 @@ describe("claimBonus", () => {
           name: "no-existent" as BonusName,
         },
         createdAt: dateNow,
-      })
+      }),
     ).toThrow("No bonus exist");
   });
 
@@ -37,7 +37,7 @@ describe("claimBonus", () => {
           name: "discord-signup",
         },
         createdAt: dateNow,
-      })
+      }),
     ).toThrow("Bonus already claimed");
   });
 

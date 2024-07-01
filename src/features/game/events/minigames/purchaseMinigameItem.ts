@@ -18,15 +18,15 @@ const SFL_LIMIT = 100;
 export const MINIGAME_CURRENCY_LIMITS: Record<MinigameCurrency, number> = {
   ...getKeys(COMMODITIES).reduce(
     (acc, name) => ({ ...acc, [name]: 1000 }),
-    {} as Record<FruitName, number>
+    {} as Record<FruitName, number>,
   ),
   ...getKeys(FRUIT()).reduce(
     (acc, name) => ({ ...acc, [name]: 1000 }),
-    {} as Record<CommodityName, number>
+    {} as Record<CommodityName, number>,
   ),
   ...getKeys(CROPS()).reduce(
     (acc, name) => ({ ...acc, [name]: 1000 }),
-    {} as Record<CropName, number>
+    {} as Record<CropName, number>,
   ),
 };
 

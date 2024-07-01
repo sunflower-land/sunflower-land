@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 import { Modal } from "components/ui/Modal";
 
-import chefHat from "src/assets/icons/chef_hat.png";
+import chefHat from "assets/icons/chef_hat.png";
 
 import { Recipes } from "../../ui/Recipes";
 import {
@@ -49,12 +49,12 @@ export const FirePitModal: React.FC<Props> = ({
   const [showIntro, setShowIntro] = React.useState(!hasRead());
   const { t } = useAppTranslation();
   const firePitRecipes = Object.values(FIRE_PIT_COOKABLES).sort(
-    (a, b) => a.experience - b.experience // Sorts Foods based on their cooking time
+    (a, b) => a.experience - b.experience, // Sorts Foods based on their cooking time
   );
 
   const [selected, setSelected] = useState<Cookable>(
     firePitRecipes.find((recipe) => recipe.name === itemInProgress) ||
-      firePitRecipes[0]
+      firePitRecipes[0],
   );
 
   return (

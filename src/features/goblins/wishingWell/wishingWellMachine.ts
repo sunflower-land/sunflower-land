@@ -236,12 +236,12 @@ export const wishingWellMachine = createMachine<
             // Collect from well and await receipt
             const receipt: any = await collectFromWell(
               wallet.myAccount,
-              context.transaction as SignedTransaction
+              context.transaction as SignedTransaction,
             );
 
             // Get reward amount from Rewarded event
             const reward = new Decimal(
-              fromWei(receipt.events.Rewarded.returnValues[1])
+              fromWei(receipt.events.Rewarded.returnValues[1]),
             );
 
             // Rebase gamestate for player so the reward is added to the players balance off chain
@@ -303,5 +303,5 @@ export const wishingWellMachine = createMachine<
         transactionId: () => randomID(),
       }),
     },
-  }
+  },
 );

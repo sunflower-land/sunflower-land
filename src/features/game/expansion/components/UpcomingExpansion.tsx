@@ -75,7 +75,7 @@ export const ExpandIcon: React.FC<ExpandIconProps> = ({
               `relative cursor-pointer hover:img-highlight`,
               {
                 "animate-pulsate": showHelper,
-              }
+              },
             )}
             onClick={() => {
               onOpen();
@@ -113,7 +113,7 @@ export const ExpandIcon: React.FC<ExpandIconProps> = ({
                         textColor={"white"}
                       />
                       {inventory[name]?.gte(
-                        requirements.resources[name] ?? 0
+                        requirements.resources[name] ?? 0,
                       ) && (
                         <img
                           src={SUNNYSIDE.icons.confirm}

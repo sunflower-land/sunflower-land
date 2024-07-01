@@ -1,4 +1,4 @@
-import "lib/__mocks__/configMock.ts";
+import "lib/__mocks__/configMock";
 import Decimal from "decimal.js-light";
 
 import { INITIAL_BUMPKIN, TEST_FARM } from "features/game/lib/constants";
@@ -21,7 +21,7 @@ describe("seedBought", () => {
           item: "Goblin Key" as CropSeedName,
           amount: 1,
         },
-      })
+      }),
     ).toThrow("This item is not a seed");
   });
 
@@ -40,7 +40,7 @@ describe("seedBought", () => {
           item: "Pumpkin Seed",
           amount: 1,
         },
-      })
+      }),
     ).toThrow("Inadequate level");
   });
 
@@ -56,7 +56,7 @@ describe("seedBought", () => {
           item: "Sunflower Seed",
           amount: 0.2,
         },
-      })
+      }),
     ).toThrow("Invalid amount");
   });
 
@@ -74,7 +74,7 @@ describe("seedBought", () => {
           item: "Sunflower Seed",
           amount: 1,
         },
-      })
+      }),
     ).toThrow("Not enough stock");
   });
 
@@ -90,7 +90,7 @@ describe("seedBought", () => {
           item: "Sunflower Seed",
           amount: 1,
         },
-      })
+      }),
     ).toThrow("Insufficient tokens");
   });
 
@@ -199,7 +199,7 @@ describe("seedBought", () => {
           item: "Sunflower Seed",
           amount: 1,
         },
-      })
+      }),
     ).toThrow("Bumpkin not found");
   });
 
@@ -216,7 +216,7 @@ describe("seedBought", () => {
       },
     });
     expect(state.bumpkin?.activity?.["Coins Spent"]).toEqual(
-      CROP_SEEDS()["Sunflower Seed"].price
+      CROP_SEEDS()["Sunflower Seed"].price,
     );
   });
 
@@ -400,7 +400,7 @@ describe("seedBought", () => {
           item: "Lily Seed",
           amount: 1,
         },
-      })
+      }),
     ).toThrow("You do not have the required island expansion");
 
     expect(() =>
@@ -418,7 +418,7 @@ describe("seedBought", () => {
           item: "Lily Seed",
           amount: 1,
         },
-      })
+      }),
     ).not.toThrow();
   });
 
@@ -435,7 +435,7 @@ describe("seedBought", () => {
           item: "Rice Seed",
           amount: 1,
         },
-      })
+      }),
     ).toThrow("You do not have the required island expansion");
 
     expect(() =>
@@ -453,7 +453,7 @@ describe("seedBought", () => {
           item: "Rice Seed",
           amount: 1,
         },
-      })
+      }),
     ).not.toThrow();
   });
 
@@ -470,7 +470,7 @@ describe("seedBought", () => {
           item: "Grape Seed",
           amount: 1,
         },
-      })
+      }),
     ).toThrow("You do not have the required island expansion");
 
     expect(() =>
@@ -488,7 +488,7 @@ describe("seedBought", () => {
           item: "Grape Seed",
           amount: 1,
         },
-      })
+      }),
     ).not.toThrow();
   });
 });

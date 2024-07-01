@@ -521,7 +521,7 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
                   cb: () => {
                     window.open(
                       "https://docs.sunflower-land.com/player-guides/bud-nfts",
-                      "_blank"
+                      "_blank",
                     );
                   },
                 },
@@ -530,7 +530,7 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
                   cb: () => {
                     window.open(
                       "https://opensea.io/collection/sunflower-land-buds",
-                      "_blank"
+                      "_blank",
                     );
                   },
                 },

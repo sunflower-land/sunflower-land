@@ -93,7 +93,7 @@ export function revealLand({
     };
   });
   inventory["Stone Rock"] = (inventory["Stone Rock"] || new Decimal(0)).add(
-    land.stones.length
+    land.stones.length,
   );
 
   // Add Iron
@@ -107,7 +107,7 @@ export function revealLand({
     };
   });
   inventory["Iron Rock"] = (inventory["Iron Rock"] || new Decimal(0)).add(
-    land.iron?.length ?? 0
+    land.iron?.length ?? 0,
   );
 
   // Add Gold
@@ -121,7 +121,7 @@ export function revealLand({
     };
   });
   inventory["Gold Rock"] = (inventory["Gold Rock"] || new Decimal(0)).add(
-    land.gold?.length ?? 0
+    land.gold?.length ?? 0,
   );
 
   // Add Crimstone
@@ -156,7 +156,7 @@ export function revealLand({
   });
 
   inventory["Crop Plot"] = (inventory["Crop Plot"] || new Decimal(0)).add(
-    land.plots?.length ?? 0
+    land.plots?.length ?? 0,
   );
 
   // Add Fruit patches
@@ -176,7 +176,7 @@ export function revealLand({
     };
   });
   inventory["Fruit Patch"] = (inventory["Fruit Patch"] || new Decimal(0)).add(
-    land.fruitPatches?.length ?? 0
+    land.fruitPatches?.length ?? 0,
   );
 
   // Add sun stones
@@ -209,7 +209,7 @@ export function revealLand({
     };
   });
   inventory.Beehive = (inventory.Beehive || new Decimal(0)).add(
-    land.beehives?.length ?? 0
+    land.beehives?.length ?? 0,
   );
 
   // Add flower beds
@@ -224,7 +224,7 @@ export function revealLand({
     };
   });
   inventory["Flower Bed"] = (inventory["Flower Bed"] || new Decimal(0)).add(
-    land.flowerBeds?.length ?? 0
+    land.flowerBeds?.length ?? 0,
   );
 
   land.oilReserves?.forEach((coords) => {
@@ -243,74 +243,89 @@ export function revealLand({
     };
   });
   inventory["Oil Reserve"] = (inventory["Oil Reserve"] || new Decimal(0)).add(
-    land.oilReserves?.length ?? 0
+    land.oilReserves?.length ?? 0,
   );
 
   // Refresh all basic resources
-  game.trees = getKeys(game.trees).reduce((acc, id) => {
-    return {
-      ...acc,
-      [id]: {
-        ...game.trees[id],
-        wood: {
-          ...game.trees[id].wood,
-          choppedAt: createdAt - 4 * 60 * 60 * 1000,
+  game.trees = getKeys(game.trees).reduce(
+    (acc, id) => {
+      return {
+        ...acc,
+        [id]: {
+          ...game.trees[id],
+          wood: {
+            ...game.trees[id].wood,
+            choppedAt: createdAt - 4 * 60 * 60 * 1000,
+          },
         },
-      },
-    };
-  }, {} as GameState["trees"]);
+      };
+    },
+    {} as GameState["trees"],
+  );
 
-  game.stones = getKeys(game.stones).reduce((acc, id) => {
-    return {
-      ...acc,
-      [id]: {
-        ...game.stones[id],
-        stone: {
-          ...game.stones[id].stone,
-          minedAt: createdAt - 12 * 60 * 60 * 1000,
+  game.stones = getKeys(game.stones).reduce(
+    (acc, id) => {
+      return {
+        ...acc,
+        [id]: {
+          ...game.stones[id],
+          stone: {
+            ...game.stones[id].stone,
+            minedAt: createdAt - 12 * 60 * 60 * 1000,
+          },
         },
-      },
-    };
-  }, {} as GameState["stones"]);
+      };
+    },
+    {} as GameState["stones"],
+  );
 
-  game.iron = getKeys(game.iron).reduce((acc, id) => {
-    return {
-      ...acc,
-      [id]: {
-        ...game.iron[id],
-        stone: {
-          ...game.iron[id].stone,
-          minedAt: createdAt - 24 * 60 * 60 * 1000,
+  game.iron = getKeys(game.iron).reduce(
+    (acc, id) => {
+      return {
+        ...acc,
+        [id]: {
+          ...game.iron[id],
+          stone: {
+            ...game.iron[id].stone,
+            minedAt: createdAt - 24 * 60 * 60 * 1000,
+          },
         },
-      },
-    };
-  }, {} as GameState["iron"]);
+      };
+    },
+    {} as GameState["iron"],
+  );
 
-  game.gold = getKeys(game.gold).reduce((acc, id) => {
-    return {
-      ...acc,
-      [id]: {
-        ...game.gold[id],
-        stone: {
-          ...game.gold[id].stone,
-          minedAt: createdAt - 48 * 60 * 60 * 1000,
+  game.gold = getKeys(game.gold).reduce(
+    (acc, id) => {
+      return {
+        ...acc,
+        [id]: {
+          ...game.gold[id],
+          stone: {
+            ...game.gold[id].stone,
+            minedAt: createdAt - 48 * 60 * 60 * 1000,
+          },
         },
-      },
-    };
-  }, {} as GameState["gold"]);
+      };
+    },
+    {} as GameState["gold"],
+  );
 
-  game.crimstones = getKeys(game.crimstones).reduce((acc, id) => {
-    return {
-      ...acc,
-      [id]: {
-        ...game.crimstones[id],
-        stone: {
-          ...game.crimstones[id].stone,
-          minedAt: createdAt - CRIMSTONE_RECOVERY_TIME * 1000,
+  game.crimstones = getKeys(game.crimstones).reduce(
+    (acc, id) => {
+      return {
+        ...acc,
+        [id]: {
+          ...game.crimstones[id],
+          stone: {
+            ...game.crimstones[id].stone,
+            minedAt: createdAt - CRIMSTONE_RECOVERY_TIME * 1000,
+          },
         },
-      },
-    };
-  }, {} as GameState["crimstones"]);
+      };
+    },
+    {} as GameState["crimstones"],
+  );
 
   // Add fire pit on expansion 5
   if (landCount >= 5 && !game.inventory["Fire Pit"]) {
@@ -355,7 +370,7 @@ export const expansionRequirements = ({ game }: { game: GameState }) => {
         [key]:
           key === "Block Buck" ? resources[key] : (resources[key] ?? 0) / 2,
       }),
-      {}
+      {},
     );
   }
 

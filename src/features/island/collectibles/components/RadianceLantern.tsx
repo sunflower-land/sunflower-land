@@ -1,6 +1,6 @@
 import React from "react";
 
-import radianceLantern from "src/assets/decorations/lanterns/radiance_lantern.webp";
+import radianceLantern from "assets/decorations/lanterns/radiance_lantern.webp";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const RadianceLantern: React.FC = () => {

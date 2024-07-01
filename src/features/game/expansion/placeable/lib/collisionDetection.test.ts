@@ -286,50 +286,50 @@ describe("isWithinAOE", () => {
     const cropPlot1 = isWithinAOE(
       "Basic Scarecrow",
       { x: 0, y: 0, height: 2, width: 1 },
-      plot1
+      plot1,
     );
     const cropPlot2 = isWithinAOE(
       "Basic Scarecrow",
       { x: 0, y: 0, height: 2, width: 1 },
-      plot2
+      plot2,
     );
 
     const cropPlot3 = isWithinAOE(
       "Basic Scarecrow",
       { x: 0, y: 0, height: 2, width: 1 },
-      plot3
+      plot3,
     );
 
     const cropPlot4 = isWithinAOE(
       "Basic Scarecrow",
       { x: 0, y: 0, height: 2, width: 1 },
-      plot4
+      plot4,
     );
 
     const cropPlot5 = isWithinAOE(
       "Basic Scarecrow",
       { x: 0, y: 0, height: 2, width: 1 },
-      plot5
+      plot5,
     );
     const cropPlot6 = isWithinAOE(
       "Basic Scarecrow",
       { x: 0, y: 0, height: 2, width: 1 },
-      plot6
+      plot6,
     );
     const cropPlot7 = isWithinAOE(
       "Basic Scarecrow",
       { x: 0, y: 0, height: 2, width: 1 },
-      plot7
+      plot7,
     );
     const cropPlot8 = isWithinAOE(
       "Basic Scarecrow",
       { x: 0, y: 0, height: 2, width: 1 },
-      plot8
+      plot8,
     );
     const cropPlot9 = isWithinAOE(
       "Basic Scarecrow",
       { x: 0, y: 0, height: 2, width: 1 },
-      plot9
+      plot9,
     );
 
     expect(cropPlot1).toBe(true);
@@ -362,84 +362,84 @@ describe("isWithinAOE", () => {
     const cropPlot1 = isWithinAOE(
       "Basic Scarecrow",
       { x: 0, y: 0, height: 2, width: 1 },
-      plotOutsideAOE1
+      plotOutsideAOE1,
     );
     const cropPlot2 = isWithinAOE(
       "Basic Scarecrow",
       { x: 0, y: 0, height: 2, width: 1 },
-      plotOutsideAOE2
+      plotOutsideAOE2,
     );
 
     const cropPlot3 = isWithinAOE(
       "Basic Scarecrow",
       { x: 0, y: 0, height: 2, width: 1 },
-      plotOutsideAOE3
+      plotOutsideAOE3,
     );
 
     const cropPlot4 = isWithinAOE(
       "Basic Scarecrow",
       { x: 0, y: 0, height: 2, width: 1 },
-      plotOutsideAOE4
+      plotOutsideAOE4,
     );
 
     const cropPlot5 = isWithinAOE(
       "Basic Scarecrow",
       { x: 0, y: 0, height: 2, width: 1 },
-      plotOutsideAOE5
+      plotOutsideAOE5,
     );
 
     const cropPlot6 = isWithinAOE(
       "Basic Scarecrow",
       { x: 0, y: 0, height: 2, width: 1 },
-      plotOutsideAOE6
+      plotOutsideAOE6,
     );
 
     const cropPlot7 = isWithinAOE(
       "Basic Scarecrow",
       { x: 0, y: 0, height: 2, width: 1 },
-      plotOutsideAOE7
+      plotOutsideAOE7,
     );
 
     const cropPlot8 = isWithinAOE(
       "Basic Scarecrow",
       { x: 0, y: 0, height: 2, width: 1 },
-      plotOutsideAOE8
+      plotOutsideAOE8,
     );
 
     const cropPlot9 = isWithinAOE(
       "Basic Scarecrow",
       { x: 0, y: 0, height: 2, width: 1 },
-      plotOutsideAOE9
+      plotOutsideAOE9,
     );
 
     const cropPlot10 = isWithinAOE(
       "Basic Scarecrow",
       { x: 0, y: 0, height: 2, width: 1 },
-      plotOutsideAOE10
+      plotOutsideAOE10,
     );
 
     const cropPlot11 = isWithinAOE(
       "Basic Scarecrow",
       { x: 0, y: 0, height: 2, width: 1 },
-      plotOutsideAOE11
+      plotOutsideAOE11,
     );
 
     const cropPlot12 = isWithinAOE(
       "Basic Scarecrow",
       { x: 0, y: 0, height: 2, width: 1 },
-      plotOutsideAOE12
+      plotOutsideAOE12,
     );
 
     const cropPlot13 = isWithinAOE(
       "Basic Scarecrow",
       { x: 0, y: 0, height: 2, width: 1 },
-      plotOutsideAOE13
+      plotOutsideAOE13,
     );
 
     const cropPlot14 = isWithinAOE(
       "Basic Scarecrow",
       { x: 0, y: 0, height: 2, width: 1 },
-      plotOutsideAOE14
+      plotOutsideAOE14,
     );
 
     expect(cropPlot1).toBe(false);
@@ -462,50 +462,50 @@ describe("isWithinAOE", () => {
     const cropPlot1 = isWithinAOE(
       "Scary Mike",
       { x: 0, y: 0, height: 2, width: 1 },
-      plot1
+      plot1,
     );
     const cropPlot2 = isWithinAOE(
       "Scary Mike",
       { x: 0, y: 0, height: 2, width: 1 },
-      plot2
+      plot2,
     );
 
     const cropPlot3 = isWithinAOE(
       "Scary Mike",
       { x: 0, y: 0, height: 2, width: 1 },
-      plot3
+      plot3,
     );
 
     const cropPlot4 = isWithinAOE(
       "Scary Mike",
       { x: 0, y: 0, height: 2, width: 1 },
-      plot4
+      plot4,
     );
 
     const cropPlot5 = isWithinAOE(
       "Scary Mike",
       { x: 0, y: 0, height: 2, width: 1 },
-      plot5
+      plot5,
     );
     const cropPlot6 = isWithinAOE(
       "Scary Mike",
       { x: 0, y: 0, height: 2, width: 1 },
-      plot6
+      plot6,
     );
     const cropPlot7 = isWithinAOE(
       "Scary Mike",
       { x: 0, y: 0, height: 2, width: 1 },
-      plot7
+      plot7,
     );
     const cropPlot8 = isWithinAOE(
       "Scary Mike",
       { x: 0, y: 0, height: 2, width: 1 },
-      plot8
+      plot8,
     );
     const cropPlot9 = isWithinAOE(
       "Scary Mike",
       { x: 0, y: 0, height: 2, width: 1 },
-      plot9
+      plot9,
     );
 
     expect(cropPlot1).toBe(true);
@@ -538,84 +538,84 @@ describe("isWithinAOE", () => {
     const cropPlot1 = isWithinAOE(
       "Scary Mike",
       { x: 0, y: 0, height: 2, width: 1 },
-      plotOutsideAOE1
+      plotOutsideAOE1,
     );
     const cropPlot2 = isWithinAOE(
       "Scary Mike",
       { x: 0, y: 0, height: 2, width: 1 },
-      plotOutsideAOE2
+      plotOutsideAOE2,
     );
 
     const cropPlot3 = isWithinAOE(
       "Scary Mike",
       { x: 0, y: 0, height: 2, width: 1 },
-      plotOutsideAOE3
+      plotOutsideAOE3,
     );
 
     const cropPlot4 = isWithinAOE(
       "Scary Mike",
       { x: 0, y: 0, height: 2, width: 1 },
-      plotOutsideAOE4
+      plotOutsideAOE4,
     );
 
     const cropPlot5 = isWithinAOE(
       "Scary Mike",
       { x: 0, y: 0, height: 2, width: 1 },
-      plotOutsideAOE5
+      plotOutsideAOE5,
     );
 
     const cropPlot6 = isWithinAOE(
       "Scary Mike",
       { x: 0, y: 0, height: 2, width: 1 },
-      plotOutsideAOE6
+      plotOutsideAOE6,
     );
 
     const cropPlot7 = isWithinAOE(
       "Scary Mike",
       { x: 0, y: 0, height: 2, width: 1 },
-      plotOutsideAOE7
+      plotOutsideAOE7,
     );
 
     const cropPlot8 = isWithinAOE(
       "Scary Mike",
       { x: 0, y: 0, height: 2, width: 1 },
-      plotOutsideAOE8
+      plotOutsideAOE8,
     );
 
     const cropPlot9 = isWithinAOE(
       "Scary Mike",
       { x: 0, y: 0, height: 2, width: 1 },
-      plotOutsideAOE9
+      plotOutsideAOE9,
     );
 
     const cropPlot10 = isWithinAOE(
       "Scary Mike",
       { x: 0, y: 0, height: 2, width: 1 },
-      plotOutsideAOE10
+      plotOutsideAOE10,
     );
 
     const cropPlot11 = isWithinAOE(
       "Scary Mike",
       { x: 0, y: 0, height: 2, width: 1 },
-      plotOutsideAOE11
+      plotOutsideAOE11,
     );
 
     const cropPlot12 = isWithinAOE(
       "Scary Mike",
       { x: 0, y: 0, height: 2, width: 1 },
-      plotOutsideAOE12
+      plotOutsideAOE12,
     );
 
     const cropPlot13 = isWithinAOE(
       "Scary Mike",
       { x: 0, y: 0, height: 2, width: 1 },
-      plotOutsideAOE13
+      plotOutsideAOE13,
     );
 
     const cropPlot14 = isWithinAOE(
       "Scary Mike",
       { x: 0, y: 0, height: 2, width: 1 },
-      plotOutsideAOE14
+      plotOutsideAOE14,
     );
 
     expect(cropPlot1).toBe(false);
@@ -638,50 +638,50 @@ describe("isWithinAOE", () => {
     const cropPlot1 = isWithinAOE(
       "Laurie the Chuckle Crow",
       { x: 0, y: 0, height: 2, width: 1 },
-      plot1
+      plot1,
     );
     const cropPlot2 = isWithinAOE(
       "Laurie the Chuckle Crow",
       { x: 0, y: 0, height: 2, width: 1 },
-      plot2
+      plot2,
     );
 
     const cropPlot3 = isWithinAOE(
       "Laurie the Chuckle Crow",
       { x: 0, y: 0, height: 2, width: 1 },
-      plot3
+      plot3,
     );
 
     const cropPlot4 = isWithinAOE(
       "Laurie the Chuckle Crow",
       { x: 0, y: 0, height: 2, width: 1 },
-      plot4
+      plot4,
     );
 
     const cropPlot5 = isWithinAOE(
       "Laurie the Chuckle Crow",
       { x: 0, y: 0, height: 2, width: 1 },
-      plot5
+      plot5,
     );
     const cropPlot6 = isWithinAOE(
       "Laurie the Chuckle Crow",
       { x: 0, y: 0, height: 2, width: 1 },
-      plot6
+      plot6,
     );
     const cropPlot7 = isWithinAOE(
       "Laurie the Chuckle Crow",
       { x: 0, y: 0, height: 2, width: 1 },
-      plot7
+      plot7,
     );
     const cropPlot8 = isWithinAOE(
       "Laurie the Chuckle Crow",
       { x: 0, y: 0, height: 2, width: 1 },
-      plot8
+      plot8,
     );
     const cropPlot9 = isWithinAOE(
       "Laurie the Chuckle Crow",
       { x: 0, y: 0, height: 2, width: 1 },
-      plot9
+      plot9,
     );
 
     expect(cropPlot1).toBe(true);
@@ -714,84 +714,84 @@ describe("isWithinAOE", () => {
     const cropPlot1 = isWithinAOE(
       "Laurie the Chuckle Crow",
       { x: 0, y: 0, height: 2, width: 1 },
-      plotOutsideAOE1
+      plotOutsideAOE1,
     );
     const cropPlot2 = isWithinAOE(
       "Laurie the Chuckle Crow",
       { x: 0, y: 0, height: 2, width: 1 },
-      plotOutsideAOE2
+      plotOutsideAOE2,
     );
 
     const cropPlot3 = isWithinAOE(
       "Laurie the Chuckle Crow",
       { x: 0, y: 0, height: 2, width: 1 },
-      plotOutsideAOE3
+      plotOutsideAOE3,
     );
 
     const cropPlot4 = isWithinAOE(
       "Laurie the Chuckle Crow",
       { x: 0, y: 0, height: 2, width: 1 },
-      plotOutsideAOE4
+      plotOutsideAOE4,
     );
 
     const cropPlot5 = isWithinAOE(
       "Laurie the Chuckle Crow",
       { x: 0, y: 0, height: 2, width: 1 },
-      plotOutsideAOE5
+      plotOutsideAOE5,
     );
 
     const cropPlot6 = isWithinAOE(
       "Laurie the Chuckle Crow",
       { x: 0, y: 0, height: 2, width: 1 },
-      plotOutsideAOE6
+      plotOutsideAOE6,
     );
 
     const cropPlot7 = isWithinAOE(
       "Laurie the Chuckle Crow",
       { x: 0, y: 0, height: 2, width: 1 },
-      plotOutsideAOE7
+      plotOutsideAOE7,
     );
 
     const cropPlot8 = isWithinAOE(
       "Laurie the Chuckle Crow",
       { x: 0, y: 0, height: 2, width: 1 },
-      plotOutsideAOE8
+      plotOutsideAOE8,
     );
 
     const cropPlot9 = isWithinAOE(
       "Laurie the Chuckle Crow",
       { x: 0, y: 0, height: 2, width: 1 },
-      plotOutsideAOE9
+      plotOutsideAOE9,
     );
 
     const cropPlot10 = isWithinAOE(
       "Laurie the Chuckle Crow",
       { x: 0, y: 0, height: 2, width: 1 },
-      plotOutsideAOE10
+      plotOutsideAOE10,
     );
 
     const cropPlot11 = isWithinAOE(
       "Laurie the Chuckle Crow",
       { x: 0, y: 0, height: 2, width: 1 },
-      plotOutsideAOE11
+      plotOutsideAOE11,
     );
 
     const cropPlot12 = isWithinAOE(
       "Laurie the Chuckle Crow",
       { x: 0, y: 0, height: 2, width: 1 },
-      plotOutsideAOE12
+      plotOutsideAOE12,
     );
 
     const cropPlot13 = isWithinAOE(
       "Laurie the Chuckle Crow",
       { x: 0, y: 0, height: 2, width: 1 },
-      plotOutsideAOE13
+      plotOutsideAOE13,
     );
 
     const cropPlot14 = isWithinAOE(
       "Laurie the Chuckle Crow",
       { x: 0, y: 0, height: 2, width: 1 },
-      plotOutsideAOE14
+      plotOutsideAOE14,
     );
 
     expect(cropPlot1).toBe(false);
@@ -829,45 +829,45 @@ describe("isWithinAOE", () => {
     const rock1 = isWithinAOE(
       "Emerald Turtle",
       { x: 0, y: 0, height: 1, width: 1 },
-      rockPosition1
+      rockPosition1,
     );
     const rock2 = isWithinAOE(
       "Emerald Turtle",
       { x: 0, y: 0, height: 1, width: 1 },
-      rockPosition2
+      rockPosition2,
     );
 
     const rock3 = isWithinAOE(
       "Emerald Turtle",
       { x: 0, y: 0, height: 1, width: 1 },
-      rockPosition3
+      rockPosition3,
     );
 
     const rock4 = isWithinAOE(
       "Emerald Turtle",
       { x: 0, y: 0, height: 1, width: 1 },
-      rockPosition4
+      rockPosition4,
     );
 
     const rock5 = isWithinAOE(
       "Emerald Turtle",
       { x: 0, y: 0, height: 1, width: 1 },
-      rockPosition5
+      rockPosition5,
     );
     const rock6 = isWithinAOE(
       "Emerald Turtle",
       { x: 0, y: 0, height: 1, width: 1 },
-      rockPosition6
+      rockPosition6,
     );
     const rock7 = isWithinAOE(
       "Emerald Turtle",
       { x: 0, y: 0, height: 1, width: 1 },
-      rockPosition7
+      rockPosition7,
     );
     const rock8 = isWithinAOE(
       "Emerald Turtle",
       { x: 0, y: 0, height: 1, width: 1 },
-      rockPosition8
+      rockPosition8,
     );
     expect(rock1).toBe(true);
     expect(rock2).toBe(true);
@@ -899,7 +899,7 @@ describe("isWithinAOE", () => {
       const isPlotWithinAoE = isWithinAOE(
         "Queen Cornelia",
         itemPosition,
-        plotPosition
+        plotPosition,
       );
 
       expect(isPlotWithinAoE).toBe(true);
@@ -934,7 +934,7 @@ describe("isWithinAOE", () => {
       const isPlotWithinAoE = isWithinAOE(
         "Queen Cornelia",
         itemPosition,
-        plotPosition
+        plotPosition,
       );
 
       expect(isPlotWithinAoE).toBe(false);
@@ -947,7 +947,7 @@ describe("isWithinAOE", () => {
     const cropPlot = isWithinAOE(
       "Gnome",
       { x: 0, y: 0, height: 1, width: 1 },
-      plot
+      plot,
     );
 
     expect(cropPlot).toBe(true);
@@ -959,7 +959,7 @@ describe("isWithinAOE", () => {
     const cropPlot = isWithinAOE(
       "Gnome",
       { x: 0, y: 0, height: 1, width: 1 },
-      plot
+      plot,
     );
 
     expect(cropPlot).toBe(false);

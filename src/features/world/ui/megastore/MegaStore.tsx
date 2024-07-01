@@ -29,13 +29,13 @@ interface Props {
 
 // type guard for WearablesItem | CollectiblesItem
 export const isWearablesItem = (
-  item: WearablesItem | CollectiblesItem
+  item: WearablesItem | CollectiblesItem,
 ): item is WearablesItem => {
   return (item as WearablesItem).name in ITEM_IDS;
 };
 
 export const getItemImage = (
-  item: WearablesItem | CollectiblesItem | null
+  item: WearablesItem | CollectiblesItem | null,
 ): string => {
   if (!item) return "";
 
@@ -47,7 +47,7 @@ export const getItemImage = (
 };
 
 export const getItemBuffLabel = (
-  item: WearablesItem | CollectiblesItem | null
+  item: WearablesItem | CollectiblesItem | null,
 ): BuffLabel | undefined => {
   if (!item) return;
 
@@ -87,7 +87,7 @@ export const MegaStore: React.FC<Props> = ({ onClose }) => {
 
   const timeRemaining = getTimeLeft(
     megastore.available.from,
-    getTotalSecondsAvailable()
+    getTotalSecondsAvailable(),
   );
 
   const { t } = useAppTranslation();

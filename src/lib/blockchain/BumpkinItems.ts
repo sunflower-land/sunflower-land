@@ -12,7 +12,7 @@ const address = CONFIG.BUMPKIN_ITEMS_CONTRACT;
 export async function loadSupplyBatch(
   web3: Web3,
   ids: number[],
-  attempts = 0
+  attempts = 0,
 ): Promise<string[]> {
   await new Promise((res) => setTimeout(res, 3000 * attempts));
 
@@ -20,7 +20,7 @@ export async function loadSupplyBatch(
     const supplies: string[] = await (
       new web3.eth.Contract(
         BumpkinItemsJSON as AbiItem[],
-        address as string
+        address as string,
       ) as unknown as IBumpkinItems
     ).methods
       .totalSupplyBatch(ids)
@@ -41,7 +41,7 @@ export async function balanceOf(
   web3: Web3,
   account: string,
   id: number,
-  attempts = 0
+  attempts = 0,
 ): Promise<number> {
   await new Promise((res) => setTimeout(res, 3000 * attempts));
 
@@ -49,7 +49,7 @@ export async function balanceOf(
     const balance: string = await (
       new web3.eth.Contract(
         BumpkinItemsJSON as AbiItem[],
-        address as string
+        address as string,
       ) as unknown as IBumpkinItems
     ).methods
       .balanceOf(account, id)
@@ -68,18 +68,18 @@ export async function balanceOf(
 export async function loadWardrobe(
   web3: Web3,
   account: string,
-  attempts = 0
+  attempts = 0,
 ): Promise<Wardrobe> {
   try {
     const balances = await (
       new web3.eth.Contract(
         BumpkinItemsJSON as AbiItem[],
-        address as string
+        address as string,
       ) as unknown as IBumpkinItems
     ).methods
       .balanceOfBatch(
         new Array(IDS.length).fill(account),
-        IDS.map((id) => `${id}`)
+        IDS.map((id) => `${id}`),
       )
       .call({ from: account });
 
@@ -105,28 +105,31 @@ export async function loadWardrobe(
 export async function loadWearablesBalanceBatch(
   web3: Web3,
   account: string,
-  attempts = 0
+  attempts = 0,
 ): Promise<Record<number, number>> {
   try {
     const balances = await (
       new web3.eth.Contract(
         BumpkinItemsJSON as AbiItem[],
-        address as string
+        address as string,
       ) as unknown as IBumpkinItems
     ).methods
       .balanceOfBatch(
         new Array(IDS.length).fill(account),
-        IDS.map((id) => `${id}`)
+        IDS.map((id) => `${id}`),
       )
       .call({ from: account });
 
-    return balances.reduce((amounts, itemBalance, index) => {
-      if (Number(itemBalance) > 0) {
-        amounts[IDS[index]] = Number(itemBalance);
-      }
+    return balances.reduce(
+      (amounts, itemBalance, index) => {
+        if (Number(itemBalance) > 0) {
+          amounts[IDS[index]] = Number(itemBalance);
+        }
 
-      return amounts;
-    }, {} as Record<number, number>);
+        return amounts;
+      },
+      {} as Record<number, number>,
+    );
   } catch (e) {
     const error = parseMetamaskError(e);
     if (attempts < 3) {

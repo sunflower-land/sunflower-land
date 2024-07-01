@@ -20,8 +20,8 @@ describe("hasFeatureAccess", () => {
           ...TEST_FARM,
           inventory: { "Beta Pass": new Decimal(1) },
         },
-        "JEST_TEST"
-      )
+        "JEST_TEST",
+      ),
     ).toBe(true);
   });
 

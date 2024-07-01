@@ -162,7 +162,7 @@ describe("INVENTORY_LIMIT", () => {
     expect(INVENTORY_LIMIT(state)["Soybean Seed"]).toEqual(new Decimal(240));
     expect(INVENTORY_LIMIT(state)["Beetroot Seed"]).toEqual(new Decimal(220));
     expect(INVENTORY_LIMIT(state)["Cauliflower Seed"]).toEqual(
-      new Decimal(200)
+      new Decimal(200),
     );
     expect(INVENTORY_LIMIT(state)["Parsnip Seed"]).toEqual(new Decimal(150));
     expect(INVENTORY_LIMIT(state)["Eggplant Seed"]).toEqual(new Decimal(120));
@@ -208,7 +208,7 @@ describe("INVENTORY_LIMIT", () => {
     expect(INVENTORY_LIMIT(state)["Soybean Seed"]).toEqual(new Decimal(288));
     expect(INVENTORY_LIMIT(state)["Beetroot Seed"]).toEqual(new Decimal(264));
     expect(INVENTORY_LIMIT(state)["Cauliflower Seed"]).toEqual(
-      new Decimal(240)
+      new Decimal(240),
     );
     expect(INVENTORY_LIMIT(state)["Parsnip Seed"]).toEqual(new Decimal(180));
     expect(INVENTORY_LIMIT(state)["Eggplant Seed"]).toEqual(new Decimal(144));

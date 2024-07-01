@@ -27,7 +27,7 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   }, []);
 
   const level = getBumpkinLevel(
-    gameService.state.context.state.bumpkin?.experience ?? 0
+    gameService.state.context.state.bumpkin?.experience ?? 0,
   );
 
   return (

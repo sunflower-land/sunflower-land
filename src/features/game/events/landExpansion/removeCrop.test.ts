@@ -29,7 +29,7 @@ describe("removeCrop", () => {
           item: "Shovel",
           index: -1,
         },
-      })
+      }),
     ).toThrow(REMOVE_CROP_ERRORS.EMPTY_PLOT);
   });
   it("does not remove on non-integer plot", () => {
@@ -43,7 +43,7 @@ describe("removeCrop", () => {
           item: "Shovel",
           index: 1.2,
         },
-      })
+      }),
     ).toThrow(REMOVE_CROP_ERRORS.EMPTY_PLOT);
   });
   it("does not remove on non-existent plot", () => {
@@ -57,7 +57,7 @@ describe("removeCrop", () => {
           item: "Shovel",
           index: 200000,
         },
-      })
+      }),
     ).toThrow(REMOVE_CROP_ERRORS.EMPTY_PLOT);
   });
   it("does not remove if no crop on plot", () => {
@@ -80,7 +80,7 @@ describe("removeCrop", () => {
           item: "Shovel",
           index: 0,
         },
-      })
+      }),
     ).toThrow(REMOVE_CROP_ERRORS.EMPTY_CROP);
   });
   it("does not remove if the shovel is rusty", () => {
@@ -108,7 +108,7 @@ describe("removeCrop", () => {
           item: "Rusty Shovel",
           index: 0,
         },
-      })
+      }),
     ).toThrow(REMOVE_CROP_ERRORS.NO_VALID_SHOVEL_SELECTED);
   });
   it("does not remove if shovel is not selected", () => {
@@ -131,7 +131,7 @@ describe("removeCrop", () => {
           type: "crop.removed",
           index: 0,
         },
-      })
+      }),
     ).toThrow(REMOVE_CROP_ERRORS.NO_VALID_SHOVEL_SELECTED);
   });
   it("does not remove if no shovel exists in inventory", () => {
@@ -159,7 +159,7 @@ describe("removeCrop", () => {
           item: "Shovel",
           index: 0,
         },
-      })
+      }),
     ).toThrow(REMOVE_CROP_ERRORS.NO_SHOVEL_AVAILABLE);
   });
   it("does not fertilise if crop is ready to harvest", () => {
@@ -183,7 +183,7 @@ describe("removeCrop", () => {
           item: "Shovel",
           index: 0,
         },
-      })
+      }),
     ).toThrow(REMOVE_CROP_ERRORS.READY_TO_HARVEST);
   });
   it("removes a crop", () => {

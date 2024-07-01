@@ -33,7 +33,7 @@ export const TradingBoard: React.FC<Props> = ({ onClose }) => {
   useEffect(() => {
     const load = async () => {
       const floorPrices = await getListingsFloorPrices(
-        authState.context.user.rawToken
+        authState.context.user.rawToken,
       );
       setFloorPrices((prevFloorPrices) => ({
         ...prevFloorPrices,

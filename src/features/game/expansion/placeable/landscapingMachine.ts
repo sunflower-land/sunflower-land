@@ -36,7 +36,7 @@ export const RESOURCE_PLACE_EVENTS: Partial<
 };
 
 export function placeEvent(
-  name: InventoryItemName
+  name: InventoryItemName,
 ): GameEventName<PlacementEvent> {
   if (name in RESOURCES) {
     return RESOURCE_PLACE_EVENTS[
@@ -197,7 +197,7 @@ export const landscapingMachine = createMachine<
                 saveEvent.gameMachineContext,
                 undefined,
                 saveEvent.farmId,
-                saveEvent.rawToken
+                saveEvent.rawToken,
               );
 
               return result;
@@ -274,7 +274,7 @@ export const landscapingMachine = createMachine<
                         : { name: event.name }),
                       id: event.id,
                       location: event.location,
-                    } as PlacementEvent)
+                    }) as PlacementEvent,
                 ),
                 assign({ moving: (_) => undefined }),
               ],
@@ -315,7 +315,7 @@ export const landscapingMachine = createMachine<
                         id: uuidv4().slice(0, 8),
                         location: e.location,
                       } as PlacementEvent;
-                    }
+                    },
                   ),
                   assign({
                     collisionDetected: (_, event) => !!event.nextWillCollide,
@@ -343,7 +343,7 @@ export const landscapingMachine = createMachine<
                         id: uuidv4().slice(0, 8),
                         location: e.location,
                       } as PlacementEvent;
-                    }
+                    },
                   ),
                   assign({
                     placeable: (_) => undefined,
@@ -356,7 +356,7 @@ export const landscapingMachine = createMachine<
                   sendParent(
                     (
                       { placeable, action, coordinates: { x, y } },
-                      { location }
+                      { location },
                     ) => {
                       if (isBudName(placeable)) {
                         return {
@@ -373,7 +373,7 @@ export const landscapingMachine = createMachine<
                         id: uuidv4().slice(0, 8),
                         location,
                       } as PlacementEvent;
-                    }
+                    },
                   ),
                   assign({
                     placeable: (_) => undefined,

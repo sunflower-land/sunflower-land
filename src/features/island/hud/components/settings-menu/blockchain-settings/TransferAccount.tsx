@@ -23,7 +23,7 @@ export const TransferAccount: React.FC = () => {
 
   const [receiver, setReceiver] = useState({ address: "" });
   const [state, setState] = useState<"idle" | "loading" | "error" | "success">(
-    "idle"
+    "idle",
   );
 
   const transfer = async () => {

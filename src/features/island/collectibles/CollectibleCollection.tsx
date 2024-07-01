@@ -1,7 +1,7 @@
 import React from "react";
 
 import { CollectibleProps } from "./Collectible";
-import { CollectibleName } from "features/game/types/craftables";
+import { CollectibleName, getKeys } from "features/game/types/craftables";
 import { MysteriousHead } from "./components/MysteriousHead";
 import { WarSkulls } from "./components/WarSkulls";
 import { WarTombstone } from "./components/WarTombstone";
@@ -321,11 +321,28 @@ import { SunflorianFactionRug } from "./components/SunflorianFactionRug";
 import { GoblinFactionRug } from "./components/GoblinFactionRug";
 import { BumpkinFactionRug } from "./components/BumpkinFactionRug";
 import { BumpkinRightWallSconce } from "./components/BumpkinRightWallSconce";
+import { TemplateCollectible } from "./TemplateCollectible";
+import {
+  DECORATION_TEMPLATES,
+  TemplateDecorationName,
+} from "features/game/types/decorations";
 
 export const COLLECTIBLE_COMPONENTS: Record<
   CollectibleName | "Bud",
   React.FC<CollectibleProps>
 > = {
+  ...getKeys(DECORATION_TEMPLATES).reduce(
+    (previous, name) => ({
+      ...previous,
+      [name]: () => (
+        <TemplateCollectible
+          name={name}
+          dimensions={DECORATION_TEMPLATES[name].dimensions}
+        />
+      ),
+    }),
+    {} as Record<TemplateDecorationName, React.FC<CollectibleProps>>,
+  ),
   "Jelly Lamp": JellyLamp,
   "Paint Can": PaintCan,
   "Benevolence Flag": BenevolenceFlag,

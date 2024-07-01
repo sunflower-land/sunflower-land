@@ -20,7 +20,7 @@ describe("removeBud", () => {
           type: "bud.removed",
           id: "1",
         },
-      })
+      }),
     ).toThrow(REMOVE_BUD_ERRORS.INVALID_BUD);
   });
 
@@ -43,7 +43,7 @@ describe("removeBud", () => {
           type: "bud.removed",
           id: "1",
         },
-      })
+      }),
     ).toThrow(REMOVE_BUD_ERRORS.BUD_NOT_PLACED);
   });
 
@@ -85,7 +85,7 @@ describe("removeBud", () => {
           type: "bud.removed",
           id: "1",
         },
-      })
+      }),
     ).toThrowError("Crops are growing");
   });
 
@@ -127,7 +127,7 @@ describe("removeBud", () => {
           type: "bud.removed",
           id: "1",
         },
-      })
+      }),
     ).toThrowError("Fruits are growing");
   });
 

@@ -19,7 +19,7 @@ describe("collect Recipes", () => {
           buildingId: "123",
         },
         createdAt: Date.now(),
-      })
+      }),
     ).toThrow("Building does not exist");
   });
 
@@ -45,7 +45,7 @@ describe("collect Recipes", () => {
           buildingId: "123",
         },
         createdAt: Date.now(),
-      })
+      }),
     ).toThrow("Building is not cooking anything");
   });
 
@@ -75,7 +75,7 @@ describe("collect Recipes", () => {
           buildingId: "123",
         },
         createdAt: Date.now(),
-      })
+      }),
     ).toThrow("Recipe is not ready");
   });
 

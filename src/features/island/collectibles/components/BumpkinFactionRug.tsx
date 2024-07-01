@@ -1,7 +1,7 @@
 import React from "react";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import bumpkinFactionRug from "src/assets/factions/bumpkin_faction_rug.webp";
+import bumpkinFactionRug from "assets/factions/bumpkin_faction_rug.webp";
 
 export const BumpkinFactionRug: React.FC = () => {
   return (

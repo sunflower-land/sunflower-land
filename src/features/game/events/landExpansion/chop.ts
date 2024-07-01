@@ -83,7 +83,7 @@ export function getChoppedAt({
  */
 export function getRequiredAxeAmount(
   inventory: Inventory,
-  gameState: GameState
+  gameState: GameState,
 ) {
   if (isCollectibleBuilt({ name: "Foreman Beaver", game: gameState })) {
     return new Decimal(0);

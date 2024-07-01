@@ -58,7 +58,7 @@ export const SquareIcon: React.FC<Props> = ({
   style,
 }) => {
   const [item, setItem] = useState<JSX.Element | undefined>(
-    getImage(icon, width)
+    getImage(icon, width),
   );
 
   // refreshes image when icon is changed to avoid flickering when resizing image

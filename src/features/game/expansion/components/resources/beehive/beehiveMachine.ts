@@ -67,7 +67,7 @@ export const getActiveFlower = (hive: Beehive) => {
 
 export const getCurrentHoneyProduced = (hive: Beehive) => {
   const attachedFlowers = hive.flowers.sort(
-    (a, b) => a.attachedAt - b.attachedAt
+    (a, b) => a.attachedAt - b.attachedAt,
   );
 
   return attachedFlowers.reduce((produced, attachedFlower) => {
@@ -83,7 +83,7 @@ export const getCurrentHoneyProduced = (hive: Beehive) => {
 
 export const getCurrentSpeed = (hive: Beehive) => {
   const attachedFlowers = hive.flowers.sort(
-    (a, b) => a.attachedAt - b.attachedAt
+    (a, b) => a.attachedAt - b.attachedAt,
   );
 
   return attachedFlowers.reduce((rate, attachedFlower) => {
@@ -248,5 +248,5 @@ export const beehiveMachine = createMachine<
         return attachedFlower.attachedUntil < Date.now();
       },
     },
-  }
+  },
 );

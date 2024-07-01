@@ -24,7 +24,7 @@ export async function transferAccount(request: Request) {
       body: JSON.stringify({
         receiver: request.receiver,
       }),
-    }
+    },
   );
 
   const data: { success: boolean } = await response.json();

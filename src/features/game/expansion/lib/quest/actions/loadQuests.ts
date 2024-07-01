@@ -5,7 +5,7 @@ import { wallet } from "lib/blockchain/wallet";
 export async function loadQuests(
   quests: QuestName[],
   bumpkinId: number,
-  account: string
+  account: string,
 ) {
   const IDS = quests.map((name) => BUMPKIN_QUEST_IDS[name]);
 
@@ -13,7 +13,7 @@ export async function loadQuests(
     wallet.web3Provider,
     account,
     IDS,
-    bumpkinId
+    bumpkinId,
   );
   return quests.map((name, index) => ({
     name,

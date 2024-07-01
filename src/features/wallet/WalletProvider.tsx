@@ -8,12 +8,12 @@ export const WalletContext = React.createContext<{
 }>(
   {} as {
     walletService: MachineInterpreter;
-  }
+  },
 );
 
 export const WalletProvider: React.FC = ({ children }) => {
   const walletService = useInterpret(
-    walletMachine
+    walletMachine,
   ) as unknown as MachineInterpreter;
 
   const [provider, setProvider] = useState<any>();
