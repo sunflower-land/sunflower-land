@@ -331,6 +331,10 @@ import {
   claimFactionPrize,
   ClaimFactionPrizeAction,
 } from "./landExpansion/claimFactionPrize";
+import {
+  FeedFactionPetAction,
+  feedFactionPet,
+} from "./landExpansion/feedFactionPet";
 
 export type PlayingEvent =
   | OilGreenhouseAction
@@ -427,7 +431,8 @@ export type PlayingEvent =
   | CompleteKingdomChoreAction
   | DeliverFactionKitchenAction
   | BuyFactionShopItemAction
-  | ClaimFactionPrizeAction;
+  | ClaimFactionPrizeAction
+  | FeedFactionPetAction;
 
 export type PlacementEvent =
   | ConstructBuildingAction
@@ -590,6 +595,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "kingdomChore.completed": completeKingdomChore,
   "factionKitchen.delivered": deliverFactionKitchen,
   "factionShopItem.bought": buyFactionShopItem,
+  "factionPet.fed": feedFactionPet,
 };
 
 export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {

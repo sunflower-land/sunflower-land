@@ -37,6 +37,16 @@ export class SunflorianHouseScene extends FactionHouseScene {
 
   preload() {
     super.preload();
+
+    this.load.image("pet_sleeping", "world/sunflorians_pet_sleeping.webp");
+    this.load.image("pet_satiated", "world/sunflorians_pet_happy.webp");
+    this.load.image("pet_hungry", "world/sunflorians_pet_hungry.webp");
+  }
+
+  setUpPet() {
+    // check game state to determine the pet status
+    // render the correct pet
+    this.add.image(243, 220, "pet_hungry");
   }
 
   create() {
@@ -48,5 +58,11 @@ export class SunflorianHouseScene extends FactionHouseScene {
     this.initialiseNPCs(SUNFLORIAN_HOUSE_NPCS);
 
     this.setupPrize({ x: 240, y: 384 });
+    // this.setUpPet();
+  }
+
+  update() {
+    // check and update the pet image based on the pet status
+    super.update();
   }
 }

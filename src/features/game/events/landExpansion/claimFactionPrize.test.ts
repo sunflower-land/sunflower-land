@@ -20,6 +20,7 @@ const FARM: GameState = {
     history: {
       "2024-06-24": {
         score: 100,
+        petXP: 0,
         results: {
           rank: 1,
           reward: {
@@ -30,6 +31,7 @@ const FARM: GameState = {
         },
       },
       "2024-06-17": {
+        petXP: 0,
         score: 100,
         results: {
           rank: 1,
@@ -85,6 +87,7 @@ describe("claimFactionPrize", () => {
           ...(FARM.faction as Faction),
           history: {
             "2024-06-24": {
+              petXP: 0,
               score: 200,
               results: {
                 rank: 12,
@@ -118,6 +121,7 @@ describe("claimFactionPrize", () => {
           ...(FARM.faction as Faction),
           history: {
             "2024-06-24": {
+              petXP: 0,
               score: 200,
               results: {
                 rank: 12,
@@ -152,6 +156,7 @@ describe("claimFactionPrize", () => {
           ...(FARM.faction as Faction),
           history: {
             "2024-06-24": {
+              petXP: 0,
               score: 200,
               results: {
                 rank: 12,
