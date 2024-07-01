@@ -13,7 +13,6 @@ import {
 import { npcModalManager } from "../ui/NPCModals";
 import { FactionName } from "features/game/types/game";
 import { Coordinates } from "features/game/expansion/components/MapPlacement";
-import { SQUARE_WIDTH } from "features/game/lib/constants";
 import { getKeys } from "features/game/types/decorations";
 import { JoinFactionAction } from "features/game/events/landExpansion/joinFaction";
 
