@@ -88,7 +88,7 @@ export function feedFactionPet({
 
   const baseReward = calculatePoints(
     fulfilled,
-    REWARDS_KEY[action.requestIndex]
+    REWARDS_KEY[action.requestIndex],
   );
   const boostAmount = getFactionWearableBoostAmount(stateCopy, baseReward);
   const totalAmount = baseReward + boostAmount;

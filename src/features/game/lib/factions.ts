@@ -29,7 +29,7 @@ export function getFactionWeek({
   // Calculate the start date of the current faction week
   const currentFactionWeekStartDate = new Date(START_DATE);
   currentFactionWeekStartDate.setUTCDate(
-    START_DATE.getUTCDate() + weekNumber * 7
+    START_DATE.getUTCDate() + weekNumber * 7,
   );
 
   // Format the date as YYYY-MM-DD and return
@@ -90,7 +90,7 @@ const FACTION_OUTFITS: Record<FactionName, Record<OutfitPart, BumpkinItem>> = {
  */
 export function getFactionWearableBoostAmount(
   game: GameState,
-  baseAmount: number
+  baseAmount: number,
 ) {
   const factionName = game.faction?.name as FactionName;
 
@@ -152,7 +152,7 @@ export function getFactionWearableBoostAmount(
  */
 export function calculatePoints(
   fulfilledCount: number,
-  basePoints: number
+  basePoints: number,
 ): number {
   if (fulfilledCount === 0) return basePoints;
 

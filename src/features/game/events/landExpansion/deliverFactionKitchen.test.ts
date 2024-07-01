@@ -35,7 +35,7 @@ describe("factionKitchenDeliver", () => {
           type: "factionKitchen.delivered",
           resourceIndex: 0,
         },
-      })
+      }),
     ).toThrow("Player has not joined a faction");
   });
 
@@ -48,7 +48,7 @@ describe("factionKitchenDeliver", () => {
           resourceIndex: 0,
         },
         createdAt: startTime - 1000,
-      })
+      }),
     ).toThrow("Faction kitchen has not started yet");
   });
 
@@ -61,7 +61,7 @@ describe("factionKitchenDeliver", () => {
           resourceIndex: 0,
         },
         createdAt: startTime,
-      })
+      }),
     ).toThrow("No kitchen data available");
   });
 
@@ -83,7 +83,7 @@ describe("factionKitchenDeliver", () => {
           resourceIndex: 0,
         },
         createdAt: startTime,
-      })
+      }),
     ).toThrow("No requested resource found at index");
   });
 
@@ -106,7 +106,7 @@ describe("factionKitchenDeliver", () => {
           resourceIndex: 0,
         },
         createdAt: startTime,
-      })
+      }),
     ).toThrow("Insufficient resources");
   });
 

@@ -56,7 +56,7 @@ describe("claimFactionPrize", () => {
           week: "2022-01-01",
         },
         state: FARM,
-      })
+      }),
     ).toThrow("Prize not found for week 2022-01-01");
   });
 
@@ -70,7 +70,7 @@ describe("claimFactionPrize", () => {
         state: {
           ...FARM,
         },
-      })
+      }),
     ).toThrow("Prize already claimed");
   });
 
@@ -189,7 +189,7 @@ describe("claimFactionPrize", () => {
     });
 
     expect(state.faction?.history?.["2024-06-24"]?.results?.claimedAt).toBe(
-      now
+      now,
     );
   });
 });
