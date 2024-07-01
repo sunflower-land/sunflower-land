@@ -211,6 +211,7 @@ describe("feedFactionPet", () => {
         } as Faction,
       },
       action: { type: "factionPet.fed", requestIndex: 0 },
+      createdAt: startTime,
     });
 
     const pumpkinSoupXP = CONSUMABLES["Pumpkin Soup"].experience;
