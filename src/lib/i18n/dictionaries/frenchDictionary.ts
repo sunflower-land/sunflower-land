@@ -1346,6 +1346,9 @@ const confirmationTerms: Record<ConfirmationTerms, string> = {
 };
 
 const conversations: Record<Conversations, string> = {
+  "faction-intro.one": ENGLISH_TERMS["faction-intro.one"],
+  "faction-intro.three": ENGLISH_TERMS["faction-intro.three"],
+  "faction-intro.two": ENGLISH_TERMS["faction-intro.two"],
   "home-intro.one": ENGLISH_TERMS["home-intro.one"],
   "home-intro.three": ENGLISH_TERMS["home-intro.three"],
   "home-intro.two": ENGLISH_TERMS["home-intro.two"],

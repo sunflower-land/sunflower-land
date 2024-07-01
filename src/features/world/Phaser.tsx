@@ -498,6 +498,7 @@ export const PhaserComponent: React.FC<Props> = ({
       <InteractableModals
         id={gameService.state.context.farmId as number}
         scene={scene}
+        key={scene}
       />
       <Modal
         show={mmoState === "loading" || mmoState === "initialising"}
