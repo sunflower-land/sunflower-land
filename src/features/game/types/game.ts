@@ -798,6 +798,7 @@ export type KingdomChores = {
   chores: KingdomChore[];
   choresCompleted: number;
   choresSkipped: number;
+  skipAvailableAt?: number;
   resetsAt?: number;
 };
 

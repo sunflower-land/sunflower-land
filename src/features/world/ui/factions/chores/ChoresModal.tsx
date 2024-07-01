@@ -22,7 +22,7 @@ export const ChoresModal: React.FC<Props> = ({ onClose, npc }) => {
 
   return (
     <OuterPanel bumpkinParts={NPC_WEARABLES[npc]}>
-      <Chores kingdomChores={kingdomChores} onClose={onClose} />
+      <Chores kingdomChores={kingdomChores} onClose={onClose} npc={npc} />
     </OuterPanel>
   );
 };

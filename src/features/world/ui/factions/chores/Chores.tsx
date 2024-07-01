@@ -1,4 +1,4 @@
-import React, { useContext, useLayoutEffect, useState } from "react";
+import React, { useContext, useEffect, useLayoutEffect, useState } from "react";
 import { useSelector } from "@xstate/react";
 
 import { Box } from "components/ui/Box";
@@ -11,14 +11,22 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { MachineState } from "features/game/lib/gameMachine";
 import { InnerPanel, OuterPanel } from "components/ui/Panel";
 import { SquareIcon } from "components/ui/SquareIcon";
-import { InventoryItemName, KingdomChores } from "features/game/types/game";
+import {
+  InventoryItemName,
+  KingdomChore,
+  KingdomChores,
+} from "features/game/types/game";
 import { Label } from "components/ui/Label";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { secondsToString } from "lib/utils/time";
 import { InlineDialogue } from "../../TypingMessage";
+import { NPCName } from "lib/npcs";
+import useUiRefresher from "lib/utils/hooks/useUiRefresher";
+import classNames from "classnames";
 
 interface Props {
   kingdomChores: KingdomChores;
+  npc: NPCName;
   onClose: () => void;
 }
 
@@ -26,11 +34,9 @@ const WEEKLY_CHORES = 21;
 const _autosaving = (state: MachineState) => state.matches("autosaving");
 const _bumpkin = (state: MachineState) => state.context.state.bumpkin;
 
-export const Chores: React.FC<Props> = ({ kingdomChores }) => {
+export const Chores: React.FC<Props> = ({ kingdomChores, npc }) => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
-
-  const [isSkipping, setIsSkipping] = useState(false);
 
   const autosaving = useSelector(gameService, _autosaving);
   const bumpkin = useSelector(gameService, _bumpkin);
@@ -67,38 +73,6 @@ export const Chores: React.FC<Props> = ({ kingdomChores }) => {
     }
   }, [kingdomChores]);
 
-  const chores = Object.entries(kingdomChores.chores);
-
-  const activeChores = chores.filter(
-    ([, chore]) => chore.startedAt && !chore.completedAt && !chore.skippedAt
-  );
-  const completedChores = chores.filter(([, chore]) => chore.completedAt);
-  const upcomingChores = chores.filter(([, chore]) => !chore.startedAt);
-
-  const completedCount = completedChores.length;
-
-  const handleComplete = (index: number) => {
-    gameService.send("kingdomChore.completed", { id: index });
-    gameService.send("SAVE");
-  };
-
-  if (kingdomChores.chores.length === 0) {
-    return (
-      <InnerPanel>
-        <div
-          className="p-2"
-          style={{
-            minHeight: "65px",
-          }}
-        >
-          <InlineDialogue
-            message={"I'm sorry, no chores are available right now!"}
-          />
-        </div>
-      </InnerPanel>
-    );
-  }
-
   const getProgress = (index: number) => {
     return (
       (bumpkin?.activity?.[kingdomChores.chores[index].activity] ?? 0) -
@@ -106,146 +80,242 @@ export const Chores: React.FC<Props> = ({ kingdomChores }) => {
     );
   };
 
-  // const handleSkip = (id: any) => {
-  //   setIsSkipping(true);
-  //   gameService.send("chore.skipped", { id: Number(id) });
-  //   gameService.send("SAVE");
-  // };
-  const selectedChore = kingdomChores.chores[selected];
+  const handleComplete = (index: number) => {
+    gameService.send("kingdomChore.completed", { id: index });
+    gameService.send("SAVE");
+  };
 
+  const handleReset = () => {
+    gameService.send("kingdomChores.refreshed");
+    gameService.send("SAVE");
+  };
+
+  const handleSkip = (index: number) => {
+    gameService.send("kingdomChore.skipped", { id: index });
+    gameService.send("SAVE");
+  };
+
+  const chores = Object.entries(kingdomChores.chores);
+
+  const activeChores = chores.filter(
+    ([, chore]) => chore.startedAt && !chore.completedAt && !chore.skippedAt
+  );
+  const completedChores = chores.filter(
+    ([, chore]) => chore.completedAt || chore.skippedAt
+  );
+  const upcomingChores = chores.filter(([, chore]) => !chore.startedAt);
+
+  const completedCount = completedChores.length;
+
+  const selectedChore = kingdomChores.chores[selected];
   const canComplete = getProgress(selected) >= selectedChore.requirement;
 
-  if (isSkipping && autosaving) {
+  const needsRefresh =
+    kingdomChores.resetsAt && kingdomChores.resetsAt < Date.now();
+  const isRefreshing = !!(needsRefresh && autosaving);
+
+  if (activeChores.length === 0) {
     return (
-      <OuterPanel className="!p-2 mb-2 text-xs">
-        <span className="loading text-sm">{t("skipping")}</span>
-      </OuterPanel>
+      <InnerPanel>
+        <KingdomChoresTimer
+          resetsAt={kingdomChores.resetsAt}
+          onReset={handleReset}
+        />
+        <div className="p-2 min-h-[65px]">
+          <InlineDialogue
+            key={`refreshing-${isRefreshing}`}
+            message={
+              isRefreshing
+                ? "Just a second. I'm preparing some chores."
+                : completedCount > 0
+                ? "Looks like you have completed all your chores for now. Come back soon!"
+                : "I'm sorry, I don't have any chores available right now. Come back soon!"
+            }
+          />
+        </div>
+      </InnerPanel>
     );
   }
 
   return (
-    <SplitScreenView
-      panel={
-        <Panel
-          canComplete={canComplete}
-          description={selectedChore.description}
-          onComplete={() => handleComplete(selected)}
-          image={selectedChore.image}
-          marks={selectedChore.marks}
-          resetsAt={kingdomChores.resetsAt}
+    <>
+      <KingdomChoresTimer
+        resetsAt={kingdomChores.resetsAt}
+        onReset={handleReset}
+      />
+      <div className="p-1">
+        <SplitScreenView
+          panel={
+            <Panel
+              canComplete={canComplete}
+              chore={selectedChore}
+              onComplete={() => handleComplete(selected)}
+              onSkip={() => handleSkip(selected)}
+              isRefreshing={isRefreshing}
+            />
+          }
+          content={
+            <>
+              <div className="flex flex-col mb-2 w-full">
+                {
+                  <div className="flex flex-row justify-between pl-1">
+                    <Label type="default" className="text-center">
+                      {`Chores`}
+                    </Label>
+                    <p className="text-xxs">
+                      {completedCount} {t("completed")}
+                    </p>
+                  </div>
+                }
+                <div className="flex mb-2 flex-wrap pl-0.5">
+                  {activeChores.map(([choreId, chore]) => (
+                    <Box
+                      key={choreId}
+                      onClick={() => setSelected(Number(choreId))}
+                      isSelected={selected === Number(choreId)}
+                      image={ITEM_DETAILS[chore.image].image}
+                    />
+                  ))}
+                  {activeChores.length === 0 && (
+                    <span className="p-2">No upcoming chores</span>
+                  )}
+                </div>
+              </div>
+              <div className="flex flex-col mb-2 w-full">
+                {
+                  <div className="flex flex-row justify-between pl-1">
+                    <Label type="default" className="text-center">
+                      {`Upcoming`}
+                    </Label>
+                    <p className="text-xxs">
+                      {t("chores.upcoming", {
+                        chores: WEEKLY_CHORES - completedCount,
+                      })}
+                    </p>
+                  </div>
+                }
+                <div className="flex flex-wrap pl-0.5">
+                  {upcomingChores.slice(0, 3).map(([choreId, chore]) => (
+                    <Box
+                      key={choreId}
+                      onClick={() => setSelected(Number(choreId))}
+                      isSelected={selected === Number(choreId)}
+                      image={ITEM_DETAILS[chore.image].image}
+                    />
+                  ))}
+                  {upcomingChores.length === 0 && (
+                    <span className="p-2">No upcoming chores</span>
+                  )}
+                </div>
+              </div>
+            </>
+          }
         />
-      }
-      content={
-        <>
-          <div className="flex flex-col mb-2 w-full">
-            {
-              <div className="flex flex-row justify-between pl-1 ">
-                <Label type="default" className="text-center">
-                  {`Chores`}
-                </Label>
-                <p className="text-xxs">
-                  {completedCount} {t("completed")}
-                </p>
-              </div>
-            }
-            <div className="flex mb-2 flex-wrap pl-0.5">
-              {activeChores.map(([choreId, chore]) => (
-                <Box
-                  key={choreId}
-                  onClick={() => setSelected(Number(choreId))}
-                  isSelected={selected === Number(choreId)}
-                  image={ITEM_DETAILS[chore.image].image}
-                />
-              ))}
-            </div>
-          </div>
-          <div className="flex flex-col mb-2 w-full">
-            {
-              <div className="flex flex-row justify-between pl-1">
-                <Label type="default" className="text-center">
-                  {`Upcoming`}
-                </Label>
-                <p className="text-xxs">
-                  {t("chores.upcoming", {
-                    chores: WEEKLY_CHORES - activeChores.length,
-                  })}
-                </p>
-              </div>
-            }
-            <div className="flex flex-wrap pl-0.5">
-              {upcomingChores.slice(0, 3).map(([choreId, chore]) => (
-                <Box
-                  key={choreId}
-                  onClick={() => setSelected(Number(choreId))}
-                  isSelected={selected === Number(choreId)}
-                  image={ITEM_DETAILS[chore.image].image}
-                />
-              ))}
-            </div>
-          </div>
-        </>
-      }
-    />
+      </div>
+    </>
   );
 };
 
 type PanelProps = {
   canComplete: boolean;
-  image: InventoryItemName;
-  description: string;
   onComplete: () => void;
-  marks: number;
-  resetsAt: number | undefined;
+  onSkip: () => void;
+  chore: KingdomChore;
+  isRefreshing: boolean;
 };
 
 const Panel: React.FC<PanelProps> = ({
   canComplete,
-  image: resource,
-  description,
-  marks,
-  resetsAt,
   onComplete,
+  onSkip,
+  chore,
+  isRefreshing,
 }: PanelProps) => {
   return (
     <div className="flex flex-col justify-center">
-      {resetsAt ? (
-        <Label
-          type="info"
-          className="font-secondary mb-2 whitespace-nowrap"
-          icon={SUNNYSIDE.icons.stopwatch}
-        >
-          {"Reset: "}
-          {secondsToString(Math.round((resetsAt - Date.now()) / 1000), {
-            length: "medium",
-            removeTrailingZeros: true,
-          })}
-        </Label>
-      ) : null}
-      <div className="flex flex-col justify-center px-1 py-1">
+      <div className="px-1 py-1">
         <div className="flex space-x-2 justify-start items-center sm:flex-col-reverse md:space-x-0">
-          {ITEM_DETAILS[resource].image && (
+          {ITEM_DETAILS[chore.image].image && (
             <div className="sm:mt-2">
-              <SquareIcon icon={ITEM_DETAILS[resource].image} width={14} />
+              <SquareIcon icon={ITEM_DETAILS[chore.image].image} width={14} />
             </div>
           )}
-          <span className="sm:text-center">{description}</span>
+          <span className="sm:text-center">{chore.description}</span>
         </div>
         <div className="flex flex-col space-y-1 mt-2">
           <div className="flex justify-start sm:justify-center">
             <Label type="warning" className="text-center">
-              {marks} {`Marks`}
+              {chore.marks} {`Marks`}
             </Label>
           </div>
         </div>
       </div>
 
-      <>
-        <div className="flex space-x-1 sm:space-x-0 sm:space-y-1 sm:flex-col w-full">
-          <Button disabled={!canComplete} onClick={() => onComplete()}>
-            {`Complete`}
-          </Button>
-        </div>
-      </>
+      <div className="flex space-x-1 sm:space-x-0 sm:space-y-1 sm:flex-col w-full pt-1">
+        {chore.startedAt && (
+          <>
+            <Button
+              disabled={!canComplete || isRefreshing}
+              onClick={onComplete}
+            >
+              {`Complete`}
+            </Button>
+            <Button disabled={!canComplete || isRefreshing} onClick={onSkip}>
+              {`Skip`}
+            </Button>
+          </>
+        )}
+        {!chore.startedAt && (
+          <span className="px-1 pb-1 text-xxs">
+            Complete active chores to unlock
+          </span>
+        )}
+      </div>
     </div>
+  );
+};
+
+const KingdomChoresTimer: React.FC<{
+  onReset: () => void;
+  resetsAt?: number;
+}> = ({ onReset, resetsAt }) => {
+  useUiRefresher();
+
+  const shouldReset = resetsAt && resetsAt < Date.now();
+  // TODO feat/kingdom-chores-logic - REMOVE true
+  const shouldWarn = (resetsAt && resetsAt - Date.now() < 10000) || true;
+
+  useEffect(() => {
+    if (shouldReset) onReset();
+  }, [shouldReset]);
+
+  if (shouldReset) {
+    return (
+      <div className="absolute -top-7 right-0 bulge-subtle">
+        <Label type="info" icon={SUNNYSIDE.icons.timer}>
+          <span className="loading">Loading new chores</span>
+        </Label>
+      </div>
+    );
+  }
+
+  return resetsAt ? (
+    <div className="absolute -top-7 right-0">
+      <Label
+        type={shouldWarn ? "danger" : "info"}
+        className={classNames("whitespace-nowrap", {
+          "bulge-subtle": shouldWarn,
+        })}
+        icon={SUNNYSIDE.icons.stopwatch}
+      >
+        {"New Chores: "}
+        {secondsToString(Math.round((resetsAt - Date.now()) / 1000), {
+          length: "medium",
+          removeTrailingZeros: true,
+        })}
+      </Label>
+    </div>
+  ) : (
+    <></>
   );
 };
