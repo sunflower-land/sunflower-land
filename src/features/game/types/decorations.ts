@@ -124,7 +124,6 @@ export const DECORATION_TEMPLATES = {
     dimensions: {
       width: 2,
       height: 1,
-      offsetY: 2,
     },
     isWithdrawable: () => false,
   },
@@ -132,7 +131,6 @@ export const DECORATION_TEMPLATES = {
     dimensions: {
       width: 2,
       height: 1,
-      offsetY: 2,
     },
     isWithdrawable: () => false,
   },
@@ -140,7 +138,6 @@ export const DECORATION_TEMPLATES = {
     dimensions: {
       width: 2,
       height: 1,
-      offsetY: 2,
     },
     isWithdrawable: () => false,
   },
@@ -148,7 +145,6 @@ export const DECORATION_TEMPLATES = {
     dimensions: {
       width: 2,
       height: 1,
-      offsetY: 2,
     },
     isWithdrawable: () => false,
   },
@@ -156,7 +152,6 @@ export const DECORATION_TEMPLATES = {
     dimensions: {
       width: 2,
       height: 1,
-      offsetY: 2,
     },
     isWithdrawable: () => false,
   },
@@ -164,7 +159,6 @@ export const DECORATION_TEMPLATES = {
     dimensions: {
       width: 2,
       height: 1,
-      offsetY: 2,
     },
     isWithdrawable: () => false,
   },
@@ -172,7 +166,6 @@ export const DECORATION_TEMPLATES = {
     dimensions: {
       width: 2,
       height: 1,
-      offsetY: 2,
     },
     isWithdrawable: () => false,
   },
@@ -180,7 +173,6 @@ export const DECORATION_TEMPLATES = {
     dimensions: {
       width: 2,
       height: 1,
-      offsetY: 2,
     },
     isWithdrawable: () => false,
   },
@@ -188,7 +180,6 @@ export const DECORATION_TEMPLATES = {
     dimensions: {
       width: 2,
       height: 1,
-      offsetY: 2,
     },
     isWithdrawable: () => false,
   },
@@ -196,7 +187,6 @@ export const DECORATION_TEMPLATES = {
     dimensions: {
       width: 2,
       height: 1,
-      offsetY: 2,
     },
     isWithdrawable: () => false,
   },
@@ -204,7 +194,6 @@ export const DECORATION_TEMPLATES = {
     dimensions: {
       width: 2,
       height: 1,
-      offsetY: 2,
     },
     isWithdrawable: () => false,
   },
@@ -212,7 +201,6 @@ export const DECORATION_TEMPLATES = {
     dimensions: {
       width: 2,
       height: 1,
-      offsetY: 2,
     },
     isWithdrawable: () => false,
   },
