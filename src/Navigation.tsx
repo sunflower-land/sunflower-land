@@ -180,7 +180,11 @@ export const Navigation: React.FC = () => {
                       path="/goblins"
                       element={
                         <Splash>
-                          <Forbidden />
+                          <Forbidden
+                            onClose={() => {
+                              authService.send("RETURN");
+                            }}
+                          />
                         </Splash>
                       }
                     />

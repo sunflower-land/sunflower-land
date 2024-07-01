@@ -1984,8 +1984,7 @@ const errorTerms: Record<ErrorTerms, string> = {
   "error.connection.four":
     "If the issue remains, you can reach out for help by either contacting our support team or jumping over to our discord and asking our community",
   "error.diagnostic.info": "Diagnostic Information",
-  "error.forbidden.goblinVillage":
-    "You are not allowed to visit Goblin Village!",
+  "error.forbidden.goblinVillage": "You are not supposed to be here!",
   "error.multipleDevices.one": "Multiple devices open",
   "error.multipleDevices.two":
     "Please close any other browser tabs or devices that you are operating on.",

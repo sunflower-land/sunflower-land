@@ -15,6 +15,7 @@ import { FactionName } from "features/game/types/game";
 import { Coordinates } from "features/game/expansion/components/MapPlacement";
 import { getKeys } from "features/game/types/decorations";
 import { JoinFactionAction } from "features/game/events/landExpansion/joinFaction";
+import { hasFeatureAccess } from "lib/flags";
 
 export const KINGDOM_NPCS: NPCBumpkin[] = [
   {
@@ -240,7 +241,8 @@ export class KingdomScene extends BaseScene {
 
     const faction = this.gameService.state.context.state.faction?.name;
     getKeys(DOORS).forEach((key) => {
-      if (faction === key) return;
+      if (faction === key || !hasFeatureAccess(this.gameState, "FACTION_HOUSE"))
+        return;
 
       const door = this.add.image(DOORS[key].x, DOORS[key].y, DOORS[key].door);
       this.physics.add.existing(door);

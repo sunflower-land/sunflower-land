@@ -6,7 +6,7 @@ import { useActor, useInterpret, useSelector } from "@xstate/react";
 import { MachineState } from "features/game/lib/gameMachine";
 import { Modal } from "components/ui/Modal";
 import { Panel } from "components/ui/Panel";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { SceneId } from "./mmoMachine";
 import ocean from "assets/decorations/ocean.webp";
 import PubSub from "pubsub-js";
@@ -25,6 +25,8 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { GameWrapper } from "features/game/expansion/Game";
 import { WorldHud } from "features/island/hud/WorldHud";
 import { Loading } from "features/auth/components";
+import { GameState } from "features/game/types/game";
+import { Forbidden } from "features/auth/components/Forbidden";
 
 interface Props {
   isCommunity?: boolean;
@@ -54,6 +56,13 @@ const _isIntroducing = (state: MMOMachineState) =>
 
 type MMOProps = { isCommunity: boolean };
 
+const SCENE_ACCESS: Partial<Record<SceneId, (game: GameState) => boolean>> = {
+  goblin_house: (game) => game.faction?.name === "goblins",
+  sunflorian_house: (game) => game.faction?.name === "sunflorians",
+  bumpkin_house: (game) => game.faction?.name === "bumpkins",
+  nightshade_house: (game) => game.faction?.name === "nightshades",
+};
+
 export const MMO: React.FC<MMOProps> = ({ isCommunity }) => {
   const { authService } = useContext(AuthProvider.Context);
   const [authState] = useActor(authService);
@@ -62,6 +71,7 @@ export const MMO: React.FC<MMOProps> = ({ isCommunity }) => {
   const [gameState] = useActor(gameService);
 
   const { name } = useParams();
+  const navigate = useNavigate();
 
   const mmoService = useInterpret(mmoMachine, {
     context: {
@@ -102,6 +112,21 @@ export const MMO: React.FC<MMOProps> = ({ isCommunity }) => {
 
   if (isTraveling) {
     return <TravelScreen mmoService={mmoService} />;
+  }
+
+  if (
+    SCENE_ACCESS[name as SceneId] &&
+    !SCENE_ACCESS[name as SceneId]?.(gameState.context.state)
+  ) {
+    return (
+      <Panel>
+        <Forbidden
+          onClose={() => {
+            navigate(`/`);
+          }}
+        />
+      </Panel>
+    );
   }
 
   if (!mmoService.state) {
