@@ -11,7 +11,6 @@ import {
 import { PlaceableContainer } from "../containers/PlaceableContainer";
 import { budImageDomain } from "features/island/collectibles/components/Bud";
 import { SOUNDS } from "assets/sound-effects/soundEffects";
-import { hasFeatureAccess } from "lib/flags";
 import { NPCName } from "lib/npcs";
 import { FactionName, GameState } from "features/game/types/game";
 import { translate } from "lib/i18n/translate";
@@ -154,11 +153,6 @@ export class PlazaScene extends BaseScene {
     this.load.image("timer_icon", "world/timer_icon.png");
     this.load.image("trade_icon", "world/trade_icon.png");
 
-    this.load.spritesheet("color_portal", "world/color_portal.webp", {
-      frameWidth: 47,
-      frameHeight: 47,
-    });
-
     this.load.spritesheet("plaza_bud", "world/plaza_bud.png", {
       frameWidth: 15,
       frameHeight: 18,
@@ -285,13 +279,13 @@ export class PlazaScene extends BaseScene {
     });
 
     if (this.gameState.inventory["Treasure Key"]) {
-      this.add.sprite(112, 140, "key_disc").setDepth(1000000000);
+      this.add.sprite(106, 140, "key_disc").setDepth(1000000000);
     } else {
-      this.add.sprite(112, 140, "locked_disc").setDepth(1000000000);
+      this.add.sprite(106, 140, "locked_disc").setDepth(1000000000);
     }
 
     // Sprites
-    const basicChest = this.add.sprite(112, 160, "basic_chest");
+    const basicChest = this.add.sprite(106, 160, "basic_chest");
     basicChest.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
       if (this.checkDistanceToSprite(basicChest, 75)) {
         interactableModalManager.open("basic_chest");
@@ -324,35 +318,6 @@ export class PlazaScene extends BaseScene {
     clubHouseLabel.setPosition(152, 262);
     clubHouseLabel.setDepth(10000000);
     this.add.existing(clubHouseLabel);
-
-    // Color Portal
-    // Plaza Bud
-    const colorPortal = this.add.sprite(150, 150, "color_portal");
-    this.anims.create({
-      key: "color_portal_anim",
-      frames: this.anims.generateFrameNumbers("color_portal", {
-        start: 0,
-        end: 11,
-      }),
-      repeat: -1,
-      frameRate: 10,
-    });
-
-    colorPortal.play("color_portal_anim", true);
-    colorPortal.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
-      if (this.checkDistanceToSprite(colorPortal, 75)) {
-        interactableModalManager.open("festival_of_colors");
-      } else {
-        this.currentPlayer?.speak(translate("base.iam.far.away"));
-      }
-    });
-
-    if (
-      !hasFeatureAccess(this.gameState, "FESTIVAL_OF_COLORS") &&
-      Date.now() < new Date("2024-06-30T00:00:00Z").getTime()
-    ) {
-      this.add.sprite(150, 150, "locked_disc").setDepth(1000000000);
-    }
 
     // Plaza Bud
     const fatChicken = this.add.sprite(106, 352, "fat_chicken");
