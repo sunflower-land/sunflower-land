@@ -2,6 +2,7 @@ import i18n from "lib/i18n";
 import { TOptions } from "i18next";
 import { TranslationKeys } from "./dictionaries/types";
 import { LanguageCode } from "./dictionaries/dictionary";
+import { TranslatedDescriptions } from "features/game/types/images";
 
 export const translate = (
   key: TranslationKeys,
@@ -11,9 +12,9 @@ export const translate = (
 };
 
 export const translateTerms = (
-  translations: Record<LanguageCode, string>
+  translations: TranslatedDescriptions
 ): string => {
   const language = (i18n.language ?? "en") as LanguageCode;
 
-  return translations[language];
+  return translations[language] ?? translations.en;
 };

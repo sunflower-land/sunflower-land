@@ -1,5 +1,3 @@
-import { Config } from "./config";
-
 const NETWORK = import.meta.env.VITE_NETWORK as "mainnet" | "amoy";
 const DONATION_ADDRESS = import.meta.env.VITE_DONATION_ADDRESS;
 const TREASURY_ADDRESS = import.meta.env.VITE_TREASURY_ADDRESS as string;
@@ -83,7 +81,7 @@ const SEQUENCE_ACCESS_KEY = import.meta.env.VITE_SEQUENCE_ACCESS_KEY as string;
 
 const PORTAL_URL = import.meta.env.VITE_ROOM_URL;
 
-export const CONFIG: Config = {
+export const CONFIG = {
   DEQUIPPER_CONTRACT,
 
   NETWORK,

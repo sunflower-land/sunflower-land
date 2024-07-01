@@ -1,12 +1,5 @@
-import { InventoryItemName } from "./game";
-
-import { CROPS, CROP_SEEDS } from "./crops";
-import { AchievementName } from "./achievements";
-
-import { SUNNYSIDE } from "assets/sunnyside";
-import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
-import { LanguageCode } from "lib/i18n/dictionaries/dictionary";
-
+/* eslint-disable @typescript-eslint/no-explicit-any */
+// CROPS
 import magicBean from "assets/crops/magic_bean.png";
 import appleSeed from "assets/fruit/apple/apple_seed.png";
 import orangeSeed from "assets/fruit/orange/orange_seed.png";
@@ -735,16 +728,26 @@ import sunflorianFactionRug from "assets/factions/sunflorian_faction_rug.webp";
 import nightshadeFactionRug from "assets/factions/nightshade_faction_rug.webp";
 import goblinFactionRug from "assets/factions/goblin_faction_rug.webp";
 import bumpkinFactionRug from "assets/factions/bumpkin_faction_rug.webp";
+
+import goldenCrop from "assets/events/golden_crop/golden_crop.gif";
+
 import goblinGoldChampion from "assets/sfts/goblin_gold_champion.png";
 import goblinSilverChampion from "assets/sfts/goblin_silver_champion.png";
 
-export interface Attribute {
-  trait_type?: string;
-  value: string | number;
-  display_type?: string;
-}
+import { InventoryItemName } from "./game";
 
-type TranslatedDescriptions = Record<LanguageCode, string>;
+import { CROPS, CROP_SEEDS } from "./crops";
+import { AchievementName } from "./achievements";
+
+//Golden Crop Event
+
+import { SUNNYSIDE } from "assets/sunnyside";
+import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
+import { LanguageCode } from "lib/i18n/dictionaries/dictionary";
+
+export type TranslatedDescriptions = { en: string } & Partial<
+  Record<LanguageCode, string>
+>;
 
 export interface ItemDetails {
   description: TranslatedDescriptions;
@@ -752,18 +755,14 @@ export interface ItemDetails {
   image: any;
   secondaryImage?: any;
   howToGetItem?: TranslatedDescriptions[];
+  // TODO: Extend this as the codex grows eg. Resource etc
   itemType?: "collectible";
-
-  // Leave emtpy to auto generate
-  opensea?: {
-    description: string;
-    attributes: Attribute[];
-    image?: string; // Leave empty to auto generate
-  };
 }
 
 type Items = Record<InventoryItemName | AchievementName, ItemDetails>;
 
+const crops = CROPS();
+const seeds = CROP_SEEDS();
 export const ITEM_DETAILS: Items = {
   Sunflower: {
     image: CROP_LIFECYCLE.Sunflower.crop,
@@ -773,20 +772,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "A sunny flower",
       fr: "A sunny flower",
       tk: "A sunny flower",
-    },
-    opensea: {
-      description: "A crop grown at Sunflower Land.\n\nA sunny flower.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Crop",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/201.png",
     },
   },
   Potato: {
@@ -798,21 +783,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Healthier than you might think.",
       tk: "Healthier than you might think.",
     },
-    opensea: {
-      description:
-        "A crop grown at Sunflower Land.\n\nHealthier than you might think!",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Crop",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/202.png",
-    },
   },
   Pumpkin: {
     image: CROP_LIFECYCLE.Pumpkin.crop,
@@ -822,20 +792,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "There's more to pumpkin than pie.",
       fr: "There's more to pumpkin than pie.",
       tk: "There's more to pumpkin than pie.",
-    },
-    opensea: {
-      description: "A crop grown at Sunflower Land.\n\nOoooh, spoookyy",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Crop",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/203.png",
     },
   },
   Carrot: {
@@ -847,21 +803,6 @@ export const ITEM_DETAILS: Items = {
       fr: "They're good for your eyes!",
       tk: "They're good for your eyes!",
     },
-    opensea: {
-      description:
-        "A crop grown at Sunflower Land.\n\nThey’re good for your eyes!",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Crop",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/204.png",
-    },
   },
   Cabbage: {
     image: CROP_LIFECYCLE.Cabbage.crop,
@@ -871,21 +812,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "Once a luxury, now a food for many.",
       fr: "Once a luxury, now a food for many.",
       tk: "Once a luxury, now a food for many.",
-    },
-    opensea: {
-      description:
-        "A crop grown at Sunflower Land.\n\nOnce a luxury, now a food for many.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Crop",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/205.png",
     },
   },
   Beetroot: {
@@ -897,21 +823,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Good for hangovers!",
       tk: "Good for hangovers!",
     },
-    opensea: {
-      description:
-        "A crop grown at Sunflower Land.\n\nApparently, they’re an aphrodisiac...",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Crop",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/206.png",
-    },
   },
   Cauliflower: {
     image: CROP_LIFECYCLE.Cauliflower.crop,
@@ -921,21 +832,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "Excellent rice substitute!",
       fr: "Excellent rice substitute!",
       tk: "Excellent rice substitute!",
-    },
-    opensea: {
-      description:
-        "A crop grown at Sunflower Land.\n\nNow in 4 different colours!",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Crop",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/207.png",
     },
   },
   Parsnip: {
@@ -947,21 +843,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Not to be mistaken for carrots.",
       tk: "Not to be mistaken for carrots.",
     },
-    opensea: {
-      description:
-        "A crop grown at Sunflower Land.\n\nNot to be mistaken for carrots.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Crop",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/208.png",
-    },
   },
   Eggplant: {
     image: CROP_LIFECYCLE.Eggplant.crop,
@@ -971,21 +852,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "Nature's edible work of art.",
       fr: "Nature's edible work of art.",
       tk: "Nature's edible work of art.",
-    },
-    opensea: {
-      description:
-        "A crop grown at Sunflower Land.\n\nNature's edible work of art.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Crop",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/215.png",
     },
   },
   Corn: {
@@ -997,21 +863,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Sun-kissed kernels of delight, nature's summer treasure.",
       tk: "Sun-kissed kernels of delight, nature's summer treasure.",
     },
-    opensea: {
-      description:
-        "A crop grown at Sunflower Land.\n\nGolden corn, a gift from celestial lands, bestowed bountiful harvests upon humankind",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Crop",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/216.png",
-    },
   },
   Radish: {
     image: CROP_LIFECYCLE.Radish.crop,
@@ -1021,21 +872,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "Takes time but is worth the wait!",
       fr: "Takes time but is worth the wait!",
       tk: "Takes time but is worth the wait!",
-    },
-    opensea: {
-      description:
-        "A crop grown at Sunflower Land.\n\nLegend says these were once used in melee combat.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Crop",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/209.png",
     },
   },
   Wheat: {
@@ -1047,21 +883,6 @@ export const ITEM_DETAILS: Items = {
       fr: "The most harvested crop in the world.",
       tk: "The most harvested crop in the world.",
     },
-    opensea: {
-      description:
-        "A crop grown at Sunflower Land.\n\nTraditionally only grown by Goblins.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Crop",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/210.png",
-    },
   },
   Kale: {
     image: CROP_LIFECYCLE.Kale.crop,
@@ -1071,20 +892,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "A Bumpkin Power Food!",
       fr: "A Bumpkin Power Food!",
       tk: "A Bumpkin Power Food!",
-    },
-    opensea: {
-      description: "A crop grown at Sunflower Land.\n\nA Bumpkin Power Food!",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Crop",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/211.png",
     },
   },
   Soybean: {
@@ -1096,24 +903,10 @@ export const ITEM_DETAILS: Items = {
       fr: "A versatile legume!",
       tk: "A versatile legume!",
     },
-    opensea: {
-      description: "A crop grown at Sunflower Land.\n\nA versatile legume!",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Crop",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/251.png",
-    },
   },
   "Sunflower Seed": {
     image: CROP_LIFECYCLE.Sunflower.seed,
-    secondaryImage: "undefined/crops/sunflower/crop.png",
+    secondaryImage: CROP_LIFECYCLE.Sunflower.crop,
     description: {
       en: "A sunny flower",
       pt: "A sunny flower",
@@ -1121,25 +914,10 @@ export const ITEM_DETAILS: Items = {
       fr: "A sunny flower",
       tk: "A sunny flower",
     },
-    opensea: {
-      description:
-        "A seed used to grow sunflowers. The most basic resource used to start your farming empire.\n\nYou can buy sunflower seeds in game at the market.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Seed",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/101.png",
-    },
   },
   "Potato Seed": {
     image: CROP_LIFECYCLE.Potato.seed,
-    secondaryImage: "undefined/crops/potato/crop.png",
+    secondaryImage: CROP_LIFECYCLE.Potato.crop,
     description: {
       en: "Healthier than you might think.",
       pt: "Healthier than you might think.",
@@ -1147,25 +925,10 @@ export const ITEM_DETAILS: Items = {
       fr: "Healthier than you might think.",
       tk: "Healthier than you might think.",
     },
-    opensea: {
-      description:
-        "A seed used to grow potatoes. All great hustlers start with a potato seed.\n\nYou can buy potato seeds in game at the market.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Seed",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/102.png",
-    },
   },
   "Pumpkin Seed": {
     image: CROP_LIFECYCLE.Pumpkin.seed,
-    secondaryImage: "undefined/crops/pumpkin/crop.png",
+    secondaryImage: CROP_LIFECYCLE.Pumpkin.crop,
     description: {
       en: "There's more to pumpkin than pie.",
       pt: "There's more to pumpkin than pie.",
@@ -1173,25 +936,10 @@ export const ITEM_DETAILS: Items = {
       fr: "There's more to pumpkin than pie.",
       tk: "There's more to pumpkin than pie.",
     },
-    opensea: {
-      description:
-        "A seed used to grow pumpkins. A goblin's favourite!\n\nYou can buy pumpkin seeds in game at the market.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Seed",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/103.png",
-    },
   },
   "Carrot Seed": {
     image: CROP_LIFECYCLE.Carrot.seed,
-    secondaryImage: "undefined/crops/carrot/crop.png",
+    secondaryImage: CROP_LIFECYCLE.Carrot.crop,
     description: {
       en: "They're good for your eyes!",
       pt: "They're good for your eyes!",
@@ -1199,25 +947,10 @@ export const ITEM_DETAILS: Items = {
       fr: "They're good for your eyes!",
       tk: "They're good for your eyes!",
     },
-    opensea: {
-      description:
-        "A seed used to grow carrots. An easy to grow and staple vegetable in all Bumpkin's diets!\n\nYou can buy carrot seeds in game at the market.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Seed",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/104.png",
-    },
   },
   "Cabbage Seed": {
     image: CROP_LIFECYCLE.Cabbage.seed,
-    secondaryImage: "undefined/crops/cabbage/crop.png",
+    secondaryImage: CROP_LIFECYCLE.Cabbage.crop,
     description: {
       en: "Once a luxury, now a food for many.",
       pt: "Once a luxury, now a food for many.",
@@ -1225,25 +958,10 @@ export const ITEM_DETAILS: Items = {
       fr: "Once a luxury, now a food for many.",
       tk: "Once a luxury, now a food for many.",
     },
-    opensea: {
-      description:
-        "A seed used to grow cabbage.\n\nYou can buy cabbage seeds in game at the market.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Seed",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/105.png",
-    },
   },
   "Beetroot Seed": {
     image: CROP_LIFECYCLE.Beetroot.seed,
-    secondaryImage: "undefined/crops/beetroot/crop.png",
+    secondaryImage: CROP_LIFECYCLE.Beetroot.crop,
     description: {
       en: "Good for hangovers!",
       pt: "Good for hangovers!",
@@ -1251,25 +969,10 @@ export const ITEM_DETAILS: Items = {
       fr: "Good for hangovers!",
       tk: "Good for hangovers!",
     },
-    opensea: {
-      description:
-        "A seed used to grow beetroot.\n\nYou can buy beetroot seeds in game at the market.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Seed",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/106.png",
-    },
   },
   "Cauliflower Seed": {
     image: CROP_LIFECYCLE.Cauliflower.seed,
-    secondaryImage: "undefined/crops/cauliflower/crop.png",
+    secondaryImage: CROP_LIFECYCLE.Cauliflower.crop,
     description: {
       en: "Excellent rice substitute!",
       pt: "Excellent rice substitute!",
@@ -1277,25 +980,10 @@ export const ITEM_DETAILS: Items = {
       fr: "Excellent rice substitute!",
       tk: "Excellent rice substitute!",
     },
-    opensea: {
-      description:
-        "A seed used to grow cauliflower.\n\nYou can buy cauliflower seeds in game at the market.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Seed",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/107.png",
-    },
   },
   "Parsnip Seed": {
     image: CROP_LIFECYCLE.Parsnip.seed,
-    secondaryImage: "undefined/crops/parsnip/crop.png",
+    secondaryImage: CROP_LIFECYCLE.Parsnip.crop,
     description: {
       en: "Not to be mistaken for carrots.",
       pt: "Not to be mistaken for carrots.",
@@ -1303,25 +991,10 @@ export const ITEM_DETAILS: Items = {
       fr: "Not to be mistaken for carrots.",
       tk: "Not to be mistaken for carrots.",
     },
-    opensea: {
-      description:
-        "A seed used to grow parsnip.\n\nYou can buy parsnip seeds in game at the market.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Seed",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/108.png",
-    },
   },
   "Eggplant Seed": {
     image: CROP_LIFECYCLE.Eggplant.seed,
-    secondaryImage: "undefined/crops/eggplant/crop.png",
+    secondaryImage: CROP_LIFECYCLE.Eggplant.crop,
     description: {
       en: "Nature's edible work of art.",
       pt: "Nature's edible work of art.",
@@ -1329,25 +1002,10 @@ export const ITEM_DETAILS: Items = {
       fr: "Nature's edible work of art.",
       tk: "Nature's edible work of art.",
     },
-    opensea: {
-      description:
-        "A seed used to grow eggplant.\n\nYou can buy eggplant seeds in game at the market.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Seed",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/118.png",
-    },
   },
   "Corn Seed": {
     image: CROP_LIFECYCLE.Corn.seed,
-    secondaryImage: "undefined/crops/corn/crop.png",
+    secondaryImage: CROP_LIFECYCLE.Corn.crop,
     description: {
       en: "Sun-kissed kernels of delight, nature's summer treasure.",
       pt: "Sun-kissed kernels of delight, nature's summer treasure.",
@@ -1355,25 +1013,10 @@ export const ITEM_DETAILS: Items = {
       fr: "Sun-kissed kernels of delight, nature's summer treasure.",
       tk: "Sun-kissed kernels of delight, nature's summer treasure.",
     },
-    opensea: {
-      description:
-        "A seed used to grow corn.\n\nYou can buy corn seeds in game at the market.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Seed",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/119.png",
-    },
   },
   "Radish Seed": {
     image: CROP_LIFECYCLE.Radish.seed,
-    secondaryImage: "undefined/crops/radish/crop.png",
+    secondaryImage: CROP_LIFECYCLE.Radish.crop,
     description: {
       en: "Takes time but is worth the wait!",
       pt: "Takes time but is worth the wait!",
@@ -1381,46 +1024,16 @@ export const ITEM_DETAILS: Items = {
       fr: "Takes time but is worth the wait!",
       tk: "Takes time but is worth the wait!",
     },
-    opensea: {
-      description:
-        "A seed used to grow radishes.\n\nYou can buy radish seeds in game at the market.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Seed",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/109.png",
-    },
   },
   "Wheat Seed": {
     image: CROP_LIFECYCLE.Wheat.seed,
-    secondaryImage: "undefined/crops/wheat/crop.png",
+    secondaryImage: CROP_LIFECYCLE.Wheat.crop,
     description: {
       en: "The most harvested crop in the world.",
       pt: "The most harvested crop in the world.",
       "zh-CN": "The most harvested crop in the world.",
       fr: "The most harvested crop in the world.",
       tk: "The most harvested crop in the world.",
-    },
-    opensea: {
-      description:
-        "A seed used to grow wheat.\n\nYou can buy wheat seeds in game at the market.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Seed",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/110.png",
     },
   },
   "Magic Bean": {
@@ -1432,21 +1045,6 @@ export const ITEM_DETAILS: Items = {
       fr: "What will grow?",
       tk: "What will grow?",
     },
-    opensea: {
-      description:
-        "Plant, wait and discover rare items, mutant crops & more surprises!",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Seed",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/115.png",
-    },
   },
   "Kale Seed": {
     image: CROP_LIFECYCLE.Kale.seed,
@@ -1456,21 +1054,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "A Bumpkin Power Food!",
       fr: "A Bumpkin Power Food!",
       tk: "A Bumpkin Power Food!",
-    },
-    opensea: {
-      description:
-        "A seed used to grow kale.\n\nYou can buy kale seeds in game at the market.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Seed",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/111.png",
     },
   },
   "Soybean Seed": {
@@ -1482,21 +1065,6 @@ export const ITEM_DETAILS: Items = {
       fr: "A versatile legume!",
       tk: "A versatile legume!",
     },
-    opensea: {
-      description:
-        "A seed used to grow soybean.\n\nYou can buy soybean seeds in game at the market.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Seed",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/124.png",
-    },
   },
   "Apple Seed": {
     image: appleSeed,
@@ -1506,21 +1074,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "Perfect for homemade Apple Pie",
       fr: "Perfect for homemade Apple Pie",
       tk: "Perfect for homemade Apple Pie",
-    },
-    opensea: {
-      description:
-        "A seed used to grow apple.\n\nYou can buy apple seeds in game at the market.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Seed",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/112.png",
     },
   },
   "Blueberry Seed": {
@@ -1532,21 +1085,6 @@ export const ITEM_DETAILS: Items = {
       fr: "A Goblin's weakness",
       tk: "A Goblin's weakness",
     },
-    opensea: {
-      description:
-        "A seed used to grow blueberry.\n\nYou can buy blueberry seeds in game at the market.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Seed",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/113.png",
-    },
   },
   "Orange Seed": {
     image: orangeSeed,
@@ -1556,21 +1094,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "Vitamin C to keep your Bumpkin Healthy",
       fr: "Vitamin C to keep your Bumpkin Healthy",
       tk: "Vitamin C to keep your Bumpkin Healthy",
-    },
-    opensea: {
-      description:
-        "A seed used to grow orange.\n\nYou can buy orange seeds in game at the market.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Seed",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/114.png",
     },
   },
   "Banana Plant": {
@@ -1582,21 +1105,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Oh banana!",
       tk: "Oh banana!",
     },
-    opensea: {
-      description:
-        "A plant used to grow bananas.\n\nYou can buy banana plants in game at the market.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Seed",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/120.png",
-    },
   },
   "Sunpetal Seed": {
     image: sunpetalSeed,
@@ -1606,25 +1114,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "A sunpetal seed",
       fr: "A sunpetal seed",
       tk: "A sunpetal seed",
-    },
-    opensea: {
-      description:
-        "A seed used to grow flowers. Experiment to find all the variants.\n\nYou can buy Sunpetal seeds in game at the market.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Seed",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-        {
-          trait_type: "Rarity",
-          value: "Rare",
-        },
-      ],
-      image: "../public/erc1155/images/121.png",
     },
   },
   "Bloom Seed": {
@@ -1636,25 +1125,6 @@ export const ITEM_DETAILS: Items = {
       fr: "A bloom seed",
       tk: "A bloom seed",
     },
-    opensea: {
-      description:
-        "A seed used to grow flowers. Experiment to find all the variants.\n\nYou can buy Bloom seeds in game at the market.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Seed",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-        {
-          trait_type: "Rarity",
-          value: "Rare",
-        },
-      ],
-      image: "../public/erc1155/images/122.png",
-    },
   },
   "Lily Seed": {
     image: lilySeed,
@@ -1664,25 +1134,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "A lily seed",
       fr: "A lily seed",
       tk: "A lily seed",
-    },
-    opensea: {
-      description:
-        "A seed used to grow flowers. Experiment to find all the variants.\n\nYou can buy Lily seeds in game at the market.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Seed",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-        {
-          trait_type: "Rarity",
-          value: "Rare",
-        },
-      ],
-      image: "../public/erc1155/images/123.png",
     },
   },
   "Apple Pie": {
@@ -1694,20 +1145,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Bumpkin Betty's famous recipe",
       tk: "Bumpkin Betty's famous recipe",
     },
-    opensea: {
-      description: "Bumpkin Betty's famous recipe. Cook this at the bakery",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Consumable",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/524.png",
-    },
   },
   "Blueberry Jam": {
     image: blueberryJam,
@@ -1717,21 +1154,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "Goblins will do anything for this jam",
       fr: "Goblins will do anything for this jam",
       tk: "Goblins will do anything for this jam",
-    },
-    opensea: {
-      description:
-        "Goblins will do anything for this jam. You can cook this at the Deli.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Consumable",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/525.png",
     },
   },
   "Honey Cake": {
@@ -1743,20 +1165,6 @@ export const ITEM_DETAILS: Items = {
       fr: "A scrumptious cake!",
       tk: "A scrumptious cake!",
     },
-    opensea: {
-      description: "A scrumptious cake! You can cook this at the Bakery",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Consumable",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/527.png",
-    },
   },
   "Kale & Mushroom Pie": {
     image: kaleMushroomPie,
@@ -1766,21 +1174,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "A traditional Sapphiron recipe",
       fr: "A traditional Sapphiron recipe",
       tk: "A traditional Sapphiron recipe",
-    },
-    opensea: {
-      description:
-        "A traditional Sapphiron recipe. You can cook this at the Bakery",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Consumable",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/528.png",
     },
   },
   "Kale Stew": {
@@ -1792,21 +1185,6 @@ export const ITEM_DETAILS: Items = {
       fr: "A perfect Bumpkin Booster!",
       tk: "A perfect Bumpkin Booster!",
     },
-    opensea: {
-      description:
-        "A perfect Bumpkin Booster. You can cook this at the Fire Pit.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Consumable",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/529.png",
-    },
   },
   "Mushroom Jacket Potatoes": {
     image: mushroomJacketPotato,
@@ -1816,21 +1194,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "Cram them taters with what ya got!",
       fr: "Cram them taters with what ya got!",
       tk: "Cram them taters with what ya got!",
-    },
-    opensea: {
-      description:
-        "Cram them taters with what ya got! You can cook this at the Kitchen.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Consumable",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/530.png",
     },
   },
   "Mushroom Soup": {
@@ -1842,21 +1205,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Warm your Bumpkin's soul.",
       tk: "Warm your Bumpkin's soul.",
     },
-    opensea: {
-      description:
-        "Warm your Bumpkin's soul. You can can cook these at the Fire Pit.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Consumable",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/531.png",
-    },
   },
   "Orange Cake": {
     image: orangeCake,
@@ -1866,21 +1214,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "Orange you glad we aren't cooking apples",
       fr: "Orange you glad we aren't cooking apples",
       tk: "Orange you glad we aren't cooking apples",
-    },
-    opensea: {
-      description:
-        "Orange you glad we aren't cooking apples. You can can cook these at the Bakery.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Consumable",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/532.png",
     },
   },
   "Sunflower Crunch": {
@@ -1892,21 +1225,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Crunchy goodness. Try not to burn it.",
       tk: "Crunchy goodness. Try not to burn it.",
     },
-    opensea: {
-      description:
-        "Crunchy goodness. Try not to burn it! You can can cook these at the Fire Pit.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Consumable",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/533.png",
-    },
   },
   "Magic Mushroom": {
     image: SUNNYSIDE.resource.magic_mushroom,
@@ -1916,20 +1234,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "Used to cook advanced recipes",
       fr: "Used to cook advanced recipes",
       tk: "Used to cook advanced recipes",
-    },
-    opensea: {
-      description: "Used to cook advanced recipes.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Resource",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/616.png",
     },
   },
   "Wild Mushroom": {
@@ -1941,20 +1245,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Used to cook basic recipes",
       tk: "Used to cook basic recipes",
     },
-    opensea: {
-      description: "Used to cook basic recipes.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Resource",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/615.png",
-    },
   },
   Apple: {
     image: apple,
@@ -1964,21 +1254,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "Perfect for homemade Apple Pie",
       fr: "Perfect for homemade Apple Pie",
       tk: "Perfect for homemade Apple Pie",
-    },
-    opensea: {
-      description:
-        "A fruit grown at Sunflower Land.\n\nPerfect for homemade Apple Pie",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Crop",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/212.png",
     },
   },
   Blueberry: {
@@ -1990,20 +1265,6 @@ export const ITEM_DETAILS: Items = {
       fr: "A Goblin's weakness",
       tk: "A Goblin's weakness",
     },
-    opensea: {
-      description: "A fruit grown at Sunflower Land.\n\nA Goblin's weakness",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Crop",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/213.png",
-    },
   },
   Orange: {
     image: orange,
@@ -2013,21 +1274,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "Vitamin C to keep your Bumpkin Healthy",
       fr: "Vitamin C to keep your Bumpkin Healthy",
       tk: "Vitamin C to keep your Bumpkin Healthy",
-    },
-    opensea: {
-      description:
-        "A fruit grown at Sunflower Land.\n\nVitamin C to keep your Bumpkin Healthy",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Crop",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/214.png",
     },
   },
   Banana: {
@@ -2039,20 +1285,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Oh banana!",
       tk: "Oh banana!",
     },
-    opensea: {
-      description: "A fruit grown at Sunflower Land.\n\nOh banana!",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Crop",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/217.png",
-    },
   },
   Honey: {
     image: honey,
@@ -2062,20 +1294,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "Used to sweeten your cooking",
       fr: "Used to sweeten your cooking",
       tk: "Used to sweeten your cooking",
-    },
-    opensea: {
-      description: "Used to sweeten your cooking.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Resource",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/614.png",
     },
   },
   "Apple Juice": {
@@ -2087,21 +1305,6 @@ export const ITEM_DETAILS: Items = {
       fr: "A crisp refreshing beverage",
       tk: "A crisp refreshing beverage",
     },
-    opensea: {
-      description:
-        "A crisp refreshing beverage. You can can prepare these at the Smoothie Shack.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Consumable",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/535.png",
-    },
   },
   "Orange Juice": {
     image: orangeJuice,
@@ -2111,21 +1314,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "OJ matches perfectly with a Club Sandwich",
       fr: "OJ matches perfectly with a Club Sandwich",
       tk: "OJ matches perfectly with a Club Sandwich",
-    },
-    opensea: {
-      description:
-        "OJ matches perfectly with a Club Sandwich. You can can prepare these at the Smoothie Shack.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Consumable",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/536.png",
     },
   },
   "Purple Smoothie": {
@@ -2137,21 +1325,6 @@ export const ITEM_DETAILS: Items = {
       fr: "You can hardly taste the Cabbage",
       tk: "You can hardly taste the Cabbage",
     },
-    opensea: {
-      description:
-        "You can hardly taste the Cabbage. You can can prepare these at the Smoothie Shack.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Consumable",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/537.png",
-    },
   },
   "Bumpkin Detox": {
     image: bumpkinDetox,
@@ -2161,21 +1334,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "Wash away the sins of last night",
       fr: "Wash away the sins of last night",
       tk: "Wash away the sins of last night",
-    },
-    opensea: {
-      description:
-        "Wash away the sins of last night. You can can prepare these at the Smoothie Shack.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Consumable",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/539.png",
     },
   },
   "Power Smoothie": {
@@ -2187,21 +1345,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Official drink of the Bumpkin Powerlifting Society",
       tk: "Official drink of the Bumpkin Powerlifting Society",
     },
-    opensea: {
-      description:
-        "Official drink of the Bumpkin Powerlifting Society. You can can prepare these at the Smoothie Shack.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Consumable",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/538.png",
-    },
   },
   "Bumpkin Roast": {
     image: bumpkinRoast,
@@ -2211,21 +1354,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "A traditional Bumpkin dish",
       fr: "A traditional Bumpkin dish",
       tk: "A traditional Bumpkin dish",
-    },
-    opensea: {
-      description:
-        "A traditional Bumpkin dish. You can cook this at the Kitchen.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Consumable",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/541.png",
     },
   },
   "Goblin Brunch": {
@@ -2237,21 +1365,6 @@ export const ITEM_DETAILS: Items = {
       fr: "A traditional Goblin dish",
       tk: "A traditional Goblin dish",
     },
-    opensea: {
-      description:
-        "A traditional Goblin dish. You can cook this at the Kitchen.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Consumable",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/542.png",
-    },
   },
   "Fruit Salad": {
     image: fruitSalad,
@@ -2261,20 +1374,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "Fruit Salad, Yummy Yummy",
       fr: "Fruit Salad, Yummy Yummy",
       tk: "Fruit Salad, Yummy Yummy",
-    },
-    opensea: {
-      description: "Fruit Salad. You can cook this at the Kitchen.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Consumable",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/543.png",
     },
   },
   "Kale Omelette": {
@@ -2286,21 +1385,6 @@ export const ITEM_DETAILS: Items = {
       fr: "A healthy breakfast",
       tk: "A healthy breakfast",
     },
-    opensea: {
-      description:
-        "A healthy breakfast. You can can cook this at the Fire Pit.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Consumable",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/544.png",
-    },
   },
   "Cabbers n Mash": {
     image: cabbersNMash,
@@ -2310,21 +1394,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "Cabbages and Mashed Potatoes",
       fr: "Cabbages and Mashed Potatoes",
       tk: "Cabbages and Mashed Potatoes",
-    },
-    opensea: {
-      description:
-        "Cabbages and Mashed Potatoes. You can can cook this at the Fire Pit.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Consumable",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/545.png",
     },
   },
   "Fancy Fries": {
@@ -2336,20 +1405,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Fantastic Fries",
       tk: "Fantastic Fries",
     },
-    opensea: {
-      description: "Fantastic Fries. You can cook this at the Deli.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Consumable",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/546.png",
-    },
   },
   "Banana Blast": {
     image: bananaBlast,
@@ -2359,20 +1414,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "The ultimate fruity fuel for those with a peel for power!",
       fr: "The ultimate fruity fuel for those with a peel for power!",
       tk: "The ultimate fruity fuel for those with a peel for power!",
-    },
-    opensea: {
-      description: "The ultimate fruity fuel for those with a peel for power!",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Consumable",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/554.png",
     },
   },
   Wood: {
@@ -2384,21 +1425,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Used to craft items",
       tk: "Used to craft items",
     },
-    opensea: {
-      description:
-        "A resource collected by chopping down trees.\n\nIt is used in a range of different crafting recipes.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Resource",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/601.png",
-    },
   },
   Stone: {
     image: SUNNYSIDE.resource.stone,
@@ -2408,21 +1434,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "Used to craft items",
       fr: "Used to craft items",
       tk: "Used to craft items",
-    },
-    opensea: {
-      description:
-        "A resource collected by mining stone mines.\n\nIt is used in a range of different crafting recipes.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Resource",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/602.png",
     },
   },
   Iron: {
@@ -2434,21 +1445,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Used to craft items",
       tk: "Used to craft items",
     },
-    opensea: {
-      description:
-        "A resource collected by mining iron mines.\n\nIt is used in a range of different crafting recipes.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Resource",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/603.png",
-    },
   },
   Crimstone: {
     image: crimstone,
@@ -2458,21 +1454,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "Used to craft items",
       fr: "Used to craft items",
       tk: "Used to craft items",
-    },
-    opensea: {
-      description:
-        "A resource collected by mining crimstone mines.\n\nIt is used in a range of different crafting recipes.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Resource",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/636.png",
     },
   },
   Gold: {
@@ -2484,21 +1465,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Used to craft items",
       tk: "Used to craft items",
     },
-    opensea: {
-      description:
-        "A resource collected by mining gold mines.\n\nIt is used in a range of different crafting recipes.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Resource",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/604.png",
-    },
   },
   Diamond: {
     image: SUNNYSIDE.resource.diamond,
@@ -2508,21 +1474,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "Used to craft items",
       fr: "Used to craft items",
       tk: "Used to craft items",
-    },
-    opensea: {
-      description:
-        "A resource collected by mining diamond mines.\n\nIt is used in a range of different crafting recipes.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Resource",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/617.png",
     },
   },
   Sunstone: {
@@ -2534,21 +1485,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Used to craft items",
       tk: "Used to craft items",
     },
-    opensea: {
-      description:
-        "A resource collected by mining sunstone mines.\n\nIt is used in a range of different crafting recipes.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Resource",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/638.png",
-    },
   },
   Oil: {
     image: oil,
@@ -2558,21 +1494,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "Used to craft items",
       fr: "Used to craft items",
       tk: "Used to craft items",
-    },
-    opensea: {
-      description:
-        "A resource collected by mining oil mines.\n\nIt is used to power machinery and boost cooking speed.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Resource",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/639.png",
     },
   },
   Egg: {
@@ -2584,21 +1505,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Used to craft items",
       tk: "Used to craft items",
     },
-    opensea: {
-      description:
-        "A resource collected by taking care of chickens.\n\nIt is used in a range of different crafting recipes.\n\nAt Sunflower Land, the egg came first.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Resource",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/605.png",
-    },
   },
   Chicken: {
     image: SUNNYSIDE.resource.chicken,
@@ -2608,21 +1514,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "Used to lay eggs",
       fr: "Used to lay eggs",
       tk: "Used to lay eggs",
-    },
-    opensea: {
-      description:
-        "A resource used to collect eggs.\n\nIt can be purchased at the barn.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Resource",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/606.gif",
     },
   },
   Cow: {
@@ -2634,21 +1525,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Used to lay eggs",
       tk: "Used to lay eggs",
     },
-    opensea: {
-      description:
-        "A resource used to collect milk.\n\nIt can be purchased at the barn.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Resource",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/607.png",
-    },
   },
   Sheep: {
     image: SUNNYSIDE.icons.expression_confused,
@@ -2658,21 +1534,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "Used to lay eggs",
       fr: "Used to lay eggs",
       tk: "Used to lay eggs",
-    },
-    opensea: {
-      description:
-        "A resource used to collect wool.\n\nIt can be purchased at the barn.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Resource",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/609.png",
     },
   },
   Pig: {
@@ -2684,21 +1545,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Used to lay eggs",
       tk: "Used to lay eggs",
     },
-    opensea: {
-      description:
-        "A resource used to collect manure.\n\nIt can be purchased at the barn.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Resource",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/608.png",
-    },
   },
   Axe: {
     image: SUNNYSIDE.tools.axe,
@@ -2708,21 +1554,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "Used to chop wood",
       fr: "Used to chop wood",
       tk: "Used to chop wood",
-    },
-    opensea: {
-      description:
-        "A tool used to chop wood. It is burnt after use.\n\nYou can craft an axe at the Blacksmith in the game.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Tool",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/301.png",
     },
   },
   Pickaxe: {
@@ -2734,21 +1565,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Used to mine stone",
       tk: "Used to mine stone",
     },
-    opensea: {
-      description:
-        "A tool used to mine stone. It is burnt after use.\n\nYou can craft a pickaxe at the Blacksmith in the game.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Tool",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/302.png",
-    },
   },
   "Stone Pickaxe": {
     image: SUNNYSIDE.tools.stone_pickaxe,
@@ -2758,21 +1574,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "Used to mine iron",
       fr: "Used to mine iron",
       tk: "Used to mine iron",
-    },
-    opensea: {
-      description:
-        "A tool used to mine iron. It is burnt after use.\n\nYou can craft a stone pickaxe at the Blacksmith in the game.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Tool",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/303.png",
     },
   },
   "Iron Pickaxe": {
@@ -2784,21 +1585,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Used to mine gold",
       tk: "Used to mine gold",
     },
-    opensea: {
-      description:
-        "A tool used to mine gold. It is burnt after use.\n\nYou can craft an iron pickaxe at the Blacksmith in the game.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Tool",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/304.png",
-    },
   },
   "Gold Pickaxe": {
     image: SUNNYSIDE.tools.gold_pickaxe,
@@ -2808,21 +1594,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "Used to mine crimstone and sunstone",
       fr: "Used to mine crimstone and sunstone",
       tk: "Used to mine crimstone and sunstone",
-    },
-    opensea: {
-      description:
-        "A tool used to mine crimstones and sunstones. It is burnt after use.\n\nYou can craft a gold pickaxe at the Blacksmith in the game.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Tool",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/304.png",
     },
   },
   Hammer: {
@@ -2834,21 +1605,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Coming soon",
       tk: "Coming soon",
     },
-    opensea: {
-      description:
-        "A tool used to upgrade buildings.\n\nYou can craft a hammer at the Blacksmith in the game.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Tool",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/305.png",
-    },
   },
   Rod: {
     image: SUNNYSIDE.tools.fishing_rod,
@@ -2858,21 +1614,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "Used to catch fish",
       fr: "Used to catch fish",
       tk: "Used to catch fish",
-    },
-    opensea: {
-      description:
-        "A tool used to capture fish.\n\nYou can craft a rod at the Blacksmith in the game.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Tool",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/306.png",
     },
   },
   "Rusty Shovel": {
@@ -2884,21 +1625,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Used to remove buildings and collectibles",
       tk: "Used to remove buildings and collectibles",
     },
-    opensea: {
-      description:
-        "Used to remove buildings and collectibles\n\nYou can craft a rusty shovel at the Workbench in the game.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Tool",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/307.png",
-    },
   },
   Shovel: {
     image: SUNNYSIDE.tools.shovel,
@@ -2908,21 +1634,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "Plant and harvest crops.",
       fr: "Plant and harvest crops.",
       tk: "Plant and harvest crops.",
-    },
-    opensea: {
-      description:
-        "A tool used to remove unwanted crops.\n\nYou can craft a shovel at the Workbench in the game.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Tool",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/308.png",
     },
   },
   "Sand Shovel": {
@@ -2934,21 +1645,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Utilisé pour creuser des trésors",
       tk: "Hazine kazmak için kullanılır",
     },
-    opensea: {
-      description:
-        "There are rumours that the Bumpkin pirates hid their treasure somewhere. These shovels can be used to dig for treasure!",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Tool",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/310.png",
-    },
   },
   "Sand Drill": {
     image: drill,
@@ -2958,20 +1654,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "深入挖掘不寻常或稀有的宝藏",
       fr: "Creusez profondément pour trouver des trésors peu communs ou rares",
       tk: "Sıra dışı veya nadir hazineler için derinlere inin",
-    },
-    opensea: {
-      description: "Drill deep for uncommon or rare treasure",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Tool",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/311.png",
     },
   },
   "Oil Drill": {
@@ -2983,21 +1665,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Drill for oil",
       tk: "Drill for oil",
     },
-    opensea: {
-      description:
-        "A tool used to drill for oil. It is burnt after use.\n\nYou can craft an oil drill at the Blacksmith in the game.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Tool",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/313.png",
-    },
   },
   "Block Buck": {
     image: blockBuck,
@@ -3007,20 +1674,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "A valuable token in Sunflower Land!",
       fr: "Un jeton précieux dans Sunflower Land!",
       tk: "Ayçiçeği Ülkesinde değerli bir jeton!",
-    },
-    opensea: {
-      description: "A valuable token in Sunflower Land!",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Coupon",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/718.png",
     },
   },
   "Sunflower Statue": {
@@ -3032,21 +1685,6 @@ export const ITEM_DETAILS: Items = {
       fr: "A symbol of the holy token",
       tk: "A symbol of the holy token",
     },
-    opensea: {
-      description:
-        "A symbol of the holy Sunflower Land Token. Flex your loyalty and farming status with this rare statue.\n\n~~You can craft this item at the Goblin Blacksmith~~ **Sold out!**",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/401.png",
-    },
   },
   "Potato Statue": {
     image: potatoStatue,
@@ -3056,21 +1694,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "The OG potato hustler flex",
       fr: "The OG potato hustler flex",
       tk: "The OG potato hustler flex",
-    },
-    opensea: {
-      description:
-        "A rare collectible for the potato hustlers of Sunflower Land.\n\n~~You can craft this item at the Goblin Blacksmith~~ **Sold out!**",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/402.png",
     },
   },
   Nancy: {
@@ -3082,26 +1705,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Keeps a few crows away. Crops grow 15% faster",
       tk: "Keeps a few crows away. Crops grow 15% faster",
     },
-    opensea: {
-      description:
-        "A brave scarecrow that keeps your crops safe from crows. Ensures your crops grow faster when placed on your farm.",
-      attributes: [
-        {
-          trait_type: "Boost",
-          value: "Crop",
-        },
-        {
-          display_type: "boost_percentage",
-          trait_type: "Crop Growth Time",
-          value: -15,
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/420.png",
-    },
   },
   Scarecrow: {
     image: scarecrow,
@@ -3111,31 +1714,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "A goblin scarecrow. Yield 20% more crops",
       fr: "A goblin scarecrow. Yield 20% more crops",
       tk: "A goblin scarecrow. Yield 20% more crops",
-    },
-    opensea: {
-      description:
-        "Ensures your crops grow faster when placed on your farm.\n\nRumour has it that it is crafted with a Goblin head from the great war.\n\nIncludes boosts from [Nancy](https://opensea.io/assets/matic/0x22d5f9b75c524fec1d6619787e582644cd4d7422/420).",
-      attributes: [
-        {
-          trait_type: "Boost",
-          value: "Crop",
-        },
-        {
-          display_type: "boost_percentage",
-          trait_type: "Crop Growth Time",
-          value: -15,
-        },
-        {
-          display_type: "boost_percentage",
-          trait_type: "Increase Crop Yield",
-          value: 20,
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/404.png",
     },
   },
   Kuebiko: {
@@ -3148,36 +1726,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Even the shopkeeper is scared of this scarecrow. Seeds are free",
       tk: "Even the shopkeeper is scared of this scarecrow. Seeds are free",
     },
-    opensea: {
-      description:
-        "An extremely rare item in Sunflower Land. This scarecrow cannot move but has in-depth knowledge of the history of the Sunflower Wars.\n\nThis scarecrow is so scary that it even frightens Bumpkins. If you have this item, all seeds are free from the market.\n\nIncludes boosts from [Scarecrow](https://opensea.io/assets/matic/0x22d5f9b75c524fec1d6619787e582644cd4d7422/404) and [Nancy](https://opensea.io/assets/matic/0x22d5f9b75c524fec1d6619787e582644cd4d7422/420).",
-      attributes: [
-        {
-          trait_type: "Boost",
-          value: "Crop",
-        },
-        {
-          display_type: "boost_percentage",
-          trait_type: "Crop Growth Time",
-          value: -15,
-        },
-        {
-          display_type: "boost_percentage",
-          trait_type: "Increase Crop Yield",
-          value: 20,
-        },
-        {
-          display_type: "boost_number",
-          trait_type: "Cost of Seeds",
-          value: 0,
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/421.gif",
-    },
   },
   "Christmas Tree": {
     image: christmasTree,
@@ -3187,25 +1735,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "Receive a Santa Airdrop on Christmas day",
       fr: "Receive a Santa Airdrop on Christmas day",
       tk: "Receive a Santa Airdrop on Christmas day",
-    },
-    opensea: {
-      description:
-        "Place on your farm during the Festive Season to get a spot and Santa's nice list!",
-      attributes: [
-        {
-          trait_type: "Boost",
-          value: "Other",
-        },
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/403.png",
     },
   },
   Gnome: {
@@ -3217,36 +1746,6 @@ export const ITEM_DETAILS: Items = {
       fr: "A lucky gnome",
       tk: "A lucky gnome",
     },
-    opensea: {
-      description:
-        "A lucky gnome. Currently used for decoration purposes\n\n~~You can craft a gnome at the Goblin Blacksmith in the game.~~ **Sold out!**",
-      attributes: [
-        {
-          trait_type: "Boost",
-          value: "Crop",
-        },
-        {
-          trait_type: "Boost",
-          value: "Area of Effect",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-        {
-          display_type: "boost_number",
-          trait_type:
-            "Increase Medium and Advanced Crop Yield when placed between Clementine and Cobalt",
-          value: 10,
-        },
-        {
-          display_type: "boost_number",
-          trait_type: "Plots Affected",
-          value: 1,
-        },
-      ],
-      image: "../public/erc1155/images/407.png",
-    },
   },
   "Gold Egg": {
     image: goldEgg,
@@ -3256,26 +1755,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "Feed chickens without needing wheat",
       fr: "Feed chickens without needing wheat",
       tk: "Feed chickens without needing wheat",
-    },
-    opensea: {
-      description:
-        "A golden egg. What lays inside is known to be the bearer of good fortune.\n\n\n\nFeed chickens without wheat.",
-      attributes: [
-        {
-          trait_type: "Boost",
-          value: "Animal",
-        },
-        {
-          display_type: "boost_number",
-          trait_type: "Feed chickens without Wheat",
-          value: 1,
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/409.gif",
     },
   },
   "Farm Cat": {
@@ -3287,21 +1766,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Keep the rats away",
       tk: "Keep the rats away",
     },
-    opensea: {
-      description:
-        "Keep the rats away with this rare item. Currently used for decoration purposes.\n\n~~You can craft a Cat at the Goblin Farmer in the game.~~ **Sold out!**",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/405.gif",
-    },
   },
   "Farm Dog": {
     image: farmDog,
@@ -3311,21 +1775,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "Herd sheep with your farm dog",
       fr: "Herd sheep with your farm dog",
       tk: "Herd sheep with your farm dog",
-    },
-    opensea: {
-      description:
-        "Sheep are no longer lazy when this farm dog is around. Increases wool production. Currently used for decoration purposes.\n\n~~You can craft a dog at the Goblin Farmer in the game.~~ **Sold out!**",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/406.gif",
     },
   },
   "Chicken Coop": {
@@ -3337,31 +1786,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Collect 2x the amount of eggs",
       tk: "Collect 2x the amount of eggs",
     },
-    opensea: {
-      description:
-        "A chicken coop that can be used to raise chickens. Increase egg production with this rare coop on your farm.\n\n~~You can craft a chicken coop at the Goblin Farmer in the game.~~ **Sold out!**",
-      attributes: [
-        {
-          trait_type: "Boost",
-          value: "Animal",
-        },
-        {
-          display_type: "boost_percentage",
-          trait_type: "Increase Egg Production",
-          value: 100,
-        },
-        {
-          display_type: "boost_number",
-          trait_type: "Increase Max Chickens per Hen House",
-          value: 5,
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/408.png",
-    },
   },
   "Golden Cauliflower": {
     image: goldenCauliflower,
@@ -3371,26 +1795,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "Doubles cauliflower yield",
       fr: "Doubles cauliflower yield",
       tk: "Doubles cauliflower yield",
-    },
-    opensea: {
-      description:
-        "It is rumoured that a farmer created a golden fertiliser which produced this magical Cauliflower.\n\nFor some reason, when this Cauliflower is on your farm you receive twice the rewards from growing Cauliflowers.\n\n~~You can craft a Golden Cauliflower at the Goblin Farmer in the game.~~ **Sold out!**",
-      attributes: [
-        {
-          trait_type: "Boost",
-          value: "Crop",
-        },
-        {
-          display_type: "boost_percentage",
-          trait_type: "Increase Cauliflower Yield",
-          value: 100,
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/410.png",
     },
   },
   "Sunflower Rock": {
@@ -3402,21 +1806,6 @@ export const ITEM_DETAILS: Items = {
       fr: "The game that broke Polygon",
       tk: "The game that broke Polygon",
     },
-    opensea: {
-      description:
-        "Remember the time Sunflower Farmers 'broke' Polygon? Those days are gone with Sunflower Land!\n\nThis is an extremely rare decoration for your farm.\n\n~~You can craft this item at the Goblin Blacksmith in the game.~~ **Sold out!**",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/412.png",
-    },
   },
   "Sunflower Tombstone": {
     image: sunflowerTombstone,
@@ -3426,21 +1815,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "In memory of Sunflower Farmers",
       fr: "In memory of Sunflower Farmers",
       tk: "In memory of Sunflower Farmers",
-    },
-    opensea: {
-      description:
-        "A commemorative homage to Sunflower Farmers, the prototype which birthed Sunflower Land.\n\nThis item was airdropped to anyone who maxed out their farm to level 5.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/411.png",
     },
   },
   "Goblin Crown": {
@@ -3452,21 +1826,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Summon the leader of the Goblins",
       tk: "Summon the leader of the Goblins",
     },
-    opensea: {
-      description:
-        "Summon the Goblin leader and reveal who the mastermind is behind the Goblin resistance.\n\n~~You can craft this item at the Goblin Blacksmith in the game.~~ **Sold out!**",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/413.png",
-    },
   },
   Fountain: {
     image: fountain,
@@ -3476,21 +1835,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "A relaxing fountain for your farm",
       fr: "A relaxing fountain for your farm",
       tk: "A relaxing fountain for your farm",
-    },
-    opensea: {
-      description:
-        "A beautiful fountain that relaxes all Bumpkins.\n\n~~You can craft this item at the Goblin Blacksmith in the game.~~ **Sold out!**",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/414.gif",
     },
   },
   "Woody the Beaver": {
@@ -3502,26 +1846,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Increase wood drops by 20%",
       tk: "Increase wood drops by 20%",
     },
-    opensea: {
-      description:
-        "During the great wood shortage, Bumpkins created an alliance with the Beaver population.\n\nIncreases wood production.\n\nYou can craft this item at the Goblin Blacksmith in the game.",
-      attributes: [
-        {
-          trait_type: "Boost",
-          value: "Resource",
-        },
-        {
-          display_type: "boost_percentage",
-          trait_type: "Increase Wood Drops",
-          value: 20,
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/415.gif",
-    },
   },
   "Apprentice Beaver": {
     image: apprenticeBeaver,
@@ -3531,31 +1855,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "Trees recover 50% faster",
       fr: "Trees recover 50% faster",
       tk: "Trees recover 50% faster",
-    },
-    opensea: {
-      description:
-        "A well trained Beaver who has aspirations of creating a wood monopoly.\n\nIncreases wood replenishment rates.\n\n~~You can craft this item at the Goblin Blacksmith in the game.~~ **Sold out!**\n\nIncludes boosts from [Woody the Beaver](https://opensea.io/assets/matic/0x22d5f9b75c524fec1d6619787e582644cd4d7422/415).",
-      attributes: [
-        {
-          trait_type: "Boost",
-          value: "Resource",
-        },
-        {
-          display_type: "boost_percentage",
-          trait_type: "Increase Wood Drops",
-          value: 20,
-        },
-        {
-          display_type: "boost_percentage",
-          trait_type: "Tree Recovery Time",
-          value: -50,
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/416.gif",
     },
   },
   "Foreman Beaver": {
@@ -3567,36 +1866,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Cut trees without axes",
       tk: "Cut trees without axes",
     },
-    opensea: {
-      description:
-        "A master of construction, carving and all things wood related.\n\nChop trees without axes.\n\nIncludes boosts from [Apprentice Beaver](https://opensea.io/assets/matic/0x22d5f9b75c524fec1d6619787e582644cd4d7422/416) and [Woody the Beaver](https://opensea.io/assets/matic/0x22d5f9b75c524fec1d6619787e582644cd4d7422/415).",
-      attributes: [
-        {
-          trait_type: "Boost",
-          value: "Resource",
-        },
-        {
-          display_type: "boost_percentage",
-          trait_type: "Increase Wood Drops",
-          value: 20,
-        },
-        {
-          display_type: "boost_percentage",
-          trait_type: "Tree Recovery Time",
-          value: -50,
-        },
-        {
-          display_type: "boost_number",
-          trait_type: "Cut trees without axe",
-          value: 1,
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/417.gif",
-    },
   },
   "Mysterious Parsnip": {
     image: mysteriousParsnip,
@@ -3606,26 +1875,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "Parsnips grow 50% faster",
       fr: "Parsnips grow 50% faster",
       tk: "Parsnips grow 50% faster",
-    },
-    opensea: {
-      description:
-        "No one knows where this parsnip came from, but when it is on your farm Parsnips grow 50% faster.\n\n~~You can craft this item at the Goblin Farmer in the game.~~ **Sold out!**",
-      attributes: [
-        {
-          trait_type: "Boost",
-          value: "Crop",
-        },
-        {
-          display_type: "boost_percentage",
-          trait_type: "Parsnip Growth Time",
-          value: -50,
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/418.png",
     },
   },
   "Carrot Sword": {
@@ -3637,26 +1886,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Increase chance of a mutant crop appearing",
       tk: "Increase chance of a mutant crop appearing",
     },
-    opensea: {
-      description:
-        "Legend has it that only a true farmer can yield this sword.\n\nIncreases the chance of finding a mutant crop by 300%!\n\n~~You can craft this item at the Goblin Farmer in the game.~~ **Sold out!**",
-      attributes: [
-        {
-          trait_type: "Boost",
-          value: "Crop",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-        {
-          display_type: "boost_percentage",
-          trait_type: "Increases chance of Mutant Crop",
-          value: 300,
-        },
-      ],
-      image: "../public/erc1155/images/419.png",
-    },
   },
   "Golden Bonsai": {
     image: goldenBonsai,
@@ -3666,21 +1895,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "Goblins love bonsai too",
       fr: "Goblins love bonsai too",
       tk: "Goblins love bonsai too",
-    },
-    opensea: {
-      description:
-        "The pinnacle of goblin style and sophistication. A Golden Bonsai is the perfect piece to tie your farm together.\n\n~~You can only get this item trading with the Traveling Salesman in the game. ~~ **Sold out!**",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/426.png",
     },
   },
   "Nyon Statue": {
@@ -3692,21 +1906,6 @@ export const ITEM_DETAILS: Items = {
       fr: "In memory of Nyon Lann",
       tk: "In memory of Nyon Lann",
     },
-    opensea: {
-      description:
-        "A homage to Sir Nyon who died at the battle of the Goblin mines.\n\n~~You can craft the Nyon Statue at the Goblin Blacksmith in the game.~~ **Sold out!**",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/422.png",
-    },
   },
   "Homeless Tent": {
     image: homelessTent,
@@ -3716,21 +1915,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "A nice and cozy tent",
       fr: "A nice and cozy tent",
       tk: "A nice and cozy tent",
-    },
-    opensea: {
-      description:
-        "A nice and cozy tent.\n\n~~You can craft the Homeless Tent at the Goblin Blacksmith in the game.~~ **Sold out!**",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/424.png",
     },
   },
   "Farmer Bath": {
@@ -3742,21 +1926,6 @@ export const ITEM_DETAILS: Items = {
       fr: "A beetroot scented bath for the farmers",
       tk: "A beetroot scented bath for the farmers",
     },
-    opensea: {
-      description:
-        "A beetroot scented bath for your farmer.\n\nAfter a long day of farming potatoes and fighting off Goblins, this is the perfect relaxation device for your hard working farmer.\n\nYou can craft the Farmer Bath at the Goblin Blacksmith in the game.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/423.png",
-    },
   },
   "Mysterious Head": {
     image: mysteriousHead,
@@ -3766,21 +1935,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "A statue thought to protect farmers",
       fr: "A statue thought to protect farmers",
       tk: "A statue thought to protect farmers",
-    },
-    opensea: {
-      description:
-        "A Mysterious Head said to protect farmers.\n\nYou can craft the Mysterious Head at the Goblin Blacksmith in the game.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/425.png",
     },
   },
   "Tunnel Mole": {
@@ -3792,26 +1946,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Gives a 25% increase to stone mines",
       tk: "Gives a 25% increase to stone mines",
     },
-    opensea: {
-      description:
-        "The tunnel mole gives a 25% increase to stone mines.\n\n~~You can craft this item at the Goblin Blacksmith in the game.~~ **Sold out!**",
-      attributes: [
-        {
-          trait_type: "Boost",
-          value: "Resource",
-        },
-        {
-          display_type: "boost_number",
-          trait_type: "Increase Stone Drops",
-          value: 0.25,
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/428.gif",
-    },
   },
   "Rocky the Mole": {
     image: rockyMole,
@@ -3821,26 +1955,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "Gives a 25% increase to iron mines",
       fr: "Gives a 25% increase to iron mines",
       tk: "Gives a 25% increase to iron mines",
-    },
-    opensea: {
-      description:
-        "\"Life's not about how much iron you can mine... it's about how much more you can mine, and still keep mining.\" - Rocky the Mole\n\nRocky the Mole gives a 25% increase to iron mines.\n\nYou can craft this item at the Goblin Blacksmith in the game.",
-      attributes: [
-        {
-          trait_type: "Boost",
-          value: "Resource",
-        },
-        {
-          display_type: "boost_number",
-          trait_type: "Increase Iron Drops",
-          value: 0.25,
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/429.gif",
     },
   },
   Nugget: {
@@ -3852,26 +1966,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Gives a 25% increase to gold mines",
       tk: "Gives a 25% increase to gold mines",
     },
-    opensea: {
-      description:
-        "Seldom seen above ground, this gold digger burrows day and night searching for the next gold rush.\n\nStrike gold with this little critter! Eureka!\n\nNugget gives a 25% increase to gold mines.\n\nYou can craft this item at the Goblin Blacksmith in the game.",
-      attributes: [
-        {
-          trait_type: "Boost",
-          value: "Resource",
-        },
-        {
-          display_type: "boost_number",
-          trait_type: "Increase Gold Drops",
-          value: 0.25,
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/430.gif",
-    },
   },
   "Rock Golem": {
     image: rockGolem,
@@ -3882,31 +1976,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Gives a 10% chance to get 3x stone",
       tk: "Gives a 10% chance to get 3x stone",
     },
-    opensea: {
-      description:
-        "The Rock Golem is the protector of Stone.\n\nMining stone causes the Golem to be become enraged giving a 10% chance to get 3x stone from stone mines.\n\n~~You can craft this item at the Goblin Blacksmith in the game.~~ **Sold out!**",
-      attributes: [
-        {
-          trait_type: "Boost",
-          value: "Resource",
-        },
-        {
-          display_type: "boost_number",
-          trait_type: "Stone Critical Hit Amount",
-          value: 2,
-        },
-        {
-          display_type: "boost_percentage",
-          trait_type: "Stone Critical Hit Chance",
-          value: 10,
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/427.gif",
-    },
   },
   Rooster: {
     image: rooster,
@@ -3916,26 +1985,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "Doubles the chance of dropping a mutant chicken",
       fr: "Doubles the chance of dropping a mutant chicken",
       tk: "Doubles the chance of dropping a mutant chicken",
-    },
-    opensea: {
-      description:
-        "Rooster increases the chance of getting a mutant chicken 2x.\n\nYou can craft this item at the Goblin Farmer in the game.",
-      attributes: [
-        {
-          display_type: "boost_percentage",
-          trait_type: "Increase Mutant Chicken Chance",
-          value: 100,
-        },
-        {
-          trait_type: "Boost",
-          value: "Animal",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/613.gif",
     },
   },
   "Wicker Man": {
@@ -3948,21 +1997,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Join hands and make a chain, the shadow of the Wicker Man will rise up again",
       tk: "Join hands and make a chain, the shadow of the Wicker Man will rise up again",
     },
-    opensea: {
-      description:
-        "Join hands and make a chain, the shadow of the Wicker Man will rise up again.\n\nYou can only get this item trading with the Traveling Salesman in the game.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/431.png",
-    },
   },
   "Pumpkin Soup": {
     image: pumpkinSoup,
@@ -3972,21 +2006,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "A creamy soup that goblins love",
       fr: "A creamy soup that goblins love",
       tk: "A creamy soup that goblins love",
-    },
-    opensea: {
-      description:
-        "A creamy soup that Goblins love! Owning this item unlocks fields and new seeds.\n\nYou can craft this at the Kitchen in the game.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Consumable",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/501.png",
     },
   },
   "Roasted Cauliflower": {
@@ -3998,21 +2017,6 @@ export const ITEM_DETAILS: Items = {
       fr: "A Goblin's favourite",
       tk: "A Goblin's favourite",
     },
-    opensea: {
-      description:
-        "A Goblin’s favourite! Owning this item unlocks fields and new seeds.\n\nYou can craft this at the Kitchen in the game.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Consumable",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/502.png",
-    },
   },
   "Radish Pie": {
     image: radishPie,
@@ -4022,21 +2026,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "Despised by humans, loved by goblins",
       fr: "Despised by humans, loved by goblins",
       tk: "Despised by humans, loved by goblins",
-    },
-    opensea: {
-      description:
-        "Despised by humans, loved by Goblins! Owning this item unlocks crop seeds.\n\nYou can craft this item at the Kitchen in the game.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Consumable",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/504.png",
     },
   },
   "Beetroot Cake": {
@@ -4048,21 +2037,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Beetroot Cake",
       tk: "Beetroot Cake",
     },
-    opensea: {
-      description:
-        "A special cake that is only available during certain times of the year for the great bake off!\n\nYou can bake a cake at the in-game Kitchen using eggs, wheat and the necessary crops.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Consumable",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/510.png",
-    },
   },
   "Cabbage Cake": {
     image: cabbageCake,
@@ -4072,21 +2046,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "Cabbage Cake",
       fr: "Cabbage Cake",
       tk: "Cabbage Cake",
-    },
-    opensea: {
-      description:
-        "A special cake that is only available during certain times of the year for the great bake off!\n\nYou can bake a cake at the in-game Kitchen using eggs, wheat and the necessary crops.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Consumable",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/509.png",
     },
   },
   "Carrot Cake": {
@@ -4098,21 +2057,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Carrot Cake",
       tk: "Carrot Cake",
     },
-    opensea: {
-      description:
-        "A special cake that is only available during certain times of the year for the great bake off!\n\nYou can bake a cake at the in-game Kitchen using eggs, wheat and the necessary crops.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Consumable",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/508.png",
-    },
   },
   "Cauliflower Cake": {
     image: cauliflowerCake,
@@ -4122,21 +2066,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "Cauliflower Cake",
       fr: "Cauliflower Cake",
       tk: "Cauliflower Cake",
-    },
-    opensea: {
-      description:
-        "A special cake that is only available during certain times of the year for the great bake off!\n\nYou can bake a cake at the in-game Kitchen using eggs, wheat and the necessary crops.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Consumable",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/511.png",
     },
   },
   "Parsnip Cake": {
@@ -4148,21 +2077,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Parsnip Cake",
       tk: "Parsnip Cake",
     },
-    opensea: {
-      description:
-        "A special cake that is only available during certain times of the year for the great bake off!\n\nYou can bake a cake at the in-game Kitchen using eggs, wheat and the necessary crops.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Consumable",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/512.png",
-    },
   },
   "Potato Cake": {
     image: potatoCake,
@@ -4172,21 +2086,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "Potato Cake",
       fr: "Potato Cake",
       tk: "Potato Cake",
-    },
-    opensea: {
-      description:
-        "A special cake that is only available during certain times of the year for the great bake off!\n\nYou can bake a cake at the in-game Kitchen using eggs, wheat and the necessary crops.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Consumable",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/506.png",
     },
   },
   "Pumpkin Cake": {
@@ -4198,21 +2097,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Pumpkin Cake",
       tk: "Pumpkin Cake",
     },
-    opensea: {
-      description:
-        "A special cake that is only available during certain times of the year for the great bake off!\n\nYou can bake a cake at the in-game Kitchen using eggs, wheat and the necessary crops.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Consumable",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/507.png",
-    },
   },
   "Radish Cake": {
     image: radishCake,
@@ -4222,21 +2106,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "Radish Cake",
       fr: "Radish Cake",
       tk: "Radish Cake",
-    },
-    opensea: {
-      description:
-        "A special cake that is only available during certain times of the year for the great bake off!\n\nYou can bake a cake at the in-game Kitchen using eggs, wheat and the necessary crops.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Consumable",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/513.png",
     },
   },
   "Sunflower Cake": {
@@ -4248,21 +2117,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Sunflower Cake",
       tk: "Sunflower Cake",
     },
-    opensea: {
-      description:
-        "A special cake that is only available during certain times of the year for the great bake off!\n\nYou can bake a cake at the in-game Kitchen using eggs, wheat and the necessary crops.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Consumable",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/505.png",
-    },
   },
   "Wheat Cake": {
     image: wheatCake,
@@ -4272,21 +2126,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "Wheat Cake",
       fr: "Wheat Cake",
       tk: "Wheat Cake",
-    },
-    opensea: {
-      description:
-        "A special cake that is only available during certain times of the year for the great bake off!\n\nYou can bake a cake at the in-game Kitchen using eggs, wheat and the necessary crops.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Consumable",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/514.png",
     },
   },
   "Green Thumb": {
@@ -4298,39 +2137,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Crops are worth 5% more",
       tk: "Crops are worth 5% more",
     },
-    opensea: {
-      description:
-        "~~A skill that can be earned when reaching level 5 in farming.~~\n\n~~It can be minted only through gameplay.~~ **Not Available**",
-      attributes: [
-        {
-          trait_type: "Boost",
-          value: "Skill",
-        },
-        {
-          trait_type: "Boost",
-          value: "Crop",
-        },
-        {
-          trait_type: "Purpose",
-          value: "Legacy",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-        {
-          display_type: "boost_percentage",
-          trait_type: "Increase Crop Sell Price",
-          value: 5,
-        },
-        {
-          display_type: "boost_percentage",
-          trait_type: "Increase Mutant Crop Chance",
-          value: 10,
-        },
-      ],
-      image: "../public/erc1155/images/701.png",
-    },
   },
   "Barn Manager": {
     image: barnManager,
@@ -4340,34 +2146,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "Animals yield 10% more goods",
       fr: "Animals yield 10% more goods",
       tk: "Animals yield 10% more goods",
-    },
-    opensea: {
-      description:
-        "~~A skill that can be earned when reaching level 5 in farming.~~\n\n~~It can be minted only through gameplay.~~ **Not Available**",
-      attributes: [
-        {
-          trait_type: "Boost",
-          value: "Skill",
-        },
-        {
-          trait_type: "Boost",
-          value: "Animal",
-        },
-        {
-          trait_type: "Purpose",
-          value: "Legacy",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-        {
-          display_type: "boost_percentage",
-          trait_type: "Increase Animal Yield",
-          value: 5,
-        },
-      ],
-      image: "../public/erc1155/images/702.png",
     },
   },
   "Seed Specialist": {
@@ -4379,39 +2157,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Crops grow 10% faster",
       tk: "Crops grow 10% faster",
     },
-    opensea: {
-      description:
-        "~~A skill that can be earned when reaching level 10 in farming.~~\n\n~~It can be minted only through gameplay.~~ **Not Available**",
-      attributes: [
-        {
-          trait_type: "Boost",
-          value: "Skill",
-        },
-        {
-          trait_type: "Boost",
-          value: "Crop",
-        },
-        {
-          trait_type: "Purpose",
-          value: "Legacy",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-        {
-          display_type: "boost_percentage",
-          trait_type: "Crop Growth Time",
-          value: -10,
-        },
-        {
-          display_type: "boost_percentage",
-          trait_type: "Increase Mutant Crop Chance",
-          value: 10,
-        },
-      ],
-      image: "../public/erc1155/images/703.png",
-    },
   },
   Wrangler: {
     image: wrangler,
@@ -4421,34 +2166,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "Animals produce goods 10% faster",
       fr: "Animals produce goods 10% faster",
       tk: "Animals produce goods 10% faster",
-    },
-    opensea: {
-      description:
-        "~~A skill that can be learnt when reaching level 10 in farming.~~\n\n~~It can be minted only through gameplay.~~ **Not Available**",
-      attributes: [
-        {
-          trait_type: "Boost",
-          value: "Skill",
-        },
-        {
-          trait_type: "Boost",
-          value: "Animal",
-        },
-        {
-          trait_type: "Purpose",
-          value: "Legacy",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-        {
-          display_type: "boost_percentage",
-          trait_type: "Animal Produce Time",
-          value: -10,
-        },
-      ],
-      image: "../public/erc1155/images/704.png",
     },
   },
   Lumberjack: {
@@ -4460,34 +2177,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Increase wood drops by 10%",
       tk: "Increase wood drops by 10%",
     },
-    opensea: {
-      description:
-        "~~A skill that can be earned when reaching level 5 in gathering.~~\n\n~~It can be minted only through gameplay.~~ **Not Available**",
-      attributes: [
-        {
-          trait_type: "Boost",
-          value: "Skill",
-        },
-        {
-          trait_type: "Boost",
-          value: "Resource",
-        },
-        {
-          trait_type: "Purpose",
-          value: "Legacy",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-        {
-          display_type: "boost_percentage",
-          trait_type: "Wood drop increase",
-          value: 10,
-        },
-      ],
-      image: "../public/erc1155/images/705.png",
-    },
   },
   Prospector: {
     image: prospector,
@@ -4497,34 +2186,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "Increase stone drops by 20%",
       fr: "Increase stone drops by 20%",
       tk: "Increase stone drops by 20%",
-    },
-    opensea: {
-      description:
-        "~~A skill that can be earned when reaching level 5 in gathering.~~\n\n~~It can be minted only through gameplay.~~ **Not Available**",
-      attributes: [
-        {
-          trait_type: "Boost",
-          value: "Skill",
-        },
-        {
-          trait_type: "Boost",
-          value: "Resource",
-        },
-        {
-          trait_type: "Purpose",
-          value: "Legacy",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-        {
-          display_type: "boost_percentage",
-          trait_type: "Stone drop increase",
-          value: 20,
-        },
-      ],
-      image: "../public/erc1155/images/706.png",
     },
   },
   Logger: {
@@ -4536,34 +2197,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Axes last 50% longer",
       tk: "Axes last 50% longer",
     },
-    opensea: {
-      description:
-        "~~A skill that can be earned when reaching level 10 in gathering.~~\n\n~~It can be minted only through gameplay.~~ **Not Available**",
-      attributes: [
-        {
-          trait_type: "Boost",
-          value: "Skill",
-        },
-        {
-          trait_type: "Boost",
-          value: "Resource",
-        },
-        {
-          trait_type: "Purpose",
-          value: "Legacy",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-        {
-          display_type: "boost_percentage",
-          trait_type: "Axe Strength",
-          value: 200,
-        },
-      ],
-      image: "../public/erc1155/images/707.png",
-    },
   },
   "Gold Rush": {
     image: goldRush,
@@ -4573,34 +2206,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "Increase gold drops by 50%",
       fr: "Increase gold drops by 50%",
       tk: "Increase gold drops by 50%",
-    },
-    opensea: {
-      description:
-        "~~A skill that can be earned when reaching level 10 in gathering.~~\n\n~~It can be minted only through gameplay.~~ **Not Available**",
-      attributes: [
-        {
-          trait_type: "Boost",
-          value: "Skill",
-        },
-        {
-          trait_type: "Boost",
-          value: "Resource",
-        },
-        {
-          trait_type: "Purpose",
-          value: "Legacy",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-        {
-          display_type: "boost_percentage",
-          trait_type: "Gold Drops",
-          value: 50,
-        },
-      ],
-      image: "../public/erc1155/images/708.png",
     },
   },
   Artist: {
@@ -4612,34 +2217,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Save 10% on shop & blacksmith tools",
       tk: "Save 10% on shop & blacksmith tools",
     },
-    opensea: {
-      description:
-        "~~A skill that can be earned by contributing art to the game.~~ **Not Available**",
-      attributes: [
-        {
-          trait_type: "Boost",
-          value: "Skill",
-        },
-        {
-          trait_type: "Boost",
-          value: "Other",
-        },
-        {
-          trait_type: "Purpose",
-          value: "Legacy",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-        {
-          display_type: "boost_percentage",
-          trait_type: "Tools discount",
-          value: 10,
-        },
-      ],
-      image: "../public/erc1155/images/709.png",
-    },
   },
   Coder: {
     image: coder,
@@ -4649,34 +2226,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "Crops yield 20% more",
       fr: "Crops yield 20% more",
       tk: "Crops yield 20% more",
-    },
-    opensea: {
-      description:
-        "~~A skill that can be earned by contributing code to the game.~~ **Not Available**",
-      attributes: [
-        {
-          trait_type: "Boost",
-          value: "Skill",
-        },
-        {
-          trait_type: "Boost",
-          value: "Crop",
-        },
-        {
-          trait_type: "Purpose",
-          value: "Legacy",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-        {
-          display_type: "boost_percentage",
-          trait_type: "Increase Crop Yield",
-          value: 10,
-        },
-      ],
-      image: "../public/erc1155/images/710.png",
     },
   },
   "Liquidity Provider": {
@@ -4688,34 +2237,6 @@ export const ITEM_DETAILS: Items = {
       fr: "50% reduced SFL withdrawal fee",
       tk: "50% reduced SFL withdrawal fee",
     },
-    opensea: {
-      description:
-        "~~A skill that can be earned by providing liquidity.~~ **Not Available**",
-      attributes: [
-        {
-          trait_type: "Boost",
-          value: "Skill",
-        },
-        {
-          trait_type: "Boost",
-          value: "Other",
-        },
-        {
-          trait_type: "Purpose",
-          value: "Legacy",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-        {
-          display_type: "boost_percentage",
-          trait_type: "Withdrawal fee discount",
-          value: 50,
-        },
-      ],
-      image: "../public/erc1155/images/711.png",
-    },
   },
   "Discord Mod": {
     image: discord,
@@ -4725,34 +2246,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "Yield 35% more wood",
       fr: "Yield 35% more wood",
       tk: "Yield 35% more wood",
-    },
-    opensea: {
-      description:
-        "~~A skill that can be earned by moderating Discord.~~ **Not Available**",
-      attributes: [
-        {
-          trait_type: "Boost",
-          value: "Skill",
-        },
-        {
-          trait_type: "Boost",
-          value: "Resource",
-        },
-        {
-          trait_type: "Purpose",
-          value: "Legacy",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-        {
-          display_type: "boost_percentage",
-          trait_type: "Increase Wood Drops",
-          value: 35,
-        },
-      ],
-      image: "../public/erc1155/images/712.png",
     },
   },
   Warrior: {
@@ -4764,21 +2257,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Early access to land expansion",
       tk: "Early access to land expansion",
     },
-    opensea: {
-      description:
-        "~~A skill earned by the top 10 warriors each week.~~ **Not Available**",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Legacy",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/714.png",
-    },
   },
   "Trading Ticket": {
     image: ticket,
@@ -4788,21 +2266,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "Free Trades! Woohoo!",
       fr: "Échanges gratuits ! Hourra!",
       tk: "Serbest Ticaret! Vay be!",
-    },
-    opensea: {
-      description:
-        "This ticket grants the owner a free ride in the hot air balloon (a free trade).\n\nUsed automatically when posting a trade.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Coupon",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/713.png",
     },
   },
   "Beta Pass": {
@@ -4814,20 +2277,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Accédez en avant-première à des fonctionnalités pour les tester.",
       tk: "Test amaçlı özelliklere erken erişim sağlayın.",
     },
-    opensea: {
-      description: "Gain early access to features for testing.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Coupon",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/715.png",
-    },
   },
   "War Bond": {
     image: warBond,
@@ -4837,21 +2286,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "A mark of a true warrior",
       fr: "La marque d'un vrai guerrier",
       tk: "Gerçek bir savaşçının işareti",
-    },
-    opensea: {
-      description:
-        "A war is brewing in Sunflower Land and both sides are preparing resources to crush their enemies.\n\nWill you show your support?\n\nFor a limited time, the war collectors are offering rare War Bonds in exchange for resources. You can use these to buy rare items in Goblin Village.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Coupon",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/917.png",
     },
   },
   "Goblin War Point": {
@@ -4863,21 +2297,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Une déclaration d'allégeance",
       tk: "Bir bağlılık gösterisi",
     },
-    opensea: {
-      description:
-        "A war is brewing in Sunflower Land and both sides are preparing resources to crush their enemies.\n\nHere you can view the support team Goblin is providing.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Legacy",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/918.png",
-    },
   },
   "Human War Point": {
     image: SUNNYSIDE.icons.expression_confused,
@@ -4887,21 +2306,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "A display of allegiance",
       fr: "Une déclaration d'allégeance",
       tk: "Bir bağlılık gösterisi",
-    },
-    opensea: {
-      description:
-        "A war is brewing in Sunflower Land and both sides are preparing resources to crush their enemies.\n\nHere you can view the support team Human is providing.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Legacy",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/919.png",
     },
   },
   "Human War Banner": {
@@ -4913,21 +2317,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Un affichage d'allégeance à la cause des Humains.",
       tk: "İnsan davasına bağlılığın bir göstergesi",
     },
-    opensea: {
-      description:
-        "A war is brewing in Sunflower Land.\n\nThis banner represents an allegiance to the Human cause.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Banner",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/920.png",
-    },
   },
   "Goblin War Banner": {
     image: goblinBanner,
@@ -4937,21 +2326,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "彰显为哥布林伟业献身的盟约",
       fr: "Un affichage d'allégeance à la cause des Gobelins.",
       tk: "Goblin davasına bağlılığın bir göstergesi",
-    },
-    opensea: {
-      description:
-        "A war is brewing in Sunflower Land.\n\nThis banner represents an allegiance to the Goblin cause.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Banner",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/921.png",
     },
   },
   "Sunflorian Faction Banner": {
@@ -4963,21 +2337,6 @@ export const ITEM_DETAILS: Items = {
       fr: "A display of allegiance to the Sunflorian Faction",
       tk: "A display of allegiance to the Sunflorian Faction",
     },
-    opensea: {
-      description:
-        "A banner that shows your allegiance to the Sunflorian Faction.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Banner",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/941.png",
-    },
   },
   "Nightshade Faction Banner": {
     image: nightshadeFactionBanner,
@@ -4987,21 +2346,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "彰显对 Nightshade 派系的忠心",
       fr: "A display of allegiance to the Nightshade Faction",
       tk: "A display of allegiance to the Nightshade Faction",
-    },
-    opensea: {
-      description:
-        "A banner that shows your allegiance to the Nightshade Faction.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Banner",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/940.png",
     },
   },
   "Bumpkin Faction Banner": {
@@ -5013,21 +2357,6 @@ export const ITEM_DETAILS: Items = {
       fr: "A display of allegiance to the Bumpkin Faction",
       tk: "A display of allegiance to the Bumpkin Faction",
     },
-    opensea: {
-      description:
-        "A banner that shows your allegiance to the Bumpkin Faction.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Banner",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/939.png",
-    },
   },
   "Goblin Faction Banner": {
     image: goblinFactionBanner,
@@ -5037,20 +2366,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "彰显对 Goblin 派系的忠心",
       fr: "A display of allegiance to the Goblin Faction",
       tk: "A display of allegiance to the Goblin Faction",
-    },
-    opensea: {
-      description: "A banner that shows your allegiance to the Goblin Faction.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Banner",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/942.png",
     },
   },
   "Australian Flag": {
@@ -5062,21 +2377,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Australian flag",
       tk: "Australian flag",
     },
-    opensea: {
-      description:
-        "A limited edition flag to fly proudly on your farm\n\nYou can craft this item at the Goblin Tailor in the game.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Flag",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/801.gif",
-    },
   },
   "Belgian Flag": {
     image: belgiumFlag,
@@ -5086,21 +2386,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "Belgian flag",
       fr: "Belgian flag",
       tk: "Belgian flag",
-    },
-    opensea: {
-      description:
-        "A limited edition flag to fly proudly on your farm\n\nYou can craft this item at the Goblin Tailor in the game.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Flag",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/802.gif",
     },
   },
   "Brazilian Flag": {
@@ -5112,21 +2397,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Brazilian flag",
       tk: "Brazilian flag",
     },
-    opensea: {
-      description:
-        "A limited edition flag to fly proudly on your farm\n\nYou can craft this item at the Goblin Tailor in the game.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Flag",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/803.gif",
-    },
   },
   "Chinese Flag": {
     image: chinaFlag,
@@ -5136,21 +2406,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "Chinese flag",
       fr: "Chinese flag",
       tk: "Chinese flag",
-    },
-    opensea: {
-      description:
-        "A limited edition flag to fly proudly on your farm\n\nYou can craft this item at the Goblin Tailor in the game.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Flag",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/804.gif",
     },
   },
   "Finnish Flag": {
@@ -5162,21 +2417,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Finnish flag",
       tk: "Finnish flag",
     },
-    opensea: {
-      description:
-        "A limited edition flag to fly proudly on your farm\n\nYou can craft this item at the Goblin Tailor in the game.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Flag",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/805.gif",
-    },
   },
   "French Flag": {
     image: franceFlag,
@@ -5186,21 +2426,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "French flag",
       fr: "French flag",
       tk: "French flag",
-    },
-    opensea: {
-      description:
-        "A limited edition flag to fly proudly on your farm\n\nYou can craft this item at the Goblin Tailor in the game.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Flag",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/806.gif",
     },
   },
   "German Flag": {
@@ -5212,21 +2437,6 @@ export const ITEM_DETAILS: Items = {
       fr: "German flag",
       tk: "German flag",
     },
-    opensea: {
-      description:
-        "A limited edition flag to fly proudly on your farm\n\nYou can craft this item at the Goblin Tailor in the game.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Flag",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/807.gif",
-    },
   },
   "Indonesian Flag": {
     image: indonesiaFlag,
@@ -5236,21 +2446,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "Indonesian flag",
       fr: "Indonesian flag",
       tk: "Indonesian flag",
-    },
-    opensea: {
-      description:
-        "A limited edition flag to fly proudly on your farm\n\nYou can craft this item at the Goblin Tailor in the game.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Flag",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/808.gif",
     },
   },
   "Indian Flag": {
@@ -5262,21 +2457,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Indian flag",
       tk: "Indian flag",
     },
-    opensea: {
-      description:
-        "A limited edition flag to fly proudly on your farm\n\nYou can craft this item at the Goblin Tailor in the game.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Flag",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/809.gif",
-    },
   },
   "Iranian Flag": {
     image: iranFlag,
@@ -5286,21 +2466,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "Iranian flag",
       fr: "Iranian flag",
       tk: "Iranian flag",
-    },
-    opensea: {
-      description:
-        "A limited edition flag to fly proudly on your farm\n\nYou can craft this item at the Goblin Tailor in the game.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Flag",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/810.gif",
     },
   },
   "Italian Flag": {
@@ -5312,21 +2477,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Italian flag",
       tk: "Italian flag",
     },
-    opensea: {
-      description:
-        "A limited edition flag to fly proudly on your farm\n\nYou can craft this item at the Goblin Tailor in the game.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Flag",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/811.gif",
-    },
   },
   "Japanese Flag": {
     image: japanFlag,
@@ -5336,21 +2486,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "Japanese flag",
       fr: "Japanese flag",
       tk: "Japanese flag",
-    },
-    opensea: {
-      description:
-        "A limited edition flag to fly proudly on your farm\n\nYou can craft this item at the Goblin Tailor in the game.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Flag",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/812.gif",
     },
   },
   "Moroccan Flag": {
@@ -5362,21 +2497,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Moroccan flag",
       tk: "Moroccan flag",
     },
-    opensea: {
-      description:
-        "A limited edition flag to fly proudly on your farm\n\nYou can craft this item at the Goblin Tailor in the game.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Flag",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/813.gif",
-    },
   },
   "Dutch Flag": {
     image: netherlandsFlag,
@@ -5386,21 +2506,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "Dutch flag",
       fr: "Dutch flag",
       tk: "Dutch flag",
-    },
-    opensea: {
-      description:
-        "A limited edition flag to fly proudly on your farm\n\nYou can craft this item at the Goblin Tailor in the game.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Flag",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/814.gif",
     },
   },
   "Philippine Flag": {
@@ -5412,21 +2517,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Philippine flag",
       tk: "Philippine flag",
     },
-    opensea: {
-      description:
-        "A limited edition flag to fly proudly on your farm\n\nYou can craft this item at the Goblin Tailor in the game.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Flag",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/815.gif",
-    },
   },
   "Polish Flag": {
     image: polandFlag,
@@ -5436,21 +2526,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "Polish flag",
       fr: "Polish flag",
       tk: "Polish flag",
-    },
-    opensea: {
-      description:
-        "A limited edition flag to fly proudly on your farm\n\nYou can craft this item at the Goblin Tailor in the game.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Flag",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/816.gif",
     },
   },
   "Portuguese Flag": {
@@ -5462,21 +2537,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Portuguese flag",
       tk: "Portuguese flag",
     },
-    opensea: {
-      description:
-        "A limited edition flag to fly proudly on your farm\n\nYou can craft this item at the Goblin Tailor in the game.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Flag",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/817.gif",
-    },
   },
   "Russian Flag": {
     image: russiaFlag,
@@ -5486,21 +2546,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "Russian flag",
       fr: "Russian flag",
       tk: "Russian flag",
-    },
-    opensea: {
-      description:
-        "A limited edition flag to fly proudly on your farm\n\nYou can craft this item at the Goblin Tailor in the game.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Flag",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/818.gif",
     },
   },
   "Saudi Arabian Flag": {
@@ -5512,21 +2557,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Saudi Arabian flag",
       tk: "Saudi Arabian flag",
     },
-    opensea: {
-      description:
-        "A limited edition flag to fly proudly on your farm\n\nYou can craft this item at the Goblin Tailor in the game.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Flag",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/819.gif",
-    },
   },
   "South Korean Flag": {
     image: southKoreaFlag,
@@ -5536,21 +2566,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "South Korean flag",
       fr: "South Korean flag",
       tk: "South Korean flag",
-    },
-    opensea: {
-      description:
-        "A limited edition flag to fly proudly on your farm\n\nYou can craft this item at the Goblin Tailor in the game.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Flag",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/820.gif",
     },
   },
   "Spanish Flag": {
@@ -5562,21 +2577,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Spanish flag",
       tk: "Spanish flag",
     },
-    opensea: {
-      description:
-        "A limited edition flag to fly proudly on your farm\n\nYou can craft this item at the Goblin Tailor in the game.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Flag",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/821.gif",
-    },
   },
   "Sunflower Flag": {
     image: sunflowerFlag,
@@ -5586,21 +2586,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "Sunflower flag",
       fr: "Sunflower flag",
       tk: "Sunflower flag",
-    },
-    opensea: {
-      description:
-        "A limited edition flag to fly proudly on your farm\n\nYou can craft this item at the Goblin Tailor in the game.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Flag",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/822.gif",
     },
   },
   "Thai Flag": {
@@ -5612,21 +2597,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Thai flag",
       tk: "Thai flag",
     },
-    opensea: {
-      description:
-        "A limited edition flag to fly proudly on your farm\n\nYou can craft this item at the Goblin Tailor in the game.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Flag",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/823.gif",
-    },
   },
   "Turkish Flag": {
     image: turkeyFlag,
@@ -5636,21 +2606,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "Turkish flag",
       fr: "Turkish flag",
       tk: "Turkish flag",
-    },
-    opensea: {
-      description:
-        "A limited edition flag to fly proudly on your farm\n\nYou can craft this item at the Goblin Tailor in the game.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Flag",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/824.gif",
     },
   },
   "Ukrainian Flag": {
@@ -5662,21 +2617,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Ukrainian flag",
       tk: "Ukrainian flag",
     },
-    opensea: {
-      description:
-        "A limited edition flag to fly proudly on your farm\n\nYou can craft this item at the Goblin Tailor in the game.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Flag",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/825.gif",
-    },
   },
   "American Flag": {
     image: usaFlag,
@@ -5686,21 +2626,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "American flag",
       fr: "American flag",
       tk: "American flag",
-    },
-    opensea: {
-      description:
-        "A limited edition flag to fly proudly on your farm\n\nYou can craft this item at the Goblin Tailor in the game.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Flag",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/826.gif",
     },
   },
   "Vietnamese Flag": {
@@ -5712,21 +2637,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Vietnamese flag",
       tk: "Vietnamese flag",
     },
-    opensea: {
-      description:
-        "A limited edition flag to fly proudly on your farm\n\nYou can craft this item at the Goblin Tailor in the game.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Flag",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/827.gif",
-    },
   },
   "Canadian Flag": {
     image: canadian_flag,
@@ -5736,21 +2646,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "Canadian flag",
       fr: "Canadian flag",
       tk: "Canadian flag",
-    },
-    opensea: {
-      description:
-        "A limited edition flag to fly proudly on your farm\n\nYou can craft this item at the Goblin Tailor in the game.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Flag",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/828.gif",
     },
   },
   "Singaporean Flag": {
@@ -5762,21 +2657,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Singaporean flag",
       tk: "Singaporean flag",
     },
-    opensea: {
-      description:
-        "A limited edition flag to fly proudly on your farm\n\nYou can craft this item at the Goblin Tailor in the game.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Flag",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/829.gif",
-    },
   },
   "British Flag": {
     image: british_flag,
@@ -5786,21 +2666,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "British flag",
       fr: "British flag",
       tk: "British flag",
-    },
-    opensea: {
-      description:
-        "A limited edition flag to fly proudly on your farm\n\nYou can craft this item at the Goblin Tailor in the game.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Flag",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/830.gif",
     },
   },
   "Sierra Leone Flag": {
@@ -5812,21 +2677,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Sierra Leone flag",
       tk: "Sierra Leone flag",
     },
-    opensea: {
-      description:
-        "A limited edition flag to fly proudly on your farm\n\nYou can craft this item at the Goblin Tailor in the game.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Flag",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/831.gif",
-    },
   },
   "Romanian Flag": {
     image: romanian_flag,
@@ -5836,21 +2686,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "Romanian flag",
       fr: "Romanian flag",
       tk: "Romanian flag",
-    },
-    opensea: {
-      description:
-        "A limited edition flag to fly proudly on your farm\n\nYou can craft this item at the Goblin Tailor in the game.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Flag",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/832.gif",
     },
   },
   "Rainbow Flag": {
@@ -5862,21 +2697,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Rainbow flag",
       tk: "Rainbow flag",
     },
-    opensea: {
-      description:
-        "A limited edition flag to fly proudly on your farm\n\nYou can craft this item at the Goblin Tailor in the game.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Flag",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/833.gif",
-    },
   },
   "Goblin Flag": {
     image: goblin_flag,
@@ -5886,21 +2706,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "Goblin flag",
       fr: "Goblin flag",
       tk: "Goblin flag",
-    },
-    opensea: {
-      description:
-        "A limited edition flag to fly proudly on your farm\n\nYou can craft this item at the Goblin Tailor in the game.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Flag",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/834.gif",
     },
   },
   "Pirate Flag": {
@@ -5912,21 +2717,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Pirate flag",
       tk: "Pirate flag",
     },
-    opensea: {
-      description:
-        "A limited edition flag to fly proudly on your farm\n\nYou can craft this item at the Goblin Tailor in the game.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Flag",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/835.gif",
-    },
   },
   "Algerian Flag": {
     image: algerian_flag,
@@ -5936,21 +2726,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "Algerian flag",
       fr: "Algerian flag",
       tk: "Algerian flag",
-    },
-    opensea: {
-      description:
-        "A limited edition flag to fly proudly on your farm\n\nYou can craft this item at the Goblin Tailor in the game.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Flag",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/836.gif",
     },
   },
   "Mexican Flag": {
@@ -5962,21 +2737,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Mexican flag",
       tk: "Mexican flag",
     },
-    opensea: {
-      description:
-        "A limited edition flag to fly proudly on your farm\n\nYou can craft this item at the Goblin Tailor in the game.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Flag",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/837.gif",
-    },
   },
   "Dominican Republic Flag": {
     image: dominican_republic_flag,
@@ -5986,21 +2746,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "Dominican Republic flag",
       fr: "Dominican Republic flag",
       tk: "Dominican Republic flag",
-    },
-    opensea: {
-      description:
-        "A limited edition flag to fly proudly on your farm\n\nYou can craft this item at the Goblin Tailor in the game.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Flag",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/838.gif",
     },
   },
   "Argentinian Flag": {
@@ -6012,21 +2757,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Argentinian flag",
       tk: "Argentinian flag",
     },
-    opensea: {
-      description:
-        "A limited edition flag to fly proudly on your farm\n\nYou can craft this item at the Goblin Tailor in the game.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Flag",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/839.gif",
-    },
   },
   "Lithuanian Flag": {
     image: lithuanian_flag,
@@ -6036,21 +2766,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "Lithuanian flag",
       fr: "Lithuanian flag",
       tk: "Lithuanian flag",
-    },
-    opensea: {
-      description:
-        "A limited edition flag to fly proudly on your farm\n\nYou can craft this item at the Goblin Tailor in the game.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Flag",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/840.gif",
     },
   },
   "Malaysian Flag": {
@@ -6062,21 +2777,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Malaysian flag",
       tk: "Malaysian flag",
     },
-    opensea: {
-      description:
-        "A limited edition flag to fly proudly on your farm\n\nYou can craft this item at the Goblin Tailor in the game.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Flag",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/841.gif",
-    },
   },
   "Colombian Flag": {
     image: colombian_flag,
@@ -6086,21 +2786,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "Colombian flag",
       fr: "Colombian flag",
       tk: "Colombian flag",
-    },
-    opensea: {
-      description:
-        "A limited edition flag to fly proudly on your farm\n\nYou can craft this item at the Goblin Tailor in the game.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Flag",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/842.gif",
     },
   },
   "Egg Basket": {
@@ -6112,21 +2797,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Événement de Pâques",
       tk: "Paskalya Etkinliği",
     },
-    opensea: {
-      description:
-        "An item that starts the Easter Egg Hunt.\n\nYou have 7 days to collect the 7 eggs. Every few hours an egg may appear on your farm to collect. Limited edition item!",
-      attributes: [
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-        {
-          trait_type: "Purpose",
-          value: "Event",
-        },
-      ],
-      image: "../public/erc1155/images/901.png",
-    },
   },
   "Easter Bunny": {
     image: easterBunny,
@@ -6136,26 +2806,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "增加 20 % 胡萝卜产出",
       fr: "Gagnez 20 % de carottes supplémentaires.",
       tk: "%20 daha fazla Havuç kazanın",
-    },
-    opensea: {
-      description:
-        "A limited edition bunny that can be crafted by those who collect all 7 eggs in the Easter Egg Hunt.",
-      attributes: [
-        {
-          display_type: "boost_percentage",
-          trait_type: "Increase Carrot Yield",
-          value: 20,
-        },
-        {
-          trait_type: "Boost",
-          value: "Crop",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/909.gif",
     },
   },
   "Pablo The Bunny": {
@@ -6167,25 +2817,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Un lapin de Pâques magique",
       tk: "Büyülü bir paskalya tavşanı",
     },
-    opensea: {
-      description: "The magical bunny that increases your carrot harvests",
-      attributes: [
-        {
-          trait_type: "Boost",
-          value: "Crop",
-        },
-        {
-          display_type: "boost_number",
-          trait_type: "Increase Carrot Yield",
-          value: 0.1,
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/926.gif",
-    },
   },
   "Blue Egg": {
     image: blueEgg,
@@ -6195,21 +2826,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "一个蓝色的复活节彩蛋",
       fr: "Un œuf de Pâques bleu",
       tk: "Mavi bir Paskalya yumurtası",
-    },
-    opensea: {
-      description:
-        "A limited edition easter egg that can be found on your farm during Easter.\n\nCollect the 7 special eggs to mint an Easter surprise.",
-      attributes: [
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-        {
-          trait_type: "Purpose",
-          value: "Event",
-        },
-      ],
-      image: "../public/erc1155/images/903.png",
     },
   },
   "Orange Egg": {
@@ -6221,21 +2837,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Un œuf de Pâques orange",
       tk: "Turuncu bir Paskalya yumurtası",
     },
-    opensea: {
-      description:
-        "A limited edition easter egg that can be found on your farm during Easter.\n\nCollect the 7 special eggs to mint an Easter surprise.",
-      attributes: [
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-        {
-          trait_type: "Purpose",
-          value: "Event",
-        },
-      ],
-      image: "../public/erc1155/images/907.png",
-    },
   },
   "Green Egg": {
     image: greenEgg,
@@ -6245,21 +2846,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "一个绿色的复活节彩蛋",
       fr: "Un œuf de Pâques vert",
       tk: "Yeşil bir Paskalya yumurtası",
-    },
-    opensea: {
-      description:
-        "A limited edition easter egg that can be found on your farm during Easter.\n\nCollect the 7 special eggs to mint an Easter surprise.",
-      attributes: [
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-        {
-          trait_type: "Purpose",
-          value: "Event",
-        },
-      ],
-      image: "../public/erc1155/images/908.png",
     },
   },
   "Yellow Egg": {
@@ -6271,21 +2857,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Un œuf de Pâques jaune",
       tk: "Sarı bir Paskalya yumurtası",
     },
-    opensea: {
-      description:
-        "A limited edition easter egg that can be found on your farm during Easter.\n\nCollect the 7 special eggs to mint an Easter surprise.",
-      attributes: [
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-        {
-          trait_type: "Purpose",
-          value: "Event",
-        },
-      ],
-      image: "../public/erc1155/images/904.png",
-    },
   },
   "Red Egg": {
     image: redEgg,
@@ -6295,21 +2866,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "一个红色的复活节彩蛋",
       fr: "Un œuf de Pâques rouge",
       tk: "Kırmızı bir Paskalya yumurtası",
-    },
-    opensea: {
-      description:
-        "A limited edition easter egg that can be found on your farm during Easter.\n\nCollect the 7 special eggs to mint an Easter surprise.",
-      attributes: [
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-        {
-          trait_type: "Purpose",
-          value: "Event",
-        },
-      ],
-      image: "../public/erc1155/images/902.png",
     },
   },
   "Pink Egg": {
@@ -6321,21 +2877,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Un œuf de Pâques rose",
       tk: "Pembe bir Paskalya yumurtası",
     },
-    opensea: {
-      description:
-        "A limited edition easter egg that can be found on your farm during Easter.\n\nCollect the 7 special eggs to mint an Easter surprise.",
-      attributes: [
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-        {
-          trait_type: "Purpose",
-          value: "Event",
-        },
-      ],
-      image: "../public/erc1155/images/905.png",
-    },
   },
   "Purple Egg": {
     image: purpleEgg,
@@ -6345,21 +2886,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "一个紫色的复活节彩蛋",
       fr: "Un œuf de Pâques violet",
       tk: "Mor bir Paskalya yumurtası",
-    },
-    opensea: {
-      description:
-        "A limited edition easter egg that can be found on your farm during Easter.\n\nCollect the 7 special eggs to mint an Easter surprise.",
-      attributes: [
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-        {
-          trait_type: "Purpose",
-          value: "Event",
-        },
-      ],
-      image: "../public/erc1155/images/906.png",
     },
   },
   "Engine Core": {
@@ -6371,21 +2897,6 @@ export const ITEM_DETAILS: Items = {
       fr: "The power of the sunflower",
       tk: "The power of the sunflower",
     },
-    opensea: {
-      description:
-        "An exclusive event item for Million on Mars x Sunflower Land cross-over.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Legacy",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/910.png",
-    },
   },
   Observatory: {
     image: observatory,
@@ -6395,26 +2906,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "Explore the stars and improve scientific development",
       fr: "Explore the stars and improve scientific development",
       tk: "Explore the stars and improve scientific development",
-    },
-    opensea: {
-      description:
-        "A limited edition Observatory gained from completing the mission from Million on Mars x Sunflower Land crossover event.",
-      attributes: [
-        {
-          display_type: "boost_percentage",
-          trait_type: "Increase XP",
-          value: 5,
-        },
-        {
-          trait_type: "Boost",
-          value: "XP",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/911.gif",
     },
   },
   "Goblin Key": {
@@ -6426,20 +2917,6 @@ export const ITEM_DETAILS: Items = {
       fr: "La Clé des Gobelins",
       tk: "Goblin Anahtarı",
     },
-    opensea: {
-      description: "A Goblin Key",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Legacy",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/912.png",
-    },
   },
   "Sunflower Key": {
     image: sunflowerKey,
@@ -6449,20 +2926,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "The Sunflower Key",
       fr: "La Clé du Tournesol",
       tk: "Ayçiçeği Anahtarı",
-    },
-    opensea: {
-      description: "A Sunflower Key",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Legacy",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/913.png",
     },
   },
   "Ancient Goblin Sword": {
@@ -6474,20 +2937,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Une Ancienne Épée des Gobelins",
       tk: "Kadim Bir Goblin Kılıcı",
     },
-    opensea: {
-      description: "An Ancient Goblin Sword",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Legacy",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/914.png",
-    },
   },
   "Ancient Human Warhammer": {
     image: ancientHumanWarhammer,
@@ -6497,20 +2946,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "An Ancient Human Warhammer",
       fr: "Un Ancien Marteau de Guerre Humain",
       tk: "Kadim Bir İnsan Savaş Çekici",
-    },
-    opensea: {
-      description: "An Ancient Human Warhammer",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Legacy",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/915.png",
     },
   },
   "Speed Chicken": {
@@ -6522,26 +2957,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Produces eggs 10% faster",
       tk: "Produces eggs 10% faster",
     },
-    opensea: {
-      description:
-        "A mutant chicken that can be found by chance when collecting an egg.\n\nThis mutant increases the speed of egg production by 10%.\n\nThere is a 1/1000 chance of producing a mutant chicken.",
-      attributes: [
-        {
-          display_type: "boost_percentage",
-          trait_type: "Egg Production Time",
-          value: -10,
-        },
-        {
-          trait_type: "Boost",
-          value: "Animal",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/610.gif",
-    },
   },
   "Fat Chicken": {
     image: fatChicken,
@@ -6551,26 +2966,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "10% less wheat needed to feed a chicken",
       fr: "10% less wheat needed to feed a chicken",
       tk: "10% less wheat needed to feed a chicken",
-    },
-    opensea: {
-      description:
-        "A mutant chicken that can be found by chance when collecting an egg.\n\nThis mutant reduces the wheat required to feed a chicken by 10%.\n\nThere is a 1/1000 chance of producing a mutant chicken.",
-      attributes: [
-        {
-          display_type: "boost_percentage",
-          trait_type: "Amount of Wheat to Feed Chickens",
-          value: -10,
-        },
-        {
-          trait_type: "Boost",
-          value: "Animal",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/611.gif",
     },
   },
   "Rich Chicken": {
@@ -6582,26 +2977,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Yields 10% more eggs",
       tk: "Yields 10% more eggs",
     },
-    opensea: {
-      description:
-        "A mutant chicken that can be found by chance when collecting an egg.\n\nThis mutant adds a boost of 10% higher egg yield.\n\nThere is a 1/1000 chance of producing a mutant chicken.",
-      attributes: [
-        {
-          display_type: "boost_number",
-          trait_type: "Increase Egg Yield",
-          value: 0.1,
-        },
-        {
-          trait_type: "Boost",
-          value: "Animal",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/612.gif",
-    },
   },
   "Chef Apron": {
     image: SUNNYSIDE.icons.expression_confused,
@@ -6611,25 +2986,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "给予额外 20 % 蛋糕销售 SFL 利润",
       fr: "Donne 20 % de revenus SFL supplémentaires en vendant des gâteaux.",
       tk: "Pasta satışında %20 ekstra SFL verir",
-    },
-    opensea: {
-      description: "Legacy item, DO NOT BUY!",
-      attributes: [
-        {
-          display_type: "boost_percentage",
-          trait_type: "Price of cakes",
-          value: 20,
-        },
-        {
-          trait_type: "Purpose",
-          value: "Legacy",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/1101.png",
     },
   },
   "Chef Hat": {
@@ -6641,20 +2997,6 @@ export const ITEM_DETAILS: Items = {
       fr: "La couronne d'un boulanger légendaire!",
       tk: "Efsanevi fırıncının tacı!",
     },
-    opensea: {
-      description: "Legacy item, DO NOT BUY!",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Legacy",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/1102.png",
-    },
   },
   "Rapid Growth": {
     image: rapidGrowth,
@@ -6664,21 +3006,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "Apply to a crop to grow twice as fast",
       fr: "Apply to a crop to grow twice as fast",
       tk: "Apply to a crop to grow twice as fast",
-    },
-    opensea: {
-      description:
-        "A rare fertiliser. ~~Apply to your crops to grow twice as fast~~ Legacy Item",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Legacy",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/916.png",
     },
   },
   "Fire Pit": {
@@ -6690,20 +3017,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Faites griller vos Sunflowers, nourrissez et améliorez votre Bumpkin",
       tk: "Ayçiçeği kavurun, Bumpkininizi besleyin ve seviye atlatın.",
     },
-    opensea: {
-      description: "A fire pit used to cook basic recipes in game.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Building",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/1002.png",
-    },
   },
   Market: {
     image: market,
@@ -6713,20 +3026,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "市场。在农贸市场购买和出售",
       fr: "Achetez et vendez au marché des fermiers",
       tk: "Çiftçi pazarında alım ve satım yapın.",
-    },
-    opensea: {
-      description: "A market used to buy seeds and sell crops in game.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Building",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/1001.png",
     },
   },
   "Town Center": {
@@ -6738,20 +3037,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Rassemblez-vous autour du centre-ville pour les dernières nouvelles",
       tk: "En son haberler için şehir merkezinde toplanın.",
     },
-    opensea: {
-      description: "Gather round the town center and hear the latest news!",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Building",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/1013.png",
-    },
   },
   House: {
     image: house,
@@ -6761,20 +3046,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "房屋。一个让你休息的地方",
       fr: "Un endroit où reposer votre tête",
       tk: "Kafanı dinleyebileceğin bir yer.",
-    },
-    opensea: {
-      description: "?",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Building",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/1017.png",
     },
   },
   Manor: {
@@ -6786,20 +3057,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Un endroit où reposer votre tête",
       tk: "Kafanı dinleyebileceğin bir yer.",
     },
-    opensea: {
-      description: "?",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Building",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/1017.png",
-    },
   },
   "Crop Machine": {
     image: cropMachine,
@@ -6809,21 +3066,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "基础庄稼生产自动化（消耗石油运转）",
       fr: "Automate your crop production",
       tk: "Automate your crop production",
-    },
-    opensea: {
-      description:
-        "Technology arrives at the farm! Crop Machine is here to help!",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Building",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/1020.png",
     },
   },
   Kitchen: {
@@ -6835,20 +3077,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Améliorez vos compétences en cuisine",
       tk: "Aşçılığınızı geliştirin",
     },
-    opensea: {
-      description: "A kitchen used to cook recipes in Sunflower Land.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Building",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/1008.png",
-    },
   },
   Bakery: {
     image: bakery,
@@ -6858,20 +3086,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "面包房。烤你最喜欢的蛋糕",
       fr: "Préparez vos gâteaux préférés",
       tk: "Favori pastalarınızı pişirin",
-    },
-    opensea: {
-      description: "A bakery used to cook recipes in Sunflower Land.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Building",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/1007.png",
     },
   },
   Workbench: {
@@ -6883,20 +3097,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Fabriquez des outils pour collecter des ressources",
       tk: "Kaynak toplamak için alet üretin",
     },
-    opensea: {
-      description: "A workbench used to craft tools in Sunflower Land.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Building",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/1003.png",
-    },
   },
   "Water Well": {
     image: well,
@@ -6906,20 +3106,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "水井。庄稼需要水！",
       fr: "Les cultures ont besoin d'eau!",
       tk: "Mahsullerin suya ihtiyacı var!",
-    },
-    opensea: {
-      description: "A water well to support more crops in Sunflower Land.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Building",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/1005.png",
     },
   },
   Tent: {
@@ -6931,21 +3117,6 @@ export const ITEM_DETAILS: Items = {
       fr: "(Arrêté)",
       tk: "(Artık üretilmiyor)",
     },
-    opensea: {
-      description:
-        "Every Bumpkin needs a tent. Adding a tent to your land supports adding more Bumpkins (coming soon) to your land.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Building",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/1004.png",
-    },
   },
   "Hen House": {
     image: chickenHouse,
@@ -6955,20 +3126,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "鸡窝。发展您的养鸡帝国。",
       fr: "Développez votre empire de poulets",
       tk: "Tavuk imparatorluğunuzu kurun",
-    },
-    opensea: {
-      description: "A hen house used to support chickens.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Building",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/1006.png",
     },
   },
   Deli: {
@@ -6980,20 +3137,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Satisfaites votre appétit avec ces mets délicats!",
       tk: "Mezelerle iştahınızı tatmin edin!",
     },
-    opensea: {
-      description: "A deli used to cook advanced recipes at Sunflower Land.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Building",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/1009.png",
-    },
   },
   "Smoothie Shack": {
     image: smoothieShack,
@@ -7003,21 +3146,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "沙冰屋。鲜榨！",
       fr: "Pressé à froid!",
       tk: "Taze sıkılmış!",
-    },
-    opensea: {
-      description:
-        "A Smoothie Shack is used to prepare juices in Sunflower Land.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Building",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/1010.png",
     },
   },
   Toolshed: {
@@ -7029,20 +3157,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Augmentez votre stock d'outils d'établi de 50 %",
       tk: "Çalışma tezgahı aletlerinizi %50 arttırın",
     },
-    opensea: {
-      description: "A Toolshed increases your tool stocks by 50%",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Building",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/1011.png",
-    },
   },
   Warehouse: {
     image: warehouse,
@@ -7052,20 +3166,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "仓库。种子库存增加 20 %",
       fr: "Augmentez vos stocks de graines de 20 %",
       tk: "Tohum stoğunuzu %20 arttırın",
-    },
-    opensea: {
-      description: "A Warehouse increases your seed stocks by 20%",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Building",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/1012.png",
     },
   },
   "Sunflower Amulet": {
@@ -7077,25 +3177,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Augmentation de 10 % du rendement en Sunflowers.",
       tk: "Ayçiçeği veriminde %10 artış.",
     },
-    opensea: {
-      description: "Legacy item, DO NOT BUY!",
-      attributes: [
-        {
-          display_type: "boost_percentage",
-          trait_type: "Sunflower yield",
-          value: 10,
-        },
-        {
-          trait_type: "Purpose",
-          value: "Legacy",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/1103.png",
-    },
   },
   "Carrot Amulet": {
     image: SUNNYSIDE.icons.expression_confused,
@@ -7105,25 +3186,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "增加 20 % 胡萝卜生长速度",
       fr: "Les carottes poussent 20 % plus vite.",
       tk: "Havuçlar %20 daha hızlı büyür.",
-    },
-    opensea: {
-      description: "Legacy item, DO NOT BUY!",
-      attributes: [
-        {
-          display_type: "boost_percentage",
-          trait_type: "Carrots grow time",
-          value: 20,
-        },
-        {
-          trait_type: "Purpose",
-          value: "Legacy",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/1104.png",
     },
   },
   "Beetroot Amulet": {
@@ -7135,25 +3197,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Augmentation de 20 % du rendement en betteraves.",
       tk: "Pancar veriminde %20 artış.",
     },
-    opensea: {
-      description: "Legacy item, DO NOT BUY!",
-      attributes: [
-        {
-          display_type: "boost_percentage",
-          trait_type: "Beetroot yield",
-          value: 20,
-        },
-        {
-          trait_type: "Purpose",
-          value: "Legacy",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/1105.png",
-    },
   },
   "Green Amulet": {
     image: SUNNYSIDE.icons.expression_confused,
@@ -7163,25 +3206,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "有几率收获 10 倍庄稼产出",
       fr: "Chance d'obtenir un rendement de culture 10 fois supérieur.",
       tk: "10x mahsul verimi şansı.",
-    },
-    opensea: {
-      description: "Legacy item, DO NOT BUY!",
-      attributes: [
-        {
-          display_type: "boost_number",
-          trait_type: "Crop Critical Hit Multiplier",
-          value: 10,
-        },
-        {
-          trait_type: "Purpose",
-          value: "Legacy",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/1106.png",
     },
   },
   "Warrior Shirt": {
@@ -7193,20 +3217,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Marque d'un véritable guerrier.",
       tk: "Gerçek bir savaşçının işareti.",
     },
-    opensea: {
-      description: "Legacy item, DO NOT BUY!",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Legacy",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/1107.png",
-    },
   },
   "Warrior Pants": {
     image: SUNNYSIDE.icons.expression_confused,
@@ -7216,20 +3226,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "保驾你的腿部",
       fr: "Protégez vos cuisses.",
       tk: "Kalçalarınızı koruyun.",
-    },
-    opensea: {
-      description: "Legacy item, DO NOT BUY!",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Legacy",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/1109.png",
     },
   },
   "Warrior Helmet": {
@@ -7241,20 +3237,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Immunité aux flèches.",
       tk: "Oklara karşı bağışıklı.",
     },
-    opensea: {
-      description: "Legacy item, DO NOT BUY!",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Legacy",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/1108.png",
-    },
   },
   "Sunflower Shield": {
     image: SUNNYSIDE.icons.expression_confused,
@@ -7264,25 +3246,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "Sunflower Land 的英雄。免费向日葵种子！",
       fr: "Un héros de Sunflower Land. Des graines de tournesol gratuites!",
       tk: "Ayçiçeği Diyarı'nın bir kahramanı. Ücretsiz Ayçiçeği Tohumları!",
-    },
-    opensea: {
-      description: "Legacy item, DO NOT BUY!",
-      attributes: [
-        {
-          display_type: "boost_number",
-          trait_type: "Sunflower Seed Cost",
-          value: 0,
-        },
-        {
-          trait_type: "Purpose",
-          value: "Legacy",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/1110.png",
     },
   },
   "Skull Hat": {
@@ -7294,20 +3257,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Un chapeau rare pour votre Bumpkin.",
       tk: "Bumpkin'iniz için nadir bir şapka.",
     },
-    opensea: {
-      description: "Legacy item, DO NOT BUY!",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Legacy",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/1111.png",
-    },
   },
   "War Skull": {
     image: skull,
@@ -7317,20 +3266,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "用敌人的骨颅装点您的地盘",
       fr: "Décorez l'île avec les os de vos ennemis.",
       tk: "Ülkeyi düşmanlarınızın kemikleriyle süsleyin.",
-    },
-    opensea: {
-      description: "Decorate the land with the bones of your enemies.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/1112.png",
     },
   },
   "War Tombstone": {
@@ -7342,20 +3277,6 @@ export const ITEM_DETAILS: Items = {
       fr: "R.I.P",
       tk: "HUZUR İÇİNDE YATSIN",
     },
-    opensea: {
-      description: "R.I.P",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/1113.png",
-    },
   },
   "Undead Rooster": {
     image: undeadChicken,
@@ -7365,26 +3286,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "战争的不幸亡者。提升 10 % 鸡蛋产量。",
       fr: "Une victime malheureuse de la guerre. 10% de rendement en œufs supplémentaire.",
       tk: "Savaşın talihsiz bir kaybı. Yumurta veriminde 10% artış.",
-    },
-    opensea: {
-      description:
-        "An unfortunate casualty of the war. 10% increased egg yield.",
-      attributes: [
-        {
-          display_type: "boost_number",
-          trait_type: "Increase Egg Yield",
-          value: 0.1,
-        },
-        {
-          trait_type: "Boost",
-          value: "Animal",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/1114.gif",
     },
   },
   "Boiled Eggs": {
@@ -7396,21 +3297,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Les œufs durs sont parfaits pour le petit-déjeuner",
       tk: "Haşlanmış Yumurta kahvaltıda harikadır",
     },
-    opensea: {
-      description:
-        "Boiled Eggs are great for breakfast. You can cook this at the Fire Pit.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Consumable",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/515.png",
-    },
   },
   "Bumpkin Broth": {
     image: bumpkinBroth,
@@ -7420,21 +3306,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "营养丰富的肉汤，可以补充你的乡巴佬。",
       fr: "Un bouillon nutritif pour recharger votre Bumpkin",
       tk: "Bumpkin'inizi yenilemek için besleyici bir et suyu",
-    },
-    opensea: {
-      description:
-        "A perfect broth for a cold day. You can cook this at the Fire Pit.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Consumable",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/516.png",
     },
   },
   "Mashed Potato": {
@@ -7446,20 +3317,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Ma vie, c'est la potato.",
       tk: "Benim hayatım patates.",
     },
-    opensea: {
-      description: "My life is potato. You can cook this at the Fire Pit.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Consumable",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/519.png",
-    },
   },
   "Bumpkin Salad": {
     image: bumpkinSalad,
@@ -7469,21 +3326,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "Gotta keep your Bumpkin healthy!",
       fr: "Il faut garder votre Bumpkin en bonne santé!",
       tk: "Bumpkin'inizi sağlıklı tutmalısınız!",
-    },
-    opensea: {
-      description:
-        "Gotta keep your Bumpkin healthy! You can cook this at the Kitchen.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Consumable",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/517.png",
     },
   },
   "Goblin's Treat": {
@@ -7495,21 +3337,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Les gobelins raffolent de ce truc!",
       tk: "Goblinler bu şeylere deli oluyor!",
     },
-    opensea: {
-      description:
-        "Goblins go crazy for this stuff! You can cook this at the Kitchen.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Consumable",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/518.png",
-    },
   },
   "Cauliflower Burger": {
     image: cauliflowerBurger,
@@ -7519,21 +3346,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "Calling all cauliflower lovers!",
       fr: "Appel à tous les amateurs de Cauliflower!",
       tk: "Tüm karnabahar severleri çağırıyoruz!",
-    },
-    opensea: {
-      description:
-        "Calling all cauliflower lovers! You can cook this at the Kitchen.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Consumable",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/520.png",
     },
   },
   "Club Sandwich": {
@@ -7545,21 +3357,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Rempli de carottes et de graines de tournesol rôties",
       tk: "Havuç ve Kavrulmuş Ay Çekirdeği Dolgulu",
     },
-    opensea: {
-      description:
-        "Filled with Carrots and Roasted Sunflower Seeds. You can cook this at the Kitchen",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Consumable",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/521.png",
-    },
   },
   "Roast Veggies": {
     image: roastVeggies,
@@ -7569,21 +3366,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "Even Goblins need to eat their veggies!",
       fr: "Même les gobelins ont besoin de manger leurs légumes!",
       tk: "Goblinlerin bile sebzelerini yemesi gerekiyor!",
-    },
-    opensea: {
-      description:
-        "Even Goblins need to eat their veggies! You can can cook these at the Fire Pit.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Consumable",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/522.png",
     },
   },
   Pancakes: {
@@ -7595,21 +3377,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Un excellent début de journée pour un Bumpkin",
       tk: "Bumpkins gününe harika bir başlangıç",
     },
-    opensea: {
-      description:
-        "A great start to a Bumpkins day. You can can cook these at the Kitchen.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Consumable",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/523.png",
-    },
   },
   "Fermented Carrots": {
     image: fermentedCarrots,
@@ -7619,20 +3386,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "有多剩余的胡萝卜吗？",
       fr: "Vous avez un surplus de carottes?",
       tk: "Fazla havuç var mı?",
-    },
-    opensea: {
-      description: "Got a surplus of carrots? You can cook this at the Deli.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Consumable",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/526.png",
     },
   },
   Sauerkraut: {
@@ -7644,21 +3397,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Fini le Cabbage ennuyeux!",
       tk: "Artık sıkıcı Lahana yok!",
     },
-    opensea: {
-      description:
-        "Fermented Cabbage! Owning this item unlocks fields and new seeds.\n\nYou can craft this at the Kitchen in the game.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Consumable",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/503.png",
-    },
   },
   "Reindeer Carrot": {
     image: reindeerCarrot,
@@ -7668,21 +3406,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "鲁道夫无法停止吃它们！",
       fr: "Rudolph ne peut pas s'arrêter de les manger!",
       tk: "Rudolph onları yemeyi bırakamıyor!",
-    },
-    opensea: {
-      description:
-        "Rudolph can't stop eating them! You can can cook these at the Fire Pit.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Consumable",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/534.png",
     },
   },
   "Bumpkin ganoush": {
@@ -7694,20 +3417,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Sauce d'aubergine rôtie relevée.",
       tk: "Lezzetli közlenmiş patlıcan yayıldı.",
     },
-    opensea: {
-      description: "Zesty roasted eggplant spread.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Consumable",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/547.png",
-    },
   },
   "Eggplant Cake": {
     image: eggplantCake,
@@ -7717,20 +3426,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "甜美的新鲜甜点惊喜。",
       fr: "Douceur sucrée tout droit de la ferme.",
       tk: "Taze tatlı sürpriz.",
-    },
-    opensea: {
-      description: "Sweet farm-fresh dessert surprise.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Consumable",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/549.png",
     },
   },
   Cornbread: {
@@ -7742,20 +3437,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Un pain rustique doré et frais de la ferme.",
       tk: "Doyurucu altın çiftlik taze ekmeği.",
     },
-    opensea: {
-      description: "Hearty golden farm-fresh bread.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Consumable",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/548.png",
-    },
   },
   Popcorn: {
     image: popcorn,
@@ -7765,20 +3446,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "经典的自制脆脆小吃。",
       fr: "Une collation croustillante classique cultivée à la maison.",
       tk: "Klasik evde yetiştirilen çıtır atıştırmalık.",
-    },
-    opensea: {
-      description: "Classic homegrown crunchy snack.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Consumable",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/550.png",
     },
   },
   Chowder: {
@@ -7790,21 +3457,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Le délice d'un marin dans un bol ! Plongez-y, il y a un trésor à l'intérieur!",
       tk: "Denizcinin kasedeki lokumu! Dalın, içeride hazine var!",
     },
-    opensea: {
-      description:
-        "Sailor's delight in a bowl! Dive in, there's treasure inside!",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Consumable",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/551.png",
-    },
   },
   Gumbo: {
     image: gumbo,
@@ -7815,20 +3467,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Une marmite pleine de magie ! Chaque cuillerée est une parade de Mardi Gras!",
       tk: "Büyü dolu bir kap! Her kaşık dolusu bir Mardi Gras geçit törenidir!",
     },
-    opensea: {
-      description: "A pot full of magic! Every spoonful's a Mardi Gras parade!",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Consumable",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/552.png",
-    },
   },
   "Fermented Fish": {
     image: fermentedFish,
@@ -7838,21 +3476,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "大胆的美食！每一口都能释放内心的维京战士！",
       fr: "Délice audacieux ! Libérez le Viking qui est en vous à chaque bouchée!",
       tk: "Cesur bir lezzet! Her lokmada içinizdeki Viking'i serbest bırakın!",
-    },
-    opensea: {
-      description:
-        "Daring delicacy! Unleash the Viking within with every bite!",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Consumable",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/553.png",
     },
   },
   Explorer: {
@@ -8324,17 +3947,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Éloignez l'odeur des Gobelins.",
       tk: "Goblinlerin kokusunu uzak tutun.",
     },
-    opensea: {
-      description:
-        "Keep the smell of goblins away. You can craft this at the Decorations shop at Helios.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-      ],
-      image: "../public/erc1155/images/1201.png",
-    },
   },
   "Potted Sunflower": {
     image: pottedSunflower,
@@ -8344,17 +3956,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "为你的岛上增添阳光",
       fr: "Illuminez votre île.",
       tk: "Toprağınızı aydınlatın.",
-    },
-    opensea: {
-      description:
-        "Brighten up your land. You can craft this at the Decorations shop at Helios.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-      ],
-      image: "../public/erc1155/images/1202.png",
     },
   },
   Cactus: {
@@ -8366,17 +3967,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Économise de l'eau et rend votre ferme magnifique!",
       tk: "Su tasarrufu sağlar ve çiftliğinizin muhteşem görünmesini sağlar!",
     },
-    opensea: {
-      description:
-        "Saves water and makes your farm look stunning! You can craft this at the Decorations shop at Helios.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-      ],
-      image: "../public/erc1155/images/1203.png",
-    },
   },
   "Jack-o-lantern": {
     image: jackOLanternItem,
@@ -8386,20 +3976,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "A Halloween special event item",
       fr: "Un objet spécial d'événement d'Halloween",
       tk: "Cadılar Bayramı özel etkinlik öğesi",
-    },
-    opensea: {
-      description: "A Halloween special event item.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Coupon",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/923.png",
     },
   },
   "Victoria Sisters": {
@@ -8411,26 +3987,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Les sœurs amatrices de pumpkins",
       tk: "Balkabağı seven kız kardeşler",
     },
-    opensea: {
-      description:
-        "A Halloween collectible. Increase Pumpkin yield by 20% and summon the necromancer.\n\nTo craft this item you must collect 50 Jack-o-lantern's and trade with the Traveling Salesman.",
-      attributes: [
-        {
-          trait_type: "Boost",
-          value: "Crop",
-        },
-        {
-          display_type: "boost_percentage",
-          trait_type: "Increase Pumpkin Yield",
-          value: 20,
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/432.gif",
-    },
   },
   "Basic Bear": {
     image: basicBear,
@@ -8440,20 +3996,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "A basic bear. Use this at Goblin Retreat to build a bear!",
       fr: "A basic bear. Use this at Goblin Retreat to build a bear!",
       tk: "A basic bear. Use this at Goblin Retreat to build a bear!",
-    },
-    opensea: {
-      description: "A basic bear. Use this to craft advanced bears!",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/1204.png",
     },
   },
   "Chef Bear": {
@@ -8465,21 +4007,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Chaque chef a besoin d'une aide précieuse.",
       tk: "Her şefin bir yardım eline ihtiyacı vardır",
     },
-    opensea: {
-      description:
-        "Every chef needs a helping hand! Bake 13 cakes to unlock this bear.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/1205.png",
-    },
   },
   "Construction Bear": {
     image: constructionBear,
@@ -8489,21 +4016,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "熊市里就是要建设投入",
       fr: "Toujours construire en période de marché baissier.",
       tk: "Her zaman bir ayı piyasasında inşa edin",
-    },
-    opensea: {
-      description:
-        "Always build in a bear market. Build 10 buildings to claim this bear",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/1206.png",
     },
   },
   "Angel Bear": {
@@ -8515,21 +4027,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Le moment de transcender l'agriculture paysanne.",
       tk: "Köylü çiftçiliğini aşmanın zamanı geldi",
     },
-    opensea: {
-      description:
-        "Time to transcend peasant farming. Harvest 1 million crops to unlock this bear.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/1207.png",
-    },
   },
   "Badass Bear": {
     image: badassBear,
@@ -8539,21 +4036,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "没人能挡着你的道",
       fr: "Rien ne se dresse sur votre chemin.",
       tk: "Hiçbir şey yolunuza çıkamaz.",
-    },
-    opensea: {
-      description:
-        "Nothing stands in your way. Chop 5,000 trees to unlock this bear",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/1208.png",
     },
   },
   "Bear Trap": {
@@ -8565,21 +4047,6 @@ export const ITEM_DETAILS: Items = {
       fr: "C'est un piège!",
       tk: "Bu bir tuzak!",
     },
-    opensea: {
-      description:
-        "It's a trap! Unlock the high roller achievement to claim this bear",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/1209.png",
-    },
   },
   "Brilliant Bear": {
     image: brilliantBear,
@@ -8589,20 +4056,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "纯然聪耀！",
       fr: "Pure brillance!",
       tk: "Saf parlaklık!",
-    },
-    opensea: {
-      description: "Pure brilliance! Reach lvl 20 to claim this bear",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/1210.png",
     },
   },
   "Classy Bear": {
@@ -8614,21 +4067,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Plus SFL que vous ne savez quoi en faire!",
       tk: "Bununla ne yapacağınızı bildiğinizden daha fazla SFL!",
     },
-    opensea: {
-      description:
-        "More SFL than you know what to do with it! Mine 500 gold rocks to claim this bear",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/1211.png",
-    },
   },
   "Farmer Bear": {
     image: farmerBear,
@@ -8638,21 +4076,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "辛勤劳作的一天，无可比拟！",
       fr: "Rien de tel qu'une dure journée de travail!",
       tk: "Hiçbir şey zorlu bir günlük çalışma gibisi yoktur!",
-    },
-    opensea: {
-      description:
-        "Nothing quite like a hard day's work! Harvest 10,000 crops to unlock this bear",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/1212.png",
     },
   },
   "Rich Bear": {
@@ -8664,21 +4087,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Une possession précieuse.",
       tk: "Değerli bir sahiplik",
     },
-    opensea: {
-      description:
-        "A prized possession. Unlock the Bumpkin Billionaire achievement to claim this bear",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/1214.png",
-    },
   },
   "Sunflower Bear": {
     image: sunflowerBear,
@@ -8688,21 +4096,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "这庄稼，小熊视如珍宝",
       fr: "Une culture chérie par un ours.",
       tk: "Bir Ayının değerli mahsulü",
-    },
-    opensea: {
-      description:
-        "A Bear's cherished crop. Harvest 100,000 Sunflowers to unlock this bear.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/1213.png",
     },
   },
   "Christmas Bear": {
@@ -8714,20 +4107,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Santa's favorite",
       tk: "Santa's favorite",
     },
-    opensea: {
-      description: "Santa's favourite.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/1217.png",
-    },
   },
   "Beta Bear": {
     image: betaBear,
@@ -8737,20 +4116,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "特殊测试活动找到的小熊",
       fr: "Un ours trouvé lors d'événements de test spéciaux.",
       tk: "Özel test etkinlikleriyle bulunan bir ayı",
-    },
-    opensea: {
-      description: "A bear found during special testing events",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/1266.png",
     },
   },
   "Rainbow Artist Bear": {
@@ -8762,20 +4127,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Le propriétaire est un bel artiste de l'ours!",
       tk: "Sahibi güzel bir ayı sanatçısı!",
     },
-    opensea: {
-      description: "The owner is a beautiful bear artist!",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/1218.png",
-    },
   },
   "Cabbage Boy": {
     image: cabbageBoy,
@@ -8785,30 +4136,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "不要吵醒宝宝！",
       fr: "Ne réveillez pas le bébé!",
       tk: "Bebeği uyandırma!",
-    },
-    opensea: {
-      description: "Don't wake the baby!",
-      attributes: [
-        {
-          trait_type: "Boost",
-          value: "Crop",
-        },
-        {
-          display_type: "boost_number",
-          trait_type: "Increase Cabbage Yield",
-          value: 0.25,
-        },
-        {
-          display_type: "boost_number",
-          trait_type: "Increase Cabbage Yield with Cabbage Girl placed",
-          value: 0.5,
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/434.png",
     },
   },
   "Cabbage Girl": {
@@ -8820,25 +4147,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Chut, il dort",
       tk: "Şşş.. Uyuyor",
     },
-    opensea: {
-      description: "Don't wake the baby!",
-      attributes: [
-        {
-          trait_type: "Boost",
-          value: "Crop",
-        },
-        {
-          display_type: "boost_percentage",
-          trait_type: "Cabbage Growth Time",
-          value: -50,
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/435.png",
-    },
   },
   "Wood Nymph Wendy": {
     image: wendy,
@@ -8848,25 +4156,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "施放一个魔法来吸引林中仙子",
       fr: "Lancez un enchantement pour attirer les fées de la forêt.",
       tk: "Orman perilerini baştan çıkarmak için bir büyü yap.",
-    },
-    opensea: {
-      description: "Cast an enchantment to entice the wood fairies.",
-      attributes: [
-        {
-          trait_type: "Boost",
-          value: "Resource",
-        },
-        {
-          display_type: "boost_number",
-          trait_type: "Increase Wood Drops",
-          value: 0.2,
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/436.gif",
     },
   },
   "Peeled Potato": {
@@ -8878,31 +4167,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Une précieuse potato, encourage les potato bonus à la récolte.",
       tk: "Değerli bir patates, hasat sırasında bonus patatesleri teşvik eder.",
     },
-    opensea: {
-      description:
-        "A prized possession. Discover a bonus potato 20% of harvests.",
-      attributes: [
-        {
-          trait_type: "Boost",
-          value: "Crop",
-        },
-        {
-          display_type: "boost_number",
-          trait_type: "Potato Critical Hit Amount",
-          value: 1,
-        },
-        {
-          display_type: "boost_percentage",
-          trait_type: "Critical Hit Chance",
-          value: 20,
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/433.gif",
-    },
   },
   "Potent Potato": {
     image: potatoMutant,
@@ -8912,30 +4176,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "强效！在收获时有 3 % 的机会 +10 土豆",
       fr: "Puissant ! Donne une chance de 3% d'obtenir +10 potato à la récolte.",
       tk: "Etkili! Hasatta 3% şans ile +10 patates verir.",
-    },
-    opensea: {
-      description: "Potent! Grants a 3% chance to get +10 potatoes on harvest.",
-      attributes: [
-        {
-          trait_type: "Boost",
-          value: "Crop",
-        },
-        {
-          display_type: "boost_number",
-          trait_type: "Potato Critical Hit Amount",
-          value: 10,
-        },
-        {
-          display_type: "boost_percentage",
-          trait_type: "Critical Hit Chance",
-          value: 3,
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/438.gif",
     },
   },
   "Radical Radish": {
@@ -8947,31 +4187,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Radical ! Donne une chance de 3% d'obtenir +10 Radish à la récolte.",
       tk: "Radikal! Hasatta 3% şans ile +10 turp verir.",
     },
-    opensea: {
-      description:
-        "Radical! Grants a 3% chance to get +10 radishes on harvest.",
-      attributes: [
-        {
-          trait_type: "Boost",
-          value: "Crop",
-        },
-        {
-          display_type: "boost_number",
-          trait_type: "Radish Critical Hit Amount",
-          value: 10,
-        },
-        {
-          display_type: "boost_percentage",
-          trait_type: "Critical Hit Chance",
-          value: 3,
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/439.gif",
-    },
   },
   "Stellar Sunflower": {
     image: sunflowerMutant,
@@ -8981,31 +4196,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "卓越！在收获时有 3 % 的机会 +10 向日葵",
       fr: "Stellaire ! Donne une chance de 3% d'obtenir +10 Sunflowers à la récolte.",
       tk: "Yıldız! Hasatta 3% şans ile +10 ayçiçeği verir.",
-    },
-    opensea: {
-      description:
-        "Stellar! Grants a 3% chance to get +10 sunflowers on harvest.",
-      attributes: [
-        {
-          trait_type: "Boost",
-          value: "Crop",
-        },
-        {
-          display_type: "boost_number",
-          trait_type: "Sunflower Critical Hit Amount",
-          value: 10,
-        },
-        {
-          display_type: "boost_percentage",
-          trait_type: "Critical Hit Chance",
-          value: 3,
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/437.gif",
     },
   },
   "Potted Potato": {
@@ -9017,17 +4207,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Le sang de la potato coule dans votre Bumpkin.",
       tk: "Bumpkin'in içinden patates kanı akıyor.",
     },
-    opensea: {
-      description:
-        "Potato blood runs through your Bumpkin. You can craft this at the Decorations shop at Helios.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-      ],
-      image: "../public/erc1155/images/1215.png",
-    },
   },
   "Potted Pumpkin": {
     image: pottedPumpkin,
@@ -9038,40 +4217,15 @@ export const ITEM_DETAILS: Items = {
       fr: "Pumpkins for Bumpkins",
       tk: "Pumpkins for Bumpkins",
     },
-    opensea: {
-      description:
-        "Pumpkins for Bumpkins. You can craft this at the Decorations shop at Helios.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-      ],
-      image: "../public/erc1155/images/1216.png",
-    },
   },
   "Golden Crop": {
-    image: SUNNYSIDE.icons.expression_confused,
+    image: goldenCrop,
     description: {
       en: "A shiny golden crop",
       pt: "Uma safra dourada brilhante",
       "zh-CN": "A shiny golden crop",
       fr: "Une culture dorée étincelante",
       tk: "Parlak altın bir mahsul",
-    },
-    opensea: {
-      description: "A shiny golden crop",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Coupon",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/924.gif",
     },
   },
   "Christmas Snow Globe": {
@@ -9083,21 +4237,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Remuez la neige et regardez-la prendre vie.",
       tk: "Karları döndürün ve canlanmasını izleyin",
     },
-    opensea: {
-      description:
-        "Swirl the snow and watch it come to life. A Christmas collectible.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/1219.gif",
-    },
   },
   "Immortal Pear": {
     image: immortalPear,
@@ -9107,30 +4246,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "一种能使果树寿命变长的长寿梨",
       fr: "Increase the survival of your fruit patches.",
       tk: "Increase the survival of your fruit patches.",
-    },
-    opensea: {
-      description:
-        "This long-lived pear ensures your fruit tree survives +1 bonus harvest.",
-      attributes: [
-        {
-          trait_type: "Boost",
-          value: "Fruit",
-        },
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-        {
-          display_type: "boost_number",
-          trait_type: "Extra Fruit Harvest",
-          value: 1,
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/441.gif",
     },
   },
   "Lady Bug": {
@@ -9142,26 +4257,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Un incroyable insecte qui se nourrit de pucerons. Améliore la qualité des pommes.",
       tk: "Yaprak bitleriyle beslenen inanılmaz bir böcek. Elma kalitesini artırır.",
     },
-    opensea: {
-      description:
-        "An incredible bug that feeds on aphids. Improves Apple quality. +0.25 Apples each harvest",
-      attributes: [
-        {
-          trait_type: "Boost",
-          value: "Fruit",
-        },
-        {
-          display_type: "boost_number",
-          trait_type: "Increase Apple Drops",
-          value: 0.25,
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/442.gif",
-    },
   },
   "Squirrel Monkey": {
     image: squirrelMonkey,
@@ -9171,26 +4266,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "天然的香橙捕食客。有 Squirrel Monkey 在附近时，橙树都感到害怕",
       fr: "Un prédateur naturel des oranges. Les arbres d'orange ont peur quand un Singe Écureuil est dans les parages.",
       tk: "Doğal turuncu bir yırtıcı hayvan. Portakal ağaçları Squirrel Monkey etraftayken korkar.",
-    },
-    opensea: {
-      description:
-        "A natural orange predator. Orange Trees are scared when a Squirrel Monkey is around. 1/2 Orange Tree grow time.",
-      attributes: [
-        {
-          trait_type: "Boost",
-          value: "Fruit",
-        },
-        {
-          display_type: "boost_percentage",
-          trait_type: "Orange Regenaration Time",
-          value: -50,
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/443.gif",
     },
   },
   "Black Bearry": {
@@ -9202,26 +4277,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Sa gourmandise préférée - des myrtilles dodues et juteuses. Il les engloutit par poignées!",
       tk: "En sevdiği ikram; dolgun,sulu yaban mersini. Onları avuç avuç yutar!",
     },
-    opensea: {
-      description:
-        "His favorite treat - plump, juicy blueberries. Gobbles them up by the handful! +1 Blueberry each Harvest",
-      attributes: [
-        {
-          trait_type: "Boost",
-          value: "Fruit",
-        },
-        {
-          display_type: "boost_number",
-          trait_type: "Increase Blueberry Yield",
-          value: 1,
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/444.gif",
-    },
   },
   "Devil Bear": {
     image: devilBear,
@@ -9231,20 +4286,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "知根知底的恶魔总比不知的好",
       fr: "Mieux vaut le Diable que vous connaissez que le Diable que vous ne connaissez pas.",
       tk: "Tanıdığın Şeytan tanımadığın Şeytandan iyidir",
-    },
-    opensea: {
-      description: "Better the Devil you know than the Devil you don't.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/1220.png",
     },
   },
   "Orange Squeeze": {
@@ -9296,26 +4337,6 @@ export const ITEM_DETAILS: Items = {
       fr: "La poule la plus rare qui existe!",
       tk: "Var olan en nadir tavuk!",
     },
-    opensea: {
-      description:
-        "The rarest chicken in Sunflower Land. This mutant adds a boost of +0.2 egg yield.",
-      attributes: [
-        {
-          display_type: "boost_number",
-          trait_type: "Increase Egg Yield",
-          value: 0.2,
-        },
-        {
-          trait_type: "Boost",
-          value: "Animal",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/445.gif",
-    },
   },
   "Collectible Bear": {
     image: collectibleBear,
@@ -9325,20 +4346,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "小熊奖品，全新无损！",
       fr: "Un ours précieux, toujours en parfait état!",
       tk: "Değerli bir ayı, hala mükemmel durumda!",
-    },
-    opensea: {
-      description: "A prized bear, still in mint condition!",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/1221.png",
     },
   },
   "Cyborg Bear": {
@@ -9350,20 +4357,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Hasta la vista, l'ours.",
       tk: "Görüşürüz, ayı",
     },
-    opensea: {
-      description: "Hasta la vista, bear",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/1222.png",
-    },
   },
   "Maneki Neko": {
     image: manekiNeko,
@@ -9373,26 +4366,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "招财猫。拉动手臂，好运来临",
       fr: "Le chat qui fait signe. Tirez sur son bras et la bonne chance viendra",
       tk: "Şanslı kedi. Kolunu çek ve güzel şanslar gelecek",
-    },
-    opensea: {
-      description:
-        "The beckoning cat. Pull its arm and good luck will come. A special event item from Lunar New Year!",
-      attributes: [
-        {
-          trait_type: "Boost",
-          value: "Other",
-        },
-        {
-          display_type: "boost_number",
-          trait_type: "One free food per day",
-          value: 1,
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/446.gif",
     },
   },
   "Red Envelope": {
@@ -9404,21 +4377,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Wow, vous avez de la chance!",
       tk: "Vay, şanslısın!",
     },
-    opensea: {
-      description:
-        "Wow, you are lucky! An item from Lunar New Year special event.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Coupon",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/716.png",
-    },
   },
   "Love Letter": {
     image: loveLetter,
@@ -9428,20 +4386,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "Convey feelings of love",
       fr: "Transmettez des sentiments d'amour",
       tk: "Sevgi duygularını aktarın",
-    },
-    opensea: {
-      description: "Convey feelings of love",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Coupon",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/717.png",
     },
   },
   "Clam Shell": {
@@ -9453,20 +4397,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Une coquille de palourde.",
       tk: "Bir İstiridye kabuğu.",
     },
-    opensea: {
-      description: "Find at Treasure Island ???",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Bounty",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/1304.png",
-    },
   },
   "Sea Cucumber": {
     image: SUNNYSIDE.resource.sea_cucumber,
@@ -9476,20 +4406,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "海参。一根海参。",
       fr: "Un concombre de mer.",
       tk: "Bir Deniz hıyarı.",
-    },
-    opensea: {
-      description: "Find at Treasure Island ???",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Bounty",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/1308.png",
     },
   },
   Coral: {
@@ -9501,20 +4417,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Un morceau de corail, c'est joli",
       tk: "Bir parça mercan, çok tatlı.",
     },
-    opensea: {
-      description: "Find at Treasure Island ???",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Bounty",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/1303.png",
-    },
   },
   Crab: {
     image: SUNNYSIDE.resource.crab,
@@ -9524,20 +4426,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "螃蟹。小心它的爪子！",
       fr: "Un crabe, attention à ses pinces!",
       tk: "Bir yengeç, kıskaçlarına dikkat et!!",
-    },
-    opensea: {
-      description: "Find at Treasure Island ???",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Bounty",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/1309.png",
     },
   },
   Starfish: {
@@ -9549,20 +4437,6 @@ export const ITEM_DETAILS: Items = {
       fr: "L'étoile de la mer.",
       tk: "Denizin yıldızı.",
     },
-    opensea: {
-      description: "Find at Treasure Island ???",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Bounty",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/1306.png",
-    },
   },
   "Pirate Bounty": {
     image: SUNNYSIDE.resource.pirate_bounty,
@@ -9572,20 +4446,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "海盗赏金。给海盗的赏金，值很多钱。",
       fr: "Une prime pour un pirate. Elle vaut beaucoup d'argent.",
       tk: "Korsan için bir ganimet. Çok para ediyor.",
-    },
-    opensea: {
-      description: "A bounty for a pirate. It's worth a lot of money.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Bounty",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/1301.png",
     },
   },
   "Pirate Cake": {
@@ -9597,20 +4457,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Great for Pirate themed birthday parties.",
       tk: "Great for Pirate themed birthday parties.",
     },
-    opensea: {
-      description: "Great for Pirate themed birthday parties.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Consumable",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/540.png",
-    },
   },
   "Abandoned Bear": {
     image: abandonedBear,
@@ -9620,20 +4466,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "一只被落在岛上的小熊",
       fr: "Un ours qui a été laissé derrière sur l'île.",
       tk: "Adada geride bırakılan bir ayı.",
-    },
-    opensea: {
-      description: "A bear that was left behind on the island.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/1223.png",
     },
   },
   "Turtle Bear": {
@@ -9645,20 +4477,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Assez pour le club des tortues.",
       tk: "Kaplumbağa kulübü için yeterince kaplumbağa var.",
     },
-    opensea: {
-      description: "Turtley enough for the turtle club.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/1224.png",
-    },
   },
   "T-Rex Skull": {
     image: tRexSkull,
@@ -9668,20 +4486,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "暴龙头骨！棒极了！",
       fr: "Un crâne de T-Rex ! Incroyable!",
       tk: "T-Rex'ten bir kafatası! İnanılmaz!",
-    },
-    opensea: {
-      description: "A skull from a T-Rex! Amazing!",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/1225.png",
     },
   },
   "Sunflower Coin": {
@@ -9693,20 +4497,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Une pièce faite de Sunflowers.",
       tk: "Ayçiçeklerinden yapılmış bir madeni para.",
     },
-    opensea: {
-      description: "A coin made of sunflowers.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/1226.png",
-    },
   },
   Foliant: {
     image: foliant,
@@ -9716,29 +4506,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "一本咒法书",
       fr: "Un livre de sorts.",
       tk: "Bir büyü kitabı.",
-    },
-    opensea: {
-      description: "A book of spells.",
-      attributes: [
-        {
-          trait_type: "Boost",
-          value: "Crop",
-        },
-        {
-          display_type: "boost_number",
-          trait_type: "Increase Kale Yield",
-          value: 0.2,
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-      ],
-      image: "../public/erc1155/images/1227.png",
     },
   },
   "Skeleton King Staff": {
@@ -9750,20 +4517,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Tous saluent le Roi Squelette!",
       tk: "Hepiniz İskelet Kral'ı selamlayın!",
     },
-    opensea: {
-      description: "All hail the Skeleton King!",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/1228.png",
-    },
   },
   "Lifeguard Bear": {
     image: lifeguardBear,
@@ -9773,20 +4526,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "救生熊来拯救世界了！",
       fr: "L'ours sauveteur est là pour sauver la journée!",
       tk: "Cankurtaran Ayı günü kurtarmak için burada!",
-    },
-    opensea: {
-      description: "Lifeguard Bear is here to save the day!",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/1229.png",
     },
   },
   "Snorkel Bear": {
@@ -9798,20 +4537,6 @@ export const ITEM_DETAILS: Items = {
       fr: "L'ours tuba aime nager.",
       tk: "Şnorkel Ayı yüzmeyi çok seviyor.",
     },
-    opensea: {
-      description: "Snorkel Bear loves to swim.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/1230.png",
-    },
   },
   "Parasaur Skull": {
     image: parasaurSkull,
@@ -9821,20 +4546,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "一个副栉龙头骨！",
       fr: "Un crâne de parasaur!",
       tk: "Parasaur'dan bir kafatası!",
-    },
-    opensea: {
-      description: "A skull from a parasaur!",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/1231.png",
     },
   },
   "Goblin Bear": {
@@ -9846,20 +4557,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Un ours gobelin. C'est un peu effrayant.",
       tk: "Bir goblin ayı. Biraz korkutucu.",
     },
-    opensea: {
-      description: "A goblin bear. It's a bit scary.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/1234.png",
-    },
   },
   "Golden Bear Head": {
     image: goldenBearHead,
@@ -9869,20 +4566,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "诡异，但很酷",
       fr: "Effrayant, mais cool.",
       tk: "Ürkütücü ama harika.",
-    },
-    opensea: {
-      description: "Spooky, but cool.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/1232.png",
     },
   },
   "Pirate Bear": {
@@ -9894,20 +4577,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Argh, matelot ! Serre-moi dans tes bras!",
       tk: "Ah, dostum! Sarıl bana!",
     },
-    opensea: {
-      description: "Argh, matey! Hug me!",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/1233.png",
-    },
   },
   Galleon: {
     image: galleon,
@@ -9917,20 +4586,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "玩具船，但完好无损",
       fr: "Un navire jouet, toujours en très bon état.",
       tk: "Oyuncak bir gemi, hala oldukça iyi durumda.",
-    },
-    opensea: {
-      description: "A toy ship, still in pretty good nick.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/1235.png",
     },
   },
   "Dinosaur Bone": {
@@ -9942,43 +4597,17 @@ export const ITEM_DETAILS: Items = {
       fr: "Un os de dinosaure ! De quelle créature s'agit-il?",
       tk: "Bir Dinozor Kemiği! Bu nasıl bir yaratıktı?",
     },
-    opensea: {
-      description: "A Dinosaur Bone! What kind of creature was this?",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/1237.png",
-    },
   },
   "Human Bear": {
     image: humanBear,
+    // image: require("assets/sfts/bears/human_bear.webp"),
+
     description: {
       en: "A human bear. Even scarier than a goblin bear.",
       pt: "Um urso humano. Ainda mais assustador do que um urso goblin.",
       "zh-CN": "人型熊。甚至比哥布林熊还要吓人",
       fr: "Un ours humain. Encore plus effrayant qu'un ours gobelin.",
       tk: "Bir insan ayı. Bir goblin ayıdan bile daha korkutucu.",
-    },
-    opensea: {
-      description: "A human bear. Even scarier than a goblin bear.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/1238.png",
     },
   },
   "Wooden Compass": {
@@ -9991,21 +4620,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Il n'est peut-être pas high-tech, mais il vous orientera toujours dans la bonne direction, vous le croyez en bois?",
       tk: "Yüksek teknoloji olmayabilir ama seni her zaman doğru istikamete yönlendirecek, buna inanabiliyo musun?",
     },
-    opensea: {
-      description:
-        "It may not be high-tech, but it will always steer you in the right direction, wood you believe it?",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Bounty",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/925.png",
-    },
   },
   "Iron Compass": {
     image: ironCompass,
@@ -10016,21 +4630,6 @@ export const ITEM_DETAILS: Items = {
         "铁指南针。开辟你的宝藏之路！这个指南针很有吸引力，而且不仅仅是对磁极！",
       fr: "Redressez votre chemin vers le trésor ! Ce compas est 'attirant', et pas seulement vers le Nord magnétique!",
       tk: "Yolunu hazineye doğru çiz! Bu pusula çok ‘çekici’, ve sadece manyetik kuzey kutbuna değil!",
-    },
-    opensea: {
-      description:
-        "Iron out your path to treasure! This compass is 'attract'-ive, and not just to the magnetic North!",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Bounty",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/927.png",
     },
   },
   "Emerald Compass": {
@@ -10043,21 +4642,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Guidez votre chemin à travers les mystères luxuriants de la vie ! Ce compas ne pointe pas seulement vers le Nord, il pointe vers l'opulence et la grandeur!",
       tk: "Yolunuzu hayatın bereketli gizemlerine çevirin! Bu pusula sadece kuzeyi göstermiyor, aynı zamanda zenginliği ve ihtişamı işaret ediyor!",
     },
-    opensea: {
-      description:
-        "Guide your way through the lush mysteries of life! This compass doesn't just point North, it points towards opulence and grandeur!",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Bounty",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/929.png",
-    },
   },
   "Old Bottle": {
     image: oldBottle,
@@ -10067,21 +4651,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "老旧漂流瓶。古董海盗瓶，印照着公海冒险传说。",
       fr: "Bouteille de pirate antique, évoquant des récits d'aventures en haute mer.",
       tk: "Antik korsan şişesi, açık deniz maceralarının hikayelerini yankılıyor.",
-    },
-    opensea: {
-      description:
-        "Antique pirate bottle, echoing tales of high seas adventure.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Bounty",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/928.png",
     },
   },
   "Tiki Totem": {
@@ -10093,25 +4662,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Le Totem Tiki ajoute 0,1 de Wood à chaque arbre que vous coupez.",
       tk: "Tiki Totem kestiğiniz her ağaca 0.1 odun ekler.",
     },
-    opensea: {
-      description: "The Tiki Totem adds 0.1 wood to every tree you chop.",
-      attributes: [
-        {
-          trait_type: "Boost",
-          value: "Resource",
-        },
-        {
-          display_type: "boost_number",
-          trait_type: "Increase Wood Drops",
-          value: 0.1,
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/447.png",
-    },
   },
   "Lunar Calendar": {
     image: lunarCalendar,
@@ -10121,26 +4671,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "庄稼现在遵循满月周期！庄稼生长速度提高 10 %",
       fr: "Les cultures suivent désormais le cycle lunaire ! Augmentation de 10% de la vitesse de croissance des cultures.",
       tk: "Mahsuller artık ay döngüsünü takip ediyor! Mahsullerin büyüme hızında 10% artış.",
-    },
-    opensea: {
-      description:
-        "Crops now follow the lunar cycle! 10% reduction in growth time.",
-      attributes: [
-        {
-          trait_type: "Boost",
-          value: "Crop",
-        },
-        {
-          display_type: "boost_percentage",
-          trait_type: "Crop Growth Time",
-          value: -10,
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/448.png",
     },
   },
   "Heart of Davy Jones": {
@@ -10152,26 +4682,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Celui qui le possède détient un immense pouvoir sur les sept mers, peut creuser des trésors sans se fatiguer.",
       tk: "Ona sahip olan kişi yedi deniz üzerinde muazzam bir güce sahip olur,yorulmadan hazine kazabilir.",
     },
-    opensea: {
-      description:
-        "Whoever possesses it holds immense power over the seven seas, can dig for treasure without tiring.",
-      attributes: [
-        {
-          trait_type: "Boost",
-          value: "Other",
-        },
-        {
-          display_type: "boost_number",
-          trait_type: "Increase daily digs",
-          value: 20,
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/450.gif",
-    },
   },
   "Treasure Map": {
     image: treasureMap,
@@ -10181,26 +4691,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "一张魔法地图，能引领持有者找到珍贵的财宝。沙岸财宝的利润 +20 %",
       fr: "Une carte enchantée qui guide son détenteur vers un trésor précieux. +20% de profit sur les objets de la chasse à la plage.",
       tk: "Sahibini değerli bir hazineye götüren gizemli bir harita. Plaj ödül eşyalarından +20% kar.",
-    },
-    opensea: {
-      description:
-        "An enchanted map that leads the holder to valuable treasure. +20% profit from beach bounty items.",
-      attributes: [
-        {
-          trait_type: "Boost",
-          value: "Other",
-        },
-        {
-          display_type: "boost_percentage",
-          trait_type: "Increase Beach Bounty profit",
-          value: 20,
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/449.png",
     },
   },
   "Heart Balloons": {
@@ -10212,20 +4702,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Utilisez-les comme décoration pour des occasions romantiques.",
       tk: "Bunları romantik günler için dekorasyon olarak kullanın.",
     },
-    opensea: {
-      description: "Use them as decorations for romantic occasions.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/451.png",
-    },
   },
   Flamingo: {
     image: flamingo,
@@ -10235,21 +4711,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "爱的标志挺立高岸",
       fr: "Représente un symbole de la beauté de l'amour, debout grand et confiant.",
       tk: "Dikenli ve kendinden emin duran aşkın güzelliğinin simgesidir.",
-    },
-    opensea: {
-      description:
-        "Represents a symbol of love's beauty standing tall and confident.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/452.png",
     },
   },
   "Blossom Tree": {
@@ -10261,21 +4722,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Ses pétales délicats symbolisent la beauté et la fragilité de l'amour.",
       tk: "Narin yaprakları aşkın güzelliğini ve kırılganlığını simgelemektedir.",
     },
-    opensea: {
-      description:
-        "Its delicate petals symbolizes the beauty and fragility of love.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/453.png",
-    },
   },
   Pearl: {
     image: pearl,
@@ -10285,20 +4731,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "珍珠。阳光之下闪闪发光。",
       fr: "Brille au soleil.",
       tk: "Güneşte parlıyor.",
-    },
-    opensea: {
-      description: "Shimmers in the sun.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Bounty",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/1302.png",
     },
   },
   Pipi: {
@@ -10310,20 +4742,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Plebidonax deltoides, trouvé dans l'océan Pacifique.",
       tk: "Plebidonax deltoides, Pasifik okyanusunda bulundu.",
     },
-    opensea: {
-      description: "Plebidonax deltoides, found in the Pacific Ocean.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Bounty",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/1305.png",
-    },
   },
   Seaweed: {
     image: seaweed,
@@ -10333,20 +4751,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "海藻。",
       fr: "Des algues marines.",
       tk: "Deniz yosunu.",
-    },
-    opensea: {
-      description: "Seaweed.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Bounty",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/1307.png",
     },
   },
   "Whale Bear": {
@@ -10358,21 +4762,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Il a un corps rond et poilu comme un ours, mais avec les nageoires, la queue et le blowhole d'une baleine.",
       tk: "Bir ayı gibi yuvarlak, tüylü bir vücudu vardır, ancak yüzgeçleri, kuyruğu ve bir balinanın hava deliği vardır.",
     },
-    opensea: {
-      description:
-        "It has a round, furry body like a bear, but with the fins, tail, and blowhole of a whale.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/1239.png",
-    },
   },
   "Valentine Bear": {
     image: valentineBear,
@@ -10382,21 +4771,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "为愿爱之人",
       fr: "Pour ceux qui aiment.",
       tk: "Sevenler için.",
-    },
-    opensea: {
-      description:
-        "A bear for those who love. Awarded to people who showed some love",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/1240.png",
     },
   },
   "Easter Bear": {
@@ -10408,20 +4782,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Comment un lapin peut-il pondre des œufs?",
       tk: "Bir Tavşan nasıl yumurtlayabilir?",
     },
-    opensea: {
-      description: "A bear with bunny ears?",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/1236.png",
-    },
   },
   "Easter Bush": {
     image: easterBush,
@@ -10431,20 +4791,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "里头是什么？",
       fr: "Qu'y a-t-il à l'intérieur?",
       tk: "İçerideki ne?",
-    },
-    opensea: {
-      description: "What is inside?",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/1243.png",
     },
   },
   "Giant Carrot": {
@@ -10456,21 +4802,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Une grosse carotte debout, projetant des ombres amusantes, alors que les lapins contemplent avec émerveillement.",
       tk: "Tavşanlar merakla bakarken dev bir havuç eğlenceli gölgeler yaratarak duruyordu.",
     },
-    opensea: {
-      description:
-        "A giant carrot stood, casting fun shadows, as rabbits gazed in wonder.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/1244.png",
-    },
   },
   "Iron Idol": {
     image: ironIdol,
@@ -10481,29 +4812,6 @@ export const ITEM_DETAILS: Items = {
       fr: "L'Idole ajoute 1 fer à chaque fois que vous minez du fer.",
       tk: "Idol, demir kazdığında +1 demir ekler.",
     },
-    opensea: {
-      description: "The Idol adds 1 iron every time you mine iron.",
-      attributes: [
-        {
-          trait_type: "Boost",
-          value: "Resource",
-        },
-        {
-          display_type: "boost_number",
-          trait_type: "Increase Iron Drops",
-          value: 1,
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-      ],
-      image: "../public/erc1155/images/454.png",
-    },
   },
   "Genie Lamp": {
     image: genieLamp,
@@ -10513,26 +4821,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "一盏有魔力的灯，里面有一个能帮你实现三个愿望的精灵",
       fr: "Une lampe magique contenant un génie qui vous accordera trois vœux.",
       tk: "İçinde sana 3 dilek hakkı verecek bir cin içeren sihirli bir lamba.",
-    },
-    opensea: {
-      description:
-        "A magical lamp that contains a genie who will grant you three wishes.",
-      attributes: [
-        {
-          trait_type: "Boost",
-          value: "Other",
-        },
-        {
-          display_type: "boost_number",
-          trait_type: "Grants Wishes",
-          value: 3,
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/460.png",
     },
   },
   "Emerald Turtle": {
@@ -10545,35 +4833,6 @@ export const ITEM_DETAILS: Items = {
       fr: "La Tortue d'Émeraude ajoute +0,5 à tous les minéraux que vous minez dans sa zone d'effet.",
       tk: "Zümrüt Kaplumbağa etki alanı içinde kazdığın tüm minerallere +0.5 verir.",
     },
-    opensea: {
-      description:
-        "The Emerald Turtle gives +0.5 to any minerals you mine within its Area of Effect.",
-      attributes: [
-        {
-          trait_type: "Boost",
-          value: "Resource",
-        },
-        {
-          trait_type: "Boost",
-          value: "Area of Effect",
-        },
-        {
-          display_type: "boost_number",
-          trait_type: "Increase Mineral Drops",
-          value: 0.5,
-        },
-        {
-          display_type: "boost_number",
-          trait_type: "Minerals Affected",
-          value: 8,
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/463.png",
-    },
   },
   "Tin Turtle": {
     image: tinTurtle,
@@ -10583,35 +4842,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "Tin Turtle 会为你在其作用范围内开采的石头带来 +0.1 增益",
       fr: "La Tortue d'Étain ajoute +0,1 aux pierres que vous minez dans sa zone d'effet.",
       tk: "Küçük Kaplumbağa etki alanı içinde kazdığın taşlara +0.1 verir.",
-    },
-    opensea: {
-      description:
-        "The Tin Turtle gives +0.1 to Stones you mine within its Area of Effect.",
-      attributes: [
-        {
-          trait_type: "Boost",
-          value: "Resource",
-        },
-        {
-          trait_type: "Boost",
-          value: "Area of Effect",
-        },
-        {
-          display_type: "boost_number",
-          trait_type: "Increase Stone Drops",
-          value: 0.1,
-        },
-        {
-          display_type: "boost_number",
-          trait_type: "Stone Affected",
-          value: 8,
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/464.png",
     },
   },
   "Basic Scarecrow": {
@@ -10623,34 +4853,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Boost nearby Sunflowers, Potatoes and Pumpkins.",
       tk: "Boost nearby Sunflowers, Potatoes and Pumpkins.",
     },
-    opensea: {
-      description: "Choosy defender of your farm's VIP (Very Important Plants)",
-      attributes: [
-        {
-          trait_type: "Boost",
-          value: "Crop",
-        },
-        {
-          trait_type: "Boost",
-          value: "Area of Effect",
-        },
-        {
-          display_type: "boost_percentage",
-          trait_type: "Basic Crop Growth Time",
-          value: -20,
-        },
-        {
-          display_type: "boost_number",
-          trait_type: "Plots Affected",
-          value: 9,
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/462.png",
-    },
   },
   Bale: {
     image: bale,
@@ -10660,35 +4862,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "家禽们最喜欢的邻居，为鸡们提供一个舒适的休息地",
       fr: "Le voisin préféré de la volaille, offrant une retraite confortable aux poules",
       tk: "Tavuklar için konforlu bir sığınak sağlayan,kümes hayvanlarının en sevdiği komşusu.",
-    },
-    opensea: {
-      description:
-        "A poultry's favorite neighbor, providing a cozy retreat for chickens",
-      attributes: [
-        {
-          trait_type: "Boost",
-          value: "Animal",
-        },
-        {
-          trait_type: "Boost",
-          value: "Area of Effect",
-        },
-        {
-          display_type: "boost_number",
-          trait_type: "Increase Egg Yield",
-          value: 0.2,
-        },
-        {
-          display_type: "boost_number",
-          trait_type: "Chickens Affected",
-          value: 12,
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/465.png",
     },
   },
   "Sir Goldensnout": {
@@ -10701,35 +4874,6 @@ export const ITEM_DETAILS: Items = {
       fr: "A royal member, Sir GoldenSnout infuses your farm with sovereign prosperity through its golden manure.",
       tk: "A royal member, Sir GoldenSnout infuses your farm with sovereign prosperity through its golden manure.",
     },
-    opensea: {
-      description:
-        "A royal member, Sir GoldenSnout infuses your farm with sovereign prosperity through its golden manure.",
-      attributes: [
-        {
-          trait_type: "Boost",
-          value: "Crop",
-        },
-        {
-          trait_type: "Boost",
-          value: "Area of Effect",
-        },
-        {
-          display_type: "boost_number",
-          trait_type: "Increase Crop Yield",
-          value: 0.5,
-        },
-        {
-          display_type: "boost_number",
-          trait_type: "Plots Affected",
-          value: 12,
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/466.png",
-    },
   },
   "Scary Mike": {
     image: scaryMike,
@@ -10741,35 +4885,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Boost nearby Carrots, Cabbages, Soybeans, Beetroots, Cauliflowers and Parsnips",
       tk: "Boost nearby Carrots, Cabbages, Soybeans, Beetroots, Cauliflowers and Parsnips",
     },
-    opensea: {
-      description:
-        "The veggie whisperer and champion of frightfully good harvests!",
-      attributes: [
-        {
-          trait_type: "Boost",
-          value: "Crop",
-        },
-        {
-          trait_type: "Boost",
-          value: "Area of Effect",
-        },
-        {
-          display_type: "boost_number",
-          trait_type: "Increase Medium Crop Yield",
-          value: 0.2,
-        },
-        {
-          display_type: "boost_number",
-          trait_type: "Plots Affected",
-          value: 9,
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/467.png",
-    },
   },
   "Laurie the Chuckle Crow": {
     image: laurie,
@@ -10779,35 +4894,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "Boost nearby Eggplant, Corn, Radish, Wheat and Kale",
       fr: "Boost nearby Eggplant, Corn, Radish, Wheat and Kale",
       tk: "Boost nearby Eggplant, Corn, Radish, Wheat and Kale",
-    },
-    opensea: {
-      description:
-        "With her disconcerting chuckle, she shooes peckers away from your crops!",
-      attributes: [
-        {
-          trait_type: "Boost",
-          value: "Crop",
-        },
-        {
-          trait_type: "Boost",
-          value: "Area of Effect",
-        },
-        {
-          display_type: "boost_number",
-          trait_type: "Increase Advanced Crop Yield",
-          value: 0.2,
-        },
-        {
-          display_type: "boost_number",
-          trait_type: "Plots Affected",
-          value: 9,
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/468.png",
     },
   },
   "Freya Fox": {
@@ -10820,26 +4906,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Enchanting guardian, boosts pumpkin growth with her mystical charm. Harvest abundant pumpkins under her watchful gaze.",
       tk: "Enchanting guardian, boosts pumpkin growth with her mystical charm. Harvest abundant pumpkins under her watchful gaze.",
     },
-    opensea: {
-      description:
-        "Enchanting guardian, boosts pumpkin growth with her mystical charm. Harvest abundant pumpkins under her watchful gaze.",
-      attributes: [
-        {
-          trait_type: "Boost",
-          value: "Crop",
-        },
-        {
-          display_type: "boost_number",
-          trait_type: "Increase Pumpkin Yield",
-          value: 0.5,
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/469.png",
-    },
   },
   "Queen Cornelia": {
     image: queenCornelia,
@@ -10851,35 +4917,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Commandez le pouvoir royal de la Reine Cornelia et bénéficiez d'un magnifique boost de zone d'effet pour votre production de Corn. +1 de Corn.",
       tk: "Queen Cornelia’nın muhteşem gücünü kontrol edin ve mısır üretiminde müthiş bir etki alanı artışını deneyimleyin.+1 mısır.",
     },
-    opensea: {
-      description:
-        "Command the regal power of Queen Cornelia and experience a magnificent Area of Effect boost to your corn production. +1 Corn.",
-      attributes: [
-        {
-          trait_type: "Boost",
-          value: "Crop",
-        },
-        {
-          trait_type: "Boost",
-          value: "Area of Effect",
-        },
-        {
-          display_type: "boost_number",
-          trait_type: "Increase Corn Yield",
-          value: 1,
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-        {
-          display_type: "boost_number",
-          trait_type: "Plots Affected",
-          value: 10,
-        },
-      ],
-      image: "../public/erc1155/images/474.png",
-    },
   },
   "Compost Bin": {
     image: basicComposter,
@@ -10889,21 +4926,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "箱式堆肥器。定期生产鱼饵和肥料",
       fr: "Produit régulièrement de l'appât et de l'engrais.",
       tk: "Düzenli olarak yem ve gübre üretir.",
-    },
-    opensea: {
-      description:
-        "Creates a nurturing Sprout Mix compost and unearths Earthworm bait for your fishing adventures!",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Building",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/1014.png",
     },
   },
   "Turbo Composter": {
@@ -10915,21 +4937,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Produit régulièrement de l'appât et de l'engrais avancés.",
       tk: "Düzenli olarak gelişmiş yem ve gübre üretir.",
     },
-    opensea: {
-      description:
-        "Produces a bountiful Fruitful Blend compost and discovers Grub bait eager to join you in fishing!",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Building",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/1015.png",
-    },
   },
   "Premium Composter": {
     image: expertComposter,
@@ -10939,21 +4946,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "旗舰堆肥器。定期生产专业鱼饵和肥料",
       fr: "Produit régulièrement de l'appât et de l'engrais experts.",
       tk: "Düzenli olarak uzman yem ve gübre üretir.",
-    },
-    opensea: {
-      description:
-        "Generates a robust Rapid Root compost mix and reveals Red Wiggler bait for the perfect fishing expedition!",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Building",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/1016.png",
     },
   },
   "Solar Flare Ticket": {
@@ -10965,20 +4957,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Un billet utilisé pendant la saison des Éruptions Solaires",
       tk: "Güneş Patlaması Sezonunda kullanılan bir bilet",
     },
-    opensea: {
-      description: "A ticket used during the Solar Flare Season",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Coupon",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/719.png",
-    },
   },
   "Dawn Breaker Ticket": {
     image: dawnBreakerTicket,
@@ -10988,20 +4966,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "A ticket used during the Dawn Breaker Season",
       fr: "Un billet utilisé pendant la saison de l'Éclaireur de l'Aube",
       tk: "Şafak Kıran Sezonunda kullanılan bir bilet",
-    },
-    opensea: {
-      description: "A ticket used during the Dawn Breaker Season",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Coupon",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/720.png",
     },
   },
   "Crow Feather": {
@@ -11013,20 +4977,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Un billet utilisé pendant la saison des Billets de la Veille des Sorcières",
       tk: "Cadılar Bayramı Bilet Sezonunda kullanılan bir bilet",
     },
-    opensea: {
-      description: "A ticket used during the Witches' Eve Season",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Coupon",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/725.png",
-    },
   },
   "Mermaid Scale": {
     image: mermaidScale,
@@ -11036,20 +4986,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "A ticket used during the Catch the Kraken Season",
       fr: "Un billet utilisé pendant la saison de la Chasse au Kraken",
       tk: "Kraken'i Yakala Sezonunda kullanılan bir bilet",
-    },
-    opensea: {
-      description: "A ticket used during the Catch the Kraken Season",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Coupon",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/731.png",
     },
   },
   "Tulip Bulb": {
@@ -11061,20 +4997,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Un billet utilisé pendant la Floraison du Printemps.",
       tk: "Bahar Çiçeği sırasında kullanılan bir bilet",
     },
-    opensea: {
-      description: "A ticket used during the Spring Blossom",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Coupon",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/737.png",
-    },
   },
   Scroll: {
     image: scroll,
@@ -11084,20 +5006,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "A ticket used during the Clash of Factions Season",
       fr: "A ticket used during the Clash of Factions Season",
       tk: "A ticket used during the Clash of Factions Season",
-    },
-    opensea: {
-      description: "A ticket used during the Clash of Factions Season",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Coupon",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/739.png",
     },
   },
   "Bumpkin Emblem": {
@@ -11109,17 +5017,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Show your allegiance to the Bumpkins",
       tk: "Show your allegiance to the Bumpkins",
     },
-    opensea: {
-      description:
-        "A symbol of the Bumpkin Faction. Show your support for the Bumpkin Faction with this emblem.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-      ],
-      image: "../public/erc1155/images/742.png",
-    },
   },
   "Goblin Emblem": {
     image: goblinEmblem,
@@ -11129,17 +5026,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "Show your allegiance to the Goblins",
       fr: "Show your allegiance to the Goblins",
       tk: "Show your allegiance to the Goblins",
-    },
-    opensea: {
-      description:
-        "A symbol of the Goblin Faction. Show your support for the Goblin Faction with this emblem.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-      ],
-      image: "../public/erc1155/images/741.png",
     },
   },
   "Nightshade Emblem": {
@@ -11151,17 +5037,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Show your allegiance to the Nightshades",
       tk: "Show your allegiance to the Nightshades",
     },
-    opensea: {
-      description:
-        "A symbol of the Nightshade Faction. Show your support for the Nightshade Faction with this emblem.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-      ],
-      image: "../public/erc1155/images/744.png",
-    },
   },
   "Sunflorian Emblem": {
     image: sunflorianEmblem,
@@ -11171,17 +5046,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "Show your allegiance to the Sunflorians",
       fr: "Show your allegiance to the Sunflorians",
       tk: "Show your allegiance to the Sunflorians",
-    },
-    opensea: {
-      description:
-        "A symbol of the Sunflorian Faction. Show your support for the Sunflorian Faction with this emblem.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-      ],
-      image: "../public/erc1155/images/743.png",
     },
   },
   Mark: {
@@ -11193,16 +5057,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Use these in the faction shop",
       tk: "Use these in the faction shop",
     },
-    opensea: {
-      description: "Currency of the Factions. Use this in the Marks Shop.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-      ],
-      image: "../public/erc1155/images/745.png",
-    },
   },
   "Sunflower Supporter": {
     image: supporterTicket,
@@ -11212,20 +5066,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "The mark of a true supporter of the game!",
       fr: "La marque d'un véritable supporter du jeu!",
       tk: "Oyunun gerçek bir destekçisinin işareti!",
-    },
-    opensea: {
-      description: "A true supporter of the project",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Coupon",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/721.png",
     },
   },
   "Treasure Key": {
@@ -11237,20 +5077,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Visitez la place pour débloquer votre récompense",
       tk: "Ödülünüzün kilidini açmak için Plazayı ziyaret edin",
     },
-    opensea: {
-      description: "A magic key that can unlock rewards in the plaza",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Coupon",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/931.png",
-    },
   },
   "Beach Ball": {
     image: beachBall,
@@ -11260,20 +5086,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "弹跳的小球跃动着海滩气息，赶走所有无聊",
       fr: "La balle rebondissante apporte des vibrations de plage, chasse l'ennui.",
       tk: "Zıplayan top, plaj havası verir ve can sıkıntısını giderir.",
-    },
-    opensea: {
-      description: "Bouncy ball brings beachy vibes, blows boredom away.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/1242.png",
     },
   },
   "Palm Tree": {
@@ -11285,21 +5097,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Haut, branché, ombragé et chic, les palmiers font des vagues.",
       tk: "Uzun, kumsal, gölgeli ve şık palmiye ağaçları dalgaları dalgalandırıyor.",
     },
-    opensea: {
-      description:
-        "Tall, beachy, shady and chic, palm trees make waves sashay.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/1241.png",
-    },
   },
   Karkinos: {
     image: karkinos,
@@ -11309,26 +5106,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "咔叽诺斯。掐得也温柔，卷心好帮手！",
       fr: "Pincé mais gentil, l'ajout crabe-Cabbage à votre ferme qui améliore la production de choux!",
       tk: "Çimdik sever ama kibar, çiftliğine lahana artırıcı bir yengeç!",
-    },
-    opensea: {
-      description:
-        "Pinchy but kind, the crabby cabbage-boosting addition to your farm!",
-      attributes: [
-        {
-          trait_type: "Boost",
-          value: "Crop",
-        },
-        {
-          display_type: "boost_number",
-          trait_type: "Increase Cabbage Yield",
-          value: 0.1,
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/455.png",
     },
   },
   "Mushroom House": {
@@ -11340,30 +5117,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Une demeure fantasque pleine de champignons où les murs poussent avec charme et même les meubles ont un flair 'spore-taculaire'!",
       tk: "Duvarların cazibesiyle filizlendiği ve eşyaların bile mantarşem bir zarafete sahip olduğu tuhaf mantar meskeni!",
     },
-    opensea: {
-      description:
-        "A whimsical, fungi-abode where the walls sprout with charm and even the furniture has a 'spore-tacular' flair!",
-      attributes: [
-        {
-          trait_type: "Boost",
-          value: "Resource",
-        },
-        {
-          display_type: "boost_number",
-          trait_type: "Increase Mushroom Yield",
-          value: 0.2,
-        },
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/456.png",
-    },
   },
   "Basic Land": {
     image: SUNNYSIDE.resource.land,
@@ -11373,20 +5126,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "一片基础岛地",
       fr: "Un morceau d'île basique.",
       tk: "Temel bir toprak parçası",
-    },
-    opensea: {
-      description: "Build your farming empire with this basic piece of land",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Resource Node",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/625.png",
     },
   },
   "Crop Plot": {
@@ -11398,20 +5137,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Une parcelle vide pour planter des cultures.",
       tk: "Bitki yetiştirmek için boş bir arsa",
     },
-    opensea: {
-      description: "A precious piece of soil used to plant crops.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Resource Node",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/622.png",
-    },
   },
   "Sunstone Rock": {
     image: sunstoneRock,
@@ -11421,20 +5146,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "A mineable rock to collect sunstone",
       fr: "A mineable rock to collect sunstone",
       tk: "A mineable rock to collect sunstone",
-    },
-    opensea: {
-      description: "A radiant gem, essential for advanced crafting.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Resource Node",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/637.gif",
     },
   },
   "Gold Rock": {
@@ -11446,20 +5157,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Une roche exploitable pour collecter de l'or.",
       tk: "Altın toplamak için kazılabilen bir kaya",
     },
-    opensea: {
-      description: "A scarce resource that can be used to mine gold",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Resource Node",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/621.png",
-    },
   },
   "Iron Rock": {
     image: ironRock,
@@ -11469,20 +5166,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "一片矿脉以收集铁矿",
       fr: "Une roche exploitable pour collecter du fer.",
       tk: "Demir toplamak için kazılabilen bir kaya",
-    },
-    opensea: {
-      description: "Wow, a shiny iron rock. Used to mine iron ore",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Resource Node",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/620.png",
     },
   },
   "Stone Rock": {
@@ -11494,20 +5177,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Une roche exploitable pour collecter de la pierre.",
       tk: "Taş toplamak için kazılabilen bir kaya",
     },
-    opensea: {
-      description: "A staple mineral for your mining journey",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Resource Node",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/619.png",
-    },
   },
   "Crimstone Rock": {
     image: crimstoneRock,
@@ -11517,20 +5186,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "一片矿脉以收集红宝石",
       fr: "Une roche exploitable pour collecter du crimstone.",
       tk: "Kızıltaş toplamak için kazılabilen bir kaya",
-    },
-    opensea: {
-      description: "A rare resource used to mine crimstones",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Resource Node",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/635.gif",
     },
   },
   "Oil Reserve": {
@@ -11542,20 +5197,6 @@ export const ITEM_DETAILS: Items = {
       fr: "A source of oil",
       tk: "A source of oil",
     },
-    opensea: {
-      description: "A valuable resource used to mine oil",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Resource Node",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/640.gif",
-    },
   },
   Tree: {
     image: SUNNYSIDE.resource.tree,
@@ -11565,20 +5206,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "一棵树木以收集木头",
       fr: "Un arbre que vous pouvez abattre pour collecter du Wood.",
       tk: "Odun toplamak için kesilebilir bir ağaç",
-    },
-    opensea: {
-      description: "Nature's most precious resource. Used to collect wood",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Resource Node",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/618.gif",
     },
   },
   "Fruit Patch": {
@@ -11590,20 +5217,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Une parcelle vide pour planter des fruits.",
       tk: "Meyve dikmek için boş bir arsa",
     },
-    opensea: {
-      description: "A bountiful piece of land used to plant fruit",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Resource Node",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/623.png",
-    },
   },
   "Flower Bed": {
     image: flowerBed,
@@ -11613,20 +5226,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "一块空田以种花卉",
       fr: "Une parcelle vide pour planter des fleurs.",
       tk: "Çiçek dikmek için boş bir arsa",
-    },
-    opensea: {
-      description: "A beautiful piece of land used to plant flowers",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Resource Node",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/634.gif",
     },
   },
   Boulder: {
@@ -11638,20 +5237,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Une roche mythique qui peut laisser tomber des minéraux rares.",
       tk: "Nadir mineralleri düşürebilen efsanevi bir kaya",
     },
-    opensea: {
-      description: "???",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Resource Node",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/question_mark.png",
-    },
   },
   "Dirt Path": {
     image: dirt,
@@ -11661,20 +5246,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "千足踏过的小径总不脏鞋",
       fr: "Gardez vos bottes de fermier propres avec un chemin bien foulé.",
       tk: "Çiftçi botlarınızı iyi işlenmiş bir yolla temiz tutun.",
-    },
-    opensea: {
-      description: "Keep your farmer boots clean and travel on paths!",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/1245.png",
     },
   },
   Bush: {
@@ -11686,20 +5257,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Que se cache-t-il dans les buissons?",
       tk: "Çalıların arasında ne gizleniyor?",
     },
-    opensea: {
-      description: "Keep your Bumpkins happy with these bushy bushes.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/1246.png",
-    },
   },
   Fence: {
     image: fence,
@@ -11709,20 +5266,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "给你的农场来点乡村魅力",
       fr: "Ajoutez une touche de charme rustique à votre ferme.",
       tk: "Çiftliğinize rustik bir çekicilik katın.",
-    },
-    opensea: {
-      description: "Those cheeky chickens won't be escaping anymore!",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/1247.png",
     },
   },
   "Stone Fence": {
@@ -11734,20 +5277,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Adoptez l'élégance intemporelle d'une clôture en pierre.",
       tk: "Taş çitin zamansız zarafetini kucaklayın.",
     },
-    opensea: {
-      description: "Embrace the timeless elegance of a stone fence.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/1271.png",
-    },
   },
   Shrub: {
     image: shrub,
@@ -11757,21 +5286,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "一簇美妙灌木倍增您的游乐景象",
       fr: "Améliorez votre aménagement paysager en jeu avec un bel arbuste.",
       tk: "Güzel bir çalıyla oyun içi peyzajınızı geliştirin",
-    },
-    opensea: {
-      description:
-        "It aint much, but it adds some green to your beautiful island",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/1248.png",
     },
   },
   "Pine Tree": {
@@ -11783,20 +5297,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Debout haut et puissant, un rêve habillé d'aiguilles.",
       tk: "Dik ve kudretli durmak, iğnelerle kaplı bir rüya.",
     },
-    opensea: {
-      description: "Standing tall and mighty, a needle-clad dream.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/1270.png",
-    },
   },
   "Field Maple": {
     image: fieldMaple,
@@ -11806,21 +5306,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "娇枝嫩叶展开翠绿天蓬",
       fr: "Un charmeur petit qui étend ses feuilles comme une délicate canopée verte.",
       tk: "Yapraklarını narin yeşil bir gölgelik gibi yayan küçük bir büyücü.",
-    },
-    opensea: {
-      description:
-        "A petite charmer that spreads its leaves like a delicate green canopy.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/1267.png",
     },
   },
   "Red Maple": {
@@ -11832,20 +5317,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Foliage enflammé et un cœur plein de chaleur automnale.",
       tk: "Ateşli yapraklar ve sonbahar sıcaklığıyla dolu bir kalp.",
     },
-    opensea: {
-      description: "Fiery foliage and a heart full of autumnal warmth.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/1268.png",
-    },
   },
   "Golden Maple": {
     image: goldenMaple,
@@ -11855,20 +5326,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "金光枫叶四绽光芒",
       fr: "Illuminant de sa brillance avec ses feuilles dorées scintillantes.",
       tk: "Parıldayan altın yapraklarıyla parlaklık saçıyor.",
-    },
-    opensea: {
-      description: "Radiating brilliance with its shimmering golden leaves.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/1269.png",
     },
   },
   "Solar Flare Banner": {
@@ -11880,21 +5337,6 @@ export const ITEM_DETAILS: Items = {
       fr: "?",
       tk: "?",
     },
-    opensea: {
-      description:
-        "The temperature is rising in Sunflower Land. The mark of a participant in our inaugural season.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Banner",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/722.png",
-    },
   },
   "Dawn Breaker Banner": {
     image: dawnBreakerBanner,
@@ -11904,21 +5346,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "?",
       fr: "?",
       tk: "?",
-    },
-    opensea: {
-      description:
-        "A mysterious darkness is plaguing Sunflower Land. The mark of a participant in the Dawn Breaker Season.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Banner",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/723.png",
     },
   },
   "Witches' Eve Banner": {
@@ -11930,26 +5357,6 @@ export const ITEM_DETAILS: Items = {
       fr: "?",
       tk: "?",
     },
-    opensea: {
-      description:
-        "The season of the witch has begun. The mark of a participant in the Witches' Eve Season.\n\nGrants 2 extra crow feathers per feather delivery during Witches' Eve Season",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Banner",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-        {
-          display_type: "boost_number",
-          trait_type: "Extra Crow Feathers from Deliveries",
-          value: 2,
-        },
-      ],
-      image: "../public/erc1155/images/724.png",
-    },
   },
   "Catch the Kraken Banner": {
     image: catchTheKrakenBanner,
@@ -11959,31 +5366,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "海怪浮现！追捕海怪时季参与者的标志",
       fr: "Le Kraken est là ! La marque d'un participant à la saison Catch the Kraken.",
       tk: "Kraken burada! Kraken Yakalama Sezonu katılımcısının işareti.",
-    },
-    opensea: {
-      description:
-        "The Kraken is here! The mark of a participant in the Catch the Kraken Season.\n\nGrants 2 extra mermaid scales per mermaid scale delivery during Catch the Kraken Season",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Banner",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-        {
-          display_type: "boost_number",
-          trait_type: "Extra Mermaid Scales from Deliveries",
-          value: 2,
-        },
-        {
-          display_type: "boost_percentage",
-          trait_type: "XP increase during Catch the Kraken Season",
-          value: 10,
-        },
-      ],
-      image: "../public/erc1155/images/730.png",
     },
   },
   "Spring Blossom Banner": {
@@ -11995,30 +5377,6 @@ export const ITEM_DETAILS: Items = {
       fr: "",
       tk: "",
     },
-    opensea: {
-      description: "",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Banner",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-        {
-          display_type: "boost_number",
-          trait_type: "Extra Tulip from Deliveries",
-          value: 2,
-        },
-        {
-          display_type: "boost_percentage",
-          trait_type: "XP increase during Spring Blossom Season",
-          value: 10,
-        },
-      ],
-      image: "../public/erc1155/images/736.gif",
-    },
   },
   "Clash of Factions Banner": {
     image: clashOfFactionsBanner,
@@ -12028,25 +5386,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "",
       fr: "",
       tk: "",
-    },
-    opensea: {
-      description: "",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Banner",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-        {
-          display_type: "boost_percentage",
-          trait_type: "XP increase during Clash of Factions Season",
-          value: 10,
-        },
-      ],
-      image: "../public/erc1155/images/738.png",
     },
   },
   "Lifetime Farmer Banner": {
@@ -12058,25 +5397,6 @@ export const ITEM_DETAILS: Items = {
       fr: "",
       tk: "",
     },
-    opensea: {
-      description: "Gives lifetime access to all seasons and VIP access.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Banner",
-        },
-        {
-          display_type: "boost_percentage",
-          trait_type: "Increase XP",
-          value: 10,
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/740.png",
-    },
   },
   "Luminous Lantern": {
     image: luminousLantern,
@@ -12086,20 +5406,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "明亮纸灯笼照亮前方道路",
       fr: "Une lanterne en papier lumineuse qui éclaire le chemin.",
       tk: "Yolu aydınlatan parlak bir kağıt fener.",
-    },
-    opensea: {
-      description: "A bright paper lantern that illuminates the way.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/1249.png",
     },
   },
   "Radiance Lantern": {
@@ -12111,20 +5417,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Une lanterne en papier radieuse qui brille d'une lumière puissante.",
       tk: "Güçlü bir ışıkla parlayan parlak bir kağıt fener.",
     },
-    opensea: {
-      description: "A radiant paper lantern that shines with a powerful light.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/1250.png",
-    },
   },
   "Ocean Lantern": {
     image: oceanLantern,
@@ -12134,21 +5426,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "海浪纸灯笼随着波涛摇曳",
       fr: "Une lanterne en papier ondulée qui flotte avec la marée.",
       tk: "Gelgitin sallanmasıyla sallanan dalgalı bir kağıt fener.",
-    },
-    opensea: {
-      description:
-        "A wavy paper lantern that sways with the bobbing of the tide.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/1265.png",
     },
   },
   "Solar Lantern": {
@@ -12160,21 +5437,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Utilisant l'essence vibrante des Sunflowers, la lanterne solaire émet une lueur chaude et radieuse.",
       tk: "Ayçiçeklerinin canlı özünü kullanan Solar Fener, sıcak ve ışıltılı bir ışıltı yayıyor.",
     },
-    opensea: {
-      description:
-        "Harnessing the vibrant essence of sunflowers, the Solar Lantern emanates a warm and radiant glow, reminiscent of a blossoming field under the golden sun.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/1272.png",
-    },
   },
   "Aurora Lantern": {
     image: auroraLantern,
@@ -12184,21 +5446,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "极光纸灯笼晕染魔法幻境",
       fr: "Une lanterne en papier qui transforme tout espace en un pays des merveilles magique.",
       tk: "Herhangi bir alanı büyülü bir harikalar diyarına dönüştüren bir kağıt fener.",
-    },
-    opensea: {
-      description:
-        "A paper lantern that transforms any space into a magical wonderland.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/1251.png",
     },
   },
   "Bonnie's Tombstone": {
@@ -12211,21 +5458,6 @@ export const ITEM_DETAILS: Items = {
       fr: "A spooky addition to any farm, Bonnie's Human Tombstone will send shivers down your spine.",
       tk: "A spooky addition to any farm, Bonnie's Human Tombstone will send shivers down your spine.",
     },
-    opensea: {
-      description:
-        "A spooky addition to any farm, Bonnie's Human Tombstone will send shivers down your spine.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/1252.png",
-    },
   },
   "Chestnut Fungi Stool": {
     image: chestnutStool,
@@ -12236,21 +5468,6 @@ export const ITEM_DETAILS: Items = {
         "The Chestnut Fungi Stool is a sturdy and rustic addition to any farm.",
       fr: "The Chestnut Fungi Stool is a sturdy and rustic addition to any farm.",
       tk: "The Chestnut Fungi Stool is a sturdy and rustic addition to any farm.",
-    },
-    opensea: {
-      description:
-        "The Chestnut Fungi Stool is a sturdy and rustic addition to any farm.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/1253.png",
     },
   },
   "Crimson Cap": {
@@ -12263,21 +5480,6 @@ export const ITEM_DETAILS: Items = {
       fr: "A towering and vibrant mushroom, the Crimson Cap Giant Mushroom will bring life to your farm.",
       tk: "A towering and vibrant mushroom, the Crimson Cap Giant Mushroom will bring life to your farm.",
     },
-    opensea: {
-      description:
-        "A towering and vibrant mushroom, the Crimson Cap Giant Mushroom will bring life to your farm.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/1254.png",
-    },
   },
   "Dawn Umbrella Seat": {
     image: dawnUmbrellaSeat,
@@ -12287,21 +5489,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "有了晨曦伞座，叫茄子在阴雨云天也保持干爽",
       fr: "Gardez ces Eggplants au sec lors des journées pluvieuses avec le siège-parapluie Dawn.",
       tk: "Şafak Şemsiye Koltuğu ile bu yağmurlu günlerde patlıcanları kuru tutun.",
-    },
-    opensea: {
-      description:
-        "Keep those Eggplants dry during those rainy days with the Dawn Umbrella Seat.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/1255.png",
     },
   },
   "Eggplant Grill": {
@@ -12313,21 +5500,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Préparez vos repas en plein air avec le Eggplant Grill, parfait pour tout repas en plein air.",
       tk: "Her türlü açık hava yemeği için mükemmel olan Patlıcan Izgara ile yemek pişirin.",
     },
-    opensea: {
-      description:
-        "Get cooking with the Eggplant Grill, perfect for any outdoor meal.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/1256.png",
-    },
   },
   "Giant Dawn Mushroom": {
     image: giantDawnMushroom,
@@ -12338,21 +5510,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Le champignon géant Dawn est un ajout majestueux et magique à toute ferme.",
       tk: "Dev Şafak Mantarı her çiftliğe görkemli ve büyülü bir katkıdır.",
     },
-    opensea: {
-      description:
-        "The Giant Dawn Mushroom is a majestic and magical addition to any farm.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/1257.png",
-    },
   },
   "Grubnash's Tombstone": {
     image: grubnashTombstone,
@@ -12362,21 +5519,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "Add some mischievous charm with Grubnash's Goblin Tombstone.",
       fr: "Add some mischievous charm with Grubnash's Goblin Tombstone.",
       tk: "Add some mischievous charm with Grubnash's Goblin Tombstone.",
-    },
-    opensea: {
-      description:
-        "Add some mischievous charm with Grubnash's Goblin Tombstone.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/1258.png",
     },
   },
   "Mahogany Cap": {
@@ -12389,21 +5531,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Add a touch of sophistication with the Mahogany Cap Giant Mushroom.",
       tk: "Add a touch of sophistication with the Mahogany Cap Giant Mushroom.",
     },
-    opensea: {
-      description:
-        "Add a touch of sophistication with the Mahogany Cap Giant Mushroom.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/1259.png",
-    },
   },
   "Shroom Glow": {
     image: shroomGlow,
@@ -12413,21 +5540,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "蘑菇灯的魔力荧光照亮您的农场",
       fr: "Illuminez votre ferme avec la lueur enchanteresse de Shroom Glow.",
       tk: "Çiftliğinizi Shroom Glow'un büyüleyici ışıltısıyla aydınlatın.",
-    },
-    opensea: {
-      description:
-        "Illuminate your farm with the enchanting glow of Shroom Glow.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/1263.png",
     },
   },
   "Toadstool Seat": {
@@ -12439,21 +5551,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Sit back and relax on the whimsical Toadstool Mushroom Seat.",
       tk: "Sit back and relax on the whimsical Toadstool Mushroom Seat.",
     },
-    opensea: {
-      description:
-        "Sit back and relax on the whimsical Toadstool Mushroom Seat.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/1260.png",
-    },
   },
   Clementine: {
     image: clementine,
@@ -12463,21 +5560,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "小橙侏儒是你耕作冒险的欢乐伙伴",
       fr: "Le gnome Clementine est un compagnon joyeux pour vos aventures agricoles.",
       tk: "Clementine Gnome, çiftçilik maceralarınız için neşeli bir yol arkadaşıdır.",
-    },
-    opensea: {
-      description:
-        "The Clementine Gnome is a cheerful companion for your farming adventures.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/1261.png",
     },
   },
   Blossombeard: {
@@ -12489,26 +5571,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Le gnome Blossombeard est un compagnon puissant pour vos aventures agricoles.",
       tk: "Çiçek Sakallı Gnome, çiftçilik maceralarınız için güçlü bir yol arkadaşıdır.",
     },
-    opensea: {
-      description:
-        "The Blossombeard Gnome is a powerful companion for your farming adventures.",
-      attributes: [
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-        {
-          trait_type: "Boost",
-          value: "XP",
-        },
-        {
-          display_type: "boost_percentage",
-          trait_type: "Experience",
-          value: 10,
-        },
-      ],
-      image: "../public/erc1155/images/2010.png",
-    },
   },
   "Desert Gnome": {
     image: desertgnome,
@@ -12518,26 +5580,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "能够在最恶劣的条件下生存的侏儒。",
       fr: "A gnome that can survive the harshest of conditions.",
       tk: "A gnome that can survive the harshest of conditions.",
-    },
-    opensea: {
-      description:
-        "The Blossombeard Gnome is a powerful companion for your farming adventures.",
-      attributes: [
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-        {
-          trait_type: "Boost",
-          value: "Other",
-        },
-        {
-          display_type: "boost_percentage",
-          trait_type: "Cooking Time",
-          value: -10,
-        },
-      ],
-      image: "../public/erc1155/images/2017.png",
     },
   },
   Cobalt: {
@@ -12549,21 +5591,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Le gnome Cobalt ajoute une touche de couleur à votre ferme avec son chapeau vibrant.",
       tk: "Kobalt Gnome, canlı şapkasıyla çiftliğinize renk katar.",
     },
-    opensea: {
-      description:
-        "The Cobalt Gnome adds a pop of color to your farm with his vibrant hat.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/1262.png",
-    },
   },
   "Purple Trail": {
     image: purpleTrail,
@@ -12573,26 +5600,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "有了这迷人独特的 Purple Trail，让你的对手垂涎食尘吧",
       fr: "Laissez vos adversaires derrière vous dans un sillage d'envie avec le sentier violet captivant et unique",
       tk: "Büyüleyici ve eşsiz Purple Trail ile rakiplerini kıskançlık içinde bırak.",
-    },
-    opensea: {
-      description:
-        "Leave your opponents in a trail of envy with the mesmerizing and unique Purple Trail",
-      attributes: [
-        {
-          trait_type: "Boost",
-          value: "Crop",
-        },
-        {
-          display_type: "boost_number",
-          trait_type: "Increase Eggplant Yield",
-          value: 0.2,
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/457.png",
     },
   },
   Maximus: {
@@ -12604,25 +5611,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Écrasez la concurrence avec le joufflu Maximus",
       tk: "Tombul Maximus ile rekabeti ezip geç!",
     },
-    opensea: {
-      description: "Squash the competition with plump Maximus",
-      attributes: [
-        {
-          trait_type: "Boost",
-          value: "Crop",
-        },
-        {
-          display_type: "boost_number",
-          trait_type: "Increase Eggplant Yield",
-          value: 1,
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/459.png",
-    },
   },
   Obie: {
     image: obie,
@@ -12632,25 +5620,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "凶悍的长茄兵。",
       fr: "Un vaillant soldat Eggplant",
       tk: "Azılı bir patlıcan askeri",
-    },
-    opensea: {
-      description: "A fierce eggplant soldier",
-      attributes: [
-        {
-          trait_type: "Boost",
-          value: "Crop",
-        },
-        {
-          display_type: "boost_percentage",
-          trait_type: "Eggplant Growth Time",
-          value: -25,
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/458.png",
     },
   },
   Hoot: {
@@ -12662,25 +5631,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Hibou hibou ! Avez-vous résolu mon énigme?",
       tk: "Vay vay! Bilmecemi hâlâ çözmedin mi?",
     },
-    opensea: {
-      description: "Hoot hoot! Have you solved my riddle yet?",
-      attributes: [
-        {
-          trait_type: "Boost",
-          value: "Crop",
-        },
-        {
-          display_type: "boost_number",
-          trait_type: "Increase Yield of Radish, Wheat, Kale & Rice",
-          value: 0.5,
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/461.png",
-    },
   },
   "Genie Bear": {
     image: genieBear,
@@ -12690,20 +5640,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "正是我想要的！",
       fr: "Exactement ce que je souhaitais!",
       tk: "Tam olarak istediğim şey!",
-    },
-    opensea: {
-      description: "Exactly what I wished for!",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/1264.png",
     },
   },
   "Betty Lantern": {
@@ -12715,20 +5651,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Elle a l'air tellement réelle ! Je me demande comment ils l'ont fabriquée.",
       tk: "O kadar gerçek görünüyor ki! Bunu nasıl hazırladıklarını merak ediyorum.",
     },
-    opensea: {
-      description: "It looks so real! I wonder how they crafted this.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/1273.png",
-    },
   },
   "Bumpkin Lantern": {
     image: bumpkinLantern,
@@ -12738,21 +5660,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "凑近听，能听到乡包佬的呢喃低语……可怕！",
       fr: "En vous approchant, vous entendez des murmures d'un Bumpkin vivant... effrayant!",
       tk: "Yaklaştığınızda yaşayan bir Bumpkin'in mırıltılarını duyarsınız... tüyler ürpertici!",
-    },
-    opensea: {
-      description:
-        "Moving closer you hear murmurs of a living Bumpkin...creepy!",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/1274.png",
     },
   },
   "Eggplant Bear": {
@@ -12764,20 +5671,6 @@ export const ITEM_DETAILS: Items = {
       fr: "La marque généreuse Eggplant balaine.",
       tk: "Cömert bir patlıcan balinasının işareti.",
     },
-    opensea: {
-      description: "The mark of a generous eggplant whale.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/1275.png",
-    },
   },
   "Goblin Lantern": {
     image: goblinLantern,
@@ -12788,20 +5681,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Une lanterne au look effrayant.",
       tk: "Korkunç görünümlü bir fener",
     },
-    opensea: {
-      description: "A scary looking lantern",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/1276.png",
-    },
   },
   "Dawn Flower": {
     image: dawnFlower,
@@ -12811,21 +5690,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "拥吻 Dawn Flower 的夺目美丽，她精致的花瓣闪烁着第一缕晨光",
       fr: "Embrassez la beauté radieuse de la Dawn Flower alors que ses pétales délicats scintillent avec les premières lueurs du jour.",
       tk: "Günün ilk ışıklarında narin yaprakları parıldayan Şafak Çiçeğinin ışıltılı güzelliğini kucaklayın",
-    },
-    opensea: {
-      description:
-        "Embrace the radiant beauty of the Dawn Flower as its delicate petals shimmer with the first light of day.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/1277.png",
     },
   },
   "Gold Pass": {
@@ -12838,21 +5702,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Un laissez-passer exclusif permettant au détenteur de fabriquer des NFT rares, de commercer, de retirer et d'accéder à du contenu bonus.",
       tk: "Sahibinin nadir NFT'ler oluşturmasına, ticaret yapmasına, para çekmesine ve bonus içeriğe erişmesine olanak tanıyan özel bir geçiş kartı.",
     },
-    opensea: {
-      description:
-        "An exclusive pass that enables the holder to craft rare NFTs, trade, withdraw and access bonus content.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Coupon",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/726.png",
-    },
   },
   Poppy: {
     image: poppy,
@@ -12862,25 +5711,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "神秘的玉米粒。玉米产量 +0.1",
       fr: "Le noyau de maïs mystique. +0,1 de Corn par récolte,",
       tk: "Mistik mısır çekirdeği.Mısır hasatında hasat başı +0.1 ekler,",
-    },
-    opensea: {
-      description: "The mystical corn kernel. +0.1 Corn per harvest.",
-      attributes: [
-        {
-          trait_type: "Boost",
-          value: "Crop",
-        },
-        {
-          display_type: "boost_number",
-          trait_type: "Increase Corn Yield",
-          value: 0.1,
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/471.png",
     },
   },
   "El Pollo Veloz": {
@@ -12892,26 +5722,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Donnez-moi ces œufs, vite ! Boost de vitesse de 4 heures sur la ponte des œufs.",
       tk: "Şu yumurtaları bana ver,çabuk! Yumurtlamada 4 saatlik hız artışı.",
     },
-    opensea: {
-      description:
-        "Give me those eggs, fast! 4 hour speed boost on egg laying.",
-      attributes: [
-        {
-          trait_type: "Boost",
-          value: "Animal",
-        },
-        {
-          display_type: "boost_number",
-          trait_type: "Egg Production Time (hours)",
-          value: -4,
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/470.gif",
-    },
   },
   "Grain Grinder": {
     image: grainGrinder,
@@ -12921,26 +5731,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "磨碎你的谷物，享受美味蛋糕，增加你获得的 XP",
       fr: "Moulez votre grain et ressentez une montée délectable de l'XP du gâteau.",
       tk: "Tahılını öğüt ve pasta XP’sinde nefis bir artışın tadını çıkar.",
-    },
-    opensea: {
-      description:
-        "Grind your grain and experience a delectable surge in Cake XP.",
-      attributes: [
-        {
-          trait_type: "Boost",
-          value: "XP",
-        },
-        {
-          display_type: "boost_percentage",
-          trait_type: "Increase Cake XP",
-          value: 20,
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/472.png",
     },
   },
   Kernaldo: {
@@ -12952,25 +5742,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Le chuchoteur de maïs magique. +25% de vitesse de croissance du Corn.",
       tk: "Büyülü mısır fısıldayan. Mısırlar için 25% büyüme hızı.",
     },
-    opensea: {
-      description: "The magical corn whisperer.",
-      attributes: [
-        {
-          trait_type: "Boost",
-          value: "Crop",
-        },
-        {
-          display_type: "boost_percentage",
-          trait_type: "Corn Growth Time",
-          value: -25,
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/473.png",
-    },
   },
   Candles: {
     image: candles,
@@ -12980,21 +5751,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "在女巫之夜借跳跃的火焰为您的农场附上魔力",
       fr: "Enchantez votre ferme avec des flammes spectrales vacillantes pendant la Veille des Sorcières.",
       tk: "Cadılar Bayramı sırasında çiftliğinizi titreyen hayalet alevlerle büyüleyin.",
-    },
-    opensea: {
-      description:
-        "Enchant your farm with flickering spectral flames during Witches' Eve.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/1278.png",
     },
   },
   "Haunted Stump": {
@@ -13006,20 +5762,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Invoquez des esprits et ajoutez un charme étrange à votre ferme.",
       tk: "Ruhları çağırın ve çiftliğinize ürkütücü bir çekicilik katın.",
     },
-    opensea: {
-      description: "Summon spirits and add eerie charm to your farm.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/1279.png",
-    },
   },
   "Spooky Tree": {
     image: spookyTree,
@@ -13029,20 +5771,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "增添农场上的闹鬼奇趣！",
       fr: "Un ajout amusant et hanté à la décoration de votre ferme!",
       tk: "Çiftliğinizin dekoruna akıl almaz derecede eğlenceli bir katkı!",
-    },
-    opensea: {
-      description: "A hauntingly fun addition to your farm's decor!",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/1280.png",
     },
   },
   Observer: {
@@ -13054,21 +5782,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Un œil perpétuellement en mouvement, toujours vigilant et attentif!",
       tk: "Sürekli gezinen bir göz küresi, her zaman tetikte ve her zaman tetikte!",
     },
-    opensea: {
-      description:
-        "A perpetually roving eyeball, always vigilant and ever-watchful!",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/1285.png",
-    },
   },
   "Crow Rock": {
     image: crowRock,
@@ -13078,20 +5791,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "乌鸦栖息的神秘石块",
       fr: "Un corbeau perché sur un rocher mystérieux.",
       tk: "Gizemli bir kayanın tepesine tünemiş bir karga.",
-    },
-    opensea: {
-      description: "A crow perched atop a mysterious rock.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/1286.png",
     },
   },
   "Mini Corn Maze": {
@@ -13103,21 +5802,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Un souvenir du labyrinthe bien-aimé de la saison de la Veille des Sorcières 2023.",
       tk: "2023 Cadılar Bayramı sezonundan sevilen labirentten bir hatıra.",
     },
-    opensea: {
-      description:
-        "A memento of the beloved maze from the 2023 Witches' Eve season.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/1287.png",
-    },
   },
   "Giant Cabbage": {
     image: giantCabbage,
@@ -13127,20 +5811,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "A giant cabbage.",
       fr: "A giant cabbage.",
       tk: "A giant cabbage.",
-    },
-    opensea: {
-      description: "A giant cabbage!",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/1281.png",
     },
   },
   "Giant Potato": {
@@ -13152,20 +5822,6 @@ export const ITEM_DETAILS: Items = {
       fr: "A giant potato.",
       tk: "A giant potato.",
     },
-    opensea: {
-      description: "A giant potato!",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/1282.png",
-    },
   },
   "Giant Pumpkin": {
     image: giantPumpkin,
@@ -13175,20 +5831,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "A giant pumpkin.",
       fr: "A giant pumpkin.",
       tk: "A giant pumpkin.",
-    },
-    opensea: {
-      description: "A giant pumpkin!",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/1283.png",
     },
   },
   "Potion Ticket": {
@@ -13201,20 +5843,6 @@ export const ITEM_DETAILS: Items = {
       fr: "A reward from the Potion House. Use this to buy items from Garth.",
       tk: "A reward from the Potion House. Use this to buy items from Garth.",
     },
-    opensea: {
-      description: "A Potion Ticket!",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Coupon",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/727.png",
-    },
   },
   "Lab Grown Carrot": {
     image: labGrownCarrot,
@@ -13224,25 +5852,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "+0.2 Carrot Yield",
       fr: "+0.2 Carrot Yield",
       tk: "+0.2 Carrot Yield",
-    },
-    opensea: {
-      description: "A lab grown carrot! +0.2 Carrot Yield.",
-      attributes: [
-        {
-          trait_type: "Boost",
-          value: "Crop",
-        },
-        {
-          display_type: "boost_number",
-          trait_type: "Increase Carrot Yield",
-          value: 0.2,
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/475.png",
     },
   },
   "Lab Grown Pumpkin": {
@@ -13254,25 +5863,6 @@ export const ITEM_DETAILS: Items = {
       fr: "+0.3 Pumpkin Yield",
       tk: "+0.3 Pumpkin Yield",
     },
-    opensea: {
-      description: "A lab grown pumpkin! +0.3 Pumpkin Yield.",
-      attributes: [
-        {
-          trait_type: "Boost",
-          value: "Crop",
-        },
-        {
-          display_type: "boost_number",
-          trait_type: "Increase Pumpkin Yield",
-          value: 0.3,
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/476.png",
-    },
   },
   "Lab Grown Radish": {
     image: labGrownRadish,
@@ -13282,25 +5872,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "+0.4 Radish Yield",
       fr: "+0.4 Radish Yield",
       tk: "+0.4 Radish Yield",
-    },
-    opensea: {
-      description: "A lab grown radish! +0.4 Radish Yield.",
-      attributes: [
-        {
-          trait_type: "Boost",
-          value: "Crop",
-        },
-        {
-          display_type: "boost_number",
-          trait_type: "Increase Radish Yield",
-          value: 0.4,
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/477.png",
     },
   },
   "Adirondack Potato": {
@@ -13312,20 +5883,6 @@ export const ITEM_DETAILS: Items = {
       fr: "A rugged spud, Adirondack style!",
       tk: "A rugged spud, Adirondack style!",
     },
-    opensea: {
-      description: "A rugged spud, Adirondack style!",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Exotic",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/1405.png",
-    },
   },
   "Black Magic": {
     image: blackMagic,
@@ -13335,20 +5892,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "A dark and mysterious flower!",
       fr: "A dark and mysterious flower!",
       tk: "A dark and mysterious flower!",
-    },
-    opensea: {
-      description: "A dark and mysterious flower!",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Exotic",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/1401.png",
     },
   },
   Chiogga: {
@@ -13360,20 +5903,6 @@ export const ITEM_DETAILS: Items = {
       fr: "A rainbow beet!",
       tk: "A rainbow beet!",
     },
-    opensea: {
-      description: "A rainbow beet!",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Exotic",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/1403.png",
-    },
   },
   "Golden Helios": {
     image: goldenHelios,
@@ -13383,20 +5912,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "Sun-kissed grandeur!",
       fr: "Sun-kissed grandeur!",
       tk: "Sun-kissed grandeur!",
-    },
-    opensea: {
-      description: "Sun-kissed grandeur!",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Exotic",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/1402.png",
     },
   },
   "Purple Cauliflower": {
@@ -13408,20 +5923,6 @@ export const ITEM_DETAILS: Items = {
       fr: "A regal purple cauliflowser",
       tk: "A regal purple cauliflowser",
     },
-    opensea: {
-      description: "A regal purple cauliflower",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Exotic",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/1404.png",
-    },
   },
   "Warty Goblin Pumpkin": {
     image: wartyGoblinPumpkin,
@@ -13432,20 +5933,6 @@ export const ITEM_DETAILS: Items = {
       fr: "A whimsical, wart-covered pumpkin",
       tk: "A whimsical, wart-covered pumpkin",
     },
-    opensea: {
-      description: "A whimsical, wart-covered pumpkin",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Exotic",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/1406.png",
-    },
   },
   "White Carrot": {
     image: whiteCarrot,
@@ -13455,20 +5942,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "A pale carrot with pale roots",
       fr: "A pale carrot with pale roots",
       tk: "A pale carrot with pale roots",
-    },
-    opensea: {
-      description: "A pale carrot with pale roots",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Exotic",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/1407.png",
     },
   },
   "Bud Ticket": {
@@ -13481,21 +5954,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Une place garantie pour frapper un Bud lors de la distribution des NFT Sunflower Land Buds.",
       tk: "Sunflower Land Buds NFT düşüşünde Bud basmak için garantili bir yer.",
     },
-    opensea: {
-      description:
-        "A guaranteed spot to mint a Bud at the Sunflower Land Buds NFT drop.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Coupon",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/728.png",
-    },
   },
   "Bud Seedling": {
     image: budSeedling,
@@ -13505,20 +5963,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "A seedling to be exchanged for a free Bud NFT",
       fr: "Une jeune pousse à échanger contre un NFT Bud gratuit",
       tk: "Ücretsiz Bud NFT ile değiştirilecek bir fide",
-    },
-    opensea: {
-      description: "A seedling that was exchanged for a bud NFT",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Coupon",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/729.png",
     },
   },
   "Town Sign": {
@@ -13530,20 +5974,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Montrez fièrement votre ID de ferme!",
       tk: "Çiftlik kimliğinizi gururla gösterin!",
     },
-    opensea: {
-      description: "Show your farm ID with pride!",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/1284.png",
-    },
   },
   "White Crow": {
     image: whiteCrow,
@@ -13553,20 +5983,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "神秘空灵的白乌鸦",
       fr: "Un corbeau blanc mystérieux et éthéré.",
       tk: "Gizemli ve ruhani bir beyaz karga",
-    },
-    opensea: {
-      description: "A mysterious and ethereal white crow.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/1288.gif",
     },
   },
   Earthworm: {
@@ -13578,20 +5994,6 @@ export const ITEM_DETAILS: Items = {
       fr: "A wriggly worm that attracts small fish.",
       tk: "A wriggly worm that attracts small fish.",
     },
-    opensea: {
-      description: "A wriggly worm used to catch fish.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Bait",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/626.png",
-    },
   },
   Grub: {
     image: grub,
@@ -13601,20 +6003,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "A juicy grub - perfect for advanced fish.",
       fr: "A juicy grub - perfect for advanced fish.",
       tk: "A juicy grub - perfect for advanced fish.",
-    },
-    opensea: {
-      description: "A juicy grub used to catch fish.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Bait",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/627.png",
     },
   },
   "Red Wiggler": {
@@ -13626,20 +6014,6 @@ export const ITEM_DETAILS: Items = {
       fr: "An exotic worm that entices rare fish.",
       tk: "An exotic worm that entices rare fish.",
     },
-    opensea: {
-      description: "A red wiggler used to catch fish.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Bait",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/628.png",
-    },
   },
   "Fishing Lure": {
     image: fishingLure,
@@ -13650,20 +6024,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Great for catching rare fish ! ",
       tk: "Great for catching rare fish ! ",
     },
-    opensea: {
-      description: "A fishing lure! Great for catching big fish!",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Bait",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/632.png",
-    },
   },
   "Sprout Mix": {
     boostedDescriptions: [
@@ -13672,36 +6032,13 @@ export const ITEM_DETAILS: Items = {
         description: "Sprout Mix increases your crop yield from plots by +0.4",
       },
     ],
-    image: "sproutMix",
+    image: sproutMix,
     description: {
       en: "Sprout Mix increases your crop yield from plots by +0.2",
       pt: "Sprout Mix increases your crop yield from plots by +0.2",
       "zh-CN": "Sprout Mix increases your crop yield from plots by +0.2",
       fr: "Sprout Mix increases your crop yield from plots by +0.2",
       tk: "Sprout Mix increases your crop yield from plots by +0.2",
-    },
-    opensea: {
-      description: "Sprout Mix increases your crop yield by +0.2",
-      attributes: [
-        {
-          trait_type: "Boost",
-          value: "Crop",
-        },
-        {
-          trait_type: "Purpose",
-          value: "Fertiliser",
-        },
-        {
-          display_type: "boost_number",
-          trait_type: "Increase Crop Yield",
-          value: 0.2,
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/629.png",
     },
   },
   "Fruitful Blend": {
@@ -13714,29 +6051,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Fruitful Blend boosts the yield of each fruit growing on fruit patches by +0.1",
       tk: "Fruitful Blend boosts the yield of each fruit growing on fruit patches by +0.1",
     },
-    opensea: {
-      description: "This compost boosts each fruit yield by +0.1",
-      attributes: [
-        {
-          trait_type: "Boost",
-          value: "Fruit",
-        },
-        {
-          trait_type: "Purpose",
-          value: "Fertiliser",
-        },
-        {
-          display_type: "boost_number",
-          trait_type: "Increase Fruit Yield",
-          value: 0.1,
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/630.png",
-    },
   },
   "Rapid Root": {
     image: rapidRoot,
@@ -13746,29 +6060,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "Rapid Root reduces crop growth time from plots by 50%",
       fr: "Rapid Root reduces crop growth time from plots by 50%",
       tk: "Rapid Root reduces crop growth time from plots by 50%",
-    },
-    opensea: {
-      description: "Rapid Root reduces crop growth time by 50%",
-      attributes: [
-        {
-          trait_type: "Boost",
-          value: "Crop",
-        },
-        {
-          trait_type: "Purpose",
-          value: "Fertiliser",
-        },
-        {
-          display_type: "boost_percentage",
-          trait_type: "Crop Growth Time",
-          value: -50,
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/631.png",
     },
   },
   Anchovy: {
@@ -13789,20 +6080,6 @@ export const ITEM_DETAILS: Items = {
       fr: "L'acrobate miniature des océans, toujours pressé!",
       tk: "Okyanusun cep boyutunda dart akrobatı, her zaman acelesi var!",
     },
-    opensea: {
-      description: "?",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Fish",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/1501.png",
-    },
   },
   Butterflyfish: {
     image: butterflyfish,
@@ -13821,20 +6098,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "时尚前卫的鱼，显摆其鲜艳、时髦的条纹。",
       fr: "Un poisson à la mode, arborant ses rayures vives et élégantes.",
       tk: "Canlı, şık çizgileriyle gösteriş yapan, ileri moda anlayışına sahip bir balık.",
-    },
-    opensea: {
-      description: "?",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Fish",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/1502.png",
     },
   },
   Blowfish: {
@@ -13855,20 +6118,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Le comique rond et gonflé de la mer, garanti pour vous faire sourire.",
       tk: "Denizin yuvarlak, şişirilmiş komedyeni, bir gülümseme getirmeyi garanti ediyor.",
     },
-    opensea: {
-      description: "?",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Fish",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/1503.png",
-    },
   },
   Clownfish: {
     image: clownfish,
@@ -13887,20 +6136,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "水下的小丑，身着橘色礼服，充满小丑般的魅力。",
       fr: "Le bouffon sous-marin, portant un smoking mandarine et un charme clownesque.",
       tk: "Mandalina rengi bir smokini ve palyaço çekiciliğiyle su altı soytarısı.",
-    },
-    opensea: {
-      description: "?",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Fish",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/1504.png",
     },
   },
   "Sea Bass": {
@@ -13921,20 +6156,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Votre ami 'pas très excitant' aux écailles argentées - une prise basique!",
       tk: "Gümüş pullu 'o kadar da heyecan verici olmayan' arkadaşınız – basit bir yakalama!",
     },
-    opensea: {
-      description: "?",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Fish",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/1505.png",
-    },
   },
   "Sea Horse": {
     image: seahorse,
@@ -13953,20 +6174,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "海洋中的慢动作舞者，在水下芭蕾中优雅地摇摆。",
       fr: "La danseuse au ralenti de l'océan, se balançant gracieusement dans le ballet aquatique.",
       tk: "Okyanusun ağır çekim dansçısı, su balesinde zarif bir şekilde sallanıyor.",
-    },
-    opensea: {
-      description: "?",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Fish",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/1506.png",
     },
   },
   "Horse Mackerel": {
@@ -13987,20 +6194,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Un sprinter à la brillante robe, toujours en course à travers les vagues.",
       tk: "Daima dalgaların arasında yarışan, parlak paltolu bir hızcı.",
     },
-    opensea: {
-      description: "?",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Fish",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/1507.png",
-    },
   },
   Squid: {
     image: squid,
@@ -14019,20 +6212,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "深海之谜，用其触须勾起你的好奇心。",
       fr: "L'énigme des profondeurs avec des tentacules pour titiller votre curiosité.",
       tk: "Merakınızı gıdıklayacak dokunaçlara sahip derin deniz gizemi.",
-    },
-    opensea: {
-      description: "?",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Fish",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/1508.png",
     },
   },
   "Red Snapper": {
@@ -14053,20 +6232,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Une prise qui vaut son pesant d'or, vêtue de rouge ardent.",
       tk: "Ağır kırmızıya bürünmüş, ağırlığınca altın değerinde bir av.",
     },
-    opensea: {
-      description: "?",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Fish",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/1509.png",
-    },
   },
   "Moray Eel": {
     image: morayEel,
@@ -14085,20 +6250,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "海洋中阴暗角落里的狡猾潜伏者。",
       fr: "Un habitant sinistre et insaisissable des coins sombres de l'océan.",
       tk: "Okyanusun gölgeli köşelerinde sinsi, uğursuz bir pusuya yatmış.",
-    },
-    opensea: {
-      description: "?",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Fish",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/1510.png",
     },
   },
   "Olive Flounder": {
@@ -14119,20 +6270,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Le maître du déguisement du fond marin, toujours en train de se fondre dans la foule.",
       tk: "Deniz yatağının kılık değiştirme ustası, her zaman kalabalığa karışıyor.",
     },
-    opensea: {
-      description: "?",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Fish",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/1511.png",
-    },
   },
   Napoleanfish: {
     image: napoleonfish,
@@ -14151,20 +6288,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "认识一下患有拿破仑情结的鱼——短小，但雍容华贵！",
       fr: "Rencontrez le poisson au complexe de Napoléon - petit, mais royal!",
       tk: "Balıklarla Napolyon kompleksiyle tanışın – kısa ama muhteşem!",
-    },
-    opensea: {
-      description: "?",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Fish",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/1512.png",
     },
   },
   Surgeonfish: {
@@ -14185,20 +6308,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Le guerrier néon de l'océan, armé d'une attitude pointue.",
       tk: "Okyanusun neon savaşçısı, keskin bir tavırla donanmış.",
     },
-    opensea: {
-      description: "?",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Fish",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/1513.png",
-    },
   },
   "Zebra Turkeyfish": {
     image: zebraTurkeyfish,
@@ -14217,20 +6326,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "条纹、刺和充满活力的性格，这条鱼是真正的焦点！",
       fr: "Des rayures, des épines et une disposition zestée, ce poisson est vraiment sensationnel!",
       tk: "Çizgileri, dikenleri ve neşeli yapısıyla bu balık gerçek bir gösterişçidir!",
-    },
-    opensea: {
-      description: "?",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Fish",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/1514.png",
     },
   },
   Ray: {
@@ -14251,20 +6346,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Le planeur sous-marin, une belle aile sereine à travers les vagues.",
       tk: "Su altı planörü, dalgaların arasından geçen sakin kanatlı bir güzellik.",
     },
-    opensea: {
-      description: "?",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Fish",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/1515.png",
-    },
   },
   "Hammerhead shark": {
     image: hammerheadShark,
@@ -14283,20 +6364,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "这是一只头脑灵活、身体追求冒险的鲨鱼！",
       fr: "Rencontrez le requin à la tête d'affiche, prêt pour une collision de tête avec la saveur!",
       tk: "İş için kafası ve macera için vücudu olan köpekbalığıyla tanışın!",
-    },
-    opensea: {
-      description: "?",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Fish",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/1516.png",
     },
   },
   Tuna: {
@@ -14317,20 +6384,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Le sprinter musclé de l'océan, prêt pour une course fantastique!",
       tk: "Okyanusun kaslı sprinteri, muhteşem bir yarışa hazır!",
     },
-    opensea: {
-      description: "?",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Fish",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/1517.png",
-    },
   },
   "Mahi Mahi": {
     image: mahiMahi,
@@ -14349,20 +6402,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "一条相信生活要多姿多彩的鱼，金色的鳍片。",
       fr: "Un poisson qui croit en une vie colorée avec des nageoires dorées.",
       tk: "Altın yüzgeçlerle hayatı rengarenk yaşamaya inanan bir balık.",
-    },
-    opensea: {
-      description: "?",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Fish",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/1518.png",
     },
   },
   "Blue Marlin": {
@@ -14383,20 +6422,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Une légende océanique, le marlin avec une attitude aussi profonde que la mer.",
       tk: "Okyanus efsanesi, tavrı deniz kadar derin olan marlin.",
     },
-    opensea: {
-      description: "?",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Fish",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/1519.png",
-    },
   },
   Oarfish: {
     image: oarfish,
@@ -14415,20 +6440,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "长而漫长——一位神秘的海洋流浪者。",
       fr: "Le long et le long de lui - un voyageur océanique énigmatique.",
       tk: "Uzun lafın kısası esrarengiz bir okyanus gezgini.",
-    },
-    opensea: {
-      description: "?",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Fish",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/1520.png",
     },
   },
   "Football fish": {
@@ -14449,20 +6460,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Le MVP des profondeurs, une star bioluminescente prête à jouer!",
       tk: "Derinlerin MVP'si, oynamaya hazır biyolüminesan bir yıldız!",
     },
-    opensea: {
-      description: "?",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Fish",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/1521.png",
-    },
   },
   Sunfish: {
     image: sunfish,
@@ -14481,20 +6478,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "海洋中的晒太阳者，高举鳍片，享受着聚光灯下的时刻。",
       fr: "Le preneur de soleil de l'océan, se prélassant sous les projecteurs avec des nageoires bien dressées.",
       tk: "Okyanusta güneşlenen, yüzgeçlerini yüksekte tutarak spot ışıklarının tadını çıkarıyor.",
-    },
-    opensea: {
-      description: "?",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Fish",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/1522.png",
     },
   },
   Coelacanth: {
@@ -14515,20 +6498,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Un vestige préhistorique, avec un goût pour le passé et le présent.",
       tk: "Geçmişe ve bugüne dair bir tada sahip, tarih öncesi bir kalıntı.",
     },
-    opensea: {
-      description: "?",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Fish",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/1523.png",
-    },
   },
   "Whale Shark": {
     image: whaleShark,
@@ -14547,20 +6516,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "深海的温柔巨人，从海洋的自助餐中筛选珍宝。",
       fr: "Le doux géant des profondeurs, filtrant les trésors du buffet océanique.",
       tk: "Derinlerin nazik devi, okyanusun büfesinden hazineleri ayıklıyor.",
-    },
-    opensea: {
-      description: "?",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Fish",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/1524.png",
     },
   },
   "Barred Knifejaw": {
@@ -14581,20 +6536,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Un hors-la-loi océanique aux rayures noires et blanches et au cœur d'or.",
       tk: "Siyah-beyaz çizgili ve altın kalpli bir okyanus kanun kaçağı.",
     },
-    opensea: {
-      description: "?",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Fish",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/1525.png",
-    },
   },
   "Saw Shark": {
     image: sawShark,
@@ -14614,20 +6555,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Avec un museau en forme de scie, c'est le charpentier de l'océan, toujours à la pointe!",
       tk: "Testere benzeri burnuyla okyanusun marangozudur, her zaman son teknolojiye sahiptir!",
     },
-    opensea: {
-      description: "?",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Fish",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/1526.png",
-    },
   },
   "White Shark": {
     image: whiteShark,
@@ -14646,20 +6573,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "带着杀手般的笑容统治海洋的鲨鱼，以鳍的强度为傲！",
       fr: "Le requin au sourire meurtrier, régnant sur les mers avec une fin-tensité!",
       tk: "Denizleri son derece güçlü bir şekilde yöneten, öldürücü gülümsemeye sahip köpekbalığı!",
-    },
-    opensea: {
-      description: "?",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Fish",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/1527.png",
     },
   },
   "Twilight Anglerfish": {
@@ -14681,20 +6594,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Un poisson-pêcheur des profondeurs avec une lumière intégrée, guidant son chemin à travers les ténèbres.",
       tk: "Dahili gece lambasına sahip, karanlıkta yolunu gösteren bir derin deniz balıkçısı.",
     },
-    opensea: {
-      description: "?",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Fish",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/1528.png",
-    },
   },
   "Starlight Tuna": {
     image: startlightTuna,
@@ -14714,20 +6613,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "一条比星星还要耀眼的金枪鱼，准备照亮你的收藏。",
       fr: "Un thon qui brille plus que les étoiles, prêt à illuminer votre collection.",
       tk: "Koleksiyonunuzu aydınlatmaya hazır, yıldızları gölgede bırakan bir ton balığı.",
-    },
-    opensea: {
-      description: "?",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Fish",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/1529.png",
     },
   },
   "Radiant Ray": {
@@ -14749,29 +6634,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Une raie qui préfère briller dans l'obscurité, avec un secret scintillant à partager.",
       tk: "Paylaşacak parıldayan bir sırrı olan, karanlıkta parlamayı tercih eden bir ışın.",
     },
-    opensea: {
-      description: "?",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Fish",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-        {
-          trait_type: "Boost",
-          value: "Resource",
-        },
-        {
-          display_type: "boost_number",
-          trait_type: "Increase Iron Yield",
-          value: 0.1,
-        },
-      ],
-      image: "../public/erc1155/images/1530.png",
-    },
   },
   "Phantom Barracuda": {
     image: phantomBarracuda,
@@ -14791,20 +6653,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "一种深海中难以捉摸且幽灵般的鱼，隐藏在阴影中。",
       fr: "Un barracuda insaisissable et fantomatique des profondeurs, se cachant dans les ombres.",
       tk: "Derinlerin, gölgelerde saklanan, bulunması zor ve hayaletimsi bir balığı.",
-    },
-    opensea: {
-      description: "?",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Fish",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/1531.png",
     },
   },
   "Gilded Swordfish": {
@@ -14826,29 +6674,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Un espadon aux écailles qui scintillent comme de l'or, la capture ultime!",
       tk: "Altın gibi parıldayan pullara sahip bir kılıç balığı, en iyi av!",
     },
-    opensea: {
-      description: "?",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Fish",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-        {
-          trait_type: "Boost",
-          value: "Resource",
-        },
-        {
-          display_type: "boost_number",
-          trait_type: "Increase Gold Yield",
-          value: 0.1,
-        },
-      ],
-      image: "../public/erc1155/images/1532.png",
-    },
   },
   "Crimson Carp": {
     image: crimsonCarp,
@@ -14868,29 +6693,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "春天水域中稀有、充满活力的宝石。",
       fr: "Un joyau rare et vibrant des eaux du printemps.",
       tk: "Kaynak sularının nadir, canlı bir mücevheri.",
-    },
-    opensea: {
-      description: "A rare, vibrant jewel of the Spring waters.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Fish",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-        {
-          trait_type: "Boost",
-          value: "Resource",
-        },
-        {
-          display_type: "boost_number",
-          trait_type: "Increase Crimstone Yield",
-          value: 0.05,
-        },
-      ],
-      image: "../public/erc1155/images/1537.png",
     },
   },
   "Battle Fish": {
@@ -14912,29 +6714,6 @@ export const ITEM_DETAILS: Items = {
       fr: "The rare armored swimmer of faction season!",
       tk: "The rare armored swimmer of faction season!",
     },
-    opensea: {
-      description: "The rare armored swimmer of faction season!",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Fish",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-        {
-          trait_type: "Boost",
-          value: "Resource",
-        },
-        {
-          display_type: "boost_number",
-          trait_type: "Increase Oil Yield",
-          value: 0.05,
-        },
-      ],
-      image: "../public/erc1155/images/1538.png",
-    },
   },
   "Kraken Tentacle": {
     image: krakenTentacle,
@@ -14944,20 +6723,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "挖掘深海奥秘！这触手戏说着古老海洋传说与水底奇世的故事",
       fr: "Plongez dans le mystère des profondeurs ! Cette tentacule évoque des contes anciens de légendes marines et de merveilles aquatiques.",
       tk: "Derin deniz gizemine dalın! Bu dokunaç, antik okyanus efsaneleri ve su harikaları hakkındaki hikayeleri anlatıyor.",
-    },
-    opensea: {
-      description: "Protect the beach and catch the Kraken!",
-      attributes: [
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-      ],
-      image: "../public/erc1155/images/1533.png",
     },
   },
   "Sapo Docuras": {
@@ -14969,20 +6734,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Un vrai régal!",
       tk: "Gerçek bir tehdit!",
     },
-    opensea: {
-      description: "A real treat this halloween!",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/1295.gif",
-    },
   },
   "Sapo Travessuras": {
     image: sapoTravessura,
@@ -14992,20 +6743,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "噢噢……有人调皮了",
       fr: "Oh oh... quelqu'un a été méchant.",
       tk: "Oh oh... birisi yaramazlık yapmış",
-    },
-    opensea: {
-      description: "Oh oh....someone was naughty!",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/1296.gif",
     },
   },
   "Lifeguard Ring": {
@@ -15017,20 +6754,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Restez à flot avec style, votre sauveur en bord de mer!",
       tk: "Deniz kenarındaki kurtarıcınız, stilinizle ayakta kalın!",
     },
-    opensea: {
-      description: "Stay afloat with style, your seaside savior!",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/1289.png",
-    },
   },
   "Beach Umbrella": {
     image: beachUmbrella,
@@ -15040,20 +6763,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "遮阳、歇息，一撑架起海滨风尚！",
       fr: "Ombre, abri et élégance en bord de mer en un seul arrangement ensoleillé!",
       tk: "Güneşli bir ortamda gölge, barınak ve deniz kenarı şıklığı!",
-    },
-    opensea: {
-      description: "Shade, shelter, and seaside chic in one sunny setup!",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/1294.png",
     },
   },
   "Hideaway Herman": {
@@ -15065,20 +6774,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Herman est là pour se cacher, mais regarde toujours pour une fête!",
       tk: "Herman saklanmak için burada ama her zaman bir parti arıyor!",
     },
-    opensea: {
-      description: "Herman's here to hide, but always peeks for a party!",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/1291.png",
-    },
   },
   "Shifty Sheldon": {
     image: shiftySheldon,
@@ -15088,21 +6783,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "狡猾的 Sheldon，总是匆忙凿着下一个沙岸惊喜！",
       fr: "Sheldon est sournois, toujours en train de se faufiler vers la prochaine surprise sableuse!",
       tk: "Sheldon kurnazdır, her zaman bir sonraki sürprize koşar!",
-    },
-    opensea: {
-      description:
-        "Sheldon's sly, always scuttling to the next sandy surprise!",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/1292.png",
     },
   },
   "Tiki Torch": {
@@ -15114,20 +6794,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Illuminez la nuit, des vibrations tropicales brûlant brillamment!",
       tk: "Geceyi aydınlatın, tropik titreşimler parlak bir şekilde yanıyor!",
     },
-    opensea: {
-      description: "Light the night, tropical vibes burning bright!",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/1293.png",
-    },
   },
   Surfboard: {
     image: surfboard,
@@ -15137,20 +6803,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "驾驭你的惊涛骇浪，愿沙滩祝福你的浪板！",
       fr: "Ridez les vagues de l'émerveillement, béatitude de plage à bord!",
       tk: "Harika dalgalarda gezin, teknede plaj mutluluğu!",
-    },
-    opensea: {
-      description: "Ride the waves of wonder, beach bliss on board!",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/1290.png",
     },
   },
   Walrus: {
@@ -15163,26 +6815,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Avec ses défenses fiables et son amour pour les profondeurs, il s'assurera que vous pêchiez un poisson de plus à chaque fois.",
       tk: "Güvenilir dişleri ve derinlere olan sevgisiyle, her seferinde ekstra bir balık yakalamanızı sağlayacaktır.",
     },
-    opensea: {
-      description:
-        "With his trusty tusks and love for the deep, he'll ensure you reel in an extra fish every time",
-      attributes: [
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-        {
-          display_type: "boost_number",
-          trait_type: "Increase Fish Yield",
-          value: 1,
-        },
-        {
-          trait_type: "Boost",
-          value: "Fish",
-        },
-      ],
-      image: "../public/erc1155/images/478.png",
-    },
   },
   Alba: {
     image: alba,
@@ -15193,26 +6825,6 @@ export const ITEM_DETAILS: Items = {
         "凭借她的敏锐直觉，她会确保你上钩的会有额外水花。50% 的几率 +1 基础鱼！",
       fr: "Avec ses instincts aiguisés, elle s'assure que vous avez un peu plus de plaisir dans votre pêche. 50 % de chances d'obtenir +1 poisson de base!",
       tk: "Keskin içgüdüleri sayesinde avınıza biraz daha fazla katkı sağlamanızı sağlar. %50 ihtimalle +1 Temel Balık!",
-    },
-    opensea: {
-      description:
-        "With her keen instincts, she ensures you get a little extra splash in your catch. 50% chance of +1 Basic Fish!",
-      attributes: [
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-        {
-          display_type: "boost_percentage",
-          trait_type: "Chance of getting an extra Basic Fish",
-          value: 50,
-        },
-        {
-          trait_type: "Boost",
-          value: "Fish",
-        },
-      ],
-      image: "../public/erc1155/images/479.png",
     },
   },
   "Knowledge Crab": {
@@ -15225,26 +6837,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Le crabe de la connaissance double l'effet de votre mélange de graines, rendant vos trésors de sol aussi riches que les pillages marins!",
       tk: "Bilgi Yengeç, Filiz Karışımı etkinizi ikiye katlayarak toprak hazinelerinizi deniz yağmacılığı kadar zengin hale getirir!",
     },
-    opensea: {
-      description:
-        "The Knowledge Crab doubles your Sprout Mix effect, making your soil treasures as rich as sea plunder!",
-      attributes: [
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-        {
-          display_type: "boost_percentage",
-          trait_type: "Increase Sprout Mix Effect",
-          value: 100,
-        },
-        {
-          trait_type: "Boost",
-          value: "Crop",
-        },
-      ],
-      image: "../public/erc1155/images/480.png",
-    },
   },
   Anchor: {
     image: anchor,
@@ -15254,21 +6846,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "用这颗航海明珠抛锚，让每一块地方都风生水起又流行时锚！",
       fr: "Jetez l'ancre avec cette gemme nautique, rendant chaque endroit navigable et d'une élégance éclaboussante!",
       tk: "Bu deniz mücevheriyle demir atın, her noktayı denize uygun hale getirin ve su sıçramasına son derece şık bir hale getirin!",
-    },
-    opensea: {
-      description:
-        "Drop anchor' with this nautical gem, making every spot seaworthy and splash-tastically stylish!",
-      attributes: [
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-      ],
-      image: "../public/erc1155/images/481.png",
     },
   },
   "Rubber Ducky": {
@@ -15280,21 +6857,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Flottez dans le plaisir avec ce canard classique, apportant une joie pétillante à chaque coin!",
       tk: "Her köşeye neşeli bir neşe getiren bu klasik şarlatanla eğlencenin tadını çıkarın!",
     },
-    opensea: {
-      description:
-        "Float on fun with this classic quacker, bringing bubbly joy to every corner!",
-      attributes: [
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-      ],
-      image: "../public/erc1155/images/483.png",
-    },
   },
   "Kraken Head": {
     image: krakenHead,
@@ -15304,21 +6866,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "挖掘深海奥秘！这大脑戏说着古老海洋传说与水底奇世的故事",
       fr: "Plongez dans le mystère des profondeurs ! Cette tête évoque des contes anciens de légendes marines et de merveilles aquatiques.",
       tk: "Derin deniz gizemine dalın! Bu kafa, eski okyanus efsaneleri ve su harikaları hakkındaki hikayeleri anlatıyor.",
-    },
-    opensea: {
-      description:
-        "Dive into deep-sea mystery! This head teases tales of ancient ocean legends and watery wonders.",
-      attributes: [
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-      ],
-      image: "../public/erc1155/images/484.png",
     },
   },
   "Banana Chicken": {
@@ -15330,25 +6877,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Une poule qui booste les bananes. Quel monde nous vivons.",
       tk: "Muzları artıran bir tavuk. Nasıl bir dünyada yaşıyoruz.",
     },
-    opensea: {
-      description: "A chicken that boosts bananas. What a world we live in.",
-      attributes: [
-        {
-          trait_type: "Boost",
-          value: "Fruit",
-        },
-        {
-          display_type: "boost_number",
-          trait_type: "Increase Banana Drops",
-          value: 0.1,
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/488.png",
-    },
   },
   "Crim Peckster": {
     image: crimPeckster,
@@ -15358,25 +6886,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "一位精通揪出红宝石的宝石侦探",
       fr: "Un détective de gemmes avec un talent pour déterrer des Crimstones.",
       tk: "Kızıltaşları gün yüzüne çıkarma yeteneğine sahip bir mücevher dedektifi.",
-    },
-    opensea: {
-      description: "A gem detective with a knack for unearthing Crimstones.",
-      attributes: [
-        {
-          trait_type: "Boost",
-          value: "Resource",
-        },
-        {
-          display_type: "boost_number",
-          trait_type: "Increase Crimstone yield",
-          value: 0.1,
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/494.png",
     },
   },
   "Knight Chicken": {
@@ -15388,25 +6897,6 @@ export const ITEM_DETAILS: Items = {
       fr: "A strong and noble chicken boosting your oil yield.",
       tk: "A strong and noble chicken boosting your oil yield.",
     },
-    opensea: {
-      description: "A strong and noble chicken boosting your oil yield.",
-      attributes: [
-        {
-          trait_type: "Boost",
-          value: "Resource",
-        },
-        {
-          display_type: "boost_number",
-          trait_type: "Increase Oil yield",
-          value: 0.1,
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/500.gif",
-    },
   },
   "Skill Shrimpy": {
     image: skillShrimpy,
@@ -15416,26 +6906,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "Shrimpy 来帮忙了！他来保你从鱼身上获取额外 XP",
       fr: "Shrimpy est là pour vous aider ! Il s'assurera que vous obteniez de l'XP supplémentaire des poissons.",
       tk: "Shrimpy yardım etmek için burada! Balıklardan ekstra XP elde etmeni sağlayacaktır.",
-    },
-    opensea: {
-      description:
-        "Shrimpy's here to help! He'll ensure you get that extra XP from fish.",
-      attributes: [
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-        {
-          trait_type: "Boost",
-          value: "XP",
-        },
-        {
-          display_type: "boost_percentage",
-          trait_type: "Increase Fish XP",
-          value: 20,
-        },
-      ],
-      image: "../public/erc1155/images/485.png",
     },
   },
   "Soil Krabby": {
@@ -15447,26 +6917,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Tamisage rapide avec le sourire ! Profitez d'une augmentation de vitesse de 10% de la compostière avec ce champion crustacé.",
       tk: "Bir gülümseme ile hızlan! Bu kabuklu şampiyon ile 10% gübre üretme hızı artışının tadını çıkar.",
     },
-    opensea: {
-      description:
-        "Speedy sifting with a smile! Enjoy a 10% composter speed boost with this crustaceous champ.",
-      attributes: [
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-        {
-          trait_type: "Boost",
-          value: "Other",
-        },
-        {
-          display_type: "boost_percentage",
-          trait_type: "Composter Compost Time",
-          value: -10,
-        },
-      ],
-      image: "../public/erc1155/images/486.png",
-    },
   },
   Nana: {
     image: nana,
@@ -15476,26 +6926,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "这个稀有品种的香蕉美人保你香蕉收成有所增进",
       fr: "Cette beauté rare est un moyen sûr d'augmenter votre récolte de bananes.",
       tk: "Bu nadir güzellik, muz hasadını artırmanın kesin bir yoludur.",
-    },
-    opensea: {
-      description:
-        "This rare beauty is a surefire way to boost your banana harvests.",
-      attributes: [
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-        {
-          trait_type: "Boost",
-          value: "Fruit",
-        },
-        {
-          display_type: "boost_percentage",
-          trait_type: "Banana Growth Time",
-          value: -10,
-        },
-      ],
-      image: "../public/erc1155/images/487.png",
     },
   },
   "Time Warp Totem": {
@@ -15508,35 +6938,6 @@ export const ITEM_DETAILS: Items = {
       fr: "2x speed for crops, trees, fruits, cooking & minerals. Only lasts for 2 hours",
       tk: "2x speed for crops, trees, fruits, cooking & minerals. Only lasts for 2 hours",
     },
-    opensea: {
-      description:
-        "The Time Warp Totem temporarily boosts your cooking, crops, trees & mineral time. Make the most of it!",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Consumable",
-        },
-        {
-          trait_type: "Boost",
-          value: "Other",
-        },
-        {
-          display_type: "boost_percentage",
-          trait_type: "Cooking, Crop, Tree and Mineral Time",
-          value: -50,
-        },
-        {
-          display_type: "boost_number",
-          trait_type: "Boost Duration (hours)",
-          value: 2,
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/1297.png",
-    },
   },
   "Community Coin": {
     image: communityCoin,
@@ -15546,20 +6947,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "A valued coin that can be exchanged for rewards",
       fr: "Une pièce de valeur pouvant être échangée contre des récompenses",
       tk: "Ödüllerle takas edilebilecek değerli bir para",
-    },
-    opensea: {
-      description: "?",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Coupon",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/732.png",
     },
   },
   "Arcade Token": {
@@ -15571,20 +6958,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Un jeton gagné grâce à des mini-jeux et des aventures. Peut être échangé contre des récompenses.",
       tk: "Mini oyunlardan ve maceralardan kazanılan bir jeton. Ödüllerle takas edilebilir.",
     },
-    opensea: {
-      description: "?",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Coupon",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/question_mark.png",
-    },
   },
   "Bumpkin Nutcracker": {
     image: nutcracker,
@@ -15594,20 +6967,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "2023 年的节日装饰",
       fr: "Une décoration festive de 2023.",
       tk: "2023'ten kalma şenlikli bir dekorasyon.",
-    },
-    opensea: {
-      description: "?",
-      attributes: [
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-      ],
-      image: "../public/erc1155/images/1298.png",
     },
   },
   "Festive Tree": {
@@ -15619,21 +6978,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Un arbre festif disponible chaque saison des fêtes. Je me demande s'il est assez grand pour que le Père Noël le voie?",
       tk: "Her tatil sezonunda şenlikli bir ağaç mevcuttur. Acaba Noel Baba'nın görebileceği kadar büyük mü?",
     },
-    opensea: {
-      description:
-        "A festive tree that can be attained each festive season. I wonder if it is big enough for santa to see?",
-      attributes: [
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-      ],
-      image: "../public/erc1155/images/1299.png",
-    },
   },
   "White Festive Fox": {
     image: whiteFestiveFox,
@@ -15644,20 +6988,6 @@ export const ITEM_DETAILS: Items = {
       fr: "La bénédiction du Renard Blanc habite les fermes généreuses.",
       tk: "Beyaz Tilki'nin kutsaması cömert çiftliklerde yaşıyor",
     },
-    opensea: {
-      description: "The blessing of the White Fox inhabits the generous farms.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/2001.png",
-    },
   },
   "Grinx's Hammer": {
     image: grinxsHammer,
@@ -15667,26 +6997,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "出自传奇哥布林铁匠 Grinx 之手的魔法锤子",
       fr: "Le marteau magique de Grinx, le légendaire forgeron gobelin.",
       tk: "Efsanevi Goblin Demircisi Grinx'in sihirli çekici.",
-    },
-    opensea: {
-      description:
-        "The magical hammer from Grinx, the legendary Goblin Blacksmith. Halves expansion natural resource requirements.",
-      attributes: [
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-        {
-          trait_type: "Boost",
-          value: "Other",
-        },
-        {
-          display_type: "boost_percentage",
-          trait_type: "Expansion Cost Reduction",
-          value: -50,
-        },
-      ],
-      image: "../public/erc1155/images/489.png",
     },
   },
   Angelfish: {
@@ -15707,20 +7017,6 @@ export const ITEM_DETAILS: Items = {
       fr: "La beauté céleste aquatique, ornée d'une palette de couleurs vibrantes.",
       tk: "Canlı tonlardan oluşan bir paletle süslenmiş sudaki göksel güzellik.",
     },
-    opensea: {
-      description: "?",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Fish",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/1534.png",
-    },
   },
   Halibut: {
     image: halibut,
@@ -15739,20 +7035,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "海底平地的潜居者，披着沙色迷彩的伪装大师",
       fr: "Le habitant plat du fond de l'océan, un maître du déguisement en camouflage sableux.",
       tk: "Düz okyanus tabanı sakini, kumlu kamuflajda kılık değiştirme ustası.",
-    },
-    opensea: {
-      description: "?",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Fish",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/1535.png",
     },
   },
   Parrotfish: {
@@ -15773,20 +7055,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Un kaléidoscope de couleurs sous les vagues, ce poisson est une œuvre d'art vivante de la nature.",
       tk: "Dalgaların altındaki renklerden oluşan bir kaleydoskop olan bu balık, doğanın yaşayan sanat eseridir.",
     },
-    opensea: {
-      description: "?",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Fish",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/1536.png",
-    },
   },
   Rug: {
     image: SUNNYSIDE.decorations.rug,
@@ -15796,20 +7064,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "?",
       fr: "?",
       tk: "?",
-    },
-    opensea: {
-      description: "?",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/2002.png",
     },
   },
   Wardrobe: {
@@ -15821,20 +7075,6 @@ export const ITEM_DETAILS: Items = {
       fr: "?",
       tk: "?",
     },
-    opensea: {
-      description: "?",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/2003.png",
-    },
   },
   "Farmhand Coupon": {
     image: budTicket,
@@ -15845,20 +7085,6 @@ export const ITEM_DETAILS: Items = {
       fr: "?",
       tk: "?",
     },
-    opensea: {
-      description: "?",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Coupon",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/728.png",
-    },
   },
   Farmhand: {
     image: SUNNYSIDE.icons.player,
@@ -15868,20 +7094,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "热心的雇农",
       fr: "Un ouvrier agricole utile.",
       tk: "Yardımsever bir çiftçi",
-    },
-    opensea: {
-      description: "A helpful farmhand to assist you with your farm.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Coupon",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/735.png",
     },
   },
   Beehive: {
@@ -15894,35 +7106,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Une ruche animée, produisant du Honey à partir de fleurs en croissance active ; 10 % de chance lors de la récolte du Honey d'invoquer un essaim d'abeilles qui pollinisera toutes les cultures en croissance avec un bonus de +0.2!",
       tk: "Aktif olarak büyüyen çiçeklerden bal üreten hareketli bir arı kovanı; Bal hasadında, büyüyen tüm mahsulleri +0,2 artışla tozlaştıracak bir arı sürüsü çağırma şansı %10!",
     },
-    opensea: {
-      description:
-        "A bustling beehive, producing honey from actively growing flowers; 10% chance upon Honey harvest to summon a bee swarm which will pollinate all growing crops with a +0.2 boost!",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Resource Node",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-        {
-          trait_type: "Boost",
-          value: "Crop",
-        },
-        {
-          display_type: "boost_percentage",
-          trait_type: "Crop Critical Hit Chance",
-          value: 10,
-        },
-        {
-          display_type: "boost_number",
-          trait_type: "Crop Critical Hit Amount",
-          value: 0.2,
-        },
-      ],
-      image: "../public/erc1155/images/633.png",
-    },
   },
   "Red Pansy": {
     image: redPansy,
@@ -15932,20 +7115,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "红三色堇。一朵红三色堇。",
       fr: "Une red pansy.",
       tk: "Kırmızı bir menekşe.",
-    },
-    opensea: {
-      description: "A flower",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Flower",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/218.png",
     },
   },
   "Yellow Pansy": {
@@ -15957,20 +7126,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Une yellow pansy.",
       tk: "Sarı bir menekşe.",
     },
-    opensea: {
-      description: "A flower",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Flower",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/219.png",
-    },
   },
   "Purple Pansy": {
     image: purplePansy,
@@ -15980,20 +7135,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "紫三色堇。一朵紫三色堇。",
       fr: "Une purple pansy.",
       tk: "Mor bir menekşe.",
-    },
-    opensea: {
-      description: "A flower",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Flower",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/220.png",
     },
   },
   "White Pansy": {
@@ -16005,20 +7146,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Une white panssy.",
       tk: "Beyaz bir menekşe.",
     },
-    opensea: {
-      description: "A flower",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Flower",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/221.png",
-    },
   },
   "Blue Pansy": {
     image: bluePansy,
@@ -16028,20 +7155,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "蓝三色堇。一朵蓝三色堇。",
       fr: "Une blue pansy.",
       tk: "Mavi bir menekşe.",
-    },
-    opensea: {
-      description: "A flower",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Flower",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/222.png",
     },
   },
   "Red Cosmos": {
@@ -16053,20 +7166,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Un red cosmos.",
       tk: "Kırmızı bir Cosmos.",
     },
-    opensea: {
-      description: "A flower",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Flower",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/223.png",
-    },
   },
   "Yellow Cosmos": {
     image: yellowCosmos,
@@ -16076,20 +7175,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "黄波斯菊。一朵黄色波斯菊。",
       fr: "Un yellow cosmos.",
       tk: "Sarı bir Cosmos.",
-    },
-    opensea: {
-      description: "A flower",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Flower",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/224.png",
     },
   },
   "Purple Cosmos": {
@@ -16101,20 +7186,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Un purple cosmos.",
       tk: "Mor bir Cosmos.",
     },
-    opensea: {
-      description: "A flower",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Flower",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/225.png",
-    },
   },
   "White Cosmos": {
     image: whiteCosmos,
@@ -16124,20 +7195,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "白波斯菊。一朵白波斯菊。",
       fr: "Un white cosmos.",
       tk: "Beyaz bir Cosmos.",
-    },
-    opensea: {
-      description: "A flower",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Flower",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/226.png",
     },
   },
   "Blue Cosmos": {
@@ -16149,20 +7206,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Un blue cosmos.",
       tk: "Mavi bir Cosmos.",
     },
-    opensea: {
-      description: "A flower",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Flower",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/227.png",
-    },
   },
   "Red Balloon Flower": {
     image: redBalloonFlower,
@@ -16172,20 +7215,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "红桔梗。一朵红桔梗。",
       fr: "Une red balloon flower.",
       tk: "Kırmızı balon çiçeği.",
-    },
-    opensea: {
-      description: "A flower",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Flower",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/228.png",
     },
   },
   "Yellow Balloon Flower": {
@@ -16197,20 +7226,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Une yellow balloon flower.",
       tk: "Sarı balon çiçeği.",
     },
-    opensea: {
-      description: "A flower",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Flower",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/229.png",
-    },
   },
   "Purple Balloon Flower": {
     image: purpleBalloonFlower,
@@ -16220,20 +7235,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "紫桔梗。一朵紫桔梗。",
       fr: "Une purple balloon flower.",
       tk: "Mor bir balon çiçeği.",
-    },
-    opensea: {
-      description: "A flower",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Flower",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/230.png",
     },
   },
   "White Balloon Flower": {
@@ -16245,20 +7246,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Une white balloon flower.",
       tk: "Beyaz bir balon çiçeği.",
     },
-    opensea: {
-      description: "A flower",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Flower",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/231.png",
-    },
   },
   "Blue Balloon Flower": {
     image: blueBalloonFlower,
@@ -16268,20 +7255,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "蓝桔梗。一朵蓝桔梗。",
       fr: "Une blue balloon flower.",
       tk: "Mavi balon çiçeği.",
-    },
-    opensea: {
-      description: "A flower",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Flower",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/232.png",
     },
   },
   "Red Carnation": {
@@ -16293,20 +7266,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Une red carnation.",
       tk: "Kırmızı bir karanfil.",
     },
-    opensea: {
-      description: "A flower",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Flower",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/233.png",
-    },
   },
   "Yellow Carnation": {
     image: yellowCarnation,
@@ -16316,20 +7275,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "黄康乃馨。一朵黄康乃馨。",
       fr: "Une yellow carnation.",
       tk: "Sarı bir karanfil.",
-    },
-    opensea: {
-      description: "A flower",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Flower",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/234.png",
     },
   },
   "Purple Carnation": {
@@ -16341,20 +7286,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Une purple carnation.",
       tk: "Mor bir karanfil.",
     },
-    opensea: {
-      description: "A flower",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Flower",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/235.png",
-    },
   },
   "White Carnation": {
     image: whiteCarnation,
@@ -16364,20 +7295,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "白康乃馨。一朵白康乃馨。",
       fr: "Unewhite carnation.",
       tk: "Beyaz bir karanfil.",
-    },
-    opensea: {
-      description: "A flower",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Flower",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/236.png",
     },
   },
   "Blue Carnation": {
@@ -16389,20 +7306,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Une blue carnation.",
       tk: "Mavi bir karanfil.",
     },
-    opensea: {
-      description: "A flower",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Flower",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/237.png",
-    },
   },
   "Humming Bird": {
     image: hummingBird,
@@ -16412,31 +7315,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "小小天上明珠，Humming Bird 捧七彩的优雅飞掠而过",
       fr: "Un joyau du ciel, le Colibri virevolte avec grâce et couleur.",
       tk: "Gökyüzünün minik bir mücevheri olan Sinek Kuşu, rengarenk bir zarafetle uçuyor.",
-    },
-    opensea: {
-      description:
-        "A tiny jewel of the sky, the Humming Bird flits with colorful grace.",
-      attributes: [
-        {
-          trait_type: "Boost",
-          value: "Flower",
-        },
-        {
-          display_type: "boost_percentage",
-          trait_type: "Flower Critical Hit Chance",
-          value: 20,
-        },
-        {
-          display_type: "boost_number",
-          trait_type: "Critical Flower Amount",
-          value: 1,
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/490.png",
     },
   },
   "Queen Bee": {
@@ -16448,26 +7326,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Majestueuse reine de la ruche, l'Abeille Reine bourdonne avec autorité royale.",
       tk: "Kovanın görkemli hükümdarı Kraliçe Arı, kraliyet otoritesiyle vızıldıyor.",
     },
-    opensea: {
-      description:
-        "Majestic ruler of the hive, the Queen Bee buzzes with regal authority.",
-      attributes: [
-        {
-          trait_type: "Boost",
-          value: "Resource",
-        },
-        {
-          display_type: "boost_number",
-          trait_type: "Honey Production Speed",
-          value: 1,
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/491.png",
-    },
   },
   "Flower Fox": {
     image: flowerFox,
@@ -16477,26 +7335,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "Flower Fox，花瓣簇拥的欢欣生灵，为花园带来雀跃",
       fr: "Le Renard des Fleurs, une créature espiègle ornée de pétales, apporte de la joie au jardin.",
       tk: "Yapraklarla süslenmiş oyuncu bir yaratık olan Çiçek Tilki, bahçeye neşe katıyor.",
-    },
-    opensea: {
-      description:
-        "The Flower Fox, a playful creature adorned with petals, brings joy to the garden.",
-      attributes: [
-        {
-          trait_type: "Boost",
-          value: "Flower",
-        },
-        {
-          display_type: "boost_percentage",
-          trait_type: "Flower Growth Time",
-          value: -10,
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/492.png",
     },
   },
   "Hungry Caterpillar": {
@@ -16508,26 +7346,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Se régalant de feuilles, la Chenille Gourmande est toujours prête pour une aventure savoureuse.",
       tk: "Yaprakları yerken Aç Tırtıl her zaman lezzetli bir maceraya hazırdır.",
     },
-    opensea: {
-      description:
-        "Munching through leaves, the Hungry Caterpillar is always ready for a tasty adventure.",
-      attributes: [
-        {
-          trait_type: "Boost",
-          value: "Flower",
-        },
-        {
-          display_type: "boost_number",
-          trait_type: "Cost of Flower Seeds",
-          value: 0,
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/493.png",
-    },
   },
   "Sunrise Bloom Rug": {
     image: sunriseBloomRug,
@@ -16538,21 +7356,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Marchez sur le Tapis de l'Éclosion du Soleil, où les pétales dansent autour d'un lever de soleil floral.",
       tk: "Yaprakların çiçekli gün doğumu etrafında dans ettiği Sunrise Bloom Rug'a adım atın.",
     },
-    opensea: {
-      description:
-        "Step onto the Sunrise Bloom Rug, where petals dance around a floral sunrise.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/2004.png",
-    },
   },
   "Flower Rug": {
     image: flowerRug,
@@ -16562,20 +7365,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "Add a touch of nature's elegance to your home.",
       fr: "Add a touch of nature's elegance to your home.",
       tk: "Add a touch of nature's elegance to your home.",
-    },
-    opensea: {
-      description: "Add a touch of nature's elegance to your home.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/2011.png",
     },
   },
   "Tea Rug": {
@@ -16588,21 +7377,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Rug boasting a warm and inviting tea-colored hue that exudes comfort.",
       tk: "Rug boasting a warm and inviting tea-colored hue that exudes comfort.",
     },
-    opensea: {
-      description:
-        "Rug boasting a warm and inviting tea-colored hue that exudes comfort.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/2012.png",
-    },
   },
   "Green Field Rug": {
     image: greenFieldRug,
@@ -16614,21 +7388,6 @@ export const ITEM_DETAILS: Items = {
       fr: "A beautiful rug of deep green hue's reminiscent of a vibrant meadow in full bloom.",
       tk: "A beautiful rug of deep green hue's reminiscent of a vibrant meadow in full bloom.",
     },
-    opensea: {
-      description:
-        "A beautiful rug of deep green hue's reminiscent of a vibrant meadow in full bloom.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/2013.png",
-    },
   },
   "Blossom Royale": {
     image: blossomRoyale,
@@ -16638,21 +7397,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "Blossom Royale，蓝与粉鲜活荡漾的巨大花朵，挺拔撑起俨然绽放。",
       fr: "Le Blossom Royale, une fleur géante aux couleurs bleues et roses vibrantes, se dresse en majesté.",
       tk: "Canlı mavi ve pembe renkte dev bir çiçek olan Blossom Royale, görkemli bir çiçek içinde duruyor.",
-    },
-    opensea: {
-      description:
-        "The Blossom Royale, a giant flower in vibrant blue and pink, stands in majestic bloom.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/2005.png",
     },
   },
   Rainbow: {
@@ -16664,21 +7408,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Un arc-en-ciel joyeux, reliant le ciel et la terre avec son arc-en-ciel coloré.",
       tk: "Rengarenk kemeriyle gökyüzü ile yeryüzü arasında köprü oluşturan neşeli bir Gökkuşağı.",
     },
-    opensea: {
-      description:
-        "A cheerful Rainbow, bridging sky and earth with its colorful arch.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/2006.png",
-    },
   },
   "Enchanted Rose": {
     image: enchantedRose,
@@ -16688,21 +7417,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "Enchanted Rose，永生美丽的象征，沉迷在她的魔法魅力里吧。",
       fr: "La Rose Enchantée, symbole de beauté éternelle, captive par son charme magique.",
       tk: "Sonsuz güzelliğin sembolü olan Büyülü Gül, büyülü cazibesiyle büyülüyor.",
-    },
-    opensea: {
-      description:
-        "The Enchanted Rose, a symbol of eternal beauty, captivates with its magical allure.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/2007.png",
     },
   },
   "Flower Cart": {
@@ -16714,21 +7428,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Le Chariot de Fleurs, débordant de fleurs, est un jardin mobile de délices floraux.",
       tk: "Çiçeklerle dolu Çiçek Arabası, çiçek lezzetleriyle dolu hareketli bir bahçedir.",
     },
-    opensea: {
-      description:
-        "The Flower Cart, brimming with blooms, is a mobile garden of floral delights.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/2008.png",
-    },
   },
   Capybara: {
     image: capybara,
@@ -16738,21 +7437,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "Capybara，悠闲伙伴，享受水边的慵懒时光。",
       fr: "Le Capybara, un ami décontracté, apprécie les journées paisibles au bord de l'eau.",
       tk: "Rahat bir arkadaş olan Kapibara, su kenarında tembel günlerin tadını çıkarır.",
-    },
-    opensea: {
-      description:
-        "The Capybara, a laid-back friend, enjoys lazy days by the water's edge.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/2009.png",
     },
   },
   "Prism Petal": {
@@ -16764,25 +7448,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Waouh ! Quelle belle fleur ! Je pense que celle-ci mérite d'être placée sur votre ferme.",
       tk: "Vay! Ne güzel bir çiçek! Bunun çiftliğinize yerleştirmeye değer olduğunu düşünüyorum.",
     },
-    opensea: {
-      description:
-        "Wow! What a beautiful flower! I think this one is worthy of placing on your farm",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Flower",
-        },
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/238.png",
-    },
   },
   "Celestial Frostbloom": {
     image: celestialFrostbloom,
@@ -16792,25 +7457,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "哇！好一朵漂亮鲜花！我看这朵很值得你放在农场上。",
       fr: "Waouh ! Quelle belle fleur ! Je pense que celle-ci mérite d'être placée sur votre ferme.",
       tk: "Vay! Ne güzel bir çiçek! Bunun çiftliğinize yerleştirmeye değer olduğunu düşünüyorum.",
-    },
-    opensea: {
-      description:
-        "Wow! What a beautiful flower! I think this one is worthy of placing on your farm",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Flower",
-        },
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/239.png",
     },
   },
   "Primula Enigma": {
@@ -16822,25 +7468,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Waouh ! Quelle belle fleur ! Je pense que celle-ci mérite d'être placée sur votre ferme.",
       tk: "Vay! Ne güzel bir çiçek! Bunun çiftliğinize yerleştirmeye değer olduğunu düşünüyorum.",
     },
-    opensea: {
-      description:
-        "Wow! What a beautiful flower! I think this one is worthy of placing on your farm",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Flower",
-        },
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/240.png",
-    },
   },
   "Red Daffodil": {
     image: redDaffodil,
@@ -16850,20 +7477,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "红水仙花。一朵红水仙花。",
       fr: "Une red daffodil.",
       tk: "Kırmızı bir nergis.",
-    },
-    opensea: {
-      description: "A flower",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Flower",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/241.png",
     },
   },
   "Yellow Daffodil": {
@@ -16875,20 +7488,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Une yellow daffodil.",
       tk: "Sarı bir nergis.",
     },
-    opensea: {
-      description: "A flower",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Flower",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/242.png",
-    },
   },
   "Purple Daffodil": {
     image: purpleDaffodil,
@@ -16898,20 +7497,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "紫水仙花。一朵紫水仙花l。",
       fr: "Une purple daffodil.",
       tk: "Mor bir nergis.",
-    },
-    opensea: {
-      description: "A flower",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Flower",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/243.png",
     },
   },
   "White Daffodil": {
@@ -16923,20 +7508,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Une white daffodil.",
       tk: "Beyaz bir nergis.",
     },
-    opensea: {
-      description: "A flower",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Flower",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/244.png",
-    },
   },
   "Blue Daffodil": {
     image: blueDaffodil,
@@ -16946,20 +7517,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "蓝水仙花。一朵蓝水仙花。",
       fr: "Une blue daffodil.",
       tk: "Mavi bir nergis.",
-    },
-    opensea: {
-      description: "A flower",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Flower",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/245.png",
     },
   },
   "Red Lotus": {
@@ -16971,20 +7528,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Un red lotus.",
       tk: "Kırmızı bir nilüfer.",
     },
-    opensea: {
-      description: "A flower",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Flower",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/246.png",
-    },
   },
   "Yellow Lotus": {
     image: yellowLotus,
@@ -16994,20 +7537,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "黄莲花。一朵黄莲花。",
       fr: "Un yellow lotus.",
       tk: "Sarı bir nilüfer.",
-    },
-    opensea: {
-      description: "A flower",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Flower",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/247.png",
     },
   },
   "Purple Lotus": {
@@ -17019,20 +7548,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Un purple lotus.",
       tk: "Mor bir nilüfer.",
     },
-    opensea: {
-      description: "A flower",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Flower",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/248.png",
-    },
   },
   "White Lotus": {
     image: whiteLotus,
@@ -17042,20 +7557,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "白莲花。一朵白莲花。",
       fr: "Un white lotus.",
       tk: "Beyaz bir nilüfer.",
-    },
-    opensea: {
-      description: "A flower",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Flower",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/249.png",
     },
   },
   "Blue Lotus": {
@@ -17067,20 +7568,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Un blue lotus.",
       tk: "Mavi bir nilüfer.",
     },
-    opensea: {
-      description: "A flower",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Flower",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/250.png",
-    },
   },
   "Earn Alliance Banner": {
     image: earnAllianceBanner,
@@ -17090,21 +7577,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "一杆特别活动的旗帜",
       fr: "A special event banner",
       tk: "Özel bir etkinlik bayrağı",
-    },
-    opensea: {
-      description:
-        "A special event banner. Gave a starter bonus of 2x XP in February 2024 for players on the beginner island.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Banner",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/930.png",
     },
   },
   "Luxury Key": {
@@ -17116,20 +7588,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Visitez la place près des bois pour débloquer votre récompense",
       tk: "Plazanın Ağaç diyarına yakın olan kısmında sandığınızı açın",
     },
-    opensea: {
-      description: "A magic key that can unlock rewards in the plaza",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Coupon",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/932.png",
-    },
   },
   "Rare Key": {
     image: rareKey,
@@ -17139,20 +7597,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "Visit the beach to unlock your reward",
       fr: "Visitez la plage pour débloquer votre récompense",
       tk: "Sahili ziyaret edin ve sandığınızı açın",
-    },
-    opensea: {
-      description: "A magic key that can unlock rewards in the plaza",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Coupon",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/933.png",
     },
   },
   "Prize Ticket": {
@@ -17165,20 +7609,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Un ticket pour participer au concours de fin de saison",
       tk: "Ödül çekilişlerine katılmak için bir bilet",
     },
-    opensea: {
-      description: "A free entry into the end of season giveaway",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Coupon",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/934.png",
-    },
   },
   "Baby Panda": {
     image: babyPanda,
@@ -17190,21 +7620,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Un adorable panda de l'événement Gas Hero.",
       tk: "Gas Hero etkinliğinden sevimli bir panda. Mart ayında yeni başlayanlar için 2x XP.",
     },
-    opensea: {
-      description:
-        "A baby panda earned during the Gas Hero collaboration event. Gives new players double XP during March 2024.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/935.png",
-    },
   },
   Baozi: {
     image: baozi,
@@ -17214,21 +7629,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "A delicious treat from the Lunar New Year event.",
       fr: "Une délicieuse friandise de l'événement du Nouvel An lunaire.",
       tk: "Ay Yeni Yılı etkinliğinden lezzetli bir ikram.",
-    },
-    opensea: {
-      description:
-        "A delicious steamed bun. A special event item from Lunar New Year 2024.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/936.gif",
     },
   },
   "Community Egg": {
@@ -17240,20 +7640,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Wow, vous devez vraiment vous soucier de la communauté !",
       tk: "Wow, you must really care about the community!",
     },
-    opensea: {
-      description: "Wow, you must really care about the community",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/937.png",
-    },
   },
   "Hungry Hare": {
     image: hungryHare,
@@ -17263,26 +7649,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "这只贪吃的小兔子跳进了你的农场。2024年复活节的特别活动物品",
       fr: "Ce lapin vorace saute dans votre ferme. Un objet spécial de l'événement de Pâques 2024.",
       tk: "This ravenous rabbit hops through your farm. A special event item from Easter 2024",
-    },
-    opensea: {
-      description:
-        "This ravenous rabbit hops through your farm. A special event item from Easter 2024",
-      attributes: [
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-        {
-          trait_type: "Boost",
-          value: "XP",
-        },
-        {
-          display_type: "boost_percentage",
-          trait_type: "Increase Fermented Carrots XP",
-          value: 100,
-        },
-      ],
-      image: "../public/erc1155/images/938.png",
     },
   },
   "Turbo Sprout": {
@@ -17294,26 +7660,6 @@ export const ITEM_DETAILS: Items = {
       fr: "An engine that reduces the Green House's growth time by 50%.",
       tk: "An engine that reduces the Green House's growth time by 50%.",
     },
-    opensea: {
-      description:
-        "An engine that boosts the Green House's growth speed by 50%.",
-      attributes: [
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-        {
-          trait_type: "Boost",
-          value: "Crop",
-        },
-        {
-          display_type: "boost_percentage",
-          trait_type: "Crop Growth Time in Greenhouse",
-          value: -50,
-        },
-      ],
-      image: "../public/erc1155/images/495.png",
-    },
   },
   Soybliss: {
     image: soybliss,
@@ -17323,25 +7669,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "为大豆 +1 产出的奇特豆豆生物。",
       fr: "A unique soy creature that gives +1 Soybean yield.",
       tk: "A unique soy creature that gives +1 Soybean yield.",
-    },
-    opensea: {
-      description: "A unique soy creature that gives +1 Soybean yield.",
-      attributes: [
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-        {
-          trait_type: "Boost",
-          value: "Crop",
-        },
-        {
-          display_type: "boost_number",
-          trait_type: "Increase Soybean Yield",
-          value: 1,
-        },
-      ],
-      image: "../public/erc1155/images/496.png",
     },
   },
   "Grape Granny": {
@@ -17353,25 +7680,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Wise matriarch nurturing grapes to flourish with +1 yield.",
       tk: "Wise matriarch nurturing grapes to flourish with +1 yield.",
     },
-    opensea: {
-      description: "Wise matriarch nurturing grapes to flourish with +1 yield.",
-      attributes: [
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-        {
-          trait_type: "Boost",
-          value: "Crop",
-        },
-        {
-          display_type: "boost_number",
-          trait_type: "Increase Grape Yield",
-          value: 1,
-        },
-      ],
-      image: "../public/erc1155/images/497.png",
-    },
   },
   "Royal Throne": {
     image: royalThrone,
@@ -17381,20 +7689,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "为至高阶农夫打造的王位。",
       fr: "A throne fit for the highest ranking farmer.",
       tk: "A throne fit for the highest ranking farmer.",
-    },
-    opensea: {
-      description: "A throne fit for the highest ranking farmer.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/498.png",
     },
   },
   "Lily Egg": {
@@ -17406,20 +7700,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Tiny delight, grand beauty, endless wonder.",
       tk: "Tiny delight, grand beauty, endless wonder.",
     },
-    opensea: {
-      description: "Tiny delight, grand beauty, endless wonder.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/499.png",
-    },
   },
   Goblet: {
     image: goblet,
@@ -17429,20 +7709,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "至珍美酒高杯藏。",
       fr: "A goblet that holds the finest of wines.",
       tk: "A goblet that holds the finest of wines.",
-    },
-    opensea: {
-      description: "A goblet that holds the finest of wines.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/482.png",
     },
   },
   "Fancy Rug": {
@@ -17454,20 +7720,6 @@ export const ITEM_DETAILS: Items = {
       fr: "A rug that brings a touch of elegance to any room.",
       tk: "A rug that brings a touch of elegance to any room.",
     },
-    opensea: {
-      description: "A rug that adds a touch of elegance to any room.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/2014.png",
-    },
   },
   Clock: {
     image: clock,
@@ -17477,21 +7729,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "时钟的脚步轻响时季的滴答",
       fr: "A Clock that keeps time with the gentle ticking of the seasons.",
       tk: "A Clock that keeps time with the gentle ticking of the seasons.",
-    },
-    opensea: {
-      description:
-        "A Clock that keeps time with the gentle ticking of the seasons.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-      ],
-      image: "../public/erc1155/images/2015.png",
     },
   },
   Vinny: {
@@ -17503,25 +7740,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Vinny, a friendly grapevine, is always ready for a chat.",
       tk: "Vinny, a friendly grapevine, is always ready for a chat.",
     },
-    opensea: {
-      description: "Vinny, a friendly grapevine, is always ready for a chat.",
-      attributes: [
-        {
-          trait_type: "Boost",
-          value: "Crop",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-        {
-          display_type: "boost_number",
-          trait_type: "Increase Grape Yield",
-          value: 0.25,
-        },
-      ],
-      image: "../public/erc1155/images/2016.png",
-    },
   },
   "Beetroot Blaze": {
     image: beetrootBlaze,
@@ -17531,20 +7749,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "A spicy beetroot-infused magic mushroom dish",
       fr: "A spicy beetroot-infused magic mushroom dish",
       tk: "A spicy beetroot-infused magic mushroom dish",
-    },
-    opensea: {
-      description: "A spicy beetroot-infused magic mushroom dish",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Consumable",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/555.png",
     },
   },
   "Rapid Roast": {
@@ -17556,20 +7760,6 @@ export const ITEM_DETAILS: Items = {
       fr: "For Bumpkins in a hurry...",
       tk: "For Bumpkins in a hurry...",
     },
-    opensea: {
-      description: "When you are in a hurry",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Consumable",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/556.png",
-    },
   },
   "Shroom Syrup": {
     image: shroomSyrup,
@@ -17579,20 +7769,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "The essence of bees and enchanted fungi",
       fr: "The essence of bees and enchanted fungi",
       tk: "The essence of bees and enchanted fungi",
-    },
-    opensea: {
-      description: "The essence of bees and enchanted fungi",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Consumable",
-        },
-        {
-          trait_type: "Tradable",
-          value: "No",
-        },
-      ],
-      image: "../public/erc1155/images/557.png",
     },
   },
   "Gaucho Rug": {
@@ -17604,16 +7780,6 @@ export const ITEM_DETAILS: Items = {
       fr: "A commerative rug to support South Brazil.",
       tk: "A commerative rug to support South Brazil.",
     },
-    opensea: {
-      description: "A commerative rug to support South Brazil.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-      ],
-      image: "../public/erc1155/images/2018.png",
-    },
   },
   "Battlecry Drum": {
     image: battleCryDrum,
@@ -17623,16 +7789,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "",
       fr: "",
       tk: "",
-    },
-    opensea: {
-      description: "",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-      ],
-      image: "../public/erc1155/images/2033.png",
     },
   },
   "Bullseye Board": {
@@ -17644,16 +7800,6 @@ export const ITEM_DETAILS: Items = {
       fr: "",
       tk: "",
     },
-    opensea: {
-      description: "Hit the mark every time.!",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-      ],
-      image: "../public/erc1155/images/2019.png",
-    },
   },
   "Chess Rug": {
     image: chessRug,
@@ -17663,16 +7809,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "",
       fr: "",
       tk: "",
-    },
-    opensea: {
-      description: "Checkmate.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-      ],
-      image: "../public/erc1155/images/2020.png",
     },
   },
   Cluckapult: {
@@ -17684,16 +7820,6 @@ export const ITEM_DETAILS: Items = {
       fr: "",
       tk: "",
     },
-    opensea: {
-      description: "",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-      ],
-      image: "../public/erc1155/images/2021.png",
-    },
   },
   "Golden Gallant": {
     image: goldenGallant,
@@ -17703,16 +7829,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "",
       fr: "",
       tk: "",
-    },
-    opensea: {
-      description: "",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-      ],
-      image: "../public/erc1155/images/2022.png",
     },
   },
   "Golden Garrison": {
@@ -17724,17 +7840,6 @@ export const ITEM_DETAILS: Items = {
       fr: "",
       tk: "",
     },
-    opensea: {
-      description:
-        "Defend your territory in style with this shimmering garrison, a true fortress of flair.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-      ],
-      image: "../public/erc1155/images/2023.png",
-    },
   },
   "Golden Guardian": {
     image: goldenGurdian,
@@ -17744,16 +7849,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "",
       fr: "",
       tk: "",
-    },
-    opensea: {
-      description: "",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-      ],
-      image: "../public/erc1155/images/2024.png",
     },
   },
   "Novice Knight": {
@@ -17765,16 +7860,6 @@ export const ITEM_DETAILS: Items = {
       fr: "",
       tk: "",
     },
-    opensea: {
-      description: "Every move is an adventure.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-      ],
-      image: "../public/erc1155/images/2025.png",
-    },
   },
   "Regular Pawn": {
     image: regularPawn,
@@ -17784,17 +7869,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "",
       fr: "",
       tk: "",
-    },
-    opensea: {
-      description:
-        "Small but mighty! This pawn may just make a big move in your collection.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-      ],
-      image: "../public/erc1155/images/2026.png",
     },
   },
   "Rookie Rook": {
@@ -17806,16 +7880,6 @@ export const ITEM_DETAILS: Items = {
       fr: "",
       tk: "",
     },
-    opensea: {
-      description: "",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-      ],
-      image: "../public/erc1155/images/2027.png",
-    },
   },
   "Silver Sentinel": {
     image: silverSentinel,
@@ -17825,16 +7889,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "",
       fr: "",
       tk: "",
-    },
-    opensea: {
-      description: "",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-      ],
-      image: "../public/erc1155/images/2028.png",
     },
   },
   "Silver Squire": {
@@ -17846,16 +7900,6 @@ export const ITEM_DETAILS: Items = {
       fr: "",
       tk: "",
     },
-    opensea: {
-      description: "Add some shine to your collection.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-      ],
-      image: "../public/erc1155/images/2029.png",
-    },
   },
   "Silver Stallion": {
     image: silverStallion,
@@ -17865,16 +7909,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "",
       fr: "",
       tk: "",
-    },
-    opensea: {
-      description: "",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-      ],
-      image: "../public/erc1155/images/2030.png",
     },
   },
   "Trainee Target": {
@@ -17886,17 +7920,6 @@ export const ITEM_DETAILS: Items = {
       fr: "",
       tk: "",
     },
-    opensea: {
-      description:
-        "Every champion starts somewhere! Perfect your aim with the Trainee Target.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-      ],
-      image: "../public/erc1155/images/2031.png",
-    },
   },
   "Twister Rug": {
     image: twisterRug,
@@ -17906,17 +7929,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "",
       fr: "",
       tk: "",
-    },
-    opensea: {
-      description:
-        "Twist, turn, and tie your decor together with this playful rug.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-      ],
-      image: "../public/erc1155/images/2032.png",
     },
   },
   "Grape Seed": {
@@ -17928,16 +7940,6 @@ export const ITEM_DETAILS: Items = {
       fr: "A zesty and desired fruit.",
       tk: "A zesty and desired fruit.",
     },
-    opensea: {
-      description: "A zesty and desired fruit.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Seed",
-        },
-      ],
-      image: "../public/erc1155/images/125.png",
-    },
   },
   "Olive Seed": {
     image: oliveSeed,
@@ -17947,16 +7949,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "高端农夫的奢品",
       fr: "A luxury for advanced farmers.",
       tk: "A luxury for advanced farmers.",
-    },
-    opensea: {
-      description: "A luxury for advanced farmers.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Seed",
-        },
-      ],
-      image: "../public/erc1155/images/126.png",
     },
   },
   "Rice Seed": {
@@ -17968,16 +7960,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Perfect for rations!",
       tk: "Perfect for rations!",
     },
-    opensea: {
-      description: "Perfect for rations...",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Seed",
-        },
-      ],
-      image: "../public/erc1155/images/127.png",
-    },
   },
   Grape: {
     image: grape,
@@ -17987,16 +7969,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "一种甜美神往的水果",
       fr: "A zesty and desired fruit.",
       tk: "A zesty and desired fruit.",
-    },
-    opensea: {
-      description: "A zesty and desired fruit.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Crop",
-        },
-      ],
-      image: "../public/erc1155/images/252.png",
     },
   },
   Olive: {
@@ -18008,16 +7980,6 @@ export const ITEM_DETAILS: Items = {
       fr: "A luxury for advanced farmers.",
       tk: "A luxury for advanced farmers.",
     },
-    opensea: {
-      description: "A luxury for advanced farmers.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Crop",
-        },
-      ],
-      image: "../public/erc1155/images/253.png",
-    },
   },
   Rice: {
     image: rice,
@@ -18027,16 +7989,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "完美口粮！",
       fr: "Perfect for rations!",
       tk: "Perfect for rations!",
-    },
-    opensea: {
-      description: "Perfect for rations...",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Seed",
-        },
-      ],
-      image: "../public/erc1155/images/254.png",
     },
   },
   Antipasto: {
@@ -18048,16 +8000,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Assorted bites, perfect for sharing.",
       tk: "Assorted bites, perfect for sharing.",
     },
-    opensea: {
-      description: "A selection of savory bites to start your meal",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Consumable",
-        },
-      ],
-      image: "../public/erc1155/images/574.png",
-    },
   },
   "Carrot Juice": {
     image: carrotJuice,
@@ -18067,16 +8009,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "Refreshing juice, pressed fresh by bumpkins.",
       fr: "Refreshing juice, pressed fresh by bumpkins.",
       tk: "Refreshing juice, pressed fresh by bumpkins.",
-    },
-    opensea: {
-      description: "Refreshing drink from farm-fresh carrots",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Consumable",
-        },
-      ],
-      image: "../public/erc1155/images/558.png",
     },
   },
   "Seafood Basket": {
@@ -18088,16 +8020,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Oceanic flavors, sourced by goblins.",
       tk: "Oceanic flavors, sourced by goblins.",
     },
-    opensea: {
-      description: "A bountiful basket of fresh ocean delights",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Consumable",
-        },
-      ],
-      image: "../public/erc1155/images/559.png",
-    },
   },
   "Fish Burger": {
     image: fishBurger,
@@ -18107,16 +8029,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "Succulent burger, loved by seaside adventurers.",
       fr: "Succulent burger, loved by seaside adventurers.",
       tk: "Succulent burger, loved by seaside adventurers.",
-    },
-    opensea: {
-      description: "Succulent burger made with freshly caught fish",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Consumable",
-        },
-      ],
-      image: "../public/erc1155/images/560.png",
     },
   },
   "Fish n Chips": {
@@ -18128,16 +8040,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Classic seaside meal, loved by all.",
       tk: "Classic seaside meal, loved by all.",
     },
-    opensea: {
-      description: "Crispy chips paired with tender fish fillets",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Consumable",
-        },
-      ],
-      image: "../public/erc1155/images/561.png",
-    },
   },
   "Fish Omelette": {
     image: fishOmelette,
@@ -18147,16 +8049,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "Flavorful omelette, filled with oceanic treasures.",
       fr: "Flavorful omelette, filled with oceanic treasures.",
       tk: "Flavorful omelette, filled with oceanic treasures.",
-    },
-    opensea: {
-      description: "Fluffy omelette with a flavorful fish filling",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Consumable",
-        },
-      ],
-      image: "../public/erc1155/images/562.png",
     },
   },
   "Fried Calamari": {
@@ -18168,16 +8060,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Crispy calamari rings, a delicious indulgence.",
       tk: "Crispy calamari rings, a delicious indulgence.",
     },
-    opensea: {
-      description: "Crispy calamari rings, a seafood delight",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Consumable",
-        },
-      ],
-      image: "../public/erc1155/images/563.png",
-    },
   },
   "Fried Tofu": {
     image: friedTofu,
@@ -18187,16 +8069,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "Golden fried tofu, crafted with care.",
       fr: "Golden fried tofu, crafted with care.",
       tk: "Golden fried tofu, crafted with care.",
-    },
-    opensea: {
-      description: "Crispy tofu bites, a vegetarian favorite",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Consumable",
-        },
-      ],
-      image: "../public/erc1155/images/564.png",
     },
   },
   "Grape Juice": {
@@ -18208,16 +8080,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Sweet and tangy juice, freshly squeezed.",
       tk: "Sweet and tangy juice, freshly squeezed.",
     },
-    opensea: {
-      description: "Sweet and refreshing juice from sun-ripened grapes",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Consumable",
-        },
-      ],
-      image: "../public/erc1155/images/565.png",
-    },
   },
   "Ocean's Olive": {
     image: oceansOlive,
@@ -18227,16 +8089,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "Delightful oceanic dish, a true Sunflorian delicacy.",
       fr: "Delightful oceanic dish, a true Sunflorian delicacy.",
       tk: "Delightful oceanic dish, a true Sunflorian delicacy.",
-    },
-    opensea: {
-      description: "Savor the taste of the sea with these ocean-infused olives",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Consumable",
-        },
-      ],
-      image: "../public/erc1155/images/566.png",
     },
   },
   "Quick Juice": {
@@ -18248,16 +8100,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Quick energy boost, a Goblin favourite.",
       tk: "Quick energy boost, a Goblin favourite.",
     },
-    opensea: {
-      description: "A swift and energizing juice for busy days",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Consumable",
-        },
-      ],
-      image: "../public/erc1155/images/567.png",
-    },
   },
   "Rice Bun": {
     image: riceBun,
@@ -18267,16 +8109,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "Soft and fluffy rice bun, a favorite.",
       fr: "Soft and fluffy rice bun, a favorite.",
       tk: "Soft and fluffy rice bun, a favorite.",
-    },
-    opensea: {
-      description: "Soft buns made with rice flour, perfect for snacking",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Consumable",
-        },
-      ],
-      image: "../public/erc1155/images/568.png",
     },
   },
   "Slow Juice": {
@@ -18288,16 +8120,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Nutrient-rich juice, handcrafted by bumpkins.",
       tk: "Nutrient-rich juice, handcrafted by bumpkins.",
     },
-    opensea: {
-      description: "Slowly pressed juice for a burst of natural flavors",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Consumable",
-        },
-      ],
-      image: "../public/erc1155/images/569.png",
-    },
   },
   "Steamed Red Rice": {
     image: redRice,
@@ -18307,16 +8129,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "Perfectly steamed red rice, a bumpkin's delight.",
       fr: "Perfectly steamed red rice, a bumpkin's delight.",
       tk: "Perfectly steamed red rice, a bumpkin's delight.",
-    },
-    opensea: {
-      description: "Nutritious red rice, steamed to perfection",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Consumable",
-        },
-      ],
-      image: "../public/erc1155/images/570.png",
     },
   },
   "Sushi Roll": {
@@ -18328,16 +8140,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Delicious sushi roll, skillfully prepared.",
       tk: "Delicious sushi roll, skillfully prepared.",
     },
-    opensea: {
-      description: "Delicious sushi rolls filled with fresh ingredients",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Consumable",
-        },
-      ],
-      image: "../public/erc1155/images/571.png",
-    },
   },
   "The Lot": {
     image: theLot,
@@ -18347,16 +8149,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "Flavorful fruit blend, refreshing and nutritious.",
       fr: "Flavorful fruit blend, refreshing and nutritious.",
       tk: "Flavorful fruit blend, refreshing and nutritious.",
-    },
-    opensea: {
-      description: "A medley of fruits for the adventurous palate",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Consumable",
-        },
-      ],
-      image: "../public/erc1155/images/572.png",
     },
   },
   "Tofu Scramble": {
@@ -18368,17 +8160,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Hearty scramble, packed with protein and flavor.",
       tk: "Hearty scramble, packed with protein and flavor.",
     },
-    opensea: {
-      description:
-        "Scrambled tofu with a mix of vegetables, a hearty breakfast",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Consumable",
-        },
-      ],
-      image: "../public/erc1155/images/573.png",
-    },
   },
   Greenhouse: {
     image: greenhouse,
@@ -18389,16 +8170,6 @@ export const ITEM_DETAILS: Items = {
       fr: "A sanctuary for sensitive crops",
       tk: "A sanctuary for sensitive crops",
     },
-    opensea: {
-      description: "A safehaven for sensitive crops",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Building",
-        },
-      ],
-      image: "../public/erc1155/images/1019.png",
-    },
   },
   "Rice Panda": {
     image: ricePanda,
@@ -18408,25 +8179,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "熊猫很聪明，从不忘记给稻米浇水。",
       fr: "A smart panda never forgets to water the rice.",
       tk: "A smart panda never forgets to water the rice.",
-    },
-    opensea: {
-      description: "A smart panda never forgets to water the rice.",
-      attributes: [
-        {
-          trait_type: "Boost",
-          value: "Crop",
-        },
-        {
-          trait_type: "Tradable",
-          value: "Yes",
-        },
-        {
-          display_type: "boost_number",
-          trait_type: "Increase Rice Yield",
-          value: 0.25,
-        },
-      ],
-      image: "../public/erc1155/images/2034.png",
     },
   },
   "Benevolence Flag": {
@@ -18439,17 +8191,6 @@ export const ITEM_DETAILS: Items = {
       fr: "For players who have shown great benevolence by contributing significantly to the Bumpkins.",
       tk: "For players who have shown great benevolence by contributing significantly to the Bumpkins.",
     },
-    opensea: {
-      description:
-        "For players who have shown great benevolence by contributing significantly to the Bumpkins.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-      ],
-      image: "../public/erc1155/images/2035.png",
-    },
   },
   "Devotion Flag": {
     image: devotionFlag,
@@ -18460,17 +8201,6 @@ export const ITEM_DETAILS: Items = {
         "For players who have shown unwavering devotion by donating extensively to the Nightshades, reflecting their cult-like dedication",
       fr: "For players who have shown unwavering devotion by donating extensively to the Nightshades, reflecting their cult-like dedication",
       tk: "For players who have shown unwavering devotion by donating extensively to the Nightshades, reflecting their cult-like dedication",
-    },
-    opensea: {
-      description:
-        "For players who have shown unwavering devotion by donating extensively to the Nightshades, reflecting their cult-like dedication",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-      ],
-      image: "../public/erc1155/images/2036.png",
     },
   },
   "Generosity Flag": {
@@ -18483,17 +8213,6 @@ export const ITEM_DETAILS: Items = {
       fr: "For players who have donated substantial resources to the Goblins.",
       tk: "For players who have donated substantial resources to the Goblins.",
     },
-    opensea: {
-      description:
-        "For players who have donated substantial resources to the Goblins.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-      ],
-      image: "../public/erc1155/images/2037.png",
-    },
   },
   "Splendor Flag": {
     image: splendorFlag,
@@ -18505,17 +8224,6 @@ export const ITEM_DETAILS: Items = {
       fr: "For players who have generously supported the Sunflorians, symbolizing their splendor in generosity.",
       tk: "For players who have generously supported the Sunflorians, symbolizing their splendor in generosity.",
     },
-    opensea: {
-      description:
-        "For players who have generously supported the Sunflorians, symbolizing their splendor in generosity.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-      ],
-      image: "../public/erc1155/images/2037.png",
-    },
   },
   "Jelly Lamp": {
     image: jellyLamp,
@@ -18525,17 +8233,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "A lamp that brings a touch of luxury to any room.",
       fr: "A lamp that brings a touch of luxury to any room.",
       tk: "A lamp that brings a touch of luxury to any room.",
-    },
-    opensea: {
-      description:
-        "A decorative lamp that emits a light that emits a light that emits a light.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-      ],
-      image: "../public/erc1155/images/2039.png",
     },
   },
   "Paint Can": {
@@ -18547,16 +8244,6 @@ export const ITEM_DETAILS: Items = {
       fr: "A paint can discovered in the festival of colors",
       tk: "A paint can discovered in the festival of colors",
     },
-    opensea: {
-      description: "A can of paint found during the Festival of Colors.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-      ],
-      image: "../public/erc1155/images/2040.png",
-    },
   },
   "Sunflorian Throne": {
     image: sunflorianThrone,
@@ -18566,16 +8253,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "A throne fit for a Sunflorian.",
       fr: "A throne fit for a Sunflorian.",
       tk: "A throne fit for a Sunflorian.",
-    },
-    opensea: {
-      description: "A throne fit for a Sunflorian.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-      ],
-      image: "../public/erc1155/images/2041.png",
     },
   },
   "Nightshade Throne": {
@@ -18587,16 +8264,6 @@ export const ITEM_DETAILS: Items = {
       fr: "A throne fit for a Nightshade.",
       tk: "A throne fit for a Nightshade.",
     },
-    opensea: {
-      description: "A throne fit for a Sunflorian.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-      ],
-      image: "../public/erc1155/images/2042.png",
-    },
   },
   "Goblin Throne": {
     image: goblinThrone,
@@ -18606,16 +8273,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "A throne fit for a Goblin.",
       fr: "A throne fit for a Goblin.",
       tk: "A throne fit for a Goblin.",
-    },
-    opensea: {
-      description: "A throne fit for a Sunflorian.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-      ],
-      image: "../public/erc1155/images/2043.png",
     },
   },
   "Bumpkin Throne": {
@@ -18627,16 +8284,6 @@ export const ITEM_DETAILS: Items = {
       fr: "A throne fit for a Bumpkin.",
       tk: "A throne fit for a Bumpkin.",
     },
-    opensea: {
-      description: "A throne fit for a Sunflorian.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-      ],
-      image: "../public/erc1155/images/2044.png",
-    },
   },
   "Golden Sunflorian Egg": {
     image: goldenSunflorianEgg,
@@ -18646,16 +8293,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "A jewelled egg created by the House of Sunflorian.",
       fr: "A jewelled egg created by the House of Sunflorian.",
       tk: "A jewelled egg created by the House of Sunflorian.",
-    },
-    opensea: {
-      description: "A jewelled egg created by the House of Sunflorian.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-      ],
-      image: "../public/erc1155/images/2045.png",
     },
   },
   "Goblin Mischief Egg": {
@@ -18667,16 +8304,6 @@ export const ITEM_DETAILS: Items = {
       fr: "A jewelled egg created by the House of Goblin.",
       tk: "A jewelled egg created by the House of Goblin.",
     },
-    opensea: {
-      description: "A jewelled egg created by the House of Goblin.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-      ],
-      image: "../public/erc1155/images/2046.png",
-    },
   },
   "Bumpkin Charm Egg": {
     image: bumpkinCharmEgg,
@@ -18686,16 +8313,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "A jewelled egg created by the House of Bumpkin.",
       fr: "A jewelled egg created by the House of Bumpkin.",
       tk: "A jewelled egg created by the House of Bumpkin.",
-    },
-    opensea: {
-      description: "A jewelled egg created by the House of Bumpkin.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-      ],
-      image: "../public/erc1155/images/2047.png",
     },
   },
   "Nightshade Veil Egg": {
@@ -18707,16 +8324,6 @@ export const ITEM_DETAILS: Items = {
       fr: "A jewelled egg created by the House of Nightshade.",
       tk: "A jewelled egg created by the House of Nightshade.",
     },
-    opensea: {
-      description: "A jewelled egg created by the House of Nightshade.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-      ],
-      image: "../public/erc1155/images/2048.png",
-    },
   },
   "Emerald Goblin Goblet": {
     image: emeraldGoblinGoblet,
@@ -18726,16 +8333,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "An emerald encrusted goblet.",
       fr: "An emerald encrusted goblet.",
       tk: "An emerald encrusted goblet.",
-    },
-    opensea: {
-      description: "An emerald encrusted goblet.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-      ],
-      image: "../public/erc1155/images/2049.png",
     },
   },
   "Opal Sunflorian Goblet": {
@@ -18747,16 +8344,6 @@ export const ITEM_DETAILS: Items = {
       fr: "An opal encrusted goblet.",
       tk: "An opal encrusted goblet.",
     },
-    opensea: {
-      description: "An opal encrusted goblet.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-      ],
-      image: "../public/erc1155/images/2050.png",
-    },
   },
   "Sapphire Bumpkin Goblet": {
     image: sapphireBumpkinGoblet,
@@ -18766,16 +8353,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "A sapphire encrusted goblet.",
       fr: "A sapphire encrusted goblet.",
       tk: "A sapphire encrusted goblet.",
-    },
-    opensea: {
-      description: "A sapphire encrusted goblet.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-      ],
-      image: "../public/erc1155/images/2051.png",
     },
   },
   "Amethyst Nightshade Goblet": {
@@ -18787,16 +8364,6 @@ export const ITEM_DETAILS: Items = {
       fr: "An amethyst encrusted goblet.",
       tk: "An amethyst encrusted goblet.",
     },
-    opensea: {
-      description: "An amethyst encrusted goblet",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-      ],
-      image: "../public/erc1155/images/2052.png",
-    },
   },
   "Golden Faction Goblet": {
     image: goldenFactionGoblet,
@@ -18806,16 +8373,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "A golden goblet.",
       fr: "A golden goblet.",
       tk: "A golden goblet.",
-    },
-    opensea: {
-      description: "A golden goblet.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-      ],
-      image: "../public/erc1155/images/2053.png",
     },
   },
   "Ruby Faction Goblet": {
@@ -18827,16 +8384,6 @@ export const ITEM_DETAILS: Items = {
       fr: "A ruby encrusted goblet.",
       tk: "A ruby encrusted goblet.",
     },
-    opensea: {
-      description: "A ruby encrusted goblet.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-      ],
-      image: "../public/erc1155/images/2054.png",
-    },
   },
   "Sunflorian Bunting": {
     image: sunflorianBunting,
@@ -18846,16 +8393,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "Colorful flags celebrating the Sunflorian Faction.",
       fr: "Colorful flags celebrating the Sunflorian Faction.",
       tk: "Colorful flags celebrating the Sunflorian Faction.",
-    },
-    opensea: {
-      description: "Colorful flags celebrating the Sunflorian Faction.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-      ],
-      image: "../public/erc1155/images/2055.png",
     },
   },
   "Nightshade Bunting": {
@@ -18867,16 +8404,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Colorful flags celebrating the Nightshade faction.",
       tk: "Colorful flags celebrating the Nightshade faction.",
     },
-    opensea: {
-      description: "Colorful flags celebrating the Nightshade faction.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-      ],
-      image: "../public/erc1155/images/2056.png",
-    },
   },
   "Goblin Bunting": {
     image: goblinBunting,
@@ -18886,16 +8413,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "Colorful flags celebrating the Goblin faction.",
       fr: "Colorful flags celebrating the Goblin faction.",
       tk: "Colorful flags celebrating the Goblin faction.",
-    },
-    opensea: {
-      description: "Colorful flags celebrating the Goblin faction.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-      ],
-      image: "../public/erc1155/images/2057.png",
     },
   },
   "Bumpkin Bunting": {
@@ -18907,16 +8424,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Colorful flags celebrating the Bumpkin faction.",
       tk: "Colorful flags celebrating the Bumpkin faction.",
     },
-    opensea: {
-      description: "Colorful flags celebrating the Bumpkin faction.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-      ],
-      image: "../public/erc1155/images/2058.png",
-    },
   },
   "Sunflorian Candles": {
     image: sunflorianCandles,
@@ -18926,16 +8433,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "Sunflorian Faction decorative candles.",
       fr: "Sunflorian Faction decorative candles.",
       tk: "Sunflorian Faction decorative candles.",
-    },
-    opensea: {
-      description: "Sunflorian Faction decorative candles.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-      ],
-      image: "../public/erc1155/images/2059.png",
     },
   },
   "Nightshade Candles": {
@@ -18947,16 +8444,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Nightshade Faction decorative candles.",
       tk: "Nightshade Faction decorative candles.",
     },
-    opensea: {
-      description: "Nightshade Faction decorative candles.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-      ],
-      image: "../public/erc1155/images/2060.png",
-    },
   },
   "Goblin Candles": {
     image: goblinCandles,
@@ -18966,16 +8453,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "Goblin Faction decorative candles.",
       fr: "Goblin Faction decorative candles.",
       tk: "Goblin Faction decorative candles.",
-    },
-    opensea: {
-      description: "Goblin Faction decorative candles.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-      ],
-      image: "../public/erc1155/images/2061.png",
     },
   },
   "Bumpkin Candles": {
@@ -18987,16 +8464,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Bumpkin Faction decorative candles.",
       tk: "Bumpkin Faction decorative candles.",
     },
-    opensea: {
-      description: "Bumpkin Faction decorative candles.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-      ],
-      image: "../public/erc1155/images/2062.png",
-    },
   },
   "Sunflorian Left Wall Sconce": {
     image: sunflorianLeftWall,
@@ -19006,17 +8473,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "Illuminate your living quarters with a Sunflorian Wall Sconce.",
       fr: "Illuminate your living quarters with a Sunflorian Wall Sconce.",
       tk: "Illuminate your living quarters with a Sunflorian Wall Sconce.",
-    },
-    opensea: {
-      description:
-        "Illuminate your living quarters with a Sunflorian Wall Sconce.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-      ],
-      image: "../public/erc1155/images/2063.png",
     },
   },
   "Nightshade Left Wall Sconce": {
@@ -19028,17 +8484,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Illuminate your living quarters with a Nightshade Wall Sconce.",
       tk: "Illuminate your living quarters with a Nightshade Wall Sconce.",
     },
-    opensea: {
-      description:
-        "Illuminate your living quarters with a Nightshade Wall Sconce.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-      ],
-      image: "../public/erc1155/images/2064.png",
-    },
   },
   "Goblin Left Wall Sconce": {
     image: goblinLeftWall,
@@ -19048,16 +8493,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "Illuminate your living quarters with a Goblin Wall Sconce.",
       fr: "Illuminate your living quarters with a Goblin Wall Sconce.",
       tk: "Illuminate your living quarters with a Goblin Wall Sconce.",
-    },
-    opensea: {
-      description: "Illuminate your living quarters with a Goblin Wall Sconce.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-      ],
-      image: "../public/erc1155/images/2065.png",
     },
   },
   "Bumpkin Left Wall Sconce": {
@@ -19069,17 +8504,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Illuminate your living quarters with a Bumpkin Wall Sconce.",
       tk: "Illuminate your living quarters with a Bumpkin Wall Sconce.",
     },
-    opensea: {
-      description:
-        "Illuminate your living quarters with a Bumpkin Wall Sconce.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-      ],
-      image: "../public/erc1155/images/2066.png",
-    },
   },
   "Sunflorian Right Wall Sconce": {
     image: sunflorianRightWall,
@@ -19089,17 +8513,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "Illuminate your living quarters with a Sunflorian Wall Sconce.",
       fr: "Illuminate your living quarters with a Sunflorian Wall Sconce.",
       tk: "Illuminate your living quarters with a Sunflorian Wall Sconce.",
-    },
-    opensea: {
-      description:
-        "Illuminate your living quarters with a Sunflorian Wall Sconce.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-      ],
-      image: "../public/erc1155/images/2067.png",
     },
   },
   "Nightshade Right Wall Sconce": {
@@ -19111,17 +8524,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Illuminate your living quarters with a Nightshade Wall Sconce.",
       tk: "Illuminate your living quarters with a Nightshade Wall Sconce.",
     },
-    opensea: {
-      description:
-        "Illuminate your living quarters with a Nightshade Wall Sconce.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-      ],
-      image: "../public/erc1155/images/2068.png",
-    },
   },
   "Goblin Right Wall Sconce": {
     image: goblinRightWall,
@@ -19131,16 +8533,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "Illuminate your living quarters with a Goblin Wall Sconce.",
       fr: "Illuminate your living quarters with a Goblin Wall Sconce.",
       tk: "Illuminate your living quarters with a Goblin Wall Sconce.",
-    },
-    opensea: {
-      description: "Illuminate your living quarters with a Goblin Wall Sconce.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-      ],
-      image: "../public/erc1155/images/2069.png",
     },
   },
   "Bumpkin Right Wall Sconce": {
@@ -19152,17 +8544,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Illuminate your living quarters with a Bumpkin Wall Sconce.",
       tk: "Illuminate your living quarters with a Bumpkin Wall Sconce.",
     },
-    opensea: {
-      description:
-        "Illuminate your living quarters with a Bumpkin Wall Sconce.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-      ],
-      image: "../public/erc1155/images/2070.png",
-    },
   },
   "Gourmet Hourglass": {
     image: gourmetHourglass,
@@ -19172,16 +8553,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "Reduces cooking time by 50% for 4 hours.",
       fr: "Reduces cooking time by 50% for 4 hours.",
       tk: "Reduces cooking time by 50% for 4 hours.",
-    },
-    opensea: {
-      description: "Reduces cooking time by 50% for 4 hours.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-      ],
-      image: "../public/erc1155/images/2071.png",
     },
   },
   "Harvest Hourglass": {
@@ -19193,16 +8564,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Reduces crop growth time by 25% for 6 hours.",
       tk: "Reduces crop growth time by 25% for 6 hours.",
     },
-    opensea: {
-      description: "Reduces crop growth time by 25% for 6 hours.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-      ],
-      image: "../public/erc1155/images/2072.png",
-    },
   },
   "Timber Hourglass": {
     image: timberHourglass,
@@ -19212,16 +8573,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "Reduces tree recovery time by 25% for 4 hours.",
       fr: "Reduces tree recovery time by 25% for 4 hours.",
       tk: "Reduces tree recovery time by 25% for 4 hours.",
-    },
-    opensea: {
-      description: "Currency of the Factions. Use this in the Marks Shop.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-      ],
-      image: "../public/erc1155/images/2073.png",
     },
   },
   "Ore Hourglass": {
@@ -19233,16 +8584,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Reduces mineral replenish cooldown by 50% for 3 hours.",
       tk: "Reduces mineral replenish cooldown by 50% for 3 hours.",
     },
-    opensea: {
-      description: "Reduces mineral replenish cooldown by 50% for 3 hours.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-      ],
-      image: "../public/erc1155/images/2074.png",
-    },
   },
   "Orchard Hourglass": {
     image: orchardHourglass,
@@ -19252,16 +8593,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "Reduces fruit growth time by 25% for 6 hours.",
       fr: "Reduces fruit growth time by 25% for 6 hours.",
       tk: "Reduces fruit growth time by 25% for 6 hours.",
-    },
-    opensea: {
-      description: "Reduces fruit growth time by 25% for 6 hours.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-      ],
-      image: "../public/erc1155/images/2075.png",
     },
   },
   "Blossom Hourglass": {
@@ -19273,16 +8604,6 @@ export const ITEM_DETAILS: Items = {
       fr: "Reduces flower growth time by 25% for 4 hours.",
       tk: "Reduces flower growth time by 25% for 4 hours.",
     },
-    opensea: {
-      description: "Reduces flower growth time by 25% for 4 hours.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-      ],
-      image: "../public/erc1155/images/2076.png",
-    },
   },
   "Fisher's Hourglass": {
     image: fishersHourglass,
@@ -19292,16 +8613,6 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "Gives a 50% chance of +1 fish for 4 hours.",
       fr: "Gives a 50% chance of +1 fish for 4 hours.",
       tk: "Gives a 50% chance of +1 fish for 4 hours.",
-    },
-    opensea: {
-      description: "Gives a 50% chance of +1 fish for 4 hours.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-      ],
-      image: "../public/erc1155/images/2077.png",
     },
   },
   "Sunflorian Faction Rug": {
@@ -19314,17 +8625,6 @@ export const ITEM_DETAILS: Items = {
       fr: "A magnificent rug made by the talented Sunflorian faction artisans.",
       tk: "A magnificent rug made by the talented Sunflorian faction artisans.",
     },
-    opensea: {
-      description:
-        "A magnificent rug made by the talented Sunflorian faction artisans.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-      ],
-      image: "../public/erc1155/images/2078.png",
-    },
   },
   "Nightshade Faction Rug": {
     image: nightshadeFactionRug,
@@ -19335,17 +8635,6 @@ export const ITEM_DETAILS: Items = {
         "A magnificent rug made by the talented Nightshade faction artisans.",
       fr: "A magnificent rug made by the talented Nightshade faction artisans.",
       tk: "A magnificent rug made by the talented Nightshade faction artisans.",
-    },
-    opensea: {
-      description:
-        "A magnificent rug made by the talented Nightshade faction artisans.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-      ],
-      image: "../public/erc1155/images/2079.png",
     },
   },
   "Goblin Faction Rug": {
@@ -19358,17 +8647,6 @@ export const ITEM_DETAILS: Items = {
       fr: "A magnificent rug made by the talented Goblin faction artisans.",
       tk: "A magnificent rug made by the talented Goblin faction artisans.",
     },
-    opensea: {
-      description:
-        "A magnificent rug made by the talented Goblin faction artisans.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-      ],
-      image: "../public/erc1155/images/2080.png",
-    },
   },
   "Bumpkin Faction Rug": {
     image: bumpkinFactionRug,
@@ -19380,36 +8658,17 @@ export const ITEM_DETAILS: Items = {
       fr: "A magnificent rug made by the talented Bumpkin faction artisans.",
       tk: "A magnificent rug made by the talented Bumpkin faction artisans.",
     },
-    opensea: {
-      description:
-        "A magnificent rug made by the talented Bumpkin faction artisans.",
-      attributes: [
-        {
-          trait_type: "Purpose",
-          value: "Decoration",
-        },
-      ],
-      image: "../public/erc1155/images/2081.png",
-    },
   },
   "Goblin Gold Champion": {
     image: goblinGoldChampion,
     description: {
       en: "TODO",
-      pt: "TODO",
-      "zh-CN": "TODO",
-      fr: "TODO",
-      tk: "TODO",
     },
   },
   "Goblin Silver Champion": {
     image: goblinSilverChampion,
     description: {
       en: "TODO",
-      pt: "TODO",
-      "zh-CN": "TODO",
-      fr: "TODO",
-      tk: "TODO",
     },
   },
 };
