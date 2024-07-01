@@ -59,7 +59,7 @@ export class GoblinHouseScene extends FactionHouseScene {
     this.initialiseNPCs(GOBLIN_HOUSE_NPCS);
 
     this.setupPrize({ x: 240, y: 416 });
-    this.setUpPet();
+    // this.setUpPet();
   }
   update() {
     super.update();

@@ -59,7 +59,7 @@ export class BumpkinHouseScene extends FactionHouseScene {
     this.initialiseNPCs(BUMPKIN_HOUSE_NPCS);
 
     this.setupPrize({ x: 240, y: 368 });
-    this.setUpPet();
+    // this.setUpPet();
   }
 
   update() {

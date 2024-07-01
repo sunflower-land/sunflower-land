@@ -58,7 +58,7 @@ export class SunflorianHouseScene extends FactionHouseScene {
     this.initialiseNPCs(SUNFLORIAN_HOUSE_NPCS);
 
     this.setupPrize({ x: 240, y: 384 });
-    this.setUpPet();
+    // this.setUpPet();
   }
 
   update() {

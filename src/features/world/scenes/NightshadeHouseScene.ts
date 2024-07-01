@@ -78,7 +78,7 @@ export class NightshadeHouseScene extends FactionHouseScene {
     fire2.play("fire_anim", true);
 
     this.setupPrize({ x: 240, y: 416 });
-    this.setUpPet();
+    // this.setUpPet();
   }
 
   update() {
