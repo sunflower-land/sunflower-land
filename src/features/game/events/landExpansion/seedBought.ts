@@ -92,7 +92,7 @@ export function seedBought({ state, action }: Options) {
     stateCopy.inventory[requiredPlantingSpot]?.lessThan(1)
   ) {
     throw new Error(
-      "You do not have the planting spot needed to plant this seed"
+      "You do not have the planting spot needed to plant this seed",
     );
   }
 
