@@ -138,6 +138,86 @@ export const DECORATION_TEMPLATES = {
     },
     isWithdrawable: () => false,
   },
+  "Goblin Bronze Champion": {
+    dimensions: {
+      width: 2,
+      height: 1,
+      offsetY: 2,
+    },
+    isWithdrawable: () => false,
+  },
+  "Bumpkin Gold Champion": {
+    dimensions: {
+      width: 2,
+      height: 1,
+      offsetY: 2,
+    },
+    isWithdrawable: () => false,
+  },
+  "Bumpkin Silver Champion": {
+    dimensions: {
+      width: 2,
+      height: 1,
+      offsetY: 2,
+    },
+    isWithdrawable: () => false,
+  },
+  "Bumpkin Bronze Champion": {
+    dimensions: {
+      width: 2,
+      height: 1,
+      offsetY: 2,
+    },
+    isWithdrawable: () => false,
+  },
+  "Sunflorian Gold Champion": {
+    dimensions: {
+      width: 2,
+      height: 1,
+      offsetY: 2,
+    },
+    isWithdrawable: () => false,
+  },
+  "Sunflorian Silver Champion": {
+    dimensions: {
+      width: 2,
+      height: 1,
+      offsetY: 2,
+    },
+    isWithdrawable: () => false,
+  },
+  "Sunflorian Bronze Champion": {
+    dimensions: {
+      width: 2,
+      height: 1,
+      offsetY: 2,
+    },
+    isWithdrawable: () => false,
+  },
+  "Nightshade Gold Champion": {
+    dimensions: {
+      width: 2,
+      height: 1,
+      offsetY: 2,
+    },
+    isWithdrawable: () => false,
+  },
+  "Nightshade Silver Champion": {
+    dimensions: {
+      width: 2,
+      height: 1,
+      offsetY: 2,
+    },
+    isWithdrawable: () => false,
+  },
+  "Nightshade Bronze Champion": {
+    dimensions: {
+      width: 2,
+      height: 1,
+      offsetY: 2,
+    },
+    isWithdrawable: () => false,
+  },
 } satisfies Record<string, Template>;
 
 export type TemplateDecorationName= keyof typeof DECORATION_TEMPLATES

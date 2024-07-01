@@ -733,6 +733,16 @@ import goldenCrop from "assets/events/golden_crop/golden_crop.gif";
 
 import goblinGoldChampion from "assets/sfts/goblin_gold_champion.png";
 import goblinSilverChampion from "assets/sfts/goblin_silver_champion.png";
+import goblinBronzeChampion from "assets/sfts/goblin_bronze_champion.png";
+import bumpkinGoldChampion from "assets/sfts/bumpkin_gold_champion.png";
+import bumpkinSilverChampion from "assets/sfts/bumpkin_silver_champion.png";
+import bumpkinBronzeChampion from "assets/sfts/bumpkin_bronze_champion.png";
+import nightshadeGoldChampion from "assets/sfts/nightshade_gold_champion.png";
+import nightshadeSilverChampion from "assets/sfts/nightshade_silver_champion.png";
+import nightshadeBronzeChampion from "assets/sfts/nightshade_bronze_champion.png";
+import sunflorianGoldChampion from "assets/sfts/sunflorian_gold_champion.png";
+import sunflorianSilverChampion from "assets/sfts/sunflorian_silver_champion.png";
+import sunflorianBronzeChampion from "assets/sfts/sunflorian_bronze_champion.png";
 
 import { InventoryItemName } from "./game";
 
@@ -8662,13 +8672,73 @@ export const ITEM_DETAILS: Items = {
   "Goblin Gold Champion": {
     image: goblinGoldChampion,
     description: {
-      en: "TODO",
+      en: "The ultimate champion among Goblins, revered for unparalleled skill and cunning.",
     },
   },
   "Goblin Silver Champion": {
     image: goblinSilverChampion,
     description: {
-      en: "TODO",
+      en: "A distinguished Goblin warrior, honored for exceptional bravery and strategic prowess.",
+    },
+  },
+  "Goblin Bronze Champion": {
+    image: goblinBronzeChampion,
+    description: {
+      en: "A skilled Goblin competitor, recognized for tenacity and quick thinking.",
+    },
+  },
+  "Bumpkin Bronze Champion": {
+    image: bumpkinBronzeChampion,
+    description: {
+      en: "A humble yet formidable Bumpkin champion, celebrated for steadfast determination.",
+    },
+  },
+  "Bumpkin Gold Champion": {
+    image: bumpkinSilverChampion,
+    description: {
+      en: "The premier Bumpkin champion, known for unmatched dedication and skill.",
+    },
+  },
+  "Bumpkin Silver Champion": {
+    image: bumpkinGoldChampion,
+    description: {
+      en: "A respected Bumpkin competitor, esteemed for resilience and clever strategy.",
+    },
+  },
+  "Nightshade Bronze Champion": {
+    image: nightshadeBronzeChampion,
+    description: {
+      en: "A shadowy Nightshade champion, feared for agility and cunning tactics.",
+    },
+  },
+  "Nightshade Gold Champion": {
+    image: nightshadeGoldChampion,
+    description: {
+      en: "The elite Nightshade champion, renowned for deadly precision and strategic brilliance.",
+    },
+  },
+  "Nightshade Silver Champion": {
+    image: nightshadeSilverChampion,
+    description: {
+      en: "A skilled Nightshade warrior, acknowledged for stealth and decisive action.",
+    },
+  },
+  "Sunflorian Bronze Champion": {
+    image: sunflorianBronzeChampion,
+    description: {
+      en: "A radiant Sunflorian champion, celebrated for courage and noble spirit.",
+    },
+  },
+  "Sunflorian Gold Champion": {
+    image: sunflorianGoldChampion,
+    description: {
+      en: "The illustrious Sunflorian champion, revered for valor and unwavering determination.",
+    },
+  },
+  "Sunflorian Silver Champion": {
+    image: sunflorianSilverChampion,
+    description: {
+      en: "An esteemed Sunflorian competitor, known for grace and strategic acumen.",
     },
   },
 };
