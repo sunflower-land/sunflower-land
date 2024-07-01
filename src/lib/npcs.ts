@@ -95,7 +95,11 @@ export type NPCName =
   | "buttercup"
   | "shadow"
   | "flora"
-  | "eldric";
+  | "eldric"
+  | "blaze" // sunflorian pet
+  | "snaggle" // goblin pet
+  | "tater" // bumpkin pet
+  | "sable"; // nightshade pet
 
 export const NPC_WEARABLES: Record<NPCName, Equipped> = {
   "chef tuck": {
@@ -1045,6 +1049,43 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     shoes: "Sunflorian Sabatons",
     tool: "Goblin Axe",
     coat: "Royal Robe",
+  },
+  // Placeholder values. Pets are an image.
+  blaze: {
+    body: "Sunburst Potion",
+    hair: "Blondie",
+    shirt: "Fancy Top",
+    pants: "Sunflorian Pants",
+    tool: "Sunflorian Sword",
+    background: "Farm Background",
+    shoes: "Sunflorian Sabatons",
+  },
+  tater: {
+    body: "Sunburst Potion",
+    hair: "Blondie",
+    shirt: "Fancy Top",
+    pants: "Sunflorian Pants",
+    tool: "Sunflorian Sword",
+    background: "Farm Background",
+    shoes: "Sunflorian Sabatons",
+  },
+  snaggle: {
+    body: "Sunburst Potion",
+    hair: "Blondie",
+    shirt: "Fancy Top",
+    pants: "Sunflorian Pants",
+    tool: "Sunflorian Sword",
+    background: "Farm Background",
+    shoes: "Sunflorian Sabatons",
+  },
+  sable: {
+    body: "Sunburst Potion",
+    hair: "Blondie",
+    shirt: "Fancy Top",
+    pants: "Sunflorian Pants",
+    tool: "Sunflorian Sword",
+    background: "Farm Background",
+    shoes: "Sunflorian Sabatons",
   },
 };
 
