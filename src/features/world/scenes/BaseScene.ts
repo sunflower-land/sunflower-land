@@ -315,7 +315,7 @@ export abstract class BaseScene extends Phaser.Scene {
     }
 
     // Debugging purposes - display colliders in pink
-    this.physics.world.drawDebug = false;
+    this.physics.world.drawDebug = true;
 
     // Set up the Z layers to draw in correct order
     const TOP_LAYERS = [
