@@ -795,13 +795,10 @@ export type ChoreV2 = {
 };
 
 export type KingdomChores = {
-  chores: Record<number, KingdomChore>;
+  chores: KingdomChore[];
   choresCompleted: number;
   choresSkipped: number;
-  weeklyChoresCompleted: number[];
-  weeklyChoresSkipped: number[];
-  activeChores: Record<number, { startCount: number; startedAt: number }>;
-  resetsAt: number | undefined;
+  resetsAt?: number;
 };
 
 export type KingdomChore = {
@@ -810,7 +807,12 @@ export type KingdomChore = {
   image: InventoryItemName;
   requirement: number;
   marks: number;
-};
+  completedAt?: number;
+  skippedAt?: number;
+} & (
+  | { startedAt: number; startCount: number }
+  | { startedAt?: never; startCount?: never }
+);
 
 export type SeasonWeek = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13;
 

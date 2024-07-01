@@ -1,11 +1,10 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useLayoutEffect, useState } from "react";
 import { useSelector } from "@xstate/react";
 
 import { Box } from "components/ui/Box";
 import { Button } from "components/ui/Button";
 import { Context } from "features/game/GameProvider";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { getKeys } from "features/game/types/craftables";
 
 import { SplitScreenView } from "components/ui/SplitScreenView";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -19,7 +18,7 @@ import { secondsToString } from "lib/utils/time";
 import { InlineDialogue } from "../../TypingMessage";
 
 interface Props {
-  chores: KingdomChores;
+  kingdomChores: KingdomChores;
   onClose: () => void;
 }
 
@@ -27,32 +26,63 @@ const WEEKLY_CHORES = 21;
 const _autosaving = (state: MachineState) => state.matches("autosaving");
 const _bumpkin = (state: MachineState) => state.context.state.bumpkin;
 
-export const Chores: React.FC<Props> = ({ chores }) => {
+export const Chores: React.FC<Props> = ({ kingdomChores }) => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
-  const [selectedIndex, setSelectedIndex] = useState<number>(0);
 
   const [isSkipping, setIsSkipping] = useState(false);
 
   const autosaving = useSelector(gameService, _autosaving);
   const bumpkin = useSelector(gameService, _bumpkin);
 
-  const handleComplete = (id: any) => {
-    gameService.send("kingdomChore.completed", { id: Number(id) });
+  const [selected, setSelected] = useState<number>(0);
+
+  useLayoutEffect(() => {
+    const chore = kingdomChores.chores[selected];
+    if (!chore.completedAt && !chore.skippedAt) {
+      return;
+    }
+
+    let nextChore = chores
+      .slice(selected + 1)
+      .find(
+        ([, chore]) => chore.startedAt && !chore.completedAt && !chore.skippedAt
+      );
+
+    if (nextChore) {
+      setSelected(Number(nextChore[0]));
+      return;
+    }
+
+    nextChore = chores
+      .slice(0, selected)
+      .reverse()
+      .find(
+        ([, chore]) => chore.startedAt && !chore.completedAt && !chore.skippedAt
+      );
+
+    if (nextChore) {
+      setSelected(Number(nextChore[0]));
+      return;
+    }
+  }, [kingdomChores]);
+
+  const chores = Object.entries(kingdomChores.chores);
+
+  const activeChores = chores.filter(
+    ([, chore]) => chore.startedAt && !chore.completedAt && !chore.skippedAt
+  );
+  const completedChores = chores.filter(([, chore]) => chore.completedAt);
+  const upcomingChores = chores.filter(([, chore]) => !chore.startedAt);
+
+  const completedCount = completedChores.length;
+
+  const handleComplete = (index: number) => {
+    gameService.send("kingdomChore.completed", { id: index });
     gameService.send("SAVE");
   };
 
-  const findAndSetIndex = (choreId: number) => {
-    const index = getKeys(chores.chores ?? {}).findIndex(
-      (chore) => Number(chore) === Number(choreId)
-    );
-
-    setSelectedIndex(Math.max(index, 0));
-  };
-
-  const numChores = getKeys(chores.chores ?? {}).length;
-
-  if (numChores === 0) {
+  if (kingdomChores.chores.length === 0) {
     return (
       <InnerPanel>
         <div
@@ -69,16 +99,10 @@ export const Chores: React.FC<Props> = ({ chores }) => {
     );
   }
 
-  const choreIndex = Math.min(selectedIndex, numChores - 1);
-  const selected = getKeys(chores.chores)[choreIndex];
-  const choreSelected = chores.chores[selected];
-
-  const getProgress = (id: number) => {
-    if (!chores.activeChores[id]) return 0;
-
+  const getProgress = (index: number) => {
     return (
-      (bumpkin?.activity?.[chores.chores[id].activity] ?? 0) -
-      (chores.activeChores[id].startCount ?? 0)
+      (bumpkin?.activity?.[kingdomChores.chores[index].activity] ?? 0) -
+      (kingdomChores.chores[index].startCount ?? 0)
     );
   };
 
@@ -87,8 +111,9 @@ export const Chores: React.FC<Props> = ({ chores }) => {
   //   gameService.send("chore.skipped", { id: Number(id) });
   //   gameService.send("SAVE");
   // };
+  const selectedChore = kingdomChores.chores[selected];
 
-  const canComplete = getProgress(selected) >= choreSelected.requirement;
+  const canComplete = getProgress(selected) >= selectedChore.requirement;
 
   if (isSkipping && autosaving) {
     return (
@@ -103,64 +128,59 @@ export const Chores: React.FC<Props> = ({ chores }) => {
       panel={
         <Panel
           canComplete={canComplete}
-          description={choreSelected.description}
+          description={selectedChore.description}
           onComplete={() => handleComplete(selected)}
-          image={choreSelected.image}
-          marks={choreSelected.marks}
-          resetsAt={chores.resetsAt}
+          image={selectedChore.image}
+          marks={selectedChore.marks}
+          resetsAt={kingdomChores.resetsAt}
         />
       }
       content={
         <>
-          <div className="flex flex-col pl-2 mb-2 w-full">
+          <div className="flex flex-col mb-2 w-full">
             {
-              <div className="flex flex-row justify-between">
+              <div className="flex flex-row justify-between pl-1 ">
                 <Label type="default" className="text-center">
                   {`Chores`}
                 </Label>
                 <p className="text-xxs">
-                  {chores.weeklyChoresCompleted.length} {t("completed")}
+                  {completedCount} {t("completed")}
                 </p>
               </div>
             }
-            <div className="flex mb-2 flex-wrap -ml-1.5">
-              {getKeys(chores.chores)
-                .filter((choreId) => chores.activeChores[choreId] !== undefined)
-                .map((choreId, i) => (
-                  <Box
-                    key={choreId}
-                    onClick={() => findAndSetIndex(choreId)}
-                    isSelected={selected === choreId}
-                    image={ITEM_DETAILS[chores.chores[choreId].image].image}
-                  />
-                ))}
+            <div className="flex mb-2 flex-wrap pl-0.5">
+              {activeChores.map(([choreId, chore]) => (
+                <Box
+                  key={choreId}
+                  onClick={() => setSelected(Number(choreId))}
+                  isSelected={selected === Number(choreId)}
+                  image={ITEM_DETAILS[chore.image].image}
+                />
+              ))}
             </div>
           </div>
-          <div className="flex flex-col pl-2 mb-2 w-full">
+          <div className="flex flex-col mb-2 w-full">
             {
-              <div className="flex flex-row justify-between">
+              <div className="flex flex-row justify-between pl-1">
                 <Label type="default" className="text-center">
                   {`Upcoming`}
                 </Label>
                 <p className="text-xxs">
-                  {t("chores.left", {
-                    chores: WEEKLY_CHORES - chores.weeklyChoresCompleted.length,
+                  {t("chores.upcoming", {
+                    chores: WEEKLY_CHORES - activeChores.length,
                   })}
                 </p>
               </div>
             }
-            <div className="flex mb-2 flex-wrap -ml-1.5">
-              {getKeys(chores.chores)
-                .filter((choreId) => chores.activeChores[choreId] === undefined)
-                .slice(0, 3)
-                .map((choreId, i) => (
-                  <Box
-                    key={choreId}
-                    onClick={() => findAndSetIndex(choreId)}
-                    isSelected={selected === choreId}
-                    image={ITEM_DETAILS[chores.chores[choreId].image].image}
-                  />
-                ))}
+            <div className="flex flex-wrap pl-0.5">
+              {upcomingChores.slice(0, 3).map(([choreId, chore]) => (
+                <Box
+                  key={choreId}
+                  onClick={() => setSelected(Number(choreId))}
+                  isSelected={selected === Number(choreId)}
+                  image={ITEM_DETAILS[chore.image].image}
+                />
+              ))}
             </div>
           </div>
         </>

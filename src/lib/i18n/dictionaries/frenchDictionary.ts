@@ -1249,7 +1249,7 @@ const choresStart: Record<ChoresStart, string> = {
   "chores.newSeason":
     "Une nouvelle saison approche, les tâches seront temporairement fermées.",
   "chores.choresFrozen": ENGLISH_TERMS["chores.choresFrozen"],
-  "chores.left": ENGLISH_TERMS["chores.left"],
+  "chores.upcoming": ENGLISH_TERMS["chores.upcoming"],
 };
 
 const chumDetails: Record<ChumDetails, string> = {

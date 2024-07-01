@@ -1142,7 +1142,7 @@ const choresStart: Record<ChoresStart, string> = {
   "chores.newSeason": "新时季就要来临，日常农活暂时停单。",
   "chores.choresFrozen":
     "新时季日常农活即将发单。先前时季的日常农活与进度会被重置。",
-  "chores.left": ENGLISH_TERMS["chores.left"],
+  "chores.upcoming": ENGLISH_TERMS["chores.upcoming"],
 };
 
 const chumDetails: Record<ChumDetails, string> = {

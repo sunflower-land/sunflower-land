@@ -2,6 +2,31 @@ import Decimal from "decimal.js-light";
 import { Bumpkin, GameState, KingdomChore } from "features/game/types/game";
 import cloneDeep from "lodash.clonedeep";
 
+export function makeKingdomChores(
+  chores: KingdomChore[],
+  bumpkin: Bumpkin | undefined,
+  createdAt: number
+): KingdomChore[] {
+  const updatedChores = chores;
+
+  // Ensure the first three chores are started
+  updatedChores
+    .filter(
+      (chore) =>
+        chore.completedAt === undefined && chore.skippedAt === undefined
+    )
+    .slice(0, 3)
+    .forEach((chore) => {
+      chore.startedAt = chore.startedAt ?? createdAt;
+      // TODO feat/kingdom-chores-logic - REMOVE
+      chore.startCount = -1000;
+      // chore.startCount =
+      //   chore.startCount ?? bumpkin?.activity[chore.activity] ?? 0;
+    });
+
+  return updatedChores;
+}
+
 export type CompleteKingdomChoreAction = {
   type: "kingdomChore.completed";
   id: number;
@@ -13,59 +38,6 @@ type Options = {
   createdAt?: number;
   farmId?: number;
 };
-
-type Props = {
-  bumpkin: Bumpkin | undefined;
-  choresCompleted: number[];
-  choresSkipped: number[];
-  existingActiveChores: Record<
-    number,
-    { startCount: number; startedAt: number }
-  >;
-  createdAt: number;
-  chores: Record<number, KingdomChore>;
-};
-
-export function makeActiveChores({
-  bumpkin,
-  choresCompleted,
-  existingActiveChores,
-  choresSkipped,
-  createdAt,
-  chores,
-}: Props) {
-  const activeChores = Object.entries(chores)
-    .filter(([key]) => !choresCompleted.includes(Number(key)))
-    .filter(([key]) => !choresSkipped.includes(Number(key)))
-    .slice(0, 3)
-    .map(([key, choreName]) => {
-      return [
-        key,
-        {
-          startCount:
-            existingActiveChores[Number(key)]?.startCount ??
-            bumpkin?.activity?.[choreName.activity] ??
-            0,
-          startedAt: createdAt,
-        },
-      ];
-    });
-
-  return Object.fromEntries(activeChores);
-}
-
-export function makeKingdomChores(
-  choresCompleted: number[],
-  choresSkipped: number[],
-  existingChores: Record<number, KingdomChore>
-): Record<number, KingdomChore> {
-  const chores = Object.entries(existingChores)
-    .filter(([key]) => !choresCompleted.includes(Number(key)))
-    .filter(([key]) => !choresSkipped.includes(Number(key)))
-    .slice(0, 9);
-
-  return Object.fromEntries(chores);
-}
 
 export function completeKingdomChore({
   state,
@@ -86,48 +58,33 @@ export function completeKingdomChore({
     throw new Error("No bumpkin found");
   }
 
-  if (kingdomChores.weeklyChoresCompleted.includes(id)) {
+  if (chore.completedAt !== undefined) {
     throw new Error("Chore is already completed");
   }
 
-  if (kingdomChores.weeklyChoresSkipped.includes(id)) {
+  if (chore.skippedAt !== undefined) {
     throw new Error("Chore was already skipped");
   }
 
-  if (kingdomChores.activeChores[id] === undefined) {
+  if (chore.startedAt === undefined) {
     throw new Error("Chore is not active");
   }
 
   const progress =
-    bumpkin?.activity?.[chore.activity] ??
-    0 - kingdomChores.activeChores[id].startCount;
+    (bumpkin?.activity?.[chore.activity] ?? 0) - chore.startCount;
 
   if (progress < chore.requirement) {
     throw new Error("Chore is not completed");
   }
 
-  kingdomChores.weeklyChoresCompleted = [
-    ...kingdomChores.weeklyChoresCompleted,
-    id,
-  ];
+  chore.completedAt = createdAt;
 
   kingdomChores.choresCompleted += 1;
 
-  delete kingdomChores.activeChores[id];
-
-  kingdomChores.activeChores = makeActiveChores({
-    bumpkin,
-    choresCompleted: kingdomChores.weeklyChoresCompleted,
-    choresSkipped: kingdomChores.weeklyChoresSkipped,
-    existingActiveChores: kingdomChores.activeChores,
-    createdAt,
-    chores: kingdomChores.chores,
-  });
-
   kingdomChores.chores = makeKingdomChores(
-    kingdomChores.weeklyChoresCompleted,
-    kingdomChores.weeklyChoresSkipped,
-    kingdomChores.chores
+    kingdomChores.chores,
+    bumpkin,
+    createdAt
   );
 
   const previousMarks = inventory["Mark"] ?? new Decimal(0);

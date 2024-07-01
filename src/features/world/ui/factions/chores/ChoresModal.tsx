@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 
 import { NPCName, NPC_WEARABLES } from "lib/npcs";
 import { Chores } from "./Chores";
-import { useActor, useSelector } from "@xstate/react";
+import { useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
 import { MachineState } from "features/game/lib/gameMachine";
 import { OuterPanel } from "components/ui/Panel";
@@ -12,21 +12,17 @@ interface Props {
   npc: NPCName;
 }
 
-const _chores = (state: MachineState) => state.context.state.kingdomChores;
+const _kingdomChores = (state: MachineState) =>
+  state.context.state.kingdomChores;
 
 export const ChoresModal: React.FC<Props> = ({ onClose, npc }) => {
   const { gameService } = useContext(Context);
-  const [
-    {
-      context: { state },
-    },
-  ] = useActor(gameService);
 
-  const chores = useSelector(gameService, _chores);
+  const kingdomChores = useSelector(gameService, _kingdomChores);
 
   return (
     <OuterPanel bumpkinParts={NPC_WEARABLES[npc]}>
-      <Chores chores={chores} onClose={onClose} npc={npc} />
+      <Chores kingdomChores={kingdomChores} onClose={onClose} />
     </OuterPanel>
   );
 };

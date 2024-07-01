@@ -12,7 +12,7 @@ describe("kingdomChore.completed", () => {
       completeKingdomChore({
         action: {
           type: "kingdomChore.completed",
-          id: 1,
+          id: 0,
         },
         state: {
           ...TEST_FARM,
@@ -20,11 +20,8 @@ describe("kingdomChore.completed", () => {
           kingdomChores: {
             choresCompleted: 0,
             choresSkipped: 0,
-            chores: {},
-            weeklyChoresCompleted: [],
-            weeklyChoresSkipped: [],
-            activeChores: {},
-            resetsAt: 0,
+            chores: [],
+            resetsAt: Date.now() + 1000 * 60 * 60 * 24 * 7,
           },
         },
       })
@@ -36,7 +33,7 @@ describe("kingdomChore.completed", () => {
       completeKingdomChore({
         action: {
           type: "kingdomChore.completed",
-          id: 1,
+          id: 0,
         },
         state: {
           ...TEST_FARM,
@@ -44,11 +41,8 @@ describe("kingdomChore.completed", () => {
           kingdomChores: {
             choresCompleted: 0,
             choresSkipped: 0,
-            chores: {},
-            weeklyChoresCompleted: [],
-            weeklyChoresSkipped: [],
-            activeChores: {},
-            resetsAt: 0,
+            chores: [],
+            resetsAt: Date.now() + 1000 * 60 * 60 * 24 * 7,
           },
         },
       })
@@ -60,7 +54,7 @@ describe("kingdomChore.completed", () => {
       completeKingdomChore({
         action: {
           type: "kingdomChore.completed",
-          id: 1,
+          id: 0,
         },
         state: {
           ...TEST_FARM,
@@ -68,31 +62,28 @@ describe("kingdomChore.completed", () => {
           kingdomChores: {
             choresCompleted: 0,
             choresSkipped: 0,
-            chores: {
-              1: {
+            chores: [
+              {
                 activity: "Sunflower Harvested",
                 description: "Harvest 30 Sunflowers",
                 requirement: 30,
                 marks: 3,
                 image: "Sunflower",
               },
-            },
-            weeklyChoresCompleted: [],
-            weeklyChoresSkipped: [],
-            activeChores: {},
-            resetsAt: 0,
+            ],
+            resetsAt: Date.now() + 1000 * 60 * 60 * 24 * 7,
           },
         },
       })
     ).toThrow("Chore is not active");
   });
 
-  it("throws an error if chore is not complete", () => {
+  it("throws an error if chore is not finished", () => {
     expect(() =>
       completeKingdomChore({
         action: {
           type: "kingdomChore.completed",
-          id: 1,
+          id: 0,
         },
         state: {
           ...TEST_FARM,
@@ -105,19 +96,18 @@ describe("kingdomChore.completed", () => {
           kingdomChores: {
             choresCompleted: 0,
             choresSkipped: 0,
-            chores: {
-              1: {
+            chores: [
+              {
                 activity: "Sunflower Harvested",
                 description: "Harvest 30 Sunflowers",
                 requirement: 30,
                 marks: 3,
                 image: "Sunflower",
+                startedAt: 0,
+                startCount: 0,
               },
-            },
-            weeklyChoresCompleted: [],
-            weeklyChoresSkipped: [],
-            activeChores: { 1: { startCount: 0, startedAt: 0 } },
-            resetsAt: 0,
+            ],
+            resetsAt: Date.now() + 1000 * 60 * 60 * 24 * 7,
           },
         },
       })
@@ -129,7 +119,7 @@ describe("kingdomChore.completed", () => {
       completeKingdomChore({
         action: {
           type: "kingdomChore.completed",
-          id: 1,
+          id: 0,
         },
         state: {
           ...TEST_FARM,
@@ -142,19 +132,17 @@ describe("kingdomChore.completed", () => {
           kingdomChores: {
             choresCompleted: 0,
             choresSkipped: 0,
-            chores: {
-              1: {
+            chores: [
+              {
                 activity: "Sunflower Harvested",
                 description: "Harvest 30 Sunflowers",
                 requirement: 30,
                 marks: 3,
                 image: "Sunflower",
+                completedAt: 0,
               },
-            },
-            weeklyChoresCompleted: [1],
-            weeklyChoresSkipped: [],
-            activeChores: {},
-            resetsAt: 0,
+            ],
+            resetsAt: Date.now() + 1000 * 60 * 60 * 24 * 7,
           },
         },
       })
@@ -166,7 +154,7 @@ describe("kingdomChore.completed", () => {
       completeKingdomChore({
         action: {
           type: "kingdomChore.completed",
-          id: 1,
+          id: 0,
         },
         state: {
           ...TEST_FARM,
@@ -179,19 +167,17 @@ describe("kingdomChore.completed", () => {
           kingdomChores: {
             choresCompleted: 0,
             choresSkipped: 0,
-            chores: {
-              1: {
+            chores: [
+              {
                 activity: "Sunflower Harvested",
                 description: "Harvest 30 Sunflowers",
                 requirement: 30,
                 marks: 3,
                 image: "Sunflower",
+                skippedAt: 0,
               },
-            },
-            weeklyChoresCompleted: [],
-            weeklyChoresSkipped: [1],
-            activeChores: {},
-            resetsAt: 0,
+            ],
+            resetsAt: Date.now() + 1000 * 60 * 60 * 24 * 7,
           },
         },
       })
@@ -202,7 +188,7 @@ describe("kingdomChore.completed", () => {
     const result = completeKingdomChore({
       action: {
         type: "kingdomChore.completed",
-        id: 1,
+        id: 0,
       },
       state: {
         ...TEST_FARM,
@@ -215,19 +201,18 @@ describe("kingdomChore.completed", () => {
         kingdomChores: {
           choresCompleted: 0,
           choresSkipped: 0,
-          chores: {
-            1: {
+          chores: [
+            {
               activity: "Sunflower Harvested",
               description: "Harvest 30 Sunflowers",
               requirement: 30,
               marks: 3,
               image: "Sunflower",
+              startedAt: 0,
+              startCount: 0,
             },
-          },
-          weeklyChoresCompleted: [],
-          weeklyChoresSkipped: [],
-          activeChores: { 1: { startCount: 0, startedAt: 0 } },
-          resetsAt: 0,
+          ],
+          resetsAt: Date.now() + 1000 * 60 * 60 * 24 * 7,
         },
       },
     });
@@ -239,7 +224,7 @@ describe("kingdomChore.completed", () => {
     const result = completeKingdomChore({
       action: {
         type: "kingdomChore.completed",
-        id: 1,
+        id: 0,
       },
       state: {
         ...TEST_FARM,
@@ -252,19 +237,18 @@ describe("kingdomChore.completed", () => {
         kingdomChores: {
           choresCompleted: 0,
           choresSkipped: 0,
-          chores: {
-            1: {
+          chores: [
+            {
               activity: "Sunflower Harvested",
               description: "Harvest 30 Sunflowers",
               requirement: 30,
               marks: 3,
               image: "Sunflower",
+              startedAt: 0,
+              startCount: 0,
             },
-          },
-          weeklyChoresCompleted: [],
-          weeklyChoresSkipped: [],
-          activeChores: { 1: { startCount: 0, startedAt: 0 } },
-          resetsAt: 0,
+          ],
+          resetsAt: Date.now() + 1000 * 60 * 60 * 24 * 7,
         },
       },
     });
@@ -274,10 +258,12 @@ describe("kingdomChore.completed", () => {
 
   it("marks the chore as completed", () => {
     const now = Date.now();
+    const choreId = 0;
+
     const result = completeKingdomChore({
       action: {
         type: "kingdomChore.completed",
-        id: 1,
+        id: choreId,
       },
       state: {
         ...TEST_FARM,
@@ -290,24 +276,23 @@ describe("kingdomChore.completed", () => {
         kingdomChores: {
           choresCompleted: 0,
           choresSkipped: 0,
-          chores: {
-            1: {
+          chores: [
+            {
               activity: "Sunflower Harvested",
               description: "Harvest 30 Sunflowers",
               requirement: 30,
               marks: 3,
               image: "Sunflower",
+              startedAt: now,
+              startCount: 0,
             },
-          },
-          weeklyChoresCompleted: [],
-          weeklyChoresSkipped: [],
-          activeChores: { 1: { startCount: 0, startedAt: 0 } },
-          resetsAt: 0,
+          ],
+          resetsAt: now + 1000 * 60 * 60 * 24 * 7,
         },
       },
       createdAt: now,
     });
 
-    expect(result.kingdomChores?.weeklyChoresCompleted).toStrictEqual([1]);
+    expect(result.kingdomChores.chores[choreId].completedAt).toBe(now);
   });
 });
