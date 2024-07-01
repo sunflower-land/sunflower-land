@@ -9,7 +9,7 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { SplitScreenView } from "components/ui/SplitScreenView";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { MachineState } from "features/game/lib/gameMachine";
-import { InnerPanel, OuterPanel } from "components/ui/Panel";
+import { InnerPanel } from "components/ui/Panel";
 import { SquareIcon } from "components/ui/SquareIcon";
 import {
   InventoryItemName,
@@ -23,10 +23,10 @@ import { InlineDialogue } from "../../TypingMessage";
 import { NPCName } from "lib/npcs";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 import classNames from "classnames";
+import { ModalOverlay } from "components/ui/ModalOverlay";
 
 interface Props {
   kingdomChores: KingdomChores;
-  npc: NPCName;
   onClose: () => void;
 }
 
@@ -34,7 +34,7 @@ const WEEKLY_CHORES = 21;
 const _autosaving = (state: MachineState) => state.matches("autosaving");
 const _bumpkin = (state: MachineState) => state.context.state.bumpkin;
 
-export const Chores: React.FC<Props> = ({ kingdomChores, npc }) => {
+export const KingdomChoresContent: React.FC<Props> = ({ kingdomChores }) => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
 
@@ -42,6 +42,8 @@ export const Chores: React.FC<Props> = ({ kingdomChores, npc }) => {
   const bumpkin = useSelector(gameService, _bumpkin);
 
   const [selected, setSelected] = useState<number>(0);
+  const [showSkipConfirmation, setShowSkipConfirmation] =
+    useState<boolean>(false);
 
   useLayoutEffect(() => {
     const chore = kingdomChores.chores[selected];
@@ -91,6 +93,11 @@ export const Chores: React.FC<Props> = ({ kingdomChores, npc }) => {
   };
 
   const handleSkip = (index: number) => {
+    setShowSkipConfirmation(true);
+  };
+
+  const confirmSkip = (index: number) => {
+    setShowSkipConfirmation(false);
     gameService.send("kingdomChore.skipped", { id: index });
     gameService.send("SAVE");
   };
@@ -145,6 +152,7 @@ export const Chores: React.FC<Props> = ({ kingdomChores, npc }) => {
       />
       <div className="p-1">
         <SplitScreenView
+          mobileReversePanelOrder={true}
           panel={
             <Panel
               canComplete={canComplete}
@@ -152,13 +160,14 @@ export const Chores: React.FC<Props> = ({ kingdomChores, npc }) => {
               onComplete={() => handleComplete(selected)}
               onSkip={() => handleSkip(selected)}
               isRefreshing={isRefreshing}
+              skipAvailableAt={kingdomChores.skipAvailableAt ?? 0}
             />
           }
           content={
             <>
               <div className="flex flex-col mb-2 w-full">
                 {
-                  <div className="flex flex-row justify-between pl-1">
+                  <div className="flex flex-row items-center justify-between px-1">
                     <Label type="default" className="text-center">
                       {`Chores`}
                     </Label>
@@ -183,7 +192,7 @@ export const Chores: React.FC<Props> = ({ kingdomChores, npc }) => {
               </div>
               <div className="flex flex-col mb-2 w-full">
                 {
-                  <div className="flex flex-row justify-between pl-1">
+                  <div className="flex flex-row items-center justify-between px-1">
                     <Label type="default" className="text-center">
                       {`Upcoming`}
                     </Label>
@@ -211,6 +220,17 @@ export const Chores: React.FC<Props> = ({ kingdomChores, npc }) => {
             </>
           }
         />
+        <ModalOverlay
+          className="inset-3 top-4"
+          show={showSkipConfirmation}
+          onBackdropClick={() => setShowSkipConfirmation(false)}
+        >
+          <ConfirmSkip
+            chore={selectedChore}
+            onConfirm={() => confirmSkip(selected)}
+            onBack={() => setShowSkipConfirmation(false)}
+          />
+        </ModalOverlay>
       </div>
     </>
   );
@@ -222,56 +242,113 @@ type PanelProps = {
   onSkip: () => void;
   chore: KingdomChore;
   isRefreshing: boolean;
+  skipAvailableAt: number;
 };
 
 const Panel: React.FC<PanelProps> = ({
   canComplete,
+  skipAvailableAt,
   onComplete,
   onSkip,
   chore,
   isRefreshing,
 }: PanelProps) => {
+  useUiRefresher();
+
+  const canSkip = skipAvailableAt < Date.now();
+
   return (
     <div className="flex flex-col justify-center">
-      <div className="px-1 py-1">
-        <div className="flex space-x-2 justify-start items-center sm:flex-col-reverse md:space-x-0">
-          {ITEM_DETAILS[chore.image].image && (
-            <div className="sm:mt-2">
-              <SquareIcon icon={ITEM_DETAILS[chore.image].image} width={14} />
-            </div>
-          )}
-          <span className="sm:text-center">{chore.description}</span>
-        </div>
-        <div className="flex flex-col space-y-1 mt-2">
-          <div className="flex justify-start sm:justify-center">
-            <Label type="warning" className="text-center">
-              {chore.marks} {`Marks`}
-            </Label>
+      <div className="flex space-x-2 justify-start items-center sm:flex-col-reverse md:space-x-0 p-1">
+        {ITEM_DETAILS[chore.image].image && (
+          <div className="sm:mt-2">
+            <SquareIcon icon={ITEM_DETAILS[chore.image].image} width={14} />
           </div>
-        </div>
+        )}
+        <span className="sm:text-center">{chore.description}</span>
       </div>
 
-      <div className="flex space-x-1 sm:space-x-0 sm:space-y-1 sm:flex-col w-full pt-1">
+      <div className="grid grid-cols-2 sm:grid-cols-1 gap-1 pt-1">
+        <div className="row-start-1 flex justify-start sm:justify-center sm:pb-2">
+          <Label type="warning" className="text-center">
+            {chore.marks} {`Marks`}
+          </Label>
+        </div>
         {chore.startedAt && (
           <>
-            <Button
-              disabled={!canComplete || isRefreshing}
-              onClick={onComplete}
-            >
-              {`Complete`}
-            </Button>
-            <Button disabled={!canComplete || isRefreshing} onClick={onSkip}>
-              {`Skip`}
-            </Button>
+            <div className="col-span-full flex sm:flex-col gap-1">
+              <Button
+                disabled={!canComplete || isRefreshing}
+                onClick={onComplete}
+              >
+                {`Complete`}
+              </Button>
+              {canSkip && (
+                <Button onClick={onSkip} disabled={!canSkip}>
+                  {`Skip`}
+                </Button>
+              )}
+            </div>
+            {!canSkip && (
+              <div className="row-start-1 sm:row-start-3 flex justify-end sm:justify-center">
+                <Label
+                  type="info"
+                  icon={SUNNYSIDE.icons.stopwatch}
+                  className="whitespace-nowrap"
+                >
+                  {"Next skip: "}
+                  {secondsToString(
+                    Math.round((skipAvailableAt - Date.now()) / 1000),
+                    {
+                      length: "short",
+                      removeTrailingZeros: true,
+                    }
+                  )}
+                </Label>
+              </div>
+            )}
           </>
         )}
         {!chore.startedAt && (
-          <span className="px-1 pb-1 text-xxs">
+          <span className="px-2 pb-1 text-xxs">
             Complete active chores to unlock
           </span>
         )}
       </div>
     </div>
+  );
+};
+
+const ConfirmSkip: React.FC<{
+  onConfirm: () => void;
+  onBack: () => void;
+  chore: KingdomChore;
+}> = ({ onConfirm, onBack, chore }) => {
+  return (
+    <InnerPanel>
+      <div className="flex flex-col justify-center">
+        <Label type="danger" className="!w-full">
+          You can only skip one chore every 24 hours
+        </Label>
+        <div className="flex space-x-2 justify-start items-center sm:flex-col-reverse md:space-x-0 p-1">
+          {ITEM_DETAILS[chore.image].image && (
+            <div className="sm:mt-2">
+              <SquareIcon icon={ITEM_DETAILS[chore.image].image} width={14} />
+            </div>
+          )}
+          <span className="sm:text-center">Skip {chore.description}</span>
+        </div>
+        <div className="flex justify-start sm:justify-center pb-2">
+          <Label type="warning" className="text-center">
+            {chore.marks} {`Marks`}
+          </Label>
+        </div>
+        <div className="flex space-x-1">
+          <Button onClick={onBack}>{`Back`}</Button>
+          <Button onClick={onConfirm}>{`Skip`}</Button>
+        </div>
+      </div>
+    </InnerPanel>
   );
 };
 
@@ -282,8 +359,7 @@ const KingdomChoresTimer: React.FC<{
   useUiRefresher();
 
   const shouldReset = resetsAt && resetsAt < Date.now();
-  // TODO feat/kingdom-chores-logic - REMOVE true
-  const shouldWarn = (resetsAt && resetsAt - Date.now() < 10000) || true;
+  const shouldWarn = resetsAt && resetsAt - Date.now() < 100_000;
 
   useEffect(() => {
     if (shouldReset) onReset();
@@ -317,5 +393,53 @@ const KingdomChoresTimer: React.FC<{
     </div>
   ) : (
     <></>
+  );
+};
+
+const ConfirmButtons: React.FC<{
+  onSkip: () => void;
+  onComplete: () => void;
+  canComplete: boolean;
+  isRefreshing: boolean;
+  skipAvailableAt: number;
+}> = ({ onSkip, onComplete, skipAvailableAt, canComplete, isRefreshing }) => {
+  useUiRefresher();
+
+  const canSkip = skipAvailableAt < Date.now();
+
+  return (
+    <>
+      {canSkip && (
+        <div className="flex space-x-1 sm:space-x-0 sm:space-y-1 sm:flex-col w-full pt-1">
+          <Button disabled={!canComplete || isRefreshing} onClick={onComplete}>
+            {`Complete`}
+          </Button>
+          <Button onClick={onSkip} disabled={!canSkip}>
+            {`Skip`}
+          </Button>
+        </div>
+      )}
+      {!canSkip && (
+        <div className="flex-col">
+          <Button disabled={!canComplete || isRefreshing} onClick={onComplete}>
+            {`Complete`}
+          </Button>
+          <Label
+            type="info"
+            icon={SUNNYSIDE.icons.stopwatch}
+            className="whitespace-nowrap"
+          >
+            {"Next skip: "}
+            {secondsToString(
+              Math.round((skipAvailableAt - Date.now()) / 1000),
+              {
+                length: "short",
+                removeTrailingZeros: true,
+              }
+            )}
+          </Label>
+        </div>
+      )}
+    </>
   );
 };

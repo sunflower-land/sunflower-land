@@ -28,7 +28,7 @@ import { FactionModalContent } from "./factions/FactionModalContent";
 import { ChickenRescue } from "./portals/ChickenRescue";
 import { JoinFactionModal } from "./factions/JoinFactionModal";
 import { EmblemsTrading } from "./factions/emblemTrading/EmblemsTrading";
-import { ChoresModal } from "./factions/chores/ChoresModal";
+import { KingdomChoresPanel } from "./factions/chores/KingdomChoresPanel";
 import { OuterPanel } from "components/ui/Panel";
 import { FactionKitchenPanel } from "./factions/FactionKitchenPanel";
 import { PortalNPCExample } from "features/portal/example/components/PortalNPCExample";
@@ -236,10 +236,18 @@ export const NPCModals: React.FC<Props> = ({ scene, id }) => {
         )}
 
         {/* Faction Chores */}
-        {npc === "grizzle" && <ChoresModal onClose={closeModal} npc={npc} />}
-        {npc === "buttercup" && <ChoresModal onClose={closeModal} npc={npc} />}
-        {npc === "shadow" && <ChoresModal onClose={closeModal} npc={npc} />}
-        {npc === "flora" && <ChoresModal onClose={closeModal} npc={npc} />}
+        {npc === "grizzle" && (
+          <KingdomChoresPanel onClose={closeModal} npc={npc} />
+        )}
+        {npc === "buttercup" && (
+          <KingdomChoresPanel onClose={closeModal} npc={npc} />
+        )}
+        {npc === "shadow" && (
+          <KingdomChoresPanel onClose={closeModal} npc={npc} />
+        )}
+        {npc === "flora" && (
+          <KingdomChoresPanel onClose={closeModal} npc={npc} />
+        )}
         {npc === "chef ebon" && (
           <FactionKitchenPanel bumpkinParts={NPC_WEARABLES["chef ebon"]} />
         )}
