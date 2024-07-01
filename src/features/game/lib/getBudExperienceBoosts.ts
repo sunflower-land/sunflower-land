@@ -17,7 +17,7 @@ const getBudExperienceBoost = (bud: Bud, food: Consumable): number => {
 
 export const getBudExperienceBoosts = (
   buds: NonNullable<GameState["buds"]>,
-  food: Consumable
+  food: Consumable,
 ): number => {
   const boosts = Object.values(buds)
     // Bud must be placed to give a boost

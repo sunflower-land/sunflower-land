@@ -5,14 +5,14 @@ export enum AudioLocalStorageKeys {
 
 export function cacheAudioSetting(
   key: AudioLocalStorageKeys,
-  value: boolean | number
+  value: boolean | number,
 ) {
   localStorage.setItem(key, JSON.stringify(value));
 }
 
 export function getCachedAudioSetting<T>(
   key: AudioLocalStorageKeys,
-  defaultValue: T
+  defaultValue: T,
 ): T {
   const cached = localStorage.getItem(key);
 

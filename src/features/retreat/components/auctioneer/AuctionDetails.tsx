@@ -74,7 +74,7 @@ export const AuctionDetails: React.FC<Props> = ({
 
   const hasIngredients =
     getKeys(item.ingredients).every((name) =>
-      (game.inventory[name] ?? new Decimal(0)).gte(item.ingredients[name] ?? 0)
+      (game.inventory[name] ?? new Decimal(0)).gte(item.ingredients[name] ?? 0),
     ) ?? false;
 
   const MintButton = () => {

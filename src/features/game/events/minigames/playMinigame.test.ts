@@ -11,7 +11,7 @@ describe("minigame.played", () => {
           score: 10,
           type: "minigame.played",
         },
-      })
+      }),
     ).toThrow("not-a-game is not a valid minigame");
   });
 

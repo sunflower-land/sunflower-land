@@ -24,7 +24,7 @@ describe("completeBertObsession", () => {
         action: {
           type: "bertObsession.completed",
         },
-      })
+      }),
     ).toThrow("You do not have a Bumpkin");
   });
 
@@ -42,7 +42,7 @@ describe("completeBertObsession", () => {
         action: {
           type: "bertObsession.completed",
         },
-      })
+      }),
     ).toThrow("NPCs does not exist");
   });
 
@@ -60,7 +60,7 @@ describe("completeBertObsession", () => {
         action: {
           type: "bertObsession.completed",
         },
-      })
+      }),
     ).toThrow("No discovery available");
   });
 
@@ -84,7 +84,7 @@ describe("completeBertObsession", () => {
         action: {
           type: "bertObsession.completed",
         },
-      })
+      }),
     ).toThrow("You do not have the collectible required");
   });
 
@@ -109,7 +109,7 @@ describe("completeBertObsession", () => {
         action: {
           type: "bertObsession.completed",
         },
-      })
+      }),
     ).toThrow("You do not have the wearable required");
   });
 
@@ -224,7 +224,7 @@ describe("completeBertObsession", () => {
         action: {
           type: "bertObsession.completed",
         },
-      })
+      }),
     ).toThrow("This obsession is already completed");
   });
 });

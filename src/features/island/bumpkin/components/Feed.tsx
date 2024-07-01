@@ -82,7 +82,7 @@ export const Feed: React.FC<Props> = ({ food }) => {
     });
 
     const currentLevel = getBumpkinLevel(
-      newState.context.state.bumpkin?.experience ?? 0
+      newState.context.state.bumpkin?.experience ?? 0,
     );
 
     while (currentLevel > previousLevel) {
@@ -111,7 +111,7 @@ export const Feed: React.FC<Props> = ({ food }) => {
           }}
           properties={{
             xp: new Decimal(
-              getFoodExpBoost(selected, bumpkin as Bumpkin, game, buds ?? {})
+              getFoodExpBoost(selected, bumpkin as Bumpkin, game, buds ?? {}),
             ),
           }}
           actionView={

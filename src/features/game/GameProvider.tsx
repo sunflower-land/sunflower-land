@@ -42,11 +42,10 @@ export const GameProvider: React.FC = ({ children }) => {
 
   // TODO - Typescript error
   const gameService = useInterpret(gameMachine) as MachineInterpreter;
-  const [shortcuts, setShortcuts] = useState<InventoryItemName[]>(
-    getShortcuts()
-  );
+  const [shortcuts, setShortcuts] =
+    useState<InventoryItemName[]>(getShortcuts());
   const [showAnimations, setShowAnimations] = useState<boolean>(
-    getShowAnimationsSetting()
+    getShowAnimationsSetting(),
   );
   const [showTimers, setShowTimers] = useState<boolean>(getShowTimersSetting());
 

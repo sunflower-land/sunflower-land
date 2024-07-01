@@ -27,22 +27,22 @@ export const Save: React.FC = () => {
   const buttonState: ButtonState = autoSaving
     ? "inProgress"
     : showSaved
-    ? "saved"
-    : "unsaved";
+      ? "saved"
+      : "unsaved";
 
   useEffect(() => {
     // show button when there are unsaved progress
     if (hasUnsavedProgress) {
       setEnableButton(true);
       setDisableSaveButtonTimer(
-        clearTimeout(disableSaveButtonTimer) as undefined
+        clearTimeout(disableSaveButtonTimer) as undefined,
       );
     }
 
     // hide button after 2 seconds when changes are saved
     if (showSaved) {
       setDisableSaveButtonTimer(
-        window.setTimeout(() => setEnableButton(false), 2000)
+        window.setTimeout(() => setEnableButton(false), 2000),
       );
     }
 

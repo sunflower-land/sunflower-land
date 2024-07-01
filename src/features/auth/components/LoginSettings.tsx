@@ -42,8 +42,8 @@ export const LoginSettings: React.FC = () => {
             currentMenu === "font"
               ? () => setMenu("appearance")
               : currentMenu !== "login"
-              ? () => setMenu("login")
-              : undefined
+                ? () => setMenu("login")
+                : undefined
           }
         >
           {currentMenu === "login" && (
@@ -74,7 +74,7 @@ export const LoginSettings: React.FC = () => {
             width: `${PIXEL_SCALE * 24}px`,
           }}
         />,
-        document.body
+        document.body,
       )}
     </>
   );

@@ -30,7 +30,7 @@ export const SomethingArrived: React.FC = () => {
             ...acc,
             [name]: Number(gameState.context.revealed?.inventory[name] ?? 0),
           }),
-          {}
+          {},
         ),
         wearables: wardrobe,
         sfl,

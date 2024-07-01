@@ -28,7 +28,7 @@ export const getAvailableBumpkinSkillPoints = (bumpkin?: Bumpkin) => {
     (acc, skill) => {
       return acc + BUMPKIN_SKILL_TREE[skill].requirements.points;
     },
-    0
+    0,
   );
 
   return totalSkillPoints - allocatedSkillPoints;

@@ -57,7 +57,7 @@ export function expandLand({ state, action, createdAt = Date.now() }: Options) {
         [ingredientName]: count.sub(totalAmount),
       };
     },
-    game.inventory
+    game.inventory,
   );
 
   game.expansionConstruction = {

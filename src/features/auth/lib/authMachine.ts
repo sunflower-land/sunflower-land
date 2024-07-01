@@ -441,7 +441,7 @@ export const authMachine = createMachine(
         // Navigates to Discord OAuth Flow
         const { token } = await oauthorise(
           code,
-          context.transactionId as string
+          context.transactionId as string,
         );
         return { token };
       },
@@ -457,7 +457,7 @@ export const authMachine = createMachine(
       saveToken: (context: Context, event: any) => {
         // Clear browser token
         const hasParamsJWT = new URLSearchParams(window.location.search).get(
-          "token"
+          "token",
         );
         if (hasParamsJWT) {
           window.history.pushState({}, "", window.location.pathname);
@@ -507,5 +507,5 @@ export const authMachine = createMachine(
       isVisitingUrl: () => window.location.href.includes("visit"),
       hasDiscordCode: () => !!getDiscordCode(),
     },
-  }
+  },
 );

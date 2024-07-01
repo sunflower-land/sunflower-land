@@ -14,7 +14,7 @@ describe("moveStone", () => {
           id: "1",
           coordinates: { x: 2, y: 2 },
         },
-      })
+      }),
     ).toThrow(MOVE_STONE_ERRORS.NO_BUMPKIN);
   });
 
@@ -41,7 +41,7 @@ describe("moveStone", () => {
           id: "2",
           coordinates: { x: 2, y: 2 },
         },
-      })
+      }),
     ).toThrow(MOVE_STONE_ERRORS.STONE_NOT_PLACED);
   });
 
@@ -158,7 +158,7 @@ describe("moveStone", () => {
           id: "1",
           coordinates: { x: 2, y: 2 },
         },
-      })
+      }),
     ).toThrow(MOVE_STONE_ERRORS.AOE_LOCKED);
   });
 });

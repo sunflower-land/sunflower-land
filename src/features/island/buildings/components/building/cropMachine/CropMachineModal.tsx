@@ -86,7 +86,7 @@ export const CropMachineModal: React.FC<Props> = ({
   const inventory = useSelector(gameService, _inventory);
 
   const [selectedPackIndex, setSelectedPackIndex] = useState<number>(
-    growingCropPackIndex ?? 0
+    growingCropPackIndex ?? 0,
   );
   const [selectedSeed, setSelectedSeed] = useState<CropSeedName>();
   const [showOverlayScreen, setShowOverlayScreen] = useState<boolean>(false);
@@ -108,7 +108,7 @@ export const CropMachineModal: React.FC<Props> = ({
     const projectedOilTime = getOilTimeInMillis(totalOil);
     const projectedTotalOilTime = getTotalOilMillisInMachine(
       queue,
-      unallocatedOilTime + projectedOilTime
+      unallocatedOilTime + projectedOilTime,
     );
 
     return projectedTotalOilTime;
@@ -153,7 +153,7 @@ export const CropMachineModal: React.FC<Props> = ({
 
   const getQueueItemCountLabelType = (
     packIndex: number,
-    itemReady: boolean
+    itemReady: boolean,
   ) => {
     if (itemReady) return "success";
 
@@ -375,7 +375,7 @@ export const CropMachineModal: React.FC<Props> = ({
                                   length: "full",
                                   isShortFormat: true,
                                   removeTrailingZeros: true,
-                                }
+                                },
                               ),
                             })}
                           </span>
@@ -407,7 +407,7 @@ export const CropMachineModal: React.FC<Props> = ({
                             onClick={() =>
                               incrementSeeds(
                                 (inventory[selectedSeed]?.toNumber() ?? 0) -
-                                  totalSeeds
+                                  totalSeeds,
                               )
                             }
                             disabled={!canIncrementSeeds()}
@@ -459,7 +459,7 @@ export const CropMachineModal: React.FC<Props> = ({
                               length: "full",
                               isShortFormat: true,
                               removeTrailingZeros: true,
-                            }
+                            },
                           ),
                         })}
                       </span>
@@ -499,7 +499,7 @@ export const CropMachineModal: React.FC<Props> = ({
                     count={!isReady ? new Decimal(item.seeds) : undefined}
                     countLabelType={getQueueItemCountLabelType(
                       index,
-                      !!isReady
+                      !!isReady,
                     )}
                     overlayIcon={
                       <img
@@ -572,7 +572,7 @@ export const CropMachineModal: React.FC<Props> = ({
                 >
                   {t("cropMachine.availableInventory", {
                     amount: setPrecision(
-                      new Decimal((inventory.Oil?.toNumber() ?? 0) - totalOil)
+                      new Decimal((inventory.Oil?.toNumber() ?? 0) - totalOil),
                     ),
                   })}
                 </Label>
@@ -598,7 +598,7 @@ export const CropMachineModal: React.FC<Props> = ({
                             length: "full",
                             isShortFormat: true,
                             removeTrailingZeros: true,
-                          }
+                          },
                         ),
                       })}
                     </span>

@@ -20,9 +20,9 @@ export const Share: React.FC = () => {
   const handleTweetClick = () => {
     window.open(
       `https://twitter.com/intent/tweet?text=Visit My Sunflower Land Farm \uD83D\uDC47\n${encodeURIComponent(
-        farmUrl
+        farmUrl,
       )}&ref_src=https://sunflower-land.com`,
-      "_blank"
+      "_blank",
     );
   };
 

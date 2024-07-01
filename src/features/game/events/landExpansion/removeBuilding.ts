@@ -38,7 +38,7 @@ const getUnSupportedPlotCount = (gameState: GameState): number => {
   // Get the well count
   let activeWells =
     gameState.buildings["Water Well"]?.filter(
-      (well) => well.readyAt < Date.now()
+      (well) => well.readyAt < Date.now(),
     ).length ?? 0;
 
   const bumpkinLevel = getBumpkinLevel(gameState.bumpkin?.experience ?? 0);
@@ -100,7 +100,7 @@ export const getUnsupportedChickens = (gameState: GameState) => {
   const chickenCount = chickenKeys.length;
   const unsupportedChickensCount = Math.max(
     0,
-    chickenCount - supportedChickensCount
+    chickenCount - supportedChickensCount,
   );
 
   // add unsupported chickens to the list last in first out
@@ -150,7 +150,7 @@ export function removeBuilding({
   }
 
   const buildingToRemove = buildingGroup.find(
-    (building) => building.id === action.id
+    (building) => building.id === action.id,
   );
 
   if (!buildingToRemove) {
@@ -164,7 +164,7 @@ export function removeBuilding({
   const [restricted, error] = hasRemoveRestriction(
     action.name,
     action.id,
-    stateCopy
+    stateCopy,
   );
 
   if (restricted) {
@@ -178,7 +178,7 @@ export function removeBuilding({
   }
 
   stateCopy.buildings[action.name] = buildingGroup.filter(
-    (building) => building.id !== buildingToRemove.id
+    (building) => building.id !== buildingToRemove.id,
   );
 
   if (action.name === "Water Well") {

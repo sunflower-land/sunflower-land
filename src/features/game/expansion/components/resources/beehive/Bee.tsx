@@ -20,7 +20,7 @@ const getFlowerBedById = (id: string) => (state: MachineState) => {
 };
 const compareFlowerBed = (
   prevFlowerBed: FlowerBed,
-  nextFlowerBed: FlowerBed
+  nextFlowerBed: FlowerBed,
 ) => {
   return JSON.stringify(prevFlowerBed) === JSON.stringify(nextFlowerBed);
 };
@@ -35,7 +35,7 @@ const BeeComponent: React.FC<Props> = ({
   const flower = useSelector(
     gameService,
     getFlowerBedById(flowerId),
-    compareFlowerBed
+    compareFlowerBed,
   );
   const { x: flowerX, y: flowerY } = flower;
 

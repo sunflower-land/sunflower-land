@@ -50,10 +50,10 @@ export function completeSpecialEventTask({
     }
 
     const previousDay = Math.floor(
-      (previousTask.completedAt - event.startAt) / TWENTY_FOUR_HOURS
+      (previousTask.completedAt - event.startAt) / TWENTY_FOUR_HOURS,
     );
     const currentDay = Math.floor(
-      (createdAt - event.startAt) / TWENTY_FOUR_HOURS
+      (createdAt - event.startAt) / TWENTY_FOUR_HOURS,
     );
 
     if (previousDay === currentDay) {
@@ -90,7 +90,7 @@ export function completeSpecialEventTask({
     stateCopy.wardrobe[item] = (stateCopy.wardrobe[item] ?? 0) + rewardAmount;
   });
   stateCopy.balance = (stateCopy.balance ?? new Decimal(0)).plus(
-    task.reward.sfl
+    task.reward.sfl,
   );
 
   const eventYear = new Date(event.startAt).getUTCFullYear();
@@ -100,7 +100,7 @@ export function completeSpecialEventTask({
   if (!stateCopy.specialEvents.history[eventYear])
     stateCopy.specialEvents.history[eventYear] = {};
   stateCopy.specialEvents.history[eventYear][action.event] = Math.floor(
-    (completedTasks / totalTasks) * 100
+    (completedTasks / totalTasks) * 100,
   );
 
   return stateCopy;

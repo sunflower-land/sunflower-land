@@ -108,7 +108,7 @@ const GameOptions: React.FC<ContentComponentProps> = ({
             onClick={() => {
               copypaste.play();
               clipboard.copy(
-                gameService.state?.context?.farmId.toString() as string
+                gameService.state?.context?.farmId.toString() as string,
               );
             }}
           >
@@ -124,7 +124,7 @@ const GameOptions: React.FC<ContentComponentProps> = ({
               onClick={() => {
                 copypaste.play();
                 clipboard.copy(
-                  gameService.state?.context?.nftId?.toString() || ""
+                  gameService.state?.context?.nftId?.toString() || "",
                 );
               }}
             >
@@ -141,7 +141,7 @@ const GameOptions: React.FC<ContentComponentProps> = ({
               onClick={() => {
                 copypaste.play();
                 clipboard.copy(
-                  gameService.state?.context?.linkedWallet as string
+                  gameService.state?.context?.linkedWallet as string,
                 );
               }}
             >

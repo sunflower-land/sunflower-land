@@ -14,7 +14,7 @@ describe("moveTree", () => {
           id: "1",
           coordinates: { x: 2, y: 2 },
         },
-      })
+      }),
     ).toThrow(MOVE_TREE_ERRORS.NO_BUMPKIN);
   });
 
@@ -41,7 +41,7 @@ describe("moveTree", () => {
           id: "2",
           coordinates: { x: 2, y: 2 },
         },
-      })
+      }),
     ).toThrow(MOVE_TREE_ERRORS.TREE_NOT_PLACED);
   });
 

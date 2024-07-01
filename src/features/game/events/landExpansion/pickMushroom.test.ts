@@ -30,7 +30,7 @@ describe("pickMushroom", () => {
           id: errorId,
         },
         createdAt: Date.now(),
-      })
+      }),
     ).toThrow(`Mushroom not found: ${errorId}`);
   });
 
@@ -54,7 +54,7 @@ describe("pickMushroom", () => {
           id,
         },
         createdAt: Date.now(),
-      })
+      }),
     ).toThrow(`Mushroom not found: ${id}`);
   });
 

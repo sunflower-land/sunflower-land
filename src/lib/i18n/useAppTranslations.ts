@@ -10,7 +10,7 @@ export const useAppTranslation = () => {
   // Here we cast the original t function to a more strictly typed version
   const t = (
     key: TranslationKeys,
-    args?: { [key: string]: string | number | Decimal }
+    args?: { [key: string]: string | number | Decimal },
   ) => originalT(key, args);
 
   return { t };

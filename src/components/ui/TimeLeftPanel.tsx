@@ -24,7 +24,7 @@ export const TimeLeftPanel: React.FC<Props> = ({
         {
           "opacity-100": showTimeLeft,
           "opacity-0": !showTimeLeft,
-        }
+        },
       )}
     >
       <div className="flex flex-col text-xxs p-1">

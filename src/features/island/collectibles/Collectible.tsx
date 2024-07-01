@@ -171,7 +171,7 @@ const LandscapingCollectible: React.FC<Props> = (props) => {
   const [isRestricted, restrictionReason] = hasMoveRestriction(
     props.name,
     props.id,
-    gameState
+    gameState,
   );
   if (isRestricted) {
     return (

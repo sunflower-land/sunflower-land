@@ -47,7 +47,7 @@ describe("fruitPlanted", () => {
           index: "0",
           seed: "Apple Seed",
         },
-      })
+      }),
     ).toThrow("You do not have a Bumpkin");
   });
 
@@ -61,7 +61,7 @@ describe("fruitPlanted", () => {
           index: "2",
           seed: "Apple Seed",
         },
-      })
+      }),
     ).toThrow("Fruit patch does not exist");
   });
 
@@ -75,7 +75,7 @@ describe("fruitPlanted", () => {
           index: "1.2",
           seed: "Apple Seed",
         },
-      })
+      }),
     ).toThrow("Fruit patch does not exist");
   });
 
@@ -89,7 +89,7 @@ describe("fruitPlanted", () => {
           index: "-1",
           seed: "Apple Seed",
         },
-      })
+      }),
     ).toThrow("Fruit patch does not exist");
   });
 
@@ -105,7 +105,7 @@ describe("fruitPlanted", () => {
           index: "0",
           seed: "Apple Seed",
         },
-      })
+      }),
     ).toThrow("Fruit is already planted");
   });
 
@@ -119,7 +119,7 @@ describe("fruitPlanted", () => {
           index: "1",
           seed: "Sunflower Seed" as FruitSeedName,
         },
-      })
+      }),
     ).toThrow("Not a fruit seed");
   });
 
@@ -133,7 +133,7 @@ describe("fruitPlanted", () => {
           index: "1",
           seed: "Apple Seed",
         },
-      })
+      }),
     ).toThrow("Not enough seeds");
   });
 
@@ -169,7 +169,7 @@ describe("fruitPlanted", () => {
           plantedAt: expect.any(Number),
           amount: 1,
         }),
-      })
+      }),
     );
   });
 
@@ -204,7 +204,7 @@ describe("fruitPlanted", () => {
           amount: 1,
           harvestedAt: 0,
         }),
-      })
+      }),
     );
   });
 
@@ -241,7 +241,7 @@ describe("fruitPlanted", () => {
           harvestedAt: 0,
           harvestsLeft: 3,
         }),
-      })
+      }),
     );
   });
 
@@ -289,7 +289,7 @@ describe("fruitPlanted", () => {
           harvestedAt: 0,
           harvestsLeft: 4,
         }),
-      })
+      }),
     );
   });
 
@@ -328,7 +328,7 @@ describe("fruitPlanted", () => {
     const fruitPatches = state.fruitPatches;
 
     expect(
-      (fruitPatches as Record<number, FruitPatch>)[patchIndex].fruit?.amount
+      (fruitPatches as Record<number, FruitPatch>)[patchIndex].fruit?.amount,
     ).toEqual(1.25);
   });
 
@@ -367,7 +367,7 @@ describe("fruitPlanted", () => {
     const fruitPatches = state.fruitPatches;
 
     expect(
-      (fruitPatches as Record<number, FruitPatch>)[patchIndex].fruit?.amount
+      (fruitPatches as Record<number, FruitPatch>)[patchIndex].fruit?.amount,
     ).toEqual(1);
   });
 
@@ -406,10 +406,10 @@ describe("fruitPlanted", () => {
     const fruitPatches = state.fruitPatches;
 
     expect(
-      (fruitPatches as Record<number, FruitPatch>)[patchIndex].fruit?.amount
+      (fruitPatches as Record<number, FruitPatch>)[patchIndex].fruit?.amount,
     ).toEqual(1);
     expect(
-      (fruitPatches as Record<number, FruitPatch>)[patchIndex].fruit?.plantedAt
+      (fruitPatches as Record<number, FruitPatch>)[patchIndex].fruit?.plantedAt,
     ).toEqual(dateNow - (FRUIT_SEEDS()["Orange Seed"].plantSeconds * 1000) / 2);
   });
 
@@ -448,7 +448,7 @@ describe("fruitPlanted", () => {
     const fruitPatches = state.fruitPatches;
 
     expect(
-      (fruitPatches as Record<number, FruitPatch>)[patchIndex].fruit?.amount
+      (fruitPatches as Record<number, FruitPatch>)[patchIndex].fruit?.amount,
     ).toEqual(2);
   });
 
@@ -469,7 +469,7 @@ describe("fruitPlanted", () => {
           index: "1",
           seed: "Apple Seed",
         },
-      })
+      }),
     ).toThrow("Invalid harvests left amount");
   });
 
@@ -530,7 +530,7 @@ describe("fruitPlanted", () => {
     const fruitPatches = state.fruitPatches;
 
     expect(
-      (fruitPatches as Record<number, FruitPatch>)[patchIndex].fruit?.amount
+      (fruitPatches as Record<number, FruitPatch>)[patchIndex].fruit?.amount,
     ).toEqual(1.2);
   });
 
@@ -561,7 +561,7 @@ describe("fruitPlanted", () => {
     const fruitPatches = state.fruitPatches;
 
     expect(
-      (fruitPatches as Record<number, FruitPatch>)[patchIndex].fruit?.amount
+      (fruitPatches as Record<number, FruitPatch>)[patchIndex].fruit?.amount,
     ).toEqual(1.5);
   });
 
@@ -592,7 +592,7 @@ describe("fruitPlanted", () => {
     const fruitPatches = state.fruitPatches;
 
     expect(
-      (fruitPatches as Record<number, FruitPatch>)[patchIndex].fruit?.amount
+      (fruitPatches as Record<number, FruitPatch>)[patchIndex].fruit?.amount,
     ).toEqual(1);
   });
 });
@@ -616,7 +616,7 @@ describe("getFruitTime", () => {
           ],
         },
       },
-      INITIAL_BUMPKIN.equipped
+      INITIAL_BUMPKIN.equipped,
     );
     expect(time).toEqual(orangePlantSeconds * 0.5);
   });
@@ -638,7 +638,7 @@ describe("getFruitTime", () => {
           ],
         },
       },
-      INITIAL_BUMPKIN.equipped
+      INITIAL_BUMPKIN.equipped,
     );
     expect(time).toEqual(applePlantSeconds);
   });
@@ -661,7 +661,7 @@ describe("getFruitTime", () => {
           ],
         },
       },
-      INITIAL_BUMPKIN.equipped
+      INITIAL_BUMPKIN.equipped,
     );
     expect(time).toEqual(orangePlantSeconds * 0.9);
   });
@@ -683,7 +683,7 @@ describe("getFruitTime", () => {
           ],
         },
       },
-      INITIAL_BUMPKIN.equipped
+      INITIAL_BUMPKIN.equipped,
     );
     expect(time).toEqual(applePlantSeconds);
   });
@@ -707,7 +707,7 @@ describe("getFruitTime", () => {
       {
         ...INITIAL_BUMPKIN.equipped,
         onesie: "Banana Onesie",
-      }
+      },
     );
     expect(time).toEqual(orangePlantSeconds * 0.8);
   });
@@ -731,7 +731,7 @@ describe("getFruitTime", () => {
           ],
         },
       },
-      INITIAL_BUMPKIN.equipped
+      INITIAL_BUMPKIN.equipped,
     );
     expect(time).toEqual(plantSeconds * 0.75);
   });
@@ -756,7 +756,7 @@ describe("getFruitTime", () => {
           ],
         },
       },
-      INITIAL_BUMPKIN.equipped
+      INITIAL_BUMPKIN.equipped,
     );
     expect(time).toEqual(plantSeconds);
   });

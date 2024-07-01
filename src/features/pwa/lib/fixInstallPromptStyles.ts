@@ -15,7 +15,7 @@ export function fixInstallPromptTextStyles() {
     : ".install-dialog.apple";
 
   const shadowInstallEl = pwaEl.shadowRoot.querySelector(
-    `#pwa-install-element > ${deviceSpecificSelector}`
+    `#pwa-install-element > ${deviceSpecificSelector}`,
   ) as HTMLElement | null;
 
   if (!shadowInstallEl) return;

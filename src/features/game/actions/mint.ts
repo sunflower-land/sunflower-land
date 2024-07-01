@@ -30,7 +30,7 @@ export async function mint(request: Request) {
         item: request.item,
         captcha: request.captcha,
       }),
-    }
+    },
   );
 
   if (response.status === 429) {

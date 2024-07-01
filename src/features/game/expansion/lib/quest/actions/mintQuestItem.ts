@@ -7,13 +7,13 @@ import { hasCompletedQuest, mintQuestItemOnChain } from "lib/blockchain/Quests";
 async function waitForQuest(
   questId: number,
   bumpkinId: number,
-  account: string
+  account: string,
 ): Promise<void> {
   const statuses = await hasCompletedQuest(
     wallet.web3Provider,
     account,
     [questId],
-    bumpkinId
+    bumpkinId,
   );
 
   if (statuses[0] === false) {
@@ -52,7 +52,7 @@ export async function questSignatureRequest(request: {
       body: JSON.stringify({
         item: request.questName,
       }),
-    }
+    },
   );
 
   if (response.status === 429) {

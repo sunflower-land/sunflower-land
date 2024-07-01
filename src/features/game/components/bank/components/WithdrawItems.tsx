@@ -33,7 +33,7 @@ export function transferInventoryItem(
   >,
   setTo: React.Dispatch<
     React.SetStateAction<Partial<Record<InventoryItemName, Decimal>>>
-  >
+  >,
 ) {
   let amount = new Decimal(1);
 
@@ -77,7 +77,7 @@ export const WithdrawItems: React.FC<Props> = ({
   const withdraw = () => {
     const ids = getKeys(selected).map((item) => KNOWN_IDS[item]);
     const amounts = getKeys(selected).map((item) =>
-      toWei(selected[item]?.toString() as string, getItemUnit(item))
+      toWei(selected[item]?.toString() as string, getItemUnit(item)),
     );
 
     onWithdraw(ids, amounts);
@@ -118,7 +118,7 @@ export const WithdrawItems: React.FC<Props> = ({
 
   const withdrawableItems = getKeys(inventory)
     .filter(
-      (itemName) => WITHDRAWABLES[itemName]() && !isCurrentObsession(itemName)
+      (itemName) => WITHDRAWABLES[itemName]() && !isCurrentObsession(itemName),
     )
     .sort((a, b) => KNOWN_IDS[a] - KNOWN_IDS[b]);
 

@@ -13,7 +13,7 @@ type Potions = [
   PotionName | null,
   PotionName | null,
   PotionName | null,
-  PotionName | null
+  PotionName | null,
 ];
 
 export interface PotionHouseContext {
@@ -66,7 +66,7 @@ export type PotionHouseMachineInterpreter = Interpreter<
 
 const nextValidAnimationIndex = (
   animationQueue: DesiredAnimation[],
-  validAnimations: DesiredAnimation[]
+  validAnimations: DesiredAnimation[],
 ) => {
   // iterate backwards through the animation queue and find the last valid animation
   for (let i = animationQueue.length - 1; i >= 0; i--) {
@@ -145,7 +145,7 @@ export const potionHouseMachine = createMachine<
               cond: (context) => {
                 const nextIndex = nextValidAnimationIndex(
                   context.animationQueue,
-                  ["startMixing"]
+                  ["startMixing"],
                 );
 
                 return context.animationQueue[nextIndex] === "startMixing";
@@ -154,7 +154,7 @@ export const potionHouseMachine = createMachine<
                 animationQueue: (context) => {
                   const nextIndex = nextValidAnimationIndex(
                     context.animationQueue,
-                    ["startMixing"]
+                    ["startMixing"],
                   );
 
                   return nextIndex >= 0
@@ -186,7 +186,7 @@ export const potionHouseMachine = createMachine<
                 cond: (context) => {
                   const nextIndex = nextValidAnimationIndex(
                     context.animationQueue,
-                    ["success", "bomb"]
+                    ["success", "bomb"],
                   );
 
                   return context.animationQueue[nextIndex] === "success";
@@ -195,7 +195,7 @@ export const potionHouseMachine = createMachine<
                   animationQueue: (context) => {
                     const nextIndex = nextValidAnimationIndex(
                       context.animationQueue,
-                      ["success", "bomb"]
+                      ["success", "bomb"],
                     );
 
                     return nextIndex >= 0
@@ -210,7 +210,7 @@ export const potionHouseMachine = createMachine<
                 cond: (context) => {
                   const nextIndex = nextValidAnimationIndex(
                     context.animationQueue,
-                    ["success", "bomb"]
+                    ["success", "bomb"],
                   );
 
                   return context.animationQueue[nextIndex] === "bomb";
@@ -219,7 +219,7 @@ export const potionHouseMachine = createMachine<
                   animationQueue: (context) => {
                     const nextIndex = nextValidAnimationIndex(
                       context.animationQueue,
-                      ["success", "bomb"]
+                      ["success", "bomb"],
                     );
 
                     return nextIndex >= 0

@@ -22,7 +22,7 @@ describe("garbageSold", () => {
           item: "Solar Flare Ticket",
           amount: 1,
         },
-      })
+      }),
     ).toThrow("You do not have a Bumpkin");
   });
 
@@ -35,7 +35,7 @@ describe("garbageSold", () => {
           item: "Sunflower" as GarbageName,
           amount: 1,
         },
-      })
+      }),
     ).toThrow("Not for sale");
   });
 
@@ -53,7 +53,7 @@ describe("garbageSold", () => {
           item: "Solar Flare Ticket",
           amount: 1.5,
         },
-      })
+      }),
     ).toThrow("Invalid amount");
   });
 
@@ -66,7 +66,7 @@ describe("garbageSold", () => {
           item: "Solar Flare Ticket",
           amount: 1,
         },
-      })
+      }),
     ).toThrow("Insufficient quantity to sell");
   });
 
@@ -87,7 +87,7 @@ describe("garbageSold", () => {
 
     expect(state.inventory["Solar Flare Ticket"]).toEqual(new Decimal(4));
     expect(state.coins).toEqual(
-      GAME_STATE.coins + GARBAGE["Solar Flare Ticket"].sellPrice
+      GAME_STATE.coins + GARBAGE["Solar Flare Ticket"].sellPrice,
     );
   });
 
@@ -108,7 +108,7 @@ describe("garbageSold", () => {
 
     expect(state.inventory["Solar Flare Ticket"]).toEqual(new Decimal(1));
     expect(state.coins).toEqual(
-      GAME_STATE.coins + GARBAGE["Solar Flare Ticket"].sellPrice * 4
+      GAME_STATE.coins + GARBAGE["Solar Flare Ticket"].sellPrice * 4,
     );
   });
 
@@ -126,7 +126,7 @@ describe("garbageSold", () => {
           item: "Solar Flare Ticket",
           amount: 4,
         },
-      })
+      }),
     ).toThrow("Insufficient quantity to sell");
   });
 
@@ -145,7 +145,7 @@ describe("garbageSold", () => {
       },
     });
     expect(state.bumpkin?.activity?.["Coins Earned"]).toEqual(
-      GARBAGE["Solar Flare Ticket"].sellPrice
+      GARBAGE["Solar Flare Ticket"].sellPrice,
     );
   });
 
@@ -165,7 +165,7 @@ describe("garbageSold", () => {
       },
     });
     expect(state.bumpkin?.activity?.["Solar Flare Ticket Sold"]).toEqual(
-      amount
+      amount,
     );
   });
 });

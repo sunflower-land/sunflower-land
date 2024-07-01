@@ -26,28 +26,31 @@ type Options = {
 };
 
 const applySwarmBoostToCrops = (
-  crops: GameState["crops"]
+  crops: GameState["crops"],
 ): GameState["crops"] => {
-  return getKeys(crops).reduce((acc, cropId) => {
-    const cropPlot = crops[cropId];
+  return getKeys(crops).reduce(
+    (acc, cropId) => {
+      const cropPlot = crops[cropId];
 
-    if (cropPlot.crop) {
-      const amount = cropPlot.crop.amount;
+      if (cropPlot.crop) {
+        const amount = cropPlot.crop.amount;
 
-      return {
-        ...acc,
-        [cropId]: {
-          ...cropPlot,
-          crop: {
-            ...cropPlot.crop,
-            amount: amount + 0.2,
+        return {
+          ...acc,
+          [cropId]: {
+            ...cropPlot,
+            crop: {
+              ...cropPlot.crop,
+              amount: amount + 0.2,
+            },
           },
-        },
-      };
-    }
+        };
+      }
 
-    return { ...acc, [cropId]: cropPlot };
-  }, {} as GameState["crops"]);
+      return { ...acc, [cropId]: cropPlot };
+    },
+    {} as GameState["crops"],
+  );
 };
 
 export const getHoneyMultiplier = (game: GameState) => {
@@ -102,7 +105,7 @@ export function harvestBeehive({
   stateCopy.beehives[action.id].honey.produced = 0;
   stateCopy.beehives[action.id].honey.updatedAt = createdAt;
   stateCopy.inventory.Honey = (stateCopy.inventory.Honey ?? new Decimal(0)).add(
-    new Decimal(totalHoneyProduced)
+    new Decimal(totalHoneyProduced),
   );
 
   // If the beehive is full, check, apply and update swarm
@@ -118,7 +121,7 @@ export function harvestBeehive({
   stateCopy.bumpkin.activity = trackActivity(
     `Honey Harvested`,
     stateCopy.bumpkin?.activity,
-    new Decimal(totalHoneyProduced)
+    new Decimal(totalHoneyProduced),
   );
 
   const updatedBeehives = updateBeehives({ game: stateCopy, createdAt });

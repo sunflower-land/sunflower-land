@@ -301,9 +301,10 @@ export const flags: Record<Flag, LimitedItem> = {
   },
 };
 
-export const FLAGS = (Object.keys(flags) as Flag[])
-  .sort()
-  .reduce((obj, key) => {
+export const FLAGS = (Object.keys(flags) as Flag[]).sort().reduce(
+  (obj, key) => {
     obj[key] = flags[key];
     return obj;
-  }, {} as typeof flags);
+  },
+  {} as typeof flags,
+);

@@ -180,36 +180,36 @@ const INITIAL_STOCK: Inventory = {
 
 const OFFLINE_FARM_CROPS = getEnabledNodeCount(
   INITIAL_BUMPKIN_LEVEL as BumpkinLevel,
-  "Crop Plot"
+  "Crop Plot",
 );
 const OFFLINE_FARM_TREES = getEnabledNodeCount(
   INITIAL_BUMPKIN_LEVEL as BumpkinLevel,
-  "Tree"
+  "Tree",
 );
 const OFFLINE_FARM_STONES = getEnabledNodeCount(
   INITIAL_BUMPKIN_LEVEL as BumpkinLevel,
-  "Stone Rock"
+  "Stone Rock",
 );
 const OFFLINE_FARM_IRON = getEnabledNodeCount(
   INITIAL_BUMPKIN_LEVEL as BumpkinLevel,
-  "Iron Rock"
+  "Iron Rock",
 );
 const OFFLINE_FARM_GOLD = getEnabledNodeCount(
   INITIAL_BUMPKIN_LEVEL as BumpkinLevel,
-  "Gold Rock"
+  "Gold Rock",
 );
 const OFFLINE_FARM_CRIMSTONE = getEnabledNodeCount(
   INITIAL_BUMPKIN_LEVEL as BumpkinLevel,
-  "Crimstone Rock"
+  "Crimstone Rock",
 );
 
 const OFFLINE_FARM_SUNSTONE = getEnabledNodeCount(
   INITIAL_BUMPKIN_LEVEL as BumpkinLevel,
-  "Sunstone Rock"
+  "Sunstone Rock",
 );
 const OFFLINE_FARM_FRUIT = getEnabledNodeCount(
   INITIAL_BUMPKIN_LEVEL as BumpkinLevel,
-  "Fruit Patch"
+  "Fruit Patch",
 );
 
 export const STATIC_OFFLINE_FARM: GameState = {

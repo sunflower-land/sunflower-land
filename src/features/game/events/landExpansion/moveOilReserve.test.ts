@@ -14,7 +14,7 @@ describe("moveOilReserve", () => {
           id: "1",
           coordinates: { x: 2, y: 2 },
         },
-      })
+      }),
     ).toThrow(MOVE_OIL_ERRORS.NO_BUMPKIN);
   });
 
@@ -43,7 +43,7 @@ describe("moveOilReserve", () => {
           id: "2",
           coordinates: { x: 2, y: 2 },
         },
-      })
+      }),
     ).toThrow(MOVE_OIL_ERRORS.OIL_NOT_PLACED);
   });
 

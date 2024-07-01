@@ -21,7 +21,7 @@ describe("burnCollectible", () => {
           name: "Time Warp Totem",
           type: "collectible.burned",
         },
-      })
+      }),
     ).toThrow("Invalid collectible");
   });
 

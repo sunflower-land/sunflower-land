@@ -14,7 +14,7 @@ export function getFactionPrize({ game }: { game: GameState }) {
 
   const week = getKeys(history).find(
     (weekKey) =>
-      history[weekKey].results?.reward && !history[weekKey].results?.claimedAt
+      history[weekKey].results?.reward && !history[weekKey].results?.claimedAt,
   );
 
   const prize = history[week as string]?.results?.reward;

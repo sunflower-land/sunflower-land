@@ -16,7 +16,7 @@ function isTouchEvent(e: Event): e is TouchEvent {
 export const useLongPress = (
   onClick: (e: React.MouseEvent | React.TouchEvent) => void,
   count = new Decimal(0),
-  { shouldPreventDefault = true, delay = 300, interval = 200 } = {}
+  { shouldPreventDefault = true, delay = 300, interval = 200 } = {},
 ) => {
   const [longPressTriggered, setLongPressTriggered] = useState(false);
   const timeout = useRef<NodeJS.Timeout>();
@@ -35,7 +35,7 @@ export const useLongPress = (
         target.current.removeEventListener("touchend", preventDefault);
       }
     },
-    [shouldPreventDefault, onClick, longPressTriggered]
+    [shouldPreventDefault, onClick, longPressTriggered],
   );
 
   const start = useCallback(
@@ -61,7 +61,7 @@ export const useLongPress = (
         setLongPressTriggered(true);
       }, delay);
     },
-    [onClick, delay, interval, count, clear, shouldPreventDefault]
+    [onClick, delay, interval, count, clear, shouldPreventDefault],
   );
 
   // Return event handlers

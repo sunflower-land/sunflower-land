@@ -97,7 +97,7 @@ export const AuctionCountdown: React.FC = () => {
       const upcoming = auctions.filter(
         (auction) =>
           auction.startAt - 60 * 60 * 1000 < Date.now() &&
-          auction.endAt > Date.now()
+          auction.endAt > Date.now(),
       );
 
       if (upcoming.length > 0) {

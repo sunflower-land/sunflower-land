@@ -58,7 +58,7 @@ export const FactionKitchenPanel: React.FC<Props> = ({ bumpkinParts }) => {
               {t("faction.kitchen.opensIn", {
                 time: secondsToString(
                   (FACTION_KITCHEN_START_TIME - now) / 1000,
-                  { length: "medium", removeTrailingZeros: true }
+                  { length: "medium", removeTrailingZeros: true },
                 ),
               })}
             </Label>
@@ -101,7 +101,7 @@ export const FactionKitchenPanel: React.FC<Props> = ({ bumpkinParts }) => {
   const secondsTillWeekEnd = (factionKitchenWeekEndTime({ now }) - now) / 1000;
   const selectedRequestReward = Math.max(
     BASE_POINTS - selectedRequest.deliveryCount * 2,
-    1
+    1,
   );
 
   const canFulfillRequest = (
@@ -142,7 +142,7 @@ export const FactionKitchenPanel: React.FC<Props> = ({ bumpkinParts }) => {
                           "flex relative flex-col flex-1 items-center p-2 cursor-pointer hover:bg-brown-300",
                           {
                             "img-highlight": selectedRequestIdx === idx,
-                          }
+                          },
                         )}
                         onClick={() => setSelectedRequestIdx(idx)}
                       >
@@ -164,7 +164,7 @@ export const FactionKitchenPanel: React.FC<Props> = ({ bumpkinParts }) => {
                           >
                             {Math.max(
                               BASE_POINTS - request.deliveryCount * 2,
-                              1
+                              1,
                             )}
                           </Label>
                         </div>
@@ -217,7 +217,7 @@ export const FactionKitchenPanel: React.FC<Props> = ({ bumpkinParts }) => {
                         "flex justify-between items-center sm:justify-center",
                         {
                           "-mt-1": isMobile,
-                        }
+                        },
                       )}
                       showLabel={isMobile}
                       hideIcon={!isMobile}

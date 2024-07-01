@@ -28,11 +28,11 @@ function generateCollectibles() {
 
     const jsonPath = path.join(
       __dirname,
-      `../public/erc1155/${KNOWN_IDS[name]}.json`
+      `../public/erc1155/${KNOWN_IDS[name]}.json`,
     );
     const hexJsonPath = path.join(
       __dirname,
-      `../public/erc1155/${zeroPadded}.json`
+      `../public/erc1155/${zeroPadded}.json`,
     );
 
     fs.writeFile(jsonPath, JSON.stringify(metadata), () => undefined);
@@ -56,9 +56,9 @@ function generateCollectibles() {
       .map(String)
       .concat(
         Object.values(KNOWN_IDS).map((id) =>
-          Number(id).toString(16).padStart(64, "0")
-        )
-      )
+          Number(id).toString(16).padStart(64, "0"),
+        ),
+      ),
   );
 
   fileItemIds.forEach((id) => {
@@ -89,11 +89,11 @@ function generateWearables() {
 
     const jsonPath = path.join(
       __dirname,
-      `../public/wearables/${ITEM_IDS[name]}.json`
+      `../public/wearables/${ITEM_IDS[name]}.json`,
     );
     const hexJsonPath = path.join(
       __dirname,
-      `../public/wearables/${zeroPadded}.json`
+      `../public/wearables/${zeroPadded}.json`,
     );
 
     fs.writeFile(jsonPath, JSON.stringify(metadata), () => undefined);
@@ -117,9 +117,9 @@ function generateWearables() {
       .map(String)
       .concat(
         Object.values(KNOWN_IDS).map((id) =>
-          Number(id).toString(16).padStart(64, "0")
-        )
-      )
+          Number(id).toString(16).padStart(64, "0"),
+        ),
+      ),
   );
 
   fileItemIds.forEach((id) => {

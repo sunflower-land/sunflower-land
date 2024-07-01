@@ -20,7 +20,7 @@ describe("tradeTentacle", () => {
         action: {
           type: "shelly.tradeTentacle",
         },
-      })
+      }),
     ).toThrow("You do not have a Bumpkin");
   });
 
@@ -35,7 +35,7 @@ describe("tradeTentacle", () => {
         action: {
           type: "shelly.tradeTentacle",
         },
-      })
+      }),
     ).toThrow("Insufficient quantity to trade");
   });
 
@@ -63,7 +63,7 @@ describe("tradeTentacle", () => {
         action: {
           type: "shelly.tradeTentacle",
         },
-      })
+      }),
     ).toThrow("Insufficient quantity to trade");
   });
 

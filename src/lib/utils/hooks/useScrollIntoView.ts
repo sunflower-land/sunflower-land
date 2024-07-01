@@ -58,7 +58,7 @@ export enum Section {
 export const useScrollIntoView = () => {
   const scrollIntoView = (
     id: Section | undefined,
-    behavior?: ScrollBehavior
+    behavior?: ScrollBehavior,
   ) => {
     if (!id) return;
 

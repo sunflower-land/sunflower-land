@@ -268,7 +268,7 @@ export const createAuctioneerMachine = ({
               cond: (context) =>
                 !!context.bid &&
                 !context.auctions.find(
-                  (auction) => auction.auctionId === context.bid?.auctionId
+                  (auction) => auction.auctionId === context.bid?.auctionId,
                 ),
             },
             {
@@ -291,7 +291,7 @@ export const createAuctioneerMachine = ({
               actions: () =>
                 localStorage.setItem(
                   "auctioneer_tutorial",
-                  Date.now().toString()
+                  Date.now().toString(),
                 ),
             },
           },
@@ -322,7 +322,7 @@ export const createAuctioneerMachine = ({
               const { tickets, auctionId } = event as BidEvent;
 
               const auction = context.auctions.find(
-                (a) => a.auctionId === auctionId
+                (a) => a.auctionId === auctionId,
               ) as Auction;
 
               const { game } = await bid({
@@ -453,5 +453,5 @@ export const createAuctioneerMachine = ({
           transactionId: () => randomID(),
         }),
       },
-    }
+    },
   );

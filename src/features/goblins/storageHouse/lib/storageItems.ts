@@ -45,7 +45,7 @@ export function getDeliverableItems({ game }: { game: GameState }) {
 
       return acc;
     },
-    {} as Inventory
+    {} as Inventory,
   );
 }
 
@@ -77,6 +77,6 @@ export function getBankItems(game: GameState) {
         [itemName]: amount,
       };
     },
-    {} as Inventory
+    {} as Inventory,
   );
 }

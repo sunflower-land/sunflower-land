@@ -31,7 +31,7 @@ export function placeChicken({
   }
 
   const placedChickens = getKeys(stateCopy.chickens).filter(
-    (index) => stateCopy.chickens[index].coordinates
+    (index) => stateCopy.chickens[index].coordinates,
   ).length;
 
   if (stateCopy.inventory.Chicken?.lte(placedChickens)) {

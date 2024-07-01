@@ -17,7 +17,7 @@ describe("plantGreenhouse", () => {
           id: 1,
         },
         state: farm,
-      })
+      }),
     ).toThrow("Greenhouse does not exist");
   });
 
@@ -41,7 +41,7 @@ describe("plantGreenhouse", () => {
             ],
           },
         },
-      })
+      }),
     ).toThrow("Pot does not exist");
   });
   it("requires plant exists", () => {
@@ -70,7 +70,7 @@ describe("plantGreenhouse", () => {
             ],
           },
         },
-      })
+      }),
     ).toThrow("Plant does not exist");
   });
   it("requires plant is ready", () => {
@@ -105,7 +105,7 @@ describe("plantGreenhouse", () => {
             ],
           },
         },
-      })
+      }),
     ).toThrow("Plant is not ready");
   });
   it("harvests plant", () => {

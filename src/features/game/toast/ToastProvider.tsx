@@ -41,7 +41,7 @@ export interface Toast {
 export const ToastContext = createContext<{
   toastsList: Toast[];
   setInventory: (
-    inventory: Partial<Record<InventoryItemName, Decimal>>
+    inventory: Partial<Record<InventoryItemName, Decimal>>,
   ) => void;
   setSflBalance: (balance: Decimal) => void;
   setCoinBalance: (balance: number) => void;
@@ -94,30 +94,30 @@ export const ToastProvider: FC = ({ children }) => {
   const getDifference = (item: ToastItem) => {
     if (item === "coins") {
       return new Decimal(
-        (newCoinBalance.current ?? 0) - (oldCoinBalance.current ?? 0)
+        (newCoinBalance.current ?? 0) - (oldCoinBalance.current ?? 0),
       );
     }
 
     if (item === "SFL") {
       return (newSflBalance.current ?? new Decimal(0))?.minus(
-        oldSflBalance.current ?? new Decimal(0)
+        oldSflBalance.current ?? new Decimal(0),
       );
     }
 
     if (item === "XP") {
       return (newExperience.current ?? new Decimal(0))?.minus(
-        oldExperience.current ?? new Decimal(0)
+        oldExperience.current ?? new Decimal(0),
       );
     }
 
     if (item === "faction_points") {
       return new Decimal(
-        (newFactionPoints.current ?? 0) - (oldFactionPoints.current ?? 0)
+        (newFactionPoints.current ?? 0) - (oldFactionPoints.current ?? 0),
       );
     }
 
     return (newInventory.current?.[item] ?? new Decimal(0))?.minus(
-      oldInventory.current?.[item] ?? new Decimal(0)
+      oldInventory.current?.[item] ?? new Decimal(0),
     );
   };
 
@@ -136,7 +136,7 @@ export const ToastProvider: FC = ({ children }) => {
     setToastsList((toastList) => {
       // do not add new toast if the quantity difference of the toast is the same as that of existing toasts with the matching item
       const existingToast = toastList.find(
-        (existingToast) => existingToast.item === toast.item
+        (existingToast) => existingToast.item === toast.item,
       );
       if (!!existingToast && existingToast.difference.equals(difference)) {
         return toastList;
@@ -210,7 +210,7 @@ export const ToastProvider: FC = ({ children }) => {
    * @param inventory The new inventory state.
    */
   const setInventory = (
-    inventory: Partial<Record<InventoryItemName, Decimal>>
+    inventory: Partial<Record<InventoryItemName, Decimal>>,
   ) => {
     // set the new state
     newInventory.current = inventory;
@@ -312,7 +312,7 @@ export const ToastProvider: FC = ({ children }) => {
 
     // set toast if experience difference is not zero
     const difference = experience.minus(
-      oldExperience.current ?? new Decimal(0)
+      oldExperience.current ?? new Decimal(0),
     );
     if (!difference.equals(0)) {
       addToast({ item: "XP" });

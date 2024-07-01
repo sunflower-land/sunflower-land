@@ -18,7 +18,7 @@ export const Actions: React.FC<Props> = ({
   moderatorFarmId,
 }) => {
   const [step, setStep] = useState<"MAIN" | "MUTE" | "UNMUTE" | "LOADING">(
-    "MAIN"
+    "MAIN",
   );
 
   return (

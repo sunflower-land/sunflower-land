@@ -34,7 +34,7 @@ describe("startPotion", () => {
         action: {
           type: "potion.started",
         },
-      })
+      }),
     ).toThrow("There is already a game in progress");
   });
 
@@ -48,7 +48,7 @@ describe("startPotion", () => {
         action: {
           type: "potion.started",
         },
-      })
+      }),
     ).toThrow("Insufficient coins to start a game");
   });
 

@@ -31,7 +31,7 @@ export function placeIron({
   const game = cloneDeep(state) as GameState;
 
   const available = (game.inventory["Iron Rock"] || new Decimal(0)).minus(
-    Object.keys(game.iron).length
+    Object.keys(game.iron).length,
   );
 
   if (available.lt(1)) {

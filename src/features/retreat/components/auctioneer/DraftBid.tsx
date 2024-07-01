@@ -33,8 +33,8 @@ function getInitialTickets(auction: Auction, gameState: GameState) {
     getKeys(auction.ingredients).some(
       (name) =>
         !gameState.inventory[name]?.gt(
-          (auction.ingredients[name] ?? 0) * defaultTickets
-        )
+          (auction.ingredients[name] ?? 0) * defaultTickets,
+        ),
     )
   ) {
     return 1;
@@ -72,7 +72,7 @@ export const DraftBid: React.FC<Props> = ({
   // Validators for multi ingredient auctions. These auctions go up in multiples of tickets
   const missingSFL = gameState.balance.lt(auction.sfl * tickets);
   const missingIngredients = getKeys(auction.ingredients).some((name) =>
-    gameState.inventory[name]?.lt((auction.ingredients[name] ?? 0) * tickets)
+    gameState.inventory[name]?.lt((auction.ingredients[name] ?? 0) * tickets),
   );
 
   const getInputErrorMessage = () => {
@@ -218,7 +218,7 @@ export const DraftBid: React.FC<Props> = ({
                     <p
                       className={classNames("mr-1 text-right text-sm", {
                         ["text-red-500"]: gameState.inventory[name]?.lt(
-                          (auction.ingredients[name] ?? 0) * tickets
+                          (auction.ingredients[name] ?? 0) * tickets,
                         ),
                       })}
                     >
@@ -272,7 +272,7 @@ export const DraftBid: React.FC<Props> = ({
 
                   if (VALID_NUMBER.test(e.target.value)) {
                     const amount = Number(
-                      e.target.value.slice(0, INPUT_MAX_CHAR)
+                      e.target.value.slice(0, INPUT_MAX_CHAR),
                     );
                     setTickets(amount);
                   }
@@ -281,7 +281,7 @@ export const DraftBid: React.FC<Props> = ({
                   "my-1 text-shadow rounded-sm shadow-inner shadow-black bg-brown-200 p-2 h-10",
                   {
                     "text-error": !!getInputErrorMessage(),
-                  }
+                  },
                 )}
               />
               <img

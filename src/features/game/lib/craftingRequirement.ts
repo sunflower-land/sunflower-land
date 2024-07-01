@@ -9,7 +9,7 @@ import { getBumpkinLevel } from "./level";
  */
 export const craftingRequirementsMet = (
   gameState: Readonly<GameState>,
-  requirements?: ExpansionRequirements
+  requirements?: ExpansionRequirements,
 ) => {
   if (!requirements) {
     return false;
@@ -18,7 +18,7 @@ export const craftingRequirementsMet = (
   const hasCoins = gameState.coins >= (requirements.coins ?? 0);
 
   const hasResources = getKeys(requirements.resources).every((name) =>
-    gameState.inventory[name]?.gte(requirements.resources[name] ?? 0)
+    gameState.inventory[name]?.gte(requirements.resources[name] ?? 0),
   );
 
   const hasLevel = requirements.bumpkinLevel

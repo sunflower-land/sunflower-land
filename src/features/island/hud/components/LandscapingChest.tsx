@@ -27,12 +27,12 @@ export const LandscapingChest: React.FC<Props> = ({
   onPlaceBud,
 }) => {
   const buds = getKeys(getChestBuds(state)).map(
-    (budId) => `Bud-${budId}` as BudName
+    (budId) => `Bud-${budId}` as BudName,
   );
 
   const items = getChestItems(state);
   const [selected, setSelected] = useState(
-    [...buds, ...getKeys(items).sort((a, b) => a.localeCompare(b))][0]
+    [...buds, ...getKeys(items).sort((a, b) => a.localeCompare(b))][0],
   );
 
   return (

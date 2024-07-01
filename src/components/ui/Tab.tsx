@@ -39,7 +39,7 @@ export const Tab: React.FC<Props> = ({
         className={classNames(
           "flex items-center cursor-pointer px-2",
           className,
-          { "opacity-50 cursor-not-allowed": disabled }
+          { "opacity-50 cursor-not-allowed": disabled },
         )}
         onClick={disabled ? undefined : onClick}
         style={{

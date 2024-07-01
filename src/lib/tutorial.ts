@@ -25,7 +25,7 @@ export function acknowledgeTutorial(tutorialName: TutorialName) {
 
   localStorage.setItem(
     TUTORIAL_ACKNOWLEDGEMENT_KEY,
-    JSON.stringify(newAcknowledgements)
+    JSON.stringify(newAcknowledgements),
   );
 }
 

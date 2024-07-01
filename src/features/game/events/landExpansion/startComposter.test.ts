@@ -13,7 +13,7 @@ describe("start Compost Bin", () => {
       startComposter({
         state: GAME_STATE,
         action: { type: "composter.started", building: "Compost Bin" },
-      })
+      }),
     ).toThrow("Composter does not exist");
   });
 
@@ -39,7 +39,7 @@ describe("start Compost Bin", () => {
           },
         },
         action: { type: "composter.started", building: "Compost Bin" },
-      })
+      }),
     ).toThrow("Composter is already composting");
   });
 
@@ -68,7 +68,7 @@ describe("start Compost Bin", () => {
           },
         },
         action: { type: "composter.started", building: "Compost Bin" },
-      })
+      }),
     ).toThrow("Missing requirements");
   });
 
@@ -151,10 +151,10 @@ describe("start Compost Bin", () => {
     });
 
     expect(newState.buildings["Compost Bin"]?.[0].producing?.startedAt).toBe(
-      dateNow
+      dateNow,
     );
     expect(newState.buildings["Compost Bin"]?.[0].producing?.readyAt).toBe(
-      dateNow + 6 * 60 * 60 * 1000
+      dateNow + 6 * 60 * 60 * 1000,
     );
   });
 
@@ -196,7 +196,7 @@ describe("start Compost Bin", () => {
     });
 
     expect(newState.buildings["Compost Bin"]?.[0].producing?.readyAt).toBe(
-      dateNow + 5.4 * 60 * 60 * 1000
+      dateNow + 5.4 * 60 * 60 * 1000,
     );
   });
 });
@@ -209,7 +209,7 @@ describe("start Turbo Composter", () => {
       startComposter({
         state: GAME_STATE,
         action: { type: "composter.started", building: "Turbo Composter" },
-      })
+      }),
     ).toThrow("Composter does not exist");
   });
 
@@ -235,7 +235,7 @@ describe("start Turbo Composter", () => {
           },
         },
         action: { type: "composter.started", building: "Turbo Composter" },
-      })
+      }),
     ).toThrow("Composter is already composting");
   });
 
@@ -265,7 +265,7 @@ describe("start Turbo Composter", () => {
           },
         },
         action: { type: "composter.started", building: "Turbo Composter" },
-      })
+      }),
     ).toThrow("Missing requirements");
   });
 
@@ -343,10 +343,10 @@ describe("start Turbo Composter", () => {
     });
 
     expect(
-      newState.buildings["Turbo Composter"]?.[0].producing?.startedAt
+      newState.buildings["Turbo Composter"]?.[0].producing?.startedAt,
     ).toBe(dateNow);
     expect(newState.buildings["Turbo Composter"]?.[0].producing?.readyAt).toBe(
-      dateNow + 8 * 60 * 60 * 1000
+      dateNow + 8 * 60 * 60 * 1000,
     );
   });
 
@@ -388,7 +388,7 @@ describe("start Turbo Composter", () => {
     });
 
     expect(newState.buildings["Turbo Composter"]?.[0].producing?.readyAt).toBe(
-      dateNow + 7.2 * 60 * 60 * 1000
+      dateNow + 7.2 * 60 * 60 * 1000,
     );
   });
 });
@@ -401,7 +401,7 @@ describe("start Premium Composter", () => {
       startComposter({
         state: GAME_STATE,
         action: { type: "composter.started", building: "Premium Composter" },
-      })
+      }),
     ).toThrow("Composter does not exist");
   });
 
@@ -427,7 +427,7 @@ describe("start Premium Composter", () => {
           },
         },
         action: { type: "composter.started", building: "Premium Composter" },
-      })
+      }),
     ).toThrow("Composter is already composting");
   });
 
@@ -455,7 +455,7 @@ describe("start Premium Composter", () => {
           },
         },
         action: { type: "composter.started", building: "Premium Composter" },
-      })
+      }),
     ).toThrow("Missing requirements");
   });
 
@@ -533,10 +533,10 @@ describe("start Premium Composter", () => {
     });
 
     expect(
-      newState.buildings["Premium Composter"]?.[0].producing?.startedAt
+      newState.buildings["Premium Composter"]?.[0].producing?.startedAt,
     ).toBe(dateNow);
     expect(
-      newState.buildings["Premium Composter"]?.[0].producing?.readyAt
+      newState.buildings["Premium Composter"]?.[0].producing?.readyAt,
     ).toBe(dateNow + 12 * 60 * 60 * 1000);
   });
   it("gives a 10% speed boost if the player has the Soil Krabby", () => {
@@ -577,7 +577,7 @@ describe("start Premium Composter", () => {
     });
 
     expect(
-      newState.buildings["Premium Composter"]?.[0].producing?.readyAt
+      newState.buildings["Premium Composter"]?.[0].producing?.readyAt,
     ).toBe(dateNow + 10.8 * 60 * 60 * 1000);
   });
 });

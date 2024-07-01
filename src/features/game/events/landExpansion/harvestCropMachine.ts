@@ -51,12 +51,12 @@ export function harvestCropMachine({
   bumpkin.activity = trackActivity(
     `${pack.crop} Harvested`,
     bumpkin.activity,
-    new Decimal(pack.seeds)
+    new Decimal(pack.seeds),
   );
 
   // Filter out the harvested crops and add them to the player's inventory
   machine.queue = machine.queue.filter(
-    (_, index) => index !== action.packIndex
+    (_, index) => index !== action.packIndex,
   );
 
   return stateCopy;

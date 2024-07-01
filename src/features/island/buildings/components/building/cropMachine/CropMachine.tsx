@@ -52,7 +52,7 @@ export const CropMachine: React.FC<Props> = ({ id }) => {
 
   const cropMachine = useSelector(
     gameService,
-    _cropMachine(id)
+    _cropMachine(id),
   ) as CropMachineBuilding;
   const queue = cropMachine?.queue ?? [];
 
@@ -69,7 +69,7 @@ export const CropMachine: React.FC<Props> = ({ id }) => {
 
   const growingCropPackStage = useSelector(
     cropMachineService,
-    _growingCropPackStage
+    _growingCropPackStage,
   );
   const canHarvest = useSelector(cropMachineService, _canHarvest);
   const running = useSelector(cropMachineService, _running);
@@ -88,7 +88,7 @@ export const CropMachine: React.FC<Props> = ({ id }) => {
     ] as CropMachineBuilding[];
 
     const updatedMachine = machines.find(
-      (machine) => machine.id === id
+      (machine) => machine.id === id,
     ) as CropMachineBuilding;
 
     cropMachineService.send({
@@ -109,7 +109,7 @@ export const CropMachine: React.FC<Props> = ({ id }) => {
     ] as CropMachineBuilding[];
 
     const updatedMachine = machines.find(
-      (machine) => machine.id === id
+      (machine) => machine.id === id,
     ) as CropMachineBuilding;
 
     cropMachineService.send({
@@ -130,7 +130,7 @@ export const CropMachine: React.FC<Props> = ({ id }) => {
     ] as CropMachineBuilding[];
 
     const updatedMachine = machines.find(
-      (machine) => machine.id === id
+      (machine) => machine.id === id,
     ) as CropMachineBuilding;
 
     cropMachineService.send({

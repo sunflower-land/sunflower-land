@@ -38,7 +38,7 @@ export function burnCollectible({
   }
 
   const collectibleToRemove = collectibleGroup.find(
-    (collectible) => collectible.id === action.id
+    (collectible) => collectible.id === action.id,
   );
 
   if (!collectibleToRemove) {
@@ -46,7 +46,7 @@ export function burnCollectible({
   }
 
   collectibleGroup = collectibleGroup.filter(
-    (collectible) => collectible.id !== collectibleToRemove.id
+    (collectible) => collectible.id !== collectibleToRemove.id,
   );
 
   if (collectibleGroup.length === 0) {

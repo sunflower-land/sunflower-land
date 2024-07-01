@@ -17,7 +17,7 @@ describe("collect eggs", () => {
       collectEggs({
         state: GAME_STATE,
         action: { type: "chicken.collectEgg", id: "3" },
-      })
+      }),
     ).toThrow("This chicken does not exist");
   });
 
@@ -35,7 +35,7 @@ describe("collect eggs", () => {
           },
         },
         action: { type: "chicken.collectEgg", id: "0" },
-      })
+      }),
     ).toThrow("This chicken hasn't layed an egg");
   });
 

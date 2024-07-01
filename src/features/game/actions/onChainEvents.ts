@@ -25,7 +25,7 @@ async function loadPastEvents({ farmId }: LoadPastEventArgs) {
   const farmTrades = await getFarmSlots(wallet.web3Provider, farmId);
 
   const recentPurchases = farmTrades.filter(
-    (farmTrade) => farmTrade.listing?.status === ListingStatus.PURCHASED
+    (farmTrade) => farmTrade.listing?.status === ListingStatus.PURCHASED,
   );
 
   const tradeEvents: OnChainEvent[] = recentPurchases.map(({ listing }) => {
@@ -35,13 +35,13 @@ async function loadPastEvents({ farmId }: LoadPastEventArgs) {
       icon: ITEM_DETAILS[item].image,
       timestamp: listing?.purchasedAt || 0,
       message: `${t("land")} #${listing?.purchasedById} ${t(
-        "purchased"
+        "purchased",
       )} ${Number(listing?.resourceAmount.toString())} ${item}`,
     };
   });
 
   const sorted = tradeEvents.sort((a, b) =>
-    a.timestamp - b.timestamp > 0 ? -1 : 1
+    a.timestamp - b.timestamp > 0 ? -1 : 1,
   );
 
   return sorted;
@@ -77,7 +77,7 @@ export async function unseenEvents({
   });
 
   const unseen = pastEvents.filter(
-    (event) => event.timestamp > lastBlock.timestamp / 1000
+    (event) => event.timestamp > lastBlock.timestamp / 1000,
   );
   storeLastBlock(block);
 

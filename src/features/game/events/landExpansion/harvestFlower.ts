@@ -66,13 +66,13 @@ export function harvestFlower({
   bumpkin.activity = trackActivity(
     `${flower.name} Harvested`,
     bumpkin?.activity,
-    new Decimal(1)
+    new Decimal(1),
   );
 
   stateCopy.farmActivity = trackFarmActivity(
     `${flower.name} Harvested`,
     stateCopy.farmActivity,
-    1
+    1,
   );
 
   stateCopy.beehives = updateBeehives({

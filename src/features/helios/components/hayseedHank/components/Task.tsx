@@ -37,7 +37,7 @@ export const GuideTask: React.FC<GuideTaskProps> = ({
     Math.min(1, progress / achievement.requirement) * 100;
 
   const guide = getKeys(GUIDE_PATHS).find((guide) =>
-    GUIDE_PATHS[guide].achievements.includes(task)
+    GUIDE_PATHS[guide].achievements.includes(task),
   );
   return (
     <>
@@ -69,7 +69,7 @@ export const GuideTask: React.FC<GuideTaskProps> = ({
             }}
           />
           <span className="text-xs sm:text-sm ml-1">{`${setPrecision(
-            new Decimal(progress)
+            new Decimal(progress),
           )}/${achievement.requirement}`}</span>
         </div>
         {/* {!onNeedHelp &&

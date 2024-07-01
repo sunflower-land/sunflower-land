@@ -66,7 +66,7 @@ export const ModerationTools: React.FC<Props> = ({
     <>
       <div
         className={classNames(
-          "fixed bottom-2 left-20 cursor-pointer hover:img-highlight"
+          "fixed bottom-2 left-20 cursor-pointer hover:img-highlight",
         )}
         style={{ width: `${PIXEL_SCALE * 22}px`, zIndex: 49 }}
         onClick={toggleModerationTool}

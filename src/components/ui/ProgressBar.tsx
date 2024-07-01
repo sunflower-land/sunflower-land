@@ -111,7 +111,7 @@ export const Bar: React.FC<{ percentage: number; type: progressType }> = ({
   type,
 }) => {
   const progressWidth = Math.floor(
-    (DIMENSIONS.innerWidth * Math.min(percentage, 100)) / 100
+    (DIMENSIONS.innerWidth * Math.min(percentage, 100)) / 100,
   );
 
   return (

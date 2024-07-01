@@ -12,7 +12,7 @@ describe("giftBumpkin", () => {
           type: "flowers.gifted",
           bumpkin: "betty",
         },
-      })
+      }),
     ).toThrow("Item is not a flower");
   });
 
@@ -25,7 +25,7 @@ describe("giftBumpkin", () => {
           type: "flowers.gifted",
           bumpkin: "betty",
         },
-      })
+      }),
     ).toThrow("Player is missing flower");
   });
 
@@ -38,7 +38,7 @@ describe("giftBumpkin", () => {
           type: "flowers.gifted",
           bumpkin: "craig",
         },
-      })
+      }),
     ).toThrow("Bumpkin does not accept gifts");
   });
 

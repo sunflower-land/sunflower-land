@@ -12,7 +12,7 @@ export const Web3Missing: React.FC<{
   const goToMetamaskSetupDocs = () => {
     window.open(
       "https://docs.sunflower-land.com/guides/getting-setup#metamask-setup",
-      "_blank"
+      "_blank",
     );
   };
 
@@ -23,14 +23,14 @@ export const Web3Missing: React.FC<{
   const goToCryptoComSetupDocs = () => {
     window.open(
       "https://chrome.google.com/webstore/detail/cryptocom-wallet-extensio/hifafgmccdpekplomjjkcfgodnhcellj",
-      "_blank"
+      "_blank",
     );
   };
 
   const goToBitgetSetupDocs = () => {
     window.open(
       "https://chrome.google.com/webstore/detail/bitget-wallet-formerly-bi/jiidiaalihmmhddjgbnbgdfflelocpak",
-      "_blank"
+      "_blank",
     );
   };
 

@@ -34,13 +34,13 @@ export const Button: React.FC<Props> = ({
     {
       delay: 500,
       interval: longPressInterval,
-    }
+    },
   );
 
   const button = useSound("button");
 
   const onClickWithSound = (
-    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
   ) => {
     button.play();
     onClick?.(event);
@@ -55,7 +55,7 @@ export const Button: React.FC<Props> = ({
       className={classnames(
         "w-full p-1 text-sm object-contain justify-center items-center hover:brightness-90 cursor-pointer flex disabled:opacity-50",
         className,
-        { "cursor-not-allowed": disabled }
+        { "cursor-not-allowed": disabled },
       )}
       type={type}
       disabled={disabled}

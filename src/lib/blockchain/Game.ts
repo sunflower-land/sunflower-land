@@ -71,14 +71,14 @@ export async function getRecipes(
   web3: Web3,
   account: string,
   ids: number[],
-  attempts = 0
+  attempts = 0,
 ): Promise<Recipe[]> {
   await new Promise((res) => setTimeout(res, 3000 * attempts));
 
   try {
     const recipes: Recipe[] = await new web3.eth.Contract(
       GameABI as AbiItem[],
-      address as string
+      address as string,
     ).methods
       .getRecipeBatch(ids)
       .call({ from: account });
@@ -111,9 +111,9 @@ export async function getRecipes(
           Number(
             fromWei(
               amount.toString(),
-              getItemUnit(KNOWN_ITEMS[ingredientIds[index]])
-            )
-          )
+              getItemUnit(KNOWN_ITEMS[ingredientIds[index]]),
+            ),
+          ),
         ),
         cooldownSeconds: Number(recipe.cooldownSeconds),
       };
@@ -134,14 +134,14 @@ export async function getMintedAtBatch(
   web3: Web3,
   farmId: number,
   ids: number[],
-  attempts = 0
+  attempts = 0,
 ): Promise<number[]> {
   await new Promise((res) => setTimeout(res, 3000 * attempts));
 
   try {
     const mintedAts: number[] = await new web3.eth.Contract(
       GameABI as AbiItem[],
-      address as string
+      address as string,
     ).methods
       .getMintedAtBatch(farmId, ids)
       .call();
@@ -229,7 +229,7 @@ export async function syncProgress({
     web3,
     account,
     farmId,
-    oldSessionId
+    oldSessionId,
   );
   return newSessionId;
 }
@@ -276,9 +276,8 @@ export async function mint({
           // Sequence wallet doesn't resolve the receipt. Therefore
           // We try to fetch it after we have a tx hash returned
           // From Sequence.
-          const receipt: any = await web3.eth.getTransactionReceipt(
-            transactionHash
-          );
+          const receipt: any =
+            await web3.eth.getTransactionReceipt(transactionHash);
 
           if (receipt) resolve(receipt);
         } catch (e) {
@@ -294,7 +293,7 @@ export async function mint({
     web3,
     account,
     farmId,
-    oldSessionId
+    oldSessionId,
   );
   return newSessionId;
 }
@@ -322,7 +321,7 @@ export async function mintCollectible({
         deadline,
         farmId,
         fee,
-        mintData
+        mintData,
       )
       .send({ from: account, value: fee, gasPrice })
       .on("error", function (error: any) {
@@ -338,9 +337,8 @@ export async function mintCollectible({
           // Sequence wallet doesn't resolve the receipt. Therefore
           // We try to fetch it after we have a tx hash returned
           // From Sequence.
-          const receipt: any = await web3.eth.getTransactionReceipt(
-            transactionHash
-          );
+          const receipt: any =
+            await web3.eth.getTransactionReceipt(transactionHash);
 
           if (receipt) resolve(receipt);
         } catch (e) {
@@ -356,7 +354,7 @@ export async function mintCollectible({
     web3,
     account,
     farmId,
-    oldSessionId
+    oldSessionId,
   );
   return newSessionId;
 }
@@ -407,7 +405,7 @@ export async function listTrade({
         resourceAmount,
         sfl,
         tax,
-        fee
+        fee,
       )
       .send({ from: account, value: fee, gasPrice })
       .on("error", function (error: any) {
@@ -423,9 +421,8 @@ export async function listTrade({
           // Sequence wallet doesn't resolve the receipt. Therefore
           // We try to fetch it after we have a tx hash returned
           // From Sequence.
-          const receipt: any = await web3.eth.getTransactionReceipt(
-            transactionHash
-          );
+          const receipt: any =
+            await web3.eth.getTransactionReceipt(transactionHash);
 
           if (receipt) resolve(receipt);
         } catch (e) {
@@ -443,7 +440,7 @@ export async function listTrade({
     web3,
     account,
     farmId,
-    oldSessionId
+    oldSessionId,
   );
   return newSessionId;
 }
@@ -478,7 +475,7 @@ export async function cancelTrade({
         nextSessionId,
         deadline,
         farmId,
-        listingId
+        listingId,
       )
       .send({ from: account, gasPrice })
       .on("error", function (error: any) {
@@ -494,9 +491,8 @@ export async function cancelTrade({
           // Sequence wallet doesn't resolve the receipt. Therefore
           // We try to fetch it after we have a tx hash returned
           // From Sequence.
-          const receipt: any = await web3.eth.getTransactionReceipt(
-            transactionHash
-          );
+          const receipt: any =
+            await web3.eth.getTransactionReceipt(transactionHash);
 
           if (receipt) resolve(receipt);
         } catch (e) {
@@ -514,7 +510,7 @@ export async function cancelTrade({
     web3,
     account,
     farmId,
-    oldSessionId
+    oldSessionId,
   );
   return newSessionId;
 }
@@ -552,7 +548,7 @@ export async function purchaseTrade({
         deadline,
         farmId,
         listingId,
-        sfl
+        sfl,
       )
       .send({ from: account, gasPrice })
       .on("error", function (error: any) {
@@ -568,9 +564,8 @@ export async function purchaseTrade({
           // Sequence wallet doesn't resolve the receipt. Therefore
           // We try to fetch it after we have a tx hash returned
           // From Sequence.
-          const receipt: any = await web3.eth.getTransactionReceipt(
-            transactionHash
-          );
+          const receipt: any =
+            await web3.eth.getTransactionReceipt(transactionHash);
 
           if (receipt) resolve(receipt);
         } catch (e) {
@@ -588,7 +583,7 @@ export async function purchaseTrade({
     web3,
     account,
     farmId,
-    oldSessionId
+    oldSessionId,
   );
   return newSessionId;
 }

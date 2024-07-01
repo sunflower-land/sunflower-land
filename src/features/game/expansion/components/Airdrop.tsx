@@ -95,7 +95,7 @@ export const AirdropPopup: React.FC = () => {
   const [state] = useActor(gameService);
 
   const airdrop = state.context.state.airdrops?.find(
-    (airdrop) => !airdrop.coordinates
+    (airdrop) => !airdrop.coordinates,
   );
 
   if (!airdrop) {

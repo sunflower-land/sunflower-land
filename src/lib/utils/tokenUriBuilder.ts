@@ -157,7 +157,7 @@ export function interpretTokenUri(tokenUri: string) {
     parts.splice(1, 1);
   }
   const [tokenId, version, ...ids] = parts.map((val) =>
-    !val.startsWith("v") ? Number(val) : val
+    !val.startsWith("v") ? Number(val) : val,
   );
 
   const equipped: BumpkinParts = {
@@ -180,7 +180,7 @@ export function interpretTokenUri(tokenUri: string) {
     }),
     ...(ids[Slots.SecondaryTool] && {
       secondaryTool: getItemName<BumpkinSecondaryTool>(
-        ids[Slots.SecondaryTool]
+        ids[Slots.SecondaryTool],
       ),
     }),
     ...(ids[Slots.Onesie] && {

@@ -61,7 +61,7 @@ export const GenieLamp: React.FC<Props> = ({ id }) => {
           "absolute w-full cursor-pointer hover:img-highlight",
           {
             "saturate-50": hasBeenRubbed,
-          }
+          },
         )}
         alt="Genie Lamp"
       />

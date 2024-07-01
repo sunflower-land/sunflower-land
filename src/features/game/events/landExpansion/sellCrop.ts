@@ -68,12 +68,12 @@ export function sellCrop({ state, action }: Options): GameState {
   bumpkin.activity = trackActivity(
     "Coins Earned",
     bumpkin.activity,
-    new Decimal(coinsEarned)
+    new Decimal(coinsEarned),
   );
   bumpkin.activity = trackActivity(
     `${action.crop} Sold`,
     bumpkin?.activity,
-    new Decimal(amount)
+    new Decimal(amount),
   );
 
   game.coins = game.coins + coinsEarned;

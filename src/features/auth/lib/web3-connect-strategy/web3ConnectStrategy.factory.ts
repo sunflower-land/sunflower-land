@@ -9,7 +9,7 @@ import { CryptoComStrategy } from "./cryptoCom.strategy";
 import { BitgetStrategy } from "./bitget.strategy";
 
 export function web3ConnectStrategyFactory(
-  providerName: Web3SupportedProviders
+  providerName: Web3SupportedProviders,
 ): IWeb3ConnectStrategy {
   switch (providerName) {
     case Web3SupportedProviders.METAMASK:

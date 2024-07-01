@@ -19,7 +19,7 @@ describe("fishMilestones", () => {
   it("Completes Deep Sea Diver", () => {
     const allCaught = getEncyclopediaFish().reduce(
       (acc, name) => ({ ...acc, [`${name} Caught`]: 5 }),
-      {}
+      {},
     );
 
     const progress =

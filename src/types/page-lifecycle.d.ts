@@ -17,7 +17,7 @@ declare module "page-lifecycle/dist/lifecycle.mjs" {
     removeUnsavedChanges: (id: symbol | any) => void;
     addEventListener: (
       type: string,
-      listener: (evt: PageLifecycleEvent) => void
+      listener: (evt: PageLifecycleEvent) => void,
     ) => void;
   }
   const lifecycle: PageLifecycle;

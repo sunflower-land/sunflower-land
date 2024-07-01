@@ -47,7 +47,7 @@ export const EmblemsTrading: React.FC<Props> = ({ onClose, emblem }) => {
   useEffect(() => {
     const load = async () => {
       const floorPrices = await getListingsFloorPrices(
-        authState.context.user.rawToken
+        authState.context.user.rawToken,
       );
       setFloorPrices((prevFloorPrices) => ({
         ...prevFloorPrices,

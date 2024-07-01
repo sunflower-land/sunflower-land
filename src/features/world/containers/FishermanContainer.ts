@@ -22,7 +22,7 @@ export class FishermanContainer extends Phaser.GameObjects.Container {
       {
         frameWidth: 58,
         frameHeight: 50,
-      }
+      },
     );
 
     spriteLoader.addListener(Phaser.Loader.Events.COMPLETE, () => {
@@ -115,7 +115,7 @@ export class FishermanContainer extends Phaser.GameObjects.Container {
             this.removeAlert();
           }
         }
-      }
+      },
     );
 
     PubSub.subscribe("BEACH_FISHERMAN_CAST", (msg, data) => {

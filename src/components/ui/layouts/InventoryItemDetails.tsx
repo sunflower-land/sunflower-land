@@ -141,7 +141,7 @@ export const InventoryItemDetails: React.FC<Props> = ({
       <div
         className={classNames(
           "border-t border-white w-full mb-2 pt-2 flex justify-between gap-x-3 gap-y-2 flex-wrap",
-          { "sm:flex-col sm:items-center sm:flex-nowrap": !wideLayout }
+          { "sm:flex-col sm:items-center sm:flex-nowrap": !wideLayout },
         )}
       >
         {/* Time requirement display */}

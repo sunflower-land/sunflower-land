@@ -38,7 +38,7 @@ export const FlowerShop: React.FC<Props> = ({ onClose }) => {
   const inventory = useSelector(gameService, _inventory);
 
   const desiredFlowerDialogue = useRandomItem(
-    desiredFlowerDialogues(flowerShop?.weeklyFlower ?? "Flower")
+    desiredFlowerDialogues(flowerShop?.weeklyFlower ?? "Flower"),
   );
 
   const [tab, setTab] = useState(0);

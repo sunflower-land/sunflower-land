@@ -53,7 +53,7 @@ describe("mixPotion", () => {
           attemptNumber: 1,
           potions: ["Happy Hooch", "Happy Hooch", "Happy Hooch", "Happy Hooch"],
         },
-      })
+      }),
     ).toThrowError("Attempt 1 has already been made");
   });
 
@@ -66,7 +66,7 @@ describe("mixPotion", () => {
           attemptNumber: 2,
           potions: ["Happy Hooch", "Happy Hooch", "Happy Hooch", "Happy Hooch"],
         },
-      })
+      }),
     ).toThrowError("Attempt 1 has not been made yet");
   });
 
@@ -132,7 +132,7 @@ describe("mixPotion", () => {
           attemptNumber: 4 as any,
           potions: ["Happy Hooch", "Happy Hooch", "Bloom Boost", "Happy Hooch"],
         },
-      })
+      }),
     ).toThrowError("Attempt 3 is the last attempt");
   });
 
@@ -167,7 +167,7 @@ describe("mixPotion", () => {
           attemptNumber: 3,
           potions: ["Happy Hooch", "Happy Hooch", "Flower Power", "Dream Drip"],
         },
-      })
+      }),
     ).toThrowError("Cannot mix potion on a finished game");
   });
 });

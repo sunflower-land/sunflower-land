@@ -27,7 +27,7 @@ export function collectCompost({
   const { bumpkin } = stateCopy;
 
   const building = stateCopy.buildings[action.building]?.find(
-    (b) => b.id === action.buildingId
+    (b) => b.id === action.buildingId,
   ) as CompostBuilding;
 
   if (!building) {
@@ -55,7 +55,7 @@ export function collectCompost({
 
   bumpkin.activity = trackActivity(
     `${action.building} Collected`,
-    bumpkin?.activity
+    bumpkin?.activity,
   );
 
   // Set on backend

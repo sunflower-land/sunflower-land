@@ -40,7 +40,7 @@ export function reelRod({
     game.farmActivity = trackFarmActivity(
       `${itemName} Caught`,
       game.farmActivity,
-      caught[itemName]
+      caught[itemName],
     );
   });
 

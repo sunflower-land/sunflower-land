@@ -69,7 +69,7 @@ export const StylistWearables: React.FC<Props> = ({ wearables }) => {
 
   const lessIngredients = () =>
     getKeys(wearable.ingredients).some((name) =>
-      (inventory[name] || new Decimal(0))?.lt(wearable.ingredients[name] ?? 0)
+      (inventory[name] || new Decimal(0))?.lt(wearable.ingredients[name] ?? 0),
     );
 
   const buy = () => {

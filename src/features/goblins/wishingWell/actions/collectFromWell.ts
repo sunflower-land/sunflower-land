@@ -61,7 +61,7 @@ export async function signCollectFromWell({
 
 export async function collectFromWell(
   account: string,
-  transaction: SignedTransaction
+  transaction: SignedTransaction,
 ) {
   const receipt = await collectFromWellOnChain({
     ...transaction,

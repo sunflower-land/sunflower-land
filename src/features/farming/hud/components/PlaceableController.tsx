@@ -81,8 +81,8 @@ export const PlaceableController: React.FC<Props> = ({ location }) => {
       const hasCoins = gameState.context.state.coins > requirements.coins * 2;
       const hasIngredients = getKeys(requirements.ingredients).every((name) =>
         gameState.context.state.inventory[name]?.gte(
-          requirements.ingredients[name]?.mul(2) ?? 0
-        )
+          requirements.ingredients[name]?.mul(2) ?? 0,
+        ),
       );
 
       hasRequirements = hasCoins && hasIngredients;
@@ -146,7 +146,7 @@ export const PlaceableController: React.FC<Props> = ({ location }) => {
         <div className="flex justify-center items-center mb-1">
           <img src={image} className="h-6 mr-2 img-highlight" />
           <p className="text-sm">{`${available.toNumber()} ${t(
-            "available"
+            "available",
           )}`}</p>
         </div>
       );

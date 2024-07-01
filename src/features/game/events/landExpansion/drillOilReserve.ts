@@ -38,7 +38,7 @@ function getNextOilDropAmount(game: GameState, reserve: OilReserve) {
 
 export function canDrillOilReserve(
   reserve: OilReserve,
-  now: number = Date.now()
+  now: number = Date.now(),
 ) {
   return now - reserve.oil.drilledAt > OIL_RESERVE_RECOVERY_TIME * 1000;
 }
@@ -67,7 +67,7 @@ export function drillOilReserve({
 
   // Add oil amount from last mine
   game.inventory.Oil = (game.inventory.Oil ?? new Decimal(0)).add(
-    oilReserve.oil.amount
+    oilReserve.oil.amount,
   );
   // Take away one drill
   game.inventory["Oil Drill"] = drills.minus(1);

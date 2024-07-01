@@ -45,7 +45,7 @@ export const BumpkinPartGroup: React.FC<Props> = ({
               "w-full cursor-pointer relative aspect-square hover:img-highlight !p-0",
               {
                 "img-highlight": selected === name || bumpkinItem,
-              }
+              },
             )}
             onClick={() => onSelect(name)}
           >

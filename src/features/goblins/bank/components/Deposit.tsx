@@ -50,7 +50,7 @@ export function transferInventoryItem(
   >,
   setTo: React.Dispatch<
     React.SetStateAction<Partial<Record<InventoryItemName, Decimal>>>
-  >
+  >,
 ) {
   let amount = new Decimal(1);
 
@@ -86,7 +86,7 @@ interface Props {
       | "wearableIds"
       | "wearableAmounts"
       | "budIds"
-    >
+    >,
   ) => void;
   onClose?: () => void;
   onLoaded?: (loaded: boolean) => void;
@@ -165,22 +165,22 @@ const DepositOptions: React.FC<Props> = ({
       try {
         const sflBalanceFn = sflBalanceOf(
           wallet.web3Provider,
-          wallet.myAccount
+          wallet.myAccount,
         );
 
         const inventoryBalanceFn = getInventoryBalances(
           wallet.web3Provider,
-          wallet.myAccount
+          wallet.myAccount,
         );
 
         const wearableBalanceFn = loadWardrobe(
           wallet.web3Provider,
-          wallet.myAccount
+          wallet.myAccount,
         );
 
         const budBalanceFn = getBudsBalance(
           wallet.web3Provider,
-          wallet.myAccount
+          wallet.myAccount,
         );
 
         const [sflBalance, inventoryBalance, wearableBalance, budBalance] =
@@ -277,12 +277,12 @@ const DepositOptions: React.FC<Props> = ({
   const handleDeposit = async () => {
     const itemIds = selectedItems.map((item) => KNOWN_IDS[item]);
     const itemAmounts = selectedItems.map((item) =>
-      toWei(inventoryToDeposit[item]?.toString() as string, getItemUnit(item))
+      toWei(inventoryToDeposit[item]?.toString() as string, getItemUnit(item)),
     );
 
     const wearableIds = selectedWearables.map((item) => ITEM_IDS[item]);
     const wearableAmounts = selectedWearables.map(
-      (item) => wearablesToDeposit[item]
+      (item) => wearablesToDeposit[item],
     ) as number[];
 
     onDeposit({
@@ -298,12 +298,12 @@ const DepositOptions: React.FC<Props> = ({
   };
 
   const amountGreaterThanBalance = toBN(toWei(sflDepositAmount.toString())).gt(
-    toBN(toWei(sflBalance.toString()))
+    toBN(toWei(sflBalance.toString())),
   );
 
   const sflBalString = fromWei(toBN(toWei(sflBalance.toString())));
   const formattedSflBalance = setPrecision(
-    new Decimal(sflBalString)
+    new Decimal(sflBalString),
   ).toString();
 
   const depositableItems = getKeys(inventoryBalance)
@@ -382,7 +382,7 @@ const DepositOptions: React.FC<Props> = ({
                             "text-shadow shadow-inner shadow-black bg-brown-200 w-full p-2",
                             {
                               "text-error": amountGreaterThanBalance,
-                            }
+                            },
                           )}
                         />
                         <span className="text-xxs md:text-xs absolute top-1/2 -translate-y-1/2 right-2">{`${
@@ -560,7 +560,7 @@ interface DepositModalProps {
   canDeposit: boolean;
   showDepositModal: boolean;
   handleDeposit: (
-    args: Pick<DepositArgs, "sfl" | "itemIds" | "itemAmounts">
+    args: Pick<DepositArgs, "sfl" | "itemIds" | "itemAmounts">,
   ) => void;
   handleClose: () => void;
 }
@@ -596,7 +596,7 @@ export const DepositWrapper: React.FC = () => {
   const xp = useSelector(gameService, _xp);
 
   const handleDeposit = (
-    args: Pick<DepositArgs, "sfl" | "itemIds" | "itemAmounts">
+    args: Pick<DepositArgs, "sfl" | "itemIds" | "itemAmounts">,
   ) => {
     gameService.send("DEPOSIT", args);
   };

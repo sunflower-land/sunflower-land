@@ -28,8 +28,8 @@ describe("getBudSpeedBoosts", () => {
             type: "Saphiro",
           },
         },
-        "Sunflower"
-      )
+        "Sunflower",
+      ),
     ).toEqual(0.9);
   });
 
@@ -43,8 +43,8 @@ describe("getBudSpeedBoosts", () => {
             aura: "Basic",
           },
         },
-        "Sunflower"
-      )
+        "Sunflower",
+      ),
     ).toEqual(0.895);
   });
   8;
@@ -59,8 +59,8 @@ describe("getBudSpeedBoosts", () => {
             aura: "Green",
           },
         },
-        "Sunflower"
-      )
+        "Sunflower",
+      ),
     ).toEqual(0.88);
   });
   it("returns 0.8 if Saphiro type and Rare Aura", () => {
@@ -73,8 +73,8 @@ describe("getBudSpeedBoosts", () => {
             aura: "Rare",
           },
         },
-        "Sunflower"
-      )
+        "Sunflower",
+      ),
     ).toEqual(0.8);
   });
 
@@ -88,8 +88,8 @@ describe("getBudSpeedBoosts", () => {
             aura: "Mythical",
           },
         },
-        "Sunflower"
-      )
+        "Sunflower",
+      ),
     ).toEqual(0.5);
   });
 
@@ -113,8 +113,8 @@ describe("getBudSpeedBoosts", () => {
             aura: "Rare",
           },
         },
-        "Sunflower"
-      )
+        "Sunflower",
+      ),
     ).toEqual(0.5);
   });
 
@@ -129,8 +129,8 @@ describe("getBudSpeedBoosts", () => {
             coordinates: undefined,
           },
         },
-        "Sunflower"
-      )
+        "Sunflower",
+      ),
     ).toEqual(1);
   });
 });

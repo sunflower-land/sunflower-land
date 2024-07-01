@@ -10,7 +10,7 @@ describe("claimEmblems", () => {
         action: {
           type: "emblems.claimed",
         },
-      })
+      }),
     ).toThrow("No faction has been pledged");
   });
 
@@ -37,7 +37,7 @@ describe("claimEmblems", () => {
         action: {
           type: "emblems.claimed",
         },
-      })
+      }),
     ).toThrow("Emblems have already been claimed");
   });
 
@@ -97,7 +97,7 @@ describe("claimEmblems", () => {
     });
 
     expect(state.inventory[FACTION_EMBLEMS[faction]]?.toNumber()).toStrictEqual(
-      points
+      points,
     );
   });
 });

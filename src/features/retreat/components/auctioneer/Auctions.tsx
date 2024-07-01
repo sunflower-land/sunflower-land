@@ -26,7 +26,7 @@ export const Auctions: React.FC<Props> = ({ auctionService, onSelect }) => {
   const { auctions } = auctioneerState.context;
 
   const currentAuctions = auctions.filter(
-    (auction) => auction.endAt > Date.now()
+    (auction) => auction.endAt > Date.now(),
   );
   if (currentAuctions.length === 0) {
     return <AuctionsComingSoon />;

@@ -18,8 +18,8 @@ export const Harvesting = ({ paused }: Props) => {
   const [fps] = useState<number[]>(
     calculateFPS(
       [1004, 80, 80, 80, 1004, 80, 80, 80, 1004, 80, 80, 80, 960],
-      4.8
-    )
+      4.8,
+    ),
   );
 
   useEffect(() => {

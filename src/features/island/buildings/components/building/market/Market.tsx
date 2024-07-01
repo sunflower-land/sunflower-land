@@ -26,7 +26,7 @@ const hasSoldCropsBefore = (bumpkin?: Bumpkin) => {
   const { activity = {} } = bumpkin;
 
   return !!getKeys(CROPS()).find((crop) =>
-    getKeys(activity).includes(`${crop} Sold`)
+    getKeys(activity).includes(`${crop} Sold`),
   );
 };
 
@@ -36,7 +36,7 @@ const hasBoughtCropsBefore = (bumpkin?: Bumpkin) => {
   const { activity = {} } = bumpkin;
 
   return !!getKeys(CROPS()).find((crop) =>
-    getKeys(activity).includes(`${crop} Seed Bought`)
+    getKeys(activity).includes(`${crop} Seed Bought`),
   );
 };
 

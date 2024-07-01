@@ -399,7 +399,7 @@ const GAME_EVENT_HANDLERS: TransitionsConfig<Context, BlockchainEvent> =
         },
       ],
     }),
-    {}
+    {},
   );
 
 const PLACEMENT_EVENT_HANDLERS: TransitionsConfig<Context, BlockchainEvent> =
@@ -423,7 +423,7 @@ const PLACEMENT_EVENT_HANDLERS: TransitionsConfig<Context, BlockchainEvent> =
         })),
       },
     }),
-    {}
+    {},
   );
 
 export type BlockchainState = {
@@ -498,7 +498,7 @@ export const saveGame = async (
   context: Context,
   event: any,
   farmId: number,
-  rawToken: string
+  rawToken: string,
 ) => {
   const saveAt = new Date();
 
@@ -537,7 +537,7 @@ export const saveGame = async (
 const handleSuccessfulSave = (context: Context, event: any) => {
   // Actions that occured since the server request
   const recentActions = context.actions.filter(
-    (action) => action.createdAt.getTime() > event.data.saveAt.getTime()
+    (action) => action.createdAt.getTime() > event.data.saveAt.getTime(),
   );
 
   const updatedState = recentActions.reduce((state, action) => {
@@ -816,7 +816,7 @@ export function startGame(authContext: AuthContext) {
               target: "airdrop",
               cond: (context) => {
                 const airdrop = context.state.airdrops?.find(
-                  (airdrop) => !airdrop.coordinates
+                  (airdrop) => !airdrop.coordinates,
                 );
 
                 return !!airdrop;
@@ -973,18 +973,21 @@ export function startGame(authContext: AuthContext) {
              * It is a rare event but it saves a user from making too much progress that would not be synced
              */
             src: (context) => (cb) => {
-              const interval = setInterval(async () => {
-                if (!context.farmAddress) return;
+              const interval = setInterval(
+                async () => {
+                  if (!context.farmAddress) return;
 
-                const sessionID = await getSessionId(
-                  wallet.web3Provider,
-                  context.farmId as number
-                );
+                  const sessionID = await getSessionId(
+                    wallet.web3Provider,
+                    context.farmId as number,
+                  );
 
-                if (sessionID !== context.sessionId) {
-                  cb("EXPIRED");
-                }
-              }, 1000 * 60 * 2);
+                  if (sessionID !== context.sessionId) {
+                    cb("EXPIRED");
+                  }
+                },
+                1000 * 60 * 2,
+              );
 
               return () => {
                 clearInterval(interval);
@@ -1133,7 +1136,7 @@ export function startGame(authContext: AuthContext) {
                 context,
                 event,
                 context.farmId as number,
-                authContext.user.rawToken as string
+                authContext.user.rawToken as string,
               );
 
               return data;
@@ -1144,13 +1147,13 @@ export function startGame(authContext: AuthContext) {
                 // If a SAVE was queued up, go back into saving
                 cond: (c) => c.saveQueued,
                 actions: assign((context: Context, event) =>
-                  handleSuccessfulSave(context, event)
+                  handleSuccessfulSave(context, event),
                 ),
               },
               {
                 target: "playing",
                 actions: assign((context: Context, event) =>
-                  handleSuccessfulSave(context, event)
+                  handleSuccessfulSave(context, event),
                 ),
               },
             ],
@@ -1425,7 +1428,7 @@ export function startGame(authContext: AuthContext) {
                       }
 
                       return lamp;
-                    }
+                    },
                   );
 
                   return {
@@ -1482,7 +1485,7 @@ export function startGame(authContext: AuthContext) {
                 // Delete the Lamp from the collectibles after it's been rubbed 3 times
                 const lamps = context.state.collectibles["Genie Lamp"];
                 const newLamps = lamps?.filter(
-                  (lamp) => !shouldRemoveLamp(lamp)
+                  (lamp) => !shouldRemoveLamp(lamp),
                 );
 
                 return {
@@ -1507,7 +1510,7 @@ export function startGame(authContext: AuthContext) {
                 // Delete the Bean from the collectibles
                 const beans = context.state.collectibles["Magic Bean"];
                 const newBeans = beans?.filter(
-                  (bean) => !(bean.id === event.id)
+                  (bean) => !(bean.id === event.id),
                 );
 
                 return {
@@ -1907,13 +1910,13 @@ export function startGame(authContext: AuthContext) {
                     gameMachineContext: context,
                     rawToken: authContext.user.rawToken as string,
                     farmId: context.farmId,
-                  } as SaveEvent),
-                { to: "landscaping" }
+                  }) as SaveEvent,
+                { to: "landscaping" },
               ),
             },
             SAVE_SUCCESS: {
               actions: assign((context: Context, event: any) =>
-                handleSuccessfulSave(context, event)
+                handleSuccessfulSave(context, event),
               ),
             },
           },
@@ -2142,6 +2145,6 @@ export function startGame(authContext: AuthContext) {
           transactionId: () => undefined,
         }),
       },
-    }
+    },
   );
 }

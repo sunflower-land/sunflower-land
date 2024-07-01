@@ -20,7 +20,7 @@ export class Wallet {
   private web3: Web3 = new Web3(
     CONFIG.NETWORK === "mainnet"
       ? "https://rpc-mainnet.maticvigil.com"
-      : "https://rpc-amoy.polygon.technology"
+      : "https://rpc-amoy.polygon.technology",
   );
 
   private account: string | null = null;
@@ -57,7 +57,7 @@ export class Wallet {
 
     const statusCode = await pingHealthCheck(
       this.web3 as Web3,
-      this.account as string
+      this.account as string,
     );
 
     const isHealthy = (statusCode as any) !== 500;
@@ -91,7 +91,7 @@ export class Wallet {
   public async initialise(
     provider: any,
     type: Web3SupportedProviders,
-    retryCount = 0
+    retryCount = 0,
   ): Promise<void> {
     this.type = type;
     try {
@@ -164,7 +164,7 @@ export class Wallet {
         message,
         account as string,
         // Empty password, handled by Metamask
-        ""
+        "",
       );
 
       return {
@@ -185,7 +185,7 @@ export class Wallet {
   }) {
     const MESSAGE = `🌻 Welcome to Sunflower Land! 🌻\n\nClick to sign in and accept the Sunflower Land\n📜 Terms of Service:\nhttps://docs.sunflower-land.com/support/terms-of-service\n\nThis request will not trigger a blockchain\ntransaction or cost any gas fees.\n\nYour authentication status will reset after\neach session.\n\n👛 Wallet address:\n${address.substring(
       0,
-      19
+      19,
     )}...${address.substring(24)}\n\n🔑 Nonce: ${nonce}`;
     return MESSAGE;
   }
@@ -261,7 +261,7 @@ export class Wallet {
 
   public async donate(
     donation: number,
-    to = CONFIG.DONATION_ADDRESS as string
+    to = CONFIG.DONATION_ADDRESS as string,
   ) {
     const gasPrice = await estimateGasPrice(this.web3 as Web3);
 
@@ -334,7 +334,7 @@ export class Wallet {
     }
 
     const encodedFunctionSignature = this.web3.eth.abi.encodeFunctionSignature(
-      "getAmountsOut(uint256,address[])"
+      "getAmountsOut(uint256,address[])",
     );
 
     const maticMinusFee = toBN(matic).mul(toBN(950)).div(toBN(1000));
@@ -342,7 +342,7 @@ export class Wallet {
     const encodedParameters = this.web3.eth.abi
       .encodeParameters(
         ["uint256", "address[]"],
-        [maticMinusFee, [WMATIC_ADDRESS, SFL_TOKEN_ADDRESS]]
+        [maticMinusFee, [WMATIC_ADDRESS, SFL_TOKEN_ADDRESS]],
       )
       .substring(2);
 
@@ -351,7 +351,7 @@ export class Wallet {
     const result = await this.web3.eth.call({ to: UNISWAP_ROUTER, data });
     const decodedResult = this.web3.eth.abi.decodeParameter(
       "uint256[]",
-      result
+      result,
     );
 
     return Number(fromWei(toBN(decodedResult[1])));
@@ -363,13 +363,13 @@ export class Wallet {
     }
 
     const encodedFunctionSignature = this.web3.eth.abi.encodeFunctionSignature(
-      "getAmountsIn(uint256,address[])"
+      "getAmountsIn(uint256,address[])",
     );
 
     const encodedParameters = this.web3.eth.abi
       .encodeParameters(
         ["uint256", "address[]"],
-        [toBN(sfl), [SFL_TOKEN_ADDRESS, WMATIC_ADDRESS]]
+        [toBN(sfl), [SFL_TOKEN_ADDRESS, WMATIC_ADDRESS]],
       )
       .substring(2);
 
@@ -378,11 +378,11 @@ export class Wallet {
     const result = await this.web3.eth.call({ to: UNISWAP_ROUTER, data });
     const decodedResult = this.web3.eth.abi.decodeParameter(
       "uint256[]",
-      result
+      result,
     );
 
     const maticWithFee = Number(
-      fromWei(toBN(decodedResult[1]).mul(toBN(1050)).div(toBN(1000)))
+      fromWei(toBN(decodedResult[1]).mul(toBN(1050)).div(toBN(1000))),
     );
 
     return maticWithFee;

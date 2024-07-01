@@ -770,7 +770,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
 // The reverse of above
 export const KNOWN_ITEMS: Record<string, InventoryItemName> = Object.assign(
   {},
-  ...Object.entries(KNOWN_IDS).map(([a, b]) => ({ [b]: a }))
+  ...Object.entries(KNOWN_IDS).map(([a, b]) => ({ [b]: a })),
 );
 
 export const IDS = Object.values(KNOWN_IDS);

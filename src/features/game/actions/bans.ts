@@ -7,7 +7,7 @@ const API_URL = CONFIG.API_URL;
 export async function loadBanDetails(
   id: string,
   token: string,
-  transactionId: string
+  transactionId: string,
 ): Promise<{
   isBanned: boolean;
   verificationUrl: string;

@@ -93,7 +93,7 @@ export const WithdrawWearables: React.FC<Props> = ({ onWithdraw }) => {
   const withdrawableItems = [...new Set([...getKeys(wardrobe)])]
     .filter(
       (item) =>
-        wardrobe[item] && !isCurrentObsession(item, gameState.context.state)
+        wardrobe[item] && !isCurrentObsession(item, gameState.context.state),
     )
     .sort((a, b) => ITEM_IDS[a] - ITEM_IDS[b]);
 

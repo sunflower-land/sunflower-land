@@ -48,7 +48,7 @@ export const SkillCategoryList = ({
         const skillsAcquiredInCategoryCount = getKeys({
           ...bumpkin?.skills,
         }).filter((acquiredSkillName) =>
-          skills.find((skill) => skill.name === acquiredSkillName)
+          skills.find((skill) => skill.name === acquiredSkillName),
         ).length;
 
         return (

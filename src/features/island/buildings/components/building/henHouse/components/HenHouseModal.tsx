@@ -39,8 +39,8 @@ export const HenHouseModal: React.FC<Props> = ({ onClose }) => {
   // V1 may have ones without coords
   const workingChickenCount = new Decimal(
     getKeys(state.chickens).filter(
-      (index) => state.chickens[index].coordinates
-    ).length
+      (index) => state.chickens[index].coordinates,
+    ).length,
   );
   const ownedChickenCount = new Decimal(inventory.Chicken || 0);
   const lazyChickenCount = workingChickenCount.greaterThan(ownedChickenCount)
@@ -107,16 +107,16 @@ export const HenHouseModal: React.FC<Props> = ({ onClose }) => {
           coinsRequirement: price,
         }
       : selectedChicken === "lazy"
-      ? {
-          icon: boxChicken,
-          title: t("henHouse.text.two"),
-          description: t("henHouse.text.three"),
-        }
-      : {
-          icon: SUNNYSIDE.resource.chicken,
-          title: t("henHouse.text.four"),
-          description: t("henHouse.text.five"),
-        };
+        ? {
+            icon: boxChicken,
+            title: t("henHouse.text.two"),
+            description: t("henHouse.text.three"),
+          }
+        : {
+            icon: SUNNYSIDE.resource.chicken,
+            title: t("henHouse.text.four"),
+            description: t("henHouse.text.five"),
+          };
 
   const getAction = () => {
     if (selectedChicken === "buy") {

@@ -47,7 +47,7 @@ export const TieBreaker: React.FC<Props> = ({
       </div>
       <p className="text-xs mb-2 text-center px-2">
         {`So close! You bid the exact same resources as the ${toOrdinalSuffix(
-          results.supply
+          results.supply,
         )} bid.`}{" "}
         {t("tieBreaker.closeBid")}
       </p>

@@ -45,7 +45,7 @@ export const BUILDING_OIL_BOOSTS: Record<CookingBuildingName, number> = {
 };
 
 export function isCookingBuilding(
-  building: BuildingName
+  building: BuildingName,
 ): building is CookingBuildingName {
   return Object.keys(BUILDING_OIL_BOOSTS).includes(building);
 }
@@ -53,7 +53,7 @@ export function isCookingBuilding(
 export function getCookingOilBoost(
   item: CookableName,
   game: GameState,
-  buildingId?: string
+  buildingId?: string,
 ): { timeToCook: number; oilConsumed: number } {
   const buildingName = COOKABLES[item].building;
 
@@ -62,7 +62,7 @@ export function getCookingOilBoost(
   }
 
   const building = game.buildings?.[buildingName]?.find(
-    (building) => building.id === buildingId
+    (building) => building.id === buildingId,
   );
 
   const itemCookingTime = COOKABLES[item].cookingSeconds;
@@ -113,7 +113,7 @@ export const BUILDING_DAILY_OIL_CONSUMPTION: Record<
 
 export function getOilConsumption(
   buildingName: CookingBuildingName,
-  food: CookableName
+  food: CookableName,
 ) {
   const SECONDS_IN_A_DAY = 86400;
   const oilRequired = COOKABLES[food].cookingSeconds / SECONDS_IN_A_DAY;
@@ -137,7 +137,7 @@ export function cook({
   }
 
   const building = buildingsOfRequiredType.find(
-    (building) => building.id === action.buildingId
+    (building) => building.id === action.buildingId,
   );
 
   if (bumpkin === undefined) {
@@ -155,7 +155,7 @@ export function cook({
   const oilConsumed = getCookingOilBoost(
     action.item,
     stateCopy,
-    action.buildingId
+    action.buildingId,
   ).oilConsumed;
 
   stateCopy.inventory = getKeys(ingredients).reduce((inventory, ingredient) => {

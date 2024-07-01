@@ -288,8 +288,8 @@ export const BUMPKIN_SKILL_TREE: Record<BumpkinSkillName, BumpkinSkill> = {
 
 export const SKILL_TREE_CATEGORIES = Array.from(
   new Set(
-    getKeys(BUMPKIN_SKILL_TREE).map((skill) => BUMPKIN_SKILL_TREE[skill].tree)
-  )
+    getKeys(BUMPKIN_SKILL_TREE).map((skill) => BUMPKIN_SKILL_TREE[skill].tree),
+  ),
 );
 
 export const getSkills = (treeName: BumpkinSkillTree) => {
@@ -307,7 +307,7 @@ export const createSkillPath = (skills: BumpkinSkill[]) => {
   const path = [[startingSkill?.name as BumpkinSkillName]];
 
   const remainingLevels = new Set(
-    skills.map((item) => item.requirements.skill)
+    skills.map((item) => item.requirements.skill),
   );
 
   for (let index = 0; index < remainingLevels.size - 1; index++) {

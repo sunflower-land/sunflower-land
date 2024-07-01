@@ -47,7 +47,7 @@ export const Portal: React.FC<Props> = ({ portalName, onClose }) => {
   const [loading, setLoading] = useState(true);
   const [isComplete, setIsComplete] = useState(false);
   const [purchase, setPurchase] = useState<PortalPurchase | undefined>(
-    undefined
+    undefined,
   );
   const [donation, setDonation] = useState<IPortalDonation | undefined>();
 
@@ -147,7 +147,7 @@ export const Portal: React.FC<Props> = ({ portalName, onClose }) => {
           sfl: purchase?.sfl,
           items: purchase?.items,
         },
-        "*"
+        "*",
       );
     }
 
@@ -199,7 +199,7 @@ export const Portal: React.FC<Props> = ({ portalName, onClose }) => {
             ref={iframeRef} // Set ref to the iframe
           />
         </div>,
-        document.body
+        document.body,
       )}
       {purchase &&
         createPortal(
@@ -236,7 +236,7 @@ export const Portal: React.FC<Props> = ({ portalName, onClose }) => {
               <Button onClick={confirmPurchase}> {t("confirm")}</Button>
             </CloseButtonPanel>
           </div>,
-          document.body
+          document.body,
         )}
 
       {!!donation &&
@@ -257,7 +257,7 @@ export const Portal: React.FC<Props> = ({ portalName, onClose }) => {
               />
             </CloseButtonPanel>
           </div>,
-          document.body
+          document.body,
         )}
       <Loading className="z-10 left-0 top-0" />
     </>

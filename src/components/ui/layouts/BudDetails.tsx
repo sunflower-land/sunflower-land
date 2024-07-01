@@ -43,7 +43,7 @@ export const BudDetails: React.FC<Props> = ({
             "flex mb-1 space-x-2 justify-start items-center",
             {
               "sm:flex-col-reverse md:space-x-0": !wideLayout,
-            }
+            },
           )}
         >
           {icon && (
@@ -62,7 +62,7 @@ export const BudDetails: React.FC<Props> = ({
         <div
           className={classNames(
             "border-t border-white w-full mb-2 pt-2 flex justify-between gap-x-3 gap-y-2 flex-wrap",
-            { "sm:flex-col sm:items-center sm:flex-nowrap": !wideLayout }
+            { "sm:flex-col sm:items-center sm:flex-nowrap": !wideLayout },
           )}
         >
           <div className="flex flex-wrap">

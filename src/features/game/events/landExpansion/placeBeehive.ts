@@ -26,7 +26,7 @@ export function placeBeehive({
   const copy: GameState = cloneDeep(state);
 
   const available = (copy.inventory.Beehive || new Decimal(0)).minus(
-    Object.keys(copy.beehives ?? {}).length
+    Object.keys(copy.beehives ?? {}).length,
   );
 
   if (available.lte(0)) {

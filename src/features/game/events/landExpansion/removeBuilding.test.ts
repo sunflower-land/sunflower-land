@@ -30,7 +30,7 @@ export const makeChickens = (numberOfChickens: number) => {
           y: 3,
         },
         multiplier: 1,
-      })
+      }),
   );
 
   return chickens;
@@ -58,7 +58,7 @@ describe("removeBuilding", () => {
           name: "Bakery",
           id: "1",
         },
-      })
+      }),
     ).toThrow(REMOVE_BUILDING_ERRORS.INVALID_BUILDING);
   });
 
@@ -83,7 +83,7 @@ describe("removeBuilding", () => {
           name: "Bakery",
           id: "1",
         },
-      })
+      }),
     ).toThrow(REMOVE_BUILDING_ERRORS.INVALID_BUILDING);
   });
 
@@ -111,7 +111,7 @@ describe("removeBuilding", () => {
           name: "Fire Pit",
           id: "123",
         },
-      })
+      }),
     ).toThrow(REMOVE_BUILDING_ERRORS.BUILDING_UNDER_CONSTRUCTION);
   });
 
@@ -154,7 +154,7 @@ describe("removeBuilding", () => {
           name: buildingName,
           id,
         },
-      })
+      }),
     ).toThrow(error);
   });
 
@@ -542,7 +542,7 @@ describe("removeBuilding", () => {
           name: "Hen House",
           id: "123",
         },
-      })
+      }),
     ).toThrow(REMOVE_BUILDING_ERRORS.HEN_HOUSE_REMOVE_BREWING_CHICKEN);
   });
 
@@ -718,7 +718,7 @@ describe("getUnsupportedChickens", () => {
     const result = getUnsupportedChickens(gameState);
 
     const lastChickensIndexes = Array.from({ length: 5 }, (_, i) =>
-      (i + 10).toString()
+      (i + 10).toString(),
     );
     const lastChickensInState = {} as Record<string, Chicken>;
     lastChickensIndexes.forEach(
@@ -729,7 +729,7 @@ describe("getUnsupportedChickens", () => {
             y: 3,
           },
           multiplier: 1,
-        })
+        }),
     );
     expect(result).toEqual(lastChickensInState);
   });

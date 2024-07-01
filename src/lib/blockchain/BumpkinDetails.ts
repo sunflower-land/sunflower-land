@@ -19,12 +19,12 @@ export type OnChainBumpkin = {
 
 export async function loadBumpkins(
   web3: Web3,
-  account: string
+  account: string,
 ): Promise<OnChainBumpkin[]> {
   return (
     new web3.eth.Contract(
       BumpkinDetailsABI as AbiItem[],
-      address as string
+      address as string,
     ) as unknown as IBumpkinDetails
   ).methods
     .loadBumpkins(account)

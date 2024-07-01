@@ -51,7 +51,7 @@ export function accelerateComposter({
 
   // Subtract eggs
   stateCopy.inventory.Egg = stateCopy.inventory.Egg.sub(
-    details.eggBoostRequirements
+    details.eggBoostRequirements,
   );
 
   // Subtract time

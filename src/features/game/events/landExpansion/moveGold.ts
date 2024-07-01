@@ -26,7 +26,7 @@ type Options = {
 export function isLocked(
   rock: Rock,
   collectibles: Collectibles,
-  createdAt: number
+  createdAt: number,
 ): boolean {
   const minedAt = rock.stone.minedAt;
 

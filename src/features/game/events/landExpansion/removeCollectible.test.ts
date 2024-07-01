@@ -43,7 +43,7 @@ describe("removeCollectible", () => {
           name: "Algerian Flag",
           id: "1",
         },
-      })
+      }),
     ).toThrow(REMOVE_COLLECTIBLE_ERRORS.INVALID_COLLECTIBLE);
   });
 
@@ -69,7 +69,7 @@ describe("removeCollectible", () => {
           name: "Nugget",
           id: "1",
         },
-      })
+      }),
     ).toThrow(REMOVE_COLLECTIBLE_ERRORS.INVALID_COLLECTIBLE);
   });
 
@@ -194,7 +194,7 @@ describe("removeCollectible", () => {
           name: "Chicken Coop",
           id: "123",
         },
-      })
+      }),
     ).toThrow(REMOVE_COLLECTIBLE_ERRORS.CHICKEN_COOP_REMOVE_BREWING_CHICKEN);
   });
 
@@ -340,7 +340,7 @@ describe("removeCollectible", () => {
           name: "Genie Lamp",
           id: "123",
         },
-      })
+      }),
     ).toThrow("Genie Lamp is in use");
   });
 
@@ -352,19 +352,19 @@ describe("removeCollectible", () => {
         inventory: {
           Kuebiko: new Decimal(1),
           ...Object.fromEntries(
-            Object.entries(SEEDS()).map(([name]) => [name, new Decimal(1)])
+            Object.entries(SEEDS()).map(([name]) => [name, new Decimal(1)]),
           ),
           ...Object.fromEntries(
             Object.entries(FRUIT_SEEDS()).map(([name]) => [
               name,
               new Decimal(1),
-            ])
+            ]),
           ),
           ...Object.fromEntries(
             Object.entries(FLOWER_SEEDS()).map(([name]) => [
               name,
               new Decimal(1),
-            ])
+            ]),
           ),
         },
         collectibles: {
@@ -391,7 +391,7 @@ describe("removeCollectible", () => {
 
   it("burns all flower seeds if a Hungry Caterpillar is removed", () => {
     const fruitSeeds = Object.fromEntries(
-      Object.entries(FRUIT_SEEDS()).map(([name]) => [name, new Decimal(1)])
+      Object.entries(FRUIT_SEEDS()).map(([name]) => [name, new Decimal(1)]),
     );
 
     const gameState = removeCollectible({
@@ -404,7 +404,7 @@ describe("removeCollectible", () => {
             Object.entries(FLOWER_SEEDS()).map(([name]) => [
               name,
               new Decimal(1),
-            ])
+            ]),
           ),
           ...fruitSeeds,
         },

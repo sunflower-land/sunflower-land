@@ -24,7 +24,7 @@ describe("sell", () => {
           crop: "Axe" as CropName,
           amount: 1,
         },
-      })
+      }),
     ).toThrow("Not for sale");
   });
 
@@ -42,7 +42,7 @@ describe("sell", () => {
           crop: "Sunflower",
           amount: 0,
         },
-      })
+      }),
     ).toThrow("Invalid amount");
   });
 
@@ -55,7 +55,7 @@ describe("sell", () => {
           crop: "Sunflower",
           amount: 1,
         },
-      })
+      }),
     ).toThrow("Insufficient quantity to sell");
   });
 
@@ -97,7 +97,7 @@ describe("sell", () => {
 
     expect(state.inventory.Sunflower).toEqual(new Decimal(1));
     expect(state.coins).toEqual(
-      GAME_STATE.coins + CROPS().Sunflower.sellPrice * 10
+      GAME_STATE.coins + CROPS().Sunflower.sellPrice * 10,
     );
   });
 
@@ -115,7 +115,7 @@ describe("sell", () => {
           crop: "Sunflower",
           amount: 10,
         },
-      })
+      }),
     ).toThrow("Insufficient quantity to sell");
   });
 
@@ -154,7 +154,7 @@ describe("sell", () => {
     });
 
     expect(state.bumpkin?.activity?.["Coins Earned"]).toEqual(
-      CROPS().Cauliflower.sellPrice
+      CROPS().Cauliflower.sellPrice,
     );
   });
 

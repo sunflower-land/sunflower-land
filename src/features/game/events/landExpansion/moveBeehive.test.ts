@@ -23,7 +23,7 @@ describe("moveBeehive", () => {
           id: "1234",
           coordinates: { x: 2, y: 2 },
         },
-      })
+      }),
     ).toThrow(MOVE_BEEHIVE_ERRORS.BEEHIVE_NOT_PLACED);
   });
 

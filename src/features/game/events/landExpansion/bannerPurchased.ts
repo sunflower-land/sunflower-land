@@ -28,7 +28,7 @@ export function getBannerPrice(
   hasLifetimeBanner: boolean,
   hasGoldPass: boolean,
   createdAt: number,
-  farmId?: number
+  farmId?: number,
 ): Decimal {
   if (banner === "Lifetime Farmer Banner") {
     return new Decimal(540);
@@ -49,7 +49,7 @@ export function getBannerPrice(
   const WEEK = 1000 * 60 * 60 * 24 * 7;
 
   const weeksElapsed = Math.floor(
-    (createdAt - seasonStartDate.getTime()) / WEEK
+    (createdAt - seasonStartDate.getTime()) / WEEK,
   );
 
   const goldPassDiscount = hasGoldPass && !goldPassRetired ? 15 : 0;
@@ -108,7 +108,7 @@ export function purchaseBanner({
   const seasonBanner = getSeasonalBanner();
   if (action.name !== seasonBanner) {
     throw new Error(
-      `Attempt to purchase ${action.name} in ${seasonBanner} Season`
+      `Attempt to purchase ${action.name} in ${seasonBanner} Season`,
     );
   }
 
@@ -125,7 +125,7 @@ export function purchaseBanner({
     hasLifetimeBanner,
     hasGoldPass,
     createdAt,
-    farmId
+    farmId,
   );
 
   if (currentBlockBucks.lessThan(price)) {

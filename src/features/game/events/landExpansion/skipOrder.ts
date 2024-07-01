@@ -32,12 +32,12 @@ export function skipOrder({
       new Date(order.createdAt).getFullYear()
   ) {
     throw new Error(
-      `Order skipped within 24 hours; time now ${createdAt}, time of last skip ${order.createdAt}`
+      `Order skipped within 24 hours; time now ${createdAt}, time of last skip ${order.createdAt}`,
     );
   }
 
   game.delivery.orders = game.delivery.orders.filter(
-    (order) => order.id !== action.id
+    (order) => order.id !== action.id,
   );
 
   game.delivery.orders = populateOrders(game, createdAt, true);

@@ -118,12 +118,12 @@ export const FlowerBed: React.FC<Props> = ({ id }) => {
     growPercentage >= 100
       ? "ready"
       : growPercentage >= 66
-      ? "almost"
-      : growPercentage >= 44
-      ? "halfway"
-      : growPercentage >= 22
-      ? "sprout"
-      : "seedling";
+        ? "almost"
+        : growPercentage >= 44
+          ? "halfway"
+          : growPercentage >= 22
+            ? "sprout"
+            : "seedling";
 
   const hasHarvestedBefore = !!farmActivity[`${flower.name} Harvested`];
 

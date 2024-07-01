@@ -102,7 +102,7 @@ export const rewardChestMachine = createMachine<
         src: async () => {
           const code = await getDailyCode(
             wallet.web3Provider,
-            wallet.myAccount as string
+            wallet.myAccount as string,
           );
 
           return { code };

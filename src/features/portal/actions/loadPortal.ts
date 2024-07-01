@@ -32,7 +32,7 @@ export async function loadPortal(request: Request) {
         "content-type": "application/json;charset=UTF-8",
         Authorization: `Bearer ${request.token}`,
       },
-    }
+    },
   );
 
   if (response.status >= 400) {

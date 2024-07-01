@@ -11,7 +11,7 @@ describe("greenhouse.oiled", () => {
           amount: 10,
           type: "greenhouse.oiled",
         },
-      })
+      }),
     ).toThrow("Missing oil");
   });
 
@@ -28,7 +28,7 @@ describe("greenhouse.oiled", () => {
           amount: -2.2,
           type: "greenhouse.oiled",
         },
-      })
+      }),
     ).toThrow("Incorrect amount");
   });
 
@@ -49,7 +49,7 @@ describe("greenhouse.oiled", () => {
           amount: 10,
           type: "greenhouse.oiled",
         },
-      })
+      }),
     ).toThrow("Greenhouse is full");
   });
 

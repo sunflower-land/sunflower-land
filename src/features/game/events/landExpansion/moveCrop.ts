@@ -33,7 +33,7 @@ type Options = {
 export function isLocked(
   plot: CropPlot,
   collectibles: Collectibles,
-  createdAt: number
+  createdAt: number,
 ): boolean {
   const crop = plot.crop;
 

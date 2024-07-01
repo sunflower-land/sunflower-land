@@ -97,11 +97,11 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
     String(gameService?.state?.context?.farmId);
 
   const incompleteDeliveries = state.delivery.orders.filter(
-    (order) => !order.completedAt
+    (order) => !order.completedAt,
   ).length;
 
   const incompleteChores = Object.values(state.chores?.chores ?? {}).filter(
-    (chore) => !chore.completedAt
+    (chore) => !chore.completedAt,
   ).length;
 
   const categories: CodexCategory[] = [
@@ -185,7 +185,7 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
                   <OuterPanel
                     key={`${tab}-${index}`}
                     className={classNames(
-                      "flex items-center relative p-0.5 mb-1 cursor-pointer"
+                      "flex items-center relative p-0.5 mb-1 cursor-pointer",
                     )}
                     onClick={() => handleTabClick(index)}
                     style={{
@@ -228,7 +228,7 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
             {currentTab === 4 && (
               <InnerPanel
                 className={classNames(
-                  "flex flex-col h-full overflow-hidden overflow-y-auto scrollable"
+                  "flex flex-col h-full overflow-hidden overflow-y-auto scrollable",
                 )}
               >
                 <TicketsLeaderboard
@@ -241,7 +241,7 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
             {currentTab === 5 && state.faction && (
               <InnerPanel
                 className={classNames(
-                  "flex flex-col h-full overflow-hidden overflow-y-auto scrollable"
+                  "flex flex-col h-full overflow-hidden overflow-y-auto scrollable",
                 )}
               >
                 <FactionsLeaderboard

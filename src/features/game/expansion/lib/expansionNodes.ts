@@ -21,7 +21,7 @@ export interface Nodes {
 
 export function getEnabledNodeCount(
   bumpkinLevel: BumpkinLevel,
-  nodeType: string
+  nodeType: string,
 ): number {
   const key = nodeType as keyof Nodes;
 

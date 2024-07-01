@@ -29,7 +29,7 @@ export async function getAuctionResults(request: Request): Promise<{
         Authorization: `Bearer ${request.token}`,
         "X-Transaction-ID": request.transactionId,
       },
-    }
+    },
   );
 
   if (response.status === 429) {

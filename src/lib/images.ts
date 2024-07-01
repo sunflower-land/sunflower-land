@@ -36,7 +36,7 @@ export const addNoise = (img: HTMLImageElement, noise = 0.4) => {
     0,
     0,
     img.naturalWidth,
-    img.naturalHeight
+    img.naturalHeight,
   );
 
   for (let i = 0, n = imgData.data.length; i < n; i += 4) {

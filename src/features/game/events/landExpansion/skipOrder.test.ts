@@ -20,7 +20,7 @@ describe("skipOrder", () => {
           type: "order.skipped",
           id,
         },
-      })
+      }),
     ).toThrow(`Order ${id} not found`);
   });
 
@@ -51,7 +51,7 @@ describe("skipOrder", () => {
     });
 
     expect(
-      state.delivery.orders.find((order) => order.id === id)
+      state.delivery.orders.find((order) => order.id === id),
     ).toBeUndefined();
   });
 
@@ -83,9 +83,9 @@ describe("skipOrder", () => {
           id: id1,
         },
         createdAt,
-      })
+      }),
     ).toThrow(
-      `Order skipped within 24 hours; time now ${createdAt}, time of last skip ${order1.createdAt}`
+      `Order skipped within 24 hours; time now ${createdAt}, time of last skip ${order1.createdAt}`,
     );
   });
 
@@ -129,10 +129,10 @@ describe("skipOrder", () => {
     });
 
     expect(
-      state.delivery.orders.find((order) => order.id === id1)
+      state.delivery.orders.find((order) => order.id === id1),
     ).toBeUndefined();
     expect(
-      state.delivery.orders.find((order) => order.id === id2)
+      state.delivery.orders.find((order) => order.id === id2),
     ).toBeDefined();
   });
 

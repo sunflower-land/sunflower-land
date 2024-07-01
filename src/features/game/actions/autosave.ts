@@ -66,7 +66,7 @@ export function serialize(events: PastAction[]) {
 }
 
 export async function autosaveRequest(
-  request: Omit<Request, "actions"> & { actions: any[] }
+  request: Omit<Request, "actions"> & { actions: any[] },
 ) {
   const ttl = (window as any)["x-amz-ttl"];
 

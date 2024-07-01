@@ -14,11 +14,11 @@ export async function getgit(owner: string, repo: string, path: string) {
   // A function to fetch files from github using the api
 
   const data = await fetch(
-    `https://api.github.com/repos/${owner}/${repo}/contents/${path}`
+    `https://api.github.com/repos/${owner}/${repo}/contents/${path}`,
   )
     .then((d) => d.json())
     .then((d) =>
-      fetch(`https://api.github.com/repos/${owner}/${repo}/git/blobs/${d.sha}`)
+      fetch(`https://api.github.com/repos/${owner}/${repo}/git/blobs/${d.sha}`),
     )
     .then((d) => d.json())
     .then((d) => JSON.parse(atob(d.content)));
@@ -39,16 +39,16 @@ export abstract class CommunityScene extends Phaser.Scene {
   preload() {
     const errorLogger = createErrorLogger(
       "phaser_preloader_scene",
-      Number(this.gameService.state.context.farmId)
+      Number(this.gameService.state.context.farmId),
     );
 
     this.load.on(
       Phaser.Loader.Events.FILE_LOAD_ERROR,
       (file: Phaser.Loader.File) => {
         errorLogger(
-          `File load error ${JSON.stringify({ name: file.key, url: file.url })}`
+          `File load error ${JSON.stringify({ name: file.key, url: file.url })}`,
         );
-      }
+      },
     );
 
     try {
@@ -74,7 +74,7 @@ export abstract class CommunityScene extends Phaser.Scene {
       this.load.sceneFile("ExternalScene", `${island?.url}/Scene.js`);
       this.load.tilemapTiledJSON(
         island?.id as string,
-        `${island?.url}/map.json`
+        `${island?.url}/map.json`,
       );
 
       // Load Sound Effects
@@ -88,7 +88,7 @@ export abstract class CommunityScene extends Phaser.Scene {
       // Phaser assets must be served from an URL
       this.load.image(
         "tileset",
-        `${CONFIG.PROTECTED_IMAGE_URL}/world/map-extruded.png`
+        `${CONFIG.PROTECTED_IMAGE_URL}/world/map-extruded.png`,
       );
       this.load.image("speech_bubble", "world/speech_bubble.png");
       this.load.image("label", "world/label.png");
@@ -105,7 +105,7 @@ export abstract class CommunityScene extends Phaser.Scene {
       this.load.bitmapFont(
         "Teeny Tiny Pixls",
         "world/Teeny Tiny Pixls5.png",
-        "world/Teeny Tiny Pixls5.xml"
+        "world/Teeny Tiny Pixls5.xml",
       );
       this.load.bitmapFont("pixelmix", "world/7px.png", "world/7px.xml");
 

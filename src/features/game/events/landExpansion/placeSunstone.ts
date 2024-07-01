@@ -31,7 +31,7 @@ export function placeSunstone({
   const game = cloneDeep(state) as GameState;
 
   const available = (game.inventory["Sunstone Rock"] || new Decimal(0)).minus(
-    Object.keys(game.sunstones).length
+    Object.keys(game.sunstones).length,
   );
 
   if (available.lt(1)) {

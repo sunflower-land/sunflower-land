@@ -21,7 +21,7 @@ export function getBuyPrice(
   name: SeedName,
   seed: Seed,
   inventory: Inventory,
-  game: GameState
+  game: GameState,
 ) {
   if (
     name in FLOWER_SEEDS() &&
@@ -107,12 +107,12 @@ export function seedBought({ state, action }: Options) {
   bumpkin.activity = trackActivity(
     "Coins Spent",
     bumpkin?.activity,
-    new Decimal(totalExpenses)
+    new Decimal(totalExpenses),
   );
   bumpkin.activity = trackActivity(
     `${item} Bought`,
     bumpkin?.activity,
-    new Decimal(amount)
+    new Decimal(amount),
   );
 
   stateCopy.coins = stateCopy.coins - totalExpenses;

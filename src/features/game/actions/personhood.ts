@@ -12,7 +12,7 @@ export type PersonhoodDetails =
 export async function loadPersonhoodDetails(
   id: number,
   token: string,
-  transactionId: string
+  transactionId: string,
 ): Promise<PersonhoodDetails> {
   // Go and fetch the metadata file for this farm
   const url = `${API_URL}/personhood/${id}`;

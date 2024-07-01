@@ -15,7 +15,7 @@ export const HudContainer: React.FC = ({ children }) => {
         >
           <div className="pointer-events-auto">{children}</div>
         </div>,
-        document.body
+        document.body,
       )}
     </>
   );

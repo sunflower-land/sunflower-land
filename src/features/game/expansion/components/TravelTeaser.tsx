@@ -47,7 +47,7 @@ const hint = (state: MachineState) => {
 
   const harvestedCrops = getKeys(CROPS()).reduce(
     (total, crop) => total + (activity?.[`${crop} Harvested`] ?? 0),
-    0
+    0,
   );
 
   if (inventory.Shovel && harvestedCrops < 3) {
@@ -56,7 +56,7 @@ const hint = (state: MachineState) => {
 
   const soldCrops = getKeys(CROPS()).reduce(
     (total, crop) => total + (activity?.[`${crop} Sold`] ?? 0),
-    0
+    0,
   );
 
   if (inventory.Sunflower && soldCrops < 3) {
@@ -65,7 +65,7 @@ const hint = (state: MachineState) => {
 
   const boughtCrops = getKeys(CROPS()).reduce(
     (total, crop) => total + (activity?.[`${crop} Seed Bought`] ?? 0),
-    0
+    0,
   );
 
   if (soldCrops > 0 && boughtCrops === 0) {
@@ -74,7 +74,7 @@ const hint = (state: MachineState) => {
 
   const plantedCrops = getKeys(CROPS()).reduce(
     (total, crop) => total + (activity?.[`${crop} Planted`] ?? 0),
-    0
+    0,
   );
 
   if (inventory["Sunflower Seed"] && plantedCrops === 0) {

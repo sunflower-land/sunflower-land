@@ -46,7 +46,7 @@ export function constructBuilding({
 
   const allowedBuildings = building.filter(
     ({ unlocksAtLevel }) =>
-      getBumpkinLevel(bumpkin.experience) >= unlocksAtLevel
+      getBumpkinLevel(bumpkin.experience) >= unlocksAtLevel,
   ).length;
 
   const buildingToConstruct = building[buildingNumber];
@@ -84,14 +84,14 @@ export function constructBuilding({
         [ingredient.item]: count.sub(ingredient.amount),
       };
     },
-    stateCopy.inventory
+    stateCopy.inventory,
   );
 
   if (missingIngredients.length > 0) {
     throw new Error(
       `${
         CONSTRUCT_BUILDING_ERRORS.NOT_ENOUGH_INGREDIENTS
-      }${missingIngredients.join(", ")}`
+      }${missingIngredients.join(", ")}`,
     );
   }
 

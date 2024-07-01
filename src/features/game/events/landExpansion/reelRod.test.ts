@@ -10,7 +10,7 @@ describe("reelRod", () => {
       reelRod({
         action: { location: "wharf", type: "rod.reeled" },
         state: farm,
-      })
+      }),
     ).toThrow("Nothing has been casted");
   });
 

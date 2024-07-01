@@ -32,11 +32,11 @@ export const DeliModal: React.FC<Props> = ({
   buildingId,
 }) => {
   const deliRecipes = Object.values(DELI_COOKABLES).sort(
-    (a, b) => a.experience - b.experience // Sorts Foods based on their cooking time
+    (a, b) => a.experience - b.experience, // Sorts Foods based on their cooking time
   );
   const [selected, setSelected] = useState<Cookable>(
     deliRecipes.find((recipe) => recipe.name === itemInProgress) ||
-      deliRecipes[0]
+      deliRecipes[0],
   );
 
   return (

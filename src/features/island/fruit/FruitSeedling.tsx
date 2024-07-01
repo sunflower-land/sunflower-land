@@ -55,8 +55,8 @@ export const FruitSeedling: React.FC<Props> = ({ fruitName, timeLeft }) => {
         isAlmostReady
           ? lifecycle.almost
           : isHalfway
-          ? lifecycle.halfway
-          : lifecycle.seedling
+            ? lifecycle.halfway
+            : lifecycle.seedling,
       )}
 
       {/* Progress bar */}

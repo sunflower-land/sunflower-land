@@ -157,10 +157,10 @@ export const craftingMachine = createMachine<
           getCookingOilBoost(
             (event as CraftEvent).item,
             context.gameService.state.context.state,
-            context.buildingId
+            context.buildingId,
           ).timeToCook,
           bumpkin,
-          context.gameService.state.context.state
+          context.gameService.state.context.state,
         );
 
         return {
@@ -200,5 +200,5 @@ export const craftingMachine = createMachine<
         return gameService.state.matches("hoarding");
       },
     },
-  }
+  },
 );

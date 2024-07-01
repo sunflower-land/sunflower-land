@@ -40,7 +40,7 @@ export const ChestReward: React.FC<Props> = ({
   const [opened, setOpened] = useState(isNew);
   const [loading, setLoading] = useState(false);
   const challenge = useRef<Challenge>(
-    Math.random() > 0.3 ? "chest" : "goblins"
+    Math.random() > 0.3 ? "chest" : "goblins",
   );
 
   useEffect(() => {
@@ -82,9 +82,12 @@ export const ChestReward: React.FC<Props> = ({
               id: "chest-reward",
               createdAt: Date.now(),
               items:
-                items?.reduce((acc, { name, amount }) => {
-                  return { ...acc, [name]: amount };
-                }, {} as Record<InventoryItemName, number>) ?? {},
+                items?.reduce(
+                  (acc, { name, amount }) => {
+                    return { ...acc, [name]: amount };
+                  },
+                  {} as Record<InventoryItemName, number>,
+                ) ?? {},
               wearables: {},
               sfl: sfl ? new Decimal(sfl).toNumber() : 0,
               coins: coins ?? 0,
@@ -97,7 +100,7 @@ export const ChestReward: React.FC<Props> = ({
             // render and hide captchas so images have time to load
             className={classNames(
               "flex flex-col items-center justify-between",
-              { hidden: loading }
+              { hidden: loading },
             )}
           >
             {challenge.current === "goblins" && (

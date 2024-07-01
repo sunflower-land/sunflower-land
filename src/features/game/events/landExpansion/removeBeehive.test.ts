@@ -46,7 +46,7 @@ describe("removeBeehive", () => {
           id: "1234",
           type: "beehive.removed",
         },
-      })
+      }),
     ).toThrow(REMOVE_BEEHIVE_ERRORS.BEEHIVE_NOT_PLACED);
   });
 

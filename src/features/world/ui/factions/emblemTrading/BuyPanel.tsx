@@ -104,10 +104,10 @@ export const BuyPanel: React.FC<{
         (acc, name) => ({
           ...acc,
           [name]: (inventory[name] ?? new Decimal(0)).add(
-            listing.items[name] ?? 0
+            listing.items[name] ?? 0,
           ),
         }),
-        inventory
+        inventory,
       );
 
       const hasMaxedOut = hasMaxItems({
@@ -238,7 +238,7 @@ export const BuyPanel: React.FC<{
                         <p className="text-xxs">
                           {t("bumpkinTrade.price/unit", {
                             price: setPrecision(new Decimal(unitPrice)).toFixed(
-                              4
+                              4,
                             ),
                           })}
                         </p>
@@ -305,7 +305,7 @@ export const BuyPanel: React.FC<{
                         <p className="text-xxs">
                           {t("bumpkinTrade.price/unit", {
                             price: setPrecision(new Decimal(unitPrice)).toFixed(
-                              4
+                              4,
                             ),
                           })}
                         </p>
@@ -327,7 +327,7 @@ export const BuyPanel: React.FC<{
     setIsSearching(true);
     const listings = await getTradeListings(
       makeListingType({ [emblem]: 1 }),
-      authState.context.user.rawToken
+      authState.context.user.rawToken,
     );
 
     setListings(listings);

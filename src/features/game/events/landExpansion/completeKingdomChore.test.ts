@@ -18,7 +18,7 @@ describe("kingdomChore.completed", () => {
           ...TEST_FARM,
           kingdomChores: undefined,
         },
-      })
+      }),
     ).toThrow("No kingdom chores found");
   });
 
@@ -41,7 +41,7 @@ describe("kingdomChore.completed", () => {
             weeklyChoresSkipped: 0,
           },
         },
-      })
+      }),
     ).toThrow("Chore not found");
   });
 
@@ -75,7 +75,7 @@ describe("kingdomChore.completed", () => {
             weeklyChoresSkipped: 0,
           },
         },
-      })
+      }),
     ).toThrow("Chore is not active");
   });
 
@@ -116,7 +116,7 @@ describe("kingdomChore.completed", () => {
             weeklyChoresSkipped: 0,
           },
         },
-      })
+      }),
     ).toThrow("Chore is not complete");
   });
 
@@ -157,7 +157,7 @@ describe("kingdomChore.completed", () => {
             weeklyChoresSkipped: 0,
           },
         },
-      })
+      }),
     ).toThrow("Chore is already completed");
   });
 

@@ -213,7 +213,7 @@ describe("castRod", () => {
             Earthworm: new Decimal(1),
           },
         },
-      })
+      }),
     ).not.toThrow();
   });
 

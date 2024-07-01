@@ -24,7 +24,7 @@ export const calculateCropProgress = ({
 
     return Math.min(
       ((totalGrowTime - remainderAfterStops) / totalGrowTime) * 100,
-      100
+      100,
     );
   }
 
@@ -32,7 +32,7 @@ export const calculateCropProgress = ({
     if (now > growsUntil) {
       return Math.min(
         ((totalGrowTime - growTimeRemaining) / totalGrowTime) * 100,
-        100
+        100,
       );
     }
 
@@ -41,7 +41,7 @@ export const calculateCropProgress = ({
 
     return Math.min(
       ((totalGrowTime - remainderAfterStops) / totalGrowTime) * 100,
-      100
+      100,
     );
   }
 

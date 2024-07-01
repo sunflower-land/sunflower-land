@@ -6,7 +6,7 @@ export const useOrientation = (): Orientation => {
   const [orientation, setOrientation] = useState<Orientation>(
     window.matchMedia("(orientation: portrait)").matches
       ? "portrait"
-      : "landscape"
+      : "landscape",
   );
 
   useEffect(() => {
@@ -14,7 +14,7 @@ export const useOrientation = (): Orientation => {
       setOrientation(
         window.matchMedia("(orientation: portrait)").matches
           ? "portrait"
-          : "landscape"
+          : "landscape",
       );
     };
 

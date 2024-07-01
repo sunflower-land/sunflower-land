@@ -186,7 +186,7 @@ export const MagicLinkFlow = ({
           {
             loading: magicLink === undefined,
             underline: !!magicLink,
-          }
+          },
         )}
         style={{ marginLeft: 0, height: 25 }}
         onMouseEnter={() => setShowLabel(true)}

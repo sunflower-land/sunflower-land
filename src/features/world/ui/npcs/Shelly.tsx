@@ -43,7 +43,7 @@ const OrderCards: React.FC<OrderCardsProps> = ({
             "flex flex-1 !p-2 flex-col space-y-1 relative",
             {
               "opacity-50": !canTrade,
-            }
+            },
           )}
         >
           <RequirementLabel
@@ -249,10 +249,10 @@ export const Shelly: React.FC<Props> = ({ onClose }) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
   const [showBeachIntro, setShowBeachIntro] = useState(
-    !isNPCAcknowledged("shelly")
+    !isNPCAcknowledged("shelly"),
   );
   const [showKrakenIntro, setShowKrakenIntro] = useState(
-    isNPCAcknowledged("shelly")
+    isNPCAcknowledged("shelly"),
   );
 
   const game = gameState.context.state;
@@ -268,7 +268,7 @@ export const Shelly: React.FC<Props> = ({ onClose }) => {
     .lte(0);
 
   const tentaclesAvailable = currentTentaclesInInventory.sub(
-    currentTentaclesPlaced
+    currentTentaclesPlaced,
   );
 
   const rewardQty = game.inventory["Catch the Kraken Banner"] ? 12 : 10;
@@ -326,7 +326,7 @@ export const Shelly: React.FC<Props> = ({ onClose }) => {
           gameAnalytics.trackSource({
             item: "Seasonal Ticket",
             amount: new Decimal(
-              game.inventory["Catch the Kraken Banner"] ? 12 : 10
+              game.inventory["Catch the Kraken Banner"] ? 12 : 10,
             ).toNumber(),
             from: "Kraken",
             type: "Quest",

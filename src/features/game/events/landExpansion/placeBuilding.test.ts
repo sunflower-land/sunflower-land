@@ -26,7 +26,7 @@ describe("Place building", () => {
             y: 2,
           },
         },
-      })
+      }),
     ).toThrow(PLACE_BUILDING_ERRORS.NO_BUMPKIN);
   });
 

@@ -76,6 +76,6 @@ export const VisitingHud: React.FC = () => {
         <TravelButton isVisiting={true} />
       </div>
     </div>,
-    document.body
+    document.body,
   );
 };

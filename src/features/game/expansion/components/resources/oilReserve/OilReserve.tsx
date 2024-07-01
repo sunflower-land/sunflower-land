@@ -36,7 +36,7 @@ export const OilReserve: React.FC<Props> = ({ id }) => {
   const drills = useSelector(gameService, _drills);
   const timeLeft = getTimeLeft(
     reserve.oil.drilledAt,
-    OIL_RESERVE_RECOVERY_TIME
+    OIL_RESERVE_RECOVERY_TIME,
   );
   const ready = canDrillOilReserve(reserve);
   const halfReady = !ready && timeLeft < OIL_RESERVE_RECOVERY_TIME / 2;

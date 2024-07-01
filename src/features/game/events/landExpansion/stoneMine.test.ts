@@ -51,7 +51,7 @@ describe("mineStone", () => {
           type: "stoneRock.mined",
           index: 0,
         },
-      })
+      }),
     ).toThrow("No pickaxes left");
   });
 
@@ -68,7 +68,7 @@ describe("mineStone", () => {
           type: "stoneRock.mined",
           index: 3,
         },
-      })
+      }),
     ).toThrow("Stone does not exist");
   });
 
@@ -93,7 +93,7 @@ describe("mineStone", () => {
       mineStone({
         state: game,
         action: payload.action,
-      })
+      }),
     ).toThrow("Rock is still recovering");
   });
 
@@ -189,7 +189,7 @@ describe("mineStone", () => {
           expansionIndex: 0,
           index: 0,
         } as LandExpansionStoneMineAction,
-      })
+      }),
     ).toThrow("You do not have a Bumpkin");
   });
 });

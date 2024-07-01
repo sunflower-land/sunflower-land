@@ -13,7 +13,7 @@ describe("collectTreeReward", () => {
           treeIndex: "30",
         },
         createdAt: dateNow,
-      })
+      }),
     ).toThrow("Tree does not exist");
   });
 
@@ -40,7 +40,7 @@ describe("collectTreeReward", () => {
           treeIndex: "0",
         },
         createdAt: dateNow,
-      })
+      }),
     ).toThrow("Tree does not have a reward");
   });
 
@@ -70,7 +70,7 @@ describe("collectTreeReward", () => {
           treeIndex: "0",
         },
         createdAt: dateNow,
-      })
+      }),
     ).toThrow("Tree is still growing");
   });
 

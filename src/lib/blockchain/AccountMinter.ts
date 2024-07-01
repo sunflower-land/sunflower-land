@@ -11,7 +11,7 @@ export async function getCreatedAt(
   web3: Web3,
   account: string,
   address: string,
-  attempts = 1
+  attempts = 1,
 ): Promise<number> {
   await new Promise((res) => setTimeout(res, 3000 * attempts));
 
@@ -19,7 +19,7 @@ export async function getCreatedAt(
     const createdAt = await (
       new web3.eth.Contract(
         PokoMinterABI as AbiItem[],
-        CONFIG.POKO_ACCOUNT_MINTER_CONTRACT as string
+        CONFIG.POKO_ACCOUNT_MINTER_CONTRACT as string,
       ) as unknown as IPokoAccountMinter
     ).methods
       .farmCreatedAt(address)
@@ -68,7 +68,7 @@ export async function estimateAccountGas({
       (
         new web3.eth.Contract(
           PokoMinterABI as AbiItem[],
-          CONFIG.POKO_ACCOUNT_MINTER_CONTRACT as string
+          CONFIG.POKO_ACCOUNT_MINTER_CONTRACT as string,
         ) as unknown as IPokoAccountMinter
       ).methods.mintAccount(
         signature,
@@ -78,7 +78,7 @@ export async function estimateAccountGas({
         bumpkinTokenUri,
         referrerId,
         referrerAmount ?? "0",
-        account
+        account,
       ) as any
     ).estimateGas(
       { from: account, value: 0 },
@@ -91,7 +91,7 @@ export async function estimateAccountGas({
 
         const transactionCost = Number(gasPrice) * Number(estimatedGas);
         res(transactionCost);
-      }
+      },
     );
   });
 }
@@ -129,7 +129,7 @@ export async function createNewAccount({
     mintAccountFn = (
       new web3.eth.Contract(
         PokoMinterABI as AbiItem[],
-        CONFIG.POKO_ACCOUNT_MINTER_CONTRACT as string
+        CONFIG.POKO_ACCOUNT_MINTER_CONTRACT as string,
       ) as unknown as IPokoAccountMinter
     ).methods.mintAccount(
       signature,
@@ -139,7 +139,7 @@ export async function createNewAccount({
       bumpkinTokenUri,
       referrerId,
       referrerAmount,
-      account
+      account,
     );
   }
 
@@ -147,7 +147,7 @@ export async function createNewAccount({
     mintAccountFn = (
       new web3.eth.Contract(
         PokoMinterABI as AbiItem[],
-        CONFIG.POKO_ACCOUNT_MINTER_CONTRACT as string
+        CONFIG.POKO_ACCOUNT_MINTER_CONTRACT as string,
       ) as unknown as IPokoAccountMinter
     ).methods.mintAccountUSDC(
       signature,
@@ -157,7 +157,7 @@ export async function createNewAccount({
       bumpkinTokenUri,
       referrerId,
       referrerAmount,
-      account
+      account,
     );
   }
 
@@ -192,9 +192,8 @@ export async function createNewAccount({
           // Sequence wallet doesn't resolve the receipt. Therefore
           // We try to fetch it after we have a tx hash returned
           // From Sequence.
-          const receipt: any = await web3.eth.getTransactionReceipt(
-            transactionHash
-          );
+          const receipt: any =
+            await web3.eth.getTransactionReceipt(transactionHash);
 
           if (receipt) resolve(receipt);
         } catch (e) {

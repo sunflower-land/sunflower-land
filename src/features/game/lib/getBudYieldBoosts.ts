@@ -162,7 +162,7 @@ const getBudBoost = (bud: Bud, resource: Resource): number => {
 
 export const getBudYieldBoosts = (
   buds: NonNullable<GameState["buds"]>,
-  resource: Resource
+  resource: Resource,
 ): number => {
   const boosts = Object.values(buds)
     // Bud must be placed to give a boost

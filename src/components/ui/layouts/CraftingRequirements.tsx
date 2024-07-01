@@ -100,7 +100,7 @@ interface Props {
 
 function getDetails(
   game: GameState,
-  details: ItemDetailsProps
+  details: ItemDetailsProps,
 ): {
   limit: Decimal;
   count: Decimal;
@@ -324,7 +324,7 @@ export const CraftingRequirements: React.FC<Props> = ({
         {getItemDetail({ hideDescription })}
         {limit && (
           <p className="my-1 text-xs text-left sm:text-center">{`${t(
-            "max"
+            "max",
           )} ${limit} ${t("statements.perplayer")}`}</p>
         )}
         {getBoost()}

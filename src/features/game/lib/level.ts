@@ -252,7 +252,7 @@ export const SKILL_POINTS: Record<BumpkinLevel, number> = {
 };
 
 export const findLevelRequiredForNextSkillPoint = (
-  experience: number
+  experience: number,
 ): BumpkinLevel | undefined => {
   const currentLevel = getBumpkinLevel(experience);
 

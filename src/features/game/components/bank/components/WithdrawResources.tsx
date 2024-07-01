@@ -53,7 +53,7 @@ export const WithdrawResources: React.FC<Props> = ({ onWithdraw }) => {
     const deliverables = getDeliverableItems({ game: gameState.context.state });
 
     return Object.fromEntries(
-      Object.entries(deliverables).filter(([_, v]) => v?.gt(0))
+      Object.entries(deliverables).filter(([_, v]) => v?.gt(0)),
     );
   }, [gameState.context.state.previousInventory]);
 
@@ -61,7 +61,7 @@ export const WithdrawResources: React.FC<Props> = ({ onWithdraw }) => {
     const entries = Object.entries(selected) as [InventoryItemName, Decimal][];
     const wrongInputs = entries.filter(
       ([itemName, amount]) =>
-        amount?.lte(0) || amount?.gt(inventory[itemName] || new Decimal(0))
+        amount?.lte(0) || amount?.gt(inventory[itemName] || new Decimal(0)),
     );
 
     return !entries.length || !!wrongInputs.length;
@@ -70,12 +70,12 @@ export const WithdrawResources: React.FC<Props> = ({ onWithdraw }) => {
   const withdraw = () => {
     const itemsForWithdraw = Object.entries(selected) as [
       InventoryItemName,
-      Decimal
+      Decimal,
     ][];
 
     const ids = itemsForWithdraw.map(([item]) => KNOWN_IDS[item]);
     const amounts = itemsForWithdraw.map(([item]) =>
-      toWei(selected[item]?.toString() as string, getItemUnit(item))
+      toWei(selected[item]?.toString() as string, getItemUnit(item)),
     );
 
     gameService.send("WITHDRAW", {
@@ -115,7 +115,7 @@ export const WithdrawResources: React.FC<Props> = ({ onWithdraw }) => {
 
   const handleAmountChange = (
     e: ChangeEvent<HTMLInputElement>,
-    itemName: InventoryItemName
+    itemName: InventoryItemName,
   ) => {
     if (/^0+(?!\.)/.test(e.target.value) && e.target.value.length > 1) {
       e.target.value = e.target.value.replace(/^0/, "");
@@ -182,9 +182,9 @@ export const WithdrawResources: React.FC<Props> = ({ onWithdraw }) => {
                     {
                       "text-error":
                         selected[itemName]?.gt(
-                          inventory[itemName] || new Decimal(0)
+                          inventory[itemName] || new Decimal(0),
                         ) || selected[itemName]?.lte(new Decimal(0)),
-                    }
+                    },
                   )}
                 />
                 <div className="flex flex-col">
@@ -193,12 +193,12 @@ export const WithdrawResources: React.FC<Props> = ({ onWithdraw }) => {
                   >{`${parseFloat(
                     selected[itemName]
                       ?.mul(1 - DELIVERY_FEE / 100)
-                      .toFixed(4, Decimal.ROUND_DOWN) as string
+                      .toFixed(4, Decimal.ROUND_DOWN) as string,
                   )} ${itemName}`}</span>
                   <span className="text-xxs">{`${parseFloat(
                     selected[itemName]
                       ?.mul(DELIVERY_FEE / 100)
-                      .toFixed(4, Decimal.ROUND_DOWN) as string
+                      .toFixed(4, Decimal.ROUND_DOWN) as string,
                   )} Goblin fee`}</span>
                 </div>
               </div>

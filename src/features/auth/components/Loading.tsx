@@ -29,7 +29,7 @@ export const Loading: React.FC<Props> = ({ text, className }) => {
       className={classNames(
         "text-base",
         className,
-        "relative mb-1 mx-1 block w-fit"
+        "relative mb-1 mx-1 block w-fit",
       )}
     >
       {text || t("loading")}

@@ -1086,7 +1086,7 @@ export const WITHDRAWABLES: Record<InventoryItemName, () => boolean> = {
       ...acc,
       [key]: DECORATION_TEMPLATES[key]?.isWithdrawable ?? (() => false),
     }),
-    {} as Record<TemplateDecorationName, () => boolean>
+    {} as Record<TemplateDecorationName, () => boolean>,
   ),
 };
 

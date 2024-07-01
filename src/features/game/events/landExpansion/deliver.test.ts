@@ -27,7 +27,7 @@ describe("deliver", () => {
           id: "123",
           type: "order.delivered",
         },
-      })
+      }),
     ).toThrow("Order does not exist");
   });
 
@@ -57,7 +57,7 @@ describe("deliver", () => {
           type: "order.delivered",
         },
         createdAt: MID_SEASON,
-      })
+      }),
     ).toThrow("Order has not started");
   });
 
@@ -87,7 +87,7 @@ describe("deliver", () => {
           type: "order.delivered",
         },
         createdAt: MID_SEASON,
-      })
+      }),
     ).toThrow("Insufficient ingredient: Sunflower");
   });
 
@@ -121,7 +121,7 @@ describe("deliver", () => {
           id: "123",
           type: "order.delivered",
         },
-      })
+      }),
     ).toThrow("Insufficient ingredient: sfl");
   });
 
@@ -152,7 +152,7 @@ describe("deliver", () => {
           type: "order.delivered",
         },
         createdAt: MID_SEASON,
-      })
+      }),
     ).toThrow("Insufficient ingredient: coins");
   });
 
@@ -563,7 +563,7 @@ describe("deliver", () => {
           type: "order.delivered",
         },
         createdAt: LAST_DAY_OF_SEASON,
-      })
+      }),
     ).toThrow("Ticket tasks are frozen");
   });
 
@@ -639,7 +639,7 @@ describe("deliver", () => {
       });
 
       expect(state.inventory["Scroll"]).toEqual(
-        new Decimal(TICKET_REWARDS[name as QuestNPCName])
+        new Decimal(TICKET_REWARDS[name as QuestNPCName]),
       );
     });
   });

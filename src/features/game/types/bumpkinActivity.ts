@@ -111,7 +111,7 @@ export type BumpkinActivityName =
 export function trackActivity(
   activityName: BumpkinActivityName,
   bumpkinActivity: Bumpkin["activity"],
-  activityAmount = new Decimal(1)
+  activityAmount = new Decimal(1),
 ): Bumpkin["activity"] {
   const previous = bumpkinActivity || {};
   const oldAmount = previous[activityName] || 0;

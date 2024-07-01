@@ -98,14 +98,14 @@ export const VIPItems: React.FC<Props> = ({ onClose, onSkip }) => {
     hasLifeTimeBanner,
     hasGoldPass,
     Date.now(),
-    farmId
+    farmId,
   ).toNumber();
 
   const hasDiscount = actualSeasonBannerPrice < ORIGINAL_SEASONAL_BANNER_PRICE;
   const isFree = actualSeasonBannerPrice === 0;
   const canAffordSeasonBanner = blockBuckBalance.gte(actualSeasonBannerPrice);
   const canAffordLifetimeBanner = blockBuckBalance.gte(
-    LIFETIME_FARMER_BANNER_PRICE
+    LIFETIME_FARMER_BANNER_PRICE,
   );
 
   const handlePurchase = () => {
@@ -202,7 +202,7 @@ export const VIPItems: React.FC<Props> = ({ onClose, onSkip }) => {
         hasLifeTimeBanner,
         hasGoldPass,
         Date.now(),
-        farmId
+        farmId,
       ).toNumber();
     }
 
@@ -213,7 +213,7 @@ export const VIPItems: React.FC<Props> = ({ onClose, onSkip }) => {
         hasLifeTimeBanner,
         hasGoldPass,
         Date.now(),
-        farmId
+        farmId,
       ).toNumber();
     }
 
@@ -246,7 +246,7 @@ export const VIPItems: React.FC<Props> = ({ onClose, onSkip }) => {
               {
                 "cursor-not-allowed": hasLifeTimeBanner,
                 "hover:bg-brown-300": !hasLifeTimeBanner,
-              }
+              },
             )}
             onClick={
               !hasLifeTimeBanner
@@ -289,7 +289,7 @@ export const VIPItems: React.FC<Props> = ({ onClose, onSkip }) => {
               {
                 "cursor-not-allowed": hasSeasonBanner,
                 "hover:bg-brown-300": !hasSeasonBanner,
-              }
+              },
             )}
             onClick={
               !hasSeasonBanner ? () => handleClick(seasonBanner) : undefined
@@ -346,7 +346,7 @@ export const VIPItems: React.FC<Props> = ({ onClose, onSkip }) => {
             {getItemPrice(selected as VIPItem) > 0 ? (
               <div className="flex items-center space-x-2">
                 <span>{`${t("total")} ${getItemPrice(
-                  selected as VIPItem
+                  selected as VIPItem,
                 )}`}</span>
                 <img src={blockBucksIcon} className="w-6" />
               </div>

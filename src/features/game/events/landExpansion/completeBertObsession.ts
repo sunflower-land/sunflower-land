@@ -70,7 +70,7 @@ export function completeBertObsession({
   const currentTickets =
     stateCopy.inventory[getSeasonalTicket()] || new Decimal(0);
   stateCopy.inventory[getSeasonalTicket()] = currentTickets.add(
-    currentObsession.reward
+    currentObsession.reward,
   );
 
   stateCopy.npcs.bert.questCompletedAt = createdAt;

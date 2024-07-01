@@ -12,13 +12,13 @@ import Decimal from "decimal.js-light";
 export async function sflBalanceOf(
   web3: Web3,
   address: string,
-  attempts = 0
+  attempts = 0,
 ): Promise<string> {
   try {
     const balance = await (
       new web3.eth.Contract(
         TokenJSON as AbiItem[],
-        CONFIG.TOKEN_CONTRACT as string
+        CONFIG.TOKEN_CONTRACT as string,
       ) as unknown as SunflowerLandToken
     ).methods
       .balanceOf(address)
@@ -42,7 +42,7 @@ export async function totalSFLSupply(web3: Web3, account: string) {
   const supply = await (
     new web3.eth.Contract(
       TokenJSON as AbiItem[],
-      CONFIG.TOKEN_CONTRACT as string
+      CONFIG.TOKEN_CONTRACT as string,
     ) as unknown as SunflowerLandToken
   ).methods
     .totalSupply()
@@ -55,13 +55,13 @@ export async function getPastDeposits(
   web3: Web3,
   account: string,
   farmAddress: string,
-  fromBlock: number
+  fromBlock: number,
 ) {
   const events: Transfer[] = await new Promise((res, rej) => {
     (
       new web3.eth.Contract(
         TokenJSON as AbiItem[],
-        CONFIG.TOKEN_CONTRACT as string
+        CONFIG.TOKEN_CONTRACT as string,
       ) as unknown as SunflowerLandToken
     ).getPastEvents(
       "Transfer",
@@ -78,7 +78,7 @@ export async function getPastDeposits(
         }
 
         res(events as unknown as Transfer[]);
-      }
+      },
     );
   });
 
@@ -87,7 +87,7 @@ export async function getPastDeposits(
     (event) =>
       event.returnValues.from !==
         "0x0000000000000000000000000000000000000000" &&
-      Number(event.returnValues.value) > 0
+      Number(event.returnValues.value) > 0,
   );
 
   return externalEvents;
@@ -97,14 +97,14 @@ export async function approveSFL(
   web3: Web3,
   account: string,
   address: string,
-  value: number
+  value: number,
 ) {
   const gasPrice = await estimateGasPrice(web3);
   const getWei = toWei(value.toString());
   const approve = await (
     new web3.eth.Contract(
       TokenJSON as AbiItem[],
-      CONFIG.TOKEN_CONTRACT as string
+      CONFIG.TOKEN_CONTRACT as string,
     ) as unknown as SunflowerLandToken
   ).methods
     .approve(address, getWei)
@@ -117,14 +117,14 @@ export async function isTokenApprovedForContract(
   web3: Web3,
   account: string,
   address: string,
-  attempts = 0
+  attempts = 0,
 ): Promise<boolean> {
   await new Promise((res) => setTimeout(res, 3000 * attempts));
   try {
     const allowance = await (
       new web3.eth.Contract(
         TokenJSON as AbiItem[],
-        CONFIG.TOKEN_CONTRACT as string
+        CONFIG.TOKEN_CONTRACT as string,
       ) as unknown as SunflowerLandToken
     ).methods
       .allowance(account, address)

@@ -34,7 +34,7 @@ const getPlantedAt = (
   fertiliser: CropCompostName,
   plantedAt: number,
   fertilisedAt: number,
-  cropDetails: Crop
+  cropDetails: Crop,
 ) => {
   const timeToHarvest = cropDetails.harvestSeconds * 1000;
   const harvestTime = plantedAt + timeToHarvest;
@@ -96,7 +96,7 @@ export function fertilisePlot({
         action.fertiliser,
         crop.plantedAt,
         createdAt,
-        cropDetails
+        cropDetails,
       );
     }
 
@@ -111,7 +111,7 @@ export function fertilisePlot({
 
   bumpkin.activity = trackActivity(
     `Crop Fertilised`,
-    stateCopy.bumpkin?.activity
+    stateCopy.bumpkin?.activity,
   );
 
   return stateCopy;

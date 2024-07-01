@@ -240,7 +240,7 @@ export abstract class BaseScene extends Phaser.Scene {
       16,
       16,
       1,
-      2
+      2,
     ) as Phaser.Tilemaps.Tileset;
 
     // Set up collider layers
@@ -261,7 +261,7 @@ export abstract class BaseScene extends Phaser.Scene {
     if (this.map.getObjectLayer("Interactable")) {
       const interactablesPolygons = this.map.createFromObjects(
         "Interactable",
-        {}
+        {},
       );
       interactablesPolygons.forEach((polygon) => {
         polygon
@@ -272,7 +272,7 @@ export abstract class BaseScene extends Phaser.Scene {
 
               const distance = Phaser.Math.Distance.BetweenPoints(
                 this.currentPlayer as BumpkinContainer,
-                polygon as Phaser.GameObjects.Polygon
+                polygon as Phaser.GameObjects.Polygon,
               );
 
               if (distance > 50) {
@@ -346,7 +346,7 @@ export abstract class BaseScene extends Phaser.Scene {
       0,
       0,
       this.map.width * SQUARE_WIDTH,
-      this.map.height * SQUARE_WIDTH
+      this.map.height * SQUARE_WIDTH,
     );
   }
 
@@ -357,7 +357,7 @@ export abstract class BaseScene extends Phaser.Scene {
       0,
       0,
       this.map.width * SQUARE_WIDTH,
-      this.map.height * SQUARE_WIDTH
+      this.map.height * SQUARE_WIDTH,
     );
 
     camera.setZoom(this.zoom);
@@ -436,11 +436,11 @@ export abstract class BaseScene extends Phaser.Scene {
   public initialiseSounds() {
     const audioMuted = getCachedAudioSetting<boolean>(
       AudioLocalStorageKeys.audioMuted,
-      false
+      false,
     );
     if (!audioMuted) {
       this.walkAudioController = new WalkAudioController(
-        this.sound.add(this.options.audio.fx.walk_key)
+        this.sound.add(this.options.audio.fx.walk_key),
       );
     }
   }
@@ -462,18 +462,18 @@ export abstract class BaseScene extends Phaser.Scene {
     this.cursorKeys = this.input.keyboard?.createCursorKeys();
     if (this.cursorKeys) {
       const mmoLocalSettings = JSON.parse(
-        localStorage.getItem("mmo_settings") ?? "{}"
+        localStorage.getItem("mmo_settings") ?? "{}",
       );
       const layout = mmoLocalSettings.layout ?? "QWERTY";
 
       // add WASD keys
       this.cursorKeys.w = this.input.keyboard?.addKey(
         layout === "QWERTY" ? "W" : "Z",
-        false
+        false,
       );
       this.cursorKeys.a = this.input.keyboard?.addKey(
         layout === "QWERTY" ? "A" : "Q",
-        false
+        false,
       );
       this.cursorKeys.s = this.input.keyboard?.addKey("S", false);
       this.cursorKeys.d = this.input.keyboard?.addKey("D", false);
@@ -539,7 +539,7 @@ export abstract class BaseScene extends Phaser.Scene {
     const defaultClick = () => {
       const distance = Phaser.Math.Distance.BetweenPoints(
         entity,
-        this.currentPlayer as BumpkinContainer
+        this.currentPlayer as BumpkinContainer,
       );
 
       if (distance > 50) {
@@ -611,7 +611,7 @@ export abstract class BaseScene extends Phaser.Scene {
         .setCollideWorldBounds(true);
 
       (this.currentPlayer.body as Phaser.Physics.Arcade.Body).setAllowRotation(
-        false
+        false,
       );
 
       // Follow player with camera
@@ -642,7 +642,7 @@ export abstract class BaseScene extends Phaser.Scene {
               () => {
                 this.switchToScene = warpTo;
               },
-              this
+              this,
             );
           }
 
@@ -650,7 +650,7 @@ export abstract class BaseScene extends Phaser.Scene {
           if (interactable) {
             interactableModalManager.open(interactable);
           }
-        }
+        },
       );
 
       this.physics.add.overlap(
@@ -665,7 +665,7 @@ export abstract class BaseScene extends Phaser.Scene {
           if (cb) {
             cb(obj1, obj2);
           }
-        }
+        },
       );
     } else {
       (entity.body as Phaser.Physics.Arcade.Body)
@@ -725,7 +725,7 @@ export abstract class BaseScene extends Phaser.Scene {
     left: boolean,
     right: boolean,
     up: boolean,
-    down: boolean
+    down: boolean,
   ): number | undefined {
     // calculate the x and y components based on key states
     const x = (right ? 1 : 0) - (left ? 1 : 0);
@@ -783,7 +783,7 @@ export abstract class BaseScene extends Phaser.Scene {
     if (this.movementAngle !== undefined) {
       currentPlayerBody.setVelocity(
         this.walkingSpeed * Math.cos((this.movementAngle * Math.PI) / 180),
-        this.walkingSpeed * Math.sin((this.movementAngle * Math.PI) / 180)
+        this.walkingSpeed * Math.sin((this.movementAngle * Math.PI) / 180),
       );
     } else {
       currentPlayerBody.setVelocity(0, 0);
@@ -797,8 +797,8 @@ export abstract class BaseScene extends Phaser.Scene {
       this.soundEffects.forEach((audio) =>
         audio.setVolumeAndPan(
           this.currentPlayer?.x ?? 0,
-          this.currentPlayer?.y ?? 0
-        )
+          this.currentPlayer?.y ?? 0,
+        ),
       );
     } else {
       // eslint-disable-next-line no-console
@@ -940,7 +940,7 @@ export abstract class BaseScene extends Phaser.Scene {
           | Phaser.GameObjects.Text
           | undefined;
         let factionTag = this.playerEntities[sessionId].getByName(
-          "factionTag"
+          "factionTag",
         ) as Phaser.GameObjects.Text | undefined;
 
         if (nameTag && factionTag?.text !== `<${capitalize(player.faction)}>`) {
@@ -968,7 +968,7 @@ export abstract class BaseScene extends Phaser.Scene {
 
     const playerInVIP = this.physics.world.overlap(
       this.hiddenColliders as Phaser.GameObjects.Group,
-      this.currentPlayer
+      this.currentPlayer,
     );
 
     // Render current players
@@ -1002,7 +1002,7 @@ export abstract class BaseScene extends Phaser.Scene {
       // Hide if in club house
       const overlap = this.physics.world.overlap(
         this.hiddenColliders as Phaser.GameObjects.Group,
-        entity
+        entity,
       );
 
       const hidden = !playerInVIP && overlap;
@@ -1034,11 +1034,11 @@ export abstract class BaseScene extends Phaser.Scene {
 
   checkDistanceToSprite(
     sprite: Phaser.GameObjects.Sprite,
-    maxDistance: number
+    maxDistance: number,
   ) {
     const distance = Phaser.Math.Distance.BetweenPoints(
       sprite,
-      this.currentPlayer as BumpkinContainer
+      this.currentPlayer as BumpkinContainer,
     );
 
     if (distance > maxDistance) return false;
@@ -1050,7 +1050,7 @@ export abstract class BaseScene extends Phaser.Scene {
       const defaultClick = () => {
         const distance = Phaser.Math.Distance.BetweenPoints(
           container,
-          this.currentPlayer as BumpkinContainer
+          this.currentPlayer as BumpkinContainer,
         );
 
         if (distance > 50) {

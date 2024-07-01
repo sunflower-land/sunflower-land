@@ -41,7 +41,7 @@ describe("harvestBeehive", () => {
           type: "beehive.harvested",
           id: "1234",
         },
-      })
+      }),
     ).toThrow("You do not have a Bumpkin");
   });
 
@@ -55,7 +55,7 @@ describe("harvestBeehive", () => {
           type: "beehive.harvested",
           id: "1234",
         },
-      })
+      }),
     ).toThrow(HARVEST_BEEHIVE_ERRORS.BEEHIVE_NOT_PLACED);
   });
 
@@ -74,7 +74,7 @@ describe("harvestBeehive", () => {
           type: "beehive.harvested",
           id: beehiveId,
         },
-      })
+      }),
     ).toThrow(HARVEST_BEEHIVE_ERRORS.NO_HONEY);
   });
 

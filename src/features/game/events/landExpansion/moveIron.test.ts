@@ -14,7 +14,7 @@ describe("moveIron", () => {
           id: "1",
           coordinates: { x: 2, y: 2 },
         },
-      })
+      }),
     ).toThrow(MOVE_IRON_ERRORS.NO_BUMPKIN);
   });
 
@@ -41,7 +41,7 @@ describe("moveIron", () => {
           id: "2",
           coordinates: { x: 2, y: 2 },
         },
-      })
+      }),
     ).toThrow(MOVE_IRON_ERRORS.IRON_NOT_PLACED);
   });
 
@@ -158,7 +158,7 @@ describe("moveIron", () => {
           id: "1",
           coordinates: { x: 2, y: 2 },
         },
-      })
+      }),
     ).toThrow(MOVE_IRON_ERRORS.AOE_LOCKED);
   });
 });

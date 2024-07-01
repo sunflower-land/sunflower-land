@@ -111,8 +111,8 @@ const ListTrade: React.FC<{
             sfl / quantity < (floorPrices[emblem] ?? 0)
               ? "danger"
               : sfl / quantity > (floorPrices[emblem] ?? 0)
-              ? "success"
-              : "warning"
+                ? "success"
+                : "warning"
           }
           className="my-1"
         >
@@ -191,7 +191,7 @@ const ListTrade: React.FC<{
                 // Auto generate price
                 if (floorPrices[emblem]) {
                   const estimated = setPrecision(
-                    new Decimal(floorPrices[emblem] ?? 0).mul(amount)
+                    new Decimal(floorPrices[emblem] ?? 0).mul(amount),
                   );
                   setSflDisplay(estimated.toString());
                 }
@@ -205,7 +205,7 @@ const ListTrade: React.FC<{
                   quantity > (TRADE_LIMITS[emblem] ?? 0) ||
                   inventory[emblem]?.sub(quantity).lt(1) ||
                   quantity === 0,
-              }
+              },
             )}
           />
         </div>
@@ -249,7 +249,7 @@ const ListTrade: React.FC<{
               "mb-2 text-shadow  rounded-sm shadow-inner shadow-black bg-brown-200 w-full p-2 h-10 placeholder-error",
               {
                 "text-error": maxSFL || sfl === 0 || isTooHigh || isTooLow,
-              }
+              },
             )}
           />
         </div>
@@ -264,7 +264,7 @@ const ListTrade: React.FC<{
       >
         <span className="text-xs"> {t("bumpkinTrade.listingPrice")}</span>
         <p className="text-xs">{`${setPrecision(new Decimal(sfl)).toFixed(
-          4
+          4,
         )} SFL`}</p>
       </div>
       <div
@@ -292,7 +292,7 @@ const ListTrade: React.FC<{
       >
         <span className="text-xs"> {t("bumpkinTrade.tradingFee")}</span>
         <p className="text-xs">{`${setPrecision(new Decimal(sfl * 0.1)).toFixed(
-          4
+          4,
         )} SFL`}</p>
       </div>
       <div
@@ -303,7 +303,7 @@ const ListTrade: React.FC<{
       >
         <span className="text-xs"> {t("bumpkinTrade.youWillReceive")}</span>
         <p className="text-xs">{`${setPrecision(new Decimal(sfl * 0.9)).toFixed(
-          4
+          4,
         )} SFL`}</p>
       </div>
       <div className="flex mt-2">
@@ -431,7 +431,7 @@ export const Trade: React.FC<{
   const trades = gameState.context.state.trades?.listings ?? {};
   const { t } = useAppTranslation();
   const level = getBumpkinLevel(
-    gameState.context.state.bumpkin?.experience ?? 0
+    gameState.context.state.bumpkin?.experience ?? 0,
   );
 
   const onList = (items: Items, sfl: number) => {

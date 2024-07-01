@@ -30,7 +30,7 @@ describe("Construct building", () => {
             y: 2,
           },
         },
-      })
+      }),
     ).toThrow(CONSTRUCT_BUILDING_ERRORS.NO_BUMPKIN);
   });
 
@@ -53,7 +53,7 @@ describe("Construct building", () => {
             y: 0,
           },
         },
-      })
+      }),
     ).toThrow(CONSTRUCT_BUILDING_ERRORS.MAX_BUILDINGS_REACHED);
   });
 
@@ -108,7 +108,7 @@ describe("Construct building", () => {
             y: 0,
           },
         },
-      })
+      }),
     ).toThrow(CONSTRUCT_BUILDING_ERRORS.MAX_BUILDINGS_REACHED);
   });
 
@@ -136,7 +136,7 @@ describe("Construct building", () => {
             y: 0,
           },
         },
-      })
+      }),
     ).toThrow(CONSTRUCT_BUILDING_ERRORS.MAX_BUILDINGS_REACHED);
   });
 
@@ -165,7 +165,7 @@ describe("Construct building", () => {
             y: 0,
           },
         },
-      })
+      }),
     ).toThrow(CONSTRUCT_BUILDING_ERRORS.NOT_ENOUGH_COINS);
   });
 
@@ -194,7 +194,7 @@ describe("Construct building", () => {
             y: 0,
           },
         },
-      })
+      }),
     ).toThrow(`${CONSTRUCT_BUILDING_ERRORS.NOT_ENOUGH_INGREDIENTS}Wood, Stone`);
   });
 
@@ -235,11 +235,11 @@ describe("Construct building", () => {
     const { ingredients } = waterWell;
 
     const { amount: woodRequired } = ingredients.find(
-      ({ item }) => item === "Wood"
+      ({ item }) => item === "Wood",
     ) as Ingredient;
 
     const { amount: stoneRequired } = ingredients.find(
-      ({ item }) => item === "Stone"
+      ({ item }) => item === "Stone",
     ) as Ingredient;
 
     expect(state.inventory.Wood).toEqual(initialWood.minus(woodRequired));
@@ -492,19 +492,19 @@ describe("Construct building", () => {
     const { ingredients } = building;
 
     const { amount: woodRequired } = ingredients.find(
-      ({ item }) => item === "Wood"
+      ({ item }) => item === "Wood",
     ) as Ingredient;
 
     const { amount: ironRequired } = ingredients.find(
-      ({ item }) => item === "Iron"
+      ({ item }) => item === "Iron",
     ) as Ingredient;
 
     const { amount: goldRequired } = ingredients.find(
-      ({ item }) => item === "Gold"
+      ({ item }) => item === "Gold",
     ) as Ingredient;
 
     const { amount: eggsRequired } = ingredients.find(
-      ({ item }) => item === "Egg"
+      ({ item }) => item === "Egg",
     ) as Ingredient;
 
     expect(newState.inventory.Wood).toEqual(initialWood.minus(woodRequired));
@@ -538,7 +538,7 @@ describe("Construct building", () => {
           },
         },
         createdAt: dateNow,
-      })
+      }),
     ).toThrow("You do not have the required island expansion");
 
     expect(() =>
@@ -567,7 +567,7 @@ describe("Construct building", () => {
           },
         },
         createdAt: dateNow,
-      })
+      }),
     ).not.toThrow();
   });
 });

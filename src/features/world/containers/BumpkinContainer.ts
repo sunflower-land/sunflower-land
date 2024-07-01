@@ -108,7 +108,7 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
               this.alert?.destroy();
             }
           }
-        }
+        },
       );
     }
 
@@ -157,7 +157,7 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
         {
           frameWidth: 20,
           frameHeight: 19,
-        }
+        },
       );
 
       idleLoader.addListener(Phaser.Loader.Events.COMPLETE, () => {
@@ -197,7 +197,7 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
         {
           frameWidth: 20,
           frameHeight: 19,
-        }
+        },
       );
 
       walkingLoader.on(Phaser.Loader.Events.COMPLETE, () => {
@@ -219,7 +219,7 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
         {
           start: 0,
           end: 8,
-        }
+        },
       ),
       repeat: -1,
       frameRate: 10,
@@ -236,7 +236,7 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
         {
           start: 0,
           end: 7,
-        }
+        },
       ),
       repeat: -1,
       frameRate: 10,
@@ -373,7 +373,7 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
     this.speech = new SpeechBubble(
       this.scene,
       text,
-      this.sprite?.scaleX === 1 ? "right" : "left"
+      this.sprite?.scaleX === 1 ? "right" : "left",
     );
     this.add(this.speech);
 
@@ -528,7 +528,7 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
         if (p.downElement.nodeName === "CANVAS") {
           onClick();
         }
-      }
+      },
     );
   }
 }

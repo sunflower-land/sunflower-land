@@ -11,7 +11,7 @@ describe("moveFlowerBed", () => {
           coordinates: { x: 0, y: 0 },
           id: "not a real id",
         },
-      })
+      }),
     ).toThrow("Flower bed does not exist");
   });
 
@@ -33,7 +33,7 @@ describe("moveFlowerBed", () => {
           coordinates: { x: 0, y: 0 },
           id: "1",
         },
-      })
+      }),
     ).toThrow("Flower Bed collides");
   });
 

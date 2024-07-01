@@ -134,7 +134,7 @@ export const Bean: React.FC<CollectibleProps> = ({
                 timeLeft,
                 {
                   length: "full",
-                }
+                },
               )}`}
             </span>
             <img

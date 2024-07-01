@@ -81,14 +81,14 @@ export const Sunstone: React.FC<Props> = ({ id, index }) => {
   const resource = useSelector(
     gameService,
     (state) => state.context.state.sunstones[id],
-    compareResource
+    compareResource,
   );
   const inventory = useSelector(
     gameService,
     selectInventory,
     (prev, next) =>
       HasTool(prev) === HasTool(next) &&
-      (prev.Logger ?? new Decimal(0)).equals(next.Logger ?? new Decimal(0))
+      (prev.Logger ?? new Decimal(0)).equals(next.Logger ?? new Decimal(0)),
   );
 
   const hasTool = HasTool(inventory);

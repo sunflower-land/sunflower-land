@@ -18,27 +18,30 @@ import { ITEM_DETAILS } from "features/game/types/images";
 const selectReadyPlants = (state: MachineState) => {
   const pots = state.context.state.greenhouse.pots;
 
-  return getKeys(pots).reduce((plants, id) => {
-    const pot = pots[id];
+  return getKeys(pots).reduce(
+    (plants, id) => {
+      const pot = pots[id];
 
-    if (!pot.plant) {
-      return plants;
-    }
+      if (!pot.plant) {
+        return plants;
+      }
 
-    const isReady =
-      Date.now() >
-      getReadyAt({
-        game: state.context.state,
-        plant: pot.plant.name,
-        createdAt: pot.plant.plantedAt,
-      });
+      const isReady =
+        Date.now() >
+        getReadyAt({
+          game: state.context.state,
+          plant: pot.plant.name,
+          createdAt: pot.plant.plantedAt,
+        });
 
-    if (!isReady) {
-      return plants;
-    }
+      if (!isReady) {
+        return plants;
+      }
 
-    return [...plants, pot.plant.name];
-  }, [] as (GreenHouseCropName | GreenHouseFruitName)[]);
+      return [...plants, pot.plant.name];
+    },
+    [] as (GreenHouseCropName | GreenHouseFruitName)[],
+  );
 };
 
 export const Greenhouse: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {

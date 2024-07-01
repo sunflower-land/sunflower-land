@@ -14,7 +14,7 @@ describe("moveSunstone", () => {
           id: "1",
           coordinates: { x: 2, y: 2 },
         },
-      })
+      }),
     ).toThrow(MOVE_GOLD_ERRORS.NO_BUMPKIN);
   });
 
@@ -41,7 +41,7 @@ describe("moveSunstone", () => {
           id: "2",
           coordinates: { x: 2, y: 2 },
         },
-      })
+      }),
     ).toThrow(MOVE_GOLD_ERRORS.SUNSTONE_NOT_PLACED);
   });
 

@@ -22,7 +22,7 @@ describe("purchaseBanner", () => {
           type: "banner.purchased",
           name: "Spring Blossom Banner",
         },
-      })
+      }),
     ).toThrow("You do not have a Bumpkin");
   });
 
@@ -39,7 +39,7 @@ describe("purchaseBanner", () => {
           type: "banner.purchased",
           name: "Invalid Banner" as SeasonalBanner,
         },
-      })
+      }),
     ).toThrow("Invalid banner");
   });
 
@@ -56,7 +56,7 @@ describe("purchaseBanner", () => {
           type: "banner.purchased",
           name: getSeasonalBanner(),
         },
-      })
+      }),
     ).toThrow("Insufficient Block Bucks");
   });
 
@@ -74,7 +74,7 @@ describe("purchaseBanner", () => {
           type: "banner.purchased",
           name: "Spring Blossom Banner",
         },
-      })
+      }),
     ).toThrow("You already have this banner");
   });
 
@@ -398,7 +398,7 @@ describe("purchaseBanner", () => {
           type: "banner.purchased",
           name: "Dawn Breaker Banner",
         },
-      })
+      }),
     ).toThrow("Attempt to purchase Dawn Breaker Banner");
   });
 });

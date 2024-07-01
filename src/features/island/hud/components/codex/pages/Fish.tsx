@@ -55,7 +55,7 @@ export const Fish: React.FC<Props> = ({ onMilestoneReached }) => {
   const milestones = useSelector(gameService, _milestones);
 
   const [caughtFishCount] = useState<number>(() =>
-    getTotalFishCaught(farmActivity)
+    getTotalFishCaught(farmActivity),
   );
 
   const handleMilestoneExpand = (milestoneIndex: number) => {
@@ -75,13 +75,13 @@ export const Fish: React.FC<Props> = ({ onMilestoneReached }) => {
 
   const milestoneNames = getKeys(FISH_MILESTONES);
   const unclaimedMilestones = milestoneNames.filter(
-    (milestone) => !milestones[milestone]
+    (milestone) => !milestones[milestone],
   );
   const claimedMilestoneCount =
     milestoneNames.length - unclaimedMilestones.length;
   const experienceLevel = getExperienceLevelForMilestones(
     claimedMilestoneCount,
-    milestoneNames.length
+    milestoneNames.length,
   );
 
   if (selectedFish) {
@@ -130,7 +130,7 @@ export const Fish: React.FC<Props> = ({ onMilestoneReached }) => {
   return (
     <div
       className={classNames(
-        "flex flex-col h-full overflow-y-auto scrollable pr-1"
+        "flex flex-col h-full overflow-y-auto scrollable pr-1",
       )}
     >
       <InnerPanel className="space-y-2 mt-1 mb-1">

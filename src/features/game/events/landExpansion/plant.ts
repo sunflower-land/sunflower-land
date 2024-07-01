@@ -66,7 +66,7 @@ const INITIAL_SUPPORTED_PLOTS = 17;
 const WELL_PLOT_SUPPORT = 8;
 
 export const getCompletedWellCount = (
-  buildings: Partial<Record<BuildingName, PlacedItem[]>>
+  buildings: Partial<Record<BuildingName, PlacedItem[]>>,
 ) => {
   return (
     buildings["Water Well"]?.filter((well) => well.readyAt < Date.now())
@@ -76,7 +76,7 @@ export const getCompletedWellCount = (
 
 export const getEnabledWellCount = (
   buildings: Partial<Record<BuildingName, PlacedItem[]>>,
-  bumpkin?: Bumpkin
+  bumpkin?: Bumpkin,
 ) => {
   let enabledWells =
     buildings["Water Well"]?.filter((well) => well.readyAt < Date.now())

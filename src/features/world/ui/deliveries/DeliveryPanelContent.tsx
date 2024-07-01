@@ -43,7 +43,7 @@ export const OrderCards: React.FC<OrderCardsProps> = ({
 }) => {
   useEffect(() => {
     const firstFillableOrder = orders.find((order) =>
-      hasRequirementsCheck(order)
+      hasRequirementsCheck(order),
     );
 
     if (firstFillableOrder) {
@@ -79,7 +79,7 @@ export const OrderCards: React.FC<OrderCardsProps> = ({
                 {
                   "opacity-50 cursor-default": !canDeliver,
                   "cursor-pointer": canDeliver,
-                }
+                },
               )}
               onClick={
                 canDeliver

@@ -14,7 +14,7 @@ describe("moveChicken", () => {
           id: "1",
           coordinates: { x: 2, y: 2 },
         },
-      })
+      }),
     ).toThrow(MOVE_CHICKEN_ERRORS.NO_BUMPKIN);
   });
 
@@ -39,7 +39,7 @@ describe("moveChicken", () => {
           id: "2",
           coordinates: { x: 2, y: 2 },
         },
-      })
+      }),
     ).toThrow(MOVE_CHICKEN_ERRORS.CHICKEN_NOT_PLACED);
   });
 
@@ -143,7 +143,7 @@ describe("moveChicken", () => {
           id: "1",
           coordinates: { x: 8, y: 8 },
         },
-      })
+      }),
     ).toThrow(MOVE_CHICKEN_ERRORS.AOE_LOCKED);
   });
 

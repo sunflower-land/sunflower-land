@@ -75,7 +75,7 @@ export const ItemsList: React.FC<Props> = ({
       <div className="flex gap-2 flex-wrap">
         {sortedItems.length === 0 ? (
           <span className="text-xxs">{`${itemsLabel} ${t(
-            "coming.soon"
+            "coming.soon",
           )}.`}</span>
         ) : (
           sortedItems.map((item) => {

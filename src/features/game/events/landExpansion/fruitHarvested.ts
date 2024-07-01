@@ -34,7 +34,7 @@ type Options = {
 export const isFruitReadyToHarvest = (
   createdAt: number,
   plantedFruit: PlantedFruit,
-  fruitDetails: Fruit
+  fruitDetails: Fruit,
 ) => {
   const { seed } = FRUIT()[fruitDetails.name];
   const { plantSeconds } = FRUIT_SEEDS()[seed];
@@ -172,7 +172,7 @@ export function harvestFruit({
     seed,
     (stateCopy.bumpkin as Bumpkin).equipped,
     stateCopy,
-    createdAt
+    createdAt,
   );
 
   patch.fruit.amount = getFruitYield({

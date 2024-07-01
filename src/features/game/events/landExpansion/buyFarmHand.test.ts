@@ -27,7 +27,7 @@ describe("buyFarmHand", () => {
             },
           },
         },
-      })
+      }),
     ).toThrow("No space for a farm hand");
   });
 
@@ -43,7 +43,7 @@ describe("buyFarmHand", () => {
             type: "spring",
           },
         },
-      })
+      }),
     ).toThrow("Insufficient Block Bucks");
   });
 

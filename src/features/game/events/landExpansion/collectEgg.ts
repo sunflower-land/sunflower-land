@@ -46,7 +46,7 @@ export function collectEggs({
 
   stateCopy.bumpkin.activity = trackActivity(
     "Egg Collected",
-    stateCopy.bumpkin.activity
+    stateCopy.bumpkin.activity,
   );
 
   const currentEggs = stateCopy.inventory.Egg || new Decimal(0);
@@ -58,7 +58,7 @@ export function collectEggs({
       stateCopy.inventory[mutantChicken.name] || new Decimal(0);
 
     stateCopy.inventory[mutantChicken.name] = mutantInInventory.add(
-      mutantChicken.amount
+      mutantChicken.amount,
     );
   }
 

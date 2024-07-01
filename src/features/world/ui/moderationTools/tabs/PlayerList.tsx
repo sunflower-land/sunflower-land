@@ -57,7 +57,7 @@ export const PlayerList: React.FC<Props> = ({
     if (!selectedPlayer) return [];
 
     return messages.filter(
-      (message) => message.farmId === selectedPlayer.farmId
+      (message) => message.farmId === selectedPlayer.farmId,
     );
   };
 
@@ -68,7 +68,7 @@ export const PlayerList: React.FC<Props> = ({
           <div className="flex flex-col items-start gap-2 ml-1 mt-2 h-96 overflow-y-auto scrollable">
             {Players.map((player) => {
               const latestMute = player.moderation?.muted.sort(
-                (a, b) => b.mutedUntil - a.mutedUntil
+                (a, b) => b.mutedUntil - a.mutedUntil,
               )[0];
 
               const isMuted = latestMute && latestMute.mutedUntil > Date.now();
@@ -91,7 +91,7 @@ export const PlayerList: React.FC<Props> = ({
                               {"Muted for "}
                               {calculateMuteTime(
                                 latestMute.mutedUntil,
-                                "remaining"
+                                "remaining",
                               )}
                             </Label>
                           )}
@@ -109,7 +109,7 @@ export const PlayerList: React.FC<Props> = ({
                           scene.teleportModerator(
                             player.x,
                             player.y,
-                            player.sceneId
+                            player.sceneId,
                           );
                         }}
                       >

@@ -233,7 +233,7 @@ export const SpecialEventDonations: React.FC = () => {
               }
             }}
             className={classNames(
-              "mb-2 text-shadow mr-2 rounded-sm shadow-inner shadow-black bg-brown-200 w-full p-2 h-10 placeholder-error"
+              "mb-2 text-shadow mr-2 rounded-sm shadow-inner shadow-black bg-brown-200 w-full p-2 h-10 placeholder-error",
             )}
           />
 

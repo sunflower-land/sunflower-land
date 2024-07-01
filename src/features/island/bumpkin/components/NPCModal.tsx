@@ -50,7 +50,7 @@ export const NPCModal: React.FC<Props> = ({ isOpen, onClose }) => {
       .sort(
         (a, b) =>
           BUILDING_ORDER.indexOf(a.building) -
-          BUILDING_ORDER.indexOf(b.building)
+          BUILDING_ORDER.indexOf(b.building),
       ),
     ...Object.values(PIRATE_CAKE),
     ...Object.values(FISH).sort((a, b) => a.name.localeCompare(b.name)),

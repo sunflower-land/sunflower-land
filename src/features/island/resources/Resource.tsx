@@ -50,7 +50,7 @@ export interface ResourceProps {
 
 // Used for placing
 export const READONLY_RESOURCE_COMPONENTS: (
-  island: IslandType
+  island: IslandType,
 ) => Record<ResourceName, React.FC<ResourceProps>> = (island) => ({
   "Crop Plot": () => (
     <div

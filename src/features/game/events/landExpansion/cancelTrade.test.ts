@@ -11,7 +11,7 @@ describe("cancelTrade", () => {
           type: "trade.cancelled",
         },
         state: TEST_FARM,
-      })
+      }),
     ).toThrow("Trade #123 does not exist");
   });
   it("enures trade is not bought", () => {
@@ -37,7 +37,7 @@ describe("cancelTrade", () => {
             },
           },
         },
-      })
+      }),
     ).toThrow("Trade #123 already bought");
   });
 

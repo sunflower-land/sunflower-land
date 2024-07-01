@@ -8,7 +8,7 @@ import { SunflowerDailyRewards } from "./types/SunflowerDailyRewards";
 export async function getDailyCode(
   web3: Web3,
   account: string,
-  attempts = 0
+  attempts = 0,
 ): Promise<number> {
   await new Promise((res) => setTimeout(res, 3000 * attempts));
 
@@ -16,7 +16,7 @@ export async function getDailyCode(
     const code = await (
       new web3.eth.Contract(
         ABI as AbiItem[],
-        CONFIG.DAILY_REWARD_CONTRACT
+        CONFIG.DAILY_REWARD_CONTRACT,
       ) as unknown as SunflowerDailyRewards
     ).methods
       .counts(account)
@@ -48,7 +48,7 @@ export async function trackDailyReward({
     (
       new web3.eth.Contract(
         ABI as AbiItem[],
-        CONFIG.DAILY_REWARD_CONTRACT
+        CONFIG.DAILY_REWARD_CONTRACT,
       ) as unknown as SunflowerDailyRewards
     ).methods
       .reward(code)
@@ -66,9 +66,8 @@ export async function trackDailyReward({
           // Sequence wallet doesn't resolve the receipt. Therefore
           // We try to fetch it after we have a tx hash returned
           // From Sequence.
-          const receipt: any = await web3.eth.getTransactionReceipt(
-            transactionHash
-          );
+          const receipt: any =
+            await web3.eth.getTransactionReceipt(transactionHash);
 
           if (receipt) resolve(receipt);
         } catch (e) {

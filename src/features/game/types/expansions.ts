@@ -178,7 +178,7 @@ export function getLand({
     expectedResources["Sunstone Rock"] -
     Math.max(
       game.inventory["Sunstone Rock"]?.toNumber() ?? 0,
-      game.island.sunstones ?? 0
+      game.island.sunstones ?? 0,
     );
   land.sunstones = land.sunstones?.slice(0, availableSunstones);
 

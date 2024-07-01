@@ -70,7 +70,7 @@ export async function getLeaderboard<T>({
       headers: {
         "content-type": "application/json;charset=UTF-8",
       },
-    }
+    },
   );
 
   if (response.status === 429) {
@@ -85,7 +85,7 @@ export async function getLeaderboard<T>({
 }
 
 export async function fetchLeaderboardData(
-  farmId: number
+  farmId: number,
 ): Promise<Leaderboards | null> {
   let cachedLeaderboardData = getCachedLeaderboardData();
 

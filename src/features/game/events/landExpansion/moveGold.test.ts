@@ -14,7 +14,7 @@ describe("moveGold", () => {
           id: "1",
           coordinates: { x: 2, y: 2 },
         },
-      })
+      }),
     ).toThrow(MOVE_GOLD_ERRORS.NO_BUMPKIN);
   });
 
@@ -41,7 +41,7 @@ describe("moveGold", () => {
           id: "2",
           coordinates: { x: 2, y: 2 },
         },
-      })
+      }),
     ).toThrow(MOVE_GOLD_ERRORS.GOLD_NOT_PLACED);
   });
 
@@ -158,7 +158,7 @@ describe("moveGold", () => {
           id: "1",
           coordinates: { x: 2, y: 2 },
         },
-      })
+      }),
     ).toThrow(MOVE_GOLD_ERRORS.AOE_LOCKED);
   });
 });

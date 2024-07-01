@@ -6,13 +6,13 @@ import { TranslatedDescriptions } from "features/game/types/images";
 
 export const translate = (
   key: TranslationKeys,
-  options: TOptions = {}
+  options: TOptions = {},
 ): string => {
   return i18n.t(key, options);
 };
 
 export const translateTerms = (
-  translations: TranslatedDescriptions
+  translations: TranslatedDescriptions,
 ): string => {
   const language = (i18n.language ?? "en") as LanguageCode;
 

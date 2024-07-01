@@ -19,7 +19,7 @@ describe("buyChicken", () => {
           },
           type: "chicken.bought",
         },
-      })
+      }),
     ).toThrow("You do not have a Bumpkin");
   });
 
@@ -51,7 +51,7 @@ describe("buyChicken", () => {
           },
           type: "chicken.bought",
         },
-      })
+      }),
     ).toThrow("Insufficient Coins");
   });
 
@@ -285,7 +285,7 @@ describe("buyChicken", () => {
     });
 
     expect(state.bumpkin?.activity?.["Coins Spent"]).toEqual(
-      ANIMALS.Chicken.price ?? 0
+      ANIMALS.Chicken.price ?? 0,
     );
   });
 
@@ -320,7 +320,7 @@ describe("buyChicken", () => {
           },
           type: "chicken.bought",
         },
-      })
+      }),
     ).toThrow("Insufficient space for more chickens");
   });
 
@@ -356,7 +356,7 @@ describe("buyChicken", () => {
           },
           type: "chicken.bought",
         },
-      })
+      }),
     ).toThrow("Insufficient space for more chickens");
   });
 

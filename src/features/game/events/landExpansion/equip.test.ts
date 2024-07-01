@@ -64,7 +64,7 @@ describe("equip", () => {
           },
         },
         action,
-      })
+      }),
     ).toThrow(`Red Farmer Shirt is not available for use`);
   });
 
@@ -76,7 +76,7 @@ describe("equip", () => {
     const gameWithoutBumpkin = { ...game, bumpkin: undefined };
 
     expect(() => equip({ state: gameWithoutBumpkin, action })).toThrow(
-      "You do not have a Bumpkin"
+      "You do not have a Bumpkin",
     );
   });
 
@@ -91,7 +91,7 @@ describe("equip", () => {
     };
 
     expect(() => equip({ state: game, action })).toThrow(
-      "Cannot equip shirt while wearing dress"
+      "Cannot equip shirt while wearing dress",
     );
   });
 
@@ -107,7 +107,7 @@ describe("equip", () => {
     };
 
     expect(() => equip({ state: game, action })).toThrow(
-      "Cannot equip pants while wearing dress"
+      "Cannot equip pants while wearing dress",
     );
   });
 

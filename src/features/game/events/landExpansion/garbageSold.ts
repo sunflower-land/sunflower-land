@@ -46,12 +46,12 @@ export function sellGarbage({ state, action }: Options) {
   bumpkin.activity = trackActivity(
     "Coins Earned",
     bumpkin.activity,
-    new Decimal(coinsEarned)
+    new Decimal(coinsEarned),
   );
   bumpkin.activity = trackActivity(
     `${item} Sold`,
     bumpkin?.activity,
-    new Decimal(amount)
+    new Decimal(amount),
   );
 
   game.coins = coins + coinsEarned;

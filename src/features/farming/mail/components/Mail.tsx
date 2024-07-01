@@ -41,7 +41,7 @@ export const Mail: React.FC<Props> = ({ setSelected, announcements }) => {
     setSelected(id);
 
     const read = gameState.context.state.mailbox.read.find(
-      (item) => item.id === id
+      (item) => item.id === id,
     );
 
     const details = announcements[id];
@@ -64,7 +64,7 @@ export const Mail: React.FC<Props> = ({ setSelected, announcements }) => {
         }
 
         const isRead = gameState.context.state.mailbox.read.find(
-          (item) => item.id === id
+          (item) => item.id === id,
         );
         return (
           <ButtonPanel

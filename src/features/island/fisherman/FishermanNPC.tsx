@@ -211,7 +211,7 @@ export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
       const totalFishCaught = getKeys(FISH).reduce(
         (total, name) =>
           total + (state.context.state.farmActivity[`${name} Caught`] ?? 0),
-        0
+        0,
       );
 
       if (totalFishCaught === 1) {

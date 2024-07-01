@@ -9,7 +9,7 @@ export type FarmActivityName = CaughtEvent | HarvestedEvent;
 export function trackFarmActivity(
   activityName: FarmActivityName,
   farmAnalytics: GameState["farmActivity"],
-  amount = 1
+  amount = 1,
 ) {
   const previous = farmAnalytics || {};
   const activityAmount = previous[activityName] || 0;

@@ -15,7 +15,7 @@ describe("moveFruitPatch", () => {
           id: "1",
           coordinates: { x: 2, y: 2 },
         },
-      })
+      }),
     ).toThrow(MOVE_FRUIT_PATCH_ERRORS.NO_BUMPKIN);
   });
 
@@ -38,7 +38,7 @@ describe("moveFruitPatch", () => {
           id: "2",
           coordinates: { x: 2, y: 2 },
         },
-      })
+      }),
     ).toThrow(MOVE_FRUIT_PATCH_ERRORS.FRUIT_PATCH_NOT_PLACED);
   });
 

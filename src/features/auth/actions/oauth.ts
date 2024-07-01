@@ -34,7 +34,7 @@ export async function oauthoriseRequest(request: Request) {
 
 export async function oauthorise(
   code: string,
-  transactionId: string
+  transactionId: string,
 ): Promise<{ token: string }> {
   const oldToken = await getToken();
 

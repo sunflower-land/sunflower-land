@@ -65,7 +65,7 @@ export const INITIAL_STOCK = (state?: GameState): Inventory => {
   if (state?.buildings.Toolshed && isBuildingReady(state.buildings.Toolshed)) {
     for (const tool in tools) {
       tools[tool as keyof typeof tools] = new Decimal(
-        Math.ceil(tools[tool as keyof typeof tools].toNumber() * 1.5)
+        Math.ceil(tools[tool as keyof typeof tools].toNumber() * 1.5),
       );
     }
   }
@@ -107,7 +107,7 @@ export const INITIAL_STOCK = (state?: GameState): Inventory => {
     // Multiply each seed quantity by 1.2 and round up
     for (const seed in seeds) {
       seeds[seed as keyof typeof seeds] = new Decimal(
-        Math.ceil(seeds[seed as keyof typeof seeds].toNumber() * 1.2)
+        Math.ceil(seeds[seed as keyof typeof seeds].toNumber() * 1.2),
       );
     }
   }
@@ -167,7 +167,7 @@ export const INVENTORY_LIMIT = (state?: GameState): Inventory => {
     // Multiply each seed quantity by 1.2
     for (const seed in seeds) {
       seeds[seed as keyof typeof seeds] = new Decimal(
-        Math.ceil(seeds[seed as keyof typeof seeds].toNumber() * 1.2)
+        Math.ceil(seeds[seed as keyof typeof seeds].toNumber() * 1.2),
       );
     }
   }

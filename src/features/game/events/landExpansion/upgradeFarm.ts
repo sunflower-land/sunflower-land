@@ -716,7 +716,7 @@ export function expireItems({
     ...(game.home.collectibles["Time Warp Totem"] ?? []),
   ].filter(
     (totem) =>
-      totem.createdAt + (EXPIRY_COOLDOWNS["Time Warp Totem"] ?? 0) < createdAt
+      totem.createdAt + (EXPIRY_COOLDOWNS["Time Warp Totem"] ?? 0) < createdAt,
   ).length;
 
   if (inActiveTimeWarps > 0) {
@@ -814,7 +814,7 @@ export function upgrade({ state, action, createdAt = Date.now() }: Options) {
         coordinates: undefined,
       },
     }),
-    game.buds
+    game.buds,
   );
   game.crimstones = {};
   game.beehives = {};
@@ -834,7 +834,7 @@ export function upgrade({ state, action, createdAt = Date.now() }: Options) {
 
   const maxSunstones = Math.max(
     sunstonesForExpansion,
-    game.island.sunstones ?? 0
+    game.island.sunstones ?? 0,
   );
 
   // Set the island

@@ -117,7 +117,7 @@ export const Achievements: React.FC<Props> = ({ onBack, readonly }) => {
                       {
                         "opacity-50": !isAlreadyClaimed && !isComplete,
                         "img-highlight": selected === name,
-                      }
+                      },
                     )}
                   >
                     <img
@@ -174,9 +174,9 @@ export const Achievements: React.FC<Props> = ({ onBack, readonly }) => {
                     {!isComplete && !isAlreadyClaimed && (
                       <div className="flex flex-col flex-1 mt-1.5 items-center justify-center">
                         <p className="mb-1 text-xxs text-center">{`${shortenCount(
-                          new Decimal(progress)
+                          new Decimal(progress),
                         )}/${shortenCount(
-                          new Decimal(achievement.requirement)
+                          new Decimal(achievement.requirement),
                         )}`}</p>
                         <ResizableBar
                           percentage={

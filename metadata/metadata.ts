@@ -8347,7 +8347,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
         name: key,
       },
     }),
-    {} as Record<TemplateDecorationName, Metadata>
+    {} as Record<TemplateDecorationName, Metadata>,
   ),
 };
 

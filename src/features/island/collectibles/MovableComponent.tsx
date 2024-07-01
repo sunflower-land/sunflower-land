@@ -58,7 +58,7 @@ export const RESOURCE_MOVE_EVENTS: Record<
 };
 
 function getMoveAction(
-  name: InventoryItemName | "Bud"
+  name: InventoryItemName | "Bud",
 ): GameEventName<PlacementEvent> {
   if (name in BUILDINGS_DIMENSIONS) {
     return "building.moved";
@@ -84,7 +84,7 @@ function getMoveAction(
 }
 
 export function getRemoveAction(
-  name: InventoryItemName | "Bud"
+  name: InventoryItemName | "Bud",
 ): GameEventName<PlacementEvent> | null {
   if (
     name in BUILDINGS_DIMENSIONS &&
@@ -161,7 +161,7 @@ export const MoveableComponent: React.FC<MovableProps> = ({
   const [isRestricted, restrictionReason] = hasRemoveRestriction(
     name,
     id,
-    gameService.state.context.state
+    gameService.state.context.state,
   );
 
   /**

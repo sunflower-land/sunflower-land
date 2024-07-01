@@ -129,7 +129,7 @@ export function plantFlower({
   bumpkin.activity = trackActivity(
     `${action.seed} Planted`,
     bumpkin?.activity,
-    new Decimal(1)
+    new Decimal(1),
   );
 
   const updatedBeehives = updateBeehives({

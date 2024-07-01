@@ -229,7 +229,7 @@ export const RequirementLabel: React.FC<Props> = (props) => {
     <div
       className={classNames(
         props.className,
-        "flex justify-between min-h-[26px]"
+        "flex justify-between min-h-[26px]",
       )}
     >
       <div className="flex items-center">

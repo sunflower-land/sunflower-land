@@ -39,7 +39,7 @@ describe("Place Collectible", () => {
           },
           location: "farm",
         },
-      })
+      }),
     ).toThrow("This collectible is already placed");
   });
 
@@ -61,7 +61,7 @@ describe("Place Collectible", () => {
           },
           location: "farm",
         },
-      })
+      }),
     ).toThrow("You can't place an item that is not on the inventory");
   });
 
@@ -157,7 +157,7 @@ describe("Place Collectible", () => {
           },
           location: "farm",
         },
-      })
+      }),
     ).toThrow("You cannot place this item");
   });
 });

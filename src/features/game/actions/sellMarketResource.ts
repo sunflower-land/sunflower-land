@@ -47,7 +47,7 @@ type Response = {
 };
 
 export async function sellMarketResourceRequest(
-  request: Request
+  request: Request,
 ): Promise<Response> {
   const response = await window.fetch(`${API_URL}/market/${request.farmId}`, {
     method: "POST",

@@ -10,7 +10,7 @@ export const Context = React.createContext<AuthContext>({} as AuthContext);
 
 export const Provider: React.FC = ({ children }) => {
   const authService = useInterpret(
-    authMachine
+    authMachine,
   ) as unknown as MachineInterpreter;
 
   return (

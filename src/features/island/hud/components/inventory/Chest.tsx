@@ -47,7 +47,7 @@ import { InnerPanel } from "components/ui/Panel";
 const imageDomain = CONFIG.NETWORK === "mainnet" ? "buds" : "testnet-buds";
 
 export const ITEM_ICONS: (
-  island: IslandType
+  island: IslandType,
 ) => Partial<Record<InventoryItemName, string>> = (island) => ({
   Market: marketIcon,
   "Fire Pit": firePitIcon,
@@ -92,9 +92,12 @@ export const Chest: React.FC<Props> = ({
   const { t } = useAppTranslation();
   const collectibles = getKeys(chestMap)
     .sort((a, b) => a.localeCompare(b))
-    .reduce((acc, item) => {
-      return { ...acc, [item]: chestMap[item] };
-    }, {} as Record<CollectibleName, Decimal>);
+    .reduce(
+      (acc, item) => {
+        return { ...acc, [item]: chestMap[item] };
+      },
+      {} as Record<CollectibleName, Decimal>,
+    );
 
   const getSelectedChestItems = (): InventoryItemName | BudName => {
     if (isBudName(selected)) {
@@ -211,7 +214,7 @@ export const Chest: React.FC<Props> = ({
       !resources.includes(name) &&
       !buildings.includes(name) &&
       !boosts.includes(name) &&
-      !banners.includes(name)
+      !banners.includes(name),
   );
 
   return (
@@ -248,7 +251,7 @@ export const Chest: React.FC<Props> = ({
                           "top-1": type === "Retreat",
 
                           "left-1": type === "Plaza",
-                        }
+                        },
                       )}
                     />
                   );

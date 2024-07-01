@@ -43,7 +43,7 @@ export const PlayerTrade: React.FC<Props> = ({ farmId, onClose }) => {
     const load = async () => {
       const farm = await loadGameStateForVisit(
         farmId,
-        authState.context.user.rawToken
+        authState.context.user.rawToken,
       );
 
       const listings = farm.state.trades?.listings;
@@ -56,7 +56,7 @@ export const PlayerTrade: React.FC<Props> = ({ farmId, onClose }) => {
   }, []);
 
   const level = getBumpkinLevel(
-    gameState.context.state.bumpkin?.experience ?? 0
+    gameState.context.state.bumpkin?.experience ?? 0,
   );
 
   if (level < 10) {
@@ -115,10 +115,10 @@ export const PlayerTrade: React.FC<Props> = ({ farmId, onClose }) => {
       (acc, name) => ({
         ...acc,
         [name]: (inventory[name] ?? new Decimal(0)).add(
-          listings[listingId].items[name] ?? 0
+          listings[listingId].items[name] ?? 0,
         ),
       }),
-      inventory
+      inventory,
     );
 
     const hasMaxedOut = hasMaxItems({
@@ -205,7 +205,7 @@ export const PlayerTrade: React.FC<Props> = ({ farmId, onClose }) => {
                 "Goblin Emblem",
                 "Nightshade Emblem",
                 "Sunflorian Emblem",
-              ].includes(name)
+              ].includes(name),
           );
         })
         .map((listingId, index) => {

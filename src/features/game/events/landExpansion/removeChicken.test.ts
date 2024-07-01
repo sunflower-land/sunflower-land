@@ -13,17 +13,20 @@ const GAME_STATE: GameState = {
 };
 
 const makeChickensStateObject = (numOfChickens: number) => {
-  return Array.from(Array(numOfChickens).keys()).reduce((obj, curr) => {
-    obj[curr] = {
-      coordinates: {
-        x: curr,
-        y: curr,
-      },
-      multiplier: 1,
-    };
+  return Array.from(Array(numOfChickens).keys()).reduce(
+    (obj, curr) => {
+      obj[curr] = {
+        coordinates: {
+          x: curr,
+          y: curr,
+        },
+        multiplier: 1,
+      };
 
-    return obj;
-  }, {} as Record<number, Chicken>);
+      return obj;
+    },
+    {} as Record<number, Chicken>,
+  );
 };
 
 describe("removeChicken", () => {
@@ -39,7 +42,7 @@ describe("removeChicken", () => {
           type: "chicken.removed",
           id: "11",
         },
-      })
+      }),
     ).toThrow(REMOVE_CHICKEN_ERRORS.INVALID_CHICKEN);
   });
 
@@ -57,7 +60,7 @@ describe("removeChicken", () => {
           type: "chicken.removed",
           id: "0",
         },
-      })
+      }),
     ).toThrow(REMOVE_CHICKEN_ERRORS.CHICKEN_BREWING_EGG);
   });
 

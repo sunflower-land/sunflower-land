@@ -14,7 +14,7 @@ type Response = {
 const API_URL = CONFIG.API_URL;
 
 export async function loadIsland(
-  request: Request
+  request: Request,
 ): Promise<Response | undefined> {
   if (!API_URL) return;
 
@@ -27,7 +27,7 @@ export async function loadIsland(
         "content-type": "application/json;charset=UTF-8",
         accept: "application/json",
       },
-    }
+    },
   );
 
   if (response.status === 503) {

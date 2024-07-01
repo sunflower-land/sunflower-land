@@ -62,11 +62,11 @@ export const questMachine = createMachine<
           const completedQuests = await loadQuests(
             context.quests,
             context.bumpkinId,
-            wallet.myAccount
+            wallet.myAccount,
           );
 
           const currentQuest = completedQuests.find(
-            (quest) => !quest.isComplete
+            (quest) => !quest.isComplete,
           );
 
           return {

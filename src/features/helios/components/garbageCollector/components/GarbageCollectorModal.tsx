@@ -8,7 +8,7 @@ import { InnerPanel } from "components/ui/Panel";
 
 export const GarbageCollectorModal: React.FC = () => {
   const [showTutorial, setShowTutorial] = useState<boolean>(
-    !hasShownTutorial("Garbage Collector")
+    !hasShownTutorial("Garbage Collector"),
   );
   const { t } = useAppTranslation();
 

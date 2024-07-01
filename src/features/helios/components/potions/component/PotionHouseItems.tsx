@@ -21,7 +21,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 export const PotionHouseItems: React.FC = () => {
   const { t } = useAppTranslation();
   const [selected, setSelected] = useState<Decoration | PotionHouseItem>(
-    POTION_HOUSE_DECORATIONS()["Giant Potato"]
+    POTION_HOUSE_DECORATIONS()["Giant Potato"],
   );
   const { gameService, shortcutItem } = useContext(Context);
   const [
@@ -41,7 +41,7 @@ export const PotionHouseItems: React.FC = () => {
 
   const lessIngredients = () =>
     getKeys(selected.ingredients).some((name) =>
-      selected.ingredients[name]?.greaterThan(inventory[name] || 0)
+      selected.ingredients[name]?.greaterThan(inventory[name] || 0),
     );
 
   const buy = () => {

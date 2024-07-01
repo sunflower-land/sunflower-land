@@ -30,7 +30,7 @@ export function placeTree({
 }: Options): GameState {
   const game = cloneDeep(state) as GameState;
   const available = (game.inventory.Tree || new Decimal(0)).minus(
-    Object.keys(game.trees).length
+    Object.keys(game.trees).length,
   );
 
   if (available.lt(1)) {

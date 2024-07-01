@@ -113,7 +113,7 @@ export const HayseedHankV2: React.FC<Props> = ({ onClose }) => {
                     className="mt-0.5"
                   />
                   <span className="text-xs">{`${t(
-                    "hayseedHankv2.newChoresAvailable"
+                    "hayseedHankv2.newChoresAvailable",
                   )} ${secondsToString(secondsTillReset(), {
                     length: "full",
                   })}`}</span>

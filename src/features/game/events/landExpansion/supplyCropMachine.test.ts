@@ -26,7 +26,7 @@ describe("supplyCropMachine", () => {
           type: "cropMachine.supplied",
           seeds: { type: "Sunflower Seed", amount: 10 },
         },
-      })
+      }),
     ).toThrow("Crop Machine does not exist");
   });
 
@@ -54,7 +54,7 @@ describe("supplyCropMachine", () => {
           type: "cropMachine.supplied",
           seeds: { type: "Sunflower Seed", amount: 10 },
         },
-      })
+      }),
     ).toThrow("Missing requirements");
   });
 
@@ -82,7 +82,7 @@ describe("supplyCropMachine", () => {
           type: "cropMachine.supplied",
           seeds: { type: "Sunflower Seed", amount: -10 },
         },
-      })
+      }),
     ).toThrow("Invalid amount supplied");
   });
 
@@ -110,7 +110,7 @@ describe("supplyCropMachine", () => {
           type: "cropMachine.supplied",
           oil: 10,
         },
-      })
+      }),
     ).toThrow("Missing requirements");
   });
 
@@ -138,7 +138,7 @@ describe("supplyCropMachine", () => {
           type: "cropMachine.supplied",
           seeds: { type: "Radish Seed", amount: 10 },
         },
-      })
+      }),
     ).toThrow("You can only supply basic crop seeds!");
   });
 
@@ -170,7 +170,7 @@ describe("supplyCropMachine", () => {
           type: "cropMachine.supplied",
           oil: 49,
         },
-      })
+      }),
     ).toThrow("Oil capacity exceeded");
   });
 
@@ -214,7 +214,7 @@ describe("supplyCropMachine", () => {
           type: "cropMachine.supplied",
           oil: 48,
         },
-      })
+      }),
     ).toThrow("Oil capacity exceeded");
   });
 
@@ -427,7 +427,7 @@ describe("supplyCropMachine", () => {
           type: "cropMachine.supplied",
           seeds: { type: "Sunflower Seed", amount: 10 },
         },
-      })
+      }),
     ).toThrow("Queue is full");
   });
 
@@ -494,7 +494,7 @@ describe("supplyCropMachine", () => {
     const oilTimeRemaining = oilTime * 60 * 60 * 1000;
 
     expect(
-      newState.buildings["Crop Machine"]?.[0].unallocatedOilTime
+      newState.buildings["Crop Machine"]?.[0].unallocatedOilTime,
     ).toBeCloseTo(oilTimeRemaining);
   });
 
@@ -547,7 +547,7 @@ describe("supplyCropMachine", () => {
     expect(pack.growTimeRemaining).toBe(0);
     expect(pack.readyAt).toBeCloseTo(now + sunflowerTime);
     expect(
-      result.buildings["Crop Machine"]?.[0].unallocatedOilTime
+      result.buildings["Crop Machine"]?.[0].unallocatedOilTime,
     ).toBeCloseTo(oilTimeRemain - sunflowerTime);
   });
 
@@ -620,9 +620,9 @@ describe("supplyCropMachine", () => {
     expect(packTwo.growTimeRemaining).toBe(0);
     expect(packTwo.readyAt).toBeCloseTo(item2ReadyAt);
     expect(
-      result.buildings["Crop Machine"]?.[0].unallocatedOilTime
+      result.buildings["Crop Machine"]?.[0].unallocatedOilTime,
     ).toBeCloseTo(
-      oilTimeRemaining - sunflowerPackGrowTime - potatoPackGrowTime
+      oilTimeRemaining - sunflowerPackGrowTime - potatoPackGrowTime,
     );
   });
 
@@ -674,11 +674,11 @@ describe("supplyCropMachine", () => {
     const packOne = result.buildings["Crop Machine"]?.[0]
       .queue?.[0] as CropMachineQueueItem;
     expect(packOne.growTimeRemaining).toBeCloseTo(
-      sunflowerTime - oilTimeRemaining
+      sunflowerTime - oilTimeRemaining,
     );
     expect(packOne.growsUntil).toBeCloseTo(now + oilTimeRemaining);
     expect(
-      result.buildings["Crop Machine"]?.[0].unallocatedOilTime
+      result.buildings["Crop Machine"]?.[0].unallocatedOilTime,
     ).toStrictEqual(0);
   });
 
@@ -745,13 +745,13 @@ describe("supplyCropMachine", () => {
     expect(packOne.growTimeRemaining).toBeCloseTo(0);
     expect(packOne.readyAt).toBeCloseTo(pack1ReadyAt);
     expect(packTwo.growTimeRemaining).toBeCloseTo(
-      sunflowerTimeForSixHundred / 2
+      sunflowerTimeForSixHundred / 2,
     );
     expect(packTwo.growsUntil).toBeCloseTo(
-      pack1ReadyAt + sunflowerTimeForSixHundred / 2
+      pack1ReadyAt + sunflowerTimeForSixHundred / 2,
     );
     expect(
-      result.buildings["Crop Machine"]?.[0].unallocatedOilTime
+      result.buildings["Crop Machine"]?.[0].unallocatedOilTime,
     ).toBeCloseTo(0);
   });
 
@@ -835,7 +835,7 @@ describe("supplyCropMachine", () => {
     expect(packThree.readyAt).toBeCloseTo(sunflower2ReadyAt);
 
     expect(
-      result.buildings["Crop Machine"]?.[0].unallocatedOilTime
+      result.buildings["Crop Machine"]?.[0].unallocatedOilTime,
     ).toBeCloseTo(oilTimeRemaining);
   });
 
@@ -995,7 +995,7 @@ describe("supplyCropMachine", () => {
     expect(addedPack.growTimeRemaining).toBe(0);
     expect(addedPack.startTime).toBeCloseTo(firstPack.readyAt as number);
     expect(addedPack.readyAt).toBeCloseTo(
-      (firstPack.readyAt as number) + sunflowerPackGrowTime
+      (firstPack.readyAt as number) + sunflowerPackGrowTime,
     );
     expect(addedPack.growsUntil).toBeUndefined();
     expect(machine.unallocatedOilTime).toBe(oneHour - sunflowerPackGrowTime);
@@ -1068,7 +1068,7 @@ describe("supplyCropMachine", () => {
     expect(secondPack.growTimeRemaining).toBe(0);
     expect(secondPack.growsUntil).toBeUndefined();
     expect(machine.unallocatedOilTime).toBe(
-      oilMillisAdded - packTwoGrowTime / 2
+      oilMillisAdded - packTwoGrowTime / 2,
     );
     expect(secondPack.readyAt).toBeCloseTo(packTwoStartTime + packTwoGrowTime);
   });
@@ -1388,7 +1388,7 @@ describe("supplyCropMachine", () => {
     });
 
     expect(
-      finalState.buildings["Crop Machine"]?.[0]?.queue?.[0].readyAt
+      finalState.buildings["Crop Machine"]?.[0]?.queue?.[0].readyAt,
     ).toBeDefined();
   });
 
@@ -1434,7 +1434,7 @@ describe("supplyCropMachine", () => {
     });
 
     expect(
-      finalState.buildings["Crop Machine"]?.[0]?.queue?.[1].readyAt
+      finalState.buildings["Crop Machine"]?.[0]?.queue?.[1].readyAt,
     ).toBeGreaterThan(now);
   });
 
@@ -1481,7 +1481,7 @@ describe("supplyCropMachine", () => {
 
     // Not full allocated
     expect(
-      secondState.buildings["Crop Machine"]?.[0]?.queue?.[1].readyAt
+      secondState.buildings["Crop Machine"]?.[0]?.queue?.[1].readyAt,
     ).toBeUndefined();
 
     const thirdState = supplyCropMachine({
@@ -1494,7 +1494,7 @@ describe("supplyCropMachine", () => {
     });
 
     expect(
-      thirdState.buildings["Crop Machine"]?.[0]?.queue?.[1].readyAt
+      thirdState.buildings["Crop Machine"]?.[0]?.queue?.[1].readyAt,
     ).toBeGreaterThan(now);
   });
 
@@ -1650,7 +1650,7 @@ describe("supplyCropMachine", () => {
     });
 
     expect(
-      finalState.buildings["Crop Machine"]?.[0]?.queue?.[1].startTime
+      finalState.buildings["Crop Machine"]?.[0]?.queue?.[1].startTime,
     ).toBeGreaterThanOrEqual(now);
   });
 });

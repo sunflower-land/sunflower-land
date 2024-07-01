@@ -54,7 +54,7 @@ describe("plant", () => {
 
           item: "Sunflower Seed",
         },
-      })
+      }),
     ).toThrow("Plot does not exist");
   });
 
@@ -76,7 +76,7 @@ describe("plant", () => {
 
           item: "Sunflower Seed",
         },
-      })
+      }),
     ).toThrow("Plot does not exist");
   });
 
@@ -94,7 +94,7 @@ describe("plant", () => {
 
           item: "Sunflower Seed",
         },
-      })
+      }),
     ).toThrow("Water Well does not exist");
   });
 
@@ -116,7 +116,7 @@ describe("plant", () => {
 
           item: "Sunflower Seed",
         },
-      })
+      }),
     ).toThrow("Plot does not exist");
   });
 
@@ -150,7 +150,7 @@ describe("plant", () => {
 
           item: "Sunflower Seed",
         },
-      })
+      }),
     ).toThrow("Crop is already planted");
   });
 
@@ -172,7 +172,7 @@ describe("plant", () => {
 
           item: "Pickaxe",
         },
-      })
+      }),
     ).toThrow("Not a seed");
   });
 
@@ -194,7 +194,7 @@ describe("plant", () => {
 
           item: "Sunflower Seed",
         },
-      })
+      }),
     ).toThrow("Not enough seeds");
   });
 
@@ -229,7 +229,7 @@ describe("plant", () => {
           plantedAt: expect.any(Number),
           amount: 1,
         }),
-      })
+      }),
     );
   });
 
@@ -259,7 +259,7 @@ describe("plant", () => {
         name: "Cauliflower",
         plantedAt: expect.any(Number),
         amount: 1,
-      })
+      }),
     );
   });
 
@@ -301,7 +301,7 @@ describe("plant", () => {
         name: "Cauliflower",
         plantedAt: expect.any(Number),
         amount: 2,
-      })
+      }),
     );
   });
 
@@ -331,7 +331,7 @@ describe("plant", () => {
         name: "Parsnip",
         plantedAt: expect.any(Number),
         amount: 1,
-      })
+      }),
     );
   });
 
@@ -602,7 +602,7 @@ describe("plant", () => {
 
           item: "Carrot Seed",
         },
-      })
+      }),
     ).toThrow("You do not have a Bumpkin");
   });
 
@@ -1592,7 +1592,7 @@ describe("plant", () => {
     expect(plots).toBeDefined();
 
     expect((plots as Record<number, CropPlot>)[0].crop?.plantedAt).toEqual(
-      dateNow - 0.1 * CROPS().Parsnip.harvestSeconds * 1000
+      dateNow - 0.1 * CROPS().Parsnip.harvestSeconds * 1000,
     );
   });
 });
@@ -1955,7 +1955,7 @@ describe("getCropTime", () => {
         name: "Soybean",
         plantedAt: expect.any(Number),
         amount: 1,
-      })
+      }),
     );
   });
 
@@ -1997,7 +1997,7 @@ describe("getCropTime", () => {
         name: "Soybean",
         plantedAt: expect.any(Number),
         amount: 2,
-      })
+      }),
     );
   });
 });

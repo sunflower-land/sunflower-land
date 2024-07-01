@@ -8,7 +8,7 @@ describe("exchangeSFLtoCoins", () => {
       exchangeSFLtoCoins({
         state: { ...TEST_FARM, bumpkin: undefined },
         action: { type: "sfl.exchanged", packageId: 1 },
-      })
+      }),
     ).toThrow("You do not have a Bumpkin");
   });
 
@@ -20,7 +20,7 @@ describe("exchangeSFLtoCoins", () => {
           balance: new Decimal(1),
         },
         action: { type: "sfl.exchanged", packageId: 4 as PackageId },
-      })
+      }),
     ).toThrow("Invalid packageId");
   });
 
@@ -32,7 +32,7 @@ describe("exchangeSFLtoCoins", () => {
           balance: new Decimal(0),
         },
         action: { type: "sfl.exchanged", packageId: 1 },
-      })
+      }),
     ).toThrow("Not enough SFL");
   });
 

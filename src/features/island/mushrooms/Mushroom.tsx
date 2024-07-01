@@ -42,7 +42,7 @@ export const Mushroom: React.FC<Props> = ({ id, isFirstRender, name }) => {
 
   const mushrooms = ["mushroom_1", "mushroom_2", "mushroom_3"] as const;
   const mushroomSound = useSound(
-    mushrooms[Math.floor(Math.random() * mushrooms.length)]
+    mushrooms[Math.floor(Math.random() * mushrooms.length)],
   );
 
   const { image } = MUSHROOM_STYLES[name];

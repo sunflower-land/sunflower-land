@@ -24,7 +24,7 @@ export function getCodeOfConductLastRead(): Date | null {
 export function acknowledgeCodeOfConduct() {
   return localStorage.setItem(
     "codeOfConductLastRead",
-    new Date().toISOString()
+    new Date().toISOString(),
   );
 }
 
@@ -49,7 +49,7 @@ export function getSeasonPassRead(): Date | null {
 export function acknowledgeSeasonPass() {
   return localStorage.setItem(
     `${getSeasonalBanner()}IsRead`,
-    new Date().toISOString()
+    new Date().toISOString(),
   );
 }
 
@@ -66,7 +66,7 @@ export function acknowledgeBuds() {
 
 export function hasUnreadMail(
   announcements: Announcements,
-  mailbox: GameState["mailbox"]
+  mailbox: GameState["mailbox"],
 ): boolean {
   const lastRead = localStorage.getItem("mailboxRead");
   localStorage.setItem("mailboxRead", new Date().toISOString());

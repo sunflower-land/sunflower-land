@@ -54,7 +54,7 @@ describe("plantFlower", () => {
           seed: "Sunpetal Seed",
           crossbreed: "Sunflower",
         },
-      })
+      }),
     ).toThrow("You do not have a Bumpkin");
   });
 
@@ -69,7 +69,7 @@ describe("plantFlower", () => {
           seed: "Sunpetal Seed",
           crossbreed: "Sunflower",
         },
-      })
+      }),
     ).toThrow("Flower bed does not exist");
   });
 
@@ -86,7 +86,7 @@ describe("plantFlower", () => {
           seed: "Sunpetal Seed",
           crossbreed: "Sunflower",
         },
-      })
+      }),
     ).toThrow("Flower is already planted");
   });
 
@@ -101,7 +101,7 @@ describe("plantFlower", () => {
           seed: "Sunflower Seed" as "Sunpetal Seed",
           crossbreed: "Sunflower",
         },
-      })
+      }),
     ).toThrow("Not a flower seed");
   });
 
@@ -116,7 +116,7 @@ describe("plantFlower", () => {
           seed: "Sunpetal Seed",
           crossbreed: "Sunflower",
         },
-      })
+      }),
     ).toThrow("Not enough seeds");
   });
 
@@ -135,7 +135,7 @@ describe("plantFlower", () => {
           seed: "Sunpetal Seed",
           crossbreed: "Sunflower",
         },
-      })
+      }),
     ).toThrow("Not enough crossbreed");
   });
 
@@ -169,7 +169,7 @@ describe("plantFlower", () => {
           plantedAt: expect.any(Number),
           amount: 1,
         }),
-      })
+      }),
     );
   });
 
@@ -245,7 +245,7 @@ describe("plantFlower", () => {
 
     const inventoryAfter = state.inventory["Sunflower"];
     expect(inventoryAfter).toEqual(
-      inventoryBefore?.sub(FLOWER_CROSS_BREED_AMOUNTS["Sunflower"])
+      inventoryBefore?.sub(FLOWER_CROSS_BREED_AMOUNTS["Sunflower"]),
     );
   });
   it("reduces flower harvest time in half if wearing Flower Crown ", () => {
@@ -276,7 +276,7 @@ describe("plantFlower", () => {
 
     expect(state.inventory["Sunpetal Seed"]).toEqual(seedAmount.minus(1));
     expect(state.flowers.flowerBeds[bedIndex].flower?.plantedAt).toEqual(
-      dateNow - (FLOWER_SEEDS()["Sunpetal Seed"].plantSeconds * 1000) / 2
+      dateNow - (FLOWER_SEEDS()["Sunpetal Seed"].plantSeconds * 1000) / 2,
     );
   });
 
@@ -314,7 +314,7 @@ describe("plantFlower", () => {
 
     expect(state.inventory["Sunpetal Seed"]).toEqual(seedAmount.minus(1));
     expect(state.flowers.flowerBeds[bedIndex].flower?.plantedAt).toEqual(
-      dateNow - FLOWER_SEEDS()["Sunpetal Seed"].plantSeconds * 1000 * 0.1
+      dateNow - FLOWER_SEEDS()["Sunpetal Seed"].plantSeconds * 1000 * 0.1,
     );
   });
 
@@ -356,7 +356,7 @@ describe("plantFlower", () => {
 
     expect(state.inventory["Sunpetal Seed"]).toEqual(seedAmount.minus(1));
     expect(state.flowers.flowerBeds[bedIndex].flower?.plantedAt).toEqual(
-      dateNow - FLOWER_SEEDS()["Sunpetal Seed"].plantSeconds * 1000 * 0.55
+      dateNow - FLOWER_SEEDS()["Sunpetal Seed"].plantSeconds * 1000 * 0.55,
     );
   });
 });

@@ -91,7 +91,7 @@ export const BuyBlockBucks: React.FC<Props> = ({
   const { gameService } = useContext(Context);
   const startOfferSecondsLeft = useSelector(
     gameService,
-    _starterOfferSecondsLeft
+    _starterOfferSecondsLeft,
   );
 
   const [showMaticConfirm, setShowMaticConfirm] = useState(false);
@@ -167,7 +167,7 @@ export const BuyBlockBucks: React.FC<Props> = ({
                 {
                   "opacity-60 cursor-not-allowed": price.amount === 1,
                   "cursor-pointer": price.amount > 1,
-                }
+                },
               )}
             >
               <span className="mb-2 text-xs">{t("card.cash")}</span>

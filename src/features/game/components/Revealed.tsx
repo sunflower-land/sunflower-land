@@ -42,7 +42,7 @@ export const Revealed: React.FC<{
               ...acc,
               [name]: Number(gameState.context.revealed?.inventory[name] ?? 0),
             }),
-            {}
+            {},
           ),
           wearables: gameState.context.revealed?.wardrobe ?? {},
           sfl,

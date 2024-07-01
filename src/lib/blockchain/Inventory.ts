@@ -16,7 +16,7 @@ export type ItemSupply = Record<InventoryItemName, Decimal>;
 export async function loadSupplyBatch(
   web3: Web3,
   ids: number[],
-  attempts = 0
+  attempts = 0,
 ): Promise<string[]> {
   await new Promise((res) => setTimeout(res, 3000 * attempts));
 
@@ -24,7 +24,7 @@ export async function loadSupplyBatch(
     const supplies: string[] = await (
       new web3.eth.Contract(
         InventoryJSON as AbiItem[],
-        contractAddress as string
+        contractAddress as string,
       ) as unknown as SunflowerLandInventory
     ).methods
       .totalSupplyBatch(ids)
@@ -52,7 +52,7 @@ export async function totalSupply(web3: Web3) {
       ...items,
       [names[index]]: new Decimal(supply),
     }),
-    {} as ItemSupply
+    {} as ItemSupply,
   );
 }
 
@@ -64,14 +64,14 @@ export async function getInventorySupply(web3: Web3, ids: number[]) {
 export async function getInventoryBalances(
   web3: Web3,
   address: string,
-  attempts = 0
+  attempts = 0,
 ): Promise<string[]> {
   try {
     const batchAccounts = Array(IDS.length).fill(address);
     const balances = await (
       new web3.eth.Contract(
         InventoryJSON as AbiItem[],
-        contractAddress as string
+        contractAddress as string,
       ) as unknown as SunflowerLandInventory
     ).methods
       .balanceOfBatch(batchAccounts, IDS)
@@ -91,12 +91,12 @@ export async function getInventoryBalances(
 export async function getInventoryBalance(
   web3: Web3,
   farmAddress: string,
-  id: number
+  id: number,
 ): Promise<string> {
   return await (
     new web3.eth.Contract(
       InventoryJSON as AbiItem[],
-      contractAddress as string
+      contractAddress as string,
     ) as unknown as SunflowerLandInventory
   ).methods
     .balanceOf(farmAddress, id)
@@ -107,13 +107,13 @@ export async function getInventoryTransfers(
   web3: Web3,
   account: string,
   farmAddress: string,
-  fromBlock: number
+  fromBlock: number,
 ) {
   const events: TransferSingle[] = await new Promise((res, rej) => {
     (
       new web3.eth.Contract(
         InventoryJSON as AbiItem[],
-        contractAddress as string
+        contractAddress as string,
       ) as unknown as SunflowerLandInventory
     ).getPastEvents(
       "TransferSingle",
@@ -130,13 +130,13 @@ export async function getInventoryTransfers(
         }
 
         res(events as unknown as TransferSingle[]);
-      }
+      },
     );
   });
 
   const externalEvents = events.filter(
     (event) =>
-      event.returnValues.from !== "0x0000000000000000000000000000000000000000"
+      event.returnValues.from !== "0x0000000000000000000000000000000000000000",
   );
 
   return externalEvents;
@@ -145,13 +145,13 @@ export async function getInventoryTransfers(
 export async function getInventoryBatchTransfers(
   web3: Web3,
   farmAddress: string,
-  fromBlock: number
+  fromBlock: number,
 ) {
   const events: TransferBatch[] = await new Promise((res, rej) => {
     (
       new web3.eth.Contract(
         InventoryJSON as AbiItem[],
-        contractAddress as string
+        contractAddress as string,
       ) as unknown as SunflowerLandInventory
     ).getPastEvents(
       "TransferBatch",
@@ -168,13 +168,13 @@ export async function getInventoryBatchTransfers(
         }
 
         res(events as unknown as TransferBatch[]);
-      }
+      },
     );
   });
 
   const externalEvents = events.filter(
     (event) =>
-      event.returnValues.from !== "0x0000000000000000000000000000000000000000"
+      event.returnValues.from !== "0x0000000000000000000000000000000000000000",
   );
 
   return externalEvents;

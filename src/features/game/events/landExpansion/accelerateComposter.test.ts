@@ -19,7 +19,7 @@ describe("accelerateComposter", () => {
           building: "Compost Bin",
         },
         createdAt: Date.now(),
-      })
+      }),
     ).toThrow("Composter does not exist");
   });
 
@@ -44,7 +44,7 @@ describe("accelerateComposter", () => {
           building: "Compost Bin",
         },
         createdAt: Date.now(),
-      })
+      }),
     ).toThrow("Composter is not producing");
   });
 
@@ -74,7 +74,7 @@ describe("accelerateComposter", () => {
           building: "Compost Bin",
         },
         createdAt: Date.now(),
-      })
+      }),
     ).toThrow("Composter already done");
   });
 
@@ -107,7 +107,7 @@ describe("accelerateComposter", () => {
           building: "Compost Bin",
         },
         createdAt: Date.now(),
-      })
+      }),
     ).toThrow("Missing Eggs");
   });
 
@@ -150,7 +150,7 @@ describe("accelerateComposter", () => {
           building: "Compost Bin",
         },
         createdAt: Date.now(),
-      })
+      }),
     ).toThrow("Already boosted");
   });
 
@@ -186,7 +186,7 @@ describe("accelerateComposter", () => {
 
     expect(state.inventory.Egg).toEqual(new Decimal(3));
     expect(state.buildings["Compost Bin"]?.[0].producing?.readyAt).toEqual(
-      readyAt - 2 * 60 * 60 * 1000
+      readyAt - 2 * 60 * 60 * 1000,
     );
   });
 
@@ -222,7 +222,7 @@ describe("accelerateComposter", () => {
 
     expect(state.inventory.Egg).toEqual(new Decimal(5));
     expect(state.buildings["Turbo Composter"]?.[0].producing?.readyAt).toEqual(
-      readyAt - 3 * 60 * 60 * 1000
+      readyAt - 3 * 60 * 60 * 1000,
     );
   });
   it("accelerates Premium Composter", () => {
@@ -259,7 +259,7 @@ describe("accelerateComposter", () => {
 
     expect(state.inventory.Egg).toEqual(new Decimal(3));
     expect(
-      state.buildings["Premium Composter"]?.[0].producing?.readyAt
+      state.buildings["Premium Composter"]?.[0].producing?.readyAt,
     ).toEqual(readyAt - 4 * 60 * 60 * 1000);
   });
 });

@@ -187,7 +187,7 @@ export const Beehive: React.FC<Props> = ({ id }) => {
 
   const honeyPercentage = setPrecision(
     new Decimal(honeyAmount * 100),
-    2
+    2,
   ).toFixed(2);
 
   const percentage = (honeyProduced / DEFAULT_HONEY_PRODUCTION_TIME) * 100;
@@ -199,7 +199,7 @@ export const Beehive: React.FC<Props> = ({ id }) => {
       ? undefined
       : Math.max(
           0,
-          (DEFAULT_HONEY_PRODUCTION_TIME - honeyProduced) / currentSpeed / 1000
+          (DEFAULT_HONEY_PRODUCTION_TIME - honeyProduced) / currentSpeed / 1000,
         );
 
   return (
@@ -227,7 +227,7 @@ export const Beehive: React.FC<Props> = ({ id }) => {
             {
               "scale-0": !honeyReady,
               "scale-100 honey-drop-ready": honeyReady,
-            }
+            },
           )}
           style={{
             width: `${PIXEL_SCALE * 7}px`,
@@ -333,7 +333,7 @@ export const Beehive: React.FC<Props> = ({ id }) => {
                 {/* Honey jar and amount text */}
                 <div
                   className={classNames(
-                    "absolute top-1/2 -left-2 transition-transform w-full z-50 flex items-center"
+                    "absolute top-1/2 -left-2 transition-transform w-full z-50 flex items-center",
                   )}
                   style={{
                     transform: `translate(calc(min(${
@@ -357,7 +357,7 @@ export const Beehive: React.FC<Props> = ({ id }) => {
                         "-translate-x-[80px]":
                           percentage > 70 && percentage < 100,
                         "-translate-x-16": percentage >= 100,
-                      }
+                      },
                     )}
                   >
                     {Number(honeyAmount) < 1

@@ -4,17 +4,20 @@ import { Chicken } from "features/game/types/game";
 import { placeChicken } from "./placeChicken";
 
 const makeChickensStateObject = (numOfChickens: number) => {
-  return Array.from(Array(numOfChickens).keys()).reduce((obj, curr) => {
-    obj[curr] = {
-      coordinates: {
-        x: curr,
-        y: curr,
-      },
-      multiplier: 1,
-    };
+  return Array.from(Array(numOfChickens).keys()).reduce(
+    (obj, curr) => {
+      obj[curr] = {
+        coordinates: {
+          x: curr,
+          y: curr,
+        },
+        multiplier: 1,
+      };
 
-    return obj;
-  }, {} as Record<number, Chicken>);
+      return obj;
+    },
+    {} as Record<number, Chicken>,
+  );
 };
 
 describe("buyChicken", () => {
@@ -34,7 +37,7 @@ describe("buyChicken", () => {
           },
           type: "chicken.placed",
         },
-      })
+      }),
     ).toThrow("You do not have a Bumpkin");
   });
 
@@ -56,7 +59,7 @@ describe("buyChicken", () => {
           },
           type: "chicken.placed",
         },
-      })
+      }),
     ).toThrow("You do not have any available chickens");
   });
 
@@ -108,7 +111,7 @@ describe("buyChicken", () => {
           },
           type: "chicken.placed",
         },
-      })
+      }),
     ).toThrow("Insufficient space for more chickens");
   });
 
@@ -144,7 +147,7 @@ describe("buyChicken", () => {
           },
           type: "chicken.placed",
         },
-      })
+      }),
     ).toThrow("Insufficient space for more chickens");
   });
 

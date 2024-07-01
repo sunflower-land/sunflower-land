@@ -31,7 +31,7 @@ export function placeGold({
   const game = cloneDeep(state) as GameState;
 
   const available = (game.inventory["Gold Rock"] || new Decimal(0)).minus(
-    Object.keys(game.gold).length
+    Object.keys(game.gold).length,
   );
 
   if (available.lt(1)) {

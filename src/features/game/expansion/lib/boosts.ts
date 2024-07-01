@@ -96,7 +96,7 @@ export const hasSellBoost = (inventory: Inventory) => {
 export const getCookingTime = (
   seconds: number,
   bumpkin: Bumpkin | undefined,
-  game: GameState
+  game: GameState,
 ): number => {
   let reducedSecs = new Decimal(seconds);
 
@@ -138,7 +138,7 @@ export const getFoodExpBoost = (
   bumpkin: Bumpkin,
   game: GameState,
   buds: NonNullable<GameState["buds"]>,
-  createdAt: number = Date.now()
+  createdAt: number = Date.now(),
 ): number => {
   let boostedExp = new Decimal(food.experience);
   const { skills } = bumpkin;

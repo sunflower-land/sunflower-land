@@ -42,7 +42,7 @@ export const Builder: React.FC = () => {
   });
 
   const [layouts, setLayouts] = useState<Layout[]>(
-    Object.values(INITIAL_LAYOUTS)
+    Object.values(INITIAL_LAYOUTS),
   );
 
   const save = () => {
@@ -78,7 +78,7 @@ export const Builder: React.FC = () => {
         ...acc,
         [index + prefix]: layout,
       }),
-      {}
+      {},
     );
     // eslint-disable-next-line no-console
     console.log(JSON.stringify(identifiedLayouts, null, 2));

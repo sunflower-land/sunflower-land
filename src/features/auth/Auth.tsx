@@ -44,7 +44,7 @@ export const Auth: React.FC<Props> = ({ showOfflineModal }) => {
       >
         <div
           className={classNames(
-            "relative flex items-center justify-center mb-4 w-full -mt-12 max-w-xl transition-opacity duration-500 opacity-100"
+            "relative flex items-center justify-center mb-4 w-full -mt-12 max-w-xl transition-opacity duration-500 opacity-100",
           )}
         >
           <div className="w-[90%] relative">

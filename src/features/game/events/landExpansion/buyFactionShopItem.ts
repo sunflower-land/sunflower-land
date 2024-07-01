@@ -52,7 +52,7 @@ export function buyFactionShopItem({
 
   if (requiredFaction && faction?.name !== requiredFaction) {
     throw new Error(
-      BUY_FACTION_SHOP_ITEM_ERRORS.PLAYER_NOT_IN_REQUIRED_FACTION
+      BUY_FACTION_SHOP_ITEM_ERRORS.PLAYER_NOT_IN_REQUIRED_FACTION,
     );
   }
 

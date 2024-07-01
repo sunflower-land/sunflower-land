@@ -19,7 +19,7 @@ export function balancesToInventory(balances: Array<any>) {
 
       return { ...items, [names[index]]: value };
     },
-    {} as Inventory
+    {} as Inventory,
   );
 
   return reduced;

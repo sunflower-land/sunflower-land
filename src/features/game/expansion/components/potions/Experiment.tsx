@@ -54,7 +54,7 @@ export const Experiment: React.FC<Props> = ({
   const reward = potionHouse?.game.reward;
 
   const [score, setScore] = useState(
-    isNewGame ? 0 : calculateScore(lastAttempt)
+    isNewGame ? 0 : calculateScore(lastAttempt),
   );
 
   useEffect(() => {

@@ -15,7 +15,7 @@ describe("craftTool", () => {
           type: "tool.crafted",
           tool: "Sunflower Statue" as any,
         },
-      })
+      }),
     ).toThrow("Tool does not exist");
   });
 
@@ -30,7 +30,7 @@ describe("craftTool", () => {
           type: "tool.crafted",
           tool: "Axe",
         },
-      })
+      }),
     ).toThrow("Insufficient Coins");
   });
 
@@ -46,7 +46,7 @@ describe("craftTool", () => {
           type: "tool.crafted",
           tool: "Pickaxe",
         },
-      })
+      }),
     ).toThrow("Insufficient ingredient: Wood");
   });
 
@@ -99,7 +99,7 @@ describe("craftTool", () => {
           type: "tool.crafted",
           tool: "Axe",
         },
-      })
+      }),
     ).toThrow("Not enough stock");
   });
 
@@ -147,7 +147,7 @@ describe("craftTool", () => {
           type: "tool.crafted",
           tool: "Oil Drill",
         },
-      })
+      }),
     ).toThrow("You do not have the required island expansion");
   });
 });

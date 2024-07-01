@@ -19,7 +19,7 @@ export enum MOVE_CHICKEN_ERRORS {
 export function isLocked(
   chicken: Chicken,
   collectibles: Collectibles,
-  createdAt: number
+  createdAt: number,
 ): boolean {
   if (!chicken || !chicken.coordinates || !chicken.fedAt) return false;
 

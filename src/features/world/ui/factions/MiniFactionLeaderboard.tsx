@@ -43,7 +43,7 @@ export const MiniFactionLeaderboard: React.FC<LeaderboardProps> = ({
       <div className="flex flex-col md:flex-row md:items-center justify-between px-1 pt-1">
         <Label type="default" className="capitalize">{`${faction.slice(
           0,
-          -1
+          -1,
         )} ${t("leaderboard.leaderboard")}`}</Label>
         <p className="text-xs">
           {t("last.updated")} {getRelativeTime(data.lastUpdated)}
@@ -78,7 +78,7 @@ export const MiniFactionLeaderboard: React.FC<LeaderboardProps> = ({
         <div className="flex justify-end">
           <p className="text-xs">
             {`${t("leaderboard.factionMembers")}: ${formatNumber(
-              totalMembers ?? 0
+              totalMembers ?? 0,
             )}`}
           </p>
         </div>

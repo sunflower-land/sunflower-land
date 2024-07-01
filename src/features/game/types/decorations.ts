@@ -5,12 +5,11 @@ import { BoostTreasure, DecorationTreasure } from "./treasure";
 import { translate } from "lib/i18n/translate";
 import { Template } from "./templates";
 
-
 /**
  * getKeys is a ref to Object.keys, but the return is typed literally.
  */
 export const getKeys = Object.keys as <T extends object>(
-  obj: T
+  obj: T,
 ) => Array<keyof T>;
 
 export type AchievementDecorationName =
@@ -120,7 +119,6 @@ export type PotionHouseDecorationName =
 
 export type InteriorDecorationName = "Rug" | "Wardrobe";
 
-
 export const DECORATION_TEMPLATES = {
   "Goblin Gold Champion": {
     dimensions: {
@@ -220,7 +218,7 @@ export const DECORATION_TEMPLATES = {
   },
 } satisfies Record<string, Template>;
 
-export type TemplateDecorationName= keyof typeof DECORATION_TEMPLATES
+export type TemplateDecorationName = keyof typeof DECORATION_TEMPLATES;
 
 export type DecorationName =
   | AchievementDecorationName
@@ -233,11 +231,7 @@ export type DecorationName =
   | InteriorDecorationName
   | TemplateDecorationName;
 
-
-
-
 export const DECORATION_DIMENSIONS: Record<DecorationName, Dimensions> = {
-
   "Jelly Lamp": {
     width: 1,
     height: 1,
@@ -247,7 +241,7 @@ export const DECORATION_DIMENSIONS: Record<DecorationName, Dimensions> = {
       ...acc,
       [name]: DECORATION_TEMPLATES[name].dimensions,
     }),
-    {} as Record<TemplateDecorationName, Dimensions> 
+    {} as Record<TemplateDecorationName, Dimensions>,
   ),
   "Paint Can": {
     width: 2,

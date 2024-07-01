@@ -34,7 +34,7 @@ import { translate } from "lib/i18n/translate";
 import { Loading } from "features/auth/components";
 
 const UPGRADE_DATES: (state: GameState) => Record<IslandType, number | null> = (
-  state
+  state,
 ) => ({
   basic: new Date(0).getTime(),
   spring: new Date("2024-05-15T00:00:00Z").getTime(),
@@ -115,7 +115,7 @@ const IslandUpgraderModal: React.FC<{
   const isReady = hasUpgrade && upgradeDate < Date.now();
 
   const hasResources = getKeys(upgrade.items).every(
-    (name) => inventory[name]?.gte(upgrade.items[name] ?? 0) ?? false
+    (name) => inventory[name]?.gte(upgrade.items[name] ?? 0) ?? false,
   );
 
   return (
@@ -148,7 +148,7 @@ const IslandUpgraderModal: React.FC<{
                   className="mr-3 my-2 whitespace-nowrap"
                 >
                   {`${t("coming.soon")} - ${formatDateTime(
-                    new Date(upgradeDate).toISOString()
+                    new Date(upgradeDate).toISOString(),
                   )}`}
                 </Label>
               )}
@@ -274,7 +274,7 @@ export const IslandUpgrader: React.FC<Props> = ({ gameState, offset }) => {
             <Loading text={t("islandupgrade.exploring")} />
           </div>
         </Transition>,
-        document.body
+        document.body,
       )}
 
       <Modal show={showModal} onHide={onClose}>

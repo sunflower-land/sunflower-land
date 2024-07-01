@@ -26,7 +26,7 @@ export const BumpkinBox = ({
   const [isHover, setIsHover] = useState(false);
 
   const imageUrl = useRef(
-    `${URL}/${tokenUriBuilder(bumpkin.equipped)}x100.png`
+    `${URL}/${tokenUriBuilder(bumpkin.equipped)}x100.png`,
   );
 
   return (

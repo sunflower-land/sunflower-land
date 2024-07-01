@@ -133,7 +133,7 @@ export const ClaimAccount: React.FC<{
 
       const farms = await getFarms(
         wallet.web3Provider,
-        wallet.myAccount as string
+        wallet.myAccount as string,
       );
 
       const ids = farms.map((farm) => Number(farm.tokenId));

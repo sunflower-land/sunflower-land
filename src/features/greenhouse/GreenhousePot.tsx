@@ -91,7 +91,7 @@ export const GreenhousePot: React.FC<Props> = ({ id }) => {
   const pot = pots[id];
 
   const plant = async (
-    seed: GreenHouseCropSeedName = selectedItem as GreenHouseCropSeedName
+    seed: GreenHouseCropSeedName = selectedItem as GreenHouseCropSeedName,
   ) => {
     if (
       !seed ||
@@ -147,7 +147,7 @@ export const GreenhousePot: React.FC<Props> = ({ id }) => {
               }}
             />
             <span className="text-sm yield-text">{`+${harvested.current?.amount.toFixed(
-              2
+              2,
             )}`}</span>
           </Transition>
         )}
@@ -194,7 +194,7 @@ export const GreenhousePot: React.FC<Props> = ({ id }) => {
         >
           <Label type="danger" icon={barrelIcon}>
             {`${OIL_USAGE[selectedItem as GreenHouseCropSeedName]} ${t(
-              "greenhouse.oilRequired"
+              "greenhouse.oilRequired",
             )}`}
           </Label>
         </Transition>

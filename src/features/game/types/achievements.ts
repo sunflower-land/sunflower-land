@@ -122,7 +122,7 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
     description: translate("farmHand.description"),
     progress: (gameState: GameState) => {
       const harvestEvents = getKeys(CROPS()).map(
-        (name) => `${name} Harvested` as HarvestEvent
+        (name) => `${name} Harvested` as HarvestEvent,
       );
 
       return harvestEvents.reduce((count, activityName) => {
@@ -206,7 +206,7 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
     description: translate("cropChampion.description"),
     progress: (gameState: GameState) => {
       const harvestEvents = getKeys(CROPS()).map(
-        (name) => `${name} Harvested` as HarvestEvent
+        (name) => `${name} Harvested` as HarvestEvent,
       );
 
       return harvestEvents.reduce((count, activityName) => {
@@ -235,7 +235,7 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
     description: translate("kissTheCook.description"),
     progress: (gameState: GameState) => {
       const cookEvents = getKeys(COOKABLES).map(
-        (name) => `${name} Cooked` as CookEvent
+        (name) => `${name} Cooked` as CookEvent,
       );
 
       return cookEvents.reduce((count, activityName) => {
@@ -254,7 +254,7 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
     description: translate("bakersDozen.description"),
     progress: (gameState: GameState) => {
       const cakeEvents = getKeys(COOKABLE_CAKES).map(
-        (name) => `${name} Cooked` as CookEvent
+        (name) => `${name} Cooked` as CookEvent,
       );
 
       const bakedCakes = cakeEvents.reduce((count, activityName) => {
@@ -285,7 +285,7 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
     description: translate("chefDeCuisine.description"),
     progress: (gameState: GameState) => {
       const cookEvents = getKeys(COOKABLES).map(
-        (name) => `${name} Cooked` as CookEvent
+        (name) => `${name} Cooked` as CookEvent,
       );
 
       return cookEvents.reduce((count, activityName) => {
@@ -355,7 +355,7 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
     description: translate("craftmanship.description"),
     progress: (gameState: GameState) => {
       const craftEvent = getKeys(TOOLS).map(
-        (name) => `${name} Crafted` as CraftedEvent
+        (name) => `${name} Crafted` as CraftedEvent,
       );
 
       return craftEvent.reduce((count, activityName) => {
@@ -498,7 +498,7 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
     progress: (gameState: GameState) => {
       const totalBuildingsOnLand = getKeys(gameState.buildings).reduce(
         (a, b) => a + (gameState.buildings[b]?.length ?? 0),
-        0
+        0,
       );
       return totalBuildingsOnLand;
     },
@@ -515,7 +515,7 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
     progress: (gameState: GameState) => {
       const fruits = [...getKeys(FRUIT()), ...getKeys(GREENHOUSE_FRUIT())];
       const harvestEvents = fruits.map(
-        (name) => `${name} Harvested` as HarvestEvent
+        (name) => `${name} Harvested` as HarvestEvent,
       );
 
       return harvestEvents.reduce((count, activityName) => {
@@ -557,7 +557,7 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
     progress: (gameState: GameState) => {
       const fruits = [...getKeys(FRUIT()), ...getKeys(GREENHOUSE_FRUIT())];
       const harvestEvents = fruits.map(
-        (name) => `${name} Harvested` as HarvestEvent
+        (name) => `${name} Harvested` as HarvestEvent,
       );
 
       return harvestEvents.reduce((count, activityName) => {

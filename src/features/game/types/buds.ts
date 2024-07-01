@@ -90,7 +90,7 @@ export function isBudName(
     | "Chicken"
     | BuildingName
     | CollectibleName
-    | undefined
+    | undefined,
 ): name is BudName {
   if (!name) return false;
 

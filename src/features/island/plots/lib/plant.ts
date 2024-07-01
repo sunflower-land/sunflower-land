@@ -55,7 +55,7 @@ export const IMAGES: Record<CropName, string> = {
 };
 
 export const CROP_LIFECYCLE: Record<CropName, Lifecycle> = getKeys(
-  IMAGES
+  IMAGES,
 ).reduce(
   (acc, name) => ({
     ...acc,
@@ -68,5 +68,5 @@ export const CROP_LIFECYCLE: Record<CropName, Lifecycle> = getKeys(
       seed: `${URL}/${IMAGES[name]}/seed.png`,
     },
   }),
-  {} as Record<CropName, Lifecycle>
+  {} as Record<CropName, Lifecycle>,
 );

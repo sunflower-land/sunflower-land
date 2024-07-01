@@ -50,7 +50,7 @@ export async function mintAuctionCollectible({
     (
       new web3.eth.Contract(
         ABI as AbiItem[],
-        address as string
+        address as string,
       ) as unknown as SunflowerLandAuction
     ).methods
       .mintCollectible(
@@ -61,7 +61,7 @@ export async function mintAuctionCollectible({
         farmId,
         fee,
         mintId,
-        supply
+        supply,
       )
       .send({ from: account, gasPrice, value: fee })
       .on("error", function (error: any) {
@@ -77,9 +77,8 @@ export async function mintAuctionCollectible({
           // Sequence wallet doesn't resolve the receipt. Therefore
           // We try to fetch it after we have a tx hash returned
           // From Sequence.
-          const receipt: any = await web3.eth.getTransactionReceipt(
-            transactionHash
-          );
+          const receipt: any =
+            await web3.eth.getTransactionReceipt(transactionHash);
 
           if (receipt) resolve(receipt);
         } catch (e) {
@@ -97,7 +96,7 @@ export async function mintAuctionCollectible({
     web3,
     account,
     farmId,
-    oldSessionId
+    oldSessionId,
   );
   return newSessionId;
 }
@@ -144,7 +143,7 @@ export async function mintAuctionWearable({
     (
       new web3.eth.Contract(
         ABI as AbiItem[],
-        address as string
+        address as string,
       ) as unknown as SunflowerLandAuction
     ).methods
       .mintWearable(
@@ -155,7 +154,7 @@ export async function mintAuctionWearable({
         farmId,
         fee,
         mintId,
-        supply
+        supply,
       )
       .send({ from: account, gasPrice, value: fee })
       .on("error", function (error: any) {
@@ -171,9 +170,8 @@ export async function mintAuctionWearable({
           // Sequence wallet doesn't resolve the receipt. Therefore
           // We try to fetch it after we have a tx hash returned
           // From Sequence.
-          const receipt: any = await web3.eth.getTransactionReceipt(
-            transactionHash
-          );
+          const receipt: any =
+            await web3.eth.getTransactionReceipt(transactionHash);
 
           if (receipt) resolve(receipt);
         } catch (e) {
@@ -191,7 +189,7 @@ export async function mintAuctionWearable({
     web3,
     account,
     farmId,
-    oldSessionId
+    oldSessionId,
   );
   return newSessionId;
 }

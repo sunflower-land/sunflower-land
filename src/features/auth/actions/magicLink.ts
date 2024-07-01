@@ -17,7 +17,7 @@ export async function getMagicLink(request: Request) {
         Authorization: `Bearer ${request.token}`,
         "x-transaction-id": randomID(),
       },
-    }
+    },
   );
 
   if (response.status === 401) {

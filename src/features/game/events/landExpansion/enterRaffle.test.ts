@@ -12,7 +12,7 @@ describe("enterRaffle", () => {
         action: {
           type: "raffle.entered",
         },
-      })
+      }),
     ).toThrowError("Missing Treasure Key");
   });
 

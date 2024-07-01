@@ -107,7 +107,7 @@ export const ClaimReward: React.FC<ClaimRewardProps> = ({
                     <div className="flex items-center">
                       <Label type="default" className="mr-2 ">
                         {`${setPrecision(
-                          new Decimal(airdrop.items[name] ?? 1)
+                          new Decimal(airdrop.items[name] ?? 1),
                         ).toString()} x ${name}`}
                       </Label>
                       {name in CONSUMABLES && (
@@ -117,8 +117,8 @@ export const ClaimReward: React.FC<ClaimRewardProps> = ({
                           className="mr-2 font-secondary"
                         >{`+${setPrecision(
                           new Decimal(
-                            CONSUMABLES[name as ConsumableName].experience
-                          )
+                            CONSUMABLES[name as ConsumableName].experience,
+                          ),
                         ).toString()}XP`}</Label>
                       )}
                     </div>
@@ -146,7 +146,7 @@ export const ClaimReward: React.FC<ClaimRewardProps> = ({
                 <Box image={getImageUrl(ITEM_IDS[name])} />
                 <div>
                   <Label type="default">{`${setPrecision(
-                    new Decimal(airdrop.wearables[name] ?? 1)
+                    new Decimal(airdrop.wearables[name] ?? 1),
                   ).toString()} x ${name}`}</Label>
                   <p className="text-xs">{t("reward.wearable")}</p>
                 </div>

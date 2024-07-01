@@ -44,7 +44,7 @@ export const ItemsList: React.FC<Props> = ({
   const wardrobe = useSelector(gameService, _wardrobe);
 
   const getBalanceOfItem = (
-    item: FactionShopWearable | FactionShopCollectible
+    item: FactionShopWearable | FactionShopCollectible,
   ): number => {
     if (type === "wearables") {
       return wardrobe[item.name as BumpkinItem] ?? 0;
@@ -72,7 +72,7 @@ export const ItemsList: React.FC<Props> = ({
       <div className="flex gap-2 flex-wrap">
         {sortedItems.length === 0 ? (
           <span className="text-xxs">{`${itemsLabel} ${t(
-            "coming.soon"
+            "coming.soon",
           )}.`}</span>
         ) : (
           sortedItems.map((item) => {

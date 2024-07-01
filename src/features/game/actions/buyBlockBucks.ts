@@ -38,7 +38,7 @@ export async function buyBlockBucks(request: Request): Promise<Response> {
         type: request.type,
         amount: request.amount,
       }),
-    }
+    },
   );
 
   if (response.status === 429) {
@@ -63,7 +63,7 @@ export async function buyBlockBucksMATIC(transaction: any) {
 }
 
 export async function buyBlockBucksXsolla(
-  request: Omit<Request, "type">
+  request: Omit<Request, "type">,
 ): Promise<{ url: string }> {
   const response = await window.fetch(
     `${API_URL}/payments/create/${request.farmId}`,
@@ -77,7 +77,7 @@ export async function buyBlockBucksXsolla(
       body: JSON.stringify({
         amount: request.amount,
       }),
-    }
+    },
   );
 
   if (response.status === 429) {

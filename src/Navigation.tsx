@@ -34,12 +34,12 @@ import classNames from "classnames";
 
 // Lazy load routes
 const World = lazy(() =>
-  import("features/world/World").then((m) => ({ default: m.World }))
+  import("features/world/World").then((m) => ({ default: m.World })),
 );
 const CommunityTools = lazy(() =>
   import("features/world/ui/CommunityTools").then((m) => ({
     default: m.CommunityTools,
-  }))
+  })),
 );
 
 const selectState = (state: AuthMachineState) => ({

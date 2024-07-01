@@ -16,7 +16,7 @@ describe("moveCrop", () => {
           id: "1",
           coordinates: { x: 2, y: 2 },
         },
-      })
+      }),
     ).toThrow(MOVE_CROP_ERRORS.NO_BUMPKIN);
   });
 
@@ -40,7 +40,7 @@ describe("moveCrop", () => {
           id: "2",
           coordinates: { x: 2, y: 2 },
         },
-      })
+      }),
     ).toThrow(MOVE_CROP_ERRORS.CROP_NOT_PLACED);
   });
 
@@ -122,7 +122,7 @@ describe("moveCrop", () => {
           id: "1",
           coordinates: { x: 2, y: 2 },
         },
-      })
+      }),
     ).toThrow(MOVE_CROP_ERRORS.AOE_LOCKED);
   });
 
@@ -162,7 +162,7 @@ describe("moveCrop", () => {
           id: "1",
           coordinates: { x: 2, y: 2 },
         },
-      })
+      }),
     ).toThrow(MOVE_CROP_ERRORS.AOE_LOCKED);
   });
 
@@ -202,7 +202,7 @@ describe("moveCrop", () => {
           id: "1",
           coordinates: { x: 2, y: 2 },
         },
-      })
+      }),
     ).toThrow(MOVE_CROP_ERRORS.AOE_LOCKED);
   });
 
@@ -242,7 +242,7 @@ describe("moveCrop", () => {
           id: "1",
           coordinates: { x: 2, y: 2 },
         },
-      })
+      }),
     ).toThrow(MOVE_CROP_ERRORS.AOE_LOCKED);
 
     expect(() =>
@@ -280,7 +280,7 @@ describe("moveCrop", () => {
           id: "1",
           coordinates: { x: 2, y: 2 },
         },
-      })
+      }),
     ).toThrow(MOVE_CROP_ERRORS.AOE_LOCKED);
   });
 });

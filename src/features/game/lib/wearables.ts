@@ -11,7 +11,7 @@ export function isWearableActive({
   const equipped = [
     ...Object.values(game.bumpkin?.equipped ?? {}),
     ...Object.values(game.farmHands.bumpkins).flatMap((bumpkin) =>
-      Object.values(bumpkin.equipped)
+      Object.values(bumpkin.equipped),
     ),
   ];
 

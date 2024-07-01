@@ -281,7 +281,7 @@ type SeasonalRewards = {
 };
 
 const getSeasonRewards = (
-  season: SeasonName
+  season: SeasonName,
 ): Partial<Record<TreasureName, Treasure>> => {
   if (season === "Dawn Breaker") {
     return DAWN_BREAKER_REWARDS();
@@ -313,37 +313,37 @@ export const BOOST_TREASURE: Record<BoostTreasure, string> = {
 };
 
 export function isBoostTreasure(
-  treasure: TreasureName
+  treasure: TreasureName,
 ): treasure is BoostTreasure {
   return treasure in BOOST_TREASURE;
 }
 
 export function isBeachBountyTreasure(
-  treasure: TreasureName
+  treasure: TreasureName,
 ): treasure is BeachBountyTreasure {
   return treasure in SELLABLE_TREASURE;
 }
 
 export function isConsumableTreasure(
-  treasure: TreasureName
+  treasure: TreasureName,
 ): treasure is ConsumableTreasure {
   return treasure in CONSUMABLES;
 }
 
 export function isDecorationTreasure(
-  treasure: TreasureName
+  treasure: TreasureName,
 ): treasure is DecorationTreasure {
   return treasure in DECORATION_DIMENSIONS;
 }
 
 export function isResourceTreasure(
-  treasure: TreasureName
+  treasure: TreasureName,
 ): treasure is ResourceTreasure {
   return treasure in RESOURCES;
 }
 
 export function isToolTreasure(
-  treasure: TreasureName
+  treasure: TreasureName,
 ): treasure is ToolTreasure {
   return treasure in CRAFTABLE_TOOLS;
 }

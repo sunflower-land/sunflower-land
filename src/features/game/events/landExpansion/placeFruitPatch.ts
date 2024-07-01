@@ -31,7 +31,7 @@ export function placeFruitPatch({
   const game = cloneDeep(state) as GameState;
 
   const available = (game.inventory["Fruit Patch"] || new Decimal(0)).minus(
-    Object.keys(game.fruitPatches).length
+    Object.keys(game.fruitPatches).length,
   );
 
   if (available.lt(1)) {

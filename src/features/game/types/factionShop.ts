@@ -131,7 +131,7 @@ export const FACTION_SHOP_ITEMS: Record<FactionShopItemName, FactionShopItem> =
       limit: null,
       currency: "Mark",
       shortDescription: translate(
-        "description.factionShop.goldenSunflorianEgg"
+        "description.factionShop.goldenSunflorianEgg",
       ),
       type: "collectible",
       faction: "sunflorians",
@@ -169,7 +169,7 @@ export const FACTION_SHOP_ITEMS: Record<FactionShopItemName, FactionShopItem> =
       limit: null,
       currency: "Mark",
       shortDescription: translate(
-        "description.factionShop.emeraldGoblinGoblet"
+        "description.factionShop.emeraldGoblinGoblet",
       ),
       type: "collectible",
       faction: "goblins",
@@ -180,7 +180,7 @@ export const FACTION_SHOP_ITEMS: Record<FactionShopItemName, FactionShopItem> =
       limit: null,
       currency: "Mark",
       shortDescription: translate(
-        "description.factionShop.opalSunflorianGoblet"
+        "description.factionShop.opalSunflorianGoblet",
       ),
       type: "collectible",
       faction: "sunflorians",
@@ -191,7 +191,7 @@ export const FACTION_SHOP_ITEMS: Record<FactionShopItemName, FactionShopItem> =
       limit: null,
       currency: "Mark",
       shortDescription: translate(
-        "description.factionShop.sapphireBumpkinGoblet"
+        "description.factionShop.sapphireBumpkinGoblet",
       ),
       type: "collectible",
       faction: "bumpkins",
@@ -202,7 +202,7 @@ export const FACTION_SHOP_ITEMS: Record<FactionShopItemName, FactionShopItem> =
       limit: null,
       currency: "Mark",
       shortDescription: translate(
-        "description.factionShop.amethystNightshadeGoblet"
+        "description.factionShop.amethystNightshadeGoblet",
       ),
       type: "collectible",
       faction: "nightshades",
@@ -213,7 +213,7 @@ export const FACTION_SHOP_ITEMS: Record<FactionShopItemName, FactionShopItem> =
       limit: null,
       currency: "Mark",
       shortDescription: translate(
-        "description.factionShop.goldenFactionGoblet"
+        "description.factionShop.goldenFactionGoblet",
       ),
       type: "collectible",
     },
@@ -303,7 +303,7 @@ export const FACTION_SHOP_ITEMS: Record<FactionShopItemName, FactionShopItem> =
       limit: null,
       currency: "Mark",
       shortDescription: translate(
-        "description.factionShop.sunflorianLeftWallSconce"
+        "description.factionShop.sunflorianLeftWallSconce",
       ),
       type: "collectible",
       faction: "sunflorians",
@@ -314,7 +314,7 @@ export const FACTION_SHOP_ITEMS: Record<FactionShopItemName, FactionShopItem> =
       limit: null,
       currency: "Mark",
       shortDescription: translate(
-        "description.factionShop.nightshadeLeftWallSconce"
+        "description.factionShop.nightshadeLeftWallSconce",
       ),
       type: "collectible",
       faction: "nightshades",
@@ -325,7 +325,7 @@ export const FACTION_SHOP_ITEMS: Record<FactionShopItemName, FactionShopItem> =
       limit: null,
       currency: "Mark",
       shortDescription: translate(
-        "description.factionShop.goblinLeftWallSconce"
+        "description.factionShop.goblinLeftWallSconce",
       ),
       type: "collectible",
       faction: "goblins",
@@ -336,7 +336,7 @@ export const FACTION_SHOP_ITEMS: Record<FactionShopItemName, FactionShopItem> =
       limit: null,
       currency: "Mark",
       shortDescription: translate(
-        "description.factionShop.bumpkinLeftWallSconce"
+        "description.factionShop.bumpkinLeftWallSconce",
       ),
       type: "collectible",
       faction: "bumpkins",
@@ -347,7 +347,7 @@ export const FACTION_SHOP_ITEMS: Record<FactionShopItemName, FactionShopItem> =
       limit: null,
       currency: "Mark",
       shortDescription: translate(
-        "description.factionShop.sunflorianRightWallSconce"
+        "description.factionShop.sunflorianRightWallSconce",
       ),
       type: "collectible",
       faction: "sunflorians",
@@ -358,7 +358,7 @@ export const FACTION_SHOP_ITEMS: Record<FactionShopItemName, FactionShopItem> =
       limit: null,
       currency: "Mark",
       shortDescription: translate(
-        "description.factionShop.nightshadeRightWallSconce"
+        "description.factionShop.nightshadeRightWallSconce",
       ),
       type: "collectible",
       faction: "nightshades",
@@ -369,7 +369,7 @@ export const FACTION_SHOP_ITEMS: Record<FactionShopItemName, FactionShopItem> =
       limit: null,
       currency: "Mark",
       shortDescription: translate(
-        "description.factionShop.goblinRightWallSconce"
+        "description.factionShop.goblinRightWallSconce",
       ),
       type: "collectible",
       faction: "goblins",
@@ -380,7 +380,7 @@ export const FACTION_SHOP_ITEMS: Record<FactionShopItemName, FactionShopItem> =
       limit: null,
       currency: "Mark",
       shortDescription: translate(
-        "description.factionShop.bumpkinRightWallSconce"
+        "description.factionShop.bumpkinRightWallSconce",
       ),
       type: "collectible",
       faction: "bumpkins",
@@ -643,7 +643,7 @@ export const FACTION_SHOP_ITEMS: Record<FactionShopItemName, FactionShopItem> =
       limit: null,
       currency: "Mark",
       shortDescription: translate(
-        "description.factionShop.sunflorianFactionRug"
+        "description.factionShop.sunflorianFactionRug",
       ),
       type: "collectible",
       faction: "sunflorians",
@@ -654,7 +654,7 @@ export const FACTION_SHOP_ITEMS: Record<FactionShopItemName, FactionShopItem> =
       limit: null,
       currency: "Mark",
       shortDescription: translate(
-        "description.factionShop.nightshadeFactionRug"
+        "description.factionShop.nightshadeFactionRug",
       ),
       type: "collectible",
       faction: "nightshades",

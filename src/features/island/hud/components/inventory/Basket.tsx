@@ -96,7 +96,7 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
   const selectedItem = selected ?? getKeys(basketMap)[0] ?? "Sunflower Seed";
 
   const isFruitSeed = (
-    selected: InventoryItemName
+    selected: InventoryItemName,
   ): selected is FruitSeedName => selected in FRUIT_SEEDS();
   const isSeed = (selected: InventoryItemName): selected is SeedName =>
     isFruitSeed(selected) ||
@@ -115,7 +115,7 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
       return getFruitPatchTime(
         seedName,
         gameState,
-        (gameState.bumpkin as Bumpkin)?.equipped ?? {}
+        (gameState.bumpkin as Bumpkin)?.equipped ?? {},
       );
     }
     if (
@@ -146,7 +146,7 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
   };
 
   const getItems = <T extends string | number | symbol, K>(
-    items: Record<T, K>
+    items: Record<T, K>,
   ) => {
     return getKeys(items).filter((item) => item in basketMap);
   };
@@ -172,7 +172,7 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
     .sort(
       (a, b) =>
         BUILDING_ORDER.indexOf(COOKABLES[a].building) -
-        BUILDING_ORDER.indexOf(COOKABLES[b].building)
+        BUILDING_ORDER.indexOf(COOKABLES[b].building),
     );
   const pirateCake = getItems(PIRATE_CAKE);
 
@@ -198,7 +198,7 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
   const itemsSection = (
     title: string,
     items: InventoryItemName[],
-    icon: string
+    icon: string,
   ) => {
     if (!items.length) {
       return <></>;
@@ -253,8 +253,8 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
                       CONSUMABLES[selectedItem as ConsumableName],
                       gameState.bumpkin as Bumpkin,
                       gameState,
-                      gameState.buds ?? {}
-                    )
+                      gameState.buds ?? {},
+                    ),
                   )
                 : undefined,
               timeSeconds: isSeed(selectedItem)
@@ -271,7 +271,7 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
           {itemsSection(
             t("fertilisers"),
             [...cropCompost, ...fruitCompost, ...fertilisers],
-            ITEM_DETAILS["Rapid Root"].image
+            ITEM_DETAILS["Rapid Root"].image,
           )}
           {itemsSection(t("crops"), crops, ITEM_DETAILS.Sunflower.image)}
           {itemsSection(t("fruits"), fruits, ITEM_DETAILS["Orange"].image)}
@@ -279,35 +279,35 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
           {itemsSection(
             t("exotics"),
             [...exotic, ...exotics],
-            ITEM_DETAILS["White Carrot"].image
+            ITEM_DETAILS["White Carrot"].image,
           )}
           {itemsSection(t("tools"), allTools, ITEM_DETAILS["Axe"].image)}
           {itemsSection(t("resources"), resources, ITEM_DETAILS["Wood"].image)}
           {itemsSection(
             t("bait"),
             [...worm, ...purchaseableBait],
-            ITEM_DETAILS["Earthworm"].image
+            ITEM_DETAILS["Earthworm"].image,
           )}
           {itemsSection(t("fish"), fish, ITEM_DETAILS["Anchovy"].image)}
           {itemsSection(
             t("foods"),
             [...foods, ...pirateCake],
-            ITEM_DETAILS["Carrot Cake"].image
+            ITEM_DETAILS["Carrot Cake"].image,
           )}
           {itemsSection(
             t("bounty"),
             bounty,
-            ITEM_DETAILS["Pirate Bounty"].image
+            ITEM_DETAILS["Pirate Bounty"].image,
           )}
           {itemsSection(
             t("coupons"),
             coupons,
-            ITEM_DETAILS["Trading Ticket"].image
+            ITEM_DETAILS["Trading Ticket"].image,
           )}
           {itemsSection(
             t("easter.eggs"),
             easterEggs,
-            ITEM_DETAILS["Red Egg"].image
+            ITEM_DETAILS["Red Egg"].image,
           )}
         </>
       }

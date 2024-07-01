@@ -341,7 +341,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
         />
       ),
     }),
-    {} as Record<TemplateDecorationName, React.FC<CollectibleProps>>
+    {} as Record<TemplateDecorationName, React.FC<CollectibleProps>>,
   ),
   "Jelly Lamp": JellyLamp,
   "Paint Can": PaintCan,

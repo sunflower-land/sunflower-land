@@ -13,7 +13,7 @@ describe("minigame.itemPurchased", () => {
           sfl: 5,
           items: {},
         },
-      })
+      }),
     ).toThrow("not-a-game is not a valid minigame");
   });
 
@@ -33,7 +33,7 @@ describe("minigame.itemPurchased", () => {
           sfl: 10,
           items: {},
         },
-      })
+      }),
     ).toThrow("Insufficient SFL");
   });
 
@@ -54,7 +54,7 @@ describe("minigame.itemPurchased", () => {
           sfl: 101,
           items: {},
         },
-      })
+      }),
     ).toThrow("SFL is greater than purchase limit");
   });
 
@@ -74,7 +74,7 @@ describe("minigame.itemPurchased", () => {
           sfl: 0,
           items: { Eggplant: 25 },
         },
-      })
+      }),
     ).toThrow("Insufficient resource: Eggplant");
   });
 
@@ -97,7 +97,7 @@ describe("minigame.itemPurchased", () => {
           sfl: 0,
           items: { Eggplant: 1250 },
         },
-      })
+      }),
     ).toThrow("Purchase limit exceeded: Eggplant");
   });
 

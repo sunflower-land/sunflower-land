@@ -312,7 +312,7 @@ const IMAGES: Record<FlowerName, string> = {
 };
 
 export const FLOWER_LIFECYCLE: Record<FlowerName, Lifecycle> = getKeys(
-  IMAGES
+  IMAGES,
 ).reduce(
   (acc, name) => ({
     ...acc,
@@ -324,11 +324,11 @@ export const FLOWER_LIFECYCLE: Record<FlowerName, Lifecycle> = getKeys(
       ready: `flowers/${IMAGES[name]}_ready.webp`,
     },
   }),
-  {} as Record<FlowerName, Lifecycle>
+  {} as Record<FlowerName, Lifecycle>,
 );
 
 export const DESERT_FLOWER_LIFECYCLE: Record<FlowerName, Lifecycle> = getKeys(
-  IMAGES
+  IMAGES,
 ).reduce(
   (acc, name) => ({
     ...acc,
@@ -340,5 +340,5 @@ export const DESERT_FLOWER_LIFECYCLE: Record<FlowerName, Lifecycle> = getKeys(
       ready: `flowers/desert/${IMAGES[name]}_ready.webp`,
     },
   }),
-  {} as Record<FlowerName, Lifecycle>
+  {} as Record<FlowerName, Lifecycle>,
 );

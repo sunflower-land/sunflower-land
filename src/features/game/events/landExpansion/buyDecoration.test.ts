@@ -19,7 +19,7 @@ describe("buyDecoration", () => {
           type: "decoration.bought",
           name: "Goblin Key" as ShopDecorationName,
         },
-      })
+      }),
     ).toThrow("This item is not a decoration");
   });
 
@@ -34,7 +34,7 @@ describe("buyDecoration", () => {
           type: "decoration.bought",
           name: "Potted Sunflower",
         },
-      })
+      }),
     ).toThrow("Insufficient coins");
   });
 
@@ -50,7 +50,7 @@ describe("buyDecoration", () => {
           type: "decoration.bought",
           name: "Potted Sunflower",
         },
-      })
+      }),
     ).toThrow("Insufficient ingredient: Sunflower");
   });
 
@@ -71,7 +71,7 @@ describe("buyDecoration", () => {
     });
 
     expect(state.coins).toEqual(
-      coins - (BASIC_DECORATIONS()["Potted Sunflower"].coins ?? 0)
+      coins - (BASIC_DECORATIONS()["Potted Sunflower"].coins ?? 0),
     );
   });
 
@@ -108,7 +108,7 @@ describe("buyDecoration", () => {
           type: "decoration.bought",
           name: "Potted Sunflower",
         },
-      })
+      }),
     ).toThrow("Bumpkin not found");
   });
 
@@ -127,7 +127,7 @@ describe("buyDecoration", () => {
       },
     });
     expect(state.bumpkin?.activity?.["Coins Spent"]).toEqual(
-      BASIC_DECORATIONS()["Potted Sunflower"].coins ?? 0
+      BASIC_DECORATIONS()["Potted Sunflower"].coins ?? 0,
     );
   });
 
@@ -176,7 +176,7 @@ describe("buyDecoration", () => {
           coordinates: { x: 0, y: 5 },
           id: "123",
         },
-      })
+      }),
     ).toThrow("ID already exists");
   });
 
@@ -208,7 +208,7 @@ describe("buyDecoration", () => {
           coordinates: { x: 0, y: 0 },
           id: "456",
         },
-      })
+      }),
     ).toThrow("Decoration collides");
   });
 

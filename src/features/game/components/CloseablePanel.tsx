@@ -68,7 +68,7 @@ export const CloseButtonPanel: React.FC<Props> = ({
     <Container
       className={classNames(
         "relative max-h-[90vh] overflow-y-auto scrollable",
-        className
+        className,
       )}
       bumpkinParts={bumpkinParts}
       hasTabs={!!tabs}
@@ -101,7 +101,7 @@ export const CloseButtonPanel: React.FC<Props> = ({
                     "text-xs sm:text-sm text-ellipsis ml-1 whitespace-nowrap",
                     {
                       pulse: currentTab !== index && tab.unread,
-                    }
+                    },
                   )}
                 >
                   {tab.name}
