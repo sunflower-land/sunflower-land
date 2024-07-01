@@ -33,10 +33,7 @@ import { Label } from "components/ui/Label";
 import { FestivalOfColors } from "./portals/FestivalOfColors";
 import { FactionWeeklyPrize } from "./factions/weeklyPrize/FactionWeeklyPrize";
 
-export type FanArtNPC = "fan_npc_1" | "fan_npc_2" | "fan_npc_3" | "fan_npc_4";
-
 type InteractableName =
-  | FanArtNPC
   | "vip_chest"
   | "weekly_faction_prize"
   | "faction_launch"
@@ -108,7 +105,8 @@ type InteractableName =
   | "kingdom_book_3"
   | "kingdom_book_4"
   | "kingdom_book_5"
-  | "kingdom_knight";
+  | "kingdom_knight"
+  | "fan_art";
 
 class InteractableModalManager {
   private listener?: (name: InteractableName, isOpen: boolean) => void;
@@ -625,16 +623,8 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
         </Panel>
       </Modal>
 
-      <Modal
-        show={
-          interactable === "fan_npc_1" ||
-          interactable === "fan_npc_2" ||
-          interactable === "fan_npc_3" ||
-          interactable === "fan_npc_4"
-        }
-        onHide={closeModal}
-      >
-        <FanArt name={interactable as FanArtNPC} onClose={closeModal} />
+      <Modal show={interactable === "fan_art"} onHide={closeModal}>
+        <FanArt onClose={closeModal} />
       </Modal>
 
       <Modal show={interactable === "kingdom_knight"} onHide={closeModal}>
