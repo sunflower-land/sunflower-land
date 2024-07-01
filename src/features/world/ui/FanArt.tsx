@@ -13,7 +13,6 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {
   onClose: () => void;
-  name: FanArtNPC;
 }
 
 const ART: {
@@ -43,7 +42,7 @@ const ART: {
   },
 ];
 
-export const FanArt: React.FC<Props> = ({ onClose, name }) => {
+export const FanArt: React.FC<Props> = ({ onClose }) => {
   const { t } = useAppTranslation();
 
   return (
