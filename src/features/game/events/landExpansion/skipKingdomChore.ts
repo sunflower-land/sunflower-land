@@ -55,7 +55,7 @@ export function skipKingdomChore({
   kingdomChores.chores = makeKingdomChores(
     kingdomChores.chores,
     bumpkin,
-    createdAt
+    createdAt,
   );
 
   return game;

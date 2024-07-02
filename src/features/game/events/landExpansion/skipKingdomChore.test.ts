@@ -31,7 +31,7 @@ describe("skipKingdomChore", () => {
             choresSkipped: 0,
           },
         },
-      })
+      }),
     ).toThrow("No bumpkin found");
   });
 
@@ -43,7 +43,7 @@ describe("skipKingdomChore", () => {
           id: 0,
         },
         state: { ...TEST_FARM, bumpkin: INITIAL_BUMPKIN },
-      })
+      }),
     ).toThrow("Chore not found");
   });
 
@@ -75,7 +75,7 @@ describe("skipKingdomChore", () => {
             choresSkipped: 0,
           },
         },
-      })
+      }),
     ).toThrow("Skip is not available");
   });
 
@@ -105,7 +105,7 @@ describe("skipKingdomChore", () => {
             choresSkipped: 0,
           },
         },
-      })
+      }),
     ).toThrow("Chore is not active");
   });
 
@@ -138,7 +138,7 @@ describe("skipKingdomChore", () => {
             choresSkipped: 0,
           },
         },
-      })
+      }),
     ).toThrow("Chore was already skipped");
   });
 
@@ -171,7 +171,7 @@ describe("skipKingdomChore", () => {
             choresSkipped: 0,
           },
         },
-      })
+      }),
     ).toThrow("Chore is already completed");
   });
 
@@ -209,7 +209,7 @@ describe("skipKingdomChore", () => {
     });
 
     expect(game.kingdomChores.skipAvailableAt).toBe(
-      createdAt + 24 * 60 * 60 * 1000
+      createdAt + 24 * 60 * 60 * 1000,
     );
   });
 

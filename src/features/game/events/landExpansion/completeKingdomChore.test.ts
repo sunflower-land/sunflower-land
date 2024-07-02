@@ -24,7 +24,7 @@ describe("kingdomChore.completed", () => {
             resetsAt: Date.now() + 1000 * 60 * 60 * 24 * 7,
           },
         },
-      })
+      }),
     ).toThrow("Chore not found");
   });
 
@@ -45,7 +45,7 @@ describe("kingdomChore.completed", () => {
             resetsAt: Date.now() + 1000 * 60 * 60 * 24 * 7,
           },
         },
-      })
+      }),
     ).toThrow("Chore not found");
   });
 
@@ -74,7 +74,7 @@ describe("kingdomChore.completed", () => {
             resetsAt: Date.now() + 1000 * 60 * 60 * 24 * 7,
           },
         },
-      })
+      }),
     ).toThrow("Chore is not active");
   });
 
@@ -110,7 +110,7 @@ describe("kingdomChore.completed", () => {
             resetsAt: Date.now() + 1000 * 60 * 60 * 24 * 7,
           },
         },
-      })
+      }),
     ).toThrow("Chore is not complete");
   });
 
@@ -145,7 +145,7 @@ describe("kingdomChore.completed", () => {
             resetsAt: Date.now() + 1000 * 60 * 60 * 24 * 7,
           },
         },
-      })
+      }),
     ).toThrow("Chore is already completed");
   });
 
@@ -180,7 +180,7 @@ describe("kingdomChore.completed", () => {
             resetsAt: Date.now() + 1000 * 60 * 60 * 24 * 7,
           },
         },
-      })
+      }),
     ).toThrow("Chore was already skipped");
   });
 

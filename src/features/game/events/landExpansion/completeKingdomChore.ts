@@ -5,7 +5,7 @@ import cloneDeep from "lodash.clonedeep";
 export function makeKingdomChores(
   chores: KingdomChore[],
   bumpkin: Bumpkin | undefined,
-  createdAt: number
+  createdAt: number,
 ): KingdomChore[] {
   const updatedChores = chores;
 
@@ -13,7 +13,7 @@ export function makeKingdomChores(
   updatedChores
     .filter(
       (chore) =>
-        chore.completedAt === undefined && chore.skippedAt === undefined
+        chore.completedAt === undefined && chore.skippedAt === undefined,
     )
     .slice(0, 3)
     .forEach((chore) => {
@@ -82,7 +82,7 @@ export function completeKingdomChore({
   kingdomChores.chores = makeKingdomChores(
     kingdomChores.chores,
     bumpkin,
-    createdAt
+    createdAt,
   );
 
   const previousMarks = inventory["Mark"] ?? new Decimal(0);
