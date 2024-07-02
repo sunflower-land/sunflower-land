@@ -57,8 +57,6 @@ interface Props {
 }
 
 function getInitialNPC(scene: SceneId): NPCName | undefined {
-  // TODO feat/kingdom-chores-logic DELETE THIS
-  return "flora";
   return undefined;
 }
 

@@ -118,6 +118,7 @@ export const KingdomChoresContent: React.FC<Props> = ({ kingdomChores }) => {
   );
   const upcomingChores = chores.filter(([, chore]) => !chore.startedAt);
 
+  const activeChoresCount = activeChores.length;
   const completedCount = completedChores.length;
 
   const selectedChore = kingdomChores.chores[selected];
@@ -221,7 +222,8 @@ export const KingdomChoresContent: React.FC<Props> = ({ kingdomChores }) => {
                       {t(`upcoming`)}
                     </Label>
                     <p className="text-xxs">
-                      {WEEKLY_CHORES - completedCount} {t("upcoming")}
+                      {WEEKLY_CHORES - completedCount - activeChoresCount}{" "}
+                      {t("upcoming")}
                     </p>
                   </div>
                 }

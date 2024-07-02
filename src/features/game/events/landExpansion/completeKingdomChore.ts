@@ -18,10 +18,8 @@ export function makeKingdomChores(
     .slice(0, 3)
     .forEach((chore) => {
       chore.startedAt = chore.startedAt ?? createdAt;
-      // TODO feat/kingdom-chores-logic - REMOVE
-      chore.startCount = -1000;
-      // chore.startCount =
-      //   chore.startCount ?? bumpkin?.activity[chore.activity] ?? 0;
+      chore.startCount =
+        chore.startCount ?? bumpkin?.activity?.[chore.activity] ?? 0;
     });
 
   return updatedChores;
