@@ -10,13 +10,13 @@ import { CONSUMABLES } from "features/game/types/consumables";
 import { FactionPetRequest, GameState } from "features/game/types/game";
 import cloneDeep from "lodash.clonedeep";
 
-enum DifficultyIndex {
+export enum DifficultyIndex {
   EASY = 0,
   MEDIUM = 1,
   HARD = 2,
 }
 
-const REWARDS_KEY: Record<DifficultyIndex, number> = {
+export const PET_FED_REWARDS_KEY: Record<DifficultyIndex, number> = {
   [DifficultyIndex.EASY]: 4,
   [DifficultyIndex.MEDIUM]: 8,
   [DifficultyIndex.HARD]: 12,
@@ -88,7 +88,7 @@ export function feedFactionPet({
 
   const baseReward = calculatePoints(
     fulfilled,
-    REWARDS_KEY[action.requestIndex],
+    PET_FED_REWARDS_KEY[action.requestIndex],
   );
   const boostAmount = getFactionWearableBoostAmount(stateCopy, baseReward);
   const totalAmount = baseReward + boostAmount;

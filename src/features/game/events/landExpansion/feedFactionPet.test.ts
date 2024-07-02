@@ -15,13 +15,6 @@ const state: GameState = {
     name: "goblins",
     pledgedAt: 0,
     points: 0,
-    donated: {
-      daily: {
-        sfl: {},
-        resources: {},
-      },
-      totalItems: {},
-    },
     history: {},
   },
 };
@@ -73,7 +66,7 @@ describe("feedFactionPet", () => {
           faction: {
             ...state.faction,
             pet: {
-              week: 1,
+              week: "2024/06/24",
               requests: [
                 {
                   food: "Pumpkin Soup",
@@ -109,7 +102,7 @@ describe("feedFactionPet", () => {
           faction: {
             ...state.faction,
             pet: {
-              week: 1,
+              week: "2024/06/24",
               requests: [
                 {
                   food: "Pumpkin Soup",
@@ -146,7 +139,7 @@ describe("feedFactionPet", () => {
         faction: {
           ...state.faction,
           pet: {
-            week: 1,
+            week: "2024/06/24",
             requests: [
               {
                 food: "Pumpkin Soup",
@@ -186,7 +179,7 @@ describe("feedFactionPet", () => {
         faction: {
           ...state.faction,
           pet: {
-            week: 1,
+            week: "2024/06/24",
             requests: [
               {
                 food: "Pumpkin Soup",
@@ -228,7 +221,7 @@ describe("feedFactionPet", () => {
         faction: {
           ...state.faction,
           pet: {
-            week: 1,
+            week: "2024/06/24",
             requests: [
               {
                 food: "Pumpkin Soup",
@@ -270,7 +263,7 @@ describe("feedFactionPet", () => {
         faction: {
           ...state.faction,
           pet: {
-            week: 1,
+            week: "2024/06/24",
             requests: [
               {
                 food: "Pumpkin Soup",
@@ -314,7 +307,7 @@ describe("feedFactionPet", () => {
         faction: {
           ...state.faction,
           pet: {
-            week: 1,
+            week: "2024/06/24",
             requests: [
               {
                 food: "Pumpkin Soup",
@@ -356,7 +349,7 @@ describe("feedFactionPet", () => {
         faction: {
           ...state.faction,
           pet: {
-            week: 1,
+            week: "2024/06/24",
             requests: [
               {
                 food: "Pumpkin Soup",
@@ -395,7 +388,7 @@ describe("feedFactionPet", () => {
         faction: {
           ...state.faction,
           pet: {
-            week: 1,
+            week: "2024/06/24",
             requests: [
               {
                 food: "Pumpkin Soup",
@@ -441,7 +434,7 @@ describe("feedFactionPet", () => {
         faction: {
           ...state.faction,
           pet: {
-            week: 1,
+            week: "2024/06/24",
             requests: [
               {
                 food: "Pumpkin Soup",
