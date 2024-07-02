@@ -222,8 +222,9 @@ export const KingdomChoresContent: React.FC<Props> = ({ kingdomChores }) => {
                       {t(`upcoming`)}
                     </Label>
                     <p className="text-xxs">
-                      {WEEKLY_CHORES - completedCount - activeChoresCount}{" "}
-                      {t("upcoming")}
+                      {`${
+                        WEEKLY_CHORES - completedCount - activeChoresCount
+                      } ${t("upcoming")}`}
                     </p>
                   </div>
                 }
@@ -394,7 +395,7 @@ const ConfirmSkip: React.FC<{
 
   return (
     <InnerPanel>
-      <div className="flex flex-col justify-center">
+      <div className="flex flex-col justify-center items-center">
         <Label type="danger" className="!w-full">
           {t("kingdomChores.skipWarning")}
         </Label>
@@ -404,16 +405,16 @@ const ConfirmSkip: React.FC<{
               <SquareIcon icon={ITEM_DETAILS[chore.image].image} width={14} />
             </div>
           )}
-          <span className="sm:text-center">
+          <span>
             {t("skip")} {chore.description}
           </span>
         </div>
-        <div className="flex justify-start sm:justify-center pb-2">
-          <Label type="warning" className="text-center">
+        <div className="pb-2">
+          <Label type="warning" icon={mark} className="text-center">
             {chore.marks} {t("marks")}
           </Label>
         </div>
-        <div className="flex space-x-1">
+        <div className="flex w-full space-x-1">
           <Button onClick={onBack}>{t("back")}</Button>
           <Button onClick={onConfirm}>{t("skip")}</Button>
         </div>
