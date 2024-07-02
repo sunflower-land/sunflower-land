@@ -86,6 +86,20 @@ export function secondsTillWeekReset(): number {
 }
 
 /**
+ * Returns the date key for the end of the current faction week
+ * If week begins on Monday 24th June then the end of the week is Sunday 30th June at 23:59:59
+ * E.g returns end of week unix timestamp
+ */
+export function getFactionWeekEndTime({
+  date = new Date(),
+}: { date?: Date } = {}): number {
+  const start = new Date(getFactionWeek({ date }));
+  start.setUTCDate(start.getUTCDate() + 7);
+
+  return start.getTime();
+}
+
+/**
  * Get the current day number of the current faction week.
  * @param now milliseconds since epoch
  * @returns day of the week Mon = 1 Sun = 7 | undefined if the faction week has not started yet
