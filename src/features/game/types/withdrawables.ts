@@ -1387,7 +1387,8 @@ export const BUMPKIN_WITHDRAWABLES: Record<
   "Crimstone Armor": (state) =>
     canWithdrawBoostedWearable("Crimstone Armor", state),
   "Gardening Overalls": () => true,
-  "Crimstone Hammer": () => true,
+  "Crimstone Hammer": (state) =>
+    canWithdrawBoostedWearable("Crimstone Hammer", state),
   "Crimstone Amulet": (state) =>
     canWithdrawBoostedWearable("Crimstone Amulet", state),
   "Full Bloom Shirt": () => true,

@@ -174,6 +174,14 @@ export function areAnyCrimstonesMined(game: GameState): Restriction {
   return [crimstoneMined, translate("restrictionReason.crimstoneMined")];
 }
 
+export function isCrimstoneHammerActive(game: GameState): Restriction {
+  const crimstoneMined = Object.values(game.crimstones ?? {}).some(
+    (crimstone) => !canMine(crimstone, 7 * 24 * 60 * 60),
+    // 7 day cooldown (5 day cycle + 2 day buffer) to prevent crimstone hammer sharing exploits
+  );
+  return [crimstoneMined, translate("restrictionReason.crimstoneMined")];
+}
+
 function areAnyMineralsMined(game: GameState): Restriction {
   const areStonesMined = areAnyStonesMined(game);
   const areIronsMined = areAnyIronsMined(game);
