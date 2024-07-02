@@ -123,21 +123,13 @@ export const PhaserComponent: React.FC<Props> = ({
     new PlazaScene({ gameState: gameService.state.context.state }),
     RetreatScene,
     KingdomScene,
-    ...(hasHouseAccess(gameService.state.context.state, "goblins") &&
-    hasFeatureAccess(gameService.state.context.state, "FACTION_HOUSE")
-      ? [GoblinHouseScene]
-      : []),
-    ...(hasHouseAccess(gameService.state.context.state, "sunflorians") &&
-    hasFeatureAccess(gameService.state.context.state, "FACTION_HOUSE")
-      ? [SunflorianHouseScene]
-      : []),
-    ...(hasHouseAccess(gameService.state.context.state, "nightshades") &&
-    hasFeatureAccess(gameService.state.context.state, "FACTION_HOUSE")
-      ? [NightshadeHouseScene]
-      : []),
-    ...(hasHouseAccess(gameService.state.context.state, "bumpkins") &&
-    hasFeatureAccess(gameService.state.context.state, "FACTION_HOUSE")
-      ? [BumpkinHouseScene]
+    ...(hasFeatureAccess(gameService.state.context.state, "FACTION_HOUSE")
+      ? [
+          GoblinHouseScene,
+          SunflorianHouseScene,
+          NightshadeHouseScene,
+          BumpkinHouseScene,
+        ]
       : []),
   ];
 
@@ -506,6 +498,7 @@ export const PhaserComponent: React.FC<Props> = ({
       <InteractableModals
         id={gameService.state.context.farmId as number}
         scene={scene}
+        key={scene}
       />
       <Modal
         show={mmoState === "loading" || mmoState === "initialising"}

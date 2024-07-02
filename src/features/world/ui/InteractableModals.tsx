@@ -32,8 +32,10 @@ import { InlineDialogue } from "./TypingMessage";
 import { Label } from "components/ui/Label";
 import { FestivalOfColors } from "./portals/FestivalOfColors";
 import { FactionWeeklyPrize } from "./factions/weeklyPrize/FactionWeeklyPrize";
+import { FactionWelcome, hasReadFactionIntro } from "./factions/FactionWelcome";
 
 type InteractableName =
+  | "faction_intro"
   | "vip_chest"
   | "weekly_faction_prize"
   | "faction_launch"
@@ -124,13 +126,28 @@ class InteractableModalManager {
 
 export const interactableModalManager = new InteractableModalManager();
 
+function getInitialModal(scene: SceneId): InteractableName | undefined {
+  if (
+    !hasReadFactionIntro() &&
+    (scene === "goblin_house" ||
+      scene === "bumpkin_house" ||
+      scene === "nightshade_house" ||
+      scene === "sunflorian_house")
+  )
+    return "faction_intro";
+
+  return undefined;
+}
+
 interface Props {
   id: number;
   scene: SceneId;
 }
 
 export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
-  const [interactable, setInteractable] = useState<InteractableName>();
+  const [interactable, setInteractable] = useState<
+    InteractableName | undefined
+  >(getInitialModal(scene));
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
@@ -162,6 +179,9 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
           isOpen={interactable === "auction_item"}
         />
       )}
+      <Modal show={interactable === "faction_intro"} onHide={closeModal}>
+        <FactionWelcome onClose={closeModal} />
+      </Modal>
       <Modal show={interactable === "donations"} onHide={closeModal}>
         <CloseButtonPanel title={t("enjoying.event")} onClose={closeModal}>
           <CommunityDonations />

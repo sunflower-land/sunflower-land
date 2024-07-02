@@ -6,12 +6,12 @@ import { Button } from "components/ui/Button";
 import suspiciousGoblin from "assets/npcs/suspicious_goblin.gif";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
-export const Forbidden: React.FC = () => {
+interface Props {
+  onClose: () => void;
+}
+export const Forbidden: React.FC<Props> = ({ onClose }) => {
   const { authService } = useContext(Auth.Context);
   const { t } = useAppTranslation();
-  const goHome = () => {
-    authService.send("RETURN");
-  };
 
   return (
     <div className="flex flex-col items-center text-center p-2">
@@ -23,7 +23,7 @@ export const Forbidden: React.FC = () => {
       <span className="text-xs mt-2 mb-2">
         {t("error.forbidden.goblinVillage")}
       </span>
-      <Button className="mt-2" onClick={goHome}>
+      <Button className="mt-2" onClick={onClose}>
         {t("back")}
       </Button>
     </div>
