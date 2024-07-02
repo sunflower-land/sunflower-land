@@ -22,6 +22,7 @@ import { ModalOverlay } from "components/ui/ModalOverlay";
 import { ResizableBar } from "components/ui/ProgressBar";
 
 import mark from "assets/icons/faction_mark.webp";
+import { hasFeatureAccess } from "lib/flags";
 
 interface Props {
   kingdomChores: KingdomChores;
@@ -31,6 +32,7 @@ interface Props {
 const WEEKLY_CHORES = 21;
 const _autosaving = (state: MachineState) => state.matches("autosaving");
 const _bumpkin = (state: MachineState) => state.context.state.bumpkin;
+const _gameState = (state: MachineState) => state.context.state;
 
 export const KingdomChoresContent: React.FC<Props> = ({ kingdomChores }) => {
   const { t } = useAppTranslation();
@@ -38,6 +40,8 @@ export const KingdomChoresContent: React.FC<Props> = ({ kingdomChores }) => {
 
   const autosaving = useSelector(gameService, _autosaving);
   const bumpkin = useSelector(gameService, _bumpkin);
+  // Used for beta feature access only
+  const gameState = useSelector(gameService, _gameState);
 
   const [selected, setSelected] = useState<number>(0);
   const [showSkipConfirmation, setShowSkipConfirmation] =
@@ -123,7 +127,10 @@ export const KingdomChoresContent: React.FC<Props> = ({ kingdomChores }) => {
     kingdomChores.resetsAt && kingdomChores.resetsAt < Date.now();
   const isRefreshing = !!(needsRefresh && autosaving);
 
-  if (activeChores.length === 0) {
+  if (
+    activeChores.length === 0 ||
+    !hasFeatureAccess(gameState, "FACTION_CHORES")
+  ) {
     return (
       <InnerPanel>
         <KingdomChoresTimer
