@@ -528,6 +528,11 @@ export const INITIAL_FARM: GameState = {
   goblinMarket: {
     resources: {},
   },
+  kingdomChores: {
+    chores: [],
+    choresCompleted: 0,
+    choresSkipped: 0,
+  },
 };
 
 export const TEST_FARM: GameState = {
@@ -558,6 +563,11 @@ export const TEST_FARM: GameState = {
   minigames: {
     games: {},
     prizes: {},
+  },
+  kingdomChores: {
+    chores: [],
+    choresCompleted: 0,
+    choresSkipped: 0,
   },
   stock: INITIAL_STOCK(),
   chickens: {},
@@ -840,6 +850,11 @@ export const EMPTY: GameState = {
   conversations: [],
   farmHands: {
     bumpkins: {},
+  },
+  kingdomChores: {
+    chores: [],
+    choresCompleted: 0,
+    choresSkipped: 0,
   },
   greenhouse: {
     pots: {},

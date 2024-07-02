@@ -119,6 +119,7 @@ export type GeneralTerms =
   | "maintenance"
   | "make.wish"
   | "making.wish"
+  | "marks"
   | "max"
   | "max.reached"
   | "minimum"
@@ -190,6 +191,7 @@ export type GeneralTerms =
   | "share"
   | "skillPts"
   | "skills"
+  | "skipped"
   | "skipping"
   | "skip.order"
   | "sound.effects"
@@ -213,6 +215,7 @@ export type GeneralTerms =
   | "unlock.land"
   | "unlocking"
   | "unmute"
+  | "upcoming"
   | "use.craft"
   | "verify"
   | "version"
@@ -851,7 +854,16 @@ export type ChoresStart =
   | "chores.noChore"
   | "chores.newSeason"
   | "chores.choresFrozen"
-  | "chores.left";
+  | "kingdomChores.preparing"
+  | "kingdomChores.completed"
+  | "kingdomChores.noChores"
+  | "kingdomChores.noUpcoming"
+  | "kingdomChores.progress"
+  | "kingdomChores.nextSkip"
+  | "kingdomChores.skipWarning"
+  | "kingdomChores.completeActive"
+  | "kingdomChores.loading"
+  | "kingdomChores.reset";
 
 export type ChumDetails =
   | "chumDetails.gold"

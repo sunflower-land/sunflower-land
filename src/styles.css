@@ -443,9 +443,18 @@ img {
   letter-spacing: 1px;
   font-size: 28px !important;
 
-  text-shadow: -1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black,
-    1px 1px 0 black, -2px 0 0 black, 2px 0 0 black, 0 -2px 0 black,
-    0 2px 0 black, -2px -2px 0 black, 2px -2px 0 black, -2px 2px 0 black,
+  text-shadow:
+    -1px -1px 0 black,
+    1px -1px 0 black,
+    -1px 1px 0 black,
+    1px 1px 0 black,
+    -2px 0 0 black,
+    2px 0 0 black,
+    0 -2px 0 black,
+    0 2px 0 black,
+    -2px -2px 0 black,
+    2px -2px 0 black,
+    -2px 2px 0 black,
     2px 2px 0 black;
 }
 
@@ -458,9 +467,18 @@ img {
   -webkit-text-stroke: 3px black; */
   letter-spacing: 1px;
 
-  text-shadow: -1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black,
-    1px 1px 0 black, -2px 0 0 black, 2px 0 0 black, 0 -2px 0 black,
-    0 2px 0 black, -2px -2px 0 black, 2px -2px 0 black, -2px 2px 0 black,
+  text-shadow:
+    -1px -1px 0 black,
+    1px -1px 0 black,
+    -1px 1px 0 black,
+    1px 1px 0 black,
+    -2px 0 0 black,
+    2px 0 0 black,
+    0 -2px 0 black,
+    0 2px 0 black,
+    -2px -2px 0 black,
+    2px -2px 0 black,
+    -2px 2px 0 black,
     2px 2px 0 black;
 }
 
@@ -1209,37 +1227,51 @@ img {
 }
 
 .swarm-bee-1 {
-  animation: fly-up-right 4s, bee-1 4s;
+  animation:
+    fly-up-right 4s,
+    bee-1 4s;
   animation-fill-mode: forwards;
   animation-timing-function: cubic-bezier(0.36, 0.03, 0.18, 1.08);
 }
 .swarm-bee-2 {
-  animation: fly-up-right 4s, bee-2 4s;
+  animation:
+    fly-up-right 4s,
+    bee-2 4s;
   animation-fill-mode: forwards;
   animation-timing-function: cubic-bezier(0.36, 0.03, 0.18, 1.08);
 }
 .swarm-bee-3 {
-  animation: fly-up-right 4s, bee-3 4s;
+  animation:
+    fly-up-right 4s,
+    bee-3 4s;
   animation-fill-mode: forwards;
   animation-timing-function: cubic-bezier(0.36, 0.03, 0.18, 1.08);
 }
 .swarm-bee-4 {
-  animation: fly-up-left 4s, bee-4 4s;
+  animation:
+    fly-up-left 4s,
+    bee-4 4s;
   animation-fill-mode: forwards;
   animation-timing-function: cubic-bezier(0.36, 0.03, 0.18, 1.08);
 }
 .swarm-bee-5 {
-  animation: fly-up-left 4s, bee-5 4s;
+  animation:
+    fly-up-left 4s,
+    bee-5 4s;
   animation-fill-mode: forwards;
   animation-timing-function: cubic-bezier(0.36, 0.03, 0.18, 1.08);
 }
 .swarm-bee-6 {
-  animation: fly-up-left 4s, bee-6 4s;
+  animation:
+    fly-up-left 4s,
+    bee-6 4s;
   animation-fill-mode: forwards;
   animation-timing-function: cubic-bezier(0.36, 0.03, 0.18, 1.08);
 }
 .swarm-bee-7 {
-  animation: fly-up-right 3s, bee-7 3s;
+  animation:
+    fly-up-right 3s,
+    bee-7 3s;
   animation-fill-mode: forwards;
   animation-timing-function: cubic-bezier(0.36, 0.03, 0.18, 1.08);
 }
@@ -1280,4 +1312,30 @@ a {
 
 th {
   font-weight: normal;
+}
+
+.loading::after {
+  display: inline-block;
+  animation: dotty steps(1, end) 1s infinite;
+  content: "";
+  min-width: 0.6rem;
+  text-align: left;
+}
+
+@keyframes dotty {
+  0% {
+    content: "";
+  }
+  25% {
+    content: ".";
+  }
+  50% {
+    content: "..";
+  }
+  75% {
+    content: "...";
+  }
+  100% {
+    content: "";
+  }
 }

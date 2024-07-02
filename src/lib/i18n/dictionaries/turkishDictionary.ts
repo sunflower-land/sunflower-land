@@ -297,6 +297,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   maintenance: "Bakım",
   "make.wish": "Bir Dilek Tut",
   "making.wish": "Dilek Tutuluyor",
+  marks: ENGLISH_TERMS["marks"],
   max: "Maksimum",
   minimum: "Minimum",
   mint: "Mint",
@@ -363,6 +364,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   share: "Paylaş",
   skillPts: "Yetenek Puanları",
   skills: "Yetenekler",
+  skipped: ENGLISH_TERMS["skipped"],
   skipping: "Atlanılıyor",
   "skip.order": "Siparişi Atla",
   "sound.effects": "Ses Efektleri",
@@ -385,6 +387,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   "unlock.land": "Daha fazla arazi açın",
   unlocking: "Açılıyor",
   unmute: "Sesi Aç",
+  upcoming: ENGLISH_TERMS["upcoming"],
   "use.craft": "Eşya yapımında kullanılır",
   verify: "Doğrula",
   version: "Versiyon",
@@ -1219,7 +1222,16 @@ const choresStart: Record<ChoresStart, string> = {
   "chores.newSeason":
     "Yeni bir sezon yaklaşıyor, işler geçici olarak kapanacak.",
   "chores.choresFrozen": ENGLISH_TERMS["chores.choresFrozen"],
-  "chores.left": ENGLISH_TERMS["chores.left"],
+  "kingdomChores.preparing": ENGLISH_TERMS["kingdomChores.preparing"],
+  "kingdomChores.completed": ENGLISH_TERMS["kingdomChores.completed"],
+  "kingdomChores.noChores": ENGLISH_TERMS["kingdomChores.noChores"],
+  "kingdomChores.noUpcoming": ENGLISH_TERMS["kingdomChores.noUpcoming"],
+  "kingdomChores.progress": ENGLISH_TERMS["kingdomChores.progress"],
+  "kingdomChores.nextSkip": ENGLISH_TERMS["kingdomChores.nextSkip"],
+  "kingdomChores.skipWarning": ENGLISH_TERMS["kingdomChores.skipWarning"],
+  "kingdomChores.completeActive": ENGLISH_TERMS["kingdomChores.completeActive"],
+  "kingdomChores.loading": ENGLISH_TERMS["kingdomChores.loading"],
+  "kingdomChores.reset": ENGLISH_TERMS["kingdomChores.reset"],
 };
 
 const chumDetails: Record<ChumDetails, string> = {
