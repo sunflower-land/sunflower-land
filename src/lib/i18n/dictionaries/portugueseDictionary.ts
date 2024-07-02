@@ -4563,6 +4563,7 @@ const restock: Record<Restock, string> = {
   "restock.sure": "Você tem certeza de que deseja reabastecer?",
   "restock.tooManySeeds": "Você tem muitas sementes em sua cesta!",
   "seeds.reachingInventoryLimit": ENGLISH_TERMS["seeds.reachingInventoryLimit"],
+  "seeds.plantingSpot.needed": ENGLISH_TERMS["seeds.plantingSpot.needed"],
 };
 
 const retreatTerms: Record<RetreatTerms, string> = {

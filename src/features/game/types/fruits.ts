@@ -4,6 +4,7 @@
 
 import { getKeys } from "./craftables";
 import { translate } from "lib/i18n/translate";
+import { ResourceName } from "./resources";
 
 export type FruitName = "Apple" | "Blueberry" | "Orange" | "Banana";
 
@@ -22,6 +23,7 @@ export type FruitSeed = {
   plantSeconds: number;
   bumpkinLevel: number;
   yield: FruitName;
+  plantingSpot: ResourceName | "Greenhouse";
   disabled?: boolean;
 };
 
@@ -36,6 +38,7 @@ export const FRUIT_SEEDS: () => Record<FruitSeedName, FruitSeed> = () => ({
     plantSeconds: 6 * 60 * 60,
     bumpkinLevel: 13,
     yield: "Blueberry",
+    plantingSpot: "Fruit Patch",
   },
   "Orange Seed": {
     price: 50,
@@ -43,6 +46,7 @@ export const FRUIT_SEEDS: () => Record<FruitSeedName, FruitSeed> = () => ({
     plantSeconds: 8 * 60 * 60,
     bumpkinLevel: 14,
     yield: "Orange",
+    plantingSpot: "Fruit Patch",
   },
   "Apple Seed": {
     price: 70,
@@ -50,6 +54,7 @@ export const FRUIT_SEEDS: () => Record<FruitSeedName, FruitSeed> = () => ({
     plantSeconds: 12 * 60 * 60,
     bumpkinLevel: 15,
     yield: "Apple",
+    plantingSpot: "Fruit Patch",
   },
   "Banana Plant": {
     price: 70,
@@ -57,6 +62,7 @@ export const FRUIT_SEEDS: () => Record<FruitSeedName, FruitSeed> = () => ({
     plantSeconds: 12 * 60 * 60,
     bumpkinLevel: 16,
     yield: "Banana",
+    plantingSpot: "Fruit Patch",
   },
 });
 
@@ -110,6 +116,7 @@ export type GreenhouseFruitSeed = {
   bumpkinLevel: number;
   yield: GreenHouseFruitName;
   disabled?: boolean;
+  plantingSpot: ResourceName | "Greenhouse";
 };
 
 export const GREENHOUSE_FRUIT_SEEDS: () => Record<
@@ -122,7 +129,7 @@ export const GREENHOUSE_FRUIT_SEEDS: () => Record<
     plantSeconds: 12 * 60 * 60,
     bumpkinLevel: 40,
     yield: "Grape",
-    requiredIsland: "desert",
+    plantingSpot: "Greenhouse",
   },
 });
 
