@@ -5,11 +5,16 @@ import { secondsToString, TimeFormatLength } from "lib/utils/time";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { progressBarBorderStyle } from "features/game/lib/style";
 
-type progressType = "progress" | "health" | "error" | "buff" | "quantity";
+export type ProgressType =
+  | "progress"
+  | "health"
+  | "error"
+  | "buff"
+  | "quantity";
 
 interface ProgressBarProps extends React.HTMLAttributes<HTMLDivElement> {
   percentage: number;
-  type: progressType;
+  type: ProgressType;
   seconds?: number;
   formatLength: TimeFormatLength;
 }
@@ -28,7 +33,7 @@ interface progressStyle {
   backgroundColor: string;
 }
 
-const PROGRESS_COLORS: Record<progressType, progressStyle> = {
+const PROGRESS_COLORS: Record<ProgressType, progressStyle> = {
   progress: {
     color: "#63c74d",
     backgroundColor: "#193c3e",
@@ -62,7 +67,7 @@ const PROGRESS_COLORS: Record<progressType, progressStyle> = {
  */
 export const ResizableBar: React.FC<{
   percentage: number;
-  type: progressType;
+  type: ProgressType;
   outerDimensions?: {
     width: number;
     height: number;
@@ -106,7 +111,7 @@ export const ResizableBar: React.FC<{
  * @param type The bar type (determines what color it has).
  * @returns The non-rresizable bar.
  */
-export const Bar: React.FC<{ percentage: number; type: progressType }> = ({
+export const Bar: React.FC<{ percentage: number; type: ProgressType }> = ({
   percentage,
   type,
 }) => {

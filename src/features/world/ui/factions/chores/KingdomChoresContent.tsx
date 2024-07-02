@@ -11,20 +11,15 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { MachineState } from "features/game/lib/gameMachine";
 import { InnerPanel } from "components/ui/Panel";
 import { SquareIcon } from "components/ui/SquareIcon";
-import {
-  InventoryItemName,
-  KingdomChore,
-  KingdomChores,
-} from "features/game/types/game";
+import { KingdomChore, KingdomChores } from "features/game/types/game";
 import { Label } from "components/ui/Label";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { secondsToString } from "lib/utils/time";
 import { InlineDialogue } from "../../TypingMessage";
-import { NPCName } from "lib/npcs";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 import classNames from "classnames";
 import { ModalOverlay } from "components/ui/ModalOverlay";
-import { ProgressBar, ResizableBar } from "components/ui/ProgressBar";
+import { ResizableBar } from "components/ui/ProgressBar";
 
 import mark from "assets/icons/faction_mark.webp";
 
@@ -79,6 +74,10 @@ export const KingdomChoresContent: React.FC<Props> = ({ kingdomChores }) => {
   }, [kingdomChores]);
 
   const getProgress = (index: number) => {
+    if (!kingdomChores.chores[index].startedAt) {
+      return 0;
+    }
+
     return (
       (bumpkin?.activity?.[kingdomChores.chores[index].activity] ?? 0) -
       (kingdomChores.chores[index].startCount ?? 0)
@@ -136,10 +135,10 @@ export const KingdomChoresContent: React.FC<Props> = ({ kingdomChores }) => {
             key={`refreshing-${isRefreshing}`}
             message={
               isRefreshing
-                ? "Just a second. I'm preparing some chores."
+                ? t("kingdomChores.preparing")
                 : completedCount > 0
-                ? "Looks like you have completed all your chores for now. Come back soon!"
-                : "I'm sorry, I don't have any chores available right now. Come back soon!"
+                ? t("kingdomChores.completed")
+                : t("kingdomChores.noChores")
             }
           />
         </div>
@@ -156,6 +155,7 @@ export const KingdomChoresContent: React.FC<Props> = ({ kingdomChores }) => {
       <div className="p-1">
         <SplitScreenView
           mobileReversePanelOrder={true}
+          tallMobileContent={true}
           panel={
             <Panel
               progress={progress}
@@ -172,7 +172,7 @@ export const KingdomChoresContent: React.FC<Props> = ({ kingdomChores }) => {
                 {
                   <div className="flex flex-row items-center justify-between px-1">
                     <Label type="default" className="text-center">
-                      {`Chores`}
+                      {t("chores")}
                     </Label>
                     <p className="text-xxs">
                       {completedCount} {t("completed")}
@@ -180,16 +180,30 @@ export const KingdomChoresContent: React.FC<Props> = ({ kingdomChores }) => {
                   </div>
                 }
                 <div className="flex mb-2 flex-wrap pl-0.5">
-                  {activeChores.map(([choreId, chore]) => (
-                    <Box
-                      key={choreId}
-                      onClick={() => setSelected(Number(choreId))}
-                      isSelected={selected === Number(choreId)}
-                      image={ITEM_DETAILS[chore.image].image}
-                    />
-                  ))}
+                  {activeChores.map(([choreId, chore]) => {
+                    const progress = getProgress(Number(choreId));
+                    const canComplete = progress >= chore.requirement;
+
+                    return (
+                      <Box
+                        key={choreId}
+                        onClick={() => setSelected(Number(choreId))}
+                        isSelected={selected === Number(choreId)}
+                        image={ITEM_DETAILS[chore.image].image}
+                        progress={{
+                          label: `${Math.min(progress, chore.requirement)}/${
+                            chore.requirement
+                          }`,
+                          percentage: (progress / chore.requirement) * 100,
+                          type: canComplete ? "progress" : "quantity",
+                        }}
+                      />
+                    );
+                  })}
                   {activeChores.length === 0 && (
-                    <span className="p-2">No upcoming chores</span>
+                    <span className="p-2 text-xxs">
+                      {t("kingdomChores.noUpcoming")}
+                    </span>
                   )}
                 </div>
               </div>
@@ -197,26 +211,38 @@ export const KingdomChoresContent: React.FC<Props> = ({ kingdomChores }) => {
                 {
                   <div className="flex flex-row items-center justify-between px-1">
                     <Label type="default" className="text-center">
-                      {`Upcoming`}
+                      {t(`upcoming`)}
                     </Label>
                     <p className="text-xxs">
-                      {t("chores.upcoming", {
-                        chores: WEEKLY_CHORES - completedCount,
-                      })}
+                      {WEEKLY_CHORES - completedCount} {t("upcoming")}
                     </p>
                   </div>
                 }
                 <div className="flex flex-wrap pl-0.5">
-                  {upcomingChores.slice(0, 3).map(([choreId, chore]) => (
-                    <Box
-                      key={choreId}
-                      onClick={() => setSelected(Number(choreId))}
-                      isSelected={selected === Number(choreId)}
-                      image={ITEM_DETAILS[chore.image].image}
-                    />
-                  ))}
+                  {upcomingChores.slice(0, 3).map(([choreId, chore]) => {
+                    const progress = getProgress(Number(choreId));
+                    const canComplete = progress >= chore.requirement;
+
+                    return (
+                      <Box
+                        key={choreId}
+                        onClick={() => setSelected(Number(choreId))}
+                        isSelected={selected === Number(choreId)}
+                        image={ITEM_DETAILS[chore.image].image}
+                        progress={{
+                          label: `${Math.min(progress, chore.requirement)}/${
+                            chore.requirement
+                          }`,
+                          percentage: (progress / chore.requirement) * 100,
+                          type: canComplete ? "progress" : "quantity",
+                        }}
+                      />
+                    );
+                  })}
                   {upcomingChores.length === 0 && (
-                    <span className="p-2">No upcoming chores</span>
+                    <span className="p-2 text-xxs">
+                      {t("kingdomChores.noUpcoming")}
+                    </span>
                   )}
                 </div>
               </div>
@@ -256,6 +282,8 @@ const Panel: React.FC<PanelProps> = ({
   chore,
   isRefreshing,
 }: PanelProps) => {
+  const { t } = useAppTranslation();
+
   useUiRefresher();
 
   const canSkip = skipAvailableAt < Date.now();
@@ -263,34 +291,42 @@ const Panel: React.FC<PanelProps> = ({
 
   return (
     <div className="flex flex-col justify-center">
-      <div className="flex space-x-2 justify-start items-center sm:flex-col-reverse md:space-x-0 p-1">
+      <div className="flex space-y-1 space-x-2 justify-start items-center sm:flex-col-reverse md:space-x-0 p-1">
         {ITEM_DETAILS[chore.image].image && (
           <div className="sm:mt-2">
             <SquareIcon icon={ITEM_DETAILS[chore.image].image} width={14} />
           </div>
         )}
         <span className="sm:text-center">{chore.description}</span>
-      </div>
-
-      <div className="flex flex-col sm:items-center pb-2">
-        <ResizableBar
-          percentage={(progress / chore.requirement) * 100}
-          type={canComplete ? "progress" : "quantity"}
-          outerDimensions={{
-            width: 50,
-            height: 7,
-          }}
-        />
-        <span className="text-xxs">
-          Progress: {Math.min(progress, chore.requirement)}/{chore.requirement}
-        </span>
+        <div className="flex-1 flex justify-end pb-1 sm:justify-center">
+          <Label
+            type="warning"
+            icon={mark}
+            className="text-center whitespace-nowrap"
+          >
+            {chore.marks} {t("marks")}
+          </Label>
+        </div>
       </div>
 
       <div className="grid grid-cols-2 sm:grid-cols-1 gap-1 pt-1">
         <div className="row-start-1 flex justify-start sm:justify-center sm:pb-3">
-          <Label type="warning" icon={mark} className="text-center">
-            {chore.marks} {`Marks`}
-          </Label>
+          <div className="flex flex-col sm:items-center px-1">
+            <ResizableBar
+              percentage={(progress / chore.requirement) * 100}
+              type={canComplete ? "progress" : "quantity"}
+              outerDimensions={{
+                width: 50,
+                height: 7,
+              }}
+            />
+            <span className="text-xxs">
+              {t("kingdomChores.progress", {
+                progress: `${Math.min(progress, chore.requirement)}/
+              ${chore.requirement}`,
+              })}
+            </span>
+          </div>
         </div>
         {chore.startedAt && (
           <>
@@ -299,37 +335,40 @@ const Panel: React.FC<PanelProps> = ({
                 disabled={!canComplete || isRefreshing}
                 onClick={onComplete}
               >
-                {`Complete`}
+                {t("complete")}
               </Button>
               {canSkip && (
                 <Button onClick={onSkip} disabled={!canSkip}>
-                  {`Skip`}
+                  {t("skip")}
                 </Button>
               )}
             </div>
             {!canSkip && (
               <div className="row-start-1 sm:row-start-3 flex justify-end sm:justify-center">
-                <Label
-                  type="info"
-                  icon={SUNNYSIDE.icons.stopwatch}
-                  className="whitespace-nowrap"
-                >
-                  {"Next skip: "}
-                  {secondsToString(
-                    Math.round((skipAvailableAt - Date.now()) / 1000),
-                    {
-                      length: "short",
-                      removeTrailingZeros: true,
-                    }
-                  )}
-                </Label>
+                <div className="px-1">
+                  <Label
+                    type="info"
+                    icon={SUNNYSIDE.icons.stopwatch}
+                    className="whitespace-nowrap"
+                  >
+                    {t("kingdomChores.nextSkip", {
+                      skip: secondsToString(
+                        Math.round((skipAvailableAt - Date.now()) / 1000),
+                        {
+                          length: "short",
+                          removeTrailingZeros: true,
+                        }
+                      ),
+                    })}
+                  </Label>
+                </div>
               </div>
             )}
           </>
         )}
         {!chore.startedAt && (
           <span className="px-2 pb-1 text-xxs">
-            Complete active chores to unlock
+            {t("kingdomChores.completeActive")}
           </span>
         )}
       </div>
@@ -342,11 +381,13 @@ const ConfirmSkip: React.FC<{
   onBack: () => void;
   chore: KingdomChore;
 }> = ({ onConfirm, onBack, chore }) => {
+  const { t } = useAppTranslation();
+
   return (
     <InnerPanel>
       <div className="flex flex-col justify-center">
         <Label type="danger" className="!w-full">
-          You can only skip one chore every 24 hours
+          {t("kingdomChores.skipWarning")}
         </Label>
         <div className="flex space-x-2 justify-start items-center sm:flex-col-reverse md:space-x-0 p-1">
           {ITEM_DETAILS[chore.image].image && (
@@ -354,16 +395,18 @@ const ConfirmSkip: React.FC<{
               <SquareIcon icon={ITEM_DETAILS[chore.image].image} width={14} />
             </div>
           )}
-          <span className="sm:text-center">Skip {chore.description}</span>
+          <span className="sm:text-center">
+            {t("skip")} {chore.description}
+          </span>
         </div>
         <div className="flex justify-start sm:justify-center pb-2">
           <Label type="warning" className="text-center">
-            {chore.marks} {`Marks`}
+            {chore.marks} {t("marks")}
           </Label>
         </div>
         <div className="flex space-x-1">
-          <Button onClick={onBack}>{`Back`}</Button>
-          <Button onClick={onConfirm}>{`Skip`}</Button>
+          <Button onClick={onBack}>{t("back")}</Button>
+          <Button onClick={onConfirm}>{t("skip")}</Button>
         </div>
       </div>
     </InnerPanel>
@@ -374,6 +417,8 @@ const KingdomChoresTimer: React.FC<{
   onReset: () => void;
   resetsAt?: number;
 }> = ({ onReset, resetsAt }) => {
+  const { t } = useAppTranslation();
+
   useUiRefresher();
 
   const shouldReset = resetsAt && resetsAt < Date.now();
@@ -387,7 +432,7 @@ const KingdomChoresTimer: React.FC<{
     return (
       <div className="absolute -top-7 right-0 bulge-subtle">
         <Label type="info" icon={SUNNYSIDE.icons.timer}>
-          <span className="loading">Loading new chores</span>
+          <span className="loading">{t("kingdomChores.loading")}</span>
         </Label>
       </div>
     );
@@ -402,10 +447,11 @@ const KingdomChoresTimer: React.FC<{
         })}
         icon={SUNNYSIDE.icons.stopwatch}
       >
-        {"New Chores: "}
-        {secondsToString(Math.round((resetsAt - Date.now()) / 1000), {
-          length: "medium",
-          removeTrailingZeros: true,
+        {t("kingdomChores.reset", {
+          reset: secondsToString(Math.round((resetsAt - Date.now()) / 1000), {
+            length: "medium",
+            removeTrailingZeros: true,
+          }),
         })}
       </Label>
     </div>

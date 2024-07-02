@@ -277,6 +277,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   maintenance: "维护中", // added meaning to “Under Maintenance”
   "make.wish": "许一个愿望",
   "making.wish": "正在许愿",
+  marks: ENGLISH_TERMS["marks"],
   max: "最多",
   minimum: "至少",
   mint: "铸造",
@@ -348,6 +349,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   "unlock.land": "解锁更多地块", //Unknown Usecase
   unlocking: "开锁中", // Daily Reward
   unmute: "取消静音",
+  upcoming: ENGLISH_TERMS["upcoming"],
   "use.craft": "用于锻造物品", // item description
   verify: "验证", // Unknown Usecase
   version: "版本",
@@ -1142,7 +1144,16 @@ const choresStart: Record<ChoresStart, string> = {
   "chores.newSeason": "新时季就要来临，日常农活暂时停单。",
   "chores.choresFrozen":
     "新时季日常农活即将发单。先前时季的日常农活与进度会被重置。",
-  "chores.upcoming": ENGLISH_TERMS["chores.upcoming"],
+  "kingdomChores.preparing": ENGLISH_TERMS["kingdomChores.preparing"],
+  "kingdomChores.completed": ENGLISH_TERMS["kingdomChores.completed"],
+  "kingdomChores.noChores": ENGLISH_TERMS["kingdomChores.noChores"],
+  "kingdomChores.noUpcoming": ENGLISH_TERMS["kingdomChores.noUpcoming"],
+  "kingdomChores.progress": ENGLISH_TERMS["kingdomChores.progress"],
+  "kingdomChores.nextSkip": ENGLISH_TERMS["kingdomChores.nextSkip"],
+  "kingdomChores.skipWarning": ENGLISH_TERMS["kingdomChores.skipWarning"],
+  "kingdomChores.completeActive": ENGLISH_TERMS["kingdomChores.completeActive"],
+  "kingdomChores.loading": ENGLISH_TERMS["kingdomChores.loading"],
+  "kingdomChores.reset": ENGLISH_TERMS["kingdomChores.reset"],
 };
 
 const chumDetails: Record<ChumDetails, string> = {

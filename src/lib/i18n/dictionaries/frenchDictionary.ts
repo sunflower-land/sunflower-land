@@ -315,6 +315,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   maintenance: "Maintenance",
   "make.wish": "Faire un vœu",
   "making.wish": "En train de faire un vœu",
+  marks: ENGLISH_TERMS["marks"],
   max: "Max",
   minimum: "Minimum",
   mint: "Frapper monnaie",
@@ -413,6 +414,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   unlocked: "Débloqué",
   unlocking: "Déverrouillage",
   unmute: "Réactiver le son",
+  upcoming: ENGLISH_TERMS["upcoming"],
   "use.craft": "Utilisé pour fabriquer des objets",
   verify: "Vérifier",
   version: "Version",
@@ -1249,7 +1251,16 @@ const choresStart: Record<ChoresStart, string> = {
   "chores.newSeason":
     "Une nouvelle saison approche, les tâches seront temporairement fermées.",
   "chores.choresFrozen": ENGLISH_TERMS["chores.choresFrozen"],
-  "chores.upcoming": ENGLISH_TERMS["chores.upcoming"],
+  "kingdomChores.preparing": ENGLISH_TERMS["kingdomChores.preparing"],
+  "kingdomChores.completed": ENGLISH_TERMS["kingdomChores.completed"],
+  "kingdomChores.noChores": ENGLISH_TERMS["kingdomChores.noChores"],
+  "kingdomChores.noUpcoming": ENGLISH_TERMS["kingdomChores.noUpcoming"],
+  "kingdomChores.progress": ENGLISH_TERMS["kingdomChores.progress"],
+  "kingdomChores.nextSkip": ENGLISH_TERMS["kingdomChores.nextSkip"],
+  "kingdomChores.skipWarning": ENGLISH_TERMS["kingdomChores.skipWarning"],
+  "kingdomChores.completeActive": ENGLISH_TERMS["kingdomChores.completeActive"],
+  "kingdomChores.loading": ENGLISH_TERMS["kingdomChores.loading"],
+  "kingdomChores.reset": ENGLISH_TERMS["kingdomChores.reset"],
 };
 
 const chumDetails: Record<ChumDetails, string> = {
