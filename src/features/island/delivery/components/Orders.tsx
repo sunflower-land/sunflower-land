@@ -51,7 +51,6 @@ import { SquareIcon } from "components/ui/SquareIcon";
 // Bumpkins
 export const BEACH_BUMPKINS: NPCName[] = [
   "corale",
-  "shelly",
   "tango",
   "finn",
   "finley",

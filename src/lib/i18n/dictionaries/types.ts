@@ -2508,15 +2508,6 @@ export type NPC_MESSAGE =
   | "npcMessages.corale.msg5"
   | "npcMessages.corale.msg6"
   | "npcMessages.corale.msg7"
-  //helly
-  | "npcMessages.shelly.msg1"
-  | "npcMessages.shelly.msg2"
-  | "npcMessages.shelly.msg3"
-  | "npcMessages.shelly.msg4"
-  | "npcMessages.shelly.msg5"
-  | "npcMessages.shelly.msg6"
-  | "npcMessages.shelly.msg7"
-  | "npcMessages.shelly.msg8"
   | "npcMessages.gambit.msg1"
   | "npcMessages.gambit.msg2"
   | "npcMessages.gambit.msg3"
@@ -3159,26 +3150,6 @@ export type SharkBumpkinDialogues =
   | "sharkBumpkin.dialogue.shhhh"
   | "sharkBumpkin.dialogue.scareGoblins";
 
-export type Shelly =
-  | "shelly.Dialogue.one"
-  | "shelly.Dialogue.two"
-  | "shelly.Dialogue.three"
-  | "shelly.Dialogue.four"
-  | "shelly.Dialogue.five"
-  | "shelly.Dialogue.letsgo";
-
-export type ShellyDialogue =
-  | "shellyPanelContent.tasksFrozen"
-  | "shellyPanelContent.canTrade"
-  | "shellyPanelContent.cannotTrade"
-  | "shellyPanelContent.swap"
-  | "krakenIntro.congrats"
-  | "krakenIntro.noMoreTentacles"
-  | "krakenIntro.gotIt"
-  | "krakenIntro.appetiteChanges"
-  | "krakenIntro.currentHunger"
-  | "krakenIntro.catchInstruction";
-
 export type ShopItems =
   | "betty.post.sale.one"
   | "betty.post.sale.two"
@@ -3802,8 +3773,6 @@ export type TranslationKeys =
   | SeasonTerms
   | Share
   | SharkBumpkinDialogues
-  | Shelly
-  | ShellyDialogue
   | ShopItems
   | ShowingFarm
   | SnorklerDialogues

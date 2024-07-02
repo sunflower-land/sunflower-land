@@ -144,16 +144,6 @@ const NPC_MESSAGES: Partial<Record<NPCName, string[]>> = {
     translate("npcMessages.corale.msg7"),
     "Seaweed is like a gourmet treat for Parrotfish",
   ],
-  shelly: [
-    translate("npcMessages.shelly.msg1"),
-    translate("npcMessages.shelly.msg2"),
-    translate("npcMessages.shelly.msg3"),
-    translate("npcMessages.shelly.msg4"),
-    translate("npcMessages.shelly.msg5"),
-    translate("npcMessages.shelly.msg6"),
-    translate("npcMessages.shelly.msg7"),
-    translate("npcMessages.shelly.msg8"),
-  ],
 };
 
 export function generateDeliveryMessage({ from, id }: DeliveryMessage) {

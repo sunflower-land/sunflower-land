@@ -517,10 +517,6 @@ export const INITIAL_FARM: GameState = {
   },
   farmActivity: {},
   milestones: {},
-  catchTheKraken: {
-    hunger: "Sunflower",
-    weeklyCatches: {},
-  },
   specialEvents: {
     history: {},
     current: {},
@@ -571,10 +567,6 @@ export const TEST_FARM: GameState = {
     wharf: {},
     beach: {},
     dailyAttempts: {},
-  },
-  catchTheKraken: {
-    hunger: "Sunflower",
-    weeklyCatches: {},
   },
   greenhouse: {
     pots: {},
@@ -891,10 +883,6 @@ export const EMPTY: GameState = {
   mushrooms: {
     spawnedAt: 0,
     mushrooms: {},
-  },
-  catchTheKraken: {
-    hunger: "Sunflower",
-    weeklyCatches: {},
   },
   megastore: {
     available: makeMegaStoreAvailableDates(),
