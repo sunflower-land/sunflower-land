@@ -56,7 +56,8 @@ export const KingdomChoresContent: React.FC<Props> = ({ kingdomChores }) => {
     let nextChore = chores
       .slice(selected + 1)
       .find(
-        ([, chore]) => chore.startedAt && !chore.completedAt && !chore.skippedAt
+        ([, chore]) =>
+          chore.startedAt && !chore.completedAt && !chore.skippedAt,
       );
 
     if (nextChore) {
@@ -68,7 +69,8 @@ export const KingdomChoresContent: React.FC<Props> = ({ kingdomChores }) => {
       .slice(0, selected)
       .reverse()
       .find(
-        ([, chore]) => chore.startedAt && !chore.completedAt && !chore.skippedAt
+        ([, chore]) =>
+          chore.startedAt && !chore.completedAt && !chore.skippedAt,
       );
 
     if (nextChore) {
@@ -111,10 +113,10 @@ export const KingdomChoresContent: React.FC<Props> = ({ kingdomChores }) => {
   const chores = Object.entries(kingdomChores.chores);
 
   const activeChores = chores.filter(
-    ([, chore]) => chore.startedAt && !chore.completedAt && !chore.skippedAt
+    ([, chore]) => chore.startedAt && !chore.completedAt && !chore.skippedAt,
   );
   const completedChores = chores.filter(
-    ([, chore]) => chore.completedAt || chore.skippedAt
+    ([, chore]) => chore.completedAt || chore.skippedAt,
   );
   const upcomingChores = chores.filter(([, chore]) => !chore.startedAt);
 
@@ -145,8 +147,8 @@ export const KingdomChoresContent: React.FC<Props> = ({ kingdomChores }) => {
               isRefreshing
                 ? t("kingdomChores.preparing")
                 : completedCount > 0
-                ? t("kingdomChores.completed")
-                : t("kingdomChores.noChores")
+                  ? t("kingdomChores.completed")
+                  : t("kingdomChores.noChores")
             }
           />
         </div>
@@ -321,7 +323,7 @@ const Panel: React.FC<PanelProps> = ({
 
       <div className="grid grid-cols-2 sm:grid-cols-1 gap-1 pt-1">
         <div className="row-start-1 flex justify-start sm:justify-center sm:pb-3">
-          <div className="flex flex-col sm:items-center px-1">
+          <div className="flex flex-col sm:items-center px-1 space-y-0.5">
             <ResizableBar
               percentage={(progress / chore.requirement) * 100}
               type={canComplete ? "progress" : "quantity"}
@@ -332,8 +334,7 @@ const Panel: React.FC<PanelProps> = ({
             />
             <span className="text-xxs">
               {t("kingdomChores.progress", {
-                progress: `${Math.min(progress, chore.requirement)}/
-              ${chore.requirement}`,
+                progress: `${Math.min(progress, chore.requirement)}/${chore.requirement}`,
               })}
             </span>
           </div>
@@ -367,7 +368,7 @@ const Panel: React.FC<PanelProps> = ({
                         {
                           length: "short",
                           removeTrailingZeros: true,
-                        }
+                        },
                       ),
                     })}
                   </Label>
