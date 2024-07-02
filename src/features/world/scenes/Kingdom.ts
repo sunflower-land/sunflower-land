@@ -241,7 +241,7 @@ export class KingdomScene extends BaseScene {
 
     const faction = this.gameService.state.context.state.faction?.name;
     getKeys(DOORS).forEach((key) => {
-      if (faction === key || !hasFeatureAccess(this.gameState, "FACTION_HOUSE"))
+      if (faction === key || hasFeatureAccess(this.gameState, "FACTION_HOUSE"))
         return;
 
       const door = this.add.image(DOORS[key].x, DOORS[key].y, DOORS[key].door);
