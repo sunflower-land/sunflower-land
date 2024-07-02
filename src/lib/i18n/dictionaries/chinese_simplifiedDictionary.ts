@@ -1180,6 +1180,7 @@ const chumDetails: Record<ChumDetails, string> = {
   "chumDetails.richChicken": "白肚银幕恐怖巨星的精美佳肴",
   "chumDetails.horseMackerel": ENGLISH_TERMS["chumDetails.horseMackerel"],
   "chumDetails.sunfish": ENGLISH_TERMS["chumDetails.sunfish"],
+  "chumDetails.zebraFish": ENGLISH_TERMS["chumDetails.zebraFish"],
 };
 
 const claimAchievement: Record<ClaimAchievement, string> = {
