@@ -11,7 +11,7 @@ const API_URL = CONFIG.API_URL;
 
 type Options = {
   farmId: number;
-  leaderboardName: "maze" | "tickets" | "factions" | "kingdom";
+  leaderboardName: "maze" | "tickets" | "factions" | "kingdom" | "emblems";
 };
 
 export type RankData = {
@@ -44,17 +44,21 @@ export type FactionLeaderboard = {
 };
 
 export type KingdomLeaderboard = {
-  emblems: {
-    topTens: Record<FactionName, RankData[]>;
-    totalMembers: Record<FactionName, number>;
-    totalTickets: Record<FactionName, number>;
-    emblemRankingData?: RankData[] | null;
-  };
   marks: {
     topTens: Record<FactionName, RankData[]>;
     totalMembers: Record<FactionName, number>;
     totalTickets: Record<FactionName, number>;
     marksRankingData?: RankData[] | null;
+  };
+  lastUpdated: number;
+};
+
+export type EmblemsLeaderboard = {
+  emblems: {
+    topTens: Record<FactionName, RankData[]>;
+    totalMembers: Record<FactionName, number>;
+    totalTickets: Record<FactionName, number>;
+    emblemRankingData?: RankData[] | null;
   };
   lastUpdated: number;
 };
@@ -102,24 +106,37 @@ export async function fetchLeaderboardData(
   if (cachedLeaderboardData) return cachedLeaderboardData;
 
   try {
-    const [ticketLeaderboard, factionsLeaderboard, kingdomLeaderboard] =
-      await Promise.all([
-        getLeaderboard<TicketLeaderboard>({
-          farmId: Number(farmId),
-          leaderboardName: "tickets",
-        }),
-        getLeaderboard<FactionLeaderboard>({
-          farmId: Number(farmId),
-          leaderboardName: "factions",
-        }),
-        getLeaderboard<KingdomLeaderboard>({
-          farmId: Number(farmId),
-          leaderboardName: "kingdom",
-        }),
-      ]);
+    const [
+      ticketLeaderboard,
+      factionsLeaderboard,
+      kingdomLeaderboard,
+      emblemsLeaderboard,
+    ] = await Promise.all([
+      getLeaderboard<TicketLeaderboard>({
+        farmId: Number(farmId),
+        leaderboardName: "tickets",
+      }),
+      getLeaderboard<FactionLeaderboard>({
+        farmId: Number(farmId),
+        leaderboardName: "factions",
+      }),
+      getLeaderboard<KingdomLeaderboard>({
+        farmId: Number(farmId),
+        leaderboardName: "kingdom",
+      }),
+      getLeaderboard<EmblemsLeaderboard>({
+        farmId: Number(farmId),
+        leaderboardName: "emblems",
+      }),
+    ]);
 
     // Leaderboard are created at the same time, so if one is missing, the other is too
-    if (!ticketLeaderboard || !factionsLeaderboard || !kingdomLeaderboard)
+    if (
+      !ticketLeaderboard ||
+      !factionsLeaderboard ||
+      !kingdomLeaderboard ||
+      !emblemsLeaderboard
+    )
       return null;
 
     // Likewise, their lastUpdated timestamps should be the same
@@ -129,6 +146,7 @@ export async function fetchLeaderboardData(
       tickets: ticketLeaderboard,
       factions: factionsLeaderboard,
       kingdom: kingdomLeaderboard,
+      emblems: emblemsLeaderboard,
       lastUpdated,
     });
 
@@ -136,6 +154,7 @@ export async function fetchLeaderboardData(
       tickets: ticketLeaderboard,
       factions: factionsLeaderboard,
       kingdom: kingdomLeaderboard,
+      emblems: emblemsLeaderboard,
       lastUpdated,
     };
   } catch (error) {

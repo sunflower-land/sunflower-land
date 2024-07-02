@@ -248,12 +248,20 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
                   id={id}
                   faction={state.faction.name}
                   isLoading={data === undefined}
-                  data={data?.kingdom.emblems ?? null}
+                  data={data?.emblems.emblems ?? null}
                   lastUpdated={data?.kingdom.lastUpdated ?? null}
                 />
               </InnerPanel>
             )}
-            {currentTab === 6 && state.faction && <MarksLeaderboard />}
+            {currentTab === 6 && state.faction && (
+              <MarksLeaderboard
+                emblemLeaderboard={data?.emblems ?? null}
+                marksLeaderboard={data?.kingdom ?? null}
+                isLoading={data === undefined}
+                playerId={id}
+                faction={state.faction.name}
+              />
+            )}
           </div>
         </OuterPanel>
         {showMilestoneReached && (
