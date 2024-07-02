@@ -12,6 +12,7 @@ describe("skipKingdomChore", () => {
         },
         state: {
           ...TEST_FARM,
+          bumpkin: undefined,
           kingdomChores: {
             chores: [
               {
