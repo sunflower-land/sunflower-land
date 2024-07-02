@@ -381,6 +381,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   remaining: "剩余的",
   requires: "需要",
   reward: "奖励",
+  skipped: ENGLISH_TERMS["skipped"],
   skipping: "正在跳过",
   test: "测试",
   wish: "许愿",

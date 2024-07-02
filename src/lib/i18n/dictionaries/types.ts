@@ -191,6 +191,7 @@ export type GeneralTerms =
   | "share"
   | "skillPts"
   | "skills"
+  | "skipped"
   | "skipping"
   | "skip.order"
   | "sound.effects"

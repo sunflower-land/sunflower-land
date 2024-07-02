@@ -370,6 +370,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   share: "Share",
   skillPts: "Skill Points:",
   skills: "Skills",
+  skipped: "Skipped",
   skipping: "Skipping",
   "skip.order": "Skip Order",
   "sound.effects": "Sound Effects:",

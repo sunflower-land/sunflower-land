@@ -364,6 +364,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   share: "Paylaş",
   skillPts: "Yetenek Puanları",
   skills: "Yetenekler",
+  skipped: ENGLISH_TERMS["skipped"],
   skipping: "Atlanılıyor",
   "skip.order": "Siparişi Atla",
   "sound.effects": "Ses Efektleri",

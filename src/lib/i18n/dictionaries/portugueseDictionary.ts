@@ -420,6 +420,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   requires: "Requer",
   reward: "Recompensa",
   skip: "Pular",
+  skipped: ENGLISH_TERMS["skipped"],
   skipping: "Pulando",
   special: "Especial",
   speed: "Velocidade",

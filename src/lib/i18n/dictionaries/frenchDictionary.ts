@@ -388,6 +388,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   skillPts: "Points de compétence",
   skills: "Compétences",
   skip: "Passer",
+  skipped: ENGLISH_TERMS["skipped"],
   skipping: "Saut",
   "skip.order": "Ignorer la commande",
   "sound.effects": "Effets sonores",

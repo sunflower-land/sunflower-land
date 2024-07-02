@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useLayoutEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useSelector } from "@xstate/react";
 
 import { Box } from "components/ui/Box";
@@ -43,41 +43,18 @@ export const KingdomChoresContent: React.FC<Props> = ({ kingdomChores }) => {
   // Used for beta feature access only
   const gameState = useSelector(gameService, _gameState);
 
-  const [selected, setSelected] = useState<number>(0);
+  const chores = Object.entries(kingdomChores.chores);
+  const activeChores = chores.filter(
+    ([, chore]) => chore.startedAt && !chore.completedAt && !chore.skippedAt,
+  );
+  const completedChores = chores.filter(
+    ([, chore]) => chore.completedAt || chore.skippedAt,
+  );
+  const upcomingChores = chores.filter(([, chore]) => !chore.startedAt);
+
+  const [selected, setSelected] = useState<number>(Number(activeChores[0][0]));
   const [showSkipConfirmation, setShowSkipConfirmation] =
     useState<boolean>(false);
-
-  useLayoutEffect(() => {
-    const chore = kingdomChores.chores[selected];
-    if (!chore.completedAt && !chore.skippedAt) {
-      return;
-    }
-
-    let nextChore = chores
-      .slice(selected + 1)
-      .find(
-        ([, chore]) =>
-          chore.startedAt && !chore.completedAt && !chore.skippedAt,
-      );
-
-    if (nextChore) {
-      setSelected(Number(nextChore[0]));
-      return;
-    }
-
-    nextChore = chores
-      .slice(0, selected)
-      .reverse()
-      .find(
-        ([, chore]) =>
-          chore.startedAt && !chore.completedAt && !chore.skippedAt,
-      );
-
-    if (nextChore) {
-      setSelected(Number(nextChore[0]));
-      return;
-    }
-  }, [kingdomChores]);
 
   const getProgress = (index: number) => {
     if (!kingdomChores.chores[index].startedAt) {
@@ -109,16 +86,6 @@ export const KingdomChoresContent: React.FC<Props> = ({ kingdomChores }) => {
     gameService.send("kingdomChore.skipped", { id: index });
     gameService.send("SAVE");
   };
-
-  const chores = Object.entries(kingdomChores.chores);
-
-  const activeChores = chores.filter(
-    ([, chore]) => chore.startedAt && !chore.completedAt && !chore.skippedAt,
-  );
-  const completedChores = chores.filter(
-    ([, chore]) => chore.completedAt || chore.skippedAt,
-  );
-  const upcomingChores = chores.filter(([, chore]) => !chore.startedAt);
 
   const activeChoresCount = activeChores.length;
   const completedCount = completedChores.length;
@@ -342,16 +309,38 @@ const Panel: React.FC<PanelProps> = ({
         {chore.startedAt && (
           <>
             <div className="col-span-full flex sm:flex-col gap-1">
-              <Button
-                disabled={!canComplete || isRefreshing}
-                onClick={onComplete}
-              >
-                {t("complete")}
-              </Button>
-              {canSkip && (
-                <Button onClick={onSkip} disabled={!canSkip}>
-                  {t("skip")}
-                </Button>
+              {chore.completedAt && (
+                <div className="ml-4 py-2">
+                  <Label type="transparent" icon={SUNNYSIDE.icons.confirm}>
+                    <span className="ml-1 text-sm" style={{ color: "#3e2731" }}>
+                      {t("completed")}
+                    </span>
+                  </Label>
+                </div>
+              )}
+              {chore.skippedAt && (
+                <div className="ml-4 py-2">
+                  <Label type="transparent" icon={SUNNYSIDE.icons.cancel}>
+                    <span className="ml-1 text-sm" style={{ color: "#3e2731" }}>
+                      {t("skipped")}
+                    </span>
+                  </Label>
+                </div>
+              )}
+              {!chore.completedAt && !chore.skippedAt && (
+                <>
+                  <Button
+                    disabled={!canComplete || isRefreshing}
+                    onClick={onComplete}
+                  >
+                    {t("complete")}
+                  </Button>
+                  {canSkip && (
+                    <Button onClick={onSkip} disabled={!canSkip}>
+                      {t("skip")}
+                    </Button>
+                  )}
+                </>
               )}
             </div>
             {!canSkip && (
