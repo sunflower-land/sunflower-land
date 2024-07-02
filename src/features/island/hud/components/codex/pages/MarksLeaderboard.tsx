@@ -17,6 +17,11 @@ import factions from "assets/icons/factions.webp";
 import { FACTION_EMBLEM_ICONS } from "features/world/ui/factions/components/ClaimEmblems";
 import { SquareIcon } from "components/ui/SquareIcon";
 import { getKeys } from "features/game/types/craftables";
+import {
+  EmblemsLeaderboard,
+  KingdomLeaderboard,
+  RankData,
+} from "features/game/expansion/components/leaderboard/actions/leaderboard";
 
 interface LeaderboardEntry {
   username: string;
@@ -29,106 +34,106 @@ interface LeaderboardEntry {
 
 /* TODO feat/marks-leaderboard REPLACE with real data  */
 
-const PLAYER_ID = 1;
-const PLAYER_FACTION = "nightshades";
-const DATA: LeaderboardEntry[] = [
-  {
-    username: "Parsley",
-    marks: 100,
-    emblems: 10,
-    faction: "nightshades",
-    rank: 1,
-    farmId: 1,
-  },
-  {
-    username: "Sage",
-    marks: 50,
-    faction: "bumpkins",
-    rank: 2,
-    farmId: 2,
-    emblems: 5,
-  },
-  {
-    username: "Rosemary",
-    marks: 25,
-    faction: "goblins",
-    rank: 3,
-    farmId: 3,
-    emblems: 20000,
-  },
-  {
-    username: "Thyme",
-    marks: 10,
-    faction: "sunflorians",
-    rank: 4,
-    farmId: 4,
-    emblems: 60000,
-  },
-  {
-    username: "Parsley",
-    marks: 100,
-    emblems: 10,
-    faction: "nightshades",
-    rank: 1,
-    farmId: 1,
-  },
-  {
-    username: "Sage",
-    marks: 50,
-    faction: "bumpkins",
-    rank: 2,
-    farmId: 2,
-    emblems: 5,
-  },
-  {
-    username: "Rosemary",
-    marks: 25,
-    faction: "goblins",
-    rank: 3,
-    farmId: 3,
-    emblems: 20000,
-  },
-  {
-    username: "Thyme",
-    marks: 10,
-    faction: "sunflorians",
-    rank: 4,
-    farmId: 4,
-    emblems: 60000,
-  },
-  {
-    username: "Parsley",
-    marks: 100,
-    emblems: 10,
-    faction: "nightshades",
-    rank: 1,
-    farmId: 1,
-  },
-  {
-    username: "Sage",
-    marks: 50,
-    faction: "bumpkins",
-    rank: 2,
-    farmId: 2,
-    emblems: 5,
-  },
-  {
-    username: "Rosemary",
-    marks: 25,
-    faction: "goblins",
-    rank: 3,
-    farmId: 3,
-    emblems: 20000,
-  },
-  {
-    username: "Thyme",
-    marks: 10,
-    faction: "sunflorians",
-    rank: 4,
-    farmId: 4,
-    emblems: 60000,
-  },
-];
+// const PLAYER_ID = 1;
+// const PLAYER_FACTION = "nightshades";
+// const DATA: LeaderboardEntry[] = [
+//   {
+//     username: "Parsley",
+//     marks: 100,
+//     emblems: 10,
+//     faction: "nightshades",
+//     rank: 1,
+//     farmId: 1,
+//   },
+//   {
+//     username: "Sage",
+//     marks: 50,
+//     faction: "bumpkins",
+//     rank: 2,
+//     farmId: 2,
+//     emblems: 5,
+//   },
+//   {
+//     username: "Rosemary",
+//     marks: 25,
+//     faction: "goblins",
+//     rank: 3,
+//     farmId: 3,
+//     emblems: 20000,
+//   },
+//   {
+//     username: "Thyme",
+//     marks: 10,
+//     faction: "sunflorians",
+//     rank: 4,
+//     farmId: 4,
+//     emblems: 60000,
+//   },
+//   {
+//     username: "Parsley",
+//     marks: 100,
+//     emblems: 10,
+//     faction: "nightshades",
+//     rank: 1,
+//     farmId: 1,
+//   },
+//   {
+//     username: "Sage",
+//     marks: 50,
+//     faction: "bumpkins",
+//     rank: 2,
+//     farmId: 2,
+//     emblems: 5,
+//   },
+//   {
+//     username: "Rosemary",
+//     marks: 25,
+//     faction: "goblins",
+//     rank: 3,
+//     farmId: 3,
+//     emblems: 20000,
+//   },
+//   {
+//     username: "Thyme",
+//     marks: 10,
+//     faction: "sunflorians",
+//     rank: 4,
+//     farmId: 4,
+//     emblems: 60000,
+//   },
+//   {
+//     username: "Parsley",
+//     marks: 100,
+//     emblems: 10,
+//     faction: "nightshades",
+//     rank: 1,
+//     farmId: 1,
+//   },
+//   {
+//     username: "Sage",
+//     marks: 50,
+//     faction: "bumpkins",
+//     rank: 2,
+//     farmId: 2,
+//     emblems: 5,
+//   },
+//   {
+//     username: "Rosemary",
+//     marks: 25,
+//     faction: "goblins",
+//     rank: 3,
+//     farmId: 3,
+//     emblems: 20000,
+//   },
+//   {
+//     username: "Thyme",
+//     marks: 10,
+//     faction: "sunflorians",
+//     rank: 4,
+//     farmId: 4,
+//     emblems: 60000,
+//   },
+// ];
 
 /* END TODO */
 
@@ -156,7 +161,19 @@ const FilterCheckbox: React.FC<FilterCheckboxProps> = ({
   </OuterPanel>
 );
 
-export const MarksLeaderboard: React.FC = () => {
+interface Props {
+  emblemLeaderboard: EmblemsLeaderboard;
+  marksLeaderboard: KingdomLeaderboard;
+  // Either username or fallback to farm ID
+  playerId: string;
+  faction: FactionName;
+}
+export const MarksLeaderboard: React.FC<Props> = ({
+  emblemLeaderboard,
+  marksLeaderboard,
+  playerId,
+  faction,
+}) => {
   const { t } = useAppTranslation();
 
   const [selected, setSelected] = useState({
@@ -174,6 +191,36 @@ export const MarksLeaderboard: React.FC = () => {
 
     setSelected(updated);
   };
+
+  const data =
+    leaderboard === "marks"
+      ? marksLeaderboard.marks
+      : emblemLeaderboard.emblems;
+
+  const topRanks: (RankData & { faction: FactionName })[] = getKeys(
+    data.topTens,
+  )
+    .filter((name) => !!selected[name])
+    .reduce(
+      (rows, faction) => {
+        return [
+          ...rows,
+          ...data.topTens[faction].map((r) => ({ ...r, faction })),
+        ];
+      },
+      [] as (RankData & { faction: FactionName })[],
+    );
+
+  let playerRanks: RankData[] = [];
+
+  const showPlayerRank = !!selected[faction];
+  if (showPlayerRank && leaderboard === "marks") {
+    playerRanks = marksLeaderboard.marks.marksRankingData ?? [];
+  }
+
+  if (showPlayerRank && leaderboard === "marks") {
+    playerRanks = emblemLeaderboard.emblems.emblemRankingData ?? [];
+  }
 
   return (
     <InnerPanel
@@ -239,63 +286,56 @@ export const MarksLeaderboard: React.FC = () => {
           </tr>
         </thead>
         <tbody>
-          {DATA.filter(({ faction }) => selected[faction])
-            .slice(0, 7)
-            .map(
-              ({ farmId, rank, marks, username, faction, emblems }, index) => (
-                <tr
-                  key={index}
-                  className={classNames({
-                    "bg-[#ead4aa]": farmId === PLAYER_ID,
-                  })}
-                >
-                  <td style={{ border: "1px solid #b96f50" }} className="p-1.5">
-                    {rank ?? index + 1}
-                  </td>
-                  <td
-                    style={{ border: "1px solid #b96f50" }}
-                    className="truncate"
-                  >
-                    <div className="flex items-center space-x-1">
-                      <span className="p-1.5">{username}</span>
-                      {faction === "nightshades" && (
-                        <img src={chevron} className="h-auto" />
-                      )}
-                      {faction === "goblins" && (
-                        <img src={chevron} className="h-auto" />
-                      )}
-                      {faction === "bumpkins" && (
-                        <img src={chevron} className="h-auto" />
-                      )}
-                    </div>
-                  </td>
+          {topRanks.slice(0, 7).map(({ id, rank, count, faction }, index) => (
+            <tr
+              key={index}
+              className={classNames({
+                "bg-[#ead4aa]": id === playerId,
+              })}
+            >
+              <td style={{ border: "1px solid #b96f50" }} className="p-1.5">
+                {rank ?? index + 1}
+              </td>
+              <td style={{ border: "1px solid #b96f50" }} className="truncate">
+                <div className="flex items-center space-x-1">
+                  <span className="p-1.5">{id}</span>
+                  {faction === "nightshades" && (
+                    <img src={chevron} className="h-auto" />
+                  )}
+                  {faction === "goblins" && (
+                    <img src={chevron} className="h-auto" />
+                  )}
+                  {faction === "bumpkins" && (
+                    <img src={chevron} className="h-auto" />
+                  )}
+                </div>
+              </td>
 
-                  <td style={{ border: "1px solid #b96f50" }} className="p-1.5">
-                    <div className="flex items-center space-x-1 justify-end">
-                      {/* <img
+              <td style={{ border: "1px solid #b96f50" }} className="p-1.5">
+                <div className="flex items-center space-x-1 justify-end">
+                  {/* <img
                         src={FACTION_EMBLEM_ICONS[faction]}
                         className="w-4"
                       /> */}
-                      {leaderboard === "emblems" && (
-                        <>
-                          <span>{emblems}</span>
-                          <img
-                            src={FACTION_EMBLEM_ICONS[faction]}
-                            className="h-4"
-                          />
-                        </>
-                      )}
-                      {leaderboard === "marks" && (
-                        <>
-                          <span>{marks}</span>
-                          <img src={mark} className="h-4" />
-                        </>
-                      )}
-                    </div>
-                  </td>
-                </tr>
-              ),
-            )}
+                  {leaderboard === "emblems" && (
+                    <>
+                      <span>{count}</span>
+                      <img
+                        src={FACTION_EMBLEM_ICONS[faction]}
+                        className="h-4"
+                      />
+                    </>
+                  )}
+                  {leaderboard === "marks" && (
+                    <>
+                      <span>{count}</span>
+                      <img src={mark} className="h-4" />
+                    </>
+                  )}
+                </div>
+              </td>
+            </tr>
+          ))}
           <tr>
             <td colSpan={3}>
               <div className="flex justify-center items-center">
@@ -303,63 +343,52 @@ export const MarksLeaderboard: React.FC = () => {
               </div>
             </td>
           </tr>
-          {DATA.filter(({ faction }) => selected[faction])
-            .slice(0, 3)
-            .map(
-              ({ farmId, rank, marks, username, faction, emblems }, index) => (
-                <tr
-                  key={index}
-                  className={classNames({
-                    "bg-[#ead4aa]": farmId === PLAYER_ID,
-                  })}
-                >
-                  <td style={{ border: "1px solid #b96f50" }} className="p-1.5">
-                    {rank ?? index + 1}
-                  </td>
-                  <td
-                    style={{ border: "1px solid #b96f50" }}
-                    className="truncate"
-                  >
-                    <div className="flex items-center space-x-1">
-                      <span className="p-1.5">{username}</span>
-                      {faction === "nightshades" && (
-                        <img src={chevron} className="h-auto" />
-                      )}
-                      {faction === "goblins" && (
-                        <img src={chevron} className="h-auto" />
-                      )}
-                      {faction === "bumpkins" && (
-                        <img src={chevron} className="h-auto" />
-                      )}
-                    </div>
-                  </td>
+          {playerRanks.slice(0, 3).map(({ id, rank, count }, index) => (
+            <tr
+              key={index}
+              className={classNames({
+                "bg-[#ead4aa]": id === playerId,
+              })}
+            >
+              <td style={{ border: "1px solid #b96f50" }} className="p-1.5">
+                {rank ?? index + 1}
+              </td>
+              <td style={{ border: "1px solid #b96f50" }} className="truncate">
+                <div className="flex items-center space-x-1">
+                  <span className="p-1.5">{id}</span>
+                  {faction === "nightshades" && (
+                    <img src={chevron} className="h-auto" />
+                  )}
+                  {faction === "goblins" && (
+                    <img src={chevron} className="h-auto" />
+                  )}
+                  {faction === "bumpkins" && (
+                    <img src={chevron} className="h-auto" />
+                  )}
+                </div>
+              </td>
 
-                  <td style={{ border: "1px solid #b96f50" }} className="p-1.5">
-                    <div className="flex items-center space-x-1 justify-end">
-                      {/* <img
+              <td style={{ border: "1px solid #b96f50" }} className="p-1.5">
+                <div className="flex items-center space-x-1 justify-end">
+                  {leaderboard === "emblems" && (
+                    <>
+                      <span>{count}</span>
+                      <img
                         src={FACTION_EMBLEM_ICONS[faction]}
-                        className="w-4"
-                      /> */}
-                      {leaderboard === "emblems" && (
-                        <>
-                          <span>{emblems}</span>
-                          <img
-                            src={FACTION_EMBLEM_ICONS[faction]}
-                            className="h-4"
-                          />
-                        </>
-                      )}
-                      {leaderboard === "marks" && (
-                        <>
-                          <span>{marks}</span>
-                          <img src={mark} className="h-4" />
-                        </>
-                      )}
-                    </div>
-                  </td>
-                </tr>
-              ),
-            )}
+                        className="h-4"
+                      />
+                    </>
+                  )}
+                  {leaderboard === "marks" && (
+                    <>
+                      <span>{count}</span>
+                      <img src={mark} className="h-4" />
+                    </>
+                  )}
+                </div>
+              </td>
+            </tr>
+          ))}
         </tbody>
       </table>
       <div className="flex justify-between font-secondary text-xs pt-1">

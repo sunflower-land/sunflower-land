@@ -4,7 +4,7 @@ import classNames from "classnames";
 import { Label } from "components/ui/Label";
 import { ButtonPanel } from "components/ui/Panel";
 import { Loading } from "features/auth/components";
-import { KingdomLeaderboard } from "features/game/expansion/components/leaderboard/actions/leaderboard";
+import { EmblemsLeaderboard } from "features/game/expansion/components/leaderboard/actions/leaderboard";
 
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { getRelativeTime } from "lib/utils/time";
@@ -34,7 +34,7 @@ interface LeaderboardProps {
   id: string;
   faction: FactionName;
   isLoading: boolean;
-  data: KingdomLeaderboard["emblems"] | null;
+  data: EmblemsLeaderboard["emblems"] | null;
   lastUpdated: number | null;
 }
 

@@ -2,6 +2,7 @@ import {
   TicketLeaderboard,
   FactionLeaderboard,
   KingdomLeaderboard,
+  EmblemsLeaderboard,
 } from "./leaderboard";
 // Leaderboard data is updated every 1 hour
 const CACHE_DURATION_IN_MS = 1 * 60 * 60 * 1000;
@@ -12,6 +13,7 @@ export type Leaderboards = {
   tickets: TicketLeaderboard;
   factions: FactionLeaderboard;
   kingdom: KingdomLeaderboard;
+  emblems: EmblemsLeaderboard;
   lastUpdated: number;
 };
 
