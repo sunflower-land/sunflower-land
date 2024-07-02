@@ -1025,27 +1025,13 @@ export type FactionPetRequest = {
 };
 
 type FactionPet = {
-  week: number;
+  week: string;
   requests: FactionPetRequest[];
 };
 
 type FactionKitchen = {
   week: string;
   requests: ResourceRequest[];
-};
-
-export type FactionDonated = {
-  daily: {
-    sfl: {
-      day?: number;
-      amount?: number;
-    };
-    resources: {
-      day?: number;
-      amount?: number;
-    };
-  };
-  totalItems: Partial<Record<InventoryItemName | "sfl", number>>;
 };
 
 export type FactionPrize = {
@@ -1068,8 +1054,7 @@ export type Faction = {
   name: FactionName;
   pledgedAt: number;
   emblemsClaimedAt?: number;
-  points: number;
-  donated: FactionDonated;
+  points?: number;
   kitchen?: FactionKitchen;
   pet?: FactionPet;
   history: Record<string, FactionHistory>;
