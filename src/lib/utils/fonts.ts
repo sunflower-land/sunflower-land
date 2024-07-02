@@ -14,7 +14,16 @@ export function getCachedFont(): Font {
   return cached as Font;
 }
 
-export type Font = "Default" | "Bold" | "Sans Serif" | "Chunky (Old)";
+export type Font =
+  | "Default"
+  | "Bold"
+  | "Sans Serif"
+  | "Chunky (Old)"
+
+  // Chinese fonts
+  | "像素"
+  | "基本"
+  | "黑体";
 const FONT_CONFIG: Record<
   Font,
   {
@@ -57,6 +66,34 @@ const FONT_CONFIG: Record<
     sm: [18, 18],
     base: [25, 25],
     lg: [30, 30],
+  },
+  // Chinese Fonts
+  像素: {
+    // Pixel
+    fontFamily: "Ark",
+    xxs: [14, 14],
+    xs: [16, 16],
+    sm: [18, 18],
+    base: [25, 25],
+    lg: [30, 30],
+  },
+  基本: {
+    // Basic
+    fontFamily: "LXGW WenKai TC",
+    xxs: [16, 16],
+    xs: [18, 18],
+    sm: [20, 20],
+    base: [27, 27],
+    lg: [32, 32],
+  },
+  黑体: {
+    // Bold
+    fontFamily: "黑体",
+    xxs: [15, 15],
+    xs: [17, 17],
+    sm: [19, 19],
+    base: [26, 26],
+    lg: [31, 31],
   },
 };
 
