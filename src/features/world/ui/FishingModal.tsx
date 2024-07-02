@@ -57,12 +57,6 @@ export const FishingModal: React.FC = () => {
       if (state.context.state.fishing.beach?.caught) {
         PubSub.publish("BEACH_FISHERMAN_CAUGHT");
       }
-
-      if (state.context.state.catchTheKraken.hunger) {
-        PubSub.publish("KRAKEN_HUNGRY", {
-          hunger: state.context.state.catchTheKraken.hunger,
-        });
-      }
     });
   }, []);
 

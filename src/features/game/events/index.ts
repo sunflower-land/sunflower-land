@@ -180,10 +180,6 @@ import {
   ClaimMilestoneAction,
 } from "./landExpansion/claimMilestone";
 import { missFish, MissFishAction } from "./landExpansion/missFish";
-import {
-  tradeTentacle,
-  TradeTentacleAction,
-} from "./landExpansion/tradeTentacle";
 import { revealLand, RevealLandAction } from "./landExpansion/revealLand";
 import {
   burnCollectible,
@@ -399,7 +395,6 @@ export type PlayingEvent =
   | ReelRodAction
   | ClaimMilestoneAction
   | MissFishAction
-  | TradeTentacleAction
   | RevealLandAction
   | BurnCollectibleAction
   | ClaimBonusAction
@@ -565,7 +560,6 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "rod.reeled": reelRod,
   "milestone.claimed": claimMilestone,
   "fish.missed": missFish,
-  "shelly.tradeTentacle": tradeTentacle,
   "land.revealed": revealLand,
   "collectible.burned": burnCollectible,
   "bonus.claimed": claimBonus,

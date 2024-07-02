@@ -104,7 +104,6 @@ export type BumpkinActivityName =
   | "Chore Skipped"
   | "Bud Placed"
   | ComposterCollectEvent
-  | "Kraken Tentacle Traded"
   | "Crop Fertilised"
   | "Rod Casted";
 

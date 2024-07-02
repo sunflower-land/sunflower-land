@@ -7,7 +7,6 @@ import {
   SpeakingText,
 } from "features/game/components/SpeakingModal";
 import { NPC_WEARABLES } from "lib/npcs";
-import { KrakenIntro } from "./npcs/Shelly";
 import { AuctionHouseModal } from "./AuctionHouseModal";
 import { BoatModal } from "./BoatModal";
 import { PlazaBanner } from "./PlazaBanner";
@@ -204,9 +203,6 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
             },
           ]}
         />
-      </Modal>
-      <Modal show={interactable === "kraken"} onHide={closeModal}>
-        <KrakenIntro onClose={closeModal} />
       </Modal>
       <Modal show={interactable === "lazy_bud"} onHide={closeModal}>
         <SpeakingModal
