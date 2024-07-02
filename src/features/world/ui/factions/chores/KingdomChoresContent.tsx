@@ -24,6 +24,9 @@ import { NPCName } from "lib/npcs";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 import classNames from "classnames";
 import { ModalOverlay } from "components/ui/ModalOverlay";
+import { ProgressBar, ResizableBar } from "components/ui/ProgressBar";
+
+import mark from "assets/icons/faction_mark.webp";
 
 interface Props {
   kingdomChores: KingdomChores;
@@ -92,7 +95,7 @@ export const KingdomChoresContent: React.FC<Props> = ({ kingdomChores }) => {
     gameService.send("SAVE");
   };
 
-  const handleSkip = (index: number) => {
+  const handleSkip = () => {
     setShowSkipConfirmation(true);
   };
 
@@ -115,7 +118,7 @@ export const KingdomChoresContent: React.FC<Props> = ({ kingdomChores }) => {
   const completedCount = completedChores.length;
 
   const selectedChore = kingdomChores.chores[selected];
-  const canComplete = getProgress(selected) >= selectedChore.requirement;
+  const progress = getProgress(selected);
 
   const needsRefresh =
     kingdomChores.resetsAt && kingdomChores.resetsAt < Date.now();
@@ -155,10 +158,10 @@ export const KingdomChoresContent: React.FC<Props> = ({ kingdomChores }) => {
           mobileReversePanelOrder={true}
           panel={
             <Panel
-              canComplete={canComplete}
+              progress={progress}
               chore={selectedChore}
               onComplete={() => handleComplete(selected)}
-              onSkip={() => handleSkip(selected)}
+              onSkip={() => handleSkip()}
               isRefreshing={isRefreshing}
               skipAvailableAt={kingdomChores.skipAvailableAt ?? 0}
             />
@@ -237,7 +240,7 @@ export const KingdomChoresContent: React.FC<Props> = ({ kingdomChores }) => {
 };
 
 type PanelProps = {
-  canComplete: boolean;
+  progress: number;
   onComplete: () => void;
   onSkip: () => void;
   chore: KingdomChore;
@@ -246,7 +249,7 @@ type PanelProps = {
 };
 
 const Panel: React.FC<PanelProps> = ({
-  canComplete,
+  progress,
   skipAvailableAt,
   onComplete,
   onSkip,
@@ -256,6 +259,7 @@ const Panel: React.FC<PanelProps> = ({
   useUiRefresher();
 
   const canSkip = skipAvailableAt < Date.now();
+  const canComplete = progress >= chore.requirement;
 
   return (
     <div className="flex flex-col justify-center">
@@ -268,9 +272,23 @@ const Panel: React.FC<PanelProps> = ({
         <span className="sm:text-center">{chore.description}</span>
       </div>
 
+      <div className="flex flex-col sm:items-center pb-2">
+        <ResizableBar
+          percentage={(progress / chore.requirement) * 100}
+          type={canComplete ? "progress" : "quantity"}
+          outerDimensions={{
+            width: 50,
+            height: 7,
+          }}
+        />
+        <span className="text-xxs">
+          Progress: {Math.min(progress, chore.requirement)}/{chore.requirement}
+        </span>
+      </div>
+
       <div className="grid grid-cols-2 sm:grid-cols-1 gap-1 pt-1">
-        <div className="row-start-1 flex justify-start sm:justify-center sm:pb-2">
-          <Label type="warning" className="text-center">
+        <div className="row-start-1 flex justify-start sm:justify-center sm:pb-3">
+          <Label type="warning" icon={mark} className="text-center">
             {chore.marks} {`Marks`}
           </Label>
         </div>
@@ -393,53 +411,5 @@ const KingdomChoresTimer: React.FC<{
     </div>
   ) : (
     <></>
-  );
-};
-
-const ConfirmButtons: React.FC<{
-  onSkip: () => void;
-  onComplete: () => void;
-  canComplete: boolean;
-  isRefreshing: boolean;
-  skipAvailableAt: number;
-}> = ({ onSkip, onComplete, skipAvailableAt, canComplete, isRefreshing }) => {
-  useUiRefresher();
-
-  const canSkip = skipAvailableAt < Date.now();
-
-  return (
-    <>
-      {canSkip && (
-        <div className="flex space-x-1 sm:space-x-0 sm:space-y-1 sm:flex-col w-full pt-1">
-          <Button disabled={!canComplete || isRefreshing} onClick={onComplete}>
-            {`Complete`}
-          </Button>
-          <Button onClick={onSkip} disabled={!canSkip}>
-            {`Skip`}
-          </Button>
-        </div>
-      )}
-      {!canSkip && (
-        <div className="flex-col">
-          <Button disabled={!canComplete || isRefreshing} onClick={onComplete}>
-            {`Complete`}
-          </Button>
-          <Label
-            type="info"
-            icon={SUNNYSIDE.icons.stopwatch}
-            className="whitespace-nowrap"
-          >
-            {"Next skip: "}
-            {secondsToString(
-              Math.round((skipAvailableAt - Date.now()) / 1000),
-              {
-                length: "short",
-                removeTrailingZeros: true,
-              }
-            )}
-          </Label>
-        </div>
-      )}
-    </>
   );
 };
