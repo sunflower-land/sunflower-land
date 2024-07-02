@@ -255,8 +255,9 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
             )}
             {currentTab === 6 && state.faction && (
               <MarksLeaderboard
-                emblemLeaderboard={data.emblems}
-                marksLeaderboard={data.kingdom}
+                emblemLeaderboard={data?.emblems ?? null}
+                marksLeaderboard={data?.kingdom ?? null}
+                isLoading={data === undefined}
                 id={id}
                 faction={state.faction.name}
               />

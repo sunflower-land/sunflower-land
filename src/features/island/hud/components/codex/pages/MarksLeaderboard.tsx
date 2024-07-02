@@ -22,6 +22,7 @@ import {
   KingdomLeaderboard,
   RankData,
 } from "features/game/expansion/components/leaderboard/actions/leaderboard";
+import { Loading } from "features/auth/components";
 
 interface LeaderboardEntry {
   username: string;
@@ -162,17 +163,19 @@ const FilterCheckbox: React.FC<FilterCheckboxProps> = ({
 );
 
 interface Props {
-  emblemLeaderboard: EmblemsLeaderboard;
-  marksLeaderboard: KingdomLeaderboard;
+  emblemLeaderboard: EmblemsLeaderboard | null;
+  marksLeaderboard: KingdomLeaderboard | null;
   // Either username or fallback to farm ID
   playerId: string;
   faction: FactionName;
+  isLoading: boolean;
 }
 export const MarksLeaderboard: React.FC<Props> = ({
   emblemLeaderboard,
   marksLeaderboard,
   playerId,
   faction,
+  isLoading,
 }) => {
   const { t } = useAppTranslation();
 
@@ -183,6 +186,21 @@ export const MarksLeaderboard: React.FC<Props> = ({
     sunflorians: true,
   });
   const [leaderboard, setLeaderboard] = useState<"marks" | "emblems">("marks");
+
+  if (isLoading) {
+    return (
+      <InnerPanel className="p-1">
+        <Loading />
+      </InnerPanel>
+    );
+  }
+
+  if (!emblemLeaderboard || !marksLeaderboard)
+    return (
+      <InnerPanel className="p-1">
+        <Label type="danger">{t("leaderboard.error")}</Label>
+      </InnerPanel>
+    );
 
   const select = (faction: FactionName) => {
     const updated = { ...selected, [faction]: !selected[faction] };
@@ -395,7 +413,6 @@ export const MarksLeaderboard: React.FC<Props> = ({
         <span>
           {t("last.updated")} {getRelativeTime(Date.now())}
         </span>
-        <span>{`Total: 123k`}</span>
       </div>
     </InnerPanel>
   );
