@@ -35,7 +35,6 @@ import { FactionWeeklyPrize } from "./factions/weeklyPrize/FactionWeeklyPrize";
 import { FactionWelcome, hasReadFactionIntro } from "./factions/FactionWelcome";
 
 type InteractableName =
-  | FanArtNPC
   | "faction_intro"
   | "vip_chest"
   | "weekly_faction_prize"

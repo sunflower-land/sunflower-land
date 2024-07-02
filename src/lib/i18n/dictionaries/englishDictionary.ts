@@ -1277,7 +1277,7 @@ const confirmSkill: Record<ConfirmSkill, string> = {
 
 const conversations: Record<Conversations, string> = {
   "faction-intro.one":
-    "Welcome to your new faction house...We need your help to become more powerful and dominate the kingdom.",
+    "Welcome to your new faction house... We need your help to become more powerful and dominate the kingdom.",
   "faction-intro.two":
     "You will be rewarded with marks by completing chores, delivering items to the kitchen and feeding our magestic pet.",
   "faction-intro.three":
