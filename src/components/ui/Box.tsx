@@ -14,6 +14,7 @@ import { pixelDarkBorderStyle } from "features/game/lib/style";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { SquareIcon } from "./SquareIcon";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { ProgressType, ResizableBar } from "./ProgressBar";
 
 const LABEL_RIGHT_SHIFT_PX = -5 * PIXEL_SCALE;
 const LABEL_TOP_SHIFT_PX = -5 * PIXEL_SCALE;
@@ -51,6 +52,14 @@ export interface BoxProps {
    * Otherwise leave this unset so the shifting is done if the label is outside the viewport.
    */
   parentDivRef?: React.RefObject<HTMLElement>;
+  /**
+   * progress bar for the box, replaces the bottom left and bottom right
+   */
+  progress?: {
+    label?: string;
+    percentage: number;
+    type: ProgressType;
+  };
 }
 
 export const Box: React.FC<BoxProps> = ({
@@ -71,6 +80,7 @@ export const Box: React.FC<BoxProps> = ({
   iconClassName = "",
   parentDivRef,
   alternateIcon,
+  progress,
 }) => {
   const [isHover, setIsHover] = useState(false);
   const [showHiddenCountLabel, setShowHiddenCountLabel] = useState(false);
@@ -312,29 +322,53 @@ export const Box: React.FC<BoxProps> = ({
             {overlayIcon}
           </div>
         )}
+
+        {progress && (
+          <div
+            className="absolute flex flex-col items-center"
+            style={{
+              top: `${PIXEL_SCALE * INNER_CANVAS_WIDTH}px`,
+              left: `-5px`,
+            }}
+          >
+            <ResizableBar
+              percentage={progress.percentage}
+              type={progress.type}
+              outerDimensions={{
+                width: INNER_CANVAS_WIDTH + 4,
+                height: 7,
+              }}
+            />
+          </div>
+        )}
       </div>
 
       {/** Selected / hover indicator */}
       {(isSelected || (isHover && !isMobile)) && canClick && (
         <>
-          <img
-            className="absolute pointer-events-none"
-            src={selectBoxBL}
-            style={{
-              top: `${PIXEL_SCALE * INNER_CANVAS_WIDTH}px`,
-              left: `${PIXEL_SCALE * 0}px`,
-              width: `${PIXEL_SCALE * 8}px`,
-            }}
-          />
-          <img
-            className="absolute pointer-events-none"
-            src={selectBoxBR}
-            style={{
-              top: `${PIXEL_SCALE * INNER_CANVAS_WIDTH}px`,
-              left: `${PIXEL_SCALE * INNER_CANVAS_WIDTH}px`,
-              width: `${PIXEL_SCALE * 8}px`,
-            }}
-          />
+          {/* {!progress && ( */}
+          <>
+            <img
+              className="absolute pointer-events-none"
+              src={selectBoxBL}
+              style={{
+                top: `${PIXEL_SCALE * INNER_CANVAS_WIDTH}px`,
+                left: `${PIXEL_SCALE * 0}px`,
+                width: `${PIXEL_SCALE * 8}px`,
+              }}
+            />
+            <img
+              className="absolute pointer-events-none"
+              src={selectBoxBR}
+              style={{
+                top: `${PIXEL_SCALE * INNER_CANVAS_WIDTH}px`,
+                left: `${PIXEL_SCALE * INNER_CANVAS_WIDTH}px`,
+                width: `${PIXEL_SCALE * 8}px`,
+              }}
+            />
+          </>
+          {/* )} */}
+
           <img
             className="absolute pointer-events-none"
             src={selectBoxTL}
@@ -354,6 +388,11 @@ export const Box: React.FC<BoxProps> = ({
             }}
           />
         </>
+      )}
+      {progress?.label && (
+        <div className="flex justify-center pt-2">
+          <span className="text-xxs whitespace-nowrap">{progress.label}</span>
+        </div>
       )}
     </div>
   );

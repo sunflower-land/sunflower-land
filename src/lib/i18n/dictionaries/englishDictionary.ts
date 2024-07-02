@@ -299,6 +299,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   maintenance: "Maintenance",
   "make.wish": "Make a Wish",
   "making.wish": "Making a wish",
+  marks: "Marks",
   max: "Max",
   "max.reached": "Max reached",
   minimum: "Minimum",
@@ -369,6 +370,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   share: "Share",
   skillPts: "Skill Points:",
   skills: "Skills",
+  skipped: "Skipped",
   skipping: "Skipping",
   "skip.order": "Skip Order",
   "sound.effects": "Sound Effects:",
@@ -392,6 +394,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   "unlock.land": "Unlock more land",
   unlocking: "Unlocking",
   unmute: "Unmute",
+  upcoming: "Upcoming",
   "use.craft": "Used to craft items",
   verify: "Verify",
   version: "Version",
@@ -1191,7 +1194,18 @@ const choresStart: Record<ChoresStart, string> = {
   "chores.noChore": "Sorry, I don't have any chores that need doing right now.",
   "chores.newSeason": "A new season approaches, chores will temporarily close.",
   "chores.choresFrozen": "New seasonal chores will be available soon.",
-  "chores.left": "{{chores}} left",
+  "kingdomChores.preparing": "Just a second. I'm preparing some chores.",
+  "kingdomChores.completed":
+    "Looks like you have completed all your chores for now. Come back soon!",
+  "kingdomChores.noChores":
+    "I'm sorry, I don't have any chores available right now. Come back soon!",
+  "kingdomChores.noUpcoming": "No upcoming chores",
+  "kingdomChores.progress": "Progress: {{progress}}",
+  "kingdomChores.nextSkip": "Next Skip: {{skip}}",
+  "kingdomChores.skipWarning": "You can only skip one chore every 24 hours",
+  "kingdomChores.completeActive": "Complete active chores to unlock",
+  "kingdomChores.loading": "Loading new chores",
+  "kingdomChores.reset": "Chores Reset: {{reset}}",
 };
 
 const chumDetails: Record<ChumDetails, string> = {

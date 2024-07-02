@@ -13,6 +13,11 @@ const clashOfFactionsFeatureFlag = () => {
 const timeBasedFeatureFlag = (date: Date) => () => {
   return testnetFeatureFlag() || Date.now() > date.getTime();
 };
+
+const betaTimeBasedFeatureFlag = (date: Date) => (game: GameState) => {
+  return defaultFeatureFlag(game) || Date.now() > date.getTime();
+};
+
 /*
  * How to Use:
  * Add the feature name to this list when working on a new feature.
@@ -33,7 +38,8 @@ export type FeatureName =
   | "CROP_QUICK_SELECT"
   | "MARKS_LEADERBOARD"
   | "FESTIVAL_OF_COLORS"
-  | "FACTION_KITCHEN";
+  | "FACTION_KITCHEN"
+  | "FACTION_CHORES";
 
 // Used for testing production features
 export const ADMIN_IDS = [1, 2, 3, 39488];
@@ -61,6 +67,7 @@ const featureFlags: Record<FeatureName, FeatureFlag> = {
   CROP_MACHINE: () => true,
   MARKS_LEADERBOARD: defaultFeatureFlag,
   FACTION_KITCHEN: defaultFeatureFlag,
+  FACTION_CHORES: betaTimeBasedFeatureFlag(new Date("2022-07-08T00:00:00Z")),
 };
 
 export const hasFeatureAccess = (game: GameState, featureName: FeatureName) => {
