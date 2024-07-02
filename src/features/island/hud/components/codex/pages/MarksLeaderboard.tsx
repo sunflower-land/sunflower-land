@@ -236,7 +236,7 @@ export const MarksLeaderboard: React.FC<Props> = ({
     playerRanks = marksLeaderboard.marks.marksRankingData ?? [];
   }
 
-  if (showPlayerRank && leaderboard === "marks") {
+  if (showPlayerRank && leaderboard === "emblems") {
     playerRanks = emblemLeaderboard.emblems.emblemRankingData ?? [];
   }
 
