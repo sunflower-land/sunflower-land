@@ -29,7 +29,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { NPCIcon } from "features/island/bumpkin/components/NPC";
 import { formatNumber } from "lib/utils/formatNumber";
-import { NPC_WEARABLES } from "lib/npcs";
+import { NPCName, NPC_WEARABLES } from "lib/npcs";
 
 const npcs: Record<FactionName, NPCName> = {
   nightshades: "nyx",
@@ -197,7 +197,13 @@ export const MarksLeaderboard: React.FC<Props> = ({
                     <div className="h-11">
                       <div className="flex h-full items-center justify-center">
                         <div className="relative">
-                          <NPCIcon parts={NPC_WEARABLES[npcs[faction]]} />
+                          <NPCIcon
+                            parts={
+                              NPC_WEARABLES[
+                                npcs[faction as FactionName] as NPCName
+                              ]
+                            }
+                          />
                         </div>
                         <div className="flex pt-1">
                           <span className="font-secondary text-xs">
