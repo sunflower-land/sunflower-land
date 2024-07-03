@@ -36,6 +36,25 @@ export function getFactionWeek({
   return currentFactionWeekStartDate.toISOString().substring(0, 10);
 }
 
+export function secondsTillWeekReset(): number {
+  const weekStart = getFactionWeek();
+  const weekEnd = new Date(
+    new Date(weekStart).getTime() + 7 * 24 * 60 * 60 * 1000,
+  );
+
+  const currentTime = Date.now();
+
+  // Calculate the time until the next faction week start in milliseconds
+  const timeUntilNextFactionWeek = weekEnd.getTime() - currentTime;
+
+  // Convert milliseconds to seconds
+  const secondsUntilNextFactionWeek = Math.floor(
+    timeUntilNextFactionWeek / 1000,
+  );
+
+  return secondsUntilNextFactionWeek;
+}
+
 /**
  * Get the current day number of the current faction week.
  * @param now milliseconds since epoch

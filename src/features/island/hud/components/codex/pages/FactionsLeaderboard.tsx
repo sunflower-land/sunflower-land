@@ -193,20 +193,21 @@ interface FactionProps {
   name: FactionName;
   position: string;
   totalTickets: number;
-  isSelected: boolean;
-  onClick: () => void;
+  isSelected?: boolean;
+  onClick?: () => void;
 }
-const Faction: React.FC<FactionProps> = ({
+export const Faction: React.FC<FactionProps> = ({
   name,
   onClick,
   isSelected,
   position,
   totalTickets,
 }) => {
-  const npcs: Record<Exclude<FactionName, "nightshades">, NPCName> = {
-    bumpkins: "robert",
-    goblins: "grommy",
-    sunflorians: "lady day",
+  const npcs: Record<FactionName, NPCName> = {
+    nightshades: "nyx",
+    bumpkins: "barlow",
+    goblins: "graxle",
+    sunflorians: "reginald",
   };
 
   return (
@@ -221,51 +222,16 @@ const Faction: React.FC<FactionProps> = ({
         <div className="flex flex-col items-center space-y-1">
           <span className="text-xs capitalize">{name}</span>
           <div className="h-11">
-            {name === "nightshades" ? (
-              <div className="flex justify-center items-center">
-                <div>
-                  <img
-                    src={maximus}
-                    className="-scale-x-100"
-                    style={{ width: 14 * PIXEL_SCALE }}
-                  />
-                  <div className="relative flex justify-center">
-                    <img
-                      src={shadow}
-                      style={{
-                        width: `${PIXEL_SCALE * 12}px`,
-                        bottom: `${PIXEL_SCALE * -2}px`,
-                      }}
-                      className="absolute pointer-events-none"
-                    />
-                  </div>
-                </div>
-                <div className="flex pt-2">
-                  <img
-                    src={FACTION_EMBLEM_ICONS[name]}
-                    className="w-4 h-4 inline-block mx-1"
-                  />
-                  <span className="font-secondary text-xs">
-                    {formatNumber(totalTickets ?? 0)}
-                  </span>
-                </div>
+            <div className="flex h-full items-center justify-center">
+              <div className="relative">
+                <NPCIcon parts={NPC_WEARABLES[npcs[name]]} />
               </div>
-            ) : (
-              <div className="flex h-full items-center justify-center">
-                <div className="relative">
-                  <NPCIcon parts={NPC_WEARABLES[npcs[name]]} />
-                </div>
-                <div className="flex pt-1">
-                  <img
-                    src={FACTION_EMBLEM_ICONS[name]}
-                    className="w-4 h-4 inline-block mx-1"
-                  />
-                  <span className="font-secondary text-xs">
-                    {formatNumber(totalTickets ?? 0)}
-                  </span>
-                </div>
+              <div className="flex pt-1">
+                <span className="font-secondary text-xs">
+                  {formatNumber(totalTickets ?? 0)}
+                </span>
               </div>
-            )}
+            </div>
           </div>
         </div>
         <Label
