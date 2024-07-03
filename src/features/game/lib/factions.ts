@@ -292,8 +292,8 @@ export const FACTION_PRIZES: Record<number, FactionPrize> = {
   // 11th - 50th all get 5 seasonal tickets
   ...new Array(40)
     .fill({
-      coins: 0,
-      sfl: 0,
+      coins: 500,
+      sfl: 50,
       items: {
         // [getSeasonalTicket()]: 5,
       },
