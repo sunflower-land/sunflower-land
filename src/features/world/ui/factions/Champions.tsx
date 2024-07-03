@@ -3,7 +3,6 @@ import { useActor } from "@xstate/react";
 import classNames from "classnames";
 
 import { Label } from "components/ui/Label";
-import { Panel } from "components/ui/Panel";
 import { Loading } from "features/auth/components";
 import { Context } from "features/game/GameProvider";
 import {
@@ -42,11 +41,11 @@ export const Champions: React.FC<Props> = ({ onClose }) => {
       onClose={onClose}
       tabs={[
         {
-          name: "Champions",
+          name: t("leaderboard.champions"),
           icon: trophy,
         },
         {
-          name: "Prizes",
+          name: t("leaderboard.prizes"),
           icon: gift,
         },
       ]}
@@ -108,24 +107,26 @@ export const ChampionsLeaderboard: React.FC<Props> = ({ onClose }) => {
       <Fireworks />
 
       <div className="flex justify-between items-center mb-1">
-        <Label type="default">Champions</Label>
+        <Label type="default">{t("leaderboard.champions")}</Label>
         <Label type="formula">{`Week #${getWeekNumber()}`}</Label>
       </div>
-      <p className="text-sm mb-2 pl-1">{`Congratulations to the ${winningFaction}!`}</p>
+      <p className="text-sm mb-2 pl-1">
+        {t("leaderboard.congratulations", { faction: winningFaction })}
+      </p>
       <Label type="default" className="mb-2">
-        Leaderboard
+        {t("leaderboard.leaderboard")}
       </Label>
       <table className="w-full text-xs table-auto border-collapse">
         <thead>
           <tr>
             <th style={{ border: "1px solid #b96f50" }} className="p-1.5">
-              <p>{`Position`}</p>
+              <p>{t("leaderboard.position")}</p>
             </th>
             <th style={{ border: "1px solid #b96f50" }} className="p-1.5">
-              <p>{t("player")}</p>
+              <p>{t("leaderboard.player")}</p>
             </th>
             <th style={{ border: "1px solid #b96f50" }} className="w-2/5 p-1.5">
-              <p>{`Score`}</p>
+              <p>{t("leaderboard.score")}</p>
             </th>
           </tr>
         </thead>
@@ -185,38 +186,37 @@ const TROPHIES: Record<FactionName, Record<number, InventoryItemName>> = {
 };
 
 export const ChampionsPrizes: React.FC<Props> = ({ onClose }) => {
+  const { t } = useAppTranslation();
   return (
     <div
       className="p-1 overflow-y-scroll scrollable pr-1"
       style={{ maxHeight: "350px" }}
     >
-      <p className="text-sm mb-2">Each week you can win bonus prizes.</p>
+      <p className="text-sm mb-2">{t("leaderboard.faction.description")}</p>
       <Label type="default" className="mb-2">
-        Champion Faction
+        {t("leaderboard.faction.champion")}
       </Label>
-      <p className="text-xs mb-2">
-        The players in the winning faction will receive:
-      </p>
+      <p className="text-xs mb-2">{t("leaderboard.faction.championPrizes")}</p>
       <table className="w-full text-xs table-auto border-collapse mb-2">
         <tbody>
           <tr>
             <td style={{ border: "1px solid #b96f50" }} className="p-1.5">
-              All
+              {`All`}
             </td>
             <td style={{ border: "1px solid #b96f50" }} className="truncate">
               <div className="flex items-center space-x-1">
-                <span className="p-1.5">Bonus +10% Marks</span>
+                <span className="p-1.5">
+                  {t("leaderboard.faction.bonusMarks")}
+                </span>
               </div>
             </td>
           </tr>
         </tbody>
       </table>
       <Label type="default" className="mb-2">
-        Top Player Prizes
+        {t("leaderboard.faction.topPlayers")}
       </Label>
-      <p className="text-xs mb-2">
-        The top 50 players in each faction will receive:
-      </p>
+      <p className="text-xs mb-2">{t("leaderboard.faction.topPlayerPrizes")}</p>
       <table className="w-full text-xs table-auto border-collapse">
         <tbody>
           {getKeys(FACTION_PRIZES).map((position, index) => {

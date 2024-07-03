@@ -283,13 +283,15 @@ export class KingdomScene extends BaseScene {
       });
     });
 
-    this.setChampions();
-
-    // After 30 seconds of new week, show the new throne!
-    const secondsTillReset = secondsTillWeekReset() + 30;
-    setTimeout(() => {
+    if (hasFeatureAccess(this.gameState, "FACTION_HOUSE")) {
       this.setChampions();
-    }, secondsTillReset * 1000);
+
+      // After 30 seconds of new week, show the new throne!
+      const secondsTillReset = secondsTillWeekReset() + 30;
+      setTimeout(() => {
+        this.setChampions();
+      }, secondsTillReset * 1000);
+    }
 
     const audioMuted = getCachedAudioSetting<boolean>(
       AudioLocalStorageKeys.audioMuted,
