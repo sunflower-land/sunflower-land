@@ -1139,7 +1139,6 @@ const choresStart: Record<ChoresStart, string> = {
   "kingdomChores.completeActive": ENGLISH_TERMS["kingdomChores.completeActive"],
   "kingdomChores.loading": ENGLISH_TERMS["kingdomChores.loading"],
   "kingdomChores.reset": ENGLISH_TERMS["kingdomChores.reset"],
-  "chores.left": "{{chores}} 剩余",
 };
 
 const chumDetails: Record<ChumDetails, string> = {
