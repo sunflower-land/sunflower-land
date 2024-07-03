@@ -1,6 +1,6 @@
 import { GameState } from "features/game/types/game";
 import cloneDeep from "lodash.clonedeep";
-import { makeKingdomChores } from "./completeKingdomChore";
+import { populateKingdomChores } from "./completeKingdomChore";
 
 export type SkipKingdomChoreAction = {
   type: "kingdomChore.skipped";
@@ -52,11 +52,7 @@ export function skipKingdomChore({
   kingdomChores.skipAvailableAt = createdAt + 24 * 60 * 60 * 1000;
   kingdomChores.choresSkipped += 1;
 
-  kingdomChores.chores = makeKingdomChores(
-    kingdomChores.chores,
-    bumpkin,
-    createdAt,
-  );
+  game.kingdomChores = populateKingdomChores(kingdomChores, bumpkin, createdAt);
 
   return game;
 }
