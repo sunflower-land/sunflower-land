@@ -12,6 +12,7 @@ const API_URL = CONFIG.API_URL;
 type Options = {
   farmId: number;
   leaderboardName: "maze" | "tickets" | "factions" | "kingdom" | "emblems";
+  date?: string;
 };
 
 export type RankData = {
@@ -51,6 +52,8 @@ export type KingdomLeaderboard = {
     marksRankingData?: RankData[] | null;
   };
   lastUpdated: number;
+  status: "ready" | "pending";
+  week: string;
 };
 
 export type EmblemsLeaderboard = {
@@ -66,16 +69,19 @@ export type EmblemsLeaderboard = {
 export async function getLeaderboard<T>({
   farmId,
   leaderboardName,
+  date,
 }: Options): Promise<T | undefined> {
-  const response = await window.fetch(
-    `${API_URL}/leaderboard/${leaderboardName}/${farmId}`,
-    {
-      method: "GET",
-      headers: {
-        "content-type": "application/json;charset=UTF-8",
-      },
+  let url = `${API_URL}/leaderboard/${leaderboardName}/${farmId}`;
+  if (date) {
+    url += `?date=${date}`;
+  }
+
+  const response = await window.fetch(url, {
+    method: "GET",
+    headers: {
+      "content-type": "application/json;charset=UTF-8",
     },
-  );
+  });
 
   if (response.status === 429) {
     throw new Error(ERRORS.TOO_MANY_REQUESTS);
@@ -163,3 +169,40 @@ export async function fetchLeaderboardData(
     return null;
   }
 }
+
+// export async function fetchKingdomLeaderboard(
+//   farmId: number,
+//   week: string
+// ): Promise<Leaderboards | null> {
+//   let cachedLeaderboardData = getCachedLeaderboardData();
+
+//   if (cachedLeaderboardData && cachedLeaderboardData?.kingdom.week === week) {
+//     return cachedLeaderboardData;
+//   }
+
+//   const kingdomLeaderboard = await getLeaderboard<TicketLeaderboard>({
+//         farmId: Number(farmId),
+//         leaderboardName: "tickets",
+//       })
+
+//     cacheLeaderboardData({
+//       tickets: cachedLeaderboardData?.tickets,
+//       factions: cachedLeaderboardData.factions,
+//       kingdom: kingdomLeaderboard,
+//       emblems: cachedLeaderboardData.emblems,
+//       lastUpdated: cachedLeaderboardData?.lastUpdated,
+//     });
+
+//     return {
+//       tickets: ticketLeaderboard,
+//       factions: factionsLeaderboard,
+//       kingdom: kingdomLeaderboard,
+//       emblems: emblemsLeaderboard,
+//       lastUpdated,
+//     };
+//   } catch (error) {
+//     // eslint-disable-next-line no-console
+//     console.error("error", error);
+//     return null;
+//   }
+// }

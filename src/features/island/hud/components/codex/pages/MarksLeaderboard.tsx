@@ -103,6 +103,13 @@ export const MarksLeaderboard: React.FC<Props> = ({
       </InnerPanel>
     );
 
+  if (marksLeaderboard.status === "pending")
+    return (
+      <InnerPanel className="p-1">
+        <Label type="formula">{t("leaderboard.resultsPending")}</Label>
+      </InnerPanel>
+    );
+
   const select = (faction: FactionName) => {
     const updated = { ...selected, [faction]: !selected[faction] };
     // At least one must be true

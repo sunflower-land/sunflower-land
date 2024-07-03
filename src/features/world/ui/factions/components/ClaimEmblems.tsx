@@ -49,7 +49,7 @@ function randomInRange(min: number, max: number) {
   return Math.random() * (max - min) + min;
 }
 
-const Fireworks: React.FC = () => {
+export const Fireworks: React.FC = () => {
   const defaults = {
     startVelocity: 30,
     spread: 360,

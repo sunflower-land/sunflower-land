@@ -33,8 +33,10 @@ import { Label } from "components/ui/Label";
 import { FestivalOfColors } from "./portals/FestivalOfColors";
 import { FactionWeeklyPrize } from "./factions/weeklyPrize/FactionWeeklyPrize";
 import { FactionWelcome, hasReadFactionIntro } from "./factions/FactionWelcome";
+import { Champions } from "./factions/Champions";
 
 type InteractableName =
+  | "champions"
   | "faction_intro"
   | "vip_chest"
   | "weekly_faction_prize"
@@ -181,6 +183,9 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
       )}
       <Modal show={interactable === "faction_intro"} onHide={closeModal}>
         <FactionWelcome onClose={closeModal} />
+      </Modal>
+      <Modal show={interactable === "champions"} onHide={closeModal}>
+        <Champions onClose={closeModal} />
       </Modal>
       <Modal show={interactable === "donations"} onHide={closeModal}>
         <CloseButtonPanel title={t("enjoying.event")} onClose={closeModal}>

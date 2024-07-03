@@ -2,7 +2,11 @@ import mapJSON from "assets/map/kingdom.json";
 
 import { SceneId } from "../mmoMachine";
 import { BaseScene, NPCBumpkin } from "./BaseScene";
-import { fetchLeaderboardData } from "features/game/expansion/components/leaderboard/actions/leaderboard";
+import {
+  KingdomLeaderboard,
+  fetchLeaderboardData,
+  getLeaderboard,
+} from "features/game/expansion/components/leaderboard/actions/leaderboard";
 import { interactableModalManager } from "../ui/InteractableModals";
 import { translate } from "lib/i18n/translate";
 import { SOUNDS } from "assets/sound-effects/soundEffects";
@@ -16,6 +20,10 @@ import { Coordinates } from "features/game/expansion/components/MapPlacement";
 import { getKeys } from "features/game/types/decorations";
 import { JoinFactionAction } from "features/game/events/landExpansion/joinFaction";
 import { hasFeatureAccess } from "lib/flags";
+import {
+  getPreviousWeek,
+  secondsTillWeekReset,
+} from "features/game/lib/factions";
 
 export const KINGDOM_NPCS: NPCBumpkin[] = [
   {
@@ -73,6 +81,13 @@ const DOORS: Record<FactionName, Coordinates & { door: string }> = {
   bumpkins: { x: 23 * 16 + 8, y: 27 * 16 + 8, door: "red_door" },
 };
 
+const THRONES: Record<FactionName, string> = {
+  goblins: "goblin_champions",
+  sunflorians: "sunflorian_champions",
+  nightshades: "nightshade_champions",
+  bumpkins: "sunflorian_champions",
+};
+
 export class KingdomScene extends BaseScene {
   sceneId: SceneId = "kingdom";
 
@@ -123,6 +138,11 @@ export class KingdomScene extends BaseScene {
     this.load.image("shop_icon", "world/shop_disc.png");
     getKeys(DOORS).forEach((key) => {
       this.load.image(DOORS[key].door, `world/${DOORS[key].door}.png`);
+    });
+
+    this.load.image("empty_champions", "world/empty_champions.png");
+    getKeys(THRONES).forEach((key) => {
+      this.load.image(THRONES[key], `world/${THRONES[key]}.png`);
     });
   }
 
@@ -263,6 +283,14 @@ export class KingdomScene extends BaseScene {
       });
     });
 
+    this.setChampions();
+
+    // After 30 seconds of new week, show the new throne!
+    const secondsTillReset = secondsTillWeekReset() + 30;
+    setTimeout(() => {
+      this.setChampions();
+    }, secondsTillReset * 1000);
+
     const audioMuted = getCachedAudioSetting<boolean>(
       AudioLocalStorageKeys.audioMuted,
       false,
@@ -281,6 +309,92 @@ export class KingdomScene extends BaseScene {
       this.sound.getAllPlaying().forEach((sound) => {
         sound.destroy();
       });
+    });
+  }
+
+  public champions: Phaser.GameObjects.Sprite | undefined;
+
+  async setChampions() {
+    if (this.champions) {
+      this.champions.destroy();
+      this.showPoof();
+      this.champions = undefined;
+    }
+
+    this.champions = this.add.sprite(240, 646, "empty_champions");
+    this.physics.add.existing(this.champions);
+    (this.champions.body as Phaser.Physics.Arcade.Body)
+      .setSize(51, 38)
+      .setImmovable(true)
+      .setCollideWorldBounds(true);
+    this.colliders?.add(this.champions);
+    this.physics.world.enable(this.champions);
+
+    const leaderboard = await getLeaderboard<KingdomLeaderboard>({
+      farmId: Number(this.gameService.state.context.farmId),
+      leaderboardName: "kingdom",
+      date: getPreviousWeek(),
+    });
+
+    if (!leaderboard || leaderboard.status === "pending") {
+      return;
+    }
+
+    const totals = leaderboard.marks.totalTickets;
+    const winningFaction = getKeys(totals).reduce((winner, name) => {
+      return totals[winner] > totals[name] ? winner : name;
+    }, "bumpkins");
+
+    this.champions.destroy();
+    this.champions = undefined;
+
+    const throne = THRONES[winningFaction];
+
+    if (!this.textures.exists(throne)) {
+      return;
+    }
+
+    this.champions = this.add.sprite(240, 646, throne);
+
+    this.physics.add.existing(this.champions);
+    (this.champions.body as Phaser.Physics.Arcade.Body)
+      .setSize(51, 38)
+      .setImmovable(true)
+      .setCollideWorldBounds(true);
+    this.colliders?.add(this.champions);
+    this.physics.world.enable(this.champions);
+
+    this.champions
+      .setInteractive({ cursor: "pointer" })
+      .on("pointerdown", () => {
+        interactableModalManager.open("champions");
+      });
+
+    this.showPoof();
+  }
+
+  showPoof() {
+    const poof = this.add.sprite(240, 646, "poof").setDepth(1000000);
+
+    this.anims.create({
+      key: `poof_anim`,
+      frames: this.anims.generateFrameNumbers("poof", {
+        start: 0,
+        // TODO - buds with longer animation frames?
+        end: 8,
+      }),
+      repeat: 0,
+      frameRate: 10,
+    });
+
+    poof.play(`poof_anim`, true);
+
+    // Listen for the animation complete event
+    poof.on("animationcomplete", function (animation: { key: string }) {
+      if (animation.key === "poof_anim") {
+        // Animation 'poof_anim' has completed, destroy the sprite
+        poof.destroy();
+      }
     });
   }
 }
