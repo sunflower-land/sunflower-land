@@ -17,15 +17,12 @@ import { NPCName, NPC_WEARABLES } from "lib/npcs";
 import { NPCIcon } from "features/island/bumpkin/components/NPC";
 import { isMobile } from "mobile-device-detect";
 
-import maximus from "assets/sfts/maximus.gif";
 import trophy from "assets/icons/trophy.png";
-import shadow from "assets/npcs/shadow.png";
 
 import { Button } from "components/ui/Button";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { formatNumber } from "lib/utils/formatNumber";
 import { useSound } from "lib/utils/hooks/useSound";
-import { FACTION_EMBLEM_ICONS } from "features/world/ui/factions/components/ClaimEmblems";
 import { FactionTicketsTable } from "features/game/expansion/components/leaderboard/FactionTicketTable";
 
 const POSITION_LABELS = ["1st", "2nd", "3rd", "4th"];

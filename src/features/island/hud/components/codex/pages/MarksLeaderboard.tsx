@@ -168,7 +168,7 @@ export const MarksLeaderboard: React.FC<Props> = ({
           </Label>
         </div>
         <span className="text-xs mb-1">
-          Complete tasks for your faction to win rewards and glory!
+          {`Complete tasks for your faction to win rewards and glory!`}
         </span>
         <div
           className="w-full  -mx-2"
