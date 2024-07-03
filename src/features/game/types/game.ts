@@ -62,7 +62,7 @@ import { translate } from "lib/i18n/translate";
 import { SpecialEvents } from "./specialEvents";
 import { TradeableName } from "../actions/sellMarketResource";
 import { MinigameCurrency } from "../events/minigames/purchaseMinigameItem";
-import { FactionShopCollectibleName } from "./factionShop";
+import { FactionShopCollectibleName, FactionShopFoodName } from "./factionShop";
 
 export type Reward = {
   coins?: number;
@@ -381,7 +381,8 @@ export type InventoryItemName =
   | MegaStoreCollectibleName
   | FactionBanner
   | WorkbenchToolName
-  | FactionShopCollectibleName;
+  | FactionShopCollectibleName
+  | FactionShopFoodName;
 
 export type Inventory = Partial<Record<InventoryItemName, Decimal>>;
 
@@ -935,7 +936,7 @@ export type ShopItemBase = {
   currency: Currency;
   price: Decimal;
   limit: number | null;
-  type: "wearable" | "collectible";
+  type: "wearable" | "collectible" | "food";
 };
 
 export type WearablesItem = {

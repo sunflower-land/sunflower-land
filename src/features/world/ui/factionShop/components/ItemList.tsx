@@ -19,14 +19,17 @@ import { getItemBuffLabel, getItemImage } from "../FactionShop";
 import {
   FactionShopWearable,
   FactionShopCollectible,
+  FactionShopFood,
 } from "features/game/types/factionShop";
 import { capitalize } from "lib/utils/capitalize";
 
 interface Props {
   itemsLabel: string;
-  type: "wearables" | "collectibles";
-  items: (FactionShopWearable | FactionShopCollectible)[];
-  onItemClick: (item: FactionShopWearable | FactionShopCollectible) => void;
+  type: "wearables" | "collectibles" | "food";
+  items: (FactionShopWearable | FactionShopCollectible | FactionShopFood)[];
+  onItemClick: (
+    item: FactionShopWearable | FactionShopCollectible | FactionShopFood,
+  ) => void;
 }
 
 const _inventory = (state: MachineState) => state.context.state.inventory;
@@ -44,7 +47,7 @@ export const ItemsList: React.FC<Props> = ({
   const wardrobe = useSelector(gameService, _wardrobe);
 
   const getBalanceOfItem = (
-    item: FactionShopWearable | FactionShopCollectible,
+    item: FactionShopWearable | FactionShopCollectible | FactionShopFood,
   ): number => {
     if (type === "wearables") {
       return wardrobe[item.name as BumpkinItem] ?? 0;

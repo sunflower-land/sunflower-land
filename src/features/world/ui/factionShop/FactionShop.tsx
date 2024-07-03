@@ -16,6 +16,7 @@ import { ModalOverlay } from "components/ui/ModalOverlay";
 import {
   FACTION_SHOP_ITEMS,
   FactionShopCollectible,
+  FactionShopFood,
   FactionShopWearable,
 } from "features/game/types/factionShop";
 import { ItemsList } from "./components/ItemList";
@@ -26,15 +27,26 @@ interface Props {
 
 // type guard for WearablesItem | CollectiblesItem
 export const isWearablesItem = (
-  item: FactionShopWearable | FactionShopCollectible | null,
+  item: FactionShopWearable | FactionShopCollectible | FactionShopFood | null,
 ): item is FactionShopWearable => {
   return (item as FactionShopWearable).name in ITEM_IDS;
 };
 
+// type guard for FoodItem
+export const isFoodItem = (
+  item: FactionShopWearable | FactionShopCollectible | FactionShopFood | null,
+): item is FactionShopFood => {
+  return (item as FactionShopFood).name in ITEM_DETAILS;
+};
+
 export const getItemImage = (
-  item: FactionShopWearable | FactionShopCollectible | null,
+  item: FactionShopWearable | FactionShopCollectible | FactionShopFood | null,
 ): string => {
   if (!item) return "";
+
+  if (isFoodItem(item)) {
+    return ITEM_DETAILS[item.name].image;
+  }
 
   if (isWearablesItem(item)) {
     return getImageUrl(ITEM_IDS[item.name]);
@@ -44,10 +56,13 @@ export const getItemImage = (
 };
 
 export const getItemBuffLabel = (
-  item: FactionShopWearable | FactionShopCollectible | null,
+  item: FactionShopWearable | FactionShopCollectible | FactionShopFood | null,
 ): BuffLabel | undefined => {
   if (!item) return;
 
+  if (isFoodItem(item)) {
+    return undefined;
+  }
   if (isWearablesItem(item)) {
     return BUMPKIN_ITEM_BUFF_LABELS[item.name];
   }
@@ -57,7 +72,7 @@ export const getItemBuffLabel = (
 
 export const FactionShop: React.FC<Props> = ({ onClose }) => {
   const [selectedItem, setSelectedItem] = useState<
-    FactionShopWearable | FactionShopCollectible | null
+    FactionShopWearable | FactionShopCollectible | FactionShopFood | null
   >(null);
   const [isVisible, setIsVisible] = useState(false);
 
@@ -68,7 +83,7 @@ export const FactionShop: React.FC<Props> = ({ onClose }) => {
   }, [selectedItem, isVisible]);
 
   const handleClickItem = (
-    item: FactionShopWearable | FactionShopCollectible,
+    item: FactionShopWearable | FactionShopCollectible | FactionShopFood,
   ) => {
     setSelectedItem(item);
   };
@@ -81,6 +96,9 @@ export const FactionShop: React.FC<Props> = ({ onClose }) => {
     (item) => item.type === "collectible",
   );
 
+  const food = Object.values(FACTION_SHOP_ITEMS).filter(
+    (item) => item.type === "food",
+  );
   const { t } = useAppTranslation();
   return (
     <CloseButtonPanel
@@ -103,6 +121,13 @@ export const FactionShop: React.FC<Props> = ({ onClose }) => {
             itemsLabel="Collectibles"
             type="collectibles"
             items={collectibles}
+            onItemClick={handleClickItem}
+          />
+          {/* Food */}
+          <ItemsList
+            itemsLabel="Food"
+            type="food"
+            items={food}
             onItemClick={handleClickItem}
           />
         </div>
