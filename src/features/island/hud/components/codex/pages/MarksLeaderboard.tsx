@@ -13,6 +13,7 @@ import chevron from "assets/icons/factions/sunflorians/chevron_one.webp";
 
 import mark from "assets/icons/faction_mark.webp";
 import factions from "assets/icons/factions.webp";
+import trophy from "assets/icons/trophy.png";
 
 import { FACTION_EMBLEM_ICONS } from "features/world/ui/factions/components/ClaimEmblems";
 import { SquareIcon } from "components/ui/SquareIcon";
@@ -23,11 +24,19 @@ import {
   RankData,
 } from "features/game/expansion/components/leaderboard/actions/leaderboard";
 import { Loading } from "features/auth/components";
-import { Faction } from "./FactionsLeaderboard";
 import { secondsTillWeekReset } from "features/game/lib/factions";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
+import { NPCIcon } from "features/island/bumpkin/components/NPC";
+import { formatNumber } from "lib/utils/formatNumber";
+import { NPC_WEARABLES } from "lib/npcs";
 
+const npcs: Record<FactionName, NPCName> = {
+  nightshades: "nyx",
+  bumpkins: "barlow",
+  goblins: "graxle",
+  sunflorians: "reginald",
+};
 interface LeaderboardEntry {
   username: string;
   marks: number;
@@ -178,12 +187,38 @@ export const MarksLeaderboard: React.FC<Props> = ({
         >
           <div className="grid grid-cols-2 sm:grid-cols-4 w-full justify-between mb-2">
             {sortedFactions.map(([faction, position]) => (
-              <Faction
-                key={faction}
-                name={faction as FactionName}
-                position={position}
-                totalTickets={data.totalTickets[faction as FactionName]}
-              />
+              <div className="py-1 px-2" key={faction}>
+                <InnerPanel
+                  className={classNames("w-full pt-2 relative")}
+                  style={{ paddingBottom: "20px" }}
+                >
+                  <div className="flex flex-col items-center space-y-1">
+                    <span className="text-xs capitalize">{faction}</span>
+                    <div className="h-11">
+                      <div className="flex h-full items-center justify-center">
+                        <div className="relative">
+                          <NPCIcon parts={NPC_WEARABLES[npcs[faction]]} />
+                        </div>
+                        <div className="flex pt-1">
+                          <span className="font-secondary text-xs">
+                            {formatNumber(
+                              data.totalTickets[faction as FactionName] ?? 0,
+                            )}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <Label
+                    type="success"
+                    icon={position === "1st" ? trophy : undefined}
+                    className="absolute -bottom-2 text-center mt-1 p-1 left-[-5px] z-10 h-6"
+                    style={{ width: "calc(100% + 10px)" }}
+                  >
+                    {position}
+                  </Label>
+                </InnerPanel>
+              </div>
             ))}
           </div>
         </div>
