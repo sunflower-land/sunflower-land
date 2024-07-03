@@ -3593,7 +3593,20 @@ export type Leaderboard =
   | "leaderboard.initialising"
   | "leaderboard.topTen"
   | "leaderboard.yourPosition"
-  | "leaderboard.factionMembers";
+  | "leaderboard.factionMembers"
+  | "leaderboard.resultsPending"
+  | "leaderboard.champions"
+  | "leaderboard.congratulations"
+  | "leaderboard.position"
+  | "leaderboard.player"
+  | "leaderboard.score"
+  | "leaderboard.prizes"
+  | "leaderboard.faction.description"
+  | "leaderboard.faction.champion"
+  | "leaderboard.faction.championPrizes"
+  | "leaderboard.faction.bonusMarks"
+  | "leaderboard.faction.topPlayers"
+  | "leaderboard.faction.topPlayerPrizes";
 
 export type GameOptions =
   | "gameOptions.title"

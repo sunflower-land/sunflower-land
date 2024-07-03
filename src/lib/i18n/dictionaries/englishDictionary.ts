@@ -5314,6 +5314,22 @@ export const leaderboardTerms: Record<Leaderboard, string> = {
   "leaderboard.topTen": "Top ten",
   "leaderboard.yourPosition": "Your position",
   "leaderboard.factionMembers": "Faction Members",
+  "leaderboard.champions": "Champions",
+  "leaderboard.congratulations": "Congratulations to the {{faction}}!",
+  "leaderboard.resultsPending": "Results pending...",
+
+  "leaderboard.position": "Position",
+  "leaderboard.player": "Player",
+  "leaderboard.score": "Score",
+  "leaderboard.prizes": "Prizes",
+  "leaderboard.faction.description": "Each week you can win bonus prizes.",
+  "leaderboard.faction.champion": "Champion faction",
+  "leaderboard.faction.championPrizes":
+    "The players in the winning faction will receive:",
+  "leaderboard.faction.bonusMarks": "Bonus +10% Marks",
+  "leaderboard.faction.topPlayers": "Top Player Prizes",
+  "leaderboard.faction.topPlayerPrizes":
+    "The top 50 players in each faction will receive:",
 };
 
 const gameOptions: Record<GameOptions, string> = {
