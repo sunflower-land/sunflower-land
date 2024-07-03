@@ -592,9 +592,10 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Radiant Ray": RadiantRay,
   "Phantom Barracuda": PhantomBarracuda,
   "Gilded Swordfish": GildedSwordfish,
-  "Kraken Tentacle": KrakenTentacle,
   "Crimson Carp": CrimsonCarp,
   "Battle Fish": BattleFish,
+
+  "Kraken Tentacle": KrakenTentacle,
 
   // Catch the Kraken
   "Lifeguard Ring": LifeguardRing,

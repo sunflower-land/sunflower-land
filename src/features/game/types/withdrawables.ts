@@ -70,7 +70,12 @@ import { WorkbenchToolName } from "./tools";
 import { BumpkinItem } from "./bumpkin";
 import { hasSeasonEnded } from "./seasons";
 import { CompostName } from "./composters";
-import { FishName, FishingBait, MarineMarvelName } from "./fishing";
+import {
+  FishName,
+  FishingBait,
+  MarineMarvelName,
+  OldFishName,
+} from "./fishing";
 import { canWithdrawBoostedWearable } from "./wearableValidation";
 import { FlowerName, FlowerSeedName } from "./flowers";
 import { FactionShopCollectibleName } from "./factionShop";
@@ -883,7 +888,7 @@ const compost: Record<CompostName, () => boolean> = {
   "Rapid Root": () => false,
 };
 
-const fish: Record<FishName | MarineMarvelName, () => boolean> = {
+const fish: Record<FishName | MarineMarvelName | OldFishName, () => boolean> = {
   Anchovy: () => false,
   Butterflyfish: () => false,
   Blowfish: () => false,

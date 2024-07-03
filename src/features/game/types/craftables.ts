@@ -15,7 +15,7 @@ import {
   SoldOutCollectibleName,
 } from "./collectibles";
 import { BoostTreasure } from "./treasure";
-import { MarineMarvelName } from "./fishing";
+import { MarineMarvelName, OldFishName } from "./fishing";
 import { SeasonalBanner } from "./seasons";
 import { EpicFlowerName } from "./flowers";
 import { translate } from "lib/i18n/translate";
@@ -208,6 +208,7 @@ export type CollectibleName =
   | "Undead Rooster"
   | PotionHouseItemName
   | MarineMarvelName
+  | OldFishName
   | MegaStoreCollectibleName
   | EpicFlowerName
   | FactionBanner
@@ -1247,9 +1248,10 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Radiant Ray": { width: 2, height: 1 },
   "Phantom Barracuda": { width: 2, height: 1 },
   "Gilded Swordfish": { width: 2, height: 1 },
-  "Kraken Tentacle": { width: 1, height: 1 },
   "Crimson Carp": { width: 2, height: 1 },
   "Battle Fish": { width: 2, height: 1 },
+
+  "Kraken Tentacle": { width: 1, height: 1 },
 
   // Catch the Kraken SFTs
   Walrus: { width: 2, height: 2 },

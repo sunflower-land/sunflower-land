@@ -145,7 +145,7 @@ export const FishingModal: React.FC = () => {
             setTimeout(() => {
               gameState.context.state.fishing.beach = {
                 castedAt: 10000,
-                caught: { "Kraken Tentacle": 1 },
+                caught: { Anchovy: 1 },
               };
             }, 1000);
           }}
