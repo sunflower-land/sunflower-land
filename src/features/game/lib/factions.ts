@@ -1,6 +1,5 @@
 import { BumpkinItem } from "../types/bumpkin";
 import { FactionName, FactionPrize, GameState } from "../types/game";
-import { getSeasonalTicket } from "../types/seasons";
 import { isWearableActive } from "./wearables";
 
 export const START_DATE = new Date("2024-06-24T00:00:00Z");
@@ -215,7 +214,7 @@ export const FACTION_PRIZES: Record<number, FactionPrize> = {
     sfl: 200,
     items: {
       Mark: 10000,
-      [getSeasonalTicket()]: 10,
+      // [getSeasonalTicket()]: 10,
     },
   },
   2: {
@@ -223,7 +222,7 @@ export const FACTION_PRIZES: Record<number, FactionPrize> = {
     sfl: 150,
     items: {
       Mark: 8000,
-      [getSeasonalTicket()]: 10,
+      // [getSeasonalTicket()]: 10,
     },
   },
   3: {
@@ -231,7 +230,7 @@ export const FACTION_PRIZES: Record<number, FactionPrize> = {
     sfl: 175,
     items: {
       Mark: 7000,
-      [getSeasonalTicket()]: 10,
+      // [getSeasonalTicket()]: 10,
     },
   },
   4: {
@@ -239,7 +238,7 @@ export const FACTION_PRIZES: Record<number, FactionPrize> = {
     sfl: 150,
     items: {
       Mark: 6000,
-      [getSeasonalTicket()]: 8,
+      // [getSeasonalTicket()]: 8,
     },
   },
   5: {
@@ -247,7 +246,7 @@ export const FACTION_PRIZES: Record<number, FactionPrize> = {
     sfl: 125,
     items: {
       Mark: 5000,
-      [getSeasonalTicket()]: 8,
+      // [getSeasonalTicket()]: 8,
     },
   },
   6: {
@@ -255,7 +254,7 @@ export const FACTION_PRIZES: Record<number, FactionPrize> = {
     sfl: 100,
     items: {
       Mark: 5000,
-      [getSeasonalTicket()]: 8,
+      // [getSeasonalTicket()]: 8,
     },
   },
   7: {
@@ -263,7 +262,7 @@ export const FACTION_PRIZES: Record<number, FactionPrize> = {
     sfl: 100,
     items: {
       Mark: 5000,
-      [getSeasonalTicket()]: 6,
+      // [getSeasonalTicket()]: 6,
     },
   },
   8: {
@@ -271,7 +270,7 @@ export const FACTION_PRIZES: Record<number, FactionPrize> = {
     sfl: 100,
     items: {
       Mark: 5000,
-      [getSeasonalTicket()]: 6,
+      // [getSeasonalTicket()]: 6,
     },
   },
   9: {
@@ -279,7 +278,7 @@ export const FACTION_PRIZES: Record<number, FactionPrize> = {
     sfl: 100,
     items: {
       Mark: 5000,
-      [getSeasonalTicket()]: 6,
+      // [getSeasonalTicket()]: 6,
     },
   },
   10: {
@@ -287,7 +286,7 @@ export const FACTION_PRIZES: Record<number, FactionPrize> = {
     sfl: 100,
     items: {
       Mark: 5000,
-      [getSeasonalTicket()]: 6,
+      // [getSeasonalTicket()]: 6,
     },
   },
   // 11th - 50th all get 5 seasonal tickets
@@ -296,7 +295,7 @@ export const FACTION_PRIZES: Record<number, FactionPrize> = {
       coins: 0,
       sfl: 0,
       items: {
-        [getSeasonalTicket()]: 5,
+        // [getSeasonalTicket()]: 5,
       },
     })
     .reduce(
