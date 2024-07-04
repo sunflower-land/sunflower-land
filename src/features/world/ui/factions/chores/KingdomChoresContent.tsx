@@ -62,7 +62,9 @@ export const KingdomChoresContent: React.FC<Props> = ({ kingdomChores }) => {
   );
   const upcomingChores = chores.filter(([, chore]) => !chore.startedAt);
 
-  const [selected, setSelected] = useState<number>(Number(activeChores[0][0]));
+  const [selected, setSelected] = useState<number>(
+    Number(activeChores[0]?.[0] ?? 0),
+  );
   const [showSkipConfirmation, setShowSkipConfirmation] =
     useState<boolean>(false);
 
