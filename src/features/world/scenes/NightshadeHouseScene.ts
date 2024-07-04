@@ -28,22 +28,6 @@ export const NIGHTSHADE_HOUSE_NPCS: NPCBumpkin[] = [
   },
 ];
 
-const PET_STATE_COORDS: { [key in PetStateSprite]: { x: number; y: number } } =
-  {
-    pet_hungry: {
-      x: 241,
-      y: 284,
-    },
-    pet_sleeping: {
-      x: 241,
-      y: 284,
-    },
-    pet_happy: {
-      x: 241,
-      y: 284,
-    },
-  };
-
 export class NightshadeHouseScene extends FactionHouseScene {
   sceneId: SceneId = "nightshade_house";
 
@@ -73,11 +57,7 @@ export class NightshadeHouseScene extends FactionHouseScene {
 
   setUpPet() {
     this.petState = this.getPetState();
-    this.sable = this.add.sprite(
-      PET_STATE_COORDS[this.petState].x,
-      PET_STATE_COORDS[this.petState].y,
-      this.petState,
-    );
+    this.sable = this.add.sprite(241, 284, this.petState);
     this.sable
       .setInteractive({ cursor: "pointer" })
       .on("pointerdown", (p: Phaser.Input.Pointer) => {
@@ -128,10 +108,6 @@ export class NightshadeHouseScene extends FactionHouseScene {
 
   onPetStateChange(newValue: PetStateSprite) {
     this.sable?.setTexture(newValue);
-    this.sable?.setPosition(
-      PET_STATE_COORDS[newValue].x,
-      PET_STATE_COORDS[newValue].y,
-    );
   }
 
   update() {

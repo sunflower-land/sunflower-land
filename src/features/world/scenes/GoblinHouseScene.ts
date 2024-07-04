@@ -3,6 +3,9 @@ import mapJSON from "assets/map/goblin_house.json";
 import { SceneId } from "../mmoMachine";
 import { NPCBumpkin } from "./BaseScene";
 import { FactionHouseScene } from "./FactionHouseScene";
+import { PetStateSprite } from "./SunflorianHouseScene";
+import { npcModalManager } from "../ui/NPCModals";
+import { Label } from "../containers/Label";
 
 export const GOBLIN_HOUSE_NPCS: NPCBumpkin[] = [
   {
@@ -27,6 +30,8 @@ export const GOBLIN_HOUSE_NPCS: NPCBumpkin[] = [
 
 export class GoblinHouseScene extends FactionHouseScene {
   sceneId: SceneId = "goblin_house";
+  public snaggle: Phaser.GameObjects.Sprite | undefined;
+  private _petState: PetStateSprite = "pet_hungry";
 
   constructor() {
     super({
@@ -45,9 +50,32 @@ export class GoblinHouseScene extends FactionHouseScene {
   }
 
   setUpPet() {
-    // check game state to determine the pet status
-    // render the correct pet
-    this.add.image(242, 236, "pet_hungry");
+    this.petState = this.getPetState();
+    this.snaggle = this.add.sprite(242, 237, this.petState);
+    this.snaggle
+      .setInteractive({ cursor: "pointer" })
+      .on("pointerdown", (p: Phaser.Input.Pointer) => {
+        if (p.downElement.nodeName === "CANVAS") {
+          npcModalManager.open("snaggle");
+        }
+      });
+    const label = new Label(this, "SNAGGLE");
+    // Add the label to the scene
+    label.setPosition(240, 265);
+    this.add.existing(label);
+  }
+
+  set petState(newValue: PetStateSprite) {
+    this._petState = newValue;
+    this.onPetStateChange(newValue); // Call the function when value changes
+  }
+
+  get petState() {
+    return this._petState;
+  }
+
+  onPetStateChange(newValue: PetStateSprite) {
+    this.snaggle?.setTexture(newValue);
   }
 
   create() {
@@ -59,7 +87,7 @@ export class GoblinHouseScene extends FactionHouseScene {
     this.initialiseNPCs(GOBLIN_HOUSE_NPCS);
 
     this.setupPrize({ x: 240, y: 416 });
-    // this.setUpPet();
+    this.setUpPet();
   }
   update() {
     super.update();
