@@ -2186,6 +2186,7 @@ const factions: Record<Factions, string> = {
     "The pet has gone to sleep for 24 hours due to hunger. Make sure to feed it well when it wakes up to keep our streak alive.",
   "faction.pet.newRequests": "New requests in {{time}}",
   "faction.pet.streak": "{{streak}} week streak",
+  "faction.pet.wakes.in": "Wakes in {{time}}",
 };
 
 const factionShopDescription: Record<FactionShopDescription, string> = {

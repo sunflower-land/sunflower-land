@@ -6,14 +6,14 @@ import { Context } from "features/game/GameProvider";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { MachineState } from "features/game/lib/gameMachine";
 import {
+  CollectivePet,
   Faction,
-  FactionName,
+  FactionPet,
   FactionPetRequest,
   InventoryItemName,
 } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { capitalize } from "lib/utils/capitalize";
 import React, { useContext, useEffect, useState } from "react";
 import { TypingMessage } from "../TypingMessage";
 import {
@@ -41,26 +41,99 @@ import { secondsToString } from "lib/utils/time";
 import { getFactionPetUpdate } from "./actions/getFactionPetUpdate";
 
 import powerup from "assets/icons/level_up.png";
+import { hasFeatureAccess } from "lib/flags";
+
+export const PET_SLEEP_DURATION = 24 * 60 * 60 * 1000;
+
+const PetSleeping = ({ onWake }: { onWake: () => void }) => {
+  const { t } = useAppTranslation();
+  const week = getFactionWeek({ date: new Date() });
+  const beginningOfWeek = new Date(week).getTime();
+  const wakeTime = beginningOfWeek + PET_SLEEP_DURATION;
+  const [secondsTillWakeUp, setSecondsTillWakeUp] = useState(
+    (wakeTime - Date.now()) / 1000,
+  );
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const seconds = (wakeTime - Date.now()) / 1000;
+
+      setSecondsTillWakeUp(seconds);
+
+      if (seconds <= 1) {
+        onWake();
+        clearInterval(interval);
+      }
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <>
+      <Label
+        icon={SUNNYSIDE.icons.stopwatch}
+        type="info"
+        className="absolute right-0 -top-7 shadow-md"
+        style={{
+          wordSpacing: 0,
+        }}
+      >
+        {`${t("faction.pet.wakes.in", {
+          time: secondsToString(secondsTillWakeUp, {
+            length: "medium",
+            removeTrailingZeros: true,
+          }),
+        })}`}
+      </Label>
+      <CloseButtonPanel>
+        <div className="p-1 pb-2 space-y-2">
+          <Label type="default">{`ZzzZzzz...`}</Label>
+          <TypingMessage
+            message={t("faction.pet.sleeping")}
+            onMessageEnd={() => undefined}
+          />
+        </div>
+      </CloseButtonPanel>
+    </>
+  );
+};
 
 interface Props {
   onClose: () => void;
 }
 
-type PetName = "sable" | "snaggle" | "tater" | "blaze";
+export type PetState = "sleeping" | "hungry" | "happy";
 
 const REFRESH_INTERVAL = 10 * 1000;
+const FACTION_PET_START_TIME = new Date("2024-07-08T00:00:00Z").getTime();
 
-const FACTION_PET_NAMES: Record<FactionName, PetName> = {
-  bumpkins: "tater",
-  goblins: "snaggle",
-  sunflorians: "blaze",
-  nightshades: "sable",
-};
 const _autosaving = (state: MachineState) => state.matches("autosaving");
 const _farmId = (state: MachineState) => state.context.farmId;
 const _faction = (state: MachineState) =>
   state.context.state.faction as Faction;
 const _inventory = (state: MachineState) => state.context.state.inventory;
+
+// TODO: Remove when feature released
+const _game = (state: MachineState) => state.context.state;
+
+const getPetState = (collectivePet: CollectivePet): PetState => {
+  const week = getFactionWeek({ date: new Date() });
+  const beginningOfWeek = new Date(week).getTime();
+
+  if (
+    collectivePet.streak === 0 &&
+    Date.now() < beginningOfWeek + PET_SLEEP_DURATION
+  ) {
+    return "sleeping";
+  }
+
+  if (collectivePet.goalReached) return "happy";
+
+  return "hungry";
+};
+
+// set wake time to 10 seconds after the component loads
 
 export const FactionPetPanel: React.FC<Props> = () => {
   const { gameService } = useContext(Context);
@@ -70,22 +143,30 @@ export const FactionPetPanel: React.FC<Props> = () => {
   const farmId = useSelector(gameService, _farmId);
   const inventory = useSelector(gameService, _inventory);
   const autosaving = useSelector(gameService, _autosaving);
+  // TODO: Remove when feature released
+  const game = useSelector(gameService, _game);
 
   const week = getFactionWeek({ date: new Date() });
-  const pet = faction.pet;
-  const collectivePet = faction.history[week].collectivePet;
+  const pet = faction.pet as FactionPet;
+  const collectivePet = faction.history[week].collectivePet as CollectivePet;
   const now = Date.now();
   const day = getFactionWeekday(now);
+
+  // All pets sleep for the first day of the week if the streak is 0
+  // const wakeTime = new Date(week).getTime() + PET_SLEEP_DURATION;
 
   const [showConfirm, setShowConfirm] = useState(false);
   const [selectedRequestIdx, setSelectedRequestIdx] = useState(0);
   const [fedXP, setFedXP] = useState(collectivePet?.totalXP ?? 0);
   const [streak, setStreak] = useState(collectivePet?.streak ?? 0);
   const [refreshing, setRefreshing] = useState(false);
+  const [petState, setPetState] = useState<PetState>(
+    getPetState(collectivePet),
+  );
 
   useEffect(() => {
     const interval = setInterval(() => {
-      if (refreshing || autosaving) return;
+      if (refreshing || autosaving || petState === "sleeping") return;
 
       handleRefresh();
     }, REFRESH_INTERVAL);
@@ -93,19 +174,13 @@ export const FactionPetPanel: React.FC<Props> = () => {
     return () => clearInterval(interval);
   });
 
-  if (!pet || !collectivePet) {
+  if (
+    (now < FACTION_PET_START_TIME &&
+      !hasFeatureAccess(game, "FACTION_KITCHEN")) ||
+    petState === "sleeping"
+  ) {
     return (
-      <CloseButtonPanel>
-        <div className="p-1 space-y-2">
-          <Label type="default">
-            {capitalize(FACTION_PET_NAMES[faction.name])}
-          </Label>
-          <TypingMessage
-            message={t("faction.kitchen.preparing")}
-            onMessageEnd={() => undefined}
-          />
-        </div>
-      </CloseButtonPanel>
+      <PetSleeping onWake={() => setPetState(getPetState(collectivePet))} />
     );
   }
 

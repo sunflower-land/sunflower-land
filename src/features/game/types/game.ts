@@ -1024,7 +1024,7 @@ export type FactionPetRequest = {
   };
 };
 
-type FactionPet = {
+export type FactionPet = {
   week: string;
   requests: FactionPetRequest[];
 };

@@ -1572,7 +1572,8 @@ export type Factions =
   | "faction.pet.fed"
   | "faction.pet.sleeping"
   | "faction.pet.newRequests"
-  | "faction.pet.streak";
+  | "faction.pet.streak"
+  | "faction.pet.wakes.in";
 
 export type FactionShopDescription =
   | "description.factionShop.sunflorianThrone"

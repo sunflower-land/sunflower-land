@@ -34,7 +34,9 @@ interface Props {
   bumpkinParts: Equipped;
 }
 
-const FACTION_KITCHEN_START_TIME = new Date("2024-07-08T00:00:00Z").getTime();
+export const FACTION_KITCHEN_START_TIME = new Date(
+  "2024-07-08T00:00:00Z",
+).getTime();
 
 const _faction = (state: MachineState) =>
   state.context.state.faction as Faction;
