@@ -331,7 +331,7 @@ const Panel: React.FC<PanelProps> = ({
         </div>
         {chore.startedAt && (
           <>
-            <div className="col-span-full flex sm:flex-col gap-1">
+            <div className="col-span-full flex flex-row-reverse sm:flex-col gap-1">
               {chore.completedAt && (
                 <div className="ml-4 py-2">
                   <Label type="transparent" icon={SUNNYSIDE.icons.confirm}>
