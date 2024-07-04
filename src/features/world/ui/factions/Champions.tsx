@@ -5,7 +5,10 @@ import classNames from "classnames";
 import { Label } from "components/ui/Label";
 import { Loading } from "features/auth/components";
 import { Context } from "features/game/GameProvider";
-import { KingdomLeaderboard } from "features/game/expansion/components/leaderboard/actions/leaderboard";
+import {
+  KingdomLeaderboard,
+  getKingdomLeaderboard,
+} from "features/game/expansion/components/leaderboard/actions/leaderboard";
 import {
   FACTION_PRIZES,
   getPreviousWeek,
