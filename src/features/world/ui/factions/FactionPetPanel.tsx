@@ -1,93 +1,78 @@
-import React, { useContext, useState } from "react";
-import { Equipped } from "features/game/types/bumpkin";
-import { CloseButtonPanel } from "features/game/components/CloseablePanel";
+import { useSelector } from "@xstate/react";
 import { Label } from "components/ui/Label";
 import { SplitScreenView } from "components/ui/SplitScreenView";
-import { MachineState } from "features/game/lib/gameMachine";
-import { Context } from "features/game/GameProvider";
-import { useSelector } from "@xstate/react";
-import { Faction, ResourceRequest } from "features/game/types/game";
-import { ITEM_DETAILS } from "features/game/types/images";
 import { SquareIcon } from "components/ui/SquareIcon";
-import { BASE_POINTS } from "features/game/events/landExpansion/deliverFactionKitchen";
-import { Button } from "components/ui/Button";
-import { OuterPanel } from "components/ui/Panel";
-import { PIXEL_SCALE } from "features/game/lib/constants";
-import selectBoxTL from "assets/ui/select/selectbox_tl.png";
-import selectBoxTR from "assets/ui/select/selectbox_tr.png";
-import { isMobile } from "mobile-device-detect";
-import Decimal from "decimal.js-light";
-import { RequirementLabel } from "components/ui/RequirementsLabel";
-import classNames from "classnames";
-import { secondsToString } from "lib/utils/time";
-import { SUNNYSIDE } from "assets/sunnyside";
-import { TypingMessage } from "../TypingMessage";
+import { Context } from "features/game/GameProvider";
+import { CloseButtonPanel } from "features/game/components/CloseablePanel";
+import { MachineState } from "features/game/lib/gameMachine";
+import {
+  Faction,
+  FactionName,
+  FactionPetRequest,
+  InventoryItemName,
+} from "features/game/types/game";
+import { ITEM_DETAILS } from "features/game/types/images";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { capitalize } from "lib/utils/capitalize";
+import React, { useContext, useState } from "react";
+import { TypingMessage } from "../TypingMessage";
 import {
   calculatePoints,
   getFactionWeekEndTime,
   getFactionWeekday,
 } from "features/game/lib/factions";
-import { hasFeatureAccess } from "lib/flags";
+import { OuterPanel } from "components/ui/Panel";
+import classNames from "classnames";
+import { isMobile } from "mobile-device-detect";
+import selectBoxTL from "assets/ui/select/selectbox_tl.png";
+import selectBoxTR from "assets/ui/select/selectbox_tr.png";
+import {
+  DifficultyIndex,
+  PET_FED_REWARDS_KEY,
+} from "features/game/events/landExpansion/feedFactionPet";
+import { PIXEL_SCALE } from "features/game/lib/constants";
+import { RequirementLabel } from "components/ui/RequirementsLabel";
+import { Button } from "components/ui/Button";
+import Decimal from "decimal.js-light";
 
 interface Props {
-  bumpkinParts: Equipped;
+  onClose: () => void;
 }
 
-const FACTION_KITCHEN_START_TIME = new Date("2024-07-08T00:00:00Z").getTime();
+type PetName = "sable" | "snaggle" | "tater" | "blaze";
+
+const FACTION_PET_NAMES: Record<FactionName, PetName> = {
+  bumpkins: "tater",
+  goblins: "snaggle",
+  sunflorians: "blaze",
+  nightshades: "sable",
+};
 
 const _faction = (state: MachineState) =>
   state.context.state.faction as Faction;
 const _inventory = (state: MachineState) => state.context.state.inventory;
-// TODO: Remove when feature released
-const _game = (state: MachineState) => state.context.state;
 
-export const FactionKitchenPanel: React.FC<Props> = ({ bumpkinParts }) => {
+export const FactionPetPanel: React.FC<Props> = ({ onClose }) => {
   const { gameService } = useContext(Context);
   const { t } = useAppTranslation();
 
-  const inventory = useSelector(gameService, _inventory);
-  const faction = useSelector(gameService, _faction);
-  const kitchen = faction.kitchen;
-  const [selectedRequestIdx, setSelectedRequestIdx] = useState<number>(0);
-  const [showConfirm, setShowConfirm] = useState<boolean>(false);
+  const [goalXP, setGoalXP] = useState(0);
+  const [currentXP, setCurrentXP] = useState(0);
+  const [showConfirm, setShowConfirm] = useState(false);
+  const [selectedRequestIdx, setSelectedRequestIdx] = useState(0);
 
-  // TODO: Remove when feature released
-  const game = useSelector(gameService, _game);
+  const faction = useSelector(gameService, _faction);
+  const pet = faction.pet;
+  const inventory = useSelector(gameService, _inventory);
   const now = Date.now();
 
-  if (
-    now < FACTION_KITCHEN_START_TIME &&
-    !hasFeatureAccess(game, "FACTION_KITCHEN")
-  ) {
+  if (!pet) {
     return (
-      <CloseButtonPanel bumpkinParts={bumpkinParts}>
-        <div className="p-1 space-y-2 mb-1">
-          <div className="flex justify-between">
-            <Label type="default">{`Kitchen`}</Label>
-            <Label type="info" icon={SUNNYSIDE.icons.stopwatch}>
-              {t("faction.kitchen.opensIn", {
-                time: secondsToString(
-                  (FACTION_KITCHEN_START_TIME - now) / 1000,
-                  { length: "medium", removeTrailingZeros: true },
-                ),
-              })}
-            </Label>
-          </div>
-          <TypingMessage
-            message={t("faction.kitchen.notReady")}
-            onMessageEnd={() => undefined}
-          />
-        </div>
-      </CloseButtonPanel>
-    );
-  }
-
-  if (!kitchen) {
-    return (
-      <CloseButtonPanel bumpkinParts={bumpkinParts}>
+      <CloseButtonPanel>
         <div className="p-1 space-y-2">
-          <Label type="default">{`Kitchen`}</Label>
+          <Label type="default">
+            {capitalize(FACTION_PET_NAMES[faction.name])}
+          </Label>
           <TypingMessage
             message={t("faction.kitchen.preparing")}
             onMessageEnd={() => undefined}
@@ -97,41 +82,40 @@ export const FactionKitchenPanel: React.FC<Props> = ({ bumpkinParts }) => {
     );
   }
 
-  const handleDeliver = () => {
+  const handleFeed = () => {
     gameService.send({
-      type: "factionKitchen.delivered",
-      resourceIndex: selectedRequestIdx,
+      type: "factionPet.fed",
+      requestIndex: selectedRequestIdx,
     });
     setShowConfirm(false);
   };
 
-  const selectedRequest = kitchen.requests[
-    selectedRequestIdx
-  ] as ResourceRequest;
-
+  const selectedRequest = pet.requests[selectedRequestIdx] as FactionPetRequest;
   const secondsTillWeekEnd =
-    (getFactionWeekEndTime({ date: new Date(now) }) - now) / 1000;
+    (getFactionWeekEndTime({ date: new Date() }) - now) / 1000;
   const day = getFactionWeekday(now);
-  const fulfilled = selectedRequest.dailyFulfilled[day] ?? 0;
-  const selectedRequestReward = calculatePoints(fulfilled, BASE_POINTS);
+  const fulfilled = selectedRequest.dailyFulfilled?.[day] ?? 0;
+  const selectedRequestReward = calculatePoints(
+    fulfilled,
+    PET_FED_REWARDS_KEY[selectedRequestIdx as DifficultyIndex],
+  );
 
   const canFulfillRequest = (
-    inventory[selectedRequest.item] ?? new Decimal(0)
-  ).gte(selectedRequest.amount);
+    inventory[selectedRequest.food] ?? new Decimal(0)
+  ).gte(selectedRequest.quantity);
 
   return (
-    <CloseButtonPanel bumpkinParts={bumpkinParts}>
+    <CloseButtonPanel>
       <div className="p-1 space-y-2">
         <div className="flex justify-between">
-          <Label type="default">{`Kitchen`}</Label>
-          <Label type="info" icon={SUNNYSIDE.icons.stopwatch}>
-            {t("faction.kitchen.newRequests", {
-              time: secondsToString(secondsTillWeekEnd, {
-                length: "medium",
-                removeTrailingZeros: true,
-              }),
-            })}
-          </Label>
+          <div className="flex flex-col">
+            <Label type="default">
+              {capitalize(FACTION_PET_NAMES[faction.name])}
+            </Label>
+            <Label type="default">
+              {t("faction.pet.weeklyGoal", { goalXP, currentXP })}
+            </Label>
+          </div>
         </div>
         {!showConfirm && (
           <>
@@ -146,9 +130,12 @@ export const FactionKitchenPanel: React.FC<Props> = ({ bumpkinParts }) => {
                     {t("faction.kitchen.gatherResources")}
                   </p>
                   <div className="flex w-full justify-between gap-2 pl-0.5 pb-2">
-                    {kitchen.requests.map((request, idx) => {
+                    {pet.requests.map((request, idx) => {
                       const fulfilled = request.dailyFulfilled[day] ?? 0;
-                      const points = calculatePoints(fulfilled, BASE_POINTS);
+                      const points = calculatePoints(
+                        fulfilled,
+                        PET_FED_REWARDS_KEY[idx as DifficultyIndex],
+                      );
 
                       return (
                         <OuterPanel
@@ -164,7 +151,10 @@ export const FactionKitchenPanel: React.FC<Props> = ({ bumpkinParts }) => {
                           <div className="flex flex-1 justify-center items-center mb-4 w-full relative">
                             <SquareIcon
                               width={24}
-                              icon={ITEM_DETAILS[request.item].image}
+                              icon={
+                                ITEM_DETAILS[request.food as InventoryItemName]
+                                  .image
+                              }
                             />
                             <Label
                               icon={ITEM_DETAILS["Mark"].image}
@@ -219,9 +209,13 @@ export const FactionKitchenPanel: React.FC<Props> = ({ bumpkinParts }) => {
                       {`${selectedRequestReward} marks`}
                     </Label>
                     <div className="hidden sm:flex flex-col space-y-1 w-full justify-center items-center">
-                      <p className="text-sm">{selectedRequest.item}</p>
+                      <p className="text-sm">{selectedRequest.food}</p>
                       <SquareIcon
-                        icon={ITEM_DETAILS[selectedRequest.item].image}
+                        icon={
+                          ITEM_DETAILS[
+                            selectedRequest.food as InventoryItemName
+                          ].image
+                        }
                         width={12}
                       />
                     </div>
@@ -235,17 +229,17 @@ export const FactionKitchenPanel: React.FC<Props> = ({ bumpkinParts }) => {
                       showLabel={isMobile}
                       hideIcon={!isMobile}
                       type="item"
-                      item={selectedRequest.item}
+                      item={selectedRequest.food}
                       balance={
-                        inventory[selectedRequest.item] ?? new Decimal(0)
+                        inventory[selectedRequest.food] ?? new Decimal(0)
                       }
-                      requirement={new Decimal(selectedRequest.amount)}
+                      requirement={new Decimal(selectedRequest.quantity)}
                     />
                   </div>
                   <Button
                     disabled={!canFulfillRequest}
                     onClick={() => setShowConfirm(true)}
-                  >{`${t("deliver")} ${selectedRequest.amount}`}</Button>
+                  >{`${t("deliver")} ${selectedRequest.quantity}`}</Button>
                 </div>
               }
             />
@@ -264,14 +258,14 @@ export const FactionKitchenPanel: React.FC<Props> = ({ bumpkinParts }) => {
                 <div className="flex justify-between">
                   <div className="flex items-center">
                     <SquareIcon
-                      icon={ITEM_DETAILS[selectedRequest.item].image}
+                      icon={ITEM_DETAILS[selectedRequest.food].image}
                       width={7}
                     />
                     <span className="text-xs sm:text-sm ml-1">
-                      {selectedRequest.item}
+                      {selectedRequest.food}
                     </span>
                   </div>
-                  <span className="text-xs">{`${selectedRequest.amount}`}</span>
+                  <span className="text-xs">{`${selectedRequest.quantity}`}</span>
                 </div>
               </div>
             </div>
@@ -279,7 +273,7 @@ export const FactionKitchenPanel: React.FC<Props> = ({ bumpkinParts }) => {
               <Button onClick={() => setShowConfirm(false)}>
                 {t("cancel")}
               </Button>
-              <Button onClick={handleDeliver}>{t("confirm")}</Button>
+              <Button onClick={handleFeed}>{t("confirm")}</Button>
             </div>
           </>
         )}
