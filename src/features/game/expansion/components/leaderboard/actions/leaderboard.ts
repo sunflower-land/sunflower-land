@@ -2,16 +2,17 @@ import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
 import {
   Leaderboards,
-  cacheLeaderboardData,
+  cacheLeaderboard,
   getCachedLeaderboardData,
 } from "./cache";
 import { FactionName, MazeAttempt } from "features/game/types/game";
+import { getFactionWeek } from "features/game/lib/factions";
 
 const API_URL = CONFIG.API_URL;
 
 type Options = {
   farmId: number;
-  leaderboardName: "maze" | "tickets" | "factions" | "kingdom" | "emblems";
+  leaderboardName: keyof Leaderboards;
   date?: string;
 };
 
@@ -71,6 +72,18 @@ export async function getLeaderboard<T>({
   leaderboardName,
   date,
 }: Options): Promise<T | undefined> {
+  const cache = getCachedLeaderboardData({
+    name: leaderboardName,
+  });
+
+  const isOldLeaderboard =
+    leaderboardName === "kingdom" &&
+    (cache as KingdomLeaderboard)?.week !== getFactionWeek();
+
+  if (cache && !isOldLeaderboard) {
+    return cache as T;
+  }
+
   let url = `${API_URL}/leaderboard/${leaderboardName}/${farmId}`;
   if (date) {
     url += `?date=${date}`;
@@ -91,26 +104,16 @@ export async function getLeaderboard<T>({
     return;
   }
 
-  return await response.json();
+  const data = await response.json();
+
+  cacheLeaderboard({ name: leaderboardName, data });
+
+  return data;
 }
 
 export async function fetchLeaderboardData(
   farmId: number,
 ): Promise<Leaderboards | null> {
-  let cachedLeaderboardData = getCachedLeaderboardData();
-
-  // This is only required for one hour after kingdom launch
-  // If reading this comment after kingdom launch, June 14th, 2024, delete this conditional
-  // and update `let` to `const` above.
-  if (
-    cachedLeaderboardData !== null &&
-    !("percentiles" in cachedLeaderboardData.factions)
-  ) {
-    cachedLeaderboardData = null;
-  }
-
-  if (cachedLeaderboardData) return cachedLeaderboardData;
-
   try {
     const [
       ticketLeaderboard,
@@ -136,32 +139,11 @@ export async function fetchLeaderboardData(
       }),
     ]);
 
-    // Leaderboard are created at the same time, so if one is missing, the other is too
-    if (
-      !ticketLeaderboard ||
-      !factionsLeaderboard ||
-      !kingdomLeaderboard ||
-      !emblemsLeaderboard
-    )
-      return null;
-
-    // Likewise, their lastUpdated timestamps should be the same
-    const lastUpdated = ticketLeaderboard.lastUpdated;
-
-    cacheLeaderboardData({
-      tickets: ticketLeaderboard,
-      factions: factionsLeaderboard,
-      kingdom: kingdomLeaderboard,
-      emblems: emblemsLeaderboard,
-      lastUpdated,
-    });
-
     return {
       tickets: ticketLeaderboard,
       factions: factionsLeaderboard,
       kingdom: kingdomLeaderboard,
       emblems: emblemsLeaderboard,
-      lastUpdated,
     };
   } catch (error) {
     // eslint-disable-next-line no-console

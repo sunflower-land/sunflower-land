@@ -100,7 +100,7 @@ export const ClaimEmblems: React.FC<ClaimEmblemsProps> = ({
         const data = await fetchLeaderboardData(farmId);
 
         // Error
-        if (!data) {
+        if (!data?.factions) {
           setStatistics(null);
           return;
         }

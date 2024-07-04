@@ -55,7 +55,7 @@ export const Leaderboard: React.FC<Props> = ({ farmId, username }) => {
         loaded={!loading}
         onClick={data ? handleOpen : undefined}
       />
-      {data && (
+      {data?.tickets && (
         <Modal show={showLeaderboard} onHide={handleClose}>
           <CloseButtonPanel
             onClose={handleClose}
@@ -73,7 +73,8 @@ export const Leaderboard: React.FC<Props> = ({ farmId, username }) => {
                 <div className="p-1 mb-1 space-y-1">
                   <p className="text-sm">{`${seasonTicket} Leaderboard`}</p>
                   <p className="text-xs">
-                    {t("last.updated")} {getRelativeTime(data.lastUpdated)}
+                    {t("last.updated")}{" "}
+                    {getRelativeTime(data.tickets.lastUpdated)}
                   </p>
                 </div>
                 {data.tickets.topTen && (
