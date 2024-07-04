@@ -1,13 +1,23 @@
 import Decimal from "decimal.js-light";
-import { Bumpkin, GameState, KingdomChore } from "features/game/types/game";
+import { Bumpkin, GameState, KingdomChores } from "features/game/types/game";
 import cloneDeep from "lodash.clonedeep";
 
-export function makeKingdomChores(
-  chores: KingdomChore[],
+export function populateKingdomChores(
+  kingdomChores: KingdomChores | undefined,
   bumpkin: Bumpkin | undefined,
   createdAt: number,
-): KingdomChore[] {
-  const updatedChores = chores;
+): KingdomChores {
+  let nextKingdomChores = cloneDeep(kingdomChores);
+
+  if (nextKingdomChores === undefined) {
+    nextKingdomChores = {
+      chores: [],
+      choresCompleted: 0,
+      choresSkipped: 0,
+    };
+  }
+
+  const updatedChores = nextKingdomChores?.chores;
 
   // Ensure the first three chores are started
   updatedChores
@@ -22,7 +32,9 @@ export function makeKingdomChores(
         chore.startCount ?? bumpkin?.activity?.[chore.activity] ?? 0;
     });
 
-  return updatedChores;
+  nextKingdomChores.chores = updatedChores;
+
+  return nextKingdomChores;
 }
 
 export type CompleteKingdomChoreAction = {
@@ -78,12 +90,7 @@ export function completeKingdomChore({
   chore.completedAt = createdAt;
 
   kingdomChores.choresCompleted += 1;
-
-  kingdomChores.chores = makeKingdomChores(
-    kingdomChores.chores,
-    bumpkin,
-    createdAt,
-  );
+  game.kingdomChores = populateKingdomChores(kingdomChores, bumpkin, createdAt);
 
   const previousMarks = inventory["Mark"] ?? new Decimal(0);
   inventory["Mark"] = previousMarks.add(chore.marks);
