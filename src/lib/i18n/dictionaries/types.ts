@@ -1570,7 +1570,9 @@ export type Factions =
   | "faction.pet.weeklyGoal"
   | "faction.pet.hungry"
   | "faction.pet.fed"
-  | "faction.pet.sleeping";
+  | "faction.pet.sleeping"
+  | "faction.pet.newRequests"
+  | "faction.pet.streak";
 
 export type FactionShopDescription =
   | "description.factionShop.sunflorianThrone"

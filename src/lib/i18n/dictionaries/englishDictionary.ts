@@ -2177,13 +2177,15 @@ const factions: Record<Factions, string> = {
     "Welcome to the Faction Shop! Use your marks to purchase temporary boosts, stylish wearables, and rare collectibles. Dive in and find your next great addition!",
   "faction.goodLuck": "Good luck this week!",
   "faction.noPrizeFound": "No prize found",
-  "faction.pet.weeklyGoal": "Weekly goal: {{currentXP}}/{{goalXP}} XP",
+  "faction.pet.weeklyGoal": "Weekly goal: {{totalXP}}/{{goalXP}} XP",
   "faction.pet.hungry":
     "Our beloved pet relies on you to stay alive! Feed it 30% more each week to meet its growing hunger. Maintain a streak to earn your faction incredible XP bonuses and additional marks!",
   "faction.pet.fed":
     "Fantastic job! You've unlocked a valuable bonus. The faction's pet is healthier than ever, and all members receive an XP boost. Let's aim for the next streak!",
   "faction.pet.sleeping":
     "The pet has gone to sleep for 24 hours due to hunger. Make sure to feed it well when it wakes up to keep our streak alive.",
+  "faction.pet.newRequests": "New requests in {{time}}",
+  "faction.pet.streak": "{{streak}} week streak",
 };
 
 const factionShopDescription: Record<FactionShopDescription, string> = {

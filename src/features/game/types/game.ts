@@ -1040,6 +1040,13 @@ export type FactionPrize = {
   items: Partial<Record<InventoryItemName, number>>;
 };
 
+export type CollectivePet = {
+  totalXP: number;
+  goalXP: number;
+  goalReached: boolean;
+  streak: number;
+};
+
 export type FactionHistory = {
   score: number;
   petXP: number;
@@ -1048,6 +1055,8 @@ export type FactionHistory = {
     reward?: FactionPrize;
     claimedAt?: number;
   };
+
+  collectivePet?: CollectivePet;
 };
 
 export type Faction = {

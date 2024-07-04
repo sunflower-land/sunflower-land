@@ -22,7 +22,7 @@ export const PET_FED_REWARDS_KEY: Record<DifficultyIndex, number> = {
   [DifficultyIndex.HARD]: 12,
 };
 
-const getTotalXPForRequest = (request: FactionPetRequest) => {
+export const getTotalXPForRequest = (request: FactionPetRequest) => {
   const { food, quantity } = request;
 
   const foodXP = CONSUMABLES[food].experience;
