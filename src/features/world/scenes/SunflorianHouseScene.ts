@@ -3,6 +3,7 @@ import mapJSON from "assets/map/sunflorian_house.json";
 import { SceneId } from "../mmoMachine";
 import { NPCBumpkin } from "./BaseScene";
 import { FactionHouseScene } from "./FactionHouseScene";
+import { npcModalManager } from "../ui/NPCModals";
 
 export const SUNFLORIAN_HOUSE_NPCS: NPCBumpkin[] = [
   {
@@ -27,6 +28,9 @@ export const SUNFLORIAN_HOUSE_NPCS: NPCBumpkin[] = [
 export class SunflorianHouseScene extends FactionHouseScene {
   sceneId: SceneId = "sunflorian_house";
 
+  public blaze: Phaser.GameObjects.Sprite | undefined;
+  public petCoords: { x: number; y: number } = { x: 243, y: 220 };
+
   constructor() {
     super({
       name: "sunflorian_house",
@@ -46,7 +50,18 @@ export class SunflorianHouseScene extends FactionHouseScene {
   setUpPet() {
     // check game state to determine the pet status
     // render the correct pet
-    this.add.image(243, 220, "pet_hungry");
+    this.blaze = this.add.sprite(
+      this.petCoords.x,
+      this.petCoords.y,
+      "pet_hungry",
+    );
+    this.blaze
+      .setInteractive({ cursor: "pointer" })
+      .on("pointerdown", (p: Phaser.Input.Pointer) => {
+        if (p.downElement.nodeName === "CANVAS") {
+          npcModalManager.open("blaze");
+        }
+      });
   }
 
   create() {
@@ -56,9 +71,8 @@ export class SunflorianHouseScene extends FactionHouseScene {
     });
 
     this.initialiseNPCs(SUNFLORIAN_HOUSE_NPCS);
-
     this.setupPrize({ x: 240, y: 384 });
-    // this.setUpPet();
+    this.setUpPet();
   }
 
   update() {

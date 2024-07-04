@@ -34,6 +34,7 @@ import { FactionKitchenPanel } from "./factions/FactionKitchenPanel";
 import { PortalNPCExample } from "features/portal/example/components/PortalNPCExample";
 import { FlowerShop } from "./flowerShop/FlowerShop";
 import { FactionShop } from "./factionShop/FactionShop";
+import { FactionPetPanel } from "./factions/FactionPetPanel";
 
 class NpcModalManager {
   private listener?: (npc: NPCName, isOpen: boolean) => void;
@@ -259,6 +260,7 @@ export const NPCModals: React.FC<Props> = ({ scene, id }) => {
           <FactionKitchenPanel bumpkinParts={NPC_WEARABLES["chef lumen"]} />
         )}
         {npc === "eldric" && <FactionShop onClose={closeModal} />}
+        {npc === "blaze" && <FactionPetPanel onClose={closeModal} />}
       </Modal>
 
       {npc === "hammerin harry" && (
