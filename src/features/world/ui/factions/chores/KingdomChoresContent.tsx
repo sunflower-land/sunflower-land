@@ -29,8 +29,8 @@ import { hasFeatureAccess } from "lib/flags";
 import { BumpkinActivityName } from "features/game/types/bumpkinActivity";
 
 const getSecondaryImage = (activity: BumpkinActivityName) => {
-  if (activity.endsWith("Cooked")) return levelup;
-  if (activity.endsWith("Fed")) return chefsHat;
+  if (activity.endsWith("Cooked")) return chefsHat;
+  if (activity.endsWith("Fed")) return levelup;
 
   return undefined;
 };
