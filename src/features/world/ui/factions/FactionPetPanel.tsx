@@ -120,6 +120,9 @@ const _game = (state: MachineState) => state.context.state;
 const getPetState = (collectivePet: CollectivePet): PetState => {
   const week = getFactionWeek({ date: new Date() });
   const beginningOfWeek = new Date(week).getTime();
+  const firstWeek = "2024-07-08";
+
+  if (week === firstWeek) return "hungry";
 
   if (
     collectivePet.streak === 0 &&

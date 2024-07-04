@@ -46,8 +46,9 @@ export abstract class FactionHouseScene extends BaseScene {
   getPetState() {
     const week = getFactionWeek({ date: new Date() });
     const beginningOfWeek = new Date(week).getTime();
+    const firstWeek = "2024-07-08";
 
-    if (!this.collectivePet) return "pet_hungry";
+    if (!this.collectivePet || week === firstWeek) return "pet_hungry";
 
     if (
       this.collectivePet.streak === 0 &&
