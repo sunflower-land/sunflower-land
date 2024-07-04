@@ -1,4 +1,4 @@
-import { FactionName } from "../types/game";
+import { FactionName, GameState } from "../types/game";
 
 import sunflorians_chevron_zero from "assets/icons/factions/sunflorians/chevron_zero.webp";
 import sunflorians_chevron_one from "assets/icons/factions/sunflorians/chevron_one.webp";
@@ -31,6 +31,8 @@ import goblins_chevron_three from "assets/icons/factions/goblins/chevron_three.w
 import goblins_chevron_four from "assets/icons/factions/goblins/chevron_four.webp";
 import goblins_chevron_five from "assets/icons/factions/goblins/chevron_five.webp";
 import goblins_chevron_six from "assets/icons/factions/goblins/chevron_six.webp";
+import { FACTION_EMBLEMS } from "../events/landExpansion/joinFaction";
+import Decimal from "decimal.js-light";
 
 type BumpkinRank =
   | "forager"
@@ -284,8 +286,61 @@ export const getFactionRanking = (
 ): Rank => {
   const ranks = Object.values(RANKS)
     .filter((rank) => rank.faction === faction)
-    .sort((a, b) => a.emblemsRequired - b.emblemsRequired);
-  const rank = ranks.find((rank) => rank.emblemsRequired > emblems);
+    .sort((a, b) => b.emblemsRequired - a.emblemsRequired);
+
+  const rank = ranks.find((rank) => emblems >= rank.emblemsRequired);
 
   return rank!;
+};
+
+const rankBoostPercentage = (rank: FactionRank): number => {
+  switch (rank) {
+    case "forager":
+    case "pagan":
+    case "hobgoblin":
+    case "initiate":
+      return 0;
+    case "rancher":
+    case "occultist":
+    case "grunt":
+    case "squire":
+      return 0.05;
+    case "agrarian":
+    case "enchanter":
+    case "marauder":
+    case "captain":
+      return 1.5;
+    case "steward":
+    case "raver":
+    case "elite":
+    case "knight":
+      return 3;
+    case "sentinel":
+    case "witch":
+    case "commander":
+    case "guardian":
+      return 3.5;
+    case "warden":
+    case "sorcerer":
+    case "warchief":
+    case "paladin":
+      return 3.8;
+    case "overseer":
+    case "lich":
+    case "warlord":
+    case "archduke":
+      return 4;
+  }
+};
+
+export const getFactionRankBoostAmount = (game: GameState, base: number) => {
+  const factionName = game.faction?.name as FactionName;
+  const emblems = (
+    game.inventory[FACTION_EMBLEMS[factionName]] ?? new Decimal(0)
+  ).toNumber();
+
+  const rank = getFactionRanking(factionName, emblems);
+  const boost = rankBoostPercentage(rank.name);
+
+  return boost * base;
 };

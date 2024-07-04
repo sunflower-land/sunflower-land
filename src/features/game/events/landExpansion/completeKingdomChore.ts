@@ -1,4 +1,9 @@
 import Decimal from "decimal.js-light";
+import { getFactionRankBoostAmount } from "features/game/lib/factionRanks";
+import {
+  getFactionWearableBoostAmount,
+  getFactionWeek,
+} from "features/game/lib/factions";
 import { Bumpkin, GameState, KingdomChores } from "features/game/types/game";
 import cloneDeep from "lodash.clonedeep";
 
@@ -56,9 +61,13 @@ export function completeKingdomChore({
 }: Options): GameState {
   const game = cloneDeep<GameState>(state);
   const { id } = action;
-  const { kingdomChores, bumpkin, inventory } = game;
+  const { kingdomChores, bumpkin, inventory, faction } = game;
 
   const chore = kingdomChores.chores[id];
+
+  if (faction?.name === undefined) {
+    throw new Error("No faction found");
+  }
 
   if (chore === undefined) {
     throw new Error("Chore not found");
@@ -93,7 +102,19 @@ export function completeKingdomChore({
   game.kingdomChores = populateKingdomChores(kingdomChores, bumpkin, createdAt);
 
   const previousMarks = inventory["Mark"] ?? new Decimal(0);
-  inventory["Mark"] = previousMarks.add(chore.marks);
+  const wearablesBoost = getFactionWearableBoostAmount(game, chore.marks);
+  const rankBoost = getFactionRankBoostAmount(game, chore.marks);
+  const marks = chore.marks + wearablesBoost + rankBoost;
+
+  // Add to inventory
+  inventory["Mark"] = previousMarks.add(marks);
+
+  // Add to history
+  const week = getFactionWeek({ date: new Date(createdAt) });
+  const factionHistory = faction.history[week] ?? { score: 0, petXP: 0 };
+  factionHistory.score += marks;
+
+  faction.history[week] = factionHistory;
 
   return game;
 }
