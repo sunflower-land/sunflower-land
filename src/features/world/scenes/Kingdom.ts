@@ -331,6 +331,11 @@ export class KingdomScene extends BaseScene {
       .setCollideWorldBounds(true);
     this.colliders?.add(this.champions);
     this.physics.world.enable(this.champions);
+    this.champions
+      .setInteractive({ cursor: "pointer" })
+      .on("pointerdown", () => {
+        interactableModalManager.open("champions");
+      });
 
     const leaderboard = await getLeaderboard<KingdomLeaderboard>({
       farmId: Number(this.gameService.state.context.farmId),
