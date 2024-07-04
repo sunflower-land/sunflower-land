@@ -1,11 +1,20 @@
 import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
 
+export type UTM = {
+  source?: string;
+  medium?: string;
+  campaign?: string;
+  term?: string;
+  content?: string;
+};
+
 type Request = {
   token: string;
   transactionId: string;
   referrerId: string | null;
   promoCode: string | null;
+  utm?: UTM;
 };
 
 export async function signUp(request: Request) {
@@ -19,6 +28,7 @@ export async function signUp(request: Request) {
     body: JSON.stringify({
       promoCode: request.promoCode ?? undefined,
       referrerId: request.referrerId ?? undefined,
+      utm: request.utm ?? undefined,
     }),
   });
 
