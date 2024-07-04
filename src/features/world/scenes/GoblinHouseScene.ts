@@ -89,7 +89,4 @@ export class GoblinHouseScene extends FactionHouseScene {
     this.setupPrize({ x: 240, y: 416 });
     this.setUpPet();
   }
-  update() {
-    super.update();
-  }
 }

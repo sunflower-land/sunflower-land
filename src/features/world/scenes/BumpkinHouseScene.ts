@@ -3,6 +3,9 @@ import mapJSON from "assets/map/bumpkin_house.json";
 import { SceneId } from "../mmoMachine";
 import { NPCBumpkin } from "./BaseScene";
 import { FactionHouseScene } from "./FactionHouseScene";
+import { PetStateSprite } from "./SunflorianHouseScene";
+import { npcModalManager } from "../ui/NPCModals";
+import { Label } from "../containers/Label";
 
 export const BUMPKIN_HOUSE_NPCS: NPCBumpkin[] = [
   {
@@ -25,8 +28,27 @@ export const BUMPKIN_HOUSE_NPCS: NPCBumpkin[] = [
   },
 ];
 
+const PET_STATE_COORDS: { [key in PetStateSprite]: { x: number; y: number } } =
+  {
+    pet_hungry: {
+      x: 241,
+      y: 286,
+    },
+    pet_sleeping: {
+      x: 239,
+      y: 289,
+    },
+    pet_happy: {
+      x: 239,
+      y: 283,
+    },
+  };
+
 export class BumpkinHouseScene extends FactionHouseScene {
   sceneId: SceneId = "bumpkin_house";
+
+  public tater: Phaser.GameObjects.Sprite | undefined;
+  private _petState: PetStateSprite = "pet_hungry";
 
   constructor() {
     super({
@@ -40,14 +62,45 @@ export class BumpkinHouseScene extends FactionHouseScene {
     super.preload();
 
     this.load.image("pet_sleeping", "world/bumpkins_pet_sleeping.webp");
-    this.load.image("pet_satiated", "world/bumpkins_pet_happy.webp");
+    this.load.image("pet_happy", "world/bumpkins_pet_happy.webp");
     this.load.image("pet_hungry", "world/bumpkins_pet_hungry.webp");
   }
 
   setUpPet() {
-    // check game state to determine the pet status
-    // render the correct pet
-    this.add.image(241, 286, "pet_hungry");
+    this.petState = this.getPetState();
+    this.tater = this.add.sprite(
+      PET_STATE_COORDS[this.petState].x,
+      PET_STATE_COORDS[this.petState].y,
+      "pet_hungry",
+    );
+    this.tater
+      .setInteractive({ cursor: "pointer" })
+      .on("pointerdown", (p: Phaser.Input.Pointer) => {
+        if (p.downElement.nodeName === "CANVAS") {
+          npcModalManager.open("blaze");
+        }
+      });
+    const label = new Label(this, "TATER");
+    // Add the label to the scene
+    label.setPosition(240, 307);
+    this.add.existing(label);
+  }
+
+  set petState(newValue: PetStateSprite) {
+    this._petState = newValue;
+    this.onPetStateChange(newValue); // Call the function when value changes
+  }
+
+  get petState() {
+    return this._petState;
+  }
+
+  onPetStateChange(newValue: PetStateSprite) {
+    this.tater?.setTexture(newValue);
+    this.tater?.setPosition(
+      PET_STATE_COORDS[newValue].x,
+      PET_STATE_COORDS[newValue].y,
+    );
   }
 
   create() {
@@ -59,10 +112,6 @@ export class BumpkinHouseScene extends FactionHouseScene {
     this.initialiseNPCs(BUMPKIN_HOUSE_NPCS);
 
     this.setupPrize({ x: 240, y: 368 });
-    // this.setUpPet();
-  }
-
-  update() {
-    super.update();
+    this.setUpPet();
   }
 }

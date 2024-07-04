@@ -109,8 +109,4 @@ export class NightshadeHouseScene extends FactionHouseScene {
   onPetStateChange(newValue: PetStateSprite) {
     this.sable?.setTexture(newValue);
   }
-
-  update() {
-    super.update();
-  }
 }
