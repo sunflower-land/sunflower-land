@@ -22,8 +22,18 @@ import { ModalOverlay } from "components/ui/ModalOverlay";
 import { ResizableBar } from "components/ui/ProgressBar";
 
 import mark from "assets/icons/faction_mark.webp";
-import { hasFeatureAccess } from "lib/flags";
+import levelup from "assets/icons/level_up.png";
+import chefsHat from "assets/icons/chef_hat.png";
 
+import { hasFeatureAccess } from "lib/flags";
+import { BumpkinActivityName } from "features/game/types/bumpkinActivity";
+
+const getSecondaryImage = (activity: BumpkinActivityName) => {
+  if (activity.endsWith("Cooked")) return levelup;
+  if (activity.endsWith("Fed")) return chefsHat;
+
+  return undefined;
+};
 interface Props {
   kingdomChores: KingdomChores;
   onClose: () => void;
@@ -167,6 +177,7 @@ export const KingdomChoresContent: React.FC<Props> = ({ kingdomChores }) => {
                         onClick={() => setSelected(Number(choreId))}
                         isSelected={selected === Number(choreId)}
                         image={ITEM_DETAILS[chore.image].image}
+                        secondaryImage={getSecondaryImage(chore.activity)}
                         progress={{
                           label: `${Math.min(progress, chore.requirement)}/${
                             chore.requirement
@@ -208,6 +219,7 @@ export const KingdomChoresContent: React.FC<Props> = ({ kingdomChores }) => {
                         onClick={() => setSelected(Number(choreId))}
                         isSelected={selected === Number(choreId)}
                         image={ITEM_DETAILS[chore.image].image}
+                        secondaryImage={getSecondaryImage(chore.activity)}
                         progress={{
                           label: `${Math.min(progress, chore.requirement)}/${
                             chore.requirement
