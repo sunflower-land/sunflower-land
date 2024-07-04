@@ -3,6 +3,9 @@ import mapJSON from "assets/map/nightshade_house.json";
 import { SceneId } from "../mmoMachine";
 import { NPCBumpkin } from "./BaseScene";
 import { FactionHouseScene } from "./FactionHouseScene";
+import { PetStateSprite } from "./SunflorianHouseScene";
+import { npcModalManager } from "../ui/NPCModals";
+import { Label } from "../containers/Label";
 
 export const NIGHTSHADE_HOUSE_NPCS: NPCBumpkin[] = [
   {
@@ -25,8 +28,27 @@ export const NIGHTSHADE_HOUSE_NPCS: NPCBumpkin[] = [
   },
 ];
 
+const PET_STATE_COORDS: { [key in PetStateSprite]: { x: number; y: number } } =
+  {
+    pet_hungry: {
+      x: 241,
+      y: 284,
+    },
+    pet_sleeping: {
+      x: 241,
+      y: 284,
+    },
+    pet_happy: {
+      x: 241,
+      y: 284,
+    },
+  };
+
 export class NightshadeHouseScene extends FactionHouseScene {
   sceneId: SceneId = "nightshade_house";
+
+  public sable: Phaser.GameObjects.Sprite | undefined;
+  private _petState: PetStateSprite = "pet_hungry";
 
   constructor() {
     super({
@@ -45,14 +67,28 @@ export class NightshadeHouseScene extends FactionHouseScene {
     });
 
     this.load.image("pet_sleeping", "world/nightshades_pet_sleeping.webp");
-    this.load.image("pet_satiated", "world/nightshades_pet_happy.webp");
+    this.load.image("pet_happy", "world/nightshades_pet_happy.webp");
     this.load.image("pet_hungry", "world/nightshades_pet_hungry.webp");
   }
 
   setUpPet() {
-    // check game state to determine the pet status
-    // render the correct pet
-    this.add.image(241, 284, "pet_hungry");
+    this.petState = this.getPetState();
+    this.sable = this.add.sprite(
+      PET_STATE_COORDS[this.petState].x,
+      PET_STATE_COORDS[this.petState].y,
+      this.petState,
+    );
+    this.sable
+      .setInteractive({ cursor: "pointer" })
+      .on("pointerdown", (p: Phaser.Input.Pointer) => {
+        if (p.downElement.nodeName === "CANVAS") {
+          npcModalManager.open("sable");
+        }
+      });
+    const label = new Label(this, "SABLE");
+    // Add the label to the scene
+    label.setPosition(240, 310);
+    this.add.existing(label);
   }
 
   create() {
@@ -78,7 +114,24 @@ export class NightshadeHouseScene extends FactionHouseScene {
     fire2.play("fire_anim", true);
 
     this.setupPrize({ x: 240, y: 416 });
-    // this.setUpPet();
+    this.setUpPet();
+  }
+
+  set petState(newValue: PetStateSprite) {
+    this._petState = newValue;
+    this.onPetStateChange(newValue); // Call the function when value changes
+  }
+
+  get petState() {
+    return this._petState;
+  }
+
+  onPetStateChange(newValue: PetStateSprite) {
+    this.sable?.setTexture(newValue);
+    this.sable?.setPosition(
+      PET_STATE_COORDS[newValue].x,
+      PET_STATE_COORDS[newValue].y,
+    );
   }
 
   update() {
