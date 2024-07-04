@@ -1018,7 +1018,7 @@ export type ResourceRequest = {
 
 export type FactionPetRequest = {
   food: ConsumableName;
-  quantity: Decimal;
+  quantity: number;
   dailyFulfilled: {
     [day: number]: number;
   };

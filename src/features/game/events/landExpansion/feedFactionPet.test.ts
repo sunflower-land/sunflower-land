@@ -70,17 +70,17 @@ describe("feedFactionPet", () => {
               requests: [
                 {
                   food: "Pumpkin Soup",
-                  quantity: new Decimal(2),
+                  quantity: 2,
                   dailyFulfilled: {},
                 },
                 {
                   food: "Sunflower Cake",
-                  quantity: new Decimal(1),
+                  quantity: 1,
                   dailyFulfilled: {},
                 },
                 {
                   food: "Carrot Cake",
-                  quantity: new Decimal(1),
+                  quantity: 1,
                   dailyFulfilled: {},
                 },
               ],
@@ -106,17 +106,17 @@ describe("feedFactionPet", () => {
               requests: [
                 {
                   food: "Pumpkin Soup",
-                  quantity: new Decimal(2),
+                  quantity: 2,
                   dailyFulfilled: {},
                 },
                 {
                   food: "Sunflower Cake",
-                  quantity: new Decimal(1),
+                  quantity: 1,
                   dailyFulfilled: {},
                 },
                 {
                   food: "Carrot Cake",
-                  quantity: new Decimal(1),
+                  quantity: 1,
                   dailyFulfilled: {},
                 },
               ],
@@ -143,17 +143,17 @@ describe("feedFactionPet", () => {
             requests: [
               {
                 food: "Pumpkin Soup",
-                quantity: new Decimal(2),
+                quantity: 2,
                 dailyFulfilled: {},
               },
               {
                 food: "Sunflower Cake",
-                quantity: new Decimal(1),
+                quantity: 1,
                 dailyFulfilled: {},
               },
               {
                 food: "Carrot Cake",
-                quantity: new Decimal(1),
+                quantity: 1,
                 dailyFulfilled: {},
               },
             ],
@@ -183,17 +183,17 @@ describe("feedFactionPet", () => {
             requests: [
               {
                 food: "Pumpkin Soup",
-                quantity: new Decimal(2),
+                quantity: 2,
                 dailyFulfilled: {},
               },
               {
                 food: "Sunflower Cake",
-                quantity: new Decimal(1),
+                quantity: 1,
                 dailyFulfilled: {},
               },
               {
                 food: "Carrot Cake",
-                quantity: new Decimal(1),
+                quantity: 1,
                 dailyFulfilled: {},
               },
             ],
@@ -225,17 +225,17 @@ describe("feedFactionPet", () => {
             requests: [
               {
                 food: "Pumpkin Soup",
-                quantity: new Decimal(2),
+                quantity: 2,
                 dailyFulfilled: {},
               },
               {
                 food: "Sunflower Cake",
-                quantity: new Decimal(1),
+                quantity: 1,
                 dailyFulfilled: {},
               },
               {
                 food: "Carrot Cake",
-                quantity: new Decimal(1),
+                quantity: 1,
                 dailyFulfilled: {},
               },
             ],
@@ -267,19 +267,19 @@ describe("feedFactionPet", () => {
             requests: [
               {
                 food: "Pumpkin Soup",
-                quantity: new Decimal(2),
+                quantity: 2,
                 dailyFulfilled: {
                   [day]: 1,
                 },
               },
               {
                 food: "Sunflower Cake",
-                quantity: new Decimal(1),
+                quantity: 1,
                 dailyFulfilled: {},
               },
               {
                 food: "Carrot Cake",
-                quantity: new Decimal(1),
+                quantity: 1,
                 dailyFulfilled: {},
               },
             ],
@@ -311,19 +311,19 @@ describe("feedFactionPet", () => {
             requests: [
               {
                 food: "Pumpkin Soup",
-                quantity: new Decimal(2),
+                quantity: 2,
                 dailyFulfilled: {
                   [day]: 2,
                 },
               },
               {
                 food: "Sunflower Cake",
-                quantity: new Decimal(1),
+                quantity: 1,
                 dailyFulfilled: {},
               },
               {
                 food: "Carrot Cake",
-                quantity: new Decimal(1),
+                quantity: 1,
                 dailyFulfilled: {},
               },
             ],
@@ -353,17 +353,17 @@ describe("feedFactionPet", () => {
             requests: [
               {
                 food: "Pumpkin Soup",
-                quantity: new Decimal(2),
+                quantity: 2,
                 dailyFulfilled: {},
               },
               {
                 food: "Sunflower Cake",
-                quantity: new Decimal(1),
+                quantity: 1,
                 dailyFulfilled: {},
               },
               {
                 food: "Carrot Cake",
-                quantity: new Decimal(1),
+                quantity: 1,
                 dailyFulfilled: {},
               },
             ],
@@ -392,17 +392,17 @@ describe("feedFactionPet", () => {
             requests: [
               {
                 food: "Pumpkin Soup",
-                quantity: new Decimal(2),
+                quantity: 2,
                 dailyFulfilled: {},
               },
               {
                 food: "Sunflower Cake",
-                quantity: new Decimal(1),
+                quantity: 1,
                 dailyFulfilled: {},
               },
               {
                 food: "Carrot Cake",
-                quantity: new Decimal(1),
+                quantity: 1,
                 dailyFulfilled: {},
               },
             ],
@@ -438,17 +438,17 @@ describe("feedFactionPet", () => {
             requests: [
               {
                 food: "Pumpkin Soup",
-                quantity: new Decimal(2),
+                quantity: 2,
                 dailyFulfilled: {},
               },
               {
                 food: "Sunflower Cake",
-                quantity: new Decimal(1),
+                quantity: 1,
                 dailyFulfilled: {},
               },
               {
                 food: "Carrot Cake",
-                quantity: new Decimal(1),
+                quantity: 1,
                 dailyFulfilled: {},
               },
             ],

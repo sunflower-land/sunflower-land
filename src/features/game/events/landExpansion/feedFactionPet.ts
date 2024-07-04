@@ -27,7 +27,7 @@ const getTotalXPForRequest = (request: FactionPetRequest) => {
 
   const foodXP = CONSUMABLES[food].experience;
 
-  return foodXP * quantity.toNumber();
+  return foodXP * quantity;
 };
 
 export type FeedFactionPetAction = {
@@ -84,7 +84,7 @@ export function feedFactionPet({
   };
 
   const marksBalance = stateCopy.inventory.Mark ?? new Decimal(0);
-  const fulfilled = request.dailyFulfilled[day] ?? 0;
+  const fulfilled = request.dailyFulfilled?.[day] ?? 0;
 
   const baseReward = calculatePoints(
     fulfilled,

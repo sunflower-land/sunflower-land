@@ -12,14 +12,6 @@ const GAME_STATE: GameState = {
     pledgedAt: 0,
     history: {},
     points: 0,
-
-    donated: {
-      daily: {
-        sfl: {},
-        resources: {},
-      },
-      totalItems: {},
-    },
   },
 };
 

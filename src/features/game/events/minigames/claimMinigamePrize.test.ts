@@ -182,16 +182,6 @@ describe("minigame.prizeClaimed", () => {
           name: "bumpkins",
           pledgedAt: 10002000,
           points: 0,
-          donated: {
-            daily: {
-              resources: {},
-              sfl: {
-                amount: 0,
-                day: 0,
-              },
-            },
-            totalItems: {},
-          },
           history: {},
         },
         minigames: {
