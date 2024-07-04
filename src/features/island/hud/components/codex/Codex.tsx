@@ -233,7 +233,7 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
               >
                 <TicketsLeaderboard
                   id={id}
-                  isLoading={data === undefined}
+                  isLoading={data?.tickets === undefined}
                   data={data?.tickets ?? null}
                 />
               </InnerPanel>
@@ -247,9 +247,9 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
                 <FactionsLeaderboard
                   id={id}
                   faction={state.faction.name}
-                  isLoading={data === undefined}
+                  isLoading={data?.emblems === undefined}
                   data={data?.emblems?.emblems ?? null}
-                  lastUpdated={data?.kingdom.lastUpdated ?? null}
+                  lastUpdated={data?.kingdom?.lastUpdated ?? null}
                 />
               </InnerPanel>
             )}
@@ -257,7 +257,7 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
               <MarksLeaderboard
                 emblemLeaderboard={data?.emblems ?? null}
                 marksLeaderboard={data?.kingdom ?? null}
-                isLoading={data === undefined}
+                isLoading={data?.kingdom === undefined}
                 playerId={id}
                 faction={state.faction.name}
               />

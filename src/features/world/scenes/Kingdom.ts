@@ -5,7 +5,7 @@ import { BaseScene, NPCBumpkin } from "./BaseScene";
 import {
   KingdomLeaderboard,
   fetchLeaderboardData,
-  getLeaderboard,
+  getKingdomLeaderboard,
 } from "features/game/expansion/components/leaderboard/actions/leaderboard";
 import { interactableModalManager } from "../ui/InteractableModals";
 import { translate } from "lib/i18n/translate";
@@ -337,7 +337,7 @@ export class KingdomScene extends BaseScene {
         interactableModalManager.open("champions");
       });
 
-    const leaderboard = await getLeaderboard<KingdomLeaderboard>({
+    const leaderboard = await getKingdomLeaderboard<KingdomLeaderboard>({
       farmId: Number(this.gameService.state.context.farmId),
       leaderboardName: "kingdom",
       date: getPreviousWeek(),
