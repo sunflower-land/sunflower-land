@@ -218,6 +218,21 @@ export const STATIC_OFFLINE_FARM: GameState = {
     pots: {},
     oil: 50,
   },
+  kingdomChores: {
+    chores: [
+      {
+        activity: "Sunflower Harvested",
+        description: "Harvest 200 Sunflowers",
+        image: "Sunflower",
+        marks: 50,
+        requirement: 200,
+        startedAt: Date.now(),
+        startCount: 0,
+      },
+    ],
+    choresCompleted: 0,
+    choresSkipped: 0,
+  },
   home: {
     collectibles: {
       Wardrobe: [
@@ -307,7 +322,11 @@ export const STATIC_OFFLINE_FARM: GameState = {
     spawnedAt: 0,
   },
   farmHands: { bumpkins: {} },
-  bumpkin: { ...INITIAL_BUMPKIN, experience: 100000000 },
+  bumpkin: {
+    ...INITIAL_BUMPKIN,
+    experience: 100000000,
+    equipped: { ...INITIAL_BUMPKIN.equipped, shoes: "Goblin Sabatons" },
+  },
   buds: {
     1: {
       aura: "Basic",

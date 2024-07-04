@@ -24,9 +24,11 @@ import { ResizableBar } from "components/ui/ProgressBar";
 import mark from "assets/icons/faction_mark.webp";
 import levelup from "assets/icons/level_up.png";
 import chefsHat from "assets/icons/chef_hat.png";
+import lightning from "assets/icons/lightning.png";
 
 import { hasFeatureAccess } from "lib/flags";
 import { BumpkinActivityName } from "features/game/types/bumpkinActivity";
+import { getKingdomChoreBoost } from "features/game/events/landExpansion/completeKingdomChore";
 
 const getSecondaryImage = (activity: BumpkinActivityName) => {
   if (activity.endsWith("Cooked")) return chefsHat;
@@ -275,12 +277,16 @@ const Panel: React.FC<PanelProps> = ({
   chore,
   isRefreshing,
 }: PanelProps) => {
+  const { gameService } = useContext(Context);
+
   const { t } = useAppTranslation();
 
   useUiRefresher();
 
   const canSkip = skipAvailableAt < Date.now();
   const canComplete = progress >= chore.requirement;
+
+  const boost = getKingdomChoreBoost(gameService.state.context.state, chore);
 
   return (
     <div className="flex flex-col justify-center">
@@ -295,9 +301,12 @@ const Panel: React.FC<PanelProps> = ({
           <Label
             type="warning"
             icon={mark}
+            secondaryIcon={boost ? lightning : null}
             className="text-center whitespace-nowrap"
           >
-            {chore.marks} {t("marks")}
+            <span className="pl-1.5">
+              {`${chore.marks + boost} ${t("marks")}`}
+            </span>
           </Label>
         </div>
       </div>

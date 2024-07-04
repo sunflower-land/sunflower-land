@@ -4,8 +4,20 @@ import {
   getFactionWearableBoostAmount,
   getFactionWeek,
 } from "features/game/lib/factions";
-import { Bumpkin, GameState, KingdomChores } from "features/game/types/game";
+import {
+  Bumpkin,
+  GameState,
+  KingdomChore,
+  KingdomChores,
+} from "features/game/types/game";
 import cloneDeep from "lodash.clonedeep";
+
+export const getKingdomChoreBoost = (game: GameState, chore: KingdomChore) => {
+  const wearablesBoost = getFactionWearableBoostAmount(game, chore.marks);
+  const rankBoost = getFactionRankBoostAmount(game, chore.marks);
+
+  return wearablesBoost + rankBoost;
+};
 
 export function populateKingdomChores(
   kingdomChores: KingdomChores | undefined,
@@ -102,9 +114,7 @@ export function completeKingdomChore({
   game.kingdomChores = populateKingdomChores(kingdomChores, bumpkin, createdAt);
 
   const previousMarks = inventory["Mark"] ?? new Decimal(0);
-  const wearablesBoost = getFactionWearableBoostAmount(game, chore.marks);
-  const rankBoost = getFactionRankBoostAmount(game, chore.marks);
-  const marks = chore.marks + wearablesBoost + rankBoost;
+  const marks = chore.marks + getKingdomChoreBoost(game, chore);
 
   // Add to inventory
   inventory["Mark"] = previousMarks.add(marks);
