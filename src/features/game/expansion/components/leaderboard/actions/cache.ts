@@ -5,8 +5,8 @@ import {
   EmblemsLeaderboard,
 } from "./leaderboard";
 
-// Leaderboard data is updated every 10 minutes
-const CACHE_DURATION_IN_MS = 10 * 60 * 1000;
+// Default leaderboard data is updated every 1 hour
+const CACHE_DURATION_IN_MS = 1 * 60 * 60 * 1000;
 
 const CACHE_KEY = "leaderboardData";
 
@@ -34,8 +34,10 @@ export function cacheLeaderboard<T extends keyof Leaderboards>({
 
 export function getCachedLeaderboardData<T extends keyof Leaderboards>({
   name,
+  duration = CACHE_DURATION_IN_MS,
 }: {
   name: T;
+  duration?: number;
 }): Leaderboards[T] | null {
   try {
     const cachedData = localStorage.getItem(`${name as string}.${CACHE_KEY}`);
@@ -44,7 +46,7 @@ export function getCachedLeaderboardData<T extends keyof Leaderboards>({
     const parsedData = JSON.parse(cachedData);
     const now = Date.now();
 
-    if (now - parsedData.lastUpdated > CACHE_DURATION_IN_MS) {
+    if (now - parsedData.lastUpdated > duration) {
       localStorage.removeItem(`${name as string}.${CACHE_KEY}`);
       return null;
     }

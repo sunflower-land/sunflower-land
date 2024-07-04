@@ -70,24 +70,16 @@ export type EmblemsLeaderboard = {
 export async function getLeaderboard<T>({
   farmId,
   leaderboardName,
-  date,
 }: Options): Promise<T | undefined> {
   const cache = getCachedLeaderboardData({
     name: leaderboardName,
   });
 
-  const isOldLeaderboard =
-    leaderboardName === "kingdom" &&
-    (cache as KingdomLeaderboard)?.week !== getFactionWeek();
-
-  if (cache && !isOldLeaderboard) {
+  if (cache) {
     return cache as T;
   }
 
-  let url = `${API_URL}/leaderboard/${leaderboardName}/${farmId}`;
-  if (date) {
-    url += `?date=${date}`;
-  }
+  const url = `${API_URL}/leaderboard/${leaderboardName}/${farmId}`;
 
   const response = await window.fetch(url, {
     method: "GET",
@@ -111,6 +103,51 @@ export async function getLeaderboard<T>({
   return data;
 }
 
+const KINGDOM_LEADERBOARD_CACHE = 10 * 60 * 1000;
+
+export async function getKingdomLeaderboard<T>({
+  farmId,
+  date,
+}: Options): Promise<T | undefined> {
+  const cache = getCachedLeaderboardData({
+    name: "kingdom",
+    duration: KINGDOM_LEADERBOARD_CACHE,
+  });
+
+  const isOldLeaderboard =
+    (cache as KingdomLeaderboard)?.week !== getFactionWeek();
+
+  if (cache && !isOldLeaderboard) {
+    return cache as T;
+  }
+
+  let url = `${API_URL}/leaderboard/kingdom/${farmId}`;
+  if (date) {
+    url += `?date=${date}`;
+  }
+
+  const response = await window.fetch(url, {
+    method: "GET",
+    headers: {
+      "content-type": "application/json;charset=UTF-8",
+    },
+  });
+
+  if (response.status === 429) {
+    throw new Error(ERRORS.TOO_MANY_REQUESTS);
+  }
+
+  if (response.status >= 400) {
+    return;
+  }
+
+  const data = await response.json();
+
+  cacheLeaderboard({ name: "kingdom", data });
+
+  return data;
+}
+
 export async function fetchLeaderboardData(
   farmId: number,
 ): Promise<Leaderboards | null> {
@@ -129,7 +166,7 @@ export async function fetchLeaderboardData(
         farmId: Number(farmId),
         leaderboardName: "factions",
       }),
-      getLeaderboard<KingdomLeaderboard>({
+      getKingdomLeaderboard<KingdomLeaderboard>({
         farmId: Number(farmId),
         leaderboardName: "kingdom",
       }),

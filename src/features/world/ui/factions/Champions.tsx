@@ -5,10 +5,7 @@ import classNames from "classnames";
 import { Label } from "components/ui/Label";
 import { Loading } from "features/auth/components";
 import { Context } from "features/game/GameProvider";
-import {
-  KingdomLeaderboard,
-  getLeaderboard,
-} from "features/game/expansion/components/leaderboard/actions/leaderboard";
+import { KingdomLeaderboard } from "features/game/expansion/components/leaderboard/actions/leaderboard";
 import {
   FACTION_PRIZES,
   getPreviousWeek,
@@ -70,7 +67,7 @@ export const ChampionsLeaderboard: React.FC<Props> = ({ onClose }) => {
   useEffect(() => {
     const load = async () => {
       setIsLoading(true);
-      const data = await getLeaderboard<KingdomLeaderboard>({
+      const data = await getKingdomLeaderboard<KingdomLeaderboard>({
         farmId: Number(gameState.context.farmId),
         leaderboardName: "kingdom",
         date: getPreviousWeek(),
