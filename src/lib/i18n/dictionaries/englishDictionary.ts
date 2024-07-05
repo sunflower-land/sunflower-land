@@ -634,7 +634,7 @@ const basicTreasure: Record<BasicTreasure, string> = {
   "basic.treasure.openChest":
     "Would you like to open the chest and claim a reward?",
   "budBox.open": "Open",
-  "budBox.opened": "Opened",
+  "budBox.opened": "Opened today",
   "budBox.title": "Bud box",
   "budBox.description": "Each day, a bud type can unlock farming rewards.",
   "raffle.title": "Goblin Raffle",

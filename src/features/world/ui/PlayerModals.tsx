@@ -18,6 +18,8 @@ import { useActor } from "@xstate/react";
 import { Button } from "components/ui/Button";
 import { Revealed } from "features/game/components/Revealed";
 import { ChestRevealing } from "./chests/ChestRevealing";
+import { secondsToString } from "lib/utils/time";
+import { secondsTillReset } from "features/helios/components/hayseedHank/HayseedHankV2";
 
 type Player = {
   id: number;
@@ -132,7 +134,9 @@ const PlayerGift: React.FC<{ player: Player }> = ({ player }) => {
           </Label>
           {hasOpened && (
             <Label type="success" icon={SUNNYSIDE.icons.confirm}>
-              {t("budBox.opened")}
+              {`${t("budBox.opened")} - ${secondsToString(secondsTillReset(), {
+                length: "short",
+              })}`}
             </Label>
           )}
         </div>
