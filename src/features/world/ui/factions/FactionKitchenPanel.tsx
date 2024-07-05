@@ -9,12 +9,16 @@ import { useSelector } from "@xstate/react";
 import { Faction, ResourceRequest } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { SquareIcon } from "components/ui/SquareIcon";
-import { BASE_POINTS } from "features/game/events/landExpansion/deliverFactionKitchen";
+import {
+  BASE_POINTS,
+  getKingdomKitchenBoost,
+} from "features/game/events/landExpansion/deliverFactionKitchen";
 import { Button } from "components/ui/Button";
 import { OuterPanel } from "components/ui/Panel";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import selectBoxTL from "assets/ui/select/selectbox_tl.png";
 import selectBoxTR from "assets/ui/select/selectbox_tr.png";
+import lightning from "assets/icons/lightning.png";
 import { isMobile } from "mobile-device-detect";
 import Decimal from "decimal.js-light";
 import { RequirementLabel } from "components/ui/RequirementsLabel";
@@ -121,6 +125,8 @@ export const FactionKitchenPanel: React.FC<Props> = ({ bumpkinParts }) => {
     inventory[selectedRequest.item] ?? new Decimal(0)
   ).gte(selectedRequest.amount);
 
+  const boost = getKingdomKitchenBoost(game, selectedRequestReward);
+
   return (
     <CloseButtonPanel bumpkinParts={bumpkinParts}>
       <div className="p-1 space-y-2">
@@ -152,6 +158,11 @@ export const FactionKitchenPanel: React.FC<Props> = ({ bumpkinParts }) => {
                       const fulfilled = request.dailyFulfilled[day] ?? 0;
                       const points = calculatePoints(fulfilled, BASE_POINTS);
 
+                      const boost = getKingdomKitchenBoost(
+                        gameService.state.context.state,
+                        points,
+                      );
+
                       return (
                         <OuterPanel
                           key={JSON.stringify(request)}
@@ -173,13 +184,16 @@ export const FactionKitchenPanel: React.FC<Props> = ({ bumpkinParts }) => {
                               type="warning"
                               className="absolute h-6"
                               iconWidth={10}
+                              secondaryIcon={boost ? lightning : null}
                               style={{
                                 width: isMobile ? "113%" : "117%",
                                 bottom: "-24px",
                                 left: "-4px",
                               }}
                             >
-                              {points}
+                              <span className={boost ? "pl-1.5" : ""}>
+                                {points + boost}
+                              </span>
                             </Label>
                           </div>
                           {selectedRequestIdx === idx && (
@@ -215,10 +229,13 @@ export const FactionKitchenPanel: React.FC<Props> = ({ bumpkinParts }) => {
                   <div className="flex flex-col space-y-1 px-1.5 mb-1">
                     <Label
                       icon={ITEM_DETAILS["Mark"].image}
+                      secondaryIcon={boost ? lightning : null}
                       type="warning"
                       className="m-1"
                     >
-                      {`${selectedRequestReward} marks`}
+                      <span className={boost ? "pl-1.5" : ""}>
+                        {`${selectedRequestReward + boost} ${t("marks")}`}
+                      </span>
                     </Label>
                     <div className="hidden sm:flex flex-col space-y-1 w-full justify-center items-center">
                       <p className="text-sm">{selectedRequest.item}</p>

@@ -1,4 +1,5 @@
 import Decimal from "decimal.js-light";
+import { getFactionRankBoostAmount } from "features/game/lib/factionRanks";
 import {
   START_DATE,
   calculatePoints,
@@ -9,6 +10,13 @@ import {
 import { CONSUMABLES } from "features/game/types/consumables";
 import { FactionPetRequest, GameState } from "features/game/types/game";
 import cloneDeep from "lodash.clonedeep";
+
+export const getKingdomPetBoost = (game: GameState, marks: number) => {
+  const wearablesBoost = getFactionWearableBoostAmount(game, marks);
+  const rankBoost = getFactionRankBoostAmount(game, marks);
+
+  return wearablesBoost + rankBoost;
+};
 
 export enum DifficultyIndex {
   EASY = 0,
@@ -90,7 +98,7 @@ export function feedFactionPet({
     fulfilled,
     PET_FED_REWARDS_KEY[action.requestIndex],
   );
-  const boostAmount = getFactionWearableBoostAmount(stateCopy, baseReward);
+  const boostAmount = getKingdomPetBoost(stateCopy, baseReward);
   const totalAmount = baseReward + boostAmount;
 
   stateCopy.inventory.Mark = marksBalance.add(totalAmount);
