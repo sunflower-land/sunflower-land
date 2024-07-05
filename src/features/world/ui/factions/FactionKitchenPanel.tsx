@@ -20,18 +20,23 @@ import Decimal from "decimal.js-light";
 import { RequirementLabel } from "components/ui/RequirementsLabel";
 import classNames from "classnames";
 import { secondsToString } from "lib/utils/time";
-import { factionKitchenWeekEndTime } from "./lib/utils";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { TypingMessage } from "../TypingMessage";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { calculatePoints, getFactionWeekday } from "features/game/lib/factions";
+import {
+  calculatePoints,
+  getFactionWeekEndTime,
+  getFactionWeekday,
+} from "features/game/lib/factions";
 import { hasFeatureAccess } from "lib/flags";
 
 interface Props {
   bumpkinParts: Equipped;
 }
 
-const FACTION_KITCHEN_START_TIME = new Date("2024-07-08T00:00:00Z").getTime();
+export const FACTION_KITCHEN_START_TIME = new Date(
+  "2024-07-08T00:00:00Z",
+).getTime();
 
 const _faction = (state: MachineState) =>
   state.context.state.faction as Faction;
@@ -49,7 +54,7 @@ export const FactionKitchenPanel: React.FC<Props> = ({ bumpkinParts }) => {
   const [selectedRequestIdx, setSelectedRequestIdx] = useState<number>(0);
   const [showConfirm, setShowConfirm] = useState<boolean>(false);
 
-  // TODO: Remove when feature rel
+  // TODO: Remove when feature released
   const game = useSelector(gameService, _game);
   const now = Date.now();
 
@@ -106,7 +111,8 @@ export const FactionKitchenPanel: React.FC<Props> = ({ bumpkinParts }) => {
     selectedRequestIdx
   ] as ResourceRequest;
 
-  const secondsTillWeekEnd = (factionKitchenWeekEndTime({ now }) - now) / 1000;
+  const secondsTillWeekEnd =
+    (getFactionWeekEndTime({ date: new Date(now) }) - now) / 1000;
   const day = getFactionWeekday(now);
   const fulfilled = selectedRequest.dailyFulfilled[day] ?? 0;
   const selectedRequestReward = calculatePoints(fulfilled, BASE_POINTS);

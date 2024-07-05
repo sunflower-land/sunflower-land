@@ -1564,7 +1564,16 @@ export type Factions =
   | "faction.shop.onlyFor"
   | "faction.shop.welcome"
   | "faction.noPrizeFound"
-  | "faction.goodLuck";
+  | "faction.goodLuck"
+
+  // Faction Pet
+  | "faction.pet.weeklyGoal"
+  | "faction.pet.hungry"
+  | "faction.pet.fed"
+  | "faction.pet.sleeping"
+  | "faction.pet.newRequests"
+  | "faction.pet.streak"
+  | "faction.pet.wakes.in";
 
 export type FactionShopDescription =
   | "description.factionShop.sunflorianThrone"

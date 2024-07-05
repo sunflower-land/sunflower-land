@@ -7,13 +7,6 @@ const FARM: GameState = {
   ...INITIAL_FARM,
   faction: {
     name: "bumpkins",
-    donated: {
-      daily: {
-        resources: {},
-        sfl: {},
-      },
-      totalItems: {},
-    },
     pledgedAt: 10001000,
     points: 100,
     emblemsClaimedAt: 10000100,

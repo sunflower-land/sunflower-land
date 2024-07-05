@@ -3,12 +3,69 @@ import { interactableModalManager } from "../ui/InteractableModals";
 import { translate } from "lib/i18n/translate";
 import { getFactionPrize } from "../ui/factions/weeklyPrize/FactionWeeklyPrize";
 import { Coordinates } from "features/game/expansion/components/MapPlacement";
+import { getFactionWeek } from "features/game/lib/factions";
+import { CollectivePet } from "features/game/types/game";
+import {
+  FACTION_PET_REFRESH_INTERVAL,
+  PET_SLEEP_DURATION,
+} from "../ui/factions/FactionPetPanel";
+import { getFactionPetUpdate } from "../ui/factions/actions/getFactionPetUpdate";
 
 export abstract class FactionHouseScene extends BaseScene {
+  public collectivePet: CollectivePet | undefined;
+  private fetchInterval: NodeJS.Timeout | null = null;
+
   preload() {
     super.preload();
 
     this.load.image("basic_chest", "world/basic_chest.png");
+    this.makeFetchRequest();
+  }
+
+  create() {
+    super.create();
+    this.fetchInterval = setInterval(
+      () => this.makeFetchRequest(),
+      FACTION_PET_REFRESH_INTERVAL,
+    );
+  }
+
+  async makeFetchRequest() {
+    const { farmId } = this.gameService.state.context;
+    const data = await getFactionPetUpdate({ farmId });
+
+    this.collectivePet = data;
+  }
+
+  shutdown() {
+    if (this.fetchInterval) {
+      clearInterval(this.fetchInterval);
+    }
+  }
+
+  destroy() {
+    if (this.fetchInterval) {
+      clearInterval(this.fetchInterval);
+    }
+  }
+
+  getPetState() {
+    const week = getFactionWeek({ date: new Date() });
+    const beginningOfWeek = new Date(week).getTime();
+    const firstWeek = "2024-07-08";
+
+    if (!this.collectivePet || week === firstWeek) return "pet_hungry";
+
+    if (
+      this.collectivePet.streak === 0 &&
+      Date.now() < beginningOfWeek + PET_SLEEP_DURATION
+    ) {
+      return "pet_sleeping";
+    }
+
+    if (this.collectivePet.goalReached) return "pet_happy";
+
+    return "pet_hungry";
   }
 
   setupPrize({ x, y }: Coordinates) {

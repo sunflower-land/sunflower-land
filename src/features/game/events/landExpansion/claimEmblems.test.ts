@@ -14,6 +14,25 @@ describe("claimEmblems", () => {
     ).toThrow("No faction has been pledged");
   });
 
+  it("should throw if there are no faction points", () => {
+    expect(() =>
+      claimEmblems({
+        state: {
+          ...TEST_FARM,
+          faction: {
+            name: "bumpkins",
+            pledgedAt: 1,
+            history: {},
+            points: 0,
+          },
+        },
+        action: {
+          type: "emblems.claimed",
+        },
+      }),
+    ).toThrow("No faction points");
+  });
+
   it("should throw if emblems have already been claimed", () => {
     expect(() =>
       claimEmblems({
@@ -25,13 +44,6 @@ describe("claimEmblems", () => {
             history: {},
             emblemsClaimedAt: 2,
             points: 10,
-            donated: {
-              daily: {
-                resources: {},
-                sfl: {},
-              },
-              totalItems: {},
-            },
           },
         },
         action: {
@@ -39,6 +51,29 @@ describe("claimEmblems", () => {
         },
       }),
     ).toThrow("Emblems have already been claimed");
+  });
+
+  it("should throw an error if time is after the emblem claim cutoff", () => {
+    const now = new Date("2024-08-02T00:01:00Z").getTime();
+
+    expect(() =>
+      claimEmblems({
+        state: {
+          ...TEST_FARM,
+          faction: {
+            name: "bumpkins",
+            pledgedAt: 1,
+            history: {},
+            points: 10,
+          },
+          createdAt: now,
+        },
+        action: {
+          type: "emblems.claimed",
+        },
+        createdAt: now,
+      }),
+    ).toThrow("Emblem claim cutoff has passed");
   });
 
   it("sets the emblems claimed at date", () => {
@@ -52,13 +87,6 @@ describe("claimEmblems", () => {
           history: {},
           pledgedAt: 1,
           points: 10,
-          donated: {
-            daily: {
-              resources: {},
-              sfl: {},
-            },
-            totalItems: {},
-          },
         },
         createdAt: now,
       },
@@ -82,13 +110,6 @@ describe("claimEmblems", () => {
           history: {},
           pledgedAt: 1,
           points,
-          donated: {
-            daily: {
-              resources: {},
-              sfl: {},
-            },
-            totalItems: {},
-          },
         },
       },
       action: {

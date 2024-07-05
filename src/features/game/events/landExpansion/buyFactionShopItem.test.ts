@@ -14,13 +14,6 @@ const GAME_STATE: GameState = {
     name: "goblins",
     pledgedAt: 0,
     history: {},
-    donated: {
-      daily: {
-        resources: {},
-        sfl: {},
-      },
-      totalItems: {},
-    },
     points: 0,
   },
 };

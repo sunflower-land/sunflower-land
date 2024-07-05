@@ -13,6 +13,8 @@ type Options = {
   createdAt?: number;
 };
 
+const EMBLEM_CLAIM_CUTOFF = new Date("2024-08-01T00:00:00Z").getTime();
+
 export function claimEmblems({
   state,
   action,
@@ -26,8 +28,16 @@ export function claimEmblems({
     throw new Error("No faction has been pledged");
   }
 
+  if (!faction.points) {
+    throw new Error("No faction points");
+  }
+
   if (faction.emblemsClaimedAt) {
     throw new Error("Emblems have already been claimed");
+  }
+
+  if (createdAt > EMBLEM_CLAIM_CUTOFF) {
+    throw new Error("Emblem claim cutoff has passed");
   }
 
   const emblemName = FACTION_EMBLEMS[faction.name];

@@ -1357,15 +1357,28 @@ export const STATIC_OFFLINE_FARM: GameState = {
     amount: new Decimal(1000),
   },
   faction: {
-    name: "goblins",
+    name: "bumpkins",
     pledgedAt: 0,
     points: 100,
-    donated: {
-      daily: {
-        sfl: {},
-        resources: {},
-      },
-      totalItems: {},
+    pet: {
+      week: "2024/07/01",
+      requests: [
+        {
+          food: "Pumpkin Soup",
+          quantity: 2,
+          dailyFulfilled: {},
+        },
+        {
+          food: "Sunflower Cake",
+          quantity: 1,
+          dailyFulfilled: {},
+        },
+        {
+          food: "Carrot Cake",
+          quantity: 1,
+          dailyFulfilled: {},
+        },
+      ],
     },
     history: {
       "2024-06-24": {
