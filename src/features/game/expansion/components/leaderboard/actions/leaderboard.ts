@@ -120,7 +120,7 @@ export async function getChampionsLeaderboard<T>({
     cache?.week === getFactionWeek({ date: new Date(date) });
 
   if (cache && isCorrectWeek) {
-    return cache as T;
+    return cache;
   }
 
   const url = `${API_URL}/leaderboard/kingdom/${farmId}?date=${date}`;
