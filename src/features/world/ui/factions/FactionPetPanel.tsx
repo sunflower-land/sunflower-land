@@ -105,7 +105,7 @@ interface Props {
 
 export type PetState = "sleeping" | "hungry" | "happy";
 
-const REFRESH_INTERVAL = 10 * 1000;
+export const FACTION_PET_REFRESH_INTERVAL = 10 * 1000;
 const FACTION_PET_START_TIME = new Date("2024-07-08T00:00:00Z").getTime();
 
 const _autosaving = (state: MachineState) => state.matches("autosaving");
@@ -172,7 +172,7 @@ export const FactionPetPanel: React.FC<Props> = () => {
       if (refreshing || autosaving || petState === "sleeping") return;
 
       handleRefresh();
-    }, REFRESH_INTERVAL);
+    }, FACTION_PET_REFRESH_INTERVAL);
 
     return () => clearInterval(interval);
   });

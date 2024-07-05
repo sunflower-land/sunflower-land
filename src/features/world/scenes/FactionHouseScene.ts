@@ -5,7 +5,10 @@ import { getFactionPrize } from "../ui/factions/weeklyPrize/FactionWeeklyPrize";
 import { Coordinates } from "features/game/expansion/components/MapPlacement";
 import { getFactionWeek } from "features/game/lib/factions";
 import { CollectivePet } from "features/game/types/game";
-import { PET_SLEEP_DURATION } from "../ui/factions/FactionPetPanel";
+import {
+  FACTION_PET_REFRESH_INTERVAL,
+  PET_SLEEP_DURATION,
+} from "../ui/factions/FactionPetPanel";
 import { getFactionPetUpdate } from "../ui/factions/actions/getFactionPetUpdate";
 
 export abstract class FactionHouseScene extends BaseScene {
@@ -21,7 +24,10 @@ export abstract class FactionHouseScene extends BaseScene {
 
   create() {
     super.create();
-    this.fetchInterval = setInterval(() => this.makeFetchRequest(), 10 * 1000);
+    this.fetchInterval = setInterval(
+      () => this.makeFetchRequest(),
+      FACTION_PET_REFRESH_INTERVAL,
+    );
   }
 
   async makeFetchRequest() {
