@@ -9,7 +9,7 @@ import { randomID } from "lib/utils/random";
 import { onboardingAnalytics } from "lib/onboardingAnalytics";
 import { loadSession, savePromoCode } from "features/game/actions/loadSession";
 import { getToken, removeJWT, saveJWT } from "../actions/social";
-import { signUp } from "../actions/signup";
+import { signUp, UTM } from "../actions/signup";
 import { claimFarm } from "../actions/claimFarm";
 import { removeMinigameJWTs } from "features/world/ui/community/actions/portal";
 
@@ -37,6 +37,41 @@ const getPromoCode = () => {
   const code = new URLSearchParams(window.location.search).get("promo");
 
   return code;
+};
+
+const storeUTMs = () => {
+  const urlParams = new URLSearchParams(window.location.search);
+
+  const utm_source = urlParams.get("utm_source");
+  if (utm_source) localStorage.setItem("utm_source", utm_source);
+
+  const utm_medium = urlParams.get("utm_medium");
+  if (utm_medium) localStorage.setItem("utm_medium", utm_medium);
+
+  const utm_campaign = urlParams.get("utm_campaign");
+  if (utm_campaign) localStorage.setItem("utm_campaign", utm_campaign);
+
+  const utm_content = urlParams.get("utm_content");
+  if (utm_content) localStorage.setItem("utm_content", utm_content);
+
+  const utm_term = urlParams.get("utm_term");
+  if (utm_term) localStorage.setItem("utm_term", utm_term);
+};
+
+const getUTMs = (): UTM => {
+  const utm_source = localStorage.getItem("utm_source");
+  const utm_medium = localStorage.getItem("utm_medium");
+  const utm_campaign = localStorage.getItem("utm_campaign");
+  const utm_content = localStorage.getItem("utm_content");
+  const utm_term = localStorage.getItem("utm_term");
+
+  return {
+    source: utm_source ?? undefined,
+    medium: utm_medium ?? undefined,
+    campaign: utm_campaign ?? undefined,
+    content: utm_content ?? undefined,
+    term: utm_term ?? undefined,
+  };
 };
 
 const deleteFarmUrl = () =>
@@ -181,6 +216,8 @@ export const authMachine = createMachine(
             onboardingAnalytics.logEvent(`promo_code_${promoCode}` as any);
             savePromoCode(promoCode);
           }
+
+          storeUTMs();
         },
         always: [
           {
@@ -362,6 +399,7 @@ export const authMachine = createMachine(
               transactionId: context.transactionId as string,
               promoCode: getPromoCode(),
               referrerId: getReferrerID(),
+              utm: getUTMs(),
             });
 
             return {
