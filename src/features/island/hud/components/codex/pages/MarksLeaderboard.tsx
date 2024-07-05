@@ -89,12 +89,7 @@ export const MarksLeaderboard: React.FC<Props> = ({
 }) => {
   const { t } = useAppTranslation();
 
-  const [selected, setSelected] = useState({
-    nightshades: true,
-    bumpkins: true,
-    goblins: true,
-    sunflorians: true,
-  });
+  const [selected, setSelected] = useState<FactionName>();
   const [leaderboard, setLeaderboard] = useState<"marks" | "emblems">("marks");
 
   if (isLoading) {
@@ -113,11 +108,9 @@ export const MarksLeaderboard: React.FC<Props> = ({
     );
 
   const select = (faction: FactionName) => {
-    const updated = { ...selected, [faction]: !selected[faction] };
-    // At least one must be true
-    if (!Object.values(updated).some((s) => s)) return;
-
-    setSelected(updated);
+    setSelected((prevFaction) =>
+      prevFaction === faction ? undefined : faction,
+    );
   };
 
   const data =
@@ -128,7 +121,7 @@ export const MarksLeaderboard: React.FC<Props> = ({
   const topRanks: (RankData & { faction: FactionName })[] = getKeys(
     data.topTens,
   )
-    .filter((name) => !!selected[name])
+    .filter(([faction]) => !selected || selected === faction)
     .reduce(
       (rows, faction) => {
         return [
@@ -141,7 +134,7 @@ export const MarksLeaderboard: React.FC<Props> = ({
 
   let playerRanks: RankData[] = [];
 
-  const showPlayerRank = !!selected[faction];
+  const showPlayerRank = selected === faction;
   if (showPlayerRank && leaderboard === "marks") {
     playerRanks = marksLeaderboard.marks.marksRankingData ?? [];
   }
@@ -233,7 +226,7 @@ export const MarksLeaderboard: React.FC<Props> = ({
               <FilterCheckbox
                 key={`faction-${faction}`}
                 faction={faction}
-                selected={selected[faction]}
+                selected={selected === faction}
                 onClick={() => select(faction)}
               />
             ))}
