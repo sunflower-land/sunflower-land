@@ -30,6 +30,7 @@ import selectBoxTR from "assets/ui/select/selectbox_tr.png";
 import {
   DifficultyIndex,
   PET_FED_REWARDS_KEY,
+  getKingdomPetBoost,
   getTotalXPForRequest,
 } from "features/game/events/landExpansion/feedFactionPet";
 import { PIXEL_SCALE } from "features/game/lib/constants";
@@ -41,6 +42,8 @@ import { secondsToString } from "lib/utils/time";
 import { getFactionPetUpdate } from "./actions/getFactionPetUpdate";
 
 import powerup from "assets/icons/level_up.png";
+import lightning from "assets/icons/lightning.png";
+
 import { hasFeatureAccess } from "lib/flags";
 
 export const PET_SLEEP_DURATION = 24 * 60 * 60 * 1000;
@@ -236,6 +239,11 @@ export const FactionPetPanel: React.FC<Props> = () => {
     inventory[selectedRequest.food] ?? new Decimal(0)
   ).gte(selectedRequest.quantity);
 
+  const boost = getKingdomPetBoost(
+    gameService.state.context.state,
+    selectedRequestReward,
+  );
+
   return (
     <>
       <Label
@@ -293,6 +301,11 @@ export const FactionPetPanel: React.FC<Props> = () => {
                           PET_FED_REWARDS_KEY[idx as DifficultyIndex],
                         );
 
+                        const boost = getKingdomPetBoost(
+                          gameService.state.context.state,
+                          points,
+                        );
+
                         return (
                           <OuterPanel
                             key={JSON.stringify(request)}
@@ -315,6 +328,7 @@ export const FactionPetPanel: React.FC<Props> = () => {
                               />
                               <Label
                                 icon={ITEM_DETAILS["Mark"].image}
+                                secondaryIcon={boost ? lightning : undefined}
                                 type="warning"
                                 className="absolute h-6"
                                 iconWidth={10}
@@ -324,7 +338,9 @@ export const FactionPetPanel: React.FC<Props> = () => {
                                   left: "-4px",
                                 }}
                               >
-                                {points}
+                                <span className={boost ? "pl-1.5" : ""}>
+                                  {points + boost}
+                                </span>
                               </Label>
                             </div>
                             {selectedRequestIdx === idx && (
@@ -360,10 +376,13 @@ export const FactionPetPanel: React.FC<Props> = () => {
                     <div className="flex flex-col items-center space-y-1 px-1.5 mb-1">
                       <Label
                         icon={ITEM_DETAILS["Mark"].image}
+                        secondaryIcon={boost ? lightning : undefined}
                         type="warning"
                         className="m-1"
                       >
-                        {`${selectedRequestReward} marks`}
+                        <span className={boost ? "pl-1.5" : ""}>
+                          {`${selectedRequestReward + boost} ${t("marks")}`}
+                        </span>
                       </Label>
                       <div className="hidden sm:flex flex-col space-y-1 w-full justify-center items-center">
                         <p className="text-sm">{selectedRequest.food}</p>

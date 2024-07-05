@@ -11,7 +11,7 @@ import { CONSUMABLES } from "features/game/types/consumables";
 import { FactionPetRequest, GameState } from "features/game/types/game";
 import cloneDeep from "lodash.clonedeep";
 
-const getKingdomPetBoost = (game: GameState, marks: number) => {
+export const getKingdomPetBoost = (game: GameState, marks: number) => {
   const wearablesBoost = getFactionWearableBoostAmount(game, marks);
   const rankBoost = getFactionRankBoostAmount(game, marks);
 

@@ -19,7 +19,7 @@ export enum DELIVER_FACTION_KITCHEN_ERRORS {
 
 export const BASE_POINTS = 20;
 
-const getKingdomKitchenBoost = (game: GameState, marks: number) => {
+export const getKingdomKitchenBoost = (game: GameState, marks: number) => {
   const wearablesBoost = getFactionWearableBoostAmount(game, marks);
   const rankBoost = getFactionRankBoostAmount(game, marks);
 

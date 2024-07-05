@@ -304,7 +304,7 @@ const Panel: React.FC<PanelProps> = ({
             secondaryIcon={boost ? lightning : null}
             className="text-center whitespace-nowrap"
           >
-            <span className="pl-1.5">
+            <span className={boost ? "pl-1.5" : ""}>
               {`${chore.marks + boost} ${t("marks")}`}
             </span>
           </Label>
