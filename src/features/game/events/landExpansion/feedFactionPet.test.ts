@@ -464,4 +464,103 @@ describe("feedFactionPet", () => {
 
     expect(result.inventory["Mark"]?.toNumber()).toBe(12.6);
   });
+
+  it("rewards 400% bonus marks if top rank in faction", () => {
+    const result = feedFactionPet({
+      state: {
+        ...state,
+        inventory: {
+          "Carrot Cake": new Decimal(1),
+          Mark: new Decimal(0),
+          "Goblin Emblem": new Decimal(100_000),
+        },
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          equipped: {
+            ...INITIAL_BUMPKIN.equipped,
+          },
+        },
+        faction: {
+          ...state.faction,
+          pet: {
+            week,
+            requests: [
+              {
+                food: "Pumpkin Soup",
+                quantity: new Decimal(2),
+                dailyFulfilled: {},
+              },
+              {
+                food: "Sunflower Cake",
+                quantity: 1,
+                dailyFulfilled: {},
+              },
+              {
+                food: "Carrot Cake",
+                quantity: 1,
+                dailyFulfilled: {},
+              },
+            ],
+          },
+          history: {
+            [week]: { petXP: 0, score: 0 },
+          },
+        } as Faction,
+      },
+      createdAt: startTime,
+      action: { type: "factionPet.fed", requestIndex: 2 },
+    });
+
+    expect(result.inventory["Mark"]?.toNumber()).toBe(12 * 5);
+  });
+
+  it("rewards 405% bonus marks if top rank and wearing faction shoes", () => {
+    const result = feedFactionPet({
+      state: {
+        ...state,
+        inventory: {
+          "Carrot Cake": new Decimal(1),
+          Mark: new Decimal(0),
+          "Goblin Emblem": new Decimal(100_000),
+        },
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          equipped: {
+            ...INITIAL_BUMPKIN.equipped,
+            shoes: "Goblin Sabatons",
+          },
+        },
+        faction: {
+          ...state.faction,
+          pet: {
+            week,
+            requests: [
+              {
+                food: "Pumpkin Soup",
+                quantity: new Decimal(2),
+                dailyFulfilled: {},
+              },
+              {
+                food: "Sunflower Cake",
+                quantity: 1,
+                dailyFulfilled: {},
+              },
+              {
+                food: "Carrot Cake",
+                quantity: 1,
+                dailyFulfilled: {},
+              },
+            ],
+          },
+          history: {
+            [week]: { petXP: 0, score: 0 },
+          },
+        } as Faction,
+      },
+      createdAt: startTime,
+      action: { type: "factionPet.fed", requestIndex: 2 },
+    });
+
+    expect(result.inventory["Mark"]?.toNumber()).toBeCloseTo(12 * 5.05);
+  });
 });

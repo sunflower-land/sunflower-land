@@ -1,4 +1,5 @@
 import Decimal from "decimal.js-light";
+import { getFactionRankBoostAmount } from "features/game/lib/factionRanks";
 import {
   START_DATE,
   getFactionWearableBoostAmount,
@@ -17,6 +18,13 @@ export enum DELIVER_FACTION_KITCHEN_ERRORS {
 }
 
 export const BASE_POINTS = 20;
+
+const getKingdomKitchenBoost = (game: GameState, marks: number) => {
+  const wearablesBoost = getFactionWearableBoostAmount(game, marks);
+  const rankBoost = getFactionRankBoostAmount(game, marks);
+
+  return wearablesBoost + rankBoost;
+};
 
 export type DeliverFactionKitchenAction = {
   type: "factionKitchen.delivered";
@@ -72,7 +80,7 @@ export function deliverFactionKitchen({
   const fulfilledToday = request.dailyFulfilled[day] ?? 0;
 
   const points = BASE_POINTS - fulfilledToday * 2;
-  const boostPoints = getFactionWearableBoostAmount(stateCopy, points);
+  const boostPoints = getKingdomKitchenBoost(stateCopy, points);
   const totalPoints = points + boostPoints;
 
   const leaderboard = faction.history[week] ?? {
