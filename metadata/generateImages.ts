@@ -20,6 +20,7 @@ const IMAGES: Partial<Record<InventoryItemName, string>> = {
   "Sunflorian Gold Champion": "src/assets/sfts/sunflorian_silver_champion.png",
   "Sunflorian Silver Champion":
     "src/assets/sfts/sunflorian_bronze_champion.png",
+  "Jelly Lamp": "src/assets/sfts/jelly_lamp.webp",
 };
 
 const WIDTH = 1920;
