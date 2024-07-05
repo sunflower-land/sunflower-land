@@ -45,6 +45,7 @@ import powerup from "assets/icons/level_up.png";
 import lightning from "assets/icons/lightning.png";
 
 import { hasFeatureAccess } from "lib/flags";
+import { setPrecision } from "lib/utils/formatNumber";
 
 export const PET_SLEEP_DURATION = 24 * 60 * 60 * 1000;
 
@@ -244,6 +245,11 @@ export const FactionPetPanel: React.FC<Props> = () => {
     selectedRequestReward,
   );
 
+  const boostedMarks = setPrecision(
+    new Decimal(selectedRequestReward + boost),
+    2,
+  );
+
   return (
     <>
       <Label
@@ -306,6 +312,11 @@ export const FactionPetPanel: React.FC<Props> = () => {
                           points,
                         );
 
+                        const boostedMarks = setPrecision(
+                          new Decimal(points + boost),
+                          2,
+                        );
+
                         return (
                           <OuterPanel
                             key={JSON.stringify(request)}
@@ -339,7 +350,7 @@ export const FactionPetPanel: React.FC<Props> = () => {
                                 }}
                               >
                                 <span className={boost ? "pl-1.5" : ""}>
-                                  {points + boost}
+                                  {boostedMarks}
                                 </span>
                               </Label>
                             </div>
@@ -381,7 +392,7 @@ export const FactionPetPanel: React.FC<Props> = () => {
                         className="m-1"
                       >
                         <span className={boost ? "pl-1.5" : ""}>
-                          {`${selectedRequestReward + boost} ${t("marks")}`}
+                          {`${boostedMarks} ${t("marks")}`}
                         </span>
                       </Label>
                       <div className="hidden sm:flex flex-col space-y-1 w-full justify-center items-center">
@@ -426,8 +437,8 @@ export const FactionPetPanel: React.FC<Props> = () => {
               <div className="space-y-3">
                 <span className="text-xs sm:text-sm">
                   {t("faction.donation.confirm", {
-                    factionPoints: selectedRequestReward,
-                    reward: selectedRequestReward > 1 ? "marks" : "mark",
+                    factionPoints: boostedMarks,
+                    reward: Number(boostedMarks) > 1 ? "marks" : "mark",
                   })}
                 </span>
                 <div className="flex flex-col space-y-1">

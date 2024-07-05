@@ -29,6 +29,8 @@ import lightning from "assets/icons/lightning.png";
 import { hasFeatureAccess } from "lib/flags";
 import { BumpkinActivityName } from "features/game/types/bumpkinActivity";
 import { getKingdomChoreBoost } from "features/game/events/landExpansion/completeKingdomChore";
+import { setPrecision } from "lib/utils/formatNumber";
+import Decimal from "decimal.js-light";
 
 const getSecondaryImage = (activity: BumpkinActivityName) => {
   if (activity.endsWith("Cooked")) return chefsHat;
@@ -288,6 +290,8 @@ const Panel: React.FC<PanelProps> = ({
 
   const boost = getKingdomChoreBoost(gameService.state.context.state, chore);
 
+  const boostedMarks = setPrecision(new Decimal(chore.marks + boost), 2);
+
   return (
     <div className="flex flex-col justify-center">
       <div className="flex space-y-1 space-x-2 justify-start items-center sm:flex-col-reverse md:space-x-0 p-1">
@@ -305,7 +309,7 @@ const Panel: React.FC<PanelProps> = ({
             className="text-center whitespace-nowrap"
           >
             <span className={boost ? "pl-1.5" : ""}>
-              {`${chore.marks + boost} ${t("marks")}`}
+              {`${boostedMarks} ${t("marks")}`}
             </span>
           </Label>
         </div>
@@ -404,7 +408,13 @@ const ConfirmSkip: React.FC<{
   onBack: () => void;
   chore: KingdomChore;
 }> = ({ onConfirm, onBack, chore }) => {
+  const { gameService } = useContext(Context);
+
   const { t } = useAppTranslation();
+
+  const boost = getKingdomChoreBoost(gameService.state.context.state, chore);
+
+  const boostedMarks = setPrecision(new Decimal(chore.marks + boost), 2);
 
   return (
     <InnerPanel>
@@ -424,7 +434,7 @@ const ConfirmSkip: React.FC<{
         </div>
         <div className="pb-2">
           <Label type="warning" icon={mark} className="text-center">
-            {chore.marks} {t("marks")}
+            {boostedMarks} {t("marks")}
           </Label>
         </div>
         <div className="flex w-full space-x-1">

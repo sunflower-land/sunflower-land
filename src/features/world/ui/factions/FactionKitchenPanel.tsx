@@ -33,6 +33,7 @@ import {
   getFactionWeekday,
 } from "features/game/lib/factions";
 import { hasFeatureAccess } from "lib/flags";
+import { setPrecision } from "lib/utils/formatNumber";
 
 interface Props {
   bumpkinParts: Equipped;
@@ -127,6 +128,11 @@ export const FactionKitchenPanel: React.FC<Props> = ({ bumpkinParts }) => {
 
   const boost = getKingdomKitchenBoost(game, selectedRequestReward);
 
+  const boostedMarks = setPrecision(
+    new Decimal(selectedRequestReward + boost),
+    2,
+  );
+
   return (
     <CloseButtonPanel bumpkinParts={bumpkinParts}>
       <div className="p-1 space-y-2">
@@ -163,6 +169,11 @@ export const FactionKitchenPanel: React.FC<Props> = ({ bumpkinParts }) => {
                         points,
                       );
 
+                      const boostedMarks = setPrecision(
+                        new Decimal(points + boost),
+                        2,
+                      );
+
                       return (
                         <OuterPanel
                           key={JSON.stringify(request)}
@@ -192,7 +203,7 @@ export const FactionKitchenPanel: React.FC<Props> = ({ bumpkinParts }) => {
                               }}
                             >
                               <span className={boost ? "pl-1.5" : ""}>
-                                {points + boost}
+                                {boostedMarks}
                               </span>
                             </Label>
                           </div>
@@ -234,7 +245,7 @@ export const FactionKitchenPanel: React.FC<Props> = ({ bumpkinParts }) => {
                       className="m-1"
                     >
                       <span className={boost ? "pl-1.5" : ""}>
-                        {`${selectedRequestReward + boost} ${t("marks")}`}
+                        {`${boostedMarks} ${t("marks")}`}
                       </span>
                     </Label>
                     <div className="hidden sm:flex flex-col space-y-1 w-full justify-center items-center">
@@ -275,8 +286,8 @@ export const FactionKitchenPanel: React.FC<Props> = ({ bumpkinParts }) => {
             <div className="space-y-3">
               <span className="text-xs sm:text-sm">
                 {t("faction.donation.confirm", {
-                  factionPoints: selectedRequestReward,
-                  reward: selectedRequestReward > 1 ? "marks" : "mark",
+                  factionPoints: boostedMarks,
+                  reward: Number(boostedMarks) > 1 ? "marks" : "mark",
                 })}
               </span>
               <div className="flex flex-col space-y-1">
