@@ -9,7 +9,7 @@ export const JellyLamp: React.FC = () => {
       <img
         src={image}
         style={{
-          width: `${PIXEL_SCALE * 16}px`,
+          width: `${PIXEL_SCALE * 32}px`,
           bottom: `${PIXEL_SCALE * 2}px`,
           left: `${PIXEL_SCALE * 0}px`,
         }}
