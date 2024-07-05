@@ -131,7 +131,7 @@ export const FactionKitchenPanel: React.FC<Props> = ({ bumpkinParts }) => {
   const boostedMarks = setPrecision(
     new Decimal(selectedRequestReward + boost),
     2,
-  );
+  ).toNumber();
 
   return (
     <CloseButtonPanel bumpkinParts={bumpkinParts}>
@@ -172,7 +172,7 @@ export const FactionKitchenPanel: React.FC<Props> = ({ bumpkinParts }) => {
                       const boostedMarks = setPrecision(
                         new Decimal(points + boost),
                         2,
-                      );
+                      ).toNumber();
 
                       return (
                         <OuterPanel
@@ -287,7 +287,7 @@ export const FactionKitchenPanel: React.FC<Props> = ({ bumpkinParts }) => {
               <span className="text-xs sm:text-sm">
                 {t("faction.donation.confirm", {
                   factionPoints: boostedMarks,
-                  reward: Number(boostedMarks) > 1 ? "marks" : "mark",
+                  reward: boostedMarks > 1 ? "marks" : "mark",
                 })}
               </span>
               <div className="flex flex-col space-y-1">

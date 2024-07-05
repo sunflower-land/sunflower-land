@@ -200,7 +200,10 @@ export const FactionPetPanel: React.FC<Props> = () => {
     });
     if (!autosaving) gameService.send("SAVE");
 
-    const totalXP = getTotalXPForRequest(pet.requests[selectedRequestIdx]);
+    const totalXP = getTotalXPForRequest(
+      gameService.state.context.state,
+      pet.requests[selectedRequestIdx],
+    );
     setFedXP((prev) => prev + totalXP);
     setShowConfirm(false);
   };
@@ -248,7 +251,7 @@ export const FactionPetPanel: React.FC<Props> = () => {
   const boostedMarks = setPrecision(
     new Decimal(selectedRequestReward + boost),
     2,
-  );
+  ).toNumber();
 
   return (
     <>
@@ -315,7 +318,7 @@ export const FactionPetPanel: React.FC<Props> = () => {
                         const boostedMarks = setPrecision(
                           new Decimal(points + boost),
                           2,
-                        );
+                        ).toNumber();
 
                         return (
                           <OuterPanel
@@ -438,7 +441,7 @@ export const FactionPetPanel: React.FC<Props> = () => {
                 <span className="text-xs sm:text-sm">
                   {t("faction.donation.confirm", {
                     factionPoints: boostedMarks,
-                    reward: Number(boostedMarks) > 1 ? "marks" : "mark",
+                    reward: boostedMarks > 1 ? "marks" : "mark",
                   })}
                 </span>
                 <div className="flex flex-col space-y-1">
