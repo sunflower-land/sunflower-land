@@ -200,7 +200,10 @@ export const FactionPetPanel: React.FC<Props> = () => {
     });
     if (!autosaving) gameService.send("SAVE");
 
-    const totalXP = getTotalXPForRequest(pet.requests[selectedRequestIdx]);
+    const totalXP = getTotalXPForRequest(
+      gameService.state.context.state,
+      pet.requests[selectedRequestIdx],
+    );
     setFedXP((prev) => prev + totalXP);
     setShowConfirm(false);
   };
