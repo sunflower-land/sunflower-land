@@ -290,7 +290,10 @@ const Panel: React.FC<PanelProps> = ({
 
   const boost = getKingdomChoreBoost(gameService.state.context.state, chore);
 
-  const boostedMarks = setPrecision(new Decimal(chore.marks + boost), 2);
+  const boostedMarks = setPrecision(
+    new Decimal(chore.marks + boost),
+    2,
+  ).toNumber();
 
   return (
     <div className="flex flex-col justify-center">
@@ -414,7 +417,10 @@ const ConfirmSkip: React.FC<{
 
   const boost = getKingdomChoreBoost(gameService.state.context.state, chore);
 
-  const boostedMarks = setPrecision(new Decimal(chore.marks + boost), 2);
+  const boostedMarks = setPrecision(
+    new Decimal(chore.marks + boost),
+    2,
+  ).toNumber();
 
   return (
     <InnerPanel>
