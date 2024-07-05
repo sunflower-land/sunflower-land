@@ -13,7 +13,6 @@ const API_URL = CONFIG.API_URL;
 type Options = {
   farmId: number;
   leaderboardName: keyof Leaderboards;
-  date?: string;
 };
 
 export type RankData = {
@@ -105,26 +104,26 @@ export async function getLeaderboard<T>({
 
 const KINGDOM_LEADERBOARD_CACHE = 10 * 60 * 1000;
 
-export async function getKingdomLeaderboard<T>({
+export async function getChampionsLeaderboard<T>({
   farmId,
   date,
-}: Options): Promise<T | undefined> {
+}: {
+  farmId: number;
+  date: string;
+}): Promise<KingdomLeaderboard | undefined> {
   const cache = getCachedLeaderboardData({
-    name: "kingdom",
+    name: "champions",
     duration: KINGDOM_LEADERBOARD_CACHE,
   });
 
-  const isOldLeaderboard =
-    (cache as KingdomLeaderboard)?.week !== getFactionWeek();
+  const isCorrectWeek =
+    cache?.week === getFactionWeek({ date: new Date(date) });
 
-  if (cache && !isOldLeaderboard) {
+  if (cache && isCorrectWeek) {
     return cache as T;
   }
 
-  let url = `${API_URL}/leaderboard/kingdom/${farmId}`;
-  if (date) {
-    url += `?date=${date}`;
-  }
+  const url = `${API_URL}/leaderboard/kingdom/${farmId}?date=${date}`;
 
   const response = await window.fetch(url, {
     method: "GET",
@@ -143,7 +142,7 @@ export async function getKingdomLeaderboard<T>({
 
   const data = await response.json();
 
-  cacheLeaderboard({ name: "kingdom", data });
+  cacheLeaderboard({ name: "champions", data });
 
   return data;
 }
@@ -166,7 +165,7 @@ export async function fetchLeaderboardData(
         farmId: Number(farmId),
         leaderboardName: "factions",
       }),
-      getKingdomLeaderboard<KingdomLeaderboard>({
+      getLeaderboard<KingdomLeaderboard>({
         farmId: Number(farmId),
         leaderboardName: "kingdom",
       }),
