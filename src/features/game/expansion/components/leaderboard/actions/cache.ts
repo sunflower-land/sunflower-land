@@ -15,6 +15,7 @@ export type Leaderboards = {
   factions?: FactionLeaderboard;
   kingdom?: KingdomLeaderboard;
   emblems?: EmblemsLeaderboard;
+  champions?: KingdomLeaderboard;
 };
 
 export function cacheLeaderboard<T extends keyof Leaderboards>({
