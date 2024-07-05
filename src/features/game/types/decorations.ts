@@ -221,8 +221,8 @@ export type DecorationName =
 
 export const DECORATION_DIMENSIONS: Record<DecorationName, Dimensions> = {
   "Jelly Lamp": {
-    width: 1,
-    height: 1,
+    width: 2,
+    height: 2,
   },
   ...(getKeys(DECORATION_TEMPLATES) as TemplateDecorationName[]).reduce(
     (acc, name) => ({
