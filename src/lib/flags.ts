@@ -59,7 +59,7 @@ const featureFlags: Record<FeatureName, FeatureFlag> = {
   PORTALS: testnetFeatureFlag,
   JEST_TEST: defaultFeatureFlag,
   DESERT_RECIPES: defaultFeatureFlag,
-  FACTION_HOUSE: defaultFeatureFlag,
+  FACTION_HOUSE: betaTimeBasedFeatureFlag(new Date("2022-07-08T00:00:00Z")),
   EASTER: (game) => {
     return false;
   },
@@ -67,8 +67,8 @@ const featureFlags: Record<FeatureName, FeatureFlag> = {
   BANNER_SALES: clashOfFactionsFeatureFlag,
   // Just in case we need to disable the crop machine, leave the flag in temporarily
   CROP_MACHINE: () => true,
-  MARKS_LEADERBOARD: defaultFeatureFlag,
-  FACTION_KITCHEN: defaultFeatureFlag,
+  MARKS_LEADERBOARD: betaTimeBasedFeatureFlag(new Date("2022-07-08T00:00:00Z")),
+  FACTION_KITCHEN: betaTimeBasedFeatureFlag(new Date("2022-07-08T00:00:00Z")),
   FACTION_CHORES: betaTimeBasedFeatureFlag(new Date("2022-07-08T00:00:00Z")),
 };
 
