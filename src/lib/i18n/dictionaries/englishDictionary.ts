@@ -177,6 +177,7 @@ import {
   EasterEggKeys,
   ChangeLanguage,
   FactionShopDescription,
+  GuideFactionPet,
 } from "./types";
 
 const generalTerms: Record<GeneralTerms, string> = {
@@ -2866,6 +2867,19 @@ const guideCompost: Record<GuideCompost, string> = {
     "Are you sure you want to add {{noEggs}} Eggs to reduce compost production time by {{time}}?",
 };
 
+const guideFactionPet: Record<GuideFactionPet, string> = {
+  "guide.factionPet.one":
+    "Each week the pet will request 3 foods. When fed, the XP from the food will go to the total XP tally for the faction.",
+  "guide.factionPet.two":
+    "Your faction will have a goal xp they need to reach each week. If the faction reaches the goal, the next week goal will be 30% harder! If the goal isn't reached, the next week goal will be 30% easier than the last weeks total xp.",
+  "guide.factionPet.three":
+    "If the faction doesn't reach the goal then the pet will go to sleep for 1 day.",
+  "guide.factionPet.four":
+    "Once the faction reaches a streak of 3 or more weeks, an XP bonus will be given to each contributing faction member when their bumpkin eats!",
+  "guide.factionPet.five":
+    "You will be awared marks for each food delivered. Every time you deliver the reward will reduce by 2. These rewards will reset daily. Players with an emblem bonus will get an additional bonus based on their faction bonus rank.",
+};
+
 const guideTerms: Record<GuideTerms, string> = {
   "guide.intro":
     "From humble beginnings to expert farming, this guide has got you covered!",
@@ -5510,6 +5524,7 @@ export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
   ...goldTooth,
   ...greenhouse,
   ...guideCompost,
+  ...guideFactionPet,
   ...guideTerms,
   ...harvestBeeHive,
   ...harvestflower,

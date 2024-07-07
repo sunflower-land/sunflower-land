@@ -178,6 +178,7 @@ import {
   EasterEggKeys,
   ChangeLanguage,
   FactionShopDescription,
+  GuideFactionPet,
 } from "./types";
 
 const generalTerms: Record<GeneralTerms, string> = {
@@ -2629,6 +2630,14 @@ const guideCompost: Record<GuideCompost, string> = {
     ENGLISH_TERMS["guide.compost.addEggs.confirmation"],
 };
 
+const guideFactionPet: Record<GuideFactionPet, string> = {
+  "guide.factionPet.one": ENGLISH_TERMS["guide.factionPet.one"],
+  "guide.factionPet.two": ENGLISH_TERMS["guide.factionPet.two"],
+  "guide.factionPet.three": ENGLISH_TERMS["guide.factionPet.three"],
+  "guide.factionPet.four": ENGLISH_TERMS["guide.factionPet.four"],
+  "guide.factionPet.five": ENGLISH_TERMS["guide.factionPet.five"],
+};
+
 const guideTerms: Record<GuideTerms, string> = {
   "guide.intro": "从简朴的开始到专家级的农耕，这份指南将全面指导你！",
   "gathering.guide.one":
@@ -4875,6 +4884,7 @@ export const CHINESE_SIMPLIFIED_TERMS: Record<TranslationKeys, string> = {
   ...goblinTrade,
   ...goldTooth,
   ...guideCompost,
+  ...guideFactionPet,
   ...guideTerms,
   ...harvestBeeHive,
   ...harvestflower,

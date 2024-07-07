@@ -218,21 +218,6 @@ export const STATIC_OFFLINE_FARM: GameState = {
     pots: {},
     oil: 50,
   },
-  kingdomChores: {
-    chores: [
-      {
-        activity: "Sunflower Harvested",
-        description: "Harvest 200 Sunflowers",
-        image: "Sunflower",
-        marks: 50,
-        requirement: 200,
-        startedAt: Date.now(),
-        startCount: 0,
-      },
-    ],
-    choresCompleted: 0,
-    choresSkipped: 0,
-  },
   home: {
     collectibles: {
       Wardrobe: [
@@ -322,11 +307,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     spawnedAt: 0,
   },
   farmHands: { bumpkins: {} },
-  bumpkin: {
-    ...INITIAL_BUMPKIN,
-    experience: 100000000,
-    equipped: { ...INITIAL_BUMPKIN.equipped, shoes: "Goblin Sabatons" },
-  },
+  bumpkin: { ...INITIAL_BUMPKIN, experience: 100000000 },
   buds: {
     1: {
       aura: "Basic",
@@ -1357,11 +1338,11 @@ export const STATIC_OFFLINE_FARM: GameState = {
     amount: new Decimal(1000),
   },
   faction: {
-    name: "bumpkins",
+    name: "goblins",
     pledgedAt: 0,
     points: 100,
     pet: {
-      week: "2024/07/01",
+      week: "2024/07/08",
       requests: [
         {
           food: "Pumpkin Soup",
@@ -1381,7 +1362,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
       ],
     },
     history: {
-      "2024-06-24": {
+      "2024-07-08": {
         score: 200,
         petXP: 0,
         results: {
@@ -1393,6 +1374,12 @@ export const STATIC_OFFLINE_FARM: GameState = {
               Mark: 100,
             },
           },
+        },
+        collectivePet: {
+          totalXP: 1000,
+          goalReached: false,
+          goalXP: 2000,
+          streak: 0,
         },
       },
     },

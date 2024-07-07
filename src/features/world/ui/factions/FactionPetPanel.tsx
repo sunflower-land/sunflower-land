@@ -8,6 +8,7 @@ import { MachineState } from "features/game/lib/gameMachine";
 import {
   CollectivePet,
   Faction,
+  FactionName,
   FactionPet,
   FactionPetRequest,
   InventoryItemName,
@@ -43,9 +44,11 @@ import { getFactionPetUpdate } from "./actions/getFactionPetUpdate";
 
 import powerup from "assets/icons/level_up.png";
 import lightning from "assets/icons/lightning.png";
+import xpIcon from "assets/icons/xp.png";
 
 import { hasFeatureAccess } from "lib/flags";
 import { setPrecision } from "lib/utils/formatNumber";
+import { FACTION_EMBLEM_ICONS } from "./components/ClaimEmblems";
 
 export const PET_SLEEP_DURATION = 24 * 60 * 60 * 1000;
 
@@ -142,7 +145,7 @@ const getPetState = (collectivePet: CollectivePet): PetState => {
 
 // set wake time to 10 seconds after the component loads
 
-export const FactionPetPanel: React.FC<Props> = () => {
+export const FactionPetPanel: React.FC<Props> = ({ onClose }) => {
   const { gameService } = useContext(Context);
   const { t } = useAppTranslation();
 
@@ -170,6 +173,7 @@ export const FactionPetPanel: React.FC<Props> = () => {
   const [petState, setPetState] = useState<PetState>(
     getPetState(collectivePet),
   );
+  const [tab, setTab] = useState(0);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -270,204 +274,276 @@ export const FactionPetPanel: React.FC<Props> = () => {
           }),
         })}`}
       </Label>
-      <CloseButtonPanel>
-        <div className="p-1 space-y-2">
-          <div className="flex justify-between items-center">
-            <Label
-              type="default"
-              className={classNames({
-                pulse: refreshing || autosaving,
-              })}
-            >
-              {t("faction.pet.weeklyGoal", { goalXP, totalXP: fedXP })}
-            </Label>
-            {streak > 0 && (
+      <CloseButtonPanel
+        onClose={onClose}
+        currentTab={tab}
+        setCurrentTab={(tab) => {
+          setTab(tab);
+        }}
+        tabs={[
+          {
+            icon: FACTION_EMBLEM_ICONS[faction.name as FactionName],
+            name: "Faction Pet",
+          },
+          {
+            icon: SUNNYSIDE.icons.expression_confused,
+            name: t("guide"),
+          },
+        ]}
+      >
+        {tab === 0 && (
+          <div className="p-1 space-y-2">
+            <div className="flex justify-between items-center">
               <Label
-                type={streak >= 3 ? "success" : "default"}
-                icon={streak >= 3 ? powerup : ""}
+                type="default"
+                className={classNames({
+                  pulse: refreshing || autosaving,
+                })}
               >
-                {t("faction.pet.streak", { streak })}
+                {t("faction.pet.weeklyGoal", { goalXP, totalXP: fedXP })}
               </Label>
-            )}
-          </div>
-          {!showConfirm && (
-            <>
-              <p className="block sm:hidden text-xs pb-1">
-                {t("faction.pet.gatherResources")}
-              </p>
-              <SplitScreenView
-                mobileReversePanelOrder
-                content={
-                  <div className="flex flex-col space-y-2 w-full">
-                    <p className="hidden sm:block text-xs p-1 pb-2">
-                      {t("faction.pet.gatherResources")}
-                    </p>
-                    <div className="flex w-full justify-between gap-2 pl-0.5 pb-2">
-                      {pet.requests.map((request, idx) => {
-                        const fulfilled = request.dailyFulfilled[day] ?? 0;
-                        const points = calculatePoints(
-                          fulfilled,
-                          PET_FED_REWARDS_KEY[idx as DifficultyIndex],
-                        );
+              {streak > 0 && (
+                <Label
+                  type={streak >= 3 ? "success" : "default"}
+                  icon={streak >= 3 ? powerup : ""}
+                >
+                  {t("faction.pet.streak", { streak })}
+                </Label>
+              )}
+            </div>
+            {!showConfirm && (
+              <>
+                <p className="block sm:hidden text-xs pb-1">
+                  {t("faction.pet.gatherResources")}
+                </p>
+                <SplitScreenView
+                  mobileReversePanelOrder
+                  content={
+                    <div className="flex flex-col space-y-2 w-full">
+                      <p className="hidden sm:block text-xs p-1 pb-2">
+                        {t("faction.pet.gatherResources")}
+                      </p>
+                      <div className="flex w-full justify-between gap-2 pl-0.5 pb-2">
+                        {pet.requests.map((request, idx) => {
+                          const fulfilled = request.dailyFulfilled[day] ?? 0;
+                          const points = calculatePoints(
+                            fulfilled,
+                            PET_FED_REWARDS_KEY[idx as DifficultyIndex],
+                          );
 
-                        const boost = getKingdomPetBoost(
-                          gameService.state.context.state,
-                          points,
-                        );
+                          const boost = getKingdomPetBoost(
+                            gameService.state.context.state,
+                            points,
+                          );
 
-                        const boostedMarks = setPrecision(
-                          new Decimal(points + boost),
-                          2,
-                        ).toNumber();
+                          const boostedMarks = setPrecision(
+                            new Decimal(points + boost),
+                            2,
+                          ).toNumber();
 
-                        return (
-                          <OuterPanel
-                            key={JSON.stringify(request)}
-                            className={classNames(
-                              "flex relative flex-col flex-1 items-center p-2 cursor-pointer hover:bg-brown-300",
-                              {
-                                "img-highlight": selectedRequestIdx === idx,
-                              },
-                            )}
-                            onClick={() => setSelectedRequestIdx(idx)}
-                          >
-                            <div className="flex flex-1 justify-center items-center mb-4 w-full relative">
-                              <SquareIcon
-                                width={24}
-                                icon={
-                                  ITEM_DETAILS[
-                                    request.food as InventoryItemName
-                                  ].image
-                                }
-                              />
-                              <Label
-                                icon={ITEM_DETAILS["Mark"].image}
-                                secondaryIcon={boost ? lightning : undefined}
-                                type="warning"
-                                className="absolute h-6"
-                                iconWidth={10}
-                                style={{
-                                  width: isMobile ? "113%" : "117%",
-                                  bottom: "-24px",
-                                  left: "-4px",
-                                }}
-                              >
-                                <span className={boost ? "pl-1.5" : ""}>
-                                  {boostedMarks}
-                                </span>
-                              </Label>
-                            </div>
-                            {selectedRequestIdx === idx && (
-                              <div id="select-box">
-                                <img
-                                  className="absolute pointer-events-none"
-                                  src={selectBoxTL}
-                                  style={{
-                                    top: `${PIXEL_SCALE * -3}px`,
-                                    left: `${PIXEL_SCALE * -3}px`,
-                                    width: `${PIXEL_SCALE * 8}px`,
-                                  }}
+                          return (
+                            <OuterPanel
+                              key={JSON.stringify(request)}
+                              className={classNames(
+                                "flex relative flex-col flex-1 items-center p-2 cursor-pointer hover:bg-brown-300",
+                                {
+                                  "img-highlight": selectedRequestIdx === idx,
+                                },
+                              )}
+                              onClick={() => setSelectedRequestIdx(idx)}
+                            >
+                              <div className="flex flex-1 justify-center items-center mb-4 w-full relative">
+                                <SquareIcon
+                                  width={24}
+                                  icon={
+                                    ITEM_DETAILS[
+                                      request.food as InventoryItemName
+                                    ].image
+                                  }
                                 />
-                                <img
-                                  className="absolute pointer-events-none"
-                                  src={selectBoxTR}
+                                <Label
+                                  icon={ITEM_DETAILS["Mark"].image}
+                                  secondaryIcon={boost ? lightning : undefined}
+                                  type="warning"
+                                  className="absolute h-6"
+                                  iconWidth={10}
                                   style={{
-                                    top: `${PIXEL_SCALE * -3}px`,
-                                    right: `${PIXEL_SCALE * -3}px`,
-                                    width: `${PIXEL_SCALE * 8}px`,
+                                    width: isMobile ? "113%" : "117%",
+                                    bottom: "-24px",
+                                    left: "-4px",
                                   }}
-                                />
+                                >
+                                  <span className={boost ? "pl-1.5" : ""}>
+                                    {boostedMarks}
+                                  </span>
+                                </Label>
                               </div>
-                            )}
-                          </OuterPanel>
-                        );
-                      })}
+                              {selectedRequestIdx === idx && (
+                                <div id="select-box">
+                                  <img
+                                    className="absolute pointer-events-none"
+                                    src={selectBoxTL}
+                                    style={{
+                                      top: `${PIXEL_SCALE * -3}px`,
+                                      left: `${PIXEL_SCALE * -3}px`,
+                                      width: `${PIXEL_SCALE * 8}px`,
+                                    }}
+                                  />
+                                  <img
+                                    className="absolute pointer-events-none"
+                                    src={selectBoxTR}
+                                    style={{
+                                      top: `${PIXEL_SCALE * -3}px`,
+                                      right: `${PIXEL_SCALE * -3}px`,
+                                      width: `${PIXEL_SCALE * 8}px`,
+                                    }}
+                                  />
+                                </div>
+                              )}
+                            </OuterPanel>
+                          );
+                        })}
+                      </div>
                     </div>
-                  </div>
-                }
-                panel={
-                  <div className="flex flex-col justify-between h-full sm:items-center">
-                    <div className="flex flex-col items-center space-y-1 px-1.5 mb-1">
-                      <Label
-                        icon={ITEM_DETAILS["Mark"].image}
-                        secondaryIcon={boost ? lightning : undefined}
-                        type="warning"
-                        className="m-1"
-                      >
-                        <span className={boost ? "pl-1.5" : ""}>
-                          {`${boostedMarks} ${t("marks")}`}
-                        </span>
-                      </Label>
-                      <div className="hidden sm:flex flex-col space-y-1 w-full justify-center items-center">
-                        <p className="text-sm">{selectedRequest.food}</p>
-                        <SquareIcon
-                          icon={
-                            ITEM_DETAILS[
-                              selectedRequest.food as InventoryItemName
-                            ].image
+                  }
+                  panel={
+                    <div className="flex flex-col justify-between h-full sm:items-center">
+                      <div className="flex flex-col items-center space-y-1 px-1.5 mb-1">
+                        <Label
+                          icon={ITEM_DETAILS["Mark"].image}
+                          secondaryIcon={boost ? lightning : undefined}
+                          type="warning"
+                          className="m-1"
+                        >
+                          <span className={boost ? "pl-1.5" : ""}>
+                            {`${boostedMarks} ${t("marks")}`}
+                          </span>
+                        </Label>
+                        <div className="hidden sm:flex flex-col space-y-1 w-full justify-center items-center">
+                          <p className="text-sm">{selectedRequest.food}</p>
+                          <SquareIcon
+                            icon={
+                              ITEM_DETAILS[
+                                selectedRequest.food as InventoryItemName
+                              ].image
+                            }
+                            width={12}
+                          />
+                        </div>
+                        <RequirementLabel
+                          className={classNames(
+                            "flex justify-between items-center sm:justify-center",
+                            {
+                              "-mt-1": isMobile,
+                            },
+                          )}
+                          showLabel={isMobile}
+                          hideIcon={!isMobile}
+                          type="item"
+                          item={selectedRequest.food}
+                          balance={
+                            inventory[selectedRequest.food] ?? new Decimal(0)
                           }
-                          width={12}
+                          requirement={new Decimal(selectedRequest.quantity)}
                         />
                       </div>
-                      <RequirementLabel
-                        className={classNames(
-                          "flex justify-between items-center sm:justify-center",
-                          {
-                            "-mt-1": isMobile,
-                          },
-                        )}
-                        showLabel={isMobile}
-                        hideIcon={!isMobile}
-                        type="item"
-                        item={selectedRequest.food}
-                        balance={
-                          inventory[selectedRequest.food] ?? new Decimal(0)
-                        }
-                        requirement={new Decimal(selectedRequest.quantity)}
-                      />
+                      <Button
+                        disabled={!canFulfillRequest}
+                        onClick={() => setShowConfirm(true)}
+                      >{`${t("deliver")} ${selectedRequest.quantity}`}</Button>
                     </div>
-                    <Button
-                      disabled={!canFulfillRequest}
-                      onClick={() => setShowConfirm(true)}
-                    >{`${t("deliver")} ${selectedRequest.quantity}`}</Button>
-                  </div>
-                }
-              />
-            </>
-          )}
-          {showConfirm && (
-            <>
-              <div className="space-y-3">
-                <span className="text-xs sm:text-sm">
-                  {t("faction.donation.confirm", {
-                    factionPoints: boostedMarks,
-                    reward: boostedMarks > 1 ? "marks" : "mark",
-                  })}
-                </span>
-                <div className="flex flex-col space-y-1">
-                  <div className="flex justify-between">
-                    <div className="flex items-center">
-                      <SquareIcon
-                        icon={ITEM_DETAILS[selectedRequest.food].image}
-                        width={7}
-                      />
-                      <span className="text-xs sm:text-sm ml-1">
-                        {selectedRequest.food}
-                      </span>
+                  }
+                />
+              </>
+            )}
+            {showConfirm && (
+              <>
+                <div className="space-y-3">
+                  <span className="text-xs sm:text-sm">
+                    {t("faction.donation.confirm", {
+                      factionPoints: boostedMarks,
+                      reward: boostedMarks > 1 ? "marks" : "mark",
+                    })}
+                  </span>
+                  <div className="flex flex-col space-y-1">
+                    <div className="flex justify-between">
+                      <div className="flex items-center">
+                        <SquareIcon
+                          icon={ITEM_DETAILS[selectedRequest.food].image}
+                          width={7}
+                        />
+                        <span className="text-xs sm:text-sm ml-1">
+                          {selectedRequest.food}
+                        </span>
+                      </div>
+                      <span className="text-xs">{`${selectedRequest.quantity}`}</span>
                     </div>
-                    <span className="text-xs">{`${selectedRequest.quantity}`}</span>
                   </div>
                 </div>
+                <div className="flex space-x-1 mt-2">
+                  <Button onClick={() => setShowConfirm(false)}>
+                    {t("cancel")}
+                  </Button>
+                  <Button onClick={handleFeed}>{t("confirm")}</Button>
+                </div>
+              </>
+            )}
+          </div>
+        )}
+        {tab === 1 && (
+          <>
+            <div className="p-2">
+              <img src="" className="w-full mx-auto rounded-lg mb-2" />
+              <div className="flex mb-2">
+                <div className="w-12 flex justify-center">
+                  <img
+                    src={ITEM_DETAILS["Pumpkin Soup"].image}
+                    className="h-6 mr-2 object-contain"
+                  />
+                </div>
+                <p className="text-xs  flex-1">{t("guide.factionPet.one")}</p>
               </div>
-              <div className="flex space-x-1 mt-2">
-                <Button onClick={() => setShowConfirm(false)}>
-                  {t("cancel")}
-                </Button>
-                <Button onClick={handleFeed}>{t("confirm")}</Button>
+              <div className="flex mb-2">
+                <div className="w-12 flex justify-center">
+                  <img src={xpIcon} className="h-6 mr-2 object-contain" />
+                </div>
+                <p className="text-xs flex-1">{t("guide.factionPet.two")}</p>
               </div>
-            </>
-          )}
-        </div>
+              <div className="flex mb-2">
+                <div className="w-12 flex justify-center">
+                  <img
+                    src={SUNNYSIDE.icons.sad}
+                    className="h-6 mr-2 object-contain"
+                  />
+                </div>
+                <p className="text-xs flex-1">{t("guide.factionPet.three")}</p>
+              </div>
+              <div className="flex mb-2">
+                <div className="w-12 flex justify-center">
+                  <img src={lightning} className="h-6 mr-2 object-contain" />
+                </div>
+                <p className="text-xs flex-1">{t("guide.factionPet.four")}</p>
+              </div>
+              <div className="flex mb-2">
+                <div className="w-12 flex justify-center">
+                  <img
+                    src={ITEM_DETAILS["Mark"].image}
+                    className="h-6 mr-2 object-contain"
+                  />
+                </div>
+                <p className="text-xs flex-1">{t("guide.factionPet.five")}</p>
+              </div>
+            </div>
+            <Button
+              className="text-xxs sm:text-sm mt-1 whitespace-nowrap"
+              onClick={() => {
+                setTab(0);
+              }}
+            >
+              {t("ok")}
+            </Button>
+          </>
+        )}
       </CloseButtonPanel>
     </>
   );
