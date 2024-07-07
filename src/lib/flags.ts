@@ -59,7 +59,7 @@ const featureFlags: Record<FeatureName, FeatureFlag> = {
   PORTALS: testnetFeatureFlag,
   JEST_TEST: defaultFeatureFlag,
   DESERT_RECIPES: defaultFeatureFlag,
-  FACTION_HOUSE: betaTimeBasedFeatureFlag(new Date("2022-07-08T00:00:00Z")),
+  FACTION_HOUSE: betaTimeBasedFeatureFlag(new Date("2024-07-08T00:00:00Z")),
   EASTER: (game) => {
     return false;
   },
