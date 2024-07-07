@@ -26,6 +26,7 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { FactionName, InventoryItemName } from "features/game/types/game";
 import { Fireworks } from "./components/ClaimEmblems";
 import { ITEM_DETAILS } from "features/game/types/images";
+import { hasFeatureAccess } from "lib/flags";
 
 interface Props {
   onClose: () => void;
@@ -81,6 +82,10 @@ export const ChampionsLeaderboard: React.FC<Props> = ({ onClose }) => {
 
     load();
   }, []);
+
+  if (!hasFeatureAccess(gameState.context.state, "CHAMPIONS")) {
+    return <Label type="formula">{t("leaderboard.resultsPending")}</Label>;
+  }
 
   if (isLoading || !leaderboard) {
     return <Loading />;

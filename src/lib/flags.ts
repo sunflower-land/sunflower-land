@@ -39,7 +39,8 @@ export type FeatureName =
   | "MARKS_LEADERBOARD"
   | "FESTIVAL_OF_COLORS"
   | "FACTION_KITCHEN"
-  | "FACTION_CHORES";
+  | "FACTION_CHORES"
+  | "CHAMPIONS";
 
 // Used for testing production features
 export const ADMIN_IDS = [1, 2, 3, 39488];
@@ -52,6 +53,7 @@ const featureFlags: Record<FeatureName, FeatureFlag> = {
 
     return Date.now() > new Date("2024-06-25T00:00:00Z").getTime();
   },
+  CHAMPIONS: defaultFeatureFlag,
   CROP_QUICK_SELECT: defaultFeatureFlag,
   CHICKEN_RESCUE: defaultFeatureFlag,
   PORTALS: testnetFeatureFlag,
