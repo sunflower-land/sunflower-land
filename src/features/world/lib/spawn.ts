@@ -112,8 +112,10 @@ export const SPAWNS: () => SpawnLocation = () => ({
   },
   beach: {
     default: {
-      x: 450,
-      y: 652,
+      // x: 450,
+      // y: 652,
+      x: 256,
+      y: 159,
     },
   },
 
