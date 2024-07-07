@@ -4,7 +4,6 @@ import { SceneId } from "../mmoMachine";
 import { NPCBumpkin } from "./BaseScene";
 import { FactionHouseScene } from "./FactionHouseScene";
 import { npcModalManager } from "../ui/NPCModals";
-import { Label } from "../containers/Label";
 
 export const SUNFLORIAN_HOUSE_NPCS: NPCBumpkin[] = [
   {
@@ -81,10 +80,6 @@ export class SunflorianHouseScene extends FactionHouseScene {
           npcModalManager.open("blaze");
         }
       });
-    const label = new Label(this, "BLAZE");
-    // Add the label to the scene
-    label.setPosition(240, 248);
-    this.add.existing(label);
   }
 
   set petState(newValue: PetStateSprite) {

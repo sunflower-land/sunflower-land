@@ -5,7 +5,6 @@ import { NPCBumpkin } from "./BaseScene";
 import { FactionHouseScene } from "./FactionHouseScene";
 import { PetStateSprite } from "./SunflorianHouseScene";
 import { npcModalManager } from "../ui/NPCModals";
-import { Label } from "../containers/Label";
 
 export const NIGHTSHADE_HOUSE_NPCS: NPCBumpkin[] = [
   {
@@ -65,10 +64,6 @@ export class NightshadeHouseScene extends FactionHouseScene {
           npcModalManager.open("sable");
         }
       });
-    const label = new Label(this, "SABLE");
-    // Add the label to the scene
-    label.setPosition(240, 310);
-    this.add.existing(label);
   }
 
   create() {

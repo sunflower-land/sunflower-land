@@ -5,7 +5,6 @@ import { NPCBumpkin } from "./BaseScene";
 import { FactionHouseScene } from "./FactionHouseScene";
 import { PetStateSprite } from "./SunflorianHouseScene";
 import { npcModalManager } from "../ui/NPCModals";
-import { Label } from "../containers/Label";
 
 export const GOBLIN_HOUSE_NPCS: NPCBumpkin[] = [
   {
@@ -59,10 +58,6 @@ export class GoblinHouseScene extends FactionHouseScene {
           npcModalManager.open("snaggle");
         }
       });
-    const label = new Label(this, "SNAGGLE");
-    // Add the label to the scene
-    label.setPosition(240, 265);
-    this.add.existing(label);
   }
 
   set petState(newValue: PetStateSprite) {
