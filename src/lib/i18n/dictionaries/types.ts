@@ -1536,6 +1536,7 @@ export type Factions =
   | "faction.kitchen.gatherResources"
   | "faction.kitchen.preparing"
   | "faction.kitchen.newRequests"
+  | "faction.pet.gatherResources"
   // Emblem Airdrop
   | "faction.claimEmblems.alreadyClaimed"
   | "faction.claimEmblems.emblemsEarned"

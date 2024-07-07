@@ -293,14 +293,14 @@ export const FactionPetPanel: React.FC<Props> = () => {
           {!showConfirm && (
             <>
               <p className="block sm:hidden text-xs pb-1">
-                {t("faction.kitchen.gatherResources")}
+                {t("faction.pet.gatherResources")}
               </p>
               <SplitScreenView
                 mobileReversePanelOrder
                 content={
                   <div className="flex flex-col space-y-2 w-full">
                     <p className="hidden sm:block text-xs p-1 pb-2">
-                      {t("faction.kitchen.gatherResources")}
+                      {t("faction.pet.gatherResources")}
                     </p>
                     <div className="flex w-full justify-between gap-2 pl-0.5 pb-2">
                       {pet.requests.map((request, idx) => {

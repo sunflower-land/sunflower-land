@@ -2157,6 +2157,7 @@ const factions: Record<Factions, string> = {
     "Ahhh I love your enthusiasm! However, the kitchen is not open yet. Please come back later.",
   "faction.kitchen.gatherResources":
     "So many new recruits... how will we feed them all! Can you help me gather some resources?",
+  "faction.pet.gatherResources": "Grrrrghhhhhh...",
   "faction.kitchen.preparing":
     "I'm still preparing my orders! Please come back in a few minutes.",
   "faction.kitchen.newRequests": "New requests: {{time}}",
