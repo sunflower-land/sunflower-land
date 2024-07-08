@@ -2042,6 +2042,13 @@ export type GuideCompost =
   | "guide.compost.useEggs"
   | "guide.compost.addEggs.confirmation";
 
+export type GuideFactionPet =
+  | "guide.factionPet.one"
+  | "guide.factionPet.two"
+  | "guide.factionPet.three"
+  | "guide.factionPet.four"
+  | "guide.factionPet.five";
+
 export type GuideTerms =
   | "guide.intro"
   | "gathering.guide.one"
@@ -3872,4 +3879,5 @@ export type TranslationKeys =
   | Trading
   | RestrictionReason
   | Leaderboard
-  | EasterEggKeys;
+  | EasterEggKeys
+  | GuideFactionPet;

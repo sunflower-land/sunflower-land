@@ -178,6 +178,7 @@ import {
   EasterEggKeys,
   ChangeLanguage,
   FactionShopDescription,
+  GuideFactionPet,
 } from "./types";
 
 const generalTerms: Record<GeneralTerms, string> = {
@@ -2902,6 +2903,14 @@ const guideCompost: Record<GuideCompost, string> = {
     "Cansado de esperar? Use ovos para acelerar a produção de compostagem",
   "guide.compost.addEggs.confirmation":
     ENGLISH_TERMS["guide.compost.addEggs.confirmation"],
+};
+
+const guideFactionPet: Record<GuideFactionPet, string> = {
+  "guide.factionPet.one": ENGLISH_TERMS["guide.factionPet.one"],
+  "guide.factionPet.two": ENGLISH_TERMS["guide.factionPet.two"],
+  "guide.factionPet.three": ENGLISH_TERMS["guide.factionPet.three"],
+  "guide.factionPet.four": ENGLISH_TERMS["guide.factionPet.four"],
+  "guide.factionPet.five": ENGLISH_TERMS["guide.factionPet.five"],
 };
 
 const guideTerms: Record<GuideTerms, string> = {
@@ -5638,4 +5647,5 @@ export const PORTUGUESE_TERMS: Record<TranslationKeys, string> = {
   ...restrictionReason,
   ...removeCropMachine,
   ...easterEggTerms,
+  ...guideFactionPet,
 };

@@ -178,6 +178,7 @@ import {
   EasterEggKeys,
   ChangeLanguage,
   FactionShopDescription,
+  GuideFactionPet,
 } from "./types";
 
 const generalTerms: Record<GeneralTerms, string> = {
@@ -2521,6 +2522,14 @@ const fishDescriptions: Record<FishDescriptions, string> = {
     "Un espadon aux écailles qui scintillent comme de l'or, la capture ultime!",
   "description.crimson.carp": "Un joyau rare et vibrant des eaux du printemps.",
   "description.battle.fish": ENGLISH_TERMS["description.battle.fish"],
+};
+
+const guideFactionPet: Record<GuideFactionPet, string> = {
+  "guide.factionPet.one": ENGLISH_TERMS["guide.factionPet.one"],
+  "guide.factionPet.two": ENGLISH_TERMS["guide.factionPet.two"],
+  "guide.factionPet.three": ENGLISH_TERMS["guide.factionPet.three"],
+  "guide.factionPet.four": ENGLISH_TERMS["guide.factionPet.four"],
+  "guide.factionPet.five": ENGLISH_TERMS["guide.factionPet.five"],
 };
 
 const fishermanModal: Record<FishermanModal, string> = {
@@ -5769,4 +5778,5 @@ export const FRENCH_TERMS: Record<TranslationKeys, string> = {
   ...restrictionReason,
   ...removeCropMachine,
   ...easterEggTerms,
+  ...guideFactionPet,
 };
