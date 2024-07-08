@@ -90,6 +90,8 @@ export class NightshadeHouseScene extends FactionHouseScene {
 
     this.setupPrize({ x: 240, y: 416 });
     this.setUpPet();
+
+    this.setupNotice({ x: 313, y: 368 });
   }
 
   set petState(newValue: PetStateSprite) {

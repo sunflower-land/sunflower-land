@@ -108,5 +108,6 @@ export class BumpkinHouseScene extends FactionHouseScene {
 
     this.setupPrize({ x: 240, y: 368 });
     this.setUpPet();
+    this.setupNotice({ x: 328, y: 288 });
   }
 }

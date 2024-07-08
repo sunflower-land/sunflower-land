@@ -34,8 +34,12 @@ import { FestivalOfColors } from "./portals/FestivalOfColors";
 import { FactionWeeklyPrize } from "./factions/weeklyPrize/FactionWeeklyPrize";
 import { FactionWelcome, hasReadFactionIntro } from "./factions/FactionWelcome";
 import { Champions } from "./factions/Champions";
+import { KingdomNoticeboard } from "./kingdom/KingdomNoticeboard";
+import { FactionNoticeboard } from "./factions/FactionNoticeboard";
 
 type InteractableName =
+  | "faction_noticeboard"
+  | "kingdom_noticeboard"
   | "champions"
   | "faction_intro"
   | "vip_chest"
@@ -183,6 +187,12 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
       )}
       <Modal show={interactable === "faction_intro"} onHide={closeModal}>
         <FactionWelcome onClose={closeModal} />
+      </Modal>
+      <Modal show={interactable === "kingdom_noticeboard"} onHide={closeModal}>
+        <KingdomNoticeboard onClose={closeModal} />
+      </Modal>
+      <Modal show={interactable === "faction_noticeboard"} onHide={closeModal}>
+        <FactionNoticeboard onClose={closeModal} />
       </Modal>
       <Modal show={interactable === "champions"} onHide={closeModal}>
         <Champions onClose={closeModal} />
