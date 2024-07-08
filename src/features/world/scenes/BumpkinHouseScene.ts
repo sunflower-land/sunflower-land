@@ -2,8 +2,7 @@ import mapJSON from "assets/map/bumpkin_house.json";
 
 import { SceneId } from "../mmoMachine";
 import { NPCBumpkin } from "./BaseScene";
-import { FactionHouseScene, PET_STATE_COORDS } from "./FactionHouseScene";
-import { npcModalManager } from "../ui/NPCModals";
+import { FactionHouseScene } from "./FactionHouseScene";
 
 export const BUMPKIN_HOUSE_NPCS: NPCBumpkin[] = [
   {
@@ -43,21 +42,6 @@ export class BumpkinHouseScene extends FactionHouseScene {
     this.load.image("pet_sleeping", "world/bumpkins_pet_sleeping.webp");
     this.load.image("pet_happy", "world/bumpkins_pet_happy.webp");
     this.load.image("pet_hungry", "world/bumpkins_pet_hungry.webp");
-  }
-
-  setUpPet() {
-    this.pet = this.add.sprite(
-      PET_STATE_COORDS.bumpkins[this.petState].x,
-      PET_STATE_COORDS.bumpkins[this.petState].y,
-      this.petState,
-    );
-    this.pet
-      .setInteractive({ cursor: "pointer" })
-      .on("pointerdown", (p: Phaser.Input.Pointer) => {
-        if (p.downElement.nodeName === "CANVAS") {
-          npcModalManager.open("tater");
-        }
-      });
   }
 
   create() {

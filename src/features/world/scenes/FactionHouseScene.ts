@@ -12,6 +12,7 @@ import {
 import { getFactionPetUpdate } from "../ui/factions/actions/getFactionPetUpdate";
 import { hasReadFactionNotice } from "../ui/factions/FactionNoticeboard";
 import { PetStateSprite } from "./SunflorianHouseScene";
+import { npcModalManager } from "../ui/NPCModals";
 
 type FactionPetStateCoords = Record<
   FactionName,
@@ -98,6 +99,23 @@ export abstract class FactionHouseScene extends BaseScene {
       this.collectivePet = faction.history[week].collectivePet;
       this.petState = this.getPetState();
     }
+  }
+
+  setUpPet() {
+    if (!this.factionName) return;
+
+    this.pet = this.add.sprite(
+      PET_STATE_COORDS[this.factionName][this.petState].x,
+      PET_STATE_COORDS[this.factionName][this.petState].y,
+      this.petState,
+    );
+    this.pet
+      .setInteractive({ cursor: "pointer" })
+      .on("pointerdown", (p: Phaser.Input.Pointer) => {
+        if (p.downElement.nodeName === "CANVAS") {
+          npcModalManager.open("pet");
+        }
+      });
   }
 
   create() {

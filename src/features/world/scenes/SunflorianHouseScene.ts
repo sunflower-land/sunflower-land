@@ -2,8 +2,7 @@ import mapJSON from "assets/map/sunflorian_house.json";
 
 import { SceneId } from "../mmoMachine";
 import { NPCBumpkin } from "./BaseScene";
-import { FactionHouseScene, PET_STATE_COORDS } from "./FactionHouseScene";
-import { npcModalManager } from "../ui/NPCModals";
+import { FactionHouseScene } from "./FactionHouseScene";
 
 export const SUNFLORIAN_HOUSE_NPCS: NPCBumpkin[] = [
   {
@@ -45,21 +44,6 @@ export class SunflorianHouseScene extends FactionHouseScene {
     this.load.image("pet_happy", "world/sunflorians_pet_happy.webp");
     this.load.image("pet_hungry", "world/sunflorians_pet_hungry.webp");
     this.makeFetchRequest();
-  }
-
-  setUpPet() {
-    this.pet = this.add.sprite(
-      PET_STATE_COORDS.sunflorians[this.petState].x,
-      PET_STATE_COORDS.sunflorians[this.petState].y,
-      this.petState,
-    );
-    this.pet
-      .setInteractive({ cursor: "pointer" })
-      .on("pointerdown", (p: Phaser.Input.Pointer) => {
-        if (p.downElement.nodeName === "CANVAS") {
-          npcModalManager.open("blaze");
-        }
-      });
   }
 
   create() {

@@ -3,7 +3,6 @@ import mapJSON from "assets/map/nightshade_house.json";
 import { SceneId } from "../mmoMachine";
 import { NPCBumpkin } from "./BaseScene";
 import { FactionHouseScene } from "./FactionHouseScene";
-import { npcModalManager } from "../ui/NPCModals";
 
 export const NIGHTSHADE_HOUSE_NPCS: NPCBumpkin[] = [
   {
@@ -48,17 +47,6 @@ export class NightshadeHouseScene extends FactionHouseScene {
     this.load.image("pet_sleeping", "world/nightshades_pet_sleeping.webp");
     this.load.image("pet_happy", "world/nightshades_pet_happy.webp");
     this.load.image("pet_hungry", "world/nightshades_pet_hungry.webp");
-  }
-
-  setUpPet() {
-    this.pet = this.add.sprite(241, 284, this.petState);
-    this.pet
-      .setInteractive({ cursor: "pointer" })
-      .on("pointerdown", (p: Phaser.Input.Pointer) => {
-        if (p.downElement.nodeName === "CANVAS") {
-          npcModalManager.open("sable");
-        }
-      });
   }
 
   create() {

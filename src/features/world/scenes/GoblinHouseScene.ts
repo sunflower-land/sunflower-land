@@ -3,7 +3,6 @@ import mapJSON from "assets/map/goblin_house.json";
 import { SceneId } from "../mmoMachine";
 import { NPCBumpkin } from "./BaseScene";
 import { FactionHouseScene } from "./FactionHouseScene";
-import { npcModalManager } from "../ui/NPCModals";
 
 export const GOBLIN_HOUSE_NPCS: NPCBumpkin[] = [
   {
@@ -41,19 +40,8 @@ export class GoblinHouseScene extends FactionHouseScene {
     super.preload();
 
     this.load.image("pet_sleeping", "world/goblins_pet_sleeping.webp");
-    this.load.image("pet_satiated", "world/goblins_pet_happy.webp");
+    this.load.image("pet_happy", "world/goblins_pet_happy.webp");
     this.load.image("pet_hungry", "world/goblins_pet_hungry.webp");
-  }
-
-  setUpPet() {
-    this.pet = this.add.sprite(242, 237, this.petState);
-    this.pet
-      .setInteractive({ cursor: "pointer" })
-      .on("pointerdown", (p: Phaser.Input.Pointer) => {
-        if (p.downElement.nodeName === "CANVAS") {
-          npcModalManager.open("snaggle");
-        }
-      });
   }
 
   create() {
