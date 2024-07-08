@@ -111,7 +111,7 @@ const KingdomChoreRow: React.FC<KingdomChoreRowProps> = ({
     <InnerPanel className="flex flex-col w-full">
       <div className={"flex space-x-1 p-1 pb-0 pl-0"}>
         {faction && (
-          <div className="pb-1">
+          <div className="pb-1 relative">
             <NPCIcon parts={NPC_WEARABLES[KINGDOM_CHORE_NPC[faction.name]]} />
           </div>
         )}

@@ -108,7 +108,7 @@ export const DailyChore: React.FC<Props> = ({
         })}
       >
         {isCodex && (
-          <div className="pb-1">
+          <div className="pb-1 relative">
             <NPCIcon parts={NPC_WEARABLES["hank"]} />
           </div>
         )}
