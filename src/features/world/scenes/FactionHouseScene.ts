@@ -95,7 +95,6 @@ export abstract class FactionHouseScene extends BaseScene {
     this.factionName = faction?.name;
 
     if (faction) {
-      // Collective pet is put on the game state during session state
       this.collectivePet = faction.history[week].collectivePet;
       this.petState = this.getPetState();
     }
@@ -113,7 +112,7 @@ export abstract class FactionHouseScene extends BaseScene {
     const { farmId } = this.gameService.state.context;
     const data = await getFactionPetUpdate({ farmId });
 
-    // this.collectivePet = data;
+    this.collectivePet = data;
     this.petState = this.getPetState();
   }
 
