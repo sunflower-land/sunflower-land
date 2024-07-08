@@ -570,4 +570,45 @@ describe("factionKitchenDeliver", () => {
     expect(state.faction?.history?.[week].score).toBe(20 * 5.05);
     expect(state.inventory["Mark"]?.toNumber()).toBe(20 * 5.05);
   });
+
+  it("rewards 400% bonus marks if top rank in faction and on the lowest reward (1)", () => {
+    const state = deliverFactionKitchen({
+      state: {
+        ...GAME_STATE,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          equipped: {
+            ...INITIAL_BUMPKIN.equipped,
+          },
+        },
+        inventory: {
+          Honey: new Decimal(5),
+          "Goblin Emblem": new Decimal(100_000),
+        },
+        faction: {
+          ...(GAME_STATE.faction as Faction),
+          kitchen: {
+            week,
+            requests: [
+              {
+                item: "Honey",
+                amount: 1,
+                dailyFulfilled: {
+                  1: 100,
+                },
+              },
+            ],
+          },
+        },
+      },
+      action: {
+        type: "factionKitchen.delivered",
+        resourceIndex: 0,
+      },
+      createdAt: startTime,
+    });
+
+    expect(state.faction?.history?.[week].score).toBe(1 * 5);
+    expect(state.inventory["Mark"]?.toNumber()).toBe(1 * 5);
+  });
 });
