@@ -1,5 +1,5 @@
 import { Panel } from "components/ui/Panel";
-import React, { useEffect } from "react";
+import React from "react";
 
 import gift from "assets/icons/gift.png";
 import lightning from "assets/icons/lightning.png";
@@ -28,19 +28,19 @@ export const FactionNoticeboard: React.FC<Props> = ({ onClose }) => {
       <NoticeboardItems
         items={[
           {
-            text: "Deliver resources to the kitchen & complete chores to earn Marks.",
+            text: t("faction.noticeboard.one"),
             icon: ITEM_DETAILS["Mark"].image,
           },
           {
-            text: "Feed our grumpy pet to unlock a bonus XP boost!",
+            text: t("faction.noticeboard.two"),
             icon: ITEM_DETAILS["Pumpkin Soup"].image,
           },
           {
-            text: "The top players each week will receive a bonus prize.",
+            text: t("faction.noticeboard.three"),
             icon: gift,
           },
           {
-            text: "Trade emblems to climb the ranks and access bonus perks.",
+            text: t("faction.noticeboard.four"),
             icon: lightning,
           },
         ]}

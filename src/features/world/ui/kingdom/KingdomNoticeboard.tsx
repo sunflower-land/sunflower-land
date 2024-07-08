@@ -47,19 +47,19 @@ export const KingdomNoticeboard: React.FC<Props> = ({ onClose }) => {
       <NoticeboardItems
         items={[
           {
-            text: "Welcome to the Kingdom - It is time to join a faction and compete for Glory!",
+            text: t("kingdom.noticeboard.one"),
             icon: factions,
           },
           {
-            text: "Play mini-games, complete faction tasks, climb the leaderboard & earn marks",
+            text: t("kingdom.noticeboard.two"),
             icon: trophy,
           },
           {
-            text: "Each week the top players can claim a prize!",
+            text: t("kingdom.noticeboard.three"),
             icon: gift,
           },
           {
-            text: "Visit the Kingdom shop to claim rewards & collectibles",
+            text: t("kingdom.noticeboard.four"),
             icon: shop,
           },
         ]}
