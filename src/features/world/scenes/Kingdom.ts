@@ -24,6 +24,7 @@ import {
   getPreviousWeek,
   secondsTillWeekReset,
 } from "features/game/lib/factions";
+import { hasReadKingdomNotice } from "../ui/kingdom/KingdomNoticeboard";
 
 export const KINGDOM_NPCS: NPCBumpkin[] = [
   {
@@ -107,6 +108,8 @@ export class KingdomScene extends BaseScene {
     // Preload the leaderboard data (async).
     // This is used by the faction spruikers when claiming emblems.
     fetchLeaderboardData(this.id);
+
+    this.load.image("question_disc", "world/question_disc.png");
 
     this.load.spritesheet("portal", "world/portal_well_sheet.png", {
       frameWidth: 20,
@@ -291,6 +294,10 @@ export class KingdomScene extends BaseScene {
       setTimeout(() => {
         this.setChampions();
       }, secondsTillReset * 1000);
+    }
+
+    if (!hasReadKingdomNotice()) {
+      this.add.image(280, 720, "question_disc").setDepth(1000000);
     }
 
     const audioMuted = getCachedAudioSetting<boolean>(

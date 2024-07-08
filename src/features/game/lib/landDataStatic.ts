@@ -1338,7 +1338,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     amount: new Decimal(1000),
   },
   faction: {
-    name: "goblins",
+    name: "nightshades",
     pledgedAt: 0,
     points: 100,
     pet: {

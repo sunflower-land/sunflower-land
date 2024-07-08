@@ -2111,6 +2111,20 @@ const factions: Record<Factions, string> = {
     "Pledge a faction to receive faction points!",
   "faction.emblemAirdrop": "Emblem Airdrop",
   "faction.emblemAirdrop.closes": "Ends: {{date}}",
+  "kingdom.noticeboard.one":
+    "Welcome to the Kingdom - It is time to join a faction and compete for Glory!",
+  "kingdom.noticeboard.two":
+    "Play mini-games, complete faction tasks, climb the leaderboard & earn marks.",
+  "kingdom.noticeboard.three": "Each week the top players can claim a prize!",
+  "kingdom.noticeboard.four":
+    "Visit the Kingdom shop to claim rewards & collectibles",
+  "faction.noticeboard.one":
+    "Deliver resources to the kitchen & complete chores to earn marks.",
+  "faction.noticeboard.two": "Feed our grumpy pet to unlock a bonus XP boost!",
+  "faction.noticeboard.three":
+    "The top players each week will receive a bonus prize.",
+  "faction.noticeboard.four":
+    "Trade emblems to climb the ranks and access bonus perks.",
 
   // Kingdom NPCs
   "faction.restrited.area":

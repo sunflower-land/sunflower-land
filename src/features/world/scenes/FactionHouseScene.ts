@@ -10,6 +10,7 @@ import {
   PET_SLEEP_DURATION,
 } from "../ui/factions/FactionPetPanel";
 import { getFactionPetUpdate } from "../ui/factions/actions/getFactionPetUpdate";
+import { hasReadFactionNotice } from "../ui/factions/FactionNoticeboard";
 
 export abstract class FactionHouseScene extends BaseScene {
   public collectivePet: CollectivePet | undefined;
@@ -19,6 +20,7 @@ export abstract class FactionHouseScene extends BaseScene {
     super.preload();
 
     this.load.image("basic_chest", "world/basic_chest.png");
+    this.load.image("question_disc", "world/question_disc.png");
     this.makeFetchRequest();
   }
 
@@ -98,6 +100,12 @@ export abstract class FactionHouseScene extends BaseScene {
           basicChest.destroy();
         }
       });
+    }
+  }
+
+  setupNotice({ x, y }: { x: number; y: number }) {
+    if (!hasReadFactionNotice()) {
+      this.add.image(x, y, "question_disc").setDepth(1000000);
     }
   }
 }
