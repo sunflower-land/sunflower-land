@@ -1,28 +1,51 @@
+import { useSelector } from "@xstate/react";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Label } from "components/ui/Label";
 import { InnerPanel } from "components/ui/Panel";
+import { ResizableBar } from "components/ui/ProgressBar";
+import { SquareIcon } from "components/ui/SquareIcon";
+import { Context } from "features/game/GameProvider";
+import {
+  MachineInterpreter,
+  MachineState,
+} from "features/game/lib/gameMachine";
+import { FactionName, KingdomChore } from "features/game/types/game";
 import { secondsTillReset } from "features/helios/components/hayseedHank/HayseedHankV2";
 import { ChoreV2 } from "features/helios/components/hayseedHank/components/ChoreV2";
+import { NPCIcon } from "features/island/bumpkin/components/NPC";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { NPCName, NPC_WEARABLES } from "lib/npcs";
 import { getSeasonChangeover } from "lib/utils/getSeasonWeek";
 import { secondsToString } from "lib/utils/time";
-import React from "react";
+import React, { useContext } from "react";
+
+import mark from "assets/icons/faction_mark.webp";
+import { setPrecision } from "lib/utils/formatNumber";
+import Decimal from "decimal.js-light";
+import { getKingdomChoreBoost } from "features/game/events/landExpansion/completeKingdomChore";
+
+const _kingdomChores = (state: MachineState) =>
+  state.context.state.kingdomChores;
 
 interface Props {
   farmId: number;
 }
 
 export const Chores: React.FC<Props> = ({ farmId }) => {
+  const { gameService } = useContext(Context);
+
   const { t } = useAppTranslation();
 
   const { ticketTasksAreFrozen } = getSeasonChangeover({
     id: farmId,
   });
 
+  const kingdomChores = useSelector(gameService, _kingdomChores);
+
   return (
     <div className="scrollable overflow-y-auto max-h-[100%] overflow-x-hidden">
-      <InnerPanel className="mb-1">
-        {!ticketTasksAreFrozen && (
+      {!ticketTasksAreFrozen && (
+        <InnerPanel className="mb-1 w-full">
           <div className="p-1 text-xs">
             <div className="flex justify-between items-center">
               <Label type="default">{t("chores")}</Label>
@@ -39,9 +62,91 @@ export const Chores: React.FC<Props> = ({ farmId }) => {
               <span className="w-fit">{t("chores.intro")}</span>
             </div>
           </div>
-        )}
-      </InnerPanel>
+        </InnerPanel>
+      )}
+      {kingdomChores && (
+        <div className="flex flex-col pb-1 space-y-1">
+          {kingdomChores.chores
+            .filter(
+              (chore) =>
+                chore.startedAt && !chore.completedAt && !chore.skippedAt,
+            )
+            .map((chore, i) => (
+              <KingdomChoreRow
+                key={`chore-${i}`}
+                chore={chore}
+                gameService={gameService}
+              />
+            ))}
+        </div>
+      )}
       <ChoreV2 isReadOnly isCodex />
     </div>
   );
+};
+
+interface KingdomChoreRowProps {
+  chore: KingdomChore;
+  gameService: MachineInterpreter;
+}
+
+const KingdomChoreRow: React.FC<KingdomChoreRowProps> = ({
+  chore,
+  gameService,
+}) => {
+  const { t } = useAppTranslation();
+
+  const { faction, bumpkin } = gameService.state.context.state;
+
+  const progress =
+    (bumpkin?.activity?.[chore.activity] ?? 0) - (chore.startCount ?? 0);
+
+  const boost = getKingdomChoreBoost(gameService.state.context.state, chore);
+  const boostedMarks = setPrecision(
+    new Decimal(chore.marks + boost),
+    2,
+  ).toNumber();
+
+  return (
+    <InnerPanel className="flex flex-col w-full">
+      <div className={"flex space-x-1 p-1 pb-0 pl-0"}>
+        {faction && (
+          <div className="pb-1">
+            <NPCIcon parts={NPC_WEARABLES[KINGDOM_CHORE_NPC[faction.name]]} />
+          </div>
+        )}
+
+        <div className={`text-xxs flex-1 space-y-1.5 mb-0.5`}>
+          <p>{chore.description}</p>
+          <div className="flex items-center">
+            <ResizableBar
+              percentage={(progress / chore.requirement) * 100}
+              type="progress"
+              outerDimensions={{
+                width: 40,
+                height: 7,
+              }}
+            />
+            <span className="text-xs ml-2 font-secondary">{`${setPrecision(
+              new Decimal(progress),
+            )}/${chore.requirement}`}</span>
+          </div>
+        </div>
+
+        <div className="flex flex-col text-xs space-y-1">
+          <div className="flex items-center justify-end space-x-1">
+            <span className="mb-0.5 font-secondary">{boostedMarks}</span>
+            <SquareIcon icon={mark} width={6} />
+          </div>
+        </div>
+      </div>
+    </InnerPanel>
+  );
+};
+
+const KINGDOM_CHORE_NPC: Record<FactionName, NPCName> = {
+  goblins: "grizzle",
+  bumpkins: "buttercup",
+  nightshades: "shadow",
+  sunflorians: "flora",
 };

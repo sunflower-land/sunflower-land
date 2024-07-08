@@ -104,6 +104,11 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
     (chore) => !chore.completedAt,
   ).length;
 
+  const inCompleteKingdomChores =
+    state.kingdomChores?.chores.filter(
+      (chore) => chore.startedAt && !chore.completedAt && !chore.skippedAt,
+    ).length ?? 0;
+
   const categories: CodexCategory[] = [
     {
       name: "Deliveries",
@@ -113,7 +118,7 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
     {
       name: "Chores",
       icon: chores,
-      count: incompleteChores,
+      count: incompleteChores + inCompleteKingdomChores,
     },
     {
       name: "Fish",

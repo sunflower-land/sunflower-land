@@ -20,6 +20,8 @@ import { MachineState } from "features/game/lib/gameMachine";
 import classNames from "classnames";
 import { generateChoreTickets } from "features/game/events/landExpansion/completeChore";
 import { Loading } from "features/auth/components";
+import { NPCIcon } from "features/island/bumpkin/components/NPC";
+import { NPC_WEARABLES } from "lib/npcs";
 
 const isDateOnSameDayAsToday = (date: Date) => {
   const today = new Date();
@@ -92,19 +94,24 @@ export const DailyChore: React.FC<Props> = ({
     id: farmId,
   });
 
-  const descriptionTextClass = isCodex ? "sm:text-xs" : "text-xs";
+  const descriptionTextClass = isCodex ? "text-xxs" : "text-xs";
 
   const tickets = generateChoreTickets({
     game: gameService.state.context.state,
     id,
   });
   return (
-    <InnerPanel className="flex flex-col">
+    <InnerPanel className="flex flex-col w-full">
       <div
         className={classNames("flex space-x-1 p-1", {
-          "pb-0": isCodex,
+          "pb-0 pl-0": isCodex,
         })}
       >
+        {isCodex && (
+          <div className="pb-1">
+            <NPCIcon parts={NPC_WEARABLES["hank"]} />
+          </div>
+        )}
         <div className={`${descriptionTextClass} flex-1 space-y-1.5 mb-0.5`}>
           <p>{chore.description}</p>
           <div className="flex items-center">
