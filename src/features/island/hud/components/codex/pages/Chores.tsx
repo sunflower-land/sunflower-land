@@ -120,7 +120,7 @@ const KingdomChoreRow: React.FC<KingdomChoreRowProps> = ({
           <p>{chore.description}</p>
           <div className="flex items-center">
             <ResizableBar
-              percentage={progress / chore.requirement}
+              percentage={(progress / chore.requirement) * 100}
               type="progress"
               outerDimensions={{
                 width: 40,
