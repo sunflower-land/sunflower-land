@@ -293,7 +293,7 @@ export const getFactionRanking = (
   return rank!;
 };
 
-const rankBoostPercentage = (rank: FactionRank): number => {
+export const rankBoostPercentage = (rank: FactionRank): number => {
   switch (rank) {
     case "forager":
     case "pagan":

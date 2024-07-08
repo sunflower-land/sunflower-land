@@ -114,7 +114,10 @@ export function getFactionWeekday(now = Date.now()) {
 
 type OutfitPart = "hat" | "shirt" | "pants" | "shoes" | "tool";
 
-const FACTION_OUTFITS: Record<FactionName, Record<OutfitPart, BumpkinItem>> = {
+export const FACTION_OUTFITS: Record<
+  FactionName,
+  Record<OutfitPart, BumpkinItem>
+> = {
   bumpkins: {
     hat: "Bumpkin Helmet",
     shirt: "Bumpkin Armor",

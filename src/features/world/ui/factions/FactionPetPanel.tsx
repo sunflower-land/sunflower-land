@@ -49,6 +49,7 @@ import xpIcon from "assets/icons/xp.png";
 import { hasFeatureAccess } from "lib/flags";
 import { setPrecision } from "lib/utils/formatNumber";
 import { FACTION_EMBLEM_ICONS } from "./components/ClaimEmblems";
+import { BoostInfoPanel } from "./BoostInfoPanel";
 
 export const PET_SLEEP_DURATION = 24 * 60 * 60 * 1000;
 
@@ -174,6 +175,7 @@ export const FactionPetPanel: React.FC<Props> = ({ onClose }) => {
     getPetState(collectivePet),
   );
   const [tab, setTab] = useState(0);
+  const [showBoostInfo, setShowBoostInfo] = useState(false);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -274,6 +276,7 @@ export const FactionPetPanel: React.FC<Props> = ({ onClose }) => {
           }),
         })}`}
       </Label>
+      <BoostInfoPanel show={showBoostInfo} totalBoostAmount={30} />
       <CloseButtonPanel
         onClose={onClose}
         currentTab={tab}
@@ -409,16 +412,24 @@ export const FactionPetPanel: React.FC<Props> = ({ onClose }) => {
                   panel={
                     <div className="flex flex-col justify-between h-full sm:items-center">
                       <div className="flex flex-col items-center space-y-1 px-1.5 mb-1">
-                        <Label
-                          icon={ITEM_DETAILS["Mark"].image}
-                          secondaryIcon={boost ? lightning : undefined}
-                          type="warning"
-                          className="m-1"
-                        >
-                          <span className={boost ? "pl-1.5" : ""}>
-                            {`${boostedMarks} ${t("marks")}`}
-                          </span>
-                        </Label>
+                        <div className="flex space-x-1 items-center">
+                          <div
+                            style={{
+                              width: `${PIXEL_SCALE * 9}px`,
+                              height: `${PIXEL_SCALE * 9}px`,
+                            }}
+                          />
+                          <Label
+                            icon={ITEM_DETAILS["Mark"].image}
+                            secondaryIcon={boost ? lightning : undefined}
+                            type="warning"
+                            className="m-1 cursor-pointer"
+                          >
+                            <span className={boost ? "pl-1.5" : ""}>
+                              {`${boostedMarks} ${t("marks")}`}
+                            </span>
+                          </Label>
+                        </div>
                         <div className="hidden sm:flex flex-col space-y-1 w-full justify-center items-center">
                           <p className="text-sm">{selectedRequest.food}</p>
                           <SquareIcon
