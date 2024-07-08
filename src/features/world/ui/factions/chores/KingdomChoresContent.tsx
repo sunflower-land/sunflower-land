@@ -452,7 +452,7 @@ const ConfirmSkip: React.FC<{
   );
 };
 
-const KingdomChoresTimer: React.FC<{
+export const KingdomChoresTimer: React.FC<{
   onReset: () => void;
   resetsAt?: number;
 }> = ({ onReset, resetsAt }) => {
