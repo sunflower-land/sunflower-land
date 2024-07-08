@@ -5,7 +5,6 @@ import { NPCBumpkin } from "./BaseScene";
 import { FactionHouseScene } from "./FactionHouseScene";
 import { PetStateSprite } from "./SunflorianHouseScene";
 import { npcModalManager } from "../ui/NPCModals";
-import { hasReadFactionNotice } from "../ui/factions/FactionNoticeboard";
 
 export const GOBLIN_HOUSE_NPCS: NPCBumpkin[] = [
   {
