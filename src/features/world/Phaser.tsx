@@ -220,6 +220,7 @@ export const PhaserComponent: React.FC<Props> = ({
     game.current.registry.set("gameService", gameService);
     game.current.registry.set("id", gameService.state.context.farmId);
     game.current.registry.set("initialScene", scene);
+    game.current.registry.set("navigate", navigate);
 
     gameService.onEvent((e) => {
       if (e.type === "bumpkin.equipped") {
