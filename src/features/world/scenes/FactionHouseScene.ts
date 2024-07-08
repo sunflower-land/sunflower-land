@@ -4,24 +4,101 @@ import { translate } from "lib/i18n/translate";
 import { getFactionPrize } from "../ui/factions/weeklyPrize/FactionWeeklyPrize";
 import { Coordinates } from "features/game/expansion/components/MapPlacement";
 import { getFactionWeek } from "features/game/lib/factions";
-import { CollectivePet } from "features/game/types/game";
+import { CollectivePet, FactionName } from "features/game/types/game";
 import {
   FACTION_PET_REFRESH_INTERVAL,
   PET_SLEEP_DURATION,
 } from "../ui/factions/FactionPetPanel";
 import { getFactionPetUpdate } from "../ui/factions/actions/getFactionPetUpdate";
 import { hasReadFactionNotice } from "../ui/factions/FactionNoticeboard";
+import { PetStateSprite } from "./SunflorianHouseScene";
+
+type FactionPetStateCoords = Record<
+  FactionName,
+  Record<PetStateSprite, Coordinates>
+>;
+
+export const PET_STATE_COORDS: FactionPetStateCoords = {
+  sunflorians: {
+    pet_hungry: {
+      x: 243,
+      y: 220,
+    },
+    pet_sleeping: {
+      x: 243,
+      y: 229,
+    },
+    pet_happy: {
+      x: 243,
+      y: 220,
+    },
+  },
+  nightshades: {
+    pet_hungry: {
+      x: 241,
+      y: 284,
+    },
+    pet_sleeping: {
+      x: 241,
+      y: 284,
+    },
+    pet_happy: {
+      x: 241,
+      y: 284,
+    },
+  },
+  bumpkins: {
+    pet_hungry: {
+      x: 241,
+      y: 286,
+    },
+    pet_sleeping: {
+      x: 239,
+      y: 289,
+    },
+    pet_happy: {
+      x: 239,
+      y: 283,
+    },
+  },
+  goblins: {
+    pet_hungry: {
+      x: 242,
+      y: 237,
+    },
+    pet_sleeping: {
+      x: 242,
+      y: 237,
+    },
+    pet_happy: {
+      x: 242,
+      y: 237,
+    },
+  },
+};
 
 export abstract class FactionHouseScene extends BaseScene {
   public collectivePet: CollectivePet | undefined;
   private fetchInterval: NodeJS.Timeout | null = null;
+  private _petState: PetStateSprite = "pet_hungry";
+  public pet: Phaser.GameObjects.Sprite | undefined;
+  public factionName: FactionName | undefined;
 
   preload() {
     super.preload();
 
     this.load.image("basic_chest", "world/basic_chest.png");
     this.load.image("question_disc", "world/question_disc.png");
-    this.makeFetchRequest();
+
+    const week = getFactionWeek({ date: new Date() });
+    const faction = this.gameService.state.context.state.faction;
+    this.factionName = faction?.name;
+
+    if (faction) {
+      // Collective pet is put on the game state during session state
+      this.collectivePet = faction.history[week].collectivePet;
+      this.petState = this.getPetState();
+    }
   }
 
   create() {
@@ -36,7 +113,8 @@ export abstract class FactionHouseScene extends BaseScene {
     const { farmId } = this.gameService.state.context;
     const data = await getFactionPetUpdate({ farmId });
 
-    this.collectivePet = data;
+    // this.collectivePet = data;
+    this.petState = this.getPetState();
   }
 
   shutdown() {
@@ -51,15 +129,35 @@ export abstract class FactionHouseScene extends BaseScene {
     }
   }
 
+  set petState(newValue: PetStateSprite) {
+    this._petState = newValue;
+    this.onPetStateChange(newValue); // Call the function when value changes
+  }
+
+  get petState() {
+    return this._petState;
+  }
+
+  onPetStateChange(newValue: PetStateSprite) {
+    if (!this.pet) return;
+
+    this.pet?.setTexture(newValue);
+    this.pet?.setPosition(
+      PET_STATE_COORDS[this.factionName as FactionName][newValue].x,
+      PET_STATE_COORDS[this.factionName as FactionName][newValue].y,
+    );
+  }
+
   getPetState() {
     const week = getFactionWeek({ date: new Date() });
     const beginningOfWeek = new Date(week).getTime();
     const firstWeek = "2024-07-08";
 
-    if (!this.collectivePet || week === firstWeek) return "pet_hungry";
+    if (!this.collectivePet) return "pet_hungry";
 
     if (
       this.collectivePet.streak === 0 &&
+      week !== firstWeek &&
       Date.now() < beginningOfWeek + PET_SLEEP_DURATION
     ) {
       return "pet_sleeping";
