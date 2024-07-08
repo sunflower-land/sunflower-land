@@ -2,6 +2,7 @@ import Decimal from "decimal.js-light";
 import { getFactionRankBoostAmount } from "features/game/lib/factionRanks";
 import {
   START_DATE,
+  calculatePoints,
   getFactionWearableBoostAmount,
   getFactionWeek,
   getFactionWeekday,
@@ -79,7 +80,7 @@ export function deliverFactionKitchen({
   const marksBalance = inventory["Mark"] ?? new Decimal(0);
   const fulfilledToday = request.dailyFulfilled[day] ?? 0;
 
-  const points = BASE_POINTS - fulfilledToday * 2;
+  const points = calculatePoints(fulfilledToday, BASE_POINTS);
   const boostPoints = getKingdomKitchenBoost(stateCopy, points);
   const totalPoints = points + boostPoints;
 
@@ -88,19 +89,11 @@ export function deliverFactionKitchen({
     petXP: 0,
   };
 
-  if (totalPoints < 2) {
-    faction.history[week] = {
-      ...leaderboard,
-      score: leaderboard.score + 1,
-    };
-    inventory["Mark"] = marksBalance.plus(1);
-  } else {
-    faction.history[week] = {
-      ...leaderboard,
-      score: leaderboard.score + totalPoints,
-    };
-    inventory["Mark"] = marksBalance.plus(totalPoints);
-  }
+  faction.history[week] = {
+    ...leaderboard,
+    score: leaderboard.score + totalPoints,
+  };
+  inventory["Mark"] = marksBalance.plus(totalPoints);
 
   request.dailyFulfilled[day] = fulfilledToday + 1;
 
