@@ -53,7 +53,7 @@ export const Chores: React.FC<Props> = ({ farmId }) => {
         <InnerPanel className="mb-1 w-full">
           <div className="p-1 text-xs">
             <div className="flex justify-between items-center">
-              <Label type="default">{`Hank's Chores`}</Label>
+              <Label type="default">{t("chores.hank")}</Label>
               <Label type="info" icon={SUNNYSIDE.icons.stopwatch}>
                 {`${t("hayseedHankv2.newChoresAvailable")} ${secondsToString(
                   secondsTillReset(),
@@ -64,7 +64,7 @@ export const Chores: React.FC<Props> = ({ farmId }) => {
               </Label>
             </div>
             <div className="my-1 space-y-1">
-              <span className="w-fit">{t("chores.intro")}</span>
+              <span className="w-fit">{t("chores.hank.intro")}</span>
             </div>
           </div>
         </InnerPanel>
@@ -75,14 +75,14 @@ export const Chores: React.FC<Props> = ({ farmId }) => {
           <InnerPanel className="mb-1 w-full">
             <div className="p-1 text-xs">
               <div className="flex justify-between items-center">
-                <Label type="default">{`Kingdom Chores`}</Label>
+                <Label type="default">{t("chores.kingdom")}</Label>
                 <KingdomChoresTimer
                   resetsAt={kingdomChores.resetsAt}
                   onReset={handleReset}
                 />
               </div>
               <div className="my-1 space-y-1">
-                <span className="w-fit">{`Complete tasks around your farm to earn Marks from your Faction House`}</span>
+                <span className="w-fit">{t("chores.kingdom.intro")}</span>
               </div>
             </div>
           </InnerPanel>

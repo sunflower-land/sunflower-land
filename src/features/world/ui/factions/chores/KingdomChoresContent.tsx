@@ -119,10 +119,12 @@ export const KingdomChoresContent: React.FC<Props> = ({ kingdomChores }) => {
   ) {
     return (
       <InnerPanel>
-        <KingdomChoresTimer
-          resetsAt={kingdomChores.resetsAt}
-          onReset={handleReset}
-        />
+        <div className="absolute -top-7 right-0">
+          <KingdomChoresTimer
+            resetsAt={kingdomChores.resetsAt}
+            onReset={handleReset}
+          />
+        </div>
         <div className="p-2 min-h-[65px]">
           <InlineDialogue
             key={`refreshing-${isRefreshing}`}
@@ -141,10 +143,12 @@ export const KingdomChoresContent: React.FC<Props> = ({ kingdomChores }) => {
 
   return (
     <>
-      <KingdomChoresTimer
-        resetsAt={kingdomChores.resetsAt}
-        onReset={handleReset}
-      />
+      <div className="absolute -top-7 right-0">
+        <KingdomChoresTimer
+          resetsAt={kingdomChores.resetsAt}
+          onReset={handleReset}
+        />
+      </div>
       <div className="p-1">
         <SplitScreenView
           mobileReversePanelOrder={true}
@@ -469,7 +473,7 @@ export const KingdomChoresTimer: React.FC<{
 
   if (shouldReset) {
     return (
-      <div className="absolute -top-7 right-0 bulge-subtle">
+      <div className="bulge-subtle">
         <Label type="info" icon={SUNNYSIDE.icons.timer}>
           <span className="loading">{t("kingdomChores.loading")}</span>
         </Label>
@@ -478,7 +482,7 @@ export const KingdomChoresTimer: React.FC<{
   }
 
   return resetsAt ? (
-    <div className="absolute -top-7 right-0">
+    <div>
       <Label
         type={shouldWarn ? "danger" : "info"}
         className={classNames("whitespace-nowrap", {
