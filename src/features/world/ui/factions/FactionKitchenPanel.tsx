@@ -32,7 +32,6 @@ import {
   getFactionWeekEndTime,
   getFactionWeekday,
 } from "features/game/lib/factions";
-import { hasFeatureAccess } from "lib/flags";
 import { setPrecision } from "lib/utils/formatNumber";
 
 interface Props {
@@ -55,48 +54,16 @@ export const FactionKitchenPanel: React.FC<Props> = ({ bumpkinParts }) => {
 
   const inventory = useSelector(gameService, _inventory);
   const faction = useSelector(gameService, _faction);
+  const game = useSelector(gameService, _game);
+
   const kitchen = faction.kitchen;
+
   const [selectedRequestIdx, setSelectedRequestIdx] = useState<number>(0);
   const [showConfirm, setShowConfirm] = useState<boolean>(false);
 
-  // TODO: Remove when feature released
-  const game = useSelector(gameService, _game);
   const now = Date.now();
 
-  if (
-    now < FACTION_KITCHEN_START_TIME &&
-    !hasFeatureAccess(game, "FACTION_KITCHEN")
-  ) {
-    return (
-      <>
-        <Label
-          type="info"
-          icon={SUNNYSIDE.icons.stopwatch}
-          className="absolute right-0 -top-7 shadow-md"
-        >
-          {t("faction.kitchen.opensIn", {
-            time: secondsToString((FACTION_KITCHEN_START_TIME - now) / 1000, {
-              length: "medium",
-              removeTrailingZeros: true,
-            }),
-          })}
-        </Label>
-        <CloseButtonPanel bumpkinParts={bumpkinParts}>
-          <div className="p-1 space-y-2 mb-1">
-            <div className="flex justify-between">
-              <Label type="default">{`Kitchen`}</Label>
-            </div>
-            <TypingMessage
-              message={t("faction.kitchen.notReady")}
-              onMessageEnd={() => undefined}
-            />
-          </div>
-        </CloseButtonPanel>
-      </>
-    );
-  }
-
-  if (!kitchen) {
+  if (!kitchen || kitchen.requests.length === 0) {
     return (
       <CloseButtonPanel bumpkinParts={bumpkinParts}>
         <div className="p-1 space-y-2">
