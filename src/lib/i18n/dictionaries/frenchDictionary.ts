@@ -2275,6 +2275,8 @@ const factions: Record<Factions, string> = {
   "faction.shop.welcome": ENGLISH_TERMS["faction.shop.welcome"],
   "faction.goodLuck": ENGLISH_TERMS["faction.goodLuck"],
   "faction.noPrizeFound": ENGLISH_TERMS["faction.noPrizeFound"],
+  "faction.boostsApplied": ENGLISH_TERMS["faction.boostsApplied"],
+  "faction.no.boostsApplied": ENGLISH_TERMS["faction.no.boostsApplied"],
 
   // Faction Pet
   "faction.pet.weeklyGoal": ENGLISH_TERMS["faction.pet.weeklyGoal"],

@@ -1574,6 +1574,8 @@ export type Factions =
   | "faction.shop.welcome"
   | "faction.noPrizeFound"
   | "faction.goodLuck"
+  | "faction.boostsApplied"
+  | "faction.no.boostsApplied"
 
   // Faction Pet
   | "faction.pet.weeklyGoal"
