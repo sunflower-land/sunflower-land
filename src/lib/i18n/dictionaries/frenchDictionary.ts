@@ -3070,7 +3070,7 @@ const guideTerms: Record<GuideTerms, string> = {
   "deliveries.intro":
     "Voyagez vers différentes îles et livrez des marchandises pour gagner des récompenses.",
   "deliveries.new": "Nouvelle livraison",
-  "chores.intro":
+  "chores.hank.intro":
     "Effectuez des tâches autour de la ferme pour gagner des récompenses des Bumpkins.",
   "scavenger.guide.one":
     "Le fouilleur dans Sunflower Land offre des opportunités passionnantes pour découvrir des trésors cachés et rassembler des ressources précieuses. Le premier aspect de la fouille consiste à chercher des trésors sur Treasure Island, où vous pouvez devenir un chasseur de trésors pirate. En fabriquant une pelle en sable et en vous aventurant sur Treasure Island, vous pouvez creuser dans les zones de sable sombre pour découvrir divers trésors, y compris des butins, des décorations et même d'anciens SFTs avec utilité.",
@@ -3096,6 +3096,9 @@ const guideTerms: Record<GuideTerms, string> = {
   "pete.teaser.six": "Plantez des graines",
   "pete.teaser.seven": "Fabriquez un Épouvantail",
   "pete.teaser.eight": "Cuisinez de la nourriture et montez de niveau",
+  "chores.hank": ENGLISH_TERMS["chores.hank"],
+  "chores.kingdom": ENGLISH_TERMS["chores.kingdom"],
+  "chores.kingdom.intro": ENGLISH_TERMS["chores.kingdom.intro"],
 };
 
 const harvestBeeHive: Record<HarvestBeeHive, string> = {

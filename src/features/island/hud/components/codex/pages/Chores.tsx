@@ -23,6 +23,7 @@ import mark from "assets/icons/faction_mark.webp";
 import { setPrecision } from "lib/utils/formatNumber";
 import Decimal from "decimal.js-light";
 import { getKingdomChoreBoost } from "features/game/events/landExpansion/completeKingdomChore";
+import { KingdomChoresTimer } from "features/world/ui/factions/chores/KingdomChoresContent";
 
 const _kingdomChores = (state: MachineState) =>
   state.context.state.kingdomChores;
@@ -41,6 +42,10 @@ export const Chores: React.FC<Props> = ({ farmId }) => {
   });
 
   const kingdomChores = useSelector(gameService, _kingdomChores);
+  const handleReset = () => {
+    gameService.send("kingdomChores.refreshed");
+    gameService.send("SAVE");
+  };
 
   return (
     <div className="scrollable overflow-y-auto max-h-[100%] overflow-x-hidden">
@@ -48,7 +53,7 @@ export const Chores: React.FC<Props> = ({ farmId }) => {
         <InnerPanel className="mb-1 w-full">
           <div className="p-1 text-xs">
             <div className="flex justify-between items-center">
-              <Label type="default">{t("chores")}</Label>
+              <Label type="default">{t("chores.hank")}</Label>
               <Label type="info" icon={SUNNYSIDE.icons.stopwatch}>
                 {`${t("hayseedHankv2.newChoresAvailable")} ${secondsToString(
                   secondsTillReset(),
@@ -59,28 +64,44 @@ export const Chores: React.FC<Props> = ({ farmId }) => {
               </Label>
             </div>
             <div className="my-1 space-y-1">
-              <span className="w-fit">{t("chores.intro")}</span>
+              <span className="w-fit">{t("chores.hank.intro")}</span>
             </div>
           </div>
         </InnerPanel>
       )}
+      <ChoreV2 isReadOnly isCodex />
       {kingdomChores && (
-        <div className="flex flex-col pb-1 space-y-1">
-          {kingdomChores.chores
-            .filter(
-              (chore) =>
-                chore.startedAt && !chore.completedAt && !chore.skippedAt,
-            )
-            .map((chore, i) => (
-              <KingdomChoreRow
-                key={`chore-${i}`}
-                chore={chore}
-                gameService={gameService}
-              />
-            ))}
+        <div className="mt-3">
+          <InnerPanel className="mb-1 w-full">
+            <div className="p-1 text-xs">
+              <div className="flex justify-between items-center">
+                <Label type="default">{t("chores.kingdom")}</Label>
+                <KingdomChoresTimer
+                  resetsAt={kingdomChores.resetsAt}
+                  onReset={handleReset}
+                />
+              </div>
+              <div className="my-1 space-y-1">
+                <span className="w-fit">{t("chores.kingdom.intro")}</span>
+              </div>
+            </div>
+          </InnerPanel>
+          <div className="flex flex-col pb-1 space-y-1">
+            {kingdomChores.chores
+              .filter(
+                (chore) =>
+                  chore.startedAt && !chore.completedAt && !chore.skippedAt,
+              )
+              .map((chore, i) => (
+                <KingdomChoreRow
+                  key={`chore-${i}`}
+                  chore={chore}
+                  gameService={gameService}
+                />
+              ))}
+          </div>
         </div>
       )}
-      <ChoreV2 isReadOnly isCodex />
     </div>
   );
 };

@@ -2694,7 +2694,10 @@ const guideTerms: Record<GuideTerms, string> = {
   "pete.teaser.eight": ENGLISH_TERMS["pete.teaser.eight"],
   "deliveries.intro": ENGLISH_TERMS["deliveries.intro"],
   "deliveries.new": ENGLISH_TERMS["deliveries.new"],
-  "chores.intro": ENGLISH_TERMS["chores.intro"],
+  "chores.hank.intro": ENGLISH_TERMS["chores.hank.intro"],
+  "chores.hank": ENGLISH_TERMS["chores.hank"],
+  "chores.kingdom": ENGLISH_TERMS["chores.kingdom"],
+  "chores.kingdom.intro": ENGLISH_TERMS["chores.kingdom.intro"],
 };
 
 const harvestBeeHive: Record<HarvestBeeHive, string> = {

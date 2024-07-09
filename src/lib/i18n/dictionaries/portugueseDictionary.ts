@@ -2976,7 +2976,7 @@ const guideTerms: Record<GuideTerms, string> = {
     "Como um novo jogador, você começa com três slots de pedidos, mas à medida que expande sua fazenda, desbloqueará slots adicionais, permitindo que jogadores avançados assumam mais pedidos. Novos pedidos chegam a cada 24 horas, oferecendo uma variedade de tarefas, desde cultivar produtos até cozinhar alimentos e reunir recursos. Completar pedidos lhe renderá bônus de marcos, incluindo Block Bucks, SFL, Coins, bolos deliciosos e outras recompensas. O sistema de recompensas é baseado na dificuldade do pedido, então considere priorizar pedidos que ofereçam maiores recompensas para maximizar seus ganhos. Fique de olho no quadro e desafie-se com uma variedade de pedidos, subindo de nível e desbloqueando novos prédios conforme necessário para cumprir pedidos mais exigentes.",
   "deliveries.intro": ENGLISH_TERMS["deliveries.intro"],
   "deliveries.new": ENGLISH_TERMS["deliveries.new"],
-  "chores.intro": ENGLISH_TERMS["chores.intro"],
+  "chores.hank.intro": ENGLISH_TERMS["chores.hank.intro"],
 
   "scavenger.guide.one":
     "Coletar em Sunflower Land oferece oportunidades emocionantes para  descobrir tesouros escondidos e reunir recursos valiosos. O primeiro aspecto é cavar tesouros na Ilha do Tesouro, onde você pode se tornar um caçador de tesouros piratas. Ao criar uma pá de areia e aventurar-se na Ilha do Tesouro, você pode cavar em áreas de areia escura para descobrir uma variedade de tesouros, incluindo recompensas, decorações e até mesmo SFTs antigos com utilidade.",
@@ -3001,17 +3001,10 @@ const guideTerms: Record<GuideTerms, string> = {
   "pete.teaser.six": "Plante Sementes",
   "pete.teaser.seven": "Crie um Espantalho",
   "pete.teaser.eight": "Cozinhe comida e evolua",
+  "chores.hank": ENGLISH_TERMS["chores.hank"],
+  "chores.kingdom": ENGLISH_TERMS["chores.kingdom"],
+  "chores.kingdom.intro": ENGLISH_TERMS["chores.kingdom.intro"],
 };
-
-// const grubshop: Record<GrubShop, string> = {
-//   "message.grublinOrders": "Volte amanhã para ver os Pedidos dos Grublins.",
-//   "message.orderFulfilled": "Pedido entregue",
-//   "message.grubShopClosed": "O Grub Shop está fechado às terças-feiras.",
-//   "message.moreOrdersIn": "Mais pedidos em",
-//   "message.bonusOffer": "Oferta de bônus",
-//   "message.earnSeasonalTickets":
-//     "Ganhe 10 Tickets de Temporada para cada refeição.",
-// };
 
 const harvestflower: Record<Harvestflower, string> = {
   "harvestflower.noFlowerBed": "Canteiro de flores não existe",

@@ -1206,7 +1206,7 @@ const choresStart: Record<ChoresStart, string> = {
   "kingdomChores.skipWarning": "You can only skip one chore every 24 hours",
   "kingdomChores.completeActive": "Complete active chores to unlock",
   "kingdomChores.loading": "Loading new chores",
-  "kingdomChores.reset": "Chores Reset: {{reset}}",
+  "kingdomChores.reset": "New Kingdom Chores in: {{reset}}",
 };
 
 const chumDetails: Record<ChumDetails, string> = {
@@ -2950,8 +2950,12 @@ const guideTerms: Record<GuideTerms, string> = {
   "deliveries.intro":
     "Travel to different islands and deliver goods to earn rewards.",
   "deliveries.new": "New delivery",
-  "chores.intro":
+  "chores.hank": "Hank's Chores",
+  "chores.hank.intro":
     "Complete tasks around the farm to earn rewards from Bumpkins.",
+  "chores.kingdom": "Kingdom Chores",
+  "chores.kingdom.intro":
+    "Complete tasks around your farm to earn Marks from your Faction House",
   "scavenger.guide.one":
     "Scavenging in Sunflower Land offers exciting opportunities to uncover hidden treasures and gather valuable resources. The first aspect of scavenging is digging for treasure on Treasure Island, where you can become a pirate treasure hunter. By crafting a sand shovel and venturing to Treasure Island, you can dig in dark sandy areas to uncover a variety of treasures, including bounty, decorations, and even ancient SFTs with utility.",
   "scavenger.guide.two":
@@ -3004,7 +3008,7 @@ const hayseedHankV2: Record<HayseedHankV2, string> = {
     "However, my bones ain't what they used to be. If you can help me with my daily chores, I will reward you with {{seasonalTicket}}.",
   "hayseedHankv2.action": "Let's do it",
   "hayseedHankv2.title": "Hank's Daily Chores",
-  "hayseedHankv2.newChoresAvailable": "New chores:",
+  "hayseedHankv2.newChoresAvailable": "New Chores in:",
   "hayseedHankv2.skipChores": "You can skip chores each new day",
   "hayseedHankv2.greeting":
     "Well, howdy there, young whippersnappers! I'm Hayseed Hank...",
