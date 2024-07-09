@@ -34,6 +34,7 @@ import {
 } from "features/game/lib/factions";
 import { hasFeatureAccess } from "lib/flags";
 import { setPrecision } from "lib/utils/formatNumber";
+import { BoostInfoPanel } from "./BoostInfoPanel";
 
 interface Props {
   bumpkinParts: Equipped;
@@ -56,8 +57,9 @@ export const FactionKitchenPanel: React.FC<Props> = ({ bumpkinParts }) => {
   const inventory = useSelector(gameService, _inventory);
   const faction = useSelector(gameService, _faction);
   const kitchen = faction.kitchen;
-  const [selectedRequestIdx, setSelectedRequestIdx] = useState<number>(0);
-  const [showConfirm, setShowConfirm] = useState<boolean>(false);
+  const [selectedRequestIdx, setSelectedRequestIdx] = useState(0);
+  const [showConfirm, setShowConfirm] = useState(false);
+  const [showBoostInfo, setShowBoostInfo] = useState(false);
 
   // TODO: Remove when feature released
   const game = useSelector(gameService, _game);
@@ -154,10 +156,7 @@ export const FactionKitchenPanel: React.FC<Props> = ({ bumpkinParts }) => {
         })}
       </Label>
       <CloseButtonPanel bumpkinParts={bumpkinParts}>
-        <div className="p-1 space-y-2">
-          <div className="flex justify-between">
-            <Label type="default">{`Kitchen`}</Label>
-          </div>
+        <div className="p-1">
           {!showConfirm && (
             <>
               <p className="block sm:hidden text-xs pb-1">
@@ -249,16 +248,25 @@ export const FactionKitchenPanel: React.FC<Props> = ({ bumpkinParts }) => {
                 panel={
                   <div className="flex flex-col justify-between h-full sm:items-center">
                     <div className="flex flex-col space-y-1 px-1.5 mb-1">
-                      <Label
-                        icon={ITEM_DETAILS["Mark"].image}
-                        secondaryIcon={boost ? lightning : null}
-                        type="warning"
-                        className="m-1"
-                      >
-                        <span className={boost ? "pl-1.5" : ""}>
-                          {`${boostedMarks} ${t("marks")}`}
-                        </span>
-                      </Label>
+                      <div className="relative">
+                        <BoostInfoPanel
+                          feature="kitchen"
+                          show={showBoostInfo}
+                          baseAmount={selectedRequestReward}
+                          onClick={() => setShowBoostInfo(false)}
+                        />
+                        <Label
+                          icon={ITEM_DETAILS["Mark"].image}
+                          secondaryIcon={boost ? lightning : null}
+                          type="warning"
+                          className="m-1"
+                          onClick={() => setShowBoostInfo(!showBoostInfo)}
+                        >
+                          <span className={boost ? "pl-1.5" : ""}>
+                            {`${boostedMarks} ${t("marks")}`}
+                          </span>
+                        </Label>
+                      </div>
                       <div className="hidden sm:flex flex-col space-y-1 w-full justify-center items-center">
                         <p className="text-sm">{selectedRequest.item}</p>
                         <SquareIcon
