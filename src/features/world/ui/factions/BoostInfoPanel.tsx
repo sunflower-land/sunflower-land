@@ -13,8 +13,12 @@ import { MachineState } from "features/game/lib/gameMachine";
 import { isWearableActive } from "features/game/lib/wearables";
 import { FactionName, GameState } from "features/game/types/game";
 import lightning from "assets/icons/lightning.png";
+import { getKeys } from "features/game/types/decorations";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
-export function getFactionBoosts(game: GameState) {
+type KingdomFeature = "kitchen" | "pet" | "kingdom_chores";
+
+export function getFactionBoosts(game: GameState, feature: KingdomFeature) {
   const factionName = game.faction?.name as FactionName;
 
   const boosts: Record<string, string> = {};
@@ -64,7 +68,7 @@ export function getFactionBoosts(game: GameState) {
     boosts[FACTION_OUTFITS[factionName].shirt] = `${0.2 * 100}%`;
   }
 
-  if (isWearableActive({ game, name: "Paw Shield" })) {
+  if (feature === "pet" && isWearableActive({ game, name: "Paw Shield" })) {
     boosts["Paw Shield"] = `${0.25 * 100}%`;
   }
 
@@ -85,7 +89,8 @@ export function getFactionBoosts(game: GameState) {
 
 interface Props {
   show: boolean;
-  totalBoostAmount: number;
+  feature: KingdomFeature;
+  baseAmount: number;
   onClick: () => void;
 }
 
@@ -93,13 +98,16 @@ const _game = (state: MachineState) => state.context.state;
 
 export const BoostInfoPanel: React.FC<Props> = ({
   show,
-  totalBoostAmount,
+  feature,
+  baseAmount,
   onClick,
 }) => {
+  const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
   const game = useSelector(gameService, _game);
 
-  const boosts = getFactionBoosts(game);
+  const boosts = getFactionBoosts(game, feature);
+  const hasBoosts = getKeys(boosts).length > 0;
 
   return (
     <Transition
@@ -120,20 +128,31 @@ export const BoostInfoPanel: React.FC<Props> = ({
     >
       <InnerPanel className="drop-shadow-lg cursor-pointer">
         <div className="flex flex-col mb-1">
-          <div className="flex space-x-2 items-center mb-2">
-            <img src={lightning} alt="Boost" className="w-3" />
-            <span className="text-xs mb-0.5 ml-0.5 font-bold whitespace-nowrap">{`${totalBoostAmount} Marks`}</span>
-          </div>
-          <div className="space-y-1">
-            {Object.entries(boosts).map(([name, boost]) => (
-              <div
-                key={`${name}-${boost}`}
-                className="capitalize space-x-1 text-xs"
-              >
-                <span className="text-xs whitespace-nowrap">{`+${boost} ${name}`}</span>
+          <span className="text-xs mb-2 ml-0.5 font-bold whitespace-nowrap">{`${baseAmount} ${baseAmount === 1 ? "Mark" : "Marks"}`}</span>
+          {hasBoosts ? (
+            <>
+              <div className="flex space-x-1 mb-1">
+                <img src={lightning} alt="Boost" className="w-3" />
+                <span className="text-xs whitespace-nowrap">
+                  {t("faction.boostsApplied")}
+                </span>
               </div>
-            ))}
-          </div>
+              <div className="space-y-1">
+                {Object.entries(boosts).map(([name, boost]) => (
+                  <div
+                    key={`${name}-${boost}`}
+                    className="capitalize space-x-1 text-xs"
+                  >
+                    <span className="text-xs whitespace-nowrap">{`+${boost} ${name}`}</span>
+                  </div>
+                ))}
+              </div>
+            </>
+          ) : (
+            <span className="text-xs whitespace-nowrap">
+              {t("faction.no.boostsApplied")}
+            </span>
+          )}
         </div>
       </InnerPanel>
     </Transition>
