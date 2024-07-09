@@ -52,6 +52,7 @@ import { SunflorianHouseScene } from "./scenes/SunflorianHouseScene";
 import { Loading } from "features/auth/components";
 import { NightshadeHouseScene } from "./scenes/NightshadeHouseScene";
 import { BumpkinHouseScene } from "./scenes/BumpkinHouseScene";
+import { AnimationScene } from "./scenes/AnimationScene";
 
 const _roomState = (state: MachineState) => state.value;
 const _scene = (state: MachineState) => state.context.sceneId;
@@ -131,6 +132,7 @@ export const PhaserComponent: React.FC<Props> = ({
           BumpkinHouseScene,
         ]
       : []),
+    AnimationScene,
   ];
 
   useEffect(() => {
