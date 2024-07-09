@@ -19,6 +19,25 @@ type FactionPetStateCoords = Record<
   Record<PetStateSprite, Coordinates>
 >;
 
+const PROGRESS_BAR_COORDS: Record<FactionName, Coordinates> = {
+  nightshades: {
+    x: 233,
+    y: 312,
+  },
+  sunflorians: {
+    x: 233,
+    y: 248,
+  },
+  bumpkins: {
+    x: 233,
+    y: 312,
+  },
+  goblins: {
+    x: 233,
+    y: 264,
+  },
+};
+
 export const PET_STATE_COORDS: FactionPetStateCoords = {
   sunflorians: {
     pet_hungry: {
@@ -84,12 +103,18 @@ export abstract class FactionHouseScene extends BaseScene {
   private _petState: PetStateSprite = "pet_hungry";
   public pet: Phaser.GameObjects.Sprite | undefined;
   public factionName: FactionName | undefined;
+  public progressBarBackground: Phaser.GameObjects.Graphics | undefined;
+  public progressBar: Phaser.GameObjects.Graphics | undefined;
+  private _progress = 0;
+  public boostIcon: Phaser.GameObjects.Image | undefined;
 
   preload() {
     super.preload();
 
     this.load.image("basic_chest", "world/basic_chest.png");
     this.load.image("question_disc", "world/question_disc.png");
+    this.load.image("empty_progress_bar", "world/empty_bar.png");
+    this.load.image("boost_icon", "world/lightning.png");
 
     const week = getFactionWeek({ date: new Date() });
     const faction = this.gameService.state.context.state.faction;
@@ -98,7 +123,17 @@ export abstract class FactionHouseScene extends BaseScene {
     if (faction) {
       this.collectivePet = faction.history[week].collectivePet;
       this.petState = this.getPetState();
+
+      this.progress = this.calculatePetProgress();
     }
+  }
+
+  calculatePetProgress() {
+    if (!this.collectivePet) return 0;
+
+    const { totalXP, goalXP } = this.collectivePet;
+
+    return Math.min(totalXP, goalXP) / goalXP;
   }
 
   setUpPet() {
@@ -116,6 +151,44 @@ export abstract class FactionHouseScene extends BaseScene {
           npcModalManager.open("pet");
         }
       });
+
+    this.add
+      .sprite(
+        PROGRESS_BAR_COORDS[this.factionName].x + 7,
+        PROGRESS_BAR_COORDS[this.factionName].y + 2,
+        "empty_progress_bar",
+      )
+      .setDisplaySize(18, 7)
+      .setDepth(2);
+    this.progressBarBackground = this.add.graphics().setDepth(0);
+    this.progressBar = this.add.graphics().setDepth(1);
+
+    this.progressBarBackground.fillStyle(0x193c3e, 1);
+    this.progressBarBackground.fillRect(
+      PROGRESS_BAR_COORDS[this.factionName].x,
+      PROGRESS_BAR_COORDS[this.factionName].y,
+      14,
+      4,
+    );
+
+    this.progressBar.fillStyle(0x63c74d, 1);
+    this.progressBar.fillRect(
+      PROGRESS_BAR_COORDS[this.factionName].x,
+      PROGRESS_BAR_COORDS[this.factionName].y,
+      14 * this.progress,
+      4,
+    );
+
+    const showBoost = (this.collectivePet?.streak ?? 0) >= 3;
+
+    this.boostIcon = this.add
+      .image(
+        PROGRESS_BAR_COORDS[this.factionName].x + 21,
+        PROGRESS_BAR_COORDS[this.factionName].y + 1,
+        "boost_icon",
+      )
+      .setScale(0.9)
+      .setVisible(showBoost);
   }
 
   create() {
@@ -128,10 +201,15 @@ export abstract class FactionHouseScene extends BaseScene {
 
   async makeFetchRequest() {
     const { farmId } = this.gameService.state.context;
+
     const data = await getFactionPetUpdate({ farmId });
+
+    if (!data) return;
 
     this.collectivePet = data;
     this.petState = this.getPetState();
+    this.progress = this.calculatePetProgress();
+    this.boostIcon?.setVisible((data.streak ?? 0) >= 3);
   }
 
   shutdown() {
@@ -155,13 +233,28 @@ export abstract class FactionHouseScene extends BaseScene {
     return this._petState;
   }
 
+  set progress(newValue: number) {
+    this._progress = Math.min(newValue, 100);
+    this.onProgressChange();
+  }
+
+  get progress() {
+    return this._progress;
+  }
+
+  onProgressChange() {
+    this.progressBar?.clear();
+
+    this.progressBar?.fillStyle(0x63c74d, 1);
+    this.progressBar?.fillRect(233, 312, 14 * this.progress, 4);
+  }
   onPetStateChange(newValue: PetStateSprite) {
-    if (!this.pet) return;
+    if (!this.pet || !this.factionName) return;
 
     this.pet?.setTexture(newValue);
     this.pet?.setPosition(
-      PET_STATE_COORDS[this.factionName as FactionName][newValue].x,
-      PET_STATE_COORDS[this.factionName as FactionName][newValue].y,
+      PET_STATE_COORDS[this.factionName][newValue].x,
+      PET_STATE_COORDS[this.factionName][newValue].y,
     );
   }
 
