@@ -47,6 +47,7 @@ export class NightshadeHouseScene extends FactionHouseScene {
     this.load.image("pet_sleeping", "world/nightshades_pet_sleeping.webp");
     this.load.image("pet_happy", "world/nightshades_pet_happy.webp");
     this.load.image("pet_hungry", "world/nightshades_pet_hungry.webp");
+    this.load.image("empty_progress_bar", "world/empty_bar.png");
   }
 
   create() {
