@@ -413,8 +413,9 @@ export const FactionPetPanel: React.FC<Props> = ({ onClose }) => {
                       <div className="flex flex-col items-center space-y-1 px-1.5 mb-1">
                         <div className="flex items-center relative">
                           <BoostInfoPanel
+                            feature="pet"
                             show={showBoostInfo}
-                            totalBoostAmount={boost}
+                            baseAmount={selectedRequestReward}
                             onClick={() => setShowBoostInfo(false)}
                           />
                           <Label
