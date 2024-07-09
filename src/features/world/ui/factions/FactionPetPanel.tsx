@@ -276,7 +276,6 @@ export const FactionPetPanel: React.FC<Props> = ({ onClose }) => {
           }),
         })}`}
       </Label>
-      <BoostInfoPanel show={showBoostInfo} totalBoostAmount={30} />
       <CloseButtonPanel
         onClose={onClose}
         currentTab={tab}
@@ -412,14 +411,14 @@ export const FactionPetPanel: React.FC<Props> = ({ onClose }) => {
                   panel={
                     <div className="flex flex-col justify-between h-full sm:items-center">
                       <div className="flex flex-col items-center space-y-1 px-1.5 mb-1">
-                        <div className="flex space-x-1 items-center">
-                          <div
-                            style={{
-                              width: `${PIXEL_SCALE * 9}px`,
-                              height: `${PIXEL_SCALE * 9}px`,
-                            }}
+                        <div className="flex items-center relative">
+                          <BoostInfoPanel
+                            show={showBoostInfo}
+                            totalBoostAmount={boost}
+                            onClick={() => setShowBoostInfo(false)}
                           />
                           <Label
+                            onClick={() => setShowBoostInfo(!showBoostInfo)}
                             icon={ITEM_DETAILS["Mark"].image}
                             secondaryIcon={boost ? lightning : undefined}
                             type="warning"

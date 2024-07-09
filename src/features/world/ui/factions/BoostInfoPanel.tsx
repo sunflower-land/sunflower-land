@@ -1,3 +1,4 @@
+import React, { useContext } from "react";
 import { Transition } from "@headlessui/react";
 import { useSelector } from "@xstate/react";
 import { InnerPanel } from "components/ui/Panel";
@@ -11,12 +12,7 @@ import { FACTION_OUTFITS } from "features/game/lib/factions";
 import { MachineState } from "features/game/lib/gameMachine";
 import { isWearableActive } from "features/game/lib/wearables";
 import { FactionName, GameState } from "features/game/types/game";
-import React, { useContext } from "react";
-
-interface Props {
-  show: boolean;
-  totalBoostAmount: number;
-}
+import lightning from "assets/icons/lightning.png";
 
 export function getFactionBoosts(game: GameState) {
   const factionName = game.faction?.name as FactionName;
@@ -38,7 +34,7 @@ export function getFactionBoosts(game: GameState) {
       name: FACTION_OUTFITS[factionName].shoes,
     })
   ) {
-    boosts[FACTION_OUTFITS[factionName].pants] = `${0.05 * 100}%`;
+    boosts[FACTION_OUTFITS[factionName].shoes] = `${0.05 * 100}%`;
   }
 
   if (
@@ -79,16 +75,27 @@ export function getFactionBoosts(game: GameState) {
 
   if (rank) {
     const boost = rankBoostPercentage(rank.name);
-
-    boosts[rank.name] = `${boost * 100}%`;
+    if (boost > 0) {
+      boosts[`${rank.name} rank`] = `${boost * 100}%`;
+    }
   }
 
   return boosts;
 }
 
+interface Props {
+  show: boolean;
+  totalBoostAmount: number;
+  onClick: () => void;
+}
+
 const _game = (state: MachineState) => state.context.state;
 
-export const BoostInfoPanel: React.FC<Props> = ({ show, totalBoostAmount }) => {
+export const BoostInfoPanel: React.FC<Props> = ({
+  show,
+  totalBoostAmount,
+  onClick,
+}) => {
   const { gameService } = useContext(Context);
   const game = useSelector(gameService, _game);
 
@@ -105,20 +112,28 @@ export const BoostInfoPanel: React.FC<Props> = ({ show, totalBoostAmount }) => {
       leave="transition-opacity duration-100"
       leaveFrom="opacity-100"
       leaveTo="opacity-0"
-      className="flex top-2 right-[40%] absolute z-40 pointer-events-none"
+      className="flex top-8 -left-[80%] absolute z-40"
+      onClick={(e) => {
+        e.stopPropagation();
+        onClick();
+      }}
     >
-      <InnerPanel>
-        <div className="flex flex-col p-1">
-          <div></div>
-          {Object.entries(boosts).map(([name, boost]) => (
-            <div
-              key={`${name}-${boost}`}
-              className="capitalize space-x-1 text-xs"
-            >
-              <span>{`+${boost}`}</span>
-              <span>{name}</span>
-            </div>
-          ))}
+      <InnerPanel className="drop-shadow-lg cursor-pointer">
+        <div className="flex flex-col mb-1">
+          <div className="flex space-x-2 items-center mb-2">
+            <img src={lightning} alt="Boost" className="w-3" />
+            <span className="text-xs mb-0.5 ml-0.5 font-bold whitespace-nowrap">{`${totalBoostAmount} Marks`}</span>
+          </div>
+          <div className="space-y-1">
+            {Object.entries(boosts).map(([name, boost]) => (
+              <div
+                key={`${name}-${boost}`}
+                className="capitalize space-x-1 text-xs"
+              >
+                <span className="text-xs whitespace-nowrap">{`+${boost} ${name}`}</span>
+              </div>
+            ))}
+          </div>
         </div>
       </InnerPanel>
     </Transition>
