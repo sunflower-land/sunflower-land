@@ -260,10 +260,7 @@ export const NPCModals: React.FC<Props> = ({ scene, id }) => {
           <FactionKitchenPanel bumpkinParts={NPC_WEARABLES["chef lumen"]} />
         )}
         {npc === "eldric" && <FactionShop onClose={closeModal} />}
-        {npc === "blaze" && <FactionPetPanel onClose={closeModal} />}
-        {npc === "tater" && <FactionPetPanel onClose={closeModal} />}
-        {npc === "snaggle" && <FactionPetPanel onClose={closeModal} />}
-        {npc === "sable" && <FactionPetPanel onClose={closeModal} />}
+        {npc === "pet" && <FactionPetPanel onClose={closeModal} />}
       </Modal>
 
       {npc === "hammerin harry" && (

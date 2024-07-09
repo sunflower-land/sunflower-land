@@ -23,7 +23,11 @@ import coins from "assets/icons/coins.webp";
 import sfl from "assets/icons/sfl.webp";
 
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
-import { FactionName, InventoryItemName } from "features/game/types/game";
+import {
+  FactionName,
+  FactionPrize,
+  InventoryItemName,
+} from "features/game/types/game";
 import { Fireworks } from "./components/ClaimEmblems";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { hasFeatureAccess } from "lib/flags";
@@ -189,8 +193,39 @@ const TROPHIES: Record<FactionName, Record<number, InventoryItemName>> = {
   },
 };
 
+type PrizeRow = FactionPrize & { from: number; to?: number };
+
 export const ChampionsPrizes: React.FC<Props> = ({ onClose }) => {
   const { t } = useAppTranslation();
+
+  // Group together rows that have the same prize
+  const prizes: PrizeRow[] = [];
+  let previous: PrizeRow | undefined = undefined;
+  getKeys(FACTION_PRIZES).forEach((key, index) => {
+    const prize = FACTION_PRIZES[key];
+
+    let isSameAsPrevious = false;
+    if (previous) {
+      const { from, to, ...old } = previous;
+      isSameAsPrevious = JSON.stringify(prize) === JSON.stringify(old);
+    }
+
+    if (!isSameAsPrevious) {
+      if (previous) {
+        prizes.push({ ...previous, to: index }); // Close the previous prize range
+      }
+
+      previous = {
+        ...prize,
+        from: index + 1,
+      };
+    } else if (previous) {
+      previous.to = index + 1; // Extend the current prize range
+    }
+  });
+
+  if (previous) prizes.push(previous as PrizeRow);
+
   return (
     <div
       className="p-1 overflow-y-scroll scrollable pr-1"
@@ -223,14 +258,15 @@ export const ChampionsPrizes: React.FC<Props> = ({ onClose }) => {
       <p className="text-xs mb-2">{t("leaderboard.faction.topPlayerPrizes")}</p>
       <table className="w-full text-xs table-auto border-collapse">
         <tbody>
-          {getKeys(FACTION_PRIZES).map((position, index) => {
-            const prize = FACTION_PRIZES[position];
+          {prizes.map((prize, index) => {
             const trophy = TROPHIES["goblins"][index + 1];
 
             return (
               <tr key={index}>
                 <td style={{ border: "1px solid #b96f50" }} className="p-1.5">
-                  {position}
+                  {prize.from === prize.to || !prize.to
+                    ? prize.from
+                    : [prize.from, prize.to].join(" - ")}
                 </td>
                 <td
                   style={{ border: "1px solid #b96f50" }}
