@@ -493,9 +493,7 @@ export const KingdomChoresTimer: React.FC<{
     <div>
       <Label
         type={shouldWarn ? "danger" : "info"}
-        className={classNames("whitespace-nowrap", {
-          "bulge-subtle": shouldWarn,
-        })}
+        className={classNames({ "bulge-subtle": shouldWarn })}
         icon={SUNNYSIDE.icons.stopwatch}
       >
         {t("kingdomChores.reset", {

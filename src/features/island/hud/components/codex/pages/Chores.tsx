@@ -52,7 +52,7 @@ export const Chores: React.FC<Props> = ({ farmId }) => {
       {!ticketTasksAreFrozen && (
         <InnerPanel className="mb-1 w-full">
           <div className="p-1 text-xs">
-            <div className="flex justify-between items-center">
+            <div className="flex justify-between items-center gap-1">
               <Label type="default">{t("chores.hank")}</Label>
               <Label type="info" icon={SUNNYSIDE.icons.stopwatch}>
                 {`${t("hayseedHankv2.newChoresAvailable")} ${secondsToString(
@@ -74,7 +74,7 @@ export const Chores: React.FC<Props> = ({ farmId }) => {
         <div className="mt-3">
           <InnerPanel className="mb-1 w-full">
             <div className="p-1 text-xs">
-              <div className="flex justify-between items-center">
+              <div className="flex justify-between items-center gap-1">
                 <Label type="default">{t("chores.kingdom")}</Label>
                 <KingdomChoresTimer
                   resetsAt={kingdomChores.resetsAt}
