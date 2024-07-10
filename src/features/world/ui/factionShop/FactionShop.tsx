@@ -22,7 +22,7 @@ import {
   FactionShopWearable,
 } from "features/game/types/factionShop";
 import { ItemsList } from "./components/ItemList";
-import { CONSUMABLES } from "features/game/types/consumables";
+import { CONSUMABLES, FACTION_FOOD } from "features/game/types/consumables";
 
 interface Props {
   onClose: () => void;
