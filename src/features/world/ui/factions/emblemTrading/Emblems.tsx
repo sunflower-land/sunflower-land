@@ -159,7 +159,7 @@ const Leaderboard: React.FC<{
               <p>{t("player")}</p>
             </th>
             <th style={{ border: "1px solid #b96f50" }} className="w-2/5 p-1.5">
-              <p>{`Marks`}</p>
+              <p>{`Emblems`}</p>
             </th>
           </tr>
         </thead>
@@ -226,7 +226,7 @@ const Leaderboard: React.FC<{
                 <div className="flex items-center space-x-1 justify-end">
                   <>
                     <span>{count}</span>
-                    <img src={mark} className="h-4" />
+                    <img src={ITEM_DETAILS[emblem].image} className="h-4" />
                   </>
                 </div>
               </td>
