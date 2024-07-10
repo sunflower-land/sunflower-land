@@ -1204,7 +1204,7 @@ const choresStart: Record<ChoresStart, string> = {
   "kingdomChores.skipWarning": "You can only skip one chore every 24 hours",
   "kingdomChores.completeActive": "Complete active chores to unlock",
   "kingdomChores.loading": "Loading new chores",
-  "kingdomChores.reset": "New Kingdom Chores in: {{reset}}",
+  "kingdomChores.reset": "New Chores in: {{reset}}",
 };
 
 const chumDetails: Record<ChumDetails, string> = {
