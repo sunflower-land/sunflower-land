@@ -99,7 +99,7 @@ export class BeachScene extends BaseScene {
       frameHeight: 50,
     });
 
-    // fishing season icons
+    // fishing weather icons
     this.load.image("fish_frenzy", "world/lightning.png");
     this.load.image("full_moon", "world/full_moon.png");
   }
@@ -117,6 +117,7 @@ export class BeachScene extends BaseScene {
       x: 322,
       y: 711,
       scene: this,
+      weather: this.gameState.fishing.weather,
     });
     fisher.setDepth(100000000);
     this.physics.world.enable(fisher);
@@ -127,14 +128,6 @@ export class BeachScene extends BaseScene {
       .setOffset(12, 11)
       .setImmovable(true)
       .setCollideWorldBounds(true);
-
-    // add fishing season icons
-    const fishingWeather = this.gameState.fishing.weather;
-    if (fishingWeather === "Fish Frenzy") {
-      this.add.sprite(311, 686, "fish_frenzy").setDepth(100000000);
-    } else if (fishingWeather === "Full Moon") {
-      this.add.sprite(311, 686, "full_moon").setDepth(100000000);
-    }
 
     const turtle = this.add.sprite(328, 515, "beach_bud");
     turtle.setScale(-1, 1);
