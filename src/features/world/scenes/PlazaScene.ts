@@ -199,7 +199,7 @@ export class PlazaScene extends BaseScene {
 
     // Stella Megastore items
     this.load.image("rice_panda", "world/rice_panda.webp");
-    this.load.image("non_la", "world/non_la.webp");
+    this.load.image("butterfly_wings", "world/butterfly_wings.png");
 
     this.load.image("banner", "world/clash_of_factions_banner.webp");
 
@@ -443,7 +443,7 @@ export class PlazaScene extends BaseScene {
 
     // Stella Collectible of the Month
     this.add.image(248, 244, "rice_panda");
-    this.add.image(288.5, 248, "non_la");
+    this.add.image(288, 254, "butterfly_wings").setDepth(100000000000);
 
     const door = this.colliders
       ?.getChildren()
