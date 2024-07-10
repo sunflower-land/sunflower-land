@@ -105,11 +105,11 @@ export const DraftBid: React.FC<Props> = ({
         className="flex flex-col justify-center items-center relative"
         style={{ height: "200px" }}
       >
-        <div className="absolute -top-2 right-0">
+        <div className="absolute -top-1 right-0">
           {TimerDisplay({
             time: end,
             fontSize: 32,
-            color: end.minutes >= 1 ? "white" : "red",
+            color: end.minutes < 1 ? "red" : "#3e2731",
           })}
         </div>
         <div className="p-2 flex-1 flex flex-col items-center justify-center">
@@ -170,11 +170,11 @@ export const DraftBid: React.FC<Props> = ({
           <div />
         </div>
 
-        <div className="absolute -top-2 right-0">
+        <div className="absolute -top-1 right-0">
           {TimerDisplay({
             time: end,
             fontSize: 32,
-            color: end.minutes >= 1 ? "white" : "red",
+            color: end.minutes < 1 ? "red" : "#3e2731",
           })}
         </div>
 
