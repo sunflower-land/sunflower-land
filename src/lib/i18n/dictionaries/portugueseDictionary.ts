@@ -2749,32 +2749,35 @@ const gameDescriptions: Record<GameDescriptions, string> = {
 
   // Coupons
   "description.community.coin":
-    "Uma moeda valiosa que pode ser trocada por recompensas",
-  "description.bud.seedling": "Uma muda a ser trocada por um Bud NFT gratuito",
+    "(WIP) Uma moeda valiosa que pode ser trocada por recompensas",
+  "description.bud.seedling":
+    "(LEGACY) Uma muda a ser trocada por um Bud NFT gratuito",
   "description.gold.pass":
-    "Um passe exclusivo que permite ao portador criar NFTs raros, negociar, sacar e acessar conteúdo bônus.",
+    "(LEGACY) Um passe exclusivo que permite ao portador criar NFTs raros, negociar, sacar e acessar conteúdo bônus.",
   "description.rapid.growth":
-    "Aplique em uma cultura para crescer duas vezes mais rápido",
+    "(LEGACY) Aplique em uma cultura para crescer duas vezes mais rápido",
   "description.bud.ticket":
-    "Um lugar garantido para mintar um Bud no lançamento de NFTs do Sunflower Land Buds.",
+    "(LEGACY) Um lugar garantido para mintar um Bud no lançamento de NFTs do Sunflower Land Buds.",
   "description.potion.ticket":
     "Uma recompensa da Casa das Poções. Use isso para comprar itens de Garth.",
-  "description.trading.ticket": "Negociações grátis! Uhu!",
+  "description.trading.ticket": "(LEGACY) Negociações grátis! Uhu!",
   "description.block.buck": "Um token valioso em Sunflower Land!",
-  "description.beta.pass": "Acesso antecipado a recursos para teste.",
-  "description.war.bond": "Uma marca de um verdadeiro guerreiro",
-  "description.allegiance": "Uma exibição de lealdade",
-  "description.jack.o.lantern": "Um item especial de evento de Halloween",
-  "description.golden.crop": "Uma safra dourada brilhante",
-  "description.red.envelope": "Uau, você tem sorte!",
-  "description.love.letter": "Expressar sentimentos de amor",
+  "description.beta.pass":
+    "(EXCLUSIVE) Acesso antecipado a recursos para teste.",
+  "description.war.bond": "(LEGACY) Uma marca de um verdadeiro guerreiro",
+  "description.allegiance": "(LEGACY) Uma exibição de lealdade",
+  "description.jack.o.lantern":
+    "(LEGACY) Um item especial de evento de Halloween",
+  "description.golden.crop": "(LEGACY) Uma safra dourada brilhante",
+  "description.red.envelope": "(LEGACY) Uau, você tem sorte!",
+  "description.love.letter": "(LEGACY) Expressar sentimentos de amor",
   "description.solar.flare.ticket":
-    "Um ticket usado durante a Temporada de Solar Flare",
+    "(LEGACY) Um ticket usado durante a Temporada de Solar Flare",
   "description.dawn.breaker.ticket":
-    "Um ticket usado durante a Temporada Danw Breaker",
-  "description.crow.feather": "Um ticket usado durante Whiches' Eve",
+    "(LEGACY) Um ticket usado durante a Temporada Danw Breaker",
+  "description.crow.feather": "(LEGACY) Um ticket usado durante Whiches' Eve",
   "description.mermaid.scale":
-    "Um ticket usado durante a Temporada de Catch the Kraken",
+    "(LEGACY) Um ticket usado durante a Temporada de Catch the Kraken",
   "description.sunflower.supporter":
     "A marca de um verdadeiro apoiador do jogo!",
   "description.arcade.coin":
@@ -2782,7 +2785,7 @@ const gameDescriptions: Record<GameDescriptions, string> = {
   "description.farmhand.coupon":
     "Um cupom para trocar por um ajudante de fazenda de sua escolha.",
   "description.farmhand": "Um Bumpkin adotado em sua fazenda",
-  "description.tulip.bulb": "Um ticket usado durante a ",
+  "description.tulip.bulb": "(LEGACY) Um ticket usado durante a ",
   "description.prizeTicket": "Um ticket para entrar nos sorteios de prêmios",
   "description.babyPanda": ENGLISH_TERMS["description.babyPanda"],
   "description.baozi": ENGLISH_TERMS["description.baozi"],

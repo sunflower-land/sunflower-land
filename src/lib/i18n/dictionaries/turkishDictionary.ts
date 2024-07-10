@@ -2721,39 +2721,44 @@ const gameDescriptions: Record<GameDescriptions, string> = {
   "description.ancient.human.warhammer": "Kadim Bir İnsan Savaş Çekici",
 
   // Coupons
-  "description.community.coin": "Ödüllerle takas edilebilecek değerli bir para",
-  "description.bud.seedling": "Ücretsiz Bud NFT ile değiştirilecek bir fide",
+  "description.community.coin":
+    "(WIP) Ödüllerle takas edilebilecek değerli bir para",
+  "description.bud.seedling":
+    "(LEGACY) Ücretsiz Bud NFT ile değiştirilecek bir fide",
   "description.gold.pass":
-    "Sahibinin nadir NFT'ler oluşturmasına, ticaret yapmasına, para çekmesine ve bonus içeriğe erişmesine olanak tanıyan özel bir geçiş kartı.",
+    "(LEGACY) Sahibinin nadir NFT'ler oluşturmasına, ticaret yapmasına, para çekmesine ve bonus içeriğe erişmesine olanak tanıyan özel bir geçiş kartı.",
   "description.rapid.growth":
-    "İki kat daha hızlı büyütmek için mahsule uygulayın",
+    "(LEGACY) İki kat daha hızlı büyütmek için mahsule uygulayın",
   "description.bud.ticket":
-    "Sunflower Land Buds NFT düşüşünde Bud basmak için garantili bir yer.",
+    "(LEGACY) Sunflower Land Buds NFT düşüşünde Bud basmak için garantili bir yer.",
   "description.potion.ticket":
     "İksir Evi'nden bir ödül. Garth'tan ürün satın almak için bunu kullanın.",
-  "description.trading.ticket": "Serbest Ticaret! Vay be!",
+  "description.trading.ticket": "(LEGACY) Serbest Ticaret! Vay be!",
   "description.block.buck": "Ayçiçeği Ülkesinde değerli bir jeton!",
-  "description.beta.pass": "Test amaçlı özelliklere erken erişim sağlayın.",
-  "description.war.bond": "Gerçek bir savaşçının işareti",
-  "description.allegiance": "Bir bağlılık gösterisi",
-  "description.jack.o.lantern": "Cadılar Bayramı özel etkinlik öğesi",
-  "description.golden.crop": "Parlak altın bir mahsul",
-  "description.red.envelope": "Vay, şanslısın!",
-  "description.love.letter": "Sevgi duygularını aktarın",
+  "description.beta.pass":
+    "(EXCLUSIVE) Test amaçlı özelliklere erken erişim sağlayın.",
+  "description.war.bond": "(LEGACY) Gerçek bir savaşçının işareti",
+  "description.allegiance": "(LEGACY) Bir bağlılık gösterisi",
+  "description.jack.o.lantern": "(LEGACY) Cadılar Bayramı özel etkinlik öğesi",
+  "description.golden.crop": "(LEGACY) Parlak altın bir mahsul",
+  "description.red.envelope": "(LEGACY) Vay, şanslısın!",
+  "description.love.letter": "(LEGACY) Sevgi duygularını aktarın",
   "description.solar.flare.ticket":
-    "Güneş Patlaması Sezonunda kullanılan bir bilet",
+    "(LEGACY) Güneş Patlaması Sezonunda kullanılan bir bilet",
   "description.dawn.breaker.ticket":
-    "Şafak Kıran Sezonunda kullanılan bir bilet",
+    "(LEGACY) Şafak Kıran Sezonunda kullanılan bir bilet",
   "description.crow.feather":
-    "Cadılar Bayramı Bilet Sezonunda kullanılan bir bilet",
-  "description.mermaid.scale": "Kraken'i Yakala Sezonunda kullanılan bir bilet",
+    "(LEGACY) Cadılar Bayramı Bilet Sezonunda kullanılan bir bilet",
+  "description.mermaid.scale":
+    "(LEGACY) Kraken'i Yakala Sezonunda kullanılan bir bilet",
   "description.sunflower.supporter": "Oyunun gerçek bir destekçisinin işareti!",
   "description.arcade.coin":
     "Mini oyunlardan ve maceralardan kazanılan bir jeton. Ödüllerle takas edilebilir.",
   "description.farmhand.coupon":
     "Seçtiğiniz bir bumpkini satın almak için takas edebileceğiniz bir kupon.",
   "description.farmhand": "Çiftliğinizde evlat edinilmiş bir Bumpkin",
-  "description.tulip.bulb": "Bahar Çiçeği sırasında kullanılan bir bilet",
+  "description.tulip.bulb":
+    "(LEGACY) Bahar Çiçeği sırasında kullanılan bir bilet",
   "description.treasure.key":
     "Ödülünüzün kilidini açmak için Plazayı ziyaret edin",
   "description.prizeTicket": "Ödül çekilişlerine katılmak için bir bilet",
