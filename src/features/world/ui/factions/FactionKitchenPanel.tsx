@@ -33,6 +33,7 @@ import {
   getFactionWeekday,
 } from "features/game/lib/factions";
 import { setPrecision } from "lib/utils/formatNumber";
+import { BoostInfoPanel } from "./BoostInfoPanel";
 
 interface Props {
   bumpkinParts: Equipped;
@@ -58,8 +59,9 @@ export const FactionKitchenPanel: React.FC<Props> = ({ bumpkinParts }) => {
 
   const kitchen = faction.kitchen;
 
-  const [selectedRequestIdx, setSelectedRequestIdx] = useState<number>(0);
-  const [showConfirm, setShowConfirm] = useState<boolean>(false);
+  const [selectedRequestIdx, setSelectedRequestIdx] = useState(0);
+  const [showConfirm, setShowConfirm] = useState(false);
+  const [showBoostInfo, setShowBoostInfo] = useState(false);
 
   const now = Date.now();
 
@@ -99,7 +101,7 @@ export const FactionKitchenPanel: React.FC<Props> = ({ bumpkinParts }) => {
     inventory[selectedRequest.item] ?? new Decimal(0)
   ).gte(selectedRequest.amount);
 
-  const boost = getKingdomKitchenBoost(game, selectedRequestReward);
+  const boost = getKingdomKitchenBoost(game, selectedRequestReward)[0];
 
   const boostedMarks = setPrecision(
     new Decimal(selectedRequestReward + boost),
@@ -121,10 +123,7 @@ export const FactionKitchenPanel: React.FC<Props> = ({ bumpkinParts }) => {
         })}
       </Label>
       <CloseButtonPanel bumpkinParts={bumpkinParts}>
-        <div className="p-1 space-y-2">
-          <div className="flex justify-between">
-            <Label type="default">{`Kitchen`}</Label>
-          </div>
+        <div className="p-1">
           {!showConfirm && (
             <>
               <p className="block sm:hidden text-xs pb-1">
@@ -145,7 +144,7 @@ export const FactionKitchenPanel: React.FC<Props> = ({ bumpkinParts }) => {
                         const boost = getKingdomKitchenBoost(
                           gameService.state.context.state,
                           points,
-                        );
+                        )[0];
 
                         const boostedMarks = setPrecision(
                           new Decimal(points + boost),
@@ -216,16 +215,25 @@ export const FactionKitchenPanel: React.FC<Props> = ({ bumpkinParts }) => {
                 panel={
                   <div className="flex flex-col justify-between h-full sm:items-center">
                     <div className="flex flex-col space-y-1 px-1.5 mb-1">
-                      <Label
-                        icon={ITEM_DETAILS["Mark"].image}
-                        secondaryIcon={boost ? lightning : null}
-                        type="warning"
-                        className="m-1"
-                      >
-                        <span className={boost ? "pl-1.5" : ""}>
-                          {`${boostedMarks} ${t("marks")}`}
-                        </span>
-                      </Label>
+                      <div className="relative">
+                        <BoostInfoPanel
+                          feature="kitchen"
+                          show={showBoostInfo}
+                          baseAmount={selectedRequestReward}
+                          onClick={() => setShowBoostInfo(false)}
+                        />
+                        <Label
+                          icon={ITEM_DETAILS["Mark"].image}
+                          secondaryIcon={boost ? lightning : null}
+                          type="warning"
+                          className="m-1"
+                          onClick={() => setShowBoostInfo(!showBoostInfo)}
+                        >
+                          <span className={boost ? "pl-1.5" : ""}>
+                            {`${boostedMarks} ${t("marks")}`}
+                          </span>
+                        </Label>
+                      </div>
                       <div className="hidden sm:flex flex-col space-y-1 w-full justify-center items-center">
                         <p className="text-sm">{selectedRequest.item}</p>
                         <SquareIcon

@@ -2203,6 +2203,8 @@ const factions: Record<Factions, string> = {
   "faction.pet.newRequests": "New requests in {{time}}",
   "faction.pet.streak": "{{streak}} week streak",
   "faction.pet.wakes.in": "Wakes in {{time}}",
+  "faction.boostsApplied": "Boosts applied:",
+  "faction.no.boostsApplied": "No boosts applied",
 };
 
 const factionShopDescription: Record<FactionShopDescription, string> = {

@@ -2210,6 +2210,8 @@ const factions: Record<Factions, string> = {
   "faction.kitchen.gatherResources":
     ENGLISH_TERMS["faction.kitchen.gatherResources"],
   "faction.pet.gatherResources": ENGLISH_TERMS["faction.pet.gatherResources"],
+  "faction.boostsApplied": ENGLISH_TERMS["faction.boostsApplied"],
+  "faction.no.boostsApplied": ENGLISH_TERMS["faction.no.boostsApplied"],
 
   "faction.kitchen.opensIn": ENGLISH_TERMS["faction.kitchen.opensIn"],
   "faction.kitchen.notReady": ENGLISH_TERMS["faction.kitchen.notReady"],
