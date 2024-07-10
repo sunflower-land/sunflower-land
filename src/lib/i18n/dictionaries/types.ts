@@ -901,7 +901,8 @@ export type ChumDetails =
   | "chumDetails.fatChicken"
   | "chumDetails.speedChicken"
   | "chumDetails.horseMackerel"
-  | "chumDetails.sunfish";
+  | "chumDetails.sunfish"
+  | "chumDetails.zebraFish";
 
 export type Community = "community.toast" | "community.url" | "comunity.Travel";
 
