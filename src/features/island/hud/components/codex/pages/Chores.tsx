@@ -58,7 +58,7 @@ export const Chores: React.FC<Props> = ({ farmId }) => {
                 {`${t("hayseedHankv2.newChoresAvailable")} ${secondsToString(
                   secondsTillReset(),
                   {
-                    length: "short",
+                    length: "medium",
                   },
                 )}`}
               </Label>
