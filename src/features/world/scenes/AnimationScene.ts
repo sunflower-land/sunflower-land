@@ -2,13 +2,13 @@ import { NPC_WEARABLES } from "lib/npcs";
 import { ANIMATION, getAnimationUrl } from "../lib/animations";
 import { getKeys } from "features/game/types/decorations";
 import { BaseScene } from "./BaseScene";
+import { BumpkinParts } from "lib/utils/tokenUriBuilder";
 
 /**
  * Using this file is as easy as 1, 2, 3!
  * 1. Load SpriteSheet
  * 2. Create Animation
  * 3. Play Animation
- * These have been annotated in line
  */
 export class AnimationScene extends Phaser.Scene {
   constructor() {
@@ -16,7 +16,7 @@ export class AnimationScene extends Phaser.Scene {
   }
 
   preload() {
-    const bumpkin = NPC_WEARABLES["raven"];
+    const bumpkin: BumpkinParts = NPC_WEARABLES["raven"];
 
     getKeys(ANIMATION).forEach((animationName) => {
       /**
@@ -32,6 +32,7 @@ export class AnimationScene extends Phaser.Scene {
   }
 
   create() {
+    this.cameras.main.setBackgroundColor("#555555");
     this.initialiseCamera();
 
     getKeys(ANIMATION).forEach((animationName, i) => {
