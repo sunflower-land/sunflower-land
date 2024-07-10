@@ -243,7 +243,7 @@ export const FACTION_PRIZES: Record<number, FactionPrize> = {
   },
   2: {
     coins: 50000,
-    sfl: 150,
+    sfl: 175,
     items: {
       Mark: 8000,
       // [getSeasonalTicket()]: 10,
@@ -251,7 +251,7 @@ export const FACTION_PRIZES: Record<number, FactionPrize> = {
   },
   3: {
     coins: 44000,
-    sfl: 175,
+    sfl: 150,
     items: {
       Mark: 7000,
       // [getSeasonalTicket()]: 10,
