@@ -1,4 +1,3 @@
-import kraken from "assets/ui/kraken.png";
 import ringDot from "assets/icons/fish_dot.png";
 
 import React, { useRef, useState } from "react";
@@ -321,14 +320,7 @@ export const FishingChallengeComponent: React.FC<Props> = ({
         </animated.div>
 
         <div className="absolute inset-0 w-full h-full flex flex-col items-center justify-center z-50">
-          <img
-            src={
-              fishName === "Kraken Tentacle"
-                ? kraken
-                : ITEM_DETAILS[fishName]?.image
-            }
-            width="80px"
-          />
+          <img src={ITEM_DETAILS[fishName]?.image} width="80px" />
 
           <div className="flex justify-center items-center space-x-1 mt-1">
             {new Array(3).fill(null)?.map((_, index) => {

@@ -66,11 +66,9 @@ export const getFlowerBySeed = () => {
 export const getEncyclopediaFish = () => {
   const encyclopediaFish: (FishName | MarineMarvelName)[] = [];
   getKeys(FISH).forEach((fishName) => {
-    if (fishName !== "Kraken Tentacle") {
-      const fish = FISH[fishName];
-      if (fish.type !== "marine marvel") {
-        encyclopediaFish.push(fishName);
-      }
+    const fish = FISH[fishName];
+    if (fish.type !== "marine marvel") {
+      encyclopediaFish.push(fishName);
     }
   });
   return encyclopediaFish;

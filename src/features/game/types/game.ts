@@ -54,6 +54,7 @@ import {
   FishingBait,
   FishingConditions,
   MarineMarvelName,
+  OldFishName,
 } from "./fishing";
 import { Coordinates } from "../expansion/components/MapPlacement";
 import { MinigameName } from "./minigames";
@@ -377,6 +378,7 @@ export type InventoryItemName =
   | CompostName
   | FishName
   | MarineMarvelName
+  | OldFishName
   | FlowerName
   | MegaStoreCollectibleName
   | FactionBanner
