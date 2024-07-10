@@ -294,6 +294,9 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "The Lot": 572,
   "Tofu Scramble": 573,
   Antipasto: 574,
+  Caponata: 575,
+  "Glazed Carrots": 576,
+  Paella: 577,
 
   Wood: 601,
   Stone: 602,

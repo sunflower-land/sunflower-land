@@ -69,6 +69,8 @@ export type FactionShopWearableName =
   | "Knight Gambit"
   | "Royal Braids";
 
+export type FactionShopFoodName = "Paella" | "Caponata" | "Glazed Carrots";
+
 type FactionItemBase = {
   faction?: FactionName;
 } & ShopItemBase;
@@ -81,11 +83,19 @@ export type FactionShopCollectible = {
   name: FactionShopCollectibleName;
 } & FactionItemBase;
 
+export type FactionShopFood = {
+  name: FactionShopFoodName;
+} & FactionItemBase;
+
 export type FactionShopItemName =
   | FactionShopWearableName
-  | FactionShopCollectibleName;
+  | FactionShopCollectibleName
+  | FactionShopFoodName;
 
-export type FactionShopItem = FactionShopWearable | FactionShopCollectible;
+export type FactionShopItem =
+  | FactionShopWearable
+  | FactionShopCollectible
+  | FactionShopFood;
 
 export const FACTION_SHOP_ITEMS: Record<FactionShopItemName, FactionShopItem> =
   {
@@ -676,5 +686,29 @@ export const FACTION_SHOP_ITEMS: Record<FactionShopItemName, FactionShopItem> =
       shortDescription: translate("description.factionShop.bumpkinFactionRug"),
       type: "collectible",
       faction: "bumpkins",
+    },
+    Paella: {
+      name: "Paella",
+      price: new Decimal(2500),
+      limit: null,
+      currency: "Mark",
+      shortDescription: "A classic Spanish dish, brimming with flavor.",
+      type: "food",
+    },
+    Caponata: {
+      name: "Caponata",
+      price: new Decimal(2000),
+      limit: null,
+      currency: "Mark",
+      shortDescription: "A flavorful eggplant dish, perfect for sharing.",
+      type: "food",
+    },
+    "Glazed Carrots": {
+      name: "Glazed Carrots",
+      price: new Decimal(1500),
+      limit: null,
+      currency: "Mark",
+      shortDescription: "Sweet and savory carrots, a delightful side dish.",
+      type: "food",
     },
   };

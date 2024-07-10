@@ -24,10 +24,11 @@ import { capitalize } from "lib/utils/capitalize";
 import {
   FactionShopWearable,
   FactionShopCollectible,
+  FactionShopFood,
 } from "features/game/types/factionShop";
 
 interface ItemOverlayProps {
-  item: FactionShopWearable | FactionShopCollectible | null;
+  item: FactionShopWearable | FactionShopCollectible | FactionShopFood | null;
   image: string;
   isWearable: boolean;
   buff?: BuffLabel;
@@ -78,7 +79,7 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
   }, []);
 
   const getBalanceOfItem = (
-    item: FactionShopWearable | FactionShopCollectible | null,
+    item: FactionShopWearable | FactionShopCollectible | FactionShopFood | null,
   ): number => {
     if (!item) return 0;
 

@@ -377,6 +377,9 @@ import redRice from "assets/food/red_rice.webp";
 import sushiRoll from "assets/food/sushi_roll.webp";
 import friedTofu from "assets/food/fried_tofu.png";
 import tofuScramble from "assets/food/tofu_scramble.png";
+import glazedCarrots from "assets/food/glazed_carrots.webp";
+import caponata from "assets/food/caponata.webp";
+import paella from "assets/food/paella.webp";
 
 import goblinKey from "src/assets/sfts/quest/goblin_key.png";
 import sunflowerKey from "src/assets/sfts/quest/sunflower_key.png";
@@ -8739,6 +8742,24 @@ export const ITEM_DETAILS: Items = {
     image: sunflorianSilverChampion,
     description: {
       en: "An esteemed Sunflorian competitor, known for grace and strategic acumen.",
+    },
+  },
+  "Glazed Carrots": {
+    image: glazedCarrots,
+    description: {
+      en: "Sweet and savory carrots, a delightful side dish.",
+    },
+  },
+  Caponata: {
+    image: caponata,
+    description: {
+      en: "A flavorful eggplant dish, perfect for sharing.",
+    },
+  },
+  Paella: {
+    image: paella,
+    description: {
+      en: "A classic Spanish dish, brimming with flavor.",
     },
   },
 };
