@@ -145,7 +145,7 @@ function addFormation({
   return grid;
 }
 
-function createGrid() {
+export function createGrid() {
   let grid: Grid = [];
 
   // Create empty grid
@@ -179,7 +179,6 @@ export const DiggingMinigame: React.FC = () => {
     setDigs((digs) => [...digs, plot]);
   };
 
-  console.log({ grid });
   return (
     <Modal show>
       <Panel>

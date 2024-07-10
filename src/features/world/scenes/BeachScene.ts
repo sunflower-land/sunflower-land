@@ -6,6 +6,12 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { FishermanContainer } from "../containers/FishermanContainer";
 import { interactableModalManager } from "../ui/InteractableModals";
 import { translate } from "lib/i18n/translate";
+import { createGrid } from "../ui/beach/DiggingMinigame";
+import { InventoryItemName } from "features/game/types/game";
+
+const convertToSnakeCase = (str: string) => {
+  return str.replace(" ", "_").toLowerCase();
+};
 
 const BUMPKINS: NPCBumpkin[] = [
   {
@@ -43,9 +49,14 @@ const BUMPKINS: NPCBumpkin[] = [
 
 export class BeachScene extends BaseScene {
   sceneId: SceneId = "beach";
+  archeologicalData: (InventoryItemName | undefined)[][] = [];
+  hoverSelectBox: Phaser.GameObjects.Image | undefined;
+  selectedSelectBox: Phaser.GameObjects.Image | undefined;
 
   constructor() {
     super({ name: "beach", map: { json: mapJSON } });
+
+    this.archeologicalData = createGrid();
   }
 
   preload() {
@@ -91,13 +102,27 @@ export class BeachScene extends BaseScene {
     // fishing weather icons
     this.load.image("fish_frenzy", "world/lightning.png");
     this.load.image("full_moon", "world/full_moon.png");
+    // Treasures
+    this.load.image("sea_cucumber", "world/sea_cucumber.webp");
+    this.load.image("starfish", "world/starfish.webp");
+    this.load.image("coral", "world/coral.webp");
+    this.load.image("pearl", "world/pearl.webp");
+    this.load.image("pirate_bounty", "world/bounty.webp");
+    this.load.image("seaweed", "world/seaweed.webp");
+    this.load.image("pipi", "world/pipi.webp");
+    this.load.image("crab", "world/crab.webp");
+    this.load.image("nothing", SUNNYSIDE.icons.close);
+
+    this.load.image("select_box", "world/select_box.png");
+    this.load.image("shovel_select", "world/shovel_select.webp");
+    this.load.image("drill_select", "world/drill_select.webp");
+    this.load.image("confirm_select", "world/confirm_select.webp");
   }
 
   async create() {
     this.map = this.make.tilemap({
       key: "beach",
     });
-
     super.create();
 
     this.initialiseNPCs(BUMPKINS);
@@ -195,7 +220,80 @@ export class BeachScene extends BaseScene {
         this.currentPlayer?.speak(translate("base.iam.far.away"));
       }
     });
+
+    this.createDiggingArea();
   }
+
+  public createDiggingArea = () => {
+    const startX = 88;
+    const startY = 88;
+    const width = 16;
+    const height = 16;
+
+    this.selectedSelectBox = this.add
+      .image(88, 88, "confirm_select")
+      .setDisplaySize(16, 16)
+      .setDepth(100000000)
+      .setVisible(false);
+
+    this.hoverSelectBox = this.add
+      .image(88, 88, "shovel_select")
+      .setDisplaySize(16, 16)
+      .setDepth(100000000)
+      .setVisible(false);
+
+    this.archeologicalData.forEach((row, i) => {
+      row.forEach((item, j) => {
+        const rectX = startX + i * width;
+        const rectY = startY + j * height;
+
+        this.add
+          .rectangle(rectX, rectY, width, height, 0x000000, 0.5)
+          .setInteractive({ cursor: "pointer" })
+          .on("pointerdown", () => {
+            // check if this rectangle is currently the selected one
+            if (
+              this.selectedSelectBox?.x === rectX &&
+              this.selectedSelectBox?.y === rectY
+            ) {
+              // remove selected box
+              this.selectedSelectBox?.setVisible(false);
+              if (item) {
+                this.add.sprite(
+                  startX + i * width,
+                  startY + j * height,
+                  convertToSnakeCase(item),
+                ).setDisplaySize;
+              } else {
+                this.add.sprite(
+                  startX + i * width,
+                  startY + j * height,
+                  "nothing",
+                );
+              }
+            } else {
+              // set selected box
+              this.selectedSelectBox
+                ?.setPosition(rectX, rectY)
+                .setVisible(true);
+              // remove hover box
+              this.hoverSelectBox?.setVisible(false);
+            }
+          })
+          .on("pointerover", () => {
+            const selectedPosition = this.selectedSelectBox?.getBounds();
+
+            if (selectedPosition?.contains(rectX, rectY)) {
+              return;
+            }
+            this.hoverSelectBox?.setPosition(rectX, rectY).setVisible(true);
+          })
+          .on("pointerout", () => {
+            this.hoverSelectBox?.setVisible(false);
+          });
+      });
+    });
+  };
 }
 
 // PubSub.ts
