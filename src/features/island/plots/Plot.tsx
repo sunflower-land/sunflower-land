@@ -40,15 +40,15 @@ import Decimal from "decimal.js-light";
 import { hasFeatureAccess } from "lib/flags";
 
 export function getYieldColour(yieldAmount: number) {
-  if (yieldAmount <= 1) {
+  if (yieldAmount < 2) {
     return "white";
   }
 
-  if (yieldAmount <= 1.5) {
-    return "#ffeb37";
+  if (yieldAmount < 10) {
+    return "#ffeb37"; // Yellow
   }
 
-  return "#71e358";
+  return "#71e358"; // Green
 }
 
 const selectCrops = (state: MachineState) => state.context.state.crops;
