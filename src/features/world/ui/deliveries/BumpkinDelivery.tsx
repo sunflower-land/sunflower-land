@@ -330,7 +330,8 @@ export const Gifts: React.FC<{
   // GiftedAt is the same UTC day as right now
   const isLocked =
     giftedAt > 0 &&
-    new Date(giftedAt).toDateString() === new Date().toDateString();
+    new Date(giftedAt).toISOString().substring(0, 10) ===
+      new Date().toISOString().substring(0, 10);
 
   if (isLocked) {
     translated = `${translated} ${t("npcDialogues.default.locked")}`;
