@@ -436,12 +436,18 @@ export const GameWrapper: React.FC = ({ children }) => {
 
   const stateValue = typeof state === "object" ? Object.keys(state)[0] : state;
 
+  const onHide = () => {
+    listed || listingDeleted || traded || sniped || marketPriceChanged
+      ? gameService.send("CONTINUE")
+      : undefined;
+  };
+
   return (
     <>
       <ToastProvider>
         <ToastPanel />
 
-        <Modal show={SHOW_MODAL[stateValue as StateValues]}>
+        <Modal show={SHOW_MODAL[stateValue as StateValues]} onHide={onHide}>
           <Panel>
             {loading && <Loading />}
             {refreshing && <Refreshing />}
