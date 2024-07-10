@@ -130,8 +130,6 @@ import {
   SeasonTerms,
   Share,
   SharkBumpkinDialogues,
-  Shelly,
-  ShellyDialogue,
   ShopItems,
   ShowingFarm,
   SnorklerDialogues,
@@ -3112,7 +3110,7 @@ const interactableModals: Record<InteractableModals, string> = {
   "interactableModals.beachGreenBook.message2":
     "Elmaları Kırmızı Wiggler Yemi ile kullanın ve bu kızıl güzelliklerin adeta ağınıza sıçramasını izleyin.",
   "interactableModals.beachBlueBook.message1":
-    "Shelly'ye söyleme ama Saw Sharks'ı sahile getirmeye çalışıyorum!",
+    "Saw Sharks'ı sahile getirmeye çalışıyorum!",
   "interactableModals.beachBlueBook.message2":
     "Son zamanlarda farklı arkadaşlarla deneyler yapıyorum ama işe yarayan tek kişi Red Snapper.",
   "interactableModals.beachBlueBook.message3":
@@ -3673,23 +3671,6 @@ const npc_message: Record<NPC_MESSAGE, string> = {
     "Balıkların özgürlüğü, bu benim görevim. Bana balık konusunda yardım edersin, değil mi?",
   "npcMessages.corale.msg7":
     "Denizin yaşam dansında bana katılın. Balık, arkadaşlarımı serbest bırak!",
-  //Shelly
-  "npcMessages.shelly.msg1":
-    "Bumpkins ortadan kayboluyor ve bunun sebebinin Kraken olmasından korkuyorum. Dokunaçlarını toplamama yardım et!",
-  "npcMessages.shelly.msg2":
-    "Bumpkins ortadan kayboluyor ve Kraken'dan şüpheleniyorum. Dokunaçlarını getirir misin lütfen?",
-  "npcMessages.shelly.msg3":
-    "Kraken bir tehdit, Bumpkins kayıp. Onları güvende tutmak için dokunaçlarını getir.",
-  "npcMessages.shelly.msg4":
-    "Kraken uğursuz, Bumpkins gitti. Güvenlikleri için dokunaçlarını getirin.",
-  "npcMessages.shelly.msg5":
-    "Sahili korumak Kraken ile zordur. Bumpkins'i korumama yardım et, dokunaçlarını al.",
-  "npcMessages.shelly.msg6":
-    "Bumpkins'i korumak benim görevim ama Kraken beni endişelendiriyor. Onları korumak için dokunaçlarını alın.",
-  "npcMessages.shelly.msg7":
-    "Kraken paniğe neden oluyor, Bumpkins kayıp. Güvenlikleri için dokunaçlarını toplamama yardım et.",
-  "npcMessages.shelly.msg8":
-    "Bumpkins'in güvenliği benim en büyük önceliğim ve korkarım işin içinde Kraken var. Dokunaçlar fark yaratabilir!",
   "npcMessages.gambit.msg1": ENGLISH_TERMS["npcMessages.gambit.msg1"],
   "npcMessages.gambit.msg2": ENGLISH_TERMS["npcMessages.gambit.msg2"],
   "npcMessages.gambit.msg3": ENGLISH_TERMS["npcMessages.gambit.msg3"],
@@ -4725,39 +4706,6 @@ const sharkBumpkinDialogues: Record<SharkBumpkinDialogues, string> = {
   "sharkBumpkin.dialogue.scareGoblins": "Goblinleri korkutmaya çalışıyorum.",
 };
 
-const shelly: Record<Shelly, string> = {
-  "shelly.Dialogue.one": "Selam, Bumpkin! Plaja hoş geldiniz!",
-  "shelly.Dialogue.two":
-    "Çiftliğinizde geçirdiğiniz zorlu bir günün ardından arkanıza yaslanıp dalgaların tadını çıkarmak için daha iyi bir yer olamaz.",
-  "shelly.Dialogue.three":
-    "Ama şöyle bir durumumuz var. Devasa bir kraken ortaya çıktı ve sevgili kumsalımızın kontrolünü ele geçirdi.",
-  "shelly.Dialogue.four":
-    "Gerçekten yardımına ihtiyacımız var canım. Yeminizi ve oltalarınızı alın, birlikte bu devasa sorunun üstesinden gelelim!",
-  "shelly.Dialogue.five":
-    "Yakaladığın her dokunaç için sana değerli denizkızı pulları vereceğim!",
-  "shelly.Dialogue.letsgo": "Hadi yapalım!",
-};
-
-const shellyDialogue: Record<ShellyDialogue, string> = {
-  "shellyPanelContent.tasksFrozen":
-    "Yeni sezonun başlamasını bekliyorum. O zaman bana geri dön!",
-  "shellyPanelContent.canTrade":
-    "Aman Tanrım, bir Kraken Dokunacın var! Bunu birkaç denizkızı terazisiyle değiştireceğim.",
-  "shellyPanelContent.cannotTrade":
-    "Görünüşe göre elinizde hiç Kraken Tentacles yok! Bunu yaptığında geri gel.",
-  "shellyPanelContent.swap": "Değiştir",
-  "krakenIntro.congrats":
-    "Tebrikler! Kraken, Bumpkins'i terörize etmeyi bıraktı.",
-  "krakenIntro.noMoreTentacles":
-    "Haftanın tüm dokunaçlarını topladın. Yakından takip edelim, açlığın geri döneceğinden eminim.",
-  "krakenIntro.gotIt": "Anlaşıldı!",
-  "krakenIntro.appetiteChanges": "Kraken'in iştahı sürekli değişiyor.",
-  "krakenIntro.currentHunger":
-    "Şu anda ....Vay canına, bu Bumpkinlerden daha iyi.",
-  "krakenIntro.catchInstruction":
-    "Balık tutma noktanıza gidin ve canavarı yakalamaya çalışın!",
-};
-
 const shopItems: Record<ShopItems, string> = {
   "betty.post.sale.one": "Selam, selam! Tekrar hoşgeldiniz.",
   "betty.post.sale.two":
@@ -5603,8 +5551,6 @@ export const TURKISH_TERMS: Record<TranslationKeys, string> = {
   ...seasonTerms,
   ...share,
   ...sharkBumpkinDialogues,
-  ...shelly,
-  ...shellyDialogue,
   ...shopItems,
   ...showingFarm,
   ...snorklerDialogues,

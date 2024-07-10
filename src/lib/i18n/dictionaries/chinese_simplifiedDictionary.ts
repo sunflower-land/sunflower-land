@@ -128,8 +128,6 @@ import {
   SeasonTerms,
   Share,
   SharkBumpkinDialogues,
-  Shelly,
-  ShellyDialogue,
   ShopItems,
   ShowingFarm,
   SnorklerDialogues,
@@ -3243,15 +3241,6 @@ const npc_message: Record<NPC_MESSAGE, string> = {
   "npcMessages.corale.msg5": ENGLISH_TERMS["npcMessages.corale.msg5"],
   "npcMessages.corale.msg6": ENGLISH_TERMS["npcMessages.corale.msg6"],
   "npcMessages.corale.msg7": ENGLISH_TERMS["npcMessages.corale.msg7"],
-  // Shelly
-  "npcMessages.shelly.msg1": ENGLISH_TERMS["npcMessages.shelly.msg1"],
-  "npcMessages.shelly.msg2": ENGLISH_TERMS["npcMessages.shelly.msg2"],
-  "npcMessages.shelly.msg3": ENGLISH_TERMS["npcMessages.shelly.msg3"],
-  "npcMessages.shelly.msg4": ENGLISH_TERMS["npcMessages.shelly.msg4"],
-  "npcMessages.shelly.msg5": ENGLISH_TERMS["npcMessages.shelly.msg5"],
-  "npcMessages.shelly.msg6": ENGLISH_TERMS["npcMessages.shelly.msg6"],
-  "npcMessages.shelly.msg7": ENGLISH_TERMS["npcMessages.shelly.msg7"],
-  "npcMessages.shelly.msg8": ENGLISH_TERMS["npcMessages.shelly.msg8"],
   "npcMessages.gambit.msg1": ENGLISH_TERMS["npcMessages.gambit.msg1"],
   "npcMessages.gambit.msg2": ENGLISH_TERMS["npcMessages.gambit.msg2"],
   "npcMessages.gambit.msg3": ENGLISH_TERMS["npcMessages.gambit.msg3"],
@@ -4238,30 +4227,6 @@ const sharkBumpkinDialogues: Record<SharkBumpkinDialogues, string> = {
     ENGLISH_TERMS["sharkBumpkin.dialogue.scareGoblins"],
 };
 
-const shelly: Record<Shelly, string> = {
-  "shelly.Dialogue.one": ENGLISH_TERMS["shelly.Dialogue.one"],
-  "shelly.Dialogue.two": ENGLISH_TERMS["shelly.Dialogue.two"],
-  "shelly.Dialogue.three": ENGLISH_TERMS["shelly.Dialogue.three"],
-  "shelly.Dialogue.four": ENGLISH_TERMS["shelly.Dialogue.four"],
-  "shelly.Dialogue.five": ENGLISH_TERMS["shelly.Dialogue.five"],
-  "shelly.Dialogue.letsgo": ENGLISH_TERMS["shelly.Dialogue.letsgo"],
-};
-
-const shellyDialogue: Record<ShellyDialogue, string> = {
-  "shellyPanelContent.tasksFrozen":
-    ENGLISH_TERMS["shellyPanelContent.tasksFrozen"],
-  "shellyPanelContent.canTrade": ENGLISH_TERMS["shellyPanelContent.canTrade"],
-  "shellyPanelContent.cannotTrade":
-    ENGLISH_TERMS["shellyPanelContent.cannotTrade"],
-  "shellyPanelContent.swap": ENGLISH_TERMS["shellyPanelContent.swap"],
-  "krakenIntro.congrats": ENGLISH_TERMS["krakenIntro.congrats"],
-  "krakenIntro.noMoreTentacles": ENGLISH_TERMS["krakenIntro.noMoreTentacles"],
-  "krakenIntro.gotIt": ENGLISH_TERMS["krakenIntro.gotIt"],
-  "krakenIntro.appetiteChanges": ENGLISH_TERMS["krakenIntro.appetiteChanges"],
-  "krakenIntro.currentHunger": ENGLISH_TERMS["krakenIntro.currentHunger"],
-  "krakenIntro.catchInstruction": ENGLISH_TERMS["krakenIntro.catchInstruction"],
-};
-
 const shopItems: Record<ShopItems, string> = {
   "betty.post.sale.one": "嘿嘿！ 欢迎回来。",
   "betty.post.sale.two": "你们帮助解决了庄稼短缺问题，价格也恢复了正常。",
@@ -4967,8 +4932,6 @@ export const CHINESE_SIMPLIFIED_TERMS: Record<TranslationKeys, string> = {
   ...seasonTerms,
   ...share,
   ...sharkBumpkinDialogues,
-  ...shelly,
-  ...shellyDialogue,
   ...shopItems,
   ...showingFarm,
   ...snorklerDialogues,

@@ -130,8 +130,6 @@ import {
   SeasonTerms,
   Share,
   SharkBumpkinDialogues,
-  Shelly,
-  ShellyDialogue,
   ShopItems,
   ShowingFarm,
   SnorklerDialogues,
@@ -3236,7 +3234,7 @@ const interactableModals: Record<InteractableModals, string> = {
   "interactableModals.beachGreenBook.message2":
     "Utilisez des pommes avec de l'appât pour ver rouge, et regardez ces beautés cramoisies sauter presque dans votre filet.",
   "interactableModals.beachBlueBook.message1":
-    "Ne le dites pas à Shelly, mais j'ai essayé d'amener des Saw Sharks à la plage!",
+    "Mais j'ai essayé d'amener des Saw Sharks à la plage!",
   "interactableModals.beachBlueBook.message2":
     "J'ai fait des expériences avec différents appâts ces derniers temps, mais le seul qui semble fonctionner est le vivaneau rouge.",
   "interactableModals.beachBlueBook.message3":
@@ -3816,23 +3814,6 @@ const npc_message: Record<NPC_MESSAGE, string> = {
     "La liberté des poissons, c'est ma mission. Aidez-moi avec des poissons, je vous prie?",
   "npcMessages.corale.msg7":
     "Rejoignez-moi dans la danse de la vie de la mer. Des poissons, pour libérer mes amis!",
-  // Shelly
-  "npcMessages.shelly.msg1":
-    "Les Bumpkins disparaissent, et je crains que le Kraken en soit la cause. Aidez-moi à collecter ses tentacules!",
-  "npcMessages.shelly.msg2":
-    "Les Bumpkins disparaissent, et je soupçonne le Kraken. Pouvez-vous récupérer ses tentacules, s'il vous plaît?",
-  "npcMessages.shelly.msg3":
-    "Le Kraken est une menace, les Bumpkins manquent. Apportez ses tentacules pour les protéger.",
-  "npcMessages.shelly.msg4":
-    "Le Kraken est sinistre, les Bumpkins ont disparu. Apportez ses tentacules pour leur sécurité.",
-  "npcMessages.shelly.msg5":
-    "Garder la plage est difficile avec le Kraken. Aidez-moi à protéger les Bumpkins, obtenez ses tentacules.",
-  "npcMessages.shelly.msg6":
-    "Protéger les Bumpkins est mon devoir, mais le Kraken m'inquiète. Obtenez ses tentacules pour les sauvegarder.",
-  "npcMessages.shelly.msg7":
-    "Le Kraken provoque la panique, les Bumpkins disparaissent. Aidez-moi à rassembler ses tentacules pour leur sécurité.",
-  "npcMessages.shelly.msg8":
-    "La sécurité des Bumpkins est ma priorité absolue, et j'ai bien peur que le Kraken soit impliqué. Les tentacules peuvent faire la différence!",
   "npcMessages.gambit.msg1": ENGLISH_TERMS["npcMessages.gambit.msg1"],
   "npcMessages.gambit.msg2": ENGLISH_TERMS["npcMessages.gambit.msg2"],
   "npcMessages.gambit.msg3": ENGLISH_TERMS["npcMessages.gambit.msg3"],
@@ -4880,39 +4861,6 @@ const sharkBumpkinDialogues: Record<SharkBumpkinDialogues, string> = {
   "sharkBumpkin.dialogue.scareGoblins": "J'essaie d'effrayer les Gobelins.",
 };
 
-const shelly: Record<Shelly, string> = {
-  "shelly.Dialogue.one": "Salut, Bumpkin ! Bienvenue à la plage!",
-  "shelly.Dialogue.two":
-    "Après une journée de dur labeur dans ta ferme, il n'y a pas de meilleur endroit pour se détendre et profiter des vagues.",
-  "shelly.Dialogue.three":
-    "Mais nous avons un petit problème. Un kraken géant est apparu et a pris le contrôle de notre plage bien-aimée.",
-  "shelly.Dialogue.four":
-    "Nous aurions vraiment besoin de ton aide, cher ami. Attrape ton appât et tes cannes à pêche, et ensemble, nous affronterons ce problème colossal!",
-  "shelly.Dialogue.five":
-    "Pour chaque tentacule que tu attrapes, je te fournirai des précieuses écailles de sirène!",
-  "shelly.Dialogue.letsgo": "Allons-y!",
-};
-
-const shellyDialogue: Record<ShellyDialogue, string> = {
-  "shellyPanelContent.tasksFrozen":
-    "J'attends le début de la nouvelle saison. Reviens me voir à ce moment-là!",
-  "shellyPanelContent.canTrade":
-    "Oh là là, tu as un Tentacule de Kraken ! Je l'échangerai contre des écailles de sirène.",
-  "shellyPanelContent.cannotTrade":
-    "On dirait que tu n'as pas de Tentacules de Kraken à portée de main ! Reviens quand tu en auras.",
-  "shellyPanelContent.swap": "Échanger",
-  "krakenIntro.congrats":
-    "Bien joué ! Le Kraken a cessé de terroriser les Bumpkins.",
-  "krakenIntro.noMoreTentacles":
-    "Tu as collecté tous les tentacules de la semaine. Gardons un œil sur lui, je suis sûr que la faim reviendra.",
-  "krakenIntro.gotIt": "J'ai compris!",
-  "krakenIntro.appetiteChanges": "L'appétit du Kraken change constamment.",
-  "krakenIntro.currentHunger":
-    "En ce moment, il a une faim pour.... Ouf, c'est mieux que les Bumpkins.",
-  "krakenIntro.catchInstruction":
-    "Rends-toi à ton lieu de pêche et essaie d'attraper la bête!",
-};
-
 const shopItems: Record<ShopItems, string> = {
   "betty.post.sale.one": "Eh bien, bienvenue de retour.",
   "betty.post.sale.two":
@@ -5758,8 +5706,6 @@ export const FRENCH_TERMS: Record<TranslationKeys, string> = {
   ...seasonTerms,
   ...share,
   ...sharkBumpkinDialogues,
-  ...shelly,
-  ...shellyDialogue,
   ...shopItems,
   ...showingFarm,
   ...snorklerDialogues,

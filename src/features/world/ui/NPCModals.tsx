@@ -96,7 +96,6 @@ export const NPCModals: React.FC<Props> = ({ scene, id }) => {
         )}
 
         {npc === "portaller" && <PortalNPCExample onClose={closeModal} />}
-        {npc === "shelly" && <DeliveryPanel npc={npc} onClose={closeModal} />}
         {npc === "poppy" && <FlowerShop onClose={closeModal} />}
         {npc === "frankie" && <DecorationShopItems onClose={closeModal} />}
         {npc === "stella" && <Stylist onClose={closeModal} />}

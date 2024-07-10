@@ -409,7 +409,6 @@ export const FISH_DIFFICULTY: Partial<
   "Barred Knifejaw": 3,
   "Whale Shark": 3,
   "Gilded Swordfish": 3,
-  "Kraken Tentacle": 3,
   "Saw Shark": 4,
   "White Shark": 4,
   "Radiant Ray": 4,

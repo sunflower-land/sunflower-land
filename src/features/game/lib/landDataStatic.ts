@@ -907,10 +907,6 @@ export const STATIC_OFFLINE_FARM: GameState = {
   milestones: {
     "Advanced Angler": 1,
   },
-  catchTheKraken: {
-    hunger: "Iron",
-    weeklyCatches: {},
-  },
   megastore: {
     available: makeMegaStoreAvailableDates(),
     collectibles: [],
