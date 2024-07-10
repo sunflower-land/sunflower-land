@@ -2148,7 +2148,7 @@ const factions: Record<Factions, string> = {
   "faction.leave.areYouSure": "Are you sure you want to leave your faction?",
   "faction.leave.isNew": "You cannot leave faction in first 24 hours.",
   "faction.leave.marks":
-    "Faction traitors will be punished and you will lose all your marks.",
+    "Faction traitors will be punished and you will lose your banner and all your unspent marks.",
   "faction.leave.sellEmblems": "You must sell your emblems before leaving.",
 
   // Faction Claim Emblems

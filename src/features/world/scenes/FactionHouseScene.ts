@@ -121,7 +121,7 @@ export abstract class FactionHouseScene extends BaseScene {
     this.factionName = faction?.name;
 
     if (faction) {
-      this.collectivePet = faction.history[week].collectivePet;
+      this.collectivePet = faction.history?.[week]?.collectivePet;
       this.petState = this.getPetState();
 
       this.progress = this.calculatePetProgress();

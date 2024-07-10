@@ -95,4 +95,25 @@ describe("leaveFaction", () => {
 
     expect(state.inventory.Mark).toBeUndefined();
   });
+
+  it("removes the banner", () => {
+    const state = leaveFaction({
+      state: {
+        ...INITIAL_FARM,
+        inventory: {
+          "Goblin Faction Banner": new Decimal(1),
+        },
+        faction: {
+          name: "goblins",
+          history: {},
+          pledgedAt: 1200100,
+        },
+      },
+      action: {
+        type: "faction.left",
+      },
+    });
+
+    expect(state.inventory["Goblin Faction Banner"]).toBeUndefined();
+  });
 });

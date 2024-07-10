@@ -1,5 +1,5 @@
 import cloneDeep from "lodash.clonedeep";
-import { FACTION_EMBLEMS } from "./joinFaction";
+import { FACTION_BANNERS, FACTION_EMBLEMS } from "./joinFaction";
 import { GameState } from "features/game/types/game";
 
 export type LeaveFactionAction = {
@@ -34,6 +34,13 @@ export function leaveFaction({
 
   delete game.faction;
   delete game.inventory.Mark;
+
+  // Clean up the banners
+  Object.values(FACTION_BANNERS).forEach((name) => {
+    delete game.inventory[name];
+    delete game.collectibles[name];
+    delete game.home.collectibles[name];
+  });
 
   return game;
 }

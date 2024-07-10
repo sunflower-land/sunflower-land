@@ -196,7 +196,7 @@ export class KingdomScene extends BaseScene {
       .setDepth(622)
       .setInteractive({ cursor: "pointer" })
       .on("pointerdown", () => {
-        npcModalManager.open("solara");
+        npcModalManager.open("reginald");
       });
 
     const board2 = this.add.sprite(142, 420, "nightshade_board");
@@ -205,7 +205,7 @@ export class KingdomScene extends BaseScene {
       .setDepth(1000000)
       .setInteractive({ cursor: "pointer" })
       .on("pointerdown", () => {
-        npcModalManager.open("dusk");
+        npcModalManager.open("nyx");
       });
 
     const board3 = this.add.sprite(315, 425, "bumpkin_board");
@@ -214,7 +214,7 @@ export class KingdomScene extends BaseScene {
       .setDepth(444)
       .setInteractive({ cursor: "pointer" })
       .on("pointerdown", () => {
-        npcModalManager.open("haymitch");
+        npcModalManager.open("barlow");
       });
 
     const board4 = this.add.sprite(148, 760, "goblin_board");
@@ -223,7 +223,7 @@ export class KingdomScene extends BaseScene {
       .setDepth(763)
       .setInteractive({ cursor: "pointer" })
       .on("pointerdown", () => {
-        npcModalManager.open("glinteye");
+        npcModalManager.open("graxle");
       });
 
     const bud1 = this.add.sprite(285, 857, "castle_bud_1");

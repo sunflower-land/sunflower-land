@@ -64,7 +64,6 @@ export const JoinFaction: React.FC<Props> = ({ faction, onClose }) => {
 
   useEffect(() => {
     const load = async () => {
-      console.log("LOAD IT UP");
       let champions: KingdomLeaderboard | undefined = undefined;
 
       try {
@@ -76,8 +75,6 @@ export const JoinFaction: React.FC<Props> = ({ faction, onClose }) => {
         setCost(10);
         setIsLoading(false);
       }
-
-      console.log({ champions });
 
       // Error occured - let them join for 10
       if (!champions) {
@@ -95,7 +92,7 @@ export const JoinFaction: React.FC<Props> = ({ faction, onClose }) => {
       });
 
       const position = totals.indexOf(faction);
-      const fee = SFL_COST[position] ?? 10;
+      const fee = SFL_COST.reverse()[position] ?? 10;
       setCost(fee);
       setIsLoading(false);
     };
@@ -172,7 +169,6 @@ export const JoinFaction: React.FC<Props> = ({ faction, onClose }) => {
       </div>
     );
   }
-  console.log({ isLoading, cost });
 
   if (isLoading) {
     return <Loading />;
