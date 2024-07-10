@@ -235,7 +235,7 @@ export const ChampionsPrizes: React.FC = () => {
 
   return (
     <>
-      <Label type="default" className="mb-2" icon={trophy}>
+      <Label type="default" className="mb-2 ml-1" icon={trophy}>
         {t("leaderboard.faction.champion")}
       </Label>
       <p className="text-xs mb-2">{t("leaderboard.faction.championPrizes")}</p>
@@ -255,7 +255,7 @@ export const ChampionsPrizes: React.FC = () => {
           </tr>
         </tbody>
       </table>
-      <Label type="default" className="mb-2" icon={gift}>
+      <Label type="default" className="mb-2 ml-1" icon={gift}>
         {t("leaderboard.faction.topPlayers")}
       </Label>
       <p className="text-xs mb-2">{t("leaderboard.faction.topPlayerPrizes")}</p>
