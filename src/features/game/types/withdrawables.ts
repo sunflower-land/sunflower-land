@@ -443,6 +443,9 @@ const food: Record<Food, () => boolean> = {
 };
 
 const consumables: Record<ConsumableName, () => boolean> = {
+  "Glazed Carrots": () => false,
+  Caponata: () => false,
+  Paella: () => false,
   "Beetroot Blaze": () => false,
   "Rapid Roast": () => false,
   "Shroom Syrup": () => false,

@@ -689,7 +689,7 @@ export const FACTION_SHOP_ITEMS: Record<FactionShopItemName, FactionShopItem> =
     },
     Paella: {
       name: "Paella",
-      price: new Decimal(1000),
+      price: new Decimal(2500),
       limit: null,
       currency: "Mark",
       shortDescription: "A classic Spanish dish, brimming with flavor.",
@@ -697,7 +697,7 @@ export const FACTION_SHOP_ITEMS: Record<FactionShopItemName, FactionShopItem> =
     },
     Caponata: {
       name: "Caponata",
-      price: new Decimal(500),
+      price: new Decimal(2000),
       limit: null,
       currency: "Mark",
       shortDescription: "A flavorful eggplant dish, perfect for sharing.",
@@ -705,7 +705,7 @@ export const FACTION_SHOP_ITEMS: Record<FactionShopItemName, FactionShopItem> =
     },
     "Glazed Carrots": {
       name: "Glazed Carrots",
-      price: new Decimal(2000),
+      price: new Decimal(1500),
       limit: null,
       currency: "Mark",
       shortDescription: "Sweet and savory carrots, a delightful side dish.",
