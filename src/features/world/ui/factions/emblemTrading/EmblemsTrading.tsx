@@ -23,7 +23,7 @@ interface Props {
   emblem: FactionEmblem;
 }
 
-const EMBLEM_TO_FACTION: Record<FactionEmblem, FactionName> = {
+export const EMBLEM_TO_FACTION: Record<FactionEmblem, FactionName> = {
   "Bumpkin Emblem": "bumpkins",
   "Goblin Emblem": "goblins",
   "Nightshade Emblem": "nightshades",
@@ -80,9 +80,6 @@ export const EmblemsTrading: React.FC<Props> = ({ onClose, emblem }) => {
         message={[
           {
             text: t("faction.emblems.intro.one"),
-          },
-          {
-            text: t("faction.emblems.intro.two"),
           },
           {
             text: t("faction.emblems.intro.three"),

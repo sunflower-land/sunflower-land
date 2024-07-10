@@ -58,7 +58,14 @@ export const Champions: React.FC<Props> = ({ onClose }) => {
       setCurrentTab={setTab}
     >
       {tab === 0 && <ChampionsLeaderboard onClose={onClose} />}
-      {tab === 1 && <ChampionsPrizes onClose={onClose} />}
+      {tab === 1 && (
+        <div
+          className="p-1 overflow-y-scroll scrollable pr-1"
+          style={{ maxHeight: "350px" }}
+        >
+          <ChampionsPrizes />
+        </div>
+      )}
     </CloseButtonPanel>
   );
 };
@@ -195,7 +202,7 @@ const TROPHIES: Record<FactionName, Record<number, InventoryItemName>> = {
 
 type PrizeRow = FactionPrize & { from: number; to?: number };
 
-export const ChampionsPrizes: React.FC<Props> = ({ onClose }) => {
+export const ChampionsPrizes: React.FC = () => {
   const { t } = useAppTranslation();
 
   // Group together rows that have the same prize
@@ -227,12 +234,8 @@ export const ChampionsPrizes: React.FC<Props> = ({ onClose }) => {
   if (previous) prizes.push(previous as PrizeRow);
 
   return (
-    <div
-      className="p-1 overflow-y-scroll scrollable pr-1"
-      style={{ maxHeight: "350px" }}
-    >
-      <p className="text-sm mb-2">{t("leaderboard.faction.description")}</p>
-      <Label type="default" className="mb-2">
+    <>
+      <Label type="default" className="mb-2 ml-1" icon={trophy}>
         {t("leaderboard.faction.champion")}
       </Label>
       <p className="text-xs mb-2">{t("leaderboard.faction.championPrizes")}</p>
@@ -252,7 +255,7 @@ export const ChampionsPrizes: React.FC<Props> = ({ onClose }) => {
           </tr>
         </tbody>
       </table>
-      <Label type="default" className="mb-2">
+      <Label type="default" className="mb-2 ml-1" icon={gift}>
         {t("leaderboard.faction.topPlayers")}
       </Label>
       <p className="text-xs mb-2">{t("leaderboard.faction.topPlayerPrizes")}</p>
@@ -313,6 +316,6 @@ export const ChampionsPrizes: React.FC<Props> = ({ onClose }) => {
           })}
         </tbody>
       </table>
-    </div>
+    </>
   );
 };
