@@ -101,7 +101,7 @@ export const FactionKitchenPanel: React.FC<Props> = ({ bumpkinParts }) => {
     inventory[selectedRequest.item] ?? new Decimal(0)
   ).gte(selectedRequest.amount);
 
-  const boost = getKingdomKitchenBoost(game, selectedRequestReward);
+  const boost = getKingdomKitchenBoost(game, selectedRequestReward)[0];
 
   const boostedMarks = setPrecision(
     new Decimal(selectedRequestReward + boost),
@@ -144,7 +144,7 @@ export const FactionKitchenPanel: React.FC<Props> = ({ bumpkinParts }) => {
                         const boost = getKingdomKitchenBoost(
                           gameService.state.context.state,
                           points,
-                        );
+                        )[0];
 
                         const boostedMarks = setPrecision(
                           new Decimal(points + boost),

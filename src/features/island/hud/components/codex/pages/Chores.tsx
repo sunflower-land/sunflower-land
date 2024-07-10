@@ -101,7 +101,10 @@ const KingdomChoreRow: React.FC<KingdomChoreRowProps> = ({
   const progress =
     (bumpkin?.activity?.[chore.activity] ?? 0) - (chore.startCount ?? 0);
 
-  const boost = getKingdomChoreBoost(gameService.state.context.state, chore);
+  const boost = getKingdomChoreBoost(
+    gameService.state.context.state,
+    chore.marks,
+  )[0];
   const boostedMarks = setPrecision(
     new Decimal(chore.marks + boost),
     2,

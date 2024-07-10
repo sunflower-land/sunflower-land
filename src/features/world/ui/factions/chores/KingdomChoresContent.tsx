@@ -283,7 +283,10 @@ const Panel: React.FC<PanelProps> = ({
   const canSkip = skipAvailableAt < Date.now();
   const canComplete = progress >= chore.requirement;
 
-  const boost = getKingdomChoreBoost(gameService.state.context.state, chore);
+  const boost = getKingdomChoreBoost(
+    gameService.state.context.state,
+    chore.marks,
+  )[0];
 
   const boostedMarks = setPrecision(
     new Decimal(chore.marks + boost),
@@ -417,7 +420,10 @@ const ConfirmSkip: React.FC<{
 
   const { t } = useAppTranslation();
 
-  const boost = getKingdomChoreBoost(gameService.state.context.state, chore);
+  const boost = getKingdomChoreBoost(
+    gameService.state.context.state,
+    chore.marks,
+  )[0];
 
   const boostedMarks = setPrecision(
     new Decimal(chore.marks + boost),

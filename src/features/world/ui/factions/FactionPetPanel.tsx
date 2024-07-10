@@ -241,7 +241,7 @@ export const FactionPetPanel: React.FC<Props> = ({ onClose }) => {
   const boost = getKingdomPetBoost(
     gameService.state.context.state,
     selectedRequestReward,
-  );
+  )[0];
 
   const boostedMarks = setPrecision(
     new Decimal(selectedRequestReward + boost),
@@ -325,7 +325,7 @@ export const FactionPetPanel: React.FC<Props> = ({ onClose }) => {
                           const boost = getKingdomPetBoost(
                             gameService.state.context.state,
                             points,
-                          );
+                          )[0];
 
                           const boostedMarks = setPrecision(
                             new Decimal(points + boost),

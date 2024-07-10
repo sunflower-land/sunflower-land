@@ -8,6 +8,7 @@ import {
   getFactionWeekday,
 } from "features/game/lib/factions";
 import { isWearableActive } from "features/game/lib/wearables";
+import { BoostType, BoostValue } from "features/game/types/boosts";
 import { CONSUMABLES } from "features/game/types/consumables";
 import { FactionPetRequest, GameState } from "features/game/types/game";
 import cloneDeep from "lodash.clonedeep";
@@ -15,16 +16,28 @@ import cloneDeep from "lodash.clonedeep";
 const isPawShieldActive = (game: GameState) =>
   isWearableActive({ game, name: "Paw Shield" });
 
-export const getKingdomPetBoost = (game: GameState, marks: number) => {
-  const wearablesBoost = getFactionWearableBoostAmount(game, marks);
-  const rankBoost = getFactionRankBoostAmount(game, marks);
+export const getKingdomPetBoost = (
+  game: GameState,
+  marks: number,
+): [number, Partial<Record<BoostType, BoostValue>>] => {
+  const [wearablesBoost, wearablesLabels] = getFactionWearableBoostAmount(
+    game,
+    marks,
+  );
+  const [rankBoost, factionLabels] = getFactionRankBoostAmount(game, marks);
+
+  const boosts: Partial<Record<BoostType, BoostValue>> = {
+    ...wearablesLabels,
+    ...factionLabels,
+  };
 
   let pawShieldBoost = 0;
   if (isPawShieldActive(game)) {
     pawShieldBoost = marks * 0.25;
+    boosts["Paw Shield"] = `+${0.25 * 100}%`;
   }
 
-  return wearablesBoost + rankBoost + pawShieldBoost;
+  return [wearablesBoost + rankBoost + pawShieldBoost, boosts];
 };
 
 export enum DifficultyIndex {
@@ -114,7 +127,7 @@ export function feedFactionPet({
     fulfilled,
     PET_FED_REWARDS_KEY[action.requestIndex],
   );
-  const boostAmount = getKingdomPetBoost(stateCopy, baseReward);
+  const boostAmount = getKingdomPetBoost(stateCopy, baseReward)[0];
   const totalAmount = baseReward + boostAmount;
 
   stateCopy.inventory.Mark = marksBalance.add(totalAmount);
