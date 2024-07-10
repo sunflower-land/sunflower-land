@@ -10,6 +10,8 @@ import { BuffLabel } from "features/game/types";
 import { ItemDetail } from "./components/ItemDetail";
 
 import shopIcon from "assets/icons/shop.png";
+import levelUp from "assets/icons/level_up.png";
+
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { getImageUrl } from "lib/utils/getImageURLS";
 import { ModalOverlay } from "components/ui/ModalOverlay";
@@ -20,6 +22,7 @@ import {
   FactionShopWearable,
 } from "features/game/types/factionShop";
 import { ItemsList } from "./components/ItemList";
+import { CONSUMABLES } from "features/game/types/consumables";
 
 interface Props {
   onClose: () => void;
@@ -61,7 +64,11 @@ export const getItemBuffLabel = (
   if (!item) return;
 
   if (isFoodItem(item)) {
-    return undefined;
+    return {
+      labelType: "info",
+      shortDescription: `${CONSUMABLES[item.name]?.experience} XP`,
+      boostTypeIcon: levelUp,
+    };
   }
   if (isWearablesItem(item)) {
     return BUMPKIN_ITEM_BUFF_LABELS[item.name];
