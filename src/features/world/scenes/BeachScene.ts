@@ -117,6 +117,7 @@ export class BeachScene extends BaseScene {
     this.load.image("shovel_select", "world/shovel_select.webp");
     this.load.image("drill_select", "world/drill_select.webp");
     this.load.image("confirm_select", "world/confirm_select.webp");
+    this.load.image("button", "world/button.webp");
   }
 
   async create() {
@@ -221,8 +222,49 @@ export class BeachScene extends BaseScene {
       }
     });
 
+    this.setUpDiggingTestControls();
     this.createDiggingArea();
   }
+
+  public setUpDiggingTestControls = () => {
+    // Enter button
+    this.add
+      .image(305, 288, "button")
+      .setDisplaySize(28, 14)
+      .setInteractive({ cursor: "pointer" })
+      .on("pointerdown", () => {
+        this.currentPlayer?.teleport(256, 159);
+      });
+
+    this.add
+      .text(305, 287, "Test dig", {
+        fontSize: "4px",
+        fontFamily: "monospace",
+        padding: { x: 0, y: 2 },
+        resolution: 4,
+        color: "black",
+      })
+      .setOrigin(0.5, 0.5);
+
+    // Exit button
+    this.add
+      .image(305, 220, "button")
+      .setDisplaySize(28, 14)
+      .setInteractive({ cursor: "pointer" })
+      .on("pointerdown", () => {
+        this.currentPlayer?.teleport(303, 313);
+      });
+
+    this.add
+      .text(305, 219, "Go back", {
+        fontSize: "4px",
+        fontFamily: "monospace",
+        padding: { x: 0, y: 2 },
+        resolution: 4,
+        color: "black",
+      })
+      .setOrigin(0.5, 0.5);
+  };
 
   public createDiggingArea = () => {
     const startX = 88;
