@@ -1,6 +1,8 @@
 import Decimal from "decimal.js-light";
-import { INITIAL_FARM } from "../lib/constants";
 import { leaveFaction } from "./leaveFaction";
+import { TEST_FARM } from "features/game/lib/constants";
+
+const INITIAL_FARM = TEST_FARM;
 
 describe("leaveFaction", () => {
   it("throws an error if the player is not in a faction", () => {

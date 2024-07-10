@@ -1,7 +1,6 @@
-import Decimal from "decimal.js-light";
 import cloneDeep from "lodash.clonedeep";
-import { GameState } from "../types/game";
 import { FACTION_EMBLEMS } from "./joinFaction";
+import { GameState } from "features/game/types/game";
 
 export type LeaveFactionAction = {
   type: "faction.left";
@@ -25,7 +24,7 @@ export function leaveFaction({
   }
 
   const emblem = FACTION_EMBLEMS[game.faction.name];
-  if (!!game.inventory[emblem]?.gt(0)) {
+  if (game.inventory[emblem]?.gt(0)) {
     throw new Error("Cannot leave a faction with emblems");
   }
 
