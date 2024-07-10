@@ -1132,7 +1132,7 @@ export const FISH: Record<FishName, Consumable> = {
   },
 };
 
-const FACTION_FOOD: Record<FactionShopFoodName, Consumable> = {
+export const FACTION_FOOD: Record<FactionShopFoodName, Consumable> = {
   Caponata: {
     name: "Caponata",
     description: "A traditional Brazilian snack",

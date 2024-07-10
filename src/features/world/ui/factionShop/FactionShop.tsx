@@ -39,7 +39,7 @@ export const isWearablesItem = (
 export const isFoodItem = (
   item: FactionShopWearable | FactionShopCollectible | FactionShopFood | null,
 ): item is FactionShopFood => {
-  return (item as FactionShopFood).name in ITEM_DETAILS;
+  return (item as FactionShopFood).name in FACTION_FOOD;
 };
 
 export const getItemImage = (
