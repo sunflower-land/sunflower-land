@@ -382,6 +382,8 @@ const generalTerms: Record<GeneralTerms, string> = {
   "sell.all": "Tout vendre",
   "sell.one": "Vendre 1",
   "sell.ten": "Vendre 10",
+  "sell.amount": ENGLISH_TERMS["sell.amount"],
+  "sell.inBulk": ENGLISH_TERMS["sell.inBulk"],
   "session.expired": "Session expirée!",
   share: "Partager",
   skillPts: "Points de compétence",
@@ -1354,6 +1356,7 @@ const confirmationTerms: Record<ConfirmationTerms, string> = {
   "confirmation.sellCrops":
     "Êtes-vous sûr de vouloir vendre {{cropAmount}} {{cropName}} pour {{coinAmount}} pièces ?",
   "confirmation.buyCrops": ENGLISH_TERMS["confirmation.buyCrops"],
+  "confirmation.enterAmount": ENGLISH_TERMS["confirmation.enterAmount"],
 };
 
 const conversations: Record<Conversations, string> = {
@@ -4749,6 +4752,7 @@ const restock: Record<Restock, string> = {
   "restock.sure": "Êtes-vous sûr de vouloir recharger ?",
   "restock.tooManySeeds": "Vous avez trop de graines dans votre panier!",
   "seeds.reachingInventoryLimit": ENGLISH_TERMS["seeds.reachingInventoryLimit"],
+  "crops.noCropsToSell": ENGLISH_TERMS["crops.noCropsToSell"],
 };
 
 const retreatTerms: Record<RetreatTerms, string> = {

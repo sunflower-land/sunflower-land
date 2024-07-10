@@ -365,6 +365,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   "sell.all": "Sell All",
   "sell.one": "Sell 1",
   "sell.ten": "Sell 10",
+  "sell.inBulk": "Sell in Bulk",
   "session.expired": "Session expired!",
   share: "Share",
   skillPts: "Skill Points:",
@@ -435,6 +436,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   "sfl/coins": "SFL/Coins",
   vipAccess: "VIP Access",
   bought: "Bought",
+  "sell.amount": "Sell {{amount}}",
 };
 
 const timeUnits: Record<TimeUnits, string> = {
@@ -1282,6 +1284,7 @@ const confirmationTerms: Record<ConfirmationTerms, string> = {
     "Are you sure you want to sell {{cropAmount}} {{cropName}} for {{coinAmount}} Coins?",
   "confirmation.buyCrops":
     "Are you sure you want to spend {{coinAmount}} Coins to buy {{seedNo}} {{seedName}}s?",
+  "confirmation.enterAmount": "Enter Amount to Sell:",
 };
 
 const confirmSkill: Record<ConfirmSkill, string> = {
@@ -4656,6 +4659,7 @@ const restock: Record<Restock, string> = {
   "restock.sure": "Are you sure you want to Restock?",
   "restock.tooManySeeds": "You have too many seeds in your basket!",
   "seeds.reachingInventoryLimit": "You are reaching your seed basket limit!",
+  "crops.noCropsToSell": "You have no {{cropName}} to Sell!",
 };
 
 const retreatTerms: Record<RetreatTerms, string> = {
