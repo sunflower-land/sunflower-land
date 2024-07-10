@@ -9,7 +9,6 @@ import { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
 import { capitalize } from "lib/utils/capitalize";
 import { FactionName } from "features/game/types/game";
-import { FACTION_BANNERS } from "features/game/events/landExpansion/pledgeFaction";
 import {
   EMBLEM_QTY,
   FACTION_EMBLEMS,
@@ -23,6 +22,10 @@ import { NPCName } from "lib/npcs";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { EMBLEM_AIRDROP_CLOSES } from "features/island/hud/EmblemAirdropCountdown";
 import { formatDateTime } from "lib/utils/time";
+import { FACTION_BANNERS, getPreviousWeek } from "features/game/lib/factions";
+import { getChampionsLeaderboard } from "features/game/expansion/components/leaderboard/actions/leaderboard";
+import { getKeys } from "features/game/types/decorations";
+import { Loading } from "features/auth/components";
 
 export const FACTION_RECRUITERS: Record<FactionName, NPCName> = {
   goblins: "graxle",
@@ -45,6 +48,8 @@ export const JoinFaction: React.FC<Props> = ({ faction, onClose }) => {
   const { t } = useAppTranslation();
   const [showConfirm, setShowConfirm] = useState(false);
   const [confirmed, setConfirmed] = useState(false);
+  const [cost, setCost] = useState(10000000);
+  const [isLoading, setIsLoading] = useState(false);
 
   const username = useSelector(gameService, _username);
   const joinedFaction = useSelector(gameService, _joinedFaction);
@@ -56,7 +61,38 @@ export const JoinFaction: React.FC<Props> = ({ faction, onClose }) => {
   const recruiterVoice = useSound(FACTION_RECRUITERS[faction] as any);
 
   const sameFaction = joinedFaction && joinedFaction.name === faction;
-  const hasSFL = gameService.state.context.state.balance.gte(SFL_COST);
+  const hasSFL = gameService.state.context.state.balance.gte(cost);
+
+  useEffect(() => {
+    const load = async () => {
+      const champions = await getChampionsLeaderboard({
+        farmId,
+        date: getPreviousWeek(),
+      });
+
+      // Error occured - let them join for 10
+      if (!champions) {
+        setCost(10);
+        setIsLoading(false);
+        return;
+      }
+
+      // Order the faction names by their rank
+      const totals = getKeys(champions.marks.totalTickets).sort((a, b) => {
+        return (
+          (champions.marks.totalTickets[b] as number) -
+          (champions.marks.totalTickets[a] as number)
+        );
+      });
+
+      const position = totals.indexOf(faction);
+      const fee = SFL_COST[position] ?? 10;
+      setCost(fee);
+      setIsLoading(false);
+    };
+
+    load();
+  }, []);
 
   useEffect(() => {
     if (sameFaction) {
@@ -127,6 +163,10 @@ export const JoinFaction: React.FC<Props> = ({ faction, onClose }) => {
         />
       </div>
     );
+  }
+
+  if (isLoading) {
+    return <Loading />;
   }
 
   return (

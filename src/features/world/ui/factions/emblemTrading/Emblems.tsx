@@ -3,7 +3,11 @@ import classNames from "classnames";
 import { Label } from "components/ui/Label";
 import { Context } from "features/game/GameProvider";
 
-import { FactionEmblem, FactionName } from "features/game/types/game";
+import {
+  FactionEmblem,
+  FactionName,
+  GameState,
+} from "features/game/types/game";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import React, { useContext, useEffect, useState } from "react";
 
@@ -22,6 +26,8 @@ import {
 } from "features/game/expansion/components/leaderboard/actions/leaderboard";
 import { getRelativeTime } from "lib/utils/time";
 import { ITEM_DETAILS } from "features/game/types/images";
+import { Button } from "components/ui/Button";
+import { FACTION_EMBLEMS } from "features/game/events/landExpansion/joinFaction";
 
 interface Props {
   emblem: FactionEmblem;
@@ -32,7 +38,7 @@ export const Emblems: React.FC<Props> = ({ emblem, factionName }) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
   const [leaderboard, setLeaderboard] = useState<EmblemsLeaderboard>();
-
+  const [showLeaveFaction, setShowLeaveFaction] = useState(false);
   const { t } = useAppTranslation();
 
   useEffect(() => {
@@ -46,6 +52,10 @@ export const Emblems: React.FC<Props> = ({ emblem, factionName }) => {
 
     load();
   }, []);
+
+  if (showLeaveFaction) {
+    return <LeaveFaction />;
+  }
 
   const emblems = gameState.context.state.inventory[emblem] ?? new Decimal(0);
   const playerRank = getFactionRanking(factionName, emblems.toNumber());
@@ -127,10 +137,56 @@ export const Emblems: React.FC<Props> = ({ emblem, factionName }) => {
       ) : (
         <Label type="formula">{t("loading")}</Label>
       )}
+
+      <Button onClick={() => setShowLeaveFaction(true)}>
+        {t("faction.leave")}
+      </Button>
     </div>
   );
 };
 
+const LeaveFaction: React.FC<{
+  game: GameState;
+  onClose: () => void;
+  onLeave: () => void;
+}> = ({ game, onClose, onLeave }) => {
+  const { t } = useAppTranslation();
+
+  const emblem = FACTION_EMBLEMS[game.faction!.name];
+  const emblems = game.inventory[emblem];
+  const marks = game.inventory.Mark;
+
+  return (
+    <div>
+      <div className="flex">
+        <Label type="danger" className="mb-1">
+          {t("faction.leave")}
+        </Label>
+        {!!emblems && (
+          <Label type="danger" className="mb-1">
+            {t("faction.leave.hasEmblems")}
+          </Label>
+        )}
+      </div>
+      <span className="text-sm mb-2">{t("faction.leave.areYouSure")}</span>
+      <span className="text-sm mb-2">{t("faction.leave.marks")}</span>
+      {!!emblem && (
+        <span className="text-sm mb-2">{t("faction.leave.sellEmblems")}</span>
+      )}
+      {!!mark && (
+        <Label
+          type="danger"
+          className="mb-2"
+          icon={mark}
+        >{`${marks} will be lost`}</Label>
+      )}
+      <div className="flex items-center">
+        <Button onClick={onClose}>{t("no")}</Button>
+        <Button onClick={onLeave}>{t("yes")}</Button>
+      </div>
+    </div>
+  );
+};
 const Leaderboard: React.FC<{
   faction: FactionName;
   playerId: string;

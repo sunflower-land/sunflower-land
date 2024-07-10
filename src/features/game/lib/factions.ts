@@ -1,6 +1,11 @@
 import { BoostType, BoostValue } from "../types/boosts";
 import { BumpkinItem } from "../types/bumpkin";
-import { FactionName, FactionPrize, GameState } from "../types/game";
+import {
+  FactionBanner,
+  FactionName,
+  FactionPrize,
+  GameState,
+} from "../types/game";
 import { isWearableActive } from "./wearables";
 
 export const START_DATE = new Date("2024-06-24T00:00:00Z");
@@ -330,3 +335,17 @@ export const FACTION_PRIZES: Record<number, FactionPrize> = {
       {},
     ),
 };
+
+export const FACTION_BANNERS: Record<FactionName, FactionBanner> = {
+  bumpkins: "Bumpkin Faction Banner",
+  sunflorians: "Sunflorian Faction Banner",
+  goblins: "Goblin Faction Banner",
+  nightshades: "Nightshade Faction Banner",
+};
+
+export const FACTIONS: FactionName[] = [
+  "bumpkins",
+  "sunflorians",
+  "goblins",
+  "nightshades",
+];
