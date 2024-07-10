@@ -32,19 +32,21 @@ export const HomeBumpkins: React.FC<Props> = ({ game }) => {
           <PlayerNPC parts={bumpkin.equipped} />
         </div>
 
-        {getKeys(farmHands).map((id) => (
-          <div
-            key={id}
-            className="mr-1 cursor-pointer relative hover:img-highlight"
-            onClick={() => setSelectedFarmHandId(id)}
-            style={{ width: `${GRID_WIDTH_PX}px` }}
-          >
-            <NPC
-              key={JSON.stringify(farmHands[id].equipped)}
-              parts={farmHands[id].equipped}
-            />
-          </div>
-        ))}
+        {getKeys(farmHands)
+          .slice(0, 3)
+          .map((id) => (
+            <div
+              key={id}
+              className="mr-1 cursor-pointer relative hover:img-highlight"
+              onClick={() => setSelectedFarmHandId(id)}
+              style={{ width: `${GRID_WIDTH_PX}px` }}
+            >
+              <NPC
+                key={JSON.stringify(farmHands[id].equipped)}
+                parts={farmHands[id].equipped}
+              />
+            </div>
+          ))}
       </div>
 
       <Modal
