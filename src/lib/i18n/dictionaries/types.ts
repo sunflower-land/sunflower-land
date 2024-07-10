@@ -3093,7 +3093,8 @@ export type Restock =
   | "restock.sure"
   | "restock.tooManySeeds"
   | "seeds.reachingInventoryLimit"
-  | "crops.noCropsToSell";
+  | "crops.noCropsToSell"
+  | "seeds.plantingSpot.needed";
 
 export type RetreatTerms =
   | "retreatTerms.lookingForRareItems"

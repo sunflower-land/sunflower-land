@@ -4661,6 +4661,7 @@ const restock: Record<Restock, string> = {
   "restock.tooManySeeds": "You have too many seeds in your basket!",
   "seeds.reachingInventoryLimit": "You are reaching your seed basket limit!",
   "crops.noCropsToSell": "You have no {{cropName}} to Sell!",
+  "seeds.plantingSpot.needed": "{{plantingSpot}} Needed",
 };
 
 const retreatTerms: Record<RetreatTerms, string> = {
