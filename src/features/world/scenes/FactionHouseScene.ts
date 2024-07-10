@@ -246,7 +246,12 @@ export abstract class FactionHouseScene extends BaseScene {
     this.progressBar?.clear();
 
     this.progressBar?.fillStyle(0x63c74d, 1);
-    this.progressBar?.fillRect(233, 312, 14 * this.progress, 4);
+    this.progressBar?.fillRect(
+      PROGRESS_BAR_COORDS[this.factionName as FactionName].x,
+      PROGRESS_BAR_COORDS[this.factionName as FactionName].y,
+      14 * this.progress,
+      4,
+    );
   }
   onPetStateChange(newValue: PetStateSprite) {
     if (!this.pet || !this.factionName) return;
