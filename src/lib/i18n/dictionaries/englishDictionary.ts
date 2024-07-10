@@ -2136,7 +2136,7 @@ const factions: Record<Factions, string> = {
   "faction.cost":
     "Show your allegiance and join the {{faction}}. Entry to the faction costs {{cost}} SFL.",
   "faction.pledge.reward":
-    "In exchange, you will receive a {{banner}} and {{emblems}} emblems.",
+    "In exchange, you will receive a {{banner}} and entry to our house.",
   "faction.welcome": "Welcome to the {{faction}}!",
   "faction.greeting.goblins": "Hail the Goblin King!",
   "faction.greeting.sunflorians": "Our lineage will reign supreme!",

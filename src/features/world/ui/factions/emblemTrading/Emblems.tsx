@@ -28,6 +28,7 @@ import { getRelativeTime } from "lib/utils/time";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { Button } from "components/ui/Button";
 import { FACTION_EMBLEMS } from "features/game/events/landExpansion/joinFaction";
+import { useNavigate } from "react-router-dom";
 
 interface Props {
   emblem: FactionEmblem;
@@ -40,6 +41,7 @@ export const Emblems: React.FC<Props> = ({ emblem, factionName }) => {
   const [leaderboard, setLeaderboard] = useState<EmblemsLeaderboard>();
   const [showLeaveFaction, setShowLeaveFaction] = useState(false);
   const { t } = useAppTranslation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const load = async () => {
@@ -53,8 +55,19 @@ export const Emblems: React.FC<Props> = ({ emblem, factionName }) => {
     load();
   }, []);
 
+  const leave = () => {
+    gameService.send("faction.left");
+    navigate("/world/kingdom");
+  };
+
   if (showLeaveFaction) {
-    return <LeaveFaction />;
+    return (
+      <LeaveFaction
+        onClose={() => setShowLeaveFaction(false)}
+        game={gameState.context.state}
+        onLeave={leave}
+      />
+    );
   }
 
   const emblems = gameState.context.state.inventory[emblem] ?? new Decimal(0);
@@ -138,7 +151,7 @@ export const Emblems: React.FC<Props> = ({ emblem, factionName }) => {
         <Label type="formula">{t("loading")}</Label>
       )}
 
-      <Button onClick={() => setShowLeaveFaction(true)}>
+      <Button className="mt-2" onClick={() => setShowLeaveFaction(true)}>
         {t("faction.leave")}
       </Button>
     </div>
@@ -155,34 +168,43 @@ const LeaveFaction: React.FC<{
   const emblem = FACTION_EMBLEMS[game.faction!.name];
   const emblems = game.inventory[emblem];
   const marks = game.inventory.Mark;
+  const isNew =
+    Date.now() - (game.faction?.pledgedAt ?? 0) < 24 * 60 * 60 * 1000;
 
   return (
     <div>
-      <div className="flex">
-        <Label type="danger" className="mb-1">
-          {t("faction.leave")}
-        </Label>
-        {!!emblems && (
+      <div className="p-1">
+        <div className="flex">
           <Label type="danger" className="mb-1">
-            {t("faction.leave.hasEmblems")}
+            {t("faction.leave")}
           </Label>
+          {!!emblems && (
+            <Label type="danger" className="mb-1">
+              {t("faction.leave.hasEmblems")}
+            </Label>
+          )}
+        </div>
+        <p className="text-sm mb-2">{t("faction.leave.areYouSure")}</p>
+        <p className="text-sm mb-2">{t("faction.leave.marks")}</p>
+        {!!emblem && (
+          <p className="text-sm mb-2">{t("faction.leave.sellEmblems")}</p>
+        )}
+        {!!isNew && <p className="text-sm mb-2">{t("faction.leave.isNew")}</p>}
+        {!!mark && (
+          <Label
+            type="danger"
+            className="mb-2"
+            icon={mark}
+          >{`${marks} will be lost`}</Label>
         )}
       </div>
-      <span className="text-sm mb-2">{t("faction.leave.areYouSure")}</span>
-      <span className="text-sm mb-2">{t("faction.leave.marks")}</span>
-      {!!emblem && (
-        <span className="text-sm mb-2">{t("faction.leave.sellEmblems")}</span>
-      )}
-      {!!mark && (
-        <Label
-          type="danger"
-          className="mb-2"
-          icon={mark}
-        >{`${marks} will be lost`}</Label>
-      )}
       <div className="flex items-center">
-        <Button onClick={onClose}>{t("no")}</Button>
-        <Button onClick={onLeave}>{t("yes")}</Button>
+        <Button onClick={onClose} className="mr-1">
+          {t("no")}
+        </Button>
+        <Button disabled={isNew || !!emblems} onClick={onLeave}>
+          {t("yes")}
+        </Button>
       </div>
     </div>
   );

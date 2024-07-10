@@ -143,6 +143,7 @@ export async function getChampionsLeaderboard<T>({
     return;
   }
 
+  console.log({ response });
   const data = await response.json();
 
   cacheLeaderboard({ name: "champions", data });

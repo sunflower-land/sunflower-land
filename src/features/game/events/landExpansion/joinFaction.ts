@@ -41,7 +41,6 @@ export const FACTION_EMBLEMS: Record<FactionName, FactionEmblem> = {
 };
 
 export const SFL_COST = [5, 10, 30, 50];
-export const EMBLEM_QTY = 1;
 
 export function joinFaction({
   state,
