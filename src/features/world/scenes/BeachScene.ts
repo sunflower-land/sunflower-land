@@ -93,10 +93,15 @@ export class BeachScene extends BaseScene {
       frameHeight: 16,
     });
 
+    // "misty" NPC fisher
     this.load.spritesheet("fisher", SUNNYSIDE.npcs.fishing_sheet, {
       frameWidth: 58,
       frameHeight: 50,
     });
+
+    // fishing season icons
+    this.load.image("fish_frenzy", "world/lightning.png");
+    this.load.image("full_moon", "world/full_moon.png");
   }
 
   async create() {
@@ -118,10 +123,18 @@ export class BeachScene extends BaseScene {
     this.colliders?.add(fisher);
     this.triggerColliders?.add(fisher);
     (fisher.body as Phaser.Physics.Arcade.Body)
-      .setSize(16, 20)
-      .setOffset(0, 0)
+      .setSize(12, 16)
+      .setOffset(12, 11)
       .setImmovable(true)
       .setCollideWorldBounds(true);
+
+    // add fishing season icons
+    const fishingWeather = this.gameState.fishing.weather;
+    if (fishingWeather === "Fish Frenzy") {
+      this.add.sprite(311, 686, "fish_frenzy").setDepth(100000000);
+    } else if (fishingWeather === "Full Moon") {
+      this.add.sprite(311, 686, "full_moon").setDepth(100000000);
+    }
 
     const turtle = this.add.sprite(328, 515, "beach_bud");
     turtle.setScale(-1, 1);
