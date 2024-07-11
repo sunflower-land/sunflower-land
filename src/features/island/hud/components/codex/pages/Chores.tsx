@@ -55,12 +55,12 @@ export const Chores: React.FC<Props> = ({ farmId }) => {
             <div className="flex justify-between items-center gap-1">
               <Label type="default">{t("chores.hank")}</Label>
               <Label type="info" icon={SUNNYSIDE.icons.stopwatch}>
-                {`${t("hayseedHankv2.newChoresAvailable")} ${secondsToString(
-                  secondsTillReset(),
-                  {
+                {t("hayseedHankv2.newChoresAvailable", {
+                  timeLeft: secondsToString(secondsTillReset(), {
                     length: "medium",
-                  },
-                )}`}
+                    removeTrailingZeros: true,
+                  }),
+                })}
               </Label>
             </div>
             <div className="my-1 space-y-1">

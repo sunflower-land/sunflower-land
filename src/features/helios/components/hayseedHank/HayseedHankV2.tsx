@@ -16,6 +16,7 @@ import { useSelector } from "@xstate/react";
 import { InlineDialogue } from "features/world/ui/TypingMessage";
 import { SquareIcon } from "components/ui/SquareIcon";
 import { InnerPanel, OuterPanel } from "components/ui/Panel";
+import { Label } from "components/ui/Label";
 
 // UTC
 export function secondsTillReset() {
@@ -80,10 +81,8 @@ export const HayseedHankV2: React.FC<Props> = ({ onClose }) => {
       bumpkinParts={NPC_WEARABLES.hank}
       onClose={onClose}
       container={OuterPanel}
+      title={t("hayseedHankv2.title")}
     >
-      <div className="px-1.5 mb-2 flex w-full h-8 items-center">
-        <p>{t("hayseedHankv2.title")}</p>
-      </div>
       <div
         className="scrollable overflow-y-auto overflow-x-hidden pr-1"
         style={{ maxHeight: "350px" }}
@@ -106,18 +105,18 @@ export const HayseedHankV2: React.FC<Props> = ({ onClose }) => {
             )}
             {!ticketTasksAreFrozen && (
               <div className="space-y-1 mb-2">
-                <div className="flex items-center space-x-1 px-1.5">
-                  <SquareIcon
-                    icon={SUNNYSIDE.icons.timer}
-                    width={5}
-                    className="mt-0.5"
-                  />
-                  <span className="text-xs">{`${t(
-                    "hayseedHankv2.newChoresAvailable",
-                  )} ${secondsToString(secondsTillReset(), {
-                    length: "full",
-                  })}`}</span>
-                </div>
+                <Label
+                  className="ml-1"
+                  type="info"
+                  icon={SUNNYSIDE.icons.stopwatch}
+                >
+                  {t("hayseedHankv2.newChoresAvailable", {
+                    timeLeft: secondsToString(secondsTillReset(), {
+                      length: "medium",
+                      removeTrailingZeros: true,
+                    }),
+                  })}
+                </Label>
                 <div className="flex items-center space-x-1 px-1.5">
                   <SquareIcon
                     icon={SUNNYSIDE.icons.heart}

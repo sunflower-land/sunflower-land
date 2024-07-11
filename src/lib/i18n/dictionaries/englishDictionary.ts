@@ -1206,7 +1206,7 @@ const choresStart: Record<ChoresStart, string> = {
   "kingdomChores.skipWarning": "You can only skip one chore every 24 hours",
   "kingdomChores.completeActive": "Complete active chores to unlock",
   "kingdomChores.loading": "Loading new chores",
-  "kingdomChores.reset": "New Chores in: {{reset}}",
+  "kingdomChores.reset": "New chores: {{timeLeft}}",
 };
 
 const chumDetails: Record<ChumDetails, string> = {
@@ -2799,7 +2799,7 @@ const gameTerms: Record<GameTerms, string> = {
   "granting.wish": "Granting your wish",
   "harvest.number": "{{minHarvest}}-{{maxHarvest}} harvests",
   "level.number": "Level {{level}}",
-  "new.delivery.in": "New deliveries:",
+  "new.delivery.in": "New deliveries: {{timeLeft}}",
   "new.delivery.levelup": "Level up to unlock more deliveries.",
   "no.sfl": "No SFL tokens found",
   opensea: "OpenSea",
@@ -3014,7 +3014,7 @@ const hayseedHankV2: Record<HayseedHankV2, string> = {
     "However, my bones ain't what they used to be. If you can help me with my daily chores, I will reward you with {{seasonalTicket}}.",
   "hayseedHankv2.action": "Let's do it",
   "hayseedHankv2.title": "Hank's Daily Chores",
-  "hayseedHankv2.newChoresAvailable": "New Chores in:",
+  "hayseedHankv2.newChoresAvailable": "New chores: {{timeLeft}}",
   "hayseedHankv2.skipChores": "You can skip chores each new day",
   "hayseedHankv2.greeting":
     "Well, howdy there, young whippersnappers! I'm Hayseed Hank...",

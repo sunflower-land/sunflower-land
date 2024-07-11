@@ -497,7 +497,7 @@ export const KingdomChoresTimer: React.FC<{
         icon={SUNNYSIDE.icons.stopwatch}
       >
         {t("kingdomChores.reset", {
-          reset: secondsToString(Math.round((resetsAt - Date.now()) / 1000), {
+          timeLeft: secondsToString((resetsAt - Date.now()) / 1000, {
             length: "medium",
             removeTrailingZeros: true,
           }),
