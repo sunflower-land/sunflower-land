@@ -8,6 +8,7 @@ import { interactableModalManager } from "../ui/InteractableModals";
 import { translate } from "lib/i18n/translate";
 import { createGrid } from "../ui/beach/DiggingMinigame";
 import { InventoryItemName } from "features/game/types/game";
+import { hasFeatureAccess } from "lib/flags";
 
 const convertToSnakeCase = (str: string) => {
   return str.replace(" ", "_").toLowerCase();
@@ -52,12 +53,16 @@ export class BeachScene extends BaseScene {
   archeologicalData: (InventoryItemName | undefined)[][] = [];
   hoverSelectBox: Phaser.GameObjects.Image | undefined;
   selectedSelectBox: Phaser.GameObjects.Image | undefined;
-  digsRemaining = 3;
+  digsRemaining = 20;
   digsRemainingLabel: Phaser.GameObjects.Text | undefined;
   dugCoords: string[] = [];
   treasureContainer: Phaser.GameObjects.Container | undefined;
   tool: "shovel" | "drill" = "shovel";
   selectedToolLabel: Phaser.GameObjects.Text | undefined;
+  digSiteStartX = 88;
+  digSiteStartY = 88;
+  digSiteWidth = 16;
+  digSiteHeight = 16;
 
   constructor() {
     super({ name: "beach", map: { json: mapJSON } });
@@ -111,7 +116,7 @@ export class BeachScene extends BaseScene {
     this.load.image("starfish", "world/starfish.webp");
     this.load.image("coral", "world/coral.webp");
     this.load.image("pearl", "world/pearl.webp");
-    this.load.image("pirate_bounty", "world/bounty.webp");
+    this.load.image("pirate_bounty", "world/pirate_bounty.webp");
     this.load.image("seaweed", "world/seaweed.webp");
     this.load.image("pipi", "world/pipi.webp");
     this.load.image("crab", "world/crab.webp");
@@ -228,8 +233,12 @@ export class BeachScene extends BaseScene {
       }
     });
 
-    this.setUpDiggingTestControls();
-    this.startDig();
+    if (
+      hasFeatureAccess(this.gameService.state.context.state, "TEST_DIGGING")
+    ) {
+      this.setUpDiggingTestControls();
+      this.startDig();
+    }
   }
 
   public setUpDiggingTestControls = () => {
@@ -330,7 +339,8 @@ export class BeachScene extends BaseScene {
 
     const duration = (distance / speed) * 1000;
 
-    if (digX < this.currentPlayer.x || digY < this.currentPlayer.y) {
+    // face right if moving right, left if moving left
+    if (xDiff > 0) {
       this.currentPlayer.faceLeft();
     } else {
       this.currentPlayer.faceRight();
@@ -352,11 +362,21 @@ export class BeachScene extends BaseScene {
     });
   };
 
-  public startDig = () => {
+  public handleDigCount = () => {
+    this.digsRemaining -= 1;
+
+    if (this.digsRemaining <= 0) {
+      this.endDigging();
+    } else {
+      this.digsRemainingLabel?.setText(`Digs remaining: ${this.digsRemaining}`);
+    }
+  };
+
+  public resetDig = () => {
     this.treasureContainer?.destroy();
     this.digsRemainingLabel?.destroy();
     this.dugCoords = [];
-    this.digsRemaining = 3;
+    this.digsRemaining = 20;
     this.treasureContainer = this.add.container(0, 0);
     this.archeologicalData = createGrid();
 
@@ -372,11 +392,82 @@ export class BeachScene extends BaseScene {
         color: "black",
       },
     );
+  };
 
-    const startX = 88;
-    const startY = 88;
-    const width = 16;
-    const height = 16;
+  public handlePointerDown = (
+    selectedX: number,
+    selectedY: number,
+    row: number,
+    col: number,
+  ) => {
+    if (this.dugCoords.includes(`${row},${col}`) || this.digsRemaining === 0) {
+      return;
+    }
+
+    if (this.dugCoords.length === 0) {
+      this.selectedSelectBox?.setVisible(true);
+    }
+
+    // check if this rectangle is currently the selected one
+    if (
+      this.selectedSelectBox?.x === selectedX &&
+      this.selectedSelectBox?.y === selectedY &&
+      !this.dugCoords.includes(`${row},${col}`)
+    ) {
+      // remove selected box
+      this.selectedSelectBox?.setVisible(false);
+      // move player to dig spot
+      this.moveBumpkinToDigLocation(selectedX, selectedY, () => {
+        if (this.tool === "shovel") {
+          const item = this.archeologicalData[row][col];
+
+          this.dig(selectedX, selectedY, item);
+          this.dugCoords.push(`${row},${col}`);
+
+          this.handleDigCount();
+        } else {
+          // drill 4 spots surrounding the selected spot
+          const coords = this.getDrillCoords(row, col);
+
+          coords.forEach((coord) => {
+            const item = this.archeologicalData[coord.row][coord.col];
+
+            this.dig(
+              this.digSiteStartX + coord.row * this.digSiteWidth,
+              this.digSiteStartY + coord.col * this.digSiteHeight,
+              item,
+            );
+            this.dugCoords.push(`${coord.row},${coord.col}`);
+          });
+
+          this.handleDigCount();
+        }
+      });
+    } else {
+      // set selected box
+      this.selectedSelectBox
+        ?.setPosition(selectedX, selectedY)
+        .setVisible(true);
+      // remove hover box
+      this.hoverSelectBox?.setVisible(false);
+    }
+  };
+
+  public handlePointerOver = (rectX: number, rectY: number) => {
+    const selectedPosition = this.selectedSelectBox?.getBounds();
+
+    if (selectedPosition?.contains(rectX, rectY) && this.dugCoords.length) {
+      return;
+    }
+    this.hoverSelectBox?.setPosition(rectX, rectY).setVisible(true);
+  };
+
+  public handlePointOut = () => {
+    this.hoverSelectBox?.setVisible(false);
+  };
+
+  public startDig = () => {
+    this.resetDig();
 
     this.selectedSelectBox = this.add
       .image(0, 0, "confirm_select")
@@ -392,64 +483,76 @@ export class BeachScene extends BaseScene {
 
     this.archeologicalData.forEach((row, i) => {
       row.forEach((item, j) => {
-        const rectX = startX + i * width;
-        const rectY = startY + j * height;
+        const rectX = this.digSiteStartX + i * this.digSiteWidth;
+        const rectY = this.digSiteStartY + j * this.digSiteHeight;
 
         const square = this.add
-          .rectangle(rectX, rectY, width, height, 0x000000, 0)
+          .rectangle(
+            rectX,
+            rectY,
+            this.digSiteWidth,
+            this.digSiteHeight,
+            0xfff,
+            0,
+          )
           .setInteractive({ cursor: "pointer" })
-          .on("pointerdown", () => {
-            if (
-              this.dugCoords.includes(`${i}-${j}`) ||
-              this.digsRemaining === 0
-            ) {
-              return;
-            }
-
-            if (this.dugCoords.length === 0) {
-              this.selectedSelectBox?.setVisible(true);
-            }
-
-            // check if this rectangle is currently the selected one
-            if (
-              this.selectedSelectBox?.x === rectX &&
-              this.selectedSelectBox?.y === rectY &&
-              !this.dugCoords.includes(`${i}-${j}`)
-            ) {
-              // remove selected box
-              this.selectedSelectBox?.setVisible(false);
-              // move player to dig spot
-              this.moveBumpkinToDigLocation(rectX, rectY, () => {
-                this.dig(rectX, rectY);
-                this.dugCoords.push(`${i}-${j}`);
-              });
-            } else {
-              // set selected box
-              this.selectedSelectBox
-                ?.setPosition(rectX, rectY)
-                .setVisible(true);
-              // remove hover box
-              this.hoverSelectBox?.setVisible(false);
-            }
-          })
-          .on("pointerover", () => {
-            const selectedPosition = this.selectedSelectBox?.getBounds();
-
-            if (
-              selectedPosition?.contains(rectX, rectY) &&
-              this.dugCoords.length
-            ) {
-              return;
-            }
-            this.hoverSelectBox?.setPosition(rectX, rectY).setVisible(true);
-          })
-          .on("pointerout", () => {
-            this.hoverSelectBox?.setVisible(false);
-          });
+          .on("pointerdown", () => this.handlePointerDown(rectX, rectY, i, j))
+          .on("pointerover", () => this.handlePointerOver(rectX, rectY))
+          .on("pointerout", () => this.handlePointOut());
 
         this.treasureContainer?.add(square);
       });
     });
+  };
+
+  public getDrillCoords = (row: number, col: number) => {
+    const numRows = 10;
+    const numCols = 10;
+    // using the dug coords, find which direction to drill
+    // in total we should drill 4 spots including the selected spot
+
+    const coordsToDig = [];
+
+    // Function to check if a spot is already revealed
+    const isRevealed = (r: number, c: number) => {
+      return this.dugCoords.includes(`${r},${c}`);
+    };
+
+    coordsToDig.push({ row, col });
+
+    // Define all 8 possible directions: top-left, top, top-right, right, bottom-right, bottom, bottom-left, left
+    const directions = [
+      { dr: -1, dc: -1 }, // top-left
+      { dr: -1, dc: 0 }, // top
+      { dr: -1, dc: 1 }, // top-right
+      { dr: 0, dc: 1 }, // right
+      { dr: 1, dc: 1 }, // bottom-right
+      { dr: 1, dc: 0 }, // bottom
+      { dr: 1, dc: -1 }, // bottom-left
+      { dr: 0, dc: -1 }, // left
+    ];
+
+    // Try to add up to 4 surrounding spots
+    for (let i = 0; i < directions.length; i++) {
+      const newRow = row + directions[i].dr;
+      const newCol = col + directions[i].dc;
+
+      if (
+        newRow >= 0 &&
+        newRow < numRows &&
+        newCol >= 0 &&
+        newCol < numCols &&
+        !isRevealed(newRow, newCol)
+      ) {
+        coordsToDig.push({ row: newRow, col: newCol });
+
+        if (coordsToDig.length >= 4) {
+          break;
+        }
+      }
+    }
+
+    return coordsToDig;
   };
 
   public dig = (x: number, y: number, item?: InventoryItemName) => {
@@ -467,14 +570,6 @@ export class BeachScene extends BaseScene {
 
     const image = this.add.image(x, y, key).setScale(0.8);
     this.treasureContainer?.add(image);
-
-    this.digsRemaining -= 1;
-
-    if (this.digsRemaining <= 0) {
-      this.endDigging();
-    } else {
-      this.digsRemainingLabel?.setText(`Digs remaining: ${this.digsRemaining}`);
-    }
   };
 
   public endDigging = () => {
