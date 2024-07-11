@@ -85,6 +85,7 @@ jobs:
           VITE_GAME_ANALYTICS_PUB_KEY: ${{ secrets.GAME_ANALYTICS_PUB_KEY }}
           VITE_DEQUIPPER_CONTRACT: "0x7BACA66955d219e645fAecbA2810f8Ecd4d674a9"
           VITE_SEQUENCE_ACCESS_KEY: ${{ secrets.SEQUENCE_ACCESS_KEY }}
+          VITE_ANIMATION_URL: "https://animations.sunflower-land.com"
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1.5.9
