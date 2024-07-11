@@ -56,6 +56,8 @@ export class BeachScene extends BaseScene {
   digsRemainingLabel: Phaser.GameObjects.Text | undefined;
   dugCoords: string[] = [];
   treasureContainer: Phaser.GameObjects.Container | undefined;
+  tool: "shovel" | "drill" = "shovel";
+  selectedToolLabel: Phaser.GameObjects.Text | undefined;
 
   constructor() {
     super({ name: "beach", map: { json: mapJSON } });
@@ -120,6 +122,8 @@ export class BeachScene extends BaseScene {
     this.load.image("drill_select", "world/drill_select.webp");
     this.load.image("confirm_select", "world/confirm_select.webp");
     this.load.image("button", "world/button.webp");
+    this.load.image("shovel", "world/shovel.png");
+    this.load.image("drill", "world/drill.png");
   }
 
   async create() {
@@ -266,6 +270,48 @@ export class BeachScene extends BaseScene {
         color: "black",
       })
       .setOrigin(0.5, 0.5);
+
+    this.add
+      .text(275, 158, "Selected tool:", {
+        fontSize: "4px",
+        fontFamily: "monospace",
+        padding: { x: 0, y: 2 },
+        resolution: 4,
+        color: "black",
+      })
+      .setOrigin(0, 0);
+
+    this.selectedToolLabel = this.add
+      .text(275, 164, `${this.tool}`, {
+        fontSize: "4px",
+        fontFamily: "monospace",
+        padding: { x: 0, y: 2 },
+        resolution: 4,
+        color: "black",
+      })
+      .setOrigin(0, 0);
+
+    // Add shovel/drill button
+    const shovel = this.add.image(264, 152, "shovel").setScale(1);
+    const drill = this.add.image(264, 170, "drill").setScale(0.6);
+
+    shovel.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
+      if (this.tool !== "shovel") {
+        this.tool = "shovel";
+        this.selectedToolLabel?.setText("shovel");
+        shovel.setScale(1);
+        drill.setScale(0.6);
+      }
+    });
+
+    drill.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
+      if (this.tool !== "drill") {
+        this.tool = "drill";
+        this.selectedToolLabel?.setText("drill");
+        drill.setScale(1);
+        shovel.setScale(0.6);
+      }
+    });
   };
 
   public moveBumpkinToDigLocation = (
@@ -350,7 +396,7 @@ export class BeachScene extends BaseScene {
         const rectY = startY + j * height;
 
         const square = this.add
-          .rectangle(rectX, rectY, width, height, 0x000000, 0.5)
+          .rectangle(rectX, rectY, width, height, 0x000000, 0)
           .setInteractive({ cursor: "pointer" })
           .on("pointerdown", () => {
             if (
