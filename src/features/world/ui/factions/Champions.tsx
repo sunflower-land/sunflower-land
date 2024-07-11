@@ -125,7 +125,7 @@ export const ChampionsLeaderboard: React.FC<Props> = ({ onClose }) => {
 
       <div className="flex justify-between items-center mb-1">
         <Label type="default">{t("leaderboard.champions")}</Label>
-        <Label type="formula">{`Week #${getWeekNumber()}`}</Label>
+        <Label type="formula">{`Week #${getWeekNumber() - 3}`}</Label>
       </div>
       <p className="text-sm mb-2 pl-1">
         {t("leaderboard.congratulations", { faction: winningFaction })}
