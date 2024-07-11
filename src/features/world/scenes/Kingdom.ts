@@ -25,6 +25,7 @@ import {
   secondsTillWeekReset,
 } from "features/game/lib/factions";
 import { hasReadKingdomNotice } from "../ui/kingdom/KingdomNoticeboard";
+import { EventObject } from "xstate";
 
 export const KINGDOM_NPCS: NPCBumpkin[] = [
   {
@@ -276,13 +277,19 @@ export class KingdomScene extends BaseScene {
       this.colliders?.add(door);
       this.physics.world.enable(door);
 
-      this.gameService.onEvent((e) => {
+      const listener = (e: EventObject) => {
         if (
           e.type === "faction.joined" &&
           (e as JoinFactionAction).faction === key
         ) {
           door.destroy();
         }
+      };
+
+      this.gameService.onEvent(listener);
+
+      this.events.on("shutdown", () => {
+        this.gameService.off(listener);
       });
     });
 

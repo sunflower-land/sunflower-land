@@ -93,10 +93,15 @@ export class BeachScene extends BaseScene {
       frameHeight: 16,
     });
 
+    // "misty" NPC fisher
     this.load.spritesheet("fisher", SUNNYSIDE.npcs.fishing_sheet, {
       frameWidth: 58,
       frameHeight: 50,
     });
+
+    // fishing weather icons
+    this.load.image("fish_frenzy", "world/lightning.png");
+    this.load.image("full_moon", "world/full_moon.png");
   }
 
   async create() {
@@ -112,14 +117,15 @@ export class BeachScene extends BaseScene {
       x: 322,
       y: 711,
       scene: this,
+      weather: this.gameState.fishing.weather,
     });
     fisher.setDepth(100000000);
     this.physics.world.enable(fisher);
     this.colliders?.add(fisher);
     this.triggerColliders?.add(fisher);
     (fisher.body as Phaser.Physics.Arcade.Body)
-      .setSize(16, 20)
-      .setOffset(0, 0)
+      .setSize(12, 16)
+      .setOffset(12, 11)
       .setImmovable(true)
       .setCollideWorldBounds(true);
 
