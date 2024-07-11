@@ -1,7 +1,7 @@
 import { NPC_WEARABLES } from "lib/npcs";
-import { ANIMATION, getAnimationUrl } from "../lib/animations";
+import { ANIMATION, getAnimationUrl } from "../../lib/animations";
 import { getKeys } from "features/game/types/decorations";
-import { BaseScene } from "./BaseScene";
+import { BaseScene } from "../BaseScene";
 import { BumpkinParts } from "lib/utils/tokenUriBuilder";
 
 /**
@@ -10,9 +10,9 @@ import { BumpkinParts } from "lib/utils/tokenUriBuilder";
  * 2. Create Animation
  * 3. Play Animation
  */
-export class AnimationScene extends Phaser.Scene {
+export class ExampleAnimationScene extends Phaser.Scene {
   constructor() {
-    super("animations");
+    super("examples_animations");
   }
 
   preload() {
