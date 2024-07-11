@@ -413,10 +413,6 @@ export const REMOVAL_RESTRICTIONS: Partial<
   "Heart of Davy Jones": (game) => areAnyTreasureHolesDug(game),
   "Maneki Neko": (game) => hasShakenManeki(game),
   "Festive Tree": (game) => hasShakenTree(game),
-  "Time Warp Totem": (_: GameState) => [
-    true,
-    translate("restrictionReason.inUse"),
-  ],
 
   "Grinx's Hammer": (game: GameState) => {
     const canRemove =
@@ -446,6 +442,40 @@ export const REMOVAL_RESTRICTIONS: Partial<
 
   // Buildings
   "Crop Machine": (game) => hasSeedsCropsInMachine(game),
+
+  // Hourglass
+  "Time Warp Totem": (_: GameState) => [
+    true,
+    translate("restrictionReason.inUse"),
+  ],
+  "Gourmet Hourglass": (_: GameState) => [
+    true,
+    translate("restrictionReason.inUse"),
+  ],
+  "Harvest Hourglass": (_: GameState) => [
+    true,
+    translate("restrictionReason.inUse"),
+  ],
+  "Fisher's Hourglass": (_: GameState) => [
+    true,
+    translate("restrictionReason.inUse"),
+  ],
+  "Blossom Hourglass": (_: GameState) => [
+    true,
+    translate("restrictionReason.inUse"),
+  ],
+  "Orchard Hourglass": (_: GameState) => [
+    true,
+    translate("restrictionReason.inUse"),
+  ],
+  "Ore Hourglass": (_: GameState) => [
+    true,
+    translate("restrictionReason.inUse"),
+  ],
+  "Timber Hourglass": (_: GameState) => [
+    true,
+    translate("restrictionReason.inUse"),
+  ],
 };
 
 export const BUD_REMOVAL_RESTRICTIONS: Record<
