@@ -39,7 +39,7 @@ import { secondsToString } from "lib/utils/time";
 import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
 import { InventoryItemName } from "features/game/types/game";
 
-type HourglassType =
+export type HourglassType =
   | "Gourmet Hourglass"
   | "Harvest Hourglass"
   | "Timber Hourglass"
