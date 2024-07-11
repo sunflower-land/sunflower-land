@@ -121,6 +121,7 @@
     "vite": "^5.0.9",
     "vite-plugin-html": "^2.1.2",
     "vite-tsconfig-paths": "^3.3.17",
+    "vitest": "^2.0.2",
     "workbox-cacheable-response": "^7.0.0",
     "workbox-expiration": "^7.0.0",
     "workbox-precaching": "^7.0.0",
