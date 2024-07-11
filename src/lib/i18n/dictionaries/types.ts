@@ -1549,6 +1549,13 @@ export type Factions =
   | "faction.kitchen.preparing"
   | "faction.kitchen.newRequests"
   | "faction.pet.gatherResources"
+  // Leaving
+  | "faction.leave"
+  | "faction.leave.hasEmblems"
+  | "faction.leave.areYouSure"
+  | "faction.leave.marks"
+  | "faction.leave.sellEmblems"
+  | "faction.leave.isNew"
   // Emblem Airdrop
   | "faction.claimEmblems.alreadyClaimed"
   | "faction.claimEmblems.emblemsEarned"

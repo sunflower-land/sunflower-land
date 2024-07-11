@@ -2136,12 +2136,20 @@ const factions: Record<Factions, string> = {
   "faction.cost":
     "Show your allegiance and join the {{faction}}. Entry to the faction costs {{cost}} SFL.",
   "faction.pledge.reward":
-    "In exchange, you will receive a {{banner}} and {{emblems}} emblems.",
+    "In exchange, you will receive a {{banner}} and entry to our house.",
   "faction.welcome": "Welcome to the {{faction}}!",
   "faction.greeting.goblins": "Hail the Goblin King!",
   "faction.greeting.sunflorians": "Our lineage will reign supreme!",
   "faction.greeting.bumpkins": "We must unite the farmers!",
   "faction.greeting.nightshades": "The shadows will guide us to victory!",
+
+  "faction.leave": "Leave faction",
+  "faction.leave.hasEmblems": "You have emblems",
+  "faction.leave.areYouSure": "Are you sure you want to leave your faction?",
+  "faction.leave.isNew": "You cannot leave faction in first 24 hours.",
+  "faction.leave.marks":
+    "Faction traitors will be punished and you will lose your banner and all your unspent marks.",
+  "faction.leave.sellEmblems": "You must sell your emblems before leaving.",
 
   // Faction Claim Emblems
   "faction.claimEmblems.alreadyClaimed":

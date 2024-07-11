@@ -11,6 +11,7 @@ describe("joinFaction", () => {
         action: {
           type: "faction.joined",
           faction: "invalid" as FactionName,
+          sfl: 10,
         },
       }),
     ).toThrow("Invalid faction");
@@ -32,6 +33,7 @@ describe("joinFaction", () => {
         action: {
           type: "faction.joined",
           faction: "sunflorians",
+          sfl: 10,
         },
       }),
     ).toThrow("You already pledged a faction");
@@ -43,6 +45,7 @@ describe("joinFaction", () => {
       action: {
         type: "faction.joined",
         faction: "sunflorians",
+        sfl: 10,
       },
     });
 
@@ -58,6 +61,7 @@ describe("joinFaction", () => {
       action: {
         type: "faction.joined",
         faction: "sunflorians",
+        sfl: 10,
       },
     });
 
@@ -78,23 +82,13 @@ describe("joinFaction", () => {
       action: {
         type: "faction.joined",
         faction: "sunflorians",
+        sfl: 10,
       },
     });
 
     expect(state.balance).toEqual(new Decimal(90));
   });
 
-  it("adds 1 Emblem to the players inventory", () => {
-    const state = joinFaction({
-      state: { ...TEST_FARM, balance: new Decimal(20) },
-      action: {
-        type: "faction.joined",
-        faction: "sunflorians",
-      },
-    });
-
-    expect(state.inventory["Sunflorian Emblem"]).toEqual(new Decimal(1));
-  });
   it("throws an error if the player doesn't have enough SFL", () => {
     expect(() =>
       joinFaction({
@@ -105,6 +99,7 @@ describe("joinFaction", () => {
         action: {
           type: "faction.joined",
           faction: "sunflorians",
+          sfl: 10,
         },
       }),
     ).toThrow("Not enough SFL");

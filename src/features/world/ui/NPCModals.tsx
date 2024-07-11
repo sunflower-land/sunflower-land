@@ -24,7 +24,6 @@ import { translate } from "lib/i18n/translate";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { GarbageCollectorModal } from "features/helios/components/garbageCollector/components/GarbageCollectorModal";
 import { Hopper } from "./npcs/Hopper";
-import { FactionModalContent } from "./factions/FactionModalContent";
 import { ChickenRescue } from "./portals/ChickenRescue";
 import { JoinFactionModal } from "./factions/JoinFactionModal";
 import { EmblemsTrading } from "./factions/emblemTrading/EmblemsTrading";
@@ -201,11 +200,6 @@ export const NPCModals: React.FC<Props> = ({ scene, id }) => {
         {npc === "guria" && <DeliveryPanel npc={npc} onClose={closeModal} />}
         {npc === "goblet" && <DeliveryPanel npc={npc} onClose={closeModal} />}
         {npc === "gordo" && <DeliveryPanel npc={npc} onClose={closeModal} />}
-
-        {/* faction npcs */}
-        {npc === "lady day" && <FactionModalContent onClose={closeModal} />}
-        {npc === "robert" && <FactionModalContent onClose={closeModal} />}
-        {npc === "grommy" && <FactionModalContent onClose={closeModal} />}
 
         {/* Kingdom NPCs */}
         {npc === "barlow" && (
