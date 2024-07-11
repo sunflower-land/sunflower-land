@@ -89,15 +89,8 @@ const ListTrade: React.FC<{
           <span className="text-sm">{emblem}</span>
         </div>
         <div className="flex flex-col items-end pr-1">
-          <Label
-            type={
-              inventory[emblem]?.lt(quantity) || cantSellAll ? "danger" : "info"
-            }
-            className="my-1"
-          >
-            {inventory[emblem]?.sub(quantity).lt(1)
-              ? `Can't sell all`
-              : t("bumpkinTrade.available")}
+          <Label type={"info"} className="my-1">
+            {t("bumpkinTrade.available")}
           </Label>
           <span className="text-sm mr-1">
             {`${setPrecision(new Decimal(inventory?.[emblem] ?? 0), 0)}`}
@@ -317,7 +310,6 @@ const ListTrade: React.FC<{
             isTooLow ||
             maxSFL ||
             (inventory[emblem]?.lt(quantity) ?? false) ||
-            inventory[emblem]?.sub(quantity).lt(1) || // Disable when trying to sell all
             quantity === 0 || // Disable when quantity is 0
             sfl === 0 || // Disable when sfl is 0
             isSaving

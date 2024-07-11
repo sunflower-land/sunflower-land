@@ -256,7 +256,9 @@ export const FactionDetails: React.FC<{
               <td style={{ border: "1px solid #b96f50" }} className="p-1.5">
                 <div className="flex items-center space-x-1 justify-end">
                   <>
-                    <span>{count}</span>
+                    <span>
+                      {setPrecision(new Decimal(count), 2).toNumber()}
+                    </span>
                     <img src={mark} className="h-4" />
                   </>
                 </div>
