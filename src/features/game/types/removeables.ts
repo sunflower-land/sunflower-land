@@ -446,6 +446,36 @@ export const REMOVAL_RESTRICTIONS: Partial<
 
   // Buildings
   "Crop Machine": (game) => hasSeedsCropsInMachine(game),
+
+  // Hourglass
+  "Gourmet Hourglass": (_: GameState) => [
+    true,
+    translate("restrictionReason.inUse"),
+  ],
+  "Harvest Hourglass": (_: GameState) => [
+    true,
+    translate("restrictionReason.inUse"),
+  ],
+  "Fisher's Hourglass": (_: GameState) => [
+    true,
+    translate("restrictionReason.inUse"),
+  ],
+  "Blossom Hourglass": (_: GameState) => [
+    true,
+    translate("restrictionReason.inUse"),
+  ],
+  "Orchard Hourglass": (_: GameState) => [
+    true,
+    translate("restrictionReason.inUse"),
+  ],
+  "Ore Hourglass": (_: GameState) => [
+    true,
+    translate("restrictionReason.inUse"),
+  ],
+  "Timber Hourglass": (_: GameState) => [
+    true,
+    translate("restrictionReason.inUse"),
+  ],
 };
 
 export const BUD_REMOVAL_RESTRICTIONS: Record<
