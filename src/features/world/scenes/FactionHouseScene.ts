@@ -13,6 +13,7 @@ import { getFactionPetUpdate } from "../ui/factions/actions/getFactionPetUpdate"
 import { hasReadFactionNotice } from "../ui/factions/FactionNoticeboard";
 import { PetStateSprite } from "./SunflorianHouseScene";
 import { npcModalManager } from "../ui/NPCModals";
+import { EventObject } from "xstate";
 
 type FactionPetStateCoords = Record<
   FactionName,
@@ -308,10 +309,16 @@ export abstract class FactionHouseScene extends BaseScene {
       this.colliders?.add(basicChest);
       this.physics.world.enable(basicChest);
 
-      this.gameService.onEvent((e) => {
+      const listener = (e: EventObject) => {
         if (e.type === "faction.prizeClaimed") {
           basicChest.destroy();
         }
+      };
+
+      this.gameService.onEvent(listener);
+
+      this.events.on("shutdown", () => {
+        this.gameService.off(listener);
       });
     }
   }
