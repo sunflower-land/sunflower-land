@@ -42,10 +42,7 @@ export const Pontoon: React.FC<Props> = ({ expansion, onDone }) => {
   }, []);
 
   // Land is still being built
-  const constructionTime = Math.floor(
-    (expansion.readyAt - expansion.createdAt) / 1000,
-  );
-
+  const constructionTime = (expansion.readyAt - expansion.createdAt) / 1000;
   return (
     <div
       onMouseEnter={() => setShowPopover(true)}

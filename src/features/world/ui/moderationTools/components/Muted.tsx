@@ -4,6 +4,7 @@ import { Panel } from "components/ui/Panel";
 import { Modal } from "components/ui/Modal";
 
 import { ModerationEvent } from "features/world/Phaser";
+import { secondsToString } from "lib/utils/time";
 
 export const calculateMuteTime = (
   time: number,
@@ -18,29 +19,10 @@ export const calculateMuteTime = (
       const now = new Date().getTime();
       const remaining = time - now;
 
-      if (remaining <= 0) return "0s";
-
-      const days = Math.floor(remaining / (1000 * 60 * 60 * 24));
-      const hours = Math.floor(
-        (remaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60),
-      );
-      const minutes = Math.floor((remaining % (1000 * 60 * 60)) / (1000 * 60));
-      const seconds = Math.floor((remaining % (1000 * 60)) / 1000);
-
-      let result = "";
-
-      if (days > 0) {
-        result += `${days}d `;
-      }
-      if (hours > 0 || days > 0) {
-        result += `${hours}h `;
-      }
-      if (minutes > 0 || hours > 0 || days > 0) {
-        result += `${minutes}m `;
-      }
-      result += `${seconds}s`;
-
-      return result;
+      return secondsToString(remaining, {
+        length: "full",
+        isShortFormat: true,
+      });
     }
     default: {
       return "Unknown";

@@ -79,10 +79,7 @@ export function secondsTillWeekReset(): number {
   const timeUntilNextFactionWeek = weekEnd.getTime() - currentTime;
 
   // Convert milliseconds to seconds
-  const secondsUntilNextFactionWeek = Math.floor(
-    timeUntilNextFactionWeek / 1000,
-  );
-
+  const secondsUntilNextFactionWeek = timeUntilNextFactionWeek / 1000;
   return secondsUntilNextFactionWeek;
 }
 
