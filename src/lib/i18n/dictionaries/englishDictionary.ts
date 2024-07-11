@@ -2901,7 +2901,7 @@ const guideFactionPet: Record<GuideFactionPet, string> = {
   "guide.factionPet.two":
     "Your faction will have a goal xp they need to reach each week. If the faction reaches the goal, the next week goal will be 30% harder than the total xp achieved for the week! If the goal isn't reached, the next week goal will be 30% easier than the last weeks total xp.",
   "guide.factionPet.three":
-    "If the faction doesn't reach the goal then the pet will go to sleep for 1 day.",
+    "If the faction doesn't reach the goal then the pet will go to sleep for 1 week.",
   "guide.factionPet.four":
     "Once the faction reaches a streak of 3 or more weeks, an XP bonus will be given to each contributing faction member when their bumpkin eats!",
   "guide.factionPet.five":
