@@ -286,7 +286,7 @@ export class KingdomScene extends BaseScene {
       });
     });
 
-    if (hasFeatureAccess(this.gameState, "FACTION_HOUSE")) {
+    if (hasFeatureAccess(this.gameState, "CHAMPIONS")) {
       this.setChampions();
 
       // After 30 seconds of new week, show the new throne!

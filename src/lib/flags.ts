@@ -52,7 +52,7 @@ const featureFlags: Record<FeatureName, FeatureFlag> = {
 
     return Date.now() > new Date("2024-06-25T00:00:00Z").getTime();
   },
-  CHAMPIONS: defaultFeatureFlag,
+  CHAMPIONS: betaTimeBasedFeatureFlag(new Date("2024-07-15T00:00:00Z")),
   CROP_QUICK_SELECT: defaultFeatureFlag,
   CHICKEN_RESCUE: defaultFeatureFlag,
   PORTALS: testnetFeatureFlag,
