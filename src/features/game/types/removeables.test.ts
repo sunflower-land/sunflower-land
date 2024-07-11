@@ -5,6 +5,16 @@ import { TEST_FARM } from "../lib/constants";
 
 describe("canremove", () => {
   describe("prevents", () => {
+    it("prevents a user from removing Grinx Hammer if recently expanded", () => {
+      const [restricted] = hasRemoveRestriction("Grinx's Hammer", "1", {
+        ...TEST_FARM,
+        inventory: {
+          "Grinx's Hammer": new Decimal(1),
+        },
+        expandedAt: Date.now(),
+      });
+      expect(restricted).toBe(true);
+    });
     it("prevents a user from removing mutant chickens if some chicken is fed", () => {
       const [restricted] = hasRemoveRestriction("Rich Chicken", "1", {
         ...TEST_FARM,
@@ -377,6 +387,16 @@ describe("canremove", () => {
   });
 
   describe("enables", () => {
+    it("enables a user to remove Grinx Hammer 7 days after expanding", () => {
+      const [restricted] = hasRemoveRestriction("Grinx's Hammer", "1", {
+        ...TEST_FARM,
+        inventory: {
+          "Grinx's Hammer": new Decimal(1),
+        },
+        expandedAt: Date.now() - 7 * 24 * 60 * 60 * 1001,
+      });
+      expect(restricted).toBe(false);
+    });
     it("enables users to remove crops", () => {
       const [restricted] = hasRemoveRestriction("Sunflower", "1", {
         ...TEST_FARM,

@@ -130,8 +130,6 @@ import {
   SeasonTerms,
   Share,
   SharkBumpkinDialogues,
-  Shelly,
-  ShellyDialogue,
   ShopItems,
   ShowingFarm,
   SnorklerDialogues,
@@ -361,6 +359,8 @@ const generalTerms: Record<GeneralTerms, string> = {
   "sell.all": "Hepsini Sat",
   "sell.one": "1 Adet Sat",
   "sell.ten": "10 Adet Sat",
+  "sell.amount": ENGLISH_TERMS["sell.amount"],
+  "sell.inBulk": ENGLISH_TERMS["sell.inBulk"],
   "session.expired": "Oturum süresi doldu!",
   share: "Paylaş",
   skillPts: "Yetenek Puanları",
@@ -1281,6 +1281,7 @@ const chumDetails: Record<ChumDetails, string> = {
   "chumDetails.richChicken": "Ekranın parlak terörüne karşı incelik.",
   "chumDetails.horseMackerel": ENGLISH_TERMS["chumDetails.horseMackerel"],
   "chumDetails.sunfish": ENGLISH_TERMS["chumDetails.sunfish"],
+  "chumDetails.zebraFish": ENGLISH_TERMS["chumDetails.zebraFish"],
 };
 
 const claimAchievement: Record<ClaimAchievement, string> = {
@@ -1310,6 +1311,7 @@ const composterDescription: Record<ComposterDescription, string> = {
 const confirmationTerms: Record<ConfirmationTerms, string> = {
   "confirmation.sellCrops": ENGLISH_TERMS["confirmation.sellCrops"],
   "confirmation.buyCrops": ENGLISH_TERMS["confirmation.buyCrops"],
+  "confirmation.enterAmount": ENGLISH_TERMS["confirmation.enterAmount"],
 };
 
 const confirmSkill: Record<ConfirmSkill, string> = {
@@ -2199,6 +2201,8 @@ const factions: Record<Factions, string> = {
   "faction.kitchen.notReady": ENGLISH_TERMS["faction.kitchen.notReady"],
   "faction.kitchen.preparing": ENGLISH_TERMS["faction.kitchen.preparing"],
   "faction.kitchen.newRequests": ENGLISH_TERMS["faction.kitchen.newRequests"],
+  "faction.boostsApplied": ENGLISH_TERMS["faction.boostsApplied"],
+  "faction.no.boostsApplied": ENGLISH_TERMS["faction.no.boostsApplied"],
 
   // Faction Shop
   "faction.shop.onlyFor": ENGLISH_TERMS["faction.shop.onlyFor"],
@@ -2721,39 +2725,44 @@ const gameDescriptions: Record<GameDescriptions, string> = {
   "description.ancient.human.warhammer": "Kadim Bir İnsan Savaş Çekici",
 
   // Coupons
-  "description.community.coin": "Ödüllerle takas edilebilecek değerli bir para",
-  "description.bud.seedling": "Ücretsiz Bud NFT ile değiştirilecek bir fide",
+  "description.community.coin":
+    "(WIP) Ödüllerle takas edilebilecek değerli bir para",
+  "description.bud.seedling":
+    "(LEGACY) Ücretsiz Bud NFT ile değiştirilecek bir fide",
   "description.gold.pass":
-    "Sahibinin nadir NFT'ler oluşturmasına, ticaret yapmasına, para çekmesine ve bonus içeriğe erişmesine olanak tanıyan özel bir geçiş kartı.",
+    "(LEGACY) Sahibinin nadir NFT'ler oluşturmasına, ticaret yapmasına, para çekmesine ve bonus içeriğe erişmesine olanak tanıyan özel bir geçiş kartı.",
   "description.rapid.growth":
-    "İki kat daha hızlı büyütmek için mahsule uygulayın",
+    "(LEGACY) İki kat daha hızlı büyütmek için mahsule uygulayın",
   "description.bud.ticket":
-    "Sunflower Land Buds NFT düşüşünde Bud basmak için garantili bir yer.",
+    "(LEGACY) Sunflower Land Buds NFT düşüşünde Bud basmak için garantili bir yer.",
   "description.potion.ticket":
     "İksir Evi'nden bir ödül. Garth'tan ürün satın almak için bunu kullanın.",
-  "description.trading.ticket": "Serbest Ticaret! Vay be!",
+  "description.trading.ticket": "(LEGACY) Serbest Ticaret! Vay be!",
   "description.block.buck": "Ayçiçeği Ülkesinde değerli bir jeton!",
-  "description.beta.pass": "Test amaçlı özelliklere erken erişim sağlayın.",
-  "description.war.bond": "Gerçek bir savaşçının işareti",
-  "description.allegiance": "Bir bağlılık gösterisi",
-  "description.jack.o.lantern": "Cadılar Bayramı özel etkinlik öğesi",
-  "description.golden.crop": "Parlak altın bir mahsul",
-  "description.red.envelope": "Vay, şanslısın!",
-  "description.love.letter": "Sevgi duygularını aktarın",
+  "description.beta.pass":
+    "(EXCLUSIVE) Test amaçlı özelliklere erken erişim sağlayın.",
+  "description.war.bond": "(LEGACY) Gerçek bir savaşçının işareti",
+  "description.allegiance": "(LEGACY) Bir bağlılık gösterisi",
+  "description.jack.o.lantern": "(LEGACY) Cadılar Bayramı özel etkinlik öğesi",
+  "description.golden.crop": "(LEGACY) Parlak altın bir mahsul",
+  "description.red.envelope": "(LEGACY) Vay, şanslısın!",
+  "description.love.letter": "(LEGACY) Sevgi duygularını aktarın",
   "description.solar.flare.ticket":
-    "Güneş Patlaması Sezonunda kullanılan bir bilet",
+    "(LEGACY) Güneş Patlaması Sezonunda kullanılan bir bilet",
   "description.dawn.breaker.ticket":
-    "Şafak Kıran Sezonunda kullanılan bir bilet",
+    "(LEGACY) Şafak Kıran Sezonunda kullanılan bir bilet",
   "description.crow.feather":
-    "Cadılar Bayramı Bilet Sezonunda kullanılan bir bilet",
-  "description.mermaid.scale": "Kraken'i Yakala Sezonunda kullanılan bir bilet",
+    "(LEGACY) Cadılar Bayramı Bilet Sezonunda kullanılan bir bilet",
+  "description.mermaid.scale":
+    "(LEGACY) Kraken'i Yakala Sezonunda kullanılan bir bilet",
   "description.sunflower.supporter": "Oyunun gerçek bir destekçisinin işareti!",
   "description.arcade.coin":
     "Mini oyunlardan ve maceralardan kazanılan bir jeton. Ödüllerle takas edilebilir.",
   "description.farmhand.coupon":
     "Seçtiğiniz bir bumpkini satın almak için takas edebileceğiniz bir kupon.",
   "description.farmhand": "Çiftliğinizde evlat edinilmiş bir Bumpkin",
-  "description.tulip.bulb": "Bahar Çiçeği sırasında kullanılan bir bilet",
+  "description.tulip.bulb":
+    "(LEGACY) Bahar Çiçeği sırasında kullanılan bir bilet",
   "description.treasure.key":
     "Ödülünüzün kilidini açmak için Plazayı ziyaret edin",
   "description.prizeTicket": "Ödül çekilişlerine katılmak için bir bilet",
@@ -2954,7 +2963,10 @@ const guideTerms: Record<GuideTerms, string> = {
     "Yeni bir oyuncu olarak üç sipariş yuvasıyla başlarsınız, ancak çiftliğinizi genişlettikçe ek yuvaların kilidini açarak ileri düzey oyuncuların daha fazla sipariş almasına olanak tanıyacaksınız. Her 24 saatte bir yeni siparişler geliyor ve tarım ürünlerinden yemek pişirmeye ve kaynak toplamaya kadar çeşitli görevler sunuyor. Siparişleri tamamlamak size Block Bucks, SFL, Coins, lezzetli pastalar ve diğer ödüller dahil olmak üzere dönüm noktası bonusları kazandıracak. Ödül sistemi isteğin zorluğuna dayalıdır; bu nedenle kazancınızı en üst düzeye çıkarmak için daha büyük ödüller sunan siparişlere öncelik vermeyi düşünün. Tahtaya göz kulak olun ve çeşitli siparişlerle kendinize meydan okuyun, seviye atlayın ve daha zorlu istekleri yerine getirmek için gerektiğinde yeni binaların kilidini açın.",
   "deliveries.intro": ENGLISH_TERMS["deliveries.intro"],
   "deliveries.new": ENGLISH_TERMS["deliveries.new"],
-  "chores.intro": ENGLISH_TERMS["chores.intro"],
+  "chores.hank.intro": ENGLISH_TERMS["chores.hank.intro"],
+  "chores.hank": ENGLISH_TERMS["chores.hank"],
+  "chores.kingdom": ENGLISH_TERMS["chores.kingdom"],
+  "chores.kingdom.intro": ENGLISH_TERMS["chores.kingdom.intro"],
 
   "scavenger.guide.one":
     "Sunflower Land’de çöp toplamak, gizli hazineleri ortaya çıkarmak ve değerli kaynakları toplamak için heyecan verici fırsatlar sunar. Çöp toplamanın ilk yönü, korsan hazine avcısı olabileceğiniz Define Adası'nda hazine kazmaktır. Bir kum küreği üreterek ve Treasure Island'a giderek, ödül, dekorasyon ve hatta kullanışlı antik SFT'ler dahil olmak üzere çeşitli hazineleri ortaya çıkarmak için karanlık kumlu alanları kazabilirsiniz.",
@@ -3107,7 +3119,7 @@ const interactableModals: Record<InteractableModals, string> = {
   "interactableModals.beachGreenBook.message2":
     "Elmaları Kırmızı Wiggler Yemi ile kullanın ve bu kızıl güzelliklerin adeta ağınıza sıçramasını izleyin.",
   "interactableModals.beachBlueBook.message1":
-    "Shelly'ye söyleme ama Saw Sharks'ı sahile getirmeye çalışıyorum!",
+    "Saw Sharks'ı sahile getirmeye çalışıyorum!",
   "interactableModals.beachBlueBook.message2":
     "Son zamanlarda farklı arkadaşlarla deneyler yapıyorum ama işe yarayan tek kişi Red Snapper.",
   "interactableModals.beachBlueBook.message3":
@@ -3668,23 +3680,6 @@ const npc_message: Record<NPC_MESSAGE, string> = {
     "Balıkların özgürlüğü, bu benim görevim. Bana balık konusunda yardım edersin, değil mi?",
   "npcMessages.corale.msg7":
     "Denizin yaşam dansında bana katılın. Balık, arkadaşlarımı serbest bırak!",
-  //Shelly
-  "npcMessages.shelly.msg1":
-    "Bumpkins ortadan kayboluyor ve bunun sebebinin Kraken olmasından korkuyorum. Dokunaçlarını toplamama yardım et!",
-  "npcMessages.shelly.msg2":
-    "Bumpkins ortadan kayboluyor ve Kraken'dan şüpheleniyorum. Dokunaçlarını getirir misin lütfen?",
-  "npcMessages.shelly.msg3":
-    "Kraken bir tehdit, Bumpkins kayıp. Onları güvende tutmak için dokunaçlarını getir.",
-  "npcMessages.shelly.msg4":
-    "Kraken uğursuz, Bumpkins gitti. Güvenlikleri için dokunaçlarını getirin.",
-  "npcMessages.shelly.msg5":
-    "Sahili korumak Kraken ile zordur. Bumpkins'i korumama yardım et, dokunaçlarını al.",
-  "npcMessages.shelly.msg6":
-    "Bumpkins'i korumak benim görevim ama Kraken beni endişelendiriyor. Onları korumak için dokunaçlarını alın.",
-  "npcMessages.shelly.msg7":
-    "Kraken paniğe neden oluyor, Bumpkins kayıp. Güvenlikleri için dokunaçlarını toplamama yardım et.",
-  "npcMessages.shelly.msg8":
-    "Bumpkins'in güvenliği benim en büyük önceliğim ve korkarım işin içinde Kraken var. Dokunaçlar fark yaratabilir!",
   "npcMessages.gambit.msg1": ENGLISH_TERMS["npcMessages.gambit.msg1"],
   "npcMessages.gambit.msg2": ENGLISH_TERMS["npcMessages.gambit.msg2"],
   "npcMessages.gambit.msg3": ENGLISH_TERMS["npcMessages.gambit.msg3"],
@@ -4610,6 +4605,8 @@ const restock: Record<Restock, string> = {
   "restock.sure": "Yenilemek istediğinizden emin misiniz?",
   "restock.tooManySeeds": "Sepetinizde fazla tohum var!",
   "seeds.reachingInventoryLimit": ENGLISH_TERMS["seeds.reachingInventoryLimit"],
+  "crops.noCropsToSell": ENGLISH_TERMS["crops.noCropsToSell"],
+  "seeds.plantingSpot.needed": ENGLISH_TERMS["seeds.plantingSpot.needed"],
 };
 
 const retreatTerms: Record<RetreatTerms, string> = {
@@ -4718,39 +4715,6 @@ const share: Record<Share, string> = {
 const sharkBumpkinDialogues: Record<SharkBumpkinDialogues, string> = {
   "sharkBumpkin.dialogue.shhhh": "Şşşşt!",
   "sharkBumpkin.dialogue.scareGoblins": "Goblinleri korkutmaya çalışıyorum.",
-};
-
-const shelly: Record<Shelly, string> = {
-  "shelly.Dialogue.one": "Selam, Bumpkin! Plaja hoş geldiniz!",
-  "shelly.Dialogue.two":
-    "Çiftliğinizde geçirdiğiniz zorlu bir günün ardından arkanıza yaslanıp dalgaların tadını çıkarmak için daha iyi bir yer olamaz.",
-  "shelly.Dialogue.three":
-    "Ama şöyle bir durumumuz var. Devasa bir kraken ortaya çıktı ve sevgili kumsalımızın kontrolünü ele geçirdi.",
-  "shelly.Dialogue.four":
-    "Gerçekten yardımına ihtiyacımız var canım. Yeminizi ve oltalarınızı alın, birlikte bu devasa sorunun üstesinden gelelim!",
-  "shelly.Dialogue.five":
-    "Yakaladığın her dokunaç için sana değerli denizkızı pulları vereceğim!",
-  "shelly.Dialogue.letsgo": "Hadi yapalım!",
-};
-
-const shellyDialogue: Record<ShellyDialogue, string> = {
-  "shellyPanelContent.tasksFrozen":
-    "Yeni sezonun başlamasını bekliyorum. O zaman bana geri dön!",
-  "shellyPanelContent.canTrade":
-    "Aman Tanrım, bir Kraken Dokunacın var! Bunu birkaç denizkızı terazisiyle değiştireceğim.",
-  "shellyPanelContent.cannotTrade":
-    "Görünüşe göre elinizde hiç Kraken Tentacles yok! Bunu yaptığında geri gel.",
-  "shellyPanelContent.swap": "Değiştir",
-  "krakenIntro.congrats":
-    "Tebrikler! Kraken, Bumpkins'i terörize etmeyi bıraktı.",
-  "krakenIntro.noMoreTentacles":
-    "Haftanın tüm dokunaçlarını topladın. Yakından takip edelim, açlığın geri döneceğinden eminim.",
-  "krakenIntro.gotIt": "Anlaşıldı!",
-  "krakenIntro.appetiteChanges": "Kraken'in iştahı sürekli değişiyor.",
-  "krakenIntro.currentHunger":
-    "Şu anda ....Vay canına, bu Bumpkinlerden daha iyi.",
-  "krakenIntro.catchInstruction":
-    "Balık tutma noktanıza gidin ve canavarı yakalamaya çalışın!",
 };
 
 const shopItems: Record<ShopItems, string> = {
@@ -5598,8 +5562,6 @@ export const TURKISH_TERMS: Record<TranslationKeys, string> = {
   ...seasonTerms,
   ...share,
   ...sharkBumpkinDialogues,
-  ...shelly,
-  ...shellyDialogue,
   ...shopItems,
   ...showingFarm,
   ...snorklerDialogues,

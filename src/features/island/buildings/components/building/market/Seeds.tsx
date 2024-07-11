@@ -21,7 +21,7 @@ import { INVENTORY_LIMIT } from "features/game/lib/constants";
 import { makeBulkBuySeeds } from "./lib/makeBulkBuyAmount";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { SEEDS, SeedName } from "features/game/types/seeds";
-import { Bumpkin, IslandType } from "features/game/types/game";
+import { Bumpkin } from "features/game/types/game";
 import {
   FRUIT,
   FRUIT_SEEDS,
@@ -44,8 +44,6 @@ import {
   SEED_TO_PLANT,
   getGreenhouseCropTime,
 } from "features/game/events/landExpansion/plantGreenhouse";
-import { hasRequiredIslandExpansion } from "features/game/lib/hasRequiredIslandExpansion";
-import { capitalize } from "lib/utils/capitalize";
 import { NPC_WEARABLES } from "lib/npcs";
 import { ConfirmationModal } from "components/ui/ConfirmationModal";
 import { setPrecision } from "lib/utils/formatNumber";
@@ -104,28 +102,24 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
   // Calculates the difference between amount in inventory and the inventory limit
   const bulkSeedBuyAmount = makeBulkBuySeeds(stock, bulkBuyLimit);
 
+  const plantingSpot = selected.plantingSpot;
+
   const isSeedLocked = (seedName: SeedName) => {
     const seed = SEEDS()[seedName];
     return getBumpkinLevel(state.bumpkin?.experience ?? 0) < seed.bumpkinLevel;
   };
 
   const Action = () => {
-    if (
-      !hasRequiredIslandExpansion(state.island.type, selected.requiredIsland)
-    ) {
+    if (!inventory[plantingSpot]) {
       return (
-        <Label type="danger">
-          {t("islandupgrade.requiredIsland", {
-            islandType:
-              selected.requiredIsland === "spring"
-                ? "Petal Paradise"
-                : t("islandupgrade.otherIsland", {
-                    island: capitalize(selected.requiredIsland as IslandType),
-                  }),
-          })}
-        </Label>
+        <div className="flex justify-center">
+          <Label className="mb-1" type="danger">
+            {t("seeds.plantingSpot.needed", { plantingSpot: plantingSpot })}
+          </Label>
+        </div>
       );
     }
+
     if (isSeedLocked(selectedName)) {
       // return nothing if requirement not met
       return <></>;
@@ -168,7 +162,7 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
           )}
         </div>
         <div>
-          {!!inventory.Warehouse && bulkSeedBuyAmount > 10 && (
+          {state.island.type !== "basic" && bulkSeedBuyAmount > 10 && (
             <Button
               className="mt-1"
               disabled={lessFunds(bulkSeedBuyAmount)}

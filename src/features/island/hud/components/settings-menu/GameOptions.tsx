@@ -19,7 +19,7 @@ import { WalletContext } from "features/wallet/WalletProvider";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
-import { BlockchainSettingsModal } from "./blockchain-settings/BlockchainSettings";
+import { BlockchainSettings } from "./blockchain-settings/BlockchainSettings";
 import { usePWAInstall } from "features/pwa/PWAInstallProvider";
 import { fixInstallPromptTextStyles } from "features/pwa/lib/fixInstallPromptStyles";
 import { useIsPWA } from "lib/utils/hooks/useIsPWA";
@@ -46,6 +46,7 @@ import { AppearanceSettings } from "./general-settings/AppearanceSettings";
 import { FontSettings } from "./general-settings/FontSettings";
 import { ConfirmationModal } from "components/ui/ConfirmationModal";
 import ticket from "assets/icons/ticket.png";
+import { DEV_HoarderCheck } from "./amoy-actions/DEV_HoardingCheck";
 
 export interface ContentComponentProps {
   onSubMenuClick: (id: SettingMenuId) => void;
@@ -258,7 +259,6 @@ export type SettingMenuId =
   // Blockchain Settings
   | "deposit"
   | "swapSFL"
-  | "storeChain"
   | "dequip"
   | "transfer"
 
@@ -267,7 +267,11 @@ export type SettingMenuId =
   | "changeLanguage"
   | "share"
   | "appearance"
-  | "font";
+  | "font"
+
+  // Amoy Testnet Actions
+  | "mainnetHoardingCheck"
+  | "amoyHoardingCheck";
 
 interface SettingMenu {
   title: string;
@@ -295,7 +299,7 @@ export const settingMenus: Record<SettingMenuId, SettingMenu> = {
   blockchain: {
     title: translate("gameOptions.blockchainSettings"),
     parent: "main",
-    content: BlockchainSettingsModal,
+    content: BlockchainSettings,
   },
   general: {
     title: translate("gameOptions.generalSettings"),
@@ -313,11 +317,6 @@ export const settingMenus: Record<SettingMenuId, SettingMenu> = {
     title: translate("deposit"),
     parent: "blockchain",
     content: DepositWrapper,
-  },
-  storeChain: {
-    title: translate("transaction.storeProgress"),
-    parent: "blockchain",
-    content: () => <></>, // To add later
   },
   dequip: {
     title: translate("dequipper.dequip"),
@@ -360,5 +359,17 @@ export const settingMenus: Record<SettingMenuId, SettingMenu> = {
     title: translate("gameOptions.generalSettings.font"),
     parent: "appearance",
     content: FontSettings,
+  },
+
+  // Amoy Testnet Actions
+  mainnetHoardingCheck: {
+    title: "Hoarding Check (Mainnet)",
+    parent: "amoy",
+    content: (props) => <DEV_HoarderCheck {...props} network="mainnet" />,
+  },
+  amoyHoardingCheck: {
+    title: "Hoarding Check (Amoy)",
+    parent: "amoy",
+    content: (props) => <DEV_HoarderCheck {...props} network="amoy" />,
   },
 };

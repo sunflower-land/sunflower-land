@@ -51,7 +51,6 @@ export type NPCName =
   | "eins"
   | "garth"
   | "reelin roy"
-  | "shelly"
   | "finn"
   | "finley"
   | "tango"
@@ -96,10 +95,7 @@ export type NPCName =
   | "shadow"
   | "flora"
   | "eldric"
-  | "blaze" // sunflorian pet
-  | "snaggle" // goblin pet
-  | "tater" // bumpkin pet
-  | "sable"; // nightshade pet
+  | "pet"; // faction pet
 
 export const NPC_WEARABLES: Record<NPCName, Equipped> = {
   "chef tuck": {
@@ -729,16 +725,6 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     background: "Farm Background",
     shoes: "Black Farmer Boots",
   },
-  shelly: {
-    body: "Beige Farmer Potion",
-    hair: "White Long Hair",
-    hat: "Lifeguard Hat",
-    shirt: "Lifeguard Shirt",
-    pants: "Lifeguard Pants",
-    tool: "Water Gun",
-    background: "Seashore Background",
-    shoes: "Black Farmer Boots",
-  },
   // Placeholder fisherman
   finn: {
     body: "Light Brown Farmer Potion",
@@ -1051,34 +1037,7 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     coat: "Royal Robe",
   },
   // Placeholder values. Pets are an image.
-  blaze: {
-    body: "Sunburst Potion",
-    hair: "Blondie",
-    shirt: "Fancy Top",
-    pants: "Sunflorian Pants",
-    tool: "Sunflorian Sword",
-    background: "Farm Background",
-    shoes: "Sunflorian Sabatons",
-  },
-  tater: {
-    body: "Sunburst Potion",
-    hair: "Blondie",
-    shirt: "Fancy Top",
-    pants: "Sunflorian Pants",
-    tool: "Sunflorian Sword",
-    background: "Farm Background",
-    shoes: "Sunflorian Sabatons",
-  },
-  snaggle: {
-    body: "Sunburst Potion",
-    hair: "Blondie",
-    shirt: "Fancy Top",
-    pants: "Sunflorian Pants",
-    tool: "Sunflorian Sword",
-    background: "Farm Background",
-    shoes: "Sunflorian Sabatons",
-  },
-  sable: {
+  pet: {
     body: "Sunburst Potion",
     hair: "Blondie",
     shirt: "Fancy Top",

@@ -13,6 +13,7 @@ const API_URL = CONFIG.API_URL;
 type Options = {
   farmId: number;
   leaderboardName: keyof Leaderboards;
+  cacheExpiry?: number;
 };
 
 export type RankData = {
@@ -69,9 +70,11 @@ export type EmblemsLeaderboard = {
 export async function getLeaderboard<T>({
   farmId,
   leaderboardName,
+  cacheExpiry,
 }: Options): Promise<T | undefined> {
   const cache = getCachedLeaderboardData({
     name: leaderboardName,
+    duration: cacheExpiry,
   });
 
   if (cache) {
@@ -168,6 +171,7 @@ export async function fetchLeaderboardData(
       getLeaderboard<KingdomLeaderboard>({
         farmId: Number(farmId),
         leaderboardName: "kingdom",
+        cacheExpiry: KINGDOM_LEADERBOARD_CACHE,
       }),
       getLeaderboard<EmblemsLeaderboard>({
         farmId: Number(farmId),

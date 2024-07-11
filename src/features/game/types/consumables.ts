@@ -5,6 +5,7 @@ import { Cake } from "./craftables";
 import { Inventory } from "./game";
 import { FishName } from "./fishing";
 import { translate } from "lib/i18n/translate";
+import { FactionShopFoodName } from "./factionShop";
 
 type FirePitCookableName =
   | "Rapid Roast"
@@ -96,7 +97,11 @@ export type CookableName =
   | DeliCookableName
   | JuiceName;
 
-export type ConsumableName = CookableName | "Pirate Cake" | FishName;
+export type ConsumableName =
+  | CookableName
+  | "Pirate Cake"
+  | FishName
+  | FactionShopFoodName;
 
 export type Cookable = {
   experience: number;
@@ -1127,10 +1132,29 @@ export const FISH: Record<FishName, Consumable> = {
   },
 };
 
+export const FACTION_FOOD: Record<FactionShopFoodName, Consumable> = {
+  Caponata: {
+    name: "Caponata",
+    description: "A traditional Brazilian snack",
+    experience: 6000,
+  },
+  "Glazed Carrots": {
+    name: "Glazed Carrots",
+    description: "A traditional Brazilian dish",
+    experience: 3000,
+  },
+  Paella: {
+    name: "Paella",
+    description: "A traditional Spanish dish",
+    experience: 10000,
+  },
+};
+
 export const CONSUMABLES: Record<ConsumableName, Consumable> = {
   ...COOKABLES,
   ...PIRATE_CAKE,
   ...FISH,
+  ...FACTION_FOOD,
 };
 
 export const FISH_CONSUMABLES: Record<FishName | FishCookableName, Consumable> =

@@ -46,9 +46,9 @@ import powerup from "assets/icons/level_up.png";
 import lightning from "assets/icons/lightning.png";
 import xpIcon from "assets/icons/xp.png";
 
-import { hasFeatureAccess } from "lib/flags";
 import { setPrecision } from "lib/utils/formatNumber";
 import { FACTION_EMBLEM_ICONS } from "./components/ClaimEmblems";
+import { BoostInfoPanel } from "./BoostInfoPanel";
 
 export const PET_SLEEP_DURATION = 24 * 60 * 60 * 1000;
 
@@ -113,16 +113,12 @@ interface Props {
 export type PetState = "sleeping" | "hungry" | "happy";
 
 export const FACTION_PET_REFRESH_INTERVAL = 10 * 1000;
-const FACTION_PET_START_TIME = new Date("2024-07-08T00:00:00Z").getTime();
 
 const _autosaving = (state: MachineState) => state.matches("autosaving");
 const _farmId = (state: MachineState) => state.context.farmId;
 const _faction = (state: MachineState) =>
   state.context.state.faction as Faction;
 const _inventory = (state: MachineState) => state.context.state.inventory;
-
-// TODO: Remove when feature released
-const _game = (state: MachineState) => state.context.state;
 
 const getPetState = (collectivePet: CollectivePet): PetState => {
   const week = getFactionWeek({ date: new Date() });
@@ -153,8 +149,6 @@ export const FactionPetPanel: React.FC<Props> = ({ onClose }) => {
   const farmId = useSelector(gameService, _farmId);
   const inventory = useSelector(gameService, _inventory);
   const autosaving = useSelector(gameService, _autosaving);
-  // TODO: Remove when feature released
-  const game = useSelector(gameService, _game);
 
   const week = getFactionWeek({ date: new Date() });
   const pet = faction.pet as FactionPet;
@@ -174,6 +168,7 @@ export const FactionPetPanel: React.FC<Props> = ({ onClose }) => {
     getPetState(collectivePet),
   );
   const [tab, setTab] = useState(0);
+  const [showBoostInfo, setShowBoostInfo] = useState(false);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -185,11 +180,7 @@ export const FactionPetPanel: React.FC<Props> = ({ onClose }) => {
     return () => clearInterval(interval);
   });
 
-  if (
-    (now < FACTION_PET_START_TIME &&
-      !hasFeatureAccess(game, "FACTION_KITCHEN")) ||
-    petState === "sleeping"
-  ) {
+  if (petState === "sleeping") {
     return (
       <PetSleeping onWake={() => setPetState(getPetState(collectivePet))} />
     );
@@ -250,7 +241,7 @@ export const FactionPetPanel: React.FC<Props> = ({ onClose }) => {
   const boost = getKingdomPetBoost(
     gameService.state.context.state,
     selectedRequestReward,
-  );
+  )[0];
 
   const boostedMarks = setPrecision(
     new Decimal(selectedRequestReward + boost),
@@ -334,7 +325,7 @@ export const FactionPetPanel: React.FC<Props> = ({ onClose }) => {
                           const boost = getKingdomPetBoost(
                             gameService.state.context.state,
                             points,
-                          );
+                          )[0];
 
                           const boostedMarks = setPrecision(
                             new Decimal(points + boost),
@@ -409,16 +400,25 @@ export const FactionPetPanel: React.FC<Props> = ({ onClose }) => {
                   panel={
                     <div className="flex flex-col justify-between h-full sm:items-center">
                       <div className="flex flex-col items-center space-y-1 px-1.5 mb-1">
-                        <Label
-                          icon={ITEM_DETAILS["Mark"].image}
-                          secondaryIcon={boost ? lightning : undefined}
-                          type="warning"
-                          className="m-1"
-                        >
-                          <span className={boost ? "pl-1.5" : ""}>
-                            {`${boostedMarks} ${t("marks")}`}
-                          </span>
-                        </Label>
+                        <div className="flex items-center relative">
+                          <BoostInfoPanel
+                            feature="pet"
+                            show={showBoostInfo}
+                            baseAmount={selectedRequestReward}
+                            onClick={() => setShowBoostInfo(false)}
+                          />
+                          <Label
+                            onClick={() => setShowBoostInfo(!showBoostInfo)}
+                            icon={ITEM_DETAILS["Mark"].image}
+                            secondaryIcon={boost ? lightning : undefined}
+                            type="warning"
+                            className="m-1 cursor-pointer"
+                          >
+                            <span className={boost ? "pl-1.5" : ""}>
+                              {`${boostedMarks} ${t("marks")}`}
+                            </span>
+                          </Label>
+                        </div>
                         <div className="hidden sm:flex flex-col space-y-1 w-full justify-center items-center">
                           <p className="text-sm">{selectedRequest.food}</p>
                           <SquareIcon

@@ -907,10 +907,6 @@ export const STATIC_OFFLINE_FARM: GameState = {
   milestones: {
     "Advanced Angler": 1,
   },
-  catchTheKraken: {
-    hunger: "Iron",
-    weeklyCatches: {},
-  },
   megastore: {
     available: makeMegaStoreAvailableDates(),
     collectibles: [],
@@ -1338,7 +1334,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     amount: new Decimal(1000),
   },
   faction: {
-    name: "nightshades",
+    name: "sunflorians",
     pledgedAt: 0,
     points: 100,
     pet: {
@@ -1376,8 +1372,8 @@ export const STATIC_OFFLINE_FARM: GameState = {
           },
         },
         collectivePet: {
-          totalXP: 1000,
-          goalReached: false,
+          totalXP: 3000,
+          goalReached: true,
           goalXP: 2000,
           streak: 0,
         },

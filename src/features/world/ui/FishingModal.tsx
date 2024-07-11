@@ -57,12 +57,6 @@ export const FishingModal: React.FC = () => {
       if (state.context.state.fishing.beach?.caught) {
         PubSub.publish("BEACH_FISHERMAN_CAUGHT");
       }
-
-      if (state.context.state.catchTheKraken.hunger) {
-        PubSub.publish("KRAKEN_HUNGRY", {
-          hunger: state.context.state.catchTheKraken.hunger,
-        });
-      }
     });
   }, []);
 
@@ -151,7 +145,7 @@ export const FishingModal: React.FC = () => {
             setTimeout(() => {
               gameState.context.state.fishing.beach = {
                 castedAt: 10000,
-                caught: { "Kraken Tentacle": 1 },
+                caught: { Anchovy: 1 },
               };
             }, 1000);
           }}

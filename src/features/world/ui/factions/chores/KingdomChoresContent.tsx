@@ -26,11 +26,11 @@ import levelup from "assets/icons/level_up.png";
 import chefsHat from "assets/icons/chef_hat.png";
 import lightning from "assets/icons/lightning.png";
 
-import { hasFeatureAccess } from "lib/flags";
 import { BumpkinActivityName } from "features/game/types/bumpkinActivity";
 import { getKingdomChoreBoost } from "features/game/events/landExpansion/completeKingdomChore";
 import { setPrecision } from "lib/utils/formatNumber";
 import Decimal from "decimal.js-light";
+import { BoostInfoPanel } from "../BoostInfoPanel";
 
 const getSecondaryImage = (activity: BumpkinActivityName) => {
   if (activity.endsWith("Cooked")) return chefsHat;
@@ -46,7 +46,6 @@ interface Props {
 const WEEKLY_CHORES = 21;
 const _autosaving = (state: MachineState) => state.matches("autosaving");
 const _bumpkin = (state: MachineState) => state.context.state.bumpkin;
-const _gameState = (state: MachineState) => state.context.state;
 
 export const KingdomChoresContent: React.FC<Props> = ({ kingdomChores }) => {
   const { t } = useAppTranslation();
@@ -54,8 +53,6 @@ export const KingdomChoresContent: React.FC<Props> = ({ kingdomChores }) => {
 
   const autosaving = useSelector(gameService, _autosaving);
   const bumpkin = useSelector(gameService, _bumpkin);
-  // Used for beta feature access only
-  const gameState = useSelector(gameService, _gameState);
 
   const chores = Object.entries(kingdomChores.chores);
   const activeChores = chores.filter(
@@ -113,16 +110,15 @@ export const KingdomChoresContent: React.FC<Props> = ({ kingdomChores }) => {
     kingdomChores.resetsAt && kingdomChores.resetsAt < Date.now();
   const isRefreshing = !!(needsRefresh && autosaving);
 
-  if (
-    activeChores.length === 0 ||
-    !hasFeatureAccess(gameState, "FACTION_CHORES")
-  ) {
+  if (activeChores.length === 0) {
     return (
       <InnerPanel>
-        <KingdomChoresTimer
-          resetsAt={kingdomChores.resetsAt}
-          onReset={handleReset}
-        />
+        <div className="absolute -top-7 right-0">
+          <KingdomChoresTimer
+            resetsAt={kingdomChores.resetsAt}
+            onReset={handleReset}
+          />
+        </div>
         <div className="p-2 min-h-[65px]">
           <InlineDialogue
             key={`refreshing-${isRefreshing}`}
@@ -141,10 +137,12 @@ export const KingdomChoresContent: React.FC<Props> = ({ kingdomChores }) => {
 
   return (
     <>
-      <KingdomChoresTimer
-        resetsAt={kingdomChores.resetsAt}
-        onReset={handleReset}
-      />
+      <div className="absolute -top-7 right-0">
+        <KingdomChoresTimer
+          resetsAt={kingdomChores.resetsAt}
+          onReset={handleReset}
+        />
+      </div>
       <div className="p-1">
         <SplitScreenView
           mobileReversePanelOrder={true}
@@ -280,6 +278,7 @@ const Panel: React.FC<PanelProps> = ({
   isRefreshing,
 }: PanelProps) => {
   const { gameService } = useContext(Context);
+  const [showBoostInfo, setShowBoostInfo] = useState(false);
 
   const { t } = useAppTranslation();
 
@@ -288,7 +287,10 @@ const Panel: React.FC<PanelProps> = ({
   const canSkip = skipAvailableAt < Date.now();
   const canComplete = progress >= chore.requirement;
 
-  const boost = getKingdomChoreBoost(gameService.state.context.state, chore);
+  const boost = getKingdomChoreBoost(
+    gameService.state.context.state,
+    chore.marks,
+  )[0];
 
   const boostedMarks = setPrecision(
     new Decimal(chore.marks + boost),
@@ -304,12 +306,19 @@ const Panel: React.FC<PanelProps> = ({
           </div>
         )}
         <span className="sm:text-center">{chore.description}</span>
-        <div className="flex-1 flex justify-end pb-1 sm:justify-center">
+        <div className="flex-1 flex justify-end pb-1 sm:justify-center relative">
+          <BoostInfoPanel
+            show={showBoostInfo}
+            onClick={() => setShowBoostInfo(false)}
+            feature="kingdom_chores"
+            baseAmount={chore.marks}
+          />
           <Label
             type="warning"
             icon={mark}
             secondaryIcon={boost ? lightning : null}
             className="text-center whitespace-nowrap"
+            onClick={() => setShowBoostInfo(!showBoostInfo)}
           >
             <span className={boost ? "pl-1.5" : ""}>
               {`${boostedMarks} ${t("marks")}`}
@@ -415,7 +424,10 @@ const ConfirmSkip: React.FC<{
 
   const { t } = useAppTranslation();
 
-  const boost = getKingdomChoreBoost(gameService.state.context.state, chore);
+  const boost = getKingdomChoreBoost(
+    gameService.state.context.state,
+    chore.marks,
+  )[0];
 
   const boostedMarks = setPrecision(
     new Decimal(chore.marks + boost),
@@ -452,7 +464,7 @@ const ConfirmSkip: React.FC<{
   );
 };
 
-const KingdomChoresTimer: React.FC<{
+export const KingdomChoresTimer: React.FC<{
   onReset: () => void;
   resetsAt?: number;
 }> = ({ onReset, resetsAt }) => {
@@ -469,7 +481,7 @@ const KingdomChoresTimer: React.FC<{
 
   if (shouldReset) {
     return (
-      <div className="absolute -top-7 right-0 bulge-subtle">
+      <div className="bulge-subtle">
         <Label type="info" icon={SUNNYSIDE.icons.timer}>
           <span className="loading">{t("kingdomChores.loading")}</span>
         </Label>
@@ -478,12 +490,10 @@ const KingdomChoresTimer: React.FC<{
   }
 
   return resetsAt ? (
-    <div className="absolute -top-7 right-0">
+    <div>
       <Label
         type={shouldWarn ? "danger" : "info"}
-        className={classNames("whitespace-nowrap", {
-          "bulge-subtle": shouldWarn,
-        })}
+        className={classNames({ "bulge-subtle": shouldWarn })}
         icon={SUNNYSIDE.icons.stopwatch}
       >
         {t("kingdomChores.reset", {

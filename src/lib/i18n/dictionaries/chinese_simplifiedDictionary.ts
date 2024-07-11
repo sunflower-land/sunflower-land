@@ -128,8 +128,6 @@ import {
   SeasonTerms,
   Share,
   SharkBumpkinDialogues,
-  Shelly,
-  ShellyDialogue,
   ShopItems,
   ShowingFarm,
   SnorklerDialogues,
@@ -438,6 +436,8 @@ const generalTerms: Record<GeneralTerms, string> = {
   requirements: "需要",
   "time.remaining": "剩余时间： {{time}}",
   expired: "已过期",
+  "sell.amount": "出售 {{amount}}",
+  "sell.inBulk": "批量销售",
 };
 
 const timeUnits: Record<TimeUnits, string> = {
@@ -1176,6 +1176,7 @@ const chumDetails: Record<ChumDetails, string> = {
   "chumDetails.richChicken": "白肚银幕恐怖巨星的精美佳肴",
   "chumDetails.horseMackerel": "只为最牛大胃王准备",
   "chumDetails.sunfish": "满月精选……",
+  "chumDetails.zebraFish": ENGLISH_TERMS["chumDetails.zebraFish"],
 };
 
 const claimAchievement: Record<ClaimAchievement, string> = {
@@ -1207,6 +1208,7 @@ const confirmationTerms: Record<ConfirmationTerms, string> = {
     "您确定要卖掉 {{cropAmount}} {{cropName}} 以换取 {{coinAmount}} 枚硬币吗？",
   "confirmation.buyCrops":
     "您确定要花 {{coinAmount}} 枚硬币购买 {{seedNo}} {{seedName}}s 吗？",
+  "confirmation.enterAmount": ENGLISH_TERMS["confirmation.enterAmount"],
 };
 
 const confirmSkill: Record<ConfirmSkill, string> = {
@@ -1999,6 +2001,8 @@ const factions: Record<Factions, string> = {
   "faction.shop.welcome": ENGLISH_TERMS["faction.shop.welcome"],
   "faction.goodLuck": ENGLISH_TERMS["faction.goodLuck"],
   "faction.noPrizeFound": ENGLISH_TERMS["faction.noPrizeFound"],
+  "faction.boostsApplied": ENGLISH_TERMS["faction.boostsApplied"],
+  "faction.no.boostsApplied": ENGLISH_TERMS["faction.no.boostsApplied"],
 
   // Faction Pet
   "faction.pet.weeklyGoal": ENGLISH_TERMS["faction.pet.weeklyGoal"],
@@ -2682,7 +2686,10 @@ const guideTerms: Record<GuideTerms, string> = {
   "pete.teaser.eight": ENGLISH_TERMS["pete.teaser.eight"],
   "deliveries.intro": ENGLISH_TERMS["deliveries.intro"],
   "deliveries.new": ENGLISH_TERMS["deliveries.new"],
-  "chores.intro": ENGLISH_TERMS["chores.intro"],
+  "chores.hank.intro": ENGLISH_TERMS["chores.hank.intro"],
+  "chores.hank": ENGLISH_TERMS["chores.hank"],
+  "chores.kingdom": ENGLISH_TERMS["chores.kingdom"],
+  "chores.kingdom.intro": ENGLISH_TERMS["chores.kingdom.intro"],
 };
 
 const harvestBeeHive: Record<HarvestBeeHive, string> = {
@@ -3226,15 +3233,6 @@ const npc_message: Record<NPC_MESSAGE, string> = {
   "npcMessages.corale.msg5": ENGLISH_TERMS["npcMessages.corale.msg5"],
   "npcMessages.corale.msg6": ENGLISH_TERMS["npcMessages.corale.msg6"],
   "npcMessages.corale.msg7": ENGLISH_TERMS["npcMessages.corale.msg7"],
-  // Shelly
-  "npcMessages.shelly.msg1": ENGLISH_TERMS["npcMessages.shelly.msg1"],
-  "npcMessages.shelly.msg2": ENGLISH_TERMS["npcMessages.shelly.msg2"],
-  "npcMessages.shelly.msg3": ENGLISH_TERMS["npcMessages.shelly.msg3"],
-  "npcMessages.shelly.msg4": ENGLISH_TERMS["npcMessages.shelly.msg4"],
-  "npcMessages.shelly.msg5": ENGLISH_TERMS["npcMessages.shelly.msg5"],
-  "npcMessages.shelly.msg6": ENGLISH_TERMS["npcMessages.shelly.msg6"],
-  "npcMessages.shelly.msg7": ENGLISH_TERMS["npcMessages.shelly.msg7"],
-  "npcMessages.shelly.msg8": ENGLISH_TERMS["npcMessages.shelly.msg8"],
   "npcMessages.gambit.msg1": ENGLISH_TERMS["npcMessages.gambit.msg1"],
   "npcMessages.gambit.msg2": ENGLISH_TERMS["npcMessages.gambit.msg2"],
   "npcMessages.gambit.msg3": ENGLISH_TERMS["npcMessages.gambit.msg3"],
@@ -4107,6 +4105,8 @@ const restock: Record<Restock, string> = {
   "restock.sure": "你确定要补货吗？",
   "restock.tooManySeeds": "你的篮子里的种子太多了！",
   "seeds.reachingInventoryLimit": ENGLISH_TERMS["seeds.reachingInventoryLimit"],
+  "crops.noCropsToSell": ENGLISH_TERMS["crops.noCropsToSell"],
+  "seeds.plantingSpot.needed": "需要 {{plantingSpot}}",
 };
 
 const retreatTerms: Record<RetreatTerms, string> = {
@@ -4219,30 +4219,6 @@ const sharkBumpkinDialogues: Record<SharkBumpkinDialogues, string> = {
   "sharkBumpkin.dialogue.shhhh": ENGLISH_TERMS["sharkBumpkin.dialogue.shhhh"],
   "sharkBumpkin.dialogue.scareGoblins":
     ENGLISH_TERMS["sharkBumpkin.dialogue.scareGoblins"],
-};
-
-const shelly: Record<Shelly, string> = {
-  "shelly.Dialogue.one": ENGLISH_TERMS["shelly.Dialogue.one"],
-  "shelly.Dialogue.two": ENGLISH_TERMS["shelly.Dialogue.two"],
-  "shelly.Dialogue.three": ENGLISH_TERMS["shelly.Dialogue.three"],
-  "shelly.Dialogue.four": ENGLISH_TERMS["shelly.Dialogue.four"],
-  "shelly.Dialogue.five": ENGLISH_TERMS["shelly.Dialogue.five"],
-  "shelly.Dialogue.letsgo": ENGLISH_TERMS["shelly.Dialogue.letsgo"],
-};
-
-const shellyDialogue: Record<ShellyDialogue, string> = {
-  "shellyPanelContent.tasksFrozen":
-    ENGLISH_TERMS["shellyPanelContent.tasksFrozen"],
-  "shellyPanelContent.canTrade": ENGLISH_TERMS["shellyPanelContent.canTrade"],
-  "shellyPanelContent.cannotTrade":
-    ENGLISH_TERMS["shellyPanelContent.cannotTrade"],
-  "shellyPanelContent.swap": ENGLISH_TERMS["shellyPanelContent.swap"],
-  "krakenIntro.congrats": ENGLISH_TERMS["krakenIntro.congrats"],
-  "krakenIntro.noMoreTentacles": ENGLISH_TERMS["krakenIntro.noMoreTentacles"],
-  "krakenIntro.gotIt": ENGLISH_TERMS["krakenIntro.gotIt"],
-  "krakenIntro.appetiteChanges": ENGLISH_TERMS["krakenIntro.appetiteChanges"],
-  "krakenIntro.currentHunger": ENGLISH_TERMS["krakenIntro.currentHunger"],
-  "krakenIntro.catchInstruction": ENGLISH_TERMS["krakenIntro.catchInstruction"],
 };
 
 const shopItems: Record<ShopItems, string> = {
@@ -4950,8 +4926,6 @@ export const CHINESE_SIMPLIFIED_TERMS: Record<TranslationKeys, string> = {
   ...seasonTerms,
   ...share,
   ...sharkBumpkinDialogues,
-  ...shelly,
-  ...shellyDialogue,
   ...shopItems,
   ...showingFarm,
   ...snorklerDialogues,

@@ -22,7 +22,6 @@ import { FishingChallenge } from "./FishingChallenge";
 import { Panel } from "components/ui/Panel";
 import { getKeys } from "features/game/types/craftables";
 import { FISH, FISH_DIFFICULTY, FishName } from "features/game/types/fishing";
-import { getSeasonWeek } from "lib/utils/getSeasonWeek";
 import { MachineState } from "features/game/lib/gameMachine";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { getBumpkinLevel } from "features/game/lib/level";
@@ -76,8 +75,6 @@ const _canFish = (state: MachineState) =>
   getBumpkinLevel(state.context.state.bumpkin?.experience ?? 0) >= 5;
 const _fishing = (state: MachineState) => state.context.state.fishing;
 const _farmActivity = (state: MachineState) => state.context.state.farmActivity;
-const _catchTheKraken = (state: MachineState) =>
-  state.context.state.catchTheKraken;
 
 export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
   const { t } = useAppTranslation();
@@ -93,7 +90,6 @@ export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
   const { gameService } = useContext(Context);
   const fishing = useSelector(gameService, _fishing);
   const farmActivity = useSelector(gameService, _farmActivity);
-  const catchTheKraken = useSelector(gameService, _catchTheKraken);
   const canFish = useSelector(gameService, _canFish);
 
   // Catches cases where players try reset their fishing challenge
@@ -135,7 +131,7 @@ export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
     // TESTING
     if (!CONFIG.API_URL) {
       setTimeout(() => {
-        fishing.wharf = { castedAt: 10000, caught: { "Kraken Tentacle": 1 } };
+        fishing.wharf = { castedAt: 10000, caught: { Anchovy: 1 } };
       }, 1000);
     }
   };
@@ -158,14 +154,7 @@ export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
   const fish = getKeys(fishing.wharf.caught ?? {}).find((fish) => fish in FISH);
 
   const reelIn = () => {
-    let fishDifficulty = FISH_DIFFICULTY[fish as FishName];
-
-    // The more tentacles you catch, the harder it gets
-    if (fish === "Kraken Tentacle") {
-      const tentaclesCaught =
-        catchTheKraken.weeklyCatches[getSeasonWeek()] ?? 0;
-      fishDifficulty = Math.ceil((tentaclesCaught + 1) / 2);
-    }
+    const fishDifficulty = FISH_DIFFICULTY[fish as FishName];
 
     // TEMP: The reelin state is sometimes not showing automatically and players need to refresh
     // Right no they are losing resources, so comment this

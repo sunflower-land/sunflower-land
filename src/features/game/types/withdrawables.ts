@@ -70,10 +70,15 @@ import { WorkbenchToolName } from "./tools";
 import { BumpkinItem } from "./bumpkin";
 import { hasSeasonEnded } from "./seasons";
 import { CompostName } from "./composters";
-import { FishName, FishingBait, MarineMarvelName } from "./fishing";
+import {
+  FishName,
+  FishingBait,
+  MarineMarvelName,
+  OldFishName,
+} from "./fishing";
 import { canWithdrawBoostedWearable } from "./wearableValidation";
 import { FlowerName, FlowerSeedName } from "./flowers";
-import { FactionShopCollectibleName } from "./factionShop";
+import { FactionShopCollectibleName, FactionShopFoodName } from "./factionShop";
 
 const canWithdrawTimebasedItem = (availableAt: Date) => {
   const now = new Date();
@@ -443,6 +448,9 @@ const food: Record<Food, () => boolean> = {
 };
 
 const consumables: Record<ConsumableName, () => boolean> = {
+  "Glazed Carrots": () => false,
+  Caponata: () => false,
+  Paella: () => false,
   "Beetroot Blaze": () => false,
   "Rapid Roast": () => false,
   "Shroom Syrup": () => false,
@@ -883,7 +891,7 @@ const compost: Record<CompostName, () => boolean> = {
   "Rapid Root": () => false,
 };
 
-const fish: Record<FishName | MarineMarvelName, () => boolean> = {
+const fish: Record<FishName | MarineMarvelName | OldFishName, () => boolean> = {
   Anchovy: () => false,
   Butterflyfish: () => false,
   Blowfish: () => false,
@@ -1019,6 +1027,12 @@ const factionShopCollectibles: Record<
   "Sunflorian Faction Rug": () => false,
 };
 
+const factionShopFood: Record<FactionShopFoodName, () => boolean> = {
+  Caponata: () => false,
+  "Glazed Carrots": () => false,
+  Paella: () => false,
+};
+
 export const WITHDRAWABLES: Record<InventoryItemName, () => boolean> = {
   ...greenHouseCrop,
   ...greenHouseCropSeed,
@@ -1036,6 +1050,7 @@ export const WITHDRAWABLES: Record<InventoryItemName, () => boolean> = {
   ...tools,
   ...treasureTools,
   ...food,
+  ...factionShopFood,
   ...warBanners,
   ...heliosBlacksmith,
   ...commodities,
@@ -1387,7 +1402,8 @@ export const BUMPKIN_WITHDRAWABLES: Record<
   "Crimstone Armor": (state) =>
     canWithdrawBoostedWearable("Crimstone Armor", state),
   "Gardening Overalls": () => true,
-  "Crimstone Hammer": () => true,
+  "Crimstone Hammer": (state) =>
+    canWithdrawBoostedWearable("Crimstone Hammer", state),
   "Crimstone Amulet": (state) =>
     canWithdrawBoostedWearable("Crimstone Amulet", state),
   "Full Bloom Shirt": () => true,

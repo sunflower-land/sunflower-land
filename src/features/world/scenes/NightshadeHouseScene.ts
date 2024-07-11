@@ -3,8 +3,6 @@ import mapJSON from "assets/map/nightshade_house.json";
 import { SceneId } from "../mmoMachine";
 import { NPCBumpkin } from "./BaseScene";
 import { FactionHouseScene } from "./FactionHouseScene";
-import { PetStateSprite } from "./SunflorianHouseScene";
-import { npcModalManager } from "../ui/NPCModals";
 
 export const NIGHTSHADE_HOUSE_NPCS: NPCBumpkin[] = [
   {
@@ -30,9 +28,6 @@ export const NIGHTSHADE_HOUSE_NPCS: NPCBumpkin[] = [
 export class NightshadeHouseScene extends FactionHouseScene {
   sceneId: SceneId = "nightshade_house";
 
-  public sable: Phaser.GameObjects.Sprite | undefined;
-  private _petState: PetStateSprite = "pet_hungry";
-
   constructor() {
     super({
       name: "nightshade_house",
@@ -52,18 +47,7 @@ export class NightshadeHouseScene extends FactionHouseScene {
     this.load.image("pet_sleeping", "world/nightshades_pet_sleeping.webp");
     this.load.image("pet_happy", "world/nightshades_pet_happy.webp");
     this.load.image("pet_hungry", "world/nightshades_pet_hungry.webp");
-  }
-
-  setUpPet() {
-    this.petState = this.getPetState();
-    this.sable = this.add.sprite(241, 284, this.petState);
-    this.sable
-      .setInteractive({ cursor: "pointer" })
-      .on("pointerdown", (p: Phaser.Input.Pointer) => {
-        if (p.downElement.nodeName === "CANVAS") {
-          npcModalManager.open("sable");
-        }
-      });
+    this.load.image("empty_progress_bar", "world/empty_bar.png");
   }
 
   create() {
@@ -92,18 +76,5 @@ export class NightshadeHouseScene extends FactionHouseScene {
     this.setUpPet();
 
     this.setupNotice({ x: 313, y: 368 });
-  }
-
-  set petState(newValue: PetStateSprite) {
-    this._petState = newValue;
-    this.onPetStateChange(newValue); // Call the function when value changes
-  }
-
-  get petState() {
-    return this._petState;
-  }
-
-  onPetStateChange(newValue: PetStateSprite) {
-    this.sable?.setTexture(newValue);
   }
 }

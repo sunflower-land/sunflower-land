@@ -54,6 +54,7 @@ import {
   FishingBait,
   FishingConditions,
   MarineMarvelName,
+  OldFishName,
 } from "./fishing";
 import { Coordinates } from "../expansion/components/MapPlacement";
 import { MinigameName } from "./minigames";
@@ -62,7 +63,7 @@ import { translate } from "lib/i18n/translate";
 import { SpecialEvents } from "./specialEvents";
 import { TradeableName } from "../actions/sellMarketResource";
 import { MinigameCurrency } from "../events/minigames/purchaseMinigameItem";
-import { FactionShopCollectibleName } from "./factionShop";
+import { FactionShopCollectibleName, FactionShopFoodName } from "./factionShop";
 
 export type Reward = {
   coins?: number;
@@ -377,11 +378,13 @@ export type InventoryItemName =
   | CompostName
   | FishName
   | MarineMarvelName
+  | OldFishName
   | FlowerName
   | MegaStoreCollectibleName
   | FactionBanner
   | WorkbenchToolName
-  | FactionShopCollectibleName;
+  | FactionShopCollectibleName
+  | FactionShopFoodName;
 
 export type Inventory = Partial<Record<InventoryItemName, Decimal>>;
 
@@ -643,11 +646,6 @@ export type MazeAttempts = Partial<Record<SeasonWeek, MazeMetadata>>;
 export type WitchesEve = {
   weeklyLostCrowCount: number;
   maze: MazeAttempts;
-};
-
-export type CatchTheKraken = {
-  weeklyCatches: Partial<Record<SeasonWeek, number>>;
-  hunger: InventoryItemName;
 };
 
 export type FlowerShop = {
@@ -933,7 +931,7 @@ export type ShopItemBase = {
   currency: Currency;
   price: Decimal;
   limit: number | null;
-  type: "wearable" | "collectible";
+  type: "wearable" | "collectible" | "food";
 };
 
 export type WearablesItem = {
@@ -1197,7 +1195,6 @@ export interface GameState {
   chores?: ChoresV2;
   kingdomChores: KingdomChores;
   mushrooms: Mushrooms;
-  catchTheKraken: CatchTheKraken;
   potionHouse?: PotionHouse;
 
   trades: {

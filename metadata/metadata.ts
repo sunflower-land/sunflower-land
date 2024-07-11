@@ -8349,6 +8349,31 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     }),
     {} as Record<TemplateDecorationName, Metadata>,
   ),
+
+  Caponata: {
+    name: "Caponata",
+    description: "A flavorful eggplant dish, perfect for sharing.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/575.png",
+    attributes: [{ trait_type: "Purpose", value: "Consumable" }],
+  },
+  "Glazed Carrots": {
+    name: "Glazed Carrots",
+    description: "Sweet and savory carrots, a delightful side dish.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/576.png",
+    attributes: [{ trait_type: "Purpose", value: "Consumable" }],
+  },
+  Paella: {
+    name: "Paella",
+    description: "A classic Spanish dish, brimming with flavor.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/577.png",
+    attributes: [{ trait_type: "Purpose", value: "Consumable" }],
+  },
 };
 
 export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {

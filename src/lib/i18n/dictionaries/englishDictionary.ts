@@ -130,8 +130,6 @@ import {
   SeasonTerms,
   Share,
   SharkBumpkinDialogues,
-  Shelly,
-  ShellyDialogue,
   ShopItems,
   ShowingFarm,
   SnorklerDialogues,
@@ -367,6 +365,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   "sell.all": "Sell All",
   "sell.one": "Sell 1",
   "sell.ten": "Sell 10",
+  "sell.inBulk": "Sell in Bulk",
   "session.expired": "Session expired!",
   share: "Share",
   skillPts: "Skill Points:",
@@ -437,6 +436,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   "sfl/coins": "SFL/Coins",
   vipAccess: "VIP Access",
   bought: "Bought",
+  "sell.amount": "Sell {{amount}}",
 };
 
 const timeUnits: Record<TimeUnits, string> = {
@@ -1206,7 +1206,7 @@ const choresStart: Record<ChoresStart, string> = {
   "kingdomChores.skipWarning": "You can only skip one chore every 24 hours",
   "kingdomChores.completeActive": "Complete active chores to unlock",
   "kingdomChores.loading": "Loading new chores",
-  "kingdomChores.reset": "Chores Reset: {{reset}}",
+  "kingdomChores.reset": "New Chores in: {{reset}}",
 };
 
 const chumDetails: Record<ChumDetails, string> = {
@@ -1248,8 +1248,9 @@ const chumDetails: Record<ChumDetails, string> = {
   "chumDetails.speedChicken": "Fast food dessert for sharp-teeth hunters.",
   "chumDetails.richChicken":
     "Delicacy for the bright-bellied terror of the screen.",
-  "chumDetails.sunfish": "Perfect for a full moon...",
   "chumDetails.horseMackerel": "Only for the biggest appetites",
+  "chumDetails.sunfish": "Perfect for a full moon...",
+  "chumDetails.zebraFish": "Marvelous delicacy for rare appetites.",
 };
 
 const claimAchievement: Record<ClaimAchievement, string> = {
@@ -1284,6 +1285,7 @@ const confirmationTerms: Record<ConfirmationTerms, string> = {
     "Are you sure you want to sell {{cropAmount}} {{cropName}} for {{coinAmount}} Coins?",
   "confirmation.buyCrops":
     "Are you sure you want to spend {{coinAmount}} Coins to buy {{seedNo}} {{seedName}}s?",
+  "confirmation.enterAmount": "Enter Amount to Sell:",
 };
 
 const confirmSkill: Record<ConfirmSkill, string> = {
@@ -2203,6 +2205,8 @@ const factions: Record<Factions, string> = {
   "faction.pet.newRequests": "New requests in {{time}}",
   "faction.pet.streak": "{{streak}} week streak",
   "faction.pet.wakes.in": "Wakes in {{time}}",
+  "faction.boostsApplied": "Boosts applied:",
+  "faction.no.boostsApplied": "No boosts applied",
 };
 
 const factionShopDescription: Record<FactionShopDescription, string> = {
@@ -2714,32 +2718,34 @@ const gameDescriptions: Record<GameDescriptions, string> = {
 
   // Coupons
   "description.community.coin":
-    "A valued coin that can be exchanged for rewards",
-  "description.bud.seedling": "A seedling to be exchanged for a free Bud NFT",
+    "(WIP) A valued coin that can be exchanged for rewards",
+  "description.bud.seedling":
+    "(LEGACY) A seedling to be exchanged for a free Bud NFT",
   "description.gold.pass":
-    "An exclusive pass that enables the holder to craft rare NFTs, trade, withdraw and access bonus content.",
-  "description.rapid.growth": "Apply to a crop to grow twice as fast",
+    "(LEGACY) An exclusive pass that enables the holder to craft rare NFTs, trade, withdraw and access bonus content.",
+  "description.rapid.growth": "(LEGACY) Apply to a crop to grow twice as fast",
   "description.bud.ticket":
-    "A guaranteed spot to mint a Bud at the Sunflower Land Buds NFT drop.",
+    "(LEGACY) A guaranteed spot to mint a Bud at the Sunflower Land Buds NFT drop.",
   "description.potion.ticket":
     "A reward from the Potion House. Use this to buy items from Garth.",
-  "description.trading.ticket": "Free Trades! Woohoo!",
+  "description.trading.ticket": "(LEGACY) Free Trades! Woohoo!",
   "description.block.buck": "A valuable token in Sunflower Land!",
-  "description.beta.pass": "Gain early access to features for testing.",
-  "description.war.bond": "A mark of a true warrior",
-  "description.allegiance": "A display of allegiance",
-  "description.jack.o.lantern": "A Halloween special event item",
-  "description.golden.crop": "A shiny golden crop",
-  "description.red.envelope": "Wow, you are lucky!",
-  "description.love.letter": "Convey feelings of love",
+  "description.beta.pass":
+    "(EXCLUSIVE) Gain early access to features for testing.",
+  "description.war.bond": "(LEGACY) A mark of a true warrior",
+  "description.allegiance": "(LEGACY) A display of allegiance",
+  "description.jack.o.lantern": "(LEGACY) A Halloween special event item",
+  "description.golden.crop": "(LEGACY) A shiny golden crop",
+  "description.red.envelope": "(LEGACY) Wow, you are lucky!",
+  "description.love.letter": "(LEGACY) Convey feelings of love",
   "description.solar.flare.ticket":
-    "A ticket used during the Solar Flare Season",
+    "(LEGACY) A ticket used during the Solar Flare Season",
   "description.dawn.breaker.ticket":
-    "A ticket used during the Dawn Breaker Season",
+    "(LEGACY) A ticket used during the Dawn Breaker Season",
   "description.crow.feather":
-    "A ticket used during the Witches' Eve Ticket Season",
+    "(LEGACY) A ticket used during the Witches' Eve Ticket Season",
   "description.mermaid.scale":
-    "A ticket used during the Catch the Kraken Season",
+    "(LEGACY) A ticket used during the Catch the Kraken Season",
   "description.sunflower.supporter":
     "The mark of a true supporter of the game!",
   "description.arcade.coin":
@@ -2747,7 +2753,7 @@ const gameDescriptions: Record<GameDescriptions, string> = {
   "description.farmhand.coupon":
     "A coupon to exchange for a farm hand of your choice.",
   "description.farmhand": "An adopted Bumpkin on your farm",
-  "description.tulip.bulb": "A ticket used during the Spring Blossom",
+  "description.tulip.bulb": "(LEGACY) A ticket used during the Spring Blossom",
   "description.treasure.key": "Visit the plaza to unlock your reward",
   "description.rare.key": "Visit the beach to unlock your reward",
   "description.luxury.key":
@@ -2950,8 +2956,12 @@ const guideTerms: Record<GuideTerms, string> = {
   "deliveries.intro":
     "Travel to different islands and deliver goods to earn rewards.",
   "deliveries.new": "New delivery",
-  "chores.intro":
+  "chores.hank": "Hank's Chores",
+  "chores.hank.intro":
     "Complete tasks around the farm to earn rewards from Bumpkins.",
+  "chores.kingdom": "Kingdom Chores",
+  "chores.kingdom.intro":
+    "Complete tasks around your farm to earn Marks from your Faction House",
   "scavenger.guide.one":
     "Scavenging in Sunflower Land offers exciting opportunities to uncover hidden treasures and gather valuable resources. The first aspect of scavenging is digging for treasure on Treasure Island, where you can become a pirate treasure hunter. By crafting a sand shovel and venturing to Treasure Island, you can dig in dark sandy areas to uncover a variety of treasures, including bounty, decorations, and even ancient SFTs with utility.",
   "scavenger.guide.two":
@@ -3004,7 +3014,7 @@ const hayseedHankV2: Record<HayseedHankV2, string> = {
     "However, my bones ain't what they used to be. If you can help me with my daily chores, I will reward you with {{seasonalTicket}}.",
   "hayseedHankv2.action": "Let's do it",
   "hayseedHankv2.title": "Hank's Daily Chores",
-  "hayseedHankv2.newChoresAvailable": "New chores:",
+  "hayseedHankv2.newChoresAvailable": "New Chores in:",
   "hayseedHankv2.skipChores": "You can skip chores each new day",
   "hayseedHankv2.greeting":
     "Well, howdy there, young whippersnappers! I'm Hayseed Hank...",
@@ -3102,7 +3112,7 @@ const interactableModals: Record<InteractableModals, string> = {
   "interactableModals.beachGreenBook.message2":
     "Use Apples with Red Wiggler Bait, and watch those crimson beauties practically leap into your net.",
   "interactableModals.beachBlueBook.message1":
-    "Don't tell Shelly, but I've been trying to bring Saw Sharks to the beach!",
+    "I've been trying to bring Saw Sharks to the beach!",
   "interactableModals.beachBlueBook.message2":
     "I've been experimenting with different chums lately, but the only one that seems to work is Red Snapper.",
   "interactableModals.beachBlueBook.message3":
@@ -3664,23 +3674,6 @@ const npc_message: Record<NPC_MESSAGE, string> = {
     "Fishes' freedom, that's my mission. Help me with fish, won't you?",
   "npcMessages.corale.msg7":
     "Join me in the sea's dance of life. Fish, to set my friends free!",
-  //Shelly
-  "npcMessages.shelly.msg1":
-    "Bumpkins are vanishing, and I fear the Kraken is the cause. Help me collect its tentacles!",
-  "npcMessages.shelly.msg2":
-    "Bumpkins are disappearing, and I suspect the Kraken. Can you fetch its tentacles, please?",
-  "npcMessages.shelly.msg3":
-    "Kraken's a threat, Bumpkins missing. Bring its tentacles to keep them safe.",
-  "npcMessages.shelly.msg4":
-    "Kraken's ominous, Bumpkins gone. Bring its tentacles for their safety.",
-  "npcMessages.shelly.msg5":
-    "Guarding the beach is tough with the Kraken. Help me protect Bumpkins, get its tentacles.",
-  "npcMessages.shelly.msg6":
-    "Protecting Bumpkins is my duty, but the Kraken worries me. Get its tentacles to safeguard them.",
-  "npcMessages.shelly.msg7":
-    "Kraken's causing panic, Bumpkins missing. Help me gather its tentacles for their safety.",
-  "npcMessages.shelly.msg8":
-    "Bumpkins' safety's my top priority, and I'm afraid the Kraken's involved. Tentacles can make a difference!",
 
   "npcMessages.gambit.msg1":
     "Feeling lucky today? I've got a wager that might pique your interest!",
@@ -4667,6 +4660,8 @@ const restock: Record<Restock, string> = {
   "restock.sure": "Are you sure you want to Restock?",
   "restock.tooManySeeds": "You have too many seeds in your basket!",
   "seeds.reachingInventoryLimit": "You are reaching your seed basket limit!",
+  "crops.noCropsToSell": "You have no {{cropName}} to Sell!",
+  "seeds.plantingSpot.needed": "{{plantingSpot}} Needed",
 };
 
 const retreatTerms: Record<RetreatTerms, string> = {
@@ -4775,40 +4770,6 @@ const share: Record<Share, string> = {
 const sharkBumpkinDialogues: Record<SharkBumpkinDialogues, string> = {
   "sharkBumpkin.dialogue.shhhh": "Shhhh!",
   "sharkBumpkin.dialogue.scareGoblins": "I'm trying to scare the Goblins.",
-};
-
-const shelly: Record<Shelly, string> = {
-  "shelly.Dialogue.one": "Howdy, Bumpkin! Welcome to the beach!",
-  "shelly.Dialogue.two":
-    "After a hard day's work on your farm, there's no better place to kick back and enjoy the waves.",
-  "shelly.Dialogue.three":
-    "But we've got a bit of a situation. A massive kraken has emerged and taken control of our beloved beach.",
-  "shelly.Dialogue.four":
-    "We could really use your help, dear. Grab your bait and fishing rods, and together, we'll tackle this colossal problem!",
-  "shelly.Dialogue.five":
-    "For each tentacle you catch I will provide you with valuable mermaid scales!",
-  "shelly.Dialogue.letsgo": "Let's do it!",
-};
-
-const shellyDialogue: Record<ShellyDialogue, string> = {
-  "shellyPanelContent.tasksFrozen":
-    "I am waiting for the new season to start. Come back to me then!",
-  "shellyPanelContent.canTrade":
-    "Oh my, you've got a Kraken Tentacle! I'll swap it for some mermaid scales.",
-  "shellyPanelContent.cannotTrade":
-    "Looks like you don't have any Kraken Tentacles at hand! Come back when you do.",
-  "shellyPanelContent.swap": "Swap",
-  "krakenIntro.congrats":
-    "Well done! The Kraken has stopped terrorising Bumpkins.",
-  "krakenIntro.noMoreTentacles":
-    "You have collected all the tentacles for the week. Let's keep a close eye on it, I'm sure the hunger will return.",
-  "krakenIntro.gotIt": "Got it!",
-  "krakenIntro.appetiteChanges":
-    "The Kraken's appetite is constantly changing.",
-  "krakenIntro.currentHunger":
-    "Right now it has a hunger for ....Phew, that's better than Bumpkins.",
-  "krakenIntro.catchInstruction":
-    "Head to your fishing spot and try catch the beast!",
 };
 
 const shopItems: Record<ShopItems, string> = {
@@ -5609,8 +5570,6 @@ export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
   ...seasonTerms,
   ...share,
   ...sharkBumpkinDialogues,
-  ...shelly,
-  ...shellyDialogue,
   ...shopItems,
   ...showingFarm,
   ...snorklerDialogues,

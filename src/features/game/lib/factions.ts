@@ -1,3 +1,4 @@
+import { BoostType, BoostValue } from "../types/boosts";
 import { BumpkinItem } from "../types/bumpkin";
 import { FactionName, FactionPrize, GameState } from "../types/game";
 import { isWearableActive } from "./wearables";
@@ -114,7 +115,10 @@ export function getFactionWeekday(now = Date.now()) {
 
 type OutfitPart = "hat" | "shirt" | "pants" | "shoes" | "tool";
 
-const FACTION_OUTFITS: Record<FactionName, Record<OutfitPart, BumpkinItem>> = {
+export const FACTION_OUTFITS: Record<
+  FactionName,
+  Record<OutfitPart, BumpkinItem>
+> = {
   bumpkins: {
     hat: "Bumpkin Helmet",
     shirt: "Bumpkin Armor",
@@ -154,10 +158,11 @@ const FACTION_OUTFITS: Record<FactionName, Record<OutfitPart, BumpkinItem>> = {
 export function getFactionWearableBoostAmount(
   game: GameState,
   baseAmount: number,
-) {
+): [number, Partial<Record<BoostType, BoostValue>>] {
   const factionName = game.faction?.name as FactionName;
 
   let boost = 0;
+  const boostLabels: Partial<Record<BoostType, BoostValue>> = {};
 
   if (
     isWearableActive({
@@ -166,6 +171,7 @@ export function getFactionWearableBoostAmount(
     })
   ) {
     boost += baseAmount * 0.05;
+    boostLabels[FACTION_OUTFITS[factionName].pants] = `+${0.05 * 100}%`;
   }
 
   if (
@@ -175,6 +181,7 @@ export function getFactionWearableBoostAmount(
     })
   ) {
     boost += baseAmount * 0.05;
+    boostLabels[FACTION_OUTFITS[factionName].shoes] = `+${0.05 * 100}%`;
   }
 
   if (
@@ -184,6 +191,7 @@ export function getFactionWearableBoostAmount(
     })
   ) {
     boost += baseAmount * 0.1;
+    boostLabels[FACTION_OUTFITS[factionName].tool] = `+${0.1 * 100}%`;
   }
 
   if (
@@ -193,6 +201,7 @@ export function getFactionWearableBoostAmount(
     })
   ) {
     boost += baseAmount * 0.1;
+    boostLabels[FACTION_OUTFITS[factionName].hat] = `+${0.1 * 100}%`;
   }
 
   if (
@@ -202,9 +211,10 @@ export function getFactionWearableBoostAmount(
     })
   ) {
     boost += baseAmount * 0.2;
+    boostLabels[FACTION_OUTFITS[factionName].shirt] = `+${0.2 * 100}%`;
   }
 
-  return boost;
+  return [boost, boostLabels] as const;
 }
 
 /**
@@ -233,7 +243,7 @@ export const FACTION_PRIZES: Record<number, FactionPrize> = {
   },
   2: {
     coins: 50000,
-    sfl: 150,
+    sfl: 175,
     items: {
       Mark: 8000,
       // [getSeasonalTicket()]: 10,
@@ -241,7 +251,7 @@ export const FACTION_PRIZES: Record<number, FactionPrize> = {
   },
   3: {
     coins: 44000,
-    sfl: 175,
+    sfl: 150,
     items: {
       Mark: 7000,
       // [getSeasonalTicket()]: 10,

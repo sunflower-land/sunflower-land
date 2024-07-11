@@ -7,6 +7,7 @@ import {
   getFactionWeek,
   getFactionWeekday,
 } from "features/game/lib/factions";
+import { BoostType, BoostValue } from "features/game/types/boosts";
 import { GameState } from "features/game/types/game";
 import cloneDeep from "lodash.clonedeep";
 
@@ -20,11 +21,17 @@ export enum DELIVER_FACTION_KITCHEN_ERRORS {
 
 export const BASE_POINTS = 20;
 
-export const getKingdomKitchenBoost = (game: GameState, marks: number) => {
-  const wearablesBoost = getFactionWearableBoostAmount(game, marks);
-  const rankBoost = getFactionRankBoostAmount(game, marks);
+export const getKingdomKitchenBoost = (
+  game: GameState,
+  marks: number,
+): [number, Partial<Record<BoostType, BoostValue>>] => {
+  const [wearablesBoost, wearablesLabels] = getFactionWearableBoostAmount(
+    game,
+    marks,
+  );
+  const [rankBoost, rankLabels] = getFactionRankBoostAmount(game, marks);
 
-  return wearablesBoost + rankBoost;
+  return [wearablesBoost + rankBoost, { ...wearablesLabels, ...rankLabels }];
 };
 
 export type DeliverFactionKitchenAction = {
@@ -81,7 +88,7 @@ export function deliverFactionKitchen({
   const fulfilledToday = request.dailyFulfilled[day] ?? 0;
 
   const points = calculatePoints(fulfilledToday, BASE_POINTS);
-  const boostPoints = getKingdomKitchenBoost(stateCopy, points);
+  const boostPoints = getKingdomKitchenBoost(stateCopy, points)[0];
   const totalPoints = points + boostPoints;
 
   const leaderboard = faction.history[week] ?? {

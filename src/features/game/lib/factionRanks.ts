@@ -33,6 +33,7 @@ import goblins_chevron_five from "assets/icons/factions/goblins/chevron_five.web
 import goblins_chevron_six from "assets/icons/factions/goblins/chevron_six.webp";
 import { FACTION_EMBLEMS } from "../events/landExpansion/joinFaction";
 import Decimal from "decimal.js-light";
+import { BoostType, BoostValue } from "../types/boosts";
 
 type BumpkinRank =
   | "forager"
@@ -293,7 +294,7 @@ export const getFactionRanking = (
   return rank!;
 };
 
-const rankBoostPercentage = (rank: FactionRank): number => {
+export const rankBoostPercentage = (rank: FactionRank): number => {
   switch (rank) {
     case "forager":
     case "pagan":
@@ -333,7 +334,10 @@ const rankBoostPercentage = (rank: FactionRank): number => {
   }
 };
 
-export const getFactionRankBoostAmount = (game: GameState, base: number) => {
+export const getFactionRankBoostAmount = (
+  game: GameState,
+  base: number,
+): [number, Partial<Record<BoostType, BoostValue>>] => {
   const factionName = game.faction?.name as FactionName;
   const emblems = (
     game.inventory[FACTION_EMBLEMS[factionName]] ?? new Decimal(0)
@@ -342,5 +346,10 @@ export const getFactionRankBoostAmount = (game: GameState, base: number) => {
   const rank = getFactionRanking(factionName, emblems);
   const boost = rankBoostPercentage(rank.name);
 
-  return boost * base;
+  const boosts: Partial<Record<BoostType, BoostValue>> = {};
+  if (boost > 0) {
+    boosts[`${rank.name} rank`] = `+${boost * 100}%`;
+  }
+
+  return [boost * base, boosts] as const;
 };
