@@ -113,9 +113,6 @@ export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
 
   const { scale } = useContext(ZoomContext);
 
-  const showSpecial =
-    fishing.weather === "Fish Frenzy" || fishing.weather === "Full Moon";
-
   const onIdleFinish = () => {
     // CAST
     if (fishing.wharf.castedAt && !fishing.wharf.caught) {
@@ -273,7 +270,7 @@ export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
                 style={{
                   width: `${PIXEL_SCALE * 8}px`,
                   left: `${PIXEL_SCALE * 5}px`,
-                  top: `${PIXEL_SCALE * -17}px`,
+                  top: `${PIXEL_SCALE * -19}px`,
 
                   imageRendering: "pixelated",
                 }}
@@ -284,8 +281,8 @@ export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
               <img
                 src={fullMoon}
                 style={{
-                  width: `${PIXEL_SCALE * 12}px`,
-                  left: `${PIXEL_SCALE * 2}px`,
+                  width: `${PIXEL_SCALE * 10}px`,
+                  left: `${PIXEL_SCALE * 3}px`,
                   top: `${PIXEL_SCALE * -19}px`,
 
                   imageRendering: "pixelated",
