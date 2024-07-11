@@ -4661,6 +4661,7 @@ const leaderboardTerms: Record<Leaderboard, string> = {
   "leaderboard.champions": ENGLISH_TERMS["leaderboard.champions"],
   "leaderboard.congratulations": ENGLISH_TERMS["leaderboard.congratulations"],
   "leaderboard.position": ENGLISH_TERMS["leaderboard.position"],
+  "leaderboard.weeklyScore": ENGLISH_TERMS["leaderboard.weeklyScore"],
   "leaderboard.player": ENGLISH_TERMS["leaderboard.player"],
   "leaderboard.score": ENGLISH_TERMS["leaderboard.score"],
   "leaderboard.prizes": ENGLISH_TERMS["leaderboard.prizes"],

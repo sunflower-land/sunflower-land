@@ -31,6 +31,8 @@ import {
 import { Fireworks } from "./components/ClaimEmblems";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { hasFeatureAccess } from "lib/flags";
+import { setPrecision } from "lib/utils/formatNumber";
+import Decimal from "decimal.js-light";
 
 interface Props {
   onClose: () => void;
@@ -165,7 +167,7 @@ export const ChampionsLeaderboard: React.FC<Props> = ({ onClose }) => {
               <td style={{ border: "1px solid #b96f50" }} className="p-1.5">
                 <div className="flex items-center space-x-1 justify-end">
                   <>
-                    <span>{count}</span>
+                    <span>{setPrecision(new Decimal(count))}</span>
                   </>
                 </div>
               </td>
