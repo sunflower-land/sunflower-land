@@ -314,7 +314,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   restock: "补货",
   retry: "重试",
   "reward.discovered": "奖励揭晓",
-  "reward.whatsNew": ENGLISH_TERMS["reward.whatsNew"],
+  "reward.whatsNew": "瞧瞧惊喜",
   save: "保存",
   saving: "保存中",
   seeds: "种子", // Basket
@@ -434,8 +434,8 @@ const generalTerms: Record<GeneralTerms, string> = {
   "balance.short": "余额：",
   bought: "已购买",
   requirements: "需要",
-  "time.remaining": ENGLISH_TERMS["time.remaining"],
-  expired: ENGLISH_TERMS.expired,
+  "time.remaining": "剩余时间： {{time}}",
+  expired: "已过期",
   "sell.amount": "出售 {{amount}}",
   "sell.inBulk": "批量销售",
 };
@@ -603,9 +603,9 @@ const availableSeeds: Record<AvailableSeeds, string> = {
   "availableSeeds.select.plant": "您希望选择哪个种子来种植？",
   "quickSelect.empty": "无温室种子",
   "quickSelect.label": "快速选择",
-  "quickSelect.cropSeeds": ENGLISH_TERMS["quickSelect.cropSeeds"],
-  "quickSelect.greenhouseSeeds": ENGLISH_TERMS["quickSelect.greenhouseSeeds"],
-  "quickSelect.purchase": ENGLISH_TERMS["quickSelect.purchase"],
+  "quickSelect.cropSeeds": "庄稼种子",
+  "quickSelect.greenhouseSeeds": "温室种子",
+  "quickSelect.purchase": "到市场购买 {{name}} 。",
 };
 
 const base: Record<Base, string> = {
@@ -680,12 +680,12 @@ const birdiePlaza: Record<BirdiePlaza, string> = {
 
 const boostDescriptions: Record<BoostDescriptions, string> = {
   // Mutant Chickens
-  "description.speed.chicken.one": "你的鸡产蛋速度会加快 10 %。",
-  "description.speed.chicken.two": "产蛋速度加快 10 %",
-  "description.fat.chicken.one": "你的鸡小麦喂食量会减少 10 %。",
-  "description.fat.chicken.two": "小麦喂食量减少 10 %",
-  "description.rich.chicken.one": "你的鸡产蛋量会提高 10 %。",
-  "description.rich.chicken.two": "产蛋量提高 10 %",
+  "description.speed.chicken.one": "你的鸡产蛋速度会加快 10%。",
+  "description.speed.chicken.two": "产蛋速度加快 10%",
+  "description.fat.chicken.one": "你的鸡小麦喂食量会减少 10%。",
+  "description.fat.chicken.two": "小麦喂食量减少 10%",
+  "description.rich.chicken.one": "你的鸡产蛋量会提高 10%。",
+  "description.rich.chicken.two": "产蛋量提高 10%",
   "description.ayam.cemani": "世上最稀有的鸡！",
   "description.el.pollo.veloz.one": "你的鸡下蛋速度会加快 4 小时。",
   "description.el.pollo.veloz.two": "交出那些蛋，快！鸡的下蛋速度加快 4 小时。",
@@ -711,15 +711,15 @@ const boostDescriptions: Record<BoostDescriptions, string> = {
   "description.crim.peckster": "一位精通揪出红宝石的宝石侦探",
   "description.skill.shrimpy": "Shrimpy 来帮忙了！他来保你从鱼身上获取额外 XP",
   "description.soil.krabby":
-    "微笑面对挑拣！有这位坚壳硬汉超人相伴，享受更快 10 % 的堆肥时间",
+    "微笑面对挑拣！有这位坚壳硬汉超人相伴，享受更快 10% 的堆肥时间",
   "description.nana": "这个稀有品种的香蕉美人保你香蕉收成有所增进",
   "description.grain.grinder": "磨碎你的谷物，享受美味蛋糕，增加你获得的 XP",
   "description.kernaldo": "神奇的玉米语者。",
-  "description.kernaldo.1": "神奇的玉米语者让玉米达 25 % 更快高长大",
+  "description.kernaldo.1": "神奇的玉米语者让玉米达 25% 更快高长大",
   "description.poppy": "神秘的玉米粒。",
   "description.poppy.1": "神秘的玉米粒。玉米产量 +0.1",
   "description.victoria.sisters": "热爱南瓜的姐妹们",
-  "description.undead.rooster": "战争的不幸亡者。提升 10 % 鸡蛋产量。",
+  "description.undead.rooster": "战争的不幸亡者。提升 10% 鸡蛋产量。",
   "description.observatory": "探索星辰，科技飞跃",
   "description.engine.core": "向日葵之力",
   "description.time.warp.totem":
@@ -732,9 +732,9 @@ const boostDescriptions: Record<BoostDescriptions, string> = {
   "description.cabbage.girl": "嘘，它正在睡觉",
   "description.wood.nymph.wendy": "施放一个魔法来吸引林中仙子",
   "description.peeled.potato": "一颗珍贵的土豆，能在收获时带来额外土豆",
-  "description.potent.potato": "强效！在收获时有 3 % 的机会 +10 土豆",
-  "description.radical.radish": "激进！在收获时有 3 % 的机会 +10 小萝卜",
-  "description.stellar.sunflower": "卓越！在收获时有 3 % 的机会 +10 向日葵",
+  "description.potent.potato": "强效！在收获时有 3% 的机会 +10 土豆",
+  "description.radical.radish": "激进！在收获时有 3% 的机会 +10 小萝卜",
+  "description.stellar.sunflower": "卓越！在收获时有 3% 的机会 +10 向日葵",
   "description.lady.bug":
     "一种令人啧啧称奇的虫子，以蚜虫为食。 能够提升苹果品质",
   "description.squirrel.monkey":
@@ -746,17 +746,18 @@ const boostDescriptions: Record<BoostDescriptions, string> = {
   "description.pablo.bunny": "一只神奇的复活节兔子",
   "description.foliant": "一本咒法书",
   "description.tiki.totem": "Tiki Totem 会在你每次砍树时额外增加 0.1 个木头",
-  "description.lunar.calendar": "庄稼现在遵循满月周期！庄稼生长速度提高 10 %",
+  "description.lunar.calendar": "庄稼现在遵循满月周期！庄稼生长速度提高 10%",
   "description.heart.davy.jones":
     "谁拥有它，谁就拥有掌控七大洋的浩瀚力量，可以挖掘财宝不知疲倦",
   "description.treasure.map":
-    "一张魔法地图，能引领持有者找到珍贵的财宝。沙岸财宝的利润 +20 %",
+    "一张魔法地图，能引领持有者找到珍贵的财宝。沙岸财宝的利润 +20%",
   "description.genie.lamp":
     "一盏有魔力的灯，里面有一个能帮你实现三个愿望的精灵",
-  "description.basic.scarecrow": ENGLISH_TERMS["description.basic.scarecrow"],
-  "description.scary.mike": ENGLISH_TERMS["description.scary.mike"],
+  "description.basic.scarecrow": "为附近的向日葵、土豆和南瓜提供增益。",
+  "description.scary.mike":
+    "为附近的胡萝卜、卷心菜、大豆、甜菜根、花椰菜和防风草提供增益。",
   "description.laurie.chuckle.crow":
-    ENGLISH_TERMS["description.laurie.chuckle.crow"],
+    "为附近的茄子、玉米、小萝卜、小麦和羽衣甘蓝提供增益",
   "description.immortal.pear": "一种能使果树寿命变长的长寿梨",
   "description.bale": "家禽们最喜欢的邻居，为鸡们提供一个舒适的休息地",
   "description.sir.goldensnout":
@@ -771,26 +772,26 @@ const boostDescriptions: Record<BoostDescriptions, string> = {
 };
 
 const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
-  "description.obie.boost": "-25 % 茄子生长时间",
+  "description.obie.boost": "-25% 茄子生长时间",
   "description.purple.trail.boost": "+0.2 茄子",
   "description.freya.fox.boost": "+0.5 南瓜",
   "description.sir.goldensnout.boost": "+0.5 庄稼(AOE 4x4)",
   "description.maximus.boost": "+1 茄子",
   "description.basic.scarecrow.boost":
-    "-20 % 低阶庄稼生长时间：向日葵土豆和南瓜(AOE 3x3)",
+    "-20% 低阶庄稼生长时间：向日葵土豆和南瓜(AOE 3x3)",
   "description.scary.mike.boost":
     "+0.2 中阶庄稼：胡萝卜、卷心菜、大豆、甜菜根、花椰菜和防风草(AOE 3x3)",
   "description.laurie.chuckle.crow.boost":
     "+0.2 高阶庄稼：茄子玉米、小萝卜、小麦和羽衣甘蓝(AOE 3x3)",
   "description.bale.boost": "+0.2 鸡蛋(AOE 4x4)",
   "description.immortal.pear.boost": "每个种子水果收获次数 +1",
-  "description.treasure.map.boost": "财宝售价 +20 % SFL",
+  "description.treasure.map.boost": "财宝售价 +20% SFL",
   "description.poppy.boost": "+0.1 玉米",
   "description.kernaldo.boost": "-25% 玉米生长时间",
   "description.grain.grinder.boost": "+20% 蛋糕 XP",
-  "description.nana.boost": "-10 % 香蕉生长时间",
-  "description.soil.krabby.boost": "-10 % 堆肥器堆肥时间",
-  "description.skill.shrimpy.boost": "+20 % 鱼 XP",
+  "description.nana.boost": "-10% 香蕉生长时间",
+  "description.soil.krabby.boost": "-10% 堆肥器堆肥时间",
+  "description.skill.shrimpy.boost": "+20% 鱼 XP",
   "description.iron.idol.boost": "+1 铁矿",
   "description.emerald.turtle.boost": "+0.5 石头铁矿黄金(AOE 3x3)",
   "description.tin.turtle.boost": "+0.1 石头(AOE 3x3)",
@@ -798,38 +799,38 @@ const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
   "description.Karkinos.boost": "+0.1 卷心菜(对 Cabbage Boy 没有效果)",
   "description.mushroom.house.boost": "+0.2 野生蘑菇",
   "description.boost.gilded.swordfish": "+0.1 黄金",
-  "description.nancy.boost": "-15 % 庄稼生长时间",
-  "description.scarecrow.boost": "-15 % 庄稼生长时间；+20 % 庄稼产量",
-  "description.kuebiko.boost": "-15 % 庄稼生长时间；+20 % 庄稼产量；免费种子",
+  "description.nancy.boost": "-15% 庄稼生长时间",
+  "description.scarecrow.boost": "-15% 庄稼生长时间；+20% 庄稼产量",
+  "description.kuebiko.boost": "-15% 庄稼生长时间；+20% 庄稼产量；免费种子",
   "description.gnome.boost": "+10 中阶/高阶庄稼(影响正下方一格土壤)",
-  "description.lunar.calendar.boost": "-10 % 庄稼生长时间",
-  "description.peeled.potato.boost": "20 % 几率 +1 土豆",
-  "description.victoria.sisters.boost": "+20 % 南瓜",
-  "description.easter.bunny.boost": "+20 % 胡萝卜",
+  "description.lunar.calendar.boost": "-10% 庄稼生长时间",
+  "description.peeled.potato.boost": "20% 几率 +1 土豆",
+  "description.victoria.sisters.boost": "+20% 南瓜",
+  "description.easter.bunny.boost": "+20% 胡萝卜",
   "description.pablo.bunny.boost": "+0.1 胡萝卜",
   "description.cabbage.boy.boost":
     "+0.25 卷心菜(当 Cabbage Girl 生效时 +0.5 卷心菜)",
-  "description.cabbage.girl.boost": "-50 % 卷心菜生长时间",
-  "description.golden.cauliflower.boost": "+100 % 花椰菜",
-  "description.mysterious.parsnip.boost": "-50 % 防风草生长时间",
+  "description.cabbage.girl.boost": "-50% 卷心菜生长时间",
+  "description.golden.cauliflower.boost": "+100% 花椰菜",
+  "description.mysterious.parsnip.boost": "-50% 防风草生长时间",
   "description.queen.cornelia.boost": "+1 玉米(AOE 3x4)",
   "description.foliant.boost": "+0.2 羽衣甘蓝",
   "description.hoot.boost": "+0.5 小麦、小萝卜、羽衣甘蓝、稻米",
   "description.hungry.caterpillar.boost": "免费花卉种子",
   "description.black.bearry.boost": "+1 蓝莓",
-  "description.squirrel.monkey.boost": "-50 % 香橙生长时间",
+  "description.squirrel.monkey.boost": "-50% 香橙生长时间",
   "description.lady.bug.boost": "+0.25 苹果",
   "description.banana.chicken.boost": "+0.1 香蕉",
   "description.carrot.sword.boost": "变种庄稼几率提升 4 倍",
-  "description.stellar.sunflower.boost": "3 % 几率 +10 向日葵",
-  "description.potent.potato.boost": "3 % 几率 +10 土豆",
-  "description.radical.radish.boost": "3 % 几率 +10 小萝卜",
+  "description.stellar.sunflower.boost": "3% 几率 +10 向日葵",
+  "description.potent.potato.boost": "3% 几率 +10 土豆",
+  "description.radical.radish.boost": "3% 几率 +10 小萝卜",
   "description.lg.pumpkin.boost": "+0.3 南瓜",
   "description.lg.carrot.boost": "+0.2 胡萝卜",
   "description.lg.radish.boost": "+0.4 小萝卜",
   "description.fat.chicken.boost": "-0.1 小麦喂食量",
   "description.rich.chicken.boost": "+0.1 鸡蛋",
-  "description.speed.chicken.boost": "-10 % 产蛋时间",
+  "description.speed.chicken.boost": "-10% 产蛋时间",
   "description.ayam.cemani.boost": "+0.2 鸡蛋",
   "description.el.pollo.veloz.boost": "-4 小时产蛋时间",
   "description.rooster.boost": "变种鸡几率提升 2 倍",
@@ -837,73 +838,72 @@ const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
   "description.chicken.coop.boost":
     "+1 鸡蛋产量；每个 Hen House 的养鸡数量上限 +5",
   "description.gold.egg.boost": "喂鸡不再需要小麦",
-  "description.woody.beaver.boost": "+20 % 木头",
-  "description.apprentice.beaver.boost": "+20 % 木头；-50 % 树木恢复时间",
+  "description.woody.beaver.boost": "+20% 木头",
+  "description.apprentice.beaver.boost": "+20% 木头；-50% 树木恢复时间",
   "description.foreman.beaver.boost":
-    "+20 % 木头；-50 % 树木恢复时间；砍树不再需要斧头",
+    "+20% 木头；-50% 树木恢复时间；砍树不再需要斧头",
   "description.wood.nymph.wendy.boost": "+0.2 木头",
   "description.tiki.totem.boost": "+0.1 木头",
   "description.tunnel.mole.boost": "+0.25 石头",
   "description.rocky.mole.boost": "+0.25 铁矿",
   "description.nugget.boost": "+0.25 黄金",
-  "description.rock.golem.boost": "10 % 几率 +2 石头",
+  "description.rock.golem.boost": "10% 几率 +2 石头",
   "description.crimson.carp.boost": "+0.05 红宝石",
   "description.crim.peckster.boost": "+0.1 红宝石",
   "description.queen.bee.boost": "双倍蜂蜜生产速度",
-  "description.humming.bird.boost": "20 % 几率 +1 花卉",
-  "description.beehive.boost": "当蜂箱已满时，有 10 % 几率获得 +0.2 庄稼",
+  "description.humming.bird.boost": "20% 几率 +1 花卉",
+  "description.beehive.boost": "当蜂箱已满时，有 10% 几率获得 +0.2 庄稼",
   "description.walrus.boost": "+1 鱼",
-  "description.alba.boost": "50 % 几率获得 +1 基础鱼",
+  "description.alba.boost": "50% 几率获得 +1 基础鱼",
   "description.knowledge.crab.boost": "双倍 Sprout Mix 增强效果",
   "description.maneki.neko.boost": "每天 1 份免费食物(点击领取)",
   "description.genie.lamp.boost": "实现 3 个愿望",
-  "description.observatory.boost": "+5 % XP",
-  "description.blossombeard.boost": "+10 % XP",
+  "description.observatory.boost": "+5% XP",
+  "description.blossombeard.boost": "+10% XP",
   "description.christmas.festive.tree.boost": "圣诞节期间免费礼物",
   "description.grinxs.hammer.boost": "拓张成本减半",
   "description.time.warp.totem.boost":
-    "庄稼生长、基矿、水果、烹饪和树木冷却时间减少 50 %(请在开始计时/收获资源前放置)",
+    "庄稼生长、基矿、水果、烹饪和树木冷却时间减少 50%(请在开始计时/收获资源前放置)",
   "description.radiant.ray.boost": "+0.1 铁矿",
-  "description.beekeeper.hat.boost": "+20 % 蜂蜜生产速度",
-  "description.flower.fox.boost": "-10 % 花朵 生长时间",
+  "description.beekeeper.hat.boost": "+20% 蜂蜜生产速度",
+  "description.flower.fox.boost": "-10% 花朵 生长时间",
   "description.babyPanda.boost": "新玩家在 2024 年 3 月期间 2 倍 XP",
 
   // Translate
   "description.hungryHare.boost": "发酵胡萝卜 XP 翻倍",
   "description.battle.fish.boost": "+0.05 石油",
   "description.knight.chicken.boost": "+0.1 石油",
-  "description.turbo.sprout.boost": "-50 % 温室庄稼生长时间",
+  "description.turbo.sprout.boost": "-50% 温室庄稼生长时间",
   "description.soybliss.boost": "+1 大豆",
   "description.grape.granny.boost": "+1 葡萄",
   "description.non.la.hat.boost": "+1 稻米",
   "description.oil.can.boost": "+2 石油",
   "description.olive.shield.boost": "+1 橄榄",
-  "description.pan.boost": "+25 % XP",
-  "description.paw.shield.boost": "+25 % 派系宠物饱食度",
+  "description.pan.boost": "+25% XP",
+  "description.paw.shield.boost": "+25% 派系宠物饱食度",
   "description.vinny.boost": "+0.25 葡萄",
-  "description.desertgnome.boost": "+10 % 烹饪速度",
+  "description.desertgnome.boost": "+10% 烹饪速度",
   "description.rice.panda.boost": "+0.25 稻米",
   "description.olive.shirt.boost": "+0.25 橄榄",
   "description.tofu.mask.boost": "+0.1 大豆",
 
   "description.gourmet.hourglass.boost":
-    ENGLISH_TERMS["description.gourmet.hourglass.boost"],
+    "+50% 烹饪速度（持续 4 小时，请提前放置）",
   "description.harvest.hourglass.boost":
-    ENGLISH_TERMS["description.harvest.hourglass.boost"],
+    "-25% 庄稼生长时间（持续 6 小时，请提前放置）",
   "description.timber.hourglass.boost":
-    ENGLISH_TERMS["description.timber.hourglass.boost"],
+    "-25% 树木恢复时间（持续 4 小时，请提前放置）",
   "description.ore.hourglass.boost":
-    ENGLISH_TERMS["description.ore.hourglass.boost"],
+    "-50% 基矿恢复时间（持续 3 小时，请提前放置）",
   "description.orchard.hourglass.boost":
-    ENGLISH_TERMS["description.orchard.hourglass.boost"],
+    "-25% 水果生长时间（持续 6 小时，请提前放置）",
   "description.fishers.hourglass.boost":
-    ENGLISH_TERMS["description.fishers.hourglass.boost"],
-  "description.blossom.hourglass.boost":
-    ENGLISH_TERMS["description.blossom.hourglass.boost"],
+    "50% 几率 +1 条鱼（持续 4 小时，请提前放置）",
+  "description.blossom.hourglass.boost": "-25% Flower Growth Time (4hrs)",
   "description.hourglass.expired":
-    ENGLISH_TERMS["description.hourglass.expired"],
+    "您的 {{hourglass}} 已过期。是时候再整一个了！",
   "description.hourglass.running":
-    ENGLISH_TERMS["description.hourglass.running"],
+    "这个 {{hourglass}} 能提供下列增益： {{boost}}。",
 };
 
 const bountyDescription: Record<BountyDescription, string> = {
@@ -935,8 +935,8 @@ const buildingDescriptions: Record<BuildingDescriptions, string> = {
   "description.turbo.composter": "涡轮堆肥器。定期生产高级鱼饵和肥料",
   "description.deli": "熟食店。这些熟食满足你的口腹之欲！",
   "description.smoothie.shack": "沙冰屋。鲜榨！",
-  "description.warehouse": "仓库。种子库存增加 20 %",
-  "description.toolshed": "工具棚。Workbench 工具库存增加 50 %",
+  "description.warehouse": "仓库。种子库存增加 20%",
+  "description.toolshed": "工具棚。Workbench 工具库存增加 50%",
   "description.premium.composter": "旗舰堆肥器。定期生产专业鱼饵和肥料",
   "description.town.center": "镇中心。聚集到 Town Center 获取最新消息",
   "description.market": "市场。在农贸市场购买和出售",
@@ -945,10 +945,10 @@ const buildingDescriptions: Record<BuildingDescriptions, string> = {
   "description.tent": "帐篷。（已绝版）",
   "description.house": "房屋。一个让你休息的地方",
   "description.greenhouse": "温室。娇弱庄稼的庇护所（消耗石油运转）",
-  "description.crop.machine": "基础庄稼生产自动化（消耗石油运转）",
+  "description.crop.machine": "自动种植机。基础庄稼生产自动化（消耗石油运转）",
   "building.oil.remaining": "{{oil}} 石油储罐余量",
   "cooking.building.oil.description":
-    "为 {{buildingName}} 添加石油可令烹饪速度提升 {{boost}} %。",
+    "为 {{buildingName}} 添加石油可令烹饪速度提升 {{boost}}%。（请于烹饪前提前加速）",
   "cooking.building.oil.boost": "石油提速",
   "cooking.building.runtime": "运行时间 {{time}}",
 };
@@ -964,30 +964,30 @@ const bumpkinDelivery: Record<BumpkinDelivery, string> = {
 };
 
 const bumpkinItemBuff: Record<BumpkinItemBuff, string> = {
-  "bumpkinItemBuff.chef.apron.boost": "+20 % SFL 蛋糕利润",
+  "bumpkinItemBuff.chef.apron.boost": "+20% SFL 蛋糕利润",
   "bumpkinItemBuff.fruit.picker.apron.boost": "+0.1 水果",
-  "bumpkinItemBuff.angel.wings.boost": "30 % 几率马上获得庄稼",
-  "bumpkinItemBuff.devil.wings.boost": "30 % 几率马上获得庄稼",
+  "bumpkinItemBuff.angel.wings.boost": "30% 几率马上获得庄稼",
+  "bumpkinItemBuff.devil.wings.boost": "30% 几率马上获得庄稼",
   "bumpkinItemBuff.eggplant.onesie.boost": "+0.1 茄子",
-  "bumpkinItemBuff.golden.spatula.boost": "+10 % XP",
+  "bumpkinItemBuff.golden.spatula.boost": "+10% XP",
   "bumpkinItemBuff.mushroom.hat.boost": "+0.1 蘑菇",
-  "bumpkinItemBuff.parsnip.boost": "+20 % 防风草",
-  "bumpkinItemBuff.sunflower.amulet.boost": "+10 % 向日葵",
-  "bumpkinItemBuff.carrot.amulet.boost": "-20 % 胡萝卜生长时间",
-  "bumpkinItemBuff.beetroot.amulet.boost": "+20 % 甜菜根",
-  "bumpkinItemBuff.green.amulet.boost": "10 % 几率获得 10 倍庄稼",
-  "bumpkinItemBuff.Luna.s.hat.boost": "-50 % 烹饪时间",
+  "bumpkinItemBuff.parsnip.boost": "+20% 防风草",
+  "bumpkinItemBuff.sunflower.amulet.boost": "+10% 向日葵",
+  "bumpkinItemBuff.carrot.amulet.boost": "-20% 胡萝卜生长时间",
+  "bumpkinItemBuff.beetroot.amulet.boost": "+20% 甜菜根",
+  "bumpkinItemBuff.green.amulet.boost": "10% 几率获得 10 倍庄稼",
+  "bumpkinItemBuff.Luna.s.hat.boost": "-50% 烹饪时间",
   "bumpkinItemBuff.infernal.pitchfork.boost": "+3 庄稼",
   "bumpkinItemBuff.cattlegrim.boost": "+0.25 牲畜产出",
   "bumpkinItemBuff.corn.onesie.boost": "+0.1 玉米",
-  "bumpkinItemBuff.sunflower.rod.boost": "10 % 几率获得 +1 条鱼",
-  "bumpkinItemBuff.trident.boost": "20 % 几率获得 +1 条鱼",
+  "bumpkinItemBuff.sunflower.rod.boost": "10% 几率获得 +1 条鱼",
+  "bumpkinItemBuff.trident.boost": "20% 几率获得 +1 条鱼",
   "bumpkinItemBuff.bucket.o.worms.boost": "+1 饵虫",
-  "bumpkinItemBuff.luminous.anglerfish.topper.boost": "+50 % 鱼 XP",
+  "bumpkinItemBuff.luminous.anglerfish.topper.boost": "+50% 鱼 XP",
   "bumpkinItemBuff.angler.waders.boost": "+10 钓鱼上限",
   "bumpkinItemBuff.ancient.rod.boost": "钓鱼无需鱼竿",
   "bumpkinItemBuff.banana.amulet.boost": "+0.5 香蕉",
-  "bumpkinItemBuff.banana.boost": "-20 % 香蕉生长时间",
+  "bumpkinItemBuff.banana.boost": "-20% 香蕉生长时间",
   "bumpkinItemBuff.deep.sea.helm": "3 倍 Marine Marvel 几率",
   "bumpkinItemBuff.bee.suit": "+0.1 蜂蜜",
   "bumpkinItemBuff.crimstone.hammer": "第 5 次开采 +2 红宝石",
@@ -995,44 +995,27 @@ const bumpkinItemBuff: Record<BumpkinItemBuff, string> = {
   "bumpkinItemBuff.crimstone.armor": "+0.1 红宝石",
   "bumpkinItemBuff.hornet.mask": "2 倍蜂群几率",
   "bumpkinItemBuff.honeycomb.shield": "+1 蜂蜜",
-  "bumpkinItemBuff.flower.crown": "-50 % 花卉生长时间",
-  "bumpkinItemBuff.goblin.armor": ENGLISH_TERMS["bumpkinItemBuff.goblin.armor"],
-  "bumpkinItemBuff.goblin.helmet":
-    ENGLISH_TERMS["bumpkinItemBuff.goblin.helmet"],
-  "bumpkinItemBuff.goblin.axe": ENGLISH_TERMS["bumpkinItemBuff.goblin.axe"],
-  "bumpkinItemBuff.goblin.pants": ENGLISH_TERMS["bumpkinItemBuff.goblin.pants"],
-  "bumpkinItemBuff.goblin.sabatons":
-    ENGLISH_TERMS["bumpkinItemBuff.goblin.sabatons"],
-  "bumpkinItemBuff.nightshade.armor":
-    ENGLISH_TERMS["bumpkinItemBuff.nightshade.armor"],
-  "bumpkinItemBuff.nightshade.helmet":
-    ENGLISH_TERMS["bumpkinItemBuff.nightshade.helmet"],
-  "bumpkinItemBuff.nightshade.sword":
-    ENGLISH_TERMS["bumpkinItemBuff.nightshade.sword"],
-  "bumpkinItemBuff.nightshade.pants":
-    ENGLISH_TERMS["bumpkinItemBuff.nightshade.pants"],
-  "bumpkinItemBuff.nightshade.sabatons":
-    ENGLISH_TERMS["bumpkinItemBuff.nightshade.sabatons"],
-  "bumpkinItemBuff.sunflorian.armor":
-    ENGLISH_TERMS["bumpkinItemBuff.sunflorian.armor"],
-  "bumpkinItemBuff.sunflorian.helmet":
-    ENGLISH_TERMS["bumpkinItemBuff.sunflorian.helmet"],
-  "bumpkinItemBuff.sunflorian.sword":
-    ENGLISH_TERMS["bumpkinItemBuff.sunflorian.sword"],
-  "bumpkinItemBuff.sunflorian.pants":
-    ENGLISH_TERMS["bumpkinItemBuff.sunflorian.pants"],
-  "bumpkinItemBuff.sunflorian.sabatons":
-    ENGLISH_TERMS["bumpkinItemBuff.sunflorian.sabatons"],
-  "bumpkinItemBuff.bumpkin.armor":
-    ENGLISH_TERMS["bumpkinItemBuff.bumpkin.armor"],
-  "bumpkinItemBuff.bumpkin.helmet":
-    ENGLISH_TERMS["bumpkinItemBuff.bumpkin.helmet"],
-  "bumpkinItemBuff.bumpkin.sword":
-    ENGLISH_TERMS["bumpkinItemBuff.bumpkin.sword"],
-  "bumpkinItemBuff.bumpkin.pants":
-    ENGLISH_TERMS["bumpkinItemBuff.bumpkin.pants"],
-  "bumpkinItemBuff.bumpkin.sabatons":
-    ENGLISH_TERMS["bumpkinItemBuff.bumpkin.sabatons"],
+  "bumpkinItemBuff.flower.crown": "-50% 花卉生长时间",
+  "bumpkinItemBuff.goblin.armor": "+20% 徽记",
+  "bumpkinItemBuff.goblin.helmet": "+10% 徽记",
+  "bumpkinItemBuff.goblin.axe": "+10% 徽记",
+  "bumpkinItemBuff.goblin.pants": "+5% 徽记",
+  "bumpkinItemBuff.goblin.sabatons": "+5% 徽记",
+  "bumpkinItemBuff.nightshade.armor": "+20% 徽记",
+  "bumpkinItemBuff.nightshade.helmet": "+10% 徽记",
+  "bumpkinItemBuff.nightshade.sword": "+10% 徽记",
+  "bumpkinItemBuff.nightshade.pants": "+5% 徽记",
+  "bumpkinItemBuff.nightshade.sabatons": "+5% 徽记",
+  "bumpkinItemBuff.sunflorian.armor": "+20% 徽记",
+  "bumpkinItemBuff.sunflorian.helmet": "+10% 徽记",
+  "bumpkinItemBuff.sunflorian.sword": "+10% 徽记",
+  "bumpkinItemBuff.sunflorian.pants": "+5% 徽记",
+  "bumpkinItemBuff.sunflorian.sabatons": "+5% 徽记",
+  "bumpkinItemBuff.bumpkin.armor": "+20% 徽记",
+  "bumpkinItemBuff.bumpkin.helmet": "+10% 徽记",
+  "bumpkinItemBuff.bumpkin.sword": "+10% 徽记",
+  "bumpkinItemBuff.bumpkin.pants": "+5% 徽记",
+  "bumpkinItemBuff.bumpkin.sabatons": "+5% 徽记",
 };
 
 const bumpkinPartRequirements: Record<BumpkinPartRequirements, string> = {
@@ -1046,29 +1029,29 @@ const bumpkinPartRequirements: Record<BumpkinPartRequirements, string> = {
 
 const bumpkinSkillsDescription: Record<BumpkinSkillsDescription, string> = {
   // Crops
-  "description.green.thumb": "庄稼产量增加 5 %",
-  "description.cultivator": "庄稼生长速度加快 5 %",
-  "description.master.farmer": "庄稼产量增加 10 %",
+  "description.green.thumb": "庄稼产量增加 5%",
+  "description.cultivator": "庄稼生长速度加快 5%",
+  "description.master.farmer": "庄稼产量增加 10%",
   "description.golden.flowers": "向日葵有几率掉落黄金",
   "description.happy.crop": "有几率收获 2 倍庄稼",
   // Trees
-  "description.lumberjack": "木头产量增加 10 %",
-  "description.tree.hugger": "木头生长速度加快 20 %",
+  "description.lumberjack": "木头产量增加 10%",
+  "description.tree.hugger": "木头生长速度加快 20%",
   "description.tough.tree": "有几率掉落 3 倍木头",
   "description.money.tree": "砍伐树木有几率掉落硬币",
   // Rocks
-  "description.digger": "石头产量增加 10 %",
-  "description.coal.face": "石脉恢复速度加快 20 %",
+  "description.digger": "石头产量增加 10%",
+  "description.coal.face": "石脉恢复速度加快 20%",
   "description.seeker": "攻击石怪",
   "description.gold.rush": "开采金脉有几率获得 2.5 倍产量",
   // Cooking
-  "description.rush.hour": "烹饪速度加快 10 %",
-  "description.kitchen.hand": "饭菜 XP 增加 5 %",
-  "description.michelin.stars": "精致食物，SFL 利润增加 5 %",
-  "description.curer": "Deli 餐品 XP 增加 15 %",
+  "description.rush.hour": "烹饪速度加快 10%",
+  "description.kitchen.hand": "饭菜 XP 增加 5%",
+  "description.michelin.stars": "精致食物，SFL 利润增加 5%",
+  "description.curer": "Deli 餐品 XP 增加 15%",
   // Animals
-  "description.stable.hand": "牲畜生产加快 10 %",
-  "description.free.range": "牲畜产出增加 10 %",
+  "description.stable.hand": "牲畜生产加快 10%",
+  "description.free.range": "牲畜产出增加 10%",
   "description.horse.whisperer": "增加变种几率",
   "description.buckaroo": "有几率获得 2 倍牲畜产出",
 };
@@ -1090,15 +1073,15 @@ const bumpkinTrade: Record<BumpkinTrade, string> = {
   "bumpkinTrade.cancel": "取消",
   "bumpkinTrade.list": "上架",
   "bumpkinTrade.maxListings": "已达到最大上架单数",
-  "bumpkinTrade.max": "最大: {{max}}",
+  "bumpkinTrade.max": "最多: {{max}}",
   "bumpkinTrade.floorPrice": "底价：{{price}} SFL",
   "bumpkinTrade.price/unit": "{{price}} / 单位",
-  "bumpkinTrade.min": "您需到 10 级以参与 P2P 交易。",
+  "bumpkinTrade.min": "至少: {{min}}",
   "bumpkinTrade.minimumFloor": "最低单价： {{min}}",
   "bumpkinTrade.maximumFloor": "最高单价： {{max}}",
   "bumpkinTrade.sellConfirmation":
     "确认卖出 {{quantity}} {{resource}} 以赚 {{price}} SFL？",
-  "bumpkinTrade.cant.sell.all": ENGLISH_TERMS["bumpkinTrade.cant.sell.all"],
+  "bumpkinTrade.cant.sell.all": "无法出售全部",
 };
 
 const buyFarmHand: Record<BuyFarmHand, string> = {
@@ -1115,9 +1098,9 @@ const buyFarmHand: Record<BuyFarmHand, string> = {
 
 const changeLanguage: Record<ChangeLanguage, string> = {
   "changeLanguage.confirm": "此操作将刷新您的浏览器。您确定要更改语言吗？",
-  "changeLanguage.contribute": ENGLISH_TERMS["changeLanguage.contribute"],
+  "changeLanguage.contribute": "想要为您语言的翻译做贡献？",
   "changeLanguage.contribute.message":
-    ENGLISH_TERMS["changeLanguage.contribute.message"],
+    "如果您对您偏好语言的翻译工作感兴趣，请联系 Sunflower Land Discord 服务器里的管理员(Mods)：",
   "changeLanguage.currentLanguage": "（当前语言）",
 };
 
@@ -1191,8 +1174,8 @@ const chumDetails: Record<ChumDetails, string> = {
   "chumDetails.fatChicken": "原汁原味的白肉再庞大的猎物也欲罢不能",
   "chumDetails.speedChicken": "利齿猎人的快餐甜点",
   "chumDetails.richChicken": "白肚银幕恐怖巨星的精美佳肴",
-  "chumDetails.horseMackerel": ENGLISH_TERMS["chumDetails.horseMackerel"],
-  "chumDetails.sunfish": ENGLISH_TERMS["chumDetails.sunfish"],
+  "chumDetails.horseMackerel": "只为最牛大胃王准备",
+  "chumDetails.sunfish": "满月精选……",
   "chumDetails.zebraFish": ENGLISH_TERMS["chumDetails.zebraFish"],
 };
 
@@ -1211,7 +1194,7 @@ const compostDescription: Record<CompostDescription, string> = {
   "compost.fruitfulBlend": "Fruitful Blend 为树坑上生长的每棵果树 +0.1 产出",
   "compost.sproutMix": "Sprout Mix 为田坑上种的庄稼 +0.2 产出",
   "compost.sproutMixBoosted": "Sprout Mix 为田坑上种的庄稼 +0.4 产出",
-  "compost.rapidRoot": "Rapid Root 为田坑上种的庄稼 -50 % 生长时间",
+  "compost.rapidRoot": "Rapid Root 为田坑上种的庄稼 -50% 生长时间",
 };
 
 const composterDescription: Record<ComposterDescription, string> = {
@@ -1236,12 +1219,14 @@ const conversations: Record<Conversations, string> = {
   "faction-intro.one": ENGLISH_TERMS["faction-intro.one"],
   "faction-intro.three": ENGLISH_TERMS["faction-intro.three"],
   "faction-intro.two": ENGLISH_TERMS["faction-intro.two"],
-  "home-intro.one": ENGLISH_TERMS["home-intro.one"],
-  "home-intro.three": ENGLISH_TERMS["home-intro.three"],
-  "home-intro.two": ENGLISH_TERMS["home-intro.two"],
-  "firepit-intro.one": ENGLISH_TERMS["firepit-intro.one"],
-  "firepit-intro.two": ENGLISH_TERMS["firepit-intro.two"],
-  "firepit.increasedXP": ENGLISH_TERMS["firepit.increasedXP"],
+  "home-intro.one":
+    "好喂乡包佬，欢迎来到你的家……虽说不大，但人总是要起家的嘛！",
+  "home-intro.three": "家宅越大，你岛上能住下的乡包佬就越多。",
+  "home-intro.two": "在你冒险征程上找到的稀有收集品可以就此安放。",
+  "firepit-intro.one": "恭喜乡包佬……你真是能无师自通！",
+  "firepit-intro.two":
+    "如果你想升级并解锁新能力，收集庄稼来我这火坑。我可以给你整点营养佳肴。",
+  "firepit.increasedXP": "已增加 XP",
   "hank-intro.headline": "帮帮老人家？",
   "hank-intro.one": "好喂，乡包佬！欢迎来到我们这小块桃园天堂。",
   "hank-intro.two": "我在这儿耕地已有 50 余年了，但帮手当然也不嫌少。",
@@ -1348,7 +1333,7 @@ const cropFruitDescriptions: Record<CropFruitDescriptions, string> = {
   "description.pumpkin": "南瓜。南瓜不止于馅饼。",
   "description.carrot": "胡萝卜。对你的眼睛有益！",
   "description.cabbage": "卷心菜。曾经的奢侈品，现在的大众食物。",
-  "description.soybean": "用途广泛的豆科植物！",
+  "description.soybean": "大豆。用途广泛的豆科植物！",
   "description.beetroot": "甜菜根。有益宿醉！",
   "description.cauliflower": "花椰菜。优秀的大米代餐！",
   "description.parsnip": "防风草。可别错认为是胡萝卜。",
@@ -1416,10 +1401,10 @@ const cropMachine: Record<CropMachine, string> = {
   "cropMachine.totalCrops": "{{cropName}} 总产出： {{total}}",
   "cropMachine.totalRuntime": "总运行时长： {{time}}",
   "cropMachine.totalSeeds": "总播下种子： {{total}}",
-  "cropMachine.running": ENGLISH_TERMS["cropMachine.running"],
-  "cropMachine.stopped": ENGLISH_TERMS["cropMachine.stopped"],
-  "cropMachine.idle": ENGLISH_TERMS["cropMachine.idle"],
-  "cropMachine.name": ENGLISH_TERMS["cropMachine.name"],
+  "cropMachine.running": "自动种植机正在运转",
+  "cropMachine.stopped": "自动种植机停止运转",
+  "cropMachine.idle": "自动种植机正在闲置",
+  "cropMachine.name": "自动种植机",
 };
 
 const decorationDescriptions: Record<DecorationDescriptions, string> = {
@@ -1435,7 +1420,7 @@ const decorationDescriptions: Record<DecorationDescriptions, string> = {
   "description.potted.pumpkin": "南瓜属于乡包佬",
   "description.cactus": "节约用水并让您的农场美丽惊人！",
   "description.basic.bear":
-    "这是一只普通的熊。用它在哥布林退留地制作一只熊吧！",
+    "这是一只普通的熊。用它在哥布林聚居地制作一只熊吧！",
   "description.bonnies.tombstone":
     "在任何农场都显诡怪的添饰，Bonnie 的人类墓碑叫人寒凉刺骨",
   "description.grubnashs.tombstone": "让 Grubnash 的哥布林墓碑带来些许诡魅",
@@ -1518,9 +1503,9 @@ const decorationDescriptions: Record<DecorationDescriptions, string> = {
   "description.palm.tree": "高大、滩岸、阴凉、别致，棕榈树摇曳着海浪",
 
   //other
-  "description.sunflower.amulet": "增加 10 % 向日葵产出",
-  "description.carrot.amulet": "增加 20 % 胡萝卜生长速度",
-  "description.beetroot.amulet": "增加 20 % 甜菜根产出",
+  "description.sunflower.amulet": "增加 10% 向日葵产出",
+  "description.carrot.amulet": "增加 20% 胡萝卜生长速度",
+  "description.beetroot.amulet": "增加 20% 甜菜根产出",
   "description.green.amulet": "有几率收获 10 倍庄稼产出",
   "description.warrior.shirt": "真正战士的标志",
   "description.warrior.pants": "保驾你的腿部",
@@ -1538,28 +1523,28 @@ const decorationDescriptions: Record<DecorationDescriptions, string> = {
   "description.fountain": "你农场上的惬意喷泉",
   "description.nyon.statue": "谨此纪念 Nyon Lann",
   "description.farmer.bath": "农夫们的甜菜根香薰浴",
-  "description.woody.Beaver": "增加 20 % 木头产出",
-  "description.apprentice.beaver": "增加 50 % 木头生长速度",
+  "description.woody.Beaver": "增加 20% 木头产出",
+  "description.apprentice.beaver": "增加 50% 木头生长速度",
   "description.foreman.beaver": "无需用斧头砍树木",
   "description.egg.basket": "准许参与复活节彩蛋寻猎",
   "description.mysterious.head": "一个理应保护农夫们的雕像",
-  "description.tunnel.mole": "增加 25 % 石头产出",
-  "description.rocky.the.mole": "增加 25 % 铁矿产出",
-  "description.nugget": "增加 25 % 黄金产出",
-  "description.rock.golem": "给予 10 % 概率产出 3 倍石头",
-  "description.chef.apron": "给予额外 20 % 蛋糕销售 SFL 利润",
+  "description.tunnel.mole": "增加 25% 石头产出",
+  "description.rocky.the.mole": "增加 25% 铁矿产出",
+  "description.nugget": "增加 25% 黄金产出",
+  "description.rock.golem": "给予 10% 概率产出 3 倍石头",
+  "description.chef.apron": "给予额外 20% 蛋糕销售 SFL 利润",
   "description.chef.hat": "传奇面包师的桂冠！",
-  "description.nancy": "赶走那些乌鸦。增加 15 % 庄稼生长速度",
-  "description.scarecrow": "一个哥布林稻草人。增加 20 % 庄稼产出",
+  "description.nancy": "赶走那些乌鸦。增加 15% 庄稼生长速度",
+  "description.scarecrow": "一个哥布林稻草人。增加 20% 庄稼产出",
   "description.kuebiko": "连店主都害怕这一稻草人。种子免费",
   "description.golden.cauliflower": "加倍花椰菜产出",
-  "description.mysterious.parsnip": "增加 50 % 防风草生长速度",
+  "description.mysterious.parsnip": "增加 50% 防风草生长速度",
   "description.carrot.sword": "增加变种庄稼的出现概率",
   "description.chicken.coop": "收获 2 倍数目的鸡蛋",
   "description.farm.cat": "赶走那些老鼠",
   "description.farm.dog": "农场狗狗能牧羊",
   "description.gold.egg": "无需小麦便能喂食鸡群",
-  "description.easter.bunny": "增加 20 % 胡萝卜产出",
+  "description.easter.bunny": "增加 20% 胡萝卜产出",
   "description.rooster": "变种鸡出现的概率翻倍",
   "description.chicken": "产出鸡蛋。需要喂养小麦。",
   "description.cow": "产出牛奶。需要喂养小麦。",
@@ -1597,7 +1582,7 @@ const decorationDescriptions: Record<DecorationDescriptions, string> = {
   "description.goblin.lantern": "看着吓人的灯笼",
   "description.dawn.flower":
     "拥吻 Dawn Flower 的夺目美丽，她精致的花瓣闪烁着第一缕晨光",
-  "description.kernaldo.bonus": "增加 25 % 玉米生长速度",
+  "description.kernaldo.bonus": "增加 25% 玉米生长速度",
   "description.white.crow": "神秘空灵的白乌鸦",
   "description.sapo.docuras": "真正的享受！",
   "description.sapo.travessuras": "噢噢……有人调皮了",
@@ -1622,7 +1607,7 @@ const decorationDescriptions: Record<DecorationDescriptions, string> = {
   "description.parrotFish": "海浪下的七彩万花筒，这鱼就是大自然的鲜活艺术造物",
   "description.Farmhand": "热心的雇农",
   "description.Beehive":
-    "熙熙攘攘的蜂巢，从生长的花卉采来产出蜂蜜；收获满溢的蜂蜜有 10 % 的概率召来蜂群，为生长的庄稼授粉增加 0.2 的产出！",
+    "熙熙攘攘的蜂巢，从生长的花卉采来产出蜂蜜；收获满溢的蜂蜜有 10% 的概率召来蜂群，为生长的庄稼授粉增加 0.2 的产出！",
   // Flowers
   "description.red.pansy": "红三色堇。一朵红三色堇。",
   "description.yellow.pansy": "黄三色堇。一朵黄三色堇。",
@@ -1691,7 +1676,7 @@ const decorationDescriptions: Record<DecorationDescriptions, string> = {
   "description.oil.reserve": "石油之源",
 
   // Clash of Factions
-  "description.turbo.sprout": "一台为温室减少 50 % 生长时间的引擎。",
+  "description.turbo.sprout": "一台为温室减少 50% 生长时间的引擎。",
   "description.soybliss": "为大豆 +1 产出的奇特豆豆生物。",
   "description.grape.granny": "女族长悉心睿智的照料助长葡萄 +1 产出。",
   "description.royal.throne": "为至高阶农夫打造的王位。",
@@ -1718,12 +1703,15 @@ const decorationDescriptions: Record<DecorationDescriptions, string> = {
   "description.twisterRug": ENGLISH_TERMS["description.twisterRug"],
   "description.gauchoRug": "纪念驰援南巴西的地毯。",
   "description.ricePanda": "熊猫很聪明，从不忘记给稻米浇水。",
-  "description.benevolenceFlag": ENGLISH_TERMS["description.benevolenceFlag"],
-  "description.devotionFlag": ENGLISH_TERMS["description.devotionFlag"],
-  "description.generosityFlag": ENGLISH_TERMS["description.generosityFlag"],
-  "description.splendorFlag": ENGLISH_TERMS["description.splendorFlag"],
-  "description.jellyLamp": ENGLISH_TERMS["description.jellyLamp"],
-  "description.paintCan": ENGLISH_TERMS["description.paintCan"],
+  "description.benevolenceFlag":
+    "谨此献给那些人慈心善、为 Bumpkins 作出巨大贡献的玩家。",
+  "description.devotionFlag":
+    "谨此献给心怀坚定为 Nightshades 慷慨解囊的玩家，彰显着他们宗教级的热枕。",
+  "description.generosityFlag": "谨此献给向 Goblins 捐赠丰厚资源的玩家。",
+  "description.splendorFlag":
+    "谨此献给慷慨支持 Sunflorians 的玩家，象征着他们的高尚大方。",
+  "description.jellyLamp": "一盏能叫任何房间都增照奢华的台灯。",
+  "description.paintCan": "七彩节发现的油漆罐",
 };
 
 const defaultDialogue: Record<DefaultDialogue, string> = {
@@ -1738,7 +1726,7 @@ const defaultDialogue: Record<DefaultDialogue, string> = {
 const delivery: Record<Delivery, string> = {
   "delivery.resource": "要我提供资源吗？",
   "delivery.feed": "这不是免费的，我得养活一个部落！",
-  "delivery.fee": "我将抽出其中资源的 30 % 给哥布林社区金库。",
+  "delivery.fee": "我将抽出其中资源的 30% 给哥布林社区金库。",
   "delivery.goblin.comm.treasury": "哥布林社区金库",
 };
 
@@ -4638,11 +4626,11 @@ const world: Record<World, string> = {
 
   "world.plaza": "广场",
   "world.beach": "沙滩",
-  "world.retreat": "退留地", //Retreat -> Residence
+  "world.retreat": "聚居地", //Retreat -> Residence
   "world.home": "家园",
-  "world.kingdom": "王国",
+  "world.kingdom": "王城",
   "world.woodlands": "林地",
-  "world.travelTo": "前往{{location}}",
+  "world.travelTo": "前往 {{location}}",
 };
 
 const wornDescription: Record<WornDescription, string> = {
