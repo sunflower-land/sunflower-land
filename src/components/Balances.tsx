@@ -5,7 +5,7 @@ import sflIcon from "assets/icons/sfl.webp";
 import coinsIcon from "assets/icons/coins.webp";
 import blockBucksIcon from "assets/icons/block_buck.png";
 
-import { setPrecision } from "lib/utils/formatNumber";
+import { formatNumber } from "lib/utils/formatNumber";
 import { SUNNYSIDE } from "assets/sunnyside";
 import classNames from "classnames";
 
@@ -34,9 +34,7 @@ export const Balances: React.FC<Props> = ({
           <div className="h-9 w-full bg-black opacity-30 absolute coins-bb-hud-backdrop" />
           {/* Coins */}
           <div className="flex items-center space-x-2">
-            <span className="balance-text mt-0.5">
-              {coins % 1 !== 0 ? Math.floor(coins * 100) / 100 : coins}
-            </span>
+            <span className="balance-text mt-0.5">{formatNumber(coins)}</span>
             <img
               src={coinsIcon}
               alt="Coins"
@@ -46,7 +44,9 @@ export const Balances: React.FC<Props> = ({
             />
           </div>
           <div className="flex items-center space-x-2">
-            <span className="balance-text mt-0.5">{blockBucks.toString()}</span>
+            <span className="balance-text mt-0.5">
+              {formatNumber(blockBucks)}
+            </span>
             <img
               src={blockBucksIcon}
               alt="Block Bucks"
@@ -76,9 +76,7 @@ export const Balances: React.FC<Props> = ({
         >
           <div className="h-9 w-full bg-black opacity-25 absolute sfl-hud-backdrop -z-10" />
           <span className="balance-text">
-            {showFullBalance
-              ? setPrecision(sfl, 8).toString()
-              : setPrecision(sfl).toString()}
+            {formatNumber(sfl, { decimalPlaces: showFullBalance ? 8 : 4 })}
           </span>
           <img
             src={sflIcon}

@@ -37,9 +37,9 @@ export const BulkSellModal: React.FC<BulkSellProps> = ({
     // Check if the value has a decimal point
     const parts = value.split(".");
 
-    // Limit the decimal places to 4
-    if (parts.length > 1 && parts[1].length > 4) {
-      parts[1] = parts[1].slice(0, 4);
+    // Limit the decimal places to 2
+    if (parts.length > 1 && parts[1].length > 2) {
+      parts[1] = parts[1].slice(0, 2);
     }
 
     const formattedValue = parts.join(".");

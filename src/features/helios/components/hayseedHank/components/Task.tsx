@@ -1,10 +1,9 @@
 import { ResizableBar } from "components/ui/ProgressBar";
-import Decimal from "decimal.js-light";
 import {
   ACHIEVEMENTS,
   AchievementName,
 } from "features/game/types/achievements";
-import { setPrecision } from "lib/utils/formatNumber";
+import { formatNumber } from "lib/utils/formatNumber";
 import React, { useContext } from "react";
 import { GUIDE_PATHS, GuidePath } from "../lib/guide";
 import { GameState } from "features/game/types/game";
@@ -68,9 +67,7 @@ export const GuideTask: React.FC<GuideTaskProps> = ({
               height: 7,
             }}
           />
-          <span className="text-xs sm:text-sm ml-1">{`${setPrecision(
-            new Decimal(progress),
-          )}/${achievement.requirement}`}</span>
+          <span className="text-xs sm:text-sm ml-1">{`${formatNumber(progress)}/${formatNumber(achievement.requirement)}`}</span>
         </div>
         {/* {!onNeedHelp &&
           (achievement.sfl.gt(0) ||

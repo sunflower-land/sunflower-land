@@ -35,8 +35,7 @@ export type TimeFormatOptions = {
  */
 const timeUnitToString = (
   duration: TimeDuration,
-  options: TimeFormatOptions = {
-    length: "medium", // unused but still have to be set because the field is not optional
+  options: { isShortFormat?: boolean } = {
     isShortFormat: false,
   },
 ) => {
@@ -156,24 +155,6 @@ export const formatDateTime = (isoString: string) => {
     hour12: true,
   });
 };
-
-/**
- * Gets the seconds until tomorrow
- * @returns Integer seconds
- */
-export function getSecondsToTomorrow() {
-  const now = new Date();
-
-  // tomorrow date
-  const tomorrow = new Date(
-    now.getFullYear(),
-    now.getMonth(),
-    now.getDate() + 1,
-  );
-
-  const diff = tomorrow.getTime() - now.getTime(); // difference in ms
-  return Math.round(diff / 1000); // convert to seconds
-}
 
 export function getRelativeTime(timestamp: number): string {
   const now = new Date();

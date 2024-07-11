@@ -586,7 +586,7 @@ export function getCropYieldAmount({
     amount += 0.25;
   }
 
-  return Number(setPrecision(new Decimal(amount)));
+  return Number(setPrecision(amount));
 }
 
 export function plant({

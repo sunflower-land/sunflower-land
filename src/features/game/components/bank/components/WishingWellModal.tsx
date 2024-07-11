@@ -16,13 +16,12 @@ import { shortAddress } from "lib/utils/shortAddress";
 import { CONFIG } from "lib/config";
 import { SomethingWentWrong } from "features/auth/components/SomethingWentWrong";
 import classNames from "classnames";
-import Decimal from "decimal.js-light";
 import {
   MachineInterpreter,
   wishingWellMachine,
 } from "../../../../goblins/wishingWell/wishingWellMachine";
 import { WishingWellTokens } from "../../../../goblins/wishingWell/actions/loadWishingWell";
-import { setPrecision } from "lib/utils/formatNumber";
+import { formatNumber } from "lib/utils/formatNumber";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { mintTestnetTokens } from "lib/blockchain/Pair";
@@ -98,7 +97,10 @@ const GrantWish = ({ totalTokensInWell, onClick }: GrantWishArgs) => {
         </div>
         <p className="mb-4 text-sm">
           {t("statements.wishing.well.worthwell", {
-            rewards: Number(fromWei(totalTokensInWell.toString())).toFixed(2),
+            rewards: formatNumber(
+              Number(fromWei(totalTokensInWell.toString())),
+              { decimalPlaces: 4 },
+            ),
           })}
         </p>
         <p className="mb-2 text-sm">{t("statements.wishing.well.lucky")}</p>
@@ -184,7 +186,10 @@ const NoWish = ({ totalTokensInWell, hasLPTokens, onClick }: NoWishArgs) => {
         </p>
         <p className="mb-4 text-sm">
           {t("statements.wishing.well.worthwell", {
-            rewards: Number(fromWei(totalTokensInWell.toString())).toFixed(2),
+            rewards: formatNumber(
+              Number(fromWei(totalTokensInWell.toString())),
+              { decimalPlaces: 4 },
+            ),
           })}
         </p>
         <div className="flex justify-center items-center mb-4">
@@ -358,8 +363,10 @@ export const WishingWellModal: React.FC<Props> = ({ onClose }) => {
             <Granted
               reward={
                 machine.context.totalRewards
-                  ? setPrecision(machine.context.totalRewards).toString()
-                  : new Decimal(0).toString()
+                  ? formatNumber(machine.context.totalRewards, {
+                      decimalPlaces: 4,
+                    })
+                  : "?"
               }
               lockedTime={wishingWell.lockedTime}
               onClose={handleClose}

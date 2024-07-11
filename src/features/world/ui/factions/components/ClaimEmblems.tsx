@@ -18,10 +18,9 @@ import goblinEmblem from "assets/icons/goblin_emblem.webp";
 import bumpkinEmblem from "assets/icons/bumpkin_emblem.webp";
 import sunflorianEmblem from "assets/icons/sunflorian_emblem.webp";
 import nightshadeEmblem from "assets/icons/nightshade_emblem.webp";
-import { formatNumber, setPrecision } from "lib/utils/formatNumber";
+import { formatNumber, shortenCount } from "lib/utils/formatNumber";
 import { ShareClaimedEmblems } from "./ShareClaimedEmblems";
 import { fetchLeaderboardData } from "features/game/expansion/components/leaderboard/actions/leaderboard";
-import Decimal from "decimal.js-light";
 
 export const FACTION_EMBLEM_ICONS: Record<FactionName, string> = {
   goblins: goblinEmblem,
@@ -198,10 +197,7 @@ export const ClaimEmblems: React.FC<ClaimEmblemsProps> = ({
                   </Label>
                   <Label type="transparent">
                     {t("faction.claimEmblems.percentile", {
-                      percentile: setPrecision(
-                        new Decimal(statistics.yourPercentile),
-                        2,
-                      ).toString(),
+                      percentile: formatNumber(statistics.yourPercentile),
                     })}
                   </Label>
                 </div>
@@ -216,7 +212,7 @@ export const ClaimEmblems: React.FC<ClaimEmblemsProps> = ({
                       className="w-4 h-auto"
                     />
                     <Label type="transparent">
-                      {formatNumber(statistics.totalEmblems)}
+                      {shortenCount(statistics.totalEmblems)}
                     </Label>
                   </div>
                 </div>
@@ -308,10 +304,7 @@ export const ClaimEmblems: React.FC<ClaimEmblemsProps> = ({
               count: faction.points,
               Faction: capitalize(faction.name),
               rank: statistics.yourRank,
-              percentile: setPrecision(
-                new Decimal(statistics.yourPercentile),
-                2,
-              ).toString(),
+              percentile: formatNumber(statistics.yourPercentile),
             })}
           </span>
         </>

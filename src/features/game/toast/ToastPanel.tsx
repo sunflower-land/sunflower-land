@@ -5,7 +5,7 @@ import { PIXEL_SCALE } from "../lib/constants";
 import { InnerPanel } from "components/ui/Panel";
 import { FactionName, InventoryItemName } from "../types/game";
 import Decimal from "decimal.js-light";
-import { setPrecision } from "lib/utils/formatNumber";
+import { formatNumber } from "lib/utils/formatNumber";
 import token from "assets/icons/sfl.webp";
 import levelup from "assets/icons/level_up.png";
 import { ITEM_DETAILS } from "../types/images";
@@ -148,20 +148,13 @@ export const ToastPanel: React.FC = () => {
             {visibleToasts
               .slice(0, MAX_TOAST)
               .map(({ item, difference, id }) => {
-                const diff =
-                  item === "coins"
-                    ? difference.toFixed(2)
-                    : setPrecision(difference);
-
                 return (
                   <div className="flex items-center justify-center" key={id}>
                     <img
                       className="h-6"
                       src={getToastIcon(item, faction?.name)}
                     />
-                    <span className="text-sm mx-1 mb-0.5 font-secondary">{`${
-                      difference.greaterThan(0) ? "+" : ""
-                    }${diff}`}</span>
+                    <span className="text-sm mx-1 mb-0.5 font-secondary">{`${difference.greaterThan(0) ? "+" : ""}${formatNumber(difference)}`}</span>
                   </div>
                 );
               })}

@@ -244,7 +244,7 @@ export const BumpkinProfile: React.FC<{
       }
 
       const scaledToProgress = percent * (SPRITE_STEPS - 1);
-      progressBarEl.current.goToAndPause(Math.round(scaledToProgress));
+      progressBarEl.current.goToAndPause(Math.floor(scaledToProgress));
     }
   };
 

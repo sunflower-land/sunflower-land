@@ -67,7 +67,7 @@ export const Crops: React.FC = () => {
     } else {
       const state = gameService.send("crop.sold", {
         crop: selected.name,
-        amount: setPrecision(amount),
+        amount: setPrecision(amount, 2),
       });
 
       if (state.context.state.bumpkin?.activity?.["Sunflower Sold"] === 1) {
@@ -84,7 +84,7 @@ export const Crops: React.FC = () => {
       : getSellPrice({ item: crop, game: state });
 
   const bumpkinLevel = getBumpkinLevel(state.bumpkin?.experience ?? 0);
-  const cropAmount = setPrecision(new Decimal(inventory[selected.name] || 0));
+  const cropAmount = setPrecision(inventory[selected.name] ?? 0, 2);
   const coinAmount = setPrecision(
     new Decimal(displaySellPrice(selected)).mul(
       state.island.type !== "basic" ? new Decimal(customAmount) : cropAmount,
