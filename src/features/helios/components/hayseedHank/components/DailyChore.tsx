@@ -5,8 +5,7 @@ import { Button } from "components/ui/Button";
 import { Context } from "features/game/GameProvider";
 import { ChoreV2, ChoreV2Name } from "features/game/types/game";
 
-import { setPrecision } from "lib/utils/formatNumber";
-import Decimal from "decimal.js-light";
+import { formatNumber } from "lib/utils/formatNumber";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { ResizableBar } from "components/ui/ProgressBar";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -123,9 +122,7 @@ export const DailyChore: React.FC<Props> = ({
                 height: 7,
               }}
             />
-            <span className="text-xs ml-2 font-secondary">{`${setPrecision(
-              new Decimal(progress),
-            )}/${chore.requirement}`}</span>
+            <span className="text-xs ml-2 font-secondary">{`${formatNumber(progress)}/${formatNumber(chore.requirement)}`}</span>
           </div>
         </div>
         {/* Rewards */}

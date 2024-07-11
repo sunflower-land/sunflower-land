@@ -47,6 +47,7 @@ import { Loading } from "features/auth/components";
 import { useNavigate } from "react-router-dom";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { SquareIcon } from "components/ui/SquareIcon";
+import { formatNumber } from "lib/utils/formatNumber";
 
 // Bumpkins
 export const BEACH_BUMPKINS: NPCName[] = [
@@ -152,22 +153,16 @@ export const DeliveryOrders: React.FC<Props> = ({
   const skippedOrder = delivery.orders.find((order) => order.id === "skipping");
   const { t } = useAppTranslation();
 
-  const progress = Math.min(
-    delivery.milestone.goal,
-    delivery.milestone.goal -
-      (delivery.milestone.total - delivery.fulfilledCount),
-  );
-
   const makeRewardAmountForLabel = (order: Order) => {
     if (order.reward.sfl !== undefined) {
       const sfl = getOrderSellPrice<Decimal>(gameState, order);
 
-      return sfl.toFixed(2);
+      return formatNumber(sfl, { decimalPlaces: 4 });
     }
 
     const coins = getOrderSellPrice<number>(gameState, order);
 
-    return coins % 1 === 0 ? coins.toString() : coins.toFixed(2);
+    return formatNumber(coins);
   };
 
   if (gameService.state.matches("revealing") && isRevealing) {

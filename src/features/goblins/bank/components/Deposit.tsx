@@ -14,7 +14,7 @@ import { fromWei, toBN, toWei } from "web3-utils";
 
 import token from "assets/icons/sfl.webp";
 import classNames from "classnames";
-import { setPrecision } from "lib/utils/formatNumber";
+import { formatNumber } from "lib/utils/formatNumber";
 import { getKeys } from "features/game/types/craftables";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { Box } from "components/ui/Box";
@@ -302,9 +302,9 @@ const DepositOptions: React.FC<Props> = ({
   );
 
   const sflBalString = fromWei(toBN(toWei(sflBalance.toString())));
-  const formattedSflBalance = setPrecision(
-    new Decimal(sflBalString),
-  ).toString();
+  const formattedSflBalance = formatNumber(new Decimal(sflBalString), {
+    decimalPlaces: 4,
+  });
 
   const depositableItems = getKeys(inventoryBalance)
     .filter((item) => inventoryBalance[item]?.gt(0))

@@ -89,7 +89,7 @@ export const Box: React.FC<BoxProps> = ({
   const labelRef = useRef<HTMLDivElement>(null);
   const labelCheckerRef = useRef<HTMLDivElement>(null);
 
-  const precisionCount = setPrecision(new Decimal(count || 0));
+  const precisionCount = setPrecision(count ?? 0, 2);
 
   // re-execute function on count change
   useEffect(

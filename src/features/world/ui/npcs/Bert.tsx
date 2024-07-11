@@ -121,7 +121,7 @@ export const Bert: React.FC<Props> = ({ onClose }) => {
   };
 
   const endDate = !currentObsession ? 0 : currentObsession.endDate;
-  const resetSeconds = Math.round((endDate - new Date().getTime()) / 1000);
+  const resetSeconds = (endDate - new Date().getTime()) / 1000;
 
   const handleConfirm = (tab: number) => {
     setConfirmAction(true);

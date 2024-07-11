@@ -15,7 +15,7 @@ import { getKeys } from "features/game/types/craftables";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { setImageWidth } from "lib/images";
 import Decimal from "decimal.js-light";
-import { setPrecision } from "lib/utils/formatNumber";
+import { formatNumber } from "lib/utils/formatNumber";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { ResizableBar } from "components/ui/ProgressBar";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -88,9 +88,7 @@ export const AchievementDetails: React.FC<Props> = ({
                             height: 10,
                           }}
                         />
-                        <span className="text-xxs ml-2">{`${setPrecision(
-                          new Decimal(progress),
-                        )}/${achievement.requirement}`}</span>
+                        <span className="text-xxs ml-2">{`${formatNumber(progress)}/${formatNumber(achievement.requirement)}`}</span>
                       </div>
                     )}
                     {isAlreadyClaimed && (

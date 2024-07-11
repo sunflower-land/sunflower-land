@@ -108,7 +108,7 @@ export const FlowerBed: React.FC<Props> = ({ id }) => {
   const growTime =
     FLOWER_SEEDS()[FLOWERS[flower.name].seed].plantSeconds * 1000;
   const timeLeft = (flowerBed.flower?.plantedAt ?? 0) + growTime - Date.now();
-  const timeLeftSeconds = Math.round(timeLeft / 1000);
+  const timeLeftSeconds = timeLeft / 1000;
 
   const growPercentage = 100 - (Math.max(timeLeft, 0) / growTime) * 100;
 

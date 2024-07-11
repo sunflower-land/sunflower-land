@@ -30,7 +30,7 @@ import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { hasVipAccess } from "features/game/lib/vipAccess";
 import { VIPAccess } from "features/game/components/VipAccess";
 import { getDayOfYear } from "lib/utils/time";
-import { setPrecision } from "lib/utils/formatNumber";
+import { formatNumber } from "lib/utils/formatNumber";
 import { ListingCategoryCard } from "components/ui/ListingCategoryCard";
 
 export const TRADE_LIMITS: Partial<Record<InventoryItemName, number>> = {
@@ -339,9 +339,10 @@ export const BuyPanel: React.FC<{
                         </div>
                         <p className="text-xxs">
                           {t("bumpkinTrade.price/unit", {
-                            price: setPrecision(new Decimal(unitPrice)).toFixed(
-                              4,
-                            ),
+                            price: formatNumber(unitPrice, {
+                              decimalPlaces: 4,
+                              showTrailingZeros: true,
+                            }),
                           })}
                         </p>
                       </div>
@@ -420,9 +421,10 @@ export const BuyPanel: React.FC<{
                         </div>
                         <p className="text-xxs">
                           {t("bumpkinTrade.price/unit", {
-                            price: setPrecision(new Decimal(unitPrice)).toFixed(
-                              4,
-                            ),
+                            price: formatNumber(unitPrice, {
+                              decimalPlaces: 4,
+                              showTrailingZeros: true,
+                            }),
                           })}
                         </p>
                       </div>
