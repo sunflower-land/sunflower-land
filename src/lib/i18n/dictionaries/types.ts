@@ -3605,6 +3605,7 @@ export type Leaderboard =
   | "leaderboard.champions"
   | "leaderboard.congratulations"
   | "leaderboard.position"
+  | "leaderboard.weeklyScore"
   | "leaderboard.player"
   | "leaderboard.score"
   | "leaderboard.prizes"

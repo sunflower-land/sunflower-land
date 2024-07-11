@@ -6,6 +6,7 @@ import {
 } from "features/game/types/minigames";
 import { GameState } from "features/game/types/game";
 import { getKeys } from "features/game/types/craftables";
+import { getFactionWeek } from "features/game/lib/factions";
 
 export function isMinigameComplete({
   game,
@@ -116,6 +117,19 @@ export function claimMinigamePrize({
 
     game.wardrobe[name] = count + (prize.wearables[name] ?? 0);
   });
+
+  if (game.faction && prize.items.Mark) {
+    const week = getFactionWeek({ date: new Date(createdAt) });
+    const leaderboard = game.faction.history[week] ?? {
+      score: 0,
+      petXP: 0,
+    };
+
+    game.faction.history[week] = {
+      ...leaderboard,
+      score: leaderboard.score + prize.items.Mark,
+    };
+  }
 
   return game;
 }

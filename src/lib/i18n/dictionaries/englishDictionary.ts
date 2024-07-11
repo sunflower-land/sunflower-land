@@ -5319,6 +5319,7 @@ export const leaderboardTerms: Record<Leaderboard, string> = {
   "leaderboard.resultsPending": "Results pending...",
 
   "leaderboard.position": "Position",
+  "leaderboard.weeklyScore": "Weekly score",
   "leaderboard.player": "Player",
   "leaderboard.score": "Score",
   "leaderboard.prizes": "Prizes",
