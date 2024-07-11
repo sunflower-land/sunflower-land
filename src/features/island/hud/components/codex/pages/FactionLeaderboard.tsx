@@ -23,7 +23,7 @@ import { secondsTillWeekReset } from "features/game/lib/factions";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { NPCIcon } from "features/island/bumpkin/components/NPC";
-import { formatNumber } from "lib/utils/formatNumber";
+import { formatNumber, shortenCount } from "lib/utils/formatNumber";
 import { NPCName, NPC_WEARABLES } from "lib/npcs";
 import { ChampionsPrizes } from "features/world/ui/factions/Champions";
 
@@ -139,7 +139,7 @@ export const FactionLeaderboard: React.FC<Props> = ({
                         </div>
                         <div className="flex pt-1">
                           <span className="font-secondary text-xs">
-                            {formatNumber(
+                            {shortenCount(
                               data.totalTickets[faction as FactionName] ?? 0,
                             )}
                           </span>
