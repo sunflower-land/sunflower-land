@@ -17,6 +17,17 @@ type Options = {
   createdAt?: number;
 };
 
+const BurnableCollectibles = [
+  "Time Warp Totem",
+  "Gourmet Hourglass",
+  "Harvest Hourglass",
+  "Fisher's Hourglass",
+  "Blossom Hourglass",
+  "Orchard Hourglass",
+  "Ore Hourglass",
+  "Timber Hourglass",
+];
+
 export function burnCollectible({
   state,
   action,
@@ -24,7 +35,7 @@ export function burnCollectible({
 }: Options): GameState {
   const stateCopy = cloneDeep(state);
 
-  if (action.name !== "Time Warp Totem") {
+  if (!BurnableCollectibles.includes(action.name)) {
     throw new Error(`Cannot burn ${action.name}`);
   }
 
