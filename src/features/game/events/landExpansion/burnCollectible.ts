@@ -2,6 +2,7 @@ import cloneDeep from "lodash.clonedeep";
 import { GameState } from "../../types/game";
 import { CollectibleName } from "features/game/types/craftables";
 import { CollectibleLocation } from "features/game/types/collectibles";
+import { HourglassType } from "features/island/collectibles/components/Hourglass";
 import Decimal from "decimal.js-light";
 
 export type BurnCollectibleAction = {
@@ -17,6 +18,16 @@ type Options = {
   createdAt?: number;
 };
 
+const hourglassTypes: HourglassType[] = [
+  "Gourmet Hourglass",
+  "Harvest Hourglass",
+  "Timber Hourglass",
+  "Orchard Hourglass",
+  "Blossom Hourglass",
+  "Fisher's Hourglass",
+  "Ore Hourglass",
+];
+
 export function burnCollectible({
   state,
   action,
@@ -24,7 +35,10 @@ export function burnCollectible({
 }: Options): GameState {
   const stateCopy = cloneDeep(state);
 
-  if (action.name !== "Time Warp Totem") {
+  if (
+    action.name !== "Time Warp Totem" &&
+    !hourglassTypes.includes(action.name as HourglassType)
+  ) {
     throw new Error(`Cannot burn ${action.name}`);
   }
 
