@@ -10,10 +10,7 @@ import lockIcon from "assets/skills/lock.png";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { GameState } from "features/game/types/game";
-import {
-  FARM_HAND_COST,
-  ISLAND_BUMPKIN_CAPACITY,
-} from "features/game/events/landExpansion/buyFarmHand";
+import { ISLAND_BUMPKIN_CAPACITY } from "features/game/events/landExpansion/buyFarmHand";
 import { Panel } from "components/ui/Panel";
 import confetti from "canvas-confetti";
 import { NPC } from "features/island/bumpkin/components/NPC";
@@ -34,6 +31,13 @@ export const BuyFarmHand: React.FC<Props> = ({ onClose, gameState }) => {
 
   const hasCoupon = !!gameState.inventory["Farmhand Coupon"]?.gte(1);
 
+  const capacity = ISLAND_BUMPKIN_CAPACITY[gameState.island.type];
+  const farmHands = Object.keys(gameState.farmHands.bumpkins).length;
+  const hasSpace = farmHands + 1 < capacity;
+  const cost = (farmHands + 2) * 5;
+
+  const hasBlockBucks = !!gameState.inventory["Block Buck"]?.gte(cost);
+
   const onAdd = () => {
     gameService.send("farmHand.bought");
     gameService.send("SAVE");
@@ -43,19 +47,12 @@ export const BuyFarmHand: React.FC<Props> = ({ onClose, gameState }) => {
     if (!hasCoupon) {
       gameAnalytics.trackSink({
         currency: "Block Buck",
-        amount: FARM_HAND_COST,
+        amount: cost,
         item: "Farmhand",
         type: "Collectible",
       });
     }
   };
-
-  const hasBlockBucks =
-    !!gameState.inventory["Block Buck"]?.gte(FARM_HAND_COST);
-
-  const capacity = ISLAND_BUMPKIN_CAPACITY[gameState.island.type];
-  const farmHands = Object.keys(gameState.farmHands.bumpkins).length;
-  const hasSpace = farmHands + 1 < capacity;
 
   if (showSuccess) {
     const latestFarmHand = Object.keys(gameState.farmHands.bumpkins).pop();
@@ -91,7 +88,7 @@ export const BuyFarmHand: React.FC<Props> = ({ onClose, gameState }) => {
                 src={ITEM_DETAILS["Block Buck"].image}
                 className="h-4 mr-2"
               />
-              <p className="text-xs">{`${FARM_HAND_COST} Block Bucks`}</p>
+              <p className="text-xs">{`${cost} Block Bucks`}</p>
             </div>
           )}
 
@@ -130,7 +127,7 @@ export const BuyFarmHand: React.FC<Props> = ({ onClose, gameState }) => {
         {!hasCoupon && (
           <div className="flex items-center my-2">
             <img src={ITEM_DETAILS["Block Buck"].image} className="h-4 mr-2" />
-            <p className="text-xs">{`${FARM_HAND_COST} Block Bucks`}</p>
+            <p className="text-xs">{`${cost} Block Bucks`}</p>
           </div>
         )}
 

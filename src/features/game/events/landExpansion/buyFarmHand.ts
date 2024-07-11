@@ -26,10 +26,8 @@ const FARM_HAND_PARTS: BumpkinParts = {
 export const ISLAND_BUMPKIN_CAPACITY: Record<IslandType, number> = {
   basic: 2,
   spring: 3,
-  desert: 4,
+  desert: 5,
 };
-
-export const FARM_HAND_COST = 15;
 
 export function buyFarmhand({
   state,
@@ -47,17 +45,19 @@ export function buyFarmhand({
     throw new Error("No space for a farm hand");
   }
 
+  const cost = (farmHands + 2) * 5;
+
   // Use coupon, otherwise Block Bucks
   const coupons = game.inventory["Farmhand Coupon"];
   if (coupons?.gte(1)) {
     game.inventory["Farmhand Coupon"] = coupons.sub(1);
   } else {
     const blockBucks = game.inventory["Block Buck"] ?? new Decimal(0);
-    if (blockBucks.lt(FARM_HAND_COST)) {
+    if (blockBucks.lt(cost)) {
       throw new Error("Insufficient Block Bucks");
     }
 
-    game.inventory["Block Buck"] = blockBucks.sub(FARM_HAND_COST);
+    game.inventory["Block Buck"] = blockBucks.sub(cost);
   }
 
   const id = Object.keys(game.farmHands.bumpkins).length + 1;

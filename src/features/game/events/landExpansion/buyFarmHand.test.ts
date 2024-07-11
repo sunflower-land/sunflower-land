@@ -83,7 +83,7 @@ describe("buyFarmHand", () => {
       },
     });
 
-    expect(state.inventory["Block Buck"]).toEqual(new Decimal(10));
+    expect(state.inventory["Block Buck"]).toEqual(new Decimal(15));
     expect(state.farmHands.bumpkins).toEqual({
       "1": {
         equipped: {
@@ -97,5 +97,33 @@ describe("buyFarmHand", () => {
         },
       },
     });
+  });
+
+  it("buys a second farm hand", () => {
+    let state = buyFarmhand({
+      action: {
+        type: "farmHand.bought",
+      },
+      state: {
+        ...TEST_FARM,
+        inventory: {
+          "Block Buck": new Decimal(50),
+        },
+        island: {
+          type: "spring",
+        },
+      },
+    });
+
+    expect(state.inventory["Block Buck"]).toEqual(new Decimal(40));
+
+    state = buyFarmhand({
+      action: {
+        type: "farmHand.bought",
+      },
+      state,
+    });
+
+    expect(state.inventory["Block Buck"]).toEqual(new Decimal(25));
   });
 });
