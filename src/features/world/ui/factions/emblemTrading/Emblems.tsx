@@ -81,6 +81,7 @@ export const Emblems: React.FC<Props> = ({ emblem, factionName }) => {
         <tbody>
           {Object.values(RANKS)
             .filter((rank) => rank.faction === factionName)
+            .sort((a, b) => b.emblemsRequired - a.emblemsRequired)
             .map((rank) => (
               <tr
                 key={rank.name}
