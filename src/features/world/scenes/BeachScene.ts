@@ -52,11 +52,13 @@ export class BeachScene extends BaseScene {
   archeologicalData: (InventoryItemName | undefined)[][] = [];
   hoverSelectBox: Phaser.GameObjects.Image | undefined;
   selectedSelectBox: Phaser.GameObjects.Image | undefined;
+  digsRemaining = 3;
+  digsRemainingLabel: Phaser.GameObjects.Text | undefined;
+  dugCoords: string[] = [];
+  treasureContainer: Phaser.GameObjects.Container | undefined;
 
   constructor() {
     super({ name: "beach", map: { json: mapJSON } });
-
-    this.archeologicalData = createGrid();
   }
 
   preload() {
@@ -223,7 +225,7 @@ export class BeachScene extends BaseScene {
     });
 
     this.setUpDiggingTestControls();
-    this.createDiggingArea();
+    this.startDig();
   }
 
   public setUpDiggingTestControls = () => {
@@ -233,7 +235,7 @@ export class BeachScene extends BaseScene {
       .setDisplaySize(28, 14)
       .setInteractive({ cursor: "pointer" })
       .on("pointerdown", () => {
-        this.currentPlayer?.teleport(256, 159);
+        this.currentPlayer?.teleport(200, 144);
       });
 
     this.add
@@ -266,20 +268,78 @@ export class BeachScene extends BaseScene {
       .setOrigin(0.5, 0.5);
   };
 
-  public createDiggingArea = () => {
+  public moveBumpkinToDigLocation = (
+    digX: number,
+    digY: number,
+    onComplete: () => void,
+  ) => {
+    if (!this.currentPlayer) return;
+
+    this.currentPlayer.walk();
+
+    const xDiff = this.currentPlayer.x - digX;
+    const yDiff = this.currentPlayer.y - digY;
+    const distance = Math.sqrt(xDiff * xDiff + yDiff * yDiff);
+    const speed = 50;
+
+    const duration = (distance / speed) * 1000;
+
+    if (digX < this.currentPlayer.x || digY < this.currentPlayer.y) {
+      this.currentPlayer.faceLeft();
+    } else {
+      this.currentPlayer.faceRight();
+    }
+
+    this.tweens.add({
+      targets: this.currentPlayer,
+      x: digX,
+      y: digY - 16,
+      duration,
+      ease: "Linear",
+      onStart: () => {
+        this.currentPlayer?.walk();
+      },
+      onComplete: () => {
+        this.currentPlayer?.idle();
+        onComplete();
+      },
+    });
+  };
+
+  public startDig = () => {
+    this.treasureContainer?.destroy();
+    this.digsRemainingLabel?.destroy();
+    this.dugCoords = [];
+    this.digsRemaining = 3;
+    this.treasureContainer = this.add.container(0, 0);
+    this.archeologicalData = createGrid();
+
+    this.digsRemainingLabel = this.add.text(
+      108,
+      66,
+      `Digs remaining: ${this.digsRemaining}`,
+      {
+        fontSize: "8px",
+        fontFamily: "monospace",
+        padding: { x: 0, y: 2 },
+        resolution: 4,
+        color: "black",
+      },
+    );
+
     const startX = 88;
     const startY = 88;
     const width = 16;
     const height = 16;
 
     this.selectedSelectBox = this.add
-      .image(88, 88, "confirm_select")
+      .image(0, 0, "confirm_select")
       .setDisplaySize(16, 16)
       .setDepth(100000000)
       .setVisible(false);
 
     this.hoverSelectBox = this.add
-      .image(88, 88, "shovel_select")
+      .image(0, 0, "shovel_select")
       .setDisplaySize(16, 16)
       .setDepth(100000000)
       .setVisible(false);
@@ -289,30 +349,34 @@ export class BeachScene extends BaseScene {
         const rectX = startX + i * width;
         const rectY = startY + j * height;
 
-        this.add
+        const square = this.add
           .rectangle(rectX, rectY, width, height, 0x000000, 0.5)
           .setInteractive({ cursor: "pointer" })
           .on("pointerdown", () => {
+            if (
+              this.dugCoords.includes(`${i}-${j}`) ||
+              this.digsRemaining === 0
+            ) {
+              return;
+            }
+
+            if (this.dugCoords.length === 0) {
+              this.selectedSelectBox?.setVisible(true);
+            }
+
             // check if this rectangle is currently the selected one
             if (
               this.selectedSelectBox?.x === rectX &&
-              this.selectedSelectBox?.y === rectY
+              this.selectedSelectBox?.y === rectY &&
+              !this.dugCoords.includes(`${i}-${j}`)
             ) {
               // remove selected box
               this.selectedSelectBox?.setVisible(false);
-              if (item) {
-                this.add.sprite(
-                  startX + i * width,
-                  startY + j * height,
-                  convertToSnakeCase(item),
-                ).setDisplaySize;
-              } else {
-                this.add.sprite(
-                  startX + i * width,
-                  startY + j * height,
-                  "nothing",
-                );
-              }
+              // move player to dig spot
+              this.moveBumpkinToDigLocation(rectX, rectY, () => {
+                this.dig(rectX, rectY);
+                this.dugCoords.push(`${i}-${j}`);
+              });
             } else {
               // set selected box
               this.selectedSelectBox
@@ -325,7 +389,10 @@ export class BeachScene extends BaseScene {
           .on("pointerover", () => {
             const selectedPosition = this.selectedSelectBox?.getBounds();
 
-            if (selectedPosition?.contains(rectX, rectY)) {
+            if (
+              selectedPosition?.contains(rectX, rectY) &&
+              this.dugCoords.length
+            ) {
               return;
             }
             this.hoverSelectBox?.setPosition(rectX, rectY).setVisible(true);
@@ -333,8 +400,58 @@ export class BeachScene extends BaseScene {
           .on("pointerout", () => {
             this.hoverSelectBox?.setVisible(false);
           });
+
+        this.treasureContainer?.add(square);
       });
     });
+  };
+
+  public dig = (x: number, y: number, item?: InventoryItemName) => {
+    const selectedPosition = this.selectedSelectBox?.getBounds();
+
+    if (!selectedPosition) {
+      return;
+    }
+
+    let key = "nothing";
+
+    if (item) {
+      key = convertToSnakeCase(item);
+    }
+
+    const image = this.add.image(x, y, key).setScale(0.8);
+    this.treasureContainer?.add(image);
+
+    this.digsRemaining -= 1;
+
+    if (this.digsRemaining <= 0) {
+      this.endDigging();
+    } else {
+      this.digsRemainingLabel?.setText(`Digs remaining: ${this.digsRemaining}`);
+    }
+  };
+
+  public endDigging = () => {
+    this.selectedSelectBox?.destroy();
+    this.hoverSelectBox?.destroy();
+    this.digsRemainingLabel?.setText("No digs remaining");
+
+    this.add
+      .image(210, 72, "button")
+      .setDisplaySize(28, 14)
+      .setInteractive({ cursor: "pointer" })
+      .on("pointerdown", () => {
+        this.startDig();
+      });
+    this.add
+      .text(210, 71, "Restart", {
+        fontSize: "4px",
+        fontFamily: "monospace",
+        padding: { x: 0, y: 2 },
+        resolution: 4,
+        color: "black",
+      })
+      .setOrigin(0.5, 0.5);
   };
 }
 
