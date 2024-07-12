@@ -5,6 +5,7 @@ export enum ANIMATION {
   attack = "attack",
   axe = "axe",
   carry = "carry",
+  carry_none = "carry_none",
   casting = "casting",
   caught = "caught",
   death = "death",
