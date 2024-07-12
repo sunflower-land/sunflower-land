@@ -201,16 +201,16 @@ export const DeliveryOrders: React.FC<Props> = ({
         )}
       >
         <div className="p-1">
-          <div className="flex justify-between">
+          <div className="flex justify-between gap-1">
             <Label type="default">{t("deliveries")}</Label>
             {!ticketTasksAreFrozen && (
               <Label type="info" icon={SUNNYSIDE.icons.stopwatch}>
-                {`${t("new.delivery.in")} ${secondsToString(
-                  secondsTillReset(),
-                  {
-                    length: "short",
-                  },
-                )}`}
+                {t("new.delivery.in", {
+                  timeLeft: secondsToString(secondsTillReset(), {
+                    length: "medium",
+                    removeTrailingZeros: true,
+                  }),
+                })}
               </Label>
             )}
           </div>

@@ -2815,7 +2815,7 @@ const gameTerms: Record<GameTerms, string> = {
   "farm.banned": "Bu çiftlik yasaklandı",
   gobSwarm: "Goblin Sürüsü!",
   "granting.wish": "Dileğinin yerine getirilmesi",
-  "new.delivery.in": "Yeni siparişler içi kalan süre",
+  "new.delivery.in": ENGLISH_TERMS["new.delivery.in"],
   "new.delivery.levelup": ENGLISH_TERMS["new.delivery.levelup"],
   "no.sfl": "SFL bulunamadı",
   opensea: "OpenSea",
@@ -3027,7 +3027,8 @@ const hayseedHankV2: Record<HayseedHankV2, string> = {
   "hayseedHankv2.dialog2": ENGLISH_TERMS["hayseedHankv2.dialog2"],
   "hayseedHankv2.action": "Hadi yapalım",
   "hayseedHankv2.title": "Hank'ın Günlük İşleri",
-  "hayseedHankv2.newChoresAvailable": "Yeni işler mevcut ",
+  "hayseedHankv2.newChoresAvailable":
+    ENGLISH_TERMS["hayseedHankv2.newChoresAvailable"],
   "hayseedHankv2.skipChores": "Her yeni günde ev işlerini atlayabilirsiniz.",
   "hayseedHankv2.greeting":
     "Pekala, selamlar genç çılgınlar! Ben Hayseed Hank'im...",
