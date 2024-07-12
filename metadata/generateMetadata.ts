@@ -84,7 +84,7 @@ function generateWearables() {
 
     metadata.name = name;
 
-    // convert KNOWN_IDS[name] to hex zero padded with 64 zeros
+    //convert ITEM_IDS[name] to hex zero padded with 64 zeros
     const zeroPadded = ITEM_IDS[name].toString(16).padStart(64, "0");
 
     const jsonPath = path.join(
@@ -113,10 +113,10 @@ function generateWearables() {
   // Previously was using decimals https://URL/1.json
   // We need to support both for now
   const idLookup = new Set<string>(
-    Object.values(KNOWN_IDS)
+    Object.values(ITEM_IDS)
       .map(String)
       .concat(
-        Object.values(KNOWN_IDS).map((id) =>
+        Object.values(ITEM_IDS).map((id) =>
           Number(id).toString(16).padStart(64, "0"),
         ),
       ),
@@ -129,5 +129,6 @@ function generateWearables() {
   });
 }
 
-// generateWearables();
+generateWearables();
+
 generateCollectibles();
