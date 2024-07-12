@@ -117,6 +117,8 @@ export const SPAWNS: () => SpawnLocation = () => ({
       // For artefact area
       x: 256,
       y: 159,
+      // x: 303,
+      // y: 313,
     },
   },
 

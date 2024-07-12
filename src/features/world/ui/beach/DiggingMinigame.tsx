@@ -6,7 +6,7 @@ import { InventoryItemName } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import React, { useState } from "react";
 
-const GRID_HEIGHT = 10;
+const GRID_HEIGHT = 8;
 const GRID_WIDTH = 10;
 
 type FormationPlot = { x: number; y: number; name?: InventoryItemName };
@@ -180,7 +180,7 @@ export const DiggingMinigame: React.FC = () => {
   };
 
   return (
-    <Modal show>
+    <Modal show={false}>
       <Panel>
         <Label type="default">{`Digs left: ${25 - digs.length}`}</Label>
         {grid.map((row, x) => (
