@@ -30,6 +30,21 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
     gameService.state.context.state.bumpkin?.experience ?? 0,
   );
 
+  const canTeleportToFactionHouse =
+    level >= 7 && gameService.state.context.state.faction;
+
+  const getFactionHouseRoute = () => {
+    if (gameService.state.context.state.faction?.name === "goblins")
+      return "/world/goblin_house";
+    if (gameService.state.context.state.faction?.name === "sunflorians")
+      return "/world/sunflorian_house";
+    if (gameService.state.context.state.faction?.name === "nightshades")
+      return "/world/nightshade_house";
+    if (gameService.state.context.state.faction?.name === "bumpkins")
+      return "/world/bumpkin_house";
+    return "";
+  };
+
   return (
     <OuterPanel className="w-full relative shadow-xl">
       <img src={worldMap} className="w-full" />
@@ -104,11 +119,11 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
       <div
         style={{
           width: "18%",
-          height: "24%",
+          height: "19%",
           border: showDebugBorders ? "2px solid red" : "",
           position: "absolute",
           left: "35%",
-          bottom: "50%",
+          bottom: "45%",
         }}
         className="flex justify-center items-center cursor-pointer"
         onClick={() => {
@@ -123,6 +138,32 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
         ) : (
           <span className="balance-text text-xxs sm:text-sm">
             {t("world.kingdom")}
+          </span>
+        )}
+      </div>
+
+      <div
+        style={{
+          width: "18%",
+          height: "12%",
+          border: showDebugBorders ? "2px solid red" : "",
+          position: "absolute",
+          left: "35%",
+          bottom: "64%",
+        }}
+        className="flex justify-center items-center cursor-pointer"
+        onClick={() => {
+          if (!canTeleportToFactionHouse) return;
+          travel.play();
+          navigate(getFactionHouseRoute());
+          onClose();
+        }}
+      >
+        {!canTeleportToFactionHouse ? (
+          <img src={lockIcon} className="h-6 ml-1 img-highlight-heavy" />
+        ) : (
+          <span className="balance-text text-xxs sm:text-sm">
+            {t("world.faction")}
           </span>
         )}
       </div>

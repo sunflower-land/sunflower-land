@@ -4646,6 +4646,7 @@ const world: Record<World, string> = {
   "world.retreat": "聚居地", //Retreat -> Residence
   "world.home": "家园",
   "world.kingdom": "王城",
+  "world.faction": ENGLISH_TERMS["world.faction"],
   "world.woodlands": "林地",
   "world.travelTo": "前往 {{location}}",
 };
