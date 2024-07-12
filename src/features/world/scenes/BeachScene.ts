@@ -57,7 +57,6 @@ export class BeachScene extends BaseScene {
   digsRemainingLabel: Phaser.GameObjects.Text | undefined;
   dugCoords: string[] = [];
   treasureContainer: Phaser.GameObjects.Container | undefined;
-  tool: "shovel" | "drill" = "shovel";
   selectedToolLabel: Phaser.GameObjects.Text | undefined;
   digSiteStartX = 88;
   digSiteStartY = 88;
@@ -124,11 +123,9 @@ export class BeachScene extends BaseScene {
 
     this.load.image("select_box", "world/select_box.png");
     this.load.image("shovel_select", "world/shovel_select.webp");
-    this.load.image("drill_select", "world/drill_select.webp");
     this.load.image("confirm_select", "world/confirm_select.webp");
     this.load.image("button", "world/button.webp");
     this.load.image("shovel", "world/shovel.png");
-    this.load.image("drill", "world/drill.png");
   }
 
   async create() {
@@ -242,6 +239,17 @@ export class BeachScene extends BaseScene {
   }
 
   public setUpDiggingTestControls = () => {
+    this.selectedSelectBox = this.add
+      .image(0, 0, "confirm_select")
+      .setDisplaySize(16, 16)
+      .setDepth(100000000)
+      .setVisible(false);
+
+    this.hoverSelectBox = this.add
+      .image(0, 0, "shovel_select")
+      .setDisplaySize(16, 16)
+      .setDepth(100000000)
+      .setVisible(false);
     // Enter button
     this.add
       .image(305, 288, "button")
@@ -279,48 +287,6 @@ export class BeachScene extends BaseScene {
         color: "black",
       })
       .setOrigin(0.5, 0.5);
-
-    this.add
-      .text(275, 158, "Selected tool:", {
-        fontSize: "4px",
-        fontFamily: "monospace",
-        padding: { x: 0, y: 2 },
-        resolution: 4,
-        color: "black",
-      })
-      .setOrigin(0, 0);
-
-    this.selectedToolLabel = this.add
-      .text(275, 164, `${this.tool}`, {
-        fontSize: "4px",
-        fontFamily: "monospace",
-        padding: { x: 0, y: 2 },
-        resolution: 4,
-        color: "black",
-      })
-      .setOrigin(0, 0);
-
-    // Add shovel/drill button
-    const shovel = this.add.image(264, 152, "shovel").setScale(1);
-    const drill = this.add.image(264, 170, "drill").setScale(0.6);
-
-    shovel.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
-      if (this.tool !== "shovel") {
-        this.tool = "shovel";
-        this.selectedToolLabel?.setText("shovel");
-        shovel.setScale(1);
-        drill.setScale(0.6);
-      }
-    });
-
-    drill.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
-      if (this.tool !== "drill") {
-        this.tool = "drill";
-        this.selectedToolLabel?.setText("drill");
-        drill.setScale(1);
-        shovel.setScale(0.6);
-      }
-    });
   };
 
   public moveBumpkinToDigLocation = (
@@ -418,30 +384,12 @@ export class BeachScene extends BaseScene {
       this.selectedSelectBox?.setVisible(false);
       // move player to dig spot
       this.moveBumpkinToDigLocation(selectedX, selectedY, () => {
-        if (this.tool === "shovel") {
-          const item = this.archeologicalData[row][col];
+        const item = this.archeologicalData[row][col];
 
-          this.dig(selectedX, selectedY, item);
-          this.dugCoords.push(`${row},${col}`);
+        this.dig(selectedX, selectedY, item);
+        this.dugCoords.push(`${row},${col}`);
 
-          this.handleDigCount();
-        } else {
-          // drill 4 spots surrounding the selected spot
-          const coords = this.getDrillCoords(row, col);
-
-          coords.forEach((coord) => {
-            const item = this.archeologicalData[coord.row][coord.col];
-
-            this.dig(
-              this.digSiteStartX + coord.row * this.digSiteWidth,
-              this.digSiteStartY + coord.col * this.digSiteHeight,
-              item,
-            );
-            this.dugCoords.push(`${coord.row},${coord.col}`);
-          });
-
-          this.handleDigCount();
-        }
+        this.handleDigCount();
       });
     } else {
       // set selected box
@@ -469,18 +417,6 @@ export class BeachScene extends BaseScene {
   public startDig = () => {
     this.resetDig();
 
-    this.selectedSelectBox = this.add
-      .image(0, 0, "confirm_select")
-      .setDisplaySize(16, 16)
-      .setDepth(100000000)
-      .setVisible(false);
-
-    this.hoverSelectBox = this.add
-      .image(0, 0, "shovel_select")
-      .setDisplaySize(16, 16)
-      .setDepth(100000000)
-      .setVisible(false);
-
     this.archeologicalData.forEach((row, i) => {
       row.forEach((item, j) => {
         const rectX = this.digSiteStartX + i * this.digSiteWidth;
@@ -505,56 +441,6 @@ export class BeachScene extends BaseScene {
     });
   };
 
-  public getDrillCoords = (row: number, col: number) => {
-    const numRows = 10;
-    const numCols = 10;
-    // using the dug coords, find which direction to drill
-    // in total we should drill 4 spots including the selected spot
-
-    const coordsToDig = [];
-
-    // Function to check if a spot is already revealed
-    const isRevealed = (r: number, c: number) => {
-      return this.dugCoords.includes(`${r},${c}`);
-    };
-
-    coordsToDig.push({ row, col });
-
-    // Define all 8 possible directions: top-left, top, top-right, right, bottom-right, bottom, bottom-left, left
-    const directions = [
-      { dr: -1, dc: -1 }, // top-left
-      { dr: -1, dc: 0 }, // top
-      { dr: -1, dc: 1 }, // top-right
-      { dr: 0, dc: 1 }, // right
-      { dr: 1, dc: 1 }, // bottom-right
-      { dr: 1, dc: 0 }, // bottom
-      { dr: 1, dc: -1 }, // bottom-left
-      { dr: 0, dc: -1 }, // left
-    ];
-
-    // Try to add up to 4 surrounding spots
-    for (let i = 0; i < directions.length; i++) {
-      const newRow = row + directions[i].dr;
-      const newCol = col + directions[i].dc;
-
-      if (
-        newRow >= 0 &&
-        newRow < numRows &&
-        newCol >= 0 &&
-        newCol < numCols &&
-        !isRevealed(newRow, newCol)
-      ) {
-        coordsToDig.push({ row: newRow, col: newCol });
-
-        if (coordsToDig.length >= 4) {
-          break;
-        }
-      }
-    }
-
-    return coordsToDig;
-  };
-
   public dig = (x: number, y: number, item?: InventoryItemName) => {
     const selectedPosition = this.selectedSelectBox?.getBounds();
 
@@ -573,8 +459,8 @@ export class BeachScene extends BaseScene {
   };
 
   public endDigging = () => {
-    this.selectedSelectBox?.destroy();
-    this.hoverSelectBox?.destroy();
+    this.selectedSelectBox?.setVisible(false);
+    this.hoverSelectBox?.setVisible(false);
     this.digsRemainingLabel?.setText("No digs remaining");
 
     this.add
