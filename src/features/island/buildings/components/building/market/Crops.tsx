@@ -42,8 +42,7 @@ export const Crops: React.FC = () => {
   );
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
 
-  const [customInputAmount, setCustomInputAmount] = useState("");
-  const customAmount = Number(customInputAmount);
+  const [customAmount, setCustomAmount] = useState(new Decimal(0));
   const [isCustomSellModalOpen, showCustomSellModal] = useState(false);
 
   const { gameService } = useContext(Context);
@@ -95,7 +94,7 @@ export const Crops: React.FC = () => {
   const handleSell = (amount: Decimal) => {
     sell(amount);
     setShowConfirmationModal(false);
-    setCustomInputAmount("");
+    setCustomAmount(new Decimal(0));
   };
 
   const openConfirmationModal = () => {
@@ -104,7 +103,7 @@ export const Crops: React.FC = () => {
   };
   const closeConfirmationModal = () => {
     setShowConfirmationModal(false);
-    setCustomInputAmount("");
+    setCustomAmount(new Decimal(0));
   };
 
   const openBulkSellModal = () => {
@@ -112,7 +111,7 @@ export const Crops: React.FC = () => {
   };
   const closeBulkSellModal = () => {
     showCustomSellModal(false);
-    setCustomInputAmount("");
+    setCustomAmount(new Decimal(0));
   };
 
   const exotics = getKeys(EXOTIC_CROPS)
@@ -348,8 +347,8 @@ export const Crops: React.FC = () => {
       <BulkSellModal
         show={isCustomSellModalOpen}
         onHide={closeBulkSellModal}
-        customInputAmount={customInputAmount}
-        setCustomInputAmount={setCustomInputAmount}
+        customAmount={customAmount}
+        setCustomAmount={setCustomAmount}
         cropAmount={cropAmount}
         onCancel={closeBulkSellModal}
         onSell={openConfirmationModal}
