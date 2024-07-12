@@ -22,6 +22,9 @@ import {
 } from "features/game/expansion/components/leaderboard/actions/leaderboard";
 import { getRelativeTime } from "lib/utils/time";
 import { ITEM_DETAILS } from "features/game/types/images";
+import { Button } from "components/ui/Button";
+import { useNavigate } from "react-router-dom";
+import { LeaveFaction } from "../LeaveFaction";
 
 interface Props {
   emblem: FactionEmblem;
@@ -32,8 +35,9 @@ export const Emblems: React.FC<Props> = ({ emblem, factionName }) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
   const [leaderboard, setLeaderboard] = useState<EmblemsLeaderboard>();
-
+  const [showLeaveFaction, setShowLeaveFaction] = useState(false);
   const { t } = useAppTranslation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const load = async () => {
@@ -46,6 +50,22 @@ export const Emblems: React.FC<Props> = ({ emblem, factionName }) => {
 
     load();
   }, []);
+
+  const leave = () => {
+    gameService.send("faction.left");
+    gameService.send("SAVE");
+    navigate("/");
+  };
+
+  if (showLeaveFaction) {
+    return (
+      <LeaveFaction
+        onClose={() => setShowLeaveFaction(false)}
+        game={gameState.context.state}
+        onLeave={leave}
+      />
+    );
+  }
 
   const emblems = gameState.context.state.inventory[emblem] ?? new Decimal(0);
   const playerRank = getFactionRanking(factionName, emblems.toNumber());
@@ -128,6 +148,10 @@ export const Emblems: React.FC<Props> = ({ emblem, factionName }) => {
       ) : (
         <Label type="formula">{t("loading")}</Label>
       )}
+
+      <Button className="mt-2" onClick={() => setShowLeaveFaction(true)}>
+        {t("faction.leave")}
+      </Button>
     </div>
   );
 };

@@ -17,6 +17,7 @@ export const FACTIONS: FactionName[] = [
 export type JoinFactionAction = {
   type: "faction.joined";
   faction: FactionName;
+  sfl: number;
 };
 
 type Options = {
@@ -39,8 +40,7 @@ export const FACTION_EMBLEMS: Record<FactionName, FactionEmblem> = {
   nightshades: "Nightshade Emblem",
 };
 
-export const SFL_COST = 10;
-export const EMBLEM_QTY = 1;
+export const SFL_COST = [5, 10, 30, 50];
 
 export function joinFaction({
   state,
@@ -57,8 +57,12 @@ export function joinFaction({
     throw new Error("You already pledged a faction");
   }
 
+  if (!SFL_COST.includes(action.sfl)) {
+    throw new Error("Not a valid fee");
+  }
+
   // not enough SFL
-  if (stateCopy.balance.lt(SFL_COST)) {
+  if (stateCopy.balance.lt(action.sfl)) {
     throw new Error("Not enough SFL");
   }
 
@@ -69,18 +73,13 @@ export function joinFaction({
     history: {},
   };
 
-  stateCopy.balance = state.balance.sub(SFL_COST);
+  stateCopy.balance = state.balance.sub(action.sfl);
 
   const banner = FACTION_BANNERS[action.faction];
-  const emblem = FACTION_EMBLEMS[action.faction];
-
-  const emblemsInInventory = stateCopy.inventory[emblem] ?? new Decimal(0);
 
   stateCopy.inventory[banner] = (
     stateCopy.inventory[banner] ?? new Decimal(0)
   ).add(1);
-
-  stateCopy.inventory[emblem] = emblemsInInventory.add(EMBLEM_QTY);
 
   return stateCopy;
 }

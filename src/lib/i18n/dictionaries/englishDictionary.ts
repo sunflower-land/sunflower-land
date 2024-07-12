@@ -1206,7 +1206,7 @@ const choresStart: Record<ChoresStart, string> = {
   "kingdomChores.skipWarning": "You can only skip one chore every 24 hours",
   "kingdomChores.completeActive": "Complete active chores to unlock",
   "kingdomChores.loading": "Loading new chores",
-  "kingdomChores.reset": "New Chores in: {{reset}}",
+  "kingdomChores.reset": "New chores: {{timeLeft}}",
 };
 
 const chumDetails: Record<ChumDetails, string> = {
@@ -2136,12 +2136,20 @@ const factions: Record<Factions, string> = {
   "faction.cost":
     "Show your allegiance and join the {{faction}}. Entry to the faction costs {{cost}} SFL.",
   "faction.pledge.reward":
-    "In exchange, you will receive a {{banner}} and {{emblems}} emblems.",
+    "In exchange, you will receive a {{banner}} and entry to our house.",
   "faction.welcome": "Welcome to the {{faction}}!",
   "faction.greeting.goblins": "Hail the Goblin King!",
   "faction.greeting.sunflorians": "Our lineage will reign supreme!",
   "faction.greeting.bumpkins": "We must unite the farmers!",
   "faction.greeting.nightshades": "The shadows will guide us to victory!",
+
+  "faction.leave": "Leave faction",
+  "faction.leave.hasEmblems": "You have emblems",
+  "faction.leave.areYouSure": "Are you sure you want to leave your faction?",
+  "faction.leave.isNew": "You cannot leave faction in first 24 hours.",
+  "faction.leave.marks":
+    "Faction traitors will be punished and you will lose your banner and all your unspent marks.",
+  "faction.leave.sellEmblems": "You must sell your emblems before leaving.",
 
   // Faction Claim Emblems
   "faction.claimEmblems.alreadyClaimed":
@@ -2799,7 +2807,7 @@ const gameTerms: Record<GameTerms, string> = {
   "granting.wish": "Granting your wish",
   "harvest.number": "{{minHarvest}}-{{maxHarvest}} harvests",
   "level.number": "Level {{level}}",
-  "new.delivery.in": "New deliveries:",
+  "new.delivery.in": "New deliveries: {{timeLeft}}",
   "new.delivery.levelup": "Level up to unlock more deliveries.",
   "no.sfl": "No SFL tokens found",
   opensea: "OpenSea",
@@ -2893,7 +2901,7 @@ const guideFactionPet: Record<GuideFactionPet, string> = {
   "guide.factionPet.two":
     "Your faction will have a goal xp they need to reach each week. If the faction reaches the goal, the next week goal will be 30% harder than the total xp achieved for the week! If the goal isn't reached, the next week goal will be 30% easier than the last weeks total xp.",
   "guide.factionPet.three":
-    "If the faction doesn't reach the goal then the pet will go to sleep for 1 day.",
+    "If the faction doesn't reach the goal then the pet will go to sleep for 1 week.",
   "guide.factionPet.four":
     "Once the faction reaches a streak of 3 or more weeks, an XP bonus will be given to each contributing faction member when their bumpkin eats!",
   "guide.factionPet.five":
@@ -3014,7 +3022,7 @@ const hayseedHankV2: Record<HayseedHankV2, string> = {
     "However, my bones ain't what they used to be. If you can help me with my daily chores, I will reward you with {{seasonalTicket}}.",
   "hayseedHankv2.action": "Let's do it",
   "hayseedHankv2.title": "Hank's Daily Chores",
-  "hayseedHankv2.newChoresAvailable": "New Chores in:",
+  "hayseedHankv2.newChoresAvailable": "New chores: {{timeLeft}}",
   "hayseedHankv2.skipChores": "You can skip chores each new day",
   "hayseedHankv2.greeting":
     "Well, howdy there, young whippersnappers! I'm Hayseed Hank...",

@@ -24,7 +24,6 @@ import { BankModal } from "features/game/components/bank/components/BankModal";
 import { GarbageCollectorModal } from "features/helios/components/garbageCollector/components/GarbageCollectorModal";
 import { WishingWellModal } from "features/game/components/bank/components/WishingWellModal";
 import { GoblinMarket } from "./market/GoblinMarket";
-import { FactionModalContent } from "./factions/FactionModalContent";
 import { VIPGift } from "./VIPGift";
 import { ChickenRescue } from "./portals/ChickenRescue";
 import { InlineDialogue } from "./TypingMessage";
@@ -737,45 +736,6 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
         onHide={closeModal}
       >
         <GoblinMarket onClose={closeModal} />
-      </Modal>
-      <Modal show={interactable === "pledge_sunflorian"} onHide={closeModal}>
-        <FactionModalContent
-          representativeFaction="sunflorians"
-          onClose={closeModal}
-        />
-      </Modal>
-      <Modal show={interactable === "pledge_bumpkin"} onHide={closeModal}>
-        <FactionModalContent
-          representativeFaction="bumpkins"
-          onClose={closeModal}
-        />
-      </Modal>
-      <Modal show={interactable === "pledge_goblin"} onHide={closeModal}>
-        <FactionModalContent
-          representativeFaction="goblins"
-          onClose={closeModal}
-        />
-      </Modal>
-      <Modal show={interactable === "pledge_nightshade"} onHide={closeModal}>
-        <FactionModalContent
-          representativeFaction="nightshades"
-          onClose={closeModal}
-        />
-      </Modal>
-      <Modal show={interactable === "sunflorians_faction"} onHide={closeModal}>
-        <FactionModalContent
-          representativeFaction="sunflorians"
-          onClose={closeModal}
-        />
-      </Modal>
-      <Modal show={interactable === "bumpkins_faction"} onHide={closeModal}>
-        <FactionModalContent onClose={closeModal} />
-      </Modal>
-      <Modal show={interactable === "nightshades_faction"} onHide={closeModal}>
-        <FactionModalContent onClose={closeModal} />
-      </Modal>
-      <Modal show={interactable === "goblins_faction"} onHide={closeModal}>
-        <FactionModalContent onClose={closeModal} />
       </Modal>
     </>
   );
