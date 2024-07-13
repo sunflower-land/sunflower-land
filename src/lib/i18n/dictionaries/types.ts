@@ -103,6 +103,7 @@ export type GeneralTerms =
   | "honey"
   | "hungry?"
   | "info"
+  | "inventory"
   | "item"
   | "land"
   | "landscaping"

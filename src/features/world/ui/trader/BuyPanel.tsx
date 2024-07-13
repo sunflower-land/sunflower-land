@@ -393,7 +393,7 @@ export const BuyPanel: React.FC<{
             {selected.current}
           </Label>
           <Label type="warning" className="ml-auto">
-            {`Inventory: ${inventory[selected.current as InventoryItemName]}`}
+            {`${t("inventory")}: ${inventory[selected.current as InventoryItemName]}`}
           </Label>
         </div>
         <div className="flex-1 pr-2 overflow-y-auto scrollable mt-1">

@@ -283,6 +283,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   "hungry?": "Hungry?",
   info: "Info",
   item: "Item:",
+  inventory: "Inventory",
   land: "Land",
   landscaping: "Landscaping",
   "last.updated": "Last updated:",
