@@ -119,11 +119,11 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
       <div
         style={{
           width: "18%",
-          height: "19%",
+          height: "15%",
           border: showDebugBorders ? "2px solid red" : "",
           position: "absolute",
           left: "35%",
-          bottom: "45%",
+          bottom: "61%",
         }}
         className="flex justify-center items-center cursor-pointer"
         onClick={() => {
@@ -145,11 +145,11 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
       <div
         style={{
           width: "18%",
-          height: "12%",
+          height: "15%",
           border: showDebugBorders ? "2px solid red" : "",
           position: "absolute",
           left: "35%",
-          bottom: "64%",
+          bottom: "46%",
         }}
         className="flex justify-center items-center cursor-pointer"
         onClick={() => {
