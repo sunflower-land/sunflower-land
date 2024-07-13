@@ -1,6 +1,9 @@
 import Decimal from "decimal.js-light";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
-import { getBudYieldBoosts } from "features/game/lib/getBudYieldBoosts";
+import {
+  getBudYieldBoosts,
+  Resource,
+} from "features/game/lib/getBudYieldBoosts";
 import {
   BumpkinActivityName,
   trackActivity,
@@ -73,6 +76,10 @@ export function isFruitGrowing(patch: FruitPatch) {
   return growingTimeLeft > 0;
 }
 
+const isFruit = (resource: Resource): resource is FruitName => {
+  return resource in FRUIT();
+};
+
 export function getFruitYield({ name, game, fertiliser }: FruitYield) {
   let amount = 1;
 
@@ -85,6 +92,10 @@ export function getFruitYield({ name, game, fertiliser }: FruitYield) {
     isCollectibleBuilt({ name: "Black Bearry", game })
   ) {
     amount += 1;
+  }
+
+  if (isFruit(name) && isWearableActive({ name: "Camel Onesie", game })) {
+    amount += 0.1;
   }
 
   if (
