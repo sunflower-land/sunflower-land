@@ -16,11 +16,15 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 export const GarbageSale: React.FC = () => {
   const { t } = useAppTranslation();
-  const garbage = getKeys(GARBAGE).sort(
-    (a, b) => GARBAGE[a].sellPrice - GARBAGE[b].sellPrice,
-  );
+  // Filter out items that are not available
+  const availableGarbage = getKeys(GARBAGE)
+    .filter((name) => GARBAGE[name].available)
+    .sort((a, b) => GARBAGE[a].sellPrice - GARBAGE[b].sellPrice);
 
-  const [selectedName, setSelectedName] = useState<GarbageName>(garbage[0]);
+  // Ensure the selected item is one that is available
+  const [selectedName, setSelectedName] = useState<GarbageName>(
+    availableGarbage[0],
+  );
 
   const selected = GARBAGE[selectedName];
   const { gameService } = useContext(Context);
@@ -70,7 +74,7 @@ export const GarbageSale: React.FC = () => {
       }
       content={
         <>
-          {garbage.map((name: GarbageName) => (
+          {availableGarbage.map((name: GarbageName) => (
             <Box
               isSelected={selectedName === name}
               key={name}

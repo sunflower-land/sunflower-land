@@ -168,4 +168,12 @@ describe("garbageSold", () => {
       amount,
     );
   });
+
+  it("prevents sale before a specific date", () => {
+    const timers = jest.useFakeTimers();
+    timers.setSystemTime(new Date("Thu August 1 2023 00:00:00 GMT+0000"));
+
+    const enabled = GARBAGE["Scroll"].available;
+    expect(enabled).toBeFalsy();
+  });
 });
