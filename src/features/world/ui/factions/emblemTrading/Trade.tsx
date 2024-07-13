@@ -1,6 +1,5 @@
 import { useActor } from "@xstate/react";
 import { SUNNYSIDE } from "assets/sunnyside";
-import classNames from "classnames";
 import { Box } from "components/ui/Box";
 import { Button } from "components/ui/Button";
 import { Context } from "features/game/GameProvider";
@@ -12,7 +11,7 @@ import {
   TradeListing,
 } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
-import React, { ChangeEvent, useContext, useState } from "react";
+import React, { useContext, useState } from "react";
 import token from "assets/icons/sfl.webp";
 import lock from "assets/skills/lock.png";
 import tradeIcon from "assets/icons/trade.png";
@@ -23,16 +22,14 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { makeListingType } from "lib/utils/makeTradeListingType";
 import { Label } from "components/ui/Label";
 import { FloorPrices } from "features/game/actions/getListingsFloorPrices";
-import { formatNumber } from "lib/utils/formatNumber";
+import { formatNumber, setPrecision } from "lib/utils/formatNumber";
 import { hasVipAccess } from "features/game/lib/vipAccess";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { VIPAccess } from "features/game/components/VipAccess";
 import { getDayOfYear } from "lib/utils/time";
 import { TRADE_LIMITS, TRADE_MINIMUMS } from "./BuyPanel";
+import { NumberInput } from "components/ui/NumberInput";
 
-const VALID_INTEGER = new RegExp(/^\d+$/);
-const VALID_FOUR_DECIMAL_NUMBER = new RegExp(/^\d*(\.\d{0,4})?$/);
-const INPUT_MAX_CHAR = 10;
 const MAX_NON_VIP_LISTINGS = 1;
 const MAX_SFL = 150;
 
@@ -57,16 +54,14 @@ const ListTrade: React.FC<{
   emblem: FactionEmblem;
 }> = ({ inventory, onList, onCancel, isSaving, floorPrices, emblem }) => {
   const { t } = useAppTranslation();
-  const [quantityDisplay, setQuantityDisplay] = useState("");
-  const [sflDisplay, setSflDisplay] = useState("");
+  const [quantity, setQuantity] = useState(new Decimal(0));
+  const [sfl, setSfl] = useState(new Decimal(0));
 
-  const quantity = Number(quantityDisplay);
-  const sfl = Number(sflDisplay);
+  const maxSFL = sfl.greaterThan(MAX_SFL);
 
-  const maxSFL = sfl > MAX_SFL;
-
-  const unitPrice = sfl / quantity;
-  const tooLittle = !!quantity && quantity < (TRADE_MINIMUMS[emblem] ?? 0);
+  const unitPrice = sfl.dividedBy(quantity);
+  const tooLittle =
+    !!quantity && quantity.lessThan(TRADE_MINIMUMS[emblem] ?? 0);
 
   const isTooHigh =
     !!sfl &&
@@ -80,7 +75,6 @@ const ListTrade: React.FC<{
     !!floorPrices[emblem] &&
     new Decimal(floorPrices[emblem] ?? 0).mul(0.8).gt(unitPrice);
 
-  const cantSellAll = inventory[emblem]?.sub(quantity).lt(1);
   return (
     <>
       <div className="flex justify-between">
@@ -103,9 +97,9 @@ const ListTrade: React.FC<{
       <div className="flex items-center justify-between">
         <Label
           type={
-            sfl / quantity < (floorPrices[emblem] ?? 0)
+            unitPrice.lessThan(floorPrices[emblem] ?? 0)
               ? "danger"
-              : sfl / quantity > (floorPrices[emblem] ?? 0)
+              : unitPrice.greaterThan(floorPrices[emblem] ?? 0)
                 ? "success"
                 : "warning"
           }
@@ -155,7 +149,7 @@ const ListTrade: React.FC<{
             >
               {t("bumpkinTrade.quantity")}
             </Label>
-            {quantity > (TRADE_LIMITS[emblem] ?? 0) && (
+            {quantity.greaterThan(TRADE_LIMITS[emblem] ?? 0) && (
               <Label type="danger" className="my-1 ml-2 mr-1">
                 {t("bumpkinTrade.max", { max: TRADE_LIMITS[emblem] ?? 0 })}
               </Label>
@@ -167,57 +161,30 @@ const ListTrade: React.FC<{
             )}
           </div>
 
-          <input
-            style={{
-              boxShadow: "#b96e50 0px 1px 1px 1px inset",
-              border: "2px solid #ead4aa",
-            }}
-            type="number"
-            placeholder="0"
-            min={1}
-            value={quantityDisplay}
-            onChange={(e: ChangeEvent<HTMLInputElement>) => {
-              // Strip the leading zero from numbers
-              if (
-                /^0+(?!\.)/.test(e.target.value) &&
-                e.target.value.length > 1
-              ) {
-                e.target.value = e.target.value.replace(/^0/, "");
-              }
+          <NumberInput
+            value={quantity}
+            maxDecimalPlaces={0}
+            isOutOfRange={
+              inventory[emblem]?.lt(quantity) ||
+              quantity.greaterThan(TRADE_LIMITS[emblem] ?? 0) ||
+              quantity.equals(0)
+            }
+            onValueChange={(value) => {
+              setQuantity(value);
 
-              if (e.target.value === "") {
-                setQuantityDisplay(""); // Reset to 0 if input is empty
-              } else if (VALID_INTEGER.test(e.target.value)) {
-                const amount = e.target.value.slice(0, INPUT_MAX_CHAR);
-                setQuantityDisplay(amount);
-
-                // Auto generate price
-                if (floorPrices[emblem]) {
-                  const estimated = formatNumber(
-                    new Decimal(floorPrices[emblem] ?? 0).mul(amount),
-                    {
-                      decimalPlaces: 4,
-                    },
-                  );
-                  setSflDisplay(estimated.toString());
-                }
+              // auto generate price
+              if (floorPrices[emblem]) {
+                const estimated = setPrecision(
+                  new Decimal(floorPrices[emblem] ?? 0).mul(value),
+                );
+                setSfl(estimated);
               }
             }}
-            className={classNames(
-              "mb-2 text-shadow mr-2 rounded-sm shadow-inner shadow-black bg-brown-200 w-full p-2 h-10 placeholder-error",
-              {
-                "text-error":
-                  inventory[emblem]?.lt(quantity) ||
-                  quantity > (TRADE_LIMITS[emblem] ?? 0) ||
-                  inventory[emblem]?.sub(quantity).lt(1) ||
-                  quantity === 0,
-              },
-            )}
           />
         </div>
         <div className="flex-1 flex flex-col items-end ml-2">
           <div className="flex items-center">
-            {sfl > MAX_SFL && (
+            {sfl.greaterThan(MAX_SFL) && (
               <Label type="danger" className="my-1 ml-2 mr-1">
                 {t("bumpkinTrade.max", { max: MAX_SFL })}
               </Label>
@@ -226,37 +193,14 @@ const ListTrade: React.FC<{
               {t("bumpkinTrade.price")}
             </Label>
           </div>
-          <input
-            style={{
-              boxShadow: "#b96e50 0px 1px 1px 1px inset",
-              border: "2px solid #ead4aa",
-              textAlign: "right",
+          <NumberInput
+            value={sfl}
+            maxDecimalPlaces={4}
+            isRightAligned={true}
+            isOutOfRange={maxSFL || sfl.equals(0) || isTooHigh || isTooLow}
+            onValueChange={(value) => {
+              setSfl(value);
             }}
-            type="number"
-            placeholder="0"
-            value={sflDisplay}
-            onChange={(e: ChangeEvent<HTMLInputElement>) => {
-              // Strip the leading zero from numbers
-              if (
-                /^0+(?!\.)/.test(e.target.value) &&
-                e.target.value.length > 1
-              ) {
-                e.target.value = e.target.value.replace(/^0/, "");
-              }
-
-              if (e.target.value === "") {
-                setSflDisplay(""); // Reset to 0 if input is empty
-              } else if (VALID_FOUR_DECIMAL_NUMBER.test(e.target.value)) {
-                const amount = e.target.value.slice(0, INPUT_MAX_CHAR);
-                setSflDisplay(amount);
-              }
-            }}
-            className={classNames(
-              "mb-2 text-shadow  rounded-sm shadow-inner shadow-black bg-brown-200 w-full p-2 h-10 placeholder-error",
-              {
-                "text-error": maxSFL || sfl === 0 || isTooHigh || isTooLow,
-              },
-            )}
           />
         </div>
       </div>
@@ -285,9 +229,9 @@ const ListTrade: React.FC<{
           {t("bumpkinTrade.pricePerUnit", { resource: emblem })}
         </span>
         <p className="text-xs">
-          {quantity === 0
+          {quantity.equals(0)
             ? "0.0000 SFL"
-            : `${formatNumber(new Decimal(sfl).dividedBy(quantity), {
+            : `${formatNumber(sfl.dividedBy(quantity), {
                 decimalPlaces: 4,
                 showTrailingZeros: true,
               })} SFL`}
@@ -301,7 +245,7 @@ const ListTrade: React.FC<{
         }}
       >
         <span className="text-xs"> {t("bumpkinTrade.tradingFee")}</span>
-        <p className="text-xs">{`${formatNumber(new Decimal(sfl).mul(0.1), {
+        <p className="text-xs">{`${formatNumber(sfl.mul(0.1), {
           decimalPlaces: 4,
           showTrailingZeros: true,
         })} SFL`}</p>
@@ -313,7 +257,7 @@ const ListTrade: React.FC<{
         }}
       >
         <span className="text-xs"> {t("bumpkinTrade.youWillReceive")}</span>
-        <p className="text-xs">{`${formatNumber(new Decimal(sfl).mul(0.9), {
+        <p className="text-xs">{`${formatNumber(sfl.mul(0.9), {
           decimalPlaces: 4,
           showTrailingZeros: true,
         })} SFL`}</p>
@@ -329,11 +273,11 @@ const ListTrade: React.FC<{
             isTooLow ||
             maxSFL ||
             (inventory[emblem]?.lt(quantity) ?? false) ||
-            quantity === 0 || // Disable when quantity is 0
-            sfl === 0 || // Disable when sfl is 0
+            quantity.equals(0) || // Disable when quantity is 0
+            sfl.equals(0) || // Disable when sfl is 0
             isSaving
           }
-          onClick={() => onList({ [emblem]: quantity }, sfl)}
+          onClick={() => onList({ [emblem]: quantity }, sfl.toNumber())}
         >
           {t("bumpkinTrade.list")}
         </Button>
