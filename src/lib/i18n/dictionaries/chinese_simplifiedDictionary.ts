@@ -276,7 +276,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   maintenance: "维护中", // added meaning to “Under Maintenance”
   "make.wish": "许一个愿望",
   "making.wish": "正在许愿",
-  marks: ENGLISH_TERMS["marks"],
+  marks: "徽记",
   max: "最多",
   minimum: "至少",
   mint: "铸造",
@@ -348,7 +348,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   "unlock.land": "解锁更多地块", //Unknown Usecase
   unlocking: "开锁中", // Daily Reward
   unmute: "取消静音",
-  upcoming: ENGLISH_TERMS["upcoming"],
+  upcoming: "队列", // Kingdom Chore
   "use.craft": "用于锻造物品", // item description
   verify: "验证", // Unknown Usecase
   version: "版本",
@@ -380,7 +380,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   remaining: "剩余的",
   requires: "需要",
   reward: "奖励",
-  skipped: ENGLISH_TERMS["skipped"],
+  skipped: "已跳过", // Kingdom Chore
   skipping: "正在跳过",
   test: "测试",
   wish: "许愿",
@@ -419,7 +419,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   banner: "旗帜",
   banners: "旗帜",
   donations: "捐赠",
-  faction: "派系",
+  faction: "帮派",
   free: "免费",
   player: "玩家",
   "remaining.free.listings": "剩余 {{listingsRemaining}} 次免费上架",
@@ -650,7 +650,7 @@ const beehive: Record<Beehive, string> = {
   "beehive.yield": "产量",
   "beehive.honeyPerFullHive": "1 蜂蜜 / 满蜂窝",
   "beehive.speed": "速度",
-  "beehive.fullHivePerDay": "每天 {{speed}} 个{{hive}}",
+  "beehive.fullHivePerDay": "每天 {{speed}} 个 {{hive}}",
   "beehive.estimatedFull": "预计满员",
   "beehive.hive.singular": "蜂窝",
   "beehive.hives.plural": "蜂窝",
@@ -881,7 +881,7 @@ const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
   "description.oil.can.boost": "+2 石油",
   "description.olive.shield.boost": "+1 橄榄",
   "description.pan.boost": "+25% XP",
-  "description.paw.shield.boost": "+25% 派系宠物饱食度",
+  "description.paw.shield.boost": "+25% 帮派宠物饱食度",
   "description.vinny.boost": "+0.25 葡萄",
   "description.desertgnome.boost": "+10% 烹饪速度",
   "description.rice.panda.boost": "+0.25 稻米",
@@ -1078,7 +1078,7 @@ const bumpkinTrade: Record<BumpkinTrade, string> = {
   "bumpkinTrade.unlockMoreTrades":
     ENGLISH_TERMS["bumpkinTrade.unlockMoreTrades"],
   "bumpkinTrade.max": "最多: {{max}}",
-  "bumpkinTrade.floorPrice": "底价：{{price}} SFL",
+  "bumpkinTrade.floorPrice": "底价： {{price}} SFL",
   "bumpkinTrade.price/unit": "{{price}} / 单位",
   "bumpkinTrade.min": "至少: {{min}}",
   "bumpkinTrade.minimumFloor": "最低单价： {{min}}",
@@ -1133,16 +1133,16 @@ const choresStart: Record<ChoresStart, string> = {
   "chores.newSeason": "新时季就要来临，日常农活暂时停单。",
   "chores.choresFrozen":
     "新时季日常农活即将发单。先前时季的日常农活与进度会被重置。",
-  "kingdomChores.preparing": ENGLISH_TERMS["kingdomChores.preparing"],
-  "kingdomChores.completed": ENGLISH_TERMS["kingdomChores.completed"],
-  "kingdomChores.noChores": ENGLISH_TERMS["kingdomChores.noChores"],
-  "kingdomChores.noUpcoming": ENGLISH_TERMS["kingdomChores.noUpcoming"],
-  "kingdomChores.progress": ENGLISH_TERMS["kingdomChores.progress"],
-  "kingdomChores.nextSkip": ENGLISH_TERMS["kingdomChores.nextSkip"],
-  "kingdomChores.skipWarning": ENGLISH_TERMS["kingdomChores.skipWarning"],
-  "kingdomChores.completeActive": ENGLISH_TERMS["kingdomChores.completeActive"],
-  "kingdomChores.loading": ENGLISH_TERMS["kingdomChores.loading"],
-  "kingdomChores.reset": ENGLISH_TERMS["kingdomChores.reset"],
+  "kingdomChores.preparing": "稍等一下。我还在准备发布农活。",
+  "kingdomChores.completed": "看来你现在已经完成了所有农活了！晚点再来吧！",
+  "kingdomChores.noChores": "对不起，我手头上没有要做的农活了。晚点再来吧！",
+  "kingdomChores.noUpcoming": "队列没有农活",
+  "kingdomChores.progress": "进度： {{progress}}",
+  "kingdomChores.nextSkip": "下次跳过： {{skip}}",
+  "kingdomChores.skipWarning": "您每 24 小时只能跳过 1 个农活",
+  "kingdomChores.completeActive": "完成现有农活以解锁",
+  "kingdomChores.loading": "正在加载新农活",
+  "kingdomChores.reset": "新农活： {{timeLeft}}",
 };
 
 const chumDetails: Record<ChumDetails, string> = {
@@ -1180,7 +1180,7 @@ const chumDetails: Record<ChumDetails, string> = {
   "chumDetails.richChicken": "白肚银幕恐怖巨星的精美佳肴",
   "chumDetails.horseMackerel": "只为最牛大胃王准备",
   "chumDetails.sunfish": "满月精选……",
-  "chumDetails.zebraFish": ENGLISH_TERMS["chumDetails.zebraFish"],
+  "chumDetails.zebraFish": "肥美佳肴专为猎奇食客",
 };
 
 const claimAchievement: Record<ClaimAchievement, string> = {
@@ -1212,7 +1212,7 @@ const confirmationTerms: Record<ConfirmationTerms, string> = {
     "您确定要卖掉 {{cropAmount}} {{cropName}} 以换取 {{coinAmount}} 枚硬币吗？",
   "confirmation.buyCrops":
     "您确定要花 {{coinAmount}} 枚硬币购买 {{seedNo}} {{seedName}}s 吗？",
-  "confirmation.enterAmount": ENGLISH_TERMS["confirmation.enterAmount"],
+  "confirmation.enterAmount": "请输入出售数量：",
 };
 
 const confirmSkill: Record<ConfirmSkill, string> = {
@@ -1220,9 +1220,11 @@ const confirmSkill: Record<ConfirmSkill, string> = {
 };
 
 const conversations: Record<Conversations, string> = {
-  "faction-intro.one": ENGLISH_TERMS["faction-intro.one"],
-  "faction-intro.three": ENGLISH_TERMS["faction-intro.three"],
-  "faction-intro.two": ENGLISH_TERMS["faction-intro.two"],
+  "faction-intro.one":
+    "欢迎来到您的新帮派堡楼……我们需要您的援助好变得更加强大并君临王城。",
+  "faction-intro.three": "每周结束，我们的最佳成员都会获得特别嘉奖。祝您好运！",
+  "faction-intro.two":
+    "您可以通过完成帮派农活、厨房送货与喂养我们的奇妙帮宠来获得徽记。",
   "home-intro.one":
     "好喂乡包佬，欢迎来到你的家……虽说不大，但人总是要起家的嘛！",
   "home-intro.three": "家宅越大，你岛上能住下的乡包佬就越多。",
@@ -1673,10 +1675,10 @@ const decorationDescriptions: Record<DecorationDescriptions, string> = {
   "description.goblin.war.banner": "彰显为哥布林伟业献身的盟约",
   "description.human.war.banner": "彰显为人类伟业献身的盟约",
   "description.earnAllianceBanner": "一杆特别活动的旗帜",
-  "description.sunflorian.faction.banner": "彰显对 Sunflorian 派系的忠心",
-  "description.goblin.faction.banner": "彰显对 Goblin 派系的忠心",
-  "description.nightshade.faction.banner": "彰显对 Nightshade 派系的忠心",
-  "description.bumpkin.faction.banner": "彰显对 Bumpkin 派系的忠心",
+  "description.sunflorian.faction.banner": "彰显对 Sunflorian 帮派的忠心",
+  "description.goblin.faction.banner": "彰显对 Goblin 帮派的忠心",
+  "description.nightshade.faction.banner": "彰显对 Nightshade 帮派的忠心",
+  "description.bumpkin.faction.banner": "彰显对 Bumpkin 帮派的忠心",
   "description.oil.reserve": "石油之源",
 
   // Clash of Factions
@@ -1903,13 +1905,13 @@ const factions: Record<Factions, string> = {
     "Sunflorians 君临统治 Sunflower Land。您是否信仰权威与规程？",
   "faction.description.nightshades":
     "Nightshades 是 Sunflower Land 土地上的神秘魔物。您是否信仰魔法与神秘？",
-  "faction.countdown": "在 {{timeUntil}} 后派系纷争即将开幕。",
+  "faction.countdown": "在 {{timeUntil}} 后帮派纷争即将开幕。",
   "faction.join.confirm": "您想要加入 {{faction}} 吗？",
-  "faction.cannot.change": "一旦选择您将无法更换派系。",
+  "faction.cannot.change": "一旦选择您将无法更换帮派。",
   "faction.joined.sunflorians.intro":
     "贵安，高贵的 Sunflorian！加入我们正高举的旗帜，凝聚一心征索我们王国的强权与荣耀。",
   "faction.joined.bumpkins.intro":
-    "嘿呀， Bumpkin 同僚！是时候团结我们的农民子弟，向他方派系展示勤劳团结的力量了。",
+    "嘿呀， Bumpkin 同僚！是时候团结我们的农民子弟，向他方帮派展示勤劳团结的力量了。",
   "faction.joined.goblins.intro":
     "致敬，巧手的 Goblin！我们保持头脑精明与巧计诈施，前路的征战必归我们。",
   "faction.joined.nightshades.intro":
@@ -1917,35 +1919,37 @@ const factions: Record<Factions, string> = {
   "faction.earn.emblems": "获得纹章",
   "faction.earn.emblems.time.left": "剩余 {{timeLeft}}",
   "faction.emblems.tasks":
-    "通过捐赠或完成时季送货来赚取派系点数参与派系纹章空投。",
+    "通过捐赠或完成时季送货来赚取帮派点数参与帮派纹章空投。",
   "faction.view.leaderboard": "查看排行榜",
   "faction.donation.bulk.resources": "批量资源捐献（至少 {{min}}）",
   "faction.donation.bulk.resources.unlimited.per.day":
     "{{donatedToday}} / 无 每日限额",
   "faction.donation.confirm":
-    "您确认希望进行如下捐献以赚取总共 {{factionPoints}} 点派系点数吗？",
-  "faction.donation.label": "{{faction}} 派系捐赠",
+    "您确认希望进行如下捐献以赚取总共 {{factionPoints}} 点帮派点数吗？",
+  "faction.donation.label": "{{faction}} 帮派捐赠",
   "faction.donation.request.message":
-    "您好， {{faction}}！我们现正接受资源和SFL捐赠以援助派系筑基。您将获得派系点数以回馈您的慷慨解囊。",
+    "您好， {{faction}}！我们现正接受资源和SFL捐赠以援助帮派筑基。您将获得帮派点数以回馈您的慷慨解囊。",
   "faction.donation.sfl": "SFL 捐赠（至少 10）",
   "faction.donation.sfl.max.per.day": "{{donatedToday}} / 500 每日限额",
   "faction.seasonal.delivery.start.at": "时季送货开始尚余 {{days}}",
-  "faction.points.with.number": "派系点数： {{points}}",
-  "faction.points.title": "派系点数",
-  "faction.points.pledge.warning": "请效忠一宗派系以获取派系点数！",
-  "faction.emblemAirdrop": ENGLISH_TERMS["faction.emblemAirdrop"],
-  "faction.emblemAirdrop.closes": ENGLISH_TERMS["faction.emblemAirdrop.closes"],
+  "faction.points.with.number": "帮派点数： {{points}}",
+  "faction.points.title": "帮派点数",
+  "faction.points.pledge.warning": "请效忠一宗帮派以获取帮派点数！",
+  "faction.emblemAirdrop": "纹章空投",
+  "faction.emblemAirdrop.closes": "结束于: {{date}}",
 
   // Kingdom
-  "kingdom.noticeboard.one": ENGLISH_TERMS["kingdom.noticeboard.one"],
-  "kingdom.noticeboard.two": ENGLISH_TERMS["kingdom.noticeboard.two"],
-  "kingdom.noticeboard.three": ENGLISH_TERMS["kingdom.noticeboard.three"],
-  "kingdom.noticeboard.four": ENGLISH_TERMS["kingdom.noticeboard.four"],
-  "faction.noticeboard.one": ENGLISH_TERMS["faction.noticeboard.one"],
-  "faction.noticeboard.two": ENGLISH_TERMS["faction.noticeboard.two"],
-  "faction.noticeboard.three": ENGLISH_TERMS["faction.noticeboard.three"],
-  "faction.noticeboard.four": ENGLISH_TERMS["faction.noticeboard.four"],
-  "faction.restrited.area": ENGLISH_TERMS["faction.restrited.area"],
+  "kingdom.noticeboard.one": "欢迎来到王城——是时候加入一个帮派并为荣耀而战了！",
+  "kingdom.noticeboard.two":
+    "游玩小游戏、完成帮派任务、冲击排行榜 & 赢取徽记吧。",
+  "kingdom.noticeboard.three": "每周的头号玩家都可以领取大奖！",
+  "kingdom.noticeboard.four": "光顾王城商场可以兑换奖赏与收集品。",
+  "faction.noticeboard.one": "为厨房送货 & 完成帮派农活 以赚取徽记。",
+  "faction.noticeboard.two": "喂我们贪吃的帮宠来解锁帮派额外 XP 加成吧！",
+  "faction.noticeboard.three": "每周的头号玩家们都会获得额外大奖。",
+  "faction.noticeboard.four": "买卖纹章受封阶衔来获得额外特权。",
+  "faction.restrited.area":
+    "站住农民！这堡楼你可没权进。这里只有 {{faction}} 有权通行。",
   "faction.not.pledged": ENGLISH_TERMS["faction.not.pledged"],
   "faction.cost": ENGLISH_TERMS["faction.cost"],
   "faction.pledge.reward": ENGLISH_TERMS["faction.pledge.reward"],
@@ -2239,7 +2243,7 @@ const fishDescriptions: Record<FishDescriptions, string> = {
     "一种深海中难以捉摸且幽灵般的鱼，隐藏在阴影中。",
   "description.gilded.swordfish": "一条鳞片闪耀如金的剑鱼，终极的捕获！",
   "description.crimson.carp": "春天水域中稀有、充满活力的宝石。",
-  "description.battle.fish": "派系赛季稀有的装甲游泳者！",
+  "description.battle.fish": "帮派赛季稀有的装甲游泳者！",
 };
 
 const fishermanModal: Record<FishermanModal, string> = {
@@ -2250,12 +2254,12 @@ const fishermanModal: Record<FishermanModal, string> = {
   "fishermanModal.crazyHappening":
     "哇，发生了疯狂的事情......这是一场鱼的狂欢！",
   "fishermanModal.bonusFish": "快点，每捕捉一条鱼你将获得一条额外的鱼！",
-  "fishermanModal.dailyLimitReached": "你已达到每日{{limit}}条的钓鱼限额",
+  "fishermanModal.dailyLimitReached": "你已达到每日 {{limit}} 条的钓鱼限额",
   "fishermanModal.needCraftRod": "你必须先制作一根钓竿。",
   "fishermanModal.craft.beach": "在海滩上制作",
   "fishermanModal.zero.available": "0可用",
   "fishermanmodal.greeting":
-    "嗨，岛上的朋友们！我是{{name}}，你们信赖的岛上渔夫，我已经准备好迎接一个宏大的挑战——收集太阳下的每一种鱼！",
+    "嗨，岛上的朋友们！我是 {{name}}，你们信赖的岛上渔夫，我已经准备好迎接一个宏大的挑战——收集太阳下的每一种鱼！",
   "fishermanModal.fullMoon": ENGLISH_TERMS["fishermanModal.fullMoon"],
 };
 
@@ -3057,7 +3061,7 @@ const megaStore: Record<MegaStore, string> = {
   "megaStore.month.sale": ENGLISH_TERMS["megaStore.month.sale"],
   "megaStore.wearable": ENGLISH_TERMS["megaStore.wearable"],
   "megaStore.collectible": ENGLISH_TERMS["megaStore.collectible"],
-  "megaStore.timeRemaining": "剩下{{timeRemaining}}！",
+  "megaStore.timeRemaining": "剩下 {{timeRemaining}}！",
 };
 
 const milestoneMessages: Record<MilestoneMessages, string> = {
