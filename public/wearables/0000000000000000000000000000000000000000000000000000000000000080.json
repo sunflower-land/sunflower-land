@@ -1,17 +1,1 @@
-{
-  "description": "# Description\n\nGet in touch with nature and feel like a whimsical woodland creature with this adorable and charming mushroom hat that's perfect for exploring the woods and foraging for mushrooms.\n\n### Contributor\n\nSunflower Land is a community game built by a hundreds of developers and artists across the globe.\nCome join us on [Github](https://github.com/sunflower-land/sunflower-land)",
-  "decimals": 0,
-  "attributes": [
-    { "trait_type": "Part", "value": "Hat" },
-    {
-      "display_type": "boost_number",
-      "trait_type": "Increase Mushroom Yield",
-      "value": 0.1
-    },
-    { "trait_type": "Boost", "value": "Resource" },
-    { "trait_type": "Tradable", "value": "Yes" }
-  ],
-  "external_url": "https://bumpkins.io",
-  "image": "https://sunflower-land.com/play/wearables/images/",
-  "name": "Mushroom Hat"
-}
+{"description":"# Description\n\nGet in touch with nature and feel like a whimsical woodland creature with this adorable and charming mushroom hat that's perfect for exploring the woods and foraging for mushrooms.\n\n### Contributor\n\nSunflower Land is a community game built by a hundreds of developers and artists across the globe.\nCome join us on [Github](https://github.com/sunflower-land/sunflower-land)","decimals":0,"attributes":[{"trait_type":"Part","value":"Hat"},{"display_type":"boost_number","trait_type":"Increase Mushroom Yield","value":0.1},{"trait_type":"Boost","value":"Resource"},{"trait_type":"Tradable","value":"Yes"}],"external_url":"https://bumpkins.io","image":"https://sunflower-land.com/play/wearables/images/128.png","name":"Mushroom Hat"}
