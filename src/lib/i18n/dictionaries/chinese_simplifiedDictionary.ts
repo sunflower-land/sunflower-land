@@ -1950,59 +1950,51 @@ const factions: Record<Factions, string> = {
   "faction.noticeboard.four": "买卖纹章受封阶衔来获得额外特权。",
   "faction.restrited.area":
     "站住农民！这堡楼你可没权进。这里只有 {{faction}} 有权通行。",
-  "faction.not.pledged": ENGLISH_TERMS["faction.not.pledged"],
-  "faction.cost": ENGLISH_TERMS["faction.cost"],
-  "faction.pledge.reward": ENGLISH_TERMS["faction.pledge.reward"],
-  "faction.welcome": ENGLISH_TERMS["faction.welcome"],
-  "faction.greeting.bumpkins": ENGLISH_TERMS["faction.greeting.bumpkins"],
-  "faction.greeting.goblins": ENGLISH_TERMS["faction.greeting.goblins"],
-  "faction.greeting.nightshades": ENGLISH_TERMS["faction.greeting.nightshades"],
-  "faction.greeting.sunflorians": ENGLISH_TERMS["faction.greeting.sunflorians"],
+  "faction.not.pledged":
+    "唔，看起来你还没效忠于任何一个帮派。您愿意加入 {{faction}} 吗？",
+  "faction.cost": "展现您的忠诚、加入 {{faction}}。帮派入会费 {{cost}} SFL。",
+  "faction.pledge.reward":
+    "作为回馈，您会收到一支 {{banner}} 并被允许进出为我们的堡楼。",
+  "faction.welcome": "欢迎加入 {{faction}}！",
+  "faction.greeting.bumpkins": "我们必须将农民们团结起来！",
+  "faction.greeting.goblins": "Goblin 大王万岁！",
+  "faction.greeting.nightshades": "暗影会指引我们凯旋！",
+  "faction.greeting.sunflorians": "我们的族裔将君临天下！",
 
-  "faction.leave": ENGLISH_TERMS["faction.leave"],
-  "faction.leave.hasEmblems": ENGLISH_TERMS["faction.leave.hasEmblems"],
-  "faction.leave.areYouSure": ENGLISH_TERMS["faction.leave.areYouSure"],
-  "faction.leave.marks": ENGLISH_TERMS["faction.leave.marks"],
-  "faction.leave.sellEmblems": ENGLISH_TERMS["faction.leave.sellEmblems"],
-  "faction.leave.isNew": ENGLISH_TERMS["faction.leave.isNew"],
+  "faction.leave": "离开帮派",
+  "faction.leave.hasEmblems": "您还有纹章",
+  "faction.leave.areYouSure": "您确定要离开您的帮派？",
+  "faction.leave.marks":
+    "帮派叛徒将被严惩，你会失去你的锦旗和所有未使用的徽记。",
+  "faction.leave.sellEmblems": "离开之前您必须卖光您所有的纹章。",
+  "faction.leave.isNew": "您不能在头 24 小时离开帮派。",
 
-  "faction.claimEmblems.alreadyClaimed":
-    ENGLISH_TERMS["faction.claimEmblems.alreadyClaimed"],
-  "faction.claimEmblems.emblemsEarned":
-    ENGLISH_TERMS["faction.claimEmblems.emblemsEarned"],
-  "faction.claimEmblems.yourRank":
-    ENGLISH_TERMS["faction.claimEmblems.yourRank"],
-  "faction.claimEmblems.yourPercentile":
-    ENGLISH_TERMS["faction.claimEmblems.yourPercentile"],
-  "faction.claimEmblems.yourEmblems":
-    ENGLISH_TERMS["faction.claimEmblems.yourEmblems"],
-  "faction.claimEmblems.noContribution":
-    ENGLISH_TERMS["faction.claimEmblems.noContribution"],
-  "faction.claimEmblems.statistics":
-    ENGLISH_TERMS["faction.claimEmblems.statistics"],
+  "faction.claimEmblems.alreadyClaimed": "嘿！我们已经给您奖励过纹章了！",
+  "faction.claimEmblems.emblemsEarned": "已赚得纹章",
+  "faction.claimEmblems.yourRank": "您的阶衔",
+  "faction.claimEmblems.yourPercentile": "您的百分占比",
+  "faction.claimEmblems.yourEmblems": "您的纹章",
+  "faction.claimEmblems.noContribution": "您还未给帮派贡献任何点数。",
+  "faction.claimEmblems.statistics": "数据",
   "faction.claimEmblems.thankYou":
-    ENGLISH_TERMS["faction.claimEmblems.thankYou"],
+    "感谢您对 {{Faction}} 的贡献，{{player}}！拿上这些纹章，它们象征着您在帮派的地位！",
   "faction.claimEmblems.claimMessage":
-    ENGLISH_TERMS["faction.claimEmblems.claimMessage"],
-  "faction.claimEmblems.claim": ENGLISH_TERMS["faction.claimEmblems.claim"],
-  "faction.claimEmblems.congratulations":
-    ENGLISH_TERMS["faction.claimEmblems.congratulations"],
-  "faction.claimEmblems.comparison":
-    ENGLISH_TERMS["faction.claimEmblems.comparison"],
-  "faction.claimEmblems.totalMembers":
-    ENGLISH_TERMS["faction.claimEmblems.totalMembers"],
-  "faction.claimEmblems.totalEmblems":
-    ENGLISH_TERMS["faction.claimEmblems.totalEmblems"],
-  "faction.claimEmblems.percentile":
-    ENGLISH_TERMS["faction.claimEmblems.percentile"],
-  "faction.claimEmblems.travelNow":
-    ENGLISH_TERMS["faction.claimEmblems.travelNow"],
-  "faction.claimEmblems.visitMe": ENGLISH_TERMS["faction.claimEmblems.visitMe"],
+    "您为帮派贡献了 {{count}} 点数。您的阶衔为 {{rank}}。您在 {{Faction}} 的头 {{percentile}}%。",
+  "faction.claimEmblems.claim": "领取 {{count}} 个纹章",
+  "faction.claimEmblems.congratulations": "恭喜！您已获得 {{count}} 个纹章！",
+  "faction.claimEmblems.comparison": "这里是您和您帮派成员的对比结果。",
+  "faction.claimEmblems.totalMembers": "帮派总人数",
+  "faction.claimEmblems.totalEmblems": "帮派总纹章",
+  "faction.claimEmblems.percentile": "头 {{percentile}}%",
+  "faction.claimEmblems.travelNow": "立刻前往",
+  "faction.claimEmblems.visitMe":
+    "来找我，{{recruiterName}}，来王城领取您的纹章。",
   "faction.kitchen.gatherResources":
-    ENGLISH_TERMS["faction.kitchen.gatherResources"],
-  "faction.pet.gatherResources": ENGLISH_TERMS["faction.pet.gatherResources"],
-  "faction.kitchen.opensIn": ENGLISH_TERMS["faction.kitchen.opensIn"],
-  "faction.kitchen.notReady": ENGLISH_TERMS["faction.kitchen.notReady"],
+    "好多新人啊……我们饭怎么做得过来！您能帮我收集点食材吗？",
+  "faction.pet.gatherResources": "嗝呃啊啊啊……",
+  "faction.kitchen.opensIn": "开张还要 {{time}}",
+  "faction.kitchen.notReady":
+    "啊啊，我喜欢你的热情！但厨房还没开张呢。过会儿再来吧。",
   "faction.kitchen.preparing": ENGLISH_TERMS["faction.kitchen.preparing"],
   "faction.kitchen.newRequests": ENGLISH_TERMS["faction.kitchen.newRequests"],
   "faction.openingSoon": ENGLISH_TERMS["faction.openingSoon"],
