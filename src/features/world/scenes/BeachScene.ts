@@ -56,6 +56,8 @@ export type DigStats = {
 };
 
 const TOTAL_DIGS = 25;
+const SITE_COLS = 10;
+const SITE_ROWS = 8;
 
 export class BeachScene extends BaseScene {
   sceneId: SceneId = "beach";
@@ -67,10 +69,10 @@ export class BeachScene extends BaseScene {
   dugCoords: string[] = [];
   treasureContainer: Phaser.GameObjects.Container | undefined;
   selectedToolLabel: Phaser.GameObjects.Text | undefined;
-  digSiteStartX = 88;
-  digSiteStartY = 88;
-  digSiteWidth = 16;
-  digSiteHeight = 16;
+  gridX = 80;
+  gridY = 80;
+  cellWidth = 16;
+  cellHeight = 16;
   digStatistics: DigStats | undefined;
 
   constructor() {
@@ -252,13 +254,11 @@ export class BeachScene extends BaseScene {
     this.selectedSelectBox = this.add
       .image(0, 0, "confirm_select")
       .setDisplaySize(16, 16)
-      .setDepth(100000000)
       .setVisible(false);
 
     this.hoverSelectBox = this.add
       .image(0, 0, "shovel_select")
       .setDisplaySize(16, 16)
-      .setDepth(100000000)
       .setVisible(false);
     // Enter button
     this.add
@@ -322,10 +322,14 @@ export class BeachScene extends BaseScene {
       this.currentPlayer.faceRight();
     }
 
+    const goToX = digX + this.cellWidth / 2;
+    // Position above the dig spot
+    const goToY = digY + this.cellHeight / 2 - this.cellHeight;
+
     this.tweens.add({
       targets: this.currentPlayer,
-      x: digX,
-      y: digY - 16,
+      x: goToX,
+      y: goToY,
       duration,
       ease: "Linear",
       onStart: () => {
@@ -404,7 +408,8 @@ export class BeachScene extends BaseScene {
     } else {
       // set selected box
       this.selectedSelectBox
-        ?.setPosition(selectedX, selectedY)
+        ?.setOrigin(0)
+        .setPosition(selectedX, selectedY)
         .setVisible(true);
       // remove hover box
       this.hoverSelectBox?.setVisible(false);
@@ -414,10 +419,15 @@ export class BeachScene extends BaseScene {
   public handlePointerOver = (rectX: number, rectY: number) => {
     const selectedPosition = this.selectedSelectBox?.getBounds();
 
-    if (selectedPosition?.contains(rectX, rectY) && this.dugCoords.length) {
+    if (selectedPosition?.contains(rectX, rectY)) {
+      this.hoverSelectBox?.setVisible(false);
       return;
     }
-    this.hoverSelectBox?.setPosition(rectX, rectY).setVisible(true);
+
+    this.hoverSelectBox
+      ?.setOrigin(0)
+      .setPosition(rectX, rectY)
+      .setVisible(true);
   };
 
   public handlePointOut = () => {
@@ -429,18 +439,12 @@ export class BeachScene extends BaseScene {
 
     this.archeologicalData.forEach((row, i) => {
       row.forEach((item, j) => {
-        const rectX = this.digSiteStartX + i * this.digSiteWidth;
-        const rectY = this.digSiteStartY + j * this.digSiteHeight;
+        const rectX = this.gridX + i * this.cellWidth;
+        const rectY = this.gridY + j * this.cellHeight;
 
         const square = this.add
-          .rectangle(
-            rectX,
-            rectY,
-            this.digSiteWidth,
-            this.digSiteHeight,
-            0xfff,
-            0,
-          )
+          .rectangle(rectX, rectY, this.cellWidth, this.cellHeight, 0xfff, 0)
+          .setOrigin(0)
           .setInteractive({ cursor: "pointer" })
           .on("pointerdown", () => this.handlePointerDown(rectX, rectY, i, j))
           .on("pointerover", () => this.handlePointerOver(rectX, rectY))
@@ -464,7 +468,11 @@ export class BeachScene extends BaseScene {
       key = convertToSnakeCase(item);
     }
 
-    const image = this.add.image(x, y, key).setScale(0.8);
+    // Centre in the square
+    const offsetX = x + this.cellWidth / 2;
+    const offsetY = y + this.cellHeight / 2;
+
+    const image = this.add.image(offsetX, offsetY, key).setScale(0.8);
     this.treasureContainer?.add(image);
 
     if (!this.digStatistics) {
@@ -503,6 +511,41 @@ export class BeachScene extends BaseScene {
       })
       .setOrigin(0.5, 0.5);
   };
+
+  public update() {
+    super.update();
+
+    const currentPlayerBounds = this.currentPlayer?.getBounds();
+    const nameTag = this.currentPlayer?.getByName("nameTag");
+    const factionTag = this.currentPlayer?.getByName("factionTag");
+    // Create a grid for the dig site with a buffer of 1 tile
+    const gridRect = new Phaser.Geom.Rectangle(
+      this.gridX,
+      this.gridY,
+      this.cellWidth * SITE_COLS,
+      this.cellHeight * SITE_ROWS - (this.currentPlayer?.height ?? 0),
+    );
+
+    if (!currentPlayerBounds || !gridRect) return;
+
+    if (Phaser.Geom.Rectangle.Overlaps(currentPlayerBounds, gridRect)) {
+      if (nameTag) {
+        (nameTag as Phaser.GameObjects.Text).setVisible(false);
+      }
+
+      if (factionTag) {
+        (factionTag as Phaser.GameObjects.Text).setVisible(false);
+      }
+    } else {
+      if (nameTag) {
+        (nameTag as Phaser.GameObjects.Text).setVisible(true);
+      }
+
+      if (factionTag) {
+        (factionTag as Phaser.GameObjects.Text).setVisible(true);
+      }
+    }
+  }
 }
 
 // PubSub.ts
