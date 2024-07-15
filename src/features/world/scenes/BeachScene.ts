@@ -59,7 +59,7 @@ export type DigAnalytics = {
   percentageFound: number;
 };
 
-const TOTAL_DIGS = 3;
+const TOTAL_DIGS = 25;
 const SITE_COLS = 10;
 const SITE_ROWS = 8;
 
@@ -79,6 +79,8 @@ export class BeachScene extends BaseScene {
   dugCoords: string[] = [];
   treasuresFound: InventoryItemName[] = [];
   digStatistics: DigAnalytics | undefined;
+  restartButton: Phaser.GameObjects.Image | undefined;
+  restartText: Phaser.GameObjects.Text | undefined;
 
   constructor() {
     super({ name: "beach", map: { json: mapJSON } });
@@ -304,6 +306,26 @@ export class BeachScene extends BaseScene {
         color: "black",
       })
       .setOrigin(0.5, 0.5);
+
+    this.restartButton = this.add
+      .image(210, 72, "button")
+      .setDisplaySize(28, 14)
+      .setInteractive({ cursor: "pointer" })
+      .on("pointerdown", () => {
+        this.startDig();
+      })
+      .setVisible(false);
+
+    this.restartText = this.add
+      .text(210, 71, "Restart", {
+        fontSize: "4px",
+        fontFamily: "monospace",
+        padding: { x: 0, y: 2 },
+        resolution: 4,
+        color: "black",
+      })
+      .setOrigin(0.5, 0.5)
+      .setVisible(false);
   };
 
   public moveBumpkinToDigLocation = (
@@ -359,6 +381,16 @@ export class BeachScene extends BaseScene {
     }
   };
 
+  public hideRestartButton = () => {
+    this.restartButton?.setVisible(false);
+    this.restartText?.setVisible(false);
+  };
+
+  public showRestartButton = () => {
+    this.restartButton?.setVisible(true);
+    this.restartText?.setVisible(true);
+  };
+
   public resetDig = () => {
     this.treasureContainer?.destroy();
     this.digsRemainingLabel?.destroy();
@@ -366,6 +398,7 @@ export class BeachScene extends BaseScene {
     this.digsRemaining = TOTAL_DIGS;
     this.treasureContainer = this.add.container(0, 0);
     this.archeologicalData = createGrid();
+    this.hideRestartButton();
 
     this.digsRemainingLabel = this.add.text(
       108,
@@ -484,27 +517,11 @@ export class BeachScene extends BaseScene {
   };
 
   public endDigging = () => {
+    this.showRestartButton();
     this.recordDigAnalytics();
     this.selectedSelectBox?.setVisible(false);
     this.hoverSelectBox?.setVisible(false);
     this.digsRemainingLabel?.setText("No digs remaining");
-
-    this.add
-      .image(210, 72, "button")
-      .setDisplaySize(28, 14)
-      .setInteractive({ cursor: "pointer" })
-      .on("pointerdown", () => {
-        this.startDig();
-      });
-    this.add
-      .text(210, 71, "Restart", {
-        fontSize: "4px",
-        fontFamily: "monospace",
-        padding: { x: 0, y: 2 },
-        resolution: 4,
-        color: "black",
-      })
-      .setOrigin(0.5, 0.5);
   };
 
   public recordDigAnalytics = () => {
