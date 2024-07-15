@@ -56,6 +56,7 @@ import { ExampleAnimationScene } from "./scenes/examples/AnimationScene";
 import { ExampleRPGScene } from "./scenes/examples/RPGScene";
 import { EventObject } from "xstate";
 import { ToastContext } from "features/game/toast/ToastProvider";
+import { FarmScene } from "./scenes/FarmScene";
 
 const _roomState = (state: MachineState) => state.value;
 const _scene = (state: MachineState) => state.context.sceneId;
@@ -124,6 +125,7 @@ export const PhaserComponent: React.FC<Props> = ({
 
   const scenes = [
     Preloader,
+    FarmScene,
     new WoodlandsScene({ gameState: gameService.state.context.state }),
     BeachScene,
     new PlazaScene({ gameState: gameService.state.context.state }),

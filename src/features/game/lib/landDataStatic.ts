@@ -29,6 +29,35 @@ export const INITIAL_RESOURCES: Pick<
       y: 0,
       height: 1,
       width: 1,
+      crop: {
+        name: "Sunflower",
+        plantedAt: 0,
+        amount: 2,
+      },
+    },
+    2: {
+      createdAt: Date.now(),
+      x: -1,
+      y: 0,
+      height: 1,
+      width: 1,
+      crop: {
+        name: "Sunflower",
+        plantedAt: 0,
+        amount: 3,
+      },
+    },
+    3: {
+      createdAt: Date.now(),
+      x: -1,
+      y: 1,
+      height: 1,
+      width: 1,
+      crop: {
+        name: "Sunflower",
+        plantedAt: 0,
+        amount: 1,
+      },
     },
   },
   trees: {

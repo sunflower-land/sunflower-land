@@ -1,37 +1,49 @@
+import { SpriteComponent } from "../components/SpriteComponent";
+import { TextComponent } from "../components/TextComponent";
+
 export class ProgressBarContainer extends Phaser.GameObjects.Container {
-  public progressBarBackground: Phaser.GameObjects.Graphics;
-  public progressBar: Phaser.GameObjects.Graphics;
+  container: Phaser.GameObjects.Container;
+  scene: Phaser.Scene;
 
-  constructor(scene: Phaser.Scene, x: number, y: number) {
-    super(scene, x, y);
+  sprite: SpriteComponent;
+  bar: Phaser.GameObjects.Graphics | undefined;
+  background: Phaser.GameObjects.Graphics | undefined;
 
-    this.progressBar = this.scene.add.graphics().setDepth(1);
-    this.progressBarBackground = this.scene.add.graphics().setDepth(0);
-    const progressBar = this.scene.add
-      .sprite(0, 0, "empty_progress_bar")
-      .setDisplaySize(18, 7);
-    this.add(progressBar);
+  constructor({
+    container,
+    scene,
+  }: {
+    container: Phaser.GameObjects.Container;
+    scene: Phaser.Scene;
+  }) {
+    super(scene, 0, 16);
+    this.container = container;
+    this.scene = scene;
 
-    // this.bringToTop(this.progressBarBackground);
+    this.sprite = new SpriteComponent({
+      container: this,
+      sprite: "world/empty_bar.png",
+      key: "empty_progress",
+      scene: this.scene,
+    });
 
-    this.progressBarBackground.fillStyle(0x193c3e, 1);
-    this.progressBarBackground.fillRect(-8, -2, 15, 3);
+    this.background = this.scene.add.graphics().setDepth(0);
+    this.bar = this.scene.add.graphics().setDepth(1);
 
-    this.add(this.progressBarBackground);
-    this.add(this.progressBar);
-    this.scene.add.existing(this);
+    this.background.fillStyle(0x193c3e, 1);
+    this.background.fillRect(0, 0, 14, 4);
 
-    this.bringToTop(progressBar);
+    const progress = 0.25;
+
+    this.bar.fillStyle(0x63c74d, 1);
+    this.bar.fillRect(0, 0, 14 * progress, 4);
+
+    this.add(this.background);
+    this.add(this.bar);
+
+    this.container.add(this);
   }
 
-  updateBar(progress: number) {
-    // Round up to the nearest 10 (expect for 100)
-    let amount = Math.min(Math.ceil(progress * 10) / 10, 100);
-    if (amount === 100 && progress !== 100) {
-      amount = 90;
-    }
-
-    this.progressBar.fillStyle(0x63c74d, 1);
-    this.progressBar.fillRect(-7, -2, (14 * amount) / 100, 4);
-  }
+  // Progress the bar
+  update() {}
 }
