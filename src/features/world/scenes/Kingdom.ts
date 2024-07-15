@@ -280,7 +280,8 @@ export class KingdomScene extends BaseScene {
       const listener = (e: EventObject) => {
         if (
           e.type === "faction.joined" &&
-          (e as JoinFactionAction).faction === key
+          (e as JoinFactionAction).faction === key &&
+          door.active
         ) {
           door.destroy();
         }
@@ -331,7 +332,7 @@ export class KingdomScene extends BaseScene {
   public champions: Phaser.GameObjects.Sprite | undefined;
 
   async setChampions() {
-    if (this.champions) {
+    if (this.champions?.active) {
       this.champions.destroy();
       this.showPoof();
       this.champions = undefined;
@@ -365,7 +366,9 @@ export class KingdomScene extends BaseScene {
       return totals[winner] > totals[name] ? winner : name;
     }, "bumpkins");
 
-    this.champions.destroy();
+    if (this.champions.active) {
+      this.champions.destroy();
+    }
     this.champions = undefined;
 
     const throne = THRONES[winningFaction];
@@ -411,7 +414,7 @@ export class KingdomScene extends BaseScene {
 
     // Listen for the animation complete event
     poof.on("animationcomplete", function (animation: { key: string }) {
-      if (animation.key === "poof_anim") {
+      if (animation.key === "poof_anim" && poof.active) {
         // Animation 'poof_anim' has completed, destroy the sprite
         poof.destroy();
       }

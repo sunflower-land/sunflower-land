@@ -69,8 +69,8 @@ export class PlaceableContainer extends Phaser.GameObjects.Container {
   }
 
   public disappear() {
-    this.sprite?.destroy();
-    this.shadow?.destroy();
+    if (this.sprite?.active) this.sprite?.destroy();
+    if (this.shadow?.active) this.shadow?.destroy();
 
     const poof = this.scene.add.sprite(0, 4, "poof").setOrigin(0.5);
     this.add(poof);
@@ -92,7 +92,7 @@ export class PlaceableContainer extends Phaser.GameObjects.Container {
     const container = this;
     // Listen for the animation complete event
     poof.on("animationcomplete", function (animation: { key: string }) {
-      if (animation.key === "poof_anim") {
+      if (animation.key === "poof_anim" && container.active) {
         // Animation 'poof_anim' has completed, destroy the sprite
         container.destroy();
       }

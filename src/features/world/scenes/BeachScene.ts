@@ -3,8 +3,6 @@ import mapJSON from "assets/map/beach.json";
 import { SceneId } from "../mmoMachine";
 import { BaseScene, NPCBumpkin } from "./BaseScene";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { InventoryItemName } from "features/game/types/game";
-import { ITEM_DETAILS } from "features/game/types/images";
 import { FishermanContainer } from "../containers/FishermanContainer";
 import { interactableModalManager } from "../ui/InteractableModals";
 import { translate } from "lib/i18n/translate";
@@ -46,10 +44,6 @@ const BUMPKINS: NPCBumpkin[] = [
 export class BeachScene extends BaseScene {
   sceneId: SceneId = "beach";
 
-  krakenHunger: InventoryItemName | undefined;
-  krakenHungerSprite: Phaser.GameObjects.Sprite | undefined;
-  heartSprite: Phaser.GameObjects.Sprite | undefined;
-
   constructor() {
     super({ name: "beach", map: { json: mapJSON } });
   }
@@ -76,11 +70,6 @@ export class BeachScene extends BaseScene {
     this.load.spritesheet("beach_bud_3", "world/beach_bud_3.png", {
       frameWidth: 32,
       frameHeight: 32,
-    });
-
-    this.load.spritesheet("kraken", "world/kraken_sheet.png", {
-      frameWidth: 41,
-      frameHeight: 48,
     });
 
     this.load.spritesheet("bird", SUNNYSIDE.animals.bird, {
@@ -207,57 +196,6 @@ export class BeachScene extends BaseScene {
       }
     });
   }
-
-  public loadKrakenHunger = (hunger: InventoryItemName) => {
-    if (!hunger) {
-      this.heartSprite?.destroy();
-      this.krakenHungerSprite?.destroy();
-    }
-
-    if (this.krakenHunger === hunger) {
-      return;
-    }
-
-    if (!this.heartSprite) {
-      this.heartSprite = this.add.sprite(350, 740, "heart");
-    }
-
-    this.krakenHunger = hunger;
-
-    if (this.krakenHungerSprite) {
-      this.krakenHungerSprite.destroy();
-      this.krakenHungerSprite = undefined;
-    }
-
-    const image = ITEM_DETAILS[hunger].image;
-
-    let loader;
-
-    const key = `${hunger}_kraken_hunger`;
-
-    if (this.textures.exists(key)) {
-      this.krakenHungerSprite = this.add.sprite(338, 740, key);
-      return;
-    }
-
-    if (image.startsWith("data:")) {
-      this.textures.addBase64(key, image);
-
-      this.textures.once("addtexture", () => {
-        // Create the sprite once the texture is loaded
-        this.krakenHungerSprite = this.add.sprite(338, 740, key);
-      });
-    } else {
-      loader = this.load.image(key, image);
-
-      loader.once(Phaser.Loader.Events.COMPLETE, () => {
-        // This callback will be executed only once when "kraken_hunger" is loaded
-        this.krakenHungerSprite = this.add.sprite(338, 740, key);
-      });
-
-      this.load.start();
-    }
-  };
 }
 
 // PubSub.ts
