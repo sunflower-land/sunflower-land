@@ -117,6 +117,10 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
     }
   }
 
+  public teleport(x: number, y: number) {
+    this.setPosition(x, y);
+  }
+
   get directionFacing() {
     return this.direction;
   }

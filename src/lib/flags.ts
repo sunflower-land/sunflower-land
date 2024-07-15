@@ -39,7 +39,8 @@ export type FeatureName =
   | "FESTIVAL_OF_COLORS"
   | "FACTION_KITCHEN"
   | "FACTION_CHORES"
-  | "CHAMPIONS";
+  | "CHAMPIONS"
+  | "TEST_DIGGING";
 
 // Used for testing production features
 export const ADMIN_IDS = [1, 2, 3, 39488];
@@ -68,6 +69,7 @@ const featureFlags: Record<FeatureName, FeatureFlag> = {
   CROP_MACHINE: () => true,
   FACTION_KITCHEN: betaTimeBasedFeatureFlag(new Date("2022-07-08T00:00:00Z")),
   FACTION_CHORES: betaTimeBasedFeatureFlag(new Date("2022-07-08T00:00:00Z")),
+  TEST_DIGGING: defaultFeatureFlag,
 };
 
 export const hasFeatureAccess = (game: GameState, featureName: FeatureName) => {
