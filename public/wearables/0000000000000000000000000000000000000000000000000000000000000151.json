@@ -1,11 +1,1 @@
-{
-  "description": "# Description\n\nThis helmet is a beacon of light and guardian against shadows. Earn +10% marks when pledged to this faction. Multiples of this item do not stack.\n\n### Contributor\n\nSunflower Land is a community game built by a hundreds of developers and artists across the globe.\nCome join us on [Github](https://github.com/sunflower-land/sunflower-land)",
-  "decimals": 0,
-  "attributes": [
-    { "trait_type": "Part", "value": "Hat" },
-    { "trait_type": "Tradable", "value": "No" }
-  ],
-  "external_url": "https://bumpkins.io",
-  "image": "https://sunflower-land.com/play/wearables/images/",
-  "name": "Sunflorian Helmet"
-}
+{"description":"# Description\n\nThis helmet is a beacon of light and guardian against shadows. Earn +10% marks when pledged to this faction. Multiples of this item do not stack.\n\n### Contributor\n\nSunflower Land is a community game built by a hundreds of developers and artists across the globe.\nCome join us on [Github](https://github.com/sunflower-land/sunflower-land)","decimals":0,"attributes":[{"trait_type":"Part","value":"Hat"},{"trait_type":"Tradable","value":"No"}],"external_url":"https://bumpkins.io","image":"https://sunflower-land.com/play/wearables/images/337.png","name":"Sunflorian Helmet"}

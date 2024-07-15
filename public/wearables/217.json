@@ -1,11 +1,1 @@
-{
-  "description": "# Description\n\nA comfortable and practical vest for your fishing adventures.\n\n### Contributor\n\nSunflower Land is a community game built by a hundreds of developers and artists across the globe.\nCome join us on [Github](https://github.com/sunflower-land/sunflower-land)",
-  "decimals": 0,
-  "attributes": [
-    { "trait_type": "Part", "value": "Shirt" },
-    { "trait_type": "Tradable", "value": "Yes" }
-  ],
-  "external_url": "https://bumpkins.io",
-  "image": "https://sunflower-land.com/play/wearables/images/",
-  "name": "Fresh Catch Vest"
-}
+{"description":"# Description\n\nA comfortable and practical vest for your fishing adventures.\n\n### Contributor\n\nSunflower Land is a community game built by a hundreds of developers and artists across the globe.\nCome join us on [Github](https://github.com/sunflower-land/sunflower-land)","decimals":0,"attributes":[{"trait_type":"Part","value":"Shirt"},{"trait_type":"Tradable","value":"Yes"}],"external_url":"https://bumpkins.io","image":"https://sunflower-land.com/play/wearables/images/217.png","name":"Fresh Catch Vest"}
