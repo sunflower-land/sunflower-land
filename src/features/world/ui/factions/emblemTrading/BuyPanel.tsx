@@ -277,7 +277,7 @@ export const BuyPanel: React.FC<{
             {emblem}
           </Label>
           <Label type="warning" className="ml-auto">
-            {`${t("inventory")}: ${inventory[emblem]}`}
+            {`${t("inventory")}: ${setPrecision(inventory[emblem] || new Decimal(0))}`}
           </Label>
         </div>
         <div className="flex-1 pr-2 overflow-y-auto scrollable mt-1">
