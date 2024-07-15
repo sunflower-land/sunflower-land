@@ -55,6 +55,7 @@ import { BumpkinHouseScene } from "./scenes/BumpkinHouseScene";
 import { ExampleAnimationScene } from "./scenes/examples/AnimationScene";
 import { ExampleRPGScene } from "./scenes/examples/RPGScene";
 import { EventObject } from "xstate";
+import { GameScene } from "./scenes/GameScene";
 
 const _roomState = (state: MachineState) => state.value;
 const _scene = (state: MachineState) => state.context.sceneId;
@@ -136,6 +137,7 @@ export const PhaserComponent: React.FC<Props> = ({
       : []),
     ExampleAnimationScene,
     ExampleRPGScene,
+    GameScene,
   ];
 
   useEffect(() => {
