@@ -10,6 +10,11 @@ import { createGrid } from "../ui/beach/DiggingMinigame";
 import { InventoryItemName } from "features/game/types/game";
 import { hasFeatureAccess } from "lib/flags";
 import { gameAnalytics } from "lib/gameAnalytics";
+import {
+  BeachBountyTreasure,
+  SELLABLE_TREASURE,
+} from "features/game/types/treasure";
+import { getUTCDateString } from "lib/utils/time";
 
 const convertToSnakeCase = (str: string) => {
   return str.replace(" ", "_").toLowerCase();
@@ -49,13 +54,12 @@ const BUMPKINS: NPCBumpkin[] = [
   },
 ];
 
-export type DigStats = {
-  farmId: number;
-  date: string;
-  digs: Record<string, InventoryItemName | undefined>;
+export type DigAnalytics = {
+  outputCoins: number;
+  percentageFound: number;
 };
 
-const TOTAL_DIGS = 25;
+const TOTAL_DIGS = 3;
 const SITE_COLS = 10;
 const SITE_ROWS = 8;
 
@@ -64,16 +68,17 @@ export class BeachScene extends BaseScene {
   archeologicalData: (InventoryItemName | undefined)[][] = [];
   hoverSelectBox: Phaser.GameObjects.Image | undefined;
   selectedSelectBox: Phaser.GameObjects.Image | undefined;
-  digsRemaining = TOTAL_DIGS;
-  digsRemainingLabel: Phaser.GameObjects.Text | undefined;
-  dugCoords: string[] = [];
   treasureContainer: Phaser.GameObjects.Container | undefined;
   selectedToolLabel: Phaser.GameObjects.Text | undefined;
   gridX = 80;
   gridY = 80;
   cellWidth = 16;
   cellHeight = 16;
-  digStatistics: DigStats | undefined;
+  digsRemaining = TOTAL_DIGS;
+  digsRemainingLabel: Phaser.GameObjects.Text | undefined;
+  dugCoords: string[] = [];
+  treasuresFound: InventoryItemName[] = [];
+  digStatistics: DigAnalytics | undefined;
 
   constructor() {
     super({ name: "beach", map: { json: mapJSON } });
@@ -123,14 +128,14 @@ export class BeachScene extends BaseScene {
     this.load.image("fish_frenzy", "world/lightning.png");
     this.load.image("full_moon", "world/full_moon.png");
     // Treasures
-    this.load.image("sea_cucumber", "world/sea_cucumber.webp");
-    this.load.image("starfish", "world/starfish.webp");
-    this.load.image("coral", "world/coral.webp");
+    this.load.image("sea_cucumber", SUNNYSIDE.resource.sea_cucumber);
+    this.load.image("starfish", SUNNYSIDE.resource.starfish);
+    this.load.image("coral", SUNNYSIDE.resource.coral);
     this.load.image("pearl", "world/pearl.webp");
-    this.load.image("pirate_bounty", "world/pirate_bounty.webp");
+    this.load.image("pirate_bounty", SUNNYSIDE.resource.pirate_bounty);
     this.load.image("seaweed", "world/seaweed.webp");
     this.load.image("pipi", "world/pipi.webp");
-    this.load.image("crab", "world/crab.webp");
+    this.load.image("crab", SUNNYSIDE.resource.crab);
     this.load.image("nothing", SUNNYSIDE.icons.close);
 
     this.load.image("select_box", "world/select_box.png");
@@ -253,11 +258,13 @@ export class BeachScene extends BaseScene {
   public setUpDiggingTestControls = () => {
     this.selectedSelectBox = this.add
       .image(0, 0, "confirm_select")
+      .setOrigin(0)
       .setDisplaySize(16, 16)
       .setVisible(false);
 
     this.hoverSelectBox = this.add
       .image(0, 0, "shovel_select")
+      .setOrigin(0)
       .setDisplaySize(16, 16)
       .setVisible(false);
     // Enter button
@@ -408,8 +415,7 @@ export class BeachScene extends BaseScene {
     } else {
       // set selected box
       this.selectedSelectBox
-        ?.setOrigin(0)
-        .setPosition(selectedX, selectedY)
+        ?.setPosition(selectedX, selectedY)
         .setVisible(true);
       // remove hover box
       this.hoverSelectBox?.setVisible(false);
@@ -417,9 +423,9 @@ export class BeachScene extends BaseScene {
   };
 
   public handlePointerOver = (rectX: number, rectY: number) => {
-    const selectedPosition = this.selectedSelectBox?.getBounds();
+    const selectedBox = this.selectedSelectBox as Phaser.GameObjects.Image;
 
-    if (selectedPosition?.contains(rectX, rectY)) {
+    if (rectX === selectedBox.x && rectY === selectedBox.y) {
       this.hoverSelectBox?.setVisible(false);
       return;
     }
@@ -466,6 +472,7 @@ export class BeachScene extends BaseScene {
 
     if (item) {
       key = convertToSnakeCase(item);
+      this.treasuresFound.push(item);
     }
 
     // Centre in the square
@@ -474,22 +481,10 @@ export class BeachScene extends BaseScene {
 
     const image = this.add.image(offsetX, offsetY, key).setScale(0.8);
     this.treasureContainer?.add(image);
-
-    if (!this.digStatistics) {
-      this.digStatistics = {
-        farmId: this.gameService.state.context.farmId,
-        date: new Date().toUTCString(),
-        digs: {
-          [TOTAL_DIGS - this.digsRemaining]: item,
-        },
-      };
-    } else {
-      this.digStatistics.digs[TOTAL_DIGS - this.digsRemaining] = item;
-    }
   };
 
   public endDigging = () => {
-    gameAnalytics.trackBeachDiggingAttempt(this.digStatistics as DigStats);
+    this.recordDigAnalytics();
     this.selectedSelectBox?.setVisible(false);
     this.hoverSelectBox?.setVisible(false);
     this.digsRemainingLabel?.setText("No digs remaining");
@@ -512,7 +507,44 @@ export class BeachScene extends BaseScene {
       .setOrigin(0.5, 0.5);
   };
 
-  public handleNameTagVisibility() {
+  public recordDigAnalytics = () => {
+    const day = getUTCDateString();
+    const stored = localStorage.getItem("beachDigAttempts");
+
+    let attemptsToday = 0;
+
+    if (stored) {
+      attemptsToday = JSON.parse(stored)[day];
+
+      localStorage.setItem(
+        "beachDigAttempts",
+        JSON.stringify({ ...JSON.parse(stored), [day]: attemptsToday + 1 }),
+      );
+    } else {
+      localStorage.setItem(
+        "beachDigAttempts",
+        JSON.stringify({ [day]: attemptsToday + 1 }),
+      );
+    }
+
+    if (attemptsToday + 1 < 4) {
+      const totalCoins = this.treasuresFound.reduce((acc, item) => {
+        return (acc +=
+          SELLABLE_TREASURE[item as BeachBountyTreasure].sellPrice);
+      }, 0);
+
+      const availableTreasures = this.archeologicalData.flat().filter(Boolean);
+      const percentageFound =
+        (this.treasuresFound.length / availableTreasures.length) * 100;
+
+      gameAnalytics.trackBeachDiggingAttempt({
+        outputCoins: totalCoins,
+        percentageFound,
+      });
+    }
+  };
+
+  public handleNameTagVisibility = () => {
     const currentPlayerBounds = this.currentPlayer?.getBounds();
     const nameTag = this.currentPlayer?.getByName("nameTag");
     const factionTag = this.currentPlayer?.getByName("factionTag");
@@ -543,7 +575,7 @@ export class BeachScene extends BaseScene {
         (factionTag as Phaser.GameObjects.Text).setVisible(true);
       }
     }
-  }
+  };
 
   public handleOtherDiggersPositions() {
     // If any other players are inside of the dig area, move them to the perimeter

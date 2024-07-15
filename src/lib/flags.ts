@@ -2,7 +2,7 @@ import { GameState } from "features/game/types/game";
 import { CONFIG } from "lib/config";
 
 const defaultFeatureFlag = ({ inventory }: GameState) =>
-  !!inventory["Beta Pass"]?.gt(0);
+  CONFIG.NETWORK === "amoy" || !!inventory["Beta Pass"]?.gt(0);
 
 const testnetFeatureFlag = () => CONFIG.NETWORK === "amoy";
 
