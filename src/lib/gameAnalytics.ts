@@ -149,15 +149,12 @@ class GameAnalyticTracker {
   public trackBeachDiggingAttempt(analytics: DigAnalytics) {
     const { outputCoins, percentageFound } = analytics;
 
-    GameAnalytics.addDesignEvent({
-      eventId: "Beach:Digging:PercentageFound",
-      value: percentageFound,
-    });
+    GameAnalytics.addDesignEvent(
+      "Beach:Digging:PercentageFound",
+      percentageFound,
+    );
 
-    GameAnalytics.addDesignEvent({
-      eventId: "Beach:Digging:OutputCoins",
-      value: outputCoins,
-    });
+    GameAnalytics.addDesignEvent("Beach:Digging:OutputCoins", outputCoins);
   }
 }
 
