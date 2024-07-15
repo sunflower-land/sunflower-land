@@ -32,29 +32,3 @@ export class GameEntity extends Phaser.GameObjects.Container {
     return this.components.find((c) => c instanceof componentClass) as T;
   }
 }
-
-export type LifecycleProps = {
-  lifecycle: Lifecycle;
-  startAt: number;
-  endAt: number;
-};
-
-export class LifecycleComponent implements IComponent {
-  data: LifecycleProps;
-  gameObject?: GameEntity;
-
-  constructor(data: LifecycleProps) {
-    this.data = data;
-  }
-
-  init(gameObject: GameEntity) {
-    this.gameObject = gameObject;
-  }
-
-  update() {
-    // Handle player input
-    console.log("Updating Player Input");
-
-    // Set the correct image based on the time
-  }
-}

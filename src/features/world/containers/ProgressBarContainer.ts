@@ -6,19 +6,27 @@ export class ProgressBarContainer extends Phaser.GameObjects.Container {
   scene: Phaser.Scene;
 
   sprite: SpriteComponent;
-  bar: Phaser.GameObjects.Graphics | undefined;
-  background: Phaser.GameObjects.Graphics | undefined;
+  bar: Phaser.GameObjects.Graphics;
+  startAt: number;
+  endAt: number;
 
   constructor({
     container,
     scene,
+    startAt,
+    endAt,
   }: {
     container: Phaser.GameObjects.Container;
     scene: Phaser.Scene;
+    startAt: number;
+    endAt: number;
   }) {
     super(scene, 0, 16);
     this.container = container;
     this.scene = scene;
+
+    this.bar = this.scene.add.graphics().setDepth(1);
+    this.add(this.bar);
 
     this.sprite = new SpriteComponent({
       container: this,
@@ -27,23 +35,21 @@ export class ProgressBarContainer extends Phaser.GameObjects.Container {
       scene: this.scene,
     });
 
-    this.background = this.scene.add.graphics().setDepth(0);
-    this.bar = this.scene.add.graphics().setDepth(1);
-
-    this.background.fillStyle(0x193c3e, 1);
-    this.background.fillRect(0, 0, 14, 4);
-
-    const progress = 0.25;
-
-    this.bar.fillStyle(0x63c74d, 1);
-    this.bar.fillRect(0, 0, 14 * progress, 4);
-
-    this.add(this.background);
-    this.add(this.bar);
+    this.startAt = startAt;
+    this.endAt = endAt;
 
     this.container.add(this);
+
+    this.update();
   }
 
   // Progress the bar
-  update() {}
+  update() {
+    const total = this.endAt - this.startAt;
+    const progress = Date.now() - this.startAt;
+    const percentage = Math.min(progress / total, 1);
+
+    this.bar.fillStyle(0x63c74d, 1);
+    this.bar.fillRect(-7, -2, 14 * percentage, 4);
+  }
 }

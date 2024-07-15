@@ -43,7 +43,7 @@ export const INITIAL_RESOURCES: Pick<
       width: 1,
       crop: {
         name: "Sunflower",
-        plantedAt: 0,
+        plantedAt: Date.now() - 55 * 1000,
         amount: 3,
       },
     },

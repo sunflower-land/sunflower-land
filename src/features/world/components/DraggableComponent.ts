@@ -1,6 +1,8 @@
 export class DraggableComponent {
+  container: Phaser.GameObjects.Container;
   x: number;
   y: number;
+
   constructor({
     container,
     onDragEnd,
@@ -8,6 +10,10 @@ export class DraggableComponent {
     container: Phaser.GameObjects.Container;
     onDragEnd: () => void;
   }) {
+    this.container = container;
+    this.x = container.x;
+    this.y = container.y;
+
     // Set the container as interactive and enable dragging
     container
       .setInteractive({ cursor: "pointer", draggable: true })
@@ -19,27 +25,13 @@ export class DraggableComponent {
         (pointer: Phaser.Input.Pointer, dragX: number, dragY: number) => {
           // Move the container to the dragged position
           // Snap to grid while dragging
-          x = Math.round(dragX / 16) * 16;
-          y = Math.round(dragY / 16) * 16;
-
-          const p = container
-            .getComponents()
-            .find((r) => isProgressBarComponent);
-          p.hide();
+          this.x = Math.round(dragX / 16) * 16;
+          this.y = Math.round(dragY / 16) * 16;
         },
       )
       .on("dragend", (pointer: Phaser.Input.Pointer) => {
-        // Snap to grid
-        container.x = Math.round(container.x / 16) * 16;
-        container.y = Math.round(container.y / 16) * 16;
-
         // Call the onDragEnd callback
         onDragEnd();
       });
-  }
-
-  update() {
-    container.x = Math.round(this.x / 16) * 16;
-    container.y = Math.round(this.y / 16) * 16;
   }
 }

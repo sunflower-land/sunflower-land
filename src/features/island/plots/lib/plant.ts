@@ -70,3 +70,29 @@ export const CROP_LIFECYCLE: Record<CropName, Lifecycle> = getKeys(
   }),
   {} as Record<CropName, Lifecycle>,
 );
+
+export type LifecycleStage = {
+  sprite: string;
+  progress: number; // A number between 0 and 100
+};
+
+export function getCropStages({ name }: { name: CropName }): LifecycleStage[] {
+  return [
+    {
+      sprite: CROP_LIFECYCLE[name].seedling,
+      progress: 0,
+    },
+    {
+      sprite: CROP_LIFECYCLE[name].halfway,
+      progress: 0.5,
+    },
+    {
+      sprite: CROP_LIFECYCLE[name].almost,
+      progress: 0.75,
+    },
+    {
+      sprite: CROP_LIFECYCLE[name].ready,
+      progress: 1,
+    },
+  ];
+}

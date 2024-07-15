@@ -111,11 +111,18 @@ export type PastAction = GameEvent & {
   createdAt: Date;
 };
 
+export type BumpkinAction = {
+  event?: PlayingEvent;
+  x: number;
+  y: number;
+  queuedAt: number;
+};
 export interface Context {
   farmId: number;
   state: GameState;
   farmAddress?: string;
   actions: PastAction[];
+  queue: BumpkinAction[];
   sessionId?: string;
   errorCode?: ErrorCode;
   transactionId?: string;
@@ -156,6 +163,14 @@ export type Moderation = {
     kickedBy: number;
     reason: string;
   }[];
+};
+
+type QueueEvent = {
+  type: "QUEUE";
+  bumpkinId: string;
+  action?: PlayingEvent;
+  x: number;
+  y: number;
 };
 
 type MintEvent = {
@@ -347,10 +362,12 @@ export type BlockchainEvent =
   | DepositEvent
   | UpdateEvent
   | UpdateUsernameEvent
+  | QueueEvent
   | { type: "EXPAND" }
   | { type: "SAVE_SUCCESS" }
   | { type: "UPGRADE" }
   | { type: "CLOSE" }
+  | { type: "POP_QUEUE" }
   | { type: "RANDOMISE" }; // Test only
 
 // // For each game event, convert it to an XState event + handler
@@ -578,6 +595,7 @@ export function startGame(authContext: AuthContext) {
         saveQueued: false,
         verified: !CONFIG.API_URL,
         purchases: [],
+        queue: [],
       },
       states: {
         loading: {
@@ -1009,6 +1027,24 @@ export function startGame(authContext: AuthContext) {
           },
           on: {
             ...GAME_EVENT_HANDLERS,
+            POP_QUEUE: {
+              actions: assign((context, event) => ({
+                queue: context.queue.slice(1),
+              })),
+            },
+            QUEUE: {
+              actions: assign((context, event) => ({
+                queue: [
+                  ...context.queue,
+                  {
+                    event: event.action,
+                    x: event.x,
+                    y: event.y,
+                    queuedAt: Date.now(),
+                  },
+                ],
+              })),
+            },
             UPDATE_USERNAME: {
               actions: assign((context, event) => ({
                 state: {
