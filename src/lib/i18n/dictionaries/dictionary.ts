@@ -41,6 +41,11 @@ export const languageDetails: Record<LanguageCode, LanguageDetails> = {
     languageImage: [brazilFlag, portugalFlag],
     imageAlt: ["Brazil Flag", "Portugual Flag"],
   },
+  ru: {
+    languageName: "Русский",
+    languageImage: [russiaFlag],
+    imageAlt: ["Russia Flag"],
+  },
   tk: {
     languageName: "Türkçe",
     languageImage: [turkeyFlag],
@@ -50,11 +55,6 @@ export const languageDetails: Record<LanguageCode, LanguageDetails> = {
     languageName: "简体中文",
     languageImage: [chinaFlag],
     imageAlt: ["China Flag"],
-  },
-  ru: {
-    languageName: "Русский",
-    languageImage: [russiaFlag],
-    imageAlt: ["Russia Flag"],
   },
 };
 
