@@ -287,7 +287,11 @@ export abstract class FactionHouseScene extends BaseScene {
   setupPrize({ x, y }: Coordinates) {
     const { prize } = getFactionPrize({ game: this.gameState });
 
-    if (prize) {
+    if (
+      !!prize?.coins ||
+      !!prize?.sfl ||
+      Object.keys(prize?.items ?? {}).length > 0
+    ) {
       const basicChest = this.add.sprite(x, y, "basic_chest");
       basicChest
         .setDepth(100000)
