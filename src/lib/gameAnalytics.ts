@@ -2,6 +2,7 @@ import { GameAnalytics } from "gameanalytics";
 import { CONFIG } from "./config";
 import { Currency, InventoryItemName } from "features/game/types/game";
 import { BumpkinItem } from "features/game/types/bumpkin";
+import { DigAnalytics } from "features/world/scenes/BeachScene";
 
 // Their type definition has some issues, extract to here
 enum EGAResourceFlowType {
@@ -143,6 +144,20 @@ class GameAnalyticTracker {
     );
 
     this.executed[key] = true;
+  }
+
+  public trackBeachDiggingAttempt(analytics: DigAnalytics) {
+    const { outputCoins, percentageFound } = analytics;
+
+    GameAnalytics.addDesignEvent({
+      eventId: "Beach:Digging:PercentageFound",
+      value: percentageFound,
+    });
+
+    GameAnalytics.addDesignEvent({
+      eventId: "Beach:Digging:OutputCoins",
+      value: outputCoins,
+    });
   }
 }
 
