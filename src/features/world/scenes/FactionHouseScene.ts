@@ -255,7 +255,7 @@ export abstract class FactionHouseScene extends BaseScene {
     );
   }
   onPetStateChange(newValue: PetStateSprite) {
-    if (!this.pet || !this.factionName) return;
+    if (!this.pet?.active || !this.factionName) return;
 
     this.pet?.setTexture(newValue);
     this.pet?.setPosition(
@@ -314,7 +314,7 @@ export abstract class FactionHouseScene extends BaseScene {
       this.physics.world.enable(basicChest);
 
       const listener = (e: EventObject) => {
-        if (e.type === "faction.prizeClaimed") {
+        if (e.type === "faction.prizeClaimed" && basicChest.active) {
           basicChest.destroy();
         }
       };
