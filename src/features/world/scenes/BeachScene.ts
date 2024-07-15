@@ -9,6 +9,7 @@ import { translate } from "lib/i18n/translate";
 import { createGrid } from "../ui/beach/DiggingMinigame";
 import { InventoryItemName } from "features/game/types/game";
 import { hasFeatureAccess } from "lib/flags";
+import { gameAnalytics } from "lib/gameAnalytics";
 
 const convertToSnakeCase = (str: string) => {
   return str.replace(" ", "_").toLowerCase();
@@ -48,12 +49,20 @@ const BUMPKINS: NPCBumpkin[] = [
   },
 ];
 
+export type DigStats = {
+  farmId: number;
+  date: string;
+  digs: Record<string, InventoryItemName | undefined>;
+};
+
+const TOTAL_DIGS = 25;
+
 export class BeachScene extends BaseScene {
   sceneId: SceneId = "beach";
   archeologicalData: (InventoryItemName | undefined)[][] = [];
   hoverSelectBox: Phaser.GameObjects.Image | undefined;
   selectedSelectBox: Phaser.GameObjects.Image | undefined;
-  digsRemaining = 20;
+  digsRemaining = TOTAL_DIGS;
   digsRemainingLabel: Phaser.GameObjects.Text | undefined;
   dugCoords: string[] = [];
   treasureContainer: Phaser.GameObjects.Container | undefined;
@@ -62,6 +71,7 @@ export class BeachScene extends BaseScene {
   digSiteStartY = 88;
   digSiteWidth = 16;
   digSiteHeight = 16;
+  digStatistics: DigStats | undefined;
 
   constructor() {
     super({ name: "beach", map: { json: mapJSON } });
@@ -456,9 +466,22 @@ export class BeachScene extends BaseScene {
 
     const image = this.add.image(x, y, key).setScale(0.8);
     this.treasureContainer?.add(image);
+
+    if (!this.digStatistics) {
+      this.digStatistics = {
+        farmId: this.gameService.state.context.farmId,
+        date: new Date().toUTCString(),
+        digs: {
+          [TOTAL_DIGS - this.digsRemaining]: item,
+        },
+      };
+    } else {
+      this.digStatistics.digs[TOTAL_DIGS - this.digsRemaining] = item;
+    }
   };
 
   public endDigging = () => {
+    gameAnalytics.trackBeachDiggingAttempt(this.digStatistics as DigStats);
     this.selectedSelectBox?.setVisible(false);
     this.hoverSelectBox?.setVisible(false);
     this.digsRemainingLabel?.setText("No digs remaining");
