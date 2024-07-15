@@ -8697,13 +8697,13 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Bumpkin Gold Champion": {
-    image: bumpkinSilverChampion,
+    image: bumpkinGoldChampion,
     description: {
       en: "The premier Bumpkin champion, known for unmatched dedication and skill.",
     },
   },
   "Bumpkin Silver Champion": {
-    image: bumpkinGoldChampion,
+    image: bumpkinSilverChampion,
     description: {
       en: "A respected Bumpkin competitor, esteemed for resilience and clever strategy.",
     },
