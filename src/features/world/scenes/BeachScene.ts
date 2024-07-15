@@ -266,7 +266,7 @@ export class BeachScene extends BaseScene {
       .setDisplaySize(28, 14)
       .setInteractive({ cursor: "pointer" })
       .on("pointerdown", () => {
-        this.currentPlayer?.teleport(200, 144);
+        this.currentPlayer?.teleport(256, 159);
       });
 
     this.add
@@ -356,7 +356,7 @@ export class BeachScene extends BaseScene {
     this.treasureContainer?.destroy();
     this.digsRemainingLabel?.destroy();
     this.dugCoords = [];
-    this.digsRemaining = 20;
+    this.digsRemaining = TOTAL_DIGS;
     this.treasureContainer = this.add.container(0, 0);
     this.archeologicalData = createGrid();
 
@@ -512,9 +512,7 @@ export class BeachScene extends BaseScene {
       .setOrigin(0.5, 0.5);
   };
 
-  public update() {
-    super.update();
-
+  public handleNameTagVisibility() {
     const currentPlayerBounds = this.currentPlayer?.getBounds();
     const nameTag = this.currentPlayer?.getByName("nameTag");
     const factionTag = this.currentPlayer?.getByName("factionTag");
@@ -545,6 +543,34 @@ export class BeachScene extends BaseScene {
         (factionTag as Phaser.GameObjects.Text).setVisible(true);
       }
     }
+  }
+
+  public handleOtherDiggersPositions() {
+    // If any other players are inside of the dig area, move them to the perimeter
+    this.mmoServer.state.players.forEach((player, sessionId) => {
+      const gridRect = new Phaser.Geom.Rectangle(
+        this.gridX,
+        this.gridY,
+        this.cellWidth * SITE_COLS,
+        this.cellHeight * SITE_ROWS,
+      );
+
+      if (
+        player.x > gridRect.x &&
+        player.x < gridRect.right &&
+        player.y > gridRect.y &&
+        player.y < gridRect.bottom
+      ) {
+        this.playerEntities[sessionId]?.teleport(256, 159);
+      }
+    });
+  }
+
+  public update() {
+    super.update();
+
+    this.handleNameTagVisibility();
+    this.handleOtherDiggersPositions();
   }
 }
 
