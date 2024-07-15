@@ -2918,6 +2918,7 @@ const gameDescriptions: Record<GameDescriptions, string> = {
     "Un tableau du propriétaire de cette maison.",
 
   "description.scroll": ENGLISH_TERMS["description.scroll"],
+  "description.amberFossil": ENGLISH_TERMS["description.amberFossil"],
 
   // Emblem
   "description.bumpkin.emblem": ENGLISH_TERMS["description.bumpkin.emblem"],

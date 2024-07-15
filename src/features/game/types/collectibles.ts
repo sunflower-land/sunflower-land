@@ -18,7 +18,8 @@ export type PurchasableItems =
   | "Catch the Kraken Banner"
   | "Spring Blossom Banner"
   | "Clash of Factions Banner"
-  | "Lifetime Farmer Banner";
+  | "Lifetime Farmer Banner"
+  | "Pharaoh's Treasure Banner";
 
 export type HeliosBlacksmithItem =
   | "Immortal Pear"

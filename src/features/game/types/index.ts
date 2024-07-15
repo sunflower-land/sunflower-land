@@ -384,6 +384,8 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Sunflorian Emblem": 743,
   "Nightshade Emblem": 744,
   Mark: 745,
+  "Pharaoh's Treasure Banner": 746,
+  "Amber Fossil": 747,
 
   "Australian Flag": 801,
   "Belgian Flag": 802,

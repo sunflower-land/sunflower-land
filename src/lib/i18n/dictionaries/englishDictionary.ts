@@ -2777,6 +2777,8 @@ const gameDescriptions: Record<GameDescriptions, string> = {
   "description.hungryHare":
     "This ravenous rabbit hops through your farm. A special event item from Easter 2024",
   "description.scroll": "A ticket used during the Clash of Factions Season",
+  "description.amberFossil":
+    "A ticket used during the Pharaoh's Treasure Season",
 
   // Easter Items
   "description.egg.basket": "Easter Event",

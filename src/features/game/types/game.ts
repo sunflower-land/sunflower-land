@@ -277,6 +277,9 @@ export const COUPONS: Record<Coupons, { description: string }> = {
   Scroll: {
     description: translate("description.scroll"),
   },
+  "Amber Fossil": {
+    description: translate("description.amberFossil"),
+  },
   "Goblin Emblem": {
     description: translate("description.goblin.emblem"),
   },

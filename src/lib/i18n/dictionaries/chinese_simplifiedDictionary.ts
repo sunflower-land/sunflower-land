@@ -2533,6 +2533,7 @@ const gameDescriptions: Record<GameDescriptions, string> = {
   //Home
   "description.homeOwnerPainting": "这个家的主人画像。",
   "description.scroll": ENGLISH_TERMS["description.scroll"],
+  "description.amberFossil": ENGLISH_TERMS["description.amberFossil"],
 
   // Emblem
   "description.bumpkin.emblem": ENGLISH_TERMS["description.bumpkin.emblem"],

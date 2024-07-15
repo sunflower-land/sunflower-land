@@ -396,6 +396,7 @@ const coupons: Record<Coupons, () => boolean> = {
   "Rare Key": () => false,
   "Prize Ticket": () => false,
   Scroll: () => false,
+  "Amber Fossil": () => false,
   "Bumpkin Emblem": () => false,
   "Goblin Emblem": () => false,
   "Nightshade Emblem": () => false,
@@ -854,6 +855,7 @@ const purchasables: Record<PurchasableItems, () => boolean> = {
   "Spring Blossom Banner": () => false,
   "Clash of Factions Banner": () => false,
   "Lifetime Farmer Banner": () => false,
+  "Pharaoh's Treasure Banner": () => false,
 };
 
 const potionHouse: Record<
