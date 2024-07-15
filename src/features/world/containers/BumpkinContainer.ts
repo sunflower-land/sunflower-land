@@ -465,7 +465,7 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
     // eslint-disable-next-line @typescript-eslint/no-this-alias
     const container = this;
 
-    if (container.destroyed || !container.scene) {
+    if (container.destroyed || !container.scene || !container.active) {
       return;
     }
 
