@@ -559,7 +559,7 @@ describe("feedBumpkin", () => {
     jest.useRealTimers();
   });
 
-  it("provides a 20% boost if the players faction pet is on a streak of 3", () => {
+  it("provides a 20% boost if the players faction pet is on a streak of 4", () => {
     jest.useFakeTimers("modern");
     jest.setSystemTime(new Date("2024-07-15"));
 
@@ -590,7 +590,7 @@ describe("feedBumpkin", () => {
               petXP: 100,
               collectivePet: {
                 goalReached: true,
-                streak: 3,
+                streak: 4,
                 totalXP: 120,
                 goalXP: 110,
               },
@@ -612,7 +612,7 @@ describe("feedBumpkin", () => {
     jest.useRealTimers();
   });
 
-  it("returns a boost of 50% if the players faction pet is on a streak of 8", () => {
+  it("returns a boost of 50% if the players faction pet is on a streak of 10", () => {
     jest.useFakeTimers("modern");
     jest.setSystemTime(new Date("2024-07-15"));
 
@@ -643,7 +643,7 @@ describe("feedBumpkin", () => {
               petXP: 100,
               collectivePet: {
                 goalReached: true,
-                streak: 8,
+                streak: 10,
                 totalXP: 120,
                 goalXP: 110,
               },
