@@ -39,10 +39,25 @@ export const FruitSeedling: React.FC<Props> = ({ fruitName, timeLeft }) => {
   const isAlmostReady = growPercentage >= 50;
   const isHalfway = growPercentage >= 25 && !isAlmostReady;
 
-  const isBanana = fruitName === "Banana";
-  const description = isBanana
-    ? `Bananas Growing`
-    : `${fruitName} Tree Growing`;
+  let description: string;
+
+  switch (fruitName) {
+    case "Banana":
+    case "Tomato":
+    case "Lemon":
+      description = `${fruitName} Plant Growing`;
+      break;
+    case "Blueberry":
+      description = "Blueberry Bush Growing";
+      break;
+    default:
+      description = `${fruitName} Tree Growing`;
+  }
+  const lifecycleStage = isAlmostReady
+    ? lifecycle.almost
+    : isHalfway
+      ? lifecycle.halfway
+      : lifecycle.seedling;
 
   return (
     <div
@@ -51,13 +66,7 @@ export const FruitSeedling: React.FC<Props> = ({ fruitName, timeLeft }) => {
       onMouseLeave={() => setShowPopover(false)}
     >
       {/* Seedling */}
-      {getFruitImage(
-        isAlmostReady
-          ? lifecycle.almost
-          : isHalfway
-            ? lifecycle.halfway
-            : lifecycle.seedling,
-      )}
+      {getFruitImage(lifecycleStage)}
 
       {/* Progress bar */}
       {showTimers && (

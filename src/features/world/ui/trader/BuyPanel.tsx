@@ -48,6 +48,8 @@ export const TRADE_LIMITS: Partial<Record<InventoryItemName, number>> = {
   Radish: 500,
   Wheat: 500,
   Kale: 500,
+  Tomato: 300,
+  Lemon: 250,
   Blueberry: 200,
   Orange: 200,
   Apple: 200,
