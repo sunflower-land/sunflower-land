@@ -32,6 +32,7 @@ import { VIPAccess } from "features/game/components/VipAccess";
 import { getDayOfYear } from "lib/utils/time";
 import { setPrecision } from "lib/utils/formatNumber";
 import { ListingCategoryCard } from "components/ui/ListingCategoryCard";
+import { hasFeatureAccess } from "lib/flags";
 
 export const TRADE_LIMITS: Partial<Record<InventoryItemName, number>> = {
   Sunflower: 2000,
@@ -81,10 +82,12 @@ export const TRADE_MINIMUMS: Partial<Record<InventoryItemName, number>> = {
   Radish: 10,
   Wheat: 10,
   Kale: 10,
+  Tomato: 5,
   Blueberry: 5,
   Orange: 5,
   Apple: 5,
   Banana: 5,
+  Lemon: 5,
   Grape: 5,
   Rice: 5,
   Olive: 5,
@@ -326,14 +329,25 @@ export const BuyPanel: React.FC<{
                 <div className="flex justify-between">
                   <div>
                     <div className="flex flex-wrap w-52 items-center">
-                      {getKeys(selectedListing.items).map((item, index) => (
-                        <Box
-                          image={ITEM_DETAILS[item].image}
-                          count={new Decimal(selectedListing.items[item] ?? 0)}
-                          disabled
-                          key={`items-${index}`}
-                        />
-                      ))}
+                      {getKeys(selectedListing.items)
+                        .filter(
+                          (name) =>
+                            (name !== "Tomato" && name !== "Lemon") ||
+                            hasFeatureAccess(
+                              gameService.state.context.state,
+                              "NEW_FRUITS",
+                            ),
+                        )
+                        .map((item, index) => (
+                          <Box
+                            image={ITEM_DETAILS[item].image}
+                            count={
+                              new Decimal(selectedListing.items[item] ?? 0)
+                            }
+                            disabled
+                            key={`items-${index}`}
+                          />
+                        ))}
                       <div className="ml-1">
                         <div className="flex items-center mb-1">
                           <img src={token} className="h-6 mr-1" />
@@ -410,14 +424,23 @@ export const BuyPanel: React.FC<{
                 <div className="flex justify-between">
                   <div className="justify-start">
                     <div className="flex flex-wrap w-52 items-center">
-                      {getKeys(listing.items).map((item) => (
-                        <Box
-                          image={ITEM_DETAILS[item].image}
-                          count={new Decimal(listing.items[item] ?? 0)}
-                          disabled
-                          key={`items-${index}`}
-                        />
-                      ))}
+                      {getKeys(listing.items)
+                        .filter(
+                          (name) =>
+                            (name !== "Tomato Seed" && name !== "Lemon Seed") ||
+                            hasFeatureAccess(
+                              gameService.state.context.state,
+                              "NEW_FRUITS",
+                            ),
+                        )
+                        .map((item) => (
+                          <Box
+                            image={ITEM_DETAILS[item].image}
+                            count={new Decimal(listing.items[item] ?? 0)}
+                            disabled
+                            key={`items-${index}`}
+                          />
+                        ))}
                       <div className="ml-1">
                         <div className="flex items-center mb-1">
                           <img src={token} className="h-6 mr-1" />
