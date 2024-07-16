@@ -11,7 +11,10 @@ import { ButtonPanel } from "components/ui/Panel";
 import { Label } from "components/ui/Label";
 import { useTranslation } from "react-i18next";
 import { SquareIcon } from "components/ui/SquareIcon";
-import { getBannerPrice } from "features/game/events/landExpansion/bannerPurchased";
+import {
+  BANNER_PRICE_INCREASED_DATE,
+  getBannerPrice,
+} from "features/game/events/landExpansion/bannerPurchased";
 import { MachineState } from "features/game/lib/gameMachine";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
@@ -252,26 +255,49 @@ export const VIPItems: React.FC<Props> = ({ onClose, onSkip }) => {
                 : undefined
             }
           >
-            <Label
-              type="default"
-              className="mb-2"
-              icon={lifeTimeFarmerBannerIcon}
-            >
-              {t("season.lifetime.farmer")}
-            </Label>
+            <div className="flex justify-between mb-2">
+              <Label
+                type="default"
+                className="mb-2"
+                icon={lifeTimeFarmerBannerIcon}
+              >
+                {t("season.lifetime.farmer")}
+              </Label>
+              {BANNER_PRICE_INCREASED_DATE.getTime() > Date.now() && (
+                <div>
+                  <Label type="info" icon={SUNNYSIDE.icons.timer}>
+                    {secondsToString(
+                      Math.round(
+                        (BANNER_PRICE_INCREASED_DATE.getTime() - Date.now()) /
+                          1000,
+                      ),
+                      { length: "medium" },
+                    )}
+                  </Label>
+                </div>
+              )}
+            </div>
             <div className="flex flex-col space-y-1 sm:space-y-2 text-xs sm:text-sm pb-1">
               <div className="flex items-center space-x-2">
                 <SquareIcon icon={giftIcon} width={7} />
                 <span>{t("season.free.season.passes")}</span>
               </div>
               {!hasLifeTimeBanner ? (
-                <Label
-                  type="warning"
-                  icon={blockBucksIcon}
-                  className="absolute right-1 bottom-1"
-                >
-                  {getItemPrice("Lifetime Farmer Banner")}
-                </Label>
+                <>
+                  {BANNER_PRICE_INCREASED_DATE.getTime() > Date.now() && (
+                    <>
+                      <div className="mt-2"></div>
+                      <span className="absolute right-2 bottom-8 text-xs discounted">{`740`}</span>
+                    </>
+                  )}
+                  <Label
+                    type="warning"
+                    icon={blockBucksIcon}
+                    className="absolute right-1 bottom-1"
+                  >
+                    {getItemPrice("Lifetime Farmer Banner")}
+                  </Label>
+                </>
               ) : (
                 <SquareIcon
                   className="absolute right-1 bottom-1"

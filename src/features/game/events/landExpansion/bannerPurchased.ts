@@ -22,6 +22,8 @@ type Options = {
   farmId?: number;
 };
 
+export const BANNER_PRICE_INCREASED_DATE = new Date("2024-08-01T00:00:00Z");
+
 export function getBannerPrice(
   banner: SeasonalBanner | "Lifetime Farmer Banner",
   hasPreviousBanner: boolean,
@@ -30,8 +32,13 @@ export function getBannerPrice(
   createdAt: number,
   farmId?: number,
 ): Decimal {
+  const bannerPriceIncreased =
+    new Date(createdAt).getTime() > BANNER_PRICE_INCREASED_DATE.getTime();
+  const lifeTimePrice = bannerPriceIncreased ? 740 : 540;
+  const seasonBannerIncrease = bannerPriceIncreased ? 10 : 0;
+
   if (banner === "Lifetime Farmer Banner") {
-    return new Decimal(740);
+    return new Decimal(lifeTimePrice);
   }
 
   const goldPassRetired =
@@ -56,15 +63,18 @@ export function getBannerPrice(
 
   if (weeksElapsed < 2) {
     const previousBannerDiscount = hasPreviousBanner ? 15 : 0;
-    return new Decimal(75).sub(previousBannerDiscount).sub(goldPassDiscount);
+    return new Decimal(65)
+      .add(seasonBannerIncrease)
+      .sub(previousBannerDiscount)
+      .sub(goldPassDiscount);
   }
   if (weeksElapsed < 4) {
-    return new Decimal(100).sub(goldPassDiscount);
+    return new Decimal(90).add(seasonBannerIncrease).sub(goldPassDiscount);
   }
   if (weeksElapsed < 8) {
-    return new Decimal(80).sub(goldPassDiscount);
+    return new Decimal(70).add(seasonBannerIncrease).sub(goldPassDiscount);
   }
-  return new Decimal(60).sub(goldPassDiscount);
+  return new Decimal(50).add(seasonBannerIncrease).sub(goldPassDiscount);
 }
 
 export function purchaseBanner({
@@ -87,11 +97,15 @@ export function purchaseBanner({
       throw new Error("You already have this banner");
     }
 
-    if (currentBlockBucks.lessThan(740)) {
+    const lifeTimerFarmerPriceIncreased =
+      Date.now() > new Date("2024-08-01T00:00:00Z").getTime();
+    const lifeTimePrice = lifeTimerFarmerPriceIncreased ? 740 : 540;
+
+    if (currentBlockBucks.lessThan(lifeTimePrice)) {
       throw new Error("Insufficient Block Bucks");
     }
 
-    stateCopy.inventory["Block Buck"] = currentBlockBucks.sub(740);
+    stateCopy.inventory["Block Buck"] = currentBlockBucks.sub(lifeTimePrice);
     stateCopy.inventory[action.name] = new Decimal(1);
 
     return stateCopy;
