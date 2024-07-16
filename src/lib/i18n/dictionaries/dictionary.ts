@@ -3,17 +3,19 @@ import { TURKISH_TERMS } from "./turkishDictionary";
 import { CHINESE_SIMPLIFIED_TERMS } from "./chinese_simplifiedDictionary";
 import { PORTUGUESE_TERMS } from "./portugueseDictionary";
 import { FRENCH_TERMS } from "./frenchDictionary";
+import { RUSSIAN_TERMS } from "./russianDictionary";
 import { TranslationKeys } from "./types";
 
-// import british_flag from "assets/sfts/flags/british_flag.gif";
-// import usaFlag from "assets/sfts/flags/usa_flag.gif";
-// import brazilFlag from "assets/sfts/flags/brazil_flag.gif";
-// import portugalFlag from "assets/sfts/flags/portugal_flag.gif";
-// import franceFlag from "assets/sfts/flags/france_flag.gif";
-// import turkeyFlag from "assets/sfts/flags/turkey_flag.gif";
-// import chinaFlag from "assets/sfts/flags/china_flag.gif";
+import britishFlag from "assets/sfts/flags/british_flag.gif";
+import usaFlag from "assets/sfts/flags/usa_flag.gif";
+import brazilFlag from "assets/sfts/flags/brazil_flag.gif";
+import portugalFlag from "assets/sfts/flags/portugal_flag.gif";
+import franceFlag from "assets/sfts/flags/france_flag.gif";
+import turkeyFlag from "assets/sfts/flags/turkey_flag.gif";
+import chinaFlag from "assets/sfts/flags/china_flag.gif";
+import russiaFlag from "assets/sfts/flags/russia_flag.gif";
 
-export type LanguageCode = "en" | "fr" | "pt" | "tk" | "zh-CN";
+export type LanguageCode = "en" | "fr" | "pt" | "tk" | "zh-CN" | "ru";
 
 export type TranslationResource = Record<TranslationKeys, string>;
 
@@ -26,27 +28,32 @@ interface LanguageDetails {
 export const languageDetails: Record<LanguageCode, LanguageDetails> = {
   en: {
     languageName: "English",
-    languageImage: ["british_flag, usaFlag"],
+    languageImage: [britishFlag, usaFlag],
     imageAlt: ["United Kingdom Flag", "United States of America Flag"],
   },
   fr: {
     languageName: "Français",
-    languageImage: ["franceFlag"],
+    languageImage: [franceFlag],
     imageAlt: ["France Flag"],
   },
   pt: {
     languageName: "Português",
-    languageImage: ["brazilFlag, portugalFlag"],
+    languageImage: [brazilFlag, portugalFlag],
     imageAlt: ["Brazil Flag", "Portugual Flag"],
+  },
+  ru: {
+    languageName: "Русский",
+    languageImage: [russiaFlag],
+    imageAlt: ["Russia Flag"],
   },
   tk: {
     languageName: "Türkçe",
-    languageImage: ["turkeyFlag"],
+    languageImage: [turkeyFlag],
     imageAlt: ["Turkey Flag"],
   },
   "zh-CN": {
     languageName: "简体中文",
-    languageImage: ["chinaFlag"],
+    languageImage: [chinaFlag],
     imageAlt: ["China Flag"],
   },
 };
@@ -69,5 +76,8 @@ export const resources: Record<
   },
   "zh-CN": {
     translation: CHINESE_SIMPLIFIED_TERMS,
+  },
+  ru: {
+    translation: RUSSIAN_TERMS,
   },
 };

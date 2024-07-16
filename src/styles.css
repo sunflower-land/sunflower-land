@@ -176,6 +176,16 @@
   src: url("https://sunflower-land.com/testnet-assets/fonts/Secondary.ttf");
 }
 
+@font-face {
+  font-family: "Born2bSporty";
+  src: url("https://sunflower-land.com/testnet-assets/fonts/Born2bSportyFS.otf");
+}
+
+@font-face {
+  font-family: "Basis33";
+  src: url("https://sunflower-land.com/testnet-assets/fonts/basis33.ttf");
+}
+
 html {
   min-height: calc(100% + env(safe-area-inset-top));
 }

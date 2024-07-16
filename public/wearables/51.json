@@ -1,11 +1,1 @@
-{
-  "description": "# Description\n\nLong days in the field and the blaring sun. The sign of a true worker.\n\n### Contributor\n\nSunflower Land is a community game built by a hundreds of developers and artists across the globe.\nCome join us on [Github](https://github.com/sunflower-land/sunflower-land)",
-  "decimals": 0,
-  "attributes": [
-    { "trait_type": "Part", "value": "Hair" },
-    { "trait_type": "Tradable", "value": "Yes" }
-  ],
-  "external_url": "https://bumpkins.io",
-  "image": "https://sunflower-land.com/play/wearables/images/",
-  "name": "Sun Spots"
-}
+{"description":"# Description\n\nLong days in the field and the blaring sun. The sign of a true worker.\n\n### Contributor\n\nSunflower Land is a community game built by a hundreds of developers and artists across the globe.\nCome join us on [Github](https://github.com/sunflower-land/sunflower-land)","decimals":0,"attributes":[{"trait_type":"Part","value":"Hair"},{"trait_type":"Tradable","value":"Yes"}],"external_url":"https://bumpkins.io","image":"https://sunflower-land.com/play/wearables/images/51.png","name":"Sun Spots"}

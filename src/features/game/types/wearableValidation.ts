@@ -66,6 +66,9 @@ export const canWithdrawBoostedWearable = (
   if (name === "Olive Shield") {
     return !greenhouseCropIsGrowing({ crop: "Olive", game: state })[0];
   }
+  if (name === "Olive Royalty Shirt") {
+    return !greenhouseCropIsGrowing({ crop: "Olive", game: state })[0];
+  }
 
   if (name === "Fruit Picker Apron") {
     return !areAnyFruitsGrowing(state)[0];

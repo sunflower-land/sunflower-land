@@ -176,7 +176,9 @@ export class FishermanContainer extends Phaser.GameObjects.Container {
   };
 
   private removeWeatherIndicator = () => {
-    this.weatherIndicator?.destroy();
+    if (this.weatherIndicator?.active) {
+      this.weatherIndicator?.destroy();
+    }
     this.weatherIndicator = undefined;
   };
 
@@ -188,7 +190,9 @@ export class FishermanContainer extends Phaser.GameObjects.Container {
   };
 
   private removeAlert = () => {
-    this.alert?.destroy();
+    if (this.alert?.active) {
+      this.alert?.destroy();
+    }
     this.alert = undefined;
   };
 }

@@ -1454,7 +1454,9 @@ export const BUMPKIN_WITHDRAWABLES: Record<
   "Tofu Mask": (state) =>
     canWithdrawTimebasedItem(new Date("2024-07-01")) &&
     canWithdrawBoostedWearable("Tofu Mask", state),
-  "Olive Royalty Shirt": () => canWithdrawTimebasedItem(new Date("2024-07-01")),
+  "Olive Royalty Shirt": (state) =>
+    canWithdrawTimebasedItem(new Date("2024-07-01")) &&
+    canWithdrawBoostedWearable("Olive Royalty Shirt", state),
   "Royal Scepter": () => false,
 
   // Faction Items
