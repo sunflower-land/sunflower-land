@@ -76,11 +76,13 @@ export class BeachScene extends BaseScene {
   cellHeight = 16;
   digsRemaining = TOTAL_DIGS;
   digsRemainingLabel: Phaser.GameObjects.Text | undefined;
+  percentageFoundLabel: Phaser.GameObjects.Text | undefined;
   dugCoords: string[] = [];
   treasuresFound: InventoryItemName[] = [];
   digStatistics: DigAnalytics | undefined;
   restartButton: Phaser.GameObjects.Image | undefined;
   restartText: Phaser.GameObjects.Text | undefined;
+  totalTreasures = 0;
 
   constructor() {
     super({ name: "beach", map: { json: mapJSON } });
@@ -371,8 +373,13 @@ export class BeachScene extends BaseScene {
     });
   };
 
-  public handleDigCount = () => {
+  public handleDigCounts = () => {
     this.digsRemaining -= 1;
+    const percentageFound = Math.floor(
+      (this.treasuresFound.length / this.totalTreasures) * 100,
+    );
+
+    this.percentageFoundLabel?.setText(`Percentage found: ${percentageFound}%`);
 
     if (this.digsRemaining <= 0) {
       this.endDigging();
@@ -394,24 +401,33 @@ export class BeachScene extends BaseScene {
   public resetDig = () => {
     this.treasureContainer?.destroy();
     this.digsRemainingLabel?.destroy();
+    this.percentageFoundLabel?.destroy();
     this.dugCoords = [];
     this.digsRemaining = TOTAL_DIGS;
     this.treasureContainer = this.add.container(0, 0);
     this.archeologicalData = createGrid();
+    this.totalTreasures = this.archeologicalData.flat().filter(Boolean).length;
     this.hideRestartButton();
 
     this.digsRemainingLabel = this.add.text(
       108,
-      66,
+      63,
       `Digs remaining: ${this.digsRemaining}`,
       {
-        fontSize: "8px",
+        fontSize: "6px",
         fontFamily: "monospace",
         padding: { x: 0, y: 2 },
         resolution: 4,
         color: "black",
       },
     );
+    this.percentageFoundLabel = this.add.text(108, 72, `Percentage found: 0%`, {
+      fontSize: "4px",
+      fontFamily: "monospace",
+      padding: { x: 0, y: 2 },
+      resolution: 4,
+      color: "black",
+    });
   };
 
   public handlePointerDown = (
@@ -443,7 +459,7 @@ export class BeachScene extends BaseScene {
         this.dig(selectedX, selectedY, item);
         this.dugCoords.push(`${row},${col}`);
 
-        this.handleDigCount();
+        this.handleDigCounts();
       });
     } else {
       // set selected box
@@ -550,9 +566,9 @@ export class BeachScene extends BaseScene {
           SELLABLE_TREASURE[item as BeachBountyTreasure].sellPrice);
       }, 0);
 
-      const availableTreasures = this.archeologicalData.flat().filter(Boolean);
-      const percentageFound =
-        (this.treasuresFound.length / availableTreasures.length) * 100;
+      const percentageFound = Math.floor(
+        (this.treasuresFound.length / this.totalTreasures) * 100,
+      );
 
       gameAnalytics.trackBeachDiggingAttempt({
         outputCoins: totalCoins,
