@@ -1024,6 +1024,7 @@ export type FactionPetRequest = {
 
 export type FactionPet = {
   week: string;
+  qualifiesForBoost?: boolean;
   requests: FactionPetRequest[];
 };
 
