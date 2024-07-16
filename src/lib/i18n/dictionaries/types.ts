@@ -3193,6 +3193,7 @@ export type SeasonTerms =
   | "season.vip.access"
   | "season.vip.description"
   | "season.vip.claim"
+  | "season.vip.purchase"
   | "season.mystery.gift"
   | "season.xp.boost"
   | "season.free.season.passes.description"

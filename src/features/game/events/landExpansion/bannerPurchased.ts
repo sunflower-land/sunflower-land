@@ -31,7 +31,7 @@ export function getBannerPrice(
   farmId?: number,
 ): Decimal {
   if (banner === "Lifetime Farmer Banner") {
-    return new Decimal(540);
+    return new Decimal(740);
   }
 
   const goldPassRetired =
@@ -56,15 +56,15 @@ export function getBannerPrice(
 
   if (weeksElapsed < 2) {
     const previousBannerDiscount = hasPreviousBanner ? 15 : 0;
-    return new Decimal(65).sub(previousBannerDiscount).sub(goldPassDiscount);
+    return new Decimal(75).sub(previousBannerDiscount).sub(goldPassDiscount);
   }
   if (weeksElapsed < 4) {
-    return new Decimal(90).sub(goldPassDiscount);
+    return new Decimal(100).sub(goldPassDiscount);
   }
   if (weeksElapsed < 8) {
-    return new Decimal(70).sub(goldPassDiscount);
+    return new Decimal(80).sub(goldPassDiscount);
   }
-  return new Decimal(50).sub(goldPassDiscount);
+  return new Decimal(60).sub(goldPassDiscount);
 }
 
 export function purchaseBanner({
@@ -87,11 +87,11 @@ export function purchaseBanner({
       throw new Error("You already have this banner");
     }
 
-    if (currentBlockBucks.lessThan(540)) {
+    if (currentBlockBucks.lessThan(740)) {
       throw new Error("Insufficient Block Bucks");
     }
 
-    stateCopy.inventory["Block Buck"] = currentBlockBucks.sub(540);
+    stateCopy.inventory["Block Buck"] = currentBlockBucks.sub(740);
     stateCopy.inventory[action.name] = new Decimal(1);
 
     return stateCopy;

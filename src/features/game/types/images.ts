@@ -263,7 +263,6 @@ import crowFeather from "assets/icons/crow_feather.webp";
 import mermaidScale from "assets/icons/mermaid_scale.webp";
 import tulipBulb from "assets/icons/tulip_bulb.png";
 import scroll from "assets/icons/scroll.webp";
-import amberFossil from "assets/icons/amber_fossil.webp";
 import goblinEmblem from "assets/icons/goblin_emblem.webp";
 import bumpkinEmblem from "assets/icons/bumpkin_emblem.webp";
 import sunflorianEmblem from "assets/icons/sunflorian_emblem.webp";
@@ -5024,7 +5023,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Amber Fossil": {
-    image: amberFossil,
+    image: SUNNYSIDE.icons.expression_confused,
     description: {
       en: "A ticket used during the Pharaoh's Treasure",
       pt: "Um ticket usado durante a temporada Clash of Factions",

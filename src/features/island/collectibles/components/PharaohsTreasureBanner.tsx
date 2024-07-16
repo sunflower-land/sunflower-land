@@ -10,13 +10,12 @@ export const PharaohsTreasureBanner: React.FC = () => {
       style={{
         width: `${PIXEL_SCALE * 22}px`,
         top: `${PIXEL_SCALE * -3}px`,
-        left: `${PIXEL_SCALE * -1}px`,
       }}
     >
       <img
         src={banner}
         style={{
-          width: `${PIXEL_SCALE * 18}px`,
+          width: `${PIXEL_SCALE * 16}px`,
         }}
         alt="Pharaoh's Treasure Banner"
       />

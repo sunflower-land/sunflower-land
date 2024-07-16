@@ -4773,6 +4773,7 @@ const seasonTerms: Record<SeasonTerms, string> = {
   "season.vip.claim": "Claim your monthly seasonal airdrop.",
   "season.vip.description":
     "Unlock perks, discounts, bonus tickets, airdrops and more!",
+  "season.vip.purchase": "Purchase VIP Items",
   "season.mystery.gift": "Mystery Gift",
   "season.xp.boost": "10% XP boost",
   "season.lifetime.farmer": "Lifetime Farmer",

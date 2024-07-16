@@ -32,7 +32,7 @@ import { acknowledgeSeasonPass } from "features/announcements/announcementsStora
 type VIPItem = SeasonalBanner | "Lifetime Farmer Banner";
 
 export const ORIGINAL_SEASONAL_BANNER_PRICE = 90;
-export const LIFETIME_FARMER_BANNER_PRICE = 540;
+export const LIFETIME_FARMER_BANNER_PRICE = 740;
 
 const _farmId = (state: MachineState) => state.context.farmId;
 const _inventory = (state: MachineState) => state.context.state.inventory;
@@ -225,11 +225,9 @@ export const VIPItems: React.FC<Props> = ({ onClose, onSkip }) => {
       {!selected && (
         <div className="flex flex-col space-y-2 pt-2">
           <div className="flex justify-between px-1">
-            <Label
-              icon={vipIcon}
-              type="default"
-              className="ml-1"
-            >{`Purchase VIP Items`}</Label>
+            <Label icon={vipIcon} type="default" className="ml-1">
+              {t("season.vip.purchase")}
+            </Label>
             <a
               href="https://docs.sunflower-land.com/player-guides/seasons/season-6-clash-of-factions#season-banners"
               className="text-xxs underline"
