@@ -2906,7 +2906,7 @@ const guideFactionPet: Record<GuideFactionPet, string> = {
   "guide.factionPet.four":
     "Once the faction reaches a streak of 3 or more weeks, an XP bonus will be given to each contributing faction member when their bumpkin eats!",
   "guide.factionPet.five":
-    "You will be awared marks for each food delivered. Every time you deliver the reward will reduce by 2. These rewards will reset daily. Players with an emblem bonus will get an additional bonus based on their faction bonus rank.",
+    "You will be awarded marks for each food delivered. Every time you deliver the reward will reduce by 2. These rewards will reset daily. Players with an emblem bonus will get an additional bonus based on their faction bonus rank.",
 };
 
 const guideTerms: Record<GuideTerms, string> = {
