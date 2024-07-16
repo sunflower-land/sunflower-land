@@ -374,9 +374,10 @@ export function getFactionPetBoostMultiplier(game: GameState) {
 
   if (!qualifiesForBoost) return 1;
 
-  if (lastWeekStreak === 2) return 1.1;
-  if (lastWeekStreak === 3) return 1.2;
-  if (lastWeekStreak === 4) return 1.3;
+  if (lastWeekStreak >= 2 && lastWeekStreak < 4) return 1.1;
+  if (lastWeekStreak >= 4 && lastWeekStreak < 6) return 1.2;
+  if (lastWeekStreak >= 6 && lastWeekStreak < 8) return 1.3;
+  if (lastWeekStreak >= 8 && lastWeekStreak < 10) return 1.4;
 
   return 1.5;
 }
