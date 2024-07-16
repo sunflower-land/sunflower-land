@@ -4213,6 +4213,7 @@ const seasonTerms: Record<SeasonTerms, string> = {
     ENGLISH_TERMS["season.free.season.passes.description"],
   "season.vip.access": ENGLISH_TERMS["season.vip.access"],
   "season.vip.description": ENGLISH_TERMS["season.vip.description"],
+  "season.vip.purchase": ENGLISH_TERMS["season.vip.purchase"],
   "season.mystery.gift": ENGLISH_TERMS["season.mystery.gift"],
   "season.xp.boost": ENGLISH_TERMS["season.xp.boost"],
   "season.lifetime.farmer": ENGLISH_TERMS["season.lifetime.farmer"],
