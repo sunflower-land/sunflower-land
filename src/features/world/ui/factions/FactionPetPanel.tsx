@@ -51,7 +51,7 @@ import { FACTION_EMBLEM_ICONS } from "./components/ClaimEmblems";
 import { BoostInfoPanel } from "./BoostInfoPanel";
 import { getKeys } from "features/game/types/decorations";
 
-export const PET_SLEEP_DURATION = 24 * 60 * 60 * 1000;
+export const PET_SLEEP_DURATION = 7 * 24 * 60 * 60 * 1000;
 
 const PetSleeping = ({ onWake }: { onWake: () => void }) => {
   const { t } = useAppTranslation();
@@ -122,18 +122,7 @@ const _faction = (state: MachineState) =>
 const _inventory = (state: MachineState) => state.context.state.inventory;
 
 const getPetState = (collectivePet: CollectivePet): PetState => {
-  const week = getFactionWeek({ date: new Date() });
-  const beginningOfWeek = new Date(week).getTime();
-  const firstWeek = "2024-07-08";
-
-  if (week === firstWeek) return "hungry";
-
-  if (
-    collectivePet.streak === 0 &&
-    Date.now() < beginningOfWeek + PET_SLEEP_DURATION
-  ) {
-    return "sleeping";
-  }
+  if (collectivePet.sleeping) return "sleeping";
 
   if (collectivePet.goalReached) return "happy";
 
