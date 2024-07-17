@@ -6,8 +6,10 @@ import { Context } from "features/game/GameProvider";
 import { getKeys } from "features/game/types/craftables";
 import {
   FactionEmblem,
+  GameState,
   Inventory,
   InventoryItemName,
+  IslandType,
   TradeListing,
 } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
@@ -38,14 +40,28 @@ import { NumberInput } from "components/ui/NumberInput";
 const MAX_NON_VIP_LISTINGS = 1;
 const MAX_SFL = 150;
 
-function getRemainingFreeListings(dailyListings: {
-  count: number;
-  date: number;
-}) {
-  if (dailyListings.date !== getDayOfYear(new Date())) {
-    return MAX_NON_VIP_LISTINGS;
+const ISLAND_LIMITS: Record<IslandType, number> = {
+  basic: 5,
+  spring: 10,
+  desert: 20,
+};
+
+function getRemainingFreeListings({ game }: { game: GameState }) {
+  let remaining = ISLAND_LIMITS[game.island?.type] ?? 0;
+
+  if (!hasVipAccess(game.inventory)) {
+    remaining = 1;
   }
-  return MAX_NON_VIP_LISTINGS - dailyListings.count;
+
+  const dailyListings = game.trades.dailyListings ?? {
+    count: 0,
+    date: 0,
+  };
+
+  if (dailyListings.date !== getDayOfYear(new Date())) {
+    return remaining;
+  }
+  return remaining - dailyListings.count;
 }
 
 type Items = Partial<Record<InventoryItemName, number>>;
@@ -395,12 +411,10 @@ export const Trade: React.FC<{ floorPrices: FloorPrices }> = ({
   const [showListing, setShowListing] = useState(false);
 
   const isVIP = hasVipAccess(gameState.context.state.inventory);
-  const dailyListings = gameState.context.state.trades.dailyListings ?? {
-    count: 0,
-    date: 0,
-  };
-  const remainingListings = getRemainingFreeListings(dailyListings);
-  const hasListingsRemaining = isVIP || remainingListings > 0;
+  const remainingListings = getRemainingFreeListings({
+    game: gameState.context.state,
+  });
+  const hasListingsRemaining = remainingListings > 0;
   // Show listings
   const trades = gameState.context.state.trades?.listings ?? {};
   const { t } = useAppTranslation();
@@ -464,20 +478,18 @@ export const Trade: React.FC<{ floorPrices: FloorPrices }> = ({
               openModal("BUY_BANNER");
             }}
           />
-          {!isVIP && (
-            <Label
-              type={hasListingsRemaining ? "success" : "danger"}
-              className="-ml-2"
-            >
-              {remainingListings === 1
-                ? `${t("remaining.free.listing")}`
-                : `${t("remaining.free.listings", {
-                    listingsRemaining: hasListingsRemaining
-                      ? remainingListings
-                      : "No",
-                  })}`}
-            </Label>
-          )}
+          <Label
+            type={hasListingsRemaining ? "success" : "danger"}
+            className="-ml-2"
+          >
+            {remainingListings >= 1
+              ? `${t("remaining.free.listing")}`
+              : `${t("remaining.free.listings", {
+                  listingsRemaining: hasListingsRemaining
+                    ? remainingListings
+                    : "No",
+                })}`}
+          </Label>
         </div>
         <div className="p-1 flex flex-col items-center">
           <img
@@ -507,20 +519,18 @@ export const Trade: React.FC<{ floorPrices: FloorPrices }> = ({
             openModal("BUY_BANNER");
           }}
         />
-        {!isVIP && (
-          <Label
-            type={hasListingsRemaining ? "success" : "danger"}
-            className="-ml-2"
-          >
-            {remainingListings === 1
-              ? `${t("remaining.free.listing")}`
-              : `${t("remaining.free.listings", {
-                  listingsRemaining: hasListingsRemaining
-                    ? remainingListings
-                    : "No",
-                })}`}
-          </Label>
-        )}
+        <Label
+          type={hasListingsRemaining ? "success" : "danger"}
+          className="-ml-2"
+        >
+          {remainingListings >= 1
+            ? `${t("remaining.free.listing")}`
+            : `${t("remaining.free.listings", {
+                listingsRemaining: hasListingsRemaining
+                  ? remainingListings
+                  : "No",
+              })}`}
+        </Label>
       </div>
       {getKeys(trades)
         .filter((listingId) => {
