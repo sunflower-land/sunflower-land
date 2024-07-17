@@ -29,20 +29,22 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   const level = getBumpkinLevel(
     gameService.state.context.state.bumpkin?.experience ?? 0,
   );
-
-  const canTeleportToFactionHouse =
-    level >= 7 && gameService.state.context.state.faction;
+  const hasFaction = gameService.state.context.state.faction;
+  const canTeleportToFactionHouse = level >= 7 && hasFaction;
 
   const getFactionHouseRoute = () => {
-    if (gameService.state.context.state.faction?.name === "goblins")
-      return "/world/goblin_house";
-    if (gameService.state.context.state.faction?.name === "sunflorians")
-      return "/world/sunflorian_house";
-    if (gameService.state.context.state.faction?.name === "nightshades")
-      return "/world/nightshade_house";
-    if (gameService.state.context.state.faction?.name === "bumpkins")
-      return "/world/bumpkin_house";
-    return "";
+    switch (hasFaction?.name) {
+      case "bumpkins":
+        return "/world/bumpkin_house";
+      case "goblins":
+        return "/world/goblin_house";
+      case "nightshades":
+        return "/world/nightshade_house";
+      case "sunflorians":
+        return "/world/sunflorian_house";
+      default:
+        return "";
+    }
   };
 
   return (
