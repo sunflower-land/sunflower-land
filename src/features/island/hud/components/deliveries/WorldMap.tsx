@@ -29,6 +29,23 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   const level = getBumpkinLevel(
     gameService.state.context.state.bumpkin?.experience ?? 0,
   );
+  const hasFaction = gameService.state.context.state.faction;
+  const canTeleportToFactionHouse = level >= 7 && hasFaction;
+
+  const getFactionHouseRoute = () => {
+    switch (hasFaction?.name) {
+      case "bumpkins":
+        return "/world/bumpkin_house";
+      case "goblins":
+        return "/world/goblin_house";
+      case "nightshades":
+        return "/world/nightshade_house";
+      case "sunflorians":
+        return "/world/sunflorian_house";
+      default:
+        return "";
+    }
+  };
 
   return (
     <OuterPanel className="w-full relative shadow-xl">
@@ -104,11 +121,11 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
       <div
         style={{
           width: "18%",
-          height: "24%",
+          height: "15%",
           border: showDebugBorders ? "2px solid red" : "",
           position: "absolute",
           left: "35%",
-          bottom: "50%",
+          bottom: "61%",
         }}
         className="flex justify-center items-center cursor-pointer"
         onClick={() => {
@@ -123,6 +140,32 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
         ) : (
           <span className="balance-text text-xxs sm:text-sm">
             {t("world.kingdom")}
+          </span>
+        )}
+      </div>
+
+      <div
+        style={{
+          width: "18%",
+          height: "15%",
+          border: showDebugBorders ? "2px solid red" : "",
+          position: "absolute",
+          left: "35%",
+          bottom: "46%",
+        }}
+        className="flex justify-center items-center cursor-pointer"
+        onClick={() => {
+          if (!canTeleportToFactionHouse) return;
+          travel.play();
+          navigate(getFactionHouseRoute());
+          onClose();
+        }}
+      >
+        {!canTeleportToFactionHouse ? (
+          <img src={lockIcon} className="h-6 ml-1 img-highlight-heavy" />
+        ) : (
+          <span className="balance-text text-xxs sm:text-sm">
+            {t("world.faction")}
           </span>
         )}
       </div>

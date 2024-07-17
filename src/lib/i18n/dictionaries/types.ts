@@ -3546,6 +3546,7 @@ export type World =
   | "world.woodlands"
   | "world.home"
   | "world.kingdom"
+  | "world.faction"
   | "world.travelTo";
 
 export type Event =

@@ -5280,6 +5280,7 @@ const world: Record<World, string> = {
   "world.retreat": "Retreat",
   "world.home": "Home",
   "world.kingdom": "Kingdom",
+  "world.faction": "Faction",
   "world.travelTo": "Travel to {{location}}",
 };
 
