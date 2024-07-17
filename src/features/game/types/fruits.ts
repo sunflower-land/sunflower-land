@@ -106,6 +106,7 @@ export const FRUIT: () => Record<FruitName, Fruit> = () => ({
     name: "Tomato",
     sellPrice: 2,
     seed: "Tomato Seed",
+    isBush: true,
     bumpkinLevel: 10,
   },
   Lemon: {
@@ -113,6 +114,7 @@ export const FRUIT: () => Record<FruitName, Fruit> = () => ({
     name: "Lemon",
     sellPrice: 6,
     seed: "Lemon Seed",
+    isBush: true,
     bumpkinLevel: 12,
   },
   Blueberry: {
