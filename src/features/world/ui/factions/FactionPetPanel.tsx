@@ -49,6 +49,7 @@ import xpIcon from "assets/icons/xp.png";
 import { setPrecision } from "lib/utils/formatNumber";
 import { FACTION_EMBLEM_ICONS } from "./components/ClaimEmblems";
 import { BoostInfoPanel } from "./BoostInfoPanel";
+import { getKeys } from "features/game/types/decorations";
 
 export const PET_SLEEP_DURATION = 24 * 60 * 60 * 1000;
 
@@ -248,6 +249,10 @@ export const FactionPetPanel: React.FC<Props> = ({ onClose }) => {
     2,
   ).toNumber();
 
+  const isContributingMemberForThisWeek = pet.requests.every(
+    (request) => getKeys(request.dailyFulfilled).length > 0,
+  );
+
   return (
     <>
       <Label
@@ -395,6 +400,19 @@ export const FactionPetPanel: React.FC<Props> = ({ onClose }) => {
                           );
                         })}
                       </div>
+                      {collectivePet.streak > 0 && (
+                        <div className="flex items-center space-x-1">
+                          <p className="text-xs pb-1">{`Contributing member: `}</p>
+                          <img
+                            className="w-3"
+                            src={
+                              isContributingMemberForThisWeek
+                                ? SUNNYSIDE.icons.confirm
+                                : SUNNYSIDE.icons.close
+                            }
+                          />
+                        </div>
+                      )}
                     </div>
                   }
                   panel={
