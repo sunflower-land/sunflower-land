@@ -1550,6 +1550,7 @@ export type Factions =
   | "faction.kitchen.preparing"
   | "faction.kitchen.newRequests"
   | "faction.pet.gatherResources"
+  | "faction.pet.contributingMember"
   // Leaving
   | "faction.leave"
   | "faction.leave.hasEmblems"
@@ -2069,7 +2070,14 @@ export type GuideFactionPet =
   | "guide.factionPet.two"
   | "guide.factionPet.three"
   | "guide.factionPet.four"
-  | "guide.factionPet.five";
+  | "guide.factionPet.five"
+  | "guide.factionPet.six"
+  | "guide.streak.one"
+  | "guide.streak.two"
+  | "guide.streak.three"
+  | "guide.streak.four"
+  | "guide.streak.beyond"
+  | "guide.streak.furtherInfo";
 
 export type GuideTerms =
   | "guide.intro"

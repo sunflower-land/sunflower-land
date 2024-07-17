@@ -2222,6 +2222,8 @@ const factions: Record<Factions, string> = {
   "faction.pet.gatherResources": ENGLISH_TERMS["faction.pet.gatherResources"],
   "faction.boostsApplied": ENGLISH_TERMS["faction.boostsApplied"],
   "faction.no.boostsApplied": ENGLISH_TERMS["faction.no.boostsApplied"],
+  "faction.pet.contributingMember":
+    ENGLISH_TERMS["faction.pet.contributingMember"],
 
   "faction.kitchen.opensIn": ENGLISH_TERMS["faction.kitchen.opensIn"],
   "faction.kitchen.notReady": ENGLISH_TERMS["faction.kitchen.notReady"],
@@ -2934,6 +2936,13 @@ const guideFactionPet: Record<GuideFactionPet, string> = {
   "guide.factionPet.three": ENGLISH_TERMS["guide.factionPet.three"],
   "guide.factionPet.four": ENGLISH_TERMS["guide.factionPet.four"],
   "guide.factionPet.five": ENGLISH_TERMS["guide.factionPet.five"],
+  "guide.factionPet.six": ENGLISH_TERMS["guide.factionPet.six"],
+  "guide.streak.beyond": ENGLISH_TERMS["guide.streak.beyond"],
+  "guide.streak.one": ENGLISH_TERMS["guide.streak.one"],
+  "guide.streak.two": ENGLISH_TERMS["guide.streak.two"],
+  "guide.streak.three": ENGLISH_TERMS["guide.streak.three"],
+  "guide.streak.four": ENGLISH_TERMS["guide.streak.four"],
+  "guide.streak.furtherInfo": ENGLISH_TERMS["guide.streak.furtherInfo"],
 };
 
 const guideTerms: Record<GuideTerms, string> = {
