@@ -74,7 +74,7 @@ describe("withdrawables", () => {
       const timers = jest.useFakeTimers();
       timers.setSystemTime(new Date("Thu July 7 2023 10:01:00 GMT+1000"));
 
-      const enabled = WITHDRAWABLES["Turbo Sprout"]();
+      const enabled = WITHDRAWABLES["Rice Panda"]();
       expect(enabled).toBeFalsy();
     });
 
