@@ -22,7 +22,7 @@ import {
   getShowTimersSetting,
 } from "features/farming/hud/lib/timers";
 
-interface GameContext {
+export interface GameContext {
   shortcutItem: (item: InventoryItemName) => void;
   selectedItem?: InventoryItemName;
   gameService: MachineInterpreter;

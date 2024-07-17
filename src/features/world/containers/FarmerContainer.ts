@@ -2,18 +2,24 @@ import {
   BumpkinAction,
   MachineInterpreter,
 } from "features/game/lib/gameMachine";
-import { SpriteComponent } from "../components/SpriteComponent";
+import { AnimatedSprite, SpriteComponent } from "../components/SpriteComponent";
 import { SQUARE_WIDTH } from "features/game/lib/constants";
 import { ClickableComponent } from "../components/ClickableComponent";
 
 import { SUNNYSIDE } from "assets/sunnyside";
-import { AnimatedComponent } from "../components/AnimatedComponent";
-import { getAnimationUrl } from "../lib/animations";
 import { NPC_WEARABLES } from "lib/npcs";
+import { GameEventName, PlayingEvent } from "features/game/events";
+import { ANIMATION, getAnimationUrl } from "../lib/animations";
+
+type PlayEvent = GameEventName<PlayingEvent>;
+const EVENT_ANIMATIONS: Partial<Record<PlayEvent, keyof typeof ANIMATION>> = {
+  "crop.harvested": "dig",
+  "timber.chopped": "axe",
+};
 
 export class FarmerContainer extends Phaser.GameObjects.Container {
   gameService: MachineInterpreter;
-  sprite: AnimatedComponent;
+  sprite: SpriteComponent;
   clickable: ClickableComponent;
 
   constructor({
@@ -37,14 +43,17 @@ export class FarmerContainer extends Phaser.GameObjects.Container {
 
     const url = getAnimationUrl(NPC_WEARABLES["pumpkin' pete"], "idle");
     console.log({ url });
-    this.sprite = new AnimatedComponent({
+    this.sprite = new SpriteComponent({
       container: this,
       sprite: url,
       key: "idle",
       scene,
-      width: 96,
-      height: 64,
-      frames: 10,
+      animation: {
+        width: 96,
+        height: 64,
+        frames: 10,
+        repeat: true,
+      },
     });
 
     this.clickable = new ClickableComponent({
@@ -60,10 +69,25 @@ export class FarmerContainer extends Phaser.GameObjects.Container {
     // Queue them up
   }
 
-  perform({ action }: { action: BumpkinAction }) {
-    this.gameService.send("POP_QUEUE");
+  walk() {
+    this.sprite.url = getAnimationUrl(
+      NPC_WEARABLES["pumpkin' pete"],
+      "walking",
+    );
+    this.sprite.key = "walking"; // TODO - custom for each npc
+    this.sprite.update();
+  }
 
+  idle() {
+    this.sprite.url = getAnimationUrl(NPC_WEARABLES["pumpkin' pete"], "idle");
+    this.sprite.key = "idle"; // TODO - custom for each npc
+    this.sprite.update();
+  }
+
+  async perform({ action }: { action: BumpkinAction }) {
     const { event } = action;
+
+    this.gameService.send("POP_QUEUE");
 
     // Just a movement
     if (!event) {
@@ -73,13 +97,28 @@ export class FarmerContainer extends Phaser.GameObjects.Container {
     const { type, ...args } = event;
 
     // TODO - animation trigger
-    console.log({ event });
+    const animation = EVENT_ANIMATIONS[type] ?? "doing";
+    this.sprite.url = getAnimationUrl(
+      NPC_WEARABLES["pumpkin' pete"],
+      animation,
+    );
+    (this.sprite.animation as AnimatedSprite).repeat = false;
+    this.sprite.key = animation; // TODO - custom for each npc
+    this.sprite.update();
 
-    try {
-      this.gameService.send(type, args);
-    } catch {
-      console.log("Failed to send event");
-    }
+    console.log({ stopOn: `animationcomplete-${animation}-animation` });
+    // After one loop, return to walking
+    this.sprite.sprite?.on(`animationcomplete-${animation}-animation`, () => {
+      try {
+        this.gameService.send(type, args);
+
+        // TODO - fire off action on component
+      } catch {
+        console.log("Failed to send event");
+      } finally {
+        this.idle();
+      }
+    });
   }
 
   update() {}

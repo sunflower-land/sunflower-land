@@ -66,7 +66,7 @@ export const INITIAL_RESOURCES: Pick<
         amount: 2,
         choppedAt: 0,
       },
-      x: -3,
+      x: -2,
       y: 3,
       height: 2,
       width: 2,

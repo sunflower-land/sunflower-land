@@ -5,6 +5,8 @@ import { FarmerContainer } from "../containers/FarmerContainer";
 import { MovementComponent } from "../components/MovementComponent";
 import { DraggableComponent } from "../components/DraggableComponent";
 import { BumpkinContainer } from "../containers/BumpkinContainer";
+import { GameContext } from "features/game/GameProvider";
+import { TreeContainer } from "../containers/TreeContainer";
 
 function queueSystem({
   scene,
@@ -25,8 +27,27 @@ function queueSystem({
 
   // Move containers towards queue item
   components.forEach((component) => {
-    component.x = Phaser.Math.Linear(component.x, next.x, 0.05);
-    component.y = Phaser.Math.Linear(component.y, next.y, 0.05);
+    // component.walk();
+
+    // Calculate the direction vector
+    const direction = new Phaser.Math.Vector2(
+      next.x - component.x,
+      next.y - component.y,
+    );
+
+    // Normalize the direction vector (to make its length 1)
+    direction.normalize();
+
+    // Move component along the direction vector with a fixed speed
+    const speed = 1; // Adjust the speed as needed
+    component.x += direction.x * speed;
+    component.y += direction.y * speed;
+
+    if (component.x > next.x) {
+      component.sprite.sprite?.setScale(-1, 1);
+    } else if (component.x < next.x) {
+      component.sprite.sprite?.setScale(1, 1);
+    }
 
     // Trigger action on arrival?
     const distance = Phaser.Math.Distance.BetweenPoints(next, component);
@@ -56,15 +77,38 @@ export class FarmScene extends Phaser.Scene {
   sceneId = "farm";
 
   crops = new Map<string, CropContainer>();
+  trees = new Map<string, TreeContainer>();
   farmers = new Map<string, FarmerContainer>();
 
-  constructor() {
+  context: GameContext;
+
+  constructor({ context }: { context: GameContext }) {
     super("farm");
+    this.context = context;
+  }
+
+  preload() {
+    this.load.image("shadow", "world/shadow.png");
+    this.load.image("background", "world/3x3_bg.png");
   }
 
   async create() {
     this.initialiseCamera();
     this.render();
+
+    // Create the tileSprite to fill the entire screen
+    const background = this.add
+      .tileSprite(
+        0, // x position
+        0, // y position
+        this.scale.width, // width of the tile sprite
+        this.scale.height, // height of the tile sprite
+        "background", // key of the image to use
+      )
+      .setDepth(-1);
+
+    // Set the origin to the top-left corner
+    background.setOrigin(0, 0);
 
     this.input.on(
       "pointerdown",
@@ -84,11 +128,11 @@ export class FarmScene extends Phaser.Scene {
   }
 
   public get id() {
-    return this.registry.get("id") as number;
+    return this.gameService.state.context.farmId;
   }
 
   public get gameService() {
-    return this.registry.get("gameService") as MachineInterpreter;
+    return this.context.gameService;
   }
 
   public initialiseCamera() {
@@ -105,16 +149,29 @@ export class FarmScene extends Phaser.Scene {
   }
 
   async render() {
-    const crops = this.gameState.crops;
-    getKeys(crops).forEach((cropId) => {
-      if (!this.crops.has(cropId)) {
-        const crop = new CropContainer({
+    // const crops = this.gameState.crops;
+    // getKeys(crops).forEach((cropId) => {
+    //   if (!this.crops.has(cropId)) {
+    //     const crop = new CropContainer({
+    //       scene: this,
+    //       id: cropId,
+    //       gameService: this.gameService,
+    //     });
+
+    //     this.crops.set(cropId, crop);
+    //   }
+    // });
+
+    const trees = this.gameState.trees;
+    getKeys(trees).forEach((treeId) => {
+      if (!this.trees.has(treeId)) {
+        const tree = new TreeContainer({
           scene: this,
-          id: cropId,
-          gameService: this.gameService,
+          id: treeId,
+          context: this.context,
         });
 
-        this.crops.set(cropId, crop);
+        this.trees.set(treeId, tree);
       }
     });
 
@@ -139,12 +196,18 @@ export class FarmScene extends Phaser.Scene {
       crop.update();
     });
 
+    // Update the trees
+    this.trees.forEach((tree) => {
+      tree.update();
+    });
+
     let dragComponents: DraggableComponent[] = [];
     this.crops.forEach((crop) => {
       dragComponents.push(crop.draggable);
     });
 
-    dragSystem({ scene: this, components: dragComponents });
+    // Pause dragging for testing
+    // dragSystem({ scene: this, components: dragComponents });
 
     let bumpkinComponents: FarmerContainer[] = [];
     this.farmers.forEach((farmer) => {

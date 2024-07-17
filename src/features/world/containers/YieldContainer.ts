@@ -7,7 +7,7 @@ export class YieldContainer extends Phaser.GameObjects.Container {
   key: string;
   url: string;
 
-  sprite: SpriteComponent;
+  // sprite: SpriteComponent;
   text: TextComponent;
 
   amount: number = 0;
@@ -23,18 +23,20 @@ export class YieldContainer extends Phaser.GameObjects.Container {
     sprite: string;
     scene: Phaser.Scene;
   }) {
-    super(scene, 2, -8);
+    super(scene, 6, -12);
     this.container = container;
     this.scene = scene;
     this.key = key;
     this.url = sprite;
 
-    this.sprite = new SpriteComponent({
-      container: this,
-      sprite: this.url,
-      key: this.key,
-      scene: this.scene,
-    });
+    this.setDepth(1000000);
+
+    // this.sprite = new SpriteComponent({
+    //   container: this,
+    //   sprite: this.url,
+    //   key: this.key,
+    //   scene: this.scene,
+    // });
 
     this.text = new TextComponent({
       container: this,
@@ -44,6 +46,7 @@ export class YieldContainer extends Phaser.GameObjects.Container {
 
     this.container.add(this);
 
+    // this.setVisible(true);
     this.setVisible(false);
   }
 

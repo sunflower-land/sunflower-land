@@ -96,7 +96,8 @@ export const PhaserComponent: React.FC<Props> = ({
   const { t } = useAppTranslation();
 
   const { authService } = useContext(AuthProvider.Context);
-  const { gameService, selectedItem, shortcutItem } = useContext(Context);
+  const gameContext = useContext(Context);
+  const { gameService, selectedItem, shortcutItem } = gameContext;
   const [authState] = useActor(authService);
 
   const { toastsList } = useContext(ToastContext);
@@ -125,7 +126,7 @@ export const PhaserComponent: React.FC<Props> = ({
 
   const scenes = [
     Preloader,
-    FarmScene,
+    new FarmScene({ context: gameContext }),
     new WoodlandsScene({ gameState: gameService.state.context.state }),
     BeachScene,
     new PlazaScene({ gameState: gameService.state.context.state }),

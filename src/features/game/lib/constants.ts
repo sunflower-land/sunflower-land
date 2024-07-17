@@ -211,7 +211,8 @@ export const GENESIS_LAND_EXPANSION: ExpansionConstruction = {
   readyAt: 0,
 };
 
-export const TREE_RECOVERY_TIME = 2 * 60 * 60;
+// export const TREE_RECOVERY_TIME = 2 * 60 * 60;
+export const TREE_RECOVERY_TIME = 10;
 export const STONE_RECOVERY_TIME = 4 * 60 * 60;
 export const IRON_RECOVERY_TIME = 8 * 60 * 60;
 export const GOLD_RECOVERY_TIME = 24 * 60 * 60;

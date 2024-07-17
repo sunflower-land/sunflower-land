@@ -9,6 +9,7 @@ export class AnimatedComponent {
   x: number;
   y: number;
   sprite?: Phaser.GameObjects.Sprite;
+  repeat = true;
 
   constructor({
     container,
@@ -89,11 +90,12 @@ export class AnimatedComponent {
           start: 0,
           end: this.frames - 1,
         }),
-        repeat: -1,
+        repeat: this.repeat ? -1 : 0,
         frameRate: 10,
       });
     }
 
+    console.log({ play: `${this.key}-animation` });
     this.sprite?.play(`${this.key}-animation`, true);
   }
 

@@ -1,3 +1,26 @@
+export type AnimatedSprite = {
+  frames: number;
+  width: number;
+  height: number;
+  repeat: boolean;
+};
+
+export type SpriteProps = {
+  container: Phaser.GameObjects.Container;
+  key: string;
+  sprite: string;
+  scene: Phaser.Scene;
+  x?: number;
+  y?: number;
+  depth?: number;
+  animation?: {
+    frames: number;
+    width: number;
+    height: number;
+    repeat: boolean;
+  };
+};
+
 export class SpriteComponent {
   container: Phaser.GameObjects.Container;
   scene: Phaser.Scene;
@@ -5,7 +28,8 @@ export class SpriteComponent {
   url: string;
   x: number;
   y: number;
-  sprite?: Phaser.GameObjects.Sprite;
+  animation?: AnimatedSprite;
+  sprite: Phaser.GameObjects.Sprite;
 
   constructor({
     container,
@@ -14,20 +38,21 @@ export class SpriteComponent {
     scene,
     x = 0,
     y = 0,
-  }: {
-    container: Phaser.GameObjects.Container;
-    key: string;
-    sprite: string;
-    scene: Phaser.Scene;
-    x?: number;
-    y?: number;
-  }) {
+    animation,
+  }: SpriteProps) {
     this.container = container;
     this.scene = scene;
     this.key = key;
     this.url = sprite;
     this.x = x;
     this.y = y;
+    this.animation = animation;
+
+    this.sprite = this.scene.add
+      .sprite(this.x, this.y, "shadow")
+      .setOrigin(0.5);
+
+    this.container.add(this.sprite);
 
     this.update();
   }
@@ -40,20 +65,21 @@ export class SpriteComponent {
       await this.loadTexture();
     }
 
-    if (this.sprite) {
-      this.sprite.setTexture(this.key);
-      return;
-    }
+    this.sprite.setTexture(this.key);
 
-    this.sprite = this.scene.add
-      .sprite(this.x, this.y, this.key)
-      .setOrigin(0.5);
-    this.container.add(this.sprite);
+    if (this.animation) {
+      this.startAnimation();
+    }
   }
 
   async loadTexture() {
     const loadedKey = new Promise((res) => {
-      const loader = this.scene.load.image(this.key, this.url);
+      const loader = this.animation
+        ? this.scene.load.spritesheet(this.key, this.url, {
+            frameWidth: this.animation.width,
+            frameHeight: this.animation.height,
+          })
+        : this.scene.load.image(this.key, this.url);
 
       loader.addListener(Phaser.Loader.Events.COMPLETE, () => {
         res(this.key);
@@ -65,8 +91,26 @@ export class SpriteComponent {
     await loadedKey;
   }
 
+  startAnimation() {
+    if (this.animation && !this.scene.anims.exists(`${this.key}-animation`)) {
+      this.scene.anims.create({
+        key: `${this.key}-animation`,
+        frames: this.scene.anims.generateFrameNumbers(this.key as string, {
+          start: 0,
+          end: this.animation.frames - 1,
+        }),
+        repeat: this.animation.repeat ? -1 : 0,
+        frameRate: 10,
+      });
+    }
+
+    console.log({ play: `${this.key}-animation` });
+    this.sprite?.play(`${this.key}-animation`, true);
+  }
+
   destroy() {
-    this.sprite?.destroy();
-    this.sprite = undefined;
+    if (this.sprite.active) {
+      this.sprite?.destroy();
+    }
   }
 }

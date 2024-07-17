@@ -1,6 +1,7 @@
 import { CropName } from "features/game/types/crops";
 import { getKeys } from "features/game/types/craftables";
 import { CONFIG } from "lib/config";
+import { SpriteProps } from "features/world/components/SpriteComponent";
 
 const HARVEST_PROC_SPRITES: Record<CropName, any> = {
   Sunflower: "assets/crops/sunflower/proc_sprite.png",
@@ -71,7 +72,10 @@ export const CROP_LIFECYCLE: Record<CropName, Lifecycle> = getKeys(
   {} as Record<CropName, Lifecycle>,
 );
 
-export type LifecycleStage = {
+export type LifecycleStage = Omit<
+  SpriteProps,
+  "scene" | "container" | "key"
+> & {
   sprite: string;
   progress: number; // A number between 0 and 100
 };

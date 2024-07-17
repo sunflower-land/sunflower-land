@@ -27,6 +27,8 @@ export class CropContainer extends Phaser.GameObjects.Container {
   progressBar?: ProgressBarContainer;
   lifecycle?: LifecycleComponent;
 
+  name = Math.random().toString();
+
   constructor({
     scene,
     id,
@@ -55,6 +57,15 @@ export class CropContainer extends Phaser.GameObjects.Container {
       scene,
     });
 
+    this.yield = new YieldContainer({
+      container: this,
+      key: "sunflower-yield",
+      sprite: CROP_LIFECYCLE.Sunflower.crop,
+      scene,
+    });
+
+    // this.moveAbove(this.yield.sprite.sprite, this.sprite.sprite);
+
     this.clickable = new ClickableComponent({
       container: this,
       onClick: this.onClick.bind(this),
@@ -65,13 +76,6 @@ export class CropContainer extends Phaser.GameObjects.Container {
       onDragEnd: () => {
         console.log("On Drag End");
       },
-    });
-
-    this.yield = new YieldContainer({
-      container: this,
-      key: "sunflower-yield",
-      sprite: CROP_LIFECYCLE.Sunflower.crop,
-      scene,
     });
 
     if (plot.crop) {
@@ -202,6 +206,8 @@ export class CropContainer extends Phaser.GameObjects.Container {
         endAt: readyAt,
         y: -6,
       });
+
+      this.moveAbove(this.lifecycle.sprite.sprite, this.sprite.sprite);
 
       this.progressBar = new ProgressBarContainer({
         container: this,

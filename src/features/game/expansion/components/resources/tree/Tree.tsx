@@ -29,7 +29,7 @@ import { gameAnalytics } from "lib/gameAnalytics";
 const HITS = 3;
 const tool = "Axe";
 
-const HasTool = (
+export const HasTool = (
   inventory: Partial<Record<InventoryItemName, Decimal>>,
   gameState: GameState,
 ) => {

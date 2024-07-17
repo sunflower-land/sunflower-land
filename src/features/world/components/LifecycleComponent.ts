@@ -47,7 +47,6 @@ export class LifecycleComponent {
     y?: number;
     x?: number;
   }) {
-    console.log("INIT LIFECYCLE");
     this.container = container;
     this.scene = scene;
     this.key = key;
@@ -61,6 +60,9 @@ export class LifecycleComponent {
       stages,
     });
 
+    console.log({ stage, startAt, endAt });
+    // TODO - load all images
+
     this.sprite = new SpriteComponent({
       container: this.container,
       key: `${key}-lifecycle-${stage.progress}`,
@@ -68,6 +70,7 @@ export class LifecycleComponent {
       scene,
       x,
       y,
+      animation: stage.animation,
     });
   }
 
@@ -96,6 +99,7 @@ export class LifecycleComponent {
 
     this.sprite.key = `${this.key}-lifecycle-${stage.progress}`;
     this.sprite.url = stage.sprite;
+    this.sprite.animation = stage.animation;
     this.sprite.update();
   }
 }
