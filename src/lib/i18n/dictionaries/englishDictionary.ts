@@ -1126,6 +1126,8 @@ const bumpkinTrade: Record<BumpkinTrade, string> = {
   "bumpkinTrade.cancel": "Cancel",
   "bumpkinTrade.list": "List",
   "bumpkinTrade.maxListings": "Max listings reached",
+  "bumpkinTrade.visitBoard": "Visit the trading board to list more trades.",
+  "bumpkinTrade.unlockMoreTrades": "Unlock more trades",
   "bumpkinTrade.max": "Max: {{max}}",
   "bumpkinTrade.min": "Min: {{min}}",
   "bumpkinTrade.minimumFloor": "Min unit price: {{min}}",

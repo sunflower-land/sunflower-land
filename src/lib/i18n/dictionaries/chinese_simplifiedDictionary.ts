@@ -1074,6 +1074,9 @@ const bumpkinTrade: Record<BumpkinTrade, string> = {
   "bumpkinTrade.cancel": "取消",
   "bumpkinTrade.list": "上架",
   "bumpkinTrade.maxListings": "已达到最大上架单数",
+  "bumpkinTrade.visitBoard": ENGLISH_TERMS["bumpkinTrade.visitBoard"],
+  "bumpkinTrade.unlockMoreTrades":
+    ENGLISH_TERMS["bumpkinTrade.unlockMoreTrades"],
   "bumpkinTrade.max": "最多: {{max}}",
   "bumpkinTrade.floorPrice": "底价：{{price}} SFL",
   "bumpkinTrade.price/unit": "{{price}} / 单位",

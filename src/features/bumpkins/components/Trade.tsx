@@ -16,6 +16,7 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import React, { useContext, useState } from "react";
 import token from "assets/icons/sfl.webp";
 import lock from "assets/skills/lock.png";
+import worldIcon from "assets/icons/world.png";
 import tradeIcon from "assets/icons/trade.png";
 import Decimal from "decimal.js-light";
 import { InnerPanel } from "components/ui/Panel";
@@ -46,7 +47,7 @@ const ISLAND_LIMITS: Record<IslandType, number> = {
   desert: 20,
 };
 
-function getRemainingFreeListings({ game }: { game: GameState }) {
+function getRemainingListings({ game }: { game: GameState }) {
   let remaining = ISLAND_LIMITS[game.island?.type] ?? 0;
 
   if (!hasVipAccess(game.inventory)) {
@@ -58,10 +59,14 @@ function getRemainingFreeListings({ game }: { game: GameState }) {
     date: 0,
   };
 
-  if (dailyListings.date !== getDayOfYear(new Date())) {
-    return remaining;
+  if (dailyListings.date === getDayOfYear(new Date())) {
+    remaining -= dailyListings.count;
   }
-  return remaining - dailyListings.count;
+
+  const currentListings = Object.keys(game.trades.listings ?? {}).length;
+  remaining -= currentListings;
+
+  return remaining;
 }
 
 type Items = Partial<Record<InventoryItemName, number>>;
@@ -400,9 +405,10 @@ const TradeDetails: React.FC<{
   );
 };
 
-export const Trade: React.FC<{ floorPrices: FloorPrices }> = ({
-  floorPrices,
-}) => {
+export const Trade: React.FC<{
+  floorPrices: FloorPrices;
+  hideButton?: boolean;
+}> = ({ floorPrices, hideButton }) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 
@@ -411,9 +417,10 @@ export const Trade: React.FC<{ floorPrices: FloorPrices }> = ({
   const [showListing, setShowListing] = useState(false);
 
   const isVIP = hasVipAccess(gameState.context.state.inventory);
-  const remainingListings = getRemainingFreeListings({
+  const remainingListings = getRemainingListings({
     game: gameState.context.state,
   });
+
   const hasListingsRemaining = remainingListings > 0;
   // Show listings
   const trades = gameState.context.state.trades?.listings ?? {};
@@ -477,12 +484,13 @@ export const Trade: React.FC<{ floorPrices: FloorPrices }> = ({
             onUpgrade={() => {
               openModal("BUY_BANNER");
             }}
+            text={t("bumpkinTrade.unlockMoreTrades")}
           />
           <Label
             type={hasListingsRemaining ? "success" : "danger"}
             className="-ml-2"
           >
-            {remainingListings >= 1
+            {remainingListings === 1
               ? `${t("remaining.free.listing")}`
               : `${t("remaining.free.listings", {
                   listingsRemaining: hasListingsRemaining
@@ -515,6 +523,7 @@ export const Trade: React.FC<{ floorPrices: FloorPrices }> = ({
       <div className="pl-2 pt-2 space-y-1 sm:space-y-0 sm:flex items-center justify-between ml-1.5">
         <VIPAccess
           isVIP={isVIP}
+          text={t("bumpkinTrade.unlockMoreTrades")}
           onUpgrade={() => {
             openModal("BUY_BANNER");
           }}
@@ -523,7 +532,7 @@ export const Trade: React.FC<{ floorPrices: FloorPrices }> = ({
           type={hasListingsRemaining ? "success" : "danger"}
           className="-ml-2"
         >
-          {remainingListings >= 1
+          {remainingListings === 1
             ? `${t("remaining.free.listing")}`
             : `${t("remaining.free.listings", {
                 listingsRemaining: hasListingsRemaining
@@ -558,7 +567,8 @@ export const Trade: React.FC<{ floorPrices: FloorPrices }> = ({
             </div>
           );
         })}
-      {getKeys(trades).length < 3 && (
+
+      {!hideButton && getKeys(trades).length < 3 && (
         <div className="relative mt-2">
           <Button
             onClick={() => setShowListing(true)}
@@ -568,6 +578,14 @@ export const Trade: React.FC<{ floorPrices: FloorPrices }> = ({
           </Button>
         </div>
       )}
+
+      {hideButton && (
+        <div className="flex m-1">
+          <img src={worldIcon} className="h-4 mr-2" />
+          <span className="text-xs">{t("bumpkinTrade.visitBoard")}</span>
+        </div>
+      )}
+
       {getKeys(trades).length >= 3 && (
         <div className="relative my-2">
           <Label type="danger" icon={lock} className="mx-auto">

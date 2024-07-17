@@ -1183,6 +1183,9 @@ const bumpkinTrade: Record<BumpkinTrade, string> = {
   "bumpkinTrade.cancel": "Annuler",
   "bumpkinTrade.list": "Liste",
   "bumpkinTrade.maxListings": "Nombre maximum d'annonces atteint",
+  "bumpkinTrade.visitBoard": ENGLISH_TERMS["bumpkinTrade.visitBoard"],
+  "bumpkinTrade.unlockMoreTrades":
+    ENGLISH_TERMS["bumpkinTrade.unlockMoreTrades"],
   "bumpkinTrade.max": "Max : {{max}}",
   "bumpkinTrade.min": "Min : {{min}}",
   "bumpkinTrade.minimumFloor": ENGLISH_TERMS["bumpkinTrade.minimumFloor"],

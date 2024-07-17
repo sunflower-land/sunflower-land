@@ -1169,6 +1169,9 @@ const bumpkinTrade: Record<BumpkinTrade, string> = {
   "bumpkinTrade.cancel": ENGLISH_TERMS["bumpkinTrade.cancel"],
   "bumpkinTrade.list": ENGLISH_TERMS["bumpkinTrade.list"],
   "bumpkinTrade.maxListings": ENGLISH_TERMS["bumpkinTrade.maxListings"],
+  "bumpkinTrade.visitBoard": ENGLISH_TERMS["bumpkinTrade.visitBoard"],
+  "bumpkinTrade.unlockMoreTrades":
+    ENGLISH_TERMS["bumpkinTrade.unlockMoreTrades"],
   "bumpkinTrade.max": ENGLISH_TERMS["bumpkinTrade.max"],
   "bumpkinTrade.min": ENGLISH_TERMS["bumpkinTrade.min"],
   "bumpkinTrade.minimumFloor": ENGLISH_TERMS["bumpkinTrade.minimumFloor"],
