@@ -295,7 +295,10 @@ export const FactionPetPanel: React.FC<Props> = ({ onClose }) => {
                   pulse: refreshing || autosaving,
                 })}
               >
-                {t("faction.pet.weeklyGoal", { goalXP, totalXP: fedXP })}
+                {t("faction.pet.weeklyGoal", {
+                  goalXP: goalXP.toLocaleString(),
+                  totalXP: fedXP.toLocaleString(),
+                })}
               </Label>
               {streak > 0 && (
                 <Label
