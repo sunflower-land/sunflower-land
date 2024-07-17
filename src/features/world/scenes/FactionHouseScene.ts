@@ -5,10 +5,7 @@ import { getFactionPrize } from "../ui/factions/weeklyPrize/FactionWeeklyPrize";
 import { Coordinates } from "features/game/expansion/components/MapPlacement";
 import { getFactionWeek } from "features/game/lib/factions";
 import { CollectivePet, Faction, FactionName } from "features/game/types/game";
-import {
-  FACTION_PET_REFRESH_INTERVAL,
-  PET_SLEEP_DURATION,
-} from "../ui/factions/FactionPetPanel";
+import { FACTION_PET_REFRESH_INTERVAL } from "../ui/factions/FactionPetPanel";
 import { getFactionPetUpdate } from "../ui/factions/actions/getFactionPetUpdate";
 import { hasReadFactionNotice } from "../ui/factions/FactionNoticeboard";
 import { PetStateSprite } from "./SunflorianHouseScene";
@@ -273,19 +270,9 @@ export abstract class FactionHouseScene extends BaseScene {
   }
 
   getPetState() {
-    const week = getFactionWeek({ date: new Date() });
-    const beginningOfWeek = new Date(week).getTime();
-    const firstWeek = "2024-07-08";
-
     if (!this.collectivePet) return "pet_hungry";
 
-    if (
-      this.collectivePet.streak === 0 &&
-      week !== firstWeek &&
-      Date.now() < beginningOfWeek + PET_SLEEP_DURATION
-    ) {
-      return "pet_sleeping";
-    }
+    if (this.collectivePet.sleeping) return "pet_sleeping";
 
     if (this.collectivePet.goalReached) return "pet_happy";
 

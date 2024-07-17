@@ -2211,7 +2211,7 @@ const factions: Record<Factions, string> = {
   "faction.pet.fed":
     "Fantastic job! You've unlocked a valuable bonus. The faction's pet is healthier than ever, and all members receive an XP boost. Let's aim for the next streak!",
   "faction.pet.sleeping":
-    "The pet has gone to sleep for 24 hours due to hunger. Make sure to feed it well when it wakes up to keep our streak alive.",
+    "The pet has gone to sleep for a week due to hunger. Make sure to feed it well when it wakes up to keep our streak alive.",
   "faction.pet.newRequests": "New requests in {{time}}",
   "faction.pet.streak": "{{streak}} week streak",
   "faction.pet.wakes.in": "Wakes in {{time}}",
@@ -2905,7 +2905,7 @@ const guideFactionPet: Record<GuideFactionPet, string> = {
   "guide.factionPet.three":
     "If the faction doesn't reach the goal then the pet will go to sleep for 1 week.",
   "guide.factionPet.four":
-    "Once the faction reaches a streak of 3 or more weeks, an XP bonus will be given to each contributing member when their bumpkin eats!",
+    "Once the faction reaches a streak of 2 or more weeks, an XP bonus will be given to each contributing faction member when their bumpkin eats! To be a contributing member you will need to have fed the pet at least 1 of each request during the week prior.",
   "guide.factionPet.five":
     "Contributing member: To be eligible for potential streak boosts in the following week, a player needs to fulfill one of each pet's requests.",
   "guide.factionPet.six":
