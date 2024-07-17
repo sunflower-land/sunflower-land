@@ -1550,6 +1550,7 @@ export type Factions =
   | "faction.kitchen.preparing"
   | "faction.kitchen.newRequests"
   | "faction.pet.gatherResources"
+  | "faction.pet.contributingMember"
   // Leaving
   | "faction.leave"
   | "faction.leave.hasEmblems"
