@@ -13,6 +13,7 @@ import {
   isProducingHoney,
   isBeehivesFull,
   isCrimstoneHammerActive,
+  areAnyOGFruitsGrowing,
 } from "./removeables";
 import { GameState } from "./game";
 
@@ -71,6 +72,10 @@ export const canWithdrawBoostedWearable = (
   }
 
   if (name === "Fruit Picker Apron") {
+    return !areAnyOGFruitsGrowing(state)[0];
+  }
+
+  if (name === "Camel Onesie") {
     return !areAnyFruitsGrowing(state)[0];
   }
 

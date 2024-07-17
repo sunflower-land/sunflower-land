@@ -64,9 +64,6 @@ function getRemainingListings({ game }: { game: GameState }) {
     remaining -= dailyListings.count;
   }
 
-  const currentListings = Object.keys(game.trades.listings ?? {}).length;
-  remaining -= currentListings;
-
   return remaining;
 }
 
@@ -86,6 +83,8 @@ const ListTrade: React.FC<{
 
   const maxSFL = sfl.greaterThan(MAX_SFL);
 
+  const { gameService } = useContext(Context); // To remove after Beta Testing
+
   if (!selected) {
     return (
       <div className="space-y-2">
@@ -96,19 +95,25 @@ const ListTrade: React.FC<{
         </div>
 
         <div className="flex flex-wrap ">
-          {getKeys(TRADE_LIMITS).map((name) => (
-            <div
-              key={name}
-              className="w-1/3 sm:w-1/4 md:w-1/5 lg:w-1/6 pr-1 pb-1 mb-2 px-1"
-            >
-              <ListingCategoryCard
-                itemName={name}
-                inventoryAmount={inventory?.[name] ?? new Decimal(0)}
-                pricePerUnit={floorPrices[name]}
-                onClick={() => setSelected(name)}
-              />
-            </div>
-          ))}
+          {getKeys(TRADE_LIMITS)
+            .filter(
+              (name) =>
+                (name !== "Tomato" && name !== "Lemon") ||
+                hasFeatureAccess(gameService.state.context.state, "NEW_FRUITS"),
+            )
+            .map((name) => (
+              <div
+                key={name}
+                className="w-1/3 sm:w-1/4 md:w-1/5 lg:w-1/6 pr-1 pb-1 mb-2 px-1"
+              >
+                <ListingCategoryCard
+                  itemName={name}
+                  inventoryAmount={inventory?.[name] ?? new Decimal(0)}
+                  pricePerUnit={floorPrices[name]}
+                  onClick={() => setSelected(name)}
+                />
+              </div>
+            ))}
         </div>
       </div>
     );

@@ -534,6 +534,40 @@ describe("fruitPlanted", () => {
     ).toEqual(1.2);
   });
 
+  it("includes Camel Onesie +0.1 bonus on all Fruits growing from Fruit patches", () => {
+    const seedAmount = new Decimal(5);
+
+    const patchIndex = "1";
+
+    const state = plantFruit({
+      state: {
+        ...GAME_STATE,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          equipped: {
+            onesie: "Camel Onesie",
+            ...INITIAL_BUMPKIN.equipped,
+          },
+        },
+        inventory: {
+          "Lemon Seed": seedAmount,
+        },
+      },
+      createdAt: dateNow,
+      action: {
+        type: "fruit.planted",
+        index: patchIndex,
+        seed: "Lemon Seed",
+      },
+    });
+
+    const fruitPatches = state.fruitPatches;
+
+    expect(
+      (fruitPatches as Record<number, FruitPatch>)[patchIndex].fruit?.amount,
+    ).toEqual(1.1);
+  });
+
   it("includes Banana Amulet +0.5 bonus on Bananas", () => {
     const seedAmount = new Decimal(5);
 

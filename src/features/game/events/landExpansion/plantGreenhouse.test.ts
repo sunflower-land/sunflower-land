@@ -453,6 +453,55 @@ describe("plantGreenhouse", () => {
     });
   });
 
+  it("doesn't boost Grape by when Camel Onesie is equipped", () => {
+    const now = Date.now();
+    const state = plantGreenhouse({
+      action: {
+        type: "greenhouse.planted",
+        id: 1,
+        seed: "Grape Seed",
+      },
+      state: {
+        ...farm,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          equipped: {
+            onesie: "Camel Onesie",
+            ...INITIAL_BUMPKIN.equipped,
+          },
+        },
+        inventory: {
+          "Grape Seed": new Decimal(1),
+        },
+        greenhouse: {
+          oil: 50,
+          pots: {
+            1: {},
+          },
+        },
+        buildings: {
+          Greenhouse: [
+            {
+              coordinates: { x: 0, y: 0 },
+              id: "1",
+              createdAt: 0,
+              readyAt: 0,
+            },
+          ],
+        },
+      },
+      createdAt: now,
+    });
+
+    expect(state.greenhouse.pots[1]).toEqual({
+      plant: {
+        amount: 1,
+        name: "Grape",
+        plantedAt: now,
+      },
+    });
+  });
+
   it("boosts +1 Olive yield when Olive Shield is equipped", () => {
     const now = Date.now();
     const state = plantGreenhouse({

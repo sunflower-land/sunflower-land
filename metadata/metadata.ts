@@ -12798,7 +12798,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Boost", value: "Fruit" },
       {
         display_type: "boost_number",
-        trait_type: "Increase Fruit Yield",
+        trait_type: "Increase Fruit Patch Yield",
         value: 0.1,
       },
       { trait_type: "Tradable", value: "Yes" },
