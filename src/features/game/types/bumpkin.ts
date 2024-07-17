@@ -13,7 +13,8 @@ export type BumpkinBackground =
   | "Mushroom Lights Background"
   | "Northern Lights Background"
   | "Valentine's Field Background"
-  | "Festival of Colors Background";
+  | "Festival of Colors Background"
+  | "Desert Background";
 
 export type BumpkinBody =
   | "Beige Farmer Potion"
@@ -119,7 +120,8 @@ export type BumpkinShirt =
   | "Goblin Armor"
   | "Nightshade Armor"
   | "Bumpkin Armor"
-  | "Sunflorian Armor";
+  | "Sunflorian Armor"
+  | "Explorer Shirt";
 
 export type BumpkinCoat =
   | "Chef Apron"
@@ -167,7 +169,9 @@ export type BumpkinTool =
   | "Goblin Axe"
   | "Nightshade Sword"
   | "Bumpkin Sword"
-  | "Sunflorian Sword";
+  | "Sunflorian Sword"
+  | "Dev Wrench"
+  | "Rock Hammer";
 
 export type BumpkinShoe =
   | "Black Farmer Boots"
@@ -196,7 +200,9 @@ export type BumpkinNecklace =
   | "Green Amulet"
   | "Artist Scarf"
   | "Banana Amulet"
-  | "Crimstone Amulet";
+  | "Crimstone Amulet"
+  | "Amber Amulet"
+  | "Sun Scarab Amulet";
 
 export type BumpkinHat =
   | "Painter's Cap"
@@ -270,7 +276,10 @@ export type BumpkinHat =
   | "Goblin Helmet"
   | "Nightshade Helmet"
   | "Bumpkin Helmet"
-  | "Sunflorian Helmet";
+  | "Sunflorian Helmet"
+  | "Pharaoh Headdress"
+  | "Explorer Hat"
+  | "Oil Protection Hat";
 
 export type BumpkinPant =
   | "Farmer Overalls"
@@ -302,7 +311,9 @@ export type BumpkinPant =
   | "Goblin Pants"
   | "Nightshade Pants"
   | "Bumpkin Pants"
-  | "Sunflorian Pants";
+  | "Sunflorian Pants"
+  | "Explorer Shorts"
+  | "Oil Overalls";
 
 export type BumpkinDress =
   | "Royal Dress"
@@ -345,7 +356,8 @@ export type BumpkinOnesie =
   | "Corn Onesie"
   | "Stockeye Salmon Onesie"
   | "Banana Onesie"
-  | "Soybean Onesie";
+  | "Soybean Onesie"
+  | "Camel Onesie";
 
 // Goes over clothes
 export type BumpkinSuit =
@@ -734,6 +746,20 @@ export const ITEM_IDS: Record<BumpkinItem, number> = {
   "Royal Braids": 346,
   "Painter's Cap": 347,
   "Festival of Colors Background": 348,
+
+  // Ancient Season
+  "Pharaoh Headdress": 349,
+  "Camel Onesie": 350,
+  "Amber Amulet": 351,
+  "Desert Background": 352,
+  "Explorer Shirt": 353,
+  "Dev Wrench": 354,
+  "Rock Hammer": 355,
+  "Sun Scarab Amulet": 356,
+  "Explorer Hat": 357,
+  "Oil Protection Hat": 358,
+  "Explorer Shorts": 359,
+  "Oil Overalls": 360,
 };
 
 // The reverse of above
@@ -800,6 +826,7 @@ export const BUMPKIN_ITEMS_IDS = Object.values(ITEM_IDS);
 export const BUMPKIN_ITEM_PART: Record<BumpkinItem, keyof Wallet> = {
   "Festival of Colors Background": "background",
   "Painter's Cap": "hat",
+  "Royal Braids": "hair",
   "Soybean Onesie": "onesie",
   "Beige Farmer Potion": "body",
   "Dark Brown Farmer Potion": "body",
@@ -1140,5 +1167,16 @@ export const BUMPKIN_ITEM_PART: Record<BumpkinItem, keyof Wallet> = {
   "Queen's Crown": "hat",
   "Royal Dress": "dress",
   Motley: "suit",
-  "Royal Braids": "hair",
+  "Pharaoh Headdress": "hat",
+  "Camel Onesie": "onesie",
+  "Amber Amulet": "necklace",
+  "Desert Background": "background",
+  "Explorer Shirt": "shirt",
+  "Dev Wrench": "tool",
+  "Rock Hammer": "tool",
+  "Sun Scarab Amulet": "necklace",
+  "Explorer Hat": "hat",
+  "Oil Protection Hat": "hat",
+  "Explorer Shorts": "pants",
+  "Oil Overalls": "pants",
 };

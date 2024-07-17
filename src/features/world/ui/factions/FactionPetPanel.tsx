@@ -49,8 +49,9 @@ import xpIcon from "assets/icons/xp.png";
 import { formatNumber } from "lib/utils/formatNumber";
 import { FACTION_EMBLEM_ICONS } from "./components/ClaimEmblems";
 import { BoostInfoPanel } from "./BoostInfoPanel";
+import { getKeys } from "features/game/types/decorations";
 
-export const PET_SLEEP_DURATION = 24 * 60 * 60 * 1000;
+export const PET_SLEEP_DURATION = 7 * 24 * 60 * 60 * 1000;
 
 const PetSleeping = ({ onWake }: { onWake: () => void }) => {
   const { t } = useAppTranslation();
@@ -121,18 +122,7 @@ const _faction = (state: MachineState) =>
 const _inventory = (state: MachineState) => state.context.state.inventory;
 
 const getPetState = (collectivePet: CollectivePet): PetState => {
-  const week = getFactionWeek({ date: new Date() });
-  const beginningOfWeek = new Date(week).getTime();
-  const firstWeek = "2024-07-08";
-
-  if (week === firstWeek) return "hungry";
-
-  if (
-    collectivePet.streak === 0 &&
-    Date.now() < beginningOfWeek + PET_SLEEP_DURATION
-  ) {
-    return "sleeping";
-  }
+  if (collectivePet.sleeping) return "sleeping";
 
   if (collectivePet.goalReached) return "happy";
 
@@ -245,6 +235,16 @@ export const FactionPetPanel: React.FC<Props> = ({ onClose }) => {
 
   const boostedMarks = selectedRequestReward + boost;
 
+  const isContributingMemberForThisWeek = pet.requests.every(
+    (request) => getKeys(request.dailyFulfilled).length > 0,
+  );
+
+  const lastWeek = getFactionWeek({
+    date: new Date(new Date(week).getTime() - 7 * 24 * 60 * 60 * 1000),
+  });
+  const isStreakWeek =
+    (faction?.history[lastWeek]?.collectivePet?.streak ?? 0) >= 2;
+
   return (
     <>
       <Label
@@ -277,6 +277,10 @@ export const FactionPetPanel: React.FC<Props> = ({ onClose }) => {
             icon: SUNNYSIDE.icons.expression_confused,
             name: t("guide"),
           },
+          {
+            icon: lightning,
+            name: "Streaks",
+          },
         ]}
       >
         {tab === 0 && (
@@ -288,12 +292,20 @@ export const FactionPetPanel: React.FC<Props> = ({ onClose }) => {
                   pulse: refreshing || autosaving,
                 })}
               >
-                {t("faction.pet.weeklyGoal", { goalXP, totalXP: fedXP })}
+                {t("faction.pet.weeklyGoal", {
+                  goalXP: goalXP.toLocaleString(),
+                  totalXP: fedXP.toLocaleString(),
+                })}
               </Label>
               {streak > 0 && (
                 <Label
                   type={streak >= 3 ? "success" : "default"}
-                  icon={streak >= 3 ? powerup : ""}
+                  icon={isStreakWeek ? powerup : ""}
+                  secondaryIcon={
+                    isStreakWeek && pet.qualifiesForBoost
+                      ? SUNNYSIDE.icons.confirm
+                      : ""
+                  }
                 >
                   {t("faction.pet.streak", { streak })}
                 </Label>
@@ -389,6 +401,19 @@ export const FactionPetPanel: React.FC<Props> = ({ onClose }) => {
                           );
                         })}
                       </div>
+                      {collectivePet.streak > 0 && (
+                        <div className="flex items-center space-x-1">
+                          <p className="text-xs pb-1">{`${t("faction.pet.contributingMember")}: `}</p>
+                          <img
+                            className="w-3"
+                            src={
+                              isContributingMemberForThisWeek
+                                ? SUNNYSIDE.icons.confirm
+                                : SUNNYSIDE.icons.close
+                            }
+                          />
+                        </div>
+                      )}
                     </div>
                   }
                   panel={
@@ -521,11 +546,62 @@ export const FactionPetPanel: React.FC<Props> = ({ onClose }) => {
               <div className="flex mb-2">
                 <div className="w-12 flex justify-center">
                   <img
-                    src={ITEM_DETAILS["Mark"].image}
+                    src={SUNNYSIDE.icons.expression_confused}
                     className="h-6 mr-2 object-contain"
                   />
                 </div>
                 <p className="text-xs flex-1">{t("guide.factionPet.five")}</p>
+              </div>
+              <div className="flex mb-2">
+                <div className="w-12 flex justify-center">
+                  <img
+                    src={ITEM_DETAILS["Mark"].image}
+                    className="h-6 mr-2 object-contain"
+                  />
+                </div>
+                <p className="text-xs flex-1">{t("guide.factionPet.six")}</p>
+              </div>
+            </div>
+            <Button
+              className="text-xxs sm:text-sm mt-1 whitespace-nowrap"
+              onClick={() => {
+                setTab(0);
+              }}
+            >
+              {t("ok")}
+            </Button>
+          </>
+        )}
+        {tab === 2 && (
+          <>
+            <div className="p-2">
+              <div className="flex items-center mb-2">
+                <div className="w-12 flex justify-center">
+                  <img src={xpIcon} className="h-4 mr-2 object-contain" />
+                </div>
+                <p className="text-sm flex-1">{`Streaks Explained`}</p>
+              </div>
+              <ul className="flex mr-2 list-inside flex-col mb-2 space-y-2">
+                <li className="text-xs flex-1 flex">
+                  <div className="mx-2">{`-`}</div>
+                  <p>{t("guide.streak.one")}</p>
+                </li>
+                <li className="text-xs flex-1 flex">
+                  <div className="mx-2">{`-`}</div>
+                  <p>{t("guide.streak.two")}</p>
+                </li>
+                <li className="text-xs flex-1 flex">
+                  <div className="mx-2">{`-`}</div>
+                  <p>{t("guide.streak.three")}</p>
+                </li>
+                <li className="text-xs flex-1 flex">
+                  <div className="mx-2">{`-`}</div>
+                  <p>{t("guide.streak.four")}</p>
+                </li>
+              </ul>
+              <div className="space-y-1 mt-1">
+                <p className="my-1 text-xs">{t("guide.streak.beyond")}</p>
+                <p className="my-1 text-xs">{t("guide.streak.furtherInfo")}</p>
               </div>
             </div>
             <Button

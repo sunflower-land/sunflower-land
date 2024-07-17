@@ -17,6 +17,7 @@ import { getBudExperienceBoosts } from "features/game/lib/getBudExperienceBoosts
 import { getBumpkinLevel } from "features/game/lib/level";
 import { isWearableActive } from "features/game/lib/wearables";
 import { SellableItem } from "features/game/events/landExpansion/sellCrop";
+import { getFactionPetBoostMultiplier } from "features/game/lib/factions";
 
 const crops = CROPS();
 
@@ -209,6 +210,7 @@ export const getFoodExpBoost = (
   }
 
   boostedExp = boostedExp.mul(getBudExperienceBoosts(buds, food));
+  boostedExp = boostedExp.mul(getFactionPetBoostMultiplier(game));
 
   return boostedExp.toDecimalPlaces(4).toNumber();
 };

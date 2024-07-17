@@ -4,11 +4,8 @@ import { translate } from "lib/i18n/translate";
 import { getFactionPrize } from "../ui/factions/weeklyPrize/FactionWeeklyPrize";
 import { Coordinates } from "features/game/expansion/components/MapPlacement";
 import { getFactionWeek } from "features/game/lib/factions";
-import { CollectivePet, FactionName } from "features/game/types/game";
-import {
-  FACTION_PET_REFRESH_INTERVAL,
-  PET_SLEEP_DURATION,
-} from "../ui/factions/FactionPetPanel";
+import { CollectivePet, Faction, FactionName } from "features/game/types/game";
+import { FACTION_PET_REFRESH_INTERVAL } from "../ui/factions/FactionPetPanel";
 import { getFactionPetUpdate } from "../ui/factions/actions/getFactionPetUpdate";
 import { hasReadFactionNotice } from "../ui/factions/FactionNoticeboard";
 import { PetStateSprite } from "./SunflorianHouseScene";
@@ -108,6 +105,7 @@ export abstract class FactionHouseScene extends BaseScene {
   public progressBar: Phaser.GameObjects.Graphics | undefined;
   private _progress = 0;
   public boostIcon: Phaser.GameObjects.Image | undefined;
+  public isStreakWeek = false;
 
   preload() {
     super.preload();
@@ -180,7 +178,13 @@ export abstract class FactionHouseScene extends BaseScene {
       4,
     );
 
-    const showBoost = (this.collectivePet?.streak ?? 0) >= 3;
+    const thisWeek = getFactionWeek({ date: new Date() });
+    const lastWeek = getFactionWeek({
+      date: new Date(new Date(thisWeek).getTime() - 7 * 24 * 60 * 60 * 1000),
+    });
+    const faction = this.gameService.state.context.state.faction as Faction;
+    const isStreakWeek =
+      (faction.history?.[lastWeek]?.collectivePet?.streak ?? 0) >= 2;
 
     this.boostIcon = this.add
       .image(
@@ -189,7 +193,7 @@ export abstract class FactionHouseScene extends BaseScene {
         "boost_icon",
       )
       .setScale(0.9)
-      .setVisible(showBoost);
+      .setVisible(isStreakWeek);
   }
 
   create() {
@@ -210,6 +214,7 @@ export abstract class FactionHouseScene extends BaseScene {
     this.collectivePet = data;
     this.petState = this.getPetState();
     this.progress = this.calculatePetProgress();
+
     this.boostIcon?.setVisible((data.streak ?? 0) >= 3);
   }
 
@@ -265,19 +270,9 @@ export abstract class FactionHouseScene extends BaseScene {
   }
 
   getPetState() {
-    const week = getFactionWeek({ date: new Date() });
-    const beginningOfWeek = new Date(week).getTime();
-    const firstWeek = "2024-07-08";
-
     if (!this.collectivePet) return "pet_hungry";
 
-    if (
-      this.collectivePet.streak === 0 &&
-      week !== firstWeek &&
-      Date.now() < beginningOfWeek + PET_SLEEP_DURATION
-    ) {
-      return "pet_sleeping";
-    }
+    if (this.collectivePet.sleeping) return "pet_sleeping";
 
     if (this.collectivePet.goalReached) return "pet_happy";
 

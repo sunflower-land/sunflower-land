@@ -720,12 +720,12 @@ const soldOut: Record<SoldOutCollectibleName, () => boolean> = {
   "Humming Bird": () => true,
   "Hungry Caterpillar": () => true,
   "Queen Bee": () => true,
-  "Turbo Sprout": () => canWithdrawTimebasedItem(new Date("2024-07-12")), // Last Auction 2024/07/11
-  Soybliss: () => canWithdrawTimebasedItem(new Date("2024-06-27")), // Last Auction 2024/06/26
-  "Grape Granny": () => canWithdrawTimebasedItem(new Date("2024-07-03")), // Last Auction 2024/07/02
-  "Royal Throne": () => canWithdrawTimebasedItem(new Date("2024-07-09")), // Last Auction 2024/07/08,
-  "Lily Egg": () => canWithdrawTimebasedItem(new Date("2024-06-21")), // Last Auction 2024/06/20
-  Goblet: () => canWithdrawTimebasedItem(new Date("2024-07-15")), // Last Auction 2024/07/14
+  "Turbo Sprout": () => true,
+  Soybliss: () => true,
+  "Grape Granny": () => true,
+  "Royal Throne": () => true,
+  "Lily Egg": () => true,
+  Goblet: () => true,
 };
 
 const achievementDecoration: Record<AchievementDecorationName, () => boolean> =
@@ -830,8 +830,8 @@ const eventDecoration: Record<EventDecorationName, () => boolean> = {
   "Devotion Flag": () => true,
   "Generosity Flag": () => true,
   "Splendor Flag": () => true,
-  "Jelly Lamp": () => canWithdrawTimebasedItem(new Date("2024-07-01")),
-  "Paint Can": () => canWithdrawTimebasedItem(new Date("2024-07-01")),
+  "Jelly Lamp": () => true,
+  "Paint Can": () => true,
 };
 
 const lanterns: Record<LanternName, () => boolean> = {
@@ -950,11 +950,11 @@ const megastore: Record<MegaStoreCollectibleName, () => boolean> = {
   "Fancy Rug": () => true,
   Clock: () => true,
   Vinny: () => true,
-  "Regular Pawn": () => canWithdrawTimebasedItem(new Date("2024-07-01")),
-  "Novice Knight": () => canWithdrawTimebasedItem(new Date("2024-07-01")),
-  "Golden Garrison": () => canWithdrawTimebasedItem(new Date("2024-07-01")),
-  "Trainee Target": () => canWithdrawTimebasedItem(new Date("2024-07-01")),
-  "Chess Rug": () => canWithdrawTimebasedItem(new Date("2024-07-01")),
+  "Regular Pawn": () => true,
+  "Novice Knight": () => true,
+  "Golden Garrison": () => true,
+  "Trainee Target": () => true,
+  "Chess Rug": () => true,
   "Rice Panda": () => canWithdrawTimebasedItem(new Date("2024-08-01")),
   "Silver Squire": () => canWithdrawTimebasedItem(new Date("2024-08-01")),
   Cluckapult: () => canWithdrawTimebasedItem(new Date("2024-08-01")),
@@ -1109,9 +1109,8 @@ export const BUMPKIN_WITHDRAWABLES: Record<
   BumpkinItem,
   (state?: GameState) => boolean
 > = {
-  "Festival of Colors Background": () =>
-    canWithdrawTimebasedItem(new Date("2024-07-01")),
-  "Painter's Cap": () => canWithdrawTimebasedItem(new Date("2024-07-01")),
+  "Festival of Colors Background": () => true,
+  "Painter's Cap": () => true,
   "Gift Giver": () => false,
   "Beige Farmer Potion": () => false,
   "Dark Brown Farmer Potion": () => false,
@@ -1246,7 +1245,7 @@ export const BUMPKIN_WITHDRAWABLES: Record<
   "Mushroom Pants": () => false, // Not Launched
   "Mushroom Shield": () => false, // Not Launched
   "Mushroom Shoes": () => false, // Not Launched
-  "Mushroom Sweater": () => canWithdrawTimebasedItem(new Date("2024-07-01")),
+  "Mushroom Sweater": () => true,
   "Rash Vest": () => false, // Not Launched
   "Squid Hat": () => true,
   "Summer Top": () => true,
@@ -1398,7 +1397,7 @@ export const BUMPKIN_WITHDRAWABLES: Record<
     canWithdrawBoostedWearable("Beekeeper Hat", state),
   "Beekeeper Suit": () => true,
   "Crimstone Boots": () => false,
-  "Crimstone Pants": () => canWithdrawTimebasedItem(new Date("2024-07-01")),
+  "Crimstone Pants": () => true,
   "Crimstone Armor": (state) =>
     canWithdrawBoostedWearable("Crimstone Armor", state),
   "Gardening Overalls": () => true,
@@ -1436,26 +1435,19 @@ export const BUMPKIN_WITHDRAWABLES: Record<
   "Striped Yellow Shirt": () => true,
 
   // Clash of Factions Auction
-  "Non La Hat": (state) =>
-    canWithdrawTimebasedItem(new Date("2024-06-30")) &&
-    canWithdrawBoostedWearable("Non La Hat", state), // Last Auction 2024/06/29
+  "Non La Hat": (state) => canWithdrawBoostedWearable("Non La Hat", state), // Last Auction 2024/06/29
   "Oil Can": (state) =>
     canWithdrawTimebasedItem(new Date("2024-07-18")) &&
     canWithdrawBoostedWearable("Oil Can", state), // Last Auction 2024/07/17
-  "Olive Shield": (state) =>
-    canWithdrawTimebasedItem(new Date("2024-07-06")) &&
-    canWithdrawBoostedWearable("Olive Shield", state), // Last Auction 2024/07/05
+  "Olive Shield": (state) => canWithdrawBoostedWearable("Olive Shield", state), // Last Auction 2024/07/05
   "Paw Shield": () => canWithdrawTimebasedItem(new Date("2024-07-24")), // Last Auction 2024/07/23
   Pan: () => canWithdrawTimebasedItem(new Date("2024-07-21")), // Last Auction 2024/07/20
   // Clash of Factions Megastore
   "Royal Robe": () => true,
   Crown: () => true,
   "Soybean Onesie": () => canWithdrawTimebasedItem(new Date("2024-08-01")),
-  "Tofu Mask": (state) =>
-    canWithdrawTimebasedItem(new Date("2024-07-01")) &&
-    canWithdrawBoostedWearable("Tofu Mask", state),
+  "Tofu Mask": (state) => canWithdrawBoostedWearable("Tofu Mask", state),
   "Olive Royalty Shirt": (state) =>
-    canWithdrawTimebasedItem(new Date("2024-07-01")) &&
     canWithdrawBoostedWearable("Olive Royalty Shirt", state),
   "Royal Scepter": () => false,
 
@@ -1488,4 +1480,17 @@ export const BUMPKIN_WITHDRAWABLES: Record<
   "Royal Dress": () => false,
   Motley: () => false,
   "Royal Braids": () => false,
+
+  "Pharaoh Headdress": () => canWithdrawTimebasedItem(new Date("2024-09-01")),
+  "Camel Onesie": () => canWithdrawTimebasedItem(new Date("2024-10-01")),
+  "Explorer Shirt": () => false,
+  "Explorer Shorts": () => false,
+  "Oil Overalls": () => false,
+  "Dev Wrench": () => false,
+  "Rock Hammer": () => false,
+  "Explorer Hat": () => false,
+  "Oil Protection Hat": () => false,
+  "Amber Amulet": () => false,
+  "Sun Scarab Amulet": () => false,
+  "Desert Background": () => false,
 };

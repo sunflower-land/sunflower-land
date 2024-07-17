@@ -346,3 +346,34 @@ export const FACTIONS: FactionName[] = [
   "goblins",
   "nightshades",
 ];
+
+// Example:
+// Week 2 streak achieved = 10% XP during week 3
+// Week 4 streak achieved = 20% XP during week 5
+// Week 6 streak achieved = 30% XP during week 7
+// Week 8 streak achieved = 50% XP during week 9
+export function getFactionPetBoostMultiplier(game: GameState) {
+  const { faction } = game;
+
+  if (!faction) return 1;
+
+  const week = getFactionWeek({ date: new Date() });
+  const lastWeek = getFactionWeek({
+    date: new Date(new Date(week).getTime() - 7 * 24 * 60 * 60 * 1000),
+  });
+
+  const lastWeekStreak =
+    game.faction?.history[lastWeek]?.collectivePet?.streak ?? 0;
+
+  if (lastWeekStreak < 2) return 1;
+
+  const qualifiesForBoost = game.faction?.pet?.qualifiesForBoost ?? false;
+
+  if (!qualifiesForBoost) return 1;
+
+  if (lastWeekStreak >= 2 && lastWeekStreak < 4) return 1.1;
+  if (lastWeekStreak >= 4 && lastWeekStreak < 6) return 1.2;
+  if (lastWeekStreak >= 6 && lastWeekStreak < 8) return 1.3;
+
+  return 1.5;
+}

@@ -505,4 +505,166 @@ describe("feedBumpkin", () => {
       new Decimal(CONSUMABLES["Boiled Eggs"].experience).mul(1.1).toNumber(),
     );
   });
+
+  it("provides a 10% more experience if the players faction pet is on a streak of 2", () => {
+    jest.useFakeTimers("modern");
+    jest.setSystemTime(new Date("2024-07-15"));
+
+    const result = feedBumpkin({
+      state: {
+        ...TEST_FARM,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+        },
+        inventory: {
+          "Boiled Eggs": new Decimal(2),
+        },
+        faction: {
+          name: "sunflorians",
+          pledgedAt: 0,
+          pet: {
+            week: "2024-07-08",
+            requests: [
+              { food: "Anchovy", quantity: 1, dailyFulfilled: {} },
+              { food: "Apple Pie", quantity: 1, dailyFulfilled: {} },
+              { food: "Honey Cake", quantity: 1, dailyFulfilled: {} },
+            ],
+            qualifiesForBoost: true,
+          },
+          history: {
+            "2024-07-08": {
+              score: 100,
+              petXP: 100,
+              collectivePet: {
+                goalReached: true,
+                streak: 2,
+                totalXP: 120,
+                goalXP: 110,
+                sleeping: false,
+              },
+            },
+          },
+        },
+      },
+      action: {
+        type: "bumpkin.feed",
+        food: "Boiled Eggs",
+        amount: 1,
+      },
+    });
+
+    expect(result.bumpkin?.experience).toBe(
+      new Decimal(CONSUMABLES["Boiled Eggs"].experience).mul(1.1).toNumber(),
+    );
+
+    jest.useRealTimers();
+  });
+
+  it("provides a 20% boost if the players faction pet is on a streak of 4", () => {
+    jest.useFakeTimers("modern");
+    jest.setSystemTime(new Date("2024-07-15"));
+
+    const result = feedBumpkin({
+      state: {
+        ...TEST_FARM,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+        },
+        inventory: {
+          "Boiled Eggs": new Decimal(2),
+        },
+        faction: {
+          name: "sunflorians",
+          pledgedAt: 0,
+          pet: {
+            week: "2024-07-08",
+            requests: [
+              { food: "Anchovy", quantity: 1, dailyFulfilled: {} },
+              { food: "Apple Pie", quantity: 1, dailyFulfilled: {} },
+              { food: "Honey Cake", quantity: 1, dailyFulfilled: {} },
+            ],
+            qualifiesForBoost: true,
+          },
+          history: {
+            "2024-07-08": {
+              score: 100,
+              petXP: 100,
+              collectivePet: {
+                goalReached: true,
+                streak: 4,
+                totalXP: 120,
+                goalXP: 110,
+                sleeping: false,
+              },
+            },
+          },
+        },
+      },
+      action: {
+        type: "bumpkin.feed",
+        food: "Boiled Eggs",
+        amount: 1,
+      },
+    });
+
+    expect(result.bumpkin?.experience).toBe(
+      new Decimal(CONSUMABLES["Boiled Eggs"].experience).mul(1.2).toNumber(),
+    );
+
+    jest.useRealTimers();
+  });
+
+  it("returns a boost of 50% if the players faction pet is on a streak of 10", () => {
+    jest.useFakeTimers("modern");
+    jest.setSystemTime(new Date("2024-07-15"));
+
+    const result = feedBumpkin({
+      state: {
+        ...TEST_FARM,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+        },
+        inventory: {
+          "Boiled Eggs": new Decimal(2),
+        },
+        faction: {
+          name: "sunflorians",
+          pledgedAt: 0,
+          pet: {
+            week: "2024-07-08",
+            requests: [
+              { food: "Anchovy", quantity: 1, dailyFulfilled: {} },
+              { food: "Apple Pie", quantity: 1, dailyFulfilled: {} },
+              { food: "Honey Cake", quantity: 1, dailyFulfilled: {} },
+            ],
+            qualifiesForBoost: true,
+          },
+          history: {
+            "2024-07-08": {
+              score: 100,
+              petXP: 100,
+              collectivePet: {
+                goalReached: true,
+                streak: 10,
+                totalXP: 120,
+                goalXP: 110,
+                sleeping: false,
+              },
+            },
+          },
+        },
+      },
+      action: {
+        type: "bumpkin.feed",
+        food: "Boiled Eggs",
+        amount: 1,
+      },
+    });
+
+    expect(result.bumpkin?.experience).toBe(
+      new Decimal(CONSUMABLES["Boiled Eggs"].experience).mul(1.5).toNumber(),
+    );
+
+    jest.useRealTimers();
+  });
 });
