@@ -71,7 +71,7 @@ import { GreenhouseInside } from "features/greenhouse/GreenhouseInside";
 import { useSound } from "lib/utils/hooks/useSound";
 import { SomethingArrived } from "./components/SomethingArrived";
 
-export const AUTO_SAVE_INTERVAL = 1000 * 30; // autosave every 30 seconds
+export const AUTO_SAVE_INTERVAL = 1000 * 1; // autosave every 30 seconds
 const SHOW_MODAL: Record<StateValues, boolean> = {
   loading: true,
   playing: false,
