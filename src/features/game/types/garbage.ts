@@ -107,5 +107,5 @@ export const GARBAGE: Record<GarbageName, Garbage> = {
           sellPrice: 0.1,
         },
       }
-    : {}),
+    : ({} as { Scroll: { sellPrice: number } })),
 };
