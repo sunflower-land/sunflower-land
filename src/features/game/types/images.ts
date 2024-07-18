@@ -5068,11 +5068,11 @@ export const ITEM_DETAILS: Items = {
   "Amber Fossil": {
     image: SUNNYSIDE.icons.expression_confused,
     description: {
-      en: "A ticket used during the Pharaoh's Treasure",
-      pt: "Um ticket usado durante a temporada Clash of Factions",
-      "zh-CN": "A ticket used during the Pharaoh's Treasure",
-      fr: "A ticket used during the Pharaoh's Treasure",
-      tk: "A ticket used during the Pharaoh's Treasure",
+      en: "A ticket used during the Pharaoh's Treasure Season",
+      pt: "Um ticket usado durante a temporada Pharaoh's Treasure",
+      "zh-CN": "A ticket used during the Pharaoh's Treasure Season",
+      fr: "A ticket used during the Pharaoh's Treasure Season",
+      tk: "A ticket used during the Pharaoh's Treasure Season",
     },
   },
   "Bumpkin Emblem": {
