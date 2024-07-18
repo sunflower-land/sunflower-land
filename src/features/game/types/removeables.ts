@@ -86,6 +86,16 @@ export function areFruitsGrowing(
     translate("restrictionReason.isGrowing", { item: fruit }),
   ];
 }
+// Function for Fruit Picker Apron
+export function areAnyOGFruitsGrowing(game: GameState): Restriction {
+  const fruits = ["Apple", "Banana", "Orange", "Blueberry"];
+  const fruitGrowing = Object.values(game.fruitPatches ?? {}).some(
+    (patch) =>
+      isFruitGrowing(patch) && fruits.includes(patch.fruit?.name || ""),
+  );
+
+  return [fruitGrowing, translate("restrictionReason.fruitsGrowing")];
+}
 
 export function areAnyFruitsGrowing(game: GameState): Restriction {
   const fruitGrowing = Object.values(game.fruitPatches ?? {}).some((patch) =>
