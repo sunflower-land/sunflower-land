@@ -812,6 +812,8 @@ export type BumpkinTrade =
   | "bumpkinTrade.cancel"
   | "bumpkinTrade.list"
   | "bumpkinTrade.maxListings"
+  | "bumpkinTrade.visitBoard"
+  | "bumpkinTrade.unlockMoreTrades"
   | "bumpkinTrade.max"
   | "bumpkinTrade.min"
   | "bumpkinTrade.minimumFloor"

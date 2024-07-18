@@ -1148,6 +1148,9 @@ const bumpkinTrade: Record<BumpkinTrade, string> = {
     "Sell {{quantity}} {{resource}} for {{price}} SFL?",
   "bumpkinTrade.cant.sell.all": "Can't sell all",
   "bumpkinTrade.price/unit": "{{price}}/шт",
+  "bumpkinTrade.unlockMoreTrades":
+    ENGLISH_TERMS["bumpkinTrade.unlockMoreTrades"],
+  "bumpkinTrade.visitBoard": ENGLISH_TERMS["bumpkinTrade.visitBoard"],
 };
 
 const goblinTrade: Record<GoblinTrade, string> = {

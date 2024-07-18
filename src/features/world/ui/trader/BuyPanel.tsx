@@ -465,6 +465,7 @@ export const BuyPanel: React.FC<{
             onUpgrade={() => {
               openModal("BUY_BANNER");
             }}
+            text={t("bumpkinTrade.unlockMoreTrades")}
           />
           {!isVIP && (
             <Label
