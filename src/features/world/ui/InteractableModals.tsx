@@ -34,6 +34,7 @@ import { FactionWelcome, hasReadFactionIntro } from "./factions/FactionWelcome";
 import { Champions } from "./factions/Champions";
 import { KingdomNoticeboard } from "./kingdom/KingdomNoticeboard";
 import { FactionNoticeboard } from "./factions/FactionNoticeboard";
+import { DiggingMinigame } from "./beach/DiggingMinigame";
 
 type InteractableName =
   | "faction_noticeboard"
@@ -168,6 +169,7 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
 
   return (
     <>
+      <DiggingMinigame />
       <Modal show={interactable === "weekly_faction_prize"} onHide={closeModal}>
         <FactionWeeklyPrize onClose={closeModal} />
       </Modal>

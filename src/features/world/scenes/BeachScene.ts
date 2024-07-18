@@ -612,7 +612,7 @@ export class BeachScene extends BaseScene {
 
   public handleOtherDiggersPositions() {
     // If any other players are inside of the dig area, move them to the perimeter
-    this.mmoServer.state.players.forEach((player, sessionId) => {
+    this.mmoServer?.state.players.forEach((player, sessionId) => {
       const gridRect = new Phaser.Geom.Rectangle(
         this.gridX,
         this.gridY,

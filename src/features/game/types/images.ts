@@ -753,6 +753,13 @@ import sunflorianGoldChampion from "assets/sfts/sunflorian_gold_champion.png";
 import sunflorianSilverChampion from "assets/sfts/sunflorian_silver_champion.png";
 import sunflorianBronzeChampion from "assets/sfts/sunflorian_bronze_champion.png";
 
+import scarab from "assets/resources/scarab.webp";
+import sand from "assets/resources/sand.webp";
+import hieroglyph from "assets/resources/hieroglyph.webp";
+import camelBone from "assets/resources/camel_bone.webp";
+import cockleShell from "assets/resources/cockle_shell.webp";
+import vase from "assets/resources/vase.webp";
+
 import { InventoryItemName } from "./game";
 
 import { CROPS, CROP_SEEDS } from "./crops";
@@ -8825,6 +8832,42 @@ export const ITEM_DETAILS: Items = {
     image: paella,
     description: {
       en: "A classic Spanish dish, brimming with flavor.",
+    },
+  },
+  "Camel Bone": {
+    image: camelBone,
+    description: {
+      en: "Bones of an ancient camel, rumoured to transport artefacts",
+    },
+  },
+  "Cockle Shell": {
+    image: cockleShell,
+    description: {
+      en: "A beautiful shell.",
+    },
+  },
+  Hieroglyph: {
+    image: hieroglyph,
+    description: {
+      en: "Unlock the secrets of the hieroglyphs.",
+    },
+  },
+  Sand: {
+    image: sand,
+    description: {
+      en: "It get's everywhere",
+    },
+  },
+  Scarab: {
+    image: scarab,
+    description: {
+      en: "Pharaoh's lost artefact.",
+    },
+  },
+  Vase: {
+    image: vase,
+    description: {
+      en: "A beautiful vase.",
     },
   },
 };
