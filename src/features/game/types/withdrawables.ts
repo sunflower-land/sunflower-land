@@ -1488,7 +1488,9 @@ export const BUMPKIN_WITHDRAWABLES: Record<
   "Royal Braids": () => false,
 
   "Pharaoh Headdress": () => canWithdrawTimebasedItem(new Date("2024-09-01")),
-  "Camel Onesie": () => canWithdrawTimebasedItem(new Date("2024-10-01")),
+  "Camel Onesie": (state) =>
+    canWithdrawTimebasedItem(new Date("2024-10-01")) &&
+    canWithdrawBoostedWearable("Camel Onesie", state),
   "Explorer Shirt": () => false,
   "Explorer Shorts": () => false,
   "Oil Overalls": () => false,
