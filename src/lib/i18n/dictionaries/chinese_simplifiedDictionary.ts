@@ -4665,6 +4665,8 @@ const leaderboardTerms: Record<Leaderboard, string> = {
   "leaderboard.faction.champion": ENGLISH_TERMS["leaderboard.faction.champion"],
   "leaderboard.faction.championPrizes":
     ENGLISH_TERMS["leaderboard.faction.championPrizes"],
+  "leaderboard.faction.bonusPrizeWeek":
+    ENGLISH_TERMS["leaderboard.faction.bonusPrizeWeek"],
   "leaderboard.faction.bonusMarks":
     ENGLISH_TERMS["leaderboard.faction.bonusMarks"],
   "leaderboard.faction.topPlayers":
