@@ -2751,6 +2751,7 @@ const gameDescriptions: Record<GameDescriptions, string> = {
   "description.hungryHare":
     "Этот прожорливый кролик скачет по твоей ферме. Предмет особого события на Пасху 2024",
   "description.scroll": "Билет, используемый во время сезона Clash of Factions",
+  "description.amberFossil": ENGLISH_TERMS["description.amberFossil"],
 
   // Easter Items
   "description.egg.basket": "Событие на Пасху",
@@ -4701,6 +4702,7 @@ const seasonTerms: Record<SeasonTerms, string> = {
   "season.xp.boost": "10% XP буст",
   "season.lifetime.farmer": "Фермер на всю жизнь",
   "season.free.with.lifetime": "Free with Lifetime Farmer",
+  "season.vip.purchase": ENGLISH_TERMS["season.vip.purchase"],
 };
 
 const share: Record<Share, string> = {

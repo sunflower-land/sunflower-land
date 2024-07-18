@@ -643,6 +643,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     "Earn Alliance Banner": new Decimal(1),
     "Goblin Gold Champion": new Decimal(1),
     "Goblin Silver Champion": new Decimal(1),
+    "Pharaoh's Treasure Banner": new Decimal(1),
   },
   wardrobe: {
     "Tofu Mask": 1,

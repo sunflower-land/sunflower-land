@@ -2781,6 +2781,7 @@ const gameDescriptions: Record<GameDescriptions, string> = {
     "Ödülünüzün kilidini açmak için Plazayı ziyaret edin",
   "description.prizeTicket": "Ödül çekilişlerine katılmak için bir bilet",
   "description.scroll": ENGLISH_TERMS["description.scroll"],
+  "description.amberFossil": ENGLISH_TERMS["description.amberFossil"],
 
   // Easter Items
   "description.egg.basket": "Paskalya Etkinliği",
@@ -4714,6 +4715,7 @@ const seasonTerms: Record<SeasonTerms, string> = {
   "season.supporter.gift": ENGLISH_TERMS["season.supporter.gift"],
   "season.vip.access": ENGLISH_TERMS["season.vip.access"],
   "season.vip.description": ENGLISH_TERMS["season.vip.description"],
+  "season.vip.purchase": ENGLISH_TERMS["season.vip.purchase"],
   "season.xp.boost": ENGLISH_TERMS["season.xp.boost"],
   "season.lifetime.farmer": ENGLISH_TERMS["season.lifetime.farmer"],
   "season.free.with.lifetime": ENGLISH_TERMS["season.free.with.lifetime"],

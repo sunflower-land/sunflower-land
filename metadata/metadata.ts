@@ -4339,6 +4339,16 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
   },
+  "Amber Fossil": {
+    description: "A ticket used during the Pharaoh's Treasure Season",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/747.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Coupon" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
 
   "Sunflower Supporter": {
     description: "A true supporter of the project",
@@ -4703,6 +4713,21 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
       {
         display_type: "boost_percentage",
         trait_type: "XP increase during Clash of Factions Season",
+        value: 10,
+      },
+    ],
+  },
+  "Pharaoh's Treasure Banner": {
+    description: "The mark of a participant in the Pharaoh's Treasure Season.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/746.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Banner" },
+      { trait_type: "Tradable", value: "No" },
+      {
+        display_type: "boost_percentage",
+        trait_type: "XP increase during Pharaoh's Treasure Season",
         value: 10,
       },
     ],

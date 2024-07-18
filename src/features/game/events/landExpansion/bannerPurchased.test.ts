@@ -401,4 +401,32 @@ describe("purchaseBanner", () => {
       }),
     ).toThrow("Attempt to purchase Dawn Breaker Banner");
   });
+
+  it("purchases banner on first 2 weeks of Pharaohs Treasure without previous banner", () => {
+    const WEEK = 1000 * 60 * 60 * 24 * 7;
+    const seasonStart = SEASONS["Pharaoh's Treasure"].startDate;
+    const banner = getSeasonalBanner(seasonStart);
+
+    const result = purchaseBanner({
+      state: {
+        ...TEST_FARM,
+        inventory: {
+          "Block Buck": new Decimal(75),
+        },
+      },
+      action: {
+        type: "banner.purchased",
+        name: banner,
+      },
+      createdAt: seasonStart.getTime() + WEEK,
+    });
+
+    expect(result).toEqual({
+      ...TEST_FARM,
+      inventory: {
+        "Block Buck": new Decimal(0),
+        [banner]: new Decimal(1),
+      },
+    });
+  });
 });
