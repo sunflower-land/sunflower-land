@@ -1,11 +1,6 @@
-import { SEASONS } from "./seasons";
+import { SeasonalTicket, SEASONS } from "./seasons";
 
 export type GarbageName =
-  | "Solar Flare Ticket"
-  | "Dawn Breaker Ticket"
-  | "Crow Feather"
-  | "Mermaid Scale"
-  | "Tulip Bulb"
   | "War Bond"
   | "Love Letter"
   | "Red Envelope"
@@ -22,7 +17,7 @@ export type GarbageName =
   | "Earthworm"
   | "Grub"
   | "Red Wiggler"
-  | "Scroll";
+  | SeasonalTicket;
 
 export type Garbage = {
   sellPrice: number;
@@ -108,4 +103,11 @@ export const GARBAGE: Record<GarbageName, Garbage> = {
         },
       }
     : ({} as { Scroll: { sellPrice: number } })),
+  ...(SEASONS["Pharaoh's Treasure"].endDate.getTime() < Date.now()
+    ? {
+        "Amber Fossil": {
+          sellPrice: 0.1,
+        },
+      }
+    : ({} as { "Amber Fossil": { sellPrice: number } })),
 };
