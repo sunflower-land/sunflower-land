@@ -2094,41 +2094,40 @@ const factionShopDescription: Record<FactionShopDescription, string> = {
   "description.factionShop.goblinAxe":
     "该战斧是向一名 Goblin 发出的强壮力量与战场武勇的无上战书。效忠本帮派时，赚得的徽记 +10%。该物品同等加成并不多重叠加。",
   "description.factionShop.sunflorianArmor":
-    ENGLISH_TERMS["description.factionShop.sunflorianArmor"],
+    "反耀出太阳之力的光辉甲胄。效忠本帮派时，赚得的徽记 +20%。该物品同等加成并不多重叠加。",
   "description.factionShop.sunflorianHelmet":
-    ENGLISH_TERMS["description.factionShop.sunflorianHelmet"],
+    "该头盔是光芒的灯塔与对暗影的警哨。效忠本帮派时，赚得的徽记 +10%。该物品同等加成并不多重叠加。",
   "description.factionShop.sunflorianPants":
-    ENGLISH_TERMS["description.factionShop.sunflorianPants"],
+    "穿上汇聚所有 Sunflorians 之温暖与热情的衣装，昂首阔步。效忠本帮派时，赚得的徽记 +5%。该物品同等加成并不多重叠加。",
   "description.factionShop.sunflorianSabatons":
-    ENGLISH_TERMS["description.factionShop.sunflorianSabatons"],
+    "这些鞋子踏过的每一步都鸣响着力量与生机。效忠本帮派时，赚得的徽记 +5%。该物品同等加成并不多重叠加。",
   "description.factionShop.sunflorianSword":
-    ENGLISH_TERMS["description.factionShop.sunflorianSword"],
+    "一把闪燃着太阳勇气与光辉的剑刃。效忠本帮派时，赚得的徽记 +10%。该物品同等加成并不多重叠加。",
   "description.factionShop.bumpkinArmor":
-    ENGLISH_TERMS["description.factionShop.bumpkinArmor"],
+    "尊荣传统与强韧的坚固甲具。效忠本帮派时，赚得的徽记 +20%。该物品同等加成并不多重叠加。",
   "description.factionShop.bumpkinHelmet":
-    ENGLISH_TERMS["description.factionShop.bumpkinHelmet"],
+    "用坚韧朴实与不屈决心的象征武装你的头脑。效忠本帮派时，赚得的徽记 +10%。该物品同等加成并不多重叠加。",
   "description.factionShop.bumpkinPants":
-    ENGLISH_TERMS["description.factionShop.bumpkinPants"],
+    "带上冒险精神畅游乡田镇城。效忠本帮派时，赚得的徽记 +5%。该物品同等加成并不多重叠加。",
   "description.factionShop.bumpkinSabatons":
-    ENGLISH_TERMS["description.factionShop.bumpkinSabatons"],
+    "伴着这双牢靠鞋靴穿越田野，回顾乡村顽味。效忠本帮派时，赚得的徽记 +5%。该物品同等加成并不多重叠加。",
   "description.factionShop.bumpkinSword":
-    ENGLISH_TERMS["description.factionShop.bumpkinSword"],
+    "森林原野间铸造的武器，无惧任何挑战。效忠本帮派时，赚得的徽记 +10%。该物品同等加成并不多重叠加。",
   "description.factionShop.nightshadeArmor":
-    ENGLISH_TERMS["description.factionShop.nightshadeArmor"],
+    "装甲，只为遁形融汇于暗影而造。效忠本帮派时，赚得的徽记 +20%。该物品同等加成并不多重叠加。",
   "description.factionShop.nightshadeHelmet":
-    ENGLISH_TERMS["description.factionShop.nightshadeHelmet"],
+    "蕴含诡秘与悄然伟力的强大头盔。效忠本帮派时，赚得的徽记 +10%。该物品同等加成并不多重叠加。",
   "description.factionShop.nightshadePants":
-    ENGLISH_TERMS["description.factionShop.nightshadePants"],
+    "这些裤装糅合了迅捷与午夜诡秘。效忠本帮派时，赚得的徽记 +5%。该物品同等加成并不多重叠加。",
   "description.factionShop.nightshadeSabatons":
-    ENGLISH_TERMS["description.factionShop.nightshadeSabatons"],
+    "每一步都是暗影在呢喃，完美的设计。效忠本帮派时，赚得的徽记 +5%。该物品同等加成并不多重叠加。",
   "description.factionShop.nightshadeSword":
-    ENGLISH_TERMS["description.factionShop.nightshadeSword"],
+    "这把刀刃的每一击都带着月光冷铁的精准狠。效忠本帮派时，赚得的徽记 +10%。该物品同等加成并不多重叠加。",
   "description.factionShop.knightGambit":
-    ENGLISH_TERMS["description.factionShop.knightGambit"],
+    "戴上这帽子，给策略与风格掺杂一点玩味，准备好向冒险进发。",
   "description.factionShop.motley":
-    ENGLISH_TERMS["description.factionShop.motley"],
-  "description.factionShop.royalBraids":
-    ENGLISH_TERMS["description.factionShop.royalBraids"],
+    "纷乱的色彩齐聚一堂，欢快忤逆时尚的范式教条。",
+  "description.factionShop.royalBraids": "皇家专属气质的发型。",
 };
 
 const festiveTree: Record<FestiveTree, string> = {
