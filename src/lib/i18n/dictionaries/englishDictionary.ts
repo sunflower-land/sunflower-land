@@ -2905,7 +2905,7 @@ const guideFactionPet: Record<GuideFactionPet, string> = {
   "guide.factionPet.one":
     "Each week the pet will request 3 foods. When fed, the XP from the food will go to the total XP tally for the faction.",
   "guide.factionPet.two":
-    "Your faction will have a goal xp they need to reach each week. If the faction reaches the goal, the next week goal will be 30% harder than the total xp achieved for the week! If the goal isn't reached, the next week goal will be 30% easier than the last weeks total xp.",
+    "Your faction will have a goal xp they need to reach each week. If the faction reaches the goal, the next week goal will be 30% harder than the total xp achieved for the week! If the goal isn't reached, it will be reset back to 500 x faction members.",
   "guide.factionPet.three":
     "If the faction doesn't reach the goal then the pet will go to sleep for 1 week.",
   "guide.factionPet.four":
@@ -2914,14 +2914,12 @@ const guideFactionPet: Record<GuideFactionPet, string> = {
     "Contributing member: To be eligible for potential streak boosts in the following week, a player needs to fulfill one of each pet's requests.",
   "guide.factionPet.six":
     "You will be awared marks for each food delivered. Every time you deliver the reward will be reduced. These rewards will reset daily. Players with an emblem bonus will get an additional bonus based on their faction bonus rank.",
-  "guide.streak.one":
-    "Week 2 streak achieved = 10% XP during week 3 and/or week 4*",
-  "guide.streak.two":
-    "Week 4 streak achieved = 20% XP during week 5 and/or week 6*",
+  "guide.streak.one": "Week 2 streak achieved = 10% XP during week 3 & week 4*",
+  "guide.streak.two": "Week 4 streak achieved = 20% XP during week 5 & week 6*",
   "guide.streak.three":
-    "Week 6 streak achieved = 30% XP during week 7 and/or week 8*",
+    "Week 6 streak achieved = 30% XP during week 7 & week 8*",
   "guide.streak.four":
-    "Week 8 streak achieved = 50% XP during week 9 and/or week 10+*",
+    "Week 8 streak achieved = 50% XP during week 9 & week 10+*",
   "guide.streak.beyond":
     "Beyond week 8, the pet will still need to have its satiation met to keep the streak bonus alive.",
   "guide.streak.furtherInfo":
