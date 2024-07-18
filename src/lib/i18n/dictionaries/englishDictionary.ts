@@ -2779,6 +2779,8 @@ const gameDescriptions: Record<GameDescriptions, string> = {
   "description.hungryHare":
     "This ravenous rabbit hops through your farm. A special event item from Easter 2024",
   "description.scroll": "A ticket used during the Clash of Factions Season",
+  "description.amberFossil":
+    "A ticket used during the Pharaoh's Treasure Season",
 
   // Easter Items
   "description.egg.basket": "Easter Event",
@@ -4773,6 +4775,7 @@ const seasonTerms: Record<SeasonTerms, string> = {
   "season.vip.claim": "Claim your monthly seasonal airdrop.",
   "season.vip.description":
     "Unlock perks, discounts, bonus tickets, airdrops and more!",
+  "season.vip.purchase": "Purchase VIP Items",
   "season.mystery.gift": "Mystery Gift",
   "season.xp.boost": "10% XP boost",
   "season.lifetime.farmer": "Lifetime Farmer",

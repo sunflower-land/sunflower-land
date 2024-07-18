@@ -280,6 +280,7 @@ import catchTheKrakenBanner from "assets/decorations/banners/catch_the_kraken_ba
 import springBlossomBanner from "assets/decorations/banners/spring_banner.gif";
 import clashOfFactionsBanner from "assets/decorations/banners/clash_of_factions_banner.webp";
 import lifetimeFarmerBanner from "assets/decorations/banners/lifetime_farmer_banner.png";
+import pharaohsTreasureBanner from "assets/decorations/banners/pharaohs_treasure_banner.webp";
 import budTicket from "assets/icons/bud_ticket.png";
 import prizeTicket from "assets/icons/prize_ticket.png";
 import budSeedling from "assets/icons/bud_seedling.png";
@@ -5064,6 +5065,16 @@ export const ITEM_DETAILS: Items = {
       tk: "A ticket used during the Clash of Factions Season",
     },
   },
+  "Amber Fossil": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: {
+      en: "A ticket used during the Pharaoh's Treasure",
+      pt: "Um ticket usado durante a temporada Clash of Factions",
+      "zh-CN": "A ticket used during the Pharaoh's Treasure",
+      fr: "A ticket used during the Pharaoh's Treasure",
+      tk: "A ticket used during the Pharaoh's Treasure",
+    },
+  },
   "Bumpkin Emblem": {
     image: bumpkinEmblem,
     description: {
@@ -5446,6 +5457,16 @@ export const ITEM_DETAILS: Items = {
   },
   "Lifetime Farmer Banner": {
     image: lifetimeFarmerBanner,
+    description: {
+      en: "",
+      pt: "",
+      "zh-CN": "",
+      fr: "",
+      tk: "",
+    },
+  },
+  "Pharaoh's Treasure Banner": {
+    image: pharaohsTreasureBanner,
     description: {
       en: "",
       pt: "",
