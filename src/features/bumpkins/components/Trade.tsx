@@ -64,9 +64,6 @@ function getRemainingListings({ game }: { game: GameState }) {
     remaining -= dailyListings.count;
   }
 
-  const currentListings = Object.keys(game.trades.listings ?? {}).length;
-  remaining -= currentListings;
-
   return remaining;
 }
 
