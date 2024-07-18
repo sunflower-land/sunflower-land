@@ -5,6 +5,8 @@ import appleSeed from "assets/fruit/apple/apple_seed.png";
 import orangeSeed from "assets/fruit/orange/orange_seed.png";
 import blueberrySeed from "assets/fruit/blueberry/blueberry_seed.png";
 import bananaPlant from "assets/fruit/banana/banana_plant.png";
+import lemonSeed from "assets/fruit/lemon/lemonSeed.webp";
+import tomatoSeed from "assets/fruit/tomato/tomatoSeed.webp";
 import sunpetalSeed from "assets/flowers/sunpetal_seed.webp";
 import bloomSeed from "assets/flowers/bloom_seed.webp";
 import lilySeed from "assets/flowers/lily_seed.webp";
@@ -191,6 +193,8 @@ import apple from "assets/resources/apple.png";
 import orange from "assets/resources/orange.png";
 import blueberry from "assets/resources/blueberry.png";
 import banana from "assets/resources/banana.png";
+import lemon from "assets/resources/lemon.webp";
+import tomato from "assets/fruit/tomato/tomato.webp";
 import oil from "assets/resources/oil.webp";
 
 // Skills
@@ -1119,6 +1123,26 @@ export const ITEM_DETAILS: Items = {
       tk: "Oh banana!",
     },
   },
+  "Tomato Seed": {
+    image: tomatoSeed,
+    description: {
+      en: "Rich in Lycopene",
+      pt: "Rich in Lycopene",
+      "zh-CN": "Rich in Lycopene",
+      fr: "Rich in Lycopene",
+      tk: "Rich in Lycopene",
+    },
+  },
+  "Lemon Seed": {
+    image: lemonSeed,
+    description: {
+      en: "Because sometimes, you just can't squeeze an orange!",
+      pt: "Because sometimes, you just can't squeeze an orange!",
+      "zh-CN": "Because sometimes, you just can't squeeze an orange!",
+      fr: "Because sometimes, you just can't squeeze an orange!",
+      tk: "Because sometimes, you just can't squeeze an orange!",
+    },
+  },
   "Sunpetal Seed": {
     image: sunpetalSeed,
     description: {
@@ -1297,6 +1321,26 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "Oh banana!",
       fr: "Oh banana!",
       tk: "Oh banana!",
+    },
+  },
+  Tomato: {
+    image: tomato,
+    description: {
+      en: "Rich in Lycopene",
+      pt: "Rich in Lycopene",
+      "zh-CN": "Rich in Lycopene",
+      fr: "Rich in Lycopene",
+      tk: "Rich in Lycopene",
+    },
+  },
+  Lemon: {
+    image: lemon,
+    description: {
+      en: "Because sometimes, you just can't squeeze an orange!",
+      pt: "Because sometimes, you just can't squeeze an orange!",
+      "zh-CN": "Because sometimes, you just can't squeeze an orange!",
+      fr: "Because sometimes, you just can't squeeze an orange!",
+      tk: "Because sometimes, you just can't squeeze an orange!",
     },
   },
   Honey: {
@@ -4614,7 +4658,6 @@ export const ITEM_DETAILS: Items = {
   "Human Bear": {
     image: humanBear,
     // image: require("assets/sfts/bears/human_bear.webp"),
-
     description: {
       en: "A human bear. Even scarier than a goblin bear.",
       pt: "Um urso humano. Ainda mais assustador do que um urso goblin.",

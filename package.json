@@ -11,7 +11,7 @@
     "format": "yarn lint --fix",
     "preview": "vite preview",
     "test": "jest",
-    "metadata": "NODE_PATH=./src NODE_ENV=metadata ts-node --project metadata/node.tsconfig.json metadata/generateMetadata.ts",
+    "metadata": "NODE_PATH=./src NODE_ENV=metadata vite-node --project metadata/node.tsconfig.json metadata/generateMetadata.ts",
     "images": "NODE_PATH=./src NODE_ENV=metadata ts-node --project metadata/node.tsconfig.json metadata/generateImages.ts",
     "prepare": "husky install"
   },
@@ -119,6 +119,7 @@
     "ts-jest": "^27.1.3",
     "typescript": "^5.5.2",
     "vite": "^5.0.9",
+    "vite-node": "^2.0.3",
     "vite-plugin-html": "^2.1.2",
     "vite-tsconfig-paths": "^3.3.17",
     "workbox-cacheable-response": "^7.0.0",

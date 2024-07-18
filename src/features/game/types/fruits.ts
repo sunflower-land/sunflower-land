@@ -6,7 +6,13 @@ import { getKeys } from "./craftables";
 import { translate } from "lib/i18n/translate";
 import { ResourceName } from "./resources";
 
-export type FruitName = "Apple" | "Blueberry" | "Orange" | "Banana";
+export type FruitName =
+  | "Apple"
+  | "Blueberry"
+  | "Orange"
+  | "Banana"
+  | "Tomato"
+  | "Lemon";
 
 export type GreenHouseFruitName = "Grape";
 export type GreenHouseFruitSeedName = "Grape Seed";
@@ -15,7 +21,9 @@ export type FruitSeedName =
   | "Apple Seed"
   | "Blueberry Seed"
   | "Orange Seed"
-  | "Banana Plant";
+  | "Banana Plant"
+  | "Tomato Seed"
+  | "Lemon Seed";
 
 export type FruitSeed = {
   price: number;
@@ -32,6 +40,22 @@ export function isFruitSeed(seed: FruitSeedName) {
 }
 
 export const FRUIT_SEEDS: () => Record<FruitSeedName, FruitSeed> = () => ({
+  "Tomato Seed": {
+    price: 5,
+    description: "Rich in Lycopene",
+    plantSeconds: 2 * 60 * 60,
+    bumpkinLevel: 13,
+    yield: "Tomato",
+    plantingSpot: "Fruit Patch",
+  },
+  "Lemon Seed": {
+    price: 15,
+    description: "Because sometimes, you just can't squeeze an orange!",
+    plantSeconds: 4 * 60 * 60,
+    bumpkinLevel: 12,
+    yield: "Lemon",
+    plantingSpot: "Fruit Patch",
+  },
   "Blueberry Seed": {
     price: 30,
     description: translate("description.blueberry"),
@@ -77,6 +101,22 @@ export type Fruit = {
 };
 
 export const FRUIT: () => Record<FruitName, Fruit> = () => ({
+  Tomato: {
+    description: "Rich in Lycopene",
+    name: "Tomato",
+    sellPrice: 2,
+    seed: "Tomato Seed",
+    isBush: true,
+    bumpkinLevel: 10,
+  },
+  Lemon: {
+    description: "Because sometimes, you just can't squeeze an orange!",
+    name: "Lemon",
+    sellPrice: 6,
+    seed: "Lemon Seed",
+    isBush: true,
+    bumpkinLevel: 12,
+  },
   Blueberry: {
     description: translate("description.blueberry"),
     name: "Blueberry",

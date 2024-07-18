@@ -14,11 +14,28 @@ export const ReplenishedTree: React.FC<Props> = ({ fruitName }) => {
   const lifecycle = FRUIT_LIFECYCLE[fruitName];
 
   const { isBush } = FRUIT()[fruitName];
-  const isBanana = fruitName === "Banana";
-
-  const bottom = isBanana ? 8 : 5;
-  const left = isBanana ? 1.2 : isBush ? 4 : 3;
-  const width = isBanana ? 31 : isBush ? 24 : 26;
+  let bottom, left, width;
+  switch (fruitName) {
+    case "Banana":
+      bottom = 8;
+      left = 1.2;
+      width = 31;
+      break;
+    case "Lemon":
+      bottom = 11;
+      left = 10.5;
+      width = 10;
+      break;
+    case "Tomato":
+      bottom = 8;
+      left = 8.5;
+      width = 14;
+      break;
+    default:
+      bottom = 5;
+      left = isBush ? 4 : 3;
+      width = isBush ? 24 : 26;
+  }
 
   const { gameService } = useContext(Context);
 

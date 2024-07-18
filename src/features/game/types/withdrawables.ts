@@ -108,6 +108,8 @@ const fruitSeed: Record<FruitSeedName, () => boolean> = {
   "Blueberry Seed": () => false,
   "Orange Seed": () => false,
   "Banana Plant": () => false,
+  "Tomato Seed": () => false,
+  "Lemon Seed": () => false,
 };
 
 const flowerSeed: Record<FlowerSeedName, () => boolean> = {
@@ -138,6 +140,8 @@ const fruits: Record<FruitName, () => boolean> = {
   Blueberry: () => true,
   Orange: () => true,
   Banana: () => true,
+  Tomato: () => false,
+  Lemon: () => false,
 };
 
 const flowers: Record<FlowerName, () => boolean> = {

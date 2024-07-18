@@ -10,6 +10,7 @@ import {
 import { getKeys } from "../types/craftables";
 import { BumpkinParts, tokenUriBuilder } from "lib/utils/tokenUriBuilder";
 import { Equipped } from "../types/bumpkin";
+import { SeedName } from "../types/seeds";
 
 // Our "zoom" factor
 export const PIXEL_SCALE = 2.625;
@@ -70,7 +71,7 @@ export const INITIAL_STOCK = (state?: GameState): Inventory => {
     }
   }
 
-  const seeds = {
+  const seeds: Record<SeedName, Decimal> = {
     "Sunflower Seed": new Decimal(400),
     "Potato Seed": new Decimal(200),
     "Pumpkin Seed": new Decimal(150),
@@ -90,10 +91,12 @@ export const INITIAL_STOCK = (state?: GameState): Inventory => {
     "Olive Seed": new Decimal(10),
     "Rice Seed": new Decimal(10),
 
+    "Tomato Seed": new Decimal(10),
     "Blueberry Seed": new Decimal(10),
     "Orange Seed": new Decimal(10),
     "Apple Seed": new Decimal(10),
     "Banana Plant": new Decimal(10),
+    "Lemon Seed": new Decimal(10),
 
     "Sunpetal Seed": new Decimal(16),
     "Bloom Seed": new Decimal(8),
@@ -130,7 +133,7 @@ export const INITIAL_STOCK = (state?: GameState): Inventory => {
 };
 
 export const INVENTORY_LIMIT = (state?: GameState): Inventory => {
-  const seeds: Record<string, Decimal> = {
+  const seeds: Record<SeedName, Decimal> = {
     "Sunflower Seed": new Decimal(1000),
     "Potato Seed": new Decimal(500),
     "Pumpkin Seed": new Decimal(400),
@@ -146,6 +149,8 @@ export const INVENTORY_LIMIT = (state?: GameState): Inventory => {
     "Wheat Seed": new Decimal(100),
     "Kale Seed": new Decimal(80),
 
+    "Tomato Seed": new Decimal(50),
+    "Lemon Seed": new Decimal(45),
     "Blueberry Seed": new Decimal(40),
     "Orange Seed": new Decimal(33),
     "Apple Seed": new Decimal(25),
