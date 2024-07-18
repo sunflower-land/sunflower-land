@@ -14,6 +14,8 @@ import {
   HELIOS_BLACKSMITH_ITEMS,
   POTION_HOUSE_ITEMS,
   PotionHouseItemName,
+  TreasureCollectibleItem,
+  TREASURE_COLLECTIBLE_ITEM,
 } from "features/game/types/collectibles";
 import { detectCollision } from "features/game/expansion/placeable/lib/collisionDetection";
 
@@ -28,7 +30,7 @@ export const COLLECTIBLE_CRAFT_SECONDS: Partial<
 
 export type CraftCollectibleAction = {
   type: "collectible.crafted";
-  name: HeliosBlacksmithItem | PotionHouseItemName;
+  name: HeliosBlacksmithItem | TreasureCollectibleItem | PotionHouseItemName;
   id?: string;
   coordinates?: {
     x: number;
@@ -43,10 +45,12 @@ type Options = {
 };
 
 const isPotionHouseItem = (
-  name: HeliosBlacksmithItem | PotionHouseItemName,
-): name is PotionHouseItemName => {
-  return name in POTION_HOUSE_ITEMS;
-};
+  name: HeliosBlacksmithItem | PotionHouseItemName | TreasureCollectibleItem,
+): name is PotionHouseItemName => name in POTION_HOUSE_ITEMS;
+
+const isTreasureCollectible = (
+  name: HeliosBlacksmithItem | PotionHouseItemName | TreasureCollectibleItem,
+): name is TreasureCollectibleItem => name in TREASURE_COLLECTIBLE_ITEM;
 
 export function craftCollectible({
   state,
@@ -58,7 +62,9 @@ export function craftCollectible({
 
   const item = isPotionHouseItem(action.name)
     ? POTION_HOUSE_ITEMS[action.name]
-    : HELIOS_BLACKSMITH_ITEMS(state, new Date(createdAt))[action.name];
+    : isTreasureCollectible(action.name)
+      ? TREASURE_COLLECTIBLE_ITEM[action.name]
+      : HELIOS_BLACKSMITH_ITEMS(state, new Date(createdAt))[action.name];
 
   if (!item) {
     throw new Error("Item does not exist");

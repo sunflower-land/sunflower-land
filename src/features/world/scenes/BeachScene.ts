@@ -147,6 +147,8 @@ export class BeachScene extends BaseScene {
     this.load.image("confirm_select", "world/confirm_select.webp");
     this.load.image("button", "world/button.webp");
     this.load.image("shovel", "world/shovel.png");
+    this.load.image("treasure_shop", "world/treasure_shop.png");
+    this.load.image("shop_icon", "world/shop_disc.png");
   }
 
   async create() {
@@ -185,6 +187,24 @@ export class BeachScene extends BaseScene {
       frameRate: 10,
     });
     turtle.play("turtle_bud_anim", true);
+
+    const treasureShop = this.add.sprite(400, 130, "treasure_shop");
+    this.physics.world.enable(treasureShop);
+    this.colliders?.add(treasureShop);
+    this.triggerColliders?.add(treasureShop);
+    (treasureShop.body as Phaser.Physics.Arcade.Body)
+      .setSize(69, 50)
+      .setOffset(0, 0)
+      .setImmovable(true)
+      .setCollideWorldBounds(true);
+    treasureShop.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
+      if (this.checkDistanceToSprite(treasureShop, 75)) {
+        interactableModalManager.open("treasure_shop");
+      } else {
+        this.currentPlayer?.speak(translate("base.iam.far.away"));
+      }
+    });
+    this.add.sprite(400, 110, "shop_icon");
 
     const beachBud2 = this.add.sprite(268, 317, "beach_bud_2");
     // turtle.setScale(-1, 1);

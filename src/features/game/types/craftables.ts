@@ -13,6 +13,7 @@ import {
   MegaStoreCollectibleName,
   PotionHouseItemName,
   SoldOutCollectibleName,
+  TreasureCollectibleItem,
 } from "./collectibles";
 import { BoostTreasure } from "./treasure";
 import { MarineMarvelName, OldFishName } from "./fishing";
@@ -213,7 +214,8 @@ export type CollectibleName =
   | EpicFlowerName
   | FactionBanner
   | "Lifetime Farmer Banner"
-  | FactionShopCollectibleName;
+  | FactionShopCollectibleName
+  | TreasureCollectibleItem;
 
 export type ToolName =
   | "Axe"

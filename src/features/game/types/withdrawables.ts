@@ -45,6 +45,7 @@ import {
   PotionHouseItemName,
   PurchasableItems,
   SoldOutCollectibleName,
+  TreasureCollectibleItem,
 } from "./collectibles";
 import { CommodityName, ResourceName } from "./resources";
 import { Flag } from "./flags";
@@ -243,7 +244,6 @@ const factionBanners = {
 
 const heliosBlacksmith: Record<HeliosBlacksmithItem, () => boolean> = {
   "Immortal Pear": () => false,
-  "Treasure Map": () => false,
   "Basic Scarecrow": () => false,
   Bale: () => false,
   "Scary Mike": () => false,
@@ -254,6 +254,10 @@ const heliosBlacksmith: Record<HeliosBlacksmithItem, () => boolean> = {
   Nana: () => true,
   "Soil Krabby": () => true,
   "Skill Shrimpy": () => true,
+};
+
+const treasureCollectible: Record<TreasureCollectibleItem, () => boolean> = {
+  "Treasure Map": () => false,
 };
 
 const commodities: Record<CommodityName, () => boolean> = {
@@ -1070,6 +1074,7 @@ export const WITHDRAWABLES: Record<InventoryItemName, () => boolean> = {
   ...soldOut,
   ...travelingSalesmanItems,
   ...blacksmithItems,
+  ...treasureCollectible,
   ...barnItems,
   ...animals,
   ...achievementDecoration,

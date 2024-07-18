@@ -4,7 +4,11 @@ import { Animal, Food, ToolName } from "./craftables";
 import { CropName, GreenHouseCropName } from "./crops";
 import { Bumpkin, LanternName } from "./game";
 import { BeanName, ExoticCropName } from "./beans";
-import { HeliosBlacksmithItem, PotionHouseItemName } from "./collectibles";
+import {
+  HeliosBlacksmithItem,
+  PotionHouseItemName,
+  TreasureCollectibleItem,
+} from "./collectibles";
 import { DecorationName } from "./decorations";
 import { FruitName, FruitSeedName, GreenHouseFruitName } from "./fruits";
 import { GarbageName } from "./garbage";
@@ -48,6 +52,7 @@ export type CraftedEvent = `${
   | WorkbenchToolName
   | TreasureToolName
   | HeliosBlacksmithItem
+  | TreasureCollectibleItem
   | PotionHouseItemName
   | LanternName
   | PurchaseableBait} Crafted`;
