@@ -154,18 +154,24 @@ export const BuyPanel: React.FC<{
     return (
       <div className="p-2">
         <div className="flex flex-wrap mt-2">
-          {getKeys(TRADE_LIMITS).map((name) => (
-            <div
-              key={name}
-              className="w-1/3 sm:w-1/4 md:w-1/5 lg:w-1/6 pr-1 pb-1"
-            >
-              <ListingCategoryCard
-                itemName={name}
-                pricePerUnit={floorPrices[name]}
-                onClick={() => onSearch(name)}
-              />
-            </div>
-          ))}
+          {getKeys(TRADE_LIMITS)
+            .filter(
+              (name) =>
+                (name !== "Tomato" && name !== "Lemon") ||
+                hasFeatureAccess(gameService.state.context.state, "NEW_FRUITS"),
+            )
+            .map((name) => (
+              <div
+                key={name}
+                className="w-1/3 sm:w-1/4 md:w-1/5 lg:w-1/6 pr-1 pb-1"
+              >
+                <ListingCategoryCard
+                  itemName={name}
+                  pricePerUnit={floorPrices[name]}
+                  onClick={() => onSearch(name)}
+                />
+              </div>
+            ))}
         </div>
       </div>
     );
