@@ -42,7 +42,7 @@ export function getBannerPrice(
   }
 
   const goldPassRetired =
-    Date.now() > new Date("2024-08-01T00:00:00Z").getTime();
+    new Date(createdAt).getTime() > new Date("2024-08-01T00:00:00Z").getTime();
   const getsFreeBanner =
     !goldPassRetired &&
     farmId &&
@@ -98,7 +98,8 @@ export function purchaseBanner({
     }
 
     const lifeTimerFarmerPriceIncreased =
-      Date.now() > new Date("2024-08-01T00:00:00Z").getTime();
+      new Date(createdAt).getTime() >
+      new Date("2024-08-01T00:00:00Z").getTime();
     const lifeTimePrice = lifeTimerFarmerPriceIncreased ? 740 : 540;
 
     if (currentBlockBucks.lessThan(lifeTimePrice)) {
@@ -119,14 +120,14 @@ export function purchaseBanner({
     throw new Error("You already have this banner");
   }
 
-  const seasonBanner = getSeasonalBanner();
+  const seasonBanner = getSeasonalBanner(new Date(createdAt));
   if (action.name !== seasonBanner) {
     throw new Error(
       `Attempt to purchase ${action.name} in ${seasonBanner} Season`,
     );
   }
 
-  const previousBanner = getPreviousSeasonalBanner();
+  const previousBanner = getPreviousSeasonalBanner(new Date(createdAt));
   const hasPreviousBanner = (inventory[previousBanner] ?? new Decimal(0)).gt(0);
   const hasLifetimeBanner = (
     inventory["Lifetime Farmer Banner"] ?? new Decimal(0)

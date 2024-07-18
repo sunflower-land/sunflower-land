@@ -95,7 +95,7 @@ export function getCurrentSeason(now = new Date()): SeasonName {
   const currentSeason = seasons.find((season) => {
     const { startDate, endDate } = SEASONS[season];
 
-    return now >= startDate && now <= endDate;
+    return now >= startDate && now < endDate;
   });
 
   if (!currentSeason) {
