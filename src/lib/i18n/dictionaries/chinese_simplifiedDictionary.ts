@@ -2240,8 +2240,8 @@ const fishermanModal: Record<FishermanModal, string> = {
   "fishermanModal.crazyHappening":
     "哇，发生了疯狂的事情......这是一场鱼的狂欢！",
   "fishermanModal.bonusFish": "快点，每捕捉一条鱼你将获得一条额外的鱼！",
-  "fishermanModal.dailyLimitReached": "你已达到每日 {{limit}} 条的钓鱼限额",
-  "fishermanModal.needCraftRod": "你必须先制作一根钓竿。",
+  "fishermanModal.dailyLimitReached": "您已达到每日 {{limit}} 条的钓鱼限额",
+  "fishermanModal.needCraftRod": "您必须先制作一根钓竿。",
   "fishermanModal.craft.beach": "在海滩上制作",
   "fishermanModal.zero.available": "0可用",
   "fishermanmodal.greeting":
