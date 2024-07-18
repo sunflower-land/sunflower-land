@@ -10,7 +10,9 @@ import {
   KingdomLeaderboard,
 } from "features/game/expansion/components/leaderboard/actions/leaderboard";
 import {
+  BONUS_FACTION_PRIZES,
   FACTION_PRIZES,
+  getFactionWeek,
   getPreviousWeek,
   getWeekNumber,
 } from "features/game/lib/factions";
@@ -207,6 +209,9 @@ type PrizeRow = FactionPrize & { from: number; to?: number };
 export const ChampionsPrizes: React.FC = () => {
   const { t } = useAppTranslation();
 
+  const week = getFactionWeek();
+  const MONTHLY_PRIZES = BONUS_FACTION_PRIZES[week];
+
   // Group together rows that have the same prize
   const prizes: PrizeRow[] = [];
   let previous: PrizeRow | undefined = undefined;
@@ -237,9 +242,14 @@ export const ChampionsPrizes: React.FC = () => {
 
   return (
     <>
-      <Label type="default" className="mb-2 ml-1" icon={trophy}>
-        {t("leaderboard.faction.champion")}
-      </Label>
+      <div className="flex justify-between items-center">
+        <Label type="default" className="mb-2 ml-1" icon={trophy}>
+          {t("leaderboard.faction.champion")}
+        </Label>
+        <Label type="vibrant" className="mb-2 ml-1" icon={gift}>
+          {t("leaderboard.faction.bonusPrizeWeek")}
+        </Label>
+      </div>
       <p className="text-xs mb-2">{t("leaderboard.faction.championPrizes")}</p>
       <table className="w-full text-xs table-auto border-collapse mb-2">
         <tbody>
@@ -265,6 +275,7 @@ export const ChampionsPrizes: React.FC = () => {
         <tbody>
           {prizes.map((prize, index) => {
             const trophy = TROPHIES["goblins"][index + 1];
+            const bonus = MONTHLY_PRIZES?.[prize.from];
 
             return (
               <tr key={index}>
@@ -312,6 +323,30 @@ export const ChampionsPrizes: React.FC = () => {
                       </div>
                     )}
                   </div>
+                  {getKeys(bonus?.items ?? {}).map((item, index) => {
+                    return (
+                      <Label
+                        key={index}
+                        type="vibrant"
+                        icon={ITEM_DETAILS[item].image}
+                        className="m-1"
+                      >
+                        {`${bonus.items?.[item] ?? 0} x ${item} `}
+                      </Label>
+                    );
+                  })}
+                  {getKeys(bonus?.wearables ?? {}).map((item, index) => {
+                    return (
+                      <Label
+                        key={index}
+                        type="vibrant"
+                        icon={gift}
+                        className="mt-1 ml-2 mb-1"
+                      >
+                        {`${bonus.wearables?.[item] ?? 0} x ${item} `}
+                      </Label>
+                    );
+                  })}
                 </td>
               </tr>
             );

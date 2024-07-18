@@ -3633,6 +3633,7 @@ export type Leaderboard =
   | "leaderboard.faction.description"
   | "leaderboard.faction.champion"
   | "leaderboard.faction.championPrizes"
+  | "leaderboard.faction.bonusPrizeWeek"
   | "leaderboard.faction.bonusMarks"
   | "leaderboard.faction.topPlayers"
   | "leaderboard.faction.topPlayerPrizes";

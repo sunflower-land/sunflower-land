@@ -5349,7 +5349,11 @@ export const leaderboardTerms: Record<Leaderboard, string> = {
   "leaderboard.prizes": ENGLISH_TERMS["leaderboard.prizes"],
   "leaderboard.faction.description":
     ENGLISH_TERMS["leaderboard.faction.description"],
+  "leaderboard.faction.bonusPrizeWeek":
+    ENGLISH_TERMS["leaderboard.faction.bonusPrizeWeek"],
   "leaderboard.faction.champion": ENGLISH_TERMS["leaderboard.faction.champion"],
+  "leaderboard.faction.bonusPrizeWeek":
+    ENGLISH_TERMS["leaderboard.faction.bonusPrizeWeek"],
   "leaderboard.faction.championPrizes":
     ENGLISH_TERMS["leaderboard.faction.championPrizes"],
   "leaderboard.faction.bonusMarks":

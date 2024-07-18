@@ -5353,6 +5353,7 @@ export const leaderboardTerms: Record<Leaderboard, string> = {
   "leaderboard.prizes": "Prizes",
   "leaderboard.faction.description": "Each week you can win bonus prizes.",
   "leaderboard.faction.champion": "Champion faction",
+  "leaderboard.faction.bonusPrizeWeek": "Bonus prize week",
   "leaderboard.faction.championPrizes":
     "The players in the winning faction will receive:",
   "leaderboard.faction.bonusMarks": "Bonus +10% Marks",
