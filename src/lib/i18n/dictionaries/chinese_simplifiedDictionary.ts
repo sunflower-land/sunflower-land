@@ -2046,70 +2046,53 @@ const factionShopDescription: Record<FactionShopDescription, string> = {
   "description.factionShop.amethystNightshadeGoblet": "镶缀紫晶的高脚杯。",
   "description.factionShop.goldenFactionGoblet": "金制高脚杯。",
   "description.factionShop.rubyFactionGoblet": "镶缀红玉的高脚杯。",
-  "description.factionShop.sunflorianBunting":
-    ENGLISH_TERMS["description.factionShop.sunflorianBunting"],
-  "description.factionShop.nightshadeBunting":
-    ENGLISH_TERMS["description.factionShop.nightshadeBunting"],
-  "description.factionShop.goblinBunting":
-    ENGLISH_TERMS["description.factionShop.goblinBunting"],
-  "description.factionShop.bumpkinBunting":
-    ENGLISH_TERMS["description.factionShop.bumpkinBunting"],
-  "description.factionShop.sunflorianCandles":
-    ENGLISH_TERMS["description.factionShop.sunflorianCandles"],
-  "description.factionShop.nightshadeCandles":
-    ENGLISH_TERMS["description.factionShop.nightshadeCandles"],
-  "description.factionShop.goblinCandles":
-    ENGLISH_TERMS["description.factionShop.goblinCandles"],
-  "description.factionShop.bumpkinCandles":
-    ENGLISH_TERMS["description.factionShop.bumpkinCandles"],
+  "description.factionShop.sunflorianBunting": "庆贺 Sunflorian 帮派的彩旗。",
+  "description.factionShop.nightshadeBunting": "庆贺 Nightshade 帮派的彩旗。",
+  "description.factionShop.goblinBunting": "庆贺 Goblin 帮派的彩旗。",
+  "description.factionShop.bumpkinBunting": "庆贺 Bumpkin 帮派的彩旗。",
+  "description.factionShop.sunflorianCandles": "Sunflorian 帮派的装饰蜡烛。",
+  "description.factionShop.nightshadeCandles": "Nightshade 帮派的装饰蜡烛。",
+  "description.factionShop.goblinCandles": "Goblin 帮派的装饰蜡烛。",
+  "description.factionShop.bumpkinCandles": "Bumpkin 帮派的装饰蜡烛。",
   "description.factionShop.sunflorianLeftWallSconce":
-    ENGLISH_TERMS["description.factionShop.sunflorianLeftWallSconce"],
+    "Sunflorian 壁灯点亮您的居所。",
   "description.factionShop.nightshadeLeftWallSconce":
-    ENGLISH_TERMS["description.factionShop.nightshadeLeftWallSconce"],
-  "description.factionShop.goblinLeftWallSconce":
-    ENGLISH_TERMS["description.factionShop.goblinLeftWallSconce"],
-  "description.factionShop.bumpkinLeftWallSconce":
-    ENGLISH_TERMS["description.factionShop.bumpkinLeftWallSconce"],
+    "Nightshade 壁灯点亮您的居所。",
+  "description.factionShop.goblinLeftWallSconce": "Goblin 壁灯点亮您的居所。",
+  "description.factionShop.bumpkinLeftWallSconce": "Bumpkin 壁灯点亮您的居所。",
   "description.factionShop.sunflorianRightWallSconce":
-    ENGLISH_TERMS["description.factionShop.sunflorianRightWallSconce"],
+    "Sunflorian 壁灯点亮您的居所。",
   "description.factionShop.nightshadeRightWallSconce":
-    ENGLISH_TERMS["description.factionShop.nightshadeRightWallSconce"],
-  "description.factionShop.goblinRightWallSconce":
-    ENGLISH_TERMS["description.factionShop.goblinRightWallSconce"],
+    "Nightshade 壁灯点亮您的居所。",
+  "description.factionShop.goblinRightWallSconce": "Goblin 壁灯点亮您的居所。",
   "description.factionShop.bumpkinRightWallSconce":
-    ENGLISH_TERMS["description.factionShop.bumpkinRightWallSconce"],
-  "description.factionShop.cookingBoost":
-    ENGLISH_TERMS["description.factionShop.cookingBoost"],
-  "description.factionShop.cropBoost":
-    ENGLISH_TERMS["description.factionShop.cropBoost"],
-  "description.factionShop.woodBoost":
-    ENGLISH_TERMS["description.factionShop.woodBoost"],
+    "Bumpkin 壁灯点亮您的居所。",
+  "description.factionShop.cookingBoost": "-50% 烹饪时间，持续 4 小时。",
+  "description.factionShop.cropBoost": "-25% 庄稼生长时间，持续 6 小时。",
+  "description.factionShop.woodBoost": "-25% 树木恢复时间，持续 4 小时。",
   "description.factionShop.mineralBoost":
-    ENGLISH_TERMS["description.factionShop.mineralBoost"],
-  "description.factionShop.fruitBoost":
-    ENGLISH_TERMS["description.factionShop.fruitBoost"],
-  "description.factionShop.flowerBoost":
-    ENGLISH_TERMS["description.factionShop.flowerBoost"],
-  "description.factionShop.fishBoost":
-    ENGLISH_TERMS["description.factionShop.fishBoost"],
+    "-50% 基矿恢复冷却时间，持续 3 小时。",
+  "description.factionShop.fruitBoost": "-25% 水果生长时间，持续 6 小时。",
+  "description.factionShop.flowerBoost": "-25% 花卉生长时间，持续 4 小时。",
+  "description.factionShop.fishBoost": "50% 几率 +1 鱼，持续 4 小时。",
   "description.factionShop.sunflorianFactionRug":
-    ENGLISH_TERMS["description.factionShop.sunflorianFactionRug"],
+    "Sunflorian 帮派精湛匠人打造的华美地毯。",
   "description.factionShop.nightshadeFactionRug":
-    ENGLISH_TERMS["description.factionShop.nightshadeFactionRug"],
+    "Nightshade 帮派精湛匠人打造的华美地毯。",
   "description.factionShop.goblinFactionRug":
-    ENGLISH_TERMS["description.factionShop.goblinFactionRug"],
+    "Goblin 帮派精湛匠人打造的华美地毯。",
   "description.factionShop.bumpkinFactionRug":
-    ENGLISH_TERMS["description.factionShop.bumpkinFactionRug"],
+    "Bumpkin 帮派精湛匠人打造的华美地毯。",
   "description.factionShop.goblinArmor":
-    ENGLISH_TERMS["description.factionShop.goblinArmor"],
+    "狂蛮而张扬，Goblin 每皆赞许的防具。效忠本帮派时，赚得的徽记 +20%。该物品同等加成并不多重叠加。",
   "description.factionShop.goblinHelmet":
-    ENGLISH_TERMS["description.factionShop.goblinHelmet"],
+    "坚硬而稳固，为闯荡荒野的无畏冒险而造。效忠本帮派时，赚得的徽记 +10%。该物品同等加成并不多重叠加。",
   "description.factionShop.goblinPants":
-    ENGLISH_TERMS["description.factionShop.goblinPants"],
+    "这些裤甲兼顾迅捷与 Goblin 精工，为灵巧身手而生。效忠本帮派时，赚得的徽记 +5%。该物品同等加成并不多重叠加。",
   "description.factionShop.goblinSabatons":
-    ENGLISH_TERMS["description.factionShop.goblinSabatons"],
+    "专为先发制人且笑到最后而造。效忠本帮派时，赚得的徽记 +5%。该物品同等加成并不多重叠加。",
   "description.factionShop.goblinAxe":
-    ENGLISH_TERMS["description.factionShop.goblinAxe"],
+    "该战斧是向一名 Goblin 发出的强壮力量与战场武勇的无上战书。效忠本帮派时，赚得的徽记 +10%。该物品同等加成并不多重叠加。",
   "description.factionShop.sunflorianArmor":
     ENGLISH_TERMS["description.factionShop.sunflorianArmor"],
   "description.factionShop.sunflorianHelmet":
