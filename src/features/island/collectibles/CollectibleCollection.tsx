@@ -326,6 +326,7 @@ import {
   DECORATION_TEMPLATES,
   TemplateDecorationName,
 } from "features/game/types/decorations";
+import { PharaohsTreasureBanner } from "./components/PharaohsTreasureBanner";
 
 export const COLLECTIBLE_COMPONENTS: Record<
   CollectibleName | "Bud",
@@ -535,6 +536,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Spring Blossom Banner": SpringBlossomBanner,
   "Clash of Factions Banner": ClashOfFactionsBanner,
   "Lifetime Farmer Banner": LifetimeFarmerBanner,
+  "Pharaoh's Treasure Banner": PharaohsTreasureBanner,
 
   "Bonnie's Tombstone": BonniesTombstone,
   "Chestnut Fungi Stool": ChestnutFungiStool,

@@ -1148,6 +1148,9 @@ const bumpkinTrade: Record<BumpkinTrade, string> = {
     "Sell {{quantity}} {{resource}} for {{price}} SFL?",
   "bumpkinTrade.cant.sell.all": "Can't sell all",
   "bumpkinTrade.price/unit": "{{price}}/шт",
+  "bumpkinTrade.unlockMoreTrades":
+    ENGLISH_TERMS["bumpkinTrade.unlockMoreTrades"],
+  "bumpkinTrade.visitBoard": ENGLISH_TERMS["bumpkinTrade.visitBoard"],
 };
 
 const goblinTrade: Record<GoblinTrade, string> = {
@@ -2748,6 +2751,7 @@ const gameDescriptions: Record<GameDescriptions, string> = {
   "description.hungryHare":
     "Этот прожорливый кролик скачет по твоей ферме. Предмет особого события на Пасху 2024",
   "description.scroll": "Билет, используемый во время сезона Clash of Factions",
+  "description.amberFossil": ENGLISH_TERMS["description.amberFossil"],
 
   // Easter Items
   "description.egg.basket": "Событие на Пасху",
@@ -4698,6 +4702,7 @@ const seasonTerms: Record<SeasonTerms, string> = {
   "season.xp.boost": "10% XP буст",
   "season.lifetime.farmer": "Фермер на всю жизнь",
   "season.free.with.lifetime": "Free with Lifetime Farmer",
+  "season.vip.purchase": ENGLISH_TERMS["season.vip.purchase"],
 };
 
 const share: Record<Share, string> = {
@@ -5174,13 +5179,14 @@ const world: Record<World, string> = {
     "To interact with a Bumpkin or an object, walk near it and click it",
   "world.intro.seven":
     "No harrasment, swearing or bullying. Thank you for respecting others.",
-  "world.plaza": "Plaza",
-  "world.beach": "Beach",
-  "world.woodlands": "Woodlands",
-  "world.retreat": "Retreat",
-  "world.home": "Home",
-  "world.kingdom": "Kingdom",
-  "world.travelTo": "Travel to {{location}}",
+  "world.plaza": ENGLISH_TERMS["world.plaza"],
+  "world.beach": ENGLISH_TERMS["world.beach"],
+  "world.retreat": ENGLISH_TERMS["world.retreat"],
+  "world.woodlands": ENGLISH_TERMS["world.woodlands"],
+  "world.home": ENGLISH_TERMS["world.home"],
+  "world.kingdom": ENGLISH_TERMS["world.kingdom"],
+  "world.faction": ENGLISH_TERMS["world.faction"],
+  "world.travelTo": ENGLISH_TERMS["world.travelTo"],
 };
 
 const wornDescription: Record<WornDescription, string> = {

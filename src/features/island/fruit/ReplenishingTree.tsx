@@ -14,6 +14,8 @@ const pluralisedNames: Record<FruitName, string> = {
   Blueberry: "Blueberries",
   Apple: "Apples",
   Banana: "Bananas",
+  Tomato: "Tomatoes",
+  Lemon: "Lemons",
 };
 
 interface Props {
@@ -32,11 +34,28 @@ export const ReplenishingTree: React.FC<Props> = ({
   const lifecycle = FRUIT_LIFECYCLE[fruitName];
 
   const { seed, isBush } = FRUIT()[fruitName];
-  const isBanana = fruitName === "Banana";
-
-  const bottom = isBanana ? 8 : 5;
-  const left = isBanana ? 1.2 : isBush ? 4 : 3;
-  const width = isBanana ? 31 : isBush ? 24 : 26;
+  let bottom, left, width;
+  switch (fruitName) {
+    case "Banana":
+      bottom = 8;
+      left = 1.2;
+      width = 31;
+      break;
+    case "Lemon":
+      bottom = 11;
+      left = 10.5;
+      width = 9;
+      break;
+    case "Tomato":
+      bottom = 8;
+      left = 9.5;
+      width = 11;
+      break;
+    default:
+      bottom = 5;
+      left = isBush ? 4 : 3;
+      width = isBush ? 24 : 26;
+  }
 
   const { plantSeconds } = FRUIT_SEEDS()[seed];
 

@@ -812,6 +812,8 @@ export type BumpkinTrade =
   | "bumpkinTrade.cancel"
   | "bumpkinTrade.list"
   | "bumpkinTrade.maxListings"
+  | "bumpkinTrade.visitBoard"
+  | "bumpkinTrade.unlockMoreTrades"
   | "bumpkinTrade.max"
   | "bumpkinTrade.min"
   | "bumpkinTrade.minimumFloor"
@@ -1975,6 +1977,7 @@ export type GameDescriptions =
   | "description.communityEgg"
   | "description.hungryHare"
   | "description.scroll"
+  | "description.amberFossil"
   //Easter Items
   | "description.egg.basket"
   | "description.blue.egg"
@@ -3192,6 +3195,7 @@ export type SeasonTerms =
   | "season.vip.access"
   | "season.vip.description"
   | "season.vip.claim"
+  | "season.vip.purchase"
   | "season.mystery.gift"
   | "season.xp.boost"
   | "season.free.season.passes.description"
@@ -3546,6 +3550,7 @@ export type World =
   | "world.woodlands"
   | "world.home"
   | "world.kingdom"
+  | "world.faction"
   | "world.travelTo";
 
 export type Event =

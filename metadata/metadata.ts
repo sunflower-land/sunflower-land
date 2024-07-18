@@ -245,6 +245,28 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
   },
+  "Tomato Seed": {
+    name: "Tomato Seed",
+    description: "Rich in Lycopene",
+    decimals: 18,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/128.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Seed" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
+  "Lemon Seed": {
+    name: "Lemon Seed",
+    description: "Because sometimes, you just can't squeeze an orange!",
+    decimals: 18,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/129.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Seed" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
   "Sunpetal Seed": {
     name: "Sunpetal Seed",
     description:
@@ -433,7 +455,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/214.png",
     attributes: [
-      { trait_type: "Purpose", value: "Crop" },
+      { trait_type: "Purpose", value: "Fruit" },
       { trait_type: "Tradable", value: "Yes" },
     ],
   },
@@ -444,7 +466,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/213.png",
     attributes: [
-      { trait_type: "Purpose", value: "Crop" },
+      { trait_type: "Purpose", value: "Fruit" },
       { trait_type: "Tradable", value: "Yes" },
     ],
   },
@@ -456,7 +478,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/212.png",
     attributes: [
-      { trait_type: "Purpose", value: "Crop" },
+      { trait_type: "Purpose", value: "Fruit" },
       { trait_type: "Tradable", value: "Yes" },
     ],
   },
@@ -467,8 +489,30 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/217.png",
     attributes: [
-      { trait_type: "Purpose", value: "Crop" },
+      { trait_type: "Purpose", value: "Fruit" },
       { trait_type: "Tradable", value: "Yes" },
+    ],
+  },
+  Tomato: {
+    name: "Tomato",
+    description: "Rich in Lycopene",
+    decimals: 18,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/255.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Fruit" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
+  Lemon: {
+    name: "Lemon",
+    description: "Because sometimes, you just can't squeeze an orange!",
+    decimals: 18,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/256.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Fruit" },
+      { trait_type: "Tradable", value: "No" },
     ],
   },
   Pickaxe: {
@@ -4295,6 +4339,16 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
   },
+  "Amber Fossil": {
+    description: "A ticket used during the Pharaoh's Treasure Season",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/747.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Coupon" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
 
   "Sunflower Supporter": {
     description: "A true supporter of the project",
@@ -4659,6 +4713,21 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
       {
         display_type: "boost_percentage",
         trait_type: "XP increase during Clash of Factions Season",
+        value: 10,
+      },
+    ],
+  },
+  "Pharaoh's Treasure Banner": {
+    description: "The mark of a participant in the Pharaoh's Treasure Season.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/746.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Banner" },
+      { trait_type: "Tradable", value: "No" },
+      {
+        display_type: "boost_percentage",
+        trait_type: "XP increase during Pharaoh's Treasure Season",
         value: 10,
       },
     ],
@@ -7717,7 +7786,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     decimals: 18,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: `../public/erc1155/images/252.png`,
-    attributes: [{ trait_type: "Purpose", value: "Crop" }],
+    attributes: [{ trait_type: "Purpose", value: "Fruit" }],
   },
   Olive: {
     name: "Olive",

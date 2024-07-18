@@ -1203,6 +1203,7 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Goblin Faction Banner": { height: 2, width: 1 },
   "Nightshade Faction Banner": { height: 2, width: 1 },
   "Clash of Factions Banner": { width: 1, height: 2 },
+  "Pharaoh's Treasure Banner": { width: 1, height: 2 },
   "Lifetime Farmer Banner": { width: 1, height: 2 },
 
   // Dawn Breaker SFTs

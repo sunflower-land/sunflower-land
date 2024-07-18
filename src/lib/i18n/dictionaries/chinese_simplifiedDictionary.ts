@@ -1074,6 +1074,9 @@ const bumpkinTrade: Record<BumpkinTrade, string> = {
   "bumpkinTrade.cancel": "取消",
   "bumpkinTrade.list": "上架",
   "bumpkinTrade.maxListings": "已达到最大上架单数",
+  "bumpkinTrade.visitBoard": ENGLISH_TERMS["bumpkinTrade.visitBoard"],
+  "bumpkinTrade.unlockMoreTrades":
+    ENGLISH_TERMS["bumpkinTrade.unlockMoreTrades"],
   "bumpkinTrade.max": "最多: {{max}}",
   "bumpkinTrade.floorPrice": "底价：{{price}} SFL",
   "bumpkinTrade.price/unit": "{{price}} / 单位",
@@ -2533,6 +2536,7 @@ const gameDescriptions: Record<GameDescriptions, string> = {
   //Home
   "description.homeOwnerPainting": "这个家的主人画像。",
   "description.scroll": ENGLISH_TERMS["description.scroll"],
+  "description.amberFossil": ENGLISH_TERMS["description.amberFossil"],
 
   // Emblem
   "description.bumpkin.emblem": ENGLISH_TERMS["description.bumpkin.emblem"],
@@ -4212,6 +4216,7 @@ const seasonTerms: Record<SeasonTerms, string> = {
     ENGLISH_TERMS["season.free.season.passes.description"],
   "season.vip.access": ENGLISH_TERMS["season.vip.access"],
   "season.vip.description": ENGLISH_TERMS["season.vip.description"],
+  "season.vip.purchase": ENGLISH_TERMS["season.vip.purchase"],
   "season.mystery.gift": ENGLISH_TERMS["season.mystery.gift"],
   "season.xp.boost": ENGLISH_TERMS["season.xp.boost"],
   "season.lifetime.farmer": ENGLISH_TERMS["season.lifetime.farmer"],
@@ -4646,6 +4651,7 @@ const world: Record<World, string> = {
   "world.retreat": "聚居地", //Retreat -> Residence
   "world.home": "家园",
   "world.kingdom": "王城",
+  "world.faction": ENGLISH_TERMS["world.faction"],
   "world.woodlands": "林地",
   "world.travelTo": "前往 {{location}}",
 };

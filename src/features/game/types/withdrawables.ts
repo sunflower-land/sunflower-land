@@ -108,6 +108,8 @@ const fruitSeed: Record<FruitSeedName, () => boolean> = {
   "Blueberry Seed": () => false,
   "Orange Seed": () => false,
   "Banana Plant": () => false,
+  "Tomato Seed": () => false,
+  "Lemon Seed": () => false,
 };
 
 const flowerSeed: Record<FlowerSeedName, () => boolean> = {
@@ -138,6 +140,8 @@ const fruits: Record<FruitName, () => boolean> = {
   Blueberry: () => true,
   Orange: () => true,
   Banana: () => true,
+  Tomato: () => false,
+  Lemon: () => false,
 };
 
 const flowers: Record<FlowerName, () => boolean> = {
@@ -396,6 +400,7 @@ const coupons: Record<Coupons, () => boolean> = {
   "Rare Key": () => false,
   "Prize Ticket": () => false,
   Scroll: () => false,
+  "Amber Fossil": () => false,
   "Bumpkin Emblem": () => false,
   "Goblin Emblem": () => false,
   "Nightshade Emblem": () => false,
@@ -854,6 +859,7 @@ const purchasables: Record<PurchasableItems, () => boolean> = {
   "Spring Blossom Banner": () => false,
   "Clash of Factions Banner": () => false,
   "Lifetime Farmer Banner": () => false,
+  "Pharaoh's Treasure Banner": () => false,
 };
 
 const potionHouse: Record<

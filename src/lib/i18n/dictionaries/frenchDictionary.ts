@@ -1183,6 +1183,9 @@ const bumpkinTrade: Record<BumpkinTrade, string> = {
   "bumpkinTrade.cancel": "Annuler",
   "bumpkinTrade.list": "Liste",
   "bumpkinTrade.maxListings": "Nombre maximum d'annonces atteint",
+  "bumpkinTrade.visitBoard": ENGLISH_TERMS["bumpkinTrade.visitBoard"],
+  "bumpkinTrade.unlockMoreTrades":
+    ENGLISH_TERMS["bumpkinTrade.unlockMoreTrades"],
   "bumpkinTrade.max": "Max : {{max}}",
   "bumpkinTrade.min": "Min : {{min}}",
   "bumpkinTrade.minimumFloor": ENGLISH_TERMS["bumpkinTrade.minimumFloor"],
@@ -2918,6 +2921,7 @@ const gameDescriptions: Record<GameDescriptions, string> = {
     "Un tableau du propriétaire de cette maison.",
 
   "description.scroll": ENGLISH_TERMS["description.scroll"],
+  "description.amberFossil": ENGLISH_TERMS["description.amberFossil"],
 
   // Emblem
   "description.bumpkin.emblem": ENGLISH_TERMS["description.bumpkin.emblem"],
@@ -4861,6 +4865,7 @@ const seasonTerms: Record<SeasonTerms, string> = {
   "season.supporter.gift": ENGLISH_TERMS["season.supporter.gift"],
   "season.vip.access": ENGLISH_TERMS["season.vip.access"],
   "season.vip.description": ENGLISH_TERMS["season.vip.description"],
+  "season.vip.purchase": ENGLISH_TERMS["season.vip.purchase"],
   "season.xp.boost": ENGLISH_TERMS["season.xp.boost"],
   "season.lifetime.farmer": ENGLISH_TERMS["season.lifetime.farmer"],
   "season.free.with.lifetime": ENGLISH_TERMS["season.free.with.lifetime"],
@@ -5387,12 +5392,13 @@ const world: Record<World, string> = {
     "Pour interagir avec un Bumpkin ou un objet, approchez-vous et cliquez dessus.",
   "world.intro.seven":
     "Aucun harcèlement, injure ou intimidation. Merci de respecter les autres.",
-  "world.plaza": "Plaza",
-  "world.beach": "Beach",
-  "world.retreat": "Retreat",
+  "world.plaza": ENGLISH_TERMS["world.plaza"],
+  "world.beach": ENGLISH_TERMS["world.beach"],
+  "world.retreat": ENGLISH_TERMS["world.retreat"],
   "world.woodlands": ENGLISH_TERMS["world.woodlands"],
-  "world.home": "Home",
-  "world.kingdom": "Kingdom",
+  "world.home": ENGLISH_TERMS["world.home"],
+  "world.kingdom": ENGLISH_TERMS["world.kingdom"],
+  "world.faction": ENGLISH_TERMS["world.faction"],
   "world.travelTo": ENGLISH_TERMS["world.travelTo"],
 };
 

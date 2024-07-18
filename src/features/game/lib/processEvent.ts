@@ -28,9 +28,11 @@ export const maxItems: Inventory = {
   Wheat: new Decimal("4000"),
   Kale: new Decimal("4000"),
 
-  Apple: new Decimal("700"),
-  Orange: new Decimal("900"),
+  Tomato: new Decimal(1200),
+  Lemon: new Decimal(1000),
   Blueberry: new Decimal("900"),
+  Orange: new Decimal("900"),
+  Apple: new Decimal("700"),
   Banana: new Decimal("600"),
 
   Olive: new Decimal("250"),
@@ -62,13 +64,18 @@ export const maxItems: Inventory = {
   "Radish Seed": new Decimal(170),
   "Wheat Seed": new Decimal(170),
   "Kale Seed": new Decimal(150),
+
+  "Tomato Seed": new Decimal(100),
   "Apple Seed": new Decimal(100),
   "Orange Seed": new Decimal(100),
   "Blueberry Seed": new Decimal(100),
   "Banana Plant": new Decimal(100),
+  "Lemon Seed": new Decimal(100),
+
   "Sunpetal Seed": new Decimal(100),
   "Bloom Seed": new Decimal(100),
   "Lily Seed": new Decimal(100),
+
   "Olive Seed": new Decimal(100),
   "Grape Seed": new Decimal(100),
   "Rice Seed": new Decimal(100),
@@ -169,6 +176,7 @@ export const maxItems: Inventory = {
   "Mermaid Scale": new Decimal(1500),
   "Tulip Bulb": new Decimal(1500),
   Scroll: new Decimal(1500),
+  "Amber Fossil": new Decimal(1500),
   "Bud Ticket": new Decimal(1),
 
   // Potion House
