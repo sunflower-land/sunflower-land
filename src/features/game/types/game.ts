@@ -59,7 +59,12 @@ import {
 } from "./fishing";
 import { Coordinates } from "../expansion/components/MapPlacement";
 import { MinigameName } from "./minigames";
-import { FlowerCrossBreedName, FlowerName, FlowerSeedName } from "./flowers";
+import {
+  FlowerCrossBreedName,
+  FlowerName,
+  FlowerSeedName,
+  MutantFlowerName,
+} from "./flowers";
 import { translate } from "lib/i18n/translate";
 import { SpecialEvents } from "./specialEvents";
 import { TradeableName } from "../actions/sellMarketResource";
@@ -389,7 +394,8 @@ export type InventoryItemName =
   | FactionBanner
   | WorkbenchToolName
   | FactionShopCollectibleName
-  | FactionShopFoodName;
+  | FactionShopFoodName
+  | MutantFlowerName;
 
 export type Inventory = Partial<Record<InventoryItemName, Decimal>>;
 
@@ -990,6 +996,7 @@ export type PlantedFlower = {
   amount: number;
   crossbreed?: FlowerCrossBreedName;
   dirty?: boolean;
+  reward?: Reward;
 };
 
 export type FlowerBed = {

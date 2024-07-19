@@ -753,6 +753,8 @@ import sunflorianGoldChampion from "assets/sfts/sunflorian_gold_champion.png";
 import sunflorianSilverChampion from "assets/sfts/sunflorian_silver_champion.png";
 import sunflorianBronzeChampion from "assets/sfts/sunflorian_bronze_champion.png";
 
+import desertRose from "assets/sfts/desert_rose.webp";
+
 import scarab from "assets/resources/scarab.webp";
 import sand from "assets/resources/sand.webp";
 import hieroglyph from "assets/resources/hieroglyph.webp";
@@ -8832,6 +8834,12 @@ export const ITEM_DETAILS: Items = {
     image: paella,
     description: {
       en: "A classic Spanish dish, brimming with flavor.",
+    },
+  },
+  "Desert Rose": {
+    image: desertRose,
+    description: {
+      en: "A mutant flower that can be found during the Pharaoh's Treasure season.",
     },
   },
   "Camel Bone": {

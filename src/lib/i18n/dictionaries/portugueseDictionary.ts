@@ -955,6 +955,8 @@ const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
     ENGLISH_TERMS["description.hourglass.expired"],
   "description.hourglass.running":
     ENGLISH_TERMS["description.hourglass.running"],
+  "description.desert.rose.boost":
+    ENGLISH_TERMS["description.desert.rose.boost"],
 };
 
 const bountyDescription: Record<BountyDescription, string> = {
@@ -2567,6 +2569,9 @@ const flowerBed: Record<FlowerBed, string> = {
     "Enxames de abelhas dão um impulso de +0.2 para qualquer plantação plantada.",
   "flowerBed.newSpecies.discovered":
     "Uau, você descobriu uma nova espécie de flor!",
+  "flowerBed.newSpecies.superLucky":
+    ENGLISH_TERMS["flowerBed.newSpecies.superLucky"],
+  "flowerBed.newSpecies.mutant": ENGLISH_TERMS["flowerBed.newSpecies.mutant"],
   "flowerBedContent.select.combination": "Selecione sua combinação",
   "flowerBedContent.select.crossbreed": "Selecione um cruzamento",
   "flowerBedContent.select.seed": "Selecione uma semente",

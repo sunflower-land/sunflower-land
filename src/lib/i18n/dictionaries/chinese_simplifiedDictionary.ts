@@ -906,6 +906,9 @@ const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
     "您的 {{hourglass}} 已过期。是时候再整一个了！",
   "description.hourglass.running":
     "这个 {{hourglass}} 能提供下列增益： {{boost}}。",
+
+  "description.desert.rose.boost":
+    ENGLISH_TERMS["description.desert.rose.boost"],
 };
 
 const bountyDescription: Record<BountyDescription, string> = {
@@ -2281,6 +2284,9 @@ const flowerBed: Record<FlowerBed, string> = {
     "完全填满蜂箱并收集蜂蜜，这样就有机会出现蜂群",
   "flowerBedGuide.beeSwarmsBoost": "蜂群可为任何种植作物带来 +0.2 的增益",
   "flowerBed.newSpecies.discovered": "天哪，你发现了一个新的花种！",
+  "flowerBed.newSpecies.superLucky":
+    ENGLISH_TERMS["flowerBed.newSpecies.superLucky"],
+  "flowerBed.newSpecies.mutant": ENGLISH_TERMS["flowerBed.newSpecies.mutant"],
   "flowerBedContent.select.combination": "选择您的组合",
   "flowerBedContent.select.seed": "选择一粒种子",
   "flowerBedContent.select.crossbreed": "选择杂交品种",

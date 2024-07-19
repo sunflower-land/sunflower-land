@@ -78,7 +78,7 @@ import {
   OldFishName,
 } from "./fishing";
 import { canWithdrawBoostedWearable } from "./wearableValidation";
-import { FlowerName, FlowerSeedName } from "./flowers";
+import { FlowerName, FlowerSeedName, MutantFlowerName } from "./flowers";
 import { FactionShopCollectibleName, FactionShopFoodName } from "./factionShop";
 
 const canWithdrawTimebasedItem = (availableAt: Date) => {
@@ -1049,6 +1049,10 @@ const factionShopFood: Record<FactionShopFoodName, () => boolean> = {
   Paella: () => false,
 };
 
+const mutantFlowers: Record<MutantFlowerName, () => boolean> = {
+  "Desert Rose": () => false,
+};
+
 export const WITHDRAWABLES: Record<InventoryItemName, () => boolean> = {
   ...greenHouseCrop,
   ...greenHouseCropSeed,
@@ -1074,6 +1078,7 @@ export const WITHDRAWABLES: Record<InventoryItemName, () => boolean> = {
   ...flags,
   ...easterEggs,
   ...mutantCrop,
+  ...mutantFlowers,
   ...specialEvents,
   ...points,
   ...goblinBlacksmith,
