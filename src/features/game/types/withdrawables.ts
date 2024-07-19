@@ -808,6 +808,12 @@ const beachBounty: Record<BeachBountyTreasure, () => boolean> = {
   "Iron Compass": () => false,
   "Old Bottle": () => false,
   "Emerald Compass": () => false,
+  "Camel Bone": () => false,
+  "Cockle Shell": () => false,
+  Hieroglyph: () => false,
+  Sand: () => false,
+  Scarab: () => false,
+  Vase: () => false,
 };
 
 const eventDecoration: Record<EventDecorationName, () => boolean> = {

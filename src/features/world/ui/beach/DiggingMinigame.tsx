@@ -102,13 +102,6 @@ const WOODEN_COMPASS: Formation = [
   { x: 2, y: 0, name: "Wood" },
 ];
 
-// Vertical - X Coins
-const IRON_COMPASS: Formation = [
-  { x: 0, y: 0, name: "Iron" },
-  { x: 0, y: 1, name: "Iron Compass" },
-  { x: 0, y: 2, name: "Iron" },
-];
-
 const SEA_CUCUMBERS: Formation = [
   { x: 0, y: 0, name: "Sea Cucumber" },
   { x: 1, y: 0, name: "Sea Cucumber" },
@@ -129,8 +122,6 @@ const CLAM_SHELLS: Formation = [
   { x: 0, y: -1, name: "Clam Shell" },
   { x: 1, y: -1, name: "Clam Shell" },
 ];
-
-const BOUNTY: Formation = [{ x: 0, y: 0, name: "Pirate Bounty" }];
 
 const CORAL: Formation = [{ x: 0, y: 0, name: "Coral" }];
 const PEARL: Formation = [{ x: 0, y: 0, name: "Pearl" }];
@@ -187,7 +178,29 @@ const GROUP_FIVE = [
   ARTEFACT_5,
 ];
 
-const GROUP = GROUP_FIVE;
+const GROUP_SIX = [
+  ARTEFACT_6,
+  HIEROGLYPH,
+  HIEROGLYPH,
+  ARTEFACT_6,
+  COCKLE,
+  OLD_BOTTLE,
+  WOODEN_COMPASS,
+  ARTEFACT_6,
+];
+
+const GROUP_SEVEN = [
+  ARTEFACT_7,
+  HIEROGLYPH,
+  HIEROGLYPH,
+  ARTEFACT_7,
+  SEAWEED,
+  CLAM_SHELLS,
+  SEA_CUCUMBERS,
+  ARTEFACT_7,
+];
+
+const GROUP = GROUP_SEVEN;
 
 type Grid = (InventoryItemName | undefined)[][];
 
@@ -327,7 +340,6 @@ export const DiggingMinigame: React.FC = () => {
     setDigs((digs) => [...digs, plot]);
   };
 
-  console.log({ grid });
   return (
     <Modal show>
       <Panel>

@@ -8443,6 +8443,67 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     image: "../public/erc1155/images/577.png",
     attributes: [{ trait_type: "Purpose", value: "Consumable" }],
   },
+
+  "Camel Bone": {
+    description: "Bones of an ancient camel, rumoured to transport artefacts",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/1408.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Bounty" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
+  "Cockle Shell": {
+    description: "Bones of an ancient camel, rumoured to transport artefacts",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/1409.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Bounty" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
+  Hieroglyph: {
+    description: "Unlock the secrets of the hieroglyphs.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/1410.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Bounty" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
+  Sand: {
+    description: "It get's everywhere!",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/1411.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Bounty" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
+  Scarab: {
+    description: "Pharaoh's lost artefact.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/1412.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Bounty" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
+  Vase: {
+    description: "A fragile item from ancient times",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/1413.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Bounty" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
 };
 
 export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {

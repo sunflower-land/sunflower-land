@@ -638,6 +638,14 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Warty Goblin Pumpkin": 1406,
   "White Carrot": 1407,
 
+  // Digging Site
+  "Camel Bone": 1408,
+  "Cockle Shell": 1409,
+  Hieroglyph: 1410,
+  Sand: 1411,
+  Scarab: 1412,
+  Vase: 1413,
+
   // Fish
   Anchovy: 1501,
   Butterflyfish: 1502,
