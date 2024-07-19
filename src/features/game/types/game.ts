@@ -668,6 +668,17 @@ export type Mushroom = {
   y: number;
 };
 
+export type Desert = {
+  digging: {
+    grid: {
+      x: number;
+      y: number;
+      dugAt: number;
+      items: Partial<Record<InventoryItemName, number>>;
+    }[];
+  };
+};
+
 export type Mushrooms = {
   spawnedAt: number;
   mushrooms: Record<string, Mushroom>;
@@ -1229,6 +1240,7 @@ export interface GameState {
     resource: DonationItemName;
     amount: Decimal;
   };
+  desert: Desert;
 }
 
 export interface Context {
