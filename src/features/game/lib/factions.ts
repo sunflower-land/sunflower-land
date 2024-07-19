@@ -5,6 +5,8 @@ import {
   FactionName,
   FactionPrize,
   GameState,
+  InventoryItemName,
+  Wardrobe,
 } from "../types/game";
 import { isWearableActive } from "./wearables";
 
@@ -233,6 +235,73 @@ export function calculatePoints(
 
   return Math.max(basePoints - fulfilledCount * 2, 1);
 }
+
+// Rewarded items from treasury
+type MonthlyFactionPrize = {
+  wearables?: Wardrobe;
+  items?: Partial<Record<InventoryItemName, number>>;
+};
+
+export const BONUS_FACTION_PRIZES: Record<
+  string,
+  Record<number, MonthlyFactionPrize>
+> = {
+  "2024-07-22": {
+    1: {
+      items: {
+        "Turbo Sprout": 1,
+      },
+    },
+    2: {
+      wearables: {
+        "Crimstone Hammer": 1,
+      },
+    },
+    3: {
+      wearables: {
+        "Oil Can": 1,
+      },
+    },
+    4: {
+      items: {
+        Soybliss: 1,
+      },
+    },
+    5: {
+      wearables: {
+        "Olive Shield": 1,
+      },
+    },
+    // 6th - 10th
+    ...new Array(5)
+      .fill({
+        items: {
+          "Luxury Key": 2,
+        },
+      })
+      .reduce(
+        (acc, item, i) => ({
+          ...acc,
+          [i + 6]: item,
+        }),
+        {},
+      ),
+    // 11th - 50th
+    ...new Array(40)
+      .fill({
+        items: {
+          "Rare Key": 2,
+        },
+      })
+      .reduce(
+        (acc, item, i) => ({
+          ...acc,
+          [i + 11]: item,
+        }),
+        {},
+      ),
+  },
+};
 
 export const FACTION_PRIZES: Record<number, FactionPrize> = {
   1: {

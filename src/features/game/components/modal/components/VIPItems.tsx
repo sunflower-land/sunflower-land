@@ -106,10 +106,6 @@ export const VIPItems: React.FC<Props> = ({ onClose, onSkip }) => {
 
   const hasDiscount = actualSeasonBannerPrice < ORIGINAL_SEASONAL_BANNER_PRICE;
   const isFree = actualSeasonBannerPrice === 0;
-  const canAffordSeasonBanner = blockBuckBalance.gte(actualSeasonBannerPrice);
-  const canAffordLifetimeBanner = blockBuckBalance.gte(
-    LIFETIME_FARMER_BANNER_PRICE,
-  );
 
   const handlePurchase = () => {
     const state = gameService.send("banner.purchased", {
@@ -155,16 +151,6 @@ export const VIPItems: React.FC<Props> = ({ onClose, onSkip }) => {
     }
 
     return false;
-  };
-
-  const getErrorLabel = () => {
-    if (selected === "Lifetime Farmer Banner" && !canAffordLifetimeBanner) {
-      return <Label type="danger">{t("offer.not.enough.BlockBucks")}</Label>;
-    }
-
-    if (selected === seasonBanner && !canAffordSeasonBanner) {
-      return <Label type="danger">{t("offer.not.enough.BlockBucks")}</Label>;
-    }
   };
 
   const getSeasonalBannerPriceLabel = () => {
@@ -221,6 +207,22 @@ export const VIPItems: React.FC<Props> = ({ onClose, onSkip }) => {
     }
 
     return 0;
+  };
+
+  const canAffordSeasonBanner = blockBuckBalance.gte(actualSeasonBannerPrice);
+
+  const canAffordLifetimeBanner = blockBuckBalance.gte(
+    getItemPrice("Lifetime Farmer Banner"),
+  );
+
+  const getErrorLabel = () => {
+    if (selected === "Lifetime Farmer Banner" && !canAffordLifetimeBanner) {
+      return <Label type="danger">{t("offer.not.enough.BlockBucks")}</Label>;
+    }
+
+    if (selected === seasonBanner && !canAffordSeasonBanner) {
+      return <Label type="danger">{t("offer.not.enough.BlockBucks")}</Label>;
+    }
   };
 
   return (

@@ -772,7 +772,7 @@ const goblinPirate: Record<GoblinPirateItemName, () => boolean> = {
   "Heart of Davy Jones": () => true,
   Karkinos: () => true,
   "Emerald Turtle": () => true,
-  "Tin Turtle": () => false,
+  "Tin Turtle": () => true, // Mint ended
   "Golden Bear Head": () => false,
   "Parasaur Skull": () => false,
 };

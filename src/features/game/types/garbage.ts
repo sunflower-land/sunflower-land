@@ -1,9 +1,6 @@
+import { SeasonalTicket, SEASONS } from "./seasons";
+
 export type GarbageName =
-  | "Solar Flare Ticket"
-  | "Dawn Breaker Ticket"
-  | "Crow Feather"
-  | "Mermaid Scale"
-  | "Tulip Bulb"
   | "War Bond"
   | "Love Letter"
   | "Red Envelope"
@@ -19,7 +16,8 @@ export type GarbageName =
   | "Tent"
   | "Earthworm"
   | "Grub"
-  | "Red Wiggler";
+  | "Red Wiggler"
+  | SeasonalTicket;
 
 export type Garbage = {
   sellPrice: number;
@@ -98,4 +96,18 @@ export const GARBAGE: Record<GarbageName, Garbage> = {
   "Red Wiggler": {
     sellPrice: 0.1,
   },
+  ...(SEASONS["Clash of Factions"].endDate.getTime() < Date.now()
+    ? {
+        Scroll: {
+          sellPrice: 0.1,
+        },
+      }
+    : ({} as { Scroll: { sellPrice: number } })),
+  ...(SEASONS["Pharaoh's Treasure"].endDate.getTime() < Date.now()
+    ? {
+        "Amber Fossil": {
+          sellPrice: 0.1,
+        },
+      }
+    : ({} as { "Amber Fossil": { sellPrice: number } })),
 };

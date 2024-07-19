@@ -276,7 +276,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   maintenance: "维护中", // added meaning to “Under Maintenance”
   "make.wish": "许一个愿望",
   "making.wish": "正在许愿",
-  marks: ENGLISH_TERMS["marks"],
+  marks: "徽记",
   max: "最多",
   minimum: "至少",
   mint: "铸造",
@@ -348,7 +348,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   "unlock.land": "解锁更多地块", //Unknown Usecase
   unlocking: "开锁中", // Daily Reward
   unmute: "取消静音",
-  upcoming: ENGLISH_TERMS["upcoming"],
+  upcoming: "队列", // Kingdom Chore
   "use.craft": "用于锻造物品", // item description
   verify: "验证", // Unknown Usecase
   version: "版本",
@@ -380,7 +380,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   remaining: "剩余的",
   requires: "需要",
   reward: "奖励",
-  skipped: ENGLISH_TERMS["skipped"],
+  skipped: "已跳过", // Kingdom Chore
   skipping: "正在跳过",
   test: "测试",
   wish: "许愿",
@@ -419,7 +419,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   banner: "旗帜",
   banners: "旗帜",
   donations: "捐赠",
-  faction: "派系",
+  faction: "帮派",
   free: "免费",
   player: "玩家",
   "remaining.free.listings": "剩余 {{listingsRemaining}} 次免费上架",
@@ -650,7 +650,7 @@ const beehive: Record<Beehive, string> = {
   "beehive.yield": "产量",
   "beehive.honeyPerFullHive": "1 蜂蜜 / 满蜂窝",
   "beehive.speed": "速度",
-  "beehive.fullHivePerDay": "每天 {{speed}} 个{{hive}}",
+  "beehive.fullHivePerDay": "每天 {{speed}} 个 {{hive}}",
   "beehive.estimatedFull": "预计满员",
   "beehive.hive.singular": "蜂窝",
   "beehive.hives.plural": "蜂窝",
@@ -881,7 +881,7 @@ const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
   "description.oil.can.boost": "+2 石油",
   "description.olive.shield.boost": "+1 橄榄",
   "description.pan.boost": "+25% XP",
-  "description.paw.shield.boost": "+25% 派系宠物饱食度",
+  "description.paw.shield.boost": "+25% 帮派宠物饱食度",
   "description.vinny.boost": "+0.25 葡萄",
   "description.desertgnome.boost": "+10% 烹饪速度",
   "description.rice.panda.boost": "+0.25 稻米",
@@ -1078,7 +1078,7 @@ const bumpkinTrade: Record<BumpkinTrade, string> = {
   "bumpkinTrade.unlockMoreTrades":
     ENGLISH_TERMS["bumpkinTrade.unlockMoreTrades"],
   "bumpkinTrade.max": "最多: {{max}}",
-  "bumpkinTrade.floorPrice": "底价：{{price}} SFL",
+  "bumpkinTrade.floorPrice": "底价： {{price}} SFL",
   "bumpkinTrade.price/unit": "{{price}} / 单位",
   "bumpkinTrade.min": "至少: {{min}}",
   "bumpkinTrade.minimumFloor": "最低单价： {{min}}",
@@ -1133,16 +1133,16 @@ const choresStart: Record<ChoresStart, string> = {
   "chores.newSeason": "新时季就要来临，日常农活暂时停单。",
   "chores.choresFrozen":
     "新时季日常农活即将发单。先前时季的日常农活与进度会被重置。",
-  "kingdomChores.preparing": ENGLISH_TERMS["kingdomChores.preparing"],
-  "kingdomChores.completed": ENGLISH_TERMS["kingdomChores.completed"],
-  "kingdomChores.noChores": ENGLISH_TERMS["kingdomChores.noChores"],
-  "kingdomChores.noUpcoming": ENGLISH_TERMS["kingdomChores.noUpcoming"],
-  "kingdomChores.progress": ENGLISH_TERMS["kingdomChores.progress"],
-  "kingdomChores.nextSkip": ENGLISH_TERMS["kingdomChores.nextSkip"],
-  "kingdomChores.skipWarning": ENGLISH_TERMS["kingdomChores.skipWarning"],
-  "kingdomChores.completeActive": ENGLISH_TERMS["kingdomChores.completeActive"],
-  "kingdomChores.loading": ENGLISH_TERMS["kingdomChores.loading"],
-  "kingdomChores.reset": ENGLISH_TERMS["kingdomChores.reset"],
+  "kingdomChores.preparing": "稍等一下。我还在准备发布农活。",
+  "kingdomChores.completed": "看来你现在已经完成了所有农活了！晚点再来吧！",
+  "kingdomChores.noChores": "对不起，我手头上没有要做的农活了。晚点再来吧！",
+  "kingdomChores.noUpcoming": "队列没有农活",
+  "kingdomChores.progress": "进度： {{progress}}",
+  "kingdomChores.nextSkip": "下次跳过： {{skip}}",
+  "kingdomChores.skipWarning": "您每 24 小时只能跳过 1 个农活",
+  "kingdomChores.completeActive": "完成现有农活以解锁",
+  "kingdomChores.loading": "正在加载新农活",
+  "kingdomChores.reset": "新农活： {{timeLeft}}",
 };
 
 const chumDetails: Record<ChumDetails, string> = {
@@ -1180,7 +1180,7 @@ const chumDetails: Record<ChumDetails, string> = {
   "chumDetails.richChicken": "白肚银幕恐怖巨星的精美佳肴",
   "chumDetails.horseMackerel": "只为最牛大胃王准备",
   "chumDetails.sunfish": "满月精选……",
-  "chumDetails.zebraFish": ENGLISH_TERMS["chumDetails.zebraFish"],
+  "chumDetails.zebraFish": "肥美佳肴专为猎奇食客",
 };
 
 const claimAchievement: Record<ClaimAchievement, string> = {
@@ -1212,7 +1212,7 @@ const confirmationTerms: Record<ConfirmationTerms, string> = {
     "您确定要卖掉 {{cropAmount}} {{cropName}} 以换取 {{coinAmount}} 枚硬币吗？",
   "confirmation.buyCrops":
     "您确定要花 {{coinAmount}} 枚硬币购买 {{seedNo}} {{seedName}}s 吗？",
-  "confirmation.enterAmount": ENGLISH_TERMS["confirmation.enterAmount"],
+  "confirmation.enterAmount": "请输入出售数量：",
 };
 
 const confirmSkill: Record<ConfirmSkill, string> = {
@@ -1220,9 +1220,11 @@ const confirmSkill: Record<ConfirmSkill, string> = {
 };
 
 const conversations: Record<Conversations, string> = {
-  "faction-intro.one": ENGLISH_TERMS["faction-intro.one"],
-  "faction-intro.three": ENGLISH_TERMS["faction-intro.three"],
-  "faction-intro.two": ENGLISH_TERMS["faction-intro.two"],
+  "faction-intro.one":
+    "欢迎来到您的新帮派堡楼……我们需要您的援助好变得更加强大并君临王城。",
+  "faction-intro.three": "每周结束，我们的最佳成员都会获得特别嘉奖。祝您好运！",
+  "faction-intro.two":
+    "您可以通过完成帮派农活、厨房送货与喂养我们的奇妙帮宠来获得徽记。",
   "home-intro.one":
     "好喂乡包佬，欢迎来到你的家……虽说不大，但人总是要起家的嘛！",
   "home-intro.three": "家宅越大，你岛上能住下的乡包佬就越多。",
@@ -1673,10 +1675,10 @@ const decorationDescriptions: Record<DecorationDescriptions, string> = {
   "description.goblin.war.banner": "彰显为哥布林伟业献身的盟约",
   "description.human.war.banner": "彰显为人类伟业献身的盟约",
   "description.earnAllianceBanner": "一杆特别活动的旗帜",
-  "description.sunflorian.faction.banner": "彰显对 Sunflorian 派系的忠心",
-  "description.goblin.faction.banner": "彰显对 Goblin 派系的忠心",
-  "description.nightshade.faction.banner": "彰显对 Nightshade 派系的忠心",
-  "description.bumpkin.faction.banner": "彰显对 Bumpkin 派系的忠心",
+  "description.sunflorian.faction.banner": "彰显对 Sunflorian 帮派的忠心",
+  "description.goblin.faction.banner": "彰显对 Goblin 帮派的忠心",
+  "description.nightshade.faction.banner": "彰显对 Nightshade 帮派的忠心",
+  "description.bumpkin.faction.banner": "彰显对 Bumpkin 帮派的忠心",
   "description.oil.reserve": "石油之源",
 
   // Clash of Factions
@@ -1903,13 +1905,13 @@ const factions: Record<Factions, string> = {
     "Sunflorians 君临统治 Sunflower Land。您是否信仰权威与规程？",
   "faction.description.nightshades":
     "Nightshades 是 Sunflower Land 土地上的神秘魔物。您是否信仰魔法与神秘？",
-  "faction.countdown": "在 {{timeUntil}} 后派系纷争即将开幕。",
+  "faction.countdown": "在 {{timeUntil}} 后帮派纷争即将开幕。",
   "faction.join.confirm": "您想要加入 {{faction}} 吗？",
-  "faction.cannot.change": "一旦选择您将无法更换派系。",
+  "faction.cannot.change": "一旦选择您将无法更换帮派。",
   "faction.joined.sunflorians.intro":
     "贵安，高贵的 Sunflorian！加入我们正高举的旗帜，凝聚一心征索我们王国的强权与荣耀。",
   "faction.joined.bumpkins.intro":
-    "嘿呀， Bumpkin 同僚！是时候团结我们的农民子弟，向他方派系展示勤劳团结的力量了。",
+    "嘿呀， Bumpkin 同僚！是时候团结我们的农民子弟，向他方帮派展示勤劳团结的力量了。",
   "faction.joined.goblins.intro":
     "致敬，巧手的 Goblin！我们保持头脑精明与巧计诈施，前路的征战必归我们。",
   "faction.joined.nightshades.intro":
@@ -1917,245 +1919,215 @@ const factions: Record<Factions, string> = {
   "faction.earn.emblems": "获得纹章",
   "faction.earn.emblems.time.left": "剩余 {{timeLeft}}",
   "faction.emblems.tasks":
-    "通过捐赠或完成时季送货来赚取派系点数参与派系纹章空投。",
+    "通过捐赠或完成时季送货来赚取帮派点数参与帮派纹章空投。",
   "faction.view.leaderboard": "查看排行榜",
   "faction.donation.bulk.resources": "批量资源捐献（至少 {{min}}）",
   "faction.donation.bulk.resources.unlimited.per.day":
     "{{donatedToday}} / 无 每日限额",
   "faction.donation.confirm":
-    "您确认希望进行如下捐献以赚取总共 {{factionPoints}} 点派系点数吗？",
-  "faction.donation.label": "{{faction}} 派系捐赠",
+    "您确认希望进行如下捐献以赚取总共 {{factionPoints}} 点帮派点数吗？",
+  "faction.donation.label": "{{faction}} 帮派捐赠",
   "faction.donation.request.message":
-    "您好， {{faction}}！我们现正接受资源和SFL捐赠以援助派系筑基。您将获得派系点数以回馈您的慷慨解囊。",
+    "您好， {{faction}}！我们现正接受资源和SFL捐赠以援助帮派筑基。您将获得帮派点数以回馈您的慷慨解囊。",
   "faction.donation.sfl": "SFL 捐赠（至少 10）",
   "faction.donation.sfl.max.per.day": "{{donatedToday}} / 500 每日限额",
   "faction.seasonal.delivery.start.at": "时季送货开始尚余 {{days}}",
-  "faction.points.with.number": "派系点数： {{points}}",
-  "faction.points.title": "派系点数",
-  "faction.points.pledge.warning": "请效忠一宗派系以获取派系点数！",
-  "faction.emblemAirdrop": ENGLISH_TERMS["faction.emblemAirdrop"],
-  "faction.emblemAirdrop.closes": ENGLISH_TERMS["faction.emblemAirdrop.closes"],
+  "faction.points.with.number": "帮派点数： {{points}}",
+  "faction.points.title": "帮派点数",
+  "faction.points.pledge.warning": "请效忠一宗帮派以获取帮派点数！",
+  "faction.emblemAirdrop": "纹章空投",
+  "faction.emblemAirdrop.closes": "结束于: {{date}}",
 
   // Kingdom
-  "kingdom.noticeboard.one": ENGLISH_TERMS["kingdom.noticeboard.one"],
-  "kingdom.noticeboard.two": ENGLISH_TERMS["kingdom.noticeboard.two"],
-  "kingdom.noticeboard.three": ENGLISH_TERMS["kingdom.noticeboard.three"],
-  "kingdom.noticeboard.four": ENGLISH_TERMS["kingdom.noticeboard.four"],
-  "faction.noticeboard.one": ENGLISH_TERMS["faction.noticeboard.one"],
-  "faction.noticeboard.two": ENGLISH_TERMS["faction.noticeboard.two"],
-  "faction.noticeboard.three": ENGLISH_TERMS["faction.noticeboard.three"],
-  "faction.noticeboard.four": ENGLISH_TERMS["faction.noticeboard.four"],
-  "faction.restrited.area": ENGLISH_TERMS["faction.restrited.area"],
-  "faction.not.pledged": ENGLISH_TERMS["faction.not.pledged"],
-  "faction.cost": ENGLISH_TERMS["faction.cost"],
-  "faction.pledge.reward": ENGLISH_TERMS["faction.pledge.reward"],
-  "faction.welcome": ENGLISH_TERMS["faction.welcome"],
-  "faction.greeting.bumpkins": ENGLISH_TERMS["faction.greeting.bumpkins"],
-  "faction.greeting.goblins": ENGLISH_TERMS["faction.greeting.goblins"],
-  "faction.greeting.nightshades": ENGLISH_TERMS["faction.greeting.nightshades"],
-  "faction.greeting.sunflorians": ENGLISH_TERMS["faction.greeting.sunflorians"],
+  "kingdom.noticeboard.one": "欢迎来到王城——是时候加入一个帮派并为荣耀而战了！",
+  "kingdom.noticeboard.two":
+    "游玩小游戏、完成帮派任务、冲击排行榜 & 赢取徽记吧。",
+  "kingdom.noticeboard.three": "每周的头号玩家都可以领取大奖！",
+  "kingdom.noticeboard.four": "光顾王城商场可以兑换奖赏与收集品。",
+  "faction.noticeboard.one": "为厨房送货 & 完成帮派农活 以赚取徽记。",
+  "faction.noticeboard.two": "喂我们贪吃的帮宠来解锁帮派额外 XP 加成吧！",
+  "faction.noticeboard.three": "每周的头号玩家们都会获得额外大奖。",
+  "faction.noticeboard.four": "买卖纹章受封阶衔来获得额外特权。",
+  "faction.restrited.area":
+    "站住农民！这堡楼你可没权进。这里只有 {{faction}} 有权通行。",
+  "faction.not.pledged":
+    "唔，看起来你还没效忠于任何一个帮派。您愿意加入 {{faction}} 吗？",
+  "faction.cost": "展现您的忠诚、加入 {{faction}}。帮派入会费 {{cost}} SFL。",
+  "faction.pledge.reward":
+    "作为回馈，您会收到一支 {{banner}} 并被允许进出为我们的堡楼。",
+  "faction.welcome": "欢迎加入 {{faction}}！",
+  "faction.greeting.bumpkins": "我们必须将农民们团结起来！",
+  "faction.greeting.goblins": "Goblin 大王万岁！",
+  "faction.greeting.nightshades": "暗影会指引我们凯旋！",
+  "faction.greeting.sunflorians": "我们的族裔将君临天下！",
 
-  "faction.leave": ENGLISH_TERMS["faction.leave"],
-  "faction.leave.hasEmblems": ENGLISH_TERMS["faction.leave.hasEmblems"],
-  "faction.leave.areYouSure": ENGLISH_TERMS["faction.leave.areYouSure"],
-  "faction.leave.marks": ENGLISH_TERMS["faction.leave.marks"],
-  "faction.leave.sellEmblems": ENGLISH_TERMS["faction.leave.sellEmblems"],
-  "faction.leave.isNew": ENGLISH_TERMS["faction.leave.isNew"],
+  "faction.leave": "离开帮派",
+  "faction.leave.hasEmblems": "您还有纹章",
+  "faction.leave.areYouSure": "您确定要离开您的帮派？",
+  "faction.leave.marks":
+    "帮派叛徒将被严惩，你会失去你的锦旗和所有未使用的徽记。",
+  "faction.leave.sellEmblems": "离开之前您必须卖光您所有的纹章。",
+  "faction.leave.isNew": "您不能在头 24 小时离开帮派。",
 
-  "faction.claimEmblems.alreadyClaimed":
-    ENGLISH_TERMS["faction.claimEmblems.alreadyClaimed"],
-  "faction.claimEmblems.emblemsEarned":
-    ENGLISH_TERMS["faction.claimEmblems.emblemsEarned"],
-  "faction.claimEmblems.yourRank":
-    ENGLISH_TERMS["faction.claimEmblems.yourRank"],
-  "faction.claimEmblems.yourPercentile":
-    ENGLISH_TERMS["faction.claimEmblems.yourPercentile"],
-  "faction.claimEmblems.yourEmblems":
-    ENGLISH_TERMS["faction.claimEmblems.yourEmblems"],
-  "faction.claimEmblems.noContribution":
-    ENGLISH_TERMS["faction.claimEmblems.noContribution"],
-  "faction.claimEmblems.statistics":
-    ENGLISH_TERMS["faction.claimEmblems.statistics"],
+  "faction.claimEmblems.alreadyClaimed": "嘿！我们已经给您奖励过纹章了！",
+  "faction.claimEmblems.emblemsEarned": "已赚得纹章",
+  "faction.claimEmblems.yourRank": "您的阶衔",
+  "faction.claimEmblems.yourPercentile": "您的百分占比",
+  "faction.claimEmblems.yourEmblems": "您的纹章",
+  "faction.claimEmblems.noContribution": "您还未给帮派贡献任何点数。",
+  "faction.claimEmblems.statistics": "数据",
   "faction.claimEmblems.thankYou":
-    ENGLISH_TERMS["faction.claimEmblems.thankYou"],
+    "感谢您对 {{Faction}} 的贡献，{{player}}！拿上这些纹章，它们象征着您在帮派的地位！",
   "faction.claimEmblems.claimMessage":
-    ENGLISH_TERMS["faction.claimEmblems.claimMessage"],
-  "faction.claimEmblems.claim": ENGLISH_TERMS["faction.claimEmblems.claim"],
-  "faction.claimEmblems.congratulations":
-    ENGLISH_TERMS["faction.claimEmblems.congratulations"],
-  "faction.claimEmblems.comparison":
-    ENGLISH_TERMS["faction.claimEmblems.comparison"],
-  "faction.claimEmblems.totalMembers":
-    ENGLISH_TERMS["faction.claimEmblems.totalMembers"],
-  "faction.claimEmblems.totalEmblems":
-    ENGLISH_TERMS["faction.claimEmblems.totalEmblems"],
-  "faction.claimEmblems.percentile":
-    ENGLISH_TERMS["faction.claimEmblems.percentile"],
-  "faction.claimEmblems.travelNow":
-    ENGLISH_TERMS["faction.claimEmblems.travelNow"],
-  "faction.claimEmblems.visitMe": ENGLISH_TERMS["faction.claimEmblems.visitMe"],
+    "您为帮派贡献了 {{count}} 点数。您的阶衔为 {{rank}}。您在 {{Faction}} 的头 {{percentile}}%。",
+  "faction.claimEmblems.claim": "领取 {{count}} 个纹章",
+  "faction.claimEmblems.congratulations": "恭喜！您已获得 {{count}} 个纹章！",
+  "faction.claimEmblems.comparison": "这里是您和您帮派成员的对比结果。",
+  "faction.claimEmblems.totalMembers": "帮派总人数",
+  "faction.claimEmblems.totalEmblems": "帮派总纹章",
+  "faction.claimEmblems.percentile": "头 {{percentile}}%",
+  "faction.claimEmblems.travelNow": "立刻前往",
+  "faction.claimEmblems.visitMe":
+    "来找我，{{recruiterName}}，来王城领取您的纹章。",
   "faction.kitchen.gatherResources":
-    ENGLISH_TERMS["faction.kitchen.gatherResources"],
-  "faction.pet.gatherResources": ENGLISH_TERMS["faction.pet.gatherResources"],
-  "faction.kitchen.opensIn": ENGLISH_TERMS["faction.kitchen.opensIn"],
-  "faction.kitchen.notReady": ENGLISH_TERMS["faction.kitchen.notReady"],
-  "faction.kitchen.preparing": ENGLISH_TERMS["faction.kitchen.preparing"],
-  "faction.kitchen.newRequests": ENGLISH_TERMS["faction.kitchen.newRequests"],
-  "faction.openingSoon": ENGLISH_TERMS["faction.openingSoon"],
-  "faction.emblems": ENGLISH_TERMS["faction.emblems"],
-  "faction.emblems.intro.one": ENGLISH_TERMS["faction.emblems.intro.one"],
-  "faction.emblems.intro.three": ENGLISH_TERMS["faction.emblems.intro.three"],
-  "faction.emblems.intro.two": ENGLISH_TERMS["faction.emblems.intro.two"],
-  "faction.tradeEmblems": ENGLISH_TERMS["faction.tradeEmblems"],
-  "faction.marksBoost": ENGLISH_TERMS["faction.marksBoost"],
-  "faction.shop.onlyFor": ENGLISH_TERMS["faction.shop.onlyFor"],
-  "faction.shop.welcome": ENGLISH_TERMS["faction.shop.welcome"],
-  "faction.goodLuck": ENGLISH_TERMS["faction.goodLuck"],
-  "faction.noPrizeFound": ENGLISH_TERMS["faction.noPrizeFound"],
-  "faction.boostsApplied": ENGLISH_TERMS["faction.boostsApplied"],
-  "faction.no.boostsApplied": ENGLISH_TERMS["faction.no.boostsApplied"],
+    "好多新人啊……我们饭怎么做得过来！您能帮我收集点食材吗？",
+  "faction.pet.gatherResources": "嗝呃啊啊啊……",
+  "faction.kitchen.opensIn": "开张还要 {{time}}",
+  "faction.kitchen.notReady":
+    "啊啊，我喜欢你的热情！但厨房还没开张呢。过会儿再来吧。",
+  "faction.kitchen.preparing": "我还在准备订单呢！还请过几分钟再回来吧。",
+  "faction.kitchen.newRequests": "新请求： {{time}}",
+  "faction.openingSoon":
+    "帮派堡楼将于7月8日开放。赚取徽记、为荣耀成事并领取奖赏吧！",
+  "faction.emblems": "纹章",
+  "faction.emblems.intro.one": "哇哦，都看看这些纹章。您是真名副其实的勇士！",
+  "faction.emblems.intro.three":
+    "您手上的纹章越多，您受封的阶衔越高，您赚得的徽记也会更多。",
+  "faction.emblems.intro.two":
+    "7月8日，帮派堡楼将会开放。您便可以完成任务、赚取徽记并领取奖赏了。",
+  "faction.tradeEmblems": "买卖纹章，爬升阶衔，领受特权。",
+  "faction.marksBoost": "徽记加成将于7月8日应用到帮派活动上。",
+  "faction.shop.onlyFor": "仅限 {{faction}}",
+  "faction.shop.welcome":
+    "欢迎来到帮派商场！用您的徽记购买临时加成、时尚饰品和稀有收集品吧。好好逛逛，找到您下一个心仪宝贝吧！",
+  "faction.goodLuck": "祝您这周好运！",
+  "faction.noPrizeFound": "没找着大奖",
+  "faction.boostsApplied": "加成已生效：",
+  "faction.no.boostsApplied": "没有生效加成",
 
   // Faction Pet
-  "faction.pet.weeklyGoal": ENGLISH_TERMS["faction.pet.weeklyGoal"],
-  "faction.pet.fed": ENGLISH_TERMS["faction.pet.fed"],
-  "faction.pet.hungry": ENGLISH_TERMS["faction.pet.hungry"],
-  "faction.pet.newRequests": ENGLISH_TERMS["faction.pet.newRequests"],
-  "faction.pet.sleeping": ENGLISH_TERMS["faction.pet.sleeping"],
-  "faction.pet.streak": ENGLISH_TERMS["faction.pet.streak"],
-  "faction.pet.wakes.in": ENGLISH_TERMS["faction.pet.wakes.in"],
-  "faction.pet.contributingMember":
-    ENGLISH_TERMS["faction.pet.contributingMember"],
+  "faction.pet.weeklyGoal": "每周目标： {{totalXP}}/{{goalXP}} XP",
+  "faction.pet.fed":
+    "干得漂亮！你已经解锁了宝贵的加成。帮派宠物现在是前所未有地精神，所有成员都享受 XP 加成。让我们进军下一个连环奖励！",
+  "faction.pet.hungry":
+    "我们钟爱的帮宠靠你们养活了！每周喂多 30% 来满足其无尽的饥饿。达成多周连环来给整个帮派惊人的 XP 加成与额外徽记吧！",
+  "faction.pet.newRequests": "离新渴求还有 {{time}}",
+  "faction.pet.sleeping":
+    "帮宠饿到得睡好一周了。等醒了，记得好好喂食，续上我们的连环奖励。",
+  "faction.pet.streak": "{{streak}} 周连环",
+  "faction.pet.wakes.in": "离醒来还有 {{time}}",
+  "faction.pet.contributingMember": "贡献成员认证",
 };
 
 const factionShopDescription: Record<FactionShopDescription, string> = {
-  "description.factionShop.sunflorianThrone":
-    ENGLISH_TERMS["description.factionShop.sunflorianThrone"],
-  "description.factionShop.nightshadeThrone":
-    ENGLISH_TERMS["description.factionShop.nightshadeThrone"],
-  "description.factionShop.goblinThrone":
-    ENGLISH_TERMS["description.factionShop.goblinThrone"],
-  "description.factionShop.bumpkinThrone":
-    ENGLISH_TERMS["description.factionShop.bumpkinThrone"],
+  "description.factionShop.sunflorianThrone": "一位 Sunflorian 配得的宝座。",
+  "description.factionShop.nightshadeThrone": "一位 Nightshade 配得的宝座。",
+  "description.factionShop.goblinThrone": "一位 Goblin 配得的宝座。",
+  "description.factionShop.bumpkinThrone": "一位 Bumpkin 配得的宝座。",
   "description.factionShop.goldenSunflorianEgg":
-    ENGLISH_TERMS["description.factionShop.goldenSunflorianEgg"],
-  "description.factionShop.goblinMischiefEgg":
-    ENGLISH_TERMS["description.factionShop.goblinMischiefEgg"],
-  "description.factionShop.bumpkinCharmEgg":
-    ENGLISH_TERMS["description.factionShop.bumpkinCharmEgg"],
+    "由 Sunflorian 帮族制作的珠宝蛋。",
+  "description.factionShop.goblinMischiefEgg": "由 Goblin 帮族制作的珠宝蛋。",
+  "description.factionShop.bumpkinCharmEgg": "由 Bumpkin 帮族制作的珠宝蛋。",
   "description.factionShop.nightshadeVeilEgg":
-    ENGLISH_TERMS["description.factionShop.nightshadeVeilEgg"],
-  "description.factionShop.emeraldGoblinGoblet":
-    ENGLISH_TERMS["description.factionShop.emeraldGoblinGoblet"],
-  "description.factionShop.opalSunflorianGoblet":
-    ENGLISH_TERMS["description.factionShop.opalSunflorianGoblet"],
-  "description.factionShop.sapphireBumpkinGoblet":
-    ENGLISH_TERMS["description.factionShop.sapphireBumpkinGoblet"],
-  "description.factionShop.amethystNightshadeGoblet":
-    ENGLISH_TERMS["description.factionShop.amethystNightshadeGoblet"],
-  "description.factionShop.goldenFactionGoblet":
-    ENGLISH_TERMS["description.factionShop.goldenFactionGoblet"],
-  "description.factionShop.rubyFactionGoblet":
-    ENGLISH_TERMS["description.factionShop.rubyFactionGoblet"],
-  "description.factionShop.sunflorianBunting":
-    ENGLISH_TERMS["description.factionShop.sunflorianBunting"],
-  "description.factionShop.nightshadeBunting":
-    ENGLISH_TERMS["description.factionShop.nightshadeBunting"],
-  "description.factionShop.goblinBunting":
-    ENGLISH_TERMS["description.factionShop.goblinBunting"],
-  "description.factionShop.bumpkinBunting":
-    ENGLISH_TERMS["description.factionShop.bumpkinBunting"],
-  "description.factionShop.sunflorianCandles":
-    ENGLISH_TERMS["description.factionShop.sunflorianCandles"],
-  "description.factionShop.nightshadeCandles":
-    ENGLISH_TERMS["description.factionShop.nightshadeCandles"],
-  "description.factionShop.goblinCandles":
-    ENGLISH_TERMS["description.factionShop.goblinCandles"],
-  "description.factionShop.bumpkinCandles":
-    ENGLISH_TERMS["description.factionShop.bumpkinCandles"],
+    "由 Nightshade 帮族制作的珠宝蛋。",
+  "description.factionShop.emeraldGoblinGoblet": "镶缀翡翠的高脚杯。",
+  "description.factionShop.opalSunflorianGoblet": "镶缀猫眼石的高脚杯。",
+  "description.factionShop.sapphireBumpkinGoblet": "镶缀青玉的高脚杯。",
+  "description.factionShop.amethystNightshadeGoblet": "镶缀紫晶的高脚杯。",
+  "description.factionShop.goldenFactionGoblet": "金制高脚杯。",
+  "description.factionShop.rubyFactionGoblet": "镶缀红玉的高脚杯。",
+  "description.factionShop.sunflorianBunting": "庆贺 Sunflorian 帮派的彩旗。",
+  "description.factionShop.nightshadeBunting": "庆贺 Nightshade 帮派的彩旗。",
+  "description.factionShop.goblinBunting": "庆贺 Goblin 帮派的彩旗。",
+  "description.factionShop.bumpkinBunting": "庆贺 Bumpkin 帮派的彩旗。",
+  "description.factionShop.sunflorianCandles": "Sunflorian 帮派的装饰蜡烛。",
+  "description.factionShop.nightshadeCandles": "Nightshade 帮派的装饰蜡烛。",
+  "description.factionShop.goblinCandles": "Goblin 帮派的装饰蜡烛。",
+  "description.factionShop.bumpkinCandles": "Bumpkin 帮派的装饰蜡烛。",
   "description.factionShop.sunflorianLeftWallSconce":
-    ENGLISH_TERMS["description.factionShop.sunflorianLeftWallSconce"],
+    "Sunflorian 壁灯点亮您的居所。",
   "description.factionShop.nightshadeLeftWallSconce":
-    ENGLISH_TERMS["description.factionShop.nightshadeLeftWallSconce"],
-  "description.factionShop.goblinLeftWallSconce":
-    ENGLISH_TERMS["description.factionShop.goblinLeftWallSconce"],
-  "description.factionShop.bumpkinLeftWallSconce":
-    ENGLISH_TERMS["description.factionShop.bumpkinLeftWallSconce"],
+    "Nightshade 壁灯点亮您的居所。",
+  "description.factionShop.goblinLeftWallSconce": "Goblin 壁灯点亮您的居所。",
+  "description.factionShop.bumpkinLeftWallSconce": "Bumpkin 壁灯点亮您的居所。",
   "description.factionShop.sunflorianRightWallSconce":
-    ENGLISH_TERMS["description.factionShop.sunflorianRightWallSconce"],
+    "Sunflorian 壁灯点亮您的居所。",
   "description.factionShop.nightshadeRightWallSconce":
-    ENGLISH_TERMS["description.factionShop.nightshadeRightWallSconce"],
-  "description.factionShop.goblinRightWallSconce":
-    ENGLISH_TERMS["description.factionShop.goblinRightWallSconce"],
+    "Nightshade 壁灯点亮您的居所。",
+  "description.factionShop.goblinRightWallSconce": "Goblin 壁灯点亮您的居所。",
   "description.factionShop.bumpkinRightWallSconce":
-    ENGLISH_TERMS["description.factionShop.bumpkinRightWallSconce"],
-  "description.factionShop.cookingBoost":
-    ENGLISH_TERMS["description.factionShop.cookingBoost"],
-  "description.factionShop.cropBoost":
-    ENGLISH_TERMS["description.factionShop.cropBoost"],
-  "description.factionShop.woodBoost":
-    ENGLISH_TERMS["description.factionShop.woodBoost"],
+    "Bumpkin 壁灯点亮您的居所。",
+  "description.factionShop.cookingBoost": "-50% 烹饪时间，持续 4 小时。",
+  "description.factionShop.cropBoost": "-25% 庄稼生长时间，持续 6 小时。",
+  "description.factionShop.woodBoost": "-25% 树木恢复时间，持续 4 小时。",
   "description.factionShop.mineralBoost":
-    ENGLISH_TERMS["description.factionShop.mineralBoost"],
-  "description.factionShop.fruitBoost":
-    ENGLISH_TERMS["description.factionShop.fruitBoost"],
-  "description.factionShop.flowerBoost":
-    ENGLISH_TERMS["description.factionShop.flowerBoost"],
-  "description.factionShop.fishBoost":
-    ENGLISH_TERMS["description.factionShop.fishBoost"],
+    "-50% 基矿恢复冷却时间，持续 3 小时。",
+  "description.factionShop.fruitBoost": "-25% 水果生长时间，持续 6 小时。",
+  "description.factionShop.flowerBoost": "-25% 花卉生长时间，持续 4 小时。",
+  "description.factionShop.fishBoost": "50% 几率 +1 鱼，持续 4 小时。",
   "description.factionShop.sunflorianFactionRug":
-    ENGLISH_TERMS["description.factionShop.sunflorianFactionRug"],
+    "Sunflorian 帮派精湛匠人打造的华美地毯。",
   "description.factionShop.nightshadeFactionRug":
-    ENGLISH_TERMS["description.factionShop.nightshadeFactionRug"],
+    "Nightshade 帮派精湛匠人打造的华美地毯。",
   "description.factionShop.goblinFactionRug":
-    ENGLISH_TERMS["description.factionShop.goblinFactionRug"],
+    "Goblin 帮派精湛匠人打造的华美地毯。",
   "description.factionShop.bumpkinFactionRug":
-    ENGLISH_TERMS["description.factionShop.bumpkinFactionRug"],
+    "Bumpkin 帮派精湛匠人打造的华美地毯。",
   "description.factionShop.goblinArmor":
-    ENGLISH_TERMS["description.factionShop.goblinArmor"],
+    "狂蛮而张扬，Goblin 每皆赞许的防具。效忠本帮派时，赚得的徽记 +20%。该物品同等加成并不多重叠加。",
   "description.factionShop.goblinHelmet":
-    ENGLISH_TERMS["description.factionShop.goblinHelmet"],
+    "坚硬而稳固，为闯荡荒野的无畏冒险而造。效忠本帮派时，赚得的徽记 +10%。该物品同等加成并不多重叠加。",
   "description.factionShop.goblinPants":
-    ENGLISH_TERMS["description.factionShop.goblinPants"],
+    "这些裤甲兼顾迅捷与 Goblin 精工，为灵巧身手而生。效忠本帮派时，赚得的徽记 +5%。该物品同等加成并不多重叠加。",
   "description.factionShop.goblinSabatons":
-    ENGLISH_TERMS["description.factionShop.goblinSabatons"],
+    "专为先发制人且笑到最后而造。效忠本帮派时，赚得的徽记 +5%。该物品同等加成并不多重叠加。",
   "description.factionShop.goblinAxe":
-    ENGLISH_TERMS["description.factionShop.goblinAxe"],
+    "该战斧是向一名 Goblin 发出的强壮力量与战场武勇的无上战书。效忠本帮派时，赚得的徽记 +10%。该物品同等加成并不多重叠加。",
   "description.factionShop.sunflorianArmor":
-    ENGLISH_TERMS["description.factionShop.sunflorianArmor"],
+    "反耀出太阳之力的光辉甲胄。效忠本帮派时，赚得的徽记 +20%。该物品同等加成并不多重叠加。",
   "description.factionShop.sunflorianHelmet":
-    ENGLISH_TERMS["description.factionShop.sunflorianHelmet"],
+    "该头盔是光芒的灯塔与对暗影的警哨。效忠本帮派时，赚得的徽记 +10%。该物品同等加成并不多重叠加。",
   "description.factionShop.sunflorianPants":
-    ENGLISH_TERMS["description.factionShop.sunflorianPants"],
+    "穿上汇聚所有 Sunflorians 之温暖与热情的衣装，昂首阔步。效忠本帮派时，赚得的徽记 +5%。该物品同等加成并不多重叠加。",
   "description.factionShop.sunflorianSabatons":
-    ENGLISH_TERMS["description.factionShop.sunflorianSabatons"],
+    "这些鞋子踏过的每一步都鸣响着力量与生机。效忠本帮派时，赚得的徽记 +5%。该物品同等加成并不多重叠加。",
   "description.factionShop.sunflorianSword":
-    ENGLISH_TERMS["description.factionShop.sunflorianSword"],
+    "一把闪燃着太阳勇气与光辉的剑刃。效忠本帮派时，赚得的徽记 +10%。该物品同等加成并不多重叠加。",
   "description.factionShop.bumpkinArmor":
-    ENGLISH_TERMS["description.factionShop.bumpkinArmor"],
+    "尊荣传统与强韧的坚固甲具。效忠本帮派时，赚得的徽记 +20%。该物品同等加成并不多重叠加。",
   "description.factionShop.bumpkinHelmet":
-    ENGLISH_TERMS["description.factionShop.bumpkinHelmet"],
+    "用坚韧朴实与不屈决心的象征武装你的头脑。效忠本帮派时，赚得的徽记 +10%。该物品同等加成并不多重叠加。",
   "description.factionShop.bumpkinPants":
-    ENGLISH_TERMS["description.factionShop.bumpkinPants"],
+    "带上冒险精神畅游乡田镇城。效忠本帮派时，赚得的徽记 +5%。该物品同等加成并不多重叠加。",
   "description.factionShop.bumpkinSabatons":
-    ENGLISH_TERMS["description.factionShop.bumpkinSabatons"],
+    "伴着这双牢靠鞋靴穿越田野，回顾乡村顽味。效忠本帮派时，赚得的徽记 +5%。该物品同等加成并不多重叠加。",
   "description.factionShop.bumpkinSword":
-    ENGLISH_TERMS["description.factionShop.bumpkinSword"],
+    "森林原野间铸造的武器，无惧任何挑战。效忠本帮派时，赚得的徽记 +10%。该物品同等加成并不多重叠加。",
   "description.factionShop.nightshadeArmor":
-    ENGLISH_TERMS["description.factionShop.nightshadeArmor"],
+    "装甲，只为遁形融汇于暗影而造。效忠本帮派时，赚得的徽记 +20%。该物品同等加成并不多重叠加。",
   "description.factionShop.nightshadeHelmet":
-    ENGLISH_TERMS["description.factionShop.nightshadeHelmet"],
+    "蕴含诡秘与悄然伟力的强大头盔。效忠本帮派时，赚得的徽记 +10%。该物品同等加成并不多重叠加。",
   "description.factionShop.nightshadePants":
-    ENGLISH_TERMS["description.factionShop.nightshadePants"],
+    "这些裤装糅合了迅捷与午夜诡秘。效忠本帮派时，赚得的徽记 +5%。该物品同等加成并不多重叠加。",
   "description.factionShop.nightshadeSabatons":
-    ENGLISH_TERMS["description.factionShop.nightshadeSabatons"],
+    "每一步都是暗影在呢喃，完美的设计。效忠本帮派时，赚得的徽记 +5%。该物品同等加成并不多重叠加。",
   "description.factionShop.nightshadeSword":
-    ENGLISH_TERMS["description.factionShop.nightshadeSword"],
+    "这把刀刃的每一击都带着月光冷铁的精准狠。效忠本帮派时，赚得的徽记 +10%。该物品同等加成并不多重叠加。",
   "description.factionShop.knightGambit":
-    ENGLISH_TERMS["description.factionShop.knightGambit"],
+    "戴上这帽子，给策略与风格掺杂一点玩味，准备好向冒险进发。",
   "description.factionShop.motley":
-    ENGLISH_TERMS["description.factionShop.motley"],
-  "description.factionShop.royalBraids":
-    ENGLISH_TERMS["description.factionShop.royalBraids"],
+    "纷乱的色彩齐聚一堂，欢快忤逆时尚的范式教条。",
+  "description.factionShop.royalBraids": "皇家专属气质的发型。",
 };
 
 const festiveTree: Record<FestiveTree, string> = {
@@ -2239,7 +2211,7 @@ const fishDescriptions: Record<FishDescriptions, string> = {
     "一种深海中难以捉摸且幽灵般的鱼，隐藏在阴影中。",
   "description.gilded.swordfish": "一条鳞片闪耀如金的剑鱼，终极的捕获！",
   "description.crimson.carp": "春天水域中稀有、充满活力的宝石。",
-  "description.battle.fish": "派系赛季稀有的装甲游泳者！",
+  "description.battle.fish": "帮派赛季稀有的装甲游泳者！",
 };
 
 const fishermanModal: Record<FishermanModal, string> = {
@@ -2250,12 +2222,12 @@ const fishermanModal: Record<FishermanModal, string> = {
   "fishermanModal.crazyHappening":
     "哇，发生了疯狂的事情......这是一场鱼的狂欢！",
   "fishermanModal.bonusFish": "快点，每捕捉一条鱼你将获得一条额外的鱼！",
-  "fishermanModal.dailyLimitReached": "你已达到每日{{limit}}条的钓鱼限额",
-  "fishermanModal.needCraftRod": "你必须先制作一根钓竿。",
+  "fishermanModal.dailyLimitReached": "您已达到每日 {{limit}} 条的钓鱼限额",
+  "fishermanModal.needCraftRod": "您必须先制作一根钓竿。",
   "fishermanModal.craft.beach": "在海滩上制作",
   "fishermanModal.zero.available": "0可用",
   "fishermanmodal.greeting":
-    "嗨，岛上的朋友们！我是{{name}}，你们信赖的岛上渔夫，我已经准备好迎接一个宏大的挑战——收集太阳下的每一种鱼！",
+    "嗨，岛上的朋友们！我是 {{name}}，你们信赖的岛上渔夫，我已经准备好迎接一个宏大的挑战——收集太阳下的每一种鱼！",
   "fishermanModal.fullMoon": ENGLISH_TERMS["fishermanModal.fullMoon"],
 };
 
@@ -3057,7 +3029,7 @@ const megaStore: Record<MegaStore, string> = {
   "megaStore.month.sale": ENGLISH_TERMS["megaStore.month.sale"],
   "megaStore.wearable": ENGLISH_TERMS["megaStore.wearable"],
   "megaStore.collectible": ENGLISH_TERMS["megaStore.collectible"],
-  "megaStore.timeRemaining": "剩下{{timeRemaining}}！",
+  "megaStore.timeRemaining": "剩下 {{timeRemaining}}！",
 };
 
 const milestoneMessages: Record<MilestoneMessages, string> = {
@@ -4651,7 +4623,7 @@ const world: Record<World, string> = {
   "world.retreat": "聚居地", //Retreat -> Residence
   "world.home": "家园",
   "world.kingdom": "王城",
-  "world.faction": ENGLISH_TERMS["world.faction"],
+  "world.faction": "帮派",
   "world.woodlands": "林地",
   "world.travelTo": "前往 {{location}}",
 };
@@ -4693,6 +4665,8 @@ const leaderboardTerms: Record<Leaderboard, string> = {
   "leaderboard.faction.champion": ENGLISH_TERMS["leaderboard.faction.champion"],
   "leaderboard.faction.championPrizes":
     ENGLISH_TERMS["leaderboard.faction.championPrizes"],
+  "leaderboard.faction.bonusPrizeWeek":
+    ENGLISH_TERMS["leaderboard.faction.bonusPrizeWeek"],
   "leaderboard.faction.bonusMarks":
     ENGLISH_TERMS["leaderboard.faction.bonusMarks"],
   "leaderboard.faction.topPlayers":

@@ -5489,6 +5489,8 @@ export const leaderboardTerms: Record<Leaderboard, string> = {
   "leaderboard.faction.description":
     ENGLISH_TERMS["leaderboard.faction.description"],
   "leaderboard.faction.champion": ENGLISH_TERMS["leaderboard.faction.champion"],
+  "leaderboard.faction.bonusPrizeWeek":
+    ENGLISH_TERMS["leaderboard.faction.bonusPrizeWeek"],
   "leaderboard.faction.championPrizes":
     ENGLISH_TERMS["leaderboard.faction.championPrizes"],
   "leaderboard.faction.bonusMarks":
