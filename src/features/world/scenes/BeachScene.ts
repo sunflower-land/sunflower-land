@@ -39,6 +39,12 @@ const BUMPKINS: NPCBumpkin[] = [
   },
   {
     npc: "goldtooth",
+    x: 398,
+    y: 140,
+  },
+  {
+    // To remove on digging release
+    npc: "GOLDTOOTH",
     x: 304,
     y: 255,
   },
@@ -197,13 +203,6 @@ export class BeachScene extends BaseScene {
       .setOffset(0, 0)
       .setImmovable(true)
       .setCollideWorldBounds(true);
-    treasureShop.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
-      if (this.checkDistanceToSprite(treasureShop, 75)) {
-        interactableModalManager.open("treasure_shop");
-      } else {
-        this.currentPlayer?.speak(translate("base.iam.far.away"));
-      }
-    });
     this.add.sprite(400, 110, "shop_icon");
 
     const beachBud2 = this.add.sprite(268, 317, "beach_bud_2");

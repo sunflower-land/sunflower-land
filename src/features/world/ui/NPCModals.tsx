@@ -15,7 +15,6 @@ import {
   SpecialEventDonations,
 } from "./donations/Donations";
 import { Finn } from "./npcs/Finn";
-import { GoldTooth } from "./npcs/GoldTooth";
 import { Mayor } from "./npcs/Mayor";
 import { DecorationShopItems } from "features/helios/components/decorations/component/DecorationShopItems";
 import { Stylist } from "./stylist/Stylist";
@@ -34,6 +33,8 @@ import { PortalNPCExample } from "features/portal/example/components/PortalNPCEx
 import { FlowerShop } from "./flowerShop/FlowerShop";
 import { FactionShop } from "./factionShop/FactionShop";
 import { FactionPetPanel } from "./factions/FactionPetPanel";
+import { TreasureShop } from "./beach/treasure_shop/TreasureShop";
+import { GoldTooth } from "./npcs/GoldTooth";
 
 class NpcModalManager {
   private listener?: (npc: NPCName, isOpen: boolean) => void;
@@ -93,16 +94,13 @@ export const NPCModals: React.FC<Props> = ({ scene, id }) => {
             <CommunityDonations />
           </CloseButtonPanel>
         )}
-
         {npc === "portaller" && <PortalNPCExample onClose={closeModal} />}
         {npc === "poppy" && <FlowerShop onClose={closeModal} />}
         {npc === "frankie" && <DecorationShopItems onClose={closeModal} />}
         {npc === "stella" && <Stylist onClose={closeModal} />}
         {npc === "grubnuk" && <DeliveryPanel npc={npc} onClose={closeModal} />}
-
         {npc === "garth" && <PotionHouseShopItems onClose={closeModal} />}
         {npc === "hopper" && <Hopper onClose={closeModal} />}
-
         {npc === "marcus" && (
           <SpeakingModal
             onClose={closeModal}
@@ -134,7 +132,6 @@ export const NPCModals: React.FC<Props> = ({ scene, id }) => {
             <GarbageCollectorModal />
           </CloseButtonPanel>
         )}
-
         {npc === "gaucho" && (
           <CloseButtonPanel
             onClose={closeModal}
@@ -143,7 +140,6 @@ export const NPCModals: React.FC<Props> = ({ scene, id }) => {
             <SpecialEventDonations />
           </CloseButtonPanel>
         )}
-
         {npc === "billy" && (
           <CloseButtonPanel
             onClose={closeModal}
@@ -152,7 +148,9 @@ export const NPCModals: React.FC<Props> = ({ scene, id }) => {
             <ChickenRescue onClose={closeModal} />
           </CloseButtonPanel>
         )}
-        {npc === "goldtooth" && <GoldTooth onClose={closeModal} />}
+        {npc === "goldtooth" && <TreasureShop onClose={closeModal} />}
+        {/* To remove on digging release */}
+        {npc === "GOLDTOOTH" && <GoldTooth onClose={closeModal} />}
         {npc === "hank" && <HayseedHankV2 onClose={closeModal} />}
         {npc === "gabi" && (
           <CloseButtonPanel
@@ -189,18 +187,15 @@ export const NPCModals: React.FC<Props> = ({ scene, id }) => {
         )}
         {npc === "betty" && <DeliveryPanel npc={npc} onClose={closeModal} />}
         {npc === "cornwell" && <DeliveryPanel npc={npc} onClose={closeModal} />}
-
         {npc === "corale" && <DeliveryPanel npc={npc} onClose={closeModal} />}
         {npc === "miranda" && <DeliveryPanel npc={npc} onClose={closeModal} />}
         {npc === "finn" && <Finn onClose={closeModal} />}
         {npc === "tango" && <DeliveryPanel npc={npc} onClose={closeModal} />}
         {npc === "finley" && <DeliveryPanel npc={npc} onClose={closeModal} />}
         {npc === "mayor" && <Mayor onClose={closeModal} />}
-
         {npc === "guria" && <DeliveryPanel npc={npc} onClose={closeModal} />}
         {npc === "goblet" && <DeliveryPanel npc={npc} onClose={closeModal} />}
         {npc === "gordo" && <DeliveryPanel npc={npc} onClose={closeModal} />}
-
         {/* Kingdom NPCs */}
         {npc === "barlow" && (
           <JoinFactionModal npc={npc} onClose={closeModal} />
@@ -212,7 +207,6 @@ export const NPCModals: React.FC<Props> = ({ scene, id }) => {
         {npc === "reginald" && (
           <JoinFactionModal npc={npc} onClose={closeModal} />
         )}
-
         {/* Emblem Traders */}
         {npc === "glinteye" && (
           <EmblemsTrading onClose={closeModal} emblem="Goblin Emblem" />
@@ -226,7 +220,6 @@ export const NPCModals: React.FC<Props> = ({ scene, id }) => {
         {npc === "haymitch" && (
           <EmblemsTrading onClose={closeModal} emblem="Bumpkin Emblem" />
         )}
-
         {/* Faction Chores */}
         {npc === "grizzle" && (
           <KingdomChoresPanel onClose={closeModal} npc={npc} />
