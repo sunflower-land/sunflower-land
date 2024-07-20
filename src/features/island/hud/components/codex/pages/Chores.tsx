@@ -46,6 +46,7 @@ export const Chores: React.FC<Props> = ({ farmId }) => {
     gameService.send("kingdomChores.refreshed");
     gameService.send("SAVE");
   };
+  const joinedFaction = gameService.state.context.state.faction;
 
   return (
     <div className="scrollable overflow-y-auto max-h-[100%] overflow-x-hidden">
@@ -70,7 +71,7 @@ export const Chores: React.FC<Props> = ({ farmId }) => {
         </InnerPanel>
       )}
       <ChoreV2 isReadOnly isCodex />
-      {kingdomChores && (
+      {!!joinedFaction && kingdomChores && (
         <div className="mt-3">
           <InnerPanel className="mb-1 w-full">
             <div className="p-1 text-xs">
