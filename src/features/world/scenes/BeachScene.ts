@@ -79,12 +79,7 @@ export class BeachScene extends BaseScene {
   digsRemaining = TOTAL_DIGS;
   digsRemainingLabel: Phaser.GameObjects.Text | undefined;
   percentageFoundLabel: Phaser.GameObjects.Text | undefined;
-  dugCoords: string[] = [];
-  treasuresFound: InventoryItemName[] = [];
   digStatistics: DigAnalytics | undefined;
-  restartButton: Phaser.GameObjects.Image | undefined;
-  restartText: Phaser.GameObjects.Text | undefined;
-  totalTreasures = 0;
   isPlayerTweening = false;
   isFetching = false;
 
@@ -258,14 +253,11 @@ export class BeachScene extends BaseScene {
     if (
       hasFeatureAccess(this.gameService.state.context.state, "TEST_DIGGING")
     ) {
+      this.setUpBetaAccessToSite();
       this.setUpDigSite();
-      this.setUpDiggingTestControls();
-
-      // this.startDig();
     }
   }
 
-  // 1. Set up the dig site
   public setUpDigSite = () => {
     // set up visual grid overlay
     this.add
@@ -302,6 +294,7 @@ export class BeachScene extends BaseScene {
     }
 
     this.populateDugItems();
+    this.updateDiggingLabels();
     // Add the hover and selected select boxes
     this.hoverBox = this.add
       .image(0, 0, "shovel_select")
@@ -315,6 +308,32 @@ export class BeachScene extends BaseScene {
       .setDisplaySize(16, 16)
       .setVisible(false);
 
+    // Add testing metric labels
+    this.digsRemainingLabel = this.add.text(
+      108,
+      63,
+      `Digs remaining: ${this.allowedDigs - this.holesDugCount}`,
+      {
+        fontSize: "6px",
+        fontFamily: "monospace",
+        padding: { x: 0, y: 2 },
+        resolution: 4,
+        color: "black",
+      },
+    );
+    this.percentageFoundLabel = this.add.text(
+      108,
+      72,
+      `Treasure found: ${this.percentageTreasuresFound}%`,
+      {
+        fontSize: "4px",
+        fontFamily: "monospace",
+        padding: { x: 0, y: 2 },
+        resolution: 4,
+        color: "black",
+      },
+    );
+
     // Add a digging sound effect
 
     // Allow click through of bumpkin
@@ -327,7 +346,7 @@ export class BeachScene extends BaseScene {
 
   public populateDugItems = () => {
     const { grid: revealed } =
-      this.gameService.state.context.state.desert.digging;
+      this.gameService.state.context.state.desert.digging ?? [];
 
     revealed.forEach((hole) => {
       const { x, y, items } = hole;
@@ -343,7 +362,7 @@ export class BeachScene extends BaseScene {
     });
   };
 
-  public moveBumpkinToDigLocation = (
+  public walkToDigLocation = (
     digX: number,
     digY: number,
     onComplete: () => void,
@@ -382,10 +401,6 @@ export class BeachScene extends BaseScene {
       ease: "Linear",
       onStart: () => {
         this.isPlayerTweening = true;
-        this.currentPlayer?.walk();
-      },
-      onUpdate() {
-        this.currentPlayer?.walk();
       },
       onComplete: () => {
         this.isPlayerTweening = false;
@@ -494,7 +509,7 @@ export class BeachScene extends BaseScene {
       // remove selected box
       this.confirmBox?.setVisible(false);
       // move player to dig spot
-      this.moveBumpkinToDigLocation(rectX, rectY, () => this.dig(row, col));
+      this.walkToDigLocation(rectX, rectY, () => this.handleDig(row, col));
     } else {
       // set selected box
       this.confirmBox?.setPosition(rectX, rectY).setVisible(true);
@@ -507,18 +522,7 @@ export class BeachScene extends BaseScene {
     this.hoverBox?.setVisible(false);
   };
 
-  public setUpDiggingTestControls = () => {
-    this.confirmBox = this.add
-      .image(0, 0, "confirm_select")
-      .setOrigin(0)
-      .setDisplaySize(16, 16)
-      .setVisible(false);
-
-    this.hoverBox = this.add
-      .image(0, 0, "shovel_select")
-      .setOrigin(0)
-      .setDisplaySize(16, 16)
-      .setVisible(false);
+  public setUpBetaAccessToSite = () => {
     // Enter button
     this.add
       .image(305, 288, "button")
@@ -558,22 +562,38 @@ export class BeachScene extends BaseScene {
       .setOrigin(0.5, 0.5);
   };
 
-  public handleDigCounts = () => {
-    this.digsRemaining -= 1;
-    const percentageFound = Math.floor(
-      (this.treasuresFound.length / this.totalTreasures) * 100,
-    );
-
-    this.percentageFoundLabel?.setText(`Percentage found: ${percentageFound}%`);
-
-    if (this.digsRemaining <= 0) {
-      this.endDigging();
+  public updateDiggingLabels = () => {
+    if (!this.hasDigsLeft) {
+      this.digsRemainingLabel?.setText("No digs remaining");
     } else {
-      this.digsRemainingLabel?.setText(`Digs remaining: ${this.digsRemaining}`);
+      this.digsRemainingLabel?.setText(
+        `Digs remaining: ${this.allowedDigs - this.holesDugCount}`,
+      );
     }
+
+    this.percentageFoundLabel?.setText(
+      `Treasures found: ${this.percentageTreasuresFound}%`,
+    );
   };
 
-  get hasDigsLeft() {
+  get treasuresFound() {
+    return this.gameService.state.context.state.desert.digging.grid
+      .filter((hole) => getKeys(hole.items)[0] !== "Sunflower")
+      .map((hole) => getKeys(hole.items)[0]);
+  }
+
+  get percentageTreasuresFound() {
+    const { totalBuriedTreasure } =
+      this.gameService.state.context.state.desert.digging;
+
+    return Math.round((this.treasuresFound.length / totalBuriedTreasure) * 100);
+  }
+
+  get holesDugCount() {
+    return this.gameService.state.context.state.desert.digging.grid.length ?? 0;
+  }
+
+  get allowedDigs() {
     let allowedDigs = TOTAL_DIGS;
 
     if (
@@ -585,23 +605,17 @@ export class BeachScene extends BaseScene {
       allowedDigs += 20;
     }
 
+    return allowedDigs;
+  }
+
+  get hasDigsLeft() {
     const totalHolesDug =
       this.gameService.state.context.state.desert.digging.grid.length ?? 0;
 
-    return totalHolesDug < allowedDigs;
+    return totalHolesDug < this.allowedDigs;
   }
 
-  public hideRestartButton = () => {
-    this.restartButton?.setVisible(false);
-    this.restartText?.setVisible(false);
-  };
-
-  public showRestartButton = () => {
-    this.restartButton?.setVisible(true);
-    this.restartText?.setVisible(true);
-  };
-
-  public dig = async (row: number, col: number) => {
+  public handleDig = async (row: number, col: number) => {
     // Send off reveal game event
     this.gameService.send("REVEAL", {
       event: {
@@ -611,34 +625,6 @@ export class BeachScene extends BaseScene {
         createdAt: new Date(),
       },
     });
-
-    // const selectedPosition = this.confirmBox?.getBounds();
-
-    // if (!selectedPosition) {
-    //   return;
-    // }
-
-    // let key = "nothing";
-
-    // if (item) {
-    //   key = convertToSnakeCase(item);
-    //   this.treasuresFound.push(item);
-    // }
-
-    // // Centre in the square
-    // const offsetX = x + this.cellWidth / 2;
-    // const offsetY = y + this.cellHeight / 2;
-
-    // const image = this.add.image(offsetX, offsetY, key).setScale(0.8);
-    // this.treasureContainer?.add(image);
-  };
-
-  public endDigging = () => {
-    this.showRestartButton();
-    this.recordDigAnalytics();
-    this.confirmBox?.setVisible(false);
-    this.hoverBox?.setVisible(false);
-    this.digsRemainingLabel?.setText("No digs remaining");
   };
 
   public recordDigAnalytics = () => {
@@ -661,6 +647,9 @@ export class BeachScene extends BaseScene {
       );
     }
 
+    const { totalBuriedTreasure } =
+      this.gameService.state.context.state.desert.digging;
+
     if (attemptsToday + 1 < 4) {
       const totalCoins = this.treasuresFound.reduce((acc, item) => {
         return (acc +=
@@ -668,7 +657,7 @@ export class BeachScene extends BaseScene {
       }, 0);
 
       const percentageFound = Math.floor(
-        (this.treasuresFound.length / this.totalTreasures) * 100,
+        (totalBuriedTreasure / this.treasuresFound.length) * 100,
       );
 
       gameAnalytics.trackBeachDiggingAttempt({
@@ -814,33 +803,29 @@ export class BeachScene extends BaseScene {
       console.error("walkAudioController is undefined");
     }
 
-    if (isMoving) {
+    if (isMoving || this.isPlayerTweening) {
       this.currentPlayer.walk();
-      return;
-    }
+    } else if (this.gameService.state.matches("revealing")) {
+      // Set player to digging while we are revealing the reward
 
-    // Set player to digging while we are revealing the reward
-    if (this.gameService.state.matches("revealing")) {
       this.disableControls();
       this.currentPlayer.dig();
-    }
-
-    if (this.gameService.state.matches("revealed")) {
+    } else if (this.gameService.state.matches("revealed")) {
       this.enableControls();
-      this.currentPlayer.sprite?.anims?.stopAfterRepeat(0).emit("DIG_COMPLETE");
+      this.currentPlayer.sprite?.anims?.stopAfterRepeat(0);
 
       // Ideally should be done at the end of the animation
       // Potentially have animation of the item??
       this.populateDugItems();
+      this.updateDiggingLabels();
+
+      if (!this.hasDigsLeft) {
+        this.recordDigAnalytics();
+      }
 
       // Move out of revealed state
       this.gameService.send("CONTINUE");
-    }
-
-    const animPlaying = this.currentPlayer.sprite?.anims?.isPlaying;
-
-    if (!animPlaying) {
-      // If there is no animation playing for the player then play the idle animation
+    } else {
       this.currentPlayer.idle();
     }
   }

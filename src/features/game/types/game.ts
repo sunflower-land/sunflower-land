@@ -670,6 +670,7 @@ export type Mushroom = {
 
 export type Desert = {
   digging: {
+    totalBuriedTreasure: number;
     grid: {
       x: number;
       y: number;
