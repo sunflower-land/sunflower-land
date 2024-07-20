@@ -293,6 +293,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   "offer.end": "报价截止余",
   ok: "好",
   on: "开",
+  opened: "已经开了",
   "open.gift": "打开礼物",
   "place.map": "放置地图上",
   "placing.bid": "投标中",

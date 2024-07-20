@@ -321,6 +321,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   ok: "Ок",
   on: "В",
   open: "открыто",
+  opened: ENGLISH_TERMS.opened,
   optional: "Дополнительно",
   "open.gift": "Открыть подарок",
   place: "Место",
