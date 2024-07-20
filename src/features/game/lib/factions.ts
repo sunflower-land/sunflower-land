@@ -166,59 +166,61 @@ export function getFactionWearableBoostAmount(
   game: GameState,
   baseAmount: number,
 ): [number, Partial<Record<BoostType, BoostValue>>] {
-  const factionName = game.faction?.name as FactionName;
-
   let boost = 0;
   const boostLabels: Partial<Record<BoostType, BoostValue>> = {};
 
-  if (
-    isWearableActive({
-      game,
-      name: FACTION_OUTFITS[factionName].pants,
-    })
-  ) {
-    boost += baseAmount * 0.05;
-    boostLabels[FACTION_OUTFITS[factionName].pants] = `+${0.05 * 100}%`;
-  }
+  if (game.faction) {
+    const factionName = game.faction?.name as FactionName;
 
-  if (
-    isWearableActive({
-      game,
-      name: FACTION_OUTFITS[factionName].shoes,
-    })
-  ) {
-    boost += baseAmount * 0.05;
-    boostLabels[FACTION_OUTFITS[factionName].shoes] = `+${0.05 * 100}%`;
-  }
+    if (
+      isWearableActive({
+        game,
+        name: FACTION_OUTFITS[factionName].pants,
+      })
+    ) {
+      boost += baseAmount * 0.05;
+      boostLabels[FACTION_OUTFITS[factionName].pants] = `+${0.05 * 100}%`;
+    }
 
-  if (
-    isWearableActive({
-      game,
-      name: FACTION_OUTFITS[factionName].tool,
-    })
-  ) {
-    boost += baseAmount * 0.1;
-    boostLabels[FACTION_OUTFITS[factionName].tool] = `+${0.1 * 100}%`;
-  }
+    if (
+      isWearableActive({
+        game,
+        name: FACTION_OUTFITS[factionName].shoes,
+      })
+    ) {
+      boost += baseAmount * 0.05;
+      boostLabels[FACTION_OUTFITS[factionName].shoes] = `+${0.05 * 100}%`;
+    }
 
-  if (
-    isWearableActive({
-      game,
-      name: FACTION_OUTFITS[factionName].hat,
-    })
-  ) {
-    boost += baseAmount * 0.1;
-    boostLabels[FACTION_OUTFITS[factionName].hat] = `+${0.1 * 100}%`;
-  }
+    if (
+      isWearableActive({
+        game,
+        name: FACTION_OUTFITS[factionName].tool,
+      })
+    ) {
+      boost += baseAmount * 0.1;
+      boostLabels[FACTION_OUTFITS[factionName].tool] = `+${0.1 * 100}%`;
+    }
 
-  if (
-    isWearableActive({
-      game,
-      name: FACTION_OUTFITS[factionName].shirt,
-    })
-  ) {
-    boost += baseAmount * 0.2;
-    boostLabels[FACTION_OUTFITS[factionName].shirt] = `+${0.2 * 100}%`;
+    if (
+      isWearableActive({
+        game,
+        name: FACTION_OUTFITS[factionName].hat,
+      })
+    ) {
+      boost += baseAmount * 0.1;
+      boostLabels[FACTION_OUTFITS[factionName].hat] = `+${0.1 * 100}%`;
+    }
+
+    if (
+      isWearableActive({
+        game,
+        name: FACTION_OUTFITS[factionName].shirt,
+      })
+    ) {
+      boost += baseAmount * 0.2;
+      boostLabels[FACTION_OUTFITS[factionName].shirt] = `+${0.2 * 100}%`;
+    }
   }
 
   return [boost, boostLabels] as const;
