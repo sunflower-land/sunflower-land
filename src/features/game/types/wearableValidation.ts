@@ -1,5 +1,4 @@
 import { BumpkinItem } from "./bumpkin";
-import { getDailyFishingCount } from "./fishing";
 import {
   areAnyChickensFed,
   areAnyCrimstonesMined,
@@ -14,6 +13,7 @@ import {
   isBeehivesFull,
   isCrimstoneHammerActive,
   areAnyOGFruitsGrowing,
+  hasFishedToday,
 } from "./removeables";
 import { GameState } from "./game";
 
@@ -101,7 +101,7 @@ export const canWithdrawBoostedWearable = (
   }
 
   if (name === "Ancient Rod") {
-    return getDailyFishingCount(state) == 0;
+    return !hasFishedToday(state)[0];
   }
 
   if (name === "Flower Crown") {
