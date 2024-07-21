@@ -143,6 +143,7 @@ export type GeneralTerms =
   | "on"
   | "open"
   | "open.gift"
+  | "opened"
   | "optional"
   | "pay.attention.feedback"
   | "place"
