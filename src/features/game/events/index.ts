@@ -336,6 +336,10 @@ import {
   SkipKingdomChoreAction,
 } from "./landExpansion/skipKingdomChore";
 import { leaveFaction, LeaveFactionAction } from "./landExpansion/leaveFaction";
+import {
+  unlockMinigameAchievements,
+  UnlockMinigameAchievementsAction,
+} from "./minigames/unlockMinigameAchievements";
 
 export type PlayingEvent =
   | OilGreenhouseAction
@@ -422,6 +426,7 @@ export type PlayingEvent =
   | ClaimMinigamePrizeAction
   | PurchaseMinigameAction
   | PlayMinigameAction
+  | UnlockMinigameAchievementsAction
   | SupplyCropMachineAction
   | HarvestCropMachineAction
   | SupplyCookingOilAction
@@ -508,6 +513,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "minigame.itemPurchased": purchaseMinigameItem,
   "minigame.prizeClaimed": claimMinigamePrize,
   "minigame.played": playMinigame,
+  "minigame.achievementsUnlocked": unlockMinigameAchievements,
   "airdrop.claimed": claimAirdrop,
   "bot.detected": detectBot,
   "seed.planted": landExpansionPlant,

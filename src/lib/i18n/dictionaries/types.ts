@@ -3053,9 +3053,11 @@ export type PlayerTrade =
 export type Portal =
   | "portal.wrong"
   | "portal.unauthorised"
+  | "portal.examples"
   | "portal.example.intro"
   | "portal.example.purchase"
-  | "portal.example.claimPrize";
+  | "portal.example.claimPrize"
+  | "portal.example.unlockAchievements";
 
 export type PurchaseableBaitTranslation =
   "purchaseableBait.fishingLure.description";

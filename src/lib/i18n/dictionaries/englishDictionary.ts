@@ -4578,9 +4578,11 @@ const playerTrade: Record<PlayerTrade, string> = {
 const portal: Record<Portal, string> = {
   "portal.wrong": "Something went wrong",
   "portal.unauthorised": "unauthorised",
+  "portal.examples": "Examples",
   "portal.example.claimPrize": "Claim your prize!",
   "portal.example.intro": "Howdy Howdy, welcome to this test portal",
   "portal.example.purchase": "Purchase fake pass",
+  "portal.example.unlockAchievements": "Unlock achievements",
 };
 
 const promo: Record<Promo, string> = {
