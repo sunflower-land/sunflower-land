@@ -172,55 +172,23 @@ export function getFactionWearableBoostAmount(
   const factionName = game.faction?.name;
   if (!factionName) return [boost, boostLabels];
 
-  if (
-    isWearableActive({
-      game,
-      name: FACTION_OUTFITS[factionName].pants,
-    })
-  ) {
-    boost += baseAmount * 0.05;
-    boostLabels[FACTION_OUTFITS[factionName].pants] = `+${0.05 * 100}%`;
-  }
+  // Assign the boost amount with each part
+  const boosts: Record<OutfitPart, number> = {
+    pants: 0.05,
+    shoes: 0.05,
+    tool: 0.1,
+    hat: 0.1,
+    shirt: 0.2,
+  };
 
-  if (
-    isWearableActive({
-      game,
-      name: FACTION_OUTFITS[factionName].shoes,
-    })
-  ) {
-    boost += baseAmount * 0.05;
-    boostLabels[FACTION_OUTFITS[factionName].shoes] = `+${0.05 * 100}%`;
-  }
-
-  if (
-    isWearableActive({
-      game,
-      name: FACTION_OUTFITS[factionName].tool,
-    })
-  ) {
-    boost += baseAmount * 0.1;
-    boostLabels[FACTION_OUTFITS[factionName].tool] = `+${0.1 * 100}%`;
-  }
-
-  if (
-    isWearableActive({
-      game,
-      name: FACTION_OUTFITS[factionName].hat,
-    })
-  ) {
-    boost += baseAmount * 0.1;
-    boostLabels[FACTION_OUTFITS[factionName].hat] = `+${0.1 * 100}%`;
-  }
-
-  if (
-    isWearableActive({
-      game,
-      name: FACTION_OUTFITS[factionName].shirt,
-    })
-  ) {
-    boost += baseAmount * 0.2;
-    boostLabels[FACTION_OUTFITS[factionName].shirt] = `+${0.2 * 100}%`;
-  }
+  // Dynamically sets the boost based on the boost set for each wearable
+  (Object.keys(boosts) as (keyof typeof boosts)[]).forEach((wearable) => {
+    const wearableName = FACTION_OUTFITS[factionName][wearable];
+    if (isWearableActive({ game, name: wearableName })) {
+      boost += baseAmount * boosts[wearable];
+      boostLabels[wearableName] = `+${boosts[wearable] * 100}%`;
+    }
+  });
 
   return [boost, boostLabels];
 }
