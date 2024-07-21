@@ -166,10 +166,11 @@ export function getFactionWearableBoostAmount(
   game: GameState,
   baseAmount: number,
 ): [number, Partial<Record<BoostType, BoostValue>>] {
-  const factionName = game.faction?.name as FactionName;
-
   let boost = 0;
   const boostLabels: Partial<Record<BoostType, BoostValue>> = {};
+
+  const factionName = game.faction?.name;
+  if (!factionName) return [boost, boostLabels];
 
   if (
     isWearableActive({
@@ -221,7 +222,7 @@ export function getFactionWearableBoostAmount(
     boostLabels[FACTION_OUTFITS[factionName].shirt] = `+${0.2 * 100}%`;
   }
 
-  return [boost, boostLabels] as const;
+  return [boost, boostLabels];
 }
 
 /**
