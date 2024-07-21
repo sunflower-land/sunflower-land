@@ -220,13 +220,13 @@ export const BONUS_FACTION_PRIZES: Record<
 > = {
   "2024-07-22": {
     1: {
-      items: {
-        "Turbo Sprout": 1,
+      wearables: {
+        "Crimstone Hammer": 1,
       },
     },
     2: {
-      wearables: {
-        "Crimstone Hammer": 1,
+      items: {
+        "Turbo Sprout": 1,
       },
     },
     3: {
@@ -356,12 +356,13 @@ export const FACTION_PRIZES: Record<number, FactionPrize> = {
       // [getSeasonalTicket()]: 6,
     },
   },
-  // 11th - 50th all get 5 seasonal tickets
-  ...new Array(40)
+  // 11th - 25th all get marks + 5 seasonal tickets
+  ...new Array(15)
     .fill({
       coins: 500,
       sfl: 50,
       items: {
+        Mark: 2500,
         // [getSeasonalTicket()]: 5,
       },
     })
@@ -369,6 +370,23 @@ export const FACTION_PRIZES: Record<number, FactionPrize> = {
       (acc, item, index) => ({
         ...acc,
         [index + 11]: item,
+      }),
+      {},
+    ),
+  // 26th - 50th all get 5 seasonal tickets
+  ...new Array(25)
+    .fill({
+      coins: 500,
+      sfl: 50,
+      items: {
+        Mark: 1500,
+        // [getSeasonalTicket()]: 5,
+      },
+    })
+    .reduce(
+      (acc, item, index) => ({
+        ...acc,
+        [index + 26]: item,
       }),
       {},
     ),
