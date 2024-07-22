@@ -516,6 +516,14 @@ export abstract class BaseScene extends Phaser.Scene {
     return this.gameState.username;
   }
 
+  public get selectedItem() {
+    return this.registry.get("selectedItem");
+  }
+
+  public get shortcutItem() {
+    return this.registry.get("shortcutItem");
+  }
+
   createPlayer({
     x,
     y,
