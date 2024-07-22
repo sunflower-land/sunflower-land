@@ -21,7 +21,7 @@ export const TreasureShop: React.FC<Props> = ({ onClose }) => {
   return (
     <CloseButtonPanel
       onClose={onClose}
-      bumpkinParts={NPC_WEARABLES.goldtooth}
+      bumpkinParts={NPC_WEARABLES.jafar}
       tabs={[
         { icon: ITEM_DETAILS["Sand Shovel"].image, name: t("tools") },
         { icon: SUNNYSIDE.icons.hammer, name: t("craft") },

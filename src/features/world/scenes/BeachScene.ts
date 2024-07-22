@@ -40,7 +40,7 @@ const BUMPKINS: NPCBumpkin[] = [
     y: 321,
   },
   {
-    npc: "goldtooth",
+    npc: "jafar",
     x: 398,
     y: 140,
   },
@@ -173,8 +173,8 @@ export class BeachScene extends BaseScene {
     super.create();
 
     const filteredBumpkins = BUMPKINS.filter((bumpkin) => {
-      // Show new goldtooth if you're beta tester
-      if (bumpkin.npc === "goldtooth") {
+      // Show new NPC(Desert Merchant) if you're beta tester
+      if (bumpkin.npc === "jafar") {
         return hasFeatureAccess(
           this.gameService.state.context.state,
           "TEST_DIGGING",
