@@ -628,4 +628,10 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
     labelType: "info",
     boostTypeIcon: SUNNYSIDE.icons.stopwatch,
   },
+  "Desert Rose": {
+    shortDescription: translate("description.desert.rose.boost"),
+    labelType: "vibrant",
+    boostTypeIcon: lightning,
+    boostedItemIcon: SUNNYSIDE.icons.plant,
+  },
 };

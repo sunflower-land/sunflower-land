@@ -8443,6 +8443,26 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     image: "../public/erc1155/images/577.png",
     attributes: [{ trait_type: "Purpose", value: "Consumable" }],
   },
+  "Desert Rose": {
+    name: "Desert Rose",
+    description:
+      "A mutant flower that can be found during the Pharaoh's Treasure season.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2100.png",
+    attributes: [
+      {
+        display_type: "boost_percentage",
+        trait_type: "Flower Critical Hit Chance",
+        value: 10,
+      },
+      {
+        display_type: "boost_number",
+        trait_type: "Critical Flower Amount",
+        value: 1,
+      },
+    ],
+  },
 
   "Camel Bone": {
     description: "Bones of an ancient camel, rumoured to transport artefacts",

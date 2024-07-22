@@ -633,7 +633,8 @@ export type BoostEffectDescriptions =
   | "description.fishers.hourglass.boost"
   | "description.blossom.hourglass.boost"
   | "description.hourglass.expired"
-  | "description.hourglass.running";
+  | "description.hourglass.running"
+  | "description.desert.rose.boost";
 
 export type BountyDescription =
   | "description.clam.shell"
@@ -1789,6 +1790,8 @@ export type FlowerBed =
   | "flowerBedGuide.fillUpBeehive"
   | "flowerBedGuide.beeSwarmsBoost"
   | "flowerBed.newSpecies.discovered"
+  | "flowerBed.newSpecies.superLucky"
+  | "flowerBed.newSpecies.mutant"
   | "flowerBedContent.select.combination"
   | "flowerBedContent.select.seed"
   | "flowerBedContent.select.crossbreed";

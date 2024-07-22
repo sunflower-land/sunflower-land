@@ -782,6 +782,9 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Sunflorian Bronze Champion": 2091,
   "Sunflorian Gold Champion": 2092,
   "Sunflorian Silver Champion": 2093,
+
+  // Mutant Flowers
+  "Desert Rose": 2100,
 };
 
 // The reverse of above

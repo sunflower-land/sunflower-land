@@ -61,6 +61,15 @@ export function harvestFlower({
     flowers.discovered[flower.name] = [...discovered, flower.crossbreed];
   }
 
+  const reward = flower.reward;
+  if (reward) {
+    (reward.items ?? []).forEach((item) => {
+      stateCopy.inventory[item.name] = (
+        stateCopy.inventory[item.name] ?? new Decimal(0)
+      ).add(item.amount);
+    });
+  }
+
   delete flowerBed.flower;
 
   bumpkin.activity = trackActivity(

@@ -18,7 +18,7 @@ import {
 import { BoostTreasure } from "./treasure";
 import { MarineMarvelName, OldFishName } from "./fishing";
 import { SeasonalBanner } from "./seasons";
-import { EpicFlowerName } from "./flowers";
+import { EpicFlowerName, MutantFlowerName } from "./flowers";
 import { translate } from "lib/i18n/translate";
 import { FactionShopCollectibleName } from "./factionShop";
 
@@ -215,7 +215,8 @@ export type CollectibleName =
   | FactionBanner
   | "Lifetime Farmer Banner"
   | FactionShopCollectibleName
-  | TreasureCollectibleItem;
+  | TreasureCollectibleItem
+  | MutantFlowerName;
 
 export type ToolName =
   | "Axe"
@@ -1470,6 +1471,10 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Bumpkin Faction Rug": {
     width: 3,
     height: 2,
+  },
+  "Desert Rose": {
+    width: 1,
+    height: 1,
   },
 };
 
