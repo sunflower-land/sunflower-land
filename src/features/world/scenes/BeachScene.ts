@@ -163,7 +163,24 @@ export class BeachScene extends BaseScene {
     });
     super.create();
 
-    this.initialiseNPCs(BUMPKINS);
+    const filteredBumpkins = BUMPKINS.filter((bumpkin) => {
+      // Show new goldtooth if you're beta tester
+      if (bumpkin.npc === "goldtooth") {
+        return hasFeatureAccess(
+          this.gameService.state.context.state,
+          "TEST_DIGGING",
+        );
+      }
+      if (bumpkin.npc === "GOLDTOOTH") {
+        return !hasFeatureAccess(
+          this.gameService.state.context.state,
+          "TEST_DIGGING",
+        );
+      }
+      return true;
+    });
+
+    this.initialiseNPCs(filteredBumpkins);
 
     const fisher = new FishermanContainer({
       x: 322,

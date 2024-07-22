@@ -34,7 +34,6 @@ import { FactionWelcome, hasReadFactionIntro } from "./factions/FactionWelcome";
 import { Champions } from "./factions/Champions";
 import { KingdomNoticeboard } from "./kingdom/KingdomNoticeboard";
 import { FactionNoticeboard } from "./factions/FactionNoticeboard";
-import { TreasureShop } from "./beach/treasure_shop/TreasureShop";
 
 type InteractableName =
   | "faction_noticeboard"
@@ -113,8 +112,7 @@ type InteractableName =
   | "kingdom_book_4"
   | "kingdom_book_5"
   | "kingdom_knight"
-  | "fan_art"
-  | "treasure_shop";
+  | "fan_art";
 
 class InteractableModalManager {
   private listener?: (name: InteractableName, isOpen: boolean) => void;
@@ -738,9 +736,6 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
         onHide={closeModal}
       >
         <GoblinMarket onClose={closeModal} />
-      </Modal>
-      <Modal show={interactable === "treasure_shop"} onHide={closeModal}>
-        <TreasureShop onClose={closeModal} />
       </Modal>
     </>
   );

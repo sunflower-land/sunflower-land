@@ -1,7 +1,7 @@
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { SpeakingModal } from "features/game/components/SpeakingModal";
 import { NPCName, NPC_WEARABLES } from "lib/npcs";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Modal } from "components/ui/Modal";
 import { DeliveryPanel } from "./deliveries/DeliveryPanel";
 import { SceneId } from "../mmoMachine";
@@ -35,6 +35,8 @@ import { FactionShop } from "./factionShop/FactionShop";
 import { FactionPetPanel } from "./factions/FactionPetPanel";
 import { TreasureShop } from "./beach/treasure_shop/TreasureShop";
 import { GoldTooth } from "./npcs/GoldTooth";
+import { hasFeatureAccess } from "lib/flags";
+import { Context } from "features/game/GameProvider";
 
 class NpcModalManager {
   private listener?: (npc: NPCName, isOpen: boolean) => void;
@@ -65,6 +67,8 @@ export const NPCModals: React.FC<Props> = ({ scene, id }) => {
   const { t } = useAppTranslation();
 
   const [npc, setNpc] = useState<NPCName | undefined>(getInitialNPC(scene));
+
+  const { gameService } = useContext(Context);
 
   useEffect(() => {
     npcModalManager.listen((npc) => {
@@ -148,9 +152,17 @@ export const NPCModals: React.FC<Props> = ({ scene, id }) => {
             <ChickenRescue onClose={closeModal} />
           </CloseButtonPanel>
         )}
-        {npc === "goldtooth" && <TreasureShop onClose={closeModal} />}
-        {/* To remove on digging release */}
-        {npc === "GOLDTOOTH" && <GoldTooth onClose={closeModal} />}
+        {npc === "goldtooth" &&
+          hasFeatureAccess(gameService.state.context.state, "TEST_DIGGING") && (
+            <TreasureShop onClose={closeModal} />
+          )}
+        {/* Remove on release */}
+        {npc === "GOLDTOOTH" &&
+          !hasFeatureAccess(
+            gameService.state.context.state,
+            "TEST_DIGGING",
+          ) && <GoldTooth onClose={closeModal} />}
+
         {npc === "hank" && <HayseedHankV2 onClose={closeModal} />}
         {npc === "gabi" && (
           <CloseButtonPanel
