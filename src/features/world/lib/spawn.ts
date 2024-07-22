@@ -112,11 +112,11 @@ export const SPAWNS: () => SpawnLocation = () => ({
   },
   beach: {
     default: {
-      x: 450,
-      y: 652,
+      // x: 450,
+      // y: 652,
       // For artefact area
-      // x: 256,
-      // y: 159,
+      x: 256,
+      y: 159,
     },
   },
 
