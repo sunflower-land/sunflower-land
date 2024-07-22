@@ -12889,7 +12889,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
     name: "Camel Onesie",
   },
   "Desert Merchant Turban": {
-    description: "",
+    description: "A turban to stay safe from the fierce desert and sand.",
     decimals: 0,
     attributes: [
       { trait_type: "Part", value: "Hat" },
@@ -12900,7 +12900,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
     name: "Desert Merchant Turban",
   },
   "Desert Merchant Shoes": {
-    description: "",
+    description: "Protect your feet from the scorching heat of the desert.",
     decimals: 0,
     attributes: [
       { trait_type: "Part", value: "Shoes" },
@@ -12911,7 +12911,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
     name: "Desert Merchant Shoes",
   },
   "Desert Merchant Suit": {
-    description: "",
+    description: "A light-weight attire worned by desert merchants.",
     decimals: 0,
     attributes: [
       { trait_type: "Part", value: "Dress" },
@@ -12922,7 +12922,8 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
     name: "Desert Merchant Suit",
   },
   "Desert Camel Background": {
-    description: "",
+    description:
+      "The Desert Camel accompanies you in the sand full of discovery.",
     decimals: 0,
     attributes: [
       { trait_type: "Part", value: "Background" },
@@ -12933,7 +12934,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
     name: "Desert Camel Background",
   },
   "Water Gourd": {
-    description: "",
+    description: "Quench your thirst while exploring the desert.",
     decimals: 0,
     attributes: [
       { trait_type: "Part", value: "Tool" },
