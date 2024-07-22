@@ -702,7 +702,7 @@ export class BeachScene extends BaseScene {
 
   public handleOtherDiggersPositions() {
     // If any other players are inside of the dig area, move them to the perimeter
-    this.mmoServer?.state.players.forEach((player, sessionId) => {
+    this.mmoServer?.state?.players.forEach((player, sessionId) => {
       if (this.isPlayerInDigArea(player.x, player.y)) {
         this.playerEntities[sessionId]?.teleport(256, 159);
       }
