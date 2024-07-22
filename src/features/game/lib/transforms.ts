@@ -117,5 +117,6 @@ export function makeGame(farm: any): GameState {
           amount: new Decimal(farm.dailyFactionDonationRequest.amount),
         }
       : undefined,
+    desert: farm.desert,
   };
 }
