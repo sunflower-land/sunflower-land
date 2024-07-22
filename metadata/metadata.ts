@@ -12888,4 +12888,59 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
     image: "../public/wearables/images/350.png",
     name: "Camel Onesie",
   },
+  "Desert Merchant Turban": {
+    description: "",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Hat" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://bumpkins.io",
+    image: "../public/wearables/images/361.png",
+    name: "Desert Merchant Turban",
+  },
+  "Desert Merchant Shoes": {
+    description: "",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Shoes" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://bumpkins.io",
+    image: "../public/wearables/images/362.png",
+    name: "Desert Merchant Shoes",
+  },
+  "Desert Merchant Suit": {
+    description: "",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Dress" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://bumpkins.io",
+    image: "../public/wearables/images/363.png",
+    name: "Desert Merchant Suit",
+  },
+  "Desert Camel Background": {
+    description: "",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Background" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://bumpkins.io",
+    image: "../public/wearables/images/364.png",
+    name: "Desert Camel Background",
+  },
+  "Water Gourd": {
+    description: "",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Tool" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://bumpkins.io",
+    image: "../public/wearables/images/365.png",
+    name: "Water Gourd",
+  },
 };
