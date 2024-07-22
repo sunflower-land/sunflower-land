@@ -418,9 +418,12 @@ export abstract class BaseScene extends Phaser.Scene {
       }
 
       if (this.playerEntities[reaction.sessionId]) {
-        this.playerEntities[reaction.sessionId].react(reaction.reaction);
+        this.playerEntities[reaction.sessionId].react(
+          reaction.reaction,
+          reaction.quantity,
+        );
       } else if (reaction.sessionId === server.sessionId) {
-        this.currentPlayer?.react(reaction.reaction);
+        this.currentPlayer?.react(reaction.reaction, reaction.quantity);
       }
     });
 

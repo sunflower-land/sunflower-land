@@ -16,7 +16,9 @@ export class ExampleAnimationScene extends Phaser.Scene {
   }
 
   preload() {
-    const bumpkin: BumpkinParts = NPC_WEARABLES["raven"];
+    const bumpkin: BumpkinParts = {
+      ...NPC_WEARABLES["phantom face"],
+    };
 
     getKeys(ANIMATION).forEach((animationName) => {
       /**
