@@ -140,6 +140,16 @@ export class BeachScene extends BaseScene {
     this.load.image("pipi", "world/pipi.webp");
     this.load.image("crab", SUNNYSIDE.resource.crab);
     this.load.image("nothing", SUNNYSIDE.icons.close);
+    this.load.image("clam_shell", SUNNYSIDE.resource.clam_shell);
+    this.load.image("wood", SUNNYSIDE.resource.wood);
+    this.load.image("wooden_compass", "world/wooden_compass.webp");
+    this.load.image("old_bottle", "world/old_bottle.webp");
+    this.load.image("camel_bone", "world/camel_bone.webp");
+    this.load.image("cockle_shell", "world/cockle_shell.webp");
+    this.load.image("hieroglyph", "world/hieroglyph.webp");
+    this.load.image("vase", "world/vase.webp");
+    this.load.image("scarab", "world/scarab.webp");
+    this.load.image("sand", "world/sand.webp");
 
     this.load.image("select_box", "world/select_box.png");
     this.load.image("shovel_select", "world/shovel_select.webp");
@@ -355,8 +365,7 @@ export class BeachScene extends BaseScene {
       const offsetY = y * this.cellHeight + this.gridY + this.cellHeight / 2;
 
       const foundItem = getKeys(items)[0];
-      const name = foundItem === "Sunflower" ? "nothing" : foundItem;
-      const key = convertToSnakeCase(name);
+      const key = convertToSnakeCase(foundItem);
 
       this.add.image(offsetX, offsetY, key).setScale(0.8);
     });
@@ -372,7 +381,7 @@ export class BeachScene extends BaseScene {
     const xDiff = this.currentPlayer.x - digX;
     const yDiff = this.currentPlayer.y - digY;
     const distance = Math.sqrt(xDiff * xDiff + yDiff * yDiff);
-    const speed = 50;
+    const speed = 75;
 
     const duration = (distance / speed) * 1000;
 
