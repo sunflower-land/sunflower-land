@@ -41,6 +41,12 @@ const BUMPKINS: NPCBumpkin[] = [
   },
   {
     npc: "goldtooth",
+    x: 398,
+    y: 140,
+  },
+  {
+    // To remove on digging release
+    npc: "GOLDTOOTH",
     x: 304,
     y: 255,
   },
@@ -156,6 +162,8 @@ export class BeachScene extends BaseScene {
     this.load.image("confirm_select", "world/confirm_select.webp");
     this.load.image("button", "world/button.webp");
     this.load.image("shovel", "world/shovel.png");
+    this.load.image("treasure_shop", "world/treasure_shop.png");
+    this.load.image("shop_icon", "world/shop_disc.png");
   }
 
   async create() {
@@ -164,7 +172,24 @@ export class BeachScene extends BaseScene {
     });
     super.create();
 
-    this.initialiseNPCs(BUMPKINS);
+    const filteredBumpkins = BUMPKINS.filter((bumpkin) => {
+      // Show new goldtooth if you're beta tester
+      if (bumpkin.npc === "goldtooth") {
+        return hasFeatureAccess(
+          this.gameService.state.context.state,
+          "TEST_DIGGING",
+        );
+      }
+      if (bumpkin.npc === "GOLDTOOTH") {
+        return !hasFeatureAccess(
+          this.gameService.state.context.state,
+          "TEST_DIGGING",
+        );
+      }
+      return true;
+    });
+
+    this.initialiseNPCs(filteredBumpkins);
 
     const fisher = new FishermanContainer({
       x: 322,
@@ -194,6 +219,17 @@ export class BeachScene extends BaseScene {
       frameRate: 10,
     });
     turtle.play("turtle_bud_anim", true);
+
+    const treasureShop = this.add.sprite(400, 130, "treasure_shop");
+    this.physics.world.enable(treasureShop);
+    this.colliders?.add(treasureShop);
+    this.triggerColliders?.add(treasureShop);
+    (treasureShop.body as Phaser.Physics.Arcade.Body)
+      .setSize(69, 50)
+      .setOffset(0, 0)
+      .setImmovable(true)
+      .setCollideWorldBounds(true);
+    this.add.sprite(400, 110, "shop_icon");
 
     const beachBud2 = this.add.sprite(268, 317, "beach_bud_2");
     // turtle.setScale(-1, 1);

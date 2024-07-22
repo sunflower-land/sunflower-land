@@ -56,6 +56,7 @@ export type NPCName =
   | "tango"
   | "corale"
   | "goldtooth"
+  | "GOLDTOOTH" // To remove on release
   | "daphne"
   | "miranda"
   | "damien"
@@ -761,6 +762,18 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     tool: "Trident",
   },
   goldtooth: {
+    body: "Goblin Potion",
+    hair: "Sun Spots",
+    hat: "Pirate Hat",
+    shirt: "Pirate Leather Polo",
+    coat: "Pirate General Coat",
+    pants: "Pirate Pants",
+    shoes: "Peg Leg",
+    background: "Seashore Background",
+    tool: "Pirate Scimitar",
+  },
+  // To remove on digging release
+  GOLDTOOTH: {
     body: "Goblin Potion",
     hair: "Sun Spots",
     hat: "Pirate Hat",

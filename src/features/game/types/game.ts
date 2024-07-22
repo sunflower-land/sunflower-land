@@ -35,6 +35,7 @@ import {
   PotionHouseItemName,
   PurchasableItems,
   SoldOutCollectibleName,
+  TreasureCollectibleItem,
 } from "./collectibles";
 import { TreasureToolName, WorkbenchToolName } from "./tools";
 import { ConversationName } from "./announcements";
@@ -373,6 +374,7 @@ export type InventoryItemName =
   | GoblinPirateItemName
   | PurchasableItems
   | TreasureToolName
+  | TreasureCollectibleItem
   | LanternName
   | ExoticCropName
   | PotionHouseItemName
