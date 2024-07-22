@@ -46,7 +46,7 @@ const BUMPKINS: NPCBumpkin[] = [
   },
   {
     // To remove on digging release
-    npc: "GOLDTOOTH",
+    npc: "goldtooth",
     x: 304,
     y: 255,
   },
@@ -180,7 +180,7 @@ export class BeachScene extends BaseScene {
           "TEST_DIGGING",
         );
       }
-      if (bumpkin.npc === "GOLDTOOTH") {
+      if (bumpkin.npc === "goldtooth") {
         return !hasFeatureAccess(
           this.gameService.state.context.state,
           "TEST_DIGGING",

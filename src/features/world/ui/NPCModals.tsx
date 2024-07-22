@@ -157,7 +157,7 @@ export const NPCModals: React.FC<Props> = ({ scene, id }) => {
             <TreasureShop onClose={closeModal} />
           )}
         {/* Remove on release */}
-        {npc === "GOLDTOOTH" &&
+        {npc === "goldtooth" &&
           !hasFeatureAccess(
             gameService.state.context.state,
             "TEST_DIGGING",
