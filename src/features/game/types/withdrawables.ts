@@ -1517,4 +1517,9 @@ export const BUMPKIN_WITHDRAWABLES: Record<
   "Amber Amulet": () => false,
   "Sun Scarab Amulet": () => false,
   "Desert Background": () => false,
+  "Desert Merchant Turban": () => false,
+  "Desert Merchant Shoes": () => false,
+  "Desert Merchant Suit": () => false,
+  "Desert Camel Background": () => false,
+  "Water Gourd": () => false,
 };

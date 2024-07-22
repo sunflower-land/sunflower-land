@@ -14,7 +14,8 @@ export type BumpkinBackground =
   | "Northern Lights Background"
   | "Valentine's Field Background"
   | "Festival of Colors Background"
-  | "Desert Background";
+  | "Desert Background"
+  | "Desert Camel Background";
 
 export type BumpkinBody =
   | "Beige Farmer Potion"
@@ -171,7 +172,8 @@ export type BumpkinTool =
   | "Bumpkin Sword"
   | "Sunflorian Sword"
   | "Dev Wrench"
-  | "Rock Hammer";
+  | "Rock Hammer"
+  | "Water Gourd";
 
 export type BumpkinShoe =
   | "Black Farmer Boots"
@@ -191,7 +193,8 @@ export type BumpkinShoe =
   | "Goblin Sabatons"
   | "Nightshade Sabatons"
   | "Sunflorian Sabatons"
-  | "Bumpkin Sabatons";
+  | "Bumpkin Sabatons"
+  | "Desert Merchant Shoes";
 
 export type BumpkinNecklace =
   | "Sunflower Amulet"
@@ -279,7 +282,8 @@ export type BumpkinHat =
   | "Sunflorian Helmet"
   | "Pharaoh Headdress"
   | "Explorer Hat"
-  | "Oil Protection Hat";
+  | "Oil Protection Hat"
+  | "Desert Merchant Turban";
 
 export type BumpkinPant =
   | "Farmer Overalls"
@@ -328,7 +332,8 @@ export type BumpkinDress =
   | "Blue Rose Dress"
   | "Blue Monarch Dress"
   | "Green Monarch Dress"
-  | "Orange Monarch Dress";
+  | "Orange Monarch Dress"
+  | "Desert Merchant Suit";
 
 export type BumpkinSecondaryTool =
   | "Sunflower Shield"
@@ -760,6 +765,11 @@ export const ITEM_IDS: Record<BumpkinItem, number> = {
   "Oil Protection Hat": 358,
   "Explorer Shorts": 359,
   "Oil Overalls": 360,
+  "Desert Merchant Turban": 361,
+  "Desert Merchant Shoes": 362,
+  "Desert Merchant Suit": 363,
+  "Desert Camel Background": 364,
+  "Water Gourd": 365,
 };
 
 // The reverse of above
@@ -1179,4 +1189,9 @@ export const BUMPKIN_ITEM_PART: Record<BumpkinItem, keyof Wallet> = {
   "Oil Protection Hat": "hat",
   "Explorer Shorts": "pants",
   "Oil Overalls": "pants",
+  "Desert Merchant Turban": "hat",
+  "Desert Merchant Shoes": "shoes",
+  "Desert Merchant Suit": "dress",
+  "Desert Camel Background": "background",
+  "Water Gourd": "tool",
 };
