@@ -55,6 +55,7 @@ import { BumpkinHouseScene } from "./scenes/BumpkinHouseScene";
 import { ExampleAnimationScene } from "./scenes/examples/AnimationScene";
 import { ExampleRPGScene } from "./scenes/examples/RPGScene";
 import { EventObject } from "xstate";
+import { ToastContext } from "features/game/toast/ToastProvider";
 
 const _roomState = (state: MachineState) => state.value;
 const _scene = (state: MachineState) => state.context.sceneId;
@@ -96,6 +97,8 @@ export const PhaserComponent: React.FC<Props> = ({
   const { authService } = useContext(AuthProvider.Context);
   const { gameService } = useContext(Context);
   const [authState] = useActor(authService);
+
+  const { toastsList } = useContext(ToastContext);
 
   const [messages, setMessages] = useState<Message[]>([]);
   const [players, setPlayers] = useState<Player[]>([]);
@@ -375,6 +378,16 @@ export const PhaserComponent: React.FC<Props> = ({
     }
   }, [isMuted]);
 
+  useEffect(() => {
+    const item = toastsList.filter((toast) => !toast.hidden)[0];
+
+    if (item && item.difference.gt(0)) {
+      mmoService.state.context.server?.send(0, {
+        reaction: { reaction: item.item, quantity: item.difference.toNumber() },
+      });
+    }
+  }, [toastsList]);
+
   // Listen to state change from trading -> playing
   const updateMessages = () => {
     // Load active scene in Phaser, otherwise fallback to route
@@ -444,7 +457,7 @@ export const PhaserComponent: React.FC<Props> = ({
           isMuted={isMuted ? true : false}
           onReact={(reaction) => {
             mmoService.state.context.server?.send(0, {
-              reaction,
+              reaction: { reaction },
             });
           }}
           onBudPlace={(tokenId) => {

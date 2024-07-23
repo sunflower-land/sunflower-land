@@ -8,6 +8,8 @@ import { Player } from "../types/Room";
 import { NPCName, acknowledgedNPCs } from "lib/npcs";
 import { ReactionName } from "features/pumpkinPlaza/components/Reactions";
 import { getAnimationUrl } from "../lib/animations";
+import { InventoryItemName } from "features/game/types/game";
+import { ITEM_DETAILS } from "features/game/types/images";
 
 const NAME_ALIASES: Partial<Record<NPCName, string>> = {
   "pumpkin' pete": "pete",
@@ -27,7 +29,7 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
   public skull: Phaser.GameObjects.Sprite | undefined;
 
   public speech: SpeechBubble | undefined;
-  public reaction: Phaser.GameObjects.Sprite | undefined;
+  public reaction: Phaser.GameObjects.Group;
   public invincible = false;
 
   public icon: Phaser.GameObjects.Sprite | undefined;
@@ -81,6 +83,8 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
     this.add(this.shadow);
 
     this.setSize(SQUARE_WIDTH, SQUARE_WIDTH);
+
+    this.reaction = this.scene.add.group();
 
     if (name) {
       const text = NAME_ALIASES[name as NPCName] ?? name;
@@ -394,13 +398,10 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
   }, 5000);
 
   public stopReaction() {
-    if (this.reaction?.active) {
-      this.reaction?.destroy();
-    }
-    this.reaction = undefined;
-
+    this.reaction.clear(true, true);
     this.destroyReaction.cancel();
   }
+
   public stopSpeaking() {
     if (this.speech?.active) {
       this.speech?.destroy();
@@ -427,22 +428,65 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
     this.destroySpeechBubble();
   }
 
-  public react(react: ReactionName) {
+  private _react(react: ReactionName | InventoryItemName, quantity?: number) {
     this.stopSpeaking();
 
-    if (this.reaction?.active) {
-      this.reaction.destroy();
-    }
+    this.reaction.clear(true, true);
 
     if (!this.scene.textures.exists(react)) {
       return;
     }
 
-    this.reaction = this.scene.add.sprite(0, -14, react);
+    let offsetReaction = false;
+    if (quantity) {
+      const label = this.scene.add.bitmapText(
+        0,
+        -16,
+        "Teeny Tiny Pixls",
+        `+${quantity}`,
+        5,
+        1,
+      );
+      label.setX(-label.width);
+      offsetReaction = true;
 
-    this.add(this.reaction);
+      this.add(label);
+      this.reaction.add(label);
+    }
+
+    const reaction = this.scene.add.sprite(0, -14, react);
+    if (reaction.displayWidth > reaction.displayHeight) {
+      reaction.displayWidth = 10;
+      reaction.scaleY = reaction.scaleX;
+    } else {
+      reaction.displayHeight = 10;
+      reaction.scaleX = reaction.scaleY;
+    }
+
+    if (offsetReaction) {
+      reaction.setX(reaction.displayWidth / 2);
+    }
+    this.add(reaction);
+    this.reaction.add(reaction);
 
     this.destroyReaction();
+  }
+
+  public react(reaction: ReactionName | InventoryItemName, quantity?: number) {
+    if (this.scene.textures.exists(reaction)) {
+      return this._react(reaction, quantity);
+    }
+
+    if (reaction in ITEM_DETAILS) {
+      this.scene.load.image(
+        reaction,
+        ITEM_DETAILS[reaction as InventoryItemName].image,
+      );
+      this.scene.load.once(Phaser.Loader.Events.COMPLETE, () => {
+        this._react(reaction, quantity);
+      });
+      this.scene.load.start();
+    }
   }
 
   public dig() {
