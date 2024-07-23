@@ -114,7 +114,11 @@ type InteractableName =
   | "kingdom_book_4"
   | "kingdom_book_5"
   | "kingdom_knight"
-  | "fan_art";
+  | "fan_art"
+  | "desert_book_1"
+  | "desert_book_2"
+  | "desert_book_3"
+  | "desert_book_4";
 
 class InteractableModalManager {
   private listener?: (name: InteractableName, isOpen: boolean) => void;
@@ -730,6 +734,50 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
               {t("easterEgg.tywinDiary")}
             </Label>
             <InlineDialogue message={t("easterEgg.kingdomBook5")} />
+          </div>
+        </CloseButtonPanel>
+      </Modal>
+
+      <Modal show={interactable === "desert_book_1"} onHide={closeModal}>
+        <CloseButtonPanel onClose={closeModal}>
+          <div className="p-2">
+            <Label type="default" className="mb-2">
+              {t("easterEgg.digbysDiary")}
+            </Label>
+            <InlineDialogue message={t("easterEgg.desertBook1")} />
+          </div>
+        </CloseButtonPanel>
+      </Modal>
+
+      <Modal show={interactable === "desert_book_2"} onHide={closeModal}>
+        <CloseButtonPanel onClose={closeModal}>
+          <div className="p-2">
+            <Label type="default" className="mb-2">
+              {t("easterEgg.digbysDiary")}
+            </Label>
+            <InlineDialogue message={t("easterEgg.desertBook2")} />
+          </div>
+        </CloseButtonPanel>
+      </Modal>
+
+      <Modal show={interactable === "desert_book_3"} onHide={closeModal}>
+        <CloseButtonPanel onClose={closeModal}>
+          <div className="p-2">
+            <Label type="default" className="mb-2">
+              {t("easterEgg.pharaohsDiary")}
+            </Label>
+            <InlineDialogue message={t("easterEgg.desertBook3")} />
+          </div>
+        </CloseButtonPanel>
+      </Modal>
+
+      <Modal show={interactable === "desert_book_4"} onHide={closeModal}>
+        <CloseButtonPanel onClose={closeModal}>
+          <div className="p-2">
+            <Label type="default" className="mb-2">
+              {t("easterEgg.goldtoothsDiary")}
+            </Label>
+            <InlineDialogue message={t("easterEgg.desertBook4")} />
           </div>
         </CloseButtonPanel>
       </Modal>
