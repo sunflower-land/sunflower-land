@@ -704,8 +704,8 @@ export class BeachScene extends BaseScene {
       Math.round((mouseY - this.cellSize) / this.cellSize) * this.cellSize;
 
     // Calculate the starting cell (top-left corner)
-    const startCol = Math.floor((hoverX - 80) / this.cellSize);
-    const startRow = Math.floor((hoverY - 80) / this.cellSize);
+    const startCol = Math.floor((hoverX - this.gridX) / this.cellSize);
+    const startRow = Math.floor((hoverY - this.gridY) / this.cellSize);
 
     const drillCoords: number[][] = [
       [startRow, startCol],
@@ -733,7 +733,13 @@ export class BeachScene extends BaseScene {
       return;
     }
 
-    this.drillHoverBox?.setPosition(hoverX, hoverY).setVisible(true);
+    const maxX = this.gridX + SITE_COLS * this.cellSize - this.cellSize * 2;
+    const maxY = this.gridY + SITE_ROWS * this.cellSize - this.cellSize * 2;
+
+    const x = Math.min(Math.max(hoverX, this.gridX), maxX);
+    const y = Math.min(Math.max(hoverY, this.gridY), maxY);
+
+    this.drillHoverBox?.setPosition(x, y).setVisible(true);
   };
 
   public handleDrillPointerDown = () => {
@@ -797,6 +803,7 @@ export class BeachScene extends BaseScene {
 
   public handlePointOut = () => {
     this.hoverBox?.setVisible(false);
+    // this.drillHoverBox?.setVisible(false);
     this.noShovelHoverBox?.setVisible(false);
   };
 
