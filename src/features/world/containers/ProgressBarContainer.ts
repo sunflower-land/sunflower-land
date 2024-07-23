@@ -1,7 +1,6 @@
 export class ProgressBarContainer extends Phaser.GameObjects.Container {
   public progressBarBackground: Phaser.GameObjects.Graphics;
   public progressBar: Phaser.GameObjects.Graphics;
-  private _progress = 0.1;
 
   constructor(scene: Phaser.Scene, x: number, y: number) {
     super(scene, x, y);
@@ -22,13 +21,17 @@ export class ProgressBarContainer extends Phaser.GameObjects.Container {
     this.add(this.progressBar);
     this.scene.add.existing(this);
 
-    this.updateBar();
-
     this.bringToTop(progressBar);
   }
 
-  updateBar() {
+  updateBar(progress: number) {
+    // Round up to the nearest 10 (expect for 100)
+    let amount = Math.ceil(progress * 10) / 10;
+    if (amount === 100 && progress !== 100) {
+      amount = 90;
+    }
+
     this.progressBar.fillStyle(0x63c74d, 1);
-    this.progressBar.fillRect(-7, -2, 14 * this._progress, 4);
+    this.progressBar.fillRect(-7, -2, (14 * amount) / 100, 4);
   }
 }

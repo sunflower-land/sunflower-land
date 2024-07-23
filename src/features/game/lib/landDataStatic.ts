@@ -358,6 +358,22 @@ export const STATIC_OFFLINE_FARM: GameState = {
       },
     } as Record<ChoreV2Name, ChoreV2>,
   },
+  desert: {
+    digging: {
+      grid: [],
+      patterns: [
+        "MONDAY_ARTEFACT_FORMATION",
+        "SEAWEED",
+        "MONDAY_ARTEFACT_FORMATION",
+        "SEA_CUCUMBERS",
+        "MONDAY_ARTEFACT_FORMATION",
+        "COCKLE",
+        "CORAL",
+        "CORAL",
+        "CORAL",
+      ],
+    },
+  },
   inventory: {
     "Beta Pass": new Decimal(1),
     "Paint Can": new Decimal(1),

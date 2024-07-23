@@ -1,4 +1,4 @@
-import { ENGLISH_TERMS } from "./englishDictionary";
+import { desertTerms, ENGLISH_TERMS } from "./englishDictionary";
 import {
   AchievementsTerms,
   Auction,
@@ -5522,6 +5522,7 @@ export const RUSSIAN_TERMS: Record<TranslationKeys, string> = {
   ...delivery,
   ...deliveryHelp,
   ...depositWallet,
+  ...desertTerms,
   ...detail,
   ...discordBonus,
   ...donation,

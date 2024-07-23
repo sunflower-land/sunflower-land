@@ -631,11 +631,17 @@ export class BeachScene extends BaseScene {
     this.percentageFoundLabel?.setText(
       `Treasures found: ${this.percentageTreasuresFound}%`,
     );
+
+    this.digbyProgressBar?.updateBar(this.percentageTreasuresFound);
   };
 
   get treasuresFound() {
     return this.gameService.state.context.state.desert.digging.grid
-      .filter((hole) => getKeys(hole.items)[0] !== "Sunflower")
+      .filter(
+        (hole) =>
+          getKeys(hole.items)[0] !== "Sunflower" &&
+          getKeys(hole.items)[0] !== "Crab",
+      )
       .map((hole) => getKeys(hole.items)[0]);
   }
 

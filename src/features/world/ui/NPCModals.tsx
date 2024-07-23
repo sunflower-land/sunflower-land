@@ -37,6 +37,7 @@ import { TreasureShop } from "./beach/treasure_shop/TreasureShop";
 import { GoldTooth } from "./npcs/GoldTooth";
 import { hasFeatureAccess } from "lib/flags";
 import { Context } from "features/game/GameProvider";
+import { Digby } from "./beach/Digby";
 
 class NpcModalManager {
   private listener?: (npc: NPCName, isOpen: boolean) => void;
@@ -105,6 +106,9 @@ export const NPCModals: React.FC<Props> = ({ scene, id }) => {
         {npc === "grubnuk" && <DeliveryPanel npc={npc} onClose={closeModal} />}
         {npc === "garth" && <PotionHouseShopItems onClose={closeModal} />}
         {npc === "hopper" && <Hopper onClose={closeModal} />}
+
+        {npc === "digby" && <Digby onClose={closeModal} />}
+
         {npc === "marcus" && (
           <SpeakingModal
             onClose={closeModal}
