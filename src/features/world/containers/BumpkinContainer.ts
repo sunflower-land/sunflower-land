@@ -428,6 +428,26 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
     this.destroySpeechBubble();
   }
 
+  /**
+   * Load texture from URL or Data API. Returns immediately if texture already exists.
+   * @param key - Texture key
+   * @param url - URL or Data API
+   * @param onLoad - Callback when texture is loaded. Fired instantly if texture already exists.
+   * @returns
+   */
+  private loadTexture(key: string, url: string, onLoad: () => void) {
+    if (this.scene.textures.exists(key)) {
+      onLoad();
+    } else if (url.startsWith("data:")) {
+      this.scene.textures.addBase64(key, url);
+      this.scene.textures.once("addtexture", () => onLoad());
+    } else {
+      this.scene.load.image(key, url);
+      this.scene.load.once(Phaser.Loader.Events.COMPLETE, () => onLoad());
+      this.scene.load.start();
+    }
+  }
+
   private _react(react: ReactionName | InventoryItemName, quantity?: number) {
     this.stopSpeaking();
 
@@ -478,14 +498,11 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
     }
 
     if (reaction in ITEM_DETAILS) {
-      this.scene.load.image(
-        reaction,
-        ITEM_DETAILS[reaction as InventoryItemName].image,
-      );
-      this.scene.load.once(Phaser.Loader.Events.COMPLETE, () => {
+      const image = ITEM_DETAILS[reaction as InventoryItemName].image;
+
+      this.loadTexture(reaction, image, () => {
         this._react(reaction, quantity);
       });
-      this.scene.load.start();
     }
   }
 
