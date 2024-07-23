@@ -754,7 +754,8 @@ export type BumpkinPart =
   | "equip.suit"
   | "equip.wings"
   | "equip.dress"
-  | "equip.beard";
+  | "equip.beard"
+  | "equip.aura";
 
 export type BumpkinPartRequirements =
   | "equip.missingHair"

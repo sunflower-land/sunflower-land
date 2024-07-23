@@ -16,6 +16,7 @@ import wingsSilhouette from "assets/bumpkins/wings_silhouette.png";
 import secondaryToolSilhouette from "assets/bumpkins/secondary_tool_silhouette.png";
 import coatSilhouette from "assets/bumpkins/coat_silhouette.png";
 import beardSilhouette from "assets/bumpkins/beard_silhouette.png";
+import auraSilhoutte from "assets/bumpkins/aura_silhoutte.png";
 
 export const BUMPKIN_PART_SILHOUETTE: Record<BumpkinPart, string> = {
   background: backgroundSilhouette,
@@ -34,4 +35,5 @@ export const BUMPKIN_PART_SILHOUETTE: Record<BumpkinPart, string> = {
   suit: suitSilhouette,
   wings: wingsSilhouette,
   beard: beardSilhouette,
+  aura: auraSilhoutte,
 };

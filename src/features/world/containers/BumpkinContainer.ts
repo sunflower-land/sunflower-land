@@ -10,9 +10,8 @@ import { ReactionName } from "features/pumpkinPlaza/components/Reactions";
 import { getAnimationUrl } from "../lib/animations";
 import { InventoryItemName } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
+import { ITEM_IDS } from "features/game/types/bumpkin";
 import { CONFIG } from "lib/config";
-import frontaurasample from "assets/1_367.png";
-import backaurasample from "assets/367.png";
 
 const NAME_ALIASES: Partial<Record<NPCName, string>> = {
   "pumpkin' pete": "pete",
@@ -38,6 +37,8 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
   public icon: Phaser.GameObjects.Sprite | undefined;
   public fx: Phaser.GameObjects.Sprite | undefined;
   public label: Label | undefined;
+  public backfx: Phaser.GameObjects.Sprite | undefined;
+  public frontfx: Phaser.GameObjects.Sprite | undefined;
 
   public clothing: Player["clothing"];
   private ready = false;
@@ -88,8 +89,8 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
     this.shadow = this.scene.add
       .sprite(0.5, 8, "shadow")
       .setSize(SQUARE_WIDTH, SQUARE_WIDTH);
-
     this.add(this.shadow);
+    this.moveTo(this.shadow, 0);
 
     this.setSize(SQUARE_WIDTH, SQUARE_WIDTH);
 
@@ -163,22 +164,27 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
       parts: this.clothing,
     });
 
-    if (this.clothing.hair) {
+    //If Bumpkin has an Aura equipped
+    if (this.clothing.aura !== undefined) {
+      const auraName = this.clothing.aura;
+      console.log(this.clothing.secondaryTool);
+      console.log(auraName);
+      console.log(ITEM_IDS[auraName]);
       //Back-Aura
       if (scene.textures.exists(this.backAuraKey)) {
         const backaura = scene.add
-          .sprite(0, 0, this.backAuraKey)
-          .setOrigin(0.5)
-          .setZ(10);
+          .sprite(0, -3, this.backAuraKey)
+          .setOrigin(0.5);
         this.add(backaura);
-        this.sprite = backaura;
-        this.sprite.play(this.backAuraAnimationKey as string, true);
+        this.moveTo(backaura, 1);
+        this.backfx = backaura;
+        this.backfx.play(this.backAuraAnimationKey as string, true);
         console.log("back sheet found");
       } else {
         console.log("back sheet not found creating one");
         const backauraLoader = scene.load.spritesheet(
           this.backAuraKey,
-          backaurasample,
+          `${CONFIG.PROTECTED_IMAGE_URL}/auras/back/${ITEM_IDS[auraName]}.png`,
           {
             frameWidth: 20,
             frameHeight: 19,
@@ -194,31 +200,31 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
           }
           const backaura = scene.add
             .sprite(0, -3, this.backAuraKey as string)
-            .setOrigin(0.5)
-            .setZ(10);
+            .setOrigin(0.5);
           this.add(backaura);
-          this.sprite = backaura;
+          this.moveTo(backaura, 1);
+          this.backfx = backaura;
 
           this.createBackAuraAnimation();
-          this.sprite.play(this.backAuraAnimationKey as string, true);
+          this.backfx.play(this.backAuraAnimationKey as string, true);
           backauraLoader.removeAllListeners();
         });
       }
       //Front-Aura
       if (scene.textures.exists(this.frontAuraKey)) {
         const frontaura = scene.add
-          .sprite(0, 0, this.frontAuraKey)
-          .setOrigin(0.5)
-          .setZ(1000);
+          .sprite(0, 2, this.frontAuraKey)
+          .setOrigin(0.5);
         this.add(frontaura);
-        this.sprite = frontaura;
-        this.sprite.play(this.frontAuraAnimationKey as string, true);
+        this.moveTo(frontaura, 3);
+        this.frontfx = frontaura;
+        this.frontfx.play(this.frontAuraAnimationKey as string, true);
         console.log("front sheet found");
       } else {
         console.log("front sheet not found creating one");
         const frontauraLoader = scene.load.spritesheet(
           this.frontAuraKey,
-          frontaurasample,
+          `${CONFIG.PROTECTED_IMAGE_URL}/auras/front/${ITEM_IDS[auraName]}.png`,
           {
             frameWidth: 20,
             frameHeight: 19,
@@ -233,14 +239,14 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
             return;
           }
           const frontaura = scene.add
-            .sprite(0, -3, this.frontAuraKey as string)
-            .setOrigin(0.5)
-            .setZ(1000);
+            .sprite(0, 2, this.frontAuraKey as string)
+            .setOrigin(0.5);
           this.add(frontaura);
-          this.sprite = frontaura;
+          this.moveTo(frontaura, 3);
+          this.frontfx = frontaura;
 
           this.createFrontAuraAnimation();
-          this.sprite.play(this.frontAuraAnimationKey as string, true);
+          this.frontfx.play(this.frontAuraAnimationKey as string, true);
           frontauraLoader.removeAllListeners();
         });
       }
@@ -250,6 +256,7 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
       // If we have idle sheet then we can create the idle animation and set the sprite up straight away
       const idle = scene.add.sprite(0, 0, this.idleSpriteKey).setOrigin(0.5);
       this.add(idle);
+      this.moveTo(idle, 2);
       this.sprite = idle;
 
       if (this.direction === "left") {
@@ -285,6 +292,7 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
           .sprite(0, 0, this.idleSpriteKey as string)
           .setOrigin(0.5);
         this.add(idle);
+        this.moveTo(idle, 2);
         this.sprite = idle;
 
         if (this.direction === "left") {
@@ -455,7 +463,7 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
     this.clothing.updatedAt = clothing.updatedAt;
 
     if (tokenUriBuilder(clothing) === tokenUriBuilder(this.clothing)) return;
-
+    console.log("Change clothes");
     this.ready = false;
     if (this.sprite?.active) {
       this.sprite?.destroy();
@@ -473,6 +481,13 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
       clothing.shirt !== "Gift Giver"
     ) {
       this.removeGift();
+    }
+
+    if ((this.clothing.aura !== clothing.aura) === undefined) {
+      this.frontfx?.destroy();
+      this.backfx?.destroy();
+      this.frontfx = undefined;
+      this.backfx = undefined;
     }
 
     this.clothing = clothing;

@@ -17,6 +17,7 @@ import {
   BumpkinDress,
   ITEM_NAMES,
   BumpkinBeard,
+  BumpkinAura,
 } from "features/game/types/bumpkin";
 
 export type BumpkinParts = {
@@ -36,6 +37,7 @@ export type BumpkinParts = {
   wings?: BumpkinWings;
   dress?: BumpkinDress;
   beard?: BumpkinBeard;
+  aura?: BumpkinAura;
 };
 
 enum Slots {
@@ -55,6 +57,7 @@ enum Slots {
   Wings = 13,
   Dress = 14,
   Beard = 15,
+  Aura = 16,
 }
 
 export function tokenUriBuilder(parts: BumpkinParts) {
@@ -78,6 +81,7 @@ export function tokenUriBuilder(parts: BumpkinParts) {
   ids[Slots.SecondaryTool] = parts.secondaryTool
     ? ITEM_IDS[parts.secondaryTool]
     : 0;
+  ids[Slots.Aura] = parts.aura ? ITEM_IDS[parts.aura] : 0;
 
   // Trim off trailing 0s
   const lastPartIndex = [...ids].reverse().findIndex(Boolean);
@@ -109,6 +113,8 @@ function getOrderedIds(parts: BumpkinParts) {
     suit,
     wings,
     dress,
+    beard,
+    aura,
   } = parts;
 
   const bgId = background ? ITEM_IDS[background] : 0;
@@ -126,6 +132,8 @@ function getOrderedIds(parts: BumpkinParts) {
   const suitId = suit ? ITEM_IDS[suit] : 0;
   const wingsId = wings ? ITEM_IDS[wings] : 0;
   const dressId = dress ? ITEM_IDS[dress] : 0;
+  const beardId = beard ? ITEM_IDS[beard] : 0;
+  const auraId = aura ? ITEM_IDS[aura] : 0;
 
   return [
     bgId, // 0
@@ -143,6 +151,8 @@ function getOrderedIds(parts: BumpkinParts) {
     suitId, // 12
     wingsId, // 13
     dressId, // 14
+    beardId, //15
+    auraId, //16
   ];
 }
 
@@ -194,6 +204,12 @@ export function interpretTokenUri(tokenUri: string) {
     }),
     ...(ids[Slots.Dress] && {
       dress: getItemName<BumpkinDress>(ids[Slots.Dress]),
+    }),
+    ...(ids[Slots.Beard] && {
+      beard: getItemName<BumpkinBeard>(ids[Slots.Beard]),
+    }),
+    ...(ids[Slots.Aura] && {
+      aura: getItemName<BumpkinAura>(ids[Slots.Aura]),
     }),
   };
 

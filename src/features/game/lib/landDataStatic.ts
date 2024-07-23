@@ -692,6 +692,9 @@ export const STATIC_OFFLINE_FARM: GameState = {
     "Beekeeper Hat": 1,
     "Honeycomb Shield": 1,
     "Bee Suit": 1,
+    "Coin Aura": 1,
+    "Gift Giver": 1,
+    "Desert Merchant Turban": 1,
   },
   previousWardrobe: {
     "Elf Suit": 1,
