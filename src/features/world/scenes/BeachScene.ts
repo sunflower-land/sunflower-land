@@ -390,8 +390,8 @@ export class BeachScene extends BaseScene {
       .setOrigin(0);
 
     // set up cells
-    for (let col = 0; col < SITE_COLS; col++) {
-      for (let row = 0; row < SITE_ROWS; row++) {
+    for (let row = 0; row < SITE_ROWS; row++) {
+      for (let col = 0; col < SITE_COLS; col++) {
         const rectX = this.gridX + col * this.cellSize;
         const rectY = this.gridY + row * this.cellSize;
 
@@ -415,6 +415,8 @@ export class BeachScene extends BaseScene {
                 mouseY: e.worldY,
                 rectX,
                 rectY,
+                row,
+                col,
               });
             }
 
@@ -657,12 +659,16 @@ export class BeachScene extends BaseScene {
       new Decimal(0)
     ).toNumber();
 
-    const hasDugHere =
-      row &&
-      col &&
-      this.gameService.state.context.state.desert.digging.grid.some(
-        (hole) => hole.x === col && hole.y === row,
-      );
+    let hasDugHere = false;
+
+    if (row !== undefined && col !== undefined) {
+      const locations =
+        this.gameService.state.context.state.desert.digging.grid;
+
+      hasDugHere = locations.some((hole) => {
+        return hole.x === col && hole.y === row;
+      });
+    }
 
     if (
       (this.selectedItem === "Sand Drill" && sandDrillsCount === 0) ||
@@ -698,12 +704,16 @@ export class BeachScene extends BaseScene {
 
     if (this.cannotDig(rectX, rectY, row, col)) return;
 
-    const hasDugHere =
-      row &&
-      col &&
-      this.gameService.state.context.state.desert.digging.grid.some(
-        (hole) => hole.x === col && hole.y === row,
-      );
+    let hasDugHere = false;
+
+    if (row !== undefined && col !== undefined) {
+      const locations =
+        this.gameService.state.context.state.desert.digging.grid;
+
+      hasDugHere = locations.some((hole) => {
+        return hole.x === col && hole.y === row;
+      });
+    }
 
     if (
       !this.currentPlayer ||
@@ -732,14 +742,20 @@ export class BeachScene extends BaseScene {
     mouseY,
     rectX,
     rectY,
+    row,
+    col,
   }: {
     mouseX: number;
     mouseY: number;
     rectX: number;
     rectY: number;
+    row: number;
+    col: number;
   }) => {
     this.hoverBox?.setVisible(false);
     this.confirmBox?.setVisible(false);
+
+    if (this.cannotDig(rectX, rectY, row, col)) return;
 
     const hoverX =
       Math.round((mouseX - this.cellSize) / this.cellSize) * this.cellSize;
@@ -749,8 +765,6 @@ export class BeachScene extends BaseScene {
     // Calculate the starting cell (top-left corner)
     const startCol = Math.floor((hoverX - this.gridX) / this.cellSize);
     const startRow = Math.floor((hoverY - this.gridY) / this.cellSize);
-
-    if (this.cannotDig(rectX, rectY, startRow, startCol)) return;
 
     const drillCoords: number[][] = [
       [startRow, startCol],
@@ -798,8 +812,8 @@ export class BeachScene extends BaseScene {
     const hoverY = this.drillHoverBox.y;
 
     // Calculate the starting cell (top-left corner)
-    const startCol = Math.floor((hoverX - 80) / this.cellSize);
-    const startRow = Math.floor((hoverY - 80) / this.cellSize);
+    const startCol = Math.floor((hoverX - this.gridX) / this.cellSize);
+    const startRow = Math.floor((hoverY - this.gridY) / this.cellSize);
 
     if (this.cannotDig(rectX, rectY, startRow, startCol)) return;
 
@@ -1071,10 +1085,21 @@ export class BeachScene extends BaseScene {
     const sandShovels =
       this.gameService.state.context.state.inventory["Sand Shovel"] ??
       new Decimal(0);
+    const sandDrills =
+      this.gameService.state.context.state.inventory["Sand Drill"] ??
+      new Decimal(0);
 
     if (sandShovels.lt(1) && this.selectedItem !== "Sand Drill") {
       this.npcs.digby?.speak(
         "Hey, you need a sand shovel to dig here! Speak to Jafar..",
+      );
+
+      return;
+    }
+
+    if (this.selectedItem === "Sand Drill" && sandDrills.lt(1)) {
+      this.npcs.digby?.speak(
+        "Looks like you don't have any sand drills! Speak to Jafar..",
       );
 
       return;
@@ -1087,7 +1112,6 @@ export class BeachScene extends BaseScene {
 
     // Allow mouse events to pass through the player
     this.currentPlayer.disableInteractive();
-
     this.currentPlayer?.setDepth(this.currentPlayer.y);
 
     // If there is key movement for the player then play walking animation
