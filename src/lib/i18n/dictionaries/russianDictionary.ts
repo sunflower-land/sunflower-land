@@ -321,6 +321,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   ok: "Ок",
   on: "В",
   open: "открыто",
+  opened: ENGLISH_TERMS.opened,
   optional: "Дополнительно",
   "open.gift": "Открыть подарок",
   place: "Место",
@@ -942,6 +943,8 @@ const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
     "This {{hourglass}} provides a temporary boost of {{boost}}.",
   "description.hourglass.expired":
     "Your {{hourglass}} has expired. Time to grab another one!",
+  "description.desert.rose.boost":
+    ENGLISH_TERMS["description.desert.rose.boost"],
 };
 
 const bountyDescription: Record<BountyDescription, string> = {
@@ -2496,6 +2499,9 @@ const flowerBed: Record<FlowerBed, string> = {
   "flowerBedGuide.beeSwarmsBoost":
     "Пчелиные рои дают +0.2 к урожаю любым посевам.",
   "flowerBed.newSpecies.discovered": "Боже мой, ты открыл новый вид цветка!",
+  "flowerBed.newSpecies.superLucky":
+    ENGLISH_TERMS["flowerBed.newSpecies.superLucky"],
+  "flowerBed.newSpecies.mutant": ENGLISH_TERMS["flowerBed.newSpecies.mutant"],
   "flowerBedContent.select.combination": "Выбери свою комбинацию",
   "flowerBedContent.select.seed": "Выбери семя",
   "flowerBedContent.select.crossbreed": "Выбери скрещивание",

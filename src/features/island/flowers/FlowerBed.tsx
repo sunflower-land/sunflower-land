@@ -28,6 +28,9 @@ import { translate, translateTerms } from "lib/i18n/translate";
 import { IslandType } from "features/game/types/game";
 import { FLOWER_VARIANTS } from "../lib/alternateArt";
 
+import chest from "assets/icons/chest.png";
+import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
+
 const LIFECYCLE_VARIANTS: Record<IslandType, typeof FLOWER_LIFECYCLE> = {
   basic: FLOWER_LIFECYCLE,
   spring: FLOWER_LIFECYCLE,
@@ -126,9 +129,10 @@ export const FlowerBed: React.FC<Props> = ({ id }) => {
             : "seedling";
 
   const hasHarvestedBefore = !!farmActivity[`${flower.name} Harvested`];
+  const reward = flower.reward;
 
   const handlePlotClick = () => {
-    if (!hasHarvestedBefore) {
+    if (!hasHarvestedBefore || !!reward) {
       setShowCongratulationsModal(true);
       return;
     }
@@ -216,25 +220,65 @@ export const FlowerBed: React.FC<Props> = ({ id }) => {
             <SpeakingText
               message={[
                 {
-                  text: translate("flowerBed.newSpecies.discovered"),
+                  text: getCongratulationsMessage({
+                    isNewFlower: !hasHarvestedBefore,
+                    isMutantFlower: !!reward,
+                  }),
                 },
               ]}
               onClose={() => setCongratulationsPage(1)}
             />
           )}
           {congratulationsPage === 1 && (
-            <div className="flex flex-col justify-center items-center">
-              <Label type="warning" icon={SUNNYSIDE.icons.search}>
-                {t("new.species")}
-              </Label>
-              <span className="text-sm mb-2">{flower.name}</span>
-              <img
-                src={ITEM_DETAILS[flower.name]?.image}
-                className="h-12 mb-2"
-              />
-              <span className="text-xs text-center mb-2">
-                {translateTerms(ITEM_DETAILS[flower.name].description)}
-              </span>
+            <div className="flex flex-col justify-center items-center space-y-2">
+              {!hasHarvestedBefore && (
+                <div className="flex flex-col justify-center items-center">
+                  <Label type="warning" icon={SUNNYSIDE.icons.search}>
+                    {t("new.species")}
+                  </Label>
+                  <span className="text-sm mb-2">{flower.name}</span>
+                  <img
+                    src={ITEM_DETAILS[flower.name]?.image}
+                    className="h-12 mb-2"
+                  />
+                  <span className="text-xs text-center mb-2">
+                    {translateTerms(ITEM_DETAILS[flower.name].description)}
+                  </span>
+                </div>
+              )}
+              {!!reward && (
+                <div className="flex flex-col justify-center items-center">
+                  <Label type="warning" icon={chest}>
+                    {t("reward")}
+                  </Label>
+                  {(reward.items ?? []).map((item) => {
+                    const boost = COLLECTIBLE_BUFF_LABELS[item.name];
+
+                    return (
+                      <>
+                        <span className="text-sm mb-2">{item.name}</span>
+                        <img
+                          src={ITEM_DETAILS[item.name]?.image}
+                          className="h-12 mb-2"
+                        />
+                        <span className="text-xs text-center mb-2">
+                          {translateTerms(ITEM_DETAILS[item.name].description)}
+                        </span>
+                        {boost && (
+                          <Label
+                            type={boost.labelType}
+                            icon={boost.boostTypeIcon}
+                            secondaryIcon={boost.boostedItemIcon}
+                            className="my-1"
+                          >
+                            {boost.shortDescription}
+                          </Label>
+                        )}
+                      </>
+                    );
+                  })}
+                </div>
+              )}
               <Button onClick={handleCongratulationsClose}>{t("ok")}</Button>
             </div>
           )}
@@ -243,4 +287,21 @@ export const FlowerBed: React.FC<Props> = ({ id }) => {
       </Modal>
     </>
   );
+};
+
+const getCongratulationsMessage = ({
+  isNewFlower,
+  isMutantFlower,
+}: {
+  isNewFlower: boolean;
+  isMutantFlower: boolean;
+}) => {
+  // It's possible to discover a new flower, and a mutant in the same pull.
+  // In this case, we want to show a message for both.
+  if (isNewFlower && isMutantFlower)
+    return translate("flowerBed.newSpecies.superLucky");
+
+  if (isMutantFlower) return translate("flowerBed.newSpecies.mutant");
+
+  return translate("flowerBed.newSpecies.discovered");
 };

@@ -327,6 +327,7 @@ import {
   TemplateDecorationName,
 } from "features/game/types/decorations";
 import { PharaohsTreasureBanner } from "./components/PharaohsTreasureBanner";
+import { DesertRose } from "./components/DesertRose";
 
 export const COLLECTIBLE_COMPONENTS: Record<
   CollectibleName | "Bud",
@@ -727,6 +728,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Nightshade Faction Rug": NightshadeFactionRug,
   "Goblin Faction Rug": GoblinFactionRug,
   "Bumpkin Faction Rug": BumpkinFactionRug,
+  "Desert Rose": DesertRose,
 };
 // Need readonly versions for some troublesome components while in design mode
 

@@ -226,4 +226,41 @@ describe("harvestFlower", () => {
 
     expect(state.flowers.discovered["Yellow Pansy"]).toEqual(["Sunflower"]);
   });
+
+  it("adds a reward to the inventory", () => {
+    const flowerBedId = "123";
+    const state = harvestFlower({
+      state: {
+        ...GAME_STATE,
+        flowers: {
+          discovered: {},
+          flowerBeds: {
+            [flowerBedId]: {
+              createdAt: 0,
+              height: 0,
+              width: 0,
+              x: 0,
+              y: 0,
+              flower: {
+                amount: 1,
+                name: "Red Pansy",
+                plantedAt: 0,
+                reward: {
+                  items: [
+                    {
+                      name: "Desert Rose",
+                      amount: 1,
+                    },
+                  ],
+                },
+              },
+            },
+          },
+        },
+      },
+      action: { type: "flower.harvested", id: flowerBedId },
+    });
+
+    expect(state.inventory["Desert Rose"]).toEqual(new Decimal(1));
+  });
 });

@@ -317,6 +317,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   ok: "TAMAM",
   on: "Açık",
   open: "Açık",
+  opened: ENGLISH_TERMS.opened,
   "open.gift": "Hediyeyi Aç",
   optional: ENGLISH_TERMS["optional"],
   place: "Yerleştir",
@@ -946,6 +947,8 @@ const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
     ENGLISH_TERMS["description.hourglass.expired"],
   "description.hourglass.running":
     ENGLISH_TERMS["description.hourglass.running"],
+  "description.desert.rose.boost":
+    ENGLISH_TERMS["description.desert.rose.boost"],
 };
 
 const bountyDescription: Record<BountyDescription, string> = {
@@ -2548,6 +2551,9 @@ const flowerBed: Record<FlowerBed, string> = {
     "Arı sürüleri ekilen mahsullere +0,2 artış sağlar.",
   "flowerBed.newSpecies.discovered":
     "Vay canına, yeni bir çiçek türü keşfettiniz!",
+  "flowerBed.newSpecies.superLucky":
+    ENGLISH_TERMS["flowerBed.newSpecies.superLucky"],
+  "flowerBed.newSpecies.mutant": ENGLISH_TERMS["flowerBed.newSpecies.mutant"],
   "flowerBedContent.select.combination": "Kombinasyonunuzu seçin",
   "flowerBedContent.select.seed": "Bir tohum seçin",
   "flowerBedContent.select.crossbreed": "Bir melez seçin",

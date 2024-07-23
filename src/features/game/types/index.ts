@@ -638,6 +638,14 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Warty Goblin Pumpkin": 1406,
   "White Carrot": 1407,
 
+  // Digging Site
+  "Camel Bone": 1408,
+  "Cockle Shell": 1409,
+  Hieroglyph: 1410,
+  Sand: 1411,
+  Scarab: 1412,
+  Vase: 1413,
+
   // Fish
   Anchovy: 1501,
   Butterflyfish: 1502,
@@ -774,6 +782,9 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Sunflorian Bronze Champion": 2091,
   "Sunflorian Gold Champion": 2092,
   "Sunflorian Silver Champion": 2093,
+
+  // Mutant Flowers
+  "Desert Rose": 2100,
 };
 
 // The reverse of above

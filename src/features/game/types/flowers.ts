@@ -344,3 +344,5 @@ export const DESERT_FLOWER_LIFECYCLE: Record<FlowerName, Lifecycle> = getKeys(
   }),
   {} as Record<FlowerName, Lifecycle>,
 );
+
+export type MutantFlowerName = "Desert Rose";

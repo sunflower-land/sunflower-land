@@ -8443,6 +8443,87 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     image: "../public/erc1155/images/577.png",
     attributes: [{ trait_type: "Purpose", value: "Consumable" }],
   },
+  "Desert Rose": {
+    name: "Desert Rose",
+    description:
+      "A mutant flower that can be found during the Pharaoh's Treasure season.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2100.png",
+    attributes: [
+      {
+        display_type: "boost_percentage",
+        trait_type: "Flower Critical Hit Chance",
+        value: 10,
+      },
+      {
+        display_type: "boost_number",
+        trait_type: "Critical Flower Amount",
+        value: 1,
+      },
+    ],
+  },
+
+  "Camel Bone": {
+    description: "Bones of an ancient camel, rumoured to transport artefacts",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/1408.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Bounty" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
+  "Cockle Shell": {
+    description: "Bones of an ancient camel, rumoured to transport artefacts",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/1409.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Bounty" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
+  Hieroglyph: {
+    description: "Unlock the secrets of the hieroglyphs.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/1410.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Bounty" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
+  Sand: {
+    description: "It get's everywhere!",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/1411.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Bounty" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
+  Scarab: {
+    description: "Pharaoh's lost artefact.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/1412.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Bounty" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
+  Vase: {
+    description: "A fragile item from ancient times",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/1413.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Bounty" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
 };
 
 export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
@@ -12806,5 +12887,61 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
     external_url: "https://bumpkins.io",
     image: "../public/wearables/images/350.png",
     name: "Camel Onesie",
+  },
+  "Desert Merchant Turban": {
+    description: "A turban to stay safe from the fierce desert and sand.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Hat" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://bumpkins.io",
+    image: "../public/wearables/images/361.png",
+    name: "Desert Merchant Turban",
+  },
+  "Desert Merchant Shoes": {
+    description: "Protect your feet from the scorching heat of the desert.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Shoes" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://bumpkins.io",
+    image: "../public/wearables/images/362.png",
+    name: "Desert Merchant Shoes",
+  },
+  "Desert Merchant Suit": {
+    description: "A light-weight attire worned by desert merchants.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Dress" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://bumpkins.io",
+    image: "../public/wearables/images/363.png",
+    name: "Desert Merchant Suit",
+  },
+  "Desert Camel Background": {
+    description:
+      "The Desert Camel accompanies you in the sand full of discovery.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Background" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://bumpkins.io",
+    image: "../public/wearables/images/364.png",
+    name: "Desert Camel Background",
+  },
+  "Water Gourd": {
+    description: "Quench your thirst while exploring the desert.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Tool" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://bumpkins.io",
+    image: "../public/wearables/images/365.png",
+    name: "Water Gourd",
   },
 };

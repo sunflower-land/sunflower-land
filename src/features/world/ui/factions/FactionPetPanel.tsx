@@ -302,7 +302,7 @@ export const FactionPetPanel: React.FC<Props> = ({ onClose }) => {
               </Label>
               {streak > 0 && (
                 <Label
-                  type={streak >= 3 ? "success" : "default"}
+                  type={streak >= 2 ? "success" : "default"}
                   icon={isStreakWeek ? powerup : ""}
                   secondaryIcon={
                     isStreakWeek && pet.qualifiesForBoost
