@@ -23,6 +23,7 @@ import {
   DIGGING_FORMATIONS,
 } from "features/game/types/desert";
 import { ProgressBarContainer } from "../containers/ProgressBarContainer";
+import { npcModalManager } from "../ui/NPCModals";
 
 const convertToSnakeCase = (str: string) => {
   return str.replace(" ", "_").toLowerCase();
@@ -54,6 +55,7 @@ const BUMPKINS: NPCBumpkin[] = [
     npc: "jafar",
     x: 478,
     y: 220,
+    direction: "left",
   },
   {
     // To remove on digging release
@@ -237,7 +239,7 @@ export class BeachScene extends BaseScene {
     });
     turtle.play("turtle_bud_anim", true);
 
-    const treasureShop = this.add.sprite(480, 210, "treasure_shop");
+    const treasureShop = this.add.sprite(464, 194, "treasure_shop");
     this.physics.world.enable(treasureShop);
     this.colliders?.add(treasureShop);
     this.triggerColliders?.add(treasureShop);
@@ -246,7 +248,10 @@ export class BeachScene extends BaseScene {
       .setOffset(0, 0)
       .setImmovable(true)
       .setCollideWorldBounds(true);
-    this.add.sprite(480, 190, "shop_icon");
+    this.add.sprite(464, 174, "shop_icon");
+    treasureShop.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
+      npcModalManager.open("jafar");
+    });
 
     const beachBud2 = this.add.sprite(348, 397, "beach_bud_2");
     // turtle.setScale(-1, 1);

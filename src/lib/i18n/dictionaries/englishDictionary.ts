@@ -5458,6 +5458,17 @@ export const easterEggTerms: Record<EasterEggKeys, string> = {
     "Authority and respect are crucial to suppressing the Goblins. We didn’t endure the war only to hand them power. They must be kept in their place for our kingdom's safety.",
   "easterEgg.kingdomBook5":
     "To be king, I must be extra cruel. Once I ascend the throne, all Goblins will suffer. Their rebellion ends with me, and our kingdom will be stronger for it.",
+  "easterEgg.desertBook1":
+    "Camels are a sacred animal, rumoured to transport rare artefacts. They say not all arrived at their destination and their remains are scattered throughout the site.",
+  "easterEgg.desertBook2":
+    "The desert reveals layers of history. Each desert storm brings us closer to the past.",
+  "easterEgg.desertBook3":
+    "An ancient secret is revealed in the desert, deciphered by the language of my ancestors.",
+  "easterEgg.desertBook4":
+    "I've crossed the seas from Treasure Island to find this bountiful land....and all for what? Some lousy relics!",
+  "easterEgg.digbysDiary": "Digby's Diary",
+  "easterEgg.goldtoothsDiary": "Goldtooth's Diary",
+  "easterEgg.pharaohsDiary": "Pharaoh's Diary",
 };
 
 export const desertTerms: Record<DesertKeys, string> = {
