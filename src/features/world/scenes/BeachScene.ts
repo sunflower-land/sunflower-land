@@ -111,11 +111,11 @@ export class BeachScene extends BaseScene {
   percentageFoundLabel: Phaser.GameObjects.Text | undefined;
   digStatistics: DigAnalytics | undefined;
   isPlayerTweening = false;
-  isFetching = false;
   digbyProgressBar: ProgressBarContainer | undefined;
   desertStormTimer: NodeJS.Timeout | undefined;
   dugItems: Phaser.GameObjects.Image[] = [];
   currentSelectedItem: InventoryItemName | undefined;
+  isRevealing = false;
 
   constructor() {
     super({ name: "beach", map: { json: mapJSON } });
@@ -403,14 +403,19 @@ export class BeachScene extends BaseScene {
           .setInteractive({ cursor: "pointer" })
           .on("pointerdown", () => {
             if (this.selectedItem === "Sand Drill") {
-              return this.handleDrillPointerDown();
+              return this.handleDrillPointerDown(rectX, rectY);
             }
 
             return this.handlePointerDown({ rectX, rectY, row, col });
           })
           .on("pointermove", (e: any) => {
             if (this.selectedItem === "Sand Drill") {
-              return this.handleDrillPointerOver(e.worldX, e.worldY);
+              return this.handleDrillPointerOver({
+                mouseX: e.worldX,
+                mouseY: e.worldY,
+                rectX,
+                rectY,
+              });
             }
 
             // If the selected item is not a shovel then set it as the selected itm
@@ -457,7 +462,7 @@ export class BeachScene extends BaseScene {
     this.noShovelHoverBox = this.add
       .image(0, 0, "nothing")
       .setOrigin(0)
-      .setDisplaySize(16, 16)
+      .setDisplaySize(8, 8)
       .setVisible(false);
 
     // Add testing metric labels
@@ -637,6 +642,46 @@ export class BeachScene extends BaseScene {
     }
   }
 
+  public cannotDig = (
+    rectX: number,
+    rectY: number,
+    row?: number,
+    col?: number,
+  ) => {
+    const sandShovelsCount = (
+      this.gameService.state.context.state.inventory["Sand Shovel"] ??
+      new Decimal(0)
+    ).toNumber();
+    const sandDrillsCount = (
+      this.gameService.state.context.state.inventory["Sand Drill"] ??
+      new Decimal(0)
+    ).toNumber();
+
+    const hasDugHere =
+      row &&
+      col &&
+      this.gameService.state.context.state.desert.digging.grid.some(
+        (hole) => hole.x === col && hole.y === row,
+      );
+
+    if (
+      (this.selectedItem === "Sand Drill" && sandDrillsCount === 0) ||
+      sandShovelsCount === 0 ||
+      !this.hasDigsLeft
+    ) {
+      if (!hasDugHere) {
+        this.noShovelHoverBox
+          ?.setPosition(rectX + 4, rectY + 4)
+          .setOrigin(0)
+          .setVisible(true);
+      }
+
+      this.handleDigbyWarnings();
+
+      return true;
+    }
+  };
+
   public handlePointerOver = ({
     rectX,
     rectY,
@@ -651,39 +696,18 @@ export class BeachScene extends BaseScene {
     this.drillHoverBox?.setVisible(false);
     this.drillConfirmBox?.setVisible(false);
 
-    const sandShovelsCount = (
-      this.gameService.state.context.state.inventory["Sand Shovel"] ??
-      new Decimal(0)
-    ).toNumber();
-    const sandDrillsCount = (
-      this.gameService.state.context.state.inventory["Sand Drill"] ??
-      new Decimal(0)
-    ).toNumber();
+    if (this.cannotDig(rectX, rectY, row, col)) return;
 
-    if (
-      (this.selectedItem === "Sand Drill" && sandDrillsCount === 0) ||
-      sandShovelsCount === 0
-    ) {
-      this.noShovelHoverBox
-        ?.setPosition(rectX, rectY)
-        .setOrigin(0)
-        .setVisible(true);
-
-      return;
-    }
-
-    let hasDugHere = false;
-
-    if (row && col) {
-      hasDugHere =
-        this.gameService.state.context.state.desert.digging.grid.some(
-          (hole) => hole.x === col && hole.y === row,
-        );
-    }
+    const hasDugHere =
+      row &&
+      col &&
+      this.gameService.state.context.state.desert.digging.grid.some(
+        (hole) => hole.x === col && hole.y === row,
+      );
 
     if (
       !this.currentPlayer ||
-      this.gameService.state.matches("revealing") ||
+      this.isRevealing ||
       this.isPlayerTweening ||
       hasDugHere
     ) {
@@ -703,7 +727,17 @@ export class BeachScene extends BaseScene {
     this.hoverBox?.setOrigin(0).setPosition(rectX, rectY).setVisible(true);
   };
 
-  public handleDrillPointerOver = (mouseX: number, mouseY: number) => {
+  public handleDrillPointerOver = ({
+    mouseX,
+    mouseY,
+    rectX,
+    rectY,
+  }: {
+    mouseX: number;
+    mouseY: number;
+    rectX: number;
+    rectY: number;
+  }) => {
     this.hoverBox?.setVisible(false);
     this.confirmBox?.setVisible(false);
 
@@ -715,6 +749,8 @@ export class BeachScene extends BaseScene {
     // Calculate the starting cell (top-left corner)
     const startCol = Math.floor((hoverX - this.gridX) / this.cellSize);
     const startRow = Math.floor((hoverY - this.gridY) / this.cellSize);
+
+    if (this.cannotDig(rectX, rectY, startRow, startCol)) return;
 
     const drillCoords: number[][] = [
       [startRow, startCol],
@@ -732,11 +768,7 @@ export class BeachScene extends BaseScene {
       return !dugAt;
     });
 
-    if (
-      !availableHoles ||
-      this.isPlayerTweening ||
-      this.gameService.state.matches("revealing")
-    ) {
+    if (!availableHoles || this.isPlayerTweening || this.isRevealing) {
       this.drillHoverBox?.setVisible(false);
 
       return;
@@ -758,7 +790,7 @@ export class BeachScene extends BaseScene {
     this.drillHoverBox?.setPosition(x, y).setVisible(true);
   };
 
-  public handleDrillPointerDown = () => {
+  public handleDrillPointerDown = (rectX: number, rectY: number) => {
     if (!this.drillHoverBox) return;
 
     // Get the position of the hover box
@@ -768,6 +800,8 @@ export class BeachScene extends BaseScene {
     // Calculate the starting cell (top-left corner)
     const startCol = Math.floor((hoverX - 80) / this.cellSize);
     const startRow = Math.floor((hoverY - 80) / this.cellSize);
+
+    if (this.cannotDig(rectX, rectY, startRow, startCol)) return;
 
     const drillCoords: { x: number; y: number }[] = [
       { x: startCol, y: startRow },
@@ -813,6 +847,8 @@ export class BeachScene extends BaseScene {
     row: number;
     col: number;
   }) => {
+    if (this.cannotDig(rectX, rectY)) return;
+
     // check if this rectangle is currently the selected one
     if (this.confirmBox?.x === rectX && this.confirmBox?.y === rectY) {
       this.confirmBox?.setVisible(false);
@@ -830,7 +866,6 @@ export class BeachScene extends BaseScene {
 
   public handlePointOut = () => {
     this.hoverBox?.setVisible(false);
-    // this.drillHoverBox?.setVisible(false);
     this.noShovelHoverBox?.setVisible(false);
   };
 
@@ -903,6 +938,7 @@ export class BeachScene extends BaseScene {
   }
 
   public handleDig = async (row: number, col: number) => {
+    this.isRevealing = true;
     // Send off reveal game event
     this.gameService.send("REVEAL", {
       event: {
@@ -915,6 +951,7 @@ export class BeachScene extends BaseScene {
   };
 
   public handleDrill = async (coords: { x: number; y: number }[]) => {
+    this.isRevealing = true;
     // Send off reveal game event
     this.gameService.send("REVEAL", {
       event: {
@@ -1020,6 +1057,30 @@ export class BeachScene extends BaseScene {
     );
   };
 
+  public handleDigbyWarnings = () => {
+    if (!this.currentPlayer) return;
+
+    if (!this.hasDigsLeft) {
+      this.npcs.digby?.speak(
+        "You have no more digs left! Come back tomorrow..",
+      );
+
+      return;
+    }
+
+    const sandShovels =
+      this.gameService.state.context.state.inventory["Sand Shovel"] ??
+      new Decimal(0);
+
+    if (sandShovels.lt(1) && this.selectedItem !== "Sand Drill") {
+      this.npcs.digby?.speak(
+        "Hey, you need a sand shovel to dig here! Speak to Jafar..",
+      );
+
+      return;
+    }
+  };
+
   public updatePlayer() {
     // Don't allow movement while digging
     if (!this.currentPlayer) return;
@@ -1100,17 +1161,8 @@ export class BeachScene extends BaseScene {
 
     if (isMoving || this.isPlayerTweening) {
       this.currentPlayer.walk();
-    } else if (this.gameService.state.matches("revealing")) {
-      // Set player to digging while we are revealing the reward
-
-      this.disableControls();
-
-      if (this.selectedItem === "Sand Drill") {
-        this.currentPlayer.drill();
-      } else {
-        this.currentPlayer.dig();
-      }
     } else if (this.gameService.state.matches("revealed")) {
+      this.isRevealing = false;
       this.enableControls();
       this.currentPlayer.sprite?.anims?.stopAfterRepeat(0);
 
@@ -1125,6 +1177,15 @@ export class BeachScene extends BaseScene {
 
       // Move out of revealed state
       this.gameService.send("CONTINUE");
+    } else if (this.isRevealing) {
+      // Set player to digging while we are revealing the reward
+      this.disableControls();
+
+      if (this.selectedItem === "Sand Drill") {
+        this.currentPlayer.drill();
+      } else {
+        this.currentPlayer.dig();
+      }
     } else {
       this.currentPlayer.idle();
     }
@@ -1139,6 +1200,16 @@ export class BeachScene extends BaseScene {
     this.confirmBox?.setVisible(false);
     this.drillConfirmBox?.setVisible(false);
     this.drillHoverBox?.setVisible(false);
+
+    const sandDrills = this.gameState.inventory["Sand Drill"] ?? new Decimal(0);
+
+    if (
+      this.selectedItem === "Sand Drill" &&
+      sandDrills.gt(0) &&
+      this.npcs.digby?.isSpeaking
+    ) {
+      this.npcs.digby?.stopSpeaking();
+    }
   };
 
   public update() {
@@ -1151,6 +1222,7 @@ export class BeachScene extends BaseScene {
       this.updateOtherPlayers();
       this.handleNameTagVisibility();
       this.handleOtherDiggersPositions();
+      this.handleDigbyWarnings();
     } else {
       super.update();
     }
