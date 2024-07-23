@@ -122,7 +122,8 @@ export type BumpkinShirt =
   | "Nightshade Armor"
   | "Bumpkin Armor"
   | "Sunflorian Armor"
-  | "Explorer Shirt";
+  | "Explorer Shirt"
+  | "Ankh Shirt";
 
 export type BumpkinCoat =
   | "Chef Apron"
@@ -756,7 +757,7 @@ export const ITEM_IDS: Record<BumpkinItem, number> = {
   "Painter's Cap": 347,
   "Festival of Colors Background": 348,
 
-  // Ancient Season
+  // Pharaoh's Treasure Season
   "Pharaoh Headdress": 349,
   "Camel Onesie": 350,
   "Amber Amulet": 351,
@@ -776,6 +777,7 @@ export const ITEM_IDS: Record<BumpkinItem, number> = {
   "Water Gourd": 365,
   "Rocket Onesie": 366,
   "Coin Aura": 367,
+  "Ankh Shirt": 368,
 };
 
 // The reverse of above
@@ -1204,4 +1206,5 @@ export const BUMPKIN_ITEM_PART: Record<BumpkinItem, keyof Wallet> = {
   "Water Gourd": "tool",
   "Rocket Onesie": "onesie",
   "Coin Aura": "aura",
+  "Ankh Shirt": "shirt",
 };
