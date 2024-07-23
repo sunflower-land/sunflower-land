@@ -3710,7 +3710,14 @@ export type EasterEggKeys =
   | "easterEgg.kingdomBook3"
   | "easterEgg.kingdomBook4"
   | "easterEgg.kingdomBook5"
-  | "easterEgg.knight";
+  | "easterEgg.knight"
+  | "easterEgg.pharaohsDiary"
+  | "easterEgg.digbysDiary"
+  | "easterEgg.goldtoothsDiary"
+  | "easterEgg.desertBook1"
+  | "easterEgg.desertBook2"
+  | "easterEgg.desertBook3"
+  | "easterEgg.desertBook4";
 
 export type ChangeLanguage =
   | "changeLanguage.confirm"
