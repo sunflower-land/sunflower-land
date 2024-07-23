@@ -21,10 +21,12 @@ import {
   DESERT_GRID_HEIGHT,
   DESERT_GRID_WIDTH,
   DIGGING_FORMATIONS,
+  secondsTillDesertStorm,
 } from "features/game/types/desert";
 import { ProgressBarContainer } from "../containers/ProgressBarContainer";
 import { npcModalManager } from "../ui/NPCModals";
 import { hasReadDesertNotice as hasReadDesertNotice } from "../ui/beach/DesertNoticeboard";
+import { Coordinates } from "features/game/expansion/components/MapPlacement";
 
 const convertToSnakeCase = (str: string) => {
   return str.replace(" ", "_").toLowerCase();
@@ -104,6 +106,8 @@ export class BeachScene extends BaseScene {
   isPlayerTweening = false;
   isFetching = false;
   digbyProgressBar: ProgressBarContainer | undefined;
+  desertStormTimer: NodeJS.Timeout | undefined;
+  dugItems: Phaser.GameObjects.Image[] = [];
 
   constructor() {
     super({ name: "beach", map: { json: mapJSON } });
@@ -340,6 +344,14 @@ export class BeachScene extends BaseScene {
     if (!hasReadDesertNotice()) {
       this.add.image(424, 267, "question_disc").setDepth(1000000);
     }
+
+    this.desertStormTimer = setTimeout(() => {
+      // Trigger a no op save event to fetch latest patterns
+      this.gameService.send("kingdomChores.refreshed");
+      this.gameService.send("SAVE");
+
+      this.resetSite();
+    }, secondsTillDesertStorm() * 1000);
   }
 
   public setUpDigSite = () => {
@@ -428,6 +440,41 @@ export class BeachScene extends BaseScene {
     });
   };
 
+  private resetSite = async () => {
+    // Remove dug items
+    this.dugItems.forEach((item) => {
+      this.showPoof({ x: item.x, y: item.y });
+      item.destroy();
+    });
+
+    this.dugItems = [];
+  };
+
+  showPoof({ x, y }: Coordinates) {
+    const poof = this.add.sprite(x, y, "poof").setDepth(1000000);
+
+    this.anims.create({
+      key: `poof_anim`,
+      frames: this.anims.generateFrameNumbers("poof", {
+        start: 0,
+        // TODO - buds with longer animation frames?
+        end: 8,
+      }),
+      repeat: 0,
+      frameRate: 10,
+    });
+
+    poof.play(`poof_anim`, true);
+
+    // Listen for the animation complete event
+    poof.on("animationcomplete", function (animation: { key: string }) {
+      if (animation.key === "poof_anim" && poof.active) {
+        // Animation 'poof_anim' has completed, destroy the sprite
+        poof.destroy();
+      }
+    });
+  }
+
   public populateDugItems = () => {
     const { grid: revealed } =
       this.gameService.state.context.state.desert.digging ?? [];
@@ -441,8 +488,32 @@ export class BeachScene extends BaseScene {
       const foundItem = getKeys(items)[0];
       const key = convertToSnakeCase(foundItem);
 
-      this.add.image(offsetX, offsetY, key).setScale(0.8);
+      const existing = this.dugItems.find(
+        (item) => item.x === offsetX && item.y === offsetY,
+      );
+      if (existing) {
+        existing.setTexture(key);
+      } else {
+        const image = this.add.image(offsetX, offsetY, key).setScale(0.8);
+        this.dugItems.push(image);
+      }
     });
+
+    // Clean up any sprites that are no longer in game state
+    this.dugItems
+      .filter((item) => {
+        return !revealed.some((hole) => {
+          const offsetX =
+            hole.x * this.cellWidth + this.gridX + this.cellWidth / 2;
+          const offsetY =
+            hole.y * this.cellHeight + this.gridY + this.cellHeight / 2;
+          return offsetX === item.x && offsetY === item.y;
+        });
+      })
+      .forEach((item) => {
+        this.showPoof({ x: item.x, y: item.y });
+        item.destroy();
+      });
   };
 
   public walkToDigLocation = (

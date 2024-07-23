@@ -360,7 +360,16 @@ export const STATIC_OFFLINE_FARM: GameState = {
   },
   desert: {
     digging: {
-      grid: [],
+      grid: [
+        {
+          x: 5,
+          y: 5,
+          dugAt: Date.now(),
+          items: {
+            Starfish: 1,
+          },
+        },
+      ],
       patterns: [
         "MONDAY_ARTEFACT_FORMATION",
         "SEAWEED",
