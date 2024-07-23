@@ -1,5 +1,6 @@
 import { Coordinates } from "features/game/expansion/components/MapPlacement";
 import { SceneId } from "../mmoMachine";
+import { CONFIG } from "lib/config";
 
 export type SpawnLocation = Record<
   SceneId,
@@ -111,13 +112,17 @@ export const SPAWNS: () => SpawnLocation = () => ({
     },
   },
   beach: {
-    default: {
-      x: 450,
-      y: 652,
-      // For artefact area
-      // x: 256,
-      // y: 159,
-    },
+    default:
+      CONFIG.NETWORK === "amoy"
+        ? {
+            // For artefact area
+            x: 256,
+            y: 159,
+          }
+        : {
+            x: 450,
+            y: 652,
+          },
   },
 
   auction_house: {

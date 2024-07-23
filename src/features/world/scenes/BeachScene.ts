@@ -17,7 +17,11 @@ import { getUTCDateString } from "lib/utils/time";
 import { BumpkinContainer } from "../containers/BumpkinContainer";
 import { getKeys } from "features/game/types/decorations";
 import { isCollectibleActive } from "features/game/lib/collectibleBuilt";
-import { DIGGING_FORMATIONS } from "features/game/types/desert";
+import {
+  DESERT_GRID_HEIGHT,
+  DESERT_GRID_WIDTH,
+  DIGGING_FORMATIONS,
+} from "features/game/types/desert";
 import { ProgressBarContainer } from "../containers/ProgressBarContainer";
 
 const convertToSnakeCase = (str: string) => {
@@ -75,8 +79,8 @@ export type DigAnalytics = {
 };
 
 const TOTAL_DIGS = 25;
-const SITE_COLS = 10;
-const SITE_ROWS = 8;
+const SITE_COLS = DESERT_GRID_WIDTH;
+const SITE_ROWS = DESERT_GRID_HEIGHT;
 
 export class BeachScene extends BaseScene {
   sceneId: SceneId = "beach";
@@ -86,7 +90,7 @@ export class BeachScene extends BaseScene {
   treasureContainer: Phaser.GameObjects.Container | undefined;
   selectedToolLabel: Phaser.GameObjects.Text | undefined;
   gridX = 160;
-  gridY = 160;
+  gridY = 128;
   cellWidth = 16;
   cellHeight = 16;
   digsRemaining = TOTAL_DIGS;
@@ -107,6 +111,7 @@ export class BeachScene extends BaseScene {
     this.load.image("empty_progress_bar", "world/empty_bar.png");
 
     this.load.image("heart", SUNNYSIDE.icons.heart);
+    this.load.image("palm_tree", "world/palm_tree.webp");
 
     this.load.image("wooden_chest", "world/wooden_chest.png");
     this.load.image("locked_disc", "world/locked_disc.png");
@@ -201,7 +206,7 @@ export class BeachScene extends BaseScene {
 
     this.initialiseNPCs(filteredBumpkins);
 
-    this.digbyProgressBar = new ProgressBarContainer(this, 257, 154);
+    this.digbyProgressBar = new ProgressBarContainer(this, 337, 234);
 
     const fisher = new FishermanContainer({
       x: 402,
@@ -241,7 +246,7 @@ export class BeachScene extends BaseScene {
       .setOffset(0, 0)
       .setImmovable(true)
       .setCollideWorldBounds(true);
-    this.add.sprite(400, 110, "shop_icon");
+    this.add.sprite(480, 190, "shop_icon");
 
     const beachBud2 = this.add.sprite(348, 397, "beach_bud_2");
     // turtle.setScale(-1, 1);
@@ -268,7 +273,7 @@ export class BeachScene extends BaseScene {
     });
     beachBud3.play("beach_bud_3_anim", true);
 
-    const blinking = this.add.sprite(399, 116, "blinking");
+    const blinking = this.add.sprite(399, 36, "blinking");
     this.anims.create({
       key: "blinking_anim",
       frames: this.anims.generateFrameNumbers("blinking", {
@@ -311,8 +316,16 @@ export class BeachScene extends BaseScene {
     if (
       hasFeatureAccess(this.gameService.state.context.state, "TEST_DIGGING")
     ) {
-      this.setUpBetaAccessToSite();
       this.setUpDigSite();
+    } else {
+      const blockingTree = this.add.sprite(384, 322, "palm_tree");
+      this.physics.world.enable(blockingTree);
+      this.colliders?.add(blockingTree);
+      (blockingTree.body as Phaser.Physics.Arcade.Body)
+        .setSize(32, 16)
+        .setOffset(0, 16)
+        .setImmovable(true)
+        .setCollideWorldBounds(true);
     }
   }
 
@@ -369,7 +382,7 @@ export class BeachScene extends BaseScene {
     // Add testing metric labels
     this.digsRemainingLabel = this.add.text(
       188,
-      143,
+      111,
       `Digs remaining: ${this.allowedDigs - this.holesDugCount}`,
       {
         fontSize: "6px",
@@ -381,7 +394,7 @@ export class BeachScene extends BaseScene {
     );
     this.percentageFoundLabel = this.add.text(
       188,
-      152,
+      120,
       `Treasure found: ${this.percentageTreasuresFound}%`,
       {
         fontSize: "4px",
@@ -577,46 +590,6 @@ export class BeachScene extends BaseScene {
 
   public handlePointOut = () => {
     this.hoverBox?.setVisible(false);
-  };
-
-  public setUpBetaAccessToSite = () => {
-    // Enter button
-    this.add
-      .image(305, 288, "button")
-      .setDisplaySize(28, 14)
-      .setInteractive({ cursor: "pointer" })
-      .on("pointerdown", () => {
-        this.currentPlayer?.teleport(256, 159);
-      });
-
-    this.add
-      .text(305, 287, "Test dig", {
-        fontSize: "4px",
-        fontFamily: "monospace",
-        padding: { x: 0, y: 2 },
-        resolution: 4,
-        color: "black",
-      })
-      .setOrigin(0.5, 0.5);
-
-    // Exit button
-    this.add
-      .image(305, 220, "button")
-      .setDisplaySize(28, 14)
-      .setInteractive({ cursor: "pointer" })
-      .on("pointerdown", () => {
-        this.currentPlayer?.teleport(303, 313);
-      });
-
-    this.add
-      .text(305, 219, "Go back", {
-        fontSize: "4px",
-        fontFamily: "monospace",
-        padding: { x: 0, y: 2 },
-        resolution: 4,
-        color: "black",
-      })
-      .setOrigin(0.5, 0.5);
   };
 
   public updateDiggingLabels = () => {
