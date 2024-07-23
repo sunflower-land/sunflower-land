@@ -13,6 +13,7 @@ export enum ANIMATION {
   death = "death",
   dig = "dig",
   doing = "doing",
+  drilling = "drilling",
   hammering = "hammering",
   hurt = "hurt",
   idle = "idle",

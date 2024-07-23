@@ -90,7 +90,7 @@ export const VIPGift: React.FC<Props> = ({ onClose }) => {
           />
           {hasOpened && (
             <Label type="success" icon={SUNNYSIDE.icons.confirm}>
-              {t("budBox.opened")}
+              {t("opened")}
             </Label>
           )}
         </div>

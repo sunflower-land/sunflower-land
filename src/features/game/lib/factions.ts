@@ -163,62 +163,31 @@ export function getFactionWearableBoostAmount(
   game: GameState,
   baseAmount: number,
 ): [number, Partial<Record<BoostType, BoostValue>>] {
-  const factionName = game.faction?.name as FactionName;
-
   let boost = 0;
   const boostLabels: Partial<Record<BoostType, BoostValue>> = {};
 
-  if (
-    isWearableActive({
-      game,
-      name: FACTION_OUTFITS[factionName].pants,
-    })
-  ) {
-    boost += baseAmount * 0.05;
-    boostLabels[FACTION_OUTFITS[factionName].pants] = `+${0.05 * 100}%`;
-  }
+  const factionName = game.faction?.name;
+  if (!factionName) return [boost, boostLabels];
 
-  if (
-    isWearableActive({
-      game,
-      name: FACTION_OUTFITS[factionName].shoes,
-    })
-  ) {
-    boost += baseAmount * 0.05;
-    boostLabels[FACTION_OUTFITS[factionName].shoes] = `+${0.05 * 100}%`;
-  }
+  // Assign the boost amount with each part
+  const boosts: Record<OutfitPart, number> = {
+    pants: 0.05,
+    shoes: 0.05,
+    tool: 0.1,
+    hat: 0.1,
+    shirt: 0.2,
+  };
 
-  if (
-    isWearableActive({
-      game,
-      name: FACTION_OUTFITS[factionName].tool,
-    })
-  ) {
-    boost += baseAmount * 0.1;
-    boostLabels[FACTION_OUTFITS[factionName].tool] = `+${0.1 * 100}%`;
-  }
+  // Dynamically sets the boost based on the boost set for each wearable
+  (Object.keys(boosts) as (keyof typeof boosts)[]).forEach((wearable) => {
+    const wearableName = FACTION_OUTFITS[factionName][wearable];
+    if (isWearableActive({ game, name: wearableName })) {
+      boost += baseAmount * boosts[wearable];
+      boostLabels[wearableName] = `+${boosts[wearable] * 100}%`;
+    }
+  });
 
-  if (
-    isWearableActive({
-      game,
-      name: FACTION_OUTFITS[factionName].hat,
-    })
-  ) {
-    boost += baseAmount * 0.1;
-    boostLabels[FACTION_OUTFITS[factionName].hat] = `+${0.1 * 100}%`;
-  }
-
-  if (
-    isWearableActive({
-      game,
-      name: FACTION_OUTFITS[factionName].shirt,
-    })
-  ) {
-    boost += baseAmount * 0.2;
-    boostLabels[FACTION_OUTFITS[factionName].shirt] = `+${0.2 * 100}%`;
-  }
-
-  return [boost, boostLabels] as const;
+  return [boost, boostLabels];
 }
 
 /**
@@ -248,13 +217,13 @@ export const BONUS_FACTION_PRIZES: Record<
 > = {
   "2024-07-22": {
     1: {
-      items: {
-        "Turbo Sprout": 1,
+      wearables: {
+        "Crimstone Hammer": 1,
       },
     },
     2: {
-      wearables: {
-        "Crimstone Hammer": 1,
+      items: {
+        "Turbo Sprout": 1,
       },
     },
     3: {
@@ -384,12 +353,13 @@ export const FACTION_PRIZES: Record<number, FactionPrize> = {
       // [getSeasonalTicket()]: 6,
     },
   },
-  // 11th - 50th all get 5 seasonal tickets
-  ...new Array(40)
+  // 11th - 25th all get marks + 5 seasonal tickets
+  ...new Array(15)
     .fill({
       coins: 500,
       sfl: 50,
       items: {
+        Mark: 2500,
         // [getSeasonalTicket()]: 5,
       },
     })
@@ -397,6 +367,23 @@ export const FACTION_PRIZES: Record<number, FactionPrize> = {
       (acc, item, index) => ({
         ...acc,
         [index + 11]: item,
+      }),
+      {},
+    ),
+  // 26th - 50th all get 5 seasonal tickets
+  ...new Array(25)
+    .fill({
+      coins: 500,
+      sfl: 50,
+      items: {
+        Mark: 1500,
+        // [getSeasonalTicket()]: 5,
+      },
+    })
+    .reduce(
+      (acc, item, index) => ({
+        ...acc,
+        [index + 26]: item,
       }),
       {},
     ),

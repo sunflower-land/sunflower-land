@@ -7,6 +7,7 @@ import debounce from "lodash.debounce";
 import { Player } from "../types/Room";
 import { NPCName, acknowledgedNPCs } from "lib/npcs";
 import { ReactionName } from "features/pumpkinPlaza/components/Reactions";
+import { getAnimationUrl } from "../lib/animations";
 
 const NAME_ALIASES: Partial<Record<NPCName, string>> = {
   "pumpkin' pete": "pete",
@@ -40,6 +41,7 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
   private walkingSpriteKey: string | undefined;
   private idleAnimationKey: string | undefined;
   private walkingAnimationKey: string | undefined;
+  private digAnimationKey: string | undefined;
   private direction: "left" | "right" = "right";
 
   constructor({
@@ -135,12 +137,14 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
     this.walkingSpriteKey = `${keyName}-bumpkin-walking-sheet`;
     this.idleAnimationKey = `${keyName}-bumpkin-idle`;
     this.walkingAnimationKey = `${keyName}-bumpkin-walking`;
+    this.digAnimationKey = `${keyName}-bumpkin-dig`;
 
     const { sheets } = await buildNPCSheets({
       parts: this.clothing,
     });
 
     if (scene.textures.exists(this.idleSpriteKey)) {
+      // If we have idle sheet then we can create the idle animation and set the sprite up straight away
       const idle = scene.add.sprite(0, 0, this.idleSpriteKey).setOrigin(0.5);
       this.add(idle);
       this.sprite = idle;
@@ -214,7 +218,36 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
       });
     }
 
+    // If the texture already exists, we can use it immediately
+    if (scene.textures.exists(this.digAnimationKey)) {
+      this.createDigAnimation();
+    } else {
+      const url = getAnimationUrl(this.clothing, "dig");
+      const digLoader = scene.load.spritesheet(this.digAnimationKey, url, {
+        frameWidth: 96,
+        frameHeight: 64,
+      });
+
+      digLoader.addListener(Phaser.Loader.Events.COMPLETE, () => {
+        this.createDigAnimation();
+        digLoader.removeAllListeners();
+      });
+    }
+
     scene.load.start();
+  }
+
+  private createDigAnimation() {
+    if (!this.scene || !this.scene.anims) return;
+
+    this.scene.anims.create({
+      key: this.digAnimationKey,
+      frames: this.scene.anims.generateFrameNumbers(
+        this.digAnimationKey as string,
+      ),
+      frameRate: 10,
+      repeat: -1,
+    });
   }
 
   private createIdleAnimation() {
@@ -410,6 +443,21 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
     this.add(this.reaction);
 
     this.destroyReaction();
+  }
+
+  public dig() {
+    if (
+      this.sprite?.anims &&
+      this.scene?.anims.exists(this.digAnimationKey as string) &&
+      this.sprite?.anims.getName() !== this.digAnimationKey
+    ) {
+      try {
+        this.sprite.anims.play(this.digAnimationKey as string, true);
+      } catch (e) {
+        // eslint-disable-next-line no-console
+        console.log("Bumpkin Container: Error playing dig animation: ", e);
+      }
+    }
   }
 
   public walk() {

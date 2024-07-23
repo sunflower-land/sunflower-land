@@ -94,7 +94,7 @@ export const Tools: React.FC<Props> = ({ onClose }) => {
     }
 
     if (stock.equals(0)) {
-      return <Restock onClose={onClose}></Restock>;
+      return <Restock onClose={onClose} />;
     }
 
     return (

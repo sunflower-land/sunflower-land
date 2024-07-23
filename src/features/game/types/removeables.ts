@@ -237,7 +237,7 @@ function areAnyComposting(game: GameState): Restriction {
   ];
 }
 
-function hasFishedToday(game: GameState): Restriction {
+export function hasFishedToday(game: GameState): Restriction {
   return [
     getDailyFishingCount(game) !== 0,
     translate("restrictionReason.recentlyFished"),

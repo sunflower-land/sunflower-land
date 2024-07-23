@@ -321,6 +321,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   ok: "OK",
   on: "On",
   open: "Open",
+  opened: "Opened",
   optional: "Optional",
   "open.gift": "Open Gift",
   place: "Place",
@@ -930,6 +931,7 @@ const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
     "This {{hourglass}} provides a temporary boost of {{boost}}.",
   "description.hourglass.expired":
     "Your {{hourglass}} has expired. Time to grab another one!",
+  "description.desert.rose.boost": "10% Chance for +1 Flower",
 };
 
 const bountyDescription: Record<BountyDescription, string> = {
@@ -2531,6 +2533,9 @@ const flowerBed: Record<FlowerBed, string> = {
     "Bee swarms give +0.2 boost to any planted crops.",
   "flowerBed.newSpecies.discovered":
     "By golly, you've discovered a new species of flower!",
+  "flowerBed.newSpecies.superLucky":
+    "Wow! It's your lucky day, you've made two discoveries in one go! You've discovered a new species of flower and an extra mutant flower has appeared!",
+  "flowerBed.newSpecies.mutant": "A mutant flower has appeared!",
   "flowerBedContent.select.combination": "Select your combination",
   "flowerBedContent.select.seed": "Select a seed",
   "flowerBedContent.select.crossbreed": "Select a crossbreed",

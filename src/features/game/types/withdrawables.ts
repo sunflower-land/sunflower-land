@@ -45,6 +45,7 @@ import {
   PotionHouseItemName,
   PurchasableItems,
   SoldOutCollectibleName,
+  TreasureCollectibleItem,
 } from "./collectibles";
 import { CommodityName, ResourceName } from "./resources";
 import { Flag } from "./flags";
@@ -77,7 +78,7 @@ import {
   OldFishName,
 } from "./fishing";
 import { canWithdrawBoostedWearable } from "./wearableValidation";
-import { FlowerName, FlowerSeedName } from "./flowers";
+import { FlowerName, FlowerSeedName, MutantFlowerName } from "./flowers";
 import { FactionShopCollectibleName, FactionShopFoodName } from "./factionShop";
 
 const canWithdrawTimebasedItem = (availableAt: Date) => {
@@ -243,7 +244,6 @@ const factionBanners = {
 
 const heliosBlacksmith: Record<HeliosBlacksmithItem, () => boolean> = {
   "Immortal Pear": () => false,
-  "Treasure Map": () => false,
   "Basic Scarecrow": () => false,
   Bale: () => false,
   "Scary Mike": () => false,
@@ -254,6 +254,10 @@ const heliosBlacksmith: Record<HeliosBlacksmithItem, () => boolean> = {
   Nana: () => true,
   "Soil Krabby": () => true,
   "Skill Shrimpy": () => true,
+};
+
+const treasureCollectible: Record<TreasureCollectibleItem, () => boolean> = {
+  "Treasure Map": () => false,
 };
 
 const commodities: Record<CommodityName, () => boolean> = {
@@ -808,6 +812,12 @@ const beachBounty: Record<BeachBountyTreasure, () => boolean> = {
   "Iron Compass": () => false,
   "Old Bottle": () => false,
   "Emerald Compass": () => false,
+  "Camel Bone": () => false,
+  "Cockle Shell": () => false,
+  Hieroglyph: () => false,
+  Sand: () => false,
+  Scarab: () => false,
+  Vase: () => false,
 };
 
 const eventDecoration: Record<EventDecorationName, () => boolean> = {
@@ -1039,6 +1049,10 @@ const factionShopFood: Record<FactionShopFoodName, () => boolean> = {
   Paella: () => false,
 };
 
+const mutantFlowers: Record<MutantFlowerName, () => boolean> = {
+  "Desert Rose": () => false,
+};
+
 export const WITHDRAWABLES: Record<InventoryItemName, () => boolean> = {
   ...greenHouseCrop,
   ...greenHouseCropSeed,
@@ -1064,12 +1078,14 @@ export const WITHDRAWABLES: Record<InventoryItemName, () => boolean> = {
   ...flags,
   ...easterEggs,
   ...mutantCrop,
+  ...mutantFlowers,
   ...specialEvents,
   ...points,
   ...goblinBlacksmith,
   ...soldOut,
   ...travelingSalesmanItems,
   ...blacksmithItems,
+  ...treasureCollectible,
   ...barnItems,
   ...animals,
   ...achievementDecoration,
@@ -1501,4 +1517,9 @@ export const BUMPKIN_WITHDRAWABLES: Record<
   "Amber Amulet": () => false,
   "Sun Scarab Amulet": () => false,
   "Desert Background": () => false,
+  "Desert Merchant Turban": () => false,
+  "Desert Merchant Shoes": () => false,
+  "Desert Merchant Suit": () => false,
+  "Desert Camel Background": () => false,
+  "Water Gourd": () => false,
 };

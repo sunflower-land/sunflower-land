@@ -23,7 +23,6 @@ export type PurchasableItems =
 
 export type HeliosBlacksmithItem =
   | "Immortal Pear"
-  | "Treasure Map"
   | "Basic Scarecrow"
   | "Bale"
   | "Scary Mike"
@@ -34,6 +33,8 @@ export type HeliosBlacksmithItem =
   | "Skill Shrimpy"
   | "Soil Krabby"
   | "Nana";
+
+export type TreasureCollectibleItem = "Treasure Map";
 
 export type SoldOutCollectibleName =
   | "Sir Goldensnout"
@@ -191,6 +192,12 @@ export const HELIOS_BLACKSMITH_ITEMS: (
       Orange: new Decimal(10),
     },
   },
+});
+
+export const TREASURE_COLLECTIBLE_ITEM: Record<
+  TreasureCollectibleItem,
+  CraftableCollectible
+> = {
   "Treasure Map": {
     description: translate("description.treasure.map"),
     boost: translate("description.treasure.map.boost"),
@@ -199,7 +206,7 @@ export const HELIOS_BLACKSMITH_ITEMS: (
       "Wooden Compass": new Decimal(2),
     },
   },
-});
+};
 
 export type PotionHouseItem = CraftableCollectible & {
   name: PotionHouseItemName;

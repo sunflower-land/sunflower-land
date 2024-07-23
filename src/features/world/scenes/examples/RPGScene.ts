@@ -73,13 +73,14 @@ export class ExampleRPGScene extends Phaser.Scene {
     this.x = this.input.keyboard?.addKey(Phaser.Input.Keyboard.KeyCodes.X);
     this.c = this.input.keyboard?.addKey(Phaser.Input.Keyboard.KeyCodes.C);
     this.v = this.input.keyboard?.addKey(Phaser.Input.Keyboard.KeyCodes.V);
+    this.b = this.input.keyboard?.addKey(Phaser.Input.Keyboard.KeyCodes.B);
     this.one = this.input.keyboard?.addKey(Phaser.Input.Keyboard.KeyCodes.ONE);
     this.two = this.input.keyboard?.addKey(Phaser.Input.Keyboard.KeyCodes.TWO);
 
     this.add.text(
       window.innerWidth / 2 - 50,
       window.innerHeight / 2 - 100,
-      `W,A,S,D: Move\nSpace: Jump\nShift: Run\nQ: Carry\nE: Attack\nR: Roll\nF: Fish\nZ: Mine\nX: Dig\nC: Water\nV: Axe\n1: Death\n2: Hurt`,
+      `W,A,S,D: Move\nSpace: Jump\nShift: Run\nQ: Carry\nE: Attack\nR: Roll\nF: Fish\nZ: Mine\nX: Dig\nC: Water\nV: Axe\nB: Drill\n1: Death\n2: Hurt`,
     );
 
     /**
@@ -138,6 +139,8 @@ export class ExampleRPGScene extends Phaser.Scene {
       player.play("watering", true);
     } else if (this.v?.isDown) {
       player.play("axe", true);
+    } else if (this.b?.isDown) {
+      player.play("drilling", true);
     } else if (this.one?.isDown) {
       player.play("death", true);
     } else if (this.two?.isDown) {
