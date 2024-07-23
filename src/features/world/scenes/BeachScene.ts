@@ -24,6 +24,7 @@ import {
 } from "features/game/types/desert";
 import { ProgressBarContainer } from "../containers/ProgressBarContainer";
 import { npcModalManager } from "../ui/NPCModals";
+import { hasReadDesertNotice as hasReadDesertNotice } from "../ui/beach/DesertNoticeboard";
 
 const convertToSnakeCase = (str: string) => {
   return str.replace(" ", "_").toLowerCase();
@@ -34,6 +35,7 @@ const BUMPKINS: NPCBumpkin[] = [
     npc: "digby",
     x: 336,
     y: 219,
+    direction: "left",
   },
   {
     npc: "finn",
@@ -109,6 +111,8 @@ export class BeachScene extends BaseScene {
 
   preload() {
     super.preload();
+
+    this.load.image("question_disc", "world/question_disc.png");
 
     this.load.image("empty_progress_bar", "world/empty_bar.png");
 
@@ -331,6 +335,10 @@ export class BeachScene extends BaseScene {
         .setOffset(0, 16)
         .setImmovable(true)
         .setCollideWorldBounds(true);
+    }
+
+    if (!hasReadDesertNotice()) {
+      this.add.image(424, 267, "question_disc").setDepth(1000000);
     }
   }
 

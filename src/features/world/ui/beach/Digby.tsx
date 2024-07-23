@@ -1,7 +1,6 @@
 import { useActor } from "@xstate/react";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Label } from "components/ui/Label";
-import { Panel } from "components/ui/Panel";
 import { Context } from "features/game/GameProvider";
 import {
   DiggingFormation,
@@ -14,13 +13,23 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { secondsTillReset } from "features/helios/components/hayseedHank/HayseedHankV2";
 import { NPC_WEARABLES } from "lib/npcs";
 import { secondsToString } from "lib/utils/time";
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 import siteBg from "assets/ui/site_bg.png";
 import { Desert } from "features/game/types/game";
 import { getKeys } from "features/game/types/decorations";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Button } from "components/ui/Button";
+import { CloseButtonPanel } from "features/game/components/CloseablePanel";
+import { NoticeboardItems } from "../kingdom/KingdomNoticeboard";
+
+function hasReadIntro() {
+  return !!localStorage.getItem("digging.intro");
+}
+
+function acknowledgeIntro() {
+  return localStorage.setItem("digging.intro", new Date().toISOString());
+}
 
 function centerFormation(formation: DiggingFormation): DiggingFormation {
   const totalX = formation.reduce((sum, item) => sum + item.x, 0);
@@ -147,57 +156,109 @@ const Pattern: React.FC<{
   );
 };
 
-export const Digby: React.FC<{ onClose: () => void }> = ({ onClose }) => {
+const DailyPuzzle: React.FC = () => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
-
-  const { t } = useAppTranslation();
 
   const patterns = gameState.context.state.desert.digging.patterns;
   const grid = dugToGrid(gameState.context.state.desert.digging.grid);
 
+  const { t } = useAppTranslation();
   return (
-    <Panel bumpkinParts={NPC_WEARABLES.digby}>
-      <div className="p-1">
-        <div className="flex justify-between mb-1">
-          <Label type="default">{t("digby.puzzle")}</Label>
-          <Label className="ml-1" type="info" icon={SUNNYSIDE.icons.stopwatch}>
-            {`${secondsToString(secondsTillReset(), {
-              length: "medium",
-              removeTrailingZeros: true,
-            })} left`}
-          </Label>
-        </div>
-        <span className="text-xs mt-2 mx-1">{t("digby.today")}</span>
-        <div
-          className="flex flex-wrap  scrollable overflow-y-auto pt-2 overflow-x-hidden pr-1"
-          style={{ maxHeight: "300px" }}
-        >
-          {patterns.map((pattern, index) => {
-            const discovered = countFormationOccurrences({
-              grid,
-              formation: DIGGING_FORMATIONS[pattern],
-            });
-
-            const duplicates = patterns.filter(
-              (p, i) => i < index && p === pattern,
-            ).length;
-
-            return (
-              <div className="w-1/4 sm:w-1/4" key={index}>
-                <div className="m-1">
-                  <Pattern
-                    key={index}
-                    pattern={DIGGING_FORMATIONS[pattern]}
-                    isDiscovered={discovered > duplicates}
-                  />
-                </div>
-              </div>
-            );
-          })}
-        </div>
+    <div className="p-1">
+      <div className="flex justify-between mb-1">
+        <Label type="default">{t("digby.puzzle")}</Label>
+        <Label className="ml-1" type="info" icon={SUNNYSIDE.icons.stopwatch}>
+          {`${secondsToString(secondsTillReset(), {
+            length: "medium",
+            removeTrailingZeros: true,
+          })} left`}
+        </Label>
       </div>
-      <Button onClick={onClose}>{t("close")}</Button>
-    </Panel>
+      <span className="text-xs mt-2 mx-1">{t("digby.today")}</span>
+      <div
+        className="flex flex-wrap  scrollable overflow-y-auto pt-2 overflow-x-hidden pr-1"
+        style={{ maxHeight: "300px" }}
+      >
+        {patterns.map((pattern, index) => {
+          const discovered = countFormationOccurrences({
+            grid,
+            formation: DIGGING_FORMATIONS[pattern],
+          });
+
+          const duplicates = patterns.filter(
+            (p, i) => i < index && p === pattern,
+          ).length;
+
+          return (
+            <div className="w-1/4 sm:w-1/4" key={index}>
+              <div className="m-1">
+                <Pattern
+                  key={index}
+                  pattern={DIGGING_FORMATIONS[pattern]}
+                  isDiscovered={discovered > duplicates}
+                />
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+};
+
+export const Digby: React.FC<{ onClose: () => void }> = ({ onClose }) => {
+  const [tab, setTab] = useState(hasReadIntro() ? 0 : 1);
+
+  const { t } = useAppTranslation();
+
+  useEffect(() => {
+    acknowledgeIntro();
+  }, []);
+
+  return (
+    <CloseButtonPanel
+      setCurrentTab={setTab}
+      currentTab={tab}
+      tabs={[
+        {
+          icon: ITEM_DETAILS["Sand Shovel"].image,
+          name: t("digby.patterns"),
+        },
+        {
+          icon: SUNNYSIDE.icons.expression_confused,
+          name: t("guide"),
+        },
+      ]}
+      onClose={onClose}
+      bumpkinParts={NPC_WEARABLES.digby}
+    >
+      {tab === 0 && <DailyPuzzle />}
+      {tab === 1 && (
+        <div className="pt-2">
+          <NoticeboardItems
+            items={[
+              {
+                icon: ITEM_DETAILS["Sand Shovel"].image,
+                text: t("digby.guide.one"),
+              },
+              {
+                icon: ITEM_DETAILS["Crab"].image,
+                text: t("digby.guide.two"),
+              },
+              {
+                icon: ITEM_DETAILS["Sand"].image,
+                text: t("digby.guide.three"),
+              },
+              {
+                icon: SUNNYSIDE.icons.stopwatch,
+                text: t("digby.guide.four"),
+              },
+            ]}
+          />
+          <Button onClick={() => setTab(0)}>{t("ok")}</Button>
+        </div>
+      )}
+    </CloseButtonPanel>
   );
 };
