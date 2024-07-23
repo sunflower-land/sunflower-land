@@ -27,44 +27,44 @@ const convertToSnakeCase = (str: string) => {
 const BUMPKINS: NPCBumpkin[] = [
   {
     npc: "digby",
-    x: 256,
-    y: 139,
+    x: 336,
+    y: 219,
   },
   {
     npc: "finn",
-    x: 94,
-    y: 518,
+    x: 174,
+    y: 598,
   },
   {
     npc: "finley",
-    x: 122,
-    y: 390,
+    x: 202,
+    y: 470,
     direction: "left",
   },
   {
     npc: "tango",
-    x: 416,
-    y: 321,
+    x: 496,
+    y: 401,
   },
   {
     npc: "jafar",
-    x: 398,
-    y: 140,
+    x: 478,
+    y: 220,
   },
   {
     // To remove on digging release
     npc: "goldtooth",
-    x: 304,
-    y: 255,
+    x: 384,
+    y: 335,
   },
   {
     npc: "corale",
-    x: 135,
-    y: 670,
+    x: 215,
+    y: 750,
   },
   {
-    x: 338,
-    y: 407,
+    x: 418,
+    y: 487,
     npc: "miranda",
   },
 ];
@@ -85,8 +85,8 @@ export class BeachScene extends BaseScene {
   confirmBox: Phaser.GameObjects.Image | undefined;
   treasureContainer: Phaser.GameObjects.Container | undefined;
   selectedToolLabel: Phaser.GameObjects.Text | undefined;
-  gridX = 80;
-  gridY = 80;
+  gridX = 160;
+  gridY = 160;
   cellWidth = 16;
   cellHeight = 16;
   digsRemaining = TOTAL_DIGS;
@@ -204,8 +204,8 @@ export class BeachScene extends BaseScene {
     this.digbyProgressBar = new ProgressBarContainer(this, 257, 154);
 
     const fisher = new FishermanContainer({
-      x: 322,
-      y: 711,
+      x: 402,
+      y: 791,
       scene: this,
       weather: this.gameState.fishing.weather,
     });
@@ -219,7 +219,7 @@ export class BeachScene extends BaseScene {
       .setImmovable(true)
       .setCollideWorldBounds(true);
 
-    const turtle = this.add.sprite(328, 515, "beach_bud");
+    const turtle = this.add.sprite(408, 595, "beach_bud");
     turtle.setScale(-1, 1);
     this.anims.create({
       key: "turtle_bud_anim",
@@ -232,7 +232,7 @@ export class BeachScene extends BaseScene {
     });
     turtle.play("turtle_bud_anim", true);
 
-    const treasureShop = this.add.sprite(400, 130, "treasure_shop");
+    const treasureShop = this.add.sprite(480, 210, "treasure_shop");
     this.physics.world.enable(treasureShop);
     this.colliders?.add(treasureShop);
     this.triggerColliders?.add(treasureShop);
@@ -243,7 +243,7 @@ export class BeachScene extends BaseScene {
       .setCollideWorldBounds(true);
     this.add.sprite(400, 110, "shop_icon");
 
-    const beachBud2 = this.add.sprite(268, 317, "beach_bud_2");
+    const beachBud2 = this.add.sprite(348, 397, "beach_bud_2");
     // turtle.setScale(-1, 1);
     this.anims.create({
       key: "beach_bud_2_anim",
@@ -256,7 +256,7 @@ export class BeachScene extends BaseScene {
     });
     beachBud2.play("beach_bud_2_anim", true);
 
-    const beachBud3 = this.add.sprite(420, 572, "beach_bud_3");
+    const beachBud3 = this.add.sprite(500, 652, "beach_bud_3");
     this.anims.create({
       key: "beach_bud_3_anim",
       frames: this.anims.generateFrameNumbers("beach_bud_3", {
@@ -268,7 +268,7 @@ export class BeachScene extends BaseScene {
     });
     beachBud3.play("beach_bud_3_anim", true);
 
-    const blinking = this.add.sprite(319, 36, "blinking");
+    const blinking = this.add.sprite(399, 116, "blinking");
     this.anims.create({
       key: "blinking_anim",
       frames: this.anims.generateFrameNumbers("blinking", {
@@ -280,7 +280,7 @@ export class BeachScene extends BaseScene {
     });
     blinking.play("blinking_anim", true);
 
-    const bird = this.add.sprite(318, 460, "bird");
+    const bird = this.add.sprite(398, 540, "bird");
     bird.setDepth(1000000000);
     this.anims.create({
       key: "bird_anim",
@@ -294,12 +294,12 @@ export class BeachScene extends BaseScene {
     bird.play("bird_anim", true);
 
     if (this.gameState.inventory["Rare Key"]) {
-      this.add.sprite(320, 580, "rare_key_disc").setDepth(1000000000);
+      this.add.sprite(400, 660, "rare_key_disc").setDepth(1000000000);
     } else {
-      this.add.sprite(320, 580, "locked_disc").setDepth(1000000000);
+      this.add.sprite(400, 660, "locked_disc").setDepth(1000000000);
     }
 
-    const chest = this.add.sprite(320, 600, "wooden_chest");
+    const chest = this.add.sprite(400, 680, "wooden_chest");
     chest.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
       if (this.checkDistanceToSprite(chest, 75)) {
         interactableModalManager.open("rare_chest");
@@ -368,8 +368,8 @@ export class BeachScene extends BaseScene {
 
     // Add testing metric labels
     this.digsRemainingLabel = this.add.text(
-      108,
-      63,
+      188,
+      143,
       `Digs remaining: ${this.allowedDigs - this.holesDugCount}`,
       {
         fontSize: "6px",
@@ -380,8 +380,8 @@ export class BeachScene extends BaseScene {
       },
     );
     this.percentageFoundLabel = this.add.text(
-      108,
-      72,
+      188,
+      152,
       `Treasure found: ${this.percentageTreasuresFound}%`,
       {
         fontSize: "4px",
