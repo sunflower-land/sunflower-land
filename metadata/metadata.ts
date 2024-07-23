@@ -12944,4 +12944,28 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
     image: "../public/wearables/images/365.png",
     name: "Water Gourd",
   },
+  "Rocket Onesie": {
+    description:
+      "Ready to blast off into imagination, it's a miniature marvel of cosmic adventure!",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Onesie" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://bumpkins.io",
+    image: "../public/wearables/images/366.png",
+    name: "Rocket Onesie",
+  },
+  "Coin Aura": {
+    description:
+      "Its elegant dance captivates the eye, embodying the essence of prosperity and luxury before gracefully vanishing. ",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Aura" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://bumpkins.io",
+    image: "../public/wearables/images/367.png",
+    name: "Coin Aura",
+  },
 };
