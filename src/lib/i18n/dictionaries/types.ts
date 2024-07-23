@@ -3732,7 +3732,11 @@ export type DesertKeys =
   | "digby.guide.one"
   | "digby.guide.two"
   | "digby.guide.three"
-  | "digby.guide.four";
+  | "digby.guide.four"
+  | "desert.notice.one"
+  | "desert.notice.two"
+  | "desert.notice.three"
+  | "desert.notice.four";
 
 export type TranslationKeys =
   | AchievementsTerms

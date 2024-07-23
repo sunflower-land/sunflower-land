@@ -35,8 +35,10 @@ import { Champions } from "./factions/Champions";
 import { KingdomNoticeboard } from "./kingdom/KingdomNoticeboard";
 import { FactionNoticeboard } from "./factions/FactionNoticeboard";
 import { CropsAndChickens } from "./portals/CropsAndChickens";
+import { DesertNoticeboard } from "./beach/DesertNoticeboard";
 
 type InteractableName =
+  | "desert_noticeboard"
   | "faction_noticeboard"
   | "kingdom_noticeboard"
   | "champions"
@@ -191,6 +193,9 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
       )}
       <Modal show={interactable === "faction_intro"} onHide={closeModal}>
         <FactionWelcome onClose={closeModal} />
+      </Modal>
+      <Modal show={interactable === "desert_noticeboard"} onHide={closeModal}>
+        <DesertNoticeboard onClose={closeModal} />
       </Modal>
       <Modal show={interactable === "kingdom_noticeboard"} onHide={closeModal}>
         <KingdomNoticeboard onClose={closeModal} />

@@ -5483,6 +5483,12 @@ export const desertTerms: Record<DesertKeys, string> = {
     "If you discover sand, you are out of luck. Dig elsewhere.",
   "digby.guide.four":
     "Each day a desert storm resets the puzzle with new patterns and resources.",
+  "desert.notice.one":
+    "Welcome to the Desert. Can you solve the Pharaoh's puzzle and find the hidden treasures?",
+  "desert.notice.two": "Discover artefacts & exchange them for seasonal gifts.",
+  "desert.notice.three": "Sell resources at the shop for coins.",
+  "desert.notice.four":
+    "Gather items for NPC deliveries in exchange for rewards.",
 };
 
 export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
