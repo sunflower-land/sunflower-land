@@ -191,6 +191,28 @@ export class KingdomScene extends BaseScene {
         }
       });
 
+    if (hasFeatureAccess(this.gameState, "CROPS_AND_CHICKENS")) {
+      const cropsAndChickensPortal = this.add.sprite(400, 752, "portal");
+      cropsAndChickensPortal.play("portal_anim", true);
+      cropsAndChickensPortal
+        .setInteractive({ cursor: "pointer" })
+        .on("pointerdown", () => {
+          if (this.checkDistanceToSprite(cropsAndChickensPortal, 40)) {
+            interactableModalManager.open("crops_and_chickens");
+          } else {
+            this.currentPlayer?.speak(translate("base.iam.far.away"));
+          }
+        });
+
+      this.physics.world.enable(cropsAndChickensPortal);
+      this.colliders?.add(cropsAndChickensPortal);
+      (cropsAndChickensPortal.body as Phaser.Physics.Arcade.Body)
+        .setSize(32, 32)
+        .setOffset(0, 0)
+        .setImmovable(true)
+        .setCollideWorldBounds(true);
+    }
+
     const board1 = this.add.sprite(328, 620, "sunflorian_board");
 
     board1
