@@ -93,8 +93,8 @@ export class BeachScene extends BaseScene {
   noShovelHoverBox: Phaser.GameObjects.Image | undefined;
   treasureContainer: Phaser.GameObjects.Container | undefined;
   selectedToolLabel: Phaser.GameObjects.Text | undefined;
-  gridX = 80;
-  gridY = 80;
+  gridX = 160;
+  gridY = 128;
   cellSize = 16;
   digOffsetX = 7;
   digOffsetY = 3;
@@ -107,6 +107,7 @@ export class BeachScene extends BaseScene {
   isPlayerTweening = false;
   isFetching = false;
   digbyProgressBar: ProgressBarContainer | undefined;
+  currentSelectedItem: InventoryItemName | undefined;
 
   constructor() {
     super({ name: "beach", map: { json: mapJSON } });
@@ -336,6 +337,8 @@ export class BeachScene extends BaseScene {
         .setImmovable(true)
         .setCollideWorldBounds(true);
     }
+
+    this.currentSelectedItem = this.selectedItem;
   }
 
   public setUpDigSite = () => {
@@ -1033,8 +1036,21 @@ export class BeachScene extends BaseScene {
     }
   }
 
+  public handleUpdateSelectedItem = () => {
+    if (this.currentSelectedItem === this.selectedItem) return;
+
+    this.currentSelectedItem = this.selectedItem;
+
+    this.hoverBox?.setVisible(false);
+    this.confirmBox?.setVisible(false);
+    this.drillConfirmBox?.setVisible(false);
+    this.drillHoverBox?.setVisible(false);
+  };
+
   public update() {
     if (!this.currentPlayer) return;
+
+    this.handleUpdateSelectedItem();
 
     if (this.isPlayerInDigArea(this.currentPlayer.x, this.currentPlayer.y)) {
       this.updatePlayer();
