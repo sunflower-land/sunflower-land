@@ -34,6 +34,7 @@ import { FactionWelcome, hasReadFactionIntro } from "./factions/FactionWelcome";
 import { Champions } from "./factions/Champions";
 import { KingdomNoticeboard } from "./kingdom/KingdomNoticeboard";
 import { FactionNoticeboard } from "./factions/FactionNoticeboard";
+import { CropsAndChickens } from "./portals/CropsAndChickens";
 
 type InteractableName =
   | "faction_noticeboard"
@@ -100,6 +101,7 @@ type InteractableName =
   | "nightshades_faction"
   | "sunflorians_faction"
   | "chicken_rescue"
+  | "crops_and_chickens"
   | "festival_of_colors"
   // to replace pledge factions
   | "join_goblins"
@@ -431,6 +433,15 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
           bumpkinParts={NPC_WEARABLES.billy}
         >
           <ChickenRescue onClose={closeModal} />
+        </CloseButtonPanel>
+      </Modal>
+
+      <Modal show={interactable === "crops_and_chickens"} onHide={closeModal}>
+        <CloseButtonPanel
+          onClose={closeModal}
+          bumpkinParts={NPC_WEARABLES.billy}
+        >
+          <CropsAndChickens onClose={closeModal} />
         </CloseButtonPanel>
       </Modal>
 
