@@ -120,8 +120,8 @@ export const SPAWNS: () => SpawnLocation = () => ({
             y: 159,
           }
         : {
-            x: 840,
-            y: 732,
+            x: 528,
+            y: 736,
           },
   },
 
