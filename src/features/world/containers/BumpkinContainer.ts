@@ -34,6 +34,7 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
 
   public icon: Phaser.GameObjects.Sprite | undefined;
   public fx: Phaser.GameObjects.Sprite | undefined;
+  public label: Label | undefined;
 
   public clothing: Player["clothing"];
   private ready = false;
@@ -100,6 +101,8 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
         this.alert = this.scene.add.sprite(1, -23, "alert").setSize(4, 10);
         this.add(this.alert);
       }
+
+      this.label = label;
     }
 
     this.scene.add.existing(this);
@@ -439,10 +442,12 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
     this.speech = undefined;
 
     this.destroySpeechBubble.cancel();
+    this.label?.setVisible(true);
   }
 
   public speak(text: string) {
     this.stopReaction();
+    this.label?.setVisible(false);
 
     if (this.speech?.active) {
       this.speech.destroy();
@@ -456,6 +461,10 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
     this.add(this.speech);
 
     this.destroySpeechBubble();
+  }
+
+  get isSpeaking() {
+    return !!this.speech;
   }
 
   /**
