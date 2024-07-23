@@ -17,12 +17,19 @@ import { getUTCDateString } from "lib/utils/time";
 import { BumpkinContainer } from "../containers/BumpkinContainer";
 import { getKeys } from "features/game/types/decorations";
 import { isCollectibleActive } from "features/game/lib/collectibleBuilt";
+import { DIGGING_FORMATIONS } from "features/game/types/desert";
+import { ProgressBarContainer } from "../containers/ProgressBarContainer";
 
 const convertToSnakeCase = (str: string) => {
   return str.replace(" ", "_").toLowerCase();
 };
 
 const BUMPKINS: NPCBumpkin[] = [
+  {
+    npc: "digby",
+    x: 256,
+    y: 139,
+  },
   {
     npc: "finn",
     x: 94,
@@ -88,6 +95,7 @@ export class BeachScene extends BaseScene {
   digStatistics: DigAnalytics | undefined;
   isPlayerTweening = false;
   isFetching = false;
+  digbyProgressBar: ProgressBarContainer | undefined;
 
   constructor() {
     super({ name: "beach", map: { json: mapJSON } });
@@ -95,6 +103,8 @@ export class BeachScene extends BaseScene {
 
   preload() {
     super.preload();
+
+    this.load.image("empty_progress_bar", "world/empty_bar.png");
 
     this.load.image("heart", SUNNYSIDE.icons.heart);
 
@@ -190,6 +200,8 @@ export class BeachScene extends BaseScene {
     });
 
     this.initialiseNPCs(filteredBumpkins);
+
+    this.digbyProgressBar = new ProgressBarContainer(this, 257, 154);
 
     const fisher = new FishermanContainer({
       x: 322,
@@ -619,19 +631,34 @@ export class BeachScene extends BaseScene {
     this.percentageFoundLabel?.setText(
       `Treasures found: ${this.percentageTreasuresFound}%`,
     );
+
+    this.digbyProgressBar?.updateBar(this.percentageTreasuresFound);
   };
 
   get treasuresFound() {
     return this.gameService.state.context.state.desert.digging.grid
-      .filter((hole) => getKeys(hole.items)[0] !== "Sunflower")
+      .filter(
+        (hole) =>
+          getKeys(hole.items)[0] !== "Sunflower" &&
+          getKeys(hole.items)[0] !== "Crab",
+      )
       .map((hole) => getKeys(hole.items)[0]);
   }
 
-  get percentageTreasuresFound() {
-    const { totalBuriedTreasure } =
-      this.gameService.state.context.state.desert.digging;
+  get totalBuriedTreasure() {
+    const { patterns } = this.gameService.state.context.state.desert.digging;
 
-    return Math.round((this.treasuresFound.length / totalBuriedTreasure) * 100);
+    const count = patterns.reduce(
+      (total, pattern) => DIGGING_FORMATIONS[pattern].length + total,
+      0,
+    );
+
+    return count;
+  }
+  get percentageTreasuresFound() {
+    return Math.round(
+      (this.treasuresFound.length / this.totalBuriedTreasure) * 100,
+    );
   }
 
   get holesDugCount() {
@@ -692,9 +719,6 @@ export class BeachScene extends BaseScene {
       );
     }
 
-    const { totalBuriedTreasure } =
-      this.gameService.state.context.state.desert.digging;
-
     if (attemptsToday + 1 < 4) {
       const totalCoins = this.treasuresFound.reduce((acc, item) => {
         return (acc +=
@@ -702,7 +726,7 @@ export class BeachScene extends BaseScene {
       }, 0);
 
       const percentageFound = Math.floor(
-        (totalBuriedTreasure / this.treasuresFound.length) * 100,
+        (this.totalBuriedTreasure / this.treasuresFound.length) * 100,
       );
 
       gameAnalytics.trackBeachDiggingAttempt({

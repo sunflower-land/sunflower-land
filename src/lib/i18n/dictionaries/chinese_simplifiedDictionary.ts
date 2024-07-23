@@ -177,6 +177,7 @@ import {
   ChangeLanguage,
   FactionShopDescription,
   GuideFactionPet,
+  DesertKeys,
 } from "./types";
 
 const generalTerms: Record<GeneralTerms, string> = {
@@ -4789,6 +4790,11 @@ export const easterEggTerms: Record<EasterEggKeys, string> = {
   "easterEgg.kingdomBook5": ENGLISH_TERMS["easterEgg.kingdomBook5"],
 };
 
+export const desertTerms: Record<DesertKeys, string> = {
+  "digby.puzzle": ENGLISH_TERMS["digby.puzzle"],
+  "digby.today": ENGLISH_TERMS["digby.today"],
+};
+
 export const CHINESE_SIMPLIFIED_TERMS: Record<TranslationKeys, string> = {
   ...achievementTerms,
   ...addSFL,
@@ -4826,6 +4832,7 @@ export const CHINESE_SIMPLIFIED_TERMS: Record<TranslationKeys, string> = {
   ...decorationDescriptions,
   ...defaultDialogue,
   ...delivery,
+  ...desertTerms,
   ...deliveryHelp,
   ...deliveryitem,
   ...depositWallet,

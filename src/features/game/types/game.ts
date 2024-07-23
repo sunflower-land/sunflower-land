@@ -70,6 +70,7 @@ import { SpecialEvents } from "./specialEvents";
 import { TradeableName } from "../actions/sellMarketResource";
 import { MinigameCurrency } from "../events/minigames/purchaseMinigameItem";
 import { FactionShopCollectibleName, FactionShopFoodName } from "./factionShop";
+import { DiggingFormationName } from "./desert";
 
 export type Reward = {
   coins?: number;
@@ -678,7 +679,7 @@ export type Mushroom = {
 
 export type Desert = {
   digging: {
-    totalBuriedTreasure: number;
+    patterns: DiggingFormationName[];
     grid: {
       x: number;
       y: number;

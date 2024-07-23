@@ -1,6 +1,7 @@
 import { Equipped } from "features/game/types/bumpkin";
 
 export type NPCName =
+  | "digby"
   | "portaller"
   | "gambit"
   | "victoria"
@@ -99,6 +100,16 @@ export type NPCName =
   | "pet"; // faction pet
 
 export const NPC_WEARABLES: Record<NPCName, Equipped> = {
+  digby: {
+    body: "Light Brown Farmer Potion",
+    hair: "Wise Hair",
+    hat: "Explorer Hat",
+    shirt: "Seaside Tank Top",
+    pants: "Farmer Pants",
+    tool: "Grave Diggers Shovel",
+    background: "Farm Background",
+    shoes: "Black Farmer Boots",
+  },
   "chef tuck": {
     body: "Goblin Potion",
     hair: "Wise Hair",
