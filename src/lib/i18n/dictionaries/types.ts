@@ -3725,7 +3725,15 @@ export type ChangeLanguage =
   | "changeLanguage.contribute.message"
   | "changeLanguage.currentLanguage";
 
-export type DesertKeys = "digby.today" | "digby.puzzle";
+export type DesertKeys =
+  | "digby.today"
+  | "digby.puzzle"
+  | "digby.patterns"
+  | "digby.guide.one"
+  | "digby.guide.two"
+  | "digby.guide.three"
+  | "digby.guide.four";
+
 export type TranslationKeys =
   | AchievementsTerms
   | Auction

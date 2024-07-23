@@ -5473,8 +5473,16 @@ export const easterEggTerms: Record<EasterEggKeys, string> = {
 
 export const desertTerms: Record<DesertKeys, string> = {
   "digby.puzzle": "Digging puzzle",
+  "digby.patterns": "Patterns",
   "digby.today":
     "Howdy explorer, today the following items have been spotted in the desert puzzle.",
+  "digby.guide.one":
+    "You can find items by digging in the archaelogical site. Learn the ancient clues, to find what you seek in the desert.",
+  "digby.guide.two": "Crabs are always located next to treasure.",
+  "digby.guide.three":
+    "If you discover sand, you are out of luck. Dig elsewhere.",
+  "digby.guide.four":
+    "Each day a desert storm resets the puzzle with new patterns and resources.",
 };
 
 export const ENGLISH_TERMS: Record<TranslationKeys, string> = {

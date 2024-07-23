@@ -34,6 +34,7 @@ const BUMPKINS: NPCBumpkin[] = [
     npc: "digby",
     x: 336,
     y: 219,
+    direction: "left",
   },
   {
     npc: "finn",
