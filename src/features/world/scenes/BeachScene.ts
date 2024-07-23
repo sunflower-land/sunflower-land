@@ -99,8 +99,8 @@ export class BeachScene extends BaseScene {
   noShovelHoverBox: Phaser.GameObjects.Image | undefined;
   treasureContainer: Phaser.GameObjects.Container | undefined;
   selectedToolLabel: Phaser.GameObjects.Text | undefined;
-  gridX = 80;
-  gridY = 80;
+  gridX = 160;
+  gridY = 128;
   cellSize = 16;
   digOffsetX = 7;
   digOffsetY = 3;
@@ -115,6 +115,7 @@ export class BeachScene extends BaseScene {
   digbyProgressBar: ProgressBarContainer | undefined;
   desertStormTimer: NodeJS.Timeout | undefined;
   dugItems: Phaser.GameObjects.Image[] = [];
+  currentSelectedItem: InventoryItemName | undefined;
 
   constructor() {
     super({ name: "beach", map: { json: mapJSON } });
@@ -372,6 +373,7 @@ export class BeachScene extends BaseScene {
         clearTimeout(this.desertStormTimer);
       }
     });
+    this.currentSelectedItem = this.selectedItem;
   }
 
   public setUpDigSite = () => {
@@ -558,9 +560,9 @@ export class BeachScene extends BaseScene {
       .filter((item) => {
         return !revealed.some((hole) => {
           const offsetX =
-            hole.x * this.cellWidth + this.gridX + this.cellWidth / 2;
+            hole.x * this.cellSize + this.gridX + this.cellSize / 2;
           const offsetY =
-            hole.y * this.cellHeight + this.gridY + this.cellHeight / 2;
+            hole.y * this.cellSize + this.gridY + this.cellSize / 2;
           return offsetX === item.x && offsetY === item.y;
         });
       })
@@ -1128,8 +1130,21 @@ export class BeachScene extends BaseScene {
     }
   }
 
+  public handleUpdateSelectedItem = () => {
+    if (this.currentSelectedItem === this.selectedItem) return;
+
+    this.currentSelectedItem = this.selectedItem;
+
+    this.hoverBox?.setVisible(false);
+    this.confirmBox?.setVisible(false);
+    this.drillConfirmBox?.setVisible(false);
+    this.drillHoverBox?.setVisible(false);
+  };
+
   public update() {
     if (!this.currentPlayer) return;
+
+    this.handleUpdateSelectedItem();
 
     if (this.isPlayerInDigArea(this.currentPlayer.x, this.currentPlayer.y)) {
       this.updatePlayer();
