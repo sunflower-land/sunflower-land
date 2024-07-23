@@ -111,6 +111,7 @@ const HudComponent: React.FC = () => {
       >
         <AuctionCountdown />
         <EmblemAirdropCountdown />
+        <SpecialEventCountdown />
       </div>
 
       <BumpkinProfile isFullUser={isFullUser} />

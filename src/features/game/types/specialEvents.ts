@@ -29,6 +29,7 @@ export type SpecialEvent = {
   tasks: Task[];
   isEligible: boolean;
   requiresWallet: boolean;
+  bonus?: Partial<Record<InventoryItemName, { saleMultiplier: number }>>;
 };
 
 export type CurrentSpecialEvents = Partial<Record<string, SpecialEvent>>;
