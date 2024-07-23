@@ -106,7 +106,7 @@ export const TREASURE_TOOLS: Record<TreasureToolName, Tool> = {
     price: 40,
     ingredients: {
       Oil: new Decimal(1),
-      Iron: new Decimal(1),
+      Crimstone: new Decimal(1),
       Wood: new Decimal(5),
     },
   },
