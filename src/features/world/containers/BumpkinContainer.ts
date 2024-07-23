@@ -184,7 +184,7 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
         console.log("back sheet not found creating one");
         const backauraLoader = scene.load.spritesheet(
           this.backAuraKey,
-          `${CONFIG.PROTECTED_IMAGE_URL}/auras/back/${ITEM_IDS[auraName]}.png`,
+          `${CONFIG.PROTECTED_IMAGE_URL}/aura/back/${ITEM_IDS[auraName]}.png`,
           {
             frameWidth: 20,
             frameHeight: 19,
@@ -224,7 +224,7 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
         console.log("front sheet not found creating one");
         const frontauraLoader = scene.load.spritesheet(
           this.frontAuraKey,
-          `${CONFIG.PROTECTED_IMAGE_URL}/auras/front/${ITEM_IDS[auraName]}.png`,
+          `${CONFIG.PROTECTED_IMAGE_URL}/aura/front/${ITEM_IDS[auraName]}.png`,
           {
             frameWidth: 20,
             frameHeight: 19,
