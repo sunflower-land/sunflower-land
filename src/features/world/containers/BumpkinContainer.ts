@@ -483,11 +483,12 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
       this.removeGift();
     }
 
-    if ((this.clothing.aura !== clothing.aura) === undefined) {
+    if (clothing.aura === undefined) {
       this.frontfx?.destroy();
       this.backfx?.destroy();
       this.frontfx = undefined;
       this.backfx = undefined;
+      console.log("Aura Destroyed!");
     }
 
     this.clothing = clothing;
