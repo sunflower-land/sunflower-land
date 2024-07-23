@@ -10,6 +10,9 @@ import { ReactionName } from "features/pumpkinPlaza/components/Reactions";
 import { getAnimationUrl } from "../lib/animations";
 import { InventoryItemName } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
+import { CONFIG } from "lib/config";
+import frontaurasample from "assets/1_367.png";
+import backaurasample from "assets/367.png";
 
 const NAME_ALIASES: Partial<Record<NPCName, string>> = {
   "pumpkin' pete": "pete",
@@ -46,6 +49,10 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
   private walkingAnimationKey: string | undefined;
   private digAnimationKey: string | undefined;
   private drillAnimationKey: string | undefined;
+  private backAuraKey: string | undefined;
+  private frontAuraKey: string | undefined;
+  private frontAuraAnimationKey: string | undefined;
+  private backAuraAnimationKey: string | undefined;
   private direction: "left" | "right" = "right";
 
   constructor({
@@ -147,10 +154,97 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
     this.walkingAnimationKey = `${keyName}-bumpkin-walking`;
     this.digAnimationKey = `${keyName}-bumpkin-dig`;
     this.drillAnimationKey = `${keyName}-bumpkin-drilling`;
+    this.frontAuraKey = `${keyName}-bumpkin-aura-front-sheet`;
+    this.frontAuraAnimationKey = `${keyName}-bumpkin-aura-front`;
+    this.backAuraKey = `${keyName}-bumpkin-aura-back-sheet`;
+    this.backAuraAnimationKey = `${keyName}-bumpkin-aura-back`;
 
     const { sheets } = await buildNPCSheets({
       parts: this.clothing,
     });
+
+    if (this.clothing.hair) {
+      //Back-Aura
+      if (scene.textures.exists(this.backAuraKey)) {
+        const backaura = scene.add
+          .sprite(0, 0, this.backAuraKey)
+          .setOrigin(0.5)
+          .setZ(10);
+        this.add(backaura);
+        this.sprite = backaura;
+        this.sprite.play(this.backAuraAnimationKey as string, true);
+        console.log("back sheet found");
+      } else {
+        console.log("back sheet not found creating one");
+        const backauraLoader = scene.load.spritesheet(
+          this.backAuraKey,
+          backaurasample,
+          {
+            frameWidth: 20,
+            frameHeight: 19,
+          },
+        );
+
+        backauraLoader.addListener(Phaser.Loader.Events.COMPLETE, () => {
+          if (
+            !scene.textures.exists(this.backAuraKey as string) ||
+            this.ready
+          ) {
+            return;
+          }
+          const backaura = scene.add
+            .sprite(0, -3, this.backAuraKey as string)
+            .setOrigin(0.5)
+            .setZ(10);
+          this.add(backaura);
+          this.sprite = backaura;
+
+          this.createBackAuraAnimation();
+          this.sprite.play(this.backAuraAnimationKey as string, true);
+          backauraLoader.removeAllListeners();
+        });
+      }
+      //Front-Aura
+      if (scene.textures.exists(this.frontAuraKey)) {
+        const frontaura = scene.add
+          .sprite(0, 0, this.frontAuraKey)
+          .setOrigin(0.5)
+          .setZ(1000);
+        this.add(frontaura);
+        this.sprite = frontaura;
+        this.sprite.play(this.frontAuraAnimationKey as string, true);
+        console.log("front sheet found");
+      } else {
+        console.log("front sheet not found creating one");
+        const frontauraLoader = scene.load.spritesheet(
+          this.frontAuraKey,
+          frontaurasample,
+          {
+            frameWidth: 20,
+            frameHeight: 19,
+          },
+        );
+
+        frontauraLoader.addListener(Phaser.Loader.Events.COMPLETE, () => {
+          if (
+            !scene.textures.exists(this.frontAuraKey as string) ||
+            this.ready
+          ) {
+            return;
+          }
+          const frontaura = scene.add
+            .sprite(0, -3, this.frontAuraKey as string)
+            .setOrigin(0.5)
+            .setZ(1000);
+          this.add(frontaura);
+          this.sprite = frontaura;
+
+          this.createFrontAuraAnimation();
+          this.sprite.play(this.frontAuraAnimationKey as string, true);
+          frontauraLoader.removeAllListeners();
+        });
+      }
+    }
 
     if (scene.textures.exists(this.idleSpriteKey)) {
       // If we have idle sheet then we can create the idle animation and set the sprite up straight away
@@ -297,6 +391,40 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
         {
           start: 0,
           end: 8,
+        },
+      ),
+      repeat: -1,
+      frameRate: 10,
+    });
+  }
+
+  private createFrontAuraAnimation() {
+    if (!this.scene || !this.scene.anims) return;
+
+    this.scene.anims.create({
+      key: this.frontAuraAnimationKey,
+      frames: this.scene.anims.generateFrameNumbers(
+        this.frontAuraKey as string,
+        {
+          start: 0,
+          end: 7,
+        },
+      ),
+      repeat: -1,
+      frameRate: 10,
+    });
+  }
+
+  private createBackAuraAnimation() {
+    if (!this.scene || !this.scene.anims) return;
+
+    this.scene.anims.create({
+      key: this.backAuraAnimationKey,
+      frames: this.scene.anims.generateFrameNumbers(
+        this.backAuraKey as string,
+        {
+          start: 0,
+          end: 7,
         },
       ),
       repeat: -1,
