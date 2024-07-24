@@ -30,7 +30,8 @@ export type TicketNPCName =
   | "finn"
   | "finley"
   | "miranda"
-  | "jester";
+  | "jester"
+  | "pharaoh";
 
 export type GoblinNPCName =
   | "grimbly"
@@ -46,7 +47,8 @@ export type CoinNPCName =
   | "tango"
   | "corale"
   | "blacksmith"
-  | "victoria";
+  | "victoria"
+  | "old salty";
 
 export type DeliveryNpcName = TicketNPCName | GoblinNPCName | CoinNPCName;
 
@@ -57,6 +59,7 @@ export const COIN_NPC_NAMES: CoinNPCName[] = [
   "tango",
   "victoria",
   "peggy",
+  "old salty",
 ];
 
 export function isCoinNPC(value: string): value is CoinNPCName {
@@ -245,13 +248,14 @@ export function acknowledgeOrders(delivery: Delivery) {
   localStorage.setItem(`orders.read`, JSON.stringify(ids));
 }
 
-export const DELIVERY_LEVELS: Record<DeliveryNpcName, number> = {
+export const NPC_DELIVERY_LEVELS: Record<DeliveryNpcName, number> = {
   // Coins
   betty: 1,
   blacksmith: 1,
   peggy: 3,
   corale: 7,
   tango: 13,
+  "old salty": 15,
   victoria: 30,
 
   // SFL
@@ -269,6 +273,7 @@ export const DELIVERY_LEVELS: Record<DeliveryNpcName, number> = {
   raven: 14,
   miranda: 15,
   finn: 16,
+  pharaoh: 17,
   cornwell: 18,
   timmy: 20,
   tywin: 22,
