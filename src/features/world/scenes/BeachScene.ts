@@ -904,8 +904,7 @@ export class BeachScene extends BaseScene {
       .flat()
       .filter((hole) => {
         return (
-          getKeys(hole.items)[0] !== "Sunflower" &&
-          getKeys(hole.items)[0] !== "Crab"
+          getKeys(hole.items)[0] !== "Sand" && getKeys(hole.items)[0] !== "Crab"
         );
       })
       .map((hole) => getKeys(hole.items)[0]);
