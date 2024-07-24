@@ -738,7 +738,8 @@ export type BumpkinItemBuff =
   | "bumpkinItemBuff.bumpkin.helmet"
   | "bumpkinItemBuff.bumpkin.sword"
   | "bumpkinItemBuff.bumpkin.pants"
-  | "bumpkinItemBuff.bumpkin.sabatons";
+  | "bumpkinItemBuff.bumpkin.sabatons"
+  | "bumpkinItemBuff.crab.trap";
 
 export type BumpkinPart =
   | "equip.background"

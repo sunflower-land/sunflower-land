@@ -11266,6 +11266,12 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
     attributes: [
       { trait_type: "Part", value: "SecondaryTool" },
       { trait_type: "Tradable", value: "No" },
+      { trait_type: "Boost", value: "Crab" },
+      {
+        display_type: "boost_number",
+        value: 1,
+        trait_type: "+1 Crab when digging or drilling",
+      },
     ],
     external_url: "https://bumpkins.io",
     image: "../public/wearables/images/230.png",
