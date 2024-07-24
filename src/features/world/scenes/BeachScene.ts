@@ -109,6 +109,10 @@ export class BeachScene extends BaseScene {
   digbyProgressBar: ProgressBarContainer | undefined;
   currentSelectedItem: InventoryItemName | undefined;
   isRevealing = false;
+  coordsToDig:
+    | { x: number; y: number }
+    | { x: number; y: number }[]
+    | undefined = [];
 
   constructor() {
     super({ name: "beach", map: { json: mapJSON } });
@@ -173,7 +177,7 @@ export class BeachScene extends BaseScene {
     this.load.image("clam_shell", SUNNYSIDE.resource.clam_shell);
     this.load.image("wood", SUNNYSIDE.resource.wood);
     this.load.image("wooden_compass", "world/wooden_compass.webp");
-    this.load.image("old_bottle", "world/old_bottle.webp");
+    this.load.image("old_bottle", "world/old_bottle.png");
     this.load.image("camel_bone", "world/camel_bone.webp");
     this.load.image("cockle_shell", "world/cockle_shell.webp");
     this.load.image("hieroglyph", "world/hieroglyph.webp");
@@ -388,7 +392,6 @@ export class BeachScene extends BaseScene {
 
             // If the selected item is not a shovel then set it as the selected itm
             // If the player does not have any shovels then trigger the npc to say something about this
-            // Maybe show a no shovels icon as the hover
 
             if (this.selectedItem !== "Sand Shovel") {
               this.shortcutItem("Sand Shovel");
@@ -473,7 +476,7 @@ export class BeachScene extends BaseScene {
     const { grid: revealed } =
       this.gameService.state.context.state.desert.digging ?? [];
 
-    revealed.forEach((hole) => {
+    revealed.flat().forEach((hole) => {
       const { x, y, items } = hole;
 
       const offsetX = x * this.cellSize + this.gridX + this.cellSize / 2;
@@ -569,10 +572,9 @@ export class BeachScene extends BaseScene {
     let hasDugHere = false;
 
     if (row !== undefined && col !== undefined) {
-      const locations =
-        this.gameService.state.context.state.desert.digging.grid;
+      const dug = this.gameService.state.context.state.desert.digging.grid;
 
-      hasDugHere = locations.some((hole) => {
+      hasDugHere = dug.flat().some((hole) => {
         return hole.x === col && hole.y === row;
       });
     }
@@ -614,10 +616,9 @@ export class BeachScene extends BaseScene {
     let hasDugHere = false;
 
     if (row !== undefined && col !== undefined) {
-      const locations =
-        this.gameService.state.context.state.desert.digging.grid;
+      const dug = this.gameService.state.context.state.desert.digging.grid;
 
-      hasDugHere = locations.some((hole) => {
+      hasDugHere = dug.flat().some((hole) => {
         return hole.x === col && hole.y === row;
       });
     }
@@ -681,10 +682,9 @@ export class BeachScene extends BaseScene {
     ];
 
     const availableHoles = drillCoords.some(([row, col]) => {
-      const dugAt =
-        this.gameService.state.context.state.desert.digging.grid.find(
-          (hole) => hole.x === col && hole.y === row,
-        );
+      const dugAt = this.gameService.state.context.state.desert.digging.grid
+        .flat()
+        .find((hole) => hole.x === col && hole.y === row);
 
       return !dugAt;
     });
@@ -808,11 +808,13 @@ export class BeachScene extends BaseScene {
 
   get treasuresFound() {
     return this.gameService.state.context.state.desert.digging.grid
-      .filter(
-        (hole) =>
+      .flat()
+      .filter((hole) => {
+        return (
           getKeys(hole.items)[0] !== "Sunflower" &&
-          getKeys(hole.items)[0] !== "Crab",
-      )
+          getKeys(hole.items)[0] !== "Crab"
+        );
+      })
       .map((hole) => getKeys(hole.items)[0]);
   }
 
@@ -860,6 +862,7 @@ export class BeachScene extends BaseScene {
 
   public handleDig = async (row: number, col: number) => {
     this.isRevealing = true;
+    this.coordsToDig = { x: col, y: row };
     // Send off reveal game event
     this.gameService.send("REVEAL", {
       event: {
@@ -873,6 +876,7 @@ export class BeachScene extends BaseScene {
 
   public handleDrill = async (coords: { x: number; y: number }[]) => {
     this.isRevealing = true;
+    this.coordsToDig = coords;
     // Send off reveal game event
     this.gameService.send("REVEAL", {
       event: {
@@ -1093,9 +1097,10 @@ export class BeachScene extends BaseScene {
     if (isMoving || this.isPlayerTweening) {
       this.currentPlayer.walk();
     } else if (this.gameService.state.matches("revealed")) {
-      this.isRevealing = false;
+      this.coordsToDig = undefined;
       this.enableControls();
       this.currentPlayer.sprite?.anims?.stopAfterRepeat(0);
+      this.isRevealing = false;
 
       // Ideally should be done at the end of the animation
       // Potentially have animation of the item??
@@ -1109,9 +1114,29 @@ export class BeachScene extends BaseScene {
       // Move out of revealed state
       this.gameService.send("CONTINUE");
     } else if (this.isRevealing) {
-      // Set player to digging while we are revealing the reward
-      this.disableControls();
+      const currentAnimation = this.currentPlayer.sprite?.anims?.currentAnim;
 
+      if (
+        currentAnimation?.key.includes("dig") &&
+        currentAnimation?.key.includes("drill")
+      ) {
+        return;
+      }
+
+      // If we are in this condition and the game service state
+      // is not revealing then it indicates we attempted to dig
+      // while the machine was in the autosaving state.
+      // Continue trying to send the REVEAL event until we get through
+      if (!this.gameService.state.matches("revealing") && !!this.coordsToDig) {
+        if (Array.isArray(this.coordsToDig)) {
+          this.handleDrill(this.coordsToDig);
+        } else {
+          this.handleDig(this.coordsToDig.y, this.coordsToDig.x);
+        }
+      }
+      // Stop player movement while the animation is playing
+      this.disableControls();
+      // Set player to digging/drilling while we are revealing the reward
       if (this.selectedItem === "Sand Drill") {
         this.currentPlayer.drill();
       } else {
