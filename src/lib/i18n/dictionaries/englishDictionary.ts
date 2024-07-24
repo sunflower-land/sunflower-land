@@ -3763,10 +3763,41 @@ const npc_message: Record<NPC_MESSAGE, string> = {
     "Well, well, look who’s here! Got any funny stories?",
   "npcMessages.jester.msg9":
     "The queen loves a good laugh. Ready to join the fun?",
+
+  "npcMessages.oldSalty.msg1":
+    "Arrr, me hearty! The sea be callin' for treasures. Can ye help an old pirate find his fortune?",
+  "npcMessages.oldSalty.msg2":
+    "Ahoy, matey! The thrill of the hunt is upon us. Bring me the treasures of the deep!",
+  "npcMessages.oldSalty.msg3":
+    "Shiver me timbers! There's treasure to be found. Will ye join me on this adventure?",
+  "npcMessages.oldSalty.msg4":
+    "Yo ho ho! The sea's secrets are out there, waitin' to be uncovered. Help me find 'em, will ye?",
+  "npcMessages.oldSalty.msg5":
+    "Aye, the scent of gold is in the air! Fetch me the treasures and let's share the bounty!",
+  "npcMessages.oldSalty.msg6":
+    "The sea be a cruel mistress, but she holds riches untold. Help me plunder her depths!",
+  "npcMessages.oldSalty.msg7":
+    "X marks the spot, and the treasure is near. Lend me a hand in uncovering it, matey!",
+  "npcMessages.pharaoh.msg1":
+    "Greetings, traveler. The sands conceal many secrets. Can you help me uncover the relics of my ancestors?",
+  "npcMessages.pharaoh.msg2":
+    "Wanderer, I seek the wisdom of ages past. Bring me the artifacts that hold the key to our history.",
+  "npcMessages.pharaoh.msg3":
+    "In the desert sands lie forgotten treasures. Will you aid me in discovering them?",
+  "npcMessages.pharaoh.msg4":
+    "The ancients whisper in the wind. Find the relics that will unlock their secrets.",
+  "npcMessages.pharaoh.msg5":
+    "Lost languages and forgotten lore await. Help me uncover the artifacts that will reveal our past.",
+  "npcMessages.pharaoh.msg6":
+    "The relics of my people are scattered and lost. Can you bring them to me, so we may learn from them?",
+  "npcMessages.pharaoh.msg7":
+    "The sands of time have hidden much. Assist me in recovering the treasures of a bygone era.",
 };
 
 const npc: Record<Npc, string> = {
   "npc.Modal.Hammer": "Gather round Bumpkins, an auction is about to begin.",
+  "npc.Modal.Petro":
+    "With a bit of oil and some elbow grease, I can crack open anything!",
   "npc.Modal.Marcus":
     "Hey! You are not allowed to go in my house. Don't you dare touch my things!",
   "npc.Modal.Billy": "Howdy, y'all! Name's Billy.",
@@ -4286,6 +4317,17 @@ const npcDialogues: Record<NpcDialogues, string> = {
   "npcDialogues.raven.goodFlower":
     "This Purple flower is perfect! Thank you for bringing it to me.",
 
+  "npcDialogues.salty.reward":
+    "Ah, thanks for your deliveries, matey. Here's a little something for yer troubles.",
+  "npcDialogues.salty.flowerIntro":
+    "Aye, the deep blue of the ocean is what I seek. Have ye come across any flowers as blue as the sea?",
+  "npcDialogues.salty.averageFlower":
+    "Hmm, not quite what I had in mind, but it'll do. Thanks, matey.",
+  "npcDialogues.salty.badFlower":
+    "This flower won't do at all. Maybe another look 'round will find what I'm after?",
+  "npcDialogues.salty.goodFlower":
+    "Aye, this blue flower is just right! Much obliged for bringin' it to me.",
+
   "npcDialogues.miranda.reward":
     "Thank you for your efforts. Here's a small token of appreciation for your deliveries.",
   "npcDialogues.miranda.flowerIntro":
@@ -4479,6 +4521,30 @@ const npcDialogues: Record<NpcDialogues, string> = {
     "Oh no, this flower is as funny as a wet sock! Try again, will you?",
   "npcDialogues.jester.goodFlower":
     "Splendid! This flower is perfect. Almost as good as one of my jokes!",
+
+  // Pharaoh
+  "npcDialogues.pharaoh.noOrder1":
+    "I have no specific quest for you at this moment, but the desert is vast and full of hidden relics. Keep exploring, and you may find what we seek.",
+  "npcDialogues.pharaoh.noOrder2":
+    "There is no current mission, but the sands of time conceal many treasures. Your journey is far from over, brave explorer.",
+  "npcDialogues.pharaoh.negativeDelivery1":
+    "Alas, no relics this time. Do not despair, for the sands still hide many secrets waiting to be unearthed.",
+  "npcDialogues.pharaoh.negativeDelivery2":
+    "No artifacts today? The journey of discovery is long, but perseverance will lead us to our goal.",
+  "npcDialogues.pharaoh.negativeDelivery3":
+    "The ancients' secrets remain hidden for now. Continue your search, and you shall find the treasures we seek.",
+  "npcDialogues.pharaoh.positiveDelivery1":
+    "Ah, you have found a relic of the ancients. Your efforts bring us closer to unraveling the mysteries of the past.",
+  "npcDialogues.pharaoh.positiveDelivery2":
+    "Behold, a treasure from a bygone era. Your discovery is invaluable to my quest for lost knowledge.",
+  "npcDialogues.pharaoh.positiveDelivery3":
+    "This artifact is a key to our forgotten history. Your contribution is greatly appreciated, noble traveler.",
+  "npcDialogues.pharaoh.intro1":
+    "Greetings, traveler. I am the Pharaoh, seeker of lost relics and forgotten knowledge. Have you uncovered any ancient treasures?",
+  "npcDialogues.pharaoh.intro2":
+    "Welcome, wanderer. The sands of time hold many secrets, and I am in search of them. Have you found any artifacts on your journey?",
+  "npcDialogues.pharaoh.intro3":
+    "Hail, explorer. I am the Pharaoh, guardian of ancient secrets. Have you discovered any relics that might aid in solving the mysteries of our past?",
 };
 
 const nyeButton: Record<NyeButton, string> = {

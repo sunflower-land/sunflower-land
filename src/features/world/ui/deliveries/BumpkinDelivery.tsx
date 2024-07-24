@@ -28,7 +28,7 @@ import { ClaimReward } from "features/game/expansion/components/ClaimReward";
 import { defaultDialogue, npcDialogues } from "./dialogues";
 import { useRandomItem } from "lib/utils/hooks/useRandomItem";
 import {
-  DELIVERY_LEVELS,
+  NPC_DELIVERY_LEVELS,
   DeliveryNpcName,
 } from "features/island/delivery/lib/delivery";
 import {
@@ -235,6 +235,13 @@ const GIFT_RESPONSES: Partial<Record<NPCName, GiftResponse>> = {
     flowerNegative: "npcDialogues.raven.badFlower",
     flowerPositive: "npcDialogues.raven.goodFlower",
     reward: "npcDialogues.raven.reward",
+  },
+  "old salty": {
+    flowerIntro: "npcDialogues.salty.flowerIntro",
+    flowerAverage: "npcDialogues.salty.averageFlower",
+    flowerNegative: "npcDialogues.salty.badFlower",
+    flowerPositive: "npcDialogues.salty.goodFlower",
+    reward: "npcDialogues.salty.reward",
   },
   miranda: {
     flowerIntro: "npcDialogues.miranda.flowerIntro",
@@ -619,7 +626,7 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
   }
 
   const missingLevels =
-    (DELIVERY_LEVELS[npc as DeliveryNpcName] ?? 0) -
+    (NPC_DELIVERY_LEVELS[npc as DeliveryNpcName] ?? 0) -
     getBumpkinLevel(game.bumpkin?.experience ?? 0);
   const missingVIPAccess = requiresSeasonPass && !hasSeasonPass && !hasVIP;
   const isLocked = missingLevels >= 1;
@@ -699,7 +706,7 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
                 )}
                 {isLocked && (
                   <Label type="danger" icon={lockIcon}>
-                    {`Lvl ${DELIVERY_LEVELS[npc as DeliveryNpcName]} required`}
+                    {`Lvl ${NPC_DELIVERY_LEVELS[npc as DeliveryNpcName]} required`}
                   </Label>
                 )}
                 {missingVIPAccess && (

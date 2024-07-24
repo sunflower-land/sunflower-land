@@ -3724,6 +3724,20 @@ const npc_message: Record<NPC_MESSAGE, string> = {
     "Well, well, look who’s here! Got any funny stories?",
   "npcMessages.jester.msg9":
     "The queen loves a good laugh. Ready to join the fun?",
+  "npcMessages.oldSalty.msg1": ENGLISH_TERMS["npcMessages.oldSalty.msg1"],
+  "npcMessages.oldSalty.msg2": ENGLISH_TERMS["npcMessages.oldSalty.msg2"],
+  "npcMessages.oldSalty.msg3": ENGLISH_TERMS["npcMessages.oldSalty.msg3"],
+  "npcMessages.oldSalty.msg4": ENGLISH_TERMS["npcMessages.oldSalty.msg4"],
+  "npcMessages.oldSalty.msg5": ENGLISH_TERMS["npcMessages.oldSalty.msg5"],
+  "npcMessages.oldSalty.msg6": ENGLISH_TERMS["npcMessages.oldSalty.msg6"],
+  "npcMessages.oldSalty.msg7": ENGLISH_TERMS["npcMessages.oldSalty.msg7"],
+  "npcMessages.pharaoh.msg1": ENGLISH_TERMS["npcMessages.pharaoh.msg1"],
+  "npcMessages.pharaoh.msg2": ENGLISH_TERMS["npcMessages.pharaoh.msg2"],
+  "npcMessages.pharaoh.msg3": ENGLISH_TERMS["npcMessages.pharaoh.msg3"],
+  "npcMessages.pharaoh.msg4": ENGLISH_TERMS["npcMessages.pharaoh.msg4"],
+  "npcMessages.pharaoh.msg5": ENGLISH_TERMS["npcMessages.pharaoh.msg5"],
+  "npcMessages.pharaoh.msg6": ENGLISH_TERMS["npcMessages.pharaoh.msg6"],
+  "npcMessages.pharaoh.msg7": ENGLISH_TERMS["npcMessages.pharaoh.msg7"],
 };
 
 const nftminting: Record<NFTMinting, string> = {
@@ -3735,6 +3749,7 @@ const nftminting: Record<NFTMinting, string> = {
 
 const npc: Record<Npc, string> = {
   "npc.Modal.Hammer": "Собирайтесь, бампкины, аукцион вот-вот начнется!",
+  "npc.Modal.Petro": ENGLISH_TERMS["npc.Modal.Petro"],
   "npc.Modal.Marcus":
     "Эй! Тебе запрещено входить в мой дом. Не смей трогать мои вещи!",
   "npc.Modal.Billy": "Всем привет! Меня зовут Билли.",
@@ -4217,6 +4232,15 @@ const npcDialogues: Record<NpcDialogues, string> = {
   "npcDialogues.raven.goodFlower":
     "This Purple Carnation is perfect! Thank you for bringing it to me.",
 
+  "npcDialogues.salty.reward": ENGLISH_TERMS["npcDialogues.salty.reward"],
+  "npcDialogues.salty.flowerIntro":
+    ENGLISH_TERMS["npcDialogues.salty.flowerIntro"],
+  "npcDialogues.salty.averageFlower":
+    ENGLISH_TERMS["npcDialogues.salty.averageFlower"],
+  "npcDialogues.salty.badFlower": ENGLISH_TERMS["npcDialogues.salty.badFlower"],
+  "npcDialogues.salty.goodFlower":
+    ENGLISH_TERMS["npcDialogues.salty.goodFlower"],
+
   "npcDialogues.miranda.reward":
     "Thank you for your efforts. Here's a small token of appreciation for your deliveries.",
   "npcDialogues.miranda.flowerIntro":
@@ -4260,6 +4284,26 @@ const npcDialogues: Record<NpcDialogues, string> = {
   "npcDialogues.default.reward":
     "Wow, thanks Bumpkin. Here is a small gift for your help!",
   "npcDialogues.default.locked": "Please come back tomorrow.",
+
+  "npcDialogues.pharaoh.intro1": ENGLISH_TERMS["npcDialogues.pharaoh.intro1"],
+  "npcDialogues.pharaoh.intro2": ENGLISH_TERMS["npcDialogues.pharaoh.intro2"],
+  "npcDialogues.pharaoh.intro3": ENGLISH_TERMS["npcDialogues.pharaoh.intro3"],
+  "npcDialogues.pharaoh.positiveDelivery1":
+    ENGLISH_TERMS["npcDialogues.pharaoh.positiveDelivery1"],
+  "npcDialogues.pharaoh.positiveDelivery2":
+    ENGLISH_TERMS["npcDialogues.pharaoh.positiveDelivery2"],
+  "npcDialogues.pharaoh.positiveDelivery3":
+    ENGLISH_TERMS["npcDialogues.pharaoh.positiveDelivery3"],
+  "npcDialogues.pharaoh.negativeDelivery1":
+    ENGLISH_TERMS["npcDialogues.pharaoh.negativeDelivery1"],
+  "npcDialogues.pharaoh.negativeDelivery2":
+    ENGLISH_TERMS["npcDialogues.pharaoh.negativeDelivery2"],
+  "npcDialogues.pharaoh.negativeDelivery3":
+    ENGLISH_TERMS["npcDialogues.pharaoh.negativeDelivery3"],
+  "npcDialogues.pharaoh.noOrder1":
+    ENGLISH_TERMS["npcDialogues.pharaoh.noOrder1"],
+  "npcDialogues.pharaoh.noOrder2":
+    ENGLISH_TERMS["npcDialogues.pharaoh.noOrder2"],
 
   // Queen Victoria Intro
   "npcDialogues.queenVictoria.intro1":

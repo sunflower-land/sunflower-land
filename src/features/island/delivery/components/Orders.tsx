@@ -30,7 +30,7 @@ import { NPCIcon } from "features/island/bumpkin/components/NPC";
 import { NPCName, NPC_WEARABLES } from "lib/npcs";
 import { getDayOfYear, secondsToString } from "lib/utils/time";
 import {
-  DELIVERY_LEVELS,
+  NPC_DELIVERY_LEVELS,
   DeliveryNpcName,
   acknowledgeOrders,
   generateDeliveryMessage,
@@ -304,7 +304,7 @@ export const LockedOrderCard: React.FC<{ npc: NPCName }> = ({ npc }) => {
             height: "25px",
           }}
         >
-          {`Lvl ${DELIVERY_LEVELS[npc as DeliveryNpcName]}`}
+          {`Lvl ${NPC_DELIVERY_LEVELS[npc as DeliveryNpcName]}`}
         </Label>
       </ButtonPanel>
     </div>
@@ -403,20 +403,20 @@ export const DeliveryOrders: React.FC<Props> = ({
     (order) => !!TICKET_REWARDS[order.from as QuestNPCName],
   );
 
-  const nextCoinUnlock = getKeys(DELIVERY_LEVELS)
+  const nextCoinUnlock = getKeys(NPC_DELIVERY_LEVELS)
     .filter((name) => isCoinNPC(name))
-    .sort((a, b) => (DELIVERY_LEVELS[a] > DELIVERY_LEVELS[b] ? 1 : -1))
-    .find((npc) => level < (DELIVERY_LEVELS?.[npc] ?? 0));
+    .sort((a, b) => (NPC_DELIVERY_LEVELS[a] > NPC_DELIVERY_LEVELS[b] ? 1 : -1))
+    .find((npc) => level < (NPC_DELIVERY_LEVELS?.[npc] ?? 0));
 
-  const nextTicketUnlock = getKeys(DELIVERY_LEVELS)
+  const nextTicketUnlock = getKeys(NPC_DELIVERY_LEVELS)
     .filter((name) => isTicketNPC(name))
-    .sort((a, b) => (DELIVERY_LEVELS[a] > DELIVERY_LEVELS[b] ? 1 : -1))
-    .find((npc) => level < (DELIVERY_LEVELS?.[npc] ?? 0));
+    .sort((a, b) => (NPC_DELIVERY_LEVELS[a] > NPC_DELIVERY_LEVELS[b] ? 1 : -1))
+    .find((npc) => level < (NPC_DELIVERY_LEVELS?.[npc] ?? 0));
 
-  const nextSFLUnlock = getKeys(DELIVERY_LEVELS)
+  const nextSFLUnlock = getKeys(NPC_DELIVERY_LEVELS)
     .filter((name) => isSFLNPC(name))
-    .sort((a, b) => (DELIVERY_LEVELS[a] > DELIVERY_LEVELS[b] ? 1 : -1))
-    .find((npc) => level < (DELIVERY_LEVELS?.[npc] ?? 0));
+    .sort((a, b) => (NPC_DELIVERY_LEVELS[a] > NPC_DELIVERY_LEVELS[b] ? 1 : -1))
+    .find((npc) => level < (NPC_DELIVERY_LEVELS?.[npc] ?? 0));
 
   return (
     <div className="flex md:flex-row flex-col-reverse md:mr-1 items-start h-full">
