@@ -475,13 +475,11 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
       this.removeGift();
     }
 
-    //Removes the Aura when it is not equipped
-    if (clothing.aura === undefined) {
-      this.frontfx?.destroy();
-      this.backfx?.destroy();
-      this.frontfx = undefined;
-      this.backfx = undefined;
-    }
+    //Removes the Aura before loading sprite
+    this.frontfx?.destroy();
+    this.backfx?.destroy();
+    this.frontfx = undefined;
+    this.backfx = undefined;
 
     this.clothing = clothing;
     this.loadSprites(this.scene);
