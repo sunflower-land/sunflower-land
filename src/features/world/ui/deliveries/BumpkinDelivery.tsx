@@ -236,6 +236,13 @@ const GIFT_RESPONSES: Partial<Record<NPCName, GiftResponse>> = {
     flowerPositive: "npcDialogues.raven.goodFlower",
     reward: "npcDialogues.raven.reward",
   },
+  "old salty": {
+    flowerIntro: "npcDialogues.salty.flowerIntro",
+    flowerAverage: "npcDialogues.salty.averageFlower",
+    flowerNegative: "npcDialogues.salty.badFlower",
+    flowerPositive: "npcDialogues.salty.goodFlower",
+    reward: "npcDialogues.salty.reward",
+  },
   miranda: {
     flowerIntro: "npcDialogues.miranda.flowerIntro",
     flowerAverage: "npcDialogues.miranda.averageFlower",

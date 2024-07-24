@@ -4287,6 +4287,17 @@ const npcDialogues: Record<NpcDialogues, string> = {
   "npcDialogues.raven.goodFlower":
     "This Purple flower is perfect! Thank you for bringing it to me.",
 
+  "npcDialogues.salty.reward":
+    "Ah, thanks for your deliveries, matey. Here's a little something for yer troubles.",
+  "npcDialogues.salty.flowerIntro":
+    "Aye, the deep blue of the ocean is what I seek. Have ye come across any flowers as blue as the sea?",
+  "npcDialogues.salty.averageFlower":
+    "Hmm, not quite what I had in mind, but it'll do. Thanks, matey.",
+  "npcDialogues.salty.badFlower":
+    "This flower won't do at all. Maybe another look 'round will find what I'm after?",
+  "npcDialogues.salty.goodFlower":
+    "Aye, this blue flower is just right! Much obliged for bringin' it to me.",
+
   "npcDialogues.miranda.reward":
     "Thank you for your efforts. Here's a small token of appreciation for your deliveries.",
   "npcDialogues.miranda.flowerIntro":

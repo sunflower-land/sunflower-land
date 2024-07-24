@@ -3838,6 +3838,15 @@ const npcDialogues: Record<NpcDialogues, string> = {
   "npcDialogues.raven.badFlower": ENGLISH_TERMS["npcDialogues.raven.badFlower"],
   "npcDialogues.raven.goodFlower":
     ENGLISH_TERMS["npcDialogues.raven.goodFlower"],
+  // Salty
+  "npcDialogues.salty.reward": ENGLISH_TERMS["npcDialogues.salty.reward"],
+  "npcDialogues.salty.flowerIntro":
+    ENGLISH_TERMS["npcDialogues.salty.flowerIntro"],
+  "npcDialogues.salty.averageFlower":
+    ENGLISH_TERMS["npcDialogues.salty.averageFlower"],
+  "npcDialogues.salty.badFlower": ENGLISH_TERMS["npcDialogues.salty.badFlower"],
+  "npcDialogues.salty.goodFlower":
+    ENGLISH_TERMS["npcDialogues.salty.goodFlower"],
   // Miranda
   "npcDialogues.miranda.reward": ENGLISH_TERMS["npcDialogues.miranda.reward"],
   "npcDialogues.miranda.flowerIntro":
