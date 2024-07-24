@@ -1085,6 +1085,7 @@ const bumpkinPart: Record<BumpkinPart, string> = {
   "equip.wings": "Wings",
   "equip.dress": "Dress",
   "equip.beard": "Beard",
+  "equip.aura": ENGLISH_TERMS["equip.aura"],
 };
 
 const bumpkinPartRequirements: Record<BumpkinPartRequirements, string> = {

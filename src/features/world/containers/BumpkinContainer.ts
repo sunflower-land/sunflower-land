@@ -10,6 +10,8 @@ import { ReactionName } from "features/pumpkinPlaza/components/Reactions";
 import { getAnimationUrl } from "../lib/animations";
 import { InventoryItemName } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
+import { ITEM_IDS } from "features/game/types/bumpkin";
+import { CONFIG } from "lib/config";
 
 const NAME_ALIASES: Partial<Record<NPCName, string>> = {
   "pumpkin' pete": "pete",
@@ -35,6 +37,8 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
   public icon: Phaser.GameObjects.Sprite | undefined;
   public fx: Phaser.GameObjects.Sprite | undefined;
   public label: Label | undefined;
+  public backfx: Phaser.GameObjects.Sprite | undefined;
+  public frontfx: Phaser.GameObjects.Sprite | undefined;
 
   public clothing: Player["clothing"];
   private ready = false;
@@ -46,6 +50,10 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
   private walkingAnimationKey: string | undefined;
   private digAnimationKey: string | undefined;
   private drillAnimationKey: string | undefined;
+  private backAuraKey: string | undefined;
+  private frontAuraKey: string | undefined;
+  private frontAuraAnimationKey: string | undefined;
+  private backAuraAnimationKey: string | undefined;
   private direction: "left" | "right" = "right";
 
   constructor({
@@ -81,8 +89,8 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
     this.shadow = this.scene.add
       .sprite(0.5, 8, "shadow")
       .setSize(SQUARE_WIDTH, SQUARE_WIDTH);
-
     this.add(this.shadow);
+    this.moveTo(this.shadow, 0);
 
     this.setSize(SQUARE_WIDTH, SQUARE_WIDTH);
 
@@ -147,15 +155,101 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
     this.walkingAnimationKey = `${keyName}-bumpkin-walking`;
     this.digAnimationKey = `${keyName}-bumpkin-dig`;
     this.drillAnimationKey = `${keyName}-bumpkin-drilling`;
+    this.frontAuraKey = `${keyName}-bumpkin-aura-front-sheet`;
+    this.frontAuraAnimationKey = `${keyName}-bumpkin-aura-front`;
+    this.backAuraKey = `${keyName}-bumpkin-aura-back-sheet`;
+    this.backAuraAnimationKey = `${keyName}-bumpkin-aura-back`;
 
     const { sheets } = await buildNPCSheets({
       parts: this.clothing,
     });
 
+    //If Bumpkin has an Aura equipped
+    if (this.clothing.aura !== undefined) {
+      const auraName = this.clothing.aura;
+      //Back-Aura
+      if (scene.textures.exists(this.backAuraKey)) {
+        const backaura = scene.add
+          .sprite(0, -3, this.backAuraKey)
+          .setOrigin(0.5);
+        this.add(backaura);
+        this.moveTo(backaura, 1);
+        this.backfx = backaura;
+        this.backfx.play(this.backAuraAnimationKey as string, true);
+      } else {
+        const backauraLoader = scene.load.spritesheet(
+          this.backAuraKey,
+          `${CONFIG.PROTECTED_IMAGE_URL}/aura/back/${ITEM_IDS[auraName]}.png`,
+          {
+            frameWidth: 20,
+            frameHeight: 19,
+          },
+        );
+
+        backauraLoader.addListener(Phaser.Loader.Events.COMPLETE, () => {
+          if (
+            !scene.textures.exists(this.backAuraKey as string) ||
+            this.ready
+          ) {
+            return;
+          }
+          const backaura = scene.add
+            .sprite(0, -3, this.backAuraKey as string)
+            .setOrigin(0.5);
+          this.add(backaura);
+          this.moveTo(backaura, 1);
+          this.backfx = backaura;
+
+          this.createBackAuraAnimation();
+          this.backfx.play(this.backAuraAnimationKey as string, true);
+          backauraLoader.removeAllListeners();
+        });
+      }
+      //Front-Aura
+      if (scene.textures.exists(this.frontAuraKey)) {
+        const frontaura = scene.add
+          .sprite(0, 2, this.frontAuraKey)
+          .setOrigin(0.5);
+        this.add(frontaura);
+        this.moveTo(frontaura, 3);
+        this.frontfx = frontaura;
+        this.frontfx.play(this.frontAuraAnimationKey as string, true);
+      } else {
+        const frontauraLoader = scene.load.spritesheet(
+          this.frontAuraKey,
+          `${CONFIG.PROTECTED_IMAGE_URL}/aura/front/${ITEM_IDS[auraName]}.png`,
+          {
+            frameWidth: 20,
+            frameHeight: 19,
+          },
+        );
+
+        frontauraLoader.addListener(Phaser.Loader.Events.COMPLETE, () => {
+          if (
+            !scene.textures.exists(this.frontAuraKey as string) ||
+            this.ready
+          ) {
+            return;
+          }
+          const frontaura = scene.add
+            .sprite(0, 2, this.frontAuraKey as string)
+            .setOrigin(0.5);
+          this.add(frontaura);
+          this.moveTo(frontaura, 3);
+          this.frontfx = frontaura;
+
+          this.createFrontAuraAnimation();
+          this.frontfx.play(this.frontAuraAnimationKey as string, true);
+          frontauraLoader.removeAllListeners();
+        });
+      }
+    }
+
     if (scene.textures.exists(this.idleSpriteKey)) {
       // If we have idle sheet then we can create the idle animation and set the sprite up straight away
       const idle = scene.add.sprite(0, 0, this.idleSpriteKey).setOrigin(0.5);
       this.add(idle);
+      this.moveTo(idle, 2);
       this.sprite = idle;
 
       if (this.direction === "left") {
@@ -191,6 +285,7 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
           .sprite(0, 0, this.idleSpriteKey as string)
           .setOrigin(0.5);
         this.add(idle);
+        this.moveTo(idle, 2);
         this.sprite = idle;
 
         if (this.direction === "left") {
@@ -304,6 +399,40 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
     });
   }
 
+  private createFrontAuraAnimation() {
+    if (!this.scene || !this.scene.anims) return;
+
+    this.scene.anims.create({
+      key: this.frontAuraAnimationKey,
+      frames: this.scene.anims.generateFrameNumbers(
+        this.frontAuraKey as string,
+        {
+          start: 0,
+          end: 7,
+        },
+      ),
+      repeat: -1,
+      frameRate: 10,
+    });
+  }
+
+  private createBackAuraAnimation() {
+    if (!this.scene || !this.scene.anims) return;
+
+    this.scene.anims.create({
+      key: this.backAuraAnimationKey,
+      frames: this.scene.anims.generateFrameNumbers(
+        this.backAuraKey as string,
+        {
+          start: 0,
+          end: 7,
+        },
+      ),
+      repeat: -1,
+      frameRate: 10,
+    });
+  }
+
   private createWalkingAnimation() {
     if (!this.scene || !this.scene.anims) return;
 
@@ -327,7 +456,6 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
     this.clothing.updatedAt = clothing.updatedAt;
 
     if (tokenUriBuilder(clothing) === tokenUriBuilder(this.clothing)) return;
-
     this.ready = false;
     if (this.sprite?.active) {
       this.sprite?.destroy();
@@ -345,6 +473,14 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
       clothing.shirt !== "Gift Giver"
     ) {
       this.removeGift();
+    }
+
+    //Removes the Aura when it is not equipped
+    if (clothing.aura === undefined) {
+      this.frontfx?.destroy();
+      this.backfx?.destroy();
+      this.frontfx = undefined;
+      this.backfx = undefined;
     }
 
     this.clothing = clothing;

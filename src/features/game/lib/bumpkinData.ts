@@ -25,6 +25,7 @@ export const INITIAL_BUMPKIN: Bumpkin = {
     background: "Farm Background",
     beard: "Santa Beard",
     hat: "Deep Sea Helm",
+    aura: "Coin Aura",
   },
   skills: {},
   achievements: {},
