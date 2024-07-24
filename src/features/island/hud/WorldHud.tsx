@@ -21,6 +21,7 @@ import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { EmblemAirdropCountdown } from "./EmblemAirdropCountdown";
 import { useLocation } from "react-router-dom";
+import { SpecialEventCountdown } from "./SpecialEventCountdown";
 
 /**
  * Heads up display - a concept used in games for the small overlaid display of information.

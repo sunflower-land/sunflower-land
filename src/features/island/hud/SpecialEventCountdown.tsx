@@ -1,25 +1,15 @@
-import React, { useContext, useEffect, useState } from "react";
-import { useCountdown } from "lib/utils/hooks/useCountdown";
+import React, { useContext, useState } from "react";
 import { InnerPanel } from "components/ui/Panel";
 import { Label } from "components/ui/Label";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { TimerDisplay } from "features/retreat/components/auctioneer/AuctionDetails";
-import confetti from "canvas-confetti";
+
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
-import { FACTION_POINT_ICONS } from "features/world/ui/factions/FactionDonationPanel";
 import { MachineState } from "features/game/lib/gameMachine";
-import classNames from "classnames";
-import { Button } from "components/ui/Button";
-import { CloseButtonPanel } from "features/game/components/CloseablePanel";
-import { Modal } from "components/ui/Modal";
-import { NPC_WEARABLES } from "lib/npcs";
-import { formatDateTime, secondsToString } from "lib/utils/time";
-import { FACTION_EMBLEM_ICONS } from "features/world/ui/factions/components/ClaimEmblems";
-import { useLocation, useNavigate } from "react-router-dom";
-import { capitalize } from "lib/utils/capitalize";
-import { FACTION_RECRUITERS } from "features/world/ui/factions/JoinFaction";
+
+import { secondsToString } from "lib/utils/time";
+
 import { getKeys } from "features/game/types/decorations";
 import { ITEM_DETAILS } from "features/game/types/images";
 
@@ -33,21 +23,6 @@ const _specialEvents = (state: MachineState) =>
     )
     .filter(([, specialEvent]) => (specialEvent?.startAt ?? 0) < Date.now());
 
-const Countdown: React.FC<{ time: Date; onComplete: () => void }> = ({
-  time,
-  onComplete,
-}) => {
-  const start = useCountdown(time.getTime());
-
-  useEffect(() => {
-    if (time.getTime() < Date.now()) {
-      onComplete();
-    }
-  }, [start]);
-
-  return <TimerDisplay time={start} />;
-};
-
 export const SpecialEventCountdown: React.FC = () => {
   const { showAnimations, gameService } = useContext(Context);
   const specialEvents = useSelector(gameService, _specialEvents);
@@ -58,8 +33,6 @@ export const SpecialEventCountdown: React.FC = () => {
 
   if (isClosed) return null;
 
-  const now = Date.now();
-
   const specialEventDetails = specialEvents[0];
 
   if (!specialEventDetails || !specialEventDetails[1]) return null;
@@ -67,10 +40,6 @@ export const SpecialEventCountdown: React.FC = () => {
 
   const boostItem = getKeys(specialEvent.bonus ?? {})[0];
   const boostAmount = specialEvent.bonus?.[boostItem]?.saleMultiplier;
-
-  const hasEnded = specialEvent.endAt < now;
-
-  if (hasEnded) return null;
 
   return (
     <InnerPanel className="flex justify-center" id="emblem-airdrop">
@@ -85,7 +54,6 @@ export const SpecialEventCountdown: React.FC = () => {
               >
                 {specialEventName}
               </Label>
-              {/* <Label type="transparent">Special Event</Label> */}
             </>
           )}
 
@@ -115,10 +83,6 @@ export const SpecialEventCountdown: React.FC = () => {
               length: "short",
             })} left`}
           </Label>
-          {/* <Countdown
-            time={new Date(specialEvent.endAt)}
-            onComplete={() => setIsClosed(true)}
-          /> */}
         </div>
       </div>
     </InnerPanel>

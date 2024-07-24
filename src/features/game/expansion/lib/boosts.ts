@@ -73,6 +73,17 @@ export const getSellPrice = ({
     price = price * 2;
   }
 
+  // Special Events
+  const specialEventMultiplier = Object.values(game.specialEvents.current)
+    .filter((event) => !!event?.isEligible)
+    .find((event) => event?.bonus?.[item.name]?.saleMultiplier)?.bonus?.[
+    item.name
+  ]?.saleMultiplier;
+
+  if (specialEventMultiplier) {
+    price = price * specialEventMultiplier;
+  }
+
   return price;
 };
 

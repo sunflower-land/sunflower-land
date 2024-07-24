@@ -5,7 +5,8 @@ export type SpecialEventName =
   | "Earn Alliance Banner"
   | "One Planet Popper"
   | "Gas Hero"
-  | "Easter";
+  | "Easter"
+  | "La Tomatina";
 
 export type Task = {
   requirements: {

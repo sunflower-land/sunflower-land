@@ -9,7 +9,7 @@ import { Modal } from "components/ui/Modal";
 import { ShopItems } from "./ShopItems";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Context } from "features/game/GameProvider";
-import { useActor } from "@xstate/react";
+import { useActor, useSelector } from "@xstate/react";
 import { getKeys } from "features/game/types/craftables";
 import { CROPS } from "features/game/types/crops";
 import { Bumpkin } from "features/game/types/game";
@@ -19,6 +19,18 @@ import { MARKET_VARIANTS } from "features/island/lib/alternateArt";
 import { Label } from "components/ui/Label";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { secondsToString } from "lib/utils/time";
+import { MachineState } from "features/game/lib/gameMachine";
+import { ITEM_DETAILS } from "features/game/types/images";
+
+import lightning from "assets/icons/lightning.png";
+
+const _specialEvents = (state: MachineState) =>
+  Object.entries(state.context.state.specialEvents.current)
+    .filter(([, specialEvent]) => !!specialEvent?.isEligible)
+    .filter(
+      ([, specialEvent]) => (specialEvent?.endAt ?? Infinity) > Date.now(),
+    )
+    .filter(([, specialEvent]) => (specialEvent?.startAt ?? 0) < Date.now());
 
 const hasSoldCropsBefore = (bumpkin?: Bumpkin) => {
   if (!bumpkin) return false;
@@ -48,6 +60,7 @@ export const Market: React.FC<BuildingProps> = ({
   const [isOpen, setIsOpen] = React.useState(false);
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
+  const specialEvents = useSelector(gameService, _specialEvents);
 
   const { t } = useAppTranslation();
 
@@ -82,6 +95,12 @@ export const Market: React.FC<BuildingProps> = ({
       Date.now()) /
     1000;
   const isCropShortage = cropShortageSecondsLeft >= 0;
+
+  const specialEventDetails = specialEvents[0];
+
+  const boostItem = getKeys(specialEventDetails?.[1]?.bonus ?? {})[0];
+  const boostAmount =
+    specialEventDetails?.[1]?.bonus?.[boostItem]?.saleMultiplier;
 
   return (
     <>
@@ -156,6 +175,18 @@ export const Market: React.FC<BuildingProps> = ({
               length: "medium",
             })} left`}
           </Label>
+        )}
+        {boostItem && (
+          <div className="flex justify-between">
+            <Label
+              icon={boostItem ? ITEM_DETAILS[boostItem].image : undefined}
+              secondaryIcon={lightning}
+              type="vibrant"
+              className="absolute right-0 -top-7 shadow-md"
+            >
+              {`${boostAmount}x ${boostItem} Sale`}
+            </Label>
+          </div>
         )}
       </Modal>
     </>
