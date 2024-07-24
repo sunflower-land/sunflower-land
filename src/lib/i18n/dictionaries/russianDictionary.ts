@@ -1009,7 +1009,7 @@ const bumpkinDelivery: Record<BumpkinDelivery, string> = {
   "bumpkin.delivery.waiting":
     "То что надо. Огромное спасибо! Возвращайся позже за новыми доставками.",
   "bumpkin.delivery.proveYourself":
-    "Докажи, что ты достоин. Расширь свой остров еще {{missingExpansions}} раз.",
+    "Докажи, что ты достоин. Расширь свой остров еще {{missingLevels}} раз.",
   "bumpkin.delivery.earnScrolls": ENGLISH_TERMS["bumpkin.delivery.earnScrolls"],
   "bumpkin.delivery.earnSFL": ENGLISH_TERMS["bumpkin.delivery.earnSFL"],
 };
