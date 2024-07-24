@@ -167,9 +167,6 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
     //If Bumpkin has an Aura equipped
     if (this.clothing.aura !== undefined) {
       const auraName = this.clothing.aura;
-      console.log(this.clothing.secondaryTool);
-      console.log(auraName);
-      console.log(ITEM_IDS[auraName]);
       //Back-Aura
       if (scene.textures.exists(this.backAuraKey)) {
         const backaura = scene.add
@@ -179,9 +176,7 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
         this.moveTo(backaura, 1);
         this.backfx = backaura;
         this.backfx.play(this.backAuraAnimationKey as string, true);
-        console.log("back sheet found");
       } else {
-        console.log("back sheet not found creating one");
         const backauraLoader = scene.load.spritesheet(
           this.backAuraKey,
           `${CONFIG.PROTECTED_IMAGE_URL}/aura/back/${ITEM_IDS[auraName]}.png`,
@@ -219,9 +214,7 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
         this.moveTo(frontaura, 3);
         this.frontfx = frontaura;
         this.frontfx.play(this.frontAuraAnimationKey as string, true);
-        console.log("front sheet found");
       } else {
-        console.log("front sheet not found creating one");
         const frontauraLoader = scene.load.spritesheet(
           this.frontAuraKey,
           `${CONFIG.PROTECTED_IMAGE_URL}/aura/front/${ITEM_IDS[auraName]}.png`,
@@ -463,7 +456,6 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
     this.clothing.updatedAt = clothing.updatedAt;
 
     if (tokenUriBuilder(clothing) === tokenUriBuilder(this.clothing)) return;
-    console.log("Change clothes");
     this.ready = false;
     if (this.sprite?.active) {
       this.sprite?.destroy();
@@ -483,12 +475,12 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
       this.removeGift();
     }
 
+    //Removes the Aura when it is not equipped
     if (clothing.aura === undefined) {
       this.frontfx?.destroy();
       this.backfx?.destroy();
       this.frontfx = undefined;
       this.backfx = undefined;
-      console.log("Aura Destroyed!");
     }
 
     this.clothing = clothing;
