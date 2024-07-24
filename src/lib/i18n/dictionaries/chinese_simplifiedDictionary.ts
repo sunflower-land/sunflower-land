@@ -317,6 +317,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   retry: "重试",
   "reward.discovered": "奖励揭晓",
   "reward.whatsNew": "瞧瞧惊喜",
+  sale: ENGLISH_TERMS["sale"],
   save: "保存",
   saving: "保存中",
   seeds: "种子", // Basket

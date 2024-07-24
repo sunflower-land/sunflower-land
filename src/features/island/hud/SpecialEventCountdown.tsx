@@ -71,7 +71,7 @@ export const SpecialEventCountdown: React.FC = () => {
               type="vibrant"
               className="ml-1 mt-1"
             >
-              {`${boostAmount}x ${boostItem} Sale`}
+              {`${boostAmount}x ${boostItem} ${t("sale")}`}
             </Label>
           </div>
           <Label

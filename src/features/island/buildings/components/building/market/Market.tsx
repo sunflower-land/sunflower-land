@@ -184,7 +184,7 @@ export const Market: React.FC<BuildingProps> = ({
               type="vibrant"
               className="absolute right-0 -top-7 shadow-md"
             >
-              {`${boostAmount}x ${boostItem} Sale`}
+              {`${boostAmount}x ${boostItem} ${t("sale")}`}
             </Label>
           </div>
         )}

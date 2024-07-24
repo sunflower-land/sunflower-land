@@ -352,6 +352,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   reward: "Ödül",
   "reward.discovered": "Ödül Keşfedildi",
   "reward.whatsNew": ENGLISH_TERMS["reward.whatsNew"],
+  sale: ENGLISH_TERMS["sale"],
   save: "Kaydet",
   saving: "Kaydediliyor",
   seeds: "Tohumlar",
