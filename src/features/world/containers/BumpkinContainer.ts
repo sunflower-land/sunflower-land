@@ -34,6 +34,7 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
 
   public icon: Phaser.GameObjects.Sprite | undefined;
   public fx: Phaser.GameObjects.Sprite | undefined;
+  public label: Label | undefined;
 
   public clothing: Player["clothing"];
   private ready = false;
@@ -44,6 +45,7 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
   private idleAnimationKey: string | undefined;
   private walkingAnimationKey: string | undefined;
   private digAnimationKey: string | undefined;
+  private drillAnimationKey: string | undefined;
   private direction: "left" | "right" = "right";
 
   constructor({
@@ -99,6 +101,8 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
         this.alert = this.scene.add.sprite(1, -23, "alert").setSize(4, 10);
         this.add(this.alert);
       }
+
+      this.label = label;
     }
 
     this.scene.add.existing(this);
@@ -142,6 +146,7 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
     this.idleAnimationKey = `${keyName}-bumpkin-idle`;
     this.walkingAnimationKey = `${keyName}-bumpkin-walking`;
     this.digAnimationKey = `${keyName}-bumpkin-dig`;
+    this.drillAnimationKey = `${keyName}-bumpkin-drilling`;
 
     const { sheets } = await buildNPCSheets({
       parts: this.clothing,
@@ -238,7 +243,35 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
       });
     }
 
+    if (scene.textures.exists(this.drillAnimationKey)) {
+      this.createDrillAnimation();
+    } else {
+      const url = getAnimationUrl(this.clothing, "drilling");
+      const drillLoader = scene.load.spritesheet(this.drillAnimationKey, url, {
+        frameWidth: 96,
+        frameHeight: 64,
+      });
+
+      drillLoader.addListener(Phaser.Loader.Events.COMPLETE, () => {
+        this.createDrillAnimation();
+        drillLoader.removeAllListeners();
+      });
+    }
+
     scene.load.start();
+  }
+
+  private createDrillAnimation() {
+    if (!this.scene || !this.scene.anims) return;
+
+    this.scene.anims.create({
+      key: this.drillAnimationKey,
+      frames: this.scene.anims.generateFrameNumbers(
+        this.drillAnimationKey as string,
+      ),
+      frameRate: 10,
+      repeat: -1,
+    });
   }
 
   private createDigAnimation() {
@@ -409,10 +442,12 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
     this.speech = undefined;
 
     this.destroySpeechBubble.cancel();
+    this.label?.setVisible(true);
   }
 
   public speak(text: string) {
     this.stopReaction();
+    this.label?.setVisible(false);
 
     if (this.speech?.active) {
       this.speech.destroy();
@@ -426,6 +461,10 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
     this.add(this.speech);
 
     this.destroySpeechBubble();
+  }
+
+  get isSpeaking() {
+    return !!this.speech;
   }
 
   /**
@@ -517,6 +556,21 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
       } catch (e) {
         // eslint-disable-next-line no-console
         console.log("Bumpkin Container: Error playing dig animation: ", e);
+      }
+    }
+  }
+
+  public drill() {
+    if (
+      this.sprite?.anims &&
+      this.scene?.anims.exists(this.drillAnimationKey as string) &&
+      this.sprite?.anims.getName() !== this.drillAnimationKey
+    ) {
+      try {
+        this.sprite.anims.play(this.drillAnimationKey as string, true);
+      } catch (e) {
+        // eslint-disable-next-line no-console
+        console.log("Bumpkin Container: Error playing drill animation: ", e);
       }
     }
   }

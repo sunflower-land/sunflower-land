@@ -95,7 +95,7 @@ export const PhaserComponent: React.FC<Props> = ({
   const { t } = useAppTranslation();
 
   const { authService } = useContext(AuthProvider.Context);
-  const { gameService } = useContext(Context);
+  const { gameService, selectedItem, shortcutItem } = useContext(Context);
   const [authState] = useActor(authService);
 
   const { toastsList } = useContext(ToastContext);
@@ -229,6 +229,8 @@ export const PhaserComponent: React.FC<Props> = ({
     game.current.registry.set("id", gameService.state.context.farmId);
     game.current.registry.set("initialScene", scene);
     game.current.registry.set("navigate", navigate);
+    game.current.registry.set("selectedItem", selectedItem);
+    game.current.registry.set("shortcutItem", shortcutItem);
 
     const listener = (e: EventObject) => {
       if (e.type === "bumpkin.equipped") {
@@ -252,6 +254,11 @@ export const PhaserComponent: React.FC<Props> = ({
       gameService.off(listener);
     };
   }, []);
+
+  // When selected item changes in context, update game registry
+  useEffect(() => {
+    game.current?.registry.set("selectedItem", selectedItem);
+  }, [selectedItem]);
 
   // When route changes, switch scene
   useEffect(() => {

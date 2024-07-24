@@ -5472,6 +5472,11 @@ export const easterEggTerms: Record<EasterEggKeys, string> = {
 };
 
 export const desertTerms: Record<DesertKeys, string> = {
+  "digby.noShovels":
+    "Hey, you need a sand shovel to dig here! Speak to Jafar..",
+  "digby.noDrills":
+    "Looks like you don't have any sand drills! Speak to Jafar..",
+  "digby.noDigsLeft": "You have no more digs left! Come back tomorrow..",
   "digby.puzzle": "Digging puzzle",
   "digby.patterns": "Patterns",
   "digby.today":
