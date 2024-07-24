@@ -54,6 +54,10 @@ export const SPAWNS: () => SpawnLocation = () => ({
       x: 235,
       y: 845,
     },
+    beach: {
+      x: 25,
+      y: 656,
+    },
     nightshade_house: {
       x: 120,
       y: 448,
@@ -123,6 +127,10 @@ export const SPAWNS: () => SpawnLocation = () => ({
             x: 528,
             y: 736,
           },
+    kingdom: {
+      x: 532,
+      y: 257,
+    },
   },
 
   auction_house: {

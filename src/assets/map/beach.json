@@ -3729,6 +3729,24 @@
           "width": 39,
           "x": 235.666666666667,
           "y": 0.666666666666666
+        },
+        {
+          "height": 35.3333333333333,
+          "id": 402,
+          "name": "",
+          "properties": [
+            {
+              "name": "warp",
+              "type": "string",
+              "value": "kingdom"
+            }
+          ],
+          "rotation": 0,
+          "type": "",
+          "visible": true,
+          "width": 3.33333333333337,
+          "x": 555.666666666667,
+          "y": 238.333333333333
         }
       ],
       "opacity": 1,
@@ -3970,7 +3988,7 @@
     }
   ],
   "nextlayerid": 88,
-  "nextobjectid": 402,
+  "nextobjectid": 403,
   "orientation": "orthogonal",
   "renderorder": "right-down",
   "tiledversion": "1.8.4",
