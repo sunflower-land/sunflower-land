@@ -2606,7 +2606,21 @@ export type NPC_MESSAGE =
   | "npcMessages.jester.msg6"
   | "npcMessages.jester.msg7"
   | "npcMessages.jester.msg8"
-  | "npcMessages.jester.msg9";
+  | "npcMessages.jester.msg9"
+  | "npcMessages.oldSalty.msg1"
+  | "npcMessages.oldSalty.msg2"
+  | "npcMessages.oldSalty.msg3"
+  | "npcMessages.oldSalty.msg4"
+  | "npcMessages.oldSalty.msg5"
+  | "npcMessages.oldSalty.msg6"
+  | "npcMessages.oldSalty.msg7"
+  | "npcMessages.pharaoh.msg1"
+  | "npcMessages.pharaoh.msg2"
+  | "npcMessages.pharaoh.msg3"
+  | "npcMessages.pharaoh.msg4"
+  | "npcMessages.pharaoh.msg5"
+  | "npcMessages.pharaoh.msg6"
+  | "npcMessages.pharaoh.msg7";
 
 export type Npc =
   | "npc.Modal.Hammer"

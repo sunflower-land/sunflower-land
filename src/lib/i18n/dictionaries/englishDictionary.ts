@@ -3762,6 +3762,35 @@ const npc_message: Record<NPC_MESSAGE, string> = {
     "Well, well, look who’s here! Got any funny stories?",
   "npcMessages.jester.msg9":
     "The queen loves a good laugh. Ready to join the fun?",
+
+  "npcMessages.oldSalty.msg1":
+    "Arrr, me hearty! The sea be callin' for treasures. Can ye help an old pirate find his fortune?",
+  "npcMessages.oldSalty.msg2":
+    "Ahoy, matey! The thrill of the hunt is upon us. Bring me the treasures of the deep!",
+  "npcMessages.oldSalty.msg3":
+    "Shiver me timbers! There's treasure to be found. Will ye join me on this adventure?",
+  "npcMessages.oldSalty.msg4":
+    "Yo ho ho! The sea's secrets are out there, waitin' to be uncovered. Help me find 'em, will ye?",
+  "npcMessages.oldSalty.msg5":
+    "Aye, the scent of gold is in the air! Fetch me the treasures and let's share the bounty!",
+  "npcMessages.oldSalty.msg6":
+    "The sea be a cruel mistress, but she holds riches untold. Help me plunder her depths!",
+  "npcMessages.oldSalty.msg7":
+    "X marks the spot, and the treasure is near. Lend me a hand in uncovering it, matey!",
+  "npcMessages.pharaoh.msg1":
+    "Greetings, traveler. The sands conceal many secrets. Can you help me uncover the relics of my ancestors?",
+  "npcMessages.pharaoh.msg2":
+    "Wanderer, I seek the wisdom of ages past. Bring me the artifacts that hold the key to our history.",
+  "npcMessages.pharaoh.msg3":
+    "In the desert sands lie forgotten treasures. Will you aid me in discovering them?",
+  "npcMessages.pharaoh.msg4":
+    "The ancients whisper in the wind. Find the relics that will unlock their secrets.",
+  "npcMessages.pharaoh.msg5":
+    "Lost languages and forgotten lore await. Help me uncover the artifacts that will reveal our past.",
+  "npcMessages.pharaoh.msg6":
+    "The relics of my people are scattered and lost. Can you bring them to me, so we may learn from them?",
+  "npcMessages.pharaoh.msg7":
+    "The sands of time have hidden much. Assist me in recovering the treasures of a bygone era.",
 };
 
 const npc: Record<Npc, string> = {

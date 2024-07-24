@@ -216,6 +216,24 @@ const NPC_MESSAGES: Record<DeliveryNpcName, string[]> = {
   jester: [translate("npcMessages.betty.msg1")],
   peggy: [translate("npcMessages.betty.msg1")],
   victoria: [translate("npcMessages.betty.msg1")],
+  "old salty": [
+    translate("npcMessages.oldSalty.msg1"),
+    translate("npcMessages.oldSalty.msg2"),
+    translate("npcMessages.oldSalty.msg3"),
+    translate("npcMessages.oldSalty.msg4"),
+    translate("npcMessages.oldSalty.msg5"),
+    translate("npcMessages.oldSalty.msg6"),
+    translate("npcMessages.oldSalty.msg7"),
+  ],
+  pharaoh: [
+    translate("npcMessages.pharaoh.msg1"),
+    translate("npcMessages.pharaoh.msg2"),
+    translate("npcMessages.pharaoh.msg3"),
+    translate("npcMessages.pharaoh.msg4"),
+    translate("npcMessages.pharaoh.msg5"),
+    translate("npcMessages.pharaoh.msg6"),
+    translate("npcMessages.pharaoh.msg7"),
+  ],
 };
 
 export function generateDeliveryMessage({ from, id }: DeliveryMessage) {
