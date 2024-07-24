@@ -352,6 +352,17 @@ export class BeachScene extends BaseScene {
 
       this.resetSite();
     }, secondsTillDesertStorm() * 1000);
+
+    // Shut down the sound when the scene changes
+    this.events.once("shutdown", () => {
+      this.sound.getAllPlaying().forEach((sound) => {
+        sound.destroy();
+      });
+
+      if (this.desertStormTimer) {
+        clearTimeout(this.desertStormTimer);
+      }
+    });
   }
 
   public setUpDigSite = () => {
@@ -830,7 +841,7 @@ export class BeachScene extends BaseScene {
     // If any other players are inside of the dig area, move them to the perimeter
     this.mmoServer?.state?.players.forEach((player, sessionId) => {
       if (this.isPlayerInDigArea(player.x, player.y)) {
-        this.playerEntities[sessionId]?.teleport(256, 159);
+        this.playerEntities[sessionId]?.teleport(256, 111);
       }
     });
   }

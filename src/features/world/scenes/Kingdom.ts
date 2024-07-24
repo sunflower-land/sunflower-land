@@ -111,6 +111,7 @@ export class KingdomScene extends BaseScene {
     fetchLeaderboardData(this.id);
 
     this.load.image("question_disc", "world/question_disc.png");
+    this.load.image("box_blockade", "world/box_blockade.png");
 
     this.load.spritesheet("portal", "world/portal_well_sheet.png", {
       frameWidth: 20,
@@ -341,6 +342,19 @@ export class KingdomScene extends BaseScene {
         const nature1 = this.sound.add("royal_farms");
         nature1.play({ loop: true, volume: 0.3 });
       }
+    }
+
+    if (
+      !hasFeatureAccess(this.gameService.state.context.state, "TEST_DIGGING")
+    ) {
+      const desertBlockade = this.add.sprite(0, 656, "box_blockade");
+      this.physics.world.enable(desertBlockade);
+      this.colliders?.add(desertBlockade);
+      (desertBlockade.body as Phaser.Physics.Arcade.Body)
+        .setSize(32, 48)
+        .setOffset(0, 0)
+        .setImmovable(true)
+        .setCollideWorldBounds(true);
     }
 
     // Shut down the sound when the scene changes
