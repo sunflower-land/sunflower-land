@@ -1079,9 +1079,7 @@ export class BeachScene extends BaseScene {
     if (!this.currentPlayer) return;
 
     if (!this.hasDigsLeft) {
-      this.npcs.digby?.speak(
-        "You have no more digs left! Come back tomorrow..",
-      );
+      this.npcs.digby?.speak(translate("digby.noDigsLeft"));
 
       return;
     }
@@ -1094,17 +1092,13 @@ export class BeachScene extends BaseScene {
       new Decimal(0);
 
     if (sandShovels.lt(1) && this.selectedItem !== "Sand Drill") {
-      this.npcs.digby?.speak(
-        "Hey, you need a sand shovel to dig here! Speak to Jafar..",
-      );
+      this.npcs.digby?.speak(translate("digby.noShovels"));
 
       return;
     }
 
     if (this.selectedItem === "Sand Drill" && sandDrills.lt(1)) {
-      this.npcs.digby?.speak(
-        "Looks like you don't have any sand drills! Speak to Jafar..",
-      );
+      this.npcs.digby?.speak(translate("digby.noDrills"));
 
       return;
     }

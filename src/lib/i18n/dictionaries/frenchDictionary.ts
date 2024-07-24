@@ -5621,6 +5621,9 @@ export const desertTerms: Record<DesertKeys, string> = {
   "desert.notice.two": ENGLISH_TERMS["desert.notice.two"],
   "desert.notice.three": ENGLISH_TERMS["desert.notice.three"],
   "desert.notice.four": ENGLISH_TERMS["desert.notice.four"],
+  "digby.noDigsLeft": ENGLISH_TERMS["digby.noDigsLeft"],
+  "digby.noDrills": ENGLISH_TERMS["digby.noDrills"],
+  "digby.noShovels": ENGLISH_TERMS["digby.noShovels"],
 };
 
 export const FRENCH_TERMS: Record<TranslationKeys, string> = {

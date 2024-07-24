@@ -3736,7 +3736,10 @@ export type DesertKeys =
   | "desert.notice.one"
   | "desert.notice.two"
   | "desert.notice.three"
-  | "desert.notice.four";
+  | "desert.notice.four"
+  | "digby.noShovels"
+  | "digby.noDrills"
+  | "digby.noDigsLeft";
 
 export type TranslationKeys =
   | AchievementsTerms

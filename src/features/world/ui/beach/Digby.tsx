@@ -94,7 +94,7 @@ function dugToGrid(dug: Desert["digging"]["grid"]): DiggingGrid {
     .fill(0)
     .map(() => new Array(DESERT_GRID_HEIGHT).fill(undefined));
 
-  for (const hole of dug) {
+  for (const hole of dug.flat()) {
     grid[hole.x][hole.y] = getKeys(hole.items)[0];
   }
 
