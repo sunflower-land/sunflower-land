@@ -568,7 +568,7 @@ export class BeachScene extends BaseScene {
     // Clean up any sprites that are no longer in game state
     this.dugItems
       .filter((item) => {
-        return !revealed.some((hole) => {
+        return !revealed.flat().some((hole) => {
           const offsetX =
             hole.x * this.cellSize + this.gridX + this.cellSize / 2;
           const offsetY =
