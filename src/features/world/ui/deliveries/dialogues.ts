@@ -368,6 +368,33 @@ export const npcDialogues: Partial<Record<NPCName, DeliveryNPCDialogue>> = {
       translate("npcDialogues.gambit.noOrder2"),
     ],
   },
+  peggy: {
+    intro: [
+      translate("npcDialogues.peggy.intro1"),
+      translate("npcDialogues.peggy.intro2"),
+      translate("npcDialogues.peggy.intro3"),
+      translate("npcDialogues.peggy.intro4"),
+      translate("npcDialogues.peggy.intro5"),
+    ],
+    positiveDelivery: [
+      translate("npcDialogues.peggy.positiveDelivery1"),
+      translate("npcDialogues.peggy.positiveDelivery2"),
+      translate("npcDialogues.peggy.positiveDelivery3"),
+      translate("npcDialogues.peggy.positiveDelivery4"),
+      translate("npcDialogues.peggy.positiveDelivery5"),
+    ],
+    negativeDelivery: [
+      translate("npcDialogues.peggy.negativeDelivery1"),
+      translate("npcDialogues.peggy.negativeDelivery2"),
+      translate("npcDialogues.peggy.negativeDelivery3"),
+      translate("npcDialogues.peggy.negativeDelivery4"),
+      translate("npcDialogues.peggy.negativeDelivery5"),
+    ],
+    noOrder: [
+      translate("npcDialogues.peggy.noOrder1"),
+      translate("npcDialogues.peggy.noOrder2"),
+    ],
+  },
 };
 
 export const defaultDialogue: DeliveryNPCDialogue = {

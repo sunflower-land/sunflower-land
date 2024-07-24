@@ -682,7 +682,9 @@ export type BumpkinDelivery =
   | "bumpkin.delivery.noFlowers"
   | "bumpkin.delivery.thanks"
   | "bumpkin.delivery.waiting"
-  | "bumpkin.delivery.proveYourself";
+  | "bumpkin.delivery.proveYourself"
+  | "bumpkin.delivery.earnScrolls"
+  | "bumpkin.delivery.earnSFL";
 
 export type BumpkinItemBuff =
   | "bumpkinItemBuff.chef.apron.boost"
@@ -2957,7 +2959,24 @@ export type NpcDialogues =
   | "npcDialogues.jester.averageFlower"
   | "npcDialogues.jester.badFlower"
   | "npcDialogues.jester.goodFlower"
-  | "npcDialogues.tywin.goodFlower";
+  | "npcDialogues.tywin.goodFlower"
+  | "npcDialogues.peggy.intro1"
+  | "npcDialogues.peggy.intro2"
+  | "npcDialogues.peggy.intro3"
+  | "npcDialogues.peggy.intro4"
+  | "npcDialogues.peggy.intro5"
+  | "npcDialogues.peggy.positiveDelivery1"
+  | "npcDialogues.peggy.positiveDelivery2"
+  | "npcDialogues.peggy.positiveDelivery3"
+  | "npcDialogues.peggy.positiveDelivery4"
+  | "npcDialogues.peggy.positiveDelivery5"
+  | "npcDialogues.peggy.negativeDelivery1"
+  | "npcDialogues.peggy.negativeDelivery2"
+  | "npcDialogues.peggy.negativeDelivery3"
+  | "npcDialogues.peggy.negativeDelivery4"
+  | "npcDialogues.peggy.negativeDelivery5"
+  | "npcDialogues.peggy.noOrder1"
+  | "npcDialogues.peggy.noOrder2";
 
 export type NyeButton = "plaza.magicButton.query";
 

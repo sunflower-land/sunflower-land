@@ -997,6 +997,8 @@ const bumpkinDelivery: Record<BumpkinDelivery, string> = {
     "I've been waiting for this. Thanks a bunch! Come back soon for more deliveries.",
   "bumpkin.delivery.proveYourself":
     "Prove yourself worthy. Expand your island {{missingExpansions}} more times.",
+  "bumpkin.delivery.earnScrolls": "Earn scrolls to craft exclusive items.",
+  "bumpkin.delivery.earnSFL": "Earn SFL to trade & build your empire.",
 };
 
 const bumpkinItemBuff: Record<BumpkinItemBuff, string> = {
@@ -2986,8 +2988,7 @@ const guideTerms: Record<GuideTerms, string> = {
     "Deliveries in Sunflower Land provide an exciting opportunity to help hungry Goblins and fellow Bumpkins while earning rewards. Every day you will be able to see all the orders you have by clicking on the delivery board on the bottom left of the screen. The orders have been placed by some local NPCs that can be found hanging around Pumpkin Plaza. To fulfill an order, you will need to take a boat ride to Pumpkin Plaza and look for the NPC expecting the delivery. Once you find them, click on them to deliver the order and receive your reward.",
   "deliveries.guide.two":
     "As a new player, you start with three order slots, but as you expand your farm, you will unlock additional slots, allowing advanced players to take on more orders. New orders come in every 24 hours, offering a range of tasks from farming produce to cooking food and gathering resources. Completing orders will earn you milestone bonuses, including Block Bucks, SFL, Coins, delicious cakes, and other rewards. The reward system is based on the difficulty of the request, so consider prioritizing orders that offer greater rewards to maximize your gains. Keep an eye on the board and challenge yourself with a variety of orders, leveling up and unlocking new buildings as needed to fulfill more demanding requests.",
-  "deliveries.intro":
-    "Travel to different islands and deliver goods to earn rewards.",
+  "deliveries.intro": "Travel and deliver goods to earn rewards.",
   "deliveries.new": "New delivery",
   "chores.hank": "Hank's Chores",
   "chores.hank.intro":
@@ -4157,6 +4158,43 @@ const npcDialogues: Record<NpcDialogues, string> = {
     "Ah, my friend, it seems I don't have an active order for you at the moment. But fear not! I'm always here to offer guidance and a friendly pumpkin smile.",
   "npcDialogues.pumpkinPete.noOrder2":
     "Oh, no active order for you today, my friend. But don't worry! Feel free to explore the plaza, and if you need any assistance, I'm your trusty Bumpkin.",
+
+  // Peggy
+  "npcDialogues.peggy.intro1":
+    "Hello there, darling! Have you come to bring me some scrumptious delights? I can't wait to see what you've cooked up!",
+  "npcDialogues.peggy.intro2":
+    "Well, butter my biscuits! Have you got those tasty treats ready for me? I'm all set for some delicious fun!",
+  "npcDialogues.peggy.intro3":
+    "Howdy, partner! I’ve been waiting to see what delicious creation you’ve brought me. Ready to share some culinary joy?",
+  "npcDialogues.peggy.intro4":
+    "Hiya, sweetie! What’s cookin’? Did you bring me some of those mouthwatering dishes I’ve been dreaming of?",
+  "npcDialogues.peggy.intro5":
+    "Oh, hello there! I’m so excited to see what delectable delights you’ve prepared. Have you got my order?",
+
+  "npcDialogues.peggy.positiveDelivery1":
+    "Yum-tastic! You've cooked up just what I was craving. You're the best cook in the plaza!",
+  "npcDialogues.peggy.positiveDelivery2":
+    "Oh, my taste buds are dancing! You've delivered the perfect dish. You're a culinary superstar!",
+  "npcDialogues.peggy.positiveDelivery3":
+    "Deliciousness achieved! You've whipped up exactly what I needed. You're a true kitchen hero!",
+  "npcDialogues.peggy.positiveDelivery4":
+    "Fantastic feast! You've brought me exactly what I was hoping for. The whole plaza will enjoy this!",
+  "npcDialogues.peggy.positiveDelivery5":
+    "Wow, what a treat! You've cooked and delivered the perfect meal. You've made my day, and the plaza too!",
+  "npcDialogues.peggy.negativeDelivery1":
+    "Oh dear, it looks like this isn’t quite what I needed. No worries, though! Keep cooking and bring it back when you can.",
+  "npcDialogues.peggy.negativeDelivery2":
+    "Oops, this isn’t quite right. But don’t fret! Cook up another dish and come back soon!",
+  "npcDialogues.peggy.negativeDelivery3":
+    "This isn’t what I was hoping for, but don’t give up! Keep those cooking skills sharp and try again later.",
+  "npcDialogues.peggy.negativeDelivery4":
+    "Oh, this isn’t quite the dish I was craving. Keep exploring your recipes and bring me something else when you can!",
+  "npcDialogues.peggy.negativeDelivery5":
+    "Not quite the meal I was after, but don’t worry! Try cooking something else and come back with your next culinary creation.",
+  "npcDialogues.peggy.noOrder1":
+    "Ah, it seems I don’t have an active order for you at the moment. But feel free to explore and cook up a storm in the plaza!",
+  "npcDialogues.peggy.noOrder2":
+    "No current order for you today, but don’t let that stop you! If you need any cooking advice or just want to chat, I’m here!",
 
   // NPC gift dialogues
   "npcDialogues.pumpkinPete.reward":
