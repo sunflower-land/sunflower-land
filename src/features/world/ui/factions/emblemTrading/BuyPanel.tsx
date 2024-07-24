@@ -352,7 +352,7 @@ export const BuyPanel: React.FC<{
               type={hasPurchasesRemaining ? "success" : "danger"}
               className="-ml-2"
             >
-              {remainingFreePurchases == 0
+              {remainingFreePurchases === 1
                 ? `${t("remaining.free.purchase")}`
                 : `${t("remaining.free.purchases", {
                     purchasesRemaining: hasPurchasesRemaining
