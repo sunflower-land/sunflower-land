@@ -3734,6 +3734,7 @@ const nftminting: Record<NFTMinting, string> = {
 
 const npc: Record<Npc, string> = {
   "npc.Modal.Hammer": "Собирайтесь, бампкины, аукцион вот-вот начнется!",
+  "npc.Modal.Petro": ENGLISH_TERMS["npc.Modal.Petro"],
   "npc.Modal.Marcus":
     "Эй! Тебе запрещено входить в мой дом. Не смей трогать мои вещи!",
   "npc.Modal.Billy": "Всем привет! Меня зовут Билли.",
@@ -4259,6 +4260,26 @@ const npcDialogues: Record<NpcDialogues, string> = {
   "npcDialogues.default.reward":
     "Wow, thanks Bumpkin. Here is a small gift for your help!",
   "npcDialogues.default.locked": "Please come back tomorrow.",
+
+  "npcDialogues.pharaoh.intro1": ENGLISH_TERMS["npcDialogues.pharaoh.intro1"],
+  "npcDialogues.pharaoh.intro2": ENGLISH_TERMS["npcDialogues.pharaoh.intro2"],
+  "npcDialogues.pharaoh.intro3": ENGLISH_TERMS["npcDialogues.pharaoh.intro3"],
+  "npcDialogues.pharaoh.positiveDelivery1":
+    ENGLISH_TERMS["npcDialogues.pharaoh.positiveDelivery1"],
+  "npcDialogues.pharaoh.positiveDelivery2":
+    ENGLISH_TERMS["npcDialogues.pharaoh.positiveDelivery2"],
+  "npcDialogues.pharaoh.positiveDelivery3":
+    ENGLISH_TERMS["npcDialogues.pharaoh.positiveDelivery3"],
+  "npcDialogues.pharaoh.negativeDelivery1":
+    ENGLISH_TERMS["npcDialogues.pharaoh.negativeDelivery1"],
+  "npcDialogues.pharaoh.negativeDelivery2":
+    ENGLISH_TERMS["npcDialogues.pharaoh.negativeDelivery2"],
+  "npcDialogues.pharaoh.negativeDelivery3":
+    ENGLISH_TERMS["npcDialogues.pharaoh.negativeDelivery3"],
+  "npcDialogues.pharaoh.noOrder1":
+    ENGLISH_TERMS["npcDialogues.pharaoh.noOrder1"],
+  "npcDialogues.pharaoh.noOrder2":
+    ENGLISH_TERMS["npcDialogues.pharaoh.noOrder2"],
 
   // Queen Victoria Intro
   "npcDialogues.queenVictoria.intro1":

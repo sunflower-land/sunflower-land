@@ -3766,6 +3766,8 @@ const npc_message: Record<NPC_MESSAGE, string> = {
 
 const npc: Record<Npc, string> = {
   "npc.Modal.Hammer": "Gather round Bumpkins, an auction is about to begin.",
+  "npc.Modal.Petro":
+    "With a bit of oil and some elbow grease, I can crack open anything!",
   "npc.Modal.Marcus":
     "Hey! You are not allowed to go in my house. Don't you dare touch my things!",
   "npc.Modal.Billy": "Howdy, y'all! Name's Billy.",
@@ -4478,6 +4480,30 @@ const npcDialogues: Record<NpcDialogues, string> = {
     "Oh no, this flower is as funny as a wet sock! Try again, will you?",
   "npcDialogues.jester.goodFlower":
     "Splendid! This flower is perfect. Almost as good as one of my jokes!",
+
+  // Pharaoh
+  "npcDialogues.pharaoh.noOrder1":
+    "I have no specific quest for you at this moment, but the desert is vast and full of hidden relics. Keep exploring, and you may find what we seek.",
+  "npcDialogues.pharaoh.noOrder2":
+    "There is no current mission, but the sands of time conceal many treasures. Your journey is far from over, brave explorer.",
+  "npcDialogues.pharaoh.negativeDelivery1":
+    "Alas, no relics this time. Do not despair, for the sands still hide many secrets waiting to be unearthed.",
+  "npcDialogues.pharaoh.negativeDelivery2":
+    "No artifacts today? The journey of discovery is long, but perseverance will lead us to our goal.",
+  "npcDialogues.pharaoh.negativeDelivery3":
+    "The ancients' secrets remain hidden for now. Continue your search, and you shall find the treasures we seek.",
+  "npcDialogues.pharaoh.positiveDelivery1":
+    "Ah, you have found a relic of the ancients. Your efforts bring us closer to unraveling the mysteries of the past.",
+  "npcDialogues.pharaoh.positiveDelivery2":
+    "Behold, a treasure from a bygone era. Your discovery is invaluable to my quest for lost knowledge.",
+  "npcDialogues.pharaoh.positiveDelivery3":
+    "This artifact is a key to our forgotten history. Your contribution is greatly appreciated, noble traveler.",
+  "npcDialogues.pharaoh.intro1":
+    "Greetings, traveler. I am the Pharaoh, seeker of lost relics and forgotten knowledge. Have you uncovered any ancient treasures?",
+  "npcDialogues.pharaoh.intro2":
+    "Welcome, wanderer. The sands of time hold many secrets, and I am in search of them. Have you found any artifacts on your journey?",
+  "npcDialogues.pharaoh.intro3":
+    "Hail, explorer. I am the Pharaoh, guardian of ancient secrets. Have you discovered any relics that might aid in solving the mysteries of our past?",
 };
 
 const nyeButton: Record<NyeButton, string> = {

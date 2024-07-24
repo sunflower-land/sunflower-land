@@ -2611,6 +2611,7 @@ export type NPC_MESSAGE =
 export type Npc =
   | "npc.Modal.Hammer"
   | "npc.Modal.Marcus"
+  | "npc.Modal.Petro"
   | "npc.Modal.Billy"
   | "npc.Modal.Billy.one"
   | "npc.Modal.Billy.two"
@@ -2712,6 +2713,19 @@ export type NpcDialogues =
   //Old Salty NoOrder
   | "npcDialogues.oldSalty.noOrder1"
   | "npcDialogues.oldSalty.noOrder2"
+  // Pharaoh
+  | "npcDialogues.pharaoh.intro1"
+  | "npcDialogues.pharaoh.intro2"
+  | "npcDialogues.pharaoh.intro3"
+  | "npcDialogues.pharaoh.positiveDelivery1"
+  | "npcDialogues.pharaoh.positiveDelivery2"
+  | "npcDialogues.pharaoh.positiveDelivery3"
+  | "npcDialogues.pharaoh.negativeDelivery1"
+  | "npcDialogues.pharaoh.negativeDelivery2"
+  | "npcDialogues.pharaoh.negativeDelivery3"
+  | "npcDialogues.pharaoh.noOrder1"
+  | "npcDialogues.pharaoh.noOrder2"
+
   //Raven Intro
   | "npcDialogues.raven.intro1"
   | "npcDialogues.raven.intro2"

@@ -132,6 +132,28 @@ export const npcDialogues: Partial<Record<NPCName, DeliveryNPCDialogue>> = {
       translate("npcDialogues.oldSalty.noOrder2"),
     ],
   },
+  pharaoh: {
+    intro: [
+      translate("npcDialogues.pharaoh.intro1"),
+      translate("npcDialogues.pharaoh.intro2"),
+      translate("npcDialogues.pharaoh.intro3"),
+    ],
+    positiveDelivery: [
+      translate("npcDialogues.pharaoh.positiveDelivery1"),
+      translate("npcDialogues.pharaoh.positiveDelivery2"),
+      translate("npcDialogues.pharaoh.positiveDelivery3"),
+    ],
+    negativeDelivery: [
+      translate("npcDialogues.pharaoh.negativeDelivery1"),
+      translate("npcDialogues.pharaoh.negativeDelivery2"),
+      translate("npcDialogues.pharaoh.negativeDelivery3"),
+    ],
+    noOrder: [
+      translate("npcDialogues.pharaoh.noOrder1"),
+      translate("npcDialogues.pharaoh.noOrder2"),
+    ],
+  },
+
   raven: {
     intro: [
       translate("npcDialogues.raven.intro1"),

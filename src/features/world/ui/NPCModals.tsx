@@ -108,6 +108,18 @@ export const NPCModals: React.FC<Props> = ({ scene, id }) => {
         {npc === "hopper" && <Hopper onClose={closeModal} />}
 
         {npc === "digby" && <Digby onClose={closeModal} />}
+        {npc === "pharaoh" && <DeliveryPanel npc={npc} onClose={closeModal} />}
+        {npc === "petro" && (
+          <SpeakingModal
+            onClose={closeModal}
+            bumpkinParts={NPC_WEARABLES["petro"]}
+            message={[
+              {
+                text: translate("npc.Modal.Petro"),
+              },
+            ]}
+          />
+        )}
 
         {npc === "marcus" && (
           <SpeakingModal

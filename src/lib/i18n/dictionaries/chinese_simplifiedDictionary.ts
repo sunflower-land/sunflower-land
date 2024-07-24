@@ -3277,6 +3277,7 @@ const npc_message: Record<NPC_MESSAGE, string> = {
 const npc: Record<Npc, string> = {
   "npc.Modal.Hammer": ENGLISH_TERMS["npc.Modal.Hammer"],
   "npc.Modal.Marcus": ENGLISH_TERMS["npc.Modal.Marcus"],
+  "npc.Modal.Petro": ENGLISH_TERMS["npc.Modal.Petro"],
   "npc.Modal.Billy": ENGLISH_TERMS["npc.Modal.Billy"],
   "npc.Modal.Billy.one": ENGLISH_TERMS["npc.Modal.Billy.one"],
   "npc.Modal.Billy.two": ENGLISH_TERMS["npc.Modal.Billy.two"],
@@ -3877,6 +3878,26 @@ const npcDialogues: Record<NpcDialogues, string> = {
     ENGLISH_TERMS["npcDialogues.default.goodFlower"],
   "npcDialogues.default.reward": ENGLISH_TERMS["npcDialogues.default.reward"],
   "npcDialogues.default.locked": ENGLISH_TERMS["npcDialogues.default.locked"],
+
+  "npcDialogues.pharaoh.intro1": ENGLISH_TERMS["npcDialogues.pharaoh.intro1"],
+  "npcDialogues.pharaoh.intro2": ENGLISH_TERMS["npcDialogues.pharaoh.intro2"],
+  "npcDialogues.pharaoh.intro3": ENGLISH_TERMS["npcDialogues.pharaoh.intro3"],
+  "npcDialogues.pharaoh.positiveDelivery1":
+    ENGLISH_TERMS["npcDialogues.pharaoh.positiveDelivery1"],
+  "npcDialogues.pharaoh.positiveDelivery2":
+    ENGLISH_TERMS["npcDialogues.pharaoh.positiveDelivery2"],
+  "npcDialogues.pharaoh.positiveDelivery3":
+    ENGLISH_TERMS["npcDialogues.pharaoh.positiveDelivery3"],
+  "npcDialogues.pharaoh.negativeDelivery1":
+    ENGLISH_TERMS["npcDialogues.pharaoh.negativeDelivery1"],
+  "npcDialogues.pharaoh.negativeDelivery2":
+    ENGLISH_TERMS["npcDialogues.pharaoh.negativeDelivery2"],
+  "npcDialogues.pharaoh.negativeDelivery3":
+    ENGLISH_TERMS["npcDialogues.pharaoh.negativeDelivery3"],
+  "npcDialogues.pharaoh.noOrder1":
+    ENGLISH_TERMS["npcDialogues.pharaoh.noOrder1"],
+  "npcDialogues.pharaoh.noOrder2":
+    ENGLISH_TERMS["npcDialogues.pharaoh.noOrder2"],
 };
 
 const nyeButton: Record<NyeButton, string> = {

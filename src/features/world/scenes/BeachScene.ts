@@ -35,6 +35,22 @@ const convertToSnakeCase = (str: string) => {
 
 const BUMPKINS: NPCBumpkin[] = [
   {
+    npc: "pharaoh",
+    x: 36,
+    y: 86,
+  },
+  {
+    npc: "petro",
+    x: 480,
+    y: 80,
+    direction: "left",
+  },
+  {
+    npc: "old salty",
+    x: 38,
+    y: 262,
+  },
+  {
     npc: "digby",
     x: 336,
     y: 219,

@@ -98,16 +98,37 @@ export type NPCName =
   | "eldric"
   | "jafar" // desert merchant
   | "pet" // faction pet
-  | "peggy";
+  | "peggy"
+  | "petro"
+  | "pharaoh";
 
 export const NPC_WEARABLES: Record<NPCName, Equipped> = {
+  pharaoh: {
+    body: "Light Brown Farmer Potion",
+    hair: "Sun Spots",
+    hat: "Pharaoh Headdress",
+    dress: "Desert Merchant Suit",
+    shoes: "Desert Merchant Shoes",
+    tool: "Royal Scepter",
+    background: "Farm Background",
+  },
+  petro: {
+    body: "Beige Farmer Potion",
+    hair: "Basic Hair",
+    hat: "Oil Protection Hat",
+    shirt: "SFL T-Shirt",
+    pants: "Oil Overalls",
+    tool: "Dev Wrench",
+    background: "Farm Background",
+    shoes: "Black Farmer Boots",
+  },
   digby: {
     body: "Light Brown Farmer Potion",
     hair: "Wise Hair",
     hat: "Explorer Hat",
     shirt: "Explorer Shirt",
     pants: "Explorer Shorts",
-    tool: "Grave Diggers Shovel",
+    tool: "Rock Hammer",
     background: "Farm Background",
     shoes: "Black Farmer Boots",
   },
@@ -651,7 +672,7 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     shoes: "Brown Boots",
   },
   "old salty": {
-    body: "Beige Farmer Potion",
+    body: "Pirate Potion",
     hair: "Buzz Cut",
     pants: "Pirate Pants",
     hat: "Pirate Hat",
