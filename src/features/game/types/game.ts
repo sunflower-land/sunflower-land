@@ -677,15 +677,18 @@ export type Mushroom = {
   y: number;
 };
 
+export type DugHole = {
+  x: number;
+  y: number;
+  dugAt: number;
+  items: Partial<Record<InventoryItemName, number>>;
+  tool: "Sand Shovel" | "Sand Drill";
+};
+
 export type Desert = {
   digging: {
     patterns: DiggingFormationName[];
-    grid: {
-      x: number;
-      y: number;
-      dugAt: number;
-      items: Partial<Record<InventoryItemName, number>>;
-    }[];
+    grid: (DugHole | DugHole[])[];
   };
 };
 
