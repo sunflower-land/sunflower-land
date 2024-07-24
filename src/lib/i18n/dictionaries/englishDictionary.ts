@@ -4158,6 +4158,43 @@ const npcDialogues: Record<NpcDialogues, string> = {
   "npcDialogues.pumpkinPete.noOrder2":
     "Oh, no active order for you today, my friend. But don't worry! Feel free to explore the plaza, and if you need any assistance, I'm your trusty Bumpkin.",
 
+  // Peggy
+  "npcDialogues.peggy.intro1":
+    "Hello there, darling! Have you come to bring me some scrumptious delights? I can't wait to see what you've cooked up!",
+  "npcDialogues.peggy.intro2":
+    "Well, butter my biscuits! Have you got those tasty treats ready for me? I'm all set for some delicious fun!",
+  "npcDialogues.peggy.intro3":
+    "Howdy, partner! I’ve been waiting to see what delicious creation you’ve brought me. Ready to share some culinary joy?",
+  "npcDialogues.peggy.intro4":
+    "Hiya, sweetie! What’s cookin’? Did you bring me some of those mouthwatering dishes I’ve been dreaming of?",
+  "npcDialogues.peggy.intro5":
+    "Oh, hello there! I’m so excited to see what delectable delights you’ve prepared. Have you got my order?",
+
+  "npcDialogues.peggy.positiveDelivery1":
+    "Yum-tastic! You've cooked up just what I was craving. You're the best cook in the plaza!",
+  "npcDialogues.peggy.positiveDelivery2":
+    "Oh, my taste buds are dancing! You've delivered the perfect dish. You're a culinary superstar!",
+  "npcDialogues.peggy.positiveDelivery3":
+    "Deliciousness achieved! You've whipped up exactly what I needed. You're a true kitchen hero!",
+  "npcDialogues.peggy.positiveDelivery4":
+    "Fantastic feast! You've brought me exactly what I was hoping for. The whole plaza will enjoy this!",
+  "npcDialogues.peggy.positiveDelivery5":
+    "Wow, what a treat! You've cooked and delivered the perfect meal. You've made my day, and the plaza too!",
+  "npcDialogues.peggy.negativeDelivery1":
+    "Oh dear, it looks like this isn’t quite what I needed. No worries, though! Keep cooking and bring it back when you can.",
+  "npcDialogues.peggy.negativeDelivery2":
+    "Oops, this isn’t quite right. But don’t fret! Cook up another dish and come back soon!",
+  "npcDialogues.peggy.negativeDelivery3":
+    "This isn’t what I was hoping for, but don’t give up! Keep those cooking skills sharp and try again later.",
+  "npcDialogues.peggy.negativeDelivery4":
+    "Oh, this isn’t quite the dish I was craving. Keep exploring your recipes and bring me something else when you can!",
+  "npcDialogues.peggy.negativeDelivery5":
+    "Not quite the meal I was after, but don’t worry! Try cooking something else and come back with your next culinary creation.",
+  "npcDialogues.peggy.noOrder1":
+    "Ah, it seems I don’t have an active order for you at the moment. But feel free to explore and cook up a storm in the plaza!",
+  "npcDialogues.peggy.noOrder2":
+    "No current order for you today, but don’t let that stop you! If you need any cooking advice or just want to chat, I’m here!",
+
   // NPC gift dialogues
   "npcDialogues.pumpkinPete.reward":
     "Thank you kindly for your deliveries. Here's a token of appreciation for you.",

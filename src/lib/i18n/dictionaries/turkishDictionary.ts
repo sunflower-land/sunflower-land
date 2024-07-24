@@ -4268,6 +4268,34 @@ const npcDialogues: Record<NpcDialogues, string> = {
   "npcDialogues.pumpkinPete.noOrder2":
     "Ah, bugün sizin için aktif bir sipariş yok, dostum. Ama endişelenme! Plazayı keşfetmekte özgürsünüz ve herhangi bir yardıma ihtiyacınız varsa, ben buradayım.",
 
+  "npcDialogues.peggy.intro1": ENGLISH_TERMS["npcDialogues.peggy.intro1"],
+  "npcDialogues.peggy.intro2": ENGLISH_TERMS["npcDialogues.peggy.intro2"],
+  "npcDialogues.peggy.intro3": ENGLISH_TERMS["npcDialogues.peggy.intro3"],
+  "npcDialogues.peggy.intro4": ENGLISH_TERMS["npcDialogues.peggy.intro4"],
+  "npcDialogues.peggy.intro5": ENGLISH_TERMS["npcDialogues.peggy.intro5"],
+  "npcDialogues.peggy.positiveDelivery1":
+    ENGLISH_TERMS["npcDialogues.peggy.positiveDelivery1"],
+  "npcDialogues.peggy.positiveDelivery2":
+    ENGLISH_TERMS["npcDialogues.peggy.positiveDelivery2"],
+  "npcDialogues.peggy.positiveDelivery3":
+    ENGLISH_TERMS["npcDialogues.peggy.positiveDelivery3"],
+  "npcDialogues.peggy.positiveDelivery4":
+    ENGLISH_TERMS["npcDialogues.peggy.positiveDelivery4"],
+  "npcDialogues.peggy.positiveDelivery5":
+    ENGLISH_TERMS["npcDialogues.peggy.positiveDelivery5"],
+  "npcDialogues.peggy.negativeDelivery1":
+    ENGLISH_TERMS["npcDialogues.peggy.negativeDelivery1"],
+  "npcDialogues.peggy.negativeDelivery2":
+    ENGLISH_TERMS["npcDialogues.peggy.negativeDelivery2"],
+  "npcDialogues.peggy.negativeDelivery3":
+    ENGLISH_TERMS["npcDialogues.peggy.negativeDelivery3"],
+  "npcDialogues.peggy.negativeDelivery4":
+    ENGLISH_TERMS["npcDialogues.peggy.negativeDelivery4"],
+  "npcDialogues.peggy.negativeDelivery5":
+    ENGLISH_TERMS["npcDialogues.peggy.negativeDelivery5"],
+  "npcDialogues.peggy.noOrder1": ENGLISH_TERMS["npcDialogues.peggy.noOrder1"],
+  "npcDialogues.peggy.noOrder2": ENGLISH_TERMS["npcDialogues.peggy.noOrder2"],
+
   // NPC gift dialogues
   "npcDialogues.pumpkinPete.reward":
     "Teslimatlarınız için nazik olmanızı takdir ederim. İşte minnettarlığımı göstermek için küçük bir şey.",
