@@ -26,7 +26,6 @@ import { getCurrentHoneyProduced } from "../expansion/components/resources/beehi
 import { DEFAULT_HONEY_PRODUCTION_TIME } from "../lib/updateBeehives";
 import { translate } from "lib/i18n/translate";
 import { canDrillOilReserve } from "../events/landExpansion/drillOilReserve";
-import { TOTAL_DIGS } from "features/world/scenes/BeachScene";
 
 export type Restriction = [boolean, string];
 type RemoveCondition = (gameState: GameState) => Restriction;
@@ -217,13 +216,14 @@ export function areAnyChickensFed(game: GameState): Restriction {
   return [chickensAreFed, translate("restrictionReason.chickensFed")];
 }
 
+const MAX_DIGS = 25;
 export function areBonusTreasureHolesDug(game: GameState): Restriction {
   const holes = game.desert.digging.grid.flat().map((hole) => {
     const today = new Date().toISOString().substring(0, 10);
 
     return +(new Date(hole.dugAt).toISOString().substring(0, 10) === today);
   });
-  const holesDug = holes.reduce((sum, value) => sum + value, 0) > TOTAL_DIGS;
+  const holesDug = holes.reduce((sum, value) => sum + value, 0) > MAX_DIGS;
 
   return [holesDug, translate("restrictionReason.treasuresDug")];
 }
