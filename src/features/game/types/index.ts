@@ -785,6 +785,22 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
 
   // Mutant Flowers
   "Desert Rose": 2100,
+  // Pharaoh's Treasure
+  "Hapy Jar": 2101,
+  "Duamutef Jar": 2102,
+  "Qebehsenuef Jar": 2103,
+  "Imsety Jar": 2104,
+  "Tomato Core": 2105,
+  Sarcophagus: 2106,
+  "Clay Tablet": 2107,
+  "Snake in Jar": 2108,
+  "Reveling Lemon": 2109,
+  "Anubis Jackal": 2110,
+  Sundial: 2111,
+  "Sand Golem": 2112,
+  "Cactus King": 2113,
+  "Lemon Frog": 2114,
+  "Scarab Beetle": 2115,
 };
 
 // The reverse of above
