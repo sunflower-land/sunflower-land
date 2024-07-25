@@ -178,6 +178,7 @@ export type GeneralTerms =
   | "reward"
   | "reward.discovered"
   | "reward.whatsNew"
+  | "sale"
   | "save"
   | "saving"
   | "searching"

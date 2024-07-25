@@ -360,6 +360,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   reward: "Награда",
   "reward.discovered": "Найдено вознаграждение",
   "reward.whatsNew": "What's new",
+  sale: ENGLISH_TERMS["sale"],
   save: "Сохранить",
   saving: "Сохранение",
   searching: "Ищем",

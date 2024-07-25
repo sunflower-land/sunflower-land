@@ -193,4 +193,42 @@ describe("sell", () => {
     });
     expect(state.bumpkin?.activity?.["Apple Sold"]).toEqual(amount);
   });
+
+  it("sells tomato for two times the normal price during La Tomatina", () => {
+    const coins = 1;
+    const state = sellCrop({
+      state: {
+        ...GAME_STATE,
+        coins,
+        inventory: {
+          Tomato: new Decimal(1),
+        },
+        specialEvents: {
+          current: {
+            "La Tomatina": {
+              text: "La Tomatina",
+              endAt: new Date().getTime() + 1000,
+              startAt: new Date().getTime(),
+              isEligible: true,
+              requiresWallet: false,
+              tasks: [],
+              bonus: {
+                Tomato: {
+                  saleMultiplier: 2,
+                },
+              },
+            },
+          },
+          history: {},
+        },
+      },
+      action: {
+        type: "crop.sold",
+        crop: "Tomato",
+        amount: 1,
+      },
+    });
+
+    expect(state.coins).toEqual(coins + FRUIT().Tomato.sellPrice * 2);
+  });
 });
