@@ -76,6 +76,8 @@ export const getSellPrice = ({
   // Special Events
   const specialEventMultiplier = Object.values(game.specialEvents.current)
     .filter((event) => !!event?.isEligible)
+    .filter((event) => (event?.endAt ?? Infinity) > Date.now())
+    .filter((event) => (event?.startAt ?? 0) < Date.now())
     .find((event) => event?.bonus?.[item.name]?.saleMultiplier)?.bonus?.[
     item.name
   ]?.saleMultiplier;
