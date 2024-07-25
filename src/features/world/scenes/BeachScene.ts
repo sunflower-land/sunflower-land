@@ -1043,6 +1043,7 @@ export class BeachScene extends BaseScene {
     ) {
       allowedDigs += 1;
     }
+    return 3;
 
     return allowedDigs;
   }
@@ -1463,6 +1464,10 @@ export class BeachScene extends BaseScene {
       this.updateOtherPlayers();
       this.handleDigbyWarnings();
     } else {
+      this.hoverBox?.setVisible(false);
+      this.confirmBox?.setVisible(false);
+      this.drillHoverBox?.setVisible(false);
+      this.drillConfirmBox?.setVisible(false);
       super.update();
     }
 
