@@ -733,9 +733,9 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Goblin Faction Rug": GoblinFactionRug,
   "Bumpkin Faction Rug": BumpkinFactionRug,
   "Desert Rose": DesertRose,
-  Sarcophagus: Sarcophagus,
 
   // To Update
+  Sarcophagus: Sarcophagus,
   "Hapy Jar": Template,
   "Imsety Jar": Template,
   "Tomato Core": Template,
@@ -750,6 +750,9 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Cactus King": Template,
   "Lemon Frog": Template,
   "Scarab Beetle": Template,
+  "Adrift Ark": Template,
+  Castellan: Template,
+  "Sunlit Citadel": Template,
 };
 // Need readonly versions for some troublesome components while in design mode
 
