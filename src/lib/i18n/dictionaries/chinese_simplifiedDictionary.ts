@@ -2276,7 +2276,7 @@ const fishermanModal: Record<FishermanModal, string> = {
   "fishermanmodal.greeting":
     "嚯，岛上的朋友们！我是 {{name}}，你们可靠的岛上渔夫，我已经准备好迎击一项伟大的挑战——收集日光之下的每一种鱼！",
   "fishermanModal.fullMoon":
-    "哇，看看那满月！我听闻这会儿你有机会抓到稀有的海洋奇观。",
+    "哇，看看那满月！我听闻这会儿你有机会抓到稀有的海洋奇珍。",
 };
 
 const fishermanQuest: Record<FishermanQuest, string> = {
@@ -2311,7 +2311,7 @@ const fishingQuests: Record<FishingQuests, string> = {
   "quest.all.fish": "探索每种基础、高级和专家级鱼类",
   "quest.300.fish": "捕获 300 条鱼",
   "quest.1500.fish": "捕获 1500 条鱼",
-  "quest.marine.marvel": "抓住每个海洋奇观",
+  "quest.marine.marvel": "抓住每个海洋奇珍",
   "quest.5.fish": "每种鱼都抓 5 条",
   "quest.sunpetal.savant": "发现 12 种 Sunpetal 变体",
   "quest.bloom.bigshot": "发现 12 种 Bloom 变体",
