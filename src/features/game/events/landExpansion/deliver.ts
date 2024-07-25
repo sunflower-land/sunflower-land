@@ -24,6 +24,7 @@ export const TICKET_REWARDS: Record<QuestNPCName, number> = {
   cornwell: 4,
   tywin: 5,
   jester: 4,
+  pharaoh: 5,
 };
 
 export function generateDeliveryTickets({
@@ -117,7 +118,8 @@ export type QuestNPCName =
   | "finn"
   | "finley"
   | "miranda"
-  | "jester";
+  | "jester"
+  | "pharaoh";
 
 // All available quest npcs
 export const QUEST_NPC_NAMES: QuestNPCName[] = [

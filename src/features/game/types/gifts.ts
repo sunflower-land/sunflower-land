@@ -38,6 +38,14 @@ export const BUMPKIN_FLOWER_BONUSES: Partial<Record<NPCName, GiftPoints>> = {
     "Purple Daffodil": 4,
     "Purple Pansy": 4,
   },
+  "old salty": {
+    "Blue Carnation": 6,
+    "Blue Lotus": 5,
+    "Blue Daffodil": 4,
+    "Blue Pansy": 4,
+    "Blue Balloon Flower": 5,
+    "Blue Cosmos": 4,
+  },
   miranda: {
     "Yellow Carnation": 6,
     "Yellow Lotus": 5,
@@ -357,6 +365,46 @@ export const BUMPKIN_GIFTS: Partial<Record<NPCName, BumpkinGifts>> = {
         "Orange Seed": 5,
       },
       coins: 0,
+      wearables: {},
+    },
+  },
+  "old salty": {
+    planned: [
+      {
+        friendshipPoints: 30,
+        items: {},
+        coins: 80,
+        wearables: {
+          "Striped Blue Shirt": 1,
+        },
+      },
+      {
+        friendshipPoints: 90,
+        items: {},
+        coins: 260,
+        wearables: {
+          "Peg Leg": 1,
+        },
+      },
+      {
+        friendshipPoints: 500,
+        items: {},
+        coins: 0,
+        wearables: { "Pirate Potion": 1 },
+      },
+      {
+        friendshipPoints: 850,
+        items: {
+          "Pirate Bounty": 1,
+        },
+        coins: 0,
+        wearables: { "Pirate Hat": 1 },
+      },
+    ],
+    repeats: {
+      friendshipPoints: 250,
+      items: {},
+      coins: 2500,
       wearables: {},
     },
   },

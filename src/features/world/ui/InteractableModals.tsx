@@ -34,8 +34,11 @@ import { FactionWelcome, hasReadFactionIntro } from "./factions/FactionWelcome";
 import { Champions } from "./factions/Champions";
 import { KingdomNoticeboard } from "./kingdom/KingdomNoticeboard";
 import { FactionNoticeboard } from "./factions/FactionNoticeboard";
+import { CropsAndChickens } from "./portals/CropsAndChickens";
+import { DesertNoticeboard } from "./beach/DesertNoticeboard";
 
 type InteractableName =
+  | "desert_noticeboard"
   | "faction_noticeboard"
   | "kingdom_noticeboard"
   | "champions"
@@ -100,6 +103,7 @@ type InteractableName =
   | "nightshades_faction"
   | "sunflorians_faction"
   | "chicken_rescue"
+  | "crops_and_chickens"
   | "festival_of_colors"
   // to replace pledge factions
   | "join_goblins"
@@ -112,7 +116,11 @@ type InteractableName =
   | "kingdom_book_4"
   | "kingdom_book_5"
   | "kingdom_knight"
-  | "fan_art";
+  | "fan_art"
+  | "desert_book_1"
+  | "desert_book_2"
+  | "desert_book_3"
+  | "desert_book_4";
 
 class InteractableModalManager {
   private listener?: (name: InteractableName, isOpen: boolean) => void;
@@ -185,6 +193,9 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
       )}
       <Modal show={interactable === "faction_intro"} onHide={closeModal}>
         <FactionWelcome onClose={closeModal} />
+      </Modal>
+      <Modal show={interactable === "desert_noticeboard"} onHide={closeModal}>
+        <DesertNoticeboard onClose={closeModal} />
       </Modal>
       <Modal show={interactable === "kingdom_noticeboard"} onHide={closeModal}>
         <KingdomNoticeboard onClose={closeModal} />
@@ -431,6 +442,15 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
           bumpkinParts={NPC_WEARABLES.billy}
         >
           <ChickenRescue onClose={closeModal} />
+        </CloseButtonPanel>
+      </Modal>
+
+      <Modal show={interactable === "crops_and_chickens"} onHide={closeModal}>
+        <CloseButtonPanel
+          onClose={closeModal}
+          bumpkinParts={NPC_WEARABLES.billy}
+        >
+          <CropsAndChickens onClose={closeModal} />
         </CloseButtonPanel>
       </Modal>
 
@@ -719,6 +739,50 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
               {t("easterEgg.tywinDiary")}
             </Label>
             <InlineDialogue message={t("easterEgg.kingdomBook5")} />
+          </div>
+        </CloseButtonPanel>
+      </Modal>
+
+      <Modal show={interactable === "desert_book_1"} onHide={closeModal}>
+        <CloseButtonPanel onClose={closeModal}>
+          <div className="p-2">
+            <Label type="default" className="mb-2">
+              {t("easterEgg.digbysDiary")}
+            </Label>
+            <InlineDialogue message={t("easterEgg.desertBook1")} />
+          </div>
+        </CloseButtonPanel>
+      </Modal>
+
+      <Modal show={interactable === "desert_book_2"} onHide={closeModal}>
+        <CloseButtonPanel onClose={closeModal}>
+          <div className="p-2">
+            <Label type="default" className="mb-2">
+              {t("easterEgg.digbysDiary")}
+            </Label>
+            <InlineDialogue message={t("easterEgg.desertBook2")} />
+          </div>
+        </CloseButtonPanel>
+      </Modal>
+
+      <Modal show={interactable === "desert_book_3"} onHide={closeModal}>
+        <CloseButtonPanel onClose={closeModal}>
+          <div className="p-2">
+            <Label type="default" className="mb-2">
+              {t("easterEgg.pharaohsDiary")}
+            </Label>
+            <InlineDialogue message={t("easterEgg.desertBook3")} />
+          </div>
+        </CloseButtonPanel>
+      </Modal>
+
+      <Modal show={interactable === "desert_book_4"} onHide={closeModal}>
+        <CloseButtonPanel onClose={closeModal}>
+          <div className="p-2">
+            <Label type="default" className="mb-2">
+              {t("easterEgg.goldtoothsDiary")}
+            </Label>
+            <InlineDialogue message={t("easterEgg.desertBook4")} />
           </div>
         </CloseButtonPanel>
       </Modal>

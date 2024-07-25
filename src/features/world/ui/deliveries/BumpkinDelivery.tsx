@@ -27,8 +27,10 @@ import { getNextGift } from "features/game/events/landExpansion/claimBumpkinGift
 import { ClaimReward } from "features/game/expansion/components/ClaimReward";
 import { defaultDialogue, npcDialogues } from "./dialogues";
 import { useRandomItem } from "lib/utils/hooks/useRandomItem";
-import { getTotalExpansions } from "./DeliveryPanelContent";
-import { DELIVERY_LEVELS } from "features/island/delivery/lib/delivery";
+import {
+  NPC_DELIVERY_LEVELS,
+  DeliveryNpcName,
+} from "features/island/delivery/lib/delivery";
 import {
   getSeasonalBanner,
   getSeasonalTicket,
@@ -45,6 +47,7 @@ import { VIPAccess } from "features/game/components/VipAccess";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { getSeasonChangeover } from "lib/utils/getSeasonWeek";
 import { SquareIcon } from "components/ui/SquareIcon";
+import { getBumpkinLevel } from "features/game/lib/level";
 
 export const OrderCard: React.FC<{
   order: Order;
@@ -232,6 +235,13 @@ const GIFT_RESPONSES: Partial<Record<NPCName, GiftResponse>> = {
     flowerNegative: "npcDialogues.raven.badFlower",
     flowerPositive: "npcDialogues.raven.goodFlower",
     reward: "npcDialogues.raven.reward",
+  },
+  "old salty": {
+    flowerIntro: "npcDialogues.salty.flowerIntro",
+    flowerAverage: "npcDialogues.salty.averageFlower",
+    flowerNegative: "npcDialogues.salty.badFlower",
+    flowerPositive: "npcDialogues.salty.goodFlower",
+    reward: "npcDialogues.salty.reward",
   },
   miranda: {
     flowerIntro: "npcDialogues.miranda.flowerIntro",
@@ -615,10 +625,11 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
     message = t("goblinTrade.vipDelivery");
   }
 
-  const missingExpansions =
-    (DELIVERY_LEVELS[npc] ?? 0) - getTotalExpansions({ game }).toNumber();
+  const missingLevels =
+    (NPC_DELIVERY_LEVELS[npc as DeliveryNpcName] ?? 0) -
+    getBumpkinLevel(game.bumpkin?.experience ?? 0);
   const missingVIPAccess = requiresSeasonPass && !hasSeasonPass && !hasVIP;
-  const isLocked = missingExpansions >= 1;
+  const isLocked = missingLevels >= 1;
   const isTicketOrder = tickets > 0;
   const deliveryFrozen = ticketTasksAreFrozen && isTicketOrder;
   const acceptGifts = !!getNextGift({ game, npc });
@@ -684,11 +695,9 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
           <InnerPanel>
             <div className="px-2 ">
               <div className="flex justify-between items-center mb-2">
-                <div className="flex w-full justify-between">
-                  <Label type="default" icon={SUNNYSIDE.icons.expression_chat}>
-                    {t("delivery")}
-                  </Label>
-                </div>
+                <Label type="default" icon={SUNNYSIDE.icons.expression_chat}>
+                  {t("delivery")}
+                </Label>
 
                 {delivery?.completedAt && (
                   <Label type="success" secondaryIcon={SUNNYSIDE.icons.confirm}>
@@ -697,7 +706,7 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
                 )}
                 {isLocked && (
                   <Label type="danger" icon={lockIcon}>
-                    {t("locked")}
+                    {`Lvl ${NPC_DELIVERY_LEVELS[npc as DeliveryNpcName]} required`}
                   </Label>
                 )}
                 {missingVIPAccess && (
@@ -724,7 +733,7 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
                 <>
                   <p className="text-xs mb-2">
                     {t("bumpkin.delivery.proveYourself", {
-                      missingExpansions: missingExpansions,
+                      missingLevels: missingLevels,
                     })}
                   </p>
                 </>

@@ -105,8 +105,9 @@ export const TREASURE_TOOLS: Record<TreasureToolName, Tool> = {
     description: translate("description.sand.drill"),
     price: 40,
     ingredients: {
-      Gold: new Decimal(1),
-      Iron: new Decimal(3),
+      Oil: new Decimal(1),
+      Crimstone: new Decimal(1),
+      Wood: new Decimal(5),
     },
   },
 };

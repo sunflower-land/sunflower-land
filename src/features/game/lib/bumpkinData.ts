@@ -10,9 +10,9 @@ export const INITIAL_EXPANSIONS =
     ? 3
     : getLandLimit(INITIAL_BUMPKIN_LEVEL as BumpkinLevel);
 
-export const INITIAL_BUMPKIN: Bumpkin = {
+export const TEST_BUMPKIN: Bumpkin = {
   id: 1,
-  experience: 1,
+  experience: 1000,
   tokenUri: "bla",
   equipped: {
     body: "Beige Farmer Potion",
@@ -25,6 +25,7 @@ export const INITIAL_BUMPKIN: Bumpkin = {
     background: "Farm Background",
     beard: "Santa Beard",
     hat: "Deep Sea Helm",
+    aura: "Coin Aura",
   },
   skills: {},
   achievements: {},

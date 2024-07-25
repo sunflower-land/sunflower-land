@@ -135,3 +135,57 @@ export const DAILY_ARTEFACT: Record<number, DiggingFormationName> = {
 export type DiggingFormationName = keyof typeof DIGGING_FORMATIONS;
 
 export type DiggingGrid = InventoryItemName[][];
+
+/**
+ * Whether a site was from a previous period (daily)
+ * TODO - change to .slice(0, 10) - currently set to hourly
+ */
+export function siteHasExpired({
+  now,
+  generatedAt,
+}: {
+  now: number;
+  generatedAt: number;
+}) {
+  return (
+    new Date(now).toISOString().slice(0, 13) !==
+    new Date(generatedAt).toISOString().slice(0, 13)
+  );
+}
+
+/**
+ * When the archaelogy site resets
+ * TODO - change to daily after testing
+ */
+export function secondsTillDesertStorm() {
+  return secondsTillNextHour();
+  // const currentTime = Date.now();
+
+  // // Calculate the time until the next day in milliseconds
+  // const nextDay = new Date(currentTime);
+  // nextDay.setUTCHours(24, 0, 0, 0);
+
+  // const timeUntilNextDay = nextDay.getTime() - currentTime;
+
+  // // Convert milliseconds to seconds
+  // const secondsUntilNextDay = Math.floor(timeUntilNextDay / 1000);
+
+  // return secondsUntilNextDay;
+}
+
+// Testing purposes only - reset every hour
+function secondsTillNextHour() {
+  const currentTime = new Date();
+
+  // Calculate the time until the next hour in milliseconds
+  const nextHour = new Date(currentTime);
+  nextHour.setUTCMinutes(0, 0, 0); // Set to the start of the next hour
+  nextHour.setUTCHours(nextHour.getUTCHours() + 1);
+
+  const timeUntilNextHour = nextHour.getTime() - currentTime.getTime();
+
+  // Convert milliseconds to seconds
+  const secondsUntilNextHour = Math.floor(timeUntilNextHour / 1000);
+
+  return secondsUntilNextHour;
+}

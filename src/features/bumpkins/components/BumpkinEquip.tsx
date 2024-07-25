@@ -46,6 +46,7 @@ const NOTREQUIRED: BumpkinPart[] = [
   "suit",
   "wings",
   "beard",
+  "aura",
 ];
 
 interface Props {

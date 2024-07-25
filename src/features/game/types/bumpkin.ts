@@ -122,7 +122,8 @@ export type BumpkinShirt =
   | "Nightshade Armor"
   | "Bumpkin Armor"
   | "Sunflorian Armor"
-  | "Explorer Shirt";
+  | "Explorer Shirt"
+  | "Ankh Shirt";
 
 export type BumpkinCoat =
   | "Chef Apron"
@@ -362,7 +363,8 @@ export type BumpkinOnesie =
   | "Stockeye Salmon Onesie"
   | "Banana Onesie"
   | "Soybean Onesie"
-  | "Camel Onesie";
+  | "Camel Onesie"
+  | "Rocket Onesie";
 
 // Goes over clothes
 export type BumpkinSuit =
@@ -389,6 +391,8 @@ export type BumpkinWings =
 
 export type BumpkinBeard = "Wise Beard" | "Hoary Chin" | "Santa Beard";
 
+export type BumpkinAura = "Coin Aura";
+
 export type BumpkinItem =
   | BumpkinBody
   | BumpkinHair
@@ -405,7 +409,8 @@ export type BumpkinItem =
   | BumpkinOnesie
   | BumpkinSuit
   | BumpkinWings
-  | BumpkinBeard;
+  | BumpkinBeard
+  | BumpkinAura;
 
 export const ITEM_IDS: Record<BumpkinItem, number> = {
   "Beige Farmer Potion": 1,
@@ -752,7 +757,7 @@ export const ITEM_IDS: Record<BumpkinItem, number> = {
   "Painter's Cap": 347,
   "Festival of Colors Background": 348,
 
-  // Ancient Season
+  // Pharaoh's Treasure Season
   "Pharaoh Headdress": 349,
   "Camel Onesie": 350,
   "Amber Amulet": 351,
@@ -770,6 +775,9 @@ export const ITEM_IDS: Record<BumpkinItem, number> = {
   "Desert Merchant Suit": 363,
   "Desert Camel Background": 364,
   "Water Gourd": 365,
+  "Rocket Onesie": 366,
+  "Coin Aura": 367,
+  "Ankh Shirt": 368,
 };
 
 // The reverse of above
@@ -798,6 +806,7 @@ export type Wallet = {
   wings: BumpkinWings[];
   dress?: BumpkinDress[];
   beard?: BumpkinBeard[];
+  aura?: BumpkinAura[];
 };
 
 export type Equipped = {
@@ -817,6 +826,7 @@ export type Equipped = {
   wings?: BumpkinWings;
   dress?: BumpkinDress;
   beard?: BumpkinBeard;
+  aura?: BumpkinAura;
 };
 
 export type BumpkinPart = keyof Equipped;
@@ -1194,4 +1204,7 @@ export const BUMPKIN_ITEM_PART: Record<BumpkinItem, keyof Wallet> = {
   "Desert Merchant Suit": "dress",
   "Desert Camel Background": "background",
   "Water Gourd": "tool",
+  "Rocket Onesie": "onesie",
+  "Coin Aura": "aura",
+  "Ankh Shirt": "shirt",
 };

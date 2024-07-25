@@ -754,6 +754,9 @@ import sunflorianSilverChampion from "assets/sfts/sunflorian_silver_champion.png
 import sunflorianBronzeChampion from "assets/sfts/sunflorian_bronze_champion.png";
 
 import desertRose from "assets/sfts/desert_rose.webp";
+import sarcophagus from "src/assets/sfts/sarcophagus.webp";
+import anubisJackal from "src/assets/sfts/anubis_jackal.webp";
+import snakeInJar from "src/assets/sfts/snake_in_jar.webp";
 
 import scarab from "assets/resources/scarab.webp";
 import sand from "assets/resources/sand.webp";
@@ -8876,6 +8879,96 @@ export const ITEM_DETAILS: Items = {
     image: vase,
     description: {
       en: "A beautiful vase.",
+    },
+  },
+  "Hapy Jar": {
+    image: "",
+    description: {
+      en: "",
+    },
+  },
+  "Imsety Jar": {
+    image: "",
+    description: {
+      en: "",
+    },
+  },
+  "Tomato Core": {
+    image: "",
+    description: {
+      en: "",
+    },
+  },
+  Sarcophagus: {
+    image: sarcophagus,
+    description: {
+      en: "",
+    },
+  },
+  "Duamutef Jar": {
+    image: "",
+    description: {
+      en: "",
+    },
+  },
+  "Qebehsenuef Jar": {
+    image: "",
+    description: {
+      en: "",
+    },
+  },
+  "Clay Tablet": {
+    image: "",
+    description: {
+      en: "",
+    },
+  },
+  "Snake in Jar": {
+    image: snakeInJar,
+    description: {
+      en: "",
+    },
+  },
+  "Reveling Lemon": {
+    image: "",
+    description: {
+      en: "",
+    },
+  },
+  "Anubis Jackal": {
+    image: anubisJackal,
+    description: {
+      en: "",
+    },
+  },
+  Sundial: {
+    image: "",
+    description: {
+      en: "",
+    },
+  },
+  "Sand Golem": {
+    image: "",
+    description: {
+      en: "",
+    },
+  },
+  "Cactus King": {
+    image: "",
+    description: {
+      en: "",
+    },
+  },
+  "Lemon Frog": {
+    image: "",
+    description: {
+      en: "",
+    },
+  },
+  "Scarab Beetle": {
+    image: "",
+    description: {
+      en: "",
     },
   },
 };
