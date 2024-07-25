@@ -8982,4 +8982,22 @@ export const ITEM_DETAILS: Items = {
       en: "",
     },
   },
+  "Adrift Ark": {
+    image: "",
+    description: {
+      en: "",
+    },
+  },
+  Castellan: {
+    image: "",
+    description: {
+      en: "",
+    },
+  },
+  "Sunlit Citadel": {
+    image: "",
+    description: {
+      en: "",
+    },
+  },
 };
