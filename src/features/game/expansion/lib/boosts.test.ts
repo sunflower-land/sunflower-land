@@ -47,8 +47,8 @@ describe("boosts", () => {
               "La Tomatina": {
                 isEligible: true,
                 text: "La Tomatina",
-                startAt: new Date("2024-04-04").getTime(),
-                endAt: new Date("2024-04-05").getTime(),
+                startAt: 0,
+                endAt: Number.MAX_SAFE_INTEGER,
                 requiresWallet: false,
                 tasks: [],
                 bonus: {
@@ -74,8 +74,8 @@ describe("boosts", () => {
               "La Tomatina": {
                 isEligible: false,
                 text: "La Tomatina",
-                startAt: new Date("2024-04-04").getTime(),
-                endAt: new Date("2024-04-05").getTime(),
+                startAt: 0,
+                endAt: Number.MAX_SAFE_INTEGER,
                 requiresWallet: false,
                 tasks: [],
                 bonus: {
