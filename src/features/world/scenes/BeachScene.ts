@@ -101,7 +101,7 @@ export type DigAnalytics = {
   percentageFound: number;
 };
 
-const TOTAL_DIGS = 25;
+export const TOTAL_DIGS = 25;
 const SITE_COLS = DESERT_GRID_WIDTH;
 const SITE_ROWS = DESERT_GRID_HEIGHT;
 

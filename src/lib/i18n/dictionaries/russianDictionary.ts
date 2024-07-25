@@ -739,6 +739,8 @@ const boostDescriptions: Record<BoostDescriptions, string> = {
     "Детектив, который обладает умением находить Crimstones.",
   "description.knight.chicken":
     "A strong and noble chicken boosting your oil yield.",
+  "description.pharaoh.chicken": ENGLISH_TERMS["description.pharaoh.chicken"],
+
   "description.skill.shrimpy":
     "Shrimpy's здесь, чтобы помочь! Он позаботится о том, чтобы ты получил дополнительный опыт с рыбы.",
   "description.soil.krabby":
@@ -900,6 +902,8 @@ const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
   "description.battle.fish.boost": "+0.05 Oil",
   "description.crim.peckster.boost": "+0.1 Crimstone",
   "description.knight.chicken.boost": "+0.1 Oil",
+  "description.pharaoh.chicken.boost":
+    ENGLISH_TERMS["description.pharaoh.chicken.boost"],
   "description.queen.bee.boost": "Удваивает скорость производства Honey",
   "description.beekeeper.hat.boost": "+20% скорость производства Honey",
   "description.flower.fox.boost": "-10% времени роста цветов",

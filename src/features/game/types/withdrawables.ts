@@ -69,7 +69,7 @@ import {
 } from "./treasure";
 import { WorkbenchToolName } from "./tools";
 import { BumpkinItem } from "./bumpkin";
-import { hasSeasonEnded } from "./seasons";
+import { SEASONS, hasSeasonEnded } from "./seasons";
 import { CompostName } from "./composters";
 import {
   FishName,
@@ -303,6 +303,8 @@ const mutantChickens: Record<MutantChicken, () => boolean> = {
   "Banana Chicken": () => true,
   "Crim Peckster": () => true,
   "Knight Chicken": () => true,
+  "Pharaoh Chicken": () =>
+    canWithdrawTimebasedItem(SEASONS["Pharaoh's Treasure"].endDate),
 };
 
 const flags: Record<Flag, () => boolean> = {
@@ -1066,7 +1068,8 @@ const factionShopFood: Record<FactionShopFoodName, () => boolean> = {
 };
 
 const mutantFlowers: Record<MutantFlowerName, () => boolean> = {
-  "Desert Rose": () => false,
+  "Desert Rose": () =>
+    canWithdrawTimebasedItem(SEASONS["Pharaoh's Treasure"].endDate),
 };
 
 export const WITHDRAWABLES: Record<InventoryItemName, () => boolean> = {

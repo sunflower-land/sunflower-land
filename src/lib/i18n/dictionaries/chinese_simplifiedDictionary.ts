@@ -772,6 +772,7 @@ const boostDescriptions: Record<BoostDescriptions, string> = {
   "description.heart.of.davy.jones":
     "谁拥有它，谁就拥有掌控七大洋的浩瀚力量，可以挖掘财宝不知疲倦",
   "description.knight.chicken": "一只强大而高贵的鸡为您的油田增强产出",
+  "description.pharaoh.chicken": ENGLISH_TERMS["description.pharaoh.chicken"],
 };
 
 const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
@@ -876,6 +877,8 @@ const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
   "description.hungryHare.boost": "发酵胡萝卜 XP 翻倍",
   "description.battle.fish.boost": "+0.05 石油",
   "description.knight.chicken.boost": "+0.1 石油",
+  "description.pharaoh.chicken.boost":
+    ENGLISH_TERMS["description.pharaoh.chicken.boost"],
   "description.turbo.sprout.boost": "-50% 温室庄稼生长时间",
   "description.soybliss.boost": "+1 大豆",
   "description.grape.granny.boost": "+1 葡萄",
