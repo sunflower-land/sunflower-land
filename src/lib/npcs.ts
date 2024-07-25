@@ -1,6 +1,7 @@
 import { Equipped } from "features/game/types/bumpkin";
 
 export type NPCName =
+  | "digby"
   | "portaller"
   | "gambit"
   | "victoria"
@@ -96,9 +97,52 @@ export type NPCName =
   | "flora"
   | "eldric"
   | "jafar" // desert merchant
-  | "pet"; // faction pet
+  | "pet" // faction pet
+  | "peggy"
+  | "petro"
+  | "pharaoh";
 
 export const NPC_WEARABLES: Record<NPCName, Equipped> = {
+  pharaoh: {
+    body: "Light Brown Farmer Potion",
+    hair: "Sun Spots",
+    hat: "Pharaoh Headdress",
+    dress: "Desert Merchant Suit",
+    shoes: "Desert Merchant Shoes",
+    tool: "Royal Scepter",
+    background: "Farm Background",
+  },
+  petro: {
+    body: "Beige Farmer Potion",
+    hair: "Basic Hair",
+    hat: "Oil Protection Hat",
+    shirt: "SFL T-Shirt",
+    pants: "Oil Overalls",
+    tool: "Dev Wrench",
+    background: "Farm Background",
+    shoes: "Black Farmer Boots",
+  },
+  digby: {
+    body: "Light Brown Farmer Potion",
+    hair: "Wise Hair",
+    hat: "Explorer Hat",
+    shirt: "Explorer Shirt",
+    pants: "Explorer Shorts",
+    tool: "Rock Hammer",
+    background: "Farm Background",
+    shoes: "Black Farmer Boots",
+  },
+  peggy: {
+    body: "Beige Farmer Potion",
+    shirt: "Red Farmer Shirt",
+    pants: "Farmer Pants",
+    coat: "Chef Apron",
+    hair: "Royal Braids",
+    hat: "Chef Hat",
+    background: "Farm Background",
+    shoes: "Black Farmer Boots",
+    tool: "Parsnip",
+  },
   "chef tuck": {
     body: "Goblin Potion",
     hair: "Wise Hair",
@@ -628,7 +672,7 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     shoes: "Brown Boots",
   },
   "old salty": {
-    body: "Beige Farmer Potion",
+    body: "Pirate Potion",
     hair: "Buzz Cut",
     pants: "Pirate Pants",
     hat: "Pirate Hat",
@@ -636,7 +680,7 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     coat: "Pirate General Coat",
     tool: "Pirate Scimitar",
     background: "Farm Background",
-    shoes: "Brown Boots",
+    shoes: "Peg Leg",
   },
   miranda: {
     body: "Beige Farmer Potion",

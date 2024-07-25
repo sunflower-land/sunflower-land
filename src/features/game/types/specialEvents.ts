@@ -5,7 +5,8 @@ export type SpecialEventName =
   | "Earn Alliance Banner"
   | "One Planet Popper"
   | "Gas Hero"
-  | "Easter";
+  | "Easter"
+  | "La Tomatina";
 
 export type Task = {
   requirements: {
@@ -29,6 +30,7 @@ export type SpecialEvent = {
   tasks: Task[];
   isEligible: boolean;
   requiresWallet: boolean;
+  bonus?: Partial<Record<InventoryItemName, { saleMultiplier: number }>>;
 };
 
 export type CurrentSpecialEvents = Partial<Record<string, SpecialEvent>>;

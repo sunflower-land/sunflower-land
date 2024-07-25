@@ -132,6 +132,28 @@ export const npcDialogues: Partial<Record<NPCName, DeliveryNPCDialogue>> = {
       translate("npcDialogues.oldSalty.noOrder2"),
     ],
   },
+  pharaoh: {
+    intro: [
+      translate("npcDialogues.pharaoh.intro1"),
+      translate("npcDialogues.pharaoh.intro2"),
+      translate("npcDialogues.pharaoh.intro3"),
+    ],
+    positiveDelivery: [
+      translate("npcDialogues.pharaoh.positiveDelivery1"),
+      translate("npcDialogues.pharaoh.positiveDelivery2"),
+      translate("npcDialogues.pharaoh.positiveDelivery3"),
+    ],
+    negativeDelivery: [
+      translate("npcDialogues.pharaoh.negativeDelivery1"),
+      translate("npcDialogues.pharaoh.negativeDelivery2"),
+      translate("npcDialogues.pharaoh.negativeDelivery3"),
+    ],
+    noOrder: [
+      translate("npcDialogues.pharaoh.noOrder1"),
+      translate("npcDialogues.pharaoh.noOrder2"),
+    ],
+  },
+
   raven: {
     intro: [
       translate("npcDialogues.raven.intro1"),
@@ -366,6 +388,33 @@ export const npcDialogues: Partial<Record<NPCName, DeliveryNPCDialogue>> = {
     noOrder: [
       translate("npcDialogues.gambit.noOrder1"),
       translate("npcDialogues.gambit.noOrder2"),
+    ],
+  },
+  peggy: {
+    intro: [
+      translate("npcDialogues.peggy.intro1"),
+      translate("npcDialogues.peggy.intro2"),
+      translate("npcDialogues.peggy.intro3"),
+      translate("npcDialogues.peggy.intro4"),
+      translate("npcDialogues.peggy.intro5"),
+    ],
+    positiveDelivery: [
+      translate("npcDialogues.peggy.positiveDelivery1"),
+      translate("npcDialogues.peggy.positiveDelivery2"),
+      translate("npcDialogues.peggy.positiveDelivery3"),
+      translate("npcDialogues.peggy.positiveDelivery4"),
+      translate("npcDialogues.peggy.positiveDelivery5"),
+    ],
+    negativeDelivery: [
+      translate("npcDialogues.peggy.negativeDelivery1"),
+      translate("npcDialogues.peggy.negativeDelivery2"),
+      translate("npcDialogues.peggy.negativeDelivery3"),
+      translate("npcDialogues.peggy.negativeDelivery4"),
+      translate("npcDialogues.peggy.negativeDelivery5"),
+    ],
+    noOrder: [
+      translate("npcDialogues.peggy.noOrder1"),
+      translate("npcDialogues.peggy.noOrder2"),
     ],
   },
 };

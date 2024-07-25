@@ -178,6 +178,7 @@ export type GeneralTerms =
   | "reward"
   | "reward.discovered"
   | "reward.whatsNew"
+  | "sale"
   | "save"
   | "saving"
   | "searching"
@@ -682,7 +683,9 @@ export type BumpkinDelivery =
   | "bumpkin.delivery.noFlowers"
   | "bumpkin.delivery.thanks"
   | "bumpkin.delivery.waiting"
-  | "bumpkin.delivery.proveYourself";
+  | "bumpkin.delivery.proveYourself"
+  | "bumpkin.delivery.earnScrolls"
+  | "bumpkin.delivery.earnSFL";
 
 export type BumpkinItemBuff =
   | "bumpkinItemBuff.chef.apron.boost"
@@ -736,7 +739,8 @@ export type BumpkinItemBuff =
   | "bumpkinItemBuff.bumpkin.helmet"
   | "bumpkinItemBuff.bumpkin.sword"
   | "bumpkinItemBuff.bumpkin.pants"
-  | "bumpkinItemBuff.bumpkin.sabatons";
+  | "bumpkinItemBuff.bumpkin.sabatons"
+  | "bumpkinItemBuff.crab.trap";
 
 export type BumpkinPart =
   | "equip.background"
@@ -754,7 +758,8 @@ export type BumpkinPart =
   | "equip.suit"
   | "equip.wings"
   | "equip.dress"
-  | "equip.beard";
+  | "equip.beard"
+  | "equip.aura";
 
 export type BumpkinPartRequirements =
   | "equip.missingHair"
@@ -2603,11 +2608,26 @@ export type NPC_MESSAGE =
   | "npcMessages.jester.msg6"
   | "npcMessages.jester.msg7"
   | "npcMessages.jester.msg8"
-  | "npcMessages.jester.msg9";
+  | "npcMessages.jester.msg9"
+  | "npcMessages.oldSalty.msg1"
+  | "npcMessages.oldSalty.msg2"
+  | "npcMessages.oldSalty.msg3"
+  | "npcMessages.oldSalty.msg4"
+  | "npcMessages.oldSalty.msg5"
+  | "npcMessages.oldSalty.msg6"
+  | "npcMessages.oldSalty.msg7"
+  | "npcMessages.pharaoh.msg1"
+  | "npcMessages.pharaoh.msg2"
+  | "npcMessages.pharaoh.msg3"
+  | "npcMessages.pharaoh.msg4"
+  | "npcMessages.pharaoh.msg5"
+  | "npcMessages.pharaoh.msg6"
+  | "npcMessages.pharaoh.msg7";
 
 export type Npc =
   | "npc.Modal.Hammer"
   | "npc.Modal.Marcus"
+  | "npc.Modal.Petro"
   | "npc.Modal.Billy"
   | "npc.Modal.Billy.one"
   | "npc.Modal.Billy.two"
@@ -2709,6 +2729,19 @@ export type NpcDialogues =
   //Old Salty NoOrder
   | "npcDialogues.oldSalty.noOrder1"
   | "npcDialogues.oldSalty.noOrder2"
+  // Pharaoh
+  | "npcDialogues.pharaoh.intro1"
+  | "npcDialogues.pharaoh.intro2"
+  | "npcDialogues.pharaoh.intro3"
+  | "npcDialogues.pharaoh.positiveDelivery1"
+  | "npcDialogues.pharaoh.positiveDelivery2"
+  | "npcDialogues.pharaoh.positiveDelivery3"
+  | "npcDialogues.pharaoh.negativeDelivery1"
+  | "npcDialogues.pharaoh.negativeDelivery2"
+  | "npcDialogues.pharaoh.negativeDelivery3"
+  | "npcDialogues.pharaoh.noOrder1"
+  | "npcDialogues.pharaoh.noOrder2"
+
   //Raven Intro
   | "npcDialogues.raven.intro1"
   | "npcDialogues.raven.intro2"
@@ -2876,6 +2909,11 @@ export type NpcDialogues =
   | "npcDialogues.raven.averageFlower"
   | "npcDialogues.raven.badFlower"
   | "npcDialogues.raven.goodFlower"
+  | "npcDialogues.salty.reward"
+  | "npcDialogues.salty.flowerIntro"
+  | "npcDialogues.salty.averageFlower"
+  | "npcDialogues.salty.badFlower"
+  | "npcDialogues.salty.goodFlower"
   | "npcDialogues.miranda.reward"
   | "npcDialogues.miranda.flowerIntro"
   | "npcDialogues.miranda.averageFlower"
@@ -2956,7 +2994,24 @@ export type NpcDialogues =
   | "npcDialogues.jester.averageFlower"
   | "npcDialogues.jester.badFlower"
   | "npcDialogues.jester.goodFlower"
-  | "npcDialogues.tywin.goodFlower";
+  | "npcDialogues.tywin.goodFlower"
+  | "npcDialogues.peggy.intro1"
+  | "npcDialogues.peggy.intro2"
+  | "npcDialogues.peggy.intro3"
+  | "npcDialogues.peggy.intro4"
+  | "npcDialogues.peggy.intro5"
+  | "npcDialogues.peggy.positiveDelivery1"
+  | "npcDialogues.peggy.positiveDelivery2"
+  | "npcDialogues.peggy.positiveDelivery3"
+  | "npcDialogues.peggy.positiveDelivery4"
+  | "npcDialogues.peggy.positiveDelivery5"
+  | "npcDialogues.peggy.negativeDelivery1"
+  | "npcDialogues.peggy.negativeDelivery2"
+  | "npcDialogues.peggy.negativeDelivery3"
+  | "npcDialogues.peggy.negativeDelivery4"
+  | "npcDialogues.peggy.negativeDelivery5"
+  | "npcDialogues.peggy.noOrder1"
+  | "npcDialogues.peggy.noOrder2";
 
 export type NyeButton = "plaza.magicButton.query";
 
@@ -3710,13 +3765,36 @@ export type EasterEggKeys =
   | "easterEgg.kingdomBook3"
   | "easterEgg.kingdomBook4"
   | "easterEgg.kingdomBook5"
-  | "easterEgg.knight";
+  | "easterEgg.knight"
+  | "easterEgg.pharaohsDiary"
+  | "easterEgg.digbysDiary"
+  | "easterEgg.goldtoothsDiary"
+  | "easterEgg.desertBook1"
+  | "easterEgg.desertBook2"
+  | "easterEgg.desertBook3"
+  | "easterEgg.desertBook4";
 
 export type ChangeLanguage =
   | "changeLanguage.confirm"
   | "changeLanguage.contribute"
   | "changeLanguage.contribute.message"
   | "changeLanguage.currentLanguage";
+
+export type DesertKeys =
+  | "digby.today"
+  | "digby.puzzle"
+  | "digby.patterns"
+  | "digby.guide.one"
+  | "digby.guide.two"
+  | "digby.guide.three"
+  | "digby.guide.four"
+  | "desert.notice.one"
+  | "desert.notice.two"
+  | "desert.notice.three"
+  | "desert.notice.four"
+  | "digby.noShovels"
+  | "digby.noDrills"
+  | "digby.noDigsLeft";
 
 export type TranslationKeys =
   | AchievementsTerms
@@ -3760,6 +3838,7 @@ export type TranslationKeys =
   | DeliveryHelp
   | DepositWallet
   | Detail
+  | DesertKeys
   | DiscordBonus
   | Donation
   | DraftBid

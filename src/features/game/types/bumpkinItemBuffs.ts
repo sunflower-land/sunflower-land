@@ -365,4 +365,10 @@ export const BUMPKIN_ITEM_BUFF_LABELS: Partial<Record<BumpkinItem, BuffLabel>> =
       labelType: "success",
       boostedItemIcon: powerup,
     },
+    "Crab Trap": {
+      shortDescription: translate("bumpkinItemBuff.crab.trap"),
+      labelType: "success",
+      boostTypeIcon: powerup,
+      boostedItemIcon: ITEM_DETAILS.Crab.image,
+    },
   };

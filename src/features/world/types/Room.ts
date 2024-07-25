@@ -54,6 +54,7 @@ export interface Message extends Schema {
 
 export interface Reaction extends Schema {
   reaction: "heart" | "sad" | "happy";
+  quantity?: number;
   farmId?: number;
   sessionId: string;
   sceneId: SceneId;

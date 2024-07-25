@@ -70,6 +70,7 @@ import { SpecialEvents } from "./specialEvents";
 import { TradeableName } from "../actions/sellMarketResource";
 import { MinigameCurrency } from "../events/minigames/purchaseMinigameItem";
 import { FactionShopCollectibleName, FactionShopFoodName } from "./factionShop";
+import { DiggingFormationName } from "./desert";
 
 export type Reward = {
   coins?: number;
@@ -676,15 +677,18 @@ export type Mushroom = {
   y: number;
 };
 
+export type DugHole = {
+  x: number;
+  y: number;
+  dugAt: number;
+  items: Partial<Record<InventoryItemName, number>>;
+  tool: "Sand Shovel" | "Sand Drill";
+};
+
 export type Desert = {
   digging: {
-    totalBuriedTreasure: number;
-    grid: {
-      x: number;
-      y: number;
-      dugAt: number;
-      items: Partial<Record<InventoryItemName, number>>;
-    }[];
+    patterns: DiggingFormationName[];
+    grid: (DugHole | DugHole[])[];
   };
 };
 

@@ -1476,6 +1476,69 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
     width: 1,
     height: 1,
   },
+
+  "Hapy Jar": {
+    width: 1,
+    height: 2,
+  },
+  "Duamutef Jar": {
+    width: 1,
+    height: 2,
+  },
+  "Qebehsenuef Jar": {
+    width: 1,
+    height: 2,
+  },
+  "Imsety Jar": {
+    width: 1,
+    height: 2,
+  },
+  Sarcophagus: {
+    width: 1,
+    height: 2,
+  },
+
+  // To update dimensions
+  "Tomato Core": {
+    width: 0,
+    height: 0,
+  },
+  "Clay Tablet": {
+    width: 0,
+    height: 0,
+  },
+  "Snake in Jar": {
+    width: 0,
+    height: 0,
+  },
+  "Reveling Lemon": {
+    width: 0,
+    height: 0,
+  },
+  "Anubis Jackal": {
+    width: 0,
+    height: 0,
+  },
+  Sundial: {
+    width: 0,
+    height: 0,
+  },
+  "Sand Golem": {
+    width: 0,
+    height: 0,
+  },
+  "Cactus King": {
+    width: 0,
+    height: 0,
+  },
+  "Lemon Frog": {
+    width: 0,
+    height: 0,
+  },
+  "Scarab Beetle": {
+    width: 0,
+    height: 0,
+  },
 };
 
 export const ANIMAL_DIMENSIONS: Record<"Chicken", Dimensions> = {

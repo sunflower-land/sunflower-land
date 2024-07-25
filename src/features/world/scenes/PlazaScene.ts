@@ -25,6 +25,11 @@ export type FactionNPC = {
 
 export const PLAZA_BUMPKINS: NPCBumpkin[] = [
   {
+    x: 207,
+    y: 379,
+    npc: "peggy",
+  },
+  {
     x: 600,
     y: 197,
     npc: "hammerin harry",

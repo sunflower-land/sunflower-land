@@ -103,7 +103,23 @@ export type MegaStoreCollectibleName =
   | "Silver Squire"
   | "Cluckapult"
   | "Bullseye Board"
-  | "Twister Rug";
+  | "Twister Rug"
+  // Pharaoh's Treasure
+  | "Hapy Jar"
+  | "Imsety Jar"
+  | "Tomato Core"
+  | "Sarcophagus"
+  | "Duamutef Jar"
+  | "Qebehsenuef Jar"
+  | "Clay Tablet"
+  | "Snake in Jar"
+  | "Reveling Lemon"
+  | "Anubis Jackal"
+  | "Sundial"
+  | "Sand Golem"
+  | "Cactus King"
+  | "Lemon Frog"
+  | "Scarab Beetle";
 
 export type GoblinBlacksmithItemName =
   | "Purple Trail"

@@ -5,7 +5,7 @@ import { ChoreV2, ChoreV2Name, GameState, Inventory } from "../types/game";
 
 import { BumpkinLevel } from "features/game/lib/level";
 import { getEnabledNodeCount } from "../expansion/lib/expansionNodes";
-import { INITIAL_BUMPKIN, INITIAL_BUMPKIN_LEVEL } from "./bumpkinData";
+import { TEST_BUMPKIN, INITIAL_BUMPKIN_LEVEL } from "./bumpkinData";
 import { EMPTY, makeMegaStoreAvailableDates } from "./constants";
 export const INITIAL_RESOURCES: Pick<
   GameState,
@@ -307,7 +307,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     spawnedAt: 0,
   },
   farmHands: { bumpkins: {} },
-  bumpkin: { ...INITIAL_BUMPKIN, experience: 100000000 },
+  bumpkin: { ...TEST_BUMPKIN },
   buds: {
     1: {
       aura: "Basic",
@@ -350,13 +350,39 @@ export const STATIC_OFFLINE_FARM: GameState = {
     chores: {
       2: {
         activity: "Sunflower Planted",
-        bumpkinId: INITIAL_BUMPKIN.id,
+        bumpkinId: TEST_BUMPKIN.id,
         createdAt: Date.now(),
         description: "Plant a sunflower",
         requirement: 1,
         startCount: 0,
       },
     } as Record<ChoreV2Name, ChoreV2>,
+  },
+  desert: {
+    digging: {
+      grid: [
+        {
+          x: 5,
+          y: 5,
+          dugAt: Date.now(),
+          items: {
+            Starfish: 1,
+          },
+          tool: "Sand Shovel",
+        },
+      ],
+      patterns: [
+        "MONDAY_ARTEFACT_FORMATION",
+        "SEAWEED",
+        "MONDAY_ARTEFACT_FORMATION",
+        "SEA_CUCUMBERS",
+        "MONDAY_ARTEFACT_FORMATION",
+        "COCKLE",
+        "CORAL",
+        "CORAL",
+        "CORAL",
+      ],
+    },
   },
   inventory: {
     "Beta Pass": new Decimal(1),
@@ -666,6 +692,9 @@ export const STATIC_OFFLINE_FARM: GameState = {
     "Beekeeper Hat": 1,
     "Honeycomb Shield": 1,
     "Bee Suit": 1,
+    "Coin Aura": 1,
+    "Gift Giver": 1,
+    "Desert Merchant Turban": 1,
   },
   previousWardrobe: {
     "Elf Suit": 1,
@@ -830,58 +859,18 @@ export const STATIC_OFFLINE_FARM: GameState = {
       {
         createdAt: Date.now(),
         readyAt: Date.now(),
-        from: "pumpkin' pete",
+        from: "betty",
         reward: {
           items: {},
+          coins: 100,
         },
-        id: "1",
+        id: `betty-delivery`,
         items: {
           Sunflower: 20,
-          Potato: 20,
-          Pumpkin: 20,
-        },
-      },
-      {
-        createdAt: Date.now(),
-        readyAt: Date.now(),
-        from: "victoria",
-        reward: {
-          coins: 10000,
-        },
-        id: "12",
-        items: {
-          Sunflower: 20,
-          Potato: 20,
-          Pumpkin: 20,
-        },
-      },
-      // {
-      //   createdAt: Date.now(),
-      //   readyAt: Date.now(),
-      //   from: "grimbly",
-      //   reward: {
-      //     items: {},
-      //     sfl: 0.15,
-      //   },
-      //   id: "3",
-      //   items: {
-      //     Potato: 2,
-      //   },
-      // },
-      {
-        createdAt: Date.now(),
-        readyAt: Date.now(),
-        from: "grubnuk",
-        reward: {
-          items: {},
-          sfl: 0.2,
-        },
-        id: "2",
-        items: {
-          "Pumpkin Soup": 1,
         },
       },
     ],
+
     milestone: {
       goal: 10,
       total: 10,

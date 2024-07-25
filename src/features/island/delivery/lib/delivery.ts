@@ -1,8 +1,11 @@
+import {
+  QuestNPCName,
+  TICKET_REWARDS,
+} from "features/game/events/landExpansion/deliver";
 import { Delivery } from "features/game/types/game";
 import { translate } from "lib/i18n/translate";
-import { NPCName } from "lib/npcs";
 
-export type DeliveryMessage = { from: NPCName; id: string };
+export type DeliveryMessage = { from: DeliveryNpcName; id: string };
 
 const GOBLIN_MESSAGES = [
   translate("goblinMessages.msg1"),
@@ -17,7 +20,70 @@ const GOBLIN_MESSAGES = [
   translate("goblinMessages.msg10"),
 ];
 
-const NPC_MESSAGES: Partial<Record<NPCName, string[]>> = {
+export type TicketNPCName =
+  | "pumpkin' pete"
+  | "bert"
+  | "raven"
+  | "timmy"
+  | "tywin"
+  | "cornwell"
+  | "finn"
+  | "finley"
+  | "miranda"
+  | "jester"
+  | "pharaoh";
+
+export type GoblinNPCName =
+  | "grimbly"
+  | "grimtooth"
+  | "grubnuk"
+  | "gordo"
+  | "guria"
+  | "gambit";
+
+export type CoinNPCName =
+  | "betty"
+  | "peggy"
+  | "tango"
+  | "corale"
+  | "blacksmith"
+  | "victoria"
+  | "old salty";
+
+export type DeliveryNpcName = TicketNPCName | GoblinNPCName | CoinNPCName;
+
+export const COIN_NPC_NAMES: CoinNPCName[] = [
+  "betty",
+  "corale",
+  "blacksmith",
+  "tango",
+  "victoria",
+  "peggy",
+  "old salty",
+];
+
+export function isCoinNPC(value: string): value is CoinNPCName {
+  return (COIN_NPC_NAMES as string[]).includes(value);
+}
+
+export const GOBLIN_NPC_NAMES: GoblinNPCName[] = [
+  "grimbly",
+  "grimtooth",
+  "grubnuk",
+  "gordo",
+  "guria",
+  "gambit",
+];
+
+export function isSFLNPC(value: string): value is GoblinNPCName {
+  return (GOBLIN_NPC_NAMES as string[]).includes(value);
+}
+
+export function isTicketNPC(value: string): value is QuestNPCName {
+  return !!TICKET_REWARDS[value as QuestNPCName];
+}
+
+const NPC_MESSAGES: Record<DeliveryNpcName, string[]> = {
   betty: [
     translate("npcMessages.betty.msg1"),
     translate("npcMessages.betty.msg2"),
@@ -39,6 +105,9 @@ const NPC_MESSAGES: Partial<Record<NPCName, string[]>> = {
   grubnuk: GOBLIN_MESSAGES,
   grimbly: GOBLIN_MESSAGES,
   grimtooth: GOBLIN_MESSAGES,
+  gambit: GOBLIN_MESSAGES,
+  gordo: GOBLIN_MESSAGES,
+  guria: GOBLIN_MESSAGES,
   "pumpkin' pete": [
     translate("npcMessages.pumpkinpete.msg1"),
     translate("npcMessages.pumpkinpete.msg2"),
@@ -144,6 +213,27 @@ const NPC_MESSAGES: Partial<Record<NPCName, string[]>> = {
     translate("npcMessages.corale.msg7"),
     "Seaweed is like a gourmet treat for Parrotfish",
   ],
+  jester: [translate("npcMessages.betty.msg1")],
+  peggy: [translate("npcMessages.betty.msg1")],
+  victoria: [translate("npcMessages.betty.msg1")],
+  "old salty": [
+    translate("npcMessages.oldSalty.msg1"),
+    translate("npcMessages.oldSalty.msg2"),
+    translate("npcMessages.oldSalty.msg3"),
+    translate("npcMessages.oldSalty.msg4"),
+    translate("npcMessages.oldSalty.msg5"),
+    translate("npcMessages.oldSalty.msg6"),
+    translate("npcMessages.oldSalty.msg7"),
+  ],
+  pharaoh: [
+    translate("npcMessages.pharaoh.msg1"),
+    translate("npcMessages.pharaoh.msg2"),
+    translate("npcMessages.pharaoh.msg3"),
+    translate("npcMessages.pharaoh.msg4"),
+    translate("npcMessages.pharaoh.msg5"),
+    translate("npcMessages.pharaoh.msg6"),
+    translate("npcMessages.pharaoh.msg7"),
+  ],
 };
 
 export function generateDeliveryMessage({ from, id }: DeliveryMessage) {
@@ -176,21 +266,34 @@ export function acknowledgeOrders(delivery: Delivery) {
   localStorage.setItem(`orders.read`, JSON.stringify(ids));
 }
 
-export const DELIVERY_LEVELS: Partial<Record<NPCName, number>> = {
-  grimbly: 3,
-  betty: 3,
-  grimtooth: 3,
-  "pumpkin' pete": 3,
-  grubnuk: 5,
-  blacksmith: 5,
-  bert: 5,
-  finley: 6,
-  raven: 7,
-  miranda: 7,
+export const NPC_DELIVERY_LEVELS: Record<DeliveryNpcName, number> = {
+  // Coins
+  betty: 1,
+  blacksmith: 1,
+  peggy: 3,
   corale: 7,
-  finn: 7,
-  timmy: 9,
-  tango: 9,
-  cornwell: 9,
-  tywin: 14,
+  tango: 13,
+  "old salty": 15,
+  victoria: 30,
+
+  // SFL
+  grimbly: 10,
+  grimtooth: 12,
+  grubnuk: 16,
+  gambit: 25,
+  gordo: 30,
+  guria: 40,
+
+  // Tickets
+  "pumpkin' pete": 5,
+  bert: 8,
+  finley: 12,
+  raven: 14,
+  miranda: 15,
+  finn: 16,
+  pharaoh: 17,
+  cornwell: 18,
+  timmy: 20,
+  tywin: 22,
+  jester: 26,
 };

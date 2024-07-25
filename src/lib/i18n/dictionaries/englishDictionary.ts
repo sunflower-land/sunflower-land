@@ -176,6 +176,7 @@ import {
   ChangeLanguage,
   FactionShopDescription,
   GuideFactionPet,
+  DesertKeys,
 } from "./types";
 
 const generalTerms: Record<GeneralTerms, string> = {
@@ -357,6 +358,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   reward: "Reward",
   "reward.discovered": "Reward Discovered",
   "reward.whatsNew": "What's new",
+  sale: "Sale",
   save: "Save",
   saving: "Saving",
   searching: "Searching",
@@ -995,7 +997,9 @@ const bumpkinDelivery: Record<BumpkinDelivery, string> = {
   "bumpkin.delivery.waiting":
     "I've been waiting for this. Thanks a bunch! Come back soon for more deliveries.",
   "bumpkin.delivery.proveYourself":
-    "Prove yourself worthy. Expand your island {{missingExpansions}} more times.",
+    "Prove yourself worthy. Level up {{missingLevels}} more times.",
+  "bumpkin.delivery.earnScrolls": "Earn scrolls to craft exclusive items.",
+  "bumpkin.delivery.earnSFL": "Earn SFL to trade & build your empire.",
 };
 
 const bumpkinItemBuff: Record<BumpkinItemBuff, string> = {
@@ -1052,6 +1056,7 @@ const bumpkinItemBuff: Record<BumpkinItemBuff, string> = {
   "bumpkinItemBuff.bumpkin.sword": "+10% Marks",
   "bumpkinItemBuff.bumpkin.pants": "+5% Marks",
   "bumpkinItemBuff.bumpkin.sabatons": "+5% Marks",
+  "bumpkinItemBuff.crab.trap": "+1 Crab when digging or drilling",
 };
 
 const bumpkinPart: Record<BumpkinPart, string> = {
@@ -1071,6 +1076,7 @@ const bumpkinPart: Record<BumpkinPart, string> = {
   "equip.wings": "Wings",
   "equip.dress": "Dress",
   "equip.beard": "Beard",
+  "equip.aura": "Aura",
 };
 
 const bumpkinPartRequirements: Record<BumpkinPartRequirements, string> = {
@@ -2984,8 +2990,7 @@ const guideTerms: Record<GuideTerms, string> = {
     "Deliveries in Sunflower Land provide an exciting opportunity to help hungry Goblins and fellow Bumpkins while earning rewards. Every day you will be able to see all the orders you have by clicking on the delivery board on the bottom left of the screen. The orders have been placed by some local NPCs that can be found hanging around Pumpkin Plaza. To fulfill an order, you will need to take a boat ride to Pumpkin Plaza and look for the NPC expecting the delivery. Once you find them, click on them to deliver the order and receive your reward.",
   "deliveries.guide.two":
     "As a new player, you start with three order slots, but as you expand your farm, you will unlock additional slots, allowing advanced players to take on more orders. New orders come in every 24 hours, offering a range of tasks from farming produce to cooking food and gathering resources. Completing orders will earn you milestone bonuses, including Block Bucks, SFL, Coins, delicious cakes, and other rewards. The reward system is based on the difficulty of the request, so consider prioritizing orders that offer greater rewards to maximize your gains. Keep an eye on the board and challenge yourself with a variety of orders, leveling up and unlocking new buildings as needed to fulfill more demanding requests.",
-  "deliveries.intro":
-    "Travel to different islands and deliver goods to earn rewards.",
+  "deliveries.intro": "Travel and deliver goods to earn rewards.",
   "deliveries.new": "New delivery",
   "chores.hank": "Hank's Chores",
   "chores.hank.intro":
@@ -3759,10 +3764,41 @@ const npc_message: Record<NPC_MESSAGE, string> = {
     "Well, well, look who’s here! Got any funny stories?",
   "npcMessages.jester.msg9":
     "The queen loves a good laugh. Ready to join the fun?",
+
+  "npcMessages.oldSalty.msg1":
+    "Arrr, me hearty! The sea be callin' for treasures. Can ye help an old pirate find his fortune?",
+  "npcMessages.oldSalty.msg2":
+    "Ahoy, matey! The thrill of the hunt is upon us. Bring me the treasures of the deep!",
+  "npcMessages.oldSalty.msg3":
+    "Shiver me timbers! There's treasure to be found. Will ye join me on this adventure?",
+  "npcMessages.oldSalty.msg4":
+    "Yo ho ho! The sea's secrets are out there, waitin' to be uncovered. Help me find 'em, will ye?",
+  "npcMessages.oldSalty.msg5":
+    "Aye, the scent of gold is in the air! Fetch me the treasures and let's share the bounty!",
+  "npcMessages.oldSalty.msg6":
+    "The sea be a cruel mistress, but she holds riches untold. Help me plunder her depths!",
+  "npcMessages.oldSalty.msg7":
+    "X marks the spot, and the treasure is near. Lend me a hand in uncovering it, matey!",
+  "npcMessages.pharaoh.msg1":
+    "Greetings, traveler. The sands conceal many secrets. Can you help me uncover the relics of my ancestors?",
+  "npcMessages.pharaoh.msg2":
+    "Wanderer, I seek the wisdom of ages past. Bring me the artifacts that hold the key to our history.",
+  "npcMessages.pharaoh.msg3":
+    "In the desert sands lie forgotten treasures. Will you aid me in discovering them?",
+  "npcMessages.pharaoh.msg4":
+    "The ancients whisper in the wind. Find the relics that will unlock their secrets.",
+  "npcMessages.pharaoh.msg5":
+    "Lost languages and forgotten lore await. Help me uncover the artifacts that will reveal our past.",
+  "npcMessages.pharaoh.msg6":
+    "The relics of my people are scattered and lost. Can you bring them to me, so we may learn from them?",
+  "npcMessages.pharaoh.msg7":
+    "The sands of time have hidden much. Assist me in recovering the treasures of a bygone era.",
 };
 
 const npc: Record<Npc, string> = {
   "npc.Modal.Hammer": "Gather round Bumpkins, an auction is about to begin.",
+  "npc.Modal.Petro":
+    "With a bit of oil and some elbow grease, I can crack open anything!",
   "npc.Modal.Marcus":
     "Hey! You are not allowed to go in my house. Don't you dare touch my things!",
   "npc.Modal.Billy": "Howdy, y'all! Name's Billy.",
@@ -4156,6 +4192,43 @@ const npcDialogues: Record<NpcDialogues, string> = {
   "npcDialogues.pumpkinPete.noOrder2":
     "Oh, no active order for you today, my friend. But don't worry! Feel free to explore the plaza, and if you need any assistance, I'm your trusty Bumpkin.",
 
+  // Peggy
+  "npcDialogues.peggy.intro1":
+    "Hello there, darling! Have you come to bring me some scrumptious delights? I can't wait to see what you've cooked up!",
+  "npcDialogues.peggy.intro2":
+    "Well, butter my biscuits! Have you got those tasty treats ready for me? I'm all set for some delicious fun!",
+  "npcDialogues.peggy.intro3":
+    "Howdy, partner! I’ve been waiting to see what delicious creation you’ve brought me. Ready to share some culinary joy?",
+  "npcDialogues.peggy.intro4":
+    "Hiya, sweetie! What’s cookin’? Did you bring me some of those mouthwatering dishes I’ve been dreaming of?",
+  "npcDialogues.peggy.intro5":
+    "Oh, hello there! I’m so excited to see what delectable delights you’ve prepared. Have you got my order?",
+
+  "npcDialogues.peggy.positiveDelivery1":
+    "Yum-tastic! You've cooked up just what I was craving. You're the best cook in the plaza!",
+  "npcDialogues.peggy.positiveDelivery2":
+    "Oh, my taste buds are dancing! You've delivered the perfect dish. You're a culinary superstar!",
+  "npcDialogues.peggy.positiveDelivery3":
+    "Deliciousness achieved! You've whipped up exactly what I needed. You're a true kitchen hero!",
+  "npcDialogues.peggy.positiveDelivery4":
+    "Fantastic feast! You've brought me exactly what I was hoping for. The whole plaza will enjoy this!",
+  "npcDialogues.peggy.positiveDelivery5":
+    "Wow, what a treat! You've cooked and delivered the perfect meal. You've made my day, and the plaza too!",
+  "npcDialogues.peggy.negativeDelivery1":
+    "Oh dear, it looks like this isn’t quite what I needed. No worries, though! Keep cooking and bring it back when you can.",
+  "npcDialogues.peggy.negativeDelivery2":
+    "Oops, this isn’t quite right. But don’t fret! Cook up another dish and come back soon!",
+  "npcDialogues.peggy.negativeDelivery3":
+    "This isn’t what I was hoping for, but don’t give up! Keep those cooking skills sharp and try again later.",
+  "npcDialogues.peggy.negativeDelivery4":
+    "Oh, this isn’t quite the dish I was craving. Keep exploring your recipes and bring me something else when you can!",
+  "npcDialogues.peggy.negativeDelivery5":
+    "Not quite the meal I was after, but don’t worry! Try cooking something else and come back with your next culinary creation.",
+  "npcDialogues.peggy.noOrder1":
+    "Ah, it seems I don’t have an active order for you at the moment. But feel free to explore and cook up a storm in the plaza!",
+  "npcDialogues.peggy.noOrder2":
+    "No current order for you today, but don’t let that stop you! If you need any cooking advice or just want to chat, I’m here!",
+
   // NPC gift dialogues
   "npcDialogues.pumpkinPete.reward":
     "Thank you kindly for your deliveries. Here's a token of appreciation for you.",
@@ -4244,6 +4317,17 @@ const npcDialogues: Record<NpcDialogues, string> = {
     "This flower isn't quite right. Perhaps another search is in order?",
   "npcDialogues.raven.goodFlower":
     "This Purple flower is perfect! Thank you for bringing it to me.",
+
+  "npcDialogues.salty.reward":
+    "Ah, thanks for your deliveries, matey. Here's a little something for yer troubles.",
+  "npcDialogues.salty.flowerIntro":
+    "Aye, the deep blue of the ocean is what I seek. Have ye come across any flowers as blue as the sea?",
+  "npcDialogues.salty.averageFlower":
+    "Hmm, not quite what I had in mind, but it'll do. Thanks, matey.",
+  "npcDialogues.salty.badFlower":
+    "This flower won't do at all. Maybe another look 'round will find what I'm after?",
+  "npcDialogues.salty.goodFlower":
+    "Aye, this blue flower is just right! Much obliged for bringin' it to me.",
 
   "npcDialogues.miranda.reward":
     "Thank you for your efforts. Here's a small token of appreciation for your deliveries.",
@@ -4438,6 +4522,30 @@ const npcDialogues: Record<NpcDialogues, string> = {
     "Oh no, this flower is as funny as a wet sock! Try again, will you?",
   "npcDialogues.jester.goodFlower":
     "Splendid! This flower is perfect. Almost as good as one of my jokes!",
+
+  // Pharaoh
+  "npcDialogues.pharaoh.noOrder1":
+    "I have no specific quest for you at this moment, but the desert is vast and full of hidden relics. Keep exploring, and you may find what we seek.",
+  "npcDialogues.pharaoh.noOrder2":
+    "There is no current mission, but the sands of time conceal many treasures. Your journey is far from over, brave explorer.",
+  "npcDialogues.pharaoh.negativeDelivery1":
+    "Alas, no relics this time. Do not despair, for the sands still hide many secrets waiting to be unearthed.",
+  "npcDialogues.pharaoh.negativeDelivery2":
+    "No artifacts today? The journey of discovery is long, but perseverance will lead us to our goal.",
+  "npcDialogues.pharaoh.negativeDelivery3":
+    "The ancients' secrets remain hidden for now. Continue your search, and you shall find the treasures we seek.",
+  "npcDialogues.pharaoh.positiveDelivery1":
+    "Ah, you have found a relic of the ancients. Your efforts bring us closer to unraveling the mysteries of the past.",
+  "npcDialogues.pharaoh.positiveDelivery2":
+    "Behold, a treasure from a bygone era. Your discovery is invaluable to my quest for lost knowledge.",
+  "npcDialogues.pharaoh.positiveDelivery3":
+    "This artifact is a key to our forgotten history. Your contribution is greatly appreciated, noble traveler.",
+  "npcDialogues.pharaoh.intro1":
+    "Greetings, traveler. I am the Pharaoh, seeker of lost relics and forgotten knowledge. Have you uncovered any ancient treasures?",
+  "npcDialogues.pharaoh.intro2":
+    "Welcome, wanderer. The sands of time hold many secrets, and I am in search of them. Have you found any artifacts on your journey?",
+  "npcDialogues.pharaoh.intro3":
+    "Hail, explorer. I am the Pharaoh, guardian of ancient secrets. Have you discovered any relics that might aid in solving the mysteries of our past?",
 };
 
 const nyeButton: Record<NyeButton, string> = {
@@ -5457,6 +5565,42 @@ export const easterEggTerms: Record<EasterEggKeys, string> = {
     "Authority and respect are crucial to suppressing the Goblins. We didn’t endure the war only to hand them power. They must be kept in their place for our kingdom's safety.",
   "easterEgg.kingdomBook5":
     "To be king, I must be extra cruel. Once I ascend the throne, all Goblins will suffer. Their rebellion ends with me, and our kingdom will be stronger for it.",
+  "easterEgg.desertBook1":
+    "Camels are a sacred animal, rumoured to transport rare artefacts. They say not all arrived at their destination and their remains are scattered throughout the site.",
+  "easterEgg.desertBook2":
+    "The desert reveals layers of history. Each desert storm brings us closer to the past.",
+  "easterEgg.desertBook3":
+    "An ancient secret is revealed in the desert, deciphered by the language of my ancestors.",
+  "easterEgg.desertBook4":
+    "I've crossed the seas from Treasure Island to find this bountiful land....and all for what? Some lousy relics!",
+  "easterEgg.digbysDiary": "Digby's Diary",
+  "easterEgg.goldtoothsDiary": "Goldtooth's Diary",
+  "easterEgg.pharaohsDiary": "Pharaoh's Diary",
+};
+
+export const desertTerms: Record<DesertKeys, string> = {
+  "digby.noShovels":
+    "Hey, you need a sand shovel to dig here! Speak to Jafar..",
+  "digby.noDrills":
+    "Looks like you don't have any sand drills! Speak to Jafar..",
+  "digby.noDigsLeft": "You have no more digs left! Come back tomorrow..",
+  "digby.puzzle": "Digging puzzle",
+  "digby.patterns": "Patterns",
+  "digby.today":
+    "Howdy explorer, today the following items have been spotted in the desert puzzle.",
+  "digby.guide.one":
+    "You can find items by digging in the archaelogical site. Learn the ancient clues, to find what you seek in the desert.",
+  "digby.guide.two": "Crabs are always located next to treasure.",
+  "digby.guide.three":
+    "If you discover sand, you are out of luck. Dig elsewhere.",
+  "digby.guide.four":
+    "Each day a desert storm resets the puzzle with new patterns and resources.",
+  "desert.notice.one":
+    "Welcome to the Desert. Can you solve the Pharaoh's puzzle and find the hidden treasures?",
+  "desert.notice.two": "Discover artefacts & exchange them for seasonal gifts.",
+  "desert.notice.three": "Sell resources at the shop for coins.",
+  "desert.notice.four":
+    "Gather items for NPC deliveries in exchange for rewards.",
 };
 
 export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
@@ -5497,6 +5641,7 @@ export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
   ...decorationDescriptions,
   ...defaultDialogue,
   ...delivery,
+  ...desertTerms,
   ...deliveryHelp,
   ...deliveryitem,
   ...depositWallet,

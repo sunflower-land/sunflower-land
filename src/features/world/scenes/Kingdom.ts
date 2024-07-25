@@ -111,6 +111,7 @@ export class KingdomScene extends BaseScene {
     fetchLeaderboardData(this.id);
 
     this.load.image("question_disc", "world/question_disc.png");
+    this.load.image("box_blockade", "world/box_blockade.png");
 
     this.load.spritesheet("portal", "world/portal_well_sheet.png", {
       frameWidth: 20,
@@ -190,6 +191,28 @@ export class KingdomScene extends BaseScene {
           this.currentPlayer?.speak(translate("base.iam.far.away"));
         }
       });
+
+    if (hasFeatureAccess(this.gameState, "CROPS_AND_CHICKENS")) {
+      const cropsAndChickensPortal = this.add.sprite(400, 752, "portal");
+      cropsAndChickensPortal.play("portal_anim", true);
+      cropsAndChickensPortal
+        .setInteractive({ cursor: "pointer" })
+        .on("pointerdown", () => {
+          if (this.checkDistanceToSprite(cropsAndChickensPortal, 40)) {
+            interactableModalManager.open("crops_and_chickens");
+          } else {
+            this.currentPlayer?.speak(translate("base.iam.far.away"));
+          }
+        });
+
+      this.physics.world.enable(cropsAndChickensPortal);
+      this.colliders?.add(cropsAndChickensPortal);
+      (cropsAndChickensPortal.body as Phaser.Physics.Arcade.Body)
+        .setSize(32, 32)
+        .setOffset(0, 0)
+        .setImmovable(true)
+        .setCollideWorldBounds(true);
+    }
 
     const board1 = this.add.sprite(328, 620, "sunflorian_board");
 
@@ -319,6 +342,19 @@ export class KingdomScene extends BaseScene {
         const nature1 = this.sound.add("royal_farms");
         nature1.play({ loop: true, volume: 0.3 });
       }
+    }
+
+    if (
+      !hasFeatureAccess(this.gameService.state.context.state, "TEST_DIGGING")
+    ) {
+      const desertBlockade = this.add.sprite(0, 656, "box_blockade");
+      this.physics.world.enable(desertBlockade);
+      this.colliders?.add(desertBlockade);
+      (desertBlockade.body as Phaser.Physics.Arcade.Body)
+        .setSize(32, 48)
+        .setOffset(0, 0)
+        .setImmovable(true)
+        .setCollideWorldBounds(true);
     }
 
     // Shut down the sound when the scene changes

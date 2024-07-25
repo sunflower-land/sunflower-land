@@ -536,8 +536,8 @@ export const INITIAL_FARM: GameState = {
   },
   desert: {
     digging: {
-      totalBuriedTreasure: 0,
       grid: [],
+      patterns: [],
     },
   },
 };
@@ -829,7 +829,8 @@ export const TEST_FARM: GameState = {
   },
   desert: {
     digging: {
-      totalBuriedTreasure: 0,
+      patterns: [],
+
       grid: [],
     },
   },
@@ -930,7 +931,7 @@ export const EMPTY: GameState = {
   },
   desert: {
     digging: {
-      totalBuriedTreasure: 0,
+      patterns: [],
       grid: [],
     },
   },

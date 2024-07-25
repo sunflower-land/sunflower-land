@@ -328,6 +328,8 @@ import {
 } from "features/game/types/decorations";
 import { PharaohsTreasureBanner } from "./components/PharaohsTreasureBanner";
 import { DesertRose } from "./components/DesertRose";
+import { Sarcophagus } from "./components/Sarcophagus";
+import { Template } from "./components/template/Template";
 
 export const COLLECTIBLE_COMPONENTS: Record<
   CollectibleName | "Bud",
@@ -729,6 +731,23 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Goblin Faction Rug": GoblinFactionRug,
   "Bumpkin Faction Rug": BumpkinFactionRug,
   "Desert Rose": DesertRose,
+  Sarcophagus: Sarcophagus,
+
+  // To Update
+  "Hapy Jar": Template,
+  "Imsety Jar": Template,
+  "Tomato Core": Template,
+  "Duamutef Jar": Template,
+  "Qebehsenuef Jar": Template,
+  "Clay Tablet": Template,
+  "Snake in Jar": Template,
+  "Reveling Lemon": Template,
+  "Anubis Jackal": Template,
+  Sundial: Template,
+  "Sand Golem": Template,
+  "Cactus King": Template,
+  "Lemon Frog": Template,
+  "Scarab Beetle": Template,
 };
 // Need readonly versions for some troublesome components while in design mode
 
