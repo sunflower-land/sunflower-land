@@ -26,7 +26,7 @@ export class ProgressBarContainer extends Phaser.GameObjects.Container {
 
   updateBar(progress: number) {
     // Round up to the nearest 10 (expect for 100)
-    let amount = Math.ceil(progress * 10) / 10;
+    let amount = Math.min(Math.ceil(progress * 10) / 10, 100);
     if (amount === 100 && progress !== 100) {
       amount = 90;
     }
