@@ -89,7 +89,7 @@ const OLD_BOTTLE: Formation = [
 ];
 
 // Diagonal - X Coins
-const COCKLE: Formation = [
+const COCKLE_DIAGONAL: Formation = [
   { x: 0, y: 0, name: "Cockle Shell" },
   { x: 1, y: 1, name: "Cockle Shell" },
   { x: 2, y: 2, name: "Cockle Shell" },
@@ -116,7 +116,7 @@ const SEAWEED: Formation = [
   { x: 2, y: 1, name: "Starfish" },
 ];
 
-const CLAM_SHELLS: Formation = [
+const COCKLE_SQUARE: Formation = [
   { x: 0, y: 0, name: "Clam Shell" },
   { x: 1, y: 0, name: "Clam Shell" },
   { x: 0, y: -1, name: "Clam Shell" },
@@ -131,8 +131,8 @@ const GROUP_ONE = [
   ARTEFACT_1,
   HIEROGLYPH,
   ARTEFACT_1,
-  COCKLE,
-  CLAM_SHELLS,
+  COCKLE_DIAGONAL,
+  COCKLE_SQUARE,
   ARTEFACT_1,
 ];
 
@@ -153,7 +153,7 @@ const GROUP_THREE = [
   ARTEFACT_3,
   OLD_BOTTLE,
   SEA_CUCUMBERS,
-  CLAM_SHELLS,
+  COCKLE_SQUARE,
   ARTEFACT_3,
 ];
 
@@ -163,7 +163,7 @@ const GROUP_FOUR = [
   HIEROGLYPH,
   ARTEFACT_4,
   WOODEN_COMPASS,
-  COCKLE,
+  COCKLE_DIAGONAL,
   SEAWEED,
   ARTEFACT_4,
 ];
@@ -172,7 +172,7 @@ const GROUP_FIVE = [
   ARTEFACT_5,
   HIEROGLYPH,
   ARTEFACT_5,
-  CLAM_SHELLS,
+  COCKLE_SQUARE,
   HIEROGLYPH,
   OLD_BOTTLE,
   ARTEFACT_5,
@@ -183,7 +183,7 @@ const GROUP_SIX = [
   HIEROGLYPH,
   HIEROGLYPH,
   ARTEFACT_6,
-  COCKLE,
+  COCKLE_DIAGONAL,
   OLD_BOTTLE,
   WOODEN_COMPASS,
   ARTEFACT_6,
@@ -195,7 +195,7 @@ const GROUP_SEVEN = [
   HIEROGLYPH,
   ARTEFACT_7,
   SEAWEED,
-  CLAM_SHELLS,
+  COCKLE_SQUARE,
   SEA_CUCUMBERS,
   ARTEFACT_7,
 ];

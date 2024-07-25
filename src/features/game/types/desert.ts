@@ -83,7 +83,7 @@ export const DIGGING_FORMATIONS = {
   ],
 
   // Diagonal - X Coins
-  COCKLE: [
+  COCKLE_DIAGONAL: [
     { x: 0, y: 0, name: "Cockle Shell" },
     { x: 1, y: 1, name: "Cockle Shell" },
     { x: 2, y: 2, name: "Cockle Shell" },
@@ -110,11 +110,11 @@ export const DIGGING_FORMATIONS = {
     { x: 2, y: 1, name: "Starfish" },
   ],
 
-  CLAM_SHELLS: [
-    { x: 0, y: 0, name: "Clam Shell" },
-    { x: 1, y: 0, name: "Clam Shell" },
-    { x: 0, y: -1, name: "Clam Shell" },
-    { x: 1, y: -1, name: "Clam Shell" },
+  COCKLE_SQUARE: [
+    { x: 0, y: 0, name: "Cockle Shell" },
+    { x: 1, y: 0, name: "Cockle Shell" },
+    { x: 0, y: -1, name: "Cockle Shell" },
+    { x: 1, y: -1, name: "Cockle Shell" },
   ],
 
   CORAL: [{ x: 0, y: 0, name: "Coral" }],

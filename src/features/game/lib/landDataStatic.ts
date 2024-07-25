@@ -377,7 +377,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
         "MONDAY_ARTEFACT_FORMATION",
         "SEA_CUCUMBERS",
         "MONDAY_ARTEFACT_FORMATION",
-        "COCKLE",
+        "COCKLE_DIAGONAL",
         "CORAL",
         "CORAL",
         "CORAL",
