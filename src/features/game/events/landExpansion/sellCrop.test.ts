@@ -195,6 +195,8 @@ describe("sell", () => {
   });
 
   it("sells tomato for two times the normal price during La Tomatina", () => {
+    const now = new Date().getTime();
+
     const coins = 1;
     const state = sellCrop({
       state: {
@@ -207,8 +209,8 @@ describe("sell", () => {
           current: {
             "La Tomatina": {
               text: "La Tomatina",
-              endAt: new Date().getTime() + 1000,
-              startAt: new Date().getTime(),
+              endAt: now + 1000,
+              startAt: now,
               isEligible: true,
               requiresWallet: false,
               tasks: [],
@@ -221,6 +223,7 @@ describe("sell", () => {
           },
           history: {},
         },
+        createdAt: now,
       },
       action: {
         type: "crop.sold",

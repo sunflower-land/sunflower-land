@@ -14,7 +14,13 @@ export const LaTomatina: React.FC<{ event: SpecialEvent | undefined }> = ({
 }) => {
   const [showSpecialEvent, setShowSpecialEvent] = useState(false);
 
-  if (!event || !event.isEligible) return null;
+  if (
+    !event ||
+    !event.isEligible ||
+    event.endAt < Date.now() ||
+    event.startAt > Date.now()
+  )
+    return null;
 
   return (
     <>
