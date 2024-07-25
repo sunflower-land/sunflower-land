@@ -464,6 +464,7 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
     shortDescription: translate("description.pharaoh.chicken.boost"),
     labelType: "success",
     boostTypeIcon: powerup,
+    boostedItemIcon: ITEM_DETAILS["Sand Shovel"].image,
   },
 
   // Fish
