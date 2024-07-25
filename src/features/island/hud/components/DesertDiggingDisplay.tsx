@@ -27,6 +27,7 @@ export const getMaxDigs = (game: GameState) => {
   }
 
   return maxDigs + extraDigs;
+  return maxDigs;
 };
 
 export const DesertDiggingDisplay = () => {
