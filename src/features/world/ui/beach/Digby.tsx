@@ -156,7 +156,7 @@ const Pattern: React.FC<{
   );
 };
 
-const DailyPuzzle: React.FC = () => {
+export const DailyPuzzle: React.FC = () => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 

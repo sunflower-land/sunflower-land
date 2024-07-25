@@ -22,6 +22,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { EmblemAirdropCountdown } from "./EmblemAirdropCountdown";
 import { useLocation } from "react-router-dom";
 import { SpecialEventCountdown } from "./SpecialEventCountdown";
+import { DesertDiggingDisplay } from "./components/DesertDiggingDisplay";
 
 /**
  * Heads up display - a concept used in games for the small overlaid display of information.
@@ -37,8 +38,6 @@ const HudComponent: React.FC = () => {
   const [depositDataLoaded, setDepositDataLoaded] = useState(false);
 
   const { pathname } = useLocation();
-  const farmId = Number(gameState.context.farmId);
-  const username = gameState.context.state.username;
 
   const autosaving = gameState.matches("autosaving");
 
@@ -82,7 +81,7 @@ const HudComponent: React.FC = () => {
           pathname.includes("dawn-breaker")
         }
       />
-
+      <DesertDiggingDisplay />
       <Balances
         onClick={farmAddress ? handleBuyCurrenciesModal : undefined}
         sfl={gameState.context.state.balance}
