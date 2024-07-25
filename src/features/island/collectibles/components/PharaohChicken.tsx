@@ -11,7 +11,7 @@ export const PharaohChicken: React.FC = () => {
         style={{
           width: `${PIXEL_SCALE * 17}px`,
           bottom: `${PIXEL_SCALE * 0}px`,
-          left: `${PIXEL_SCALE * -5}px`,
+          left: `${PIXEL_SCALE * 0}px`,
         }}
       >
         <img
