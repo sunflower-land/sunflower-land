@@ -458,6 +458,7 @@ export type BoostDescriptions =
   | "description.el.pollo.veloz.one"
   | "description.el.pollo.veloz.two"
   | "description.banana.chicken"
+  | "description.pharaoh.chicken"
 
   //Boosts
   | "description.lab.grow.pumpkin"

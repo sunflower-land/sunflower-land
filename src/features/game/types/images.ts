@@ -126,6 +126,7 @@ import ayamCemani from "assets/animals/chickens/ayam_cemani.gif";
 import bananaChicken from "assets/animals/chickens/banana_chicken.png";
 import crimPeckster from "assets/animals/chickens/crim_peckster.png";
 import knightChicken from "assets/animals/chickens/knight_chicken.webp";
+import pharaohChicken from "assets/animals/chickens/pharaoh_chicken.webp";
 
 // Foods
 import roastedCauliflower from "assets/food/roasted_cauliflower.png";
@@ -6986,6 +6987,16 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "一只强大而高贵的鸡为您的油田增强产出",
       fr: "A strong and noble chicken boosting your oil yield.",
       tk: "A strong and noble chicken boosting your oil yield.",
+    },
+  },
+  "Pharaoh Chicken": {
+    image: pharaohChicken,
+    description: {
+      en: "A ruling chicken, +1 Dig.",
+      pt: "A ruling chicken, +1 Dig.",
+      "zh-CN": "A ruling chicken, +1 Dig.",
+      fr: "A ruling chicken, +1 Dig.",
+      tk: "A ruling chicken, +1 Dig.",
     },
   },
   "Skill Shrimpy": {
