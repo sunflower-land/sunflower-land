@@ -29,6 +29,10 @@ function queueSystem({
   components.forEach((component) => {
     // component.walk();
 
+    if (component.state === "performing") {
+      return;
+    }
+
     // Calculate the direction vector
     const direction = new Phaser.Math.Vector2(
       next.x - component.x,
@@ -48,6 +52,8 @@ function queueSystem({
     } else if (component.x < next.x) {
       component.sprite.sprite?.setScale(1, 1);
     }
+
+    component.walk();
 
     // Trigger action on arrival?
     const distance = Phaser.Math.Distance.BetweenPoints(next, component);

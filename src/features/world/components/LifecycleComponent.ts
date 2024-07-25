@@ -60,7 +60,6 @@ export class LifecycleComponent {
       stages,
     });
 
-    console.log({ stage, startAt, endAt });
     // TODO - load all images
 
     this.sprite = new SpriteComponent({

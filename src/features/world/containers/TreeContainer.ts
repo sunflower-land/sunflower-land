@@ -13,7 +13,7 @@ import { DraggableComponent } from "../components/DraggableComponent";
 import { ProgressBarContainer } from "./ProgressBarContainer";
 import { LandExpansionPlantAction } from "features/game/events/landExpansion/plant";
 import { CROPS } from "features/game/types/crops";
-import { InventoryItemName } from "features/game/types/game";
+import { GameState, InventoryItemName } from "features/game/types/game";
 import { LifecycleComponent } from "../components/LifecycleComponent";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { ITEM_DETAILS } from "features/game/types/images";
@@ -22,6 +22,7 @@ import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { HasTool } from "features/game/expansion/components/resources/tree/Tree";
 import { GameContext } from "features/game/GameProvider";
 import { AnimatedComponent } from "react-spring";
+import { createSelector } from "reselect";
 
 export class TreeContainer extends Phaser.GameObjects.Container {
   context: GameContext;
@@ -58,7 +59,16 @@ export class TreeContainer extends Phaser.GameObjects.Container {
     this.yield = new YieldContainer({
       container: this,
       key: "tree-yield",
-      sprite: ITEM_DETAILS.Wood.image,
+      sprite: {
+        sprite: "world/resources/tree_yield.png",
+        animation: {
+          frames: 13,
+          height: 48,
+          width: 80,
+          play: false,
+          repeat: false,
+        },
+      },
       scene,
     });
 
@@ -85,6 +95,7 @@ export class TreeContainer extends Phaser.GameObjects.Container {
             height: 48,
             frames: 7,
             repeat: false,
+            play: false,
           },
         },
       ],
@@ -94,8 +105,6 @@ export class TreeContainer extends Phaser.GameObjects.Container {
       endAt: this.readyAt,
       y: -6,
     });
-
-    console.log("Tree setup");
 
     // this.moveAbove(this.yield.sprite.sprite, this.sprite.sprite);
 
@@ -142,6 +151,17 @@ export class TreeContainer extends Phaser.GameObjects.Container {
       }
     });
 
+    // Generic update event
+    const selector = createSelector(
+      [(state: GameState) => state.trees[this.id]],
+      (tree) => {
+        console.log("Update", { tree });
+        this.render();
+      },
+    );
+
+    this.gameService.subscribe(({ context }) => selector(context.state));
+
     // Some generic update listener
   }
 
@@ -172,19 +192,26 @@ export class TreeContainer extends Phaser.GameObjects.Container {
     });
   }
 
-  async act() {
+  async chop() {
     this.resource.sprite.startAnimation();
 
-    this.resource.sprite.sprite.on(`animationcomplete-tree-animation`, () => {
+    console.log("ACTING UP!");
+
+    const onComplete = () => {
       try {
+        console.log("CHOPPED");
         this.gameService.send("timber.chopped", {
-          id: this.id,
+          index: this.id,
+          item: "Axe",
         });
       } catch {
         console.log("Failed to send event");
       } finally {
+        this.resource.sprite.sprite.off("animationcomplete", onComplete);
       }
-    });
+    };
+
+    this.resource.sprite.sprite.on("animationcomplete", onComplete);
   }
 
   chopped() {
@@ -192,11 +219,9 @@ export class TreeContainer extends Phaser.GameObjects.Container {
 
     // Show Yield
     this.yield.show(1);
-
-    this.renderStump();
   }
 
-  renderStump() {
+  render() {
     this.progressBar = new ProgressBarContainer({
       container: this,
       scene: this.scene,

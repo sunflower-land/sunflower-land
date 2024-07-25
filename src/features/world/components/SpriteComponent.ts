@@ -3,6 +3,7 @@ export type AnimatedSprite = {
   width: number;
   height: number;
   repeat: boolean;
+  play: boolean;
 };
 
 export type SpriteProps = {
@@ -13,12 +14,7 @@ export type SpriteProps = {
   x?: number;
   y?: number;
   depth?: number;
-  animation?: {
-    frames: number;
-    width: number;
-    height: number;
-    repeat: boolean;
-  };
+  animation?: AnimatedSprite;
 };
 
 export class SpriteComponent {
@@ -67,7 +63,7 @@ export class SpriteComponent {
 
     this.sprite.setTexture(this.key);
 
-    if (this.animation) {
+    if (this.animation?.play) {
       this.startAnimation();
     }
   }
@@ -104,7 +100,6 @@ export class SpriteComponent {
       });
     }
 
-    console.log({ play: `${this.key}-animation` });
     this.sprite?.play(`${this.key}-animation`, true);
   }
 

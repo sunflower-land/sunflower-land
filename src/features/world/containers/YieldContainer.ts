@@ -1,14 +1,18 @@
-import { SpriteComponent } from "../components/SpriteComponent";
+import { AnimatedProps } from "react-spring";
+import {
+  AnimatedSprite,
+  SpriteComponent,
+  SpriteProps,
+} from "../components/SpriteComponent";
 import { TextComponent } from "../components/TextComponent";
 
 export class YieldContainer extends Phaser.GameObjects.Container {
   container: Phaser.GameObjects.Container;
   scene: Phaser.Scene;
   key: string;
-  url: string;
 
-  // sprite: SpriteComponent;
   text: TextComponent;
+  sprite?: SpriteComponent;
 
   amount: number = 0;
 
@@ -20,23 +24,25 @@ export class YieldContainer extends Phaser.GameObjects.Container {
   }: {
     container: Phaser.GameObjects.Container;
     key: string;
-    sprite: string;
+    sprite?: Pick<SpriteProps, "animation" | "sprite">;
     scene: Phaser.Scene;
   }) {
     super(scene, 6, -12);
     this.container = container;
     this.scene = scene;
     this.key = key;
-    this.url = sprite;
 
     this.setDepth(1000000);
 
-    // this.sprite = new SpriteComponent({
-    //   container: this,
-    //   sprite: this.url,
-    //   key: this.key,
-    //   scene: this.scene,
-    // });
+    if (sprite) {
+      this.sprite = new SpriteComponent({
+        animation: sprite.animation,
+        container: this,
+        key: key,
+        scene: this.scene,
+        sprite: sprite.sprite,
+      });
+    }
 
     this.text = new TextComponent({
       container: this,
@@ -55,6 +61,10 @@ export class YieldContainer extends Phaser.GameObjects.Container {
 
     // Fade in and out
     this.setVisible(true);
+
+    if (this.sprite?.animation) {
+      this.sprite?.startAnimation();
+    }
 
     await new Promise((resolve) => setTimeout(resolve, 1000));
 
