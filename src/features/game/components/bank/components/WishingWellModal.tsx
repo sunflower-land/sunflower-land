@@ -4,10 +4,6 @@ import { Modal } from "components/ui/Modal";
 import ReCAPTCHA from "react-google-recaptcha";
 import * as AuthProvider from "features/auth/lib/Provider";
 
-import wisingWell from "assets/buildings/wishing_well.png";
-import goblinHead from "assets/npcs/goblin_head.png";
-import token from "assets/icons/sfl.webp";
-
 import { Panel } from "components/ui/Panel";
 import { Button } from "components/ui/Button";
 import { wallet } from "lib/blockchain/wallet";
@@ -63,7 +59,11 @@ const Granted = ({ lockedTime, onClose, reward }: GrantedArgs) => {
       <div className="p-2">
         <div className="flex flex-col items-center mb-3">
           <h1 className="text-lg mb-4 text-center">{t("congrats")}</h1>
-          <img src={token} alt="sunflower token" className="w-16 mb-2" />
+          <img
+            src={SUNNYSIDE.icons.token}
+            alt="sunflower token"
+            className="w-16 mb-2"
+          />
         </div>
         <p className="mb-4 text-sm">{t("wishingWell.wish.granted")}</p>
         <p className="mb-4 text-sm">
@@ -94,7 +94,11 @@ const GrantWish = ({ totalTokensInWell, onClick }: GrantWishArgs) => {
           <h1 className="text-lg mb-4 text-center">
             {t("wishingWell.wish.grantTime")}
           </h1>
-          <img src={wisingWell} alt="wishing well" className="w-16 mb-2" />
+          <img
+            src={SUNNYSIDE.building.wishingwell}
+            alt="wishing well"
+            className="w-16 mb-2"
+          />
         </div>
         <p className="mb-4 text-sm">
           {t("statements.wishing.well.worthwell", {
@@ -117,7 +121,11 @@ const ZeroTokens = ({ onClick }: ZeroTokensArgs) => {
       <div className="p-2">
         <div className="flex flex-col items-center mb-3">
           <h1 className="text-lg mb-4 text-center">{t("uhOh")}</h1>
-          <img src={goblinHead} alt="skeleton death" className="w-16 mb-2" />
+          <img
+            src={SUNNYSIDE.npcs.goblinHead}
+            alt="skeleton death"
+            className="w-16 mb-2"
+          />
         </div>
         <p className="mb-4 text-sm">{t("wishingWell.noReward")}</p>
         <p className="mb-2 text-sm">{t("wishingWell.wish.lucky")}</p>
@@ -168,7 +176,11 @@ const NoWish = ({ totalTokensInWell, hasLPTokens, onClick }: NoWishArgs) => {
       <div className="p-2">
         <div className="flex flex-col items-center mb-3">
           <h1 className="text-lg mb-2 text-center">{t("wishing.well")}</h1>
-          <img src={wisingWell} alt="wishing well" className="w-16" />
+          <img
+            src={SUNNYSIDE.building.wishingwell}
+            alt="wishing well"
+            className="w-16"
+          />
         </div>
         <p className="mb-4 text-sm">{t("wishingWell.info.one")}</p>
         <p className="mb-4 text-sm">

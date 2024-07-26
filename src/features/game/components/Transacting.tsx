@@ -1,6 +1,6 @@
 import React from "react";
 
-import syncing from "assets/npcs/syncing.gif";
+import { SUNNYSIDE } from "assets/sunnyside";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 export const Transacting: React.FC = () => {
@@ -8,7 +8,7 @@ export const Transacting: React.FC = () => {
   return (
     <div className="flex flex-col items-center justify-center p-2">
       <span className="mb-2 text-center">{t("transaction.processing")}</span>
-      <img src={syncing} className="w-1/4 mb-2 mr-10" />
+      <img src={SUNNYSIDE.npcs.syncing} className="w-1/4 mb-2 mr-10" />
       <span className="text-sm text-center mt-2 mb-2">
         {t("transaction.pleaseWait")}
       </span>

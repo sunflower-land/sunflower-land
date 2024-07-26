@@ -5,8 +5,6 @@ import { getKeys } from "features/game/types/craftables";
 import { TradeListing } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import React, { useContext, useEffect, useState } from "react";
-import token from "assets/icons/sfl.webp";
-import lock from "assets/skills/lock.png";
 import { Context } from "features/game/GameProvider";
 import { Button } from "components/ui/Button";
 import { useActor } from "@xstate/react";
@@ -66,7 +64,10 @@ export const PlayerTrade: React.FC<Props> = ({ farmId, onClose }) => {
           {t("beta")}
         </Label>
         <div className="p-1 flex flex-col items-center">
-          <img src={lock} className="w-1/5 mx-auto my-2 img-highlight-heavy" />
+          <img
+            src={SUNNYSIDE.icons.lock}
+            className="w-1/5 mx-auto my-2 img-highlight-heavy"
+          />
           <p className="text-sm">{t("bumpkinTrade.minLevel")}</p>
           <p className="text-xs mb-2">{t("statements.lvlUp")}</p>
         </div>
@@ -89,7 +90,7 @@ export const PlayerTrade: React.FC<Props> = ({ farmId, onClose }) => {
   if (warning === "hoarding") {
     return (
       <div className="p-1 flex flex-col items-center">
-        <img src={lock} className="w-1/5 mb-2" />
+        <img src={SUNNYSIDE.icons.lock} className="w-1/5 mb-2" />
         <p className="text-sm mb-1 text-center">{t("playerTrade.max.item")}</p>
         <p className="text-xs mb-1 text-center">{t("playerTrade.Progress")}</p>
       </div>
@@ -237,7 +238,7 @@ export const PlayerTrade: React.FC<Props> = ({ farmId, onClose }) => {
 
                   <div className="flex items-center mt-1  justify-end mr-0.5">
                     <p className="font-secondary">{`${listings[listingId].sfl} SFL`}</p>
-                    <img src={token} className="h-6 ml-1" />
+                    <img src={SUNNYSIDE.icons.token} className="h-6 ml-1" />
                   </div>
                 </div>
               </div>

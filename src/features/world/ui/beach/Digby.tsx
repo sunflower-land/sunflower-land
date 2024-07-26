@@ -15,7 +15,6 @@ import { NPC_WEARABLES } from "lib/npcs";
 import { secondsToString } from "lib/utils/time";
 import React, { useContext, useEffect, useState } from "react";
 
-import siteBg from "assets/ui/site_bg.png";
 import { Desert } from "features/game/types/game";
 import { getKeys } from "features/game/types/decorations";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -121,7 +120,7 @@ const Pattern: React.FC<{
       className="relative w-full h-0"
       style={{
         paddingBottom: "100%",
-        backgroundImage: `url(${siteBg})`,
+        backgroundImage: `url(${SUNNYSIDE.ui.site_bg})`,
 
         backgroundSize: "100%",
         borderRadius: "6px",

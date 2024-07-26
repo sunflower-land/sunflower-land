@@ -2,7 +2,6 @@ import React, { useState } from "react";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
-import goblinSnorkling from "assets/npcs/goblin_snorkling.gif";
 import bumpkin from "assets/npcs/snorkel_bumpkin.png";
 
 import { MapPlacement } from "../MapPlacement";
@@ -50,7 +49,7 @@ export const Snorkler: React.FC<Props> = ({ x, y }) => {
       </Modal>
       <MapPlacement x={x} y={y} width={2}>
         <img
-          src={goblinSnorkling}
+          src={SUNNYSIDE.npcs.goblinSnorkling}
           onClick={() => setShowModal(true)}
           className="cursor-pointer hover:img-highlight"
           style={{

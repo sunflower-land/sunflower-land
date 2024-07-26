@@ -2,9 +2,7 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import { useSelector } from "@xstate/react";
 
 import { SUNNYSIDE } from "assets/sunnyside";
-import reel from "assets/ui/reel.png";
 import lightning from "assets/icons/lightning.png";
-import lockIcon from "assets/skills/lock.png";
 import fullMoon from "assets/icons/full_moon.png";
 
 import { ZoomContext } from "components/ZoomProvider";
@@ -252,7 +250,7 @@ export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
 
             <img
               className="absolute pointer-events-none z-50"
-              src={lockIcon}
+              src={SUNNYSIDE.icons.lock}
               style={{
                 width: `${PIXEL_SCALE * 12}px`,
                 right: `${PIXEL_SCALE * 10}px`,
@@ -307,7 +305,7 @@ export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
               className="absolute"
             />
             <img
-              src={reel}
+              src={SUNNYSIDE.ui.reel}
               style={{
                 width: `${PIXEL_SCALE * 39}px`,
                 left: `${PIXEL_SCALE * 16}px`,
@@ -369,7 +367,7 @@ export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
       <Modal show={showLockedModal} onHide={() => setShowLockedModal(false)}>
         <CloseButtonPanel onClose={() => setShowLockedModal(false)}>
           <div className="flex flex-col items-center">
-            <Label className="mt-2" icon={lockIcon} type="danger">
+            <Label className="mt-2" icon={SUNNYSIDE.icons.lock} type="danger">
               {t("warning.level.required", { lvl: 5 })}
             </Label>
             <img src={ITEM_DETAILS.Rod.image} className="w-10 mx-auto my-2" />

@@ -1,8 +1,6 @@
 import React from "react";
 
 import { ITEM_DETAILS } from "features/game/types/images";
-import bg from "assets/ui/grey_background.png";
-import token from "assets/icons/sfl.webp";
 
 import { Button } from "components/ui/Button";
 import { Bid } from "features/game/types/game";
@@ -14,6 +12,7 @@ import { TimerDisplay } from "./AuctionDetails";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { getImageUrl } from "lib/utils/getImageURLS";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 const AUCTION_BUFFER_SECONDS = 30;
 
@@ -39,7 +38,10 @@ export const AuctionBid: React.FC<Props> = ({
   return (
     <div className="flex justify-center flex-col w-full items-center">
       <div className="relative my-2">
-        <img src={bg} className="w-48 object-contain rounded-md" />
+        <img
+          src={SUNNYSIDE.ui.grey_background}
+          className="w-48 object-contain rounded-md"
+        />
         <div className="absolute inset-0">
           <img
             src={image}
@@ -62,7 +64,7 @@ export const AuctionBid: React.FC<Props> = ({
 
         {!!bid.sfl && (
           <div className="flex items-center mb-2 mr-4">
-            <img src={token} className="h-6 mr-1" />
+            <img src={SUNNYSIDE.icons.token} className="h-6 mr-1" />
             <span>{bid.sfl}</span>
           </div>
         )}

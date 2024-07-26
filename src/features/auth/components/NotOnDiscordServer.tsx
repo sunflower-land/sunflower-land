@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 
 import * as AuthProvider from "features/auth/lib/Provider";
 
-import humanDeath from "assets/npcs/human_death.gif";
+import { SUNNYSIDE } from "assets/sunnyside";
 import { Button } from "components/ui/Button";
 import { redirectOAuth } from "../actions/oauth";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -13,7 +13,11 @@ export const NotOnDiscordServer: React.FC = () => {
   return (
     <div className="flex flex-col text-center  items-center p-1">
       <div className="flex mb-3 items-center ml-8">
-        <img src={humanDeath} alt={t("warning")} className="w-full" />
+        <img
+          src={SUNNYSIDE.npcs.humanDeath}
+          alt={t("warning")}
+          className="w-full"
+        />
       </div>
       <p className="text-sm text-center mb-3">
         {t("notOnDiscordServer.intro")}

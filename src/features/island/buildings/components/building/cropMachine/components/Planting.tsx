@@ -4,7 +4,7 @@ import Spritesheet, {
 } from "components/animation/SpriteAnimator";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
-import planting from "assets/cropMachine/stage2_collector_seed_planting_sheet.webp";
+import { SUNNYSIDE } from "assets/sunnyside";
 import { calculateFPS } from "../lib/calculateFps";
 import { ZoomContext } from "components/ZoomProvider";
 
@@ -37,7 +37,7 @@ export const Planting = ({ paused }: Props) => {
         bottom: `${PIXEL_SCALE * 0}px`,
         imageRendering: "pixelated",
       }}
-      image={planting}
+      image={SUNNYSIDE.building.plantingCropMachine}
       widthFrame={80}
       heightFrame={70}
       zoomScale={scale}

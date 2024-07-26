@@ -1,7 +1,6 @@
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Label } from "components/ui/Label";
 import React, { useEffect, useState } from "react";
-import minting from "assets/npcs/minting.gif";
 import { secondsToString } from "lib/utils/time";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Loading } from "features/auth/components";
@@ -43,7 +42,7 @@ export const NFTWaiting: React.FC<Props> = ({ readyAt, onComplete }) => {
 
         <p className="text-sm">{t("nftminting.mintingYourNFT")}</p>
 
-        <img src={minting} className="w-40 mt-2" />
+        <img src={SUNNYSIDE.npcs.minting} className="w-40 mt-2" />
       </div>
     </>
   );
@@ -62,7 +61,7 @@ export const NFTMinting: React.FC = () => {
 
         <Loading text={t("minting")} />
 
-        <img src={minting} className="w-40 mt-2" />
+        <img src={SUNNYSIDE.npcs.minting} className="w-40 mt-2" />
       </div>
     </>
   );
@@ -81,7 +80,7 @@ export const NFTMigrating: React.FC = () => {
 
         <Loading text={t("nftminting.almostThere")} />
 
-        <img src={minting} className="w-40 mt-2" />
+        <img src={SUNNYSIDE.npcs.minting} className="w-40 mt-2" />
       </div>
     </>
   );

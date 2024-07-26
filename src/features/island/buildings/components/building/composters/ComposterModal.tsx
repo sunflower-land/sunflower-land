@@ -5,9 +5,7 @@ import { Button } from "components/ui/Button";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 
-import tutorial from "assets/tutorials/composting.png";
 import powerup from "assets/icons/level_up.png";
-
 import compost from "assets/composters/compost.png";
 import basicIdle from "assets/composters/composter_basic.png";
 import basicComposting from "assets/composters/composter_basic_closed.png";
@@ -492,7 +490,10 @@ export const ComposterModal: React.FC<Props> = ({
         {tab === 1 && (
           <>
             <div className="p-2">
-              <img src={tutorial} className="w-full mx-auto rounded-lg mb-2" />
+              <img
+                src={SUNNYSIDE.tutorial.composting}
+                className="w-full mx-auto rounded-lg mb-2"
+              />
               <div className="flex mb-2">
                 <div className="w-12 flex justify-center">
                   <img

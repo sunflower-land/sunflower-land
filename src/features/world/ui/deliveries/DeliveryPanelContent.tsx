@@ -6,13 +6,8 @@ import Decimal from "decimal.js-light";
 import { GameState, Inventory, Order } from "features/game/types/game";
 import { OuterPanel } from "components/ui/Panel";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import sfl from "assets/icons/sfl.webp";
-import coinsImg from "assets/icons/coins.webp";
+import { SUNNYSIDE } from "assets/sunnyside";
 
-import selectBoxBL from "assets/ui/select/selectbox_bl.png";
-import selectBoxBR from "assets/ui/select/selectbox_br.png";
-import selectBoxTL from "assets/ui/select/selectbox_tl.png";
-import selectBoxTR from "assets/ui/select/selectbox_tr.png";
 import classNames from "classnames";
 import {
   generateDeliveryTickets,
@@ -127,7 +122,7 @@ export const OrderCards: React.FC<OrderCardsProps> = ({
               <div className="flex flex-col justify-center">
                 {order.reward.sfl !== undefined && (
                   <div className="flex items-center mt-1">
-                    <img src={sfl} className="h-5 mr-1" />
+                    <img src={SUNNYSIDE.icons.token} className="h-5 mr-1" />
                     <span className="text-xs">
                       {makeRewardAmountForLabel(order)}
                     </span>
@@ -135,7 +130,7 @@ export const OrderCards: React.FC<OrderCardsProps> = ({
                 )}
                 {order.reward.coins !== undefined && (
                   <div className="flex items-center mt-1">
-                    <img src={coinsImg} className="h-5 mr-1" />
+                    <img src={SUNNYSIDE.ui.coinsImg} className="h-5 mr-1" />
                     <span className="text-xs">
                       {makeRewardAmountForLabel(order)}
                     </span>
@@ -158,7 +153,7 @@ export const OrderCards: React.FC<OrderCardsProps> = ({
                 <>
                   <img
                     className="absolute pointer-events-none"
-                    src={selectBoxBL}
+                    src={SUNNYSIDE.ui.selectBoxBL}
                     style={{
                       bottom: `${PIXEL_SCALE * -3}px`,
                       left: `${PIXEL_SCALE * -3}px`,
@@ -167,7 +162,7 @@ export const OrderCards: React.FC<OrderCardsProps> = ({
                   />
                   <img
                     className="absolute pointer-events-none"
-                    src={selectBoxBR}
+                    src={SUNNYSIDE.ui.selectBoxBR}
                     style={{
                       bottom: `${PIXEL_SCALE * -3}px`,
                       right: `${PIXEL_SCALE * -3}px`,
@@ -176,7 +171,7 @@ export const OrderCards: React.FC<OrderCardsProps> = ({
                   />
                   <img
                     className="absolute pointer-events-none"
-                    src={selectBoxTL}
+                    src={SUNNYSIDE.ui.selectBoxTL}
                     style={{
                       top: `${PIXEL_SCALE * -5}px`,
                       left: `${PIXEL_SCALE * -3}px`,
@@ -185,7 +180,7 @@ export const OrderCards: React.FC<OrderCardsProps> = ({
                   />
                   <img
                     className="absolute pointer-events-none"
-                    src={selectBoxTR}
+                    src={SUNNYSIDE.ui.selectBoxTR}
                     style={{
                       top: `${PIXEL_SCALE * -5}px`,
                       right: `${PIXEL_SCALE * -3}px`,

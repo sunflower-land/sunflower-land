@@ -2,10 +2,6 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 
 import { Context } from "features/game/GameProvider";
 
-import more from "assets/ui/more.png";
-import settings from "assets/icons/settings.png";
-import sound_on from "assets/icons/sound_on.png";
-
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { ResizableBar } from "components/ui/ProgressBar";
 import { AudioMenu } from "features/game/components/AudioMenu";
@@ -16,6 +12,8 @@ import {
   getGoblinSongCount,
 } from "assets/songs/playlist";
 import { SUNNYSIDE } from "assets/sunnyside";
+import settings from "assets/icons/settings.png";
+import sound_on from "assets/icons/sound_on.png";
 import { useLocation } from "react-router-dom";
 import { GameOptionsModal } from "./settings-menu/GameOptions";
 import { useSound } from "lib/utils/hooks/useSound";
@@ -197,7 +195,7 @@ export const Settings: React.FC<Props> = ({ isFarming }) => {
         setOpenSettingsMenu(true);
       },
       <img
-        src={more}
+        src={SUNNYSIDE.ui.more}
         className="absolute"
         style={{
           top: `${PIXEL_SCALE * 10}px`,

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import gold from "assets/resources/gold_small.png";
+import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { TimeLeftPanel } from "components/ui/TimeLeftPanel";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -20,7 +20,7 @@ const DepletedGoldComponent: React.FC<Props> = ({ timeLeft }) => {
     >
       <div className="absolute w-full h-full pointer-events-none">
         <img
-          src={gold}
+          src={SUNNYSIDE.resource.goldStone}
           className="absolute opacity-50"
           style={{
             width: `${PIXEL_SCALE * 14}px`,

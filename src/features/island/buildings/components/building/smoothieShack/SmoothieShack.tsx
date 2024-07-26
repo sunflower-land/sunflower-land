@@ -1,10 +1,7 @@
 import React, { useEffect, useState } from "react";
 import classNames from "classnames";
 
-import smoothieShackDesk from "assets/buildings/smoothie_shack_desk.webp";
-import smoothieChef from "assets/npcs/smoothie.gif";
-import smoothieChefMaking from "assets/npcs/smoothie_making.gif";
-
+import { SUNNYSIDE } from "assets/sunnyside";
 import { CookableName } from "features/game/types/consumables";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { CraftingMachineChildProps } from "../WithCraftingMachine";
@@ -95,7 +92,7 @@ export const SmoothieShack: React.FC<Props> = ({
 
         {crafting ? (
           <img
-            src={smoothieChefMaking}
+            src={SUNNYSIDE.npcs.smoothieChefMaking}
             className="absolute pointer-events-none"
             style={{
               width: `${PIXEL_SCALE * 15}px`,
@@ -105,7 +102,7 @@ export const SmoothieShack: React.FC<Props> = ({
           />
         ) : (
           <img
-            src={smoothieChef}
+            src={SUNNYSIDE.npcs.smoothieChef}
             className="absolute pointer-events-none"
             style={{
               width: `${PIXEL_SCALE * 14}px`,
@@ -116,7 +113,7 @@ export const SmoothieShack: React.FC<Props> = ({
         )}
 
         <img
-          src={smoothieShackDesk}
+          src={SUNNYSIDE.building.smoothieShack}
           className={classNames("absolute pointer-events-none", {
             "opacity-100": !crafting,
             "opacity-80": crafting,

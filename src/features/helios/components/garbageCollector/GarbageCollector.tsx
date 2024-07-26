@@ -2,9 +2,6 @@ import React from "react";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
-import building from "assets/buildings/garbage.png";
-import stall from "assets/buildings/garbage_stall.png";
-
 import { Modal } from "components/ui/Modal";
 import { MapPlacement } from "features/game/expansion/components/MapPlacement";
 import { NPC } from "features/island/bumpkin/components/NPC";
@@ -13,6 +10,7 @@ import { GarbageCollectorModal } from "./components/GarbageCollectorModal";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { OuterPanel } from "components/ui/Panel";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 export const GarbageCollector: React.FC = () => {
   const [isOpen, setIsOpen] = React.useState(false);
@@ -30,7 +28,7 @@ export const GarbageCollector: React.FC = () => {
           onClick={handleClick}
         >
           <img
-            src={building}
+            src={SUNNYSIDE.building.garbage}
             className="absolute"
             style={{
               width: `${PIXEL_SCALE * 62}px`,
@@ -39,7 +37,7 @@ export const GarbageCollector: React.FC = () => {
             }}
           />
           <img
-            src={stall}
+            src={SUNNYSIDE.building.garbage_stall}
             className="absolute z-20"
             style={{
               width: `${PIXEL_SCALE * 36}px`,

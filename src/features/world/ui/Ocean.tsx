@@ -1,6 +1,6 @@
 import React from "react";
 
-import ocean from "assets/decorations/ocean.webp";
+import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const Ocean: React.FC = ({ children }) => {
@@ -8,7 +8,7 @@ export const Ocean: React.FC = ({ children }) => {
     <div
       className="bg-blue-600 w-full bg-repeat h-full flex relative items-center justify-center"
       style={{
-        backgroundImage: `url(${ocean})`,
+        backgroundImage: `url(${SUNNYSIDE.decorations.ocean})`,
         backgroundSize: `${64 * PIXEL_SCALE}px`,
         imageRendering: "pixelated",
       }}

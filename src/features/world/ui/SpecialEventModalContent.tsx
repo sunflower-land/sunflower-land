@@ -2,16 +2,12 @@ import { NPCName } from "lib/npcs";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { Label } from "components/ui/Label";
 import { SUNNYSIDE } from "assets/sunnyside";
+import walletIcon from "assets/icons/wallet.png";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
 import { Airdrop } from "features/game/types/game";
 import { Button } from "components/ui/Button";
-
-import giftIcon from "assets/icons/gift.png";
-import chestIcon from "assets/icons/chest.png";
-import walletIcon from "assets/icons/wallet.png";
-import sfl from "assets/icons/sfl.webp";
-import lock from "assets/skills/lock.png";
+import gift from "assets/icons/gift.png";
 
 import Decimal from "decimal.js-light";
 import { OuterPanel } from "components/ui/Panel";
@@ -176,7 +172,7 @@ export const SpecialEventModalContent: React.FC<{
     return (
       <>
         <div className="p-2">
-          <Label icon={giftIcon} type="warning" className="mb-2">
+          <Label icon={gift} type="warning" className="mb-2">
             {t("congrats")}
           </Label>
           <p className="text-sm mb-2">{t("special.event.claimForm")}</p>
@@ -306,7 +302,7 @@ export const SpecialEventModalContent: React.FC<{
                   >
                     {index >= 1 && !event?.tasks[index - 1].completedAt && (
                       <img
-                        src={lock}
+                        src={SUNNYSIDE.icons.lock}
                         className="absolute top-[-8px] right-[-12px] w-5"
                       />
                     )}
@@ -340,7 +336,7 @@ export const SpecialEventModalContent: React.FC<{
                     {!task.completedAt && !!task.reward.sfl && (
                       <Label
                         type="warning"
-                        icon={sfl}
+                        icon={SUNNYSIDE.icons.token}
                         className="absolute -bottom-2 text-center mt-1 p-1 left-[-8px] z-10"
                         style={{ width: "calc(100% + 16px)" }}
                       >
@@ -351,7 +347,7 @@ export const SpecialEventModalContent: React.FC<{
                     {!task.completedAt && !task.reward.sfl && (
                       <Label
                         type="warning"
-                        icon={giftIcon}
+                        icon={gift}
                         className="absolute -bottom-2 text-center mt-1 p-1 left-[-8px] z-10"
                         style={{ width: "calc(100% + 16px)" }}
                       >
@@ -375,7 +371,7 @@ export const SpecialEventModalContent: React.FC<{
                 )}
                 {selectedIndex >= 1 &&
                   !!event?.tasks[selectedIndex - 1].completedAt && (
-                    <Label type="info" icon={lock}>
+                    <Label type="info" icon={SUNNYSIDE.icons.lock}>
                       {formatDateTime(
                         getTaskStartDate(selectedIndex + 1).toISOString(),
                       )}
@@ -398,7 +394,7 @@ export const SpecialEventModalContent: React.FC<{
               })}
               <div className="flex justify-between space-x-3 mt-2">
                 <div className="flex items-center">
-                  <img src={chestIcon} className="w-5 mr-1" />
+                  <img src={SUNNYSIDE.icons.chestIcon} className="w-5 mr-1" />
                   <span className="text-xs">{t("reward")}</span>
                 </div>
                 {getKeys(selected.reward.items).map((itemName) => (

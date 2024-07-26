@@ -1,9 +1,6 @@
 import React from "react";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import selectBoxBL from "assets/ui/select/selectbox_bl.png";
-import selectBoxBR from "assets/ui/select/selectbox_br.png";
-import selectBoxTL from "assets/ui/select/selectbox_tl.png";
-import selectBoxTR from "assets/ui/select/selectbox_tr.png";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 interface Props {
   innerCanvasWidth: number;
@@ -13,7 +10,7 @@ export const SelectBox = ({ innerCanvasWidth }: Props) => (
   <>
     <img
       className="absolute pointer-events-none"
-      src={selectBoxBL}
+      src={SUNNYSIDE.ui.selectBoxBL}
       style={{
         top: `${PIXEL_SCALE * innerCanvasWidth}px`,
         left: `${PIXEL_SCALE * 0}px`,
@@ -22,7 +19,7 @@ export const SelectBox = ({ innerCanvasWidth }: Props) => (
     />
     <img
       className="absolute pointer-events-none"
-      src={selectBoxBR}
+      src={SUNNYSIDE.ui.selectBoxBR}
       style={{
         top: `${PIXEL_SCALE * innerCanvasWidth}px`,
         left: `${PIXEL_SCALE * innerCanvasWidth}px`,
@@ -31,7 +28,7 @@ export const SelectBox = ({ innerCanvasWidth }: Props) => (
     />
     <img
       className="absolute pointer-events-none"
-      src={selectBoxTL}
+      src={SUNNYSIDE.ui.selectBoxTL}
       style={{
         top: `${PIXEL_SCALE * 1}px`,
         left: `${PIXEL_SCALE * 0}px`,
@@ -40,7 +37,7 @@ export const SelectBox = ({ innerCanvasWidth }: Props) => (
     />
     <img
       className="absolute pointer-events-none"
-      src={selectBoxTR}
+      src={SUNNYSIDE.ui.selectBoxTR}
       style={{
         top: `${PIXEL_SCALE * 1}px`,
         left: `${PIXEL_SCALE * innerCanvasWidth}px`,

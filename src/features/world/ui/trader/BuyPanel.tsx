@@ -10,8 +10,6 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { OuterPanel } from "components/ui/Panel";
 import { Box } from "components/ui/Box";
 import Decimal from "decimal.js-light";
-import token from "assets/icons/sfl.webp";
-import lock from "assets/skills/lock.png";
 import { getKeys } from "features/game/types/craftables";
 import { InventoryItemName } from "features/game/types/game";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -290,7 +288,7 @@ export const BuyPanel: React.FC<{
     if (warning === "hoarding") {
       return (
         <div className="p-1 flex flex-col items-center">
-          <img src={lock} className="w-1/5 mb-2" />
+          <img src={SUNNYSIDE.icons.lock} className="w-1/5 mb-2" />
           <p className="text-sm mb-1 text-center">
             {t("playerTrade.max.item")}
           </p>
@@ -356,7 +354,10 @@ export const BuyPanel: React.FC<{
                         ))}
                       <div className="ml-1">
                         <div className="flex items-center mb-1">
-                          <img src={token} className="h-6 mr-1" />
+                          <img
+                            src={SUNNYSIDE.icons.token}
+                            className="h-6 mr-1"
+                          />
                           <p className="text-xs">{`${selectedListing.sfl} SFL`}</p>
                         </div>
                         <p className="text-xxs">
@@ -449,7 +450,10 @@ export const BuyPanel: React.FC<{
                         ))}
                       <div className="ml-1">
                         <div className="flex items-center mb-1">
-                          <img src={token} className="h-6 mr-1" />
+                          <img
+                            src={SUNNYSIDE.icons.token}
+                            className="h-6 mr-1"
+                          />
                           <p className="text-xs">{`${listing.sfl} SFL`}</p>
                         </div>
                         <p className="text-xxs">
