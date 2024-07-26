@@ -1809,6 +1809,7 @@ const donation: Record<Donation, string> = {
   "donation.minimum": "至少捐 1 MATIC",
   "donation.airdrop": "捐赠活动落幕后便将空投装饰品。",
   "donation.specialEvent": "特别捐献活动",
+  "donation.toPortal": ENGLISH_TERMS["donation.toPortal"],
 };
 
 const draftBid: Record<DraftBid, string> = {

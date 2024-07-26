@@ -2028,6 +2028,7 @@ const donation: Record<Donation, string> = {
   "donation.airdrop":
     "As decorações serão enviadas via airdrop quando as doações forem encerradas.",
   "donation.specialEvent": "Evento especial de doação",
+  "donation.toPortal": ENGLISH_TERMS["donation.toPortal"],
 };
 
 const draftBid: Record<DraftBid, string> = {
