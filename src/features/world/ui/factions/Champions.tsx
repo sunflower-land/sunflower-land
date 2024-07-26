@@ -308,18 +308,20 @@ export const ChampionsPrizes: React.FC = () => {
                         <img src={sfl} className="h-4 ml-0.5" />
                       </div>
                     )}
-                    {getKeys(prize.items).map((item, index) => {
-                      const count = prize.items[item];
-                      return (
-                        <div key={index} className="flex items-center">
-                          <span className="text-xs">{`${count} `}</span>
-                          <img
-                            src={ITEM_DETAILS[item].image}
-                            className="h-4 ml-0.5"
-                          />
-                        </div>
-                      );
-                    })}
+                    {getKeys(prize.items)
+                      .filter((item) => (prize.items[item] ?? 0) > 0)
+                      .map((item, index) => {
+                        const count = prize.items[item];
+                        return (
+                          <div key={index} className="flex items-center">
+                            <span className="text-xs">{`${count} `}</span>
+                            <img
+                              src={ITEM_DETAILS[item].image}
+                              className="h-4 ml-0.5"
+                            />
+                          </div>
+                        );
+                      })}
                     {!!trophy && (
                       <div className="flex items-center">
                         <span className="text-xs">{`Trophy `}</span>
