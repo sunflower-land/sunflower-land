@@ -1235,7 +1235,9 @@ export class BeachScene extends BaseScene {
     // change player direction if angle is changed from left to right or vise versa
     if (
       this.movementAngle !== undefined &&
-      Math.abs(this.movementAngle) !== 90
+      Math.abs(this.movementAngle) !== 90 &&
+      !this.isPlayerTweening &&
+      !this.isRevealing
     ) {
       this.isFacingLeft = Math.abs(this.movementAngle) > 90;
       this.isFacingLeft
@@ -1254,6 +1256,8 @@ export class BeachScene extends BaseScene {
     } else {
       currentPlayerBody.setVelocity(0, 0);
     }
+
+    this.sendPositionToServer();
 
     const isMoving =
       this.movementAngle !== undefined && this.walkingSpeed !== 0;
