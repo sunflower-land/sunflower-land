@@ -1403,6 +1403,35 @@ describe("canremove", () => {
 
     expect(restricted).toBe(true);
   });
+
+  it("prevents a user from removing Pharaoh Chicken there are holes dug", () => {
+    const [restricted] = hasRemoveRestriction("Pharaoh Chicken", "123", {
+      ...TEST_FARM,
+      desert: {
+        digging: {
+          patterns: [],
+          grid: new Array(26).fill([
+            {
+              x: 5,
+              y: 5,
+              dugAt: Date.now(),
+              items: {
+                Sunflower: 1,
+              },
+            },
+          ]),
+        },
+      },
+      collectibles: {
+        "Pharaoh Chicken": [
+          { coordinates: { x: 1, y: 1 }, createdAt: 0, id: "123", readyAt: 0 },
+        ],
+      },
+    });
+
+    expect(restricted).toBe(true);
+  });
+
   it("prevents a user from removing Turbo Sprout when rice is planted in Greenhouse", () => {
     const [restricted] = hasRemoveRestriction("Turbo Sprout", "123", {
       ...TEST_FARM,

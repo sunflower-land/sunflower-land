@@ -174,7 +174,8 @@ export type MutantChicken =
   | "El Pollo Veloz"
   | "Banana Chicken"
   | "Crim Peckster"
-  | "Knight Chicken";
+  | "Knight Chicken"
+  | "Pharaoh Chicken";
 
 export type Coupons =
   | "Gold Pass"

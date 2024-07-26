@@ -330,6 +330,7 @@ import { PharaohsTreasureBanner } from "./components/PharaohsTreasureBanner";
 import { DesertRose } from "./components/DesertRose";
 import { Sarcophagus } from "./components/Sarcophagus";
 import { Template } from "./components/template/Template";
+import { PharaohChicken } from "./components/PharaohChicken";
 
 export const COLLECTIBLE_COMPONENTS: Record<
   CollectibleName | "Bud",
@@ -621,6 +622,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
   Nana: Nana,
   "Crim Peckster": CrimPeckster,
   "Knight Chicken": KnightChicken,
+  "Pharaoh Chicken": PharaohChicken,
 
   "Bumpkin Nutcracker": Nutcracker,
   "Festive Tree": FestiveTree,

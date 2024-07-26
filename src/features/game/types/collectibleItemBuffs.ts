@@ -460,6 +460,12 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
     labelType: "vibrant",
     boostTypeIcon: lightning,
   },
+  "Pharaoh Chicken": {
+    shortDescription: translate("description.pharaoh.chicken.boost"),
+    labelType: "success",
+    boostTypeIcon: powerup,
+    boostedItemIcon: ITEM_DETAILS["Sand Shovel"].image,
+  },
 
   // Fish
   "Skill Shrimpy": {

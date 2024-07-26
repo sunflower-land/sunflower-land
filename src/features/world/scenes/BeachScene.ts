@@ -16,7 +16,7 @@ import {
 import { getUTCDateString } from "lib/utils/time";
 import { BumpkinContainer } from "../containers/BumpkinContainer";
 import { getKeys } from "features/game/types/decorations";
-import { isCollectibleActive } from "features/game/lib/collectibleBuilt";
+import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import {
   DESERT_GRID_HEIGHT,
   DESERT_GRID_WIDTH,
@@ -950,12 +950,21 @@ export class BeachScene extends BaseScene {
     let allowedDigs = TOTAL_DIGS;
 
     if (
-      isCollectibleActive({
+      isCollectibleBuilt({
         name: "Heart of Davy Jones",
         game: this.gameService.state.context.state,
       })
     ) {
       allowedDigs += 20;
+    }
+
+    if (
+      isCollectibleBuilt({
+        name: "Pharaoh Chicken",
+        game: this.gameService.state.context.state,
+      })
+    ) {
+      allowedDigs += 1;
     }
 
     return allowedDigs;

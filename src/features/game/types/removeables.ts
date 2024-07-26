@@ -216,14 +216,14 @@ export function areAnyChickensFed(game: GameState): Restriction {
   return [chickensAreFed, translate("restrictionReason.chickensFed")];
 }
 
-function areAnyTreasureHolesDug(game: GameState): Restriction {
-  const holesDug = Object.values(game.treasureIsland?.holes ?? {}).some(
-    (hole) => {
-      const today = new Date().toISOString().substring(0, 10);
+const MAX_DIGS = 25;
+export function areBonusTreasureHolesDug(game: GameState): Restriction {
+  const holes = game.desert.digging.grid.flat().map((hole) => {
+    const today = new Date().toISOString().substring(0, 10);
 
-      return new Date(hole.dugAt).toISOString().substring(0, 10) == today;
-    },
-  );
+    return +(new Date(hole.dugAt).toISOString().substring(0, 10) === today);
+  });
+  const holesDug = holes.reduce((sum, value) => sum + value, 0) > MAX_DIGS;
 
   return [holesDug, translate("restrictionReason.treasuresDug")];
 }
@@ -420,7 +420,7 @@ export const REMOVAL_RESTRICTIONS: Partial<
   "Potent Potato": (game) => cropIsGrowing({ item: "Potato", game }),
   "Radical Radish": (game) => cropIsGrowing({ item: "Radish", game }),
 
-  "Heart of Davy Jones": (game) => areAnyTreasureHolesDug(game),
+  "Heart of Davy Jones": (game) => areBonusTreasureHolesDug(game),
   "Maneki Neko": (game) => hasShakenManeki(game),
   "Festive Tree": (game) => hasShakenTree(game),
 
@@ -486,6 +486,10 @@ export const REMOVAL_RESTRICTIONS: Partial<
     true,
     translate("restrictionReason.inUse"),
   ],
+
+  // Pharaoh's Treasure
+  "Pharaoh Chicken": (game) => areBonusTreasureHolesDug(game),
+  "Desert Rose": (game) => areFlowersGrowing(game),
 };
 
 export const BUD_REMOVAL_RESTRICTIONS: Record<

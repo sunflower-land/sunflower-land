@@ -712,6 +712,7 @@ const boostDescriptions: Record<BoostDescriptions, string> = {
     "Give me those eggs, fast! 4 hour speed boost on egg laying.",
   "description.banana.chicken":
     "A chicken that boosts bananas. What a world we live in.",
+  "description.pharaoh.chicken": "A ruling chicken, +1 Dig.",
 
   // Boosts
   "description.lab.grow.pumpkin": "+0.3 Pumpkin Yield",
@@ -889,6 +890,7 @@ const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
   "description.battle.fish.boost": "+0.05 Oil",
   "description.crim.peckster.boost": "+0.1 Crimstone",
   "description.knight.chicken.boost": "+0.1 Oil",
+  "description.pharaoh.chicken.boost": "+1 Dig",
   "description.queen.bee.boost": "+1 Honey Production Speed",
   "description.beekeeper.hat.boost": "+0.2 Honey Production Speed",
   "description.flower.fox.boost": "-10% Flower Growth Time",

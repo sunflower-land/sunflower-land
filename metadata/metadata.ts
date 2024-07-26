@@ -6412,6 +6412,21 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
   },
+  "Pharaoh Chicken": {
+    description: "A strong and noble chicken boosting your oil yield.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2116.gif",
+    attributes: [
+      { trait_type: "Boost", value: "Other" },
+      {
+        display_type: "boost_number",
+        trait_type: "Increase daily digs",
+        value: 20,
+      },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+  },
 
   "Skill Shrimpy": {
     description:

@@ -708,6 +708,7 @@ const boostDescriptions: Record<BoostDescriptions, string> = {
   "description.banana.chicken":
     "Um frango que impulsiona bananas. Em que mundo vivemos?!",
   "description.knight.chicken": ENGLISH_TERMS["description.knight.chicken"],
+  "description.pharaoh.chicken": ENGLISH_TERMS["description.pharaoh.chicken"],
 
   // Boosts
   "description.lab.grow.pumpkin": "+0,3 Rendimento de Abóbora",
@@ -898,6 +899,8 @@ const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
   "description.crim.peckster.boost": "+0.1 Crimstone",
   "description.knight.chicken.boost":
     ENGLISH_TERMS["description.knight.chicken.boost"],
+  "description.pharaoh.chicken.boost":
+    ENGLISH_TERMS["description.pharaoh.chicken.boost"],
   "description.queen.bee.boost": "+1 na Velocidade de Produção de Mel",
   "description.beekeeper.hat.boost": "+0.2 na Velocidade de Produção de Mel",
   "description.humming.bird.boost": "Chance de 20% de +1 Flor",
