@@ -35,6 +35,7 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { hasFeatureAccess } from "lib/flags";
 import { setPrecision } from "lib/utils/formatNumber";
 import Decimal from "decimal.js-light";
+import { SEASONS, getSeasonalTicket } from "features/game/types/seasons";
 
 interface Props {
   onClose: () => void;
@@ -210,13 +211,17 @@ export const ChampionsPrizes: React.FC = () => {
   const { t } = useAppTranslation();
 
   const week = getFactionWeek();
+  const ticket = getSeasonalTicket(new Date(week));
+  const isPharaohsTreasure =
+    new Date(week) >= new Date(SEASONS["Pharaoh's Treasure"].startDate);
+
   const MONTHLY_PRIZES = BONUS_FACTION_PRIZES[week];
 
   // Group together rows that have the same prize
   const prizes: PrizeRow[] = [];
   let previous: PrizeRow | undefined = undefined;
-  getKeys(FACTION_PRIZES).forEach((key, index) => {
-    const prize = FACTION_PRIZES[key];
+  getKeys(FACTION_PRIZES(ticket, isPharaohsTreasure)).forEach((key, index) => {
+    const prize = FACTION_PRIZES(ticket, isPharaohsTreasure)[key];
 
     let isSameAsPrevious = false;
     if (previous) {
