@@ -28,6 +28,7 @@ import { npcModalManager } from "../ui/NPCModals";
 import { hasReadDesertNotice as hasReadDesertNotice } from "../ui/beach/DesertNoticeboard";
 import { Coordinates } from "features/game/expansion/components/MapPlacement";
 import Decimal from "decimal.js-light";
+import { isTouchDevice } from "../lib/device";
 
 const convertToSnakeCase = (str: string) => {
   return str.replace(" ", "_").toLowerCase();
@@ -122,7 +123,6 @@ export class BeachScene extends BaseScene {
   digOffsetY = 3;
   drillOffsetX = 2;
   drillOffsetY = -6;
-  digsRemaining = TOTAL_DIGS;
   digsRemainingLabel: Phaser.GameObjects.Text | undefined;
   percentageFoundLabel: Phaser.GameObjects.Text | undefined;
   digStatistics: DigAnalytics | undefined;
@@ -421,22 +421,32 @@ export class BeachScene extends BaseScene {
           .setStrokeStyle(1, 0xe3d672)
           .setOrigin(0)
           .setInteractive({ cursor: "pointer" })
-          .on("pointerdown", () => {
-            if (this.selectedItem === "Sand Drill") {
-              return this.handleDrillPointerDown(rectX, rectY);
-            }
-
-            return this.handlePointerDown({ rectX, rectY, row, col });
-          })
-          .on("pointermove", (e: any) => {
-            if (this.selectedItem === "Sand Drill") {
-              return this.handleDrillPointerOver({
+          .on("pointerdown", (e: any) => {
+            // Touch devices have a different interaction for the sand drill
+            if (isTouchDevice() && this.selectedItem === "Sand Drill") {
+              this.handleMobileTouchDrill({
                 mouseX: e.worldX,
                 mouseY: e.worldY,
                 rectX,
                 rectY,
-                row,
-                col,
+              });
+
+              return;
+            }
+
+            if (this.selectedItem === "Sand Drill") {
+              this.handleDrillPointerDown(rectX, rectY);
+            } else {
+              this.handlePointerDown({ rectX, rectY, row, col });
+            }
+          })
+          .on("pointermove", (e: any) => {
+            if (isTouchDevice()) return;
+
+            if (this.selectedItem === "Sand Drill") {
+              return this.handleDrillPointerOver({
+                mouseX: e.worldX,
+                mouseY: e.worldY,
               });
             }
 
@@ -637,7 +647,6 @@ export class BeachScene extends BaseScene {
       },
       onComplete: () => {
         this.isPlayerTweening = false;
-        // this.currentPlayer?.dig(() => console.log("DIG COMPLETE"));
         onComplete();
       },
     });
@@ -649,7 +658,7 @@ export class BeachScene extends BaseScene {
     }
 
     if (this.joystick) {
-      this.joystick.enable = false;
+      this.joystick.setEnable(false);
     }
   }
 
@@ -659,16 +668,21 @@ export class BeachScene extends BaseScene {
     }
 
     if (this.joystick) {
-      this.joystick.enable = true;
+      this.joystick.setEnable(true);
     }
   }
 
-  public cannotDig = (
-    rectX: number,
-    rectY: number,
-    row?: number,
-    col?: number,
-  ) => {
+  public cannotDig = ({
+    rectX,
+    rectY,
+    row,
+    col,
+  }: {
+    rectX: number;
+    rectY: number;
+    row?: number;
+    col?: number;
+  }) => {
     const sandShovelsCount = (
       this.gameService.state.context.state.inventory["Sand Shovel"] ??
       new Decimal(0)
@@ -704,6 +718,8 @@ export class BeachScene extends BaseScene {
 
       return true;
     }
+
+    return hasDugHere;
   };
 
   public handlePointerOver = ({
@@ -720,7 +736,7 @@ export class BeachScene extends BaseScene {
     this.drillHoverBox?.setVisible(false);
     this.drillConfirmBox?.setVisible(false);
 
-    if (this.cannotDig(rectX, rectY, row, col)) return;
+    if (this.cannotDig({ rectX, rectY, row, col })) return;
 
     let hasDugHere = false;
 
@@ -754,25 +770,77 @@ export class BeachScene extends BaseScene {
     this.hoverBox?.setOrigin(0).setPosition(rectX, rectY).setVisible(true);
   };
 
-  public handleDrillPointerOver = ({
+  public handleMobileTouchDrill = ({
     mouseX,
     mouseY,
     rectX,
     rectY,
-    row,
-    col,
   }: {
     mouseX: number;
     mouseY: number;
     rectX: number;
     rectY: number;
-    row: number;
-    col: number;
+  }) => {
+    const x =
+      Math.round((mouseX - this.cellSize) / this.cellSize) * this.cellSize;
+    const y =
+      Math.round((mouseY - this.cellSize) / this.cellSize) * this.cellSize;
+
+    if (this.selectedItem === "Sand Drill") {
+      if (!this.drillConfirmBox?.visible) {
+        // set selected box
+        this.drillConfirmBox?.setPosition(x, y).setVisible(true);
+        // remove hover box
+        this.drillHoverBox?.setVisible(false);
+
+        return;
+      }
+      // Figure out what the hover box position would have been
+
+      // Calculate the starting cell (top-left corner)
+      const startCol = Math.floor((x - this.gridX) / this.cellSize);
+      const startRow = Math.floor((y - this.gridY) / this.cellSize);
+
+      const drillCoords: { x: number; y: number }[] = [
+        { x: startCol, y: startRow },
+        { x: startCol + 1, y: startRow },
+        { x: startCol, y: startRow + 1 },
+        { x: startCol + 1, y: startRow + 1 },
+      ];
+
+      if (
+        drillCoords.every(({ x, y }) =>
+          this.cannotDig({ rectX, rectY, col: x, row: y }),
+        )
+      ) {
+        return;
+      }
+
+      // remove selected box
+      this.drillConfirmBox?.setVisible(false);
+      // move player to dig spot
+      const drillX = x + this.cellSize;
+      const drillY = y + this.cellSize;
+
+      this.walkToLocation(
+        drillX,
+        drillY,
+        this.drillOffsetX,
+        this.drillOffsetY,
+        () => this.handleDrill(drillCoords),
+      );
+    }
+  };
+
+  public handleDrillPointerOver = ({
+    mouseX,
+    mouseY,
+  }: {
+    mouseX: number;
+    mouseY: number;
   }) => {
     this.hoverBox?.setVisible(false);
     this.confirmBox?.setVisible(false);
-
-    if (this.cannotDig(rectX, rectY, row, col)) return;
 
     const hoverX =
       Math.round((mouseX - this.cellSize) / this.cellSize) * this.cellSize;
@@ -783,17 +851,17 @@ export class BeachScene extends BaseScene {
     const startCol = Math.floor((hoverX - this.gridX) / this.cellSize);
     const startRow = Math.floor((hoverY - this.gridY) / this.cellSize);
 
-    const drillCoords: number[][] = [
-      [startRow, startCol],
-      [startRow, startCol + 1],
-      [startRow + 1, startCol],
-      [startRow + 1, startCol + 1],
+    const drillCoords: { x: number; y: number }[] = [
+      { x: startCol, y: startRow },
+      { x: startCol + 1, y: startRow },
+      { x: startCol, y: startRow + 1 },
+      { x: startCol + 1, y: startRow + 1 },
     ];
 
-    const availableHoles = drillCoords.some(([row, col]) => {
+    const availableHoles = drillCoords.some(({ x, y }) => {
       const dugAt = this.gameService.state.context.state.desert.digging.grid
         .flat()
-        .find((hole) => hole.x === col && hole.y === row);
+        .find((hole) => hole.x === x && hole.y === y);
 
       return !dugAt;
     });
@@ -831,8 +899,6 @@ export class BeachScene extends BaseScene {
     const startCol = Math.floor((hoverX - this.gridX) / this.cellSize);
     const startRow = Math.floor((hoverY - this.gridY) / this.cellSize);
 
-    if (this.cannotDig(rectX, rectY, startRow, startCol)) return;
-
     const drillCoords: { x: number; y: number }[] = [
       { x: startCol, y: startRow },
       { x: startCol + 1, y: startRow },
@@ -840,6 +906,13 @@ export class BeachScene extends BaseScene {
       { x: startCol + 1, y: startRow + 1 },
     ];
 
+    if (
+      drillCoords.every(({ x, y }) =>
+        this.cannotDig({ rectX, rectY, col: x, row: y }),
+      )
+    ) {
+      return;
+    }
     // check if this rectangle is currently the selected one
     if (
       this.drillConfirmBox?.x === hoverX &&
@@ -877,7 +950,7 @@ export class BeachScene extends BaseScene {
     row: number;
     col: number;
   }) => {
-    if (this.cannotDig(rectX, rectY)) return;
+    if (this.cannotDig({ rectX, rectY, row, col })) return;
 
     // check if this rectangle is currently the selected one
     if (this.confirmBox?.x === rectX && this.confirmBox?.y === rectY) {
@@ -1138,9 +1211,10 @@ export class BeachScene extends BaseScene {
 
     // If there is key movement for the player then play walking animation
     // joystick is active if force is greater than zero
-    this.movementAngle = this.joystick?.force
-      ? this.joystick?.angle
-      : undefined;
+    this.movementAngle =
+      this.joystick?.enable && this.joystick?.force
+        ? this.joystick?.angle
+        : undefined;
 
     // use keyboard control if joystick is not active
     if (this.movementAngle === undefined) {

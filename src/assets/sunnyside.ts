@@ -106,7 +106,7 @@ export const SUNNYSIDE = {
   },
   resource: {
     chicken: `${CONFIG.PROTECTED_IMAGE_URL}/resources/chicken.png`,
-    clam_shell: `${CONFIG.PROTECTED_IMAGE_URL}/resources/clam_shell.png`,
+    clam_shell: `${CONFIG.PROTECTED_IMAGE_URL}/resources/clam_shell.webp`,
     coral: `${CONFIG.PROTECTED_IMAGE_URL}/resources/coral.png`,
     crab: `${CONFIG.PROTECTED_IMAGE_URL}/resources/crab.png`,
     diamond: `${CONFIG.PROTECTED_IMAGE_URL}/resources/diamond.png`,
