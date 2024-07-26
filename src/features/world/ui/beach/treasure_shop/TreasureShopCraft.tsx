@@ -32,6 +32,7 @@ export const TreasureShopCraft: React.FC = () => {
       selected.ingredients[name]?.greaterThan(inventory[name] || 0),
     );
   const isAlreadyCrafted = inventory[selectedName]?.greaterThanOrEqualTo(1);
+  const isBoost = TREASURE_COLLECTIBLE_ITEM[selectedName].boost;
 
   const craft = () => {
     gameService.send("collectible.crafted", {
@@ -62,7 +63,7 @@ export const TreasureShopCraft: React.FC = () => {
             coins: selected.coins,
           }}
           actionView={
-            isAlreadyCrafted ? (
+            isAlreadyCrafted && isBoost ? (
               <p className="text-xxs text-center mb-1 font-secondary">
                 {t("alr.crafted")}
               </p>
