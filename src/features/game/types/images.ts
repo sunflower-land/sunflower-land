@@ -8994,13 +8994,13 @@ export const ITEM_DETAILS: Items = {
   Castellan: {
     image: castellan,
     description: {
-      en: "",
+      en: "Castellan is a charming sandcastle figure adorned with colorful accessories, symbolizing playful spirit and creativity.",
     },
   },
   "Sunlit Citadel": {
     image: sunlitCitadel,
     description: {
-      en: "",
+      en: "A Castle to show your pride",
     },
   },
 };

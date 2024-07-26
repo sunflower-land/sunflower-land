@@ -8720,7 +8720,8 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     name: "Scarab Beetle",
   },
   "Adrift Ark": {
-    description: "",
+    description:
+      "A sandcastle on the shore intricately crafted to resemble a capsized boat, complete with shell portholes and seaweed flags fluttering atop its sculpted hull.",
     decimals: 0,
     attributes: [
       { trait_type: "Purpose", value: "Decoration" },
@@ -8731,7 +8732,8 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     name: "Adrift Ark",
   },
   Castellan: {
-    description: "",
+    description:
+      "Castellan is a charming sandcastle figure adorned with colorful accessories, symbolizing playful spirit and creativity.",
     decimals: 0,
     attributes: [
       { trait_type: "Purpose", value: "Decoration" },
@@ -8742,7 +8744,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     name: "Castellan",
   },
   "Sunlit Citadel": {
-    description: "",
+    description: "A Castle to show your pride",
     decimals: 0,
     attributes: [
       { trait_type: "Purpose", value: "Decoration" },

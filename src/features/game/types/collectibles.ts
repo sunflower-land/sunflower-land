@@ -237,7 +237,8 @@ export const TREASURE_COLLECTIBLE_ITEM: Record<
     ingredients: {
       Sand: new Decimal(750),
     },
-    description: "",
+    description:
+      "Castellan is a charming sandcastle figure adorned with colorful accessories, symbolizing playful spirit and creativity.",
   },
   "Sunlit Citadel": {
     ingredients: {

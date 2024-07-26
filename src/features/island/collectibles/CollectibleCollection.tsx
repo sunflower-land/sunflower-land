@@ -760,6 +760,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
         left: `${PIXEL_SCALE * 2}px`,
       }}
       image={ITEM_DETAILS["Adrift Ark"].image}
+      alt="Adrift Ark"
     />
   ),
   Castellan: (props: CollectibleProps) => (
@@ -771,6 +772,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
         left: `${PIXEL_SCALE * 2}px`,
       }}
       image={ITEM_DETAILS.Castellan.image}
+      alt="Castellan"
     />
   ),
   "Sunlit Citadel": (props: CollectibleProps) => (
@@ -782,6 +784,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
         left: `${PIXEL_SCALE * 2}px`,
       }}
       image={ITEM_DETAILS["Sunlit Citadel"].image}
+      alt="Sunlit Citadel"
     />
   ),
 };
