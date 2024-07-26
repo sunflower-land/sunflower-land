@@ -331,6 +331,7 @@ import { DesertRose } from "./components/DesertRose";
 import { Sarcophagus } from "./components/Sarcophagus";
 import { Template } from "./components/template/Template";
 import { PharaohChicken } from "./components/PharaohChicken";
+import { ImageStyle } from "./components/template/ImageStyle";
 
 export const COLLECTIBLE_COMPONENTS: Record<
   CollectibleName | "Bud",
@@ -750,9 +751,39 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Cactus King": Template,
   "Lemon Frog": Template,
   "Scarab Beetle": Template,
-  "Adrift Ark": Template,
-  Castellan: Template,
-  "Sunlit Citadel": Template,
+  "Adrift Ark": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      style={{
+        width: `${PIXEL_SCALE * 29}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 2}px`,
+      }}
+      image={ITEM_DETAILS["Adrift Ark"].image}
+    />
+  ),
+  Castellan: (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      style={{
+        width: `${PIXEL_SCALE * 28}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 2}px`,
+      }}
+      image={ITEM_DETAILS.Castellan.image}
+    />
+  ),
+  "Sunlit Citadel": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      style={{
+        width: `${PIXEL_SCALE * 28}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 2}px`,
+      }}
+      image={ITEM_DETAILS["Sunlit Citadel"].image}
+    />
+  ),
 };
 // Need readonly versions for some troublesome components while in design mode
 

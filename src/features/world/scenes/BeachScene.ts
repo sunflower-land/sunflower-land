@@ -288,7 +288,11 @@ export class BeachScene extends BaseScene {
       .setCollideWorldBounds(true);
     this.add.sprite(464, 174, "shop_icon");
     treasureShop.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
-      npcModalManager.open("jafar");
+      if (this.checkDistanceToSprite(treasureShop, 75)) {
+        npcModalManager.open("jafar");
+      } else {
+        this.currentPlayer?.speak(translate("base.iam.far.away"));
+      }
     });
 
     const beachBud2 = this.add.sprite(348, 397, "beach_bud_2");
