@@ -1,5 +1,9 @@
 import { v4 as uuidv4 } from "uuid";
-import { MachineInterpreter } from "features/game/lib/gameMachine";
+import {
+  isAction,
+  MachineInterpreter,
+  PerformQueueEvent,
+} from "features/game/lib/gameMachine";
 import { SpriteComponent } from "../components/SpriteComponent";
 import { CROP_LIFECYCLE, getCropStages } from "features/island/plots/lib/plant";
 import { SQUARE_WIDTH, TREE_RECOVERY_TIME } from "features/game/lib/constants";
@@ -23,6 +27,7 @@ import { HasTool } from "features/game/expansion/components/resources/tree/Tree"
 import { GameContext } from "features/game/GameProvider";
 import { AnimatedComponent } from "react-spring";
 import { createSelector } from "reselect";
+import { isEventType } from "features/game/events";
 
 export class TreeContainer extends Phaser.GameObjects.Container {
   context: GameContext;
@@ -151,11 +156,21 @@ export class TreeContainer extends Phaser.GameObjects.Container {
       }
     });
 
+    // Listen for queued Bumpkin actions
+    this.gameService.onEvent((event) => {
+      if (event.type === "PERFORM_QUEUE_ACTION") {
+        const { action } = event as PerformQueueEvent;
+
+        if (isEventType("timber.chopped", action) && action.index === this.id) {
+          this.chop();
+        }
+      }
+    });
+
     // Generic update event
     const selector = createSelector(
       [(state: GameState) => state.trees[this.id]],
       (tree) => {
-        console.log("Update", { tree });
         this.render();
       },
     );

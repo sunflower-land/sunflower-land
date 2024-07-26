@@ -19,6 +19,12 @@ const EVENT_ANIMATIONS: Partial<Record<PlayEvent, keyof typeof ANIMATION>> = {
   "timber.chopped": "axe",
 };
 
+const EVENT_ANIMATION_HIT_FRAMES: Partial<Record<PlayEvent, number>> = {
+  "crop.harvested": 6,
+  "timber.chopped": 6,
+  "seed.planted": 4,
+};
+
 export class FarmerContainer extends Phaser.GameObjects.Container {
   gameService: MachineInterpreter;
   sprite: SpriteComponent;
@@ -89,17 +95,22 @@ export class FarmerContainer extends Phaser.GameObjects.Container {
     this.state = "idle";
   }
 
-  state: "performing" | "idle" | "moving" = "idle";
+  state: "performing" | "idle" | "moving" | "waiting" = "idle";
 
   async perform({ action }: { action: BumpkinAction }) {
-    this.gameService.send("POP_QUEUE");
-
+    console.log("TOP PERFORM");
     this.idle();
 
     const { event } = action;
 
     // Just a movement
     if (!event) {
+      this.gameService.send("PERFORM_QUEUE_ACTION", {
+        action: action.event,
+        x: action.x,
+        y: action.y,
+      });
+
       return;
     }
 
@@ -125,21 +136,32 @@ export class FarmerContainer extends Phaser.GameObjects.Container {
 
     console.log({ stopOn: `animationcomplete-${animation}-animation` });
 
-    const onUpdate = function (a: { key: string }, frame: { index: number }) {
-      if (a.key === `${animation}-animation` && frame.index === 6) {
-        if (type === "timber.chopped") {
-          const tree = farmScene.trees.get(
-            (args as LandExpansionChopAction).index,
-          );
-          tree?.chop();
+    const hitAtFrame = EVENT_ANIMATION_HIT_FRAMES[type];
 
-          farmer.sprite.sprite?.off("animationupdate", onUpdate);
-        }
+    // How do I send an event to the resource to be collected?
+
+    const onUpdate = function (a: { key: string }, frame: { index: number }) {
+      if (a.key === `${animation}-animation` && frame.index === hitAtFrame) {
+        farmScene.gameService.send("PERFORM_QUEUE_ACTION", {
+          action: action.event,
+          x: action.x,
+          y: action.y,
+        });
+
+        // TODO - how to know when to keep moving?
+
+        farmer.sprite.sprite?.off("animationupdate", onUpdate);
       }
     };
 
     const onComplete = function () {
       farmer.idle();
+      farmer.state = "waiting"; // TODO
+
+      // TODO - when should they be allowed to move again?
+      setTimeout(() => {
+        farmer.idle();
+      }, 1000);
 
       farmer.sprite.sprite?.off("animationcomplete", onComplete);
     };

@@ -173,6 +173,21 @@ type QueueEvent = {
   y: number;
 };
 
+export function isAction<T extends PlayingEvent>(
+  type: GameEventName<T>,
+  event?: PlayingEvent,
+): event is PlayingEvent {
+  return event?.type === type;
+}
+
+export type PerformQueueEvent = {
+  type: "PERFORM_QUEUE_ACTION";
+  bumpkinId: string;
+  action?: PlayingEvent;
+  x: number;
+  y: number;
+};
+
 type MintEvent = {
   type: "MINT";
   auctionId: string;
@@ -363,11 +378,11 @@ export type BlockchainEvent =
   | UpdateEvent
   | UpdateUsernameEvent
   | QueueEvent
+  | PerformQueueEvent
   | { type: "EXPAND" }
   | { type: "SAVE_SUCCESS" }
   | { type: "UPGRADE" }
   | { type: "CLOSE" }
-  | { type: "POP_QUEUE" }
   | { type: "RANDOMISE" }; // Test only
 
 // // For each game event, convert it to an XState event + handler
@@ -1027,9 +1042,21 @@ export function startGame(authContext: AuthContext) {
           },
           on: {
             ...GAME_EVENT_HANDLERS,
-            POP_QUEUE: {
+            PERFORM_QUEUE_ACTION: {
               actions: assign((context, event) => ({
-                queue: context.queue.slice(1),
+                queue: context.queue.filter(
+                  (item) =>
+                    JSON.stringify({
+                      action: event.action,
+                      x: event.x,
+                      y: event.y,
+                    }) !==
+                    JSON.stringify({
+                      action: item.event,
+                      x: item.x,
+                      y: item.y,
+                    }),
+                ),
               })),
             },
             QUEUE: {

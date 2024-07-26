@@ -27,9 +27,7 @@ function queueSystem({
 
   // Move containers towards queue item
   components.forEach((component) => {
-    // component.walk();
-
-    if (component.state === "performing") {
+    if (component.state === "performing" || component.state === "waiting") {
       return;
     }
 
@@ -155,18 +153,18 @@ export class FarmScene extends Phaser.Scene {
   }
 
   async render() {
-    // const crops = this.gameState.crops;
-    // getKeys(crops).forEach((cropId) => {
-    //   if (!this.crops.has(cropId)) {
-    //     const crop = new CropContainer({
-    //       scene: this,
-    //       id: cropId,
-    //       gameService: this.gameService,
-    //     });
+    const crops = this.gameState.crops;
+    getKeys(crops).forEach((cropId) => {
+      if (!this.crops.has(cropId)) {
+        const crop = new CropContainer({
+          scene: this,
+          id: cropId,
+          gameService: this.gameService,
+        });
 
-    //     this.crops.set(cropId, crop);
-    //   }
-    // });
+        this.crops.set(cropId, crop);
+      }
+    });
 
     const trees = this.gameState.trees;
     getKeys(trees).forEach((treeId) => {

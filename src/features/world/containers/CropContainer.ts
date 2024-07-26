@@ -1,5 +1,8 @@
 import { v4 as uuidv4 } from "uuid";
-import { MachineInterpreter } from "features/game/lib/gameMachine";
+import {
+  MachineInterpreter,
+  PerformQueueEvent,
+} from "features/game/lib/gameMachine";
 import { SpriteComponent } from "../components/SpriteComponent";
 import { CROP_LIFECYCLE, getCropStages } from "features/island/plots/lib/plant";
 import { SQUARE_WIDTH } from "features/game/lib/constants";
@@ -12,10 +15,12 @@ import {
 import { DraggableComponent } from "../components/DraggableComponent";
 import { ProgressBarContainer } from "./ProgressBarContainer";
 import { LandExpansionPlantAction } from "features/game/events/landExpansion/plant";
-import { CROPS } from "features/game/types/crops";
-import { InventoryItemName } from "features/game/types/game";
+import { CROPS, CropSeedName } from "features/game/types/crops";
+import { GameState, InventoryItemName } from "features/game/types/game";
 import { LifecycleComponent } from "../components/LifecycleComponent";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { createSelector } from "reselect";
+import { isEventType } from "features/game/events";
 
 export class CropContainer extends Phaser.GameObjects.Container {
   gameService: MachineInterpreter;
@@ -60,7 +65,6 @@ export class CropContainer extends Phaser.GameObjects.Container {
     this.yield = new YieldContainer({
       container: this,
       key: "sunflower-yield",
-      sprite: CROP_LIFECYCLE.Sunflower.crop,
       scene,
     });
 
@@ -79,7 +83,7 @@ export class CropContainer extends Phaser.GameObjects.Container {
     });
 
     if (plot.crop) {
-      this.renderCrop();
+      this.render();
     }
 
     this.listen();
@@ -98,22 +102,43 @@ export class CropContainer extends Phaser.GameObjects.Container {
   listen() {
     // Set up listeners on events
     this.gameService.onEvent((event) => {
-      if (
-        event.type === "crop.harvested" &&
-        (event as LandExpansionHarvestAction).index === this.id
-      ) {
+      if (isEventType("crop.harvested", event) && event.index === this.id) {
         this.harvested();
       }
 
-      if (
-        event.type === "seed.planted" &&
-        (event as LandExpansionPlantAction).index === this.id
-      ) {
+      if (isEventType("seed.planted", event) && event.index === this.id) {
         this.planted();
       }
     });
 
+    // Listen for queued Bumpkin actions
+    this.gameService.onEvent((event) => {
+      if (event.type === "PERFORM_QUEUE_ACTION") {
+        const { action } = event as PerformQueueEvent;
+
+        if (isEventType("crop.harvested", action) && action.index === this.id) {
+          this.harvest();
+        }
+
+        if (isEventType("seed.planted", action) && action.index === this.id) {
+          this.plant({ seed: action.item as CropSeedName });
+        }
+      }
+    });
+
     // Some generic update listener
+    // Generic update event
+    const selector = createSelector(
+      [(state: GameState) => state.crops[this.id]],
+      (tree) => {
+        console.log("Update", { tree });
+        this.render();
+      },
+    );
+
+    this.gameService.subscribe(({ context }) => selector(context.state));
+
+    // TODO - remove listeners
   }
 
   // TODO move side effects (e.g open tutorial modals, analytics etc out of here)
@@ -175,46 +200,75 @@ export class CropContainer extends Phaser.GameObjects.Container {
     }
   }
 
+  harvest() {
+    this.gameService.send("crop.harvested", {
+      index: this.id,
+    });
+  }
+
+  plant({ seed }: { seed: CropSeedName }) {
+    this.gameService.send("seed.planted", {
+      index: this.id,
+      item: seed,
+      cropId: uuidv4().slice(0, 8),
+    });
+  }
+
   harvested() {
+    console.log("HARVESTED TRIGGER", this.id, this.lifecycle);
     // Play Audio
 
     // Show Yield
     this.yield.show(1);
 
+    this.clear();
+  }
+
+  planted() {
+    // No effects?
+  }
+
+  clear() {
     this.lifecycle?.destroy();
     this.lifecycle = undefined;
     this.progressBar?.destroy();
     this.progressBar = undefined;
   }
 
-  planted() {
-    this.renderCrop();
-  }
+  render() {
+    console.log("RENDER CROP", this.id);
 
-  renderCrop() {
     const plot = this.gameService.state.context.state.crops[this.id];
     if (plot.crop) {
       let harvestSeconds = CROPS()[plot.crop.name].harvestSeconds;
       const readyAt = plot.crop.plantedAt + harvestSeconds * 1000;
 
-      this.lifecycle = new LifecycleComponent({
-        container: this,
-        stages: getCropStages({ name: plot.crop.name }),
-        key: "sunflower",
-        scene: this.scene,
-        startAt: plot.crop.plantedAt,
-        endAt: readyAt,
-        y: -6,
-      });
+      console.log({ id: this.id, readyAt: new Date(readyAt) });
 
-      this.moveAbove(this.lifecycle.sprite.sprite, this.sprite.sprite);
+      if (!this.lifecycle) {
+        this.lifecycle = new LifecycleComponent({
+          container: this,
+          stages: getCropStages({ name: plot.crop.name }),
+          key: "sunflower",
+          scene: this.scene,
+          startAt: plot.crop.plantedAt,
+          endAt: readyAt,
+          y: -6,
+        });
+        this.moveAbove(this.lifecycle.sprite.sprite, this.sprite.sprite);
+      }
 
-      this.progressBar = new ProgressBarContainer({
-        container: this,
-        scene: this.scene,
-        startAt: plot.crop.plantedAt,
-        endAt: readyAt,
-      });
+      if (!this.progressBar) {
+        this.progressBar = new ProgressBarContainer({
+          container: this,
+          scene: this.scene,
+          startAt: plot.crop.plantedAt,
+          endAt: readyAt,
+        });
+      }
+    } else {
+      console.log({ noCrop: this.id });
+      this.clear();
     }
   }
 

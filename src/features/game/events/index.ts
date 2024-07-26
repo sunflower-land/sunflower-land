@@ -336,6 +336,7 @@ import {
 } from "./landExpansion/skipKingdomChore";
 import { leaveFaction, LeaveFactionAction } from "./landExpansion/leaveFaction";
 import { BuyMoreDigsAction, buyMoreDigs } from "./landExpansion/buyMoreDigs";
+import { EventObject } from "xstate";
 
 export type PlayingEvent =
   | OilGreenhouseAction
@@ -479,11 +480,17 @@ export type PlacementEvent =
 export type GameEvent = PlayingEvent | PlacementEvent;
 export type GameEventName<T> = Extract<T, { type: string }>["type"];
 
-export function isEventType<T extends PlayingEvent>(
-  action: PlayingEvent,
-  typeName: T["type"],
-): action is T {
-  return action.type === typeName;
+// Utility type to extract the event type based on the `typeName`
+type EventOfType<T extends PlayingEvent["type"]> = Extract<
+  PlayingEvent,
+  { type: T }
+>;
+
+export function isEventType<T extends PlayingEvent["type"]>(
+  typeName: T,
+  action?: EventObject,
+): action is EventOfType<T> {
+  return action?.type === typeName;
 }
 
 /**
