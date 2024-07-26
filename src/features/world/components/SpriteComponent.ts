@@ -1,3 +1,5 @@
+import { SQUARE_WIDTH } from "features/game/lib/constants";
+
 export type AnimatedSprite = {
   frames: number;
   width: number;
@@ -7,7 +9,7 @@ export type AnimatedSprite = {
 };
 
 export type SpriteProps = {
-  container: Phaser.GameObjects.Container;
+  container?: Phaser.GameObjects.Container;
   key: string;
   sprite: string;
   scene: Phaser.Scene;
@@ -17,8 +19,11 @@ export type SpriteProps = {
   animation?: AnimatedSprite;
 };
 
+export const PHASER_SCALE = 4;
+export const PHASER_GRID_WIDTH = SQUARE_WIDTH * PHASER_SCALE;
+
 export class SpriteComponent {
-  container: Phaser.GameObjects.Container;
+  container?: Phaser.GameObjects.Container;
   scene: Phaser.Scene;
   key: string;
   url: string;
@@ -40,15 +45,16 @@ export class SpriteComponent {
     this.scene = scene;
     this.key = key;
     this.url = sprite;
-    this.x = x;
-    this.y = y;
+    this.x = x * PHASER_SCALE;
+    this.y = y * PHASER_SCALE;
     this.animation = animation;
 
     this.sprite = this.scene.add
       .sprite(this.x, this.y, "shadow")
-      .setOrigin(0.5);
+      .setOrigin(0, 0)
+      .setScale(PHASER_SCALE);
 
-    this.container.add(this.sprite);
+    this.container?.add(this.sprite);
 
     this.update();
   }
@@ -100,7 +106,7 @@ export class SpriteComponent {
       });
     }
 
-    this.sprite?.play(`${this.key}-animation`, true);
+    this.sprite?.play(`${this.key}-animation`, true).setScale(PHASER_SCALE);
   }
 
   destroy() {

@@ -1,33 +1,18 @@
-import { v4 as uuidv4 } from "uuid";
-import {
-  isAction,
-  MachineInterpreter,
-  PerformQueueEvent,
-} from "features/game/lib/gameMachine";
-import { SpriteComponent } from "../components/SpriteComponent";
-import { CROP_LIFECYCLE, getCropStages } from "features/island/plots/lib/plant";
+import { PerformQueueEvent } from "features/game/lib/gameMachine";
 import { SQUARE_WIDTH, TREE_RECOVERY_TIME } from "features/game/lib/constants";
 import { ClickableComponent } from "../components/ClickableComponent";
 import { YieldContainer } from "./YieldContainer";
-import {
-  isReadyToHarvest,
-  LandExpansionHarvestAction,
-} from "features/game/events/landExpansion/harvest";
 import { DraggableComponent } from "../components/DraggableComponent";
 import { ProgressBarContainer } from "./ProgressBarContainer";
-import { LandExpansionPlantAction } from "features/game/events/landExpansion/plant";
-import { CROPS } from "features/game/types/crops";
-import { GameState, InventoryItemName } from "features/game/types/game";
+import { GameState } from "features/game/types/game";
 import { LifecycleComponent } from "../components/LifecycleComponent";
-import { SUNNYSIDE } from "assets/sunnyside";
-import { ITEM_DETAILS } from "features/game/types/images";
 import { LandExpansionChopAction } from "features/game/events/landExpansion/chop";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { HasTool } from "features/game/expansion/components/resources/tree/Tree";
 import { GameContext } from "features/game/GameProvider";
-import { AnimatedComponent } from "react-spring";
 import { createSelector } from "reselect";
 import { isEventType } from "features/game/events";
+import { PHASER_GRID_WIDTH } from "../components/SpriteComponent";
 
 export class TreeContainer extends Phaser.GameObjects.Container {
   context: GameContext;
@@ -50,16 +35,12 @@ export class TreeContainer extends Phaser.GameObjects.Container {
     context: GameContext;
   }) {
     const tree = context.gameService.state.context.state.trees[id];
-    super(
-      scene,
-      window.innerWidth / 2 + tree.x * SQUARE_WIDTH,
-      window.innerHeight / 2 - tree.y * SQUARE_WIDTH,
-    );
+    super(scene, tree.x * PHASER_GRID_WIDTH, tree.y * PHASER_GRID_WIDTH);
     this.context = context;
     this.id = id;
 
     // Set for click handler size and collision
-    this.setSize(SQUARE_WIDTH, SQUARE_WIDTH);
+    this.setSize(PHASER_GRID_WIDTH * 2, PHASER_GRID_WIDTH * 2);
 
     this.yield = new YieldContainer({
       container: this,
@@ -116,6 +97,7 @@ export class TreeContainer extends Phaser.GameObjects.Container {
     this.clickable = new ClickableComponent({
       container: this,
       onClick: this.onClick.bind(this),
+      scene: this.scene,
     });
 
     this.draggable = new DraggableComponent({

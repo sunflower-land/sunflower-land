@@ -3,18 +3,16 @@ import {
   MachineInterpreter,
   PerformQueueEvent,
 } from "features/game/lib/gameMachine";
-import { SpriteComponent } from "../components/SpriteComponent";
-import { CROP_LIFECYCLE, getCropStages } from "features/island/plots/lib/plant";
-import { SQUARE_WIDTH } from "features/game/lib/constants";
+import {
+  PHASER_GRID_WIDTH,
+  SpriteComponent,
+} from "../components/SpriteComponent";
+import { getCropStages } from "features/island/plots/lib/plant";
 import { ClickableComponent } from "../components/ClickableComponent";
 import { YieldContainer } from "./YieldContainer";
-import {
-  isReadyToHarvest,
-  LandExpansionHarvestAction,
-} from "features/game/events/landExpansion/harvest";
+import { isReadyToHarvest } from "features/game/events/landExpansion/harvest";
 import { DraggableComponent } from "../components/DraggableComponent";
 import { ProgressBarContainer } from "./ProgressBarContainer";
-import { LandExpansionPlantAction } from "features/game/events/landExpansion/plant";
 import { CROPS, CropSeedName } from "features/game/types/crops";
 import { GameState, InventoryItemName } from "features/game/types/game";
 import { LifecycleComponent } from "../components/LifecycleComponent";
@@ -44,22 +42,20 @@ export class CropContainer extends Phaser.GameObjects.Container {
     gameService: MachineInterpreter;
   }) {
     const plot = gameService.state.context.state.crops[id];
-    super(
-      scene,
-      window.innerWidth / 2 + plot.x * SQUARE_WIDTH,
-      window.innerHeight / 2 + plot.y * SQUARE_WIDTH,
-    );
+    super(scene, plot.x * PHASER_GRID_WIDTH, plot.y * PHASER_GRID_WIDTH);
     this.gameService = gameService;
     this.id = id;
 
     // Set for click handler size and collision
-    this.setSize(SQUARE_WIDTH, SQUARE_WIDTH);
+    this.setSize(PHASER_GRID_WIDTH, PHASER_GRID_WIDTH);
 
     this.sprite = new SpriteComponent({
       container: this,
       sprite: SUNNYSIDE.resource.plot,
       key: "plot",
       scene,
+      x: -2,
+      y: -2,
     });
 
     this.yield = new YieldContainer({
@@ -68,11 +64,10 @@ export class CropContainer extends Phaser.GameObjects.Container {
       scene,
     });
 
-    // this.moveAbove(this.yield.sprite.sprite, this.sprite.sprite);
-
     this.clickable = new ClickableComponent({
       container: this,
       onClick: this.onClick.bind(this),
+      scene: this.scene,
     });
 
     this.draggable = new DraggableComponent({
@@ -131,7 +126,6 @@ export class CropContainer extends Phaser.GameObjects.Container {
     const selector = createSelector(
       [(state: GameState) => state.crops[this.id]],
       (tree) => {
-        console.log("Update", { tree });
         this.render();
       },
     );
@@ -215,7 +209,6 @@ export class CropContainer extends Phaser.GameObjects.Container {
   }
 
   harvested() {
-    console.log("HARVESTED TRIGGER", this.id, this.lifecycle);
     // Play Audio
 
     // Show Yield
@@ -236,14 +229,10 @@ export class CropContainer extends Phaser.GameObjects.Container {
   }
 
   render() {
-    console.log("RENDER CROP", this.id);
-
     const plot = this.gameService.state.context.state.crops[this.id];
     if (plot.crop) {
       let harvestSeconds = CROPS()[plot.crop.name].harvestSeconds;
       const readyAt = plot.crop.plantedAt + harvestSeconds * 1000;
-
-      console.log({ id: this.id, readyAt: new Date(readyAt) });
 
       if (!this.lifecycle) {
         this.lifecycle = new LifecycleComponent({
@@ -267,7 +256,6 @@ export class CropContainer extends Phaser.GameObjects.Container {
         });
       }
     } else {
-      console.log({ noCrop: this.id });
       this.clear();
     }
   }

@@ -2,11 +2,10 @@ import { MachineInterpreter } from "features/game/lib/gameMachine";
 import { getKeys } from "features/game/types/decorations";
 import { CropContainer } from "../containers/CropContainer";
 import { FarmerContainer } from "../containers/FarmerContainer";
-import { MovementComponent } from "../components/MovementComponent";
 import { DraggableComponent } from "../components/DraggableComponent";
-import { BumpkinContainer } from "../containers/BumpkinContainer";
 import { GameContext } from "features/game/GameProvider";
 import { TreeContainer } from "../containers/TreeContainer";
+import { PHASER_SCALE, SpriteComponent } from "../components/SpriteComponent";
 
 function queueSystem({
   scene,
@@ -41,21 +40,21 @@ function queueSystem({
     direction.normalize();
 
     // Move component along the direction vector with a fixed speed
-    const speed = 1; // Adjust the speed as needed
+    const speed = 2 * PHASER_SCALE; // Adjust the speed as needed
     component.x += direction.x * speed;
     component.y += direction.y * speed;
 
     if (component.x > next.x) {
-      component.sprite.sprite?.setScale(-1, 1);
+      component.character.sprite?.setScale(-1, 1);
     } else if (component.x < next.x) {
-      component.sprite.sprite?.setScale(1, 1);
+      component.character.sprite?.setScale(1, 1);
     }
 
     component.walk();
 
     // Trigger action on arrival?
     const distance = Phaser.Math.Distance.BetweenPoints(next, component);
-    if (distance < 2) {
+    if (distance < 2 * PHASER_SCALE) {
       component.perform({ action: next });
     }
   });
@@ -80,6 +79,8 @@ function dragSystem({
 export class FarmScene extends Phaser.Scene {
   sceneId = "farm";
 
+  background?: Phaser.GameObjects.Container;
+
   crops = new Map<string, CropContainer>();
   trees = new Map<string, TreeContainer>();
   farmers = new Map<string, FarmerContainer>();
@@ -93,26 +94,19 @@ export class FarmScene extends Phaser.Scene {
 
   preload() {
     this.load.image("shadow", "world/shadow.png");
-    this.load.image("background", "world/3x3_bg.png");
+    this.load.image("background", "world/poc_bg.png");
   }
 
   async create() {
     this.initialiseCamera();
+
+    new SpriteComponent({
+      key: "background",
+      sprite: "world/poc_bg.png",
+      scene: this,
+    });
+
     this.render();
-
-    // Create the tileSprite to fill the entire screen
-    const background = this.add
-      .tileSprite(
-        0, // x position
-        0, // y position
-        this.scale.width, // width of the tile sprite
-        this.scale.height, // height of the tile sprite
-        "background", // key of the image to use
-      )
-      .setDepth(-1);
-
-    // Set the origin to the top-left corner
-    background.setOrigin(0, 0);
 
     this.input.on(
       "pointerdown",
@@ -141,8 +135,6 @@ export class FarmScene extends Phaser.Scene {
 
   public initialiseCamera() {
     const camera = this.cameras.main;
-
-    camera.setZoom(4);
 
     // // Center it on canvas
     // const offsetX = window.innerWidth / 2;

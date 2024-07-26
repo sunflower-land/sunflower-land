@@ -25,8 +25,8 @@ export const INITIAL_RESOURCES: Pick<
   crops: {
     1: {
       createdAt: Date.now(),
-      x: -2,
-      y: 0,
+      x: 4,
+      y: 4,
       height: 1,
       width: 1,
       crop: {
@@ -37,8 +37,8 @@ export const INITIAL_RESOURCES: Pick<
     },
     2: {
       createdAt: Date.now(),
-      x: -1,
-      y: 0,
+      x: 6,
+      y: 5,
       height: 1,
       width: 1,
       crop: {
@@ -49,8 +49,8 @@ export const INITIAL_RESOURCES: Pick<
     },
     3: {
       createdAt: Date.now(),
-      x: -1,
-      y: 1,
+      x: 7,
+      y: 8,
       height: 1,
       width: 1,
       crop: {
@@ -66,8 +66,8 @@ export const INITIAL_RESOURCES: Pick<
         amount: 2,
         choppedAt: 0,
       },
-      x: -2,
-      y: 3,
+      x: 2,
+      y: 1,
       height: 2,
       width: 2,
     },
@@ -77,7 +77,7 @@ export const INITIAL_RESOURCES: Pick<
         choppedAt: 0,
       },
       x: 7,
-      y: 0,
+      y: 2,
       height: 2,
       width: 2,
     },

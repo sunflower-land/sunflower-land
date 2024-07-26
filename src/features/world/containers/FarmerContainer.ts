@@ -2,7 +2,11 @@ import {
   BumpkinAction,
   MachineInterpreter,
 } from "features/game/lib/gameMachine";
-import { AnimatedSprite, SpriteComponent } from "../components/SpriteComponent";
+import {
+  AnimatedSprite,
+  PHASER_GRID_WIDTH,
+  SpriteComponent,
+} from "../components/SpriteComponent";
 import { SQUARE_WIDTH } from "features/game/lib/constants";
 import { ClickableComponent } from "../components/ClickableComponent";
 
@@ -27,7 +31,8 @@ const EVENT_ANIMATION_HIT_FRAMES: Partial<Record<PlayEvent, number>> = {
 
 export class FarmerContainer extends Phaser.GameObjects.Container {
   gameService: MachineInterpreter;
-  sprite: SpriteComponent;
+  character: SpriteComponent;
+  shadow: SpriteComponent;
   clickable: ClickableComponent;
 
   constructor({
@@ -39,19 +44,24 @@ export class FarmerContainer extends Phaser.GameObjects.Container {
     id: string;
     gameService: MachineInterpreter;
   }) {
-    super(
-      scene,
-      window.innerWidth / 2 + 3 * SQUARE_WIDTH,
-      window.innerHeight / 2 + 3 * SQUARE_WIDTH,
-    );
+    super(scene, 0, 0);
     this.gameService = gameService;
 
     // Set for click handler size and collision
-    this.setSize(SQUARE_WIDTH, SQUARE_WIDTH);
+    this.setSize(PHASER_GRID_WIDTH, PHASER_GRID_WIDTH);
 
     const url = getAnimationUrl(NPC_WEARABLES["pumpkin' pete"], "idle");
     console.log({ url });
-    this.sprite = new SpriteComponent({
+
+    this.shadow = new SpriteComponent({
+      container: this,
+      sprite: "world/shadow.png",
+      key: "shadow",
+      scene,
+      y: 6,
+    });
+
+    this.character = new SpriteComponent({
       container: this,
       sprite: url,
       key: "idle",
@@ -65,9 +75,12 @@ export class FarmerContainer extends Phaser.GameObjects.Container {
       },
     });
 
+    this.bringToTop(this.character.sprite);
+
     this.clickable = new ClickableComponent({
       container: this,
       onClick: this.onClick.bind(this),
+      scene: this.scene,
     });
 
     scene.add.existing(this);
@@ -79,19 +92,22 @@ export class FarmerContainer extends Phaser.GameObjects.Container {
   }
 
   walk() {
-    this.sprite.url = getAnimationUrl(
+    this.character.url = getAnimationUrl(
       NPC_WEARABLES["pumpkin' pete"],
       "walking",
     );
-    this.sprite.key = "walking"; // TODO - custom for each npc
-    this.sprite.update();
+    this.character.key = "walking"; // TODO - custom for each npc
+    this.character.update();
     this.state = "moving";
   }
 
   idle() {
-    this.sprite.url = getAnimationUrl(NPC_WEARABLES["pumpkin' pete"], "idle");
-    this.sprite.key = "idle"; // TODO - custom for each npc
-    this.sprite.update();
+    this.character.url = getAnimationUrl(
+      NPC_WEARABLES["pumpkin' pete"],
+      "idle",
+    );
+    this.character.key = "idle"; // TODO - custom for each npc
+    this.character.update();
     this.state = "idle";
   }
 
@@ -121,13 +137,13 @@ export class FarmerContainer extends Phaser.GameObjects.Container {
 
     // TODO - animation trigger
     const animation = EVENT_ANIMATIONS[type] ?? "doing";
-    this.sprite.url = getAnimationUrl(
+    this.character.url = getAnimationUrl(
       NPC_WEARABLES["pumpkin' pete"],
       animation,
     );
-    (this.sprite.animation as AnimatedSprite).repeat = false;
-    this.sprite.key = animation; // TODO - custom for each npc
-    this.sprite.update();
+    (this.character.animation as AnimatedSprite).repeat = false;
+    this.character.key = animation; // TODO - custom for each npc
+    this.character.update();
 
     // Get element and perform action on it - await for it to finish.
 
@@ -150,7 +166,7 @@ export class FarmerContainer extends Phaser.GameObjects.Container {
 
         // TODO - how to know when to keep moving?
 
-        farmer.sprite.sprite?.off("animationupdate", onUpdate);
+        farmer.character.sprite?.off("animationupdate", onUpdate);
       }
     };
 
@@ -163,11 +179,11 @@ export class FarmerContainer extends Phaser.GameObjects.Container {
         farmer.idle();
       }, 1000);
 
-      farmer.sprite.sprite?.off("animationcomplete", onComplete);
+      farmer.character.sprite?.off("animationcomplete", onComplete);
     };
 
-    this.sprite.sprite?.on("animationupdate", onUpdate);
-    this.sprite.sprite?.on("animationcomplete", onComplete);
+    this.character.sprite?.on("animationupdate", onUpdate);
+    this.character.sprite?.on("animationcomplete", onComplete);
   }
 
   update() {}

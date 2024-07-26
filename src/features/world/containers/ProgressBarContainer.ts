@@ -1,4 +1,4 @@
-import { SpriteComponent } from "../components/SpriteComponent";
+import { PHASER_SCALE, SpriteComponent } from "../components/SpriteComponent";
 import { TextComponent } from "../components/TextComponent";
 
 export class ProgressBarContainer extends Phaser.GameObjects.Container {
@@ -21,7 +21,7 @@ export class ProgressBarContainer extends Phaser.GameObjects.Container {
     startAt: number;
     endAt: number;
   }) {
-    super(scene, 0, 16);
+    super(scene, 0, 16 * PHASER_SCALE);
     this.container = container;
     this.scene = scene;
 
