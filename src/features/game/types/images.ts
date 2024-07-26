@@ -758,6 +758,9 @@ import desertRose from "assets/sfts/desert_rose.webp";
 import sarcophagus from "src/assets/sfts/sarcophagus.webp";
 import anubisJackal from "src/assets/sfts/anubis_jackal.webp";
 import snakeInJar from "src/assets/sfts/snake_in_jar.webp";
+import adriftArk from "src/assets/sfts/adrift_ark.webp";
+import castellan from "src/assets/sfts/castellan.webp";
+import sunlitCitadel from "src/assets/sfts/sunlit_citadel.webp";
 
 import scarab from "assets/resources/scarab.webp";
 import sand from "assets/resources/sand.webp";
@@ -8980,6 +8983,24 @@ export const ITEM_DETAILS: Items = {
     image: "",
     description: {
       en: "",
+    },
+  },
+  "Adrift Ark": {
+    image: adriftArk,
+    description: {
+      en: "A sandcastle on the shore intricately crafted to resemble a capsized boat, complete with shell portholes and seaweed flags fluttering atop its sculpted hull.",
+    },
+  },
+  Castellan: {
+    image: castellan,
+    description: {
+      en: "Castellan is a charming sandcastle figure adorned with colorful accessories, symbolizing playful spirit and creativity.",
+    },
+  },
+  "Sunlit Citadel": {
+    image: sunlitCitadel,
+    description: {
+      en: "A Castle to show your pride",
     },
   },
 };

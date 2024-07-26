@@ -1546,6 +1546,18 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
     width: 0,
     height: 0,
   },
+  "Adrift Ark": {
+    width: 2,
+    height: 2,
+  },
+  Castellan: {
+    width: 2,
+    height: 2,
+  },
+  "Sunlit Citadel": {
+    width: 2,
+    height: 2,
+  },
 };
 
 export const ANIMAL_DIMENSIONS: Record<"Chicken", Dimensions> = {

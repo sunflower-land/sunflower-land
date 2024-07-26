@@ -258,6 +258,9 @@ const heliosBlacksmith: Record<HeliosBlacksmithItem, () => boolean> = {
 
 const treasureCollectible: Record<TreasureCollectibleItem, () => boolean> = {
   "Treasure Map": () => false,
+  "Adrift Ark": () => false,
+  Castellan: () => false,
+  "Sunlit Citadel": () => false,
 };
 
 const commodities: Record<CommodityName, () => boolean> = {

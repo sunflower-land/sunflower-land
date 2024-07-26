@@ -331,6 +331,7 @@ import { DesertRose } from "./components/DesertRose";
 import { Sarcophagus } from "./components/Sarcophagus";
 import { Template } from "./components/template/Template";
 import { PharaohChicken } from "./components/PharaohChicken";
+import { ImageStyle } from "./components/template/ImageStyle";
 
 export const COLLECTIBLE_COMPONENTS: Record<
   CollectibleName | "Bud",
@@ -733,9 +734,9 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Goblin Faction Rug": GoblinFactionRug,
   "Bumpkin Faction Rug": BumpkinFactionRug,
   "Desert Rose": DesertRose,
-  Sarcophagus: Sarcophagus,
 
   // To Update
+  Sarcophagus: Sarcophagus,
   "Hapy Jar": Template,
   "Imsety Jar": Template,
   "Tomato Core": Template,
@@ -750,6 +751,42 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Cactus King": Template,
   "Lemon Frog": Template,
   "Scarab Beetle": Template,
+  "Adrift Ark": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      style={{
+        width: `${PIXEL_SCALE * 29}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 2}px`,
+      }}
+      image={ITEM_DETAILS["Adrift Ark"].image}
+      alt="Adrift Ark"
+    />
+  ),
+  Castellan: (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      style={{
+        width: `${PIXEL_SCALE * 28}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 2}px`,
+      }}
+      image={ITEM_DETAILS.Castellan.image}
+      alt="Castellan"
+    />
+  ),
+  "Sunlit Citadel": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      style={{
+        width: `${PIXEL_SCALE * 28}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 2}px`,
+      }}
+      image={ITEM_DETAILS["Sunlit Citadel"].image}
+      alt="Sunlit Citadel"
+    />
+  ),
 };
 // Need readonly versions for some troublesome components while in design mode
 
