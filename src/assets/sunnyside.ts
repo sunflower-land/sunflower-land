@@ -3,9 +3,9 @@
  * If you want access to these, you must download the asset pack from: https://danieldiggle.itch.io/sunnyside
  */
 
-import { progressBarBorderStyle } from "features/game/lib/style";
-import { SpookyTree } from "features/island/collectibles/components/SpookyTree";
-import { VIPGift } from "features/world/ui/VIPGift";
+// import { progressBarBorderStyle } from "features/game/lib/style";
+// import { SpookyTree } from "features/island/collectibles/components/SpookyTree";
+// import { VIPGift } from "features/world/ui/VIPGift";
 import { CONFIG } from "lib/config";
 
 export const SUNNYSIDE = {
