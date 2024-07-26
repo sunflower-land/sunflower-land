@@ -1282,6 +1282,9 @@ export class BeachScene extends BaseScene {
     if (isMoving || this.isPlayerTweening) {
       this.currentPlayer.walk();
     } else if (this.gameService.state.matches("revealed")) {
+      // Only run this code once
+      if (!this.isRevealing) return;
+
       this.coordsToDig = undefined;
       this.enableControls();
       this.currentPlayer.sprite?.anims?.stopAfterRepeat(0);
@@ -1296,8 +1299,13 @@ export class BeachScene extends BaseScene {
         this.recordDigAnalytics();
       }
 
-      // Move out of revealed state
-      this.gameService.send("CONTINUE");
+      const onComplete = () => {
+        // Move out of revealed state
+        this.gameService.send("CONTINUE");
+        this.currentPlayer?.sprite?.off("animationstop", onComplete);
+      };
+
+      this.currentPlayer?.sprite?.on("animationstop", onComplete);
     } else if (this.isRevealing) {
       const currentAnimation = this.currentPlayer.sprite?.anims?.currentAnim;
 
