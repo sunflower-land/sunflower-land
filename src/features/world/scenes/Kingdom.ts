@@ -29,6 +29,12 @@ import { EventObject } from "xstate";
 
 export const KINGDOM_NPCS: NPCBumpkin[] = [
   {
+    x: 390,
+    y: 725,
+    npc: "cluck e cheese",
+    direction: "left",
+  },
+  {
     x: 305,
     y: 500,
     npc: "billy",
