@@ -1523,60 +1523,60 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
     height: 2,
   },
   "Tomato Core": {
-    width: 0,
-    height: 0,
+    width: 1,
+    height: 1,
   },
   "Clay Tablet": {
-    width: 0,
-    height: 0,
+    width: 1,
+    height: 1,
   },
   "Snake in Jar": {
-    width: 0,
-    height: 0,
+    width: 1,
+    height: 1,
   },
   "Reveling Lemon": {
-    width: 0,
-    height: 0,
+    width: 1,
+    height: 1,
   },
   "Anubis Jackal": {
-    width: 0,
-    height: 0,
+    width: 1,
+    height: 1,
   },
   Sundial: {
-    width: 0,
-    height: 0,
+    width: 1,
+    height: 1,
   },
   "Sand Golem": {
-    width: 0,
-    height: 0,
+    width: 1,
+    height: 1,
   },
   "Cactus King": {
-    width: 0,
-    height: 0,
+    width: 1,
+    height: 1,
   },
   "Lemon Frog": {
-    width: 0,
-    height: 0,
+    width: 1,
+    height: 1,
   },
   "Scarab Beetle": {
-    width: 0,
-    height: 0,
+    width: 1,
+    height: 1,
   },
   "Lemon Tea Bath": {
-    width: 0,
-    height: 0,
+    width: 2,
+    height: 2,
   },
   "Tomato Clown": {
-    width: 0,
-    height: 0,
+    width: 1,
+    height: 1,
   },
   Pyramid: {
-    width: 0,
-    height: 0,
+    width: 2,
+    height: 2,
   },
   Oasis: {
-    width: 0,
-    height: 0,
+    width: 1,
+    height: 1,
   },
 };
 

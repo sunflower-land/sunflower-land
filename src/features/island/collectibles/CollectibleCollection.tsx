@@ -792,8 +792,8 @@ export const COLLECTIBLE_COMPONENTS: Record<
       {...props}
       style={{
         width: `${PIXEL_SCALE * 11}px`,
-        bottom: `${PIXEL_SCALE * 0}px`,
-        left: `${PIXEL_SCALE * 0}px`,
+        bottom: `${PIXEL_SCALE * 3}px`,
+        left: `${PIXEL_SCALE * 2.5}px`,
       }}
       image={ITEM_DETAILS["Pharaoh Gnome"].image}
       alt="Pharaoh Gnome"
