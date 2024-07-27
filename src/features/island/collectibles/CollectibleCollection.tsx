@@ -787,6 +787,55 @@ export const COLLECTIBLE_COMPONENTS: Record<
       alt="Sunlit Citadel"
     />
   ),
+  "Pharaoh Gnome": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      style={{
+        width: `${PIXEL_SCALE * 11}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      image={ITEM_DETAILS["Pharaoh Gnome"].image}
+      alt="Pharaoh Gnome"
+    />
+  ),
+  "Lemon Tea Bath": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      style={{
+        width: `${PIXEL_SCALE * 38}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      image={ITEM_DETAILS["Lemon Tea Bath"].image}
+      alt="Lemon Tea Bath"
+    />
+  ),
+  "Tomato Clown": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      style={{
+        width: `${PIXEL_SCALE * 19}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      image={ITEM_DETAILS["Tomato Clown"].image}
+      alt="Tomato Clown"
+    />
+  ),
+  Pyramid: (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      style={{
+        width: `${PIXEL_SCALE * 30}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      image={ITEM_DETAILS.Pyramid.image}
+      alt="Pyramid"
+    />
+  ),
+  Oasis: Template,
 };
 // Need readonly versions for some troublesome components while in design mode
 

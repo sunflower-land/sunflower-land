@@ -740,6 +740,11 @@ const soldOut: Record<SoldOutCollectibleName, () => boolean> = {
   "Royal Throne": () => true,
   "Lily Egg": () => true,
   Goblet: () => true,
+  "Pharaoh Gnome": () => canWithdrawTimebasedItem(new Date("2024-10-15")), // Last Auction 14th October
+  "Lemon Tea Bath": () => canWithdrawTimebasedItem(new Date("2024-10-09")), // Last Auction 9th October
+  "Tomato Clown": () => canWithdrawTimebasedItem(new Date("2024-10-06")), // Last Auction 5th October
+  Pyramid: () => canWithdrawTimebasedItem(new Date("2024-09-27")), // Last Auction 26th September
+  Oasis: () => canWithdrawTimebasedItem(new Date("2024-09-24")), // Last Auction 23rd September
 };
 
 const achievementDecoration: Record<AchievementDecorationName, () => boolean> =

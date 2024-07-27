@@ -1500,12 +1500,28 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
     width: 1,
     height: 2,
   },
+  "Adrift Ark": {
+    width: 2,
+    height: 2,
+  },
+  Castellan: {
+    width: 2,
+    height: 2,
+  },
+  "Sunlit Citadel": {
+    width: 2,
+    height: 2,
+  },
+  "Pharaoh Gnome": {
+    width: 1,
+    height: 1,
+  },
+
+  // To update dimensions
   Sarcophagus: {
     width: 1,
     height: 2,
   },
-
-  // To update dimensions
   "Tomato Core": {
     width: 0,
     height: 0,
@@ -1546,17 +1562,21 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
     width: 0,
     height: 0,
   },
-  "Adrift Ark": {
-    width: 2,
-    height: 2,
+  "Lemon Tea Bath": {
+    width: 0,
+    height: 0,
   },
-  Castellan: {
-    width: 2,
-    height: 2,
+  "Tomato Clown": {
+    width: 0,
+    height: 0,
   },
-  "Sunlit Citadel": {
-    width: 2,
-    height: 2,
+  Pyramid: {
+    width: 0,
+    height: 0,
+  },
+  Oasis: {
+    width: 0,
+    height: 0,
   },
 };
 
