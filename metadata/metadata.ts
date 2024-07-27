@@ -13212,7 +13212,73 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/erc1155/images/question_mark.png",
+    image: "../public/erc1155/images/368.png",
     name: "Ankh Shirt",
+  },
+  "Ancient Shovel": {
+    description:
+      "Ancient Shovel is a mystical tool that allows holders of this shovel to dig for treasure without needing a traditional sand shovel.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Tool" },
+      { trait_type: "Tradable", value: "Yes" },
+      { trait_type: "Boost", value: "Other" },
+      {
+        display_type: "boost_number",
+        trait_type: "Dig treasure without Sand Shovel",
+        value: 1,
+      },
+    ],
+    external_url: "https://bumpkins.io",
+    image: "../public/erc1155/images/369.png",
+    name: "Ancient Shovel",
+  },
+  "Infernal Drill": {
+    description:
+      "Infernal Drill is a potent device that enables holders of drill to extract oil directly without the need for a traditional oil drill.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "SecondaryTool" },
+      { trait_type: "Tradable", value: "Yes" },
+      { trait_type: "Boost", value: "Resource" },
+      {
+        display_type: "boost_number",
+        trait_type: "Drill Oil without Oil Drill",
+        value: 1,
+      },
+    ],
+    external_url: "https://bumpkins.io",
+    image: "../public/erc1155/images/370.png",
+    name: "Infernal Drill",
+  },
+  "Lemon Shield": {
+    description:
+      "Lemon Shield is a boost that enhances lemon production by increasing the yield of each harvest by 1.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "SecondaryTool" },
+      { trait_type: "Tradable", value: "Yes" },
+      { trait_type: "Boost", value: "Fruit" },
+      {
+        display_type: "boost_number",
+        trait_type: "Increase Lemon Yield",
+        value: 1,
+      },
+    ],
+    external_url: "https://bumpkins.io",
+    image: "../public/erc1155/images/371.png",
+    name: "Lemon Shield",
+  },
+  "Scarab Wings": {
+    description:
+      "Scarab Wings is a vibrant and decorative accessory featuring intricate, winged designs that evoke ancient mysticism and elegance.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Wings" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://bumpkins.io",
+    image: "../public/erc1155/images/372.png",
+    name: "Scarab Wings",
   },
 };

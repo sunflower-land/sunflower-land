@@ -1525,20 +1525,21 @@ export const BUMPKIN_WITHDRAWABLES: Record<
   Motley: () => false,
   "Royal Braids": () => false,
 
+  //Pharaoh's Treasure
   "Pharaoh Headdress": () => canWithdrawTimebasedItem(new Date("2024-09-01")),
   "Camel Onesie": (state) =>
     canWithdrawTimebasedItem(new Date("2024-10-01")) &&
     canWithdrawBoostedWearable("Camel Onesie", state),
   "Explorer Shirt": () => canWithdrawTimebasedItem(new Date("2024-09-01")),
   "Explorer Shorts": () => canWithdrawTimebasedItem(new Date("2024-10-01")),
-  "Oil Overalls": () => false,
-  "Dev Wrench": () => false,
+  "Oil Overalls": () => canWithdrawTimebasedItem(new Date("2024-10-27")), // Last Auction 27th October
+  "Dev Wrench": () => canWithdrawTimebasedItem(new Date("2024-10-18")), // Last Auction 17 October
   "Rock Hammer": () => canWithdrawTimebasedItem(new Date("2024-11-01")),
   "Explorer Hat": () => canWithdrawTimebasedItem(new Date("2024-10-01")),
   "Oil Protection Hat": () => false,
   "Amber Amulet": () => canWithdrawTimebasedItem(new Date("2024-09-01")),
   "Sun Scarab Amulet": () => false,
-  "Desert Background": () => false,
+  "Desert Background": () => canWithdrawTimebasedItem(new Date("2024-09-30")), // Last Auction 29th September
   "Desert Merchant Turban": () => false,
   "Desert Merchant Shoes": () => false,
   "Desert Merchant Suit": () => false,
@@ -1548,4 +1549,8 @@ export const BUMPKIN_WITHDRAWABLES: Record<
   "Rocket Onesie": () => false,
   "Coin Aura": () => false,
   "Ankh Shirt": () => canWithdrawTimebasedItem(new Date("2024-10-01")),
+  "Ancient Shovel": () => canWithdrawTimebasedItem(new Date("2024-10-24")), // Last Auction 23rd October
+  "Infernal Drill": () => canWithdrawTimebasedItem(new Date("2024-10-21")), // Last Auction 20th October
+  "Lemon Shield": () => canWithdrawTimebasedItem(new Date("2024-10-12")), // Last Auction 11th October
+  "Scarab Wings": () => canWithdrawTimebasedItem(new Date("2024-10-03")), // Last Auction 2nd October
 };
