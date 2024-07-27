@@ -2,7 +2,6 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import emptyFlowerBed from "assets/flowers/empty.webp";
 
 import { IslandType } from "features/game/types/game";
-import { desertTerms } from "lib/i18n/dictionaries/englishDictionary";
 
 export const FIRE_PIT_VARIANTS: Record<IslandType, string> = {
   basic: SUNNYSIDE.building.firePit,

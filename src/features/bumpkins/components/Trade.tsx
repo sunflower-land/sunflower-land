@@ -521,7 +521,6 @@ export const Trade: React.FC<{
                 })}`}
           </Label>
         </div>
-        z
         <div className="p-1 flex flex-col items-center">
           <img
             src={tradeIcon}
