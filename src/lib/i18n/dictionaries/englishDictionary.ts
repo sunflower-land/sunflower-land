@@ -604,7 +604,7 @@ const auction: Record<Auction, string> = {
   "auction.start": "Starting Time",
   "auction.period": "Auction Period",
   "auction.closed": "Auction closed",
-  "auction.const": "Under construction!",
+  "auction.const": "A new seasonal collection is coming...",
   "auction.const.soon": "This feature is coming soon.",
 };
 
