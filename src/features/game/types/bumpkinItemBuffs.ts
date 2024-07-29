@@ -403,7 +403,7 @@ export const BUMPKIN_ITEM_BUFF_LABELS: Partial<Record<BumpkinItem, BuffLabel>> =
       boostedItemIcon: ITEM_DETAILS.Oil.image,
     },
     "Bionic Drill": {
-      shortDescription: "+5 Desert Digs",
+      shortDescription: translate("bumpkinItemBuff.bionic.drill"),
       labelType: "success",
       boostTypeIcon: powerup,
       boostedItemIcon: SUNNYSIDE.tools.sand_shovel,
