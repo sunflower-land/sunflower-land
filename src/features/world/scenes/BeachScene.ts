@@ -16,7 +16,6 @@ import {
 import { getUTCDateString } from "lib/utils/time";
 import { BumpkinContainer } from "../containers/BumpkinContainer";
 import { getKeys } from "features/game/types/decorations";
-import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import {
   DESERT_GRID_HEIGHT,
   DESERT_GRID_WIDTH,
@@ -29,6 +28,7 @@ import { hasReadDesertNotice as hasReadDesertNotice } from "../ui/beach/DesertNo
 import { Coordinates } from "features/game/expansion/components/MapPlacement";
 import Decimal from "decimal.js-light";
 import { isTouchDevice } from "../lib/device";
+import { getMaxDigs } from "features/island/hud/components/DesertDiggingDisplay";
 
 const convertToSnakeCase = (str: string) => {
   return str.replace(" ", "_").toLowerCase();
@@ -102,7 +102,6 @@ export type DigAnalytics = {
   percentageFound: number;
 };
 
-const TOTAL_DIGS = 25;
 const SITE_COLS = DESERT_GRID_WIDTH;
 const SITE_ROWS = DESERT_GRID_HEIGHT;
 
@@ -121,9 +120,6 @@ export class BeachScene extends BaseScene {
   cellSize = 16;
   digOffsetX = 7;
   digOffsetY = 3;
-  drillOffsetX = 2;
-  drillOffsetY = -6;
-  digsRemainingLabel: Phaser.GameObjects.Text | undefined;
   percentageFoundLabel: Phaser.GameObjects.Text | undefined;
   digStatistics: DigAnalytics | undefined;
   isPlayerTweening = false;
@@ -136,6 +132,7 @@ export class BeachScene extends BaseScene {
     | { x: number; y: number }
     | { x: number; y: number }[]
     | undefined = [];
+  alreadyWarnedOfNoDigs = false;
 
   constructor() {
     super({ name: "beach", map: { json: mapJSON } });
@@ -439,7 +436,12 @@ export class BeachScene extends BaseScene {
             }
 
             if (this.selectedItem === "Sand Drill") {
-              this.handleDrillPointerDown(rectX, rectY);
+              this.handleDrillPointerDown({
+                mouseX: e.worldX,
+                mouseY: e.worldY,
+                rectX,
+                rectY,
+              });
             } else {
               this.handlePointerDown({ rectX, rectY, row, col });
             }
@@ -468,7 +470,6 @@ export class BeachScene extends BaseScene {
     }
 
     this.populateDugItems();
-    this.updateDiggingLabels();
     // Add the hover and selected select boxes
     this.hoverBox = this.add
       .image(0, 0, "shovel_select")
@@ -500,39 +501,17 @@ export class BeachScene extends BaseScene {
       .setDisplaySize(8, 8)
       .setVisible(false);
 
-    // Add testing metric labels
-    this.digsRemainingLabel = this.add.text(
-      188,
-      111,
-      `Digs remaining: ${this.allowedDigs - this.holesDugCount}`,
-      {
-        fontSize: "6px",
-        fontFamily: "monospace",
-        padding: { x: 0, y: 2 },
-        resolution: 4,
-        color: "black",
-      },
-    );
-    this.percentageFoundLabel = this.add.text(
-      188,
-      120,
-      `Treasure found: ${this.percentageTreasuresFound}%`,
-      {
-        fontSize: "4px",
-        fontFamily: "monospace",
-        padding: { x: 0, y: 2 },
-        resolution: 4,
-        color: "black",
-      },
-    );
-
     // Add a digging sound effect
 
     // Allow click through of bumpkin
     const player = this.currentPlayer as BumpkinContainer;
 
+    // work out the col and row that they're standing on
+    const col = Math.floor((player.x - this.gridX) / this.cellSize);
+    const row = Math.floor((player.y - this.gridY) / this.cellSize);
+
     player.on("pointerover", () => {
-      this.handlePointerOver({ rectX: player.x, rectY: player.y });
+      this.handlePointerOver({ rectX: player.x, rectY: player.y, col, row });
     });
   };
 
@@ -612,13 +591,7 @@ export class BeachScene extends BaseScene {
       });
   };
 
-  public walkToLocation = (
-    x: number,
-    y: number,
-    offsetX: number,
-    offsetY: number,
-    onComplete: () => void,
-  ) => {
+  public walkToLocation = (x: number, y: number, onComplete: () => void) => {
     if (!this.currentPlayer) return;
 
     const xDiff = this.currentPlayer.x - x;
@@ -632,6 +605,14 @@ export class BeachScene extends BaseScene {
       this.currentPlayer.faceLeft();
     } else {
       this.currentPlayer.faceRight();
+    }
+
+    let offsetX = this.digOffsetX;
+    let offsetY = this.digOffsetY;
+
+    if (this.selectedItem === "Sand Drill") {
+      offsetX = this.currentPlayer?.directionFacing === "right" ? -2 : 2;
+      offsetY = -6;
     }
 
     const xPosition =
@@ -734,39 +715,26 @@ export class BeachScene extends BaseScene {
   }: {
     rectX: number;
     rectY: number;
-    row?: number;
-    col?: number;
+    row: number;
+    col: number;
   }) => {
     this.drillHoverBox?.setVisible(false);
     this.drillConfirmBox?.setVisible(false);
 
     if (this.cannotDig({ rectX, rectY, row, col })) return;
 
-    let hasDugHere = false;
-
-    if (row !== undefined && col !== undefined) {
-      const dug = this.gameService.state.context.state.desert.digging.grid;
-
-      hasDugHere = dug.flat().some((hole) => {
-        return hole.x === col && hole.y === row;
-      });
-    }
-
-    if (
-      !this.currentPlayer ||
-      this.isRevealing ||
-      this.isPlayerTweening ||
-      hasDugHere
-    ) {
+    if (!this.currentPlayer || this.isRevealing || this.isPlayerTweening) {
       return;
     }
 
     this.hoverBox?.setDepth(this.currentPlayer.y - this.cellSize);
     this.confirmBox?.setDepth(this.currentPlayer.y - this.cellSize);
 
-    const selectedBox = this.confirmBox as Phaser.GameObjects.Image;
-
-    if (rectX === selectedBox.x && rectY === selectedBox.y) {
+    if (
+      this.confirmBox &&
+      rectX === this.confirmBox.x &&
+      rectY === this.confirmBox.y
+    ) {
       this.hoverBox?.setVisible(false);
       return;
     }
@@ -799,11 +767,12 @@ export class BeachScene extends BaseScene {
 
         return;
       }
-      // Figure out what the hover box position would have been
-
       // Calculate the starting cell (top-left corner)
-      const startCol = Math.floor((x - this.gridX) / this.cellSize);
-      const startRow = Math.floor((y - this.gridY) / this.cellSize);
+      let startCol = Math.max(Math.floor((x - this.gridX) / this.cellSize), 0);
+      let startRow = Math.max(Math.floor((y - this.gridY) / this.cellSize), 0);
+
+      startCol = Math.min(startCol, 8);
+      startRow = Math.min(startRow, 8);
 
       const drillCoords: { x: number; y: number }[] = [
         { x: startCol, y: startRow },
@@ -826,13 +795,7 @@ export class BeachScene extends BaseScene {
       const drillX = x + this.cellSize;
       const drillY = y + this.cellSize;
 
-      this.walkToLocation(
-        drillX,
-        drillY,
-        this.drillOffsetX,
-        this.drillOffsetY,
-        () => this.handleDrill(drillCoords),
-      );
+      this.walkToLocation(drillX, drillY, () => this.handleDrill(drillCoords));
     }
   };
 
@@ -852,8 +815,17 @@ export class BeachScene extends BaseScene {
       Math.round((mouseY - this.cellSize) / this.cellSize) * this.cellSize;
 
     // Calculate the starting cell (top-left corner)
-    const startCol = Math.floor((hoverX - this.gridX) / this.cellSize);
-    const startRow = Math.floor((hoverY - this.gridY) / this.cellSize);
+    let startCol = Math.max(
+      Math.floor((hoverX - this.gridX) / this.cellSize),
+      0,
+    );
+    let startRow = Math.max(
+      Math.floor((hoverY - this.gridY) / this.cellSize),
+      0,
+    );
+
+    startCol = Math.min(startCol, 8);
+    startRow = Math.min(startRow, 8);
 
     const drillCoords: { x: number; y: number }[] = [
       { x: startCol, y: startRow },
@@ -882,9 +854,7 @@ export class BeachScene extends BaseScene {
     const x = Math.min(Math.max(hoverX, this.gridX), maxX);
     const y = Math.min(Math.max(hoverY, this.gridY), maxY);
 
-    const selectBox = this.drillConfirmBox as Phaser.GameObjects.Image;
-
-    if (selectBox.getBounds().contains(mouseX, mouseY)) {
+    if (this.drillConfirmBox?.getBounds().contains(mouseX, mouseY)) {
       this.drillHoverBox?.setVisible(false);
       return;
     }
@@ -892,16 +862,30 @@ export class BeachScene extends BaseScene {
     this.drillHoverBox?.setPosition(x, y).setVisible(true);
   };
 
-  public handleDrillPointerDown = (rectX: number, rectY: number) => {
+  public handleDrillPointerDown = ({
+    mouseX,
+    mouseY,
+    rectX,
+    rectY,
+  }: {
+    mouseX: number;
+    mouseY: number;
+    rectX: number;
+    rectY: number;
+  }) => {
     if (!this.drillHoverBox) return;
 
-    // Get the position of the hover box
-    const hoverX = this.drillHoverBox.x;
-    const hoverY = this.drillHoverBox.y;
+    const x =
+      Math.round((mouseX - this.cellSize) / this.cellSize) * this.cellSize;
+    const y =
+      Math.round((mouseY - this.cellSize) / this.cellSize) * this.cellSize;
 
     // Calculate the starting cell (top-left corner)
-    const startCol = Math.floor((hoverX - this.gridX) / this.cellSize);
-    const startRow = Math.floor((hoverY - this.gridY) / this.cellSize);
+    let startCol = Math.max(Math.floor((x - this.gridX) / this.cellSize), 0);
+    let startRow = Math.max(Math.floor((y - this.gridY) / this.cellSize), 0);
+
+    startCol = Math.min(startCol, 8);
+    startRow = Math.min(startRow, 8);
 
     const drillCoords: { x: number; y: number }[] = [
       { x: startCol, y: startRow },
@@ -910,34 +894,24 @@ export class BeachScene extends BaseScene {
       { x: startCol + 1, y: startRow + 1 },
     ];
 
-    if (
-      drillCoords.every(({ x, y }) =>
-        this.cannotDig({ rectX, rectY, col: x, row: y }),
-      )
-    ) {
-      return;
-    }
+    const noAvailableSpots = drillCoords.every(({ x, y }) =>
+      this.cannotDig({ rectX, rectY, col: x, row: y }),
+    );
+
+    if (noAvailableSpots) return;
+
     // check if this rectangle is currently the selected one
-    if (
-      this.drillConfirmBox?.x === hoverX &&
-      this.drillConfirmBox?.y === hoverY
-    ) {
+    if (this.drillConfirmBox?.x === x && this.drillConfirmBox?.y === y) {
       // remove selected box
       this.drillConfirmBox?.setVisible(false);
       // move player to dig spot
-      const drillX = hoverX + this.cellSize;
-      const drillY = hoverY + this.cellSize;
+      const drillX = x + this.cellSize;
+      const drillY = y + this.cellSize;
 
-      this.walkToLocation(
-        drillX,
-        drillY,
-        this.drillOffsetX,
-        this.drillOffsetY,
-        () => this.handleDrill(drillCoords),
-      );
+      this.walkToLocation(drillX, drillY, () => this.handleDrill(drillCoords));
     } else {
       // set selected box
-      this.drillConfirmBox?.setPosition(hoverX, hoverY).setVisible(true);
+      this.drillConfirmBox?.setPosition(x, y).setVisible(true);
       // remove hover box
       this.drillHoverBox?.setVisible(false);
     }
@@ -960,9 +934,7 @@ export class BeachScene extends BaseScene {
     if (this.confirmBox?.x === rectX && this.confirmBox?.y === rectY) {
       this.confirmBox?.setVisible(false);
       // move player to dig spot
-      this.walkToLocation(rectX, rectY, this.digOffsetX, this.digOffsetY, () =>
-        this.handleDig(row, col),
-      );
+      this.walkToLocation(rectX, rectY, () => this.handleDig(row, col));
     } else {
       // set selected box
       this.confirmBox?.setPosition(rectX, rectY).setVisible(true);
@@ -974,22 +946,6 @@ export class BeachScene extends BaseScene {
   public handlePointOut = () => {
     this.hoverBox?.setVisible(false);
     this.noShovelHoverBox?.setVisible(false);
-  };
-
-  public updateDiggingLabels = () => {
-    if (!this.hasDigsLeft) {
-      this.digsRemainingLabel?.setText("No digs remaining");
-    } else {
-      this.digsRemainingLabel?.setText(
-        `Digs remaining: ${this.allowedDigs - this.holesDugCount}`,
-      );
-    }
-
-    this.percentageFoundLabel?.setText(
-      `Treasures found: ${this.percentageTreasuresFound}%`,
-    );
-
-    this.digbyProgressBar?.updateBar(this.percentageTreasuresFound);
   };
 
   get treasuresFound() {
@@ -1024,27 +980,10 @@ export class BeachScene extends BaseScene {
   }
 
   get allowedDigs() {
-    let allowedDigs = TOTAL_DIGS;
+    const game = this.gameService.state.context.state;
+    const maxDigs = getMaxDigs(game);
 
-    if (
-      isCollectibleBuilt({
-        name: "Heart of Davy Jones",
-        game: this.gameService.state.context.state,
-      })
-    ) {
-      allowedDigs += 20;
-    }
-
-    if (
-      isCollectibleBuilt({
-        name: "Pharaoh Chicken",
-        game: this.gameService.state.context.state,
-      })
-    ) {
-      allowedDigs += 1;
-    }
-
-    return allowedDigs;
+    return maxDigs;
   }
 
   get hasDigsLeft() {
@@ -1263,7 +1202,10 @@ export class BeachScene extends BaseScene {
     if (!this.currentPlayer) return;
 
     if (!this.hasDigsLeft) {
+      if (this.alreadyWarnedOfNoDigs) return;
+
       this.npcs.digby?.speak(translate("digby.noDigsLeft"));
+      this.alreadyWarnedOfNoDigs = true;
 
       return;
     }
@@ -1384,9 +1326,12 @@ export class BeachScene extends BaseScene {
       // Ideally should be done at the end of the animation
       // Potentially have animation of the item??
       this.populateDugItems();
-      this.updateDiggingLabels();
 
       if (!this.hasDigsLeft) {
+        // Phaser timeout
+        this.time.delayedCall(2000, () => {
+          npcModalManager.open("digby");
+        });
         this.recordDigAnalytics();
       }
 
@@ -1401,7 +1346,7 @@ export class BeachScene extends BaseScene {
       const currentAnimation = this.currentPlayer.sprite?.anims?.currentAnim;
 
       if (
-        currentAnimation?.key.includes("dig") &&
+        currentAnimation?.key.includes("dig") ||
         currentAnimation?.key.includes("drill")
       ) {
         return;
@@ -1463,6 +1408,11 @@ export class BeachScene extends BaseScene {
       this.updateOtherPlayers();
       this.handleDigbyWarnings();
     } else {
+      this.alreadyWarnedOfNoDigs = false;
+      this.hoverBox?.setVisible(false);
+      this.confirmBox?.setVisible(false);
+      this.drillHoverBox?.setVisible(false);
+      this.drillConfirmBox?.setVisible(false);
       super.update();
     }
 

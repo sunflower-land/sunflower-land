@@ -688,6 +688,7 @@ export type DugHole = {
 
 export type Desert = {
   digging: {
+    extraDigs?: number;
     patterns: DiggingFormationName[];
     grid: (DugHole | DugHole[])[];
   };
