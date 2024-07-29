@@ -67,8 +67,8 @@ export const DesertDiggingDisplay = () => {
         )}
         {digsLeft === 0 && (
           <Label
-            type="default"
-            icon={SUNNYSIDE.icons.sad}
+            type="warning"
+            icon={SUNNYSIDE.tools.sand_shovel}
             secondaryIcon={SUNNYSIDE.icons.expression_confused}
           >
             <span className="text">{t("desert.hud.noDigsLeft")}</span>
