@@ -327,19 +327,11 @@ import {
 } from "features/game/types/decorations";
 import { PharaohsTreasureBanner } from "./components/PharaohsTreasureBanner";
 import { DesertRose } from "./components/DesertRose";
-import { Sarcophagus } from "./components/Sarcophagus";
 import { Template } from "./components/template/Template";
 import { PharaohChicken } from "./components/PharaohChicken";
 import { ImageStyle } from "./components/template/ImageStyle";
-import { TomatoClown } from "./components/TomatoClown";
-import { LemonTeaBath } from "./components/LemonTeaBath";
-import { Pyramid } from "./components/Pyramid";
 import { LemonShark } from "./components/LemonShark";
 import { BattleFish } from "./components/BattleFish";
-import { HapyJar } from "./components/HapyJar";
-import { ImsetyJar } from "./components/ImsetyJar";
-import { QebehsenuefJar } from "./components/QebehsenuefJar";
-import { DuamutefJar } from "./components/DuamutefJar";
 
 export const COLLECTIBLE_COMPONENTS: Record<
   CollectibleName | "Bud",
@@ -746,10 +738,13 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Adrift Ark": (props: CollectibleProps) => (
     <ImageStyle
       {...props}
-      style={{
+      divStyle={{
         width: `${PIXEL_SCALE * 29}px`,
         bottom: `${PIXEL_SCALE * 0}px`,
         left: `${PIXEL_SCALE * 2}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 29}px`,
       }}
       image={ITEM_DETAILS["Adrift Ark"].image}
       alt="Adrift Ark"
@@ -758,10 +753,13 @@ export const COLLECTIBLE_COMPONENTS: Record<
   Castellan: (props: CollectibleProps) => (
     <ImageStyle
       {...props}
-      style={{
+      divStyle={{
         width: `${PIXEL_SCALE * 28}px`,
         bottom: `${PIXEL_SCALE * 0}px`,
         left: `${PIXEL_SCALE * 2}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 28}px`,
       }}
       image={ITEM_DETAILS.Castellan.image}
       alt="Castellan"
@@ -770,10 +768,13 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Sunlit Citadel": (props: CollectibleProps) => (
     <ImageStyle
       {...props}
-      style={{
+      divStyle={{
         width: `${PIXEL_SCALE * 28}px`,
         bottom: `${PIXEL_SCALE * 0}px`,
         left: `${PIXEL_SCALE * 2}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 28}px`,
       }}
       image={ITEM_DETAILS["Sunlit Citadel"].image}
       alt="Sunlit Citadel"
@@ -782,35 +783,178 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Pharaoh Gnome": (props: CollectibleProps) => (
     <ImageStyle
       {...props}
-      style={{
+      divStyle={{
         width: `${PIXEL_SCALE * 11}px`,
         bottom: `${PIXEL_SCALE * 3}px`,
         left: `${PIXEL_SCALE * 2.5}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 11}px`,
       }}
       image={ITEM_DETAILS["Pharaoh Gnome"].image}
       alt="Pharaoh Gnome"
     />
   ),
-  "Lemon Tea Bath": LemonTeaBath,
-  "Tomato Clown": TomatoClown,
-  Pyramid: Pyramid,
-  Sarcophagus: Sarcophagus,
-  "Hapy Jar": HapyJar,
-  "Imsety Jar": ImsetyJar,
-  "Duamutef Jar": DuamutefJar,
-  "Qebehsenuef Jar": QebehsenuefJar,
+  "Lemon Tea Bath": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 38}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 5}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 38}px`,
+      }}
+      image={ITEM_DETAILS["Lemon Tea Bath"].image}
+      alt="Lemon Tea Bath"
+    />
+  ),
+  "Tomato Clown": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 19}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 19}px`,
+      }}
+      image={ITEM_DETAILS["Tomato Clown"].image}
+      alt="Tomato Clown"
+    />
+  ),
+  Pyramid: (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 30}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 1}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 30}px`,
+      }}
+      image={ITEM_DETAILS.Pyramid.image}
+      alt="Pyramid"
+    />
+  ),
+  Sarcophagus: (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 18}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 18}px`,
+      }}
+      image={ITEM_DETAILS["Sarcophagus"].image}
+      alt="Sarcophagus"
+    />
+  ),
+  "Hapy Jar": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 15}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0.5}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 15}px`,
+      }}
+      image={ITEM_DETAILS["Hapy Jar"].image}
+      alt="Hapy Jar"
+    />
+  ),
+  "Imsety Jar": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 15}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0.5}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 15}px`,
+      }}
+      image={ITEM_DETAILS["Imsety Jar"].image}
+      alt="Imsety Jar"
+    />
+  ),
+  "Duamutef Jar": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 14}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 1}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 14}px`,
+      }}
+      image={ITEM_DETAILS["Duamutef Jar"].image}
+      alt="Duamutef Jar"
+    />
+  ),
+  "Qebehsenuef Jar": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 15}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0.5}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 15}px`,
+      }}
+      image={ITEM_DETAILS["Qebehsenuef Jar"].image}
+      alt="Qebehsenuef Jar"
+    />
+  ),
+  "Snake in Jar": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 18}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * -1}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 18}px`,
+      }}
+      image={ITEM_DETAILS["Snake in Jar"].image}
+      alt="Snake in Jar"
+    />
+  ),
+  "Anubis Jackal": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 28}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 2.25}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 28}px`,
+      }}
+      image={ITEM_DETAILS["Anubis Jackal"].image}
+      alt="Anubis Jackal"
+    />
+  ),
 
   // To Update
-  "Tomato Core": Template,
-  "Clay Tablet": Template,
-  "Snake in Jar": Template,
-  "Reveling Lemon": Template,
-  "Anubis Jackal": Template,
   Sundial: Template,
   "Sand Golem": Template,
   "Cactus King": Template,
   "Lemon Frog": Template,
   "Scarab Beetle": Template,
+  "Tomato Core": Template,
+  "Clay Tablet": Template,
+  "Reveling Lemon": Template,
   Oasis: Template,
 };
 // Need readonly versions for some troublesome components while in design mode

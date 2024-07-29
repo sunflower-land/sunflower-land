@@ -1541,8 +1541,8 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
     height: 1,
   },
   "Anubis Jackal": {
-    width: 1,
-    height: 1,
+    width: 2,
+    height: 2,
   },
   Sundial: {
     width: 1,
