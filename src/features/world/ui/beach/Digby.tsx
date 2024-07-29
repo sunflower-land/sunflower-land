@@ -33,6 +33,7 @@ import { pixelDarkBorderStyle } from "features/game/lib/style";
 import { CollectibleName } from "features/game/types/craftables";
 import Decimal from "decimal.js-light";
 import { getMaxDigs } from "features/island/hud/components/DesertDiggingDisplay";
+import { BUMPKIN_ITEM_BUFF_LABELS } from "features/game/types/bumpkinItemBuffs";
 
 function hasReadIntro() {
   return !!localStorage.getItem("digging.intro");
@@ -248,6 +249,10 @@ const BoostDigItems: Partial<
   "Heart of Davy Jones": {
     ...(COLLECTIBLE_BUFF_LABELS["Heart of Davy Jones"] as BuffLabel),
     location: "Marketplace",
+  },
+  "Bionic Drill": {
+    ...(BUMPKIN_ITEM_BUFF_LABELS["Bionic Drill"] as BuffLabel),
+    location: "Artefact Shop",
   },
 };
 
