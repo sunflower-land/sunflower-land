@@ -259,7 +259,6 @@ import { FancyRug } from "./components/FancyRug";
 import { Clock } from "./components/Clock";
 import { Vinny } from "./components/Vinny";
 import { KnightChicken } from "./components/KnightChicken";
-import { BattleFish } from "./components/BattleFish";
 import { GauchoRug } from "./components/GauchoRug";
 import { BattlecryDrum } from "./components/BattleCryDrum";
 import { BullseyeBoard } from "./components/BullseyeBoard";
@@ -330,6 +329,13 @@ import { PharaohsTreasureBanner } from "./components/PharaohsTreasureBanner";
 import { DesertRose } from "./components/DesertRose";
 import { Sarcophagus } from "./components/Sarcophagus";
 import { Template } from "./components/template/Template";
+import { PharaohChicken } from "./components/PharaohChicken";
+import { ImageStyle } from "./components/template/ImageStyle";
+import { TomatoClown } from "./components/TomatoClown";
+import { LemonTeaBath } from "./components/LemonTeaBath";
+import { Pyramid } from "./components/Pyramid";
+import { LemonShark } from "./components/LemonShark";
+import { BattleFish } from "./components/BattleFish";
 
 export const COLLECTIBLE_COMPONENTS: Record<
   CollectibleName | "Bud",
@@ -599,6 +605,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Gilded Swordfish": GildedSwordfish,
   "Crimson Carp": CrimsonCarp,
   "Battle Fish": BattleFish,
+  "Lemon Shark": LemonShark,
 
   "Kraken Tentacle": KrakenTentacle,
 
@@ -621,6 +628,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
   Nana: Nana,
   "Crim Peckster": CrimPeckster,
   "Knight Chicken": KnightChicken,
+  "Pharaoh Chicken": PharaohChicken,
 
   "Bumpkin Nutcracker": Nutcracker,
   "Festive Tree": FestiveTree,
@@ -731,9 +739,9 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Goblin Faction Rug": GoblinFactionRug,
   "Bumpkin Faction Rug": BumpkinFactionRug,
   "Desert Rose": DesertRose,
-  Sarcophagus: Sarcophagus,
 
   // To Update
+  Sarcophagus: Sarcophagus,
   "Hapy Jar": Template,
   "Imsety Jar": Template,
   "Tomato Core": Template,
@@ -748,6 +756,58 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Cactus King": Template,
   "Lemon Frog": Template,
   "Scarab Beetle": Template,
+  "Adrift Ark": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      style={{
+        width: `${PIXEL_SCALE * 29}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 2}px`,
+      }}
+      image={ITEM_DETAILS["Adrift Ark"].image}
+      alt="Adrift Ark"
+    />
+  ),
+  Castellan: (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      style={{
+        width: `${PIXEL_SCALE * 28}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 2}px`,
+      }}
+      image={ITEM_DETAILS.Castellan.image}
+      alt="Castellan"
+    />
+  ),
+  "Sunlit Citadel": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      style={{
+        width: `${PIXEL_SCALE * 28}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 2}px`,
+      }}
+      image={ITEM_DETAILS["Sunlit Citadel"].image}
+      alt="Sunlit Citadel"
+    />
+  ),
+  "Pharaoh Gnome": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      style={{
+        width: `${PIXEL_SCALE * 11}px`,
+        bottom: `${PIXEL_SCALE * 3}px`,
+        left: `${PIXEL_SCALE * 2.5}px`,
+      }}
+      image={ITEM_DETAILS["Pharaoh Gnome"].image}
+      alt="Pharaoh Gnome"
+    />
+  ),
+  "Lemon Tea Bath": LemonTeaBath,
+  "Tomato Clown": TomatoClown,
+  Pyramid: Pyramid,
+  Oasis: Template,
 };
 // Need readonly versions for some troublesome components while in design mode
 

@@ -604,7 +604,7 @@ const auction: Record<Auction, string> = {
   "auction.start": "Starting Time",
   "auction.period": "Auction Period",
   "auction.closed": "Auction closed",
-  "auction.const": "Under construction!",
+  "auction.const": "A new seasonal collection is coming...",
   "auction.const.soon": "This feature is coming soon.",
 };
 
@@ -712,6 +712,7 @@ const boostDescriptions: Record<BoostDescriptions, string> = {
     "Give me those eggs, fast! 4 hour speed boost on egg laying.",
   "description.banana.chicken":
     "A chicken that boosts bananas. What a world we live in.",
+  "description.pharaoh.chicken": "A ruling chicken, +1 Dig.",
 
   // Boosts
   "description.lab.grow.pumpkin": "+0.3 Pumpkin Yield",
@@ -887,8 +888,10 @@ const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
   "description.rock.golem.boost": "10% Chance of +2 Stone",
   "description.crimson.carp.boost": "+0.05 Crimstone",
   "description.battle.fish.boost": "+0.05 Oil",
+  "description.lemon.shark.boost": "+0.2 Lemons",
   "description.crim.peckster.boost": "+0.1 Crimstone",
   "description.knight.chicken.boost": "+0.1 Oil",
+  "description.pharaoh.chicken.boost": "+1 Dig",
   "description.queen.bee.boost": "+1 Honey Production Speed",
   "description.beekeeper.hat.boost": "+0.2 Honey Production Speed",
   "description.flower.fox.boost": "-10% Flower Growth Time",
@@ -5583,7 +5586,7 @@ export const desertTerms: Record<DesertKeys, string> = {
     "Hey, you need a sand shovel to dig here! Speak to Jafar..",
   "digby.noDrills":
     "Looks like you don't have any sand drills! Speak to Jafar..",
-  "digby.noDigsLeft": "You have no more digs left! Come back tomorrow..",
+  "digby.noDigsLeft": "You have no more digs left! Maybe I can help..",
   "digby.puzzle": "Digging puzzle",
   "digby.patterns": "Patterns",
   "digby.today":
@@ -5601,6 +5604,16 @@ export const desertTerms: Record<DesertKeys, string> = {
   "desert.notice.three": "Sell resources at the shop for coins.",
   "desert.notice.four":
     "Gather items for NPC deliveries in exchange for rewards.",
+  "digby.moreDigsIntro":
+    "Ahhh you're looking for more digs? No worries! There are multiple ways to get more. Check out the options below!",
+  "digby.buyMoreDigs": "Buy 5 more digs for 1",
+  "desert.hud.digsLeft": "{{digsLeft}} digs left",
+  "desert.hud.noDigsLeft": "No digs left...",
+  "desert.hud.newSite": "New dig site!",
+  "desert.extraDigs": "Extra digs",
+  "desert.digs": "{{amount}} digs",
+  "desert.buyDigs.confirmation":
+    "Are you sure you want to buy 5 digs for 1 Block Buck?",
 };
 
 export const ENGLISH_TERMS: Record<TranslationKeys, string> = {

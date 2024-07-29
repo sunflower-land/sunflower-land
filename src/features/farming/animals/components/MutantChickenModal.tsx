@@ -11,6 +11,7 @@ import elPolloVeloz from "assets/animals/chickens/el_pollo_veloz.png";
 import bananaChicken from "assets/animals/chickens/banana_chicken.png";
 import crimPeckster from "assets/animals/chickens/crim_peckster.png";
 import knightChicken from "assets/animals/chickens/knight_chicken.png";
+import pharaohChicken from "assets/animals/chickens/pharaoh_chicken.webp";
 
 import { Button } from "components/ui/Button";
 import { translate } from "lib/i18n/translate";
@@ -48,6 +49,10 @@ const mutants: Record<MutantChicken, Record<string, string>> = {
   "Knight Chicken": {
     description: translate("description.knight.chicken"),
     image: knightChicken,
+  },
+  "Pharaoh Chicken": {
+    description: translate("description.pharaoh.chicken"),
+    image: pharaohChicken,
   },
 };
 

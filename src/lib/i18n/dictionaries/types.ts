@@ -459,6 +459,7 @@ export type BoostDescriptions =
   | "description.el.pollo.veloz.one"
   | "description.el.pollo.veloz.two"
   | "description.banana.chicken"
+  | "description.pharaoh.chicken"
 
   //Boosts
   | "description.lab.grow.pumpkin"
@@ -595,8 +596,10 @@ export type BoostEffectDescriptions =
   | "description.rock.golem.boost"
   | "description.crimson.carp.boost"
   | "description.battle.fish.boost"
+  | "description.lemon.shark.boost"
   | "description.crim.peckster.boost"
   | "description.knight.chicken.boost"
+  | "description.pharaoh.chicken.boost"
   | "description.queen.bee.boost"
   | "description.humming.bird.boost"
   | "description.beehive.boost"
@@ -3794,7 +3797,15 @@ export type DesertKeys =
   | "desert.notice.four"
   | "digby.noShovels"
   | "digby.noDrills"
-  | "digby.noDigsLeft";
+  | "digby.noDigsLeft"
+  | "digby.moreDigsIntro"
+  | "digby.buyMoreDigs"
+  | "desert.hud.digsLeft"
+  | "desert.hud.noDigsLeft"
+  | "desert.hud.newSite"
+  | "desert.extraDigs"
+  | "desert.digs"
+  | "desert.buyDigs.confirmation";
 
 export type TranslationKeys =
   | AchievementsTerms

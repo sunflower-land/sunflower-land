@@ -13,7 +13,15 @@ export const HudContainer: React.FC = ({ children }) => {
           aria-label="Hud"
           className="fixed inset-safe-area pointer-events-none z-10"
         >
-          <div className="pointer-events-auto">{children}</div>
+          <div // Prevent click through to Phaser
+            onMouseDown={(e) => e.stopPropagation()}
+            onMouseUp={(e) => e.stopPropagation()}
+            onTouchStart={(e) => e.stopPropagation()}
+            onTouchEnd={(e) => e.stopPropagation()}
+            className="pointer-events-auto"
+          >
+            {children}
+          </div>
         </div>,
         document.body,
       )}
