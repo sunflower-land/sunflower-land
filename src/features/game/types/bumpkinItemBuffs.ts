@@ -408,7 +408,7 @@ export const BUMPKIN_ITEM_BUFF_LABELS: Partial<Record<BumpkinItem, BuffLabel>> =
       boostedItemIcon: SUNNYSIDE.tools.sand_shovel,
     },
     "Grape Pants": {
-      shortDescription: translate("bumpkinItemBuff.grape.pants.boost"),
+      shortDescription: translate("bumpkinItemBuff.grape.pants"),
       labelType: "success",
       boostTypeIcon: powerup,
       boostedItemIcon: ITEM_DETAILS.Grape.image,
