@@ -1,6 +1,5 @@
 import React, { useContext } from "react";
 
-import suspicious from "assets/icons/suspicious.png";
 import { Context } from "../GameProvider";
 import { Button } from "components/ui/Button";
 import { acknowledgeGameRules } from "features/announcements/announcementsStorage";
@@ -29,7 +28,7 @@ export const Rules: React.FC = () => {
       </div>
       <div className="flex mt-4">
         <div className="w-16 flex justify-center">
-          <img src={suspicious} className="h-8" />
+          <img src={SUNNYSIDE.icons.suspicious} className="h-8" />
         </div>
         <div className="flex-1">
           <p>{t("rules.noBots")}</p>
