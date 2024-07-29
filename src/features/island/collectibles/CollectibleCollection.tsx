@@ -336,6 +336,10 @@ import { LemonTeaBath } from "./components/LemonTeaBath";
 import { Pyramid } from "./components/Pyramid";
 import { LemonShark } from "./components/LemonShark";
 import { BattleFish } from "./components/BattleFish";
+import { HapyJar } from "./components/HapyJar";
+import { ImsetyJar } from "./components/ImsetyJar";
+import { QebehsenuefJar } from "./components/QebehsenuefJar";
+import { DuamutefJar } from "./components/DuamutefJar";
 
 export const COLLECTIBLE_COMPONENTS: Record<
   CollectibleName | "Bud",
@@ -739,23 +743,6 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Goblin Faction Rug": GoblinFactionRug,
   "Bumpkin Faction Rug": BumpkinFactionRug,
   "Desert Rose": DesertRose,
-
-  // To Update
-  Sarcophagus: Sarcophagus,
-  "Hapy Jar": Template,
-  "Imsety Jar": Template,
-  "Tomato Core": Template,
-  "Duamutef Jar": Template,
-  "Qebehsenuef Jar": Template,
-  "Clay Tablet": Template,
-  "Snake in Jar": Template,
-  "Reveling Lemon": Template,
-  "Anubis Jackal": Template,
-  Sundial: Template,
-  "Sand Golem": Template,
-  "Cactus King": Template,
-  "Lemon Frog": Template,
-  "Scarab Beetle": Template,
   "Adrift Ark": (props: CollectibleProps) => (
     <ImageStyle
       {...props}
@@ -807,6 +794,23 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Lemon Tea Bath": LemonTeaBath,
   "Tomato Clown": TomatoClown,
   Pyramid: Pyramid,
+  Sarcophagus: Sarcophagus,
+  "Hapy Jar": HapyJar,
+  "Imsety Jar": ImsetyJar,
+  "Duamutef Jar": DuamutefJar,
+  "Qebehsenuef Jar": QebehsenuefJar,
+
+  // To Update
+  "Tomato Core": Template,
+  "Clay Tablet": Template,
+  "Snake in Jar": Template,
+  "Reveling Lemon": Template,
+  "Anubis Jackal": Template,
+  Sundial: Template,
+  "Sand Golem": Template,
+  "Cactus King": Template,
+  "Lemon Frog": Template,
+  "Scarab Beetle": Template,
   Oasis: Template,
 };
 // Need readonly versions for some troublesome components while in design mode
