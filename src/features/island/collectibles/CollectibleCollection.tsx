@@ -332,6 +332,9 @@ import { Sarcophagus } from "./components/Sarcophagus";
 import { Template } from "./components/template/Template";
 import { PharaohChicken } from "./components/PharaohChicken";
 import { ImageStyle } from "./components/template/ImageStyle";
+import { TomatoClown } from "./components/TomatoClown";
+import { LemonTeaBath } from "./components/LemonTeaBath";
+import { Pyramid } from "./components/Pyramid";
 
 export const COLLECTIBLE_COMPONENTS: Record<
   CollectibleName | "Bud",
@@ -799,42 +802,9 @@ export const COLLECTIBLE_COMPONENTS: Record<
       alt="Pharaoh Gnome"
     />
   ),
-  "Lemon Tea Bath": (props: CollectibleProps) => (
-    <ImageStyle
-      {...props}
-      style={{
-        width: `${PIXEL_SCALE * 38}px`,
-        bottom: `${PIXEL_SCALE * 0}px`,
-        left: `${PIXEL_SCALE * 0}px`,
-      }}
-      image={ITEM_DETAILS["Lemon Tea Bath"].image}
-      alt="Lemon Tea Bath"
-    />
-  ),
-  "Tomato Clown": (props: CollectibleProps) => (
-    <ImageStyle
-      {...props}
-      style={{
-        width: `${PIXEL_SCALE * 19}px`,
-        bottom: `${PIXEL_SCALE * 0}px`,
-        left: `${PIXEL_SCALE * 0}px`,
-      }}
-      image={ITEM_DETAILS["Tomato Clown"].image}
-      alt="Tomato Clown"
-    />
-  ),
-  Pyramid: (props: CollectibleProps) => (
-    <ImageStyle
-      {...props}
-      style={{
-        width: `${PIXEL_SCALE * 30}px`,
-        bottom: `${PIXEL_SCALE * 0}px`,
-        left: `${PIXEL_SCALE * 0}px`,
-      }}
-      image={ITEM_DETAILS.Pyramid.image}
-      alt="Pyramid"
-    />
-  ),
+  "Lemon Tea Bath": LemonTeaBath,
+  "Tomato Clown": TomatoClown,
+  Pyramid: Pyramid,
   Oasis: Template,
 };
 // Need readonly versions for some troublesome components while in design mode

@@ -1563,7 +1563,7 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
     height: 1,
   },
   "Lemon Tea Bath": {
-    width: 2,
+    width: 3,
     height: 2,
   },
   "Tomato Clown": {

@@ -763,7 +763,7 @@ import castellan from "src/assets/sfts/castellan.webp";
 import sunlitCitadel from "src/assets/sfts/sunlit_citadel.webp";
 import pharaohGnome from "src/assets/sfts/pharaoh_gnome.webp";
 import lemonTeaBath from "src/assets/sfts/lemon_tea_bath.webp";
-import tomatoClown from "src/assets/sfts/tomato_clown.webp";
+import tomatoClown from "src/assets/sfts/tomato_clown.gif";
 import pyramid from "src/assets/sfts/pyramid.webp";
 
 import scarab from "assets/resources/scarab.webp";
