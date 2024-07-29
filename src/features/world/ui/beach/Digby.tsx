@@ -1,4 +1,4 @@
-import { useActor } from "@xstate/react";
+import { useActor, useSelector } from "@xstate/react";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Label } from "components/ui/Label";
 import { Context } from "features/game/GameProvider";
