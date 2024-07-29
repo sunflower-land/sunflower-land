@@ -3797,7 +3797,15 @@ export type DesertKeys =
   | "desert.notice.four"
   | "digby.noShovels"
   | "digby.noDrills"
-  | "digby.noDigsLeft";
+  | "digby.noDigsLeft"
+  | "digby.moreDigsIntro"
+  | "digby.buyMoreDigs"
+  | "desert.hud.digsLeft"
+  | "desert.hud.noDigsLeft"
+  | "desert.hud.newSite"
+  | "desert.extraDigs"
+  | "desert.digs"
+  | "desert.buyDigs.confirmation";
 
 export type TranslationKeys =
   | AchievementsTerms
