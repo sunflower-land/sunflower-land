@@ -8,6 +8,7 @@ import {
   InventoryItemName,
   Wardrobe,
 } from "../types/game";
+import { SeasonalTicket } from "../types/seasons";
 import { isWearableActive } from "./wearables";
 
 export const START_DATE = new Date("2024-06-24T00:00:00Z");
@@ -275,13 +276,16 @@ export const BONUS_FACTION_PRIZES: Record<
   },
 };
 
-export const FACTION_PRIZES: Record<number, FactionPrize> = {
+export const FACTION_PRIZES: (
+  ticket: SeasonalTicket,
+  ticketsEnabled: boolean,
+) => Record<number, FactionPrize> = (ticket, ticketsEnabled) => ({
   1: {
     coins: 64000,
     sfl: 200,
     items: {
       Mark: 10000,
-      // [getSeasonalTicket()]: 10,
+      [ticket]: ticketsEnabled ? 10 : 0,
     },
   },
   2: {
@@ -289,7 +293,7 @@ export const FACTION_PRIZES: Record<number, FactionPrize> = {
     sfl: 175,
     items: {
       Mark: 8000,
-      // [getSeasonalTicket()]: 10,
+      [ticket]: ticketsEnabled ? 10 : 0,
     },
   },
   3: {
@@ -297,7 +301,7 @@ export const FACTION_PRIZES: Record<number, FactionPrize> = {
     sfl: 150,
     items: {
       Mark: 7000,
-      // [getSeasonalTicket()]: 10,
+      [ticket]: ticketsEnabled ? 10 : 0,
     },
   },
   4: {
@@ -305,7 +309,7 @@ export const FACTION_PRIZES: Record<number, FactionPrize> = {
     sfl: 150,
     items: {
       Mark: 6000,
-      // [getSeasonalTicket()]: 8,
+      [ticket]: ticketsEnabled ? 8 : 0,
     },
   },
   5: {
@@ -313,7 +317,7 @@ export const FACTION_PRIZES: Record<number, FactionPrize> = {
     sfl: 125,
     items: {
       Mark: 5000,
-      // [getSeasonalTicket()]: 8,
+      [ticket]: ticketsEnabled ? 8 : 0,
     },
   },
   6: {
@@ -321,7 +325,7 @@ export const FACTION_PRIZES: Record<number, FactionPrize> = {
     sfl: 100,
     items: {
       Mark: 5000,
-      // [getSeasonalTicket()]: 8,
+      [ticket]: ticketsEnabled ? 8 : 0,
     },
   },
   7: {
@@ -329,7 +333,7 @@ export const FACTION_PRIZES: Record<number, FactionPrize> = {
     sfl: 100,
     items: {
       Mark: 5000,
-      // [getSeasonalTicket()]: 6,
+      [ticket]: ticketsEnabled ? 6 : 0,
     },
   },
   8: {
@@ -337,7 +341,7 @@ export const FACTION_PRIZES: Record<number, FactionPrize> = {
     sfl: 100,
     items: {
       Mark: 5000,
-      // [getSeasonalTicket()]: 6,
+      [ticket]: ticketsEnabled ? 6 : 0,
     },
   },
   9: {
@@ -345,7 +349,7 @@ export const FACTION_PRIZES: Record<number, FactionPrize> = {
     sfl: 100,
     items: {
       Mark: 5000,
-      // [getSeasonalTicket()]: 6,
+      [ticket]: ticketsEnabled ? 6 : 0,
     },
   },
   10: {
@@ -353,7 +357,7 @@ export const FACTION_PRIZES: Record<number, FactionPrize> = {
     sfl: 100,
     items: {
       Mark: 5000,
-      // [getSeasonalTicket()]: 6,
+      [ticket]: ticketsEnabled ? 6 : 0,
     },
   },
   // 11th - 25th all get marks + 5 seasonal tickets
@@ -363,7 +367,7 @@ export const FACTION_PRIZES: Record<number, FactionPrize> = {
       sfl: 50,
       items: {
         Mark: 2500,
-        // [getSeasonalTicket()]: 5,
+        [ticket]: ticketsEnabled ? 5 : 0,
       },
     })
     .reduce(
@@ -380,7 +384,7 @@ export const FACTION_PRIZES: Record<number, FactionPrize> = {
       sfl: 50,
       items: {
         Mark: 1500,
-        // [getSeasonalTicket()]: 5,
+        [ticket]: ticketsEnabled ? 5 : 0,
       },
     })
     .reduce(
@@ -390,7 +394,7 @@ export const FACTION_PRIZES: Record<number, FactionPrize> = {
       }),
       {},
     ),
-};
+});
 
 export const FACTION_BANNERS: Record<FactionName, FactionBanner> = {
   bumpkins: "Bumpkin Faction Banner",

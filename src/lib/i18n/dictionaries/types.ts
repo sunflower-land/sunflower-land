@@ -596,6 +596,7 @@ export type BoostEffectDescriptions =
   | "description.rock.golem.boost"
   | "description.crimson.carp.boost"
   | "description.battle.fish.boost"
+  | "description.lemon.shark.boost"
   | "description.crim.peckster.boost"
   | "description.knight.chicken.boost"
   | "description.pharaoh.chicken.boost"
@@ -3797,7 +3798,15 @@ export type DesertKeys =
   | "desert.notice.four"
   | "digby.noShovels"
   | "digby.noDrills"
-  | "digby.noDigsLeft";
+  | "digby.noDigsLeft"
+  | "digby.moreDigsIntro"
+  | "digby.buyMoreDigs"
+  | "desert.hud.digsLeft"
+  | "desert.hud.noDigsLeft"
+  | "desert.hud.newSite"
+  | "desert.extraDigs"
+  | "desert.digs"
+  | "desert.buyDigs.confirmation";
 
 export type TranslationKeys =
   | AchievementsTerms

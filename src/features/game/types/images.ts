@@ -641,6 +641,7 @@ import halibut from "assets/fish/halibut.png";
 import angelFish from "assets/fish/angel_fish.png";
 import parrotFish from "assets/fish/parrot_fish.png";
 import battleFish from "assets/fish/battle_fish.webp";
+import lemonShark from "assets/fish/lemon_shark.webp";
 
 import festiveTree from "assets/sfts/festive_tree.png";
 import nutcracker from "assets/sfts/bumpkin_nutcracker.png";
@@ -758,6 +759,13 @@ import desertRose from "assets/sfts/desert_rose.webp";
 import sarcophagus from "src/assets/sfts/sarcophagus.webp";
 import anubisJackal from "src/assets/sfts/anubis_jackal.webp";
 import snakeInJar from "src/assets/sfts/snake_in_jar.webp";
+import adriftArk from "src/assets/sfts/adrift_ark.webp";
+import castellan from "src/assets/sfts/castellan.webp";
+import sunlitCitadel from "src/assets/sfts/sunlit_citadel.webp";
+import pharaohGnome from "src/assets/sfts/pharaoh_gnome.webp";
+import lemonTeaBath from "src/assets/sfts/lemon_tea_bath.webp";
+import tomatoClown from "src/assets/sfts/tomato_clown.gif";
+import pyramid from "src/assets/sfts/pyramid.webp";
 
 import scarab from "assets/resources/scarab.webp";
 import sand from "assets/resources/sand.webp";
@@ -6806,6 +6814,27 @@ export const ITEM_DETAILS: Items = {
       tk: "The rare armored swimmer of faction season!",
     },
   },
+  "Lemon Shark": {
+    image: lemonShark,
+    howToGetItem: [
+      {
+        en: "Ocean fishing",
+        pt: "Pesca no mar",
+        fr: "Pêche en mer",
+        tk: "Okyanus balıkçılığı",
+        "zh-CN": "海上垂钓",
+      },
+    ],
+    itemType: "collectible",
+    description: {
+      en: "A zesty, zippy swimmer of the Summer seas. Only available during Pharaoh's Treasure season.",
+      pt: "A zesty, zippy swimmer of the Summer seas. Only available during Pharaoh's Treasure season.",
+      "zh-CN":
+        "A zesty, zippy swimmer of the Summer seas. Only available during Pharaoh's Treasure season.",
+      fr: "A zesty, zippy swimmer of the Summer seas. Only available during Pharaoh's Treasure season.",
+      tk: "A zesty, zippy swimmer of the Summer seas. Only available during Pharaoh's Treasure season.",
+    },
+  },
   "Kraken Tentacle": {
     image: krakenTentacle,
     description: {
@@ -8977,6 +9006,54 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Scarab Beetle": {
+    image: "",
+    description: {
+      en: "",
+    },
+  },
+  "Adrift Ark": {
+    image: adriftArk,
+    description: {
+      en: "A sandcastle on the shore intricately crafted to resemble a capsized boat, complete with shell portholes and seaweed flags fluttering atop its sculpted hull.",
+    },
+  },
+  Castellan: {
+    image: castellan,
+    description: {
+      en: "Castellan is a charming sandcastle figure adorned with colorful accessories, symbolizing playful spirit and creativity.",
+    },
+  },
+  "Sunlit Citadel": {
+    image: sunlitCitadel,
+    description: {
+      en: "A Castle to show your pride",
+    },
+  },
+  "Pharaoh Gnome": {
+    image: pharaohGnome,
+    description: {
+      en: "",
+    },
+  },
+  "Lemon Tea Bath": {
+    image: lemonTeaBath,
+    description: {
+      en: "",
+    },
+  },
+  "Tomato Clown": {
+    image: tomatoClown,
+    description: {
+      en: "",
+    },
+  },
+  Pyramid: {
+    image: pyramid,
+    description: {
+      en: "",
+    },
+  },
+  Oasis: {
     image: "",
     description: {
       en: "",

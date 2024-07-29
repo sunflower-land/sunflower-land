@@ -25,26 +25,30 @@ export const TreasureShopCraft: React.FC = () => {
       context: { state },
     },
   ] = useActor(gameService);
+  const inventory = state.inventory;
+
   const lessIngredients = () =>
     getKeys(selected.ingredients).some((name) =>
-      selected.ingredients[name]?.greaterThan(state.inventory[name] || 0),
+      selected.ingredients[name]?.greaterThan(inventory[name] || 0),
     );
-  const isAlreadyCrafted =
-    state.inventory[selectedName]?.greaterThanOrEqualTo(1);
+  const isAlreadyCrafted = inventory[selectedName]?.greaterThanOrEqualTo(1);
+  const isBoost = TREASURE_COLLECTIBLE_ITEM[selectedName].boost;
 
   const craft = () => {
-    gameService.send("LANDSCAPE", {
-      placeable: selectedName,
-      action: "collectible.crafted",
+    gameService.send("collectible.crafted", {
+      name: selectedName,
     });
 
-    const count = state.inventory[selectedName]?.toNumber() ?? 1;
+    const count = inventory[selectedName]?.toNumber() ?? 1;
     gameAnalytics.trackMilestone({
       event: `Crafting:Collectible:${selectedName}${count}`,
     });
 
     shortcutItem(selectedName);
   };
+
+  const TreasureCraftables = getKeys(TREASURE_COLLECTIBLE_ITEM);
+
   return (
     <SplitScreenView
       panel={
@@ -59,7 +63,7 @@ export const TreasureShopCraft: React.FC = () => {
             coins: selected.coins,
           }}
           actionView={
-            isAlreadyCrafted ? (
+            isAlreadyCrafted && isBoost ? (
               <p className="text-xxs text-center mb-1 font-secondary">
                 {t("alr.crafted")}
               </p>
@@ -74,23 +78,17 @@ export const TreasureShopCraft: React.FC = () => {
       content={
         <div className="flex flex-col">
           <div className="flex flex-wrap">
-            {/* To be used when there's more than one item in Treasure Craftables */}
-            {/* {TREASURE_COLLECTIBLE_ITEM.map((name: TreasureCollectibleItem) => {
+            {TreasureCraftables.map((name: TreasureCollectibleItem) => {
               return (
                 <Box
                   isSelected={selectedName === name}
                   key={name}
                   onClick={() => setSelectedName(name)}
-                  count={state.inventory[name]}
+                  count={inventory[name]}
+                  image={ITEM_DETAILS[name].image}
                 />
               );
-            })} */}
-            <Box
-              isSelected={selectedName === "Treasure Map"}
-              onClick={() => setSelectedName("Treasure Map")}
-              image={ITEM_DETAILS["Treasure Map"].image}
-              count={state.inventory["Treasure Map"]}
-            />
+            })}
           </div>
         </div>
       }

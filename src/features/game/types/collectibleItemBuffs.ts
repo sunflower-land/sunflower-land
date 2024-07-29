@@ -425,6 +425,12 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
     boostTypeIcon: powerup,
     // boostedItemIcon: ITEM_DETAILS.Oil.image,
   },
+  "Lemon Shark": {
+    labelType: "success",
+    shortDescription: translate("description.lemon.shark.boost"),
+    boostTypeIcon: powerup,
+    boostedItemIcon: ITEM_DETAILS.Lemon.image,
+  },
   "Crim Peckster": {
     shortDescription: translate("description.crim.peckster.boost"),
     labelType: "success",
@@ -639,5 +645,22 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
     labelType: "vibrant",
     boostTypeIcon: lightning,
     boostedItemIcon: SUNNYSIDE.icons.plant,
+  },
+  "Pharaoh Gnome": {
+    shortDescription: "+2 Greenhouse Crop",
+    labelType: "success",
+    boostedItemIcon: powerup,
+  },
+  "Lemon Tea Bath": {
+    shortDescription: "-50% Lemon Growth Time",
+    labelType: "info",
+    boostedItemIcon: SUNNYSIDE.icons.stopwatch,
+    boostTypeIcon: ITEM_DETAILS.Lemon.image,
+  },
+  "Tomato Clown": {
+    shortDescription: "-50% Tomato Growth Time",
+    labelType: "info",
+    boostedItemIcon: SUNNYSIDE.icons.stopwatch,
+    boostTypeIcon: ITEM_DETAILS.Tomato.image,
   },
 };
