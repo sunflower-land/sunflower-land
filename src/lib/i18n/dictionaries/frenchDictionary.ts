@@ -5709,6 +5709,9 @@ export const desertTerms: Record<DesertKeys, string> = {
   "desert.hud.digsLeft": ENGLISH_TERMS["desert.hud.digsLeft"],
   "desert.hud.noDigsLeft": ENGLISH_TERMS["desert.hud.noDigsLeft"],
   "desert.hud.newSite": ENGLISH_TERMS["desert.hud.newSite"],
+  "desert.extraDigs": ENGLISH_TERMS["desert.extraDigs"],
+  "desert.digs": ENGLISH_TERMS["desert.digs"],
+  "desert.buyDigs.confirmation": ENGLISH_TERMS["desert.buyDigs.confirmation"],
 };
 
 export const FRENCH_TERMS: Record<TranslationKeys, string> = {

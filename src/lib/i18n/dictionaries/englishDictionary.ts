@@ -5612,7 +5612,7 @@ export const desertTerms: Record<DesertKeys, string> = {
   "desert.extraDigs": "Extra digs",
   "desert.digs": "{{amount}} digs",
   "desert.buyDigs.confirmation":
-    "Are you sure you want to buy 5 digs for Block Buck?",
+    "Are you sure you want to buy 5 digs for 1 Block Buck?",
 };
 
 export const ENGLISH_TERMS: Record<TranslationKeys, string> = {

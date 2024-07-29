@@ -268,6 +268,10 @@ export const Digby: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   const [showConfirm, setShowConfirm] = useState(false);
 
   const inventory = gameState.context.state.inventory;
+  const dugCount = gameState.context.state.desert.digging.grid.length;
+
+  const maxDigs = getMaxDigs(gameState.context.state);
+  const digsLeft = maxDigs - dugCount;
 
   const { t } = useAppTranslation();
 
@@ -338,9 +342,12 @@ export const Digby: React.FC<{ onClose: () => void }> = ({ onClose }) => {
           {!showConfirm && (
             <>
               <div className="p-1">
-                <div className="flex items-center justify-between">
-                  <Label type="default" className="mb-1">
-                    {t("desert.extraDigs")}
+                <div className="flex items-center justify-between space-x-1 mb-1">
+                  <Label type="default">{t("desert.extraDigs")}</Label>
+                  <Label type="default" icon={SUNNYSIDE.tools.sand_shovel}>
+                    <span className="text">
+                      {t("desert.hud.digsLeft", { digsLeft })}
+                    </span>
                   </Label>
                 </div>
                 <span className="text-xs my-2 mx-1">
