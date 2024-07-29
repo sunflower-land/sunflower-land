@@ -1,4 +1,4 @@
-import { useActor, useSelector } from "@xstate/react";
+import { useActor } from "@xstate/react";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Label } from "components/ui/Label";
 import { Context } from "features/game/GameProvider";
@@ -18,7 +18,7 @@ import powerup from "assets/icons/level_up.png";
 import blockBuck from "assets/icons/block_buck.png";
 
 import siteBg from "assets/ui/site_bg.png";
-import { Desert } from "features/game/types/game";
+import { Desert, GameState } from "features/game/types/game";
 import { getKeys } from "features/game/types/decorations";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Button } from "components/ui/Button";
@@ -31,8 +31,8 @@ import { getImageUrl } from "lib/utils/getImageURLS";
 import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
 import { pixelDarkBorderStyle } from "features/game/lib/style";
 import { CollectibleName } from "features/game/types/craftables";
-import { MachineState } from "features/game/lib/gameMachine";
 import Decimal from "decimal.js-light";
+import { getMaxDigs } from "features/island/hud/components/DesertDiggingDisplay";
 
 function hasReadIntro() {
   return !!localStorage.getItem("digging.intro");
@@ -254,12 +254,22 @@ const BoostDigItems: Partial<
   },
 };
 
-const _inventory = (state: MachineState) => state.context.state.inventory;
+const getDefaultTab = (game: GameState) => {
+  if (!hasReadIntro()) return 1;
+
+  const digging = game.desert.digging;
+  const maxDigs = getMaxDigs(game);
+  const remainingDigs = maxDigs - digging.grid.length;
+
+  return remainingDigs === 0 ? 2 : 0;
+};
 
 export const Digby: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   const { gameService } = useContext(Context);
-  const [tab, setTab] = useState(hasReadIntro() ? 0 : 1);
-  const inventory = useSelector(gameService, _inventory);
+  const [gameState] = useActor(gameService);
+  const [tab, setTab] = useState(getDefaultTab(gameState.context.state));
+
+  const inventory = gameState.context.state.inventory;
 
   const { t } = useAppTranslation();
 

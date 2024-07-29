@@ -40,9 +40,7 @@ export const DesertDiggingDisplay = () => {
     setShow(!show);
   };
 
-  const dugItems = gameState.context.state.desert.digging.grid.flat();
   const dugCount = gameState.context.state.desert.digging.grid.length;
-  const newDigSite = dugCount === 0;
 
   const maxDigs = getMaxDigs(gameState.context.state);
   const digsLeft = maxDigs - dugCount;
@@ -74,7 +72,7 @@ export const DesertDiggingDisplay = () => {
         {dugCount === 0 && (
           <Label
             type="default"
-            icon={SUNNYSIDE.icons.happy}
+            icon={SUNNYSIDE.tools.sand_shovel}
             secondaryIcon={SUNNYSIDE.icons.expression_confused}
           >
             <span className="text">{`New dig site!`}</span>

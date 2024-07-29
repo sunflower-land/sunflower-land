@@ -132,6 +132,7 @@ export class BeachScene extends BaseScene {
     | { x: number; y: number }
     | { x: number; y: number }[]
     | undefined = [];
+  alreadyWarnedOfNoDigs = false;
 
   constructor() {
     super({ name: "beach", map: { json: mapJSON } });
@@ -699,6 +700,8 @@ export class BeachScene extends BaseScene {
       }
 
       this.handleDigbyWarnings();
+
+      return true;
     }
 
     return hasDugHere;
@@ -980,8 +983,6 @@ export class BeachScene extends BaseScene {
     const game = this.gameService.state.context.state;
     const maxDigs = getMaxDigs(game);
 
-    // return 3;
-
     return maxDigs;
   }
 
@@ -1201,7 +1202,10 @@ export class BeachScene extends BaseScene {
     if (!this.currentPlayer) return;
 
     if (!this.hasDigsLeft) {
+      if (this.alreadyWarnedOfNoDigs) return;
+
       this.npcs.digby?.speak(translate("digby.noDigsLeft"));
+      this.alreadyWarnedOfNoDigs = true;
 
       return;
     }
@@ -1324,6 +1328,10 @@ export class BeachScene extends BaseScene {
       this.populateDugItems();
 
       if (!this.hasDigsLeft) {
+        // Phaser timeout
+        this.time.delayedCall(2000, () => {
+          npcModalManager.open("digby");
+        });
         this.recordDigAnalytics();
       }
 
@@ -1400,6 +1408,7 @@ export class BeachScene extends BaseScene {
       this.updateOtherPlayers();
       this.handleDigbyWarnings();
     } else {
+      this.alreadyWarnedOfNoDigs = false;
       this.hoverBox?.setVisible(false);
       this.confirmBox?.setVisible(false);
       this.drillHoverBox?.setVisible(false);
