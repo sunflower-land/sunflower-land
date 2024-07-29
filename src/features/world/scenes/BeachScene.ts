@@ -700,8 +700,6 @@ export class BeachScene extends BaseScene {
       }
 
       this.handleDigbyWarnings();
-
-      return true;
     }
 
     return hasDugHere;
