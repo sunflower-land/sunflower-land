@@ -13212,7 +13212,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/erc1155/images/368.png",
+    image: "../public/wearables/images/368.png",
     name: "Ankh Shirt",
   },
   "Ancient Shovel": {
@@ -13230,7 +13230,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/erc1155/images/369.png",
+    image: "../public/wearables/images/369.png",
     name: "Ancient Shovel",
   },
   "Infernal Drill": {
@@ -13248,7 +13248,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/erc1155/images/370.png",
+    image: "../public/wearables/images/370.png",
     name: "Infernal Drill",
   },
   "Lemon Shield": {
@@ -13266,7 +13266,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/erc1155/images/371.png",
+    image: "../public/wearables/images/371.png",
     name: "Lemon Shield",
   },
   "Scarab Wings": {
@@ -13278,7 +13278,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/erc1155/images/372.png",
+    image: "../public/wearables/images/372.png",
     name: "Scarab Wings",
   },
 };
