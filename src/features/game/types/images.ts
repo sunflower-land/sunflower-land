@@ -8954,4 +8954,10 @@ export const ITEM_DETAILS: Items = {
       en: "",
     },
   },
+  "Paper Reed": {
+    image: "",
+    description: {
+      en: "",
+    },
+  },
 };

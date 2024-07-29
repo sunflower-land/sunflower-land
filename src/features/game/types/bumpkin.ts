@@ -319,7 +319,8 @@ export type BumpkinPant =
   | "Bumpkin Pants"
   | "Sunflorian Pants"
   | "Explorer Shorts"
-  | "Oil Overalls";
+  | "Oil Overalls"
+  | "Grape Pants";
 
 export type BumpkinDress =
   | "Royal Dress"
@@ -787,6 +788,7 @@ export const ITEM_IDS: Record<BumpkinItem, number> = {
   "Infernal Drill": 370,
   "Lemon Shield": 371,
   "Scarab Wings": 372,
+  "Grape Pants": 373,
   "Bionic Drill": 374,
 };
 
@@ -1221,5 +1223,6 @@ export const BUMPKIN_ITEM_PART: Record<BumpkinItem, keyof Wallet> = {
   "Infernal Drill": "secondaryTool",
   "Lemon Shield": "secondaryTool",
   "Scarab Wings": "wings",
+  "Grape Pants": "pants",
   "Bionic Drill": "wings",
 };

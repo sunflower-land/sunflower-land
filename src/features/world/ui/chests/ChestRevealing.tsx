@@ -20,19 +20,19 @@ interface Props {
   type: "Treasure Key" | "Rare Key" | "Luxury Key" | "Bud Box" | "Gift Giver";
 }
 
-const CHEST_LOOT = {
-  "Treasure Key": BASIC_REWARDS,
-  "Rare Key": RARE_REWARDS,
-  "Luxury Key": LUXURY_REWARDS,
+const CHEST_LOOT = () => ({
+  "Treasure Key": BASIC_REWARDS(),
+  "Rare Key": RARE_REWARDS(),
+  "Luxury Key": LUXURY_REWARDS(),
   "Bud Box": BUD_BOX_REWARDS,
   "Gift Giver": GIFT_GIVER_REWARDS,
-};
+});
 
 export const ChestRevealing: React.FC<Props> = ({ type }) => {
   const [image, setImage] = React.useState<string>(sfl);
   const [label, setLabel] = React.useState<string>("5 SFL");
 
-  const items = CHEST_LOOT[type];
+  const items = CHEST_LOOT()[type];
 
   const pickRandomImage = useCallback(() => {
     let newImage = image;

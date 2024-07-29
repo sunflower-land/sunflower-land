@@ -624,6 +624,8 @@ const seasonalDecorations: Record<SeasonalDecorationName, () => boolean> = {
   "Tiki Torch": () => true,
   Surfboard: () => true,
   "Gaucho Rug": () => true,
+
+  "Paper Reed": () => hasSeasonEnded("Pharaoh's Treasure"),
 };
 
 const mutantCrop: Record<MutantCropName, () => boolean> = {
@@ -1559,5 +1561,6 @@ export const BUMPKIN_WITHDRAWABLES: Record<
   "Infernal Drill": () => canWithdrawTimebasedItem(new Date("2024-10-21")), // Last Auction 20th October
   "Lemon Shield": () => canWithdrawTimebasedItem(new Date("2024-10-12")), // Last Auction 11th October
   "Scarab Wings": () => canWithdrawTimebasedItem(new Date("2024-10-03")), // Last Auction 2nd October
+  "Grape Pants": () => hasSeasonEnded("Pharaoh's Treasure"),
   "Bionic Drill": (state) => canWithdrawBoostedWearable("Bionic Drill", state),
 };
