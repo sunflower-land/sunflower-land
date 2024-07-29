@@ -640,4 +640,21 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
     boostTypeIcon: lightning,
     boostedItemIcon: SUNNYSIDE.icons.plant,
   },
+  "Pharaoh Gnome": {
+    shortDescription: "+2 Greenhouse Crop",
+    labelType: "success",
+    boostedItemIcon: powerup,
+  },
+  "Lemon Tea Bath": {
+    shortDescription: "-50% Lemon Growth Time",
+    labelType: "info",
+    boostedItemIcon: SUNNYSIDE.icons.stopwatch,
+    boostTypeIcon: ITEM_DETAILS.Lemon.image,
+  },
+  "Tomato Clown": {
+    shortDescription: "-50% Tomato Growth Time",
+    labelType: "info",
+    boostedItemIcon: SUNNYSIDE.icons.stopwatch,
+    boostTypeIcon: ITEM_DETAILS.Tomato.image,
+  },
 };

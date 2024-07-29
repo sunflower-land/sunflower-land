@@ -332,6 +332,9 @@ import { Sarcophagus } from "./components/Sarcophagus";
 import { Template } from "./components/template/Template";
 import { PharaohChicken } from "./components/PharaohChicken";
 import { ImageStyle } from "./components/template/ImageStyle";
+import { TomatoClown } from "./components/TomatoClown";
+import { LemonTeaBath } from "./components/LemonTeaBath";
+import { Pyramid } from "./components/Pyramid";
 
 export const COLLECTIBLE_COMPONENTS: Record<
   CollectibleName | "Bud",
@@ -787,6 +790,22 @@ export const COLLECTIBLE_COMPONENTS: Record<
       alt="Sunlit Citadel"
     />
   ),
+  "Pharaoh Gnome": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      style={{
+        width: `${PIXEL_SCALE * 11}px`,
+        bottom: `${PIXEL_SCALE * 3}px`,
+        left: `${PIXEL_SCALE * 2.5}px`,
+      }}
+      image={ITEM_DETAILS["Pharaoh Gnome"].image}
+      alt="Pharaoh Gnome"
+    />
+  ),
+  "Lemon Tea Bath": LemonTeaBath,
+  "Tomato Clown": TomatoClown,
+  Pyramid: Pyramid,
+  Oasis: Template,
 };
 // Need readonly versions for some troublesome components while in design mode
 
