@@ -142,12 +142,17 @@ export function getFruitYield({ name, game, fertiliser }: FruitYield) {
     amount += 1;
   }
 
+  if (name === "Grape" && isWearableActive({ name: "Grape Pants", game })) {
+    amount += 0.2;
+  }
+
   if (
     isGreenhouseFruit(name) &&
     isCollectibleBuilt({ name: "Pharaoh Gnome", game })
   ) {
     amount += 2;
   }
+
   amount += getBudYieldBoosts(game.buds ?? {}, name);
 
   return amount;
