@@ -1151,11 +1151,94 @@ export class BeachScene extends BaseScene {
     }
   };
 
+  private pickRandomDiggerPosition = () => {
+    const fixed = Math.random() < 0.5 ? "x" : "y";
+
+    const PIN_X_LEFT = this.gridX - this.cellSize * 0.5;
+    const PIN_X_RIGHT = this.gridX + this.cellSize * (SITE_COLS + 0.5);
+
+    const pos = {
+      x: Math.random() * (this.cellSize * SITE_COLS) + this.gridX,
+      y: Math.random() * (this.cellSize * SITE_ROWS) + this.gridY,
+    };
+
+    if (fixed === "x") {
+      pos.x = Math.random() < 0.5 ? PIN_X_LEFT : PIN_X_RIGHT;
+    } else {
+      pos.y =
+        Math.random() < 0.5
+          ? this.gridY - this.cellSize
+          : this.gridY + this.cellSize * (SITE_ROWS + 0.5);
+    }
+
+    // Don't block site entrances
+    while (
+      fixed === "x" &&
+      pos.x === PIN_X_LEFT &&
+      pos.y > 210 &&
+      pos.y < 260
+    ) {
+      pos.y = Math.random() * (this.cellSize * SITE_ROWS) + this.gridY;
+    }
+
+    while (
+      fixed === "x" &&
+      pos.x === PIN_X_RIGHT &&
+      pos.y > 190 &&
+      pos.y < 260
+    ) {
+      pos.y = Math.random() * (this.cellSize * SITE_ROWS) + this.gridY;
+    }
+
+    return pos;
+  };
+
   public handleOtherDiggersPositions() {
+    // Create a grid for the dig site with a buffer
+    const gridRect = new Phaser.Geom.Rectangle(
+      this.gridX + this.cellSize * 0.5,
+      this.gridY,
+      this.cellSize * SITE_COLS + 0.25,
+      this.cellSize * (SITE_ROWS + 0.5),
+    );
+
     // If any other players are inside of the dig area, move them to the perimeter
     this.mmoServer?.state?.players.forEach((player, sessionId) => {
-      if (this.isPlayerInDigArea(player.x, player.y)) {
-        this.playerEntities[sessionId]?.teleport(256, 111);
+      const otherPlayerBounds = new Phaser.Geom.Rectangle(
+        player.x,
+        player.y,
+        16,
+        16,
+      );
+      const currentPlayerBounds = this.currentPlayer?.getBounds();
+
+      if (!currentPlayerBounds) return;
+
+      if (
+        Phaser.Geom.Rectangle.Overlaps(otherPlayerBounds, gridRect) &&
+        Phaser.Geom.Rectangle.Overlaps(currentPlayerBounds, gridRect)
+      ) {
+        // Player has entered the dig site
+        if (!this.otherDiggers.get(sessionId)) {
+          this.otherDiggers.set(sessionId, this.pickRandomDiggerPosition());
+        }
+
+        this.playerEntities[sessionId]?.setPosition(
+          this.otherDiggers.get(sessionId)!.x,
+          this.otherDiggers.get(sessionId)!.y,
+        );
+        this.playerEntities[sessionId]?.idle();
+      } else {
+        // Player has left the dig site
+        if (this.otherDiggers.get(sessionId)) {
+          this.playerEntities[sessionId]?.showSmoke();
+
+          this.otherDiggers.delete(sessionId);
+          this.playerEntities[sessionId]?.setPosition(
+            this.mmoServer?.state?.players.get(sessionId)?.x,
+            this.mmoServer?.state?.players.get(sessionId)?.y,
+          );
+        }
       }
     });
   }
@@ -1373,16 +1456,17 @@ export class BeachScene extends BaseScene {
     if (!this.currentPlayer) return;
 
     this.handleUpdateSelectedItem();
+    this.handleNameTagVisibility();
 
     if (this.isPlayerInDigArea(this.currentPlayer.x, this.currentPlayer.y)) {
       this.updatePlayer();
       this.updateOtherPlayers();
-      this.handleNameTagVisibility();
-      this.handleOtherDiggersPositions();
       this.handleDigbyWarnings();
     } else {
       super.update();
     }
+
+    this.handleOtherDiggersPositions();
   }
 }
 
