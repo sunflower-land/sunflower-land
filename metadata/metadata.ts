@@ -13368,4 +13368,21 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
     image: "../public/wearables/images/372.png",
     name: "Scarab Wings",
   },
+  "Bionic Drill": {
+    description:
+      "The Bionic Drill is a state-of-the-art wearable designed for the modern desert explorer. Enjoy +5 desert digs per day.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Wings" },
+      { trait_type: "Tradable", value: "Yes" },
+      {
+        display_type: "boost_number",
+        trait_type: "Increase Desert Digs",
+        value: 5,
+      },
+    ],
+    external_url: "https://bumpkins.io",
+    image: "../public/wearables/images/372.png",
+    name: "Scarab Wings",
+  },
 };
