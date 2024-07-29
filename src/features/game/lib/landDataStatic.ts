@@ -385,6 +385,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     },
   },
   inventory: {
+    "Lemon Shark": new Decimal(1),
     "Beta Pass": new Decimal(1),
     "Paint Can": new Decimal(1),
     "Jelly Lamp": new Decimal(1),

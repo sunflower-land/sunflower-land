@@ -641,6 +641,7 @@ import halibut from "assets/fish/halibut.png";
 import angelFish from "assets/fish/angel_fish.png";
 import parrotFish from "assets/fish/parrot_fish.png";
 import battleFish from "assets/fish/battle_fish.webp";
+import lemonShark from "assets/fish/lemon_shark.webp";
 
 import festiveTree from "assets/sfts/festive_tree.png";
 import nutcracker from "assets/sfts/bumpkin_nutcracker.png";
@@ -6811,6 +6812,27 @@ export const ITEM_DETAILS: Items = {
       "zh-CN": "派系赛季稀有的装甲游泳者！",
       fr: "The rare armored swimmer of faction season!",
       tk: "The rare armored swimmer of faction season!",
+    },
+  },
+  "Lemon Shark": {
+    image: lemonShark,
+    howToGetItem: [
+      {
+        en: "Ocean fishing",
+        pt: "Pesca no mar",
+        fr: "Pêche en mer",
+        tk: "Okyanus balıkçılığı",
+        "zh-CN": "海上垂钓",
+      },
+    ],
+    itemType: "collectible",
+    description: {
+      en: "A zesty, zippy swimmer of the Summer seas. Only available during Pharaoh's Treasure season.",
+      pt: "A zesty, zippy swimmer of the Summer seas. Only available during Pharaoh's Treasure season.",
+      "zh-CN":
+        "A zesty, zippy swimmer of the Summer seas. Only available during Pharaoh's Treasure season.",
+      fr: "A zesty, zippy swimmer of the Summer seas. Only available during Pharaoh's Treasure season.",
+      tk: "A zesty, zippy swimmer of the Summer seas. Only available during Pharaoh's Treasure season.",
     },
   },
   "Kraken Tentacle": {

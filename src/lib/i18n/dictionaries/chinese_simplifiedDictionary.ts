@@ -877,6 +877,8 @@ const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
   // Translate
   "description.hungryHare.boost": "发酵胡萝卜 XP 翻倍",
   "description.battle.fish.boost": "+0.05 石油",
+  "description.lemon.shark.boost":
+    ENGLISH_TERMS["description.lemon.shark.boost"],
   "description.knight.chicken.boost": "+0.1 石油",
   "description.pharaoh.chicken.boost":
     ENGLISH_TERMS["description.pharaoh.chicken.boost"],

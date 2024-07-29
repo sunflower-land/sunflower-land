@@ -259,7 +259,6 @@ import { FancyRug } from "./components/FancyRug";
 import { Clock } from "./components/Clock";
 import { Vinny } from "./components/Vinny";
 import { KnightChicken } from "./components/KnightChicken";
-import { BattleFish } from "./components/BattleFish";
 import { GauchoRug } from "./components/GauchoRug";
 import { BattlecryDrum } from "./components/BattleCryDrum";
 import { BullseyeBoard } from "./components/BullseyeBoard";
@@ -335,6 +334,8 @@ import { ImageStyle } from "./components/template/ImageStyle";
 import { TomatoClown } from "./components/TomatoClown";
 import { LemonTeaBath } from "./components/LemonTeaBath";
 import { Pyramid } from "./components/Pyramid";
+import { LemonShark } from "./components/LemonShark";
+import { BattleFish } from "./components/BattleFish";
 
 export const COLLECTIBLE_COMPONENTS: Record<
   CollectibleName | "Bud",
@@ -604,6 +605,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Gilded Swordfish": GildedSwordfish,
   "Crimson Carp": CrimsonCarp,
   "Battle Fish": BattleFish,
+  "Lemon Shark": LemonShark,
 
   "Kraken Tentacle": KrakenTentacle,
 

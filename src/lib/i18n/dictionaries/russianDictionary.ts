@@ -901,6 +901,8 @@ const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
   "description.rock.golem.boost": "10% шанс на +2 Stone",
   "description.crimson.carp.boost": "+0.05 Crimstone",
   "description.battle.fish.boost": "+0.05 Oil",
+  "description.lemon.shark.boost":
+    ENGLISH_TERMS["description.lemon.shark.boost"],
   "description.crim.peckster.boost": "+0.1 Crimstone",
   "description.knight.chicken.boost": "+0.1 Oil",
   "description.pharaoh.chicken.boost":

@@ -596,6 +596,7 @@ export type BoostEffectDescriptions =
   | "description.rock.golem.boost"
   | "description.crimson.carp.boost"
   | "description.battle.fish.boost"
+  | "description.lemon.shark.boost"
   | "description.crim.peckster.boost"
   | "description.knight.chicken.boost"
   | "description.pharaoh.chicken.boost"
