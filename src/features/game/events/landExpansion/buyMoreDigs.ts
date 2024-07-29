@@ -13,7 +13,7 @@ type Options = {
 };
 
 const EXTRA_DIGS_AMOUNT = 5;
-export const TOTAL_DIG_SPOTS = 100;
+export const GRID_DIG_SPOTS = 100;
 
 export function buyMoreDigs({ state }: Options) {
   const game = cloneDeep(state);
@@ -24,12 +24,7 @@ export function buyMoreDigs({ state }: Options) {
     throw new Error("Player does not have enough block bucks to buy more digs");
   }
 
-  const totalDigs = game.desert.digging.grid.flat().length;
   const extraDigs = game.desert.digging.extraDigs ?? 0;
-
-  if (totalDigs + extraDigs >= TOTAL_DIG_SPOTS) {
-    throw new Error("No more spots left to dig");
-  }
 
   game.inventory["Block Buck"] = blockBucks.sub(1);
 
