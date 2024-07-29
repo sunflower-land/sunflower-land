@@ -740,6 +740,8 @@ const boostDescriptions: Record<BoostDescriptions, string> = {
     "Детектив, который обладает умением находить Crimstones.",
   "description.knight.chicken":
     "A strong and noble chicken boosting your oil yield.",
+  "description.pharaoh.chicken": ENGLISH_TERMS["description.pharaoh.chicken"],
+
   "description.skill.shrimpy":
     "Shrimpy's здесь, чтобы помочь! Он позаботится о том, чтобы ты получил дополнительный опыт с рыбы.",
   "description.soil.krabby":
@@ -899,8 +901,12 @@ const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
   "description.rock.golem.boost": "10% шанс на +2 Stone",
   "description.crimson.carp.boost": "+0.05 Crimstone",
   "description.battle.fish.boost": "+0.05 Oil",
+  "description.lemon.shark.boost":
+    ENGLISH_TERMS["description.lemon.shark.boost"],
   "description.crim.peckster.boost": "+0.1 Crimstone",
   "description.knight.chicken.boost": "+0.1 Oil",
+  "description.pharaoh.chicken.boost":
+    ENGLISH_TERMS["description.pharaoh.chicken.boost"],
   "description.queen.bee.boost": "Удваивает скорость производства Honey",
   "description.beekeeper.hat.boost": "+20% скорость производства Honey",
   "description.flower.fox.boost": "-10% времени роста цветов",
@@ -1966,6 +1972,14 @@ export const desertTerms: Record<DesertKeys, string> = {
   "desert.notice.two": ENGLISH_TERMS["desert.notice.two"],
   "desert.notice.three": ENGLISH_TERMS["desert.notice.three"],
   "desert.notice.four": ENGLISH_TERMS["desert.notice.four"],
+  "digby.moreDigsIntro": ENGLISH_TERMS["digby.moreDigsIntro"],
+  "digby.buyMoreDigs": ENGLISH_TERMS["digby.buyMoreDigs"],
+  "desert.hud.digsLeft": ENGLISH_TERMS["desert.hud.digsLeft"],
+  "desert.hud.noDigsLeft": ENGLISH_TERMS["desert.hud.noDigsLeft"],
+  "desert.hud.newSite": ENGLISH_TERMS["desert.hud.newSite"],
+  "desert.extraDigs": ENGLISH_TERMS["desert.extraDigs"],
+  "desert.digs": ENGLISH_TERMS["desert.digs"],
+  "desert.buyDigs.confirmation": ENGLISH_TERMS["desert.buyDigs.confirmation"],
 };
 
 const donation: Record<Donation, string> = {

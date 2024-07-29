@@ -49,6 +49,7 @@ export const maxItems: Inventory = {
   "Crim Peckster": new Decimal("5"),
   "Knight Chicken": new Decimal("5"),
   "Desert Rose": new Decimal("5"),
+  "Pharaoh Chicken": new Decimal("5"),
 
   // Seed limits + buffer
   "Sunflower Seed": new Decimal(1250),
@@ -237,6 +238,11 @@ export const maxItems: Inventory = {
   "Shifty Sheldon": new Decimal(100),
   "Tiki Torch": new Decimal(100),
   "Beach Umbrella": new Decimal(100),
+
+  // Sand Castles
+  "Adrift Ark": new Decimal(50),
+  Castellan: new Decimal(50),
+  "Sunlit Citadel": new Decimal(50),
 
   ...(Object.keys(EXOTIC_CROPS) as InventoryItemName[]).reduce(
     (acc, name) => ({

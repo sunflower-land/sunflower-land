@@ -340,6 +340,7 @@ import {
   unlockMinigameAchievements,
   UnlockMinigameAchievementsAction,
 } from "./minigames/unlockMinigameAchievements";
+import { BuyMoreDigsAction, buyMoreDigs } from "./landExpansion/buyMoreDigs";
 
 export type PlayingEvent =
   | OilGreenhouseAction
@@ -439,7 +440,8 @@ export type PlayingEvent =
   | BuyFactionShopItemAction
   | ClaimFactionPrizeAction
   | FeedFactionPetAction
-  | LeaveFactionAction;
+  | LeaveFactionAction
+  | BuyMoreDigsAction;
 
 export type PlacementEvent =
   | ConstructBuildingAction
@@ -604,6 +606,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "factionKitchen.delivered": deliverFactionKitchen,
   "factionShopItem.bought": buyFactionShopItem,
   "factionPet.fed": feedFactionPet,
+  "desert.digsBought": buyMoreDigs,
 };
 
 export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {

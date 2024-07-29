@@ -174,7 +174,8 @@ export type MutantChicken =
   | "El Pollo Veloz"
   | "Banana Chicken"
   | "Crim Peckster"
-  | "Knight Chicken";
+  | "Knight Chicken"
+  | "Pharaoh Chicken";
 
 export type Coupons =
   | "Gold Pass"
@@ -687,6 +688,7 @@ export type DugHole = {
 
 export type Desert = {
   digging: {
+    extraDigs?: number;
     patterns: DiggingFormationName[];
     grid: (DugHole | DugHole[])[];
   };
