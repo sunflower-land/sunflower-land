@@ -6413,7 +6413,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     ],
   },
   "Pharaoh Chicken": {
-    description: "A strong and noble chicken boosting your oil yield.",
+    description: "A ruling chicken, +1 Dig.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/2116.gif",
@@ -6422,7 +6422,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
       {
         display_type: "boost_number",
         trait_type: "Increase daily digs",
-        value: 20,
+        value: 1,
       },
       { trait_type: "Tradable", value: "Yes" },
     ],
