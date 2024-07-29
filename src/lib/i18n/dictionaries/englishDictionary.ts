@@ -5610,10 +5610,13 @@ export const desertTerms: Record<DesertKeys, string> = {
   "desert.hud.digsLeft": "{{digsLeft}} digs left",
   "desert.hud.noDigsLeft": "No digs left...",
   "desert.hud.newSite": "New dig site!",
+<<<<<<< HEAD
   "desert.extraDigs": "Extra digs",
   "desert.digs": "{{amount}} digs",
   "desert.buyDigs.confirmation":
     "Are you sure you want to buy 5 digs for 1 Block Buck?",
+=======
+>>>>>>> 97330486e ([FEAT] Add terms)
 };
 
 export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
