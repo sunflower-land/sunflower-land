@@ -878,6 +878,8 @@ const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
   // Translate
   "description.hungryHare.boost": "发酵胡萝卜 XP 翻倍",
   "description.battle.fish.boost": "+0.05 石油",
+  "description.lemon.shark.boost":
+    ENGLISH_TERMS["description.lemon.shark.boost"],
   "description.knight.chicken.boost": "+0.1 石油",
   "description.pharaoh.chicken.boost":
     ENGLISH_TERMS["description.pharaoh.chicken.boost"],
@@ -4905,6 +4907,14 @@ export const desertTerms: Record<DesertKeys, string> = {
   "desert.notice.two": ENGLISH_TERMS["desert.notice.two"],
   "desert.notice.three": ENGLISH_TERMS["desert.notice.three"],
   "desert.notice.four": ENGLISH_TERMS["desert.notice.four"],
+  "digby.moreDigsIntro": ENGLISH_TERMS["digby.moreDigsIntro"],
+  "digby.buyMoreDigs": ENGLISH_TERMS["digby.buyMoreDigs"],
+  "desert.hud.digsLeft": ENGLISH_TERMS["desert.hud.digsLeft"],
+  "desert.hud.noDigsLeft": ENGLISH_TERMS["desert.hud.noDigsLeft"],
+  "desert.hud.newSite": ENGLISH_TERMS["desert.hud.newSite"],
+  "desert.extraDigs": ENGLISH_TERMS["desert.extraDigs"],
+  "desert.digs": ENGLISH_TERMS["desert.digs"],
+  "desert.buyDigs.confirmation": ENGLISH_TERMS["desert.buyDigs.confirmation"],
 };
 
 export const CHINESE_SIMPLIFIED_TERMS: Record<TranslationKeys, string> = {

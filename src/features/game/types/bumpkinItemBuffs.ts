@@ -371,4 +371,35 @@ export const BUMPKIN_ITEM_BUFF_LABELS: Partial<Record<BumpkinItem, BuffLabel>> =
       boostTypeIcon: powerup,
       boostedItemIcon: ITEM_DETAILS.Crab.image,
     },
+    "Lemon Shield": {
+      shortDescription: "+1 Lemon",
+      labelType: "success",
+      boostTypeIcon: powerup,
+      boostedItemIcon: ITEM_DETAILS.Lemon.image,
+    },
+    "Infernal Drill": {
+      shortDescription: "Drill Oil without Oil Drill",
+      labelType: "vibrant",
+      boostTypeIcon: lightning,
+      boostedItemIcon: ITEM_DETAILS.Oil.image,
+    },
+    "Ancient Shovel": {
+      shortDescription: "Dig treasure without Shovel",
+      // Will clarify whether it will also allow users to dig treasure without the Sand Drill
+      labelType: "vibrant",
+      boostTypeIcon: lightning,
+      boostedItemIcon: ITEM_DETAILS.Oil.image,
+    },
+    "Oil Overalls": {
+      shortDescription: "+10 Oil",
+      labelType: "success",
+      boostTypeIcon: powerup,
+      boostedItemIcon: ITEM_DETAILS.Oil.image,
+    },
+    "Dev Wrench": {
+      shortDescription: "-50% Oil Regeneration Time",
+      labelType: "info",
+      boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+      boostedItemIcon: ITEM_DETAILS.Oil.image,
+    },
   };

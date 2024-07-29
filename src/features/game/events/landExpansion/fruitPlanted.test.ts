@@ -629,6 +629,54 @@ describe("fruitPlanted", () => {
       (fruitPatches as Record<number, FruitPatch>)[patchIndex].fruit?.amount,
     ).toEqual(1);
   });
+
+  it("includes +0.2 Lemons when Lemon Shark is placed", () => {
+    const seedAmount = new Decimal(5);
+
+    const patchIndex = "1";
+
+    const state = plantFruit({
+      state: {
+        ...GAME_STATE,
+        bumpkin: INITIAL_BUMPKIN,
+        inventory: {
+          "Lemon Seed": seedAmount,
+        },
+        collectibles: {
+          "Lemon Shark": [
+            {
+              coordinates: { x: 0, y: 0 },
+              createdAt: 10,
+              id: "123",
+              readyAt: 10,
+            },
+          ],
+        },
+      },
+      createdAt: dateNow,
+      action: {
+        type: "fruit.planted",
+        index: patchIndex,
+
+        seed: "Lemon Seed",
+      },
+      harvestsLeft: () => 3,
+    });
+
+    const fruitPatches = state.fruitPatches;
+
+    expect((fruitPatches as Record<number, FruitPatch>)[patchIndex]).toEqual(
+      expect.objectContaining({
+        fruit: expect.objectContaining({
+          name: "Lemon",
+          plantedAt: expect.any(Number),
+          amount: 1.2,
+          harvestedAt: 0,
+          harvestsLeft: 3,
+        }),
+      }),
+    );
+  });
 });
 
 describe("getFruitTime", () => {

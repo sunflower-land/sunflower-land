@@ -34,7 +34,11 @@ export type HeliosBlacksmithItem =
   | "Soil Krabby"
   | "Nana";
 
-export type TreasureCollectibleItem = "Treasure Map";
+export type TreasureCollectibleItem =
+  | "Treasure Map"
+  | "Adrift Ark"
+  | "Castellan"
+  | "Sunlit Citadel";
 
 export type SoldOutCollectibleName =
   | "Sir Goldensnout"
@@ -77,7 +81,12 @@ export type SoldOutCollectibleName =
   | "Grape Granny"
   | "Royal Throne"
   | "Lily Egg"
-  | "Goblet";
+  | "Goblet"
+  | "Pharaoh Gnome"
+  | "Lemon Tea Bath"
+  | "Tomato Clown"
+  | "Pyramid"
+  | "Oasis";
 
 export type MegaStoreCollectibleName =
   | "Flower Cart"
@@ -221,6 +230,27 @@ export const TREASURE_COLLECTIBLE_ITEM: Record<
       Gold: new Decimal(5),
       "Wooden Compass": new Decimal(2),
     },
+  },
+  "Adrift Ark": {
+    ingredients: {
+      Sand: new Decimal(125),
+    },
+    description:
+      "A sandcastle on the shore intricately crafted to resemble a capsized boat, complete with shell portholes and seaweed flags fluttering atop its sculpted hull.",
+  },
+  Castellan: {
+    ingredients: {
+      Sand: new Decimal(750),
+    },
+    description:
+      "Castellan is a charming sandcastle figure adorned with colorful accessories, symbolizing playful spirit and creativity.",
+  },
+  "Sunlit Citadel": {
+    ingredients: {
+      Sand: new Decimal(1500),
+      Scarab: new Decimal(40),
+    },
+    description: "A Castle to show your pride",
   },
 };
 

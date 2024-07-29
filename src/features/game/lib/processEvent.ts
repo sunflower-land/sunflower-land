@@ -239,6 +239,11 @@ export const maxItems: Inventory = {
   "Tiki Torch": new Decimal(100),
   "Beach Umbrella": new Decimal(100),
 
+  // Sand Castles
+  "Adrift Ark": new Decimal(50),
+  Castellan: new Decimal(50),
+  "Sunlit Citadel": new Decimal(50),
+
   ...(Object.keys(EXOTIC_CROPS) as InventoryItemName[]).reduce(
     (acc, name) => ({
       ...acc,
