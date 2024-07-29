@@ -33,6 +33,8 @@ export const DesertDiggingDisplay = () => {
   const [gameState] = useActor(gameService);
   const [show, setShow] = useState(false);
 
+  const { t } = useTranslation();
+
   const handleClick = (e: React.MouseEvent) => {
     e.stopPropagation();
     e.preventDefault();
@@ -57,7 +59,9 @@ export const DesertDiggingDisplay = () => {
             icon={SUNNYSIDE.tools.sand_shovel}
             secondaryIcon={SUNNYSIDE.icons.expression_confused}
           >
-            <span className="text">{`${digsLeft} digs left`}</span>
+            <span className="text">
+              {t("desert.hud.digsLeft", { digsLeft })}
+            </span>
           </Label>
         )}
         {digsLeft === 0 && (
@@ -66,7 +70,7 @@ export const DesertDiggingDisplay = () => {
             icon={SUNNYSIDE.icons.sad}
             secondaryIcon={SUNNYSIDE.icons.expression_confused}
           >
-            <span className="text">{`No digs left...`}</span>
+            <span className="text">{t("desert.hud.noDigsLeft")}</span>
           </Label>
         )}
         {dugCount === 0 && (
@@ -75,7 +79,7 @@ export const DesertDiggingDisplay = () => {
             icon={SUNNYSIDE.tools.sand_shovel}
             secondaryIcon={SUNNYSIDE.icons.expression_confused}
           >
-            <span className="text">{`New dig site!`}</span>
+            <span className="text">{t("desert.hud.newSite")}</span>
           </Label>
         )}
       </div>

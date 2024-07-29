@@ -238,9 +238,6 @@ export const getItemImage = (item: BumpkinItem | CollectibleName): string => {
   return ITEM_DETAILS[item].image;
 };
 
-// If the player has just run out of digs then just show the ways to obtain extra digs
-// If the player has not run out of digs then all information
-
 const BoostDigItems: Partial<
   Record<BumpkinItem | CollectibleName, BuffLabel & { location: string }>
 > = {
@@ -339,9 +336,7 @@ export const Digby: React.FC<{ onClose: () => void }> = ({ onClose }) => {
           <div className="p-1">
             <Label type="default" className="mb-1">{`Extra digs`}</Label>
             <span className="text-xs my-2 mx-1">
-              {
-                "Running out of digs, are ya? No worries! There are multiple ways to get more digs. Check out the options below and keep on digging for those hidden treasures!"
-              }
+              {t("digby.moreDigsIntro")}
             </span>
             <div className="flex flex-col my-2 space-y-1">
               {getKeys(BoostDigItems).map((item) => (
@@ -378,7 +373,7 @@ export const Digby: React.FC<{ onClose: () => void }> = ({ onClose }) => {
             onClick={canAfford ? () => handleBuyMoreDigs() : undefined}
           >
             <div className="flex items-center space-x-1">
-              <p>{`Buy 5 more digs for 1`}</p>
+              <p>{t("digby.buyMoreDigs")}</p>
               <img src={blockBuck} className="w-4" />
             </div>
           </Button>

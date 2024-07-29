@@ -5585,7 +5585,7 @@ export const desertTerms: Record<DesertKeys, string> = {
     "Hey, you need a sand shovel to dig here! Speak to Jafar..",
   "digby.noDrills":
     "Looks like you don't have any sand drills! Speak to Jafar..",
-  "digby.noDigsLeft": "You have no more digs left! Come back tomorrow..",
+  "digby.noDigsLeft": "You have no more digs left! Maybe I can help..",
   "digby.puzzle": "Digging puzzle",
   "digby.patterns": "Patterns",
   "digby.today":
@@ -5603,6 +5603,12 @@ export const desertTerms: Record<DesertKeys, string> = {
   "desert.notice.three": "Sell resources at the shop for coins.",
   "desert.notice.four":
     "Gather items for NPC deliveries in exchange for rewards.",
+  "digby.moreDigsIntro":
+    "Ahhh you're looking for more digs? No worries! There are multiple ways to get more. Check out the options below!",
+  "digby.buyMoreDigs": "Buy 5 more digs for 1",
+  "desert.hud.digsLeft": "{{digsLeft}} digs left",
+  "desert.hud.noDigsLeft": "No digs left...",
+  "desert.hud.newSite": "New dig site!",
 };
 
 export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
