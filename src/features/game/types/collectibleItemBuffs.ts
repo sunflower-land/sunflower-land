@@ -425,6 +425,12 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
     boostTypeIcon: powerup,
     // boostedItemIcon: ITEM_DETAILS.Oil.image,
   },
+  "Lemon Shark": {
+    labelType: "success",
+    shortDescription: translate("description.lemon.shark.boost"),
+    boostTypeIcon: powerup,
+    boostedItemIcon: ITEM_DETAILS.Lemon.image,
+  },
   "Crim Peckster": {
     shortDescription: translate("description.crim.peckster.boost"),
     labelType: "success",
