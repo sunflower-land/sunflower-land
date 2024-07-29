@@ -3801,7 +3801,10 @@ export type DesertKeys =
   | "digby.buyMoreDigs"
   | "desert.hud.digsLeft"
   | "desert.hud.noDigsLeft"
-  | "desert.hud.newSite";
+  | "desert.hud.newSite"
+  | "desert.extraDigs"
+  | "desert.digs"
+  | "desert.buyDigs.confirmation";
 
 export type TranslationKeys =
   | AchievementsTerms

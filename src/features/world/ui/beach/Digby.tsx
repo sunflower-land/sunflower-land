@@ -265,6 +265,7 @@ export const Digby: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
   const [tab, setTab] = useState(getDefaultTab(gameState.context.state));
+  const [showConfirm, setShowConfirm] = useState(false);
 
   const inventory = gameState.context.state.inventory;
 
@@ -274,7 +275,8 @@ export const Digby: React.FC<{ onClose: () => void }> = ({ onClose }) => {
     acknowledgeIntro();
   }, []);
 
-  const handleBuyMoreDigs = () => {
+  const confirmBuyMoreDigs = () => {
+    onClose();
     gameService.send("desert.digsBought");
   };
 
@@ -333,50 +335,73 @@ export const Digby: React.FC<{ onClose: () => void }> = ({ onClose }) => {
       )}
       {tab === 2 && (
         <>
-          <div className="p-1">
-            <Label type="default" className="mb-1">{`Extra digs`}</Label>
-            <span className="text-xs my-2 mx-1">
-              {t("digby.moreDigsIntro")}
-            </span>
-            <div className="flex flex-col my-2 space-y-1">
-              {getKeys(BoostDigItems).map((item) => (
-                <div key={item} className="flex space-x-2">
-                  <div
-                    className="bg-brown-600 cursor-pointer relative"
-                    style={{
-                      ...pixelDarkBorderStyle,
-                    }}
-                  >
-                    <SquareIcon icon={getItemImage(item)} width={20} />
-                  </div>
-                  <div className="flex flex-col justify-center space-y-1">
-                    <div className="flex flex-col space-y-0.5">
-                      <span className="text-xs">{item}</span>
-                      <span className="text-xxs italic">
-                        {BoostDigItems[item]?.location}
-                      </span>
-                    </div>
-                    <Label
-                      type={BoostDigItems[item]?.labelType ?? "default"}
-                      icon={BoostDigItems[item]?.boostTypeIcon}
-                      secondaryIcon={BoostDigItems[item]?.boostedItemIcon}
-                    >
-                      {BoostDigItems[item]?.shortDescription}
-                    </Label>
-                  </div>
+          {!showConfirm && (
+            <>
+              <div className="p-1">
+                <div className="flex items-center justify-between">
+                  <Label type="default" className="mb-1">
+                    {t("desert.extraDigs")}
+                  </Label>
                 </div>
-              ))}
-            </div>
-          </div>
-          <Button
-            disabled={!canAfford}
-            onClick={canAfford ? () => handleBuyMoreDigs() : undefined}
-          >
-            <div className="flex items-center space-x-1">
-              <p>{t("digby.buyMoreDigs")}</p>
-              <img src={blockBuck} className="w-4" />
-            </div>
-          </Button>
+                <span className="text-xs my-2 mx-1">
+                  {t("digby.moreDigsIntro")}
+                </span>
+                <div className="flex flex-col my-2 space-y-1">
+                  {getKeys(BoostDigItems).map((item) => (
+                    <div key={item} className="flex space-x-2">
+                      <div
+                        className="bg-brown-600 cursor-pointer relative"
+                        style={{
+                          ...pixelDarkBorderStyle,
+                        }}
+                      >
+                        <SquareIcon icon={getItemImage(item)} width={20} />
+                      </div>
+                      <div className="flex flex-col justify-center space-y-1">
+                        <div className="flex flex-col space-y-0.5">
+                          <span className="text-xs">{item}</span>
+                          <span className="text-xxs italic">
+                            {BoostDigItems[item]?.location}
+                          </span>
+                        </div>
+                        <Label
+                          type={BoostDigItems[item]?.labelType ?? "default"}
+                          icon={BoostDigItems[item]?.boostTypeIcon}
+                          secondaryIcon={BoostDigItems[item]?.boostedItemIcon}
+                        >
+                          {BoostDigItems[item]?.shortDescription}
+                        </Label>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <Button
+                disabled={!canAfford}
+                onClick={canAfford ? () => setShowConfirm(true) : undefined}
+              >
+                <div className="flex items-center space-x-1">
+                  <p>{t("digby.buyMoreDigs")}</p>
+                  <img src={blockBuck} className="w-4" />
+                </div>
+              </Button>
+            </>
+          )}
+          {showConfirm && (
+            <>
+              <div className="flex flex-col p-2 pb-0 items-center">
+                <span className="text-sm text-start w-full mb-1">
+                  {t("desert.buyDigs.confirmation")}
+                </span>
+              </div>
+              <div className="flex justify-content-around mt-2 space-x-1">
+                <Button onClick={() => setShowConfirm(false)}>
+                  {t("cancel")}
+                </Button>
+                <Button onClick={confirmBuyMoreDigs}>{t("confirm")}</Button>
+              </div>
+            </>
+          )}
         </>
       )}
     </CloseButtonPanel>
