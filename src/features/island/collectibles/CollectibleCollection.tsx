@@ -335,6 +335,7 @@ import { TomatoClown } from "./components/TomatoClown";
 import { LemonTeaBath } from "./components/LemonTeaBath";
 import { Pyramid } from "./components/Pyramid";
 import { LemonShark } from "./components/LemonShark";
+import { BattleFish } from "./components/BattleFish";
 
 export const COLLECTIBLE_COMPONENTS: Record<
   CollectibleName | "Bud",
@@ -603,6 +604,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Phantom Barracuda": PhantomBarracuda,
   "Gilded Swordfish": GildedSwordfish,
   "Crimson Carp": CrimsonCarp,
+  "Battle Fish": BattleFish,
   "Lemon Shark": LemonShark,
 
   "Kraken Tentacle": KrakenTentacle,

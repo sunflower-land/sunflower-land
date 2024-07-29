@@ -903,6 +903,8 @@ const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
   "description.crimson.carp.boost": "+0.05 Crimstone",
   "description.battle.fish.boost":
     ENGLISH_TERMS["description.battle.fish.boost"],
+  "description.lemon.shark.boost":
+    ENGLISH_TERMS["description.lemon.shark.boost"],
   "description.crim.peckster.boost": "+0.1 Crimstone",
   "description.knight.chicken.boost":
     ENGLISH_TERMS["description.knight.chicken.boost"],
