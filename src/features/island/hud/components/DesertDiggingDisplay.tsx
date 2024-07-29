@@ -7,6 +7,7 @@ import { GameState } from "features/game/types/game";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { Modal } from "components/ui/Modal";
 import { Digby } from "features/world/ui/beach/Digby";
+import { useTranslation } from "react-i18next";
 
 export const getMaxDigs = (game: GameState) => {
   let maxDigs = 25;
