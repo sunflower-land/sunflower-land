@@ -12,15 +12,20 @@ import { TREASURE_TOOLS, TreasureToolName } from "features/game/types/tools";
 import { makeBulkBuyTools } from "features/island/buildings/components/building/market/lib/makeBulkBuyAmount";
 import { Restock } from "features/island/buildings/components/building/market/Restock";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-
-interface Props {
-  onClose: (e?: SyntheticEvent) => void;
+import {
+  TREASURE_COLLECTIBLE_ITEM,
+  TreasureCollectibleItem,
+} from "features/game/types/collectibles";
+import { gameAnalytics } from "lib/gameAnalytics";
+import { Label } from "components/ui/Label";
+interface ToolContentProps {
+  selectedName: TreasureToolName;
+  onClose: () => void;
 }
 
-export const TreasureShopBuy: React.FC<Props> = ({ onClose }) => {
+const ToolContent: React.FC<ToolContentProps> = ({ onClose, selectedName }) => {
   const { t } = useAppTranslation();
-  const [selectedName, setSelectedName] =
-    useState<TreasureToolName>("Sand Shovel");
+
   const { gameService, shortcutItem } = useContext(Context);
 
   const [
@@ -28,8 +33,6 @@ export const TreasureShopBuy: React.FC<Props> = ({ onClose }) => {
       context: { state },
     },
   ] = useActor(gameService);
-
-  const divRef = useRef<HTMLDivElement>(null);
 
   const stock = state.stock[selectedName] || new Decimal(0);
   const selected = TREASURE_TOOLS[selectedName];
@@ -56,53 +59,155 @@ export const TreasureShopBuy: React.FC<Props> = ({ onClose }) => {
     shortcutItem(selectedName);
   };
 
+  return (
+    <CraftingRequirements
+      gameState={state}
+      stock={stock}
+      details={{ item: selectedName }}
+      requirements={{
+        coins: selected.price,
+        resources: selected.ingredients,
+      }}
+      actionView={
+        <>
+          {stock.equals(0) ? (
+            <Restock onClose={onClose} />
+          ) : (
+            <div className="flex space-x-1 sm:space-x-0 sm:space-y-1 sm:flex-col w-full">
+              <Button
+                disabled={lessFunds() || lessIngredients() || stock.lessThan(1)}
+                onClick={(e) => craft(e, 1)}
+              >
+                {t("craft")} {"1"}
+              </Button>
+              {bulkToolCraftAmount > 1 && (
+                <Button
+                  disabled={
+                    lessFunds(bulkToolCraftAmount) ||
+                    lessIngredients(bulkToolCraftAmount)
+                  }
+                  onClick={(e) => craft(e, bulkToolCraftAmount)}
+                >
+                  {t("craft")} {bulkToolCraftAmount}
+                </Button>
+              )}
+            </div>
+          )}
+        </>
+      }
+    />
+  );
+};
+
+interface CraftContentProps {
+  selectedName: TreasureCollectibleItem;
+  onClose: () => void;
+}
+
+const CraftContent: React.FC<CraftContentProps> = ({
+  selectedName,
+  onClose,
+}) => {
+  const { t } = useAppTranslation();
+
+  const selected = TREASURE_COLLECTIBLE_ITEM[selectedName];
+  const { gameService, shortcutItem } = useContext(Context);
+  const [
+    {
+      context: { state },
+    },
+  ] = useActor(gameService);
+  const inventory = state.inventory;
+
+  const lessIngredients = () =>
+    getKeys(selected.ingredients).some((name) =>
+      selected.ingredients[name]?.greaterThan(inventory[name] || 0),
+    );
+  const isAlreadyCrafted = inventory[selectedName]?.greaterThanOrEqualTo(1);
+  const isBoost = TREASURE_COLLECTIBLE_ITEM[selectedName].boost;
+
+  const craft = () => {
+    gameService.send("collectible.crafted", {
+      name: selectedName,
+    });
+
+    const count = inventory[selectedName]?.toNumber() ?? 1;
+    gameAnalytics.trackMilestone({
+      event: `Crafting:Collectible:${selectedName}${count}`,
+    });
+
+    shortcutItem(selectedName);
+  };
+
+  return (
+    <CraftingRequirements
+      gameState={state}
+      details={{
+        item: selectedName,
+      }}
+      boost={selected.boost}
+      requirements={{
+        resources: selected.ingredients,
+        coins: selected.coins,
+      }}
+      actionView={
+        isAlreadyCrafted && isBoost ? (
+          <p className="text-xxs text-center mb-1 font-secondary">
+            {t("alr.crafted")}
+          </p>
+        ) : (
+          <Button disabled={lessIngredients()} onClick={craft}>
+            {t("craft")}
+          </Button>
+        )
+      }
+    />
+  );
+};
+
+interface Props {
+  onClose: (e?: SyntheticEvent) => void;
+}
+
+export const TreasureShopBuy: React.FC<Props> = ({ onClose }) => {
+  const [selectedName, setSelectedName] = useState<
+    TreasureToolName | TreasureCollectibleItem
+  >("Sand Shovel");
+  const { gameService, shortcutItem } = useContext(Context);
+
+  const [
+    {
+      context: { state },
+    },
+  ] = useActor(gameService);
+
+  const divRef = useRef<HTMLDivElement>(null);
+
+  const inventory = state.inventory;
+
   const onToolClick = (toolName: TreasureToolName) => {
     setSelectedName(toolName);
     shortcutItem(toolName);
   };
 
+  const isTool = (
+    name: TreasureToolName | TreasureCollectibleItem,
+  ): name is TreasureToolName => name in TREASURE_TOOLS;
+
+  const upcomingDates = Object.values(TREASURE_COLLECTIBLE_ITEM).reduce<Date[]>(
+    (acc, item) => (item.from ? [...acc, item.from] : acc),
+    [],
+  );
+
   return (
     <SplitScreenView
       divRef={divRef}
       panel={
-        <CraftingRequirements
-          gameState={state}
-          stock={stock}
-          details={{ item: selectedName }}
-          requirements={{
-            coins: selected.price,
-            resources: selected.ingredients,
-          }}
-          actionView={
-            <>
-              {stock.equals(0) ? (
-                <Restock onClose={onClose} />
-              ) : (
-                <div className="flex space-x-1 sm:space-x-0 sm:space-y-1 sm:flex-col w-full">
-                  <Button
-                    disabled={
-                      lessFunds() || lessIngredients() || stock.lessThan(1)
-                    }
-                    onClick={(e) => craft(e, 1)}
-                  >
-                    {t("craft")} {"1"}
-                  </Button>
-                  {bulkToolCraftAmount > 1 && (
-                    <Button
-                      disabled={
-                        lessFunds(bulkToolCraftAmount) ||
-                        lessIngredients(bulkToolCraftAmount)
-                      }
-                      onClick={(e) => craft(e, bulkToolCraftAmount)}
-                    >
-                      {t("craft")} {bulkToolCraftAmount}
-                    </Button>
-                  )}
-                </div>
-              )}
-            </>
-          }
-        />
+        isTool(selectedName) ? (
+          <ToolContent onClose={onClose} selectedName={selectedName} />
+        ) : (
+          <CraftContent onClose={onClose} selectedName={selectedName} />
+        )
       }
       content={
         <>
@@ -117,6 +222,21 @@ export const TreasureShopBuy: React.FC<Props> = ({ onClose }) => {
               />
             );
           })}
+          {getKeys(TREASURE_COLLECTIBLE_ITEM).map((name) => {
+            return (
+              <Box
+                isSelected={selectedName === name}
+                key={name}
+                onClick={() => setSelectedName(name)}
+                count={inventory[name]}
+                image={ITEM_DETAILS[name].image}
+              />
+            );
+          })}
+
+          {upcomingDates.map((date) => (
+            <Label type={"info"}>😎 10 seconds left</Label>
+          ))}
         </>
       }
     />
