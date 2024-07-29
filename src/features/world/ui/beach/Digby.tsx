@@ -1,4 +1,4 @@
-import { useActor } from "@xstate/react";
+import { useActor, useSelector } from "@xstate/react";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Label } from "components/ui/Label";
 import { Context } from "features/game/GameProvider";
@@ -14,6 +14,8 @@ import { secondsTillReset } from "features/helios/components/hayseedHank/Hayseed
 import { NPC_WEARABLES } from "lib/npcs";
 import { secondsToString } from "lib/utils/time";
 import React, { useContext, useEffect, useState } from "react";
+import powerup from "assets/icons/level_up.png";
+import blockBuck from "assets/icons/block_buck.png";
 
 import siteBg from "assets/ui/site_bg.png";
 import { Desert } from "features/game/types/game";
@@ -22,6 +24,15 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Button } from "components/ui/Button";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { NoticeboardItems } from "../kingdom/KingdomNoticeboard";
+import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
+import { BuffLabel } from "features/game/types";
+import { SquareIcon } from "components/ui/SquareIcon";
+import { getImageUrl } from "lib/utils/getImageURLS";
+import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
+import { pixelDarkBorderStyle } from "features/game/lib/style";
+import { CollectibleName } from "features/game/types/craftables";
+import { MachineState } from "features/game/lib/gameMachine";
+import Decimal from "decimal.js-light";
 
 function hasReadIntro() {
   return !!localStorage.getItem("digging.intro");
@@ -156,6 +167,15 @@ const Pattern: React.FC<{
   );
 };
 
+const CountdownLabel = () => (
+  <Label className="ml-1" type="info" icon={SUNNYSIDE.icons.stopwatch}>
+    {`${secondsToString(secondsTillReset(), {
+      length: "medium",
+      removeTrailingZeros: true,
+    })} left`}
+  </Label>
+);
+
 export const DailyPuzzle: React.FC = () => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
@@ -168,12 +188,7 @@ export const DailyPuzzle: React.FC = () => {
     <div className="p-1">
       <div className="flex justify-between mb-1">
         <Label type="default">{t("digby.puzzle")}</Label>
-        <Label className="ml-1" type="info" icon={SUNNYSIDE.icons.stopwatch}>
-          {`${secondsToString(secondsTillReset(), {
-            length: "medium",
-            removeTrailingZeros: true,
-          })} left`}
-        </Label>
+        <CountdownLabel />
       </div>
       <span className="text-xs mt-2 mx-1">{t("digby.today")}</span>
       <div
@@ -207,14 +222,56 @@ export const DailyPuzzle: React.FC = () => {
   );
 };
 
+const isWearable = (
+  item: BumpkinItem | CollectibleName,
+): item is BumpkinItem => {
+  return getKeys(ITEM_IDS).includes(item as BumpkinItem);
+};
+
+export const getItemImage = (item: BumpkinItem | CollectibleName): string => {
+  if (!item) return "";
+
+  if (isWearable(item)) {
+    return getImageUrl(ITEM_IDS[item]);
+  }
+
+  return ITEM_DETAILS[item].image;
+};
+
+// If the player has just run out of digs then just show the ways to obtain extra digs
+// If the player has not run out of digs then all information
+
+const BoostDigItems: Partial<
+  Record<BumpkinItem | CollectibleName, BuffLabel & { location: string }>
+> = {
+  "Pharaoh Chicken": {
+    ...(COLLECTIBLE_BUFF_LABELS["Pharaoh Chicken"] as BuffLabel),
+    location: "Marketplace",
+  },
+  "Heart of Davy Jones": {
+    ...(COLLECTIBLE_BUFF_LABELS["Heart of Davy Jones"] as BuffLabel),
+    location: "Marketplace",
+  },
+};
+
+const _inventory = (state: MachineState) => state.context.state.inventory;
+
 export const Digby: React.FC<{ onClose: () => void }> = ({ onClose }) => {
+  const { gameService } = useContext(Context);
   const [tab, setTab] = useState(hasReadIntro() ? 0 : 1);
+  const inventory = useSelector(gameService, _inventory);
 
   const { t } = useAppTranslation();
 
   useEffect(() => {
     acknowledgeIntro();
   }, []);
+
+  const handleBuyMoreDigs = () => {
+    gameService.send("desert.digsBought");
+  };
+
+  const canAfford = (inventory["Block Buck"] ?? new Decimal(0))?.gt(0);
 
   return (
     <CloseButtonPanel
@@ -229,11 +286,19 @@ export const Digby: React.FC<{ onClose: () => void }> = ({ onClose }) => {
           icon: SUNNYSIDE.icons.expression_confused,
           name: t("guide"),
         },
+        {
+          icon: powerup,
+          name: "Extras",
+        },
       ]}
       onClose={onClose}
       bumpkinParts={NPC_WEARABLES.digby}
     >
-      {tab === 0 && <DailyPuzzle />}
+      {tab === 0 && (
+        <>
+          <DailyPuzzle />
+        </>
+      )}
       {tab === 1 && (
         <div className="pt-2">
           <NoticeboardItems
@@ -258,6 +323,56 @@ export const Digby: React.FC<{ onClose: () => void }> = ({ onClose }) => {
           />
           <Button onClick={() => setTab(0)}>{t("ok")}</Button>
         </div>
+      )}
+      {tab === 2 && (
+        <>
+          <div className="p-1">
+            <Label type="default" className="mb-1">{`Extra digs`}</Label>
+            <span className="text-xs my-2 mx-1">
+              {
+                "Running out of digs, are ya? No worries! There are multiple ways to get more digs. Check out the options below and keep on digging for those hidden treasures!"
+              }
+            </span>
+            <div className="flex flex-col my-2 space-y-1">
+              {getKeys(BoostDigItems).map((item) => (
+                <div key={item} className="flex space-x-2">
+                  <div
+                    className="bg-brown-600 cursor-pointer relative"
+                    style={{
+                      ...pixelDarkBorderStyle,
+                    }}
+                  >
+                    <SquareIcon icon={getItemImage(item)} width={20} />
+                  </div>
+                  <div className="flex flex-col justify-center space-y-1">
+                    <div className="flex flex-col space-y-0.5">
+                      <span className="text-xs">{item}</span>
+                      <span className="text-xxs italic">
+                        {BoostDigItems[item]?.location}
+                      </span>
+                    </div>
+                    <Label
+                      type={BoostDigItems[item]?.labelType ?? "default"}
+                      icon={BoostDigItems[item]?.boostTypeIcon}
+                      secondaryIcon={BoostDigItems[item]?.boostedItemIcon}
+                    >
+                      {BoostDigItems[item]?.shortDescription}
+                    </Label>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+          <Button
+            disabled={!canAfford}
+            onClick={canAfford ? () => handleBuyMoreDigs() : undefined}
+          >
+            <div className="flex items-center space-x-1">
+              <p>{`Buy 5 more digs for 1`}</p>
+              <img src={blockBuck} className="w-4" />
+            </div>
+          </Button>
+        </>
       )}
     </CloseButtonPanel>
   );
