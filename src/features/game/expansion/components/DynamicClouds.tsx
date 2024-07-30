@@ -3,12 +3,7 @@ import classNames from "classnames";
 
 import { Context } from "features/game/GameProvider";
 
-import cloud1 from "assets/land/clouds/cloud_1.webp";
-import cloud2 from "assets/land/clouds/cloud_2.webp";
-import cloud3 from "assets/land/clouds/cloud_3.webp";
-import cloud4 from "assets/land/clouds/cloud_4.webp";
-import cloud5 from "assets/land/clouds/cloud_5.webp";
-import cloud6 from "assets/land/clouds/cloud_6.webp";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 type CloudNumber = 1 | 2 | 3 | 4 | 5 | 6;
 
@@ -85,7 +80,7 @@ export const DynamicClouds: React.FC<CloudProps> = ({ width, height }) => {
       {CLOUDS[1].map((cloud, i) => (
         <img
           key={`cloud1-${i}`}
-          src={cloud1}
+          src={SUNNYSIDE.land.cloud1}
           className={classNames("z-20 absolute pointer-events-none ", {
             "animate-float": showAnimations,
           })}
@@ -100,7 +95,7 @@ export const DynamicClouds: React.FC<CloudProps> = ({ width, height }) => {
       {CLOUDS[2].map((cloud, i) => (
         <img
           key={`cloud2-${i}`}
-          src={cloud2}
+          src={SUNNYSIDE.land.cloud2}
           className={classNames("z-20 absolute pointer-events-none ", {
             "animate-float": showAnimations,
           })}
@@ -115,7 +110,7 @@ export const DynamicClouds: React.FC<CloudProps> = ({ width, height }) => {
       {CLOUDS[3].map((cloud, i) => (
         <img
           key={`cloud3-${i}`}
-          src={cloud3}
+          src={SUNNYSIDE.land.cloud3}
           className={classNames("z-20 absolute pointer-events-none ", {
             "animate-float": showAnimations,
           })}
@@ -130,7 +125,7 @@ export const DynamicClouds: React.FC<CloudProps> = ({ width, height }) => {
       {CLOUDS[4].map((cloud, i) => (
         <img
           key={`cloud4-${i}`}
-          src={cloud4}
+          src={SUNNYSIDE.land.cloud4}
           className={classNames("z-20 absolute pointer-events-none ", {
             "animate-float": showAnimations,
           })}
@@ -145,7 +140,7 @@ export const DynamicClouds: React.FC<CloudProps> = ({ width, height }) => {
       {CLOUDS[5].map((cloud, i) => (
         <img
           key={`cloud5-${i}`}
-          src={cloud5}
+          src={SUNNYSIDE.land.cloud5}
           className={classNames("z-20 absolute pointer-events-none ", {
             "animate-float": showAnimations,
           })}
@@ -160,7 +155,7 @@ export const DynamicClouds: React.FC<CloudProps> = ({ width, height }) => {
       {CLOUDS[6].map((cloud, i) => (
         <img
           key={`cloud6-${i}`}
-          src={cloud6}
+          src={SUNNYSIDE.land.cloud6}
           className={classNames("z-20 absolute pointer-events-none ", {
             "animate-float": showAnimations,
           })}

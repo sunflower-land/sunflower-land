@@ -1,14 +1,13 @@
 import React from "react";
 
-import easterBush from "assets/sfts/easter_bush.gif";
-import easterBushShadow from "assets/sfts/easter_bush_shadow.png";
+import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const EasterBush: React.FC = () => {
   return (
     <>
       <img
-        src={easterBushShadow}
+        src={SUNNYSIDE.sfts.easterBushShadow}
         style={{
           width: `${PIXEL_SCALE * 26}px`,
           bottom: `${PIXEL_SCALE * 0}px`,
@@ -18,7 +17,7 @@ export const EasterBush: React.FC = () => {
         alt="Easter Bush Shadow"
       />
       <img
-        src={easterBush}
+        src={SUNNYSIDE.sfts.easterBush}
         style={{
           width: `${PIXEL_SCALE * 28}px`,
           bottom: `${PIXEL_SCALE * -1}px`,

@@ -4,15 +4,12 @@ import Spritesheet, {
   SpriteSheetInstance,
 } from "components/animation/SpriteAnimator";
 
-import strikeSheet from "assets/resources/stone/stone_rock_spark.png";
-
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 import { Bar } from "components/ui/ProgressBar";
 import { InnerPanel } from "components/ui/Panel";
 import classNames from "classnames";
 import { loadAudio, miningAudio } from "lib/utils/sfx";
-import stone from "assets/resources/stone_small.png";
 import { ZoomContext } from "components/ZoomProvider";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -95,7 +92,7 @@ const RecoveredStoneComponent: React.FC<Props> = ({
         {/* static resource node image */}
         {!showSpritesheet && (
           <img
-            src={stone}
+            src={SUNNYSIDE.resource.stone_small}
             className={"absolute pointer-events-none opacity-100"}
             style={{
               width: `${PIXEL_SCALE * 14}px`,
@@ -124,7 +121,7 @@ const RecoveredStoneComponent: React.FC<Props> = ({
               strikeGif.current = spritesheet;
               spritesheet.goToAndPlay(0);
             }}
-            image={strikeSheet}
+            image={SUNNYSIDE.resource.stoneStrikeSheet}
             widthFrame={STRIKE_SHEET_FRAME_WIDTH}
             heightFrame={STRIKE_SHEET_FRAME_HEIGHT}
             zoomScale={scale}

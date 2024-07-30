@@ -2,8 +2,7 @@ import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
 import React, { useContext, useLayoutEffect } from "react";
 
-import background from "assets/land/helios.webp";
-import ocean from "assets/decorations/ocean.webp";
+import { SUNNYSIDE } from "assets/sunnyside";
 import { Decorations } from "./components/decorations/Decorations";
 import { ExoticShop } from "./components/exoticShop/ExoticShop";
 import { HeliosSunflower } from "./components/HeliosSunflower";
@@ -50,13 +49,13 @@ export const Helios: React.FC = () => {
           width: `${40 * GRID_WIDTH_PX}px`,
           height: `${40 * GRID_WIDTH_PX}px`,
 
-          backgroundImage: `url(${ocean})`,
+          backgroundImage: `url(${SUNNYSIDE.decorations.ocean})`,
           backgroundSize: `${64 * PIXEL_SCALE}px`,
           imageRendering: "pixelated",
         }}
       >
         <img
-          src={background}
+          src={SUNNYSIDE.land.helios}
           className="absolute inset-0 w-full h-full"
           id={Section.HeliosBackGround}
         />

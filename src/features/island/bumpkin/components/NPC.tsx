@@ -11,9 +11,8 @@ import {
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { buildNPCSheets } from "features/bumpkins/actions/buildNPCSheets";
 import { BumpkinParts } from "lib/utils/tokenUriBuilder";
-
 import shadow from "assets/npcs/shadow.png";
-import silhouette from "assets/npcs/silhouette.webp";
+import { SUNNYSIDE } from "assets/sunnyside";
 import { ZoomContext } from "components/ZoomProvider";
 import { SpringValue } from "react-spring";
 
@@ -77,7 +76,7 @@ export const NPC: React.FC<NPCProps & { onClick?: () => void }> = ({
       >
         {!sheetSrc && (
           <img
-            src={silhouette}
+            src={SUNNYSIDE.npcs.silhouette}
             style={{
               width: `${PIXEL_SCALE * 15}px`,
               top: `${PIXEL_SCALE * 8}px`,
@@ -152,7 +151,7 @@ export const NPCIcon: React.FC<NPCProps> = ({ parts, hideShadow }) => {
             }}
           >
             <img
-              src={silhouette}
+              src={SUNNYSIDE.npcs.silhouette}
               style={{
                 width: `${PIXEL_SCALE * 11}px`,
                 top: `${PIXEL_SCALE * 3}px`,

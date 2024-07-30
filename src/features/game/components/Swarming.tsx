@@ -1,7 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
 
-import goblin3 from "assets/npcs/goblin_female.gif";
-
 import { Context } from "../GameProvider";
 import { Button } from "components/ui/Button";
 import { getGoblinSwarm } from "../events/detectBot";
@@ -45,7 +43,7 @@ export const Swarming: React.FC = () => {
             }}
           />
           <img
-            src={goblin3}
+            src={SUNNYSIDE.npcs.goblin_female}
             className="ml-2"
             style={{
               transform: "scaleX(-1)",

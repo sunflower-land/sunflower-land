@@ -2,10 +2,8 @@ import React from "react";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
-import building from "assets/buildings/decorations.png";
-import retroGirl from "assets/npcs/retro_girl.gif";
+import { SUNNYSIDE } from "assets/sunnyside";
 import shadow from "assets/npcs/shadow.png";
-
 import { Modal } from "components/ui/Modal";
 import { DecorationShopItems } from "./component/DecorationShopItems";
 import { MapPlacement } from "features/game/expansion/components/MapPlacement";
@@ -34,7 +32,7 @@ export const Decorations: React.FC = () => {
             }}
           />
           <img
-            src={retroGirl}
+            src={SUNNYSIDE.npcs.exotic_girl}
             className="absolute"
             style={{
               width: `${PIXEL_SCALE * 14}px`,
@@ -43,7 +41,7 @@ export const Decorations: React.FC = () => {
             }}
           />
           <img
-            src={building}
+            src={SUNNYSIDE.building.decorationsBuilding}
             className="absolute"
             style={{
               width: `${PIXEL_SCALE * 50}px`,

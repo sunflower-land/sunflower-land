@@ -245,7 +245,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     },
   },
   island: {
-    type: "desert",
+    type: "basic",
   },
   mysteryPrizes: {},
   minigames: {

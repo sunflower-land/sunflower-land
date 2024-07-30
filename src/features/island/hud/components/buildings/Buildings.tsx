@@ -8,8 +8,6 @@ import { Button } from "components/ui/Button";
 import { SplitScreenView } from "components/ui/SplitScreenView";
 import { CraftingRequirements } from "components/ui/layouts/CraftingRequirements";
 
-import lock from "assets/skills/lock.png";
-
 import Decimal from "decimal.js-light";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Label } from "components/ui/Label";
@@ -200,7 +198,7 @@ export const Buildings: React.FC<Props> = ({ onClose }) => {
 
             let secondaryIcon = undefined;
             if (isLocked) {
-              secondaryIcon = lock;
+              secondaryIcon = SUNNYSIDE.icons.lock;
             }
 
             if (inventory[name]?.greaterThanOrEqualTo(BUILDINGS[name].length)) {

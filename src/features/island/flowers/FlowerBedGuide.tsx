@@ -1,6 +1,4 @@
 import React from "react";
-import flowersTutorial from "assets/tutorials/flowers.webp";
-import beeTutorial from "assets/tutorials/bees.webp";
 import { Button } from "components/ui/Button";
 import { SUNNYSIDE } from "assets/sunnyside";
 import powerup from "assets/icons/level_up.png";
@@ -72,13 +70,19 @@ export const FlowerBedGuide: React.FC<Props> = ({ onClose }) => {
       className="overflow-y-auto scrollable flex flex-wrap pt-1.5 pr-0.5"
     >
       <div className="flex flex-col gap-y-3 p-2">
-        <img src={flowersTutorial} className="w-full rounded-lg" />
+        <img
+          src={SUNNYSIDE.tutorial.flowersTutorial}
+          className="w-full rounded-lg"
+        />
 
         {basicGuide.map((item, i) => (
           <FlowerBedGuideItem key={i} icon={item.icon} content={item.content} />
         ))}
 
-        <img src={beeTutorial} className="w-full rounded-lg" />
+        <img
+          src={SUNNYSIDE.tutorial.beeTutorial}
+          className="w-full rounded-lg"
+        />
 
         {advancedGuide.map((item, i) => (
           <FlowerBedGuideItem key={i} icon={item.icon} content={item.content} />

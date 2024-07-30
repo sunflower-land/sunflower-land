@@ -7,11 +7,10 @@ import { useActor } from "@xstate/react";
 import { Airdrop, GameState, Order } from "features/game/types/game";
 import { Button } from "components/ui/Button";
 
-import giftIcon from "assets/icons/gift.png";
-import chestIcon from "assets/icons/chest.png";
-import sfl from "assets/icons/sfl.webp";
 import coinsImg from "assets/icons/coins.webp";
-import lockIcon from "assets/skills/lock.png";
+import gift from "assets/icons/gift.png";
+import token from "assets/icons/sfl.webp";
+import chest from "assets/icons/chest.png";
 
 import { InlineDialogue } from "../TypingMessage";
 import Decimal from "decimal.js-light";
@@ -122,7 +121,7 @@ export const OrderCard: React.FC<{
             })}
             <div className="flex items-center justify-between">
               <div className="flex items-center mr-1">
-                <SquareIcon icon={chestIcon} width={7} />
+                <SquareIcon icon={chest} width={7} />
                 <span className="text-xs ml-1">{t("reward")}</span>
               </div>
               <Label type="warning" style={{ height: "25px" }}>
@@ -131,7 +130,7 @@ export const OrderCard: React.FC<{
                     <span className="text-xs">
                       {makeRewardAmountForLabel(order)}
                     </span>
-                    <img src={sfl} className="h-4 w-auto ml-1" />
+                    <img src={token} className="h-4 w-auto ml-1" />
                   </div>
                 )}
                 {order.reward.coins !== undefined && (
@@ -427,7 +426,7 @@ export const Gifts: React.FC<{
           <div className="flex items-center">
             {isLocked && (
               <>
-                <img src={lockIcon} className="w-4 h-auto mr-1" />
+                <img src={SUNNYSIDE.icons.lock} className="w-4 h-auto mr-1" />
                 <img
                   src={SUNNYSIDE.icons.stopwatch}
                   className="w-4 h-auto mr-1"
@@ -509,7 +508,7 @@ const BumpkinGiftBar: React.FC<{
         />
 
         <img
-          src={giftIcon}
+          src={gift}
           onClick={openReward}
           className={classNames("h-6 ml-1 mb-0.5", {
             "animate-pulsate img-shadow cursor-pointer": giftIsReady,
@@ -705,12 +704,12 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
                   </Label>
                 )}
                 {isLocked && (
-                  <Label type="danger" icon={lockIcon}>
+                  <Label type="danger" icon={SUNNYSIDE.icons.lock}>
                     {`Lvl ${NPC_DELIVERY_LEVELS[npc as DeliveryNpcName]} required`}
                   </Label>
                 )}
                 {missingVIPAccess && (
-                  <Label type="danger" icon={lockIcon}>
+                  <Label type="danger" icon={SUNNYSIDE.icons.lock}>
                     {t("goblinTrade.vipRequired")}
                   </Label>
                 )}

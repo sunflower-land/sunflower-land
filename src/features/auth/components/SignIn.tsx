@@ -3,17 +3,9 @@ import React, { useContext, useState } from "react";
 import { Button } from "components/ui/Button";
 import { Context } from "../lib/Provider";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { PIXEL_SCALE } from "features/game/lib/constants";
-
 import metamaskIcon from "assets/icons/metamask_pixel.png";
 import walletIcon from "assets/icons/wallet.png";
-import phantomIcon from "assets/icons/phantom.svg";
-import okxIcon from "assets/icons/okx.svg";
-import cryptoComIcon from "assets/icons/crypto-com-logo.svg";
-import bitgetIcon from "assets/icons/bitget_logo.svg";
-import googleIcon from "assets/icons/sign_in_with_google.svg";
-import wechatIcon from "assets/icons/wechat.png";
-import greyButton from "assets/ui/grey_button.png";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 
 import { Label } from "components/ui/Label";
 import { Web3SupportedProviders } from "lib/web3SupportedProviders";
@@ -84,7 +76,7 @@ const OtherWallets: React.FC<{
         >
           <div className="px-8">
             <img
-              src={bitgetIcon}
+              src={SUNNYSIDE.icons.bitgetIcon}
               alt="Bitget"
               className="h-7 ml-2.5 mr-6 absolute left-0 top-1 rounded-sm"
             />
@@ -103,7 +95,7 @@ const OtherWallets: React.FC<{
         >
           <div className="px-8">
             <img
-              src={cryptoComIcon}
+              src={SUNNYSIDE.icons.cryptoComIcon}
               alt="Crypto.com"
               className="h-7 ml-2.5 mr-6 absolute left-0 top-1 rounded-sm"
             />
@@ -116,7 +108,7 @@ const OtherWallets: React.FC<{
         >
           <div className="px-8">
             <img
-              src={okxIcon}
+              src={SUNNYSIDE.icons.okxIcon}
               alt="OKX"
               className="h-7 ml-2.5 mr-6 absolute left-0 top-1 rounded-sm"
             />
@@ -129,7 +121,7 @@ const OtherWallets: React.FC<{
         >
           <div className="px-8">
             <img
-              src={phantomIcon}
+              src={SUNNYSIDE.icons.phantomIcon}
               alt="Phantom"
               className="h-7 ml-2.5 mr-6 absolute left-0 top-1"
             />
@@ -264,7 +256,7 @@ export const Wallets: React.FC<Props> = ({ onConnect, showAll = true }) => {
         >
           <div className="px-8">
             <img
-              src={bitgetIcon}
+              src={SUNNYSIDE.icons.bitgetIcon}
               alt="Bitget"
               className="h-7 ml-2.5 mr-6 absolute left-0 top-1 rounded-sm"
             />
@@ -356,7 +348,7 @@ export const SignIn: React.FC<{ type: "signin" | "signup" }> = ({ type }) => {
             className="w-full p-1 object-contain justify-center items-center cursor-pointer flex mb-1 text-sm relative h-[52px] "
             type="button"
             style={{
-              borderImage: `url(${greyButton})`,
+              borderImage: `url(${SUNNYSIDE.ui.greyButton})`,
               borderStyle: "solid",
               borderWidth: `8px 8px 10px 8px`,
               borderImageSlice: "3 3 4 3 fill",
@@ -370,7 +362,7 @@ export const SignIn: React.FC<{ type: "signin" | "signup" }> = ({ type }) => {
               window.location.href = `${CONFIG.API_URL}/auth/google/authorize`;
             }}
           >
-            <img src={googleIcon} />
+            <img src={SUNNYSIDE.icons.googleIcon} />
           </button>
           {!isMobile && type !== "signup" && (
             <Button
@@ -381,7 +373,7 @@ export const SignIn: React.FC<{ type: "signin" | "signup" }> = ({ type }) => {
               }}
             >
               <img
-                src={wechatIcon}
+                src={SUNNYSIDE.icons.wechatIcon}
                 className="w-7 h-7 mobile:w-6 mobile:h-6  ml-2 mr-6 absolute left-0 top-1"
               />
               {"Wechat"}

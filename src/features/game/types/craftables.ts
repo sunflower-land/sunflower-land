@@ -1290,6 +1290,7 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Flower Rug": { width: 3, height: 3 },
   "Tea Rug": { width: 3, height: 3 },
   "Green Field Rug": { width: 3, height: 3 },
+
   // Flowers
   "Prism Petal": { width: 1, height: 1 },
   "Celestial Frostbloom": { width: 1, height: 1 },
@@ -1540,8 +1541,8 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
     height: 1,
   },
   "Anubis Jackal": {
-    width: 1,
-    height: 1,
+    width: 2,
+    height: 2,
   },
   Sundial: {
     width: 1,
@@ -1576,8 +1577,8 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
     height: 2,
   },
   Oasis: {
-    width: 1,
-    height: 1,
+    width: 3,
+    height: 4,
   },
 };
 

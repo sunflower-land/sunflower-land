@@ -1,13 +1,13 @@
 import React from "react";
 
-import whiteTulip from "assets/decorations/white_tulips.png";
+import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const WhiteTulips: React.FC = () => {
   return (
     <>
       <img
-        src={whiteTulip}
+        src={SUNNYSIDE.decorations.whiteTulips}
         style={{
           width: `${PIXEL_SCALE * 8}px`,
           bottom: `${PIXEL_SCALE * 1}px`,

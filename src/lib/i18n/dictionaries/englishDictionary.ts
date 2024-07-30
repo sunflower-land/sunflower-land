@@ -832,7 +832,7 @@ const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
   "description.iron.idol.boost": "+1 Iron",
   "description.emerald.turtle.boost": "+0.5 Stone, Iron, Gold (AOE 3x3)",
   "description.tin.turtle.boost": "+0.1 Stone (AOE 3x3)",
-  "description.heart.of.davy.jones.boost": "+20 Daily Digging Limit",
+  "description.heart.of.davy.jones.boost": "+20 Desert Digs",
   "description.Karkinos.boost": "+0.1 Cabbage (Inactive with Cabbage Boy)",
   "description.mushroom.house.boost": "+0.2 Wild Mushroom",
   "description.boost.gilded.swordfish": "+0.1 Gold",
@@ -891,7 +891,7 @@ const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
   "description.lemon.shark.boost": "+0.2 Lemons",
   "description.crim.peckster.boost": "+0.1 Crimstone",
   "description.knight.chicken.boost": "+0.1 Oil",
-  "description.pharaoh.chicken.boost": "+1 Dig",
+  "description.pharaoh.chicken.boost": "+1 Desert Dig",
   "description.queen.bee.boost": "+1 Honey Production Speed",
   "description.beekeeper.hat.boost": "+0.2 Honey Production Speed",
   "description.flower.fox.boost": "-10% Flower Growth Time",
@@ -1060,6 +1060,7 @@ const bumpkinItemBuff: Record<BumpkinItemBuff, string> = {
   "bumpkinItemBuff.bumpkin.pants": "+5% Marks",
   "bumpkinItemBuff.bumpkin.sabatons": "+5% Marks",
   "bumpkinItemBuff.crab.trap": "+1 Crab when digging or drilling",
+  "bumpkinItemBuff.bionic.drill": "+5 Desert Digs",
 };
 
 const bumpkinPart: Record<BumpkinPart, string> = {

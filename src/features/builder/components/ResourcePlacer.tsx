@@ -4,9 +4,6 @@ import { GRID_WIDTH_PX } from "features/game/lib/constants";
 import Draggable from "react-draggable";
 import classNames from "classnames";
 
-import fruitPatch from "assets/fruit/apple/apple_tree.png";
-import goldStone from "assets/resources/gold_small.png";
-import ironStone from "assets/resources/iron_small.png";
 import crimstone from "assets/resources/crimstone/crimstone_rock_1.webp";
 import beehive from "assets/sfts/beehive.webp";
 
@@ -30,6 +27,9 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { FlowerBed } from "features/island/flowers/FlowerBed";
 import { OilReserve } from "features/game/expansion/components/resources/oilReserve/OilReserve";
 
+const fruitPatch = SUNNYSIDE.fruit.apple_tree;
+const goldStone = SUNNYSIDE.fruit.apple_tree;
+const ironStone = SUNNYSIDE.fruit.apple_tree;
 export const RESOURCES: Record<
   keyof Layout,
   {

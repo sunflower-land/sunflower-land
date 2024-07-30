@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import lightningAnimation from "assets/npcs/human_death.gif";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 import * as Auth from "features/auth/lib/Provider";
 
@@ -44,7 +44,7 @@ export const BoundaryError: React.FC<BoundaryErrorProps> = ({
         <div className="p-2">
           <h1 className="mb-1 text-lg text-center">{t("error.ClientRPC")}</h1>
           <div className="w-full mb-1 flex justify-center">
-            <img src={lightningAnimation} className="h-20" />
+            <img src={SUNNYSIDE.npcs.humanDeath} className="h-20" />
           </div>
           <div className="space-y-3 text-sm mb-3">
             <p>{t("error.polygonRPC")}</p>
@@ -62,7 +62,7 @@ export const BoundaryError: React.FC<BoundaryErrorProps> = ({
       <div className="p-2">
         <h1 className="mb-1 text-lg text-center">{t("error.wentWrong")}</h1>
         <div className="w-full mb-1 flex justify-center">
-          <img src={lightningAnimation} className="h-20" />
+          <img src={SUNNYSIDE.npcs.humanDeath} className="h-20" />
         </div>
         <div className="space-y-3 text-sm mb-3">
           <p>{t("error.connection.one")}</p>

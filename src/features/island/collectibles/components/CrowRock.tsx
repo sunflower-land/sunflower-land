@@ -1,13 +1,13 @@
 import React from "react";
 
-import crowRock from "assets/decorations/crow_rock.webp";
+import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const CrowRock: React.FC = () => {
   return (
     <>
       <img
-        src={crowRock}
+        src={SUNNYSIDE.decorations.crowRock}
         style={{
           width: `${PIXEL_SCALE * 29}px`,
         }}

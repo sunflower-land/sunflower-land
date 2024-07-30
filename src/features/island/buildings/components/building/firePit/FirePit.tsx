@@ -14,11 +14,9 @@ import { useActor } from "@xstate/react";
 import { bakeryAudio, loadAudio } from "lib/utils/sfx";
 import { gameAnalytics } from "lib/gameAnalytics";
 
-import npc from "assets/npcs/cook.gif";
-import doing from "assets/npcs/cook_doing.gif";
-import shadow from "assets/npcs/shadow.png";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { FIRE_PIT_VARIANTS } from "features/island/lib/alternateArt";
+import shadow from "assets/npcs/shadow.png";
 
 type Props = BuildingProps & Partial<CraftingMachineChildProps>;
 
@@ -160,7 +158,7 @@ export const FirePit: React.FC<Props> = ({
 
         {crafting ? (
           <img
-            src={doing}
+            src={SUNNYSIDE.npcs.firePit_npcDoing}
             className="absolute pointer-events-none"
             style={{
               width: `${PIXEL_SCALE * 16}px`,
@@ -170,7 +168,7 @@ export const FirePit: React.FC<Props> = ({
           />
         ) : (
           <img
-            src={npc}
+            src={SUNNYSIDE.npcs.firePit_npc}
             className="absolute pointer-events-none"
             style={{
               width: `${PIXEL_SCALE * 14}px`,

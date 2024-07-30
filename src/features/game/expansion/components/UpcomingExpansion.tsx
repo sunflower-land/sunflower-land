@@ -8,8 +8,6 @@ import { Pontoon } from "./Pontoon";
 
 import { Context } from "features/game/GameProvider";
 import { SUNNYSIDE } from "assets/sunnyside";
-import landComplete from "assets/land/land_complete.png";
-import lockIcon from "assets/skills/lock.png";
 
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { useActor } from "@xstate/react";
@@ -124,7 +122,11 @@ export const ExpandIcon: React.FC<ExpandIconProps> = ({
                   ))}
               </div>
               {isLocked && (
-                <Label type="default" icon={lockIcon} className="mt-2">
+                <Label
+                  type="default"
+                  icon={SUNNYSIDE.icons.lock}
+                  className="mt-2"
+                >
                   {t("lvl")} {requirements.bumpkinLevel}
                 </Label>
               )}
@@ -190,7 +192,7 @@ export const ExpansionBuilding: React.FC<{
         width={LAND_SIZE}
       >
         <img
-          src={landComplete}
+          src={SUNNYSIDE.land.landComplete}
           className="absolute cursor-pointer hover:img-highlight"
           onClick={onReveal}
           style={{

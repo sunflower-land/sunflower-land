@@ -3,10 +3,7 @@ import classNames from "classnames";
 import { OuterPanel } from "components/ui/Panel";
 import { SquareIcon } from "components/ui/SquareIcon";
 
-import selectBoxTL from "assets/ui/select/selectbox_tl.png";
-import selectBoxTR from "assets/ui/select/selectbox_tr.png";
-import selectBoxBL from "assets/ui/select/selectbox_bl.png";
-import selectBoxBR from "assets/ui/select/selectbox_br.png";
+import { SUNNYSIDE } from "assets/sunnyside";
 import lightning from "assets/icons/lightning.png";
 
 import { BumpkinPart, ITEM_IDS } from "features/game/types/bumpkin";
@@ -70,7 +67,7 @@ export const BumpkinPartGroup: React.FC<Props> = ({
               <div id="select-box" className="block">
                 <img
                   className="absolute pointer-events-none"
-                  src={selectBoxTL}
+                  src={SUNNYSIDE.ui.selectBoxTL}
                   style={{
                     top: `${PIXEL_SCALE * -3}px`,
                     left: `${PIXEL_SCALE * -3}px`,
@@ -80,7 +77,7 @@ export const BumpkinPartGroup: React.FC<Props> = ({
                 {!buffLabel && (
                   <img
                     className="absolute pointer-events-none"
-                    src={selectBoxTR}
+                    src={SUNNYSIDE.ui.selectBoxTR}
                     style={{
                       top: `${PIXEL_SCALE * -3}px`,
                       right: `${PIXEL_SCALE * -3}px`,
@@ -90,7 +87,7 @@ export const BumpkinPartGroup: React.FC<Props> = ({
                 )}
                 <img
                   className="absolute pointer-events-none"
-                  src={selectBoxBL}
+                  src={SUNNYSIDE.ui.selectBoxBL}
                   style={{
                     bottom: `${PIXEL_SCALE * -3}px`,
                     left: `${PIXEL_SCALE * -3}px`,
@@ -99,7 +96,7 @@ export const BumpkinPartGroup: React.FC<Props> = ({
                 />
                 <img
                   className="absolute pointer-events-none"
-                  src={selectBoxBR}
+                  src={SUNNYSIDE.ui.selectBoxBR}
                   style={{
                     bottom: `${PIXEL_SCALE * -3}px`,
                     right: `${PIXEL_SCALE * -3}px`,

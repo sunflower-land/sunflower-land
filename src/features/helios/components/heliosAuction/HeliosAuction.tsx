@@ -7,7 +7,7 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { NPC } from "features/island/bumpkin/components/NPC";
 import { AuctioneerModal } from "features/retreat/components/auctioneer/AuctioneerModal";
 import { NPC_WEARABLES } from "lib/npcs";
-import building from "assets/buildings/auction_floor.png";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 export const HeliosAuction: React.FC = () => {
   const { gameService } = useContext(Context);
@@ -26,7 +26,7 @@ export const HeliosAuction: React.FC = () => {
           onClick={() => setIsOpen(true)}
         >
           <img
-            src={building}
+            src={SUNNYSIDE.building.auction_floor}
             className="absolute"
             style={{
               width: `${PIXEL_SCALE * 75}px`,
