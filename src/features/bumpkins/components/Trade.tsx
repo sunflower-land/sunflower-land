@@ -55,6 +55,21 @@ function getRemainingListings({ game }: { game: GameState }) {
     remaining = 1;
   }
 
+  // Bonus trades based on level
+  const level = getBumpkinLevel(game.bumpkin?.experience ?? 0);
+
+  if (level >= 70) {
+    remaining += 10;
+  }
+
+  if (level >= 60) {
+    remaining += 10;
+  }
+
+  if (level >= 50) {
+    remaining += 10;
+  }
+
   const dailyListings = game.trades.dailyListings ?? {
     count: 0,
     date: 0,
