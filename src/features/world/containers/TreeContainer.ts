@@ -89,7 +89,8 @@ export class TreeContainer extends Phaser.GameObjects.Container {
       scene: this.scene,
       startAt: this.tree.wood.choppedAt,
       endAt: this.readyAt,
-      y: -6,
+      y: 6,
+      x: 4,
     });
 
     // this.moveAbove(this.yield.sprite.sprite, this.sprite.sprite);

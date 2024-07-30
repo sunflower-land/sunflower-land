@@ -50,15 +50,15 @@ export class FarmerContainer extends Phaser.GameObjects.Container {
     // Set for click handler size and collision
     this.setSize(PHASER_GRID_WIDTH, PHASER_GRID_WIDTH);
 
-    const url = getAnimationUrl(NPC_WEARABLES["pumpkin' pete"], "axe");
-    console.log({ url });
+    const url = getAnimationUrl(NPC_WEARABLES["pumpkin' pete"], "idle");
 
     this.shadow = new SpriteComponent({
       container: this,
       sprite: "world/shadow.png",
       key: "shadow",
       scene,
-      y: 6,
+      y: 11,
+      x: 7,
     });
 
     this.character = new SpriteComponent({
@@ -73,6 +73,8 @@ export class FarmerContainer extends Phaser.GameObjects.Container {
         repeat: true,
         play: true,
       },
+      x: 7,
+      y: 5,
     });
 
     this.bringToTop(this.character.sprite);
@@ -114,7 +116,6 @@ export class FarmerContainer extends Phaser.GameObjects.Container {
   state: "performing" | "idle" | "moving" | "waiting" = "idle";
 
   async perform({ action }: { action: BumpkinAction }) {
-    console.log("TOP PERFORM");
     this.idle();
 
     const { event } = action;
@@ -132,10 +133,8 @@ export class FarmerContainer extends Phaser.GameObjects.Container {
 
     this.state = "performing";
 
-    console.log("PROCESS IT");
     const { type, ...args } = event;
 
-    // TODO - animation trigger
     const animation = EVENT_ANIMATIONS[type] ?? "doing";
     this.character.url = getAnimationUrl(
       NPC_WEARABLES["pumpkin' pete"],
@@ -149,8 +148,6 @@ export class FarmerContainer extends Phaser.GameObjects.Container {
 
     const farmScene = this.scene as FarmScene;
     const farmer = this;
-
-    console.log({ stopOn: `animationcomplete-${animation}-animation` });
 
     const hitAtFrame = EVENT_ANIMATION_HIT_FRAMES[type];
 

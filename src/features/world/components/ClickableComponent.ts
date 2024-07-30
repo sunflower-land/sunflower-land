@@ -17,8 +17,8 @@ export class ClickableComponent {
         cursor: "pointer",
 
         hitArea: new Phaser.Geom.Rectangle(
-          0,
-          0,
+          container.displayWidth / 2,
+          container.displayHeight / 2,
           container.width,
           container.height,
         ),

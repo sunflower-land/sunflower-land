@@ -49,9 +49,9 @@ function queueSystem({
     component.y += direction.y * speed;
 
     if (component.x > next.x) {
-      component.character.sprite?.setScale(-1, 1);
+      component.character.sprite?.setScale(PHASER_SCALE * -1, PHASER_SCALE);
     } else if (component.x < next.x) {
-      component.character.sprite?.setScale(1, 1);
+      component.character.sprite?.setScale(PHASER_SCALE, PHASER_SCALE);
     }
 
     component.walk();

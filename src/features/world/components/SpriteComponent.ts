@@ -53,27 +53,25 @@ export class SpriteComponent {
 
     this.container?.add(this.sprite);
 
+    this.sprite.setScale(PHASER_SCALE);
+
     this.update();
   }
 
   loadingKey?: string;
 
   async update() {
-    console.log({ update: this.key });
     // Check if sprite already set with key
     if (this.sprite?.texture.key === this.key || this.loadingKey === this.key)
       return;
 
     this.loadingKey = this.key;
-    console.log("Update sprite:", this.key);
 
     if (!this.scene.textures.exists(this.key)) {
       await this.loadTexture();
     }
 
     this.sprite.setTexture(this.key);
-
-    this.sprite.setScale(PHASER_SCALE);
 
     if (this.animation?.play) {
       this.startAnimation();
