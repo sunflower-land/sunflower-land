@@ -8,6 +8,7 @@ import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { Modal } from "components/ui/Modal";
 import { Digby } from "features/world/ui/beach/Digby";
 import { useTranslation } from "react-i18next";
+import { isWearableActive } from "features/game/lib/wearables";
 
 export const getMaxDigs = (game: GameState) => {
   let maxDigs = 25;
@@ -24,6 +25,10 @@ export const getMaxDigs = (game: GameState) => {
     })
   ) {
     maxDigs += 1;
+  }
+
+  if (isWearableActive({ name: "Bionic Drill", game })) {
+    maxDigs += 5;
   }
 
   return maxDigs + extraDigs;
