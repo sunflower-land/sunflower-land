@@ -9,7 +9,7 @@ import {
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Equipped } from "features/game/types/bumpkin";
 
-import primaryButton from "assets/ui/light_button.png";
+import { SUNNYSIDE } from "assets/sunnyside";
 import { useIsDarkMode } from "lib/utils/hooks/useIsDarkMode";
 
 export interface PanelProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -144,7 +144,7 @@ export const ButtonPanel: React.FC<
       style={{
         ...pixelDarkBorderStyle,
         padding: `${PIXEL_SCALE * 1}px`,
-        borderImage: `url(${primaryButton})`,
+        borderImage: `url(${SUNNYSIDE.ui.primaryButton})`,
         borderStyle: "solid",
         borderWidth: `8px 8px 10px 8px`,
         borderImageSlice: "3 3 4 3 fill",

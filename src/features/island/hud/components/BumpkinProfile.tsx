@@ -2,9 +2,6 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import { Modal } from "components/ui/Modal";
 import { useActor } from "@xstate/react";
 
-import progressBarSprite from "assets/ui/profile/progress_bar_sprite.png";
-import whiteBg from "assets/ui/profile/bg.png";
-
 import { BumpkinModal } from "features/bumpkins/components/BumpkinModal";
 import { DynamicNFT } from "features/bumpkins/components/DynamicNFT";
 import { Context } from "features/game/GameProvider";
@@ -118,7 +115,7 @@ export const BumpkinAvatar: React.FC<AvatarProps> = ({
         onClick={onClick}
       >
         <img
-          src={whiteBg}
+          src={SUNNYSIDE.ui.whiteBg}
           className="col-start-1 row-start-1 opacity-40"
           style={{
             width: `${DIMENSIONS.scaled}px`,
@@ -155,7 +152,7 @@ export const BumpkinAvatar: React.FC<AvatarProps> = ({
             width: `${DIMENSIONS.scaled}px`,
             imageRendering: "pixelated",
           }}
-          image={progressBarSprite}
+          image={SUNNYSIDE.ui.progressBarSprite}
           widthFrame={DIMENSIONS.original}
           heightFrame={DIMENSIONS.original}
           zoomScale={new SpringValue(1)}

@@ -1559,4 +1559,5 @@ export const BUMPKIN_WITHDRAWABLES: Record<
   "Infernal Drill": () => canWithdrawTimebasedItem(new Date("2024-10-21")), // Last Auction 20th October
   "Lemon Shield": () => canWithdrawTimebasedItem(new Date("2024-10-12")), // Last Auction 11th October
   "Scarab Wings": () => canWithdrawTimebasedItem(new Date("2024-10-03")), // Last Auction 2nd October
+  "Bionic Drill": (state) => canWithdrawBoostedWearable("Bionic Drill", state),
 };

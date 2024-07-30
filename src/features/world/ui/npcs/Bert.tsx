@@ -11,7 +11,7 @@ import { Context } from "features/game/GameProvider";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
 import { InventoryItemName } from "features/game/types/game";
-import bg from "assets/ui/grey_background.png";
+
 import { Label } from "components/ui/Label";
 import { Button } from "components/ui/Button";
 import { secondsToString } from "lib/utils/time";
@@ -174,7 +174,10 @@ export const Bert: React.FC<Props> = ({ onClose }) => {
               <p className="text-center text-sm mb-3">{obsessionDialogue}</p>
 
               <div className="relative mb-2">
-                <img src={bg} className="w-48 object-contain rounded-md" />
+                <img
+                  src={SUNNYSIDE.ui.grey_background}
+                  className="w-48 object-contain rounded-md"
+                />
                 <div className="absolute inset-0">
                   <img
                     src={image}

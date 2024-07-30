@@ -16,14 +16,12 @@ import {
 import { Button } from "components/ui/Button";
 import { OuterPanel } from "components/ui/Panel";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import selectBoxTL from "assets/ui/select/selectbox_tl.png";
-import selectBoxTR from "assets/ui/select/selectbox_tr.png";
-import lightning from "assets/icons/lightning.png";
 import { isMobile } from "mobile-device-detect";
 import Decimal from "decimal.js-light";
 import { RequirementLabel } from "components/ui/RequirementsLabel";
 import classNames from "classnames";
 import { secondsToString } from "lib/utils/time";
+import lightning from "assets/icons/lightning.png";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { TypingMessage } from "../TypingMessage";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -182,7 +180,7 @@ export const FactionKitchenPanel: React.FC<Props> = ({ bumpkinParts }) => {
                               <div id="select-box">
                                 <img
                                   className="absolute pointer-events-none"
-                                  src={selectBoxTL}
+                                  src={SUNNYSIDE.ui.selectBoxTL}
                                   style={{
                                     top: `${PIXEL_SCALE * -3}px`,
                                     left: `${PIXEL_SCALE * -3}px`,
@@ -191,7 +189,7 @@ export const FactionKitchenPanel: React.FC<Props> = ({ bumpkinParts }) => {
                                 />
                                 <img
                                   className="absolute pointer-events-none"
-                                  src={selectBoxTR}
+                                  src={SUNNYSIDE.ui.selectBoxTR}
                                   style={{
                                     top: `${PIXEL_SCALE * -3}px`,
                                     right: `${PIXEL_SCALE * -3}px`,

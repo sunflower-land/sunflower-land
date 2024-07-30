@@ -2,8 +2,7 @@ import { getBumpkinLevel } from "features/game/lib/level";
 import { GameState } from "features/game/types/game";
 
 import crown from "assets/sfts/goblin_crown.png";
-import thumbs_up from "assets/skills/green_thumb.png";
-import suspicious from "assets/icons/suspicious.png";
+
 import levelUp from "assets/icons/level_up.png";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
@@ -89,7 +88,7 @@ export const REACTIONS: Reaction[] = [
     name: "thumbs_up",
     hasAccess: (game: GameState) => !!game.bumpkin?.achievements?.["Farm Hand"],
     description: translate("reaction.crops"),
-    icon: thumbs_up,
+    icon: SUNNYSIDE.badges.greenThumb,
   },
   {
     name: "sunflower",
@@ -103,7 +102,7 @@ export const REACTIONS: Reaction[] = [
     hasAccess: (game: GameState) =>
       game.bumpkin?.equipped.body === "Goblin Potion",
     description: translate("reaction.goblin"),
-    icon: suspicious,
+    icon: SUNNYSIDE.icons.suspicious,
   },
   {
     name: "crown",

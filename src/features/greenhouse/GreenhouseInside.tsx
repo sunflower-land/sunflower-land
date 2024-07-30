@@ -1,6 +1,5 @@
 import React, { useContext, useLayoutEffect } from "react";
-
-import background from "assets/land/greenhouse_inside.png";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
@@ -14,6 +13,7 @@ import { GreenhousePot } from "./GreenhousePot";
 import { Hud } from "features/island/hud/Hud";
 import { GreenhouseOil } from "./GreenhouseOil";
 
+const background = SUNNYSIDE.land.greenhouse_inside;
 const selectOil = (state: MachineState) => state.context.state.greenhouse.oil;
 
 export const GreenhouseInside: React.FC = () => {

@@ -1,8 +1,6 @@
 import React, { useContext, useState } from "react";
 import { useActor } from "@xstate/react";
-import lock from "assets/skills/lock.png";
 import orange from "assets/resources/orange.png";
-import greenhouse from "assets/icons/greenhouse.webp";
 import { Box } from "components/ui/Box";
 import { Button } from "components/ui/Button";
 import { Context } from "features/game/GameProvider";
@@ -300,7 +298,9 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
                   onClick={() => onSeedClick(name)}
                   image={ITEM_DETAILS[name].image}
                   showOverlay={isSeedLocked(name)}
-                  secondaryImage={isSeedLocked(name) ? lock : undefined}
+                  secondaryImage={
+                    isSeedLocked(name) ? SUNNYSIDE.icons.lock : undefined
+                  }
                   count={inventory[name]}
                 />
               ))}
@@ -326,7 +326,9 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
                   onClick={() => onSeedClick(name)}
                   image={ITEM_DETAILS[name].image}
                   showOverlay={isSeedLocked(name)}
-                  secondaryImage={isSeedLocked(name) ? lock : undefined}
+                  secondaryImage={
+                    isSeedLocked(name) ? SUNNYSIDE.icons.lock : undefined
+                  }
                   count={inventory[name]}
                 />
               ))}
@@ -349,14 +351,20 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
                     onClick={() => onSeedClick(name)}
                     image={ITEM_DETAILS[name].image}
                     showOverlay={isSeedLocked(name)}
-                    secondaryImage={isSeedLocked(name) ? lock : undefined}
+                    secondaryImage={
+                      isSeedLocked(name) ? SUNNYSIDE.icons.lock : undefined
+                    }
                     count={inventory[name]}
                   />
                 ))}
             </div>
 
             <>
-              <Label icon={greenhouse} type="default" className="ml-2 mb-1">
+              <Label
+                icon={SUNNYSIDE.icons.greenhouseIcon}
+                type="default"
+                className="ml-2 mb-1"
+              >
                 {t("greenhouse")}
               </Label>
               <div className="flex flex-wrap mb-2">
@@ -373,7 +381,9 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
                       onClick={() => onSeedClick(name)}
                       image={ITEM_DETAILS[name].image}
                       showOverlay={isSeedLocked(name)}
-                      secondaryImage={isSeedLocked(name) ? lock : undefined}
+                      secondaryImage={
+                        isSeedLocked(name) ? SUNNYSIDE.icons.lock : undefined
+                      }
                       count={inventory[name]}
                     />
                   ))}

@@ -1,6 +1,6 @@
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import React, { Component, ReactNode } from "react";
-import ocean from "assets/decorations/ocean.webp";
+import { SUNNYSIDE } from "assets/sunnyside";
 import { BoundaryError } from "./SomethingWentWrong";
 import { Modal } from "components/ui/Modal";
 import { Panel } from "components/ui/Panel";
@@ -30,7 +30,7 @@ class ErrorBoundary extends Component<Props, State> {
           <div
             className="absolute inset-0 bg-repeat w-full h-full"
             style={{
-              backgroundImage: `url(${ocean})`,
+              backgroundImage: `url(${SUNNYSIDE.decorations.ocean})`,
               backgroundSize: `${64 * PIXEL_SCALE}px`,
               imageRendering: "pixelated",
             }}

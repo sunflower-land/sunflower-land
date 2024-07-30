@@ -1,22 +1,5 @@
 import { PIXEL_SCALE } from "./constants";
-import grayBorder from "assets/ui/panel/gray_border.png";
-import orangeBorder from "assets/ui/panel/orange_border.png";
-import redBorder from "assets/ui/panel/danger_border.png";
-import blueBorder from "assets/ui/panel/blue_border.png";
-import formulaBorder from "assets/ui/panel/formula_border.png";
-import calmBorder from "assets/ui/panel/calm_border.png";
-import vibrantBorder from "assets/ui/panel/vibrant_border.png";
-import lightBorder from "assets/ui/panel/light_border.png";
-import darkBorder from "assets/ui/panel/dark_border.png";
-import roomBorder from "assets/ui/panel/room_border.webp";
-import tableBorder from "assets/ui/panel/table_border2.webp";
-import greenBorder from "assets/ui/panel/green_border.png";
-import tabBorderStart from "assets/ui/panel/tab_border_start.png";
-import tabBorderMiddle from "assets/ui/panel/tab_border_middle.png";
-import tabBorderVerticalStart from "assets/ui/panel/vertical_tab_border_start.png";
-import tabBorderVerticalMiddle from "assets/ui/panel/vertical_tab_border_middle.png";
-import progressBarBorder from "assets/ui/progress/progress_bar_border.png";
-import speechBubbleBorder from "assets/ui/speech_bubble.webp";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 const pixelizedBorderStyle: React.CSSProperties = {
   borderStyle: "solid",
@@ -28,47 +11,47 @@ const pixelizedBorderStyle: React.CSSProperties = {
 };
 
 export const pixelGrayBorderStyle: React.CSSProperties = {
-  borderImage: `url(${grayBorder})`,
+  borderImage: `url(${SUNNYSIDE.ui.grayBorder})`,
   ...pixelizedBorderStyle,
 };
 
 export const pixelOrangeBorderStyle: React.CSSProperties = {
-  borderImage: `url(${orangeBorder})`,
+  borderImage: `url(${SUNNYSIDE.ui.orangeBorder})`,
   ...pixelizedBorderStyle,
 };
 
 export const pixelRedBorderStyle: React.CSSProperties = {
-  borderImage: `url(${redBorder})`,
+  borderImage: `url(${SUNNYSIDE.ui.redBorder})`,
   ...{ ...pixelizedBorderStyle },
 };
 
 export const pixelVibrantBorderStyle: React.CSSProperties = {
-  borderImage: `url(${vibrantBorder})`,
+  borderImage: `url(${SUNNYSIDE.ui.vibrantBorder})`,
   ...pixelizedBorderStyle,
 };
 
 export const pixelBlueBorderStyle: React.CSSProperties = {
-  borderImage: `url(${blueBorder})`,
+  borderImage: `url(${SUNNYSIDE.ui.blueBorder})`,
   ...pixelizedBorderStyle,
 };
 
 export const pixelFormulaBorderStyle: React.CSSProperties = {
-  borderImage: `url(${formulaBorder})`,
+  borderImage: `url(${SUNNYSIDE.ui.formulaBorder})`,
   ...pixelizedBorderStyle,
 };
 
 export const pixelCalmBorderStyle: React.CSSProperties = {
-  borderImage: `url(${calmBorder})`,
+  borderImage: `url(${SUNNYSIDE.ui.calmBorder})`,
   ...pixelizedBorderStyle,
 };
 
 export const pixelLightBorderStyle: React.CSSProperties = {
-  borderImage: `url(${lightBorder})`,
+  borderImage: `url(${SUNNYSIDE.ui.lightBorder})`,
   ...pixelizedBorderStyle,
 };
 
 export const pixelRoomBorderStyle: React.CSSProperties = {
-  borderImage: `url(${roomBorder})`,
+  borderImage: `url(${SUNNYSIDE.ui.roomBorder})`,
   borderStyle: "solid",
   borderWidth: `${PIXEL_SCALE * 6}px`,
   borderImageSlice: "20%",
@@ -78,7 +61,7 @@ export const pixelRoomBorderStyle: React.CSSProperties = {
 };
 
 export const pixelTableBorderStyle: React.CSSProperties = {
-  borderImage: `url(${tableBorder})`,
+  borderImage: `url(${SUNNYSIDE.ui.tableBorder})`,
   borderStyle: "solid",
   borderWidth: `${PIXEL_SCALE * 2}px ${PIXEL_SCALE * 2}px ${PIXEL_SCALE * 5}px`,
   borderImageSlice: "10% 10% 20%",
@@ -88,48 +71,48 @@ export const pixelTableBorderStyle: React.CSSProperties = {
 };
 
 export const pixelSpeechBubbleBorderStyle: React.CSSProperties = {
-  borderImage: `url(${speechBubbleBorder})`,
+  borderImage: `url(${SUNNYSIDE.ui.speechBubbleBorder})`,
   backgroundColor: "white",
   borderWidth: `${PIXEL_SCALE * 3}px`,
   ...pixelizedBorderStyle,
 };
 
 export const pixelDarkBorderStyle: React.CSSProperties = {
-  borderImage: `url(${darkBorder})`,
+  borderImage: `url(${SUNNYSIDE.ui.darkBorder})`,
   ...pixelizedBorderStyle,
 };
 
 export const pixelGreenBorderStyle: React.CSSProperties = {
-  borderImage: `url(${greenBorder})`,
+  borderImage: `url(${SUNNYSIDE.ui.greenBorder})`,
   ...pixelizedBorderStyle,
 };
 
 export const pixelTabBorderStartStyle: React.CSSProperties = {
-  borderImage: `url(${tabBorderStart})`,
+  borderImage: `url(${SUNNYSIDE.ui.tabBorderStart})`,
   ...pixelizedBorderStyle,
   borderRadius: `${PIXEL_SCALE * 5}px ${PIXEL_SCALE * 5}px 0 0`,
 };
 
 export const pixelTabBorderMiddleStyle: React.CSSProperties = {
-  borderImage: `url(${tabBorderMiddle})`,
+  borderImage: `url(${SUNNYSIDE.ui.tabBorderMiddle})`,
   ...pixelizedBorderStyle,
   borderRadius: `${PIXEL_SCALE * 5}px ${PIXEL_SCALE * 5}px 0 0`,
 };
 
 export const pixelTabBorderVerticalStartStyle: React.CSSProperties = {
-  borderImage: `url(${tabBorderVerticalStart})`,
+  borderImage: `url(${SUNNYSIDE.ui.tabBorderVerticalStart})`,
   ...pixelizedBorderStyle,
   borderRadius: `${PIXEL_SCALE * 5}px 0 0 ${PIXEL_SCALE * 5}px`,
 };
 
 export const pixelTabBorderVerticalMiddleStyle: React.CSSProperties = {
-  borderImage: `url(${tabBorderVerticalMiddle})`,
+  borderImage: `url(${SUNNYSIDE.ui.tabBorderVerticalMiddle})`,
   ...pixelizedBorderStyle,
   borderRadius: `${PIXEL_SCALE * 5}px 0 0 ${PIXEL_SCALE * 5}px`,
 };
 
 export const progressBarBorderStyle: React.CSSProperties = {
-  borderImage: `url(${progressBarBorder})`,
+  borderImage: `url(${SUNNYSIDE.ui.progressBarBorder})`,
   ...pixelizedBorderStyle,
   borderLeftWidth: `${PIXEL_SCALE * 2}px`,
   borderRightWidth: `${PIXEL_SCALE * 2}px`,

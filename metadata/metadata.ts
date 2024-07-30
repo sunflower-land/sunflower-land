@@ -8564,7 +8564,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "../public/erc1155/images/question_mark.png",
+    image: "../public/erc1155/images/2101.png",
     name: "Hapy Jar",
   },
   "Imsety Jar": {
@@ -8575,7 +8575,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "../public/erc1155/images/question_mark.png",
+    image: "../public/erc1155/images/2104.png",
     name: "Imsety Jar",
   },
   "Tomato Core": {
@@ -8602,7 +8602,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "../public/erc1155/images/question_mark.png",
+    image: "../public/erc1155/images/2106.png",
     name: "Sarcophagus",
   },
   "Duamutef Jar": {
@@ -8613,7 +8613,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "../public/erc1155/images/question_mark.png",
+    image: "../public/erc1155/images/2102.png",
     name: "Duamutef Jar",
   },
   "Qebehsenuef Jar": {
@@ -8624,7 +8624,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "../public/erc1155/images/question_mark.png",
+    image: "../public/erc1155/images/2103.png",
     name: "Qebehsenuef Jar",
   },
   "Clay Tablet": {
@@ -13363,6 +13363,23 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
     attributes: [
       { trait_type: "Part", value: "Wings" },
       { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://bumpkins.io",
+    image: "../public/wearables/images/372.png",
+    name: "Scarab Wings",
+  },
+  "Bionic Drill": {
+    description:
+      "The Bionic Drill is a state-of-the-art wearable designed for the modern desert explorer. Enjoy +5 desert digs per day.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Wings" },
+      { trait_type: "Tradable", value: "Yes" },
+      {
+        display_type: "boost_number",
+        trait_type: "Increase daily digs",
+        value: 5,
+      },
     ],
     external_url: "https://bumpkins.io",
     image: "../public/wearables/images/372.png",

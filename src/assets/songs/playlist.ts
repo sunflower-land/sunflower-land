@@ -1,5 +1,4 @@
-import willow_tree from "./willow_tree.mp3";
-import mountain_escape from "./mountain_escape.mp3";
+import { SOUNDS } from "assets/sound-effects/soundEffects";
 // Playlist hardcoded, but eventually it will be fetched from the server
 
 export interface Song {
@@ -12,12 +11,12 @@ const farming_songs: Song[] = [
   {
     artist: "Romy",
     name: "Willow Tree",
-    path: willow_tree,
+    path: SOUNDS.songs.willow_tree,
   },
   {
     artist: "Romy & Rick",
     name: "Mountain Escape",
-    path: mountain_escape,
+    path: SOUNDS.songs.mountain_escape,
   },
   // {
   //   artist: "Romy & Rick",
@@ -30,7 +29,7 @@ const goblin_songs = [
   {
     artist: "Romy & Rick",
     name: "Mountain Escape",
-    path: mountain_escape,
+    path: SOUNDS.songs.mountain_escape,
   },
 ];
 

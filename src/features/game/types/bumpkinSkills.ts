@@ -1,25 +1,5 @@
 import { getKeys } from "./craftables";
-import green_thumb_LE from "assets/skills/land/crops/green_thumb_LE.png";
-import cultivator from "assets/skills/land/crops/cultivator.png";
-import master_farmer from "assets/skills/land/crops/master_farmer.png";
-import golden_flowers from "assets/skills/land/crops/golden_flowers.png";
-import happy_crop from "assets/skills/land/crops/happy_crop.png";
-import buckaroo from "assets/skills/land/animals/buckaroo.png";
-import coal_face from "assets/skills/land/rocks/coal_face.png";
-import curer from "assets/skills/land/cooking/curer.png";
-import digger from "assets/skills/land/rocks/digger.png";
-import free_range from "assets/skills/land/animals/free_range.png";
-import gold_rush_LE from "assets/skills/land/rocks/gold_rush_LE.png";
-import horse_whisperer from "assets/skills/land/animals/horse_whisperer.png";
-import kitchen_hand from "assets/skills/land/cooking/kitchen_hand.png";
-import lumberjack_LE from "assets/skills/land/trees/lumberjack_LE.png";
-import michelin_stars from "assets/skills/land/cooking/michelin_stars.png";
-import money_tree from "assets/skills/land/trees/money_tree.png";
-import rush_hour from "assets/skills/land/cooking/rush_hour.png";
-import seeker from "assets/skills/land/rocks/seeker.png";
-import stable_hand from "assets/skills/land/animals/stable_hand.png";
-import tough_tree from "assets/skills/land/trees/tough_tree.png";
-import tree_hugger from "assets/skills/land/trees/tree_hugger.png";
+import { SUNNYSIDE } from "assets/sunnyside";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 import { translate } from "lib/i18n/translate";
 
@@ -74,7 +54,7 @@ export const BUMPKIN_SKILL_TREE: Record<BumpkinSkillName, BumpkinSkill> = {
       points: 1,
     },
     boosts: translate("description.green.thumb"),
-    image: green_thumb_LE,
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
   Cultivator: {
     name: "Cultivator",
@@ -84,7 +64,7 @@ export const BUMPKIN_SKILL_TREE: Record<BumpkinSkillName, BumpkinSkill> = {
       skill: "Green Thumb",
     },
     boosts: translate("description.cultivator"),
-    image: cultivator,
+    image: SUNNYSIDE?.skills?.cultivator,
   },
   "Master Farmer": {
     name: "Master Farmer",
@@ -94,7 +74,7 @@ export const BUMPKIN_SKILL_TREE: Record<BumpkinSkillName, BumpkinSkill> = {
       skill: "Cultivator",
     },
     boosts: translate("description.master.farmer"),
-    image: master_farmer,
+    image: SUNNYSIDE?.skills?.master_farmer,
   },
   "Golden Flowers": {
     name: "Golden Flowers",
@@ -104,7 +84,7 @@ export const BUMPKIN_SKILL_TREE: Record<BumpkinSkillName, BumpkinSkill> = {
       skill: "Master Farmer",
     },
     boosts: translate("description.golden.flowers"),
-    image: golden_flowers,
+    image: SUNNYSIDE?.skills?.golden_flowers,
   },
   "Plant Whisperer": {
     name: "Plant Whisperer",
@@ -125,7 +105,7 @@ export const BUMPKIN_SKILL_TREE: Record<BumpkinSkillName, BumpkinSkill> = {
       skill: "Master Farmer",
     },
     boosts: translate("description.happy.crop"),
-    image: happy_crop,
+    image: SUNNYSIDE?.skills?.happy_crop,
   },
   Lumberjack: {
     name: "Lumberjack",
@@ -134,7 +114,7 @@ export const BUMPKIN_SKILL_TREE: Record<BumpkinSkillName, BumpkinSkill> = {
       points: 1,
     },
     boosts: translate("description.lumberjack"),
-    image: lumberjack_LE,
+    image: SUNNYSIDE?.skills?.lumberjack_LE,
   },
   "Tree Hugger": {
     name: "Tree Hugger",
@@ -144,7 +124,7 @@ export const BUMPKIN_SKILL_TREE: Record<BumpkinSkillName, BumpkinSkill> = {
       skill: "Lumberjack",
     },
     boosts: translate("description.tree.hugger"),
-    image: tree_hugger,
+    image: SUNNYSIDE?.skills?.tree_hugger,
   },
   "Tough Tree": {
     name: "Tough Tree",
@@ -154,7 +134,7 @@ export const BUMPKIN_SKILL_TREE: Record<BumpkinSkillName, BumpkinSkill> = {
       skill: "Tree Hugger",
     },
     boosts: translate("description.tough.tree"),
-    image: tough_tree,
+    image: SUNNYSIDE?.skills?.tough_tree,
   },
   "Money Tree": {
     name: "Money Tree",
@@ -164,7 +144,7 @@ export const BUMPKIN_SKILL_TREE: Record<BumpkinSkillName, BumpkinSkill> = {
       skill: "Tree Hugger",
     },
     boosts: translate("description.money.tree"),
-    image: money_tree,
+    image: SUNNYSIDE?.skills?.money_tree,
   },
   Digger: {
     name: "Digger",
@@ -173,7 +153,7 @@ export const BUMPKIN_SKILL_TREE: Record<BumpkinSkillName, BumpkinSkill> = {
       points: 1,
     },
     boosts: translate("description.digger"),
-    image: digger,
+    image: SUNNYSIDE?.skills?.digger,
   },
   "Coal Face": {
     name: "Coal Face",
@@ -183,7 +163,7 @@ export const BUMPKIN_SKILL_TREE: Record<BumpkinSkillName, BumpkinSkill> = {
       skill: "Digger",
     },
     boosts: translate("description.coal.face"),
-    image: coal_face,
+    image: SUNNYSIDE?.skills?.coal_face,
   },
   Seeker: {
     name: "Seeker",
@@ -193,7 +173,7 @@ export const BUMPKIN_SKILL_TREE: Record<BumpkinSkillName, BumpkinSkill> = {
       skill: "Coal Face",
     },
     boosts: translate("description.seeker"),
-    image: seeker,
+    image: SUNNYSIDE?.skills?.seeker,
     disabled: true,
   },
   "Gold Rush": {
@@ -204,7 +184,7 @@ export const BUMPKIN_SKILL_TREE: Record<BumpkinSkillName, BumpkinSkill> = {
       skill: "Coal Face",
     },
     boosts: translate("description.gold.rush"),
-    image: gold_rush_LE,
+    image: SUNNYSIDE?.skills?.gold_rush_LE,
   },
   "Rush Hour": {
     name: "Rush Hour",
@@ -213,7 +193,7 @@ export const BUMPKIN_SKILL_TREE: Record<BumpkinSkillName, BumpkinSkill> = {
       points: 1,
     },
     boosts: translate("description.rush.hour"),
-    image: rush_hour,
+    image: SUNNYSIDE?.skills?.rush_hour,
   },
   "Kitchen Hand": {
     name: "Kitchen Hand",
@@ -223,7 +203,7 @@ export const BUMPKIN_SKILL_TREE: Record<BumpkinSkillName, BumpkinSkill> = {
       skill: "Rush Hour",
     },
     boosts: translate("description.kitchen.hand"),
-    image: kitchen_hand,
+    image: SUNNYSIDE?.skills?.kitchen_hand,
   },
   "Michelin Stars": {
     name: "Michelin Stars",
@@ -233,7 +213,7 @@ export const BUMPKIN_SKILL_TREE: Record<BumpkinSkillName, BumpkinSkill> = {
       skill: "Kitchen Hand",
     },
     boosts: translate("description.michelin.stars"),
-    image: michelin_stars,
+    image: SUNNYSIDE?.skills?.michelin_stars,
   },
   Curer: {
     name: "Curer",
@@ -243,7 +223,7 @@ export const BUMPKIN_SKILL_TREE: Record<BumpkinSkillName, BumpkinSkill> = {
       skill: "Michelin Stars",
     },
     boosts: translate("description.curer"),
-    image: curer,
+    image: SUNNYSIDE?.skills?.curer,
   },
   "Stable Hand": {
     name: "Stable Hand",
@@ -252,7 +232,7 @@ export const BUMPKIN_SKILL_TREE: Record<BumpkinSkillName, BumpkinSkill> = {
       points: 1,
     },
     boosts: translate("description.stable.hand"),
-    image: stable_hand,
+    image: SUNNYSIDE?.skills?.stable_hand,
   },
   "Free Range": {
     name: "Free Range",
@@ -262,7 +242,7 @@ export const BUMPKIN_SKILL_TREE: Record<BumpkinSkillName, BumpkinSkill> = {
       skill: "Stable Hand",
     },
     boosts: translate("description.free.range"),
-    image: free_range,
+    image: SUNNYSIDE?.skills?.free_range,
   },
   "Horse Whisperer": {
     name: "Horse Whisperer",
@@ -272,7 +252,7 @@ export const BUMPKIN_SKILL_TREE: Record<BumpkinSkillName, BumpkinSkill> = {
       skill: "Free Range",
     },
     boosts: translate("description.horse.whisperer"),
-    image: horse_whisperer,
+    image: SUNNYSIDE?.skills?.horse_whisperer,
   },
   Buckaroo: {
     name: "Buckaroo",
@@ -282,7 +262,7 @@ export const BUMPKIN_SKILL_TREE: Record<BumpkinSkillName, BumpkinSkill> = {
       skill: "Horse Whisperer",
     },
     boosts: translate("description.buckaroo"),
-    image: buckaroo,
+    image: SUNNYSIDE?.skills?.buckaroo,
   },
 };
 

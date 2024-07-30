@@ -10,7 +10,6 @@ import React from "react";
 import { RequirementLabel } from "../RequirementsLabel";
 import { InlineDialogue } from "features/world/ui/TypingMessage";
 import { SUNNYSIDE } from "assets/sunnyside";
-import lockIcon from "assets/skills/lock.png";
 
 import { Label } from "../Label";
 import { secondsToString } from "lib/utils/time";
@@ -115,7 +114,7 @@ export const ExpansionRequirements: React.FC<Props> = ({
 
         {!hasLevel && (
           <>
-            <Label type="danger" icon={lockIcon} className="my-2">
+            <Label type="danger" icon={SUNNYSIDE.icons.lock} className="my-2">
               {t("warning.level.required", {
                 lvl: requirements.bumpkinLevel,
               })}

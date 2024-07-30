@@ -4,6 +4,7 @@ import { useActor } from "@xstate/react";
 
 import { Context } from "features/game/GameProvider";
 import { ITEM_DETAILS } from "features/game/types/images";
+import token from "assets/icons/sfl.webp";
 
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { getKeys } from "features/game/types/craftables";
@@ -19,8 +20,6 @@ import { getRelativeTime } from "lib/utils/time";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 import { formatNumber } from "lib/utils/formatNumber";
 
-import sflIcon from "assets/icons/sfl.webp";
-import lock from "assets/skills/lock.png";
 import { Box } from "components/ui/Box";
 import { MAX_SESSION_SFL } from "features/game/lib/processEvent";
 
@@ -151,7 +150,7 @@ export const SalesPanel: React.FC<{
     return (
       <>
         <div className="p-1 flex flex-col items-center">
-          <img src={lock} className="w-1/5 mb-2" />
+          <img src={SUNNYSIDE.icons.lock} className="w-1/5 mb-2" />
           <p className="text-sm mb-1 text-center">
             {t("goblinTrade.hoarding")}
           </p>
@@ -209,7 +208,7 @@ export const SalesPanel: React.FC<{
               <Label type="default" icon={SUNNYSIDE.icons.basket}>
                 {t("goblinTrade.bulk")}
               </Label>
-              <Label type="default" icon={sflIcon}>
+              <Label type="default" icon={token}>
                 {t("goblinTrade.conversion")}
               </Label>
             </div>

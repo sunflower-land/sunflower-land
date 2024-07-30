@@ -17,7 +17,6 @@ import React, { useContext, useEffect, useState } from "react";
 import powerup from "assets/icons/level_up.png";
 import blockBuck from "assets/icons/block_buck.png";
 
-import siteBg from "assets/ui/site_bg.png";
 import { Desert, GameState } from "features/game/types/game";
 import { getKeys } from "features/game/types/decorations";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -33,6 +32,7 @@ import { pixelDarkBorderStyle } from "features/game/lib/style";
 import { CollectibleName } from "features/game/types/craftables";
 import Decimal from "decimal.js-light";
 import { getMaxDigs } from "features/island/hud/components/DesertDiggingDisplay";
+import { BUMPKIN_ITEM_BUFF_LABELS } from "features/game/types/bumpkinItemBuffs";
 
 function hasReadIntro() {
   return !!localStorage.getItem("digging.intro");
@@ -132,7 +132,7 @@ const Pattern: React.FC<{
       className="relative w-full h-0"
       style={{
         paddingBottom: "100%",
-        backgroundImage: `url(${siteBg})`,
+        backgroundImage: `url(${SUNNYSIDE.ui.site_bg})`,
 
         backgroundSize: "100%",
         borderRadius: "6px",
@@ -248,6 +248,10 @@ const BoostDigItems: Partial<
   "Heart of Davy Jones": {
     ...(COLLECTIBLE_BUFF_LABELS["Heart of Davy Jones"] as BuffLabel),
     location: "Marketplace",
+  },
+  "Bionic Drill": {
+    ...(BUMPKIN_ITEM_BUFF_LABELS["Bionic Drill"] as BuffLabel),
+    location: "Artefact Shop",
   },
 };
 

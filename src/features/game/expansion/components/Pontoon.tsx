@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 
-import pontoon from "assets/land/levels/pontoon.gif";
-import island from "assets/land/islands/island.webp";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 import { ExpansionConstruction } from "features/game/types/game";
 import { PIXEL_SCALE } from "features/game/lib/constants";
@@ -50,7 +49,7 @@ export const Pontoon: React.FC<Props> = ({ expansion, onDone }) => {
       className="w-full h-full"
     >
       <img
-        src={pontoon}
+        src={SUNNYSIDE.land.pontoon}
         style={{
           top: `${PIXEL_SCALE * 20}px`,
           left: `${PIXEL_SCALE * -10}px`,
@@ -68,7 +67,7 @@ export const Pontoon: React.FC<Props> = ({ expansion, onDone }) => {
         }}
       >
         <TimerPopover
-          image={island}
+          image={SUNNYSIDE.land.island}
           description={t("landscape.timerPopover")}
           showPopover={showPopover}
           timeLeft={secondsLeft}

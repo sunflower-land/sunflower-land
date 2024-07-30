@@ -1,15 +1,14 @@
 import React from "react";
 
-import bush from "assets/decorations/bush.png";
-import springBush from "assets/decorations/flower_bush.png";
+import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { IslandType } from "features/game/types/game";
 import { CollectibleProps } from "../Collectible";
 
 const BUSH_IMAGE: Record<IslandType, string> = {
-  basic: bush,
-  spring: springBush,
-  desert: bush,
+  basic: SUNNYSIDE.decorations.bush,
+  spring: SUNNYSIDE.decorations.springBush,
+  desert: SUNNYSIDE.decorations.bush,
 };
 export const Bush: React.FC<CollectibleProps> = ({ game }) => {
   return (

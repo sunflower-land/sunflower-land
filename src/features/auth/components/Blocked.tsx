@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { Button } from "components/ui/Button";
 
-import humanDeath from "assets/npcs/human_death.gif";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 import * as AuthProvider from "features/auth/lib/Provider";
 import { removeJWT } from "../actions/social";
@@ -22,7 +22,11 @@ export const Blocked: React.FC = () => {
   return (
     <div className="flex flex-col text-center  items-center p-1">
       <div className="flex mb-3 items-center ml-8">
-        <img src={humanDeath} alt={t("warning")} className="w-full" />
+        <img
+          src={SUNNYSIDE.npcs.humanDeath}
+          alt={t("warning")}
+          className="w-full"
+        />
       </div>
       <p className="text-center mb-3">
         {t("errorAndAccess.blocked.betaTestersOnly")}

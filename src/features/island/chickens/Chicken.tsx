@@ -2,14 +2,6 @@ import { useInterpret, useSelector } from "@xstate/react";
 import React, { useContext, useState } from "react";
 import classNames from "classnames";
 
-import hungryChicken from "assets/animals/chickens/hungry_2.gif";
-import happyChicken from "assets/animals/chickens/happy_2.gif";
-import walkingChickenSheet from "assets/animals/chickens/walking_sheet_2.png";
-import sleepingChicken from "assets/animals/chickens/sleeping_2.gif";
-import chickenShadow from "assets/animals/chickens/chicken_shadow.png";
-import layingEggSheet from "assets/animals/chickens/laying-egg-sheet_2.png";
-import wheatOnGround from "assets/animals/chickens/wheat_2.png";
-
 import { Context } from "features/game/GameProvider";
 
 import Spritesheet from "components/animation/SpriteAnimator";
@@ -39,7 +31,6 @@ import { MachineState as GameMachineState } from "features/game/lib/gameMachine"
 import { MoveableComponent } from "../collectibles/MovableComponent";
 import { ZoomContext } from "components/ZoomProvider";
 import { isLocked } from "features/game/events/landExpansion/moveChicken";
-import lockIcon from "assets/skills/lock.png";
 import { SquareIcon } from "components/ui/SquareIcon";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -290,7 +281,7 @@ const PlaceableChicken: React.FC<Props> = ({ id }) => {
           {hungry && (
             <>
               <img
-                src={chickenShadow}
+                src={SUNNYSIDE.animals.chickenShadow}
                 className="absolute"
                 style={{
                   width: `${PIXEL_SCALE * 13}px`,
@@ -299,7 +290,7 @@ const PlaceableChicken: React.FC<Props> = ({ id }) => {
                 }}
               />
               <img
-                src={hungryChicken}
+                src={SUNNYSIDE.animals.hungryChicken}
                 alt="hungry-chicken"
                 style={{
                   width: `${PIXEL_SCALE * 16}px`,
@@ -337,7 +328,7 @@ const PlaceableChicken: React.FC<Props> = ({ id }) => {
           {eating && (
             <>
               <img
-                src={wheatOnGround}
+                src={SUNNYSIDE.animals.wheatOnGround}
                 alt="wheat-on-ground"
                 className="absolute display-block"
                 style={{
@@ -353,7 +344,7 @@ const PlaceableChicken: React.FC<Props> = ({ id }) => {
                   left: `${PIXEL_SCALE * -7}px`,
                   imageRendering: "pixelated",
                 }}
-                image={walkingChickenSheet}
+                image={SUNNYSIDE.animals.walkingChickenSheet}
                 widthFrame={32}
                 heightFrame={32}
                 zoomScale={scale}
@@ -368,7 +359,7 @@ const PlaceableChicken: React.FC<Props> = ({ id }) => {
           {happy && (
             <>
               <img
-                src={chickenShadow}
+                src={SUNNYSIDE.animals.chickenShadow}
                 className="absolute"
                 style={{
                   width: `${PIXEL_SCALE * 13}px`,
@@ -377,7 +368,7 @@ const PlaceableChicken: React.FC<Props> = ({ id }) => {
                 }}
               />
               <img
-                src={happyChicken}
+                src={SUNNYSIDE.animals.happyChicken}
                 alt="happy-chicken"
                 className="absolute"
                 style={{
@@ -391,7 +382,7 @@ const PlaceableChicken: React.FC<Props> = ({ id }) => {
           {sleeping && (
             <>
               <img
-                src={chickenShadow}
+                src={SUNNYSIDE.animals.chickenShadow}
                 className="absolute"
                 style={{
                   width: `${PIXEL_SCALE * 13}px`,
@@ -400,7 +391,7 @@ const PlaceableChicken: React.FC<Props> = ({ id }) => {
                 }}
               />
               <img
-                src={sleepingChicken}
+                src={SUNNYSIDE.animals.sleepingChicken}
                 alt="sleeping-chicken"
                 className="absolute"
                 style={{
@@ -416,7 +407,7 @@ const PlaceableChicken: React.FC<Props> = ({ id }) => {
           {eggReady && (
             <>
               <img
-                src={chickenShadow}
+                src={SUNNYSIDE.animals.chickenShadow}
                 className="absolute"
                 style={{
                   width: `${PIXEL_SCALE * 13}px`,
@@ -432,7 +423,7 @@ const PlaceableChicken: React.FC<Props> = ({ id }) => {
                   left: `${PIXEL_SCALE * 1}px`,
                   imageRendering: "pixelated",
                 }}
-                image={layingEggSheet}
+                image={SUNNYSIDE.animals.layingEggSheet}
                 widthFrame={17}
                 heightFrame={31}
                 zoomScale={scale}
@@ -448,7 +439,7 @@ const PlaceableChicken: React.FC<Props> = ({ id }) => {
           {eggLaid && (
             <>
               <img
-                src={chickenShadow}
+                src={SUNNYSIDE.animals.chickenShadow}
                 className="absolute"
                 style={{
                   width: `${PIXEL_SCALE * 13}px`,
@@ -457,7 +448,7 @@ const PlaceableChicken: React.FC<Props> = ({ id }) => {
                 }}
               />
               <Spritesheet
-                image={layingEggSheet}
+                image={SUNNYSIDE.animals.layingEggSheet}
                 className="absolute"
                 style={{
                   width: `${PIXEL_SCALE * 17}px`,
@@ -526,7 +517,7 @@ const LockedChicken: React.FC<Props> = (props) => {
         >
           <InnerPanel className="absolute whitespace-nowrap w-fit z-50">
             <div className="flex items-center space-x-2 mx-1 p-1">
-              <SquareIcon icon={lockIcon} width={5} />
+              <SquareIcon icon={SUNNYSIDE.icons.lock} width={5} />
               <span className="text-xxs mb-0.5">{t("aoe.locked")}</span>
             </div>
           </InnerPanel>

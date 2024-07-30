@@ -1,7 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
 
-import house from "assets/buildings/house.png";
-
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { BuildingProps } from "../Building";
 import { Context } from "features/game/GameProvider";
@@ -60,7 +58,7 @@ export const House: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
     <div className="absolute h-full w-full">
       <BuildingImageWrapper name="Town Center" onClick={handleClick}>
         <img
-          src={house}
+          src={SUNNYSIDE.building.house}
           className="absolute pointer-events-none"
           id={Section.Home}
           style={{

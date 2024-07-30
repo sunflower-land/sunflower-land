@@ -14,10 +14,9 @@ import {
 } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import React, { useContext, useState } from "react";
-import token from "assets/icons/sfl.webp";
-import lock from "assets/skills/lock.png";
 import worldIcon from "assets/icons/world.png";
 import tradeIcon from "assets/icons/trade.png";
+import token from "assets/icons/sfl.webp";
 import Decimal from "decimal.js-light";
 import { InnerPanel } from "components/ui/Panel";
 import { getBumpkinLevel } from "features/game/lib/level";
@@ -486,7 +485,10 @@ export const Trade: React.FC<{
     return (
       <div className="relative">
         <div className="p-1 flex flex-col items-center">
-          <img src={lock} className="w-1/5 mx-auto my-2 img-highlight-heavy" />
+          <img
+            src={SUNNYSIDE.icons.lock}
+            className="w-1/5 mx-auto my-2 img-highlight-heavy"
+          />
           <p className="text-sm">{t("bumpkinTrade.minLevel")}</p>
           <p className="text-xs mb-2">{t("statements.lvlUp")}</p>
         </div>
@@ -538,7 +540,6 @@ export const Trade: React.FC<{
           <p className="text-sm">{t("bumpkinTrade.noTradeListed")}</p>
           <p className="text-xs mb-2">{t("bumpkinTrade.sell")}</p>
         </div>
-
         <Button
           onClick={() => setShowListing(true)}
           disabled={!hasListingsRemaining}
@@ -619,7 +620,7 @@ export const Trade: React.FC<{
 
       {getKeys(trades).length >= 3 && (
         <div className="relative my-2">
-          <Label type="danger" icon={lock} className="mx-auto">
+          <Label type="danger" icon={SUNNYSIDE.icons.lock} className="mx-auto">
             {t("bumpkinTrade.maxListings")}
           </Label>
         </div>

@@ -1,6 +1,6 @@
 import React from "react";
 
-import warehouse from "assets/buildings/warehouse.png";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { BuildingImageWrapper } from "../BuildingImageWrapper";
@@ -34,7 +34,7 @@ export const Warehouse: React.FC<BuildingProps> = ({ onRemove, isBuilt }) => {
         }}
       >
         <img
-          src={warehouse}
+          src={SUNNYSIDE.building.warehouse}
           style={{
             width: `${PIXEL_SCALE * 50}px`,
           }}

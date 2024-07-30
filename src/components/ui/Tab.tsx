@@ -7,7 +7,7 @@ import {
   pixelTabBorderVerticalMiddleStyle,
 } from "features/game/lib/style";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import lockIcon from "assets/skills/lock.png";
+import { SUNNYSIDE } from "assets/sunnyside";
 import { useIsDarkMode } from "lib/utils/hooks/useIsDarkMode";
 
 interface Props {
@@ -50,7 +50,10 @@ export const Tab: React.FC<Props> = ({
         }}
       >
         {disabled && (
-          <img src={lockIcon} className="w-3 absolute top-2 right-3 z-10" />
+          <img
+            src={SUNNYSIDE.icons.lock}
+            className="w-3 absolute top-2 right-3 z-10"
+          />
         )}
         {children}
       </div>

@@ -14,6 +14,8 @@ import {
   InventoryItemName,
 } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
+import powerup from "assets/icons/level_up.png";
+
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import React, { useContext, useEffect, useState } from "react";
 import { TypingMessage } from "../TypingMessage";
@@ -26,8 +28,6 @@ import {
 import { OuterPanel } from "components/ui/Panel";
 import classNames from "classnames";
 import { isMobile } from "mobile-device-detect";
-import selectBoxTL from "assets/ui/select/selectbox_tl.png";
-import selectBoxTR from "assets/ui/select/selectbox_tr.png";
 import {
   DifficultyIndex,
   PET_FED_REWARDS_KEY,
@@ -41,10 +41,6 @@ import Decimal from "decimal.js-light";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { secondsToString } from "lib/utils/time";
 import { getFactionPetUpdate } from "./actions/getFactionPetUpdate";
-
-import powerup from "assets/icons/level_up.png";
-import lightning from "assets/icons/lightning.png";
-import xpIcon from "assets/icons/xp.png";
 
 import { formatNumber } from "lib/utils/formatNumber";
 import { FACTION_EMBLEM_ICONS } from "./components/ClaimEmblems";
@@ -278,7 +274,7 @@ export const FactionPetPanel: React.FC<Props> = ({ onClose }) => {
             name: t("guide"),
           },
           {
-            icon: lightning,
+            icon: SUNNYSIDE.icons.lightning,
             name: "Streaks",
           },
         ]}
@@ -360,7 +356,11 @@ export const FactionPetPanel: React.FC<Props> = ({ onClose }) => {
                                 />
                                 <Label
                                   icon={ITEM_DETAILS["Mark"].image}
-                                  secondaryIcon={boost ? lightning : undefined}
+                                  secondaryIcon={
+                                    boost
+                                      ? SUNNYSIDE.icons.lightning
+                                      : undefined
+                                  }
                                   type="warning"
                                   className="absolute h-6"
                                   iconWidth={10}
@@ -379,7 +379,7 @@ export const FactionPetPanel: React.FC<Props> = ({ onClose }) => {
                                 <div id="select-box">
                                   <img
                                     className="absolute pointer-events-none"
-                                    src={selectBoxTL}
+                                    src={SUNNYSIDE.ui.selectBoxTL}
                                     style={{
                                       top: `${PIXEL_SCALE * -3}px`,
                                       left: `${PIXEL_SCALE * -3}px`,
@@ -388,7 +388,7 @@ export const FactionPetPanel: React.FC<Props> = ({ onClose }) => {
                                   />
                                   <img
                                     className="absolute pointer-events-none"
-                                    src={selectBoxTR}
+                                    src={SUNNYSIDE.ui.selectBoxTR}
                                     style={{
                                       top: `${PIXEL_SCALE * -3}px`,
                                       right: `${PIXEL_SCALE * -3}px`,
@@ -429,7 +429,9 @@ export const FactionPetPanel: React.FC<Props> = ({ onClose }) => {
                           <Label
                             onClick={() => setShowBoostInfo(!showBoostInfo)}
                             icon={ITEM_DETAILS["Mark"].image}
-                            secondaryIcon={boost ? lightning : undefined}
+                            secondaryIcon={
+                              boost ? SUNNYSIDE.icons.lightning : undefined
+                            }
                             type="warning"
                             className="m-1 cursor-pointer"
                           >
@@ -481,7 +483,7 @@ export const FactionPetPanel: React.FC<Props> = ({ onClose }) => {
                   <span className="text-xs sm:text-sm">
                     {t("faction.donation.confirm", {
                       factionPoints: formatNumber(boostedMarks),
-                      reward: `${formatNumber(boostedMarks)} ${t("marks")}`,
+                      reward: t("marks"),
                     })}
                   </span>
                   <div className="flex flex-col space-y-1">
@@ -524,7 +526,10 @@ export const FactionPetPanel: React.FC<Props> = ({ onClose }) => {
               </div>
               <div className="flex mb-2">
                 <div className="w-12 flex justify-center">
-                  <img src={xpIcon} className="h-6 mr-2 object-contain" />
+                  <img
+                    src={SUNNYSIDE.icons.xpIcon}
+                    className="h-6 mr-2 object-contain"
+                  />
                 </div>
                 <p className="text-xs flex-1">{t("guide.factionPet.two")}</p>
               </div>
@@ -539,7 +544,10 @@ export const FactionPetPanel: React.FC<Props> = ({ onClose }) => {
               </div>
               <div className="flex mb-2">
                 <div className="w-12 flex justify-center">
-                  <img src={lightning} className="h-6 mr-2 object-contain" />
+                  <img
+                    src={SUNNYSIDE.icons.lightning}
+                    className="h-6 mr-2 object-contain"
+                  />
                 </div>
                 <p className="text-xs flex-1">{t("guide.factionPet.four")}</p>
               </div>
@@ -577,7 +585,10 @@ export const FactionPetPanel: React.FC<Props> = ({ onClose }) => {
             <div className="p-2">
               <div className="flex items-center mb-2">
                 <div className="w-12 flex justify-center">
-                  <img src={xpIcon} className="h-4 mr-2 object-contain" />
+                  <img
+                    src={SUNNYSIDE.icons.xpIcon}
+                    className="h-4 mr-2 object-contain"
+                  />
                 </div>
                 <p className="text-sm flex-1">{`Streaks Explained`}</p>
               </div>

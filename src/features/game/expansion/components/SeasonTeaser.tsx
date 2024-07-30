@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
-import island from "assets/land/vip_island.png";
 import vipGift from "assets/decorations/vip_gift.png";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
@@ -23,7 +23,7 @@ export const SeasonTeaser: React.FC<Props> = ({ offset }) => {
       </Modal>
       <MapPlacement x={0} y={-6 - offset} width={6}>
         <img
-          src={island}
+          src={SUNNYSIDE.land.vip_island}
           style={{
             width: `${PIXEL_SCALE * 62}px`,
           }}

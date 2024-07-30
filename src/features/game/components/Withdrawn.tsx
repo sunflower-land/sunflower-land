@@ -1,7 +1,7 @@
 import { Button } from "components/ui/Button";
 import React, { useContext } from "react";
 
-import secure from "assets/npcs/synced.gif";
+import { SUNNYSIDE } from "assets/sunnyside";
 import { wallet } from "lib/blockchain/wallet";
 import { shortAddress } from "lib/utils/shortAddress";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -19,7 +19,7 @@ export const Withdrawn: React.FC = () => {
     <div className="flex flex-col items-center">
       <div className="p-2 flex flex-col items-center">
         <h1 className="text-center mb-4 mt-1 text-lg">{t("success")}</h1>
-        <img src={secure} className="w-14 mb-4" />
+        <img src={SUNNYSIDE.npcs.synced} className="w-14 mb-4" />
         <p className="mb-4">
           {t("transaction.withdraw.sent")}{" "}
           <span className="text-center mb-2 ml-2 text-sm font-secondary">
