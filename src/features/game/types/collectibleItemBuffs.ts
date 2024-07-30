@@ -652,7 +652,7 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
     boostedItemIcon: powerup,
   },
   "Lemon Tea Bath": {
-    shortDescription: "-50% Lemon Growth Time",
+    shortDescription: translate("description.lemon.tea.bath.boost"),
     labelType: "info",
     boostedItemIcon: SUNNYSIDE.icons.stopwatch,
     boostTypeIcon: ITEM_DETAILS.Lemon.image,

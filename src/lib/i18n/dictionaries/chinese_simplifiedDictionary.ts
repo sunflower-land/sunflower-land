@@ -916,6 +916,8 @@ const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
 
   "description.desert.rose.boost":
     ENGLISH_TERMS["description.desert.rose.boost"],
+  "description.lemon.tea.bath.boost":
+    ENGLISH_TERMS["description.lemon.tea.bath.boost"],
 };
 
 const bountyDescription: Record<BountyDescription, string> = {

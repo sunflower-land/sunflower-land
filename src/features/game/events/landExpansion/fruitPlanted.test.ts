@@ -413,6 +413,48 @@ describe("fruitPlanted", () => {
     ).toEqual(dateNow - (FRUIT_SEEDS()["Orange Seed"].plantSeconds * 1000) / 2);
   });
 
+  it("includes Lemon Tea Bath bonus on Lemons", () => {
+    const seedAmount = new Decimal(5);
+
+    const patchIndex = "1";
+
+    const state = plantFruit({
+      state: {
+        ...GAME_STATE,
+        bumpkin: INITIAL_BUMPKIN,
+        inventory: {
+          "Lemon Seed": seedAmount,
+          "Lemon Tea Bath": new Decimal(1),
+        },
+        collectibles: {
+          "Lemon Tea Bath": [
+            {
+              coordinates: { x: 0, y: 0 },
+              createdAt: 0,
+              id: "123",
+              readyAt: 0,
+            },
+          ],
+        },
+      },
+      createdAt: dateNow,
+      action: {
+        type: "fruit.planted",
+        index: patchIndex,
+        seed: "Lemon Seed",
+      },
+    });
+
+    const fruitPatches = state.fruitPatches;
+
+    expect(
+      (fruitPatches as Record<number, FruitPatch>)[patchIndex].fruit?.amount,
+    ).toEqual(1);
+    expect(
+      (fruitPatches as Record<number, FruitPatch>)[patchIndex].fruit?.plantedAt,
+    ).toEqual(dateNow - (FRUIT_SEEDS()["Lemon Seed"].plantSeconds * 1000) / 2);
+  });
+
   it("includes Black Bearry bonus on Blueberries", () => {
     const seedAmount = new Decimal(5);
 
@@ -723,6 +765,29 @@ describe("getFruitTime", () => {
       INITIAL_BUMPKIN.equipped,
     );
     expect(time).toEqual(applePlantSeconds);
+  });
+
+  it("applies a 50% time reduction for Lemons when Lemon Tea Bath is placed", () => {
+    const seed = "Lemon Seed";
+    const lemonPlantSeconds = FRUIT_SEEDS()[seed].plantSeconds;
+    const time = getFruitPatchTime(
+      seed,
+      {
+        ...TEST_FARM,
+        collectibles: {
+          "Lemon Tea Bath": [
+            {
+              coordinates: { x: 0, y: 0 },
+              createdAt: 0,
+              id: "123",
+              readyAt: 0,
+            },
+          ],
+        },
+      },
+      INITIAL_BUMPKIN.equipped,
+    );
+    expect(time).toEqual(lemonPlantSeconds * 0.5);
   });
 
   it("applies a 10% speed boost with Nana placed for Banana plant", () => {
