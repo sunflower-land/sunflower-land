@@ -207,7 +207,7 @@ export class PlazaScene extends BaseScene {
 
     // Stella Megastore items
     this.load.image("sarcophagus", "world/sarcophagus.webp");
-    this.load.image("rice_panda", "world/rice_pand.webp");
+    this.load.image("rice_panda", "world/rice_panda.webp");
 
     this.load.image("non_la", "world/non_la.webp");
 
