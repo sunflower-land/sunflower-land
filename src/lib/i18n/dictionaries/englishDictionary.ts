@@ -938,6 +938,7 @@ const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
     "Your {{hourglass}} has expired. Time to grab another one!",
   "description.desert.rose.boost": "10% Chance for +1 Flower",
   "description.pharaoh.gnome.boost": "+2 Greenhouse Plants",
+  "description.lemon.tea.bath.boost": "-50% Lemon Growth Time",
 };
 
 const bountyDescription: Record<BountyDescription, string> = {
