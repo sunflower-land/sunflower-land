@@ -4,6 +4,7 @@ import { Box } from "components/ui/Box";
 import { Button } from "components/ui/Button";
 import { Context } from "features/game/GameProvider";
 import { getKeys } from "features/game/types/craftables";
+import token from "assets/icons/sfl.webp";
 import {
   FactionEmblem,
   Inventory,
@@ -177,11 +178,7 @@ const ListTrade: React.FC<{
                 {t("bumpkinTrade.max", { max: MAX_SFL })}
               </Label>
             )}
-            <Label
-              icon={SUNNYSIDE.icons.token}
-              type="default"
-              className="my-1 ml-2 mr-1"
-            >
+            <Label icon={token} type="default" className="my-1 ml-2 mr-1">
               {t("bumpkinTrade.price")}
             </Label>
           </div>
@@ -301,7 +298,7 @@ const TradeDetails: React.FC<{
                     {t("bought")}
                   </Label>
                   <div className="flex items-center mr-0.5 mt-1">
-                    <img src={SUNNYSIDE.icons.token} className="h-6 mr-1" />
+                    <img src={token} className="h-6 mr-1" />
                     <p className="text-xs">{`${trade.sfl} SFL`}</p>
                   </div>
                 </div>
@@ -334,7 +331,7 @@ const TradeDetails: React.FC<{
             <div>
               <Label type="default" className="ml-1 mt-0.5">{`Listed`}</Label>
               <div className="flex items-center mr-0.5 mt-1">
-                <img src={SUNNYSIDE.icons.token} className="h-6 mr-1" />
+                <img src={token} className="h-6 mr-1" />
                 <p className="text-xs">{`${trade.sfl} SFL`}</p>
               </div>
             </div>

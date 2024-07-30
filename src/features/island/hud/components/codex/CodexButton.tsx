@@ -81,7 +81,7 @@ export const CodexButton: React.FC = () => {
                   top: `${PIXEL_SCALE * -8}px`,
                   left: `${PIXEL_SCALE * 6}px`,
 
-                  borderImage: `url(${SUNNYSIDE.ui.speechBubbleBorder})`,
+                  borderImage: `url(${SUNNYSIDE.ui.speechBorder})`,
                   borderStyle: "solid",
                   borderTopWidth: `${PIXEL_SCALE * 2}px`,
                   borderRightWidth: `${PIXEL_SCALE * 2}px`,

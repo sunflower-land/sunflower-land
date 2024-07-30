@@ -4,6 +4,7 @@ import { useActor } from "@xstate/react";
 
 import { Context } from "features/game/GameProvider";
 import { ITEM_DETAILS } from "features/game/types/images";
+import token from "assets/icons/sfl.webp";
 
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { getKeys } from "features/game/types/craftables";
@@ -208,7 +209,7 @@ export const SalesPanel: React.FC<{
               <Label type="default" icon={SUNNYSIDE.icons.basket}>
                 {t("goblinTrade.bulk")}
               </Label>
-              <Label type="default" icon={SUNNYSIDE.icons.token}>
+              <Label type="default" icon={token}>
                 {t("goblinTrade.conversion")}
               </Label>
             </div>

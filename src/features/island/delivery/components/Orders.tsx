@@ -5,6 +5,7 @@ import classNames from "classnames";
 import Decimal from "decimal.js-light";
 
 import worldIcon from "assets/icons/world_small.png";
+import token from "assets/icons/sfl.webp";
 
 import { DynamicNFT } from "features/bumpkins/components/DynamicNFT";
 import { Context } from "features/game/GameProvider";
@@ -166,7 +167,7 @@ export const OrderCard: React.FC<OrderCardProps> = ({
                 if (name === "coins") {
                   img = SUNNYSIDE.ui.coinsImg;
                 } else if (name === "sfl") {
-                  img = SUNNYSIDE.icons.token;
+                  img = token;
                 } else {
                   img = ITEM_DETAILS[name].image;
                 }
@@ -192,7 +193,7 @@ export const OrderCard: React.FC<OrderCardProps> = ({
           <Label
             type="warning"
             iconWidth={8}
-            icon={SUNNYSIDE.icons.token}
+            icon={token}
             className={"absolute -bottom-2 text-center p-1 "}
             style={{
               left: `${PIXEL_SCALE * -3}px`,
@@ -519,7 +520,7 @@ export const DeliveryOrders: React.FC<Props> = ({
 
         <div className="px-2 mt-2">
           <div className="flex justify-between">
-            <Label type="default" icon={SUNNYSIDE.icons.token}>
+            <Label type="default" icon={token}>
               {`SFL`}
             </Label>
           </div>
@@ -755,7 +756,7 @@ export const DeliveryOrders: React.FC<Props> = ({
                       previewOrder.reward.coins
                         ? SUNNYSIDE.ui.coinsImg
                         : previewOrder.reward.sfl
-                          ? SUNNYSIDE.icons.token
+                          ? token
                           : ITEM_DETAILS[getSeasonalTicket()].image
                     }
                     width={7}

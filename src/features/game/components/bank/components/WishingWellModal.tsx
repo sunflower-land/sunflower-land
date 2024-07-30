@@ -28,6 +28,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { GameWallet } from "features/wallet/Wallet";
 import { Label } from "components/ui/Label";
 import giftIcon from "assets/icons/gift.png";
+import token from "assets/icons/sfl.webp";
 import { Context } from "features/game/GameProvider";
 import { BumpkinParts, tokenUriBuilder } from "lib/utils/tokenUriBuilder";
 import { Loading } from "features/auth/components";
@@ -59,11 +60,7 @@ const Granted = ({ lockedTime, onClose, reward }: GrantedArgs) => {
       <div className="p-2">
         <div className="flex flex-col items-center mb-3">
           <h1 className="text-lg mb-4 text-center">{t("congrats")}</h1>
-          <img
-            src={SUNNYSIDE.icons.token}
-            alt="sunflower token"
-            className="w-16 mb-2"
-          />
+          <img src={token} alt="sunflower token" className="w-16 mb-2" />
         </div>
         <p className="mb-4 text-sm">{t("wishingWell.wish.granted")}</p>
         <p className="mb-4 text-sm">

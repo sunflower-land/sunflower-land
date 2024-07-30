@@ -1,6 +1,7 @@
 import React from "react";
 
 import { ITEM_DETAILS } from "features/game/types/images";
+import token from "assets/icons/sfl.webp";
 
 import { Button } from "components/ui/Button";
 import { Bid } from "features/game/types/game";
@@ -64,7 +65,7 @@ export const AuctionBid: React.FC<Props> = ({
 
         {!!bid.sfl && (
           <div className="flex items-center mb-2 mr-4">
-            <img src={SUNNYSIDE.icons.token} className="h-6 mr-1" />
+            <img src={token} className="h-6 mr-1" />
             <span>{bid.sfl}</span>
           </div>
         )}

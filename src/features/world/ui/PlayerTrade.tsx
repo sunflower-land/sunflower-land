@@ -17,6 +17,7 @@ import { getBumpkinLevel } from "features/game/lib/level";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { makeListingType } from "lib/utils/makeTradeListingType";
 import { Loading } from "features/auth/components";
+import token from "assets/icons/sfl.webp";
 
 interface Props {
   farmId: number;
@@ -238,7 +239,7 @@ export const PlayerTrade: React.FC<Props> = ({ farmId, onClose }) => {
 
                   <div className="flex items-center mt-1  justify-end mr-0.5">
                     <p className="font-secondary">{`${listings[listingId].sfl} SFL`}</p>
-                    <img src={SUNNYSIDE.icons.token} className="h-6 ml-1" />
+                    <img src={token} className="h-6 ml-1" />
                   </div>
                 </div>
               </div>

@@ -7,6 +7,7 @@ import { GameState, Inventory, Order } from "features/game/types/game";
 import { OuterPanel } from "components/ui/Panel";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { SUNNYSIDE } from "assets/sunnyside";
+import token from "assets/icons/sfl.webp";
 
 import classNames from "classnames";
 import {
@@ -122,7 +123,7 @@ export const OrderCards: React.FC<OrderCardsProps> = ({
               <div className="flex flex-col justify-center">
                 {order.reward.sfl !== undefined && (
                   <div className="flex items-center mt-1">
-                    <img src={SUNNYSIDE.icons.token} className="h-5 mr-1" />
+                    <img src={token} className="h-5 mr-1" />
                     <span className="text-xs">
                       {makeRewardAmountForLabel(order)}
                     </span>

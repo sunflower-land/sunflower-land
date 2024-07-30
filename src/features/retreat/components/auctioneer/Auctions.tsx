@@ -4,6 +4,7 @@ import { useActor } from "@xstate/react";
 import { ButtonPanel } from "components/ui/Panel";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { ITEM_IDS } from "features/game/types/bumpkin";
+import token from "assets/icons/sfl.webp";
 
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Label } from "components/ui/Label";
@@ -73,10 +74,7 @@ export const Auctions: React.FC<Props> = ({ auctionService, onSelect }) => {
               </p>
               <div className="ml-1 hidden sm:flex my-1">
                 {auction.sfl > 0 && (
-                  <img
-                    src={SUNNYSIDE.icons.token}
-                    className="h-4 img-highlight -ml-1"
-                  />
+                  <img src={token} className="h-4 img-highlight -ml-1" />
                 )}
                 {getKeys(auction.ingredients).map((name) => (
                   <img

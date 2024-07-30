@@ -410,7 +410,6 @@ export const SUNNYSIDE = {
     settings: `${CONFIG.PROTECTED_IMAGE_URL}/icons/settings.png`,
     sound_on: `${CONFIG.PROTECTED_IMAGE_URL}/icons/sound_on.png`,
     lock: `${CONFIG.PROTECTED_IMAGE_URL}/skills/lock.png`,
-    token: `${CONFIG.PROTECTED_IMAGE_URL}/icons/sfl.webp`,
     powerup: `${CONFIG.PROTECTED_IMAGE_URL}/icons/level_up.png`,
     lightning: `${CONFIG.PROTECTED_IMAGE_URL}/icons/lightning.png`,
     xpIcon: `${CONFIG.PROTECTED_IMAGE_URL}/icons/xp.png`,

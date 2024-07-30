@@ -5,6 +5,7 @@ import { Context } from "features/game/GameProvider";
 import { ITEM_DETAILS } from "features/game/types/images";
 
 import { Button } from "components/ui/Button";
+import token from "assets/icons/sfl.webp";
 
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { OuterPanel } from "components/ui/Panel";
@@ -230,10 +231,7 @@ export const BuyPanel: React.FC<{
                       ))}
                       <div className="ml-1">
                         <div className="flex items-center mb-1">
-                          <img
-                            src={SUNNYSIDE.icons.token}
-                            className="h-6 mr-1"
-                          />
+                          <img src={token} className="h-6 mr-1" />
                           <p className="text-xs">{`${selectedListing.sfl} SFL`}</p>
                         </div>
                         <p className="text-xxs">
@@ -303,10 +301,7 @@ export const BuyPanel: React.FC<{
                       ))}
                       <div className="ml-1">
                         <div className="flex items-center mb-1">
-                          <img
-                            src={SUNNYSIDE.icons.token}
-                            className="h-6 mr-1"
-                          />
+                          <img src={token} className="h-6 mr-1" />
                           <p className="text-xs">{`${listing.sfl} SFL`}</p>
                         </div>
                         <p className="text-xxs">

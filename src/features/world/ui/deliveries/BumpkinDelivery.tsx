@@ -9,6 +9,7 @@ import { Button } from "components/ui/Button";
 
 import coinsImg from "assets/icons/coins.webp";
 import gift from "assets/icons/gift.png";
+import token from "assets/icons/sfl.webp";
 
 import { InlineDialogue } from "../TypingMessage";
 import Decimal from "decimal.js-light";
@@ -128,10 +129,7 @@ export const OrderCard: React.FC<{
                     <span className="text-xs">
                       {makeRewardAmountForLabel(order)}
                     </span>
-                    <img
-                      src={SUNNYSIDE.icons.token}
-                      className="h-4 w-auto ml-1"
-                    />
+                    <img src={token} className="h-4 w-auto ml-1" />
                   </div>
                 )}
                 {order.reward.coins !== undefined && (

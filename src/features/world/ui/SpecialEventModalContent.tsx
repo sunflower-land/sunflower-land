@@ -8,6 +8,7 @@ import { useActor } from "@xstate/react";
 import { Airdrop } from "features/game/types/game";
 import { Button } from "components/ui/Button";
 import gift from "assets/icons/gift.png";
+import token from "assets/icons/sfl.webp";
 
 import Decimal from "decimal.js-light";
 import { OuterPanel } from "components/ui/Panel";
@@ -336,7 +337,7 @@ export const SpecialEventModalContent: React.FC<{
                     {!task.completedAt && !!task.reward.sfl && (
                       <Label
                         type="warning"
-                        icon={SUNNYSIDE.icons.token}
+                        icon={token}
                         className="absolute -bottom-2 text-center mt-1 p-1 left-[-8px] z-10"
                         style={{ width: "calc(100% + 16px)" }}
                       >
