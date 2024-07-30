@@ -13377,7 +13377,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
       {
         display_type: "boost_number",
-        trait_type: "Increase Desert Digs",
+        trait_type: "Increase daily digs",
         value: 5,
       },
     ],
