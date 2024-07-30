@@ -123,8 +123,13 @@ export function getFruitYield({ name, game, fertiliser }: FruitYield) {
     amount += 0.1;
   }
 
+  // Lemon
   if (name === "Lemon" && isCollectibleBuilt({ name: "Lemon Shark", game })) {
     amount += 0.2;
+  }
+
+  if (name === "Lemon" && isWearableActive({ name: "Lemon Shield", game })) {
+    amount += 1;
   }
 
   // Grape
