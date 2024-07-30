@@ -12,7 +12,7 @@ import { HasTool } from "features/game/expansion/components/resources/tree/Tree"
 import { GameContext } from "features/game/GameProvider";
 import { createSelector } from "reselect";
 import { isEventType } from "features/game/events";
-import { PHASER_GRID_WIDTH } from "../components/SpriteComponent";
+import { PHASER_GRID_WIDTH, PHASER_SCALE } from "../components/SpriteComponent";
 
 export class TreeContainer extends Phaser.GameObjects.Container {
   context: GameContext;
@@ -224,6 +224,8 @@ export class TreeContainer extends Phaser.GameObjects.Container {
       scene: this.scene,
       startAt: this.tree.wood.choppedAt,
       endAt: this.readyAt,
+      x: 8,
+      y: 26,
     });
 
     this.resource.startAt = this.tree.wood.choppedAt;

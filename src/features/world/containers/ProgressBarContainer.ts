@@ -15,13 +15,17 @@ export class ProgressBarContainer extends Phaser.GameObjects.Container {
     scene,
     startAt,
     endAt,
+    x = 0,
+    y = 16,
   }: {
     container: Phaser.GameObjects.Container;
     scene: Phaser.Scene;
     startAt: number;
     endAt: number;
+    x?: number;
+    y?: number;
   }) {
-    super(scene, 0, 16 * PHASER_SCALE);
+    super(scene, x * PHASER_SCALE, y * PHASER_SCALE);
     this.container = container;
     this.scene = scene;
 

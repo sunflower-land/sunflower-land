@@ -50,7 +50,7 @@ export class FarmerContainer extends Phaser.GameObjects.Container {
     // Set for click handler size and collision
     this.setSize(PHASER_GRID_WIDTH, PHASER_GRID_WIDTH);
 
-    const url = getAnimationUrl(NPC_WEARABLES["pumpkin' pete"], "idle");
+    const url = getAnimationUrl(NPC_WEARABLES["pumpkin' pete"], "axe");
     console.log({ url });
 
     this.shadow = new SpriteComponent({

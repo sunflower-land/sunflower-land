@@ -49,19 +49,23 @@ export class SpriteComponent {
     this.y = y * PHASER_SCALE;
     this.animation = animation;
 
-    this.sprite = this.scene.add
-      .sprite(this.x, this.y, "shadow")
-      .setOrigin(0, 0)
-      .setScale(PHASER_SCALE);
+    this.sprite = this.scene.add.sprite(this.x, this.y, "shadow");
 
     this.container?.add(this.sprite);
 
     this.update();
   }
 
+  loadingKey?: string;
+
   async update() {
+    console.log({ update: this.key });
     // Check if sprite already set with key
-    if (this.sprite?.texture.key === this.key) return;
+    if (this.sprite?.texture.key === this.key || this.loadingKey === this.key)
+      return;
+
+    this.loadingKey = this.key;
+    console.log("Update sprite:", this.key);
 
     if (!this.scene.textures.exists(this.key)) {
       await this.loadTexture();
@@ -73,6 +77,16 @@ export class SpriteComponent {
 
     if (this.animation?.play) {
       this.startAnimation();
+    }
+
+    if (this.animation) {
+      this.sprite.setOrigin(0.5, 0.5);
+    } else {
+      this.sprite.setOrigin(0, 0);
+    }
+
+    if (this.sprite?.texture.key === this.loadingKey) {
+      delete this.loadingKey;
     }
   }
 
@@ -109,8 +123,6 @@ export class SpriteComponent {
     }
 
     this.sprite?.play(`${this.key}-animation`, true);
-
-    this.sprite.setScale(PHASER_SCALE);
   }
 
   destroy() {
