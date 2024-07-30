@@ -315,7 +315,7 @@ export const SUNNYSIDE = {
     smoothieShack: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/smoothie_shack.webp`,
     toolshed: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/toolshed.png`,
     warehouse: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/warehouse.png`,
-    fruitPatchDirt: `${CONFIG.PROTECTED_IMAGE_URL}/fruit/fruit.patch.png`,
+    fruitPatchDirt: `${CONFIG.PROTECTED_IMAGE_URL}/fruit/fruit_patch.png`,
 
     //DESERT
     desertFirePit: `${CONFIG.PROTECTED_IMAGE_URL}/desert/buildings/fire_pit.webp`,
@@ -550,8 +550,8 @@ export const SUNNYSIDE = {
     stone_rock: `${CONFIG.PROTECTED_IMAGE_URL}/resources/stone_rock.png`,
     iron_rock: `${CONFIG.PROTECTED_IMAGE_URL}/resources/iron_rock.png`,
     goldStrikeSheet: `${CONFIG.PROTECTED_IMAGE_URL}/resources/gold/gold_rock_spark.png`,
-    ironStrikeSheet: `${CONFIG.PROTECTED_IMAGE_URL}/resources/iron/iron_spark.png`,
-    stoneStrikeSheet: `${CONFIG.PROTECTED_IMAGE_URL}/resources/stone/stone_spark.png`,
+    ironStrikeSheet: `${CONFIG.PROTECTED_IMAGE_URL}/resources/iron/iron_rock_spark.png`,
+    stoneStrikeSheet: `${CONFIG.PROTECTED_IMAGE_URL}/resources/stone/stone_rock_spark.png`,
     goldDropSheet: `${CONFIG.PROTECTED_IMAGE_URL}/resources/gold/gold_rock_drop.png`,
     ironDropSheet: `${CONFIG.PROTECTED_IMAGE_URL}/resources/iron/iron_rock_drop.png`,
     stoneDropSheet: `${CONFIG.PROTECTED_IMAGE_URL}/resources/stone/stone_rock_drop.png`,
