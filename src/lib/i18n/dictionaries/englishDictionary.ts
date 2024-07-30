@@ -939,6 +939,7 @@ const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
   "description.desert.rose.boost": "10% Chance for +1 Flower",
   "description.pharaoh.gnome.boost": "+2 Greenhouse Plants",
   "description.lemon.tea.bath.boost": "-50% Lemon Growth Time",
+  "description.tomato.clown.boost": "-50% Tomato Growth Time",
 };
 
 const bountyDescription: Record<BountyDescription, string> = {

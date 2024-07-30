@@ -957,6 +957,8 @@ const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
     ENGLISH_TERMS["description.pharaoh.gnome.boost"],
   "description.lemon.tea.bath.boost":
     ENGLISH_TERMS["description.lemon.tea.bath.boost"],
+  "description.tomato.clown.boost":
+    ENGLISH_TERMS["description.tomato.clown.boost"],
 };
 
 const bountyDescription: Record<BountyDescription, string> = {
