@@ -22,6 +22,7 @@ import { FruitPatch } from "features/game/types/game";
 import { FruitCompostName } from "features/game/types/composters";
 import { getPlantedAt } from "./fruitPlanted";
 import { isWearableActive } from "features/game/lib/wearables";
+import { isGreenhouseFruit } from "./plantGreenhouse";
 
 export type HarvestFruitAction = {
   type: "fruit.harvested";
@@ -134,6 +135,13 @@ export function getFruitYield({ name, game, fertiliser }: FruitYield) {
 
   if (name === "Grape" && isCollectibleBuilt({ name: "Grape Granny", game })) {
     amount += 1;
+  }
+
+  if (
+    isGreenhouseFruit(name) &&
+    isCollectibleBuilt({ name: "Pharaoh Gnome", game })
+  ) {
+    amount += 2;
   }
   amount += getBudYieldBoosts(game.buds ?? {}, name);
 
