@@ -415,7 +415,6 @@ export const SUNNYSIDE = {
     xpIcon: `${CONFIG.PROTECTED_IMAGE_URL}/icons/xp.png`,
     worldIcon: `${CONFIG.PROTECTED_IMAGE_URL}/icons/world.png`,
     tradeIcon: `${CONFIG.PROTECTED_IMAGE_URL}/icons/trade.png`,
-    chestIcon: `${CONFIG.PROTECTED_IMAGE_URL}/icons/chest.png`,
     playIcon: `${CONFIG.PROTECTED_IMAGE_URL}/icons/play.png`,
     decorationbush: `${CONFIG.PROTECTED_IMAGE_URL}/icons/decoration.png`,
     suspicious: `${CONFIG.PROTECTED_IMAGE_URL}/icons/decoration.png`,
