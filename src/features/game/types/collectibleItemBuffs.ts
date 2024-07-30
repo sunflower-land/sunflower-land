@@ -647,7 +647,7 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
     boostedItemIcon: SUNNYSIDE.icons.plant,
   },
   "Pharaoh Gnome": {
-    shortDescription: "+2 Greenhouse Crop",
+    shortDescription: translate("description.pharaoh.gnome.boost"),
     labelType: "success",
     boostedItemIcon: powerup,
   },
