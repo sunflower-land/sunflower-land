@@ -1577,8 +1577,8 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
     height: 2,
   },
   Oasis: {
-    width: 1,
-    height: 1,
+    width: 3,
+    height: 4,
   },
 };
 

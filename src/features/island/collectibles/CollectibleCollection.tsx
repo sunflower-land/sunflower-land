@@ -945,6 +945,21 @@ export const COLLECTIBLE_COMPONENTS: Record<
       alt="Anubis Jackal"
     />
   ),
+  Oasis: (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 48}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 48}px`,
+      }}
+      image={ITEM_DETAILS.Oasis.image}
+      alt="Oasis"
+    />
+  ),
 
   // To Update
   Sundial: Template,
@@ -955,7 +970,6 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Tomato Core": Template,
   "Clay Tablet": Template,
   "Reveling Lemon": Template,
-  Oasis: Template,
 };
 // Need readonly versions for some troublesome components while in design mode
 

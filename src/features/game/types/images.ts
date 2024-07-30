@@ -770,6 +770,7 @@ import hapyJar from "src/assets/sfts/hapy.webp";
 import imsetyJar from "src/assets/sfts/imsety.webp";
 import qebehsenuefJar from "src/assets/sfts/qebehsenuef.webp";
 import duamutefJar from "src/assets/sfts/duamutef.webp";
+import oasis from "src/assets/sfts/oasis.webp";
 
 import scarab from "assets/resources/scarab.webp";
 import sand from "assets/resources/sand.webp";
@@ -9058,7 +9059,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   Oasis: {
-    image: "",
+    image: oasis,
     description: {
       en: "",
     },
