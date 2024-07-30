@@ -73,7 +73,7 @@ const featureFlags: Record<FeatureName, FeatureFlag> = {
   FACTION_CHORES: betaTimeBasedFeatureFlag(new Date("2022-07-08T00:00:00Z")),
   TEST_DIGGING: defaultFeatureFlag,
   NEW_FRUITS: defaultFeatureFlag,
-  DESERT_PLAZA: betaTimeBasedFeatureFlag(new Date("2024-08-08T00:00:00Z")),
+  DESERT_PLAZA: betaTimeBasedFeatureFlag(new Date("2024-08-01T00:00:00Z")),
 };
 
 export const hasFeatureAccess = (game: GameState, featureName: FeatureName) => {
