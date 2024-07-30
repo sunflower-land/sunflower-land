@@ -456,11 +456,13 @@ export class PlazaScene extends BaseScene {
       });
 
     // Stella Collectible of the Month
-    if (hasFeatureAccess(this.gameState, "DESERT_PLAZA")) {
+    if (!hasFeatureAccess(this.gameState, "DESERT_PLAZA")) {
       this.add.image(248, 244, "sarcophagus");
     } else {
-      this.add.image(288.5, 248, "non_la");
+      this.add.image(248, 244, "rice_panda");
     }
+
+    this.add.image(288.5, 248, "non_la");
 
     const door = this.colliders
       ?.getChildren()
