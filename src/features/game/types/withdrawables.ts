@@ -261,6 +261,8 @@ const treasureCollectible: Record<TreasureCollectibleItem, () => boolean> = {
   "Adrift Ark": () => false,
   Castellan: () => false,
   "Sunlit Citadel": () => false,
+  "Baobab Tree": () => hasSeasonEnded("Pharaoh's Treasure"),
+  Camel: () => hasSeasonEnded("Pharaoh's Treasure"),
 };
 
 const commodities: Record<CommodityName, () => boolean> = {

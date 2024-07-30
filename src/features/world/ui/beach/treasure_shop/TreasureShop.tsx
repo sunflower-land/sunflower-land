@@ -4,7 +4,6 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { TreasureShopBuy } from "./TreasureShopBuy";
 import { TreasureShopSell } from "./TreasureShopSell";
-import { SUNNYSIDE } from "assets/sunnyside";
 import { OuterPanel } from "components/ui/Panel";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { NPC_WEARABLES } from "lib/npcs";

@@ -18,6 +18,8 @@ import {
 } from "features/game/types/collectibles";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { Label } from "components/ui/Label";
+import { SUNNYSIDE } from "assets/sunnyside";
+import { secondsToString } from "lib/utils/time";
 interface ToolContentProps {
   selectedName: TreasureToolName;
   onClose: () => void;
@@ -144,6 +146,8 @@ const CraftContent: React.FC<CraftContentProps> = ({
       gameState={state}
       details={{
         item: selectedName,
+        from: selected.from,
+        to: selected.to,
       }}
       boost={selected.boost}
       requirements={{
@@ -170,6 +174,8 @@ interface Props {
 }
 
 export const TreasureShopBuy: React.FC<Props> = ({ onClose }) => {
+  const { t } = useAppTranslation();
+
   const [selectedName, setSelectedName] = useState<
     TreasureToolName | TreasureCollectibleItem
   >("Sand Shovel");
@@ -194,9 +200,25 @@ export const TreasureShopBuy: React.FC<Props> = ({ onClose }) => {
     name: TreasureToolName | TreasureCollectibleItem,
   ): name is TreasureToolName => name in TREASURE_TOOLS;
 
-  const upcomingDates = Object.values(TREASURE_COLLECTIBLE_ITEM).reduce<Date[]>(
-    (acc, item) => (item.from ? [...acc, item.from] : acc),
-    [],
+  const now = Date.now();
+  const shopItems = getKeys(TREASURE_COLLECTIBLE_ITEM).filter(
+    (itemName) =>
+      (TREASURE_COLLECTIBLE_ITEM[itemName].from?.getTime() ?? 0) <= now &&
+      (TREASURE_COLLECTIBLE_ITEM[itemName].to?.getTime() ?? Infinity) > now,
+  );
+
+  const unlimitedItems = shopItems.filter(
+    (itemName) => !TREASURE_COLLECTIBLE_ITEM[itemName].to,
+  );
+
+  const limitedItems = shopItems.filter(
+    (itemName) => !!TREASURE_COLLECTIBLE_ITEM[itemName].to,
+  );
+
+  const upcomingDates = new Set(
+    shopItems
+      .map((itemName) => TREASURE_COLLECTIBLE_ITEM[itemName])
+      .reduce<Date[]>((acc, item) => (item.to ? [...acc, item.to] : acc), []),
   );
 
   return (
@@ -211,32 +233,71 @@ export const TreasureShopBuy: React.FC<Props> = ({ onClose }) => {
       }
       content={
         <>
-          {getKeys(TREASURE_TOOLS).map((toolName) => {
-            return (
-              <Box
-                isSelected={selectedName === toolName}
-                key={toolName}
-                onClick={() => onToolClick(toolName)}
-                image={ITEM_DETAILS[toolName].image}
-                count={inventory[toolName]}
-              />
-            );
-          })}
-          {getKeys(TREASURE_COLLECTIBLE_ITEM).map((name) => {
-            return (
-              <Box
-                isSelected={selectedName === name}
-                key={name}
-                onClick={() => setSelectedName(name)}
-                count={inventory[name]}
-                image={ITEM_DETAILS[name].image}
-              />
-            );
-          })}
+          <div className="flex flex-wrap">
+            {getKeys(TREASURE_TOOLS).map((toolName) => {
+              return (
+                <Box
+                  isSelected={selectedName === toolName}
+                  key={toolName}
+                  onClick={() => onToolClick(toolName)}
+                  image={ITEM_DETAILS[toolName].image}
+                  count={inventory[toolName]}
+                />
+              );
+            })}
+            {unlimitedItems.map((name) => {
+              return (
+                <Box
+                  isSelected={selectedName === name}
+                  key={name}
+                  onClick={() => setSelectedName(name)}
+                  count={inventory[name]}
+                  image={ITEM_DETAILS[name].image}
+                />
+              );
+            })}
+          </div>
 
-          {upcomingDates.map((date) => (
-            <Label type={"info"}>😎 10 seconds left</Label>
-          ))}
+          <div className="mt-2">
+            {[...upcomingDates]
+              .sort()
+              .reverse()
+              .map((date) => (
+                <div className="py-2">
+                  <Label
+                    type="warning"
+                    icon={SUNNYSIDE.icons.stopwatch}
+                    className="ml-1"
+                  >
+                    {secondsToString(
+                      Math.floor((date.getTime() - now) / 1000),
+                      {
+                        length: "medium",
+                        isShortFormat: true,
+                        removeTrailingZeros: true,
+                      },
+                    )}
+                  </Label>
+                  <div className="flex flex-wrap">
+                    {limitedItems
+                      .filter(
+                        (itemName) =>
+                          TREASURE_COLLECTIBLE_ITEM[itemName].to?.getTime() ===
+                          date.getTime(),
+                      )
+                      .map((name) => (
+                        <Box
+                          isSelected={selectedName === name}
+                          key={name}
+                          onClick={() => setSelectedName(name)}
+                          count={inventory[name]}
+                          image={ITEM_DETAILS[name].image}
+                        />
+                      ))}
+                  </div>
+                </div>
+              ))}
+          </div>
         </>
       }
     />

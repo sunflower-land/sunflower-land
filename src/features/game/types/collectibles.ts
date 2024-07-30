@@ -258,14 +258,19 @@ export const TREASURE_COLLECTIBLE_ITEM: Record<
   "Baobab Tree": {
     ingredients: {},
     description: "A nice looking tree!",
-    from: SEASONS["Pharaoh's Treasure"].startDate,
+    // TODO feat/seasonal-artefact-items
+    // from: SEASONS["Pharaoh's Treasure"].startDate,
+    from: SEASONS["Clash of Factions"].startDate,
     to: SEASONS["Pharaoh's Treasure"].endDate,
   },
   Camel: {
     ingredients: {},
     description: "A mean looking camel!",
-    from: SEASONS["Pharaoh's Treasure"].startDate,
-    to: SEASONS["Pharaoh's Treasure"].endDate,
+    // TODO feat/seasonal-artefact-items
+    // from: SEASONS["Pharaoh's Treasure"].startDate,
+    from: SEASONS["Clash of Factions"].startDate,
+    // to: SEASONS["Pharaoh's Treasure"].endDate,
+    to: SEASONS["Clash of Factions"].endDate,
   },
 };
 
