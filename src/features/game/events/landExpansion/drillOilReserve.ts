@@ -1,5 +1,6 @@
 import Decimal from "decimal.js-light";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
+import { isWearableActive } from "features/game/lib/wearables";
 import { GameState, OilReserve } from "features/game/types/game";
 import cloneDeep from "lodash.clonedeep";
 
@@ -43,6 +44,20 @@ export function canDrillOilReserve(
   return now - reserve.oil.drilledAt > OIL_RESERVE_RECOVERY_TIME * 1000;
 }
 
+type getDrilledAtArgs = {
+  createdAt: number;
+  game: GameState;
+};
+
+export function getDrilledAt({ createdAt, game }: getDrilledAtArgs): number {
+  let time = createdAt;
+
+  if (isWearableActive({ game, name: "Dev Wrench" })) {
+    time -= OIL_RESERVE_RECOVERY_TIME * 0.5 * 1000;
+  }
+  return time;
+}
+
 export function drillOilReserve({
   state,
   action,
@@ -72,7 +87,7 @@ export function drillOilReserve({
   // Take away one drill
   game.inventory["Oil Drill"] = drills.minus(1);
   // Update drilled at time
-  oilReserve.oil.drilledAt = createdAt;
+  oilReserve.oil.drilledAt = getDrilledAt({ createdAt, game: game });
   // Increment drilled count
   oilReserve.drilled += 1;
   // Set next drill drop amount
