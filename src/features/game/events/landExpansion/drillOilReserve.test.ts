@@ -5,6 +5,7 @@ import {
   drillOilReserve,
 } from "./drillOilReserve";
 import { TEST_FARM } from "features/game/lib/constants";
+import { TEST_BUMPKIN } from "features/game/lib/bumpkinData";
 
 describe("drillOilReserve", () => {
   it("throws an error if the oil reserve does not exist", () => {
@@ -134,6 +135,52 @@ describe("drillOilReserve", () => {
     expect(reserve.oil.drilledAt).toBe(now);
     expect(reserve.drilled).toBe(1);
     expect(game.inventory["Oil Drill"]?.toNumber()).toBe(1);
+    expect(game.inventory.Oil?.toNumber()).toEqual(BASE_OIL_DROP_AMOUNT);
+  });
+
+  it("drills the oil reserve without oil drill with infernal drill equipped", () => {
+    const now = Date.now();
+
+    const game = drillOilReserve({
+      action: {
+        id: "1",
+        type: "oilReserve.drilled",
+      },
+      state: {
+        ...TEST_FARM,
+        bumpkin: {
+          ...TEST_BUMPKIN,
+          equipped: {
+            ...TEST_BUMPKIN.equipped,
+            secondaryTool: "Infernal Drill",
+          },
+        },
+        inventory: {
+          "Oil Drill": new Decimal(2),
+        },
+        oilReserves: {
+          "1": {
+            x: 1,
+            y: 1,
+            height: 2,
+            width: 2,
+            createdAt: now,
+            drilled: 0,
+            oil: {
+              amount: BASE_OIL_DROP_AMOUNT,
+              drilledAt: 0,
+            },
+          },
+        },
+      },
+      createdAt: now,
+    });
+
+    const reserve = game.oilReserves["1"];
+
+    expect(reserve.oil.drilledAt).toBe(now);
+    expect(reserve.drilled).toBe(1);
+    expect(game.inventory["Oil Drill"]?.toNumber()).toBe(2);
     expect(game.inventory.Oil?.toNumber()).toEqual(BASE_OIL_DROP_AMOUNT);
   });
 

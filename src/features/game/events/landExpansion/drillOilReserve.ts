@@ -1,5 +1,6 @@
 import Decimal from "decimal.js-light";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
+import { isWearableActive } from "features/game/lib/wearables";
 import { GameState, OilReserve } from "features/game/types/game";
 import cloneDeep from "lodash.clonedeep";
 
@@ -43,6 +44,13 @@ export function canDrillOilReserve(
   return now - reserve.oil.drilledAt > OIL_RESERVE_RECOVERY_TIME * 1000;
 }
 
+export function getRequiredOilDrillAmount(gameState: GameState) {
+  if (isWearableActive({ name: "Infernal Drill", game: gameState })) {
+    return new Decimal(0);
+  }
+  return new Decimal(1);
+}
+
 export function drillOilReserve({
   state,
   action,
@@ -51,13 +59,14 @@ export function drillOilReserve({
   const game: GameState = cloneDeep(state);
 
   const oilReserve = game.oilReserves[action.id];
-  const drills = game.inventory["Oil Drill"] ?? new Decimal(0);
+  const requiredDrills = getRequiredOilDrillAmount(state);
+  const drillAmount = game.inventory["Oil Drill"] || new Decimal(0);
 
   if (!oilReserve) {
     throw new Error(`Oil reserve #${action.id} not found`);
   }
 
-  if (drills.lessThan(1)) {
+  if (drillAmount.lessThan(requiredDrills)) {
     throw new Error("No oil drills available");
   }
 
@@ -70,7 +79,7 @@ export function drillOilReserve({
     oilReserve.oil.amount,
   );
   // Take away one drill
-  game.inventory["Oil Drill"] = drills.minus(1);
+  game.inventory["Oil Drill"] = drillAmount.sub(requiredDrills);
   // Update drilled at time
   oilReserve.oil.drilledAt = createdAt;
   // Increment drilled count
