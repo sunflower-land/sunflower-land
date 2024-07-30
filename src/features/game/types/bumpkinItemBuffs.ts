@@ -378,7 +378,7 @@ export const BUMPKIN_ITEM_BUFF_LABELS: Partial<Record<BumpkinItem, BuffLabel>> =
       boostedItemIcon: ITEM_DETAILS.Lemon.image,
     },
     "Infernal Drill": {
-      shortDescription: "Drill Oil without Oil Drill",
+      shortDescription: translate("bumpkinItemBuff.infernal.drill.boost"),
       labelType: "vibrant",
       boostTypeIcon: lightning,
       boostedItemIcon: ITEM_DETAILS.Oil.image,

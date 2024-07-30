@@ -1064,6 +1064,7 @@ const bumpkinItemBuff: Record<BumpkinItemBuff, string> = {
   "bumpkinItemBuff.bumpkin.sabatons": "+5% Marks",
   "bumpkinItemBuff.crab.trap": "+1 Crab when digging or drilling",
   "bumpkinItemBuff.bionic.drill": "+5 Desert Digs",
+  "bumpkinItemBuff.infernal.drill.boost": "Drill Oil without Oil Drill",
 };
 
 const bumpkinPart: Record<BumpkinPart, string> = {
