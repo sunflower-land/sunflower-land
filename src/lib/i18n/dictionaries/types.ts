@@ -750,7 +750,8 @@ export type BumpkinItemBuff =
   | "bumpkinItemBuff.bionic.drill"
   | "bumpkinItemBuff.infernal.drill.boost"
   | "bumpkinItemBuff.lemon.shield.boost"
-  | "bumpkinItemBuff.dev.wrench.boost";
+  | "bumpkinItemBuff.dev.wrench.boost"
+  | "bumpkinItemBuff.oil.overalls.boost";
 
 export type BumpkinPart =
   | "equip.background"

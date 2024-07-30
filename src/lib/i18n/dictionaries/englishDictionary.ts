@@ -1067,6 +1067,7 @@ const bumpkinItemBuff: Record<BumpkinItemBuff, string> = {
   "bumpkinItemBuff.infernal.drill.boost": "Drill Oil without Oil Drill",
   "bumpkinItemBuff.lemon.shield.boost": "+1 Lemon",
   "bumpkinItemBuff.dev.wrench.boost": "-50% Oil Regeneration Time",
+  "bumpkinItemBuff.oil.overalls.boost": "+10 Oil",
 };
 
 const bumpkinPart: Record<BumpkinPart, string> = {

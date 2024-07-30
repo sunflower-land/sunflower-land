@@ -34,6 +34,14 @@ function getNextOilDropAmount(game: GameState, reserve: OilReserve) {
     amount = amount.add(0.1);
   }
 
+  if (isWearableActive({ name: "Oil Can", game })) {
+    amount = amount.add(2);
+  }
+
+  if (isWearableActive({ game, name: "Oil Overalls" })) {
+    amount = amount.add(10);
+  }
+
   return amount.toDecimalPlaces(4).toNumber();
 }
 
