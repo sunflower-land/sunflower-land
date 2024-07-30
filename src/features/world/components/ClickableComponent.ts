@@ -8,13 +8,17 @@ export class ClickableComponent {
     onClick: () => void;
     scene: Phaser.Scene;
   }) {
+    console.log({
+      containerWidth: container.width,
+      displayWidth: container.displayWidth,
+    });
     container
       .setInteractive({
         cursor: "pointer",
 
         hitArea: new Phaser.Geom.Rectangle(
-          container.displayWidth / 2,
-          container.displayHeight / 2,
+          0,
+          0,
           container.width,
           container.height,
         ),

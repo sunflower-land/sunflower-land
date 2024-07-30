@@ -69,6 +69,8 @@ export class SpriteComponent {
 
     this.sprite.setTexture(this.key);
 
+    this.sprite.setScale(PHASER_SCALE);
+
     if (this.animation?.play) {
       this.startAnimation();
     }
@@ -106,7 +108,9 @@ export class SpriteComponent {
       });
     }
 
-    this.sprite?.play(`${this.key}-animation`, true).setScale(PHASER_SCALE);
+    this.sprite?.play(`${this.key}-animation`, true);
+
+    this.sprite.setScale(PHASER_SCALE);
   }
 
   destroy() {

@@ -5,7 +5,11 @@ import { FarmerContainer } from "../containers/FarmerContainer";
 import { DraggableComponent } from "../components/DraggableComponent";
 import { GameContext } from "features/game/GameProvider";
 import { TreeContainer } from "../containers/TreeContainer";
-import { PHASER_SCALE, SpriteComponent } from "../components/SpriteComponent";
+import {
+  PHASER_GRID_WIDTH,
+  PHASER_SCALE,
+  SpriteComponent,
+} from "../components/SpriteComponent";
 
 function queueSystem({
   scene,
@@ -119,6 +123,17 @@ export class FarmScene extends Phaser.Scene {
       },
       this,
     );
+
+    // Draw coordinates on each x y square
+    for (let x = 0; x < 10; x++) {
+      for (let y = 0; y < 10; y++) {
+        this.add
+          .text(x * PHASER_GRID_WIDTH, y * PHASER_GRID_WIDTH, `${x},${y}`, {
+            color: "red",
+          })
+          .setOrigin(0, 0);
+      }
+    }
   }
 
   public get gameState() {

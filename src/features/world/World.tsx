@@ -215,7 +215,7 @@ export const Explore: React.FC<Props> = ({ isCommunity = false }) => {
     >
       <GameWrapper>
         {!isLoading && <MMO isCommunity={isCommunity} />}
-        <WorldHud />
+        {/* <WorldHud /> */}
       </GameWrapper>
     </div>
   );
