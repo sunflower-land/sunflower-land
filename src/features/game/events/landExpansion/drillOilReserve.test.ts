@@ -2,7 +2,9 @@ import Decimal from "decimal.js-light";
 import {
   BASE_OIL_DROP_AMOUNT,
   OIL_BONUS_DROP_AMOUNT,
+  OIL_RESERVE_RECOVERY_TIME,
   drillOilReserve,
+  getDrilledAt,
 } from "./drillOilReserve";
 import { TEST_FARM } from "features/game/lib/constants";
 import { TEST_BUMPKIN } from "features/game/lib/bumpkinData";
@@ -434,5 +436,27 @@ describe("drillOilReserve", () => {
     const reserve = game.oilReserves["1"];
 
     expect(reserve.oil.amount).toEqual(BASE_OIL_DROP_AMOUNT + boost);
+  });
+
+  describe("getDrilledAt", () => {
+    it("replenishes oil faster with Dev Wrench", () => {
+      const now = Date.now();
+
+      const time = getDrilledAt({
+        game: {
+          ...TEST_FARM,
+          bumpkin: {
+            ...TEST_BUMPKIN,
+            equipped: {
+              ...TEST_BUMPKIN.equipped,
+              tool: "Dev Wrench",
+            },
+          },
+        },
+        createdAt: now,
+      });
+
+      expect(time).toEqual(now - OIL_RESERVE_RECOVERY_TIME * 0.5 * 1000);
+    });
   });
 });

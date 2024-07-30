@@ -397,7 +397,7 @@ export const BUMPKIN_ITEM_BUFF_LABELS: Partial<Record<BumpkinItem, BuffLabel>> =
       boostedItemIcon: ITEM_DETAILS.Oil.image,
     },
     "Dev Wrench": {
-      shortDescription: "-50% Oil Regeneration Time",
+      shortDescription: translate("bumpkinItemBuff.dev.wrench.boost"),
       labelType: "info",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
       boostedItemIcon: ITEM_DETAILS.Oil.image,
