@@ -391,7 +391,8 @@ export type BumpkinWings =
   | "Bat Wings"
   | "Butterfly Wings"
   | "Bee Wings"
-  | "Scarab Wings";
+  | "Scarab Wings"
+  | "Bionic Drill";
 
 export type BumpkinBeard = "Wise Beard" | "Hoary Chin" | "Santa Beard";
 
@@ -786,6 +787,7 @@ export const ITEM_IDS: Record<BumpkinItem, number> = {
   "Infernal Drill": 370,
   "Lemon Shield": 371,
   "Scarab Wings": 372,
+  "Bionic Drill": 374,
 };
 
 // The reverse of above
@@ -1219,4 +1221,5 @@ export const BUMPKIN_ITEM_PART: Record<BumpkinItem, keyof Wallet> = {
   "Infernal Drill": "secondaryTool",
   "Lemon Shield": "secondaryTool",
   "Scarab Wings": "wings",
+  "Bionic Drill": "wings",
 };

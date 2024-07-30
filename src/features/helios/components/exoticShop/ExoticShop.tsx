@@ -3,8 +3,7 @@ import { Modal } from "components/ui/Modal";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
-import building from "assets/buildings/farmersMarket.png";
-import retroGirl from "assets/npcs/exotic_girl.gif";
+import { SUNNYSIDE } from "assets/sunnyside";
 import shadow from "assets/npcs/shadow.png";
 
 import { ExoticShopItems } from "./component/ExoticShopItems";
@@ -25,7 +24,7 @@ export const ExoticShop: React.FC = () => {
           onClick={handleClick}
         >
           <img
-            src={building}
+            src={SUNNYSIDE.building.farmersMarket}
             className="absolute"
             style={{
               width: `${PIXEL_SCALE * 80}px`,
@@ -42,7 +41,7 @@ export const ExoticShop: React.FC = () => {
             }}
           />
           <img
-            src={retroGirl}
+            src={SUNNYSIDE.npcs.exotic_girl}
             className="absolute"
             style={{
               width: `${PIXEL_SCALE * 14}px`,

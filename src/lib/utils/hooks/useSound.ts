@@ -1,11 +1,6 @@
 import { SOUNDS } from "assets/sound-effects/soundEffects";
 import { Howl } from "howler";
 import { useEffect } from "react";
-import willow_tree from "assets/songs/willow_tree.mp3";
-import barlow from "assets/sound-effects/bumpkin-recruiter.mp3";
-import graxle from "assets/sound-effects/goblin-recruiter.mp3";
-import nyx from "assets/sound-effects/nightshade-recruiter.mp3";
-import reginald from "assets/sound-effects/sunflorian-recruiter.mp3";
 
 const HOWLERS = {
   open: new Howl({
@@ -49,7 +44,7 @@ const HOWLERS = {
     volume: 0.1,
   }),
   romy_rick: new Howl({
-    src: [willow_tree],
+    src: [SOUNDS.songs.willow_tree],
     preload: false,
     volume: 0.06,
     loop: true,
@@ -109,22 +104,22 @@ const HOWLERS = {
   }),
   // Factions
   barlow: new Howl({
-    src: barlow,
+    src: SOUNDS.faction.barlow,
     preload: false,
     volume: 0.07,
   }),
   graxle: new Howl({
-    src: graxle,
+    src: SOUNDS.faction.graxle,
     preload: false,
     volume: 0.07,
   }),
   nyx: new Howl({
-    src: nyx,
+    src: SOUNDS.faction.nyx,
     preload: false,
     volume: 0.07,
   }),
   reginald: new Howl({
-    src: reginald,
+    src: SOUNDS.faction.reginald,
     preload: false,
     volume: 0.07,
   }),

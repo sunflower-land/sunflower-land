@@ -3,8 +3,6 @@ import React, { useContext, useState } from "react";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { SUNNYSIDE } from "assets/sunnyside";
 
-import coins from "assets/ui/coins.png";
-import speechBubble from "assets/ui/speech_border.png";
 import codex from "assets/icons/codex.webp";
 
 import { Codex } from "./Codex";
@@ -83,7 +81,7 @@ export const CodexButton: React.FC = () => {
                   top: `${PIXEL_SCALE * -8}px`,
                   left: `${PIXEL_SCALE * 6}px`,
 
-                  borderImage: `url(${speechBubble})`,
+                  borderImage: `url(${SUNNYSIDE.ui.speechBorder})`,
                   borderStyle: "solid",
                   borderTopWidth: `${PIXEL_SCALE * 2}px`,
                   borderRightWidth: `${PIXEL_SCALE * 2}px`,
@@ -117,7 +115,7 @@ export const CodexButton: React.FC = () => {
                     {t("deliveries.new")}
                   </span>
                   <img
-                    src={coins}
+                    src={SUNNYSIDE.ui.coins}
                     className="absolute animate-pulsate"
                     style={{
                       width: "30px",
@@ -129,7 +127,7 @@ export const CodexButton: React.FC = () => {
               </div>
             </div>
             <img
-              src={coins}
+              src={SUNNYSIDE.ui.coins}
               className="absolute animate-pulsate sm:hidden"
               style={{
                 width: "30px",

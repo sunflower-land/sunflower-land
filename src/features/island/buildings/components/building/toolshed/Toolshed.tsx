@@ -1,6 +1,6 @@
 import React from "react";
 
-import toolshed from "assets/buildings/toolshed.png";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { BuildingImageWrapper } from "../BuildingImageWrapper";
@@ -34,7 +34,7 @@ export const Toolshed: React.FC<BuildingProps> = ({ onRemove, isBuilt }) => {
         }}
       >
         <img
-          src={toolshed}
+          src={SUNNYSIDE.building.toolshed}
           style={{
             width: `${PIXEL_SCALE * 36}px`,
           }}

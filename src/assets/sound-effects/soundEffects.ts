@@ -33,7 +33,9 @@ export const SOUNDS = {
     desert: `${CONFIG.PROTECTED_IMAGE_URL}/sfx/Loops/Nature Loops/Farm_Game_Loop_Nature_Ambience_Hot_Dry_Summer_Day_with_Bugs_Atmosphere.mp3`,
   },
   songs: {
+    mountain_escape: `${CONFIG.PROTECTED_IMAGE_URL}/songs/mountain_escape.mp3`,
     royal_farms: `${CONFIG.PROTECTED_IMAGE_URL}/sfx/songs/royal_farms.mp3`,
+    willow_tree: `${CONFIG.PROTECTED_IMAGE_URL}/songs/willow_tree.mp3`,
   },
   doors: {
     open: `${CONFIG.PROTECTED_IMAGE_URL}/sfx/Farming/Door/Farm_Game_Farming_Door_Open_Chest_2_Wood_Creak_Storage_Hinge.mp3`,
@@ -92,5 +94,11 @@ export const SOUNDS = {
     playing: `${CONFIG.PROTECTED_IMAGE_URL}/sfx/Games/ChickenFight/playing.mp3`,
     punch: `${CONFIG.PROTECTED_IMAGE_URL}/sfx/Games/ChickenFight/punch.mp3`,
     hit: `${CONFIG.PROTECTED_IMAGE_URL}/sfx/Games/ChickenFight/hit.mp3`,
+  },
+  faction: {
+    barlow: `${CONFIG.PROTECTED_IMAGE_URL}/sound-effects/bumpkin-recruiter.mp3`,
+    graxle: `${CONFIG.PROTECTED_IMAGE_URL}/sound-effects/goblin-recruiter.mp3`,
+    nyx: `${CONFIG.PROTECTED_IMAGE_URL}/sound-effects/nightshade-recruiter.mp3`,
+    reginald: `${CONFIG.PROTECTED_IMAGE_URL}/sound-effects/sunflorian-recruiter.mp3`,
   },
 };

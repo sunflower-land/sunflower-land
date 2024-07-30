@@ -2,27 +2,7 @@ import React from "react";
 
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
 import { GameGrid } from "features/game/expansion/placeable/lib/makeGrid";
-
-import topAndRightEdge from "assets/decorations/stoneFence/top_right.png";
-import topAndLeftEdge from "assets/decorations/stoneFence/top_left.png";
-import bottomAndLeftEdge from "assets/decorations/stoneFence/bottom_left.png";
-import bottomAndRightEdge from "assets/decorations/stoneFence/bottom_right.png";
-import topAndLeftAndRightAndBottom from "assets/decorations/stoneFence/top_left_right_bottom.png";
-import topAndLeftAndRight from "assets/decorations/stoneFence/top_left_right.png";
-import bottomAndLeftAndRight from "assets/decorations/stoneFence/bottom_left_right.png";
-import rightTopAndBottom from "assets/decorations/stoneFence/right_top_bottom.png";
-import leftTopAndBottom from "assets/decorations/stoneFence/left_top_bottom.png";
-import bottom from "assets/decorations/stoneFence/bottom.png";
-
-import horizontalOne from "assets/decorations/stoneFence/x_1.png";
-import horizontalTwo from "assets/decorations/stoneFence/x_2.png";
-import horizontalThree from "assets/decorations/stoneFence/x_3.png";
-import horizontalFour from "assets/decorations/stoneFence/x_4.png";
-
-import verticalOne from "assets/decorations/stoneFence/y_1.png";
-import verticalTwo from "assets/decorations/stoneFence/y_2.png";
-import verticalThree from "assets/decorations/stoneFence/y_3.png";
-import verticalFour from "assets/decorations/stoneFence/y_2.png";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 type Edges = {
   top: boolean;
@@ -38,13 +18,18 @@ interface Props {
 }
 
 const horizontalImages = [
-  horizontalOne,
-  horizontalTwo,
-  horizontalThree,
-  horizontalFour,
+  SUNNYSIDE.decorations.stoneHorizontalOne,
+  SUNNYSIDE.decorations.stoneHorizontalTwo,
+  SUNNYSIDE.decorations.stoneHorizontalThree,
+  SUNNYSIDE.decorations.stoneHorizontalFour,
 ];
 
-const verticalImages = [verticalOne, verticalTwo, verticalThree, verticalFour];
+const verticalImages = [
+  SUNNYSIDE.decorations.stoneVerticalOne,
+  SUNNYSIDE.decorations.stoneVerticalTwo,
+  SUNNYSIDE.decorations.stoneVerticalThree,
+  SUNNYSIDE.decorations.stoneVerticalFour,
+];
 
 export const StoneFence: React.FC<Props> = ({ x, y, grid }) => {
   const edges: Edges = {
@@ -54,30 +39,30 @@ export const StoneFence: React.FC<Props> = ({ x, y, grid }) => {
     left: grid[x - 1]?.[y] === "Stone Fence" || grid[x - 1]?.[y] === "Fence",
   };
 
-  let image = horizontalOne;
+  let image = SUNNYSIDE.decorations.stoneHorizontalOne;
 
   if (edges.top && edges.right && edges.bottom && edges.left) {
-    image = topAndLeftAndRightAndBottom;
+    image = SUNNYSIDE.decorations.stoneTopAndLeftAndRightAndBottom;
   } else if (edges.left && edges.right && edges.bottom) {
-    image = topAndLeftAndRight;
+    image = SUNNYSIDE.decorations.stoneTopAndLeftAndRight;
   } else if (edges.left && edges.right && edges.top) {
-    image = bottomAndLeftAndRight;
+    image = SUNNYSIDE.decorations.stoneBottomAndLeftAndRight;
   } else if (edges.top && edges.bottom && edges.right) {
-    image = leftTopAndBottom;
+    image = SUNNYSIDE.decorations.stoneLeftTopAndBottom;
   } else if (edges.top && edges.bottom && edges.left) {
-    image = rightTopAndBottom;
+    image = SUNNYSIDE.decorations.stoneRightTopAndBottom;
   } else if (edges.right && edges.bottom) {
-    image = topAndRightEdge;
+    image = SUNNYSIDE.decorations.stoneTopAndRightEdge;
   } else if (edges.left && edges.bottom) {
-    image = topAndLeftEdge;
+    image = SUNNYSIDE.decorations.stoneTopAndLeftEdge;
   } else if (edges.right && edges.top) {
-    image = bottomAndRightEdge;
+    image = SUNNYSIDE.decorations.stoneBottomAndRightEdge;
   } else if (edges.top && edges.left) {
-    image = bottomAndLeftEdge;
+    image = SUNNYSIDE.decorations.stoneBottomAndLeftEdge;
   } else if (edges.top && !edges.bottom) {
-    image = bottom;
+    image = SUNNYSIDE.decorations.stoneBottom;
   } else if (edges.bottom && !edges.top) {
-    image = verticalOne;
+    image = SUNNYSIDE.decorations.stoneVerticalOne;
   } else if (edges.right) {
     let numberToRightOfMe = 1;
     while (grid[x + numberToRightOfMe]?.[y] === "Stone Fence") {

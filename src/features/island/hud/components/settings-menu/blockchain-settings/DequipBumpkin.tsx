@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 
-import walletIcon from "assets/icons/wallet.png";
-import lockIcon from "assets/skills/lock.png";
 import { SUNNYSIDE } from "assets/sunnyside";
+import walletIcon from "assets/icons/wallet.png";
+
 import { Button } from "components/ui/Button";
 import { interpretTokenUri } from "lib/utils/tokenUriBuilder";
 import { OnChainBumpkin, loadBumpkins } from "lib/blockchain/BumpkinDetails";
@@ -150,7 +150,7 @@ export const DequipBumpkin: React.FC = () => {
         </div>
 
         {missingWearables && (
-          <Label type="danger" icon={lockIcon} className="my-2">
+          <Label type="danger" icon={SUNNYSIDE.icons.lock} className="my-2">
             {t("dequipper.nude")}
           </Label>
         )}

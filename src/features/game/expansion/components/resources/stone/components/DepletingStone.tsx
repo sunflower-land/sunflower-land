@@ -2,7 +2,6 @@ import React, { useContext, useRef, useState } from "react";
 import Spritesheet, {
   SpriteSheetInstance,
 } from "components/animation/SpriteAnimator";
-import dropSheet from "assets/resources/stone/stone_rock_drop.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { ZoomContext } from "components/ZoomProvider";
@@ -41,7 +40,7 @@ const DepletingStoneComponent: React.FC<Props> = ({ resourceAmount }) => {
           spritesheet.goToAndPlay(0);
           setPlaying(true);
         }}
-        image={dropSheet}
+        image={SUNNYSIDE.resource.stoneDropSheet}
         widthFrame={DROP_SHEET_FRAME_WIDTH}
         heightFrame={DROP_SHEET_FRAME_HEIGHT}
         zoomScale={scale}

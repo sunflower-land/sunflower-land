@@ -2,7 +2,6 @@ import React, { useContext, useRef, useState } from "react";
 import Spritesheet, {
   SpriteSheetInstance,
 } from "components/animation/SpriteAnimator";
-import choppedSheet from "assets/resources/tree/chopped_sheet.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { ZoomContext } from "components/ZoomProvider";
@@ -41,7 +40,7 @@ const DepletingTreeComponent: React.FC<Props> = ({ resourceAmount }) => {
           spritesheet.goToAndPlay(0);
           setPlaying(true);
         }}
-        image={choppedSheet}
+        image={SUNNYSIDE.resource.choppedSheet}
         widthFrame={CHOPPED_SHEET_FRAME_WIDTH}
         heightFrame={CHOPPED_SHEET_FRAME_HEIGHT}
         zoomScale={scale}

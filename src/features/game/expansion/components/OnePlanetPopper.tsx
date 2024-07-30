@@ -3,7 +3,7 @@ import { SpecialEvent } from "features/game/types/specialEvents";
 import { SpecialEventModalContent } from "features/world/ui/SpecialEventModalContent";
 import React, { useState } from "react";
 
-import raft from "assets/decorations/rewards_raft.png";
+import { SUNNYSIDE } from "assets/sunnyside";
 import shadow from "assets/npcs/shadow.png";
 import bob from "assets/decorations/one_planet_bob.gif";
 
@@ -20,7 +20,7 @@ export const OnePlanetPopper: React.FC<{ event: SpecialEvent | undefined }> = ({
   return (
     <>
       <img
-        src={raft}
+        src={SUNNYSIDE.decorations.rewards_raft}
         className="absolute cursor-pointer"
         onClick={() => setShowSpecialEvent(true)}
         style={{

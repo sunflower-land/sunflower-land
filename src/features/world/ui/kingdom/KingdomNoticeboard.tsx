@@ -1,14 +1,13 @@
 import { Panel } from "components/ui/Panel";
 import React from "react";
 
-import trophy from "assets/icons/trophy.png";
-import gift from "assets/icons/gift.png";
-import shop from "assets/icons/shop.png";
-import factions from "assets/icons/factions.webp";
-import graphic from "assets/announcements/factions.png";
+import { SUNNYSIDE } from "assets/sunnyside";
 import { Button } from "components/ui/Button";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-
+import shop from "assets/icons/shop.png";
+import factions from "assets/icons/factions.webp";
+import trophy from "assets/icons/trophy.png";
+import gift from "assets/icons/gift.png";
 interface NoticeboardItemProps {
   items: { text: string; icon: string }[];
 }
@@ -43,7 +42,7 @@ export const KingdomNoticeboard: React.FC<Props> = ({ onClose }) => {
 
   return (
     <Panel>
-      <img src={graphic} className="w-full mb-2" />
+      <img src={SUNNYSIDE.announcement.factions} className="w-full mb-2" />
       <NoticeboardItems
         items={[
           {

@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from "react";
 import classNames from "classnames";
 
-import artisian from "assets/npcs/artisian.gif";
-import artisianDoing from "assets/npcs/artisian_doing.gif";
-import shadow from "assets/npcs/shadow.png";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 import { CookableName } from "features/game/types/consumables";
 import { ITEM_DETAILS } from "features/game/types/images";
@@ -15,6 +13,7 @@ import { BuildingImageWrapper } from "../BuildingImageWrapper";
 import { setImageWidth } from "lib/images";
 import { bakeryAudio, loadAudio } from "lib/utils/sfx";
 import { DELI_VARIANTS } from "features/island/lib/alternateArt";
+import shadow from "assets/npcs/shadow.png";
 
 type Props = BuildingProps & Partial<CraftingMachineChildProps>;
 
@@ -99,7 +98,7 @@ export const Deli: React.FC<Props> = ({
         />
         {crafting ? (
           <img
-            src={artisianDoing}
+            src={SUNNYSIDE.npcs.artisianDoing}
             className="absolute pointer-events-none"
             style={{
               width: `${PIXEL_SCALE * 17}px`,
@@ -110,7 +109,7 @@ export const Deli: React.FC<Props> = ({
           />
         ) : (
           <img
-            src={artisian}
+            src={SUNNYSIDE.npcs.artisian}
             className="absolute pointer-events-none"
             style={{
               width: `${PIXEL_SCALE * 15}px`,

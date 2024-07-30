@@ -2,7 +2,7 @@ import React from "react";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { pixelSpeechBubbleBorderStyle } from "features/game/lib/style";
 
-import speechBubbleBottom from "assets/ui/speech_bubble_bottom.webp";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 interface Props {
   text: string;
@@ -17,7 +17,7 @@ export const SpeechBubble: React.FC<Props> = ({ text, className }) => {
     >
       <span className="text-xs  text-shadow-none">{text}</span>
       <img
-        src={speechBubbleBottom}
+        src={SUNNYSIDE.ui.speechBubbleBottom}
         className="absolute"
         style={{
           width: `${PIXEL_SCALE * 4}px`,

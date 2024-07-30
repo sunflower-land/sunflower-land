@@ -4,7 +4,6 @@ import { useSelector } from "@xstate/react";
 import oilBarrels from "assets/land/oil_barrels.webp";
 import oilIcon from "assets/resources/oil.webp";
 import barrel from "assets/resources/oil_barrel.webp";
-import smoke from "assets/buildings/smoke.gif";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
@@ -144,7 +143,7 @@ export const GreenhouseOil: React.FC = () => {
 
       {plantsAreActive && (
         <img
-          src={smoke}
+          src={SUNNYSIDE.building.smoke}
           className="absolute pointer-events-none"
           style={{
             width: `${PIXEL_SCALE * 20}px`,

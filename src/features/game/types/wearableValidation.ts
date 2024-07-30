@@ -14,6 +14,7 @@ import {
   isCrimstoneHammerActive,
   areAnyOGFruitsGrowing,
   hasFishedToday,
+  areBonusTreasureHolesDug,
 } from "./removeables";
 import { GameState } from "./game";
 
@@ -130,6 +131,10 @@ export const canWithdrawBoostedWearable = (
 
   if (name === "Hornet Mask") {
     return isBeehivesFull(state)[0];
+  }
+
+  if (name === "Bionic Drill") {
+    return areBonusTreasureHolesDug(state)[0];
   }
 
   // Safety check

@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 // CROPS
-import magicBean from "assets/crops/magic_bean.png";
 import appleSeed from "assets/fruit/apple/apple_seed.png";
 import orangeSeed from "assets/fruit/orange/orange_seed.png";
 import blueberrySeed from "assets/fruit/blueberry/blueberry_seed.png";
@@ -198,63 +197,6 @@ import lemon from "assets/resources/lemon.webp";
 import tomato from "assets/fruit/tomato/tomato.webp";
 import oil from "assets/resources/oil.webp";
 
-// Skills
-import greenThumb from "assets/skills/green_thumb.png";
-import goldRush from "assets/skills/gold_rush.png";
-import prospector from "assets/skills/prospector.png";
-import wrangler from "assets/skills/wrangler.png";
-import barnManager from "assets/skills/barn_manager.png";
-import seedSpecialist from "assets/skills/seed_specialist.png";
-import logger from "assets/skills/logger.png";
-import lumberjack from "assets/skills/lumberjack.png";
-import warrior from "assets/skills/warrior.png";
-import artist from "assets/skills/artist.png";
-import coder from "assets/skills/coder.png";
-import discord from "assets/skills/discord.png";
-import liquidityProvider from "assets/skills/liquidity_provider.png";
-
-// Achievements
-
-import bumpkinChainsawAmateur from "assets/achievements/bumpkin_chainsaw_amateur.png";
-import twentyTwentyVision from "assets/achievements/20-20-vision.png";
-import bakersDozen from "assets/achievements/bakers_dozen.png";
-import beetrootBeast from "assets/achievements/beetrootBeast.png";
-import bigSpender from "assets/achievements/big_spender.png";
-import brilliantBumpkin from "assets/achievements/brilliant_bumpkin.png";
-import bumpkinBillionaire from "assets/achievements/bumpkin_billionaire.png";
-import craftmanship from "assets/achievements/craftmanship.png";
-import busyBumpkin from "assets/achievements/busy_bumpkin.png";
-import cabbageKing from "assets/achievements/cabbage_king.png";
-import canary from "assets/achievements/canary.png";
-import chefDeCuisine from "assets/achievements/chef_de_cuisine.png";
-import contractor from "assets/achievements/contractor.png";
-import coolCauliflower from "assets/achievements/cool_cauliflower.png";
-import jackOLantern from "assets/achievements/jack_o_lantern.png";
-import cropChampion from "assets/achievements/crop_champion.png";
-import driller from "assets/achievements/driller.png";
-import elDorado from "assets/achievements/el-dorado.png";
-import goldFever from "assets/achievements/gold_fever.png";
-import ironEyes from "assets/achievements/iron_eyes.png";
-import stapleCrop from "assets/achievements/staple_crop.png";
-import kissTheCook from "assets/achievements/kiss_the_cook.png";
-import museum from "assets/achievements/museum.png";
-import myLifeIsPotato from "assets/achievements/my_life_is_potato.png";
-import patientParsnip from "assets/achievements/patient_parsnip.png";
-import rapidRadish from "assets/achievements/rapidRadish.png";
-import somethingShiny from "assets/achievements/something_shiny.png";
-import sunSeeker from "assets/achievements/sun_seeker.png";
-import sunflowerSuperstar from "assets/achievements/sunflower_superstar.png";
-import timberrr from "assets/achievements/timber.png";
-import timeToChop from "assets/achievements/time_to_chop.png";
-import breadWinner from "assets/achievements/bread_winner.png";
-import explorer from "assets/achievements/explorer.png";
-import farmHand from "assets/achievements/farm_hand.png";
-import highRoller from "assets/achievements/high_roller.png";
-import orangeSqueeze from "assets/achievements/orange_squeeze.png";
-import appleOfMyEye from "assets/achievements/apple_of_my_eye.png";
-import blueChip from "assets/achievements/blue_chip.png";
-import fruitPlatter from "assets/achievements/fruit_platter.png";
-
 // Coupons
 import ticket from "assets/icons/ticket.png";
 import blockBuck from "assets/icons/block_buck.png";
@@ -303,7 +245,6 @@ import pinkEgg from "src/assets/sfts/easter/pink_egg.png";
 import easterBasket from "src/assets/sfts/easter/basket.png";
 import easterBunny from "src/assets/sfts/easter/easter_bunny.gif";
 import pabloBunny from "src/assets/sfts/pablo_bunny.gif";
-import easterBush from "src/assets/sfts/easter_bush.gif";
 import giantCarrot from "assets/sfts/giant_carrot.png";
 
 //MOM Event
@@ -398,28 +339,6 @@ import ancientHumanWarhammer from "src/assets/sfts/quest/ancient_human_warhammer
 // Fertiliser
 import rapidGrowth from "src/assets/fertilisers/rapidGrowth.png";
 
-// Buildings
-import firePit from "src/assets/buildings/fire_pit.png";
-import kitchen from "src/assets/buildings/kitchen.png";
-import market from "src/assets/buildings/bettys_market.png";
-import townCenter from "src/assets/buildings/town_center.png";
-import workbench from "src/assets/buildings/workbench.png";
-import tent from "src/assets/buildings/tent.png";
-import well from "src/assets/buildings/well1.png";
-import chickenHouse from "src/assets/buildings/hen_house.png";
-import bakery from "src/assets/buildings/bakery.png";
-import deli from "src/assets/buildings/deli.png";
-import greenhouse from "src/assets/buildings/greenhouse.webp";
-import smoothieShack from "src/assets/buildings/smoothie_shack.webp";
-import toolshed from "src/assets/buildings/toolshed.png";
-import warehouse from "src/assets/buildings/warehouse.png";
-import basicComposter from "assets/composters/composter_basic.png";
-import advancedComposter from "assets/composters/composter_advanced.png";
-import expertComposter from "assets/composters/composter_expert.png";
-import house from "assets/buildings/house.png";
-import manor from "assets/buildings/manor.png";
-import cropMachine from "assets/buildings/crop_machine.wep.webp";
-
 // Composter Bait
 import earthworm from "assets/composters/earthworm.png";
 import grub from "assets/composters/grub.png";
@@ -434,18 +353,12 @@ import rapidRoot from "assets/composters/rapid_root.png";
 // Clothing
 import chefHat from "src/assets/icons/chef_hat.png";
 
-import skull from "src/assets/decorations/war_skulls.png";
-import warTombstone from "src/assets/decorations/war_tombstone.png";
 import jackOLanternItem from "src/assets/sfts/jack_o_lantern.png";
 import victoriaSisters from "src/assets/sfts/victoria_sisters.gif";
 
 //Decorations
 import snowglobe from "src/assets/decorations/snowglobe.gif";
-import pottedSunflower from "src/assets/decorations/potted_sunflower.png";
-import pottedPumpkin from "src/assets/decorations/potted_pumpkin.webp";
-import pottedPotato from "src/assets/decorations/potted_potato.png";
-import whiteTulips from "src/assets/decorations/white_tulips.png";
-import cactus from "src/assets/decorations/cactus.png";
+import shrub from "assets/decorations/shrub.png";
 import basicBear from "src/assets/sfts/bears/basic_bear.png";
 import chefBear from "src/assets/sfts/bears/chef_bear.png";
 import constructionBear from "src/assets/sfts/bears/construction_bear.png";
@@ -477,11 +390,9 @@ import genieBear from "src/assets/sfts/bears/genie_bear.png";
 import eggplantBear from "src/assets/sfts/bears/eggplant_bear.png";
 import dawnFlower from "src/assets/sfts/dawn_flower.png";
 import candles from "src/assets/decorations/candles.png";
-import spookyTree from "src/assets/decorations/spooky_tree.png";
 import hauntedStump from "src/assets/decorations/haunted_stump.png";
 import sign from "src/assets/decorations/woodsign.png";
 import observer from "src/assets/decorations/observer.webp";
-import crowRock from "src/assets/decorations/crow_rock.webp";
 import miniCornMaze from "src/assets/decorations/mini_corn_maze.webp";
 import whiteCrow from "src/assets/decorations/white_crow.webp";
 import lifeguardRing from "src/assets/decorations/lifeguard_ring.webp";
@@ -491,7 +402,6 @@ import shiftySheldon from "src/assets/decorations/shifty_sheldon.webp";
 import tikiTorch from "src/assets/decorations/tiki_torch.webp";
 import beachUmbrella from "src/assets/decorations/beach_umbrella.webp";
 
-import pineTree from "src/assets/decorations/pine_tree.png";
 import fieldMaple from "src/assets/decorations/field_maple.webp";
 import redMaple from "src/assets/decorations/red_maple.webp";
 import goldenMaple from "src/assets/decorations/golden_maple.webp";
@@ -503,7 +413,6 @@ import pipi from "assets/sfts/treasure/pipi.webp";
 import turtleBear from "assets/sfts/bears/turtle_bear.webp";
 import tRexSkull from "assets/sfts/t_rex_skull.webp";
 import parasaurSkull from "assets/sfts/parasaur_skull.webp";
-import clamShell from "assets/sfts/treasure/clam_shell.webp";
 import lifeguardBear from "assets/sfts/bears/lifeguard_bear.webp";
 import snorkelBear from "assets/sfts/bears/snorkel_bear.webp";
 import whaleBear from "assets/sfts/bears/whale_bear.webp";
@@ -530,18 +439,11 @@ import drill from "assets/icons/drill.png";
 import karkinos from "assets/seasons/solar-flare/karkinos.png";
 import palmTree from "assets/seasons/solar-flare/palm_tree.webp";
 import beachBall from "assets/seasons/solar-flare/beach_ball.webp";
-import dirt from "assets/sfts/dirt_path.png";
-import bush from "assets/decorations/bush.png";
-import shrub from "assets/decorations/shrub.png";
-import fence from "assets/decorations/fence.png";
-import stoneFence from "assets/decorations/stone_fence.png";
 import mushroomHouse from "assets/seasons/dawn-breaker/mushroom_house.png";
 import genieLamp from "assets/sfts/genie_lamp.png";
 import oldBottle from "assets/sfts/treasure/old_bottle.png";
 import oilDrill from "assets/icons/oil_drill.webp";
 
-import bonniesTombstone from "assets/decorations/bonnies_tombstone.png";
-import grubnashTombstone from "assets/decorations/grubnash_tombstone.png";
 import crimsonCap from "assets/decorations/crimson_cap.png";
 import toadstoolSeat from "assets/decorations/toadstool_seat.png";
 import chestnutStool from "assets/decorations/chestnut_fungi_stool.png";
@@ -553,7 +455,6 @@ import cobalt from "assets/decorations/cobalt.png";
 import dawnUmbrellaSeat from "assets/decorations/dawn_umbrella_seat.png";
 import eggplantGrill from "assets/decorations/eggplant_grill.png";
 import giantDawnMushroom from "assets/decorations/giant_dawn_mushroom.png";
-import shroomGlow from "assets/decorations/shroom_glow.png";
 import purpleTrail from "assets/sfts/purple_trail.png";
 import obie from "assets/sfts/obie.png";
 import maximus from "assets/sfts/maximus.png";
@@ -562,9 +463,6 @@ import sirGoldenSnout from "assets/sfts/aoe/sir_goldensnout.png";
 import freyaFox from "assets/sfts/freya_fox.png";
 import grainGrinder from "assets/sfts/grain_grinder.png";
 
-import goldRock from "assets/resources/gold_small.png";
-import ironRock from "assets/resources/iron_small.png";
-import stoneRock from "assets/resources/stone_small.png";
 import crimstoneRock from "assets/resources/crimstone/crimstone_rock_1.webp";
 import sunstoneRock from "assets/resources/sunstone/sunstone_rock_1.webp";
 import oilReserve from "assets/resources/oil/oil_reserve_full.webp";
@@ -576,13 +474,6 @@ import giantPotato from "assets/sfts/giant_potato.png";
 import labGrownCarrot from "assets/sfts/lab_grown_carrot.gif";
 import labGrownPumpkin from "assets/sfts/lab_grown_pumpkin.gif";
 import labGrownRadish from "assets/sfts/lab_grown_radish.gif";
-import adirondackPotato from "assets/potion_house/adirondack_potato.png";
-import goldenHelios from "assets/potion_house/golden_helios.png";
-import chiogga from "assets/potion_house/chiogga.png";
-import blackMagic from "assets/potion_house/black_magic.png";
-import purpleCauliflower from "assets/potion_house/purple_cauliflower.png";
-import whiteCarrot from "assets/potion_house/white_carrot.png";
-import wartyGoblinPumpkin from "assets/potion_house/warty_goblin_pumpkin.png";
 import potatoMutant from "assets/sfts/potato_mutant.gif";
 import radishMutant from "assets/sfts/radish_mutant.gif";
 import sunflowerMutant from "assets/sfts/sunflower_mutant.gif";
@@ -766,9 +657,13 @@ import pharaohGnome from "src/assets/sfts/pharaoh_gnome.webp";
 import lemonTeaBath from "src/assets/sfts/lemon_tea_bath.webp";
 import tomatoClown from "src/assets/sfts/tomato_clown.gif";
 import pyramid from "src/assets/sfts/pyramid.webp";
+import hapyJar from "src/assets/sfts/hapy.webp";
+import imsetyJar from "src/assets/sfts/imsety.webp";
+import qebehsenuefJar from "src/assets/sfts/qebehsenuef.webp";
+import duamutefJar from "src/assets/sfts/duamutef.webp";
+import oasis from "src/assets/sfts/oasis.webp";
 
 import scarab from "assets/resources/scarab.webp";
-import sand from "assets/resources/sand.webp";
 import hieroglyph from "assets/resources/hieroglyph.webp";
 import camelBone from "assets/resources/camel_bone.webp";
 import cockleShell from "assets/resources/cockle_shell.webp";
@@ -1077,7 +972,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Magic Bean": {
-    image: magicBean,
+    image: SUNNYSIDE.crops.magicBean,
     description: {
       en: "What will grow?",
       pt: "What will grow?",
@@ -2209,7 +2104,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Green Thumb": {
-    image: greenThumb,
+    image: SUNNYSIDE.badges.greenThumb,
     description: {
       en: "Crops are worth 5% more",
       pt: "Crops are worth 5% more",
@@ -2219,7 +2114,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Barn Manager": {
-    image: barnManager,
+    image: SUNNYSIDE.badges.barnManager,
     description: {
       en: "Animals yield 10% more goods",
       pt: "Animals yield 10% more goods",
@@ -2229,7 +2124,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Seed Specialist": {
-    image: seedSpecialist,
+    image: SUNNYSIDE.badges.seedSpecialist,
     description: {
       en: "Crops grow 10% faster",
       pt: "Crops grow 10% faster",
@@ -2239,7 +2134,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   Wrangler: {
-    image: wrangler,
+    image: SUNNYSIDE.badges.wrangler,
     description: {
       en: "Animals produce goods 10% faster",
       pt: "Animals produce goods 10% faster",
@@ -2249,7 +2144,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   Lumberjack: {
-    image: lumberjack,
+    image: SUNNYSIDE.badges.lumberjack,
     description: {
       en: "Increase wood drops by 10%",
       pt: "Increase wood drops by 10%",
@@ -2259,7 +2154,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   Prospector: {
-    image: prospector,
+    image: SUNNYSIDE.badges.prospector,
     description: {
       en: "Increase stone drops by 20%",
       pt: "Increase stone drops by 20%",
@@ -2269,7 +2164,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   Logger: {
-    image: logger,
+    image: SUNNYSIDE.badges.logger,
     description: {
       en: "Axes last 50% longer",
       pt: "Axes last 50% longer",
@@ -2279,7 +2174,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Gold Rush": {
-    image: goldRush,
+    image: SUNNYSIDE.badges.goldRush,
     description: {
       en: "Increase gold drops by 50%",
       pt: "Increase gold drops by 50%",
@@ -2289,7 +2184,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   Artist: {
-    image: artist,
+    image: SUNNYSIDE.badges.artist,
     description: {
       en: "Save 10% on shop & blacksmith tools",
       pt: "Save 10% on shop & blacksmith tools",
@@ -2299,7 +2194,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   Coder: {
-    image: coder,
+    image: SUNNYSIDE.badges.coder,
     description: {
       en: "Crops yield 20% more",
       pt: "Crops yield 20% more",
@@ -2309,7 +2204,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Liquidity Provider": {
-    image: liquidityProvider,
+    image: SUNNYSIDE.badges.liquidityProvider,
     description: {
       en: "50% reduced SFL withdrawal fee",
       pt: "50% reduced SFL withdrawal fee",
@@ -2319,7 +2214,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Discord Mod": {
-    image: discord,
+    image: SUNNYSIDE.badges.discord,
     description: {
       en: "Yield 35% more wood",
       pt: "Yield 35% more wood",
@@ -2329,7 +2224,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   Warrior: {
-    image: warrior,
+    image: SUNNYSIDE.badges.warrior,
     description: {
       en: "Early access to land expansion",
       pt: "Early access to land expansion",
@@ -3089,7 +2984,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Fire Pit": {
-    image: firePit,
+    image: SUNNYSIDE.building.firePit,
     description: {
       en: "Roast your Sunflowers, feed and level up your Bumpkin",
       pt: "Faça comidas, alimente e evolua seu Bumpkin",
@@ -3099,7 +2994,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   Market: {
-    image: market,
+    image: SUNNYSIDE.building.market,
     description: {
       en: "Buy and sell at the Farmer's Market",
       pt: "Compre e venda no Mercado dos Agricultores",
@@ -3109,7 +3004,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Town Center": {
-    image: townCenter,
+    image: SUNNYSIDE.building.townCenter,
     description: {
       en: "Gather around the town center for the latest news",
       pt: "Reúna-se ao redor do centro da cidade para as últimas notícias",
@@ -3119,7 +3014,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   House: {
-    image: house,
+    image: SUNNYSIDE.building.house,
     description: {
       en: "A place to rest your head",
       pt: "Um lugar para descansar a cabeça",
@@ -3129,7 +3024,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   Manor: {
-    image: manor,
+    image: SUNNYSIDE.building.manor,
     description: {
       en: "A place to rest your head",
       pt: "Um lugar para descansar a cabeça",
@@ -3139,7 +3034,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Crop Machine": {
-    image: cropMachine,
+    image: SUNNYSIDE.building.cropMachine,
     description: {
       en: "Automate your crop production",
       pt: "Automatize suas plantações",
@@ -3149,7 +3044,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   Kitchen: {
-    image: kitchen,
+    image: SUNNYSIDE.building.kitchen,
     description: {
       en: "Step up your cooking game",
       pt: "Melhore sua habilidade culinária",
@@ -3159,7 +3054,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   Bakery: {
-    image: bakery,
+    image: SUNNYSIDE.building.bakery,
     description: {
       en: "Bake your favourite cakes",
       pt: "Asse seus bolos favoritos",
@@ -3169,7 +3064,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   Workbench: {
-    image: workbench,
+    image: SUNNYSIDE.building.workbench,
     description: {
       en: "Craft tools to collect resources",
       pt: "Faça ferramentas para coletar recursos",
@@ -3179,7 +3074,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Water Well": {
-    image: well,
+    image: SUNNYSIDE.building.well,
     description: {
       en: "Crops need water!",
       pt: "As plantações precisam de água!",
@@ -3189,7 +3084,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   Tent: {
-    image: tent,
+    image: SUNNYSIDE.building.tent,
     description: {
       en: "(Discontinued)",
       pt: "(Descontinuado)",
@@ -3199,7 +3094,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Hen House": {
-    image: chickenHouse,
+    image: SUNNYSIDE.building.chickenHouse,
     description: {
       en: "Grow your chicken empire",
       pt: "Expanda seu império de galinhas",
@@ -3209,7 +3104,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   Deli: {
-    image: deli,
+    image: SUNNYSIDE.building.deli,
     description: {
       en: "Satisfy your appetite with these delicatessen foods!",
       pt: "Satisfaça seu apetite com esses alimentos delicatessen!",
@@ -3219,7 +3114,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Smoothie Shack": {
-    image: smoothieShack,
+    image: SUNNYSIDE.building.smoothieShack,
     description: {
       en: "Freshly squeezed!",
       pt: "Produz sucos e batidas espremidos na hora!",
@@ -3229,7 +3124,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   Toolshed: {
-    image: toolshed,
+    image: SUNNYSIDE.building.toolshed,
     description: {
       en: "Increase your workbench tool stock by 50%",
       pt: "Aumente seu estoque de ferramentas em 50%",
@@ -3239,7 +3134,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   Warehouse: {
-    image: warehouse,
+    image: SUNNYSIDE.building.warehouse,
     description: {
       en: "Increase your seed stocks by 20%",
       pt: "Aumente seu estoque de sementes em 20%",
@@ -3339,7 +3234,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "War Skull": {
-    image: skull,
+    image: SUNNYSIDE.decorations.warSkull,
     description: {
       en: "Decorate the land with the bones of your enemies.",
       pt: "Decore a terra com os ossos de seus inimigos.",
@@ -3349,7 +3244,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "War Tombstone": {
-    image: warTombstone,
+    image: SUNNYSIDE.decorations.warTombstone,
     description: {
       en: "R.I.P",
       pt: "R.I.P",
@@ -3559,7 +3454,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   Explorer: {
-    image: explorer,
+    image: SUNNYSIDE.achievement.explorer,
     description: {
       en: "Expand your Land",
       pt: "Expand your Land",
@@ -3569,7 +3464,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Busy Bumpkin": {
-    image: busyBumpkin,
+    image: SUNNYSIDE.achievement.busyBumpkin,
     description: {
       en: "Reach level 2",
       pt: "Reach level 2",
@@ -3579,7 +3474,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Brilliant Bumpkin": {
-    image: brilliantBumpkin,
+    image: SUNNYSIDE.achievement.brilliantBumpkin,
     description: {
       en: "Reach level 20",
       pt: "Reach level 20",
@@ -3589,7 +3484,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Sun Seeker": {
-    image: sunSeeker,
+    image: SUNNYSIDE.achievement.sunSeeker,
     description: {
       en: "Harvest Sunflower 100 times",
       pt: "Harvest Sunflower 100 times",
@@ -3599,7 +3494,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Sunflower Superstar": {
-    image: sunflowerSuperstar,
+    image: SUNNYSIDE.achievement.sunflowerSuperstar,
     description: {
       en: "Harvest Sunflower 100,000 times",
       pt: "Harvest Sunflower 100,000 times",
@@ -3609,7 +3504,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "My life is potato": {
-    image: myLifeIsPotato,
+    image: SUNNYSIDE.achievement.myLifeIsPotato,
     description: {
       en: "Harvest Potato 5,000 times",
       pt: "Harvest Potato 5,000 times",
@@ -3619,7 +3514,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Jack O'Latern": {
-    image: jackOLantern,
+    image: SUNNYSIDE.achievement.jackOLantern,
     description: {
       en: "Harvest Pumpkin 500 times",
       pt: "Harvest Pumpkin 500 times",
@@ -3629,7 +3524,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "20/20 Vision": {
-    image: twentyTwentyVision,
+    image: SUNNYSIDE.achievement.twentyTwentyVision,
     description: {
       en: "Harvest Carrot 10,000 times",
       pt: "Harvest Carrot 10,000 times",
@@ -3639,7 +3534,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Cabbage King": {
-    image: cabbageKing,
+    image: SUNNYSIDE.achievement.cabbageKing,
     description: {
       en: "Harvest Cabbage 200 times",
       pt: "Harvest Cabbage 200 times",
@@ -3649,7 +3544,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Beetroot Beast": {
-    image: beetrootBeast,
+    image: SUNNYSIDE.achievement.beetrootBeast,
     description: {
       en: "Harvest Beetroot 2,000 times",
       pt: "Harvest Beetroot 2,000 times",
@@ -3659,7 +3554,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Cool Flower": {
-    image: coolCauliflower,
+    image: SUNNYSIDE.achievement.coolCauliflower,
     description: {
       en: "Harvest Cauliflower 100 times",
       pt: "Harvest Cauliflower 100 times",
@@ -3669,7 +3564,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Patient Parsnips": {
-    image: patientParsnip,
+    image: SUNNYSIDE.achievement.patientParsnip,
     description: {
       en: "Harvest Parsnip 5,000 times",
       pt: "Harvest Parsnip 5,000 times",
@@ -3679,7 +3574,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Rapid Radish": {
-    image: rapidRadish,
+    image: SUNNYSIDE.achievement.rapidRadish,
     description: {
       en: "Harvest Radish 200 times",
       pt: "Harvest Radish 200 times",
@@ -3689,7 +3584,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Staple Crop": {
-    image: stapleCrop,
+    image: SUNNYSIDE.achievement.stapleCrop,
     description: {
       en: "Harvest Wheat 10,000 times",
       pt: "Harvest Wheat 10,000 times",
@@ -3699,7 +3594,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Farm Hand": {
-    image: farmHand,
+    image: SUNNYSIDE.achievement.farmHand,
     description: {
       en: "Harvest crops 10,000 times",
       pt: "Harvest crops 10,000 times",
@@ -3709,7 +3604,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Crop Champion": {
-    image: cropChampion,
+    image: SUNNYSIDE.achievement.cropChampion,
     description: {
       en: "Harvest 1 million crops",
       pt: "Harvest 1 million crops",
@@ -3719,7 +3614,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Bread Winner": {
-    image: breadWinner,
+    image: SUNNYSIDE.achievement.breadWinner,
     description: {
       en: "Earn 0.001 SFL",
       pt: "Earn 0.001 SFL",
@@ -3729,7 +3624,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Bumpkin Billionaire": {
-    image: bumpkinBillionaire,
+    image: SUNNYSIDE.achievement.bumpkinBillionaire,
     description: {
       en: "Earn 5,000 SFL",
       pt: "Earn 5,000 SFL",
@@ -3739,7 +3634,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Big Spender": {
-    image: bigSpender,
+    image: SUNNYSIDE.achievement.bigSpender,
     description: {
       en: "Spend 10 SFL",
       pt: "Spend 10 SFL",
@@ -3749,7 +3644,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "High Roller": {
-    image: highRoller,
+    image: SUNNYSIDE.achievement.highRoller,
     description: {
       en: "Spend 7,500 SFL",
       pt: "Spend 7,500 SFL",
@@ -3759,7 +3654,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   Timbeerrr: {
-    image: timberrr,
+    image: SUNNYSIDE.achievement.timberrr,
     description: {
       en: "Chop 150 trees",
       pt: "Chop 150 trees",
@@ -3769,7 +3664,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Bumpkin Chainsaw Amateur": {
-    image: bumpkinChainsawAmateur,
+    image: SUNNYSIDE.achievement.bumpkinChainsawAmateur,
     description: {
       en: "Chop 5,000 trees",
       pt: "Chop 5,000 trees",
@@ -3779,7 +3674,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   Driller: {
-    image: driller,
+    image: SUNNYSIDE.achievement.driller,
     description: {
       en: "Mine 50 stone rocks",
       pt: "Mine 50 stone rocks",
@@ -3789,7 +3684,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   Canary: {
-    image: canary,
+    image: SUNNYSIDE.achievement.canary,
     description: {
       en: "Mine 1,000 stone rocks",
       pt: "Mine 1,000 stone rocks",
@@ -3799,7 +3694,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Iron Eyes": {
-    image: ironEyes,
+    image: SUNNYSIDE.achievement.ironEyes,
     description: {
       en: "Mine 50 iron rocks",
       pt: "Mine 50 iron rocks",
@@ -3809,7 +3704,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Something Shiny": {
-    image: somethingShiny,
+    image: SUNNYSIDE.achievement.somethingShiny,
     description: {
       en: "Mine 500 iron rocks",
       pt: "Mine 500 iron rocks",
@@ -3819,7 +3714,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "El Dorado": {
-    image: elDorado,
+    image: SUNNYSIDE.achievement.elDorado,
     description: {
       en: "Mine 50 gold rocks",
       pt: "Mine 50 gold rocks",
@@ -3829,7 +3724,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Gold Fever": {
-    image: goldFever,
+    image: SUNNYSIDE.achievement.goldFever,
     description: {
       en: "Mine 500 gold rocks",
       pt: "Mine 500 gold rocks",
@@ -3839,7 +3734,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Kiss the Cook": {
-    image: kissTheCook,
+    image: SUNNYSIDE.achievement.kissTheCook,
     description: {
       en: "Cook 20 meals",
       pt: "Cook 20 meals",
@@ -3849,7 +3744,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Bakers Dozen": {
-    image: bakersDozen,
+    image: SUNNYSIDE.achievement.bakersDozen,
     description: {
       en: "Bake 13 cakes",
       pt: "Bake 13 cakes",
@@ -3859,7 +3754,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Chef de Cuisine": {
-    image: chefDeCuisine,
+    image: SUNNYSIDE.achievement.chefDeCuisine,
     description: {
       en: "Cook 5,000 meals",
       pt: "Cook 5,000 meals",
@@ -3869,7 +3764,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   Craftmanship: {
-    image: craftmanship,
+    image: SUNNYSIDE.achievement.craftmanship,
     description: {
       en: "Craft 100 tools",
       pt: "Craft 100 tools",
@@ -3879,7 +3774,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Time to chop": {
-    image: timeToChop,
+    image: SUNNYSIDE.achievement.timeToChop,
     description: {
       en: "Craft 500 axes",
       pt: "Craft 500 axes",
@@ -3889,7 +3784,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   Contractor: {
-    image: contractor,
+    image: SUNNYSIDE.achievement.contractor,
     description: {
       en: "Have 10 buildings constructed on your land",
       pt: "Have 10 buildings constructed on your land",
@@ -3899,7 +3794,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   Museum: {
-    image: museum,
+    image: SUNNYSIDE.achievement.museum,
     description: {
       en: "Have 10 different kinds of rare items placed on your land",
       pt: "Have 10 different kinds of rare items placed on your land",
@@ -4019,7 +3914,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "White Tulips": {
-    image: whiteTulips,
+    image: SUNNYSIDE.decorations.whiteTulips,
     description: {
       en: "Keep the smell of goblins away.",
       pt: "Mantenha o cheiro dos goblins afastado.",
@@ -4029,7 +3924,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Potted Sunflower": {
-    image: pottedSunflower,
+    image: SUNNYSIDE.decorations.pottedSunflower,
     description: {
       en: "Brighten up your land.",
       pt: "Ilumine sua terra.",
@@ -4039,7 +3934,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   Cactus: {
-    image: cactus,
+    image: SUNNYSIDE.decorations.cactus,
     description: {
       en: "Saves water and makes your farm look stunning!",
       pt: "Economiza água e deixa sua fazenda deslumbrante!",
@@ -4279,7 +4174,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Potted Potato": {
-    image: pottedPotato,
+    image: SUNNYSIDE.decorations.pottedPotato,
     description: {
       en: "Potato blood runs through your Bumpkin.",
       pt: "O sangue da batata corre pelo seu Bumpkin.",
@@ -4289,7 +4184,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Potted Pumpkin": {
-    image: pottedPumpkin,
+    image: SUNNYSIDE.decorations.pottedPumpkin,
     description: {
       en: "Pumpkins for Bumpkins",
       pt: "Pumpkins for Bumpkins",
@@ -4369,7 +4264,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Orange Squeeze": {
-    image: orangeSqueeze,
+    image: SUNNYSIDE.achievement.orangeSqueeze,
     description: {
       en: "Harvest Orange 100 times",
       pt: "Harvest Orange 100 times",
@@ -4379,7 +4274,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Apple of my Eye": {
-    image: appleOfMyEye,
+    image: SUNNYSIDE.achievement.appleOfMyEye,
     description: {
       en: "Harvest Apple 500 times",
       pt: "Harvest Apple 500 times",
@@ -4389,7 +4284,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Blue Chip": {
-    image: blueChip,
+    image: SUNNYSIDE.achievement.blueChip,
     description: {
       en: "Harvest Blueberry 5,000 times",
       pt: "Harvest Blueberry 5,000 times",
@@ -4399,7 +4294,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Fruit Platter": {
-    image: fruitPlatter,
+    image: SUNNYSIDE.achievement.fruitPlatter,
     description: {
       en: "Harvest 50,000 fruits",
       pt: "Harvest 50,000 fruits",
@@ -4469,7 +4364,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Clam Shell": {
-    image: clamShell,
+    image: SUNNYSIDE.resource.clam_shell,
     description: {
       en: "A clam shell.",
       pt: "Uma concha de marisco.",
@@ -4863,7 +4758,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Easter Bush": {
-    image: easterBush,
+    image: SUNNYSIDE.sfts.easterBush,
     description: {
       en: "What is inside?",
       pt: "O que tem dentro?",
@@ -4998,7 +4893,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Compost Bin": {
-    image: basicComposter,
+    image: SUNNYSIDE.building.basicComposter,
     description: {
       en: "Produces bait & fertiliser on a regular basis.",
       pt: "Produz iscas e fertilizantes regularmente.",
@@ -5008,7 +4903,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Turbo Composter": {
-    image: advancedComposter,
+    image: SUNNYSIDE.building.advancedComposter,
     description: {
       en: "Produces advanced bait & fertiliser on a regular basis.",
       pt: "Produz iscas e fertilizantes avançados regularmente.",
@@ -5018,7 +4913,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Premium Composter": {
-    image: expertComposter,
+    image: SUNNYSIDE.building.expertComposter,
     description: {
       en: "Produces expert bait & fertiliser on a regular basis.",
       pt: "Produz iscas e fertilizantes especialistas regularmente.",
@@ -5238,7 +5133,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Gold Rock": {
-    image: goldRock,
+    image: SUNNYSIDE.resource.goldStone,
     description: {
       en: "A mineable rock to collect gold",
       pt: "Uma rocha minerável para coletar ouro",
@@ -5248,7 +5143,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Iron Rock": {
-    image: ironRock,
+    image: SUNNYSIDE.resource.ironStone,
     description: {
       en: "A mineable rock to collect iron",
       pt: "Uma rocha minerável para coletar ferro",
@@ -5258,7 +5153,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Stone Rock": {
-    image: stoneRock,
+    image: SUNNYSIDE.resource.stone_small,
     description: {
       en: "A mineable rock to collect stone",
       pt: "Uma rocha minerável para coletar pedra",
@@ -5328,7 +5223,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Dirt Path": {
-    image: dirt,
+    image: SUNNYSIDE.sfts.dirt,
     description: {
       en: "Keep your farmer boots clean with a well trodden path.",
       pt: "Mantenha suas botas de fazendeiro limpas com um caminho bem pisado.",
@@ -5338,7 +5233,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   Bush: {
-    image: bush,
+    image: SUNNYSIDE.decorations.bush,
     description: {
       en: "What's lurking in the bushes?",
       pt: "O que está espreitando nas moitas?",
@@ -5348,7 +5243,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   Fence: {
-    image: fence,
+    image: SUNNYSIDE.decorations.fence,
     description: {
       en: "Add a touch of rustic charm to your farm.",
       pt: "Adicione um toque de charme rústico à sua fazenda.",
@@ -5358,7 +5253,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Stone Fence": {
-    image: stoneFence,
+    image: SUNNYSIDE.decorations.stoneFence,
     description: {
       en: "Embrace the timeless elegance of a stone fence.",
       pt: "Abrace a elegância atemporal de uma cerca de pedra.",
@@ -5378,7 +5273,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Pine Tree": {
-    image: pineTree,
+    image: SUNNYSIDE.decorations.pineTree,
     description: {
       en: "Standing tall and mighty, a needle-clad dream.",
       pt: "De pé alto e poderoso.",
@@ -5548,7 +5443,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Bonnie's Tombstone": {
-    image: bonniesTombstone,
+    image: SUNNYSIDE.decorations.bonniesTombstone,
     description: {
       en: "A spooky addition to any farm, Bonnie's Human Tombstone will send shivers down your spine.",
       pt: "A spooky addition to any farm, Bonnie's Human Tombstone will send shivers down your spine.",
@@ -5611,7 +5506,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Grubnash's Tombstone": {
-    image: grubnashTombstone,
+    image: SUNNYSIDE.decorations.grubnashTombstone,
     description: {
       en: "Add some mischievous charm with Grubnash's Goblin Tombstone.",
       pt: "Add some mischievous charm with Grubnash's Goblin Tombstone.",
@@ -5632,7 +5527,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Shroom Glow": {
-    image: shroomGlow,
+    image: SUNNYSIDE.decorations.shroomGlow,
     description: {
       en: "Illuminate your farm with the enchanting glow of Shroom Glow.",
       pt: "Ilumine sua fazenda com o brilho encantador do Brilho dos Cogumelos.",
@@ -5863,7 +5758,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Spooky Tree": {
-    image: spookyTree,
+    image: SUNNYSIDE.decorations.spookyTree,
     description: {
       en: "A hauntingly fun addition to your farm's decor!",
       pt: "Uma adição assustadoramente divertida à decoração da sua fazenda!",
@@ -5883,7 +5778,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Crow Rock": {
-    image: crowRock,
+    image: SUNNYSIDE.decorations.crowRock,
     description: {
       en: "A crow perched atop a mysterious rock.",
       pt: "Um corvo empoleirado em uma rocha misteriosa.",
@@ -5974,7 +5869,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Adirondack Potato": {
-    image: adirondackPotato,
+    image: SUNNYSIDE.sfts.adirondackPotato,
     description: {
       en: "A rugged spud, Adirondack style!",
       pt: "A rugged spud, Adirondack style!",
@@ -5984,7 +5879,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Black Magic": {
-    image: blackMagic,
+    image: SUNNYSIDE.sfts.blackMagic,
     description: {
       en: "A dark and mysterious flower!",
       pt: "A dark and mysterious flower!",
@@ -5994,7 +5889,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   Chiogga: {
-    image: chiogga,
+    image: SUNNYSIDE.sfts.chiogga,
     description: {
       en: "A rainbow beet!",
       pt: "A rainbow beet!",
@@ -6004,7 +5899,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Golden Helios": {
-    image: goldenHelios,
+    image: SUNNYSIDE.sfts.goldenHelios,
     description: {
       en: "Sun-kissed grandeur!",
       pt: "Sun-kissed grandeur!",
@@ -6014,7 +5909,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Purple Cauliflower": {
-    image: purpleCauliflower,
+    image: SUNNYSIDE.sfts.purpleCauliflower,
     description: {
       en: "A regal purple cauliflowser",
       pt: "A regal purple cauliflowser",
@@ -6024,7 +5919,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Warty Goblin Pumpkin": {
-    image: wartyGoblinPumpkin,
+    image: SUNNYSIDE.sfts.wartyGoblinPumpkin,
     description: {
       en: "A whimsical, wart-covered pumpkin",
       pt: "A whimsical, wart-covered pumpkin",
@@ -6034,7 +5929,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "White Carrot": {
-    image: whiteCarrot,
+    image: SUNNYSIDE.sfts.whiteCarrot,
     description: {
       en: "A pale carrot with pale roots",
       pt: "A pale carrot with pale roots",
@@ -8292,7 +8187,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   Greenhouse: {
-    image: greenhouse,
+    image: SUNNYSIDE.building.greenhouse,
     description: {
       en: "A sanctuary for sensitive crops",
       pt: "A sanctuary for sensitive crops",
@@ -8904,7 +8799,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   Sand: {
-    image: sand,
+    image: SUNNYSIDE.resource.sand,
     description: {
       en: "It get's everywhere",
     },
@@ -8922,13 +8817,13 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Hapy Jar": {
-    image: "",
+    image: hapyJar,
     description: {
       en: "",
     },
   },
   "Imsety Jar": {
-    image: "",
+    image: imsetyJar,
     description: {
       en: "",
     },
@@ -8946,13 +8841,13 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Duamutef Jar": {
-    image: "",
+    image: duamutefJar,
     description: {
       en: "",
     },
   },
   "Qebehsenuef Jar": {
-    image: "",
+    image: qebehsenuefJar,
     description: {
       en: "",
     },
@@ -9054,7 +8949,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   Oasis: {
-    image: "",
+    image: oasis,
     description: {
       en: "",
     },

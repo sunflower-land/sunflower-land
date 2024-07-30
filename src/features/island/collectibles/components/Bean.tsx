@@ -1,10 +1,5 @@
 import React, { useContext, useState } from "react";
 
-import planted from "assets/crops/bean_planted.png";
-import ready from "assets/crops/bean_ready.png";
-import growing from "assets/crops/bean_growing.png";
-import magicBean from "assets/crops/magic_bean.png";
-
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { CollectibleProps } from "../Collectible";
 import { BeanName, BEANS } from "features/game/types/beans";
@@ -77,7 +72,7 @@ export const Bean: React.FC<CollectibleProps> = ({
             }}
           />
           <img
-            src={ready}
+            src={SUNNYSIDE.crops.magicBeanready}
             style={{
               width: `${PIXEL_SCALE * 30}px`,
               left: `${PIXEL_SCALE * 1}px`,
@@ -91,7 +86,7 @@ export const Bean: React.FC<CollectibleProps> = ({
         {gameState.matches("revealing") && isRevealing && (
           <Modal show backdrop="static">
             <Panel className="z-10">
-              <Revealing icon={magicBean} />
+              <Revealing icon={SUNNYSIDE.crops.magicBean} />
             </Panel>
           </Modal>
         )}
@@ -107,7 +102,10 @@ export const Bean: React.FC<CollectibleProps> = ({
     );
   }
 
-  const image = timeLeft <= plantSeconds / 2 ? growing : planted;
+  const image =
+    timeLeft <= plantSeconds / 2
+      ? SUNNYSIDE.crops.magicBeangrowing
+      : SUNNYSIDE.crops.magicBeanplanted;
 
   return (
     <>

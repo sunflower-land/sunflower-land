@@ -10,7 +10,6 @@ import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
 import { SkillCategoryList } from "./SkillCategoryList";
 
-import seedSpecialist from "assets/skills/seed_specialist.png";
 import { SkillPathDetails } from "./SkillPathDetails";
 import { Label } from "components/ui/Label";
 import { findLevelRequiredForNextSkillPoint } from "features/game/lib/level";
@@ -129,7 +128,7 @@ export const SkillsModal: React.FC<Props> = ({ onBack, onClose, readonly }) => {
     <CloseButtonPanel
       currentTab={tab}
       setCurrentTab={setTab}
-      tabs={[{ icon: seedSpecialist, name: t("skills") }]}
+      tabs={[{ icon: SUNNYSIDE.badges.seedSpecialist, name: t("skills") }]}
       onClose={onClose}
     >
       {/* @note: There is only one tab, no extra judgment is needed. */}

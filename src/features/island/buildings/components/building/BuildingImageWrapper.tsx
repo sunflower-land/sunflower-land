@@ -13,7 +13,6 @@ import { MachineState } from "features/game/lib/gameMachine";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { Context } from "features/game/GameProvider";
 import { Modal } from "components/ui/Modal";
-import lockIcon from "assets/skills/lock.png";
 import { InnerPanel } from "components/ui/Panel";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
@@ -62,7 +61,7 @@ export const BuildingImageWrapper: React.FC<Props> = ({
       setWarning(
         <CloseButtonPanel onClose={() => setWarning(undefined)}>
           <div className="p-2 flex flex-col items-center">
-            <img src={lockIcon} className="w-20 my-2" />
+            <img src={SUNNYSIDE.icons.lock} className="w-20 my-2" />
             <p className="text-sm">{`${name} requires Bumpkin level ${bumpkinLevelRequired} to use.`}</p>
           </div>
         </CloseButtonPanel>,

@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import raft from "assets/decorations/raft.png";
+
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import { NPC } from "features/island/bumpkin/components/NPC";
 import { NPC_WEARABLES } from "lib/npcs";
@@ -16,7 +16,6 @@ import { GuidePath } from "features/helios/components/hayseedHank/lib/guide";
 import { MapPlacement } from "./MapPlacement";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
-import speechBubble from "assets/ui/speech_border.png";
 import { getKeys } from "features/game/types/craftables";
 import { CROPS } from "features/game/types/crops";
 import { translate } from "lib/i18n/translate";
@@ -169,7 +168,7 @@ export const TravelTeaser: React.FC = () => {
           }}
         >
           <img
-            src={raft}
+            src={SUNNYSIDE.decorations.raft}
             style={{
               width: `${37 * PIXEL_SCALE}px`,
             }}
@@ -196,7 +195,7 @@ export const TravelTeaser: React.FC = () => {
                   top: `${PIXEL_SCALE * -8}px`,
                   left: `${PIXEL_SCALE * 6}px`,
 
-                  borderImage: `url(${speechBubble})`,
+                  borderImage: `url(${SUNNYSIDE.ui.speechBorder})`,
                   borderStyle: "solid",
                   borderTopWidth: `${PIXEL_SCALE * 2}px`,
                   borderRightWidth: `${PIXEL_SCALE * 2}px`,

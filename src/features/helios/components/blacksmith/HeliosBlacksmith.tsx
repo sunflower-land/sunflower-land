@@ -5,8 +5,6 @@ import { Modal } from "components/ui/Modal";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { MapPlacement } from "features/game/expansion/components/MapPlacement";
 
-import building from "assets/buildings/blacksmith_building.gif";
-
 import { HeliosBlacksmithItems } from "./component/HeliosBlacksmithItems";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
@@ -35,7 +33,7 @@ export const HeliosBlacksmith: React.FC = () => {
             }}
           >
             <img
-              src={building}
+              src={SUNNYSIDE.building.blacksmith_building}
               style={{
                 width: `${PIXEL_SCALE * 98}px`,
               }}

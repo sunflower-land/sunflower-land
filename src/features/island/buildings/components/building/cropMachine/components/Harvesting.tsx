@@ -4,7 +4,7 @@ import Spritesheet, {
 } from "components/animation/SpriteAnimator";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
-import harvesting from "assets/cropMachine/stage5_collector_cut_plants_sheet.webp";
+import { SUNNYSIDE } from "assets/sunnyside";
 import { calculateFPS } from "../lib/calculateFps";
 import { ZoomContext } from "components/ZoomProvider";
 
@@ -42,7 +42,7 @@ export const Harvesting = ({ paused }: Props) => {
         bottom: `${PIXEL_SCALE * 0}px`,
         imageRendering: "pixelated",
       }}
-      image={harvesting}
+      image={SUNNYSIDE.building.harvestingCropMachine}
       widthFrame={80}
       heightFrame={70}
       zoomScale={scale}
