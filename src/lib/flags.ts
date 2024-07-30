@@ -41,7 +41,8 @@ export type FeatureName =
   | "FACTION_CHORES"
   | "CHAMPIONS"
   | "TEST_DIGGING"
-  | "NEW_FRUITS";
+  | "NEW_FRUITS"
+  | "DESERT_PLAZA";
 
 // Used for testing production features
 export const ADMIN_IDS = [1, 2, 3, 39488];
@@ -72,6 +73,7 @@ const featureFlags: Record<FeatureName, FeatureFlag> = {
   FACTION_CHORES: betaTimeBasedFeatureFlag(new Date("2022-07-08T00:00:00Z")),
   TEST_DIGGING: defaultFeatureFlag,
   NEW_FRUITS: defaultFeatureFlag,
+  DESERT_PLAZA: betaTimeBasedFeatureFlag(new Date("2024-08-08T00:00:00Z")),
 };
 
 export const hasFeatureAccess = (game: GameState, featureName: FeatureName) => {

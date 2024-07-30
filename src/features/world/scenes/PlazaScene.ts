@@ -1,4 +1,5 @@
-import mapJson from "assets/map/plaza.json";
+import faction_plaza from "assets/map/plaza.json";
+import desert_plaza from "assets/map/desert_plaza.json";
 
 import { SceneId } from "../mmoMachine";
 import { BaseScene, NPCBumpkin } from "./BaseScene";
@@ -14,6 +15,7 @@ import { SOUNDS } from "assets/sound-effects/soundEffects";
 import { NPCName } from "lib/npcs";
 import { FactionName, GameState } from "features/game/types/game";
 import { translate } from "lib/i18n/translate";
+import { hasFeatureAccess } from "lib/flags";
 
 export type FactionNPC = {
   npc: NPCName;
@@ -130,10 +132,11 @@ export class PlazaScene extends BaseScene {
   public arrows: Phaser.GameObjects.Sprite | undefined;
 
   constructor({ gameState }: { gameState: GameState }) {
+    const showDesertMap = hasFeatureAccess(gameState, "DESERT_PLAZA");
     super({
       name: "plaza",
       map: {
-        json: mapJson,
+        json: showDesertMap ? desert_plaza : faction_plaza,
         imageKey: "tileset",
       },
       audio: { fx: { walk_key: "dirt_footstep" } },
@@ -204,9 +207,12 @@ export class PlazaScene extends BaseScene {
 
     // Stella Megastore items
     this.load.image("sarcophagus", "world/sarcophagus.webp");
+    this.load.image("rice_panda", "world/rice_pand.webp");
+
     this.load.image("non_la", "world/non_la.webp");
 
-    this.load.image("banner", "world/pharaohs_treasure_banner.webp");
+    this.load.image("faction_banner", "world/clash_of_factions_banner.webp");
+    this.load.image("pharaoh_banner", "world/pharaohs_treasure_banner.webp");
 
     this.load.spritesheet("glint", "world/glint.png", {
       frameWidth: 7,
@@ -367,16 +373,19 @@ export class PlazaScene extends BaseScene {
       });
 
     // Banner
-    this.add.image(400, 225, "banner").setDepth(100000000000);
+    const banner = hasFeatureAccess(this.gameState, "DESERT_PLAZA")
+      ? "pharaoh_banner"
+      : "faction_banner";
+    this.add.image(400, 225, banner).setDepth(100000000000);
     // .setInteractive({ cursor: "pointer" })
     // .on("pointerdown", () => {
-    //   interactableModalManager.open("banner");
+    //   interactableModalManager.open(banner);
     // });
-    this.add.image(464, 225, "banner").setDepth(100000000000);
+    this.add.image(464, 225, banner).setDepth(100000000000);
 
-    this.add.image(480, 386, "banner").setDepth(100000000000);
+    this.add.image(480, 386, banner).setDepth(100000000000);
 
-    this.add.sprite(385, 386, "banner").setDepth(100000000000);
+    this.add.sprite(385, 386, banner).setDepth(100000000000);
 
     const bud3 = this.add.sprite(176, 290, "plaza_bud_3");
     this.anims.create({
@@ -447,8 +456,11 @@ export class PlazaScene extends BaseScene {
       });
 
     // Stella Collectible of the Month
-    this.add.image(248, 244, "sarcophagus");
-    this.add.image(288.5, 248, "non_la");
+    if (hasFeatureAccess(this.gameState, "DESERT_PLAZA")) {
+      this.add.image(248, 244, "sarcophagus");
+    } else {
+      this.add.image(288.5, 248, "non_la");
+    }
 
     const door = this.colliders
       ?.getChildren()
