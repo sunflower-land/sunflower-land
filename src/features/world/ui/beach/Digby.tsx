@@ -17,7 +17,6 @@ import React, { useContext, useEffect, useState } from "react";
 import powerup from "assets/icons/level_up.png";
 import blockBuck from "assets/icons/block_buck.png";
 
-import siteBg from "assets/ui/site_bg.png";
 import { Desert, GameState } from "features/game/types/game";
 import { getKeys } from "features/game/types/decorations";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -133,7 +132,7 @@ const Pattern: React.FC<{
       className="relative w-full h-0"
       style={{
         paddingBottom: "100%",
-        backgroundImage: `url(${siteBg})`,
+        backgroundImage: `url(${SUNNYSIDE.ui.site_bg})`,
 
         backgroundSize: "100%",
         borderRadius: "6px",

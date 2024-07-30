@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-import emptyBar from "assets/ui/progress/empty_bar.png";
+import { SUNNYSIDE } from "assets/sunnyside";
 import { secondsToString, TimeFormatLength } from "lib/utils/time";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { progressBarBorderStyle } from "features/game/lib/style";
@@ -130,14 +130,14 @@ export const Bar: React.FC<{ percentage: number; type: ProgressType }> = ({
       {/* Progress bar frame */}
       <img
         className="absolute"
-        src={emptyBar}
+        src={SUNNYSIDE.ui.emptyBar}
         style={{
           width: `${PIXEL_SCALE * DIMENSIONS.width}px`,
         }}
       />
       <img
         className="absolute z-30 opacity-50"
-        src={emptyBar}
+        src={SUNNYSIDE.ui.emptyBar}
         style={{
           width: `${PIXEL_SCALE * DIMENSIONS.width}px`,
         }}

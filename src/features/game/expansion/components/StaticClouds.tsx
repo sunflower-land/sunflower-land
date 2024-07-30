@@ -1,9 +1,6 @@
 import React from "react";
 
-import mainCloudsTop from "assets/land/clouds/main_clouds_top.webp";
-import mainCloudsLeft from "assets/land/clouds/main_clouds_left.webp";
-import mainCloudsRight from "assets/land/clouds/main_clouds_right.webp";
-import mainCloudsBottom from "assets/land/clouds/main_clouds_bottom.webp";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 const CLOUD_WIDTH = 1536;
 const CLOUD_HEIGHT = 1088;
@@ -23,7 +20,7 @@ export const StaticClouds: React.FC<StaticCloudsProps> = ({
   return (
     <>
       <img
-        src={mainCloudsTop}
+        src={SUNNYSIDE.land.mainCloudsTop}
         className="z-30 absolute pointer-events-none"
         style={{
           top: 0,
@@ -34,7 +31,7 @@ export const StaticClouds: React.FC<StaticCloudsProps> = ({
       />
 
       <img
-        src={mainCloudsLeft}
+        src={SUNNYSIDE.land.mainCloudsLeft}
         className="z-30 absolute pointer-events-none"
         style={{
           top: Math.round(304 * Y_SCALE),
@@ -45,7 +42,7 @@ export const StaticClouds: React.FC<StaticCloudsProps> = ({
       />
 
       <img
-        src={mainCloudsRight}
+        src={SUNNYSIDE.land.mainCloudsRight}
         className="z-30 absolute pointer-events-none"
         style={{
           top: Math.round(304 * Y_SCALE),
@@ -56,7 +53,7 @@ export const StaticClouds: React.FC<StaticCloudsProps> = ({
       />
 
       <img
-        src={mainCloudsBottom}
+        src={SUNNYSIDE.land.mainCloudsBottom}
         className="z-30 absolute pointer-events-none"
         style={{
           top: Math.round(528 * Y_SCALE) + Math.round(304 * Y_SCALE),

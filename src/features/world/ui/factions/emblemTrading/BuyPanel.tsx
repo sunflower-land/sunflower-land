@@ -5,13 +5,12 @@ import { Context } from "features/game/GameProvider";
 import { ITEM_DETAILS } from "features/game/types/images";
 
 import { Button } from "components/ui/Button";
+import token from "assets/icons/sfl.webp";
 
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { OuterPanel } from "components/ui/Panel";
 import { Box } from "components/ui/Box";
 import Decimal from "decimal.js-light";
-import token from "assets/icons/sfl.webp";
-import lock from "assets/skills/lock.png";
 import { getKeys } from "features/game/types/craftables";
 import { FactionEmblem } from "features/game/types/game";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -177,7 +176,7 @@ export const BuyPanel: React.FC<{
     if (warning === "hoarding") {
       return (
         <div className="p-1 flex flex-col items-center">
-          <img src={lock} className="w-1/5 mb-2" />
+          <img src={SUNNYSIDE.icons.lock} className="w-1/5 mb-2" />
           <p className="text-sm mb-1 text-center">
             {t("playerTrade.max.item")}
           </p>

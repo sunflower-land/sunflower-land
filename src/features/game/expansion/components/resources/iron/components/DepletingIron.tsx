@@ -2,7 +2,7 @@ import React, { useContext, useRef, useState } from "react";
 import Spritesheet, {
   SpriteSheetInstance,
 } from "components/animation/SpriteAnimator";
-import dropSheet from "assets/resources/iron/iron_rock_drop.png";
+import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import iron from "assets/resources/iron_ore.png";
 import { ZoomContext } from "components/ZoomProvider";
@@ -41,7 +41,7 @@ const DepletingIronComponent: React.FC<Props> = ({ resourceAmount }) => {
           spritesheet.goToAndPlay(0);
           setPlaying(true);
         }}
-        image={dropSheet}
+        image={SUNNYSIDE.resource.ironDropSheet}
         widthFrame={DROP_SHEET_FRAME_WIDTH}
         heightFrame={DROP_SHEET_FRAME_HEIGHT}
         zoomScale={scale}

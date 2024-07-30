@@ -3,7 +3,6 @@ import React from "react";
 import bananaChicken from "assets/animals/chickens/banana_chicken.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import shadow from "assets/npcs/shadow.png";
-
 export const BananaChicken: React.FC = () => {
   return (
     <>

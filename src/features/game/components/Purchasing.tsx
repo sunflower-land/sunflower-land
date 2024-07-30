@@ -1,6 +1,6 @@
 import React from "react";
 
-import syncingAnimation from "assets/npcs/syncing.gif";
+import { SUNNYSIDE } from "assets/sunnyside";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 export const Purchasing: React.FC = () => {
@@ -9,7 +9,7 @@ export const Purchasing: React.FC = () => {
     <div className="flex flex-col items-center p-2">
       <span className="text-center text-lg">{t("purchasing")}</span>
       <img
-        src={syncingAnimation}
+        src={SUNNYSIDE.npcs.syncing}
         alt="Purchasing"
         className="h-20 mt-2 mb-3 -ml-2"
       />

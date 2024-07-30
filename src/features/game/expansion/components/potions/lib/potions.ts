@@ -1,49 +1,42 @@
 import { Potion } from "./types";
-
-import orangeBottle from "assets/decorations/orange_bottle.webp";
-import blueBottle from "assets/decorations/blue_bottle.webp";
-import pinkBottle from "assets/decorations/pink_bottle.webp";
-import blackBottle from "assets/decorations/black_bottle.webp";
-import greenBottle from "assets/decorations/green_bottle.webp";
-import mustardBottle from "assets/decorations/mustard_bottle.webp";
-import whiteBottle from "assets/decorations/white_bottle.webp";
+import { SUNNYSIDE } from "assets/sunnyside";
 import { PotionName } from "features/game/types/game";
 import { translate } from "lib/i18n/translate";
 
 export const POTIONS: Record<PotionName, Potion> = {
   "Bloom Boost": {
     name: "Bloom Boost",
-    image: orangeBottle,
+    image: SUNNYSIDE.decorations.orangeBottle,
     description: translate("BloomBoost.description"),
   },
   "Dream Drip": {
     name: "Dream Drip",
-    image: mustardBottle,
+    image: SUNNYSIDE.decorations.mustardBottle,
     description: translate("DreamDrip.description"),
   },
   "Earth Essence": {
     name: "Earth Essence",
-    image: pinkBottle,
+    image: SUNNYSIDE.decorations.pinkBottle,
     description: translate("EarthEssence.description"),
   },
   "Flower Power": {
     name: "Flower Power",
-    image: blackBottle,
+    image: SUNNYSIDE.decorations.blackBottle,
     description: translate("FlowerPower.description"),
   },
   "Silver Syrup": {
     name: "Silver Syrup",
-    image: whiteBottle,
+    image: SUNNYSIDE.decorations.whiteBottle,
     description: translate("SilverSyrup.description"),
   },
   "Happy Hooch": {
     name: "Happy Hooch",
-    image: blueBottle,
+    image: SUNNYSIDE.decorations.blueBottle,
     description: translate("HappyHooch.description"),
   },
   "Organic Oasis": {
     name: "Organic Oasis",
-    image: greenBottle,
+    image: SUNNYSIDE.decorations.greenBottle,
     description: translate("OrganicOasis.description"),
   },
 };

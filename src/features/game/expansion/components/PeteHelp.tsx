@@ -1,8 +1,7 @@
 import React, { useContext } from "react";
 
-import plaza from "assets/tutorials/plaza_screenshot1.png";
+import { SUNNYSIDE } from "assets/sunnyside";
 import { Label } from "components/ui/Label";
-import lockIcon from "assets/skills/lock.png";
 import { Button } from "components/ui/Button";
 import { MachineState } from "features/game/lib/gameMachine";
 import { getBumpkinLevel } from "features/game/lib/level";
@@ -27,11 +26,18 @@ export const PeteHelp: React.FC = () => {
       <p className="text-sm mb-2">{t("pete.pumpkinPlaza.one")}</p>
       <p className="text-sm">{t("pete.pumpkinPlaza.two")}</p>
 
-      <img src={plaza} className="w-full mx-auto rounded-lg my-2" />
+      <img
+        src={SUNNYSIDE.tutorial.plazaScreenshot}
+        className="w-full mx-auto rounded-lg my-2"
+      />
       {locked && (
         <>
           <p className="text-xs mb-2">{t("pete.help.zero")}</p>
-          <Label type="danger" className="mb-2 ml-1" icon={lockIcon}>
+          <Label
+            type="danger"
+            className="mb-2 ml-1"
+            icon={SUNNYSIDE.icons.lock}
+          >
             {t("warning.level.required", { lvl: 3 })}
           </Label>
         </>

@@ -5,7 +5,6 @@ import { Label } from "components/ui/Label";
 
 import creditCard from "assets/icons/credit_card.png";
 import blockBucksIcon from "assets/icons/block_buck.png";
-import matic from "assets/icons/polygon-token.png";
 import { Button } from "components/ui/Button";
 import { ButtonPanel } from "components/ui/Panel";
 import classNames from "classnames";
@@ -198,7 +197,10 @@ export const BuyBlockBucks: React.FC<Props> = ({
             >
               <span className="mb-2 text-xs">{"MATIC"}</span>
               <div className="flex flex-col flex-1 justify-center items-center mb-6 w-full">
-                <img src={matic} className="w-1/5 sm:w-1/5" />
+                <img
+                  src={SUNNYSIDE.icons.polygonIcon}
+                  className="w-1/5 sm:w-1/5"
+                />
               </div>
               <Label
                 type="warning"

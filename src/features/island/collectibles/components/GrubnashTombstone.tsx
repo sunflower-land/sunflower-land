@@ -1,13 +1,13 @@
 import React from "react";
 
-import image from "assets/decorations/grubnash_tombstone.png";
+import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const GrubnashTombstone: React.FC = () => {
   return (
     <>
       <img
-        src={image}
+        src={SUNNYSIDE.decorations.grubnashTombstone}
         style={{
           width: `${PIXEL_SCALE * 9}px`,
           bottom: `${PIXEL_SCALE * 2}px`,

@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 
-import tent from "assets/buildings/tent.png";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { BuildingProps } from "../Building";
@@ -80,7 +80,7 @@ export const Tent: React.FC<BuildingProps> = ({
         nonInteractible={!bumpkin}
       >
         <img
-          src={tent}
+          src={SUNNYSIDE.building.tent}
           className="absolute"
           style={{
             width: `${PIXEL_SCALE * 46}px`,

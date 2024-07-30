@@ -13,18 +13,13 @@ import { Context } from "features/game/GameProvider";
 import { setImageWidth } from "lib/images";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
-import animals from "assets/skills/land/skill-tree-icon/animals.png";
-import cooking from "assets/skills/land/skill-tree-icon/cooking.png";
-import crops from "assets/skills/land/skill-tree-icon/crops.png";
-import rocks from "assets/skills/land/skill-tree-icon/rocks.png";
-import trees from "assets/skills/land/skill-tree-icon/trees.png";
-
+import { SUNNYSIDE } from "assets/sunnyside";
 const iconList = {
-  Crops: crops,
-  Trees: trees,
-  Rocks: rocks,
-  Cooking: cooking,
-  Animals: animals,
+  Crops: SUNNYSIDE.skills.crops,
+  Trees: SUNNYSIDE.skills.trees,
+  Rocks: SUNNYSIDE.skills.rocks,
+  Cooking: SUNNYSIDE.skills.cooking,
+  Animals: SUNNYSIDE.skills.animals,
 };
 
 export const SkillCategoryList = ({

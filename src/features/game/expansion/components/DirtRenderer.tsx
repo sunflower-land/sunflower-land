@@ -1,59 +1,13 @@
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
 import { getKeys } from "features/game/types/craftables";
 import React, { memo } from "react";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 /**
  * Naming is based on which sides have borders
  * Same as padding/margin order. Top, right, down, left
  * 0_1_1_0 = No top border, right border, bottom border and no bottom border
  */
-import fullEdge from "assets/land/dirt/1_1_1_1.png";
-import desertFullEdge from "assets/desert/land/dirt/1_1_1_1.png";
-
-import noEdge from "assets/land/dirt/0_0_0_0.png";
-import desertNoEdge from "assets/desert/land/dirt/0_0_0_0.png";
-
-import topAndBottomEdge from "assets/land/dirt/1_0_1_0.png";
-import desertTopAndBottomEdge from "assets/desert/land/dirt/1_0_1_0.png";
-
-import topLeftAndBottomEdge from "assets/land/dirt/1_0_1_1.png";
-import desertTopLeftAndBottomEdge from "assets/desert/land/dirt/1_0_1_1.png";
-
-import topRightAndBottomEdge from "assets/land/dirt/1_1_1_0.png";
-import desertTopRightAndBottomEdge from "assets/desert/land/dirt/1_1_1_0.png";
-
-import topRightAndLeftEdge from "assets/land/dirt/1_1_0_1.png";
-import desertTopRightAndLeftEdge from "assets/desert/land/dirt/1_1_0_1.png";
-
-import rightBottomAndLeftEdge from "assets/land/dirt/0_1_1_1.png";
-import desertRightBottomAndLeftEdge from "assets/desert/land/dirt/0_1_1_1.png";
-
-import rightAndLeftEdge from "assets/land/dirt/0_1_0_1.png";
-import desertRightAndLeftEdge from "assets/desert/land/dirt/0_1_0_1.png";
-
-import rightEdge from "assets/land/dirt/0_1_0_0.png";
-import desertRightEdge from "assets/desert/land/dirt/0_1_0_0.png";
-
-import bottomEdge from "assets/land/dirt/0_0_1_0.png";
-import desertBottomEdge from "assets/desert/land/dirt/0_0_1_0.png";
-
-import topEdge from "assets/land/dirt/1_0_0_0.png";
-import desertTopEdge from "assets/desert/land/dirt/1_0_0_0.png";
-
-import leftEdge from "assets/land/dirt/0_0_0_1.png";
-import desertLeftEdge from "assets/desert/land/dirt/0_0_0_1.png";
-
-import topAndLeftEdge from "assets/land/dirt/1_0_0_1.png";
-import desertTopAndLeftEdge from "assets/desert/land/dirt/1_0_0_1.png";
-
-import bottomAndLeftEdge from "assets/land/dirt/0_0_1_1.png";
-import desertBottomAndLeftEdge from "assets/desert/land/dirt/0_0_1_1.png";
-
-import topAndRightEdge from "assets/land/dirt/1_1_0_0.png";
-import desertTopAndRightEdge from "assets/desert/land/dirt/1_1_0_0.png";
-
-import bottomAndRightEdge from "assets/land/dirt/0_1_1_0.png";
-import desertBottomAndRightEdge from "assets/desert/land/dirt/0_1_1_0.png";
 
 import { GameGrid } from "../placeable/lib/makeGrid";
 import { IslandType } from "features/game/types/game";
@@ -61,99 +15,99 @@ import { IslandType } from "features/game/types/game";
 type CropAlternateArt = Record<IslandType, string>;
 
 const NO_EDGE: CropAlternateArt = {
-  basic: noEdge,
-  spring: noEdge,
-  desert: desertNoEdge,
+  basic: SUNNYSIDE.land.noEdge,
+  spring: SUNNYSIDE.land.noEdge,
+  desert: SUNNYSIDE.land.desertNoEdge,
 };
 
 const TOP_RIGHT_BOTTOM_LEFT: CropAlternateArt = {
-  basic: fullEdge,
-  spring: fullEdge,
-  desert: desertFullEdge,
+  basic: SUNNYSIDE.land.fullEdge,
+  spring: SUNNYSIDE.land.fullEdge,
+  desert: SUNNYSIDE.land.desertFullEdge,
 };
 
 const TOP_LEFT: CropAlternateArt = {
-  basic: topAndLeftEdge,
-  spring: topAndLeftEdge,
-  desert: desertTopAndLeftEdge,
+  basic: SUNNYSIDE.land.topAndLeftEdge,
+  spring: SUNNYSIDE.land.topAndLeftEdge,
+  desert: SUNNYSIDE.land.desertTopAndLeftEdge,
 };
 
 const TOP_RIGHT: CropAlternateArt = {
-  basic: topAndRightEdge,
-  spring: topAndRightEdge,
-  desert: desertTopAndRightEdge,
+  basic: SUNNYSIDE.land.topAndRightEdge,
+  spring: SUNNYSIDE.land.topAndRightEdge,
+  desert: SUNNYSIDE.land.desertTopAndRightEdge,
 };
 
 const BOTTOM_LEFT: CropAlternateArt = {
-  basic: bottomAndLeftEdge,
-  spring: bottomAndLeftEdge,
-  desert: desertBottomAndLeftEdge,
+  basic: SUNNYSIDE.land.bottomAndLeftEdge,
+  spring: SUNNYSIDE.land.bottomAndLeftEdge,
+  desert: SUNNYSIDE.land.desertBottomAndLeftEdge,
 };
 
 const RIGHT_BOTTOM: CropAlternateArt = {
-  basic: bottomAndRightEdge,
-  spring: bottomAndRightEdge,
-  desert: desertBottomAndRightEdge,
+  basic: SUNNYSIDE.land.bottomAndRightEdge,
+  spring: SUNNYSIDE.land.bottomAndRightEdge,
+  desert: SUNNYSIDE.land.desertBottomAndRightEdge,
 };
 
 const TOP: CropAlternateArt = {
-  basic: topEdge,
-  spring: topEdge,
-  desert: desertTopEdge,
+  basic: SUNNYSIDE.land.topEdge,
+  spring: SUNNYSIDE.land.topEdge,
+  desert: SUNNYSIDE.land.desertTopEdge,
 };
 
 const RIGHT: CropAlternateArt = {
-  basic: rightEdge,
-  spring: rightEdge,
-  desert: desertRightEdge,
+  basic: SUNNYSIDE.land.rightEdge,
+  spring: SUNNYSIDE.land.rightEdge,
+  desert: SUNNYSIDE.land.desertRightEdge,
 };
 
 const BOTTOM: CropAlternateArt = {
-  basic: bottomEdge,
-  spring: bottomEdge,
-  desert: desertBottomEdge,
+  basic: SUNNYSIDE.land.bottomEdge,
+  spring: SUNNYSIDE.land.bottomEdge,
+  desert: SUNNYSIDE.land.desertBottomEdge,
 };
 
 const LEFT: CropAlternateArt = {
-  basic: leftEdge,
-  spring: leftEdge,
-  desert: desertLeftEdge,
+  basic: SUNNYSIDE.land.leftEdge,
+  spring: SUNNYSIDE.land.leftEdge,
+  desert: SUNNYSIDE.land.desertLeftEdge,
 };
 
 const TOP_BOTTOM: CropAlternateArt = {
-  basic: topAndBottomEdge,
-  spring: topAndBottomEdge,
-  desert: desertTopAndBottomEdge,
+  basic: SUNNYSIDE.land.topAndBottomEdge,
+  spring: SUNNYSIDE.land.topAndBottomEdge,
+  desert: SUNNYSIDE.land.desertTopAndBottomEdge,
 };
 
 const RIGHT_LEFT: CropAlternateArt = {
-  basic: rightAndLeftEdge,
-  spring: rightAndLeftEdge,
-  desert: desertRightAndLeftEdge,
+  basic: SUNNYSIDE.land.rightAndLeftEdge,
+  spring: SUNNYSIDE.land.rightAndLeftEdge,
+  desert: SUNNYSIDE.land.desertRightAndLeftEdge,
 };
 
 const TOP_BOTTOM_LEFT: CropAlternateArt = {
-  basic: topLeftAndBottomEdge,
-  spring: topLeftAndBottomEdge,
-  desert: desertTopLeftAndBottomEdge,
+  basic: SUNNYSIDE.land.topLeftAndBottomEdge,
+  spring: SUNNYSIDE.land.topLeftAndBottomEdge,
+  desert: SUNNYSIDE.land.desertTopLeftAndBottomEdge,
 };
 
 const TOP_RIGHT_BOTTOM: CropAlternateArt = {
-  basic: topRightAndBottomEdge,
-  spring: topRightAndBottomEdge,
-  desert: desertTopRightAndBottomEdge,
+  basic: SUNNYSIDE.land.topRightAndBottomEdge,
+  spring: SUNNYSIDE.land.topRightAndBottomEdge,
+  desert: SUNNYSIDE.land.desertTopRightAndBottomEdge,
 };
 
 const TOP_RIGHT_LEFT: CropAlternateArt = {
-  basic: topRightAndLeftEdge,
-  spring: topRightAndLeftEdge,
-  desert: desertTopRightAndLeftEdge,
+  basic: SUNNYSIDE.land.topRightAndLeftEdge,
+  spring: SUNNYSIDE.land.topRightAndLeftEdge,
+  desert: SUNNYSIDE.land.desertTopRightAndLeftEdge,
 };
 
 const RIGHT_BOTTOM_LEFT: CropAlternateArt = {
-  basic: rightBottomAndLeftEdge,
-  spring: rightBottomAndLeftEdge,
-  desert: desertRightBottomAndLeftEdge,
+  basic: SUNNYSIDE.land.rightBottomAndLeftEdge,
+  spring: SUNNYSIDE.land.rightBottomAndLeftEdge,
+  desert: SUNNYSIDE.land.desertRightBottomAndLeftEdge,
 };
 
 const IMAGE_PATHS: Record<string, CropAlternateArt> = {

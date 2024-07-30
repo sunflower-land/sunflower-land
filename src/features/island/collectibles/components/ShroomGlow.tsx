@@ -1,13 +1,13 @@
 import React from "react";
 
-import image from "assets/decorations/shroom_glow.png";
+import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const ShroomGlow: React.FC = () => {
   return (
     <>
       <img
-        src={image}
+        src={SUNNYSIDE.decorations.shroomGlow}
         style={{
           width: `${PIXEL_SCALE * 32}px`,
           bottom: `${PIXEL_SCALE * 2}px`,

@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from "react";
 import classNames from "classnames";
 
-import smoke from "assets/buildings/smoke.gif";
-import goblinChef from "assets/npcs/goblin_chef.gif";
-import goblinChefDoing from "assets/npcs/goblin_chef_doing.gif";
+import { SUNNYSIDE } from "assets/sunnyside";
 import shadow from "assets/npcs/shadow.png";
 
 import { CookableName } from "features/game/types/consumables";
@@ -101,7 +99,7 @@ export const Bakery: React.FC<Props> = ({
         />
         {crafting ? (
           <img
-            src={goblinChefDoing}
+            src={SUNNYSIDE.npcs.goblin_chef_doing}
             className="absolute pointer-events-none"
             style={{
               width: `${PIXEL_SCALE * 25}px`,
@@ -112,7 +110,7 @@ export const Bakery: React.FC<Props> = ({
           />
         ) : (
           <img
-            src={goblinChef}
+            src={SUNNYSIDE.npcs.goblin_chef}
             className="absolute pointer-events-none"
             style={{
               width: `${PIXEL_SCALE * 22}px`,
@@ -124,7 +122,7 @@ export const Bakery: React.FC<Props> = ({
         )}
         {crafting && (
           <img
-            src={smoke}
+            src={SUNNYSIDE.building.smoke}
             className="absolute pointer-events-none"
             style={{
               width: `${PIXEL_SCALE * 20}px`,
