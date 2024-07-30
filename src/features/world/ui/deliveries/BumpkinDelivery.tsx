@@ -10,6 +10,7 @@ import { Button } from "components/ui/Button";
 import coinsImg from "assets/icons/coins.webp";
 import gift from "assets/icons/gift.png";
 import token from "assets/icons/sfl.webp";
+import chest from "assets/icons/chest.png";
 
 import { InlineDialogue } from "../TypingMessage";
 import Decimal from "decimal.js-light";
@@ -120,7 +121,7 @@ export const OrderCard: React.FC<{
             })}
             <div className="flex items-center justify-between">
               <div className="flex items-center mr-1">
-                <SquareIcon icon={SUNNYSIDE.icons.chestIcon} width={7} />
+                <SquareIcon icon={chest} width={7} />
                 <span className="text-xs ml-1">{t("reward")}</span>
               </div>
               <Label type="warning" style={{ height: "25px" }}>

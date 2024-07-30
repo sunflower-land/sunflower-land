@@ -6,6 +6,7 @@ import Decimal from "decimal.js-light";
 
 import worldIcon from "assets/icons/world_small.png";
 import token from "assets/icons/sfl.webp";
+import chest from "assets/icons/chest.png";
 
 import { DynamicNFT } from "features/bumpkins/components/DynamicNFT";
 import { Context } from "features/game/GameProvider";
@@ -375,7 +376,7 @@ export const DeliveryOrders: React.FC<Props> = ({
   };
 
   if (gameService.state.matches("revealing") && isRevealing) {
-    return <Revealing icon={SUNNYSIDE.icons.chestIcon} />;
+    return <Revealing icon={chest} />;
   }
 
   if (gameService.state.matches("revealed") && isRevealing) {

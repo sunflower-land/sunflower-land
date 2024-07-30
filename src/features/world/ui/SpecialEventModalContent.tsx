@@ -9,6 +9,7 @@ import { Airdrop } from "features/game/types/game";
 import { Button } from "components/ui/Button";
 import gift from "assets/icons/gift.png";
 import token from "assets/icons/sfl.webp";
+import chest from "assets/icons/chest.png";
 
 import Decimal from "decimal.js-light";
 import { OuterPanel } from "components/ui/Panel";
@@ -395,7 +396,7 @@ export const SpecialEventModalContent: React.FC<{
               })}
               <div className="flex justify-between space-x-3 mt-2">
                 <div className="flex items-center">
-                  <img src={SUNNYSIDE.icons.chestIcon} className="w-5 mr-1" />
+                  <img src={chest} className="w-5 mr-1" />
                   <span className="text-xs">{t("reward")}</span>
                 </div>
                 {getKeys(selected.reward.items).map((itemName) => (
