@@ -372,7 +372,7 @@ export const BUMPKIN_ITEM_BUFF_LABELS: Partial<Record<BumpkinItem, BuffLabel>> =
       boostedItemIcon: ITEM_DETAILS.Crab.image,
     },
     "Lemon Shield": {
-      shortDescription: "+1 Lemon",
+      shortDescription: translate("bumpkinItemBuff.lemon.shield.boost"),
       labelType: "success",
       boostTypeIcon: powerup,
       boostedItemIcon: ITEM_DETAILS.Lemon.image,

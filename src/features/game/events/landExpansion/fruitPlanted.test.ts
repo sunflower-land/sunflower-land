@@ -761,6 +761,104 @@ describe("fruitPlanted", () => {
       }),
     );
   });
+
+  it("includes +1 Lemons when Lemon Shield is equipped", () => {
+    const seedAmount = new Decimal(5);
+
+    const patchIndex = "1";
+
+    const state = plantFruit({
+      state: {
+        ...GAME_STATE,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          equipped: {
+            ...INITIAL_BUMPKIN.equipped,
+            secondaryTool: "Lemon Shield",
+          },
+        },
+        inventory: {
+          "Lemon Seed": seedAmount,
+        },
+      },
+      createdAt: dateNow,
+      action: {
+        type: "fruit.planted",
+        index: patchIndex,
+
+        seed: "Lemon Seed",
+      },
+      harvestsLeft: () => 3,
+    });
+
+    const fruitPatches = state.fruitPatches;
+
+    expect((fruitPatches as Record<number, FruitPatch>)[patchIndex]).toEqual(
+      expect.objectContaining({
+        fruit: expect.objectContaining({
+          name: "Lemon",
+          plantedAt: expect.any(Number),
+          amount: 2,
+          harvestedAt: 0,
+          harvestsLeft: 3,
+        }),
+      }),
+    );
+  });
+
+  it("includes +1.2 Lemons when Lemon Shield is equipped and Lemon Shark is placed", () => {
+    const seedAmount = new Decimal(5);
+
+    const patchIndex = "1";
+
+    const state = plantFruit({
+      state: {
+        ...GAME_STATE,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          equipped: {
+            ...INITIAL_BUMPKIN.equipped,
+            secondaryTool: "Lemon Shield",
+          },
+        },
+        inventory: {
+          "Lemon Seed": seedAmount,
+        },
+        collectibles: {
+          "Lemon Shark": [
+            {
+              coordinates: { x: 0, y: 0 },
+              createdAt: 10,
+              id: "123",
+              readyAt: 10,
+            },
+          ],
+        },
+      },
+      createdAt: dateNow,
+      action: {
+        type: "fruit.planted",
+        index: patchIndex,
+
+        seed: "Lemon Seed",
+      },
+      harvestsLeft: () => 3,
+    });
+
+    const fruitPatches = state.fruitPatches;
+
+    expect((fruitPatches as Record<number, FruitPatch>)[patchIndex]).toEqual(
+      expect.objectContaining({
+        fruit: expect.objectContaining({
+          name: "Lemon",
+          plantedAt: expect.any(Number),
+          amount: 2.2,
+          harvestedAt: 0,
+          harvestsLeft: 3,
+        }),
+      }),
+    );
+  });
 });
 
 describe("getFruitTime", () => {

@@ -748,7 +748,8 @@ export type BumpkinItemBuff =
   | "bumpkinItemBuff.bumpkin.sabatons"
   | "bumpkinItemBuff.crab.trap"
   | "bumpkinItemBuff.bionic.drill"
-  | "bumpkinItemBuff.infernal.drill.boost";
+  | "bumpkinItemBuff.infernal.drill.boost"
+  | "bumpkinItemBuff.lemon.shield.boost";
 
 export type BumpkinPart =
   | "equip.background"
