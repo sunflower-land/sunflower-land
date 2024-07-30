@@ -465,6 +465,56 @@ describe("fruitHarvested", () => {
     );
   });
 
+  it("includes Tomato Clown bonus on Oranges", () => {
+    const { fruitPatches } = GAME_STATE;
+    const fruitPatch = (fruitPatches as Record<number, FruitPatch>)[0];
+    const initialHarvest = 2;
+
+    const state = harvestFruit({
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          "Tomato Clown": new Decimal(1),
+        },
+        collectibles: {
+          "Tomato Clown": [
+            {
+              coordinates: { x: 0, y: 0 },
+              createdAt: 0,
+              id: "1",
+              readyAt: 0,
+            },
+          ],
+        },
+        fruitPatches: {
+          0: {
+            ...fruitPatch,
+            fruit: {
+              name: "Tomato",
+              plantedAt: Date.now() - 3 * 24 * 60 * 60 * 1000,
+              amount: 1,
+              harvestsLeft: initialHarvest,
+              harvestedAt: 2,
+            },
+          },
+        },
+      },
+      action: {
+        type: "fruit.harvested",
+        index: "0",
+      },
+      createdAt: dateNow,
+    });
+
+    const { fruitPatches: fruitPatchesAfterHarvest } = state;
+    const fruit = fruitPatchesAfterHarvest?.[0].fruit;
+
+    expect(fruit?.amount).toEqual(1);
+    expect(fruit?.harvestedAt).toEqual(
+      dateNow - (FRUIT_SEEDS()["Tomato Seed"].plantSeconds * 1000) / 2,
+    );
+  });
+
   it("harvests the fruit when one harvest is left", () => {
     const { fruitPatches } = GAME_STATE;
     const fruitPatch = (fruitPatches as Record<number, FruitPatch>)[0];

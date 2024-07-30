@@ -638,7 +638,8 @@ export type BoostEffectDescriptions =
   | "description.blossom.hourglass.boost"
   | "description.hourglass.expired"
   | "description.hourglass.running"
-  | "description.desert.rose.boost";
+  | "description.desert.rose.boost"
+  | "description.tomato.clown.boost";
 
 export type BountyDescription =
   | "description.clam.shell"

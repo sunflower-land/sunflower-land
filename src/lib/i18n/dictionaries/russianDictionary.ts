@@ -953,6 +953,8 @@ const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
     "Your {{hourglass}} has expired. Time to grab another one!",
   "description.desert.rose.boost":
     ENGLISH_TERMS["description.desert.rose.boost"],
+  "description.tomato.clown.boost":
+    ENGLISH_TERMS["description.tomato.clown.boost"],
 };
 
 const bountyDescription: Record<BountyDescription, string> = {

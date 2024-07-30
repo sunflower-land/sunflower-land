@@ -658,7 +658,7 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
     boostTypeIcon: ITEM_DETAILS.Lemon.image,
   },
   "Tomato Clown": {
-    shortDescription: "-50% Tomato Growth Time",
+    shortDescription: translate("description.tomato.clown.boost"),
     labelType: "info",
     boostedItemIcon: SUNNYSIDE.icons.stopwatch,
     boostTypeIcon: ITEM_DETAILS.Tomato.image,
