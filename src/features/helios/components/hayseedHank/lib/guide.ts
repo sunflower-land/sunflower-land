@@ -2,9 +2,6 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { AchievementName } from "features/game/types/achievements";
 import { ITEM_DETAILS } from "features/game/types/images";
 
-import workbench from "assets/tutorials/workbench.png";
-import harvesting from "assets/tutorials/harvesting.png";
-import cooking from "assets/tutorials/fire_pit.png";
 import { translate } from "lib/i18n/translate";
 
 export type GuidePath =
@@ -81,7 +78,7 @@ export const GUIDE_PATHS: Record<
     icon: SUNNYSIDE.icons.basket,
     description: [
       {
-        image: workbench,
+        image: SUNNYSIDE.tutorial.workbench,
         text: translate("gathering.guide.one"),
       },
 
@@ -110,7 +107,7 @@ export const GUIDE_PATHS: Record<
     docs: "https://docs.sunflower-land.com/player-guides/planting-and-harvesting",
     description: [
       {
-        image: harvesting,
+        image: SUNNYSIDE.tutorial.harvesting,
         text: `${translate("crops.guide.one")}
 
 ${translate("crops.guide.two")}
@@ -143,7 +140,7 @@ ${translate("crops.guide.three")}`,
     docs: "https://docs.sunflower-land.com/player-guides/cooking",
     description: [
       {
-        image: cooking,
+        image: SUNNYSIDE.tutorial.cooking,
         text: `${translate("cooking.guide.one")}
 
               ${translate("cooking.guide.two")}

@@ -1,13 +1,13 @@
 import React from "react";
 
-import pottedSunflower from "assets/decorations/potted_sunflower.png";
+import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const PottedSunflower: React.FC = () => {
   return (
     <>
       <img
-        src={pottedSunflower}
+        src={SUNNYSIDE.decorations.pottedSunflower}
         style={{
           width: `${PIXEL_SCALE * 12}px`,
           bottom: `${PIXEL_SCALE * 1}px`,

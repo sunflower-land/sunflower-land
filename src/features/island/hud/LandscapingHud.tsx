@@ -6,7 +6,6 @@ import Decimal from "decimal.js-light";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 import { SUNNYSIDE } from "assets/sunnyside";
-import bush from "assets/icons/decoration.png";
 import chest from "assets/icons/chest.png";
 
 import { isMobile } from "mobile-device-detect";
@@ -188,7 +187,7 @@ const LandscapingHudComponent: React.FC<{
                     }}
                   />
                   <img
-                    src={bush}
+                    src={SUNNYSIDE.icons.decorationbush}
                     className="absolute"
                     style={{
                       top: `${PIXEL_SCALE * 5}px`,

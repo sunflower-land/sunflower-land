@@ -1,7 +1,5 @@
 import React, { useState } from "react";
 
-import well from "assets/buildings/well1.png";
-
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Modal } from "components/ui/Modal";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -64,7 +62,7 @@ const NonFertilePlotComponent = () => {
           <div className="p-2">
             {t("statements.water.well.needed.two")}
             <img
-              src={well}
+              src={SUNNYSIDE.building.well}
               alt="well"
               width={PIXEL_SCALE * 25}
               className="mx-auto mt-4 mb-2"

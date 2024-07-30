@@ -6,15 +6,15 @@ import { addNoise } from "lib/images";
 import { CROPS } from "features/game/types/crops";
 import { getKeys } from "features/game/types/craftables";
 
-import goblin3 from "assets/npcs/goblin_chef.gif";
-import goblin4 from "assets/npcs/goblin_chef_doing.gif";
-import goblin5 from "assets/npcs/goblin_digger.gif";
-import goblin7 from "assets/npcs/goblin_farmer.gif";
-import goblin8 from "assets/npcs/goblin_head.png";
-import goblin9 from "assets/npcs/goblin_jump_rusty_shovel.gif";
-import goblin10 from "assets/npcs/goblin_snorkling.gif";
-import goblin12 from "assets/npcs/pirate_goblin.gif";
-import goblin13 from "assets/npcs/suspicious_goblin.gif";
+// import goblin3 from "assets/npcs/goblin_chef.gif";
+// import goblin4 from "assets/npcs/goblin_chef_doing.gif";
+// import goblin5 from "assets/npcs/goblin_digger.gif";
+// import goblin7 from "assets/npcs/goblin_farmer.gif";
+// import goblin8 from "assets/npcs/goblin_head.png";
+// import goblin9 from "assets/npcs/goblin_jump_rusty_shovel.gif";
+// import goblin10 from "assets/npcs/goblin_snorkling.gif";
+// import goblin12 from "assets/npcs/pirate_goblin.gif";
+// import goblin13 from "assets/npcs/suspicious_goblin.gif";
 
 import { randomBoolean, randomDouble, randomInt } from "lib/utils/random";
 import { Label } from "components/ui/Label";
@@ -41,17 +41,17 @@ type Item = {
 const goblins = [
   SUNNYSIDE.npcs.goblin,
   SUNNYSIDE.npcs.goblin_carry,
-  goblin3,
-  goblin4,
-  goblin5,
+  SUNNYSIDE.npcs.goblin_chef,
+  SUNNYSIDE.npcs.goblin_chef_doing,
+  SUNNYSIDE.npcs.goblin_digger,
   SUNNYSIDE.npcs.goblin_doing,
-  goblin7,
-  goblin8,
-  goblin9,
-  goblin10,
+  SUNNYSIDE.npcs.goblin_farmer,
+  SUNNYSIDE.npcs.goblinHead,
+  SUNNYSIDE.npcs.goblin_jump_rusty_shovel,
+  SUNNYSIDE.npcs.goblinSnorkling,
   SUNNYSIDE.npcs.goblin_treasure,
-  goblin12,
-  goblin13,
+  SUNNYSIDE.npcs.pirate_goblin,
+  SUNNYSIDE.npcs.suspiciousGoblin,
   SUNNYSIDE.npcs.goblin_watering,
   SUNNYSIDE.npcs.wheat_goblin,
 ];

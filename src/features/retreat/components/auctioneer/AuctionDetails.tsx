@@ -2,7 +2,6 @@ import React from "react";
 
 import { Button } from "components/ui/Button";
 import token from "assets/icons/sfl.webp";
-import bg from "assets/ui/grey_background.png";
 
 import { Label } from "components/ui/Label";
 import { ITEM_DETAILS } from "features/game/types/images";
@@ -147,7 +146,10 @@ export const AuctionDetails: React.FC<Props> = ({
 
         <div className="relative mb-2">
           {item.type === "collectible" && (
-            <img src={bg} className="absolute inset-0 w-48 h-48  rounded-md" />
+            <img
+              src={SUNNYSIDE.ui.grey_background}
+              className="absolute inset-0 w-48 h-48  rounded-md"
+            />
           )}
           <div className="w-48 h-48 relative">
             <img

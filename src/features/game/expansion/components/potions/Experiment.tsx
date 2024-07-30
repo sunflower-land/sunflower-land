@@ -1,13 +1,10 @@
 import React, { useContext, useEffect, useState } from "react";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { pixelTableBorderStyle } from "features/game/lib/style";
-import tableTop from "assets/ui/table_top.webp";
-import plant from "assets/decorations/planter_box.webp";
 import { Button } from "components/ui/Button";
 import { ResizableBar } from "components/ui/ProgressBar";
 import { POTIONS } from "./lib/potions";
 import { Box } from "./Box";
-import shadow from "assets/npcs/shadow.png";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
 import { PotionHouseMachineInterpreter } from "./lib/potionHouseMachine";
@@ -15,6 +12,8 @@ import { calculateScore } from "features/game/events/landExpansion/mixPotion";
 import { MixingPotion } from "./MixingPotion";
 import { PotionName } from "features/game/types/game";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { SUNNYSIDE } from "assets/sunnyside";
+import shadow from "assets/npcs/shadow.png";
 
 interface Props {
   onClose: () => void;
@@ -130,7 +129,7 @@ export const Experiment: React.FC<Props> = ({
                 <div
                   className="h-full w-full p-1"
                   style={{
-                    backgroundImage: `url(${tableTop})`,
+                    backgroundImage: `url(${SUNNYSIDE.ui.tableTop})`,
                     backgroundRepeat: "repeat",
                     backgroundSize: `${PIXEL_SCALE * 16}px`,
                   }}
@@ -138,7 +137,7 @@ export const Experiment: React.FC<Props> = ({
                   {/* Plant */}
                   <div className="flex items-center mb-2 flex-col">
                     <img
-                      src={plant}
+                      src={SUNNYSIDE.decorations.planter_box}
                       alt="Plant"
                       className="mb-1"
                       style={{ width: `${PIXEL_SCALE * 28}px` }}

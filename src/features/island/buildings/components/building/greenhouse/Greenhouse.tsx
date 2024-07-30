@@ -1,7 +1,6 @@
 import React, { useContext } from "react";
 
-import greenhouse from "assets/buildings/greenhouse.webp";
-
+import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { BuildingProps } from "../Building";
 import { Context } from "features/game/GameProvider";
@@ -69,7 +68,7 @@ export const Greenhouse: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
     <div className="absolute h-full w-full">
       <BuildingImageWrapper name="Greenhouse" onClick={handleClick}>
         <img
-          src={greenhouse}
+          src={SUNNYSIDE.building.greenhouse}
           className="absolute pointer-events-none"
           style={{
             width: `${PIXEL_SCALE * 78}px`,

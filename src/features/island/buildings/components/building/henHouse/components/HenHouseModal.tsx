@@ -1,8 +1,5 @@
 import React, { useContext, useState } from "react";
 
-import plus from "assets/icons/plus.png";
-import boxChicken from "assets/animals/chickens/box_chicken.png";
-
 import { ANIMALS, getKeys } from "features/game/types/craftables";
 import { Box } from "components/ui/Box";
 import { useActor } from "@xstate/react";
@@ -108,7 +105,7 @@ export const HenHouseModal: React.FC<Props> = ({ onClose }) => {
         }
       : selectedChicken === "lazy"
         ? {
-            icon: boxChicken,
+            icon: SUNNYSIDE.animals.boxChicken,
             title: t("henHouse.text.two"),
             description: t("henHouse.text.three"),
           }
@@ -156,13 +153,13 @@ export const HenHouseModal: React.FC<Props> = ({ onClose }) => {
           key="lazy-chicken"
           count={lazyChickenCount}
           onClick={() => setSelectedChicken("lazy")}
-          image={boxChicken}
+          image={SUNNYSIDE.animals.boxChicken}
         />
         <Box
           isSelected={selectedChicken === "buy"}
           key="buy-chicken"
           onClick={() => setSelectedChicken("buy")}
-          image={plus}
+          image={SUNNYSIDE.icons.plus}
         />
       </div>
       <div className="flex flex-col items-baseline w-full">

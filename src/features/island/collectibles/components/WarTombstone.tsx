@@ -1,11 +1,11 @@
 import React from "react";
 
-import tombstone from "assets/decorations/war_tombstone.png";
+import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 export const WarTombstone: React.FC = () => {
   return (
     <img
-      src={tombstone}
+      src={SUNNYSIDE.decorations.warTombstone}
       className="absolute"
       style={{
         width: `${PIXEL_SCALE * 14}px`,

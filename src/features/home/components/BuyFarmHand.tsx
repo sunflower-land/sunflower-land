@@ -4,9 +4,7 @@ import { Button } from "components/ui/Button";
 
 import { Context } from "features/game/GameProvider";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
-import farmHandImage from "assets/tutorials/farmHands.png";
 import { Label } from "components/ui/Label";
-import lockIcon from "assets/skills/lock.png";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { GameState } from "features/game/types/game";
@@ -123,7 +121,10 @@ export const BuyFarmHand: React.FC<Props> = ({ onClose, gameState }) => {
         <p className="text-xs mb-2">
           {t("buyFarmHand.additionalBumpkinsInfo")}
         </p>
-        <img src={farmHandImage} className="w-full rounded-md" />
+        <img
+          src={SUNNYSIDE.tutorial.farmHandImage}
+          className="w-full rounded-md"
+        />
         {!hasCoupon && (
           <div className="flex items-center my-2">
             <img src={ITEM_DETAILS["Block Buck"].image} className="h-4 mr-2" />
@@ -141,7 +142,7 @@ export const BuyFarmHand: React.FC<Props> = ({ onClose, gameState }) => {
           </div>
         )}
         {!hasSpace && (
-          <Label icon={lockIcon} type="danger" className="mt-2">
+          <Label icon={SUNNYSIDE.icons.lock} type="danger" className="mt-2">
             {t("buyFarmHand.notEnoughSpace")}
           </Label>
         )}

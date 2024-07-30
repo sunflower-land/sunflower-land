@@ -1,13 +1,13 @@
 import React from "react";
 
-import pottedPumpkin from "assets/decorations/potted_pumpkin.webp";
+import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const PottedPumpkin: React.FC = () => {
   return (
     <>
       <img
-        src={pottedPumpkin}
+        src={SUNNYSIDE.decorations.pottedPumpkin}
         style={{
           width: `${PIXEL_SCALE * 13}px`,
           bottom: `${PIXEL_SCALE * 1}px`,

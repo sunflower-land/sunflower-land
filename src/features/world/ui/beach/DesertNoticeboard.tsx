@@ -1,13 +1,12 @@
 import React from "react";
 
-import shop from "assets/icons/shop.png";
-import graphic from "assets/announcements/desert.webp";
 import { Button } from "components/ui/Button";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Panel } from "components/ui/Panel";
 import { NoticeboardItems } from "../kingdom/KingdomNoticeboard";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { SUNNYSIDE } from "assets/sunnyside";
+import shop from "assets/icons/shop.png";
 
 export function hasReadDesertNotice() {
   return !!localStorage.getItem("desert.notice");
@@ -25,7 +24,10 @@ export const DesertNoticeboard: React.FC<Props> = ({ onClose }) => {
 
   return (
     <Panel>
-      <img src={graphic} className="w-full mb-2" />
+      <img
+        src={SUNNYSIDE.announcement.desert_digging}
+        className="w-full mb-2"
+      />
       <NoticeboardItems
         items={[
           {

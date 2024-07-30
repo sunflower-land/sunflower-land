@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { InventoryItemName } from "features/game/types/game";
-import sunflower from "assets/decorations/bush.png";
 import Decimal from "decimal.js-light";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Modal } from "components/ui/Modal";
@@ -28,7 +27,7 @@ export const CraftDecorationsModal: React.FC<Props> = ({ show, onHide }) => {
     <Modal size="lg" show={show} onHide={onHide}>
       <CloseButtonPanel
         tabs={[
-          { icon: sunflower, name: t("landscaping") },
+          { icon: SUNNYSIDE.decorations.bush, name: t("landscaping") },
           { icon: SUNNYSIDE.icons.heart, name: t("decorations") },
         ]}
         setCurrentTab={setTab}

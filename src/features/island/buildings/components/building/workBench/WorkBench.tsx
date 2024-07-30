@@ -1,8 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
 
-import npc from "assets/npcs/blacksmith.gif";
-import shadow from "assets/npcs/shadow.png";
-
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { WorkbenchModal } from "./components/WorkbenchModal";
 import { BuildingImageWrapper } from "../BuildingImageWrapper";
@@ -14,7 +11,7 @@ import { Context } from "features/game/GameProvider";
 import { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
 import { WORKBENCH_VARIANTS } from "features/island/lib/alternateArt";
-
+import shadow from "assets/npcs/shadow.png";
 const needsHelp = (state: MachineState) => {
   const missingScarecrow =
     !state.context.state.inventory["Basic Scarecrow"] &&
@@ -80,7 +77,7 @@ export const WorkBench: React.FC<BuildingProps> = ({
           }}
         />
         <img
-          src={npc}
+          src={SUNNYSIDE.npcs.blacksmith_npc}
           className="absolute pointer-events-none"
           style={{
             width: `${PIXEL_SCALE * 14}px`,

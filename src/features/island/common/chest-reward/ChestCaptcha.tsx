@@ -1,16 +1,5 @@
 import React, { useRef, useState } from "react";
 
-import background1 from "assets/captcha/chest_background_1.png";
-import background2 from "assets/captcha/chest_background_2.png";
-import background3 from "assets/captcha/chest_background_3.png";
-import background4 from "assets/captcha/chest_background_4.png";
-import background5 from "assets/captcha/chest_background_5.png";
-import background6 from "assets/captcha/chest_background_6.png";
-import background7 from "assets/captcha/chest_background_7.png";
-import background8 from "assets/captcha/chest_background_8.png";
-
-import chest1 from "assets/npcs/synced.gif";
-
 import { addNoise } from "lib/images";
 import { randomBoolean, randomDouble, randomInt } from "lib/utils/random";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -23,17 +12,17 @@ interface Props {
 
 const ATTEMPTS = 3;
 
-const chests = [chest1, SUNNYSIDE.decorations.treasure_chest];
+const chests = [SUNNYSIDE.npcs.synced, SUNNYSIDE.decorations.treasure_chest];
 
 const backgrounds = [
-  background1,
-  background2,
-  background3,
-  background4,
-  background5,
-  background6,
-  background7,
-  background8,
+  SUNNYSIDE.captcha.background1,
+  SUNNYSIDE.captcha.background2,
+  SUNNYSIDE.captcha.background3,
+  SUNNYSIDE.captcha.background4,
+  SUNNYSIDE.captcha.background5,
+  SUNNYSIDE.captcha.background6,
+  SUNNYSIDE.captcha.background7,
+  SUNNYSIDE.captcha.background8,
 ];
 
 export const ChestCaptcha: React.FC<Props> = ({ onOpen, onFail }) => {

@@ -3,7 +3,6 @@ import React from "react";
 import crimPeckster from "assets/animals/chickens/crim_peckster.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import shadow from "assets/npcs/shadow.png";
-
 export const CrimPeckster: React.FC = () => {
   return (
     <>

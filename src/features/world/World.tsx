@@ -8,7 +8,7 @@ import { Modal } from "components/ui/Modal";
 import { Panel } from "components/ui/Panel";
 import { useNavigate, useParams } from "react-router-dom";
 import { SceneId } from "./mmoMachine";
-import ocean from "assets/decorations/ocean.webp";
+import { SUNNYSIDE } from "assets/sunnyside";
 import PubSub from "pubsub-js";
 
 import {
@@ -208,7 +208,7 @@ export const Explore: React.FC<Props> = ({ isCommunity = false }) => {
     <div
       className="bg-blue-600 w-full bg-repeat h-full flex relative items-center justify-center"
       style={{
-        backgroundImage: `url(${ocean})`,
+        backgroundImage: `url(${SUNNYSIDE.decorations.ocean})`,
         backgroundSize: `${64 * PIXEL_SCALE}px`,
         imageRendering: "pixelated",
       }}

@@ -14,7 +14,6 @@ import { PlayerList } from "./tabs/PlayerList";
 import { ChatHistory } from "./tabs/ChatHistory";
 import { Actions } from "./tabs/Actions";
 
-import discord from "assets/skills/discord.png";
 import { MachineInterpreter, Moderation } from "features/game/lib/gameMachine";
 
 export type Message = {
@@ -76,7 +75,7 @@ export const ModerationTools: React.FC<Props> = ({
           style={{ width: `${PIXEL_SCALE * 22}px` }}
         />
         <img
-          src={discord}
+          src={SUNNYSIDE.badges.discord}
           style={{ width: `${PIXEL_SCALE * 12}px` }}
           className="absolute bottom-[17.5px] left-[13px]"
         />

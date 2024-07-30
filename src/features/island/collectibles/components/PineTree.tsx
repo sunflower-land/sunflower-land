@@ -1,13 +1,13 @@
 import React from "react";
 
-import pineTree from "assets/decorations/pine_tree.png";
+import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const PineTree: React.FC = () => {
   return (
     <>
       <img
-        src={pineTree}
+        src={SUNNYSIDE.decorations.pineTree}
         style={{
           width: `${PIXEL_SCALE * 18}px`,
           bottom: `${PIXEL_SCALE * 4}px`,

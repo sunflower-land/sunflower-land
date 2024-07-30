@@ -3,10 +3,6 @@ import classNames from "classnames";
 import Decimal from "decimal.js-light";
 
 import { Label, LabelType } from "./Label";
-import selectBoxBL from "assets/ui/select/selectbox_bl.png";
-import selectBoxBR from "assets/ui/select/selectbox_br.png";
-import selectBoxTL from "assets/ui/select/selectbox_tl.png";
-import selectBoxTR from "assets/ui/select/selectbox_tr.png";
 import { useLongPress } from "lib/utils/hooks/useLongPress";
 import { setPrecision, shortenCount } from "lib/utils/formatNumber";
 import { isMobile } from "mobile-device-detect";
@@ -350,7 +346,7 @@ export const Box: React.FC<BoxProps> = ({
           <>
             <img
               className="absolute pointer-events-none"
-              src={selectBoxBL}
+              src={SUNNYSIDE.ui.selectBoxBL}
               style={{
                 top: `${PIXEL_SCALE * INNER_CANVAS_WIDTH}px`,
                 left: `${PIXEL_SCALE * 0}px`,
@@ -359,7 +355,7 @@ export const Box: React.FC<BoxProps> = ({
             />
             <img
               className="absolute pointer-events-none"
-              src={selectBoxBR}
+              src={SUNNYSIDE.ui.selectBoxBR}
               style={{
                 top: `${PIXEL_SCALE * INNER_CANVAS_WIDTH}px`,
                 left: `${PIXEL_SCALE * INNER_CANVAS_WIDTH}px`,
@@ -371,7 +367,7 @@ export const Box: React.FC<BoxProps> = ({
 
           <img
             className="absolute pointer-events-none"
-            src={selectBoxTL}
+            src={SUNNYSIDE.ui.selectBoxTL}
             style={{
               top: `${PIXEL_SCALE * 1}px`,
               left: `${PIXEL_SCALE * 0}px`,
@@ -380,7 +376,7 @@ export const Box: React.FC<BoxProps> = ({
           />
           <img
             className="absolute pointer-events-none"
-            src={selectBoxTR}
+            src={SUNNYSIDE.ui.selectBoxTR}
             style={{
               top: `${PIXEL_SCALE * 1}px`,
               left: `${PIXEL_SCALE * INNER_CANVAS_WIDTH}px`,

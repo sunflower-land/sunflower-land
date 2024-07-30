@@ -4,8 +4,6 @@ import Spritesheet, {
   SpriteSheetInstance,
 } from "components/animation/SpriteAnimator";
 
-import shakeSheet from "assets/resources/tree/shake_sheet.png";
-import springShakeSheet from "assets/resources/tree/spring_shake_sheet.png";
 import desertShakeSheet from "assets/resources/tree/desert_shake_sheet.webp";
 import cacti from "assets/resources/tree/cacti.webp";
 
@@ -33,8 +31,8 @@ interface Props {
 }
 
 const SHAKE_SHEET: Record<IslandType, string> = {
-  basic: shakeSheet,
-  spring: springShakeSheet,
+  basic: SUNNYSIDE.resource.shakeSheet,
+  spring: SUNNYSIDE.resource.springShakeSheet,
   desert: desertShakeSheet,
 };
 

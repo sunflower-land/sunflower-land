@@ -1,12 +1,11 @@
 import React, { useState } from "react";
 
-import sunflorian from "assets/npcs/lost_sunflorian.gif";
-import shadow from "assets/npcs/shadow.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Modal } from "components/ui/Modal";
 import { Panel } from "components/ui/Panel";
 import { MapPlacement } from "features/game/expansion/components/MapPlacement";
 import { SUNNYSIDE } from "assets/sunnyside";
+import shadow from "assets/npcs/shadow.png";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 export const LostSunflorian: React.FC = () => {
@@ -28,7 +27,7 @@ export const LostSunflorian: React.FC = () => {
           }}
         />
         <img
-          src={sunflorian}
+          src={SUNNYSIDE.npcs.sunflorian}
           className="absolute"
           style={{
             width: `${PIXEL_SCALE * 14}px`,
