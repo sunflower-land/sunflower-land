@@ -1,5 +1,6 @@
 import Decimal from "decimal.js-light";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
+import { isWearableActive } from "features/game/lib/wearables";
 import { GameState, OilReserve } from "features/game/types/game";
 import cloneDeep from "lodash.clonedeep";
 
@@ -31,6 +32,14 @@ function getNextOilDropAmount(game: GameState, reserve: OilReserve) {
 
   if (isCollectibleBuilt({ name: "Knight Chicken", game })) {
     amount = amount.add(0.1);
+  }
+
+  if (isWearableActive({ name: "Oil Can", game })) {
+    amount = amount.add(2);
+  }
+
+  if (isWearableActive({ game, name: "Oil Overalls" })) {
+    amount = amount.add(10);
   }
 
   return amount.toDecimalPlaces(4).toNumber();

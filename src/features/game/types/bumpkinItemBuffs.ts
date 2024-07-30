@@ -391,7 +391,7 @@ export const BUMPKIN_ITEM_BUFF_LABELS: Partial<Record<BumpkinItem, BuffLabel>> =
       boostedItemIcon: ITEM_DETAILS.Oil.image,
     },
     "Oil Overalls": {
-      shortDescription: "+10 Oil",
+      shortDescription: translate("bumpkinItemBuff.oil.overalls.boost"),
       labelType: "success",
       boostTypeIcon: powerup,
       boostedItemIcon: ITEM_DETAILS.Oil.image,

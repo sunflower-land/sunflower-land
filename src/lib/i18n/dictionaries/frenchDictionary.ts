@@ -1116,6 +1116,8 @@ const bumpkinItemBuff: Record<BumpkinItemBuff, string> = {
     ENGLISH_TERMS["bumpkinItemBuff.bumpkin.sabatons"],
   "bumpkinItemBuff.crab.trap": ENGLISH_TERMS["bumpkinItemBuff.crab.trap"],
   "bumpkinItemBuff.bionic.drill": ENGLISH_TERMS["bumpkinItemBuff.bionic.drill"],
+  "bumpkinItemBuff.oil.overalls.boost":
+    ENGLISH_TERMS["bumpkinItemBuff.oil.overalls.boost"],
 };
 
 const bumpkinPart: Record<BumpkinPart, string> = {
