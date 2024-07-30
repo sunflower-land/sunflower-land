@@ -339,11 +339,6 @@ import ancientHumanWarhammer from "src/assets/sfts/quest/ancient_human_warhammer
 // Fertiliser
 import rapidGrowth from "src/assets/fertilisers/rapidGrowth.png";
 
-// Buildings
-import basicComposter from "assets/composters/composter_basic.png";
-import advancedComposter from "assets/composters/composter_advanced.png";
-import expertComposter from "assets/composters/composter_expert.png";
-
 // Composter Bait
 import earthworm from "assets/composters/earthworm.png";
 import grub from "assets/composters/grub.png";
@@ -4893,7 +4888,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Compost Bin": {
-    image: basicComposter,
+    image: SUNNYSIDE.building.basicComposter,
     description: {
       en: "Produces bait & fertiliser on a regular basis.",
       pt: "Produz iscas e fertilizantes regularmente.",
@@ -4903,7 +4898,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Turbo Composter": {
-    image: advancedComposter,
+    image: SUNNYSIDE.building.advancedComposter,
     description: {
       en: "Produces advanced bait & fertiliser on a regular basis.",
       pt: "Produz iscas e fertilizantes avançados regularmente.",
@@ -4913,7 +4908,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Premium Composter": {
-    image: expertComposter,
+    image: SUNNYSIDE.building.expertComposter,
     description: {
       en: "Produces expert bait & fertiliser on a regular basis.",
       pt: "Produz iscas e fertilizantes especialistas regularmente.",

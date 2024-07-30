@@ -24,7 +24,6 @@ import { CropMachineBuilding } from "features/game/types/game";
 import { AddSeedsInput } from "features/game/events/landExpansion/supplyCropMachine";
 import { hasFeatureAccess } from "lib/flags";
 import { SUNNYSIDE } from "assets/sunnyside";
-import harvestedCropsImage from "assets/cropMachine/readyCrops.webp";
 
 const _cropMachine = (id: string) => (state: MachineState) => {
   const machines = state.context.state.buildings["Crop Machine"];
@@ -203,7 +202,7 @@ export const CropMachine: React.FC<Props> = ({ id }) => {
 
           {canHarvest && (
             <img
-              src={harvestedCropsImage}
+              src={SUNNYSIDE.building.harvestedCropsImage}
               className="absolute bottom-2"
               style={{
                 height: `${PIXEL_SCALE * 59}px`,

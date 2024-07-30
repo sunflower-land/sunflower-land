@@ -7,15 +7,6 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 
 import powerup from "assets/icons/level_up.png";
 import compost from "assets/composters/compost.png";
-import basicIdle from "assets/composters/composter_basic.png";
-import basicComposting from "assets/composters/composter_basic_closed.png";
-import basicReady from "assets/composters/composter_basic_ready.png";
-import advancedIdle from "assets/composters/composter_advanced.png";
-import advancedComposting from "assets/composters/composter_advanced_closed.png";
-import advancedReady from "assets/composters/composter_advanced_ready.png";
-import expertIdle from "assets/composters/composter_expert.png";
-import expertComposting from "assets/composters/composter_expert_closed.png";
-import expertReady from "assets/composters/composter_expert_ready.png";
 
 import {
   WORM,
@@ -53,21 +44,21 @@ export const COMPOSTER_IMAGES: Record<
   }
 > = {
   "Compost Bin": {
-    composting: basicComposting,
-    idle: basicIdle,
-    ready: basicReady,
+    composting: SUNNYSIDE.building.basicComposting,
+    idle: SUNNYSIDE.building.basicComposter,
+    ready: SUNNYSIDE.building.basicReady,
     width: 24,
   },
   "Turbo Composter": {
-    composting: advancedComposting,
-    idle: advancedIdle,
-    ready: advancedReady,
+    composting: SUNNYSIDE.building.advancedComposting,
+    idle: SUNNYSIDE.building.advancedComposter,
+    ready: SUNNYSIDE.building.advancedReady,
     width: 27,
   },
   "Premium Composter": {
-    composting: expertComposting,
-    idle: expertIdle,
-    ready: expertReady,
+    composting: SUNNYSIDE.building.expertComposting,
+    idle: SUNNYSIDE.building.expertComposter,
+    ready: SUNNYSIDE.building.expertReady,
     width: 34,
   },
 };
