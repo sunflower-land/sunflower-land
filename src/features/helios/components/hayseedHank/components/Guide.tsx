@@ -1,7 +1,5 @@
 import React, { useContext } from "react";
 import { SUNNYSIDE } from "assets/sunnyside";
-import videoThumbnail from "assets/tutorials/video_thumbnail.png";
-import playIcon from "assets/icons/play.png";
 import { ButtonPanel, OuterPanel } from "components/ui/Panel";
 import { ACHIEVEMENTS } from "features/game/types/achievements";
 import { getKeys } from "features/game/types/craftables";
@@ -73,10 +71,10 @@ export const Guide: React.FC<Props> = ({ selected, onSelect }) => {
               rel="noreferrer"
             >
               <img
-                src={videoThumbnail}
+                src={SUNNYSIDE.tutorial.videoThumbnail}
                 className="absolute w-full img-highlight-heavy rounded-md"
               />
-              <img src={playIcon} className="h-5 z-20" />
+              <img src={SUNNYSIDE.icons.playIcon} className="h-5 z-20" />
             </a>
           </div>
         </div>

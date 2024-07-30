@@ -21,11 +21,9 @@ import { Maturing } from "./components/Maturing";
 import { Harvesting } from "./components/Harvesting";
 import { CropMachineBuilding } from "features/game/types/game";
 
-import harvestedCropsImage from "assets/cropMachine/readyCrops.webp";
-import idleMachine from "assets/cropMachine/stage1_collector_empty.webp";
-import shadow from "assets/cropMachine/shadow.webp";
 import { AddSeedsInput } from "features/game/events/landExpansion/supplyCropMachine";
 import { hasFeatureAccess } from "lib/flags";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 const _cropMachine = (id: string) => (state: MachineState) => {
   const machines = state.context.state.buildings["Crop Machine"];
@@ -171,7 +169,7 @@ export const CropMachine: React.FC<Props> = ({ id }) => {
             </div>
           )}
           <img
-            src={idleMachine}
+            src={SUNNYSIDE.building.idleMachine}
             className="w-full absolute"
             style={{
               width: `${PIXEL_SCALE * 80}px`,
@@ -181,7 +179,7 @@ export const CropMachine: React.FC<Props> = ({ id }) => {
           {(running || paused) && (
             <>
               <img
-                src={shadow}
+                src={SUNNYSIDE.building.shadowCropMachine}
                 className="absolute bottom-0 right-1"
                 style={{ width: `${PIXEL_SCALE * 80}px` }}
               />
@@ -204,7 +202,7 @@ export const CropMachine: React.FC<Props> = ({ id }) => {
 
           {canHarvest && (
             <img
-              src={harvestedCropsImage}
+              src={SUNNYSIDE.building.harvestedCropsImage}
               className="absolute bottom-2"
               style={{
                 height: `${PIXEL_SCALE * 59}px`,

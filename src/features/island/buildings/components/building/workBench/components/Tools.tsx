@@ -17,7 +17,7 @@ import { gameAnalytics } from "lib/gameAnalytics";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { hasRequiredIslandExpansion } from "features/game/lib/hasRequiredIslandExpansion";
 
-import lockIcon from "assets/skills/lock.png";
+import { SUNNYSIDE } from "assets/sunnyside";
 import { Label } from "components/ui/Label";
 import { capitalize } from "lib/utils/capitalize";
 import { IslandType } from "features/game/types/game";
@@ -152,7 +152,7 @@ export const Tools: React.FC<Props> = ({ onClose }) => {
                 onClick={() => onToolClick(toolName)}
                 image={ITEM_DETAILS[toolName].image}
                 count={inventory[toolName]}
-                secondaryImage={isLocked ? lockIcon : undefined}
+                secondaryImage={isLocked ? SUNNYSIDE.icons.lock : undefined}
                 showOverlay={isLocked}
               />
             );

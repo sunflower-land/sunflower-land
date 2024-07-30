@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import stump from "assets/resources/tree/stump.png";
+import { SUNNYSIDE } from "assets/sunnyside";
 import cactiStump from "assets/resources/tree/cacti_stump.webp";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import { TimeLeftPanel } from "components/ui/TimeLeftPanel";
@@ -7,8 +7,8 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { IslandType } from "features/game/types/game";
 
 const STUMP_IMAGE: Record<IslandType, string> = {
-  basic: stump,
-  spring: stump,
+  basic: SUNNYSIDE.resource.tree_stump,
+  spring: SUNNYSIDE.resource.tree_stump,
   desert: cactiStump,
 };
 

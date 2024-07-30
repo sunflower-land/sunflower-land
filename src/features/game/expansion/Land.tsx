@@ -31,7 +31,6 @@ import { Mushroom } from "features/island/mushrooms/Mushroom";
 import { useFirstRender } from "lib/utils/hooks/useFirstRender";
 import { MUSHROOM_DIMENSIONS } from "../types/resources";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "../lib/constants";
-import ocean from "assets/decorations/ocean.webp";
 import { Bud } from "features/island/buds/Bud";
 import { Fisherman } from "features/island/fisherman/Fisherman";
 import { VisitingHud } from "features/island/hud/VisitingHud";
@@ -39,6 +38,7 @@ import { Airdrop } from "./components/Airdrop";
 import { DynamicClouds } from "./components/DynamicClouds";
 import { StaticClouds } from "./components/StaticClouds";
 import { BackgroundIslands } from "./components/BackgroundIslands";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 export const LAND_WIDTH = 6;
 
@@ -623,7 +623,7 @@ export const Land: React.FC = () => {
           // dynamic gameboard
           width: `${gameboardDimensions.x * GRID_WIDTH_PX}px`,
           height: `${gameboardDimensions.y * GRID_WIDTH_PX}px`,
-          backgroundImage: `url(${ocean})`,
+          backgroundImage: `url(${SUNNYSIDE.decorations.ocean})`,
           backgroundSize: `${64 * PIXEL_SCALE}px`,
           imageRendering: "pixelated",
         }}

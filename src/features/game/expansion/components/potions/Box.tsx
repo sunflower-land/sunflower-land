@@ -4,10 +4,7 @@ import React from "react";
 import { POTIONS } from "./lib/potions";
 import { FeedbackIcons } from "./lib/types";
 
-import selectBoxBL from "assets/ui/select/selectbox_bl.png";
-import selectBoxBR from "assets/ui/select/selectbox_br.png";
-import selectBoxTL from "assets/ui/select/selectbox_tl.png";
-import selectBoxTR from "assets/ui/select/selectbox_tr.png";
+import { SUNNYSIDE } from "assets/sunnyside";
 import { PotionName, PotionStatus } from "features/game/types/game";
 
 const INNER_CANVAS_WIDTH = 14;
@@ -66,7 +63,7 @@ const SelectBox = () => {
     <>
       <img
         className="absolute pointer-events-none"
-        src={selectBoxBL}
+        src={SUNNYSIDE.ui.selectBoxBL}
         style={{
           top: `${PIXEL_SCALE * INNER_CANVAS_WIDTH - 8}px`,
           left: 0,
@@ -75,7 +72,7 @@ const SelectBox = () => {
       />
       <img
         className="absolute pointer-events-none"
-        src={selectBoxBR}
+        src={SUNNYSIDE.ui.selectBoxBR}
         style={{
           top: `${PIXEL_SCALE * INNER_CANVAS_WIDTH - 8}px`,
           left: `${PIXEL_SCALE * INNER_CANVAS_WIDTH - 8}px`,
@@ -84,7 +81,7 @@ const SelectBox = () => {
       />
       <img
         className="absolute pointer-events-none"
-        src={selectBoxTL}
+        src={SUNNYSIDE.ui.selectBoxTL}
         style={{
           top: 0,
           left: 0,
@@ -93,7 +90,7 @@ const SelectBox = () => {
       />
       <img
         className="absolute pointer-events-none"
-        src={selectBoxTR}
+        src={SUNNYSIDE.ui.selectBoxTR}
         style={{
           top: 0,
           left: `${PIXEL_SCALE * INNER_CANVAS_WIDTH - 8}px`,

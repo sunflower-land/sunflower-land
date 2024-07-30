@@ -1,6 +1,6 @@
 import React from "react";
 
-import well from "assets/buildings/well1.png";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { BuildingImageWrapper } from "../BuildingImageWrapper";
@@ -31,7 +31,7 @@ export const WaterWell: React.FC<BuildingProps> = ({
       nonInteractible={!onRemove}
     >
       <img
-        src={well}
+        src={SUNNYSIDE.building.well}
         style={{
           width: `${PIXEL_SCALE * 25}px`,
           bottom: `${PIXEL_SCALE * 0}px`,

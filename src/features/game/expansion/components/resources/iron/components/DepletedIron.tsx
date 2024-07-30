@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import iron from "assets/resources/iron_small.png";
+import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { TimeLeftPanel } from "components/ui/TimeLeftPanel";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -20,7 +20,7 @@ const DepletedIronComponent: React.FC<Props> = ({ timeLeft }) => {
     >
       <div className="absolute w-full h-full pointer-events-none">
         <img
-          src={iron}
+          src={SUNNYSIDE.resource.ironStone}
           className="absolute opacity-50"
           style={{
             width: `${PIXEL_SCALE * 14}px`,

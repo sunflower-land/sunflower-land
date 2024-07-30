@@ -1,6 +1,4 @@
 import React from "react";
-import fishingTutorial from "assets/tutorials/fishing.png";
-import fishingCodex from "assets/tutorials/fishing_codex.png";
 import { Button } from "components/ui/Button";
 import { SUNNYSIDE } from "assets/sunnyside";
 import powerup from "assets/icons/level_up.png";
@@ -75,13 +73,19 @@ export const FishingGuide: React.FC<Props> = ({ onClose }) => {
       className="overflow-y-auto scrollable flex flex-wrap pt-1.5 pr-0.5"
     >
       <div className="flex flex-col gap-y-3 p-2">
-        <img src={fishingTutorial} className="w-full rounded-lg" />
+        <img
+          src={SUNNYSIDE.tutorial.fishingTutorial}
+          className="w-full rounded-lg"
+        />
 
         {basicGuide.map((item, i) => (
           <FishingGuideItem key={i} icon={item.icon} content={item.content} />
         ))}
 
-        <img src={fishingCodex} className="w-full rounded-lg" />
+        <img
+          src={SUNNYSIDE.tutorial.fishingCodex}
+          className="w-full rounded-lg"
+        />
 
         {advancedGuide.map((item, i) => (
           <FishingGuideItem key={i} icon={item.icon} content={item.content} />

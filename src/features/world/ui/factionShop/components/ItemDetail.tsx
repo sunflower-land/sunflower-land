@@ -4,8 +4,6 @@ import { Label } from "components/ui/Label";
 import Decimal from "decimal.js-light";
 import { FactionName, InventoryItemName } from "features/game/types/game";
 
-import bg from "assets/ui/grey_background.png";
-
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
 import { PIXEL_SCALE } from "features/game/lib/constants";
@@ -226,7 +224,7 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
                     style={
                       item?.type === "collectible"
                         ? {
-                            backgroundImage: `url(${bg})`,
+                            backgroundImage: `url(${SUNNYSIDE.ui.grey_background})`,
                             backgroundSize: "cover",
                             backgroundPosition: "center",
                           }

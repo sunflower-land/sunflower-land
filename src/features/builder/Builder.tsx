@@ -2,9 +2,8 @@ import { GRID_WIDTH_PX } from "features/game/lib/constants";
 import React, { useRef, useState } from "react";
 import ScrollContainer from "react-indiana-drag-scroll";
 
-import background from "assets/land/levels/basic/level_1.webp";
+import { SUNNYSIDE } from "assets/sunnyside";
 import { GameProvider } from "features/game/GameProvider";
-import waterMovement from "assets/decorations/water_movement.png";
 import { getKeys } from "features/game/types/craftables";
 import { Box } from "components/ui/Box";
 import { RESOURCES, ResourcePlacer } from "./components/ResourcePlacer";
@@ -23,6 +22,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 export const Builder: React.FC = () => {
   const { t } = useAppTranslation();
   const container = useRef(null);
+  const background = SUNNYSIDE.land.basicLevel1;
 
   const [selected, setSelected] = useState<keyof Layout>();
 
@@ -208,7 +208,7 @@ export const Builder: React.FC = () => {
               style={{
                 width: `${80 * GRID_WIDTH_PX}px`,
                 height: `${80 * GRID_WIDTH_PX}px`,
-                backgroundImage: `url(${waterMovement})`,
+                backgroundImage: `url(${SUNNYSIDE.decorations.waterMovement})`,
                 backgroundSize: "400px",
                 imageRendering: "pixelated",
               }}

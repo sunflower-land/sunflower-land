@@ -1076,6 +1076,7 @@ const bumpkinItemBuff: Record<BumpkinItemBuff, string> = {
   "bumpkinItemBuff.bumpkin.pants": "+5% Marks",
   "bumpkinItemBuff.bumpkin.sabatons": "+5% Marks",
   "bumpkinItemBuff.crab.trap": ENGLISH_TERMS["bumpkinItemBuff.crab.trap"],
+  "bumpkinItemBuff.bionic.drill": ENGLISH_TERMS["bumpkinItemBuff.bionic.drill"],
 };
 
 const bumpkinPart: Record<BumpkinPart, string> = {

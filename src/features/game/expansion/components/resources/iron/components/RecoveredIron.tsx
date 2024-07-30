@@ -4,15 +4,13 @@ import Spritesheet, {
   SpriteSheetInstance,
 } from "components/animation/SpriteAnimator";
 
-import strikeSheet from "assets/resources/iron/iron_rock_spark.png";
-
 import { PIXEL_SCALE } from "features/game/lib/constants";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 import { Bar } from "components/ui/ProgressBar";
 import { InnerPanel } from "components/ui/Panel";
 import classNames from "classnames";
 import { loadAudio, miningAudio } from "lib/utils/sfx";
-import iron from "assets/resources/iron_small.png";
 import { ZoomContext } from "components/ZoomProvider";
 
 import { MachineState } from "features/game/lib/gameMachine";
@@ -84,7 +82,7 @@ const RecoveredIronComponent: React.FC<Props> = ({ hasTool, touchCount }) => {
         {/* static resource node image */}
         {!showSpritesheet && (
           <img
-            src={iron}
+            src={SUNNYSIDE.resource.ironStone}
             className={"absolute pointer-events-none"}
             style={{
               width: `${PIXEL_SCALE * 14}px`,
@@ -113,7 +111,7 @@ const RecoveredIronComponent: React.FC<Props> = ({ hasTool, touchCount }) => {
               strikeGif.current = spritesheet;
               spritesheet.goToAndPlay(0);
             }}
-            image={strikeSheet}
+            image={SUNNYSIDE.resource.ironStrikeSheet}
             widthFrame={STRIKE_SHEET_FRAME_WIDTH}
             heightFrame={STRIKE_SHEET_FRAME_HEIGHT}
             zoomScale={scale}

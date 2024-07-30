@@ -18,11 +18,6 @@ import { Panel } from "components/ui/Panel";
 import { Success } from "../components/Success";
 import { Syncing } from "../components/Syncing";
 
-import logo from "assets/brand/logo_v2.png";
-import easterlogo from "assets/brand/easterlogo.png";
-import sparkle from "assets/fx/sparkle2.gif";
-import ocean from "assets/decorations/ocean.webp";
-
 import { Hoarding } from "../components/Hoarding";
 import { NoBumpkin } from "features/island/bumpkin/NoBumpkin";
 import { Swarming } from "../components/Swarming";
@@ -33,7 +28,6 @@ import { Helios } from "features/helios/Helios";
 import { VisitingHud } from "features/island/hud/VisitingHud";
 import { VisitLandExpansionForm } from "./components/VisitLandExpansionForm";
 
-import land from "assets/land/islands/island.webp";
 import { IslandNotFound } from "./components/IslandNotFound";
 import { Rules } from "../components/Rules";
 import { Introduction } from "./components/Introduction";
@@ -70,6 +64,8 @@ import { VIPOffer } from "../components/modal/components/VIPItems";
 import { GreenhouseInside } from "features/greenhouse/GreenhouseInside";
 import { useSound } from "lib/utils/hooks/useSound";
 import { SomethingArrived } from "./components/SomethingArrived";
+
+const land = SUNNYSIDE.land.island;
 
 export const AUTO_SAVE_INTERVAL = 1000 * 30; // autosave every 30 seconds
 const SHOW_MODAL: Record<StateValues, boolean> = {
@@ -369,7 +365,7 @@ export const GameWrapper: React.FC = ({ children }) => {
           style={{
             zIndex: 49,
 
-            backgroundImage: `url(${ocean})`,
+            backgroundImage: `url(${SUNNYSIDE.decorations.ocean})`,
             backgroundSize: `${64 * PIXEL_SCALE}px`,
             imageRendering: "pixelated",
           }}
@@ -382,7 +378,7 @@ export const GameWrapper: React.FC = ({ children }) => {
             >
               <div className="w-[90%] relative">
                 <img
-                  src={sparkle}
+                  src={SUNNYSIDE.fx.sparkle}
                   className="absolute animate-pulse"
                   style={{
                     width: `${PIXEL_SCALE * 8}px`,
@@ -392,9 +388,17 @@ export const GameWrapper: React.FC = ({ children }) => {
                 />
                 <>
                   {hasFeatureAccess(TEST_FARM, "EASTER") ? (
-                    <img id="logo" src={easterlogo} className="w-full" />
+                    <img
+                      id="logo"
+                      src={SUNNYSIDE.brand.easterlogo}
+                      className="w-full"
+                    />
                   ) : (
-                    <img id="logo" src={logo} className="w-full" />
+                    <img
+                      id="logo"
+                      src={SUNNYSIDE.brand.logo}
+                      className="w-full"
+                    />
                   )}
                   <div className="flex justify-center">
                     <Label type="default" className="font-secondary">

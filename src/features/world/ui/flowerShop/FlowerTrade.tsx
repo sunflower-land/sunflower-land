@@ -1,5 +1,4 @@
 import { Label } from "components/ui/Label";
-import bg from "assets/ui/grey_background.png";
 import React, { useContext } from "react";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -72,7 +71,10 @@ export const FlowerTrade: React.FC<Props> = ({ flowerShop, flowerCount }) => {
           {t("flowerShop.do.have.trade.one", { desiredFlower: desiredFlower })}
         </p>
         <div className="relative mb-2">
-          <img src={bg} className="w-48 object-contain rounded-md" />
+          <img
+            src={SUNNYSIDE.ui.grey_background}
+            className="w-48 object-contain rounded-md"
+          />
           <div className="absolute inset-0">
             <img
               src={desiredFlowerImage}
