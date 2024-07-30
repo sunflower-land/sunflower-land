@@ -766,6 +766,11 @@ import pharaohGnome from "src/assets/sfts/pharaoh_gnome.webp";
 import lemonTeaBath from "src/assets/sfts/lemon_tea_bath.webp";
 import tomatoClown from "src/assets/sfts/tomato_clown.gif";
 import pyramid from "src/assets/sfts/pyramid.webp";
+import hapyJar from "src/assets/sfts/hapy.webp";
+import imsetyJar from "src/assets/sfts/imsety.webp";
+import qebehsenuefJar from "src/assets/sfts/qebehsenuef.webp";
+import duamutefJar from "src/assets/sfts/duamutef.webp";
+import oasis from "src/assets/sfts/oasis.webp";
 
 import scarab from "assets/resources/scarab.webp";
 import sand from "assets/resources/sand.webp";
@@ -8922,13 +8927,13 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Hapy Jar": {
-    image: "",
+    image: hapyJar,
     description: {
       en: "",
     },
   },
   "Imsety Jar": {
-    image: "",
+    image: imsetyJar,
     description: {
       en: "",
     },
@@ -8946,13 +8951,13 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Duamutef Jar": {
-    image: "",
+    image: duamutefJar,
     description: {
       en: "",
     },
   },
   "Qebehsenuef Jar": {
-    image: "",
+    image: qebehsenuefJar,
     description: {
       en: "",
     },
@@ -9054,7 +9059,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   Oasis: {
-    image: "",
+    image: oasis,
     description: {
       en: "",
     },
