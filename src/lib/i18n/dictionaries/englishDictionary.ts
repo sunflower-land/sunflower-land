@@ -5390,6 +5390,7 @@ const withdraw: Record<Withdraw, string> = {
 };
 
 const world: Record<World, string> = {
+  "world.newArea": "New",
   "world.intro.one":
     "Howdy Bumpkin, welcome to the Pumpkin Plaza. Here Bumpkins from far and wide come together to trade, complete deliveries and play mini-games.",
   "world.intro.two":

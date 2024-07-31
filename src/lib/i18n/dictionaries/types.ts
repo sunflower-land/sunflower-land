@@ -3609,6 +3609,7 @@ export type WornDescription =
   | "worm.redWiggler";
 
 export type World =
+  | "world.newArea"
   | "world.intro.one"
   | "world.intro.two"
   | "world.intro.missingDelivery"
