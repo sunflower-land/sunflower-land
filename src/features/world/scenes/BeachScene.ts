@@ -148,6 +148,7 @@ export class BeachScene extends BaseScene {
 
     this.load.image("heart", SUNNYSIDE.icons.heart);
     this.load.image("palm_tree", "world/palm_tree.webp");
+    this.load.image("sand_hole", SUNNYSIDE.soil.sand_dug);
 
     this.load.image("wooden_chest", "world/wooden_chest.png");
     this.load.image("locked_disc", "world/locked_disc.png");
@@ -1033,6 +1034,11 @@ export class BeachScene extends BaseScene {
         createdAt: new Date(),
       },
     });
+
+    const x = col * this.cellSize + this.gridX + this.cellSize / 2;
+    const y = row * this.cellSize + this.gridY + this.cellSize / 2;
+
+    this.sandHole = this.add.image(x, y, "sand_hole");
   };
 
   public handleDrill = async (coords: { x: number; y: number }[]) => {
@@ -1260,6 +1266,8 @@ export class BeachScene extends BaseScene {
     }
   };
 
+  sandHole?: Phaser.GameObjects.Image;
+
   public updatePlayer() {
     // Don't allow movement while digging
     if (!this.currentPlayer) return;
@@ -1363,6 +1371,12 @@ export class BeachScene extends BaseScene {
           npcModalManager.open("digby");
         });
         this.recordDigAnalytics();
+      }
+
+      // remove sand hole
+      if (this.sandHole) {
+        this.sandHole.destroy();
+        this.sandHole = undefined;
       }
 
       const onComplete = () => {
