@@ -131,7 +131,8 @@ export type MegaStoreCollectibleName =
   | "Sand Golem"
   | "Cactus King"
   | "Lemon Frog"
-  | "Scarab Beetle";
+  | "Scarab Beetle"
+  | "Tomato Bombard";
 
 export type GoblinBlacksmithItemName =
   | "Purple Trail"

@@ -8579,7 +8579,8 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     name: "Imsety Jar",
   },
   Cannonball: {
-    description: "",
+    description:
+      "Cannonball is ferocious being. Residing in Tomato Bombard, it's ready to strike anyone who gets in its way",
     decimals: 0,
     attributes: [
       { trait_type: "Boost", value: "Fruit" },
@@ -8879,6 +8880,15 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/2126.png",
     name: "Baobab Tree",
+  },
+  "Tomato Bombard": {
+    description:
+      "Home to Cannonball, and is ready to strike anyone who gets in its way",
+    decimals: 0,
+    attributes: [],
+    external_url: "",
+    image: "",
+    name: undefined,
   },
 };
 export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {

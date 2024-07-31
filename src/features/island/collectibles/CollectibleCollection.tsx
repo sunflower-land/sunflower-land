@@ -967,7 +967,21 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Cactus King": Template,
   "Lemon Frog": Template,
   "Scarab Beetle": Template,
-  Cannonball: Template,
+  Cannonball: (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 15}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 15}px`,
+      }}
+      image={ITEM_DETAILS.Cannonball.image}
+      alt="Baobab Tree"
+    />
+  ),
   "Clay Tablet": Template,
   "Reveling Lemon": Template,
   "Paper Reed": Template,
@@ -988,6 +1002,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
     />
   ),
   Camel: Template,
+  "Tomato Bombard": Template,
 };
 // Need readonly versions for some troublesome components while in design mode
 

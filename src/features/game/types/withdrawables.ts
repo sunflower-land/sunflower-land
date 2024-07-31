@@ -1007,6 +1007,7 @@ const megastore: Record<MegaStoreCollectibleName, () => boolean> = {
   "Cactus King": () => canWithdrawTimebasedItem(new Date("2024-11-01")),
   "Lemon Frog": () => canWithdrawTimebasedItem(new Date("2024-11-01")),
   "Scarab Beetle": () => canWithdrawTimebasedItem(new Date("2024-11-01")),
+  "Tomato Bombard": () => hasSeasonEnded("Pharaoh's Treasure"),
 };
 
 const greenHouseFruitSeed: Record<GreenHouseFruitSeedName, () => boolean> = {

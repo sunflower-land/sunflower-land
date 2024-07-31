@@ -664,6 +664,7 @@ import qebehsenuefJar from "src/assets/sfts/qebehsenuef.webp";
 import duamutefJar from "src/assets/sfts/duamutef.webp";
 import oasis from "src/assets/sfts/oasis.webp";
 import baobabTree from "src/assets/sfts/baobab_tree.webp";
+import cannonball from "src/assets/sfts/cannonball.webp";
 
 import scarab from "assets/resources/scarab.webp";
 import hieroglyph from "assets/resources/hieroglyph.webp";
@@ -8831,9 +8832,9 @@ export const ITEM_DETAILS: Items = {
     },
   },
   Cannonball: {
-    image: "",
+    image: cannonball,
     description: {
-      en: "",
+      en: "Cannonball is ferocious being. Residing in Tomato Bombard, it's ready to strike anyone who gets in its way",
     },
   },
   Sarcophagus: {
@@ -8972,6 +8973,12 @@ export const ITEM_DETAILS: Items = {
     image: "",
     description: {
       en: "",
+    },
+  },
+  "Tomato Bombard": {
+    image: "",
+    description: {
+      en: "Home to Cannonball, and is ready to strike anyone who gets in its way",
     },
   },
 };
