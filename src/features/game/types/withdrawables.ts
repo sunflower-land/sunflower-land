@@ -260,7 +260,7 @@ const treasureCollectible: Record<TreasureCollectibleItem, () => boolean> = {
   "Treasure Map": () => false,
   "Adrift Ark": () => false,
   Castellan: () => false,
-  "Sunlit Citadel": () => false,
+  "Sunlit Citadel": () => hasSeasonEnded("Pharaoh's Treasure"),
   "Baobab Tree": () => hasSeasonEnded("Pharaoh's Treasure"),
   Camel: () => hasSeasonEnded("Pharaoh's Treasure"),
 };
