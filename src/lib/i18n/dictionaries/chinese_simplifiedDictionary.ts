@@ -2294,21 +2294,22 @@ const fishingChallengeIntro: Record<FishingChallengeIntro, string> = {
 const fishingGuide: Record<FishingGuide, string> = {
   "fishingGuide.catch.rod": "制作鱼竿，收集鱼饵来捕鱼。",
   "fishingGuide.bait.earn": "饵料可以通过堆肥或制作诱饵获得。",
-  "fishingGuide.eat.fish": "吃鱼来提升你的乡巴佬等级，或者送鱼来获取奖励。",
+  "fishingGuide.eat.fish":
+    "吃鱼来提升您的乡包佬等级，或者完成鱼类送货来获取奖励。",
   "fishingGuide.discover.fish":
-    "探索水域，发现珍稀鱼类，完成任务，解锁法典中的独特奖励。",
+    "探索水域，发现珍稀鱼类、完成任务、解锁宝典中的独特奖励。",
   "fishingGuide.condition":
     "跟踪潮汐的变化规律；特定的鱼种只有在特定条件下才能捕获。",
   "fishingGuide.bait.chum":
-    "尝试使用不同类型的鱼饵和钓饵组合，最大限度地增加钓到各种鱼类的机会。",
+    "尝试使用不同类型的鱼饵和添饵组合，最大限度地增加钓到各种鱼类的机会。",
   "fishingGuide.legendery.fish":
     "小心传说中的鱼，它们需要非凡的技巧和力量才能捕获。",
 };
 
 const fishingQuests: Record<FishingQuests, string> = {
   "quest.basic.fish": "捕获每条基本鱼",
-  "quest.advanced.fish": "捕捉每条高级鱼",
-  "quest.all.fish": "探索每种基础、高级和专家级鱼类",
+  "quest.advanced.fish": "捕获每条进阶鱼",
+  "quest.all.fish": "捕获每种基础、进阶和专业级鱼类",
   "quest.300.fish": "捕获 300 条鱼",
   "quest.1500.fish": "捕获 1500 条鱼",
   "quest.marine.marvel": "抓住每个海洋奇珍",
@@ -2321,16 +2322,15 @@ const fishingQuests: Record<FishingQuests, string> = {
 const flowerBed: Record<FlowerBed, string> = {
   "flowerBedGuide.buySeeds": "从种子商店购买种子",
   "flowerBedGuide.crossbreedWithCrops":
-    "与作物和其他花卉杂交，发现新的花卉品种",
-  "flowerBedGuide.collectAllSpecies": "收集法典中的所有花种！",
-  "flowerBedGuide.beesProduceHoney": "蜜蜂在花朵生长时生产蜂蜜",
-  "flowerBedGuide.fillUpBeehive":
-    "完全填满蜂箱并收集蜂蜜，这样就有机会出现蜂群",
-  "flowerBedGuide.beeSwarmsBoost": "蜂群可为任何种植作物带来 +0.2 的增益",
-  "flowerBed.newSpecies.discovered": "天哪，你发现了一个新的花种！",
+    "将庄稼和其他花卉杂交，发现新的花卉品种",
+  "flowerBedGuide.collectAllSpecies": "收集宝典中的所有花卉品种！",
+  "flowerBedGuide.beesProduceHoney": "蜜蜂在花卉生长时生产蜂蜜",
+  "flowerBedGuide.fillUpBeehive": "完全填满蜂箱并收集蜂蜜时，有机会出现蜂群",
+  "flowerBedGuide.beeSwarmsBoost": "蜂群可为正在生长的所有庄稼带来 +0.2 的增益",
+  "flowerBed.newSpecies.discovered": "天哪，你发现了一个新的花卉品种！",
   "flowerBed.newSpecies.superLucky":
-    ENGLISH_TERMS["flowerBed.newSpecies.superLucky"],
-  "flowerBed.newSpecies.mutant": ENGLISH_TERMS["flowerBed.newSpecies.mutant"],
+    "哇！真是你的幸运日，你这下是一石二鸟呀！你在发现新花卉品种之余，还额外找到了一朵变种花！",
+  "flowerBed.newSpecies.mutant": "一朵变种花出现了！",
   "flowerBedContent.select.combination": "选择您的组合",
   "flowerBedContent.select.seed": "选择一粒种子",
   "flowerBedContent.select.crossbreed": "选择杂交品种",
