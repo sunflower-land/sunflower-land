@@ -643,7 +643,8 @@ export type BoostEffectDescriptions =
   | "description.lemon.tea.bath.boost"
   | "description.tomato.clown.boost"
   | "description.cannonball.boost"
-  | "description.tomato.bombard.boost";
+  | "description.tomato.bombard.boost"
+  | "description.camel.boost";
 
 export type BountyDescription =
   | "description.clam.shell"

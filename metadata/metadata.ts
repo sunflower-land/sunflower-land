@@ -8854,7 +8854,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     name: "Paper Reed",
   },
   Camel: {
-    description: "",
+    description: "A mean looking camel! But gives +3 digs in the desert.",
     decimals: 0,
     attributes: [
       { trait_type: "Purpose", value: "Boost" },
@@ -8866,7 +8866,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
       },
     ],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "../public/erc1155/images/question_mark.png",
+    image: "../public/erc1155/images/2127.png",
     name: "Camel",
   },
   "Baobab Tree": {

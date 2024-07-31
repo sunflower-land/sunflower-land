@@ -963,6 +963,7 @@ const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
   "description.cannonball.boost": ENGLISH_TERMS["description.cannonball.boost"],
   "description.tomato.bombard.boost":
     ENGLISH_TERMS["description.tomato.bombard.boost"],
+  "description.camel.boost": ENGLISH_TERMS["description.camel.boost"],
 };
 
 const bountyDescription: Record<BountyDescription, string> = {
