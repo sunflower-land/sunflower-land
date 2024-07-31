@@ -1542,8 +1542,12 @@ export const BUMPKIN_WITHDRAWABLES: Record<
     canWithdrawBoostedWearable("Camel Onesie", state),
   "Explorer Shirt": () => canWithdrawTimebasedItem(new Date("2024-09-01")),
   "Explorer Shorts": () => canWithdrawTimebasedItem(new Date("2024-10-01")),
-  "Oil Overalls": () => canWithdrawTimebasedItem(new Date("2024-10-27")), // Last Auction 27th October
-  "Dev Wrench": () => canWithdrawTimebasedItem(new Date("2024-10-18")), // Last Auction 17 October
+  "Oil Overalls": (state) =>
+    canWithdrawTimebasedItem(new Date("2024-10-27")) &&
+    canWithdrawBoostedWearable("Oil Overalls", state), // Last Auction 27th October
+  "Dev Wrench": (state) =>
+    canWithdrawTimebasedItem(new Date("2024-10-18")) &&
+    canWithdrawBoostedWearable("Dev Wrench", state), // Last Auction 17 October
   "Rock Hammer": () => canWithdrawTimebasedItem(new Date("2024-11-01")),
   "Explorer Hat": () => canWithdrawTimebasedItem(new Date("2024-10-01")),
   "Oil Protection Hat": () => false,
@@ -1559,11 +1563,17 @@ export const BUMPKIN_WITHDRAWABLES: Record<
   "Rocket Onesie": () => false,
   "Coin Aura": () => false,
   "Ankh Shirt": () => canWithdrawTimebasedItem(new Date("2024-10-01")),
-  "Ancient Shovel": () => canWithdrawTimebasedItem(new Date("2024-10-24")), // Last Auction 23rd October
-  "Infernal Drill": () => canWithdrawTimebasedItem(new Date("2024-10-21")), // Last Auction 20th October
-  "Lemon Shield": () => canWithdrawTimebasedItem(new Date("2024-10-12")), // Last Auction 11th October
+  "Ancient Shovel": (state) =>
+    canWithdrawTimebasedItem(new Date("2024-10-24")) &&
+    canWithdrawBoostedWearable("Ancient Shovel", state), // Last Auction 23rd October
+  "Infernal Drill": (state) =>
+    canWithdrawTimebasedItem(new Date("2024-10-21")) &&
+    canWithdrawBoostedWearable("Infernal Drill", state), // Last Auction 20th October
+  "Lemon Shield": (state) =>
+    canWithdrawTimebasedItem(new Date("2024-10-12")) &&
+    canWithdrawBoostedWearable("Lemon Shield", state), // Last Auction 11th October
   "Scarab Wings": () => hasSeasonEnded("Pharaoh's Treasure"),
-  "Bionic Drill": (state) => canWithdrawBoostedWearable("Bionic Drill", state),
+  "Bionic Drill": () => false,
   "Grape Pants": (state) =>
     canWithdrawBoostedWearable("Grape Pants", state) &&
     hasSeasonEnded("Pharaoh's Treasure"),
