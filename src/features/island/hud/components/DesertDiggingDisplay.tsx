@@ -105,7 +105,7 @@ export const DesertDiggingDisplay = () => {
           </Label>
         )}
       </div>
-      <Modal show={show}>
+      <Modal show={show} onHide={() => setShow(false)}>
         <Digby onClose={() => setShow(false)} />
       </Modal>
     </>
