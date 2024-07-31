@@ -8,7 +8,6 @@ import { Label } from "components/ui/Label";
 import { SceneId } from "features/world/mmoMachine";
 import { ReactionName, Reactions } from "./Reactions";
 import { GameState } from "features/game/types/game";
-import { useLocation } from "react-router-dom";
 
 export type Message = {
   farmId: number;
@@ -111,8 +110,6 @@ export const ChatUI: React.FC<Props> = ({
   const showChatMessages = showOptions && option === "chat";
   const showReactions = showOptions && option === "reaction";
 
-  const { pathname } = useLocation();
-
   return (
     <>
       <div
@@ -148,13 +145,11 @@ export const ChatUI: React.FC<Props> = ({
 
       <div
         className={classNames(
-          "absolute cursor-pointer transition-transform origin-top-left ease-in-out duration-300",
+          "absolute cursor-pointer top-36 transition-transform origin-top-left ease-in-out duration-300",
           {
             "scale-50": showOptions,
             "opacity-50": isMuted,
             "cursor-not-allowed": isMuted,
-            "top-44": pathname.includes("beach"),
-            "top-36": !pathname.includes("beach"),
           },
         )}
         style={{

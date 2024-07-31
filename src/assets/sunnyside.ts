@@ -282,7 +282,7 @@ export const SUNNYSIDE = {
   fruit: {
     apple_seed: `${CONFIG.PROTECTED_IMAGE_URL}/fruit/apple/apple_seed.png`,
     apple_tree: `${CONFIG.PROTECTED_IMAGE_URL}/fruit/apple/apple_tree.png`,
-    orangeTree: `${CONFIG.PROTECTED_IMAGE_URL}/fruit/orange/orange.png`,
+    orangeTree: `${CONFIG.PROTECTED_IMAGE_URL}/fruit/orange/orange_tree.png`,
     blueberryBush: `${CONFIG.PROTECTED_IMAGE_URL}/fruit/blueberry/blueberry_bush.png`,
     harvestedTree: `${CONFIG.PROTECTED_IMAGE_URL}/fruit/harvested_tree.png`,
     harvestedBush: `${CONFIG.PROTECTED_IMAGE_URL}/fruit/harvested_bush.png`,
@@ -312,7 +312,8 @@ export const SUNNYSIDE = {
     bakery: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/bakery.png`,
     deli: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/deli.png`,
     greenhouse: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/greenhouse.webp`,
-    smoothieShack: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/smoothie_shack.webp`,
+    smoothieShack: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/smoothie_shack_background.webp`,
+    smoothieShackDesk: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/smoothie_shack_desk.webp`,
     toolshed: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/toolshed.png`,
     warehouse: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/warehouse.png`,
     fruitPatchDirt: `${CONFIG.PROTECTED_IMAGE_URL}/fruit/fruit_patch.png`,

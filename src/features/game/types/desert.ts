@@ -1,4 +1,5 @@
-import { InventoryItemName } from "./game";
+import { getKeys } from "./decorations";
+import { GameState, InventoryItemName } from "./game";
 
 export const DESERT_GRID_HEIGHT = 10;
 export const DESERT_GRID_WIDTH = 10;
@@ -158,19 +159,18 @@ export function siteHasExpired({
  * TODO - change to daily after testing
  */
 export function secondsTillDesertStorm() {
-  return secondsTillNextHour();
-  // const currentTime = Date.now();
+  const currentTime = Date.now();
 
-  // // Calculate the time until the next day in milliseconds
-  // const nextDay = new Date(currentTime);
-  // nextDay.setUTCHours(24, 0, 0, 0);
+  // Calculate the time until the next day in milliseconds
+  const nextDay = new Date(currentTime);
+  nextDay.setUTCHours(24, 0, 0, 0);
 
-  // const timeUntilNextDay = nextDay.getTime() - currentTime;
+  const timeUntilNextDay = nextDay.getTime() - currentTime;
 
-  // // Convert milliseconds to seconds
-  // const secondsUntilNextDay = Math.floor(timeUntilNextDay / 1000);
+  // Convert milliseconds to seconds
+  const secondsUntilNextDay = Math.floor(timeUntilNextDay / 1000);
 
-  // return secondsUntilNextDay;
+  return secondsUntilNextDay;
 }
 
 // Testing purposes only - reset every hour
@@ -188,4 +188,26 @@ function secondsTillNextHour() {
   const secondsUntilNextHour = Math.floor(timeUntilNextHour / 1000);
 
   return secondsUntilNextHour;
+}
+
+export function getTreasuresFound({ game }: { game: GameState }) {
+  return game.desert.digging.grid
+    .flat()
+    .filter((hole) => {
+      return (
+        getKeys(hole.items)[0] !== "Sand" && getKeys(hole.items)[0] !== "Crab"
+      );
+    })
+    .map((hole) => getKeys(hole.items)[0]);
+}
+
+export function getTreasureCount({ game }: { game: GameState }) {
+  const { patterns } = game.desert.digging;
+
+  const count = patterns.reduce(
+    (total, pattern) => DIGGING_FORMATIONS[pattern].length + total,
+    0,
+  );
+
+  return count;
 }

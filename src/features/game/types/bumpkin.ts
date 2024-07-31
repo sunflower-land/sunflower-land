@@ -285,7 +285,8 @@ export type BumpkinHat =
   | "Pharaoh Headdress"
   | "Explorer Hat"
   | "Oil Protection Hat"
-  | "Desert Merchant Turban";
+  | "Desert Merchant Turban"
+  | "Fossil Head";
 
 export type BumpkinPant =
   | "Farmer Overalls"
@@ -319,7 +320,8 @@ export type BumpkinPant =
   | "Bumpkin Pants"
   | "Sunflorian Pants"
   | "Explorer Shorts"
-  | "Oil Overalls";
+  | "Oil Overalls"
+  | "Grape Pants";
 
 export type BumpkinDress =
   | "Royal Dress"
@@ -787,7 +789,9 @@ export const ITEM_IDS: Record<BumpkinItem, number> = {
   "Infernal Drill": 370,
   "Lemon Shield": 371,
   "Scarab Wings": 372,
+  "Grape Pants": 373,
   "Bionic Drill": 374,
+  "Fossil Head": 375,
 };
 
 // The reverse of above
@@ -1221,5 +1225,7 @@ export const BUMPKIN_ITEM_PART: Record<BumpkinItem, keyof Wallet> = {
   "Infernal Drill": "secondaryTool",
   "Lemon Shield": "secondaryTool",
   "Scarab Wings": "wings",
+  "Grape Pants": "pants",
   "Bionic Drill": "wings",
+  "Fossil Head": "hat",
 };

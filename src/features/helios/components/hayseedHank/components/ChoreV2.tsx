@@ -7,11 +7,12 @@ import { getKeys } from "features/game/types/craftables";
 import { DailyChore } from "./DailyChore";
 import { acknowledgeChores } from "../lib/chores";
 import { getSeasonChangeover } from "lib/utils/getSeasonWeek";
-import { SUNNYSIDE } from "assets/sunnyside";
 import { secondsToString } from "lib/utils/time";
 import { Label } from "components/ui/Label";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { MachineState } from "features/game/lib/gameMachine";
+import { InnerPanel } from "components/ui/Panel";
+import lock from "assets/icons/lock.png";
 
 interface Props {
   /** Is used to identify whether the chores are displayed in the codex or not. The codex requires smaller text sizes. */
@@ -44,40 +45,19 @@ export const ChoreV2: React.FC<Props> = ({
     );
   }
 
-  const {
-    ticketTasksAreClosing,
-    tasksStartAt,
-    tasksCloseAt,
-    ticketTasksAreFrozen,
-  } = getSeasonChangeover({ id: gameService.state.context.farmId });
+  const { tasksStartAt, tasksCloseAt, ticketTasksAreFrozen } =
+    getSeasonChangeover({ id: gameService.state.context.farmId });
   return (
     <>
-      {
-        // Give 24 hours heads up before tasks close
-        ticketTasksAreClosing && (
-          <div className="flex flex-col mx-1.5 space-y-2 my-1">
-            <p className="text-xxs">{t("chores.newSeason")}</p>
-            <Label type="info" className="ml-0.5" icon={SUNNYSIDE.icons.timer}>
-              {secondsToString((tasksCloseAt - Date.now()) / 1000, {
-                length: "full",
-              })}
-            </Label>
-          </div>
-        )
-      }
       {ticketTasksAreFrozen && (
-        <div className="flex flex-col mx-1.5 space-y-2 my-1">
+        <InnerPanel className="flex flex-col mb-1">
           <p className="text-xxs">{t("chores.choresFrozen")}</p>
-          <Label
-            type="danger"
-            className="ml-0.5"
-            icon={SUNNYSIDE.icons.stopwatch}
-          >
+          <Label type="danger" className="ml-0.5" icon={lock}>
             {secondsToString((tasksStartAt - Date.now()) / 1000, {
               length: "full",
             })}
           </Label>
-        </div>
+        </InnerPanel>
       )}
       {!ticketTasksAreFrozen && (
         <div className="flex flex-col space-y-1">

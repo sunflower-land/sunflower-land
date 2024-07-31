@@ -10,9 +10,8 @@ import { Digby } from "features/world/ui/beach/Digby";
 import { useTranslation } from "react-i18next";
 import { isWearableActive } from "features/game/lib/wearables";
 
-export const getMaxDigs = (game: GameState) => {
+export const getRegularMaxDigs = (game: GameState) => {
   let maxDigs = 25;
-  const extraDigs = game.desert.digging.extraDigs ?? 0;
 
   if (isCollectibleBuilt({ name: "Heart of Davy Jones", game })) {
     maxDigs += 20;
@@ -31,13 +30,32 @@ export const getMaxDigs = (game: GameState) => {
     maxDigs += 5;
   }
 
-  return maxDigs + extraDigs;
+  return maxDigs;
+};
+
+export const getRemainingDigs = (game: GameState) => {
+  const { desert } = game;
+  const dugCount = desert.digging.grid.length;
+  const extraDigs = desert.digging.extraDigs ?? 0;
+  const regularMaxDigs = getRegularMaxDigs(game);
+  let digsLeft = regularMaxDigs - dugCount;
+
+  // This is the case where a player has bought and used extra digs
+  // The dug count is higher than the regular max digs
+  if (digsLeft < 0) {
+    digsLeft = 0;
+  }
+
+  digsLeft += extraDigs;
+
+  return digsLeft;
 };
 
 export const DesertDiggingDisplay = () => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
   const [show, setShow] = useState(false);
+  const { desert } = gameState.context.state;
 
   const { t } = useTranslation();
 
@@ -48,15 +66,13 @@ export const DesertDiggingDisplay = () => {
     setShow(!show);
   };
 
-  const dugCount = gameState.context.state.desert.digging.grid.length;
-
-  const maxDigs = getMaxDigs(gameState.context.state);
-  const digsLeft = maxDigs - dugCount;
+  const dugCount = desert.digging.grid.length;
+  const digsLeft = getRemainingDigs(gameState.context.state);
 
   return (
     <>
       <div
-        className="absolute top-36 left-4 cursor-pointer z-50 hover:img-highlight"
+        className="absolute bottom-3 left-1/2 -translate-x-1/2 cursor-pointer z-50 hover:img-highlight"
         onClick={handleClick}
       >
         {!!digsLeft && dugCount > 0 && (
@@ -89,7 +105,7 @@ export const DesertDiggingDisplay = () => {
           </Label>
         )}
       </div>
-      <Modal show={show}>
+      <Modal show={show} onHide={() => setShow(false)}>
         <Digby onClose={() => setShow(false)} />
       </Modal>
     </>

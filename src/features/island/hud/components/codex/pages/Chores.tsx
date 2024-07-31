@@ -19,6 +19,7 @@ import { getSeasonChangeover } from "lib/utils/getSeasonWeek";
 import { secondsToString } from "lib/utils/time";
 import React, { useContext } from "react";
 
+import lock from "assets/icons/lock.png";
 import mark from "assets/icons/faction_mark.webp";
 import { formatNumber } from "lib/utils/formatNumber";
 import { getKingdomChoreBoost } from "features/game/events/landExpansion/completeKingdomChore";
@@ -36,9 +37,10 @@ export const Chores: React.FC<Props> = ({ farmId }) => {
 
   const { t } = useAppTranslation();
 
-  const { ticketTasksAreFrozen } = getSeasonChangeover({
-    id: farmId,
-  });
+  const { ticketTasksAreFrozen, ticketTasksAreClosing, tasksCloseAt } =
+    getSeasonChangeover({
+      id: farmId,
+    });
 
   const kingdomChores = useSelector(gameService, _kingdomChores);
   const handleReset = () => {
@@ -54,14 +56,22 @@ export const Chores: React.FC<Props> = ({ farmId }) => {
           <div className="p-1 text-xs">
             <div className="flex justify-between items-center gap-1">
               <Label type="default">{t("chores.hank")}</Label>
-              <Label type="info" icon={SUNNYSIDE.icons.stopwatch}>
-                {t("hayseedHankv2.newChoresAvailable", {
-                  timeLeft: secondsToString(secondsTillReset(), {
+              {ticketTasksAreClosing ? (
+                <Label type="danger" icon={lock} className="mt-1">
+                  {`${secondsToString((tasksCloseAt - Date.now()) / 1000, {
                     length: "medium",
-                    removeTrailingZeros: true,
-                  }),
-                })}
-              </Label>
+                  })} left`}
+                </Label>
+              ) : (
+                <Label type="info" icon={SUNNYSIDE.icons.stopwatch}>
+                  {t("hayseedHankv2.newChoresAvailable", {
+                    timeLeft: secondsToString(secondsTillReset(), {
+                      length: "medium",
+                      removeTrailingZeros: true,
+                    }),
+                  })}
+                </Label>
+              )}
             </div>
             <div className="my-1 space-y-1">
               <span className="w-fit">{t("chores.hank.intro")}</span>

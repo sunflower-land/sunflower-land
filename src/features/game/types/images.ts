@@ -443,6 +443,7 @@ import mushroomHouse from "assets/seasons/dawn-breaker/mushroom_house.png";
 import genieLamp from "assets/sfts/genie_lamp.png";
 import oldBottle from "assets/sfts/treasure/old_bottle.png";
 import oilDrill from "assets/icons/oil_drill.webp";
+import sand from "assets/resources/sand.webp";
 
 import crimsonCap from "assets/decorations/crimson_cap.png";
 import toadstoolSeat from "assets/decorations/toadstool_seat.png";
@@ -662,6 +663,7 @@ import imsetyJar from "src/assets/sfts/imsety.webp";
 import qebehsenuefJar from "src/assets/sfts/qebehsenuef.webp";
 import duamutefJar from "src/assets/sfts/duamutef.webp";
 import oasis from "src/assets/sfts/oasis.webp";
+import baobabTree from "src/assets/sfts/baobab_tree.webp";
 
 import scarab from "assets/resources/scarab.webp";
 import hieroglyph from "assets/resources/hieroglyph.webp";
@@ -8799,7 +8801,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   Sand: {
-    image: SUNNYSIDE.resource.sand,
+    image: sand,
     description: {
       en: "It get's everywhere",
     },
@@ -8950,6 +8952,24 @@ export const ITEM_DETAILS: Items = {
   },
   Oasis: {
     image: oasis,
+    description: {
+      en: "",
+    },
+  },
+  "Paper Reed": {
+    image: "",
+    description: {
+      en: "",
+    },
+  },
+  "Baobab Tree": {
+    image: baobabTree,
+    description: {
+      en: "Guardian of the desert, the Baobab Tree stands tall and proud.",
+    },
+  },
+  Camel: {
+    image: "",
     description: {
       en: "",
     },

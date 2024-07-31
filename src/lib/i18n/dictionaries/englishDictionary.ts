@@ -32,6 +32,7 @@ import {
   CropBoomMessages,
   CropMachine,
   CropFruitDescriptions,
+  CropsAndChickensMessages,
   DeliveryItem,
   DefaultDialogue,
   DecorationDescriptions,
@@ -1069,6 +1070,7 @@ const bumpkinItemBuff: Record<BumpkinItemBuff, string> = {
   "bumpkinItemBuff.dev.wrench.boost": "-50% Oil Regeneration Time",
   "bumpkinItemBuff.oil.overalls.boost": "+10 Oil",
   "bumpkinItemBuff.ancient.shovel.boost": "Dig treasure without Sand Shovel",
+  "bumpkinItemBuff.grape.pants": "+0.2 Grapes",
 };
 
 const bumpkinPart: Record<BumpkinPart, string> = {
@@ -1528,6 +1530,15 @@ const cropMachine: Record<CropMachine, string> = {
   "cropMachine.stopped": "Crop Machine has stopped",
   "cropMachine.idle": "Crop Machine is idle",
   "cropMachine.name": "Crop Machine",
+};
+
+const cropsAndChickens: Record<CropsAndChickensMessages, string> = {
+  "crops-and-chickens.portal.title": "Minigame - Crops & Chickens",
+  "crops-and-chickens.portal.description": "Can you help me collect the crops?",
+  "crops-and-chickens.portal.missionObjectives":
+    "Mission: Deposit {{targetScore}} points worth of crops",
+  "crops-and-chickens.portal.rewardMessage":
+    "Congratulations, you completed the mission! Here is your reward.",
 };
 
 const decorationDescriptions: Record<DecorationDescriptions, string> = {
@@ -1991,6 +2002,8 @@ const donation: Record<Donation, string> = {
   "donation.minimum": "Minimum 1 MATIC",
   "donation.airdrop": "Decorations will be airdropped after donations close.",
   "donation.specialEvent": "Special Donation Event",
+  "donation.toPortal":
+    "Would you like to donate {{amount}} MATIC to {{portalName}}?",
 };
 
 const draftBid: Record<DraftBid, string> = {
@@ -4638,7 +4651,7 @@ const orderhelp: Record<OrderHelp, string> = {
   "orderhelp.Skip.hour": "You're only able to skip an order after 24 hours!",
   "orderhelp.New.Season":
     "A new season approaches, ticket deliveries will temporarily close.",
-  "orderhelp.New.Season.arrival": "New seasonal deliveries opening soon.",
+  "orderhelp.New.Season.arrival": "Seasonal deliveries opening soon...",
   "orderhelp.Wisely": "Choose wisely!",
   "orderhelp.SkipIn": "Skip in",
   "orderhelp.NoRight": "Not Right Now",
@@ -5591,6 +5604,11 @@ export const easterEggTerms: Record<EasterEggKeys, string> = {
 };
 
 export const desertTerms: Record<DesertKeys, string> = {
+  "digby.streakReward":
+    "Discover all the items above for a bonus prize. Unlock daily streaks for extra rewards.",
+  "digby.streak": "Digging Streak",
+  "digby.claimPrize":
+    "Well done Bumpkin! Don't forget to claim your bonus prize!",
   "digby.noShovels":
     "Hey, you need a sand shovel to dig here! Speak to Jafar..",
   "digby.noDrills":
@@ -5603,15 +5621,16 @@ export const desertTerms: Record<DesertKeys, string> = {
   "digby.guide.one":
     "You can find items by digging in the archaelogical site. Learn the ancient clues, to find what you seek in the desert.",
   "digby.guide.two": "Crabs are always located next to treasure.",
-  "digby.guide.three":
-    "If you discover sand, you are out of luck. Dig elsewhere.",
+  "digby.guide.three": "If you discover sand, there is no treasure nearby.",
   "digby.guide.four":
     "Each day a desert storm resets the puzzle with new patterns and resources.",
   "desert.notice.one":
     "Welcome to the Desert. Can you solve the Pharaoh's puzzle and find the hidden treasures?",
-  "desert.notice.two": "Discover artefacts & exchange them for seasonal gifts.",
-  "desert.notice.three": "Sell resources at the shop for coins.",
-  "desert.notice.four":
+  "desert.notice.two":
+    "Discover {{ticket}}s & exchange them for rewards before time runs out.",
+  "desert.notice.three": "Use hieroglyphs to upgrade your digging.",
+  "desert.notice.four": "Sell resources at the shop for coins.",
+  "desert.notice.five":
     "Gather items for NPC deliveries in exchange for rewards.",
   "digby.moreDigsIntro":
     "Ahhh you're looking for more digs? No worries! There are multiple ways to get more. Check out the options below!",
@@ -5660,6 +5679,7 @@ export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
   ...cropBoomMessages,
   ...cropFruitDescriptions,
   ...cropMachine,
+  ...cropsAndChickens,
   ...decorationDescriptions,
   ...defaultDialogue,
   ...delivery,
