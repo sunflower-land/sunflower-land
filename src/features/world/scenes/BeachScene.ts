@@ -125,7 +125,7 @@ export class BeachScene extends BaseScene {
   gridY = 128;
   cellSize = 16;
   digOffsetX = 7;
-  digOffsetY = 3;
+  digOffsetY = 1;
   percentageFoundLabel: Phaser.GameObjects.Text | undefined;
   digStatistics: DigAnalytics | undefined;
   isPlayerTweening = false;
@@ -500,12 +500,16 @@ export class BeachScene extends BaseScene {
     }
 
     this.populateDugItems();
-    // Add the hover and selected select boxes
+    // Add the hover and selected select boxes.
     this.hoverBox = this.add
-      .image(0, 0, "shovel_select")
+      .image(
+        this.gridX + this.cellSize * 8,
+        this.gridY + this.cellSize * 6,
+        "shovel_select",
+      )
       .setOrigin(0)
       .setDisplaySize(16, 16)
-      .setVisible(false);
+      .setVisible(this.selectedItem !== "Sand Drill");
 
     this.confirmBox = this.add
       .image(0, 0, "confirm_select")
@@ -514,10 +518,14 @@ export class BeachScene extends BaseScene {
       .setVisible(false);
 
     this.drillHoverBox = this.add
-      .image(0, 0, "drill_select")
+      .image(
+        this.gridX + this.cellSize * 7,
+        this.gridY + this.cellSize * 5,
+        "drill_select",
+      )
       .setOrigin(0)
       .setDisplaySize(32, 32)
-      .setVisible(false);
+      .setVisible(this.selectedItem === "Sand Drill");
 
     this.drillConfirmBox = this.add
       .image(0, 0, "drill_confirm")
@@ -1250,8 +1258,8 @@ export class BeachScene extends BaseScene {
     const gridRect = new Phaser.Geom.Rectangle(
       this.gridX,
       this.gridY,
-      this.cellSize * SITE_COLS,
-      this.cellSize * SITE_ROWS,
+      this.cellSize * SITE_COLS - 1,
+      this.cellSize * SITE_ROWS - 1,
     );
 
     return (
@@ -1508,10 +1516,27 @@ export class BeachScene extends BaseScene {
 
     this.currentSelectedItem = this.selectedItem;
 
-    this.hoverBox?.setVisible(false);
-    this.confirmBox?.setVisible(false);
-    this.drillConfirmBox?.setVisible(false);
-    this.drillHoverBox?.setVisible(false);
+    if (this.selectedItem === "Sand Drill") {
+      this.hoverBox?.setVisible(false);
+      this.confirmBox?.setVisible(false);
+      this.drillConfirmBox?.setVisible(false);
+      this.drillHoverBox
+        ?.setPosition(
+          this.gridX + this.cellSize * 7,
+          this.gridY + this.cellSize * 5,
+        )
+        .setVisible(true);
+    } else {
+      this.drillHoverBox?.setVisible(false);
+      this.drillConfirmBox?.setVisible(false);
+      this.hoverBox
+        ?.setPosition(
+          this.gridX + this.cellSize * 8,
+          this.gridY + this.cellSize * 6,
+        )
+        .setVisible(true);
+      this.confirmBox?.setVisible(false);
+    }
 
     const sandDrills = this.gameState.inventory["Sand Drill"] ?? new Decimal(0);
 
@@ -1538,10 +1563,6 @@ export class BeachScene extends BaseScene {
       this.noToolHoverBox?.setVisible(false);
       this.alreadyWarnedOfNoDigs = false;
       this.alreadyNotifiedOfClaim = false;
-      this.hoverBox?.setVisible(false);
-      this.confirmBox?.setVisible(false);
-      this.drillHoverBox?.setVisible(false);
-      this.drillConfirmBox?.setVisible(false);
       super.update();
     }
 
