@@ -27,13 +27,13 @@ import { Room } from "colyseus.js";
 
 import defaultTilesetConfig from "assets/map/tileset.json";
 
-import {
-  AudioLocalStorageKeys,
-  getCachedAudioSetting,
-} from "../../game/lib/audio";
 import { MachineInterpreter } from "features/game/lib/gameMachine";
 import { MachineInterpreter as AuthMachineInterpreter } from "features/auth/lib/authMachine";
 import { capitalize } from "lib/utils/capitalize";
+import {
+  AUDIO_MUTED_EVENT,
+  getAudioMutedSetting,
+} from "lib/utils/hooks/useIsAudioMuted";
 
 type SceneTransitionData = {
   previousSceneId: SceneId;
@@ -165,12 +165,9 @@ export abstract class BaseScene extends Phaser.Scene {
     this.options = defaultedOptions;
   }
 
-  public get isAudioMuted(): boolean {
-    return getCachedAudioSetting<boolean>(
-      AudioLocalStorageKeys.audioMuted,
-      false,
-    );
-  }
+  private onAudioMuted = (event: CustomEvent) => {
+    this.sound.mute = event.detail;
+  };
 
   preload() {
     if (this.options.map?.json) {
@@ -186,6 +183,9 @@ export abstract class BaseScene extends Phaser.Scene {
 
   init(data: SceneTransitionData) {
     this.sceneTransitionData = data;
+
+    this.sound.mute = getAudioMutedSetting();
+    window.addEventListener(AUDIO_MUTED_EVENT as any, this.onAudioMuted);
   }
 
   create() {
@@ -443,6 +443,8 @@ export abstract class BaseScene extends Phaser.Scene {
     this.events.on("shutdown", () => {
       removeMessageListener();
       removeReactionListener();
+
+      window.removeEventListener(AUDIO_MUTED_EVENT as any, this.onAudioMuted);
     });
   }
 
@@ -721,9 +723,6 @@ export abstract class BaseScene extends Phaser.Scene {
   }
 
   update(): void {
-    // mute audio if audio is muted
-    this.sound.mute = this.isAudioMuted;
-
     this.currentTick++;
 
     this.switchScene();

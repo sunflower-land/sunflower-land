@@ -30,10 +30,6 @@ import { Coordinates } from "features/game/expansion/components/MapPlacement";
 import Decimal from "decimal.js-light";
 import { isTouchDevice } from "../lib/device";
 import { getRemainingDigs } from "features/island/hud/components/DesertDiggingDisplay";
-import {
-  AudioLocalStorageKeys,
-  getCachedAudioSetting,
-} from "features/game/lib/audio";
 
 const convertToSnakeCase = (str: string) => {
   return str.replace(" ", "_").toLowerCase();
@@ -1285,13 +1281,6 @@ export class BeachScene extends BaseScene {
   public handleActionSFX = () => {
     const sfx = this.selectedItem === "Sand Drill" ? "drill" : "dig";
 
-    const audioMuted = getCachedAudioSetting<boolean>(
-      AudioLocalStorageKeys.audioMuted,
-      false,
-    );
-
-    if (audioMuted) return;
-
     if (!this.digSoundsCooldown) {
       this.sound.play(sfx, { volume: 0.1 });
       this.digSoundsCooldown = true;
@@ -1305,13 +1294,6 @@ export class BeachScene extends BaseScene {
   };
 
   public handleRevealSFX() {
-    const audioMuted = getCachedAudioSetting<boolean>(
-      AudioLocalStorageKeys.audioMuted,
-      false,
-    );
-
-    if (audioMuted) return;
-
     if (!this.digSoundsCooldown) {
       this.sound.play("reveal", { volume: 0.1 });
       this.digSoundsCooldown = true;

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Howler } from "howler";
 import play from "assets/icons/play.png";
 import pause from "assets/icons/pause.png";
@@ -10,12 +10,9 @@ import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "./CloseablePanel";
 import { Song } from "assets/songs/playlist";
 import { PIXEL_SCALE } from "../lib/constants";
-import {
-  AudioLocalStorageKeys,
-  cacheAudioSetting,
-  getCachedAudioSetting,
-} from "../lib/audio";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { useIsAudioMuted } from "lib/utils/hooks/useIsAudioMuted";
+import { useIsMusicPaused } from "lib/utils/hooks/useIsMusicPaused";
 
 interface Props {
   musicPlayer: React.RefObject<HTMLAudioElement>;
@@ -35,35 +32,26 @@ export const AudioMenu: React.FC<Props> = ({
   onClose,
 }) => {
   const { t } = useAppTranslation();
-  const [audioMuted, setAudioMuted] = useState<boolean>(
-    getCachedAudioSetting<boolean>(AudioLocalStorageKeys.audioMuted, false),
-  );
-  const [musicPaused, setMusicPaused] = useState<boolean>(
-    // by the default Chrome policy doesn't allow autoplay
-    !!navigator.userAgent.match(/chrome|chromium|crios/i) ||
-      getCachedAudioSetting<boolean>(AudioLocalStorageKeys.musicPaused, false),
-  );
+
+  const { isAudioMuted, toggleAudioMuted } = useIsAudioMuted();
+  const { isMusicPaused, toggleMusicPaused } = useIsMusicPaused();
 
   useEffect(() => {
-    Howler.mute(audioMuted);
-    cacheAudioSetting(AudioLocalStorageKeys.audioMuted, audioMuted);
-  }, [audioMuted]);
+    Howler.mute(isAudioMuted);
+  }, [isAudioMuted]);
 
   useEffect(() => {
     if (!musicPlayer.current) return;
 
-    musicPlayer.current.volume = 0.06;
-    musicPlayer.current.playbackRate = 0.76;
+    musicPlayer.current.volume = 0.15;
 
-    if (musicPaused) {
+    if (isMusicPaused) {
       musicPlayer.current.pause();
     } else {
       musicPlayer.current.play();
       musicPlayer.current.muted = false;
     }
-
-    cacheAudioSetting(AudioLocalStorageKeys.musicPaused, musicPaused);
-  }, [musicPaused]);
+  }, [isMusicPaused]);
 
   useEffect(() => {
     // https://developer.mozilla.org/en-US/docs/Web/API/Document/visibilitychange_event
@@ -71,11 +59,11 @@ export const AudioMenu: React.FC<Props> = ({
       if (!musicPlayer.current) return;
 
       if (document.visibilityState === "visible") {
-        if (!musicPaused) {
+        if (!isMusicPaused) {
           musicPlayer.current.play();
           musicPlayer.current.muted = false;
         }
-        Howler.mute(audioMuted);
+        Howler.mute(isAudioMuted);
       } else {
         musicPlayer.current.pause();
         Howler.mute(true);
@@ -95,7 +83,7 @@ export const AudioMenu: React.FC<Props> = ({
               style={{
                 animation: "marquee-like-effect 10s infinite linear",
                 whiteSpace: "nowrap",
-                animationPlayState: musicPaused ? "paused" : "running",
+                animationPlayState: isMusicPaused ? "paused" : "running",
               }}
             >
               {song.name} {"-"} {song.artist}
@@ -114,9 +102,9 @@ export const AudioMenu: React.FC<Props> = ({
               }}
             />
             <img
-              src={musicPaused ? play : pause}
+              src={isMusicPaused ? play : pause}
               className="cursor-pointer hover:img-highlight"
-              onClick={() => setMusicPaused(!musicPaused)}
+              onClick={toggleMusicPaused}
               alt="play / pause song button"
               style={{
                 width: `${PIXEL_SCALE * 10}px`,
@@ -135,12 +123,12 @@ export const AudioMenu: React.FC<Props> = ({
 
           {/* Sound effects controls */}
           <p className="mb-2">
-            {t("sound.effects")} {audioMuted ? t("off") : t("on")}
+            {t("sound.effects")} {isAudioMuted ? t("off") : t("on")}
           </p>
           <img
-            src={audioMuted ? sound_off : sound_on}
+            src={isAudioMuted ? sound_off : sound_on}
             className="cursor-pointer hover:img-highlight"
-            onClick={() => setAudioMuted(!audioMuted)}
+            onClick={toggleAudioMuted}
             alt="mute / unmute sound effects button"
             style={{
               width: `${PIXEL_SCALE * 13}px`,
