@@ -40,6 +40,8 @@ export const getRemainingDigs = (game: GameState) => {
   const regularMaxDigs = getRegularMaxDigs(game);
   let digsLeft = regularMaxDigs - dugCount;
 
+  // This is the case where a player has bought and used extra digs
+  // The dug count is higher than the regular max digs
   if (digsLeft < 0) {
     digsLeft = 0;
   }
