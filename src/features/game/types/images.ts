@@ -662,6 +662,7 @@ import imsetyJar from "src/assets/sfts/imsety.webp";
 import qebehsenuefJar from "src/assets/sfts/qebehsenuef.webp";
 import duamutefJar from "src/assets/sfts/duamutef.webp";
 import oasis from "src/assets/sfts/oasis.webp";
+import baobabTree from "src/assets/sfts/baobab_tree.webp";
 
 import scarab from "assets/resources/scarab.webp";
 import hieroglyph from "assets/resources/hieroglyph.webp";
@@ -8955,6 +8956,18 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Paper Reed": {
+    image: "",
+    description: {
+      en: "",
+    },
+  },
+  "Baobab Tree": {
+    image: baobabTree,
+    description: {
+      en: "Guardian of the desert, the Baobab Tree stands tall and proud.",
+    },
+  },
+  Camel: {
     image: "",
     description: {
       en: "",

@@ -971,6 +971,23 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Clay Tablet": Template,
   "Reveling Lemon": Template,
   "Paper Reed": Template,
+
+  "Baobab Tree": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 11}px`,
+        bottom: `${PIXEL_SCALE * 3}px`,
+        left: `${PIXEL_SCALE * 2.5}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 11}px`,
+      }}
+      image={ITEM_DETAILS["Baobab Tree"].image}
+      alt="Baobab Tree"
+    />
+  ),
+  Camel: Template,
 };
 // Need readonly versions for some troublesome components while in design mode
 

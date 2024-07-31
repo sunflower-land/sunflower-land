@@ -1,5 +1,6 @@
 import Decimal from "decimal.js-light";
 import { SFLDiscount } from "features/game/lib/SFLDiscount";
+import { ARTEFACT_SHOP_WEARABLES } from "features/game/types/artefactShop";
 import { BumpkinItem } from "features/game/types/bumpkin";
 import { trackActivity } from "features/game/types/bumpkinActivity";
 import { getKeys } from "features/game/types/craftables";
@@ -26,7 +27,7 @@ export function buyWearable({
 }: Options) {
   const stateCopy: GameState = cloneDeep(state);
   const { name } = action;
-  const wearable = STYLIST_WEARABLES[name];
+  const wearable = { ...STYLIST_WEARABLES, ...ARTEFACT_SHOP_WEARABLES }[name];
 
   if (!wearable) {
     throw new Error("This item is not available");

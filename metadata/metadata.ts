@@ -8852,8 +8852,35 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     image: "../public/erc1155/images/question_mark.png",
     name: "Paper Reed",
   },
+  Camel: {
+    description: "",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Boost" },
+      { trait_type: "Tradable", value: "Yes" },
+      {
+        display_type: "boost_number",
+        trait_type: "Increase daily digs",
+        value: 3,
+      },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/question_mark.png",
+    name: "Camel",
+  },
+  "Baobab Tree": {
+    description:
+      "Guardian of the desert, the Baobab Tree stands tall and proud.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2126.png",
+    name: "Baobab Tree",
+  },
 };
-
 export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
   "Beige Farmer Potion": {
     description:
