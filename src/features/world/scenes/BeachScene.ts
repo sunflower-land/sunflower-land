@@ -112,7 +112,7 @@ export class BeachScene extends BaseScene {
   confirmBox: Phaser.GameObjects.Image | undefined;
   drillHoverBox: Phaser.GameObjects.Image | undefined;
   drillConfirmBox: Phaser.GameObjects.Image | undefined;
-  noShovelHoverBox: Phaser.GameObjects.Image | undefined;
+  noToolHoverBox: Phaser.GameObjects.Image | undefined;
   treasureContainer: Phaser.GameObjects.Container | undefined;
   selectedToolLabel: Phaser.GameObjects.Text | undefined;
   gridX = 160;
@@ -207,13 +207,11 @@ export class BeachScene extends BaseScene {
     this.load.image("scarab", "world/scarab.webp");
     this.load.image("sand", "world/sand.webp");
 
-    this.load.image("select_box", "world/select_box.png");
-    this.load.image("shovel_select", "world/shovel_select.webp");
-    this.load.image("confirm_select", "world/confirm_select.webp");
+    this.load.image("shovel_select", "world/shovel_select_sm.webp");
+    this.load.image("confirm_select", "world/select_confirm_sm.webp");
     this.load.image("drill_confirm", "world/drill_confirm.webp");
     this.load.image("drill_select", "world/drill_select.webp");
     this.load.image("button", "world/button.webp");
-    this.load.image("shovel", "world/shovel.png");
     this.load.image("treasure_shop", "world/treasure_shop.png");
     this.load.image("shop_icon", "world/shop_disc.png");
   }
@@ -479,8 +477,8 @@ export class BeachScene extends BaseScene {
 
     this.confirmBox = this.add
       .image(0, 0, "confirm_select")
-      .setOrigin(0)
       .setDisplaySize(16, 16)
+      .setOrigin(0)
       .setVisible(false);
 
     this.drillHoverBox = this.add
@@ -495,7 +493,7 @@ export class BeachScene extends BaseScene {
       .setDisplaySize(32, 32)
       .setVisible(false);
 
-    this.noShovelHoverBox = this.add
+    this.noToolHoverBox = this.add
       .image(0, 0, "nothing")
       .setOrigin(0)
       .setDisplaySize(8, 8)
@@ -692,8 +690,12 @@ export class BeachScene extends BaseScene {
       sandShovelsCount === 0 ||
       !this.hasDigsLeft
     ) {
-      if (!hasDugHere) {
-        this.noShovelHoverBox
+      if (
+        !hasDugHere &&
+        this.selectedItem === "Sand Shovel" &&
+        sandShovelsCount === 0
+      ) {
+        this.noToolHoverBox
           ?.setPosition(rectX + 4, rectY + 4)
           .setOrigin(0)
           .setVisible(true);
@@ -727,7 +729,7 @@ export class BeachScene extends BaseScene {
       return;
     }
 
-    this.hoverBox?.setDepth(this.currentPlayer.y - this.cellSize);
+    this.hoverBox?.setDepth(this.currentPlayer.y - this.cellSize + 3);
     this.confirmBox?.setDepth(this.currentPlayer.y - this.cellSize);
 
     if (
@@ -739,7 +741,11 @@ export class BeachScene extends BaseScene {
       return;
     }
 
-    this.hoverBox?.setOrigin(0).setPosition(rectX, rectY).setVisible(true);
+    this.hoverBox
+      ?.setOrigin(0)
+      .setPosition(rectX, rectY)
+      .setDepth(this.currentPlayer.y - this.cellSize)
+      .setVisible(true);
   };
 
   public handleMobileTouchDrill = ({
@@ -757,6 +763,22 @@ export class BeachScene extends BaseScene {
       Math.round((mouseX - this.cellSize) / this.cellSize) * this.cellSize;
     const y =
       Math.round((mouseY - this.cellSize) / this.cellSize) * this.cellSize;
+
+    const sandDrills =
+      this.gameService.state.context.state.inventory["Sand Drill"] ??
+      new Decimal(0);
+
+    const noToolX = x + this.cellSize - 4;
+    const noToolY = y + this.cellSize - 4;
+
+    if (
+      sandDrills.lt(1) &&
+      this.noToolHoverBox?.x !== noToolX &&
+      this.noToolHoverBox?.y !== noToolY
+    ) {
+      this.noToolHoverBox?.setPosition(noToolX, noToolY).setVisible(true);
+      return;
+    }
 
     if (this.selectedItem === "Sand Drill") {
       if (!this.drillConfirmBox?.visible) {
@@ -813,6 +835,21 @@ export class BeachScene extends BaseScene {
       Math.round((mouseX - this.cellSize) / this.cellSize) * this.cellSize;
     const hoverY =
       Math.round((mouseY - this.cellSize) / this.cellSize) * this.cellSize;
+
+    const sandDrills =
+      this.gameService.state.context.state.inventory["Sand Drill"] ??
+      new Decimal(0);
+
+    const noToolX = hoverX + this.cellSize - 4;
+    const noToolY = hoverY + this.cellSize - 4;
+
+    if (sandDrills.lt(1)) {
+      // debounce
+
+      this.noToolHoverBox?.setPosition(noToolX, noToolY).setVisible(true);
+
+      return;
+    }
 
     // Calculate the starting cell (top-left corner)
     let startCol = Math.max(
@@ -887,6 +924,17 @@ export class BeachScene extends BaseScene {
     startCol = Math.min(startCol, 8);
     startRow = Math.min(startRow, 8);
 
+    const sandDrills =
+      this.gameService.state.context.state.inventory["Sand Drill"] ??
+      new Decimal(0);
+
+    if (sandDrills.lt(1)) {
+      this.noToolHoverBox
+        ?.setPosition(x + this.cellSize - 4, y + this.cellSize - 4)
+        .setVisible(true);
+      return;
+    }
+
     const drillCoords: { x: number; y: number }[] = [
       { x: startCol, y: startRow },
       { x: startCol + 1, y: startRow },
@@ -945,7 +993,7 @@ export class BeachScene extends BaseScene {
 
   public handlePointOut = () => {
     this.hoverBox?.setVisible(false);
-    this.noShovelHoverBox?.setVisible(false);
+    this.noToolHoverBox?.setVisible(false);
   };
 
   get treasuresFound() {
@@ -1343,15 +1391,6 @@ export class BeachScene extends BaseScene {
 
       this.currentPlayer?.sprite?.on("animationstop", onComplete);
     } else if (this.isRevealing) {
-      const currentAnimation = this.currentPlayer.sprite?.anims?.currentAnim;
-
-      if (
-        currentAnimation?.key.includes("dig") ||
-        currentAnimation?.key.includes("drill")
-      ) {
-        return;
-      }
-
       // If we are in this condition and the game service state
       // is not revealing then it indicates we attempted to dig
       // while the machine was in the autosaving state.
@@ -1363,6 +1402,16 @@ export class BeachScene extends BaseScene {
           this.handleDig(this.coordsToDig.y, this.coordsToDig.x);
         }
       }
+
+      const currentAnimation = this.currentPlayer.sprite?.anims?.currentAnim;
+
+      if (
+        currentAnimation?.key.includes("dig") ||
+        currentAnimation?.key.includes("drill")
+      ) {
+        return;
+      }
+
       // Stop player movement while the animation is playing
       this.disableControls();
       // Set player to digging/drilling while we are revealing the reward
@@ -1408,6 +1457,7 @@ export class BeachScene extends BaseScene {
       this.updateOtherPlayers();
       this.handleDigbyWarnings();
     } else {
+      this.noToolHoverBox?.setVisible(false);
       this.alreadyWarnedOfNoDigs = false;
       this.hoverBox?.setVisible(false);
       this.confirmBox?.setVisible(false);

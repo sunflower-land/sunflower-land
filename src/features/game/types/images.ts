@@ -443,6 +443,7 @@ import mushroomHouse from "assets/seasons/dawn-breaker/mushroom_house.png";
 import genieLamp from "assets/sfts/genie_lamp.png";
 import oldBottle from "assets/sfts/treasure/old_bottle.png";
 import oilDrill from "assets/icons/oil_drill.webp";
+import sand from "assets/resources/sand.webp";
 
 import crimsonCap from "assets/decorations/crimson_cap.png";
 import toadstoolSeat from "assets/decorations/toadstool_seat.png";
@@ -8799,7 +8800,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   Sand: {
-    image: SUNNYSIDE.resource.sand,
+    image: sand,
     description: {
       en: "It get's everywhere",
     },
