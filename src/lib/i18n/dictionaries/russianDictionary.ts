@@ -5306,6 +5306,7 @@ const withdraw: Record<Withdraw, string> = {
 };
 
 const world: Record<World, string> = {
+  "world.newArea": ENGLISH_TERMS["world.newArea"],
   "world.intro.one": "Howdy Traveller! Welcome to the Pumpkin Plaza.",
   "world.intro.two":
     "The plaza is home to a diverse group of hungry Bumpkins and Goblins that need your help!",
