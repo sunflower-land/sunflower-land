@@ -8,6 +8,7 @@ import {
   GreenHouseCropSeedName,
 } from "features/game/types/crops";
 import {
+  GREENHOUSE_FRUIT,
   GreenHouseFruitName,
   GreenHouseFruitSeedName,
 } from "features/game/types/fruits";
@@ -21,6 +22,7 @@ import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { getCropTime, getCropYieldAmount } from "./plant";
 import { getFruitYield } from "./fruitHarvested";
 import { getFruitTime } from "./fruitPlanted";
+import { Resource } from "features/game/lib/getBudYieldBoosts";
 
 export type PlantGreenhouseAction = {
   type: "greenhouse.planted";
@@ -61,10 +63,14 @@ export const OIL_USAGE: Record<GreenhouseSeed, number> = {
 
 export const MAX_POTS = 4;
 
-function isGreenhouseCrop(
-  plant: GreenHouseCropName | GreenHouseFruitName,
-): plant is GreenHouseCropName {
+export function isGreenhouseCrop(plant: Resource): plant is GreenHouseCropName {
   return (plant as GreenHouseCropName) in GREENHOUSE_CROPS();
+}
+
+export function isGreenhouseFruit(
+  fruit: Resource,
+): fruit is GreenHouseFruitName {
+  return (fruit as GreenHouseFruitName) in GREENHOUSE_FRUIT();
 }
 
 export function getGreenhouseYieldAmount({

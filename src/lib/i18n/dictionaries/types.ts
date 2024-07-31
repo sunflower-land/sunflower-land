@@ -638,7 +638,10 @@ export type BoostEffectDescriptions =
   | "description.blossom.hourglass.boost"
   | "description.hourglass.expired"
   | "description.hourglass.running"
-  | "description.desert.rose.boost";
+  | "description.desert.rose.boost"
+  | "description.pharaoh.gnome.boost"
+  | "description.lemon.tea.bath.boost"
+  | "description.tomato.clown.boost";
 
 export type BountyDescription =
   | "description.clam.shell"
@@ -744,7 +747,12 @@ export type BumpkinItemBuff =
   | "bumpkinItemBuff.bumpkin.pants"
   | "bumpkinItemBuff.bumpkin.sabatons"
   | "bumpkinItemBuff.crab.trap"
-  | "bumpkinItemBuff.bionic.drill";
+  | "bumpkinItemBuff.bionic.drill"
+  | "bumpkinItemBuff.infernal.drill.boost"
+  | "bumpkinItemBuff.lemon.shield.boost"
+  | "bumpkinItemBuff.dev.wrench.boost"
+  | "bumpkinItemBuff.oil.overalls.boost"
+  | "bumpkinItemBuff.ancient.shovel.boost";
 
 export type BumpkinPart =
   | "equip.background"

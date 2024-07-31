@@ -56,6 +56,8 @@ export const BEACH_BUMPKINS: NPCName[] = [
   "finn",
   "finley",
   "miranda",
+  "old salty",
+  "pharaoh",
 ];
 
 export const KINGDOM_BUMPKINS: NPCName[] = ["victoria", "jester", "gambit"];
