@@ -8885,10 +8885,18 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     description:
       "Home to Cannonball, and is ready to strike anyone who gets in its way",
     decimals: 0,
-    attributes: [],
-    external_url: "",
-    image: "",
-    name: undefined,
+    attributes: [
+      { trait_type: "Boost", value: "Fruit" },
+      {
+        display_type: "boost_number",
+        trait_type: "Increase Tomato Yield",
+        value: 1,
+      },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/question_mark.png",
+    name: "Tomato Bombard",
   },
 };
 export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
