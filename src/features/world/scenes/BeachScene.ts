@@ -215,10 +215,10 @@ export class BeachScene extends BaseScene {
     this.load.image("scarab", "world/scarab.webp");
     this.load.image("sand", "world/sand.webp");
 
-    this.load.image("shovel_select", "world/shovel_select_sm.webp");
-    this.load.image("confirm_select", "world/select_confirm_sm.webp");
-    this.load.image("drill_confirm", "world/drill_confirm.webp");
-    this.load.image("drill_select", "world/drill_select.webp");
+    this.load.image("shovel_select", "world/shovel_select_new.webp");
+    this.load.image("confirm_select", "world/select_confirm_new.webp");
+    this.load.image("drill_confirm", "world/drill_confirm_new.webp");
+    this.load.image("drill_select", "world/drill_select_new.webp");
     this.load.image("button", "world/button.webp");
     this.load.image("treasure_shop", "world/treasure_shop.png");
     this.load.image("shop_icon", "world/shop_disc.png");
