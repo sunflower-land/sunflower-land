@@ -469,7 +469,10 @@ export class BeachScene extends BaseScene {
             // If the selected item is not a shovel then set it as the selected itm
             // If the player does not have any shovels then trigger the npc to say something about this
 
-            if (this.selectedItem !== "Sand Shovel") {
+            if (
+              this.selectedItem !== "Sand Shovel" &&
+              this.selectedItem !== "Sand Drill"
+            ) {
               this.shortcutItem("Sand Shovel");
             }
 
