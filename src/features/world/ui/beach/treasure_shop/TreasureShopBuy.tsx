@@ -19,7 +19,14 @@ import {
 import { gameAnalytics } from "lib/gameAnalytics";
 import { Label } from "components/ui/Label";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { secondsToString } from "lib/utils/time";
+import {
+  ARTEFACT_SHOP_WEARABLES,
+  ArtefactShopWearables,
+} from "features/game/types/artefactShop";
+import { getSeasonalTicket } from "features/game/types/seasons";
+import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
+import { getImageUrl } from "lib/utils/getImageURLS";
+
 interface ToolContentProps {
   selectedName: TreasureToolName;
   onClose: () => void;
@@ -101,12 +108,12 @@ const ToolContent: React.FC<ToolContentProps> = ({ onClose, selectedName }) => {
   );
 };
 
-interface CraftContentProps {
+interface CollectibleContentProps {
   selectedName: TreasureCollectibleItem;
   onClose: () => void;
 }
 
-const CraftContent: React.FC<CraftContentProps> = ({
+const CollectibleContent: React.FC<CollectibleContentProps> = ({
   selectedName,
   onClose,
 }) => {
@@ -169,6 +176,88 @@ const CraftContent: React.FC<CraftContentProps> = ({
   );
 };
 
+interface WearableContentProps {
+  selectedName: keyof ArtefactShopWearables;
+  onClose: () => void;
+}
+
+const WearableContent: React.FC<WearableContentProps> = ({
+  selectedName,
+  onClose,
+}) => {
+  const { t } = useAppTranslation();
+
+  const selected = ARTEFACT_SHOP_WEARABLES[selectedName];
+  const { gameService, shortcutItem } = useContext(Context);
+  const [
+    {
+      context: { state },
+    },
+  ] = useActor(gameService);
+  const inventory = state.inventory;
+  const wardrobe = state.wardrobe;
+
+  if (!selected) return null;
+
+  const lessIngredients = () =>
+    getKeys(selected.ingredients).some((name) =>
+      selected.ingredients[name]?.greaterThan(inventory[name] || 0),
+    );
+  const isAlreadyCrafted = (wardrobe[selectedName] ?? 0) >= 1;
+  const isBoost = selected.boost;
+
+  const craft = () => {
+    gameService.send("wearable.bought", {
+      name: selectedName,
+    });
+
+    if (selected.ingredients["Block Buck"]) {
+      gameAnalytics.trackSink({
+        currency: "Block Buck",
+        amount: selected.ingredients["Block Buck"].toNumber() ?? 1,
+        item: selectedName,
+        type: "Wearable",
+      });
+    }
+
+    if (selected.ingredients[getSeasonalTicket()]) {
+      gameAnalytics.trackSink({
+        currency: "Seasonal Ticket",
+        amount: selected.ingredients[getSeasonalTicket()]?.toNumber() ?? 1,
+        item: selectedName,
+        type: "Wearable",
+      });
+    }
+  };
+
+  return (
+    <CraftingRequirements
+      gameState={state}
+      details={{
+        wearable: selectedName,
+        from: selected.from,
+        to: selected.to,
+      }}
+      boost={selected.boost}
+      requirements={{
+        resources: selected.ingredients,
+        coins: selected.coins,
+      }}
+      actionView={
+        isAlreadyCrafted && isBoost ? (
+          <p className="text-xxs text-center mb-1 font-secondary">
+            {t("alr.crafted")}
+          </p>
+        ) : (
+          <Button disabled={lessIngredients()} onClick={craft}>
+            {t("craft")}
+          </Button>
+        )
+      }
+    />
+  );
+};
+
 interface Props {
   onClose: (e?: SyntheticEvent) => void;
 }
@@ -177,7 +266,7 @@ export const TreasureShopBuy: React.FC<Props> = ({ onClose }) => {
   const { t } = useAppTranslation();
 
   const [selectedName, setSelectedName] = useState<
-    TreasureToolName | TreasureCollectibleItem
+    TreasureToolName | TreasureCollectibleItem | BumpkinItem
   >("Sand Shovel");
   const { gameService, shortcutItem } = useContext(Context);
 
@@ -190,6 +279,7 @@ export const TreasureShopBuy: React.FC<Props> = ({ onClose }) => {
   const divRef = useRef<HTMLDivElement>(null);
 
   const inventory = state.inventory;
+  const wardobe = state.wardrobe;
 
   const onToolClick = (toolName: TreasureToolName) => {
     setSelectedName(toolName);
@@ -201,24 +291,30 @@ export const TreasureShopBuy: React.FC<Props> = ({ onClose }) => {
   ): name is TreasureToolName => name in TREASURE_TOOLS;
 
   const now = Date.now();
-  const shopItems = getKeys(TREASURE_COLLECTIBLE_ITEM).filter(
+  const shopCollectibles = getKeys(TREASURE_COLLECTIBLE_ITEM).filter(
     (itemName) =>
       (TREASURE_COLLECTIBLE_ITEM[itemName].from?.getTime() ?? 0) <= now &&
       (TREASURE_COLLECTIBLE_ITEM[itemName].to?.getTime() ?? Infinity) > now,
   );
-
-  const unlimitedItems = shopItems.filter(
+  const unlimitedCollectibles = shopCollectibles.filter(
     (itemName) => !TREASURE_COLLECTIBLE_ITEM[itemName].to,
   );
 
-  const limitedItems = shopItems.filter(
+  const limitedCollectibles = shopCollectibles.filter(
     (itemName) => !!TREASURE_COLLECTIBLE_ITEM[itemName].to,
   );
 
-  const upcomingDates = new Set(
-    shopItems
-      .map((itemName) => TREASURE_COLLECTIBLE_ITEM[itemName])
-      .reduce<Date[]>((acc, item) => (item.to ? [...acc, item.to] : acc), []),
+  const shopWearables = getKeys(ARTEFACT_SHOP_WEARABLES).filter(
+    (itemName) =>
+      (ARTEFACT_SHOP_WEARABLES[itemName]?.from?.getTime() ?? 0) <= now &&
+      (ARTEFACT_SHOP_WEARABLES[itemName]?.to?.getTime() ?? Infinity) > now,
+  );
+  const unlimitedWearables = shopWearables.filter(
+    (itemName) => !ARTEFACT_SHOP_WEARABLES[itemName]?.to,
+  );
+
+  const limitedWearables = shopWearables.filter(
+    (itemName) => !!ARTEFACT_SHOP_WEARABLES[itemName]?.to,
   );
 
   return (
@@ -228,12 +324,13 @@ export const TreasureShopBuy: React.FC<Props> = ({ onClose }) => {
         isTool(selectedName) ? (
           <ToolContent onClose={onClose} selectedName={selectedName} />
         ) : (
-          <CraftContent onClose={onClose} selectedName={selectedName} />
+          <CollectibleContent onClose={onClose} selectedName={selectedName} />
         )
       }
       content={
-        <>
-          <div className="flex flex-wrap">
+        <div className="flex flex-col w-full">
+          <Label type="default">{t("tools")}</Label>
+          <div className="flex flex-wrap mb-2">
             {getKeys(TREASURE_TOOLS).map((toolName) => {
               return (
                 <Box
@@ -245,7 +342,11 @@ export const TreasureShopBuy: React.FC<Props> = ({ onClose }) => {
                 />
               );
             })}
-            {unlimitedItems.map((name) => {
+          </div>
+
+          <Label type="default">{t("collectibles")}</Label>
+          <div className="flex flex-wrap mb-2">
+            {unlimitedCollectibles.map((name) => {
               return (
                 <Box
                   isSelected={selectedName === name}
@@ -256,49 +357,43 @@ export const TreasureShopBuy: React.FC<Props> = ({ onClose }) => {
                 />
               );
             })}
+            {limitedCollectibles.map((name) => (
+              <Box
+                isSelected={selectedName === name}
+                secondaryImage={SUNNYSIDE.icons.stopwatch}
+                key={name}
+                onClick={() => setSelectedName(name)}
+                count={inventory[name]}
+                image={ITEM_DETAILS[name].image}
+              />
+            ))}
           </div>
 
-          <div className="mt-2">
-            {[...upcomingDates]
-              .sort()
-              .reverse()
-              .map((date) => (
-                <div className="py-2">
-                  <Label
-                    type="warning"
-                    icon={SUNNYSIDE.icons.stopwatch}
-                    className="ml-1"
-                  >
-                    {secondsToString(
-                      Math.floor((date.getTime() - now) / 1000),
-                      {
-                        length: "medium",
-                        isShortFormat: true,
-                        removeTrailingZeros: true,
-                      },
-                    )}
-                  </Label>
-                  <div className="flex flex-wrap">
-                    {limitedItems
-                      .filter(
-                        (itemName) =>
-                          TREASURE_COLLECTIBLE_ITEM[itemName].to?.getTime() ===
-                          date.getTime(),
-                      )
-                      .map((name) => (
-                        <Box
-                          isSelected={selectedName === name}
-                          key={name}
-                          onClick={() => setSelectedName(name)}
-                          count={inventory[name]}
-                          image={ITEM_DETAILS[name].image}
-                        />
-                      ))}
-                  </div>
-                </div>
-              ))}
+          <Label type="default">{t("wearables")}</Label>
+          <div className="flex flex-wrap mb-2">
+            {unlimitedWearables.map((name) => {
+              return (
+                <Box
+                  isSelected={selectedName === name}
+                  key={name}
+                  onClick={() => setSelectedName(name)}
+                  count={wardobe[name]}
+                  image={getImageUrl(ITEM_IDS[name])}
+                />
+              );
+            })}
+            {limitedWearables.map((name) => (
+              <Box
+                isSelected={selectedName === name}
+                secondaryImage={SUNNYSIDE.icons.stopwatch}
+                key={name}
+                onClick={() => setSelectedName(name)}
+                count={wardobe[name]}
+                image={getImageUrl(ITEM_IDS[name])}
+              />
+            ))}
           </div>
-        </>
+        </div>
       }
     />
   );

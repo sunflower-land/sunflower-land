@@ -256,21 +256,20 @@ export const TREASURE_COLLECTIBLE_ITEM: Record<
     description: "A Castle to show your pride",
   },
   "Baobab Tree": {
-    ingredients: {},
+    ingredients: {
+      Scarab: new Decimal(35),
+    },
     description: "A nice looking tree!",
-    // TODO feat/seasonal-artefact-items
-    // from: SEASONS["Pharaoh's Treasure"].startDate,
-    from: SEASONS["Clash of Factions"].startDate,
+    from: SEASONS["Pharaoh's Treasure"].startDate,
     to: SEASONS["Pharaoh's Treasure"].endDate,
   },
   Camel: {
-    ingredients: {},
+    ingredients: {
+      Scarab: new Decimal(100),
+    },
     description: "A mean looking camel!",
-    // TODO feat/seasonal-artefact-items
-    // from: SEASONS["Pharaoh's Treasure"].startDate,
-    from: SEASONS["Clash of Factions"].startDate,
-    // to: SEASONS["Pharaoh's Treasure"].endDate,
-    to: SEASONS["Clash of Factions"].endDate,
+    from: SEASONS["Pharaoh's Treasure"].startDate,
+    to: SEASONS["Pharaoh's Treasure"].endDate,
   },
 };
 
