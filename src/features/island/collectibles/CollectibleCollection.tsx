@@ -970,6 +970,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Tomato Core": Template,
   "Clay Tablet": Template,
   "Reveling Lemon": Template,
+  "Paper Reed": Template,
 };
 // Need readonly versions for some troublesome components while in design mode
 

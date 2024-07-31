@@ -1,4 +1,5 @@
 import { InventoryItemName, Wardrobe } from "./game";
+import { SEASONS } from "./seasons";
 
 export type ChestReward = {
   items?: Partial<Record<InventoryItemName, number>>;
@@ -8,7 +9,17 @@ export type ChestReward = {
   coins?: number;
 };
 
-export const BASIC_REWARDS: ChestReward[] = [
+const SEASONAL_REWARDS: (weight: number) => ChestReward[] = (weight) =>
+  Date.now() >= SEASONS["Pharaoh's Treasure"].startDate.getTime() &&
+  Date.now() < SEASONS["Pharaoh's Treasure"].endDate.getTime()
+    ? [
+        { wearables: { "Grape Pants": 1 }, weighting: weight },
+        { items: { "Paper Reed": 1 }, weighting: weight },
+      ]
+    : [];
+
+export const BASIC_REWARDS: () => ChestReward[] = () => [
+  ...SEASONAL_REWARDS(5),
   { sfl: 5, weighting: 100 },
   { sfl: 10, weighting: 50 },
   { sfl: 25, weighting: 20 },
@@ -33,7 +44,8 @@ export const BASIC_REWARDS: ChestReward[] = [
   { items: { "Prize Ticket": 1 }, weighting: 5 },
 ];
 
-export const RARE_REWARDS: ChestReward[] = [
+export const RARE_REWARDS: () => ChestReward[] = () => [
+  ...SEASONAL_REWARDS(25),
   { sfl: 5, weighting: 50 },
   { sfl: 10, weighting: 100 },
   { sfl: 25, weighting: 50 },
@@ -62,7 +74,8 @@ export const RARE_REWARDS: ChestReward[] = [
   { items: { "Chess Rug": 1 }, weighting: 25 },
 ];
 
-export const LUXURY_REWARDS: ChestReward[] = [
+export const LUXURY_REWARDS: () => ChestReward[] = () => [
+  ...SEASONAL_REWARDS(25),
   { sfl: 10, weighting: 50 },
   { sfl: 25, weighting: 100 },
   { sfl: 50, weighting: 50 },

@@ -1048,6 +1048,7 @@ const bumpkinItemBuff: Record<BumpkinItemBuff, string> = {
     ENGLISH_TERMS["bumpkinItemBuff.oil.overalls.boost"],
   "bumpkinItemBuff.ancient.shovel.boost":
     ENGLISH_TERMS["bumpkinItemBuff.ancient.shovel.boost"],
+  "bumpkinItemBuff.grape.pants": ENGLISH_TERMS["bumpkinItemBuff.grape.pants"],
 };
 
 const bumpkinPartRequirements: Record<BumpkinPartRequirements, string> = {

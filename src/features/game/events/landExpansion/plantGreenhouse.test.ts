@@ -366,6 +366,55 @@ describe("plantGreenhouse", () => {
     });
   });
 
+  it("boosts +0.2 grape yield when Grape Pants is equipped", () => {
+    const now = Date.now();
+    const state = plantGreenhouse({
+      action: {
+        type: "greenhouse.planted",
+        id: 1,
+        seed: "Grape Seed",
+      },
+      state: {
+        ...farm,
+        inventory: {
+          "Grape Seed": new Decimal(1),
+        },
+        greenhouse: {
+          oil: 50,
+          pots: {
+            1: {},
+          },
+        },
+        buildings: {
+          Greenhouse: [
+            {
+              coordinates: { x: 0, y: 0 },
+              id: "1",
+              createdAt: 0,
+              readyAt: 0,
+            },
+          ],
+        },
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          equipped: {
+            ...INITIAL_BUMPKIN.equipped,
+            pants: "Grape Pants",
+          },
+        },
+      },
+      createdAt: now,
+    });
+
+    expect(state.greenhouse.pots[1]).toEqual({
+      plant: {
+        amount: 1.2,
+        name: "Grape",
+        plantedAt: now,
+      },
+    });
+  });
+
   it("gives a 50% time boost when Turbo Sprout is placed", () => {
     const now = Date.now();
     const state = plantGreenhouse({

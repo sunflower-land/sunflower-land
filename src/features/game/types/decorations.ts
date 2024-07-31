@@ -83,7 +83,8 @@ export type SeasonalDecorationName =
   | "Golden Guardian"
   | "Rookie Rook"
   | "Silver Sentinel"
-  | "Silver Stallion";
+  | "Silver Stallion"
+  | "Paper Reed";
 
 export type EventDecorationName =
   | "Jelly Lamp"
@@ -660,6 +661,10 @@ export const DECORATION_DIMENSIONS: Record<DecorationName, Dimensions> = {
   "Festive Tree": {
     height: 2,
     width: 2,
+  },
+  "Paper Reed": {
+    height: 1,
+    width: 1,
   },
 };
 

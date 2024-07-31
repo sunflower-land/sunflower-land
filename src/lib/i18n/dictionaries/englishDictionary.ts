@@ -1069,6 +1069,7 @@ const bumpkinItemBuff: Record<BumpkinItemBuff, string> = {
   "bumpkinItemBuff.dev.wrench.boost": "-50% Oil Regeneration Time",
   "bumpkinItemBuff.oil.overalls.boost": "+10 Oil",
   "bumpkinItemBuff.ancient.shovel.boost": "Dig treasure without Sand Shovel",
+  "bumpkinItemBuff.grape.pants": "+0.2 Grapes",
 };
 
 const bumpkinPart: Record<BumpkinPart, string> = {
