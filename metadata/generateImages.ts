@@ -6,21 +6,9 @@ import { InventoryItemName } from "features/game/types/game";
 import { KNOWN_IDS } from "features/game/types";
 
 const IMAGES: Partial<Record<InventoryItemName, string>> = {
-  "Goblin Gold Champion": "src/assets/sfts/goblin_gold_champion.png",
-  "Goblin Silver Champion": "src/assets/sfts/goblin_silver_champion.png",
-  "Goblin Bronze Champion": "src/assets/sfts/goblin_bronze_champion.png",
-  "Bumpkin Bronze Champion": "src/assets/sfts/bumpkin_gold_champion.png",
-  "Bumpkin Gold Champion": "src/assets/sfts/bumpkin_silver_champion.png",
-  "Bumpkin Silver Champion": "src/assets/sfts/bumpkin_bronze_champion.png",
-  "Nightshade Bronze Champion": "src/assets/sfts/nightshade_gold_champion.png",
-  "Nightshade Gold Champion": "src/assets/sfts/nightshade_silver_champion.png",
-  "Nightshade Silver Champion":
-    "src/assets/sfts/nightshade_bronze_champion.png",
-  "Sunflorian Bronze Champion": "src/assets/sfts/sunflorian_gold_champion.png",
-  "Sunflorian Gold Champion": "src/assets/sfts/sunflorian_silver_champion.png",
-  "Sunflorian Silver Champion":
-    "src/assets/sfts/sunflorian_bronze_champion.png",
-  "Jelly Lamp": "src/assets/sfts/jelly_lamp.webp",
+  Sand: "src/assets/resources/sand.webp",
+  Vase: "src/assets/resources/vase.webp",
+  Hieroglyph: "src/assets/resources/hieroglyph.webp",
 };
 
 const WIDTH = 1920;
