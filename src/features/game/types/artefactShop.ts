@@ -8,6 +8,7 @@ export type ArtefactWearables = {
   ingredients: Partial<Record<InventoryItemName, Decimal>>;
   from?: Date;
   to?: Date;
+  hoursPlayed?: number;
 };
 
 export type ArtefactShopWearables = Partial<

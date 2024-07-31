@@ -61,8 +61,6 @@ interface Props {
 }
 
 function getInitialNPC(scene: SceneId): NPCName | undefined {
-  // TODO feat/seasonal-artefact-items
-  return "jafar";
   return undefined;
 }
 
