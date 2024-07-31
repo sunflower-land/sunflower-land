@@ -686,11 +686,18 @@ export type DugHole = {
   tool: "Sand Shovel" | "Sand Drill";
 };
 
+export type StreakReward = {
+  count: number;
+  collectedAt: number;
+  totalClaimed: number;
+};
+
 export type Desert = {
   digging: {
     extraDigs?: number;
     patterns: DiggingFormationName[];
     grid: (DugHole | DugHole[])[];
+    streak?: StreakReward;
   };
 };
 

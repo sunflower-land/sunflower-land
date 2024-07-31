@@ -5602,6 +5602,10 @@ export const easterEggTerms: Record<EasterEggKeys, string> = {
 };
 
 export const desertTerms: Record<DesertKeys, string> = {
+  "digby.streakReward": "Discover all the items for a bonus prize.",
+  "digby.streak": "Digging Streak",
+  "digby.claimPrize":
+    "Well done Bumpkin! Don't forget to claim your bonus prize!",
   "digby.noShovels":
     "Hey, you need a sand shovel to dig here! Speak to Jafar..",
   "digby.noDrills":

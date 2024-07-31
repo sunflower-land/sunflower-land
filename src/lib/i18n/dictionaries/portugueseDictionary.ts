@@ -5588,6 +5588,9 @@ export const easterEggTerms: Record<EasterEggKeys, string> = {
 export const desertTerms: Record<DesertKeys, string> = {
   "digby.noDigsLeft": ENGLISH_TERMS["digby.noDigsLeft"],
   "digby.noDrills": ENGLISH_TERMS["digby.noDrills"],
+  "digby.streak": ENGLISH_TERMS["digby.streak"],
+  "digby.streakReward": ENGLISH_TERMS["digby.streakReward"],
+  "digby.claimPrize": ENGLISH_TERMS["digby.claimPrize"],
   "digby.noShovels": ENGLISH_TERMS["digby.noShovels"],
   "digby.puzzle": ENGLISH_TERMS["digby.puzzle"],
   "digby.today": ENGLISH_TERMS["digby.today"],

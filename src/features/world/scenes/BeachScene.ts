@@ -19,7 +19,8 @@ import { getKeys } from "features/game/types/decorations";
 import {
   DESERT_GRID_HEIGHT,
   DESERT_GRID_WIDTH,
-  DIGGING_FORMATIONS,
+  getTreasureCount,
+  getTreasuresFound,
   secondsTillDesertStorm,
 } from "features/game/types/desert";
 import { ProgressBarContainer } from "../containers/ProgressBarContainer";
@@ -587,6 +588,8 @@ export class BeachScene extends BaseScene {
         this.showPoof({ x: item.x, y: item.y });
         item.destroy();
       });
+
+    this.digbyProgressBar?.updateBar(this.percentageTreasuresFound);
   };
 
   public walkToLocation = (x: number, y: number, onComplete: () => void) => {
@@ -997,26 +1000,13 @@ export class BeachScene extends BaseScene {
   };
 
   get treasuresFound() {
-    return this.gameService.state.context.state.desert.digging.grid
-      .flat()
-      .filter((hole) => {
-        return (
-          getKeys(hole.items)[0] !== "Sand" && getKeys(hole.items)[0] !== "Crab"
-        );
-      })
-      .map((hole) => getKeys(hole.items)[0]);
+    return getTreasuresFound({ game: this.gameService.state.context.state });
   }
 
   get totalBuriedTreasure() {
-    const { patterns } = this.gameService.state.context.state.desert.digging;
-
-    const count = patterns.reduce(
-      (total, pattern) => DIGGING_FORMATIONS[pattern].length + total,
-      0,
-    );
-
-    return count;
+    return getTreasureCount({ game: this.gameService.state.context.state });
   }
+
   get percentageTreasuresFound() {
     return Math.round(
       (this.treasuresFound.length / this.totalBuriedTreasure) * 100,
@@ -1249,7 +1239,9 @@ export class BeachScene extends BaseScene {
   public handleDigbyWarnings = () => {
     if (!this.currentPlayer) return;
 
-    if (!this.hasDigsLeft) {
+    if (this.percentageTreasuresFound >= 100) {
+      this.npcs.digby?.speak(translate("digby.claimPrize"));
+    } else if (!this.hasDigsLeft) {
       if (this.alreadyWarnedOfNoDigs) return;
 
       this.npcs.digby?.speak(translate("digby.noDigsLeft"));
