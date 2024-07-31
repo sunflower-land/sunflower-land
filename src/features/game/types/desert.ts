@@ -159,19 +159,18 @@ export function siteHasExpired({
  * TODO - change to daily after testing
  */
 export function secondsTillDesertStorm() {
-  return secondsTillNextHour();
-  // const currentTime = Date.now();
+  const currentTime = Date.now();
 
-  // // Calculate the time until the next day in milliseconds
-  // const nextDay = new Date(currentTime);
-  // nextDay.setUTCHours(24, 0, 0, 0);
+  // Calculate the time until the next day in milliseconds
+  const nextDay = new Date(currentTime);
+  nextDay.setUTCHours(24, 0, 0, 0);
 
-  // const timeUntilNextDay = nextDay.getTime() - currentTime;
+  const timeUntilNextDay = nextDay.getTime() - currentTime;
 
-  // // Convert milliseconds to seconds
-  // const secondsUntilNextDay = Math.floor(timeUntilNextDay / 1000);
+  // Convert milliseconds to seconds
+  const secondsUntilNextDay = Math.floor(timeUntilNextDay / 1000);
 
-  // return secondsUntilNextDay;
+  return secondsUntilNextDay;
 }
 
 // Testing purposes only - reset every hour
