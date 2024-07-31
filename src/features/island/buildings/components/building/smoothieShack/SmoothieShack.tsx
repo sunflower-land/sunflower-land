@@ -113,7 +113,7 @@ export const SmoothieShack: React.FC<Props> = ({
         )}
 
         <img
-          src={SUNNYSIDE.building.smoothieShack}
+          src={SUNNYSIDE.building.smoothieShackDesk}
           className={classNames("absolute pointer-events-none", {
             "opacity-100": !crafting,
             "opacity-80": crafting,
