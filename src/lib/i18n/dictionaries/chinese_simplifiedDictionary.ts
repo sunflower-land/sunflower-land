@@ -31,6 +31,7 @@ import {
   Conversations,
   CropBoomMessages,
   CropFruitDescriptions,
+  CropsAndChickensMessages,
   DeliveryItem,
   DefaultDialogue,
   DecorationDescriptions,
@@ -1443,6 +1444,17 @@ const cropMachine: Record<CropMachine, string> = {
   "cropMachine.stopped": "自动种植机停止运转",
   "cropMachine.idle": "自动种植机正在闲置",
   "cropMachine.name": "自动种植机",
+};
+
+const cropsAndChickens: Record<CropsAndChickensMessages, string> = {
+  "crops-and-chickens.portal.title":
+    ENGLISH_TERMS["crops-and-chickens.portal.title"],
+  "crops-and-chickens.portal.description":
+    ENGLISH_TERMS["crops-and-chickens.portal.description"],
+  "crops-and-chickens.portal.missionObjectives":
+    ENGLISH_TERMS["crops-and-chickens.portal.missionObjectives"],
+  "crops-and-chickens.portal.rewardMessage":
+    ENGLISH_TERMS["crops-and-chickens.portal.rewardMessage"],
 };
 
 const decorationDescriptions: Record<DecorationDescriptions, string> = {
@@ -4957,6 +4969,7 @@ export const CHINESE_SIMPLIFIED_TERMS: Record<TranslationKeys, string> = {
   ...cropBoomMessages,
   ...cropFruitDescriptions,
   ...cropMachine,
+  ...cropsAndChickens,
   ...decorationDescriptions,
   ...defaultDialogue,
   ...delivery,

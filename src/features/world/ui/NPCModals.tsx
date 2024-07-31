@@ -38,6 +38,7 @@ import { GoldTooth } from "./npcs/GoldTooth";
 import { hasFeatureAccess } from "lib/flags";
 import { Context } from "features/game/GameProvider";
 import { Digby } from "./beach/Digby";
+import { CropsAndChickens } from "./portals/CropsAndChickens";
 
 class NpcModalManager {
   private listener?: (npc: NPCName, isOpen: boolean) => void;
@@ -166,6 +167,14 @@ export const NPCModals: React.FC<Props> = ({ scene, id }) => {
             bumpkinParts={NPC_WEARABLES.billy}
           >
             <ChickenRescue onClose={closeModal} />
+          </CloseButtonPanel>
+        )}
+        {npc === "cluck e cheese" && (
+          <CloseButtonPanel
+            onClose={closeModal}
+            bumpkinParts={NPC_WEARABLES["cluck e cheese"]}
+          >
+            <CropsAndChickens onClose={closeModal} />
           </CloseButtonPanel>
         )}
         {npc === "jafar" &&

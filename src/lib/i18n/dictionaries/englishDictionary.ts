@@ -32,6 +32,7 @@ import {
   CropBoomMessages,
   CropMachine,
   CropFruitDescriptions,
+  CropsAndChickensMessages,
   DeliveryItem,
   DefaultDialogue,
   DecorationDescriptions,
@@ -1529,6 +1530,15 @@ const cropMachine: Record<CropMachine, string> = {
   "cropMachine.stopped": "Crop Machine has stopped",
   "cropMachine.idle": "Crop Machine is idle",
   "cropMachine.name": "Crop Machine",
+};
+
+const cropsAndChickens: Record<CropsAndChickensMessages, string> = {
+  "crops-and-chickens.portal.title": "Minigame - Crops & Chickens",
+  "crops-and-chickens.portal.description": "Can you help me collect the crops?",
+  "crops-and-chickens.portal.missionObjectives":
+    "Mission: Deposit {{targetScore}} points worth of crops",
+  "crops-and-chickens.portal.rewardMessage":
+    "Congratulations, you completed the mission! Here is your reward.",
 };
 
 const decorationDescriptions: Record<DecorationDescriptions, string> = {
@@ -5661,6 +5671,7 @@ export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
   ...cropBoomMessages,
   ...cropFruitDescriptions,
   ...cropMachine,
+  ...cropsAndChickens,
   ...decorationDescriptions,
   ...defaultDialogue,
   ...delivery,
