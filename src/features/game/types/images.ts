@@ -665,6 +665,7 @@ import duamutefJar from "src/assets/sfts/duamutef.webp";
 import oasis from "src/assets/sfts/oasis.webp";
 import baobabTree from "src/assets/sfts/baobab_tree.webp";
 import cannonball from "src/assets/sfts/cannonball.webp";
+import tomatoBombard from "src/assets/sfts/tomato_bombard.gif";
 
 import scarab from "assets/resources/scarab.webp";
 import hieroglyph from "assets/resources/hieroglyph.webp";
@@ -8976,7 +8977,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Tomato Bombard": {
-    image: "",
+    image: tomatoBombard,
     description: {
       en: "Home to Cannonball, and is ready to strike anyone who gets in its way",
     },

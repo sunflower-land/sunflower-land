@@ -1002,7 +1002,21 @@ export const COLLECTIBLE_COMPONENTS: Record<
     />
   ),
   Camel: Template,
-  "Tomato Bombard": Template,
+  "Tomato Bombard": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 32}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 32}px`,
+      }}
+      image={ITEM_DETAILS["Tomato Bombard"].image}
+      alt="Tomato Bombard"
+    />
+  ),
 };
 // Need readonly versions for some troublesome components while in design mode
 
