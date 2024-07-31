@@ -10,59 +10,7 @@ import {
   PHASER_SCALE,
   SpriteComponent,
 } from "../components/SpriteComponent";
-
-function queueSystem({
-  scene,
-  components,
-  gameService,
-}: {
-  scene: Phaser.Scene;
-  components: FarmerContainer[];
-  gameService: MachineInterpreter;
-}) {
-  const queue = gameService.state.context.queue;
-
-  let next = queue[0];
-
-  if (!next) {
-    return;
-  }
-
-  // Move containers towards queue item
-  components.forEach((component) => {
-    if (component.state === "performing" || component.state === "waiting") {
-      return;
-    }
-
-    // Calculate the direction vector
-    const direction = new Phaser.Math.Vector2(
-      next.x - component.x,
-      next.y - component.y,
-    );
-
-    // Normalize the direction vector (to make its length 1)
-    direction.normalize();
-
-    // Move component along the direction vector with a fixed speed
-    const speed = 2 * PHASER_SCALE; // Adjust the speed as needed
-    component.x += direction.x * speed;
-    component.y += direction.y * speed;
-
-    if (component.x > next.x) {
-      component.character.sprite?.setScale(PHASER_SCALE * -1, PHASER_SCALE);
-    } else if (component.x < next.x) {
-      component.character.sprite?.setScale(PHASER_SCALE, PHASER_SCALE);
-    }
-
-    component.walk();
-
-    // Trigger action on arrival?
-    const distance = Phaser.Math.Distance.BetweenPoints(next, component);
-    if (distance < 2 * PHASER_SCALE) {
-      component.perform({ action: next });
-    }
-  });
-}
+import { queueSystem } from "../systems/queueSystem";
 
 function dragSystem({
   scene,
@@ -116,9 +64,12 @@ export class FarmScene extends Phaser.Scene {
       "pointerdown",
       (pointer: Phaser.Input.Pointer) => {
         console.log(pointer.x);
+        const gridX = Math.floor(pointer.x / PHASER_GRID_WIDTH);
+        const gridY = Math.floor(pointer.y / PHASER_GRID_WIDTH);
+
         this.gameService.send("QUEUE", {
-          x: pointer.worldX,
-          y: pointer.worldY,
+          x: gridX,
+          y: gridY,
         });
       },
       this,

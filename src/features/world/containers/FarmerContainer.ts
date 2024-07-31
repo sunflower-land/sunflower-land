@@ -174,7 +174,7 @@ export class FarmerContainer extends Phaser.GameObjects.Container {
       // TODO - when should they be allowed to move again?
       setTimeout(() => {
         farmer.idle();
-      }, 1000);
+      }, 100);
 
       farmer.character.sprite?.off("animationcomplete", onComplete);
     };
