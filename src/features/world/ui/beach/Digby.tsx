@@ -34,7 +34,10 @@ import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
 import { pixelDarkBorderStyle } from "features/game/lib/style";
 import { CollectibleName } from "features/game/types/craftables";
 import Decimal from "decimal.js-light";
-import { getRegularMaxDigs } from "features/island/hud/components/DesertDiggingDisplay";
+import {
+  getRegularMaxDigs,
+  getRemainingDigs,
+} from "features/island/hud/components/DesertDiggingDisplay";
 import { BUMPKIN_ITEM_BUFF_LABELS } from "features/game/types/bumpkinItemBuffs";
 import { ResizableBar } from "components/ui/ProgressBar";
 import { Revealed } from "features/game/components/Revealed";
@@ -383,10 +386,7 @@ export const Digby: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   const [showConfirm, setShowConfirm] = useState(false);
 
   const inventory = gameState.context.state.inventory;
-  const dugCount = gameState.context.state.desert.digging.grid.length;
-
-  const maxDigs = getRegularMaxDigs(gameState.context.state);
-  const digsLeft = maxDigs - dugCount;
+  const digsLeft = getRemainingDigs(gameState.context.state);
 
   const { t } = useAppTranslation();
 
