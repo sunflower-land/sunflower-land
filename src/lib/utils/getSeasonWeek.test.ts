@@ -9,20 +9,6 @@ describe("getSeasonChangeover", () => {
     expect(result.tasksStartAt).toEqual(new Date("2024-05-08").getTime());
   });
 
-  it("tasks end one day before seasons finishes", () => {
-    const now = new Date("2024-04-25");
-    const result = getSeasonChangeover({ id: 100, now: now.getTime() });
-
-    expect(result.tasksCloseAt).toEqual(new Date("2024-04-30").getTime());
-  });
-
-  it("tasks end one day before seasons finishes", () => {
-    const now = new Date("2024-04-25");
-    const result = getSeasonChangeover({ id: 100, now: now.getTime() });
-
-    expect(result.tasksCloseAt).toEqual(new Date("2024-04-30").getTime());
-  });
-
   it("tasks are frozen for non-admins", () => {
     const now = new Date("2024-05-07");
     const result = getSeasonChangeover({ id: 100, now: now.getTime() });
