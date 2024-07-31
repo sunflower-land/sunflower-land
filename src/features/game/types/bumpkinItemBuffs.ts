@@ -372,32 +372,31 @@ export const BUMPKIN_ITEM_BUFF_LABELS: Partial<Record<BumpkinItem, BuffLabel>> =
       boostedItemIcon: ITEM_DETAILS.Crab.image,
     },
     "Lemon Shield": {
-      shortDescription: "+1 Lemon",
+      shortDescription: translate("bumpkinItemBuff.lemon.shield.boost"),
       labelType: "success",
       boostTypeIcon: powerup,
       boostedItemIcon: ITEM_DETAILS.Lemon.image,
     },
     "Infernal Drill": {
-      shortDescription: "Drill Oil without Oil Drill",
+      shortDescription: translate("bumpkinItemBuff.infernal.drill.boost"),
       labelType: "vibrant",
       boostTypeIcon: lightning,
       boostedItemIcon: ITEM_DETAILS.Oil.image,
     },
     "Ancient Shovel": {
-      shortDescription: "Dig treasure without Shovel",
-      // Will clarify whether it will also allow users to dig treasure without the Sand Drill
+      shortDescription: translate("bumpkinItemBuff.ancient.shovel.boost"),
       labelType: "vibrant",
       boostTypeIcon: lightning,
       boostedItemIcon: ITEM_DETAILS.Oil.image,
     },
     "Oil Overalls": {
-      shortDescription: "+10 Oil",
+      shortDescription: translate("bumpkinItemBuff.oil.overalls.boost"),
       labelType: "success",
       boostTypeIcon: powerup,
       boostedItemIcon: ITEM_DETAILS.Oil.image,
     },
     "Dev Wrench": {
-      shortDescription: "-50% Oil Regeneration Time",
+      shortDescription: translate("bumpkinItemBuff.dev.wrench.boost"),
       labelType: "info",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
       boostedItemIcon: ITEM_DETAILS.Oil.image,
