@@ -1564,6 +1564,8 @@ export const BUMPKIN_WITHDRAWABLES: Record<
   "Lemon Shield": () => canWithdrawTimebasedItem(new Date("2024-10-12")), // Last Auction 11th October
   "Scarab Wings": () => hasSeasonEnded("Pharaoh's Treasure"),
   "Bionic Drill": (state) => canWithdrawBoostedWearable("Bionic Drill", state),
-  "Grape Pants": () => hasSeasonEnded("Pharaoh's Treasure"),
+  "Grape Pants": (state) =>
+    canWithdrawBoostedWearable("Grape Pants", state) &&
+    hasSeasonEnded("Pharaoh's Treasure"),
   "Fossil Head": () => canWithdrawTimebasedItem(new Date("2024-10-03")), // Last Auction 2nd October
 };

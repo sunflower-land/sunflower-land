@@ -84,6 +84,10 @@ export const canWithdrawBoostedWearable = (
     return !areFruitsGrowing(state, "Banana")[0];
   }
 
+  if (name === "Grape Pants") {
+    return !greenhouseCropIsGrowing({ crop: "Grape", game: state })[0];
+  }
+
   if (name === "Cattlegrim") {
     return !areAnyChickensFed(state)[0];
   }
