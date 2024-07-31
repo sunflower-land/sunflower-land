@@ -3812,6 +3812,7 @@ export type DesertKeys =
   | "desert.notice.two"
   | "desert.notice.three"
   | "desert.notice.four"
+  | "desert.notice.five"
   | "digby.noShovels"
   | "digby.noDrills"
   | "digby.noDigsLeft"

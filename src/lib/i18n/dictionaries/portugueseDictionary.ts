@@ -5604,6 +5604,7 @@ export const desertTerms: Record<DesertKeys, string> = {
   "desert.notice.two": ENGLISH_TERMS["desert.notice.two"],
   "desert.notice.three": ENGLISH_TERMS["desert.notice.three"],
   "desert.notice.four": ENGLISH_TERMS["desert.notice.four"],
+  "desert.notice.five": ENGLISH_TERMS["desert.notice.five"],
   "digby.moreDigsIntro": ENGLISH_TERMS["digby.moreDigsIntro"],
   "digby.buyMoreDigs": ENGLISH_TERMS["digby.buyMoreDigs"],
   "desert.hud.digsLeft": ENGLISH_TERMS["desert.hud.digsLeft"],

@@ -7,6 +7,7 @@ import { NoticeboardItems } from "../kingdom/KingdomNoticeboard";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { SUNNYSIDE } from "assets/sunnyside";
 import shop from "assets/icons/shop.png";
+import { getSeasonalArtefact } from "features/game/types/seasons";
 
 export function hasReadDesertNotice() {
   return !!localStorage.getItem("desert.notice");
@@ -35,15 +36,19 @@ export const DesertNoticeboard: React.FC<Props> = ({ onClose }) => {
             icon: ITEM_DETAILS["Sand Shovel"].image,
           },
           {
-            text: t("desert.notice.two"),
-            icon: ITEM_DETAILS["Scarab"].image,
+            text: t("desert.notice.two", { ticket: getSeasonalArtefact() }),
+            icon: ITEM_DETAILS[getSeasonalArtefact()].image,
           },
           {
             text: t("desert.notice.three"),
-            icon: shop,
+            icon: ITEM_DETAILS["Hieroglyph"].image,
           },
           {
             text: t("desert.notice.four"),
+            icon: shop,
+          },
+          {
+            text: t("desert.notice.five"),
             icon: SUNNYSIDE.icons.player,
           },
         ]}
