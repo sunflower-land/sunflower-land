@@ -29,7 +29,7 @@ import { hasReadDesertNotice as hasReadDesertNotice } from "../ui/beach/DesertNo
 import { Coordinates } from "features/game/expansion/components/MapPlacement";
 import Decimal from "decimal.js-light";
 import { isTouchDevice } from "../lib/device";
-import { getMaxDigs } from "features/island/hud/components/DesertDiggingDisplay";
+import { getRemainingDigs } from "features/island/hud/components/DesertDiggingDisplay";
 
 const convertToSnakeCase = (str: string) => {
   return str.replace(" ", "_").toLowerCase();
@@ -1017,18 +1017,8 @@ export class BeachScene extends BaseScene {
     return this.gameService.state.context.state.desert.digging.grid.length ?? 0;
   }
 
-  get allowedDigs() {
-    const game = this.gameService.state.context.state;
-    const maxDigs = getMaxDigs(game);
-
-    return maxDigs;
-  }
-
   get hasDigsLeft() {
-    const totalHolesDug =
-      this.gameService.state.context.state.desert.digging.grid.length ?? 0;
-
-    return totalHolesDug < this.allowedDigs;
+    return getRemainingDigs(this.gameService.state.context.state) > 0;
   }
 
   public handleDig = async (row: number, col: number) => {
