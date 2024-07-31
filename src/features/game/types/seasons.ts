@@ -6,6 +6,7 @@ import catchTheKrakenBanner from "assets/decorations/banners/catch_the_kraken_ba
 import springBlossomBanner from "assets/decorations/banners/spring_banner.gif";
 import clashOfFactionsBanner from "assets/decorations/banners/clash_of_factions_banner.webp";
 import pharaohsTreasureBanner from "assets/decorations/banners/pharaohs_treasure_banner.webp";
+import { InventoryItemName } from "./game";
 
 export type SeasonName =
   | "Solar Flare"
@@ -89,6 +90,16 @@ export const SEASON_TICKET_NAME: Record<SeasonName, SeasonalTicket> = {
   "Pharaoh's Treasure": "Amber Fossil",
 };
 
+export const SEASON_ARTEFACT_NAME: Record<SeasonName, InventoryItemName> = {
+  "Solar Flare": "Scarab",
+  "Dawn Breaker": "Scarab",
+  "Witches' Eve": "Scarab",
+  "Catch the Kraken": "Scarab",
+  "Spring Blossom": "Scarab",
+  "Clash of Factions": "Scarab",
+  "Pharaoh's Treasure": "Scarab",
+};
+
 export function getCurrentSeason(now = new Date()): SeasonName {
   const seasons = Object.keys(SEASONS) as SeasonName[];
 
@@ -109,6 +120,12 @@ export function getSeasonalTicket(now = new Date()): SeasonalTicket {
   const currentSeason = getCurrentSeason(now);
 
   return SEASON_TICKET_NAME[currentSeason];
+}
+
+export function getSeasonalArtefact(now = new Date()) {
+  const currentSeason = getCurrentSeason(now);
+
+  return SEASON_ARTEFACT_NAME[currentSeason];
 }
 
 export function getSeasonalBanner(now = new Date()): SeasonalBanner {

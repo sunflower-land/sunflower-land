@@ -4651,7 +4651,7 @@ const orderhelp: Record<OrderHelp, string> = {
   "orderhelp.Skip.hour": "You're only able to skip an order after 24 hours!",
   "orderhelp.New.Season":
     "A new season approaches, ticket deliveries will temporarily close.",
-  "orderhelp.New.Season.arrival": "New seasonal deliveries opening soon.",
+  "orderhelp.New.Season.arrival": "Seasonal deliveries opening soon...",
   "orderhelp.Wisely": "Choose wisely!",
   "orderhelp.SkipIn": "Skip in",
   "orderhelp.NoRight": "Not Right Now",
@@ -5604,7 +5604,8 @@ export const easterEggTerms: Record<EasterEggKeys, string> = {
 };
 
 export const desertTerms: Record<DesertKeys, string> = {
-  "digby.streakReward": "Discover all the items for a bonus prize.",
+  "digby.streakReward":
+    "Discover all the items above for a bonus prize. Unlock daily streaks for extra rewards.",
   "digby.streak": "Digging Streak",
   "digby.claimPrize":
     "Well done Bumpkin! Don't forget to claim your bonus prize!",
@@ -5620,15 +5621,16 @@ export const desertTerms: Record<DesertKeys, string> = {
   "digby.guide.one":
     "You can find items by digging in the archaelogical site. Learn the ancient clues, to find what you seek in the desert.",
   "digby.guide.two": "Crabs are always located next to treasure.",
-  "digby.guide.three":
-    "If you discover sand, you are out of luck. Dig elsewhere.",
+  "digby.guide.three": "If you discover sand, there is no treasure nearby.",
   "digby.guide.four":
     "Each day a desert storm resets the puzzle with new patterns and resources.",
   "desert.notice.one":
     "Welcome to the Desert. Can you solve the Pharaoh's puzzle and find the hidden treasures?",
-  "desert.notice.two": "Discover artefacts & exchange them for seasonal gifts.",
-  "desert.notice.three": "Sell resources at the shop for coins.",
-  "desert.notice.four":
+  "desert.notice.two":
+    "Discover {{ticket}}s & exchange them for rewards before time runs out.",
+  "desert.notice.three": "Use hieroglyphs to upgrade your digging.",
+  "desert.notice.four": "Sell resources at the shop for coins.",
+  "desert.notice.five":
     "Gather items for NPC deliveries in exchange for rewards.",
   "digby.moreDigsIntro":
     "Ahhh you're looking for more digs? No worries! There are multiple ways to get more. Check out the options below!",

@@ -101,4 +101,9 @@ export const SOUNDS = {
     nyx: `${CONFIG.PROTECTED_IMAGE_URL}/sound-effects/nightshade-recruiter.mp3`,
     reginald: `${CONFIG.PROTECTED_IMAGE_URL}/sound-effects/sunflorian-recruiter.mp3`,
   },
+  desert: {
+    dig: `${CONFIG.PROTECTED_IMAGE_URL}/sfx/Farming/Dig/Farm_Game_Farming_Dig_Hoe_Soil_Dirt_1_Garden.mp3`,
+    drill: `${CONFIG.PROTECTED_IMAGE_URL}/sfx/Farming/Engines/Farm_Game_Farming_Tool_Engine_Contraption_Other_Garden_Machine_1_Device_Craft.mp3`,
+    reveal: `${CONFIG.PROTECTED_IMAGE_URL}/sfx/Menu_UI/Collects/Farm_Game_User_Interface_Collect_Item_1_Click_Pop_Fun_Cartoon.mp3`,
+  },
 };
