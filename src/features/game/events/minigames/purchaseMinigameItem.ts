@@ -78,6 +78,10 @@ export function purchaseMinigameItem({
       throw new Error(`Insufficient resource: ${name}`);
     }
 
+    if (totalAmount < 0) {
+      throw new Error(`Cannot spend negative amount: ${name}`);
+    }
+
     return {
       ...inventory,
       [name]: count.sub(totalAmount),
