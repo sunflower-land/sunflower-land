@@ -299,13 +299,11 @@ export const TreasureShopBuy: React.FC<Props> = ({ onClose }) => {
   ): name is TreasureCollectibleItem => name in TREASURE_COLLECTIBLE_ITEM;
 
   const now = Date.now();
-  // const shopCollectibles = getKeys(TREASURE_COLLECTIBLE_ITEM).filter(
-  //   (itemName) =>
-  //     (TREASURE_COLLECTIBLE_ITEM[itemName].from?.getTime() ?? 0) <= now &&
-  //     (TREASURE_COLLECTIBLE_ITEM[itemName].to?.getTime() ?? Infinity) > now,
-  // );
-
-  const shopCollectibles = getKeys(TREASURE_COLLECTIBLE_ITEM);
+  const shopCollectibles = getKeys(TREASURE_COLLECTIBLE_ITEM).filter(
+    (itemName) =>
+      (TREASURE_COLLECTIBLE_ITEM[itemName].from?.getTime() ?? 0) <= now &&
+      (TREASURE_COLLECTIBLE_ITEM[itemName].to?.getTime() ?? Infinity) > now,
+  );
 
   const unlimitedCollectibles = shopCollectibles.filter(
     (itemName) => !TREASURE_COLLECTIBLE_ITEM[itemName].to,
