@@ -996,7 +996,7 @@ const megastore: Record<MegaStoreCollectibleName, () => boolean> = {
   "Duamutef Jar": () => canWithdrawTimebasedItem(new Date("2024-10-01")),
   "Qebehsenuef Jar": () => canWithdrawTimebasedItem(new Date("2024-11-01")),
   "Imsety Jar": () => canWithdrawTimebasedItem(new Date("2024-09-01")),
-  "Tomato Core": () => canWithdrawTimebasedItem(new Date("2024-09-01")),
+  Cannonball: () => canWithdrawTimebasedItem(new Date("2024-09-01")),
   Sarcophagus: () => canWithdrawTimebasedItem(new Date("2024-09-01")),
   "Clay Tablet": () => canWithdrawTimebasedItem(new Date("2024-10-01")),
   "Snake in Jar": () => canWithdrawTimebasedItem(new Date("2024-10-01")),

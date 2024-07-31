@@ -8830,7 +8830,7 @@ export const ITEM_DETAILS: Items = {
       en: "",
     },
   },
-  "Tomato Core": {
+  Cannonball: {
     image: "",
     description: {
       en: "",

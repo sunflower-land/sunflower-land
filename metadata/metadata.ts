@@ -8578,7 +8578,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     image: "../public/erc1155/images/2104.png",
     name: "Imsety Jar",
   },
-  "Tomato Core": {
+  Cannonball: {
     description: "",
     decimals: 0,
     attributes: [
@@ -8592,7 +8592,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     ],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/question_mark.png",
-    name: "Tomato Core",
+    name: "Cannonball",
   },
   Sarcophagus: {
     description: "",

@@ -967,7 +967,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Cactus King": Template,
   "Lemon Frog": Template,
   "Scarab Beetle": Template,
-  "Tomato Core": Template,
+  Cannonball: Template,
   "Clay Tablet": Template,
   "Reveling Lemon": Template,
   "Paper Reed": Template,

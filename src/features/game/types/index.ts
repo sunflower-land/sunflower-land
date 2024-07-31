@@ -791,7 +791,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Duamutef Jar": 2102,
   "Qebehsenuef Jar": 2103,
   "Imsety Jar": 2104,
-  "Tomato Core": 2105,
+  Cannonball: 2105,
   Sarcophagus: 2106,
   "Clay Tablet": 2107,
   "Snake in Jar": 2108,

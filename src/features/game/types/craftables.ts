@@ -1524,7 +1524,7 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
     width: 1,
     height: 2,
   },
-  "Tomato Core": {
+  Cannonball: {
     width: 1,
     height: 1,
   },

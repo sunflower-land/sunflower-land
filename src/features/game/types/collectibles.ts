@@ -119,7 +119,7 @@ export type MegaStoreCollectibleName =
   // Pharaoh's Treasure
   | "Hapy Jar"
   | "Imsety Jar"
-  | "Tomato Core"
+  | "Cannonball"
   | "Sarcophagus"
   | "Duamutef Jar"
   | "Qebehsenuef Jar"
