@@ -1535,7 +1535,7 @@ export const BUMPKIN_WITHDRAWABLES: Record<
   Motley: () => false,
   "Royal Braids": () => false,
 
-  //Pharaoh's Treasure
+  // Pharaoh's Treasure
   "Pharaoh Headdress": () => canWithdrawTimebasedItem(new Date("2024-09-01")),
   "Camel Onesie": (state) =>
     canWithdrawTimebasedItem(new Date("2024-10-01")) &&
@@ -1562,7 +1562,8 @@ export const BUMPKIN_WITHDRAWABLES: Record<
   "Ancient Shovel": () => canWithdrawTimebasedItem(new Date("2024-10-24")), // Last Auction 23rd October
   "Infernal Drill": () => canWithdrawTimebasedItem(new Date("2024-10-21")), // Last Auction 20th October
   "Lemon Shield": () => canWithdrawTimebasedItem(new Date("2024-10-12")), // Last Auction 11th October
-  "Scarab Wings": () => canWithdrawTimebasedItem(new Date("2024-10-03")), // Last Auction 2nd October
-  "Grape Pants": () => hasSeasonEnded("Pharaoh's Treasure"),
+  "Scarab Wings": () => hasSeasonEnded("Pharaoh's Treasure"),
   "Bionic Drill": (state) => canWithdrawBoostedWearable("Bionic Drill", state),
+  "Grape Pants": () => hasSeasonEnded("Pharaoh's Treasure"),
+  "Fossil Head": () => canWithdrawTimebasedItem(new Date("2024-10-03")), // Last Auction 2nd October
 };

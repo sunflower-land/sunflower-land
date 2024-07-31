@@ -13429,6 +13429,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
     attributes: [
       { trait_type: "Part", value: "Wings" },
       { trait_type: "Tradable", value: "Yes" },
+      { trait_type: "Boost", value: "Other" },
       {
         display_type: "boost_number",
         trait_type: "Increase daily digs",
@@ -13438,5 +13439,17 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
     external_url: "https://bumpkins.io",
     image: "../public/wearables/images/374.png",
     name: "Bionic Drill",
+  },
+  "Fossil Head": {
+    description:
+      "The Fossil Head is an artefact that was discovered by an ancient digger, it's said to be a rare find!",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Hat" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://bumpkins.io",
+    image: "../public/wearables/images/375.png",
+    name: "Fossil Head",
   },
 };
