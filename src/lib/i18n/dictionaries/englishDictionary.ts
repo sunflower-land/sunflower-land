@@ -2002,6 +2002,8 @@ const donation: Record<Donation, string> = {
   "donation.minimum": "Minimum 1 MATIC",
   "donation.airdrop": "Decorations will be airdropped after donations close.",
   "donation.specialEvent": "Special Donation Event",
+  "donation.toPortal":
+    "Would you like to donate {{amount}} MATIC to {{portalName}}?",
 };
 
 const draftBid: Record<DraftBid, string> = {
