@@ -254,6 +254,8 @@ export const TREASURE_COLLECTIBLE_ITEM: Record<
       Scarab: new Decimal(40),
     },
     description: "A Castle to show your pride",
+    from: SEASONS["Pharaoh's Treasure"].startDate,
+    to: SEASONS["Pharaoh's Treasure"].endDate,
   },
   "Baobab Tree": {
     ingredients: {
