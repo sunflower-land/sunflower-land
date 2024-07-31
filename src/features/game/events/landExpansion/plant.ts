@@ -39,6 +39,7 @@ import {
 import { getBumpkinLevel } from "features/game/lib/level";
 import { isBuildingEnabled } from "features/game/expansion/lib/buildingRequirements";
 import { isWearableActive } from "features/game/lib/wearables";
+import { isGreenhouseCrop } from "./plantGreenhouse";
 
 export type LandExpansionPlantAction = {
   type: "seed.planted";
@@ -586,6 +587,12 @@ export function getCropYieldAmount({
     amount += 0.25;
   }
 
+  if (
+    isGreenhouseCrop(crop) &&
+    isCollectibleBuilt({ name: "Pharaoh Gnome", game })
+  ) {
+    amount += 2;
+  }
   return Number(setPrecision(new Decimal(amount)));
 }
 

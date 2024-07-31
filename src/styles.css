@@ -805,7 +805,7 @@ img {
   top: 0;
   width: 100%;
   height: 100%;
-  background-image: url("/src/assets/ui/brown_wall.webp");
+  background-image: url("https://sunflower-land.com/testnet-assets/ui/brown_wall.webp");
   background-repeat: repeat;
   background-size: calc(22px * 2.625);
   /* background-position: 50% 0; */

@@ -6,16 +6,6 @@ import { addNoise } from "lib/images";
 import { CROPS } from "features/game/types/crops";
 import { getKeys } from "features/game/types/craftables";
 
-// import goblin3 from "assets/npcs/goblin_chef.gif";
-// import goblin4 from "assets/npcs/goblin_chef_doing.gif";
-// import goblin5 from "assets/npcs/goblin_digger.gif";
-// import goblin7 from "assets/npcs/goblin_farmer.gif";
-// import goblin8 from "assets/npcs/goblin_head.png";
-// import goblin9 from "assets/npcs/goblin_jump_rusty_shovel.gif";
-// import goblin10 from "assets/npcs/goblin_snorkling.gif";
-// import goblin12 from "assets/npcs/pirate_goblin.gif";
-// import goblin13 from "assets/npcs/suspicious_goblin.gif";
-
 import { randomBoolean, randomDouble, randomInt } from "lib/utils/random";
 import { Label } from "components/ui/Label";
 import { FRUIT } from "features/game/types/fruits";
