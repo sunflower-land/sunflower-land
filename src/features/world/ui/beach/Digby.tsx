@@ -43,7 +43,7 @@ import { ResizableBar } from "components/ui/ProgressBar";
 import { Revealed } from "features/game/components/Revealed";
 import { ChestRevealing, ChestRewardType } from "../chests/ChestRevealing";
 
-function hasReadIntro() {
+export function hasReadDigbyIntro() {
   return !!localStorage.getItem("digging.intro");
 }
 
@@ -358,7 +358,7 @@ const BoostDigItems: Partial<
 };
 
 const getDefaultTab = (game: GameState) => {
-  if (!hasReadIntro()) return 1;
+  if (!hasReadDigbyIntro()) return 1;
 
   const treasureCount = getTreasureCount({ game });
   const treasuresFound = getTreasuresFound({ game });

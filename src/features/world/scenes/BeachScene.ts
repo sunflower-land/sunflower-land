@@ -34,6 +34,7 @@ import {
   AudioLocalStorageKeys,
   getCachedAudioSetting,
 } from "features/game/lib/audio";
+import { hasReadDigbyIntro } from "../ui/beach/Digby";
 
 const convertToSnakeCase = (str: string) => {
   return str.replace(" ", "_").toLowerCase();
@@ -405,7 +406,23 @@ export class BeachScene extends BaseScene {
       }
     });
     this.currentSelectedItem = this.selectedItem;
+
+    this.setupPopups();
   }
+
+  setupPopups = () => {
+    this.onCollision["desert_entry"] = async (obj1, obj2) => {
+      if (!hasReadDesertNotice()) {
+        interactableModalManager.open("desert_noticeboard");
+      }
+    };
+
+    this.onCollision["digging_entry"] = async (obj1, obj2) => {
+      if (!hasReadDigbyIntro()) {
+        npcModalManager.open("digby");
+      }
+    };
+  };
 
   public setUpDigSite = () => {
     // set up visual grid overlay
