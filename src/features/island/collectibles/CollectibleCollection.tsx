@@ -973,7 +973,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
       divStyle={{
         width: `${PIXEL_SCALE * 15}px`,
         bottom: `${PIXEL_SCALE * 0}px`,
-        left: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0.5}px`,
       }}
       imgStyle={{
         width: `${PIXEL_SCALE * 15}px`,

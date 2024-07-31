@@ -245,6 +245,7 @@ export const maxItems: Inventory = {
   "Sunlit Citadel": new Decimal(50),
 
   "Tomato Bombard": new Decimal(1),
+  Cannonball: new Decimal(1),
 
   ...(Object.keys(EXOTIC_CROPS) as InventoryItemName[]).reduce(
     (acc, name) => ({

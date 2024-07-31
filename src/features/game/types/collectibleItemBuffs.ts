@@ -663,4 +663,10 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
     boostedItemIcon: SUNNYSIDE.icons.stopwatch,
     boostTypeIcon: ITEM_DETAILS.Tomato.image,
   },
+  Cannonball: {
+    shortDescription: translate("description.cannonball.boost"),
+    labelType: "info",
+    boostedItemIcon: SUNNYSIDE.icons.stopwatch,
+    boostTypeIcon: ITEM_DETAILS.Tomato.image,
+  },
 };

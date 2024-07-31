@@ -455,7 +455,7 @@ describe("fruitPlanted", () => {
     ).toEqual(dateNow - (FRUIT_SEEDS()["Lemon Seed"].plantSeconds * 1000) / 2);
   });
 
-  it("includes Tomato Clown bonus on Tomatoes", () => {
+  it("gives a 50% growth time reduction on tomatoes when Tomato Clown is placed", () => {
     const seedAmount = new Decimal(5);
 
     const patchIndex = "1";
@@ -495,6 +495,103 @@ describe("fruitPlanted", () => {
     expect(
       (fruitPatches as Record<number, FruitPatch>)[patchIndex].fruit?.plantedAt,
     ).toEqual(dateNow - (FRUIT_SEEDS()["Tomato Seed"].plantSeconds * 1000) / 2);
+  });
+
+  it("gives a 25% growth time reduction on tomatoes when Cannonball is placed", () => {
+    const seedAmount = new Decimal(5);
+
+    const patchIndex = "1";
+
+    const state = plantFruit({
+      state: {
+        ...GAME_STATE,
+        bumpkin: INITIAL_BUMPKIN,
+        inventory: {
+          "Tomato Seed": seedAmount,
+          Cannonball: new Decimal(1),
+        },
+        collectibles: {
+          Cannonball: [
+            {
+              coordinates: { x: 0, y: 0 },
+              createdAt: 0,
+              id: "123",
+              readyAt: 0,
+            },
+          ],
+        },
+      },
+      createdAt: dateNow,
+      action: {
+        type: "fruit.planted",
+        index: patchIndex,
+        seed: "Tomato Seed",
+      },
+    });
+
+    const fruitPatches = state.fruitPatches;
+
+    expect(
+      (fruitPatches as Record<number, FruitPatch>)[patchIndex].fruit?.amount,
+    ).toEqual(1);
+    expect(
+      (fruitPatches as Record<number, FruitPatch>)[patchIndex].fruit?.plantedAt,
+    ).toEqual(
+      dateNow - FRUIT_SEEDS()["Tomato Seed"].plantSeconds * 1000 * 0.25,
+    );
+  });
+
+  it("gives a 62.5% growth time reduction on tomatoes when Cannonball and Tomato Clown are placed", () => {
+    const seedAmount = new Decimal(5);
+
+    const patchIndex = "1";
+
+    const state = plantFruit({
+      state: {
+        ...GAME_STATE,
+        bumpkin: INITIAL_BUMPKIN,
+        inventory: {
+          "Tomato Seed": seedAmount,
+          "Tomato Clown": new Decimal(1),
+          Cannonball: new Decimal(1),
+        },
+        collectibles: {
+          "Tomato Clown": [
+            {
+              coordinates: { x: 0, y: 0 },
+              createdAt: 0,
+              id: "123",
+              readyAt: 0,
+            },
+          ],
+          Cannonball: [
+            {
+              coordinates: { x: 1, y: 1 },
+              createdAt: 0,
+              id: "123",
+              readyAt: 0,
+            },
+          ],
+        },
+      },
+      createdAt: dateNow,
+      action: {
+        type: "fruit.planted",
+        index: patchIndex,
+        seed: "Tomato Seed",
+      },
+    });
+
+    const fruitPatches = state.fruitPatches;
+
+    expect(
+      (fruitPatches as Record<number, FruitPatch>)[patchIndex].fruit?.amount,
+    ).toEqual(1);
+    expect(
+      (fruitPatches as Record<number, FruitPatch>)[patchIndex].fruit?.plantedAt,
+    ).toEqual(
+      dateNow - FRUIT_SEEDS()["Tomato Seed"].plantSeconds * 1000 * 0.625,
+    );
   });
 
   it("includes Black Bearry bonus on Blueberries", () => {
