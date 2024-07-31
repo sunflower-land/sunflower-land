@@ -81,7 +81,7 @@ const HudComponent: React.FC = () => {
           pathname.includes("dawn-breaker")
         }
       />
-      <DesertDiggingDisplay />
+      {pathname.includes("beach") && <DesertDiggingDisplay />}
       <Balances
         onClick={farmAddress ? handleBuyCurrenciesModal : undefined}
         sfl={gameState.context.state.balance}
