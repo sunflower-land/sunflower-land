@@ -26,6 +26,8 @@ import {
 import { getSeasonalTicket } from "features/game/types/seasons";
 import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
 import { getImageUrl } from "lib/utils/getImageURLS";
+import { BUMPKIN_ITEM_BUFF_LABELS } from "features/game/types/bumpkinItemBuffs";
+import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
 
 interface ToolContentProps {
   selectedName: TreasureToolName;
@@ -133,7 +135,7 @@ const CollectibleContent: React.FC<CollectibleContentProps> = ({
       selected.ingredients[name]?.greaterThan(inventory[name] || 0),
     );
   const isAlreadyCrafted = inventory[selectedName]?.greaterThanOrEqualTo(1);
-  const isBoost = TREASURE_COLLECTIBLE_ITEM[selectedName].boost;
+  const isBoost = COLLECTIBLE_BUFF_LABELS[selectedName]?.shortDescription;
 
   const craft = () => {
     gameService.send("collectible.crafted", {
@@ -204,7 +206,7 @@ const WearableContent: React.FC<WearableContentProps> = ({
       selected.ingredients[name]?.greaterThan(inventory[name] || 0),
     );
   const isAlreadyCrafted = (wardrobe[selectedName] ?? 0) >= 1;
-  const isBoost = selected.boost;
+  const isBoost = BUMPKIN_ITEM_BUFF_LABELS[selectedName]?.shortDescription;
 
   const craft = () => {
     gameService.send("wearable.bought", {
@@ -238,7 +240,7 @@ const WearableContent: React.FC<WearableContentProps> = ({
         from: selected.from,
         to: selected.to,
       }}
-      boost={selected.boost}
+      boost={BUMPKIN_ITEM_BUFF_LABELS[selectedName]?.shortDescription}
       requirements={{
         resources: selected.ingredients,
         coins: selected.coins,
@@ -287,8 +289,12 @@ export const TreasureShopBuy: React.FC<Props> = ({ onClose }) => {
   };
 
   const isTool = (
-    name: TreasureToolName | TreasureCollectibleItem,
+    name: TreasureToolName | TreasureCollectibleItem | BumpkinItem,
   ): name is TreasureToolName => name in TREASURE_TOOLS;
+
+  const isCollectible = (
+    name: TreasureToolName | TreasureCollectibleItem | BumpkinItem,
+  ): name is TreasureCollectibleItem => name in TREASURE_COLLECTIBLE_ITEM;
 
   const now = Date.now();
   const shopCollectibles = getKeys(TREASURE_COLLECTIBLE_ITEM).filter(
@@ -323,8 +329,10 @@ export const TreasureShopBuy: React.FC<Props> = ({ onClose }) => {
       panel={
         isTool(selectedName) ? (
           <ToolContent onClose={onClose} selectedName={selectedName} />
-        ) : (
+        ) : isCollectible(selectedName) ? (
           <CollectibleContent onClose={onClose} selectedName={selectedName} />
+        ) : (
+          <WearableContent onClose={onClose} selectedName={selectedName} />
         )
       }
       content={
@@ -346,6 +354,16 @@ export const TreasureShopBuy: React.FC<Props> = ({ onClose }) => {
 
           <Label type="default">{t("collectibles")}</Label>
           <div className="flex flex-wrap mb-2">
+            {limitedCollectibles.map((name) => (
+              <Box
+                isSelected={selectedName === name}
+                secondaryImage={SUNNYSIDE.icons.stopwatch}
+                key={name}
+                onClick={() => setSelectedName(name)}
+                count={inventory[name]}
+                image={ITEM_DETAILS[name].image}
+              />
+            ))}
             {unlimitedCollectibles.map((name) => {
               return (
                 <Box
@@ -357,41 +375,31 @@ export const TreasureShopBuy: React.FC<Props> = ({ onClose }) => {
                 />
               );
             })}
-            {limitedCollectibles.map((name) => (
-              <Box
-                isSelected={selectedName === name}
-                secondaryImage={SUNNYSIDE.icons.stopwatch}
-                key={name}
-                onClick={() => setSelectedName(name)}
-                count={inventory[name]}
-                image={ITEM_DETAILS[name].image}
-              />
-            ))}
           </div>
 
           <Label type="default">{t("wearables")}</Label>
           <div className="flex flex-wrap mb-2">
-            {unlimitedWearables.map((name) => {
-              return (
-                <Box
-                  isSelected={selectedName === name}
-                  key={name}
-                  onClick={() => setSelectedName(name)}
-                  count={wardobe[name]}
-                  image={getImageUrl(ITEM_IDS[name])}
-                />
-              );
-            })}
             {limitedWearables.map((name) => (
               <Box
                 isSelected={selectedName === name}
                 secondaryImage={SUNNYSIDE.icons.stopwatch}
                 key={name}
                 onClick={() => setSelectedName(name)}
-                count={wardobe[name]}
+                count={new Decimal(wardobe[name] ?? 0)}
                 image={getImageUrl(ITEM_IDS[name])}
               />
             ))}
+            {unlimitedWearables.map((name) => {
+              return (
+                <Box
+                  isSelected={selectedName === name}
+                  key={name}
+                  onClick={() => setSelectedName(name)}
+                  count={new Decimal(wardobe[name] ?? 0)}
+                  image={getImageUrl(ITEM_IDS[name])}
+                />
+              );
+            })}
           </div>
         </div>
       }

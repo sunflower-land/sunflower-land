@@ -3,18 +3,15 @@ import { InventoryItemName } from "./game";
 import { BumpkinItem } from "./bumpkin";
 import { SEASONS } from "./seasons";
 
-export type ArtefactWerables = {
+export type ArtefactWearables = {
   coins: number;
   ingredients: Partial<Record<InventoryItemName, Decimal>>;
-  disabled?: boolean;
-  hoursPlayed?: number;
   from?: Date;
   to?: Date;
-  requiresItem?: InventoryItemName;
 };
 
 export type ArtefactShopWearables = Partial<
-  Record<BumpkinItem, ArtefactWerables>
+  Record<BumpkinItem, ArtefactWearables>
 >;
 
 export const ARTEFACT_SHOP_WEARABLES: ArtefactShopWearables = {
@@ -25,5 +22,12 @@ export const ARTEFACT_SHOP_WEARABLES: ArtefactShopWearables = {
     },
     from: SEASONS["Pharaoh's Treasure"].startDate,
     to: SEASONS["Pharaoh's Treasure"].endDate,
+  },
+  "Bionic Drill": {
+    coins: 0,
+    ingredients: {
+      Hieroglyph: new Decimal(50),
+      Sand: new Decimal(300),
+    },
   },
 };
