@@ -165,6 +165,13 @@ export abstract class BaseScene extends Phaser.Scene {
     this.options = defaultedOptions;
   }
 
+  public get isAudioMuted(): boolean {
+    return getCachedAudioSetting<boolean>(
+      AudioLocalStorageKeys.audioMuted,
+      false,
+    );
+  }
+
   preload() {
     if (this.options.map?.json) {
       const json = {
@@ -440,21 +447,15 @@ export abstract class BaseScene extends Phaser.Scene {
   }
 
   public initialiseSounds() {
-    const audioMuted = getCachedAudioSetting<boolean>(
-      AudioLocalStorageKeys.audioMuted,
-      false,
+    this.walkAudioController = new WalkAudioController(
+      this.sound.add(this.options.audio.fx.walk_key),
     );
-    if (!audioMuted) {
-      this.walkAudioController = new WalkAudioController(
-        this.sound.add(this.options.audio.fx.walk_key),
-      );
-    }
   }
 
   public initialiseControls() {
     if (isTouchDevice()) {
       // Initialise joystick
-      const { x, y, centerX, centerY, width, height } = this.cameras.main;
+      const { centerX, centerY, height } = this.cameras.main;
       this.joystick = new VirtualJoystick(this, {
         x: centerX,
         y: centerY - 35 + height / this.zoom / 2,
@@ -464,6 +465,7 @@ export abstract class BaseScene extends Phaser.Scene {
         forceMin: 2,
       });
     }
+
     // Initialise Keyboard
     this.cursorKeys = this.input.keyboard?.createCursorKeys();
     if (this.cursorKeys) {
@@ -719,6 +721,9 @@ export abstract class BaseScene extends Phaser.Scene {
   }
 
   update(): void {
+    // mute audio if audio is muted
+    this.sound.mute = this.isAudioMuted;
+
     this.currentTick++;
 
     this.switchScene();

@@ -10,10 +10,7 @@ import {
 import { interactableModalManager } from "../ui/InteractableModals";
 import { translate } from "lib/i18n/translate";
 import { SOUNDS } from "assets/sound-effects/soundEffects";
-import {
-  AudioLocalStorageKeys,
-  getCachedAudioSetting,
-} from "features/game/lib/audio";
+
 import { npcModalManager } from "../ui/NPCModals";
 import { FactionName } from "features/game/types/game";
 import { Coordinates } from "features/game/expansion/components/MapPlacement";
@@ -337,17 +334,10 @@ export class KingdomScene extends BaseScene {
       this.add.image(280, 720, "question_disc").setDepth(1000000);
     }
 
-    const audioMuted = getCachedAudioSetting<boolean>(
-      AudioLocalStorageKeys.audioMuted,
-      false,
-    );
-
-    if (!audioMuted) {
-      // Ambience SFX
-      if (!this.sound.get("royal_farms")) {
-        const nature1 = this.sound.add("royal_farms");
-        nature1.play({ loop: true, volume: 0.3 });
-      }
+    // Ambience SFX
+    if (!this.sound.get("royal_farms")) {
+      const nature1 = this.sound.add("royal_farms");
+      nature1.play({ loop: true, volume: 0.3 });
     }
 
     if (
