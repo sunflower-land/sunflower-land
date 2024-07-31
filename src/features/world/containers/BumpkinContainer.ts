@@ -56,6 +56,10 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
   private backAuraAnimationKey: string | undefined;
   private direction: "left" | "right" = "right";
 
+  // sounds
+  private digSFX: Phaser.Sound.BaseSound | undefined;
+  private drillSFX: Phaser.Sound.BaseSound | undefined;
+
   constructor({
     scene,
     x,
@@ -687,6 +691,7 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
     ) {
       try {
         this.sprite.anims.play(this.digAnimationKey as string, true);
+        this.scene.sound.play("dig", { volume: 0.1 });
       } catch (e) {
         // eslint-disable-next-line no-console
         console.log("Bumpkin Container: Error playing dig animation: ", e);
@@ -702,6 +707,7 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
     ) {
       try {
         this.sprite.anims.play(this.drillAnimationKey as string, true);
+        this.scene.sound.play("drill", { volume: 0.1 });
       } catch (e) {
         // eslint-disable-next-line no-console
         console.log("Bumpkin Container: Error playing drill animation: ", e);

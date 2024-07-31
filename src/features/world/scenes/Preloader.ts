@@ -31,8 +31,10 @@ export abstract class Preloader extends Phaser.Scene {
       this.load.audio("wood_footstep", SOUNDS.footsteps.wood);
       this.load.audio("sand_footstep", SOUNDS.footsteps.sand);
       this.load.audio("nature_1", SOUNDS.loops.nature_1);
-      this.load.audio("portal_travel", SOUNDS.notifications.portal_travel);
       this.load.audio("boat", SOUNDS.loops.engine);
+      this.load.audio("dig", SOUNDS.desert.dig);
+      this.load.audio("drill", SOUNDS.desert.drill);
+      this.load.audio("reveal", SOUNDS.desert.reveal);
 
       // Phaser assets must be served from an URL
       this.load.image(

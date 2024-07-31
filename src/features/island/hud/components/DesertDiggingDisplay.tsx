@@ -72,7 +72,7 @@ export const DesertDiggingDisplay = () => {
   return (
     <>
       <div
-        className="absolute top-36 left-4 cursor-pointer z-50 hover:img-highlight"
+        className="absolute bottom-3 left-1/2 -translate-x-1/2 cursor-pointer z-50 hover:img-highlight"
         onClick={handleClick}
       >
         {!!digsLeft && dugCount > 0 && (

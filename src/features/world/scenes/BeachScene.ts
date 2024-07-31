@@ -30,6 +30,10 @@ import { Coordinates } from "features/game/expansion/components/MapPlacement";
 import Decimal from "decimal.js-light";
 import { isTouchDevice } from "../lib/device";
 import { getRemainingDigs } from "features/island/hud/components/DesertDiggingDisplay";
+import {
+  AudioLocalStorageKeys,
+  getCachedAudioSetting,
+} from "features/game/lib/audio";
 
 const convertToSnakeCase = (str: string) => {
   return str.replace(" ", "_").toLowerCase();
@@ -134,6 +138,9 @@ export class BeachScene extends BaseScene {
     | { x: number; y: number }[]
     | undefined = [];
   alreadyWarnedOfNoDigs = false;
+  alreadyNotifiedOfClaim = false;
+  digSoundsCooldown = false;
+  sandHole?: Phaser.GameObjects.Image;
 
   constructor() {
     super({ name: "beach", map: { json: mapJSON } });
@@ -141,7 +148,6 @@ export class BeachScene extends BaseScene {
 
   preload() {
     super.preload();
-
     this.load.image("question_disc", "world/question_disc.png");
 
     this.load.image("empty_progress_bar", "world/empty_bar.png");
@@ -356,6 +362,10 @@ export class BeachScene extends BaseScene {
         this.currentPlayer?.speak(translate("base.iam.far.away"));
       }
     });
+
+    this.sound.add("drill");
+    this.sound.add("dig");
+    this.sound.add("reveal");
 
     if (
       hasFeatureAccess(this.gameService.state.context.state, "TEST_DIGGING")
@@ -1236,8 +1246,14 @@ export class BeachScene extends BaseScene {
     if (!this.currentPlayer) return;
 
     if (this.percentageTreasuresFound >= 100) {
+      if (this.alreadyNotifiedOfClaim) return;
+
       this.npcs.digby?.speak(translate("digby.claimPrize"));
-    } else if (!this.hasDigsLeft) {
+      this.alreadyNotifiedOfClaim = true;
+      return;
+    }
+
+    if (!this.hasDigsLeft) {
       if (this.alreadyWarnedOfNoDigs) return;
 
       this.npcs.digby?.speak(translate("digby.noDigsLeft"));
@@ -1266,7 +1282,47 @@ export class BeachScene extends BaseScene {
     }
   };
 
-  sandHole?: Phaser.GameObjects.Image;
+  public handleActionSFX = () => {
+    const sfx = this.selectedItem === "Sand Drill" ? "drill" : "dig";
+
+    const audioMuted = getCachedAudioSetting<boolean>(
+      AudioLocalStorageKeys.audioMuted,
+      false,
+    );
+
+    if (audioMuted) return;
+
+    if (!this.digSoundsCooldown) {
+      this.sound.play(sfx, { volume: 0.1 });
+      this.digSoundsCooldown = true;
+      this.time.addEvent({
+        delay: 500,
+        callback: () => {
+          this.digSoundsCooldown = false;
+        },
+      });
+    }
+  };
+
+  public handleRevealSFX() {
+    const audioMuted = getCachedAudioSetting<boolean>(
+      AudioLocalStorageKeys.audioMuted,
+      false,
+    );
+
+    if (audioMuted) return;
+
+    if (!this.digSoundsCooldown) {
+      this.sound.play("reveal", { volume: 0.1 });
+      this.digSoundsCooldown = true;
+      this.time.addEvent({
+        delay: 1000,
+        callback: () => {
+          this.digSoundsCooldown = false;
+        },
+      });
+    }
+  }
 
   public updatePlayer() {
     // Don't allow movement while digging
@@ -1353,6 +1409,7 @@ export class BeachScene extends BaseScene {
     if (isMoving || this.isPlayerTweening) {
       this.currentPlayer.walk();
     } else if (this.gameService.state.matches("revealed")) {
+      this.handleRevealSFX();
       // Only run this code once
       if (!this.isRevealing) return;
 
@@ -1383,10 +1440,15 @@ export class BeachScene extends BaseScene {
         // Move out of revealed state
         this.gameService.send("CONTINUE");
         this.currentPlayer?.sprite?.off("animationstop", onComplete);
+
+        const sfxKey = this.selectedItem === "Sand Drill" ? "drill" : "dig";
+        this.sound.stopByKey(sfxKey);
       };
 
       this.currentPlayer?.sprite?.on("animationstop", onComplete);
+      this.currentPlayer?.sprite?.off("animationrepeat", this.handleActionSFX);
     } else if (this.isRevealing) {
+      this.currentPlayer?.sprite?.on("animationrepeat", this.handleActionSFX);
       // If we are in this condition and the game service state
       // is not revealing then it indicates we attempted to dig
       // while the machine was in the autosaving state.
@@ -1455,6 +1517,7 @@ export class BeachScene extends BaseScene {
     } else {
       this.noToolHoverBox?.setVisible(false);
       this.alreadyWarnedOfNoDigs = false;
+      this.alreadyNotifiedOfClaim = false;
       this.hoverBox?.setVisible(false);
       this.confirmBox?.setVisible(false);
       this.drillHoverBox?.setVisible(false);
