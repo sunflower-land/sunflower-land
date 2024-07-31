@@ -384,8 +384,7 @@ export const BUMPKIN_ITEM_BUFF_LABELS: Partial<Record<BumpkinItem, BuffLabel>> =
       boostedItemIcon: ITEM_DETAILS.Oil.image,
     },
     "Ancient Shovel": {
-      shortDescription: "Dig treasure without Shovel",
-      // Will clarify whether it will also allow users to dig treasure without the Sand Drill
+      shortDescription: translate("bumpkinItemBuff.ancient.shovel.boost"),
       labelType: "vibrant",
       boostTypeIcon: lightning,
       boostedItemIcon: ITEM_DETAILS.Oil.image,
