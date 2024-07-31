@@ -4,6 +4,10 @@ import {
   LUXURY_REWARDS,
   BUD_BOX_REWARDS,
   GIFT_GIVER_REWARDS,
+  BASIC_DESERT_STREAK,
+  ADVANCED_DESERT_STREAK,
+  EXPERT_DESERT_STREAK,
+  ChestReward,
 } from "features/game/types/chests";
 import { ITEM_DETAILS } from "features/game/types/images";
 import React, { useCallback, useEffect } from "react";
@@ -16,23 +20,36 @@ import { Label } from "components/ui/Label";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { getImageUrl } from "lib/utils/getImageURLS";
 
+export type ChestRewardType =
+  | "Treasure Key"
+  | "Rare Key"
+  | "Luxury Key"
+  | "Bud Box"
+  | "Gift Giver"
+  | "Basic Desert Rewards"
+  | "Advanced Desert Rewards"
+  | "Expert Desert Rewards";
+
 interface Props {
-  type: "Treasure Key" | "Rare Key" | "Luxury Key" | "Bud Box" | "Gift Giver";
+  type: ChestRewardType;
 }
 
-const CHEST_LOOT = {
-  "Treasure Key": BASIC_REWARDS,
-  "Rare Key": RARE_REWARDS,
-  "Luxury Key": LUXURY_REWARDS,
+const CHEST_LOOT: () => Record<ChestRewardType, ChestReward[]> = () => ({
+  "Treasure Key": BASIC_REWARDS(),
+  "Rare Key": RARE_REWARDS(),
+  "Luxury Key": LUXURY_REWARDS(),
   "Bud Box": BUD_BOX_REWARDS,
   "Gift Giver": GIFT_GIVER_REWARDS,
-};
+  "Basic Desert Rewards": BASIC_DESERT_STREAK,
+  "Advanced Desert Rewards": ADVANCED_DESERT_STREAK,
+  "Expert Desert Rewards": EXPERT_DESERT_STREAK,
+});
 
 export const ChestRevealing: React.FC<Props> = ({ type }) => {
   const [image, setImage] = React.useState<string>(sfl);
   const [label, setLabel] = React.useState<string>("5 SFL");
 
-  const items = CHEST_LOOT[type];
+  const items = CHEST_LOOT()[type];
 
   const pickRandomImage = useCallback(() => {
     let newImage = image;

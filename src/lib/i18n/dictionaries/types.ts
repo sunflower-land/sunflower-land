@@ -752,7 +752,8 @@ export type BumpkinItemBuff =
   | "bumpkinItemBuff.lemon.shield.boost"
   | "bumpkinItemBuff.dev.wrench.boost"
   | "bumpkinItemBuff.oil.overalls.boost"
-  | "bumpkinItemBuff.ancient.shovel.boost";
+  | "bumpkinItemBuff.ancient.shovel.boost"
+  | "bumpkinItemBuff.grape.pants";
 
 export type BumpkinPart =
   | "equip.background"
@@ -1101,6 +1102,12 @@ export type CropMachine =
   | "cropMachine.idle"
   | "cropMachine.name";
 
+export type CropsAndChickensMessages =
+  | "crops-and-chickens.portal.title"
+  | "crops-and-chickens.portal.description"
+  | "crops-and-chickens.portal.missionObjectives"
+  | "crops-and-chickens.portal.rewardMessage";
+
 export type DeliveryItem =
   | "deliveryitem.inventory"
   | "deliveryitem.itemsToDeliver"
@@ -1444,7 +1451,8 @@ export type Donation =
   | "donation.rioGrandeDoSul.two"
   | "donation.matic"
   | "donation.minimum"
-  | "donation.airdrop";
+  | "donation.airdrop"
+  | "donation.toPortal";
 
 export type ErrorAndAccess =
   | "errorAndAccess.blocked.betaTestersOnly"
@@ -3806,11 +3814,15 @@ export type DesertKeys =
   | "desert.notice.two"
   | "desert.notice.three"
   | "desert.notice.four"
+  | "desert.notice.five"
   | "digby.noShovels"
   | "digby.noDrills"
   | "digby.noDigsLeft"
   | "digby.moreDigsIntro"
   | "digby.buyMoreDigs"
+  | "digby.streak"
+  | "digby.streakReward"
+  | "digby.claimPrize"
   | "desert.hud.digsLeft"
   | "desert.hud.noDigsLeft"
   | "desert.hud.newSite"
@@ -3853,6 +3865,7 @@ export type TranslationKeys =
   | CropBoomMessages
   | CropFruitDescriptions
   | CropMachine
+  | CropsAndChickensMessages
   | DeliveryItem
   | DefaultDialogue
   | DecorationDescriptions

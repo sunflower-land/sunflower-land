@@ -35,14 +35,12 @@ export function getSeasonChangeover({
   now?: number;
 }) {
   const season = getCurrentSeason(new Date(now));
-  const incomingSeason = getCurrentSeason(new Date(now + 24 * 60 * 60 * 1000));
 
-  // 24 hours before the season ends
-  const tasksCloseAt = SEASONS[season].endDate.getTime() - 24 * 60 * 60 * 1000;
+  const tasksCloseAt = SEASONS[season].endDate.getTime();
 
   // 7 days after the season starts
   const tasksStartAt =
-    SEASONS[incomingSeason].startDate.getTime() + 7 * 24 * 60 * 60 * 1000;
+    SEASONS[season].startDate.getTime() + 7 * 24 * 60 * 60 * 1000;
 
   const isAdmin = ADMIN_IDS.includes(id);
 
@@ -51,7 +49,10 @@ export function getSeasonChangeover({
     tasksStartAt,
     ticketTasksAreClosing:
       now < tasksCloseAt && now >= tasksCloseAt - 24 * 60 * 60 * 1000,
-    ticketTasksAreFrozen: !isAdmin && now <= tasksStartAt,
+    ticketTasksAreFrozen:
+      !isAdmin &&
+      now >= SEASONS[season].startDate.getTime() &&
+      now <= tasksStartAt,
   };
 }
 

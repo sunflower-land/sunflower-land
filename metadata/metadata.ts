@@ -8841,8 +8841,46 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     image: "../public/erc1155/images/question_mark.png",
     name: "Oasis",
   },
+  "Paper Reed": {
+    description: "",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/question_mark.png",
+    name: "Paper Reed",
+  },
+  Camel: {
+    description: "",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Boost" },
+      { trait_type: "Tradable", value: "Yes" },
+      {
+        display_type: "boost_number",
+        trait_type: "Increase daily digs",
+        value: 3,
+      },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/question_mark.png",
+    name: "Camel",
+  },
+  "Baobab Tree": {
+    description:
+      "Guardian of the desert, the Baobab Tree stands tall and proud.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2126.png",
+    name: "Baobab Tree",
+  },
 };
-
 export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
   "Beige Farmer Potion": {
     description:
@@ -13368,6 +13406,22 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
     image: "../public/wearables/images/372.png",
     name: "Scarab Wings",
   },
+  "Grape Pants": {
+    description: "Stylist pants for the grape farmer.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Pants" },
+      { trait_type: "Boost", value: "Fruit" },
+      {
+        display_type: "boost_number",
+        trait_type: "Increase Grape Yield",
+        value: 0.2,
+      },
+    ],
+    external_url: "https://bumpkins.io",
+    image: "../public/wearables/images/373.png",
+    name: "Grape Pants",
+  },
   "Bionic Drill": {
     description:
       "The Bionic Drill is a state-of-the-art wearable designed for the modern desert explorer. Enjoy +5 desert digs per day.",
@@ -13375,6 +13429,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
     attributes: [
       { trait_type: "Part", value: "Wings" },
       { trait_type: "Tradable", value: "Yes" },
+      { trait_type: "Boost", value: "Other" },
       {
         display_type: "boost_number",
         trait_type: "Increase daily digs",
@@ -13382,7 +13437,19 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/images/372.png",
-    name: "Scarab Wings",
+    image: "../public/wearables/images/374.png",
+    name: "Bionic Drill",
+  },
+  "Fossil Head": {
+    description:
+      "The Fossil Head is an artefact that was discovered by an ancient digger, it's said to be a rare find!",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Hat" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://bumpkins.io",
+    image: "../public/wearables/images/375.png",
+    name: "Fossil Head",
   },
 };

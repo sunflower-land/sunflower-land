@@ -32,6 +32,7 @@ import {
   Conversations,
   CropBoomMessages,
   CropFruitDescriptions,
+  CropsAndChickensMessages,
   DeliveryItem,
   DefaultDialogue,
   DecorationDescriptions,
@@ -1120,6 +1121,7 @@ const bumpkinItemBuff: Record<BumpkinItemBuff, string> = {
     ENGLISH_TERMS["bumpkinItemBuff.oil.overalls.boost"],
   "bumpkinItemBuff.ancient.shovel.boost":
     ENGLISH_TERMS["bumpkinItemBuff.ancient.shovel.boost"],
+  "bumpkinItemBuff.grape.pants": ENGLISH_TERMS["bumpkinItemBuff.grape.pants"],
 };
 
 const bumpkinPart: Record<BumpkinPart, string> = {
@@ -1577,6 +1579,17 @@ const cropMachine: Record<CropMachine, string> = {
   "cropMachine.stopped": ENGLISH_TERMS["cropMachine.stopped"],
   "cropMachine.idle": ENGLISH_TERMS["cropMachine.idle"],
   "cropMachine.name": ENGLISH_TERMS["cropMachine.name"],
+};
+
+const cropsAndChickens: Record<CropsAndChickensMessages, string> = {
+  "crops-and-chickens.portal.title":
+    ENGLISH_TERMS["crops-and-chickens.portal.title"],
+  "crops-and-chickens.portal.description":
+    ENGLISH_TERMS["crops-and-chickens.portal.description"],
+  "crops-and-chickens.portal.missionObjectives":
+    ENGLISH_TERMS["crops-and-chickens.portal.missionObjectives"],
+  "crops-and-chickens.portal.rewardMessage":
+    ENGLISH_TERMS["crops-and-chickens.portal.rewardMessage"],
 };
 
 const deliveryitem: Record<DeliveryItem, string> = {
@@ -2047,6 +2060,7 @@ const donation: Record<Donation, string> = {
   "donation.airdrop":
     "As decorações serão enviadas via airdrop quando as doações forem encerradas.",
   "donation.specialEvent": "Evento especial de doação",
+  "donation.toPortal": ENGLISH_TERMS["donation.toPortal"],
 };
 
 const draftBid: Record<DraftBid, string> = {
@@ -5578,6 +5592,9 @@ export const easterEggTerms: Record<EasterEggKeys, string> = {
 export const desertTerms: Record<DesertKeys, string> = {
   "digby.noDigsLeft": ENGLISH_TERMS["digby.noDigsLeft"],
   "digby.noDrills": ENGLISH_TERMS["digby.noDrills"],
+  "digby.streak": ENGLISH_TERMS["digby.streak"],
+  "digby.streakReward": ENGLISH_TERMS["digby.streakReward"],
+  "digby.claimPrize": ENGLISH_TERMS["digby.claimPrize"],
   "digby.noShovels": ENGLISH_TERMS["digby.noShovels"],
   "digby.puzzle": ENGLISH_TERMS["digby.puzzle"],
   "digby.today": ENGLISH_TERMS["digby.today"],
@@ -5590,6 +5607,7 @@ export const desertTerms: Record<DesertKeys, string> = {
   "desert.notice.two": ENGLISH_TERMS["desert.notice.two"],
   "desert.notice.three": ENGLISH_TERMS["desert.notice.three"],
   "desert.notice.four": ENGLISH_TERMS["desert.notice.four"],
+  "desert.notice.five": ENGLISH_TERMS["desert.notice.five"],
   "digby.moreDigsIntro": ENGLISH_TERMS["digby.moreDigsIntro"],
   "digby.buyMoreDigs": ENGLISH_TERMS["digby.buyMoreDigs"],
   "desert.hud.digsLeft": ENGLISH_TERMS["desert.hud.digsLeft"],
@@ -5635,6 +5653,7 @@ export const PORTUGUESE_TERMS: Record<TranslationKeys, string> = {
   ...cropBoomMessages,
   ...cropFruitDescriptions,
   ...cropMachine,
+  ...cropsAndChickens,
   ...deliveryitem,
   ...defaultDialogue,
   ...decorationDescriptions,

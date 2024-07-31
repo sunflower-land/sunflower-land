@@ -205,7 +205,7 @@ export const Portal: React.FC<Props> = ({ portalName, onClose }) => {
         >
           <iframe
             src={url}
-            className="w-full h-full rounded-lg shadow-md absolute z-10"
+            className="w-full h-full absolute z-10"
             ref={iframeRef} // Set ref to the iframe
           />
         </div>,
@@ -221,16 +221,19 @@ export const Portal: React.FC<Props> = ({ portalName, onClose }) => {
               background: "rgb(0 0 0 / 56%)",
             }}
           >
-            <CloseButtonPanel onClose={() => setPurchase(undefined)}>
+            <CloseButtonPanel
+              className="w-[500px]"
+              onClose={() => setPurchase(undefined)}
+            >
               <div className="p-1">
                 <Label type="default" className="mb-2">
                   {t("minigame.purchase")}
                 </Label>
                 <p className="text-sm">{`${t("minigame.confirm")}`}</p>
                 {!!purchase.sfl && (
-                  <div className="flex mb-1  items-center">
+                  <div className="flex mb-1 items-center">
                     <Box image={sflIcon} />
-                    <span className="ml-1">{`${purchase.sfl} x  SFL`}</span>
+                    <span className="ml-1">{`${purchase.sfl} x SFL`}</span>
                   </div>
                 )}
                 {getKeys(purchase.items ?? {}).map((key) => {
@@ -238,7 +241,7 @@ export const Portal: React.FC<Props> = ({ portalName, onClose }) => {
                   return (
                     <div className="flex mb-1 items-center" key={key}>
                       <Box image={ITEM_DETAILS[key].image} />
-                      <span className="ml-1">{`${item} x  ${key}`}</span>
+                      <span className="ml-1">{`${item} x ${key}`}</span>
                     </div>
                   );
                 })}
@@ -259,10 +262,13 @@ export const Portal: React.FC<Props> = ({ portalName, onClose }) => {
               background: "rgb(0 0 0 / 56%)",
             }}
           >
-            <CloseButtonPanel onClose={() => setDonation(undefined)}>
+            <CloseButtonPanel
+              className="w-[500px]"
+              onClose={() => setDonation(undefined)}
+            >
               <PortalDonation
                 donation={donation}
-                name={portalName}
+                portalName={portalName}
                 onClose={() => setDonation(undefined)}
               />
             </CloseButtonPanel>

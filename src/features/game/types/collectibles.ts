@@ -1,6 +1,7 @@
 import Decimal from "decimal.js-light";
 import { GameState, Inventory } from "./game";
 import { translate } from "lib/i18n/translate";
+import { SEASONS } from "./seasons";
 
 export type CollectibleLocation = "farm" | "home";
 
@@ -38,7 +39,9 @@ export type TreasureCollectibleItem =
   | "Treasure Map"
   | "Adrift Ark"
   | "Castellan"
-  | "Sunlit Citadel";
+  | "Sunlit Citadel"
+  | "Baobab Tree"
+  | "Camel";
 
 export type SoldOutCollectibleName =
   | "Sir Goldensnout"
@@ -251,6 +254,22 @@ export const TREASURE_COLLECTIBLE_ITEM: Record<
       Scarab: new Decimal(40),
     },
     description: "A Castle to show your pride",
+  },
+  "Baobab Tree": {
+    ingredients: {
+      Scarab: new Decimal(35),
+    },
+    description: "A nice looking tree!",
+    from: SEASONS["Pharaoh's Treasure"].startDate,
+    to: SEASONS["Pharaoh's Treasure"].endDate,
+  },
+  Camel: {
+    ingredients: {
+      Scarab: new Decimal(100),
+    },
+    description: "A mean looking camel!",
+    from: SEASONS["Pharaoh's Treasure"].startDate,
+    to: SEASONS["Pharaoh's Treasure"].endDate,
   },
 };
 

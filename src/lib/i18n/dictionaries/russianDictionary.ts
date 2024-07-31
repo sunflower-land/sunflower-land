@@ -33,6 +33,7 @@ import {
   CropBoomMessages,
   CropFruitDescriptions,
   CropMachine,
+  CropsAndChickensMessages,
   DeliveryItem,
   DefaultDialogue,
   DecorationDescriptions,
@@ -1093,6 +1094,7 @@ const bumpkinItemBuff: Record<BumpkinItemBuff, string> = {
     ENGLISH_TERMS["bumpkinItemBuff.oil.overalls.boost"],
   "bumpkinItemBuff.ancient.shovel.boost":
     ENGLISH_TERMS["bumpkinItemBuff.ancient.shovel.boost"],
+  "bumpkinItemBuff.grape.pants": ENGLISH_TERMS["bumpkinItemBuff.grape.pants"],
 };
 
 const bumpkinPart: Record<BumpkinPart, string> = {
@@ -1516,6 +1518,17 @@ const cropFruitDescriptions: Record<CropFruitDescriptions, string> = {
   "description.sunpetal.seed": "Семя sunpetal",
   "description.bloom.seed": "Семя bloom",
   "description.lily.seed": "Семя lily",
+};
+
+const cropsAndChickens: Record<CropsAndChickensMessages, string> = {
+  "crops-and-chickens.portal.title":
+    ENGLISH_TERMS["crops-and-chickens.portal.title"],
+  "crops-and-chickens.portal.description":
+    ENGLISH_TERMS["crops-and-chickens.portal.description"],
+  "crops-and-chickens.portal.missionObjectives":
+    ENGLISH_TERMS["crops-and-chickens.portal.missionObjectives"],
+  "crops-and-chickens.portal.rewardMessage":
+    ENGLISH_TERMS["crops-and-chickens.portal.rewardMessage"],
 };
 
 const deliveryitem: Record<DeliveryItem, string> = {
@@ -1977,6 +1990,9 @@ const discordBonus: Record<DiscordBonus, string> = {
 export const desertTerms: Record<DesertKeys, string> = {
   "digby.noDigsLeft": ENGLISH_TERMS["digby.noDigsLeft"],
   "digby.noDrills": ENGLISH_TERMS["digby.noDrills"],
+  "digby.streak": ENGLISH_TERMS["digby.streak"],
+  "digby.streakReward": ENGLISH_TERMS["digby.streakReward"],
+  "digby.claimPrize": ENGLISH_TERMS["digby.claimPrize"],
   "digby.noShovels": ENGLISH_TERMS["digby.noShovels"],
   "digby.puzzle": ENGLISH_TERMS["digby.puzzle"],
   "digby.today": ENGLISH_TERMS["digby.today"],
@@ -1989,6 +2005,7 @@ export const desertTerms: Record<DesertKeys, string> = {
   "desert.notice.two": ENGLISH_TERMS["desert.notice.two"],
   "desert.notice.three": ENGLISH_TERMS["desert.notice.three"],
   "desert.notice.four": ENGLISH_TERMS["desert.notice.four"],
+  "desert.notice.five": ENGLISH_TERMS["desert.notice.five"],
   "digby.moreDigsIntro": ENGLISH_TERMS["digby.moreDigsIntro"],
   "digby.buyMoreDigs": ENGLISH_TERMS["digby.buyMoreDigs"],
   "desert.hud.digsLeft": ENGLISH_TERMS["desert.hud.digsLeft"],
@@ -2010,6 +2027,7 @@ const donation: Record<Donation, string> = {
   "donation.minimum": "Minimum 1 MATIC",
   "donation.airdrop": "Decorations will be airdropped after donations close.",
   "donation.specialEvent": "Special Donation Event",
+  "donation.toPortal": ENGLISH_TERMS["donation.toPortal"],
 };
 
 const draftBid: Record<DraftBid, string> = {
@@ -5652,6 +5670,7 @@ export const RUSSIAN_TERMS: Record<TranslationKeys, string> = {
   ...cropBoomMessages,
   ...cropFruitDescriptions,
   ...cropMachine,
+  ...cropsAndChickens,
   ...deliveryitem,
   ...defaultDialogue,
   ...decorationDescriptions,

@@ -1580,6 +1580,14 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
     width: 3,
     height: 4,
   },
+  "Baobab Tree": {
+    width: 3,
+    height: 3,
+  },
+  Camel: {
+    width: 1,
+    height: 1,
+  },
 };
 
 export const ANIMAL_DIMENSIONS: Record<"Chicken", Dimensions> = {

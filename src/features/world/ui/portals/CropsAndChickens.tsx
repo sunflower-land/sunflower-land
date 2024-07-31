@@ -154,11 +154,10 @@ export const CropsAndChickens: React.FC<Props> = ({ onClose }) => {
       <ClaimReward
         onClaim={onClaim}
         reward={{
-          message:
-            "Congratulations, you completed the mission! Here is your reward.",
+          message: t("crops-and-chickens.portal.rewardMessage"),
           createdAt: Date.now(),
           factionPoints: 0,
-          id: "discord-bonus",
+          id: "crops-and-chickens-rewards",
           items: prize.items,
           wearables: prize.wearables,
           sfl: 0,
@@ -173,12 +172,20 @@ export const CropsAndChickens: React.FC<Props> = ({ onClose }) => {
       <div className="mb-1">
         <div className="p-2">
           <Label type="default" className="mb-1" icon={factions}>
-            {"?"}
+            {t("crops-and-chickens.portal.title")}
           </Label>
-          <InlineDialogue message={"?"} />
+          <InlineDialogue
+            message={t("crops-and-chickens.portal.description")}
+          />
         </div>
 
-        <MinigamePrizeUI prize={prize} history={dailyAttempt} mission="?" />
+        <MinigamePrizeUI
+          prize={prize}
+          history={dailyAttempt}
+          mission={t("crops-and-chickens.portal.missionObjectives", {
+            targetScore: prize?.score ?? 0,
+          })}
+        />
       </div>
       <Button onClick={playNow}>{t("minigame.playNow")}</Button>
     </>

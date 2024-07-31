@@ -58,6 +58,10 @@ export function purchaseMinigameItem({
     throw new Error("Insufficient SFL");
   }
 
+  if (action.sfl < 0) {
+    throw new Error("SFL must be positive");
+  }
+
   if (action.sfl > SFL_LIMIT) {
     throw new Error("SFL is greater than purchase limit");
   }
@@ -72,6 +76,10 @@ export function purchaseMinigameItem({
 
     if (count.lessThan(totalAmount)) {
       throw new Error(`Insufficient resource: ${name}`);
+    }
+
+    if (totalAmount < 0) {
+      throw new Error(`Cannot spend negative amount: ${name}`);
     }
 
     return {

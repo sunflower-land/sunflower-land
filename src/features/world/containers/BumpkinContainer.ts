@@ -12,6 +12,10 @@ import { InventoryItemName } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { ITEM_IDS } from "features/game/types/bumpkin";
 import { CONFIG } from "lib/config";
+import {
+  AudioLocalStorageKeys,
+  getCachedAudioSetting,
+} from "features/game/lib/audio";
 
 const NAME_ALIASES: Partial<Record<NPCName, string>> = {
   "pumpkin' pete": "pete",
@@ -55,6 +59,10 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
   private frontAuraAnimationKey: string | undefined;
   private backAuraAnimationKey: string | undefined;
   private direction: "left" | "right" = "right";
+
+  // sounds
+  private digSFX: Phaser.Sound.BaseSound | undefined;
+  private drillSFX: Phaser.Sound.BaseSound | undefined;
 
   constructor({
     scene,
@@ -687,6 +695,14 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
     ) {
       try {
         this.sprite.anims.play(this.digAnimationKey as string, true);
+        const audioMuted = getCachedAudioSetting<boolean>(
+          AudioLocalStorageKeys.audioMuted,
+          false,
+        );
+
+        if (!audioMuted) {
+          this.scene.sound.play("dig", { volume: 0.1 });
+        }
       } catch (e) {
         // eslint-disable-next-line no-console
         console.log("Bumpkin Container: Error playing dig animation: ", e);
@@ -702,6 +718,14 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
     ) {
       try {
         this.sprite.anims.play(this.drillAnimationKey as string, true);
+        const audioMuted = getCachedAudioSetting<boolean>(
+          AudioLocalStorageKeys.audioMuted,
+          false,
+        );
+
+        if (!audioMuted) {
+          this.scene.sound.play("drill", { volume: 0.1 });
+        }
       } catch (e) {
         // eslint-disable-next-line no-console
         console.log("Bumpkin Container: Error playing drill animation: ", e);
