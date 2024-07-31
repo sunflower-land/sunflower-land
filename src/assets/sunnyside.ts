@@ -519,10 +519,10 @@ export const SUNNYSIDE = {
     //Potion House Exotic Crops
     adirondackPotato: `${CONFIG.PROTECTED_IMAGE_URL}/potion_house/adirondack_potato.png`,
     goldenHelios: `${CONFIG.PROTECTED_IMAGE_URL}/potion_house/golden_helios.png`,
-    chiogga: `${CONFIG.PROTECTED_IMAGE_URL}/sfts/potion_house/chiogga.png`,
-    blackMagic: `${CONFIG.PROTECTED_IMAGE_URL}/sfts/potion_house/black_magic.png`,
+    chiogga: `${CONFIG.PROTECTED_IMAGE_URL}/potion_house/chiogga.png`,
+    blackMagic: `${CONFIG.PROTECTED_IMAGE_URL}/potion_house/black_magic.png`,
     purpleCauliflower: `${CONFIG.PROTECTED_IMAGE_URL}/potion_house/purple_cauliflower.png`,
-    whiteCarrot: `${CONFIG.PROTECTED_IMAGE_URL}/sfts/potion_house/white_carrot.png`,
+    whiteCarrot: `${CONFIG.PROTECTED_IMAGE_URL}/potion_house/white_carrot.png`,
     wartyGoblinPumpkin: `${CONFIG.PROTECTED_IMAGE_URL}/potion_house/warty_goblin_pumpkin.png`,
   },
   //Resources
@@ -670,7 +670,7 @@ export const SUNNYSIDE = {
     pineTree: `${CONFIG.PROTECTED_IMAGE_URL}/decorations/pine_tree.png`,
     crowRock: `${CONFIG.PROTECTED_IMAGE_URL}/decorations/crow_rock.webp`,
     spookyTree: `${CONFIG.PROTECTED_IMAGE_URL}/decorations/spooky_tree.png`,
-    shroomGlow: `${CONFIG.PROTECTED_IMAGE_URL}/decorations/shrooom_glow.png`,
+    shroomGlow: `${CONFIG.PROTECTED_IMAGE_URL}/decorations/shroom_glow.png`,
     bonniesTombstone: `${CONFIG.PROTECTED_IMAGE_URL}/decorations/bonnies_tombstone.png`,
     grubnashTombstone: `${CONFIG.PROTECTED_IMAGE_URL}/decorations/grubnash_tombstone.png`,
     planter_box: `${CONFIG.PROTECTED_IMAGE_URL}/decorations/planter_box.webp`,

@@ -2,9 +2,12 @@ import Decimal from "decimal.js-light";
 import {
   BASE_OIL_DROP_AMOUNT,
   OIL_BONUS_DROP_AMOUNT,
+  OIL_RESERVE_RECOVERY_TIME,
   drillOilReserve,
+  getDrilledAt,
 } from "./drillOilReserve";
 import { TEST_FARM } from "features/game/lib/constants";
+import { TEST_BUMPKIN } from "features/game/lib/bumpkinData";
 
 describe("drillOilReserve", () => {
   it("throws an error if the oil reserve does not exist", () => {
@@ -134,6 +137,52 @@ describe("drillOilReserve", () => {
     expect(reserve.oil.drilledAt).toBe(now);
     expect(reserve.drilled).toBe(1);
     expect(game.inventory["Oil Drill"]?.toNumber()).toBe(1);
+    expect(game.inventory.Oil?.toNumber()).toEqual(BASE_OIL_DROP_AMOUNT);
+  });
+
+  it("drills the oil reserve without oil drill with infernal drill equipped", () => {
+    const now = Date.now();
+
+    const game = drillOilReserve({
+      action: {
+        id: "1",
+        type: "oilReserve.drilled",
+      },
+      state: {
+        ...TEST_FARM,
+        bumpkin: {
+          ...TEST_BUMPKIN,
+          equipped: {
+            ...TEST_BUMPKIN.equipped,
+            secondaryTool: "Infernal Drill",
+          },
+        },
+        inventory: {
+          "Oil Drill": new Decimal(2),
+        },
+        oilReserves: {
+          "1": {
+            x: 1,
+            y: 1,
+            height: 2,
+            width: 2,
+            createdAt: now,
+            drilled: 0,
+            oil: {
+              amount: BASE_OIL_DROP_AMOUNT,
+              drilledAt: 0,
+            },
+          },
+        },
+      },
+      createdAt: now,
+    });
+
+    const reserve = game.oilReserves["1"];
+
+    expect(reserve.oil.drilledAt).toBe(now);
+    expect(reserve.drilled).toBe(1);
+    expect(game.inventory["Oil Drill"]?.toNumber()).toBe(2);
     expect(game.inventory.Oil?.toNumber()).toEqual(BASE_OIL_DROP_AMOUNT);
   });
 
@@ -332,8 +381,94 @@ describe("drillOilReserve", () => {
     expect(reserve.oil.amount).toEqual(BASE_OIL_DROP_AMOUNT + boost);
   });
 
-  it("gives a +0.15 Bonus with Battle Fish and Knight Chicken", () => {
-    const boost = 0.15;
+  it("gives a +2 boost with Oil Can equipped", () => {
+    const now = Date.now();
+
+    const game = drillOilReserve({
+      action: {
+        id: "1",
+        type: "oilReserve.drilled",
+      },
+      state: {
+        ...TEST_FARM,
+        inventory: {
+          "Oil Drill": new Decimal(2),
+        },
+        oilReserves: {
+          "1": {
+            x: 1,
+            y: 1,
+            height: 2,
+            width: 2,
+            createdAt: now,
+            drilled: 0,
+            oil: {
+              amount: 10,
+              drilledAt: 0,
+            },
+          },
+        },
+        bumpkin: {
+          ...TEST_BUMPKIN,
+          equipped: {
+            ...TEST_BUMPKIN.equipped,
+            tool: "Oil Can",
+          },
+        },
+      },
+    });
+
+    const reserve = game.oilReserves["1"];
+
+    expect(reserve.oil.amount).toEqual(BASE_OIL_DROP_AMOUNT + 2);
+  });
+
+  it("gives a +10 Bonus with Oil Overalls", () => {
+    const boost = 10;
+    const now = Date.now();
+
+    const game = drillOilReserve({
+      action: {
+        id: "1",
+        type: "oilReserve.drilled",
+      },
+      state: {
+        ...TEST_FARM,
+        inventory: {
+          "Oil Drill": new Decimal(2),
+        },
+        bumpkin: {
+          ...TEST_BUMPKIN,
+          equipped: {
+            ...TEST_BUMPKIN.equipped,
+            pants: "Oil Overalls",
+          },
+        },
+        oilReserves: {
+          "1": {
+            x: 1,
+            y: 1,
+            height: 2,
+            width: 2,
+            createdAt: now,
+            drilled: 0,
+            oil: {
+              amount: 10,
+              drilledAt: 0,
+            },
+          },
+        },
+      },
+      createdAt: now,
+    });
+
+    const reserve = game.oilReserves["1"];
+
+    expect(reserve.oil.amount).toEqual(BASE_OIL_DROP_AMOUNT + boost);
+  });
+
+  it("gives a +12.15 Bonus with Battle Fish, Knight Chicken, Oil Overalls and Oil Can", () => {
+    const boost = 12.15;
     const now = Date.now();
 
     const game = drillOilReserve({
@@ -347,6 +482,14 @@ describe("drillOilReserve", () => {
           "Oil Drill": new Decimal(2),
           "Battle Fish": new Decimal(1),
           "Knight Chicken": new Decimal(1),
+        },
+        bumpkin: {
+          ...TEST_BUMPKIN,
+          equipped: {
+            ...TEST_BUMPKIN.equipped,
+            pants: "Oil Overalls",
+            tool: "Oil Can",
+          },
         },
         collectibles: {
           "Battle Fish": [
@@ -387,5 +530,27 @@ describe("drillOilReserve", () => {
     const reserve = game.oilReserves["1"];
 
     expect(reserve.oil.amount).toEqual(BASE_OIL_DROP_AMOUNT + boost);
+  });
+
+  describe("getDrilledAt", () => {
+    it("replenishes oil faster with Dev Wrench", () => {
+      const now = Date.now();
+
+      const time = getDrilledAt({
+        game: {
+          ...TEST_FARM,
+          bumpkin: {
+            ...TEST_BUMPKIN,
+            equipped: {
+              ...TEST_BUMPKIN.equipped,
+              tool: "Dev Wrench",
+            },
+          },
+        },
+        createdAt: now,
+      });
+
+      expect(time).toEqual(now - OIL_RESERVE_RECOVERY_TIME * 0.5 * 1000);
+    });
   });
 });

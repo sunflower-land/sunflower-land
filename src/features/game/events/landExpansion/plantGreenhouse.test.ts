@@ -311,6 +311,61 @@ describe("plantGreenhouse", () => {
     });
   });
 
+  it("boosts +2 Greenhouse Crop yield when Pharaoh Gnome is placed", () => {
+    const now = Date.now();
+    const state = plantGreenhouse({
+      action: {
+        type: "greenhouse.planted",
+        id: 1,
+        seed: "Rice Seed",
+      },
+      state: {
+        ...farm,
+        inventory: {
+          "Rice Seed": new Decimal(1),
+        },
+        greenhouse: {
+          oil: 50,
+          pots: {
+            1: {},
+          },
+        },
+        collectibles: {
+          "Pharaoh Gnome": [
+            {
+              id: "1",
+              createdAt: 0,
+              coordinates: {
+                x: 0,
+                y: 0,
+              },
+              readyAt: 0,
+            },
+          ],
+        },
+        buildings: {
+          Greenhouse: [
+            {
+              coordinates: { x: 0, y: 0 },
+              id: "1",
+              createdAt: 0,
+              readyAt: 0,
+            },
+          ],
+        },
+      },
+      createdAt: now,
+    });
+
+    expect(state.greenhouse.pots[1]).toEqual({
+      plant: {
+        amount: 3,
+        name: "Rice",
+        plantedAt: now,
+      },
+    });
+  });
+
   it("gives a 50% time boost when Turbo Sprout is placed", () => {
     const now = Date.now();
     const state = plantGreenhouse({
@@ -355,6 +410,58 @@ describe("plantGreenhouse", () => {
         amount: 1,
         name: "Rice",
         plantedAt: now - boostedTime,
+      },
+    });
+  });
+
+  it("boosts +2 Greenhouse Fruit yield when Pharaoh Gnome is placed", () => {
+    const now = Date.now();
+    const state = plantGreenhouse({
+      action: {
+        type: "greenhouse.planted",
+        id: 1,
+        seed: "Grape Seed",
+      },
+      state: {
+        ...farm,
+        inventory: {
+          "Grape Seed": new Decimal(1),
+        },
+        greenhouse: {
+          oil: 50,
+          pots: {
+            1: {},
+          },
+        },
+        buildings: {
+          Greenhouse: [
+            {
+              coordinates: { x: 0, y: 0 },
+              id: "1",
+              createdAt: 0,
+              readyAt: 0,
+            },
+          ],
+        },
+        collectibles: {
+          "Pharaoh Gnome": [
+            {
+              id: "1",
+              createdAt: 0,
+              coordinates: { x: 0, y: 0 },
+              readyAt: 0,
+            },
+          ],
+        },
+      },
+      createdAt: now,
+    });
+
+    expect(state.greenhouse.pots[1]).toEqual({
+      plant: {
+        amount: 3,
+        name: "Grape",
+        plantedAt: now,
       },
     });
   });

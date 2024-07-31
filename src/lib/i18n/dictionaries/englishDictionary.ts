@@ -938,6 +938,9 @@ const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
   "description.hourglass.expired":
     "Your {{hourglass}} has expired. Time to grab another one!",
   "description.desert.rose.boost": "10% Chance for +1 Flower",
+  "description.pharaoh.gnome.boost": "+2 Greenhouse Plants",
+  "description.lemon.tea.bath.boost": "-50% Lemon Growth Time",
+  "description.tomato.clown.boost": "-50% Tomato Growth Time",
 };
 
 const bountyDescription: Record<BountyDescription, string> = {
@@ -1062,6 +1065,11 @@ const bumpkinItemBuff: Record<BumpkinItemBuff, string> = {
   "bumpkinItemBuff.bumpkin.sabatons": "+5% Marks",
   "bumpkinItemBuff.crab.trap": "+1 Crab when digging or drilling",
   "bumpkinItemBuff.bionic.drill": "+5 Desert Digs",
+  "bumpkinItemBuff.infernal.drill.boost": "Drill Oil without Oil Drill",
+  "bumpkinItemBuff.lemon.shield.boost": "+1 Lemon",
+  "bumpkinItemBuff.dev.wrench.boost": "-50% Oil Regeneration Time",
+  "bumpkinItemBuff.oil.overalls.boost": "+10 Oil",
+  "bumpkinItemBuff.ancient.shovel.boost": "Dig treasure without Sand Shovel",
 };
 
 const bumpkinPart: Record<BumpkinPart, string> = {
