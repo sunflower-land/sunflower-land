@@ -8,6 +8,8 @@ import {
   DESERT_GRID_WIDTH,
   DiggingGrid,
   DESERT_GRID_HEIGHT,
+  getTreasureCount,
+  getTreasuresFound,
 } from "features/game/types/desert";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { secondsTillReset } from "features/helios/components/hayseedHank/HayseedHankV2";
@@ -15,6 +17,7 @@ import { NPC_WEARABLES } from "lib/npcs";
 import { secondsToString } from "lib/utils/time";
 import React, { useContext, useEffect, useState } from "react";
 import powerup from "assets/icons/level_up.png";
+import gift from "assets/icons/gift.png";
 import blockBuck from "assets/icons/block_buck.png";
 
 import { Desert, GameState } from "features/game/types/game";
@@ -33,6 +36,9 @@ import { CollectibleName } from "features/game/types/craftables";
 import Decimal from "decimal.js-light";
 import { getMaxDigs } from "features/island/hud/components/DesertDiggingDisplay";
 import { BUMPKIN_ITEM_BUFF_LABELS } from "features/game/types/bumpkinItemBuffs";
+import { ResizableBar } from "components/ui/ProgressBar";
+import { Revealed } from "features/game/components/Revealed";
+import { ChestRevealing, ChestRewardType } from "../chests/ChestRevealing";
 
 function hasReadIntro() {
   return !!localStorage.getItem("digging.intro");
@@ -180,45 +186,138 @@ export const DailyPuzzle: React.FC = () => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 
+  // Just a prolonged UI state to show the shuffle of reward items
+  const [isPicking, setIsPicking] = useState(false);
+  const [isRevealing, setIsRevealing] = useState(false);
+
   const patterns = gameState.context.state.desert.digging.patterns;
+  const streak = gameState.context.state.desert.digging.streak ?? {
+    count: 0,
+    collectedAt: 0,
+    totalClaimed: 0,
+  };
+
   const grid = dugToGrid(gameState.context.state.desert.digging.grid);
 
   const { t } = useAppTranslation();
+
+  const treasureCount = getTreasureCount({ game: gameState.context.state });
+  const treasuresFound = getTreasuresFound({ game: gameState.context.state });
+  const percentage = Math.round((treasuresFound.length / treasureCount) * 100);
+
+  const hasClaimedReward =
+    new Date().toISOString().substring(0, 10) ===
+    new Date(streak.collectedAt).toISOString().substring(0, 10);
+
+  const open = async () => {
+    setIsPicking(true);
+
+    await new Promise((resolve) => setTimeout(resolve, 5000));
+
+    gameService.send("REVEAL", {
+      event: {
+        type: "diggingReward.collected",
+        createdAt: new Date(),
+      },
+    });
+    setIsRevealing(true);
+    setIsPicking(false);
+  };
+
+  if (isPicking || (gameState.matches("revealing") && isRevealing)) {
+    let type: ChestRewardType = "Basic Desert Rewards";
+
+    if (streak.count >= 4) {
+      type = "Advanced Desert Rewards";
+    }
+
+    if (streak.count >= 10) {
+      type = "Expert Desert Rewards";
+    }
+
+    return <ChestRevealing type={type} />;
+  }
+
+  if (gameState.matches("revealed") && isRevealing) {
+    return (
+      <Revealed
+        onAcknowledged={() => {
+          setIsRevealing(false);
+        }}
+      />
+    );
+  }
+
   return (
-    <div className="p-1">
-      <div className="flex justify-between mb-1">
-        <Label type="default">{t("digby.puzzle")}</Label>
-        <CountdownLabel />
-      </div>
-      <span className="text-xs mt-2 mx-1">{t("digby.today")}</span>
-      <div
-        className="flex flex-wrap  scrollable overflow-y-auto pt-2 overflow-x-hidden pr-1"
-        style={{ maxHeight: "300px" }}
-      >
-        {patterns.map((pattern, index) => {
-          const discovered = countFormationOccurrences({
-            grid,
-            formation: DIGGING_FORMATIONS[pattern],
-          });
+    <>
+      <div className="p-1">
+        <div className="flex justify-between mb-1">
+          <Label type="default">{t("digby.puzzle")}</Label>
+          <CountdownLabel />
+        </div>
+        <span className="text-xs mt-2 mx-1">{t("digby.today")}</span>
+        <div
+          className="flex flex-wrap  scrollable overflow-y-auto pt-2 overflow-x-hidden pr-1"
+          style={{ maxHeight: "300px" }}
+        >
+          {patterns.map((pattern, index) => {
+            const discovered = countFormationOccurrences({
+              grid,
+              formation: DIGGING_FORMATIONS[pattern],
+            });
 
-          const duplicates = patterns.filter(
-            (p, i) => i < index && p === pattern,
-          ).length;
+            const duplicates = patterns.filter(
+              (p, i) => i < index && p === pattern,
+            ).length;
 
-          return (
-            <div className="w-1/4 sm:w-1/4" key={index}>
-              <div className="m-1">
-                <Pattern
-                  key={index}
-                  pattern={DIGGING_FORMATIONS[pattern]}
-                  isDiscovered={discovered > duplicates}
-                />
+            return (
+              <div className="w-1/4 sm:w-1/4" key={index}>
+                <div className="m-1">
+                  <Pattern
+                    key={index}
+                    pattern={DIGGING_FORMATIONS[pattern]}
+                    isDiscovered={discovered > duplicates}
+                  />
+                </div>
               </div>
-            </div>
-          );
-        })}
+            );
+          })}
+        </div>
+
+        <div className="flex justify-between items-center mt-2 mb-1">
+          {hasClaimedReward ? (
+            <Label type="success" icon={SUNNYSIDE.icons.confirm}>
+              {[t("digby.streak"), streak.count].filter(Boolean).join(" - ")}
+            </Label>
+          ) : (
+            <Label type="default">
+              {[t("digby.streak"), streak.count].filter(Boolean).join(" - ")}
+            </Label>
+          )}
+
+          <div className="flex items-center">
+            <img src={gift} className="h-5 mr-2" />
+            <ResizableBar
+              percentage={percentage}
+              type={"progress"}
+              outerDimensions={{
+                width: 24,
+                height: 7,
+              }}
+            />
+          </div>
+        </div>
+
+        <div className="mb-2">
+          <span className="text-xs">{t("digby.streakReward")}</span>
+        </div>
       </div>
-    </div>
+      {!hasClaimedReward && (
+        <Button onClick={open} disabled={percentage < 100}>
+          {t("claim")}
+        </Button>
+      )}
+    </>
   );
 };
 
