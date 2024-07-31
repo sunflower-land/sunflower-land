@@ -119,7 +119,7 @@ export type MegaStoreCollectibleName =
   // Pharaoh's Treasure
   | "Hapy Jar"
   | "Imsety Jar"
-  | "Tomato Core"
+  | "Cannonball"
   | "Sarcophagus"
   | "Duamutef Jar"
   | "Qebehsenuef Jar"
@@ -131,7 +131,8 @@ export type MegaStoreCollectibleName =
   | "Sand Golem"
   | "Cactus King"
   | "Lemon Frog"
-  | "Scarab Beetle";
+  | "Scarab Beetle"
+  | "Tomato Bombard";
 
 export type GoblinBlacksmithItemName =
   | "Purple Trail"

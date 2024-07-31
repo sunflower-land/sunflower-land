@@ -133,8 +133,15 @@ export function getFruitYield({ name, game, fertiliser }: FruitYield) {
     amount += 1;
   }
 
-  // Grape
+  if (
+    name === "Tomato" &&
+    isCollectibleBuilt({ name: "Tomato Bombard", game })
+  ) {
+    amount += 1;
+  }
+
   if (name === "Grape" && isCollectibleBuilt({ name: "Vinny", game })) {
+    // Grape
     amount += 0.25;
   }
 

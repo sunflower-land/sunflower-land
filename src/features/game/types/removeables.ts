@@ -393,6 +393,8 @@ export const REMOVAL_RESTRICTIONS: Partial<
   "Immortal Pear": (game) => areAnyFruitsGrowing(game),
   "Lemon Tea Bath": (game) => areFruitsGrowing(game, "Lemon"),
   "Tomato Clown": (game) => areFruitsGrowing(game, "Tomato"),
+  "Tomato Bombard": (game) => areFruitsGrowing(game, "Tomato"),
+  Cannonball: (game) => areFruitsGrowing(game, "Tomato"),
 
   // Composter boosts
   "Soil Krabby": (game) => areAnyComposting(game),
