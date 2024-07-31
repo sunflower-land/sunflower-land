@@ -357,11 +357,23 @@ const BoostDigItems: Partial<
 const getDefaultTab = (game: GameState) => {
   if (!hasReadIntro()) return 1;
 
+  const treasureCount = getTreasureCount({ game });
+  const treasuresFound = getTreasuresFound({ game });
+  const percentage = Math.round((treasuresFound.length / treasureCount) * 100);
+
+  if (percentage >= 100) {
+    return 0;
+  }
+
   const digging = game.desert.digging;
   const maxDigs = getMaxDigs(game);
   const remainingDigs = maxDigs - digging.grid.length;
 
-  return remainingDigs === 0 ? 2 : 0;
+  if (remainingDigs <= 0) {
+    return 2;
+  }
+
+  return 0;
 };
 
 export const Digby: React.FC<{ onClose: () => void }> = ({ onClose }) => {
