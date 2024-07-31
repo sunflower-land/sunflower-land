@@ -29,6 +29,8 @@ import { getImageUrl } from "lib/utils/getImageURLS";
 import { BUMPKIN_ITEM_BUFF_LABELS } from "features/game/types/bumpkinItemBuffs";
 import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
 
+import lightning from "assets/icons/lightning.png";
+
 interface ToolContentProps {
   selectedName: TreasureToolName;
   onClose: () => void;
@@ -297,11 +299,14 @@ export const TreasureShopBuy: React.FC<Props> = ({ onClose }) => {
   ): name is TreasureCollectibleItem => name in TREASURE_COLLECTIBLE_ITEM;
 
   const now = Date.now();
-  const shopCollectibles = getKeys(TREASURE_COLLECTIBLE_ITEM).filter(
-    (itemName) =>
-      (TREASURE_COLLECTIBLE_ITEM[itemName].from?.getTime() ?? 0) <= now &&
-      (TREASURE_COLLECTIBLE_ITEM[itemName].to?.getTime() ?? Infinity) > now,
-  );
+  // const shopCollectibles = getKeys(TREASURE_COLLECTIBLE_ITEM).filter(
+  //   (itemName) =>
+  //     (TREASURE_COLLECTIBLE_ITEM[itemName].from?.getTime() ?? 0) <= now &&
+  //     (TREASURE_COLLECTIBLE_ITEM[itemName].to?.getTime() ?? Infinity) > now,
+  // );
+
+  const shopCollectibles = getKeys(TREASURE_COLLECTIBLE_ITEM);
+
   const unlimitedCollectibles = shopCollectibles.filter(
     (itemName) => !TREASURE_COLLECTIBLE_ITEM[itemName].to,
   );
@@ -358,6 +363,9 @@ export const TreasureShopBuy: React.FC<Props> = ({ onClose }) => {
               <Box
                 isSelected={selectedName === name}
                 secondaryImage={SUNNYSIDE.icons.stopwatch}
+                alternateIcon={
+                  COLLECTIBLE_BUFF_LABELS[name] ? lightning : undefined
+                }
                 key={name}
                 onClick={() => setSelectedName(name)}
                 count={inventory[name]}
@@ -369,6 +377,9 @@ export const TreasureShopBuy: React.FC<Props> = ({ onClose }) => {
                 <Box
                   isSelected={selectedName === name}
                   key={name}
+                  alternateIcon={
+                    COLLECTIBLE_BUFF_LABELS[name] ? lightning : undefined
+                  }
                   onClick={() => setSelectedName(name)}
                   count={inventory[name]}
                   image={ITEM_DETAILS[name].image}
@@ -383,6 +394,9 @@ export const TreasureShopBuy: React.FC<Props> = ({ onClose }) => {
               <Box
                 isSelected={selectedName === name}
                 secondaryImage={SUNNYSIDE.icons.stopwatch}
+                alternateIcon={
+                  BUMPKIN_ITEM_BUFF_LABELS[name] ? lightning : undefined
+                }
                 key={name}
                 onClick={() => setSelectedName(name)}
                 count={new Decimal(wardobe[name] ?? 0)}
@@ -397,6 +411,9 @@ export const TreasureShopBuy: React.FC<Props> = ({ onClose }) => {
                   onClick={() => setSelectedName(name)}
                   count={new Decimal(wardobe[name] ?? 0)}
                   image={getImageUrl(ITEM_IDS[name])}
+                  alternateIcon={
+                    BUMPKIN_ITEM_BUFF_LABELS[name] ? lightning : undefined
+                  }
                 />
               );
             })}
