@@ -669,4 +669,10 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
     boostedItemIcon: SUNNYSIDE.icons.stopwatch,
     boostTypeIcon: ITEM_DETAILS.Tomato.image,
   },
+  "Tomato Bombard": {
+    shortDescription: translate("description.tomato.bombard.boost"),
+    labelType: "success",
+    boostedItemIcon: powerup,
+    boostTypeIcon: ITEM_DETAILS.Tomato.image,
+  },
 };
