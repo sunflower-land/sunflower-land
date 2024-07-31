@@ -231,8 +231,8 @@ export const TREASURE_COLLECTIBLE_ITEM: Record<
     description: translate("description.treasure.map"),
     boost: translate("description.treasure.map.boost"),
     ingredients: {
-      Gold: new Decimal(5),
-      "Wooden Compass": new Decimal(2),
+      Sand: new Decimal(50),
+      Hieroglyph: new Decimal(20),
     },
   },
   "Adrift Ark": {
