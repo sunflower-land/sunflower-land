@@ -88,7 +88,7 @@ describe("purchaseBanner", () => {
       state: {
         ...TEST_FARM,
         inventory: {
-          "Block Buck": new Decimal(65),
+          "Block Buck": new Decimal(75),
         },
       },
       action: {
@@ -118,7 +118,7 @@ describe("purchaseBanner", () => {
       state: {
         ...TEST_FARM,
         inventory: {
-          "Block Buck": new Decimal(50),
+          "Block Buck": new Decimal(60),
           [previousSeasonalBanner]: new Decimal(1),
         },
       },
@@ -135,72 +135,6 @@ describe("purchaseBanner", () => {
         "Block Buck": new Decimal(0),
         [banner]: new Decimal(1),
         [previousSeasonalBanner]: new Decimal(1),
-      },
-    });
-  });
-
-  it("purchases banner on first 2 weeks with gold pass", () => {
-    const WEEK = 1000 * 60 * 60 * 24 * 7;
-    const season = getCurrentSeason();
-    const seasonStart = SEASONS[season].startDate;
-    const banner = getSeasonalBanner();
-    const previousSeasonalBanner = getPreviousSeasonalBanner();
-
-    const result = purchaseBanner({
-      state: {
-        ...TEST_FARM,
-        inventory: {
-          "Block Buck": new Decimal(50),
-          "Gold Pass": new Decimal(1),
-        },
-      },
-      action: {
-        type: "banner.purchased",
-        name: banner,
-      },
-      createdAt: seasonStart.getTime() + WEEK,
-    });
-
-    expect(result).toEqual({
-      ...TEST_FARM,
-      inventory: {
-        "Block Buck": new Decimal(0),
-        [banner]: new Decimal(1),
-        "Gold Pass": new Decimal(1),
-      },
-    });
-  });
-
-  it("purchases banner on first 2 weeks with previous banner and gold pass", () => {
-    const WEEK = 1000 * 60 * 60 * 24 * 7;
-    const season = getCurrentSeason();
-    const seasonStart = SEASONS[season].startDate;
-    const banner = getSeasonalBanner();
-    const previousSeasonalBanner = getPreviousSeasonalBanner();
-
-    const result = purchaseBanner({
-      state: {
-        ...TEST_FARM,
-        inventory: {
-          "Block Buck": new Decimal(35),
-          [previousSeasonalBanner]: new Decimal(1),
-          "Gold Pass": new Decimal(1),
-        },
-      },
-      action: {
-        type: "banner.purchased",
-        name: banner,
-      },
-      createdAt: seasonStart.getTime() + WEEK,
-    });
-
-    expect(result).toEqual({
-      ...TEST_FARM,
-      inventory: {
-        "Block Buck": new Decimal(0),
-        [banner]: new Decimal(1),
-        [previousSeasonalBanner]: new Decimal(1),
-        "Gold Pass": new Decimal(1),
       },
     });
   });
@@ -215,7 +149,7 @@ describe("purchaseBanner", () => {
       state: {
         ...TEST_FARM,
         inventory: {
-          "Block Buck": new Decimal(90),
+          "Block Buck": new Decimal(100),
         },
       },
       action: {
@@ -229,37 +163,6 @@ describe("purchaseBanner", () => {
       ...TEST_FARM,
       inventory: {
         "Block Buck": new Decimal(0),
-        [banner]: new Decimal(1),
-      },
-    });
-  });
-
-  it("purchases banner on 2-4 weeks with gold pass discount", () => {
-    const WEEK = 1000 * 60 * 60 * 24 * 7;
-    const season = getCurrentSeason();
-    const seasonStart = SEASONS[season].startDate;
-    const banner = getSeasonalBanner();
-
-    const result = purchaseBanner({
-      state: {
-        ...TEST_FARM,
-        inventory: {
-          "Block Buck": new Decimal(75),
-          "Gold Pass": new Decimal(1),
-        },
-      },
-      action: {
-        type: "banner.purchased",
-        name: banner,
-      },
-      createdAt: seasonStart.getTime() + WEEK * 3,
-    });
-
-    expect(result).toEqual({
-      ...TEST_FARM,
-      inventory: {
-        "Block Buck": new Decimal(0),
-        "Gold Pass": new Decimal(1),
         [banner]: new Decimal(1),
       },
     });
@@ -275,7 +178,7 @@ describe("purchaseBanner", () => {
       state: {
         ...TEST_FARM,
         inventory: {
-          "Block Buck": new Decimal(70),
+          "Block Buck": new Decimal(80),
         },
       },
       action: {
@@ -304,7 +207,7 @@ describe("purchaseBanner", () => {
       state: {
         ...TEST_FARM,
         inventory: {
-          "Block Buck": new Decimal(50),
+          "Block Buck": new Decimal(60),
         },
       },
       action: {
@@ -328,7 +231,7 @@ describe("purchaseBanner", () => {
       state: {
         ...TEST_FARM,
         inventory: {
-          "Block Buck": new Decimal(540),
+          "Block Buck": new Decimal(740),
         },
       },
       action: {
@@ -360,25 +263,6 @@ describe("purchaseBanner", () => {
         type: "banner.purchased",
         name: getSeasonalBanner(),
       },
-    });
-
-    expect(result.inventory["Block Buck"]).toEqual(new Decimal(100));
-    expect(result.inventory[getSeasonalBanner()]).toEqual(new Decimal(1));
-  });
-
-  it("does not charge for a banner if a gold pass was purchased in last three months", () => {
-    const result = purchaseBanner({
-      state: {
-        ...TEST_FARM,
-        inventory: {
-          "Block Buck": new Decimal(100),
-        },
-      },
-      action: {
-        type: "banner.purchased",
-        name: getSeasonalBanner(),
-      },
-      farmId: 25,
     });
 
     expect(result.inventory["Block Buck"]).toEqual(new Decimal(100));

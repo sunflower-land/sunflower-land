@@ -100,7 +100,7 @@ export function completeChore({
     throw new Error("No tickets exist for this chore");
   }
 
-  const ticket = getSeasonalTicket();
+  const ticket = getSeasonalTicket(new Date(createdAt));
   const previous = game.inventory[ticket] ?? new Decimal(0);
   game.inventory[ticket] = previous.add(tickets);
 
