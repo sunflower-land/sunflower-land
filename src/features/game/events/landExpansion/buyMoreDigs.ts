@@ -1,6 +1,5 @@
 import Decimal from "decimal.js-light";
 import { GameState } from "features/game/types/game";
-import { onboardingAnalytics } from "lib/onboardingAnalytics";
 import cloneDeep from "lodash.clonedeep";
 
 export type BuyMoreDigsAction = {
@@ -30,13 +29,6 @@ export function buyMoreDigs({ state }: Options) {
   game.inventory["Block Buck"] = blockBucks.sub(1);
 
   game.desert.digging.extraDigs = extraDigs + EXTRA_DIGS_AMOUNT;
-
-  // https://developers.google.com/analytics/devguides/collection/ga4/reference/events?client_type=gtag#spend_virtual_currency
-  onboardingAnalytics.logEvent("spend_virtual_currency", {
-    value: 1,
-    virtual_currency_name: "Block Buck",
-    item_name: "DesertDigsBought",
-  });
 
   return game;
 }
