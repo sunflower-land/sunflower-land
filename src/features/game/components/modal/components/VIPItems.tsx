@@ -234,7 +234,7 @@ export const VIPItems: React.FC<Props> = ({ onClose, onSkip }) => {
               {t("season.vip.purchase")}
             </Label>
             <a
-              href="https://docs.sunflower-land.com/player-guides/seasons/season-6-clash-of-factions#season-banners"
+              href="https://docs.sunflower-land.com/player-guides/seasons#seasonal-banners"
               className="text-xxs underline"
               target="_blank"
               rel="noreferrer"
