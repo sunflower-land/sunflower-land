@@ -1114,8 +1114,15 @@ export class BeachScene extends BaseScene {
 
     if (attemptsToday + 1 < 4) {
       const totalCoins = this.treasuresFound.reduce((acc, item) => {
-        return (acc +=
-          SELLABLE_TREASURE[item as BeachBountyTreasure].sellPrice);
+        const treasure = SELLABLE_TREASURE[item as BeachBountyTreasure];
+
+        if (!treasure) {
+          // eslint-disable-next-line no-console
+          console.log("Treasure not found in SELLABLE_TREASURE", item);
+          return acc;
+        }
+
+        return (acc += treasure.sellPrice);
       }, 0);
 
       const percentageFound = Math.floor(
