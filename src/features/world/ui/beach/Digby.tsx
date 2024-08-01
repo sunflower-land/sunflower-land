@@ -34,10 +34,7 @@ import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
 import { pixelDarkBorderStyle } from "features/game/lib/style";
 import { CollectibleName } from "features/game/types/craftables";
 import Decimal from "decimal.js-light";
-import {
-  getRegularMaxDigs,
-  getRemainingDigs,
-} from "features/island/hud/components/DesertDiggingDisplay";
+import { getRemainingDigs } from "features/island/hud/components/DesertDiggingDisplay";
 import { BUMPKIN_ITEM_BUFF_LABELS } from "features/game/types/bumpkinItemBuffs";
 import { ResizableBar } from "components/ui/ProgressBar";
 import { Revealed } from "features/game/components/Revealed";
@@ -368,9 +365,7 @@ const getDefaultTab = (game: GameState) => {
     return 0;
   }
 
-  const digging = game.desert.digging;
-  const maxDigs = getRegularMaxDigs(game);
-  const remainingDigs = maxDigs - digging.grid.length;
+  const remainingDigs = getRemainingDigs(game);
 
   if (remainingDigs <= 0) {
     return 2;
