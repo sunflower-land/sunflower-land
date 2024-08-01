@@ -118,8 +118,16 @@ export const DIGGING_FORMATIONS = {
     { x: 1, y: -1, name: "Clam Shell" },
   ],
 
-  CORAL: [{ x: 0, y: 0, name: "Coral" }],
-  PEARL: [{ x: 0, y: 0, name: "Pearl" }],
+  CORAL: [
+    { x: 0, y: 1, name: "Stone" },
+    { x: 0, y: 0, name: "Coral" },
+    { x: 0, y: -1, name: "Stone" },
+  ],
+  PEARL: [
+    { x: 0, y: 1, name: "Stone" },
+    { x: 0, y: 0, name: "Pearl" },
+    { x: 0, y: -1, name: "Stone" },
+  ],
   PIRATE_BOUNTY: [{ x: 0, y: 0, name: "Pirate Bounty" }],
 } satisfies Record<string, DiggingFormation>;
 
