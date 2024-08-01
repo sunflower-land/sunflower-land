@@ -19,7 +19,6 @@ const SEASONAL_REWARDS: (weight: number) => ChestReward[] = (weight) =>
     : [];
 
 export const BASIC_REWARDS: () => ChestReward[] = () => [
-  ...SEASONAL_REWARDS(5),
   { sfl: 5, weighting: 100 },
   { sfl: 10, weighting: 50 },
   { sfl: 25, weighting: 20 },
@@ -42,10 +41,10 @@ export const BASIC_REWARDS: () => ChestReward[] = () => [
   { items: { "Time Warp Totem": 1 }, weighting: 25 },
   { items: { Rug: 1 }, weighting: 25 },
   { items: { "Prize Ticket": 1 }, weighting: 5 },
+  ...SEASONAL_REWARDS(5),
 ];
 
 export const RARE_REWARDS: () => ChestReward[] = () => [
-  ...SEASONAL_REWARDS(25),
   { sfl: 5, weighting: 50 },
   { sfl: 10, weighting: 100 },
   { sfl: 25, weighting: 50 },
@@ -66,16 +65,13 @@ export const RARE_REWARDS: () => ChestReward[] = () => [
   { items: { "Goblin Brunch": 3 }, weighting: 50 },
   { items: { "Bumpkin Roast": 3 }, weighting: 40 },
   { wearables: { "Fox Hat": 1 }, weighting: 25 },
-  { wearables: { "Pale Potion": 1 }, weighting: 50 },
   { items: { "Time Warp Totem": 1 }, weighting: 25 },
   { items: { "Prize Ticket": 1 }, weighting: 20 },
-  { wearables: { Crown: 1 }, weighting: 5 },
   { items: { "Twister Rug": 1 }, weighting: 25 },
-  { items: { "Chess Rug": 1 }, weighting: 25 },
+  ...SEASONAL_REWARDS(25),
 ];
 
 export const LUXURY_REWARDS: () => ChestReward[] = () => [
-  ...SEASONAL_REWARDS(25),
   { sfl: 10, weighting: 50 },
   { sfl: 25, weighting: 100 },
   { sfl: 50, weighting: 50 },
@@ -93,14 +89,9 @@ export const LUXURY_REWARDS: () => ChestReward[] = () => [
   { items: { "Pirate Cake": 10 }, weighting: 50 },
   { items: { "Goblin Brunch": 10 }, weighting: 25 },
   { items: { "Bumpkin Roast": 10 }, weighting: 25 },
-  { wearables: { "Pale Potion": 1 }, weighting: 25 },
-  { wearables: { "Chicken Hat": 1 }, weighting: 25 },
   { items: { "Time Warp Totem": 1 }, weighting: 25 },
   { items: { "Prize Ticket": 1 }, weighting: 50 },
-  { wearables: { "Butterfly Wings": 1 }, weighting: 10 },
-  { wearables: { Crown: 1 }, weighting: 10 },
-  { items: { "Chess Rug": 1 }, weighting: 50 },
-  { items: { Vinny: 1 }, weighting: 25 },
+  ...SEASONAL_REWARDS(25),
 ];
 
 export const BUD_BOX_REWARDS: ChestReward[] = [
