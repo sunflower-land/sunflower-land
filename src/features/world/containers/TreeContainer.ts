@@ -185,8 +185,6 @@ export class TreeContainer extends Phaser.GameObjects.Container {
         type: "timber.chopped",
         index: this.id,
       },
-      x: this.x,
-      y: this.y,
     });
   }
 
@@ -209,14 +207,14 @@ export class TreeContainer extends Phaser.GameObjects.Container {
       }
     };
 
+    this.yield.show(1);
     this.resource.sprite.sprite.on("animationcomplete", onComplete);
   }
 
   chopped() {
     // TODO Play Audio
-
     // Show Yield
-    this.yield.show(1);
+    // this.yield.show(1);
   }
 
   render() {

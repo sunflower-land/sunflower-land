@@ -27,6 +27,8 @@ export class LifecycleComponent {
   startAt: number;
   endAt: number;
   key: string;
+  x: number;
+  y: number;
 
   constructor({
     container,
@@ -35,8 +37,8 @@ export class LifecycleComponent {
     key,
     startAt,
     endAt,
-    x,
-    y,
+    x = 0,
+    y = 0,
   }: {
     container: Phaser.GameObjects.Container;
     key: string;
@@ -53,6 +55,8 @@ export class LifecycleComponent {
     this.stages = stages;
     this.startAt = startAt;
     this.endAt = endAt;
+    this.x = x;
+    this.y = y;
 
     const stage = getStage({
       startAt,
@@ -67,8 +71,8 @@ export class LifecycleComponent {
       key: `${key}-lifecycle-${stage.progress}`,
       sprite: stage.sprite,
       scene,
-      x,
-      y,
+      x: stage.x ?? this.x,
+      y: stage.y ?? this.y,
       animation: stage.animation,
     });
   }
@@ -99,6 +103,8 @@ export class LifecycleComponent {
     this.sprite.key = `${this.key}-lifecycle-${stage.progress}`;
     this.sprite.url = stage.sprite;
     this.sprite.animation = stage.animation;
+    this.sprite.x = stage.x ?? this.x;
+    this.sprite.y = stage.y ?? this.y;
     this.sprite.update();
   }
 }

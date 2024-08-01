@@ -174,8 +174,6 @@ export class CropContainer extends Phaser.GameObjects.Container {
           item: selected,
           cropId: uuidv4().slice(0, 8),
         },
-        x: this.x,
-        y: this.y,
       });
 
       return;
@@ -188,8 +186,6 @@ export class CropContainer extends Phaser.GameObjects.Container {
           type: "crop.harvested",
           index: this.id,
         },
-        x: this.x,
-        y: this.y,
       });
     }
   }

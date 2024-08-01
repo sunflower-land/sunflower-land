@@ -24,7 +24,7 @@ export class YieldContainer extends Phaser.GameObjects.Container {
   }: {
     container: Phaser.GameObjects.Container;
     key: string;
-    sprite?: Pick<SpriteProps, "animation" | "sprite">;
+    sprite?: Pick<SpriteProps, "animation" | "sprite" | "x" | "y">;
     scene: Phaser.Scene;
   }) {
     super(scene, 6, -12);
@@ -41,6 +41,8 @@ export class YieldContainer extends Phaser.GameObjects.Container {
         key: key,
         scene: this.scene,
         sprite: sprite.sprite,
+        x: sprite.x,
+        y: sprite.y,
       });
     }
 

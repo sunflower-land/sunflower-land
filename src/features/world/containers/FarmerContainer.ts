@@ -21,11 +21,13 @@ type PlayEvent = GameEventName<PlayingEvent>;
 const EVENT_ANIMATIONS: Partial<Record<PlayEvent, keyof typeof ANIMATION>> = {
   "crop.harvested": "dig",
   "timber.chopped": "axe",
+  "stoneRock.mined": "mining",
 };
 
 const EVENT_ANIMATION_HIT_FRAMES: Partial<Record<PlayEvent, number>> = {
   "crop.harvested": 6,
   "timber.chopped": 6,
+  "stoneRock.mined": 6,
   "seed.planted": 4,
 };
 
@@ -149,7 +151,7 @@ export class FarmerContainer extends Phaser.GameObjects.Container {
     const farmScene = this.scene as FarmScene;
     const farmer = this;
 
-    const hitAtFrame = EVENT_ANIMATION_HIT_FRAMES[type];
+    const hitAtFrame = EVENT_ANIMATION_HIT_FRAMES[type] ?? 4;
 
     // How do I send an event to the resource to be collected?
 

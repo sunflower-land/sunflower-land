@@ -10,9 +10,6 @@ import { DraggableComponent } from "../components/DraggableComponent";
 import { ProgressBarContainer } from "./ProgressBarContainer";
 import { GameState } from "features/game/types/game";
 import { LifecycleComponent } from "../components/LifecycleComponent";
-import { LandExpansionChopAction } from "features/game/events/landExpansion/chop";
-import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
-import { HasTool } from "features/game/expansion/components/resources/tree/Tree";
 import { GameContext } from "features/game/GameProvider";
 import { createSelector } from "reselect";
 import { isEventType } from "features/game/events";
@@ -38,13 +35,13 @@ export class StoneContainer extends Phaser.GameObjects.Container {
     id: string;
     context: GameContext;
   }) {
-    const tree = context.gameService.state.context.state.trees[id];
-    super(scene, tree.x * PHASER_GRID_WIDTH, tree.y * PHASER_GRID_WIDTH);
+    const stone = context.gameService.state.context.state.stones[id];
+    super(scene, stone.x * PHASER_GRID_WIDTH, stone.y * PHASER_GRID_WIDTH);
     this.context = context;
     this.id = id;
 
     // Set for click handler size and collision
-    this.setSize(PHASER_GRID_WIDTH * 2, PHASER_GRID_WIDTH * 2);
+    this.setSize(PHASER_GRID_WIDTH, PHASER_GRID_WIDTH);
 
     this.yield = new YieldContainer({
       container: this,
@@ -58,6 +55,8 @@ export class StoneContainer extends Phaser.GameObjects.Container {
           play: false,
           repeat: false,
         },
+        x: 16,
+        y: 16,
       },
       scene,
     });
@@ -79,6 +78,7 @@ export class StoneContainer extends Phaser.GameObjects.Container {
             repeat: false,
             play: false,
           },
+          x: 22,
         },
       ],
       key: "stone-lifecycle",
@@ -140,6 +140,7 @@ export class StoneContainer extends Phaser.GameObjects.Container {
       if (event.type === "PERFORM_QUEUE_ACTION") {
         const { action } = event as PerformQueueEvent;
 
+        console.log({ action });
         if (
           isEventType("stoneRock.mined", action) &&
           action.index.toString() === this.id
@@ -172,13 +173,12 @@ export class StoneContainer extends Phaser.GameObjects.Container {
         type: "stoneRock.mined",
         index: this.id,
       },
-      x: this.x,
-      y: this.y,
     });
   }
 
   async chop() {
     this.resource.sprite.startAnimation();
+    this.yield.show(1);
 
     console.log("ACTING UP!");
 
@@ -201,9 +201,8 @@ export class StoneContainer extends Phaser.GameObjects.Container {
 
   chopped() {
     // TODO Play Audio
-
     // Show Yield
-    this.yield.show(1);
+    // this.yield.show(1);
   }
 
   render() {
@@ -212,8 +211,8 @@ export class StoneContainer extends Phaser.GameObjects.Container {
       scene: this.scene,
       startAt: this.rock.stone.minedAt,
       endAt: this.readyAt,
-      x: 8,
-      y: 26,
+      x: 0.5,
+      y: 12,
     });
 
     this.resource.startAt = this.rock.stone.minedAt;

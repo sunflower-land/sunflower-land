@@ -62,6 +62,12 @@ export function queueSystem({
       y = tree.y;
     }
 
+    if (isEventType("stoneRock.mined", next.event)) {
+      const resource = game.stones[next.event.index];
+      x = resource.x;
+      y = resource.y;
+    }
+
     // Override whatever the event is sending through
     next.x = x;
     next.y = y;
@@ -117,9 +123,14 @@ export function queueSystem({
     // Trigger action on arrival?
     const destinationX = next.x * PHASER_GRID_WIDTH;
     const destinationY = next.y * PHASER_GRID_WIDTH;
+
+    // Center point of component
+    const midComponentX = component.x; //+ component.width * 0.5;
+    const midComponentY = component.y; //+ component.height * 0.5;
+
     const distance = Phaser.Math.Distance.BetweenPoints(
       { x: destinationX, y: destinationY },
-      component,
+      { x: midComponentX, y: midComponentY },
     );
 
     console.log({ distance, destinationX, destinationY });

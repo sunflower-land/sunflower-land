@@ -45,11 +45,15 @@ export class SpriteComponent {
     this.scene = scene;
     this.key = key;
     this.url = sprite;
-    this.x = x * PHASER_SCALE;
-    this.y = y * PHASER_SCALE;
+    this.x = x;
+    this.y = y;
     this.animation = animation;
 
-    this.sprite = this.scene.add.sprite(this.x, this.y, "shadow");
+    this.sprite = this.scene.add.sprite(
+      this.x * PHASER_SCALE,
+      this.y * PHASER_SCALE,
+      "shadow",
+    );
 
     this.container?.add(this.sprite);
 
@@ -82,6 +86,8 @@ export class SpriteComponent {
     } else {
       this.sprite.setOrigin(0, 0);
     }
+
+    this.sprite.setPosition(this.x * PHASER_SCALE, this.y * PHASER_SCALE);
 
     if (this.sprite?.texture.key === this.loadingKey) {
       delete this.loadingKey;
