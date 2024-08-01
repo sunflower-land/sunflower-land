@@ -42,7 +42,6 @@
     "clipboard": "^2.0.11",
     "colyseus.js": "^0.15.0",
     "decimal.js-light": "^2.5.1",
-    "easystarjs": "^0.4.4",
     "ethers": "5.7.2",
     "events": "^3.3.0",
     "firebase": "^9.19.1",

@@ -1,7 +1,6 @@
 import { MachineInterpreter } from "features/game/lib/gameMachine";
 import { FarmerContainer } from "../containers/FarmerContainer";
 import { PHASER_GRID_WIDTH, PHASER_SCALE } from "../components/SpriteComponent";
-import EasyStar from "easystarjs";
 import PathFinding, { DiagonalMovement } from "pathfinding";
 import { getKeys } from "features/game/types/decorations";
 import { isEventType } from "features/game/events";

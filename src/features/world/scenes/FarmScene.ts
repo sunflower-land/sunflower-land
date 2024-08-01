@@ -11,6 +11,7 @@ import {
   SpriteComponent,
 } from "../components/SpriteComponent";
 import { queueSystem } from "../systems/queueSystem";
+import { StoneContainer } from "../containers/StoneContainer";
 
 function dragSystem({
   scene,
@@ -35,6 +36,7 @@ export class FarmScene extends Phaser.Scene {
 
   crops = new Map<string, CropContainer>();
   trees = new Map<string, TreeContainer>();
+  stones = new Map<string, StoneContainer>();
   farmers = new Map<string, FarmerContainer>();
 
   context: GameContext;
@@ -134,6 +136,19 @@ export class FarmScene extends Phaser.Scene {
         });
 
         this.trees.set(treeId, tree);
+      }
+    });
+
+    const stones = this.gameState.stones;
+    getKeys(stones).forEach((stoneId) => {
+      if (!this.stones.has(stoneId)) {
+        const stone = new StoneContainer({
+          scene: this,
+          id: stoneId,
+          context: this.context,
+        });
+
+        this.stones.set(stoneId, stone);
       }
     });
 
