@@ -638,7 +638,7 @@ describe("deliver", () => {
         createdAt: new Date("2024-05-10T16:00:00Z").getTime(),
       });
 
-      expect(state.inventory["Scroll"]).toEqual(
+      expect(state.inventory[getSeasonalTicket()]).toEqual(
         new Decimal(TICKET_REWARDS[name as QuestNPCName]),
       );
     });
@@ -676,7 +676,7 @@ describe("deliver", () => {
       createdAt: new Date("2024-05-10T16:00:00Z").getTime(),
     });
 
-    expect(state.inventory["Scroll"]).toEqual(new Decimal(1));
+    expect(state.inventory[getSeasonalTicket()]).toEqual(new Decimal(1));
   });
 
   it("provides +2 tickets for banner holder", () => {
@@ -712,7 +712,7 @@ describe("deliver", () => {
       createdAt: new Date("2024-05-10T16:00:00Z").getTime(),
     });
 
-    expect(state.inventory["Scroll"]).toEqual(new Decimal(3));
+    expect(state.inventory[getSeasonalTicket()]).toEqual(new Decimal(3));
   });
 
   it("provides +2 tickets for Lifetime Farmer banner holder", () => {
@@ -748,6 +748,6 @@ describe("deliver", () => {
       createdAt: new Date("2024-05-10T16:00:00Z").getTime(),
     });
 
-    expect(state.inventory["Scroll"]).toEqual(new Decimal(3));
+    expect(state.inventory[getSeasonalTicket()]).toEqual(new Decimal(3));
   });
 });
