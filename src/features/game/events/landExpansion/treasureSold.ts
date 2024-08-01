@@ -23,10 +23,14 @@ type Options = {
 };
 
 export const getSellPrice = (item: SellableTreasure, game: GameState) => {
-  const price = item.sellPrice;
+  let price = item.sellPrice;
 
   if (isCollectibleBuilt({ name: "Treasure Map", game })) {
-    return price * 1.2;
+    price += price * 0.2;
+  }
+
+  if (isCollectibleBuilt({ name: "Camel", game })) {
+    price += price * 0.3;
   }
 
   return price;
