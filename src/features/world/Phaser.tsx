@@ -3,6 +3,7 @@ import { Game, AUTO } from "phaser";
 import { useActor, useSelector } from "@xstate/react";
 import NinePatchPlugin from "phaser3-rex-plugins/plugins/ninepatch-plugin.js";
 import VirtualJoystickPlugin from "phaser3-rex-plugins/plugins/virtualjoystick-plugin.js";
+import { PhaserNavMeshPlugin } from "phaser-navmesh/src";
 
 import * as AuthProvider from "features/auth/lib/Provider";
 import { ChatUI, Message } from "features/pumpkinPlaza/components/ChatUI";
@@ -198,6 +199,13 @@ export const PhaserComponent: React.FC<Props> = ({
             key: "rexVirtualJoystick",
             plugin: VirtualJoystickPlugin,
             start: true,
+          },
+          {
+            key: "PhaserNavMeshPlugin",
+            plugin: PhaserNavMeshPlugin,
+            mapping: "navMeshPlugin",
+            start: true,
+            sceneKey: "BeachScene",
           },
         ],
       },

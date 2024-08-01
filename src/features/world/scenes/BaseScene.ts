@@ -454,7 +454,7 @@ export abstract class BaseScene extends Phaser.Scene {
   public initialiseControls() {
     if (isTouchDevice()) {
       // Initialise joystick
-      const { x, y, centerX, centerY, width, height } = this.cameras.main;
+      const { centerX, centerY, height } = this.cameras.main;
       this.joystick = new VirtualJoystick(this, {
         x: centerX,
         y: centerY - 35 + height / this.zoom / 2,
