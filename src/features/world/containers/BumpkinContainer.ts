@@ -399,7 +399,6 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
       this.removeGift();
     }
     if (this.clothing.aura === clothing.aura || clothing.aura === undefined) {
-      console.log("Removing Aura from ChangingCloth");
       this.removeAura();
     }
 
@@ -456,7 +455,6 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
       this.removeAura();
     }
     if (this.clothing.aura !== undefined) {
-      console.log("I am here");
       // eslint-disable-next-line @typescript-eslint/no-this-alias
       const container = this;
       const auraName = this.clothing.aura;
