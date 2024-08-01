@@ -681,4 +681,16 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
     boostTypeIcon: powerup,
     boostedItemIcon: SUNNYSIDE.tools.sand_shovel,
   },
+  "Reveling Lemon": {
+    shortDescription: translate("description.reveling.lemon.boost"),
+    labelType: "success",
+    boostedItemIcon: powerup,
+    boostTypeIcon: ITEM_DETAILS.Lemon.image,
+  },
+  "Lemon Frog": {
+    shortDescription: translate("description.lemon.frog.boost"),
+    labelType: "info",
+    boostedItemIcon: SUNNYSIDE.icons.stopwatch,
+    boostTypeIcon: ITEM_DETAILS.Lemon.image,
+  },
 };

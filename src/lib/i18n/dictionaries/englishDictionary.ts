@@ -943,7 +943,9 @@ const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
   "description.tomato.clown.boost": "-50% Tomato Growth Time",
   "description.cannonball.boost": "-25% Tomato Growth Time",
   "description.tomato.bombard.boost": "+1 Tomato",
-  "description.camel.boost": "+1 Sand and +30% Artefact Shop Bounty Price",
+  "description.camel.boost": "+1 Sand and +30% Artefact Shop Bounty Sell Price",
+  "description.reveling.lemon.boost": "+0.25 Lemon",
+  "description.lemon.frog.boost": "-25% Lemon Growth Time",
 };
 
 const bountyDescription: Record<BountyDescription, string> = {

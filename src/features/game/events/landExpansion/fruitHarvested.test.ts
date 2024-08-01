@@ -465,7 +465,7 @@ describe("fruitHarvested", () => {
     );
   });
 
-  it("includes Lemon Tea Bath bonus on Lemons", () => {
+  it("gives a 50% growth time reduction when Lemon Tea Bath is placed", () => {
     const { fruitPatches } = GAME_STATE;
     const fruitPatch = (fruitPatches as Record<number, FruitPatch>)[0];
     const initialHarvest = 2;
@@ -512,6 +512,115 @@ describe("fruitHarvested", () => {
     expect(fruit?.amount).toEqual(1);
     expect(fruit?.harvestedAt).toEqual(
       dateNow - (FRUIT_SEEDS()["Lemon Seed"].plantSeconds * 1000) / 2,
+    );
+  });
+
+  it("gives a 25% growth time reduction when Lemon Frog is placed", () => {
+    const { fruitPatches } = GAME_STATE;
+    const fruitPatch = (fruitPatches as Record<number, FruitPatch>)[0];
+    const initialHarvest = 2;
+
+    const state = harvestFruit({
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          "Lemon Frog": new Decimal(1),
+        },
+        collectibles: {
+          "Lemon Frog": [
+            {
+              coordinates: { x: 0, y: 0 },
+              createdAt: 0,
+              id: "1",
+              readyAt: 0,
+            },
+          ],
+        },
+        fruitPatches: {
+          0: {
+            ...fruitPatch,
+            fruit: {
+              name: "Lemon",
+              plantedAt: Date.now() - 3 * 24 * 60 * 60 * 1000,
+              amount: 1,
+              harvestsLeft: initialHarvest,
+              harvestedAt: 2,
+            },
+          },
+        },
+      },
+      action: {
+        type: "fruit.harvested",
+        index: "0",
+      },
+      createdAt: dateNow,
+    });
+
+    const { fruitPatches: fruitPatchesAfterHarvest } = state;
+    const fruit = fruitPatchesAfterHarvest?.[0].fruit;
+
+    expect(fruit?.amount).toEqual(1);
+    expect(fruit?.harvestedAt).toEqual(
+      dateNow - FRUIT_SEEDS()["Lemon Seed"].plantSeconds * 1000 * 0.25,
+    );
+  });
+
+  it("gives a 62.5% growth time reduction when Lemon Tea Bath is placed", () => {
+    const { fruitPatches } = GAME_STATE;
+    const fruitPatch = (fruitPatches as Record<number, FruitPatch>)[0];
+    const initialHarvest = 2;
+
+    const state = harvestFruit({
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          "Lemon Tea Bath": new Decimal(1),
+          "Lemon Frog": new Decimal(1),
+        },
+        collectibles: {
+          "Lemon Tea Bath": [
+            {
+              coordinates: { x: 0, y: 0 },
+              createdAt: 0,
+              id: "1",
+              readyAt: 0,
+            },
+          ],
+          "Lemon Frog": [
+            {
+              coordinates: { x: 1, y: 1 },
+              createdAt: 0,
+              id: "123",
+              readyAt: 0,
+            },
+          ],
+        },
+        fruitPatches: {
+          0: {
+            ...fruitPatch,
+            fruit: {
+              name: "Lemon",
+              plantedAt: Date.now() - 3 * 24 * 60 * 60 * 1000,
+              amount: 1,
+              harvestsLeft: initialHarvest,
+              harvestedAt: 2,
+            },
+          },
+        },
+      },
+      action: {
+        type: "fruit.harvested",
+        index: "0",
+      },
+      createdAt: dateNow,
+    });
+
+    const { fruitPatches: fruitPatchesAfterHarvest } = state;
+    const fruit = fruitPatchesAfterHarvest?.[0].fruit;
+
+    expect(fruit?.amount).toEqual(1);
+    expect(fruit?.harvestedAt).toEqual(
+      dateNow - FRUIT_SEEDS()["Lemon Seed"].plantSeconds * 1000 * 0.625,
     );
   });
 
