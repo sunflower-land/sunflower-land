@@ -352,6 +352,10 @@ const BoostDigItems: Partial<
     ...(BUMPKIN_ITEM_BUFF_LABELS["Bionic Drill"] as BuffLabel),
     location: "Artefact Shop",
   },
+  Camel: {
+    ...(COLLECTIBLE_BUFF_LABELS["Camel"] as BuffLabel),
+    location: "Artefact Shop",
+  },
 };
 
 const getDefaultTab = (game: GameState) => {

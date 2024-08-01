@@ -425,6 +425,7 @@ export const REMOVAL_RESTRICTIONS: Partial<
   "Radical Radish": (game) => cropIsGrowing({ item: "Radish", game }),
 
   "Heart of Davy Jones": (game) => areBonusTreasureHolesDug(game),
+
   "Maneki Neko": (game) => hasShakenManeki(game),
   "Festive Tree": (game) => hasShakenTree(game),
 

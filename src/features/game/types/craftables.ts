@@ -1386,7 +1386,7 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   Pyramid: { width: 2, height: 2 },
   Oasis: { width: 3, height: 4 },
   "Baobab Tree": { width: 3, height: 3 },
-  Camel: { width: 1, height: 1 },
+  Camel: { width: 2, height: 1 },
   "Tomato Bombard": { width: 2, height: 2 },
 };
 

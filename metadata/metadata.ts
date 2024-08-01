@@ -8854,19 +8854,25 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     name: "Paper Reed",
   },
   Camel: {
-    description: "",
+    description: "A mean looking camel!",
     decimals: 0,
     attributes: [
       { trait_type: "Purpose", value: "Boost" },
       { trait_type: "Tradable", value: "Yes" },
+      { trait_type: "Boost", value: "Crop" },
       {
         display_type: "boost_number",
-        trait_type: "Increase daily digs",
-        value: 3,
+        trait_type: "Increase Sand Yield",
+        value: 1,
+      },
+      {
+        display_type: "boost_percentage",
+        trait_type: "Artefact Shop Bounty Price",
+        value: 30,
       },
     ],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "../public/erc1155/images/question_mark.png",
+    image: "../public/erc1155/images/2127.png",
     name: "Camel",
   },
   "Baobab Tree": {

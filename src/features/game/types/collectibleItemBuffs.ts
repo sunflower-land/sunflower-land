@@ -675,4 +675,10 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
     boostedItemIcon: powerup,
     boostTypeIcon: ITEM_DETAILS.Tomato.image,
   },
+  Camel: {
+    shortDescription: translate("description.camel.boost"),
+    labelType: "success",
+    boostTypeIcon: powerup,
+    boostedItemIcon: SUNNYSIDE.tools.sand_shovel,
+  },
 };

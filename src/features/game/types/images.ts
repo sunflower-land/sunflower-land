@@ -666,6 +666,7 @@ import oasis from "src/assets/sfts/oasis.webp";
 import baobabTree from "src/assets/sfts/baobab_tree.webp";
 import cannonball from "src/assets/sfts/cannonball.webp";
 import tomatoBombard from "src/assets/sfts/tomato_bombard.gif";
+import camel from "src/assets/sfts/camel.webp";
 
 import scarab from "assets/resources/scarab.webp";
 import hieroglyph from "assets/resources/hieroglyph.webp";
@@ -8971,9 +8972,14 @@ export const ITEM_DETAILS: Items = {
     },
   },
   Camel: {
-    image: "",
+    image: camel,
     description: {
-      en: "",
+      en: "A mean looking camel!",
+      "zh-CN": "A mean looking camel!",
+      fr: "A mean looking camel!",
+      pt: "A mean looking camel!",
+      ru: "A mean looking camel!",
+      tk: "A mean looking camel!",
     },
   },
   "Tomato Bombard": {
