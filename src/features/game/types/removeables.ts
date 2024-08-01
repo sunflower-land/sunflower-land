@@ -497,6 +497,8 @@ export const REMOVAL_RESTRICTIONS: Partial<
   "Pharaoh Chicken": (game) => areBonusTreasureHolesDug(game),
   "Desert Rose": (game) => areFlowersGrowing(game),
   "Lemon Shark": (game) => areFruitsGrowing(game, "Lemon"),
+  "Lemon Frog": (game) => areFruitsGrowing(game, "Lemon"),
+  "Reveling Lemon": (game) => areFruitsGrowing(game, "Lemon"),
 };
 
 export const BUD_REMOVAL_RESTRICTIONS: Record<
