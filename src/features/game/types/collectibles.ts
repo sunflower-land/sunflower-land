@@ -268,7 +268,7 @@ export const TREASURE_COLLECTIBLE_ITEM: Record<
   },
   Camel: {
     ingredients: {
-      Scarab: new Decimal(100),
+      Scarab: new Decimal(200),
     },
     description: "A mean looking camel!",
     from: SEASONS["Pharaoh's Treasure"].startDate,

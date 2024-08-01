@@ -8974,12 +8974,12 @@ export const ITEM_DETAILS: Items = {
   Camel: {
     image: camel,
     description: {
-      en: "A mean looking camel. But gives +3 digs!",
-      "zh-CN": "A mean looking camel. But gives +3 digs!",
-      fr: "A mean looking camel. But gives +3 digs!",
-      pt: "A mean looking camel. But gives +3 digs!",
-      ru: "A mean looking camel. But gives +3 digs!",
-      tk: "A mean looking camel. But gives +3 digs!",
+      en: "A mean looking camel!",
+      "zh-CN": "A mean looking camel!",
+      fr: "A mean looking camel!",
+      pt: "A mean looking camel!",
+      ru: "A mean looking camel!",
+      tk: "A mean looking camel!",
     },
   },
   "Tomato Bombard": {
