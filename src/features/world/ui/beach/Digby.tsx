@@ -39,6 +39,7 @@ import { BUMPKIN_ITEM_BUFF_LABELS } from "features/game/types/bumpkinItemBuffs";
 import { ResizableBar } from "components/ui/ProgressBar";
 import { Revealed } from "features/game/components/Revealed";
 import { ChestRevealing, ChestRewardType } from "../chests/ChestRevealing";
+import { gameAnalytics } from "lib/gameAnalytics";
 
 export function hasReadDigbyIntro() {
   return !!localStorage.getItem("digging.intro");
@@ -392,6 +393,13 @@ export const Digby: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   const confirmBuyMoreDigs = () => {
     onClose();
     gameService.send("desert.digsBought");
+
+    gameAnalytics.trackSink({
+      currency: "Block Buck",
+      amount: 1,
+      item: "DesertDigs",
+      type: "Fee",
+    });
   };
 
   const canAfford = (inventory["Block Buck"] ?? new Decimal(0))?.gt(0);
