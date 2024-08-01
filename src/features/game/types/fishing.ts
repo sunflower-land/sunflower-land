@@ -381,7 +381,7 @@ export const FISH: Record<FishName | MarineMarvelName, Fish> = {
   "Lemon Shark": {
     baits: ["Grub", "Fishing Lure"],
     type: "marine marvel",
-    locations: ["wharf"],
+    locations: ["wharf", "beach"],
   },
 };
 
