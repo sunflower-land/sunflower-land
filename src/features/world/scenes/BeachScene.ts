@@ -729,7 +729,7 @@ export class BeachScene extends BaseScene {
 
     if (
       (this.selectedItem === "Sand Drill" && sandDrillsCount === 0) ||
-      sandShovelsCount === 0 ||
+      (this.selectedItem === "Sand Shovel" && sandShovelsCount === 0) ||
       !this.hasDigsLeft
     ) {
       if (
@@ -737,6 +737,7 @@ export class BeachScene extends BaseScene {
         this.selectedItem === "Sand Shovel" &&
         sandShovelsCount === 0
       ) {
+        // Drills are handled in their own hover handlers
         this.noToolHoverBox
           ?.setPosition(rectX + 4, rectY + 4)
           .setOrigin(0)
@@ -886,8 +887,6 @@ export class BeachScene extends BaseScene {
     const noToolY = hoverY + this.cellSize - 4;
 
     if (sandDrills.lt(1)) {
-      // debounce
-
       this.noToolHoverBox?.setPosition(noToolX, noToolY).setVisible(true);
 
       return;
