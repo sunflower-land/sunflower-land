@@ -19,7 +19,6 @@ import { CodexButton } from "./components/codex/CodexButton";
 import { HudContainer } from "components/ui/HudContainer";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { EmblemAirdropCountdown } from "./EmblemAirdropCountdown";
 import { useLocation } from "react-router-dom";
 import { SpecialEventCountdown } from "./SpecialEventCountdown";
 import { DesertDiggingDisplay } from "./components/DesertDiggingDisplay";
@@ -110,7 +109,6 @@ const HudComponent: React.FC = () => {
         }}
       >
         <AuctionCountdown />
-        <EmblemAirdropCountdown />
         <SpecialEventCountdown />
       </div>
 
