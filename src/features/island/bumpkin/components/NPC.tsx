@@ -34,7 +34,7 @@ export type NPCParts = Omit<
   body: BumpkinBody;
   shoes: BumpkinShoe;
   tool: BumpkinTool;
-  aura?: BumpkinAura;
+  aura: BumpkinAura;
 };
 
 export interface NPCProps {
