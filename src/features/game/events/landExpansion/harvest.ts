@@ -26,8 +26,8 @@ type Options = {
 };
 
 export const isBasicCrop = (cropName: CropName) => {
-  const cropDetails = CROPS()[cropName];
-  return cropDetails.harvestSeconds <= CROPS()["Pumpkin"].harvestSeconds;
+  const cropDetails = CROPS[cropName];
+  return cropDetails.harvestSeconds <= CROPS["Pumpkin"].harvestSeconds;
 };
 
 export const isMediumCrop = (cropName: CropName) => {
@@ -35,21 +35,21 @@ export const isMediumCrop = (cropName: CropName) => {
 };
 
 export const isAdvancedCrop = (cropName: CropName) => {
-  const cropDetails = CROPS()[cropName];
-  return cropDetails.harvestSeconds >= CROPS()["Eggplant"].harvestSeconds;
+  const cropDetails = CROPS[cropName];
+  return cropDetails.harvestSeconds >= CROPS["Eggplant"].harvestSeconds;
 };
 
 function isCrop(plant: GreenHouseCropName | CropName): plant is CropName {
-  return (plant as CropName) in CROPS();
+  return (plant as CropName) in CROPS;
 }
 
 export const isOvernightCrop = (cropName: CropName | GreenHouseCropName) => {
   if (isCrop(cropName)) {
-    const cropDetails = CROPS()[cropName];
-    return cropDetails.harvestSeconds >= CROPS()["Radish"].harvestSeconds;
+    const cropDetails = CROPS[cropName];
+    return cropDetails.harvestSeconds >= CROPS["Radish"].harvestSeconds;
   }
 
-  const details = GREENHOUSE_CROPS()[cropName];
+  const details = GREENHOUSE_CROPS[cropName];
   return (
     details.harvestSeconds >= 24 * 60 * 60 &&
     details.harvestSeconds <= 36 * 60 * 60
@@ -68,7 +68,7 @@ export function isCropGrowing(plot: CropPlot) {
   const crop = plot.crop;
   if (!crop) return false;
 
-  const cropDetails = CROPS()[crop.name];
+  const cropDetails = CROPS[crop.name];
   return !isReadyToHarvest(Date.now(), crop, cropDetails);
 }
 
@@ -96,7 +96,7 @@ export function harvest({
 
   const { name: cropName, plantedAt, amount = 1, reward } = plot.crop;
 
-  const { harvestSeconds } = CROPS()[cropName];
+  const { harvestSeconds } = CROPS[cropName];
 
   if (createdAt - plantedAt < harvestSeconds * 1000) {
     throw new Error("Not ready");

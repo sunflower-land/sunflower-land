@@ -60,7 +60,7 @@ const FertilePlotComponent: React.FC<Props> = ({
 
   const [_, setRender] = useState<number>(0);
 
-  let harvestSeconds = cropName ? CROPS()[cropName].harvestSeconds : 0;
+  let harvestSeconds = cropName ? CROPS[cropName].harvestSeconds : 0;
   const readyAt = plantedAt ? plantedAt + harvestSeconds * 1000 : 0;
 
   let startAt = plantedAt ?? 0;

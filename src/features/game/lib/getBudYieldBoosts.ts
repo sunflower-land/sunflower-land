@@ -28,11 +28,11 @@ export type Resource =
   | GreenHouseFruitName;
 
 export const isPlotCrop = (resource: Resource): resource is CropName => {
-  return resource in CROPS();
+  return resource in CROPS;
 };
 
 export const isCrop = (resource: Resource): resource is CropName => {
-  return resource in CROPS() || resource in GREENHOUSE_CROPS();
+  return resource in CROPS || resource in GREENHOUSE_CROPS;
 };
 
 const isMineral = (resource: Resource): boolean => {

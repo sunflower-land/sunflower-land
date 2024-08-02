@@ -43,7 +43,7 @@ export function isLocked(
   if (!crop || !plantedAt) return false;
 
   const cropName = crop.name;
-  const cropDetails = CROPS()[cropName];
+  const cropDetails = CROPS[cropName];
 
   if (isReadyToHarvest(createdAt, crop, cropDetails)) return false;
 

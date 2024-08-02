@@ -701,8 +701,8 @@ export interface ItemDetails {
 
 type Items = Record<InventoryItemName | AchievementName, ItemDetails>;
 
-const crops = CROPS();
-const seeds = CROP_SEEDS();
+const crops = CROPS;
+const seeds = CROP_SEEDS;
 export const ITEM_DETAILS: Items = {
   Sunflower: {
     image: CROP_LIFECYCLE.Sunflower.crop,

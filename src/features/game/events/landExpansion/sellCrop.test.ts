@@ -76,7 +76,7 @@ describe("sell", () => {
     });
 
     expect(state.inventory.Sunflower).toEqual(new Decimal(4));
-    expect(state.coins).toEqual(GAME_STATE.coins + CROPS().Sunflower.sellPrice);
+    expect(state.coins).toEqual(GAME_STATE.coins + CROPS.Sunflower.sellPrice);
   });
 
   it("sell an item in bulk given sufficient quantity", () => {
@@ -97,7 +97,7 @@ describe("sell", () => {
 
     expect(state.inventory.Sunflower).toEqual(new Decimal(1));
     expect(state.coins).toEqual(
-      GAME_STATE.coins + CROPS().Sunflower.sellPrice * 10,
+      GAME_STATE.coins + CROPS.Sunflower.sellPrice * 10,
     );
   });
 
@@ -135,7 +135,7 @@ describe("sell", () => {
       },
     });
 
-    expect(state.coins).toEqual(CROPS().Cauliflower.sellPrice);
+    expect(state.coins).toEqual(CROPS.Cauliflower.sellPrice);
   });
 
   it("increments coins earned when cauliflower is sold", () => {
@@ -154,7 +154,7 @@ describe("sell", () => {
     });
 
     expect(state.bumpkin?.activity?.["Coins Earned"]).toEqual(
-      CROPS().Cauliflower.sellPrice,
+      CROPS.Cauliflower.sellPrice,
     );
   });
 

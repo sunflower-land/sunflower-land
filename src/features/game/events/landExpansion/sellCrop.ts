@@ -22,9 +22,9 @@ export type SellCropAction = {
 };
 
 export const SELLABLE = {
-  ...CROPS(),
+  ...CROPS,
   ...FRUIT(),
-  ...GREENHOUSE_CROPS(),
+  ...GREENHOUSE_CROPS,
   ...GREENHOUSE_FRUIT(),
 };
 

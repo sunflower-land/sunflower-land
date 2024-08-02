@@ -75,7 +75,7 @@ const generateImages = (
   let resourceImages;
   if (isMoonSeekerMode) {
     resourceImages = [
-      ...getKeys(CROPS()),
+      ...getKeys(CROPS),
       ...getKeys(FRUIT()),
       ...getKeys(COMMODITIES),
     ];
