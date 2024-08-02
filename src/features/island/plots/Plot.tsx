@@ -57,8 +57,7 @@ const selectLevel = (state: MachineState) =>
   getBumpkinLevel(state.context.state.bumpkin?.experience ?? 0);
 
 const selectHarvests = (state: MachineState) => {
-  const crops = CROPS;
-  return getKeys(crops).reduce(
+  return getKeys(CROPS).reduce(
     (total, crop) =>
       total +
       (state.context.state.bumpkin?.activity?.[`${crop} Harvested`] ?? 0),
