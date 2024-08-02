@@ -318,7 +318,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   retry: "重试",
   "reward.discovered": "奖励揭晓",
   "reward.whatsNew": "瞧瞧惊喜",
-  sale: ENGLISH_TERMS["sale"],
+  sale: "卖价",
   save: "保存",
   saving: "保存中",
   seeds: "种子", // Basket
@@ -774,7 +774,7 @@ const boostDescriptions: Record<BoostDescriptions, string> = {
   "description.heart.of.davy.jones":
     "谁拥有它，谁就拥有掌控七大洋的浩瀚力量，可以挖掘财宝不知疲倦",
   "description.knight.chicken": "一只强大而高贵的鸡为您的油田增强产出",
-  "description.pharaoh.chicken": ENGLISH_TERMS["description.pharaoh.chicken"],
+  "description.pharaoh.chicken": "一只皇族鸡。+1 每日挖宝次数。",
 };
 
 const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
@@ -801,7 +801,7 @@ const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
   "description.iron.idol.boost": "+1 铁矿",
   "description.emerald.turtle.boost": "+0.5 石头铁矿黄金(AOE 3x3)",
   "description.tin.turtle.boost": "+0.1 石头(AOE 3x3)",
-  "description.heart.of.davy.jones.boost": "挖宝的每日限制 +20",
+  "description.heart.of.davy.jones.boost": "+20 每日挖宝次数",
   "description.Karkinos.boost": "+0.1 卷心菜(对 Cabbage Boy 没有效果)",
   "description.mushroom.house.boost": "+0.2 野生蘑菇",
   "description.boost.gilded.swordfish": "+0.1 黄金",
@@ -878,11 +878,9 @@ const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
   // Translate
   "description.hungryHare.boost": "发酵胡萝卜 XP 翻倍",
   "description.battle.fish.boost": "+0.05 石油",
-  "description.lemon.shark.boost":
-    ENGLISH_TERMS["description.lemon.shark.boost"],
+  "description.lemon.shark.boost": "+0.2 柠檬",
   "description.knight.chicken.boost": "+0.1 石油",
-  "description.pharaoh.chicken.boost":
-    ENGLISH_TERMS["description.pharaoh.chicken.boost"],
+  "description.pharaoh.chicken.boost": "+1 每日挖宝次数",
   "description.turbo.sprout.boost": "-50% 温室庄稼生长时间",
   "description.soybliss.boost": "+1 大豆",
   "description.grape.granny.boost": "+1 葡萄",
@@ -915,21 +913,15 @@ const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
   "description.hourglass.running":
     "这个 {{hourglass}} 能提供下列增益： {{boost}}。",
 
-  "description.desert.rose.boost":
-    ENGLISH_TERMS["description.desert.rose.boost"],
-  "description.pharaoh.gnome.boost":
-    ENGLISH_TERMS["description.pharaoh.gnome.boost"],
-  "description.lemon.tea.bath.boost":
-    ENGLISH_TERMS["description.lemon.tea.bath.boost"],
-  "description.tomato.clown.boost":
-    ENGLISH_TERMS["description.tomato.clown.boost"],
-  "description.cannonball.boost": ENGLISH_TERMS["description.cannonball.boost"],
-  "description.tomato.bombard.boost":
-    ENGLISH_TERMS["description.tomato.bombard.boost"],
-  "description.camel.boost": ENGLISH_TERMS["description.camel.boost"],
-  "description.reveling.lemon.boost":
-    ENGLISH_TERMS["description.reveling.lemon.boost"],
-  "description.lemon.frog.boost": ENGLISH_TERMS["description.lemon.frog.boost"],
+  "description.desert.rose.boost": "10% 几率 +1 花卉",
+  "description.pharaoh.gnome.boost": "+2 温室植物",
+  "description.lemon.tea.bath.boost": "-50% 柠檬生长时间",
+  "description.tomato.clown.boost": "-50% 番茄生长时间",
+  "description.cannonball.boost": "-25% 番茄生长时间",
+  "description.tomato.bombard.boost": "+1 番茄",
+  "description.camel.boost": "+1 沙子并 +30% 古董店赏金卖价",
+  "description.reveling.lemon.boost": "+0.25 柠檬",
+  "description.lemon.frog.boost": "-25% 柠檬生长时间",
 };
 
 const bountyDescription: Record<BountyDescription, string> = {
@@ -987,8 +979,8 @@ const bumpkinDelivery: Record<BumpkinDelivery, string> = {
     "我一直就是在等这个。非常感谢！请尽快回来获取更多送货订单。",
   "bumpkin.delivery.proveYourself":
     "证明你的价值。再扩展你的岛屿 {{missingLevels}} 次。",
-  "bumpkin.delivery.earnScrolls": ENGLISH_TERMS["bumpkin.delivery.earnScrolls"],
-  "bumpkin.delivery.earnSFL": ENGLISH_TERMS["bumpkin.delivery.earnSFL"],
+  "bumpkin.delivery.earnScrolls": "赚取 {{ticket}} 来铸造限定物品。",
+  "bumpkin.delivery.earnSFL": "赚取 SFL 来做买卖 & 成就您的伟业。",
 };
 
 const bumpkinItemBuff: Record<BumpkinItemBuff, string> = {
@@ -1044,19 +1036,14 @@ const bumpkinItemBuff: Record<BumpkinItemBuff, string> = {
   "bumpkinItemBuff.bumpkin.sword": "+10% 徽记",
   "bumpkinItemBuff.bumpkin.pants": "+5% 徽记",
   "bumpkinItemBuff.bumpkin.sabatons": "+5% 徽记",
-  "bumpkinItemBuff.crab.trap": ENGLISH_TERMS["bumpkinItemBuff.crab.trap"],
-  "bumpkinItemBuff.bionic.drill": ENGLISH_TERMS["bumpkinItemBuff.bionic.drill"],
-  "bumpkinItemBuff.infernal.drill.boost":
-    ENGLISH_TERMS["bumpkinItemBuff.infernal.drill.boost"],
-  "bumpkinItemBuff.lemon.shield.boost":
-    ENGLISH_TERMS["bumpkinItemBuff.lemon.shield.boost"],
-  "bumpkinItemBuff.dev.wrench.boost":
-    ENGLISH_TERMS["bumpkinItemBuff.dev.wrench.boost"],
-  "bumpkinItemBuff.oil.overalls.boost":
-    ENGLISH_TERMS["bumpkinItemBuff.oil.overalls.boost"],
-  "bumpkinItemBuff.ancient.shovel.boost":
-    ENGLISH_TERMS["bumpkinItemBuff.ancient.shovel.boost"],
-  "bumpkinItemBuff.grape.pants": ENGLISH_TERMS["bumpkinItemBuff.grape.pants"],
+  "bumpkinItemBuff.crab.trap": "挖宝/钻宝时 +1 螃蟹",
+  "bumpkinItemBuff.bionic.drill": "+5 每日挖宝次数",
+  "bumpkinItemBuff.infernal.drill.boost": "钻石油无需石油钻",
+  "bumpkinItemBuff.lemon.shield.boost": "+1 柠檬",
+  "bumpkinItemBuff.dev.wrench.boost": "-50% 石油恢复时间",
+  "bumpkinItemBuff.oil.overalls.boost": "+10 石油",
+  "bumpkinItemBuff.ancient.shovel.boost": "挖宝无需沙铲",
+  "bumpkinItemBuff.grape.pants": "+0.2 葡萄",
 };
 
 const bumpkinPartRequirements: Record<BumpkinPartRequirements, string> = {
@@ -1253,9 +1240,8 @@ const confirmationTerms: Record<ConfirmationTerms, string> = {
     "您确定要花 {{coinAmount}} 枚硬币购买 {{seedNo}} {{seedName}}s 吗？",
   "confirmation.enterAmount": "请输入出售数量：",
   "confirmation.sellSeasonalArtefact":
-    ENGLISH_TERMS["confirmation.sellSeasonalArtefact"],
-  "confirmation.valuableTreasure":
-    ENGLISH_TERMS["confirmation.valuableTreasure"],
+    "这悬赏的是一种时季古董！您确定您想卖出它吗？",
+  "confirmation.valuableTreasure": "这悬赏非常珍贵！您确定您想卖出它吗？",
 };
 
 const confirmSkill: Record<ConfirmSkill, string> = {
@@ -1415,9 +1401,9 @@ const cropFruitDescriptions: Record<CropFruitDescriptions, string> = {
   "description.lily.seed": "百合种子。一粒 Lily 种子",
 
   // Greenhouse Seeds
-  "description.grape": "一种甜美神往的水果",
-  "description.olive": "高端农夫的奢品",
-  "description.rice": "完美口粮！",
+  "description.grape": "葡萄。一种甜美神往的水果",
+  "description.olive": "橄榄。高端农夫的奢品",
+  "description.rice": "稻米。完美口粮！",
 };
 
 const cropMachine: Record<CropMachine, string> = {
@@ -1457,14 +1443,12 @@ const cropMachine: Record<CropMachine, string> = {
 };
 
 const cropsAndChickens: Record<CropsAndChickensMessages, string> = {
-  "crops-and-chickens.portal.title":
-    ENGLISH_TERMS["crops-and-chickens.portal.title"],
-  "crops-and-chickens.portal.description":
-    ENGLISH_TERMS["crops-and-chickens.portal.description"],
+  "crops-and-chickens.portal.title": "小游戏 —— 庄稼与鸡",
+  "crops-and-chickens.portal.description": "您能帮我收集庄稼吗？",
   "crops-and-chickens.portal.missionObjectives":
-    ENGLISH_TERMS["crops-and-chickens.portal.missionObjectives"],
+    "任务：存入价值 {{targetScore}} 点的庄稼",
   "crops-and-chickens.portal.rewardMessage":
-    ENGLISH_TERMS["crops-and-chickens.portal.rewardMessage"],
+    "恭喜，您已经完成了任务！这里是您的奖赏。",
 };
 
 const decorationDescriptions: Record<DecorationDescriptions, string> = {
@@ -1715,7 +1699,7 @@ const decorationDescriptions: Record<DecorationDescriptions, string> = {
 
   "description.red.daffodil": "红水仙花。一朵红水仙花。",
   "description.yellow.daffodil": "黄水仙花。一朵黄水仙花。",
-  "description.purple.daffodil": "紫水仙花。一朵紫水仙花l。",
+  "description.purple.daffodil": "紫水仙花。一朵紫水仙花。",
   "description.white.daffodil": "白水仙花。一朵白水仙花。",
   "description.blue.daffodil": "蓝水仙花。一朵蓝水仙花。",
 
@@ -1851,7 +1835,7 @@ const donation: Record<Donation, string> = {
   "donation.minimum": "至少捐 1 MATIC",
   "donation.airdrop": "捐赠活动落幕后便将空投装饰品。",
   "donation.specialEvent": "特别捐献活动",
-  "donation.toPortal": ENGLISH_TERMS["donation.toPortal"],
+  "donation.toPortal": "您是否愿意为 {{portalName}} 捐献 {{amount}} MATIC?",
 };
 
 const draftBid: Record<DraftBid, string> = {
@@ -2337,55 +2321,53 @@ const flowerBed: Record<FlowerBed, string> = {
 };
 
 const flowerbreed: Record<Flowerbreed, string> = {
-  "flower.breed.sunflower": ENGLISH_TERMS["flower.breed.sunflower"],
-  "flower.breed.cauliflower": ENGLISH_TERMS["flower.breed.cauliflower"],
-  "flower.breed.beetroot": ENGLISH_TERMS["flower.breed.beetroot"],
-  "flower.breed.parsnip": ENGLISH_TERMS["flower.breed.parsnip"],
-  "flower.breed.eggplant": ENGLISH_TERMS["flower.breed.eggplant"],
-  "flower.breed.radish": ENGLISH_TERMS["flower.breed.radish"],
-  "flower.breed.kale": ENGLISH_TERMS["flower.breed.kale"],
-  "flower.breed.blueberry": ENGLISH_TERMS["flower.breed.blueberry"],
-  "flower.breed.apple": ENGLISH_TERMS["flower.breed.apple"],
-  "flower.breed.banana": ENGLISH_TERMS["flower.breed.banana"],
-  "flower.breed.redPansy": ENGLISH_TERMS["flower.breed.redPansy"],
-  "flower.breed.yellowPansy": ENGLISH_TERMS["flower.breed.yellowPansy"],
-  "flower.breed.purplePansy": ENGLISH_TERMS["flower.breed.purplePansy"],
-  "flower.breed.whitePansy": ENGLISH_TERMS["description.white.pansy"],
-  "flower.breed.bluePansy": ENGLISH_TERMS["flower.breed.bluePansy"],
-  "flower.breed.redCosmos": ENGLISH_TERMS["flower.breed.redCosmos"],
-  "flower.breed.yellowCosmos": ENGLISH_TERMS["flower.breed.yellowCosmos"],
-  "flower.breed.purpleCosmos": ENGLISH_TERMS["flower.breed.purpleCosmos"],
-  "flower.breed.whiteCosmos": ENGLISH_TERMS["flower.breed.whiteCosmos"],
-  "flower.breed.blueCosmos": ENGLISH_TERMS["flower.breed.blueCosmos"],
-  "flower.breed.prismPetal": ENGLISH_TERMS["flower.breed.prismPetal"],
-  "flower.breed.redBalloonFlower":
-    ENGLISH_TERMS["flower.breed.redBalloonFlower"],
-  "flower.breed.yellowBalloonFlower":
-    ENGLISH_TERMS["flower.breed.yellowBalloonFlower"],
-  "flower.breed.purpleBalloonFlower":
-    ENGLISH_TERMS["flower.breed.purpleBalloonFlower"],
-  "flower.breed.whiteBalloonFlower":
-    ENGLISH_TERMS["flower.breed.whiteBalloonFlower"],
-  "flower.breed.blueBalloonFlower":
-    ENGLISH_TERMS["flower.breed.blueBalloonFlower"],
-  "flower.breed.redDaffodil": ENGLISH_TERMS["flower.breed.redDaffodil"],
-  "flower.breed.yellowDaffodil": ENGLISH_TERMS["flower.breed.yellowDaffodil"],
-  "flower.breed.purpleDaffodil": ENGLISH_TERMS["flower.breed.purpleDaffodil"],
-  "flower.breed.whiteDaffodil": ENGLISH_TERMS["flower.breed.whiteDaffodil"],
-  "flower.breed.blueDaffodil": ENGLISH_TERMS["flower.breed.blueDaffodil"],
+  "flower.breed.sunflower": "乡包佬植物学家们誓称他们不算是花卉。",
+  "flower.breed.cauliflower": "不太清楚乡包佬植物学家们对此有什么看法。",
+  "flower.breed.beetroot": "它有种漂亮的紫色。",
+  "flower.breed.parsnip": "防风草也许是杂交的好选择。",
+  "flower.breed.eggplant": "茄子色泽光鲜靓丽，应该会杂交顺利吧。",
+  "flower.breed.radish": "哇，这个小萝卜红红的！",
+  "flower.breed.kale": "鲜绿，但又不同于其他绿植。",
+  "flower.breed.blueberry": "这些蓝莓熟透了，希望他们不会混染串色。",
+  "flower.breed.apple": "脆脆苹果！",
+  "flower.breed.banana": "一箩香蕉。",
+  "flower.breed.redPansy": "一朵红三色堇。",
+  "flower.breed.yellowPansy": "一朵黄三色堇。",
+  "flower.breed.purplePansy": "一朵紫三色堇。",
+  "flower.breed.whitePansy": "一朵白三色堇，洁白无色。是不是很稀有呢？",
+  "flower.breed.bluePansy": "一朵蓝三色堇。",
+  "flower.breed.redCosmos": "一朵红波斯菊。",
+  "flower.breed.yellowCosmos": "一朵黄色波斯菊。",
+  "flower.breed.purpleCosmos": "一朵紫波斯菊。",
+  "flower.breed.whiteCosmos": "一朵白波斯菊。",
+  "flower.breed.blueCosmos": "一朵蓝波斯菊。花如其名。",
+  "flower.breed.prismPetal":
+    "这可是一种非常稀有的变种，你是真的想要用这个杂交吗？",
+  "flower.breed.redBalloonFlower": "桔梗花都非常漂亮，尤其是红色的。",
+  "flower.breed.yellowBalloonFlower": "一朵黄桔梗。",
+  "flower.breed.purpleBalloonFlower": "一朵紫桔梗。",
+  "flower.breed.whiteBalloonFlower": "一朵白桔梗。可算稀有。",
+  "flower.breed.blueBalloonFlower": "最常见的桔梗花，没什么特别的。",
+  "flower.breed.redDaffodil": "一朵红水仙花。",
+  "flower.breed.yellowDaffodil": "一朵黄水仙花。",
+  "flower.breed.purpleDaffodil": "一朵紫水仙花。",
+  "flower.breed.whiteDaffodil": "一朵白水仙花。",
+  "flower.breed.blueDaffodil": "一朵蓝水仙花。",
   "flower.breed.celestialFrostbloom":
-    ENGLISH_TERMS["flower.breed.celestialFrostbloom"],
-  "flower.breed.redCarnation": ENGLISH_TERMS["flower.breed.redCarnation"],
-  "flower.breed.yellowCarnation": ENGLISH_TERMS["flower.breed.yellowCarnation"],
-  "flower.breed.purpleCarnation": ENGLISH_TERMS["flower.breed.purpleCarnation"],
-  "flower.breed.whiteCarnation": ENGLISH_TERMS["flower.breed.whiteCarnation"],
-  "flower.breed.blueCarnation": ENGLISH_TERMS["flower.breed.blueCarnation"],
-  "flower.breed.redLotus": ENGLISH_TERMS["flower.breed.redLotus"],
-  "flower.breed.yellowLotus": ENGLISH_TERMS["flower.breed.yellowLotus"],
-  "flower.breed.purpleLotus": ENGLISH_TERMS["flower.breed.purpleLotus"],
-  "flower.breed.whiteLotus": ENGLISH_TERMS["flower.breed.whiteLotus"],
-  "flower.breed.blueLotus": ENGLISH_TERMS["flower.breed.blueLotus"],
-  "flower.breed.primulaEnigma": ENGLISH_TERMS["flower.breed.primulaEnigma"],
+    "这可是一种非常稀有的变种，你是真的想要用这个杂交吗？",
+  "flower.breed.redCarnation": "乡包佬们都因其稀有而珍视红康乃馨。",
+  "flower.breed.yellowCarnation": "乡包佬们并不看重黄康乃馨。",
+  "flower.breed.purpleCarnation": "乡包佬们都因其美丽而珍视紫康乃馨。",
+  "flower.breed.whiteCarnation": "乡包佬们都因其素雅而珍视白康乃馨。",
+  "flower.breed.blueCarnation":
+    "乡包佬们都珍视蓝康乃馨，她与 Bloom 种花卉有杂交潜力。",
+  "flower.breed.redLotus": "一朵红莲花。",
+  "flower.breed.yellowLotus": "一朵黄莲花。",
+  "flower.breed.purpleLotus": "一朵紫莲花。",
+  "flower.breed.whiteLotus": "一朵白莲花。",
+  "flower.breed.blueLotus": "一朵蓝莲花。",
+  "flower.breed.primulaEnigma":
+    "这可是一种非常稀有的变种，你是真的想要用这个杂交吗？",
 };
 
 const flowerShopTerms: Record<FlowerShopTerms, string> = {
