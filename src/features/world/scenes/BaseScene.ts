@@ -34,6 +34,7 @@ import {
 import { MachineInterpreter } from "features/game/lib/gameMachine";
 import { MachineInterpreter as AuthMachineInterpreter } from "features/auth/lib/authMachine";
 import { capitalize } from "lib/utils/capitalize";
+import { PhaserNavMesh } from "phaser-navmesh";
 
 type SceneTransitionData = {
   previousSceneId: SceneId;
@@ -145,6 +146,12 @@ export abstract class BaseScene extends Phaser.Scene {
     Phaser.Types.Physics.Arcade.ArcadePhysicsCallback
   > = {};
   otherDiggers: Map<string, { x: number; y: number }> = new Map();
+  /**
+   * navMesh can be used to find paths between two points. The map will need to have
+   * a layer of "walkable rectangles" that the player can walk on.
+   * ref: https://github.com/mikewesthad/navmesh
+   */
+  navMesh: PhaserNavMesh | undefined;
 
   constructor(options: BaseSceneOptions) {
     if (!options.name) {
@@ -228,7 +235,20 @@ export abstract class BaseScene extends Phaser.Scene {
     } catch (error) {
       errorLogger(JSON.stringify(error));
     }
+
+    this.setUpNavMesh();
   }
+
+  public setUpNavMesh = () => {
+    const meshLayer = this.map.getObjectLayer("NavMesh");
+    if (!meshLayer) return;
+
+    this.navMesh = this.navMeshPlugin.buildMeshFromTiled(
+      "NavMesh",
+      meshLayer,
+      16,
+    );
+  };
 
   private roof: Phaser.Tilemaps.TilemapLayer | null = null;
 
