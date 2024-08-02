@@ -175,8 +175,6 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
       this.add(idle);
       if (this.clothing.aura !== undefined) {
         this.moveTo(idle, 2);
-      } else if (this.clothing.aura === undefined) {
-        this.moveTo(idle, 1);
       }
       this.sprite = idle;
 
@@ -215,9 +213,8 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
         this.add(idle);
         if (this.clothing.aura !== undefined) {
           this.moveTo(idle, 2);
-        } else if (this.clothing.aura === undefined) {
-          this.moveTo(idle, 1);
         }
+
         this.sprite = idle;
 
         if (this.direction === "left") {
