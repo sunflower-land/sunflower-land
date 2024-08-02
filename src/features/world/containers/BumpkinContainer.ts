@@ -173,7 +173,11 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
       // If we have idle sheet then we can create the idle animation and set the sprite up straight away
       const idle = scene.add.sprite(0, 0, this.idleSpriteKey).setOrigin(0.5);
       this.add(idle);
-      this.moveTo(idle, 2);
+      if (this.clothing !== undefined) {
+        this.moveTo(idle, 2);
+      } else {
+        this.moveTo(idle, 1);
+      }
       this.sprite = idle;
 
       if (this.direction === "left") {
@@ -209,7 +213,11 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
           .sprite(0, 0, this.idleSpriteKey as string)
           .setOrigin(0.5);
         this.add(idle);
-        this.moveTo(idle, 2);
+        if (this.clothing !== undefined) {
+          this.moveTo(idle, 2);
+        } else {
+          this.moveTo(idle, 1);
+        }
         this.sprite = idle;
 
         if (this.direction === "left") {
