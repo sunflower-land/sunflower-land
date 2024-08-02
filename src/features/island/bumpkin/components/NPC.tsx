@@ -64,6 +64,7 @@ export const NPC: React.FC<NPCProps & { onClick?: () => void }> = ({
       });
       setSheetSrc(sheets.idle);
     };
+    // load aura equipped
     const loadAura = () => {
       if (parts.aura !== undefined) {
         const auraName = parts.aura;
@@ -182,6 +183,8 @@ export const NPC: React.FC<NPCProps & { onClick?: () => void }> = ({
 
 export const NPCIcon: React.FC<NPCProps> = ({ parts, hideShadow }) => {
   const [sheetSrc, setSheetSrc] = useState<string>();
+  const [backsheet, setBackSheet] = useState<string>();
+  const [frontsheet, setFrontSheet] = useState<string>();
 
   // make sure all body parts are synchronized
   useEffect(() => {
@@ -192,8 +195,21 @@ export const NPCIcon: React.FC<NPCProps> = ({ parts, hideShadow }) => {
 
       setSheetSrc(sheets.idle);
     };
+    // load aura equipped
+    const loadAura = () => {
+      if (parts.aura !== undefined) {
+        const auraName = parts.aura;
+        setBackSheet(
+          `${CONFIG.PROTECTED_IMAGE_URL}/aura/back/${ITEM_IDS[auraName]}.png`,
+        );
+        setFrontSheet(
+          `${CONFIG.PROTECTED_IMAGE_URL}/aura/front/${ITEM_IDS[auraName]}.png`,
+        );
+      }
+    };
 
     load();
+    loadAura();
   }, []);
 
   return (
@@ -231,6 +247,24 @@ export const NPCIcon: React.FC<NPCProps> = ({ parts, hideShadow }) => {
                 className="absolute pointer-events-none"
               />
             )}
+            {backsheet && (
+              <Spritesheet
+                className="absolute w-full inset-0 pointer-events-none"
+                style={{
+                  width: `${PIXEL_SCALE * 14}px`,
+                  top: `${PIXEL_SCALE * -3}px`,
+                  imageRendering: "pixelated" as const,
+                }}
+                image={backsheet}
+                widthFrame={AURA_WIDTH}
+                heightFrame={FRAME_HEIGHT}
+                zoomScale={new SpringValue(1)}
+                steps={AURA_STEPS}
+                fps={14}
+                autoplay={true}
+                loop={true}
+              />
+            )}
             <Spritesheet
               className="w-full inset-0 pointer-events-none"
               style={{
@@ -246,21 +280,24 @@ export const NPCIcon: React.FC<NPCProps> = ({ parts, hideShadow }) => {
               autoplay={true}
               loop={true}
             />
-            <Spritesheet
-              className="w-full inset-0 pointer-events-none"
-              style={{
-                width: `${PIXEL_SCALE * 14}px`,
-                imageRendering: "pixelated" as const,
-              }}
-              image={sheetSrc}
-              widthFrame={FRAME_WIDTH}
-              heightFrame={FRAME_HEIGHT}
-              zoomScale={new SpringValue(1)}
-              steps={STEPS}
-              fps={14}
-              autoplay={true}
-              loop={true}
-            />
+            {frontsheet && (
+              <Spritesheet
+                className="absolute w-full inset-0 pointer-events-none"
+                style={{
+                  width: `${PIXEL_SCALE * 14}px`,
+                  top: `${PIXEL_SCALE * 2}px`,
+                  imageRendering: "pixelated" as const,
+                }}
+                image={frontsheet}
+                widthFrame={AURA_WIDTH}
+                heightFrame={FRAME_HEIGHT}
+                zoomScale={new SpringValue(1)}
+                steps={AURA_STEPS}
+                fps={14}
+                autoplay={true}
+                loop={true}
+              />
+            )}
           </>
         )}
       </div>
@@ -273,6 +310,8 @@ export const NPCFixed: React.FC<NPCProps & { width: number }> = ({
   width,
 }) => {
   const [sheetSrc, setSheetSrc] = useState<string>();
+  const [backsheet, setBackSheet] = useState<string>();
+  const [frontsheet, setFrontSheet] = useState<string>();
 
   useEffect(() => {
     const load = async () => {
@@ -282,8 +321,21 @@ export const NPCFixed: React.FC<NPCProps & { width: number }> = ({
 
       setSheetSrc(sheets.idle);
     };
+    // load aura equipped
+    const loadAura = () => {
+      if (parts.aura !== undefined) {
+        const auraName = parts.aura;
+        setBackSheet(
+          `${CONFIG.PROTECTED_IMAGE_URL}/aura/back/${ITEM_IDS[auraName]}.png`,
+        );
+        setFrontSheet(
+          `${CONFIG.PROTECTED_IMAGE_URL}/aura/front/${ITEM_IDS[auraName]}.png`,
+        );
+      }
+    };
 
     load();
+    loadAura();
   }, []);
 
   return (
@@ -296,7 +348,25 @@ export const NPCFixed: React.FC<NPCProps & { width: number }> = ({
       }}
     >
       <img
+        src={backsheet}
+        className="block absolute"
+        style={{
+          transform: "scale(9)",
+          top: `${PIXEL_SCALE * 6}px`,
+          left: "400%",
+        }}
+      />
+      <img
         src={sheetSrc}
+        className="block absolute"
+        style={{
+          transform: "scale(9)",
+          top: `${PIXEL_SCALE * 6}px`,
+          left: "400%",
+        }}
+      />
+      <img
+        src={frontsheet}
         className="block absolute"
         style={{
           transform: "scale(9)",
