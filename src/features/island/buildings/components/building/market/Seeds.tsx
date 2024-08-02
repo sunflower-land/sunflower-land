@@ -290,7 +290,7 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
           </Label>
           <div className="flex flex-wrap mb-2">
             {seeds
-              .filter((name) => name in CROP_SEEDS())
+              .filter((name) => name in CROP_SEEDS)
               .map((name: SeedName) => (
                 <Box
                   isSelected={selectedName === name}

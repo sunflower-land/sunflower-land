@@ -37,7 +37,7 @@ export function collectCropReward({
     throw new Error("Crop does not have a reward");
   }
 
-  const crop = CROPS()[plantedCrop.name];
+  const crop = CROPS[plantedCrop.name];
 
   if (createdAt - plantedCrop.plantedAt < crop.harvestSeconds * 1000) {
     throw new Error("Not ready");

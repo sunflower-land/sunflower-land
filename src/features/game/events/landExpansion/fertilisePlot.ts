@@ -86,7 +86,7 @@ export function fertilisePlot({
   // Apply buff if already planted
   const crop = plot.crop;
   if (crop) {
-    const cropDetails = crop && CROPS()[crop.name];
+    const cropDetails = crop && CROPS[crop.name];
     if (cropDetails && isReadyToHarvest(createdAt, crop, cropDetails)) {
       throw new Error(FERTILISE_CROP_ERRORS.READY_TO_HARVEST);
     }

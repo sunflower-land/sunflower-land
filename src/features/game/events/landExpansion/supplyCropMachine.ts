@@ -75,7 +75,7 @@ export function calculateCropTime(seeds: {
 }): number {
   const cropName = seeds.type.split(" ")[0] as CropName;
 
-  const milliSeconds = CROPS()[cropName].harvestSeconds * 1000;
+  const milliSeconds = CROPS[cropName].harvestSeconds * 1000;
 
   return (milliSeconds * seeds.amount) / CROP_MACHINE_PLOTS;
 }
