@@ -950,7 +950,9 @@ export type ConfirmSkill = "confirm.skillClaim";
 export type ConfirmationTerms =
   | "confirmation.sellCrops"
   | "confirmation.buyCrops"
-  | "confirmation.enterAmount";
+  | "confirmation.enterAmount"
+  | "confirmation.sellSeasonalArtefact"
+  | "confirmation.valuableTreasure";
 
 export type Conversations =
   | "hank-intro.headline"
