@@ -95,8 +95,7 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
     this.shadow = this.scene.add
       .sprite(0.5, 8, "shadow")
       .setSize(SQUARE_WIDTH, SQUARE_WIDTH);
-    this.add(this.shadow);
-    this.moveTo(this.shadow, 0);
+    this.add(this.shadow).moveTo(this.shadow, 0);
 
     this.loadSprites(scene);
 
@@ -175,7 +174,7 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
       this.add(idle);
       if (this.clothing.aura !== undefined) {
         this.moveTo(idle, 2);
-      } else {
+      } else if (this.clothing.aura === undefined && this.shadow?.active) {
         this.moveTo(idle, 1);
       }
       this.sprite = idle;
@@ -215,7 +214,7 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
         this.add(idle);
         if (this.clothing.aura !== undefined) {
           this.moveTo(idle, 2);
-        } else {
+        } else if (this.clothing.aura === undefined && this.shadow?.active) {
           this.moveTo(idle, 1);
         }
 
