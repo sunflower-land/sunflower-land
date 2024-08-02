@@ -1316,6 +1316,10 @@ const confirmationTerms: Record<ConfirmationTerms, string> = {
   "confirmation.buyCrops":
     "Are you sure you want to spend {{coinAmount}} Coins to buy {{seedNo}} {{seedName}}s?",
   "confirmation.enterAmount": "Enter Amount to Sell:",
+  "confirmation.sellSeasonalArtefact":
+    "This bounty is a seasonal artefact! Are you sure you want to sell it?",
+  "confirmation.valuableTreasure":
+    "This bounty is very valuable! Are you sure you want to sell it?",
 };
 
 const confirmSkill: Record<ConfirmSkill, string> = {
