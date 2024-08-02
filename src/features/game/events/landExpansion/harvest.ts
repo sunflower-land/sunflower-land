@@ -49,7 +49,7 @@ export const isOvernightCrop = (cropName: CropName | GreenHouseCropName) => {
     return cropDetails.harvestSeconds >= CROPS["Radish"].harvestSeconds;
   }
 
-  const details = GREENHOUSE_CROPS()[cropName];
+  const details = GREENHOUSE_CROPS[cropName];
   return (
     details.harvestSeconds >= 24 * 60 * 60 &&
     details.harvestSeconds <= 36 * 60 * 60

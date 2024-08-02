@@ -44,5 +44,5 @@ export const SEEDS: () => Record<SeedName, Seed> = () => ({
   ...FRUIT_SEEDS(),
   ...FLOWER_SEEDS(),
   ...GREENHOUSE_FRUIT_SEEDS(),
-  ...GREENHOUSE_SEEDS(),
+  ...GREENHOUSE_SEEDS,
 });

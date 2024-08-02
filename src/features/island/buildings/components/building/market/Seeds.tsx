@@ -222,7 +222,7 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
       );
 
     if (
-      selectedName in GREENHOUSE_SEEDS() ||
+      selectedName in GREENHOUSE_SEEDS ||
       selectedName in GREENHOUSE_FRUIT_SEEDS()
     ) {
       const plant = SEED_TO_PLANT[selectedName as GreenHouseCropSeedName];
@@ -371,7 +371,7 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
                 {seeds
                   .filter(
                     (name) =>
-                      name in GREENHOUSE_SEEDS() ||
+                      name in GREENHOUSE_SEEDS ||
                       name in GREENHOUSE_FRUIT_SEEDS(),
                   )
                   .map((name: SeedName) => (
