@@ -467,12 +467,12 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
       // eslint-disable-next-line @typescript-eslint/no-this-alias
       const container = this;
       const auraName = this.clothing.aura;
-      const keyName = tokenUriBuilder(this.clothing);
+      const auraID = ITEM_IDS[auraName];
 
-      this.frontAuraKey = `${keyName}-bumpkin-aura-front-sheet`;
-      this.frontAuraAnimationKey = `${keyName}-bumpkin-aura-front`;
-      this.backAuraKey = `${keyName}-bumpkin-aura-back-sheet`;
-      this.backAuraAnimationKey = `${keyName}-bumpkin-aura-back`;
+      this.frontAuraKey = `${auraID}-bumpkin-aura-front-sheet`;
+      this.frontAuraAnimationKey = `${auraID}-bumpkin-aura-front`;
+      this.backAuraKey = `${auraID}-bumpkin-aura-back-sheet`;
+      this.backAuraAnimationKey = `${auraID}-bumpkin-aura-back`;
 
       //Back-Aura
       if (container.scene.textures.exists(this.backAuraKey)) {
