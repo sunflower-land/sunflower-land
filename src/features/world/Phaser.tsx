@@ -200,12 +200,13 @@ export const PhaserComponent: React.FC<Props> = ({
             plugin: VirtualJoystickPlugin,
             start: true,
           },
+        ],
+        scene: [
           {
             key: "PhaserNavMeshPlugin",
             plugin: PhaserNavMeshPlugin,
             mapping: "navMeshPlugin",
             start: true,
-            sceneKey: "BeachScene",
           },
         ],
       },
