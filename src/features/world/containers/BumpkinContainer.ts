@@ -175,7 +175,7 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
       this.add(idle);
       if (this.clothing !== undefined) {
         this.moveTo(idle, 2);
-      } else {
+      } else if (this.clothing === undefined) {
         this.moveTo(idle, 1);
       }
       this.sprite = idle;
@@ -215,7 +215,7 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
         this.add(idle);
         if (this.clothing !== undefined) {
           this.moveTo(idle, 2);
-        } else {
+        } else if (this.clothing === undefined) {
           this.moveTo(idle, 1);
         }
         this.sprite = idle;
@@ -411,8 +411,9 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
     }
 
     this.clothing = clothing;
-    this.showAura();
+
     this.loadSprites(this.scene);
+    this.showAura();
 
     this.showSmoke();
   }
@@ -433,7 +434,7 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
         key: `sparkel_anim`,
         frames: this.scene.anims.generateFrameNumbers("sparkle", {
           start: 0,
-          end: 20,
+          end: 6,
         }),
         repeat: -1,
         frameRate: 10,
@@ -833,6 +834,18 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
     }
     if (this.shadow?.active) {
       this.shadow?.destroy();
+    }
+    if (this.frontfx?.active) {
+      this.frontfx?.destroy();
+    }
+    if (this.backfx?.active) {
+      this.backfx?.destroy();
+    }
+    if (this.icon?.active) {
+      this.icon?.destroy();
+    }
+    if (this.fx?.active) {
+      this.fx?.destroy();
     }
 
     const poof = this.scene.add.sprite(0, 4, "poof").setOrigin(0.5);
