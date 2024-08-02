@@ -92,13 +92,13 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
     this.add(this.silhouette);
     this.sprite = this.silhouette;
 
-    this.loadSprites(scene);
-
     this.shadow = this.scene.add
       .sprite(0.5, 8, "shadow")
       .setSize(SQUARE_WIDTH, SQUARE_WIDTH);
     this.add(this.shadow);
     this.moveTo(this.shadow, 0);
+
+    this.loadSprites(scene);
 
     this.setSize(SQUARE_WIDTH, SQUARE_WIDTH);
 
@@ -175,6 +175,8 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
       this.add(idle);
       if (this.clothing.aura !== undefined) {
         this.moveTo(idle, 2);
+      } else {
+        this.moveTo(idle, 1);
       }
       this.sprite = idle;
 
@@ -213,6 +215,8 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
         this.add(idle);
         if (this.clothing.aura !== undefined) {
           this.moveTo(idle, 2);
+        } else {
+          this.moveTo(idle, 1);
         }
 
         this.sprite = idle;
@@ -879,6 +883,7 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
     if (container.scene.textures.exists("smoke")) {
       const poof = this.scene.add.sprite(0, 4, "smoke").setOrigin(0.5);
       this.add(poof);
+      this.bringToTop(poof);
 
       this.scene.anims.create({
         key: `smoke_anim`,
