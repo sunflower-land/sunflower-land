@@ -62,6 +62,9 @@ export const NPC: React.FC<NPCProps & { onClick?: () => void }> = ({
       const { sheets } = await buildNPCSheets({
         parts,
       });
+      setSheetSrc(sheets.idle);
+    };
+    const loadAura = () => {
       if (parts.aura !== undefined) {
         const auraName = parts.aura;
         setBackSheet(
@@ -71,10 +74,10 @@ export const NPC: React.FC<NPCProps & { onClick?: () => void }> = ({
           `${CONFIG.PROTECTED_IMAGE_URL}/aura/front/${ITEM_IDS[auraName]}.png`,
         );
       }
-      setSheetSrc(sheets.idle);
     };
 
     load();
+    loadAura();
   }, []);
 
   return (
