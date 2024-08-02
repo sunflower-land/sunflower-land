@@ -32,17 +32,19 @@ export async function signUp(request: Request) {
     }),
   });
 
+  const { errorCode, ...payload } = await response.json();
+
   if (response.status === 429) {
     throw new Error(ERRORS.TOO_MANY_REQUESTS);
   }
 
   if (response.status == 400) {
-    throw new Error(ERRORS.SIGN_UP_FARM_EXISTS_ERROR);
+    throw new Error(errorCode ?? ERRORS.SIGN_UP_FARM_EXISTS_ERROR);
   }
 
   if (response.status >= 400) {
     throw new Error(ERRORS.SIGN_UP_SERVER_ERROR);
   }
 
-  return await response.json();
+  return payload;
 }
