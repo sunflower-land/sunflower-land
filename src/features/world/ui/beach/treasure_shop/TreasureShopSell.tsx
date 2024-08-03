@@ -50,7 +50,7 @@ export const TreasureShopSell: React.FC = () => {
       amount,
     });
   };
-  const isSeasonal = () => {
+  const isValuable = () => {
     if (selectedName in SEASONAL_ARTEFACT || price > 1000) {
       showConfirmationModal(true);
     } else {
@@ -70,7 +70,7 @@ export const TreasureShopSell: React.FC = () => {
               coins: price,
             }}
             actionView={
-              <Button disabled={amount.lt(1)} onClick={isSeasonal}>
+              <Button disabled={amount.lt(1)} onClick={isValuable}>
                 {t("sell")}
               </Button>
             }
