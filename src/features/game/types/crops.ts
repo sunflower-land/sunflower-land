@@ -37,10 +37,7 @@ export type GreenHouseCrop = {
   disabled?: boolean;
 };
 
-export const GREENHOUSE_CROPS: () => Record<
-  GreenHouseCropName,
-  GreenHouseCrop
-> = () => ({
+export const GREENHOUSE_CROPS: Record<GreenHouseCropName, GreenHouseCrop> = {
   Rice: {
     sellPrice: 320,
     harvestSeconds: 32 * 60 * 60,
@@ -55,12 +52,9 @@ export const GREENHOUSE_CROPS: () => Record<
     description: "Zesty with a rich history.",
     bumpkinLevel: 10,
   },
-});
+};
 
-export const GREENHOUSE_SEEDS: () => Record<
-  GreenHouseCropSeedName,
-  Seed
-> = () => ({
+export const GREENHOUSE_SEEDS: Record<GreenHouseCropSeedName, Seed> = {
   "Rice Seed": {
     price: 240,
     description: "A staple food for many.",
@@ -75,14 +69,14 @@ export const GREENHOUSE_SEEDS: () => Record<
     plantSeconds: 44 * 60 * 60,
     plantingSpot: "Greenhouse",
   },
-});
+};
 
 export type GreenHouseCropSeedName = `${GreenHouseCropName} Seed`;
 
 /**
  * Crops and their original prices
  */
-export const CROPS: () => Record<CropName, Crop> = () => ({
+export const CROPS: Record<CropName, Crop> = {
   Sunflower: {
     name: "Sunflower",
     description: translate("description.sunflower"),
@@ -181,11 +175,11 @@ export const CROPS: () => Record<CropName, Crop> = () => ({
     bumpkinLevel: 7,
     harvestSeconds: 36 * 60 * 60,
   },
-});
+};
 
 export type CropSeedName = `${CropName} Seed`;
 
-export const CROP_SEEDS: () => Record<CropSeedName, Seed> = () => ({
+export const CROP_SEEDS: Record<CropSeedName, Seed> = {
   "Sunflower Seed": {
     price: 0.01,
     description: translate("description.sunflower"),
@@ -298,4 +292,4 @@ export const CROP_SEEDS: () => Record<CropSeedName, Seed> = () => ({
     yield: "Kale",
     plantingSpot: "Crop Plot",
   },
-});
+};

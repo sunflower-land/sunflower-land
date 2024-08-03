@@ -43,9 +43,20 @@ import { secondsToString } from "lib/utils/time";
 import { getFactionPetUpdate } from "./actions/getFactionPetUpdate";
 
 import { formatNumber } from "lib/utils/formatNumber";
-import { FACTION_EMBLEM_ICONS } from "./components/ClaimEmblems";
 import { BoostInfoPanel } from "./BoostInfoPanel";
 import { getKeys } from "features/game/types/decorations";
+
+import goblinEmblem from "assets/icons/goblin_emblem.webp";
+import bumpkinEmblem from "assets/icons/bumpkin_emblem.webp";
+import sunflorianEmblem from "assets/icons/sunflorian_emblem.webp";
+import nightshadeEmblem from "assets/icons/nightshade_emblem.webp";
+
+const FACTION_EMBLEM_ICONS: Record<FactionName, string> = {
+  goblins: goblinEmblem,
+  bumpkins: bumpkinEmblem,
+  sunflorians: sunflorianEmblem,
+  nightshades: nightshadeEmblem,
+};
 
 export const PET_SLEEP_DURATION = 7 * 24 * 60 * 60 * 1000;
 

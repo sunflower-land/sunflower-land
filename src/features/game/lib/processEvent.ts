@@ -211,7 +211,7 @@ export const maxItems: Inventory = {
   Starfish: new Decimal(50),
   Seaweed: new Decimal(50),
   "Sea Cucumber": new Decimal(50),
-  Crab: new Decimal(100),
+  Crab: new Decimal(1000),
 
   // Seasonal decorations - Dawnbreaker
   Clementine: new Decimal(1),
@@ -243,6 +243,9 @@ export const maxItems: Inventory = {
   "Adrift Ark": new Decimal(50),
   Castellan: new Decimal(50),
   "Sunlit Citadel": new Decimal(50),
+
+  "Tomato Bombard": new Decimal(1),
+  Cannonball: new Decimal(1),
 
   ...(Object.keys(EXOTIC_CROPS) as InventoryItemName[]).reduce(
     (acc, name) => ({

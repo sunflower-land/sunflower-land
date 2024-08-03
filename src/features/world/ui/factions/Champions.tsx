@@ -30,7 +30,7 @@ import {
   FactionPrize,
   InventoryItemName,
 } from "features/game/types/game";
-import { Fireworks } from "./components/ClaimEmblems";
+import { Fireworks } from "./components/Fireworks";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { hasFeatureAccess } from "lib/flags";
 import { formatNumber } from "lib/utils/formatNumber";

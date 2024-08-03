@@ -11,10 +11,7 @@ import { ButtonPanel } from "components/ui/Panel";
 import { Label } from "components/ui/Label";
 import { useTranslation } from "react-i18next";
 import { SquareIcon } from "components/ui/SquareIcon";
-import {
-  BANNER_PRICE_INCREASED_DATE,
-  getBannerPrice,
-} from "features/game/events/landExpansion/bannerPurchased";
+import { getBannerPrice } from "features/game/events/landExpansion/bannerPurchased";
 import { MachineState } from "features/game/lib/gameMachine";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
@@ -93,13 +90,11 @@ export const VIPItems: React.FC<Props> = ({ onClose, onSkip }) => {
   const hasLifeTimeBanner = (
     inventory["Lifetime Farmer Banner"] ?? new Decimal(0)
   ).gt(0);
-  const hasGoldPass = (inventory["Gold Pass"] ?? new Decimal(0)).gt(0);
 
   const actualSeasonBannerPrice = getBannerPrice(
     seasonBanner,
     hasPreviousBanner,
     hasLifeTimeBanner,
-    hasGoldPass,
     Date.now(),
     farmId,
   ).toNumber();
@@ -189,7 +184,6 @@ export const VIPItems: React.FC<Props> = ({ onClose, onSkip }) => {
         "Lifetime Farmer Banner",
         hasPreviousBanner,
         hasLifeTimeBanner,
-        hasGoldPass,
         Date.now(),
         farmId,
       ).toNumber();
@@ -200,7 +194,6 @@ export const VIPItems: React.FC<Props> = ({ onClose, onSkip }) => {
         seasonBanner,
         hasPreviousBanner,
         hasLifeTimeBanner,
-        hasGoldPass,
         Date.now(),
         farmId,
       ).toNumber();
@@ -234,7 +227,7 @@ export const VIPItems: React.FC<Props> = ({ onClose, onSkip }) => {
               {t("season.vip.purchase")}
             </Label>
             <a
-              href="https://docs.sunflower-land.com/player-guides/seasons/season-6-clash-of-factions#season-banners"
+              href="https://docs.sunflower-land.com/player-guides/seasons#seasonal-banners"
               className="text-xxs underline"
               target="_blank"
               rel="noreferrer"
@@ -265,19 +258,6 @@ export const VIPItems: React.FC<Props> = ({ onClose, onSkip }) => {
               >
                 {t("season.lifetime.farmer")}
               </Label>
-              {BANNER_PRICE_INCREASED_DATE.getTime() > Date.now() && (
-                <div>
-                  <Label type="info" icon={SUNNYSIDE.icons.timer}>
-                    {secondsToString(
-                      Math.round(
-                        (BANNER_PRICE_INCREASED_DATE.getTime() - Date.now()) /
-                          1000,
-                      ),
-                      { length: "medium" },
-                    )}
-                  </Label>
-                </div>
-              )}
             </div>
             <div className="flex flex-col space-y-1 sm:space-y-2 text-xs sm:text-sm pb-1">
               <div className="flex items-center space-x-2">
@@ -286,12 +266,6 @@ export const VIPItems: React.FC<Props> = ({ onClose, onSkip }) => {
               </div>
               {!hasLifeTimeBanner ? (
                 <>
-                  {BANNER_PRICE_INCREASED_DATE.getTime() > Date.now() && (
-                    <>
-                      <div className="mt-2"></div>
-                      <span className="absolute right-2 bottom-8 text-xs discounted">{`740`}</span>
-                    </>
-                  )}
                   <Label
                     type="warning"
                     icon={blockBucksIcon}

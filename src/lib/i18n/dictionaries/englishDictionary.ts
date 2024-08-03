@@ -941,6 +941,11 @@ const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
   "description.pharaoh.gnome.boost": "+2 Greenhouse Plants",
   "description.lemon.tea.bath.boost": "-50% Lemon Growth Time",
   "description.tomato.clown.boost": "-50% Tomato Growth Time",
+  "description.cannonball.boost": "-25% Tomato Growth Time",
+  "description.tomato.bombard.boost": "+1 Tomato",
+  "description.camel.boost": "+1 Sand and +30% Artefact Shop Bounty Sell Price",
+  "description.reveling.lemon.boost": "+0.25 Lemon",
+  "description.lemon.frog.boost": "-25% Lemon Growth Time",
 };
 
 const bountyDescription: Record<BountyDescription, string> = {
@@ -1311,6 +1316,10 @@ const confirmationTerms: Record<ConfirmationTerms, string> = {
   "confirmation.buyCrops":
     "Are you sure you want to spend {{coinAmount}} Coins to buy {{seedNo}} {{seedName}}s?",
   "confirmation.enterAmount": "Enter Amount to Sell:",
+  "confirmation.sellSeasonalArtefact":
+    "This bounty is a seasonal artefact! Are you sure you want to sell it?",
+  "confirmation.valuableTreasure":
+    "This bounty is very valuable! Are you sure you want to sell it?",
 };
 
 const confirmSkill: Record<ConfirmSkill, string> = {
@@ -5388,6 +5397,7 @@ const withdraw: Record<Withdraw, string> = {
 };
 
 const world: Record<World, string> = {
+  "world.newArea": "New",
   "world.intro.one":
     "Howdy Bumpkin, welcome to the Pumpkin Plaza. Here Bumpkins from far and wide come together to trade, complete deliveries and play mini-games.",
   "world.intro.two":

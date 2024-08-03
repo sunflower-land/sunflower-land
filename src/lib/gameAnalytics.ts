@@ -110,7 +110,7 @@ class GameAnalyticTracker {
     currency: Currency;
     amount: number;
     type: "Consumable" | "Fee" | "Wearable" | "Collectible" | "Web3";
-    item: InventoryItemName | BumpkinItem | "Stock" | "Trade";
+    item: InventoryItemName | BumpkinItem | "Stock" | "Trade" | "DesertDigs";
   }) {
     const { currency, amount, type, item } = event;
 

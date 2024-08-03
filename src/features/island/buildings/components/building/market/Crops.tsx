@@ -37,7 +37,7 @@ export const isExoticCrop = (
 
 export const Crops: React.FC = () => {
   const [selected, setSelected] = useState<Crop | Fruit | ExoticCrop>(
-    CROPS().Sunflower,
+    CROPS.Sunflower,
   );
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
 
@@ -128,11 +128,11 @@ export const Crops: React.FC = () => {
     );
 
   const cropsAndFruits = Object.values({
-    ...CROPS(),
+    ...CROPS,
     ...FRUIT(),
     ...exotics,
     ...GREENHOUSE_FRUIT(),
-    ...GREENHOUSE_CROPS(),
+    ...GREENHOUSE_CROPS,
   }) as Crop[];
 
   return (
@@ -217,7 +217,7 @@ export const Crops: React.FC = () => {
             </div>
             <div className="flex flex-wrap mb-2">
               {cropsAndFruits
-                .filter((crop) => !!crop.sellPrice && crop.name in CROPS())
+                .filter((crop) => !!crop.sellPrice && crop.name in CROPS)
                 .map((item) => (
                   <Box
                     isSelected={selected.name === item.name}
@@ -301,7 +301,7 @@ export const Crops: React.FC = () => {
                   .filter(
                     (crop) =>
                       !!crop.sellPrice &&
-                      (crop.name in GREENHOUSE_CROPS() ||
+                      (crop.name in GREENHOUSE_CROPS ||
                         crop.name in GREENHOUSE_FRUIT()),
                   )
                   .map((item) => (

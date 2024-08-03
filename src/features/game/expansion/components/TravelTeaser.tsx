@@ -44,7 +44,7 @@ const hint = (state: MachineState) => {
     return translate("expand.land");
   }
 
-  const harvestedCrops = getKeys(CROPS()).reduce(
+  const harvestedCrops = getKeys(CROPS).reduce(
     (total, crop) => total + (activity?.[`${crop} Harvested`] ?? 0),
     0,
   );
@@ -53,7 +53,7 @@ const hint = (state: MachineState) => {
     return translate("pete.teaser.three");
   }
 
-  const soldCrops = getKeys(CROPS()).reduce(
+  const soldCrops = getKeys(CROPS).reduce(
     (total, crop) => total + (activity?.[`${crop} Sold`] ?? 0),
     0,
   );
@@ -62,7 +62,7 @@ const hint = (state: MachineState) => {
     return translate("pete.teaser.four");
   }
 
-  const boughtCrops = getKeys(CROPS()).reduce(
+  const boughtCrops = getKeys(CROPS).reduce(
     (total, crop) => total + (activity?.[`${crop} Seed Bought`] ?? 0),
     0,
   );
@@ -71,7 +71,7 @@ const hint = (state: MachineState) => {
     return translate("pete.teaser.five");
   }
 
-  const plantedCrops = getKeys(CROPS()).reduce(
+  const plantedCrops = getKeys(CROPS).reduce(
     (total, crop) => total + (activity?.[`${crop} Planted`] ?? 0),
     0,
   );

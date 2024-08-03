@@ -128,8 +128,8 @@ describe("craftCollectible", () => {
           inventory: {
             Sunflower: new Decimal(150),
             "Basic Land": new Decimal(10),
-            Gold: new Decimal(100),
-            "Wooden Compass": new Decimal(50),
+            Sand: new Decimal(100),
+            Hieroglyph: new Decimal(50),
           },
           buildings: {},
           collectibles: {
@@ -162,8 +162,8 @@ describe("craftCollectible", () => {
           inventory: {
             Sunflower: new Decimal(150),
             "Basic Land": new Decimal(10),
-            Gold: new Decimal(100),
-            "Wooden Compass": new Decimal(50),
+            Sand: new Decimal(100),
+            Hieroglyph: new Decimal(50),
           },
           buildings: {},
           collectibles: {
@@ -195,8 +195,8 @@ describe("craftCollectible", () => {
         inventory: {
           Sunflower: new Decimal(150),
           "Basic Land": new Decimal(10),
-          Gold: new Decimal(100),
-          "Wooden Compass": new Decimal(50),
+          Sand: new Decimal(100),
+          Hieroglyph: new Decimal(50),
         },
         buildings: {},
         collectibles: {},

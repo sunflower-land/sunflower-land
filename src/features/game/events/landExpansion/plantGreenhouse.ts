@@ -64,7 +64,7 @@ export const OIL_USAGE: Record<GreenhouseSeed, number> = {
 export const MAX_POTS = 4;
 
 export function isGreenhouseCrop(plant: Resource): plant is GreenHouseCropName {
-  return (plant as GreenHouseCropName) in GREENHOUSE_CROPS();
+  return (plant as GreenHouseCropName) in GREENHOUSE_CROPS;
 }
 
 export function isGreenhouseFruit(

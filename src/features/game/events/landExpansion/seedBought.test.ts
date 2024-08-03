@@ -111,7 +111,7 @@ describe("seedBought", () => {
     });
 
     expect(state.balance).toEqual(balance);
-    expect(state.coins).toEqual(coins - CROP_SEEDS()["Sunflower Seed"].price);
+    expect(state.coins).toEqual(coins - CROP_SEEDS["Sunflower Seed"].price);
   });
 
   it("adds the newly bought seed to a players inventory", () => {
@@ -157,7 +157,7 @@ describe("seedBought", () => {
 
     const oldAmount = GAME_STATE.inventory[item] ?? new Decimal(0);
 
-    expect(state.coins).toEqual(coins - CROP_SEEDS()[item].price);
+    expect(state.coins).toEqual(coins - CROP_SEEDS[item].price);
     expect(state.inventory[item]).toEqual(oldAmount.add(amount));
   });
 
@@ -183,7 +183,7 @@ describe("seedBought", () => {
 
     const oldAmount = GAME_STATE.inventory[item] ?? new Decimal(0);
 
-    expect(state.coins).toEqual(coins - CROP_SEEDS()[item].price * amount);
+    expect(state.coins).toEqual(coins - CROP_SEEDS[item].price * amount);
     expect(state.inventory[item]).toEqual(oldAmount.add(amount));
   });
 
@@ -216,7 +216,7 @@ describe("seedBought", () => {
       },
     });
     expect(state.bumpkin?.activity?.["Coins Spent"]).toEqual(
-      CROP_SEEDS()["Sunflower Seed"].price,
+      CROP_SEEDS["Sunflower Seed"].price,
     );
   });
 

@@ -146,6 +146,37 @@ describe("treasureSold", () => {
     );
   });
 
+  it("applies +30% sell price when Camel Placed", () => {
+    const state = sellTreasure({
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          "Clam Shell": new Decimal(5),
+        },
+        collectibles: {
+          Camel: [
+            {
+              coordinates: { x: 0, y: 0 },
+              createdAt: 0,
+              id: "12",
+              readyAt: 0,
+            },
+          ],
+        },
+      },
+      action: {
+        type: "treasure.sold",
+        item: "Clam Shell",
+        amount: 1,
+      },
+    });
+
+    expect(state.inventory["Clam Shell"]).toEqual(new Decimal(4));
+    expect(state.coins).toEqual(
+      GAME_STATE.coins + SELLABLE_TREASURE["Clam Shell"].sellPrice * 1.3,
+    );
+  });
+
   it("sell the treasure in bulk given sufficient quantity", () => {
     const state = sellTreasure({
       state: {

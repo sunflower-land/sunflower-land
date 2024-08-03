@@ -260,7 +260,7 @@ const treasureCollectible: Record<TreasureCollectibleItem, () => boolean> = {
   "Treasure Map": () => false,
   "Adrift Ark": () => false,
   Castellan: () => false,
-  "Sunlit Citadel": () => false,
+  "Sunlit Citadel": () => hasSeasonEnded("Pharaoh's Treasure"),
   "Baobab Tree": () => hasSeasonEnded("Pharaoh's Treasure"),
   Camel: () => hasSeasonEnded("Pharaoh's Treasure"),
 };
@@ -996,7 +996,7 @@ const megastore: Record<MegaStoreCollectibleName, () => boolean> = {
   "Duamutef Jar": () => canWithdrawTimebasedItem(new Date("2024-10-01")),
   "Qebehsenuef Jar": () => canWithdrawTimebasedItem(new Date("2024-11-01")),
   "Imsety Jar": () => canWithdrawTimebasedItem(new Date("2024-09-01")),
-  "Tomato Core": () => canWithdrawTimebasedItem(new Date("2024-09-01")),
+  Cannonball: () => canWithdrawTimebasedItem(new Date("2024-09-01")),
   Sarcophagus: () => canWithdrawTimebasedItem(new Date("2024-09-01")),
   "Clay Tablet": () => canWithdrawTimebasedItem(new Date("2024-10-01")),
   "Snake in Jar": () => canWithdrawTimebasedItem(new Date("2024-10-01")),
@@ -1007,6 +1007,7 @@ const megastore: Record<MegaStoreCollectibleName, () => boolean> = {
   "Cactus King": () => canWithdrawTimebasedItem(new Date("2024-11-01")),
   "Lemon Frog": () => canWithdrawTimebasedItem(new Date("2024-11-01")),
   "Scarab Beetle": () => canWithdrawTimebasedItem(new Date("2024-11-01")),
+  "Tomato Bombard": () => hasSeasonEnded("Pharaoh's Treasure"),
 };
 
 const greenHouseFruitSeed: Record<GreenHouseFruitSeedName, () => boolean> = {

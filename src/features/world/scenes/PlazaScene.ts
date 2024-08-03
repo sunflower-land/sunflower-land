@@ -206,7 +206,7 @@ export class PlazaScene extends BaseScene {
     this.load.image("luxury_key_disc", "world/luxury_key_disc.png");
 
     // Stella Megastore items
-    this.load.image("sarcophagus", "world/sarcophagus.webp");
+    this.load.image("tomato_bombard", "world/tomato_bombard.gif");
     this.load.image("rice_panda", "world/rice_panda.webp");
 
     this.load.image("non_la", "world/non_la.webp");
@@ -457,7 +457,7 @@ export class PlazaScene extends BaseScene {
 
     // Stella Collectible of the Month
     if (hasFeatureAccess(this.gameState, "DESERT_PLAZA")) {
-      this.add.image(248, 244, "sarcophagus");
+      this.add.image(248, 244, "tomato_bombard");
     } else {
       this.add.image(248, 244, "rice_panda");
     }

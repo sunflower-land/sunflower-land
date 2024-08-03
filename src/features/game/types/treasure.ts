@@ -16,8 +16,10 @@ export type BeachBountyTreasure =
   | "Sand"
   | "Camel Bone"
   | "Vase"
-  | "Scarab"
-  | "Hieroglyph";
+  | "Hieroglyph"
+  | BeachBountySeasonalArtefact;
+
+export type BeachBountySeasonalArtefact = "Scarab";
 
 export type ConsumableTreasure =
   | "Pirate Cake"
@@ -72,6 +74,15 @@ export type SellableTreasure = {
   sellPrice: number;
 };
 
+export const SEASONAL_ARTEFACT: Record<
+  BeachBountySeasonalArtefact,
+  SellableTreasure
+> = {
+  Scarab: {
+    sellPrice: 200,
+  },
+};
+
 export const SELLABLE_TREASURE: Record<BeachBountyTreasure, SellableTreasure> =
   {
     Sand: {
@@ -113,9 +124,6 @@ export const SELLABLE_TREASURE: Record<BeachBountyTreasure, SellableTreasure> =
     Pipi: {
       sellPrice: 187.5,
     },
-    Scarab: {
-      sellPrice: 200,
-    },
     Hieroglyph: {
       sellPrice: 250,
     },
@@ -131,4 +139,5 @@ export const SELLABLE_TREASURE: Record<BeachBountyTreasure, SellableTreasure> =
     "Pirate Bounty": {
       sellPrice: 7500,
     },
+    ...SEASONAL_ARTEFACT,
   };

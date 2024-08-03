@@ -100,9 +100,9 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
   ): selected is FruitSeedName => selected in FRUIT_SEEDS();
   const isSeed = (selected: InventoryItemName): selected is SeedName =>
     isFruitSeed(selected) ||
-    selected in CROP_SEEDS() ||
+    selected in CROP_SEEDS ||
     selected in FLOWER_SEEDS() ||
-    selected in GREENHOUSE_SEEDS() ||
+    selected in GREENHOUSE_SEEDS ||
     selected in GREENHOUSE_FRUIT_SEEDS();
   const isFood = (selected: InventoryItemName) => selected in CONSUMABLES;
 
@@ -118,10 +118,7 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
         (gameState.bumpkin as Bumpkin)?.equipped ?? {},
       );
     }
-    if (
-      seedName in GREENHOUSE_SEEDS() ||
-      seedName in GREENHOUSE_FRUIT_SEEDS()
-    ) {
+    if (seedName in GREENHOUSE_SEEDS || seedName in GREENHOUSE_FRUIT_SEEDS()) {
       const plant = SEED_TO_PLANT[seedName as GreenHouseCropSeedName];
       const seconds = getGreenhouseCropTime({
         crop: plant,
@@ -151,14 +148,14 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
     return getKeys(items).filter((item) => item in basketMap);
   };
 
-  const seeds = getItems(CROP_SEEDS());
+  const seeds = getItems(CROP_SEEDS);
   const fruitSeeds = getItems(FRUIT_SEEDS());
   const greenhouseSeeds = [
     ...getItems(GREENHOUSE_FRUIT_SEEDS()),
-    ...getItems(GREENHOUSE_SEEDS()),
+    ...getItems(GREENHOUSE_SEEDS),
   ];
   const flowerSeeds = getItems(FLOWER_SEEDS());
-  const crops = [...getItems(CROPS()), ...getItems(GREENHOUSE_CROPS())];
+  const crops = [...getItems(CROPS), ...getItems(GREENHOUSE_CROPS)];
   const fruits = [...getItems(FRUIT()), ...getItems(GREENHOUSE_FRUIT())];
   const flowers = getItems(FLOWERS);
   const workbenchTools = getItems(WORKBENCH_TOOLS);
