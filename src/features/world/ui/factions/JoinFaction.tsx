@@ -13,11 +13,7 @@ import { SFL_COST } from "features/game/events/landExpansion/joinFaction";
 import { ClaimReward } from "features/game/expansion/components/ClaimReward";
 import { useSound } from "lib/utils/hooks/useSound";
 import { InlineDialogue } from "../TypingMessage";
-import { ClaimEmblems } from "./components/ClaimEmblems";
 import { NPCName } from "lib/npcs";
-import { SUNNYSIDE } from "assets/sunnyside";
-import { EMBLEM_AIRDROP_CLOSES } from "features/island/hud/EmblemAirdropCountdown";
-import { formatDateTime } from "lib/utils/time";
 import { FACTION_BANNERS, getPreviousWeek } from "features/game/lib/factions";
 import {
   getChampionsLeaderboard,
@@ -50,12 +46,8 @@ export const JoinFaction: React.FC<Props> = ({ faction, onClose }) => {
   const [cost, setCost] = useState(10000000);
   const [isLoading, setIsLoading] = useState(true);
 
-  const username = useSelector(gameService, _username);
   const joinedFaction = useSelector(gameService, _joinedFaction);
   const farmId = useSelector(gameService, _farmId);
-
-  // Cheap way to memoize this value
-  const [emblemsClaimed] = useState(!!joinedFaction?.emblemsClaimedAt);
 
   const recruiterVoice = useSound(FACTION_RECRUITERS[faction] as any);
 
@@ -138,35 +130,6 @@ export const JoinFaction: React.FC<Props> = ({ faction, onClose }) => {
           </span>
         </div>
       </>
-    );
-  }
-
-  if (
-    joinedFaction &&
-    !emblemsClaimed &&
-    !!joinedFaction.points &&
-    EMBLEM_AIRDROP_CLOSES.getTime() > Date.now()
-  ) {
-    return (
-      <div className="flex flex-col">
-        <div className="flex justify-between px-1 pt-1">
-          <Label type="default" className="capitalize">
-            {FACTION_RECRUITERS[faction]}
-          </Label>
-          <Label type="info" icon={SUNNYSIDE.icons.stopwatch}>
-            {t("faction.emblemAirdrop.closes", {
-              date: formatDateTime(EMBLEM_AIRDROP_CLOSES.toISOString()),
-            })}
-          </Label>
-        </div>
-        <ClaimEmblems
-          faction={joinedFaction}
-          farmId={farmId}
-          playerName={username}
-          onClose={onClose}
-          onClaim={() => gameService.send("emblems.claimed")}
-        />
-      </div>
     );
   }
 

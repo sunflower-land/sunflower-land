@@ -978,6 +978,13 @@ const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
     ENGLISH_TERMS["description.lemon.tea.bath.boost"],
   "description.tomato.clown.boost":
     ENGLISH_TERMS["description.tomato.clown.boost"],
+  "description.cannonball.boost": ENGLISH_TERMS["description.cannonball.boost"],
+  "description.tomato.bombard.boost":
+    ENGLISH_TERMS["description.tomato.bombard.boost"],
+  "description.camel.boost": ENGLISH_TERMS["description.camel.boost"],
+  "description.reveling.lemon.boost":
+    ENGLISH_TERMS["description.reveling.lemon.boost"],
+  "description.lemon.frog.boost": ENGLISH_TERMS["description.lemon.frog.boost"],
 };
 
 const bountyDescription: Record<BountyDescription, string> = {
@@ -1395,6 +1402,10 @@ const confirmationTerms: Record<ConfirmationTerms, string> = {
     "Êtes-vous sûr de vouloir vendre {{cropAmount}} {{cropName}} pour {{coinAmount}} pièces ?",
   "confirmation.buyCrops": ENGLISH_TERMS["confirmation.buyCrops"],
   "confirmation.enterAmount": ENGLISH_TERMS["confirmation.enterAmount"],
+  "confirmation.sellSeasonalArtefact":
+    ENGLISH_TERMS["confirmation.sellSeasonalArtefact"],
+  "confirmation.valuableTreasure":
+    ENGLISH_TERMS["confirmation.valuableTreasure"],
 };
 
 const conversations: Record<Conversations, string> = {
@@ -5486,6 +5497,7 @@ const withdraw: Record<Withdraw, string> = {
 };
 
 const world: Record<World, string> = {
+  "world.newArea": ENGLISH_TERMS["world.newArea"],
   "world.intro.one":
     "Salut Bumpkin, bienvenue au Pumpkin Plaza. Ici, des Bumpkins du monde entier se réunissent pour échanger, effectuer des livraisons et jouer à des mini-jeux.",
   "world.intro.two":

@@ -54,7 +54,7 @@ interface Props {
   onAddOil: (oil: number) => void;
 }
 
-const ALLOWED_SEEDS: CropSeedName[] = getKeys(CROP_SEEDS()).filter((seed) => {
+const ALLOWED_SEEDS: CropSeedName[] = getKeys(CROP_SEEDS).filter((seed) => {
   const crop = seed.split(" ")[0] as CropName;
 
   return isBasicCrop(crop);

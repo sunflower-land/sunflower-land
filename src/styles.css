@@ -468,6 +468,29 @@ img {
     2px 2px 0 black;
 }
 
+.map-text {
+  color: white;
+  /* text-shadow: 1px 1px black; */
+  font-family: "Secondary";
+  /* paint-order: stroke;
+  -webkit-text-stroke: 3px black; */
+  letter-spacing: 1px;
+
+  text-shadow:
+    -1px -1px 0 black,
+    1px -1px 0 black,
+    -1px 1px 0 black,
+    1px 1px 0 black,
+    -2px 0 0 black,
+    2px 0 0 black,
+    0 -2px 0 black,
+    0 2px 0 black,
+    -2px -2px 0 black,
+    2px -2px 0 black,
+    -2px 2px 0 black,
+    2px 2px 0 black;
+}
+
 .yield-text {
   color: white;
   /* text-shadow: 1px 1px black; */

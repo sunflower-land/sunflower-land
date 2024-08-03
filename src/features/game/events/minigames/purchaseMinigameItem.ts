@@ -24,7 +24,7 @@ export const MINIGAME_CURRENCY_LIMITS: Record<MinigameCurrency, number> = {
     (acc, name) => ({ ...acc, [name]: 1000 }),
     {} as Record<CommodityName, number>,
   ),
-  ...getKeys(CROPS()).reduce(
+  ...getKeys(CROPS).reduce(
     (acc, name) => ({ ...acc, [name]: 1000 }),
     {} as Record<CropName, number>,
   ),

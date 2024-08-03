@@ -8578,8 +8578,9 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     image: "../public/erc1155/images/2104.png",
     name: "Imsety Jar",
   },
-  "Tomato Core": {
-    description: "",
+  Cannonball: {
+    description:
+      "Cannonball is ferocious being. Residing in Tomato Bombard, it's ready to strike anyone who gets in its way",
     decimals: 0,
     attributes: [
       { trait_type: "Boost", value: "Fruit" },
@@ -8592,7 +8593,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     ],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/question_mark.png",
-    name: "Tomato Core",
+    name: "Cannonball",
   },
   Sarcophagus: {
     description: "",
@@ -8853,19 +8854,25 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     name: "Paper Reed",
   },
   Camel: {
-    description: "",
+    description: "A mean looking camel!",
     decimals: 0,
     attributes: [
       { trait_type: "Purpose", value: "Boost" },
       { trait_type: "Tradable", value: "Yes" },
+      { trait_type: "Boost", value: "Crop" },
       {
         display_type: "boost_number",
-        trait_type: "Increase daily digs",
-        value: 3,
+        trait_type: "Increase Sand Yield",
+        value: 1,
+      },
+      {
+        display_type: "boost_percentage",
+        trait_type: "Artefact Shop Bounty Price",
+        value: 30,
       },
     ],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "../public/erc1155/images/question_mark.png",
+    image: "../public/erc1155/images/2127.png",
     name: "Camel",
   },
   "Baobab Tree": {
@@ -8879,6 +8886,23 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/2126.png",
     name: "Baobab Tree",
+  },
+  "Tomato Bombard": {
+    description:
+      "Home to Cannonball, and is ready to strike anyone who gets in its way",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Boost", value: "Fruit" },
+      {
+        display_type: "boost_number",
+        trait_type: "Increase Tomato Yield",
+        value: 1,
+      },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/question_mark.png",
+    name: "Tomato Bombard",
   },
 };
 export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {

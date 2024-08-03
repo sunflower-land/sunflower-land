@@ -663,4 +663,34 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
     boostedItemIcon: SUNNYSIDE.icons.stopwatch,
     boostTypeIcon: ITEM_DETAILS.Tomato.image,
   },
+  Cannonball: {
+    shortDescription: translate("description.cannonball.boost"),
+    labelType: "info",
+    boostedItemIcon: SUNNYSIDE.icons.stopwatch,
+    boostTypeIcon: ITEM_DETAILS.Tomato.image,
+  },
+  "Tomato Bombard": {
+    shortDescription: translate("description.tomato.bombard.boost"),
+    labelType: "success",
+    boostedItemIcon: powerup,
+    boostTypeIcon: ITEM_DETAILS.Tomato.image,
+  },
+  Camel: {
+    shortDescription: translate("description.camel.boost"),
+    labelType: "success",
+    boostTypeIcon: powerup,
+    boostedItemIcon: SUNNYSIDE.tools.sand_shovel,
+  },
+  "Reveling Lemon": {
+    shortDescription: translate("description.reveling.lemon.boost"),
+    labelType: "success",
+    boostedItemIcon: powerup,
+    boostTypeIcon: ITEM_DETAILS.Lemon.image,
+  },
+  "Lemon Frog": {
+    shortDescription: translate("description.lemon.frog.boost"),
+    labelType: "info",
+    boostedItemIcon: SUNNYSIDE.icons.stopwatch,
+    boostTypeIcon: ITEM_DETAILS.Lemon.image,
+  },
 };

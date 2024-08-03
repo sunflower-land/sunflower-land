@@ -3985,10 +3985,58 @@
       "visible": true,
       "x": 0,
       "y": 0
+    },
+    {
+      "draworder": "topdown",
+      "id": 88,
+      "name": "Trigger",
+      "objects": [
+        {
+          "height": 10.639854233997,
+          "id": 403,
+          "name": "",
+          "properties": [
+            {
+              "name": "id",
+              "type": "string",
+              "value": "desert_entry"
+            }
+          ],
+          "rotation": 0,
+          "type": "",
+          "visible": true,
+          "width": 29.1266009655668,
+          "x": 369.069943741771,
+          "y": 334.091422947506
+        },
+        {
+          "height": 46.5490104149225,
+          "id": 404,
+          "name": "",
+          "properties": [
+            {
+              "name": "id",
+              "type": "string",
+              "value": "digging_entry"
+            }
+          ],
+          "rotation": 0,
+          "type": "",
+          "visible": true,
+          "width": 12.7256287465256,
+          "x": 316.801178795084,
+          "y": 208.633334449617
+        }
+      ],
+      "opacity": 1,
+      "type": "objectgroup",
+      "visible": true,
+      "x": 0,
+      "y": 0
     }
   ],
-  "nextlayerid": 88,
-  "nextobjectid": 403,
+  "nextlayerid": 89,
+  "nextobjectid": 405,
   "orientation": "orthogonal",
   "renderorder": "right-down",
   "tiledversion": "1.8.4",
