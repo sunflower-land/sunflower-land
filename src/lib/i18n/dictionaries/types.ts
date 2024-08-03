@@ -641,7 +641,12 @@ export type BoostEffectDescriptions =
   | "description.desert.rose.boost"
   | "description.pharaoh.gnome.boost"
   | "description.lemon.tea.bath.boost"
-  | "description.tomato.clown.boost";
+  | "description.tomato.clown.boost"
+  | "description.cannonball.boost"
+  | "description.tomato.bombard.boost"
+  | "description.camel.boost"
+  | "description.reveling.lemon.boost"
+  | "description.lemon.frog.boost";
 
 export type BountyDescription =
   | "description.clam.shell"
@@ -945,7 +950,9 @@ export type ConfirmSkill = "confirm.skillClaim";
 export type ConfirmationTerms =
   | "confirmation.sellCrops"
   | "confirmation.buyCrops"
-  | "confirmation.enterAmount";
+  | "confirmation.enterAmount"
+  | "confirmation.sellSeasonalArtefact"
+  | "confirmation.valuableTreasure";
 
 export type Conversations =
   | "hank-intro.headline"
@@ -3609,6 +3616,7 @@ export type WornDescription =
   | "worm.redWiggler";
 
 export type World =
+  | "world.newArea"
   | "world.intro.one"
   | "world.intro.two"
   | "world.intro.missingDelivery"

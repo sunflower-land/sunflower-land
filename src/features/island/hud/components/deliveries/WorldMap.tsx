@@ -87,9 +87,7 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
           onClose();
         }}
       >
-        <span className="balance-text text-xxs sm:text-sm">
-          {t("world.home")}
-        </span>
+        <span className="map-text text-xxs sm:text-sm">{t("world.home")}</span>
       </div>
 
       <div
@@ -112,7 +110,7 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
         {level < 2 ? (
           <img src={lockIcon} className="h-6 ml-1 img-highlight-heavy" />
         ) : (
-          <span className="balance-text text-xxs sm:text-sm">
+          <span className="map-text text-xxs sm:text-sm">
             {t("world.plaza")}
           </span>
         )}
@@ -138,7 +136,7 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
         {level < 7 ? (
           <img src={lockIcon} className="h-6 ml-1 img-highlight-heavy" />
         ) : (
-          <span className="balance-text text-xxs sm:text-sm">
+          <span className="map-text text-xxs sm:text-sm">
             {t("world.kingdom")}
           </span>
         )}
@@ -164,10 +162,25 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
         {!canTeleportToFactionHouse ? (
           <img src={lockIcon} className="h-6 ml-1 img-highlight-heavy" />
         ) : (
-          <span className="balance-text text-xxs sm:text-sm">
+          <span className="map-text text-xxs sm:text-sm">
             {t("world.faction")}
           </span>
         )}
+      </div>
+
+      <div
+        style={{
+          width: "12%",
+          height: "18%",
+          border: showDebugBorders ? "2px solid red" : "",
+          position: "absolute",
+          left: "24%",
+          bottom: "42%",
+        }}
+      >
+        <Label className="shadow-md" type="vibrant">
+          {t("world.newArea")}
+        </Label>
       </div>
 
       <div
@@ -190,7 +203,7 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
         {level < 4 ? (
           <img src={lockIcon} className="h-6 ml-1 img-highlight-heavy" />
         ) : (
-          <span className="balance-text text-xxs sm:text-sm">
+          <span className="map-text text-xxs sm:text-sm">
             {t("world.beach")}
           </span>
         )}
@@ -216,7 +229,7 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
         {level < 6 ? (
           <img src={lockIcon} className="h-6 ml-1 img-highlight-heavy" />
         ) : (
-          <span className="balance-text text-xxs sm:text-sm">
+          <span className="map-text text-xxs sm:text-sm">
             {t("world.woodlands")}
           </span>
         )}
@@ -242,7 +255,7 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
         {level < 5 ? (
           <img src={lockIcon} className="h-6 ml-1 img-highlight-heavy" />
         ) : (
-          <span className="balance-text text-xxs sm:text-sm">
+          <span className="map-text text-xxs sm:text-sm">
             {t("world.retreat")}
           </span>
         )}

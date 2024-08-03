@@ -40,9 +40,9 @@ export type Seed = {
 };
 
 export const SEEDS: () => Record<SeedName, Seed> = () => ({
-  ...CROP_SEEDS(),
+  ...CROP_SEEDS,
   ...FRUIT_SEEDS(),
   ...FLOWER_SEEDS(),
   ...GREENHOUSE_FRUIT_SEEDS(),
-  ...GREENHOUSE_SEEDS(),
+  ...GREENHOUSE_SEEDS,
 });

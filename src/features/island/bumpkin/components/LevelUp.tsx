@@ -73,8 +73,8 @@ function generateUnlockLabels(): Record<
   const unlocks = levels.reduce(
     (acc, id) => {
       const level = Number(id);
-      const crops = getKeys(CROPS())
-        .filter((name) => CROPS()[name].bumpkinLevel === level)
+      const crops = getKeys(CROPS)
+        .filter((name) => CROPS[name].bumpkinLevel === level)
         .map((name) => ({ text: name, icon: ITEM_DETAILS[name].image }));
 
       const buildings = getKeys(BUILDINGS)

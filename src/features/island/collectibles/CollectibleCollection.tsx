@@ -332,6 +332,7 @@ import { PharaohChicken } from "./components/PharaohChicken";
 import { ImageStyle } from "./components/template/ImageStyle";
 import { LemonShark } from "./components/LemonShark";
 import { BattleFish } from "./components/BattleFish";
+import { TomatoBombard } from "./components/TomatoBombard";
 
 export const COLLECTIBLE_COMPONENTS: Record<
   CollectibleName | "Bud",
@@ -967,7 +968,21 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Cactus King": Template,
   "Lemon Frog": Template,
   "Scarab Beetle": Template,
-  "Tomato Core": Template,
+  Cannonball: (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 15}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0.5}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 15}px`,
+      }}
+      image={ITEM_DETAILS.Cannonball.image}
+      alt="Baobab Tree"
+    />
+  ),
   "Clay Tablet": Template,
   "Reveling Lemon": Template,
   "Paper Reed": Template,
@@ -987,7 +1002,22 @@ export const COLLECTIBLE_COMPONENTS: Record<
       alt="Baobab Tree"
     />
   ),
-  Camel: Template,
+  "Tomato Bombard": TomatoBombard,
+  Camel: (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 33}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * -1}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 33}px`,
+      }}
+      image={ITEM_DETAILS["Camel"].image}
+      alt="Camel"
+    />
+  ),
 };
 // Need readonly versions for some troublesome components while in design mode
 

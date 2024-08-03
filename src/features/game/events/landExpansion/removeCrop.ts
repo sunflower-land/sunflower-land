@@ -60,7 +60,7 @@ export function removeCrop({ state, action, createdAt = Date.now() }: Options) {
     throw new Error(REMOVE_CROP_ERRORS.NO_SHOVEL_AVAILABLE);
   }
 
-  const cropDetails = CROPS()[crop.name];
+  const cropDetails = CROPS[crop.name];
   if (isReadyToHarvest(createdAt, crop, cropDetails)) {
     throw new Error(REMOVE_CROP_ERRORS.READY_TO_HARVEST);
   }

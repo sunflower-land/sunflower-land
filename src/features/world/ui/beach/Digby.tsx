@@ -34,13 +34,14 @@ import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
 import { pixelDarkBorderStyle } from "features/game/lib/style";
 import { CollectibleName } from "features/game/types/craftables";
 import Decimal from "decimal.js-light";
-import { getRegularMaxDigs } from "features/island/hud/components/DesertDiggingDisplay";
+import { getRemainingDigs } from "features/island/hud/components/DesertDiggingDisplay";
 import { BUMPKIN_ITEM_BUFF_LABELS } from "features/game/types/bumpkinItemBuffs";
 import { ResizableBar } from "components/ui/ProgressBar";
 import { Revealed } from "features/game/components/Revealed";
 import { ChestRevealing, ChestRewardType } from "../chests/ChestRevealing";
+import { gameAnalytics } from "lib/gameAnalytics";
 
-function hasReadIntro() {
+export function hasReadDigbyIntro() {
   return !!localStorage.getItem("digging.intro");
 }
 
@@ -355,7 +356,7 @@ const BoostDigItems: Partial<
 };
 
 const getDefaultTab = (game: GameState) => {
-  if (!hasReadIntro()) return 1;
+  if (!hasReadDigbyIntro()) return 1;
 
   const treasureCount = getTreasureCount({ game });
   const treasuresFound = getTreasuresFound({ game });
@@ -365,9 +366,7 @@ const getDefaultTab = (game: GameState) => {
     return 0;
   }
 
-  const digging = game.desert.digging;
-  const maxDigs = getRegularMaxDigs(game);
-  const remainingDigs = maxDigs - digging.grid.length;
+  const remainingDigs = getRemainingDigs(game);
 
   if (remainingDigs <= 0) {
     return 2;
@@ -383,10 +382,7 @@ export const Digby: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   const [showConfirm, setShowConfirm] = useState(false);
 
   const inventory = gameState.context.state.inventory;
-  const dugCount = gameState.context.state.desert.digging.grid.length;
-
-  const maxDigs = getRegularMaxDigs(gameState.context.state);
-  const digsLeft = maxDigs - dugCount;
+  const digsLeft = getRemainingDigs(gameState.context.state);
 
   const { t } = useAppTranslation();
 
@@ -397,6 +393,13 @@ export const Digby: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   const confirmBuyMoreDigs = () => {
     onClose();
     gameService.send("desert.digsBought");
+
+    gameAnalytics.trackSink({
+      currency: "Block Buck",
+      amount: 1,
+      item: "DesertDigs",
+      type: "Fee",
+    });
   };
 
   const canAfford = (inventory["Block Buck"] ?? new Decimal(0))?.gt(0);

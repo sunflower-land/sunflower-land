@@ -306,7 +306,6 @@ import {
   HarvestCropMachineAction,
 } from "./landExpansion/harvestCropMachine";
 import { joinFaction, JoinFactionAction } from "./landExpansion/joinFaction";
-import { claimEmblems, ClaimEmblemsAction } from "./landExpansion/claimEmblems";
 import {
   completeKingdomChore,
   CompleteKingdomChoreAction,
@@ -432,7 +431,6 @@ export type PlayingEvent =
   | HarvestCropMachineAction
   | SupplyCookingOilAction
   | JoinFactionAction
-  | ClaimEmblemsAction
   | CompleteKingdomChoreAction
   | SkipKingdomChoreAction
   | RefreshKingdomChoresAction
@@ -599,7 +597,6 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "cropMachine.supplied": supplyCropMachine,
   "cropMachine.harvested": harvestCropMachine,
   "cookingOil.supplied": supplyCookingOil,
-  "emblems.claimed": claimEmblems,
   "kingdomChore.completed": completeKingdomChore,
   "kingdomChore.skipped": skipKingdomChore,
   "kingdomChores.refreshed": refreshKingdomChores,

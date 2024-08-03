@@ -208,7 +208,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   "card.cash": "银行卡 / 现金",
   check: "查验",
   chest: "箱子",
-  chores: "日常农活",
+  chores: "农活",
   claim: "领取",
   "claim.gift": "领取礼物",
   "claim.skill": "领取技能",
@@ -318,7 +318,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   retry: "重试",
   "reward.discovered": "奖励揭晓",
   "reward.whatsNew": "瞧瞧惊喜",
-  sale: ENGLISH_TERMS["sale"],
+  sale: "卖价",
   save: "保存",
   saving: "保存中",
   seeds: "种子", // Basket
@@ -426,10 +426,10 @@ const generalTerms: Record<GeneralTerms, string> = {
   faction: "帮派",
   free: "免费",
   player: "玩家",
-  "remaining.free.listings": "剩余 {{listingsRemaining}} 次免费上架",
-  "remaining.free.listing": "剩余 1 次免费上架",
-  "remaining.free.purchases": "剩余 {{purchasesRemaining}} 次免费采购",
-  "remaining.free.purchase": "剩余 1 次免费采购",
+  "remaining.free.listings": "剩余 {{listingsRemaining}} 次上架",
+  "remaining.free.listing": "剩余 1 次上架",
+  "remaining.free.purchases": "剩余 {{purchasesRemaining}} 次采购",
+  "remaining.free.purchase": "剩余 1 次采购",
   vipAccess: "VIP 权限",
   coins: "硬币",
   greenhouse: "温室",
@@ -774,7 +774,7 @@ const boostDescriptions: Record<BoostDescriptions, string> = {
   "description.heart.of.davy.jones":
     "谁拥有它，谁就拥有掌控七大洋的浩瀚力量，可以挖掘财宝不知疲倦",
   "description.knight.chicken": "一只强大而高贵的鸡为您的油田增强产出",
-  "description.pharaoh.chicken": ENGLISH_TERMS["description.pharaoh.chicken"],
+  "description.pharaoh.chicken": "一只皇族鸡。+1 每日挖宝次数。",
 };
 
 const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
@@ -801,7 +801,7 @@ const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
   "description.iron.idol.boost": "+1 铁矿",
   "description.emerald.turtle.boost": "+0.5 石头铁矿黄金(AOE 3x3)",
   "description.tin.turtle.boost": "+0.1 石头(AOE 3x3)",
-  "description.heart.of.davy.jones.boost": "挖宝的每日限制 +20",
+  "description.heart.of.davy.jones.boost": "+20 每日挖宝次数",
   "description.Karkinos.boost": "+0.1 卷心菜(对 Cabbage Boy 没有效果)",
   "description.mushroom.house.boost": "+0.2 野生蘑菇",
   "description.boost.gilded.swordfish": "+0.1 黄金",
@@ -862,7 +862,7 @@ const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
   "description.walrus.boost": "+1 鱼",
   "description.alba.boost": "50% 几率获得 +1 基础鱼",
   "description.knowledge.crab.boost": "双倍 Sprout Mix 增强效果",
-  "description.maneki.neko.boost": "每天 1 份免费食物(点击领取)",
+  "description.maneki.neko.boost": "每天 1 份免费食物（点击领取）",
   "description.genie.lamp.boost": "实现 3 个愿望",
   "description.observatory.boost": "+5% XP",
   "description.blossombeard.boost": "+10% XP",
@@ -878,11 +878,9 @@ const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
   // Translate
   "description.hungryHare.boost": "发酵胡萝卜 XP 翻倍",
   "description.battle.fish.boost": "+0.05 石油",
-  "description.lemon.shark.boost":
-    ENGLISH_TERMS["description.lemon.shark.boost"],
+  "description.lemon.shark.boost": "+0.2 柠檬",
   "description.knight.chicken.boost": "+0.1 石油",
-  "description.pharaoh.chicken.boost":
-    ENGLISH_TERMS["description.pharaoh.chicken.boost"],
+  "description.pharaoh.chicken.boost": "+1 每日挖宝次数",
   "description.turbo.sprout.boost": "-50% 温室庄稼生长时间",
   "description.soybliss.boost": "+1 大豆",
   "description.grape.granny.boost": "+1 葡萄",
@@ -915,14 +913,15 @@ const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
   "description.hourglass.running":
     "这个 {{hourglass}} 能提供下列增益： {{boost}}。",
 
-  "description.desert.rose.boost":
-    ENGLISH_TERMS["description.desert.rose.boost"],
-  "description.pharaoh.gnome.boost":
-    ENGLISH_TERMS["description.pharaoh.gnome.boost"],
-  "description.lemon.tea.bath.boost":
-    ENGLISH_TERMS["description.lemon.tea.bath.boost"],
-  "description.tomato.clown.boost":
-    ENGLISH_TERMS["description.tomato.clown.boost"],
+  "description.desert.rose.boost": "10% 几率 +1 花卉",
+  "description.pharaoh.gnome.boost": "+2 温室植物",
+  "description.lemon.tea.bath.boost": "-50% 柠檬生长时间",
+  "description.tomato.clown.boost": "-50% 番茄生长时间",
+  "description.cannonball.boost": "-25% 番茄生长时间",
+  "description.tomato.bombard.boost": "+1 番茄",
+  "description.camel.boost": "+1 沙子并 +30% 古董店赏金卖价",
+  "description.reveling.lemon.boost": "+0.25 柠檬",
+  "description.lemon.frog.boost": "-25% 柠檬生长时间",
 };
 
 const bountyDescription: Record<BountyDescription, string> = {
@@ -980,8 +979,8 @@ const bumpkinDelivery: Record<BumpkinDelivery, string> = {
     "我一直就是在等这个。非常感谢！请尽快回来获取更多送货订单。",
   "bumpkin.delivery.proveYourself":
     "证明你的价值。再扩展你的岛屿 {{missingLevels}} 次。",
-  "bumpkin.delivery.earnScrolls": ENGLISH_TERMS["bumpkin.delivery.earnScrolls"],
-  "bumpkin.delivery.earnSFL": ENGLISH_TERMS["bumpkin.delivery.earnSFL"],
+  "bumpkin.delivery.earnScrolls": "赚取 {{ticket}} 来铸造限定物品。",
+  "bumpkin.delivery.earnSFL": "赚取 SFL 来做买卖 & 成就您的伟业。",
 };
 
 const bumpkinItemBuff: Record<BumpkinItemBuff, string> = {
@@ -1037,19 +1036,14 @@ const bumpkinItemBuff: Record<BumpkinItemBuff, string> = {
   "bumpkinItemBuff.bumpkin.sword": "+10% 徽记",
   "bumpkinItemBuff.bumpkin.pants": "+5% 徽记",
   "bumpkinItemBuff.bumpkin.sabatons": "+5% 徽记",
-  "bumpkinItemBuff.crab.trap": ENGLISH_TERMS["bumpkinItemBuff.crab.trap"],
-  "bumpkinItemBuff.bionic.drill": ENGLISH_TERMS["bumpkinItemBuff.bionic.drill"],
-  "bumpkinItemBuff.infernal.drill.boost":
-    ENGLISH_TERMS["bumpkinItemBuff.infernal.drill.boost"],
-  "bumpkinItemBuff.lemon.shield.boost":
-    ENGLISH_TERMS["bumpkinItemBuff.lemon.shield.boost"],
-  "bumpkinItemBuff.dev.wrench.boost":
-    ENGLISH_TERMS["bumpkinItemBuff.dev.wrench.boost"],
-  "bumpkinItemBuff.oil.overalls.boost":
-    ENGLISH_TERMS["bumpkinItemBuff.oil.overalls.boost"],
-  "bumpkinItemBuff.ancient.shovel.boost":
-    ENGLISH_TERMS["bumpkinItemBuff.ancient.shovel.boost"],
-  "bumpkinItemBuff.grape.pants": ENGLISH_TERMS["bumpkinItemBuff.grape.pants"],
+  "bumpkinItemBuff.crab.trap": "挖宝/钻宝时 +1 螃蟹",
+  "bumpkinItemBuff.bionic.drill": "+5 每日挖宝次数",
+  "bumpkinItemBuff.infernal.drill.boost": "钻石油无需石油钻",
+  "bumpkinItemBuff.lemon.shield.boost": "+1 柠檬",
+  "bumpkinItemBuff.dev.wrench.boost": "-50% 石油恢复时间",
+  "bumpkinItemBuff.oil.overalls.boost": "+10 石油",
+  "bumpkinItemBuff.ancient.shovel.boost": "挖宝无需沙铲",
+  "bumpkinItemBuff.grape.pants": "+0.2 葡萄",
 };
 
 const bumpkinPartRequirements: Record<BumpkinPartRequirements, string> = {
@@ -1107,9 +1101,8 @@ const bumpkinTrade: Record<BumpkinTrade, string> = {
   "bumpkinTrade.cancel": "取消",
   "bumpkinTrade.list": "上架",
   "bumpkinTrade.maxListings": "已达到最大上架单数",
-  "bumpkinTrade.visitBoard": ENGLISH_TERMS["bumpkinTrade.visitBoard"],
-  "bumpkinTrade.unlockMoreTrades":
-    ENGLISH_TERMS["bumpkinTrade.unlockMoreTrades"],
+  "bumpkinTrade.visitBoard": "去查看贸易板上架更多挂单吧。",
+  "bumpkinTrade.unlockMoreTrades": "解锁更多挂单",
   "bumpkinTrade.max": "最多: {{max}}",
   "bumpkinTrade.floorPrice": "底价： {{price}} SFL",
   "bumpkinTrade.price/unit": "{{price}} / 单位",
@@ -1246,6 +1239,9 @@ const confirmationTerms: Record<ConfirmationTerms, string> = {
   "confirmation.buyCrops":
     "您确定要花 {{coinAmount}} 枚硬币购买 {{seedNo}} {{seedName}}s 吗？",
   "confirmation.enterAmount": "请输入出售数量：",
+  "confirmation.sellSeasonalArtefact":
+    "这悬赏的是一种时季古董！您确定您想卖出它吗？",
+  "confirmation.valuableTreasure": "这悬赏非常珍贵！您确定您想卖出它吗？",
 };
 
 const confirmSkill: Record<ConfirmSkill, string> = {
@@ -1405,9 +1401,9 @@ const cropFruitDescriptions: Record<CropFruitDescriptions, string> = {
   "description.lily.seed": "百合种子。一粒 Lily 种子",
 
   // Greenhouse Seeds
-  "description.grape": "一种甜美神往的水果",
-  "description.olive": "高端农夫的奢品",
-  "description.rice": "完美口粮！",
+  "description.grape": "葡萄。一种甜美神往的水果",
+  "description.olive": "橄榄。高端农夫的奢品",
+  "description.rice": "稻米。完美口粮！",
 };
 
 const cropMachine: Record<CropMachine, string> = {
@@ -1447,14 +1443,12 @@ const cropMachine: Record<CropMachine, string> = {
 };
 
 const cropsAndChickens: Record<CropsAndChickensMessages, string> = {
-  "crops-and-chickens.portal.title":
-    ENGLISH_TERMS["crops-and-chickens.portal.title"],
-  "crops-and-chickens.portal.description":
-    ENGLISH_TERMS["crops-and-chickens.portal.description"],
+  "crops-and-chickens.portal.title": "小游戏 —— 庄稼与鸡",
+  "crops-and-chickens.portal.description": "您能帮我收集庄稼吗？",
   "crops-and-chickens.portal.missionObjectives":
-    ENGLISH_TERMS["crops-and-chickens.portal.missionObjectives"],
+    "任务：存入价值 {{targetScore}} 点的庄稼",
   "crops-and-chickens.portal.rewardMessage":
-    ENGLISH_TERMS["crops-and-chickens.portal.rewardMessage"],
+    "恭喜，您已经完成了任务！这里是您的奖赏。",
 };
 
 const decorationDescriptions: Record<DecorationDescriptions, string> = {
@@ -1705,7 +1699,7 @@ const decorationDescriptions: Record<DecorationDescriptions, string> = {
 
   "description.red.daffodil": "红水仙花。一朵红水仙花。",
   "description.yellow.daffodil": "黄水仙花。一朵黄水仙花。",
-  "description.purple.daffodil": "紫水仙花。一朵紫水仙花l。",
+  "description.purple.daffodil": "紫水仙花。一朵紫水仙花。",
   "description.white.daffodil": "白水仙花。一朵白水仙花。",
   "description.blue.daffodil": "蓝水仙花。一朵蓝水仙花。",
 
@@ -1841,7 +1835,7 @@ const donation: Record<Donation, string> = {
   "donation.minimum": "至少捐 1 MATIC",
   "donation.airdrop": "捐赠活动落幕后便将空投装饰品。",
   "donation.specialEvent": "特别捐献活动",
-  "donation.toPortal": ENGLISH_TERMS["donation.toPortal"],
+  "donation.toPortal": "您是否愿意为 {{portalName}} 捐献 {{amount}} MATIC?",
 };
 
 const draftBid: Record<DraftBid, string> = {
@@ -2129,45 +2123,45 @@ const factionShopDescription: Record<FactionShopDescription, string> = {
   "description.factionShop.bumpkinFactionRug":
     "Bumpkin 帮派精湛匠人打造的华美地毯。",
   "description.factionShop.goblinArmor":
-    "狂蛮而张扬，Goblin 每皆赞许的防具。效忠本帮派时，赚得的徽记 +20%。该物品同等加成并不多重叠加。",
+    "狂蛮而张扬，Goblin 每皆赞许的防具。效忠本帮派时，赚得的徽记 +20%。该物品自身加成并不多重叠加。",
   "description.factionShop.goblinHelmet":
-    "坚硬而稳固，为闯荡荒野的无畏冒险而造。效忠本帮派时，赚得的徽记 +10%。该物品同等加成并不多重叠加。",
+    "坚硬而稳固，为闯荡荒野的无畏冒险而造。效忠本帮派时，赚得的徽记 +10%。该物品自身加成并不多重叠加。",
   "description.factionShop.goblinPants":
-    "这些裤甲兼顾迅捷与 Goblin 精工，为灵巧身手而生。效忠本帮派时，赚得的徽记 +5%。该物品同等加成并不多重叠加。",
+    "这些裤甲兼顾迅捷与 Goblin 精工，为灵巧身手而生。效忠本帮派时，赚得的徽记 +5%。该物品自身加成并不多重叠加。",
   "description.factionShop.goblinSabatons":
-    "专为先发制人且笑到最后而造。效忠本帮派时，赚得的徽记 +5%。该物品同等加成并不多重叠加。",
+    "专为先发制人且笑到最后而造。效忠本帮派时，赚得的徽记 +5%。该物品自身加成并不多重叠加。",
   "description.factionShop.goblinAxe":
-    "该战斧是向一名 Goblin 发出的强壮力量与战场武勇的无上战书。效忠本帮派时，赚得的徽记 +10%。该物品同等加成并不多重叠加。",
+    "该战斧是向一名 Goblin 发出的强壮力量与战场武勇的无上战书。效忠本帮派时，赚得的徽记 +10%。该物品自身加成并不多重叠加。",
   "description.factionShop.sunflorianArmor":
-    "反耀出太阳之力的光辉甲胄。效忠本帮派时，赚得的徽记 +20%。该物品同等加成并不多重叠加。",
+    "反耀出太阳之力的光辉甲胄。效忠本帮派时，赚得的徽记 +20%。该物品自身加成并不多重叠加。",
   "description.factionShop.sunflorianHelmet":
-    "该头盔是光芒的灯塔与对暗影的警哨。效忠本帮派时，赚得的徽记 +10%。该物品同等加成并不多重叠加。",
+    "该头盔是光芒的灯塔与对暗影的警哨。效忠本帮派时，赚得的徽记 +10%。该物品自身加成并不多重叠加。",
   "description.factionShop.sunflorianPants":
-    "穿上汇聚所有 Sunflorians 之温暖与热情的衣装，昂首阔步。效忠本帮派时，赚得的徽记 +5%。该物品同等加成并不多重叠加。",
+    "穿上汇聚所有 Sunflorians 之温暖与热情的衣装，昂首阔步。效忠本帮派时，赚得的徽记 +5%。该物品自身加成并不多重叠加。",
   "description.factionShop.sunflorianSabatons":
-    "这些鞋子踏过的每一步都鸣响着力量与生机。效忠本帮派时，赚得的徽记 +5%。该物品同等加成并不多重叠加。",
+    "这些鞋子踏过的每一步都鸣响着力量与生机。效忠本帮派时，赚得的徽记 +5%。该物品自身加成并不多重叠加。",
   "description.factionShop.sunflorianSword":
-    "一把闪燃着太阳勇气与光辉的剑刃。效忠本帮派时，赚得的徽记 +10%。该物品同等加成并不多重叠加。",
+    "一把闪燃着太阳勇气与光辉的剑刃。效忠本帮派时，赚得的徽记 +10%。该物品自身加成并不多重叠加。",
   "description.factionShop.bumpkinArmor":
-    "尊荣传统与强韧的坚固甲具。效忠本帮派时，赚得的徽记 +20%。该物品同等加成并不多重叠加。",
+    "尊荣传统与强韧的坚固甲具。效忠本帮派时，赚得的徽记 +20%。该物品自身加成并不多重叠加。",
   "description.factionShop.bumpkinHelmet":
-    "用坚韧朴实与不屈决心的象征武装你的头脑。效忠本帮派时，赚得的徽记 +10%。该物品同等加成并不多重叠加。",
+    "用坚韧朴实与不屈决心的象征武装你的头脑。效忠本帮派时，赚得的徽记 +10%。该物品自身加成并不多重叠加。",
   "description.factionShop.bumpkinPants":
-    "带上冒险精神畅游乡田镇城。效忠本帮派时，赚得的徽记 +5%。该物品同等加成并不多重叠加。",
+    "带上冒险精神畅游乡田镇城。效忠本帮派时，赚得的徽记 +5%。该物品自身加成并不多重叠加。",
   "description.factionShop.bumpkinSabatons":
-    "伴着这双牢靠鞋靴穿越田野，回顾乡村顽味。效忠本帮派时，赚得的徽记 +5%。该物品同等加成并不多重叠加。",
+    "伴着这双牢靠鞋靴穿越田野，回顾乡村顽味。效忠本帮派时，赚得的徽记 +5%。该物品自身加成并不多重叠加。",
   "description.factionShop.bumpkinSword":
-    "森林原野间铸造的武器，无惧任何挑战。效忠本帮派时，赚得的徽记 +10%。该物品同等加成并不多重叠加。",
+    "森林原野间铸造的武器，无惧任何挑战。效忠本帮派时，赚得的徽记 +10%。该物品自身加成并不多重叠加。",
   "description.factionShop.nightshadeArmor":
-    "装甲，只为遁形融汇于暗影而造。效忠本帮派时，赚得的徽记 +20%。该物品同等加成并不多重叠加。",
+    "装甲，只为遁形融汇于暗影而造。效忠本帮派时，赚得的徽记 +20%。该物品自身加成并不多重叠加。",
   "description.factionShop.nightshadeHelmet":
-    "蕴含诡秘与悄然伟力的强大头盔。效忠本帮派时，赚得的徽记 +10%。该物品同等加成并不多重叠加。",
+    "蕴含诡秘与悄然伟力的强大头盔。效忠本帮派时，赚得的徽记 +10%。该物品自身加成并不多重叠加。",
   "description.factionShop.nightshadePants":
-    "这些裤装糅合了迅捷与午夜诡秘。效忠本帮派时，赚得的徽记 +5%。该物品同等加成并不多重叠加。",
+    "这些裤装糅合了迅捷与午夜诡秘。效忠本帮派时，赚得的徽记 +5%。该物品自身加成并不多重叠加。",
   "description.factionShop.nightshadeSabatons":
-    "每一步都是暗影在呢喃，完美的设计。效忠本帮派时，赚得的徽记 +5%。该物品同等加成并不多重叠加。",
+    "每一步都是暗影在呢喃，完美的设计。效忠本帮派时，赚得的徽记 +5%。该物品自身加成并不多重叠加。",
   "description.factionShop.nightshadeSword":
-    "这把刀刃的每一击都带着月光冷铁的精准狠。效忠本帮派时，赚得的徽记 +10%。该物品同等加成并不多重叠加。",
+    "这把刀刃的每一击都带着月光冷铁的精准狠。效忠本帮派时，赚得的徽记 +10%。该物品自身加成并不多重叠加。",
   "description.factionShop.knightGambit":
     "戴上这帽子，给策略与风格掺杂一点玩味，准备好向冒险进发。",
   "description.factionShop.motley":
@@ -2187,93 +2181,86 @@ const fishDescriptions: Record<FishDescriptions, string> = {
   "description.anchovy.two": "鱼小味香！",
   "description.butterflyfish.one": "时尚前卫的鱼，显摆其鲜艳、时髦的条纹。",
   "description.butterflyfish.two": "游弋在色彩和美味间！",
-  "description.blowfish.one": "海中的圆润喜剧演员，保证让你笑容满面。",
-  "description.blowfish.two": "与危险共进晚餐，一个多刺的惊喜！",
-  "description.clownfish.one": "水下的小丑，身着橘色礼服，充满小丑般的魅力。",
-  "description.clownfish.two": "不开玩笑，只有纯粹的美味！",
-  "description.seabass.one":
-    "你的“不那么令人兴奋的”朋友，银色的鳞片——一个基础的捕获！",
+  "description.blowfish.one": "圆润鼓鼓的海中谐星，包让你笑开怀。",
+  "description.blowfish.two": "与危险共进晚餐，多刺惊喜！",
+  "description.clownfish.one": "水下弄臣，一身橘色燕尾服，尽显小丑魅力。",
+  "description.clownfish.two": "不开玩笑，只有纯粹美味！",
+  "description.seabass.one": "你那“不那么叫人兴奋的”银鳞朋友——日常的渔获！",
   "description.seabass.two": "海边美食的基础！",
-  "description.seahorse.one": "海洋中的慢动作舞者，在水下芭蕾中优雅地摇摆。",
+  "description.seahorse.one": "海洋中的慢步舞者，优雅地摇摆着水下芭蕾。",
   "description.seahorse.two": "精致、稀有且出乎意料地美味！",
-  "description.horsemackerel.one":
-    "一位身披闪亮外衣的速度选手，总是在波浪中穿梭。",
-  "description.horsemackerel.two": "每一口都能让你感受到风味的飞跃！",
-  "description.squid.one": "深海之谜，用其触须勾起你的好奇心。",
-  "description.squid.two": "用墨水开启精致味道之旅！",
-  "description.redsnapper.one": "价值连城的捕获，身披火红色。",
-  "description.redsnapper.two": "一口咬下，品尝丰富、辛辣的海洋风味！",
-  "description.morayeel.one": "海洋中阴暗角落里的狡猾潜伏者。",
-  "description.morayeel.two": "滑溜、美味、引人入胜！",
-  "description.oliveflounder.one": "海床上的伪装大师，总是与众不同。",
-  "description.oliveflounder.two": "在丰富和味道中挣扎！",
-  "description.napoleanfish.one":
-    "认识一下患有拿破仑情结的鱼——短小，但雍容华贵！",
-  "description.napoleanfish.two": "用这个捕获征服你的饥饿感！",
-  "description.surgeonfish.one": "海洋中的霓虹战士，武装着锋利的态度。",
-  "description.surgeonfish.two": "用精准操作征服你的味蕾！",
+  "description.horsemackerel.one": "身披闪亮外衣的竞速选手，总是穿梭在波浪中。",
+  "description.horsemackerel.two": "每一口都能让你感受到风味在飞跃！",
+  "description.squid.one": "深海之谜，以其触须勾撩你的好奇心。",
+  "description.squid.two": "流连墨汁，味道精致！",
+  "description.redsnapper.one": "金贵珍重的渔获，身披火红。",
+  "description.redsnapper.two": "一口咬下，品尝厚重香辛的海洋风味！",
+  "description.morayeel.one": "海洋阴暗角落里的狡猾潜伏者。",
+  "description.morayeel.two": "滑溜、美味、震惊味蕾！",
+  "description.oliveflounder.one": "海床上的伪装大师，总是潜伏鱼中。",
+  "description.oliveflounder.two": "在鲜厚美味中徜徉！",
+  "description.napoleanfish.one": "见过带有拿破仑情结的鱼——短小，但威严！",
+  "description.napoleanfish.two": "用这渔获横扫饥饿！",
+  "description.surgeonfish.one": "海洋中的霓虹战士，态度武装着锐利。",
+  "description.surgeonfish.two": "精准征服你的味蕾！",
   "description.zebraturkeyfish.one":
-    "条纹、刺和充满活力的性格，这条鱼是真正的焦点！",
+    "条纹、带刺和性格充满活力，这条鱼是真正的焦点！",
   "description.zebraturkeyfish.two": "条纹斑斓、多刺、极其美味！",
-  "description.ray.one": "水下的滑翔者，通过波浪中的宁静翅膀展现出的优雅。",
+  "description.ray.one": "水下滑翔者，波浪间的美丽翅膀展现着祥和。",
   "description.ray.two": "滑入丰富风味的领域！",
-  "description.hammerheadshark.one": "这是一只头脑灵活、身体追求冒险的鲨鱼！",
-  "description.hammerheadshark.two": "与味道正面碰撞！",
+  "description.hammerheadshark.one":
+    "见过这条头脑满是精明、体魄追逐冒险的鲨鱼！",
+  "description.hammerheadshark.two": "与美味正面碰撞！",
   "description.tuna.one":
-    "海洋中肌肉发达的短跑运动员，准备好进行一场鳍部的精彩比赛！",
-  "description.tuna.two": "每一片中都有一个味道的巨人！",
-  "description.mahimahi.one": "一条相信生活要多姿多彩的鱼，金色的鳍片。",
+    "肌肉发达的海洋短跑运动员，准备好来一场燃烧鳍部的精彩比赛！",
+  "description.tuna.two": "每一片都是美味上的巨鳄！",
+  "description.mahimahi.one": "一条相信生活要多姿多彩的鱼，身携金色的鳍片。",
   "description.mahimahi.two": "名字双倍，美味加倍！",
-  "description.bluemarlin.one": "海洋的传奇，马林鱼，拥有深海一样的态度。",
-  "description.bluemarlin.two": "用这皇家的捕获引领你的胃口！",
-  "description.oarfish.one": "长而漫长——一位神秘的海洋流浪者。",
-  "description.oarfish.two": "划入传奇风味的旅程！",
-  "description.footballfish.one": "深海的MVP，一颗准备参与比赛的生物发光之星！",
-  "description.footballfish.two": "在味道中攻入一球！",
-  "description.sunfish.one":
-    "海洋中的晒太阳者，高举鳍片，享受着聚光灯下的时刻。",
-  "description.sunfish.two": "沐浴在它美味风味的光辉中！",
-  "description.coelacanth.one": "一个古老的遗迹，对过去和现在都有一种品味。",
-  "description.coelacanth.two": "古老的风味，经受住了时间的考验！",
-  "description.whaleshark.one": "深海的温柔巨人，从海洋的自助餐中筛选珍宝。",
-  "description.whaleshark.two": "为巨大的渴望提供一顿丰盛的餐食！",
-  "description.barredknifejaw.one": "一位带有黑白条纹和黄金心的海洋流氓。",
-  "description.barredknifejaw.two": "以锋利的风味切开饥饿！",
+  "description.bluemarlin.one": "海洋的传奇，马林鱼，态度如深海般深邃。",
+  "description.bluemarlin.two": "用这皇家级渔获引领你的胃口！",
+  "description.oarfish.one": "长而漫长——一位神秘的海洋浪人。",
+  "description.oarfish.two": "划入传奇风味之旅！",
+  "description.footballfish.one": "深海的MVP，一颗随时一展身手的生物明星！",
+  "description.footballfish.two": "在味蕾上攻入好球！",
+  "description.sunfish.one": "海洋中的日光浴爱好者，高举鳍片，享受着高光时刻。",
+  "description.sunfish.two": "沐浴在它美味的光华中！",
+  "description.coelacanth.one": "一条古老的遗珍，汇聚过去与现在的玩味。",
+  "description.coelacanth.two": "亘古的美味，经受得住时间的考验！",
+  "description.whaleshark.one": "深海的文雅巨人，从海鲜自助中挑选珍宝。",
+  "description.whaleshark.two": "为大胃王准备的巨无霸！",
+  "description.barredknifejaw.one": "一位带有黑白条纹和黄金之心的海底狂徒。",
+  "description.barredknifejaw.two": "锐利风味砍败饥饿！",
   "description.sawshark.one":
-    "以锯齿状的吻，它是海洋的木工，总是走在潮流的前沿！",
-  "description.sawshark.two": "来自深海的前沿风味！",
-  "description.whiteshark.one":
-    "带着杀手般的笑容统治海洋的鲨鱼，以鳍的强度为傲！",
-  "description.whiteshark.two": "潜入令人激动的海洋风味中！",
+    "借其锯齿状的吻，一名海洋木工，总是屹立潮流之巅！",
+  "description.sawshark.two": "来自深海的先锋风味！",
+  "description.whiteshark.one": "统治海洋的鲨鱼笑面虎，以鳍强压为傲！",
+  "description.whiteshark.two": "沉浸在叫人激动的海洋美味中！",
 
   // Marine Marvels
-  "description.twilight.anglerfish":
-    "一种深海琵琶鱼，内置夜灯，引领其穿越黑暗。",
-  "description.starlight.tuna":
-    "一条比星星还要耀眼的金枪鱼，准备照亮你的收藏。",
-  "description.radiant.ray": "一种在黑暗中发光的鳐鱼，有着闪亮的秘密要分享。",
-  "description.phantom.barracuda":
-    "一种深海中难以捉摸且幽灵般的鱼，隐藏在阴影中。",
-  "description.gilded.swordfish": "一条鳞片闪耀如金的剑鱼，终极的捕获！",
-  "description.crimson.carp": "春天水域中稀有、充满活力的宝石。",
-  "description.battle.fish": "帮派赛季稀有的装甲游泳者！",
+  "description.twilight.anglerfish": "深海琵琶鱼，内置夜灯，引领其穿越黑暗。",
+  "description.starlight.tuna": "比星星还要耀眼的金枪鱼，准备点亮你的收藏。",
+  "description.radiant.ray": "一种爱在黑暗中亮光的鳐鱼，有着闪亮的秘密要分享。",
+  "description.phantom.barracuda": "深海中幽灵般难以捉摸的鱼，隐藏在阴影中。",
+  "description.gilded.swordfish": "鳞片闪耀如金的剑鱼，终极的渔获！",
+  "description.crimson.carp": "春天水域中稀有、生机勃勃的明珠。",
+  "description.battle.fish": "帮派赛季稀有的装甲泳者！",
 };
 
 const fishermanModal: Record<FishermanModal, string> = {
-  "fishermanModal.attractFish": "通过向水中投食来吸引鱼。",
-  "fishermanModal.fishBenefits": "鱼非常适合吃，运送和领取奖励！",
+  "fishermanModal.attractFish": "向水中投入添饵来吸引鱼。",
+  "fishermanModal.fishBenefits": "鱼非常适合用于食用、送货和领取奖励！",
   "fishermanModal.baitAndResources":
-    "给我鱼饵和资源，我们将捕获大海所提供的最稀有的奖品！",
-  "fishermanModal.crazyHappening":
-    "哇，发生了疯狂的事情......这是一场鱼的狂欢！",
-  "fishermanModal.bonusFish": "快点，每捕捉一条鱼你将获得一条额外的鱼！",
+    "给我鱼饵和资源，我们将抓来大海所献上最稀有的宝贝！",
+  "fishermanModal.crazyHappening": "哇，发生了疯狂的事情……这是一场鱼的狂潮！",
+  "fishermanModal.bonusFish": "快点，每一次渔获都能抓来额外一条鱼！",
   "fishermanModal.dailyLimitReached": "您已达到每日 {{limit}} 条的钓鱼限额",
   "fishermanModal.needCraftRod": "您必须先制作一根钓竿。",
-  "fishermanModal.craft.beach": "在海滩上制作",
-  "fishermanModal.zero.available": "0可用",
+  "fishermanModal.craft.beach": "在沙滩上锻造",
+  "fishermanModal.zero.available": "无 可用剩余",
   "fishermanmodal.greeting":
-    "嗨，岛上的朋友们！我是 {{name}}，你们信赖的岛上渔夫，我已经准备好迎接一个宏大的挑战——收集太阳下的每一种鱼！",
-  "fishermanModal.fullMoon": ENGLISH_TERMS["fishermanModal.fullMoon"],
+    "嚯，岛上的朋友们！我是 {{name}}，你们可靠的岛上渔夫，我已经准备好迎击一项伟大的挑战——收集日光之下的每一种鱼！",
+  "fishermanModal.fullMoon":
+    "哇，看看那满月！我听闻这会儿你有机会抓到稀有的海洋奇珍。",
 };
 
 const fishermanQuest: Record<FishermanQuest, string> = {
@@ -2283,32 +2270,33 @@ const fishermanQuest: Record<FishermanQuest, string> = {
 
 const fishingChallengeIntro: Record<FishingChallengeIntro, string> = {
   "fishingChallengeIntro.powerfulCatch": "一条强大的鱼等着你！",
-  "fishingChallengeIntro.useStrength": "用尽你所有的力量来拉它上来。",
-  "fishingChallengeIntro.stopGreenBar": "在鱼上停下绿色条才能成功。",
+  "fishingChallengeIntro.useStrength": "用尽你全力拉它上来。",
+  "fishingChallengeIntro.stopGreenBar": "停在鱼的绿色条上才能成功。",
   "fishingChallengeIntro.beQuick": "要快——错过3次机会，它就会逃走！",
 };
 
 const fishingGuide: Record<FishingGuide, string> = {
   "fishingGuide.catch.rod": "制作鱼竿，收集鱼饵来捕鱼。",
   "fishingGuide.bait.earn": "饵料可以通过堆肥或制作诱饵获得。",
-  "fishingGuide.eat.fish": "吃鱼来提升你的乡巴佬等级，或者送鱼来获取奖励。",
+  "fishingGuide.eat.fish":
+    "吃鱼来提升您的乡包佬等级，或者完成鱼类送货来获取奖励。",
   "fishingGuide.discover.fish":
-    "探索水域，发现珍稀鱼类，完成任务，解锁法典中的独特奖励。",
+    "探索水域，发现珍稀鱼类、完成任务、解锁宝典中的独特奖励。",
   "fishingGuide.condition":
     "跟踪潮汐的变化规律；特定的鱼种只有在特定条件下才能捕获。",
   "fishingGuide.bait.chum":
-    "尝试使用不同类型的鱼饵和钓饵组合，最大限度地增加钓到各种鱼类的机会。",
+    "尝试使用不同类型的鱼饵和添饵组合，最大限度地增加钓到各种鱼类的机会。",
   "fishingGuide.legendery.fish":
     "小心传说中的鱼，它们需要非凡的技巧和力量才能捕获。",
 };
 
 const fishingQuests: Record<FishingQuests, string> = {
   "quest.basic.fish": "捕获每条基本鱼",
-  "quest.advanced.fish": "捕捉每条高级鱼",
-  "quest.all.fish": "探索每种基础、高级和专家级鱼类",
+  "quest.advanced.fish": "捕获每条进阶鱼",
+  "quest.all.fish": "捕获每种基础、进阶和专业级鱼类",
   "quest.300.fish": "捕获 300 条鱼",
   "quest.1500.fish": "捕获 1500 条鱼",
-  "quest.marine.marvel": "抓住每个海洋奇观",
+  "quest.marine.marvel": "抓住每个海洋奇珍",
   "quest.5.fish": "每种鱼都抓 5 条",
   "quest.sunpetal.savant": "发现 12 种 Sunpetal 变体",
   "quest.bloom.bigshot": "发现 12 种 Bloom 变体",
@@ -2318,71 +2306,68 @@ const fishingQuests: Record<FishingQuests, string> = {
 const flowerBed: Record<FlowerBed, string> = {
   "flowerBedGuide.buySeeds": "从种子商店购买种子",
   "flowerBedGuide.crossbreedWithCrops":
-    "与作物和其他花卉杂交，发现新的花卉品种",
-  "flowerBedGuide.collectAllSpecies": "收集法典中的所有花种！",
-  "flowerBedGuide.beesProduceHoney": "蜜蜂在花朵生长时生产蜂蜜",
-  "flowerBedGuide.fillUpBeehive":
-    "完全填满蜂箱并收集蜂蜜，这样就有机会出现蜂群",
-  "flowerBedGuide.beeSwarmsBoost": "蜂群可为任何种植作物带来 +0.2 的增益",
-  "flowerBed.newSpecies.discovered": "天哪，你发现了一个新的花种！",
+    "将庄稼和其他花卉杂交，发现新的花卉品种",
+  "flowerBedGuide.collectAllSpecies": "收集宝典中的所有花卉品种！",
+  "flowerBedGuide.beesProduceHoney": "蜜蜂在花卉生长时生产蜂蜜",
+  "flowerBedGuide.fillUpBeehive": "完全填满蜂箱并收集蜂蜜时，有机会出现蜂群",
+  "flowerBedGuide.beeSwarmsBoost": "蜂群可为正在生长的所有庄稼带来 +0.2 的增益",
+  "flowerBed.newSpecies.discovered": "天哪，你发现了一个新的花卉品种！",
   "flowerBed.newSpecies.superLucky":
-    ENGLISH_TERMS["flowerBed.newSpecies.superLucky"],
-  "flowerBed.newSpecies.mutant": ENGLISH_TERMS["flowerBed.newSpecies.mutant"],
+    "哇！真是你的幸运日，你这下是一石二鸟呀！你在发现新花卉品种之余，还额外找到了一朵变种花！",
+  "flowerBed.newSpecies.mutant": "一朵变种花出现了！",
   "flowerBedContent.select.combination": "选择您的组合",
   "flowerBedContent.select.seed": "选择一粒种子",
   "flowerBedContent.select.crossbreed": "选择杂交品种",
 };
 
 const flowerbreed: Record<Flowerbreed, string> = {
-  "flower.breed.sunflower": ENGLISH_TERMS["flower.breed.sunflower"],
-  "flower.breed.cauliflower": ENGLISH_TERMS["flower.breed.cauliflower"],
-  "flower.breed.beetroot": ENGLISH_TERMS["flower.breed.beetroot"],
-  "flower.breed.parsnip": ENGLISH_TERMS["flower.breed.parsnip"],
-  "flower.breed.eggplant": ENGLISH_TERMS["flower.breed.eggplant"],
-  "flower.breed.radish": ENGLISH_TERMS["flower.breed.radish"],
-  "flower.breed.kale": ENGLISH_TERMS["flower.breed.kale"],
-  "flower.breed.blueberry": ENGLISH_TERMS["flower.breed.blueberry"],
-  "flower.breed.apple": ENGLISH_TERMS["flower.breed.apple"],
-  "flower.breed.banana": ENGLISH_TERMS["flower.breed.banana"],
-  "flower.breed.redPansy": ENGLISH_TERMS["flower.breed.redPansy"],
-  "flower.breed.yellowPansy": ENGLISH_TERMS["flower.breed.yellowPansy"],
-  "flower.breed.purplePansy": ENGLISH_TERMS["flower.breed.purplePansy"],
-  "flower.breed.whitePansy": ENGLISH_TERMS["description.white.pansy"],
-  "flower.breed.bluePansy": ENGLISH_TERMS["flower.breed.bluePansy"],
-  "flower.breed.redCosmos": ENGLISH_TERMS["flower.breed.redCosmos"],
-  "flower.breed.yellowCosmos": ENGLISH_TERMS["flower.breed.yellowCosmos"],
-  "flower.breed.purpleCosmos": ENGLISH_TERMS["flower.breed.purpleCosmos"],
-  "flower.breed.whiteCosmos": ENGLISH_TERMS["flower.breed.whiteCosmos"],
-  "flower.breed.blueCosmos": ENGLISH_TERMS["flower.breed.blueCosmos"],
-  "flower.breed.prismPetal": ENGLISH_TERMS["flower.breed.prismPetal"],
-  "flower.breed.redBalloonFlower":
-    ENGLISH_TERMS["flower.breed.redBalloonFlower"],
-  "flower.breed.yellowBalloonFlower":
-    ENGLISH_TERMS["flower.breed.yellowBalloonFlower"],
-  "flower.breed.purpleBalloonFlower":
-    ENGLISH_TERMS["flower.breed.purpleBalloonFlower"],
-  "flower.breed.whiteBalloonFlower":
-    ENGLISH_TERMS["flower.breed.whiteBalloonFlower"],
-  "flower.breed.blueBalloonFlower":
-    ENGLISH_TERMS["flower.breed.blueBalloonFlower"],
-  "flower.breed.redDaffodil": ENGLISH_TERMS["flower.breed.redDaffodil"],
-  "flower.breed.yellowDaffodil": ENGLISH_TERMS["flower.breed.yellowDaffodil"],
-  "flower.breed.purpleDaffodil": ENGLISH_TERMS["flower.breed.purpleDaffodil"],
-  "flower.breed.whiteDaffodil": ENGLISH_TERMS["flower.breed.whiteDaffodil"],
-  "flower.breed.blueDaffodil": ENGLISH_TERMS["flower.breed.blueDaffodil"],
+  "flower.breed.sunflower": "乡包佬植物学家们誓称他们不算是花卉。",
+  "flower.breed.cauliflower": "不太清楚乡包佬植物学家们对此有什么看法。",
+  "flower.breed.beetroot": "它有种漂亮的紫色。",
+  "flower.breed.parsnip": "防风草也许是杂交的好选择。",
+  "flower.breed.eggplant": "茄子色泽光鲜靓丽，应该会杂交顺利吧。",
+  "flower.breed.radish": "哇，这个小萝卜红红的！",
+  "flower.breed.kale": "鲜绿，但又不同于其他绿植。",
+  "flower.breed.blueberry": "这些蓝莓熟透了，希望他们不会混染串色。",
+  "flower.breed.apple": "脆脆苹果！",
+  "flower.breed.banana": "一箩香蕉。",
+  "flower.breed.redPansy": "一朵红三色堇。",
+  "flower.breed.yellowPansy": "一朵黄三色堇。",
+  "flower.breed.purplePansy": "一朵紫三色堇。",
+  "flower.breed.whitePansy": "一朵白三色堇，洁白无色。是不是很稀有呢？",
+  "flower.breed.bluePansy": "一朵蓝三色堇。",
+  "flower.breed.redCosmos": "一朵红波斯菊。",
+  "flower.breed.yellowCosmos": "一朵黄色波斯菊。",
+  "flower.breed.purpleCosmos": "一朵紫波斯菊。",
+  "flower.breed.whiteCosmos": "一朵白波斯菊。",
+  "flower.breed.blueCosmos": "一朵蓝波斯菊。花如其名。",
+  "flower.breed.prismPetal":
+    "这可是一种非常稀有的变种，你是真的想要用这个杂交吗？",
+  "flower.breed.redBalloonFlower": "桔梗花都非常漂亮，尤其是红色的。",
+  "flower.breed.yellowBalloonFlower": "一朵黄桔梗。",
+  "flower.breed.purpleBalloonFlower": "一朵紫桔梗。",
+  "flower.breed.whiteBalloonFlower": "一朵白桔梗。可算稀有。",
+  "flower.breed.blueBalloonFlower": "最常见的桔梗花，没什么特别的。",
+  "flower.breed.redDaffodil": "一朵红水仙花。",
+  "flower.breed.yellowDaffodil": "一朵黄水仙花。",
+  "flower.breed.purpleDaffodil": "一朵紫水仙花。",
+  "flower.breed.whiteDaffodil": "一朵白水仙花。",
+  "flower.breed.blueDaffodil": "一朵蓝水仙花。",
   "flower.breed.celestialFrostbloom":
-    ENGLISH_TERMS["flower.breed.celestialFrostbloom"],
-  "flower.breed.redCarnation": ENGLISH_TERMS["flower.breed.redCarnation"],
-  "flower.breed.yellowCarnation": ENGLISH_TERMS["flower.breed.yellowCarnation"],
-  "flower.breed.purpleCarnation": ENGLISH_TERMS["flower.breed.purpleCarnation"],
-  "flower.breed.whiteCarnation": ENGLISH_TERMS["flower.breed.whiteCarnation"],
-  "flower.breed.blueCarnation": ENGLISH_TERMS["flower.breed.blueCarnation"],
-  "flower.breed.redLotus": ENGLISH_TERMS["flower.breed.redLotus"],
-  "flower.breed.yellowLotus": ENGLISH_TERMS["flower.breed.yellowLotus"],
-  "flower.breed.purpleLotus": ENGLISH_TERMS["flower.breed.purpleLotus"],
-  "flower.breed.whiteLotus": ENGLISH_TERMS["flower.breed.whiteLotus"],
-  "flower.breed.blueLotus": ENGLISH_TERMS["flower.breed.blueLotus"],
-  "flower.breed.primulaEnigma": ENGLISH_TERMS["flower.breed.primulaEnigma"],
+    "这可是一种非常稀有的变种，你是真的想要用这个杂交吗？",
+  "flower.breed.redCarnation": "乡包佬们都因其稀有而珍视红康乃馨。",
+  "flower.breed.yellowCarnation": "乡包佬们并不看重黄康乃馨。",
+  "flower.breed.purpleCarnation": "乡包佬们都因其美丽而珍视紫康乃馨。",
+  "flower.breed.whiteCarnation": "乡包佬们都因其素雅而珍视白康乃馨。",
+  "flower.breed.blueCarnation":
+    "乡包佬们都珍视蓝康乃馨，她与 Bloom 种花卉有杂交潜力。",
+  "flower.breed.redLotus": "一朵红莲花。",
+  "flower.breed.yellowLotus": "一朵黄莲花。",
+  "flower.breed.purpleLotus": "一朵紫莲花。",
+  "flower.breed.whiteLotus": "一朵白莲花。",
+  "flower.breed.blueLotus": "一朵蓝莲花。",
+  "flower.breed.primulaEnigma":
+    "这可是一种非常稀有的变种，你是真的想要用这个杂交吗？",
 };
 
 const flowerShopTerms: Record<FlowerShopTerms, string> = {
@@ -4294,17 +4279,17 @@ const sceneDialogueKey: Record<SceneDialogueKey, string> = {
 
 const seasonTerms: Record<SeasonTerms, string> = {
   "season.access": "你可以访问：",
-  "season.banner": "季节性横幅",
-  "season.bonusTickets": "完成交付后额外获得 2 张季票。",
+  "season.banner": "时季旗帜",
+  "season.bonusTickets": "完成交付后额外获得 2 张时季票券。",
   "season.boostXP": "进食时的经验增加 10%。",
   "season.buyNow": "立即购买",
-  "season.discount": "售价为 SFL 的季节性商品可享受 25% 折扣。",
+  "season.discount": "售价为 SFL 的时季商品可享受 25% 折扣。",
   "season.exclusiveOffer": "独家提供！",
-  "season.goodLuck": "祝这个季节好运！",
+  "season.goodLuck": "祝这个时季好运！",
   "season.includes": "包括：",
   "season.limitedOffer": "仅限时间！",
-  "season.wearableAirdrop": "免费季节性可穿戴。",
-  "season.place.land": "你必须将横幅放置在你的土地上",
+  "season.wearableAirdrop": "免费时季饰品。",
+  "season.place.land": "你必须将旗帜放置在你的土地上",
   "season.megastore.discount": ENGLISH_TERMS["season.megastore.discount"],
   "season.supporter.gift": ENGLISH_TERMS["season.supporter.gift"],
   "season.free.season.passes": ENGLISH_TERMS["season.free.season.passes"],
@@ -4721,6 +4706,7 @@ const withdraw: Record<Withdraw, string> = {
 };
 
 const world: Record<World, string> = {
+  "world.newArea": ENGLISH_TERMS["world.newArea"],
   "world.intro.one": "你好，旅行者！欢迎来到南瓜广场。",
   "world.intro.two": "广场上住着一群饥饿的乡巴佬和妖精，他们需要你的帮助！",
   "world.intro.delivery": ENGLISH_TERMS["world.intro.delivery"],

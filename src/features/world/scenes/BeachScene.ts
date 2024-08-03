@@ -34,6 +34,7 @@ import {
   AudioLocalStorageKeys,
   getCachedAudioSetting,
 } from "features/game/lib/audio";
+import { hasReadDigbyIntro } from "../ui/beach/Digby";
 
 const convertToSnakeCase = (str: string) => {
   return str.replace(" ", "_").toLowerCase();
@@ -124,7 +125,7 @@ export class BeachScene extends BaseScene {
   gridY = 128;
   cellSize = 16;
   digOffsetX = 7;
-  digOffsetY = 3;
+  digOffsetY = 1;
   percentageFoundLabel: Phaser.GameObjects.Text | undefined;
   digStatistics: DigAnalytics | undefined;
   isPlayerTweening = false;
@@ -405,7 +406,23 @@ export class BeachScene extends BaseScene {
       }
     });
     this.currentSelectedItem = this.selectedItem;
+
+    this.setupPopups();
   }
+
+  setupPopups = () => {
+    this.onCollision["desert_entry"] = async (obj1, obj2) => {
+      if (!hasReadDesertNotice()) {
+        interactableModalManager.open("desert_noticeboard");
+      }
+    };
+
+    this.onCollision["digging_entry"] = async (obj1, obj2) => {
+      if (!hasReadDigbyIntro()) {
+        npcModalManager.open("digby");
+      }
+    };
+  };
 
   public setUpDigSite = () => {
     // set up visual grid overlay
@@ -469,7 +486,10 @@ export class BeachScene extends BaseScene {
             // If the selected item is not a shovel then set it as the selected itm
             // If the player does not have any shovels then trigger the npc to say something about this
 
-            if (this.selectedItem !== "Sand Shovel") {
+            if (
+              this.selectedItem !== "Sand Shovel" &&
+              this.selectedItem !== "Sand Drill"
+            ) {
               this.shortcutItem("Sand Shovel");
             }
 
@@ -480,12 +500,16 @@ export class BeachScene extends BaseScene {
     }
 
     this.populateDugItems();
-    // Add the hover and selected select boxes
+    // Add the hover and selected select boxes.
     this.hoverBox = this.add
-      .image(0, 0, "shovel_select")
+      .image(
+        this.gridX + this.cellSize * 8,
+        this.gridY + this.cellSize * 6,
+        "shovel_select",
+      )
       .setOrigin(0)
       .setDisplaySize(16, 16)
-      .setVisible(false);
+      .setVisible(this.selectedItem !== "Sand Drill");
 
     this.confirmBox = this.add
       .image(0, 0, "confirm_select")
@@ -494,10 +518,14 @@ export class BeachScene extends BaseScene {
       .setVisible(false);
 
     this.drillHoverBox = this.add
-      .image(0, 0, "drill_select")
+      .image(
+        this.gridX + this.cellSize * 7,
+        this.gridY + this.cellSize * 5,
+        "drill_select",
+      )
       .setOrigin(0)
       .setDisplaySize(32, 32)
-      .setVisible(false);
+      .setVisible(this.selectedItem === "Sand Drill");
 
     this.drillConfirmBox = this.add
       .image(0, 0, "drill_confirm")
@@ -701,7 +729,7 @@ export class BeachScene extends BaseScene {
 
     if (
       (this.selectedItem === "Sand Drill" && sandDrillsCount === 0) ||
-      sandShovelsCount === 0 ||
+      (this.selectedItem === "Sand Shovel" && sandShovelsCount === 0) ||
       !this.hasDigsLeft
     ) {
       if (
@@ -709,6 +737,7 @@ export class BeachScene extends BaseScene {
         this.selectedItem === "Sand Shovel" &&
         sandShovelsCount === 0
       ) {
+        // Drills are handled in their own hover handlers
         this.noToolHoverBox
           ?.setPosition(rectX + 4, rectY + 4)
           .setOrigin(0)
@@ -858,8 +887,6 @@ export class BeachScene extends BaseScene {
     const noToolY = hoverY + this.cellSize - 4;
 
     if (sandDrills.lt(1)) {
-      // debounce
-
       this.noToolHoverBox?.setPosition(noToolX, noToolY).setVisible(true);
 
       return;
@@ -1086,8 +1113,15 @@ export class BeachScene extends BaseScene {
 
     if (attemptsToday + 1 < 4) {
       const totalCoins = this.treasuresFound.reduce((acc, item) => {
-        return (acc +=
-          SELLABLE_TREASURE[item as BeachBountyTreasure].sellPrice);
+        const treasure = SELLABLE_TREASURE[item as BeachBountyTreasure];
+
+        if (!treasure) {
+          // eslint-disable-next-line no-console
+          console.log("Treasure not found in SELLABLE_TREASURE", item);
+          return acc;
+        }
+
+        return (acc += treasure.sellPrice);
       }, 0);
 
       const percentageFound = Math.floor(
@@ -1230,8 +1264,8 @@ export class BeachScene extends BaseScene {
     const gridRect = new Phaser.Geom.Rectangle(
       this.gridX,
       this.gridY,
-      this.cellSize * SITE_COLS,
-      this.cellSize * SITE_ROWS,
+      this.cellSize * SITE_COLS - 1,
+      this.cellSize * SITE_ROWS - 1,
     );
 
     return (
@@ -1488,10 +1522,27 @@ export class BeachScene extends BaseScene {
 
     this.currentSelectedItem = this.selectedItem;
 
-    this.hoverBox?.setVisible(false);
-    this.confirmBox?.setVisible(false);
-    this.drillConfirmBox?.setVisible(false);
-    this.drillHoverBox?.setVisible(false);
+    if (this.selectedItem === "Sand Drill") {
+      this.hoverBox?.setVisible(false);
+      this.confirmBox?.setVisible(false);
+      this.drillConfirmBox?.setVisible(false);
+      this.drillHoverBox
+        ?.setPosition(
+          this.gridX + this.cellSize * 7,
+          this.gridY + this.cellSize * 5,
+        )
+        .setVisible(true);
+    } else {
+      this.drillHoverBox?.setVisible(false);
+      this.drillConfirmBox?.setVisible(false);
+      this.hoverBox
+        ?.setPosition(
+          this.gridX + this.cellSize * 8,
+          this.gridY + this.cellSize * 6,
+        )
+        .setVisible(true);
+      this.confirmBox?.setVisible(false);
+    }
 
     const sandDrills = this.gameState.inventory["Sand Drill"] ?? new Decimal(0);
 
@@ -1518,10 +1569,6 @@ export class BeachScene extends BaseScene {
       this.noToolHoverBox?.setVisible(false);
       this.alreadyWarnedOfNoDigs = false;
       this.alreadyNotifiedOfClaim = false;
-      this.hoverBox?.setVisible(false);
-      this.confirmBox?.setVisible(false);
-      this.drillHoverBox?.setVisible(false);
-      this.drillConfirmBox?.setVisible(false);
       super.update();
     }
 

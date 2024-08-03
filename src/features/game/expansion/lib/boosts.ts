@@ -19,7 +19,7 @@ import { isWearableActive } from "features/game/lib/wearables";
 import { SellableItem } from "features/game/events/landExpansion/sellCrop";
 import { getFactionPetBoostMultiplier } from "features/game/lib/factions";
 
-const crops = CROPS();
+const crops = CROPS;
 
 export function isCropShortage({ game }: { game: GameState }) {
   const bumpkinLevel = getBumpkinLevel(game.bumpkin?.experience ?? 0);
@@ -69,7 +69,7 @@ export const getSellPrice = ({
   const isCropShortage =
     game.createdAt + CROP_SHORTAGE_HOURS * 60 * 60 * 1000 > now.getTime();
 
-  if (item.name in CROPS() && isCropShortage) {
+  if (item.name in CROPS && isCropShortage) {
     price = price * 2;
   }
 

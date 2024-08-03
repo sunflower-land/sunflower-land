@@ -12,12 +12,12 @@ import { FLOWER_SEEDS } from "../types/flowers";
  */
 export function getItemUnit(name: InventoryItemName) {
   if (
-    name in CROPS() ||
+    name in CROPS ||
     name in FRUIT() ||
-    name in GREENHOUSE_CROPS() ||
+    name in GREENHOUSE_CROPS ||
     name in GREENHOUSE_FRUIT() ||
     name in COMMODITIES ||
-    name in CROP_SEEDS() ||
+    name in CROP_SEEDS ||
     name in FRUIT_SEEDS() ||
     name in FLOWER_SEEDS() ||
     name in TOOLS ||

@@ -664,6 +664,9 @@ import qebehsenuefJar from "src/assets/sfts/qebehsenuef.webp";
 import duamutefJar from "src/assets/sfts/duamutef.webp";
 import oasis from "src/assets/sfts/oasis.webp";
 import baobabTree from "src/assets/sfts/baobab_tree.webp";
+import cannonball from "src/assets/sfts/cannonball.webp";
+import tomatoBombard from "src/assets/sfts/tomato_bombard.gif";
+import camel from "src/assets/sfts/camel.webp";
 
 import scarab from "assets/resources/scarab.webp";
 import hieroglyph from "assets/resources/hieroglyph.webp";
@@ -698,8 +701,8 @@ export interface ItemDetails {
 
 type Items = Record<InventoryItemName | AchievementName, ItemDetails>;
 
-const crops = CROPS();
-const seeds = CROP_SEEDS();
+const crops = CROPS;
+const seeds = CROP_SEEDS;
 export const ITEM_DETAILS: Items = {
   Sunflower: {
     image: CROP_LIFECYCLE.Sunflower.crop,
@@ -8830,10 +8833,10 @@ export const ITEM_DETAILS: Items = {
       en: "",
     },
   },
-  "Tomato Core": {
-    image: "",
+  Cannonball: {
+    image: cannonball,
     description: {
-      en: "",
+      en: "Cannonball is ferocious being. Residing in Tomato Bombard, it's ready to strike anyone who gets in its way",
     },
   },
   Sarcophagus: {
@@ -8969,9 +8972,20 @@ export const ITEM_DETAILS: Items = {
     },
   },
   Camel: {
-    image: "",
+    image: camel,
     description: {
-      en: "",
+      en: "A mean looking camel!",
+      "zh-CN": "A mean looking camel!",
+      fr: "A mean looking camel!",
+      pt: "A mean looking camel!",
+      ru: "A mean looking camel!",
+      tk: "A mean looking camel!",
+    },
+  },
+  "Tomato Bombard": {
+    image: tomatoBombard,
+    description: {
+      en: "Home to Cannonball, and is ready to strike anyone who gets in its way",
     },
   },
 };
