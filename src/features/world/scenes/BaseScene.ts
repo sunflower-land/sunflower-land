@@ -35,10 +35,6 @@ import { MachineInterpreter } from "features/game/lib/gameMachine";
 import { MachineInterpreter as AuthMachineInterpreter } from "features/auth/lib/authMachine";
 import { capitalize } from "lib/utils/capitalize";
 
-type SceneTransitionData = {
-  previousSceneId: SceneId;
-};
-
 export type NPCBumpkin = {
   x: number;
   y: number;
@@ -92,7 +88,6 @@ export abstract class BaseScene extends Phaser.Scene {
   eventListener?: (event: EventObject) => void;
 
   public joystick?: VirtualJoystick;
-  private sceneTransitionData?: SceneTransitionData;
   private switchToScene?: SceneId;
   private options: Required<BaseSceneOptions>;
 
@@ -177,10 +172,6 @@ export abstract class BaseScene extends Phaser.Scene {
     }
   }
 
-  init(data: SceneTransitionData) {
-    this.sceneTransitionData = data;
-  }
-
   create() {
     const errorLogger = createErrorLogger("phaser_base_scene", Number(this.id));
 
@@ -196,7 +187,7 @@ export abstract class BaseScene extends Phaser.Scene {
         this.initialiseControls();
       }
 
-      const from = this.sceneTransitionData?.previousSceneId as SceneId;
+      const from = this.mmoService?.state.context.previousSceneId as SceneId;
 
       let spawn = this.options.player.spawn;
 
@@ -1034,7 +1025,6 @@ export abstract class BaseScene extends Phaser.Scene {
 
       // this.mmoService?.state.context.server?.send(0, { sceneId: warpTo });
       this.mmoService?.send("SWITCH_SCENE", { sceneId: warpTo });
-      this.scene.start(warpTo, { previousSceneId: this.sceneId });
     }
   }
   updateOtherPlayers() {

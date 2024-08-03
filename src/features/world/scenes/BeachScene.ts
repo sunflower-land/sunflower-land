@@ -604,12 +604,14 @@ export class BeachScene extends BaseScene {
       const existing = this.dugItems.find(
         (item) => item.x === offsetX && item.y === offsetY,
       );
+
       if (existing) {
-        existing.setTexture(key);
-      } else {
-        const image = this.add.image(offsetX, offsetY, key).setScale(0.8);
-        this.dugItems.push(image);
+        existing.destroy();
+        this.dugItems = this.dugItems.filter((item) => item !== existing);
       }
+
+      const image = this.add.image(offsetX, offsetY, key).setScale(0.8);
+      this.dugItems.push(image);
     });
 
     // Clean up any sprites that are no longer in game state
