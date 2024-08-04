@@ -729,14 +729,18 @@ export class BeachScene extends BaseScene {
 
     if (
       (this.selectedItem === "Sand Drill" && sandDrillsCount === 0) ||
-      (this.selectedItem === "Sand Shovel" && sandShovelsCount === 0) ||
+      (this.selectedItem !== "Sand Drill" && sandShovelsCount === 0) ||
       !this.hasDigsLeft
     ) {
       if (
         !hasDugHere &&
-        this.selectedItem === "Sand Shovel" &&
+        // Drill no dig icon is handled in the drill specific handlers
+        this.selectedItem !== "Sand Drill" &&
         sandShovelsCount === 0
       ) {
+        // You have an non digging item selected
+        // Select the shovel so we can show you don't have any
+        this.shortcutItem("Sand Shovel");
         // Drills are handled in their own hover handlers
         this.noToolHoverBox
           ?.setPosition(rectX + 4, rectY + 4)
