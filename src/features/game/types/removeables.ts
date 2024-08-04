@@ -506,7 +506,8 @@ export const BUD_REMOVAL_RESTRICTIONS: Record<
   RemoveCondition
 > = {
   // HATS
-  "3 Leaf Clover": (game) => areAnyCropsGrowing(game),
+  "3 Leaf Clover": (game) =>
+    areAnyCropsGrowing(game) || areAnyGreenhouseCropGrowing(game),
   "Fish Hat": (game) => hasFishedToday(game),
   "Diamond Gem": (game) => areAnyMineralsMined(game),
   "Gold Gem": (game) => areAnyGoldsMined(game),
@@ -515,41 +516,29 @@ export const BUD_REMOVAL_RESTRICTIONS: Record<
   "Basic Leaf": (game) => areAnyBasicCropsGrowing(game),
   "Sunflower Hat": (game) => cropIsGrowing({ item: "Sunflower", game }),
   "Ruby Gem": (game) => areAnyStonesMined(game),
-  Mushroom: (game) => [false, translate("restrictionReason.noRestriction")],
-  "Magic Mushroom": (game) => [
-    false,
-    translate("restrictionReason.noRestriction"),
-  ],
+  Mushroom: () => [false, translate("restrictionReason.noRestriction")],
+  "Magic Mushroom": () => [false, translate("restrictionReason.noRestriction")],
   "Acorn Hat": (game) => areAnyTreesChopped(game),
   Banana: (game) => areAnyFruitsGrowing(game),
   "Tree Hat": (game) => areAnyTreesChopped(game),
   "Egg Head": (game) => areAnyChickensFed(game),
   "Apple Head": (game) => areAnyFruitsGrowing(game),
 
-  "Axe Head": (game) => [false, translate("restrictionReason.noRestriction")],
-  "Rainbow Horn": (game) => [
+  "Axe Head": () => [false, translate("restrictionReason.noRestriction")],
+  "Rainbow Horn": () => [false, translate("restrictionReason.noRestriction")],
+  "Red Bow": () => [false, translate("restrictionReason.noRestriction")],
+  "Silver Horn": () => [false, translate("restrictionReason.noRestriction")],
+  "Sunflower Headband": () => [
     false,
     translate("restrictionReason.noRestriction"),
   ],
-  "Red Bow": (game) => [false, translate("restrictionReason.noRestriction")],
-  "Silver Horn": (game) => [
+  "Sunshield Foliage": () => [
     false,
     translate("restrictionReason.noRestriction"),
   ],
-  "Sunflower Headband": (game) => [
-    false,
-    translate("restrictionReason.noRestriction"),
-  ],
-  "Sunshield Foliage": (game) => [
-    false,
-    translate("restrictionReason.noRestriction"),
-  ],
-  "Tender Coral": (game) => [
-    false,
-    translate("restrictionReason.noRestriction"),
-  ],
-  Seashell: (game) => [false, translate("restrictionReason.noRestriction")],
-  Hibiscus: (game) => [false, translate("restrictionReason.noRestriction")],
+  "Tender Coral": () => [false, translate("restrictionReason.noRestriction")],
+  Seashell: () => [false, translate("restrictionReason.noRestriction")],
+  Hibiscus: () => [false, translate("restrictionReason.noRestriction")],
 
   // TYPES
   Plaza: (game) => areAnyBasicCropsGrowing(game),
@@ -558,9 +547,10 @@ export const BUD_REMOVAL_RESTRICTIONS: Record<
   Sea: (game) => hasFishedToday(game),
   Castle: (game) => areAnyMediumCropsGrowing(game),
   // TODO Port needs to be implemented
-  Port: (game) => [false, translate("restrictionReason.noRestriction")],
+  Port: () => [false, translate("restrictionReason.noRestriction")],
   Retreat: (game) => areAnyChickensFed(game),
-  Saphiro: (game) => areAnyCropsGrowing(game),
+  Saphiro: (game) =>
+    areAnyCropsGrowing(game) || areAnyGreenhouseCropGrowing(game),
   Snow: (game) => areAnyAdvancedCropsGrowing(game),
   Beach: (game) => areAnyFruitsGrowing(game),
 };
