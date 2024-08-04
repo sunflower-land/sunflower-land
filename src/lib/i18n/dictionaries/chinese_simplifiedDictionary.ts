@@ -4693,7 +4693,7 @@ const withdraw: Record<Withdraw, string> = {
   "withdraw.receive": "您将收到： {{sflReceived}} SFL",
   "withdraw.select.item": "请选择要提取的商品",
   "withdraw.opensea": "提现成功后，您将能够在 OpenSea 上查看您的物品。",
-  "withdraw.restricted": ENGLISH_TERMS["withdraw.restricted"], // To interpolate
+  "withdraw.restricted": ENGLISH_TERMS["withdraw.restricted"],
   "withdraw.bumpkin.wearing":
     "你的乡巴佬目前穿着以下无法撤回的衣服。你需要先更换衣服，然后才能撤回。",
   "withdraw.bumpkin.sure.withdraw": "您确定要撤回您的乡巴佬吗？",

@@ -57,7 +57,7 @@ export const WithdrawWearables: React.FC<Props> = ({ onWithdraw }) => {
     }, {} as Wardrobe);
 
     setWardrobe(available);
-  }, []);
+  }, [gameState.context.state]);
 
   const withdraw = () => {
     const ids = getKeys(selected).map((item) => ITEM_IDS[item]);
@@ -84,10 +84,15 @@ export const WithdrawWearables: React.FC<Props> = ({ onWithdraw }) => {
       [itemName]: (prev[itemName] ?? 0) + 1,
     }));
 
-    setSelected((prev) => ({
-      ...prev,
-      [itemName]: (prev[itemName] ?? 0) - 1,
-    }));
+    setSelected((prev) => {
+      const newSelected = { ...prev };
+      if (newSelected[itemName] === 1) {
+        delete newSelected[itemName];
+      } else {
+        newSelected[itemName] = (newSelected[itemName] ?? 0) - 1;
+      }
+      return newSelected;
+    });
   };
 
   const withdrawableItems = [...new Set([...getKeys(wardrobe)])]
@@ -105,32 +110,11 @@ export const WithdrawWearables: React.FC<Props> = ({ onWithdraw }) => {
     <>
       <div className="p-2 mt-3">
         <div className="flex items-center border-2 rounded-md border-black p-2 bg-green-background mb-3">
-          <span className="text-xs">
-            {t("withdraw.restricted")}
-            <a
-              href="https://docs.sunflower-land.com/fundamentals/withdrawing#why-cant-i-withdraw-some-items"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="underline hover:text-blue-500"
-            >
-              {"in use"}
-            </a>
-            {" or are "}
-            <a
-              href="https://docs.sunflower-land.com/fundamentals/withdrawing#why-cant-i-withdraw-some-items"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="underline hover:text-blue-500"
-            >
-              {"still being built"}
-            </a>
-            {"."}
-          </span>
+          <span className="text-xs">{t("withdraw.restricted")}</span>
         </div>
         <h2 className="mb-3">{t("withdraw.select.item")}</h2>
         <div className="flex flex-wrap h-fit -ml-1.5">
           {withdrawableItems.map((itemName) => {
-            // The wardrobe amount that is not placed
             const wardrobeCount = wardrobe[itemName];
 
             return (
@@ -139,7 +123,8 @@ export const WithdrawWearables: React.FC<Props> = ({ onWithdraw }) => {
                 key={itemName}
                 onClick={() => onAdd(itemName)}
                 disabled={
-                  !BUMPKIN_WITHDRAWABLES[itemName](gameState.context.state)
+                  !BUMPKIN_WITHDRAWABLES[itemName](gameState.context.state) ||
+                  selected[itemName] !== undefined
                 }
                 image={getImageUrl(ITEM_IDS[itemName])}
               />

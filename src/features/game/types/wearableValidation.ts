@@ -22,7 +22,7 @@ interface isWithdrawable {
   (state: GameState): boolean;
 }
 
-const conditions: Partial<Record<BumpkinItem, isWithdrawable>> = {
+const withdrawConditions: Partial<Record<BumpkinItem, isWithdrawable>> = {
   "Green Amulet": (state) => !areAnyCropsOrGreenhouseCropsGrowing(state)[0],
   "Angel Wings": (state) => !areAnyCropsOrGreenhouseCropsGrowing(state)[0],
   "Devil Wings": (state) => !areAnyCropsOrGreenhouseCropsGrowing(state)[0],
@@ -80,17 +80,10 @@ const conditions: Partial<Record<BumpkinItem, isWithdrawable>> = {
 export const canWithdrawBoostedWearable = (
   name: BumpkinItem,
   state?: GameState,
-) => {
+): boolean => {
   if (!state) return false;
 
-  if (state.wardrobe?.[name] != undefined && state.wardrobe?.[name] > 1) {
-    return true;
-  }
+  if ((state.wardrobe?.[name] ?? 0) > 1) return true;
 
-  const condition = conditions[name];
-  if (condition) {
-    return condition(state);
-  }
-
-  return false;
+  return withdrawConditions[name]?.(state) ?? false;
 };
