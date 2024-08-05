@@ -67,6 +67,17 @@ function areAnyGreenhouseCropGrowing(game: GameState): Restriction {
   return [cropsPlanted, translate("restrictionReason.cropsGrowing")];
 }
 
+export function areAnyCropsOrGreenhouseCropsGrowing(
+  game: GameState,
+): Restriction {
+  const [greenhouseCropsGrowing] = areAnyGreenhouseCropGrowing(game);
+  const [cropsGrowing] = areAnyCropsGrowing(game);
+
+  const anyCropsGrowing = greenhouseCropsGrowing || cropsGrowing;
+
+  return [anyCropsGrowing, translate("restrictionReason.cropsGrowing")];
+}
+
 function beanIsPlanted(game: GameState): Restriction {
   const beanPlanted = game.collectibles["Magic Bean"]?.length ?? 0;
 
@@ -359,10 +370,10 @@ export const REMOVAL_RESTRICTIONS: Partial<
   "Crim Peckster": (game) => areAnyCrimstonesMined(game),
 
   // Crop Boosts
-  Nancy: (game) => areAnyCropsGrowing(game),
-  Scarecrow: (game) => areAnyCropsGrowing(game),
-  Kuebiko: (game) => areAnyCropsGrowing(game),
-  "Lunar Calendar": (game) => areAnyCropsGrowing(game),
+  Nancy: (game) => areAnyCropsOrGreenhouseCropsGrowing(game),
+  Scarecrow: (game) => areAnyCropsOrGreenhouseCropsGrowing(game),
+  Kuebiko: (game) => areAnyCropsOrGreenhouseCropsGrowing(game),
+  "Lunar Calendar": (game) => areAnyCropsOrGreenhouseCropsGrowing(game),
   "Basic Scarecrow": (game) => areAnyBasicCropsGrowing(game),
   "Sir Goldensnout": (game) => areAnyCropsGrowing(game),
   "Scary Mike": (game) => areAnyMediumCropsGrowing(game),
@@ -506,8 +517,7 @@ export const BUD_REMOVAL_RESTRICTIONS: Record<
   RemoveCondition
 > = {
   // HATS
-  "3 Leaf Clover": (game) =>
-    areAnyCropsGrowing(game) || areAnyGreenhouseCropGrowing(game),
+  "3 Leaf Clover": (game) => areAnyCropsOrGreenhouseCropsGrowing(game),
   "Fish Hat": (game) => hasFishedToday(game),
   "Diamond Gem": (game) => areAnyMineralsMined(game),
   "Gold Gem": (game) => areAnyGoldsMined(game),
@@ -549,8 +559,7 @@ export const BUD_REMOVAL_RESTRICTIONS: Record<
   // TODO Port needs to be implemented
   Port: () => [false, translate("restrictionReason.noRestriction")],
   Retreat: (game) => areAnyChickensFed(game),
-  Saphiro: (game) =>
-    areAnyCropsGrowing(game) || areAnyGreenhouseCropGrowing(game),
+  Saphiro: (game) => areAnyCropsOrGreenhouseCropsGrowing(game),
   Snow: (game) => areAnyAdvancedCropsGrowing(game),
   Beach: (game) => areAnyFruitsGrowing(game),
 };
