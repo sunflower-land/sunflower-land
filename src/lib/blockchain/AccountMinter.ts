@@ -79,57 +79,23 @@ export async function createNewAccount({
   web3,
   account,
   signature,
-  charity,
   deadline,
   fee,
-  bumpkinWearableIds,
-  bumpkinTokenUri,
-  referrerId,
-  referrerAmount,
-  type,
 }: {
   web3: Web3;
   account: string;
   signature: string;
-  charity: string;
   deadline: number;
   fee: string;
-  bumpkinWearableIds: number[];
-  bumpkinTokenUri: string;
-  referrerId: number;
-  referrerAmount: string;
-  type?: "MATIC" | "USDC";
 }): Promise<string> {
   const gasPrice = await estimateGasPrice(web3);
 
-  let mintAccountFn: PayableTransactionObject<void>;
-
-  if (type === "MATIC") {
-    mintAccountFn = (
-      new web3.eth.Contract(
-        ABI as AbiItem[],
-        CONFIG.ACCOUNT_MINTER_CONTRACT as string,
-      ) as unknown as IAccountMinter
-    ).methods.mintAccount(signature, deadline, fee, bumpkinWearableIds);
-  }
-
-  if (type === "USDC") {
-    mintAccountFn = (
-      new web3.eth.Contract(
-        PokoMinterABI as AbiItem[],
-        CONFIG.POKO_ACCOUNT_MINTER_CONTRACT as string,
-      ) as unknown as IPokoAccountMinter
-    ).methods.mintAccountUSDC(
-      signature,
-      deadline,
-      fee,
-      bumpkinWearableIds,
-      bumpkinTokenUri,
-      referrerId,
-      referrerAmount,
-      account,
-    );
-  }
+  const mintAccountFn: PayableTransactionObject<void> = (
+    new web3.eth.Contract(
+      ABI as AbiItem[],
+      CONFIG.ACCOUNT_MINTER_CONTRACT as string,
+    ) as unknown as IAccountMinter
+  ).methods.mintAccount(signature, deadline, fee, account);
 
   return new Promise((resolve, reject) => {
     mintAccountFn
