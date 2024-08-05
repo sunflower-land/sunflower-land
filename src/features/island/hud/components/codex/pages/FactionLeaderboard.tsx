@@ -145,7 +145,7 @@ export const FactionLeaderboard: React.FC<Props> = ({
                         <div className="flex pt-1">
                           <span className="font-secondary text-xs">
                             {shortenCount(
-                              data.totalTickets[faction as FactionName] ?? 0,
+                              data.score[faction as FactionName] ?? 0,
                             )}
                           </span>
                         </div>
