@@ -19,7 +19,10 @@ import {
   RankData,
 } from "features/game/expansion/components/leaderboard/actions/leaderboard";
 import { Loading } from "features/auth/components";
-import { secondsTillWeekReset } from "features/game/lib/factions";
+import {
+  getFactionScores,
+  secondsTillWeekReset,
+} from "features/game/lib/factions";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { NPCIcon } from "features/island/bumpkin/components/NPC";
@@ -71,7 +74,9 @@ export const FactionLeaderboard: React.FC<Props> = ({
 
   const data = leaderboard.marks;
 
-  const sortedFactions = Object.entries(data.totalTickets)
+  const { scores } = getFactionScores({ leaderboard });
+
+  const sortedFactions = Object.entries(scores)
     .sort((a, b) => b[1] - a[1])
     .map(([key], i) => [key, POSITION_LABELS[i]]);
 

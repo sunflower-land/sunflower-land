@@ -21,6 +21,7 @@ import { getKeys } from "features/game/types/decorations";
 import { JoinFactionAction } from "features/game/events/landExpansion/joinFaction";
 import { hasFeatureAccess } from "lib/flags";
 import {
+  getFactionScores,
   getPreviousWeek,
   secondsTillWeekReset,
 } from "features/game/lib/factions";
@@ -403,17 +404,16 @@ export class KingdomScene extends BaseScene {
       return;
     }
 
-    const totals = leaderboard.marks.totalTickets;
-    const winningFaction = getKeys(totals).reduce((winner, name) => {
-      return totals[winner] > totals[name] ? winner : name;
-    }, "bumpkins");
+    const { winner } = getFactionScores({ leaderboard });
+
+    if (!winner) return;
 
     if (this.champions.active) {
       this.champions.destroy();
     }
     this.champions = undefined;
 
-    const throne = THRONES[winningFaction];
+    const throne = THRONES[winner];
 
     if (!this.textures.exists(throne)) {
       return;
