@@ -28,6 +28,7 @@ import { getKeys } from "features/game/types/craftables";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Context } from "features/game/GameProvider";
 import { getDeliverableItems } from "features/goblins/storageHouse/lib/storageItems";
+import { formatNumber } from "lib/utils/formatNumber";
 
 interface Props {
   onWithdraw: () => void;
@@ -188,17 +189,11 @@ export const WithdrawResources: React.FC<Props> = ({ onWithdraw }) => {
                   )}
                 />
                 <div className="flex flex-col">
-                  <span
-                    className={isMobile ? "text-xxs" : "text-xs"}
-                  >{`${parseFloat(
-                    selected[itemName]
-                      ?.mul(1 - DELIVERY_FEE / 100)
-                      .toFixed(4, Decimal.ROUND_DOWN) as string,
-                  )} ${itemName}`}</span>
-                  <span className="text-xxs">{`${parseFloat(
-                    selected[itemName]
-                      ?.mul(DELIVERY_FEE / 100)
-                      .toFixed(4, Decimal.ROUND_DOWN) as string,
+                  <span className="text-xxs">{`${formatNumber(
+                    selected[itemName]?.mul(1 - DELIVERY_FEE / 100) ?? 0,
+                  )} x ${itemName}`}</span>
+                  <span className="text-xxs">{`${formatNumber(
+                    selected[itemName]?.mul(DELIVERY_FEE / 100) ?? 0,
                   )} Goblin fee`}</span>
                 </div>
               </div>

@@ -2,7 +2,7 @@ import React, { ChangeEvent, useState } from "react";
 
 import { donationMachine } from "features/community/merchant/lib/donationMachine";
 import { useMachine } from "@xstate/react";
-import { Loading, roundToOneDecimal } from "features/auth/components";
+import { Loading } from "features/auth/components";
 import { CONFIG } from "lib/config";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Button } from "components/ui/Button";
@@ -18,6 +18,8 @@ const MAX_SFL = 150;
 
 import walletIcon from "assets/icons/wallet.png";
 import classNames from "classnames";
+import { setPrecision } from "lib/utils/formatNumber";
+import Decimal from "decimal.js-light";
 
 const CONTRIBUTORS = [
   "JC",
@@ -42,23 +44,21 @@ export const CommunityDonations: React.FC = () => {
   const { t } = useAppTranslation();
 
   const [state, send] = useMachine(donationMachine);
-  const [donation, setDonation] = useState(1);
+  const [donation, setDonation] = useState(new Decimal(1));
   const CHRISTMAS_EVENT_DONATION_ADDRESS = CONFIG.CHRISTMAS_EVENT_DONATION;
   const onDonationChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     // If keyboard input "" convert to 0
     // Typed input validation will happen in onBlur
-    setDonation(roundToOneDecimal(Number(e.target.value)));
+    setDonation(setPrecision(Number(e.target.value), 1));
   };
   const incrementDonation = () => {
-    setDonation((prevState) => roundToOneDecimal(prevState + 0.1));
+    setDonation((prevState) => setPrecision(prevState.add(0.1), 1));
   };
 
   const decrementDonation = () => {
-    if (donation === 0.2) {
-      setDonation(0.2);
-    } else if (donation < 0.2) {
-      setDonation(0.1);
-    } else setDonation((prevState) => roundToOneDecimal(prevState - 0.1));
+    if (donation.lessThan(0.1)) {
+      setDonation(new Decimal(0.1));
+    } else setDonation((prevState) => setPrecision(prevState.minus(0.1), 1));
   };
 
   const donate = () => {
@@ -96,11 +96,11 @@ export const CommunityDonations: React.FC = () => {
                 className="text-shadow shadow-inner shadow-black bg-brown-200 w-24 p-1 text-center"
                 step="0.1"
                 min={0.1}
-                value={donation}
+                value={donation.toNumber()}
                 required
                 onChange={onDonationChange}
                 onBlur={() => {
-                  if (donation < 0.1) setDonation(0.1);
+                  if (donation.lessThan(0.1)) setDonation(new Decimal(0.1));
                 }}
               />
               <div className="flex flex-col justify-between">
@@ -132,7 +132,7 @@ export const CommunityDonations: React.FC = () => {
           <Button
             className="w-full ml-1"
             onClick={donate}
-            disabled={isComingSoon || donation < 0.1}
+            disabled={isComingSoon || donation.lessThan(0.1)}
           >
             <span className="text-xs whitespace-nowrap">{t("donate")}</span>
           </Button>

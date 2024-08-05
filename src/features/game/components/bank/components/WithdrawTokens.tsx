@@ -18,6 +18,7 @@ import { getTax } from "lib/utils/tax";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Context } from "features/game/GameProvider";
+import { formatNumber, setPrecision } from "lib/utils/formatNumber";
 
 interface Props {
   onWithdraw: (sfl: string) => void;
@@ -75,19 +76,16 @@ export const WithdrawTokens: React.FC<Props> = ({ onWithdraw }) => {
   };
 
   const setMax = () => {
-    if (balance.gte(0.01)) setAmount(balance.minus(new Decimal(0.01)));
+    if (balance.gte(0.0001)) setAmount(balance.minus(new Decimal(0.0001)));
   };
 
   const incrementWithdraw = () => {
-    if (
-      safeAmount(amount).plus(0.1).toNumber() <
-      balance.toDecimalPlaces(2, 1).toNumber()
-    )
+    if (safeAmount(amount).plus(0.1).lessThan(balance))
       setAmount((prevState) => safeAmount(prevState).plus(0.1));
   };
 
   const decrementWithdraw = () => {
-    if (safeAmount(amount).toNumber() > 0.01) {
+    if (safeAmount(amount).greaterThan(0.0001)) {
       if (safeAmount(amount).minus(0.1).toNumber() >= 0)
         setAmount((prevState) => safeAmount(prevState).minus(0.1));
     }
@@ -102,7 +100,8 @@ export const WithdrawTokens: React.FC<Props> = ({ onWithdraw }) => {
         <span className="mb-3 text-sm">{t("withdraw.choose")}</span>
       </div>
       <span className="text-sm">
-        {balance.toFixed(2)} {t("withdraw.sfl.available")}
+        {formatNumber(balance, { decimalPlaces: 4 })}{" "}
+        {t("withdraw.sfl.available")}
       </span>
 
       <div className="h-16">
@@ -116,7 +115,7 @@ export const WithdrawTokens: React.FC<Props> = ({ onWithdraw }) => {
               value={
                 typeof amount === "string"
                   ? ""
-                  : amount.toDecimalPlaces(2, Decimal.ROUND_DOWN).toNumber()
+                  : setPrecision(amount).toNumber()
               }
               onChange={onWithdrawChange}
             />
@@ -165,9 +164,10 @@ export const WithdrawTokens: React.FC<Props> = ({ onWithdraw }) => {
       <div className="flex items-center mt-4">
         <span className="">
           {t("withdraw.receive", {
-            sflReceived: safeAmount(amount)
-              .mul((100 - tax) / 100)
-              .toFixed(3),
+            sflReceived: formatNumber(
+              safeAmount(amount).mul((100 - tax) / 100),
+              { decimalPlaces: 4 },
+            ),
           })}
         </span>
         <img src={token} className="w-4 ml-2 img-highlight" />

@@ -44,7 +44,7 @@ export const BulkSellModal: React.FC<BulkSellProps> = ({
           <div className="flex items-center w-full">
             <NumberInput
               value={customAmount}
-              maxDecimalPlaces={4}
+              maxDecimalPlaces={2}
               isOutOfRange={isOutOfRange}
               onValueChange={setCustomAmount}
             />

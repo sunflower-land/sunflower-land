@@ -26,10 +26,9 @@ import {
 import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { NPCIcon } from "features/island/bumpkin/components/NPC";
-import { formatNumber, setPrecision } from "lib/utils/formatNumber";
+import { formatNumber, shortenCount } from "lib/utils/formatNumber";
 import { NPCName, NPC_WEARABLES } from "lib/npcs";
 import { ChampionsPrizes } from "features/world/ui/factions/Champions";
-import Decimal from "decimal.js-light";
 
 const npcs: Record<FactionName, NPCName> = {
   nightshades: "nyx",
@@ -145,7 +144,7 @@ export const FactionLeaderboard: React.FC<Props> = ({
                         </div>
                         <div className="flex pt-1">
                           <span className="font-secondary text-xs">
-                            {formatNumber(
+                            {shortenCount(
                               data.totalTickets[faction as FactionName] ?? 0,
                             )}
                           </span>
@@ -261,9 +260,7 @@ export const FactionDetails: React.FC<{
               <td style={{ border: "1px solid #b96f50" }} className="p-1.5">
                 <div className="flex items-center space-x-1 justify-end">
                   <>
-                    <span>
-                      {setPrecision(new Decimal(count), 2).toNumber()}
-                    </span>
+                    <span>{formatNumber(count)}</span>
                     <img src={mark} className="h-4" />
                   </>
                 </div>
@@ -305,9 +302,7 @@ export const FactionDetails: React.FC<{
               <td style={{ border: "1px solid #b96f50" }} className="p-1.5">
                 <div className="flex items-center space-x-1 justify-end">
                   <>
-                    <span>
-                      {setPrecision(new Decimal(count), 2).toNumber()}
-                    </span>
+                    <span>{formatNumber(count)}</span>
                     <img src={mark} className="h-4" />
                   </>
                 </div>

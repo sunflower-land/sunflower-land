@@ -46,6 +46,7 @@ import { VIPAccess } from "features/game/components/VipAccess";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { getSeasonChangeover } from "lib/utils/getSeasonWeek";
 import { SquareIcon } from "components/ui/SquareIcon";
+import { formatNumber } from "lib/utils/formatNumber";
 import { getBumpkinLevel } from "features/game/lib/level";
 
 export const OrderCard: React.FC<{
@@ -60,12 +61,14 @@ export const OrderCard: React.FC<{
     if (order.reward.sfl !== undefined) {
       const sfl = getOrderSellPrice<Decimal>(game, order);
 
-      return sfl.toFixed(2);
+      return formatNumber(sfl, {
+        decimalPlaces: 4,
+      });
     }
 
     const coins = getOrderSellPrice<number>(game, order);
 
-    return coins % 1 === 0 ? coins.toString() : coins.toFixed(2);
+    return formatNumber(coins);
   };
 
   const canDeliver = hasRequirementsCheck(order);

@@ -54,7 +54,7 @@ const InProgressCollectible: React.FC<Props> = ({
   const [showTooltip, setShowTooltip] = useState(false);
 
   const totalSeconds = (readyAt - createdAt) / 1000;
-  const secondsLeft = Math.floor((readyAt - Date.now()) / 1000);
+  const secondsLeft = (readyAt - Date.now()) / 1000;
 
   return (
     <>

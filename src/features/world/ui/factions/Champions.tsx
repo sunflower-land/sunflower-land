@@ -34,8 +34,7 @@ import {
 import { Fireworks } from "./components/Fireworks";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { hasFeatureAccess } from "lib/flags";
-import { setPrecision } from "lib/utils/formatNumber";
-import Decimal from "decimal.js-light";
+import { formatNumber } from "lib/utils/formatNumber";
 import { SEASONS, getSeasonalTicket } from "features/game/types/seasons";
 
 interface Props {
@@ -170,7 +169,7 @@ export const ChampionsLeaderboard: React.FC<Props> = ({ onClose }) => {
               <td style={{ border: "1px solid #b96f50" }} className="p-1.5">
                 <div className="flex items-center space-x-1 justify-end">
                   <>
-                    <span>{setPrecision(new Decimal(count)).toNumber()}</span>
+                    <span>{formatNumber(count)}</span>
                   </>
                 </div>
               </td>

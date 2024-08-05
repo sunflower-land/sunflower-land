@@ -34,6 +34,7 @@ import {
 import { Context as AuthContext } from "features/auth/lib/Provider";
 import { useActor } from "@xstate/react";
 import { Loading } from "features/auth/components";
+import { formatNumber } from "lib/utils/formatNumber";
 
 type ViewState = "home" | "achievements" | "skills";
 
@@ -68,9 +69,10 @@ export const BumpkinLevel: React.FC<{ experience?: number }> = ({
       />
 
       {/* XP progress text */}
-      <p className="font-secondary mt-0.5 ml-2">{`${Math.floor(
+      <p className="font-secondary mt-0.5 ml-2">{`${formatNumber(
         currentExperienceProgress,
-      )}/${maxLevel ? "-" : Math.floor(experienceToNextLevel)} XP`}</p>
+        { decimalPlaces: 0 },
+      )}/${maxLevel ? "-" : formatNumber(experienceToNextLevel, { decimalPlaces: 0 })} XP`}</p>
     </div>
   );
 };

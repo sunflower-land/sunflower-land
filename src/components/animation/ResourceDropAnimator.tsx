@@ -1,9 +1,8 @@
 import classNames from "classnames";
-import Decimal from "decimal.js-light";
 import { InventoryItemName } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { setImageWidth } from "lib/images";
-import { setPrecision } from "lib/utils/formatNumber";
+import { formatNumber } from "lib/utils/formatNumber";
 import { randomInt } from "lib/utils/random";
 import React, { useEffect, useRef, useState } from "react";
 
@@ -53,7 +52,7 @@ export const ResourceDropAnimatorComponent: React.FC<Props> = ({
             ref={textRef}
             className="yield-text text-white font-pixel"
             style={{ opacity: 0 }}
-          >{`+${setPrecision(new Decimal(resourceAmount))}`}</span>
+          >{`+${formatNumber(resourceAmount)}`}</span>
 
           {/* Resource image */}
           <img

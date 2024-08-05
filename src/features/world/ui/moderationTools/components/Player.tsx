@@ -19,6 +19,7 @@ import { KickModal } from "./Kick";
 import { MuteModal } from "./Mute";
 import { UnMuteModal } from "./Unmute";
 import { InnerPanel } from "components/ui/Panel";
+import { formatNumber } from "lib/utils/formatNumber";
 
 interface Props {
   player?: Player;
@@ -146,8 +147,9 @@ export const PlayerModal: React.FC<Props> = ({
                 </p>
                 <div className="flex items-center mt-1">
                   <p className="text-xxs mr-2">
-                    {`${Math.floor(currentExperienceProgress)}/${Math.floor(
+                    {`${formatNumber(currentExperienceProgress, { decimalPlaces: 0 })}/${formatNumber(
                       experienceToNextLevel,
+                      { decimalPlaces: 0 },
                     )} XP`}
                   </p>
 
