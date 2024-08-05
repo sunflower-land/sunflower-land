@@ -60,10 +60,6 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
   private backAuraAnimationKey: string | undefined;
   private direction: "left" | "right" = "right";
 
-  // sounds
-  private digSFX: Phaser.Sound.BaseSound | undefined;
-  private drillSFX: Phaser.Sound.BaseSound | undefined;
-
   constructor({
     scene,
     x,

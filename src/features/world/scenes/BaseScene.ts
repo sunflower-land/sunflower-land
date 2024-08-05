@@ -33,7 +33,6 @@ import {
 } from "../../game/lib/audio";
 import { MachineInterpreter } from "features/game/lib/gameMachine";
 import { MachineInterpreter as AuthMachineInterpreter } from "features/auth/lib/authMachine";
-import { capitalize } from "lib/utils/capitalize";
 import { PhaserNavMesh } from "phaser-navmesh";
 
 export type NPCBumpkin = {
@@ -598,29 +597,15 @@ export abstract class BaseScene extends Phaser.Scene {
     });
 
     if (!npc) {
-      let nameTagYPosition = 0;
-
-      if (faction) {
-        const color = FACTION_NAME_COLORS[faction as FactionName];
-        const factionTag = this.createPlayerText({
-          x: 0,
-          y: 0,
-          text: `<${capitalize(faction)}>`,
-          color,
-        });
-        factionTag.setShadow(1, 1, "#161424", 0, false, true);
-
-        // Move name tag down
-        nameTagYPosition = 4;
-
-        factionTag.name = "factionTag";
-        entity.add(factionTag);
-      }
+      const color = faction
+        ? FACTION_NAME_COLORS[faction as FactionName]
+        : "#fff";
 
       const nameTag = this.createPlayerText({
         x: 0,
-        y: nameTagYPosition,
+        y: 0,
         text: username ? username : `#${farmId}`,
+        color,
       });
       nameTag.setShadow(1, 1, "#161424", 0, false, true);
       nameTag.name = "nameTag";
@@ -761,6 +746,15 @@ export abstract class BaseScene extends Phaser.Scene {
   updatePlayer() {
     if (!this.currentPlayer?.body) {
       return;
+    }
+
+    const faction = this.gameService.state.context.state.faction?.name;
+
+    if (faction) {
+      this.checkAndUpdateNameColor(
+        this.currentPlayer,
+        FACTION_NAME_COLORS[faction],
+      );
     }
 
     // joystick is active if force is greater than zero
@@ -947,6 +941,16 @@ export abstract class BaseScene extends Phaser.Scene {
     });
   }
 
+  checkAndUpdateNameColor(entity: BumpkinContainer, color: string) {
+    const nameTag = entity.getByName("nameTag") as
+      | Phaser.GameObjects.Text
+      | undefined;
+
+    if (nameTag && nameTag.style.color !== color) {
+      nameTag.setColor(color);
+    }
+  }
+
   updateFactions() {
     const server = this.mmoServer;
     if (!server) return;
@@ -955,28 +959,12 @@ export abstract class BaseScene extends Phaser.Scene {
       if (!player.faction) return;
 
       if (this.playerEntities[sessionId]) {
-        const nameTag = this.playerEntities[sessionId].getByName("nameTag") as
-          | Phaser.GameObjects.Text
-          | undefined;
-        let factionTag = this.playerEntities[sessionId].getByName(
-          "factionTag",
-        ) as Phaser.GameObjects.Text | undefined;
+        const faction = player.faction;
+        const color = faction
+          ? FACTION_NAME_COLORS[faction as FactionName]
+          : "#fff";
 
-        if (nameTag && factionTag?.text !== `<${capitalize(player.faction)}>`) {
-          const color = FACTION_NAME_COLORS[player.faction as FactionName];
-          factionTag = this.createPlayerText({
-            x: 0,
-            y: 0,
-            text: `<${capitalize(player.faction)}>`,
-            color,
-          });
-
-          // Move name tag down
-          nameTag.setPosition(0, 16);
-
-          factionTag.name = "factionTag";
-          this.playerEntities[sessionId].add(factionTag);
-        }
+        this.checkAndUpdateNameColor(this.playerEntities[sessionId], color);
       }
     });
   }

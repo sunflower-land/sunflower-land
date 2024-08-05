@@ -1198,8 +1198,9 @@ export class BeachScene extends BaseScene {
 
   public handleNameTagVisibility = () => {
     const currentPlayerBounds = this.currentPlayer?.getBounds();
-    const nameTag = this.currentPlayer?.getByName("nameTag");
-    const factionTag = this.currentPlayer?.getByName("factionTag");
+    const nameTag = this.currentPlayer?.getByName(
+      "nameTag",
+    ) as Phaser.GameObjects.Text;
     // Create a grid for the dig site with a buffer of 1 tile
     const gridRect = new Phaser.Geom.Rectangle(
       this.gridX,
@@ -1210,23 +1211,11 @@ export class BeachScene extends BaseScene {
 
     if (!currentPlayerBounds || !gridRect) return;
 
-    if (Phaser.Geom.Rectangle.Overlaps(currentPlayerBounds, gridRect)) {
-      if (nameTag) {
-        (nameTag as Phaser.GameObjects.Text).setVisible(false);
-      }
-
-      if (factionTag) {
-        (factionTag as Phaser.GameObjects.Text).setVisible(false);
-      }
-    } else {
-      if (nameTag) {
-        (nameTag as Phaser.GameObjects.Text).setVisible(true);
-      }
-
-      if (factionTag) {
-        (factionTag as Phaser.GameObjects.Text).setVisible(true);
-      }
-    }
+    const isOverlapping = Phaser.Geom.Rectangle.Overlaps(
+      currentPlayerBounds,
+      gridRect,
+    );
+    nameTag?.setVisible(!isOverlapping);
   };
 
   private pickRandomDiggerPosition = () => {
