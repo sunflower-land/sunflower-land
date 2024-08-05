@@ -1894,6 +1894,7 @@ const errorTerms: Record<ErrorTerms, string> = {
   "error.toManyRequest.one": "请求太多！",
   "error.toManyRequest.two": "看来您很忙！请稍后再试。",
   "error.Web3NotFound": "未找到 Web3",
+  "error.tooManyFarms": ENGLISH_TERMS["error.tooManyFarms"],
   "error.wentWrong": "出了些问题！",
   "error.clock.not.synced": "时钟不同步。",
   "error.polygon.cant.connect": "无法连接到 Polygon。",

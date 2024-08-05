@@ -2094,6 +2094,8 @@ const errorTerms: Record<ErrorTerms, string> = {
   "error.toManyRequest.one": "Çok fazla istek!",
   "error.toManyRequest.two":
     "Görünüşe göre meşgulsün! Lütfen daha sonra tekrar deneyiniz.",
+  "error.tooManyFarms": ENGLISH_TERMS["error.tooManyFarms"],
+
   "error.Web3NotFound": "Web3 Bulunamadı",
   "error.wentWrong": "Bir şeyler yanlış gitti!",
   "error.clock.not.synced": "Saat senkronize değil",

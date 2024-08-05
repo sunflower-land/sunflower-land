@@ -2083,6 +2083,7 @@ const errorTerms: Record<ErrorTerms, string> = {
   "error.toManyRequest.one": "Слишков много запросов!",
   "error.toManyRequest.two":
     "Похоже, ты был занят! Пожалуйста, повтори попытку позже.",
+  "error.tooManyFarms": ENGLISH_TERMS["error.tooManyFarms"],
   "error.Web3NotFound": "Web3 Not Found",
   "error.wentWrong": "Что-то пошло не так!",
   "error.clock.not.synced": "Часы не синхронизированы",
