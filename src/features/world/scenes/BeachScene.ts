@@ -329,7 +329,7 @@ export class BeachScene extends BaseScene {
       key: "blinking_anim",
       frames: this.anims.generateFrameNumbers("blinking", {
         start: 0,
-        end: 12,
+        end: 11,
       }),
       repeat: -1,
       frameRate: 5,
@@ -342,7 +342,7 @@ export class BeachScene extends BaseScene {
       key: "bird_anim",
       frames: this.anims.generateFrameNumbers("bird", {
         start: 0,
-        end: 4,
+        end: 3,
       }),
       repeat: -1,
       frameRate: 5,
