@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useActor } from "@xstate/react";
 
 import { Context } from "features/game/GameProvider";
@@ -57,7 +57,7 @@ export const BuyPanel: React.FC<Props> = ({ floorPrices }) => {
   const { openModal } = useContext(ModalContext);
 
   const [view, setView] = useState<"search" | "list">("search");
-  const [selected, setSelected] = useState<InventoryItemName>("Sunflower");
+  const [selected, setSelected] = useState<InventoryItemName>();
   const [listings, setListings] = useState<Listing[]>([]);
   const [selectedListing, setSelectedListing] = useState<Listing>();
   const [isSearching, setIsSearching] = useState(false);
@@ -73,6 +73,26 @@ export const BuyPanel: React.FC<Props> = ({ floorPrices }) => {
   const dailyPurchases = state.trades.dailyPurchases ?? { count: 0, date: 0 };
   const remainingFreePurchases = getRemainingFreePurchases(dailyPurchases);
   const hasPurchasesRemaining = isVIP || remainingFreePurchases > 0;
+  const SIXTY_SECONDS = 1000 * 10; // 60
+  // console.log(`${selected} asdfasd`);
+  useEffect(() => {
+    const load = async () => {
+      // console.log(`Loading dfsdf ${selected}`);
+      // if (!floorPrices || floorPrices.cachedAt < Date.now() - THIRTY_SECONDS) {
+      if (!selected) return;
+      setLoading(true);
+      const listings = await getTradeListings(
+        selected.toLowerCase(),
+        authState.context.user.rawToken,
+      );
+      setListings(listings);
+      setLoading(false);
+      // }
+    };
+    load();
+    const interval = setInterval(load, SIXTY_SECONDS);
+    return () => clearInterval(interval);
+  }, [SIXTY_SECONDS, authState.context.user.rawToken, selected]);
 
   const onBack = () => {
     setView("search");
@@ -174,7 +194,7 @@ export const BuyPanel: React.FC<Props> = ({ floorPrices }) => {
                     setLoading(false);
                     setView("search");
                   }}
-                  selected={selected}
+                  selected={selected ?? "Sunflower"}
                   warning={warning}
                   loading={loading}
                   selectedListing={selectedListing}
@@ -384,9 +404,11 @@ const ListView: React.FC<ListViewProps> = ({
         <Label type="default" icon={ITEM_DETAILS[selected].image}>
           {selected}
         </Label>
-        <Label type="warning" className="ml-auto">
-          {`${t("inventory")}: ${formatNumber(inventory[selected], { decimalPlaces: 0 })}`}
-        </Label>
+        {!!inventory[selected] && (
+          <Label type="warning" className="ml-auto">
+            {`${t("inventory")}: ${formatNumber(inventory[selected], { decimalPlaces: 0 })}`}
+          </Label>
+        )}
       </div>
       <div className="flex-1 pr-2 overflow-y-auto scrollable mt-1">
         {listings.map((listing, index) => {
