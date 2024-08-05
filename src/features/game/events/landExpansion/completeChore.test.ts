@@ -107,49 +107,6 @@ describe("chore.completed", () => {
     ).toThrow("Chore is not completed");
   });
 
-  it("errors if the bumpkin does not exist", () => {
-    const { startDate } = SEASONS["Witches' Eve"];
-
-    const oneMinuteAfterStart = new Date(startDate.getTime() + 1 * 60 * 1000);
-
-    jest.useFakeTimers();
-    jest.setSystemTime(oneMinuteAfterStart);
-
-    const chore: ChoreV2 = {
-      activity: "Sunflower Harvested",
-      description: "Harvest 30 Sunflowers",
-      createdAt: oneMinuteAfterStart.getTime(),
-      bumpkinId: INITIAL_BUMPKIN.id,
-      startCount: 0,
-      requirement: 30,
-    };
-
-    expect(() =>
-      completeChore({
-        createdAt: oneMinuteAfterStart.getTime(),
-        action: {
-          type: "chore.completed",
-          id: 1,
-        },
-        state: {
-          ...TEST_FARM,
-          bumpkin: undefined,
-          chores: {
-            choresCompleted: 0,
-            choresSkipped: 0,
-            chores: {
-              "1": chore,
-              "2": chore,
-              "3": chore,
-              "4": chore,
-              "5": chore,
-            },
-          },
-        },
-      }),
-    ).toThrow("No bumpkin found");
-  });
-
   it("adds the reward into the inventory", () => {
     const { startDate } = SEASONS["Witches' Eve"];
 

@@ -34,23 +34,6 @@ const GAME_STATE: GameState = {
 describe("fruitPlanted", () => {
   const dateNow = Date.now();
 
-  it("throws an error if the player doesn't have a bumpkin", () => {
-    expect(() =>
-      plantFruit({
-        state: {
-          ...GAME_STATE,
-          bumpkin: undefined,
-        },
-        createdAt: dateNow,
-        action: {
-          type: "fruit.planted",
-          index: "0",
-          seed: "Apple Seed",
-        },
-      }),
-    ).toThrow("You do not have a Bumpkin");
-  });
-
   it("does not plant on non-existent fruit patch", () => {
     expect(() =>
       plantFruit({

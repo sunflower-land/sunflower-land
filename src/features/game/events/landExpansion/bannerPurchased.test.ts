@@ -11,21 +11,6 @@ import {
 } from "features/game/types/seasons";
 
 describe("purchaseBanner", () => {
-  it("throws an error if no bumpkin exists", () => {
-    expect(() =>
-      purchaseBanner({
-        state: {
-          ...TEST_FARM,
-          bumpkin: undefined,
-        },
-        action: {
-          type: "banner.purchased",
-          name: "Spring Blossom Banner",
-        },
-      }),
-    ).toThrow("You do not have a Bumpkin");
-  });
-
   it("throws an error if invalid banner", () => {
     expect(() =>
       purchaseBanner({

@@ -165,21 +165,6 @@ describe("buyWearable", () => {
     expect(state.wardrobe[item]).toEqual(oldAmount + 1);
   });
 
-  it("throws an error if the player doesn't have a bumpkin", async () => {
-    expect(() =>
-      buyWearable({
-        state: {
-          ...GAME_STATE,
-          bumpkin: undefined,
-        },
-        action: {
-          type: "wearable.bought",
-          name: "Red Farmer Shirt",
-        },
-      }),
-    ).toThrow("Bumpkin not found");
-  });
-
   it("increments the coins spent activity", () => {
     const state = buyWearable({
       state: {

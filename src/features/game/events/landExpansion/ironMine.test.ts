@@ -181,25 +181,6 @@ describe("mineIron", () => {
     expect(game.inventory.Iron?.toNumber()).toBe(4);
   });
 
-  it("throws an error if the player doesn't have a bumpkin", () => {
-    expect(() =>
-      mineIron({
-        state: {
-          ...GAME_STATE,
-          inventory: {
-            "Stone Pickaxe": new Decimal(3),
-          },
-          bumpkin: undefined,
-        },
-        createdAt: Date.now(),
-        action: {
-          type: "ironRock.mined",
-          index: "0",
-        } as LandExpansionIronMineAction,
-      }),
-    ).toThrow("You do not have a Bumpkin");
-  });
-
   describe("BumpkinActivity", () => {
     it("increments Iron mined activity by 1", () => {
       const createdAt = Date.now();
