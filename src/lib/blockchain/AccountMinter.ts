@@ -1,8 +1,8 @@
 import { CONFIG } from "lib/config";
 import Web3 from "web3";
 import { AbiItem, fromWei } from "web3-utils";
-import PokoMinterABI from "./abis/PokoAccountMinter.json";
-import { AccountMinter as IPokoAccountMinter } from "./types/PokoAccountMinter";
+import ABI from "./abis/AccountMinter.json";
+import { AccountMinter as IAccountMinter } from "./types/AccountMinter";
 import { estimateGasPrice, parseMetamaskError } from "./utils";
 import { onboardingAnalytics } from "lib/onboardingAnalytics";
 import { PayableTransactionObject } from "./types/types";
@@ -18,9 +18,9 @@ export async function getCreatedAt(
   try {
     const createdAt = await (
       new web3.eth.Contract(
-        PokoMinterABI as AbiItem[],
-        CONFIG.POKO_ACCOUNT_MINTER_CONTRACT as string,
-      ) as unknown as IPokoAccountMinter
+        ABI as AbiItem[],
+        CONFIG.ACCOUNT_MINTER_CONTRACT as string,
+      ) as unknown as IAccountMinter
     ).methods
       .farmCreatedAt(address)
       .call({ from: account });
@@ -40,26 +40,14 @@ export async function estimateAccountGas({
   web3,
   account,
   signature,
-  charity,
   deadline,
   fee,
-  bumpkinWearableIds,
-  bumpkinTokenUri,
-  referrerId,
-  referrerAmount,
-  type,
 }: {
   web3: Web3;
   account: string;
   signature: string;
-  charity: string;
   deadline: number;
   fee: string;
-  bumpkinWearableIds: number[];
-  bumpkinTokenUri: string;
-  referrerId: number;
-  referrerAmount: string;
-  type?: "MATIC" | "USDC";
 }): Promise<number> {
   const gasPrice = await estimateGasPrice(web3);
 
@@ -67,19 +55,10 @@ export async function estimateAccountGas({
     (
       (
         new web3.eth.Contract(
-          PokoMinterABI as AbiItem[],
-          CONFIG.POKO_ACCOUNT_MINTER_CONTRACT as string,
-        ) as unknown as IPokoAccountMinter
-      ).methods.mintAccount(
-        signature,
-        deadline,
-        fee,
-        bumpkinWearableIds,
-        bumpkinTokenUri,
-        referrerId,
-        referrerAmount ?? "0",
-        account,
-      ) as any
+          ABI as AbiItem[],
+          CONFIG.ACCOUNT_MINTER_CONTRACT as string,
+        ) as unknown as IAccountMinter
+      ).methods.mintAccount(signature, deadline, fee, account) as any
     ).estimateGas(
       { from: account, value: 0 },
       function (err: any, estimatedGas: string) {
@@ -128,19 +107,10 @@ export async function createNewAccount({
   if (type === "MATIC") {
     mintAccountFn = (
       new web3.eth.Contract(
-        PokoMinterABI as AbiItem[],
-        CONFIG.POKO_ACCOUNT_MINTER_CONTRACT as string,
-      ) as unknown as IPokoAccountMinter
-    ).methods.mintAccount(
-      signature,
-      deadline,
-      fee,
-      bumpkinWearableIds,
-      bumpkinTokenUri,
-      referrerId,
-      referrerAmount,
-      account,
-    );
+        ABI as AbiItem[],
+        CONFIG.ACCOUNT_MINTER_CONTRACT as string,
+      ) as unknown as IAccountMinter
+    ).methods.mintAccount(signature, deadline, fee, bumpkinWearableIds);
   }
 
   if (type === "USDC") {
