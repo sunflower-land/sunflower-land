@@ -2166,6 +2166,7 @@ const errorTerms: Record<ErrorTerms, string> = {
   "error.toManyRequest.one": "Trop de demandes!",
   "error.toManyRequest.two":
     "On dirait que vous avez été occupé ! Veuillez réessayer plus tard.",
+  "error.tooManyFarms": ENGLISH_TERMS["error.tooManyFarms"],
   "error.Web3NotFound": "Web3 non trouvé",
   "error.wentWrong": "Quelque chose s'est mal passé!",
   "error.clock.not.synced": "Horloge non synchronisée",

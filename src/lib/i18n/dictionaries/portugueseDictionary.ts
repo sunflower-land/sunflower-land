@@ -2119,6 +2119,7 @@ const errorTerms: Record<ErrorTerms, string> = {
   "error.toManyRequest.one": "Muitas solicitações!",
   "error.toManyRequest.two":
     "Parece que você tem estado ocupado! Por favor, tente novamente mais tarde.",
+  "error.tooManyFarms": ENGLISH_TERMS["error.tooManyFarms"],
   "error.Web3NotFound": " Carteira Web3 Não Encontrada",
   "error.wentWrong": "Algo deu errado!",
   "error.clock.not.synced": "Relógio do dispositivo não sincronizado",

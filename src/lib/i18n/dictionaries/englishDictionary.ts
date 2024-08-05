@@ -2059,6 +2059,8 @@ const errorTerms: Record<ErrorTerms, string> = {
     "Looks like you have been busy! Please try again later.",
   "error.Web3NotFound": "Web3 Not Found",
   "error.wentWrong": "Something went wrong!",
+  "error.tooManyFarms":
+    "Slow down Bumpkin! It looks like you have too many accounts on your network. Please try again later.",
   "error.clock.not.synced": "Clock not in sync",
   "error.polygon.cant.connect": "Can't connect to Polygon",
   "error.composterNotExist": "Composter does not exist",
