@@ -1,5 +1,4 @@
 import Decimal from "decimal.js-light";
-import cloneDeep from "lodash.clonedeep";
 
 import { GameState } from "../../types/game";
 import { canChop, CHOP_ERRORS } from "features/game/events/landExpansion/chop";
@@ -20,7 +19,7 @@ export function collectTreeReward({
   action,
   createdAt = Date.now(),
 }: Options) {
-  const stateCopy = cloneDeep(state);
+  const stateCopy = state;
   const tree = stateCopy.trees[action.treeIndex];
 
   if (!tree) {

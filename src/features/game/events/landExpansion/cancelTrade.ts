@@ -1,4 +1,3 @@
-import cloneDeep from "lodash.clonedeep";
 import Decimal from "decimal.js-light";
 import { GameState } from "features/game/types/game";
 import { getKeys } from "features/game/types/craftables";
@@ -19,7 +18,7 @@ export function cancelTrade({
   action,
   createdAt = Date.now(),
 }: Options) {
-  const game = cloneDeep(state) as GameState;
+  const game: GameState = state;
 
   const trade = game.trades.listings?.[action.tradeId];
 

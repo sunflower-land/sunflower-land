@@ -1,5 +1,3 @@
-import cloneDeep from "lodash.clonedeep";
-
 import { GameState } from "../../types/game";
 import Decimal from "decimal.js-light";
 import { getKeys } from "features/game/types/craftables";
@@ -22,7 +20,8 @@ export function reelRod({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  const game = cloneDeep(state) as GameState;
+  const game: GameState = state;
+
   const location = action.location;
 
   if (!game.fishing[location].castedAt) {

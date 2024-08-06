@@ -4,7 +4,6 @@ import {
   updateBeehives,
 } from "features/game/lib/updateBeehives";
 import { GameState } from "features/game/types/game";
-import cloneDeep from "lodash.clonedeep";
 
 export enum REMOVE_BEEHIVE_ERRORS {
   BEEHIVE_NOT_PLACED = "This beehive is not placed",
@@ -26,7 +25,7 @@ export function removeBeehive({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  const copy: GameState = cloneDeep(state);
+  const copy: GameState = state;
 
   if (!copy.beehives[action.id]) {
     throw new Error(REMOVE_BEEHIVE_ERRORS.BEEHIVE_NOT_PLACED);

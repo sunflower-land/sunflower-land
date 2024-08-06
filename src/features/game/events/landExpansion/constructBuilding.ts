@@ -1,6 +1,5 @@
 import Decimal from "decimal.js-light";
 import { trackActivity } from "features/game/types/bumpkinActivity";
-import cloneDeep from "lodash.clonedeep";
 import { BuildingName, BUILDINGS } from "../../types/buildings";
 import { GameState, PlacedItem } from "../../types/game";
 import { getBumpkinLevel } from "features/game/lib/level";
@@ -34,7 +33,7 @@ export function constructBuilding({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  const stateCopy = cloneDeep(state) as GameState;
+  const stateCopy = state;
   const { bumpkin, inventory, coins } = stateCopy;
 
   const buildingNumber = inventory[action.name]?.toNumber() ?? 0;

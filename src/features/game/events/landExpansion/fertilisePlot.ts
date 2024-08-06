@@ -1,5 +1,4 @@
 import Decimal from "decimal.js-light";
-import cloneDeep from "lodash.clonedeep";
 import { GameState } from "../../types/game";
 import { CropCompostName } from "features/game/types/composters";
 import { CROPS, Crop } from "features/game/types/crops";
@@ -50,7 +49,7 @@ export function fertilisePlot({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  const stateCopy = cloneDeep(state);
+  const stateCopy = state;
   const { crops: plots, inventory, collectibles, bumpkin } = stateCopy;
 
   if (!bumpkin) {

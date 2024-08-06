@@ -12,6 +12,8 @@ import {
   LandscapingDecorationName,
 } from "../types/decorations";
 
+import { produce } from "immer";
+
 export const maxItems: Inventory = {
   Sunflower: new Decimal("30000"),
   Potato: new Decimal("20000"),
@@ -457,13 +459,9 @@ export function processEvent({
     throw new Error(`Unknown event type: ${action}`);
   }
 
-  const newState = handler({
-    state,
-    // TODO - fix type error
-    action: action as never,
-    announcements,
-    farmId,
-  });
+  const newState = produce(state, (draft) =>
+    handler({ state: draft, action: action as never, announcements, farmId }),
+  );
 
   return newState;
 }

@@ -1,5 +1,3 @@
-import cloneDeep from "lodash.clonedeep";
-
 import { GameState } from "features/game/types/game";
 import Decimal from "decimal.js-light";
 
@@ -21,7 +19,7 @@ export function oilGreenhouse({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  const game = cloneDeep(state);
+  const game: GameState = state;
 
   const oil = game.inventory.Oil ?? new Decimal(0);
 

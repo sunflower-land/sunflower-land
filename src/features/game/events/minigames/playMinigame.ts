@@ -4,8 +4,6 @@ import {
   SUPPORTED_MINIGAMES,
 } from "features/game/types/minigames";
 
-import cloneDeep from "lodash.clonedeep";
-
 export type PlayMinigameAction = {
   type: "minigame.played";
   id: MinigameName;
@@ -23,7 +21,7 @@ export function playMinigame({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  const game = cloneDeep<GameState>(state);
+  const game: GameState = state;
 
   if (!SUPPORTED_MINIGAMES.includes(action.id)) {
     throw new Error(`${action.id} is not a valid minigame`);

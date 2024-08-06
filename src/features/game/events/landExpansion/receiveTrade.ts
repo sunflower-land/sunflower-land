@@ -1,5 +1,4 @@
 import { GameState } from "features/game/types/game";
-import cloneDeep from "lodash.clonedeep";
 
 export type ReceiveTradeAction = {
   type: "trade.received";
@@ -17,7 +16,7 @@ export function receiveTrade({
   action,
   createdAt = Date.now(),
 }: Options) {
-  const game = cloneDeep(state) as GameState;
+  const game: GameState = state;
 
   const trade = game.trades.listings?.[action.tradeId];
 

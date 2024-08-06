@@ -1,5 +1,4 @@
 import Decimal from "decimal.js-light";
-import cloneDeep from "lodash.clonedeep";
 import { getKeys } from "../types/craftables";
 import { GameState } from "../types/game";
 
@@ -14,7 +13,7 @@ type Options = {
 };
 
 export function claimAirdrop({ state, action }: Options): GameState {
-  const game = cloneDeep(state);
+  const game: GameState = state;
 
   if (!game.airdrops || game.airdrops.length === 0) {
     throw new Error("No airdrops exist");

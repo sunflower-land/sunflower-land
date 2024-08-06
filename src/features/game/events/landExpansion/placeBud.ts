@@ -1,6 +1,5 @@
 import { CollectibleLocation } from "features/game/types/collectibles";
 import { GameState } from "features/game/types/game";
-import cloneDeep from "lodash.clonedeep";
 
 export type PlaceBudAction = {
   type: "bud.placed";
@@ -23,7 +22,7 @@ export function placeBud({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  const copy = cloneDeep(state);
+  const copy: GameState = state;
 
   const bud = copy.buds?.[Number(action.id)];
 

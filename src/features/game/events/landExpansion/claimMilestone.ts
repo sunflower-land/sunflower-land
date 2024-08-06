@@ -6,7 +6,6 @@ import {
   MILESTONES,
   isInventoryItemReward,
 } from "features/game/types/milestones";
-import cloneDeep from "lodash.clonedeep";
 
 export type ClaimMilestoneAction = {
   type: "milestone.claimed";
@@ -19,7 +18,7 @@ type Options = {
 };
 
 export function claimMilestone({ state, action }: Options): GameState {
-  const copy = cloneDeep(state) as GameState;
+  const copy: GameState = state;
 
   const milestone = MILESTONES[action.milestone];
 

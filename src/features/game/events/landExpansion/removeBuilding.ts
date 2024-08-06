@@ -3,7 +3,6 @@ import { BuildingName } from "features/game/types/buildings";
 import { trackActivity } from "features/game/types/bumpkinActivity";
 import { getKeys } from "features/game/types/craftables";
 import { Chicken, GameState } from "features/game/types/game";
-import cloneDeep from "lodash.clonedeep";
 import { getSupportedChickens } from "./utils";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { isBuildingEnabled } from "features/game/expansion/lib/buildingRequirements";
@@ -137,7 +136,7 @@ export function removeBuilding({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  const stateCopy = cloneDeep(state) as GameState;
+  const stateCopy = state;
   const { buildings, inventory, bumpkin } = stateCopy;
   const buildingGroup = buildings[action.name];
 

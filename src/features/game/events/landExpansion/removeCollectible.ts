@@ -2,7 +2,6 @@ import Decimal from "decimal.js-light";
 import { trackActivity } from "features/game/types/bumpkinActivity";
 import { CollectibleName, getKeys } from "features/game/types/craftables";
 import { GameState, PlacedLamp } from "features/game/types/game";
-import cloneDeep from "lodash.clonedeep";
 import {
   areUnsupportedChickensBrewing,
   removeUnsupportedChickens,
@@ -34,7 +33,7 @@ type Options = {
 };
 
 export function removeCollectible({ state, action }: Options) {
-  const stateCopy = cloneDeep(state) as GameState;
+  const stateCopy = state;
 
   const { inventory, bumpkin } = stateCopy;
   let collectibleGroup =

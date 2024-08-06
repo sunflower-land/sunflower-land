@@ -1,5 +1,3 @@
-import cloneDeep from "lodash.clonedeep";
-
 import { GameState } from "../../types/game";
 import {
   CHUM_AMOUNTS,
@@ -32,7 +30,8 @@ export function castRod({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  const game = cloneDeep(state) as GameState;
+  const game: GameState = state;
+
   const { bumpkin } = game;
   const now = new Date(createdAt);
   const today = new Date(now).toISOString().split("T")[0];

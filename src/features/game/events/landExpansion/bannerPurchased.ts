@@ -1,5 +1,4 @@
 import Decimal from "decimal.js-light";
-import cloneDeep from "lodash.clonedeep";
 import { GameState } from "../../types/game";
 import {
   SEASONAL_BANNERS,
@@ -65,7 +64,7 @@ export function purchaseBanner({
   createdAt = Date.now(),
   farmId,
 }: Options): GameState {
-  const stateCopy = cloneDeep(state);
+  const stateCopy = state;
   const { bumpkin, inventory } = stateCopy;
 
   if (!bumpkin) {

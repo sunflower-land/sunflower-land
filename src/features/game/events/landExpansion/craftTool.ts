@@ -8,7 +8,6 @@ import {
   WORKBENCH_TOOLS,
 } from "features/game/types/tools";
 import { trackActivity } from "features/game/types/bumpkinActivity";
-import cloneDeep from "lodash.clonedeep";
 
 import { GameState } from "../../types/game";
 import {
@@ -40,7 +39,7 @@ type Options = {
 };
 
 export function craftTool({ state, action }: Options) {
-  const stateCopy: GameState = cloneDeep(state);
+  const stateCopy: GameState = state;
   const bumpkin = stateCopy.bumpkin;
 
   const tool = CRAFTABLE_TOOLS[action.tool];

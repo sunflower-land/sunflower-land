@@ -4,7 +4,6 @@ import { isCollectibleActive } from "features/game/lib/collectibleBuilt";
 import { GOLD_RECOVERY_TIME } from "features/game/lib/constants";
 import { trackActivity } from "features/game/types/bumpkinActivity";
 import { GameState } from "features/game/types/game";
-import cloneDeep from "lodash.clonedeep";
 
 export type LandExpansionMineGoldAction = {
   type: "goldRock.mined";
@@ -55,7 +54,7 @@ export function mineGold({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  const stateCopy = cloneDeep(state);
+  const stateCopy = state;
   const { bumpkin, collectibles } = stateCopy;
 
   const { index } = action;

@@ -9,8 +9,6 @@ import {
 } from "features/game/types/minigames";
 import { COMMODITIES, CommodityName } from "features/game/types/resources";
 
-import cloneDeep from "lodash.clonedeep";
-
 export type MinigameCurrency = CropName | FruitName | CommodityName;
 
 const SFL_LIMIT = 100;
@@ -48,7 +46,7 @@ export function purchaseMinigameItem({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  const game = cloneDeep<GameState>(state);
+  const game: GameState = state;
 
   if (!SUPPORTED_MINIGAMES.includes(action.id)) {
     throw new Error(`${action.id} is not a valid minigame`);

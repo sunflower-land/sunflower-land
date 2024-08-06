@@ -1,7 +1,6 @@
 import Decimal from "decimal.js-light";
 import { trackActivity } from "features/game/types/bumpkinActivity";
 import { PotionName, GameState } from "features/game/types/game";
-import cloneDeep from "lodash.clonedeep";
 
 export type Potions = [PotionName, PotionName, PotionName, PotionName];
 
@@ -17,7 +16,7 @@ type Options = {
 export const GAME_FEE = 320;
 
 export function startPotion({ state }: Options): GameState {
-  const stateCopy = cloneDeep<GameState>(state);
+  const stateCopy = state;
 
   const { bumpkin, coins } = stateCopy;
 

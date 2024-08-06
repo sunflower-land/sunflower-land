@@ -10,7 +10,6 @@ import {
 } from "features/game/types/expansions";
 import { Airdrop, GameState } from "features/game/types/game";
 
-import cloneDeep from "lodash.clonedeep";
 import { getKeys } from "features/game/types/craftables";
 import { pickEmptyPosition } from "features/game/expansion/placeable/lib/collisionDetection";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
@@ -50,7 +49,7 @@ export function revealLand({
   farmId = 0,
   promo,
 }: Options) {
-  const game = cloneDeep(state) as GameState;
+  const game: GameState = state;
 
   if (!game.expansionConstruction) {
     throw new Error("Land is not in construction");

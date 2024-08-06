@@ -1,7 +1,6 @@
 import Decimal from "decimal.js-light";
 import { getKeys } from "features/game/types/craftables";
 import { GameState } from "features/game/types/game";
-import cloneDeep from "lodash.clonedeep";
 
 export type RefundBidAction = {
   type: "bid.refunded";
@@ -13,7 +12,7 @@ type Options = {
 };
 
 export function refundBid({ state }: Options) {
-  const game = cloneDeep(state) as GameState;
+  const game: GameState = state;
 
   const bid = game.auctioneer.bid;
   if (!bid) {

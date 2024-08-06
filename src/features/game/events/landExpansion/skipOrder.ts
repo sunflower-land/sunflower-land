@@ -1,5 +1,4 @@
 import { GameState } from "features/game/types/game";
-import cloneDeep from "lodash.clonedeep";
 import { populateOrders } from "./deliver";
 import { getDayOfYear } from "lib/utils/time";
 
@@ -19,7 +18,7 @@ export function skipOrder({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  const game = cloneDeep(state);
+  const game: GameState = state;
 
   const order = game.delivery.orders.find((order) => order.id === action.id);
 

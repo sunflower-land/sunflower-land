@@ -1,4 +1,3 @@
-import cloneDeep from "lodash.clonedeep";
 import { assertEquipment } from "./equip";
 import { Equipped } from "features/game/types/bumpkin";
 import { GameState } from "features/game/types/game";
@@ -20,7 +19,8 @@ export function equipFarmhand({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  const game = cloneDeep(state);
+  const game: GameState = state;
+
   const bumpkin = game.farmHands.bumpkins[action.id];
 
   if (bumpkin === undefined) {

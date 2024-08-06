@@ -9,7 +9,6 @@ import {
 } from "features/game/lib/factions";
 import { BoostType, BoostValue } from "features/game/types/boosts";
 import { GameState } from "features/game/types/game";
-import cloneDeep from "lodash.clonedeep";
 
 export enum DELIVER_FACTION_KITCHEN_ERRORS {
   NO_FACTION = "Player has not joined a faction",
@@ -50,7 +49,7 @@ export function deliverFactionKitchen({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  const stateCopy = cloneDeep(state);
+  const stateCopy = state;
   const { faction, inventory } = stateCopy;
 
   if (!faction) {

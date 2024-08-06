@@ -5,7 +5,6 @@ import {
   FACTION_SHOP_ITEMS,
 } from "features/game/types/factionShop";
 import { GameState, InventoryItemName } from "features/game/types/game";
-import cloneDeep from "lodash.clonedeep";
 
 export type BuyFactionShopItemAction = {
   type: "factionShopItem.bought";
@@ -31,7 +30,7 @@ export function buyFactionShopItem({
   action,
   createdAt = Date.now(),
 }: Options) {
-  const stateCopy: GameState = cloneDeep(state);
+  const stateCopy: GameState = state;
   const { faction, inventory, wardrobe, bumpkin } = stateCopy;
 
   if (!bumpkin) {

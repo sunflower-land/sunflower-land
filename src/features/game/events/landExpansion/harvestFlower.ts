@@ -1,6 +1,5 @@
 import { FLOWERS, FLOWER_SEEDS } from "features/game/types/flowers";
 import { GameState } from "../../types/game";
-import cloneDeep from "lodash.clonedeep";
 import Decimal from "decimal.js-light";
 import { updateBeehives } from "features/game/lib/updateBeehives";
 import { trackActivity } from "features/game/types/bumpkinActivity";
@@ -25,7 +24,7 @@ export function harvestFlower({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  const stateCopy = cloneDeep(state);
+  const stateCopy = state;
 
   stateCopy.beehives = updateBeehives({
     game: state,

@@ -1,5 +1,4 @@
 import Decimal from "decimal.js-light";
-import cloneDeep from "lodash.clonedeep";
 import {
   FRUIT_COMPOST,
   FruitCompostName,
@@ -40,7 +39,7 @@ export function fertiliseFruitPatch({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  const stateCopy = cloneDeep(state);
+  const stateCopy = state;
   const { fruitPatches, inventory } = stateCopy;
 
   const fruitPatch = fruitPatches[action.patchID];

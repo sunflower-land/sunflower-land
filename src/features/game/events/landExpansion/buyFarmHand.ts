@@ -1,4 +1,3 @@
-import cloneDeep from "lodash.clonedeep";
 import Decimal from "decimal.js-light";
 import { GameState, IslandType, Wardrobe } from "features/game/types/game";
 import { BumpkinParts } from "lib/utils/tokenUriBuilder";
@@ -34,7 +33,7 @@ export function buyFarmhand({
   action,
   createdAt = Date.now(),
 }: Options) {
-  const game = cloneDeep(state) as GameState;
+  const game: GameState = state;
 
   // TODO
   const island: IslandType = game.island?.type ?? "basic";

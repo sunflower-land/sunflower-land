@@ -1,4 +1,3 @@
-import cloneDeep from "lodash.clonedeep";
 import { GameState } from "features/game/types/game";
 import { FLOWERS, FlowerName } from "features/game/types/flowers";
 import Decimal from "decimal.js-light";
@@ -25,7 +24,7 @@ export function giftFlowers({
   action,
   createdAt = Date.now(),
 }: Options) {
-  const game = cloneDeep(state) as GameState;
+  const game: GameState = state;
 
   if (!(action.flower in FLOWERS)) {
     throw new Error("Item is not a flower");
