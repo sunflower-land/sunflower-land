@@ -35,6 +35,7 @@ import {
   getCachedAudioSetting,
 } from "features/game/lib/audio";
 import { hasReadDigbyIntro } from "../ui/beach/Digby";
+import { isWearableActive } from "features/game/lib/wearables";
 
 const convertToSnakeCase = (str: string) => {
   return str.replace(" ", "_").toLowerCase();
@@ -784,25 +785,44 @@ export class BeachScene extends BaseScene {
       });
     }
 
-    if (
-      (this.selectedItem === "Sand Drill" && sandDrillsCount === 0) ||
-      (this.selectedItem !== "Sand Drill" && sandShovelsCount === 0) ||
-      !this.hasDigsLeft
-    ) {
-      if (
-        !hasDugHere &&
-        // Drill no dig icon is handled in the drill specific handlers
-        this.selectedItem !== "Sand Drill" &&
-        sandShovelsCount === 0
-      ) {
-        // You have an non digging item selected
-        // Select the shovel so we can show you don't have any
-        this.shortcutItem("Sand Shovel");
-        // Drills are handled in their own hover handlers
-        this.noToolHoverBox
-          ?.setPosition(rectX + 4, rectY + 4)
-          .setOrigin(0)
-          .setVisible(true);
+    const hasTool =
+      (this.selectedItem === "Sand Drill" && sandDrillsCount > 0) ||
+      (this.selectedItem === "Sand Shovel" && sandShovelsCount > 0) ||
+      isWearableActive({
+        name: "Ancient Shovel",
+        game: this.gameService.state.context.state,
+      });
+
+    if (!hasTool || !this.hasDigsLeft) {
+      if (!hasDugHere) {
+        if (
+          isWearableActive({
+            name: "Ancient Shovel",
+            game: this.gameService.state.context.state,
+          })
+        ) {
+          return;
+        }
+
+        // If the player has the drill selected then return as the no dig icon is handled in the drill hover
+        // due to the different size of the hover box
+        if (this.selectedItem === "Sand Drill") return;
+
+        const sandShovels =
+          this.gameService.state.context.state.inventory["Sand Shovel"] ??
+          new Decimal(0);
+
+        if (this.selectedItem !== "Sand Shovel") {
+          // Select the shovel so the player knows they need a shovel to dig
+          this.shortcutItem("Sand Shovel");
+        }
+
+        if (sandShovels.lt(1)) {
+          this.noToolHoverBox
+            ?.setPosition(rectX + 4, rectY + 4)
+            .setOrigin(0)
+            .setVisible(true);
+        }
       }
 
       this.handleDigbyWarnings();
@@ -949,6 +969,8 @@ export class BeachScene extends BaseScene {
 
     if (sandDrills.lt(1)) {
       this.noToolHoverBox?.setPosition(noToolX, noToolY).setVisible(true);
+      this.drillHoverBox?.setVisible(false);
+      this.handleDigbyWarnings();
 
       return;
     }
@@ -1363,8 +1385,16 @@ export class BeachScene extends BaseScene {
     const sandDrills =
       this.gameService.state.context.state.inventory["Sand Drill"] ??
       new Decimal(0);
+    const isAncientShovelActive = isWearableActive({
+      name: "Ancient Shovel",
+      game: this.gameService.state.context.state,
+    });
 
-    if (sandShovels.lt(1) && this.selectedItem !== "Sand Drill") {
+    if (
+      sandShovels.lt(1) &&
+      this.selectedItem !== "Sand Drill" &&
+      !isAncientShovelActive
+    ) {
       this.npcs.digby?.speak(translate("digby.noShovels"));
 
       return;
@@ -1581,8 +1611,6 @@ export class BeachScene extends BaseScene {
   public handleUpdateSelectedItem = () => {
     if (this.currentSelectedItem === this.selectedItem) return;
 
-    this.currentSelectedItem = this.selectedItem;
-
     if (this.selectedItem === "Sand Drill") {
       this.hoverBox?.setVisible(false);
       this.confirmBox?.setVisible(false);
@@ -1605,15 +1633,11 @@ export class BeachScene extends BaseScene {
       this.confirmBox?.setVisible(false);
     }
 
-    const sandDrills = this.gameState.inventory["Sand Drill"] ?? new Decimal(0);
-
-    if (
-      this.selectedItem === "Sand Drill" &&
-      sandDrills.gt(0) &&
-      this.npcs.digby?.isSpeaking
-    ) {
+    if (this.npcs.digby?.isSpeaking) {
       this.npcs.digby?.stopSpeaking();
     }
+
+    this.currentSelectedItem = this.selectedItem;
   };
 
   public update() {
@@ -1627,7 +1651,7 @@ export class BeachScene extends BaseScene {
       this.updateOtherPlayers();
       this.handleDigbyWarnings();
     } else {
-      this.noToolHoverBox?.setVisible(false);
+      // this.noToolHoverBox?.setVisible(false);
       this.alreadyWarnedOfNoDigs = false;
       this.alreadyNotifiedOfClaim = false;
       super.update();
