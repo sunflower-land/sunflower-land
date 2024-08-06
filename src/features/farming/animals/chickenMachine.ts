@@ -59,7 +59,7 @@ const assignTimeElapsed = assign<ChickenContext, any>({
   timeElapsed: (context) => {
     const now = Date.now();
 
-    return Math.floor((+now - (context.fedAt as number)) / 1000);
+    return (now - (context.fedAt as number)) / 1000;
   },
 });
 

@@ -187,22 +187,6 @@ describe("seedBought", () => {
     expect(state.inventory[item]).toEqual(oldAmount.add(amount));
   });
 
-  it("throws an error if the player doesn't have a bumpkin", async () => {
-    expect(() =>
-      seedBought({
-        state: {
-          ...GAME_STATE,
-          bumpkin: undefined,
-        },
-        action: {
-          type: "seed.bought",
-          item: "Sunflower Seed",
-          amount: 1,
-        },
-      }),
-    ).toThrow("Bumpkin not found");
-  });
-
   it("increments the coin spent activity ", () => {
     const state = seedBought({
       state: {

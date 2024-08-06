@@ -13,22 +13,6 @@ const GAME_STATE: GameState = {
 };
 
 describe("treasureSold", () => {
-  it("throws an error is bumpkin is not present", () => {
-    expect(() =>
-      sellTreasure({
-        state: {
-          ...TEST_FARM,
-          bumpkin: undefined,
-        },
-        action: {
-          type: "treasure.sold",
-          item: "Clam Shell",
-          amount: 1,
-        },
-      }),
-    ).toThrow("You do not have a Bumpkin");
-  });
-
   it("does not sell a non treasure item", () => {
     expect(() =>
       sellTreasure({

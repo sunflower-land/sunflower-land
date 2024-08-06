@@ -938,7 +938,7 @@ const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
   "description.hourglass.expired":
     "Your {{hourglass}} has expired. Time to grab another one!",
   "description.desert.rose.boost": "10% Chance for +1 Flower",
-  "description.pharaoh.gnome.boost": "+2 Greenhouse Plants",
+  "description.pharaoh.gnome.boost": "+2 Greenhouse Produce",
   "description.lemon.tea.bath.boost": "-50% Lemon Growth Time",
   "description.tomato.clown.boost": "-50% Tomato Growth Time",
   "description.cannonball.boost": "-25% Tomato Growth Time",
@@ -2059,6 +2059,8 @@ const errorTerms: Record<ErrorTerms, string> = {
     "Looks like you have been busy! Please try again later.",
   "error.Web3NotFound": "Web3 Not Found",
   "error.wentWrong": "Something went wrong!",
+  "error.tooManyFarms":
+    "Slow down Bumpkin! It looks like you have too many accounts on your network. Please try again later.",
   "error.clock.not.synced": "Clock not in sync",
   "error.polygon.cant.connect": "Can't connect to Polygon",
   "error.composterNotExist": "Composter does not exist",
@@ -5384,7 +5386,7 @@ const withdraw: Record<Withdraw, string> = {
   "withdraw.opensea":
     "Once withdrawn, you will be able to view your items on OpenSea.",
   "withdraw.restricted":
-    "Some items cannot be withdrawn. Other items may be restricted when",
+    "Some items cannot be withdrawn. Other items may be restricted when in use or still being built.",
   "withdraw.bumpkin.wearing":
     "Your Bumpkin is currently wearing the following item(s) that can't be withdrawn. You will need to unequip them before you can withdraw.",
   "withdraw.bumpkin.sure.withdraw":
@@ -5503,7 +5505,7 @@ export const leaderboardTerms: Record<Leaderboard, string> = {
   "leaderboard.faction.champion": "Champion faction",
   "leaderboard.faction.bonusPrizeWeek": "Bonus prize week",
   "leaderboard.faction.championPrizes":
-    "The players in the winning faction will receive:",
+    "Your faction score is calculated by how many marks the top 100 players earn. All players in the winning faction will receive:",
   "leaderboard.faction.bonusMarks": "Bonus +10% Marks",
   "leaderboard.faction.topPlayers": "Top Player Prizes",
   "leaderboard.faction.topPlayerPrizes":

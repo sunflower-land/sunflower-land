@@ -188,25 +188,6 @@ describe("mineGold", () => {
     expect(game.inventory.Gold).toEqual(new Decimal(4));
   });
 
-  it("throws an error if the player doesn't have a bumpkin", () => {
-    expect(() =>
-      mineGold({
-        state: {
-          ...GAME_STATE,
-          inventory: {
-            "Iron Pickaxe": new Decimal(3),
-          },
-          bumpkin: undefined,
-        },
-        createdAt: Date.now(),
-        action: {
-          type: "goldRock.mined",
-          index: "0",
-        } as LandExpansionMineGoldAction,
-      }),
-    ).toThrow("You do not have a Bumpkin");
-  });
-
   describe("BumpkinActivity", () => {
     it("increments Gold mined activity by 1", () => {
       const createdAt = Date.now();

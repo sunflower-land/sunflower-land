@@ -23,7 +23,7 @@ import { Context } from "features/game/GameProvider";
 import { ModalOverlay } from "components/ui/ModalOverlay";
 import { InnerPanel } from "components/ui/Panel";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { setPrecision } from "lib/utils/formatNumber";
+import { formatNumber } from "lib/utils/formatNumber";
 import Decimal from "decimal.js-light";
 import { Box } from "components/ui/Box";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
@@ -252,10 +252,8 @@ export const BuildingOilTank = ({
                   className="mx-1.5 mt-2"
                 >
                   {t("cropMachine.availableInventory", {
-                    amount: setPrecision(
-                      new Decimal(
-                        (game.inventory.Oil?.toNumber() ?? 0) - totalOilToAdd,
-                      ),
+                    amount: formatNumber(
+                      (game.inventory.Oil?.toNumber() ?? 0) - totalOilToAdd,
                     ),
                   })}
                 </Label>

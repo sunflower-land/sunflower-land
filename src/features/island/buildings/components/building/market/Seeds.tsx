@@ -44,7 +44,7 @@ import {
 } from "features/game/events/landExpansion/plantGreenhouse";
 import { NPC_WEARABLES } from "lib/npcs";
 import { ConfirmationModal } from "components/ui/ConfirmationModal";
-import { setPrecision } from "lib/utils/formatNumber";
+import { formatNumber } from "lib/utils/formatNumber";
 import { hasFeatureAccess } from "lib/flags";
 
 interface Props {
@@ -187,9 +187,9 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
           onHide={() => showConfirmBuyModal(false)}
           messages={[
             t("confirmation.buyCrops", {
-              coinAmount: setPrecision(
+              coinAmount: formatNumber(
                 new Decimal(price).mul(bulkSeedBuyAmount),
-              ).toNumber(),
+              ),
               seedNo: bulkSeedBuyAmount,
               seedName: selectedName,
             }),

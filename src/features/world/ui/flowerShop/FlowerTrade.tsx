@@ -62,7 +62,7 @@ export const FlowerTrade: React.FC<Props> = ({ flowerShop, flowerCount }) => {
 
   const percentageOfWeek = (currentTime - weekStartTime) / sevenDays;
   const remainingSecondsInWeek =
-    sevenDaysSeconds - Math.floor(percentageOfWeek * sevenDaysSeconds);
+    sevenDaysSeconds - percentageOfWeek * sevenDaysSeconds;
 
   return (
     <div className="w-full flex flex-col items-center">

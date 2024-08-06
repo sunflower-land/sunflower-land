@@ -50,6 +50,7 @@ export type KingdomLeaderboard = {
     topTens: Record<FactionName, RankData[]>;
     totalMembers: Record<FactionName, number>;
     totalTickets: Record<FactionName, number>;
+    score: Record<FactionName, number>;
     marksRankingData?: RankData[] | null;
   };
   lastUpdated: number;

@@ -10,22 +10,6 @@ const GAME_STATE: GameState = {
 };
 
 describe("garbageSold", () => {
-  it("throws an error is bumpkin is not present", () => {
-    expect(() =>
-      sellGarbage({
-        state: {
-          ...TEST_FARM,
-          bumpkin: undefined,
-        },
-        action: {
-          type: "garbage.sold",
-          item: "Solar Flare Ticket",
-          amount: 1,
-        },
-      }),
-    ).toThrow("You do not have a Bumpkin");
-  });
-
   it("does not sell a non treasure item", () => {
     expect(() =>
       sellGarbage({

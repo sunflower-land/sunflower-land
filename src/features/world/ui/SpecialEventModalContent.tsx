@@ -273,7 +273,7 @@ export const SpecialEventModalContent: React.FC<{
             )}
 
             <Label type="info" className="mr-8" icon={SUNNYSIDE.icons.timer}>
-              {secondsToString(Math.floor((event.endAt - Date.now()) / 1000), {
+              {secondsToString((event.endAt - Date.now()) / 1000, {
                 length: "medium",
                 removeTrailingZeros: true,
               })}{" "}

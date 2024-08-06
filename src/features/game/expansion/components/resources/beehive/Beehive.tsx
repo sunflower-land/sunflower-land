@@ -41,7 +41,7 @@ import { DEFAULT_HONEY_PRODUCTION_TIME } from "features/game/lib/updateBeehives"
 import { translate } from "lib/i18n/translate";
 import Decimal from "decimal.js-light";
 import { secondsToString } from "lib/utils/time";
-import { setPrecision } from "lib/utils/formatNumber";
+import { formatNumber } from "lib/utils/formatNumber";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { getHoneyMultiplier } from "features/game/events/landExpansion/harvestBeehive";
 
@@ -185,10 +185,10 @@ export const Beehive: React.FC<Props> = ({ id }) => {
     .todp(4, Decimal.ROUND_DOWN)
     .toNumber();
 
-  const honeyPercentage = setPrecision(
-    new Decimal(honeyAmount * 100),
-    2,
-  ).toFixed(2);
+  const honeyPercentageDisplay = `${formatNumber(honeyAmount * 100, {
+    decimalPlaces: 2,
+    showTrailingZeros: true,
+  })}%`;
 
   const percentage = (honeyProduced / DEFAULT_HONEY_PRODUCTION_TIME) * 100;
   const showQuantityBar =
@@ -301,7 +301,7 @@ export const Beehive: React.FC<Props> = ({ id }) => {
                 {t("honey")}
                 {":"}{" "}
                 {Number(honeyAmount) < 1
-                  ? `${honeyPercentage}% ${t("full")}`
+                  ? `${honeyPercentageDisplay} ${t("full")}`
                   : t("full")}
               </span>
             </div>
@@ -361,7 +361,7 @@ export const Beehive: React.FC<Props> = ({ id }) => {
                     )}
                   >
                     {Number(honeyAmount) < 1
-                      ? `${honeyPercentage}%`
+                      ? honeyPercentageDisplay
                       : t("full")}
                   </p>
                 </div>
@@ -375,7 +375,7 @@ export const Beehive: React.FC<Props> = ({ id }) => {
                   </Label>
                   <div className="text-xs mb-0.5">
                     {t("beehive.honeyPerFullHive", {
-                      multiplier: setPrecision(new Decimal(honeyMultiplier)),
+                      multiplier: formatNumber(honeyMultiplier),
                     })}
                   </div>
                 </div>
@@ -385,7 +385,7 @@ export const Beehive: React.FC<Props> = ({ id }) => {
                   </Label>
                   <div className="text-xs mb-0.5">
                     {t("beehive.fullHivePerDay", {
-                      speed: setPrecision(new Decimal(currentSpeed)),
+                      speed: formatNumber(currentSpeed),
                       hive:
                         new Decimal(currentSpeed).toNumber() > 1
                           ? t("beehive.hives.plural")

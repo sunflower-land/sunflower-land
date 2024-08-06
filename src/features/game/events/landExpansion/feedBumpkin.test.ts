@@ -7,16 +7,6 @@ import { FEED_BUMPKIN_ERRORS, feedBumpkin } from "./feedBumpkin";
 import { getSeasonalBanner } from "features/game/types/seasons";
 
 describe("feedBumpkin", () => {
-  it("throws error if no bumpkin is found", () => {
-    const state: GameState = { ...TEST_FARM, bumpkin: undefined };
-    expect(() =>
-      feedBumpkin({
-        state,
-        action: { type: "bumpkin.feed", food: "Boiled Eggs", amount: 1 },
-      }),
-    ).toThrow(FEED_BUMPKIN_ERRORS.MISSING_BUMPKIN);
-  });
-
   it("throws error if food amount is invalid", () => {
     const state: GameState = { ...TEST_FARM, inventory: {} };
     expect(() =>

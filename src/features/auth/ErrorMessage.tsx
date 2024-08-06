@@ -16,6 +16,7 @@ import { Blocked } from "./components/Blocked";
 import { ClockIssue } from "features/game/components/ClockIssue";
 import { SFLExceeded } from "features/game/components/SFLExceeded";
 import { NotOnDiscordServer } from "./components/NotOnDiscordServer";
+import { TooManyFarms } from "./components/TooManyFarms";
 
 interface Props {
   errorCode: ErrorCode;
@@ -80,6 +81,13 @@ export const ErrorMessage: React.FC<Props> = ({ errorCode }) => {
 
   if (errorCode === ERRORS.SYNC_DAILY_SFL_MINT_EXCEEDED) {
     return <SFLExceeded />;
+  }
+
+  if (
+    errorCode === ERRORS.SIGN_UP_TOO_MANY_FARMS ||
+    errorCode === ERRORS.CLAIM_FARM_TOO_MANY_FARMS
+  ) {
+    return <TooManyFarms />;
   }
 
   return <SomethingWentWrong />;

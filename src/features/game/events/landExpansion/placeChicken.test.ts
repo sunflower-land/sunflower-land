@@ -21,26 +21,6 @@ const makeChickensStateObject = (numOfChickens: number) => {
 };
 
 describe("buyChicken", () => {
-  it("throws an error if no bumpkin exists", () => {
-    expect(() =>
-      placeChicken({
-        state: {
-          ...TEST_FARM,
-          bumpkin: undefined,
-          chickens: {},
-        },
-        action: {
-          id: "1234asdf",
-          coordinates: {
-            x: 2,
-            y: 2,
-          },
-          type: "chicken.placed",
-        },
-      }),
-    ).toThrow("You do not have a Bumpkin");
-  });
-
   it("throws an error if no chickens are available", () => {
     expect(() =>
       placeChicken({

@@ -3,6 +3,7 @@ import { Game, AUTO } from "phaser";
 import { useActor, useSelector } from "@xstate/react";
 import NinePatchPlugin from "phaser3-rex-plugins/plugins/ninepatch-plugin.js";
 import VirtualJoystickPlugin from "phaser3-rex-plugins/plugins/virtualjoystick-plugin.js";
+import { PhaserNavMeshPlugin } from "phaser-navmesh";
 
 import * as AuthProvider from "features/auth/lib/Provider";
 import { ChatUI, Message } from "features/pumpkinPlaza/components/ChatUI";
@@ -18,7 +19,12 @@ import { PlazaScene } from "./scenes/PlazaScene";
 
 import { InteractableModals } from "./ui/InteractableModals";
 import { NPCModals } from "./ui/NPCModals";
-import { MachineInterpreter, MachineState, mmoBus } from "./mmoMachine";
+import {
+  MachineInterpreter,
+  MachineState,
+  mmoBus,
+  SceneId,
+} from "./mmoMachine";
 import { Context } from "features/game/GameProvider";
 import { Modal } from "components/ui/Modal";
 import { InnerPanel, Panel } from "components/ui/Panel";
@@ -29,7 +35,6 @@ import { EquipBumpkinAction } from "features/game/events/landExpansion/equip";
 import { Label } from "components/ui/Label";
 import { CommunityModals } from "./ui/CommunityModalManager";
 import { CommunityToasts } from "./ui/CommunityToastManager";
-import { SceneId } from "./mmoMachine";
 import { useNavigate } from "react-router-dom";
 import { PlayerModals } from "./ui/PlayerModals";
 import { prepareAPI } from "features/community/lib/CommunitySDK";
@@ -200,6 +205,14 @@ export const PhaserComponent: React.FC<Props> = ({
             start: true,
           },
         ],
+        scene: [
+          {
+            key: "PhaserNavMeshPlugin",
+            plugin: PhaserNavMeshPlugin,
+            mapping: "navMeshPlugin",
+            start: true,
+          },
+        ],
       },
       width: window.innerWidth,
       height: window.innerHeight,
@@ -272,6 +285,10 @@ export const PhaserComponent: React.FC<Props> = ({
     if (activeScene) {
       activeScene.scene.start(route);
       mmoService.send("SWITCH_SCENE", { sceneId: route });
+      mmoService.send("UPDATE_PREVIOUS_SCENE", {
+        previousSceneId:
+          game.current?.scene.getScenes(true)[0]?.scene.key ?? scene,
+      });
     }
   }, [route]);
 

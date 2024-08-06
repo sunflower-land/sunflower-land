@@ -1,7 +1,5 @@
 require("dotenv").config();
 
-console.log("setup");
-
 /*
  * For a detailed explanation regarding each configuration property, visit:
  * https://jestjs.io/docs/en/configuration.html
@@ -33,4 +31,12 @@ module.exports = {
   },
 
   setupFiles: ["<rootDir>/test/setup.ts"],
+
+  // Memory Leak Fix - Cause unknown
+  // https://github.com/kulshekhar/ts-jest/issues/1967
+  globals: {
+    "ts-jest": {
+      isolatedModules: true,
+    },
+  },
 };

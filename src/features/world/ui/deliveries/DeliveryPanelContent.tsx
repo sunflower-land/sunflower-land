@@ -17,6 +17,7 @@ import {
 import { getSeasonalTicket } from "features/game/types/seasons";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { BumpkinDelivery } from "./BumpkinDelivery";
+import { formatNumber } from "lib/utils/formatNumber";
 
 interface OrderCardsProps {
   orders: Order[];
@@ -51,12 +52,12 @@ export const OrderCards: React.FC<OrderCardsProps> = ({
     if (order.reward.sfl !== undefined) {
       const sfl = getOrderSellPrice<Decimal>(game, order);
 
-      return sfl.toFixed(2);
+      return formatNumber(sfl, { decimalPlaces: 4 });
     }
 
     const coins = getOrderSellPrice<number>(game, order);
 
-    return coins % 1 === 0 ? coins.toString() : coins.toFixed(2);
+    return formatNumber(coins);
   };
 
   return (

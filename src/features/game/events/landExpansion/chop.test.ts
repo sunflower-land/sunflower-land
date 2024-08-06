@@ -291,25 +291,6 @@ describe("chop", () => {
     expect(tree.wood.amount).toBeGreaterThan(0);
   });
 
-  it("throws an error if the player doesn't have a bumpkin", async () => {
-    expect(() =>
-      chop({
-        state: {
-          ...GAME_STATE,
-          bumpkin: undefined,
-          inventory: {
-            Axe: new Decimal(1),
-          },
-        },
-        action: {
-          type: "timber.chopped",
-          item: "Axe",
-          index: "0",
-        } as LandExpansionChopAction,
-      }),
-    ).toThrow("You do not have a Bumpkin");
-  });
-
   describe("BumpkinActivity", () => {
     it("increments Trees Chopped activity by 1 when 1 tree is chopped", () => {
       const createdAt = Date.now();

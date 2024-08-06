@@ -3,15 +3,6 @@ import { PackageId, exchangeSFLtoCoins } from "./exchangeSFLtoCoins";
 import { TEST_FARM } from "features/game/lib/constants";
 
 describe("exchangeSFLtoCoins", () => {
-  it("throws if you don't have a bumpkin", () => {
-    expect(() =>
-      exchangeSFLtoCoins({
-        state: { ...TEST_FARM, bumpkin: undefined },
-        action: { type: "sfl.exchanged", packageId: 1 },
-      }),
-    ).toThrow("You do not have a Bumpkin");
-  });
-
   it("throws if the packageId is invalid", () => {
     expect(() =>
       exchangeSFLtoCoins({

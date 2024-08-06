@@ -18,19 +18,15 @@ import { getKeys } from "features/game/types/decorations";
 import { JoinFactionAction } from "features/game/events/landExpansion/joinFaction";
 import { hasFeatureAccess } from "lib/flags";
 import {
+  getFactionScores,
   getPreviousWeek,
   secondsTillWeekReset,
 } from "features/game/lib/factions";
 import { hasReadKingdomNotice } from "../ui/kingdom/KingdomNoticeboard";
 import { EventObject } from "xstate";
+import { hasReadCropsAndChickensNotice } from "../ui/portals/CropsAndChickens";
 
 export const KINGDOM_NPCS: NPCBumpkin[] = [
-  {
-    x: 390,
-    y: 725,
-    npc: "cluck e cheese",
-    direction: "left",
-  },
   {
     x: 305,
     y: 500,
@@ -196,6 +192,10 @@ export class KingdomScene extends BaseScene {
       });
 
     if (hasFeatureAccess(this.gameState, "CROPS_AND_CHICKENS")) {
+      if (!hasReadCropsAndChickensNotice()) {
+        this.add.image(400, 732, "question_disc").setDepth(1000000);
+      }
+
       const cropsAndChickensPortal = this.add.sprite(400, 752, "portal");
       cropsAndChickensPortal.play("portal_anim", true);
       cropsAndChickensPortal
@@ -340,19 +340,6 @@ export class KingdomScene extends BaseScene {
       nature1.play({ loop: true, volume: 0.3 });
     }
 
-    if (
-      !hasFeatureAccess(this.gameService.state.context.state, "TEST_DIGGING")
-    ) {
-      const desertBlockade = this.add.sprite(0, 656, "box_blockade");
-      this.physics.world.enable(desertBlockade);
-      this.colliders?.add(desertBlockade);
-      (desertBlockade.body as Phaser.Physics.Arcade.Body)
-        .setSize(32, 48)
-        .setOffset(0, 0)
-        .setImmovable(true)
-        .setCollideWorldBounds(true);
-    }
-
     // Shut down the sound when the scene changes
     this.events.once("shutdown", () => {
       this.sound.getAllPlaying().forEach((sound) => {
@@ -393,17 +380,16 @@ export class KingdomScene extends BaseScene {
       return;
     }
 
-    const totals = leaderboard.marks.totalTickets;
-    const winningFaction = getKeys(totals).reduce((winner, name) => {
-      return totals[winner] > totals[name] ? winner : name;
-    }, "bumpkins");
+    const { winner } = getFactionScores({ leaderboard });
+
+    if (!winner) return;
 
     if (this.champions.active) {
       this.champions.destroy();
     }
     this.champions = undefined;
 
-    const throne = THRONES[winningFaction];
+    const throne = THRONES[winner];
 
     if (!this.textures.exists(throne)) {
       return;

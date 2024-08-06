@@ -19,7 +19,6 @@ import { Success } from "../components/Success";
 import { Syncing } from "../components/Syncing";
 
 import { Hoarding } from "../components/Hoarding";
-import { NoBumpkin } from "features/island/bumpkin/NoBumpkin";
 import { Swarming } from "../components/Swarming";
 import { Cooldown } from "../components/Cooldown";
 import { Route, Routes } from "react-router-dom";
@@ -47,7 +46,6 @@ import classNames from "classnames";
 import { Label } from "components/ui/Label";
 import { CONFIG } from "lib/config";
 import { Home } from "features/home/Home";
-import { Wallet } from "features/wallet/Wallet";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Listed } from "../components/Listed";
 import { ListingDeleted } from "../components/listingDeleted";
@@ -80,7 +78,6 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   refreshing: true,
   hoarding: true,
   landscaping: false,
-  noBumpkinFound: true,
   swarming: true,
   coolingDown: true,
   gameRules: true,
@@ -149,8 +146,7 @@ const isVisiting = (state: MachineState) => state.matches("visiting");
 const isSwarming = (state: MachineState) => state.matches("swarming");
 const isPurchasing = (state: MachineState) =>
   state.matches("purchasing") || state.matches("buyingBlockBucks");
-const isNoBumpkinFound = (state: MachineState) =>
-  state.matches("noBumpkinFound");
+
 const isCoolingDown = (state: MachineState) => state.matches("coolingDown");
 const isGameRules = (state: MachineState) => state.matches("gameRules");
 const isDepositing = (state: MachineState) => state.matches("depositing");
@@ -288,7 +284,6 @@ export const GameWrapper: React.FC = ({ children }) => {
   const purchasing = useSelector(gameService, isPurchasing);
   const hoarding = useSelector(gameService, isHoarding);
   const swarming = useSelector(gameService, isSwarming);
-  const noBumpkinFound = useSelector(gameService, isNoBumpkinFound);
   const coolingDown = useSelector(gameService, isCoolingDown);
   const gameRules = useSelector(gameService, isGameRules);
   const depositing = useSelector(gameService, isDepositing);
@@ -462,11 +457,7 @@ export const GameWrapper: React.FC = ({ children }) => {
             {purchasing && <Purchasing />}
             {hoarding && <Hoarding />}
             {swarming && <Swarming />}
-            {noBumpkinFound && (
-              <Wallet action="deposit">
-                <NoBumpkin />
-              </Wallet>
-            )}
+
             {coolingDown && <Cooldown />}
             {gameRules && <Rules />}
             {transacting && <Transacting />}

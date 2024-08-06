@@ -836,6 +836,16 @@ export const TEST_FARM: GameState = {
   },
 };
 
+export const INITIAL_EQUIPPED: Equipped = {
+  background: "Farm Background",
+  hair: "Basic Hair",
+  body: "Beige Farmer Potion",
+  shirt: "Blue Farmer Shirt",
+  pants: "Farmer Overalls",
+  shoes: "Black Farmer Boots",
+  tool: "Farmer Pitchfork",
+};
+
 export const EMPTY: GameState = {
   coins: 0,
   balance: new Decimal(fromWei("0")),
@@ -847,6 +857,7 @@ export const EMPTY: GameState = {
     Gold: new Decimal(10),
     Stone: new Decimal(10),
   },
+  bumpkin: INITIAL_BUMPKIN,
   minigames: {
     games: {},
     prizes: {},

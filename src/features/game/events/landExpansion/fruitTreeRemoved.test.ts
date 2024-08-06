@@ -47,22 +47,6 @@ const GAME_STATE: GameState = {
 };
 
 describe("fruitTreeRemoved", () => {
-  it("throws an error if the player doesn't have a bumpkin", () => {
-    expect(() =>
-      removeFruitTree({
-        state: {
-          ...GAME_STATE,
-          bumpkin: undefined,
-        },
-        action: {
-          type: "fruitTree.removed",
-          index: "0",
-          selectedItem: "Axe",
-        },
-      }),
-    ).toThrow("You do not have a Bumpkin");
-  });
-
   it("does not remove on non-existent fruit patch", () => {
     expect(() =>
       removeFruitTree({

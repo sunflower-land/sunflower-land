@@ -173,25 +173,6 @@ describe("mineStone", () => {
     expect(game.inventory.Pickaxe).toEqual(new Decimal(0));
     expect(game.inventory.Stone?.toNumber()).toBeGreaterThan(2);
   });
-
-  it("throws an error if the player doesn't have a bumpkin", async () => {
-    expect(() =>
-      mineStone({
-        state: {
-          ...GAME_STATE,
-          bumpkin: undefined,
-          inventory: {
-            Pickaxe: new Decimal(2),
-          },
-        },
-        action: {
-          type: "stoneRock.mined",
-          expansionIndex: 0,
-          index: 0,
-        } as LandExpansionStoneMineAction,
-      }),
-    ).toThrow("You do not have a Bumpkin");
-  });
 });
 
 describe("getMinedAt", () => {

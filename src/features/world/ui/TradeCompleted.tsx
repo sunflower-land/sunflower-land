@@ -14,6 +14,7 @@ import token from "assets/icons/sfl.webp";
 import { Button } from "components/ui/Button";
 import { OuterPanel } from "components/ui/Panel";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { formatNumber } from "lib/utils/formatNumber";
 
 interface Props {
   farmId: number;
@@ -82,7 +83,11 @@ export const TradeCompleted: React.FC<Props> = ({ mmoService, farmId }) => {
 
                 <div className="flex items-center mt-3 mr-0.5">
                   <img src={token} className="h-6 mr-1" />
-                  <p className="text-xs">{(sold.sfl * 0.9).toFixed(2)}</p>
+                  <p className="text-xs">
+                    {formatNumber(new Decimal(sold.sfl).mul(0.9), {
+                      decimalPlaces: 4,
+                    })}
+                  </p>
                 </div>
               </div>
             </div>

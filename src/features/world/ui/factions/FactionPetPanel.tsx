@@ -42,7 +42,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { secondsToString } from "lib/utils/time";
 import { getFactionPetUpdate } from "./actions/getFactionPetUpdate";
 
-import { setPrecision } from "lib/utils/formatNumber";
+import { formatNumber } from "lib/utils/formatNumber";
 import { BoostInfoPanel } from "./BoostInfoPanel";
 import { getKeys } from "features/game/types/decorations";
 
@@ -240,10 +240,7 @@ export const FactionPetPanel: React.FC<Props> = ({ onClose }) => {
     selectedRequestReward,
   )[0];
 
-  const boostedMarks = setPrecision(
-    new Decimal(selectedRequestReward + boost),
-    2,
-  ).toNumber();
+  const boostedMarks = selectedRequestReward + boost;
 
   const isContributingMemberForThisWeek = pet.requests.every(
     (request) => getKeys(request.dailyFulfilled).length > 0,
@@ -346,10 +343,7 @@ export const FactionPetPanel: React.FC<Props> = ({ onClose }) => {
                             points,
                           )[0];
 
-                          const boostedMarks = setPrecision(
-                            new Decimal(points + boost),
-                            2,
-                          ).toNumber();
+                          const boostedMarks = points + boost;
 
                           return (
                             <OuterPanel
@@ -388,7 +382,7 @@ export const FactionPetPanel: React.FC<Props> = ({ onClose }) => {
                                   }}
                                 >
                                   <span className={boost ? "pl-1.5" : ""}>
-                                    {boostedMarks}
+                                    {formatNumber(boostedMarks)}
                                   </span>
                                 </Label>
                               </div>
@@ -453,7 +447,7 @@ export const FactionPetPanel: React.FC<Props> = ({ onClose }) => {
                             className="m-1 cursor-pointer"
                           >
                             <span className={boost ? "pl-1.5" : ""}>
-                              {`${boostedMarks} ${t("marks")}`}
+                              {`${formatNumber(boostedMarks)} ${t("marks")}`}
                             </span>
                           </Label>
                         </div>
@@ -499,8 +493,8 @@ export const FactionPetPanel: React.FC<Props> = ({ onClose }) => {
                 <div className="space-y-3">
                   <span className="text-xs sm:text-sm">
                     {t("faction.donation.confirm", {
-                      factionPoints: boostedMarks,
-                      reward: boostedMarks > 1 ? "marks" : "mark",
+                      factionPoints: formatNumber(boostedMarks),
+                      reward: t("marks"),
                     })}
                   </span>
                   <div className="flex flex-col space-y-1">

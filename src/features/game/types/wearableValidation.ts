@@ -2,7 +2,6 @@ import { BumpkinItem } from "./bumpkin";
 import {
   areAnyChickensFed,
   areAnyCrimstonesMined,
-  areAnyCropsGrowing,
   areAnyFruitsGrowing,
   areAnyOilReservesDrilled,
   areFlowersGrowing,
@@ -15,141 +14,76 @@ import {
   areAnyOGFruitsGrowing,
   hasFishedToday,
   areBonusTreasureHolesDug,
+  areAnyCropsOrGreenhouseCropsGrowing,
 } from "./removeables";
 import { GameState } from "./game";
 
-export const canWithdrawBoostedWearable = (
-  name: BumpkinItem,
-  state?: GameState,
-) => {
-  if (!state) return false;
+interface isWithdrawable {
+  (state: GameState): boolean;
+}
 
-  if (
-    name === "Green Amulet" ||
-    name === "Angel Wings" ||
-    name === "Devil Wings" ||
-    name === "Infernal Pitchfork"
-  ) {
-    return !areAnyCropsGrowing(state)[0];
-  }
-
-  if (name === "Sunflower Amulet") {
-    return !cropIsGrowing({ item: "Sunflower", game: state })[0];
-  }
-
-  if (name === "Carrot Amulet") {
-    return !cropIsGrowing({ item: "Carrot", game: state })[0];
-  }
-
-  if (name === "Beetroot Amulet") {
-    return !cropIsGrowing({ item: "Beetroot", game: state })[0];
-  }
-
-  if (name === "Parsnip") {
-    return !cropIsGrowing({ item: "Parsnip", game: state })[0];
-  }
-
-  if (name === "Eggplant Onesie") {
-    return !cropIsGrowing({ item: "Eggplant", game: state })[0];
-  }
-
-  if (name === "Corn Onesie") {
-    return !cropIsGrowing({ item: "Corn", game: state })[0];
-  }
-
-  if (name === "Tofu Mask") {
-    return !cropIsGrowing({ item: "Soybean", game: state })[0];
-  }
-
-  if (name === "Non La Hat") {
-    return !greenhouseCropIsGrowing({ crop: "Rice", game: state })[0];
-  }
-
-  if (name === "Olive Shield") {
-    return !greenhouseCropIsGrowing({ crop: "Olive", game: state })[0];
-  }
-  if (name === "Olive Royalty Shirt") {
-    return !greenhouseCropIsGrowing({ crop: "Olive", game: state })[0];
-  }
-
-  if (name === "Fruit Picker Apron") {
-    return !areAnyOGFruitsGrowing(state)[0];
-  }
-
-  if (name === "Camel Onesie") {
-    return !areAnyFruitsGrowing(state)[0];
-  }
-
-  if (name === "Banana Amulet" || name === "Banana Onesie") {
-    return !areFruitsGrowing(state, "Banana")[0];
-  }
-
-  if (name === "Grape Pants") {
-    return !greenhouseCropIsGrowing({ crop: "Grape", game: state })[0];
-  }
-
-  if (name === "Lemon Shield") {
-    return !areFruitsGrowing(state, "Lemon")[0];
-  }
-
-  if (name === "Cattlegrim") {
-    return !areAnyChickensFed(state)[0];
-  }
-
-  if (name === "Luna's Hat") {
-    if (
+const withdrawConditions: Partial<Record<BumpkinItem, isWithdrawable>> = {
+  "Green Amulet": (state) => !areAnyCropsOrGreenhouseCropsGrowing(state)[0],
+  "Angel Wings": (state) => !areAnyCropsOrGreenhouseCropsGrowing(state)[0],
+  "Devil Wings": (state) => !areAnyCropsOrGreenhouseCropsGrowing(state)[0],
+  "Infernal Pitchfork": (state) =>
+    !areAnyCropsOrGreenhouseCropsGrowing(state)[0],
+  "Sunflower Amulet": (state) =>
+    !cropIsGrowing({ item: "Sunflower", game: state })[0],
+  "Carrot Amulet": (state) =>
+    !cropIsGrowing({ item: "Carrot", game: state })[0],
+  "Beetroot Amulet": (state) =>
+    !cropIsGrowing({ item: "Beetroot", game: state })[0],
+  Parsnip: (state) => !cropIsGrowing({ item: "Parsnip", game: state })[0],
+  "Eggplant Onesie": (state) =>
+    !cropIsGrowing({ item: "Eggplant", game: state })[0],
+  "Corn Onesie": (state) => !cropIsGrowing({ item: "Corn", game: state })[0],
+  "Tofu Mask": (state) => !cropIsGrowing({ item: "Soybean", game: state })[0],
+  "Non La Hat": (state) =>
+    !greenhouseCropIsGrowing({ crop: "Rice", game: state })[0],
+  "Olive Shield": (state) =>
+    !greenhouseCropIsGrowing({ crop: "Olive", game: state })[0],
+  "Olive Royalty Shirt": (state) =>
+    !greenhouseCropIsGrowing({ crop: "Olive", game: state })[0],
+  "Fruit Picker Apron": (state) => !areAnyOGFruitsGrowing(state)[0],
+  "Camel Onesie": (state) => !areAnyFruitsGrowing(state)[0],
+  "Banana Amulet": (state) => !areFruitsGrowing(state, "Banana")[0],
+  "Banana Onesie": (state) => !areFruitsGrowing(state, "Banana")[0],
+  "Grape Pants": (state) =>
+    !greenhouseCropIsGrowing({ crop: "Grape", game: state })[0],
+  "Lemon Shield": (state) => !areFruitsGrowing(state, "Lemon")[0],
+  Cattlegrim: (state) => !areAnyChickensFed(state)[0],
+  "Luna's Hat": (state) =>
+    !(
       state.buildings["Fire Pit"]?.[0].crafting ||
       state.buildings["Kitchen"]?.[0].crafting ||
       state.buildings["Bakery"]?.[0].crafting ||
       state.buildings["Deli"]?.[0].crafting ||
       state.buildings["Smoothie Shack"]?.[0].crafting
-    ) {
-      return false;
-    }
-    return true;
-  }
+    ),
+  "Ancient Rod": (state) => !hasFishedToday(state)[0],
+  "Flower Crown": (state) => !areFlowersGrowing(state)[0],
+  "Beekeeper Hat": (state) => !isProducingHoney(state)[0],
+  "Bee Suit": (state) => !isProducingHoney(state)[0],
+  "Honeycomb Shield": (state) => !isProducingHoney(state)[0],
+  "Crimstone Amulet": (state) => !areAnyCrimstonesMined(state)[0],
+  "Crimstone Armor": (state) => !areAnyCrimstonesMined(state)[0],
+  "Crimstone Hammer": (state) => !isCrimstoneHammerActive(state)[0],
+  "Oil Can": (state) => !areAnyOilReservesDrilled(state)[0],
+  "Infernal Drill": (state) => !areAnyOilReservesDrilled(state)[0],
+  "Dev Wrench": (state) => !areAnyOilReservesDrilled(state)[0],
+  "Oil Overalls": (state) => !areAnyOilReservesDrilled(state)[0],
+  "Hornet Mask": (state) => isBeehivesFull(state)[0],
+  "Ancient Shovel": (state) => areBonusTreasureHolesDug(state)[0],
+};
 
-  if (name === "Ancient Rod") {
-    return !hasFishedToday(state)[0];
-  }
+export const canWithdrawBoostedWearable = (
+  name: BumpkinItem,
+  state?: GameState,
+): boolean => {
+  if (!state) return false;
 
-  if (name === "Flower Crown") {
-    return !areFlowersGrowing(state)[0];
-  }
+  if ((state.wardrobe?.[name] ?? 0) > 1) return true;
 
-  if (
-    name === "Beekeeper Hat" ||
-    name === "Bee Suit" ||
-    name === "Honeycomb Shield"
-  ) {
-    return !isProducingHoney(state)[0];
-  }
-
-  if (name === "Crimstone Amulet" || name === "Crimstone Armor") {
-    return !areAnyCrimstonesMined(state)[0];
-  }
-
-  if (name === "Crimstone Hammer") {
-    return !isCrimstoneHammerActive(state)[0];
-  }
-
-  if (
-    name === "Oil Can" ||
-    name === "Infernal Drill" ||
-    name === "Dev Wrench" ||
-    name === "Oil Overalls"
-  ) {
-    return !areAnyOilReservesDrilled(state)[0];
-  }
-
-  if (name === "Hornet Mask") {
-    return isBeehivesFull(state)[0];
-  }
-
-  if (name === "Ancient Shovel") {
-    return areBonusTreasureHolesDug(state)[0];
-  }
-
-  // Safety check
-  return false;
+  return withdrawConditions[name]?.(state) ?? false;
 };

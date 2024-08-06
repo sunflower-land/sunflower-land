@@ -4,21 +4,6 @@ import { MOVE_CROP_ERRORS, moveCrop } from "./moveCrop";
 
 describe("moveCrop", () => {
   const dateNow = Date.now();
-  it("throws if player has no Bumpkin", () => {
-    expect(() =>
-      moveCrop({
-        state: {
-          ...TEST_FARM,
-          bumpkin: undefined,
-        },
-        action: {
-          type: "crop.moved",
-          id: "1",
-          coordinates: { x: 2, y: 2 },
-        },
-      }),
-    ).toThrow(MOVE_CROP_ERRORS.NO_BUMPKIN);
-  });
 
   it("does not move crop with invalid id", () => {
     expect(() =>

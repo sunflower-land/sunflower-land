@@ -28,8 +28,7 @@ import lightning from "assets/icons/lightning.png";
 
 import { BumpkinActivityName } from "features/game/types/bumpkinActivity";
 import { getKingdomChoreBoost } from "features/game/events/landExpansion/completeKingdomChore";
-import { setPrecision } from "lib/utils/formatNumber";
-import Decimal from "decimal.js-light";
+import { formatNumber } from "lib/utils/formatNumber";
 import { BoostInfoPanel } from "../BoostInfoPanel";
 
 const getSecondaryImage = (activity: BumpkinActivityName) => {
@@ -291,11 +290,7 @@ const Panel: React.FC<PanelProps> = ({
     gameService.state.context.state,
     chore.marks,
   )[0];
-
-  const boostedMarks = setPrecision(
-    new Decimal(chore.marks + boost),
-    2,
-  ).toNumber();
+  const boostedMarks = chore.marks + boost;
 
   return (
     <div className="flex flex-col justify-center">
@@ -321,7 +316,7 @@ const Panel: React.FC<PanelProps> = ({
             onClick={() => setShowBoostInfo(!showBoostInfo)}
           >
             <span className={boost ? "pl-1.5" : ""}>
-              {`${boostedMarks} ${t("marks")}`}
+              {`${formatNumber(boostedMarks)} ${t("marks")}`}
             </span>
           </Label>
         </div>
@@ -392,7 +387,7 @@ const Panel: React.FC<PanelProps> = ({
                   >
                     {t("kingdomChores.nextSkip", {
                       skip: secondsToString(
-                        Math.round((skipAvailableAt - Date.now()) / 1000),
+                        (skipAvailableAt - Date.now()) / 1000,
                         {
                           length: "short",
                           removeTrailingZeros: true,
@@ -429,10 +424,7 @@ const ConfirmSkip: React.FC<{
     chore.marks,
   )[0];
 
-  const boostedMarks = setPrecision(
-    new Decimal(chore.marks + boost),
-    2,
-  ).toNumber();
+  const boostedMarks = chore.marks + boost;
 
   return (
     <InnerPanel>
@@ -452,7 +444,7 @@ const ConfirmSkip: React.FC<{
         </div>
         <div className="pb-2">
           <Label type="warning" icon={mark} className="text-center">
-            {boostedMarks} {t("marks")}
+            {formatNumber(boostedMarks)} {t("marks")}
           </Label>
         </div>
         <div className="flex w-full space-x-1">

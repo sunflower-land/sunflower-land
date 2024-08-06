@@ -57,7 +57,9 @@ const featureFlags: Record<FeatureName, FeatureFlag> = {
   },
   CHAMPIONS: betaTimeBasedFeatureFlag(new Date("2024-07-15T00:00:00Z")),
   CROP_QUICK_SELECT: defaultFeatureFlag,
-  CROPS_AND_CHICKENS: defaultFeatureFlag,
+  CROPS_AND_CHICKENS: betaTimeBasedFeatureFlag(
+    new Date("2024-08-07T00:00:00Z"),
+  ),
   PORTALS: testnetFeatureFlag,
   JEST_TEST: defaultFeatureFlag,
   DESERT_RECIPES: defaultFeatureFlag,

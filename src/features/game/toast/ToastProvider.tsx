@@ -93,8 +93,8 @@ export const ToastProvider: FC = ({ children }) => {
    */
   const getDifference = (item: ToastItem) => {
     if (item === "coins") {
-      return new Decimal(
-        (newCoinBalance.current ?? 0) - (oldCoinBalance.current ?? 0),
+      return new Decimal(newCoinBalance.current ?? 0)?.minus(
+        new Decimal(oldCoinBalance.current ?? 0),
       );
     }
 
@@ -111,8 +111,8 @@ export const ToastProvider: FC = ({ children }) => {
     }
 
     if (item === "faction_points") {
-      return new Decimal(
-        (newFactionPoints.current ?? 0) - (oldFactionPoints.current ?? 0),
+      return new Decimal(newFactionPoints.current ?? 0)?.minus(
+        new Decimal(oldFactionPoints.current ?? 0),
       );
     }
 

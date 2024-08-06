@@ -86,6 +86,11 @@ export const MMO: React.FC<MMOProps> = ({ isCommunity }) => {
       username: gameState.context.state.username,
     },
   }) as unknown as MMOMachineInterpreter;
+  const [mmoState] = useActor(mmoService);
+
+  useEffect(() => {
+    navigate(`/world/${mmoState.context.sceneId}`);
+  }, [mmoState.context.sceneId]);
 
   // We need to listen to events outside of MMO scope (Settings Panel)
   useEffect(() => {

@@ -36,25 +36,6 @@ describe("mineSunstone", () => {
     jest.useFakeTimers();
   });
 
-  it("throws an error if the player doesn't have a bumpkin", () => {
-    expect(() =>
-      mineSunstone({
-        state: {
-          ...GAME_STATE,
-          inventory: {
-            "Gold Pickaxe": new Decimal(3),
-          },
-          bumpkin: undefined,
-        },
-        createdAt: Date.now(),
-        action: {
-          type: "sunstoneRock.mined",
-          index: "0",
-        } as MineSunstoneAction,
-      }),
-    ).toThrow("You do not have a Bumpkin");
-  });
-
   it("throws an error if sunstone does not exist", () => {
     expect(() =>
       mineSunstone({
