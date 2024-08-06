@@ -8,7 +8,7 @@ import { Player } from "../types/Room";
 import { NPCName, acknowledgedNPCs } from "lib/npcs";
 import { ReactionName } from "features/pumpkinPlaza/components/Reactions";
 import { getAnimationUrl } from "../lib/animations";
-import { InventoryItemName } from "features/game/types/game";
+import { FactionName, InventoryItemName } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { ITEM_IDS } from "features/game/types/bumpkin";
 import { CONFIG } from "lib/config";
@@ -45,6 +45,7 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
   public frontfx: Phaser.GameObjects.Sprite | undefined;
 
   public clothing: Player["clothing"];
+  public faction: FactionName | undefined;
   private ready = false;
 
   // Animation Keys
@@ -60,10 +61,6 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
   private backAuraAnimationKey: string | undefined;
   private direction: "left" | "right" = "right";
 
-  // sounds
-  private digSFX: Phaser.Sound.BaseSound | undefined;
-  private drillSFX: Phaser.Sound.BaseSound | undefined;
-
   constructor({
     scene,
     x,
@@ -72,6 +69,7 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
     onClick,
     name,
     direction,
+    faction,
   }: {
     scene: Phaser.Scene;
     x: number;
@@ -81,6 +79,7 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
     onCollide?: () => void;
     name?: string;
     direction?: "left" | "right";
+    faction?: FactionName;
   }) {
     super(scene, x, y);
     this.scene = scene;
@@ -102,6 +101,8 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
     this.setSize(SQUARE_WIDTH, SQUARE_WIDTH);
 
     this.reaction = this.scene.add.group();
+
+    this.faction = faction;
 
     if (name) {
       const text = NAME_ALIASES[name as NPCName] ?? name;
