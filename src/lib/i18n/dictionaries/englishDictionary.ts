@@ -938,7 +938,7 @@ const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
   "description.hourglass.expired":
     "Your {{hourglass}} has expired. Time to grab another one!",
   "description.desert.rose.boost": "10% Chance for +1 Flower",
-  "description.pharaoh.gnome.boost": "+2 Greenhouse Plants",
+  "description.pharaoh.gnome.boost": "+2 Greenhouse Produce",
   "description.lemon.tea.bath.boost": "-50% Lemon Growth Time",
   "description.tomato.clown.boost": "-50% Tomato Growth Time",
   "description.cannonball.boost": "-25% Tomato Growth Time",
