@@ -350,19 +350,6 @@ export class KingdomScene extends BaseScene {
       }
     }
 
-    if (
-      !hasFeatureAccess(this.gameService.state.context.state, "TEST_DIGGING")
-    ) {
-      const desertBlockade = this.add.sprite(0, 656, "box_blockade");
-      this.physics.world.enable(desertBlockade);
-      this.colliders?.add(desertBlockade);
-      (desertBlockade.body as Phaser.Physics.Arcade.Body)
-        .setSize(32, 48)
-        .setOffset(0, 0)
-        .setImmovable(true)
-        .setCollideWorldBounds(true);
-    }
-
     // Shut down the sound when the scene changes
     this.events.once("shutdown", () => {
       this.sound.getAllPlaying().forEach((sound) => {
