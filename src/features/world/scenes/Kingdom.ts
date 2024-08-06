@@ -27,14 +27,9 @@ import {
 } from "features/game/lib/factions";
 import { hasReadKingdomNotice } from "../ui/kingdom/KingdomNoticeboard";
 import { EventObject } from "xstate";
+import { hasReadCropsAndChickensNotice } from "../ui/portals/CropsAndChickens";
 
 export const KINGDOM_NPCS: NPCBumpkin[] = [
-  {
-    x: 390,
-    y: 725,
-    npc: "cluck e cheese",
-    direction: "left",
-  },
   {
     x: 305,
     y: 500,
@@ -200,6 +195,10 @@ export class KingdomScene extends BaseScene {
       });
 
     if (hasFeatureAccess(this.gameState, "CROPS_AND_CHICKENS")) {
+      if (!hasReadCropsAndChickensNotice()) {
+        this.add.image(400, 732, "question_disc").setDepth(1000000);
+      }
+
       const cropsAndChickensPortal = this.add.sprite(400, 752, "portal");
       cropsAndChickensPortal.play("portal_anim", true);
       cropsAndChickensPortal

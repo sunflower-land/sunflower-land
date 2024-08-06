@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Button } from "components/ui/Button";
 import { useActor } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
@@ -21,6 +21,17 @@ import { ClaimReward } from "features/game/expansion/components/ClaimReward";
 import { SpeakingText } from "features/game/components/SpeakingModal";
 import { getKeys } from "features/game/types/craftables";
 import { ITEM_DETAILS } from "features/game/types/images";
+
+export function hasReadCropsAndChickensNotice() {
+  return !!localStorage.getItem("cropsAndChickens.notice");
+}
+
+function acknowledgeIntro() {
+  return localStorage.setItem(
+    "cropsAndChickens.notice",
+    new Date().toISOString(),
+  );
+}
 
 export const MinigamePrizeUI: React.FC<{
   prize?: MinigamePrize;
@@ -97,6 +108,10 @@ export const CropsAndChickens: React.FC<Props> = ({ onClose }) => {
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
 
   const { t } = useAppTranslation();
+
+  useEffect(() => {
+    acknowledgeIntro();
+  }, []);
 
   if (showIntro) {
     return (
