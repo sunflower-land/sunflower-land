@@ -19,21 +19,6 @@ const GAME_STATE: GameState = {
 };
 
 describe("buyFactionShopItem", () => {
-  it("throws an error if there is no bumpkin", () => {
-    expect(() =>
-      buyFactionShopItem({
-        state: {
-          ...GAME_STATE,
-          bumpkin: undefined,
-        },
-        action: {
-          type: "factionShopItem.bought",
-          item: "Knight Gambit",
-        },
-      }),
-    ).toThrow("Bumpkin not found");
-  });
-
   it("throws an error if a player does not belong to a faction", () => {
     expect(() =>
       buyFactionShopItem({

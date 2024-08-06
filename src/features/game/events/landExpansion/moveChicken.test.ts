@@ -2,22 +2,6 @@ import { INITIAL_BUMPKIN, TEST_FARM } from "features/game/lib/constants";
 import { MOVE_CHICKEN_ERRORS, moveChicken } from "./moveChicken";
 
 describe("moveChicken", () => {
-  it("throws if player has no Bumpkin", () => {
-    expect(() =>
-      moveChicken({
-        state: {
-          ...TEST_FARM,
-          bumpkin: undefined,
-        },
-        action: {
-          type: "chicken.moved",
-          id: "1",
-          coordinates: { x: 2, y: 2 },
-        },
-      }),
-    ).toThrow(MOVE_CHICKEN_ERRORS.NO_BUMPKIN);
-  });
-
   it("does not move chicken with invalid id", () => {
     expect(() =>
       moveChicken({

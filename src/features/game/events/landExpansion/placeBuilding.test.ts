@@ -2,7 +2,7 @@ import Decimal from "decimal.js-light";
 import { LEVEL_EXPERIENCE } from "features/game/lib/level";
 import { INITIAL_BUMPKIN, TEST_FARM } from "../../lib/constants";
 import { GameState } from "../../types/game";
-import { placeBuilding, PLACE_BUILDING_ERRORS } from "./placeBuilding";
+import { placeBuilding } from "./placeBuilding";
 
 const GAME_STATE: GameState = {
   ...TEST_FARM,
@@ -13,23 +13,6 @@ const GAME_STATE: GameState = {
 const dateNow = Date.now();
 
 describe("Place building", () => {
-  it("does not place without bumpkin", () => {
-    expect(() =>
-      placeBuilding({
-        state: { ...GAME_STATE, bumpkin: undefined },
-        action: {
-          id: "123",
-          type: "building.placed",
-          name: "Water Well",
-          coordinates: {
-            x: 2,
-            y: 2,
-          },
-        },
-      }),
-    ).toThrow(PLACE_BUILDING_ERRORS.NO_BUMPKIN);
-  });
-
   it("places a building", () => {
     const state = placeBuilding({
       state: {

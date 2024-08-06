@@ -3,38 +3,6 @@ import { skipKingdomChore } from "./skipKingdomChore";
 import { GameState } from "features/game/types/game";
 
 describe("skipKingdomChore", () => {
-  it("throws if bumpkin not found", () => {
-    expect(() =>
-      skipKingdomChore({
-        action: {
-          type: "kingdomChore.skipped",
-          id: 0,
-        },
-        state: {
-          ...TEST_FARM,
-          bumpkin: undefined,
-          kingdomChores: {
-            chores: [
-              {
-                activity: "Sunflower Harvested",
-                description: "Harvest 30 Sunflowers",
-                requirement: 30,
-                marks: 3,
-                image: "Sunflower",
-                startedAt: 0,
-                startCount: 0,
-              },
-            ],
-            resetsAt: Date.now() + 1000 * 60 * 60 * 24 * 7,
-            skipAvailableAt: Date.now(),
-            choresCompleted: 0,
-            choresSkipped: 0,
-          },
-        },
-      }),
-    ).toThrow("No bumpkin found");
-  });
-
   it("throws if no kingdom chores found", () => {
     expect(() =>
       skipKingdomChore({

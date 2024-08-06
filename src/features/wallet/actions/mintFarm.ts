@@ -62,15 +62,9 @@ export async function mintNFTFarm(request: Request) {
 
   await createNewAccount({
     account: wallet.myAccount as string,
-    bumpkinTokenUri: payload.bumpkinTokenUri,
-    bumpkinWearableIds: payload.bumpkinWearableIds,
-    charity: payload.charity,
     deadline: payload.deadline,
     fee: payload.fee,
-    referrerAmount: "0",
-    referrerId: payload.referrerId,
     signature: payload.signature,
     web3: wallet.web3Provider,
-    type: "MATIC",
   });
 }

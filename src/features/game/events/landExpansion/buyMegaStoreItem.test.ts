@@ -7,21 +7,6 @@ describe("buyMegaStoreItem", () => {
   beforeEach(() => jest.useFakeTimers());
   afterEach(() => jest.clearAllTimers());
 
-  it("throws an error if there is no bumpkin", () => {
-    expect(() =>
-      buyMegaStoreItem({
-        state: {
-          ...TEST_FARM,
-          bumpkin: undefined,
-        },
-        action: {
-          type: "megastoreItem.bought",
-          name: "Devil Wings",
-        },
-      }),
-    ).toThrow("Bumpkin not found");
-  });
-
   it("throws an error if the item is not available", () => {
     expect(() =>
       buyMegaStoreItem({

@@ -7,15 +7,6 @@ import Decimal from "decimal.js-light";
 const GAME_STATE = { ...TEST_FARM, bumpkin: INITIAL_BUMPKIN };
 
 describe("harvestFlower", () => {
-  it("throws if the bumpkin does not exist", () => {
-    expect(() =>
-      harvestFlower({
-        state: { ...GAME_STATE, bumpkin: undefined },
-        action: { type: "flower.harvested", id: "1" },
-      }),
-    ).toThrow("You do not have a Bumpkin");
-  });
-
   it("throws an error if the flower bed does not exist", () => {
     expect(() =>
       harvestFlower({

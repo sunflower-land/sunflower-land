@@ -17,23 +17,6 @@ const GAME_STATE: GameState = {
 const dateNow = Date.now();
 
 describe("Construct building", () => {
-  it("does not construct without bumpkin", () => {
-    expect(() =>
-      constructBuilding({
-        state: { ...GAME_STATE, bumpkin: undefined },
-        action: {
-          id: "123",
-          type: "building.constructed",
-          name: "Water Well",
-          coordinates: {
-            x: 2,
-            y: 2,
-          },
-        },
-      }),
-    ).toThrow(CONSTRUCT_BUILDING_ERRORS.NO_BUMPKIN);
-  });
-
   it("does not construct if build level is not reached", () => {
     expect(() =>
       constructBuilding({

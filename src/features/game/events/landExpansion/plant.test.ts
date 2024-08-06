@@ -584,28 +584,6 @@ describe("plant", () => {
     expect((plots as Record<number, CropPlot>)[0].crop?.amount).toEqual(1.2);
   });
 
-  it("throws an error if the player doesnt have a bumpkin", async () => {
-    expect(() =>
-      plant({
-        state: {
-          ...GAME_STATE,
-          bumpkin: undefined,
-          inventory: {
-            "Carrot Seed": new Decimal(1),
-            "Water Well": new Decimal(1),
-          },
-        },
-        action: {
-          type: "seed.planted",
-          cropId: "123",
-          index: "0",
-
-          item: "Carrot Seed",
-        },
-      }),
-    ).toThrow("You do not have a Bumpkin");
-  });
-
   it("yields +0.2 if Scary Mike is placed, plot is within AoE and planting Carrot", () => {
     const state: GameState = plant({
       state: {

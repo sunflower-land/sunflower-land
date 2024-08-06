@@ -40,24 +40,6 @@ const GAME_STATE: GameState = {
 describe("plantFlower", () => {
   const dateNow = Date.now();
 
-  it("throws an error if the player doesn't have a bumpkin", () => {
-    expect(() =>
-      plantFlower({
-        state: {
-          ...GAME_STATE,
-          bumpkin: undefined,
-        },
-        createdAt: dateNow,
-        action: {
-          type: "flower.planted",
-          id: "0",
-          seed: "Sunpetal Seed",
-          crossbreed: "Sunflower",
-        },
-      }),
-    ).toThrow("You do not have a Bumpkin");
-  });
-
   it("does not plant in a non-existent flower bed", () => {
     expect(() =>
       plantFlower({

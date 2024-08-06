@@ -69,7 +69,6 @@ import {
   buyBlockBucksMATIC,
 } from "../actions/buyBlockBucks";
 import { getSessionId } from "lib/blockchain/Session";
-import { depositBumpkin } from "../actions/deposit";
 import { mintAuctionItem } from "../actions/mintAuctionItem";
 import { BumpkinItem } from "../types/bumpkin";
 import { getAuctionResults } from "../actions/getAuctionResults";
@@ -241,7 +240,6 @@ type DepositEvent = {
   itemAmounts: string[];
   wearableIds: number[];
   wearableAmounts: number[];
-  bumpkinTokenUri?: string;
   budIds: number[];
 };
 
@@ -467,7 +465,6 @@ export type BlockchainState = {
     | "priceChanged"
     | "buds"
     | "airdrop"
-    | "noBumpkinFound"
     | "coolingDown"
     | "buyingBlockBucks"
     | "auctionResults"
@@ -764,11 +761,7 @@ export function startGame(authContext: AuthContext) {
                 );
               },
             },
-            {
-              target: "noBumpkinFound",
-              cond: (context: Context, event: any) =>
-                !event.data?.state.bumpkin && !context.state.bumpkin,
-            },
+
             {
               target: "introduction",
               cond: (context) => {
@@ -833,16 +826,6 @@ export function startGame(authContext: AuthContext) {
               target: "playing",
             },
           ],
-        },
-        noBumpkinFound: {
-          on: {
-            DEPOSIT: {
-              target: "depositing",
-            },
-            REFRESH: {
-              target: "refreshing",
-            },
-          },
         },
         specialOffer: {
           on: {
@@ -1768,30 +1751,20 @@ export function startGame(authContext: AuthContext) {
                 itemIds,
                 wearableIds,
                 wearableAmounts,
-                bumpkinTokenUri,
                 budIds,
               } = event as DepositEvent;
 
-              if (bumpkinTokenUri) {
-                await depositBumpkin({
-                  tokenUri: bumpkinTokenUri,
-                  farmId: context.farmId as number,
-                  token: authContext.user.rawToken as string,
-                  transactionId: context.transactionId as string,
-                });
-              } else {
-                await depositToFarm({
-                  web3: wallet.web3Provider,
-                  account: wallet.myAccount,
-                  farmId: context.nftId as number,
-                  sfl: sfl,
-                  itemIds: itemIds,
-                  itemAmounts: itemAmounts,
-                  wearableAmounts,
-                  wearableIds,
-                  budIds,
-                });
-              }
+              await depositToFarm({
+                web3: wallet.web3Provider,
+                account: wallet.myAccount,
+                farmId: context.nftId as number,
+                sfl: sfl,
+                itemIds: itemIds,
+                itemAmounts: itemAmounts,
+                wearableAmounts,
+                wearableIds,
+                budIds,
+              });
             },
             onDone: {
               target: "refreshing",

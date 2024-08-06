@@ -8,21 +8,6 @@ import { claimAchievement } from "./claimAchievement";
 const GAME_STATE: GameState = TEST_FARM;
 
 describe("claim achievements", () => {
-  it("throws an error if bumpkin does not exist", () => {
-    expect(() =>
-      claimAchievement({
-        state: {
-          ...GAME_STATE,
-          bumpkin: undefined,
-        },
-        action: {
-          type: "achievement.claimed",
-          achievement: "Explorer",
-        },
-      }),
-    ).toThrow("You do not have a Bumpkin");
-  });
-
   it("throws an error if requirement is not met", () => {
     expect(() =>
       claimAchievement({
