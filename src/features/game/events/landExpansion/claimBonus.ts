@@ -2,7 +2,6 @@ import Decimal from "decimal.js-light";
 import { BONUSES, BonusName } from "features/game/types/bonuses";
 import { getKeys } from "features/game/types/craftables";
 import { GameState } from "features/game/types/game";
-import cloneDeep from "lodash.clonedeep";
 
 export type ClaimBonusAction = {
   type: "bonus.claimed";
@@ -20,7 +19,7 @@ export function claimBonus({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  const game = cloneDeep(state);
+  const game: GameState = state;
 
   const bonus = BONUSES[action.name];
 

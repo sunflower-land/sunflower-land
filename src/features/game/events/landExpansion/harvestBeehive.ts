@@ -1,4 +1,3 @@
-import cloneDeep from "lodash.clonedeep";
 import Decimal from "decimal.js-light";
 import { GameState } from "features/game/types/game";
 import {
@@ -76,7 +75,7 @@ export function harvestBeehive({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  const stateCopy = cloneDeep(state) as GameState;
+  const stateCopy = state;
 
   if (!stateCopy.bumpkin) {
     throw new Error("You do not have a Bumpkin!");

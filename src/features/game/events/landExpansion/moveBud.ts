@@ -1,6 +1,5 @@
 import { Coordinates } from "features/game/expansion/components/MapPlacement";
 import { GameState } from "features/game/types/game";
-import cloneDeep from "lodash.clonedeep";
 
 export enum MOVE_BUD_ERRORS {
   NO_BUMPKIN = "You do not have a Bumpkin!",
@@ -25,7 +24,7 @@ export function moveBud({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  const stateCopy = cloneDeep(state) as GameState;
+  const stateCopy = state;
 
   const bud = stateCopy.buds?.[Number(action.id)];
 

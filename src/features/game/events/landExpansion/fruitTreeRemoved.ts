@@ -6,7 +6,6 @@ import {
   Inventory,
   InventoryItemName,
 } from "features/game/types/game";
-import cloneDeep from "lodash.clonedeep";
 
 export enum FRUIT_TREE_REMOVED_ERRORS {
   MISSING_AXE = "No axe",
@@ -49,7 +48,7 @@ export function removeFruitTree({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  const stateCopy = cloneDeep(state);
+  const stateCopy = state;
   const { fruitPatches, bumpkin, inventory, collectibles } = stateCopy;
 
   if (!bumpkin) {

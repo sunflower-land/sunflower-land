@@ -5,7 +5,6 @@ import {
   FactionName,
   GameState,
 } from "features/game/types/game";
-import cloneDeep from "lodash.clonedeep";
 
 export const FACTIONS: FactionName[] = [
   "bumpkins",
@@ -47,7 +46,7 @@ export function joinFaction({
   action,
   createdAt = Date.now(),
 }: Options) {
-  const stateCopy: GameState = cloneDeep(state);
+  const stateCopy: GameState = state;
 
   if (!FACTIONS.includes(action.faction)) {
     throw new Error("Invalid faction");

@@ -1,7 +1,6 @@
 import Decimal from "decimal.js-light";
 import { updateBeehives } from "features/game/lib/updateBeehives";
 import { Beehive, GameState } from "features/game/types/game";
-import cloneDeep from "lodash.clonedeep";
 
 export type PlaceBeehiveAction = {
   type: "beehive.placed";
@@ -23,7 +22,7 @@ export function placeBeehive({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  const copy: GameState = cloneDeep(state);
+  const copy: GameState = state;
 
   const available = (copy.inventory.Beehive || new Decimal(0)).minus(
     Object.keys(copy.beehives ?? {}).length,

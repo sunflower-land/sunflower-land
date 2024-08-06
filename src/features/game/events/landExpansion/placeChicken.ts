@@ -1,5 +1,4 @@
 import { getKeys } from "features/game/types/craftables";
-import cloneDeep from "lodash.clonedeep";
 import { GameState } from "../../types/game";
 import { getSupportedChickens } from "./utils";
 
@@ -23,7 +22,7 @@ export function placeChicken({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  const stateCopy = cloneDeep(state);
+  const stateCopy = state;
   const bumpkin = stateCopy.bumpkin;
 
   if (bumpkin === undefined) {

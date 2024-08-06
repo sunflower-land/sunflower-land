@@ -1,5 +1,3 @@
-import cloneDeep from "lodash.clonedeep";
-
 import { GameState } from "features/game/types/game";
 
 import {
@@ -139,7 +137,7 @@ export function plantGreenhouse({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  const game = cloneDeep(state) as GameState;
+  const game: GameState = state;
 
   // Requires Greenhouse exists
   if (!game.buildings.Greenhouse) {

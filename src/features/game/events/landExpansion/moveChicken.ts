@@ -7,7 +7,6 @@ import {
   GameState,
   Position,
 } from "features/game/types/game";
-import cloneDeep from "lodash.clonedeep";
 import { eggIsReady } from "./collectEgg";
 
 export enum MOVE_CHICKEN_ERRORS {
@@ -68,7 +67,7 @@ export function moveChicken({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  const stateCopy = cloneDeep(state) as GameState;
+  const stateCopy = state;
   const chickens = stateCopy.chickens;
   const collectibles = stateCopy.collectibles;
 

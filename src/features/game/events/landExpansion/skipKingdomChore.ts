@@ -1,5 +1,4 @@
 import { GameState } from "features/game/types/game";
-import cloneDeep from "lodash.clonedeep";
 import { populateKingdomChores } from "./completeKingdomChore";
 
 export type SkipKingdomChoreAction = {
@@ -18,7 +17,7 @@ export function skipKingdomChore({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  const game = cloneDeep<GameState>(state);
+  const game: GameState = state;
   const { id } = action;
   const { kingdomChores, bumpkin } = game;
 

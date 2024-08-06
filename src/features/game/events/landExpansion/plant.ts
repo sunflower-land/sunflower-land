@@ -1,4 +1,3 @@
-import cloneDeep from "lodash.clonedeep";
 import Decimal from "decimal.js-light";
 
 import { CropName, CROPS, GreenHouseCropName } from "../../types/crops";
@@ -602,7 +601,7 @@ export function plant({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  const stateCopy = cloneDeep(state);
+  const stateCopy = state;
   const { crops: plots, bumpkin, inventory } = stateCopy;
   const buds = stateCopy.buds ?? {};
 

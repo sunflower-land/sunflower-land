@@ -1,6 +1,5 @@
 import Decimal from "decimal.js-light";
 import { GameState } from "features/game/types/game";
-import cloneDeep from "lodash.clonedeep";
 
 export type BuyMoreDigsAction = {
   type: "desert.digsBought";
@@ -16,7 +15,7 @@ const EXTRA_DIGS_AMOUNT = 5;
 export const GRID_DIG_SPOTS = 100;
 
 export function buyMoreDigs({ state }: Options) {
-  const game = cloneDeep(state);
+  const game: GameState = state;
 
   const blockBucks = game.inventory["Block Buck"] ?? new Decimal(0);
 

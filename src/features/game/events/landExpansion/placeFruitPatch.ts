@@ -1,5 +1,3 @@
-import cloneDeep from "lodash.clonedeep";
-
 import { GameState } from "features/game/types/game";
 import {
   ResourceName,
@@ -28,7 +26,7 @@ export function placeFruitPatch({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  const game = cloneDeep(state) as GameState;
+  const game: GameState = state;
 
   const available = (game.inventory["Fruit Patch"] || new Decimal(0)).minus(
     Object.keys(game.fruitPatches).length,

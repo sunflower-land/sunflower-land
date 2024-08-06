@@ -2,7 +2,6 @@ import Decimal from "decimal.js-light";
 import { BuildingName } from "features/game/types/buildings";
 import { trackActivity } from "features/game/types/bumpkinActivity";
 import { GameState } from "features/game/types/game";
-import cloneDeep from "lodash.clonedeep";
 import { translate } from "lib/i18n/translate";
 
 export type CollectRecipeAction = {
@@ -22,7 +21,8 @@ export function collectRecipe({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  const game = cloneDeep(state);
+  const game: GameState = state;
+
   const { bumpkin } = game;
 
   const building = game.buildings[action.building]?.find(

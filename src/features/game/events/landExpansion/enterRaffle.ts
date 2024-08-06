@@ -1,4 +1,3 @@
-import cloneDeep from "lodash.clonedeep";
 import Decimal from "decimal.js-light";
 import { GameState } from "features/game/types/game";
 
@@ -19,7 +18,7 @@ export function enterRaffle({
   createdAt = Date.now(),
   randomGenerator = Math.random,
 }: Options): GameState {
-  const game = cloneDeep(state);
+  const game: GameState = state;
 
   const tickets = game.inventory["Prize Ticket"] ?? new Decimal(0);
 

@@ -1,5 +1,4 @@
 import Decimal from "decimal.js-light";
-import cloneDeep from "lodash.clonedeep";
 
 import { CROPS } from "../../types/crops";
 import { GameState } from "../../types/game";
@@ -20,7 +19,7 @@ export function collectCropReward({
   action,
   createdAt = Date.now(),
 }: Options) {
-  const stateCopy = cloneDeep(state);
+  const stateCopy = state;
   const plot = stateCopy.crops[action.plotIndex];
 
   if (!plot) {

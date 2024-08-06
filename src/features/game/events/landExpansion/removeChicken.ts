@@ -1,6 +1,5 @@
 import Decimal from "decimal.js-light";
 import { GameState } from "features/game/types/game";
-import cloneDeep from "lodash.clonedeep";
 
 export enum REMOVE_CHICKEN_ERRORS {
   INVALID_CHICKEN = "This chicken does not exist",
@@ -18,7 +17,7 @@ type Options = {
 };
 
 export function removeChicken({ state, action }: Options) {
-  const stateCopy = cloneDeep(state) as GameState;
+  const stateCopy = state;
 
   const { chickens, inventory, bumpkin } = stateCopy;
 

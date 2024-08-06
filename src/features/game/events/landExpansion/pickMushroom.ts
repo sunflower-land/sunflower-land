@@ -1,5 +1,4 @@
 import Decimal from "decimal.js-light";
-import cloneDeep from "lodash.clonedeep";
 import { GameState } from "../../types/game";
 
 export type PickMushroomAction = {
@@ -18,7 +17,7 @@ export function pickMushroom({
   action,
   createdAt = Date.now(),
 }: Options) {
-  const copy = cloneDeep<GameState>(state);
+  const copy: GameState = state;
   const mushrooms = copy.mushrooms?.mushrooms;
 
   if (!mushrooms) {

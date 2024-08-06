@@ -3,7 +3,6 @@ import { canMine } from "features/game/expansion/lib/utils";
 import { isAOEImpacted } from "features/game/expansion/placeable/lib/collisionDetection";
 import { GOLD_RECOVERY_TIME } from "features/game/lib/constants";
 import { Collectibles, GameState, Rock } from "features/game/types/game";
-import cloneDeep from "lodash.clonedeep";
 
 export enum MOVE_GOLD_ERRORS {
   NO_BUMPKIN = "You do not have a Bumpkin!",
@@ -42,7 +41,7 @@ export function moveGold({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  const stateCopy = cloneDeep(state) as GameState;
+  const stateCopy = state;
   const gold = stateCopy.gold;
 
   if (stateCopy.bumpkin === undefined) {

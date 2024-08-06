@@ -1,4 +1,3 @@
-import cloneDeep from "lodash.clonedeep";
 import { GameState } from "features/game/types/game";
 import { isChoreId } from "./completeChore";
 
@@ -25,7 +24,8 @@ export function skipChore({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  const game = cloneDeep(state);
+  const game: GameState = state;
+
   const { id } = action;
   const { chores, bumpkin } = game;
 

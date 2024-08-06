@@ -7,7 +7,6 @@ import { getKeys } from "features/game/types/craftables";
 
 import { GameState } from "features/game/types/game";
 import { STYLIST_WEARABLES } from "features/game/types/stylist";
-import cloneDeep from "lodash.clonedeep";
 
 export type BuyWearableAction = {
   type: "wearable.bought";
@@ -25,7 +24,7 @@ export function buyWearable({
   action,
   createdAt = Date.now(),
 }: Options) {
-  const stateCopy: GameState = cloneDeep(state);
+  const stateCopy: GameState = state;
   const { name } = action;
   const wearable = { ...STYLIST_WEARABLES, ...ARTEFACT_SHOP_WEARABLES }[name];
 

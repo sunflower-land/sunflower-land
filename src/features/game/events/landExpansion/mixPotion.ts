@@ -4,7 +4,6 @@ import {
   PotionName,
   PotionStatus,
 } from "features/game/types/game";
-import cloneDeep from "lodash.clonedeep";
 
 const MAX_ATTEMPTS = 3;
 
@@ -41,7 +40,7 @@ export function calculateScore(attempt: Attempt): number {
 }
 
 export function mixPotion({ state, action }: Options): GameState {
-  const stateCopy = cloneDeep<GameState>(state);
+  const stateCopy = state;
 
   const potions = action.potions;
   const attemptIndex = action.attemptNumber - 1;

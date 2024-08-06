@@ -12,7 +12,6 @@ import {
   InventoryItemName,
   Tree,
 } from "features/game/types/game";
-import cloneDeep from "lodash.clonedeep";
 
 export enum CHOP_ERRORS {
   MISSING_AXE = "No axe",
@@ -101,7 +100,7 @@ export function chop({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  const stateCopy = cloneDeep(state);
+  const stateCopy = state;
   const { trees, bumpkin, collectibles, inventory } = stateCopy;
 
   if (bumpkin === undefined) {

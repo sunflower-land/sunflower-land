@@ -10,7 +10,6 @@ import {
 } from "features/game/types/seasons";
 import { NPCName } from "lib/npcs";
 import { getSeasonChangeover } from "lib/utils/getSeasonWeek";
-import cloneDeep from "lodash.clonedeep";
 import { isWearableActive } from "features/game/lib/wearables";
 
 export const TICKET_REWARDS: Record<QuestNPCName, number> = {
@@ -168,7 +167,7 @@ export function populateOrders(
 }
 
 const clone = (state: GameState): GameState => {
-  return cloneDeep(state);
+  return state;
 };
 
 export function getOrderSellPrice<T>(game: GameState, order: Order): T {

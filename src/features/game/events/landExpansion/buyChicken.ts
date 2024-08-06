@@ -1,7 +1,6 @@
 import Decimal from "decimal.js-light";
 import { trackActivity } from "features/game/types/bumpkinActivity";
 import { ANIMALS } from "features/game/types/craftables";
-import cloneDeep from "lodash.clonedeep";
 import { GameState } from "../../types/game";
 import { getSupportedChickens } from "./utils";
 
@@ -20,7 +19,7 @@ type Options = {
 };
 
 export function buyChicken({ state, action }: Options): GameState {
-  const stateCopy: GameState = cloneDeep(state);
+  const stateCopy: GameState = state;
   const { bumpkin, inventory, coins } = stateCopy;
 
   if (bumpkin === undefined) {

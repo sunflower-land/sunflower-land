@@ -1,6 +1,5 @@
 import Decimal from "decimal.js-light";
 import { ChoreV2Name, GameState } from "features/game/types/game";
-import cloneDeep from "lodash.clonedeep";
 import {
   getSeasonalBanner,
   getSeasonalTicket,
@@ -58,7 +57,7 @@ export function completeChore({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  const game = cloneDeep<GameState>(state);
+  const game: GameState = state;
   const { id } = action;
   const { chores, bumpkin } = game;
 

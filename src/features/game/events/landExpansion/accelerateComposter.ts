@@ -3,7 +3,6 @@ import {
   composterDetails,
 } from "features/game/types/composters";
 import { CompostBuilding, GameState } from "features/game/types/game";
-import cloneDeep from "lodash.clonedeep";
 import { translate } from "lib/i18n/translate";
 
 export type AccelerateComposterAction = {
@@ -22,7 +21,7 @@ export function accelerateComposter({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  const stateCopy = cloneDeep<GameState>(state);
+  const stateCopy = state;
 
   const buildings = stateCopy.buildings[action.building] as CompostBuilding[];
   if (!buildings) {

@@ -1,6 +1,5 @@
 import Decimal from "decimal.js-light";
 import { screenTracker } from "lib/utils/screen";
-import cloneDeep from "lodash.clonedeep";
 import { CROPS } from "../../types/crops";
 import { GameState, InventoryItemName } from "../../types/game";
 import { isReadyToHarvest } from "./harvest";
@@ -29,7 +28,7 @@ type Options = {
 };
 
 export function removeCrop({ state, action, createdAt = Date.now() }: Options) {
-  const stateCopy = cloneDeep(state);
+  const stateCopy = state;
   const { crops: plots, inventory } = stateCopy;
 
   if (action.index < 0) {

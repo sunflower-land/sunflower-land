@@ -3,7 +3,6 @@ import { trackActivity } from "features/game/types/bumpkinActivity";
 import { ComposterName } from "features/game/types/composters";
 import { getKeys } from "features/game/types/craftables";
 import { CompostBuilding, GameState } from "features/game/types/game";
-import cloneDeep from "lodash.clonedeep";
 import { translate } from "lib/i18n/translate";
 
 export type collectCompostAction = {
@@ -23,7 +22,7 @@ export function collectCompost({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  const stateCopy = cloneDeep(state);
+  const stateCopy = state;
   const { bumpkin } = stateCopy;
 
   const building = stateCopy.buildings[action.building]?.find(

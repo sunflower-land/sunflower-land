@@ -9,7 +9,6 @@ import {
   IslandType,
 } from "features/game/types/game";
 
-import cloneDeep from "lodash.clonedeep";
 import { translate } from "lib/i18n/translate";
 import { Coordinates } from "features/game/expansion/components/MapPlacement";
 
@@ -661,7 +660,8 @@ export const ISLAND_UPGRADE: Record<
 };
 
 function springUpgrade(state: GameState) {
-  const game = cloneDeep(state) as GameState;
+  const game: GameState = state;
+
   // Clear the house
   delete game.inventory["Town Center"];
 
@@ -728,7 +728,8 @@ export function expireItems({
 }
 
 function desertUpgrade(state: GameState) {
-  const game = cloneDeep(state) as GameState;
+  const game: GameState = state;
+
   // Clear the house
   delete game.inventory["Town Center"];
   delete game.inventory["House"];
@@ -770,7 +771,7 @@ function desertUpgrade(state: GameState) {
 }
 
 export function upgrade({ state, action, createdAt = Date.now() }: Options) {
-  let game = cloneDeep(state) as GameState;
+  let game: GameState = state;
 
   const upcoming = ISLAND_UPGRADE[game.island.type];
 
