@@ -27,13 +27,13 @@ import { Room } from "colyseus.js";
 
 import defaultTilesetConfig from "assets/map/tileset.json";
 
-import {
-  AudioLocalStorageKeys,
-  getCachedAudioSetting,
-} from "../../game/lib/audio";
 import { MachineInterpreter } from "features/game/lib/gameMachine";
 import { MachineInterpreter as AuthMachineInterpreter } from "features/auth/lib/authMachine";
 import { PhaserNavMesh } from "phaser-navmesh";
+import {
+  AUDIO_MUTED_EVENT,
+  getAudioMutedSetting,
+} from "lib/utils/hooks/useIsAudioMuted";
 
 export type NPCBumpkin = {
   x: number;
@@ -166,6 +166,10 @@ export abstract class BaseScene extends Phaser.Scene {
     this.options = defaultedOptions;
   }
 
+  private onAudioMuted = (event: CustomEvent) => {
+    this.sound.mute = event.detail;
+  };
+
   preload() {
     if (this.options.map?.json) {
       const json = {
@@ -184,6 +188,10 @@ export abstract class BaseScene extends Phaser.Scene {
     try {
       this.initialiseMap();
       this.initialiseSounds();
+
+      // set audio mute state and listen for changes
+      this.sound.mute = getAudioMutedSetting();
+      window.addEventListener(AUDIO_MUTED_EVENT as any, this.onAudioMuted);
 
       if (this.options.mmo.enabled) {
         this.initialiseMMO();
@@ -446,19 +454,15 @@ export abstract class BaseScene extends Phaser.Scene {
     this.events.on("shutdown", () => {
       removeMessageListener();
       removeReactionListener();
+
+      window.removeEventListener(AUDIO_MUTED_EVENT as any, this.onAudioMuted);
     });
   }
 
   public initialiseSounds() {
-    const audioMuted = getCachedAudioSetting<boolean>(
-      AudioLocalStorageKeys.audioMuted,
-      false,
+    this.walkAudioController = new WalkAudioController(
+      this.sound.add(this.options.audio.fx.walk_key),
     );
-    if (!audioMuted) {
-      this.walkAudioController = new WalkAudioController(
-        this.sound.add(this.options.audio.fx.walk_key),
-      );
-    }
   }
 
   public initialiseControls() {
@@ -474,6 +478,7 @@ export abstract class BaseScene extends Phaser.Scene {
         forceMin: 2,
       });
     }
+
     // Initialise Keyboard
     this.cursorKeys = this.input.keyboard?.createCursorKeys();
     if (this.cursorKeys) {
