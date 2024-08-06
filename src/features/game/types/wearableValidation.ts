@@ -2,7 +2,6 @@ import { BumpkinItem } from "./bumpkin";
 import {
   areAnyChickensFed,
   areAnyCrimstonesMined,
-  areAnyCropsGrowing,
   areAnyFruitsGrowing,
   areAnyOilReservesDrilled,
   areFlowersGrowing,
@@ -15,6 +14,7 @@ import {
   areAnyOGFruitsGrowing,
   hasFishedToday,
   areBonusTreasureHolesDug,
+  areAnyCropsOrGreenhouseCropsGrowing,
 } from "./removeables";
 import { GameState } from "./game";
 
@@ -30,7 +30,7 @@ export const canWithdrawBoostedWearable = (
     name === "Devil Wings" ||
     name === "Infernal Pitchfork"
   ) {
-    return !areAnyCropsGrowing(state)[0];
+    return !areAnyCropsOrGreenhouseCropsGrowing(state)[0];
   }
 
   if (name === "Sunflower Amulet") {
