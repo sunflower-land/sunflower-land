@@ -57,6 +57,7 @@ interface Props {
  * @crafting Whether the building is in the process of crafting a food item.
  * @craftingService The crafting service.
  */
+
 export const Recipes: React.FC<Props> = ({
   selected,
   setSelected,
