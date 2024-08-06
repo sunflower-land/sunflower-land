@@ -788,22 +788,10 @@ export class BeachScene extends BaseScene {
     const hasTool =
       (this.selectedItem === "Sand Drill" && sandDrillsCount > 0) ||
       (this.selectedItem === "Sand Shovel" && sandShovelsCount > 0) ||
-      isWearableActive({
-        name: "Ancient Shovel",
-        game: this.gameService.state.context.state,
-      });
+      this.isAncientShovelActive;
 
     if (!hasTool || !this.hasDigsLeft) {
       if (!hasDugHere) {
-        if (
-          isWearableActive({
-            name: "Ancient Shovel",
-            game: this.gameService.state.context.state,
-          })
-        ) {
-          return;
-        }
-
         // If the player has the drill selected then return as the no dig icon is handled in the drill hover
         // due to the different size of the hover box
         if (this.selectedItem === "Sand Drill") return;
@@ -1134,6 +1122,13 @@ export class BeachScene extends BaseScene {
     );
   }
 
+  get isAncientShovelActive() {
+    return isWearableActive({
+      name: "Ancient Shovel",
+      game: this.gameService.state.context.state,
+    });
+  }
+
   get holesDugCount() {
     return this.gameService.state.context.state.desert.digging.grid.length ?? 0;
   }
@@ -1385,15 +1380,11 @@ export class BeachScene extends BaseScene {
     const sandDrills =
       this.gameService.state.context.state.inventory["Sand Drill"] ??
       new Decimal(0);
-    const isAncientShovelActive = isWearableActive({
-      name: "Ancient Shovel",
-      game: this.gameService.state.context.state,
-    });
 
     if (
       sandShovels.lt(1) &&
       this.selectedItem !== "Sand Drill" &&
-      !isAncientShovelActive
+      !this.isAncientShovelActive
     ) {
       this.npcs.digby?.speak(translate("digby.noShovels"));
 
@@ -1645,6 +1636,15 @@ export class BeachScene extends BaseScene {
 
     this.handleUpdateSelectedItem();
     this.handleNameTagVisibility();
+
+    // Get Digby to hold his tongue if the player doesn't have the drill selected and is rocking the ancient shovel
+    if (
+      this.isAncientShovelActive &&
+      this.currentSelectedItem !== "Sand Drill" &&
+      this.npcs.digby?.isSpeaking
+    ) {
+      this.npcs.digby?.stopSpeaking();
+    }
 
     if (this.isPlayerInDigArea(this.currentPlayer.x, this.currentPlayer.y)) {
       this.updatePlayer();
