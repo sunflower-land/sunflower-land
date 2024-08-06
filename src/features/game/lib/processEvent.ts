@@ -202,17 +202,6 @@ export const maxItems: Inventory = {
   "Red Wiggler": new Decimal(100),
   "Fishing Lure": new Decimal(100),
 
-  //Treasure Island Beach Bounty
-  "Pirate Bounty": new Decimal(50),
-  Pearl: new Decimal(50),
-  Coral: new Decimal(50),
-  "Clam Shell": new Decimal(50),
-  Pipi: new Decimal(50),
-  Starfish: new Decimal(50),
-  Seaweed: new Decimal(50),
-  "Sea Cucumber": new Decimal(50),
-  Crab: new Decimal(1000),
-
   // Seasonal decorations - Dawnbreaker
   Clementine: new Decimal(1),
   Blossombeard: new Decimal(1),
