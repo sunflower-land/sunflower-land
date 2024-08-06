@@ -5315,8 +5315,7 @@ const withdraw: Record<Withdraw, string> = {
   "withdraw.opensea":
     "Depois de retirados, você poderá ver seus itens no OpenSea.",
   "withdraw.budRestricted": ENGLISH_TERMS["withdraw.budRestricted"],
-  "withdraw.restricted":
-    "Alguns itens não podem ser retirados. Outros itens podem ser restritos quando",
+  "withdraw.restricted": ENGLISH_TERMS["withdraw.restricted"],
   "withdraw.bumpkin.wearing":
     "Seu Bumpkin está atualmente usando o(s) seguinte(s) item(ns) que não podem ser retirados. Você precisará desequipá-los antes de poder retirar.",
   "withdraw.bumpkin.sure.withdraw":

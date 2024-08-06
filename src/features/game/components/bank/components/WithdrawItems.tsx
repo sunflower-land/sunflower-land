@@ -130,27 +130,7 @@ export const WithdrawItems: React.FC<Props> = ({
     <>
       <div className="mt-3">
         <div className="flex items-center border-2 rounded-md border-black p-2 bg-green-background mb-3">
-          <span className="text-xs">
-            {t("withdraw.restricted")}{" "}
-            <a
-              href="https://docs.sunflower-land.com/fundamentals/withdrawing#why-cant-i-withdraw-some-items"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="underline hover:text-blue-500"
-            >
-              {"in use"}
-            </a>
-            {" or are "}
-            <a
-              href="https://docs.sunflower-land.com/fundamentals/withdrawing#why-cant-i-withdraw-some-items"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="underline hover:text-blue-500"
-            >
-              {"still being built"}
-            </a>
-            {"."}
-          </span>
+          <span className="text-xs">{t("withdraw.restricted")}</span>
         </div>
         <h2 className="mb-3">{t("withdraw.select.item")}</h2>
         <div className="flex flex-wrap h-fit -ml-1.5">

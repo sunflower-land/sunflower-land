@@ -5386,7 +5386,7 @@ const withdraw: Record<Withdraw, string> = {
   "withdraw.opensea":
     "Once withdrawn, you will be able to view your items on OpenSea.",
   "withdraw.restricted":
-    "Some items cannot be withdrawn. Other items may be restricted when",
+    "Some items cannot be withdrawn. Other items may be restricted when in use or still being built.",
   "withdraw.bumpkin.wearing":
     "Your Bumpkin is currently wearing the following item(s) that can't be withdrawn. You will need to unequip them before you can withdraw.",
   "withdraw.bumpkin.sure.withdraw":

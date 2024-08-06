@@ -5324,8 +5324,7 @@ const withdraw: Record<Withdraw, string> = {
   "withdraw.select.item": "Geri çekilecek öğeleri seçin",
   "withdraw.opensea":
     "Geri çekildikten sonra öğelerinizi OpenSea'de görebileceksiniz.",
-  "withdraw.restricted":
-    "Bazı öğeler geri alınamaz. Diğer öğeler şu durumlarda kısıtlanabilir",
+  "withdraw.restricted": ENGLISH_TERMS["withdraw.restricted"],
   "withdraw.bumpkin.wearing":
     "Bumpkin'iniz şu anda geri alınamayan aşağıdaki öğeleri giyiyor. Geri çekilmeden önce bunları donanımdan çıkarmanız gerekecek.",
   "withdraw.bumpkin.sure.withdraw":
