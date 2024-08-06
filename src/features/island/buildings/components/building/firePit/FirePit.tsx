@@ -10,15 +10,24 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { BuildingImageWrapper } from "../BuildingImageWrapper";
 import { setImageWidth } from "lib/images";
 import { Context } from "features/game/GameProvider";
-import { useActor } from "@xstate/react";
+import { useSelector } from "@xstate/react";
 import { bakeryAudio, loadAudio } from "lib/utils/sfx";
 import { gameAnalytics } from "lib/gameAnalytics";
 
 import { SUNNYSIDE } from "assets/sunnyside";
 import { FIRE_PIT_VARIANTS } from "features/island/lib/alternateArt";
 import shadow from "assets/npcs/shadow.png";
+import { MachineState } from "features/game/lib/gameMachine";
+import Decimal from "decimal.js-light";
 
 type Props = BuildingProps & Partial<CraftingMachineChildProps>;
+
+const _mashedPotatoCooked = (state: MachineState) =>
+  state.context.state.bumpkin?.activity?.["Mashed Potato Cooked"];
+const _experience = (state: MachineState) =>
+  state.context.state.bumpkin?.experience;
+const _potatoCount = (state: MachineState) =>
+  state.context.state.inventory.Potato ?? new Decimal(0);
 
 export const FirePit: React.FC<Props> = ({
   buildingId,
@@ -31,10 +40,12 @@ export const FirePit: React.FC<Props> = ({
   island,
   onRemove,
 }) => {
+  const { gameService } = useContext(Context);
   const [showModal, setShowModal] = useState(false);
 
-  const { gameService } = useContext(Context);
-  const [gameState] = useActor(gameService);
+  const mashedPotatoCooked = useSelector(gameService, _mashedPotatoCooked);
+  const experience = useSelector(gameService, _experience);
+  const potatoCount = useSelector(gameService, _potatoCount);
 
   useEffect(() => {
     loadAudio([bakeryAudio]);
@@ -48,10 +59,7 @@ export const FirePit: React.FC<Props> = ({
       buildingId,
     });
 
-    if (
-      item === "Mashed Potato" &&
-      !gameState.context.state.bumpkin?.activity?.[`${item} Cooked`]
-    ) {
+    if (item === "Mashed Potato" && !mashedPotatoCooked) {
       gameAnalytics.trackMilestone({
         event: "Tutorial:Cooked:Completed",
       });
@@ -89,10 +97,7 @@ export const FirePit: React.FC<Props> = ({
     }
   };
 
-  const showHelper =
-    gameState.context.state.inventory.Potato?.gte(8) &&
-    gameState.context.state.bumpkin?.experience === 0 &&
-    !crafting;
+  const showHelper = potatoCount.gte(8) && experience === 0 && !crafting;
 
   return (
     <>
