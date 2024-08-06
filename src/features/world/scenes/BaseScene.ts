@@ -1054,7 +1054,7 @@ export abstract class BaseScene extends Phaser.Scene {
   }
 
   checkDistanceToSprite(
-    sprite: Phaser.GameObjects.Sprite,
+    sprite: Phaser.GameObjects.Sprite | Phaser.GameObjects.Image,
     maxDistance: number,
   ) {
     const distance = Phaser.Math.Distance.BetweenPoints(

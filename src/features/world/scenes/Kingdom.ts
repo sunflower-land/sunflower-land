@@ -193,7 +193,18 @@ export class KingdomScene extends BaseScene {
 
     if (hasFeatureAccess(this.gameState, "CROPS_AND_CHICKENS")) {
       if (!hasReadCropsAndChickensNotice()) {
-        this.add.image(400, 732, "question_disc").setDepth(1000000);
+        const cropsAndChickensPortalNotice = this.add
+          .image(400, 732, "question_disc")
+          .setDepth(1000000);
+        cropsAndChickensPortalNotice
+          .setInteractive({ cursor: "pointer" })
+          .on("pointerdown", () => {
+            if (this.checkDistanceToSprite(cropsAndChickensPortalNotice, 40)) {
+              interactableModalManager.open("crops_and_chickens");
+            } else {
+              this.currentPlayer?.speak(translate("base.iam.far.away"));
+            }
+          });
       }
 
       const cropsAndChickensPortal = this.add.sprite(400, 752, "portal");
