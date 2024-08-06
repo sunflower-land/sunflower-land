@@ -39,6 +39,7 @@ import classNames from "classnames";
 import { Label } from "components/ui/Label";
 import { secondsToString } from "lib/utils/time";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { formatNumber } from "lib/utils/formatNumber";
 
 type Stage = "seedling" | "growing" | "almost" | "ready";
 const PLANT_STAGES: Record<
@@ -146,9 +147,7 @@ export const GreenhousePot: React.FC<Props> = ({ id }) => {
                 width: `${PIXEL_SCALE * 7}px`,
               }}
             />
-            <span className="text-sm yield-text">{`+${harvested.current?.amount.toFixed(
-              2,
-            )}`}</span>
+            <span className="text-sm yield-text">{`+${formatNumber(harvested.current?.amount ?? 0)}`}</span>
           </Transition>
         )}
 

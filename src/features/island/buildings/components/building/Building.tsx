@@ -51,7 +51,7 @@ const InProgressBuilding: React.FC<Prop> = ({
   const BuildingPlaced = BUILDING_COMPONENTS[name];
 
   const totalSeconds = (readyAt - createdAt) / 1000;
-  const secondsLeft = Math.floor((readyAt - Date.now()) / 1000);
+  const secondsLeft = (readyAt - Date.now()) / 1000;
 
   return (
     <>

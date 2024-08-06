@@ -32,11 +32,11 @@ export interface AccountMinter extends BaseContract {
   constructor(
     jsonInterface: any[],
     address?: string,
-    options?: ContractOptions
+    options?: ContractOptions,
   ): AccountMinter;
   clone(): AccountMinter;
   methods: {
-    charityFee(): NonPayableTransactionObject<string>;
+    addGameRole(_game: string): NonPayableTransactionObject<void>;
 
     createdAt(arg0: string): NonPayableTransactionObject<string>;
 
@@ -46,35 +46,31 @@ export interface AccountMinter extends BaseContract {
 
     farmCreatedAt(account: string): NonPayableTransactionObject<string>;
 
-    maxSupply(): NonPayableTransactionObject<string>;
+    gameAddGameRole(_game: string): NonPayableTransactionObject<void>;
+
+    gameRemoveGameRole(_game: string): NonPayableTransactionObject<void>;
+
+    gameRoles(arg0: string): NonPayableTransactionObject<boolean>;
 
     mintAccount(
       signature: string | number[],
-      charity: string,
       deadline: number | string | BN,
       mintFee: number | string | BN,
-      bumpkinItemIds: (number | string | BN)[],
-      bumpkinTokenUri: string,
-      referrerId: number | string | BN
+      account: string,
     ): PayableTransactionObject<void>;
+
+    onERC721Received(
+      arg0: string,
+      arg1: string,
+      arg2: number | string | BN,
+      arg3: string | number[],
+    ): NonPayableTransactionObject<string>;
 
     owner(): NonPayableTransactionObject<string>;
 
-    referrerFee(): NonPayableTransactionObject<string>;
+    removeGameRole(_game: string): NonPayableTransactionObject<void>;
 
     renounceOwnership(): NonPayableTransactionObject<void>;
-
-    setCharityFee(
-      _fee: number | string | BN
-    ): NonPayableTransactionObject<void>;
-
-    setMaxSupply(
-      _supply: number | string | BN
-    ): NonPayableTransactionObject<void>;
-
-    setReferrerFee(
-      _fee: number | string | BN
-    ): NonPayableTransactionObject<void>;
 
     transferFeeWallet(_wallet: string): NonPayableTransactionObject<void>;
 
@@ -84,14 +80,14 @@ export interface AccountMinter extends BaseContract {
 
     verify(
       hash: string | number[],
-      signature: string | number[]
+      signature: string | number[],
     ): NonPayableTransactionObject<boolean>;
   };
   events: {
     OwnershipTransferred(cb?: Callback<OwnershipTransferred>): EventEmitter;
     OwnershipTransferred(
       options?: EventOptions,
-      cb?: Callback<OwnershipTransferred>
+      cb?: Callback<OwnershipTransferred>,
     ): EventEmitter;
 
     allEvents(options?: EventOptions, cb?: Callback<EventLog>): EventEmitter;
@@ -101,6 +97,6 @@ export interface AccountMinter extends BaseContract {
   once(
     event: "OwnershipTransferred",
     options: EventOptions,
-    cb: Callback<OwnershipTransferred>
+    cb: Callback<OwnershipTransferred>,
   ): void;
 }

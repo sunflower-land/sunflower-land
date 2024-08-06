@@ -2119,6 +2119,7 @@ const errorTerms: Record<ErrorTerms, string> = {
   "error.toManyRequest.one": "Muitas solicitações!",
   "error.toManyRequest.two":
     "Parece que você tem estado ocupado! Por favor, tente novamente mais tarde.",
+  "error.tooManyFarms": ENGLISH_TERMS["error.tooManyFarms"],
   "error.Web3NotFound": " Carteira Web3 Não Encontrada",
   "error.wentWrong": "Algo deu errado!",
   "error.clock.not.synced": "Relógio do dispositivo não sincronizado",
@@ -5317,8 +5318,7 @@ const withdraw: Record<Withdraw, string> = {
   "withdraw.opensea":
     "Depois de retirados, você poderá ver seus itens no OpenSea.",
   "withdraw.budRestricted": ENGLISH_TERMS["withdraw.budRestricted"],
-  "withdraw.restricted":
-    "Alguns itens não podem ser retirados. Outros itens podem ser restritos quando",
+  "withdraw.restricted": ENGLISH_TERMS["withdraw.restricted"],
   "withdraw.bumpkin.wearing":
     "Seu Bumpkin está atualmente usando o(s) seguinte(s) item(ns) que não podem ser retirados. Você precisará desequipá-los antes de poder retirar.",
   "withdraw.bumpkin.sure.withdraw":

@@ -107,22 +107,6 @@ describe("fruitHarvested", () => {
     });
   });
 
-  it("throws an error if the player doesn't have a bumpkin", () => {
-    expect(() =>
-      harvestFruit({
-        state: {
-          ...GAME_STATE,
-          bumpkin: undefined,
-        },
-        action: {
-          type: "fruit.harvested",
-          index: "0",
-        },
-        createdAt: dateNow,
-      }),
-    ).toThrow("You do not have a Bumpkin");
-  });
-
   it("does not harvest on non-existent fruit patch", () => {
     expect(() =>
       harvestFruit({

@@ -97,21 +97,6 @@ describe("buyDecoration", () => {
     expect(state.inventory[item]).toEqual(oldAmount.add(1));
   });
 
-  it("throws an error if the player doesn't have a bumpkin", async () => {
-    expect(() =>
-      buyDecoration({
-        state: {
-          ...GAME_STATE,
-          bumpkin: undefined,
-        },
-        action: {
-          type: "decoration.bought",
-          name: "Potted Sunflower",
-        },
-      }),
-    ).toThrow("Bumpkin not found");
-  });
-
   it("increments the coins spent activity", () => {
     const state = buyDecoration({
       state: {

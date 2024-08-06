@@ -3,7 +3,7 @@ import { Label } from "components/ui/Label";
 import { pixelDarkBorderStyle } from "features/game/lib/style";
 import { SquareIcon } from "components/ui/SquareIcon";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { formatNumber } from "lib/utils/formatNumber";
+import { shortenCount } from "lib/utils/formatNumber";
 
 import lightning from "assets/icons/lightning.png";
 
@@ -135,9 +135,7 @@ export const ItemsList: React.FC<Props> = ({
                     }
                     width={7}
                   />
-                  <span className="text-xxs">
-                    {formatNumber(item.price.toNumber())}
-                  </span>
+                  <span className="text-xxs">{shortenCount(item.price)}</span>
                 </div>
               </div>
             );

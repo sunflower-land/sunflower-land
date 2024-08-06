@@ -30,7 +30,7 @@ import {
   getFactionWeekEndTime,
   getFactionWeekday,
 } from "features/game/lib/factions";
-import { setPrecision } from "lib/utils/formatNumber";
+import { formatNumber } from "lib/utils/formatNumber";
 import { BoostInfoPanel } from "./BoostInfoPanel";
 
 interface Props {
@@ -101,10 +101,7 @@ export const FactionKitchenPanel: React.FC<Props> = ({ bumpkinParts }) => {
 
   const boost = getKingdomKitchenBoost(game, selectedRequestReward)[0];
 
-  const boostedMarks = setPrecision(
-    new Decimal(selectedRequestReward + boost),
-    2,
-  ).toNumber();
+  const boostedMarks = selectedRequestReward + boost;
 
   return (
     <>
@@ -144,10 +141,7 @@ export const FactionKitchenPanel: React.FC<Props> = ({ bumpkinParts }) => {
                           points,
                         )[0];
 
-                        const boostedMarks = setPrecision(
-                          new Decimal(points + boost),
-                          2,
-                        ).toNumber();
+                        const boostedMarks = points + boost;
 
                         return (
                           <OuterPanel
@@ -178,7 +172,7 @@ export const FactionKitchenPanel: React.FC<Props> = ({ bumpkinParts }) => {
                                 }}
                               >
                                 <span className={boost ? "pl-1.5" : ""}>
-                                  {boostedMarks}
+                                  {formatNumber(boostedMarks)}
                                 </span>
                               </Label>
                             </div>
@@ -228,7 +222,7 @@ export const FactionKitchenPanel: React.FC<Props> = ({ bumpkinParts }) => {
                           onClick={() => setShowBoostInfo(!showBoostInfo)}
                         >
                           <span className={boost ? "pl-1.5" : ""}>
-                            {`${boostedMarks} ${t("marks")}`}
+                            {`${formatNumber(boostedMarks)} ${t("marks")}`}
                           </span>
                         </Label>
                       </div>
@@ -270,8 +264,8 @@ export const FactionKitchenPanel: React.FC<Props> = ({ bumpkinParts }) => {
               <div className="space-y-3">
                 <span className="text-xs sm:text-sm">
                   {t("faction.donation.confirm", {
-                    factionPoints: boostedMarks,
-                    reward: boostedMarks > 1 ? "marks" : "mark",
+                    factionPoints: formatNumber(boostedMarks),
+                    reward: `${formatNumber(boostedMarks)} ${t("marks")}`,
                   })}
                 </span>
                 <div className="flex flex-col space-y-1">

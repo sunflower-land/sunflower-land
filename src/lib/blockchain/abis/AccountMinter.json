@@ -6,16 +6,6 @@
         "name": "_farm",
         "type": "address"
       },
-      {
-        "internalType": "contract BumpkinMinter",
-        "name": "_bumpkinMinter",
-        "type": "address"
-      },
-      {
-        "internalType": "contract SunflowerLandInventory",
-        "name": "_inventory",
-        "type": "address"
-      },
       { "internalType": "address", "name": "_signer", "type": "address" }
     ],
     "stateMutability": "payable",
@@ -41,10 +31,12 @@
     "type": "event"
   },
   {
-    "inputs": [],
-    "name": "charityFee",
-    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
-    "stateMutability": "view",
+    "inputs": [
+      { "internalType": "address", "name": "_game", "type": "address" }
+    ],
+    "name": "addGameRole",
+    "outputs": [],
+    "stateMutability": "nonpayable",
     "type": "function"
   },
   {
@@ -78,29 +70,52 @@
     "type": "function"
   },
   {
-    "inputs": [],
-    "name": "maxSupply",
-    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "inputs": [
+      { "internalType": "address", "name": "_game", "type": "address" }
+    ],
+    "name": "gameAddGameRole",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "_game", "type": "address" }
+    ],
+    "name": "gameRemoveGameRole",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "name": "gameRoles",
+    "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
     "stateMutability": "view",
     "type": "function"
   },
   {
     "inputs": [
       { "internalType": "bytes", "name": "signature", "type": "bytes" },
-      { "internalType": "address", "name": "charity", "type": "address" },
       { "internalType": "uint256", "name": "deadline", "type": "uint256" },
       { "internalType": "uint256", "name": "mintFee", "type": "uint256" },
-      {
-        "internalType": "uint256[]",
-        "name": "bumpkinItemIds",
-        "type": "uint256[]"
-      },
-      { "internalType": "string", "name": "bumpkinTokenUri", "type": "string" },
-      { "internalType": "uint256", "name": "referrerId", "type": "uint256" }
+      { "internalType": "address", "name": "account", "type": "address" }
     ],
     "name": "mintAccount",
     "outputs": [],
     "stateMutability": "payable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "", "type": "address" },
+      { "internalType": "address", "name": "", "type": "address" },
+      { "internalType": "uint256", "name": "", "type": "uint256" },
+      { "internalType": "bytes", "name": "", "type": "bytes" }
+    ],
+    "name": "onERC721Received",
+    "outputs": [{ "internalType": "bytes4", "name": "", "type": "bytes4" }],
+    "stateMutability": "nonpayable",
     "type": "function"
   },
   {
@@ -111,42 +126,17 @@
     "type": "function"
   },
   {
-    "inputs": [],
-    "name": "referrerFee",
-    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
-    "stateMutability": "view",
+    "inputs": [
+      { "internalType": "address", "name": "_game", "type": "address" }
+    ],
+    "name": "removeGameRole",
+    "outputs": [],
+    "stateMutability": "nonpayable",
     "type": "function"
   },
   {
     "inputs": [],
     "name": "renounceOwnership",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      { "internalType": "uint256", "name": "_fee", "type": "uint256" }
-    ],
-    "name": "setCharityFee",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      { "internalType": "uint256", "name": "_supply", "type": "uint256" }
-    ],
-    "name": "setMaxSupply",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      { "internalType": "uint256", "name": "_fee", "type": "uint256" }
-    ],
-    "name": "setReferrerFee",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"

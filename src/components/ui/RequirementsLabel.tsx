@@ -10,7 +10,7 @@ import coins from "assets/icons/coins.webp";
 import { secondsToString } from "lib/utils/time";
 import classNames from "classnames";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { setPrecision } from "lib/utils/formatNumber";
+import { formatNumber } from "lib/utils/formatNumber";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 /**
@@ -172,15 +172,15 @@ export const RequirementLabel: React.FC<Props> = (props) => {
     switch (props.type) {
       case "coins":
       case "sellForCoins":
-        return `${setPrecision(new Decimal(props.requirement))}`;
+        return `${formatNumber(props.requirement)}`;
       case "sfl":
         return `${props.requirement.toNumber()}`;
       case "sellForSfl": {
         return `${props.requirement.toNumber()}`;
       }
       case "item": {
-        const roundedDownInventory = setPrecision(props.balance, 1);
-        const roundedDownRequirement = setPrecision(props.requirement, 1);
+        const roundedDownInventory = formatNumber(props.balance);
+        const roundedDownRequirement = formatNumber(props.requirement);
         return `${roundedDownInventory}/${roundedDownRequirement}`;
       }
       case "time": {
@@ -190,8 +190,7 @@ export const RequirementLabel: React.FC<Props> = (props) => {
         });
       }
       case "xp": {
-        const roundedDownXp = setPrecision(props.xp, 1);
-        return `${roundedDownXp}XP`;
+        return `${formatNumber(props.xp)}XP`;
       }
       case "level": {
         return `${t("level.number", { level: props.requirement })}`;

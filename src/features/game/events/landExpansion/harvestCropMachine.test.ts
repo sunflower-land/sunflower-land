@@ -7,21 +7,6 @@ import { CROP_MACHINE_PLOTS } from "./supplyCropMachine";
 const GAME_STATE: GameState = { ...TEST_FARM, bumpkin: INITIAL_BUMPKIN };
 
 describe("harvestCropMachine", () => {
-  it("throws an error if there is no bumpkin", () => {
-    expect(() =>
-      harvestCropMachine({
-        state: {
-          ...GAME_STATE,
-          bumpkin: undefined,
-        },
-        action: {
-          type: "cropMachine.harvested",
-          packIndex: 0,
-        },
-      }),
-    ).toThrow("Bumpkin does not exist");
-  });
-
   it("throws an error if Crop Machine does not exist", () => {
     expect(() =>
       harvestCropMachine({

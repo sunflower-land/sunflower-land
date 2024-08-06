@@ -1,5 +1,7 @@
+import { KingdomLeaderboard } from "../expansion/components/leaderboard/actions/leaderboard";
 import { BoostType, BoostValue } from "../types/boosts";
 import { BumpkinItem } from "../types/bumpkin";
+import { getKeys } from "../types/decorations";
 import {
   FactionBanner,
   FactionName,
@@ -87,10 +89,7 @@ export function secondsTillWeekReset(): number {
   const timeUntilNextFactionWeek = weekEnd.getTime() - currentTime;
 
   // Convert milliseconds to seconds
-  const secondsUntilNextFactionWeek = Math.floor(
-    timeUntilNextFactionWeek / 1000,
-  );
-
+  const secondsUntilNextFactionWeek = timeUntilNextFactionWeek / 1000;
   return secondsUntilNextFactionWeek;
 }
 
@@ -439,4 +438,37 @@ export function getFactionPetBoostMultiplier(game: GameState) {
   if (lastWeekStreak >= 6 && lastWeekStreak < 8) return 1.3;
 
   return 1.5;
+}
+
+export function getFactionScores({
+  leaderboard,
+}: {
+  leaderboard: KingdomLeaderboard;
+}) {
+  let scores = {
+    bumpkins: 0,
+    goblins: 0,
+    nightshades: 0,
+    sunflorians: 0,
+  };
+
+  if (!leaderboard.marks) {
+    return { scores };
+  }
+
+  scores = leaderboard.marks.score;
+
+  // In the past, faction score was calculated by total marks from faction
+  if (new Date(leaderboard.week).getTime() < new Date("2024-08-05").getTime()) {
+    scores = leaderboard.marks.totalTickets;
+  }
+
+  const winner = getKeys(scores).reduce((winner, name) => {
+    return scores[winner] > scores[name] ? winner : name;
+  }, "bumpkins");
+
+  return {
+    scores,
+    winner,
+  };
 }

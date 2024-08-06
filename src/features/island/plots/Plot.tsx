@@ -35,8 +35,7 @@ import { getKeys } from "features/game/types/craftables";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Transition } from "@headlessui/react";
 import { QuickSelect } from "features/greenhouse/QuickSelect";
-import { setPrecision } from "lib/utils/formatNumber";
-import Decimal from "decimal.js-light";
+import { formatNumber } from "lib/utils/formatNumber";
 import { hasFeatureAccess } from "lib/flags";
 
 export function getYieldColour(yieldAmount: number) {
@@ -397,10 +396,7 @@ export const Plot: React.FC<Props> = ({ id, index }) => {
             style={{
               color: getYieldColour(harvested.current?.amount ?? 0),
             }}
-          >{`+${setPrecision(
-            new Decimal(harvested.current?.amount ?? 0),
-            2,
-          )}`}</span>
+          >{`+${formatNumber(harvested.current?.amount ?? 0)}`}</span>
         </Transition>
       )}
     </>

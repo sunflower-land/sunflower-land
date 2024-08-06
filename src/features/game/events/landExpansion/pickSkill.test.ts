@@ -5,15 +5,6 @@ import { pickSkill } from "./pickSkill";
 
 describe("PickSkill", () => {
   const dateNow = Date.now();
-  it("requires bumpkin", () => {
-    expect(() => {
-      pickSkill({
-        state: { ...TEST_FARM, bumpkin: undefined },
-        action: { type: "skill.picked", skill: "Green Thumb" },
-        createdAt: dateNow,
-      });
-    }).toThrow("You do not have a Bumpkin");
-  });
 
   it("requires level 2 to pick first skill", () => {
     expect(() => {

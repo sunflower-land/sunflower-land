@@ -1188,8 +1188,7 @@ export interface GameState {
   expansionConstruction?: ExpansionConstruction;
   expandedAt?: number;
 
-  // TODO - make mandatory
-  bumpkin?: Bumpkin;
+  bumpkin: Bumpkin;
 
   buildings: Buildings;
   collectibles: Collectibles;

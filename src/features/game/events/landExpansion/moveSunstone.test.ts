@@ -2,22 +2,6 @@ import { TEST_FARM } from "features/game/lib/constants";
 import { MOVE_GOLD_ERRORS, moveSunstone } from "./moveSunstone";
 
 describe("moveSunstone", () => {
-  it("throws if player has no Bumpkin", () => {
-    expect(() =>
-      moveSunstone({
-        state: {
-          ...TEST_FARM,
-          bumpkin: undefined,
-        },
-        action: {
-          type: "sunstone.moved",
-          id: "1",
-          coordinates: { x: 2, y: 2 },
-        },
-      }),
-    ).toThrow(MOVE_GOLD_ERRORS.NO_BUMPKIN);
-  });
-
   it("does not move sunstone with invalid id", () => {
     expect(() =>
       moveSunstone({

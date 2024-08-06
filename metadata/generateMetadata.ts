@@ -129,6 +129,5 @@ function generateWearables() {
   });
 }
 
-generateWearables();
-
 generateCollectibles();
+generateWearables();

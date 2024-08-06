@@ -1877,6 +1877,7 @@ const errorTerms: Record<ErrorTerms, string> = {
   "error.toManyRequest.one": "请求太多！",
   "error.toManyRequest.two": "看来您很忙！请稍后再试。",
   "error.Web3NotFound": "未找到 Web3",
+  "error.tooManyFarms": ENGLISH_TERMS["error.tooManyFarms"],
   "error.wentWrong": "出了些问题！",
   "error.clock.not.synced": "时钟不同步。",
   "error.polygon.cant.connect": "无法连接到 Polygon。",
@@ -4695,7 +4696,7 @@ const withdraw: Record<Withdraw, string> = {
   "withdraw.receive": "您将收到： {{sflReceived}} SFL",
   "withdraw.select.item": "请选择要提取的商品",
   "withdraw.opensea": "提现成功后，您将能够在 OpenSea 上查看您的物品。",
-  "withdraw.restricted": ENGLISH_TERMS["withdraw.restricted"], // To interpolate
+  "withdraw.restricted": ENGLISH_TERMS["withdraw.restricted"],
   "withdraw.bumpkin.wearing":
     "你的乡巴佬目前穿着以下无法撤回的衣服。你需要先更换衣服，然后才能撤回。",
   "withdraw.bumpkin.sure.withdraw": "您确定要撤回您的乡巴佬吗？",

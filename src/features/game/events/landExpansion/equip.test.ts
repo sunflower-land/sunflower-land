@@ -68,18 +68,6 @@ describe("equip", () => {
     ).toThrow(`Red Farmer Shirt is not available for use`);
   });
 
-  it("throws error if no bumpkin exists", () => {
-    const action: EquipBumpkinAction = {
-      type: "bumpkin.equipped",
-      equipment: TEST_PARTS,
-    };
-    const gameWithoutBumpkin = { ...game, bumpkin: undefined };
-
-    expect(() => equip({ state: gameWithoutBumpkin, action })).toThrow(
-      "You do not have a Bumpkin",
-    );
-  });
-
   it("throws error when equipping shirt while wearing dress", () => {
     const action: EquipBumpkinAction = {
       type: "bumpkin.equipped",

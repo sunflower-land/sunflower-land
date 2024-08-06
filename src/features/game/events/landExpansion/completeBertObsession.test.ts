@@ -10,24 +10,6 @@ describe("completeBertObsession", () => {
     jest.useRealTimers();
   });
 
-  it("throws an error if no bumpkin exists", () => {
-    const now = new Date("2023-08-16T00:00:00.000Z");
-    jest.setSystemTime(now);
-
-    expect(() =>
-      completeBertObsession({
-        state: {
-          ...TEST_FARM,
-          npcs: { bert: { deliveryCount: 1 } },
-          bumpkin: undefined,
-        },
-        action: {
-          type: "bertObsession.completed",
-        },
-      }),
-    ).toThrow("You do not have a Bumpkin");
-  });
-
   it("throws an error if no NPCs exists", () => {
     const now = new Date("2023-08-16T00:00:00.000Z");
     jest.setSystemTime(now);

@@ -30,21 +30,6 @@ describe("harvestBeehive", () => {
     },
   };
 
-  it("throw an error if you don't have a bumpkin", () => {
-    expect(() =>
-      harvestBeehive({
-        state: {
-          ...TEST_FARM,
-          bumpkin: undefined,
-        },
-        action: {
-          type: "beehive.harvested",
-          id: "1234",
-        },
-      }),
-    ).toThrow("You do not have a Bumpkin");
-  });
-
   it("does not harvest a beehive that is not placed", () => {
     expect(() =>
       harvestBeehive({

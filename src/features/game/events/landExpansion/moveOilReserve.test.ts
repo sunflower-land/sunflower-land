@@ -2,22 +2,6 @@ import { TEST_FARM } from "features/game/lib/constants";
 import { MOVE_OIL_ERRORS, moveOilReserve } from "./moveOilReserve";
 
 describe("moveOilReserve", () => {
-  it("throws if player has no Bumpkin", () => {
-    expect(() =>
-      moveOilReserve({
-        state: {
-          ...TEST_FARM,
-          bumpkin: undefined,
-        },
-        action: {
-          type: "oilReserve.moved",
-          id: "1",
-          coordinates: { x: 2, y: 2 },
-        },
-      }),
-    ).toThrow(MOVE_OIL_ERRORS.NO_BUMPKIN);
-  });
-
   it("does not move oil with invalid id", () => {
     expect(() =>
       moveOilReserve({

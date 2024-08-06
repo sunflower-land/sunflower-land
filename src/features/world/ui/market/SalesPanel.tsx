@@ -18,7 +18,7 @@ import { Button } from "components/ui/Button";
 import classNames from "classnames";
 import { getRelativeTime } from "lib/utils/time";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
-import { setPrecision } from "lib/utils/formatNumber";
+import { formatNumber } from "lib/utils/formatNumber";
 
 import { Box } from "components/ui/Box";
 import { MAX_SESSION_SFL } from "features/game/lib/processEvent";
@@ -139,13 +139,10 @@ export const SalesPanel: React.FC<{
 
   const hasVIP = hasVipAccess(state.inventory);
 
-  const unitPrice = marketPrices?.prices?.currentPrices?.[selected] || "0.0000";
-  const bundlePrice = (MARKET_BUNDLES[selected] * Number(unitPrice))?.toFixed(
-    4,
-  );
+  const unitPrice = marketPrices?.prices?.currentPrices?.[selected] ?? 0;
+  const bundlePrice = MARKET_BUNDLES[selected] * unitPrice;
   const canSell =
-    state.inventory[selected]?.gte(MARKET_BUNDLES[selected]) &&
-    !(Number(unitPrice) === 0);
+    state.inventory[selected]?.gte(MARKET_BUNDLES[selected]) && unitPrice !== 0;
 
   const hasPrices = !!marketPrices;
 
@@ -200,7 +197,9 @@ export const SalesPanel: React.FC<{
                   {t("bumpkinTrade.available")}
                 </Label>
                 <span className="text-sm mr-1 font-secondary text-[30px]">
-                  {state.inventory?.[selected]?.toFixed(0, 1) ?? 0}
+                  {formatNumber(state.inventory?.[selected] ?? 0, {
+                    decimalPlaces: 0,
+                  })}
                 </span>
               </div>
             </div>
@@ -219,7 +218,10 @@ export const SalesPanel: React.FC<{
               </Label>
               <span className="font-secondary text-[30px]">
                 {t("bumpkinTrade.price/unit", {
-                  price: setPrecision(new Decimal(unitPrice)).toFixed(4),
+                  price: formatNumber(unitPrice, {
+                    decimalPlaces: 4,
+                    showTrailingZeros: true,
+                  }),
                 })}
               </span>
             </div>
@@ -228,7 +230,10 @@ export const SalesPanel: React.FC<{
             {t("bumpkinTrade.sellConfirmation", {
               quantity: MARKET_BUNDLES[selected],
               resource: selected,
-              price: bundlePrice,
+              price: formatNumber(bundlePrice, {
+                decimalPlaces: 4,
+                showTrailingZeros: true,
+              }),
             })}
           </span>
         </div>

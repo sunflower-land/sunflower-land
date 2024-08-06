@@ -2,22 +2,6 @@ import { INITIAL_BUMPKIN, TEST_FARM } from "features/game/lib/constants";
 import { MOVE_IRON_ERRORS, moveIron } from "./moveIron";
 
 describe("moveIron", () => {
-  it("throws if player has no Bumpkin", () => {
-    expect(() =>
-      moveIron({
-        state: {
-          ...TEST_FARM,
-          bumpkin: undefined,
-        },
-        action: {
-          type: "iron.moved",
-          id: "1",
-          coordinates: { x: 2, y: 2 },
-        },
-      }),
-    ).toThrow(MOVE_IRON_ERRORS.NO_BUMPKIN);
-  });
-
   it("does not move iron with invalid id", () => {
     expect(() =>
       moveIron({

@@ -21,8 +21,7 @@ import React, { useContext } from "react";
 
 import lock from "assets/icons/lock.png";
 import mark from "assets/icons/faction_mark.webp";
-import { setPrecision } from "lib/utils/formatNumber";
-import Decimal from "decimal.js-light";
+import { formatNumber } from "lib/utils/formatNumber";
 import { getKingdomChoreBoost } from "features/game/events/landExpansion/completeKingdomChore";
 import { KingdomChoresTimer } from "features/world/ui/factions/chores/KingdomChoresContent";
 
@@ -126,8 +125,6 @@ const KingdomChoreRow: React.FC<KingdomChoreRowProps> = ({
   chore,
   gameService,
 }) => {
-  const { t } = useAppTranslation();
-
   const { faction, bumpkin } = gameService.state.context.state;
 
   const progress =
@@ -137,10 +134,7 @@ const KingdomChoreRow: React.FC<KingdomChoreRowProps> = ({
     gameService.state.context.state,
     chore.marks,
   )[0];
-  const boostedMarks = setPrecision(
-    new Decimal(chore.marks + boost),
-    2,
-  ).toNumber();
+  const boostedMarks = chore.marks + boost;
 
   return (
     <InnerPanel className="flex flex-col w-full">
@@ -162,15 +156,15 @@ const KingdomChoreRow: React.FC<KingdomChoreRowProps> = ({
                 height: 7,
               }}
             />
-            <span className="text-xs ml-2 font-secondary">{`${setPrecision(
-              new Decimal(progress),
-            )}/${chore.requirement}`}</span>
+            <span className="text-xs ml-2 font-secondary">{`${formatNumber(progress)}/${formatNumber(chore.requirement)}`}</span>
           </div>
         </div>
 
         <div className="flex flex-col text-xs space-y-1">
           <div className="flex items-center justify-end space-x-1">
-            <span className="mb-0.5 font-secondary">{boostedMarks}</span>
+            <span className="mb-0.5 font-secondary">
+              {formatNumber(boostedMarks)}
+            </span>
             <SquareIcon icon={mark} width={6} />
           </div>
         </div>

@@ -21,7 +21,7 @@ const PLACEABLE_DIMENSIONS = {
 export const getBasketItems = (inventory: Inventory) => {
   return getKeys(inventory)
     .filter((itemName) =>
-      setPrecision(new Decimal(inventory[itemName] || 0)).greaterThan(0),
+      setPrecision(inventory[itemName] ?? 0, 2).greaterThan(0),
     )
     .reduce((acc, itemName) => {
       if (itemName in PLACEABLE_DIMENSIONS) return acc;
