@@ -256,7 +256,7 @@ export const DailyPuzzle: React.FC = () => {
           <Label type="default">{t("digby.puzzle")}</Label>
           <CountdownLabel />
         </div>
-        <span className="text-xs mt-2 mx-1">{t("digby.today")}</span>
+        <span className="text-xs mt-2">{t("digby.today")}</span>
         <div
           className="flex flex-wrap  scrollable overflow-y-auto pt-2 overflow-x-hidden pr-1"
           style={{ maxHeight: "300px" }}
@@ -468,9 +468,7 @@ export const Digby: React.FC<{ onClose: () => void }> = ({ onClose }) => {
                     </span>
                   </Label>
                 </div>
-                <span className="text-xs my-2 mx-1">
-                  {t("digby.moreDigsIntro")}
-                </span>
+                <span className="text-xs my-2">{t("digby.moreDigsIntro")}</span>
                 <div className="flex flex-col my-2 space-y-1">
                   {getKeys(BoostDigItems).map((item) => (
                     <div key={item} className="flex space-x-2">
