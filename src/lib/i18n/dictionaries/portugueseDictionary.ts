@@ -1600,8 +1600,8 @@ const cropsAndChickens: Record<CropsAndChickensMessages, string> = {
 };
 
 const deliveryitem: Record<DeliveryItem, string> = {
-  "deliveryitem.inventory": "Inventário:",
-  "deliveryitem.itemsToDeliver": "Itens para entregar: ",
+  "deliveryitem.inventory": "Inventário",
+  "deliveryitem.itemsToDeliver": "Itens para entregar",
   "deliveryitem.deliverToWallet": "Entregar para sua carteira",
   "deliveryitem.viewOnOpenSea":
     "Uma vez entregue, você poderá visualizar seus itens na OpenSea.",

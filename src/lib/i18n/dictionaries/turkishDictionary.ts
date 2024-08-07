@@ -1986,8 +1986,8 @@ const deliveryHelp: Record<DeliveryHelp, string> = {
 };
 
 const deliveryitem: Record<DeliveryItem, string> = {
-  "deliveryitem.inventory": "Envanter: ",
-  "deliveryitem.itemsToDeliver": "Teslim edilecek öğeler: ",
+  "deliveryitem.inventory": "Envanter",
+  "deliveryitem.itemsToDeliver": "Teslim edilecek öğeler",
   "deliveryitem.deliverToWallet": "Cüzdanınıza teslim edin",
   "deliveryitem.viewOnOpenSea":
     "Teslim edildikten sonra öğelerinizi OpenSea'de görebileceksiniz.",
