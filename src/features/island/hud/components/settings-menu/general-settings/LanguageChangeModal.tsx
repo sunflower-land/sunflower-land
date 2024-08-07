@@ -10,6 +10,7 @@ import {
   languageDetails,
 } from "lib/i18n/dictionaries/dictionary";
 import { ConfirmationModal } from "components/ui/ConfirmationModal";
+import { getKeys } from "features/game/types/decorations";
 
 export const LanguageSwitcher: React.FC = () => {
   const { t } = useAppTranslation();
@@ -26,7 +27,7 @@ export const LanguageSwitcher: React.FC = () => {
     location.reload();
   };
 
-  const languageArray = Object.keys(languageDetails) as LanguageCode[];
+  const languageArray = getKeys(languageDetails);
   return (
     <>
       <div className="p-1 space-y-2">

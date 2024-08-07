@@ -191,11 +191,6 @@
   src: url("https://sunflower-land.com/testnet-assets/fonts/ark-pixel-zh_cn.ttf");
 }
 
-@font-face {
-  font-family: "黑体";
-  src: url("https://sunflower-land.com/testnet-assets/fonts/YeZiGongChangTangYingHei-2.ttf");
-}
-
 html {
   min-height: calc(100% + env(safe-area-inset-top));
 }
@@ -1353,9 +1348,9 @@ a {
   -webkit-font-smoothing: antialiased;
 }
 
-.font-黑体 {
-  font-family: "黑体", sans-serif;
-  font-size: 12px;
+.font-Ark {
+  font-family: "Ark", sans-serif;
+  font-size: 14px;
   -webkit-font-smoothing: antialiased;
 }
 

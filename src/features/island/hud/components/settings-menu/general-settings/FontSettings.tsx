@@ -1,9 +1,22 @@
 import React from "react";
 import { Button } from "components/ui/Button";
-import { Font, changeFont } from "lib/utils/fonts";
+import {
+  changeFont,
+  CHINESE_FONT_CONFIG,
+  CYRILLIC_FONT_CONFIG,
+  FONT_CONFIG,
+} from "lib/utils/fonts";
+import { getKeys } from "features/game/types/decorations";
 
 export const FontSettings: React.FC = () => {
-  const fonts: Font[] = ["Default", "Bold", "Chunky (Old)", "Sans Serif"];
+  const language = localStorage.getItem("language") ?? "en";
+  const fonts = getKeys(
+    language === "zh-CN"
+      ? CHINESE_FONT_CONFIG
+      : language === "ru"
+        ? CYRILLIC_FONT_CONFIG
+        : FONT_CONFIG,
+  );
 
   return (
     <>

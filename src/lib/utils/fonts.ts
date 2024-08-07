@@ -24,7 +24,7 @@ interface FontSettings {
   base: [number, number];
   lg: [number, number];
 }
-const FONT_CONFIG: Record<Font, FontSettings> = {
+export const FONT_CONFIG: Record<Font, FontSettings> = {
   Default: {
     fontFamily: "Basic",
     xxs: [20, 14],
@@ -59,7 +59,7 @@ const FONT_CONFIG: Record<Font, FontSettings> = {
   },
 };
 
-const CYRILLIC_FONT_CONFIG: Record<Font, FontSettings> = {
+export const CYRILLIC_FONT_CONFIG: Record<Font, FontSettings> = {
   Default: {
     fontFamily: "Basis33",
     xxs: [20, 14],
@@ -94,7 +94,7 @@ const CYRILLIC_FONT_CONFIG: Record<Font, FontSettings> = {
   },
 };
 
-const CHINESE_FONT_CONFIG: Record<Font, FontSettings> = {
+export const CHINESE_FONT_CONFIG: Partial<Record<Font, FontSettings>> = {
   Default: {
     // Pixel
     fontFamily: "Ark",
@@ -103,23 +103,6 @@ const CHINESE_FONT_CONFIG: Record<Font, FontSettings> = {
     sm: [18, 18],
     base: [25, 25],
     lg: [30, 30],
-  },
-  Bold: {
-    fontFamily: "Secondary",
-    xxs: [18, 12],
-    xs: [24, 14],
-    sm: [30, 20],
-    base: [36, 26],
-    lg: [42, 32],
-  },
-  "Chunky (Old)": {
-    // Chunky
-    fontFamily: "黑体",
-    xxs: [15, 15],
-    xs: [17, 17],
-    sm: [19, 19],
-    base: [26, 26],
-    lg: [31, 31],
   },
   "Sans Serif": {
     fontFamily: "sans-serif",
@@ -137,6 +120,53 @@ export function initialiseFont() {
   changeFont(font);
 }
 
+function setFontProperties(config: FontSettings) {
+  document.documentElement.style.setProperty(
+    "--font-family",
+    config.fontFamily,
+  );
+  document.documentElement.style.setProperty(
+    "--text-xxs-size",
+    `${config.xxs[0]}px`,
+  );
+  document.documentElement.style.setProperty(
+    "--text-xxs-line-height",
+    `${config.xxs[1]}px`,
+  );
+  document.documentElement.style.setProperty(
+    "--text-xs-size",
+    `${config.xs[0]}px`,
+  );
+  document.documentElement.style.setProperty(
+    "--text-xs-line-height",
+    `${config.xs[1]}px`,
+  );
+  document.documentElement.style.setProperty(
+    "--text-sm-size",
+    `${config.sm[0]}px`,
+  );
+  document.documentElement.style.setProperty(
+    "--text-sm-line-height",
+    `${config.sm[1]}px`,
+  );
+  document.documentElement.style.setProperty(
+    "--text-base-size",
+    `${config.base[0]}px`,
+  );
+  document.documentElement.style.setProperty(
+    "--text-base-line-height",
+    `${config.base[1]}px`,
+  );
+  document.documentElement.style.setProperty(
+    "--text-lg-size",
+    `${config.lg[0]}px`,
+  );
+  document.documentElement.style.setProperty(
+    "--text-lg-line-height",
+    `${config.lg[1]}px`,
+  );
+}
+
 export function changeFont(font: Font) {
   const lang = localStorage.getItem("language") || "en";
   const config = ["ru"].includes(lang)
@@ -145,56 +175,19 @@ export function changeFont(font: Font) {
       ? CHINESE_FONT_CONFIG[font]
       : FONT_CONFIG[font];
 
-  document.documentElement.style.setProperty(
-    "--font-family",
-    config.fontFamily,
-  );
-
-  document.documentElement.style.setProperty(
-    "--text-xxs-size",
-    config.xxs[0] + "px",
-  );
-  document.documentElement.style.setProperty(
-    "--text-xxs-line-height",
-    config.xxs[1] + "px",
-  );
-
-  document.documentElement.style.setProperty(
-    "--text-xs-size",
-    config.xs[0] + "px",
-  );
-  document.documentElement.style.setProperty(
-    "--text-xs-line-height",
-    config.xs[1] + "px",
-  );
-
-  document.documentElement.style.setProperty(
-    "--text-sm-size",
-    config.sm[0] + "px",
-  );
-  document.documentElement.style.setProperty(
-    "--text-sm-line-height",
-    config.sm[1] + "px",
-  );
-
-  document.documentElement.style.setProperty(
-    "--text-base-size",
-    config.base[0] + "px",
-  );
-  document.documentElement.style.setProperty(
-    "--text-base-line-height",
-    config.base[1] + "px",
-  );
-
-  document.documentElement.style.setProperty(
-    "--text-lg-size",
-    config.lg[0] + "px",
-  );
-
-  document.documentElement.style.setProperty(
-    "--text-lg-line-height",
-    config.lg[1] + "px",
-  );
+  if (config) {
+    setFontProperties(config);
+  } else {
+    // Use a fallback configuration if the specified font is not found
+    setFontProperties({
+      fontFamily: "sans-serif",
+      xxs: [14, 14],
+      xs: [16, 16],
+      sm: [18, 18],
+      base: [25, 25],
+      lg: [30, 30],
+    });
+  }
 
   cacheFont(font);
 }
