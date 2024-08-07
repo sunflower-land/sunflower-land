@@ -1783,8 +1783,8 @@ const deliveryHelp: Record<DeliveryHelp, string> = {
 };
 
 const deliveryitem: Record<DeliveryItem, string> = {
-  "deliveryitem.inventory": "存货：",
-  "deliveryitem.itemsToDeliver": "提取的物品：",
+  "deliveryitem.inventory": "存货",
+  "deliveryitem.itemsToDeliver": "提取的物品",
   "deliveryitem.deliverToWallet": "提至您的钱包",
   "deliveryitem.viewOnOpenSea": "一旦交付，您将能够在 OpenSea 上查看您的物品。",
   "deliveryitem.deliver": "提取",

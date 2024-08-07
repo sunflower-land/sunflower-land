@@ -1951,8 +1951,8 @@ const deliveryHelp: Record<DeliveryHelp, string> = {
 };
 
 const deliveryitem: Record<DeliveryItem, string> = {
-  "deliveryitem.inventory": "Inventory:",
-  "deliveryitem.itemsToDeliver": "Items to deliver: ",
+  "deliveryitem.inventory": "Inventory",
+  "deliveryitem.itemsToDeliver": "Items to deliver",
   "deliveryitem.deliverToWallet": "Deliver to your wallet",
   "deliveryitem.viewOnOpenSea":
     "Once delivered, you will be able to view your items on OpenSea.",

@@ -1519,8 +1519,8 @@ const cropFruitDescriptions: Record<CropFruitDescriptions, string> = {
 };
 
 const deliveryitem: Record<DeliveryItem, string> = {
-  "deliveryitem.inventory": "Инвентарь: ",
-  "deliveryitem.itemsToDeliver": "Предметы для отправки: ",
+  "deliveryitem.inventory": "Инвентарь",
+  "deliveryitem.itemsToDeliver": "Предметы для отправки",
   "deliveryitem.deliverToWallet": "Отправить на твой кошелек",
   "deliveryitem.viewOnOpenSea":
     "После получения ты увидишь свои товары на OpenSea.",
