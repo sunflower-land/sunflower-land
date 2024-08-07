@@ -46,7 +46,7 @@ export function getBannerPrice(
     (createdAt - seasonStartDate.getTime()) / WEEK,
   );
 
-  if (weeksElapsed < 2) {
+  if (weeksElapsed < 1) {
     const previousBannerDiscount = hasPreviousBanner ? 15 : 0;
     return new Decimal(75).sub(previousBannerDiscount);
   }
