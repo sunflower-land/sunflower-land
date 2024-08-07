@@ -29,20 +29,6 @@ import { VIPAccess } from "features/game/components/VipAccess";
 import { getDayOfYear } from "lib/utils/time";
 import { formatNumber } from "lib/utils/formatNumber";
 
-export const TRADE_LIMITS: Record<FactionEmblem, number> = {
-  "Goblin Emblem": 200,
-  "Sunflorian Emblem": 200,
-  "Bumpkin Emblem": 200,
-  "Nightshade Emblem": 200,
-};
-
-export const TRADE_MINIMUMS: Record<FactionEmblem, number> = {
-  "Goblin Emblem": 1,
-  "Sunflorian Emblem": 1,
-  "Bumpkin Emblem": 1,
-  "Nightshade Emblem": 1,
-};
-
 const MAX_NON_VIP_PURCHASES = 3;
 
 function getRemainingFreePurchases(dailyPurchases: {
