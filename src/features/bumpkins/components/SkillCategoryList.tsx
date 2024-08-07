@@ -53,7 +53,7 @@ export const SkillCategoryList = ({
   const threeMonthsSinceLastReset = bumpkin?.previousSkillsResetAt
     ? new Date(bumpkin.previousSkillsResetAt).getTime() + 7776000000 <
       Date.now()
-    : false; // 90 days in milliseconds, yeah I know..
+    : true; // 90 days in milliseconds, yeah I know..
   const enoughSfl = state.balance.toNumber() >= 10;
 
   const handleSkillsReset = () => {
