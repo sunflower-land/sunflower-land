@@ -4921,12 +4921,14 @@ const seasonTerms: Record<SeasonTerms, string> = {
   "season.vip.access": "Season VIP Access",
   "season.vip.claim": "Claim your monthly seasonal airdrop.",
   "season.vip.description":
-    "Unlock perks, discounts, bonus tickets, airdrops and more!",
+    "Dominate the season with perks, discounts, bonus tickets, airdrops and more!",
   "season.vip.purchase": "Purchase VIP Items",
   "season.mystery.gift": "Mystery Gift",
   "season.xp.boost": "10% XP boost",
   "season.lifetime.farmer": "Lifetime Farmer",
   "season.free.with.lifetime": "Free with Lifetime Farmer",
+  "season.pharaohs.gift": "5 Extra Desert Digs",
+  "season.ticket.bonus": "+2 {{item}}s (deliveries & chores)",
 };
 
 const share: Record<Share, string> = {

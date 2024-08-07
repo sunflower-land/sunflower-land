@@ -3280,6 +3280,8 @@ export type SeasonTerms =
   | "season.supporter.gift"
   | "season.free.season.passes"
   | "season.vip.access"
+  | "season.ticket.bonus"
+  | "season.pharaohs.gift"
   | "season.vip.description"
   | "season.vip.claim"
   | "season.vip.purchase"

@@ -658,7 +658,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     // Banners
     "Human War Banner": new Decimal(1),
     "Goblin War Banner": new Decimal(1),
-    "Lifetime Farmer Banner": new Decimal(1),
+    // "Lifetime Farmer Banner": new Decimal(1),
     "Solar Flare Banner": new Decimal(1),
     "Dawn Breaker Banner": new Decimal(1),
     "Witches' Eve Banner": new Decimal(1),
@@ -672,7 +672,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     "Earn Alliance Banner": new Decimal(1),
     "Goblin Gold Champion": new Decimal(1),
     "Goblin Silver Champion": new Decimal(1),
-    "Pharaoh's Treasure Banner": new Decimal(1),
+    // "Pharaoh's Treasure Banner": new Decimal(1),
 
     "Pirate Bounty": new Decimal(1),
     Scarab: new Decimal(1),

@@ -4878,6 +4878,8 @@ const seasonTerms: Record<SeasonTerms, string> = {
   "season.xp.boost": "10% XP буст",
   "season.lifetime.farmer": "Фермер на всю жизнь",
   "season.free.with.lifetime": "Free with Lifetime Farmer",
+  "season.pharaohs.gift": ENGLISH_TERMS["season.pharaohs.gift"],
+  "season.ticket.bonus": ENGLISH_TERMS["season.ticket.bonus"],
 };
 
 const share: Record<Share, string> = {
