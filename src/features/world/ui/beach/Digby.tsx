@@ -40,6 +40,7 @@ import { ResizableBar } from "components/ui/ProgressBar";
 import { Revealed } from "features/game/components/Revealed";
 import { ChestRevealing, ChestRewardType } from "../chests/ChestRevealing";
 import { gameAnalytics } from "lib/gameAnalytics";
+import { getCurrentSeason } from "features/game/types/seasons";
 
 export function hasReadDigbyIntro() {
   return !!localStorage.getItem("digging.intro");
@@ -353,6 +354,16 @@ const BoostDigItems: Partial<
     ...(BUMPKIN_ITEM_BUFF_LABELS["Bionic Drill"] as BuffLabel),
     location: "Artefact Shop",
   },
+  ...(getCurrentSeason() === "Pharaoh's Treasure"
+    ? {
+        "Pharaoh's Treasure Banner": {
+          shortDescription: "+5 digs",
+          labelType: "vibrant",
+          boostTypeIcon: gift,
+          location: "VIP Item",
+        },
+      }
+    : {}),
 };
 
 const getDefaultTab = (game: GameState) => {
