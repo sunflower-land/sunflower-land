@@ -17,7 +17,7 @@ export const HalloweenPhaser: React.FC = () => {
   const game = useRef<Game>();
 
   // This must match the key of your scene [HalloweenScene]
-  const scene = "portal_example";
+  const scene = "halloween";
 
   // Preloader is useful if you want to load the standard Sunflower Land assets + SFX
   const scenes = [Preloader, HalloweenScene];
@@ -86,15 +86,12 @@ export const HalloweenPhaser: React.FC = () => {
       <div id="game-content" ref={ref} />
 
       {/* Comment out if you don't want to use our standard Bumpkin NPCs + click interactions */}
-      <NPCModals
-        id={portalState.context.id as number}
-        scene={"portal_example"}
-      />
+      <NPCModals id={portalState.context.id as number} scene={"halloween"} />
 
       {/* Comment out if you don't want to use pop up modals from in game interactables */}
       <InteractableModals
         id={portalState.context.id as number}
-        scene="portal_example"
+        scene="halloween"
       />
     </div>
   );

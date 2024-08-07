@@ -13,11 +13,11 @@ export const NPCS: NPCBumpkin[] = [
 ];
 
 export class HalloweenScene extends BaseScene {
-  sceneId: SceneId = "portal_example";
+  sceneId: SceneId = "halloween";
 
   constructor() {
     super({
-      name: "portal_example",
+      name: "halloween",
       map: {
         json: mapJson,
       },
@@ -31,7 +31,7 @@ export class HalloweenScene extends BaseScene {
 
   async create() {
     this.map = this.make.tilemap({
-      key: "festival_of_colors",
+      key: "halloween",
     });
 
     super.create();
