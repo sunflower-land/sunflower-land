@@ -75,7 +75,7 @@ export function harvestBeehive({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  const stateCopy = state;
+  const stateCopy: GameState = state;
 
   if (!stateCopy.bumpkin) {
     throw new Error("You do not have a Bumpkin!");

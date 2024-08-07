@@ -16,7 +16,7 @@ type Options = {
 export const GAME_FEE = 320;
 
 export function startPotion({ state }: Options): GameState {
-  const stateCopy = state;
+  const stateCopy: GameState = state;
 
   const { bumpkin, coins } = stateCopy;
 

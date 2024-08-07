@@ -33,7 +33,7 @@ export function constructBuilding({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  const stateCopy = state;
+  const stateCopy: GameState = state;
   const { bumpkin, inventory, coins } = stateCopy;
 
   const buildingNumber = inventory[action.name]?.toNumber() ?? 0;

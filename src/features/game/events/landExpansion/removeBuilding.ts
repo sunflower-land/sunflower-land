@@ -136,7 +136,7 @@ export function removeBuilding({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  const stateCopy = state;
+  const stateCopy: GameState = state;
   const { buildings, inventory, bumpkin } = stateCopy;
   const buildingGroup = buildings[action.name];
 

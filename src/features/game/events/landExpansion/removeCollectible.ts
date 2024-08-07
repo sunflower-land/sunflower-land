@@ -33,7 +33,7 @@ type Options = {
 };
 
 export function removeCollectible({ state, action }: Options) {
-  const stateCopy = state;
+  const stateCopy: GameState = state;
 
   const { inventory, bumpkin } = stateCopy;
   let collectibleGroup =
