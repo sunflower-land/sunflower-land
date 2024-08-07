@@ -17,7 +17,7 @@ import { SkillsModal } from "features/bumpkins/components/Skills";
 import { CONFIG } from "lib/config";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { SkillBadges } from "./SkillBadges";
-import { getAvailableBumpkinSkillPoints } from "features/game/events/landExpansion/pickSkill";
+import { getAvailableBumpkinSkillPoints } from "features/game/events/landExpansion/choseSkill";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Bumpkin, GameState, Inventory } from "features/game/types/game";
 import { ResizableBar } from "components/ui/ProgressBar";

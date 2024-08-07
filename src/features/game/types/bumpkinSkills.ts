@@ -38,8 +38,8 @@ export type BumpkinSkill = {
   name: BumpkinSkillName;
   tree: BumpkinSkillTree;
   requirements: {
-    skill?: BumpkinSkillName;
     points: number;
+    skill: number; // Number of skills required to unlock this skill (0 means it's a tier 1 skill)
   };
   boosts: string;
   image: string;
@@ -52,6 +52,7 @@ export const BUMPKIN_SKILL_TREE: Record<BumpkinSkillName, BumpkinSkill> = {
     tree: "Crops",
     requirements: {
       points: 1,
+      skill: 0,
     },
     boosts: translate("description.green.thumb"),
     image: SUNNYSIDE?.skills?.green_thumb_LE,
@@ -61,7 +62,7 @@ export const BUMPKIN_SKILL_TREE: Record<BumpkinSkillName, BumpkinSkill> = {
     tree: "Crops",
     requirements: {
       points: 1,
-      skill: "Green Thumb",
+      skill: 0,
     },
     boosts: translate("description.cultivator"),
     image: SUNNYSIDE?.skills?.cultivator,
@@ -70,8 +71,8 @@ export const BUMPKIN_SKILL_TREE: Record<BumpkinSkillName, BumpkinSkill> = {
     name: "Master Farmer",
     tree: "Crops",
     requirements: {
-      points: 2,
-      skill: "Cultivator",
+      points: 1,
+      skill: 1,
     },
     boosts: translate("description.master.farmer"),
     image: SUNNYSIDE?.skills?.master_farmer,
@@ -80,8 +81,8 @@ export const BUMPKIN_SKILL_TREE: Record<BumpkinSkillName, BumpkinSkill> = {
     name: "Golden Flowers",
     tree: "Crops",
     requirements: {
-      points: 2,
-      skill: "Master Farmer",
+      points: 1,
+      skill: 1,
     },
     boosts: translate("description.golden.flowers"),
     image: SUNNYSIDE?.skills?.golden_flowers,
@@ -91,7 +92,7 @@ export const BUMPKIN_SKILL_TREE: Record<BumpkinSkillName, BumpkinSkill> = {
     tree: "Crops",
     requirements: {
       points: 1,
-      skill: "Master Farmer",
+      skill: 3,
     },
     boosts: translate("coming.soon"),
     image: CROP_LIFECYCLE.Radish.crop,
@@ -101,8 +102,8 @@ export const BUMPKIN_SKILL_TREE: Record<BumpkinSkillName, BumpkinSkill> = {
     name: "Happy Crop",
     tree: "Crops",
     requirements: {
-      points: 2,
-      skill: "Master Farmer",
+      points: 1,
+      skill: 3,
     },
     boosts: translate("description.happy.crop"),
     image: SUNNYSIDE?.skills?.happy_crop,
@@ -112,6 +113,7 @@ export const BUMPKIN_SKILL_TREE: Record<BumpkinSkillName, BumpkinSkill> = {
     tree: "Trees",
     requirements: {
       points: 1,
+      skill: 0,
     },
     boosts: translate("description.lumberjack"),
     image: SUNNYSIDE?.skills?.lumberjack_LE,
@@ -120,8 +122,8 @@ export const BUMPKIN_SKILL_TREE: Record<BumpkinSkillName, BumpkinSkill> = {
     name: "Tree Hugger",
     tree: "Trees",
     requirements: {
-      points: 2,
-      skill: "Lumberjack",
+      points: 1,
+      skill: 0,
     },
     boosts: translate("description.tree.hugger"),
     image: SUNNYSIDE?.skills?.tree_hugger,
@@ -130,8 +132,8 @@ export const BUMPKIN_SKILL_TREE: Record<BumpkinSkillName, BumpkinSkill> = {
     name: "Tough Tree",
     tree: "Trees",
     requirements: {
-      points: 3,
-      skill: "Tree Hugger",
+      points: 1,
+      skill: 2,
     },
     boosts: translate("description.tough.tree"),
     image: SUNNYSIDE?.skills?.tough_tree,
@@ -140,8 +142,8 @@ export const BUMPKIN_SKILL_TREE: Record<BumpkinSkillName, BumpkinSkill> = {
     name: "Money Tree",
     tree: "Trees",
     requirements: {
-      points: 2,
-      skill: "Tree Hugger",
+      points: 1,
+      skill: 2,
     },
     boosts: translate("description.money.tree"),
     image: SUNNYSIDE?.skills?.money_tree,
@@ -151,6 +153,7 @@ export const BUMPKIN_SKILL_TREE: Record<BumpkinSkillName, BumpkinSkill> = {
     tree: "Rocks",
     requirements: {
       points: 1,
+      skill: 0,
     },
     boosts: translate("description.digger"),
     image: SUNNYSIDE?.skills?.digger,
@@ -159,8 +162,8 @@ export const BUMPKIN_SKILL_TREE: Record<BumpkinSkillName, BumpkinSkill> = {
     name: "Coal Face",
     tree: "Rocks",
     requirements: {
-      points: 2,
-      skill: "Digger",
+      points: 1,
+      skill: 0,
     },
     boosts: translate("description.coal.face"),
     image: SUNNYSIDE?.skills?.coal_face,
@@ -169,8 +172,8 @@ export const BUMPKIN_SKILL_TREE: Record<BumpkinSkillName, BumpkinSkill> = {
     name: "Seeker",
     tree: "Rocks",
     requirements: {
-      points: 3,
-      skill: "Coal Face",
+      points: 1,
+      skill: 2,
     },
     boosts: translate("description.seeker"),
     image: SUNNYSIDE?.skills?.seeker,
@@ -180,8 +183,8 @@ export const BUMPKIN_SKILL_TREE: Record<BumpkinSkillName, BumpkinSkill> = {
     name: "Gold Rush",
     tree: "Rocks",
     requirements: {
-      points: 2,
-      skill: "Coal Face",
+      points: 1,
+      skill: 2,
     },
     boosts: translate("description.gold.rush"),
     image: SUNNYSIDE?.skills?.gold_rush_LE,
@@ -191,6 +194,7 @@ export const BUMPKIN_SKILL_TREE: Record<BumpkinSkillName, BumpkinSkill> = {
     tree: "Cooking",
     requirements: {
       points: 1,
+      skill: 0,
     },
     boosts: translate("description.rush.hour"),
     image: SUNNYSIDE?.skills?.rush_hour,
@@ -199,8 +203,8 @@ export const BUMPKIN_SKILL_TREE: Record<BumpkinSkillName, BumpkinSkill> = {
     name: "Kitchen Hand",
     tree: "Cooking",
     requirements: {
-      points: 2,
-      skill: "Rush Hour",
+      points: 1,
+      skill: 0,
     },
     boosts: translate("description.kitchen.hand"),
     image: SUNNYSIDE?.skills?.kitchen_hand,
@@ -209,8 +213,8 @@ export const BUMPKIN_SKILL_TREE: Record<BumpkinSkillName, BumpkinSkill> = {
     name: "Michelin Stars",
     tree: "Cooking",
     requirements: {
-      points: 2,
-      skill: "Kitchen Hand",
+      points: 1,
+      skill: 2,
     },
     boosts: translate("description.michelin.stars"),
     image: SUNNYSIDE?.skills?.michelin_stars,
@@ -219,8 +223,8 @@ export const BUMPKIN_SKILL_TREE: Record<BumpkinSkillName, BumpkinSkill> = {
     name: "Curer",
     tree: "Cooking",
     requirements: {
-      points: 2,
-      skill: "Michelin Stars",
+      points: 1,
+      skill: 2,
     },
     boosts: translate("description.curer"),
     image: SUNNYSIDE?.skills?.curer,
@@ -230,6 +234,7 @@ export const BUMPKIN_SKILL_TREE: Record<BumpkinSkillName, BumpkinSkill> = {
     tree: "Animals",
     requirements: {
       points: 1,
+      skill: 0,
     },
     boosts: translate("description.stable.hand"),
     image: SUNNYSIDE?.skills?.stable_hand,
@@ -238,8 +243,8 @@ export const BUMPKIN_SKILL_TREE: Record<BumpkinSkillName, BumpkinSkill> = {
     name: "Free Range",
     tree: "Animals",
     requirements: {
-      points: 2,
-      skill: "Stable Hand",
+      points: 1,
+      skill: 0,
     },
     boosts: translate("description.free.range"),
     image: SUNNYSIDE?.skills?.free_range,
@@ -248,8 +253,8 @@ export const BUMPKIN_SKILL_TREE: Record<BumpkinSkillName, BumpkinSkill> = {
     name: "Horse Whisperer",
     tree: "Animals",
     requirements: {
-      points: 2,
-      skill: "Free Range",
+      points: 1,
+      skill: 2,
     },
     boosts: translate("description.horse.whisperer"),
     image: SUNNYSIDE?.skills?.horse_whisperer,
@@ -258,8 +263,8 @@ export const BUMPKIN_SKILL_TREE: Record<BumpkinSkillName, BumpkinSkill> = {
     name: "Buckaroo",
     tree: "Animals",
     requirements: {
-      points: 2,
-      skill: "Horse Whisperer",
+      points: 1,
+      skill: 2,
     },
     boosts: translate("description.buckaroo"),
     image: SUNNYSIDE?.skills?.buckaroo,
@@ -273,32 +278,22 @@ export const SKILL_TREE_CATEGORIES = Array.from(
 );
 
 export const getSkills = (treeName: BumpkinSkillTree) => {
-  return getKeys(BUMPKIN_SKILL_TREE).reduce((treeSkills, skill) => {
-    if (BUMPKIN_SKILL_TREE[skill].tree === treeName) {
-      return [...treeSkills, BUMPKIN_SKILL_TREE[skill]];
-    }
-
-    return treeSkills;
-  }, [] as BumpkinSkill[]);
+  return Object.values(BUMPKIN_SKILL_TREE).filter(
+    (skill) => skill.tree === treeName,
+  );
 };
 
 export const createSkillPath = (skills: BumpkinSkill[]) => {
-  const startingSkill = skills.find((item) => !item.requirements.skill);
-  const path = [[startingSkill?.name as BumpkinSkillName]];
+  const skillsByTier: { [key: number]: BumpkinSkill[] } = {};
 
-  const remainingLevels = new Set(
-    skills.map((item) => item.requirements.skill),
-  );
+  skills.forEach((skill) => {
+    const { requirements } = skill;
+    if (!skillsByTier[requirements.skill]) {
+      skillsByTier[requirements.skill] = [];
+    }
 
-  for (let index = 0; index < remainingLevels.size - 1; index++) {
-    const lastSkillLevelName = path[path.length - 1][0];
+    skillsByTier[requirements.skill].push(skill);
+  });
 
-    const skillsInCurrentLevel: BumpkinSkillName[] = skills
-      .filter((item) => item.requirements.skill === lastSkillLevelName)
-      .map((item) => item.name);
-
-    path.push(skillsInCurrentLevel);
-  }
-
-  return path;
+  return skillsByTier;
 };

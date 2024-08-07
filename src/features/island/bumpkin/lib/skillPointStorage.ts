@@ -1,4 +1,4 @@
-import { getAvailableBumpkinSkillPoints } from "features/game/events/landExpansion/pickSkill";
+import { getAvailableBumpkinSkillPoints } from "features/game/events/landExpansion/choseSkill";
 import { Bumpkin } from "features/game/types/game";
 
 export function getAcknowledgedSkillPoints() {
