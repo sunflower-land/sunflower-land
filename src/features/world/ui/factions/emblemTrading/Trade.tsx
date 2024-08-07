@@ -26,8 +26,11 @@ import { hasVipAccess } from "features/game/lib/vipAccess";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { VIPAccess } from "features/game/components/VipAccess";
 import { getDayOfYear } from "lib/utils/time";
-import { TRADE_LIMITS, TRADE_MINIMUMS } from "./BuyPanel";
 import { NumberInput } from "components/ui/NumberInput";
+import {
+  TRADE_MINIMUMS,
+  TRADE_LIMITS,
+} from "features/game/actions/tradeLimits";
 
 const MAX_NON_VIP_LISTINGS = 1;
 const MAX_SFL = 150;
