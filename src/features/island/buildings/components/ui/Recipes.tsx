@@ -57,6 +57,7 @@ interface Props {
  * @crafting Whether the building is in the process of crafting a food item.
  * @craftingService The crafting service.
  */
+
 export const Recipes: React.FC<Props> = ({
   selected,
   setSelected,
@@ -83,28 +84,11 @@ export const Recipes: React.FC<Props> = ({
       selected?.ingredients[name]?.greaterThan(inventory[name] || 0),
     );
 
-  const cook = () => {
-    onCook(selected.name);
+  const cook = async () => {
     onClose();
-  };
-
-  const Action = () => {
-    return (
-      <>
-        <Button
-          disabled={lessIngredients() || crafting || selected.disabled}
-          className="text-xxs sm:text-sm mt-1 whitespace-nowrap"
-          onClick={() => cook()}
-        >
-          {t("cook")}
-        </Button>
-        {crafting && (
-          <p className="sm:text-xs text-center my-1">
-            {t("sceneDialogues.chefIsBusy")}
-          </p>
-        )}
-      </>
-    );
+    // delay to allow the modal to close to avoid content flashing
+    await new Promise((resolve) => setTimeout(resolve, 300));
+    onCook(selected.name);
   };
 
   const validRecipes = recipes.filter((recipes) => {
@@ -154,7 +138,22 @@ export const Recipes: React.FC<Props> = ({
                 state,
               ),
             }}
-            actionView={Action()}
+            actionView={
+              <>
+                <Button
+                  disabled={lessIngredients() || crafting || selected.disabled}
+                  className="text-xxs sm:text-sm mt-1 whitespace-nowrap"
+                  onClick={() => cook()}
+                >
+                  {t("cook")}
+                </Button>
+                {crafting && (
+                  <p className="sm:text-xs text-center my-1">
+                    {t("sceneDialogues.chefIsBusy")}
+                  </p>
+                )}
+              </>
+            }
           />
         </>
       }
