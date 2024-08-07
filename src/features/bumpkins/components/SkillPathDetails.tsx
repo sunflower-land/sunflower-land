@@ -150,6 +150,7 @@ export const SkillPathDetails: React.FC<Props> = ({
                 missingPointRequirement ||
                 missingSkillsRequirement ||
                 hasSelectedSkill ||
+                selectedSkill.disabled ||
                 readonly
               }
               onClick={() => setShowConfirmationModal(true)}
