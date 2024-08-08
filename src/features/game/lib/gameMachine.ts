@@ -1594,6 +1594,12 @@ export function startGame(authContext: AuthContext) {
               {
                 target: "tradeAlreadyFulfilled",
                 cond: (_, event) => event.data.error === "ALREADY_BOUGHT",
+                actions: [
+                  assign((_, event) => ({
+                    actions: [],
+                    state: event.data.farm,
+                  })),
+                ],
               },
               {
                 target: "tradeListingDeleted",
