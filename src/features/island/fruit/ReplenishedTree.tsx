@@ -22,9 +22,9 @@ export const ReplenishedTree: React.FC<Props> = ({ fruitName }) => {
       width = 31;
       break;
     case "Lemon":
-      bottom = 11;
-      left = 10.5;
-      width = 10;
+      bottom = 8;
+      left = 7;
+      width = 18;
       break;
     case "Tomato":
       bottom = 8;
