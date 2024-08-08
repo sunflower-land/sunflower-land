@@ -76,16 +76,12 @@ import {
   Helper,
   HeliosSunflower,
   HenHouseTerms,
-  HowToFarm,
-  HowToSync,
-  HowToUpgrade,
   Islandupgrade,
   InteractableModals,
   IntroPage,
   IslandName,
   IslandNotFound,
   LandscapeTerms,
-  LetsGo,
   LevelUpMessages,
   Loser,
   LostSunflorian,
@@ -3272,33 +3268,6 @@ const henHouseTerms: Record<HenHouseTerms, string> = {
     "Construisez une autre Maison de Poules pour élever plus de poules",
 };
 
-const howToFarm: Record<HowToFarm, string> = {
-  "howToFarm.title": "Comment cultiver?",
-  "howToFarm.stepOne": "1. Récoltez les cultures lorsqu'elles sont prêtes",
-  "howToFarm.stepTwo": "2. Rendez-vous en ville et cliquez sur la boutique",
-  "howToFarm.stepThree":
-    "3. Vendez les cultures à la boutique contre des Coins",
-  "howToFarm.stepFour": "4. Achetez des graines avec vos Coins",
-  "howToFarm.stepFive": "5. Plantez les graines et attendez",
-};
-
-const howToSync: Record<HowToSync, string> = {
-  "howToSync.title": "Comment synchroniser?",
-  "howToSync.description":
-    "Tout votre progrès est enregistré sur notre serveur de jeu. Vous devrez synchroniser sur la chaîne lorsque vous souhaiterez déplacer vos jetons, NFT et ressources sur Polygon.",
-  "howToSync.stepOne": "1. Ouvrez le menu",
-  "howToSync.stepTwo": "2. Cliquez sur 'Synchroniser sur la chaîne'",
-};
-
-const howToUpgrade: Record<HowToUpgrade, string> = {
-  "howToUpgrade.title": "Comment améliorer?",
-  "howToUpgrade.stepOne": "1. Parlez à un lutin bloquant les champs",
-  "howToUpgrade.stepTwo": "2. Visitez la ville et cliquez sur la cuisine",
-  "howToUpgrade.stepThree": "3. Fabriquez la nourriture que le lutin souhaite",
-  "howToUpgrade.stepFour":
-    "4. Voilà ! Profitez de vos nouveaux champs et cultures",
-};
-
 const interactableModals: Record<InteractableModals, string> = {
   "interactableModals.returnhome.message": "Souhaitez-vous rentrer chez vous?",
   "interactableModals.fatChicken.message":
@@ -3468,14 +3437,6 @@ const landscapeTerms: Record<LandscapeTerms, string> = {
   "landscape.expansion.date":
     "Plus d'extensions seront disponibles le 7 février.",
   "landscape.great.work": "Excellent travail, Bumpkin!",
-};
-
-const letsGo: Record<LetsGo, string> = {
-  "letsGo.title": "C'est le moment de jouer!",
-  "letsGo.description":
-    "Merci d'avoir participé à la version bêta ! Nous travaillons toujours sur le jeu et nous vous sommes reconnaissants de votre soutien pendant les premières étapes!",
-  "letsGo.readMore": "Vous pouvez en savoir plus sur le jeu dans la ",
-  "letsGo.officialDocs": "documentation officielle",
 };
 
 const levelUpMessages: Record<LevelUpMessages, string> = {
@@ -5637,7 +5598,6 @@ export const leaderboardTerms: Record<Leaderboard, string> = {
 
 const gameOptions: Record<GameOptions, string> = {
   "gameOptions.title": ENGLISH_TERMS["gameOptions.title"],
-  "gameOptions.howToPlay": "Comment jouer? (En reconstruction)",
   "gameOptions.farmId": ENGLISH_TERMS["gameOptions.farmId"],
   "gameOptions.logout": "Déconnexion",
   "gameOptions.confirmLogout": "Êtes-vous sûr de vouloir vous déconnecter?",
@@ -5850,9 +5810,6 @@ export const FRENCH_TERMS: Record<TranslationKeys, string> = {
   ...heliosSunflower,
   ...helper,
   ...henHouseTerms,
-  ...howToFarm,
-  ...howToSync,
-  ...howToUpgrade,
   ...interactableModals,
   ...introPage,
   ...islandName,
@@ -5860,7 +5817,6 @@ export const FRENCH_TERMS: Record<TranslationKeys, string> = {
   ...islandupgrade,
   ...landscapeTerms,
   ...leaderboardTerms,
-  ...letsGo,
   ...levelUpMessages,
   ...loser,
   ...lostSunflorian,
