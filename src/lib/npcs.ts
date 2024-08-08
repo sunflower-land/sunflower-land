@@ -604,12 +604,13 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     body: "Beige Farmer Potion",
     background: "Farm Background",
     hair: "Brown Long Hair",
-    coat: "Royal Robe",
-    dress: "Rose Dress",
-    hat: "Crown",
-    tool: "Pan",
+    shirt: "Explorer Shirt",
+    pants: "Oil Overalls",
+    hat: "Fossil Head",
+    tool: "Ancient Shovel",
+    secondaryTool: "Lemon Shield",
     shoes: "Black Farmer Boots",
-    wings: "Bee Wings",
+    wings: "Scarab Wings",
   },
   // Old loving grandma of the game
   buttons: {
