@@ -30,11 +30,8 @@ import { Coordinates } from "features/game/expansion/components/MapPlacement";
 import Decimal from "decimal.js-light";
 import { isTouchDevice } from "../lib/device";
 import { getRemainingDigs } from "features/island/hud/components/DesertDiggingDisplay";
-import {
-  AudioLocalStorageKeys,
-  getCachedAudioSetting,
-} from "features/game/lib/audio";
 import { hasReadDigbyIntro } from "../ui/beach/Digby";
+import { isWearableActive } from "features/game/lib/wearables";
 
 const convertToSnakeCase = (str: string) => {
   return str.replace(" ", "_").toLowerCase();
@@ -784,25 +781,32 @@ export class BeachScene extends BaseScene {
       });
     }
 
-    if (
-      (this.selectedItem === "Sand Drill" && sandDrillsCount === 0) ||
-      (this.selectedItem !== "Sand Drill" && sandShovelsCount === 0) ||
-      !this.hasDigsLeft
-    ) {
-      if (
-        !hasDugHere &&
-        // Drill no dig icon is handled in the drill specific handlers
-        this.selectedItem !== "Sand Drill" &&
-        sandShovelsCount === 0
-      ) {
-        // You have an non digging item selected
-        // Select the shovel so we can show you don't have any
-        this.shortcutItem("Sand Shovel");
-        // Drills are handled in their own hover handlers
-        this.noToolHoverBox
-          ?.setPosition(rectX + 4, rectY + 4)
-          .setOrigin(0)
-          .setVisible(true);
+    const hasTool =
+      (this.selectedItem === "Sand Drill" && sandDrillsCount > 0) ||
+      (this.selectedItem === "Sand Shovel" && sandShovelsCount > 0) ||
+      this.isAncientShovelActive;
+
+    if (!hasTool || !this.hasDigsLeft) {
+      if (!hasDugHere) {
+        // If the player has the drill selected then return as the no dig icon is handled in the drill hover
+        // due to the different size of the hover box
+        if (this.selectedItem === "Sand Drill") return;
+
+        const sandShovels =
+          this.gameService.state.context.state.inventory["Sand Shovel"] ??
+          new Decimal(0);
+
+        if (this.selectedItem !== "Sand Shovel") {
+          // Select the shovel so the player knows they need a shovel to dig
+          this.shortcutItem("Sand Shovel");
+        }
+
+        if (sandShovels.lt(1)) {
+          this.noToolHoverBox
+            ?.setPosition(rectX + 4, rectY + 4)
+            .setOrigin(0)
+            .setVisible(true);
+        }
       }
 
       this.handleDigbyWarnings();
@@ -949,6 +953,8 @@ export class BeachScene extends BaseScene {
 
     if (sandDrills.lt(1)) {
       this.noToolHoverBox?.setPosition(noToolX, noToolY).setVisible(true);
+      this.drillHoverBox?.setVisible(false);
+      this.handleDigbyWarnings();
 
       return;
     }
@@ -1110,6 +1116,13 @@ export class BeachScene extends BaseScene {
     return Math.round(
       (this.treasuresFound.length / this.totalBuriedTreasure) * 100,
     );
+  }
+
+  get isAncientShovelActive() {
+    return isWearableActive({
+      name: "Ancient Shovel",
+      game: this.gameService.state.context.state,
+    });
   }
 
   get holesDugCount() {
@@ -1353,7 +1366,11 @@ export class BeachScene extends BaseScene {
       this.gameService.state.context.state.inventory["Sand Drill"] ??
       new Decimal(0);
 
-    if (sandShovels.lt(1) && this.selectedItem !== "Sand Drill") {
+    if (
+      sandShovels.lt(1) &&
+      this.selectedItem !== "Sand Drill" &&
+      !this.isAncientShovelActive
+    ) {
       this.npcs.digby?.speak(translate("digby.noShovels"));
 
       return;
@@ -1369,13 +1386,6 @@ export class BeachScene extends BaseScene {
   public handleActionSFX = () => {
     const sfx = this.selectedItem === "Sand Drill" ? "drill" : "dig";
 
-    const audioMuted = getCachedAudioSetting<boolean>(
-      AudioLocalStorageKeys.audioMuted,
-      false,
-    );
-
-    if (audioMuted) return;
-
     if (!this.digSoundsCooldown) {
       this.sound.play(sfx, { volume: 0.1 });
       this.digSoundsCooldown = true;
@@ -1389,13 +1399,6 @@ export class BeachScene extends BaseScene {
   };
 
   public handleRevealSFX() {
-    const audioMuted = getCachedAudioSetting<boolean>(
-      AudioLocalStorageKeys.audioMuted,
-      false,
-    );
-
-    if (audioMuted) return;
-
     if (!this.digSoundsCooldown) {
       this.sound.play("reveal", { volume: 0.1 });
       this.digSoundsCooldown = true;
@@ -1570,8 +1573,6 @@ export class BeachScene extends BaseScene {
   public handleUpdateSelectedItem = () => {
     if (this.currentSelectedItem === this.selectedItem) return;
 
-    this.currentSelectedItem = this.selectedItem;
-
     if (this.selectedItem === "Sand Drill") {
       this.hoverBox?.setVisible(false);
       this.confirmBox?.setVisible(false);
@@ -1594,15 +1595,11 @@ export class BeachScene extends BaseScene {
       this.confirmBox?.setVisible(false);
     }
 
-    const sandDrills = this.gameState.inventory["Sand Drill"] ?? new Decimal(0);
-
-    if (
-      this.selectedItem === "Sand Drill" &&
-      sandDrills.gt(0) &&
-      this.npcs.digby?.isSpeaking
-    ) {
+    if (this.npcs.digby?.isSpeaking) {
       this.npcs.digby?.stopSpeaking();
     }
+
+    this.currentSelectedItem = this.selectedItem;
   };
 
   public update() {
@@ -1611,12 +1608,21 @@ export class BeachScene extends BaseScene {
     this.handleUpdateSelectedItem();
     this.handleNameTagVisibility();
 
+    // Get Digby to hold his tongue if the player doesn't have the drill selected and is rocking the ancient shovel
+    if (
+      this.isAncientShovelActive &&
+      this.currentSelectedItem !== "Sand Drill" &&
+      this.npcs.digby?.isSpeaking
+    ) {
+      this.npcs.digby?.stopSpeaking();
+    }
+
     if (this.isPlayerInDigArea(this.currentPlayer.x, this.currentPlayer.y)) {
       this.updatePlayer();
       this.updateOtherPlayers();
       this.handleDigbyWarnings();
     } else {
-      this.noToolHoverBox?.setVisible(false);
+      // this.noToolHoverBox?.setVisible(false);
       this.alreadyWarnedOfNoDigs = false;
       this.alreadyNotifiedOfClaim = false;
       super.update();

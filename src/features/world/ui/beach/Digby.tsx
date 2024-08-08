@@ -40,6 +40,7 @@ import { ResizableBar } from "components/ui/ProgressBar";
 import { Revealed } from "features/game/components/Revealed";
 import { ChestRevealing, ChestRewardType } from "../chests/ChestRevealing";
 import { gameAnalytics } from "lib/gameAnalytics";
+import { getCurrentSeason } from "features/game/types/seasons";
 
 export function hasReadDigbyIntro() {
   return !!localStorage.getItem("digging.intro");
@@ -256,7 +257,7 @@ export const DailyPuzzle: React.FC = () => {
           <Label type="default">{t("digby.puzzle")}</Label>
           <CountdownLabel />
         </div>
-        <span className="text-xs mt-2 mx-1">{t("digby.today")}</span>
+        <span className="text-xs mt-2">{t("digby.today")}</span>
         <div
           className="flex flex-wrap  scrollable overflow-y-auto pt-2 overflow-x-hidden pr-1"
           style={{ maxHeight: "300px" }}
@@ -353,6 +354,16 @@ const BoostDigItems: Partial<
     ...(BUMPKIN_ITEM_BUFF_LABELS["Bionic Drill"] as BuffLabel),
     location: "Artefact Shop",
   },
+  ...(getCurrentSeason() === "Pharaoh's Treasure"
+    ? {
+        "Pharaoh's Treasure Banner": {
+          shortDescription: "+5 digs",
+          labelType: "vibrant",
+          boostTypeIcon: gift,
+          location: "VIP Item",
+        },
+      }
+    : {}),
 };
 
 const getDefaultTab = (game: GameState) => {
@@ -468,9 +479,7 @@ export const Digby: React.FC<{ onClose: () => void }> = ({ onClose }) => {
                     </span>
                   </Label>
                 </div>
-                <span className="text-xs my-2 mx-1">
-                  {t("digby.moreDigsIntro")}
-                </span>
+                <span className="text-xs my-2">{t("digby.moreDigsIntro")}</span>
                 <div className="flex flex-col my-2 space-y-1">
                   {getKeys(BoostDigItems).map((item) => (
                     <div key={item} className="flex space-x-2">

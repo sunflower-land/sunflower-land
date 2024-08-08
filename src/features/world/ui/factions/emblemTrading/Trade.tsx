@@ -26,8 +26,11 @@ import { hasVipAccess } from "features/game/lib/vipAccess";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { VIPAccess } from "features/game/components/VipAccess";
 import { getDayOfYear } from "lib/utils/time";
-import { TRADE_LIMITS, TRADE_MINIMUMS } from "./BuyPanel";
 import { NumberInput } from "components/ui/NumberInput";
+import {
+  EMBLEM_TRADE_MINIMUMS,
+  EMBLEM_TRADE_LIMITS,
+} from "features/game/actions/tradeLimits";
 
 const MAX_NON_VIP_LISTINGS = 1;
 const MAX_SFL = 150;
@@ -60,7 +63,7 @@ const ListTrade: React.FC<{
 
   const unitPrice = sfl.dividedBy(quantity);
   const tooLittle =
-    !!quantity && quantity.lessThan(TRADE_MINIMUMS[emblem] ?? 0);
+    !!quantity && quantity.lessThan(EMBLEM_TRADE_MINIMUMS[emblem] ?? 0);
 
   const isTooHigh =
     !!sfl &&
@@ -148,14 +151,18 @@ const ListTrade: React.FC<{
             >
               {t("bumpkinTrade.quantity")}
             </Label>
-            {quantity.greaterThan(TRADE_LIMITS[emblem] ?? 0) && (
+            {quantity.greaterThan(EMBLEM_TRADE_LIMITS[emblem] ?? 0) && (
               <Label type="danger" className="my-1 ml-2 mr-1">
-                {t("bumpkinTrade.max", { max: TRADE_LIMITS[emblem] ?? 0 })}
+                {t("bumpkinTrade.max", {
+                  max: EMBLEM_TRADE_LIMITS[emblem] ?? 0,
+                })}
               </Label>
             )}
             {tooLittle && (
               <Label type="danger" className="my-1 ml-2 mr-1">
-                {t("bumpkinTrade.min", { min: TRADE_MINIMUMS[emblem] ?? 0 })}
+                {t("bumpkinTrade.min", {
+                  min: EMBLEM_TRADE_MINIMUMS[emblem] ?? 0,
+                })}
               </Label>
             )}
           </div>
@@ -165,7 +172,7 @@ const ListTrade: React.FC<{
             maxDecimalPlaces={0}
             isOutOfRange={
               inventory[emblem]?.lt(quantity) ||
-              quantity.greaterThan(TRADE_LIMITS[emblem] ?? 0) ||
+              quantity.greaterThan(EMBLEM_TRADE_LIMITS[emblem] ?? 0) ||
               quantity.equals(0)
             }
             onValueChange={(value) => {

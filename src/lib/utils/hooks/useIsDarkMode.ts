@@ -3,9 +3,9 @@ import { useState, useEffect } from "react";
 const LOCAL_STORAGE_KEY = "settings.darkMode";
 const DARK_MODE_EVENT = "darkModeChanged";
 
-export function cacheDarkModeSetting(show: boolean) {
-  localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(show));
-  window.dispatchEvent(new CustomEvent(DARK_MODE_EVENT, { detail: show }));
+export function cacheDarkModeSetting(value: boolean) {
+  localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(value));
+  window.dispatchEvent(new CustomEvent(DARK_MODE_EVENT, { detail: value }));
 }
 
 export function getDarkModeSetting(): boolean {

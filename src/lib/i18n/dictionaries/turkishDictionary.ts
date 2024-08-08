@@ -76,16 +76,12 @@ import {
   Helper,
   HeliosSunflower,
   HenHouseTerms,
-  HowToFarm,
-  HowToSync,
-  HowToUpgrade,
   Islandupgrade,
   InteractableModals,
   IntroPage,
   IslandName,
   IslandNotFound,
   LandscapeTerms,
-  LetsGo,
   LevelUpMessages,
   Loser,
   LostSunflorian,
@@ -3155,32 +3151,6 @@ const henHouseTerms: Record<HenHouseTerms, string> = {
     "Daha fazla tavuk yetiştirmek için fazladan bir Tavuk Kümesi inşa edin",
 };
 
-const howToFarm: Record<HowToFarm, string> = {
-  "howToFarm.title": "Nasıl Tarım Yapılır?",
-  "howToFarm.stepOne": "1. Ürünleri hazır olduklarında hasat edin",
-  "howToFarm.stepTwo": "2. Kasabayı ziyaret edin ve mağazaya tıklayın",
-  "howToFarm.stepThree": "3. Coins için mağazada mahsul satın",
-  "howToFarm.stepFour": "4. Coins'nizi kullanarak tohum satın alın",
-  "howToFarm.stepFive": "5. Tohum ekin ve bekleyin",
-};
-
-const howToSync: Record<HowToSync, string> = {
-  "howToSync.title": "Nasıl senkronize edilir?",
-  "howToSync.description":
-    "Tüm ilerlemeniz oyun sunucumuza kaydedilir. Tokenlarınızı, NFT'lerinizi ve kaynaklarınızı Polygon'a taşımak istediğinizde zincir üzerinde senkronizasyon yapmanız gerekecektir..",
-  "howToSync.stepOne": "1. Menüyü açın",
-  "howToSync.stepTwo": "2. 'Zincirde senkronize et'e tıklayın'",
-};
-
-const howToUpgrade: Record<HowToUpgrade, string> = {
-  "howToUpgrade.title": "Nasıl yükseltilir?",
-  "howToUpgrade.stepOne": "1. Tarlaları kapatan bir Goblin ile konuşun",
-  "howToUpgrade.stepTwo": "2. Kasabayı ziyaret edin ve mutfağa tıklayın",
-  "howToUpgrade.stepThree": "3. Goblinin istediği yemeği hazırlayın",
-  "howToUpgrade.stepFour":
-    "4. İşte! Yeni tarlalarınızın ve mahsullerinizin tadını çıkarın",
-};
-
 const interactableModals: Record<InteractableModals, string> = {
   "interactableModals.returnhome.message": "Eve dönmek ister misin?",
   "interactableModals.fatChicken.message":
@@ -3346,14 +3316,6 @@ const landscapeTerms: Record<LandscapeTerms, string> = {
   "landscape.dragMe": "Beni sürükle",
   "landscape.expansion.date": "7 Şubat'ta daha fazla genişletme mevcut olacak.",
   "landscape.great.work": "Harika iş çıkardın Bumpkin!",
-};
-
-const letsGo: Record<LetsGo, string> = {
-  "letsGo.title": "Oyun zamanı!",
-  "letsGo.description":
-    "Betayı oynadığınız için teşekkürler! Hala oyun üzerinde çalışıyoruz ve erken aşamalardaki desteğiniz için teşekkür ederiz!",
-  "letsGo.readMore": "Oyun hakkında daha fazlasını şuradan okuyabilirsiniz.",
-  "letsGo.officialDocs": "resmi belgeler",
 };
 
 const levelUpMessages: Record<LevelUpMessages, string> = {
@@ -4857,6 +4819,8 @@ const seasonTerms: Record<SeasonTerms, string> = {
   "season.lifetime.farmer": ENGLISH_TERMS["season.lifetime.farmer"],
   "season.free.with.lifetime": ENGLISH_TERMS["season.free.with.lifetime"],
   "season.vip.claim": ENGLISH_TERMS["season.vip.claim"],
+  "season.pharaohs.gift": ENGLISH_TERMS["season.pharaohs.gift"],
+  "season.ticket.bonus": ENGLISH_TERMS["season.ticket.bonus"],
 };
 
 const share: Record<Share, string> = {
@@ -5490,7 +5454,6 @@ export const leaderboardTerms: Record<Leaderboard, string> = {
 
 const gameOptions: Record<GameOptions, string> = {
   "gameOptions.title": ENGLISH_TERMS["gameOptions.title"],
-  "gameOptions.howToPlay": "Nasıl oynanır? (Tadilatta)",
   "gameOptions.farmId": ENGLISH_TERMS["gameOptions.farmId"],
   "gameOptions.logout": "Çıkış Yap",
   "gameOptions.confirmLogout": "Oturumu kapatmak istediğinizden emin misiniz?",
@@ -5703,9 +5666,6 @@ export const TURKISH_TERMS: Record<TranslationKeys, string> = {
   ...heliosSunflower,
   ...helper,
   ...henHouseTerms,
-  ...howToFarm,
-  ...howToSync,
-  ...howToUpgrade,
   ...interactableModals,
   ...introPage,
   ...islandName,
@@ -5713,7 +5673,6 @@ export const TURKISH_TERMS: Record<TranslationKeys, string> = {
   ...islandupgrade,
   ...landscapeTerms,
   ...leaderboardTerms,
-  ...letsGo,
   ...levelUpMessages,
   ...loser,
   ...lostSunflorian,

@@ -5,10 +5,7 @@ import { SceneId } from "../mmoMachine";
 import { BaseScene, NPCBumpkin } from "./BaseScene";
 import { Label } from "../containers/Label";
 import { interactableModalManager } from "../ui/InteractableModals";
-import {
-  AudioLocalStorageKeys,
-  getCachedAudioSetting,
-} from "../../game/lib/audio";
+
 import { PlaceableContainer } from "../containers/PlaceableContainer";
 import { budImageDomain } from "features/island/collectibles/components/Bud";
 import { SOUNDS } from "assets/sound-effects/soundEffects";
@@ -221,17 +218,10 @@ export class PlazaScene extends BaseScene {
 
     super.preload();
 
-    const audioMuted = getCachedAudioSetting<boolean>(
-      AudioLocalStorageKeys.audioMuted,
-      false,
-    );
-
-    if (!audioMuted) {
-      // Ambience SFX
-      if (!this.sound.get("nature_1")) {
-        const nature1 = this.sound.add("nature_1");
-        nature1.play({ loop: true, volume: 0.01 });
-      }
+    // Ambience SFX
+    if (!this.sound.get("nature_1")) {
+      const nature1 = this.sound.add("nature_1");
+      nature1.play({ loop: true, volume: 0.01 });
     }
 
     // Shut down the sound when the scene changes

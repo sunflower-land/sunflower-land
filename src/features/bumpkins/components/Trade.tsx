@@ -23,10 +23,6 @@ import { getBumpkinLevel } from "features/game/lib/level";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { makeListingType } from "lib/utils/makeTradeListingType";
 import { Label } from "components/ui/Label";
-import {
-  TRADE_LIMITS,
-  TRADE_MINIMUMS,
-} from "features/world/ui/trader/BuyPanel";
 import { FloorPrices } from "features/game/actions/getListingsFloorPrices";
 import { formatNumber, setPrecision } from "lib/utils/formatNumber";
 import { hasVipAccess } from "features/game/lib/vipAccess";
@@ -37,6 +33,10 @@ import { ListingCategoryCard } from "components/ui/ListingCategoryCard";
 import { FACTION_EMBLEMS } from "features/game/events/landExpansion/joinFaction";
 import { NumberInput } from "components/ui/NumberInput";
 import { hasFeatureAccess } from "lib/flags";
+import {
+  TRADE_LIMITS,
+  TRADE_MINIMUMS,
+} from "features/game/actions/tradeLimits";
 
 const MAX_NON_VIP_LISTINGS = 1;
 const MAX_SFL = 150;

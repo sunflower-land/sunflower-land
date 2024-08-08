@@ -23,6 +23,7 @@ import { BuyCurrenciesModal } from "./components/BuyCurrenciesModal";
 import { MachineState } from "features/game/lib/gameMachine";
 import { useSound } from "lib/utils/hooks/useSound";
 import { SpecialEventCountdown } from "./SpecialEventCountdown";
+import { SeasonBannerCountdown } from "./SeasonBannerCountdown";
 
 const _farmAddress = (state: MachineState) => state.context.farmAddress;
 const _xp = (state: MachineState) =>
@@ -165,6 +166,7 @@ const HudComponent: React.FC<{
         >
           <AuctionCountdown />
           <SpecialEventCountdown />
+          <SeasonBannerCountdown />
         </div>
 
         <div

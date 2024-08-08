@@ -6,6 +6,7 @@ import {
   getPreviousSeasonalBanner,
   getSeasonalBanner,
   getSeasonalBannerImage,
+  getSeasonalTicket,
 } from "features/game/types/seasons";
 import { ButtonPanel } from "components/ui/Panel";
 import { Label } from "components/ui/Label";
@@ -28,10 +29,11 @@ import { getSeasonWeek } from "lib/utils/getSeasonWeek";
 import classNames from "classnames";
 import { secondsToString } from "lib/utils/time";
 import { acknowledgeSeasonPass } from "features/announcements/announcementsStorage";
+import { ITEM_DETAILS } from "features/game/types/images";
 
 type VIPItem = SeasonalBanner | "Lifetime Farmer Banner";
 
-export const ORIGINAL_SEASONAL_BANNER_PRICE = 90;
+export const ORIGINAL_SEASONAL_BANNER_PRICE = 100;
 export const LIFETIME_FARMER_BANNER_PRICE = 740;
 
 const _farmId = (state: MachineState) => state.context.farmId;
@@ -50,7 +52,7 @@ const SeasonVIPDiscountTime: React.FC = () => {
   const WEEK = 1000 * 60 * 60 * 24 * 7;
 
   const discountDates = [
-    seasonStartDate.getTime() + 2 * WEEK, // 2 weeks
+    seasonStartDate.getTime() + 1 * WEEK, // 1 weeks
     seasonStartDate.getTime() + 4 * WEEK, // 4 weeks
     seasonStartDate.getTime() + 8 * WEEK, // 8 weeks
     seasonEndDate.getTime(), // End of season
@@ -311,6 +313,15 @@ export const VIPItems: React.FC<Props> = ({ onClose, onSkip }) => {
                 </div>
               )}
               <div className="flex items-center space-x-2">
+                <SquareIcon
+                  icon={ITEM_DETAILS[getSeasonalTicket()].image}
+                  width={7}
+                />
+                <span>
+                  {t("season.ticket.bonus", { item: getSeasonalTicket() })}
+                </span>
+              </div>
+              <div className="flex items-center space-x-2">
                 <SquareIcon icon={vipIcon} width={7} />
                 <span>{t("season.vip.access")}</span>
               </div>
@@ -318,6 +329,15 @@ export const VIPItems: React.FC<Props> = ({ onClose, onSkip }) => {
                 <SquareIcon icon={xpIcon} width={7} />
                 <span>{t("season.xp.boost")}</span>
               </div>
+              {getCurrentSeason() === "Pharaoh's Treasure" && (
+                <div className="flex items-center space-x-2">
+                  <SquareIcon
+                    icon={ITEM_DETAILS["Sand Shovel"].image}
+                    width={7}
+                  />
+                  <span>{t("season.pharaohs.gift")}</span>
+                </div>
+              )}
               {hasDiscount && !hasSeasonBanner && (
                 <span
                   className="absolute right-2 bottom-8 text-xs discounted"
