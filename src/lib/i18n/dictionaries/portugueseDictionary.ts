@@ -2089,16 +2089,18 @@ const errorAndAccess: Record<ErrorAndAccess, string> = {
 };
 
 const errorTerms: Record<ErrorTerms, string> = {
+  "error.askOnDiscord": ENGLISH_TERMS["error.askOnDiscord"],
+  "error.contactSupport": ENGLISH_TERMS["error.contactSupport"],
+  "error.file": ENGLISH_TERMS["error.file"],
+  "error.getHelp": ENGLISH_TERMS["error.getHelp"],
   "error.betaTestersOnly": "Apenas testadores beta!",
   "error.congestion.one":
     "Estamos fazendo o nosso melhor, mas parece que a Polygon está recebendo muito tráfego ou você perdeu sua conexão.",
   "error.congestion.two":
     "Tente novamente mais tarde ou verifique sua conexão com a internet.",
-  "error.connection.one":
-    "Parece que não conseguimos concluir esta solicitação.",
-  "error.connection.two": "Pode ser um problema de conexão simples.",
-  "error.connection.three":
-    "Você pode clicar em atualizar para tentar novamente.",
+  "error.connection.one": ENGLISH_TERMS["error.connection.one"],
+  "error.connection.two": ENGLISH_TERMS["error.connection.two"],
+  "error.connection.three": ENGLISH_TERMS["error.connection.three"],
   "error.connection.four":
     "Se o problema persistir, você pode procurar ajuda entrando em contato com nossa equipe de suporte ou indo para o nosso Discord e perguntando à nossa comunidade.",
   "error.diagnostic.info": "Informações de Diagnóstico",

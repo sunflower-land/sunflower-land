@@ -2030,15 +2030,17 @@ const errorAndAccess: Record<ErrorAndAccess, string> = {
 };
 
 const errorTerms: Record<ErrorTerms, string> = {
+  "error.file": "Error File",
   "error.betaTestersOnly": "Beta testers only!",
   "error.congestion.one":
     "We are trying our best but looks like Polygon is getting a lot of traffic or you have lost your connection.",
   "error.congestion.two":
     "If this error continues please try changing your Metamask RPC",
   "error.connection.one":
-    "It looks like we were unable to complete this request.",
-  "error.connection.two": "It may be a simple connection issue.",
-  "error.connection.three": "You can click refresh to try again.",
+    "It looks like we encountered a problem. Quite often this is just a simple connection issue. You can try again or reach out for help if the issue persists.",
+  "error.connection.two": "Get help",
+  "error.connection.three":
+    "Please provide the following information when you contact support:",
   "error.connection.four":
     "If the issue remains, you can reach out for help by either contacting our support team or jumping over to our discord and asking our community",
   "error.diagnostic.info": "Diagnostic Information",
@@ -2054,7 +2056,10 @@ const errorTerms: Record<ErrorTerms, string> = {
   "error.toManyRequest.two":
     "Looks like you have been busy! Please try again later.",
   "error.Web3NotFound": "Web3 Not Found",
-  "error.wentWrong": "Something went wrong!",
+  "error.wentWrong": "Oops! Something went wrong!",
+  "error.getHelp": "Get help",
+  "error.contactSupport": "Contact support",
+  "error.askOnDiscord": "Ask on discord",
   "error.tooManyFarms":
     "Slow down Bumpkin! It looks like you have too many accounts on your network. Please try again later.",
   "error.clock.not.synced": "Clock not in sync",

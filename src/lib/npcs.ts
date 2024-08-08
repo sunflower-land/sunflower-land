@@ -101,7 +101,8 @@ export type NPCName =
   | "pet" // faction pet
   | "peggy"
   | "petro"
-  | "pharaoh";
+  | "pharaoh"
+  | "worried pete";
 
 export const NPC_WEARABLES: Record<NPCName, Equipped> = {
   "cluck e cheese": {
@@ -1112,6 +1113,16 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     tool: "Sunflorian Sword",
     background: "Farm Background",
     shoes: "Sunflorian Sabatons",
+  },
+  "worried pete": {
+    body: "Light Brown Worried Farmer Potion",
+    background: "Farm Background",
+    hair: "Buzz Cut",
+    hat: "Pumpkin Hat",
+    shirt: "Yellow Farmer Shirt",
+    pants: "Lumberjack Overalls",
+    shoes: "Black Farmer Boots",
+    tool: "Farmer Pitchfork",
   },
 };
 
