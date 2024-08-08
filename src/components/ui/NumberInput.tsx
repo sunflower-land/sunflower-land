@@ -69,6 +69,7 @@ export const NumberInput: React.FC<Props> = ({
 
         if (e.target.value === "") {
           setNumberDisplay(""); // reset to 0 if input is empty
+          onValueChange?.(new Decimal(0));
         } else if (
           (maxDecimalPlaces > 0 ? VALID_DECIMAL_NUMBER : VALID_INTEGER).test(
             e.target.value,
