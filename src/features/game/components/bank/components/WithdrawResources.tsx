@@ -22,6 +22,8 @@ import { NumberInput } from "components/ui/NumberInput";
 import { MachineState } from "features/game/lib/gameMachine";
 import { Label } from "components/ui/Label";
 import { WalletAddressLabel } from "components/ui/WalletAddressLabel";
+import { OuterPanel } from "components/ui/Panel";
+import { SquareIcon } from "components/ui/SquareIcon";
 
 interface Props {
   onWithdraw: () => void;
@@ -39,6 +41,7 @@ export const WithdrawResources: React.FC<Props> = ({ onWithdraw }) => {
   const state = useSelector(gameService, _state);
 
   const deliveryItemsStartRef = useRef<HTMLDivElement>(null);
+  const divRef = useRef<HTMLDivElement>(null);
 
   const [selected, setSelected] = useState<Inventory>({});
 
@@ -107,9 +110,9 @@ export const WithdrawResources: React.FC<Props> = ({ onWithdraw }) => {
 
   return (
     <>
-      <div className="p-2 mb-2">
+      <div className="p-2 mb-2" ref={divRef}>
         <Label type="default" className="mb-2">
-          {t("deliveryitem.inventory")}
+          {t("withdraw.select.item")}
         </Label>
         <div className="flex flex-wrap h-fit -ml-1.5 mb-2">
           {getKeys(inventory).map((itemName) => (
@@ -118,25 +121,28 @@ export const WithdrawResources: React.FC<Props> = ({ onWithdraw }) => {
               count={inventory[itemName]}
               onClick={() => onAdd(itemName)}
               image={ITEM_DETAILS[itemName].image}
+              parentDivRef={divRef}
             />
           ))}
         </div>
 
-        <Label type="default" className="mb-2">
-          {t("deliveryitem.itemsToDeliver")}
-        </Label>
-        <div className="flex flex-col min-h-[48px] max-h-56 scrollable overflow-y-auto">
-          <div ref={deliveryItemsStartRef} className="-mt-2"></div>
+        {getKeys(selected).length > 0 && (
+          <Label type="default" className="my-2">
+            {t("deliveryitem.itemsToDeliver")}
+          </Label>
+        )}
+        <div className="flex flex-col max-h-48 gap-1 pr-1 scrollable overflow-y-auto">
+          <div ref={deliveryItemsStartRef} />
           {getKeys(selected).map((itemName) => {
             const inventoryAmount = inventory[itemName] ?? new Decimal(0);
             const selectedAmount = selected[itemName] ?? new Decimal(0);
             return (
-              <div
+              <OuterPanel
                 className="flex items-center justify-between gap-2"
                 key={itemName}
               >
                 <div className="flex items-center gap-2">
-                  <Box key={itemName} image={ITEM_DETAILS[itemName].image} />
+                  <SquareIcon icon={ITEM_DETAILS[itemName].image} width={14} />
 
                   <NumberInput
                     className="w-24"
@@ -159,9 +165,9 @@ export const WithdrawResources: React.FC<Props> = ({ onWithdraw }) => {
                       selectedAmount.mul(1 - DELIVERY_FEE_PERCENTAGE / 100) ??
                         0,
                     )} x ${itemName}`}</span>
-                    <span className="text-xxs">{`${formatNumber(
+                    <span className="text-xxs">{`(${formatNumber(
                       selectedAmount.mul(DELIVERY_FEE_PERCENTAGE / 100) ?? 0,
-                    )} Goblin fee`}</span>
+                    )} ${t("fee")})`}</span>
                   </div>
                 </div>
                 <img
@@ -173,16 +179,16 @@ export const WithdrawResources: React.FC<Props> = ({ onWithdraw }) => {
                   }}
                   onClick={() => onRemove(itemName)}
                 />
-              </div>
+              </OuterPanel>
             );
           })}
         </div>
 
-        <div className="w-full my-3 border-t-2 border-white" />
+        <div className="w-full my-3 border-t border-white" />
         <div className="flex items-center mb-2 text-xs">
           <img
             src={SUNNYSIDE.icons.player}
-            className="mr-2"
+            className="mr-3"
             style={{
               width: `${PIXEL_SCALE * 13}px`,
             }}
@@ -193,8 +199,19 @@ export const WithdrawResources: React.FC<Props> = ({ onWithdraw }) => {
           </div>
         </div>
 
-        <p className="text-xs">{t("deliveryitem.viewOnOpenSea")}</p>
+        <p className="text-xs">
+          {t("deliveryitem.viewOnOpenSea")}{" "}
+          <a
+            className="underline hover:text-blue-500"
+            href="https://docs.sunflower-land.com/fundamentals/withdrawing"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {t("read.more")}
+          </a>
+        </p>
       </div>
+
       <Button onClick={withdraw} disabled={hasWrongInputs()}>
         {t("deliveryitem.deliver")}
       </Button>

@@ -5275,7 +5275,7 @@ const withdraw: Record<Withdraw, string> = {
   "withdraw.sfl.available": "SFL está disponível na cadeia",
   "withdraw.send.wallet": "Enviado para sua carteira",
   "withdraw.choose": "Escolha a quantidade a ser retirada",
-  "withdraw.receive": "Você receberá: {{sflReceived}}",
+  "withdraw.receive": "Você receberá: {{sflReceived}} SFL",
   "withdraw.select.item": "Selecione os itens a serem retirados",
   "withdraw.opensea":
     "Depois de retirados, você poderá ver seus itens no OpenSea.",

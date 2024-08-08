@@ -1,6 +1,6 @@
 import React, { useContext, useRef, useState } from "react";
 import ReCAPTCHA from "react-google-recaptcha";
-import { useActor } from "@xstate/react";
+import { useSelector } from "@xstate/react";
 import { CONFIG } from "lib/config";
 
 import { Button } from "components/ui/Button";
@@ -16,6 +16,7 @@ import { Context } from "features/game/GameProvider";
 import { WithdrawResources } from "./WithdrawResources";
 import { Label } from "components/ui/Label";
 import { PIXEL_SCALE } from "features/game/lib/constants";
+import { MachineState } from "features/game/lib/gameMachine";
 
 type Page = "main" | "tokens" | "items" | "wearables" | "buds" | "resources";
 
@@ -23,10 +24,12 @@ interface Props {
   onClose: () => void;
 }
 
+const _verified = (state: MachineState) => state.context.verified;
+
 export const Withdraw: React.FC<Props> = ({ onClose }) => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
-  const [gameState] = useActor(gameService);
+  const verified = useSelector(gameService, _verified);
 
   const [page, setPage] = useState<Page>("main");
 
@@ -141,7 +144,7 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
     onClose();
   };
 
-  if (!gameState.context.verified) {
+  if (!verified) {
     return (
       <>
         <p className="p-1 m-1">{t("withdraw.proof")}</p>

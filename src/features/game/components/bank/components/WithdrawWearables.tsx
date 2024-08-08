@@ -1,9 +1,8 @@
-import { useActor } from "@xstate/react";
+import { useSelector } from "@xstate/react";
 import React, { useContext, useEffect, useState } from "react";
 import Decimal from "decimal.js-light";
 
 import { GameState, Wardrobe } from "features/game/types/game";
-import { shortAddress } from "lib/utils/shortAddress";
 
 import { Button } from "components/ui/Button";
 import { Box } from "components/ui/Box";
@@ -18,6 +17,10 @@ import { BUMPKIN_WITHDRAWABLES } from "features/game/types/withdrawables";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Context } from "features/game/GameProvider";
 import { getImageUrl } from "lib/utils/getImageURLS";
+import { MachineState } from "features/game/lib/gameMachine";
+import { Label } from "components/ui/Label";
+import { WalletAddressLabel } from "components/ui/WalletAddressLabel";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const isCurrentObsession = (itemName: BumpkinItem, game: GameState) => {
   const obsessionCompletedAt = game.npcs?.bert?.questCompletedAt;
@@ -36,19 +39,23 @@ interface Props {
   onWithdraw: (ids: number[], amounts: number[]) => void;
 }
 
+const _state = (state: MachineState) => state.context.state;
+
 export const WithdrawWearables: React.FC<Props> = ({ onWithdraw }) => {
-  const { gameService } = useContext(Context);
-  const [gameState] = useActor(gameService);
   const { t } = useAppTranslation();
+
+  const { gameService } = useContext(Context);
+  const state = useSelector(gameService, _state);
+
   const [wardrobe, setWardrobe] = useState<Wardrobe>({});
   const [selected, setSelected] = useState<Wardrobe>({});
 
   useEffect(() => {
-    let available = availableWardrobe(gameState.context.state);
+    let available = availableWardrobe(state);
 
     available = getKeys(available).reduce((acc, key) => {
       const currentAmount = available[key] ?? 0;
-      const onChainAMount = gameState.context.state.previousWardrobe[key] ?? 0;
+      const onChainAMount = state.previousWardrobe[key] ?? 0;
 
       return {
         ...acc,
@@ -57,7 +64,7 @@ export const WithdrawWearables: React.FC<Props> = ({ onWithdraw }) => {
     }, {} as Wardrobe);
 
     setWardrobe(available);
-  }, [gameState.context.state]);
+  }, [state]);
 
   const withdraw = () => {
     const ids = getKeys(selected).map((item) => ITEM_IDS[item]);
@@ -96,10 +103,7 @@ export const WithdrawWearables: React.FC<Props> = ({ onWithdraw }) => {
   };
 
   const withdrawableItems = [...new Set([...getKeys(wardrobe)])]
-    .filter(
-      (item) =>
-        wardrobe[item] && !isCurrentObsession(item, gameState.context.state),
-    )
+    .filter((item) => wardrobe[item] && !isCurrentObsession(item, state))
     .sort((a, b) => ITEM_IDS[a] - ITEM_IDS[b]);
 
   const selectedItems = getKeys(selected)
@@ -108,11 +112,13 @@ export const WithdrawWearables: React.FC<Props> = ({ onWithdraw }) => {
 
   return (
     <>
-      <div className="p-2 mt-3">
-        <div className="flex items-center border-2 rounded-md border-black p-2 bg-green-background mb-3">
+      <div className="p-2 mb-2">
+        <Label type="warning" className="mb-2">
           <span className="text-xs">{t("withdraw.restricted")}</span>
-        </div>
-        <h2 className="mb-3">{t("withdraw.select.item")}</h2>
+        </Label>
+        <Label type="default" className="mb-2">
+          {t("withdraw.select.item")}
+        </Label>
         <div className="flex flex-wrap h-fit -ml-1.5">
           {withdrawableItems.map((itemName) => {
             const wardrobeCount = wardrobe[itemName];
@@ -123,7 +129,7 @@ export const WithdrawWearables: React.FC<Props> = ({ onWithdraw }) => {
                 key={itemName}
                 onClick={() => onAdd(itemName)}
                 disabled={
-                  !BUMPKIN_WITHDRAWABLES[itemName](gameState.context.state) ||
+                  !BUMPKIN_WITHDRAWABLES[itemName](state) ||
                   selected[itemName] !== undefined
                 }
                 image={getImageUrl(ITEM_IDS[itemName])}
@@ -137,8 +143,10 @@ export const WithdrawWearables: React.FC<Props> = ({ onWithdraw }) => {
               .map((_, index) => <Box disabled key={index} />)}
         </div>
 
-        <div className="mt-2">
-          <h2 className="">{t("selected")}</h2>
+        <div className="mt-4">
+          <Label type="default" className="mb-2">
+            {t("selected")}
+          </Label>
           <div className="flex flex-wrap h-fit mt-2 -ml-1.5">
             {selectedItems.map((itemName) => {
               return (
@@ -158,20 +166,23 @@ export const WithdrawWearables: React.FC<Props> = ({ onWithdraw }) => {
           </div>
         </div>
 
-        <div className="border-white border-t-2 w-full my-3" />
-        <div className="flex items-center mt-2 mb-2  border-white">
-          <img src={SUNNYSIDE.icons.player} className="h-8 mr-2" />
-          <div>
-            <p className="text-sm">{t("withdraw.send.wallet")}</p>
-            <p className="text-sm font-secondary">
-              {shortAddress(wallet.myAccount || "XXXX")}
-            </p>
+        <div className="w-full my-3 border-t border-white" />
+        <div className="flex items-center mb-2 text-xs">
+          <img
+            src={SUNNYSIDE.icons.player}
+            className="mr-3"
+            style={{
+              width: `${PIXEL_SCALE * 13}px`,
+            }}
+          />
+          <div className="flex flex-col gap-1">
+            <p>{t("withdraw.send.wallet")}</p>
+            <WalletAddressLabel walletAddress={wallet.myAccount || "XXXX"} />
           </div>
         </div>
 
-        <span className="text-sm mb-4">
-          {t("withdraw.opensea")}
-          {"."}{" "}
+        <p className="text-xs">
+          {t("withdraw.opensea")}{" "}
           <a
             className="underline hover:text-blue-500"
             href="https://docs.sunflower-land.com/fundamentals/withdrawing"
@@ -180,15 +191,10 @@ export const WithdrawWearables: React.FC<Props> = ({ onWithdraw }) => {
           >
             {t("read.more")}
           </a>
-          {"."}
-        </span>
+        </p>
       </div>
 
-      <Button
-        className="mt-3"
-        onClick={withdraw}
-        disabled={selectedItems.length <= 0}
-      >
+      <Button onClick={withdraw} disabled={selectedItems.length <= 0}>
         {t("withdraw")}
       </Button>
     </>
