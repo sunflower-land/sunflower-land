@@ -1533,6 +1533,7 @@ export function startGame(authContext: AuthContext) {
                 token: authContext.user.rawToken as string,
                 items,
                 sfl,
+                transactionId: context.transactionId as string,
               });
 
               return { state };
@@ -1583,6 +1584,7 @@ export function startGame(authContext: AuthContext) {
                 listingId,
                 listingType,
                 token: authContext.user.rawToken as string,
+                transactionId: context.transactionId as string,
               });
 
               return { state };
@@ -1634,6 +1636,7 @@ export function startGame(authContext: AuthContext) {
                 listingId,
                 listingType,
                 token: authContext.user.rawToken as string,
+                transactionId: context.transactionId as string,
               });
 
               return {
