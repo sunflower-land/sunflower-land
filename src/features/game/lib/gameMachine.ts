@@ -462,6 +462,7 @@ export type BlockchainState = {
     | "fulfillTradeListing"
     | "sellMarketResource"
     | "sniped"
+    | "tradeAlreadyFulfilled"
     | "priceChanged"
     | "buds"
     | "airdrop"
@@ -1579,7 +1580,7 @@ export function startGame(authContext: AuthContext) {
                 });
               }
 
-              const state = await deleteListingRequest({
+              const { farm, error } = await deleteListingRequest({
                 sellerId,
                 listingId,
                 listingType,
@@ -1587,15 +1588,25 @@ export function startGame(authContext: AuthContext) {
                 transactionId: context.transactionId as string,
               });
 
-              return { state };
+              return { farm, error };
             },
             onDone: [
+              {
+                target: "tradeAlreadyFulfilled",
+                cond: (_, event) => event.data.error === "ALREADY_BOUGHT",
+                actions: [
+                  assign((_, event) => ({
+                    actions: [],
+                    state: event.data.farm,
+                  })),
+                ],
+              },
               {
                 target: "tradeListingDeleted",
                 actions: [
                   assign((_, event) => ({
                     actions: [],
-                    state: event.data.state,
+                    state: event.data.farm,
                   })),
                 ],
               },
@@ -1678,6 +1689,11 @@ export function startGame(authContext: AuthContext) {
           },
         },
         sniped: {
+          on: {
+            CONTINUE: "playing",
+          },
+        },
+        tradeAlreadyFulfilled: {
           on: {
             CONTINUE: "playing",
           },
