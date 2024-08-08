@@ -148,19 +148,6 @@ const GameOptions: React.FC<ContentComponentProps> = ({
           <span>{t("install.app")}</span>
         </Button>
       )}
-      {/* To revamp and add back later*/}
-      {/* <li className="p-1">
-                  <Button disabled={true} onClick={handleHowToPlay}>
-                    <div className="flex items-center justify-center">
-                      <span>{t("gameOptions.howToPlay")}</span>
-                      <img
-                        src={SUNNYSIDE.icons.expression_confused}
-                        className="w-3 ml-2"
-                        alt="question-mark"
-                      />
-                    </div>
-                  </Button>
-                  </li> */}
       <Button className="p-1 mb-1" onClick={refreshSession}>
         {t("gameOptions.blockchainSettings.refreshChain")}
       </Button>

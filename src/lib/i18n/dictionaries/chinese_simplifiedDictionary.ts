@@ -74,16 +74,12 @@ import {
   Helper,
   HeliosSunflower,
   HenHouseTerms,
-  HowToFarm,
-  HowToSync,
-  HowToUpgrade,
   Islandupgrade,
   InteractableModals,
   IntroPage,
   IslandName,
   IslandNotFound,
   LandscapeTerms,
-  LetsGo,
   LevelUpMessages,
   Loser,
   LostSunflorian,
@@ -2786,30 +2782,6 @@ const henHouseTerms: Record<HenHouseTerms, string> = {
   "henHouse.text.six": ENGLISH_TERMS["henHouse.text.six"],
 };
 
-const howToFarm: Record<HowToFarm, string> = {
-  "howToFarm.title": ENGLISH_TERMS["howToFarm.title"],
-  "howToFarm.stepOne": ENGLISH_TERMS["howToFarm.stepOne"],
-  "howToFarm.stepTwo": ENGLISH_TERMS["howToFarm.stepTwo"],
-  "howToFarm.stepThree": ENGLISH_TERMS["howToFarm.stepThree"],
-  "howToFarm.stepFour": ENGLISH_TERMS["howToFarm.stepFour"],
-  "howToFarm.stepFive": ENGLISH_TERMS["howToFarm.stepFive"],
-};
-
-const howToSync: Record<HowToSync, string> = {
-  "howToSync.title": ENGLISH_TERMS["howToSync.title"],
-  "howToSync.description": ENGLISH_TERMS["howToSync.description"],
-  "howToSync.stepOne": ENGLISH_TERMS["howToSync.stepOne"],
-  "howToSync.stepTwo": ENGLISH_TERMS["howToSync.stepTwo"],
-};
-
-const howToUpgrade: Record<HowToUpgrade, string> = {
-  "howToUpgrade.title": ENGLISH_TERMS["howToUpgrade.title"],
-  "howToUpgrade.stepOne": ENGLISH_TERMS["howToUpgrade.stepOne"],
-  "howToUpgrade.stepTwo": ENGLISH_TERMS["howToUpgrade.stepTwo"],
-  "howToUpgrade.stepThree": ENGLISH_TERMS["howToUpgrade.stepThree"],
-  "howToUpgrade.stepFour": ENGLISH_TERMS["howToUpgrade.stepFour"],
-};
-
 const interactableModals: Record<InteractableModals, string> = {
   "interactableModals.returnhome.message":
     ENGLISH_TERMS["interactableModals.returnhome.message"],
@@ -2974,13 +2946,6 @@ const landscapeTerms: Record<LandscapeTerms, string> = {
   "landscape.dragMe": ENGLISH_TERMS["landscape.dragMe"],
   "landscape.expansion.date": ENGLISH_TERMS["landscape.expansion.date"],
   "landscape.great.work": ENGLISH_TERMS["landscape.great.work"],
-};
-
-const letsGo: Record<LetsGo, string> = {
-  "letsGo.title": ENGLISH_TERMS["letsGo.title"],
-  "letsGo.description": ENGLISH_TERMS["letsGo.description"],
-  "letsGo.readMore": ENGLISH_TERMS["letsGo.readMore"],
-  "letsGo.officialDocs": ENGLISH_TERMS["letsGo.officialDocs"],
 };
 
 const levelUpMessages: Record<LevelUpMessages, string> = {
@@ -4787,7 +4752,6 @@ const leaderboardTerms: Record<Leaderboard, string> = {
 
 const gameOptions: Record<GameOptions, string> = {
   "gameOptions.title": "游戏设置", // using “Game Settings"
-  "gameOptions.howToPlay": ENGLISH_TERMS["gameOptions.howToPlay"],
   "gameOptions.farmId": "农场 ID #{{farmId}}",
   "gameOptions.logout": "登出",
   "gameOptions.confirmLogout": "您确定要登出吗？",
@@ -5012,16 +4976,12 @@ export const CHINESE_SIMPLIFIED_TERMS: Record<TranslationKeys, string> = {
   ...heliosSunflower,
   ...helper,
   ...henHouseTerms,
-  ...howToFarm,
-  ...howToSync,
-  ...howToUpgrade,
   ...interactableModals,
   ...introPage,
   ...islandName,
   ...islandNotFound,
   ...islandupgrade,
   ...landscapeTerms,
-  ...letsGo,
   ...levelUpMessages,
   ...loser,
   ...lostSunflorian,

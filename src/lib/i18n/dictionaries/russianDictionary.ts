@@ -79,9 +79,6 @@ import {
   Helper,
   HeliosSunflower,
   HenHouseTerms,
-  HowToFarm,
-  HowToSync,
-  HowToUpgrade,
   Islandupgrade,
   InteractableModals,
   IntroPage,
@@ -89,7 +86,6 @@ import {
   IslandNotFound,
   LandscapeTerms,
   Leaderboard,
-  LetsGo,
   LevelUpMessages,
   Loser,
   LostSunflorian,
@@ -3134,32 +3130,6 @@ const henHouseTerms: Record<HenHouseTerms, string> = {
     "Построй дополнительный курятник, чтобы разводить больше кур",
 };
 
-const howToFarm: Record<HowToFarm, string> = {
-  "howToFarm.title": "Как заниматься фермерством?",
-  "howToFarm.stepOne": "1. Собирай урожай, когда он готов",
-  "howToFarm.stepTwo": "2. Посети город и нажми на магазин",
-  "howToFarm.stepThree": "3. Продай урожай в магазине за монеты",
-  "howToFarm.stepFour": "4. Покупай семена, используя монеты",
-  "howToFarm.stepFive": "5. Посади семена и жди",
-};
-
-const howToSync: Record<HowToSync, string> = {
-  "howToSync.title": "Как синхронизироваться?",
-  "howToSync.description":
-    "Весь твой прогресс сохраняется на нашем игровом сервере. Тебе нужно будет синхронизироваться с блокчейном, когда ты захочешь перенести свои токены, NFT и ресурсы на Polygon.",
-  "howToSync.stepOne": "1. Открой меню",
-  "howToSync.stepTwo": '2. Нажми "Sync on chain".',
-};
-
-const howToUpgrade: Record<HowToUpgrade, string> = {
-  "howToUpgrade.title": "Как улучшиться?",
-  "howToUpgrade.stepOne": "1. Поговори с гоблином, перекрывающим поля",
-  "howToUpgrade.stepTwo": "2.Посети город и открой кухню",
-  "howToUpgrade.stepThree": "3. Приготовь еду, которую хочет гоблин.",
-  "howToUpgrade.stepFour":
-    "4. Вуаля! Наслаждайся своими новыми грядками и урожаем",
-};
-
 const islandupgrade: Record<Islandupgrade, string> = {
   "islandupgrade.confirmUpgrade":
     "Ты уверен, что хочешь перейти на новый остров?",
@@ -3415,14 +3385,6 @@ const levelUpMessages: Record<LevelUpMessages, string> = {
   "levelUp.59":
     "Поздравляем с 59-м уровнем! Ваша ферма - лучший представитель своего класса.",
   "levelUp.60": "60-й уровень - вы настоящая суперзвезда фермерского дела!",
-};
-
-const letsGo: Record<LetsGo, string> = {
-  "letsGo.title": "Время играть!",
-  "letsGo.description":
-    "Спасибо за игру в бета-версию! Мы продолжаем работать над игрой и ценим вашу поддержку на ранних этапах!",
-  "letsGo.readMore": "Подробнее об игре вы можете прочитать в ",
-  "letsGo.officialDocs": "официальной документации",
 };
 
 const loser: Record<Loser, string> = {
@@ -5506,7 +5468,6 @@ export const leaderboardTerms: Record<Leaderboard, string> = {
 
 const gameOptions: Record<GameOptions, string> = {
   "gameOptions.title": "Game Options",
-  "gameOptions.howToPlay": "How to Play? (Under Reconstruction)",
   "gameOptions.farmId": "Farm ID #{{farmId}}",
   "gameOptions.logout": "Logout",
   "gameOptions.confirmLogout": "Are you sure you want to Logout?",
@@ -5789,9 +5750,6 @@ export const RUSSIAN_TERMS: Record<TranslationKeys, string> = {
   ...helper,
   ...heliosSunflower,
   ...henHouseTerms,
-  ...howToFarm,
-  ...howToSync,
-  ...howToUpgrade,
   ...islandupgrade,
   ...interactableModals,
   ...introPage,
@@ -5799,7 +5757,6 @@ export const RUSSIAN_TERMS: Record<TranslationKeys, string> = {
   ...islandNotFound,
   ...landscapeTerms,
   ...leaderboardTerms,
-  ...letsGo,
   ...levelUpMessages,
   ...loser,
   ...lostSunflorian,

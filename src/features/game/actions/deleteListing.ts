@@ -12,10 +12,14 @@ type Request = {
   token: string;
   transactionId: string;
 };
+type Response = {
+  farm: GameState;
+  error?: "ALREADY_BOUGHT";
+};
 
 export async function deleteListingRequest(
   request: Request,
-): Promise<GameState> {
+): Promise<Response> {
   const response = await window.fetch(`${API_URL}/listings`, {
     method: "DELETE",
     headers: {
@@ -45,5 +49,5 @@ export async function deleteListingRequest(
 
   const data = await response.json();
 
-  return makeGame(data);
+  return { farm: makeGame(data.farm), error: data.error };
 }
