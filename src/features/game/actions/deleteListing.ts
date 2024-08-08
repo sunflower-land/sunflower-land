@@ -10,6 +10,7 @@ type Request = {
   listingId: string;
   listingType: string;
   token: string;
+  transactionId: string;
 };
 
 export async function deleteListingRequest(
@@ -19,6 +20,7 @@ export async function deleteListingRequest(
     method: "DELETE",
     headers: {
       "content-type": "application/json;charset=UTF-8",
+      "X-Transaction-ID": request.transactionId,
       Authorization: `Bearer ${request.token}`,
       accept: "application/json",
       ...((window as any)["x-amz-ttl"]
@@ -29,6 +31,7 @@ export async function deleteListingRequest(
       listingId: request.listingId,
       listingType: request.listingType,
       sellerId: request.sellerId,
+      createdAt: new Date().toISOString(),
     }),
   });
 
