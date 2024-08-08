@@ -63,6 +63,7 @@ import { GreenhouseInside } from "features/greenhouse/GreenhouseInside";
 import { useSound } from "lib/utils/hooks/useSound";
 import { SomethingArrived } from "./components/SomethingArrived";
 import { TradeAlreadyFulfilled } from "../components/TradeAlreadyFulfilled";
+import { NPC_WEARABLES } from "lib/npcs";
 
 const land = SUNNYSIDE.land.island;
 
@@ -455,7 +456,9 @@ export const GameWrapper: React.FC = ({ children }) => {
         <ToastPanel />
 
         <Modal show={SHOW_MODAL[stateValue as StateValues]} onHide={onHide}>
-          <Panel>
+          <Panel
+            bumpkinParts={error ? NPC_WEARABLES["worried pete"] : undefined}
+          >
             {loading && <Loading />}
             {refreshing && <Refreshing />}
             {buyingSFL && <AddingSFL />}

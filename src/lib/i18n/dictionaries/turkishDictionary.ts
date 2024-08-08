@@ -2066,14 +2066,18 @@ const errorAndAccess: Record<ErrorAndAccess, string> = {
 };
 
 const errorTerms: Record<ErrorTerms, string> = {
+  "error.askOnDiscord": ENGLISH_TERMS["error.askOnDiscord"],
+  "error.contactSupport": ENGLISH_TERMS["error.contactSupport"],
+  "error.file": ENGLISH_TERMS["error.file"],
+  "error.getHelp": ENGLISH_TERMS["error.getHelp"],
   "error.betaTestersOnly": "Yalnızca beta test kullanıcıları!",
   "error.congestion.one":
     "Elimizden gelenin en iyisini yapmaya çalışıyoruz ancak görünüşe göre Polygon çok fazla trafik alıyor veya bağlantınızı kaybetmişsiniz.",
   "error.congestion.two":
     "Bu hata devam ederse lütfen Metamask RPC'nizi değiştirmeyi deneyin.",
-  "error.connection.one": "Görünüşe göre bu isteği yerine getiremedik.",
-  "error.connection.two": "Basit bir bağlantı sorunu olabilir.",
-  "error.connection.three": "Tekrar denemek için yenile'yi tıklayabilirsiniz.",
+  "error.connection.one": ENGLISH_TERMS["error.connection.one"],
+  "error.connection.two": ENGLISH_TERMS["error.connection.two"],
+  "error.connection.three": ENGLISH_TERMS["error.connection.three"],
   "error.connection.four":
     "Sorun devam ederse destek ekibimizle iletişime geçerek veya discord'a geçip topluluğumuza sorarak yardıma ulaşabilirsiniz.",
   "error.diagnostic.info": "Teşhis Bilgileri",

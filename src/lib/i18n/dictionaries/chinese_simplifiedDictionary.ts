@@ -1852,13 +1852,17 @@ const errorAndAccess: Record<ErrorAndAccess, string> = {
 };
 
 const errorTerms: Record<ErrorTerms, string> = {
+  "error.askOnDiscord": ENGLISH_TERMS["error.askOnDiscord"],
+  "error.contactSupport": ENGLISH_TERMS["error.contactSupport"],
+  "error.file": ENGLISH_TERMS["error.file"],
+  "error.getHelp": ENGLISH_TERMS["error.getHelp"],
   "error.betaTestersOnly": "仅限 Beta 测试人员！",
   "error.congestion.one":
     "我们正在尽力，但看起来 Polygon 的流量太大或者您丢失了连接。",
   "error.congestion.two": "如果此错误继续发生，请尝试更改您的 Metamask RPC",
-  "error.connection.one": "看起来我们无法完成这个请求。",
-  "error.connection.two": "这可能只是连接的问题而已。",
-  "error.connection.three": "您可以点击刷新再试一次。",
+  "error.connection.one": ENGLISH_TERMS["error.connection.one"],
+  "error.connection.two": ENGLISH_TERMS["error.connection.two"],
+  "error.connection.three": ENGLISH_TERMS["error.connection.three"],
   "error.connection.four":
     "如果问题仍然存在，您可以联系我们的支持团队或跳转到我们的 Discord 并询问我们的社区以寻求帮助。",
   "error.diagnostic.info": "诊断信息",
