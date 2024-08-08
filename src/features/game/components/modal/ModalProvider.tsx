@@ -7,6 +7,8 @@ import { SpeakingModal } from "../SpeakingModal";
 import { NPC_WEARABLES } from "lib/npcs";
 import { translate } from "lib/i18n/translate";
 import { BuyCurrenciesModal } from "features/island/hud/components/BuyCurrenciesModal";
+import { VIPItems } from "./components/VIPItems";
+import { Panel } from "components/ui/Panel";
 
 type GlobalModal =
   | "BUY_BLOCK_BUCKS"
@@ -17,7 +19,8 @@ type GlobalModal =
   | "SECOND_LEVEL"
   | "FIREPIT"
   | "BETTY"
-  | "BLACKSMITH";
+  | "BLACKSMITH"
+  | "VIP_ITEMS";
 
 export const ModalContext = createContext<{
   openModal: (type: GlobalModal) => void;
@@ -53,6 +56,12 @@ export const ModalProvider: FC = ({ children }) => {
         onClose={handleClose}
         initialTab={2}
       />
+
+      <Modal show={opened === "VIP_ITEMS"} onHide={handleClose}>
+        <Panel>
+          <VIPItems onSkip={handleClose} onClose={handleClose} />
+        </Panel>
+      </Modal>
 
       <Modal show={opened === "STORE_ON_CHAIN"} onHide={handleClose}>
         <StoreOnChainModal onClose={handleClose} />

@@ -757,12 +757,12 @@ export abstract class BaseScene extends Phaser.Scene {
     // Update faction
     const faction = this.gameService.state.context.state.faction?.name;
 
-    if (faction && this.currentPlayer.faction !== faction) {
+    if (this.currentPlayer.faction !== faction) {
       this.currentPlayer.faction = faction;
       this.mmoServer?.send(0, { faction });
       this.checkAndUpdateNameColor(
         this.currentPlayer,
-        FACTION_NAME_COLORS[faction],
+        faction ? FACTION_NAME_COLORS[faction] : "white",
       );
     }
 
