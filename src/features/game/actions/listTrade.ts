@@ -10,6 +10,7 @@ type Request = {
   sfl: number;
   sellerId: number;
   token: string;
+  transactionId: string;
 };
 
 export async function listRequest(request: Request): Promise<GameState> {
@@ -17,6 +18,7 @@ export async function listRequest(request: Request): Promise<GameState> {
     method: "POST",
     headers: {
       "content-type": "application/json;charset=UTF-8",
+      "X-Transaction-ID": request.transactionId,
       Authorization: `Bearer ${request.token}`,
       accept: "application/json",
       ...((window as any)["x-amz-ttl"]
@@ -27,6 +29,7 @@ export async function listRequest(request: Request): Promise<GameState> {
       sellerId: request.sellerId,
       items: request.items,
       sfl: request.sfl,
+      createdAt: new Date().toISOString(),
     }),
   });
 

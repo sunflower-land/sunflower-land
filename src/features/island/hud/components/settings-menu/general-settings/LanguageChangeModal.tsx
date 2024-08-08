@@ -5,12 +5,12 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Panel } from "components/ui/Panel";
 import i18n from "lib/i18n";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { changeFont } from "lib/utils/fonts";
 import {
   LanguageCode,
   languageDetails,
 } from "lib/i18n/dictionaries/dictionary";
 import { ConfirmationModal } from "components/ui/ConfirmationModal";
+import { getKeys } from "features/game/types/decorations";
 
 export const LanguageSwitcher: React.FC = () => {
   const { t } = useAppTranslation();
@@ -25,16 +25,9 @@ export const LanguageSwitcher: React.FC = () => {
     i18n.changeLanguage(languageCode);
     setLanguage(languageCode);
     location.reload();
-
-    if (languageCode === "zh-CN") {
-      changeFont("Sans Serif");
-    } else {
-      changeFont("Default");
-    }
   };
 
-  const languageArray = Object.keys(languageDetails) as LanguageCode[];
-
+  const languageArray = getKeys(languageDetails);
   return (
     <>
       <div className="p-1 space-y-2">
@@ -46,6 +39,11 @@ export const LanguageSwitcher: React.FC = () => {
               setConfirmModal(true);
             }}
             disabled={language === languageCode}
+            className={`${
+              languageCode === "zh-CN" && language !== "zh-CN"
+                ? "!text-[18px]"
+                : ""
+            }`}
           >
             {languageDetails[languageCode].languageImage.map((img, index) => (
               <img
