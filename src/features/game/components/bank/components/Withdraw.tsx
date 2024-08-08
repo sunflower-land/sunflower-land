@@ -17,8 +17,111 @@ import { WithdrawResources } from "./WithdrawResources";
 import { Label } from "components/ui/Label";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { MachineState } from "features/game/lib/gameMachine";
+import { translate } from "lib/i18n/translate";
+
+const getPageIcon = (page: Page) => {
+  switch (page) {
+    case "tokens":
+      return token;
+    case "items":
+      return chest;
+    case "wearables":
+      return SUNNYSIDE.icons.wardrobe;
+    case "buds":
+      return SUNNYSIDE.icons.plant;
+    case "resources":
+      return SUNNYSIDE.resource.wood;
+    default:
+      return "";
+  }
+};
+
+const getPageText = (page: Page) => {
+  switch (page) {
+    case "tokens":
+      return "SFL";
+    case "items":
+      return translate("collectibles");
+    case "wearables":
+      return translate("wearables");
+    case "buds":
+      return translate("buds");
+    case "resources":
+      return translate("resources");
+    default:
+      return "";
+  }
+};
 
 type Page = "main" | "tokens" | "items" | "wearables" | "buds" | "resources";
+
+const MainMenu: React.FC<{ setPage: (page: Page) => void }> = ({ setPage }) => {
+  return (
+    <div className="p-2 flex flex-col justify-center space-y-1">
+      <span className="mb-1">{translate("withdraw.sync")}</span>
+      <div className="flex space-x-1">
+        <Button onClick={() => setPage("tokens")}>
+          <div className="flex items-center">
+            <img src={getPageIcon("tokens")} className="h-4 mr-1" />
+            {getPageText("tokens")}
+          </div>
+        </Button>
+        <Button onClick={() => setPage("resources")}>
+          <div className="flex items-center">
+            <img src={getPageIcon("resources")} className="h-4 mr-1" />
+            {getPageText("resources")}
+          </div>
+        </Button>
+      </div>
+      <div className="flex space-x-1">
+        <Button onClick={() => setPage("items")}>
+          <div className="flex items-center">
+            <img src={getPageIcon("items")} className="h-4 mr-1" />
+            {getPageText("items")}
+          </div>
+        </Button>
+        <Button onClick={() => setPage("wearables")}>
+          <div className="flex items-center">
+            <img src={getPageIcon("wearables")} className="h-4 mr-1" />
+            {getPageText("wearables")}
+          </div>
+        </Button>
+      </div>
+      <div className="flex space-x-1">
+        <Button onClick={() => setPage("buds")}>
+          <div className="flex items-center">
+            <img src={getPageIcon("buds")} className="h-4 mr-1" />
+            {getPageText("buds")}
+          </div>
+        </Button>
+      </div>
+    </div>
+  );
+};
+
+const NavigationMenu: React.FC<{
+  page: Page;
+  setPage: (page: Page) => void;
+}> = ({ page, setPage }) => {
+  return (
+    <div className="flex items-center">
+      <img
+        src={SUNNYSIDE.icons.arrow_left}
+        className="self-start cursor-pointer mr-3"
+        style={{
+          top: `${PIXEL_SCALE * 2}px`,
+          left: `${PIXEL_SCALE * 2}px`,
+          width: `${PIXEL_SCALE * 11}px`,
+        }}
+        alt="back"
+        onClick={() => setPage("main")}
+      />
+      <Label type="default" icon={getPageIcon(page)}>
+        {getPageText(page)}
+      </Label>
+    </div>
+  );
+};
 
 interface Props {
   onClose: () => void;
@@ -32,40 +135,6 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
   const verified = useSelector(gameService, _verified);
 
   const [page, setPage] = useState<Page>("main");
-
-  const getPageIcon = (page: Page) => {
-    switch (page) {
-      case "tokens":
-        return token;
-      case "items":
-        return chest;
-      case "wearables":
-        return SUNNYSIDE.icons.wardrobe;
-      case "buds":
-        return SUNNYSIDE.icons.plant;
-      case "resources":
-        return SUNNYSIDE.resource.wood;
-      default:
-        return "";
-    }
-  };
-
-  const getPageText = (page: Page) => {
-    switch (page) {
-      case "tokens":
-        return "SFL";
-      case "items":
-        return t("collectibles");
-      case "wearables":
-        return t("wearables");
-      case "buds":
-        return t("buds");
-      case "resources":
-        return t("resources");
-      default:
-        return "";
-    }
-  };
 
   const withdrawAmount = useRef({
     ids: [] as number[],
@@ -167,75 +236,10 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
     );
   }
 
-  const mainMenu = () => {
-    return (
-      <div className="p-2 flex flex-col justify-center space-y-1">
-        <span className="mb-1">{t("withdraw.sync")}</span>
-        <div className="flex space-x-1">
-          <Button onClick={() => setPage("tokens")}>
-            <div className="flex items-center">
-              <img src={getPageIcon("tokens")} className="h-4 mr-1" />
-              {getPageText("tokens")}
-            </div>
-          </Button>
-          <Button onClick={() => setPage("resources")}>
-            <div className="flex items-center">
-              <img src={getPageIcon("resources")} className="h-4 mr-1" />
-              {getPageText("resources")}
-            </div>
-          </Button>
-        </div>
-        <div className="flex space-x-1">
-          <Button onClick={() => setPage("items")}>
-            <div className="flex items-center">
-              <img src={getPageIcon("items")} className="h-4 mr-1" />
-              {getPageText("items")}
-            </div>
-          </Button>
-          <Button onClick={() => setPage("wearables")}>
-            <div className="flex items-center">
-              <img src={getPageIcon("wearables")} className="h-4 mr-1" />
-              {getPageText("wearables")}
-            </div>
-          </Button>
-        </div>
-        <div className="flex space-x-1">
-          <Button onClick={() => setPage("buds")}>
-            <div className="flex items-center">
-              <img src={getPageIcon("buds")} className="h-4 mr-1" />
-              {getPageText("buds")}
-            </div>
-          </Button>
-        </div>
-      </div>
-    );
-  };
-
-  const navigationMenu = () => {
-    return (
-      <div className="flex items-center">
-        <img
-          src={SUNNYSIDE.icons.arrow_left}
-          className="self-start cursor-pointer mr-3"
-          style={{
-            top: `${PIXEL_SCALE * 2}px`,
-            left: `${PIXEL_SCALE * 2}px`,
-            width: `${PIXEL_SCALE * 11}px`,
-          }}
-          alt="back"
-          onClick={() => setPage("main")}
-        />
-        <Label type="default" icon={getPageIcon(page)}>
-          {getPageText(page)}
-        </Label>
-      </div>
-    );
-  };
-
   return (
     <>
-      {page === "main" && mainMenu()}
-      {page !== "main" && navigationMenu()}
+      {page === "main" && <MainMenu setPage={setPage} />}
+      {page !== "main" && <NavigationMenu page={page} setPage={setPage} />}
       {page === "tokens" && <WithdrawTokens onWithdraw={onWithdrawTokens} />}
       {page === "items" && <WithdrawItems onWithdraw={onWithdrawItems} />}
       {page === "resources" && <WithdrawResources onWithdraw={onClose} />}
