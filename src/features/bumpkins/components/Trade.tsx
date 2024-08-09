@@ -158,13 +158,19 @@ const ListTrade: React.FC<{
         </div>
         <div className="flex flex-col items-end pr-1">
           <Label
-            type={inventory[selected]?.lt(quantity) ? "danger" : "info"}
+            type={
+              (inventory?.[selected] ?? new Decimal(0)).lt(quantity)
+                ? "danger"
+                : "info"
+            }
             className="my-1"
           >
             {t("bumpkinTrade.available")}
           </Label>
           <span className="text-sm mr-1 font-secondary">
-            {formatNumber(inventory?.[selected] ?? 0, { decimalPlaces: 0 })}
+            {formatNumber(inventory?.[selected] ?? new Decimal(0), {
+              decimalPlaces: 0,
+            })}
           </span>
         </div>
       </div>
@@ -347,7 +353,8 @@ const ListTrade: React.FC<{
             isTooHigh ||
             isTooLow ||
             maxSFL ||
-            (inventory[selected]?.lt(quantity) ?? false) ||
+            quantity.gt(inventory?.[selected] ?? new Decimal(0)) ||
+            quantity.gt(TRADE_LIMITS[selected] ?? new Decimal(0)) ||
             quantity.equals(0) || // Disable when quantity is 0
             sfl.equals(0) || // Disable when sfl is 0
             isSaving
