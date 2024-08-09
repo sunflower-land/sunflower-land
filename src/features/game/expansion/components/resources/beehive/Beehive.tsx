@@ -13,7 +13,7 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import classNames from "classnames";
 import { Context } from "features/game/GameProvider";
 import { MachineState } from "features/game/lib/gameMachine";
-import { useActor, useInterpret, useSelector } from "@xstate/react";
+import { useInterpret, useSelector } from "@xstate/react";
 import { Bar } from "components/ui/ProgressBar";
 import { Beehive as IBeehive } from "features/game/types/game";
 import {
@@ -68,11 +68,11 @@ const _currentFlowerId = (state: BeehiveMachineState) =>
   state.context.attachedFlower?.id;
 const _showBeeAnimation = (state: BeehiveMachineState) =>
   state.matches("showBeeAnimation");
+const _state = (state: MachineState) => state.context.state;
 
 export const Beehive: React.FC<Props> = ({ id }) => {
   const { t } = useAppTranslation();
   const { showTimers, gameService } = useContext(Context);
-  const [gameState] = useActor(gameService);
   const isInitialMount = useRef(true);
   const [showProducingBee, setShowProducingBee] = useState<boolean>();
   const [showHoneyLevelModal, setShowHoneyLevelModal] = useState(false);
@@ -83,9 +83,10 @@ export const Beehive: React.FC<Props> = ({ id }) => {
 
   const landscaping = useSelector(gameService, _landscaping);
   const hive = useSelector(gameService, getBeehiveById(id), compareHive);
+  const gameState = useSelector(gameService, _state);
 
   const beehiveContext: BeehiveContext = {
-    gameState: gameState.context.state,
+    gameState,
     hive,
     honeyProduced: getCurrentHoneyProduced(hive),
     currentSpeed: getCurrentSpeed(hive),
@@ -102,7 +103,7 @@ export const Beehive: React.FC<Props> = ({ id }) => {
   const currentFlowerId = useSelector(beehiveService, _currentFlowerId);
   const showBeeAnimation = useSelector(beehiveService, _showBeeAnimation);
 
-  const honeyMultiplier = getHoneyMultiplier(gameState.context.state);
+  const honeyMultiplier = getHoneyMultiplier(gameState);
 
   const handleBeeAnimationEnd = useCallback(() => {
     beehiveService.send("BEE_ANIMATION_DONE");
@@ -268,6 +269,7 @@ export const Beehive: React.FC<Props> = ({ id }) => {
           <Bee
             hiveX={hive.x}
             hiveY={hive.y}
+            gameService={gameService}
             flowerId={currentFlowerId as string}
             onAnimationEnd={handleBeeAnimationEnd}
           />
