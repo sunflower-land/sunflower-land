@@ -1,7 +1,8 @@
 import Decimal from "decimal.js-light";
-import cloneDeep from "lodash.clonedeep";
 import { getKeys } from "../types/craftables";
 import { GameState } from "../types/game";
+
+import { produce } from "immer";
 
 export type ClaimAirdropAction = {
   type: "airdrop.claimed";
@@ -14,42 +15,45 @@ type Options = {
 };
 
 export function claimAirdrop({ state, action }: Options): GameState {
-  const game = cloneDeep(state);
+  return produce(state, (game) => {
+    if (!game.airdrops || game.airdrops.length === 0) {
+      throw new Error("No airdrops exist");
+    }
 
-  if (!game.airdrops || game.airdrops.length === 0) {
-    throw new Error("No airdrops exist");
-  }
+    const airdrop = game.airdrops.find((item) => item.id === action.id);
 
-  const airdrop = game.airdrops.find((item) => item.id === action.id);
+    if (!airdrop) {
+      throw new Error(`Airdrop #${action.id} does not exist`);
+    }
 
-  if (!airdrop) {
-    throw new Error(`Airdrop #${action.id} does not exist`);
-  }
+    const inventory = getKeys(airdrop.items).reduce((acc, itemName) => {
+      const previous = acc[itemName] || new Decimal(0);
 
-  const inventory = getKeys(airdrop.items).reduce((acc, itemName) => {
-    const previous = acc[itemName] || new Decimal(0);
+      return {
+        ...acc,
+        [itemName]: previous.add(airdrop.items[itemName] || 0),
+      };
+    }, game.inventory);
+
+    const wardrobe = getKeys(airdrop.wearables ?? {}).reduce(
+      (acc, itemName) => {
+        const previous = acc[itemName] || 0;
+
+        return {
+          ...acc,
+          [itemName]: previous + (airdrop.wearables[itemName] || 0),
+        };
+      },
+      game.wardrobe,
+    );
 
     return {
-      ...acc,
-      [itemName]: previous.add(airdrop.items[itemName] || 0),
+      ...game,
+      balance: game.balance.add(airdrop.sfl),
+      airdrops: game.airdrops.filter((item) => item.id !== action.id),
+      inventory,
+      wardrobe,
+      coins: game.coins + (airdrop.coins ?? 0),
     };
-  }, game.inventory);
-
-  const wardrobe = getKeys(airdrop.wearables ?? {}).reduce((acc, itemName) => {
-    const previous = acc[itemName] || 0;
-
-    return {
-      ...acc,
-      [itemName]: previous + (airdrop.wearables[itemName] || 0),
-    };
-  }, game.wardrobe);
-
-  return {
-    ...game,
-    balance: game.balance.add(airdrop.sfl),
-    airdrops: game.airdrops.filter((item) => item.id !== action.id),
-    inventory,
-    wardrobe,
-    coins: game.coins + (airdrop.coins ?? 0),
-  };
+  });
 }

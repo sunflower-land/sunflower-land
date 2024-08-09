@@ -1,4 +1,3 @@
-import cloneDeep from "lodash.clonedeep";
 import { GameState } from "features/game/types/game";
 import { FLOWERS, FlowerName } from "features/game/types/flowers";
 import Decimal from "decimal.js-light";
@@ -7,6 +6,7 @@ import {
   BUMPKIN_FLOWER_BONUSES,
   DEFAULT_FLOWER_POINTS,
 } from "features/game/types/gifts";
+import { produce } from "immer";
 
 export type GiftFlowersAction = {
   type: "flowers.gifted";
@@ -25,48 +25,48 @@ export function giftFlowers({
   action,
   createdAt = Date.now(),
 }: Options) {
-  const game = cloneDeep(state) as GameState;
+  return produce(state, (game) => {
+    if (!(action.flower in FLOWERS)) {
+      throw new Error("Item is not a flower");
+    }
 
-  if (!(action.flower in FLOWERS)) {
-    throw new Error("Item is not a flower");
-  }
+    if (!(action.bumpkin in BUMPKIN_FLOWER_BONUSES)) {
+      throw new Error("Bumpkin does not accept gifts");
+    }
 
-  if (!(action.bumpkin in BUMPKIN_FLOWER_BONUSES)) {
-    throw new Error("Bumpkin does not accept gifts");
-  }
+    const flowerAmount = game.inventory[action.flower] ?? new Decimal(0);
+    if (flowerAmount.lte(0)) {
+      throw new Error("Player is missing flower");
+    }
 
-  const flowerAmount = game.inventory[action.flower] ?? new Decimal(0);
-  if (flowerAmount.lte(0)) {
-    throw new Error("Player is missing flower");
-  }
+    game.inventory[action.flower] = flowerAmount.sub(1);
 
-  game.inventory[action.flower] = flowerAmount.sub(1);
+    let points = DEFAULT_FLOWER_POINTS[action.flower];
+    const bonus = BUMPKIN_FLOWER_BONUSES[action.bumpkin]?.[action.flower] ?? 0;
+    if (bonus > 0) {
+      points += bonus;
+    }
 
-  let points = DEFAULT_FLOWER_POINTS[action.flower];
-  const bonus = BUMPKIN_FLOWER_BONUSES[action.bumpkin]?.[action.flower] ?? 0;
-  if (bonus > 0) {
-    points += bonus;
-  }
+    const npc = game.npcs?.[action.bumpkin] ?? {
+      deliveryCount: 0,
+      friendship: {
+        points: 0,
+        updatedAt: createdAt,
+      },
+    };
 
-  const npc = game.npcs?.[action.bumpkin] ?? {
-    deliveryCount: 0,
-    friendship: {
-      points: 0,
+    npc.friendship = {
       updatedAt: createdAt,
-    },
-  };
+      points: (npc.friendship?.points ?? 0) + points,
+      giftClaimedAtPoints: npc.friendship?.giftClaimedAtPoints ?? 0,
+      giftedAt: createdAt,
+    };
 
-  npc.friendship = {
-    updatedAt: createdAt,
-    points: (npc.friendship?.points ?? 0) + points,
-    giftClaimedAtPoints: npc.friendship?.giftClaimedAtPoints ?? 0,
-    giftedAt: createdAt,
-  };
+    game.npcs = {
+      ...game.npcs,
+      [action.bumpkin]: npc,
+    };
 
-  game.npcs = {
-    ...game.npcs,
-    [action.bumpkin]: npc,
-  };
-
-  return game;
+    return game;
+  });
 }

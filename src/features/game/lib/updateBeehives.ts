@@ -1,10 +1,10 @@
 /* eslint-disable no-console */
-import cloneDeep from "lodash.clonedeep";
 import { Beehive, Beehives, FlowerBeds, GameState } from "../types/game";
 import { isCollectibleBuilt } from "./collectibleBuilt";
 import { getKeys } from "../types/craftables";
 import { FLOWERS, FLOWER_SEEDS } from "../types/flowers";
 import { isWearableActive } from "./wearables";
+import cloneDeep from "lodash.clonedeep";
 
 /**
  * updateBeehives runs on any event that changes the state for bees or flowers

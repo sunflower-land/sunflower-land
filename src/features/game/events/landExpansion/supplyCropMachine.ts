@@ -1,4 +1,3 @@
-import cloneDeep from "lodash.clonedeep";
 import Decimal from "decimal.js-light";
 import { CROPS, CropName, CropSeedName } from "features/game/types/crops";
 import {
@@ -8,6 +7,7 @@ import {
 } from "features/game/types/game";
 import { getCropYieldAmount } from "./plant";
 import { isBasicCrop } from "./harvest";
+import cloneDeep from "lodash.clonedeep";
 
 export type AddSeedsInput = { type: CropSeedName; amount: number };
 

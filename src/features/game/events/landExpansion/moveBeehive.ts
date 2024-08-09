@@ -1,6 +1,6 @@
 import { Coordinates } from "features/game/expansion/components/MapPlacement";
 import { GameState } from "features/game/types/game";
-import cloneDeep from "lodash.clonedeep";
+import { produce } from "immer";
 
 export enum MOVE_BEEHIVE_ERRORS {
   NO_BEEHIVE = "This beehive does not exist.",
@@ -24,14 +24,14 @@ export function moveBeehive({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  const stateCopy = cloneDeep(state) as GameState;
+  return produce(state, (stateCopy) => {
+    if (!stateCopy.beehives[action.id]) {
+      throw new Error(MOVE_BEEHIVE_ERRORS.BEEHIVE_NOT_PLACED);
+    }
 
-  if (!stateCopy.beehives[action.id]) {
-    throw new Error(MOVE_BEEHIVE_ERRORS.BEEHIVE_NOT_PLACED);
-  }
+    stateCopy.beehives[action.id].x = action.coordinates.x;
+    stateCopy.beehives[action.id].y = action.coordinates.y;
 
-  stateCopy.beehives[action.id].x = action.coordinates.x;
-  stateCopy.beehives[action.id].y = action.coordinates.y;
-
-  return stateCopy;
+    return stateCopy;
+  });
 }

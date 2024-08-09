@@ -6,7 +6,6 @@ import {
 } from "features/game/types/craftables";
 
 import { trackActivity } from "features/game/types/bumpkinActivity";
-import cloneDeep from "lodash.clonedeep";
 
 import { GameState } from "../../types/game";
 import {
@@ -18,6 +17,7 @@ import {
   TREASURE_COLLECTIBLE_ITEM,
 } from "features/game/types/collectibles";
 import { detectCollision } from "features/game/expansion/placeable/lib/collisionDetection";
+import { produce } from "immer";
 
 export const COLLECTIBLE_CRAFT_SECONDS: Partial<
   Record<CollectibleName, number>
@@ -57,103 +57,107 @@ export function craftCollectible({
   action,
   createdAt = Date.now(),
 }: Options) {
-  const stateCopy: GameState = cloneDeep(state);
-  const bumpkin = stateCopy.bumpkin;
+  return produce(state, (stateCopy) => {
+    const bumpkin = stateCopy.bumpkin;
 
-  const item = isPotionHouseItem(action.name)
-    ? POTION_HOUSE_ITEMS[action.name]
-    : isTreasureCollectible(action.name)
-      ? TREASURE_COLLECTIBLE_ITEM[action.name]
-      : HELIOS_BLACKSMITH_ITEMS(state, new Date(createdAt))[action.name];
+    const item = isPotionHouseItem(action.name)
+      ? POTION_HOUSE_ITEMS[action.name]
+      : isTreasureCollectible(action.name)
+        ? TREASURE_COLLECTIBLE_ITEM[action.name]
+        : HELIOS_BLACKSMITH_ITEMS(state, new Date(createdAt))[action.name];
 
-  if (!item) {
-    throw new Error("Item does not exist");
-  }
+    if (!item) {
+      throw new Error("Item does not exist");
+    }
 
-  if (stateCopy.stock[action.name]?.lt(1)) {
-    throw new Error("Not enough stock");
-  }
+    if (stateCopy.stock[action.name]?.lt(1)) {
+      throw new Error("Not enough stock");
+    }
 
-  if (bumpkin === undefined) {
-    throw new Error("You do not have a Bumpkin!");
-  }
+    if (bumpkin === undefined) {
+      throw new Error("You do not have a Bumpkin!");
+    }
 
-  if (item.from && item.from?.getTime() > createdAt) {
-    throw new Error("Too early");
-  }
+    if (item.from && item.from?.getTime() > createdAt) {
+      throw new Error("Too early");
+    }
 
-  if (item.to && item.to?.getTime() < createdAt) {
-    throw new Error("Too late");
-  }
+    if (item.to && item.to?.getTime() < createdAt) {
+      throw new Error("Too late");
+    }
 
-  const price = item.coins ?? 0;
+    const price = item.coins ?? 0;
 
-  if (stateCopy.coins < price) {
-    throw new Error("Insufficient Coins");
-  }
+    if (stateCopy.coins < price) {
+      throw new Error("Insufficient Coins");
+    }
 
-  const subtractedInventory = getKeys(item.ingredients).reduce(
-    (inventory, ingredientName) => {
-      const count = inventory[ingredientName] || new Decimal(0);
-      const totalAmount = item.ingredients[ingredientName] || new Decimal(0);
+    const subtractedInventory = getKeys(item.ingredients).reduce(
+      (inventory, ingredientName) => {
+        const count = inventory[ingredientName] || new Decimal(0);
+        const totalAmount = item.ingredients[ingredientName] || new Decimal(0);
 
-      if (count.lessThan(totalAmount)) {
-        throw new Error(`Insufficient ingredient: ${ingredientName}`);
+        if (count.lessThan(totalAmount)) {
+          throw new Error(`Insufficient ingredient: ${ingredientName}`);
+        }
+
+        return {
+          ...inventory,
+          [ingredientName]: count.sub(totalAmount),
+        };
+      },
+      stateCopy.inventory,
+    );
+
+    const oldAmount = stateCopy.inventory[action.name] || new Decimal(0);
+
+    bumpkin.activity = trackActivity(
+      `${action.name} Crafted`,
+      bumpkin.activity,
+    );
+
+    if (action.coordinates && action.id) {
+      const dimensions = COLLECTIBLES_DIMENSIONS[action.name];
+      const collides = detectCollision({
+        state: stateCopy,
+        position: {
+          x: action.coordinates.x,
+          y: action.coordinates.y,
+          height: dimensions.height,
+          width: dimensions.width,
+        },
+        location: "farm",
+        name: action.name,
+      });
+
+      if (collides) {
+        throw new Error("Decoration collides");
       }
 
-      return {
-        ...inventory,
-        [ingredientName]: count.sub(totalAmount),
-      };
-    },
-    stateCopy.inventory,
-  );
+      const previous = stateCopy.collectibles[action.name] ?? [];
 
-  const oldAmount = stateCopy.inventory[action.name] || new Decimal(0);
+      if (previous.find((item) => item.id === action.id)) {
+        throw new Error("ID already exists");
+      }
 
-  bumpkin.activity = trackActivity(`${action.name} Crafted`, bumpkin.activity);
+      const seconds = COLLECTIBLE_CRAFT_SECONDS[action.name] ?? 0;
 
-  if (action.coordinates && action.id) {
-    const dimensions = COLLECTIBLES_DIMENSIONS[action.name];
-    const collides = detectCollision({
-      state: stateCopy,
-      position: {
-        x: action.coordinates.x,
-        y: action.coordinates.y,
-        height: dimensions.height,
-        width: dimensions.width,
-      },
-      location: "farm",
-      name: action.name,
-    });
+      stateCopy.collectibles[action.name] = previous.concat({
+        id: action.id,
+        coordinates: { x: action.coordinates.x, y: action.coordinates.y },
+        readyAt: createdAt + seconds * 1000,
 
-    if (collides) {
-      throw new Error("Decoration collides");
+        createdAt: createdAt,
+      });
     }
 
-    const previous = stateCopy.collectibles[action.name] ?? [];
+    stateCopy.coins = stateCopy.coins - price;
+    stateCopy.inventory = {
+      ...subtractedInventory,
+      [action.name]: oldAmount.add(1) as Decimal,
+    };
+    stateCopy.stock[action.name] = stateCopy.stock[action.name]?.minus(1);
 
-    if (previous.find((item) => item.id === action.id)) {
-      throw new Error("ID already exists");
-    }
-
-    const seconds = COLLECTIBLE_CRAFT_SECONDS[action.name] ?? 0;
-
-    stateCopy.collectibles[action.name] = previous.concat({
-      id: action.id,
-      coordinates: { x: action.coordinates.x, y: action.coordinates.y },
-      readyAt: createdAt + seconds * 1000,
-
-      createdAt: createdAt,
-    });
-  }
-
-  stateCopy.coins = stateCopy.coins - price;
-  stateCopy.inventory = {
-    ...subtractedInventory,
-    [action.name]: oldAmount.add(1) as Decimal,
-  };
-  stateCopy.stock[action.name] = stateCopy.stock[action.name]?.minus(1);
-
-  return stateCopy;
+    return stateCopy;
+  });
 }

@@ -1,6 +1,6 @@
 import { Coordinates } from "features/game/expansion/components/MapPlacement";
 import { GameState } from "features/game/types/game";
-import cloneDeep from "lodash.clonedeep";
+import { produce } from "immer";
 
 export enum MOVE_GOLD_ERRORS {
   NO_BUMPKIN = "You do not have a Bumpkin!",
@@ -24,19 +24,20 @@ export function moveSunstone({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  const stateCopy = cloneDeep(state) as GameState;
-  const sunstones = stateCopy.sunstones;
+  return produce(state, (stateCopy) => {
+    const sunstones = stateCopy.sunstones;
 
-  if (stateCopy.bumpkin === undefined) {
-    throw new Error(MOVE_GOLD_ERRORS.NO_BUMPKIN);
-  }
+    if (stateCopy.bumpkin === undefined) {
+      throw new Error(MOVE_GOLD_ERRORS.NO_BUMPKIN);
+    }
 
-  if (!sunstones[action.id]) {
-    throw new Error(MOVE_GOLD_ERRORS.SUNSTONE_NOT_PLACED);
-  }
+    if (!sunstones[action.id]) {
+      throw new Error(MOVE_GOLD_ERRORS.SUNSTONE_NOT_PLACED);
+    }
 
-  sunstones[action.id].x = action.coordinates.x;
-  sunstones[action.id].y = action.coordinates.y;
+    sunstones[action.id].x = action.coordinates.x;
+    sunstones[action.id].y = action.coordinates.y;
 
-  return stateCopy;
+    return stateCopy;
+  });
 }

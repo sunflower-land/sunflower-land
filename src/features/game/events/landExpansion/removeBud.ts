@@ -1,6 +1,6 @@
 import { GameState } from "features/game/types/game";
 import { hasBudRemoveRestriction } from "features/game/types/removeables";
-import cloneDeep from "lodash.clonedeep";
+import { produce } from "immer";
 
 export enum REMOVE_BUD_ERRORS {
   INVALID_BUD = "This bud does not exist",
@@ -23,29 +23,29 @@ export function removeBud({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  const stateCopy = cloneDeep(state) as GameState;
+  return produce(state, (stateCopy) => {
+    const bud = stateCopy.buds?.[Number(action.id)];
 
-  const bud = stateCopy.buds?.[Number(action.id)];
+    if (!bud) {
+      throw new Error(REMOVE_BUD_ERRORS.INVALID_BUD);
+    }
 
-  if (!bud) {
-    throw new Error(REMOVE_BUD_ERRORS.INVALID_BUD);
-  }
+    if (!bud.coordinates) {
+      throw new Error(REMOVE_BUD_ERRORS.BUD_NOT_PLACED);
+    }
 
-  if (!bud.coordinates) {
-    throw new Error(REMOVE_BUD_ERRORS.BUD_NOT_PLACED);
-  }
+    const [isRestricted, restrictionReason] = hasBudRemoveRestriction(
+      stateCopy,
+      bud,
+    );
 
-  const [isRestricted, restrictionReason] = hasBudRemoveRestriction(
-    stateCopy,
-    bud,
-  );
+    if (isRestricted) {
+      throw new Error(restrictionReason);
+    }
 
-  if (isRestricted) {
-    throw new Error(restrictionReason);
-  }
+    delete bud.coordinates;
+    delete bud.location;
 
-  delete bud.coordinates;
-  delete bud.location;
-
-  return stateCopy;
+    return stateCopy;
+  });
 }

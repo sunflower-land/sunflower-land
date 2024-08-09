@@ -1,8 +1,7 @@
-import cloneDeep from "lodash.clonedeep";
-
 import { GameState } from "features/game/types/game";
 import { RESOURCE_DIMENSIONS } from "features/game/types/resources";
 import Decimal from "decimal.js-light";
+import { produce } from "immer";
 
 export type PlaceOilReserveAction = {
   type: "oilReserve.placed";
@@ -24,27 +23,27 @@ export function placeOilReserve({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  const game = cloneDeep(state) as GameState;
+  return produce(state, (game) => {
+    const available = (game.inventory["Oil Reserve"] || new Decimal(0)).minus(
+      Object.keys(game.oilReserves).length,
+    );
 
-  const available = (game.inventory["Oil Reserve"] || new Decimal(0)).minus(
-    Object.keys(game.oilReserves).length,
-  );
+    if (available.lt(1)) {
+      throw new Error("No oil reserve available");
+    }
 
-  if (available.lt(1)) {
-    throw new Error("No oil reserve available");
-  }
+    game.oilReserves[action.id as unknown as number] = {
+      createdAt: createdAt,
+      x: action.coordinates.x,
+      y: action.coordinates.y,
+      ...RESOURCE_DIMENSIONS["Oil Reserve"],
+      oil: {
+        amount: 0,
+        drilledAt: 0,
+      },
+      drilled: 5,
+    };
 
-  game.oilReserves[action.id as unknown as number] = {
-    createdAt: createdAt,
-    x: action.coordinates.x,
-    y: action.coordinates.y,
-    ...RESOURCE_DIMENSIONS["Oil Reserve"],
-    oil: {
-      amount: 0,
-      drilledAt: 0,
-    },
-    drilled: 5,
-  };
-
-  return game;
+    return game;
+  });
 }

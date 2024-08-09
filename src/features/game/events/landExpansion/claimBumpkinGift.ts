@@ -1,9 +1,9 @@
-import cloneDeep from "lodash.clonedeep";
 import { GameState } from "features/game/types/game";
 import { NPCName } from "lib/npcs";
 import { BUMPKIN_GIFTS, BumpkinGift } from "features/game/types/gifts";
 import { getKeys } from "features/game/types/craftables";
 import Decimal from "decimal.js-light";
+import { produce } from "immer";
 
 export type ClaimGiftAction = {
   type: "gift.claimed";
@@ -49,50 +49,50 @@ export function getNextGift({
 }
 
 export function claimGift({ state, action, createdAt = Date.now() }: Options) {
-  const game = cloneDeep(state) as GameState;
+  return produce(state, (game) => {
+    if (!game.npcs?.[action.bumpkin]) {
+      throw new Error("Bumpkin does not exist");
+    }
 
-  if (!game.npcs?.[action.bumpkin]) {
-    throw new Error("Bumpkin does not exist");
-  }
+    const bumpkin = BUMPKIN_GIFTS[action.bumpkin];
+    if (!bumpkin) {
+      throw new Error("Bumpkin does not provide gifts");
+    }
 
-  const bumpkin = BUMPKIN_GIFTS[action.bumpkin];
-  if (!bumpkin) {
-    throw new Error("Bumpkin does not provide gifts");
-  }
+    const friendship = game.npcs[action.bumpkin]?.friendship;
 
-  const friendship = game.npcs[action.bumpkin]?.friendship;
+    if (!friendship) {
+      throw new Error("Friendship is not strong enough");
+    }
 
-  if (!friendship) {
-    throw new Error("Friendship is not strong enough");
-  }
+    const points = friendship?.points ?? 0;
 
-  const points = friendship?.points ?? 0;
+    const nextGift = getNextGift({ game, npc: action.bumpkin });
 
-  const nextGift = getNextGift({ game, npc: action.bumpkin });
+    if (!nextGift) {
+      throw new Error("No gift available");
+    }
 
-  if (!nextGift) {
-    throw new Error("No gift available");
-  }
+    if (nextGift.friendshipPoints > points) {
+      throw new Error("Friendship is not strong enough");
+    }
 
-  if (nextGift.friendshipPoints > points) {
-    throw new Error("Friendship is not strong enough");
-  }
+    friendship.giftClaimedAtPoints = nextGift.friendshipPoints;
 
-  friendship.giftClaimedAtPoints = nextGift.friendshipPoints;
+    // Provide items
+    getKeys(nextGift.items).forEach((name) => {
+      const previous = game.inventory[name] ?? new Decimal(0);
+      game.inventory[name] = previous.add(nextGift.items[name] ?? 0);
+    });
 
-  // Provide items
-  getKeys(nextGift.items).forEach((name) => {
-    const previous = game.inventory[name] ?? new Decimal(0);
-    game.inventory[name] = previous.add(nextGift.items[name] ?? 0);
+    // Provide wearables
+    getKeys(nextGift.wearables).forEach((name) => {
+      const previous = game.wardrobe[name] ?? 0;
+      game.wardrobe[name] = previous + (nextGift.wearables[name] ?? 0);
+    });
+
+    game.coins = game.coins + nextGift.coins;
+
+    return game;
   });
-
-  // Provide wearables
-  getKeys(nextGift.wearables).forEach((name) => {
-    const previous = game.wardrobe[name] ?? 0;
-    game.wardrobe[name] = previous + (nextGift.wearables[name] ?? 0);
-  });
-
-  game.coins = game.coins + nextGift.coins;
-
-  return game;
 }
