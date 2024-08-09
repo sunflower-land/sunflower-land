@@ -1600,8 +1600,8 @@ const cropsAndChickens: Record<CropsAndChickensMessages, string> = {
 };
 
 const deliveryitem: Record<DeliveryItem, string> = {
-  "deliveryitem.inventory": "Inventário:",
-  "deliveryitem.itemsToDeliver": "Itens para entregar: ",
+  "deliveryitem.inventory": "Inventário",
+  "deliveryitem.itemsToDeliver": "Itens para entregar",
   "deliveryitem.deliverToWallet": "Entregar para sua carteira",
   "deliveryitem.viewOnOpenSea":
     "Uma vez entregue, você poderá visualizar seus itens na OpenSea.",
@@ -5277,7 +5277,7 @@ const withdraw: Record<Withdraw, string> = {
   "withdraw.sfl.available": "SFL está disponível na cadeia",
   "withdraw.send.wallet": "Enviado para sua carteira",
   "withdraw.choose": "Escolha a quantidade a ser retirada",
-  "withdraw.receive": "Você receberá: {{sflReceived}}",
+  "withdraw.receive": "Você receberá: {{sflReceived}} SFL",
   "withdraw.select.item": "Selecione os itens a serem retirados",
   "withdraw.opensea":
     "Depois de retirados, você poderá ver seus itens no OpenSea.",

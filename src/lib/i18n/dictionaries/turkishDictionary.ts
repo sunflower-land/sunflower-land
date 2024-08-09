@@ -1986,8 +1986,8 @@ const deliveryHelp: Record<DeliveryHelp, string> = {
 };
 
 const deliveryitem: Record<DeliveryItem, string> = {
-  "deliveryitem.inventory": "Envanter: ",
-  "deliveryitem.itemsToDeliver": "Teslim edilecek öğeler: ",
+  "deliveryitem.inventory": "Envanter",
+  "deliveryitem.itemsToDeliver": "Teslim edilecek öğeler",
   "deliveryitem.deliverToWallet": "Cüzdanınıza teslim edin",
   "deliveryitem.viewOnOpenSea":
     "Teslim edildikten sonra öğelerinizi OpenSea'de görebileceksiniz.",
@@ -5288,7 +5288,7 @@ const withdraw: Record<Withdraw, string> = {
   "withdraw.sfl.available": "SFL zincir üzerinde mevcuttur",
   "withdraw.send.wallet": "Cüzdanınıza gönderildi",
   "withdraw.choose": "Çekilecek tutarı seçin",
-  "withdraw.receive": "Alacaksın: {{sflReceived}}",
+  "withdraw.receive": "Alacaksın: {{sflReceived}} SFL",
   "withdraw.select.item": "Geri çekilecek öğeleri seçin",
   "withdraw.opensea":
     "Geri çekildikten sonra öğelerinizi OpenSea'de görebileceksiniz.",

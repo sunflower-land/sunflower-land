@@ -10,6 +10,7 @@ type Props = {
   maxDecimalPlaces: number;
   isRightAligned?: boolean;
   isOutOfRange?: boolean;
+  className?: string;
   onValueChange?: (value: Decimal) => void;
 };
 
@@ -19,6 +20,7 @@ type Props = {
  * @param maxDecimalPlaces The maximum number of decimal places allowed.
  * @param isRightAligned Whether the text should be right-aligned.
  * @param isOutOfRange Whether the input is out of range.
+ * @param className The additional class name of the input.
  * @param onValueChange A callback function that is called when the value changes.
  */
 export const NumberInput: React.FC<Props> = ({
@@ -26,6 +28,7 @@ export const NumberInput: React.FC<Props> = ({
   maxDecimalPlaces,
   isRightAligned,
   isOutOfRange,
+  className,
   onValueChange,
 }) => {
   const VALID_DECIMAL_NUMBER = new RegExp(
@@ -66,6 +69,7 @@ export const NumberInput: React.FC<Props> = ({
 
         if (e.target.value === "") {
           setNumberDisplay(""); // reset to 0 if input is empty
+          onValueChange?.(new Decimal(0));
         } else if (
           (maxDecimalPlaces > 0 ? VALID_DECIMAL_NUMBER : VALID_INTEGER).test(
             e.target.value,
@@ -77,10 +81,11 @@ export const NumberInput: React.FC<Props> = ({
         }
       }}
       className={classNames(
-        "mb-2 rounded-sm shadow-inner shadow-black bg-brown-200 w-full p-2 h-10 placeholder-error font-secondary",
+        "shadow-inner shadow-black bg-brown-200 w-full p-2 h-10 placeholder-error font-secondary",
         {
           "text-error": isOutOfRange,
         },
+        className,
       )}
     />
   );

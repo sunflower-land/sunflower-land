@@ -67,7 +67,7 @@ export const CloseButtonPanel: React.FC<Props> = ({
   return (
     <Container
       className={classNames(
-        "relative max-h-[90vh] overflow-y-auto scrollable",
+        "relative max-h-[90vh] overflow-y-auto overflow-x-hidden scrollable",
         className,
       )}
       bumpkinParts={bumpkinParts}

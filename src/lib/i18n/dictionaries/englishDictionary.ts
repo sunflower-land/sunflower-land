@@ -1947,8 +1947,8 @@ const deliveryHelp: Record<DeliveryHelp, string> = {
 };
 
 const deliveryitem: Record<DeliveryItem, string> = {
-  "deliveryitem.inventory": "Inventory:",
-  "deliveryitem.itemsToDeliver": "Items to deliver: ",
+  "deliveryitem.inventory": "Inventory",
+  "deliveryitem.itemsToDeliver": "Items to deliver",
   "deliveryitem.deliverToWallet": "Deliver to your wallet",
   "deliveryitem.viewOnOpenSea":
     "Once delivered, you will be able to view your items on OpenSea.",
@@ -5351,7 +5351,7 @@ const withdraw: Record<Withdraw, string> = {
   "withdraw.sfl.available": "SFL is available on-chain",
   "withdraw.send.wallet": "Sent to your wallet",
   "withdraw.choose": "Choose amount to withdraw",
-  "withdraw.receive": "You will receive: {{sflReceived}}",
+  "withdraw.receive": "You will receive: {{sflReceived}} SFL",
   "withdraw.select.item": "Select items to withdraw",
   "withdraw.opensea":
     "Once withdrawn, you will be able to view your items on OpenSea.",

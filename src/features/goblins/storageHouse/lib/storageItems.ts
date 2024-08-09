@@ -13,10 +13,10 @@ import {
   getChestItems,
 } from "features/island/hud/components/inventory/utils/inventory";
 
-export function getDeliverableItems({ game }: { game: GameState }) {
-  const { previousInventory } = game;
+export function getDeliverableItems({ state }: { state: GameState }) {
+  const { previousInventory } = state;
 
-  const inventory = getBasketItems(game.inventory);
+  const inventory = getBasketItems(state.inventory);
 
   return (Object.keys(inventory) as InventoryItemName[]).reduce(
     (acc, itemName) => {
