@@ -148,10 +148,6 @@ export const AuctioneerContent: React.FC<Props> = ({
   }
 
   if (auctioneerState.matches("winner")) {
-    const auction = auctioneerState.context.auctions.find(
-      (auction) => auction.auctionId === auctioneerState.context.bid?.auctionId,
-    ) as IAuction;
-
     return (
       <Winner
         onMint={onMint}
