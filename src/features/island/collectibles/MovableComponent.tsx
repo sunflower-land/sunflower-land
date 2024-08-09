@@ -90,7 +90,10 @@ export function getRemoveAction(
     name in BUILDINGS_DIMENSIONS &&
     name !== "Manor" &&
     name !== "Town Center" &&
-    name !== "House"
+    name !== "House" &&
+    name !== "Market" &&
+    name !== "Fire Pit" &&
+    name !== "Workbench"
   ) {
     return "building.removed";
   }
@@ -99,7 +102,10 @@ export function getRemoveAction(
     name in RESOURCES ||
     name === "Manor" ||
     name === "House" ||
-    name === "Town Center"
+    name === "Town Center" ||
+    name === "Market" ||
+    name === "Fire Pit" ||
+    name === "Workbench"
   ) {
     return null;
   }
