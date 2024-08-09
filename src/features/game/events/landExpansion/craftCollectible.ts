@@ -6,7 +6,6 @@ import {
 } from "features/game/types/craftables";
 
 import { trackActivity } from "features/game/types/bumpkinActivity";
-import cloneDeep from "lodash.clonedeep";
 
 import { GameState } from "../../types/game";
 import {
@@ -57,7 +56,7 @@ export function craftCollectible({
   action,
   createdAt = Date.now(),
 }: Options) {
-  const stateCopy: GameState = cloneDeep(state);
+  const stateCopy: GameState = state;
   const bumpkin = stateCopy.bumpkin;
 
   const item = isPotionHouseItem(action.name)

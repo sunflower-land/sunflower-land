@@ -11,7 +11,6 @@ import {
   ShopDecorationName,
 } from "features/game/types/decorations";
 import { GameState } from "features/game/types/game";
-import cloneDeep from "lodash.clonedeep";
 
 export type buyDecorationAction = {
   type: "decoration.bought";
@@ -34,7 +33,7 @@ export function buyDecoration({
   action,
   createdAt = Date.now(),
 }: Options) {
-  const stateCopy: GameState = cloneDeep(state);
+  const stateCopy: GameState = state;
   const { name } = action;
   const desiredItem = DECORATIONS[name];
 

@@ -1,7 +1,6 @@
 import Decimal from "decimal.js-light";
 import { CRIMSTONE_RECOVERY_TIME } from "features/game/lib/constants";
 import { trackActivity } from "features/game/types/bumpkinActivity";
-import cloneDeep from "lodash.clonedeep";
 import { GameState, Rock } from "../../types/game";
 import { isWearableActive } from "features/game/lib/wearables";
 
@@ -41,7 +40,7 @@ export function mineCrimstone({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  const stateCopy = cloneDeep(state);
+  const stateCopy = state;
   const { crimstones, bumpkin } = stateCopy;
   const rock = crimstones?.[action.index];
 

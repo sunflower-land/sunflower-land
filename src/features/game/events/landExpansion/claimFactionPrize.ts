@@ -1,7 +1,6 @@
 import Decimal from "decimal.js-light";
 import { getKeys } from "features/game/types/craftables";
 import { GameState } from "features/game/types/game";
-import cloneDeep from "lodash.clonedeep";
 
 export type ClaimFactionPrizeAction = {
   type: "faction.prizeClaimed";
@@ -19,7 +18,7 @@ export function claimFactionPrize({
   action,
   createdAt = Date.now(),
 }: Options) {
-  const game: GameState = cloneDeep(state);
+  const game: GameState = state;
 
   const week = game.faction?.history?.[action.week];
   if (!week?.results?.reward) {

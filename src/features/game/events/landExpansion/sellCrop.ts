@@ -1,7 +1,6 @@
 import Decimal from "decimal.js-light";
 import { Crop, CropName, CROPS, GREENHOUSE_CROPS } from "../../types/crops";
 import { GameState } from "../../types/game";
-import cloneDeep from "lodash.clonedeep";
 import { getSellPrice } from "features/game/expansion/lib/boosts";
 import { trackActivity } from "features/game/types/bumpkinActivity";
 import { setPrecision } from "lib/utils/formatNumber";
@@ -39,7 +38,7 @@ export function sellCrop({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  const game = cloneDeep(state);
+  const game: GameState = state;
 
   const { bumpkin } = game;
 

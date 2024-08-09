@@ -1,5 +1,4 @@
 import { GameState } from "features/game/types/game";
-import cloneDeep from "lodash.clonedeep";
 
 type ExchangePackage = { sfl: number; coins: number };
 export type PackageId = 1 | 2 | 3;
@@ -29,7 +28,7 @@ export function exchangeSFLtoCoins({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  const game: GameState = cloneDeep(state);
+  const game: GameState = state;
   const { bumpkin, balance } = game;
 
   if (!SFL_TO_COIN_PACKAGES[action.packageId]) {

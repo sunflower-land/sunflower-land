@@ -1,7 +1,6 @@
 import Decimal from "decimal.js-light";
 import { getKeys } from "features/game/types/craftables";
 import { GameState } from "features/game/types/game";
-import cloneDeep from "lodash.clonedeep";
 
 const TWENTY_FOUR_HOURS = 24 * 60 * 60 * 1000;
 
@@ -22,7 +21,7 @@ export function completeSpecialEventTask({
   action,
   createdAt = Date.now(),
 }: Options) {
-  const stateCopy = cloneDeep(state);
+  const stateCopy = state;
 
   const event = stateCopy.specialEvents.current[action.event];
   if (!event) throw new Error("Event does not exist");

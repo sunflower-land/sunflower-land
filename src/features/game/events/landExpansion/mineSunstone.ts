@@ -3,7 +3,6 @@ import { canMine } from "features/game/expansion/lib/utils";
 import { SUNSTONE_RECOVERY_TIME } from "features/game/lib/constants";
 import { trackActivity } from "features/game/types/bumpkinActivity";
 import { GameState } from "features/game/types/game";
-import cloneDeep from "lodash.clonedeep";
 
 export type MineSunstoneAction = {
   type: "sunstoneRock.mined";
@@ -28,7 +27,7 @@ export function mineSunstone({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  const stateCopy = cloneDeep(state);
+  const stateCopy = state;
   const { bumpkin } = stateCopy;
   const { index } = action;
 

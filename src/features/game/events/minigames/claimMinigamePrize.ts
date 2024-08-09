@@ -1,4 +1,3 @@
-import cloneDeep from "lodash.clonedeep";
 import Decimal from "decimal.js-light";
 import {
   MinigameName,
@@ -56,7 +55,7 @@ export function claimMinigamePrize({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  const game = cloneDeep<GameState>(state);
+  const game: GameState = state;
 
   if (!SUPPORTED_MINIGAMES.includes(action.id)) {
     throw new Error(`${action.id} is not a valid minigame`);

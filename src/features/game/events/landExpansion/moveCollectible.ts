@@ -3,7 +3,6 @@ import { CollectibleLocation } from "features/game/types/collectibles";
 import { CollectibleName } from "features/game/types/craftables";
 import { GameState } from "features/game/types/game";
 import { hasMoveRestriction } from "features/game/types/removeables";
-import cloneDeep from "lodash.clonedeep";
 
 export enum MOVE_COLLECTIBLE_ERRORS {
   NO_BUMPKIN = "You do not have a Bumpkin!",
@@ -30,7 +29,7 @@ export function moveCollectible({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  const stateCopy = cloneDeep(state) as GameState;
+  const stateCopy = state;
 
   const collectibleGroup =
     action.location === "home"

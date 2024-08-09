@@ -6,7 +6,6 @@ import {
 import { getKeys } from "features/game/types/craftables";
 import { GameState } from "features/game/types/game";
 import { onboardingAnalytics } from "lib/onboardingAnalytics";
-import cloneDeep from "lodash.clonedeep";
 import { translate } from "lib/i18n/translate";
 
 export type ClaimAchievementAction = {
@@ -20,7 +19,7 @@ type Options = {
 };
 
 const clone = (state: GameState): GameState => {
-  return cloneDeep(state);
+  return state;
 };
 
 export function claimAchievement({ state, action }: Options): GameState {

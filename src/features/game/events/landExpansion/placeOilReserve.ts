@@ -1,5 +1,3 @@
-import cloneDeep from "lodash.clonedeep";
-
 import { GameState } from "features/game/types/game";
 import { RESOURCE_DIMENSIONS } from "features/game/types/resources";
 import Decimal from "decimal.js-light";
@@ -24,7 +22,7 @@ export function placeOilReserve({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  const game = cloneDeep(state) as GameState;
+  const game: GameState = state;
 
   const available = (game.inventory["Oil Reserve"] || new Decimal(0)).minus(
     Object.keys(game.oilReserves).length,

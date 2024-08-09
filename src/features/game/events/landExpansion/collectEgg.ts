@@ -1,6 +1,5 @@
 import Decimal from "decimal.js-light";
 import { trackActivity } from "features/game/types/bumpkinActivity";
-import cloneDeep from "lodash.clonedeep";
 import { CHICKEN_TIME_TO_EGG } from "../../lib/constants";
 import { Chicken, GameState } from "../../types/game";
 
@@ -24,7 +23,7 @@ export function collectEggs({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  const stateCopy = cloneDeep(state);
+  const stateCopy = state;
   const chickens = stateCopy.chickens || {};
   const chicken = chickens[action.id];
 

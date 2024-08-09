@@ -7,7 +7,6 @@ import {
   GreenHouseCropName,
 } from "../../types/crops";
 import Decimal from "decimal.js-light";
-import cloneDeep from "lodash.clonedeep";
 import {
   BumpkinActivityName,
   trackActivity,
@@ -77,7 +76,7 @@ export function harvest({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  const stateCopy = cloneDeep(state);
+  const stateCopy = state;
   const { bumpkin, crops: plots } = stateCopy;
 
   if (!bumpkin) {

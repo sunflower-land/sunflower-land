@@ -7,7 +7,6 @@ import {
   GameState,
   Position,
 } from "features/game/types/game";
-import cloneDeep from "lodash.clonedeep";
 import { isReadyToHarvest } from "./harvest";
 import { CROPS } from "features/game/types/crops";
 import { isBasicCrop, isMediumCrop, isAdvancedCrop } from "./harvest";
@@ -213,7 +212,7 @@ export function moveCrop({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  const stateCopy = cloneDeep(state) as GameState;
+  const stateCopy = state;
   const { crops, collectibles } = stateCopy;
   const plot = crops[action.id];
 

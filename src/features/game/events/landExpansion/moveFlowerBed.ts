@@ -2,7 +2,6 @@ import { Coordinates } from "features/game/expansion/components/MapPlacement";
 import { detectCollision } from "features/game/expansion/placeable/lib/collisionDetection";
 import { GameState } from "features/game/types/game";
 import { RESOURCE_DIMENSIONS } from "features/game/types/resources";
-import cloneDeep from "lodash.clonedeep";
 import { translate } from "lib/i18n/translate";
 
 export type MoveFlowerBedAction = {
@@ -22,7 +21,7 @@ export function moveFlowerBed({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  const stateCopy = cloneDeep(state) as GameState;
+  const stateCopy = state;
 
   const flowerBed = stateCopy.flowers.flowerBeds[action.id];
 

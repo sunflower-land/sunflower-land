@@ -1,6 +1,5 @@
 import Decimal from "decimal.js-light";
 import { canMine } from "features/game/expansion/lib/utils";
-import cloneDeep from "lodash.clonedeep";
 import { IRON_RECOVERY_TIME } from "../../lib/constants";
 import { trackActivity } from "../../types/bumpkinActivity";
 import { GameState } from "../../types/game";
@@ -55,7 +54,7 @@ export function mineIron({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  const stateCopy = cloneDeep(state);
+  const stateCopy = state;
   const { iron, bumpkin, collectibles } = stateCopy;
 
   if (!bumpkin) {

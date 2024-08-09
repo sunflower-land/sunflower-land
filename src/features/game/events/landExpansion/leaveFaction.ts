@@ -1,4 +1,3 @@
-import cloneDeep from "lodash.clonedeep";
 import { FACTION_BANNERS, FACTION_EMBLEMS } from "./joinFaction";
 import { GameState } from "features/game/types/game";
 
@@ -17,7 +16,7 @@ export function leaveFaction({
   action,
   createdAt = Date.now(),
 }: Options) {
-  const game: GameState = cloneDeep(state);
+  const game: GameState = state;
 
   if (!game.faction) {
     throw new Error("You are not in a faction");

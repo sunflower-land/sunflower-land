@@ -12,7 +12,6 @@ import {
 } from "features/game/types/fruits";
 import { Bumpkin, GameState } from "features/game/types/game";
 import { randomInt } from "lib/utils/random";
-import cloneDeep from "lodash.clonedeep";
 import { getFruitYield } from "./fruitHarvested";
 import { BumpkinParts } from "lib/utils/tokenUriBuilder";
 import { isWearableActive } from "features/game/lib/wearables";
@@ -147,7 +146,7 @@ export function plantFruit({
   createdAt = Date.now(),
   harvestsLeft = getHarvestsLeft,
 }: Options): GameState {
-  const stateCopy = cloneDeep(state);
+  const stateCopy = state;
   const { fruitPatches, bumpkin } = stateCopy;
 
   if (!bumpkin) {

@@ -1,4 +1,3 @@
-import cloneDeep from "lodash.clonedeep";
 import Decimal from "decimal.js-light";
 import {
   ConsumableName,
@@ -126,7 +125,7 @@ export function cook({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  const stateCopy: GameState = cloneDeep(state);
+  const stateCopy: GameState = state;
 
   const { building: requiredBuilding, ingredients } = COOKABLES[action.item];
   const { buildings, bumpkin } = stateCopy;

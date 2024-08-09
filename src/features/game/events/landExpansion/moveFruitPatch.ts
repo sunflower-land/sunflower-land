@@ -1,6 +1,5 @@
 import { Coordinates } from "features/game/expansion/components/MapPlacement";
 import { GameState } from "features/game/types/game";
-import cloneDeep from "lodash.clonedeep";
 
 export enum MOVE_FRUIT_PATCH_ERRORS {
   NO_BUMPKIN = "You do not have a Bumpkin!",
@@ -24,7 +23,7 @@ export function moveFruitPatch({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  const stateCopy = cloneDeep(state) as GameState;
+  const stateCopy = state;
   const fruitPatch = stateCopy.fruitPatches;
 
   if (stateCopy.bumpkin === undefined) {

@@ -2,7 +2,6 @@ import Decimal from "decimal.js-light";
 import { BumpkinItem } from "features/game/types/bumpkin";
 import { GameState, InventoryItemName } from "features/game/types/game";
 import { getSeasonalTicket } from "features/game/types/seasons";
-import cloneDeep from "lodash.clonedeep";
 import { translate } from "lib/i18n/translate";
 
 export type CompleteBertObsessionAction = {
@@ -19,7 +18,7 @@ export function completeBertObsession({
   state,
   createdAt = Date.now(),
 }: Options): GameState {
-  const stateCopy = cloneDeep(state);
+  const stateCopy = state;
   const { bumpkin } = stateCopy;
 
   if (!bumpkin) {

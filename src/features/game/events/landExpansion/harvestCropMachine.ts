@@ -1,7 +1,6 @@
 import Decimal from "decimal.js-light";
 import { trackActivity } from "features/game/types/bumpkinActivity";
 import { GameState } from "features/game/types/game";
-import cloneDeep from "lodash.clonedeep";
 
 export type HarvestCropMachineAction = {
   type: "cropMachine.harvested";
@@ -19,7 +18,7 @@ export function harvestCropMachine({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  const stateCopy = cloneDeep<GameState>(state);
+  const stateCopy = state;
   const machine = stateCopy.buildings["Crop Machine"]?.[0];
   const { bumpkin } = stateCopy;
 

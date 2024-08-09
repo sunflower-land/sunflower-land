@@ -1,6 +1,5 @@
 import { Coordinates } from "features/game/expansion/components/MapPlacement";
 import { GameState } from "features/game/types/game";
-import cloneDeep from "lodash.clonedeep";
 
 export enum MOVE_OIL_ERRORS {
   NO_BUMPKIN = "You do not have a Bumpkin!",
@@ -24,7 +23,7 @@ export function moveOilReserve({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  const stateCopy = cloneDeep(state) as GameState;
+  const stateCopy = state;
   const oilReserves = stateCopy.oilReserves;
 
   if (stateCopy.bumpkin === undefined) {

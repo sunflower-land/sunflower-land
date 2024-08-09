@@ -1,4 +1,3 @@
-import cloneDeep from "lodash.clonedeep";
 import {
   CollectibleName,
   COLLECTIBLES_DIMENSIONS,
@@ -29,7 +28,7 @@ export function placeCollectible({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  const stateCopy = cloneDeep(state);
+  const stateCopy = state;
   const { bumpkin } = stateCopy;
   const collectible = action.name;
 

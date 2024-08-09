@@ -1,5 +1,4 @@
 import Decimal from "decimal.js-light";
-import cloneDeep from "lodash.clonedeep";
 
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 
@@ -56,7 +55,7 @@ type Options = {
 };
 
 export function seedBought({ state, action }: Options) {
-  const stateCopy: GameState = cloneDeep(state);
+  const stateCopy: GameState = state;
   const { item, amount } = action;
 
   if (!(item in SEEDS())) {

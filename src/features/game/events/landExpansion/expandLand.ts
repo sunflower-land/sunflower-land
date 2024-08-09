@@ -4,7 +4,6 @@ import { getKeys } from "features/game/types/craftables";
 import { GameState } from "features/game/types/game";
 import { onboardingAnalytics } from "lib/onboardingAnalytics";
 
-import cloneDeep from "lodash.clonedeep";
 import { expansionRequirements } from "./revealLand";
 
 export type ExpandLandAction = {
@@ -19,7 +18,8 @@ type Options = {
 };
 
 export function expandLand({ state, action, createdAt = Date.now() }: Options) {
-  const game = cloneDeep(state) as GameState;
+  const game: GameState = state;
+
   const bumpkin = game.bumpkin;
 
   const requirements = expansionRequirements({ game });

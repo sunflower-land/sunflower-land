@@ -1,4 +1,3 @@
-import cloneDeep from "lodash.clonedeep";
 import Decimal from "decimal.js-light";
 import { CROPS, CropName, CropSeedName } from "features/game/types/crops";
 import {
@@ -112,7 +111,7 @@ export function updateCropMachine({
   state: GameState;
   now: number;
 }) {
-  const stateCopy = cloneDeep<GameState>(state);
+  const stateCopy: GameState = state;
 
   // Ensure the crop machine exists
   if (!stateCopy.buildings["Crop Machine"]) {
@@ -251,7 +250,7 @@ export function supplyCropMachine({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  const stateCopy = cloneDeep<GameState>(state);
+  const stateCopy = state;
 
   const oilAdded = action.oil ?? 0;
   const seedsAdded = action.seeds ?? {

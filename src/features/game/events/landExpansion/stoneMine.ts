@@ -2,7 +2,6 @@ import Decimal from "decimal.js-light";
 import { STONE_RECOVERY_TIME } from "features/game/lib/constants";
 import { trackActivity } from "features/game/types/bumpkinActivity";
 import { BumpkinSkillName } from "features/game/types/bumpkinSkills";
-import cloneDeep from "lodash.clonedeep";
 import { GameState, Rock } from "../../types/game";
 import { isCollectibleActive } from "features/game/lib/collectibleBuilt";
 
@@ -60,7 +59,7 @@ export function mineStone({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  const stateCopy = cloneDeep(state);
+  const stateCopy = state;
   const { stones, bumpkin, collectibles } = stateCopy;
   const rock = stones?.[action.index];
 

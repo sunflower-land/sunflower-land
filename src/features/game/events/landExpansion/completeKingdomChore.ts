@@ -73,7 +73,7 @@ export function completeKingdomChore({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  const game = cloneDeep<GameState>(state);
+  const game: GameState = state;
   const { id } = action;
   const { kingdomChores, bumpkin, inventory, faction } = game;
 

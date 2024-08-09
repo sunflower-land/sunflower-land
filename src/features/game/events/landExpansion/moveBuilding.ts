@@ -1,7 +1,6 @@
 import { Coordinates } from "features/game/expansion/components/MapPlacement";
 import { BuildingName } from "features/game/types/buildings";
 import { GameState } from "features/game/types/game";
-import cloneDeep from "lodash.clonedeep";
 
 export enum MOVE_BUILDING_ERRORS {
   NO_BUMPKIN = "You do not have a Bumpkin!",
@@ -27,7 +26,7 @@ export function moveBuilding({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  const stateCopy = cloneDeep(state) as GameState;
+  const stateCopy = state;
   const buildings = stateCopy.buildings[action.name];
 
   if (stateCopy.bumpkin === undefined) {

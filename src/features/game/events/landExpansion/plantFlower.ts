@@ -10,7 +10,6 @@ import {
   isFlowerSeed,
 } from "features/game/types/flowers";
 import { GameState } from "features/game/types/game";
-import cloneDeep from "lodash.clonedeep";
 import { translate } from "lib/i18n/translate";
 import {
   isCollectibleActive,
@@ -76,7 +75,7 @@ export function plantFlower({
   action,
   createdAt = Date.now(),
 }: Options) {
-  const stateCopy: GameState = cloneDeep(state);
+  const stateCopy: GameState = state;
   const { flowers, bumpkin } = stateCopy;
 
   if (!bumpkin) {

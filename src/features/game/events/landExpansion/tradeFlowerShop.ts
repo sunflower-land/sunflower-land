@@ -1,4 +1,3 @@
-import cloneDeep from "lodash.clonedeep";
 import Decimal from "decimal.js-light";
 import { GameState } from "features/game/types/game";
 import { FlowerName } from "features/game/types/flowers";
@@ -22,7 +21,7 @@ export function tradeFlowerShop({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  const game: GameState = cloneDeep(state);
+  const game: GameState = state;
 
   const flowerShop = game.flowerShop;
   if (!flowerShop) {

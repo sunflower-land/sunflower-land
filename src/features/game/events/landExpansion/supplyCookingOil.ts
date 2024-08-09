@@ -1,5 +1,4 @@
 import { GameState } from "features/game/types/game";
-import cloneDeep from "lodash.clonedeep";
 import { translate } from "lib/i18n/translate";
 import { CookingBuildingName } from "features/game/types/buildings";
 import Decimal from "decimal.js-light";
@@ -31,7 +30,7 @@ export function supplyCookingOil({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  const stateCopy = cloneDeep<GameState>(state);
+  const stateCopy = state;
 
   const buildings = stateCopy.buildings[action.building];
   if (!buildings) {

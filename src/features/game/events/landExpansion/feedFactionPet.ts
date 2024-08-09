@@ -11,7 +11,6 @@ import { isWearableActive } from "features/game/lib/wearables";
 import { BoostType, BoostValue } from "features/game/types/boosts";
 import { CONSUMABLES } from "features/game/types/consumables";
 import { FactionPetRequest, GameState } from "features/game/types/game";
-import cloneDeep from "lodash.clonedeep";
 
 const isPawShieldActive = (game: GameState) =>
   isWearableActive({ game, name: "Paw Shield" });
@@ -83,7 +82,7 @@ export function feedFactionPet({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  const stateCopy = cloneDeep(state);
+  const stateCopy = state;
 
   if (createdAt < START_DATE.getTime()) {
     throw new Error("Faction pet feature is not active yet");

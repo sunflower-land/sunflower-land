@@ -1,6 +1,5 @@
 import { Coordinates } from "features/game/expansion/components/MapPlacement";
 import { Collectibles, GameState, Rock } from "features/game/types/game";
-import cloneDeep from "lodash.clonedeep";
 import { canMine } from "./stoneMine";
 import { isAOEImpacted } from "features/game/expansion/placeable/lib/collisionDetection";
 
@@ -41,7 +40,7 @@ export function moveStone({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  const stateCopy = cloneDeep(state) as GameState;
+  const stateCopy = state;
   const stones = stateCopy.stones;
 
   if (stateCopy.bumpkin === undefined) {

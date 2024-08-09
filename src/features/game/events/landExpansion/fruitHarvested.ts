@@ -16,7 +16,6 @@ import {
   GreenHouseFruitName,
 } from "features/game/types/fruits";
 import { Bumpkin, GameState, PlantedFruit } from "features/game/types/game";
-import cloneDeep from "lodash.clonedeep";
 import { getTimeLeft } from "lib/utils/time";
 import { FruitPatch } from "features/game/types/game";
 import { FruitCompostName } from "features/game/types/composters";
@@ -177,7 +176,7 @@ export function harvestFruit({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  const stateCopy = cloneDeep(state);
+  const stateCopy = state;
   const { fruitPatches, bumpkin, collectibles } = stateCopy;
 
   if (!bumpkin) {

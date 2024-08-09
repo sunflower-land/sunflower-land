@@ -10,7 +10,6 @@ import {
   GameState,
   InventoryItemName,
 } from "features/game/types/game";
-import cloneDeep from "lodash.clonedeep";
 import { translate } from "lib/i18n/translate";
 
 export type StartComposterAction = {
@@ -39,7 +38,7 @@ export function startComposter({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  const stateCopy = cloneDeep<GameState>(state);
+  const stateCopy = state;
 
   const buildings = stateCopy.buildings[action.building] as CompostBuilding[];
   if (!buildings) {

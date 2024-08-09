@@ -7,7 +7,6 @@ import {
   MegaStoreItemName,
 } from "features/game/types/game";
 import { getSeasonalTicket } from "features/game/types/seasons";
-import cloneDeep from "lodash.clonedeep";
 
 export type BuyMegaStoreItemAction = {
   type: "megastoreItem.bought";
@@ -25,7 +24,7 @@ export function buyMegaStoreItem({
   action,
   createdAt = Date.now(),
 }: Options) {
-  const stateCopy: GameState = cloneDeep(state);
+  const stateCopy: GameState = state;
   const { name } = action;
 
   if (!stateCopy.bumpkin) {

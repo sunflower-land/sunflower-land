@@ -4,7 +4,6 @@ import { GameState } from "features/game/types/game";
 import { GARBAGE, GarbageName } from "features/game/types/garbage";
 
 import { setPrecision } from "lib/utils/formatNumber";
-import cloneDeep from "lodash.clonedeep";
 
 export type SellGarbageAction = {
   type: "garbage.sold";
@@ -18,7 +17,7 @@ type Options = {
 };
 
 export function sellGarbage({ state, action }: Options) {
-  const game: GameState = cloneDeep(state);
+  const game: GameState = state;
   const { item, amount } = action;
 
   const { bumpkin, inventory, coins } = game;

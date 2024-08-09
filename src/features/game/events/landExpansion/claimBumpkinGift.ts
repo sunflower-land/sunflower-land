@@ -1,4 +1,3 @@
-import cloneDeep from "lodash.clonedeep";
 import { GameState } from "features/game/types/game";
 import { NPCName } from "lib/npcs";
 import { BUMPKIN_GIFTS, BumpkinGift } from "features/game/types/gifts";
@@ -49,7 +48,7 @@ export function getNextGift({
 }
 
 export function claimGift({ state, action, createdAt = Date.now() }: Options) {
-  const game = cloneDeep(state) as GameState;
+  const game: GameState = state;
 
   if (!game.npcs?.[action.bumpkin]) {
     throw new Error("Bumpkin does not exist");

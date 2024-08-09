@@ -1,5 +1,3 @@
-import cloneDeep from "lodash.clonedeep";
-
 import Decimal from "decimal.js-light";
 import { GameState } from "features/game/types/game";
 import { RESOURCE_DIMENSIONS } from "features/game/types/resources";
@@ -25,7 +23,7 @@ export function placeFlowerBed({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  const game = cloneDeep(state) as GameState;
+  const game: GameState = state;
 
   const available = (game.inventory["Flower Bed"] || new Decimal(0)).minus(
     Object.keys(game.flowers.flowerBeds).length,

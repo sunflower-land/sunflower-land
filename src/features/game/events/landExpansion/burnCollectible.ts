@@ -1,4 +1,3 @@
-import cloneDeep from "lodash.clonedeep";
 import { GameState } from "../../types/game";
 import { CollectibleName } from "features/game/types/craftables";
 import { CollectibleLocation } from "features/game/types/collectibles";
@@ -33,7 +32,7 @@ export function burnCollectible({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  const stateCopy = cloneDeep(state);
+  const stateCopy = state;
 
   if (
     action.name !== "Time Warp Totem" &&

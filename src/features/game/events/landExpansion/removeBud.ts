@@ -1,6 +1,5 @@
 import { GameState } from "features/game/types/game";
 import { hasBudRemoveRestriction } from "features/game/types/removeables";
-import cloneDeep from "lodash.clonedeep";
 
 export enum REMOVE_BUD_ERRORS {
   INVALID_BUD = "This bud does not exist",
@@ -23,7 +22,7 @@ export function removeBud({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  const stateCopy = cloneDeep(state) as GameState;
+  const stateCopy = state;
 
   const bud = stateCopy.buds?.[Number(action.id)];
 
