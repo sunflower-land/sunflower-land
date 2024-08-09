@@ -166,7 +166,7 @@ const ListView: React.FC<ListViewProps> = ({
 }) => {
   const { gameService } = useContext(Context);
   const { t } = useAppTranslation();
-  const SIXTY_SECONDS = 1000 * 60;
+  const THIRTY_SECONDS = 1000 * 30;
   const [listings, setListings] = useState<Listing[]>([]);
   const [loading, setLoading] = useState(true);
   const { authService } = useContext(AuthContext);
@@ -197,12 +197,12 @@ const ListView: React.FC<ListViewProps> = ({
       setLoading(false);
     };
     load();
-    const interval = setInterval(load, SIXTY_SECONDS);
+    const interval = setInterval(load, THIRTY_SECONDS);
     return () => {
       clearInterval(interval);
       setUpdatedAt(undefined);
     };
-  }, [SIXTY_SECONDS, authState.context.user.rawToken, selected, setUpdatedAt]);
+  }, [THIRTY_SECONDS, authState.context.user.rawToken, selected, setUpdatedAt]);
   const onConfirm = async (listing: Listing) => {
     setfulfillListing(true);
     gameService.send("FULFILL_TRADE_LISTING", {
