@@ -1,40 +1,35 @@
-import { getBumpkinLevel, SKILL_POINTS } from "features/game/lib/level";
+import { getBumpkinLevel } from "features/game/lib/level";
 import {
   BumpkinSkillName,
   BUMPKIN_SKILL_TREE,
 } from "features/game/types/bumpkinSkills";
-import { getKeys } from "features/game/types/craftables";
 import { Bumpkin, GameState } from "features/game/types/game";
 import cloneDeep from "lodash.clonedeep";
 
-export type PickSkillAction = {
-  type: "skill.picked";
+export type ChoseSkillAction = {
+  type: "skill.chosen";
   skill: BumpkinSkillName;
 };
 
 type Options = {
   state: GameState;
-  action: PickSkillAction;
+  action: ChoseSkillAction;
   createdAt?: number;
 };
 
 export const getAvailableBumpkinSkillPoints = (bumpkin?: Bumpkin) => {
   if (!bumpkin) return 0;
 
-  const bumpkinLevel = getBumpkinLevel(bumpkin.experience);
-  const totalSkillPoints = SKILL_POINTS[bumpkinLevel];
-
-  const allocatedSkillPoints = getKeys({ ...bumpkin.skills }).reduce(
-    (acc, skill) => {
-      return acc + BUMPKIN_SKILL_TREE[skill].requirements.points;
-    },
+  const bumpkinLevel = getBumpkinLevel(bumpkin.experience); // 1 level = 1 skill point
+  const allocatedSkillPoints = Object.values(bumpkin.skills).reduce(
+    (acc, level) => acc + level,
     0,
   );
 
-  return totalSkillPoints - allocatedSkillPoints;
+  return bumpkinLevel - allocatedSkillPoints;
 };
 
-export function pickSkill({ state, action, createdAt = Date.now() }: Options) {
+export function choseSkill({ state, action, createdAt = Date.now() }: Options) {
   const stateCopy = cloneDeep(state);
   const { bumpkin } = stateCopy;
   if (bumpkin == undefined) {
@@ -42,23 +37,26 @@ export function pickSkill({ state, action, createdAt = Date.now() }: Options) {
   }
 
   const availableSkillPoints = getAvailableBumpkinSkillPoints(bumpkin);
-
+  const claimedSkillsInTree = Object.keys(bumpkin.skills).filter(
+    (skill) =>
+      BUMPKIN_SKILL_TREE[skill as BumpkinSkillName].tree ===
+      BUMPKIN_SKILL_TREE[action.skill].tree,
+  ).length;
   const requirements = BUMPKIN_SKILL_TREE[action.skill].requirements;
+  const bumpkinHasSkill = bumpkin.skills[action.skill];
 
   if (availableSkillPoints < requirements.points) {
     throw new Error("You do not have enough skill points");
   }
 
-  if (requirements.skill && !bumpkin.skills[requirements.skill]) {
+  if (requirements.skill && claimedSkillsInTree < requirements.skill) {
     throw new Error("Missing previous skill requirement");
   }
-  const bumpkinHasSkill = bumpkin.skills[action.skill];
 
   if (bumpkinHasSkill) {
     throw new Error("You already have this skill");
   }
 
   bumpkin.skills = { ...bumpkin.skills, [action.skill]: 1 };
-
   return stateCopy;
 }

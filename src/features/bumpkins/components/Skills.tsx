@@ -5,7 +5,7 @@ import {
   getSkills,
 } from "features/game/types/bumpkinSkills";
 
-import { getAvailableBumpkinSkillPoints } from "features/game/events/landExpansion/pickSkill";
+import { getAvailableBumpkinSkillPoints } from "features/game/events/landExpansion/choseSkill";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
 import { SkillCategoryList } from "./SkillCategoryList";
@@ -13,10 +13,10 @@ import { SkillCategoryList } from "./SkillCategoryList";
 import { SkillPathDetails } from "./SkillPathDetails";
 import { Label } from "components/ui/Label";
 import { findLevelRequiredForNextSkillPoint } from "features/game/lib/level";
-import { PIXEL_SCALE } from "features/game/lib/constants";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { OuterPanel } from "components/ui/Panel";
 
 interface Props {
   onBack: () => void;
@@ -85,29 +85,14 @@ export const Skills: React.FC<Props> = ({ onBack, readonly }) => {
     <div
       style={{
         minHeight: "200px",
+        maxHeight: "calc(100vh - 200px)",
       }}
     >
-      <div
-        className="flex flex-row my-2 items-center"
-        style={{
-          margin: `${PIXEL_SCALE * 2}px`,
-        }}
-      >
-        <img
-          src={SUNNYSIDE.icons.arrow_left}
-          className="cursor-pointer"
-          alt="back"
-          style={{
-            width: `${PIXEL_SCALE * 11}px`,
-            marginRight: `${PIXEL_SCALE * 4}px`,
-          }}
-          onClick={handleBack}
-        />
-        {!readonly && skillPointsInfo()}
-      </div>
       {!selectedSkillPath && (
         <SkillCategoryList
           onClick={(category) => onSkillCategoryClickHandler(category)}
+          onBack={handleBack}
+          skillPointsInfo={skillPointsInfo}
         />
       )}
       {selectedSkillPath && (
@@ -115,6 +100,7 @@ export const Skills: React.FC<Props> = ({ onBack, readonly }) => {
           selectedSkillPath={selectedSkillPath}
           skillsInPath={skillsInPath}
           readonly={readonly}
+          onBack={handleBackToSkillList}
         />
       )}
     </div>
@@ -130,6 +116,7 @@ export const SkillsModal: React.FC<Props> = ({ onBack, onClose, readonly }) => {
       setCurrentTab={setTab}
       tabs={[{ icon: SUNNYSIDE.badges.seedSpecialist, name: t("skills") }]}
       onClose={onClose}
+      container={OuterPanel}
     >
       {/* @note: There is only one tab, no extra judgment is needed. */}
       <Skills onBack={onBack} onClose={onClose} readonly={readonly} />

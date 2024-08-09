@@ -332,6 +332,7 @@ export type Bumpkin = {
   skills: Partial<Record<BumpkinSkillName, number>>;
   achievements?: Partial<Record<AchievementName, number>>;
   activity?: Partial<Record<BumpkinActivityName, number>>;
+  previousSkillsResetAt?: number;
 };
 
 export type SpecialEvent = "Chef Apron" | "Chef Hat";
