@@ -17,7 +17,7 @@ export class ExampleAnimationScene extends Phaser.Scene {
 
   preload() {
     const bumpkin: BumpkinParts = {
-      ...NPC_WEARABLES["phantom face"],
+      ...NPC_WEARABLES["raven"],
     };
 
     getKeys(ANIMATION).forEach((animationName) => {
@@ -27,8 +27,14 @@ export class ExampleAnimationScene extends Phaser.Scene {
        */
       const url = getAnimationUrl(bumpkin, animationName);
       this.load.spritesheet(animationName, url, {
-        frameWidth: 96,
-        frameHeight: 64,
+        frameWidth:
+          animationName === "idle_small" || animationName === "walking_small"
+            ? 20
+            : 96,
+        frameHeight:
+          animationName === "idle_small" || animationName === "walking_small"
+            ? 19
+            : 64,
       });
     });
   }
