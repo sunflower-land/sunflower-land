@@ -10,7 +10,6 @@ import {
   BumpkinAura,
 } from "features/game/types/bumpkin";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { buildNPCSheets } from "features/bumpkins/actions/buildNPCSheets";
 import { BumpkinParts } from "lib/utils/tokenUriBuilder";
 import shadow from "assets/npcs/shadow.png";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -18,6 +17,7 @@ import { ZoomContext } from "components/ZoomProvider";
 import { SpringValue } from "react-spring";
 import { ITEM_IDS } from "features/game/types/bumpkin";
 import { CONFIG } from "lib/config";
+import { getAnimationUrl } from "features/world/lib/animations";
 
 const FRAME_WIDTH = 180 / 9;
 const FRAME_HEIGHT = 19;
@@ -34,7 +34,7 @@ export type NPCParts = Omit<
   body: BumpkinBody;
   shoes: BumpkinShoe;
   tool: BumpkinTool;
-  aura: BumpkinAura;
+  aura?: BumpkinAura;
 };
 
 export interface NPCProps {
@@ -58,11 +58,9 @@ export const NPC: React.FC<NPCProps & { onClick?: () => void }> = ({
 
   // make sure all body parts are synchronized
   useEffect(() => {
-    const load = async () => {
-      const { sheets } = await buildNPCSheets({
-        parts,
-      });
-      setSheetSrc(sheets.idle);
+    const load = () => {
+      const sheets_idle = getAnimationUrl(parts, "idle_small");
+      setSheetSrc(sheets_idle);
     };
     // load aura equipped
     const loadAura = () => {
@@ -188,12 +186,9 @@ export const NPCIcon: React.FC<NPCProps> = ({ parts, hideShadow }) => {
 
   // make sure all body parts are synchronized
   useEffect(() => {
-    const load = async () => {
-      const { sheets } = await buildNPCSheets({
-        parts,
-      });
-
-      setSheetSrc(sheets.idle);
+    const load = () => {
+      const sheets_idle = getAnimationUrl(parts, "idle_small");
+      setSheetSrc(sheets_idle);
     };
     // load aura equipped
     const loadAura = () => {
@@ -314,12 +309,9 @@ export const NPCFixed: React.FC<NPCProps & { width: number }> = ({
   const [frontsheet, setFrontSheet] = useState<string>();
 
   useEffect(() => {
-    const load = async () => {
-      const { sheets } = await buildNPCSheets({
-        parts,
-      });
-
-      setSheetSrc(sheets.idle);
+    const load = () => {
+      const sheets_idle = getAnimationUrl(parts, "idle_small");
+      setSheetSrc(sheets_idle);
     };
     // load aura equipped
     const loadAura = () => {
