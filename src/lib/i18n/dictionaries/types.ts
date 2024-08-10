@@ -411,6 +411,8 @@ export type BasicTreasure =
   | "budBox.opened"
   | "budBox.title"
   | "budBox.description"
+  | "budBox.today"
+  | "budBox.left"
   | "raffle.title"
   | "raffle.description"
   | "raffle.entries"
