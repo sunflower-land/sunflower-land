@@ -187,7 +187,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   "add.liquidity": "Добавить ликвидность",
   "alr.claim": "Уже получено!",
   "alr.completed": "Уже завершено",
-  "alr.crafted": "Уже скрафчено!",
+  "alr.crafted": "Уже создано",
   "alr.minted": "Уже сминчено!",
   "are.you.sure": "Вы уверены?",
   auction: "Аукцион",
@@ -230,7 +230,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   "copy.link": "Скопировать ссылку",
   "copy.failed": "Копирование не удалось",
   coupons: "Купоны",
-  craft: "Скрафтить",
+  craft: "Создать",
   crops: "Растения",
   danger: "Опасно",
   date: "Дата",
@@ -316,11 +316,11 @@ const generalTerms: Record<GeneralTerms, string> = {
   "no.thanks": "Нет, спасибо",
   "ocean.fishing": "Рыбалка в океане",
   off: "Выключено",
-  "offer.end": "Предложение заканчивается в",
+  "offer.end": "Предложение заканчивается через ",
   ok: "Ок",
   on: "В",
   open: "Открыть",
-  opened: "Opened",
+  opened: "Открыто",
   optional: "Дополнительно",
   "open.gift": "Открыть подарок",
   place: "Место",
@@ -336,7 +336,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   purchased: "куплено",
   purchasing: "Покупаем",
   rank: "Ранг",
-  "read.more": "прочитать дальше",
+  "read.more": "Подробнее",
   refresh: "Обновить",
   refreshing: "Обновляем",
   remaining: "осталось",
@@ -409,7 +409,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   wish: "желание",
   yes: "Да",
   "yes.please": "Да, пожалуйста",
-  opensea: "OpenSea",
+  opensea: ENGLISH_TERMS["opensea"],
   layouts: "Схемы",
   labels: "Ярлыки",
   buff: "Буст",
@@ -514,11 +514,11 @@ const achievementTerms: Record<AchievementsTerms, string> = {
   "chefDeCuisine.description": "Приготовить 5,000 блюд",
 
   "scarecrowMaestro.description":
-    "Скрафти Scarecrow, чтобы увеличить количество урожая",
+    "Создай Scarecrow, чтобы увеличить количество урожая",
   "scarecrowMaestro.one":
     "Привет, приятель! Пришло время научить тебя искусству крафта предметов и улучшить твои фермерские навыки",
   "scarecrowMaestro.two":
-    "Отправляйся на Pumpkin Plaza, загляни к Blacksmith и скрафти Scarecrow.",
+    "Отправляйся на Pumpkin Plaza, загляни к Blacksmith и создай Scarecrow.",
 
   "bigSpender.description": "Потратить 10 SFL",
   "museum.description":
@@ -674,7 +674,7 @@ const birdiePlaza: Record<BirdiePlaza, string> = {
   "birdieplaza.currentSeason":
     "На данный момент мы в {{currentSeason}} сезоне, и бампкины сходят с ума по {{seasonalTicket}}.",
   "birdieplaza.collectTickets":
-    "Собери достаточно {{seasonalTicket}} и ты сможешь скрафтить редкие NFTs. Так у меня и появился этот редкий наряд!",
+    "Собери достаточно {{seasonalTicket}} и ты сможешь купить редкие NFTs. Так у меня и появился этот редкий наряд!",
   "birdieplaza.whatIsSeason": "Что такое сезон?",
   "birdieplaza.howToEarnTickets": "{{seasonalTicket}}’ы?",
   "birdieplaza.earnTicketsVariety":
@@ -684,13 +684,13 @@ const birdiePlaza: Record<BirdiePlaza, string> = {
   "birdieplaza.choresAndRewards":
     "Ты также можешь заработать {{seasonalTicket}} за прохождение списка дел у Hank’а и собирая ежедневные награды!",
   "birdieplaza.gatherAndCraft":
-    "Собери достаточно {{seasonalTicket}} и ты сможешь скрафтить некоторые редкие предметы, как я.",
+    "Собери достаточно {{seasonalTicket}} и ты сможешь купить некоторые редкие предметы, как я.",
   "birdieplaza.newSeasonIntro":
     "Каждые 3 месяца в Sunflower Land начинается новый сезон.",
   "birdieplaza.seasonQuests":
     "В этом сезоне тебя ждут увлекательные задания и редкие коллекционные предметы, которые ты можешь заработать.",
   "birdieplaza.craftItems":
-    "Чтобы скрафтить эти предметы, ты должен собирать {{seasonalTicket}} и обменивать их в магазинах или в аукционном доме.",
+    "Чтобы купить эти предметы, ты должен собирать {{seasonalTicket}} и обменивать их в магазинах или в аукционном доме.",
 };
 
 const boostDescriptions: Record<BoostDescriptions, string> = {
@@ -758,7 +758,7 @@ const boostDescriptions: Record<BoostDescriptions, string> = {
   "description.time.warp.totem":
     "Время роста урожая(овощи и фрукты), готовки, восстановления минералов и деревьев уменьшается на 50%. Длится только 2 часа",
   "description.time.warp.totem.expired":
-    "Срок действия твоего Time Warp Totem закончился. Отправляйся на Pumpkin Plaza, чтобы найти и скрафтить больше волшебных предметов, которые улучшат твои фермерские навыки!",
+    "Срок действия твоего Time Warp Totem закончился. Отправляйся на Pumpkin Plaza, чтобы найти и создать больше волшебных предметов, которые улучшат твои фермерские навыки!",
   "description.time.warp.totem.temporarily":
     "Time Warp Totem временно дает буст к времени роста урожая, готовки, восстановления минералов и деревьев. Используй его по максимуму!",
   "description.cabbage.boy": "Не разбуди ребенка!",
@@ -877,7 +877,7 @@ const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
   "description.rich.chicken.boost": "+0.1 Egg",
   "description.speed.chicken.boost": "-10% времени производства Egg",
   "description.ayam.cemani.boost": "+0.2 Egg",
-  "description.el.pollo.veloz.boost": "-4ч времени производства Egg",
+  "description.el.pollo.veloz.boost": "-4ч время производства Egg",
   "description.rooster.boost": "2x шанс на курицу-мутанта",
   "description.undead.rooster.boost": "+0.1 Egg",
   "description.chicken.coop.boost":
@@ -948,15 +948,15 @@ const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
     "Этот {{hourglass}} дает временное ускорение для {{boost}}.",
   "description.hourglass.expired":
     "Твой {{hourglass}} закончился. Время найти еще один!",
-  "description.desert.rose.boost": "10% Chance for +1 Flower",
-  "description.pharaoh.gnome.boost": "+2 Greenhouse Plants",
-  "description.lemon.tea.bath.boost": "-50% Lemon Growth Time",
-  "description.tomato.clown.boost": "-50% Tomato Growth Time",
-  "description.cannonball.boost": "-25% Tomato Growth Time",
+  "description.desert.rose.boost": "10% шанс получить 1 дополнительный цветок",
+  "description.pharaoh.gnome.boost": "+2 урожайность в теплице",
+  "description.lemon.tea.bath.boost": "-50% время роста у Lemon",
+  "description.tomato.clown.boost": "-50% время роста у Tomato",
+  "description.cannonball.boost": "-25% время роста у Tomato",
   "description.tomato.bombard.boost": "+1 Tomato",
   "description.camel.boost": "+1 Sand and +30% Artefact Shop Bounty Sell Price",
   "description.reveling.lemon.boost": "+0.25 Lemon",
-  "description.lemon.frog.boost": "-25% Lemon Growth Time",
+  "description.lemon.frog.boost": "-25% время роста у Lemon",
 };
 
 const bountyDescription: Record<BountyDescription, string> = {
@@ -1167,12 +1167,13 @@ const bumpkinTrade: Record<BumpkinTrade, string> = {
   "bumpkinTrade.cancel": "Отмена",
   "bumpkinTrade.list": "Выставить",
   "bumpkinTrade.maxListings": "Достигнут лимит листингов",
-  "bumpkinTrade.visitBoard": "Visit the trading board to list more trades.",
-  "bumpkinTrade.unlockMoreTrades": "Unlock more trades",
+  "bumpkinTrade.visitBoard":
+    "На доске объявлений ты сможешь разместить больше.",
+  "bumpkinTrade.unlockMoreTrades": "Разблокируй больше продаж в день",
   "bumpkinTrade.max": "Максимум: {{max}}",
   "bumpkinTrade.min": "Минимум: {{min}}",
-  "bumpkinTrade.minimumFloor": "Min unit price: {{min}}",
-  "bumpkinTrade.maximumFloor": "Max unit price: {{max}}",
+  "bumpkinTrade.minimumFloor": "Минимальная цена: {{min}}",
+  "bumpkinTrade.maximumFloor": "Максимальная цена: {{max}}",
   "bumpkinTrade.floorPrice": "Минимальная цена: {{price}} SFL",
   "bumpkinTrade.sellConfirmation":
     "Продать {{quantity}} {{resource}} за {{price}} SFL?",
@@ -1194,7 +1195,7 @@ const buyFarmHand: Record<BuyFarmHand, string> = {
   "buyFarmHand.howdyBumpkin": "Привет, бампкин.",
   "buyFarmHand.confirmBuyAdditional":
     "Ты уверен, что хочешь купить еще одного бампкина?",
-  "buyFarmHand.farmhandCoupon": "1 Farmhand Coupon",
+  "buyFarmHand.farmhandCoupon": "1 Купон помощника фермы",
   "buyFarmHand.adoptBumpkin": "Усыновить бампкина",
   "buyFarmHand.additionalBumpkinsInfo":
     "Дополнительного бампкина можно использовать, чтобы экипировать его одеждой и дать ферме буст.",
@@ -1226,12 +1227,12 @@ const choresStart: Record<ChoresStart, string> = {
     "Эти грядки сами себя не вспашут. Собери 3 Sunflowers.",
   "chores.earnSflIntro":
     "Если ты хочешь добиться больших успехов в фермерских делах, то лучше начни с продажи sunflowers, покупки семян и получения прибыли.",
-  "chores.reachLevel": "Достичь 2 уровня",
+  "chores.reachLevel": "Прокачайся до 2 уровня",
   "chores.reachLevelIntro":
     "Если ты хочешь повысить уровень и открыть новые возможности, то тебе следует приготовить еду и заточить ее.",
   "chores.chopTrees": "Срубить 3 Trees",
   "chores.helpWithTrees":
-    "Мои старые кости уже не такие как раньше, не поможешь ли ты мне срубить эти проклятые деревья? Наш местный Blacksmith поможет тебе скрафтить немного инструментов.",
+    "Мои старые кости уже не такие как раньше, не поможешь ли ты мне срубить эти проклятые деревья? Наш местный кузнец поможет тебе смастерить немного инструментов.",
   "chores.noChore":
     "К сожалению, у меня сейчас нет списка дел, которые надо сделать.",
   "chores.newSeason": "Приближается новый сезон, список дел временно закрыт.",
@@ -1261,7 +1262,7 @@ const chumDetails: Record<ChumDetails, string> = {
   "chumDetails.egg": "Хммм, не знаю какой рыбе понравятся яйца...",
   "chumDetails.sunflower": "Солнечная, яркая насадка для любопытных рыб.",
   "chumDetails.potato": "Из картофеля получится необычное угощение для рыбы.",
-  "chumDetails.pumpkin": "Рыб может заинтриговать оранжевое сияние тыкв.",
+  "chumDetails.pumpkin": "Рыб может заинтересовать оранжевое сияние тыкв.",
   "chumDetails.carrot":
     "Лучше всего использовать вместе с Earthworms для ловли Anchovies!",
   "chumDetails.cabbage": "Листовый соблазн для подводных травоядных.",
@@ -1320,7 +1321,7 @@ const cropBoomMessages: Record<CropBoomMessages, string> = {
 const compostDescription: Record<CompostDescription, string> = {
   "compost.fruitfulBlend":
     "Фруктовый компост увеличивает урожай с фруктовых деревьев на +0.1",
-  "compost.sproutMix": "Компост увеличивает твой урожай с грядок на  +0.2",
+  "compost.sproutMix": "Компост увеличивает твой урожай с грядок на +0.2",
   "compost.sproutMixBoosted":
     "Компост увеличивает твой урожай с грядок на +0.4",
   "compost.rapidRoot": "Турбо компост уменьшает время роста на грядках на 50%",
@@ -1340,12 +1341,12 @@ const confirmationTerms: Record<ConfirmationTerms, string> = {
   "confirmation.sellCrops":
     "Ты уверен что хочешь продать {{cropAmount}} {{cropName}} за {{coinAmount}} монет?",
   "confirmation.buyCrops":
-    "Are you sure you want to spend {{coinAmount}} Coins to buy {{seedNo}} {{seedName}}s?",
-  "confirmation.enterAmount": "Enter Amount to Sell:",
+    "Ты точно хочешь потратить {{coinAmount}} Монет для покупки {{seedNo}} {{seedName}}s?",
+  "confirmation.enterAmount": "Сколько всего продать:",
   "confirmation.sellSeasonalArtefact":
-    "This bounty is a seasonal artefact! Are you sure you want to sell it?",
+    "Это же сезонный артефакт! Ты точно хочешь продать его?",
   "confirmation.valuableTreasure":
-    "This bounty is very valuable! Are you sure you want to sell it?",
+    "Этот клад очень ценный! Ты точно хочешь продать его?",
 };
 
 const conversations: Record<Conversations, string> = {
@@ -1400,7 +1401,7 @@ const conversations: Record<Conversations, string> = {
     "Привет, фермер! Я могу за милю учуять голодного бампкина.",
   "blacksmith-intro.headline": "Поторапливайся.",
   "blacksmith-intro.one":
-    "Я мастер по крафту инструментов, и с правильными ресурсами я могу скрафтить все, что ты пожелаешь... включая еще больше инструментов!",
+    "Я мастер по крафту инструментов, и с правильными ресурсами я могу сделать все, что ты пожелаешь... включая еще больше инструментов!",
   "pete.first-expansion.one":
     "Мои поздравления, бампкин! Твоя ферма развивается быстрее, чем бобовый стебель в ливень!",
   "pete.first-expansion.two":
@@ -1410,9 +1411,9 @@ const conversations: Record<Conversations, string> = {
   "pete.first-expansion.four": "Поздравляю, бампкин! Продолжай в том же духе.",
   "pete.craftScarecrow.one": "Хмм, эти растения медленно растут.",
   "pete.craftScarecrow.two":
-    "Sunflower Land полон волшебных предметов, которые ты можешь скрафтить, чтобы усилить свои фермерские навыки.",
+    "Sunflower Land полон волшебных предметов, которые ты можешь создать, чтобы усилить свои фермерские навыки.",
   "pete.craftScarecrow.three":
-    "Подойди к workbench и скрафти scarecrow, чтобы увеличить скорость роста Sunflowers.",
+    "Подойди к workbench и создай scarecrow, чтобы увеличить скорость роста Sunflowers.",
   "pete.levelthree.one": "Поздравляю, твои навыки действительно хороши!",
   "pete.levelthree.two": "Похоже у тебя есть невыполненные доставки на Плазе.",
   "pete.levelthree.three":
@@ -1422,7 +1423,7 @@ const conversations: Record<Conversations, string> = {
   "pete.help.zero":
     "Посещай fire pit, готовь и ешь еду, чтобы поднимать свой уровень.",
   "pete.pumpkinPlaza.one":
-    "По мере повышения уровня, ты будешь открывать новые места для исследования. Первое - это Pumpkin Plaza....мой дом!",
+    "По мере повышения уровня, ты будешь открывать новые места для исследования. Первое - это Плаза....мой дом!",
   "pete.pumpkinPlaza.two":
     "Здесь ты можешь выполнять доставки и получать за них награды, крафтить волшебные предметы и торговать с другими игроками.",
   "sunflowerLand.islandDescription":
@@ -1538,12 +1539,12 @@ const defaultDialogue: Record<DefaultDialogue, string> = {
 };
 
 const cropsAndChickens: Record<CropsAndChickensMessages, string> = {
-  "crops-and-chickens.portal.title": "Minigame - Crops & Chickens",
-  "crops-and-chickens.portal.description": "Can you help me collect the crops?",
+  "crops-and-chickens.portal.title": "Миниигра - Кропсы и Чикены",
+  "crops-and-chickens.portal.description": "Поможешь мне собрать весь урожай?",
   "crops-and-chickens.portal.missionObjectives":
-    "Mission: Deposit {{targetScore}} points worth of crops",
+    "Цель: Набрать {{targetScore}} очков собирая урожай",
   "crops-and-chickens.portal.rewardMessage":
-    "Congratulations, you completed the mission! Here is your reward.",
+    "Поздравляем, ты выполнил задание! Вот твоя награда.",
 };
 
 const decorationDescriptions: Record<DecorationDescriptions, string> = {
@@ -1670,21 +1671,21 @@ const decorationDescriptions: Record<DecorationDescriptions, string> = {
     "Надувной мяч, создающий пляжный вайб и прогоняющий скуку.",
   "description.palm.tree":
     "Высокие, пляжные, тенистые и изысканные пальмы заставляют волны колыхаться.",
-  "description.battleCryDrum": "",
-  "description.bullseyeBoard": "",
-  "description.chessRug": "",
-  "description.cluckapult": "",
-  "description.goldenGallant": "",
-  "description.goldenGarrison": "",
-  "description.goldenGuardian": "",
-  "description.noviceKnight": "",
-  "description.regularPawn": "",
-  "description.rookieRook": "",
-  "description.silverSentinel": "",
-  "description.silverSquire": "",
-  "description.silverStallion": "",
-  "description.traineeTarget": "",
-  "description.twisterRug": "",
+  "description.battleCryDrum": "Боевой барабан",
+  "description.bullseyeBoard": "Доска для стрельбищ",
+  "description.chessRug": "Шахматный коврик",
+  "description.cluckapult": "Курапульта",
+  "description.goldenGallant": "Золотой конь",
+  "description.goldenGarrison": "Золотой ладья",
+  "description.goldenGuardian": "Золотой пешка",
+  "description.noviceKnight": "Новенький конь",
+  "description.regularPawn": "Базовая пешка",
+  "description.rookieRook": "Простая ладья",
+  "description.silverSentinel": "Серебряная ладья",
+  "description.silverSquire": "Серебряная пешка",
+  "description.silverStallion": "Серебряный конь",
+  "description.traineeTarget": "Тренировочная мишень",
+  "description.twisterRug": "Коврик для твистера",
 
   //other
   "description.sunflower.amulet": "Урожай Sunflower увеличен на 10%.",
@@ -1695,7 +1696,7 @@ const decorationDescriptions: Record<DecorationDescriptions, string> = {
   "description.warrior.pants": "Защитит твои бедра.",
   "description.warrior.helmet": "Иммунитет к стрелам.",
   "description.sunflower.shield":
-    "Герой Sunflower Land. Бесплатные Sunflower Seeds!",
+    "Герой Sunflower Land. Бесплатные семена Sunflower!",
   "description.skull.hat": "Редкая шляпа для твоего бампкина.",
   "description.sunflower.statue": "Символ священного токена",
   "description.potato.statue": "Настоящий картофельный барыга",
@@ -1709,34 +1710,34 @@ const decorationDescriptions: Record<DecorationDescriptions, string> = {
   "description.nyon.statue": "В память о Nyon Lann",
   "description.farmer.bath": "Ванна с ароматом свеклы для фермеров",
   "description.woody.Beaver": "Выпадение wood увеличено на 20%",
-  "description.apprentice.beaver": "Trees восстанавливаются на 50% быстрее",
-  "description.foreman.beaver": "Руби trees без axes",
-  "description.egg.basket": "Дает доступ к Easter Egg Hunt",
+  "description.apprentice.beaver": "Деревья восстанавливаются на 50% быстрее",
+  "description.foreman.beaver": "Руби деревья без топоров",
+  "description.egg.basket": "Дает доступ к пасхальной охоте",
   "description.mysterious.head": "Статуя, призванная защищать фермеров",
-  "description.tunnel.mole": "Дает 25% увеличение к выпадению stone",
-  "description.rocky.the.mole": "Дает 25% увеличение к выпадению iron",
-  "description.nugget": "Дает 25% увеличение к выпадению gold",
+  "description.tunnel.mole": "Дает 25% увеличение к выпадению камня",
+  "description.rocky.the.mole": "Дает 25% увеличение к выпадению железа",
+  "description.nugget": "Дает 25% увеличение к выпадению золота",
   "description.rock.golem": "Дает 10% шанс на получение 3х stone",
   "description.chef.apron": "Дает дополнительно 20% SFL с продажи тортов",
-  "description.chef.hat": "La couronne d'un boulanger légendaire !",
-  "description.nancy": "Отгоняет немного ворон. Растения растут на 15% быстрее",
+  "description.chef.hat": "Корона легендарного французкого пекаря!",
+  "description.nancy": "Отгоняет ворон. Растения растут на 15% быстрее",
   "description.scarecrow": "Пугало-гоблин. Урожай с растений увеличен на 20%",
   "description.kuebiko":
-    "Даже торговец боится этого пугала. Семена теперь бесплатные",
+    "Даже торговецы боится этого пугала. Семена теперь бесплатные",
   "description.golden.cauliflower": "Удваивает урожай с cauliflower",
   "description.mysterious.parsnip": "Parsnips растут на 50% быстрее",
   "description.carrot.sword": "Увеличивает шанс на появление растений-мутантов",
   "description.chicken.coop": "Собирает в 2 раза больше eggs",
   "description.farm.cat": "Отгоняет крыс",
   "description.farm.dog": "Паси овец вместе со своим фермерским песиком",
-  "description.gold.egg": "Кормит chickens без необходимости wheat",
-  "description.easter.bunny": "Получает на 20% больше Carrots",
+  "description.gold.egg": "Курицам больше не нужен корм",
+  "description.easter.bunny": "Приносит на 20% больше моркови",
   "description.rooster": "Удваивает шанс на выпадение курицы-мутанта",
   "description.chicken": "Производит eggs. Нужна wheat для корма",
   "description.cow": "Производит milk. Нужна wheat для корма",
   "description.pig": "Производит manure. Нужна wheat для корма",
   "description.sheep": "Produces wool. Нужна wheat для корма",
-  "description.basic.land": "Базовый кусок земли",
+  "description.basic.land": "Базовая земля",
   "description.crop.plot": "Пустая грядка для выращивания растений",
   "description.gold.rock": "Горная порода пригодная для добычи gold",
   "description.iron.rock": "Горная порода пригодная для добычи iron",
@@ -1749,14 +1750,14 @@ const decorationDescriptions: Record<DecorationDescriptions, string> = {
   "description.boulder":
     "Мифический камень, из которого могут выпасть редкие минералы",
   "description.catch.the.kraken.banner":
-    "Кракен здесь! Знак участника в Catch the Kraken сезоне.",
+    "Кракен здесь! Знак участника Catch the Kraken.",
   "description.luminous.lantern": "Яркий бумажный фонарь, освещающий путь.",
   "description.radiance.lantern":
     "Сияющий бумажный фонарь, излучающий мощный свет.",
   "description.ocean.lantern":
     "Волнистый бумажный фонарь, покачивающийся в такт приливу.",
   "description.solar.lantern":
-    "Используя яркую силу подсолнухов, Solar Lantern излучает теплое и сияющее свечение.",
+    "Используя яркую силу подсолнухов, Солнечный фонарь излучает теплое и сияющее свечение.",
   "description.aurora.lantern":
     "Бумажный фонарь, который превращает любое пространство в волшебную страну чудес.",
   "description.dawn.umbrella":
@@ -1784,16 +1785,16 @@ const decorationDescriptions: Record<DecorationDescriptions, string> = {
   "description.goblin.lantern": "Страшный фонарь",
   "description.dawn.flower":
     "Насладись сияющей красотой Dawn Flower, когда его нежные лепестки мерцают при первых лучах солнца",
-  "description.kernaldo.bonus": "+25% скорости роста Corn",
+  "description.kernaldo.bonus": "+25% скорости роста кукурузы",
   "description.white.crow": "Таинственная и неземная белая ворона",
   "description.sapo.docuras": "Настоящее удовольствие!",
   "description.sapo.travessuras": "Ой-ой...кто-то был непослушным",
   "description.walrus":
     "Благодаря его надежным бивням и любви к глубинам, ты всегда будешь вылавливать дополнительную рыбу.",
   "description.alba":
-    "Благодаря её острому чутью, ты будешь вылавливать дополнительную рыбу. 50% шанс на +1 базовую рыбу!",
+    "Благодаря её острому чутью, ты будешь вылавливать дополнительную рыбу. 50% шанс на +1 обычную рыбу!",
   "description.knowledge.crab":
-    "Knowledge Crab удваивает эффект от Sprout Mix, делая твои посевы такими же богатыми, как морская добыча!",
+    "Умный краб удваивает эффект от обычного компоста, делая твои посевы такими же богатыми, как морская добыча!",
   "description.anchor":
     "Брось якорь с помощью этой морской драгоценности, которая придает любому месту морской и восхитительный стиль!",
   "description.rubber.ducky":
@@ -1865,7 +1866,7 @@ const decorationDescriptions: Record<DecorationDescriptions, string> = {
   "description.prism.petal":
     "Вау! Какой красивый цветок! Думаю, он достоин того, чтобы разместить его на ферме.",
   "description.celestial.frostbloom":
-    "Вау! Какой красивый цветок! Думаю, он достоин того, чтобы разместить его на ферме.",
+    "Вау! Вечный морозоцвет! Думаю, он достоин того, чтобы разместить его на ферме.",
   "description.primula.enigma":
     "Вау! Какой красивый цветок! Думаю, он достоин того, чтобы разместить его на ферме.",
 
@@ -1956,7 +1957,7 @@ const depositWallet: Record<DepositWallet, string> = {
   "deposit.noSflOrCollectibles": "SFL или коллекционные предметы не найдены!",
   "deposit.farmAddress": "Адрес фермы",
   "question.depositSFLItems":
-    "Хочешь закинуть Sunflower Land предметы, одежду или токен SFL?",
+    "Хочешь добавить в Sunflower Land предметы, одежду или токен SFL?",
 };
 
 const detail: Record<Detail, string> = {
@@ -2019,18 +2020,17 @@ const errorAndAccess: Record<ErrorAndAccess, string> = {
 };
 
 const errorTerms: Record<ErrorTerms, string> = {
-  "error.askOnDiscord": ENGLISH_TERMS["error.askOnDiscord"],
-  "error.contactSupport": ENGLISH_TERMS["error.contactSupport"],
-  "error.file": ENGLISH_TERMS["error.file"],
-  "error.getHelp": ENGLISH_TERMS["error.getHelp"],
+  "error.file": "Error File",
   "error.betaTestersOnly": "Только для бета-тестеров!",
   "error.congestion.one":
     "Мы стараемся изо всех сил, но, похоже, у Polygon большой трафик или вы потеряли соединение.",
   "error.congestion.two":
     "Если эта ошибка повторяется, пожалуйста, попробуйте изменить свой Metamask RPC",
-  "error.connection.one": ENGLISH_TERMS["error.connection.one"],
-  "error.connection.two": ENGLISH_TERMS["error.connection.two"],
-  "error.connection.three": ENGLISH_TERMS["error.connection.three"],
+  "error.connection.one":
+    "It looks like we encountered a problem. Quite often this is just a simple connection issue. You can try again or reach out for help if the issue persists.",
+  "error.connection.two": "Get help",
+  "error.connection.three":
+    "Please provide the following information when you contact support:",
   "error.connection.four":
     "Если проблема не устранена, вы можете обратиться за помощью в нашу службу поддержки, либо перейти в наш discord и спросить у нашего сообщества",
   "error.diagnostic.info": "Диагностическая информация",
@@ -2046,9 +2046,13 @@ const errorTerms: Record<ErrorTerms, string> = {
   "error.toManyRequest.one": "Слишков много запросов!",
   "error.toManyRequest.two":
     "Похоже, ты был занят! Пожалуйста, повтори попытку позже.",
-  "error.tooManyFarms": ENGLISH_TERMS["error.tooManyFarms"],
   "error.Web3NotFound": "Web3 Not Found",
-  "error.wentWrong": "Что-то пошло не так!",
+  "error.wentWrong": "Упс! Что-то пошло не так!",
+  "error.getHelp": "Get help",
+  "error.contactSupport": "Contact support",
+  "error.askOnDiscord": "Ask on discord",
+  "error.tooManyFarms":
+    "Притормози, бампкин! Похоже, что у тебя слишком много аккаунтов. Пожалуйста, повтори попытку позже.",
   "error.clock.not.synced": "Часы не синхронизированы",
   "error.polygon.cant.connect": "Не удается подключиться к сети Polygon",
   "error.composterNotExist": "Компостер не установлен",
@@ -2160,13 +2164,13 @@ const factions: Record<Factions, string> = {
 
   // Kingdom NPCs
   "faction.restrited.area":
-    "Постой фермер! Только члены {{faction}} могут зайти.",
+    "Постой, фермер! Только члены {{faction}} могут войти.",
   "faction.not.pledged":
-    "Хм. Похоже, вы еще не вступили во фракцию. Хотели бы вы присоединиться к {{faction}}?",
+    "Хм. Похоже, ты еще не вступил во фракцию. Хотел бы ты присоединиться к {{faction}}?",
   "faction.cost":
-    "Докажи свою преданность {{фракции}}. Вступление во фракцию стоит {{cost}} SFL..",
+    "Докажи свою преданность к {{фракции}}. Вступление во фракцию стоит {{cost}} SFL.",
   "faction.pledge.reward":
-    "Взамен вы получите {{banner}} и возможность зайти в наш дом..",
+    "Взамен ты получишь {{banner}} и возможность зайти в наш дом.",
   "faction.welcome": "Теперь ты {{faction}}!",
   "faction.greeting.goblins": "Слава Королю Гоблинов!",
   "faction.greeting.sunflorians": "Наша власть будет безраздельна!",
@@ -2175,11 +2179,12 @@ const factions: Record<Factions, string> = {
 
   "faction.leave": "Покинуть фракцию",
   "faction.leave.hasEmblems": "У тебя еще остались эмблемы",
-  "faction.leave.areYouSure": "Ты уверен что хочешь покинуть фракцию??",
+  "faction.leave.areYouSure": "Ты уверен, что хочешь покинуть фракцию?",
   "faction.leave.isNew": "Ты не можешь покинуть фракцию в первые 24 часа.",
   "faction.leave.marks":
-    "Предатели фракции будут наказаны, потеряют свой флаг и все марки.",
-  "faction.leave.sellEmblems": "И лучше б ты продал все эмблемы перед выходом.",
+    "Предатели фракции будут наказаны, потеряв свой флаг и все марки.",
+  "faction.leave.sellEmblems":
+    "И лучше бы ты продал все эмблемы перед выходом.",
 
   // Faction Claim Emblems
   "faction.claimEmblems.alreadyClaimed": "Йей! Ты уже получил свои эмблемы!",
@@ -2191,11 +2196,12 @@ const factions: Record<Factions, string> = {
     "Ты пока не внес значимого вклада в свою фракцию.",
   "faction.claimEmblems.statistics": "Статистика",
   "faction.claimEmblems.thankYou":
-    "Спасибо {{player}} за твой в клад в общее дело {{Faction}}! Возьми эти эмблемы, они значат многое для нашей фракции!",
+    "Спасибо, {{player}}, за твой вклад в общее дело {{Faction}}! Возьми эти эмблемы, они значат многое для нашей фракции!",
   "faction.claimEmblems.claimMessage":
-    "Твой вклад {{count}} очков фракции. Твой ранг {{rank}}. Ты входишь в лучшие {{percentile}}% в {{Faction}}.",
+    "Твой вклад - {{count}} очков фракции. Твой ранг - {{rank}}. Ты входишь в лучшие {{percentile}}% в {{Faction}}.",
   "faction.claimEmblems.claim": "Получи {{count}} эмблем",
-  "faction.claimEmblems.congratulations": "Еееху! Ты получил {{count}} эмблем!",
+  "faction.claimEmblems.congratulations":
+    "Ееехуу! Ты получил {{count}} эмблем!",
   "faction.claimEmblems.comparison":
     "Здесь ты сможешь сравнить себя с остальными членами фракции.",
   "faction.claimEmblems.totalMembers": "Всего во фракции",
@@ -2207,10 +2213,10 @@ const factions: Record<Factions, string> = {
 
   "faction.kitchen.opensIn": "Откроется через {{time}}",
   "faction.kitchen.notReady":
-    "Хохо, вот это энтузиазм! К несчастью кухня пока закрыта, приходи попозже.",
+    "Хо-хо, вот это энтузиазм! К несчастью кухня пока закрыта, приходи попозже.",
   "faction.kitchen.gatherResources":
-    "Так много новобранцев… как же мне накормить их всех! Может ты поможешь мне немного?",
-  "faction.pet.gatherResources": "(урчит животом)...",
+    "Так много новобранцев… как же мне накормить их всех? Может ты поможешь мне немного?",
+  "faction.pet.gatherResources": "(урчит живот)...",
   "faction.pet.contributingMember": "Contributing member",
   "faction.kitchen.preparing":
     "Я как раз готовлю заказы, возвращайся через пару минут!",
@@ -2219,36 +2225,36 @@ const factions: Record<Factions, string> = {
     "Faction houses are opening on July 8th. Earn marks, compete for glory and claim rewards!",
   "faction.emblems": "Эмблемы",
   "faction.emblems.intro.one":
-    "Ого, ты только посмотри на все эти эмблемы. Ты похоже настоящий воин!!",
+    "Ого, ты только посмотри на все эти эмблемы. Ты, похоже, настоящий воин!",
   "faction.emblems.intro.two":
     "On July 8th the Faction House will open. You will be able to complete tasks, earn marks and claim rewards.",
   "faction.emblems.intro.three":
-    "Чем больше эмблем у тебя будет, тем выше будет твой ранг(и статус) и тем больше марок ты сможешь заработать.",
+    "Чем больше эмблем у тебя будет, тем выше будет твой ранг (и статус), и тем больше марок ты сможешь заработать.",
   "faction.tradeEmblems":
-    "Покупай эмблемы чтобы повысить свой ранг и получить навыки.",
+    "Покупай эмблемы, чтобы повысить свой ранг и получить навыки.",
   "faction.marksBoost": "Марки нужны для фракционных событий и заданий.",
   "faction.shop.onlyFor": "Только для {{faction}}",
   "faction.shop.welcome":
-    "Добро пожаловать в магазин фракций! Тут за марки ты сможешь купить бусты, стильное шмотье и редкие артефакты!",
+    "Добро пожаловать в магазин фракций! Здесь, за марки ты сможешь купить бусты, стильную одежду и редкие артефакты!",
   "faction.goodLuck": "Удачи на новой неделе!",
   "faction.noPrizeFound": "Уф, тут нет призов",
   "faction.pet.weeklyGoal": "Цель на неделю: {{totalXP}}/{{goalXP}} XP",
   "faction.pet.hungry":
-    "Наше тотемное животное нуждается в тебе! Его нужно кормить на 30% больше каждую неделю чтобы утолить его растущий голод. Корми его каждую неделю чтобы получить бонус на опыт и заработать еще марок!",
+    "Наше тотемное животное нуждается в тебе! Его нужно кормить на 30% больше каждую неделю, чтобы утолить его растущий голод. Корми его каждую неделю, чтобы получить бонус на опыт и заработать еще марок!",
   "faction.pet.fed":
-    "Отличная работа!,. Тотемное животное чувствует себя великолепно и вся фракция получает буст по опыту.. Не теряй темп и дальше будет еще больше !",
+    "Отличная работа! Тотемное животное чувствует себя великолепно и вся фракция получает буст к опыту. Не теряй темп и дальше будет еще больше!",
   "faction.pet.sleeping":
-    "Твое животное уснуло на неделю. Не забудь покормить его после пробуждения и утолить его безмерный голод .",
+    "Твое животное уснуло на неделю. Не забудь покормить его после пробуждения и утолить его безмерный голод.",
   "faction.pet.newRequests": "Новый запрос через {{time}}",
   "faction.pet.streak": "{{streak}} недели подряд",
   "faction.pet.wakes.in": "Проснется через {{time}}",
-  "faction.boostsApplied": "Усиление полученно:",
+  "faction.boostsApplied": "Усиление получено:",
   "faction.no.boostsApplied": "Нет активных бустов",
 };
 
 const factionShopDescription: Record<FactionShopDescription, string> = {
-  "description.factionShop.sunflorianThrone": "Трон для  Sunflorian.",
-  "description.factionShop.nightshadeThrone": "Трон для  Nightshade.",
+  "description.factionShop.sunflorianThrone": "Трон для Sunflorian.",
+  "description.factionShop.nightshadeThrone": "Трон для Nightshade.",
   "description.factionShop.goblinThrone": "Трон для Goblin.",
   "description.factionShop.bumpkinThrone": "Трон для Bumpkin.",
   "description.factionShop.goldenSunflorianEgg":
@@ -2300,7 +2306,7 @@ const factionShopDescription: Record<FactionShopDescription, string> = {
   "description.factionShop.cookingBoost":
     "Уменьшает время готовки на 50%, эффект длится 4 часа.",
   "description.factionShop.cropBoost":
-    "Сокращает время роста на грядках на 25%, в течении 6 часов.",
+    "Сокращает время роста на грядках на 25%, в течение 6 часов.",
   "description.factionShop.woodBoost":
     "Сокращает время роста деревьев на 25%, в течении 4 часов.",
   "description.factionShop.mineralBoost":
@@ -2653,7 +2659,7 @@ const flowerShopTerms: Record<FlowerShopTerms, string> = {
 const foodDescriptions: Record<FoodDescriptions, string> = {
   // Fire Pit
   "description.pumpkin.soup": "Кремовый суп, который любят гоблины",
-  "description.mashed.potato": "Моя жизнь - картошка.",
+  "description.mashed.potato": "Моя жизнь - пюре",
   "description.bumpkin.broth":
     "Питательный бульон для восполнения сил твоего бампкина",
   "description.boiled.eggs": "Вареные яйца - отличный вариант для завтрака",
@@ -2821,7 +2827,7 @@ const gameDescriptions: Record<GameDescriptions, string> = {
     "Этот прожорливый кролик скачет по твоей ферме. Предмет особого события на Пасху 2024",
   "description.scroll": "Билет, используемый во время сезона Clash of Factions",
   "description.amberFossil":
-    "A ticket used during the Pharaoh's Treasure Season",
+    "Кусок янтаря, используемый для сезона Pharaoh's Treasure",
 
   // Easter Items
   "description.egg.basket": "Событие на Пасху",
@@ -2893,7 +2899,7 @@ const getContent: Record<GetContent, string> = {
   "getContent.accessGranted":
     "Теперь у тебя есть доступ. Загляни на канал в Discord",
   "getContent.connectToDiscord":
-    "Ты должен быть подключен к Discord, чтобы присоединиться к каналу с ограниченным доступом.",
+    "Ты должен быть подключен к Discord’у, чтобы присоединиться к каналу с ограниченным доступом.",
   "getContent.connect": "Подключиться",
   "getContent.getAccess": "Получи доступ к ограниченным группам в Discord",
   "getContent.requires": "Требуется",
@@ -2956,25 +2962,27 @@ const guideFactionPet: Record<GuideFactionPet, string> = {
   "guide.factionPet.one":
     "Каждую неделю питомец будет просить 3 разных вида еды. При кормежке опыт будет идти в общий счет фракции.",
   "guide.factionPet.two":
-    "У вашей фракции будет цель, которую необходимо достичь каждую неделю. Если фракция достигнет цели, следующая цель будет на 30% больше, чем опыт к концу недели! Если цель не достигнута, то цель на следующей неделе будет сброшена на начальное значение(500 x количество участников во фракции).",
+    "У вашей фракции будет цель, которую необходимо достичь каждую неделю. Если фракция достигнет цели, следующая цель будет на 15% больше, чем опыт к концу недели! Если цель не достигнута, то цель на следующей неделе будет сброшена на начальное значение(500x количество участников во фракции).",
   "guide.factionPet.three":
     "Если фракция не достигнет цели, питомец проспит целую неделю.",
   "guide.factionPet.four":
     "Если цель будет выполнена несколько недель подряд, то все кто принимал участие в кормежке получат бонус к опыту!",
   "guide.factionPet.five":
-    "Contributing member: To be eligible for potential streak boosts in the following week, a player needs to fulfill one of each pet's requests.",
+    "Чтобы иметь право на буст опыта на следующей неделе, игроку необходимо покормить животного каждой едой.",
   "guide.factionPet.six":
-    "You will be awarded marks for each food delivered. Every time you deliver the reward will be reduced. These rewards will reset daily. Players with an emblem bonus will get an additional bonus based on their faction bonus rank.",
-  "guide.streak.one": "Week 2 streak achieved = 10% XP during week 3 & week 4*",
-  "guide.streak.two": "Week 4 streak achieved = 20% XP during week 5 & week 6*",
+    "Вы будете получать марки за каждую доставленную еду. После каждой доставки, награда будет уменьшаться. Эти награды будут сбрасываться ежедневно. Игроки с бонусом за эмблемы получат дополнительные марки, основанный на бонусном ранге их фракции.",
+  "guide.streak.one":
+    "2 недели подряд дают бонус в 10% опыта в течении 3 и 4 недели*",
+  "guide.streak.two":
+    "4 недели подряд дают бонус в 20% опыта в течении 5 и 6 недели*",
   "guide.streak.three":
-    "Week 6 streak achieved = 30% XP during week 7 & week 8*",
+    "6 недель подряд дают бонус в 30% опыта в течении 7 и 8 недели*",
   "guide.streak.four":
-    "Week 8 streak achieved = 50% XP during week 9 & week 10+*",
+    "Если животное живо на 8 неделю, то все кто его кормил на 7 неделе получат бонус в 50% опыта в течении 8 недели и далее*",
   "guide.streak.beyond":
-    "Beyond week 8, the pet will still need to have its satiation met to keep the streak bonus alive.",
+    "После 8-й недели питомец должен быть сытый каждую неделю, чтобы сохранять бонус.",
   "guide.streak.furtherInfo":
-    "*If the pet's satiation is not met by the end of week x, the streak is lost and pet will sleep for a week.",
+    "*Если к концу недели животное все еще голодное, то весь прогресс сбрасывается, и питомец будет спать в течение недели.",
 };
 
 const guideTerms: Record<GuideTerms, string> = {
@@ -2983,7 +2991,7 @@ const guideTerms: Record<GuideTerms, string> = {
   "gathering.guide.one":
     "Чтобы преуспеть в Sunflower Land, необходимо овладеть искусством сбора ресурсов. Начни с создания инструментов для сбора различных ресурсов. Используй надежный топор, чтобы срубить деревья и добыть древесину. Чтобы создать инструменты, посети местный верстак и обменяй монеты/ресурсы на нужный инструмент.",
   "gathering.guide.two":
-    "По мере продвижения и сбора достаточного количества ресурсов вы откроете возможность расширить свою территорию. Расширение территории открывает новые горизонты в Sunflower Land. Расширение территории открывает сокровищницу ресурсов, включая плодородную почву для выращивания сельскохозяйственных культур, величественные деревья, залежи ценных камней, драгоценные железные жилы, мерцающие золотые месторождения, восхитительные фруктовые грядки и многое другое.",
+    "По мере продвижения и сбора достаточного количества ресурсов вы откроете возможность расширить свою территорию. Расширение территории открывает новые горизонты в Sunflower Land. Новые территории открывают сокровищницу ресурсов, включая плодородную почву для выращивания сельскохозяйственных культур, деревья, залежи ценных камней, драгоценные железные жилы, мерцающие золотые месторождения, восхитительные фруктовые грядки и многое другое.",
   "gathering.guide.three":
     "Помните, что сбор ресурсов и расширение земель - это основа вашего фермерского пути. Принимайте вызовы и награды, которые приходят с каждым шагом, и наблюдайте, как ваша ферма процветает, наполняясь щедрыми ресурсами и бесконечными возможностями.",
 
@@ -2992,12 +3000,12 @@ const guideTerms: Record<GuideTerms, string> = {
   "crops.guide.two":
     "Чтобы вырастить культуры, вам нужно приобрести соответствующие семена во внутриигровом магазине. У каждой культуры разное время роста: от 1 минуты для Sunflower до 36 часов для Kale. Когда культуры полностью вырастут, вы сможете собрать урожай и извлечь из него пользу.",
   "crops.guide.three":
-    "Помните, что по мере того, как вы будете расширять свои угодья и продвигаться по игре, вам будет доступно все больше культур, что откроет новые возможности для заработка монет и изучения огромного потенциала фермерской экономики Sunflower Land. Так что пачкайте руки, сажайте семена и наблюдайте за тем, как расцветают ваши посевы, собирая урожай на пути к успеху!",
+    "Помните, что по мере того, как вы будете расширять свои угодья и продвигаться по игре, вам будет доступно все больше культур, что откроет новые возможности для заработка монет и изучения огромного потенциала фермерской экономики Sunflower Land. Не бойтесь испачкать руки, сажайте семена и наблюдайте за тем, как расцветают ваши посевы, собирая урожай на пути к успеху!",
 
   "building.guide.one":
-    "Изучите разнообразные постройки, доступные по мере продвижения в Sunflower Land. От курятников до мастерских и не только - каждое строение дает уникальные преимущества вашей ферме. Воспользуйтесь этими зданиями, чтобы оптимизировать свои сельскохозяйственные операции, повысить производительность и открыть новые возможности. Тщательно спланируйте свою территорию и наслаждайтесь наградами, которые принесет вам строительство процветающей фермы в Sunflower Land.",
+    "Изучите разнообразные постройки, доступные по мере продвижения в Sunflower Land. От курятников до мастерских и не только - каждое строение дает уникальные преимущества вашей ферме. Воспользуйтесь этими зданиями, чтобы оптимизировать свои сельскохозяйственные операции, повысить производительность и открыть новые возможности. Тщательно спланируйте свою территорию и наслаждайтесь наградами, которые принесет вам процветающая ферма в Sunflower Land.",
   "building.guide.two":
-    'В Sunflower Land здания - это краеугольный камень вашего фермерского пути. Чтобы открыть меню построек, нажмите на значок инвентаря и выберите вкладку "Постройки". Выберите нужное строение и вернитесь на экран фермы. Найдите свободное место, отмеченное зеленым цветом, и подтвердите размещение. Дождитесь окончания таймера, и ваше новое здание будет готово к использованию. Здания дают различные преимущества и открывают захватывающие игровые возможности. Стратегически правильно расположите их на своей ферме, чтобы добиться максимальной эффективности, и наблюдайте, как растет и процветает ваша фермерская империя.',
+    'В Sunflower Land здания - это краеугольный камень вашего фермерского пути. Чтобы открыть меню построек, нажмите на значок инвентаря и выберите вкладку "Постройки". Выберите нужное строение и вернитесь на экран фермы. Найдите свободное место, отмеченное зеленым цветом, и подтвердите размещение. Дождитесь окончания таймера, и ваше новое здание будет готово к использованию. Здания дают различные преимущества и открывают захватывающие игровые возможности. Стратегически правильно расположите их на своей ферме, чтобы добиться максимальной эффективности, и наблюдайте, как растет и процветает ваша империя.',
 
   "cooking.guide.one":
     "Приготовление пищи позволяет вам накормить своего бампкина и помочь ему получить ценные очки опыта (XP). Используя собранный урожай, вы можете приготовить вкусную еду в различных зданиях, предназначенных для ее приготовления.",
@@ -3011,38 +3019,38 @@ const guideTerms: Record<GuideTerms, string> = {
     "Экспериментируйте с различными рецептами, открывайте новые здания и познавайте радость кулинарии, воспитывая своего бампкина и отправляясь в восхитительное кулинарное приключение в Sunflower Land.",
 
   "animals.guide.one":
-    "Куры в Sunflower Land - это прекрасное дополнение к вашей ферме, служащее источником яиц, которые можно использовать в различных рецептах и крафте. Чтобы завести кур, вам нужно достичь 9-го уровня и построить Hen House. После этого вы сможете купить кур или разместить уже имеющихся. Просто перетащите их на ферму, как и здания. На стандартной ферме каждый курятник вмещает до 10 кур, а если вы владеете Chicken Coop NFT, то это ограничение увеличивается до 15.",
+    "Куры в Sunflower Land - это прекрасное дополнение к вашей ферме, производящие яица, которые можно использовать в различных рецептах и крафте. Чтобы завести кур, вам нужно достичь 9-го уровня и построить Hen House. После этого вы сможете купить кур или разместить уже имеющихся. Просто перетащите их на ферму, как и здания. На стандартной ферме каждый курятник вмещает до 10 кур, а если вы владеете Chicken Coop NFT, то это ограничение увеличивается до 15.",
   "animals.guide.two":
-    "У каждой курицы над головой есть индикатор, отображающий ее текущее настроение или потребности. Она может быть голодной, уставшей, счастливой или готовой к кладке. Чтобы ваши куры были довольны и продуктивны, кормите их, выбирая пшеницу из инвентаря и взаимодействуя с ней. Кормление запускает таймер яиц, по которому яйца готовы к появлению на свет через 48 часов. Когда яйца будут готовы, посетите свою ферму, проверьте значок над каждой курицей и взаимодействуйте с ними, чтобы узнать тип яйца, которое вылупилось. Иногда вы можете даже обнаружить редких цыплят-мутантов, которые дают особые преимущества: ускоренное производство яиц, повышенную урожайность или уменьшенное потребление пищи.",
+    "У каждой курицы над головой есть индикатор, отображающий ее текущее настроение или потребности. Она может быть голодной, уставшей, счастливой или готовой к кладке. Чтобы ваши куры были довольны и продуктивны, кормите их пшеницей из инвентаря. Кормление запускает таймер яиц, по которому яйца появляются на свет через 48 часов. Когда яйца будут готовы, посетите свою ферму, проверьте значок над каждой курицей и нажмите на нее, чтобы узнать тип яйца, которое вылупилось. Иногда вы можете даже обнаружить редких цыплят-мутантов, которые дают особые преимущества: ускоренное производство яиц, повышенную урожайность или уменьшенное потребление пищи.",
   "animals.guide.three":
-    "Выращивание цыплят и сбор их яиц добавляет динамику и пользу вашей ферме в Sunflower Land. Экспериментируйте с рецептами, используйте яйца в своих ремесленных начинаниях и наслаждайтесь сюрпризами, которые приносят редкие куры-мутанты. Постройте процветающее птицеводческое хозяйство и пожинайте плоды своего труда, погружаясь в очаровательный мир кур в Sunflower Land.",
+    "Выращивание цыплят и сбор их яиц добавляет динамику и пользу вашей ферме в Sunflower Land. Экспериментируйте с рецептами, используйте яйца в своих ремесленных начинаниях и наслаждайтесь сюрпризами, которые приносят редкие куры-мутанты. Постройте процветающее птицеводческое хозяйство и пожинайте плоды своего труда, погружаясь в очаровательный мир Sunflower Land.",
 
   "crafting.guide.one":
     "В Sunflower Land создание NFT - важнейший аспект повышения производительности фермерского хозяйства и ускорения прогресса. Эти особые предметы дают различные бонусы, такие как ускорение роста урожая, улучшение приготовления пищи и увеличение ресурсов, что может значительно ускорить ваш путь. Максимально используя монеты, вы сможете создавать инструменты, собирать ресурсы и расширять свои земли, чтобы еще больше укрепить свою фермерскую империю.",
   "crafting.guide.two":
     "Чтобы начать изготавливать предметы, мы посетим Игоря, искусного ремесленника в Санфлории. После того как вы сядете на лодку и прибудете в Санфлорию, отправляйтесь на вершину острова, чтобы поговорить с Игорем. В настоящее время он предлагает Базовое пугало, которое повышает скорость выращивания подсолнухов, картофеля и тыкв. Это отличная сделка, которая требует обмена ваших ресурсов на пугало. Получив его, вернитесь на главный остров и войдите в режим проектирования, нажав на значок белой руки в правом верхнем углу игры.",
   "crafting.guide.three":
-    "В режиме дизайна вы можете стратегически правильно расставить предметы и распределить ресурсы на своей ферме, чтобы оптимизировать ее планировку и повысить визуальную привлекательность. Этот шаг имеет решающее значение для максимальной эффективности созданного вами оборудования. Например, поставьте пугало над участками, которые вы хотите усилить. Кроме того, подумайте о приобретении украшений, которые придадут вашей земле шарм и опрятность.",
+    "В режиме дизайна вы можете стратегически правильно расставить предметы и распределить ресурсы на своей ферме, чтобы оптимизировать ее планировку и повысить привлекательность. Этот шаг имеет решающее значение для максимальной эффективности фермы. Например, поставьте пугало над участками, которые вы хотите усилить. Кроме того, подумайте о приобретении украшений, которые придадут вашей земле шарм и опрятность.",
   "crafting.guide.four":
     "Создавая оборудование и размещая его в стратегически важных местах, вы сможете усилить свои фермерские способности, превратить остров в дом, которым можно гордиться, и ускорить свой прогресс в Стране подсолнухов.",
 
   "deliveries.guide.one":
-    "Доставки в Sunflower Land - это увлекательная возможность помочь голодным гоблинам и собратьям-бампкинам, получая за это вознаграждение. Каждый день вы сможете увидеть все заказы, которые у вас есть, нажав на доску доставки в левой нижней части экрана. Заказы были сделаны некоторыми местными NPC, которых можно найти в окрестностях Тыквенной Плазы. Чтобы выполнить заказ, вам нужно отправиться на лодке на Тыквенную Плазу и отыскать NPC, ожидающего доставку. Как только вы их найдете, нажмите на них, чтобы доставить заказ и получить награду.",
+    "Доставки в Sunflower Land - это увлекательная возможность помочь голодным гоблинам и собратьям-бампкинам, получая за это вознаграждение. Каждый день вы сможете увидеть все заказы, которые у вас есть, нажав на доску доставки в левой нижней части экрана. Заказы были сделаны некоторыми местными NPC, которых можно найти в окрестностях Плазы. Чтобы выполнить заказ, вам нужно отправиться на лодке на Тыквенную Плазу и отыскать NPC, ожидающего доставку. Как только вы их найдете, нажмите на них, чтобы доставить заказ и получить награду.",
   "deliveries.guide.two":
     "Как новый игрок, вы начинаете с тремя слотами для заказов, но по мере развития вашей фермы вы откроете дополнительные слоты, что позволит продвинутым игрокам брать на себя больше заказов. Новые заказы поступают каждые 24 часа, предлагая различные задания - от выращивания продуктов до приготовления еды и сбора ресурсов. Выполняя заказы, вы получаете бонусы за прохождение этапов, включая блок-баксы, SFL, монеты, вкусные пирожные и другие награды. Система вознаграждений зависит от сложности задания, поэтому для получения максимального выигрыша отдавайте предпочтение тем заказам, которые предлагают большее вознаграждение. Следите за доской и выполняйте разнообразные заказы, повышая уровень и открывая новые здания, чтобы выполнять более сложные задания.",
   "deliveries.intro":
     "Путешествуй и доставляй товары, чтобы заработать награды.",
-  "deliveries.new": "Новая доставка",
-  "chores.hank": "Hank's Chores",
+  "deliveries.new": "Новые доставки",
+  "chores.hank": "Ежедневные задания",
   "chores.hank.intro":
     "Выполняйте задания на ферме, чтобы получить вознаграждение от бампкинов.",
-  "chores.kingdom": "Kingdom Chores",
+  "chores.kingdom": "Задания фракции",
   "chores.kingdom.intro":
     "Выполняй задания на ферме и зарабатывай марки в доме фракции",
   "scavenger.guide.one":
-    "Занимаясь скавенджингом в Sunflower Land, вы сможете обнаружить спрятанные сокровища и собрать ценные ресурсы. Первый аспект скавенджинга - это поиск сокровищ на Острове сокровищ, где вы можете стать пиратом-кладоискателем. Создав песчаную лопату и отправившись на Остров сокровищ, вы сможете копать в темных песчаных местах, чтобы обнаружить разнообразные сокровища, включая богатства, украшения и даже древние NFT с полезными свойствами.",
+    "Занимаясь копанием в Sunflower Land, вы сможете обнаружить спрятанные сокровища и собрать ценные ресурсы. Первый аспект - это поиск сокровищ на Острове сокровищ, где вы можете стать пиратом-кладоискателем. Создав песчаную лопату и отправившись на Остров сокровищ, вы сможете копать в темных песчаных местах, чтобы обнаружить разнообразные сокровища, включая богатства, украшения и даже древние NFT с полезными свойствами.",
   "scavenger.guide.two":
-    "Еще одна форма скавенджинга - сбор диких грибов, которые спонтанно появляются на вашей ферме и близлежащих островах. Эти грибы можно собирать бесплатно и использовать в рецептах, квестах и крафте. Следите за грибами, так как они появляются каждые 16 часов, а максимальное количество грибов на вашей ферме не должно превышать 5 штук. Если на вашей ферме нет места, грибы появятся на соседних островах, чтобы вы не упустили эти ценные ресурсы.",
+    "Еще одна возможность это сбор диких грибов, которые спонтанно появляются на вашей ферме и близлежащих островах. Эти грибы можно собирать бесплатно и использовать в рецептах, квестах и крафте. Следите за грибами, так как они появляются каждые 16 часов, а максимальное количество грибов на вашей ферме не должно превышать 5 штук. Если на вашей ферме нет места, грибы появятся на соседних островах, чтобы вы не упустили эти ценные ресурсы.",
 
   "fruit.guide.one":
     "В Sunflower Land фрукты играют роль ценного ресурса, который можно продать за монеты или использовать в различных рецептах и крафтах. В отличие от урожая, фруктовые лунки обладают уникальной способностью неоднократно восстанавливаться после сбора, обеспечивая игрокам надежный источник фруктов.",
@@ -3054,7 +3062,7 @@ const guideTerms: Record<GuideTerms, string> = {
   "seasons.guide.one":
     "Сезоны в Sunflower Land привносят в игру оживление и свежесть, предлагая игрокам новые задачи и возможности. С наступлением каждого сезона игроков ожидает множество новых предметов для крафта, украшений, выпущенных ограниченным тиражом, животных-мутантов и редких сокровищ. Эти сезонные изменения создают динамичный и развивающийся игровой процесс, побуждая игроков адаптировать свои стратегии и исследовать новые возможности на своих фермах. Кроме того, сезонные билеты добавляют в игру стратегический элемент: игроки должны решить, как грамотно распределить свои билеты, будь то сбор редких предметов, приобретение украшений с большим запасом или обмен билетов на SFL. Механика сезонных билетов делает игру увлекательной и гарантирует, что в Sunflower Land всегда есть, чего ждать.",
   "seasons.guide.two":
-    "Доступность сезонных предметов в кузнице гоблинов добавляет еще один уровень азарта. Игроки должны собрать необходимые ресурсы и сезонные билеты, чтобы изготовить эти предметы с ограниченным запасом, что придает ощущение соперничества и безотлагательности. Планирование наперед и выработка стратегии становятся решающими факторами, поскольку игроки стремятся получить желаемые предметы до того, как закончится их запас. Более того, возможность обменивать сезонные билеты на монеты обеспечивает гибкость и позволяет игрокам делать выбор в соответствии с их конкретными игровыми целями. Благодаря уникальным предложениям каждого сезона и предвкушению неожиданных событий Sunflower Land позволяет игрокам оставаться вовлеченными и развлекаться в течение всего года, создавая яркий и постоянно развивающийся фермерский опыт.",
+    "Использование сезонных предметов в кузнице гоблинов добавляет еще один уровень азарта. Игроки должны собрать необходимые ресурсы и сезонные билеты, чтобы изготовить эти предметы с ограниченным запасом, что придает ощущение соперничества и безотлагательности. Планирование наперед и выработка стратегии становятся решающими факторами, поскольку игроки стремятся получить желаемые предметы до того, как закончится их запас. Более того, возможность обменивать сезонные билеты на монеты обеспечивает гибкость и позволяет игрокам делать выбор в соответствии с их конкретными игровыми целями. Благодаря уникальным предложениям каждого сезона и предвкушению неожиданных событий Sunflower Land позволяет игрокам оставаться вовлеченными и развлекаться в течение всего года, создавая яркий и постоянно развивающийся фермерский опыт.",
   "pete.teaser.one": "Руби деревья",
   "pete.teaser.three": "Собери урожай подсолнухов",
   "pete.teaser.four": "Продай подсолнухи",
@@ -3091,7 +3099,7 @@ const hayseedHankV2: Record<HayseedHankV2, string> = {
     "Однако мои кости уже не те, что прежде. Если ты поможешь мне с повседневными делами, я вознагражу тебя {{seasonalTicket}}.",
   "hayseedHankv2.action": "Приступим",
   "hayseedHankv2.title": "Ежедневные дела Hank'а",
-  "hayseedHankv2.newChoresAvailable": "New chores: {{timeLeft}}",
+  "hayseedHankv2.newChoresAvailable": "Новые дела: {{timeLeft}}",
   "hayseedHankv2.skipChores": "Можно пропускать задания каждый новый день",
   "hayseedHankv2.greeting": "Ну здравствуй, малец! Я - Hayseed Hank...",
 };
@@ -3100,7 +3108,7 @@ const heliosSunflower: Record<HeliosSunflower, string> = {
   "heliosSunflower.title": "Подсолнух Клайти",
   "heliosSunflower.description":
     "Только истинный спаситель может вернуться и собрать урожай этого Подсолнуха.",
-  "confirmation.craft": "Ты уверен, что хочешь скрафтить {{item}}?",
+  "confirmation.craft": "Ты уверен, что хочешь создать {{item}}?",
 };
 
 const helper: Record<Helper, string> = {
@@ -3155,7 +3163,7 @@ const islandupgrade: Record<Islandupgrade, string> = {
   "islandupgrade.locked": "Заблокировано",
   "islandupgrade.exploring": "Исследование",
   "islandupgrade.welcomePetalParadise": "Добро пожаловать в Лепестковый рай!",
-  "islandupgrade.welcomeDesertIsland": "Ну теперь ты в пустыне!",
+  "islandupgrade.welcomeDesertIsland": "Ну допрыгался, теперь ты в пустыне!",
   "islandupgrade.itemsReturned":
     "Твои предметы были благополучно возвращены в твой инвентарь.",
   "islandupgrade.notReadyExpandMore":
@@ -3307,7 +3315,7 @@ const landscapeTerms: Record<LandscapeTerms, string> = {
   "landscape.timerPopover": "Новое расширение",
   "landscape.dragMe": "Перетащи меня",
   "landscape.expansion.date": "Новые расширения появятся в игре 7 февраля.",
-  "landscape.great.work": "Отличная работа, бампкин!",
+  "landscape.great.work": "Отличная работа, дружище!",
 };
 
 const levelUpMessages: Record<LevelUpMessages, string> = {
@@ -3564,14 +3572,13 @@ const npc_message: Record<NPC_MESSAGE, string> = {
   "npcMessages.raven.msg5":
     "Принеси мне урожай, который прячется в тенях. И я не разочаруюсь.",
   "npcMessages.raven.msg6":
-    "Ворон, хранительница тьмы, хочет, чтобы ты собрал богатый урожай..",
+    "Ворон, хранитель тьмы, хочет, чтобы ты собрал богатый урожай.",
   "npcMessages.raven.msg7":
     "Мрачные наслаждения для готического сердца. Покажи мне свой самый темный урожай.",
   // Bert
   "npcMessages.bert.msg1":
     "Чувак, эти грибы... они - ключ ко всему. Есть какие-нибудь волшебные?",
-  "npcMessages.bert.msg2":
-    "Грибное безумие - это я. Волшебные грибы? У кого-то?",
+  "npcMessages.bert.msg2": "Грибное безумие - это я. У тебя есть грибы?",
   "npcMessages.bert.msg3": "Все дело в грибах, детка. Отдай мне зачарованные.",
   "npcMessages.bert.msg4":
     "Я вижу разные вещи, понимаешь? Волшебные грибы - вот что мне нужно.",
@@ -3600,11 +3607,11 @@ const npc_message: Record<NPC_MESSAGE, string> = {
   "npcMessages.tywin.msg1":
     "Золото, золото и еще раз золото! Покажите мне богатства, крестьяне!",
   "npcMessages.tywin.msg2":
-    "Я слежу за бампкинами, чтобы они платили свои пошлины. Золото, живо!",
+    "Я слежу за фермерами, чтобы они платили свои пошлины. Золото, живо!",
   "npcMessages.tywin.msg3":
     "Крестьяне, несите мне свои богатства! Я - Тайвин, требовательный принц!",
   "npcMessages.tywin.msg4":
-    "Тыквенная плаза ниже моего достоинства, но золота всегда недостаточно. Еще!",
+    "Тыквенная плаза ниже моего достоинства, но золота всегда недостаточно!",
   "npcMessages.tywin.msg5":
     "Это жизнь принца, и я требую твоего богатства. Плати налоги!",
   "npcMessages.tywin.msg6":
@@ -3628,9 +3635,9 @@ const npc_message: Record<NPC_MESSAGE, string> = {
     "В моей семье знают толк во фруктах. Расскажи мне свои самые фруктовые истории!",
   // Miranda
   "npcMessages.miranda.msg1":
-    "Потанцуй со мной, друг! Добавь что-нибудь к моей фруктовой шляпке, хорошо?",
+    "Потанцуй со мной, друг! Добавь что-нибудь в мою фруктовую шляпку, хорошо?",
   "npcMessages.miranda.msg2":
-    "Самба и фрукты идут рука об руку. Что ты можешь мне предложить?",
+    "Самба и фрукты идут рука об руку. Что ты мне предложишь?",
   "npcMessages.miranda.msg3":
     "В ритме самбы фрукты просто необходимы. Не хочешь поделиться?",
   "npcMessages.miranda.msg4":
@@ -3643,9 +3650,9 @@ const npc_message: Record<NPC_MESSAGE, string> = {
     "Самба, фрукты и дружба. Давай устроим вечеринку!",
   // Finn
   "npcMessages.finn.msg1":
-    "Я поймал самый большой улов в своей жизни! Рыбки? Желающие?",
+    "Я поймал самый большой улов в своей жизни! Есть желающие?",
   "npcMessages.finn.msg2":
-    "Жизнь - это сказка рыбака, и мне есть что рассказать. Поймал несколько рыбин!",
+    "Жизнь - это сказка рыбака, и мне есть что рассказать. Поймал столько рыбин!",
   "npcMessages.finn.msg3":
     "Финн - рыбак, легенда и заклинатель рыб. Поймал немного рыбы?",
   "npcMessages.finn.msg4":
@@ -3693,31 +3700,33 @@ const npc_message: Record<NPC_MESSAGE, string> = {
   "npcMessages.corale.msg7":
     "Присоединяйся ко мне в морской танец жизни. Рыбачь, чтобы освободить моих друзей!",
 
+  // gambit
   "npcMessages.gambit.msg1":
-    "Чувствуете, что сегодня вам повезет? У меня есть пари, которое может вас заинтересовать!",
+    "Чувствуете, что сегодня повезет? У меня есть пари, которое может вас заинтересовать!",
   "npcMessages.gambit.msg2":
-    "Подходите! Готовы испытать свою удачу и сыграть в игру?",
+    "Подходи! Готовы испытать свою удачу и сыграть в игру?",
   "npcMessages.gambit.msg3":
-    "Ставки высоки, а игра продолжается. Вы участвуете?",
+    "Ставки высоки, а игра продолжается. Ты участвуешь?",
   "npcMessages.gambit.msg4":
-    "У меня есть для вас рискованное предложение. Хотите сделать ставку?",
+    "У меня есть для тебя рискованное предложение. Хочешь сделать ставку?",
   "npcMessages.gambit.msg5":
-    "Удача благоволит смелым! Посмотрим, удастся ли вам перехитрить меня.",
+    "Удача благоволит смелым! Посмотрим, удастся ли тебе перехитрить меня.",
   "npcMessages.gambit.msg6":
-    "Хотите сыграть в азартную игру? Шансы могут быть в вашу пользу.",
-  "npcMessages.gambit.msg7": "Готовы к вызову? У меня есть для тебя игра.",
+    "Хочешь сыграть в азартную игру? Шансы могут быть в твою пользу.",
+  "npcMessages.gambit.msg7": "Готов к вызову? У меня есть для тебя игра.",
   "npcMessages.gambit.msg8":
-    "Делайте ставки и посмотрим, кто окажется победителем!",
+    "Делай ставки и посмотрим, кто окажется победителем!",
   "npcMessages.gambit.msg9":
     "Смельчак? Специально для тебя у меня есть игра с высокими ставками.",
+
   "npcMessages.queenVictoria.msg1":
-    "Крестьянин, ты принес мне налоги? Сундуки трона должны быть заполнены.",
+    "Крестьянин, ты принес мне налоги? Сундуки должны быть заполнены.",
   "npcMessages.queenVictoria.msg2":
-    "Я ожидаю не меньшего, чем совершенства. Вы идеально выполнили мои заказы??",
+    "Я ожидаю не меньшего, чем совершенства. Ты идеально выполнили мои заказы??",
   "npcMessages.queenVictoria.msg3":
-    "У вас есть то, что мне нужно, или вы тратите мое время??",
+    "У тебя есть то, что мне нужно, или ты тратишь мое время??",
   "npcMessages.queenVictoria.msg4":
-    "Трон простаивает, как и моя казна. Где моя дань??",
+    "Трон простаивает, как и моя казна. Где моя дань?",
   "npcMessages.queenVictoria.msg5":
     "Я надеюсь, ты принес то, что я просила. Не разочаруй меня.",
   "npcMessages.queenVictoria.msg6":
@@ -3725,31 +3734,33 @@ const npc_message: Record<NPC_MESSAGE, string> = {
   "npcMessages.queenVictoria.msg7":
     "Богатство королевства должно расти. Выполни свой долг.",
   "npcMessages.queenVictoria.msg8":
-    "Крестьянин, твоя королева ждет. Выполнили ли вы свою задачу?",
+    "Крестьянин, твоя королева ждет. Выполнил ли ты свою задачу?",
   "npcMessages.queenVictoria.msg9": "Я требую совершенства. Плати налоги.",
+
   "npcMessages.jester.msg1":
-    "Добро пожаловать в суд! Готов к анекдотам о королевской семье?",
+    "Добро пожаловать на двор! Готов к анекдотам о королевской семье?",
   "npcMessages.jester.msg2": "Ах, новое лицо! Есть свежие шутейки?",
   "npcMessages.jester.msg3":
-    "В суде всегда людно! Но может есть хорошие шутки?",
+    "Во дворе всегда людно! Но может есть хорошие шутки?",
   "npcMessages.jester.msg4":
     "Привет, путешественник! Давай посмеемся над членами королевской семьи.",
   "npcMessages.jester.msg5":
     "Эй! Готовы услышать последние шутки о нашей дорогой королеве?",
   "npcMessages.jester.msg6":
-    "Выходи на корт и наслаждайтесь юмором. Может и сам готов шуткануть?",
+    "Выходи во двор и наслаждайтесь юмором. Может и сам готов шуткануть?",
   "npcMessages.jester.msg7":
-    "Привет, друг! При дворе всегда оживленно, да и вокруг одни шуты..",
+    "Привет, друг! При дворе всегда оживленно, да и вокруг одни шуты.",
   "npcMessages.jester.msg8":
     "Ну-ну, посмотрите, кто здесь! Есть у тебя какие-нибудь смешные сплетни?",
   "npcMessages.jester.msg9":
     "Королева любит посмеяться. Готов присоединиться к ее веселью?",
+
   "npcMessages.oldSalty.msg1":
-    "Arrr, me hearty! The sea be callin' for treasures. Can ye help an old pirate find his fortune?",
+    "Аррр, волчара! Море полно сокровищами. Можешь ли ты помочь старому пирату найти его удачу?",
   "npcMessages.oldSalty.msg2":
-    "Ahoy, matey! The thrill of the hunt is upon us. Bring me the treasures of the deep!",
+    "Ахой, матрос! Нас ждет славная охота. Принеси мне сокровища глубин!",
   "npcMessages.oldSalty.msg3":
-    "Shiver me timbers! There's treasure to be found. Will ye join me on this adventure?",
+    "Эти волны полны сокровищ! Готов ли ты к этому приключению?",
   "npcMessages.oldSalty.msg4":
     "Yo ho ho! The sea's secrets are out there, waitin' to be uncovered. Help me find 'em, will ye?",
   "npcMessages.oldSalty.msg5":
@@ -3778,7 +3789,7 @@ const nftminting: Record<NFTMinting, string> = {
   "nftminting.mintAccountNFT": "Minting Account NFT",
   "nftminting.mintingYourNFT":
     "Minting your NFT and storing progress on the Blockchain",
-  "nftminting.almostThere": "Почти почти",
+  "nftminting.almostThere": "Почти",
 };
 
 const npc: Record<Npc, string> = {
@@ -3976,11 +3987,11 @@ const npcDialogues: Record<NpcDialogues, string> = {
   "npcDialogues.raven.positiveDelivery1":
     "Невероятно! Ты нашел нужные мне ингредиенты. Магия Санфлории у тебя в крови!",
   "npcDialogues.raven.positiveDelivery2":
-    "Чудесно! Вы нашли то, что я просила. Вместе мы сможем погрузимся в самые глубокие тайны магии.!",
+    "Чудесно! Ты нашел то, что я просила. Вместе мы сможем погрузимся в самые глубокие тайны магии.!",
   "npcDialogues.raven.positiveDelivery3":
-    "Невероятно! Вы собрали нужные мне ингредиенты. Теперь мистические врата откроются!",
+    "Невероятно! Ты собрал нужные мне ингредиенты. Теперь мистические врата откроются!",
   "npcDialogues.raven.positiveDelivery4":
-    "Ах, великолепно! У вас есть неуловимые ингредиенты, которые я искала. Путешествие в мир духов начинается!",
+    "Ах, великолепно! У тебя есть неуловимые ингредиенты, которые я искала. Путешествие в мир духов начинается!",
   // Raven Negative Delivery
   "npcDialogues.raven.negativeDelivery1":
     "Увы, необходимые ингредиенты ускользают от вас. Но продолжай без страха, все тайны раскроются сами собой!",
@@ -4008,9 +4019,9 @@ const npcDialogues: Record<NpcDialogues, string> = {
   "npcDialogues.tywin.positiveDelivery2":
     "Удивительно, но ты действительно сделал то, что я хотел. Возможно, ты не так бесполезен, как я предполагал.",
   "npcDialogues.tywin.positiveDelivery3":
-    "Ах, чудесная работа! Вы принесли необходимые мне материалы. Вместе мы добьемся успеха!",
+    "Ах, чудесная работа! Ты принес необходимые мне материалы. Вместе мы добьемся успеха!",
   "npcDialogues.tywin.positiveDelivery4":
-    "Хорошо. Вы доставили мне необходимые материалы. Игорь не будет разочарован; инструменты получатся замечательными.",
+    "Хорошо. Ты доставил мне необходимые материалы. Igor не будет разочарован; инструменты получатся замечательными.",
   // Tywin Negative Delivery
   "npcDialogues.tywin.negativeDelivery1":
     "Ты жалок. У тебя нет того, что я просил. Не трать мое время на свою некомпетентность. Уйди!",
@@ -4110,15 +4121,15 @@ const npcDialogues: Record<NpcDialogues, string> = {
     "Приветствую тебя, юный путешественник! Ветры любопытства привели тебя сюда. У тебя есть предметы, которые мне нужны, чтобы пополнить мою коллекцию?",
   // Cornwell Positive Delivery
   "npcDialogues.cornwell.positiveDelivery1":
-    "Чудесно! Вы принесли именно те реликвии, которые я желал. Ваши усилия по сохранению истории останутся в веках.",
+    "Чудесно! Ты принес именно те реликвии, которые я хотел. Твои усилия по сохранению истории останутся в веках.",
   "npcDialogues.cornwell.positiveDelivery2":
-    "Ах, великолепно! Ваши находки это именно те реликвии, которые я искал. Эти сокровища принесут великую мудрость в мою коллекцию.",
+    "Ах, великолепно! Твои находки - это именно те реликвии, которые я искал. Эти сокровища принесут великую мудрость в мою коллекцию.",
   "npcDialogues.cornwell.positiveDelivery3":
     "Впечатляет! Найденные вами предметы — это именно то, что я искал. История этой земли будет сиять через них.",
   "npcDialogues.cornwell.positiveDelivery4":
-    "Ах, юный искатель приключений, ты превзошел мои ожидания! Принесенные тобой предметы будут бесценны для моих исследований..",
+    "Ах, юный искатель приключений, ты превзошел мои ожидания! Принесенные тобой предметы будут бесценны для моих исследований.",
   "npcDialogues.cornwell.positiveDelivery5":
-    "Ах, мой зоркий друг! Доставленные тобой вещи займут почетное место в коллекции моей мельницы..",
+    "Ах, мой зоркий друг! Доставленные тобой вещи займут почетное место в коллекции моей мельницы.",
   // Cornwell Negative Delivery
   "npcDialogues.cornwell.negativeDelivery1":
     "О, похоже, вы не нашли то, что я ищу. Не бойтесь; исследование продолжается. Смело продолжайте свое путешествие.",
@@ -4127,14 +4138,14 @@ const npcDialogues: Record<NpcDialogues, string> = {
   "npcDialogues.cornwell.negativeDelivery3":
     "Оуу, похоже, желаемые мной предметы ускользают от тебя. Неважно; твое любопытство в конце концов приведет тебя к нужным открытиям.",
   "npcDialogues.cornwell.negativeDelivery4":
-    "Уфф, я вижу, что вы не нашли нужные мне предметы. Не волнуйтесь: история этой страны хранит множество секретов, которые ждут своего открытия..",
+    "Уфф, я вижу, что вы не нашли нужные мне предметы. Не волнуйтесь: история этой страны хранит множество секретов, которые ждут своего открытия.",
   "npcDialogues.cornwell.negativeDelivery5":
-    "О, мой дорогой путешественник, похоже, ты не привез с собой то, что я искал. Но твоя преданность истории достойна похвалы..",
+    "О, мой дорогой путешественник, похоже, ты не привез с собой то, что я искал. Но твоя преданность истории достойна похвалы.",
   // Cornwell NoOrder
   "npcDialogues.cornwell.noOrder1":
     "Ах, похоже, сейчас нет предметов, которые вы могли бы доставить. Но не отчаивайтесь! Ваше путешествие в нашей стране полно неисчислимых приключений, которые ждут, чтобы их нашли.",
   "npcDialogues.cornwell.noOrder2":
-    "О, похоже, сейчас мне не нужны ваши услуги. Но не волнуйтесь; страницы истории перелистываются бесконечно, и новые задания обязательно появятся..",
+    "О, похоже, сейчас мне не нужны ваши услуги. Но не волнуйтесь; страницы истории перелистываются бесконечно, и новые задания обязательно появятся.",
   "npcDialogues.cornwell.noOrder3":
     "Ах, мои извинения, но мне нечем сейчас вас занять. Но не бойтесь; ваш путь искателя знаний обязательно приведет вас к новым приключениям.",
   "npcDialogues.cornwell.noOrder4":
@@ -4163,15 +4174,15 @@ const npcDialogues: Record<NpcDialogues, string> = {
     "О, тыквенные семечки! Ты принес мне именно то, что мне было нужно. Плаза благодарна вам за помощь!",
   // Pumpkin Pete Negative Delivery
   "npcDialogues.pumpkinPete.negativeDelivery1":
-    "О, нет. У тебя нет того, что я ищу. Но не волнуйся и возвращайся, когда найдешь что нибудь.!",
+    "О, нет. У тебя нет того, что я ищу. Но не волнуйся и возвращайся, когда найдешь что нибудь!",
   "npcDialogues.pumpkinPete.negativeDelivery2":
-    "Ох, черт! У тебя нет того, что я ищу. Продолжайте искать! Может быть, в следующий раз.",
+    "О, черт! У тебя нет того, что я ищу. Продолжайте искать! Может быть, в следующий раз.",
   "npcDialogues.pumpkinPete.negativeDelivery3":
     "О, семена печали! У тебя нет того, что я ищу. Но не сдавайся; новые возможности расцветают каждый день!",
   "npcDialogues.pumpkinPete.negativeDelivery4":
-    "Уф! У вас нет того, что я ищу. Продолжайте исследовать, и я уверен, вы найдете что нужно.",
+    "Уф! У тебя нет того, что я ищу. Продолжай исследовать, и я уверен, ты найдешь то что нужно.",
   "npcDialogues.pumpkinPete.negativeDelivery5":
-    "Упсиии! У тебя нет того, что я ищу. Но не волнуйся, мой друг. Продолжай исследовать, и мы отпразднуем, когда ты это найдешь.",
+    "Упси! У тебя нет того, что я ищу. Но не волнуйся, мой друг. Продолжай исследовать, и мы отпразднуем, когда ты это найдешь.",
   // Pumpkin Pete NoOrder
   "npcDialogues.pumpkinPete.noOrder1":
     "Ах, мой друг, у меня нет просьб для тебя на данный момент. Но не бойся! Я всегда здесь, чтобы предложить совет и дружелюбную тыквенную улыбку.",
@@ -4217,147 +4228,148 @@ const npcDialogues: Record<NpcDialogues, string> = {
 
   // NPC gift dialogues
   "npcDialogues.pumpkinPete.reward":
-    "Спасибо вам большое за ваши поставки. Вот вам в знак признательности.",
+    "Спасибо тебе большое за твои доставки. Держи, в знак признательности.",
   "npcDialogues.pumpkinPete.flowerIntro":
-    "Вы когда-нибудь видели как элегантен Желтый Космос? Я жажду его...",
+    "Ты когда-нибудь видел как элегантен Yellow Cosmos? Я мечтаю о нем...",
   "npcDialogues.pumpkinPete.averageFlower":
     "Не совсем то, что я имел в виду, но это довольно мило. Спасибо.",
   "npcDialogues.pumpkinPete.badFlower":
-    "Ну это не то, на что я надеялся. Возможно, ты найдешь что то более подходящее.?",
+    "Это не то, на что я надеялся. Возможно, ты сможешь найти более подходящий вариант?",
   "npcDialogues.pumpkinPete.goodFlower":
-    "Этот желтый космос просто невероятен! Спасибо, что принесли его мне.",
+    "Этот Yellow Cosmos просто невероятен! Спасибо, что принес его мне.",
 
   "npcDialogues.betty.reward":
-    "Я ценю ваше внимание. Вот вам кое-что, чтобы выразить мою благодарность.",
+    "Я ценю твое внимание. Вот тебе кое-что в знак моей благодарности.",
   "npcDialogues.betty.flowerIntro":
-    "Видели ли когда нибудь красоту красных, желтых, фиолетовых, белых или синих Пенси? Вот бы мне хоть один...",
+    "Можешь ли ты представить себе красоту красных, желтых, фиолетовых, белых или голубых Pansy? Вот бы мне хоть один...",
   "npcDialogues.betty.averageFlower":
-    "Не совсем то, что я ждал, но довольно мило. Спасибо.",
+    "Не совсем то, что я имела в виду, но довольно привлекательно. Спасибо.",
   "npcDialogues.betty.badFlower":
-    "Это не то, что я хотела. Не могли бы вы попробовать найти более подходящий цветок?",
+    "Это не то, что я имела в виду. Не мог бы ты попробовать найти более подходящий цветок?",
   "npcDialogues.betty.goodFlower":
-    "Этот Пэнси просто красавец! Спасибо, что привезли его мне.",
+    "Этот Pansy просто превосходен! Спасибо, что доставил его мне.",
 
   "npcDialogues.blacksmith.reward":
-    "Ваши доставки довольно ценные. Вот вам награда за ваши усилия.",
+    "Я ценю твои доставки. Вот тебе награда за твои усилия.",
   "npcDialogues.blacksmith.flowerIntro":
-    "Мне нужна самая красная гвоздика(Кардамон). Вы ее не встречали?",
+    "Мне нужен яркий Red Carnation. Сталкивался с ним?",
   "npcDialogues.blacksmith.averageFlower":
-    "Не совсем то, на что я надеялся, но довольно мило. Спасибо.",
+    "Не совсем то, что я имел в виду, но довольно мило. Спасибо.",
   "npcDialogues.blacksmith.badFlower":
-    "Этот цветок мне не подходит. Не могли бы вы поискать более изящный?",
+    "Этот цветок не совсем подходит. Не мог бы ты поискать более подходящий вариант?",
   "npcDialogues.blacksmith.goodFlower":
-    "Ах, эта та самая красная гвоздика! Спасибо, что принесли ее мне.",
+    "Ах, этот Red Carnation восхитителен! Спасибо, что принес его мне.",
 
   "npcDialogues.bert.reward":
-    "Спасибо за вашу постоянную помощь. Вот небольшой знак признательности..",
+    "Спасибо за твою постоянную помощь. Вот небольшой подарок в знак признательности.",
   "npcDialogues.bert.flowerIntro":
-    "Цветы красного, желтого, фиолетового, белого или синего лотоса действительно очаровательны. У тебя есть такой?",
+    "Цветы красного, желтого, фиолетового, белого или синего Lotus действительно очаровательны. У тебя есть какой-нибудь?",
   "npcDialogues.bert.averageFlower":
-    "Это довольно восхитительно хотя и не то, что я просил. Спасибо..",
+    "Не совсем то, что я имел в виду, но довольно мило. Спасибо.",
   "npcDialogues.bert.badFlower":
-    "Нуу это не тот цветок, который я хотел. Возможно, стоит поискать еще раз?",
+    "Нуу, это не тот цветок, который мне нужен. Может, поищешь еще раз?",
   "npcDialogues.bert.goodFlower":
-    "Этот лотос просто восхитительный! Спасибо, что принесли его мне..",
+    "Этот Lotus просто восхитительный! Спасибо, что принес его мне.",
 
   "npcDialogues.finn.reward":
-    "Ваш вклад бесценен. Вот немного, чтобы выразить мою благодарность.",
+    "Твой вклад бесценен. Вот тебе немного, чтобы выразить мою благодарность.",
   "npcDialogues.finn.flowerIntro":
-    "Я тоскую по красивым красным, желтым, фиолетовым, белым или хотя бы синим нарциссам(дафодилу). Можете ли вы найти их??",
+    "Я мечтаю о белом или синем Cosmos. Можешь ли ты найти их?",
   "npcDialogues.finn.averageFlower":
-    "Не совсем то, на что я надеялся, но это довольно мило. Спасибо.",
+    "Не совсем то, что я имел в виду, но довольно приятно. Спасибо.",
   "npcDialogues.finn.badFlower":
-    "Этот цветок ниже моих ожиданий. Возможно, попробуешь еще разок?",
+    "Этот цветок не соответствует моим ожиданиям. Возможно, попробуешь еще разок?",
   "npcDialogues.finn.goodFlower":
-    "Этот нарцисс просто отвал бошки! Спасибо, что принесли его мне.",
+    "Этот Cosmos просто сногсшибательный! Спасибо, что принес его мне.",
 
   "npcDialogues.finley.reward":
-    "Спасибо за ваш вклад. Вот небольшой знак признательности за ваши поставки..",
+    "Спасибо за свой вклад. Вот небольшой знак признательности за твои доставки.",
   "npcDialogues.finley.flowerIntro":
-    "Прекрасный нарцисс(Дафандил), скрасил бы мой день. Может вы видели один?",
+    "Прекрасный Daffodil, тот, о котором я думаю, скрасил бы мой день. Может видел хоть один?",
   "npcDialogues.finley.averageFlower":
-    "Это не совсем то, что я имел в виду, но это довольно забавно. Спасибо.",
+    "Не совсем то, что я имела в виду, но довольно очаровательно. Спасибо.",
   "npcDialogues.finley.badFlower":
-    "Этот совсем не тот цветок. Возможно, другой был бы более по делу.?",
+    "Это не совсем тот цветок. Возможно, другой был бы более подходящим?",
   "npcDialogues.finley.goodFlower":
-    "Эта желтая гвоздика прекрасна(Кардамон)! Спасибо, что принесли ее мне.",
+    "Этот Daffodil прекрасен! Спасибо, что принес его мне.",
 
   "npcDialogues.corale.reward":
-    "Ваши доставки очень хорошенькие. Вот кое-что, чтобы выразить мою благодарность.",
+    "Твои доставки очень хорошие. Вот тебе кое-что, чтобы выразить мою благодарность.",
   "npcDialogues.corale.flowerIntro":
-    "Вы когда-нибудь видели сияющий Призм Петал? Он просто очаровывает...",
+    "Ты когда-нибудь видел сияющий Prism Petal? Он просто очаровывает...",
   "npcDialogues.corale.averageFlower":
-    "Не совсем то, на что я хотел, но это довольно мило. Спасибо.",
+    "Не совсем то, на что я надеялась, но довольно красиво. Спасибо.",
   "npcDialogues.corale.badFlower":
-    "Нууу это совсем не то, что я имел в виду. Не могли бы вы постараться получше?",
+    "Это не совсем то, что я имела в виду. Не мог бы ты постараться получше?",
   "npcDialogues.corale.goodFlower":
-    "Этот Призм Петал просто краш! Спасибо, за доставку.",
+    "Этот Prism Petal просто роскошен! Спасибо, что принес его мне.",
 
   "npcDialogues.raven.reward":
-    "Спасибо за ваши доставки. Вот небольшой подарочек за ваши усилия..",
+    "Спасибо тебе за доставки. Вот небольшой подарочек за твои усилия.",
   "npcDialogues.raven.flowerIntro":
-    "Глубокий тёмно-фиолетовый цвет — цвет моей души. Вы когда-нибудь видели что-то такое??",
+    "Глубокий тёмно-фиолетовый — цвет моей души. Ты когда-нибудь видел что-то такое?",
   "npcDialogues.raven.averageFlower":
-    "Не совсем то, что я просил, но довольно няшно. Спасибо.",
+    "Не совсем то, чего я ожидала, но довольно приятно. Спасибо.",
   "npcDialogues.raven.badFlower":
-    "Неее, это совсем не то. Возможно, тебе стоит поискать еще?",
+    "Этот цветок не совсем подходящий. Возможно, тебе стоит поискать еще?",
   "npcDialogues.raven.goodFlower":
-    "Эта фиолетовая гвоздика(Карнатион) идеальна! Спасибо, что принесли ее мне.",
+    "Этот фиолетовый цветок идеален! Спасибо, что принес его мне.",
 
   "npcDialogues.salty.reward":
-    "Ah, thanks for your deliveries, matey. Here's a little something for yer troubles.",
+    "О, спасибо за доставку, дружище. Вот кое-что за твои хлопоты.",
   "npcDialogues.salty.flowerIntro":
-    "Aye, the deep blue of the ocean is what I seek. Have ye come across any flowers as blue as the sea?",
+    "Да, глубокая синева океана - это то, что я ищу. Встречал ли ты цветы, синие, как море?",
   "npcDialogues.salty.averageFlower":
-    "Hmm, not quite what I had in mind, but it'll do. Thanks, matey.",
+    "Хмм, не совсем то, что я имел в виду, но пойдет. Спасибо, дружище.",
   "npcDialogues.salty.badFlower":
-    "This flower won't do at all. Maybe another look 'round will find what I'm after?",
+    "Этот цветок никуда не годится. Может, еще раз осмотришься и найдешь то, что мне нужно?",
   "npcDialogues.salty.goodFlower":
-    "Aye, this blue flower is just right! Much obliged for bringin' it to me.",
+    "Да, этот голубой цветок подходит! Премного благодарен за то, что ты принес его мне.",
 
   "npcDialogues.miranda.reward":
-    "Спасибо за ваши старания. Вот небольшой знак признательности за ваши доставки..",
+    "Спасибо за твои старания. Вот тебе небольшой знак признательности за доставки.",
   "npcDialogues.miranda.flowerIntro":
-    "Яркий желтый цветок наверняка поднимет мне настроение. Вы видели что нибудь похожее??",
+    "Яркий желтый цветок наверняка поднимет мне настроение. Ты видели что нибудь похожее?",
   "npcDialogues.miranda.averageFlower":
-    "Какой то он не сильно желтый, но лан. Спасибо..",
+    "Не совсем то, на что я надеялась, но довольно приятно. Спасибо.",
   "npcDialogues.miranda.badFlower":
-    "Этот цветок совсем не желтый. Возможно, вы дальтоник?",
+    "Этот цветок не совсем желтый. Может, другой вариант был бы более подходящим?",
   "npcDialogues.miranda.goodFlower":
-    "Этот желтый цветок - пушка! Спасибо, что принесли его мне.",
+    "Этот желтый цветок прекрасен! Спасибо, что принес его мне.",
 
   "npcDialogues.cornwell.reward":
-    "Спасибо за ваши доставки. Вот небольшой подарок за ваши усилия..",
+    "Спасибо тебе за доставки. Вот небольшой подарок за твои усилия.",
   "npcDialogues.cornwell.flowerIntro":
-    "Красный, желтый, фиолетовый, белый или синий Баллун действительно восхитителен....",
+    "Красный, желтый, фиолетовый, белый или синий Balloon Flower поистине восхитителен...",
   "npcDialogues.cornwell.averageFlower":
-    "Не совсем то, что я просил, но довольно мило. Спасибо.",
+    "Не совсем то, что я ожидал, но довольно очаровательно. Спасибо.",
   "npcDialogues.cornwell.badFlower":
-    "Это совсем не то. Возможно, стоит поискать еще раз?",
+    "Этот цветок не совсем подходит. Возможно, попробуешь еще?",
   "npcDialogues.cornwell.goodFlower":
-    "Этот Баллун просто прелесть! Спасибо, что привезли его.",
+    "Этот Balloon Flower просто чудесен! Спасибо, что принес его.",
 
   "npcDialogues.tywin.reward":
-    "Спасибо за ваши доставки. Вот небольшой знак признательности.",
+    "Спасибо тебе за доставки. Вот небольшой знак признательности.",
   "npcDialogues.tywin.flowerIntro":
-    "Вы слышали об изысканности Примула Инигма или завораживающем Челистиал Фростблуме? Мне нужен один.",
+    "Ты слышал об изысканности Primula Enigma или завораживающем Celestial Frostbloom? Мне нужен один из них.",
   "npcDialogues.tywin.averageFlower":
     "Не совсем то, на что я надеялся, но терпимо. Спасибо.",
   "npcDialogues.tywin.badFlower":
-    "Ну этот совсем не то. Возможно, другой вариант был бы более подходящим?",
+    "Этот цветок не совсем то, что я хотел. Может, другой был бы более подходящим?",
   "npcDialogues.tywin.goodFlower":
-    "Этот просто захватывает дух! Спасибо, что привезли его.",
+    "Этот цветок просто захватывает дух! Спасибо, что принес его.",
 
   "npcDialogues.default.flowerIntro":
-    "У тебя есть цветок для меня? Убедись, что он мне по душе.",
+    "У тебя есть для меня цвето? Убедись, что он мне понравится.",
   "npcDialogues.default.averageFlower":
-    "Вау, спасибо! Это действительно цветок!",
+    "Вау, спасибо! Мне нравится этот цветок!",
   "npcDialogues.default.badFlower":
-    "Хмммм, этот мне не сильно нравится. Но, пускай все равно считается.",
-  "npcDialogues.default.goodFlower": "Это мой любимый цветок! Сделаю букет!",
+    "Хмммм, это не мой любимый цветок. Но, важен не подарок, а внимание",
+  "npcDialogues.default.goodFlower":
+    "Это мой любимый цветок! Огромное спасибо!",
   "npcDialogues.default.reward":
-    "Ого, спасибо, дружок. Вот небольшой подарок за твою помощь!",
-  "npcDialogues.default.locked": "Давай уже завтра.",
+    "Ого, спасибо, бампкин. Вот небольшой подарок за твою помощь!",
+  "npcDialogues.default.locked": "Пожалуйста, возвращайся завтра",
 
   // Queen Victoria Intro
   "npcDialogues.queenVictoria.intro1": "О, это ты. Плати налоги, крестьянин",
@@ -4374,13 +4386,13 @@ const npcDialogues: Record<NpcDialogues, string> = {
   "npcDialogues.queenVictoria.positiveDelivery1":
     "Наконец-то, хоть что-то сделано правильно. Налоги уплачены.",
   "npcDialogues.queenVictoria.positiveDelivery2":
-    "Ну что ж, этого будет достаточно. Пока. Теперь можешь идти..",
+    "Ну что ж, этого будет достаточно. Пока. Теперь можешь идти.",
   "npcDialogues.queenVictoria.positiveDelivery3":
     "Да, это похоже на налоги. Возможно, ты не совсем бесполезен.",
   "npcDialogues.queenVictoria.positiveDelivery4":
-    "Впечатляет, для крестьянина. Налоги в порядке..",
+    "Впечатляет, для крестьянина. Налоги в порядке.",
   "npcDialogues.queenVictoria.positiveDelivery5":
-    "Хорошо. Тебе удалось принести мне налоги. Трон не будет вечно пустовать..",
+    "Хорошо. Тебе удалось принести мне налоги. Трон не будет вечно пустовать.",
 
   // Queen Victoria Negative Delivery
   "npcDialogues.queenVictoria.negativeDelivery1":
@@ -4414,7 +4426,7 @@ const npcDialogues: Record<NpcDialogues, string> = {
 
   // Gambit Intro
   "npcDialogues.gambit.intro1":
-    "Хе-хе, что тут у нас? Готов сыграть в игру, мой друг??",
+    "Хе-хе, что тут у нас? Готов сыграть в игру, мой друг?",
   "npcDialogues.gambit.intro2":
     "Так так так, не это ли мой любитель азарта? Готов сделать очередную ставку?",
   "npcDialogues.gambit.intro3":
@@ -4440,13 +4452,13 @@ const npcDialogues: Record<NpcDialogues, string> = {
   "npcDialogues.gambit.negativeDelivery1":
     "Ох, не повезло! У тебя нет того, что мне нужно. Повезет в следующий раз!",
   "npcDialogues.gambit.negativeDelivery2":
-    "Не совсем то, что я ожидал. Давай попробуем еще разок, и, возможно, шансы будут на твоей стороне..",
+    "Не совсем то, что я ожидал. Давай попробуем еще разок, и, возможно, шансы будут на твоей стороне.",
   "npcDialogues.gambit.negativeDelivery3":
     "Ах, не повезло! У тебя ничего нет. Но не сдавайся, всегда есть другой шанс!",
   "npcDialogues.gambit.negativeDelivery4":
     "Близко, но не то! У вас нет того, что мне нужно. Попробуй еще раз, игра еще не окончена.",
   "npcDialogues.gambit.negativeDelivery5":
-    "Мда, похоже, в этот раз вам не повезло. Но не волнуйтесь, продолжайте играть, и в конце концов выиграете..",
+    "Мда, похоже, в этот раз вам не повезло. Но не волнуйтесь, продолжайте играть, и в конце концов выиграете.",
 
   // Gambit NoOrder
   "npcDialogues.gambit.noOrder1":
@@ -4463,63 +4475,63 @@ const npcDialogues: Record<NpcDialogues, string> = {
   "npcDialogues.jester.intro4":
     "Привет, искатель приключений! Готов к последним сплетням о нашей дорогой королеве?",
   "npcDialogues.jester.intro5":
-    "Ахой! Заходи и давай поделимся шуткой, другой, про знать.",
+    "Ахой! Заходи, и давай поделимся шуткой или двумя о королевской семье.",
 
   // Jester Positive Delivery
   "npcDialogues.jester.positiveDelivery1":
     "Хах! Ты принес именно то, что мне нужно. А ты смешнее, чем я думал!",
   "npcDialogues.jester.positiveDelivery2":
-    "Идеально! Ты нашел то, что я просил. Может, тебе попробовать стать шутом?!",
+    "Идеально! Ты нашел то, что я просил. Не пробовал стать шутом?",
   "npcDialogues.jester.positiveDelivery3":
-    "Чудесно! Вы сделали все точно как надо. Все будут в восторге!",
+    "Чудесно! Ты сделал все точно как надо. Все будут в восторге!",
   "npcDialogues.jester.positiveDelivery4":
-    "Фантастика! Ты принес что нужно. Королева будет в восторге!",
+    "Фантастика! Ты принес то что нужно. Королева будет в восторге!",
   "npcDialogues.jester.positiveDelivery5":
     "Великолепно! Это как раз то, что мне было нужно. Похоже у тебя талант!",
 
   // Jester Negative Delivery
   "npcDialogues.jester.negativeDelivery1":
-    "Ох дружок, это совсем не то что мне нужно, но попытка засчитана!",
+    "Ох, дружок, это совсем не то, что мне нужно. Но попытка засчитана!",
   "npcDialogues.jester.negativeDelivery2":
-    "Упс, это немного не то! Но не переживай, даже лучшие шуты иного шутят не очень.",
+    "Упс, это немного не то! Но не переживай, даже лучшие шуты иногда шутят не очень.",
   "npcDialogues.jester.negativeDelivery3":
-    "Ох нет, это совсем не то! Но не переживай, мы обязательно посмеемся над этим потом.",
+    "О нет, это совсем не то! Но не переживай, мы обязательно посмеемся над этим попозже.",
   "npcDialogues.jester.negativeDelivery4":
-    "Ха, это же не то что я просил! Но спасибо за услилия. Попробуем еще разок?",
+    "Ха, это же не то, что я просил! Но спасибо за усилия. Попробуем еще разок?",
   "npcDialogues.jester.negativeDelivery5":
-    "Whoops, that's not what I needed. But hey, every joke has its off day!",
+    "Упс, это не то, что мне нужно. Но эй, у каждой шутки бывает выходной!",
 
   // Jester NoOrder
   "npcDialogues.jester.noOrder1":
-    "No tasks for you right now, friend. But feel free to stick around and enjoy the court's humor!",
+    "Мне не о чем тебя попросить, мой друг. Но не стесняйся осмотреться и найти то, над чем тут можно посмеяться!",
   "npcDialogues.jester.noOrder2":
-    "No orders today, but don't be a stranger! The court is always lively with jesters around.",
+    "Нет ничего важного для тебя сегодня, но чувствуй себя как дома. Королевский двор всегда оживленней с шутами вокруг.",
 
   // Jester gift dialogues
   "npcDialogues.jester.reward":
-    "Bravo! Here’s a little something for your trouble. Keep the laughs coming!",
+    "Браво! Вот вам сувенир за ваши хлопоты. Продолжайте в ом же духе!",
   "npcDialogues.jester.flowerIntro":
-    "Ever seen a Red Balloon Flower or a Red Carnation? They always bring a smile to my face...",
+    "Видели ли вы когда-нибудь красный Балун или красную Гвоздику(Карнатион)? Они всегда заставляют меня улыбаться...",
   "npcDialogues.jester.averageFlower":
-    "Hmm, not exactly a knee-slapper, but it'll do. Thanks!",
+    "Хммм, не похоже на удар под дых, но сойдет. Спасибо!",
   "npcDialogues.jester.badFlower":
-    "Oh no, this flower is as funny as a wet sock! Try again, will you?",
+    "Этот цветок такой же неприятный, как мокрый носок! Попробуй еще раз, ладно?",
   "npcDialogues.jester.goodFlower":
-    "Splendid! This flower is perfect. Almost as good as one of my jokes!",
+    "Великолепно! Этот цветок так же хорош, как мои шутки!",
 
   // Pharaoh
   "npcDialogues.pharaoh.noOrder1":
-    "I have no specific quest for you at this moment, but the desert is vast and full of hidden relics. Keep exploring, and you may find what we seek.",
+    "У меня нет для тебя задания на данный момент, но пустыня огромна и полна скрытых реликвий. Продолжайте исследовать, и вы, возможно, найдете то, что мы ищем.",
   "npcDialogues.pharaoh.noOrder2":
-    "There is no current mission, but the sands of time conceal many treasures. Your journey is far from over, brave explorer.",
+    "Сейчас дел нет, но пески времени скрывают множество сокровищ. Твое путешествие еще не закончено, храбрый исследователь.",
   "npcDialogues.pharaoh.negativeDelivery1":
-    "Alas, no relics this time. Do not despair, for the sands still hide many secrets waiting to be unearthed.",
+    "Увы, тут ничего ценного. Но не отчаивайтесь, ведь пески все еще скрывают множество тайн, ожидающих когда их найдут.",
   "npcDialogues.pharaoh.negativeDelivery2":
-    "No artifacts today? The journey of discovery is long, but perseverance will lead us to our goal.",
+    "Ничего не нашли сегодня? Путь открытий долог, но упорство приведет нас к цели.",
   "npcDialogues.pharaoh.negativeDelivery3":
-    "The ancients' secrets remain hidden for now. Continue your search, and you shall find the treasures we seek.",
+    "Секреты древних пока остаются скрытыми. Продолжай, и ты найдешь сокровищи, которые мы ищем.",
   "npcDialogues.pharaoh.positiveDelivery1":
-    "Ah, you have found a relic of the ancients. Your efforts bring us closer to unraveling the mysteries of the past.",
+    "Ах, вы нашли реликвию древних. Ваши усилия приближают нас к разгадке тайн прошлого.",
   "npcDialogues.pharaoh.positiveDelivery2":
     "Behold, a treasure from a bygone era. Your discovery is invaluable to my quest for lost knowledge.",
   "npcDialogues.pharaoh.positiveDelivery3":
@@ -4673,22 +4685,23 @@ const playerTrade: Record<PlayerTrade, string> = {
   "playerTrade.transaction":
     "Oh oh! It looks like you have a transaction in progress.",
   "playerTrade.Please": "Please allow 5 minutes before continuing.",
-  "playerTrade.sold": "Sold",
-  "playerTrade.sale": "For sale: ",
-  "playerTrade.title.congrat": "Congratulations, your listing was purchased",
+  "playerTrade.sold": "Продано",
+  "playerTrade.sale": "На продажу: ",
+  "playerTrade.title.congrat": "Поздравляем, твой листинг был куплен!",
 };
 
 const portal: Record<Portal, string> = {
-  "portal.wrong": "Something went wrong",
+  "portal.wrong": "Что-то пошло не так",
   "portal.unauthorised": "unauthorised",
-  "portal.example.claimPrize": "Claim your prize!",
+  "portal.example.claimPrize": "Забери свой приз!",
   "portal.example.intro": "Howdy Howdy, welcome to this test portal",
   "portal.example.purchase": "Purchase fake pass",
 };
 
 const purchaseableBaitTranslation: Record<PurchaseableBaitTranslation, string> =
   {
-    "purchaseableBait.fishingLure.description": "Great for catching rare fish!",
+    "purchaseableBait.fishingLure.description":
+      "Отлично подходит для ловли редких рыб!",
   };
 
 const quest: Record<Quest, string> = {
@@ -4858,33 +4871,33 @@ const seasonTerms: Record<SeasonTerms, string> = {
   "season.vip.access": "Сезонный VIP-доступ",
   "season.vip.claim": "Claim your monthly seasonal airdrop.",
   "season.vip.description":
-    "Unlock perks, discounts, bonus tickets, airdrops and more!",
+    "Dominate the season with perks, discounts, bonus tickets, airdrops and more!",
   "season.vip.purchase": "Purchase VIP Items",
   "season.mystery.gift": "Таинственный подарок",
   "season.xp.boost": "10% XP буст",
   "season.lifetime.farmer": "Фермер на всю жизнь",
   "season.free.with.lifetime": "Free with Lifetime Farmer",
-  "season.pharaohs.gift": ENGLISH_TERMS["season.pharaohs.gift"],
-  "season.ticket.bonus": ENGLISH_TERMS["season.ticket.bonus"],
+  "season.pharaohs.gift": "5 Extra Desert Digs",
+  "season.ticket.bonus": "+2 {{item}}s (deliveries & chores)",
 };
 
 const share: Record<Share, string> = {
-  "share.TweetText": "Visit My Sunflower Land Farm",
-  "share.ShareYourFarmLink": "Share Your Farm Link",
+  "share.TweetText": "Посети мою Sunflower Land ферму",
+  "share.ShareYourFarmLink": "Поделись ссылкой на свою ферму",
   "share.ShowOffToFarmers":
-    "Show off to fellow farmers by sharing your farm link (URL: to directly visit your farm!",
+    "Похвастайся перед колегами-фермерами, поделившись ссылкой на свою ферму (URL: для прямого посещения твоей фермы!",
   "share.FarmNFTImageAlt": "Sunflower-Land Farm NFT Image",
-  "share.CopyFarmURL": "Copy farm URL",
-  "share.Tweet": "Tweet",
-  "share.chooseServer": "Choose a server to join",
-  "share.FULL": "FULL",
-  "share.exploreCustomIslands": "Explore custom project islands.",
-  "share.buildYourOwnIsland": "Do you want to build your own island?",
+  "share.CopyFarmURL": "Скопировать URL фермы",
+  "share.Tweet": "Твитнуть",
+  "share.chooseServer": "Выбери сервер для входа",
+  "share.FULL": "ЗАПОЛНЕН",
+  "share.exploreCustomIslands": "Исследуй Explore custom project islands.",
+  "share.buildYourOwnIsland": "Ты хочешь построить свой собственный остров?",
 };
 
 const sharkBumpkinDialogues: Record<SharkBumpkinDialogues, string> = {
-  "sharkBumpkin.dialogue.shhhh": "Shhhh!",
-  "sharkBumpkin.dialogue.scareGoblins": "I'm trying to scare the Goblins.",
+  "sharkBumpkin.dialogue.shhhh": "Тсссс!",
+  "sharkBumpkin.dialogue.scareGoblins": "Я пытаюсь напугать гоблинов.",
 };
 
 const shopItems: Record<ShopItems, string> = {
@@ -4893,9 +4906,9 @@ const shopItems: Record<ShopItems, string> = {
     "Ты помог справиться с нехваткой урожая, и цены вернулись к прежним.",
   "betty.post.sale.three":
     "Теперь поднимем планку: сажаем более долгосрочные и дорогие культуры!",
-  "betty.welcome": "Welcome to my market. What would you like to do?",
-  "betty.buySeeds": "Buy seeds",
-  "betty.sellCrops": "Sell crops",
+  "betty.welcome": "Добро пожаловать в мой магазинчик. Чего желаешь?",
+  "betty.buySeeds": "Купить семена",
+  "betty.sellCrops": "Продать урожай",
 };
 
 const showingFarm: Record<ShowingFarm, string> = {
@@ -5306,7 +5319,8 @@ const withdraw: Record<Withdraw, string> = {
   "withdraw.select.item": "Select items to withdraw",
   "withdraw.opensea":
     "Once withdrawn, you will be able to view your items on OpenSea.",
-  "withdraw.restricted": ENGLISH_TERMS["withdraw.restricted"],
+  "withdraw.restricted":
+    "Some items cannot be withdrawn. Other items may be restricted when in use or still being built.",
   "withdraw.bumpkin.wearing":
     "Your Bumpkin is currently wearing the following item(s) that can't be withdrawn. You will need to unequip them before you can withdraw.",
   "withdraw.bumpkin.sure.withdraw":
@@ -5353,7 +5367,7 @@ const world: Record<World, string> = {
   "world.home": "Home",
   "world.kingdom": "Kingdom",
   "world.faction": "Faction",
-  "world.travelTo": "Travel to {{location}}",
+  "world.travelTo": "Отправиться в {{location}}",
 };
 
 const wornDescription: Record<WornDescription, string> = {
@@ -5483,7 +5497,7 @@ export const leaderboardTerms: Record<Leaderboard, string> = {
   "leaderboard.faction.champion": "Champion faction",
   "leaderboard.faction.bonusPrizeWeek": "Bonus prize week",
   "leaderboard.faction.championPrizes":
-    "The players in the winning faction will receive:",
+    "Your faction score is calculated by how many marks the top 100 players earn. All players in the winning faction will receive:",
   "leaderboard.faction.bonusMarks": "Bonus +10% Marks",
   "leaderboard.faction.topPlayers": "Top Player Prizes",
   "leaderboard.faction.topPlayerPrizes":
@@ -5508,17 +5522,17 @@ const gameOptions: Record<GameOptions, string> = {
   "gameOptions.blockchainSettings.transferOwnership": "Transfer Ownership",
 
   // General Settings
-  "gameOptions.generalSettings": "General Settings",
+  "gameOptions.generalSettings": "Общие настройки",
   "gameOptions.generalSettings.connectDiscord": "Connect to Discord",
   "gameOptions.generalSettings.assignRole": "Assign Discord Role",
-  "gameOptions.generalSettings.changeLanguage": "Change Language",
-  "gameOptions.generalSettings.darkMode": "Dark Mode",
-  "gameOptions.generalSettings.lightMode": "Light Mode",
-  "gameOptions.generalSettings.appearance": "Appearance",
-  "gameOptions.generalSettings.font": "Font",
-  "gameOptions.generalSettings.disableAnimations": "Disable Animations",
-  "gameOptions.generalSettings.enableAnimations": "Enable Animations",
-  "gameOptions.generalSettings.share": "Share",
+  "gameOptions.generalSettings.changeLanguage": "Изменить язык",
+  "gameOptions.generalSettings.darkMode": "Темный режим",
+  "gameOptions.generalSettings.lightMode": "Светлый режим",
+  "gameOptions.generalSettings.appearance": "Внешний вид",
+  "gameOptions.generalSettings.font": "Шрифт",
+  "gameOptions.generalSettings.disableAnimations": "Отключить анимацию",
+  "gameOptions.generalSettings.enableAnimations": "Включить анимацию",
+  "gameOptions.generalSettings.share": "Поделиться",
 
   // Plaza Settings
   "gameOptions.plazaSettings": "Plaza Settings",
