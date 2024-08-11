@@ -628,7 +628,7 @@ const basicTreasure: Record<BasicTreasure, string> = {
   "budBox.opened": "已打开",
   "budBox.title": "蕾芽箱",
   "budBox.description": "每天，对应的蕾芽类型可以解锁宝箱奖励。", // Farming rewards -> Chest rewards
-  "budBox.today": ENGLISH_TERMS["budBox.today"],
+  "budBox.today": "今天 - 剩下 {{timeLeft}}",
   "raffle.title": "哥布林抽奖",
   "raffle.description":
     "每个月您都有机会赢得奖励。获奖者名单将在 Discord 上公布。",
