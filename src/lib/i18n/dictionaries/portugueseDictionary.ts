@@ -641,7 +641,6 @@ const basicTreasure: Record<BasicTreasure, string> = {
   "budBox.title": ENGLISH_TERMS["budBox.title"],
   "budBox.description": ENGLISH_TERMS["budBox.description"],
   "budBox.today": ENGLISH_TERMS["budBox.today"],
-  "budBox.left": ENGLISH_TERMS["budBox.left"],
   "raffle.title": ENGLISH_TERMS["raffle.title"],
   "raffle.description": ENGLISH_TERMS["raffle.description"],
   "raffle.entries": ENGLISH_TERMS["raffle.entries"],

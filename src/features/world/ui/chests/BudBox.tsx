@@ -192,9 +192,11 @@ export const BudBox: React.FC<Props> = ({ onClose, setIsLoading }) => {
                   type="info"
                   className="absolute -top-3 -right-2"
                 >
-                  {`${t("budBox.today")} - ${secondsToString(secondsLeftToday, {
-                    length: "short",
-                  })} ${t("budBox.left")}`}
+                  {t("budBox.today", {
+                    timeLeft: secondsToString(secondsLeftToday, {
+                      length: "short",
+                    }),
+                  })}
                 </Label>
               )}
               {index > 0 && (
