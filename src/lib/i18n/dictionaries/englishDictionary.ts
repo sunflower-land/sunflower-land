@@ -76,16 +76,12 @@ import {
   Helper,
   HeliosSunflower,
   HenHouseTerms,
-  HowToFarm,
-  HowToSync,
-  HowToUpgrade,
   Islandupgrade,
   InteractableModals,
   IntroPage,
   IslandName,
   IslandNotFound,
   LandscapeTerms,
-  LetsGo,
   LevelUpMessages,
   Loser,
   LostSunflorian,
@@ -1951,8 +1947,8 @@ const deliveryHelp: Record<DeliveryHelp, string> = {
 };
 
 const deliveryitem: Record<DeliveryItem, string> = {
-  "deliveryitem.inventory": "Inventory:",
-  "deliveryitem.itemsToDeliver": "Items to deliver: ",
+  "deliveryitem.inventory": "Inventory",
+  "deliveryitem.itemsToDeliver": "Items to deliver",
   "deliveryitem.deliverToWallet": "Deliver to your wallet",
   "deliveryitem.viewOnOpenSea":
     "Once delivered, you will be able to view your items on OpenSea.",
@@ -2034,15 +2030,17 @@ const errorAndAccess: Record<ErrorAndAccess, string> = {
 };
 
 const errorTerms: Record<ErrorTerms, string> = {
+  "error.file": "Error File",
   "error.betaTestersOnly": "Beta testers only!",
   "error.congestion.one":
     "We are trying our best but looks like Polygon is getting a lot of traffic or you have lost your connection.",
   "error.congestion.two":
     "If this error continues please try changing your Metamask RPC",
   "error.connection.one":
-    "It looks like we were unable to complete this request.",
-  "error.connection.two": "It may be a simple connection issue.",
-  "error.connection.three": "You can click refresh to try again.",
+    "It looks like we encountered a problem. Quite often this is just a simple connection issue. You can try again or reach out for help if the issue persists.",
+  "error.connection.two": "Get help",
+  "error.connection.three":
+    "Please provide the following information when you contact support:",
   "error.connection.four":
     "If the issue remains, you can reach out for help by either contacting our support team or jumping over to our discord and asking our community",
   "error.diagnostic.info": "Diagnostic Information",
@@ -2058,7 +2056,10 @@ const errorTerms: Record<ErrorTerms, string> = {
   "error.toManyRequest.two":
     "Looks like you have been busy! Please try again later.",
   "error.Web3NotFound": "Web3 Not Found",
-  "error.wentWrong": "Something went wrong!",
+  "error.wentWrong": "Oops! Something went wrong!",
+  "error.getHelp": "Get help",
+  "error.contactSupport": "Contact support",
+  "error.askOnDiscord": "Ask on discord",
   "error.tooManyFarms":
     "Slow down Bumpkin! It looks like you have too many accounts on your network. Please try again later.",
   "error.clock.not.synced": "Clock not in sync",
@@ -2952,7 +2953,7 @@ const guideFactionPet: Record<GuideFactionPet, string> = {
   "guide.factionPet.one":
     "Each week the pet will request 3 foods. When fed, the XP from the food will go to the total XP tally for the faction.",
   "guide.factionPet.two":
-    "Your faction will have a goal xp they need to reach each week. If the faction reaches the goal, the next week goal will be 30% harder than the total xp achieved for the week! If the goal isn't reached, it will be reset back to 500 x faction members.",
+    "Your faction will have a goal xp they need to reach each week. If the faction reaches the goal, the next week goal will be 15% harder than the total xp achieved for the week! If the goal isn't reached, it will be reset back to 1000 x faction members.",
   "guide.factionPet.three":
     "If the faction doesn't reach the goal then the pet will go to sleep for 1 week.",
   "guide.factionPet.four":
@@ -3137,31 +3138,6 @@ const henHouseTerms: Record<HenHouseTerms, string> = {
   "henHouse.text.six": "Build an extra Hen House to farm more chickens",
 };
 
-const howToFarm: Record<HowToFarm, string> = {
-  "howToFarm.title": "How to Farm?",
-  "howToFarm.stepOne": "1.Harvest crops when they are ready",
-  "howToFarm.stepTwo": "2.Visit the town & click on the shop",
-  "howToFarm.stepThree": "3.Sell crops at the shop for Coins",
-  "howToFarm.stepFour": "4.Buy seeds using your Coins",
-  "howToFarm.stepFive": "5. Plant seeds and wait",
-};
-
-const howToSync: Record<HowToSync, string> = {
-  "howToSync.title": "How to sync?",
-  "howToSync.description":
-    "All of your progress is saved on our game server. You will need to sync on chain when you want to move your tokens, NFTs and resources onto Polygon.",
-  "howToSync.stepOne": "1. Open the menu",
-  "howToSync.stepTwo": "2. Click 'Sync on chain'",
-};
-
-const howToUpgrade: Record<HowToUpgrade, string> = {
-  "howToUpgrade.title": "How to upgrade?",
-  "howToUpgrade.stepOne": "1. Talk to a Goblin blocking the fields",
-  "howToUpgrade.stepTwo": "2.Visit the town & click on the kitchen",
-  "howToUpgrade.stepThree": "3. Craft the food that the goblin wants",
-  "howToUpgrade.stepFour": "4. Voila! Enjoy your new fields and crops",
-};
-
 const interactableModals: Record<InteractableModals, string> = {
   "interactableModals.returnhome.message": "Would you like to return home?",
   "interactableModals.fatChicken.message":
@@ -3328,14 +3304,6 @@ const landscapeTerms: Record<LandscapeTerms, string> = {
   "landscape.expansion.date":
     "More expansions will be available on the 7th February.",
   "landscape.great.work": "Great work Bumpkin!",
-};
-
-const letsGo: Record<LetsGo, string> = {
-  "letsGo.title": "Time to play!",
-  "letsGo.description":
-    "Thanks for playing! We appreciate your support of Sunflower Land.",
-  "letsGo.readMore": "You can read more about the game in the ", // To figure out how to interpolate links
-  "letsGo.officialDocs": "official docs",
 };
 
 const levelUpMessages: Record<LevelUpMessages, string> = {
@@ -5383,7 +5351,7 @@ const withdraw: Record<Withdraw, string> = {
   "withdraw.sfl.available": "SFL is available on-chain",
   "withdraw.send.wallet": "Sent to your wallet",
   "withdraw.choose": "Choose amount to withdraw",
-  "withdraw.receive": "You will receive: {{sflReceived}}",
+  "withdraw.receive": "You will receive: {{sflReceived}} SFL",
   "withdraw.select.item": "Select items to withdraw",
   "withdraw.opensea":
     "Once withdrawn, you will be able to view your items on OpenSea.",
@@ -5516,7 +5484,6 @@ export const leaderboardTerms: Record<Leaderboard, string> = {
 
 const gameOptions: Record<GameOptions, string> = {
   "gameOptions.title": "Game Options",
-  "gameOptions.howToPlay": "How to Play? (Under Reconstruction)",
   "gameOptions.farmId": "Farm ID #{{farmId}}",
   "gameOptions.logout": "Logout",
   "gameOptions.confirmLogout": "Are you sure you want to Logout?",
@@ -5744,9 +5711,6 @@ export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
   ...heliosSunflower,
   ...helper,
   ...henHouseTerms,
-  ...howToFarm,
-  ...howToSync,
-  ...howToUpgrade,
   ...interactableModals,
   ...introPage,
   ...islandName,
@@ -5754,7 +5718,6 @@ export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
   ...islandupgrade,
   ...landscapeTerms,
   ...leaderboardTerms,
-  ...letsGo,
   ...levelUpMessages,
   ...loser,
   ...lostSunflorian,

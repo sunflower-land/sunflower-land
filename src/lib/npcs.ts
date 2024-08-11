@@ -101,7 +101,8 @@ export type NPCName =
   | "pet" // faction pet
   | "peggy"
   | "petro"
-  | "pharaoh";
+  | "pharaoh"
+  | "worried pete";
 
 export const NPC_WEARABLES: Record<NPCName, Equipped> = {
   "cluck e cheese": {
@@ -604,12 +605,13 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     body: "Beige Farmer Potion",
     background: "Farm Background",
     hair: "Brown Long Hair",
-    coat: "Royal Robe",
-    dress: "Rose Dress",
-    hat: "Crown",
-    tool: "Pan",
+    shirt: "Explorer Shirt",
+    pants: "Oil Overalls",
+    hat: "Fossil Head",
+    tool: "Ancient Shovel",
+    secondaryTool: "Lemon Shield",
     shoes: "Black Farmer Boots",
-    wings: "Bee Wings",
+    wings: "Scarab Wings",
   },
   // Old loving grandma of the game
   buttons: {
@@ -1112,6 +1114,16 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     tool: "Sunflorian Sword",
     background: "Farm Background",
     shoes: "Sunflorian Sabatons",
+  },
+  "worried pete": {
+    body: "Light Brown Worried Farmer Potion",
+    background: "Farm Background",
+    hair: "Buzz Cut",
+    hat: "Pumpkin Hat",
+    shirt: "Yellow Farmer Shirt",
+    pants: "Lumberjack Overalls",
+    shoes: "Black Farmer Boots",
+    tool: "Farmer Pitchfork",
   },
 };
 

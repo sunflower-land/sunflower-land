@@ -10,10 +10,8 @@ import { Context as GameContext } from "features/game/GameProvider";
 
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Label } from "components/ui/Label";
-import { shortAddress } from "lib/utils/shortAddress";
 import { translate } from "lib/i18n/translate";
 
-import walletIcon from "assets/icons/wallet.png";
 import { removeJWT } from "features/auth/actions/social";
 import { WalletContext } from "features/wallet/WalletProvider";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
@@ -47,6 +45,7 @@ import { FontSettings } from "./general-settings/FontSettings";
 import { ConfirmationModal } from "components/ui/ConfirmationModal";
 import ticket from "assets/icons/ticket.png";
 import { DEV_HoarderCheck } from "./amoy-actions/DEV_HoardingCheck";
+import { WalletAddressLabel } from "components/ui/WalletAddressLabel";
 
 export interface ContentComponentProps {
   onSubMenuClick: (id: SettingMenuId) => void;
@@ -135,20 +134,12 @@ const GameOptions: React.FC<ContentComponentProps> = ({
         </div>
         <div className="flex flex-wrap items-center justify-between mx-2">
           {gameService.state?.context?.linkedWallet && (
-            <Label
-              type="formula"
-              className="mb-1 mr-4"
-              icon={walletIcon}
-              onClick={() => {
-                copypaste.play();
-                clipboard.copy(
-                  gameService.state?.context?.linkedWallet as string,
-                );
-              }}
-            >
-              {t("linked.wallet")} {"-"}{" "}
-              {shortAddress(gameService.state.context.linkedWallet)}
-            </Label>
+            <WalletAddressLabel
+              walletAddress={
+                (gameService.state?.context?.linkedWallet as string) || "XXXX"
+              }
+              showLabelTitle={true}
+            />
           )}
         </div>
       </>
@@ -157,19 +148,6 @@ const GameOptions: React.FC<ContentComponentProps> = ({
           <span>{t("install.app")}</span>
         </Button>
       )}
-      {/* To revamp and add back later*/}
-      {/* <li className="p-1">
-                  <Button disabled={true} onClick={handleHowToPlay}>
-                    <div className="flex items-center justify-center">
-                      <span>{t("gameOptions.howToPlay")}</span>
-                      <img
-                        src={SUNNYSIDE.icons.expression_confused}
-                        className="w-3 ml-2"
-                        alt="question-mark"
-                      />
-                    </div>
-                  </Button>
-                  </li> */}
       <Button className="p-1 mb-1" onClick={refreshSession}>
         {t("gameOptions.blockchainSettings.refreshChain")}
       </Button>

@@ -5,7 +5,7 @@ import { Button } from "components/ui/Button";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
-export const Sniped: React.FC = () => {
+export const TradeAlreadyFulfilled: React.FC = () => {
   const { gameService } = useContext(Context);
   const { t } = useAppTranslation();
 
@@ -16,8 +16,8 @@ export const Sniped: React.FC = () => {
   return (
     <div>
       <div className="p-2">
-        <img src={SUNNYSIDE.icons.cancel} className="mx-auto w-1/5 my-2" />
-        <p className="text-sm mb-2 text-center">{t("statements.sniped")}</p>
+        <img src={SUNNYSIDE.icons.confirm} className="mx-auto w-1/5 my-2" />
+        <p className="text-sm mb-2 text-center">{`A player has already bought this listing.`}</p>
       </div>
       <Button onClick={onAcknowledge}>{t("continue")}</Button>
     </div>

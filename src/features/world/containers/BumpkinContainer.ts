@@ -197,7 +197,7 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
         },
       );
 
-      idleLoader.addListener(Phaser.Loader.Events.COMPLETE, () => {
+      idleLoader.once(Phaser.Loader.Events.COMPLETE, () => {
         if (
           !scene.textures.exists(this.idleSpriteKey as string) ||
           this.ready
@@ -261,7 +261,7 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
         frameHeight: 64,
       });
 
-      digLoader.addListener(Phaser.Loader.Events.COMPLETE, () => {
+      digLoader.once(Phaser.Loader.Events.COMPLETE, () => {
         this.createDigAnimation();
         digLoader.removeAllListeners();
       });
@@ -276,7 +276,7 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
         frameHeight: 64,
       });
 
-      drillLoader.addListener(Phaser.Loader.Events.COMPLETE, () => {
+      drillLoader.once(Phaser.Loader.Events.COMPLETE, () => {
         this.createDrillAnimation();
         drillLoader.removeAllListeners();
       });
@@ -490,7 +490,7 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
           },
         );
 
-        backauraLoader.addListener(Phaser.Loader.Events.COMPLETE, () => {
+        backauraLoader.once(Phaser.Loader.Events.COMPLETE, () => {
           if (
             !container.scene.textures.exists(this.backAuraKey as string) ||
             this.ready
@@ -528,7 +528,7 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
           },
         );
 
-        frontauraLoader.addListener(Phaser.Loader.Events.COMPLETE, () => {
+        frontauraLoader.once(Phaser.Loader.Events.COMPLETE, () => {
           if (
             !container.scene.textures.exists(this.frontAuraKey as string) ||
             this.ready

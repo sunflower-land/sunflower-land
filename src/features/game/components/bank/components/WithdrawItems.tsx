@@ -1,10 +1,9 @@
-import { useActor } from "@xstate/react";
+import { useSelector } from "@xstate/react";
 import React, { useContext, useEffect, useState } from "react";
 import Decimal from "decimal.js-light";
 
 import { Inventory, InventoryItemName } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { shortAddress } from "lib/utils/shortAddress";
 import { KNOWN_IDS } from "features/game/types";
 import { getItemUnit } from "features/game/lib/conversion";
 
@@ -20,6 +19,10 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { WITHDRAWABLES } from "features/game/types/withdrawables";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Context } from "features/game/GameProvider";
+import { Label } from "components/ui/Label";
+import { WalletAddressLabel } from "components/ui/WalletAddressLabel";
+import { PIXEL_SCALE } from "features/game/lib/constants";
+import { MachineState } from "features/game/lib/gameMachine";
 
 interface Props {
   onWithdraw: (ids: number[], amounts: string[]) => void;
@@ -56,6 +59,8 @@ export function transferInventoryItem(
   }));
 }
 
+const _state = (state: MachineState) => state.context.state;
+
 export const WithdrawItems: React.FC<Props> = ({
   onWithdraw,
   allowLongpressWithdrawal = true,
@@ -63,13 +68,13 @@ export const WithdrawItems: React.FC<Props> = ({
   const { t } = useAppTranslation();
 
   const { gameService } = useContext(Context);
-  const [gameState] = useActor(gameService);
+  const state = useSelector(gameService, _state);
 
   const [inventory, setInventory] = useState<Inventory>({});
   const [selected, setSelected] = useState<Inventory>({});
 
   useEffect(() => {
-    const bankItems = getBankItems(gameState.context.state);
+    const bankItems = getBankItems(state);
     setInventory(bankItems);
     setSelected({});
   }, []);
@@ -103,9 +108,8 @@ export const WithdrawItems: React.FC<Props> = ({
   };
 
   const isCurrentObsession = (itemName: InventoryItemName) => {
-    const obsessionCompletedAt =
-      gameState.context.state.npcs?.bert?.questCompletedAt;
-    const currentObsession = gameState.context.state.bertObsession;
+    const obsessionCompletedAt = state.npcs?.bert?.questCompletedAt;
+    const currentObsession = state.bertObsession;
 
     if (!obsessionCompletedAt || !currentObsession) return false;
     if (currentObsession.name !== itemName) return false;
@@ -128,11 +132,13 @@ export const WithdrawItems: React.FC<Props> = ({
 
   return (
     <>
-      <div className="mt-3">
-        <div className="flex items-center border-2 rounded-md border-black p-2 bg-green-background mb-3">
+      <div className="p-2 mb-2">
+        <Label type="warning" className="mb-2">
           <span className="text-xs">{t("withdraw.restricted")}</span>
-        </div>
-        <h2 className="mb-3">{t("withdraw.select.item")}</h2>
+        </Label>
+        <Label type="default" className="mb-2">
+          {t("withdraw.select.item")}
+        </Label>
         <div className="flex flex-wrap h-fit -ml-1.5">
           {withdrawableItems.map((itemName) => {
             const details = makeItemDetails(itemName);
@@ -158,9 +164,11 @@ export const WithdrawItems: React.FC<Props> = ({
               .map((_, index) => <Box disabled key={index} />)}
         </div>
 
-        <div className="mt-2">
-          <h2 className="">{t("selected")}</h2>
-          <div className="flex flex-wrap h-fit mt-2 -ml-1.5">
+        <div className="mt-4">
+          <Label type="default" className="mb-2">
+            {t("selected")}
+          </Label>
+          <div className="flex flex-wrap h-fit -ml-1.5">
             {selectedItems.map((itemName) => {
               return (
                 <Box
@@ -180,18 +188,22 @@ export const WithdrawItems: React.FC<Props> = ({
           </div>
         </div>
 
-        <div className="border-white border-t-2 w-full my-3" />
-        <div className="flex items-center mt-2 mb-2  border-white">
-          <img src={SUNNYSIDE.icons.player} className="h-8 mr-2" />
-          <div>
-            <p className="text-sm">{t("withdraw.send.wallet")}</p>
-            <p className="text-sm font-secondary">
-              {shortAddress(wallet.myAccount || "XXXX")}
-            </p>
+        <div className="w-full my-3 border-t border-white" />
+        <div className="flex items-center mb-2 text-xs">
+          <img
+            src={SUNNYSIDE.icons.player}
+            className="mr-3"
+            style={{
+              width: `${PIXEL_SCALE * 13}px`,
+            }}
+          />
+          <div className="flex flex-col gap-1">
+            <p>{t("withdraw.send.wallet")}</p>
+            <WalletAddressLabel walletAddress={wallet.myAccount || "XXXX"} />
           </div>
         </div>
 
-        <span className="text-sm mb-4">
+        <p className="text-xs">
           {t("withdraw.opensea")}{" "}
           <a
             className="underline hover:text-blue-500"
@@ -201,15 +213,10 @@ export const WithdrawItems: React.FC<Props> = ({
           >
             {t("read.more")}
           </a>
-          {"."}
-        </span>
+        </p>
       </div>
 
-      <Button
-        className="mt-3"
-        onClick={withdraw}
-        disabled={selectedItems.length <= 0}
-      >
+      <Button onClick={withdraw} disabled={selectedItems.length <= 0}>
         {t("withdraw")}
       </Button>
     </>

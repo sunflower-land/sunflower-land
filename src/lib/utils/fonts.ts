@@ -24,7 +24,7 @@ interface FontSettings {
   base: [number, number];
   lg: [number, number];
 }
-const FONT_CONFIG: Record<Font, FontSettings> = {
+export const FONT_CONFIG: Record<Font, FontSettings> = {
   Default: {
     fontFamily: "Basic",
     xxs: [20, 14],
@@ -59,7 +59,7 @@ const FONT_CONFIG: Record<Font, FontSettings> = {
   },
 };
 
-const CYRILLIC_FONT_CONFIG: Record<Font, FontSettings> = {
+export const CYRILLIC_FONT_CONFIG: Record<Font, FontSettings> = {
   Default: {
     fontFamily: "Basis33",
     xxs: [20, 14],
@@ -94,68 +94,100 @@ const CYRILLIC_FONT_CONFIG: Record<Font, FontSettings> = {
   },
 };
 
+export const CHINESE_FONT_CONFIG: Partial<Record<Font, FontSettings>> = {
+  Default: {
+    // Pixel
+    fontFamily: "Ark",
+    xxs: [14, 14],
+    xs: [16, 16],
+    sm: [18, 18],
+    base: [25, 25],
+    lg: [30, 30],
+  },
+  "Sans Serif": {
+    fontFamily: "sans-serif",
+    xxs: [14, 14],
+    xs: [16, 16],
+    sm: [18, 18],
+    base: [25, 25],
+    lg: [30, 30],
+  },
+};
+
 export function initialiseFont() {
   const font = getCachedFont();
 
   changeFont(font);
 }
 
-export function changeFont(font: Font) {
-  const lang = localStorage.getItem("language") || "en";
-  const config = ["ru"].includes(lang)
-    ? CYRILLIC_FONT_CONFIG[font]
-    : FONT_CONFIG[font];
-
+function setFontProperties(config: FontSettings) {
   document.documentElement.style.setProperty(
     "--font-family",
     config.fontFamily,
   );
-
   document.documentElement.style.setProperty(
     "--text-xxs-size",
-    config.xxs[0] + "px",
+    `${config.xxs[0]}px`,
   );
   document.documentElement.style.setProperty(
     "--text-xxs-line-height",
-    config.xxs[1] + "px",
+    `${config.xxs[1]}px`,
   );
-
   document.documentElement.style.setProperty(
     "--text-xs-size",
-    config.xs[0] + "px",
+    `${config.xs[0]}px`,
   );
   document.documentElement.style.setProperty(
     "--text-xs-line-height",
-    config.xs[1] + "px",
+    `${config.xs[1]}px`,
   );
-
   document.documentElement.style.setProperty(
     "--text-sm-size",
-    config.sm[0] + "px",
+    `${config.sm[0]}px`,
   );
   document.documentElement.style.setProperty(
     "--text-sm-line-height",
-    config.sm[1] + "px",
+    `${config.sm[1]}px`,
   );
-
   document.documentElement.style.setProperty(
     "--text-base-size",
-    config.base[0] + "px",
+    `${config.base[0]}px`,
   );
   document.documentElement.style.setProperty(
     "--text-base-line-height",
-    config.base[1] + "px",
+    `${config.base[1]}px`,
   );
-
   document.documentElement.style.setProperty(
     "--text-lg-size",
-    config.lg[0] + "px",
+    `${config.lg[0]}px`,
   );
-
   document.documentElement.style.setProperty(
     "--text-lg-line-height",
-    config.lg[1] + "px",
+    `${config.lg[1]}px`,
   );
+}
+
+export function changeFont(font: Font) {
+  const lang = localStorage.getItem("language") || "en";
+  const config = ["ru"].includes(lang)
+    ? CYRILLIC_FONT_CONFIG[font]
+    : ["zh-CN"].includes(lang)
+      ? CHINESE_FONT_CONFIG[font]
+      : FONT_CONFIG[font];
+
+  if (config) {
+    setFontProperties(config);
+  } else {
+    // Use a fallback configuration if the specified font is not found
+    setFontProperties({
+      fontFamily: "sans-serif",
+      xxs: [14, 14],
+      xs: [16, 16],
+      sm: [18, 18],
+      base: [25, 25],
+      lg: [30, 30],
+    });
+  }
 
   cacheFont(font);
 }

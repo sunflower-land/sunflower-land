@@ -76,16 +76,12 @@ import {
   Helper,
   HeliosSunflower,
   HenHouseTerms,
-  HowToFarm,
-  HowToSync,
-  HowToUpgrade,
   Islandupgrade,
   InteractableModals,
   IntroPage,
   IslandName,
   IslandNotFound,
   LandscapeTerms,
-  LetsGo,
   LevelUpMessages,
   Loser,
   LostSunflorian,
@@ -1990,8 +1986,8 @@ const deliveryHelp: Record<DeliveryHelp, string> = {
 };
 
 const deliveryitem: Record<DeliveryItem, string> = {
-  "deliveryitem.inventory": "Envanter: ",
-  "deliveryitem.itemsToDeliver": "Teslim edilecek öğeler: ",
+  "deliveryitem.inventory": "Envanter",
+  "deliveryitem.itemsToDeliver": "Teslim edilecek öğeler",
   "deliveryitem.deliverToWallet": "Cüzdanınıza teslim edin",
   "deliveryitem.viewOnOpenSea":
     "Teslim edildikten sonra öğelerinizi OpenSea'de görebileceksiniz.",
@@ -2070,14 +2066,18 @@ const errorAndAccess: Record<ErrorAndAccess, string> = {
 };
 
 const errorTerms: Record<ErrorTerms, string> = {
+  "error.askOnDiscord": ENGLISH_TERMS["error.askOnDiscord"],
+  "error.contactSupport": ENGLISH_TERMS["error.contactSupport"],
+  "error.file": ENGLISH_TERMS["error.file"],
+  "error.getHelp": ENGLISH_TERMS["error.getHelp"],
   "error.betaTestersOnly": "Yalnızca beta test kullanıcıları!",
   "error.congestion.one":
     "Elimizden gelenin en iyisini yapmaya çalışıyoruz ancak görünüşe göre Polygon çok fazla trafik alıyor veya bağlantınızı kaybetmişsiniz.",
   "error.congestion.two":
     "Bu hata devam ederse lütfen Metamask RPC'nizi değiştirmeyi deneyin.",
-  "error.connection.one": "Görünüşe göre bu isteği yerine getiremedik.",
-  "error.connection.two": "Basit bir bağlantı sorunu olabilir.",
-  "error.connection.three": "Tekrar denemek için yenile'yi tıklayabilirsiniz.",
+  "error.connection.one": ENGLISH_TERMS["error.connection.one"],
+  "error.connection.two": ENGLISH_TERMS["error.connection.two"],
+  "error.connection.three": ENGLISH_TERMS["error.connection.three"],
   "error.connection.four":
     "Sorun devam ederse destek ekibimizle iletişime geçerek veya discord'a geçip topluluğumuza sorarak yardıma ulaşabilirsiniz.",
   "error.diagnostic.info": "Teşhis Bilgileri",
@@ -3155,32 +3155,6 @@ const henHouseTerms: Record<HenHouseTerms, string> = {
     "Daha fazla tavuk yetiştirmek için fazladan bir Tavuk Kümesi inşa edin",
 };
 
-const howToFarm: Record<HowToFarm, string> = {
-  "howToFarm.title": "Nasıl Tarım Yapılır?",
-  "howToFarm.stepOne": "1. Ürünleri hazır olduklarında hasat edin",
-  "howToFarm.stepTwo": "2. Kasabayı ziyaret edin ve mağazaya tıklayın",
-  "howToFarm.stepThree": "3. Coins için mağazada mahsul satın",
-  "howToFarm.stepFour": "4. Coins'nizi kullanarak tohum satın alın",
-  "howToFarm.stepFive": "5. Tohum ekin ve bekleyin",
-};
-
-const howToSync: Record<HowToSync, string> = {
-  "howToSync.title": "Nasıl senkronize edilir?",
-  "howToSync.description":
-    "Tüm ilerlemeniz oyun sunucumuza kaydedilir. Tokenlarınızı, NFT'lerinizi ve kaynaklarınızı Polygon'a taşımak istediğinizde zincir üzerinde senkronizasyon yapmanız gerekecektir..",
-  "howToSync.stepOne": "1. Menüyü açın",
-  "howToSync.stepTwo": "2. 'Zincirde senkronize et'e tıklayın'",
-};
-
-const howToUpgrade: Record<HowToUpgrade, string> = {
-  "howToUpgrade.title": "Nasıl yükseltilir?",
-  "howToUpgrade.stepOne": "1. Tarlaları kapatan bir Goblin ile konuşun",
-  "howToUpgrade.stepTwo": "2. Kasabayı ziyaret edin ve mutfağa tıklayın",
-  "howToUpgrade.stepThree": "3. Goblinin istediği yemeği hazırlayın",
-  "howToUpgrade.stepFour":
-    "4. İşte! Yeni tarlalarınızın ve mahsullerinizin tadını çıkarın",
-};
-
 const interactableModals: Record<InteractableModals, string> = {
   "interactableModals.returnhome.message": "Eve dönmek ister misin?",
   "interactableModals.fatChicken.message":
@@ -3346,14 +3320,6 @@ const landscapeTerms: Record<LandscapeTerms, string> = {
   "landscape.dragMe": "Beni sürükle",
   "landscape.expansion.date": "7 Şubat'ta daha fazla genişletme mevcut olacak.",
   "landscape.great.work": "Harika iş çıkardın Bumpkin!",
-};
-
-const letsGo: Record<LetsGo, string> = {
-  "letsGo.title": "Oyun zamanı!",
-  "letsGo.description":
-    "Betayı oynadığınız için teşekkürler! Hala oyun üzerinde çalışıyoruz ve erken aşamalardaki desteğiniz için teşekkür ederiz!",
-  "letsGo.readMore": "Oyun hakkında daha fazlasını şuradan okuyabilirsiniz.",
-  "letsGo.officialDocs": "resmi belgeler",
 };
 
 const levelUpMessages: Record<LevelUpMessages, string> = {
@@ -5322,7 +5288,7 @@ const withdraw: Record<Withdraw, string> = {
   "withdraw.sfl.available": "SFL zincir üzerinde mevcuttur",
   "withdraw.send.wallet": "Cüzdanınıza gönderildi",
   "withdraw.choose": "Çekilecek tutarı seçin",
-  "withdraw.receive": "Alacaksın: {{sflReceived}}",
+  "withdraw.receive": "Alacaksın: {{sflReceived}} SFL",
   "withdraw.select.item": "Geri çekilecek öğeleri seçin",
   "withdraw.opensea":
     "Geri çekildikten sonra öğelerinizi OpenSea'de görebileceksiniz.",
@@ -5489,7 +5455,6 @@ export const leaderboardTerms: Record<Leaderboard, string> = {
 
 const gameOptions: Record<GameOptions, string> = {
   "gameOptions.title": ENGLISH_TERMS["gameOptions.title"],
-  "gameOptions.howToPlay": "Nasıl oynanır? (Tadilatta)",
   "gameOptions.farmId": ENGLISH_TERMS["gameOptions.farmId"],
   "gameOptions.logout": "Çıkış Yap",
   "gameOptions.confirmLogout": "Oturumu kapatmak istediğinizden emin misiniz?",
@@ -5702,9 +5667,6 @@ export const TURKISH_TERMS: Record<TranslationKeys, string> = {
   ...heliosSunflower,
   ...helper,
   ...henHouseTerms,
-  ...howToFarm,
-  ...howToSync,
-  ...howToUpgrade,
   ...interactableModals,
   ...introPage,
   ...islandName,
@@ -5712,7 +5674,6 @@ export const TURKISH_TERMS: Record<TranslationKeys, string> = {
   ...islandupgrade,
   ...landscapeTerms,
   ...leaderboardTerms,
-  ...letsGo,
   ...levelUpMessages,
   ...loser,
   ...lostSunflorian,

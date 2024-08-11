@@ -1481,6 +1481,10 @@ export type ErrorTerms =
   | "error.toManyRequest.two"
   | "error.betaTestersOnly"
   | "error.wentWrong"
+  | "error.getHelp"
+  | "error.file"
+  | "error.contactSupport"
+  | "error.askOnDiscord"
   | "error.tooManyFarms"
   | "error.polygonRPC"
   | "error.connection.one"
@@ -2221,27 +2225,6 @@ export type HenHouseTerms =
   | "henHouse.text.five"
   | "henHouse.text.six";
 
-export type HowToFarm =
-  | "howToFarm.title"
-  | "howToFarm.stepOne"
-  | "howToFarm.stepTwo"
-  | "howToFarm.stepThree"
-  | "howToFarm.stepFour"
-  | "howToFarm.stepFive";
-
-export type HowToSync =
-  | "howToSync.title"
-  | "howToSync.description"
-  | "howToSync.stepOne"
-  | "howToSync.stepTwo";
-
-export type HowToUpgrade =
-  | "howToUpgrade.title"
-  | "howToUpgrade.stepOne"
-  | "howToUpgrade.stepTwo"
-  | "howToUpgrade.stepThree"
-  | "howToUpgrade.stepFour";
-
 export type Islandupgrade =
   | "islandupgrade.confirmUpgrade"
   | "islandupgrade.warning"
@@ -2351,12 +2334,6 @@ export type LandscapeTerms =
   | "landscape.dragMe"
   | "landscape.expansion.date"
   | "landscape.great.work";
-
-export type LetsGo =
-  | "letsGo.title"
-  | "letsGo.description"
-  | "letsGo.readMore"
-  | "letsGo.officialDocs";
 
 export type LevelUpMessages =
   | "levelUp.2"
@@ -3730,7 +3707,6 @@ export type Leaderboard =
 
 export type GameOptions =
   | "gameOptions.title"
-  | "gameOptions.howToPlay"
   | "gameOptions.amoyActions"
   | "gameOptions.amoyActions.timeMachine"
   | "gameOptions.blockchainSettings"
@@ -3924,16 +3900,12 @@ export type TranslationKeys =
   | Helper
   | HeliosSunflower
   | HenHouseTerms
-  | HowToFarm
-  | HowToSync
-  | HowToUpgrade
   | Islandupgrade
   | InteractableModals
   | IntroPage
   | IslandName
   | IslandNotFound
   | LandscapeTerms
-  | LetsGo
   | LevelUpMessages
   | Loser
   | LostSunflorian

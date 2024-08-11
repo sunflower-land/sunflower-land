@@ -1,7 +1,4 @@
-import React, { useContext, useEffect } from "react";
-import { useActor } from "@xstate/react";
-
-import * as Auth from "features/auth/lib/Provider";
+import React, { useEffect } from "react";
 
 import { Beta } from "./components/Beta";
 import { SomethingWentWrong } from "./components/SomethingWentWrong";
@@ -22,9 +19,6 @@ interface Props {
   errorCode: ErrorCode;
 }
 export const ErrorMessage: React.FC<Props> = ({ errorCode }) => {
-  const { authService } = useContext(Auth.Context);
-  const [_, send] = useActor(authService);
-
   useEffect(() => {
     const body = document.querySelector("body");
 

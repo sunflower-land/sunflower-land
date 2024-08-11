@@ -702,7 +702,11 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
                 </Label>
 
                 {delivery?.completedAt && (
-                  <Label type="success" secondaryIcon={SUNNYSIDE.icons.confirm}>
+                  <Label
+                    style={{ whiteSpace: "nowrap" }}
+                    type="success"
+                    secondaryIcon={SUNNYSIDE.icons.confirm}
+                  >
                     {t("completed")}
                   </Label>
                 )}

@@ -74,16 +74,12 @@ import {
   Helper,
   HeliosSunflower,
   HenHouseTerms,
-  HowToFarm,
-  HowToSync,
-  HowToUpgrade,
   Islandupgrade,
   InteractableModals,
   IntroPage,
   IslandName,
   IslandNotFound,
   LandscapeTerms,
-  LetsGo,
   LevelUpMessages,
   Loser,
   LostSunflorian,
@@ -1783,8 +1779,8 @@ const deliveryHelp: Record<DeliveryHelp, string> = {
 };
 
 const deliveryitem: Record<DeliveryItem, string> = {
-  "deliveryitem.inventory": "存货：",
-  "deliveryitem.itemsToDeliver": "提取的物品：",
+  "deliveryitem.inventory": "存货",
+  "deliveryitem.itemsToDeliver": "提取的物品",
   "deliveryitem.deliverToWallet": "提至您的钱包",
   "deliveryitem.viewOnOpenSea": "一旦交付，您将能够在 OpenSea 上查看您的物品。",
   "deliveryitem.deliver": "提取",
@@ -1856,13 +1852,17 @@ const errorAndAccess: Record<ErrorAndAccess, string> = {
 };
 
 const errorTerms: Record<ErrorTerms, string> = {
+  "error.askOnDiscord": ENGLISH_TERMS["error.askOnDiscord"],
+  "error.contactSupport": ENGLISH_TERMS["error.contactSupport"],
+  "error.file": ENGLISH_TERMS["error.file"],
+  "error.getHelp": ENGLISH_TERMS["error.getHelp"],
   "error.betaTestersOnly": "仅限 Beta 测试人员！",
   "error.congestion.one":
     "我们正在尽力，但看起来 Polygon 的流量太大或者您丢失了连接。",
   "error.congestion.two": "如果此错误继续发生，请尝试更改您的 Metamask RPC",
-  "error.connection.one": "看起来我们无法完成这个请求。",
-  "error.connection.two": "这可能只是连接的问题而已。",
-  "error.connection.three": "您可以点击刷新再试一次。",
+  "error.connection.one": ENGLISH_TERMS["error.connection.one"],
+  "error.connection.two": ENGLISH_TERMS["error.connection.two"],
+  "error.connection.three": ENGLISH_TERMS["error.connection.three"],
   "error.connection.four":
     "如果问题仍然存在，您可以联系我们的支持团队或跳转到我们的 Discord 并询问我们的社区以寻求帮助。",
   "error.diagnostic.info": "诊断信息",
@@ -2786,30 +2786,6 @@ const henHouseTerms: Record<HenHouseTerms, string> = {
   "henHouse.text.six": ENGLISH_TERMS["henHouse.text.six"],
 };
 
-const howToFarm: Record<HowToFarm, string> = {
-  "howToFarm.title": ENGLISH_TERMS["howToFarm.title"],
-  "howToFarm.stepOne": ENGLISH_TERMS["howToFarm.stepOne"],
-  "howToFarm.stepTwo": ENGLISH_TERMS["howToFarm.stepTwo"],
-  "howToFarm.stepThree": ENGLISH_TERMS["howToFarm.stepThree"],
-  "howToFarm.stepFour": ENGLISH_TERMS["howToFarm.stepFour"],
-  "howToFarm.stepFive": ENGLISH_TERMS["howToFarm.stepFive"],
-};
-
-const howToSync: Record<HowToSync, string> = {
-  "howToSync.title": ENGLISH_TERMS["howToSync.title"],
-  "howToSync.description": ENGLISH_TERMS["howToSync.description"],
-  "howToSync.stepOne": ENGLISH_TERMS["howToSync.stepOne"],
-  "howToSync.stepTwo": ENGLISH_TERMS["howToSync.stepTwo"],
-};
-
-const howToUpgrade: Record<HowToUpgrade, string> = {
-  "howToUpgrade.title": ENGLISH_TERMS["howToUpgrade.title"],
-  "howToUpgrade.stepOne": ENGLISH_TERMS["howToUpgrade.stepOne"],
-  "howToUpgrade.stepTwo": ENGLISH_TERMS["howToUpgrade.stepTwo"],
-  "howToUpgrade.stepThree": ENGLISH_TERMS["howToUpgrade.stepThree"],
-  "howToUpgrade.stepFour": ENGLISH_TERMS["howToUpgrade.stepFour"],
-};
-
 const interactableModals: Record<InteractableModals, string> = {
   "interactableModals.returnhome.message":
     ENGLISH_TERMS["interactableModals.returnhome.message"],
@@ -2974,13 +2950,6 @@ const landscapeTerms: Record<LandscapeTerms, string> = {
   "landscape.dragMe": ENGLISH_TERMS["landscape.dragMe"],
   "landscape.expansion.date": ENGLISH_TERMS["landscape.expansion.date"],
   "landscape.great.work": ENGLISH_TERMS["landscape.great.work"],
-};
-
-const letsGo: Record<LetsGo, string> = {
-  "letsGo.title": ENGLISH_TERMS["letsGo.title"],
-  "letsGo.description": ENGLISH_TERMS["letsGo.description"],
-  "letsGo.readMore": ENGLISH_TERMS["letsGo.readMore"],
-  "letsGo.officialDocs": ENGLISH_TERMS["letsGo.officialDocs"],
 };
 
 const levelUpMessages: Record<LevelUpMessages, string> = {
@@ -4787,7 +4756,6 @@ const leaderboardTerms: Record<Leaderboard, string> = {
 
 const gameOptions: Record<GameOptions, string> = {
   "gameOptions.title": "游戏设置", // using “Game Settings"
-  "gameOptions.howToPlay": ENGLISH_TERMS["gameOptions.howToPlay"],
   "gameOptions.farmId": "农场 ID #{{farmId}}",
   "gameOptions.logout": "登出",
   "gameOptions.confirmLogout": "您确定要登出吗？",
@@ -5012,16 +4980,12 @@ export const CHINESE_SIMPLIFIED_TERMS: Record<TranslationKeys, string> = {
   ...heliosSunflower,
   ...helper,
   ...henHouseTerms,
-  ...howToFarm,
-  ...howToSync,
-  ...howToUpgrade,
   ...interactableModals,
   ...introPage,
   ...islandName,
   ...islandNotFound,
   ...islandupgrade,
   ...landscapeTerms,
-  ...letsGo,
   ...levelUpMessages,
   ...loser,
   ...lostSunflorian,

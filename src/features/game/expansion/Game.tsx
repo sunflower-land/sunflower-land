@@ -62,6 +62,8 @@ import { VIPOffer } from "../components/modal/components/VIPItems";
 import { GreenhouseInside } from "features/greenhouse/GreenhouseInside";
 import { useSound } from "lib/utils/hooks/useSound";
 import { SomethingArrived } from "./components/SomethingArrived";
+import { TradeAlreadyFulfilled } from "../components/TradeAlreadyFulfilled";
+import { NPC_WEARABLES } from "lib/npcs";
 
 const land = SUNNYSIDE.land.island;
 
@@ -106,6 +108,7 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   fulfillTradeListing: false,
   listed: true,
   sniped: true,
+  tradeAlreadyFulfilled: true,
   priceChanged: true,
   buds: false,
   mailbox: false,
@@ -134,6 +137,8 @@ const isListingDeleted = (state: MachineState) =>
 const isFulfillingTradeListing = (state: MachineState) =>
   state.matches("fulfillTradeListing");
 const isSniped = (state: MachineState) => state.matches("sniped");
+const isTradeAlreadyFulfilled = (state: MachineState) =>
+  state.matches("tradeAlreadyFulfilled");
 const hasMarketPriceChanged = (state: MachineState) =>
   state.matches("priceChanged");
 const isRefreshing = (state: MachineState) => state.matches("refreshing");
@@ -275,6 +280,10 @@ export const GameWrapper: React.FC = ({ children }) => {
   const deletingListing = useSelector(gameService, isDeletingListing);
   const listingDeleted = useSelector(gameService, isListingDeleted);
   const sniped = useSelector(gameService, isSniped);
+  const tradeAlreadyFulfilled = useSelector(
+    gameService,
+    isTradeAlreadyFulfilled,
+  );
   const marketPriceChanged = useSelector(gameService, hasMarketPriceChanged);
   const refreshing = useSelector(gameService, isRefreshing);
   const buyingSFL = useSelector(gameService, isBuyingSFL);
@@ -447,7 +456,9 @@ export const GameWrapper: React.FC = ({ children }) => {
         <ToastPanel />
 
         <Modal show={SHOW_MODAL[stateValue as StateValues]} onHide={onHide}>
-          <Panel>
+          <Panel
+            bumpkinParts={error ? NPC_WEARABLES["worried pete"] : undefined}
+          >
             {loading && <Loading />}
             {refreshing && <Refreshing />}
             {buyingSFL && <AddingSFL />}
@@ -469,6 +480,7 @@ export const GameWrapper: React.FC = ({ children }) => {
             {deletingListing && <Loading text="Deleting listing" />}
             {listingDeleted && <ListingDeleted />}
             {sniped && <Sniped />}
+            {tradeAlreadyFulfilled && <TradeAlreadyFulfilled />}
             {marketPriceChanged && <PriceChange />}
             {minting && <Minting />}
             {promo && <Promo />}
