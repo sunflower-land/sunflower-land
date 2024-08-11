@@ -206,7 +206,7 @@ export class PlazaScene extends BaseScene {
     this.load.image("tomato_bombard", "world/tomato_bombard.gif");
     this.load.image("rice_panda", "world/rice_panda.webp");
 
-    this.load.image("non_la", "world/non_la.webp");
+    this.load.image("explorer_hat", "world/explorer_hat.png");
 
     this.load.image("faction_banner", "world/clash_of_factions_banner.webp");
     this.load.image("pharaoh_banner", "world/pharaohs_treasure_banner.webp");
@@ -452,7 +452,7 @@ export class PlazaScene extends BaseScene {
       this.add.image(248, 244, "rice_panda");
     }
 
-    this.add.image(288.5, 248, "non_la");
+    this.add.image(288.5, 248, "explorer_hat");
 
     const door = this.colliders
       ?.getChildren()
