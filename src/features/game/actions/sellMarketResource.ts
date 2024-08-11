@@ -36,6 +36,7 @@ export type TradeableName = Extract<
   | "Gold"
   | "Crimstone"
   | "Egg"
+  | "Honey"
 >;
 
 type Request = {

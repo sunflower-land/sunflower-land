@@ -58,6 +58,7 @@ export const MARKET_BUNDLES: Record<TradeableName, number> = {
   Gold: 100,
   Crimstone: 20,
   Egg: 200,
+  Honey: 100,
 };
 
 const LastUpdated: React.FC<{ cachedAt: number }> = ({ cachedAt }) => {
