@@ -642,6 +642,7 @@ const basicTreasure: Record<BasicTreasure, string> = {
   "budBox.title": "Tomurcuk kutusu",
   "budBox.description":
     "Her gün bir tomurcuk türü çiftçilik ödüllerinin kilidini açabilir.",
+  "budBox.today": ENGLISH_TERMS["budBox.today"],
   "raffle.title": "Goblin Çekilişi",
   "raffle.description":
     "Her ay ödül kazanma şansınız var. Kazananlar Discord'da duyurulacaktır.",
