@@ -43,6 +43,11 @@ export const MARKET_BUNDLES: Record<TradeableName, number> = {
   Radish: 400,
   Wheat: 400,
   Kale: 400,
+  Olive: 100,
+  Rice: 100,
+  Grape: 100,
+  Tomato: 300,
+  Lemon: 250,
   Blueberry: 200,
   Orange: 200,
   Apple: 200,
@@ -51,6 +56,7 @@ export const MARKET_BUNDLES: Record<TradeableName, number> = {
   Stone: 200,
   Iron: 200,
   Gold: 100,
+  Crimstone: 20,
   Egg: 200,
 };
 
