@@ -42,8 +42,6 @@ export function enterRaffle({
       },
     };
 
-    return {
-      ...game,
-    };
+    return game;
   });
 }

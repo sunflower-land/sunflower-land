@@ -81,8 +81,6 @@ export function placeCollectible({
       stateCopy.collectibles[action.name] = collectibleItems;
     }
 
-    return {
-      ...stateCopy,
-    };
+    return stateCopy;
   });
 }

@@ -47,8 +47,6 @@ export function reelRod({
     delete game.fishing[location].caught;
     delete game.fishing[location].chum;
 
-    return {
-      ...game,
-    };
+    return game;
   });
 }

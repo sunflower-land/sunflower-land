@@ -108,8 +108,6 @@ export function castRod({
 
     bumpkin.activity = trackActivity("Rod Casted", bumpkin.activity);
 
-    return {
-      ...game,
-    };
+    return game;
   });
 }

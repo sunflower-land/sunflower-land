@@ -77,9 +77,7 @@ export function expandLand({ state, action, createdAt = Date.now() }: Options) {
 
     game.expandedAt = createdAt;
 
-    return {
-      ...game,
-      inventory,
-    };
+    game.inventory = inventory;
+    return game;
   });
 }

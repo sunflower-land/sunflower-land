@@ -346,10 +346,8 @@ export function revealLand({
     const previous = game.airdrops ?? [];
     game.airdrops = [...previous, ...rewards];
 
-    return {
-      ...game,
-      inventory,
-    };
+    game.inventory = inventory;
+    return game;
   });
 }
 

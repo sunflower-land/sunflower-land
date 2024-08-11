@@ -71,9 +71,7 @@ export function removeCrop({ state, action, createdAt = Date.now() }: Options) {
 
     delete plot.crop;
 
-    return {
-      ...stateCopy,
-      crops: plots,
-    } as GameState;
+    stateCopy.crops = plots;
+    return stateCopy;
   });
 }

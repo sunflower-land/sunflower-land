@@ -87,8 +87,6 @@ export function buyFarmhand({
     const previous = game.inventory.Farmhand ?? new Decimal(0);
     game.inventory.Farmhand = previous.add(1);
 
-    return {
-      ...game,
-    };
+    return game;
   });
 }
