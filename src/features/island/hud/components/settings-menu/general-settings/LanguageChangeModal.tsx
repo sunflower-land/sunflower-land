@@ -15,6 +15,7 @@ import { getKeys } from "features/game/types/decorations";
 export const LanguageSwitcher: React.FC = () => {
   const { t } = useAppTranslation();
   const initialLanguage = localStorage.getItem("language") || "en";
+  const fontType = localStorage.getItem("settings.font") || "Default";
   const [language, setLanguage] = useState(initialLanguage);
   const [selected, setSelected] = useState<LanguageCode>("en");
   const [isConfirmModalOpen, setConfirmModal] = useState(false);
@@ -25,6 +26,31 @@ export const LanguageSwitcher: React.FC = () => {
     i18n.changeLanguage(languageCode);
     setLanguage(languageCode);
     location.reload();
+  };
+
+  const getFontNameClass = (languageCode: LanguageCode): string => {
+    const formatedFontType = fontType.replace(/[^a-zA-Z]/g, "");
+
+    switch (languageCode) {
+      case "ru":
+        return `font-${languageCode}${formatedFontType}`;
+      default:
+        return "";
+    }
+  };
+
+  const getFontSizeClass = (languageCode: LanguageCode): string => {
+    if (languageCode === language) {
+      return "";
+    }
+    if (languageCode === "zh-CN") {
+      return "!text-[18px]";
+    }
+    if (languageCode === "ru" && fontType === "Bold") {
+      return "!text-[26px]";
+    }
+
+    return "";
   };
 
   const languageArray = getKeys(languageDetails);
@@ -39,11 +65,6 @@ export const LanguageSwitcher: React.FC = () => {
               setConfirmModal(true);
             }}
             disabled={language === languageCode}
-            className={`${
-              languageCode === "zh-CN" && language !== "zh-CN"
-                ? "!text-[18px]"
-                : ""
-            }`}
           >
             {languageDetails[languageCode].languageImage.map((img, index) => (
               <img
@@ -53,7 +74,11 @@ export const LanguageSwitcher: React.FC = () => {
                 alt={languageDetails[languageCode].imageAlt[index]}
               />
             ))}
-            {languageDetails[languageCode].languageName}{" "}
+            <span
+              className={`${getFontNameClass(languageCode)} ${getFontSizeClass(languageCode)}`}
+            >
+              {languageDetails[languageCode].languageName}
+            </span>{" "}
             {language === languageCode && t("changeLanguage.currentLanguage")}
           </Button>
         ))}
