@@ -414,7 +414,7 @@ export const BUMPKIN_ITEM_BUFF_LABELS: Partial<Record<BumpkinItem, BuffLabel>> =
       boostedItemIcon: ITEM_DETAILS.Grape.image,
     },
     "Pirate Potion": {
-      shortDescription: "Unlock Pirate Chest",
+      shortDescription: translate("bumpkinItemBuff.pirate.potion"),
       labelType: "vibrant",
       boostTypeIcon: lightning,
       boostedItemIcon: ITEM_DETAILS["Pirate Bounty"].image,

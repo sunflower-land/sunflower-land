@@ -76,23 +76,27 @@ export const PirateChest: React.FC<Props> = ({ onClose, setIsLoading }) => {
     >
       {tab === 0 &&
         (isPicking || (gameState.matches("revealing") && isRevealing) ? (
-          <ChestRevealing type={"Pirate Chest"} />
+          <ChestRevealing type={t("pirate.chest")} />
         ) : gameState.matches("revealed") && isRevealing ? (
           <Revealed onAcknowledged={() => setIsRevealing(false)} />
         ) : !piratePotionEquipped ? (
           <div className="p-2 flex flex-col items-start">
             <div className="mb-1">
               <Label type="danger" className="mb-1">
-                {`Missing Pirate Potion`}
+                {t("missing.pirate.potion")}
               </Label>
             </div>
             <p className="mb-1 ml-1 text-left">
-              {`Ahoy maties! I am protecting this plunder for my crew of pirates.`}
+              {t("npcDialogues.oldSalty.missingPotion1")}
             </p>
             <p className="text-xs ml-1 text-left">
-              {`Come back when you have a body of a pirate!`}
+              {t("npcDialogues.oldSalty.missingPotion2")}
             </p>
-            <Button className="mt-2" onClick={open} disabled={true}>
+            <Button
+              className="mt-2"
+              onClick={open}
+              disabled={!piratePotionEquipped}
+            >
               {t("open")}
             </Button>
           </div>
@@ -104,25 +108,27 @@ export const PirateChest: React.FC<Props> = ({ onClose, setIsLoading }) => {
                 className="mb-1"
                 secondaryIcon={SUNNYSIDE.icons.confirm}
               >
-                {`Pirate Chest Opened`}
+                {t("pirate.chest.opened")}
               </Label>
               <Label
                 className="text-right mb-1"
                 type="info"
                 icon={SUNNYSIDE.icons.stopwatch}
               >
-                {`${`Come back in`} - ${secondsToString(secondsTillReset(), {
-                  length: "short",
-                })}`}
+                {t("comeBackIn.time", {
+                  timeToReset: secondsToString(secondsTillReset(), {
+                    length: "short",
+                  }),
+                })}
               </Label>
             </div>
             <p className="mb-1 ml-1 text-left">
-              {`You have opened the Pirate Chest Today`}
+              {t("npcDialogues.oldSalty.chestOpened1")}
             </p>
             <p className="text-xs mb-1 ml-1 text-left">
-              {`Come back tomorrow to open the Pirate Chest again`}
+              {t("npcDialogues.oldSalty.chestOpened2")}
             </p>
-            <Button className="mt-2" onClick={open} disabled={true}>
+            <Button className="mt-2" onClick={open} disabled={hasOpened}>
               {t("open")}
             </Button>
           </div>
@@ -134,14 +140,14 @@ export const PirateChest: React.FC<Props> = ({ onClose, setIsLoading }) => {
                 className="mb-1 mr-3 capitalize"
                 secondaryIcon={SUNNYSIDE.icons.confirm}
               >
-                {`Pirate Potion equipped`}
+                {t("pirate.potion.equipped")}
               </Label>
             </div>
             <p className="mb-1 ml-1 text-left">
-              {`Ahoy maties! Looks like you're a fellow pirate too!`}
+              {t("npcDialogues.oldSalty.chestUnopened1")}
             </p>
-            <p className="mb-1 ml-1 text-left">
-              {`You are entitled to one treasure gift per day.`}
+            <p className="text-xs mb-1 ml-1 text-left">
+              {t("npcDialogues.oldSalty.chestUnopened2")}
             </p>
             <Button className="mt-2" onClick={open}>
               {t("open")}
