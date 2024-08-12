@@ -17,7 +17,7 @@ export const TEST_BUMPKIN: Bumpkin = {
   equipped: {
     body: "Beige Farmer Potion",
     hair: "Basic Hair",
-    shirt: "Gift Giver",
+    shirt: "Blue Farmer Shirt",
     pants: "Brown Suspenders",
 
     shoes: "Black Farmer Boots",
@@ -25,8 +25,6 @@ export const TEST_BUMPKIN: Bumpkin = {
     background: "Farm Background",
     beard: "Santa Beard",
     hat: "Deep Sea Helm",
-
-    aura: "Coin Aura",
   },
   skills: {},
   achievements: {},
