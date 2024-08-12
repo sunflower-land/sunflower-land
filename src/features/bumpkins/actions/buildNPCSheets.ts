@@ -69,30 +69,7 @@ const getImage = async (url: string) => {
   return image;
 };
 
-export async function buildNPCSheets(request: Request): Promise<Response> {
+export async function buildNPCSheets(request: Request) {
   const tokenUri = tokenUriBuilder(request.parts);
-
-  const idleUrl = `${URL}/idle/${tokenUri}.webp`;
-  const walkingUrl = `${URL}/walking/${tokenUri}.webp`;
-
-  try {
-    const [idle, walking] = await Promise.all([
-      getImage(idleUrl),
-      getImage(walkingUrl),
-    ]);
-
-    return {
-      sheets: {
-        idle,
-        walking,
-      },
-    };
-  } catch {
-    // Since these are not real NFTs, prepend fake ID and version
-    const validName = `0_v1_${tokenUri}`;
-    const sheets = await buildNPCSheetsRequest(validName);
-    return {
-      sheets,
-    };
-  }
+  return tokenUri;
 }
