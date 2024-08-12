@@ -72,6 +72,7 @@ export const PirateChest: React.FC<Props> = ({ onClose, setIsLoading }) => {
       ]}
       currentTab={tab}
       setCurrentTab={setTab}
+      className="pt-1"
     >
       {tab === 0 &&
         (isPicking || (gameState.matches("revealing") && isRevealing) ? (
@@ -80,15 +81,15 @@ export const PirateChest: React.FC<Props> = ({ onClose, setIsLoading }) => {
           <Revealed onAcknowledged={() => setIsRevealing(false)} />
         ) : !piratePotionEquipped ? (
           <div className="p-2 flex flex-col items-start">
-            <div className="mb-2">
-              <Label type="danger" className="mb-2">
+            <div className="mb-1">
+              <Label type="danger" className="mb-1">
                 {`Missing Pirate Potion`}
               </Label>
             </div>
-            <p className="mb-2 text-left">
+            <p className="mb-1 ml-1 text-left">
               {`Ahoy maties! I am protecting this plunder for my crew of pirates.`}
             </p>
-            <p className="text-xs text-left">
+            <p className="text-xs ml-1 text-left">
               {`Come back when you have a body of a pirate!`}
             </p>
             <Button className="mt-2" onClick={open} disabled={true}>
@@ -97,16 +98,16 @@ export const PirateChest: React.FC<Props> = ({ onClose, setIsLoading }) => {
           </div>
         ) : hasOpened ? (
           <div className="p-2 flex flex-col items-start">
-            <div className="flex justify-between items-center w-full mb-2">
+            <div className="flex justify-between items-center w-full mb-1">
               <Label
                 type="success"
-                className="mb-2"
+                className="mb-1"
                 secondaryIcon={SUNNYSIDE.icons.confirm}
               >
                 {`Pirate Chest Opened`}
               </Label>
               <Label
-                className="text-right mb-2"
+                className="text-right mb-1"
                 type="info"
                 icon={SUNNYSIDE.icons.stopwatch}
               >
@@ -115,10 +116,10 @@ export const PirateChest: React.FC<Props> = ({ onClose, setIsLoading }) => {
                 })}`}
               </Label>
             </div>
-            <p className="mb-2 text-left">
+            <p className="mb-1 ml-1 text-left">
               {`You have opened the Pirate Chest Today`}
             </p>
-            <p className="text-xs mb-2 text-left">
+            <p className="text-xs mb-1 ml-1 text-left">
               {`Come back tomorrow to open the Pirate Chest again`}
             </p>
             <Button className="mt-2" onClick={open} disabled={true}>
@@ -127,19 +128,19 @@ export const PirateChest: React.FC<Props> = ({ onClose, setIsLoading }) => {
           </div>
         ) : (
           <div className="p-2 flex flex-col items-start">
-            <div className="mb-2">
+            <div className="mb-1">
               <Label
                 type="success"
-                className="mb-2 mr-3 capitalize"
+                className="mb-1 mr-3 capitalize"
                 secondaryIcon={SUNNYSIDE.icons.confirm}
               >
                 {`Pirate Potion equipped`}
               </Label>
             </div>
-            <p className="mb-2 text-left">
+            <p className="mb-1 ml-1 text-left">
               {`Ahoy maties! Looks like you're a fellow pirate too!`}
             </p>
-            <p className="mb-2 text-left">
+            <p className="mb-1 ml-1 text-left">
               {`You are entitled to one treasure gift per day.`}
             </p>
             <Button className="mt-2" onClick={open}>
