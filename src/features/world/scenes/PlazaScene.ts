@@ -287,6 +287,14 @@ export class PlazaScene extends BaseScene {
 
     // Sprites
     const basicChest = this.add.sprite(106, 160, "basic_chest");
+    this.physics.world.enable(basicChest);
+    this.colliders?.add(basicChest);
+    this.triggerColliders?.add(basicChest);
+    (basicChest.body as Phaser.Physics.Arcade.Body)
+      .setSize(17, 20)
+      .setOffset(0, 0)
+      .setImmovable(true)
+      .setCollideWorldBounds(true);
     basicChest.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
       if (this.checkDistanceToSprite(basicChest, 75)) {
         interactableModalManager.open("basic_chest");
@@ -296,6 +304,14 @@ export class PlazaScene extends BaseScene {
     });
 
     const luxuryChest = this.add.sprite(825, 70, "luxury_chest");
+    this.physics.world.enable(luxuryChest);
+    this.colliders?.add(luxuryChest);
+    this.triggerColliders?.add(luxuryChest);
+    (luxuryChest.body as Phaser.Physics.Arcade.Body)
+      .setSize(17, 20)
+      .setOffset(0, 0)
+      .setImmovable(true)
+      .setCollideWorldBounds(true);
     luxuryChest.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
       if (this.checkDistanceToSprite(luxuryChest, 75)) {
         interactableModalManager.open("luxury_chest");

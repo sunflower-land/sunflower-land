@@ -111,6 +111,7 @@ export class BeachScene extends BaseScene {
     this.load.image("sand_hole", SUNNYSIDE.soil.sand_dug);
 
     this.load.image("wooden_chest", "world/wooden_chest.png");
+    this.load.image("rare_chest", "world/rare_chest.png");
     this.load.image("locked_disc", "world/locked_disc.png");
     this.load.image("rare_key_disc", "world/rare_key_disc.png");
 
@@ -309,6 +310,14 @@ export class BeachScene extends BaseScene {
     }
 
     const chest = this.add.sprite(400, 680, "wooden_chest");
+    this.physics.world.enable(chest);
+    this.colliders?.add(chest);
+    this.triggerColliders?.add(chest);
+    (chest.body as Phaser.Physics.Arcade.Body)
+      .setSize(17, 20)
+      .setOffset(0, 0)
+      .setImmovable(true)
+      .setCollideWorldBounds(true);
     chest.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
       if (this.checkDistanceToSprite(chest, 75)) {
         interactableModalManager.open("rare_chest");
@@ -317,7 +326,33 @@ export class BeachScene extends BaseScene {
       }
     });
 
-    const pirateChest = this.add.sprite(105, 260, "wooden_chest"); // Placeholder, will insert pirate chest sprite when it's ready
+    const piratePotionEquipped = [
+      ...Object.values(this.gameState.bumpkin?.equipped ?? {}),
+      ...Object.values(this.gameState.farmHands.bumpkins).flatMap((bumpkin) =>
+        Object.values(bumpkin.equipped),
+      ),
+    ].includes("Pirate Potion");
+    const openedAt = this.gameState.pumpkinPlaza.pirateChest?.openedAt ?? 0;
+    const hasOpened =
+      !!openedAt &&
+      new Date(openedAt).toISOString().substring(0, 10) ===
+        new Date().toISOString().substring(0, 10);
+
+    if (piratePotionEquipped && !hasOpened) {
+      this.add.sprite(105, 235, "question_disc").setDepth(1000000000);
+    } else {
+      this.add.sprite(105, 235, "locked_disc").setDepth(1000000000);
+    }
+
+    const pirateChest = this.add.sprite(105, 255, "rare_chest"); // Placeholder, will insert pirate chest sprite when it's ready
+    this.physics.world.enable(pirateChest);
+    this.colliders?.add(pirateChest);
+    this.triggerColliders?.add(pirateChest);
+    (pirateChest.body as Phaser.Physics.Arcade.Body)
+      .setSize(17, 20)
+      .setOffset(0, 0)
+      .setImmovable(true)
+      .setCollideWorldBounds(true);
     pirateChest.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
       if (this.checkDistanceToSprite(pirateChest, 75)) {
         interactableModalManager.open("pirate_chest");
