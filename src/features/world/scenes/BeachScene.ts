@@ -338,28 +338,32 @@ export class BeachScene extends BaseScene {
       new Date(openedAt).toISOString().substring(0, 10) ===
         new Date().toISOString().substring(0, 10);
 
-    if (piratePotionEquipped && !hasOpened) {
-      this.add.sprite(105, 235, "question_disc").setDepth(1000000000);
-    } else {
-      this.add.sprite(105, 235, "locked_disc").setDepth(1000000000);
-    }
-
-    const pirateChest = this.add.sprite(105, 255, "rare_chest"); // Placeholder, will insert pirate chest sprite when it's ready
-    this.physics.world.enable(pirateChest);
-    this.colliders?.add(pirateChest);
-    this.triggerColliders?.add(pirateChest);
-    (pirateChest.body as Phaser.Physics.Arcade.Body)
-      .setSize(17, 20)
-      .setOffset(0, 0)
-      .setImmovable(true)
-      .setCollideWorldBounds(true);
-    pirateChest.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
-      if (this.checkDistanceToSprite(pirateChest, 75)) {
-        interactableModalManager.open("pirate_chest");
+    if (hasFeatureAccess(this.gameState, "PIRATE_CHEST")) {
+      if (piratePotionEquipped && !hasOpened) {
+        this.add.sprite(105, 235, "question_disc").setDepth(1000000000);
       } else {
-        this.currentPlayer?.speak(translate("base.iam.far.away"));
+        this.add.sprite(105, 235, "locked_disc").setDepth(1000000000);
       }
-    });
+
+      const pirateChest = this.add.sprite(105, 255, "rare_chest"); // Placeholder, will insert pirate chest sprite when it's ready
+      this.physics.world.enable(pirateChest);
+      this.colliders?.add(pirateChest);
+      this.triggerColliders?.add(pirateChest);
+      (pirateChest.body as Phaser.Physics.Arcade.Body)
+        .setSize(17, 20)
+        .setOffset(0, 0)
+        .setImmovable(true)
+        .setCollideWorldBounds(true);
+      pirateChest
+        .setInteractive({ cursor: "pointer" })
+        .on("pointerdown", () => {
+          if (this.checkDistanceToSprite(pirateChest, 75)) {
+            interactableModalManager.open("pirate_chest");
+          } else {
+            this.currentPlayer?.speak(translate("base.iam.far.away"));
+          }
+        });
+    }
 
     this.sound.add("drill");
     this.sound.add("dig");
