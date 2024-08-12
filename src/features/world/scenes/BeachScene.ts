@@ -38,65 +38,21 @@ const convertToSnakeCase = (str: string) => {
 };
 
 const BUMPKINS: NPCBumpkin[] = [
-  {
-    npc: "pharaoh",
-    x: 36,
-    y: 86,
-  },
-  {
-    npc: "petro",
-    x: 480,
-    y: 80,
-    direction: "left",
-  },
-  {
-    npc: "old salty",
-    x: 38,
-    y: 262,
-  },
-  {
-    npc: "digby",
-    x: 336,
-    y: 219,
-    direction: "left",
-  },
-  {
-    npc: "finn",
-    x: 174,
-    y: 598,
-  },
-  {
-    npc: "finley",
-    x: 202,
-    y: 470,
-    direction: "left",
-  },
-  {
-    npc: "tango",
-    x: 496,
-    y: 401,
-  },
-  {
-    npc: "jafar",
-    x: 478,
-    y: 220,
-    direction: "left",
-  },
+  { npc: "pharaoh", x: 36, y: 86 },
+  { npc: "petro", x: 480, y: 80, direction: "left" },
+  { npc: "old salty", x: 38, y: 262 },
+  { npc: "digby", x: 336, y: 219, direction: "left" },
+  { npc: "finn", x: 174, y: 598 },
+  { npc: "finley", x: 202, y: 470, direction: "left" },
+  { npc: "tango", x: 496, y: 401 },
+  { npc: "jafar", x: 478, y: 220, direction: "left" },
+  { npc: "corale", x: 215, y: 750 },
+  { npc: "miranda", x: 418, y: 487 },
   {
     // To remove on digging release
     npc: "goldtooth",
     x: 384,
     y: 335,
-  },
-  {
-    npc: "corale",
-    x: 215,
-    y: 750,
-  },
-  {
-    x: 418,
-    y: 487,
-    npc: "miranda",
   },
 ];
 
@@ -356,6 +312,15 @@ export class BeachScene extends BaseScene {
     chest.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
       if (this.checkDistanceToSprite(chest, 75)) {
         interactableModalManager.open("rare_chest");
+      } else {
+        this.currentPlayer?.speak(translate("base.iam.far.away"));
+      }
+    });
+
+    const pirateChest = this.add.sprite(105, 260, "wooden_chest"); // Placeholder, will insert pirate chest sprite when it's ready
+    pirateChest.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
+      if (this.checkDistanceToSprite(pirateChest, 75)) {
+        interactableModalManager.open("pirate_chest");
       } else {
         this.currentPlayer?.speak(translate("base.iam.far.away"));
       }

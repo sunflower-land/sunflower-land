@@ -1218,6 +1218,9 @@ export interface GameState {
     giftGiver?: {
       openedAt: number;
     };
+    pirateChest?: {
+      openedAt: number;
+    };
   };
   conversations: ConversationName[];
   mailbox: {
