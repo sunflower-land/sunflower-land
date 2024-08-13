@@ -2131,8 +2131,7 @@ const factions: Record<Factions, string> = {
   "faction.donation.bulk.resources": "Пожертвования ресурсов (минимум {{min}})",
   "faction.donation.bulk.resources.unlimited.per.day":
     "{{donatedToday}}/неограниченно",
-  "faction.donation.confirm":
-    "Вы уверены, что хотите пожертвовать перечисленное за {{factionPoints}} {{reward}}?",
+  "faction.donation.confirm": ENGLISH_TERMS["faction.donation.confirm"],
   "faction.seasonal.delivery.start.at":
     "Сезонные доставки начнутся через {{days}}",
   "faction.points.with.number": "Очки фракции: {{points}}",
