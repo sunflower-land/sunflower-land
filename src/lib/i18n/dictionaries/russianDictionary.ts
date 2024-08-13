@@ -638,7 +638,8 @@ const basicTreasure: Record<BasicTreasure, string> = {
   "budBox.opened": "Уже открыт сегодня",
   "budBox.title": "Сундук бадов",
   "budBox.description":
-    "Каждый день определенный вид бада может получать фермерские награды.",
+    "Каждый день определенный вид бада поможет получить тебе награду.",
+  "budBox.today": "Сегодня - {{timeLeft}} осталось",
   "raffle.title": "Розыгрыш от гоблинов",
   "raffle.description":
     "Каждый месяц у тебя есть шанс выиграть награды. Победители будут объявлены в Discord.",

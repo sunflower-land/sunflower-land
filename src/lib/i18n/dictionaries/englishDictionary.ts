@@ -639,6 +639,7 @@ const basicTreasure: Record<BasicTreasure, string> = {
   "budBox.opened": "Opened today",
   "budBox.title": "Bud box",
   "budBox.description": "Each day, a bud type can unlock farming rewards.",
+  "budBox.today": "Today - {{timeLeft}} left",
   "raffle.title": "Goblin Raffle",
   "raffle.description":
     "Each month, you have a chance to win rewards. Winners will be announced on Discord.",

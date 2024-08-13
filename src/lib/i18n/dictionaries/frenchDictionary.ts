@@ -644,6 +644,7 @@ const basicTreasure: Record<BasicTreasure, string> = {
   "budBox.title": "Bud Box",
   "budBox.description":
     "Chaque jour, un type de tête peut débloquer des récompenses agricoles.",
+  "budBox.today": ENGLISH_TERMS["budBox.today"],
   "raffle.title": "Tombola Gobelin",
   "raffle.description":
     "Chaque mois, vous avez une chance de gagner des récompenses. Les gagnants seront annoncés sur Discord.",

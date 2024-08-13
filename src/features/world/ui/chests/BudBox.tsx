@@ -9,7 +9,6 @@ import { Revealed } from "features/game/components/Revealed";
 
 import React, { useContext, useState } from "react";
 
-import budIcon from "assets/icons/bud.png";
 import chestIcon from "assets/icons/gift.png";
 
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -47,23 +46,10 @@ export function getDailyBudBoxType(date: Date): TypeTrait {
   return BUD_ORDER[index];
 }
 
-const ICONS: Record<TypeTrait, string> = {
-  Plaza: budIcon,
-  Woodlands: budIcon,
-  Cave: budIcon,
-  Sea: budIcon,
-  Castle: budIcon,
-  Port: budIcon,
-  Retreat: budIcon,
-  Saphiro: budIcon,
-  Snow: budIcon,
-  Beach: budIcon,
-};
-
 export const BudBox: React.FC<Props> = ({ onClose, setIsLoading }) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
-  const { t } = useAppTranslation();
+  const { t, i18n } = useAppTranslation();
 
   // Just a prolonged UI state to show the shuffle of items animation
   const [isPicking, setIsPicking] = useState(false);
@@ -85,6 +71,27 @@ export const BudBox: React.FC<Props> = ({ onClose, setIsLoading }) => {
     setIsRevealing(true);
     setIsPicking(false);
     setIsLoading && setIsLoading(false);
+  };
+
+  const getDayOfWeek = (date: Date): string => {
+    const options: Intl.DateTimeFormatOptions = {
+      weekday: "long",
+    };
+
+    switch (i18n.language) {
+      case "fr":
+        return date.toLocaleDateString("fr-FR", options);
+      case "pt":
+        return date.toLocaleDateString("pt-PT", options);
+      case "tk":
+        return date.toLocaleDateString("tr-TR", options);
+      case "zh-CN":
+        return date.toLocaleDateString("zh-CN", options);
+      case "ru":
+        return date.toLocaleDateString("ru-RU", options);
+      default:
+        return date.toLocaleDateString("en-US", options);
+    }
   };
 
   if (isPicking || (gameState.matches("revealing") && isRevealing)) {
@@ -142,12 +149,7 @@ export const BudBox: React.FC<Props> = ({ onClose, setIsLoading }) => {
         {days.map((_, index) => {
           const date = new Date(now + 24 * 60 * 60 * 1000 * index);
           const dailyBud = getDailyBudBoxType(date);
-
           const hasBud = playerBudTypes.includes(dailyBud);
-
-          const dayOfWeek = date.toLocaleDateString("en-US", {
-            weekday: "long",
-          });
 
           return (
             <OuterPanel
@@ -170,7 +172,7 @@ export const BudBox: React.FC<Props> = ({ onClose, setIsLoading }) => {
                 <Button
                   onClick={open}
                   disabled={!hasBud}
-                  className="w-16 h-8 text-xs mt-4"
+                  className="w-auto h-8 text-xs mt-4"
                 >
                   {t("budBox.open")}
                 </Button>
@@ -188,16 +190,21 @@ export const BudBox: React.FC<Props> = ({ onClose, setIsLoading }) => {
                 <Label
                   icon={SUNNYSIDE.icons.stopwatch}
                   type="info"
-                  className="absolute -top-2 -right-2"
+                  className="absolute -top-3 -right-2"
                 >
-                  {`Today - ${secondsToString(secondsLeftToday, {
-                    length: "short",
-                  })} left`}
+                  {t("budBox.today", {
+                    timeLeft: secondsToString(secondsLeftToday, {
+                      length: "short",
+                    }),
+                  })}
                 </Label>
               )}
               {index > 0 && (
-                <Label type="default" className="absolute -top-2 -right-2">
-                  {dayOfWeek}
+                <Label
+                  type="default"
+                  className="absolute -top-2 -right-2 capitalize"
+                >
+                  {getDayOfWeek(date)}
                 </Label>
               )}
             </OuterPanel>
