@@ -47,7 +47,7 @@ export type FeatureName =
 
 // Used for testing production features
 export const ADMIN_IDS = [1, 3, 51, 39488, 128727];
-/*
+/**
  * Adam: 1
  * Spencer: 3
  * Sacul: 51
@@ -84,7 +84,7 @@ const featureFlags: Record<FeatureName, FeatureFlag> = {
   TEST_DIGGING: betaTimeBasedFeatureFlag(new Date("2024-08-01T00:00:00Z")),
   NEW_FRUITS: betaTimeBasedFeatureFlag(new Date("2024-08-01T00:00:00Z")),
   DESERT_PLAZA: betaTimeBasedFeatureFlag(new Date("2024-08-01T00:00:00Z")),
-  PIRATE_CHEST: betaTimeBasedFeatureFlag(new Date("2024-08-16T00:00:00Z")),
+  PIRATE_CHEST: defaultFeatureFlag,
 };
 
 export const hasFeatureAccess = (game: GameState, featureName: FeatureName) => {

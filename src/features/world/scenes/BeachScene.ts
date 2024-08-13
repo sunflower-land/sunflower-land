@@ -326,19 +326,18 @@ export class BeachScene extends BaseScene {
       }
     });
 
-    const piratePotionEquipped = [
-      ...Object.values(this.gameState.bumpkin?.equipped ?? {}),
-      ...Object.values(this.gameState.farmHands.bumpkins).flatMap((bumpkin) =>
-        Object.values(bumpkin.equipped),
-      ),
-    ].includes("Pirate Potion");
-    const openedAt = this.gameState.pumpkinPlaza.pirateChest?.openedAt ?? 0;
-    const hasOpened =
-      !!openedAt &&
-      new Date(openedAt).toISOString().substring(0, 10) ===
-        new Date().toISOString().substring(0, 10);
-
     if (hasFeatureAccess(this.gameState, "PIRATE_CHEST")) {
+      const piratePotionEquipped = isWearableActive({
+        game: this.gameState,
+        name: "Pirate Potion",
+      });
+
+      const openedAt = this.gameState.pumpkinPlaza.pirateChest?.openedAt ?? 0;
+      const hasOpened =
+        !!openedAt &&
+        new Date(openedAt).toISOString().substring(0, 10) ===
+          new Date().toISOString().substring(0, 10);
+
       if (piratePotionEquipped && !hasOpened) {
         this.add.sprite(105, 235, "question_disc").setDepth(1000000000);
       } else {
