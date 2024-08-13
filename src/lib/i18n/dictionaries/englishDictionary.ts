@@ -1073,6 +1073,7 @@ const bumpkinItemBuff: Record<BumpkinItemBuff, string> = {
   "bumpkinItemBuff.oil.overalls.boost": "+10 Oil",
   "bumpkinItemBuff.ancient.shovel.boost": "Dig treasure without Sand Shovel",
   "bumpkinItemBuff.grape.pants": "+0.2 Grapes",
+  "bumpkinItemBuff.pirate.potion": "Unlock Pirate Chest",
 };
 
 const bumpkinPart: Record<BumpkinPart, string> = {
@@ -2154,7 +2155,7 @@ const factions: Record<Factions, string> = {
   "faction.donation.bulk.resources.unlimited.per.day":
     "{{donatedToday}}/unlimited per day",
   "faction.donation.confirm":
-    "Are you sure you want to donate the following for a total of {{factionPoints}} {{reward}}?",
+    "Are you sure you want to donate the following for a total of {{factionPoints}} marks?",
   "faction.seasonal.delivery.start.at": "Seasonal Deliveries begin in {{days}}",
   "faction.points.with.number": "Faction points: {{points}}",
   "faction.points.title": "Faction Points",
@@ -2877,6 +2878,11 @@ const gameTerms: Record<GameTerms, string> = {
   "visiting.farmId": "Visting #{{farmId}}",
   "stock.inStock": "{{stock}} in stock",
   "stock.left": "{{stock}} left",
+  "pirate.chest": "Pirate Chest",
+  "pirate.chest.opened": "Pirate Chest Opened",
+  "pirate.potion.equipped": "Pirate Potion equipped",
+  "missing.pirate.potion": "Missing Pirate Potion",
+  "comeBackIn.time": "Come back in {{timeToReset}}",
 };
 
 const garbageCollector: Record<GarbageCollector, string> = {
@@ -3982,6 +3988,20 @@ const npcDialogues: Record<NpcDialogues, string> = {
     "No active order for Old Salty's treasure cove, me heartie, but that doesn't mean there's no adventure to be had. Keep your eyes peeled for hidden treasures and uncharted waters!",
   "npcDialogues.oldSalty.noOrder2":
     "No specific treasure for you to seek with Old Salty at the moment, but don't fret, my hearty sailor! The high seas hold countless riches waiting to be discovered.",
+  // Old Salty Pirate Chest
+  "npcDialogues.oldSalty.missingPotion1":
+    "Ahoy, mateys! I be guardin' this plunder for me loyal crew.",
+  "npcDialogues.oldSalty.missingPotion2":
+    "Return when ye've the heart and body of a true pirate!",
+  "npcDialogues.oldSalty.chestUnopened1":
+    "Ahoy, mateys! It seems I've found a fellow pirate among ye!",
+  "npcDialogues.oldSalty.chestUnopened2":
+    "You are entitled to one treasure gift per day.",
+  "npcDialogues.oldSalty.chestOpened1":
+    "Ye've cracked open the Pirate Chest today!",
+  "npcDialogues.oldSalty.chestOpened2":
+    "Return on the morrow to plunder the Pirate Chest once more!",
+
   // Raven Intro
   "npcDialogues.raven.intro1":
     "Welcome to my humble abode. Careful where you step; there are potions brewing. Did you get what I ordered?",

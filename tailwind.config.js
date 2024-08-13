@@ -59,6 +59,12 @@ module.exports = {
       ...colors,
     },
     extend: {
+      fontFamily: {
+        ruDefault: ["Basis33"],
+        ruSansSerif: ["sans-serif"],
+        ruBold: ["Born2bSporty"],
+        ruChunkyOld: ["Russo\\ One"],
+      },
       colors: {
         green: {
           background: "#63c74d",
@@ -96,4 +102,10 @@ module.exports = {
       },
     },
   },
+  safelist: [
+    "font-ruDefault",
+    "font-ruSansSerif",
+    "font-ruBold",
+    "font-ruChunkyOld",
+  ],
 };

@@ -115,6 +115,13 @@ export const BoundaryError: React.FC<BoundaryErrorProps> = ({
               {farmId}
             </p>
           )}
+          {error && (
+            <p>
+              {t("error")}
+              {": "}
+              {error}
+            </p>
+          )}
           <p>
             {t("date")}
             {": "}
