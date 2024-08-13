@@ -38,7 +38,6 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { getImageUrl } from "lib/utils/getImageURLS";
 import { MachineState } from "features/game/lib/gameMachine";
 import { Context as GameContext } from "features/game/GameProvider";
-import { getBumpkinLevel } from "features/game/lib/level";
 import { GameWallet } from "features/wallet/Wallet";
 
 const imageDomain = CONFIG.NETWORK === "mainnet" ? "buds" : "testnet-buds";
@@ -90,7 +89,6 @@ interface Props {
   ) => void;
   onClose?: () => void;
   onLoaded?: (loaded: boolean) => void;
-  canDeposit?: boolean;
 }
 
 const VALID_NUMBER = new RegExp(/^\d*\.?\d*$/);
@@ -101,7 +99,6 @@ export const Deposit: React.FC<Props> = ({
   onDeposit,
   onLoaded,
   farmAddress,
-  canDeposit = true,
 }) => {
   const [showIntro, setShowIntro] = useState(true);
   const { t } = useAppTranslation();
@@ -126,7 +123,6 @@ export const Deposit: React.FC<Props> = ({
         onDeposit={onDeposit}
         onLoaded={onLoaded}
         farmAddress={farmAddress}
-        canDeposit={canDeposit}
       />
     </GameWallet>
   );
@@ -549,7 +545,6 @@ const DepositOptions: React.FC<Props> = ({
 
 interface DepositModalProps {
   farmAddress: string;
-  canDeposit: boolean;
   showDepositModal: boolean;
   handleDeposit: (
     args: Pick<DepositArgs, "sfl" | "itemIds" | "itemAmounts">,
@@ -559,19 +554,17 @@ interface DepositModalProps {
 
 export const DepositModal: React.FC<DepositModalProps> = ({
   farmAddress,
-  canDeposit,
   showDepositModal,
   handleDeposit,
   handleClose,
 }) => {
   return (
     <Modal show={showDepositModal} onHide={handleClose}>
-      <CloseButtonPanel onClose={canDeposit ? handleClose : undefined}>
+      <CloseButtonPanel onClose={handleClose}>
         <Deposit
           farmAddress={farmAddress}
           onDeposit={handleDeposit}
           onClose={handleClose}
-          canDeposit={canDeposit}
         />
       </CloseButtonPanel>
     </Modal>
@@ -579,13 +572,10 @@ export const DepositModal: React.FC<DepositModalProps> = ({
 };
 
 const _farmAddress = (state: MachineState) => state.context.farmAddress ?? "";
-const _xp = (state: MachineState) =>
-  state.context.state.bumpkin?.experience ?? 0;
 
 export const DepositWrapper: React.FC = () => {
   const { gameService } = useContext(GameContext);
   const farmAddress = useSelector(gameService, _farmAddress);
-  const xp = useSelector(gameService, _xp);
 
   const handleDeposit = (
     args: Pick<DepositArgs, "sfl" | "itemIds" | "itemAmounts">,
@@ -593,11 +583,5 @@ export const DepositWrapper: React.FC = () => {
     gameService.send("DEPOSIT", args);
   };
 
-  return (
-    <Deposit
-      farmAddress={farmAddress}
-      onDeposit={handleDeposit}
-      canDeposit={getBumpkinLevel(xp) >= 3}
-    />
-  );
+  return <Deposit farmAddress={farmAddress} onDeposit={handleDeposit} />;
 };

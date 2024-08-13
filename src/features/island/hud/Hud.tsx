@@ -14,7 +14,6 @@ import classNames from "classnames";
 import { TravelButton } from "./components/deliveries/TravelButton";
 import { CodexButton } from "./components/codex/CodexButton";
 import { AuctionCountdown } from "features/retreat/components/auctioneer/AuctionCountdown";
-import { getBumpkinLevel } from "features/game/lib/level";
 import { CollectibleLocation } from "features/game/types/collectibles";
 import { HudContainer } from "components/ui/HudContainer";
 import { PIXEL_SCALE } from "features/game/lib/constants";
@@ -26,8 +25,6 @@ import { SpecialEventCountdown } from "./SpecialEventCountdown";
 import { SeasonBannerCountdown } from "./SeasonBannerCountdown";
 
 const _farmAddress = (state: MachineState) => state.context.farmAddress;
-const _xp = (state: MachineState) =>
-  state.context.state.bumpkin?.experience ?? 0;
 
 /**
  * Heads up display - a concept used in games for the small overlaid display of information.
@@ -42,7 +39,6 @@ const HudComponent: React.FC<{
   const [gameState] = useActor(gameService);
 
   const farmAddress = useSelector(gameService, _farmAddress);
-  const xp = useSelector(gameService, _xp);
 
   const [showDepositModal, setShowDepositModal] = useState(false);
   const [showBuyCurrencies, setShowBuyCurrencies] = useState(false);
@@ -185,7 +181,6 @@ const HudComponent: React.FC<{
 
         <DepositModal
           farmAddress={farmAddress ?? ""}
-          canDeposit={getBumpkinLevel(xp) >= 3}
           handleClose={() => setShowDepositModal(false)}
           handleDeposit={handleDeposit}
           showDepositModal={showDepositModal}
