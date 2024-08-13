@@ -1,14 +1,14 @@
 import { getBumpkinLevel } from "features/game/lib/level";
 import {
-  BumpkinSkillName,
-  BUMPKIN_SKILL_TREE,
+  BumpkinRevampSkillName,
+  BUMPKIN_REVAMP_SKILL_TREE,
 } from "features/game/types/bumpkinSkills";
 import { Bumpkin, GameState } from "features/game/types/game";
 import cloneDeep from "lodash.clonedeep";
 
 export type ChoseSkillAction = {
   type: "skill.chosen";
-  skill: BumpkinSkillName;
+  skill: BumpkinRevampSkillName;
 };
 
 type Options = {
@@ -39,10 +39,10 @@ export function choseSkill({ state, action, createdAt = Date.now() }: Options) {
   const availableSkillPoints = getAvailableBumpkinSkillPoints(bumpkin);
   const claimedSkillsInTree = Object.keys(bumpkin.skills).filter(
     (skill) =>
-      BUMPKIN_SKILL_TREE[skill as BumpkinSkillName].tree ===
-      BUMPKIN_SKILL_TREE[action.skill].tree,
+      BUMPKIN_REVAMP_SKILL_TREE[skill as BumpkinRevampSkillName].tree ===
+      BUMPKIN_REVAMP_SKILL_TREE[action.skill].tree,
   ).length;
-  const requirements = BUMPKIN_SKILL_TREE[action.skill].requirements;
+  const requirements = BUMPKIN_REVAMP_SKILL_TREE[action.skill].requirements;
   const bumpkinHasSkill = bumpkin.skills[action.skill];
 
   if (availableSkillPoints < requirements.points) {

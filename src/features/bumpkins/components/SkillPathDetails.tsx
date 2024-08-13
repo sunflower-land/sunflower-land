@@ -1,226 +1,222 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import classNames from "classnames";
+import { InnerPanel } from "components/ui/Panel";
 import {
   BumpkinSkill,
+  BumpkinSkillName,
   BumpkinSkillTree,
-  createSkillPath,
+  BUMPKIN_SKILL_TREE,
 } from "features/game/types/bumpkinSkills";
-import { useActor } from "@xstate/react";
+
+import { getAvailableBumpkinSkillPoints } from "features/game/events/landExpansion/pickSkill";
 import { Context } from "features/game/GameProvider";
-import { PIXEL_SCALE } from "features/game/lib/constants";
-
-// Component imports
-import { SplitScreenView } from "components/ui/SplitScreenView";
-import { Label } from "components/ui/Label";
-import { Box } from "components/ui/Box";
+import { useActor } from "@xstate/react";
+import { getKeys } from "features/game/types/craftables";
+import { acknowledgeSkillPoints } from "../../island/bumpkin/lib/skillPointStorage";
+import { SkillPath } from "./SkillPath";
 import { Button } from "components/ui/Button";
-import { SquareIcon } from "components/ui/SquareIcon";
-import { ConfirmationModal } from "components/ui/ConfirmationModal";
-
-// Function imports
-import { getAvailableBumpkinSkillPoints } from "features/game/events/landExpansion/choseSkill";
+import { setImageWidth } from "lib/images";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 import { gameAnalytics } from "lib/gameAnalytics";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
-// Icon imports
-import { SUNNYSIDE } from "assets/sunnyside";
+const RequiredSkillPoints = ({
+  missingPointRequirement,
+  availableSkillPoints,
+  pointsRequired,
+}: {
+  missingPointRequirement: boolean;
+  availableSkillPoints: number;
+  pointsRequired: number;
+}) => {
+  const { t } = useAppTranslation();
+  return (
+    <div
+      className={classNames("flex justify-center flex-wrap items-end mt-2", {
+        "text-error": missingPointRequirement,
+      })}
+    >
+      <span className="text-center sm:text-xs">{t("reqSkillPts")}</span>
+      <span className="sm:text-xs text-center">
+        {" "}
+        {`${availableSkillPoints}/${pointsRequired}`}
+      </span>
+    </div>
+  );
+};
+
+const RequiredSkill = ({
+  missingSkillRequirement,
+  requiredSkillImage,
+}: {
+  missingSkillRequirement: boolean;
+  requiredSkillImage?: string;
+}) => {
+  const { t } = useAppTranslation();
+  return (
+    <div
+      className={classNames("flex justify-center flex-wrap items-center mt-2", {
+        "text-error": missingSkillRequirement,
+      })}
+    >
+      <span className="text-center sm:text-xs">{t("reqSkills")} </span>
+      <img
+        src={requiredSkillImage}
+        style={{ opacity: 0, marginLeft: `${PIXEL_SCALE * 4}px` }}
+        onLoad={(e) => setImageWidth(e.currentTarget)}
+      />
+    </div>
+  );
+};
 
 interface Props {
   selectedSkillPath: BumpkinSkillTree;
   skillsInPath: BumpkinSkill[];
   readonly: boolean;
-  onBack: () => void;
 }
 
 export const SkillPathDetails: React.FC<Props> = ({
   selectedSkillPath,
   skillsInPath,
   readonly,
-  onBack,
 }) => {
+  const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
   const {
     context: { state },
   } = gameState;
+
+  const [showConfirmButton, setShowConfirmButton] = useState(false);
+  const [selectedSkill, setSelectedSkill] =
+    useState<BumpkinSkillName>("Green Thumb");
+
+  useEffect(() => {
+    const nextAvailableSkillInTree =
+      skillsInPath.find((skill) => {
+        return !(`${skill.name}` in { ...state.bumpkin?.skills });
+      }) ?? skillsInPath[0];
+
+    const defaultSkill = nextAvailableSkillInTree ?? skillsInPath[0];
+
+    setSelectedSkill(defaultSkill.name);
+  }, [skillsInPath, state.bumpkin?.skills]);
+
   const { bumpkin } = state;
 
-  // States
-  const [showConfirmationModal, setShowConfirmationModal] = useState(false);
-  const [selectedSkill, setSelectedSkill] = useState<BumpkinSkill>(
-    skillsInPath[0],
-  ); // Default to first skill in path
-
-  // Functions
   const availableSkillPoints = getAvailableBumpkinSkillPoints(bumpkin);
-  const hasSelectedSkill = !!bumpkin?.skills[selectedSkill.name];
-  const claimedSkillsFromPath = Object.keys(bumpkin?.skills || {}).filter(
-    (skill) => {
-      return skillsInPath.find((pathSkill) => pathSkill.name === skill);
-    },
-  );
-  const missingPointRequirement =
-    selectedSkill.requirements.points > availableSkillPoints;
-  const missingSkillsRequirement =
-    selectedSkill.requirements.skill > claimedSkillsFromPath.length;
+  const hasSelectedSkill = !!bumpkin?.skills[selectedSkill];
 
-  // Claim
+  const { points: pointsRequired, skill: skillRequired } =
+    BUMPKIN_SKILL_TREE[selectedSkill].requirements;
+
+  const requiredSkillImage = skillRequired
+    ? BUMPKIN_SKILL_TREE?.[skillRequired].image
+    : undefined;
+
+  const missingSkillRequirement = skillRequired
+    ? !getKeys({ ...bumpkin?.skills }).includes(skillRequired)
+    : false;
+
+  const missingPointRequirement = availableSkillPoints < pointsRequired;
+  const comingSoon = !!BUMPKIN_SKILL_TREE[selectedSkill].disabled;
+
   const handleClaim = () => {
-    setShowConfirmationModal(false);
-    const state = gameService.send("skill.chosen", {
-      skill: selectedSkill.name,
-    });
+    setShowConfirmButton(false);
+    const state = gameService.send("skill.picked", { skill: selectedSkill });
 
-    // Analytics
     gameAnalytics.trackMilestone({
-      event: `Bumpkin:SkillUnlocked:${selectedSkill.name}`,
+      event: `Bumpkin:SkillUnlocked:${selectedSkill}`,
     });
 
-    if (Object.keys(state.context.state.bumpkin.skills).length === 1) {
+    if (Object.keys(state.context.state.bumpkin?.skills ?? {}).length === 1) {
       gameAnalytics.trackMilestone({
-        event: `Tutorial:Skill:Completed`,
+        event: "Tutorial:Skill:Completed",
       });
     }
-  };
 
-  const confirmationModal: React.ReactNode = (
-    <ConfirmationModal
-      show={showConfirmationModal}
-      onHide={() => setShowConfirmationModal(false)}
-      messages={[
-        `Are you sure you want to claim ${selectedSkill.name}?`,
-        `This will cost ${selectedSkill.requirements.points} skill points.`,
-      ]}
-      onCancel={() => setShowConfirmationModal(false)}
-      onConfirm={handleClaim}
-      confirmButtonLabel="Claim Skill"
-      disabled={missingPointRequirement || missingSkillsRequirement}
-    />
-  );
-
-  const renderSkillTier = (skills: BumpkinSkill[]) => {
-    return skills.map((skill) => {
-      const hasSkill = !!bumpkin?.skills[skill.name];
-
-      return (
-        <Box
-          key={skill.name}
-          className="mb-1"
-          image={skill.image}
-          isSelected={selectedSkill === skill}
-          onClick={() => setSelectedSkill(skill)}
-          showOverlay={hasSkill}
-          overlayIcon={
-            <img
-              src={SUNNYSIDE.icons.confirm}
-              alt="claimed"
-              className="relative object-contain"
-              style={{
-                width: `${PIXEL_SCALE * 12}px`,
-              }}
-            />
-          }
-        >
-          {skill.name}
-        </Box>
-      );
-    });
+    acknowledgeSkillPoints(gameService.state.context.state.bumpkin);
   };
 
   return (
-    <SplitScreenView
-      wideModal
-      panel={
-        <div className="flex flex-col h-full justify-between">
-          {/* Header */}
-          <div className="flex flex-col h-full px-1 py-0">
-            <div className="flex space-x-2 justify-start items-center sm:flex-col-reverse md:space-x-0">
-              <div className="sm:mt-2">
-                <SquareIcon icon={selectedSkill.image} width={14} />
+    <div className="flex flex-col">
+      <InnerPanel className="relative flex-1 min-w-[42%] flex flex-col justify-between items-center">
+        <div className="flex flex-col justify-center items-center p-2 relative w-full">
+          {showConfirmButton && (
+            <div className="flex flex-col">
+              <p className="mx-4 text-center text-sm">
+                {t("confirm.skillClaim")} {selectedSkill}
+              </p>
+              <div className="flex space-x-1">
+                <Button
+                  onClick={() => setShowConfirmButton(false)}
+                  className="sm:text-xs mt-1 whitespace-nowrap"
+                >
+                  {t("cancel")}
+                </Button>
+                <Button
+                  onClick={handleClaim}
+                  className="sm:text-xs mt-1 whitespace-nowrap"
+                >
+                  {t("claim")}
+                </Button>
               </div>
-              <span className="sm:text-center">{selectedSkill.name}</span>
             </div>
-            <span className="text-xs mb-2 sm:mt-1 whitespace-pre-line sm:text-center py-2">
-              {selectedSkill.boosts}
-            </span>
-          </div>
+          )}
+          {!showConfirmButton && (
+            <>
+              <div className="flex mb-1 items-center">
+                <span className="text-center text-sm sm:text-base">
+                  {selectedSkill}
+                </span>
+                <img
+                  src={BUMPKIN_SKILL_TREE[selectedSkill].image}
+                  style={{ opacity: 0, marginLeft: `${PIXEL_SCALE * 4}px` }}
+                  onLoad={(e) => setImageWidth(e.currentTarget)}
+                />
+              </div>
 
-          {/* Claim Button */}
-          <div className="flex space-x-1 sm:space-x-0 sm:space-y-1 sm:flex-col w-full">
-            <Button
-              disabled={
-                missingPointRequirement ||
-                missingSkillsRequirement ||
-                hasSelectedSkill ||
-                selectedSkill.disabled ||
-                readonly
-              }
-              onClick={() => setShowConfirmationModal(true)}
-            >
-              {hasSelectedSkill ? "Claimed" : "Claim"}
-            </Button>
-          </div>
+              <span className="text-center mt-1 sm:text-xs mb-1">
+                {BUMPKIN_SKILL_TREE[selectedSkill].boosts}
+              </span>
+              {comingSoon && <p className="text-xs mt-1">{t("coming.soon")}</p>}
 
-          {/* Confirmation Modal */}
-          {confirmationModal}
-        </div>
-      }
-      content={
-        <div className="pl-1">
-          {/* Header */}
-          <div
-            className="flex flex-row my-2 items-center"
-            style={{ margin: `${PIXEL_SCALE * 2}px` }}
-          >
-            <img
-              src={SUNNYSIDE.icons.arrow_left}
-              className="cursor-pointer"
-              alt="back"
-              style={{
-                width: `${PIXEL_SCALE * 11}px`,
-                marginRight: `${PIXEL_SCALE * 4}px`,
-              }}
-              onClick={onBack}
-            />
-            <Label type="default">{selectedSkillPath + " Skills"}</Label>
-          </div>
-
-          {/* Skills */}
-          {Object.entries(createSkillPath(skillsInPath)).map(
-            ([tier, skills]) => {
-              const requirements = skills[0].requirements.skill;
-              const tierUnlocked = requirements <= claimedSkillsFromPath.length;
-
-              return (
-                <div key={tier} className="flex flex-col">
-                  {requirements !== 0 && !tierUnlocked && (
-                    <Label
-                      type="warning"
-                      icon={SUNNYSIDE.icons.lock}
-                      className="ml-2"
-                    >
-                      {requirements +
-                        " " +
-                        selectedSkillPath +
-                        " Skills Required"}
-                    </Label>
-                  )}
-                  {requirements !== 0 && tierUnlocked && (
-                    <Label
-                      type="default"
-                      icon={SUNNYSIDE.icons.confirm}
-                      className="ml-2"
-                    >
-                      {`Tier ${tier} unlocked`}
-                    </Label>
-                  )}
-                  <div className="flex flex-wrap mb-2">
-                    {renderSkillTier(skills)}
+              {!hasSelectedSkill && !readonly && !comingSoon && (
+                <>
+                  <div className="border-t border-white w-full pt-1 text-center">
+                    <RequiredSkillPoints
+                      missingPointRequirement={missingPointRequirement}
+                      availableSkillPoints={availableSkillPoints}
+                      pointsRequired={pointsRequired}
+                    />
+                    {skillRequired && (
+                      <RequiredSkill
+                        requiredSkillImage={requiredSkillImage}
+                        missingSkillRequirement={missingSkillRequirement}
+                      />
+                    )}
                   </div>
-                </div>
-              );
-            },
+                  <Button
+                    onClick={() => setShowConfirmButton(true)}
+                    disabled={
+                      missingPointRequirement || missingSkillRequirement
+                    }
+                    className="sm:text-xs mt-1 whitespace-nowrap"
+                  >
+                    {t("claim.skill")}
+                  </Button>
+                </>
+              )}
+            </>
           )}
         </div>
-      }
-    />
+      </InnerPanel>
+      <span className="text-center my-2 text-sm">{`${selectedSkillPath} Skill Path`}</span>
+      <SkillPath
+        skillsInPath={skillsInPath}
+        onClick={(skillName) => setSelectedSkill(skillName)}
+        selectedSkill={selectedSkill}
+      />
+    </div>
   );
 };

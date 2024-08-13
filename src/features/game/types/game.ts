@@ -15,7 +15,7 @@ import { BuildingName } from "./buildings";
 import { GameEvent } from "../events";
 import { BumpkinItem, Equipped as BumpkinParts } from "./bumpkin";
 import { ConsumableName, CookableName } from "./consumables";
-import { BumpkinSkillName } from "./bumpkinSkills";
+import { BumpkinSkillName, BumpkinRevampSkillName } from "./bumpkinSkills";
 import { AchievementName } from "./achievements";
 import { BumpkinActivityName } from "./bumpkinActivity";
 import { DecorationName } from "./decorations";
@@ -329,7 +329,9 @@ export type Bumpkin = {
   equipped: BumpkinParts;
   tokenUri: string;
   experience: number;
-  skills: Partial<Record<BumpkinSkillName, number>>;
+  skills: Partial<
+    Record<BumpkinSkillName, number> & Record<BumpkinRevampSkillName, number>
+  >;
   achievements?: Partial<Record<AchievementName, number>>;
   activity?: Partial<Record<BumpkinActivityName, number>>;
   previousSkillsResetAt?: number;
