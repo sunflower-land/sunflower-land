@@ -80,18 +80,18 @@ export const PirateChest: React.FC<Props> = ({ onClose, setIsLoading }) => {
         ) : gameState.matches("revealed") && isRevealing ? (
           <Revealed onAcknowledged={() => setIsRevealing(false)} />
         ) : !piratePotionEquipped ? (
-          <div className="p-2 flex flex-col items-start">
-            <div className="mb-1">
+          <>
+            <div className="p-1">
               <Label type="danger" className="mb-1">
                 {t("missing.pirate.potion")}
               </Label>
+              <p className="mb-1 ml-1 text-left">
+                {t("npcDialogues.oldSalty.missingPotion1")}
+              </p>
+              <p className="text-xs ml-1 text-left">
+                {t("npcDialogues.oldSalty.missingPotion2")}
+              </p>
             </div>
-            <p className="mb-1 ml-1 text-left">
-              {t("npcDialogues.oldSalty.missingPotion1")}
-            </p>
-            <p className="text-xs ml-1 text-left">
-              {t("npcDialogues.oldSalty.missingPotion2")}
-            </p>
             <Button
               className="mt-2"
               onClick={open}
@@ -99,60 +99,62 @@ export const PirateChest: React.FC<Props> = ({ onClose, setIsLoading }) => {
             >
               {t("open")}
             </Button>
-          </div>
+          </>
         ) : hasOpened ? (
-          <div className="p-2 flex flex-col items-start">
-            <div className="flex justify-between items-center w-full mb-1">
-              <Label
-                type="success"
-                className="mb-1"
-                secondaryIcon={SUNNYSIDE.icons.confirm}
-              >
-                {t("pirate.chest.opened")}
-              </Label>
-              <Label
-                className="text-right mb-1"
-                type="info"
-                icon={SUNNYSIDE.icons.stopwatch}
-              >
-                {t("comeBackIn.time", {
-                  timeToReset: secondsToString(secondsTillReset(), {
-                    length: "short",
-                  }),
-                })}
-              </Label>
+          <>
+            <div className="p-1">
+              <div className="justify-between flex">
+                <Label
+                  type="success"
+                  className="mb-1"
+                  secondaryIcon={SUNNYSIDE.icons.confirm}
+                >
+                  {t("pirate.chest.opened")}
+                </Label>
+                <Label
+                  className="text-right mb-1"
+                  type="info"
+                  icon={SUNNYSIDE.icons.stopwatch}
+                >
+                  {t("comeBackIn.time", {
+                    timeToReset: secondsToString(secondsTillReset(), {
+                      length: "short",
+                    }),
+                  })}
+                </Label>
+              </div>
+              <p className="mb-1 ml-1 text-left">
+                {t("npcDialogues.oldSalty.chestOpened1")}
+              </p>
+              <p className="text-xs mb-1 ml-1 text-left">
+                {t("npcDialogues.oldSalty.chestOpened2")}
+              </p>
             </div>
-            <p className="mb-1 ml-1 text-left">
-              {t("npcDialogues.oldSalty.chestOpened1")}
-            </p>
-            <p className="text-xs mb-1 ml-1 text-left">
-              {t("npcDialogues.oldSalty.chestOpened2")}
-            </p>
             <Button className="mt-2" onClick={open} disabled={hasOpened}>
               {t("open")}
             </Button>
-          </div>
+          </>
         ) : (
-          <div className="p-2 flex flex-col items-start">
-            <div className="mb-1">
+          <>
+            <div className="p-1">
               <Label
                 type="success"
-                className="mb-1 mr-3 capitalize"
+                className="mb-1 capitalize"
                 secondaryIcon={SUNNYSIDE.icons.confirm}
               >
                 {t("pirate.potion.equipped")}
               </Label>
+              <p className="mb-1 ml-1 text-left">
+                {t("npcDialogues.oldSalty.chestUnopened1")}
+              </p>
+              <p className="text-xs mb-1 ml-1 text-left">
+                {t("npcDialogues.oldSalty.chestUnopened2")}
+              </p>
             </div>
-            <p className="mb-1 ml-1 text-left">
-              {t("npcDialogues.oldSalty.chestUnopened1")}
-            </p>
-            <p className="text-xs mb-1 ml-1 text-left">
-              {t("npcDialogues.oldSalty.chestUnopened2")}
-            </p>
             <Button className="mt-2" onClick={open}>
               {t("open")}
             </Button>
-          </div>
+          </>
         ))}
     </CloseButtonPanel>
   );
