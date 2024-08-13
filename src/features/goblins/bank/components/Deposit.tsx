@@ -336,24 +336,13 @@ const DepositOptions: React.FC<Props> = ({
     sflBalance.eq(0);
   const validDepositAmount = sflDepositAmount > 0 && !amountGreaterThanBalance;
 
-  // if (!canDeposit) {
-  //   return (
-  //     <div className="p-2 space-y-2">
-  //       <p>{t("deposit.toDepositLevelUp")}</p>
-  //       <Label icon={lockIcon} type="danger">
-  //        {t("deposit.level")}
-  //       </Label>
-  //     </div>
-  //   );
-  // }
-
   return (
     <>
       {status === "loading" && <Loading />}
       {status === "loaded" && emptyWallet && (
         <div className="p-2 space-y-2">
           <p>{t("deposit.noSflOrCollectibles")}</p>
-          <div className="flex text-xs sm:text-xs mb-3 space-x-1">
+          <div className="flex text-xs sm:text-xs pb-8">
             <span className="whitespace-nowrap">
               {t("deposit.farmAddress")}
             </span>
@@ -399,7 +388,10 @@ const DepositOptions: React.FC<Props> = ({
                 {hasItemsInInventory && (
                   <>
                     <p className="text-sm">{t("collectibles")}</p>
-                    <div className="flex flex-wrap h-fit -ml-1.5">
+                    <div
+                      className="flex flex-wrap h-fit -ml-1.5 overflow-y-auto scrollable pr-1"
+                      style={{ maxHeight: "200px" }}
+                    >
                       {depositableItems.map((item) => {
                         return (
                           <Box
