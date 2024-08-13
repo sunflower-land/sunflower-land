@@ -265,7 +265,6 @@ export const FactionKitchenPanel: React.FC<Props> = ({ bumpkinParts }) => {
                 <span className="text-xs sm:text-sm">
                   {t("faction.donation.confirm", {
                     factionPoints: formatNumber(boostedMarks),
-                    reward: t("marks"),
                   })}
                 </span>
                 <div className="flex flex-col space-y-1">
