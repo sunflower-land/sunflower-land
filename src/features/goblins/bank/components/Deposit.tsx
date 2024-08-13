@@ -38,7 +38,6 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { getImageUrl } from "lib/utils/getImageURLS";
 import { MachineState } from "features/game/lib/gameMachine";
 import { Context as GameContext } from "features/game/GameProvider";
-import { getBumpkinLevel } from "features/game/lib/level";
 import { GameWallet } from "features/wallet/Wallet";
 
 const imageDomain = CONFIG.NETWORK === "mainnet" ? "buds" : "testnet-buds";
@@ -90,7 +89,6 @@ interface Props {
   ) => void;
   onClose?: () => void;
   onLoaded?: (loaded: boolean) => void;
-  canDeposit?: boolean;
 }
 
 const VALID_NUMBER = new RegExp(/^\d*\.?\d*$/);
@@ -101,7 +99,6 @@ export const Deposit: React.FC<Props> = ({
   onDeposit,
   onLoaded,
   farmAddress,
-  canDeposit = true,
 }) => {
   const [showIntro, setShowIntro] = useState(true);
   const { t } = useAppTranslation();
@@ -126,7 +123,6 @@ export const Deposit: React.FC<Props> = ({
         onDeposit={onDeposit}
         onLoaded={onLoaded}
         farmAddress={farmAddress}
-        canDeposit={canDeposit}
       />
     </GameWallet>
   );
@@ -336,24 +332,13 @@ const DepositOptions: React.FC<Props> = ({
     sflBalance.eq(0);
   const validDepositAmount = sflDepositAmount > 0 && !amountGreaterThanBalance;
 
-  // if (!canDeposit) {
-  //   return (
-  //     <div className="p-2 space-y-2">
-  //       <p>{t("deposit.toDepositLevelUp")}</p>
-  //       <Label icon={lockIcon} type="danger">
-  //        {t("deposit.level")}
-  //       </Label>
-  //     </div>
-  //   );
-  // }
-
   return (
     <>
       {status === "loading" && <Loading />}
       {status === "loaded" && emptyWallet && (
         <div className="p-2 space-y-2">
           <p>{t("deposit.noSflOrCollectibles")}</p>
-          <div className="flex text-xs sm:text-xs mb-3 space-x-1">
+          <div className="flex text-xs sm:text-xs pb-8">
             <span className="whitespace-nowrap">
               {t("deposit.farmAddress")}
             </span>
@@ -399,7 +384,10 @@ const DepositOptions: React.FC<Props> = ({
                 {hasItemsInInventory && (
                   <>
                     <p className="text-sm">{t("collectibles")}</p>
-                    <div className="flex flex-wrap h-fit -ml-1.5">
+                    <div
+                      className="flex flex-wrap h-fit -ml-1.5 overflow-y-auto scrollable pr-1"
+                      style={{ maxHeight: "200px" }}
+                    >
                       {depositableItems.map((item) => {
                         return (
                           <Box
@@ -557,7 +545,6 @@ const DepositOptions: React.FC<Props> = ({
 
 interface DepositModalProps {
   farmAddress: string;
-  canDeposit: boolean;
   showDepositModal: boolean;
   handleDeposit: (
     args: Pick<DepositArgs, "sfl" | "itemIds" | "itemAmounts">,
@@ -567,19 +554,17 @@ interface DepositModalProps {
 
 export const DepositModal: React.FC<DepositModalProps> = ({
   farmAddress,
-  canDeposit,
   showDepositModal,
   handleDeposit,
   handleClose,
 }) => {
   return (
     <Modal show={showDepositModal} onHide={handleClose}>
-      <CloseButtonPanel onClose={canDeposit ? handleClose : undefined}>
+      <CloseButtonPanel onClose={handleClose}>
         <Deposit
           farmAddress={farmAddress}
           onDeposit={handleDeposit}
           onClose={handleClose}
-          canDeposit={canDeposit}
         />
       </CloseButtonPanel>
     </Modal>
@@ -587,13 +572,10 @@ export const DepositModal: React.FC<DepositModalProps> = ({
 };
 
 const _farmAddress = (state: MachineState) => state.context.farmAddress ?? "";
-const _xp = (state: MachineState) =>
-  state.context.state.bumpkin?.experience ?? 0;
 
 export const DepositWrapper: React.FC = () => {
   const { gameService } = useContext(GameContext);
   const farmAddress = useSelector(gameService, _farmAddress);
-  const xp = useSelector(gameService, _xp);
 
   const handleDeposit = (
     args: Pick<DepositArgs, "sfl" | "itemIds" | "itemAmounts">,
@@ -601,11 +583,5 @@ export const DepositWrapper: React.FC = () => {
     gameService.send("DEPOSIT", args);
   };
 
-  return (
-    <Deposit
-      farmAddress={farmAddress}
-      onDeposit={handleDeposit}
-      canDeposit={getBumpkinLevel(xp) >= 3}
-    />
-  );
+  return <Deposit farmAddress={farmAddress} onDeposit={handleDeposit} />;
 };
