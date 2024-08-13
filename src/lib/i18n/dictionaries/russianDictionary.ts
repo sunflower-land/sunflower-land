@@ -362,7 +362,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   searching: "Ищем",
   seeds: "Семена",
   selected: "Выбрано",
-  "select.resource": "Выберите ресурс: ",
+  "select.resource": "Выбери ресурс: ",
   sell: "Продать",
   "sell.all": "Продать все",
   "sell.one": "Продать 1",
@@ -589,8 +589,8 @@ const auction: Record<Auction, string> = {
   "auction.bid.message": "Ты сделал ставку.",
   "auction.reveal": "Показать победителей",
   "auction.live": "Аукцион стартовал!",
-  "auction.requirement": "Требования",
-  "auction.start": "Время старта",
+  "auction.requirement": "Ставки в",
+  "auction.start": "Старт через",
   "auction.period": "Период аукциона",
   "auction.closed": "Аукцион завершен",
   "auction.const": "A new seasonal collection is coming...",
@@ -663,7 +663,7 @@ const beehive: Record<Beehive, string> = {
   "beehive.fullHivePerDay": "{{speed}} полного {{hive}} / день",
   "beehive.estimatedFull": "Ожидаемое заполнение",
   "beehive.hive.singular": "улей",
-  "beehive.hives.plural": "улии",
+  "beehive.hives.plural": "улья",
 };
 
 const birdiePlaza: Record<BirdiePlaza, string> = {
@@ -1087,8 +1087,7 @@ const bumpkinItemBuff: Record<BumpkinItemBuff, string> = {
   "bumpkinItemBuff.oil.overalls.boost": "+10 Oil",
   "bumpkinItemBuff.ancient.shovel.boost": "Dig treasure without Sand Shovel",
   "bumpkinItemBuff.grape.pants": "+0.2 Grapes",
-  "bumpkinItemBuff.pirate.potion":
-    ENGLISH_TERMS["bumpkinItemBuff.pirate.potion"],
+  "bumpkinItemBuff.pirate.potion": "Unlock Pirate Chest",
 };
 
 const bumpkinPart: Record<BumpkinPart, string> = {
@@ -2880,11 +2879,11 @@ const gameTerms: Record<GameTerms, string> = {
   "visiting.farmId": "В гостях у #{{farmId}}",
   "stock.inStock": "{{stock}} в наличии",
   "stock.left": "{{stock}} осталось",
-  "pirate.chest": ENGLISH_TERMS["pirate.chest"],
-  "pirate.chest.opened": ENGLISH_TERMS["pirate.chest.opened"],
-  "pirate.potion.equipped": ENGLISH_TERMS["pirate.potion.equipped"],
-  "missing.pirate.potion": ENGLISH_TERMS["missing.pirate.potion"],
-  "comeBackIn.time": ENGLISH_TERMS["comeBackIn.time"],
+  "pirate.chest": "Pirate Chest",
+  "pirate.chest.opened": "Pirate Chest Opened",
+  "pirate.potion.equipped": "Pirate Potion equipped",
+  "missing.pirate.potion": "Missing Pirate Potion",
+  "comeBackIn.time": "Come back in {{timeToReset}}",
 };
 
 const genieLamp: Record<GenieLamp, string> = {
@@ -3005,7 +3004,7 @@ const guideTerms: Record<GuideTerms, string> = {
   "building.guide.one":
     "Изучите разнообразные постройки, доступные по мере продвижения в Sunflower Land. От курятников до мастерских и не только - каждое строение дает уникальные преимущества вашей ферме. Воспользуйтесь этими зданиями, чтобы оптимизировать свои сельскохозяйственные операции, повысить производительность и открыть новые возможности. Тщательно спланируйте свою территорию и наслаждайтесь наградами, которые принесет вам процветающая ферма в Sunflower Land.",
   "building.guide.two":
-    'В Sunflower Land здания - это краеугольный камень вашего фермерского пути. Чтобы открыть меню построек, нажмите на значок инвентаря и выберите вкладку "Постройки". Выберите нужное строение и вернитесь на экран фермы. Найдите свободное место, отмеченное зеленым цветом, и подтвердите размещение. Дождитесь окончания таймера, и ваше новое здание будет готово к использованию. Здания дают различные преимущества и открывают захватывающие игровые возможности. Стратегически правильно расположите их на своей ферме, чтобы добиться максимальной эффективности, и наблюдайте, как растет и процветает ваша империя.',
+    'В Sunflower Land, здания - это краеугольный камень твоего фермерского пути. Чтобы открыть меню построек, нажми на значок инвентаря и выбери вкладку "Постройки". Выбери нужное строение и вернись на экран фермы. Найди свободное место, отмеченное зеленым цветом, и подтверди размещение. Дождись окончания таймера, и твое новое здание будет готово к использованию. Здания дают различные преимущества и открывают захватывающие игровые возможности. Стратегически правильно расположи их на своей ферме, чтобы добиться максимальной эффективности, и наблюдай, как растет и процветает твоя империя.',
 
   "cooking.guide.one":
     "Приготовление пищи позволяет вам накормить своего бампкина и помочь ему получить ценные очки опыта (XP). Используя собранный урожай, вы можете приготовить вкусную еду в различных зданиях, предназначенных для ее приготовления.",
@@ -3436,68 +3435,69 @@ const modalDescription: Record<ModalDescription, string> = {
   "modalDescription.love.fruit":
     "Вау, ты действительно любишь фрукты так же сильно, как и я!",
   "modalDescription.gift":
-    "У меня больше нет для тебя подарков. Не забудьте надеть свои новые вещи!",
+    "У меня больше нет для тебя подарков. Не забудь надеть свои новые вещи!",
   "modalDescription.limited.abilities":
-    "Я создал лимитированную серию предметов одежды, которые могут улучшить твои возможности по сбору фруктов.",
+    "Я создал лимитированную серию предметов одежды, которые могут помочь тебе со сбором фруктов.",
   "modalDescription.trail":
-    "Я ищу преданных сборщиков фруктов, которые смогут опробовать эту одежду.... БЕСПЛАТНО!",
+    "Я ищу преданных собирателей фруктов, которые смогут опробовать эту одежду.... БЕСПЛАТНО!",
 };
 
 const noaccount: Record<Noaccount, string> = {
   "noaccount.newFarmer": "Новый фермер",
   "noaccount.addPromoCode": "Добавить промокод?",
-  "noaccount.alreadyHaveNFTFarm": "Уже есть NFT фермы?",
+  "noaccount.alreadyHaveNFTFarm": "Уже есть NFT ферма?",
   "noaccount.createFarm": "Создать ферму",
-  "noaccount.noFarmNFTs": "У вас нет NFT фермы.",
+  "noaccount.noFarmNFTs": "У тебя нет NFT фермы.",
   "noaccount.createNewFarm": "Создать новую ферму",
-  "noaccount.selectNFTID": "Выберите номер NFT фермы",
+  "noaccount.selectNFTID": "Выбери номер NFT фермы",
   "noaccount.welcomeMessage":
     "Добро пожаловать в Sunflower Land. Хочешь создать новую ферму?",
   "noaccount.promoCodeLabel": "Промокод",
-  "noaccount.haveFarm": "Не, у меня уже есть",
-  "noaccount.letsGo": "Давай создадим!",
+  "noaccount.haveFarm": "Нет, у меня уже есть",
+  "noaccount.letsGo": "Да, давай!",
 };
 
 const noBumpkin: Record<NoBumpkin, string> = {
-  "noBumpkin.readyToFarm": "Потрясающе, ваш Бампкин готов к фермерству!",
+  "noBumpkin.readyToFarm": "Потрясающе, твой бампкин готов к фермерству!",
   "noBumpkin.play": "Играть",
-  "noBumpkin.missingBumpkin": "У вас нет бампкина",
-  "noBumpkin.bumpkinNFT": "Хмммм, у тебя какой то древний акк без Бампкина.",
+  "noBumpkin.missingBumpkin": "У тебя нет бампкина",
+  "noBumpkin.bumpkinNFT":
+    "Хмммм, это странно. Похоже, у тебя старый аккаунт без бампкина.",
   "noBumpkin.bumpkinHelp":
-    "Вам нужен Бампкин, который поможет вам сажать, собирать урожай, рубить, добывать и расширять землю.",
-  "noBumpkin.mintBumpkin": "Вы можете купить бампкина на OpenSea: ",
+    "Тебе нужен бампкин, который поможет сажать, собирать урожай, рубить, добывать и расширять землю.",
+  "noBumpkin.mintBumpkin": "Ты можешь купить бампкина на OpenSea: ",
   "noBumpkin.allBumpkins": "Ух ты, посмотрите на всех этих бампкинов!",
-  "noBumpkin.chooseBumpkin": "С кем из бампкинов вы хотели бы играть?",
+  "noBumpkin.chooseBumpkin": "С кем из бампкинов ты хотел бы сыграть?",
   "noBumpkin.deposit": "Депозит",
   "noBumpkin.advancedIsland":
     "Это продвинутый остров. Требуется сильный бампкин: ",
   "dequipper.noBumpkins": "Нет бампкинов",
-  "dequipper.missingBumpkins": "У вас в кошельке нет ни одного NFT бампкина.",
-  "dequipper.intro": "Отправьте одежду с бампкина на свой кошелек.",
+  "dequipper.missingBumpkins": "У тебя в кошельке нет ни одного NFT бампкина.",
+  "dequipper.intro": "Отправь одежду с бампкина на свой кошелек.",
   "dequipper.success":
-    "Поздравляем, вещи отправлены на ваш кошелек. Переместите их на свою ферму, чтобы использовать.",
-  "dequipper.dequip": "Раздеть",
+    "Поздравляем, вещи отправлены на твой кошелек. Перемести их на свою ферму, чтобы пользоваться ими.",
+  "dequipper.dequip": "Раздеться",
   "dequipper.warning":
-    "После снятия экипировки бампкин больше не может быть использован.",
+    "После снятия экипировки, бампкин больше не может использоваться.",
   "dequipper.nude": "Бампкин уже раздет",
   "noBumpkin.nude": "Нельзя снять экипировку с пустого бампкина",
 };
 
 const noTownCenter: Record<NoTownCenter, string> = {
   "noTownCenter.reward": "Награда: 1 x Town Center!",
-  "noTownCenter.news": "Ваши последние новости и сообщения здесь.",
+  "noTownCenter.news": "Твои последние новости и сообщения здесь.",
   "noTownCenter.townCenterPlacement":
-    'Вы можете разместить городской центр через инвентарь > раздел "Здания".',
+    'Ты можешь разместить городской центр через инвентарь > раздел "Здания".',
 };
 
 const notOnDiscordServer: Record<NotOnDiscordServer, string> = {
   "notOnDiscordServer.intro":
-    "Похоже, вы еще не присоединились к Discord серверу Sunflower Land.",
-  "notOnDiscordServer.joinDiscord": "Присоединитесь к нашему ",
+    "Похоже, ты еще не присоединился к Discord серверу Sunflower Land.",
+  "notOnDiscordServer.joinDiscord": "Присоединись к нашему ",
   "notOnDiscordServer.discordServer": "Discord серверу",
   "notOnDiscordServer.completeVerification":
-    "2. Пройдите верификацию и приступайте к фермерству",
-  "notOnDiscordServer.acceptRules": "3. Примите правила в #rules",
+    "2. Пройди верификацию и приступай к фермерству",
+  "notOnDiscordServer.acceptRules": "3. Прими правила в #rules",
 };
 
 const npc_message: Record<NPC_MESSAGE, string> = {
@@ -3951,7 +3951,7 @@ const npcDialogues: Record<NpcDialogues, string> = {
     "У меня нет активного заказа, который ты мог бы выполнить, но если тебе потребуется опытный мастер или у тебя есть материалы, которые нуждаются в преобразовании, то я к твоим услугам.",
   // Old Salty Intro
   "npcDialogues.oldSalty.intro1":
-    "Аааарррр, добро пожаловать, моя друг! Меня зовут Старый Солти, а моя игра - поиск сокровищ. Есть ли у тебя то, что я ищу??",
+    "Аааарррр, добро пожаловать, мой друг! Меня зовут Старый Солти, а моя фишка - поиск сокровищ. Есть ли у тебя то, что я ищу?",
   "npcDialogues.oldSalty.intro2":
     "Ахой, сухопутный! Старый Солти - тот кладоискатель, который тебе нужен. Покажи мне, что ты нашел в своих приключениях?",
   "npcDialogues.oldSalty.intro3": "",
@@ -3974,6 +3974,19 @@ const npcDialogues: Record<NpcDialogues, string> = {
     "У вас нет активных заказов для бухты сокровищ Старого Солти, но это не значит, что здесь не будет приключений. Следите за скрытыми сокровищами и неизведанными водами.!",
   "npcDialogues.oldSalty.noOrder2":
     "На данный момент Старый Солти не ищет сокровищ, но не волнуйся, мой дорогой! В открытом море таятся бесчисленные богатства, ожидающие, что их найдут.",
+  // Old Salty Pirate Chest
+  "npcDialogues.oldSalty.missingPotion1":
+    "Ahoy, mateys! I be guardin' this plunder for me loyal crew.",
+  "npcDialogues.oldSalty.missingPotion2":
+    "Return when ye've the heart and body of a true pirate!",
+  "npcDialogues.oldSalty.chestUnopened1":
+    "Ahoy, mateys! It seems I've found a fellow pirate among ye!",
+  "npcDialogues.oldSalty.chestUnopened2":
+    "You are entitled to one treasure gift per day.",
+  "npcDialogues.oldSalty.chestOpened1":
+    "Ye've cracked open the Pirate Chest today!",
+  "npcDialogues.oldSalty.chestOpened2":
+    "Return on the morrow to plunder the Pirate Chest once more!",
   // Raven Intro
   "npcDialogues.raven.intro1":
     "Добро пожаловать в мою скромную обитель. Но будьте осторожны, когда ступаете; тут везде варятся зелья. Вы нашли, что я заказывала??",
@@ -4542,18 +4555,6 @@ const npcDialogues: Record<NpcDialogues, string> = {
     "Welcome, wanderer. The sands of time hold many secrets, and I am in search of them. Have you found any artifacts on your journey?",
   "npcDialogues.pharaoh.intro3":
     "Hail, explorer. I am the Pharaoh, guardian of ancient secrets. Have you discovered any relics that might aid in solving the mysteries of our past?",
-  "npcDialogues.oldSalty.missingPotion1":
-    ENGLISH_TERMS["npcDialogues.oldSalty.missingPotion1"],
-  "npcDialogues.oldSalty.missingPotion2":
-    ENGLISH_TERMS["npcDialogues.oldSalty.missingPotion2"],
-  "npcDialogues.oldSalty.chestUnopened1":
-    ENGLISH_TERMS["npcDialogues.oldSalty.chestUnopened1"],
-  "npcDialogues.oldSalty.chestUnopened2":
-    ENGLISH_TERMS["npcDialogues.oldSalty.chestUnopened2"],
-  "npcDialogues.oldSalty.chestOpened1":
-    ENGLISH_TERMS["npcDialogues.oldSalty.chestOpened1"],
-  "npcDialogues.oldSalty.chestOpened2":
-    ENGLISH_TERMS["npcDialogues.oldSalty.chestOpened2"],
 };
 
 const nyeButton: Record<NyeButton, string> = {
@@ -4759,9 +4760,9 @@ const resale: Record<Resale, string> = {
 
 const restock: Record<Restock, string> = {
   "restock.one.buck":
-    "You are going to use 1 Block Buck to restock all shop items in the game.",
-  "restock.sure": "Are you sure you want to Restock?",
-  "restock.tooManySeeds": "You have too many seeds in your basket!",
+    "Ты потратишь 1 Block Buck, чтобы пополнить запасы всех магазинных предметов в игре.",
+  "restock.sure": "Ты уверен, что хочешь пополнить запасы?",
+  "restock.tooManySeeds": "У тебя слишком много семян в инвентаре!",
   "seeds.reachingInventoryLimit": "You are reaching your seed basket limit!",
   "crops.noCropsToSell": "You have no {{cropName}} to Sell!",
   "seeds.plantingSpot.needed": "{{plantingSpot}} Needed",
@@ -4777,8 +4778,8 @@ const retreatTerms: Record<RetreatTerms, string> = {
 };
 
 const resources: Record<Resources, string> = {
-  "resources.recoversIn": "Recovers in:",
-  "resources.boulder.rareMineFound": "You found a rare mine!",
+  "resources.recoversIn": "Восстановится через:",
+  "resources.boulder.rareMineFound": "Ты нашел редкую жилу!",
   "resources.boulder.advancedMining": "Advanced mining on its way.",
 };
 
@@ -4834,7 +4835,7 @@ const rulesTerms: Record<RulesTerms, string> = {
 
 const pwaInstall: Record<PwaInstall, string> = {
   "install.app": "Установить приложение",
-  "magic.link": "Magic Link",
+  "magic.link": "Магическая ссылка",
   "generating.link": "Generating Link",
   "generating.code": "Generating Code",
   "install.app.desktop.description":
@@ -4843,11 +4844,11 @@ const pwaInstall: Record<PwaInstall, string> = {
     "Copy the magic link below and open it in {{browser}} on your device to install!",
   "do.not.share.link": "Do not share this link!",
   "do.not.share.code": "Do not share this code!",
-  "qr.code.not.working": "QR code not working?",
+  "qr.code.not.working": "QR-код не работает?",
 };
 
 const sceneDialogueKey: Record<SceneDialogueKey, string> = {
-  "sceneDialogues.chefIsBusy": "Chef is busy",
+  "sceneDialogues.chefIsBusy": "Шеф занят",
 };
 
 const seasonTerms: Record<SeasonTerms, string> = {
@@ -5138,8 +5139,7 @@ const transactionTerms: Record<TransactionTerms, string> = {
     "Storing data on the Blockchain does not restock shops.",
   "transaction.storeProgress": "Store progress",
   "transaction.storeProgress.chain": "Store progress on chain",
-  "transaction.storeProgress.success":
-    "Woohoo! Your items are secured on the Blockchain!",
+  "transaction.storeProgress.success": "Ура! Твои вещи записаны в блокчейн!",
   "transaction.trade.congrats": "Congratulations, your trade was successful",
   "transaction.processing": "Processing your transaction.",
   "transaction.pleaseWait":
