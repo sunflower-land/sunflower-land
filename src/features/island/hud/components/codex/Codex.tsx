@@ -22,13 +22,14 @@ import { Label } from "components/ui/Label";
 import classNames from "classnames";
 import { useSound } from "lib/utils/hooks/useSound";
 
-import trophy from "assets/icons/trophy.png";
 import factions from "assets/icons/factions.webp";
 import chores from "assets/icons/chores.webp";
+import gift from "assets/icons/gift.png";
 import { TicketsLeaderboard } from "./pages/TicketsLeaderboard";
 import { Leaderboards } from "features/game/expansion/components/leaderboard/actions/cache";
 import { fetchLeaderboardData } from "features/game/expansion/components/leaderboard/actions/leaderboard";
 import { FactionLeaderboard } from "./pages/FactionLeaderboard";
+import { Season } from "./pages/Season";
 
 interface Props {
   show: boolean;
@@ -131,7 +132,7 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
 
     {
       name: "Leaderboard" as const,
-      icon: trophy,
+      icon: gift,
       count: 0,
     },
     ...(state.faction
@@ -220,17 +221,17 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
               <Flowers onMilestoneReached={handleMilestoneReached} />
             )}
             {currentTab === 4 && (
-              <InnerPanel
+              <div
                 className={classNames(
                   "flex flex-col h-full overflow-hidden overflow-y-auto scrollable",
                 )}
               >
-                <TicketsLeaderboard
+                <Season
                   id={id}
                   isLoading={data?.tickets === undefined}
                   data={data?.tickets ?? null}
                 />
-              </InnerPanel>
+              </div>
             )}
 
             {currentTab === 5 && state.faction && (

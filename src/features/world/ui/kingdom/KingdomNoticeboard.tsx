@@ -10,13 +10,17 @@ import trophy from "assets/icons/trophy.png";
 import gift from "assets/icons/gift.png";
 interface NoticeboardItemProps {
   items: { text: string; icon: string }[];
+  iconWidth?: number;
 }
-export const NoticeboardItems: React.FC<NoticeboardItemProps> = ({ items }) => {
+export const NoticeboardItems: React.FC<NoticeboardItemProps> = ({
+  items,
+  iconWidth = 12,
+}) => {
   return (
     <>
       {items.map((item, index) => (
-        <div className="flex mb-2" key={index}>
-          <div className="w-12 flex justify-center">
+        <div className="flex mb-2 items-center" key={index}>
+          <div className={`w-${iconWidth} flex justify-center`}>
             <img src={item.icon} className="h-6 mr-2 object-contain" />
           </div>
           <p className="text-xs  flex-1">{item.text}</p>
