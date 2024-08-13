@@ -32,6 +32,7 @@ import { isTouchDevice } from "../lib/device";
 import { getRemainingDigs } from "features/island/hud/components/DesertDiggingDisplay";
 import { hasReadDigbyIntro } from "../ui/beach/Digby";
 import { isWearableActive } from "features/game/lib/wearables";
+import { EventObject } from "xstate/lib/types";
 
 const convertToSnakeCase = (str: string) => {
   return str.replace(" ", "_").toLowerCase();
@@ -177,6 +178,26 @@ export class BeachScene extends BaseScene {
     this.load.image("button", "world/button.webp");
     this.load.image("treasure_shop", "world/treasure_shop.png");
     this.load.image("shop_icon", "world/shop_disc.png");
+  }
+
+  updatePirateChest() {
+    const piratePotionEquipped = isWearableActive({
+      game: this.gameService.state.context.state,
+      name: "Pirate Potion",
+    });
+
+    const openedAt =
+      this.gameService.state.context.state.pumpkinPlaza.pirateChest?.openedAt ??
+      0;
+    const hasOpened =
+      !!openedAt &&
+      new Date(openedAt).toISOString().substring(0, 10) ===
+        new Date().toISOString().substring(0, 10);
+    if (piratePotionEquipped && !hasOpened) {
+      this.add.sprite(105, 235, "question_disc").setDepth(1000000000);
+    } else {
+      this.add.sprite(105, 235, "locked_disc").setDepth(1000000000);
+    }
   }
 
   async create() {
@@ -327,22 +348,18 @@ export class BeachScene extends BaseScene {
     });
 
     if (hasFeatureAccess(this.gameState, "PIRATE_CHEST")) {
-      const piratePotionEquipped = isWearableActive({
-        game: this.gameState,
-        name: "Pirate Potion",
+      this.updatePirateChest();
+      const listener = (e: EventObject) => {
+        if (e.type === "bumpkin.equipped") {
+          this.updatePirateChest(); // Some function you would put the render logic in
+        }
+      };
+
+      this.gameService.onEvent(listener);
+
+      this.events.on("shutdown", () => {
+        this.gameService.off(listener);
       });
-
-      const openedAt = this.gameState.pumpkinPlaza.pirateChest?.openedAt ?? 0;
-      const hasOpened =
-        !!openedAt &&
-        new Date(openedAt).toISOString().substring(0, 10) ===
-          new Date().toISOString().substring(0, 10);
-
-      if (piratePotionEquipped && !hasOpened) {
-        this.add.sprite(105, 235, "question_disc").setDepth(1000000000);
-      } else {
-        this.add.sprite(105, 235, "locked_disc").setDepth(1000000000);
-      }
 
       const pirateChest = this.add.sprite(105, 255, "rare_chest"); // Placeholder, will insert pirate chest sprite when it's ready
       this.physics.world.enable(pirateChest);
