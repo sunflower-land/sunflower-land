@@ -293,10 +293,6 @@ export const BumpkinModal: React.FC<Props> = ({
                     </div>
                     <span className="text-sm underline">{t("viewAll")}</span>
                   </div>
-                  <SkillBadges
-                    inventory={inventory}
-                    bumpkin={bumpkin as Bumpkin}
-                  />
                 </ButtonPanel>
               )}
 
