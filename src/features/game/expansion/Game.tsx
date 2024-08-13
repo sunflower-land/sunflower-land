@@ -75,7 +75,6 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   syncing: true,
   synced: true,
   error: true,
-  purchasing: true,
   buyingBlockBucks: true,
   refreshing: true,
   hoarding: true,
