@@ -1087,6 +1087,8 @@ const bumpkinItemBuff: Record<BumpkinItemBuff, string> = {
   "bumpkinItemBuff.oil.overalls.boost": "+10 Oil",
   "bumpkinItemBuff.ancient.shovel.boost": "Dig treasure without Sand Shovel",
   "bumpkinItemBuff.grape.pants": "+0.2 Grapes",
+  "bumpkinItemBuff.pirate.potion":
+    ENGLISH_TERMS["bumpkinItemBuff.pirate.potion"],
 };
 
 const bumpkinPart: Record<BumpkinPart, string> = {
@@ -2872,6 +2874,11 @@ const gameTerms: Record<GameTerms, string> = {
   "visiting.farmId": "В гостях у #{{farmId}}",
   "stock.inStock": "{{stock}} в наличии",
   "stock.left": "{{stock}} осталось",
+  "pirate.chest": ENGLISH_TERMS["pirate.chest"],
+  "pirate.chest.opened": ENGLISH_TERMS["pirate.chest.opened"],
+  "pirate.potion.equipped": ENGLISH_TERMS["pirate.potion.equipped"],
+  "missing.pirate.potion": ENGLISH_TERMS["missing.pirate.potion"],
+  "comeBackIn.time": ENGLISH_TERMS["comeBackIn.time"],
 };
 
 const genieLamp: Record<GenieLamp, string> = {
@@ -4523,6 +4530,18 @@ const npcDialogues: Record<NpcDialogues, string> = {
     "Welcome, wanderer. The sands of time hold many secrets, and I am in search of them. Have you found any artifacts on your journey?",
   "npcDialogues.pharaoh.intro3":
     "Hail, explorer. I am the Pharaoh, guardian of ancient secrets. Have you discovered any relics that might aid in solving the mysteries of our past?",
+  "npcDialogues.oldSalty.missingPotion1":
+    ENGLISH_TERMS["npcDialogues.oldSalty.missingPotion1"],
+  "npcDialogues.oldSalty.missingPotion2":
+    ENGLISH_TERMS["npcDialogues.oldSalty.missingPotion2"],
+  "npcDialogues.oldSalty.chestUnopened1":
+    ENGLISH_TERMS["npcDialogues.oldSalty.chestUnopened1"],
+  "npcDialogues.oldSalty.chestUnopened2":
+    ENGLISH_TERMS["npcDialogues.oldSalty.chestUnopened2"],
+  "npcDialogues.oldSalty.chestOpened1":
+    ENGLISH_TERMS["npcDialogues.oldSalty.chestOpened1"],
+  "npcDialogues.oldSalty.chestOpened2":
+    ENGLISH_TERMS["npcDialogues.oldSalty.chestOpened2"],
 };
 
 const nyeButton: Record<NyeButton, string> = {
