@@ -267,15 +267,17 @@ export const NPCFixed: React.FC<NPCProps & { width: number }> = ({
         height: `${width}px`,
       }}
     >
-      <img
-        src={auraBack}
-        className="block absolute"
-        style={{
-          transform: "scale(9)",
-          top: `${PIXEL_SCALE * 6}px`,
-          left: "400%",
-        }}
-      />
+      {auraBack && (
+        <img
+          src={auraBack}
+          className="block absolute"
+          style={{
+            transform: "scale(9)",
+            top: `${PIXEL_SCALE * 6}px`,
+            left: "400%",
+          }}
+        />
+      )}
       <img
         src={idle}
         className="block absolute"
@@ -285,15 +287,17 @@ export const NPCFixed: React.FC<NPCProps & { width: number }> = ({
           left: "400%",
         }}
       />
-      <img
-        src={auraFront}
-        className="block absolute"
-        style={{
-          transform: "scale(9)",
-          top: `${PIXEL_SCALE * 6}px`,
-          left: "400%",
-        }}
-      />
+      {auraFront && (
+        <img
+          src={auraFront}
+          className="block absolute"
+          style={{
+            transform: "scale(9)",
+            top: `${PIXEL_SCALE * 6}px`,
+            left: "400%",
+          }}
+        />
+      )}
     </div>
   );
 };
