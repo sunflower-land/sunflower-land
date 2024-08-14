@@ -118,10 +118,10 @@ export const FactionKitchenPanel: React.FC<Props> = ({ bumpkinParts }) => {
         })}
       </Label>
       <CloseButtonPanel bumpkinParts={bumpkinParts}>
-        <div className="p-1">
+        <>
           {!showConfirm && (
             <>
-              <p className="block sm:hidden text-xs pb-1">
+              <p className="block sm:hidden text-xs p-2 mb-1">
                 {t("faction.kitchen.gatherResources")}
               </p>
               <SplitScreenView
@@ -261,7 +261,7 @@ export const FactionKitchenPanel: React.FC<Props> = ({ bumpkinParts }) => {
           )}
           {showConfirm && (
             <>
-              <div className="space-y-3">
+              <div className="space-y-3 p-1">
                 <span className="text-xs sm:text-sm">
                   {t("faction.donation.confirm", {
                     factionPoints: formatNumber(boostedMarks),
@@ -291,7 +291,7 @@ export const FactionKitchenPanel: React.FC<Props> = ({ bumpkinParts }) => {
               </div>
             </>
           )}
-        </div>
+        </>
       </CloseButtonPanel>
     </>
   );
