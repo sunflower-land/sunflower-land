@@ -34,7 +34,7 @@ export const WorldIntroduction: React.FC<Props> = ({ onClose }) => {
   if (showNPCFind && delivery) {
     return (
       <Panel bumpkinParts={NPC_WEARABLES["pumpkin' pete"]}>
-        <div className="h-40 flex flex-col justify-between">
+        <div className="flex flex-col justify-between">
           <div className="p-1">
             <Label type={"default"} className="capitalize mb-1">{`${t(
               "world.intro.find",
@@ -42,7 +42,7 @@ export const WorldIntroduction: React.FC<Props> = ({ onClose }) => {
             <InlineDialogue
               message={t("world.intro.findNPC", { name: delivery.from })}
             />
-            <div className="relative mt-3 mb-2 mr-0.5 -ml-1">
+            <div className="relative mt-2 mb-2 mr-0.5 -ml-1">
               <NPCIcon parts={NPC_WEARABLES[delivery.from]} />
             </div>
           </div>

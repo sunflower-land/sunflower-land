@@ -190,6 +190,27 @@ type Fish = {
   locations: FishingLocation[];
 };
 
+export const SEASONAL_FISH: Record<
+  Extract<MarineMarvelName, "Crimson Carp" | "Lemon Shark" | "Battle Fish">,
+  Fish
+> = {
+  "Crimson Carp": {
+    baits: ["Grub", "Fishing Lure"],
+    type: "marine marvel",
+    locations: ["wharf"],
+  },
+  "Battle Fish": {
+    baits: ["Earthworm", "Grub", "Fishing Lure"],
+    type: "marine marvel",
+    locations: ["wharf", "beach"],
+  },
+  "Lemon Shark": {
+    baits: ["Grub", "Fishing Lure"],
+    type: "marine marvel",
+    locations: ["wharf", "beach"],
+  },
+};
+
 // TODO
 export const FISH: Record<FishName | MarineMarvelName, Fish> = {
   Anchovy: {
@@ -368,21 +389,7 @@ export const FISH: Record<FishName | MarineMarvelName, Fish> = {
     type: "marine marvel",
     locations: ["wharf"],
   },
-  "Crimson Carp": {
-    baits: ["Grub", "Fishing Lure"],
-    type: "marine marvel",
-    locations: ["wharf"],
-  },
-  "Battle Fish": {
-    baits: ["Earthworm", "Grub", "Fishing Lure"],
-    type: "marine marvel",
-    locations: ["wharf", "beach"],
-  },
-  "Lemon Shark": {
-    baits: ["Grub", "Fishing Lure"],
-    type: "marine marvel",
-    locations: ["wharf", "beach"],
-  },
+  ...SEASONAL_FISH,
 };
 
 export type Tide = "Dusktide" | "Dawnlight";

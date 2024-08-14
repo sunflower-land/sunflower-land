@@ -32,71 +32,28 @@ import { isTouchDevice } from "../lib/device";
 import { getRemainingDigs } from "features/island/hud/components/DesertDiggingDisplay";
 import { hasReadDigbyIntro } from "../ui/beach/Digby";
 import { isWearableActive } from "features/game/lib/wearables";
+import { EventObject } from "xstate/lib/types";
 
 const convertToSnakeCase = (str: string) => {
   return str.replace(" ", "_").toLowerCase();
 };
 
 const BUMPKINS: NPCBumpkin[] = [
-  {
-    npc: "pharaoh",
-    x: 36,
-    y: 86,
-  },
-  {
-    npc: "petro",
-    x: 480,
-    y: 80,
-    direction: "left",
-  },
-  {
-    npc: "old salty",
-    x: 38,
-    y: 262,
-  },
-  {
-    npc: "digby",
-    x: 336,
-    y: 219,
-    direction: "left",
-  },
-  {
-    npc: "finn",
-    x: 174,
-    y: 598,
-  },
-  {
-    npc: "finley",
-    x: 202,
-    y: 470,
-    direction: "left",
-  },
-  {
-    npc: "tango",
-    x: 496,
-    y: 401,
-  },
-  {
-    npc: "jafar",
-    x: 478,
-    y: 220,
-    direction: "left",
-  },
+  { npc: "pharaoh", x: 36, y: 86 },
+  { npc: "petro", x: 480, y: 80, direction: "left" },
+  { npc: "old salty", x: 38, y: 262 },
+  { npc: "digby", x: 336, y: 219, direction: "left" },
+  { npc: "finn", x: 174, y: 598 },
+  { npc: "finley", x: 202, y: 470, direction: "left" },
+  { npc: "tango", x: 496, y: 401 },
+  { npc: "jafar", x: 478, y: 220, direction: "left" },
+  { npc: "corale", x: 215, y: 750 },
+  { npc: "miranda", x: 418, y: 487 },
   {
     // To remove on digging release
     npc: "goldtooth",
     x: 384,
     y: 335,
-  },
-  {
-    npc: "corale",
-    x: 215,
-    y: 750,
-  },
-  {
-    x: 418,
-    y: 487,
-    npc: "miranda",
   },
 ];
 
@@ -155,6 +112,7 @@ export class BeachScene extends BaseScene {
     this.load.image("sand_hole", SUNNYSIDE.soil.sand_dug);
 
     this.load.image("wooden_chest", "world/wooden_chest.png");
+    this.load.image("rare_chest", "world/rare_chest.png");
     this.load.image("locked_disc", "world/locked_disc.png");
     this.load.image("rare_key_disc", "world/rare_key_disc.png");
 
@@ -220,6 +178,26 @@ export class BeachScene extends BaseScene {
     this.load.image("button", "world/button.webp");
     this.load.image("treasure_shop", "world/treasure_shop.png");
     this.load.image("shop_icon", "world/shop_disc.png");
+  }
+
+  updatePirateChest() {
+    const piratePotionEquipped = isWearableActive({
+      game: this.gameService.state.context.state,
+      name: "Pirate Potion",
+    });
+
+    const openedAt =
+      this.gameService.state.context.state.pumpkinPlaza.pirateChest?.openedAt ??
+      0;
+    const hasOpened =
+      !!openedAt &&
+      new Date(openedAt).toISOString().substring(0, 10) ===
+        new Date().toISOString().substring(0, 10);
+    if (piratePotionEquipped && !hasOpened) {
+      this.add.sprite(105, 235, "question_disc").setDepth(1000000000);
+    } else {
+      this.add.sprite(105, 235, "locked_disc").setDepth(1000000000);
+    }
   }
 
   async create() {
@@ -353,6 +331,14 @@ export class BeachScene extends BaseScene {
     }
 
     const chest = this.add.sprite(400, 680, "wooden_chest");
+    this.physics.world.enable(chest);
+    this.colliders?.add(chest);
+    this.triggerColliders?.add(chest);
+    (chest.body as Phaser.Physics.Arcade.Body)
+      .setSize(17, 20)
+      .setOffset(0, 0)
+      .setImmovable(true)
+      .setCollideWorldBounds(true);
     chest.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
       if (this.checkDistanceToSprite(chest, 75)) {
         interactableModalManager.open("rare_chest");
@@ -360,6 +346,40 @@ export class BeachScene extends BaseScene {
         this.currentPlayer?.speak(translate("base.iam.far.away"));
       }
     });
+
+    if (hasFeatureAccess(this.gameState, "PIRATE_CHEST")) {
+      this.updatePirateChest();
+      const listener = (e: EventObject) => {
+        if (e.type === "bumpkin.equipped") {
+          this.updatePirateChest(); // Some function you would put the render logic in
+        }
+      };
+
+      this.gameService.onEvent(listener);
+
+      this.events.on("shutdown", () => {
+        this.gameService.off(listener);
+      });
+
+      const pirateChest = this.add.sprite(105, 255, "rare_chest"); // Placeholder, will insert pirate chest sprite when it's ready
+      this.physics.world.enable(pirateChest);
+      this.colliders?.add(pirateChest);
+      this.triggerColliders?.add(pirateChest);
+      (pirateChest.body as Phaser.Physics.Arcade.Body)
+        .setSize(17, 20)
+        .setOffset(0, 0)
+        .setImmovable(true)
+        .setCollideWorldBounds(true);
+      pirateChest
+        .setInteractive({ cursor: "pointer" })
+        .on("pointerdown", () => {
+          if (this.checkDistanceToSprite(pirateChest, 75)) {
+            interactableModalManager.open("pirate_chest");
+          } else {
+            this.currentPlayer?.speak(translate("base.iam.far.away"));
+          }
+        });
+    }
 
     this.sound.add("drill");
     this.sound.add("dig");

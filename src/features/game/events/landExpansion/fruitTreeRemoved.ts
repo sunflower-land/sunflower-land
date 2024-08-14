@@ -31,7 +31,11 @@ export function getRequiredAxeAmount(
   game: GameState,
 ) {
   // Apply boost for Trees
-  if (fruitName === "Apple" || fruitName === "Orange") {
+  if (
+    fruitName === "Apple" ||
+    fruitName === "Orange" ||
+    fruitName === "Lemon"
+  ) {
     if (isCollectibleBuilt({ name: "Foreman Beaver", game })) {
       return new Decimal(0);
     }

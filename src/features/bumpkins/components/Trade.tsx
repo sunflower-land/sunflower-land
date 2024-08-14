@@ -23,10 +23,6 @@ import { getBumpkinLevel } from "features/game/lib/level";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { makeListingType } from "lib/utils/makeTradeListingType";
 import { Label } from "components/ui/Label";
-import {
-  TRADE_LIMITS,
-  TRADE_MINIMUMS,
-} from "features/world/ui/trader/BuyPanel";
 import { FloorPrices } from "features/game/actions/getListingsFloorPrices";
 import { formatNumber, setPrecision } from "lib/utils/formatNumber";
 import { hasVipAccess } from "features/game/lib/vipAccess";
@@ -37,6 +33,10 @@ import { ListingCategoryCard } from "components/ui/ListingCategoryCard";
 import { FACTION_EMBLEMS } from "features/game/events/landExpansion/joinFaction";
 import { NumberInput } from "components/ui/NumberInput";
 import { hasFeatureAccess } from "lib/flags";
+import {
+  TRADE_LIMITS,
+  TRADE_MINIMUMS,
+} from "features/game/actions/tradeLimits";
 
 const MAX_NON_VIP_LISTINGS = 1;
 const MAX_SFL = 150;
@@ -97,8 +97,6 @@ const ListTrade: React.FC<{
 
   const maxSFL = sfl.greaterThan(MAX_SFL);
 
-  const { gameService } = useContext(Context); // To remove after Beta Testing
-
   if (!selected) {
     return (
       <div className="space-y-2">
@@ -109,25 +107,19 @@ const ListTrade: React.FC<{
         </div>
 
         <div className="flex flex-wrap ">
-          {getKeys(TRADE_LIMITS)
-            .filter(
-              (name) =>
-                (name !== "Tomato" && name !== "Lemon") ||
-                hasFeatureAccess(gameService.state.context.state, "NEW_FRUITS"),
-            )
-            .map((name) => (
-              <div
-                key={name}
-                className="w-1/3 sm:w-1/4 md:w-1/5 lg:w-1/6 pr-1 pb-1 mb-2 px-1"
-              >
-                <ListingCategoryCard
-                  itemName={name}
-                  inventoryAmount={inventory?.[name] ?? new Decimal(0)}
-                  pricePerUnit={floorPrices[name]}
-                  onClick={() => setSelected(name)}
-                />
-              </div>
-            ))}
+          {getKeys(TRADE_LIMITS).map((name) => (
+            <div
+              key={name}
+              className="w-1/3 sm:w-1/4 md:w-1/5 lg:w-1/6 pr-1 pb-1 mb-2 px-1"
+            >
+              <ListingCategoryCard
+                itemName={name}
+                inventoryAmount={inventory?.[name] ?? new Decimal(0)}
+                pricePerUnit={floorPrices[name]}
+                onClick={() => setSelected(name)}
+              />
+            </div>
+          ))}
         </div>
       </div>
     );
@@ -158,13 +150,19 @@ const ListTrade: React.FC<{
         </div>
         <div className="flex flex-col items-end pr-1">
           <Label
-            type={inventory[selected]?.lt(quantity) ? "danger" : "info"}
+            type={
+              (inventory?.[selected] ?? new Decimal(0)).lt(quantity)
+                ? "danger"
+                : "info"
+            }
             className="my-1"
           >
             {t("bumpkinTrade.available")}
           </Label>
           <span className="text-sm mr-1 font-secondary">
-            {formatNumber(inventory?.[selected] ?? 0, { decimalPlaces: 0 })}
+            {formatNumber(inventory?.[selected] ?? new Decimal(0), {
+              decimalPlaces: 0,
+            })}
           </span>
         </div>
       </div>
@@ -225,12 +223,12 @@ const ListTrade: React.FC<{
               {t("bumpkinTrade.quantity")}
             </Label>
             {quantity.greaterThan(TRADE_LIMITS[selected] ?? 0) && (
-              <Label type="danger" className="my-1 ml-2 mr-1">
+              <Label type="danger" className="my-1 ml-2 mr-1 whitespace-nowrap">
                 {t("bumpkinTrade.max", { max: TRADE_LIMITS[selected] ?? 0 })}
               </Label>
             )}
             {tooLittle && (
-              <Label type="danger" className="my-1 ml-2 mr-1">
+              <Label type="danger" className="my-1 ml-2 mr-1 whitespace-nowrap">
                 {t("bumpkinTrade.min", { min: TRADE_MINIMUMS[selected] ?? 0 })}
               </Label>
             )}
@@ -347,7 +345,8 @@ const ListTrade: React.FC<{
             isTooHigh ||
             isTooLow ||
             maxSFL ||
-            (inventory[selected]?.lt(quantity) ?? false) ||
+            quantity.gt(inventory?.[selected] ?? new Decimal(0)) ||
+            quantity.gt(TRADE_LIMITS[selected] ?? new Decimal(0)) ||
             quantity.equals(0) || // Disable when quantity is 0
             sfl.equals(0) || // Disable when sfl is 0
             isSaving

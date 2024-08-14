@@ -58,7 +58,7 @@ export const CopyAddress: React.FC<{ address: string; showCopy?: boolean }> = ({
         )}
       </div>
       <div
-        className={`absolute top-6 left-9 mr-5 transition duration-400 pointer-events-none ${
+        className={`absolute top-6 left-12 mr-5 transition duration-400 pointer-events-none ${
           showLabel ? "opacity-100" : "opacity-0"
         }`}
       >

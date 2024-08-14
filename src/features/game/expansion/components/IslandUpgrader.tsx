@@ -230,12 +230,15 @@ export const IslandUpgrader: React.FC<Props> = ({ gameState, offset }) => {
     if (showAnimations) confetti();
   };
 
-  const nextExpansioon =
+  const nextExpansion =
     (gameState.inventory["Basic Land"]?.toNumber() ?? 3) + 1;
 
   const getPosition = () => {
-    if (island === "basic" && nextExpansioon == 10) {
+    if (island === "basic" && nextExpansion === 10) {
       return { x: 1, y: -5 };
+    }
+    if (island === "spring" && nextExpansion === 17) {
+      return { x: -26, y: 14 };
     }
 
     return { x: 7, y: 0 };

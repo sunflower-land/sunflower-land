@@ -1,6 +1,6 @@
 import React, { useContext, useRef, useState } from "react";
 import ReCAPTCHA from "react-google-recaptcha";
-import { useActor } from "@xstate/react";
+import { useSelector } from "@xstate/react";
 import { CONFIG } from "lib/config";
 
 import { Button } from "components/ui/Button";
@@ -14,18 +14,127 @@ import { WithdrawBuds } from "./WithdrawBuds";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Context } from "features/game/GameProvider";
 import { WithdrawResources } from "./WithdrawResources";
+import { Label } from "components/ui/Label";
+import { PIXEL_SCALE } from "features/game/lib/constants";
+import { MachineState } from "features/game/lib/gameMachine";
+import { translate } from "lib/i18n/translate";
+
+const getPageIcon = (page: Page) => {
+  switch (page) {
+    case "tokens":
+      return token;
+    case "items":
+      return chest;
+    case "wearables":
+      return SUNNYSIDE.icons.wardrobe;
+    case "buds":
+      return SUNNYSIDE.icons.plant;
+    case "resources":
+      return SUNNYSIDE.resource.wood;
+    default:
+      return "";
+  }
+};
+
+const getPageText = (page: Page) => {
+  switch (page) {
+    case "tokens":
+      return "SFL";
+    case "items":
+      return translate("collectibles");
+    case "wearables":
+      return translate("wearables");
+    case "buds":
+      return translate("buds");
+    case "resources":
+      return translate("resources");
+    default:
+      return "";
+  }
+};
+
+type Page = "main" | "tokens" | "items" | "wearables" | "buds" | "resources";
+
+const MainMenu: React.FC<{ setPage: (page: Page) => void }> = ({ setPage }) => {
+  return (
+    <div className="p-2 flex flex-col justify-center space-y-1">
+      <span className="mb-1">{translate("withdraw.sync")}</span>
+      <div className="flex space-x-1">
+        <Button onClick={() => setPage("tokens")}>
+          <div className="flex items-center">
+            <img src={getPageIcon("tokens")} className="h-4 mr-1" />
+            {getPageText("tokens")}
+          </div>
+        </Button>
+        <Button onClick={() => setPage("resources")}>
+          <div className="flex items-center">
+            <img src={getPageIcon("resources")} className="h-4 mr-1" />
+            {getPageText("resources")}
+          </div>
+        </Button>
+      </div>
+      <div className="flex space-x-1">
+        <Button onClick={() => setPage("items")}>
+          <div className="flex items-center">
+            <img src={getPageIcon("items")} className="h-4 mr-1" />
+            {getPageText("items")}
+          </div>
+        </Button>
+        <Button onClick={() => setPage("wearables")}>
+          <div className="flex items-center">
+            <img src={getPageIcon("wearables")} className="h-4 mr-1" />
+            {getPageText("wearables")}
+          </div>
+        </Button>
+      </div>
+      <div className="flex space-x-1">
+        <Button onClick={() => setPage("buds")}>
+          <div className="flex items-center">
+            <img src={getPageIcon("buds")} className="h-4 mr-1" />
+            {getPageText("buds")}
+          </div>
+        </Button>
+      </div>
+    </div>
+  );
+};
+
+const NavigationMenu: React.FC<{
+  page: Page;
+  setPage: (page: Page) => void;
+}> = ({ page, setPage }) => {
+  return (
+    <div className="flex items-center">
+      <img
+        src={SUNNYSIDE.icons.arrow_left}
+        className="self-start cursor-pointer mr-3"
+        style={{
+          top: `${PIXEL_SCALE * 2}px`,
+          left: `${PIXEL_SCALE * 2}px`,
+          width: `${PIXEL_SCALE * 11}px`,
+        }}
+        alt="back"
+        onClick={() => setPage("main")}
+      />
+      <Label type="default" icon={getPageIcon(page)}>
+        {getPageText(page)}
+      </Label>
+    </div>
+  );
+};
 
 interface Props {
   onClose: () => void;
 }
+
+const _verified = (state: MachineState) => state.context.verified;
+
 export const Withdraw: React.FC<Props> = ({ onClose }) => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
-  const [gameState] = useActor(gameService);
+  const verified = useSelector(gameService, _verified);
 
-  const [page, setPage] = useState<
-    "tokens" | "items" | "wearables" | "bumpkin" | "buds" | "resources"
-  >();
+  const [page, setPage] = useState<Page>("main");
 
   const withdrawAmount = useRef({
     ids: [] as number[],
@@ -33,7 +142,6 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
     sfl: "0",
     wearableIds: [] as number[],
     wearableAmounts: [] as number[],
-    bumpkinId: undefined as number | undefined,
     budIds: [] as number[],
   });
 
@@ -46,7 +154,6 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
       sfl,
       wearableAmounts: [],
       wearableIds: [],
-      bumpkinId: undefined,
       budIds: [],
     };
     setShowCaptcha(true);
@@ -59,7 +166,6 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
       sfl: "0",
       wearableAmounts: [],
       wearableIds: [],
-      bumpkinId: undefined,
       budIds: [],
     };
     setShowCaptcha(true);
@@ -75,20 +181,6 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
       sfl: "0",
       wearableAmounts,
       wearableIds,
-      bumpkinId: undefined,
-      budIds: [],
-    };
-    setShowCaptcha(true);
-  };
-
-  const onWithdrawBumpkin = async () => {
-    withdrawAmount.current = {
-      ids: [],
-      amounts: [],
-      sfl: "0",
-      wearableAmounts: [],
-      wearableIds: [],
-      bumpkinId: gameState.context.state.bumpkin?.id,
       budIds: [],
     };
     setShowCaptcha(true);
@@ -101,7 +193,6 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
       sfl: "0",
       wearableAmounts: [],
       wearableIds: [],
-      bumpkinId: undefined,
       budIds: ids,
     };
     setShowCaptcha(true);
@@ -122,13 +213,11 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
     onClose();
   };
 
-  if (!gameState.context.verified) {
+  if (!verified) {
     return (
       <>
-        <p className="text-sm p-1 m-1">{t("withdraw.proof")}</p>
-        <Button className="mr-1" onClick={provePersonhood}>
-          {t("withdraw.verification")}
-        </Button>
+        <p className="p-1 m-1">{t("withdraw.proof")}</p>
+        <Button onClick={provePersonhood}>{t("withdraw.verification")}</Button>
       </>
     );
   }
@@ -149,45 +238,8 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
 
   return (
     <>
-      <div className="p-2 flex flex-col justify-center space-y-1">
-        <span className="text-sm mb-1">{t("withdraw.sync")}</span>
-        <div className="flex space-x-1">
-          <Button onClick={() => setPage("tokens")}>
-            <div className="flex">
-              <img src={token} className="h-4 mr-1" />
-              {"SFL"}
-            </div>
-          </Button>
-          <Button onClick={() => setPage("resources")}>
-            <div className="flex">
-              <img src={SUNNYSIDE.resource.wood} className="h-4 mr-1" />
-              {t("resources")}
-            </div>
-          </Button>
-        </div>
-        <div className="flex space-x-1">
-          <Button onClick={() => setPage("items")}>
-            <div className="flex">
-              <img src={chest} className="h-4 mr-1" />
-              {t("collectibles")}
-            </div>
-          </Button>
-          <Button onClick={() => setPage("wearables")}>
-            <div className="flex">
-              <img src={SUNNYSIDE.icons.wardrobe} className="h-4 mr-1" />
-              {t("wearables")}
-            </div>
-          </Button>
-        </div>
-        <div className="flex space-x-1">
-          <Button onClick={() => setPage("buds")}>
-            <div className="flex">
-              <img src={SUNNYSIDE.icons.plant} className="h-4 mr-1" />
-              {t("buds")}
-            </div>
-          </Button>
-        </div>
-      </div>
+      {page === "main" && <MainMenu setPage={setPage} />}
+      {page !== "main" && <NavigationMenu page={page} setPage={setPage} />}
       {page === "tokens" && <WithdrawTokens onWithdraw={onWithdrawTokens} />}
       {page === "items" && <WithdrawItems onWithdraw={onWithdrawItems} />}
       {page === "resources" && <WithdrawResources onWithdraw={onClose} />}

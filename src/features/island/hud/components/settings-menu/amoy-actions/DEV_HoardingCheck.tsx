@@ -63,7 +63,7 @@ export const DEV_HoarderCheck: React.FC<Props & ContentComponentProps> = ({
       const gameContract =
         network === "mainnet"
           ? "0xfB84a7D985f9336987C89e1518E9A897b013080B"
-          : "0x27A6599DD1B1257B0e0f10fE2C83716b26c48f02";
+          : "0x05BbC2c442A7468538e68B1F70a97C9140227b0e";
       const web3 = new Web3(rpc);
       const contract = new web3.eth.Contract(
         GameABI as AbiItem[],

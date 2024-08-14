@@ -76,16 +76,12 @@ import {
   Helper,
   HeliosSunflower,
   HenHouseTerms,
-  HowToFarm,
-  HowToSync,
-  HowToUpgrade,
   Islandupgrade,
   InteractableModals,
   IntroPage,
   IslandName,
   IslandNotFound,
   LandscapeTerms,
-  LetsGo,
   LevelUpMessages,
   Loser,
   LostSunflorian,
@@ -643,6 +639,7 @@ const basicTreasure: Record<BasicTreasure, string> = {
   "budBox.opened": "Opened today",
   "budBox.title": "Bud box",
   "budBox.description": "Each day, a bud type can unlock farming rewards.",
+  "budBox.today": "Today - {{timeLeft}} left",
   "raffle.title": "Goblin Raffle",
   "raffle.description":
     "Each month, you have a chance to win rewards. Winners will be announced on Discord.",
@@ -1076,6 +1073,7 @@ const bumpkinItemBuff: Record<BumpkinItemBuff, string> = {
   "bumpkinItemBuff.oil.overalls.boost": "+10 Oil",
   "bumpkinItemBuff.ancient.shovel.boost": "Dig treasure without Sand Shovel",
   "bumpkinItemBuff.grape.pants": "+0.2 Grapes",
+  "bumpkinItemBuff.pirate.potion": "Unlock Pirate Chest",
 };
 
 const bumpkinPart: Record<BumpkinPart, string> = {
@@ -1951,8 +1949,8 @@ const deliveryHelp: Record<DeliveryHelp, string> = {
 };
 
 const deliveryitem: Record<DeliveryItem, string> = {
-  "deliveryitem.inventory": "Inventory:",
-  "deliveryitem.itemsToDeliver": "Items to deliver: ",
+  "deliveryitem.inventory": "Inventory",
+  "deliveryitem.itemsToDeliver": "Items to deliver",
   "deliveryitem.deliverToWallet": "Deliver to your wallet",
   "deliveryitem.viewOnOpenSea":
     "Once delivered, you will be able to view your items on OpenSea.",
@@ -2034,15 +2032,17 @@ const errorAndAccess: Record<ErrorAndAccess, string> = {
 };
 
 const errorTerms: Record<ErrorTerms, string> = {
+  "error.file": "Error File",
   "error.betaTestersOnly": "Beta testers only!",
   "error.congestion.one":
     "We are trying our best but looks like Polygon is getting a lot of traffic or you have lost your connection.",
   "error.congestion.two":
     "If this error continues please try changing your Metamask RPC",
   "error.connection.one":
-    "It looks like we were unable to complete this request.",
-  "error.connection.two": "It may be a simple connection issue.",
-  "error.connection.three": "You can click refresh to try again.",
+    "It looks like we encountered a problem. Quite often this is just a simple connection issue. You can try again or reach out for help if the issue persists.",
+  "error.connection.two": "Get help",
+  "error.connection.three":
+    "Please provide the following information when you contact support:",
   "error.connection.four":
     "If the issue remains, you can reach out for help by either contacting our support team or jumping over to our discord and asking our community",
   "error.diagnostic.info": "Diagnostic Information",
@@ -2058,7 +2058,10 @@ const errorTerms: Record<ErrorTerms, string> = {
   "error.toManyRequest.two":
     "Looks like you have been busy! Please try again later.",
   "error.Web3NotFound": "Web3 Not Found",
-  "error.wentWrong": "Something went wrong!",
+  "error.wentWrong": "Oops! Something went wrong!",
+  "error.getHelp": "Get help",
+  "error.contactSupport": "Contact support",
+  "error.askOnDiscord": "Ask on discord",
   "error.tooManyFarms":
     "Slow down Bumpkin! It looks like you have too many accounts on your network. Please try again later.",
   "error.clock.not.synced": "Clock not in sync",
@@ -2152,7 +2155,7 @@ const factions: Record<Factions, string> = {
   "faction.donation.bulk.resources.unlimited.per.day":
     "{{donatedToday}}/unlimited per day",
   "faction.donation.confirm":
-    "Are you sure you want to donate the following for a total of {{factionPoints}} {{reward}}?",
+    "Are you sure you want to donate the following for a total of {{factionPoints}} marks?",
   "faction.seasonal.delivery.start.at": "Seasonal Deliveries begin in {{days}}",
   "faction.points.with.number": "Faction points: {{points}}",
   "faction.points.title": "Faction Points",
@@ -2875,6 +2878,11 @@ const gameTerms: Record<GameTerms, string> = {
   "visiting.farmId": "Visting #{{farmId}}",
   "stock.inStock": "{{stock}} in stock",
   "stock.left": "{{stock}} left",
+  "pirate.chest": "Pirate Chest",
+  "pirate.chest.opened": "Pirate Chest Opened",
+  "pirate.potion.equipped": "Pirate Potion equipped",
+  "missing.pirate.potion": "Missing Pirate Potion",
+  "comeBackIn.time": "Come back in {{timeToReset}}",
 };
 
 const garbageCollector: Record<GarbageCollector, string> = {
@@ -2952,7 +2960,7 @@ const guideFactionPet: Record<GuideFactionPet, string> = {
   "guide.factionPet.one":
     "Each week the pet will request 3 foods. When fed, the XP from the food will go to the total XP tally for the faction.",
   "guide.factionPet.two":
-    "Your faction will have a goal xp they need to reach each week. If the faction reaches the goal, the next week goal will be 30% harder than the total xp achieved for the week! If the goal isn't reached, it will be reset back to 500 x faction members.",
+    "Your faction will have a goal xp they need to reach each week. If the faction reaches the goal, the next week goal will be 15% harder than the total xp achieved for the week! If the goal isn't reached, it will be reset back to 1000 x faction members.",
   "guide.factionPet.three":
     "If the faction doesn't reach the goal then the pet will go to sleep for 1 week.",
   "guide.factionPet.four":
@@ -3137,31 +3145,6 @@ const henHouseTerms: Record<HenHouseTerms, string> = {
   "henHouse.text.six": "Build an extra Hen House to farm more chickens",
 };
 
-const howToFarm: Record<HowToFarm, string> = {
-  "howToFarm.title": "How to Farm?",
-  "howToFarm.stepOne": "1.Harvest crops when they are ready",
-  "howToFarm.stepTwo": "2.Visit the town & click on the shop",
-  "howToFarm.stepThree": "3.Sell crops at the shop for Coins",
-  "howToFarm.stepFour": "4.Buy seeds using your Coins",
-  "howToFarm.stepFive": "5. Plant seeds and wait",
-};
-
-const howToSync: Record<HowToSync, string> = {
-  "howToSync.title": "How to sync?",
-  "howToSync.description":
-    "All of your progress is saved on our game server. You will need to sync on chain when you want to move your tokens, NFTs and resources onto Polygon.",
-  "howToSync.stepOne": "1. Open the menu",
-  "howToSync.stepTwo": "2. Click 'Sync on chain'",
-};
-
-const howToUpgrade: Record<HowToUpgrade, string> = {
-  "howToUpgrade.title": "How to upgrade?",
-  "howToUpgrade.stepOne": "1. Talk to a Goblin blocking the fields",
-  "howToUpgrade.stepTwo": "2.Visit the town & click on the kitchen",
-  "howToUpgrade.stepThree": "3. Craft the food that the goblin wants",
-  "howToUpgrade.stepFour": "4. Voila! Enjoy your new fields and crops",
-};
-
 const interactableModals: Record<InteractableModals, string> = {
   "interactableModals.returnhome.message": "Would you like to return home?",
   "interactableModals.fatChicken.message":
@@ -3330,14 +3313,6 @@ const landscapeTerms: Record<LandscapeTerms, string> = {
   "landscape.great.work": "Great work Bumpkin!",
 };
 
-const letsGo: Record<LetsGo, string> = {
-  "letsGo.title": "Time to play!",
-  "letsGo.description":
-    "Thanks for playing! We appreciate your support of Sunflower Land.",
-  "letsGo.readMore": "You can read more about the game in the ", // To figure out how to interpolate links
-  "letsGo.officialDocs": "official docs",
-};
-
 const levelUpMessages: Record<LevelUpMessages, string> = {
   "levelUp.2":
     "Yeehaw, you've reached level 2! The crops are quakin' in their boots.",
@@ -3434,6 +3409,7 @@ const lostSunflorian: Record<LostSunflorian, string> = {
 };
 
 const megaStore: Record<MegaStore, string> = {
+  "megaStore.visit": "Visit the Megastore in the plaza before time runs out!",
   "megaStore.message":
     "Welcome to the Mega Store! Check out this month's limited items. If you like something, be sure to grab it before it vanishes into the realms of time.",
   "megaStore.month.sale": "This month's sales",
@@ -4013,6 +3989,20 @@ const npcDialogues: Record<NpcDialogues, string> = {
     "No active order for Old Salty's treasure cove, me heartie, but that doesn't mean there's no adventure to be had. Keep your eyes peeled for hidden treasures and uncharted waters!",
   "npcDialogues.oldSalty.noOrder2":
     "No specific treasure for you to seek with Old Salty at the moment, but don't fret, my hearty sailor! The high seas hold countless riches waiting to be discovered.",
+  // Old Salty Pirate Chest
+  "npcDialogues.oldSalty.missingPotion1":
+    "Ahoy, mateys! I be guardin' this plunder for me loyal crew.",
+  "npcDialogues.oldSalty.missingPotion2":
+    "Return when ye've the heart and body of a true pirate!",
+  "npcDialogues.oldSalty.chestUnopened1":
+    "Ahoy, mateys! It seems I've found a fellow pirate among ye!",
+  "npcDialogues.oldSalty.chestUnopened2":
+    "You are entitled to one treasure gift per day.",
+  "npcDialogues.oldSalty.chestOpened1":
+    "Ye've cracked open the Pirate Chest today!",
+  "npcDialogues.oldSalty.chestOpened2":
+    "Return on the morrow to plunder the Pirate Chest once more!",
+
   // Raven Intro
   "npcDialogues.raven.intro1":
     "Welcome to my humble abode. Careful where you step; there are potions brewing. Did you get what I ordered?",
@@ -4921,12 +4911,32 @@ const seasonTerms: Record<SeasonTerms, string> = {
   "season.vip.access": "Season VIP Access",
   "season.vip.claim": "Claim your monthly seasonal airdrop.",
   "season.vip.description":
-    "Unlock perks, discounts, bonus tickets, airdrops and more!",
+    "Dominate the season with perks, discounts, bonus tickets, airdrops and more!",
   "season.vip.purchase": "Purchase VIP Items",
   "season.mystery.gift": "Mystery Gift",
   "season.xp.boost": "10% XP boost",
   "season.lifetime.farmer": "Lifetime Farmer",
   "season.free.with.lifetime": "Free with Lifetime Farmer",
+  "season.pharaohs.gift": "5 Extra Desert Digs",
+  "season.ticket.bonus": "+2 {{item}}s (deliveries & chores)",
+  "season.codex.intro":
+    "Earn {{ticket}}s to craft exclusive collectibles & wearables for your farm in this limited season...Hurry before time runs out!",
+  "season.codex.howToEarn": "How to earn {{ticket}}s?",
+  "season.codex.howToEarn.one":
+    "Visit the plaza & deliver resources to Bumpkins.",
+  "season.codex.howToEarn.two": "Complete Hank's chores.",
+  "season.codex.howToEarn.three": "Compete in the faction competition.",
+  "season.codex.nextDrop": "Next Drop",
+  "season.codex.seasonalDrops": "Seasonal Drops",
+  "season.codex.seasonalDrops.description":
+    "Compete with others for the rarest items! Visit the Auctioneer in the plaza for more details.",
+  "season.codex.soldOut": "Sold out",
+  "season.codex.mutants": "Mutants",
+  "season.codex.mutants.discover": "Discover the seasonal mutants!",
+  "season.codex.mutants.one": "Collect eggs to discover the {{item}}.",
+  "season.codex.mutants.two": "Fish in the depths for the {{item}}.",
+  "season.codex.mutants.three":
+    "Experiment with flowers to discover the {{item}}.",
 };
 
 const share: Record<Share, string> = {
@@ -5381,7 +5391,7 @@ const withdraw: Record<Withdraw, string> = {
   "withdraw.sfl.available": "SFL is available on-chain",
   "withdraw.send.wallet": "Sent to your wallet",
   "withdraw.choose": "Choose amount to withdraw",
-  "withdraw.receive": "You will receive: {{sflReceived}}",
+  "withdraw.receive": "You will receive: {{sflReceived}} SFL",
   "withdraw.select.item": "Select items to withdraw",
   "withdraw.opensea":
     "Once withdrawn, you will be able to view your items on OpenSea.",
@@ -5514,7 +5524,6 @@ export const leaderboardTerms: Record<Leaderboard, string> = {
 
 const gameOptions: Record<GameOptions, string> = {
   "gameOptions.title": "Game Options",
-  "gameOptions.howToPlay": "How to Play? (Under Reconstruction)",
   "gameOptions.farmId": "Farm ID #{{farmId}}",
   "gameOptions.logout": "Logout",
   "gameOptions.confirmLogout": "Are you sure you want to Logout?",
@@ -5742,9 +5751,6 @@ export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
   ...heliosSunflower,
   ...helper,
   ...henHouseTerms,
-  ...howToFarm,
-  ...howToSync,
-  ...howToUpgrade,
   ...interactableModals,
   ...introPage,
   ...islandName,
@@ -5752,7 +5758,6 @@ export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
   ...islandupgrade,
   ...landscapeTerms,
   ...leaderboardTerms,
-  ...letsGo,
   ...levelUpMessages,
   ...loser,
   ...lostSunflorian,

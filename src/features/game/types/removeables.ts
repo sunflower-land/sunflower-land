@@ -322,6 +322,15 @@ function hasShakenManeki(game: GameState): Restriction {
   return [hasShakenRecently, translate("restrictionReason.pawShaken")];
 }
 
+export function hasOpenedPirateChest(game: GameState): Restriction {
+  function pirateChestOpened() {
+    const piratePotionOpened = game.pumpkinPlaza.pirateChest?.openedAt || 0;
+    return !canShake(piratePotionOpened);
+  }
+
+  return [pirateChestOpened(), "Pirate Chest Opened"];
+}
+
 function hasShakenTree(game: GameState): Restriction {
   const trees = game.collectibles["Festive Tree"] ?? [];
   const hasShakenRecently = trees.some((tree) => {

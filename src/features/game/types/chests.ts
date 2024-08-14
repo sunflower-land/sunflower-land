@@ -124,146 +124,50 @@ export const GIFT_GIVER_REWARDS: ChestReward[] = [
   { items: {}, sfl: 5, weighting: 3 },
 ];
 
+export const PIRATE_CHEST_REWARDS: ChestReward[] = [
+  { items: { "Sand Shovel": 5 }, weighting: 20 },
+  { items: { Grub: 5 }, weighting: 10 },
+  { items: { Earthworm: 5 }, weighting: 10 },
+  { items: { "Sand Shovel": 10 }, weighting: 10 },
+  { items: { "Sand Drill": 1 }, weighting: 10 },
+  { items: { Seaweed: 3 }, weighting: 10 },
+  { items: { Orange: 5 }, weighting: 10 },
+  { items: { "Orange Cake": 1 }, weighting: 10 },
+  { items: { Sand: 20 }, weighting: 10 },
+  { items: { Hieroglyph: 1 }, weighting: 10 },
+  { items: { "Pirate Cake": 1 }, weighting: 5 },
+];
+
 // 1-3 days
 export const BASIC_DESERT_STREAK: ChestReward[] = [
-  {
-    items: {
-      "Clam Shell": 1,
-    },
-    weighting: 20,
-  },
-  {
-    items: {
-      Pipi: 1,
-    },
-    weighting: 20,
-  },
-  {
-    items: {
-      "Sand Shovel": 10,
-    },
-    weighting: 15,
-  },
-  {
-    items: {
-      "Sand Drill": 2,
-    },
-    weighting: 10,
-  },
-  {
-    items: {
-      "Radish Cake": 1,
-    },
-    weighting: 15,
-  },
-  {
-    items: {
-      "Wheat Cake": 1,
-    },
-    weighting: 20,
-  },
-  {
-    items: {
-      "Treasure Key": 1,
-    },
-    weighting: 10,
-  },
+  { items: { "Clam Shell": 1 }, weighting: 20 },
+  { items: { Pipi: 1 }, weighting: 20 },
+  { items: { "Sand Shovel": 10 }, weighting: 15 },
+  { items: { "Sand Drill": 2 }, weighting: 10 },
+  { items: { "Radish Cake": 1 }, weighting: 15 },
+  { items: { "Wheat Cake": 1 }, weighting: 20 },
+  { items: { "Treasure Key": 1 }, weighting: 10 },
 ];
 
 // 4-10 days
 export const ADVANCED_DESERT_STREAK: ChestReward[] = [
-  {
-    items: {
-      "Clam Shell": 2,
-    },
-    weighting: 10,
-  },
-  {
-    items: {
-      "Treasure Key": 1,
-    },
-    weighting: 10,
-  },
-  {
-    items: {
-      "Pirate Cake": 1,
-    },
-    weighting: 10,
-  },
-  {
-    items: {
-      "Sand Shovel": 10,
-    },
-    weighting: 15,
-  },
-  {
-    items: {
-      "Sand Drill": 2,
-    },
-    weighting: 15,
-  },
-  {
-    items: {
-      "Prize Ticket": 1,
-    },
-    weighting: 1,
-  },
-  {
-    items: {
-      Pearl: 1,
-    },
-    weighting: 5,
-  },
+  { items: { "Clam Shell": 2 }, weighting: 10 },
+  { items: { "Treasure Key": 1 }, weighting: 10 },
+  { items: { "Pirate Cake": 1 }, weighting: 10 },
+  { items: { "Sand Shovel": 10 }, weighting: 15 },
+  { items: { "Sand Drill": 2 }, weighting: 15 },
+  { items: { "Prize Ticket": 1 }, weighting: 1 },
+  { items: { Pearl: 1 }, weighting: 5 },
 ];
 
 // 11+ days
 export const EXPERT_DESERT_STREAK: ChestReward[] = [
-  {
-    items: {
-      "Pirate Bounty": 1,
-    },
-    weighting: 5,
-  },
-  {
-    items: {
-      Pearl: 1,
-    },
-    weighting: 10,
-  },
-  {
-    items: {
-      "Prize Ticket": 1,
-    },
-    weighting: 5,
-  },
-  {
-    items: {
-      "Rare Key": 1,
-    },
-    weighting: 5,
-  },
-  {
-    items: {
-      "Sand Shovel": 15,
-    },
-    weighting: 20,
-  },
-  {
-    items: {
-      "Sand Drill": 3,
-    },
-    weighting: 5,
-  },
-  {
-    items: {
-      "Pirate Cake": 1,
-    },
-    weighting: 5,
-  },
-  {
-    items: {
-      "Shroom Syrup": 1,
-    },
-    weighting: 1,
-  },
+  { items: { "Pirate Bounty": 1 }, weighting: 5 },
+  { items: { Pearl: 1 }, weighting: 10 },
+  { items: { "Prize Ticket": 1 }, weighting: 5 },
+  { items: { "Rare Key": 1 }, weighting: 5 },
+  { items: { "Sand Shovel": 15 }, weighting: 20 },
+  { items: { "Sand Drill": 3 }, weighting: 5 },
+  { items: { "Pirate Cake": 1 }, weighting: 5 },
+  { items: { "Shroom Syrup": 1 }, weighting: 1 },
 ];

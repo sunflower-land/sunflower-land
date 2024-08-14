@@ -411,6 +411,7 @@ export type BasicTreasure =
   | "budBox.opened"
   | "budBox.title"
   | "budBox.description"
+  | "budBox.today"
   | "raffle.title"
   | "raffle.description"
   | "raffle.entries"
@@ -758,7 +759,8 @@ export type BumpkinItemBuff =
   | "bumpkinItemBuff.dev.wrench.boost"
   | "bumpkinItemBuff.oil.overalls.boost"
   | "bumpkinItemBuff.ancient.shovel.boost"
-  | "bumpkinItemBuff.grape.pants";
+  | "bumpkinItemBuff.grape.pants"
+  | "bumpkinItemBuff.pirate.potion";
 
 export type BumpkinPart =
   | "equip.background"
@@ -1481,6 +1483,10 @@ export type ErrorTerms =
   | "error.toManyRequest.two"
   | "error.betaTestersOnly"
   | "error.wentWrong"
+  | "error.getHelp"
+  | "error.file"
+  | "error.contactSupport"
+  | "error.askOnDiscord"
   | "error.tooManyFarms"
   | "error.polygonRPC"
   | "error.connection.one"
@@ -2056,7 +2062,12 @@ export type GameTerms =
   | "sunflowerLandCodex"
   | "visiting.farmId"
   | "stock.left"
-  | "stock.inStock";
+  | "stock.inStock"
+  | "pirate.chest"
+  | "pirate.chest.opened"
+  | "pirate.potion.equipped"
+  | "missing.pirate.potion"
+  | "comeBackIn.time";
 
 export type GarbageCollector =
   | "garbageCollector.welcome"
@@ -2221,27 +2232,6 @@ export type HenHouseTerms =
   | "henHouse.text.five"
   | "henHouse.text.six";
 
-export type HowToFarm =
-  | "howToFarm.title"
-  | "howToFarm.stepOne"
-  | "howToFarm.stepTwo"
-  | "howToFarm.stepThree"
-  | "howToFarm.stepFour"
-  | "howToFarm.stepFive";
-
-export type HowToSync =
-  | "howToSync.title"
-  | "howToSync.description"
-  | "howToSync.stepOne"
-  | "howToSync.stepTwo";
-
-export type HowToUpgrade =
-  | "howToUpgrade.title"
-  | "howToUpgrade.stepOne"
-  | "howToUpgrade.stepTwo"
-  | "howToUpgrade.stepThree"
-  | "howToUpgrade.stepFour";
-
 export type Islandupgrade =
   | "islandupgrade.confirmUpgrade"
   | "islandupgrade.warning"
@@ -2352,12 +2342,6 @@ export type LandscapeTerms =
   | "landscape.expansion.date"
   | "landscape.great.work";
 
-export type LetsGo =
-  | "letsGo.title"
-  | "letsGo.description"
-  | "letsGo.readMore"
-  | "letsGo.officialDocs";
-
 export type LevelUpMessages =
   | "levelUp.2"
   | "levelUp.3"
@@ -2428,6 +2412,7 @@ export type LostSunflorian =
 
 export type MegaStore =
   | "megaStore.message"
+  | "megaStore.visit"
   | "megaStore.month.sale"
   | "megaStore.wearable"
   | "megaStore.collectible"
@@ -2757,6 +2742,13 @@ export type NpcDialogues =
   //Old Salty NoOrder
   | "npcDialogues.oldSalty.noOrder1"
   | "npcDialogues.oldSalty.noOrder2"
+  // Old Salty Pirate Chest
+  | "npcDialogues.oldSalty.missingPotion1"
+  | "npcDialogues.oldSalty.missingPotion2"
+  | "npcDialogues.oldSalty.chestUnopened1"
+  | "npcDialogues.oldSalty.chestUnopened2"
+  | "npcDialogues.oldSalty.chestOpened1"
+  | "npcDialogues.oldSalty.chestOpened2"
   // Pharaoh
   | "npcDialogues.pharaoh.intro1"
   | "npcDialogues.pharaoh.intro2"
@@ -3280,6 +3272,8 @@ export type SeasonTerms =
   | "season.supporter.gift"
   | "season.free.season.passes"
   | "season.vip.access"
+  | "season.ticket.bonus"
+  | "season.pharaohs.gift"
   | "season.vip.description"
   | "season.vip.claim"
   | "season.vip.purchase"
@@ -3287,7 +3281,21 @@ export type SeasonTerms =
   | "season.xp.boost"
   | "season.free.season.passes.description"
   | "season.lifetime.farmer"
-  | "season.free.with.lifetime";
+  | "season.free.with.lifetime"
+  | "season.codex.intro"
+  | "season.codex.howToEarn"
+  | "season.codex.howToEarn.one"
+  | "season.codex.howToEarn.two"
+  | "season.codex.howToEarn.three"
+  | "season.codex.nextDrop"
+  | "season.codex.seasonalDrops"
+  | "season.codex.seasonalDrops.description"
+  | "season.codex.soldOut"
+  | "season.codex.mutants"
+  | "season.codex.mutants.discover"
+  | "season.codex.mutants.one"
+  | "season.codex.mutants.two"
+  | "season.codex.mutants.three";
 
 export type Share =
   | "share.TweetText"
@@ -3728,7 +3736,6 @@ export type Leaderboard =
 
 export type GameOptions =
   | "gameOptions.title"
-  | "gameOptions.howToPlay"
   | "gameOptions.amoyActions"
   | "gameOptions.amoyActions.timeMachine"
   | "gameOptions.blockchainSettings"
@@ -3922,16 +3929,12 @@ export type TranslationKeys =
   | Helper
   | HeliosSunflower
   | HenHouseTerms
-  | HowToFarm
-  | HowToSync
-  | HowToUpgrade
   | Islandupgrade
   | InteractableModals
   | IntroPage
   | IslandName
   | IslandNotFound
   | LandscapeTerms
-  | LetsGo
   | LevelUpMessages
   | Loser
   | LostSunflorian

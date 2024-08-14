@@ -36,6 +36,7 @@ import { KingdomNoticeboard } from "./kingdom/KingdomNoticeboard";
 import { FactionNoticeboard } from "./factions/FactionNoticeboard";
 import { CropsAndChickens } from "./portals/CropsAndChickens";
 import { DesertNoticeboard } from "./beach/DesertNoticeboard";
+import { PirateChestModal } from "./chests/PirateChest";
 
 type InteractableName =
   | "desert_noticeboard"
@@ -51,6 +52,7 @@ type InteractableName =
   | "basic_chest"
   | "luxury_chest"
   | "rare_chest"
+  | "pirate_chest"
   | "kraken"
   | "nye_button"
   | "welcome_sign"
@@ -314,6 +316,11 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
           setIsLoading={setIsLoading}
         />
       </Modal>
+      <PirateChestModal
+        show={interactable === "pirate_chest"}
+        onClose={closeModal}
+        setIsLoading={setIsLoading}
+      />
       <Modal show={interactable === "plaza_orange_book"} onHide={closeModal}>
         <SpeakingModal
           onClose={closeModal}

@@ -114,7 +114,6 @@ export const FRUIT: () => Record<FruitName, Fruit> = () => ({
     name: "Lemon",
     sellPrice: 6,
     seed: "Lemon Seed",
-    isBush: true,
     bumpkinLevel: 12,
   },
   Blueberry: {
