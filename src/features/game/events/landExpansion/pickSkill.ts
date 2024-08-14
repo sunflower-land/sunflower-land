@@ -24,12 +24,14 @@ export const getAvailableBumpkinSkillPoints = (bumpkin?: Bumpkin) => {
   const bumpkinLevel = getBumpkinLevel(bumpkin.experience);
   const totalSkillPoints = SKILL_POINTS[bumpkinLevel];
 
-  const allocatedSkillPoints = getKeys({ ...bumpkin.skills }).reduce(
-    (acc, skill) => {
+  const allocatedSkillPoints = getKeys({ ...bumpkin.skills } as Partial<
+    Record<BumpkinSkillName, number>
+  >).reduce((acc, skill) => {
+    if (BUMPKIN_SKILL_TREE[skill]) {
       return acc + BUMPKIN_SKILL_TREE[skill].requirements.points;
-    },
-    0,
-  );
+    }
+    return acc;
+  }, 0);
 
   return totalSkillPoints - allocatedSkillPoints;
 };

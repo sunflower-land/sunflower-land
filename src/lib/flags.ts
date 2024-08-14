@@ -43,6 +43,7 @@ export type FeatureName =
   | "TEST_DIGGING"
   | "NEW_FRUITS"
   | "DESERT_PLAZA"
+  | "SKILLS_REVAMP"
   | "PIRATE_CHEST"
   | "MARKETPLACE";
 
@@ -86,6 +87,7 @@ const featureFlags: Record<FeatureName, FeatureFlag> = {
   TEST_DIGGING: betaTimeBasedFeatureFlag(new Date("2024-08-01T00:00:00Z")),
   NEW_FRUITS: betaTimeBasedFeatureFlag(new Date("2024-08-01T00:00:00Z")),
   DESERT_PLAZA: betaTimeBasedFeatureFlag(new Date("2024-08-01T00:00:00Z")),
+  SKILLS_REVAMP: testnetFeatureFlag,
   PIRATE_CHEST: defaultFeatureFlag,
 };
 
