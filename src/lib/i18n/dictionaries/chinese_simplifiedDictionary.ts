@@ -1046,6 +1046,38 @@ const bumpkinItemBuff: Record<BumpkinItemBuff, string> = {
   "bumpkinItemBuff.ancient.shovel.boost": "挖宝无需沙铲",
   "bumpkinItemBuff.grape.pants": "+0.2 葡萄",
   "bumpkinItemBuff.pirate.potion": "解锁海盗宝箱",
+  "bumpkinItemBuff.bumpkin.crown.boost":
+    ENGLISH_TERMS["bumpkinItemBuff.bumpkin.crown.boost"],
+  "bumpkinItemBuff.goblin.crown.boost":
+    ENGLISH_TERMS["bumpkinItemBuff.goblin.crown.boost"],
+  "bumpkinItemBuff.nightshade.crown.boost":
+    ENGLISH_TERMS["bumpkinItemBuff.nightshade.crown.boost"],
+  "bumpkinItemBuff.sunflorian.crown.boost":
+    ENGLISH_TERMS["bumpkinItemBuff.sunflorian.crown.boost"],
+  "bumpkinItemBuff.bumpkin.shield.boost":
+    ENGLISH_TERMS["bumpkinItemBuff.bumpkin.shield.boost"],
+  "bumpkinItemBuff.goblin.shield.boost":
+    ENGLISH_TERMS["bumpkinItemBuff.goblin.shield.boost"],
+  "bumpkinItemBuff.nightshade.shield.boost":
+    ENGLISH_TERMS["bumpkinItemBuff.nightshade.shield.boost"],
+  "bumpkinItemBuff.sunflorian.shield.boost":
+    ENGLISH_TERMS["bumpkinItemBuff.sunflorian.shield.boost"],
+  "bumpkinItemBuff.bumpkin.quiver.boost":
+    ENGLISH_TERMS["bumpkinItemBuff.bumpkin.quiver.boost"],
+  "bumpkinItemBuff.goblin.quiver.boost":
+    ENGLISH_TERMS["bumpkinItemBuff.goblin.quiver.boost"],
+  "bumpkinItemBuff.nightshade.quiver.boost":
+    ENGLISH_TERMS["bumpkinItemBuff.nightshade.quiver.boost"],
+  "bumpkinItemBuff.sunflorian.quiver.boost":
+    ENGLISH_TERMS["bumpkinItemBuff.sunflorian.quiver.boost"],
+  "bumpkinItemBuff.bumpkin.medallion.boost":
+    ENGLISH_TERMS["bumpkinItemBuff.bumpkin.medallion.boost"],
+  "bumpkinItemBuff.goblin.medallion.boost":
+    ENGLISH_TERMS["bumpkinItemBuff.goblin.medallion.boost"],
+  "bumpkinItemBuff.nightshade.medallion.boost":
+    ENGLISH_TERMS["bumpkinItemBuff.nightshade.medallion.boost"],
+  "bumpkinItemBuff.sunflorian.medallion.boost":
+    ENGLISH_TERMS["bumpkinItemBuff.sunflorian.medallion.boost"],
 };
 
 const bumpkinPartRequirements: Record<BumpkinPartRequirements, string> = {

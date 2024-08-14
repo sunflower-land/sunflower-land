@@ -764,7 +764,23 @@ export type BumpkinItemBuff =
   | "bumpkinItemBuff.oil.overalls.boost"
   | "bumpkinItemBuff.ancient.shovel.boost"
   | "bumpkinItemBuff.grape.pants"
-  | "bumpkinItemBuff.pirate.potion";
+  | "bumpkinItemBuff.pirate.potion"
+  | "bumpkinItemBuff.bumpkin.crown.boost"
+  | "bumpkinItemBuff.goblin.crown.boost"
+  | "bumpkinItemBuff.nightshade.crown.boost"
+  | "bumpkinItemBuff.sunflorian.crown.boost"
+  | "bumpkinItemBuff.bumpkin.shield.boost"
+  | "bumpkinItemBuff.goblin.shield.boost"
+  | "bumpkinItemBuff.nightshade.shield.boost"
+  | "bumpkinItemBuff.sunflorian.shield.boost"
+  | "bumpkinItemBuff.bumpkin.quiver.boost"
+  | "bumpkinItemBuff.goblin.quiver.boost"
+  | "bumpkinItemBuff.nightshade.quiver.boost"
+  | "bumpkinItemBuff.sunflorian.quiver.boost"
+  | "bumpkinItemBuff.bumpkin.medallion.boost"
+  | "bumpkinItemBuff.goblin.medallion.boost"
+  | "bumpkinItemBuff.nightshade.medallion.boost"
+  | "bumpkinItemBuff.sunflorian.medallion.boost";
 
 export type BumpkinPart =
   | "equip.background"
