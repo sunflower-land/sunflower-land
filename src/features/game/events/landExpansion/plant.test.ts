@@ -1978,6 +1978,28 @@ describe("getCropTime", () => {
       }),
     );
   });
+
+  it("applies a +5% speed boost with Green Thumb 2 skill selected", () => {
+    const baseHarvestSeconds = CROPS["Corn"].harvestSeconds;
+    const time = getCropPlotTime({
+      crop: "Corn",
+      inventory: {},
+      game: {
+        ...TEST_FARM,
+        collectibles: {},
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          skills: {
+            "Green Thumb 2": 1,
+          },
+        },
+      },
+      buds: {},
+      plot: { ...plot, x: 0, y: -3 },
+    });
+
+    expect(time).toEqual(baseHarvestSeconds * 0.95);
+  });
 });
 
 describe("isPlotFertile", () => {

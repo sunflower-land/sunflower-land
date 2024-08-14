@@ -160,6 +160,10 @@ export function getCropTime({
     seconds = seconds * 0.5;
   }
 
+  if (skills["Green Thumb 2"]) {
+    seconds = seconds * 0.95;
+  }
+
   return seconds;
 }
 
