@@ -59,7 +59,7 @@ export const ADMIN_IDS = [1, 3, 51, 39488, 128727];
 type FeatureFlag = (game: GameState) => boolean;
 
 const featureFlags: Record<FeatureName, FeatureFlag> = {
-  MARKETPLACE: defaultFeatureFlag,
+  MARKETPLACE: testnetFeatureFlag,
   FESTIVAL_OF_COLORS: (game) => {
     if (defaultFeatureFlag(game)) return true;
 
