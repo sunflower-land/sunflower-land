@@ -182,6 +182,7 @@ export type BumpkinSkillRevamp = {
   boosts: string;
   image: string;
   disabled?: boolean;
+  power?: boolean;
 };
 
 export const BUMPKIN_SKILL_TREE: Record<BumpkinSkillName, BumpkinSkill> = {
@@ -542,6 +543,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     boosts:
       "Ability to make all crops currently growing ready to be harvested (1/72h)",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
+    power: true,
   },
   "Acre Farm": {
     name: "Acre Farm",
@@ -647,6 +649,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     boosts:
       "Ability to make all fruit currently growing ready to be harvested (1/72h)",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
+    power: true,
   },
 
   // Trees - Tier 1
@@ -741,6 +744,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     },
     boosts: "Ability to make all trees instantly grow (1/24h)",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
+    power: true,
   },
 
   // Fishing - Tier 1
@@ -901,6 +905,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     boosts:
       "Ability to instantly reduce egg laying time by 10hours to chickens currently laying eggs (1/96h)",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
+    power: true,
   },
 
   // Greenhouse - Tier 1
@@ -976,6 +981,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     boosts:
       "Ability to make all Greenhouse crops currently growing ready to be harvested (1/96h)",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
+    power: true,
   },
   "Greenhouse Gamble": {
     name: "Greenhouse Gamble",
@@ -1206,6 +1212,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     boosts:
       "Ability make all meals currently cooking ready to be eaten (1/72h)",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
+    power: true,
   },
   "Rapid Deli Dash": {
     name: "Rapid Deli Dash",
@@ -1384,6 +1391,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     },
     boosts: "Ability to make empty oil wells instantly refill (1/96h)",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
+    power: true,
   },
   "Fry Frenzy": {
     name: "Fry Frenzy",
