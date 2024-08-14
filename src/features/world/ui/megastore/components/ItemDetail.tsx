@@ -30,6 +30,7 @@ interface ItemOverlayProps {
   buff?: BuffLabel;
   isVisible: boolean;
   onClose: () => void;
+  readonly?: boolean;
 }
 
 const _sflBalance = (state: MachineState) => state.context.state.balance;
@@ -43,6 +44,7 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
   isWearable,
   isVisible,
   onClose,
+  readonly,
 }) => {
   const { shortcutItem, gameService, showAnimations } = useContext(Context);
   const sflBalance = useSelector(gameService, _sflBalance);
@@ -268,27 +270,31 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
               </div>
             )}
           </div>
-          {!showSuccess && (
-            <div
-              className={classNames("flex", {
-                "space-x-1": confirmBuy,
-              })}
-            >
-              {confirmBuy && (
-                <Button onClick={() => setConfirmBuy(false)}>
-                  {t("cancel")}
-                </Button>
+          {!readonly && (
+            <>
+              {!showSuccess && (
+                <div
+                  className={classNames("flex", {
+                    "space-x-1": confirmBuy,
+                  })}
+                >
+                  {confirmBuy && (
+                    <Button onClick={() => setConfirmBuy(false)}>
+                      {t("cancel")}
+                    </Button>
+                  )}
+                  <Button disabled={!canBuy()} onClick={buttonHandler}>
+                    {getButtonLabel()}
+                  </Button>
+                </div>
               )}
-              <Button disabled={!canBuy()} onClick={buttonHandler}>
-                {getButtonLabel()}
-              </Button>
-            </div>
-          )}
-          {showSuccess && (
-            <div className="flex flex-col space-y-1">
-              <span className="p-2 text-xs">{getSuccessCopy()}</span>
-              <Button onClick={onClose}>{t("ok")}</Button>
-            </div>
+              {showSuccess && (
+                <div className="flex flex-col space-y-1">
+                  <span className="p-2 text-xs">{getSuccessCopy()}</span>
+                  <Button onClick={onClose}>{t("ok")}</Button>
+                </div>
+              )}
+            </>
           )}
         </>
       )}

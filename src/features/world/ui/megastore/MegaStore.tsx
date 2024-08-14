@@ -22,6 +22,7 @@ import shopIcon from "assets/icons/shop.png";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { getImageUrl } from "lib/utils/getImageURLS";
 import { ModalOverlay } from "components/ui/ModalOverlay";
+import classNames from "classnames";
 
 interface Props {
   onClose: () => void;
@@ -61,6 +62,20 @@ export const getItemBuffLabel = (
 const _megastore = (state: MachineState) => state.context.state.megastore;
 
 export const MegaStore: React.FC<Props> = ({ onClose }) => {
+  return (
+    <CloseButtonPanel
+      bumpkinParts={NPC_WEARABLES.stella}
+      tabs={[{ icon: shopIcon, name: "Mega Store" }]}
+      onClose={onClose}
+    >
+      <MegaStoreContent />
+    </CloseButtonPanel>
+  );
+};
+
+export const MegaStoreContent: React.FC<{ readonly?: boolean }> = ({
+  readonly,
+}) => {
   const { gameService } = useContext(Context);
   const megastore = useSelector(gameService, _megastore);
 
@@ -92,57 +107,58 @@ export const MegaStore: React.FC<Props> = ({ onClose }) => {
 
   const { t } = useAppTranslation();
   return (
-    <CloseButtonPanel
-      bumpkinParts={NPC_WEARABLES.stella}
-      tabs={[{ icon: shopIcon, name: "Mega Store" }]}
-      onClose={onClose}
-    >
-      <div className="relative h-full w-full">
-        <div className="flex justify-between px-2 pb-2">
-          <Label type="vibrant" icon={lightning}>
-            {t("megaStore.month.sale")}
-          </Label>
-          <Label icon={SUNNYSIDE.icons.stopwatch} type="danger">
-            {t("megaStore.timeRemaining", {
-              timeRemaining: secondsToString(timeRemaining, {
-                length: "medium",
-                removeTrailingZeros: true,
-              }),
-            })}
-          </Label>
-        </div>
-        <div className="flex flex-col p-2 pt-1 space-y-3 overflow-y-auto scrollable max-h-[300px]">
-          <span className="text-xs pb-2">{t("megaStore.message")}</span>
-          {/* Wearables */}
-          <ItemsList
-            itemsLabel="Wearables"
-            type="wearables"
-            items={megastore.wearables}
-            onItemClick={handleClickItem}
-          />
-          {/* Collectibles */}
-          <ItemsList
-            itemsLabel="Collectibles"
-            type="collectibles"
-            items={megastore.collectibles}
-            onItemClick={handleClickItem}
-          />
-        </div>
-
-        <ModalOverlay
-          show={!!selectedItem}
-          onBackdropClick={() => setSelectedItem(null)}
-        >
-          <ItemDetail
-            isVisible={isVisible}
-            item={selectedItem}
-            image={getItemImage(selectedItem)}
-            buff={getItemBuffLabel(selectedItem)}
-            isWearable={selectedItem ? isWearablesItem(selectedItem) : false}
-            onClose={() => setSelectedItem(null)}
-          />
-        </ModalOverlay>
+    <div className="relative h-full w-full">
+      <div className="flex justify-between px-2 flex-wrap pb-1">
+        <Label type="vibrant" icon={lightning} className="mb-1">
+          {t("megaStore.month.sale")}
+        </Label>
+        <Label icon={SUNNYSIDE.icons.stopwatch} type="danger">
+          {t("megaStore.timeRemaining", {
+            timeRemaining: secondsToString(timeRemaining, {
+              length: "medium",
+              removeTrailingZeros: true,
+            }),
+          })}
+        </Label>
       </div>
-    </CloseButtonPanel>
+      <div
+        className={classNames("flex flex-col p-2 pt-1 space-y-3 ", {
+          ["max-h-[300px] overflow-y-auto scrollable "]: !readonly,
+        })}
+      >
+        <span className="text-xs pb-2">
+          {readonly ? t("megaStore.visit") : t("megaStore.message")}
+        </span>
+        {/* Wearables */}
+        <ItemsList
+          itemsLabel="Wearables"
+          type="wearables"
+          items={megastore.wearables}
+          onItemClick={handleClickItem}
+        />
+        {/* Collectibles */}
+        <ItemsList
+          itemsLabel="Collectibles"
+          type="collectibles"
+          items={megastore.collectibles}
+          onItemClick={handleClickItem}
+        />
+      </div>
+
+      <ModalOverlay
+        show={!!selectedItem}
+        onBackdropClick={() => setSelectedItem(null)}
+      >
+        <ItemDetail
+          isVisible={isVisible}
+          item={selectedItem}
+          image={getItemImage(selectedItem)}
+          buff={getItemBuffLabel(selectedItem)}
+          isWearable={selectedItem ? isWearablesItem(selectedItem) : false}
+          onClose={() => setSelectedItem(null)}
+          readonly={readonly}
+        />
+      </ModalOverlay>
+    </div>
   );
 };

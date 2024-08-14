@@ -3419,6 +3419,7 @@ const lostSunflorian: Record<LostSunflorian, string> = {
 };
 
 const megaStore: Record<MegaStore, string> = {
+  "megaStore.visit": ENGLISH_TERMS["megaStore.visit"],
   "megaStore.message":
     "Добро пожаловать в Мегамагазин! Ознакомься с лимитированными товарами этого месяца. Если тебе что-то понравится, успей купить это, пока оно не исчезло в царстве времени.",
   "megaStore.month.sale": "Распродажи этого месяца",
@@ -4879,6 +4880,22 @@ const seasonTerms: Record<SeasonTerms, string> = {
   "season.free.with.lifetime": "Free with Lifetime Farmer",
   "season.pharaohs.gift": "5 Extra Desert Digs",
   "season.ticket.bonus": "+2 {{item}}s (deliveries & chores)",
+  "season.codex.intro": ENGLISH_TERMS["season.codex.intro"],
+  "season.codex.howToEarn": ENGLISH_TERMS["season.codex.howToEarn"],
+  "season.codex.howToEarn.one": ENGLISH_TERMS["season.codex.howToEarn.one"],
+  "season.codex.howToEarn.two": ENGLISH_TERMS["season.codex.howToEarn.two"],
+  "season.codex.howToEarn.three": ENGLISH_TERMS["season.codex.howToEarn.three"],
+  "season.codex.nextDrop": ENGLISH_TERMS["season.codex.nextDrop"],
+  "season.codex.seasonalDrops": ENGLISH_TERMS["season.codex.seasonalDrops"],
+  "season.codex.seasonalDrops.description":
+    ENGLISH_TERMS["season.codex.seasonalDrops.description"],
+  "season.codex.soldOut": ENGLISH_TERMS["season.codex.soldOut"],
+  "season.codex.mutants": ENGLISH_TERMS["season.codex.mutants"],
+  "season.codex.mutants.discover":
+    ENGLISH_TERMS["season.codex.mutants.discover"],
+  "season.codex.mutants.one": ENGLISH_TERMS["season.codex.mutants.one"],
+  "season.codex.mutants.two": ENGLISH_TERMS["season.codex.mutants.two"],
+  "season.codex.mutants.three": ENGLISH_TERMS["season.codex.mutants.three"],
 };
 
 const share: Record<Share, string> = {
