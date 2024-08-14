@@ -78,7 +78,7 @@ export const AuctionDetails: React.FC<Props> = ({
 
   const MintButton = () => {
     if (
-      item.type === "collectible"
+      isCollectible
         ? !!game.inventory[item.collectible]
         : !!game.wardrobe[item.wearable]
     ) {
@@ -97,29 +97,30 @@ export const AuctionDetails: React.FC<Props> = ({
       </Button>
     );
   };
+  const isCollectible = item.type === "collectible";
 
-  const image =
-    item.type === "collectible"
-      ? ITEM_DETAILS[item.collectible].image
-      : getImageUrl(ITEM_IDS[item.wearable]);
+  const image = isCollectible
+    ? ITEM_DETAILS[item.collectible].image
+    : getImageUrl(ITEM_IDS[item.wearable]);
 
-  const buffLabel =
-    item.type === "collectible"
-      ? COLLECTIBLE_BUFF_LABELS[item.collectible]
-      : BUMPKIN_ITEM_BUFF_LABELS[item.wearable];
+  const buffLabel = isCollectible
+    ? COLLECTIBLE_BUFF_LABELS[item.collectible]
+    : BUMPKIN_ITEM_BUFF_LABELS[item.wearable];
   return (
     <div className="w-full flex flex-col items-center">
-      <div className="w-full flex flex-col items-center mx-auto">
+      <div className="w-full flex flex-col items-center mx-auto relative">
         <div className="flex items-center justify-between w-full pb-1">
           <img
             onClick={onBack}
             src={SUNNYSIDE.icons.arrow_left}
             className="h-8 cursor-pointer"
           />
-          <p className="-ml-5 max-w-[80%] sm:max-w-none text-center">
-            {item.type === "collectible" ? item.collectible : item.wearable}
+          <p className="absolute left-1/2 transform -translate-x-1/2 text-center max-w-[80%] sm:max-w-none">
+            {isCollectible ? item.collectible : item.wearable}
           </p>
-          <div />
+          <Label type={isCollectible ? "warning" : "vibrant"}>
+            {isCollectible ? t("collectible") : t("wearable")}
+          </Label>
         </div>
 
         {buffLabel && (
@@ -133,22 +134,16 @@ export const AuctionDetails: React.FC<Props> = ({
         )}
 
         <p className="text-center text-xs mb-3">
-          {item.type === "collectible"
+          {isCollectible
             ? translateTerms(ITEM_DETAILS[item.collectible].description)
             : ""}
         </p>
 
-        {/* {boost && (
-          <Label className="mb-2 md:text-center" type="info">
-            {`Boost: ${boost}`}
-          </Label>
-        )} */}
-
         <div className="relative mb-2">
-          {item.type === "collectible" && (
+          {isCollectible && (
             <img
               src={SUNNYSIDE.ui.grey_background}
-              className="absolute inset-0 w-48 h-48  rounded-md"
+              className="absolute inset-0 w-48 h-48 rounded-md"
             />
           )}
           <div className="w-48 h-48 relative">
@@ -156,9 +151,8 @@ export const AuctionDetails: React.FC<Props> = ({
               src={image}
               className={classNames({
                 "absolute w-1/2 h-1/2 z-20 object-contain mb-2 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2":
-                  item.type === "collectible",
-                "w-48 h-48 rounded-md z-20 object-contain":
-                  item.type !== "collectible",
+                  isCollectible,
+                "w-48 h-48 rounded-md z-20 object-contain": !isCollectible,
               })}
             />
             <Label type="default" className="mb-2 absolute top-2 right-2">
@@ -190,7 +184,7 @@ export const AuctionDetails: React.FC<Props> = ({
             href="https://docs.sunflower-land.com/player-guides/auctions#auction-period"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-xs  underline mb-1"
+            className="text-xs underline mb-1"
           >
             {t("auction.start")}
           </a>
@@ -207,7 +201,7 @@ export const AuctionDetails: React.FC<Props> = ({
             href="https://docs.sunflower-land.com/player-guides/auctions#auction-period"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-xs  underline mb-1"
+            className="text-xs underline mb-1"
           >
             {t("auction.period")}
           </a>

@@ -439,6 +439,10 @@ const generalTerms: Record<GeneralTerms, string> = {
   "time.remaining": ENGLISH_TERMS["time.remaining"],
   expired: ENGLISH_TERMS.expired,
   inventory: "Envanter",
+  collectible: ENGLISH_TERMS.collectible,
+  wearable: ENGLISH_TERMS.wearable,
+  cosmetic: ENGLISH_TERMS.cosmetic,
+  decoration: ENGLISH_TERMS.decoration,
 };
 
 const timeUnits: Record<TimeUnits, string> = {

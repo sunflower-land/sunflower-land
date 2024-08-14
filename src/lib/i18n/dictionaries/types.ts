@@ -245,8 +245,11 @@ export type GeneralTerms =
   | "chill"
   | "full"
   | "collectibles"
+  | "collectible"
+  | "cosmetic"
   | "buds"
   | "wearables"
+  | "wearable"
   | "skip"
   | "docs"
   | "exit"
@@ -259,6 +262,7 @@ export type GeneralTerms =
   | "buildings"
   | "boosts"
   | "decorations"
+  | "decoration"
   | "vipAccess";
 
 export type TimeUnits =

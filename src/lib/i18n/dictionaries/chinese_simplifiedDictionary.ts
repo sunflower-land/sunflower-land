@@ -439,6 +439,10 @@ const generalTerms: Record<GeneralTerms, string> = {
   "sell.amount": "出售 {{amount}}",
   "sell.inBulk": "批量销售",
   inventory: "存货",
+  collectible: ENGLISH_TERMS.collectible,
+  wearable: ENGLISH_TERMS.wearable,
+  cosmetic: ENGLISH_TERMS.cosmetic,
+  decoration: ENGLISH_TERMS.decoration,
 };
 
 const timeUnits: Record<TimeUnits, string> = {
