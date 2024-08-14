@@ -1,7 +1,7 @@
 import Decimal from "decimal.js-light";
 import { startComposter } from "./startComposter";
 import { GameState } from "features/game/types/game";
-import { TEST_FARM } from "features/game/lib/constants";
+import { TEST_FARM, INITIAL_BUMPKIN } from "features/game/lib/constants";
 
 const GAME_STATE: GameState = TEST_FARM;
 
@@ -380,6 +380,96 @@ describe("start Turbo Composter", () => {
         ],
       },
     };
+
+    it("gives +5 Sprout Mix with Efficient Bin skill", () => {
+      const state: GameState = {
+        ...GAME_STATE,
+        inventory: {
+          ...GAME_STATE.inventory,
+          Sunflower: new Decimal(5),
+          Pumpkin: new Decimal(3),
+          Carrot: new Decimal(2),
+        },
+        buildings: {
+          "Compost Bin": [
+            {
+              coordinates: { x: 0, y: 0 },
+              createdAt: 0,
+              readyAt: 0,
+              id: "0",
+              requires: {
+                Sunflower: 5,
+                Pumpkin: 3,
+                Carrot: 2,
+              },
+            },
+          ],
+        },
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          skills: { "Efficient Bin": 1 },
+        },
+      };
+
+      const newState = startComposter({
+        createdAt: dateNow,
+        state,
+        action: { type: "composter.started", building: "Compost Bin" },
+      });
+
+      expect(
+        newState.buildings["Compost Bin"]?.[0].producing?.items["Sprout Mix"],
+      ).toBe(15);
+    });
+
+    it("doesn't gives +5 Sprout Mix with Efficient Bin skill if not Compost Bin", () => {
+      const state: GameState = {
+        ...GAME_STATE,
+        inventory: {
+          ...GAME_STATE.inventory,
+          Sunflower: new Decimal(5),
+          Pumpkin: new Decimal(3),
+          Carrot: new Decimal(2),
+        },
+        buildings: {
+          "Turbo Composter": [
+            {
+              coordinates: { x: 0, y: 0 },
+              createdAt: 0,
+              readyAt: 0,
+              id: "0",
+              requires: {
+                Sunflower: 5,
+                Pumpkin: 3,
+                Carrot: 2,
+              },
+            },
+          ],
+        },
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          skills: { "Efficient Bin": 1 },
+        },
+      };
+
+      const newState = startComposter({
+        createdAt: dateNow,
+        state,
+        action: { type: "composter.started", building: "Turbo Composter" },
+      });
+
+      expect(
+        newState.buildings["Turbo Composter"]?.[0].producing?.items[
+          "Sprout Mix"
+        ],
+      ).toBeUndefined();
+
+      expect(
+        newState.buildings["Turbo Composter"]?.[0].producing?.items[
+          "Fruitful Blend"
+        ],
+      ).toBe(3);
+    });
 
     const newState = startComposter({
       createdAt: dateNow,

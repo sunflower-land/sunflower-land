@@ -46,6 +46,7 @@ export function startComposter({
     throw new Error(translate("error.composterNotExist"));
   }
 
+  const { skills } = stateCopy.bumpkin;
   const composter = buildings[0];
   const isProducing = composter.producing;
 
@@ -72,10 +73,20 @@ export function startComposter({
     );
   });
 
+  let produceAmount = composterDetails[action.building].produceAmount;
+
+  if (skills["Efficient Bin"] && action.building === "Compost Bin") {
+    produceAmount += 5;
+  }
+
+  if (skills["Turbo Charged"] && action.building === "Turbo Composter") {
+    produceAmount += 3;
+  }
+
   // start the production
   buildings[0].producing = {
     items: {
-      [composterDetails[action.building].produce]: 10,
+      [composterDetails[action.building].produce]: produceAmount,
       // Set on backend
       [composterDetails[action.building].worm]: 1,
     },
