@@ -1255,7 +1255,8 @@ export const BUMPKIN_WITHDRAWABLES: Record<
   "Fruit Bowl": () => true,
   "Striped Blue Shirt": () => true,
   "Peg Leg": () => true,
-  "Pirate Potion": () => true,
+  "Pirate Potion": (state) =>
+    canWithdrawBoostedWearable("Pirate Potion", state),
   "Pirate Hat": () => true,
   "Pirate General Coat": () => true,
   "Pirate Pants": () => true,
