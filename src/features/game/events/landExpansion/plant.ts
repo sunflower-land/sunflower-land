@@ -602,6 +602,10 @@ export function getCropYieldAmount({
     amount += 0.1;
   }
 
+  if (skills["Experienced Farmer"] && isMediumCrop(crop)) {
+    amount += 0.1;
+  }
+
   return Number(setPrecision(amount));
 }
 

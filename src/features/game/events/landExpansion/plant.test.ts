@@ -2499,7 +2499,7 @@ describe("getCropYield", () => {
     expect((plots as Record<number, CropPlot>)[0].crop?.amount).toEqual(1);
   });
 
-  it("yields +0.1 Basic Crop with Young Farmer skill (Sunflower)", () => {
+  it("yields +0.1 Basic Crop with Young Farmer skill", () => {
     const state = plant({
       state: {
         ...GAME_STATE,
@@ -2570,6 +2570,88 @@ describe("getCropYield", () => {
         index: "0",
 
         item: "Corn Seed",
+      },
+      createdAt: Date.now(),
+    });
+
+    const plots = state.crops;
+
+    expect(plots).toBeDefined();
+
+    expect((plots as Record<number, CropPlot>)[0].crop?.amount).toEqual(1);
+  });
+
+  it("yields +0.1 Medium Crop with Experienced Farmer skill", () => {
+    const state = plant({
+      state: {
+        ...GAME_STATE,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          skills: {
+            "Experienced Farmer": 1,
+          },
+        },
+        inventory: {
+          "Soybean Seed": new Decimal(1),
+        },
+        crops: {
+          0: {
+            createdAt: Date.now(),
+            height: 1,
+            width: 1,
+            x: 0,
+            y: -2,
+          },
+        },
+        collectibles: {},
+      },
+      action: {
+        type: "seed.planted",
+        cropId: "1",
+        index: "0",
+
+        item: "Soybean Seed",
+      },
+      createdAt: Date.now(),
+    });
+
+    const plots = state.crops;
+
+    expect(plots).toBeDefined();
+
+    expect((plots as Record<number, CropPlot>)[0].crop?.amount).toEqual(1.1);
+  });
+
+  it("doesn't yield +0.1 if not a Medium Crop with Experienced Farmer skill", () => {
+    const state = plant({
+      state: {
+        ...GAME_STATE,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          skills: {
+            "Experienced Farmer": 1,
+          },
+        },
+        inventory: {
+          "Sunflower Seed": new Decimal(1),
+        },
+        crops: {
+          0: {
+            createdAt: Date.now(),
+            height: 1,
+            width: 1,
+            x: 0,
+            y: -2,
+          },
+        },
+        collectibles: {},
+      },
+      action: {
+        type: "seed.planted",
+        cropId: "1",
+        index: "0",
+
+        item: "Sunflower Seed",
       },
       createdAt: Date.now(),
     });
