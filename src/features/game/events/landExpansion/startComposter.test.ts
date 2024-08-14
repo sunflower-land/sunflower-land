@@ -471,6 +471,96 @@ describe("start Turbo Composter", () => {
       ).toBe(3);
     });
 
+    it("gives +3 Fruitful Blend with Turbo Charged skill", () => {
+      const state: GameState = {
+        ...GAME_STATE,
+        inventory: {
+          ...GAME_STATE.inventory,
+          Sunflower: new Decimal(5),
+          Pumpkin: new Decimal(3),
+          Carrot: new Decimal(2),
+        },
+        buildings: {
+          "Turbo Composter": [
+            {
+              coordinates: { x: 0, y: 0 },
+              createdAt: 0,
+              readyAt: 0,
+              id: "0",
+              requires: {
+                Sunflower: 5,
+                Pumpkin: 3,
+                Carrot: 2,
+              },
+            },
+          ],
+        },
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          skills: { "Turbo Charged": 1 },
+        },
+      };
+
+      const newState = startComposter({
+        createdAt: dateNow,
+        state,
+        action: { type: "composter.started", building: "Turbo Composter" },
+      });
+
+      expect(
+        newState.buildings["Turbo Composter"]?.[0].producing?.items[
+          "Fruitful Blend"
+        ],
+      ).toBe(6);
+    });
+
+    it("doesn't gives +3 Fruitful Blend with Turbo Charged skill if not a Turbo Composter", () => {
+      const state: GameState = {
+        ...GAME_STATE,
+        inventory: {
+          ...GAME_STATE.inventory,
+          Sunflower: new Decimal(5),
+          Pumpkin: new Decimal(3),
+          Carrot: new Decimal(2),
+        },
+        buildings: {
+          "Compost Bin": [
+            {
+              coordinates: { x: 0, y: 0 },
+              createdAt: 0,
+              readyAt: 0,
+              id: "0",
+              requires: {
+                Sunflower: 5,
+                Pumpkin: 3,
+                Carrot: 2,
+              },
+            },
+          ],
+        },
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          skills: { "Turbo Charged": 1 },
+        },
+      };
+
+      const newState = startComposter({
+        createdAt: dateNow,
+        state,
+        action: { type: "composter.started", building: "Compost Bin" },
+      });
+
+      expect(
+        newState.buildings["Turbo Composter"]?.[0].producing?.items[
+          "Fruitful Blend"
+        ],
+      ).toBeUndefined();
+
+      expect(
+        newState.buildings["Compost Bin"]?.[0].producing?.items["Sprout Mix"],
+      ).toBe(10);
+    });
+
     const newState = startComposter({
       createdAt: dateNow,
       state,
