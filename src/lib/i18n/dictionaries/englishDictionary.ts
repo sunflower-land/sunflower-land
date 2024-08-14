@@ -4922,18 +4922,21 @@ const seasonTerms: Record<SeasonTerms, string> = {
   "season.codex.intro":
     "Earn {{tickets}}s to craft exclusive collectibles & wearables for your farm in this limited season...Hurry before time runs out!",
   "season.codex.howToEarn": "How to earn {{tickets}}s?",
-  "season.codex.howToEarn.one": "?",
-  "season.codex.howToEarn.two": "?",
-  "season.codex.howToEarn.three": "?",
-  "season.codex.nextDrop": "?",
-  "season.codex.seasonalDrops": "?",
-  "season.codex.seasonalDrops.description": "?",
-  "season.codex.soldOut": "?",
-  "season.codex.mutants": "?",
-  "season.codex.mutants.discover": "?",
-  "season.codex.mutants.one": "?",
-  "season.codex.mutants.two": "?",
-  "season.codex.mutants.three": "?",
+  "season.codex.howToEarn.one":
+    "Visit the plaza & deliver resources to Bumpkins.",
+  "season.codex.howToEarn.two": "Complete Hank's chores.",
+  "season.codex.howToEarn.three": "Compete in the faction competition.",
+  "season.codex.nextDrop": "Next Drop",
+  "season.codex.seasonalDrops": "Seasonal Drops",
+  "season.codex.seasonalDrops.description":
+    "Compete with others for the rarest items! Visit the Auctioneer in the plaza for more details.",
+  "season.codex.soldOut": "Sold out",
+  "season.codex.mutants": "Mutants",
+  "season.codex.mutants.discover": "Discover the seasonal mutants!",
+  "season.codex.mutants.one": "Collect eggs to discover the {{item}}.",
+  "season.codex.mutants.two": "Fish in the depths for the {{item}}.",
+  "season.codex.mutants.three":
+    "Experiment with flowers to discover the {{item}}.",
   "season.codex.discoverMutants": "?",
 };
 

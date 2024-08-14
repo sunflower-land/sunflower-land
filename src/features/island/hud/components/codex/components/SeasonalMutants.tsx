@@ -6,6 +6,7 @@ import { InventoryItemName } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { getCurrentSeason, SeasonName } from "features/game/types/seasons";
 import { NoticeboardItems } from "features/world/ui/kingdom/KingdomNoticeboard";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import React from "react";
 
 type SeasonalMutants = {
@@ -34,6 +35,8 @@ const SEASONAL_MUTANTS: Partial<Record<SeasonName, SeasonalMutants>> = {
 export const SeasonalMutants: React.FC = () => {
   const mutants = SEASONAL_MUTANTS[getCurrentSeason()];
 
+  const { t } = useAppTranslation();
+
   if (!mutants) {
     return null;
   }
@@ -42,26 +45,32 @@ export const SeasonalMutants: React.FC = () => {
       <div className="p-1">
         <div className="flex justify-between mb-2">
           <Label className="-ml-1" type="default">
-            Mutants
+            {t("season.codex.mutants")}
           </Label>
         </div>
-        <p className="text-xs">Discover the seasonal mutants!</p>
+        <p className="text-xs">{t("season.codex.mutants.discover")}</p>
         <img className="my-1 w-full rounded-md" src={mutants.banner} />
 
         <NoticeboardItems
           iconWidth={8}
           items={[
             {
-              text: `Collect eggs to discover the ${mutants.chicken}.`,
+              text: t("season.codex.mutants.one", {
+                item: mutants.chicken,
+              }),
               icon: ITEM_DETAILS.Chicken.image,
             },
             {
-              text: `Fish in the depths for the ${mutants.fish}.`,
+              text: t("season.codex.mutants.two", {
+                item: mutants.fish,
+              }),
 
               icon: ITEM_DETAILS.Rod.image,
             },
             {
-              text: `Experiment with flowers to discover the ${mutants.flower}.`,
+              text: t("season.codex.mutants.three", {
+                item: mutants.flower,
+              }),
               icon: ITEM_DETAILS["Red Pansy"].image,
             },
           ]}

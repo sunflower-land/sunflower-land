@@ -94,6 +94,8 @@ function getSeasonalAuctions({ auctions }: { auctions: Auction[] }) {
 }
 
 const NextDrop: React.FC<{ auctions: AuctionItems }> = ({ auctions }) => {
+  const { t } = useAppTranslation();
+
   let drops = getKeys(auctions).reduce((acc, name) => {
     return [...acc, ...auctions[name].auctions];
   }, [] as Auction[]);
@@ -123,7 +125,7 @@ const NextDrop: React.FC<{ auctions: AuctionItems }> = ({ auctions }) => {
       <div className="p-1">
         <div className="flex justify-between mb-2">
           <Label className="-ml-1" type="default">
-            Next drop
+            {t("season.codex.nextDrop")}
           </Label>
           <Label type="info">{`${nextDrop.supply} available`}</Label>
         </div>
@@ -147,7 +149,7 @@ const NextDrop: React.FC<{ auctions: AuctionItems }> = ({ auctions }) => {
                 ) : (
                   <div className="flex">
                     <img src={SUNNYSIDE.icons.heart} className="h-4 mr-0.5" />
-                    <p className="text-xs">Collectible</p>
+                    <p className="text-xs">{t("collectibles")}</p>
                   </div>
                 )}
               </div>
@@ -169,11 +171,7 @@ const Drops: React.FC<{
   detail: AuctionDetail;
   name: BumpkinItem | InventoryItemName;
 }> = ({ detail, name }) => {
-  const image =
-    detail.type === "collectible"
-      ? ITEM_DETAILS[name as CollectibleName].image
-      : getImageUrl(ITEM_IDS[name as BumpkinItem]);
-
+  const { t } = useAppTranslation();
   const buffLabel =
     detail.type === "collectible"
       ? COLLECTIBLE_BUFF_LABELS[name as CollectibleName]
@@ -191,7 +189,7 @@ const Drops: React.FC<{
         ) : (
           <div className="flex">
             <img src={SUNNYSIDE.icons.heart} className="h-4 mr-0.5" />
-            <p className="text-xs">Collectible</p>
+            <p className="text-xs">{t("collectibles")}</p>
           </div>
         )}
       </div>
@@ -215,7 +213,7 @@ const Drops: React.FC<{
                       </span>
                     </div>
                     <div className="flex items-center">
-                      <span className="text-xs mb-1">Requires:</span>
+                      <span className="text-xs mb-1">{`Requires:`}</span>
                       <div className="flex items-center justify-center">
                         {drop.sfl > 0 && (
                           <div className="flex items-center">
@@ -237,7 +235,7 @@ const Drops: React.FC<{
                   {drop.startAt > Date.now() ? (
                     <Label type="info">{`${drop.supply} available`}</Label>
                   ) : (
-                    <Label type="danger">Sold out</Label>
+                    <Label type="danger">{t("statements.soldOut")}</Label>
                   )}
                 </div>
               </div>
@@ -254,7 +252,7 @@ interface Props {
   farmId: number;
 }
 
-export const AuctionSummary: React.FC<Props> = ({ farmId, gameState }) => {
+export const SeasonalAuctions: React.FC<Props> = ({ farmId, gameState }) => {
   const { t } = useAppTranslation();
   const { authService } = useContext(AuthProvider.Context);
   const [authState] = useActor(authService);
@@ -315,12 +313,11 @@ export const AuctionSummary: React.FC<Props> = ({ farmId, gameState }) => {
         <div className="p-1">
           <div className="flex justify-between mb-2">
             <Label className="-ml-1" type="default">
-              Seasonal Drops
+              {t("season.codex.seasonalDrops")}
             </Label>
           </div>
           <p className="text-xs mb-2">
-            Compete with others for the rarest items! Visit the Auctioneer in
-            the plaza for more details.
+            {t("season.codex.seasonalDrops.description")}
           </p>
 
           <div className="flex flex-col -mx-1">
@@ -370,13 +367,13 @@ export const AuctionSummary: React.FC<Props> = ({ farmId, gameState }) => {
                             src={SUNNYSIDE.icons.heart}
                             className="h-4 mr-0.5"
                           />
-                          <p className="text-xs">Collectible</p>
+                          <p className="text-xs">{t("collectibles")}</p>
                         </div>
                       )}
                     </div>
                     <div className="absolute top-0 right-0">
                       {remainingLeft === 0 ? (
-                        <Label type="danger">Sold out</Label>
+                        <Label type="danger">{t("season.codex.soldOut")}</Label>
                       ) : remainingLeft <= 50 ? (
                         <Label type="info">{`${remainingLeft} left`}</Label>
                       ) : (

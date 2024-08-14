@@ -14,9 +14,8 @@ import { NoticeboardItems } from "features/world/ui/kingdom/KingdomNoticeboard";
 
 import factions from "assets/icons/factions.webp";
 import chores from "assets/icons/chores.webp";
-import trophy from "assets/icons/trophy.png";
 import { MegaStoreContent } from "features/world/ui/megastore/MegaStore";
-import { AuctionSummary } from "../components/AuctionSummary";
+import { SeasonalAuctions } from "../components/SeasonalAuctions";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
 import classNames from "classnames";
@@ -82,15 +81,15 @@ export const Season: React.FC<Props> = ({ id, isLoading, data }) => {
             iconWidth={8}
             items={[
               {
-                text: "Deliver resources to Bumpkins.",
+                text: t("season.codex.howToEarn.one"),
                 icon: SUNNYSIDE.icons.player,
               },
               {
-                text: "Complete Hank's chores.",
+                text: t("season.codex.howToEarn.two"),
                 icon: chores,
               },
               {
-                text: "Compete in the faction competition.",
+                text: t("season.codex.howToEarn.three"),
                 icon: factions,
               },
             ]}
@@ -102,7 +101,7 @@ export const Season: React.FC<Props> = ({ id, isLoading, data }) => {
         <MegaStoreContent readonly />
       </InnerPanel>
 
-      <AuctionSummary gameState={state} farmId={farmId} />
+      <SeasonalAuctions gameState={state} farmId={farmId} />
 
       <SeasonalMutants />
 
