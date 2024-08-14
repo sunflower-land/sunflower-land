@@ -135,6 +135,7 @@ export const PIRATE_CHEST_REWARDS: ChestReward[] = [
   { items: { "Orange Cake": 1 }, weighting: 10 },
   { items: { Sand: 20 }, weighting: 10 },
   { items: { Hieroglyph: 1 }, weighting: 10 },
+  { items: { "Pirate Cake": 1 }, weighting: 5 },
 ];
 
 // 1-3 days

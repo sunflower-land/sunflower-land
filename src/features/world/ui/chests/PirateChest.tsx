@@ -15,16 +15,26 @@ import { isWearableActive } from "features/game/lib/wearables";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { NPC_WEARABLES } from "lib/npcs";
+import { Modal } from "components/ui/Modal";
 
-const PirateChestContent: React.FC<{
+interface PirateChestContentProps {
   setIsLoading?: (isLoading: boolean) => void;
-}> = ({ setIsLoading }) => {
+  isPicking: boolean;
+  setIsPicking: (picking: boolean) => void;
+  isRevealing: boolean;
+  setIsRevealing: (revealing: boolean) => void;
+}
+const PirateChestContent: React.FC<PirateChestContentProps> = ({
+  setIsLoading,
+  isPicking,
+  setIsPicking,
+  isRevealing,
+  setIsRevealing,
+}) => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
   const { state } = gameState.context;
-  const [isPicking, setIsPicking] = useState(false);
-  const [isRevealing, setIsRevealing] = useState(false);
 
   const piratePotionEquipped = isWearableActive({
     game: state,
@@ -91,16 +101,16 @@ const PirateChestContent: React.FC<{
     return (
       <>
         <div className="p-1">
-          <div className="justify-between flex">
+          <div className="flex gap-1 mb-1 flex-col md:justify-between md:flex-row">
             <Label
               type="success"
-              className="mb-1"
+              className="md:mb-0"
               secondaryIcon={SUNNYSIDE.icons.confirm}
             >
               {t("pirate.chest.opened")}
             </Label>
             <Label
-              className="text-right mb-1"
+              className="text-right"
               type="info"
               icon={SUNNYSIDE.icons.stopwatch}
             >
@@ -152,21 +162,57 @@ const PirateChestContent: React.FC<{
 interface Props {
   onClose: () => void;
   setIsLoading?: (isLoading: boolean) => void;
+  show: boolean;
 }
 
-export const PirateChest: React.FC<Props> = ({ onClose, setIsLoading }) => {
+export const PirateChestModal: React.FC<Props> = ({
+  show,
+  onClose,
+  setIsLoading,
+}) => {
   const { t } = useAppTranslation();
 
+  const [isPicking, setIsPicking] = useState(false);
+  const [isRevealing, setIsRevealing] = useState(false);
+  const { gameService } = useContext(Context);
+  const [gameState] = useActor(gameService);
+
   return (
-    <CloseButtonPanel
-      onClose={onClose}
-      bumpkinParts={NPC_WEARABLES["old salty"]}
-      tabs={[
-        { icon: ITEM_DETAILS["Pirate Bounty"].image, name: t("pirate.chest") },
-      ]}
-      className="pt-1"
+    <Modal
+      show={show}
+      onHide={
+        isPicking ||
+        (isRevealing &&
+          (gameState.matches("revealing") || gameState.matches("revealed")))
+          ? undefined
+          : onClose
+      }
     >
-      <PirateChestContent setIsLoading={setIsLoading} />
-    </CloseButtonPanel>
+      <CloseButtonPanel
+        onClose={
+          isPicking ||
+          (isRevealing &&
+            (gameState.matches("revealing") || gameState.matches("revealed")))
+            ? undefined
+            : onClose
+        }
+        bumpkinParts={NPC_WEARABLES["old salty"]}
+        tabs={[
+          {
+            icon: ITEM_DETAILS["Pirate Bounty"].image,
+            name: t("pirate.chest"),
+          },
+        ]}
+        className="pt-1"
+      >
+        <PirateChestContent
+          setIsLoading={setIsLoading}
+          isPicking={isPicking}
+          setIsPicking={setIsPicking}
+          isRevealing={isRevealing}
+          setIsRevealing={setIsRevealing}
+        />
+      </CloseButtonPanel>
+    </Modal>
   );
 };
