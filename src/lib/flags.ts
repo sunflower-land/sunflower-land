@@ -43,7 +43,8 @@ export type FeatureName =
   | "TEST_DIGGING"
   | "NEW_FRUITS"
   | "DESERT_PLAZA"
-  | "PIRATE_CHEST";
+  | "PIRATE_CHEST"
+  | "MARKETPLACE";
 
 // Used for testing production features
 export const ADMIN_IDS = [1, 3, 51, 39488, 128727];
@@ -58,6 +59,7 @@ export const ADMIN_IDS = [1, 3, 51, 39488, 128727];
 type FeatureFlag = (game: GameState) => boolean;
 
 const featureFlags: Record<FeatureName, FeatureFlag> = {
+  MARKETPLACE: testnetFeatureFlag,
   FESTIVAL_OF_COLORS: (game) => {
     if (defaultFeatureFlag(game)) return true;
 
