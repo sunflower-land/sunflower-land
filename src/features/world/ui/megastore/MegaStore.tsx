@@ -22,6 +22,7 @@ import shopIcon from "assets/icons/shop.png";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { getImageUrl } from "lib/utils/getImageURLS";
 import { ModalOverlay } from "components/ui/ModalOverlay";
+import classNames from "classnames";
 
 interface Props {
   onClose: () => void;
@@ -72,7 +73,9 @@ export const MegaStore: React.FC<Props> = ({ onClose }) => {
   );
 };
 
-export const MegaStoreContent: React.FC = () => {
+export const MegaStoreContent: React.FC<{ readonly?: boolean }> = ({
+  readonly,
+}) => {
   const { gameService } = useContext(Context);
   const megastore = useSelector(gameService, _megastore);
 
@@ -118,8 +121,14 @@ export const MegaStoreContent: React.FC = () => {
           })}
         </Label>
       </div>
-      <div className="flex flex-col p-2 pt-1 space-y-3 overflow-y-auto scrollable max-h-[300px]">
-        <span className="text-xs pb-2">{t("megaStore.message")}</span>
+      <div
+        className={classNames("flex flex-col p-2 pt-1 space-y-3 ", {
+          ["max-h-[300px] overflow-y-auto scrollable "]: !readonly,
+        })}
+      >
+        <span className="text-xs pb-2">
+          {readonly ? t("megaStore.visit") : t("megaStore.message")}
+        </span>
         {/* Wearables */}
         <ItemsList
           itemsLabel="Wearables"
@@ -147,6 +156,7 @@ export const MegaStoreContent: React.FC = () => {
           buff={getItemBuffLabel(selectedItem)}
           isWearable={selectedItem ? isWearablesItem(selectedItem) : false}
           onClose={() => setSelectedItem(null)}
+          readonly={readonly}
         />
       </ModalOverlay>
     </div>

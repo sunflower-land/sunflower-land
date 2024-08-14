@@ -50,6 +50,19 @@ export const Season: React.FC<Props> = ({ id, isLoading, data }) => {
       </InnerPanel>
 
       <InnerPanel className="mb-1">
+        <div
+          style={{
+            backgroundImage: `url(${SUNNYSIDE.announcement.desertSeason})`,
+            imageRendering: "pixelated",
+            height: "125px",
+            backgroundSize: "600px",
+            backgroundPosition: "center",
+            margin: "-3px",
+          }}
+        ></div>
+      </InnerPanel>
+
+      <InnerPanel className="mb-1">
         <div className="p-1">
           <div className="flex justify-between mb-2">
             <Label className="-ml-1" type="default">
@@ -77,20 +90,10 @@ export const Season: React.FC<Props> = ({ id, isLoading, data }) => {
       </InnerPanel>
 
       <InnerPanel className="mb-1">
-        <MegaStoreContent />
+        <MegaStoreContent readonly />
       </InnerPanel>
 
-      <InnerPanel className="mb-1">
-        <div className="p-1">
-          <div className="flex justify-between mb-2">
-            <Label className="-ml-1" type="default">
-              Auctions
-            </Label>
-          </div>
-          <p className="text-xs">Compete with others for the rarest items!</p>
-          <AuctionSummary gameState={state} farmId={farmId} />
-        </div>
-      </InnerPanel>
+      <AuctionSummary gameState={state} farmId={farmId} />
 
       <InnerPanel className="mb-1">
         <div className="p-1">
