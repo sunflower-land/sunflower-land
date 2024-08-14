@@ -125,7 +125,7 @@ const NextDrop: React.FC<{ auctions: AuctionItems }> = ({ auctions }) => {
           <Label className="-ml-1" type="default">
             Next drop
           </Label>
-          <Label type="warning">{`${nextDrop.supply} available`}</Label>
+          <Label type="info">{`${nextDrop.supply} available`}</Label>
         </div>
         <div className="flex justify-between items-start">
           <div className="flex w-full">
@@ -235,7 +235,7 @@ const Drops: React.FC<{
                   </div>
 
                   {drop.startAt > Date.now() ? (
-                    <Label type="warning">{`${drop.supply} available`}</Label>
+                    <Label type="info">{`${drop.supply} available`}</Label>
                   ) : (
                     <Label type="danger">Sold out</Label>
                   )}
@@ -319,7 +319,8 @@ export const AuctionSummary: React.FC<Props> = ({ farmId, gameState }) => {
             </Label>
           </div>
           <p className="text-xs mb-2">
-            Compete with others for the rarest items!
+            Compete with others for the rarest items! Visit the Auctioneer in
+            the plaza for more details.
           </p>
 
           <div className="flex flex-col -mx-1">
@@ -377,7 +378,7 @@ export const AuctionSummary: React.FC<Props> = ({ farmId, gameState }) => {
                       {remainingLeft === 0 ? (
                         <Label type="danger">Sold out</Label>
                       ) : remainingLeft <= 50 ? (
-                        <Label type="warning">{`${remainingLeft} left`}</Label>
+                        <Label type="info">{`${remainingLeft} left`}</Label>
                       ) : (
                         <Label type="default">{`${remainingLeft} left`}</Label>
                       )}

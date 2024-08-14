@@ -120,6 +120,11 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
       count: incompleteChores + inCompleteKingdomChores,
     },
     {
+      name: "Leaderboard" as const,
+      icon: gift,
+      count: 0,
+    },
+    {
       name: "Fish",
       icon: SUNNYSIDE.icons.fish,
       count: 0,
@@ -130,11 +135,6 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
       count: 0,
     },
 
-    {
-      name: "Leaderboard" as const,
-      icon: gift,
-      count: 0,
-    },
     ...(state.faction
       ? [
           {
@@ -215,23 +215,17 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
             {currentTab === 0 && <Deliveries onClose={onHide} />}
             {currentTab === 1 && <Chores farmId={farmId} />}
             {currentTab === 2 && (
-              <Fish onMilestoneReached={handleMilestoneReached} />
+              <Season
+                id={id}
+                isLoading={data?.tickets === undefined}
+                data={data?.tickets ?? null}
+              />
             )}
             {currentTab === 3 && (
-              <Flowers onMilestoneReached={handleMilestoneReached} />
+              <Fish onMilestoneReached={handleMilestoneReached} />
             )}
             {currentTab === 4 && (
-              <div
-                className={classNames(
-                  "flex flex-col h-full overflow-hidden overflow-y-auto scrollable",
-                )}
-              >
-                <Season
-                  id={id}
-                  isLoading={data?.tickets === undefined}
-                  data={data?.tickets ?? null}
-                />
-              </div>
+              <Flowers onMilestoneReached={handleMilestoneReached} />
             )}
 
             {currentTab === 5 && state.faction && (

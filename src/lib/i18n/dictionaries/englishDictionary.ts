@@ -3409,6 +3409,7 @@ const lostSunflorian: Record<LostSunflorian, string> = {
 };
 
 const megaStore: Record<MegaStore, string> = {
+  "megaStore.visit": "Visit the Megastore in the plaza before time runs out!",
   "megaStore.message":
     "Welcome to the Mega Store! Check out this month's limited items. If you like something, be sure to grab it before it vanishes into the realms of time.",
   "megaStore.month.sale": "This month's sales",
@@ -4918,6 +4919,22 @@ const seasonTerms: Record<SeasonTerms, string> = {
   "season.free.with.lifetime": "Free with Lifetime Farmer",
   "season.pharaohs.gift": "5 Extra Desert Digs",
   "season.ticket.bonus": "+2 {{item}}s (deliveries & chores)",
+  "season.codex.intro":
+    "Earn {{tickets}}s to craft exclusive collectibles & wearables for your farm in this limited season...Hurry before time runs out!",
+  "season.codex.howToEarn": "How to earn {{tickets}}s?",
+  "season.codex.howToEarn.one": "?",
+  "season.codex.howToEarn.two": "?",
+  "season.codex.howToEarn.three": "?",
+  "season.codex.nextDrop": "?",
+  "season.codex.seasonalDrops": "?",
+  "season.codex.seasonalDrops.description": "?",
+  "season.codex.soldOut": "?",
+  "season.codex.mutants": "?",
+  "season.codex.mutants.discover": "?",
+  "season.codex.mutants.one": "?",
+  "season.codex.mutants.two": "?",
+  "season.codex.mutants.three": "?",
+  "season.codex.discoverMutants": "?",
 };
 
 const share: Record<Share, string> = {

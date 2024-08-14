@@ -3461,6 +3461,7 @@ const lostSunflorian: Record<LostSunflorian, string> = {
 };
 
 const megaStore: Record<MegaStore, string> = {
+  "megaStore.visit": ENGLISH_TERMS["megaStore.visit"],
   "megaStore.message":
     "Bem-vindo à Mega Loja! Confira os itens limitados deste mês. Se você gostar de algo, certifique-se de pegá-lo antes que desapareça nos reinos do tempo.",
   "megaStore.month.sale": "Vendas deste mês",

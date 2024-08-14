@@ -3035,6 +3035,7 @@ const lostSunflorian: Record<LostSunflorian, string> = {
 };
 
 const megaStore: Record<MegaStore, string> = {
+  "megaStore.visit": ENGLISH_TERMS["megaStore.visit"],
   "megaStore.message": ENGLISH_TERMS["megaStore.message"],
   "megaStore.month.sale": ENGLISH_TERMS["megaStore.month.sale"],
   "megaStore.wearable": ENGLISH_TERMS["megaStore.wearable"],

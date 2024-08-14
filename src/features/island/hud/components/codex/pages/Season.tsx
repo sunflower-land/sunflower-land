@@ -4,6 +4,7 @@ import { TicketLeaderboard } from "features/game/expansion/components/leaderboar
 import { InnerPanel } from "components/ui/Panel";
 import {
   getCurrentSeason,
+  getSeasonalTicket,
   secondsLeftInSeason,
 } from "features/game/types/seasons";
 import { Label } from "components/ui/Label";
@@ -18,6 +19,9 @@ import { MegaStoreContent } from "features/world/ui/megastore/MegaStore";
 import { AuctionSummary } from "../components/AuctionSummary";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
+import classNames from "classnames";
+import { SeasonalMutants } from "../components/SeasonalMutants";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {
   id: string;
@@ -29,9 +33,15 @@ export const Season: React.FC<Props> = ({ id, isLoading, data }) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 
+  const { t } = useAppTranslation();
+
   const { state, farmId } = gameState.context;
   return (
-    <>
+    <div
+      className={classNames(
+        "flex flex-col h-full overflow-hidden overflow-y-auto scrollable",
+      )}
+    >
       <InnerPanel className="mb-1">
         <div className="p-1">
           <div className="flex justify-between mb-2">
@@ -43,8 +53,7 @@ export const Season: React.FC<Props> = ({ id, isLoading, data }) => {
             </Label>
           </div>
           <p className="text-xs">
-            Earn Amber Fossils to craft limited edition collectibles & wearables
-            for your farm! Hurry before time runs out!
+            {t("season.codex.intro", { ticket: getSeasonalTicket() })}
           </p>
         </div>
       </InnerPanel>
@@ -66,22 +75,22 @@ export const Season: React.FC<Props> = ({ id, isLoading, data }) => {
         <div className="p-1">
           <div className="flex justify-between mb-2">
             <Label className="-ml-1" type="default">
-              How to earn Amber Fossils?
+              {t("season.codex.howToEarn", { ticket: getSeasonalTicket() })}
             </Label>
           </div>
           <NoticeboardItems
             iconWidth={8}
             items={[
               {
-                text: "Deliver resources to Bumpkins",
+                text: "Deliver resources to Bumpkins.",
                 icon: SUNNYSIDE.icons.player,
               },
               {
-                text: "Complete Hank's chores",
+                text: "Complete Hank's chores.",
                 icon: chores,
               },
               {
-                text: "Compete in the faction competition",
+                text: "Compete in the faction competition.",
                 icon: factions,
               },
             ]}
@@ -95,20 +104,11 @@ export const Season: React.FC<Props> = ({ id, isLoading, data }) => {
 
       <AuctionSummary gameState={state} farmId={farmId} />
 
-      <InnerPanel className="mb-1">
-        <div className="p-1">
-          <div className="flex justify-between mb-2">
-            <Label className="-ml-1" type="default">
-              Mutants
-            </Label>
-          </div>
-          <p className="text-xs">Discover the following seasonal rares:</p>
-        </div>
-      </InnerPanel>
+      <SeasonalMutants />
 
       <InnerPanel className="mb-1">
         <TicketsLeaderboard id={id} isLoading={isLoading} data={data} />
       </InnerPanel>
-    </>
+    </div>
   );
 };
