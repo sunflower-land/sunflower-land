@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { InnerPanel, OuterPanel } from "components/ui/Panel";
+import { OuterPanel } from "components/ui/Panel";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 import { Modal } from "components/ui/Modal";
@@ -25,7 +25,6 @@ import { useSound } from "lib/utils/hooks/useSound";
 import factions from "assets/icons/factions.webp";
 import chores from "assets/icons/chores.webp";
 import gift from "assets/icons/gift.png";
-import { TicketsLeaderboard } from "./pages/TicketsLeaderboard";
 import { Leaderboards } from "features/game/expansion/components/leaderboard/actions/cache";
 import { fetchLeaderboardData } from "features/game/expansion/components/leaderboard/actions/leaderboard";
 import { FactionLeaderboard } from "./pages/FactionLeaderboard";

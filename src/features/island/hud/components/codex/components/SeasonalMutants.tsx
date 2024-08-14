@@ -1,7 +1,6 @@
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Label } from "components/ui/Label";
 import { InnerPanel } from "components/ui/Panel";
-import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
 import { InventoryItemName } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { getCurrentSeason, SeasonName } from "features/game/types/seasons";

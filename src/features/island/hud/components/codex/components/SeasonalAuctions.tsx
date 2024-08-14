@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Modal } from "components/ui/Modal";
 
 import { useActor, useInterpret } from "@xstate/react";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -11,15 +10,10 @@ import {
 import { GameState, InventoryItemName } from "features/game/types/game";
 import * as AuthProvider from "features/auth/lib/Provider";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
-import { NPC_WEARABLES } from "lib/npcs";
-import { PIXEL_SCALE } from "features/game/lib/constants";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { hasVipAccess } from "features/game/lib/vipAccess";
-import { VIPAccess } from "features/game/components/VipAccess";
 import { Loading } from "features/auth/components";
 import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
 import { getKeys } from "features/game/types/decorations";
-import { getSeasonChangeover } from "lib/utils/getSeasonWeek";
 import { getCurrentSeason, SEASONS } from "features/game/types/seasons";
 import { ButtonPanel, InnerPanel, OuterPanel } from "components/ui/Panel";
 import { ITEM_DETAILS } from "features/game/types/images";
@@ -199,7 +193,7 @@ const Drops: React.FC<{
       >
         {detail.auctions.map((drop) => {
           return (
-            <InnerPanel className="mb-1">
+            <InnerPanel className="mb-1" key={drop.auctionId}>
               <div className="p-1">
                 <div className="flex justify-between items-center">
                   <div>
@@ -260,7 +254,11 @@ export const SeasonalAuctions: React.FC<Props> = ({ farmId, gameState }) => {
   const [selected, setSelected] = useState<InventoryItemName | BumpkinItem>();
 
   const auctionService = useInterpret(
-    createAuctioneerMachine({ onUpdate: console.log }),
+    createAuctioneerMachine({
+      onUpdate: () => {
+        // No op
+      },
+    }),
     {
       context: {
         farmId: farmId,
