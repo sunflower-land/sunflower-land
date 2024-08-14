@@ -52,7 +52,7 @@ import { loadGameStateForVisit } from "../actions/loadGameStateForVisit";
 import { randomID } from "lib/utils/random";
 
 import { buySFL } from "../actions/buySFL";
-import { CollectibleLocation, PurchasableItems } from "../types/collectibles";
+import { CollectibleLocation } from "../types/collectibles";
 import {
   getGameRulesLastRead,
   getIntroductionRead,
@@ -62,7 +62,6 @@ import { depositToFarm } from "lib/blockchain/Deposit";
 import Decimal from "decimal.js-light";
 import { setOnboardingComplete } from "features/auth/actions/onboardingComplete";
 import { Announcements } from "../types/announcements";
-import { purchaseItem, purchaseItemOnChain } from "../actions/purchaseItem";
 import {
   Currency,
   buyBlockBucks,
@@ -192,12 +191,6 @@ type WalletUpdatedEvent = {
   nftId: number;
 };
 
-type PurchaseEvent = {
-  type: "PURCHASE_ITEM";
-  name: PurchasableItems;
-  amount: number;
-};
-
 type BuyBlockBucksEvent = {
   type: "BUY_BLOCK_BUCKS";
   currency: Currency;
@@ -286,7 +279,6 @@ export type BlockchainEvent =
     }
   | WalletUpdatedEvent
   | SyncEvent
-  | PurchaseEvent
   | CommunityEvent
   | ListingEvent
   | DeleteTradeListingEvent
@@ -438,7 +430,6 @@ export type BlockchainState = {
     | "syncing"
     | "synced"
     | "minting"
-    | "purchasing"
     | "buyingSFL"
     | "revealing"
     | "revealed"
@@ -1016,9 +1007,6 @@ export function startGame(authContext: AuthContext) {
             BUY_BLOCK_BUCKS: {
               target: "buyingBlockBucks",
             },
-            PURCHASE_ITEM: {
-              target: "purchasing",
-            },
             REVEAL: {
               target: "revealing",
             },
@@ -1298,49 +1286,7 @@ export function startGame(authContext: AuthContext) {
             ],
           },
         },
-        purchasing: {
-          entry: "setTransactionId",
-          invoke: {
-            src: async (context, event) => {
-              const response = await purchaseItem({
-                farmId: Number(context.farmId),
-                token: authContext.user.rawToken as string,
-                transactionId: context.transactionId as string,
-                item: (event as PurchaseEvent).name,
-                amount: (event as PurchaseEvent).amount,
-              });
 
-              const sessionId = await purchaseItemOnChain({
-                transaction: response.transaction,
-                item: response.item,
-                amount: response.amount,
-              });
-
-              return { sessionId };
-            },
-            onDone: {
-              target: "synced",
-              actions: assign((_, event) => ({
-                sessionId: event.data.sessionId,
-                actions: [],
-              })),
-            },
-            onError: [
-              {
-                target: "#playing",
-                cond: (_, event: any) =>
-                  event.data.message === ERRORS.REJECTED_TRANSACTION,
-                actions: assign((_) => ({
-                  actions: [],
-                })),
-              },
-              {
-                target: "#error",
-                actions: "assignErrorMessage",
-              },
-            ],
-          },
-        },
         // Similar to autosaving, but for events that are only processed server side
         revealing: {
           entry: "setTransactionId",
