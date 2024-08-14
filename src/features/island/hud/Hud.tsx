@@ -47,7 +47,7 @@ const HudComponent: React.FC<{
   const farmAddress = useSelector(gameService, _farmAddress);
   const hasMarketplaceAccess = useSelector(gameService, _showMarketplace);
 
-  const [showMarketplace, setShowMarketplace] = useState(true);
+  const [showMarketplace, setShowMarketplace] = useState(false);
   const [showDepositModal, setShowDepositModal] = useState(false);
   const [showBuyCurrencies, setShowBuyCurrencies] = useState(false);
 
