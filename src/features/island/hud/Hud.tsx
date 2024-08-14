@@ -23,8 +23,14 @@ import { MachineState } from "features/game/lib/gameMachine";
 import { useSound } from "lib/utils/hooks/useSound";
 import { SpecialEventCountdown } from "./SpecialEventCountdown";
 import { SeasonBannerCountdown } from "./SeasonBannerCountdown";
+import marketplaceIcon from "assets/icons/shop_disc.png";
+import { Modal } from "components/ui/Modal";
+import { Marketplace } from "features/marketplace/Marketplace";
+import { hasFeatureAccess } from "lib/flags";
 
 const _farmAddress = (state: MachineState) => state.context.farmAddress;
+const _showMarketplace = (state: MachineState) =>
+  hasFeatureAccess(state.context.state, "MARKETPLACE");
 
 /**
  * Heads up display - a concept used in games for the small overlaid display of information.
@@ -39,7 +45,9 @@ const HudComponent: React.FC<{
   const [gameState] = useActor(gameService);
 
   const farmAddress = useSelector(gameService, _farmAddress);
+  const hasMarketplaceAccess = useSelector(gameService, _showMarketplace);
 
+  const [showMarketplace, setShowMarketplace] = useState(true);
   const [showDepositModal, setShowDepositModal] = useState(false);
   const [showBuyCurrencies, setShowBuyCurrencies] = useState(false);
 
@@ -189,6 +197,32 @@ const HudComponent: React.FC<{
           show={showBuyCurrencies}
           onClose={handleBuyCurrenciesModal}
         />
+
+        {hasMarketplaceAccess && (
+          <>
+            <img
+              src={marketplaceIcon}
+              className="cursor-pointer absolute"
+              onClick={() => setShowMarketplace(true)}
+              style={{
+                width: `${PIXEL_SCALE * 22}px`,
+
+                left: `${PIXEL_SCALE * 3}px`,
+                bottom: `${PIXEL_SCALE * 55}px`,
+              }}
+            />
+
+            {showMarketplace && (
+              <Modal
+                onHide={() => setShowMarketplace(false)}
+                fullscreen
+                show={showMarketplace}
+              >
+                <Marketplace onClose={() => setShowMarketplace(false)} />
+              </Modal>
+            )}
+          </>
+        )}
       </HudContainer>
     </>
   );
