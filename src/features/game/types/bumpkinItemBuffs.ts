@@ -6,6 +6,7 @@ import { BumpkinItem } from "./bumpkin";
 import powerup from "assets/icons/level_up.png";
 import lightning from "assets/icons/lightning.png";
 import bee from "assets/icons/bee.webp";
+import chefHat from "assets/icons/chef_hat.png";
 import { ITEM_DETAILS } from "./images";
 import { translate } from "lib/i18n/translate";
 
@@ -92,6 +93,7 @@ export const BUMPKIN_ITEM_BUFF_LABELS: Partial<Record<BumpkinItem, BuffLabel>> =
       shortDescription: translate("bumpkinItemBuff.Luna.s.hat.boost"),
       labelType: "info",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+      boostedItemIcon: chefHat,
     },
     "Infernal Pitchfork": {
       shortDescription: translate("bumpkinItemBuff.infernal.pitchfork.boost"),
@@ -493,26 +495,26 @@ export const BUMPKIN_ITEM_BUFF_LABELS: Partial<Record<BumpkinItem, BuffLabel>> =
     },
     "Bumpkin Medallion": {
       shortDescription: translate("bumpkinItemBuff.bumpkin.medallion.boost"),
-      labelType: "success",
-      boostTypeIcon: powerup,
-      boostedItemIcon: SUNNYSIDE.icons.stopwatch,
+      labelType: "info",
+      boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+      boostedItemIcon: chefHat,
     },
     "Goblin Medallion": {
       shortDescription: translate("bumpkinItemBuff.goblin.medallion.boost"),
-      labelType: "success",
-      boostTypeIcon: powerup,
-      boostedItemIcon: SUNNYSIDE.icons.stopwatch,
+      labelType: "info",
+      boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+      boostedItemIcon: chefHat,
     },
     "Nightshade Medallion": {
       shortDescription: translate("bumpkinItemBuff.nightshade.medallion.boost"),
-      labelType: "success",
-      boostTypeIcon: powerup,
-      boostedItemIcon: SUNNYSIDE.icons.stopwatch,
+      labelType: "info",
+      boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+      boostedItemIcon: chefHat,
     },
     "Sunflorian Medallion": {
       shortDescription: translate("bumpkinItemBuff.sunflorian.medallion.boost"),
-      labelType: "success",
-      boostTypeIcon: powerup,
-      boostedItemIcon: SUNNYSIDE.icons.stopwatch,
+      labelType: "info",
+      boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+      boostedItemIcon: chefHat,
     },
   };
