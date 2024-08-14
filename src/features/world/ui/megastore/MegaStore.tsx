@@ -112,7 +112,7 @@ export const MegaStoreContent: React.FC<{ readonly?: boolean }> = ({
         <Label type="vibrant" icon={lightning} className="mb-1">
           {t("megaStore.month.sale")}
         </Label>
-        <Label icon={SUNNYSIDE.icons.stopwatch} type="danger">
+        <Label icon={SUNNYSIDE.icons.stopwatch} type="danger" className="mb-1">
           {t("megaStore.timeRemaining", {
             timeRemaining: secondsToString(timeRemaining, {
               length: "medium",

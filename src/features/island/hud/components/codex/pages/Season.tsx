@@ -47,7 +47,11 @@ export const Season: React.FC<Props> = ({ id, isLoading, data }) => {
             <Label className="-ml-1 mb-1" type="default">
               {getCurrentSeason()}
             </Label>
-            <Label type="info" icon={SUNNYSIDE.icons.stopwatch}>
+            <Label
+              type="info"
+              className="mb-1"
+              icon={SUNNYSIDE.icons.stopwatch}
+            >
               {`${secondsToString(secondsLeftInSeason(), { length: "short" })} left`}
             </Label>
           </div>

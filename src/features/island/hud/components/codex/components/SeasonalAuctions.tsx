@@ -121,7 +121,10 @@ const NextDrop: React.FC<{ auctions: AuctionItems }> = ({ auctions }) => {
           <Label className="-ml-1 mb-1" type="default">
             {t("season.codex.nextDrop")}
           </Label>
-          <Label type="formula">{`${nextDrop.supply} available`}</Label>
+          <Label
+            type="formula"
+            className=" mb-1"
+          >{`${nextDrop.supply} available`}</Label>
         </div>
         <div className="flex justify-between items-start">
           <div className="flex w-full">
