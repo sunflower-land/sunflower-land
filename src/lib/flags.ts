@@ -44,7 +44,6 @@ export type FeatureName =
   | "NEW_FRUITS"
   | "DESERT_PLAZA"
   | "SKILLS_REVAMP"
-  | "PIRATE_CHEST"
   | "MARKETPLACE";
 
 // Used for testing production features
@@ -88,7 +87,6 @@ const featureFlags: Record<FeatureName, FeatureFlag> = {
   NEW_FRUITS: betaTimeBasedFeatureFlag(new Date("2024-08-01T00:00:00Z")),
   DESERT_PLAZA: betaTimeBasedFeatureFlag(new Date("2024-08-01T00:00:00Z")),
   SKILLS_REVAMP: testnetFeatureFlag,
-  PIRATE_CHEST: defaultFeatureFlag,
 };
 
 export const hasFeatureAccess = (game: GameState, featureName: FeatureName) => {
