@@ -29,7 +29,7 @@ export type BumpkinSkillName =
 
 export type BumpkinRevampSkillName =
   // Crops
-  | "Green Thumb"
+  | "Green Thumb 2"
   | "Young Farmer"
   | "Experienced Farmer"
   | "Efficient Bin"
@@ -409,8 +409,8 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
   BumpkinSkillRevamp
 > = {
   // Crops - Tier 1
-  "Green Thumb": {
-    name: "Green Thumb",
+  "Green Thumb 2": {
+    name: "Green Thumb 2",
     tree: "Crops",
     requirements: {
       points: 1,

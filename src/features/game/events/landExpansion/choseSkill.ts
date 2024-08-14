@@ -37,10 +37,8 @@ export function choseSkill({ state, action, createdAt = Date.now() }: Options) {
   }
 
   const availableSkillPoints = getAvailableBumpkinSkillPoints(bumpkin);
-  const claimedSkillsInTree = Object.keys(bumpkin.skills).filter(
-    (skill) =>
-      BUMPKIN_REVAMP_SKILL_TREE[skill as BumpkinRevampSkillName].tree ===
-      BUMPKIN_REVAMP_SKILL_TREE[action.skill].tree,
+  const claimedSkillsInTree = Object.keys(bumpkin.skills).filter((skill) =>
+    Object.keys(BUMPKIN_REVAMP_SKILL_TREE).includes(skill),
   ).length;
   const requirements = BUMPKIN_REVAMP_SKILL_TREE[action.skill].requirements;
   const bumpkinHasSkill = bumpkin.skills[action.skill];

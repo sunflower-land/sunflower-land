@@ -17,7 +17,7 @@ describe("choseSkill", () => {
             skills: { "Green Thumb": 1 },
           },
         },
-        action: { type: "skill.chosen", skill: "Green Thumb" },
+        action: { type: "skill.chosen", skill: "Green Thumb 2" },
         createdAt: dateNow,
       });
     }).toThrow("You already have this skill");
@@ -33,7 +33,7 @@ describe("choseSkill", () => {
           skills: {},
         },
       },
-      action: { type: "skill.chosen", skill: "Green Thumb" },
+      action: { type: "skill.chosen", skill: "Green Thumb 2" },
       createdAt: dateNow,
     });
 
