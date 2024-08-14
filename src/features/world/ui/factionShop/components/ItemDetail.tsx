@@ -5,7 +5,7 @@ import Decimal from "decimal.js-light";
 import { FactionName, InventoryItemName } from "features/game/types/game";
 
 import { Context } from "features/game/GameProvider";
-import { useSelector } from "@xstate/react";
+import { useActor, useSelector } from "@xstate/react";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { InnerPanel } from "components/ui/Panel";
 import classNames from "classnames";
@@ -24,6 +24,7 @@ import {
   FactionShopCollectible,
   FactionShopFood,
 } from "features/game/types/factionShop";
+import { isWearableActive } from "features/game/lib/wearables";
 
 interface ItemOverlayProps {
   item: FactionShopWearable | FactionShopCollectible | FactionShopFood | null;
@@ -49,6 +50,12 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
 }) => {
   const { t } = useAppTranslation();
   const { shortcutItem, gameService, showAnimations } = useContext(Context);
+
+  const [
+    {
+      context: { state },
+    },
+  ] = useActor(gameService);
 
   const inventory = useSelector(gameService, _inventory);
   const wardrobe = useSelector(gameService, _wardrobe);
@@ -96,6 +103,12 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
     if (item.limit && getBalanceOfItem(item) >= item.limit) return false;
 
     if (item.faction && item.faction !== pledgedFaction) return false;
+
+    if (item.requires) {
+      if (wearableActive) return false;
+
+      if (!state.wardrobe[item.requires]) return false;
+    }
 
     return (
       inventory[item.currency as InventoryItemName] ?? new Decimal(0)
@@ -185,11 +198,18 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
     const name = `${singular} Emblem` as InventoryItemName;
 
     return (
-      <Label type="danger" icon={ITEM_DETAILS[name].image}>{`${capitalize(
-        faction,
-      )} Only!`}</Label>
+      <Label type="danger" icon={ITEM_DETAILS[name].image}>
+        {`${capitalize(faction)} Only!`}
+      </Label>
     );
   };
+
+  const wearableReq = item?.requires as BumpkinItem;
+
+  const wearableActive = isWearableActive({
+    game: state,
+    name: wearableReq,
+  });
 
   const getButtonLabel = () => {
     if (confirmBuy) return `${t("confirm")} ${t("buy")}`; //t
@@ -246,6 +266,9 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
                       {!!item?.faction &&
                         item.faction !== pledgedFaction &&
                         getFactionOnlyLabel(item.faction)}
+                      {!!wearableActive && !!wearableReq && (
+                        <Label type="danger">{`Wearable Currently Equipped!`}</Label>
+                      )}
                       {!!buff && (
                         <Label
                           type={buff.labelType}
@@ -260,13 +283,23 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
                     <span className="text-xs leading-none">
                       {item?.shortDescription}
                     </span>
-                    {item && (
+                    {currency && (
                       <div className="flex flex-1 items-end">
                         <RequirementLabel
                           type="item"
                           item={currency}
                           balance={inventory[currency] ?? new Decimal(0)}
                           requirement={item?.price ?? new Decimal(0)}
+                        />
+                      </div>
+                    )}
+                    {wearableReq !== undefined && (
+                      <div className="flex flex-1 items-end">
+                        <RequirementLabel
+                          type="wearable"
+                          item={wearableReq}
+                          balance={wardrobe[wearableReq] ?? 0}
+                          requirement={wearableReq}
                         />
                       </div>
                     )}
