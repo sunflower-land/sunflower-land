@@ -598,6 +598,10 @@ export function getCropYieldAmount({
     amount += 2;
   }
 
+  if (skills["Young Farmer"] && isBasicCrop(crop)) {
+    amount += 0.1;
+  }
+
   return Number(setPrecision(amount));
 }
 

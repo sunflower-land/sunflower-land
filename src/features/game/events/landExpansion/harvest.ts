@@ -25,7 +25,8 @@ type Options = {
   createdAt?: number;
 };
 
-export const isBasicCrop = (cropName: CropName) => {
+export const isBasicCrop = (cropName: CropName | GreenHouseCropName) => {
+  if (!isCrop(cropName)) return false;
   const cropDetails = CROPS[cropName];
   return cropDetails.harvestSeconds <= CROPS["Pumpkin"].harvestSeconds;
 };
