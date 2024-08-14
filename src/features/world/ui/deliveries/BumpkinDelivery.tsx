@@ -696,7 +696,7 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
 
           <InnerPanel>
             <div className="px-2 ">
-              <div className="flex justify-between items-center mb-2">
+              <div className="flex flex-col sm:flex sm:justify-between sm:items-center mb-2 gap-1">
                 <Label type="default" icon={SUNNYSIDE.icons.expression_chat}>
                   {t("delivery")}
                 </Label>
@@ -713,11 +713,6 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
                 {isLocked && (
                   <Label type="danger" icon={SUNNYSIDE.icons.lock}>
                     {`Lvl ${NPC_DELIVERY_LEVELS[npc as DeliveryNpcName]} required`}
-                  </Label>
-                )}
-                {missingVIPAccess && (
-                  <Label type="danger" icon={SUNNYSIDE.icons.lock}>
-                    {t("goblinTrade.vipRequired")}
                   </Label>
                 )}
                 {!delivery?.completedAt && requiresSeasonPass && (
