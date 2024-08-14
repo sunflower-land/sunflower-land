@@ -246,6 +246,7 @@ type ListingEvent = {
   sellerId: number;
   items: Partial<Record<InventoryItemName, number>>;
   sfl: number;
+  signature?: string;
 };
 
 type DeleteTradeListingEvent = {
@@ -1461,7 +1462,7 @@ export function startGame(authContext: AuthContext) {
           entry: "setTransactionId",
           invoke: {
             src: async (context, event) => {
-              const { sellerId, items, sfl } = event as ListingEvent;
+              const { sellerId, items, sfl, signature } = event as ListingEvent;
 
               if (context.actions.length > 0) {
                 await autosave({
@@ -1481,6 +1482,7 @@ export function startGame(authContext: AuthContext) {
                 items,
                 sfl,
                 transactionId: context.transactionId as string,
+                signature,
               });
 
               return { state };

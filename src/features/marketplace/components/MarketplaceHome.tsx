@@ -1,9 +1,12 @@
 import { ButtonPanel, InnerPanel } from "components/ui/Panel";
 import { ITEM_DETAILS } from "features/game/types/images";
-import React from "react";
+import React, { useContext, useState } from "react";
 
 import budIcon from "assets/icons/bud.png";
 import wearableIcon from "assets/icons/wearables.webp";
+import { Context } from "features/game/GameProvider";
+import { wallet } from "lib/blockchain/wallet";
+import { GameWallet } from "features/wallet/Wallet";
 
 import { CollectionName } from "features/game/types/marketplace";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
@@ -59,8 +62,49 @@ export const MarketplaceHome: React.FC = () => {
             </ButtonPanel>
           </div>
         ))}
+        <Category selectedCategory={selectedCategory} />
       </div>
       <Collection key={collection} type={collection ?? "collectibles"} />
     </InnerPanel>
+  );
+};
+
+const Category: React.FC<{
+  selectedCategory: MarketplaceCategoryName;
+}> = () => {
+  const [isListing, setIsListing] = useState(false);
+
+  if (isListing) {
+    return <ListTrade />;
+  }
+
+  return <button onClick={() => setIsListing(true)}>{`List`}</button>;
+};
+
+const ListTrade: React.FC = () => {
+  const { gameService } = useContext(Context);
+
+  const [isSigning, setIsSigning] = useState(false);
+
+  const onClick = async () => {
+    setIsSigning(true);
+
+    const { signature } = await wallet.signTransaction(0);
+    gameService.send("LIST_TRADE", {
+      sellerId: gameService.state.context.farmId,
+      items: {
+        Kuebiko: 1,
+      },
+      sfl: 1,
+      signature,
+    });
+
+    setIsSigning(false);
+  };
+
+  return (
+    <GameWallet action="listTrade">
+      <button onClick={onClick}>{`Sign`}</button>
+    </GameWallet>
   );
 };
