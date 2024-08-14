@@ -3295,8 +3295,7 @@ export type SeasonTerms =
   | "season.codex.mutants.discover"
   | "season.codex.mutants.one"
   | "season.codex.mutants.two"
-  | "season.codex.mutants.three"
-  | "season.codex.discoverMutants";
+  | "season.codex.mutants.three";
 
 export type Share =
   | "share.TweetText"

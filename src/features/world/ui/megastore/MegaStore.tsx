@@ -108,8 +108,8 @@ export const MegaStoreContent: React.FC<{ readonly?: boolean }> = ({
   const { t } = useAppTranslation();
   return (
     <div className="relative h-full w-full">
-      <div className="flex justify-between px-2 pb-2">
-        <Label type="vibrant" icon={lightning}>
+      <div className="flex justify-between px-2 flex-wrap pb-1">
+        <Label type="vibrant" icon={lightning} className="mb-1">
           {t("megaStore.month.sale")}
         </Label>
         <Label icon={SUNNYSIDE.icons.stopwatch} type="danger">

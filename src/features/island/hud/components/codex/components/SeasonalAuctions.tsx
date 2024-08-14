@@ -123,11 +123,11 @@ const NextDrop: React.FC<{ auctions: AuctionItems }> = ({ auctions }) => {
   return (
     <InnerPanel className="mb-1">
       <div className="p-1">
-        <div className="flex justify-between mb-2">
-          <Label className="-ml-1" type="default">
+        <div className="flex justify-between mb-1 flex-wrap wrap">
+          <Label className="-ml-1 mb-1" type="default">
             {t("season.codex.nextDrop")}
           </Label>
-          <Label type="info">{`${nextDrop.supply} available`}</Label>
+          <Label type="formula">{`${nextDrop.supply} available`}</Label>
         </div>
         <div className="flex justify-between items-start">
           <div className="flex w-full">
@@ -233,7 +233,7 @@ const Drops: React.FC<{
                   </div>
 
                   {drop.startAt > Date.now() ? (
-                    <Label type="info">{`${drop.supply} available`}</Label>
+                    <Label type="formula">{`${drop.supply} available`}</Label>
                   ) : (
                     <Label type="danger">{t("statements.soldOut")}</Label>
                   )}
@@ -375,7 +375,7 @@ export const SeasonalAuctions: React.FC<Props> = ({ farmId, gameState }) => {
                       {remainingLeft === 0 ? (
                         <Label type="danger">{t("season.codex.soldOut")}</Label>
                       ) : remainingLeft <= 50 ? (
-                        <Label type="info">{`${remainingLeft} left`}</Label>
+                        <Label type="formula">{`${remainingLeft} left`}</Label>
                       ) : (
                         <Label type="default">{`${remainingLeft} left`}</Label>
                       )}

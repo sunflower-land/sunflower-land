@@ -43,8 +43,8 @@ export const Season: React.FC<Props> = ({ id, isLoading, data }) => {
     >
       <InnerPanel className="mb-1">
         <div className="p-1">
-          <div className="flex justify-between mb-2">
-            <Label className="-ml-1" type="default">
+          <div className="flex justify-between mb-1 flex-wrap">
+            <Label className="-ml-1 mb-1" type="default">
               {getCurrentSeason()}
             </Label>
             <Label type="info" icon={SUNNYSIDE.icons.stopwatch}>

@@ -4920,8 +4920,8 @@ const seasonTerms: Record<SeasonTerms, string> = {
   "season.pharaohs.gift": "5 Extra Desert Digs",
   "season.ticket.bonus": "+2 {{item}}s (deliveries & chores)",
   "season.codex.intro":
-    "Earn {{tickets}}s to craft exclusive collectibles & wearables for your farm in this limited season...Hurry before time runs out!",
-  "season.codex.howToEarn": "How to earn {{tickets}}s?",
+    "Earn {{ticket}}s to craft exclusive collectibles & wearables for your farm in this limited season...Hurry before time runs out!",
+  "season.codex.howToEarn": "How to earn {{ticket}}s?",
   "season.codex.howToEarn.one":
     "Visit the plaza & deliver resources to Bumpkins.",
   "season.codex.howToEarn.two": "Complete Hank's chores.",
@@ -4937,7 +4937,6 @@ const seasonTerms: Record<SeasonTerms, string> = {
   "season.codex.mutants.two": "Fish in the depths for the {{item}}.",
   "season.codex.mutants.three":
     "Experiment with flowers to discover the {{item}}.",
-  "season.codex.discoverMutants": "?",
 };
 
 const share: Record<Share, string> = {
