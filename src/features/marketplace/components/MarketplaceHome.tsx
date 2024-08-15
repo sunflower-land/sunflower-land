@@ -4,6 +4,10 @@ import React, { useState } from "react";
 
 import budIcon from "assets/icons/bud.png";
 import wearableIcon from "assets/icons/wearables.webp";
+import { InventoryItemName } from "features/game/types/game";
+import { ListViewCard } from "./ListViewCard";
+import Decimal from "decimal.js-light";
+import { OPEN_SEA_COLLECTIBLES } from "metadata/metadata";
 
 type MarketplaceCategoryName =
   | "Collectibles"
@@ -45,7 +49,7 @@ export const MarketplaceHome: React.FC = () => {
           <div key={category.name} className="relative  pr-1 w-1/2 sm:w-auto">
             <ButtonPanel
               onClick={() => setSelectedCategory(category.name)}
-              className="flex"
+              className="flex items-center"
               selected={category.name === selectedCategory}
             >
               <img src={category.icon} className="h-8 mr-2" />
@@ -53,6 +57,20 @@ export const MarketplaceHome: React.FC = () => {
             </ButtonPanel>
           </div>
         ))}
+      </div>
+      <div className="flex gap-2">
+        {(["Fat Chicken", "Rock Golem"] as InventoryItemName[]).map((item) => {
+          return (
+            <ListViewCard
+              name={item}
+              hasBoost
+              price={new Decimal(25)}
+              image={OPEN_SEA_COLLECTIBLES[item].image}
+              supply={10000}
+              key={item}
+            />
+          );
+        })}
       </div>
     </div>
   );
