@@ -65,7 +65,7 @@ const PirateChestContent: React.FC<PirateChestContentProps> = ({
   };
 
   if (isPicking || (gameState.matches("revealing") && isRevealing)) {
-    return <ChestRevealing type={t("pirate.chest")} />;
+    return <ChestRevealing type={"Pirate Chest"} />;
   }
 
   if (gameState.matches("revealed") && isRevealing) {
@@ -177,25 +177,18 @@ export const PirateChestModal: React.FC<Props> = ({
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 
+  const closeModal = () => {
+    isPicking ||
+    (isRevealing &&
+      (gameState.matches("revealing") || gameState.matches("revealed")))
+      ? undefined
+      : onClose;
+  };
+
   return (
-    <Modal
-      show={show}
-      onHide={
-        isPicking ||
-        (isRevealing &&
-          (gameState.matches("revealing") || gameState.matches("revealed")))
-          ? undefined
-          : onClose
-      }
-    >
+    <Modal show={show} onHide={closeModal}>
       <CloseButtonPanel
-        onClose={
-          isPicking ||
-          (isRevealing &&
-            (gameState.matches("revealing") || gameState.matches("revealed")))
-            ? undefined
-            : onClose
-        }
+        onClose={closeModal}
         bumpkinParts={NPC_WEARABLES["old salty"]}
         tabs={[
           {
