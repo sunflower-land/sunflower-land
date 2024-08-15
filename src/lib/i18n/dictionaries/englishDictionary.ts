@@ -593,7 +593,7 @@ const addSFL: Record<AddSFL, string> = {
   "addSFL.referralFee":
     "Sunflower Land takes a 5% referral fee to complete this transaction.",
   "addSFL.swapTitle": "Swap Details",
-  "addSFL.minimumReceived": "Minimum Received: ",
+  "addSFL.minimumReceived": "Minimum Received: {{sflReceived}} SFL",
 };
 
 const auction: Record<Auction, string> = {

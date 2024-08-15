@@ -607,7 +607,7 @@ const addSFL: Record<AddSFL, string> = {
   "addSFL.referralFee":
     "Sunflower Land cobra uma taxa de indicação de 5% para completar esta transação.",
   "addSFL.swapTitle": "Detalhes da Troca",
-  "addSFL.minimumReceived": "Mínimo Recebido: ",
+  "addSFL.minimumReceived": "Mínimo Recebido: {{sflReceived}} SFL",
 };
 
 const availableSeeds: Record<AvailableSeeds, string> = {

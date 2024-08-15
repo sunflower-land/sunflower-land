@@ -587,7 +587,7 @@ const addSFL: Record<AddSFL, string> = {
     "Sunflower Land 凭 Quickswap 提供了快速兑 Matic 换 SFL 的渠道。",
   "addSFL.referralFee": "Sunflower Land 每笔交易会收取 5% 的推荐费。",
   "addSFL.swapTitle": "兑换详情",
-  "addSFL.minimumReceived": "至少收到：",
+  "addSFL.minimumReceived": "至少收到：{{sflReceived}} SFL",
 };
 
 const auction: Record<Auction, string> = {
