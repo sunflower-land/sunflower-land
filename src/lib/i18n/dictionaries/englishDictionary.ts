@@ -1079,37 +1079,25 @@ const bumpkinItemBuff: Record<BumpkinItemBuff, string> = {
   "bumpkinItemBuff.grape.pants": "+0.2 Grapes",
   "bumpkinItemBuff.pirate.potion": "Unlock Pirate Chest",
   "bumpkinItemBuff.bumpkin.crown.boost":
-    "+25% SFL & Coin Deliveries, +10% Marks, Boost only applies when pledged to Bumpkin faction",
+    "+25% SFL & Coin Deliveries, +10% Marks",
   "bumpkinItemBuff.goblin.crown.boost":
-    "+25% SFL & Coin Deliveries, +10% Marks, Boost only applies when pledged to Goblin faction",
+    "+25% SFL & Coin Deliveries, +10% Marks",
   "bumpkinItemBuff.nightshade.crown.boost":
-    "+25% SFL & Coin Deliveries, +10% Marks, Boost only applies when pledged to Nightshade faction",
+    "+25% SFL & Coin Deliveries, +10% Marks",
   "bumpkinItemBuff.sunflorian.crown.boost":
-    "+25% SFL & Coin Deliveries, +10% Marks, Boost only applies when pledged to Sunflorian faction",
-  "bumpkinItemBuff.bumpkin.shield.boost":
-    "+0.25 Wood & Minerals, Boost only applies when pledged to Bumpkin faction",
-  "bumpkinItemBuff.goblin.shield.boost":
-    "+0.25 Wood & Minerals, Boost only applies when pledged to Goblin faction",
-  "bumpkinItemBuff.nightshade.shield.boost":
-    "+0.25 Wood & Minerals, Boost only applies when pledged to Nightshade faction",
-  "bumpkinItemBuff.sunflorian.shield.boost":
-    "+0.25 Wood & Minerals, Boost only applies when pledged to Sunflorian faction",
-  "bumpkinItemBuff.bumpkin.quiver.boost":
-    "+0.25 Crops & Fruits, Boost only applies when pledged to Bumpkin faction",
-  "bumpkinItemBuff.goblin.quiver.boost":
-    "+0.25 Crops & Fruits, Boost only applies when pledged to Goblin faction",
-  "bumpkinItemBuff.nightshade.quiver.boost":
-    "+0.25 Crops & Fruits, Boost only applies when pledged to Nightshade faction",
-  "bumpkinItemBuff.sunflorian.quiver.boost":
-    "+0.25 Crops & Fruits, Boost only applies when pledged to Sunflorian faction",
-  "bumpkinItemBuff.bumpkin.medallion.boost":
-    "-25% Cooking Time, Boost only applies when pledged to Bumpkin faction",
-  "bumpkinItemBuff.goblin.medallion.boost":
-    "-25% Cooking Time, Boost only applies when pledged to Goblin faction",
-  "bumpkinItemBuff.nightshade.medallion.boost":
-    "-25% Cooking Time, Boost only applies when pledged to Nightshade faction",
-  "bumpkinItemBuff.sunflorian.medallion.boost":
-    "-25% Cooking Time, Boost only applies when pledged to Sunflorian faction",
+    "+25% SFL & Coin Deliveries, +10% Marks",
+  "bumpkinItemBuff.bumpkin.shield.boost": "+0.25 Wood & Minerals",
+  "bumpkinItemBuff.goblin.shield.boost": "+0.25 Wood & Minerals",
+  "bumpkinItemBuff.nightshade.shield.boost": "+0.25 Wood & Minerals",
+  "bumpkinItemBuff.sunflorian.shield.boost": "+0.25 Wood & Minerals",
+  "bumpkinItemBuff.bumpkin.quiver.boost": "+0.25 Crops & Fruits",
+  "bumpkinItemBuff.goblin.quiver.boost": "+0.25 Crops & Fruits",
+  "bumpkinItemBuff.nightshade.quiver.boost": "+0.25 Crops & Fruits",
+  "bumpkinItemBuff.sunflorian.quiver.boost": "+0.25 Crops & Fruits",
+  "bumpkinItemBuff.bumpkin.medallion.boost": "-25% Cooking Time",
+  "bumpkinItemBuff.goblin.medallion.boost": "-25% Cooking Time",
+  "bumpkinItemBuff.nightshade.medallion.boost": "-25% Cooking Time",
+  "bumpkinItemBuff.sunflorian.medallion.boost": "-25% Cooking Time",
 };
 
 const bumpkinPart: Record<BumpkinPart, string> = {
