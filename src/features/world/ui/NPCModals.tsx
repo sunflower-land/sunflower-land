@@ -10,10 +10,6 @@ import { Birdie } from "./npcs/Birdie";
 import { HayseedHankV2 } from "features/helios/components/hayseedHank/HayseedHankV2";
 import { PotionHouseShopItems } from "features/helios/components/potions/component/PotionHouseShopItems";
 import { Bert } from "./npcs/Bert";
-import {
-  CommunityDonations,
-  SpecialEventDonations,
-} from "./donations/Donations";
 import { Finn } from "./npcs/Finn";
 import { Mayor } from "./npcs/Mayor";
 import { DecorationShopItems } from "features/helios/components/decorations/component/DecorationShopItems";
@@ -39,6 +35,7 @@ import { hasFeatureAccess } from "lib/flags";
 import { Context } from "features/game/GameProvider";
 import { Digby } from "./beach/Digby";
 import { CropsAndChickens } from "./portals/CropsAndChickens";
+import { ExampleDonations } from "./donations/ExampleDonations";
 
 class NpcModalManager {
   private listener?: (npc: NPCName, isOpen: boolean) => void;
@@ -97,7 +94,7 @@ export const NPCModals: React.FC<Props> = ({ scene, id }) => {
             onClose={closeModal}
             bumpkinParts={NPC_WEARABLES["flopsy"]}
           >
-            <CommunityDonations />
+            <ExampleDonations onClose={closeModal} />
           </CloseButtonPanel>
         )}
         {npc === "portaller" && <PortalNPCExample onClose={closeModal} />}
@@ -151,14 +148,6 @@ export const NPCModals: React.FC<Props> = ({ scene, id }) => {
             container={OuterPanel}
           >
             <GarbageCollectorModal />
-          </CloseButtonPanel>
-        )}
-        {npc === "gaucho" && (
-          <CloseButtonPanel
-            onClose={closeModal}
-            bumpkinParts={NPC_WEARABLES.gaucho}
-          >
-            <SpecialEventDonations />
           </CloseButtonPanel>
         )}
         {npc === "billy" && (
