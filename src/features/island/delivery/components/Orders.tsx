@@ -50,6 +50,7 @@ import { useNavigate } from "react-router-dom";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { SquareIcon } from "components/ui/SquareIcon";
 import { formatNumber } from "lib/utils/formatNumber";
+import { isMobile } from "mobile-device-detect";
 
 // Bumpkins
 export const BEACH_BUMPKINS: NPCName[] = [
@@ -744,19 +745,21 @@ export const DeliveryOrders: React.FC<Props> = ({
                   />
                   <span className="text-xs ml-1">{t("reward")}</span>
                 </div>
-                <Label type="warning">
-                  <span>{`${
-                    generateDeliveryTickets({
-                      game: gameState,
-                      npc: previewOrder.from,
-                    }) || makeRewardAmountForLabel(previewOrder)
-                  } ${
-                    previewOrder.reward.coins
-                      ? t("coins")
-                      : previewOrder.reward.sfl
-                        ? "SFL"
-                        : `${getSeasonalTicket()}s`
-                  }`}</span>
+                <Label type="warning" className="whitespace-nowrap">
+                  <span className={!isMobile ? "text-xxs" : ""}>
+                    {`${
+                      generateDeliveryTickets({
+                        game: gameState,
+                        npc: previewOrder.from,
+                      }) || makeRewardAmountForLabel(previewOrder)
+                    } ${
+                      previewOrder.reward.coins
+                        ? t("coins")
+                        : previewOrder.reward.sfl
+                          ? "SFL"
+                          : `${getSeasonalTicket()}s`
+                    }`}
+                  </span>
                 </Label>
               </div>
               {!previewOrder.completedAt &&
