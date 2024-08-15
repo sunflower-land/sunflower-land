@@ -216,16 +216,17 @@ export function getFactionWearableBoostAmount(
   for (const wearable of Object.keys(boosts) as (keyof typeof boosts)[]) {
     const wearableName = FACTION_OUTFITS[factionName][wearable];
 
-    // Skip the crown boost if a hat is active
+    // Skip the hat boost if a crown is active
     if (
-      wearable === "crown" &&
-      isWearableActive({ game, name: FACTION_OUTFITS[factionName]["hat"] })
+      wearable === "hat" &&
+      isWearableActive({ game, name: FACTION_OUTFITS[factionName].crown })
     ) {
       continue;
     }
 
     if (isWearableActive({ game, name: wearableName })) {
       boost += baseAmount * boosts[wearable];
+      boostLabels[wearableName] = `+${boosts[wearable] * 100}%`;
     }
   }
 

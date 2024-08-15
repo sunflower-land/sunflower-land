@@ -133,7 +133,7 @@ export const getCookingTime = (
     factionName &&
     isWearableActive({
       game,
-      name: FACTION_ITEMS[factionName]["necklace"],
+      name: FACTION_ITEMS[factionName].necklace,
     })
   ) {
     reducedSecs = reducedSecs.mul(0.75);

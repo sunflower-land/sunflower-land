@@ -191,7 +191,7 @@ export function getOrderSellPrice<T>(game: GameState, order: Order): T {
   const factionName = game.faction?.name;
   if (
     factionName &&
-    isWearableActive({ game, name: FACTION_OUTFITS[factionName]["crown"] })
+    isWearableActive({ game, name: FACTION_OUTFITS[factionName].crown })
   ) {
     mul += 0.25;
   }

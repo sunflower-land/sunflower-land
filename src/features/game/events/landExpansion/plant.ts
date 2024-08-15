@@ -399,7 +399,7 @@ export function getCropYieldAmount({
     factionName &&
     isWearableActive({
       game,
-      name: FACTION_ITEMS[factionName]["wings"],
+      name: FACTION_ITEMS[factionName].wings,
     })
   ) {
     amount += 0.25;
