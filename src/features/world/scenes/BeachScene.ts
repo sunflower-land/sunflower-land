@@ -112,7 +112,7 @@ export class BeachScene extends BaseScene {
     this.load.image("sand_hole", SUNNYSIDE.soil.sand_dug);
 
     this.load.image("wooden_chest", "world/wooden_chest.png");
-    this.load.image("rare_chest", "world/rare_chest.png");
+    this.load.image("pirate_chest", "world/pirate_chest.webp");
     this.load.image("locked_disc", "world/locked_disc.png");
     this.load.image("rare_key_disc", "world/rare_key_disc.png");
 
@@ -361,12 +361,12 @@ export class BeachScene extends BaseScene {
       this.gameService.off(listener);
     });
 
-    const pirateChest = this.add.sprite(105, 255, "rare_chest"); // Placeholder, will insert pirate chest sprite when it's ready
+    const pirateChest = this.add.sprite(105, 255, "pirate_chest"); // Placeholder, will insert pirate chest sprite when it's ready
     this.physics.world.enable(pirateChest);
     this.colliders?.add(pirateChest);
     this.triggerColliders?.add(pirateChest);
     (pirateChest.body as Phaser.Physics.Arcade.Body)
-      .setSize(17, 20)
+      .setSize(13, 16)
       .setOffset(0, 0)
       .setImmovable(true)
       .setCollideWorldBounds(true);
