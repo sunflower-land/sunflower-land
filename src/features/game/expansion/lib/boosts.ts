@@ -17,7 +17,10 @@ import { getBudExperienceBoosts } from "features/game/lib/getBudExperienceBoosts
 import { getBumpkinLevel } from "features/game/lib/level";
 import { isWearableActive } from "features/game/lib/wearables";
 import { SellableItem } from "features/game/events/landExpansion/sellCrop";
-import { getFactionPetBoostMultiplier } from "features/game/lib/factions";
+import {
+  FACTION_ITEMS,
+  getFactionPetBoostMultiplier,
+} from "features/game/lib/factions";
 
 const crops = CROPS;
 
@@ -122,6 +125,18 @@ export const getCookingTime = (
   // Luna's Hat - 50% reduction
   if (isWearableActive({ name: "Luna's Hat", game })) {
     reducedSecs = reducedSecs.mul(0.5);
+  }
+
+  //Faction Medallion -25% reduction
+  const factionName = game.faction?.name;
+  if (
+    factionName &&
+    isWearableActive({
+      game,
+      name: FACTION_ITEMS[factionName]["necklace"],
+    })
+  ) {
+    reducedSecs = reducedSecs.mul(0.75);
   }
 
   if (isCollectibleActive({ name: "Time Warp Totem", game })) {
