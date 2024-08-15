@@ -595,7 +595,7 @@ const addSFL: Record<AddSFL, string> = {
   "addSFL.referralFee":
     "Sunflower Land bu işlemi tamamlamak için %5 komisyon ücreti alır.",
   "addSFL.swapTitle": "Değiştirme Detayları",
-  "addSFL.minimumReceived": "Minimum Alınan: ",
+  "addSFL.minimumReceived": "Minimum Alınan: {{sflReceived}} SFL",
 };
 
 const auction: Record<Auction, string> = {
