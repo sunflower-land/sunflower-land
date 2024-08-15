@@ -385,6 +385,190 @@ describe("deliver", () => {
     expect(state.coins).toEqual(336);
   });
 
+  it("rewards 25% SFL when Crown is Active", () => {
+    const state = deliverOrder({
+      state: {
+        ...TEST_FARM,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          equipped: {
+            ...INITIAL_BUMPKIN.equipped,
+            hat: "Goblin Crown",
+          },
+        },
+        faction: {
+          name: "goblins",
+          pledgedAt: 0,
+          history: {},
+          points: 0,
+        },
+        inventory: {
+          "Eggplant Cake": new Decimal(1),
+        },
+        delivery: {
+          ...TEST_FARM.delivery,
+          fulfilledCount: 0,
+          orders: [
+            {
+              id: "123",
+              createdAt: 0,
+              readyAt: Date.now(),
+              from: "betty",
+              items: {
+                "Eggplant Cake": 1,
+              },
+              reward: { sfl: 320 },
+            },
+          ],
+        },
+      },
+      action: {
+        id: "123",
+        type: "order.delivered",
+      },
+    });
+
+    expect(state.balance).toEqual(new Decimal(400));
+  });
+
+  it("rewards 25% Coins when Crown is Active", () => {
+    const state = deliverOrder({
+      state: {
+        ...TEST_FARM,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          equipped: {
+            ...INITIAL_BUMPKIN.equipped,
+            hat: "Goblin Crown",
+          },
+        },
+        faction: {
+          name: "goblins",
+          pledgedAt: 0,
+          history: {},
+          points: 0,
+        },
+        inventory: {
+          "Eggplant Cake": new Decimal(1),
+        },
+        delivery: {
+          ...TEST_FARM.delivery,
+          fulfilledCount: 0,
+          orders: [
+            {
+              id: "123",
+              createdAt: 0,
+              readyAt: Date.now(),
+              from: "betty",
+              items: {
+                "Eggplant Cake": 1,
+              },
+              reward: { coins: 320 },
+            },
+          ],
+        },
+      },
+      action: {
+        id: "123",
+        type: "order.delivered",
+      },
+    });
+
+    expect(state.coins).toEqual(400);
+  });
+
+  it("Crown Boost won't apply if not in a faction", () => {
+    const state = deliverOrder({
+      state: {
+        ...TEST_FARM,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          equipped: {
+            ...INITIAL_BUMPKIN.equipped,
+            hat: "Goblin Crown",
+          },
+        },
+        faction: {
+          name: "nightshades",
+          pledgedAt: 0,
+          history: {},
+          points: 0,
+        },
+        inventory: {
+          "Eggplant Cake": new Decimal(1),
+        },
+        delivery: {
+          ...TEST_FARM.delivery,
+          fulfilledCount: 0,
+          orders: [
+            {
+              id: "123",
+              createdAt: 0,
+              readyAt: Date.now(),
+              from: "betty",
+              items: {
+                "Eggplant Cake": 1,
+              },
+              reward: { coins: 320 },
+            },
+          ],
+        },
+      },
+      action: {
+        id: "123",
+        type: "order.delivered",
+      },
+    });
+
+    expect(state.coins).toEqual(320);
+  });
+
+  it("Crown Boost won't apply if not in the right faction", () => {
+    const state = deliverOrder({
+      state: {
+        ...TEST_FARM,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          equipped: {
+            ...INITIAL_BUMPKIN.equipped,
+            hat: "Goblin Crown",
+          },
+        },
+        faction: {
+          name: "nightshades",
+          pledgedAt: 0,
+          history: {},
+          points: 0,
+        },
+        inventory: {
+          "Eggplant Cake": new Decimal(1),
+        },
+        delivery: {
+          ...TEST_FARM.delivery,
+          fulfilledCount: 0,
+          orders: [
+            {
+              id: "123",
+              createdAt: 0,
+              readyAt: Date.now(),
+              from: "betty",
+              items: {
+                "Eggplant Cake": 1,
+              },
+              reward: { coins: 320 },
+            },
+          ],
+        },
+      },
+      action: {
+        id: "123",
+        type: "order.delivered",
+      },
+    });
+
+    expect(state.coins).toEqual(320);
+  });
+
   it("rewards season tickets", () => {
     const state = deliverOrder({
       state: {

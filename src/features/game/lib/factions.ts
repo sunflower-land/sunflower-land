@@ -120,13 +120,14 @@ export function getFactionWeekday(now = Date.now()) {
   return day;
 }
 
-type OutfitPart = "hat" | "shirt" | "pants" | "shoes" | "tool";
+type OutfitPart = "crown" | "hat" | "shirt" | "pants" | "shoes" | "tool";
 
 export const FACTION_OUTFITS: Record<
   FactionName,
   Record<OutfitPart, BumpkinItem>
 > = {
   bumpkins: {
+    crown: "Bumpkin Crown",
     hat: "Bumpkin Helmet",
     shirt: "Bumpkin Armor",
     pants: "Bumpkin Pants",
@@ -134,6 +135,7 @@ export const FACTION_OUTFITS: Record<
     tool: "Bumpkin Sword",
   },
   goblins: {
+    crown: "Goblin Crown",
     hat: "Goblin Helmet",
     shirt: "Goblin Armor",
     pants: "Goblin Pants",
@@ -141,6 +143,7 @@ export const FACTION_OUTFITS: Record<
     tool: "Goblin Axe",
   },
   sunflorians: {
+    crown: "Sunflorian Crown",
     hat: "Sunflorian Helmet",
     shirt: "Sunflorian Armor",
     pants: "Sunflorian Pants",
@@ -148,6 +151,7 @@ export const FACTION_OUTFITS: Record<
     tool: "Sunflorian Sword",
   },
   nightshades: {
+    crown: "Nightshade Crown",
     hat: "Nightshade Helmet",
     shirt: "Nightshade Armor",
     pants: "Nightshade Pants",
@@ -156,6 +160,32 @@ export const FACTION_OUTFITS: Record<
   },
 };
 
+type MiscPart = "secondaryTool" | "wings" | "necklace";
+export const FACTION_ITEMS: Record<
+  FactionName,
+  Record<MiscPart, BumpkinItem>
+> = {
+  bumpkins: {
+    secondaryTool: "Bumpkin Shield",
+    wings: "Bumpkin Quiver",
+    necklace: "Bumpkin Medallion",
+  },
+  goblins: {
+    secondaryTool: "Goblin Shield",
+    wings: "Goblin Quiver",
+    necklace: "Goblin Medallion",
+  },
+  nightshades: {
+    secondaryTool: "Nightshade Shield",
+    wings: "Nightshade Quiver",
+    necklace: "Nightshade Medallion",
+  },
+  sunflorians: {
+    secondaryTool: "Sunflorian Shield",
+    wings: "Sunflorian Quiver",
+    necklace: "Sunflorian Medallion",
+  },
+};
 /**
  * Returns the total boost gained from faction wearables
  * @param game gameState
@@ -178,17 +208,26 @@ export function getFactionWearableBoostAmount(
     shoes: 0.05,
     tool: 0.1,
     hat: 0.1,
+    crown: 0.1,
     shirt: 0.2,
   };
 
   // Dynamically sets the boost based on the boost set for each wearable
-  (Object.keys(boosts) as (keyof typeof boosts)[]).forEach((wearable) => {
+  for (const wearable of Object.keys(boosts) as (keyof typeof boosts)[]) {
     const wearableName = FACTION_OUTFITS[factionName][wearable];
+
+    // Skip the crown boost if a hat is active
+    if (
+      wearable === "crown" &&
+      isWearableActive({ game, name: FACTION_OUTFITS[factionName]["hat"] })
+    ) {
+      continue;
+    }
+
     if (isWearableActive({ game, name: wearableName })) {
       boost += baseAmount * boosts[wearable];
-      boostLabels[wearableName] = `+${boosts[wearable] * 100}%`;
     }
-  });
+  }
 
   return [boost, boostLabels];
 }
