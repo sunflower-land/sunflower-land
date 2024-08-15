@@ -616,7 +616,7 @@ export const FACTION_SHOP_ITEMS: Record<FactionShopItemName, FactionShopItem> =
       limit: null,
       currency: "Mark",
       shortDescription:
-        "A magestic crown with intricate design and eerie glowing games, fit for a Bumpkin Leader. Earn 25% more in SFL and Coin deliveries. Earn +10% marks when pledged to this faction. Multiples of this item do not stack.",
+        "A magestic crown with intricate design and eerie glowing games, fit for a Bumpkin Leader. Earn 25% more in SFL and Coin deliveries. Earn 25% more in SFL and Coin deliveries, and Earn +10% marks when pledged to this faction. Multiples of this item do not stack.",
       type: "wearable",
       faction: "bumpkins",
     },
@@ -627,7 +627,7 @@ export const FACTION_SHOP_ITEMS: Record<FactionShopItemName, FactionShopItem> =
       limit: null,
       currency: "Mark",
       shortDescription:
-        "A dark, jagged crown with glowing gems, ideal for the Goblin King. Earn 25% more in SFL and Coin deliveries. Earn +10% marks when pledged to this faction. Multiples of this item do not stack.",
+        "A dark, jagged crown with glowing gems, ideal for the Goblin King. Earn 25% more in SFL and Coin deliveries. Earn 25% more in SFL and Coin deliveries, and Earn +10% marks when pledged to this faction. Multiples of this item do not stack.",
       type: "wearable",
       faction: "goblins",
     },
@@ -638,7 +638,7 @@ export const FACTION_SHOP_ITEMS: Record<FactionShopItemName, FactionShopItem> =
       limit: null,
       currency: "Mark",
       shortDescription:
-        "A midnight-black crown with deep purple and silver details, fitting for a leader whose presence commands respect and mystery. Earn 25% more in SFL and Coin deliveries. Earn +10% marks when pledged to this faction. Multiples of this item do not stack.",
+        "A midnight-black crown with deep purple and silver details, fitting for a leader whose presence commands respect and mystery. Earn 25% more in SFL and Coin deliveries, and Earn +10% marks when pledged to this faction. Multiples of this item do not stack.",
       type: "wearable",
       faction: "nightshades",
     },
@@ -649,7 +649,7 @@ export const FACTION_SHOP_ITEMS: Record<FactionShopItemName, FactionShopItem> =
       limit: null,
       currency: "Mark",
       shortDescription:
-        "A majestic crown, adorned with a radiant ruby centerpiece and golden embellishments, it evokes the grandeur and authority of a leader. Earn 25% more in SFL and Coin deliveries. Earn +10% marks when pledged to this faction. Multiples of this item do not stack.",
+        "A majestic crown, adorned with a radiant ruby centerpiece and golden embellishments, it evokes the grandeur and authority of a leader. Earn 25% more in SFL and Coin deliveries, and Earn +10% marks when pledged to this faction. Multiples of this item do not stack.",
       type: "wearable",
       faction: "sunflorians",
     },
@@ -659,7 +659,7 @@ export const FACTION_SHOP_ITEMS: Record<FactionShopItemName, FactionShopItem> =
       limit: null,
       currency: "Mark",
       shortDescription:
-        "This shield radiates with a divine blue light, symbolizing protection and justice. Wood and mineral drops increases by 0.25. Multiples of this item do not stack.",
+        "This shield radiates with a divine blue light, symbolizing protection and justice. Wood and mineral drops increases by 0.25 when pledged to this faction. Multiples of this item do not stack.",
       type: "wearable",
       faction: "bumpkins",
     },
@@ -669,7 +669,7 @@ export const FACTION_SHOP_ITEMS: Record<FactionShopItemName, FactionShopItem> =
       limit: null,
       currency: "Mark",
       shortDescription:
-        "This shield is built for Goblin warriors who thrive in the heat of battle. Wood and mineral drops increases by 0.25. Multiples of this item do not stack.",
+        "This shield is built for Goblin warriors who thrive in the heat of battle. Wood and mineral drops increases by 0.25 when pledged to this faction. Multiples of this item do not stack.",
       type: "wearable",
       faction: "goblins",
     },
@@ -679,7 +679,7 @@ export const FACTION_SHOP_ITEMS: Record<FactionShopItemName, FactionShopItem> =
       limit: null,
       currency: "Mark",
       shortDescription:
-        "The shield’s surface is a deep, shadowy black feathers with intricate violet accents that pulse with ominous energy. Wood and mineral drops increases by 0.25. Multiples of this item do not stack.",
+        "The shield’s surface is a deep, shadowy black feathers with intricate violet accents that pulse with ominous energy. Wood and mineral drops increases by 0.25 when pledged to this faction. Multiples of this item do not stack.",
       type: "wearable",
       faction: "nightshades",
     },
@@ -689,7 +689,7 @@ export const FACTION_SHOP_ITEMS: Record<FactionShopItemName, FactionShopItem> =
       limit: null,
       currency: "Mark",
       shortDescription:
-        "A symbol of divine authority, the Sunflorian Shield is reserved for only the most noble of kings and queens. Wood and mineral drops increases by 0.25. Multiples of this item do not stack.",
+        "A symbol of divine authority, the Sunflorian Shield is reserved for only the most noble of kings and queens. Wood and mineral drops increases by 0.25 when pledged to this faction. Multiples of this item do not stack.",
       type: "wearable",
       faction: "sunflorians",
     },
@@ -699,7 +699,7 @@ export const FACTION_SHOP_ITEMS: Record<FactionShopItemName, FactionShopItem> =
       limit: null,
       currency: "Mark",
       shortDescription:
-        "The Bumpkin Quiver features vibrant red and blue fabrics, reinforced with iron accents that speak to the strength and resilience of the Bumpkin. Crops and fruit yield increases by 0.25. Multiples of this item do not stack.",
+        "The Bumpkin Quiver features vibrant red and blue fabrics, reinforced with iron accents that speak to the strength and resilience of the Bumpkin. Crops and fruit yield increases by 0.25 when pledged to this faction. Multiples of this item do not stack.",
       type: "wearable",
       faction: "bumpkins",
     },
@@ -709,7 +709,7 @@ export const FACTION_SHOP_ITEMS: Record<FactionShopItemName, FactionShopItem> =
       limit: null,
       currency: "Mark",
       shortDescription:
-        "Crafted from the parts of horned-beasts and stitched with Goblin ingenuity, this quiver is as rugged as it is practical. Crops and fruit yield increases by 0.25. Multiples of this item do not stack.",
+        "Crafted from the parts of horned-beasts and stitched with Goblin ingenuity, this quiver is as rugged as it is practical. Crops and fruit yield increases by 0.25 when pledged to this faction. Multiples of this item do not stack.",
       type: "wearable",
       faction: "goblins",
     },
@@ -719,7 +719,7 @@ export const FACTION_SHOP_ITEMS: Record<FactionShopItemName, FactionShopItem> =
       limit: null,
       currency: "Mark",
       shortDescription:
-        "Enigmatic and sleek, the Nightshade Quiver is bound in dark, supple leather, designed for those who harvest under the cover of darkness. Crops and fruit yield increases by 0.25. Multiples of this item do not stack.",
+        "Enigmatic and sleek, the Nightshade Quiver is bound in dark, supple leather, designed for those who harvest under the cover of darkness. Crops and fruit yield increases by 0.25 when pledged to this faction. Multiples of this item do not stack.",
       type: "wearable",
       faction: "nightshades",
     },
@@ -729,7 +729,7 @@ export const FACTION_SHOP_ITEMS: Record<FactionShopItemName, FactionShopItem> =
       limit: null,
       currency: "Mark",
       shortDescription:
-        "The Sunflorian Quiver, crafted from luxurious cream-colored fabric and adorned with gleaming gold accents, is a symbol of royal grace and divine blessing. Crops and fruit yield increases by 0.25. Multiples of this item do not stack.",
+        "The Sunflorian Quiver, crafted from luxurious cream-colored fabric and adorned with gleaming gold accents, is a symbol of royal grace and divine blessing. Crops and fruit yield increases by 0.25 when pledged to this faction. Multiples of this item do not stack.",
       type: "wearable",
       faction: "sunflorians",
     },
@@ -739,7 +739,7 @@ export const FACTION_SHOP_ITEMS: Record<FactionShopItemName, FactionShopItem> =
       limit: null,
       currency: "Mark",
       shortDescription:
-        "This sturdy medallion, crafted from iron and adorned with blue gem, is beloved by Bumpkins. Enhances cooking speed by 25%. Multiples of this item do not stack.",
+        "This sturdy medallion, crafted from iron and adorned with blue gem, is beloved by Bumpkins. Enhances cooking speed by 25% when pledged to this faction. Multiples of this item do not stack.",
       type: "wearable",
       faction: "bumpkins",
     },
@@ -749,7 +749,7 @@ export const FACTION_SHOP_ITEMS: Record<FactionShopItemName, FactionShopItem> =
       limit: null,
       currency: "Mark",
       shortDescription:
-        "Favored by Goblins for its efficiency, it helps you prepare meals at lightning speed, just like their ingenious contraptions and creations. Enhances cooking speed by 25%. Multiples of this item do not stack.",
+        "Favored by Goblins for its efficiency, it helps you prepare meals at lightning speed, just like their ingenious contraptions and creations. Enhances cooking speed by 25% when pledged to this faction. Multiples of this item do not stack.",
       type: "wearable",
       faction: "goblins",
     },
@@ -759,7 +759,7 @@ export const FACTION_SHOP_ITEMS: Record<FactionShopItemName, FactionShopItem> =
       limit: null,
       currency: "Mark",
       shortDescription:
-        "This medallion channels the Nightshade's secretive allure and their skill in crafting refined and exotic dishes swiftly. Enhances cooking speed by 25%. Multiples of this item do not stack.",
+        "This medallion channels the Nightshade's secretive allure and their skill in crafting refined and exotic dishes swiftly. Enhances cooking speed by 25% when pledged to this faction. Multiples of this item do not stack.",
       type: "wearable",
       faction: "nightshades",
     },
@@ -769,7 +769,7 @@ export const FACTION_SHOP_ITEMS: Record<FactionShopItemName, FactionShopItem> =
       limit: null,
       currency: "Mark",
       shortDescription:
-        "This medallion embody the Sunflorians' blend of warmth and efficiency, ensuring your culinary creations are prepared with grace and swiftness. Enhances cooking speed by 25%. Multiples of this item do not stack.",
+        "This medallion embody the Sunflorians' blend of warmth and efficiency, ensuring your culinary creations are prepared with grace and swiftness. Enhances cooking speed by 25% when pledged to this faction. Multiples of this item do not stack.",
       type: "wearable",
       faction: "sunflorians",
     },
