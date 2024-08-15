@@ -177,18 +177,25 @@ export const PirateChestModal: React.FC<Props> = ({
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 
-  const closeModal = () => {
-    isPicking ||
-    (isRevealing &&
-      (gameState.matches("revealing") || gameState.matches("revealed")))
-      ? undefined
-      : onClose;
-  };
-
   return (
-    <Modal show={show} onHide={closeModal}>
+    <Modal
+      show={show}
+      onHide={
+        isPicking ||
+        (isRevealing &&
+          (gameState.matches("revealing") || gameState.matches("revealed")))
+          ? undefined
+          : onClose
+      }
+    >
       <CloseButtonPanel
-        onClose={closeModal}
+        onClose={
+          isPicking ||
+          (isRevealing &&
+            (gameState.matches("revealing") || gameState.matches("revealed")))
+            ? undefined
+            : onClose
+        }
         bumpkinParts={NPC_WEARABLES["old salty"]}
         tabs={[
           {
