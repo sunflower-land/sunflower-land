@@ -13,6 +13,7 @@ import { AuctionsComingSoon } from "./AuctionsComingSoon";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { getImageUrl } from "lib/utils/getImageURLS";
 import classNames from "classnames";
+import { isMobile } from "mobile-device-detect";
 
 interface Props {
   auctionService: MachineInterpreter;
@@ -48,14 +49,16 @@ export const Auctions: React.FC<Props> = ({ auctionService, onSelect }) => {
             onClick={() => onSelect(auction.auctionId)}
             className="w-full cursor-pointer hover:bg-brown-300 !p-2 relative flex mb-1"
           >
-            <Label
-              type={auction.type === "collectible" ? "warning" : "vibrant"}
-              className="absolute top-1 right-1 z-30"
-            >
-              {auction.type === "collectible"
-                ? t("collectible")
-                : t("wearable")}
-            </Label>
+            {!isMobile && (
+              <Label
+                type={auction.type === "collectible" ? "warning" : "vibrant"}
+                className="absolute top-1 right-1 z-30"
+              >
+                {auction.type === "collectible"
+                  ? t("collectible")
+                  : t("wearable")}
+              </Label>
+            )}
             <div className="relative w-20 h-20 flex items-center justify-center mr-2">
               <img
                 src={SUNNYSIDE.ui.grey_background}

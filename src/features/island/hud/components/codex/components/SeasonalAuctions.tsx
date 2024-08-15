@@ -29,6 +29,7 @@ import { Label } from "components/ui/Label";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
 import { TimerDisplay } from "features/retreat/components/auctioneer/AuctionDetails";
 import { ModalOverlay } from "components/ui/ModalOverlay";
+import { isMobile } from "mobile-device-detect";
 
 type AuctionDetail = {
   supply: number;
@@ -391,9 +392,11 @@ export const SeasonalAuctions: React.FC<Props> = ({ farmId, gameState }) => {
                       )}
                     </div>
                     <div className="absolute top-0 right-0 flex space-x-2">
-                      <Label type={isCollectible ? "warning" : "vibrant"}>
-                        {isCollectible ? t("collectible") : t("wearable")}
-                      </Label>
+                      {!isMobile && (
+                        <Label type={isCollectible ? "warning" : "vibrant"}>
+                          {isCollectible ? t("collectible") : t("wearable")}
+                        </Label>
+                      )}
                       {remainingLeft === 0 ? (
                         <Label type="danger">{t("season.codex.soldOut")}</Label>
                       ) : remainingLeft <= 50 ? (
