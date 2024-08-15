@@ -29,6 +29,7 @@ import { Label } from "components/ui/Label";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
 import { TimerDisplay } from "features/retreat/components/auctioneer/AuctionDetails";
 import { ModalOverlay } from "components/ui/ModalOverlay";
+import { isMobile } from "mobile-device-detect";
 
 type AuctionDetail = {
   supply: number;
@@ -178,15 +179,23 @@ const Drops: React.FC<{
     <>
       <div className="p-1">
         <p className="text-sm mb-1">{name}</p>
+        <Label type="default" className="mt-1 mb-1">
+          {detail.type === "collectible" ? t("collectible") : t("wearable")}
+        </Label>
         {buffLabel ? (
           <div className="flex">
             <img src={lightning} className="h-4 mr-0.5" />
             <p className="text-xs">{buffLabel.shortDescription}</p>
           </div>
+        ) : detail.type === "collectible" ? (
+          <div className="flex">
+            <img src={SUNNYSIDE.icons.heart} className="h-4 mr-0.5" />
+            <p className="text-xs">{t("decoration")}</p>
+          </div>
         ) : (
           <div className="flex">
             <img src={SUNNYSIDE.icons.heart} className="h-4 mr-0.5" />
-            <p className="text-xs">{t("collectibles")}</p>
+            <p className="text-xs">{t("cosmetic")}</p>
           </div>
         )}
       </div>
@@ -324,16 +333,15 @@ export const SeasonalAuctions: React.FC<Props> = ({ farmId, gameState }) => {
           <div className="flex flex-col -mx-1">
             {getKeys(auctionItems).map((name) => {
               const details = auctionItems[name];
+              const isCollectible = details.type === "collectible";
 
-              const image =
-                details.type === "collectible"
-                  ? ITEM_DETAILS[name as CollectibleName].image
-                  : getImageUrl(ITEM_IDS[name as BumpkinItem]);
+              const image = isCollectible
+                ? ITEM_DETAILS[name as CollectibleName].image
+                : getImageUrl(ITEM_IDS[name as BumpkinItem]);
 
-              const buffLabel =
-                details.type === "collectible"
-                  ? COLLECTIBLE_BUFF_LABELS[name as CollectibleName]
-                  : BUMPKIN_ITEM_BUFF_LABELS[name as BumpkinItem];
+              const buffLabel = isCollectible
+                ? COLLECTIBLE_BUFF_LABELS[name as CollectibleName]
+                : BUMPKIN_ITEM_BUFF_LABELS[name as BumpkinItem];
 
               const remainingAuctions = details.auctions.filter(
                 (auction) => auction.startAt > Date.now(),
@@ -362,17 +370,30 @@ export const SeasonalAuctions: React.FC<Props> = ({ farmId, gameState }) => {
                             {buffLabel.shortDescription}
                           </p>
                         </div>
+                      ) : isCollectible ? (
+                        <div className="flex">
+                          <img
+                            src={SUNNYSIDE.icons.heart}
+                            className="h-4 mr-0.5"
+                          />
+                          <p className="text-xs">{t("decoration")}</p>
+                        </div>
                       ) : (
                         <div className="flex">
                           <img
                             src={SUNNYSIDE.icons.heart}
                             className="h-4 mr-0.5"
                           />
-                          <p className="text-xs">{t("collectibles")}</p>
+                          <p className="text-xs">{t("cosmetic")}</p>
                         </div>
                       )}
                     </div>
-                    <div className="absolute top-0 right-0">
+                    <div className="absolute top-0 right-0 flex space-x-2">
+                      {!isMobile && (
+                        <Label type="default">
+                          {isCollectible ? t("collectible") : t("wearable")}
+                        </Label>
+                      )}
                       {remainingLeft === 0 ? (
                         <Label type="danger">{t("season.codex.soldOut")}</Label>
                       ) : remainingLeft <= 50 ? (

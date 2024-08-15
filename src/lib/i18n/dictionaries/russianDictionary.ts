@@ -439,6 +439,10 @@ const generalTerms: Record<GeneralTerms, string> = {
   vipAccess: "VIP-доступ",
   bought: "Купил",
   "sell.amount": "Продать {{amount}}",
+  collectible: ENGLISH_TERMS.collectible,
+  wearable: ENGLISH_TERMS.wearable,
+  cosmetic: ENGLISH_TERMS.cosmetic,
+  decoration: ENGLISH_TERMS.decoration,
 };
 
 const timeUnits: Record<TimeUnits, string> = {
