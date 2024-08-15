@@ -2234,6 +2234,147 @@ describe("getCropYield", () => {
     expect((plots as Record<number, CropPlot>)[0].crop?.amount).toEqual(4);
   });
 
+  it("yields +0.25 when wearing Faction Quiver", () => {
+    const state = plant({
+      state: {
+        ...GAME_STATE,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          equipped: {
+            ...INITIAL_BUMPKIN.equipped,
+            wings: "Goblin Quiver",
+          },
+        },
+        faction: {
+          name: "goblins",
+          pledgedAt: 0,
+          history: {},
+          points: 0,
+        },
+        inventory: {
+          "Sunflower Seed": new Decimal(1),
+          "Water Well": new Decimal(1),
+        },
+        crops: {
+          0: {
+            createdAt: Date.now(),
+            height: 1,
+            width: 1,
+            x: 0,
+            y: -2,
+          },
+        },
+        collectibles: {},
+      },
+      action: {
+        type: "seed.planted",
+        cropId: "1",
+        index: "0",
+
+        item: "Sunflower Seed",
+      },
+      createdAt: Date.now(),
+    });
+
+    const plots = state.crops;
+
+    expect(plots).toBeDefined();
+
+    expect((plots as Record<number, CropPlot>)[0].crop?.amount).toEqual(1.25);
+  });
+
+  it("boosts of Faction Quiver wont apply when pledged in different faction", () => {
+    const state = plant({
+      state: {
+        ...GAME_STATE,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          equipped: {
+            ...INITIAL_BUMPKIN.equipped,
+            wings: "Goblin Quiver",
+          },
+        },
+        faction: {
+          name: "nightshades",
+          pledgedAt: 0,
+          history: {},
+          points: 0,
+        },
+        inventory: {
+          "Sunflower Seed": new Decimal(1),
+          "Water Well": new Decimal(1),
+        },
+        crops: {
+          0: {
+            createdAt: Date.now(),
+            height: 1,
+            width: 1,
+            x: 0,
+            y: -2,
+          },
+        },
+        collectibles: {},
+      },
+      action: {
+        type: "seed.planted",
+        cropId: "1",
+        index: "0",
+
+        item: "Sunflower Seed",
+      },
+      createdAt: Date.now(),
+    });
+
+    const plots = state.crops;
+
+    expect(plots).toBeDefined();
+
+    expect((plots as Record<number, CropPlot>)[0].crop?.amount).toEqual(1);
+  });
+
+  it("boosts of Faction Quiver wont apply when not pledged in a faction", () => {
+    const state = plant({
+      state: {
+        ...GAME_STATE,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          equipped: {
+            ...INITIAL_BUMPKIN.equipped,
+            wings: "Goblin Quiver",
+          },
+        },
+        inventory: {
+          "Sunflower Seed": new Decimal(1),
+          "Water Well": new Decimal(1),
+        },
+        crops: {
+          0: {
+            createdAt: Date.now(),
+            height: 1,
+            width: 1,
+            x: 0,
+            y: -2,
+          },
+        },
+        collectibles: {},
+      },
+      action: {
+        type: "seed.planted",
+        cropId: "1",
+        index: "0",
+
+        item: "Sunflower Seed",
+      },
+      createdAt: Date.now(),
+    });
+
+    const plots = state.crops;
+
+    expect(plots).toBeDefined();
+
+    expect((plots as Record<number, CropPlot>)[0].crop?.amount).toEqual(1);
+  });
+
   it("yields +0.2 Carrots when Lab Grown Carrot is placed", () => {
     const state = plant({
       state: {

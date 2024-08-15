@@ -23,6 +23,7 @@ import { FruitCompostName } from "features/game/types/composters";
 import { getPlantedAt } from "./fruitPlanted";
 import { isWearableActive } from "features/game/lib/wearables";
 import { isGreenhouseFruit } from "./plantGreenhouse";
+import { FACTION_ITEMS } from "features/game/lib/factions";
 
 export type HarvestFruitAction = {
   type: "fruit.harvested";
@@ -107,6 +108,18 @@ export function getFruitYield({ name, game, fertiliser }: FruitYield) {
     isWearableActive({ name: "Fruit Picker Apron", game })
   ) {
     amount += 0.1;
+  }
+
+  //Faction Quiver
+  const factionName = game.faction?.name;
+  if (
+    factionName &&
+    isWearableActive({
+      game,
+      name: FACTION_ITEMS[factionName]["wings"],
+    })
+  ) {
+    amount += 0.25;
   }
 
   if (fertiliser === "Fruitful Blend") {
