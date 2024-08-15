@@ -22,11 +22,6 @@
         "type": "address"
       },
       {
-        "internalType": "contract SunflowerLandTrader",
-        "name": "_trader",
-        "type": "address"
-      },
-      {
         "internalType": "contract BumpkinWearables",
         "name": "_bumpkinWearables",
         "type": "address"
@@ -34,16 +29,6 @@
       {
         "internalType": "address",
         "name": "_syncFeeWallet",
-        "type": "address"
-      },
-      {
-        "internalType": "address",
-        "name": "_communityTreasury",
-        "type": "address"
-      },
-      {
-        "internalType": "address",
-        "name": "_tradeFeeWallet",
         "type": "address"
       },
       { "internalType": "address", "name": "_signer", "type": "address" }
@@ -105,34 +90,6 @@
     "type": "function"
   },
   {
-    "inputs": [
-      {
-        "components": [
-          { "internalType": "uint256", "name": "mintId", "type": "uint256" },
-          { "internalType": "uint256", "name": "maxSupply", "type": "uint256" },
-          {
-            "internalType": "uint256",
-            "name": "cooldownSeconds",
-            "type": "uint256"
-          },
-          { "internalType": "bool", "name": "enabled", "type": "bool" },
-          {
-            "internalType": "uint256",
-            "name": "releaseDate",
-            "type": "uint256"
-          }
-        ],
-        "internalType": "struct SunflowerLandGame.Recipe[]",
-        "name": "_recipes",
-        "type": "tuple[]"
-      }
-    ],
-    "name": "addRecipeBatch",
-    "outputs": [{ "internalType": "bool[]", "name": "", "type": "bool[]" }],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
     "inputs": [],
     "name": "bumpkinWearables",
     "outputs": [
@@ -143,20 +100,6 @@
       }
     ],
     "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      { "internalType": "bytes", "name": "signature", "type": "bytes" },
-      { "internalType": "bytes32", "name": "sessionId", "type": "bytes32" },
-      { "internalType": "bytes32", "name": "nextSessionId", "type": "bytes32" },
-      { "internalType": "uint256", "name": "deadline", "type": "uint256" },
-      { "internalType": "uint256", "name": "farmId", "type": "uint256" },
-      { "internalType": "uint256", "name": "listingId", "type": "uint256" }
-    ],
-    "name": "cancelTrade",
-    "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
-    "stateMutability": "nonpayable",
     "type": "function"
   },
   {
@@ -230,76 +173,6 @@
     "type": "function"
   },
   {
-    "inputs": [
-      { "internalType": "uint256", "name": "farmId", "type": "uint256" },
-      { "internalType": "uint256[]", "name": "mintIds", "type": "uint256[]" }
-    ],
-    "name": "getMintedAtBatch",
-    "outputs": [
-      { "internalType": "uint256[]", "name": "", "type": "uint256[]" }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [{ "internalType": "uint256", "name": "id", "type": "uint256" }],
-    "name": "getRecipe",
-    "outputs": [
-      {
-        "components": [
-          { "internalType": "uint256", "name": "mintId", "type": "uint256" },
-          { "internalType": "uint256", "name": "maxSupply", "type": "uint256" },
-          {
-            "internalType": "uint256",
-            "name": "cooldownSeconds",
-            "type": "uint256"
-          },
-          { "internalType": "bool", "name": "enabled", "type": "bool" },
-          {
-            "internalType": "uint256",
-            "name": "releaseDate",
-            "type": "uint256"
-          }
-        ],
-        "internalType": "struct SunflowerLandGame.Recipe",
-        "name": "",
-        "type": "tuple"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      { "internalType": "uint256[]", "name": "ids", "type": "uint256[]" }
-    ],
-    "name": "getRecipeBatch",
-    "outputs": [
-      {
-        "components": [
-          { "internalType": "uint256", "name": "mintId", "type": "uint256" },
-          { "internalType": "uint256", "name": "maxSupply", "type": "uint256" },
-          {
-            "internalType": "uint256",
-            "name": "cooldownSeconds",
-            "type": "uint256"
-          },
-          { "internalType": "bool", "name": "enabled", "type": "bool" },
-          {
-            "internalType": "uint256",
-            "name": "releaseDate",
-            "type": "uint256"
-          }
-        ],
-        "internalType": "struct SunflowerLandGame.Recipe[]",
-        "name": "",
-        "type": "tuple[]"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
     "inputs": [],
     "name": "inventory",
     "outputs": [
@@ -313,71 +186,10 @@
     "type": "function"
   },
   {
-    "inputs": [
-      { "internalType": "bytes", "name": "signature", "type": "bytes" },
-      { "internalType": "bytes32", "name": "sessionId", "type": "bytes32" },
-      { "internalType": "bytes32", "name": "nextSessionId", "type": "bytes32" },
-      { "internalType": "uint256", "name": "deadline", "type": "uint256" },
-      { "internalType": "uint256", "name": "slotId", "type": "uint256" },
-      { "internalType": "uint256", "name": "farmId", "type": "uint256" },
-      { "internalType": "uint256", "name": "resourceId", "type": "uint256" },
-      {
-        "internalType": "uint256",
-        "name": "resourceAmount",
-        "type": "uint256"
-      },
-      { "internalType": "uint256", "name": "sfl", "type": "uint256" },
-      { "internalType": "uint256", "name": "tax", "type": "uint256" },
-      { "internalType": "uint256", "name": "listFee", "type": "uint256" }
-    ],
-    "name": "listTrade",
-    "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
-    "stateMutability": "payable",
-    "type": "function"
-  },
-  {
     "inputs": [],
     "name": "mintAllowance",
     "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
     "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      { "internalType": "bytes", "name": "signature", "type": "bytes" },
-      { "internalType": "bytes32", "name": "sessionId", "type": "bytes32" },
-      { "internalType": "bytes32", "name": "nextSessionId", "type": "bytes32" },
-      { "internalType": "uint256", "name": "deadline", "type": "uint256" },
-      { "internalType": "uint256", "name": "farmId", "type": "uint256" },
-      { "internalType": "uint256", "name": "mintFee", "type": "uint256" },
-      {
-        "components": [
-          { "internalType": "uint256", "name": "mintId", "type": "uint256" },
-          { "internalType": "uint256", "name": "supply", "type": "uint256" },
-          {
-            "internalType": "uint256[]",
-            "name": "ingredientIds",
-            "type": "uint256[]"
-          },
-          {
-            "internalType": "uint256[]",
-            "name": "ingredientAmounts",
-            "type": "uint256[]"
-          },
-          {
-            "internalType": "uint256",
-            "name": "tokenAmount",
-            "type": "uint256"
-          }
-        ],
-        "internalType": "struct SunflowerLandGame.MintData",
-        "name": "mintData",
-        "type": "tuple"
-      }
-    ],
-    "name": "mintCollectible",
-    "outputs": [{ "internalType": "bool", "name": "success", "type": "bool" }],
-    "stateMutability": "payable",
     "type": "function"
   },
   {
@@ -396,34 +208,10 @@
   },
   {
     "inputs": [
-      { "internalType": "bytes", "name": "signature", "type": "bytes" },
-      { "internalType": "bytes32", "name": "sessionId", "type": "bytes32" },
-      { "internalType": "bytes32", "name": "nextSessionId", "type": "bytes32" },
-      { "internalType": "uint256", "name": "deadline", "type": "uint256" },
-      { "internalType": "uint256", "name": "farmId", "type": "uint256" },
-      { "internalType": "uint256", "name": "listingId", "type": "uint256" },
-      { "internalType": "uint256", "name": "sfl", "type": "uint256" }
-    ],
-    "name": "purchaseTrade",
-    "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
       { "internalType": "address", "name": "_game", "type": "address" }
     ],
     "name": "removeGameRole",
     "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      { "internalType": "uint256[]", "name": "ids", "type": "uint256[]" }
-    ],
-    "name": "removeRecipeBatch",
-    "outputs": [{ "internalType": "bool[]", "name": "", "type": "bool[]" }],
     "stateMutability": "nonpayable",
     "type": "function"
   },
@@ -452,19 +240,6 @@
     "name": "sessions",
     "outputs": [{ "internalType": "bytes32", "name": "", "type": "bytes32" }],
     "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "_communityTreasury",
-        "type": "address"
-      }
-    ],
-    "name": "setCommunityTreasuy",
-    "outputs": [],
-    "stateMutability": "nonpayable",
     "type": "function"
   },
   {
@@ -501,30 +276,6 @@
       { "internalType": "uint256", "name": "_amount", "type": "uint256" }
     ],
     "name": "setMintAllowance",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      { "internalType": "uint256[]", "name": "_farmIds", "type": "uint256[]" },
-      { "internalType": "uint256", "name": "_mintId", "type": "uint256" },
-      { "internalType": "uint256", "name": "_mintedAt", "type": "uint256" }
-    ],
-    "name": "setMintedAtBulk",
-    "outputs": [{ "internalType": "bool[]", "name": "", "type": "bool[]" }],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "contract SunflowerLandTrader",
-        "name": "_trader",
-        "type": "address"
-      }
-    ],
-    "name": "setTrader",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -575,6 +326,16 @@
                 "name": "wearableAmounts",
                 "type": "uint256[]"
               },
+              {
+                "internalType": "uint256[]",
+                "name": "wearableBurnIds",
+                "type": "uint256[]"
+              },
+              {
+                "internalType": "uint256[]",
+                "name": "wearableBurnAmounts",
+                "type": "uint256[]"
+              },
               { "internalType": "int256", "name": "tokens", "type": "int256" }
             ],
             "internalType": "struct SunflowerLandGame.ProgressData",
@@ -613,19 +374,6 @@
     "type": "function"
   },
   {
-    "inputs": [],
-    "name": "trader",
-    "outputs": [
-      {
-        "internalType": "contract SunflowerLandTrader",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
     "inputs": [
       { "internalType": "address", "name": "newOwner", "type": "address" }
     ],
@@ -648,15 +396,6 @@
       { "internalType": "address", "name": "_team", "type": "address" }
     ],
     "name": "transferSyncFeeWallet",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      { "internalType": "address", "name": "_wallet", "type": "address" }
-    ],
-    "name": "transferTradeFeeWallet",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"

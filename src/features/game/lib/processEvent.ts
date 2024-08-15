@@ -360,7 +360,7 @@ export function checkProgress({ state, action, farmId }: ProcessEventArgs): {
 
     Object.entries(items).forEach(([itemName, amount]) => {
       listedItems[itemName as InventoryItemName] =
-        (listedItems[itemName as InventoryItemName] ?? 0) + amount;
+        (listedItems[itemName as InventoryItemName] ?? 0) + Number(amount);
     });
   });
 

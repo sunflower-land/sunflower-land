@@ -42,7 +42,7 @@ export const AuctionLeaderboardTable: React.FC<{
                 style={{ border: "1px solid #b96f50", textAlign: "left" }}
                 className="p-1.5"
               >
-                <p>{t("farm")}</p>
+                <p>{t("player")}</p>
               </th>
               <th
                 style={{ border: "1px solid #b96f50", textAlign: "left" }}
@@ -70,31 +70,32 @@ export const AuctionLeaderboardTable: React.FC<{
               >
                 {toOrdinalSuffix(result.rank)}
               </td>
-              <td
-                style={{ border: "1px solid #b96f50" }}
-                className="p-1.5 flex flex-wrap"
-              >
-                {result.farmId}
+              <td style={{ border: "1px solid #b96f50" }} className="p-1.5">
+                <div className="flex flex-wrap">
+                  {result.username ?? result.farmId}
+                </div>
               </td>
               <td
                 style={{ border: "1px solid #b96f50" }}
                 className="p-1.5 w-2/5"
               >
-                {result.sfl > 0 && (
-                  <div className="flex w-16">
-                    <img src={sflIcon} className="h-4 mr-0.5" />
-                    <span className="text-xs">{result.sfl}</span>
-                  </div>
-                )}
-                {getKeys(result.items).map((name) => (
-                  <div className="flex w-16" key={name}>
-                    <img
-                      src={ITEM_DETAILS[name].image}
-                      className="h-4 mr-0.5"
-                    />
-                    <span className="text-xs">{result.items[name]}</span>
-                  </div>
-                ))}
+                <div className="flex space-x-1 flex-wrap space-y-1">
+                  {result.sfl > 0 && (
+                    <div className="flex w-16 items-center">
+                      <img src={sflIcon} className="h-4 mr-0.5" />
+                      <span className="text-xs">{result.sfl}</span>
+                    </div>
+                  )}
+                  {getKeys(result.items).map((name) => (
+                    <div className="flex w-16 items-center" key={name}>
+                      <img
+                        src={ITEM_DETAILS[name].image}
+                        className="h-4 mr-0.5"
+                      />
+                      <span className="text-xs">{result.items[name]}</span>
+                    </div>
+                  ))}
+                </div>
               </td>
             </tr>
           ))}

@@ -2,21 +2,36 @@ import { CropName } from "features/game/types/crops";
 import { getKeys } from "features/game/types/craftables";
 import { CONFIG } from "lib/config";
 
+import sunflowerProc from "assets/crops/sunflower/proc_sprite.png";
+import potatoProc from "assets/crops/potato/proc_sprite.png";
+import pumpkinProc from "assets/crops/pumpkin/proc_sprite.png";
+import carrotProc from "assets/crops/carrot/proc_sprite.png";
+import cabbageProc from "assets/crops/cabbage/proc_sprite.png";
+import beetrootProc from "assets/crops/beetroot/proc_sprite.png";
+import cauliflowerProc from "assets/crops/cauliflower/proc_sprite.png";
+import parsnipProc from "assets/crops/parsnip/proc_sprite.png";
+import eggplantProc from "assets/crops/eggplant/proc_sprite.png";
+import cornProc from "assets/crops/corn/proc_sprite.png";
+import radishProc from "assets/crops/radish/proc_sprite.png";
+import wheatProc from "assets/crops/wheat/proc_sprite.png";
+import kaleProc from "assets/crops/kale/proc_sprite.png";
+import soybeanProc from "assets/crops/soybean/proc_sprite.png";
+
 const HARVEST_PROC_SPRITES: Record<CropName, any> = {
-  Sunflower: "assets/crops/sunflower/proc_sprite.png",
-  Potato: "assets/crops/potato/proc_sprite.png",
-  Pumpkin: "assets/crops/pumpkin/proc_sprite.png",
-  Carrot: "assets/crops/carrot/proc_sprite.png",
-  Cabbage: "assets/crops/cabbage/proc_sprite.png",
-  Beetroot: "assets/crops/beetroot/proc_sprite.png",
-  Cauliflower: "assets/crops/cauliflower/proc_sprite.png",
-  Parsnip: "assets/crops/parsnip/proc_sprite.png",
-  Eggplant: "assets/crops/eggplant/proc_sprite.png",
-  Corn: "assets/crops/corn/proc_sprite.png",
-  Radish: "assets/crops/radish/proc_sprite.png",
-  Wheat: "assets/crops/wheat/proc_sprite.png",
-  Kale: "assets/crops/kale/proc_sprite.png",
-  Soybean: "assets/crops/soybean/proc_sprite.png",
+  Sunflower: sunflowerProc,
+  Potato: potatoProc,
+  Pumpkin: pumpkinProc,
+  Carrot: carrotProc,
+  Cabbage: cabbageProc,
+  Beetroot: beetrootProc,
+  Cauliflower: cauliflowerProc,
+  Parsnip: parsnipProc,
+  Eggplant: eggplantProc,
+  Corn: cornProc,
+  Radish: radishProc,
+  Wheat: wheatProc,
+  Kale: kaleProc,
+  Soybean: soybeanProc,
 };
 
 export const HARVEST_PROC_ANIMATION = {

@@ -206,7 +206,7 @@ export class PlazaScene extends BaseScene {
     this.load.image("tomato_bombard", "world/tomato_bombard.gif");
     this.load.image("rice_panda", "world/rice_panda.webp");
 
-    this.load.image("non_la", "world/non_la.webp");
+    this.load.image("explorer_hat", "world/explorer_hat.png");
 
     this.load.image("faction_banner", "world/clash_of_factions_banner.webp");
     this.load.image("pharaoh_banner", "world/pharaohs_treasure_banner.webp");
@@ -287,6 +287,14 @@ export class PlazaScene extends BaseScene {
 
     // Sprites
     const basicChest = this.add.sprite(106, 160, "basic_chest");
+    this.physics.world.enable(basicChest);
+    this.colliders?.add(basicChest);
+    this.triggerColliders?.add(basicChest);
+    (basicChest.body as Phaser.Physics.Arcade.Body)
+      .setSize(17, 20)
+      .setOffset(0, 0)
+      .setImmovable(true)
+      .setCollideWorldBounds(true);
     basicChest.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
       if (this.checkDistanceToSprite(basicChest, 75)) {
         interactableModalManager.open("basic_chest");
@@ -296,6 +304,14 @@ export class PlazaScene extends BaseScene {
     });
 
     const luxuryChest = this.add.sprite(825, 70, "luxury_chest");
+    this.physics.world.enable(luxuryChest);
+    this.colliders?.add(luxuryChest);
+    this.triggerColliders?.add(luxuryChest);
+    (luxuryChest.body as Phaser.Physics.Arcade.Body)
+      .setSize(17, 20)
+      .setOffset(0, 0)
+      .setImmovable(true)
+      .setCollideWorldBounds(true);
     luxuryChest.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
       if (this.checkDistanceToSprite(luxuryChest, 75)) {
         interactableModalManager.open("luxury_chest");
@@ -452,7 +468,7 @@ export class PlazaScene extends BaseScene {
       this.add.image(248, 244, "rice_panda");
     }
 
-    this.add.image(288.5, 248, "non_la");
+    this.add.image(288.5, 248, "explorer_hat");
 
     const door = this.colliders
       ?.getChildren()

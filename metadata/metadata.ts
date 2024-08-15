@@ -14017,4 +14017,372 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
     image: "../public/wearables/images/375.png",
     name: "Fossil Head",
   },
+  "Bumpkin Crown": {
+    description:
+      "A magestic crown with intricate design and eerie glowing games, fit for a Bumpkin Leader. Earn 25% more in SFL and Coin deliveries. Earn +10% marks when pledged to this faction. Multiples of this item do not stack.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Hat" },
+      { trait_type: "Tradable", value: "No" },
+      {
+        display_type: "boost_percentage",
+        trait_type: "Increase SFL gained from deliveries",
+        value: 25,
+      },
+      {
+        display_type: "boost_percentage",
+        trait_type: "Increase Coins gained from deliveries",
+        value: 25,
+      },
+      {
+        display_type: "boost_percentage",
+        trait_type: "Increase Marks gained",
+        value: 10,
+      },
+      { trait_type: "Boost", value: "Other" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/376.png",
+    name: "Bumpkin Crown",
+  },
+  "Goblin Crown": {
+    description:
+      "A dark, jagged crown with glowing gems, ideal for the Goblin King. Earn 25% more in SFL and Coin deliveries. Earn +10% marks when pledged to this faction. Multiples of this item do not stack.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Hat" },
+      { trait_type: "Tradable", value: "No" },
+      {
+        display_type: "boost_percentage",
+        trait_type: "Increase SFL gained from deliveries",
+        value: 25,
+      },
+      {
+        display_type: "boost_percentage",
+        trait_type: "Increase Coins gained from deliveries",
+        value: 25,
+      },
+      {
+        display_type: "boost_percentage",
+        trait_type: "Increase Marks gained",
+        value: 10,
+      },
+      { trait_type: "Boost", value: "Other" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/377.png",
+    name: "Goblin Crown",
+  },
+  "Nightshade Crown": {
+    description:
+      "A midnight-black crown with deep purple and silver details, fitting for a leader whose presence commands respect and mystery. Earn 25% more in SFL and Coin deliveries. Earn +10% marks when pledged to this faction. Multiples of this item do not stack.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Hat" },
+      { trait_type: "Tradable", value: "No" },
+      {
+        display_type: "boost_percentage",
+        trait_type: "Increase SFL gained from deliveries",
+        value: 25,
+      },
+      {
+        display_type: "boost_percentage",
+        trait_type: "Increase Coins gained from deliveries",
+        value: 25,
+      },
+      {
+        display_type: "boost_percentage",
+        trait_type: "Increase Marks gained",
+        value: 10,
+      },
+      { trait_type: "Boost", value: "Other" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/378.png",
+    name: "Nightshade Crown",
+  },
+  "Sunflorian Crown": {
+    description:
+      "A majestic crown, adorned with a radiant ruby centerpiece and golden embellishments, it evokes the grandeur and authority of a leader. Earn 25% more in SFL and Coin deliveries. Earn +10% marks when pledged to this faction. Multiples of this item do not stack.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Hat" },
+      { trait_type: "Tradable", value: "No" },
+      {
+        display_type: "boost_percentage",
+        trait_type: "Increase SFL gained from deliveries",
+        value: 25,
+      },
+      {
+        display_type: "boost_percentage",
+        trait_type: "Increase Coins gained from deliveries",
+        value: 25,
+      },
+      {
+        display_type: "boost_percentage",
+        trait_type: "Increase Marks gained",
+        value: 10,
+      },
+      { trait_type: "Boost", value: "Other" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/379.png",
+    name: "Sunflorian Crown",
+  },
+  "Bumpkin Shield": {
+    description:
+      "This shield radiates with a divine blue light, symbolizing protection and justice. Wood and mineral drops increases by 0.25. Multiples of this item do not stack.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "SecondaryTool" },
+      { trait_type: "Tradable", value: "No" },
+      {
+        display_type: "boost_number",
+        trait_type: "Increase Wood Drops",
+        value: 0.25,
+      },
+      {
+        display_type: "boost_number",
+        trait_type: "Increase Mineral Drops",
+        value: 0.25,
+      },
+      { trait_type: "Boost", value: "Resource" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/380.png",
+    name: "Bumpkin Shield",
+  },
+  "Goblin Shield": {
+    description:
+      "This shield is built for Goblin warriors who thrive in the heat of battle. Wood and mineral drops increases by 0.25. Multiples of this item do not stack.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "SecondaryTool" },
+      { trait_type: "Tradable", value: "No" },
+      {
+        display_type: "boost_number",
+        trait_type: "Increase Wood Drops",
+        value: 0.25,
+      },
+      {
+        display_type: "boost_number",
+        trait_type: "Increase Mineral Drops",
+        value: 0.25,
+      },
+      { trait_type: "Boost", value: "Resource" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/381.png",
+    name: "Goblin Shield",
+  },
+  "Nightshade Shield": {
+    description:
+      "The shield’s surface is a deep, shadowy black feathers with intricate violet accents that pulse with ominous energy. Wood and mineral drops increases by 0.25. Multiples of this item do not stack.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "SecondaryTool" },
+      { trait_type: "Tradable", value: "No" },
+      {
+        display_type: "boost_number",
+        trait_type: "Increase Wood Drops",
+        value: 0.25,
+      },
+      {
+        display_type: "boost_number",
+        trait_type: "Increase Mineral Drops",
+        value: 0.25,
+      },
+      { trait_type: "Boost", value: "Resource" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/382.png",
+    name: "Nightshade Shield",
+  },
+  "Sunflorian Shield": {
+    description:
+      "A symbol of divine authority, the Sunflorian Shield is reserved for only the most noble of kings and queens. Wood and mineral drops increases by 0.25. Multiples of this item do not stack.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "SecondaryTool" },
+      { trait_type: "Tradable", value: "No" },
+      {
+        display_type: "boost_number",
+        trait_type: "Increase Wood Drops",
+        value: 0.25,
+      },
+      {
+        display_type: "boost_number",
+        trait_type: "Increase Mineral Drops",
+        value: 0.25,
+      },
+      { trait_type: "Boost", value: "Resource" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/383.png",
+    name: "Sunflorian Shield",
+  },
+  "Bumpkin Quiver": {
+    description:
+      "The Bumpkin Quiver features vibrant red and blue fabrics, reinforced with iron accents that speak to the strength and resilience of the Bumpkin. Crops and fruit yield increases by 0.25. Multiples of this item do not stack.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Wings" },
+      { trait_type: "Tradable", value: "No" },
+      {
+        display_type: "boost_number",
+        trait_type: "Increase Fruit Yield",
+        value: 0.25,
+      },
+      {
+        display_type: "boost_number",
+        trait_type: "Increase Crop Yield",
+        value: 0.25,
+      },
+      { trait_type: "Boost", value: "Resource" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/384.png",
+    name: "Bumpkin Quiver",
+  },
+  "Goblin Quiver": {
+    description:
+      "Crafted from the parts of horned-beasts and stitched with Goblin ingenuity, this quiver is as rugged as it is practical. Crops and fruit yield increases by 0.25. Multiples of this item do not stack.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Wings" },
+      { trait_type: "Tradable", value: "No" },
+      {
+        display_type: "boost_number",
+        trait_type: "Increase Fruit Yield",
+        value: 0.25,
+      },
+      {
+        display_type: "boost_number",
+        trait_type: "Increase Crop Yield",
+        value: 0.25,
+      },
+      { trait_type: "Boost", value: "Resource" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/385.png",
+    name: "Goblin Quiver",
+  },
+  "Nightshade Quiver": {
+    description:
+      "Enigmatic and sleek, the Nightshade Quiver is bound in dark, supple leather, designed for those who harvest under the cover of darkness. Crops and fruit yield increases by 0.25. Multiples of this item do not stack.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Wings" },
+      { trait_type: "Tradable", value: "No" },
+      {
+        display_type: "boost_number",
+        trait_type: "Increase Fruit Yield",
+        value: 0.25,
+      },
+      {
+        display_type: "boost_number",
+        trait_type: "Increase Crop Yield",
+        value: 0.25,
+      },
+      { trait_type: "Boost", value: "Resource" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/386.png",
+    name: "Nightshade Quiver",
+  },
+  "Sunflorian Quiver": {
+    description:
+      "The Sunflorian Quiver, crafted from luxurious cream-colored fabric and adorned with gleaming gold accents, is a symbol of royal grace and divine blessing. Crops and fruit yield increases by 0.25. Multiples of this item do not stack.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Wings" },
+      { trait_type: "Tradable", value: "No" },
+      {
+        display_type: "boost_number",
+        trait_type: "Increase Fruit Yield",
+        value: 0.25,
+      },
+      {
+        display_type: "boost_number",
+        trait_type: "Increase Crop Yield",
+        value: 0.25,
+      },
+      { trait_type: "Boost", value: "Resource" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/387.png",
+    name: "Sunflorian Quiver",
+  },
+  "Bumpkin Medallion": {
+    description:
+      "This sturdy medallion, crafted from iron and adorned with blue gem, is beloved by Bumpkins. Enhances cooking speed by 25%. Multiples of this item do not stack.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Necklace" },
+      { trait_type: "Tradable", value: "No" },
+      {
+        display_type: "boost_percentage",
+        trait_type: "Cooking Time",
+        value: -25,
+      },
+      { trait_type: "Boost", value: "Food & XP" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/388.png",
+    name: "Bumpkin Medallion",
+  },
+  "Goblin Medallion": {
+    description:
+      "Favored by Goblins for its efficiency, it helps you prepare meals at lightning speed, just like their ingenious contraptions and creations. Enhances cooking speed by 25%. Multiples of this item do not stack.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Necklace" },
+      { trait_type: "Tradable", value: "No" },
+      {
+        display_type: "boost_percentage",
+        trait_type: "Cooking Time",
+        value: -25,
+      },
+      { trait_type: "Boost", value: "Food & XP" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/389.png",
+    name: "Goblin Medallion",
+  },
+  "Nightshade Medallion": {
+    description:
+      "This medallion channels the Nightshade's secretive allure and their skill in crafting refined and exotic dishes swiftly. Enhances cooking speed by 25%. Multiples of this item do not stack.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Necklace" },
+      { trait_type: "Tradable", value: "No" },
+      {
+        display_type: "boost_percentage",
+        trait_type: "Cooking Time",
+        value: -25,
+      },
+      { trait_type: "Boost", value: "Food & XP" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/390.png",
+    name: "Nightshade Medallion",
+  },
+  "Sunflorian Medallion": {
+    description:
+      "This medallion embody the Sunflorians' blend of warmth and efficiency, ensuring your culinary creations are prepared with grace and swiftness. Enhances cooking speed by 25%. Multiples of this item do not stack.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Necklace" },
+      { trait_type: "Tradable", value: "No" },
+      {
+        display_type: "boost_percentage",
+        trait_type: "Cooking Time",
+        value: -25,
+      },
+      { trait_type: "Boost", value: "Food & XP" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/391.png",
+    name: "Sunflorian Medallion",
+  },
 };

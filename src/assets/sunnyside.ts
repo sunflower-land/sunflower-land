@@ -58,6 +58,8 @@ export const SUNNYSIDE = {
     desertPrestige: `${CONFIG.PROTECTED_IMAGE_URL}/announcements/desert_prestige.png`,
     desert_digging: `${CONFIG.PROTECTED_IMAGE_URL}/announcements/desert.webp`,
     factions: `${CONFIG.PROTECTED_IMAGE_URL}/announcements/factions.png`,
+    desertSeason: `${CONFIG.PROTECTED_IMAGE_URL}/announcements/desert_season.png`,
+    pharaohSeasonRares: `${CONFIG.PROTECTED_IMAGE_URL}/announcements/pharaoh_seasonal_rares.png`,
   },
   //Badges(Pre-LandExpansion Skills)
   badges: {

@@ -78,11 +78,11 @@ export const CYRILLIC_FONT_CONFIG: Record<Font, FontSettings> = {
   },
   Bold: {
     fontFamily: "Born2bSporty",
-    xxs: [18, 12],
-    xs: [24, 14],
-    sm: [30, 20],
-    base: [36, 26],
-    lg: [42, 32],
+    xxs: [16, 12],
+    xs: [20, 14],
+    sm: [26, 20],
+    base: [30, 26],
+    lg: [36, 32],
   },
   "Chunky (Old)": {
     fontFamily: "Russo One",

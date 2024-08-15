@@ -13,11 +13,12 @@ import {
 } from "features/game/lib/level";
 
 import { AchievementsModal } from "./Achievements";
-import { SkillsModal } from "features/bumpkins/components/Skills";
+import { SkillsModal } from "./Skills";
+import { SkillsModal as SkillsModal2 } from "./revamp/Skills";
 import { CONFIG } from "lib/config";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { SkillBadges } from "./SkillBadges";
-import { getAvailableBumpkinSkillPoints } from "features/game/events/landExpansion/pickSkill";
+import { getAvailableBumpkinSkillPoints } from "features/game/events/landExpansion/choseSkill";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Bumpkin, GameState, Inventory } from "features/game/types/game";
 import { ResizableBar } from "components/ui/ProgressBar";
@@ -35,8 +36,9 @@ import { Context as AuthContext } from "features/auth/lib/Provider";
 import { useActor } from "@xstate/react";
 import { Loading } from "features/auth/components";
 import { formatNumber } from "lib/utils/formatNumber";
+import { hasFeatureAccess } from "lib/flags";
 
-type ViewState = "home" | "achievements" | "skills";
+type ViewState = "home" | "achievements" | "skills" | "skills2";
 
 export const BumpkinLevel: React.FC<{ experience?: number }> = ({
   experience = 0,
@@ -161,6 +163,16 @@ export const BumpkinModal: React.FC<Props> = ({
     );
   }
 
+  if (view === "skills2") {
+    return (
+      <SkillsModal2
+        readonly={readonly}
+        onBack={() => setView("home")}
+        onClose={onClose}
+      />
+    );
+  }
+
   const experience = bumpkin?.experience ?? 0;
   const level = getBumpkinLevel(experience);
   const maxLevel = isMaxLevel(experience);
@@ -263,6 +275,26 @@ export const BumpkinModal: React.FC<Props> = ({
                   bumpkin={bumpkin as Bumpkin}
                 />
               </ButtonPanel>
+
+              {hasFeatureAccess(gameState, "SKILLS_REVAMP") && (
+                <ButtonPanel
+                  onClick={() => setView("skills2")}
+                  className="mb-2 relative mt-1 !px-2 !py-1"
+                >
+                  <div className="flex items-center mb-1 justify-between">
+                    <div className="flex items-center">
+                      <span className="text-sm">{"Skills Revamp"}</span>
+                      {hasAvailableSP && !readonly && (
+                        <img
+                          src={SUNNYSIDE.icons.expression_alerted}
+                          className="h-4 ml-2"
+                        />
+                      )}
+                    </div>
+                    <span className="text-sm underline">{t("viewAll")}</span>
+                  </div>
+                </ButtonPanel>
+              )}
 
               <ButtonPanel
                 onClick={() => setView("achievements")}

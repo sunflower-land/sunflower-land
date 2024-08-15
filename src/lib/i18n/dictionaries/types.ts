@@ -245,8 +245,11 @@ export type GeneralTerms =
   | "chill"
   | "full"
   | "collectibles"
+  | "collectible"
+  | "cosmetic"
   | "buds"
   | "wearables"
+  | "wearable"
   | "skip"
   | "docs"
   | "exit"
@@ -259,6 +262,7 @@ export type GeneralTerms =
   | "buildings"
   | "boosts"
   | "decorations"
+  | "decoration"
   | "vipAccess";
 
 export type TimeUnits =
@@ -411,6 +415,7 @@ export type BasicTreasure =
   | "budBox.opened"
   | "budBox.title"
   | "budBox.description"
+  | "budBox.today"
   | "raffle.title"
   | "raffle.description"
   | "raffle.entries"
@@ -758,7 +763,8 @@ export type BumpkinItemBuff =
   | "bumpkinItemBuff.dev.wrench.boost"
   | "bumpkinItemBuff.oil.overalls.boost"
   | "bumpkinItemBuff.ancient.shovel.boost"
-  | "bumpkinItemBuff.grape.pants";
+  | "bumpkinItemBuff.grape.pants"
+  | "bumpkinItemBuff.pirate.potion";
 
 export type BumpkinPart =
   | "equip.background"
@@ -1481,6 +1487,10 @@ export type ErrorTerms =
   | "error.toManyRequest.two"
   | "error.betaTestersOnly"
   | "error.wentWrong"
+  | "error.getHelp"
+  | "error.file"
+  | "error.contactSupport"
+  | "error.askOnDiscord"
   | "error.tooManyFarms"
   | "error.polygonRPC"
   | "error.connection.one"
@@ -2056,7 +2066,12 @@ export type GameTerms =
   | "sunflowerLandCodex"
   | "visiting.farmId"
   | "stock.left"
-  | "stock.inStock";
+  | "stock.inStock"
+  | "pirate.chest"
+  | "pirate.chest.opened"
+  | "pirate.potion.equipped"
+  | "missing.pirate.potion"
+  | "comeBackIn.time";
 
 export type GarbageCollector =
   | "garbageCollector.welcome"
@@ -2401,6 +2416,7 @@ export type LostSunflorian =
 
 export type MegaStore =
   | "megaStore.message"
+  | "megaStore.visit"
   | "megaStore.month.sale"
   | "megaStore.wearable"
   | "megaStore.collectible"
@@ -2730,6 +2746,13 @@ export type NpcDialogues =
   //Old Salty NoOrder
   | "npcDialogues.oldSalty.noOrder1"
   | "npcDialogues.oldSalty.noOrder2"
+  // Old Salty Pirate Chest
+  | "npcDialogues.oldSalty.missingPotion1"
+  | "npcDialogues.oldSalty.missingPotion2"
+  | "npcDialogues.oldSalty.chestUnopened1"
+  | "npcDialogues.oldSalty.chestUnopened2"
+  | "npcDialogues.oldSalty.chestOpened1"
+  | "npcDialogues.oldSalty.chestOpened2"
   // Pharaoh
   | "npcDialogues.pharaoh.intro1"
   | "npcDialogues.pharaoh.intro2"
@@ -3264,7 +3287,21 @@ export type SeasonTerms =
   | "season.xp.boost"
   | "season.free.season.passes.description"
   | "season.lifetime.farmer"
-  | "season.free.with.lifetime";
+  | "season.free.with.lifetime"
+  | "season.codex.intro"
+  | "season.codex.howToEarn"
+  | "season.codex.howToEarn.one"
+  | "season.codex.howToEarn.two"
+  | "season.codex.howToEarn.three"
+  | "season.codex.nextDrop"
+  | "season.codex.seasonalDrops"
+  | "season.codex.seasonalDrops.description"
+  | "season.codex.soldOut"
+  | "season.codex.mutants"
+  | "season.codex.mutants.discover"
+  | "season.codex.mutants.one"
+  | "season.codex.mutants.two"
+  | "season.codex.mutants.three";
 
 export type Share =
   | "share.TweetText"

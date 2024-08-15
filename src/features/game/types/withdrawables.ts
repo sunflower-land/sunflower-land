@@ -1255,7 +1255,8 @@ export const BUMPKIN_WITHDRAWABLES: Record<
   "Fruit Bowl": () => true,
   "Striped Blue Shirt": () => true,
   "Peg Leg": () => true,
-  "Pirate Potion": () => true,
+  "Pirate Potion": (state) =>
+    canWithdrawBoostedWearable("Pirate Potion", state),
   "Pirate Hat": () => true,
   "Pirate General Coat": () => true,
   "Pirate Pants": () => true,
@@ -1579,4 +1580,22 @@ export const BUMPKIN_WITHDRAWABLES: Record<
     canWithdrawBoostedWearable("Grape Pants", state) &&
     hasSeasonEnded("Pharaoh's Treasure"),
   "Fossil Head": () => canWithdrawTimebasedItem(new Date("2024-10-03")), // Last Auction 2nd October
+
+  //Kingdom Shop Items
+  "Bumpkin Crown": () => false,
+  "Goblin Crown": () => false,
+  "Nightshade Crown": () => false,
+  "Sunflorian Crown": () => false,
+  "Bumpkin Shield": () => false,
+  "Goblin Shield": () => false,
+  "Nightshade Shield": () => false,
+  "Sunflorian Shield": () => false,
+  "Bumpkin Quiver": () => false,
+  "Goblin Quiver": () => false,
+  "Nightshade Quiver": () => false,
+  "Sunflorian Quiver": () => false,
+  "Bumpkin Medallion": () => false,
+  "Goblin Medallion": () => false,
+  "Nightshade Medallion": () => false,
+  "Sunflorian Medallion": () => false,
 };

@@ -42,14 +42,24 @@ export type FeatureName =
   | "CHAMPIONS"
   | "TEST_DIGGING"
   | "NEW_FRUITS"
-  | "DESERT_PLAZA";
+  | "DESERT_PLAZA"
+  | "SKILLS_REVAMP"
+  | "MARKETPLACE";
 
 // Used for testing production features
-export const ADMIN_IDS = [1, 2, 3, 39488];
+export const ADMIN_IDS = [1, 3, 51, 39488, 128727];
+/**
+ * Adam: 1
+ * Spencer: 3
+ * Sacul: 51
+ * Craig: 39488
+ * Elias: 128727
+ */
 
 type FeatureFlag = (game: GameState) => boolean;
 
 const featureFlags: Record<FeatureName, FeatureFlag> = {
+  MARKETPLACE: testnetFeatureFlag,
   FESTIVAL_OF_COLORS: (game) => {
     if (defaultFeatureFlag(game)) return true;
 
@@ -76,6 +86,7 @@ const featureFlags: Record<FeatureName, FeatureFlag> = {
   TEST_DIGGING: betaTimeBasedFeatureFlag(new Date("2024-08-01T00:00:00Z")),
   NEW_FRUITS: betaTimeBasedFeatureFlag(new Date("2024-08-01T00:00:00Z")),
   DESERT_PLAZA: betaTimeBasedFeatureFlag(new Date("2024-08-01T00:00:00Z")),
+  SKILLS_REVAMP: testnetFeatureFlag,
 };
 
 export const hasFeatureAccess = (game: GameState, featureName: FeatureName) => {
