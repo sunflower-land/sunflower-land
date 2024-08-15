@@ -12,6 +12,7 @@ import { NPCName } from "lib/npcs";
 import { getSeasonChangeover } from "lib/utils/getSeasonWeek";
 import cloneDeep from "lodash.clonedeep";
 import { isWearableActive } from "features/game/lib/wearables";
+import { FACTION_OUTFITS } from "features/game/lib/factions";
 
 export const TICKET_REWARDS: Record<QuestNPCName, number> = {
   "pumpkin' pete": 1,
@@ -184,6 +185,15 @@ export function getOrderSellPrice<T>(game: GameState, order: Order): T {
     isWearableActive({ name: "Chef Apron", game })
   ) {
     mul += 0.2;
+  }
+
+  // Apply the faction crown boost if in the right faction
+  const factionName = game.faction?.name;
+  if (
+    factionName &&
+    isWearableActive({ game, name: FACTION_OUTFITS[factionName].crown })
+  ) {
+    mul += 0.25;
   }
 
   if (order.reward.sfl) {

@@ -40,6 +40,7 @@ import { getBumpkinLevel } from "features/game/lib/level";
 import { isBuildingEnabled } from "features/game/expansion/lib/buildingRequirements";
 import { isWearableActive } from "features/game/lib/wearables";
 import { isGreenhouseCrop } from "./plantGreenhouse";
+import { FACTION_ITEMS } from "features/game/lib/factions";
 
 export type LandExpansionPlantAction = {
   type: "seed.planted";
@@ -390,6 +391,18 @@ export function getCropYieldAmount({
   // Generic Additive Crop Boosts
   if (isWearableActive({ name: "Infernal Pitchfork", game })) {
     amount += 3;
+  }
+
+  //Faction Quiver
+  const factionName = game.faction?.name;
+  if (
+    factionName &&
+    isWearableActive({
+      game,
+      name: FACTION_ITEMS[factionName].wings,
+    })
+  ) {
+    amount += 0.25;
   }
 
   amount += getBudYieldBoosts(buds ?? {}, crop);
