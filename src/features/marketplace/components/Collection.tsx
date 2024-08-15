@@ -7,8 +7,9 @@ import React, { useContext, useEffect, useState } from "react";
 import { loadCollection } from "../actions/loadCollection";
 import * as Auth from "features/auth/lib/Provider";
 import { useActor } from "@xstate/react";
-import { ButtonPanel } from "components/ui/Panel";
 import { useNavigate } from "react-router-dom";
+import { ListViewCard } from "./ListViewCard";
+import { OPEN_SEA_COLLECTIBLES } from "metadata/metadata";
 
 interface Props {
   type: CollectionName;
@@ -45,12 +46,17 @@ export const Collection: React.FC<Props> = ({ type }) => {
   return (
     <div className="flex flex-wrap">
       {collection?.items.map((item) => (
-        <ButtonPanel
+        <ListViewCard
+          name={item.name}
+          hasBoost
+          price={new Decimal(25)}
+          image={OPEN_SEA_COLLECTIBLES[item].image}
+          supply={item.supply}
           key={item.id}
           onClick={() => {
             navigate(`/marketplace/${type}/${item.id}`);
           }}
-        >{`#${item.id}`}</ButtonPanel>
+        />
       ))}
     </div>
   );
