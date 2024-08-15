@@ -5745,6 +5745,7 @@ export const desertTerms: Record<DesertKeys, string> = {
   "desert.digs": "{{amount}} digs",
   "desert.buyDigs.confirmation":
     "Are you sure you want to buy 5 digs for 1 Block Buck?",
+  "desert.noTreasureToSell": ENGLISH_TERMS["desert.noTreasureToSell"],
 };
 
 const changeLanguage: Record<ChangeLanguage, string> = {

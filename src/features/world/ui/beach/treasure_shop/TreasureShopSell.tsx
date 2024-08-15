@@ -50,13 +50,23 @@ export const TreasureShopSell: React.FC = () => {
       amount,
     });
   };
-  const isValuable = () => {
-    if (selectedName in SEASONAL_ARTEFACT || price > 1000) {
+  const isValuable = selectedName in SEASONAL_ARTEFACT || price > 1000;
+  const handleSellOne = () => {
+    if (isValuable) {
       showConfirmationModal(true);
     } else {
       sell(1);
     }
   };
+
+  const handleSellTenOrLess = () => {
+    if (amount.greaterThanOrEqualTo(10)) {
+      sell(10);
+    } else {
+      sell(amount.toNumber());
+    }
+  };
+
   return (
     <>
       <SplitScreenView
@@ -70,9 +80,23 @@ export const TreasureShopSell: React.FC = () => {
               coins: price,
             }}
             actionView={
-              <Button disabled={amount.lt(1)} onClick={isValuable}>
-                {t("sell")}
-              </Button>
+              <div className="flex space-x-1 mb-1 sm:space-x-0 sm:space-y-1 sm:flex-col w-full">
+                {amount.greaterThanOrEqualTo(1) && (
+                  <Button onClick={handleSellOne}>{t("sell.one")}</Button>
+                )}
+                {amount.gt(1) && !isValuable && (
+                  <Button onClick={handleSellTenOrLess}>
+                    {t(amount.greaterThan(10) ? "sell.ten" : "sell.amount", {
+                      amount,
+                    })}
+                  </Button>
+                )}
+                {amount.lessThanOrEqualTo(0) && (
+                  <p className="text-xxs text-center mb-1">
+                    {t("desert.noTreasureToSell", { treasure: selectedName })}
+                  </p>
+                )}
+              </div>
             }
           />
         }

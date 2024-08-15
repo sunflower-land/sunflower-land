@@ -3862,7 +3862,8 @@ export type DesertKeys =
   | "desert.hud.newSite"
   | "desert.extraDigs"
   | "desert.digs"
-  | "desert.buyDigs.confirmation";
+  | "desert.buyDigs.confirmation"
+  | "desert.noTreasureToSell";
 
 export type TranslationKeys =
   | AchievementsTerms
