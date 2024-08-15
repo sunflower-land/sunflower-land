@@ -162,11 +162,9 @@ const PirateChestContent: React.FC<PirateChestContentProps> = ({
 interface Props {
   onClose: () => void;
   setIsLoading?: (isLoading: boolean) => void;
-  show: boolean;
 }
 
 export const PirateChestModal: React.FC<Props> = ({
-  show,
   onClose,
   setIsLoading,
 }) => {
@@ -179,7 +177,6 @@ export const PirateChestModal: React.FC<Props> = ({
 
   return (
     <Modal
-      show={show}
       onHide={
         isPicking ||
         (isRevealing &&

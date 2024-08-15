@@ -316,11 +316,9 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
           setIsLoading={setIsLoading}
         />
       </Modal>
-      <PirateChestModal
-        show={interactable === "pirate_chest"}
-        onClose={closeModal}
-        setIsLoading={setIsLoading}
-      />
+      {interactable === "pirate_chest" && (
+        <PirateChestModal onClose={closeModal} setIsLoading={setIsLoading} />
+      )}
       <Modal show={interactable === "plaza_orange_book"} onHide={closeModal}>
         <SpeakingModal
           onClose={closeModal}
