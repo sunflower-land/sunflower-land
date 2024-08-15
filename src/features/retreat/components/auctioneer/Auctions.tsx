@@ -80,7 +80,7 @@ export const Auctions: React.FC<Props> = ({ auctionService, onSelect }) => {
                   ? auction.collectible
                   : auction.wearable}
               </p>
-              <div className="ml-1 hidden sm:flex my-1">
+              <div className="ml-1 sm:flex my-1">
                 {auction.sfl > 0 && (
                   <img src={token} className="h-4 img-highlight -ml-1" />
                 )}
