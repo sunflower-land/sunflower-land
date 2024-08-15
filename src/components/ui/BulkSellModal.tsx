@@ -11,7 +11,7 @@ import { setPrecision } from "lib/utils/formatNumber";
 interface BulkSellProps {
   show: boolean;
   onHide: () => void;
-  cropAmount: Decimal;
+  itemAmount: Decimal;
   customAmount: Decimal;
   setCustomAmount: (amount: Decimal) => void;
   onCancel: () => void;
@@ -22,7 +22,7 @@ interface BulkSellProps {
 export const BulkSellModal: React.FC<BulkSellProps> = ({
   show,
   onHide,
-  cropAmount,
+  itemAmount,
   customAmount,
   setCustomAmount,
   onCancel,
@@ -32,7 +32,7 @@ export const BulkSellModal: React.FC<BulkSellProps> = ({
   const { t } = useAppTranslation();
 
   const isOutOfRange =
-    customAmount.greaterThan(cropAmount) || customAmount.lessThanOrEqualTo(0);
+    customAmount.greaterThan(itemAmount) || customAmount.lessThanOrEqualTo(0);
 
   return (
     <Modal show={show} onHide={onHide}>
@@ -49,13 +49,13 @@ export const BulkSellModal: React.FC<BulkSellProps> = ({
               onValueChange={setCustomAmount}
             />
             <Button
-              onClick={() => setCustomAmount(setPrecision(cropAmount.mul(0.5)))}
+              onClick={() => setCustomAmount(setPrecision(itemAmount.mul(0.5)))}
               className="ml-2 px-1 py-1 w-auto"
             >
               {`50%`}
             </Button>
             <Button
-              onClick={() => setCustomAmount(cropAmount)}
+              onClick={() => setCustomAmount(itemAmount)}
               className="ml-2 px-1 py-1 w-auto"
             >
               {t("max")}

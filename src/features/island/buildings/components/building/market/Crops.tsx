@@ -356,7 +356,7 @@ export const Crops: React.FC = () => {
         onHide={closeBulkSellModal}
         customAmount={customAmount}
         setCustomAmount={setCustomAmount}
-        cropAmount={cropAmount}
+        itemAmount={cropAmount}
         onCancel={closeBulkSellModal}
         onSell={openConfirmationModal}
         coinAmount={coinAmount}
