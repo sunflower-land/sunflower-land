@@ -179,10 +179,7 @@ const Drops: React.FC<{
     <>
       <div className="p-1">
         <p className="text-sm mb-1">{name}</p>
-        <Label
-          type={detail.type === "collectible" ? "warning" : "vibrant"}
-          className="mt-1 mb-1"
-        >
+        <Label type="default" className="mt-1 mb-1">
           {detail.type === "collectible" ? t("collectible") : t("wearable")}
         </Label>
         {buffLabel ? (
@@ -393,7 +390,7 @@ export const SeasonalAuctions: React.FC<Props> = ({ farmId, gameState }) => {
                     </div>
                     <div className="absolute top-0 right-0 flex space-x-2">
                       {!isMobile && (
-                        <Label type={isCollectible ? "warning" : "vibrant"}>
+                        <Label type="default">
                           {isCollectible ? t("collectible") : t("wearable")}
                         </Label>
                       )}

@@ -50,10 +50,7 @@ export const Auctions: React.FC<Props> = ({ auctionService, onSelect }) => {
             className="w-full cursor-pointer hover:bg-brown-300 !p-2 relative flex mb-1"
           >
             {!isMobile && (
-              <Label
-                type={auction.type === "collectible" ? "warning" : "vibrant"}
-                className="absolute top-1 right-1 z-30"
-              >
+              <Label type="default" className="absolute top-1 right-1 z-30">
                 {auction.type === "collectible"
                   ? t("collectible")
                   : t("wearable")}

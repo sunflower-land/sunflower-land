@@ -118,7 +118,7 @@ export const AuctionDetails: React.FC<Props> = ({
           <p className="absolute left-1/2 transform -translate-x-1/2 text-center max-w-[80%] sm:max-w-none">
             {isCollectible ? item.collectible : item.wearable}
           </p>
-          <Label type={isCollectible ? "warning" : "vibrant"}>
+          <Label type="default">
             {isCollectible ? t("collectible") : t("wearable")}
           </Label>
         </div>
