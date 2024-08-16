@@ -83,6 +83,10 @@ export function startComposter({
     produceAmount += 3;
   }
 
+  if (skills["Premium Worms"] && action.building === "Premium Composter") {
+    produceAmount += 10;
+  }
+
   // start the production
   buildings[0].producing = {
     items: {

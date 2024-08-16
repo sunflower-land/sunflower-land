@@ -164,6 +164,12 @@ export function getCropTime({
     seconds = seconds * 0.95;
   }
 
+  if (skills["Strong Roots"]) {
+    if (crop === "Radish" || crop === "Wheat" || crop === "Kale") {
+      seconds = seconds * 0.9;
+    }
+  }
+
   return seconds;
 }
 
@@ -608,6 +614,30 @@ export function getCropYieldAmount({
 
   if (skills["Old Farmer"] && isAdvancedCrop(crop)) {
     amount += 0.1;
+  }
+
+  if (skills["Acre Farm"] && isAdvancedCrop(crop)) {
+    amount += 1;
+  }
+
+  if (skills["Acre Farm"] && isMediumCrop(crop)) {
+    amount -= 0.5;
+  }
+
+  if (skills["Acre Farm"] && isBasicCrop(crop)) {
+    amount -= 0.5;
+  }
+
+  if (skills["Hectare Farm"] && isAdvancedCrop(crop)) {
+    amount -= 0.5;
+  }
+
+  if (skills["Hectare Farm"] && isMediumCrop(crop)) {
+    amount += 1;
+  }
+
+  if (skills["Hectare Farm"] && isBasicCrop(crop)) {
+    amount += 1;
   }
 
   return Number(setPrecision(amount));

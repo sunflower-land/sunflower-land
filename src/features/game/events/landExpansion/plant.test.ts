@@ -1979,7 +1979,7 @@ describe("getCropTime", () => {
     );
   });
 
-  it("applies a +5% speed boost with Green Thumb 2 skill selected", () => {
+  it("applies a +5% speed boost with Green Thumb 2 skill", () => {
     const baseHarvestSeconds = CROPS["Corn"].harvestSeconds;
     const time = getCropPlotTime({
       crop: "Corn",
@@ -1999,6 +1999,50 @@ describe("getCropTime", () => {
     });
 
     expect(time).toEqual(baseHarvestSeconds * 0.95);
+  });
+
+  it("applies a +10% speed boost on Radish, Wheat and Kale with Strong Roots skill", () => {
+    const baseHarvestSeconds = CROPS["Radish"].harvestSeconds;
+    const time = getCropPlotTime({
+      crop: "Radish",
+      inventory: {},
+      game: {
+        ...TEST_FARM,
+        collectibles: {},
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          skills: {
+            "Strong Roots": 1,
+          },
+        },
+      },
+      buds: {},
+      plot: { ...plot, x: 0, y: -3 },
+    });
+
+    expect(time).toEqual(baseHarvestSeconds * 0.9);
+  });
+
+  it("does not apply a +10% speed boost on Sunflower with Strong Roots skill", () => {
+    const baseHarvestSeconds = CROPS["Sunflower"].harvestSeconds;
+    const time = getCropPlotTime({
+      crop: "Sunflower",
+      inventory: {},
+      game: {
+        ...TEST_FARM,
+        collectibles: {},
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          skills: {
+            "Strong Roots": 1,
+          },
+        },
+      },
+      buds: {},
+      plot: { ...plot, x: 0, y: -3 },
+    });
+
+    expect(time).toEqual(baseHarvestSeconds);
   });
 });
 
@@ -2741,6 +2785,246 @@ describe("getCropYield", () => {
     expect(plots).toBeDefined();
 
     expect((plots as Record<number, CropPlot>)[0].crop?.amount).toEqual(1);
+  });
+
+  it("yields +1 Advanced Crop with Acre Farm skill", () => {
+    const state = plant({
+      state: {
+        ...GAME_STATE,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          skills: {
+            "Acre Farm": 1,
+          },
+        },
+        inventory: {
+          "Eggplant Seed": new Decimal(1),
+        },
+        crops: {
+          0: {
+            createdAt: Date.now(),
+            height: 1,
+            width: 1,
+            x: 0,
+            y: -2,
+          },
+        },
+      },
+      action: {
+        type: "seed.planted",
+        cropId: "1",
+        index: "0",
+
+        item: "Eggplant Seed",
+      },
+      createdAt: Date.now(),
+    });
+
+    const plots = state.crops;
+
+    expect(plots).toBeDefined();
+
+    expect((plots as Record<number, CropPlot>)[0].crop?.amount).toEqual(2);
+  });
+
+  it("yields -0.5 Basic Crop with Acre Farm skill", () => {
+    const state = plant({
+      state: {
+        ...GAME_STATE,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          skills: {
+            "Acre Farm": 1,
+          },
+        },
+        inventory: {
+          "Sunflower Seed": new Decimal(1),
+        },
+        crops: {
+          0: {
+            createdAt: Date.now(),
+            height: 1,
+            width: 1,
+            x: 0,
+            y: -2,
+          },
+        },
+      },
+      action: {
+        type: "seed.planted",
+        cropId: "1",
+        index: "0",
+
+        item: "Sunflower Seed",
+      },
+      createdAt: Date.now(),
+    });
+
+    const plots = state.crops;
+
+    expect(plots).toBeDefined();
+
+    expect((plots as Record<number, CropPlot>)[0].crop?.amount).toEqual(0.5);
+  });
+
+  it("yields -0.5 Medium Crop with Acre Farm skill", () => {
+    const state = plant({
+      state: {
+        ...GAME_STATE,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          skills: {
+            "Acre Farm": 1,
+          },
+        },
+        inventory: {
+          "Soybean Seed": new Decimal(1),
+        },
+        crops: {
+          0: {
+            createdAt: Date.now(),
+            height: 1,
+            width: 1,
+            x: 0,
+            y: -2,
+          },
+        },
+      },
+      action: {
+        type: "seed.planted",
+        cropId: "1",
+        index: "0",
+
+        item: "Soybean Seed",
+      },
+      createdAt: Date.now(),
+    });
+
+    const plots = state.crops;
+
+    expect(plots).toBeDefined();
+
+    expect((plots as Record<number, CropPlot>)[0].crop?.amount).toEqual(0.5);
+  });
+
+  it("yields +1 Basic Crop with Hectare Farm skill", () => {
+    const state = plant({
+      state: {
+        ...GAME_STATE,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          skills: {
+            "Hectare Farm": 1,
+          },
+        },
+        inventory: {
+          "Sunflower Seed": new Decimal(1),
+        },
+        crops: {
+          0: {
+            createdAt: Date.now(),
+            height: 1,
+            width: 2,
+            x: 0,
+            y: -2,
+          },
+        },
+      },
+      action: {
+        type: "seed.planted",
+        cropId: "1",
+        index: "0",
+
+        item: "Sunflower Seed",
+      },
+      createdAt: Date.now(),
+    });
+
+    const plots = state.crops;
+
+    expect(plots).toBeDefined();
+
+    expect((plots as Record<number, CropPlot>)[0].crop?.amount).toEqual(2);
+  });
+
+  it("yields +1 Medium Crop with Hectare Farm skill", () => {
+    const state = plant({
+      state: {
+        ...GAME_STATE,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          skills: {
+            "Hectare Farm": 1,
+          },
+        },
+        inventory: {
+          "Soybean Seed": new Decimal(1),
+        },
+        crops: {
+          0: {
+            createdAt: Date.now(),
+            height: 2,
+            width: 1,
+            x: 0,
+            y: -2,
+          },
+        },
+      },
+      action: {
+        type: "seed.planted",
+        cropId: "1",
+        index: "0",
+
+        item: "Soybean Seed",
+      },
+      createdAt: Date.now(),
+    });
+
+    const plots = state.crops;
+
+    expect(plots).toBeDefined();
+
+    expect((plots as Record<number, CropPlot>)[0].crop?.amount).toEqual(2);
+  });
+
+  it("yields -0.5 Advanced Crop with Hectare Farm skill", () => {
+    const state = plant({
+      state: {
+        ...GAME_STATE,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          skills: {
+            "Hectare Farm": 1,
+          },
+        },
+        inventory: {
+          "Eggplant Seed": new Decimal(1),
+        },
+        crops: {
+          0: {
+            createdAt: Date.now(),
+            height: 2,
+            width: 2,
+            x: 0,
+            y: -2,
+          },
+        },
+      },
+      action: {
+        type: "seed.planted",
+        cropId: "1",
+        index: "0",
+
+        item: "Eggplant Seed",
+      },
+      createdAt: Date.now(),
+    });
+
+    const plots = state.crops;
+
+    expect(plots).toBeDefined();
+
+    expect((plots as Record<number, CropPlot>)[0].crop?.amount).toEqual(0.5);
   });
 
   describe("getPlantedAt", () => {
