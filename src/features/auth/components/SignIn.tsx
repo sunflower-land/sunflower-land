@@ -379,6 +379,16 @@ export const SignIn: React.FC<{ type: "signin" | "signup" }> = ({ type }) => {
               {"Wechat"}
             </Button>
           )}
+
+          <Button
+            className="mb-1 py-2 text-sm relative"
+            onClick={() => {
+              setShowLoading(true);
+              window.location.href = `${CONFIG.API_URL}/auth/fsl/authorize`;
+            }}
+          >
+            {"FSL"}
+          </Button>
         </>
       )}
 
