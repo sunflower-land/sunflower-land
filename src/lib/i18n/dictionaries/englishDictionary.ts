@@ -824,7 +824,7 @@ const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
   "description.laurie.chuckle.crow.boost": "+0.2 Advanced Crops",
   "description.bale.boost": "+0.2 Eggs",
   "description.immortal.pear.boost": "+1 Fruit Harvest per seed",
-  "description.treasure.map.boost": "+20% Coins on Treasure Bounty Sales",
+  "description.treasure.map.boost": "+20% Coins Treasure Bounty Sale Price",
   "description.poppy.boost": "+0.1 Corn",
   "description.kernaldo.boost": "-25% Corn Growth Time",
   "description.grain.grinder.boost": "+20% Cake XP",
@@ -944,7 +944,7 @@ const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
   "description.tomato.clown.boost": "-50% Tomato Growth Time",
   "description.cannonball.boost": "-25% Tomato Growth Time",
   "description.tomato.bombard.boost": "+1 Tomato",
-  "description.camel.boost": "+1 Sand and +30% Artefact Shop Bounty Sell Price",
+  "description.camel.boost": "+1 Sand and +30% Treasure Bounty Sale Price",
   "description.reveling.lemon.boost": "+0.25 Lemon",
   "description.lemon.frog.boost": "-25% Lemon Growth Time",
 };
@@ -5672,7 +5672,7 @@ export const desertTerms: Record<DesertKeys, string> = {
   "desert.notice.one":
     "Welcome to the Desert. Can you solve the Pharaoh's puzzle and find the hidden treasures?",
   "desert.notice.two":
-    "Discover {{ticket}}s & exchange them for rewards before time runs out.",
+    "Discover {{ticket}}s & exchange them for rewards before it goes away!",
   "desert.notice.three": "Use hieroglyphs to upgrade your digging.",
   "desert.notice.four": "Sell resources at the shop for coins.",
   "desert.notice.five":

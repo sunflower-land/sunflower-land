@@ -65,6 +65,8 @@ export const TreasureShopSell: React.FC = () => {
           <ShopSellDetails
             details={{
               item: selectedName,
+              from: selected.from,
+              to: selected.to,
             }}
             properties={{
               coins: price,

@@ -1,3 +1,5 @@
+import { SEASONS } from "./seasons";
+
 export type BeachBountyTreasure =
   | "Pirate Bounty"
   | "Pearl"
@@ -72,6 +74,8 @@ export interface Treasure {
 
 export type SellableTreasure = {
   sellPrice: number;
+  from?: Date;
+  to?: Date;
 };
 
 export const SEASONAL_ARTEFACT: Record<
@@ -80,6 +84,8 @@ export const SEASONAL_ARTEFACT: Record<
 > = {
   Scarab: {
     sellPrice: 200,
+    from: SEASONS["Pharaoh's Treasure"].startDate,
+    to: SEASONS["Pharaoh's Treasure"].endDate,
   },
 };
 
