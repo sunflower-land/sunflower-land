@@ -24,9 +24,8 @@ import { useSound } from "lib/utils/hooks/useSound";
 import { SpecialEventCountdown } from "./SpecialEventCountdown";
 import { SeasonBannerCountdown } from "./SeasonBannerCountdown";
 import marketplaceIcon from "assets/icons/shop_disc.png";
-import { Modal } from "components/ui/Modal";
-import { Marketplace } from "features/marketplace/Marketplace";
 import { hasFeatureAccess } from "lib/flags";
+import { useNavigate } from "react-router-dom";
 
 const _farmAddress = (state: MachineState) => state.context.farmAddress;
 const _showMarketplace = (state: MachineState) =>
@@ -55,6 +54,8 @@ const HudComponent: React.FC<{
   const button = useSound("button");
 
   const autosaving = gameState.matches("autosaving");
+
+  const navigate = useNavigate();
 
   const handleDeposit = (
     args: Pick<DepositArgs, "sfl" | "itemIds" | "itemAmounts">,
@@ -203,7 +204,9 @@ const HudComponent: React.FC<{
             <img
               src={marketplaceIcon}
               className="cursor-pointer absolute"
-              onClick={() => setShowMarketplace(true)}
+              onClick={() => {
+                navigate("/marketplace");
+              }}
               style={{
                 width: `${PIXEL_SCALE * 22}px`,
 
@@ -211,16 +214,6 @@ const HudComponent: React.FC<{
                 bottom: `${PIXEL_SCALE * 55}px`,
               }}
             />
-
-            {showMarketplace && (
-              <Modal
-                onHide={() => setShowMarketplace(false)}
-                fullscreen
-                show={showMarketplace}
-              >
-                <Marketplace onClose={() => setShowMarketplace(false)} />
-              </Modal>
-            )}
           </>
         )}
       </HudContainer>

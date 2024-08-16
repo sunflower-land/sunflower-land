@@ -2,11 +2,10 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { Label } from "components/ui/Label";
 import Decimal from "decimal.js-light";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { InventoryItemName } from "features/game/types/game";
 import React from "react";
 
 type Props = {
-  name: InventoryItemName;
+  name: string;
   image: string;
   hasBoost: boolean;
   supply: number;

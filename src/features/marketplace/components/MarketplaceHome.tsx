@@ -1,77 +1,66 @@
-import { ButtonPanel } from "components/ui/Panel";
+import { ButtonPanel, InnerPanel } from "components/ui/Panel";
 import { ITEM_DETAILS } from "features/game/types/images";
-import React, { useState } from "react";
+import React from "react";
 
 import budIcon from "assets/icons/bud.png";
 import wearableIcon from "assets/icons/wearables.webp";
-import { InventoryItemName } from "features/game/types/game";
-import { ListViewCard } from "./ListViewCard";
-import Decimal from "decimal.js-light";
-import { OPEN_SEA_COLLECTIBLES } from "metadata/metadata";
 
-type MarketplaceCategoryName =
-  | "Collectibles"
-  | "Wearables"
-  | "Buds"
-  | "Resources";
+import { CollectionName } from "features/game/types/marketplace";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { Collection } from "./Collection";
 
-type MarketplaceCategory = {
-  name: MarketplaceCategoryName;
+type MarketplaceCollection = {
+  name: string;
   icon: string;
+  route: string;
 };
-const CATEGORIES: MarketplaceCategory[] = [
+const COLLECTIONS: MarketplaceCollection[] = [
   {
     name: "Collectibles",
     icon: ITEM_DETAILS["Grinx's Hammer"].image,
+    route: "/marketplace/collectibles",
   },
   {
     name: "Wearables",
     icon: wearableIcon,
+    route: "/marketplace/wearables",
   },
   {
     name: "Buds",
     icon: budIcon,
+    route: "/marketplace/buds",
   },
   {
     name: "Resources",
     icon: ITEM_DETAILS["Pumpkin"].image,
+    route: "/marketplace/resources",
   },
 ];
 
 export const MarketplaceHome: React.FC = () => {
-  const [selectedCategory, setSelectedCategory] =
-    useState<MarketplaceCategoryName>("Collectibles");
+  const navigate = useNavigate();
+  const { collection } = useParams<{ collection: CollectionName }>();
+  const { pathname } = useLocation();
 
   return (
-    <div>
+    <InnerPanel>
       <div className="flex flex-wrap">
-        {CATEGORIES.map((category) => (
-          <div key={category.name} className="relative  pr-1 w-1/2 sm:w-auto">
+        {COLLECTIONS.map((collection) => (
+          <div key={collection.name} className="relative  pr-1 w-1/2 sm:w-auto">
             <ButtonPanel
-              onClick={() => setSelectedCategory(category.name)}
-              className="flex items-center"
-              selected={category.name === selectedCategory}
+              onClick={() => {
+                navigate(collection.route);
+              }}
+              className="flex"
+              selected={collection.name === pathname}
             >
-              <img src={category.icon} className="h-8 mr-2" />
-              <span className="text-sm sm:text-base">{category.name}</span>
+              <img src={collection.icon} className="h-8 mr-2" />
+              <span className="text-sm sm:text-base">{collection.name}</span>
             </ButtonPanel>
           </div>
         ))}
       </div>
-      <div className="flex gap-2">
-        {(["Fat Chicken", "Rock Golem"] as InventoryItemName[]).map((item) => {
-          return (
-            <ListViewCard
-              name={item}
-              hasBoost
-              price={new Decimal(25)}
-              image={OPEN_SEA_COLLECTIBLES[item].image}
-              supply={10000}
-              key={item}
-            />
-          );
-        })}
-      </div>
-    </div>
+      <Collection key={collection} type={collection ?? "collectibles"} />
+    </InnerPanel>
   );
 };
