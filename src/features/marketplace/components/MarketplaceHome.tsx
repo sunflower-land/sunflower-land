@@ -60,7 +60,7 @@ export const MarketplaceHome: React.FC = () => {
           </div>
         ))}
       </div>
-      <Collection type={collection ?? "collectibles"} />
+      <Collection key={collection} type={collection ?? "collectibles"} />
     </InnerPanel>
   );
 };

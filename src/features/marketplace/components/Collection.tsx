@@ -9,7 +9,8 @@ import * as Auth from "features/auth/lib/Provider";
 import { useActor } from "@xstate/react";
 import { useNavigate } from "react-router-dom";
 import { ListViewCard } from "./ListViewCard";
-import { OPEN_SEA_COLLECTIBLES } from "metadata/metadata";
+import Decimal from "decimal.js-light";
+import { getTradeableDisplay } from "../lib/tradeables";
 
 interface Props {
   type: CollectionName;
@@ -45,19 +46,22 @@ export const Collection: React.FC<Props> = ({ type }) => {
 
   return (
     <div className="flex flex-wrap">
-      {collection?.items.map((item) => (
-        <ListViewCard
-          name={item.name}
-          hasBoost
-          price={new Decimal(25)}
-          image={OPEN_SEA_COLLECTIBLES[item].image}
-          supply={item.supply}
-          key={item.id}
-          onClick={() => {
-            navigate(`/marketplace/${type}/${item.id}`);
-          }}
-        />
-      ))}
+      {collection?.items.map((item) => {
+        const display = getTradeableDisplay({ type, id: item.id });
+        return (
+          <ListViewCard
+            name={display.name}
+            hasBoost
+            price={new Decimal(item.floor)}
+            image={display.image}
+            supply={item.supply}
+            key={item.id}
+            onClick={() => {
+              navigate(`/marketplace/${type}/${item.id}`);
+            }}
+          />
+        );
+      })}
     </div>
   );
 };

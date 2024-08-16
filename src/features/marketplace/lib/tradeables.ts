@@ -4,6 +4,7 @@ import { BUMPKIN_ITEM_BUFF_LABELS } from "features/game/types/bumpkinItemBuffs";
 import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { CollectionName } from "features/game/types/marketplace";
+import { budImageDomain } from "features/island/collectibles/components/Bud";
 import { translateTerms } from "lib/i18n/translate";
 import { OPEN_SEA_WEARABLES } from "metadata/metadata";
 
@@ -33,12 +34,12 @@ export function getTradeableDisplay({
   }
 
   if (type === "buds") {
-    const name = ITEM_NAMES[id];
+    const name = `Bud #${id}`;
 
     return {
       name,
       description: "?",
-      image: "?", // TODO
+      image: `https://${budImageDomain}.sunflower-land.com/images/${id}.webp`,
       //   buff: TODO
     };
   }
