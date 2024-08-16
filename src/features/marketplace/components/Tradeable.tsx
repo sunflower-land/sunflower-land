@@ -1,7 +1,6 @@
 import { Loading } from "features/auth/components";
 import {
   CollectionName,
-  Tradeable as ITradeable,
   TradeableDetails,
 } from "features/game/types/marketplace";
 import React, { useContext, useEffect, useState } from "react";
@@ -23,18 +22,15 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { Button } from "components/ui/Button";
 import { PriceHistory } from "./PriceHistory";
 import { TradeTable } from "./TradeTable";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 export const Tradeable: React.FC = () => {
   const { authService } = useContext(Auth.Context);
   const [authState] = useActor(authService);
 
-  const farmId = 1; // TODO
+  const { t } = useAppTranslation();
 
-  // const { gameService } = useContext(Context);
-  // const [gameState] = useActor(gameService);
-  // const {
-  //   context: { state },
-  // } = gameState;
+  const farmId = 1; // TODO
 
   const { collection, id } = useParams<{
     collection: CollectionName;
@@ -115,7 +111,9 @@ const TradeableHeader: React.FC<{
   display: TradeableDisplay;
   tradeable?: TradeableDetails;
 }> = ({ collection, onBack, display, tradeable }) => {
-  let cheapestListing = tradeable?.listings.reduce((cheapest, listing) => {
+  const { t } = useAppTranslation();
+
+  const cheapestListing = tradeable?.listings.reduce((cheapest, listing) => {
     return listing.sfl < cheapest.sfl ? listing : cheapest;
   }, tradeable?.listings?.[0]);
 
@@ -133,7 +131,7 @@ const TradeableHeader: React.FC<{
           <div className="flex items-center">
             {tradeable?.type === "onchain" && (
               <Label type="formula" className="mr-2" icon={walletIcon}>
-                Wallet Required
+                {t("marketplace.walletRequired")}
               </Label>
             )}
 
@@ -154,10 +152,10 @@ const TradeableHeader: React.FC<{
           )}
           <div className="flex items-center justify-end w-full sm:w-auto">
             {cheapestListing && (
-              <Button className="mr-1 w-auto">Buy now</Button>
+              <Button className="mr-1 w-auto">{t("marketplace.buyNow")}</Button>
             )}
             <Button disabled className="w-auto">
-              List for sale
+              {t("marketplace.listForSale")}
             </Button>
           </div>
         </div>
@@ -169,6 +167,8 @@ const TradeableInfo: React.FC<{
   display: TradeableDisplay;
   tradeable?: TradeableDetails;
 }> = ({ display, tradeable }) => {
+  const { t } = useAppTranslation();
+
   return (
     <>
       <InnerPanel className="w-full flex relative mb-1">
@@ -193,7 +193,7 @@ const TradeableInfo: React.FC<{
       <InnerPanel>
         <div className="p-2">
           <Label type="default" className="mb-1" icon={SUNNYSIDE.icons.search}>
-            Description
+            {t("marketplace.description")}
           </Label>
           <p className="text-sm mb-2">{display.description}</p>
           {display.buff && (
@@ -215,16 +215,18 @@ const Listings: React.FC<{
   tradeable?: TradeableDetails;
   farmId: number;
 }> = ({ tradeable, farmId }) => {
+  const { t } = useAppTranslation();
+
   return (
     <InnerPanel className="mb-1">
       <div className="p-2">
         <Label icon={tradeIcon} type="default" className="mb-2">
-          Listings
+          {t("marketplace.listings")}
         </Label>
         <div className="mb-2">
           {!tradeable && <Loading />}
           {tradeable?.listings.length === 0 && (
-            <p className="text-sm">No listings available.</p>
+            <p className="text-sm">{t("marketplace.noListings")}</p>
           )}
           {!!tradeable?.listings.length && (
             <TradeTable
@@ -238,7 +240,9 @@ const Listings: React.FC<{
           )}
         </div>
         <div className="w-full justify-end flex">
-          <Button className="w-full sm:w-fit">List for sale</Button>
+          <Button className="w-full sm:w-fit">
+            {t("marketplace.listForSale")}
+          </Button>
         </div>
       </div>
     </InnerPanel>
@@ -249,7 +253,9 @@ const Offers: React.FC<{
   tradeable?: TradeableDetails;
   farmId: number;
 }> = ({ tradeable, farmId }) => {
-  let topOffer = tradeable?.offers.reduce((highest, listing) => {
+  const { t } = useAppTranslation();
+
+  const topOffer = tradeable?.offers.reduce((highest, listing) => {
     return listing.sfl > highest.sfl ? listing : highest;
   }, tradeable?.offers?.[0]);
 
@@ -260,7 +266,7 @@ const Offers: React.FC<{
           <div className="p-2">
             <div className="flex justify-between mb-2">
               <Label type="default" icon={increaseArrow}>
-                Top Offer
+                {t("marketplace.topOffer")}
               </Label>
               <Label
                 type="chill"
@@ -272,7 +278,7 @@ const Offers: React.FC<{
                 <img src={sflIcon} className="h-8 mr-2" />
                 <p className="text-base">{`${topOffer.sfl} SFL`}</p>
               </div>
-              <Button className="w-fit">Accept Offer</Button>
+              <Button className="w-fit">{t("marketplace.makeOffer")}</Button>
             </div>
           </div>
         </InnerPanel>
@@ -281,26 +287,28 @@ const Offers: React.FC<{
       <InnerPanel className="mb-1">
         <div className="p-2">
           <Label icon={tradeIcon} type="default" className="mb-2">
-            Offers
+            {t("marketplace.offers")}
           </Label>
           <div className="mb-2">
             {!tradeable && <Loading />}
-            {tradeable?.listings.length === 0 && (
-              <p className="text-sm">No offers available.</p>
+            {tradeable?.offers.length === 0 && (
+              <p className="text-sm">{t("marketplace.noOffers")}</p>
             )}
-            {!!tradeable?.listings.length && (
+            {!!tradeable?.offers.length && (
               <TradeTable
-                items={tradeable.offers.map((listing) => ({
-                  price: listing.sfl,
+                items={tradeable.offers.map((offer) => ({
+                  price: offer.sfl,
                   expiresAt: "30 days", // TODO,
-                  createdById: listing.offeredById,
+                  createdById: offer.offeredById,
                 }))}
                 id={farmId}
               />
             )}
           </div>
           <div className="w-full justify-end flex">
-            <Button className="w-full sm:w-fit">Make an offer</Button>
+            <Button className="w-full sm:w-fit">
+              {t("marketplace.makeAnOffer")}
+            </Button>
           </div>
         </div>
       </InnerPanel>
