@@ -3876,7 +3876,10 @@ export type MarketplaceTerms =
   | "marketplace.noOffers"
   | "marketplace.topOffer"
   | "marketplace.acceptOffer"
-  | "marketplace.makeOffer";
+  | "marketplace.makeOffer"
+  | "marketplace.sfl"
+  | "marketplace.expiry"
+  | "marketplace.from";
 
 export type TranslationKeys =
   | AchievementsTerms

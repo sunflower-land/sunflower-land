@@ -18,13 +18,13 @@ export const TradeTable: React.FC<{ items: TradeTableItem[]; id: number }> = ({
       <thead>
         <tr>
           <th style={{ border: "1px solid #b96f50" }} className="p-1.5 w-1/5">
-            <p>{t("sfl")}</p>
+            <p>{t("marketplace.sfl")}</p>
           </th>
           <th style={{ border: "1px solid #b96f50" }} className="p-1.5">
-            <p>{t("expiresAt")}</p>
+            <p>{t("marketplace.expiry")}</p>
           </th>
           <th style={{ border: "1px solid #b96f50" }} className="p-1.5">
-            <p>{t("from")}</p>
+            <p>{t("marketplace.from")}</p>
           </th>
         </tr>
       </thead>

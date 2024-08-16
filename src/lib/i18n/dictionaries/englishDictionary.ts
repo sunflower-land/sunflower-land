@@ -5703,6 +5703,9 @@ export const marketplaceTerms: Record<MarketplaceTerms, string> = {
   "marketplace.topOffer": "Top offer",
   "marketplace.acceptOffer": "Accept offer",
   "marketplace.makeOffer": "Make an offer",
+  "marketplace.expiry": "Expiry",
+  "marketplace.from": "From",
+  "marketplace.sfl": "SFL",
 };
 
 export const ENGLISH_TERMS: Record<TranslationKeys, string> = {

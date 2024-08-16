@@ -5770,6 +5770,9 @@ export const marketplaceTerms: Record<MarketplaceTerms, string> = {
   "marketplace.topOffer": ENGLISH_TERMS["marketplace.topOffer"],
   "marketplace.acceptOffer": ENGLISH_TERMS["marketplace.acceptOffer"],
   "marketplace.makeOffer": ENGLISH_TERMS["marketplace.makeOffer"],
+  "marketplace.expiry": ENGLISH_TERMS["marketplace.expiry"],
+  "marketplace.from": ENGLISH_TERMS["marketplace.from"],
+  "marketplace.sfl": ENGLISH_TERMS["marketplace.sfl"],
 };
 
 export const RUSSIAN_TERMS: Record<TranslationKeys, string> = {
