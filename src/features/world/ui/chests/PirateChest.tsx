@@ -162,11 +162,13 @@ const PirateChestContent: React.FC<PirateChestContentProps> = ({
 interface Props {
   onClose: () => void;
   setIsLoading?: (isLoading: boolean) => void;
+  show: boolean;
 }
 
 export const PirateChestModal: React.FC<Props> = ({
   onClose,
   setIsLoading,
+  show,
 }) => {
   const { t } = useAppTranslation();
 
@@ -184,6 +186,7 @@ export const PirateChestModal: React.FC<Props> = ({
           ? undefined
           : onClose
       }
+      show={show}
     >
       <CloseButtonPanel
         onClose={
