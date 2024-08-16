@@ -7,6 +7,7 @@ import { Modal } from "components/ui/Modal";
 import { Panel } from "components/ui/Panel";
 import { NumberInput } from "./NumberInput";
 import { setPrecision } from "lib/utils/formatNumber";
+import { Equipped } from "features/game/types/bumpkin";
 
 interface BulkSellProps {
   show: boolean;
@@ -17,6 +18,8 @@ interface BulkSellProps {
   onCancel: () => void;
   onSell: () => void;
   coinAmount: Decimal;
+  bumpkinParts?: Partial<Equipped>;
+  maxDecimalPlaces: number;
 }
 
 export const BulkSellModal: React.FC<BulkSellProps> = ({
@@ -28,6 +31,8 @@ export const BulkSellModal: React.FC<BulkSellProps> = ({
   onCancel,
   onSell,
   coinAmount,
+  bumpkinParts,
+  maxDecimalPlaces,
 }) => {
   const { t } = useAppTranslation();
 
@@ -36,7 +41,7 @@ export const BulkSellModal: React.FC<BulkSellProps> = ({
 
   return (
     <Modal show={show} onHide={onHide}>
-      <Panel className="w-4/5 m-auto">
+      <Panel className="w-4/5 m-auto" bumpkinParts={bumpkinParts}>
         <div className="flex flex-col items-center">
           <p className="text-sm text-start w-full mb-1">
             {t("confirmation.enterAmount")}
@@ -44,12 +49,16 @@ export const BulkSellModal: React.FC<BulkSellProps> = ({
           <div className="flex items-center w-full">
             <NumberInput
               value={customAmount}
-              maxDecimalPlaces={2}
+              maxDecimalPlaces={maxDecimalPlaces}
               isOutOfRange={isOutOfRange}
               onValueChange={setCustomAmount}
             />
             <Button
-              onClick={() => setCustomAmount(setPrecision(itemAmount.mul(0.5)))}
+              onClick={() =>
+                setCustomAmount(
+                  setPrecision(itemAmount.mul(0.5), maxDecimalPlaces),
+                )
+              }
               className="ml-2 px-1 py-1 w-auto"
             >
               {`50%`}

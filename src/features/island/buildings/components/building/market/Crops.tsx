@@ -357,6 +357,8 @@ export const Crops: React.FC = () => {
         customAmount={customAmount}
         setCustomAmount={setCustomAmount}
         itemAmount={cropAmount}
+        bumpkinParts={NPC_WEARABLES.betty}
+        maxDecimalPlaces={2}
         onCancel={closeBulkSellModal}
         onSell={openConfirmationModal}
         coinAmount={coinAmount}

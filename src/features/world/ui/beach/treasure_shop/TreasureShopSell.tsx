@@ -59,7 +59,7 @@ export const TreasureShopSell: React.FC = () => {
     if (isValuable) {
       showConfirmationModal(true);
     } else {
-      sell(1);
+      sell();
     }
   };
 
@@ -141,7 +141,7 @@ export const TreasureShopSell: React.FC = () => {
             : price > 1000
               ? t("confirmation.valuableTreasure")
               : t("confirmation.sellCrops", {
-                  cropAmount: amount,
+                  cropAmount: customAmount,
                   cropName: selectedName,
                   coinAmount,
                 }),
@@ -152,7 +152,7 @@ export const TreasureShopSell: React.FC = () => {
         }}
         onConfirm={() => {
           if (isValuable) {
-            sell(1);
+            sell();
           } else {
             sell(customAmount.toNumber());
             showConfirmationModal(false);
@@ -172,7 +172,9 @@ export const TreasureShopSell: React.FC = () => {
           showConfirmationModal(true);
           showBulkSellModal(false);
         }}
+        bumpkinParts={NPC_WEARABLES.jafar}
         coinAmount={new Decimal(coinAmount)}
+        maxDecimalPlaces={0} // It shouldn't allow decimal places
       />
     </>
   );
