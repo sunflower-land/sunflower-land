@@ -160,7 +160,7 @@ const CollectibleContent: React.FC<CollectibleContentProps> = ({
         from: selected.from,
         to: selected.to,
       }}
-      boost={selected.boost}
+      boost={isBoost}
       requirements={{
         resources: selected.ingredients,
         coins: selected.coins,
@@ -242,7 +242,7 @@ const WearableContent: React.FC<WearableContentProps> = ({
         from: selected.from,
         to: selected.to,
       }}
-      boost={BUMPKIN_ITEM_BUFF_LABELS[selectedName]?.shortDescription}
+      boost={isBoost}
       requirements={{
         resources: selected.ingredients,
         coins: selected.coins,
