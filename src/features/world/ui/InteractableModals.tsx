@@ -14,7 +14,6 @@ import { OuterPanel, Panel } from "components/ui/Panel";
 import { NyeButton } from "./NyeButton";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { BasicTreasureChest } from "./chests/BasicTreasureChest";
-import { CommunityDonations } from "./donations/Donations";
 import { SceneId } from "../mmoMachine";
 import { TradingBoard } from "./npcs/TradingBoard";
 import { BudBox } from "./chests/BudBox";
@@ -37,6 +36,7 @@ import { FactionNoticeboard } from "./factions/FactionNoticeboard";
 import { CropsAndChickens } from "./portals/CropsAndChickens";
 import { DesertNoticeboard } from "./beach/DesertNoticeboard";
 import { PirateChestModal } from "./chests/PirateChest";
+import { ExampleDonations } from "./donations/ExampleDonations";
 
 type InteractableName =
   | "desert_noticeboard"
@@ -210,7 +210,7 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
       </Modal>
       <Modal show={interactable === "donations"} onHide={closeModal}>
         <CloseButtonPanel title={t("enjoying.event")} onClose={closeModal}>
-          <CommunityDonations />
+          <ExampleDonations onClose={closeModal} />
         </CloseButtonPanel>
       </Modal>
       {interactable === "potion_table" && <PotionHouse onClose={closeModal} />}
