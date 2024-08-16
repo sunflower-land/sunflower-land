@@ -117,6 +117,15 @@ export class KingdomScene extends BaseScene {
       frameHeight: 25,
     });
 
+    this.load.spritesheet(
+      "portal_crops_and_chickens",
+      "world/portal_well_crops_and_chickens_sheet.png",
+      {
+        frameWidth: 20,
+        frameHeight: 25,
+      },
+    );
+
     this.load.spritesheet("castle_bud_1", "world/castle_bud_1.webp", {
       frameWidth: 32,
       frameHeight: 32,
@@ -207,8 +216,21 @@ export class KingdomScene extends BaseScene {
           });
       }
 
-      const cropsAndChickensPortal = this.add.sprite(400, 752, "portal");
-      cropsAndChickensPortal.play("portal_anim", true);
+      const cropsAndChickensPortal = this.add.sprite(
+        400,
+        752,
+        "portal_crops_and_chickens",
+      );
+      this.anims.create({
+        key: "portal_crops_and_chickens_anim",
+        frames: this.anims.generateFrameNumbers("portal_crops_and_chickens", {
+          start: 0,
+          end: 17,
+        }),
+        repeat: -1,
+        frameRate: 10,
+      });
+      cropsAndChickensPortal.play("portal_crops_and_chickens_anim", true);
       cropsAndChickensPortal
         .setInteractive({ cursor: "pointer" })
         .on("pointerdown", () => {
