@@ -8,6 +8,7 @@ export type Tradeable = {
   id: number;
   floor: number;
   supply: number;
+  type: "onchain" | "instant";
 };
 
 type Offer = {
@@ -24,7 +25,7 @@ type Listing = {
   listedAt: number;
 };
 
-type TradeableDetails = Tradeable & {
+export type TradeableDetails = Tradeable & {
   offers: Offer[];
   listings: Listing[];
   history: { price: number; sales: number; date: string }[];

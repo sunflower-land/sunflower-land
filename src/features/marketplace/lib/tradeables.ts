@@ -8,7 +8,7 @@ import { budImageDomain } from "features/island/collectibles/components/Bud";
 import { translateTerms } from "lib/i18n/translate";
 import { OPEN_SEA_WEARABLES } from "metadata/metadata";
 
-type TradeableDisplay = {
+export type TradeableDisplay = {
   name: string;
   description: string;
   image: string;
