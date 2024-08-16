@@ -1,6 +1,5 @@
 import {
   CollectionName,
-  Tradeable,
   TradeableDetails,
 } from "features/game/types/marketplace";
 import { CONFIG } from "lib/config";

@@ -5672,6 +5672,7 @@ export const marketplaceTerms: Record<MarketplaceTerms, string> = {
   "marketplace.expiry": ENGLISH_TERMS["marketplace.expiry"],
   "marketplace.from": ENGLISH_TERMS["marketplace.from"],
   "marketplace.sfl": ENGLISH_TERMS["marketplace.sfl"],
+  "marketplace.priceHistory": ENGLISH_TERMS["marketplace.priceHistory"],
 };
 
 export const TURKISH_TERMS: Record<TranslationKeys, string> = {

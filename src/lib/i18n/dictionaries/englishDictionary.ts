@@ -5706,6 +5706,7 @@ export const marketplaceTerms: Record<MarketplaceTerms, string> = {
   "marketplace.expiry": "Expiry",
   "marketplace.from": "From",
   "marketplace.sfl": "SFL",
+  "marketplace.priceHistory": "Price history",
 };
 
 export const ENGLISH_TERMS: Record<TranslationKeys, string> = {

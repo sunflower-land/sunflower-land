@@ -307,7 +307,7 @@ const Offers: React.FC<{
           </div>
           <div className="w-full justify-end flex">
             <Button className="w-full sm:w-fit">
-              {t("marketplace.makeAnOffer")}
+              {t("marketplace.makeOffer")}
             </Button>
           </div>
         </div>

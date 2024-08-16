@@ -3879,6 +3879,7 @@ export type MarketplaceTerms =
   | "marketplace.makeOffer"
   | "marketplace.sfl"
   | "marketplace.expiry"
+  | "marketplace.priceHistory"
   | "marketplace.from";
 
 export type TranslationKeys =

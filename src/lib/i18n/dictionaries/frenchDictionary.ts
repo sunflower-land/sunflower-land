@@ -5815,6 +5815,7 @@ export const marketplaceTerms: Record<MarketplaceTerms, string> = {
   "marketplace.acceptOffer": ENGLISH_TERMS["marketplace.acceptOffer"],
   "marketplace.makeOffer": ENGLISH_TERMS["marketplace.makeOffer"],
   "marketplace.expiry": ENGLISH_TERMS["marketplace.expiry"],
+  "marketplace.priceHistory": ENGLISH_TERMS["marketplace.priceHistory"],
   "marketplace.from": ENGLISH_TERMS["marketplace.from"],
   "marketplace.sfl": ENGLISH_TERMS["marketplace.sfl"],
 };
