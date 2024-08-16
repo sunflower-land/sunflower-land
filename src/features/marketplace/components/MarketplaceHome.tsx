@@ -63,16 +63,14 @@ export const MarketplaceHome: React.FC = () => {
             </ButtonPanel>
           </div>
         ))}
-        <Category selectedCategory={selectedCategory} />
+        <List />
       </div>
       <Collection key={collection} type={collection ?? "collectibles"} />
     </InnerPanel>
   );
 };
 
-const Category: React.FC<{
-  selectedCategory: MarketplaceCategoryName;
-}> = () => {
+const List: React.FC = () => {
   const [isListing, setIsListing] = useState(false);
 
   if (isListing) {
