@@ -249,6 +249,20 @@ export const RequirementLabel: React.FC<Props> = (props) => {
   };
   const requirementMet = isRequirementMet();
 
+  const labelType = () => {
+    if (props.type === "wearable") {
+      if (
+        requirementMet &&
+        !isWearableActive({ game: state, name: props.requirement })
+      ) {
+        return "success";
+      }
+      return "danger";
+    }
+
+    return requirementMet ? "transparent" : "danger";
+  };
+
   return (
     <div
       className={classNames(
@@ -276,14 +290,7 @@ export const RequirementLabel: React.FC<Props> = (props) => {
         className={classNames("whitespace-nowrap font-secondary relative", {
           "ml-1": !requirementMet,
         })}
-        type={
-          props.type === "wearable"
-            ? requirementMet &&
-              !isWearableActive({ game: state, name: props.requirement })
-              ? "success"
-              : "danger"
-            : "transparent"
-        }
+        type={labelType()}
         secondaryIcon={
           props.type === "wearable"
             ? requirementMet &&
@@ -293,16 +300,7 @@ export const RequirementLabel: React.FC<Props> = (props) => {
             : undefined
         }
         style={{
-          color:
-            props.textColor ??
-            LABEL_STYLES[
-              props.type === "wearable"
-                ? requirementMet &&
-                  !isWearableActive({ game: state, name: props.requirement })
-                  ? "success"
-                  : "danger"
-                : "transparent"
-            ].textColour,
+          color: props.textColor ?? LABEL_STYLES[labelType()].textColour,
         }}
       >
         {getText()}
