@@ -354,7 +354,9 @@ export class Wallet {
       result,
     );
 
-    return Number(fromWei(toBN(decodedResult[1])));
+    // decodedResult[0] is the amount of Matic needed to buy SFL
+    // decodedResult[1] is the amount of SFL to be bought
+    return new Decimal(fromWei(toBN(decodedResult[1])));
   }
 
   public async getMaticForSFL(sfl: string) {
@@ -369,7 +371,7 @@ export class Wallet {
     const encodedParameters = this.web3.eth.abi
       .encodeParameters(
         ["uint256", "address[]"],
-        [toBN(sfl), [SFL_TOKEN_ADDRESS, WMATIC_ADDRESS]],
+        [toBN(sfl), [WMATIC_ADDRESS, SFL_TOKEN_ADDRESS]],
       )
       .substring(2);
 
@@ -381,8 +383,10 @@ export class Wallet {
       result,
     );
 
-    const maticWithFee = Number(
-      fromWei(toBN(decodedResult[1]).mul(toBN(1050)).div(toBN(1000))),
+    // decodedResult[0] is the amount of Matic needed to buy SFL
+    // decodedResult[1] is the amount of SFL to be bought
+    const maticWithFee = new Decimal(
+      fromWei(toBN(decodedResult[0]).div(toBN(950)).mul(toBN(1000))),
     );
 
     return maticWithFee;
