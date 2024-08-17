@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Redirecting...</title>
+    <script type="text/javascript">
+      const fullUrl = window.location.href;
+
+      // Create a new URL object using the full URL
+      const url = new URL(fullUrl);
+
+      //   let baseUrl = "https://api.sunflower-land.com";
+      let baseUrl = "https://10h8kpp7wl.execute-api.us-east-1.amazonaws.com";
+
+      if (url.pathname.includes("development")) {
+        // Forward to dev URL
+        let baseUrl = "https://api-dev.sunflower-land.com";
+      } else if (url.pathname.includes("hannigan")) {
+        let baseUrl = "https://10h8kpp7wl.execute-api.us-east-1.amazonaws.com";
+      }
+      // Add your URL here
+
+      // TODO grab URL from here
+
+      window.location.href = `${baseUrl}/auth/fsl/callback?code=sks39dojobxcrvf9s3riz7eh8pro2ju6`;
+
+      // JavaScript redirect as an alternative or fallback
+    </script>
+  </head>
+  <body>
+    <p>Redirecting...</p>
+  </body>
+</html>
