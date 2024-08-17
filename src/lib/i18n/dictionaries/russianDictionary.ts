@@ -1373,8 +1373,8 @@ const confirmSkill: Record<ConfirmSkill, string> = {
 };
 
 const confirmationTerms: Record<ConfirmationTerms, string> = {
-  "confirmation.sellCrops":
-    "Ты уверен что хочешь продать {{cropAmount}} {{cropName}} за {{coinAmount}} монет?",
+  "confirmation.sell":
+    "Ты уверен что хочешь продать {{amount}} {{name}} за {{coinAmount}} монет?",
   "confirmation.buyCrops":
     "Ты точно хочешь потратить {{coinAmount}} Монет для покупки {{seedNo}} {{seedName}}s?",
   "confirmation.enterAmount": "Сколько всего продать:",

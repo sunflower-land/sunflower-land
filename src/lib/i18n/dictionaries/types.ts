@@ -970,7 +970,7 @@ export type ComposterDescription =
 export type ConfirmSkill = "confirm.skillClaim";
 
 export type ConfirmationTerms =
-  | "confirmation.sellCrops"
+  | "confirmation.sell"
   | "confirmation.buyCrops"
   | "confirmation.enterAmount"
   | "confirmation.sellSeasonalArtefact"

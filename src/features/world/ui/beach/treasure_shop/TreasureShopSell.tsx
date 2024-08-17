@@ -140,9 +140,9 @@ export const TreasureShopSell: React.FC = () => {
             ? t("confirmation.sellSeasonalArtefact")
             : price > 1000
               ? t("confirmation.valuableTreasure")
-              : t("confirmation.sellCrops", {
-                  cropAmount: customAmount,
-                  cropName: selectedName,
+              : t("confirmation.sell", {
+                  amount: customAmount,
+                  name: selectedName,
                   coinAmount,
                 }),
         ]}
