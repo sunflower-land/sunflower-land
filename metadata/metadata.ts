@@ -6467,7 +6467,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/2116.gif",
     attributes: [
-      { trait_type: "Boost", value: "Other" },
+      { trait_type: "Boost", value: "Treasure" },
       {
         display_type: "boost_number",
         trait_type: "Increase daily digs",
@@ -8714,7 +8714,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     image: "../public/erc1155/images/2075.png",
     attributes: [
       { trait_type: "Purpose", value: "Consumable" },
-      { trait_type: "Boost", value: "Other" },
+      { trait_type: "Boost", value: "Fruit" },
       {
         display_type: "boost_percentage",
         trait_type: "Fruit Growth Time",
