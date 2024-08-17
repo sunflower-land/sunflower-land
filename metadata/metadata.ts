@@ -13030,7 +13030,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
     decimals: 0,
     attributes: [
       { trait_type: "Part", value: "Hat" },
-      { trait_type: "Boost", value: "Resource" },
+      { trait_type: "Boost", value: "Crop" },
       {
         display_type: "boost_number",
         trait_type: "Increase Rice Yield",
@@ -13064,7 +13064,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
     decimals: 0,
     attributes: [
       { trait_type: "Part", value: "SecondaryTool" },
-      { trait_type: "Boost", value: "Resource" },
+      { trait_type: "Boost", value: "Crop" },
       {
         display_type: "boost_number",
         trait_type: "Increase Olive Yield",
