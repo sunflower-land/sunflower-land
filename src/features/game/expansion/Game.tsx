@@ -181,7 +181,7 @@ const somethingArrived = (state: MachineState) =>
 const isProvingPersonhood = (state: MachineState) =>
   state.matches("provingPersonhood");
 
-const GameContent = () => {
+const GameContent: React.FC = () => {
   const { gameService } = useContext(Context);
 
   useSound("desert", true);
@@ -444,7 +444,12 @@ export const GameWrapper: React.FC = ({ children }) => {
   const stateValue = typeof state === "object" ? Object.keys(state)[0] : state;
 
   const onHide = () => {
-    listed || listingDeleted || traded || sniped || marketPriceChanged
+    listed ||
+    listingDeleted ||
+    traded ||
+    sniped ||
+    marketPriceChanged ||
+    tradeAlreadyFulfilled
       ? gameService.send("CONTINUE")
       : undefined;
   };
