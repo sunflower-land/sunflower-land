@@ -313,6 +313,61 @@ export const BONUS_FACTION_PRIZES: Record<
         {},
       ),
   },
+  "2024-08-26": {
+    1: {
+      items: {
+        "Luxury Key": 15,
+      },
+    },
+    2: {
+      items: {
+        "Luxury Key": 10,
+      },
+    },
+    3: {
+      items: {
+        "Luxury Key": 5,
+      },
+    },
+    4: {
+      items: {
+        "Luxury Key": 3,
+      },
+    },
+    5: {
+      items: {
+        "Luxury Key": 3,
+      },
+    },
+    // 6th - 10th
+    ...new Array(5)
+      .fill({
+        items: {
+          "Luxury Key": 2,
+        },
+      })
+      .reduce(
+        (acc, item, i) => ({
+          ...acc,
+          [i + 6]: item,
+        }),
+        {},
+      ),
+    // 11th - 50th
+    ...new Array(40)
+      .fill({
+        items: {
+          "Rare Key": 2,
+        },
+      })
+      .reduce(
+        (acc, item, i) => ({
+          ...acc,
+          [i + 11]: item,
+        }),
+        {},
+      ),
+  },
 };
 
 export const FACTION_PRIZES: (
