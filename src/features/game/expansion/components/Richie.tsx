@@ -274,7 +274,7 @@ export const Richie: React.FC = () => {
                           </Label>
                           <div className="flex items-center">
                             <span className="text-sm mr-0.5">{`${progress}/${task.requirement}`}</span>
-                            <img src={task.image} className="h-6" />
+                            <img src={TASK_ICONS[index]} className="h-6" />
                           </div>
                           <span className="text-xs text-center whitespace-nowrap overflow-x-clip w-full text-ellipsis  mb-5">
                             {task.description}
@@ -410,7 +410,7 @@ const Challenge: React.FC<{
   challenge: DailyChallenge;
   onClose: () => void;
   progress: number;
-}> = ({ challenge, onClose, progress }) => {
+}> = ({ challenge, onClose, progress, index }) => {
   const percentageComplete = (progress / challenge.requirement) * 100;
 
   return (
@@ -424,7 +424,6 @@ const Challenge: React.FC<{
         <Label type="default">Challenge</Label>
         <p className="text-sm mb-1">{challenge?.description}</p>
         <div className="flex items-center mb-2 flex-wrap">
-          <img src={challenge.image} className="h-7 mr-1" />
           <span className="text-sm mr-1">{`${progress}/${challenge.requirement}`}</span>
           <ResizableBar percentage={percentageComplete} type="progress" />
         </div>
