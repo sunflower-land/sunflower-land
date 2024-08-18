@@ -51,7 +51,7 @@ export const Collection: React.FC<Props> = ({ type }) => {
         return (
           <ListViewCard
             name={display.name}
-            hasBoost
+            hasBoost={!!display.buff}
             price={new Decimal(item.floor)}
             image={display.image}
             supply={item.supply}

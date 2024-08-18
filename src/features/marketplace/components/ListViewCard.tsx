@@ -1,8 +1,10 @@
-import { SUNNYSIDE } from "assets/sunnyside";
+import React, { useEffect, useState } from "react";
 import { Label } from "components/ui/Label";
 import Decimal from "decimal.js-light";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import React from "react";
+import grass from "assets/brand/grass_background_2.png";
+import smallBoost from "assets/icons/small_boost.png";
+import { ButtonPanel } from "components/ui/Panel";
 
 type Props = {
   name: string;
@@ -17,32 +19,48 @@ export const ListViewCard: React.FC<Props> = ({
   name,
   image,
   supply,
+  hasBoost,
   price,
   onClick,
 }) => {
+  const [size, setSize] = useState({ width: 0, height: 0 });
+
+  useEffect(() => {
+    const img = new Image();
+    img.src = image;
+    img.onload = () => {
+      setSize({ width: img.width, height: img.height });
+    };
+  }, []);
+
   return (
     <div className="relative cursor-pointer" onClick={onClick}>
-      <div
-        style={{
-          borderImage: `url(${SUNNYSIDE.ui.primaryButton})`,
-          borderStyle: "solid",
-          borderWidth: `8px 8px 10px 8px`,
-          borderImageSlice: "3 3 4 3 fill",
-          imageRendering: "pixelated",
-          borderImageRepeat: "stretch",
-          borderRadius: `${PIXEL_SCALE * 5}px`,
-          color: "#674544",
-        }}
-      >
+      <ButtonPanel>
         <div className="w-32 sm:w-40 flex flex-col">
           <div className="relative">
             <p className="text-white absolute top-1 left-1 text-xs">{`x${supply}`}</p>
-            <img src={image} className="w-full rounded-md" />
+            <div
+              style={{
+                backgroundImage: `url(${grass})`,
+              }}
+              className="w-full h-32 rounded-md flex justify-center items-center"
+            >
+              <img
+                src={image}
+                style={{
+                  height: `${size.height * PIXEL_SCALE}px`,
+                  width: `${size.width * PIXEL_SCALE}px`,
+                }}
+              />
+              {hasBoost && (
+                <img src={smallBoost} className="absolute top-1 right-1" />
+              )}
+            </div>
           </div>
 
           <p className="my-1 pb-5">{name}</p>
         </div>
-      </div>
+      </ButtonPanel>
 
       <Label
         className="absolute bottom-0 left-0 !w-full"
