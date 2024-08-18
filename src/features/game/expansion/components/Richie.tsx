@@ -38,6 +38,30 @@ import { secondsToString } from "lib/utils/time";
 import { getKeys } from "features/game/types/decorations";
 import { MapPlacement } from "./MapPlacement";
 import { hasFeatureAccess } from "lib/flags";
+import { NPC } from "features/island/bumpkin/components/NPC";
+import { NPC_WEARABLES } from "lib/npcs";
+
+import levelUp from "assets/icons/level_up.png";
+import chefHat from "assets/icons/chef_hat.png";
+import shopIcon from "assets/icons/shop.png";
+
+/**
+ * Getting build errors when inside of tests so images live here
+ */
+export const TASK_ICONS: string[] = [
+  ITEM_DETAILS.Axe.image,
+  levelUp,
+  ITEM_DETAILS.Sunflower.image,
+  SUNNYSIDE.icons.player,
+  SUNNYSIDE.icons.heart,
+  ITEM_DETAILS.Pickaxe.image,
+  ITEM_DETAILS.Hammer.image,
+  SUNNYSIDE.icons.player,
+  SUNNYSIDE.tools.fishing_rod,
+  SUNNYSIDE.icons.hank,
+  SUNNYSIDE.icons.pete,
+  shopIcon,
+];
 
 export const Richie: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
@@ -67,12 +91,12 @@ export const Richie: React.FC = () => {
     const expansionCount = inventory["Basic Land"]?.toNumber() ?? 0;
 
     if (expansionCount < 7) {
-      return { x: 6, y: -4.5 };
+      return { x: -6, y: -4.5 };
     }
     if (expansionCount >= 7 && expansionCount < 21) {
-      return { x: 6, y: -10.5 };
+      return { x: -6, y: -10.5 };
     } else {
-      return { x: 6, y: -16.5 };
+      return { x: -6, y: -16.5 };
     }
   };
 
@@ -92,15 +116,18 @@ export const Richie: React.FC = () => {
 
   return (
     <>
-      <MapPlacement x={x} y={y} width={3} height={height}>
+      <MapPlacement x={x} y={y} width={4} height={4}>
         <img
           src={SUNNYSIDE.land.rewardsRaft}
-          className="cursor-pointer"
+          className="cursor-pointer hover:img-highlight"
           onClick={onOpen}
           style={{
             width: `${PIXEL_SCALE * 62}px`,
           }}
         />
+        <div className="absolute left-16 top-14">
+          <NPC parts={NPC_WEARABLES.richie} onClick={onOpen} />
+        </div>
       </MapPlacement>
       <Modal show={showModal} onHide={onClose}>
         <ModalOverlay
@@ -175,7 +202,7 @@ export const Richie: React.FC = () => {
             >
               <div className="flex justify-between mb-1">
                 <Label type="default">Rewards</Label>
-                {isOnboarding && (
+                {createdAt > Date.now() - RICHIE_ONBOARDING_MS && (
                   <Label type="info" icon={SUNNYSIDE.icons.stopwatch}>
                     {`${secondsToString(
                       (createdAt + RICHIE_ONBOARDING_MS - Date.now()) / 1000,

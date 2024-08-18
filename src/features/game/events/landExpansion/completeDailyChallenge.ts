@@ -1,9 +1,11 @@
+import cloneDeep from "lodash.clonedeep";
+import Decimal from "decimal.js-light";
 import { GameState } from "features/game/types/game";
 import {
   DAILY_CHALLENGES,
   ONBOARDING_CHALLENGES,
 } from "features/game/types/rewards";
-import cloneDeep from "lodash.clonedeep";
+import { getKeys } from "features/game/types/decorations";
 
 export type CompleteDailyChallengeAction = {
   type: "dailyChallenge.completed";
@@ -20,9 +22,8 @@ export const RICHIE_ONBOARDING_MS = 7 * 24 * 60 * 60 * 1000;
 export function isOnboardingChallenges({ game }: { game: GameState }) {
   const { completed } = game.rewards.challenges;
 
-  const isOnboarding =
-    completed < ONBOARDING_CHALLENGES.length &&
-    game.createdAt > Date.now() - RICHIE_ONBOARDING_MS;
+  const isOnboarding = completed < ONBOARDING_CHALLENGES.length;
+  // && game.createdAt > Date.now() - RICHIE_ONBOARDING_MS;
 
   return isOnboarding;
 }
@@ -66,13 +67,23 @@ export function completeDailyChallenge({
     game.coins += task.reward.coins;
   }
 
+  if (task.reward.items) {
+    getKeys(task.reward.items ?? {}).forEach((name) => {
+      const previous = game.inventory[name] ?? new Decimal(0);
+      game.inventory[name] = previous?.add(task.reward.items?.[name] ?? 0);
+    });
+  }
+
+  if (task.reward.wearables) {
+    getKeys(task.reward.wearables ?? {}).forEach((name) => {
+      const previous = game.wardrobe[name] ?? 0;
+      game.wardrobe[name] = previous + (task.reward.wearables?.[name] ?? 0);
+    });
+  }
+
   // While onboarding, let them complete instantly
   if (isOnboarding) {
     const hasFinished = active.index >= ONBOARDING_CHALLENGES.length - 1;
-
-    const nextTask = hasFinished
-      ? DAILY_CHALLENGES[0]
-      : tasks[active.index + 1];
 
     challenges.active = {
       index: hasFinished ? 0 : challenges.active.index + 1,
