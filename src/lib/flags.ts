@@ -44,7 +44,8 @@ export type FeatureName =
   | "NEW_FRUITS"
   | "DESERT_PLAZA"
   | "SKILLS_REVAMP"
-  | "MARKETPLACE";
+  | "MARKETPLACE"
+  | "ONBOARDING_REWARDS";
 
 // Used for testing production features
 export const ADMIN_IDS = [1, 3, 51, 39488, 128727];
@@ -58,7 +59,11 @@ export const ADMIN_IDS = [1, 3, 51, 39488, 128727];
 
 type FeatureFlag = (game: GameState) => boolean;
 
+export type ExperimentName = "ONBOARDING_CHALLENGES";
+
 const featureFlags: Record<FeatureName, FeatureFlag> = {
+  ONBOARDING_REWARDS: (game) =>
+    game.experiments.includes("ONBOARDING_CHALLENGES"),
   MARKETPLACE: testnetFeatureFlag,
   FESTIVAL_OF_COLORS: (game) => {
     if (defaultFeatureFlag(game)) return true;

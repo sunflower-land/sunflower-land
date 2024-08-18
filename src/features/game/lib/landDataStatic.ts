@@ -719,7 +719,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     "Sunflower Amulet": 2,
   },
 
-  createdAt: new Date("2024-06-16").getTime(),
+  createdAt: new Date().getTime(),
 
   conversations: ["hank-intro"],
 

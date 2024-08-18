@@ -1,6 +1,7 @@
 import { Equipped } from "features/game/types/bumpkin";
 
 export type NPCName =
+  | "richie"
   | "cluck e cheese"
   | "digby"
   | "portaller"
@@ -105,6 +106,16 @@ export type NPCName =
   | "worried pete";
 
 export const NPC_WEARABLES: Record<NPCName, Equipped> = {
+  richie: {
+    body: "Beige Farmer Potion",
+    background: "Dawn Breaker Background",
+    hair: "Basic Hair",
+    shirt: "Bidder's Brocade",
+    pants: "Auctioneer Slacks",
+    shoes: "Leather Shoes",
+    tool: "Farmer Pitchfork",
+    hat: "Harry's Hat",
+  },
   "cluck e cheese": {
     background: "Farm Background",
     body: "Beige Farmer Potion",

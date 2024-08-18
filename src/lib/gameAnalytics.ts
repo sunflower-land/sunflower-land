@@ -33,6 +33,8 @@ class GameAnalyticTracker {
 
       GameAnalytics.configureUserId(`account${id}`);
 
+      // TODO configure experiments in tracking
+
       GameAnalytics.configureAvailableResourceCurrencies([
         "SFL",
         "BlockBuck",
