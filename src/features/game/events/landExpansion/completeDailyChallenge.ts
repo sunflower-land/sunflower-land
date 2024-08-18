@@ -1,10 +1,7 @@
 import cloneDeep from "lodash.clonedeep";
 import Decimal from "decimal.js-light";
 import { GameState } from "features/game/types/game";
-import {
-  DAILY_CHALLENGES,
-  ONBOARDING_CHALLENGES,
-} from "features/game/types/rewards";
+import { ONBOARDING_CHALLENGES } from "features/game/types/rewards";
 import { getKeys } from "features/game/types/decorations";
 
 export type CompleteDailyChallengeAction = {
@@ -51,7 +48,7 @@ export function completeDailyChallenge({
   const task = tasks[active.index];
 
   // Check if already completed
-  if (!!active.completedAt) {
+  if (active.completedAt) {
     throw new Error("Task is not yet available");
   }
 

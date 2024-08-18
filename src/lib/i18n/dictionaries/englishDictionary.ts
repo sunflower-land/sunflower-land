@@ -1426,6 +1426,16 @@ const conversations: Record<Conversations, string> = {
     "As you level up, you will unlock new areas to explore. First up is the Pumpkin Plaza....my home!",
   "pete.pumpkinPlaza.two":
     "Here you can complete deliveries for rewards, craft magical items & trade with other players.",
+  "richie.challenge": "Challenge",
+  "richie.rewarded": "Congratulations, you are one step closer!",
+  "richie.completed": "Completed",
+  "richie.completed.description":
+    "Well done Bumpkin, you have completed all of my challenges. Stay tuned for more rewards!",
+  "richie.rewards": "Rewards",
+  "richie.onboarding": "Do you have what it takes to complete my challenges?",
+  "richie.dailyChallenges": "Are you ready for my daily challenges?",
+  "richie.final": "Final challenge",
+
   "sunflowerLand.islandDescription":
     "Sunflower Land is filled with exciting islands where you can complete deliveries, craft rare NFTs and even dig for treasure!",
   "sunflowerLand.opportunitiesDescription":

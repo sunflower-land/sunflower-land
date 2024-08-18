@@ -1,20 +1,13 @@
 import { useActor } from "@xstate/react";
 import { Label } from "components/ui/Label";
 import { Modal } from "components/ui/Modal";
-import {
-  ButtonPanel,
-  InnerPanel,
-  OuterPanel,
-  Panel,
-} from "components/ui/Panel";
+import { ButtonPanel, InnerPanel, OuterPanel } from "components/ui/Panel";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Context } from "features/game/GameProvider";
 import { ITEM_DETAILS } from "features/game/types/images";
 import React, { useContext, useState } from "react";
 
 import lockIcon from "assets/icons/lock.png";
-import trophyIcon from "assets/icons/trophy.png";
-import giftIcon from "assets/icons/gift.png";
 import coinsIcon from "assets/icons/coins.webp";
 import wearablesIcon from "assets/icons/wearables.webp";
 import unicornHatIcon from "assets/icons/unicorn_hat.webp";
@@ -42,8 +35,8 @@ import { NPC } from "features/island/bumpkin/components/NPC";
 import { NPC_WEARABLES } from "lib/npcs";
 
 import levelUp from "assets/icons/level_up.png";
-import chefHat from "assets/icons/chef_hat.png";
 import shopIcon from "assets/icons/shop.png";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 /**
  * Getting build errors when inside of tests so images live here
@@ -71,6 +64,7 @@ export const Richie: React.FC = () => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 
+  const { t } = useAppTranslation();
   if (!hasFeatureAccess(gameState.context.state, "ONBOARDING_REWARDS")) {
     return null;
   }
@@ -187,11 +181,8 @@ export const Richie: React.FC = () => {
         >
           {completed >= ONBOARDING_CHALLENGES.length ? (
             <div className="p-1">
-              <Label type="success">Completed</Label>
-              <p className="my-2">
-                Congratulations! You have completed my challenges. It is time to
-                explore Sunflower Land and discover more rare items.
-              </p>
+              <Label type="success">{t("richie.completed")}</Label>
+              <p className="my-2">{t("richie.completed.description")}</p>
             </div>
           ) : (
             <div
@@ -199,7 +190,7 @@ export const Richie: React.FC = () => {
               style={{ maxHeight: "370px" }}
             >
               <div className="flex justify-between mb-1">
-                <Label type="default">Rewards</Label>
+                <Label type="default"> {t("richie.challenge")}</Label>
                 {createdAt > Date.now() - RICHIE_ONBOARDING_MS && (
                   <Label type="info" icon={SUNNYSIDE.icons.stopwatch}>
                     {`${secondsToString(
@@ -215,8 +206,8 @@ export const Richie: React.FC = () => {
               <div className="px-1">
                 <p className="text-xs mb-4">
                   {isOnboarding
-                    ? "Do you have what it takes to complete my challenges?"
-                    : "Are you ready for my daily challenges?"}
+                    ? t("richie.onboarding")
+                    : t("richie.dailyChallenges")}
                 </p>
               </div>
               <div className="flex flex-wrap">
@@ -250,7 +241,7 @@ export const Richie: React.FC = () => {
                     }
 
                     return (
-                      <div className="w-1/2 sm:w-1/3">
+                      <div className="w-1/2 sm:w-1/3" key={index}>
                         <ButtonPanel
                           key={index}
                           className="flex justify-center flex-col items-center mx-1 relative mb-2 h-28"
@@ -302,6 +293,7 @@ export const Richie: React.FC = () => {
                           {getKeys(task.reward.wearables ?? {}).map(
                             (wearable) => (
                               <Label
+                                key={wearable}
                                 type="warning"
                                 icon={wearablesIcon}
                                 className="absolute -bottom-2 text-center p-1 "
@@ -317,6 +309,7 @@ export const Richie: React.FC = () => {
                           {getKeys(task.reward.items ?? {}).map((name) => (
                             <Label
                               type="warning"
+                              key={name}
                               icon={ITEM_DETAILS[name].image}
                               className="absolute -bottom-2 text-center p-1 "
                               style={{
@@ -350,7 +343,7 @@ export const Richie: React.FC = () => {
                     tasks.length - 1 === active.index ? "formula" : "default"
                   }
                 >
-                  {`Final Challenge`}
+                  {t("richie.final")}
                 </Label>
                 <p className="text-sm  my-2">{finalTask.description}</p>
                 <div className="flex flex-wrap justify-center space-x-3">
@@ -367,6 +360,7 @@ export const Richie: React.FC = () => {
                       className="mb-1"
                       type="warning"
                       icon={ITEM_DETAILS[name].image}
+                      key={name}
                     >
                       {[
                         (finalTask.reward.items?.[name] ?? 0) > 1
@@ -384,6 +378,7 @@ export const Richie: React.FC = () => {
                     type="vibrant"
                     className="mb-1"
                     icon={unicornHatIcon}
+                    key={wearable}
                   >{`${wearable} - RARE`}</Label>
                 ))}
                 <Button
@@ -394,7 +389,7 @@ export const Richie: React.FC = () => {
                   }
                   onClick={() => setReward(finalTask)}
                 >
-                  Complete
+                  {t("complete")}
                 </Button>
               </OuterPanel>
             </div>
@@ -410,6 +405,7 @@ const Challenge: React.FC<{
   onClose: () => void;
   progress: number;
 }> = ({ challenge, onClose, progress }) => {
+  const { t } = useAppTranslation();
   const percentageComplete = (progress / challenge.requirement) * 100;
 
   return (
@@ -420,7 +416,7 @@ const Challenge: React.FC<{
           className="absolute top-2 right-2 w-6 cursor-pointer"
           onClick={onClose}
         />
-        <Label type="default">Challenge</Label>
+        <Label type="default">{t("richie.challenge")}</Label>
         <p className="text-sm mb-1">{challenge?.description}</p>
         <div className="flex items-center mb-2 flex-wrap">
           <span className="text-sm mr-1">{`${progress}/${challenge.requirement}`}</span>

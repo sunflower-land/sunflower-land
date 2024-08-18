@@ -71,7 +71,7 @@ import { TradeableName } from "../actions/sellMarketResource";
 import { MinigameCurrency } from "../events/minigames/purchaseMinigameItem";
 import { FactionShopCollectibleName, FactionShopFoodName } from "./factionShop";
 import { DiggingFormationName } from "./desert";
-import { DailyChallenge, Rewards } from "./rewards";
+import { Rewards } from "./rewards";
 import { ExperimentName } from "lib/flags";
 
 export type Reward = {

@@ -1,15 +1,8 @@
-import { SUNNYSIDE } from "assets/sunnyside";
 import { getBumpkinLevel } from "../lib/level";
-import {
-  BumpkinActivityName,
-  CookEvent,
-  HarvestEvent,
-  SellEvent,
-} from "./bumpkinActivity";
+import { SellEvent } from "./bumpkinActivity";
 import { CROPS } from "./crops";
 import { getKeys } from "./decorations";
 import { GameState, InventoryItemName, Wardrobe } from "./game";
-import { ITEM_DETAILS } from "./images";
 
 export type Rewards = {
   challenges: {
