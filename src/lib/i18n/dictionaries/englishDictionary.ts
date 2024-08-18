@@ -1426,6 +1426,16 @@ const conversations: Record<Conversations, string> = {
     "As you level up, you will unlock new areas to explore. First up is the Pumpkin Plaza....my home!",
   "pete.pumpkinPlaza.two":
     "Here you can complete deliveries for rewards, craft magical items & trade with other players.",
+  "richie.challenge": "Challenge",
+  "richie.rewarded": "Congratulations, you are one step closer!",
+  "richie.completed": "Completed",
+  "richie.completed.description":
+    "Well done Bumpkin, you have completed all of my challenges. Stay tuned for more rewards!",
+  "richie.rewards": "Rewards",
+  "richie.onboarding": "Do you have what it takes to complete my challenges?",
+  "richie.dailyChallenges": "Are you ready for my daily challenges?",
+  "richie.final": "Final challenge",
+
   "sunflowerLand.islandDescription":
     "Sunflower Land is filled with exciting islands where you can complete deliveries, craft rare NFTs and even dig for treasure!",
   "sunflowerLand.opportunitiesDescription":
@@ -1441,6 +1451,12 @@ const conversations: Record<Conversations, string> = {
   "luna.portals": "Portals",
   "luna.rewards": "Rewards",
   "luna.travel": "Travel to these player built portals and earn rewards.",
+  "richie.intro.one":
+    "Howdy there, Bumpkin! Are you ready to roll up your sleeves and explore the magical world of Sunflower Land?",
+  "richie.intro.two":
+    "This game ain't just about planting seeds and waiting. Oh no! Here, you can earn rare Web3 collectibles & trade with thousands of players.",
+  "richie.intro.three":
+    "To get started, you will want to chop down those trees and expand your island.",
   "pete.intro.one":
     "Howdy there, Bumpkin! Are you ready to get your hands dirty and explore the magical world of Sunflower Land?",
   "pete.intro.two":

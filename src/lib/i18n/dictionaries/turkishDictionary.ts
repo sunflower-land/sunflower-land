@@ -1473,7 +1473,17 @@ const conversations: Record<Conversations, string> = {
     "Seviye atladıkça keşfedilecek yeni alanların kilidini açacaksınız. İlk önce Balkabağı Plaza... benim evim!",
   "pete.pumpkinPlaza.two":
     "Burada ödüller için teslimatları tamamlayabilir, büyülü eşyalar üretebilir ve diğer oyuncularla ticaret yapabilirsiniz.",
-
+  "richie.intro.one": ENGLISH_TERMS["richie.intro.one"],
+  "richie.intro.two": ENGLISH_TERMS["richie.intro.two"],
+  "richie.intro.three": ENGLISH_TERMS["richie.intro.three"],
+  "richie.challenge": ENGLISH_TERMS["richie.challenge"],
+  "richie.rewarded": ENGLISH_TERMS["richie.rewarded"],
+  "richie.completed": ENGLISH_TERMS["richie.completed"],
+  "richie.completed.description": ENGLISH_TERMS["richie.completed.description"],
+  "richie.rewards": ENGLISH_TERMS["richie.rewards"],
+  "richie.onboarding": ENGLISH_TERMS["richie.onboarding"],
+  "richie.dailyChallenges": ENGLISH_TERMS["richie.dailyChallenges"],
+  "richie.final": ENGLISH_TERMS["richie.final"],
   "sunflowerLand.islandDescription":
     "Ayçiçeği Ülkesi, teslimatları tamamlayabileceğiniz, nadir NFT'ler üretebileceğiniz ve hatta hazine kazabileceğiniz heyecan verici adalarla doludur!",
   "sunflowerLand.opportunitiesDescription":

@@ -98,6 +98,8 @@ export function makeGame(farm: any): GameState {
     christmas: farm.christmas,
     flowerShop: farm.flowerShop,
     specialEvents: farm.specialEvents,
+    experiments: farm.experiments,
+    rewards: farm.rewards,
     megastore: {
       ...farm.megastore,
       wearables: farm.megastore.wearables.map((wearable: any) => ({

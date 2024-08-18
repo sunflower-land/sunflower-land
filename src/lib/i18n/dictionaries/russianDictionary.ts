@@ -1461,6 +1461,17 @@ const conversations: Record<Conversations, string> = {
     "По мере повышения уровня, ты будешь открывать новые места для исследования. Первое - это Плаза....мой дом!",
   "pete.pumpkinPlaza.two":
     "Здесь ты можешь выполнять доставки и получать за них награды, крафтить волшебные предметы и торговать с другими игроками.",
+  "richie.intro.one": ENGLISH_TERMS["richie.intro.one"],
+  "richie.intro.two": ENGLISH_TERMS["richie.intro.two"],
+  "richie.intro.three": ENGLISH_TERMS["richie.intro.three"],
+  "richie.challenge": ENGLISH_TERMS["richie.challenge"],
+  "richie.rewarded": ENGLISH_TERMS["richie.rewarded"],
+  "richie.completed": ENGLISH_TERMS["richie.completed"],
+  "richie.completed.description": ENGLISH_TERMS["richie.completed.description"],
+  "richie.rewards": ENGLISH_TERMS["richie.rewards"],
+  "richie.onboarding": ENGLISH_TERMS["richie.onboarding"],
+  "richie.dailyChallenges": ENGLISH_TERMS["richie.dailyChallenges"],
+  "richie.final": ENGLISH_TERMS["richie.final"],
   "sunflowerLand.islandDescription":
     "Sunflower Land полон захватывающих островов, где ты можешь выполнять доставки, крафтить редкие NFTs и даже раскапывать сокровища!",
   "sunflowerLand.opportunitiesDescription":

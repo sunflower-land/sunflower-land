@@ -1515,6 +1515,17 @@ const conversations: Record<Conversations, string> = {
     "À mesure que tu montes de niveau, tu débloqueras de nouvelles zones à explorer. En premier lieu, il y a la Pumpkin Plaza... ma maison!",
   "pete.pumpkinPlaza.two":
     "Ici, tu peux effectuer des livraisons pour obtenir des récompenses, fabriquer des objets magiques et échanger avec d'autres joueurs.",
+  "richie.intro.one": ENGLISH_TERMS["richie.intro.one"],
+  "richie.intro.two": ENGLISH_TERMS["richie.intro.two"],
+  "richie.intro.three": ENGLISH_TERMS["richie.intro.three"],
+  "richie.challenge": ENGLISH_TERMS["richie.challenge"],
+  "richie.rewarded": ENGLISH_TERMS["richie.rewarded"],
+  "richie.completed": ENGLISH_TERMS["richie.completed"],
+  "richie.completed.description": ENGLISH_TERMS["richie.completed.description"],
+  "richie.rewards": ENGLISH_TERMS["richie.rewards"],
+  "richie.onboarding": ENGLISH_TERMS["richie.onboarding"],
+  "richie.dailyChallenges": ENGLISH_TERMS["richie.dailyChallenges"],
+  "richie.final": ENGLISH_TERMS["richie.final"],
   "sunflowerLand.islandDescription":
     "Sunflower Land est rempli d'îles passionnantes où tu peux effectuer des livraisons, fabriquer des NFT rares et même creuser des trésors!",
   "sunflowerLand.opportunitiesDescription":
