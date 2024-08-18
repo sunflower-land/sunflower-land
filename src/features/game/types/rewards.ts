@@ -99,8 +99,8 @@ export const ONBOARDING_CHALLENGES: DailyChallenge[] = [
     },
   },
   {
-    description: "Mine 5 stones",
-    requirement: 5,
+    description: "Mine 3 stones",
+    requirement: 3,
     progress: ({ game }) => game.bumpkin.activity["Stone Mined"] ?? 0,
     reward: {
       items: { "Block Buck": 1 },

@@ -90,17 +90,15 @@ export const Richie: React.FC = () => {
   const coords = () => {
     const expansionCount = inventory["Basic Land"]?.toNumber() ?? 0;
 
-    if (expansionCount < 7) {
+    if (expansionCount < 6) {
       return { x: -6, y: -4.5 };
     }
-    if (expansionCount >= 7 && expansionCount < 21) {
+    if (expansionCount >= 6 && expansionCount < 21) {
       return { x: -6, y: -10.5 };
     } else {
       return { x: -6, y: -16.5 };
     }
   };
-
-  const coordinates = coords();
 
   const onClose = () => {
     setShowModal(false);
@@ -125,8 +123,8 @@ export const Richie: React.FC = () => {
             width: `${PIXEL_SCALE * 62}px`,
           }}
         />
-        <div className="absolute left-16 top-14">
-          <NPC parts={NPC_WEARABLES.richie} onClick={onOpen} />
+        <div className="absolute left-16 top-14 pointer-events-none">
+          <NPC parts={NPC_WEARABLES.richie} />
         </div>
       </MapPlacement>
       <Modal show={showModal} onHide={onClose}>
@@ -188,13 +186,13 @@ export const Richie: React.FC = () => {
           onClose={onClose}
         >
           {completed >= ONBOARDING_CHALLENGES.length ? (
-            <>
+            <div className="p-1">
               <Label type="success">Completed</Label>
               <p className="my-2">
                 Congratulations! You have completed my challenges. It is time to
                 explore Sunflower Land and discover more rare items.
               </p>
-            </>
+            </div>
           ) : (
             <div
               className="scrollable overflow-y-auto px-0.5"
@@ -394,6 +392,7 @@ export const Richie: React.FC = () => {
                     finalTask.progress({ game: gameState.context.state }) <
                       finalTask.requirement
                   }
+                  onClick={() => setReward(finalTask)}
                 >
                   Complete
                 </Button>
@@ -410,7 +409,7 @@ const Challenge: React.FC<{
   challenge: DailyChallenge;
   onClose: () => void;
   progress: number;
-}> = ({ challenge, onClose, progress, index }) => {
+}> = ({ challenge, onClose, progress }) => {
   const percentageComplete = (progress / challenge.requirement) * 100;
 
   return (
