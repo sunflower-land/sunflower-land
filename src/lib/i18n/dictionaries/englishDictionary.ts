@@ -927,7 +927,7 @@ const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
   "description.rice.panda.boost": "+0.25 Rice",
   "description.olive.shirt.boost": "+0.25 Olive",
   "description.tofu.mask.boost": "+0.1 Soybean",
-  "description.gourmet.hourglass.boost": "+50% Cooking Speed (4hrs)",
+  "description.gourmet.hourglass.boost": "-50% Cooking Time (4hrs)",
   "description.harvest.hourglass.boost": "-25% Crop Growth Time (6hrs)",
   "description.timber.hourglass.boost": "-25% Tree Recovery Time (4hrs)",
   "description.ore.hourglass.boost": "-50% Mineral Recovery Time (3hrs)",

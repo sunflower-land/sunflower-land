@@ -119,38 +119,44 @@ type HourglassDetail = {
   halfImage: string;
   doneImage: string;
   boostMillis: number;
+  affectedResource?: string;
 };
 
-const HOURGLASS_DETAILS: Record<HourglassType, HourglassDetail> = {
+export const HOURGLASS_DETAILS: Record<HourglassType, HourglassDetail> = {
   "Gourmet Hourglass": {
     fullImage: gourmetHourglassFull,
     halfImage: gourmetHourglassHalf,
     doneImage: gourmetHourglassDone,
     boostMillis: 4 * 60 * 60 * 1000,
+    affectedResource: "cooking buildings",
   },
   "Harvest Hourglass": {
     fullImage: harvestHourglassFull,
     halfImage: harvestHourglassHalf,
     doneImage: harvestHourglassDone,
     boostMillis: 6 * 60 * 60 * 1000,
+    affectedResource: "crops",
   },
   "Timber Hourglass": {
     fullImage: timberHourglassFull,
     halfImage: timberHourglassHalf,
     doneImage: timberHourglassDone,
     boostMillis: 4 * 60 * 60 * 1000,
+    affectedResource: "trees",
   },
   "Orchard Hourglass": {
     fullImage: orchardHourglassFull,
     halfImage: orchardHourglassHalf,
     doneImage: orchardHourglassDone,
     boostMillis: 6 * 60 * 60 * 1000,
+    affectedResource: "fruit trees",
   },
   "Blossom Hourglass": {
     fullImage: blossomHourglassFull,
     halfImage: blossomHourglassHalf,
     doneImage: blossomHourglassDone,
     boostMillis: 4 * 60 * 60 * 1000,
+    affectedResource: "flowers",
   },
   "Fisher's Hourglass": {
     fullImage: fisherHourglassFull,
@@ -163,6 +169,7 @@ const HOURGLASS_DETAILS: Record<HourglassType, HourglassDetail> = {
     halfImage: oreHourglassHalf,
     doneImage: oreHourglassDone,
     boostMillis: 3 * 60 * 60 * 1000,
+    affectedResource: "minerals",
   },
 };
 

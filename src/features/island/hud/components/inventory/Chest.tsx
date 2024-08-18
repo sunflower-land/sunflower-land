@@ -32,6 +32,10 @@ import { DIRT_PATH_VARIANTS } from "features/island/lib/alternateArt";
 import { BANNERS } from "features/game/types/banners";
 import { InnerPanel } from "components/ui/Panel";
 import { ConfirmationModal } from "components/ui/ConfirmationModal";
+import {
+  HOURGLASS_DETAILS,
+  HourglassType,
+} from "features/island/collectibles/components/Hourglass";
 
 const imageDomain = CONFIG.NETWORK === "mainnet" ? "buds" : "testnet-buds";
 
@@ -107,7 +111,11 @@ export const Chest: React.FC<Props> = ({
   const selectedChestItem = getSelectedChestItems();
 
   const handlePlace = () => {
-    if (selectedChestItem in RESOURCES) {
+    if (
+      selectedChestItem in RESOURCES ||
+      selectedChestItem in HOURGLASS_DETAILS ||
+      selectedChestItem === "Time Warp Totem"
+    ) {
       showConfirmationModal(true);
     } else {
       isBudName(selectedChestItem)
@@ -194,10 +202,20 @@ export const Chest: React.FC<Props> = ({
         <ConfirmationModal
           show={confirmationModal}
           onHide={() => showConfirmationModal(false)}
-          messages={[
-            "Once this node is placed down, you will not be able to dig it back up to your chest.",
-            "Are you sure you want to place this down?",
-          ]}
+          messages={
+            selectedChestItem in RESOURCES
+              ? [
+                  "Once this node is placed down, you will not be able to dig it back up to your chest.",
+                  "Are you sure you want to place this down?",
+                ]
+              : [
+                  selectedChestItem === "Fisher's Hourglass"
+                    ? `Please ensure that you have casts remaining for the day before activating the ${selectedChestItem}.`
+                    : `Please ensure that any ${selectedChestItem === "Time Warp Totem" ? "resource nodes" : HOURGLASS_DETAILS[selectedChestItem as HourglassType]?.affectedResource} are currently not ${selectedChestItem === "Harvest Hourglass" || selectedChestItem === "Blossom Hourglass" ? "growing" : "on cooldown"} before activating the ${selectedChestItem}.`,
+                  `Once placed, the effects of the ${selectedChestItem} will start and you can't pause or reverse its effects.`,
+                  `Are you sure you want to place down the ${selectedChestItem} and activate it?`,
+                ]
+          }
           onCancel={() => showConfirmationModal(false)}
           onConfirm={() => {
             onPlace && onPlace(selectedChestItem);
