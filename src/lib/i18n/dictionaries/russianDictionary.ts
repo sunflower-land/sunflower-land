@@ -5609,7 +5609,7 @@ const greenhouse: Record<GreenhouseKeys, string> = {
 const minigame: Record<Minigame, string> = {
   "minigame.chickenRescue": "Minigame - Chicken Rescue",
   "minigame.comingSoon": "Coming soon...",
-  "minigame.completed": "Complete",
+  "minigame.completed": "Completed",
   "minigame.confirm": "Are you sure you want to spend the following:",
   "minigame.noPrizeAvailable": "No daily prize available",
   "minigame.playNow": "Play now",
