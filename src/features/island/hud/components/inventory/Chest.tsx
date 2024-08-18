@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { Box } from "components/ui/Box";
 import { ITEM_DETAILS } from "features/game/types/images";
 import {
@@ -31,6 +31,7 @@ import { TREE_VARIANTS } from "features/island/resources/Resource";
 import { DIRT_PATH_VARIANTS } from "features/island/lib/alternateArt";
 import { BANNERS } from "features/game/types/banners";
 import { InnerPanel } from "components/ui/Panel";
+import { ConfirmationModal } from "components/ui/ConfirmationModal";
 
 const imageDomain = CONFIG.NETWORK === "mainnet" ? "buds" : "testnet-buds";
 
@@ -75,6 +76,7 @@ export const Chest: React.FC<Props> = ({
 }: Props) => {
   const divRef = useRef<HTMLDivElement>(null);
   const buds = getChestBuds(state);
+  const [confirmationModal, showConfirmationModal] = useState(false);
 
   const chestMap = getChestItems(state);
   const { t } = useAppTranslation();
@@ -105,13 +107,14 @@ export const Chest: React.FC<Props> = ({
   const selectedChestItem = getSelectedChestItems();
 
   const handlePlace = () => {
-    if (isBudName(selectedChestItem)) {
-      onPlaceBud && onPlaceBud(selectedChestItem);
+    if (selectedChestItem in RESOURCES) {
+      showConfirmationModal(true);
     } else {
-      onPlace && onPlace(selectedChestItem);
+      isBudName(selectedChestItem)
+        ? onPlaceBud && onPlaceBud(selectedChestItem)
+        : onPlace && onPlace(selectedChestItem);
+      closeModal();
     }
-
-    closeModal();
   };
 
   const handleItemClick = (item: InventoryItemName | BudName) => {
@@ -171,22 +174,39 @@ export const Chest: React.FC<Props> = ({
     }
 
     return (
-      <InventoryItemDetails
-        game={state}
-        details={{
-          item: selectedChestItem,
-        }}
-        properties={{
-          showOpenSeaLink: true,
-        }}
-        actionView={
-          onPlace && (
-            <Button onClick={handlePlace} disabled={isSaving}>
-              {isSaving ? t("saving") : t("place.map")}
-            </Button>
-          )
-        }
-      />
+      <>
+        <InventoryItemDetails
+          game={state}
+          details={{
+            item: selectedChestItem,
+          }}
+          properties={{
+            showOpenSeaLink: true,
+          }}
+          actionView={
+            onPlace && (
+              <Button onClick={handlePlace} disabled={isSaving}>
+                {isSaving ? t("saving") : t("place.map")}
+              </Button>
+            )
+          }
+        />
+        <ConfirmationModal
+          show={confirmationModal}
+          onHide={() => showConfirmationModal(false)}
+          messages={[
+            "Once this node is placed down, you will not be able to dig it back up to your chest.",
+            "Are you sure you want to place this down?",
+          ]}
+          onCancel={() => showConfirmationModal(false)}
+          onConfirm={() => {
+            onPlace && onPlace(selectedChestItem);
+            closeModal();
+            showConfirmationModal(false);
+          }}
+          confirmButtonLabel={"Place"}
+        />
+      </>
     );
   };
 
