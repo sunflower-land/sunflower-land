@@ -205,15 +205,34 @@ export const Chest: React.FC<Props> = ({
           messages={
             selectedChestItem in RESOURCES
               ? [
-                  "Once this node is placed down, you will not be able to dig it back up to your chest.",
-                  "Are you sure you want to place this down?",
+                  t("landscape.confirmation.resourceNodes.one"),
+                  t("landscape.confirmation.resourceNodes.two"),
                 ]
               : [
                   selectedChestItem === "Fisher's Hourglass"
-                    ? `Please ensure that you have casts remaining for the day before activating the ${selectedChestItem}.`
-                    : `Please ensure that any ${selectedChestItem === "Time Warp Totem" ? "resource nodes" : HOURGLASS_DETAILS[selectedChestItem as HourglassType]?.affectedResource} are currently not ${selectedChestItem === "Harvest Hourglass" || selectedChestItem === "Blossom Hourglass" ? "growing" : "on cooldown"} before activating the ${selectedChestItem}.`,
-                  `Once placed, the effects of the ${selectedChestItem} will start and you can't pause or reverse its effects.`,
-                  `Are you sure you want to place down the ${selectedChestItem} and activate it?`,
+                    ? t("landscape.confirmation.fisherHourglass", {
+                        selectedChestItem,
+                      })
+                    : t("landscape.confirmation.hourglass.one", {
+                        resourceNode:
+                          (selectedChestItem === "Time Warp Totem"
+                            ? "resource nodes"
+                            : HOURGLASS_DETAILS[
+                                selectedChestItem as HourglassType
+                              ]?.affectedResource) || "",
+                        cooldown:
+                          selectedChestItem === "Harvest Hourglass" ||
+                          selectedChestItem === "Blossom Hourglass"
+                            ? t("growing")
+                            : t("landscape.onCooldown"),
+                        selectedChestItem,
+                      }),
+                  t("landscape.confirmation.hourglass.two", {
+                    selectedChestItem,
+                  }),
+                  t("landscape.confirmation.hourglass.three", {
+                    selectedChestItem,
+                  }),
                 ]
           }
           onCancel={() => showConfirmationModal(false)}
@@ -222,7 +241,7 @@ export const Chest: React.FC<Props> = ({
             closeModal();
             showConfirmationModal(false);
           }}
-          confirmButtonLabel={"Place"}
+          confirmButtonLabel={t("place")}
         />
       </>
     );
@@ -311,7 +330,7 @@ export const Chest: React.FC<Props> = ({
                 className="my-1"
                 icon={SUNNYSIDE.resource.tree}
               >
-                {t("resources")}
+                {t("resource.nodes")}
               </Label>
               <div className="flex mb-2 flex-wrap -ml-1.5">
                 {resources.map((item) => (

@@ -254,7 +254,7 @@ export const CropMachineModal: React.FC<Props> = ({
                 <div className="flex">
                   <Box image={ITEM_DETAILS[selectedPack.crop].image} />
                   <div className="flex flex-col justify-center space-y-1">
-                    <span className="text-xs">
+                    <span className="text-xs capitalize">
                       {`${t("growing")} `}
                       {selectedPack.crop === "Potato"
                         ? `${selectedPack.crop}es`

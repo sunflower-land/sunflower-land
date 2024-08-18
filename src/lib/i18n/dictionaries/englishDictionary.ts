@@ -275,7 +275,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   gotIt: "Got it",
   "grant.wish": "Grant New Wish",
   greenhouse: "Greenhouse",
-  growing: "Growing",
+  growing: "growing",
   guide: "Guide",
   honey: "Honey",
   "hungry?": "Hungry?",
@@ -350,6 +350,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   requires: "Requires",
   requirements: "Requirements",
   resources: "Resources",
+  "resource.nodes": "Resource Nodes",
   restock: "Restock",
   retry: "Retry",
   reward: "Reward",
@@ -3344,6 +3345,25 @@ const landscapeTerms: Record<LandscapeTerms, string> = {
   "landscape.expansion.date":
     "More expansions will be available on the 7th February.",
   "landscape.great.work": "Great work Bumpkin!",
+  "landscape.confirmation.resourceNodes.one":
+    "Once this node is placed down, you will not be able to dig it back up to your chest.",
+  "landscape.confirmation.resourceNodes.two":
+    "Are you sure you want to place this down?",
+  "landscape.confirmation.fisherHourglass":
+    "Please ensure that you have casts remaining for the day before activating the {{selectedChestItem}}.",
+  "landscape.confirmation.hourglass.one":
+    "Please ensure that any {{resourceNode}} are not {{cooldown}} before activating the {{selectedChestItem}}.",
+  "landscape.confirmation.hourglass.two":
+    "Once placed, the effects of the {{selectedChestItem}} will start and you can't pause or reverse its effects.",
+  "landscape.confirmation.hourglass.three":
+    "Are you sure you want to place down the {{selectedChestItem}} and activate it?",
+  "landscape.onCooldown": "on cooldown",
+  "landscape.hourglass.affectedResource.gourmet": "cooking buildings",
+  "landscape.hourglass.affectedResource.harvest": "crops",
+  "landscape.hourglass.affectedResource.timber": "trees",
+  "landscape.hourglass.affectedResource.orchard": "fruit trees",
+  "landscape.hourglass.affectedResource.blossom": "flowers",
+  "landscape.hourglass.affectedResource.ore": "minerals",
 };
 
 const levelUpMessages: Record<LevelUpMessages, string> = {

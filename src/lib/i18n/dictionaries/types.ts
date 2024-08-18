@@ -173,6 +173,7 @@ export type GeneralTerms =
   | "requires"
   | "requirements"
   | "resources"
+  | "resource.nodes"
   | "restock"
   | "retry"
   | "reward"
@@ -2365,7 +2366,20 @@ export type LandscapeTerms =
   | "landscape.timerPopover"
   | "landscape.dragMe"
   | "landscape.expansion.date"
-  | "landscape.great.work";
+  | "landscape.great.work"
+  | "landscape.confirmation.resourceNodes.one"
+  | "landscape.confirmation.resourceNodes.two"
+  | "landscape.confirmation.fisherHourglass"
+  | "landscape.confirmation.hourglass.one"
+  | "landscape.confirmation.hourglass.two"
+  | "landscape.confirmation.hourglass.three"
+  | "landscape.onCooldown"
+  | "landscape.hourglass.affectedResource.gourmet"
+  | "landscape.hourglass.affectedResource.harvest"
+  | "landscape.hourglass.affectedResource.timber"
+  | "landscape.hourglass.affectedResource.orchard"
+  | "landscape.hourglass.affectedResource.blossom"
+  | "landscape.hourglass.affectedResource.ore";
 
 export type LevelUpMessages =
   | "levelUp.2"

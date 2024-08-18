@@ -443,6 +443,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   wearable: ENGLISH_TERMS.wearable,
   cosmetic: ENGLISH_TERMS.cosmetic,
   decoration: ENGLISH_TERMS.decoration,
+  "resource.nodes": ENGLISH_TERMS["resource.nodes"],
 };
 
 const timeUnits: Record<TimeUnits, string> = {
@@ -3388,6 +3389,31 @@ const landscapeTerms: Record<LandscapeTerms, string> = {
   "landscape.dragMe": "Arraste-me",
   "landscape.expansion.date": "Mais expansões estarão disponíveis em breve...",
   "landscape.great.work": "Ótimo trabalho Bumpkin!",
+  "landscape.confirmation.resourceNodes.one":
+    ENGLISH_TERMS["landscape.confirmation.resourceNodes.one"],
+  "landscape.confirmation.resourceNodes.two":
+    ENGLISH_TERMS["landscape.confirmation.resourceNodes.two"],
+  "landscape.confirmation.fisherHourglass":
+    ENGLISH_TERMS["landscape.confirmation.fisherHourglass"],
+  "landscape.confirmation.hourglass.one":
+    ENGLISH_TERMS["landscape.confirmation.hourglass.one"],
+  "landscape.confirmation.hourglass.two":
+    ENGLISH_TERMS["landscape.confirmation.hourglass.two"],
+  "landscape.confirmation.hourglass.three":
+    ENGLISH_TERMS["landscape.confirmation.hourglass.three"],
+  "landscape.onCooldown": ENGLISH_TERMS["landscape.onCooldown"],
+  "landscape.hourglass.affectedResource.gourmet":
+    ENGLISH_TERMS["landscape.hourglass.affectedResource.gourmet"],
+  "landscape.hourglass.affectedResource.harvest":
+    ENGLISH_TERMS["landscape.hourglass.affectedResource.harvest"],
+  "landscape.hourglass.affectedResource.timber":
+    ENGLISH_TERMS["landscape.hourglass.affectedResource.timber"],
+  "landscape.hourglass.affectedResource.orchard":
+    ENGLISH_TERMS["landscape.hourglass.affectedResource.orchard"],
+  "landscape.hourglass.affectedResource.blossom":
+    ENGLISH_TERMS["landscape.hourglass.affectedResource.blossom"],
+  "landscape.hourglass.affectedResource.ore":
+    ENGLISH_TERMS["landscape.hourglass.affectedResource.ore"],
 };
 
 const levelUpMessages: Record<LevelUpMessages, string> = {
