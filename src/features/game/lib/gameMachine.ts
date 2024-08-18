@@ -2035,7 +2035,10 @@ export function startGame(authContext: AuthContext) {
       actions: {
         initialiseAnalytics: (context, event: any) => {
           if (!ART_MODE) {
-            gameAnalytics.initialise(event.data.analyticsId);
+            gameAnalytics.initialise({
+              id: event.data.analyticsId,
+              experiments: context.state?.experiments ?? [],
+            });
             onboardingAnalytics.initialise({
               id: context.farmId,
             });
