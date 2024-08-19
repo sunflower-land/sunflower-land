@@ -179,6 +179,10 @@ export function getOrderSellPrice<T>(game: GameState, order: Order): T {
     mul += 0.05;
   }
 
+  if (game.bumpkin?.skills["SFL Swindler"] && order.reward.sfl) {
+    mul += 0.1;
+  }
+
   const items = getKeys(order.items);
   if (
     items.some((name) => name in COOKABLE_CAKES) &&

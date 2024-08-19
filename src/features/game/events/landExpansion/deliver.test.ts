@@ -934,4 +934,79 @@ describe("deliver", () => {
 
     expect(state.inventory[getSeasonalTicket()]).toEqual(new Decimal(3));
   });
+
+  it("add 10% more SFL profit on completed deliveries if player has SFL Swindler", () => {
+    const state = deliverOrder({
+      state: {
+        ...TEST_FARM,
+        balance: new Decimal(0),
+        inventory: {
+          "Sunflower Cake": new Decimal(1),
+        },
+        coins: 0,
+        delivery: {
+          ...TEST_FARM.delivery,
+          orders: [
+            {
+              id: "123",
+              createdAt: 0,
+              readyAt: Date.now(),
+              from: "betty",
+              items: {
+                "Sunflower Cake": 1,
+              },
+              reward: { sfl: 100 },
+            },
+          ],
+        },
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          skills: {
+            "SFL Swindler": 1,
+          },
+        },
+      },
+      action: {
+        id: "123",
+        type: "order.delivered",
+      },
+    });
+
+    expect(state.balance).toEqual(new Decimal(110));
+  });
+
+  it("does not add 10% more SFL profit on completed deliveries with SFL Swindler if reward is not SFL", () => {
+    const state = deliverOrder({
+      state: {
+        ...TEST_FARM,
+        balance: new Decimal(100),
+        inventory: {
+          "Sunflower Cake": new Decimal(1),
+        },
+        coins: 0,
+        delivery: {
+          ...TEST_FARM.delivery,
+          orders: [
+            {
+              id: "123",
+              createdAt: 0,
+              readyAt: Date.now(),
+              from: "betty",
+              items: {
+                "Sunflower Cake": 1,
+              },
+              reward: { coins: 320 },
+            },
+          ],
+        },
+        bumpkin: INITIAL_BUMPKIN,
+      },
+      action: {
+        id: "123",
+        type: "order.delivered",
+      },
+    });
+
+    expect(state.coins).toEqual(320);
+  });
 });

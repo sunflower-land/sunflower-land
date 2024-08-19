@@ -25,16 +25,19 @@ type Options = {
   createdAt?: number;
 };
 
-export const isBasicCrop = (cropName: CropName) => {
+export const isBasicCrop = (cropName: CropName | GreenHouseCropName) => {
+  if (!isCrop(cropName)) return false;
   const cropDetails = CROPS[cropName];
   return cropDetails.harvestSeconds <= CROPS["Pumpkin"].harvestSeconds;
 };
 
-export const isMediumCrop = (cropName: CropName) => {
+export const isMediumCrop = (cropName: CropName | GreenHouseCropName) => {
+  if (!isCrop(cropName)) return false;
   return !(isBasicCrop(cropName) || isAdvancedCrop(cropName));
 };
 
-export const isAdvancedCrop = (cropName: CropName) => {
+export const isAdvancedCrop = (cropName: CropName | GreenHouseCropName) => {
+  if (!isCrop(cropName)) return false;
   const cropDetails = CROPS[cropName];
   return cropDetails.harvestSeconds >= CROPS["Eggplant"].harvestSeconds;
 };

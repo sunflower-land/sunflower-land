@@ -59,7 +59,11 @@ export const getSellPrice = ({
 }) => {
   let price = item.sellPrice;
 
-  const inventory = game.inventory;
+  const { inventory, bumpkin } = game;
+
+  if (!bumpkin) {
+    throw new Error("You do not have a Bumpkin");
+  }
 
   if (!price) return 0;
 
@@ -87,6 +91,10 @@ export const getSellPrice = ({
 
   if (specialEventMultiplier) {
     price = price * specialEventMultiplier;
+  }
+
+  if (bumpkin.skills["Coin Swindler"] && item.name in CROPS) {
+    price = price * 1.1;
   }
 
   return price;
