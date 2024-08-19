@@ -70,7 +70,6 @@ import {
   GuideTerms,
   Harvestflower,
   HarvestBeeHive,
-  HayseedHankPlaza,
   HayseedHankV2,
   Helper,
   HeliosSunflower,
@@ -3161,15 +3160,6 @@ const harvestBeeHive: Record<HarvestBeeHive, string> = {
   "harvestBeeHive.noHoney": "Esta colméia não tem mel.",
 };
 
-const hayseedHankPlaza: Record<HayseedHankPlaza, string> = {
-  "hayseedHankPlaza.cannotCompleteChore":
-    "Não é possível completar esta tarefa?",
-  "hayseedHankPlaza.skipChore": "Pular tarefa",
-  "hayseedHankPlaza.canSkipIn": "Você pode pular esta tarefa em",
-  "hayseedHankPlaza.wellDone": "Bem feito",
-  "hayseedHankPlaza.lendAHand": "Dê uma mão?",
-};
-
 const hayseedHankV2: Record<HayseedHankV2, string> = {
   "hayseedHankv2.dialog1":
     "Bem, olá, jovens! Eu sou Hayseed Hank, um fazendeiro Bumpkin experiente, cuidando da terra como nos bons e velhos tempos.",
@@ -3180,6 +3170,8 @@ const hayseedHankV2: Record<HayseedHankV2, string> = {
     ENGLISH_TERMS["hayseedHankv2.newChoresAvailable"],
   "hayseedHankv2.skipChores": "Você pode pular tarefas a cada novo dia.",
   "hayseedHankv2.greeting": "Bem, olá, jovens! Eu sou Hayseed Hank...",
+  "hayseedHankv2.confirmSkipChore":
+    ENGLISH_TERMS["hayseedHankv2.confirmSkipChore"],
 };
 
 const heliosSunflower: Record<HeliosSunflower, string> = {
@@ -5776,7 +5768,6 @@ export const PORTUGUESE_TERMS: Record<TranslationKeys, string> = {
   ...guideCompost,
   ...harvestflower,
   ...harvestBeeHive,
-  ...hayseedHankPlaza,
   ...hayseedHankV2,
   ...helper,
   ...heliosSunflower,

@@ -74,7 +74,6 @@ import {
   GuideTerms,
   Harvestflower,
   HarvestBeeHive,
-  HayseedHankPlaza,
   HayseedHankV2,
   Helper,
   HeliosSunflower,
@@ -3130,14 +3129,6 @@ const harvestBeeHive: Record<HarvestBeeHive, string> = {
   "harvestBeeHive.noHoney": "В этом улье нет мёда.",
 };
 
-const hayseedHankPlaza: Record<HayseedHankPlaza, string> = {
-  "hayseedHankPlaza.cannotCompleteChore": "Не можешь выполнить это задание?",
-  "hayseedHankPlaza.skipChore": "Пропустить задание",
-  "hayseedHankPlaza.canSkipIn": "Ты сможешь пропустить это задание через",
-  "hayseedHankPlaza.wellDone": "Отличная работа",
-  "hayseedHankPlaza.lendAHand": "Помочь?",
-};
-
 const hayseedHankV2: Record<HayseedHankV2, string> = {
   "hayseedHankv2.dialog1":
     "Ну здравствуй, малец! Я - Hayseed Hank, опытный фермер, ухаживающий за землей как в старые добрые времена.",
@@ -3148,6 +3139,8 @@ const hayseedHankV2: Record<HayseedHankV2, string> = {
   "hayseedHankv2.newChoresAvailable": "Новые дела: {{timeLeft}}",
   "hayseedHankv2.skipChores": "Можно пропускать задания каждый новый день",
   "hayseedHankv2.greeting": "Ну здравствуй, малец! Я - Hayseed Hank...",
+  "hayseedHankv2.confirmSkipChore":
+    ENGLISH_TERMS["hayseedHankv2.confirmSkipChore"],
 };
 
 const heliosSunflower: Record<HeliosSunflower, string> = {
@@ -5865,7 +5858,6 @@ export const RUSSIAN_TERMS: Record<TranslationKeys, string> = {
   ...guideFactionPet,
   ...harvestflower,
   ...harvestBeeHive,
-  ...hayseedHankPlaza,
   ...hayseedHankV2,
   ...helper,
   ...heliosSunflower,
