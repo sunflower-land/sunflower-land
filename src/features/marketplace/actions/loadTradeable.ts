@@ -1,4 +1,7 @@
-import { CollectionName, Tradeable } from "features/game/types/marketplace";
+import {
+  CollectionName,
+  TradeableDetails,
+} from "features/game/types/marketplace";
 import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
 
@@ -12,7 +15,7 @@ export async function loadTradeable({
   type: CollectionName;
   id: number;
   token: string;
-}): Promise<Tradeable> {
+}): Promise<TradeableDetails> {
   const url = new URL(`${API_URL}/collection/${type}/${id}`);
   url.searchParams.append("type", type);
 

@@ -174,6 +174,7 @@ import {
   FactionShopDescription,
   GuideFactionPet,
   DesertKeys,
+  MarketplaceTerms,
 } from "./types";
 
 const generalTerms: Record<GeneralTerms, string> = {
@@ -5705,6 +5706,25 @@ export const desertTerms: Record<DesertKeys, string> = {
     "Are you sure you want to buy 5 digs for 1 Block Buck?",
 };
 
+export const marketplaceTerms: Record<MarketplaceTerms, string> = {
+  "marketplace.collectibles": "Collectibles",
+  "marketplace.buyNow": "Buy now",
+  "marketplace.description": "Description",
+  "marketplace.listForSale": "List for sale",
+  "marketplace.walletRequired": "Wallet required",
+  "marketplace.listings": "Listings",
+  "marketplace.noListings": "No listings available.",
+  "marketplace.noOffers": "No offers available.",
+  "marketplace.offers": "Offers",
+  "marketplace.topOffer": "Top offer",
+  "marketplace.acceptOffer": "Accept offer",
+  "marketplace.makeOffer": "Make an offer",
+  "marketplace.expiry": "Expiry",
+  "marketplace.from": "From",
+  "marketplace.sfl": "SFL",
+  "marketplace.priceHistory": "Price history",
+};
+
 export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
   ...achievementTerms,
   ...addSFL,
@@ -5801,6 +5821,7 @@ export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
   ...levelUpMessages,
   ...loser,
   ...lostSunflorian,
+  ...marketplaceTerms,
   ...megaStore,
   ...milestoneMessages,
   ...modalDescription,

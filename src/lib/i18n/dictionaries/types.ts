@@ -3875,6 +3875,24 @@ export type DesertKeys =
   | "desert.digs"
   | "desert.buyDigs.confirmation";
 
+export type MarketplaceTerms =
+  | "marketplace.collectibles"
+  | "marketplace.walletRequired"
+  | "marketplace.listForSale"
+  | "marketplace.description"
+  | "marketplace.buyNow"
+  | "marketplace.listings"
+  | "marketplace.noListings"
+  | "marketplace.offers"
+  | "marketplace.noOffers"
+  | "marketplace.topOffer"
+  | "marketplace.acceptOffer"
+  | "marketplace.makeOffer"
+  | "marketplace.sfl"
+  | "marketplace.expiry"
+  | "marketplace.priceHistory"
+  | "marketplace.from";
+
 export type TranslationKeys =
   | AchievementsTerms
   | Auction
@@ -3969,6 +3987,7 @@ export type TranslationKeys =
   | LevelUpMessages
   | Loser
   | LostSunflorian
+  | MarketplaceTerms
   | MegaStore
   | MilestoneMessages
   | Minigame
