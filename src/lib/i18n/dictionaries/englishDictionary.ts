@@ -1334,8 +1334,8 @@ const composterDescription: Record<ComposterDescription, string> = {
 };
 
 const confirmationTerms: Record<ConfirmationTerms, string> = {
-  "confirmation.sellCrops":
-    "Are you sure you want to sell {{cropAmount}} {{cropName}} for {{coinAmount}} Coins?",
+  "confirmation.sell":
+    "Are you sure you want to sell {{amount}} {{name}} for {{coinAmount}} Coins?",
   "confirmation.buyCrops":
     "Are you sure you want to spend {{coinAmount}} Coins to buy {{seedNo}} {{seedName}}s?",
   "confirmation.enterAmount": "Enter Amount to Sell:",
@@ -4866,7 +4866,7 @@ const restock: Record<Restock, string> = {
   "restock.sure": "Are you sure you want to Restock?",
   "restock.tooManySeeds": "You have too many seeds in your basket!",
   "seeds.reachingInventoryLimit": "You are reaching your seed basket limit!",
-  "crops.noCropsToSell": "You have no {{cropName}} to Sell!",
+  "crops.noCropsToSell": "You have no {{cropName}} to sell!",
   "seeds.plantingSpot.needed": "{{plantingSpot}} Needed",
 };
 
@@ -5704,6 +5704,7 @@ export const desertTerms: Record<DesertKeys, string> = {
   "desert.digs": "{{amount}} digs",
   "desert.buyDigs.confirmation":
     "Are you sure you want to buy 5 digs for 1 Block Buck?",
+  "desert.noTreasureToSell": "You have no {{treasure}} to sell!",
 };
 
 export const marketplaceTerms: Record<MarketplaceTerms, string> = {

@@ -1269,8 +1269,8 @@ const composterDescription: Record<ComposterDescription, string> = {
 };
 
 const confirmationTerms: Record<ConfirmationTerms, string> = {
-  "confirmation.sellCrops":
-    "您确定要卖掉 {{cropAmount}} {{cropName}} 以换取 {{coinAmount}} 枚硬币吗？",
+  "confirmation.sell":
+    "您确定要卖掉 {{amount}} {{name}} 以换取 {{coinAmount}} 枚硬币吗？",
   "confirmation.buyCrops":
     "您确定要花 {{coinAmount}} 枚硬币购买 {{seedNo}} {{seedName}}s 吗？",
   "confirmation.enterAmount": "请输入出售数量：",
@@ -4980,6 +4980,7 @@ export const desertTerms: Record<DesertKeys, string> = {
   "desert.extraDigs": ENGLISH_TERMS["desert.extraDigs"],
   "desert.digs": ENGLISH_TERMS["desert.digs"],
   "desert.buyDigs.confirmation": ENGLISH_TERMS["desert.buyDigs.confirmation"],
+  "desert.noTreasureToSell": ENGLISH_TERMS["desert.noTreasureToSell"],
 };
 
 export const marketplaceTerms: Record<MarketplaceTerms, string> = {

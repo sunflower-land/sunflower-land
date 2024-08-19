@@ -17,6 +17,7 @@ import { Box } from "components/ui/Box";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { ConfirmationModal } from "components/ui/ConfirmationModal";
 import { NPC_WEARABLES } from "lib/npcs";
+import { BulkSellModal } from "components/ui/BulkSellModal";
 
 export const TreasureShopSell: React.FC = () => {
   const { t } = useAppTranslation();
@@ -28,6 +29,8 @@ export const TreasureShopSell: React.FC = () => {
     beachBountyTreasure[0],
   );
   const [confirmationModal, showConfirmationModal] = useState(false);
+  const [bulkSellModal, showBulkSellModal] = useState(false);
+  const [customAmount, setCustomAmount] = useState(new Decimal(0));
 
   const selected = SELLABLE_TREASURE[selectedName];
   const { gameService } = useContext(Context);
@@ -43,6 +46,7 @@ export const TreasureShopSell: React.FC = () => {
 
   const price = getSellPrice(selected, state);
   const amount = inventory[selectedName] || new Decimal(0);
+  const coinAmount = price * customAmount.toNumber();
 
   const sell = (amount = 1) => {
     gameService.send("treasure.sold", {
@@ -50,13 +54,28 @@ export const TreasureShopSell: React.FC = () => {
       amount,
     });
   };
-  const isValuable = () => {
-    if (selectedName in SEASONAL_ARTEFACT || price > 1000) {
+  const isValuable = selectedName in SEASONAL_ARTEFACT || price > 1000;
+  const handleSellOne = () => {
+    if (isValuable) {
       showConfirmationModal(true);
     } else {
-      sell(1);
+      sell();
     }
   };
+
+  const handleSellTenOrLess = () => {
+    if (amount.greaterThanOrEqualTo(10)) {
+      sell(10);
+    } else {
+      sell(amount.toNumber());
+    }
+  };
+
+  const closeBulkSellModal = () => {
+    showBulkSellModal(false);
+    setCustomAmount(new Decimal(0));
+  };
+
   return (
     <>
       <SplitScreenView
@@ -72,9 +91,32 @@ export const TreasureShopSell: React.FC = () => {
               coins: price,
             }}
             actionView={
-              <Button disabled={amount.lt(1)} onClick={isValuable}>
-                {t("sell")}
-              </Button>
+              <div className="flex flex-col h-full justify-between">
+                <div className="flex space-x-1 mb-1 sm:space-x-0 sm:space-y-1 sm:flex-col w-full">
+                  {amount.greaterThanOrEqualTo(1) && (
+                    <Button onClick={handleSellOne}>{t("sell.one")}</Button>
+                  )}
+                  {amount.gt(1) && !isValuable && (
+                    <Button onClick={handleSellTenOrLess}>
+                      {t(amount.greaterThan(10) ? "sell.ten" : "sell.amount", {
+                        amount,
+                      })}
+                    </Button>
+                  )}
+                </div>
+                <div>
+                  {amount.gt(10) && !isValuable && (
+                    <Button onClick={() => showBulkSellModal(true)}>
+                      {t("sell.inBulk")}
+                    </Button>
+                  )}
+                </div>
+                {amount.lessThanOrEqualTo(0) && (
+                  <p className="text-xxs text-center mb-1">
+                    {t("desert.noTreasureToSell", { treasure: selectedName })}
+                  </p>
+                )}
+              </div>
             }
           />
         }
@@ -100,12 +142,41 @@ export const TreasureShopSell: React.FC = () => {
             ? t("confirmation.sellSeasonalArtefact")
             : price > 1000
               ? t("confirmation.valuableTreasure")
-              : "",
+              : t("confirmation.sell", {
+                  amount: customAmount,
+                  name: selectedName,
+                  coinAmount,
+                }),
         ]}
-        onCancel={() => showConfirmationModal(false)}
-        onConfirm={() => sell(1)}
+        onCancel={() => {
+          showConfirmationModal(false);
+          setCustomAmount(new Decimal(0));
+        }}
+        onConfirm={() => {
+          if (isValuable) {
+            sell();
+          } else {
+            sell(customAmount.toNumber());
+            showConfirmationModal(false);
+          }
+        }}
         confirmButtonLabel={t("sell")}
         bumpkinParts={NPC_WEARABLES.jafar}
+      />
+      <BulkSellModal
+        show={bulkSellModal}
+        onHide={closeBulkSellModal}
+        itemAmount={amount}
+        customAmount={customAmount}
+        setCustomAmount={setCustomAmount}
+        onCancel={closeBulkSellModal}
+        onSell={() => {
+          showConfirmationModal(true);
+          showBulkSellModal(false);
+        }}
+        bumpkinParts={NPC_WEARABLES.jafar}
+        coinAmount={new Decimal(coinAmount)}
+        maxDecimalPlaces={0} // It shouldn't allow decimal places
       />
     </>
   );

@@ -1420,7 +1420,7 @@ const confirmSkill: Record<ConfirmSkill, string> = {
 };
 
 const confirmationTerms: Record<ConfirmationTerms, string> = {
-  "confirmation.sellCrops": ENGLISH_TERMS["confirmation.sellCrops"],
+  "confirmation.sell": ENGLISH_TERMS["confirmation.sell"],
   "confirmation.buyCrops": ENGLISH_TERMS["confirmation.buyCrops"],
   "confirmation.enterAmount": ENGLISH_TERMS["confirmation.enterAmount"],
   "confirmation.sellSeasonalArtefact":
@@ -5676,6 +5676,7 @@ export const desertTerms: Record<DesertKeys, string> = {
   "desert.extraDigs": ENGLISH_TERMS["desert.extraDigs"],
   "desert.digs": ENGLISH_TERMS["desert.digs"],
   "desert.buyDigs.confirmation": ENGLISH_TERMS["desert.buyDigs.confirmation"],
+  "desert.noTreasureToSell": ENGLISH_TERMS["desert.noTreasureToSell"],
 };
 
 export const marketplaceTerms: Record<MarketplaceTerms, string> = {

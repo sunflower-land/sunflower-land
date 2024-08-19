@@ -970,7 +970,7 @@ export type ComposterDescription =
 export type ConfirmSkill = "confirm.skillClaim";
 
 export type ConfirmationTerms =
-  | "confirmation.sellCrops"
+  | "confirmation.sell"
   | "confirmation.buyCrops"
   | "confirmation.enterAmount"
   | "confirmation.sellSeasonalArtefact"
@@ -3873,7 +3873,8 @@ export type DesertKeys =
   | "desert.hud.newSite"
   | "desert.extraDigs"
   | "desert.digs"
-  | "desert.buyDigs.confirmation";
+  | "desert.buyDigs.confirmation"
+  | "desert.noTreasureToSell";
 
 export type MarketplaceTerms =
   | "marketplace.collectibles"
