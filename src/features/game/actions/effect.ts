@@ -5,17 +5,22 @@ import { makeGame } from "../lib/transforms";
 
 const API_URL = CONFIG.API_URL;
 
-type Request = {
-  items: Partial<Record<InventoryItemName, number>>;
+export type Effect = {
+  type: "marketplace.onChainCollectibleListed";
+  item: InventoryItemName;
+  signature: string;
   sfl: number;
-  sellerId: number;
-  token: string;
-  transactionId: string;
-  signature?: string;
 };
 
-export async function listRequest(request: Request): Promise<GameState> {
-  const response = await window.fetch(`${API_URL}/listings`, {
+type Request = {
+  farmId: number;
+  token: string;
+  transactionId: string;
+  effect: Effect;
+};
+
+export async function postEffect(request: Request): Promise<GameState> {
+  const response = await window.fetch(`${API_URL}/effect/${request.farmId}`, {
     method: "POST",
     headers: {
       "content-type": "application/json;charset=UTF-8",
@@ -27,10 +32,7 @@ export async function listRequest(request: Request): Promise<GameState> {
         : {}),
     },
     body: JSON.stringify({
-      sellerId: request.sellerId,
-      items: request.items,
-      sfl: request.sfl,
-      signature: request.signature,
+      effect: request.effect,
       createdAt: new Date().toISOString(),
     }),
   });
@@ -40,7 +42,7 @@ export async function listRequest(request: Request): Promise<GameState> {
   }
 
   if (response.status !== 200 || !response.ok) {
-    throw new Error(ERRORS.LIST_TRADE_SERVER_ERROR);
+    throw new Error(ERRORS.EFFECT_SERVER_ERROR);
   }
 
   const data = await response.json();

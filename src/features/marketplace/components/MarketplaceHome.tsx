@@ -1,9 +1,13 @@
 import { ButtonPanel, InnerPanel } from "components/ui/Panel";
 import { ITEM_DETAILS } from "features/game/types/images";
-import React from "react";
+import React, { useContext, useState } from "react";
 
 import budIcon from "assets/icons/bud.png";
 import wearableIcon from "assets/icons/wearables.webp";
+import { Context } from "features/game/GameProvider";
+import { wallet } from "lib/blockchain/wallet";
+import { GameWallet } from "features/wallet/Wallet";
+import { ethers } from "ethers";
 
 import { CollectionName } from "features/game/types/marketplace";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
@@ -59,8 +63,70 @@ export const MarketplaceHome: React.FC = () => {
             </ButtonPanel>
           </div>
         ))}
+        <List />
       </div>
       <Collection key={collection} type={collection ?? "collectibles"} />
     </InnerPanel>
+  );
+};
+
+const List: React.FC = () => {
+  const [isListing, setIsListing] = useState(false);
+
+  if (isListing) {
+    return <ListTrade />;
+  }
+
+  return <button onClick={() => setIsListing(true)}>{`List`}</button>;
+};
+
+const ListTrade: React.FC = () => {
+  const { gameService } = useContext(Context);
+
+  const [isSigning, setIsSigning] = useState(false);
+
+  const onClick = async () => {
+    setIsSigning(true);
+
+    const signer = new ethers.providers.Web3Provider(
+      wallet.web3Provider.givenProvider,
+    ).getSigner();
+
+    const domain = {
+      name: "Sunflower Land",
+    };
+
+    const types = {
+      Listing: [
+        { name: "item", type: "string" },
+        { name: "quantity", type: "uint256" },
+        { name: "SFL", type: "uint256" },
+      ],
+    };
+
+    const message = {
+      item: "Kuebiko",
+      quantity: 1,
+      SFL: 1,
+    };
+
+    const signature = await signer._signTypedData(domain, types, message);
+
+    gameService.send("POST_EFFECT", {
+      effect: {
+        type: "marketplace.onChainCollectibleListed",
+        item: "Kuebiko",
+        signature,
+        sfl: 1,
+      },
+    });
+
+    setIsSigning(false);
+  };
+
+  return (
+    <GameWallet action="listTrade">
+      <button onClick={onClick}>{`Sign`}</button>
+    </GameWallet>
   );
 };
