@@ -1,4 +1,4 @@
-import { Bud } from "../types";
+import { Bud } from "./types";
 
 const buds: Record<number, Bud> = {
   1: {
