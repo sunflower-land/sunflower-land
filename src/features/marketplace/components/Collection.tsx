@@ -45,9 +45,10 @@ export const Collection: React.FC<Props> = ({ type }) => {
   }
 
   return (
-    <div className="flex flex-wrap">
+    <div className="flex flex-wrap gap-2">
       {collection?.items.map((item) => {
         const display = getTradeableDisplay({ type, id: item.id });
+
         return (
           <ListViewCard
             name={display.name}
@@ -55,6 +56,8 @@ export const Collection: React.FC<Props> = ({ type }) => {
             price={new Decimal(item.floor)}
             image={display.image}
             supply={item.supply}
+            type={type}
+            id={item.id}
             key={item.id}
             onClick={() => {
               navigate(`/marketplace/${type}/${item.id}`);
