@@ -21,8 +21,9 @@
       // Add your URL here
 
       // TODO grab URL from here
+      const code = new URLSearchParams(window.location.search).get("code");
 
-      window.location.href = `${baseUrl}/auth/fsl/callback?code=sks39dojobxcrvf9s3riz7eh8pro2ju6`;
+      window.location.href = `${baseUrl}/auth/fsl/callback?code=${code}`;
 
       // JavaScript redirect as an alternative or fallback
     </script>
