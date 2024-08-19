@@ -4,7 +4,7 @@ import token from "assets/icons/sfl.webp";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Button } from "components/ui/Button";
 import { wallet } from "lib/blockchain/wallet";
-import { toWei } from "web3-utils";
+import { fromWei, toBN, toWei } from "web3-utils";
 import Decimal from "decimal.js-light";
 import { formatNumber } from "lib/utils/formatNumber";
 import { Context } from "features/game/GameProvider";
@@ -12,9 +12,6 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Loading } from "features/auth/components";
 import { NumberInput } from "components/ui/NumberInput";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-
-export const VALID_NUMBER = new RegExp(/^\d*\.?\d*$/);
-export const INPUT_MAX_CHAR = 10;
 
 export const AddSFL: React.FC = () => {
   const { gameService } = useContext(Context);
@@ -40,7 +37,7 @@ export const AddSFL: React.FC = () => {
 
   const getSFLForMaticAmount = async (maticAmount: Decimal) => {
     const sfl = await wallet.getSFLForMatic(toWei(maticAmount.toString()));
-    setSFLAmount(new Decimal(sfl));
+    setSFLAmount(sfl);
   };
 
   const handleMaticAmountChange = (value: Decimal) => {
@@ -55,7 +52,7 @@ export const AddSFL: React.FC = () => {
 
   const getMaticForSFLAmount = async (sflAmount: Decimal) => {
     const matic = await wallet.getMaticForSFL(toWei(sflAmount.toString()));
-    setMaticAmount(new Decimal(matic));
+    setMaticAmount(matic);
   };
 
   const handleSFLAmountChange = (value: Decimal) => {
@@ -76,12 +73,16 @@ export const AddSFL: React.FC = () => {
     });
   };
 
-  const formattedMaticBalance = formatNumber(maticBalance, {
-    decimalPlaces: 4,
-  });
+  const formattedMaticBalance = formatNumber(
+    new Decimal(fromWei(toBN(maticBalance.toString()))),
+    {
+      decimalPlaces: 4,
+    },
+  );
 
   const invalidMaticAmount =
-    maticAmount.lte(maticBalance) || maticAmount.lte(0);
+    toBN(toWei(maticAmount.toString())).gt(toBN(maticBalance.toString())) ||
+    maticAmount.lte(0);
 
   if (isLoading) {
     return <Loading text={t("loading")} />;
