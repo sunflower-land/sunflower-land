@@ -307,7 +307,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     spawnedAt: 0,
   },
   farmHands: { bumpkins: {} },
-  bumpkin: { ...TEST_BUMPKIN },
+  bumpkin: { ...TEST_BUMPKIN, skills: { "Chonky Scarecrow": 1 } },
   buds: {
     1: {
       aura: "Basic",
@@ -385,6 +385,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     },
   },
   inventory: {
+    "Basic Scarecrow": new Decimal(1),
     "Lemon Shark": new Decimal(1),
     "Beta Pass": new Decimal(1),
     "Paint Can": new Decimal(1),

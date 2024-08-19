@@ -261,7 +261,12 @@ export const getCropPlotTime = ({
 
     if (
       isCollectibleBuilt({ name: "Basic Scarecrow", game }) &&
-      isWithinAOE("Basic Scarecrow", scarecrowPosition, plotPosition)
+      isWithinAOE(
+        "Basic Scarecrow",
+        scarecrowPosition,
+        plotPosition,
+        game.bumpkin.skills,
+      )
     ) {
       seconds = seconds * 0.8;
     }
@@ -468,7 +473,7 @@ export function getCropYieldAmount({
 
     if (
       isCollectibleBuilt({ name: "Scary Mike", game }) &&
-      isWithinAOE("Scary Mike", scarecrowPosition, plotPosition)
+      isWithinAOE("Scary Mike", scarecrowPosition, plotPosition, bumpkin.skills)
     ) {
       amount = amount + 0.2;
     }
@@ -489,7 +494,7 @@ export function getCropYieldAmount({
 
     if (
       isPlotCrop(crop) &&
-      isWithinAOE("Sir Goldensnout", position, plot as CropPlot)
+      isWithinAOE("Sir Goldensnout", position, plot as CropPlot, bumpkin.skills)
     ) {
       amount = amount + 0.5;
     }
@@ -522,7 +527,12 @@ export function getCropYieldAmount({
 
     if (
       isCollectibleBuilt({ name: "Laurie the Chuckle Crow", game }) &&
-      isWithinAOE("Laurie the Chuckle Crow", scarecrowPosition, plotPosition)
+      isWithinAOE(
+        "Laurie the Chuckle Crow",
+        scarecrowPosition,
+        plotPosition,
+        bumpkin.skills,
+      )
     ) {
       amount = amount + 0.2;
     }
@@ -549,7 +559,12 @@ export function getCropYieldAmount({
 
     if (
       isCollectibleBuilt({ name: "Queen Cornelia", game }) &&
-      isWithinAOE("Queen Cornelia", scarecrowPosition, plotPosition)
+      isWithinAOE(
+        "Queen Cornelia",
+        scarecrowPosition,
+        plotPosition,
+        bumpkin.skills,
+      )
     ) {
       amount = amount + 1;
     }

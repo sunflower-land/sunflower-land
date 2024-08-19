@@ -497,6 +497,7 @@ const isLandscaping = (state: GameMachineState) => state.matches("landscaping");
 const _collectibles = (state: GameMachineState) =>
   state.context.state.collectibles;
 const _chickens = (state: GameMachineState) => state.context.state.chickens;
+const _bumpkin = (state: GameMachineState) => state.context.state.bumpkin;
 
 const LockedChicken: React.FC<Props> = (props) => {
   const [showPopover, setShowPopover] = useState(false);
@@ -549,8 +550,9 @@ const LandscapingChicken: React.FC<Props> = (props) => {
 
   const collectibles = useSelector(gameService, _collectibles);
   const chickens = useSelector(gameService, _chickens);
+  const bumpkin = useSelector(gameService, _bumpkin);
 
-  if (isLocked(chickens[props.id], collectibles, Date.now())) {
+  if (isLocked(chickens[props.id], collectibles, Date.now(), bumpkin)) {
     return <LockedChicken {...props} />;
   }
 

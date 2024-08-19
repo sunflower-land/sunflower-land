@@ -20,6 +20,7 @@ export function isLocked(
   chicken: Chicken,
   collectibles: Collectibles,
   createdAt: number,
+  bumpkin: GameState["bumpkin"],
 ): boolean {
   if (!chicken || !chicken.coordinates || !chicken.fedAt) return false;
 
@@ -43,7 +44,7 @@ export function isLocked(
       width: 1,
     };
 
-    if (isWithinAOE("Bale", balePosition, chickenPosition)) {
+    if (isWithinAOE("Bale", balePosition, chickenPosition, bumpkin.skills)) {
       return true;
     }
   }
@@ -85,7 +86,9 @@ export function moveChicken({
     throw new Error(MOVE_CHICKEN_ERRORS.CHICKEN_NOT_PLACED);
   }
 
-  if (isLocked(chickens[action.id], collectibles, createdAt)) {
+  if (
+    isLocked(chickens[action.id], collectibles, createdAt, stateCopy.bumpkin)
+  ) {
     throw new Error(MOVE_CHICKEN_ERRORS.AOE_LOCKED);
   }
 

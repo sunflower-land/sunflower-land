@@ -28,6 +28,7 @@ export function isLocked(
   rock: Rock,
   collectibles: Collectibles,
   createdAt: number,
+  bumpkin: GameState["bumpkin"],
 ): boolean {
   const minedAt = rock.stone.minedAt;
 
@@ -35,7 +36,7 @@ export function isLocked(
 
   if (canMine(rock, IRON_RECOVERY_TIME, createdAt)) return false;
 
-  return isAOEImpacted(collectibles, rock, ["Emerald Turtle"]);
+  return isAOEImpacted(collectibles, rock, ["Emerald Turtle"], bumpkin);
 }
 
 export function moveIron({
@@ -54,7 +55,14 @@ export function moveIron({
     throw new Error(MOVE_IRON_ERRORS.IRON_NOT_PLACED);
   }
 
-  if (isLocked(iron[action.id], stateCopy.collectibles, createdAt)) {
+  if (
+    isLocked(
+      iron[action.id],
+      stateCopy.collectibles,
+      createdAt,
+      stateCopy.bumpkin,
+    )
+  ) {
     throw new Error(MOVE_IRON_ERRORS.AOE_LOCKED);
   }
 

@@ -1040,33 +1040,41 @@ export const READONLY_COLLECTIBLES: Record<
     />
   ),
 
-  "Basic Scarecrow": () => (
-    <div
-      className="absolute bottom-0"
-      style={{ width: `${PIXEL_SCALE * 22}px`, right: `${PIXEL_SCALE * -3}px` }}
-    >
-      <img src={ITEM_DETAILS["Basic Scarecrow"].image} className="w-full " />
+  "Basic Scarecrow": (props: CollectibleProps) => {
+    const hasChonkyScarecrow = props.game.bumpkin.skills["Chonky Scarecrow"];
+    const chonkyOffset = hasChonkyScarecrow ? 4 : 0;
+
+    return (
       <div
-        className="absolute bottom-0 bg-blue-300 bg-opacity-50 animate-pulse z-50 pointer-events-none"
+        className="absolute bottom-0"
         style={{
-          width: `${PIXEL_SCALE * 16 * 3}px`,
-          height: `${PIXEL_SCALE * 16 * 3}px`,
-          left: `${PIXEL_SCALE * -13}px`,
-          top: `${PIXEL_SCALE * 31}px`,
+          width: `${PIXEL_SCALE * 22}px`,
+          right: `${PIXEL_SCALE * -3}px`,
         }}
       >
-        <img
-          src={lightning}
-          className="absolute bottom-0 opacity-50 animate-pulsate"
+        <img src={ITEM_DETAILS["Basic Scarecrow"].image} className="w-full " />
+        <div
+          className="absolute bottom-0 bg-blue-300 bg-opacity-50 animate-pulse z-50 pointer-events-none"
           style={{
-            width: `${PIXEL_SCALE * 10}px`,
-            left: `${PIXEL_SCALE * 19}px`,
-            top: `${PIXEL_SCALE * 17}px`,
+            width: `${PIXEL_SCALE * 16 * (3 + chonkyOffset)}px`,
+            height: `${PIXEL_SCALE * 16 * (3 + chonkyOffset)}px`,
+            left: `${PIXEL_SCALE * -13 - (chonkyOffset / 2) * PIXEL_SCALE * 16}px`,
+            top: `${PIXEL_SCALE * 31}px`,
           }}
-        />
+        >
+          <img
+            src={lightning}
+            className="absolute bottom-0 opacity-50 animate-pulsate"
+            style={{
+              width: `${PIXEL_SCALE * 10}px`,
+              left: `${PIXEL_SCALE * 19 + (chonkyOffset / 2) * PIXEL_SCALE * 16}px`,
+              top: `${PIXEL_SCALE * 17 + (chonkyOffset / 2) * PIXEL_SCALE * 16}px`,
+            }}
+          />
+        </div>
       </div>
-    </div>
-  ),
+    );
+  },
 
   "Scary Mike": () => (
     <div
