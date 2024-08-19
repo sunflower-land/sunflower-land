@@ -480,6 +480,7 @@ export function isWithinAOE(
   AOEItemName: AOEItemName,
   AOEItem: Position,
   effectItem: Position,
+  skills: GameState["bumpkin"]["skills"],
 ): boolean {
   const { x, y, height, width } = AOEItem;
 
@@ -503,8 +504,21 @@ export function isWithinAOE(
     return Math.abs(dx) <= distance && Math.abs(dy) <= distance;
   };
 
+  const hasChonkyScarecrow = skills["Chonky Scarecrow"];
+  const boostedDistance = hasChonkyScarecrow ? 2 : 0;
+
   switch (AOEItemName) {
     case "Basic Scarecrow":
+      return isWithinRectangle(
+        { x: x - 1 - boostedDistance, y: y - height, height, width },
+        {
+          x: x + 1 + boostedDistance,
+          y: y - height - 2 - boostedDistance * 2,
+          height,
+          width,
+        },
+      );
+
     case "Scary Mike":
     case "Laurie the Chuckle Crow": {
       return isWithinRectangle(
@@ -551,6 +565,7 @@ export function isAOEImpacted(
   collectibles: Collectibles,
   resourcePosition: Position,
   AoEAffectedNames: AOEItemName[],
+  bumpkin: GameState["bumpkin"],
 ) {
   return AoEAffectedNames.some((name) => {
     if (collectibles[name as CollectibleName]?.[0]) {
@@ -568,7 +583,7 @@ export function isAOEImpacted(
         width: dimensions.width,
       };
 
-      if (isWithinAOE(name, itemPosition, resourcePosition)) {
+      if (isWithinAOE(name, itemPosition, resourcePosition, bumpkin.skills)) {
         return true;
       }
     }
