@@ -47,15 +47,15 @@ export const MarketplaceHome: React.FC = () => {
   const { pathname } = useLocation();
 
   return (
-    <InnerPanel>
-      <div className="flex flex-wrap">
+    <InnerPanel className="h-full overflow-y-scroll">
+      <div className="flex flex-wrap sticky -top-1 pb-1 z-10 bg-brown-200">
         {COLLECTIONS.map((collection) => (
           <div key={collection.name} className="relative  pr-1 w-1/2 sm:w-auto">
             <ButtonPanel
               onClick={() => {
                 navigate(collection.route);
               }}
-              className="flex"
+              className="flex items-center"
               selected={collection.name === pathname}
             >
               <img src={collection.icon} className="h-8 mr-2" />
