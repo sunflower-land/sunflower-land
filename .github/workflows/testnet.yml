@@ -99,9 +99,6 @@ jobs:
       - name: Deploy static site to S3 bucket
         run: aws s3 sync ./dist/ s3://www.sunflower-land.com/testnet --delete
 
-      - name: Deploy FSL host map
-        run: aws s3 cp fsl.html s3://sunflower-land.com/fsl/index.html
-
       - name: Invalidate CloudFront
         uses: chetan/invalidate-cloudfront-action@v2
         env:
