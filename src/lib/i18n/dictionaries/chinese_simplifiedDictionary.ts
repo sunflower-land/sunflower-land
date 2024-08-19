@@ -69,7 +69,6 @@ import {
   GuideTerms,
   Harvestflower,
   HarvestBeeHive,
-  HayseedHankPlaza,
   HayseedHankV2,
   Helper,
   HeliosSunflower,
@@ -2787,15 +2786,6 @@ const harvestflower: Record<Harvestflower, string> = {
   "harvestflower.alr.plant": ENGLISH_TERMS["harvestflower.alr.plant"],
 };
 
-const hayseedHankPlaza: Record<HayseedHankPlaza, string> = {
-  "hayseedHankPlaza.cannotCompleteChore":
-    ENGLISH_TERMS["hayseedHankPlaza.cannotCompleteChore"],
-  "hayseedHankPlaza.skipChore": ENGLISH_TERMS["hayseedHankPlaza.skipChore"],
-  "hayseedHankPlaza.canSkipIn": ENGLISH_TERMS["hayseedHankPlaza.canSkipIn"],
-  "hayseedHankPlaza.wellDone": ENGLISH_TERMS["hayseedHankPlaza.wellDone"],
-  "hayseedHankPlaza.lendAHand": ENGLISH_TERMS["hayseedHankPlaza.lendAHand"],
-};
-
 const hayseedHankV2: Record<HayseedHankV2, string> = {
   "hayseedHankv2.dialog1": ENGLISH_TERMS["hayseedHankv2.dialog1"],
   "hayseedHankv2.dialog2": ENGLISH_TERMS["hayseedHankv2.dialog2"],
@@ -2805,6 +2795,8 @@ const hayseedHankV2: Record<HayseedHankV2, string> = {
     ENGLISH_TERMS["hayseedHankv2.newChoresAvailable"],
   "hayseedHankv2.skipChores": ENGLISH_TERMS["hayseedHankv2.skipChores"],
   "hayseedHankv2.greeting": ENGLISH_TERMS["hayseedHankv2.greeting"],
+  "hayseedHankv2.confirmSkipChore":
+    ENGLISH_TERMS["hayseedHankv2.confirmSkipChore"],
 };
 
 const heliosSunflower: Record<HeliosSunflower, string> = {
@@ -5080,7 +5072,6 @@ export const CHINESE_SIMPLIFIED_TERMS: Record<TranslationKeys, string> = {
   ...guideTerms,
   ...harvestBeeHive,
   ...harvestflower,
-  ...hayseedHankPlaza,
   ...hayseedHankV2,
   ...heliosSunflower,
   ...helper,

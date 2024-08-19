@@ -71,7 +71,6 @@ import {
   GuideTerms,
   Harvestflower,
   HarvestBeeHive,
-  HayseedHankPlaza,
   HayseedHankV2,
   Helper,
   HeliosSunflower,
@@ -3253,15 +3252,6 @@ const harvestflower: Record<Harvestflower, string> = {
   "harvestflower.alr.plant": "La fleur est déjà plantée",
 };
 
-const hayseedHankPlaza: Record<HayseedHankPlaza, string> = {
-  "hayseedHankPlaza.cannotCompleteChore":
-    "Impossible de terminer cette corvée?",
-  "hayseedHankPlaza.skipChore": "Passer la corvée",
-  "hayseedHankPlaza.canSkipIn": "Vous pouvez passer cette corvée dans",
-  "hayseedHankPlaza.wellDone": "Bien joué",
-  "hayseedHankPlaza.lendAHand": "Donner un coup de main?",
-};
-
 const hayseedHankV2: Record<HayseedHankV2, string> = {
   "hayseedHankv2.dialog1":
     "Eh bien, bonjour à vous, jeunes froussards ! Je suis Hayseed Hank, un vieux fermier expérimenté, travaillant la terre comme au bon vieux temps.",
@@ -3274,6 +3264,8 @@ const hayseedHankV2: Record<HayseedHankV2, string> = {
     "Vous pouvez sauter des corvées chaque nouveau jour.",
   "hayseedHankv2.greeting":
     "Eh bien, bonjour à vous, jeunes froussards ! Je suis Hayseed Hank...",
+  "hayseedHankv2.confirmSkipChore":
+    ENGLISH_TERMS["hayseedHankv2.confirmSkipChore"],
 };
 
 const heliosSunflower: Record<HeliosSunflower, string> = {
@@ -5912,7 +5904,6 @@ export const FRENCH_TERMS: Record<TranslationKeys, string> = {
   ...guideTerms,
   ...harvestBeeHive,
   ...harvestflower,
-  ...hayseedHankPlaza,
   ...hayseedHankV2,
   ...heliosSunflower,
   ...helper,
