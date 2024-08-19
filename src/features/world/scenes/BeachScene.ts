@@ -162,6 +162,7 @@ export class BeachScene extends BaseScene {
     this.load.image("nothing", SUNNYSIDE.icons.close);
     this.load.image("clam_shell", SUNNYSIDE.resource.clam_shell);
     this.load.image("wood", SUNNYSIDE.resource.wood);
+    this.load.image("stone", SUNNYSIDE.resource.stone);
     this.load.image("wooden_compass", "world/wooden_compass.webp");
     this.load.image("old_bottle", "world/old_bottle.png");
     this.load.image("camel_bone", "world/camel_bone.webp");
