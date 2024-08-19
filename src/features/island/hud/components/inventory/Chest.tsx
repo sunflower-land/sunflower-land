@@ -214,17 +214,12 @@ export const Chest: React.FC<Props> = ({
                         selectedChestItem,
                       })
                     : t("landscape.confirmation.hourglass.one", {
-                        resourceNode:
+                        resourceNodeCondition:
                           (selectedChestItem === "Time Warp Totem"
-                            ? "resource nodes"
+                            ? t("landscape.timeWarpTotem.affectedResource")
                             : HOURGLASS_DETAILS[
                                 selectedChestItem as HourglassType
                               ]?.affectedResource) || "",
-                        cooldown:
-                          selectedChestItem === "Harvest Hourglass" ||
-                          selectedChestItem === "Blossom Hourglass"
-                            ? t("growing")
-                            : t("landscape.onCooldown"),
                         selectedChestItem,
                       }),
                   t("landscape.confirmation.hourglass.two", {

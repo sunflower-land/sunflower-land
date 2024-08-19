@@ -2373,13 +2373,13 @@ export type LandscapeTerms =
   | "landscape.confirmation.hourglass.one"
   | "landscape.confirmation.hourglass.two"
   | "landscape.confirmation.hourglass.three"
-  | "landscape.onCooldown"
   | "landscape.hourglass.affectedResource.gourmet"
   | "landscape.hourglass.affectedResource.harvest"
   | "landscape.hourglass.affectedResource.timber"
   | "landscape.hourglass.affectedResource.orchard"
   | "landscape.hourglass.affectedResource.blossom"
-  | "landscape.hourglass.affectedResource.ore";
+  | "landscape.hourglass.affectedResource.ore"
+  | "landscape.timeWarpTotem.affectedResource";
 
 export type LevelUpMessages =
   | "levelUp.2"

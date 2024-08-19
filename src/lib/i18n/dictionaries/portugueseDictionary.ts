@@ -3401,7 +3401,6 @@ const landscapeTerms: Record<LandscapeTerms, string> = {
     ENGLISH_TERMS["landscape.confirmation.hourglass.two"],
   "landscape.confirmation.hourglass.three":
     ENGLISH_TERMS["landscape.confirmation.hourglass.three"],
-  "landscape.onCooldown": ENGLISH_TERMS["landscape.onCooldown"],
   "landscape.hourglass.affectedResource.gourmet":
     ENGLISH_TERMS["landscape.hourglass.affectedResource.gourmet"],
   "landscape.hourglass.affectedResource.harvest":
@@ -3414,6 +3413,8 @@ const landscapeTerms: Record<LandscapeTerms, string> = {
     ENGLISH_TERMS["landscape.hourglass.affectedResource.blossom"],
   "landscape.hourglass.affectedResource.ore":
     ENGLISH_TERMS["landscape.hourglass.affectedResource.ore"],
+  "landscape.timeWarpTotem.affectedResource":
+    ENGLISH_TERMS["landscape.timeWarpTotem.affectedResource"],
 };
 
 const levelUpMessages: Record<LevelUpMessages, string> = {

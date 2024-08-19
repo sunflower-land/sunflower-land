@@ -3352,18 +3352,20 @@ const landscapeTerms: Record<LandscapeTerms, string> = {
   "landscape.confirmation.fisherHourglass":
     "Please ensure that you have casts remaining for the day before activating the {{selectedChestItem}}.",
   "landscape.confirmation.hourglass.one":
-    "Please ensure that any {{resourceNode}} are not {{cooldown}} before activating the {{selectedChestItem}}.",
+    "Please ensure {{resourceNodeCondition}} before activating the {{selectedChestItem}}.",
   "landscape.confirmation.hourglass.two":
-    "Once placed, the effects of the {{selectedChestItem}} will start and you can't pause or reverse its effects.",
+    "Once placed, the effects of the {{selectedChestItem}} will begin immediately and cannot be paused or cancelled.",
   "landscape.confirmation.hourglass.three":
     "Are you sure you want to place down the {{selectedChestItem}} and activate it?",
-  "landscape.onCooldown": "on cooldown",
-  "landscape.hourglass.affectedResource.gourmet": "cooking buildings",
-  "landscape.hourglass.affectedResource.harvest": "crops",
-  "landscape.hourglass.affectedResource.timber": "trees",
-  "landscape.hourglass.affectedResource.orchard": "fruit trees",
-  "landscape.hourglass.affectedResource.blossom": "flowers",
-  "landscape.hourglass.affectedResource.ore": "minerals",
+  "landscape.hourglass.affectedResource.gourmet":
+    "no cooking buildings are working",
+  "landscape.hourglass.affectedResource.harvest": "no crops are growing",
+  "landscape.hourglass.affectedResource.timber": "no trees are regenerating",
+  "landscape.hourglass.affectedResource.orchard": "no fruit trees are growing",
+  "landscape.hourglass.affectedResource.blossom": "no flowers are growing",
+  "landscape.hourglass.affectedResource.ore": "no minerals are regenerating",
+  "landscape.timeWarpTotem.affectedResource":
+    "no resource nodes are regenerating and no crops, fruits, or flowers are growing",
 };
 
 const levelUpMessages: Record<LevelUpMessages, string> = {
