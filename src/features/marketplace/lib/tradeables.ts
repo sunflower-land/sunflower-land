@@ -12,6 +12,7 @@ type TradeableDisplay = {
   name: string;
   description: string;
   image: string;
+  type: CollectionName;
   buff?: BuffLabel;
 };
 export function getTradeableDisplay({
@@ -30,6 +31,7 @@ export function getTradeableDisplay({
       description: details.description, // TODO support translation
       image: details.image,
       buff: BUMPKIN_ITEM_BUFF_LABELS[name],
+      type,
     };
   }
 
@@ -40,6 +42,7 @@ export function getTradeableDisplay({
       name,
       description: "?",
       image: `https://${budImageDomain}.sunflower-land.com/images/${id}.webp`,
+      type,
       //   buff: TODO
     };
   }
@@ -53,5 +56,6 @@ export function getTradeableDisplay({
     description: translateTerms(details.description),
     image: details.image,
     buff: COLLECTIBLE_BUFF_LABELS[name],
+    type,
   };
 }
