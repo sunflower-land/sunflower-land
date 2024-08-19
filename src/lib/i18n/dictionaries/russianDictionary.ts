@@ -5740,8 +5740,7 @@ export const desertTerms: Record<DesertKeys, string> = {
     "Each day a desert storm resets the puzzle with new patterns and resources.",
   "desert.notice.one":
     "Welcome to the Desert. Can you solve the Pharaoh's puzzle and find the hidden treasures?",
-  "desert.notice.two":
-    "Discover {{ticket}}s & exchange them for rewards before time runs out.",
+  "desert.notice.two": ENGLISH_TERMS["desert.notice.two"],
   "desert.notice.three": "Use hieroglyphs to upgrade your digging.",
   "desert.notice.four": "Sell resources at the shop for coins.",
   "desert.notice.five":
