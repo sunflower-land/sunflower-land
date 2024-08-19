@@ -6,26 +6,19 @@
     <script type="text/javascript">
       const fullUrl = window.location.href;
 
-      // Create a new URL object using the full URL
       const url = new URL(fullUrl);
 
-      //   let baseUrl = "https://api.sunflower-land.com";
-      let baseUrl = "https://10h8kpp7wl.execute-api.us-east-1.amazonaws.com";
+      let baseUrl = "https://api.sunflower-land.comm";
 
-      if (url.pathname.includes("development")) {
+      if (url.pathname.includes("testnet")) {
         // Forward to dev URL
         let baseUrl = "https://api-dev.sunflower-land.com";
       } else if (url.pathname.includes("hannigan")) {
         let baseUrl = "https://10h8kpp7wl.execute-api.us-east-1.amazonaws.com";
       }
-      // Add your URL here
 
-      // TODO grab URL from here
       const code = new URLSearchParams(window.location.search).get("code");
-
       window.location.href = `${baseUrl}/auth/fsl/callback?code=${code}`;
-
-      // JavaScript redirect as an alternative or fallback
     </script>
   </head>
   <body>

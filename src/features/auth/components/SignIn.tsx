@@ -5,6 +5,7 @@ import { Context } from "../lib/Provider";
 import { SUNNYSIDE } from "assets/sunnyside";
 import metamaskIcon from "assets/icons/metamask_pixel.png";
 import walletIcon from "assets/icons/wallet.png";
+import fslIcon from "assets/icons/fsl_id.svg";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 import { Label } from "components/ui/Label";
@@ -324,6 +325,8 @@ export const SignIn: React.FC<{ type: "signin" | "signup" }> = ({ type }) => {
     );
   }
 
+  const promoCode = getPromoCode();
+
   return (
     <div
       className="px-2 overflow-y-auto   scrollable"
@@ -380,15 +383,27 @@ export const SignIn: React.FC<{ type: "signin" | "signup" }> = ({ type }) => {
             </Button>
           )}
 
-          <Button
-            className="mb-1 py-2 text-sm relative"
-            onClick={() => {
-              setShowLoading(true);
-              window.location.href = `${CONFIG.API_URL}/auth/fsl/authorize`;
-            }}
-          >
-            {"FSL"}
-          </Button>
+          {promoCode?.toLowerCase().includes("fsl") && (
+            <Button
+              className="mb-1 py-2 text-sm relative"
+              onClick={() => {
+                setShowLoading(true);
+                window.location.href = `${CONFIG.API_URL}/auth/fsl/authorize`;
+              }}
+            >
+              <Label
+                type="info"
+                className="absolute top-1/2 -translate-y-1/2 right-1"
+              >
+                {t("featured")}
+              </Label>
+              <img
+                src={fslIcon}
+                className="w-7 h-7 mobile:w-6 mobile:h-6  ml-2 mr-6 absolute left-0 top-1"
+              />
+              {"FSL"}
+            </Button>
+          )}
         </>
       )}
 
