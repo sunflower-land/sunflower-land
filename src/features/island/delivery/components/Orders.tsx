@@ -416,7 +416,7 @@ export const DeliveryOrders: React.FC<Props> = ({
     <div className="flex md:flex-row flex-col-reverse md:mr-1 items-start h-full">
       <InnerPanel
         className={classNames(
-          "flex flex-col h-full overflow-hidden scrollable overflow-y-auto pl-1 md:flex flex-col w-full md:w-2/3 h-full",
+          "flex flex-col h-full overflow-hidden scrollable overflow-y-auto pl-1 md:flex w-full md:w-2/3",
           {
             hidden: selectedId,
           },
@@ -476,7 +476,9 @@ export const DeliveryOrders: React.FC<Props> = ({
           </div>
           {level <= 8 && (
             <span className="text-xs mb-2">
-              {t("bumpkin.delivery.earnScrolls")}
+              {t("bumpkin.delivery.earnTickets", {
+                ticket: getSeasonalTicket(),
+              })}
             </span>
           )}
           {ticketTasksAreFrozen && (

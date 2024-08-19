@@ -1011,7 +1011,7 @@ const bumpkinDelivery: Record<BumpkinDelivery, string> = {
     "I've been waiting for this. Thanks a bunch! Come back soon for more deliveries.",
   "bumpkin.delivery.proveYourself":
     "Prove yourself worthy. Level up {{missingLevels}} more times.",
-  "bumpkin.delivery.earnScrolls": "Earn scrolls to craft exclusive items.",
+  "bumpkin.delivery.earnTickets": "Earn {{ticket}}s to craft exclusive items.",
   "bumpkin.delivery.earnSFL": "Earn SFL to trade & build your empire.",
 };
 

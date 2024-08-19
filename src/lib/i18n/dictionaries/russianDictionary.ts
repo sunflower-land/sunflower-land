@@ -253,7 +253,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   exotics: "Экзотика",
   "expand.land": "Расширяй свою территорию",
   expand: "Расширить",
-  expired: "Expired",
+  expired: "Закончился",
   explore: "Исследовать",
   faction: "Фракция",
   farm: "Ферма",
@@ -284,7 +284,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   item: "Предмет",
   inventory: "Инвентарь",
   land: "Земля",
-  landscaping: "Landscaping",
+  landscaping: "Благоустройство",
   "last.updated": "Последнее обновление",
   "lets.go": "Погнали!",
   limit: "Лимит",
@@ -298,7 +298,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   maintenance: "Технические работы",
   "make.wish": "Загадать желание",
   "making.wish": "Загадываем желание",
-  marks: "Marks",
+  marks: "Марки",
   max: "Максимум",
   "max.reached": "Достигнут максимум",
   minimum: "Минимум",
@@ -356,7 +356,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   reward: "Награда",
   "reward.discovered": "Получена награда",
   "reward.whatsNew": "Что нового",
-  sale: "Sale",
+  sale: "Распродажа",
   save: "Сохранить",
   saving: "Сохранение",
   searching: "Ищем",
@@ -367,7 +367,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   "sell.all": "Продать все",
   "sell.one": "Продать 1",
   "sell.ten": "Продать 10",
-  "sell.inBulk": "Sell in Bulk",
+  "sell.inBulk": "Продать партию",
   "session.expired": "Сессия истекла!",
   share: "Поделиться",
   skillPts: "Очки навыков",
@@ -843,7 +843,7 @@ const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
   "description.iron.idol.boost": "+1 Iron",
   "description.emerald.turtle.boost": "+0.5 Stone, Iron, Gold (область 3x3)",
   "description.tin.turtle.boost": "+0.1 Stone (область 3x3)",
-  "description.heart.of.davy.jones.boost": "+20 Desert Digs",
+  "description.heart.of.davy.jones.boost": "+20 копок на пляже",
   "description.Karkinos.boost": "+0.1 Cabbage (не работает с Cabbage Boy)",
   "description.mushroom.house.boost": "+0.2 Wild Mushroom",
   "description.boost.gilded.swordfish": "+0.1 Gold",
@@ -1025,8 +1025,10 @@ const bumpkinDelivery: Record<BumpkinDelivery, string> = {
     "То что надо. Огромное спасибо! Возвращайся позже за новыми доставками.",
   "bumpkin.delivery.proveYourself":
     "Докажи, что достоин. Получи еще {{missingLevels}} уровней.",
-  "bumpkin.delivery.earnScrolls": "Earn scrolls to craft exclusive items.",
-  "bumpkin.delivery.earnSFL": "Earn SFL to trade & build your empire.",
+  "bumpkin.delivery.earnTickets":
+    "Зарабатывай {{ticket}}’ы, чтобы скрафтить эксклюзивные предметы.",
+  "bumpkin.delivery.earnSFL":
+    "Зарабатывай SFL, чтобы торговать и строить свою империю.",
 };
 
 const bumpkinItemBuff: Record<BumpkinItemBuff, string> = {

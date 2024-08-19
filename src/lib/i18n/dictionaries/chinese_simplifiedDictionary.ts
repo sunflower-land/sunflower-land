@@ -980,7 +980,7 @@ const bumpkinDelivery: Record<BumpkinDelivery, string> = {
     "我一直就是在等这个。非常感谢！请尽快回来获取更多送货订单。",
   "bumpkin.delivery.proveYourself":
     "证明你的价值。再扩展你的岛屿 {{missingLevels}} 次。",
-  "bumpkin.delivery.earnScrolls": "赚取 {{ticket}} 来铸造限定物品。",
+  "bumpkin.delivery.earnTickets": "赚取 {{ticket}} 来铸造限定物品。",
   "bumpkin.delivery.earnSFL": "赚取 SFL 来做买卖 & 成就您的伟业。",
 };
 
