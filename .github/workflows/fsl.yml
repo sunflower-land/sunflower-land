@@ -24,4 +24,4 @@ jobs:
           aws-region: ap-southeast-2
 
       - name: Deploy FSL host map
-        run: aws s3 cp fsl.html s3://sunflower-land.com/fsl/index.html
+        run: aws s3 sync ./public/fsl s3://sunflower-land.com/fsl  --delete

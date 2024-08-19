@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Redirecting...</title>
+    <script type="text/javascript">
+      const fullUrl = window.location.href;
+
+      const url = new URL(fullUrl);
+
+      let baseUrl = "https://api-dev.sunflower-land.com";
+
+      const code = new URLSearchParams(window.location.search).get("code");
+      window.location.href = `${baseUrl}/auth/fsl/callback?code=${code}`;
+    </script>
+  </head>
+  <body>
+    <p>Redirecting...</p>
+  </body>
+</html>
