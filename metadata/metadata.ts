@@ -6467,7 +6467,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/2116.gif",
     attributes: [
-      { trait_type: "Boost", value: "Other" },
+      { trait_type: "Boost", value: "Treasure" },
       {
         display_type: "boost_number",
         trait_type: "Increase daily digs",
@@ -7236,7 +7236,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     image: "../public/erc1155/images/2017.png",
     attributes: [
       { trait_type: "Tradable", value: "No" },
-      { trait_type: "Boost", value: "Other" },
+      { trait_type: "Boost", value: "Cooking" },
       {
         display_type: "boost_percentage",
         trait_type: "Cooking Time",
@@ -8714,7 +8714,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     image: "../public/erc1155/images/2075.png",
     attributes: [
       { trait_type: "Purpose", value: "Consumable" },
-      { trait_type: "Boost", value: "Other" },
+      { trait_type: "Boost", value: "Fruit" },
       {
         display_type: "boost_percentage",
         trait_type: "Fruit Growth Time",
@@ -11178,7 +11178,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
         trait_type: "Cooking Time",
         value: -50,
       },
-      { trait_type: "Boost", value: "Food & XP" },
+      { trait_type: "Boost", value: "Cooking" },
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
@@ -13030,7 +13030,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
     decimals: 0,
     attributes: [
       { trait_type: "Part", value: "Hat" },
-      { trait_type: "Boost", value: "Resource" },
+      { trait_type: "Boost", value: "Crop" },
       {
         display_type: "boost_number",
         trait_type: "Increase Rice Yield",
@@ -13064,7 +13064,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
     decimals: 0,
     attributes: [
       { trait_type: "Part", value: "SecondaryTool" },
-      { trait_type: "Boost", value: "Resource" },
+      { trait_type: "Boost", value: "Crop" },
       {
         display_type: "boost_number",
         trait_type: "Increase Olive Yield",
@@ -13130,7 +13130,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
         trait_type: "Increase XP gains",
         value: 25,
       },
-      { trait_type: "Boost", value: "Food & XP" },
+      { trait_type: "Boost", value: "XP" },
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
@@ -13912,7 +13912,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
     attributes: [
       { trait_type: "Part", value: "Tool" },
       { trait_type: "Tradable", value: "Yes" },
-      { trait_type: "Boost", value: "Other" },
+      { trait_type: "Boost", value: "Treasure" },
       {
         display_type: "boost_number",
         trait_type: "Dig treasure without Sand Shovel",
@@ -14325,7 +14325,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
         trait_type: "Cooking Time",
         value: -25,
       },
-      { trait_type: "Boost", value: "Food & XP" },
+      { trait_type: "Boost", value: "Cooking" },
     ],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/wearables/images/388.png",
@@ -14343,7 +14343,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
         trait_type: "Cooking Time",
         value: -25,
       },
-      { trait_type: "Boost", value: "Food & XP" },
+      { trait_type: "Boost", value: "Cooking" },
     ],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/wearables/images/389.png",
@@ -14361,7 +14361,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
         trait_type: "Cooking Time",
         value: -25,
       },
-      { trait_type: "Boost", value: "Food & XP" },
+      { trait_type: "Boost", value: "Cooking" },
     ],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/wearables/images/390.png",
@@ -14379,7 +14379,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
         trait_type: "Cooking Time",
         value: -25,
       },
-      { trait_type: "Boost", value: "Food & XP" },
+      { trait_type: "Boost", value: "Cooking" },
     ],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/wearables/images/391.png",
