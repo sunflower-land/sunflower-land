@@ -29,7 +29,6 @@ export default defineConfig({
         "farms/*",
         "offline/*",
         "offline.html",
-        "fsl.html",
       ],
       injectManifest: {
         maximumFileSizeToCacheInBytes: 15000000,
