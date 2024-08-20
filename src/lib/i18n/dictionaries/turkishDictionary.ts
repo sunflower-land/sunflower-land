@@ -3381,20 +3381,20 @@ const landscapeTerms: Record<LandscapeTerms, string> = {
     ENGLISH_TERMS["landscape.confirmation.hourglass.two"],
   "landscape.confirmation.hourglass.three":
     ENGLISH_TERMS["landscape.confirmation.hourglass.three"],
-  "landscape.hourglass.affectedResource.gourmet":
-    ENGLISH_TERMS["landscape.hourglass.affectedResource.gourmet"],
-  "landscape.hourglass.affectedResource.harvest":
-    ENGLISH_TERMS["landscape.hourglass.affectedResource.harvest"],
-  "landscape.hourglass.affectedResource.timber":
-    ENGLISH_TERMS["landscape.hourglass.affectedResource.timber"],
-  "landscape.hourglass.affectedResource.orchard":
-    ENGLISH_TERMS["landscape.hourglass.affectedResource.orchard"],
-  "landscape.hourglass.affectedResource.blossom":
-    ENGLISH_TERMS["landscape.hourglass.affectedResource.blossom"],
-  "landscape.hourglass.affectedResource.ore":
-    ENGLISH_TERMS["landscape.hourglass.affectedResource.ore"],
-  "landscape.timeWarpTotem.affectedResource":
-    ENGLISH_TERMS["landscape.timeWarpTotem.affectedResource"],
+  "landscape.hourglass.resourceNodeCondition.gourmet":
+    ENGLISH_TERMS["landscape.hourglass.resourceNodeCondition.gourmet"],
+  "landscape.hourglass.resourceNodeCondition.harvest":
+    ENGLISH_TERMS["landscape.hourglass.resourceNodeCondition.harvest"],
+  "landscape.hourglass.resourceNodeCondition.timber":
+    ENGLISH_TERMS["landscape.hourglass.resourceNodeCondition.timber"],
+  "landscape.hourglass.resourceNodeCondition.orchard":
+    ENGLISH_TERMS["landscape.hourglass.resourceNodeCondition.orchard"],
+  "landscape.hourglass.resourceNodeCondition.blossom":
+    ENGLISH_TERMS["landscape.hourglass.resourceNodeCondition.blossom"],
+  "landscape.hourglass.resourceNodeCondition.ore":
+    ENGLISH_TERMS["landscape.hourglass.resourceNodeCondition.ore"],
+  "landscape.timeWarpTotem.resourceNodeCondition":
+    ENGLISH_TERMS["landscape.timeWarpTotem.resourceNodeCondition"],
 };
 
 const levelUpMessages: Record<LevelUpMessages, string> = {

@@ -37,7 +37,6 @@ import { Label } from "components/ui/Label";
 import { secondsToString } from "lib/utils/time";
 import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
 import { InventoryItemName } from "features/game/types/game";
-import { translate } from "lib/i18n/translate";
 
 export type HourglassType =
   | "Gourmet Hourglass"
@@ -120,7 +119,6 @@ type HourglassDetail = {
   halfImage: string;
   doneImage: string;
   boostMillis: number;
-  affectedResource?: string;
 };
 
 export const HOURGLASS_DETAILS: Record<HourglassType, HourglassDetail> = {
@@ -129,35 +127,30 @@ export const HOURGLASS_DETAILS: Record<HourglassType, HourglassDetail> = {
     halfImage: gourmetHourglassHalf,
     doneImage: gourmetHourglassDone,
     boostMillis: 4 * 60 * 60 * 1000,
-    affectedResource: translate("landscape.hourglass.affectedResource.gourmet"),
   },
   "Harvest Hourglass": {
     fullImage: harvestHourglassFull,
     halfImage: harvestHourglassHalf,
     doneImage: harvestHourglassDone,
     boostMillis: 6 * 60 * 60 * 1000,
-    affectedResource: translate("landscape.hourglass.affectedResource.harvest"),
   },
   "Timber Hourglass": {
     fullImage: timberHourglassFull,
     halfImage: timberHourglassHalf,
     doneImage: timberHourglassDone,
     boostMillis: 4 * 60 * 60 * 1000,
-    affectedResource: translate("landscape.hourglass.affectedResource.timber"),
   },
   "Orchard Hourglass": {
     fullImage: orchardHourglassFull,
     halfImage: orchardHourglassHalf,
     doneImage: orchardHourglassDone,
     boostMillis: 6 * 60 * 60 * 1000,
-    affectedResource: translate("landscape.hourglass.affectedResource.orchard"),
   },
   "Blossom Hourglass": {
     fullImage: blossomHourglassFull,
     halfImage: blossomHourglassHalf,
     doneImage: blossomHourglassDone,
     boostMillis: 4 * 60 * 60 * 1000,
-    affectedResource: translate("landscape.hourglass.affectedResource.blossom"),
   },
   "Fisher's Hourglass": {
     fullImage: fisherHourglassFull,
@@ -170,7 +163,6 @@ export const HOURGLASS_DETAILS: Record<HourglassType, HourglassDetail> = {
     halfImage: oreHourglassHalf,
     doneImage: oreHourglassDone,
     boostMillis: 3 * 60 * 60 * 1000,
-    affectedResource: translate("landscape.hourglass.affectedResource.ore"),
   },
 };
 

@@ -162,6 +162,29 @@ export const Chest: React.FC<Props> = ({
 
   const PanelContent: React.FC = () => {
     const { t } = useAppTranslation();
+    const getResourceNodeCondition = (
+      hourglass: HourglassType | "Time Warp Totem",
+    ) => {
+      switch (hourglass) {
+        case "Blossom Hourglass":
+          return t("landscape.hourglass.resourceNodeCondition.blossom");
+        case "Gourmet Hourglass":
+          return t("landscape.hourglass.resourceNodeCondition.gourmet");
+        case "Harvest Hourglass":
+          return t("landscape.hourglass.resourceNodeCondition.harvest");
+        case "Orchard Hourglass":
+          return t("landscape.hourglass.resourceNodeCondition.orchard");
+        case "Ore Hourglass":
+          return t("landscape.hourglass.resourceNodeCondition.ore");
+        case "Timber Hourglass":
+          return t("landscape.hourglass.resourceNodeCondition.timber");
+        case "Time Warp Totem":
+          return t("landscape.timeWarpTotem.resourceNodeCondition");
+        default:
+          return "";
+      }
+    };
+
     if (isBudName(selectedChestItem)) {
       const budId = Number(selectedChestItem.split("-")[1]);
       const bud = buds[budId];
@@ -214,12 +237,9 @@ export const Chest: React.FC<Props> = ({
                         selectedChestItem,
                       })
                     : t("landscape.confirmation.hourglass.one", {
-                        resourceNodeCondition:
-                          (selectedChestItem === "Time Warp Totem"
-                            ? t("landscape.timeWarpTotem.affectedResource")
-                            : HOURGLASS_DETAILS[
-                                selectedChestItem as HourglassType
-                              ]?.affectedResource) || "",
+                        resourceNodeCondition: getResourceNodeCondition(
+                          selectedChestItem as HourglassType,
+                        ),
                         selectedChestItem,
                       }),
                   t("landscape.confirmation.hourglass.two", {

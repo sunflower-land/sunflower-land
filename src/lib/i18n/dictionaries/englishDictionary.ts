@@ -3357,14 +3357,17 @@ const landscapeTerms: Record<LandscapeTerms, string> = {
     "Once placed, the effects of the {{selectedChestItem}} will begin immediately and cannot be paused or cancelled.",
   "landscape.confirmation.hourglass.three":
     "Are you sure you want to place down the {{selectedChestItem}} and activate it?",
-  "landscape.hourglass.affectedResource.gourmet":
+  "landscape.hourglass.resourceNodeCondition.gourmet":
     "no cooking buildings are working",
-  "landscape.hourglass.affectedResource.harvest": "no crops are growing",
-  "landscape.hourglass.affectedResource.timber": "no trees are regenerating",
-  "landscape.hourglass.affectedResource.orchard": "no fruit trees are growing",
-  "landscape.hourglass.affectedResource.blossom": "no flowers are growing",
-  "landscape.hourglass.affectedResource.ore": "no minerals are regenerating",
-  "landscape.timeWarpTotem.affectedResource":
+  "landscape.hourglass.resourceNodeCondition.harvest": "no crops are growing",
+  "landscape.hourglass.resourceNodeCondition.timber":
+    "no trees are regenerating",
+  "landscape.hourglass.resourceNodeCondition.orchard":
+    "no fruit trees are growing",
+  "landscape.hourglass.resourceNodeCondition.blossom": "no flowers are growing",
+  "landscape.hourglass.resourceNodeCondition.ore":
+    "no minerals are regenerating",
+  "landscape.timeWarpTotem.resourceNodeCondition":
     "no resource nodes are regenerating and no crops, fruits, or flowers are growing",
 };
 
