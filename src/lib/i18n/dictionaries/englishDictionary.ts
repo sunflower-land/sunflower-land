@@ -3349,26 +3349,26 @@ const landscapeTerms: Record<LandscapeTerms, string> = {
     "Once this node is placed down, you will not be able to dig it back up to your chest.",
   "landscape.confirmation.resourceNodes.two":
     "Are you sure you want to place this down?",
-  "landscape.confirmation.fisherHourglass":
-    "Please ensure that you have casts remaining for the day before activating the {{selectedChestItem}}.",
   "landscape.confirmation.hourglass.one":
-    "Please ensure {{resourceNodeCondition}} before activating the {{selectedChestItem}}.",
-  "landscape.confirmation.hourglass.two":
     "Once placed, the effects of the {{selectedChestItem}} will begin immediately and cannot be paused or cancelled.",
-  "landscape.confirmation.hourglass.three":
+  "landscape.confirmation.hourglass.two":
     "Are you sure you want to place down the {{selectedChestItem}} and activate it?",
+  "landscape.hourglass.resourceNodeCondition.fishers":
+    "Please ensure that you have casts remaining for the day before activating the {{selectedChestItem}}.",
   "landscape.hourglass.resourceNodeCondition.gourmet":
-    "no cooking buildings are working",
-  "landscape.hourglass.resourceNodeCondition.harvest": "no crops are growing",
+    "Please ensure no cooking buildings are working before activating the {{selectedChestItem}}.",
+  "landscape.hourglass.resourceNodeCondition.harvest":
+    "Please ensure no crops are growing before activating the {{selectedChestItem}}.",
   "landscape.hourglass.resourceNodeCondition.timber":
-    "no trees are regenerating",
+    "Please ensure no trees are regenerating before activating the {{selectedChestItem}}.",
   "landscape.hourglass.resourceNodeCondition.orchard":
-    "no fruit trees are growing",
-  "landscape.hourglass.resourceNodeCondition.blossom": "no flowers are growing",
+    "Please ensure no fruit trees are growing before activating the {{selectedChestItem}}.",
+  "landscape.hourglass.resourceNodeCondition.blossom":
+    "Please ensure no flowers are growing before activating the {{selectedChestItem}}.",
   "landscape.hourglass.resourceNodeCondition.ore":
-    "no minerals are regenerating",
+    "Please ensure no minerals are regenerating before activating the {{selectedChestItem}}.",
   "landscape.timeWarpTotem.resourceNodeCondition":
-    "no resource nodes are regenerating and no crops, fruits, or flowers are growing",
+    "Please ensure no minerals or trees are regenerating and no crops, fruits, or flowers are growing before activating the {{selectedChestItem}}.",
 };
 
 const levelUpMessages: Record<LevelUpMessages, string> = {

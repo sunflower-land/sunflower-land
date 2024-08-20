@@ -3373,14 +3373,12 @@ const landscapeTerms: Record<LandscapeTerms, string> = {
     ENGLISH_TERMS["landscape.confirmation.resourceNodes.one"],
   "landscape.confirmation.resourceNodes.two":
     ENGLISH_TERMS["landscape.confirmation.resourceNodes.two"],
-  "landscape.confirmation.fisherHourglass":
-    ENGLISH_TERMS["landscape.confirmation.fisherHourglass"],
+  "landscape.hourglass.resourceNodeCondition.fishers":
+    ENGLISH_TERMS["landscape.hourglass.resourceNodeCondition.fishers"],
   "landscape.confirmation.hourglass.one":
     ENGLISH_TERMS["landscape.confirmation.hourglass.one"],
   "landscape.confirmation.hourglass.two":
     ENGLISH_TERMS["landscape.confirmation.hourglass.two"],
-  "landscape.confirmation.hourglass.three":
-    ENGLISH_TERMS["landscape.confirmation.hourglass.three"],
   "landscape.hourglass.resourceNodeCondition.gourmet":
     ENGLISH_TERMS["landscape.hourglass.resourceNodeCondition.gourmet"],
   "landscape.hourglass.resourceNodeCondition.harvest":

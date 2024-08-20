@@ -34,6 +34,7 @@ import { InnerPanel } from "components/ui/Panel";
 import { ConfirmationModal } from "components/ui/ConfirmationModal";
 import { HourglassType } from "features/island/collectibles/components/Hourglass";
 import { EXPIRY_COOLDOWNS } from "features/game/lib/collectibleBuilt";
+import { LandscapeTerms } from "lib/i18n/dictionaries/types";
 
 const imageDomain = CONFIG.NETWORK === "mainnet" ? "buds" : "testnet-buds";
 
@@ -65,6 +66,8 @@ interface PanelContentProps {
   isSaving?: boolean;
 }
 
+export type TimeBasedConsumables = HourglassType | "Time Warp Totem";
+
 const PanelContent: React.FC<PanelContentProps> = ({
   isSaving,
   onPlace,
@@ -92,27 +95,23 @@ const PanelContent: React.FC<PanelContentProps> = ({
     }
   };
 
-  const getResourceNodeCondition = (
-    hourglass: HourglassType | "Time Warp Totem",
-  ) => {
-    switch (hourglass) {
-      case "Blossom Hourglass":
-        return t("landscape.hourglass.resourceNodeCondition.blossom");
-      case "Gourmet Hourglass":
-        return t("landscape.hourglass.resourceNodeCondition.gourmet");
-      case "Harvest Hourglass":
-        return t("landscape.hourglass.resourceNodeCondition.harvest");
-      case "Orchard Hourglass":
-        return t("landscape.hourglass.resourceNodeCondition.orchard");
-      case "Ore Hourglass":
-        return t("landscape.hourglass.resourceNodeCondition.ore");
-      case "Timber Hourglass":
-        return t("landscape.hourglass.resourceNodeCondition.timber");
-      case "Time Warp Totem":
-        return t("landscape.timeWarpTotem.resourceNodeCondition");
-      default:
-        return "";
-    }
+  const getResourceNodeCondition = (hourglass: TimeBasedConsumables) => {
+    const hourglassCondition: Record<TimeBasedConsumables, LandscapeTerms> = {
+      "Blossom Hourglass": "landscape.hourglass.resourceNodeCondition.blossom",
+      "Gourmet Hourglass": "landscape.hourglass.resourceNodeCondition.gourmet",
+      "Harvest Hourglass": "landscape.hourglass.resourceNodeCondition.harvest",
+      "Orchard Hourglass": "landscape.hourglass.resourceNodeCondition.orchard",
+      "Ore Hourglass": "landscape.hourglass.resourceNodeCondition.ore",
+      "Timber Hourglass": "landscape.hourglass.resourceNodeCondition.timber",
+      "Time Warp Totem": "landscape.timeWarpTotem.resourceNodeCondition",
+      "Fisher's Hourglass": "landscape.hourglass.resourceNodeCondition.fishers",
+    };
+
+    return hourglassCondition[hourglass]
+      ? t(hourglassCondition[hourglass], {
+          selectedChestItem,
+        })
+      : "";
   };
 
   if (isBudName(selectedChestItem)) {
@@ -162,20 +161,13 @@ const PanelContent: React.FC<PanelContentProps> = ({
                 t("landscape.confirmation.resourceNodes.two"),
               ]
             : [
-                selectedChestItem === "Fisher's Hourglass"
-                  ? t("landscape.confirmation.fisherHourglass", {
-                      selectedChestItem,
-                    })
-                  : t("landscape.confirmation.hourglass.one", {
-                      resourceNodeCondition: getResourceNodeCondition(
-                        selectedChestItem as HourglassType | "Time Warp Totem",
-                      ),
-                      selectedChestItem,
-                    }),
-                t("landscape.confirmation.hourglass.two", {
+                getResourceNodeCondition(
+                  selectedChestItem as TimeBasedConsumables,
+                ),
+                t("landscape.confirmation.hourglass.one", {
                   selectedChestItem,
                 }),
-                t("landscape.confirmation.hourglass.three", {
+                t("landscape.confirmation.hourglass.two", {
                   selectedChestItem,
                 }),
               ]
