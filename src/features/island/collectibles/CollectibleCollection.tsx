@@ -980,12 +980,12 @@ export const COLLECTIBLE_COMPONENTS: Record<
     <ImageStyle
       {...props}
       divStyle={{
-        width: `${PIXEL_SCALE * 11}px`,
-        bottom: `${PIXEL_SCALE * 3}px`,
-        left: `${PIXEL_SCALE * 2.5}px`,
+        width: `${PIXEL_SCALE * 51}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * -1.5}px`,
       }}
       imgStyle={{
-        width: `${PIXEL_SCALE * 11}px`,
+        width: `${PIXEL_SCALE * 51}px`,
       }}
       image={ITEM_DETAILS["Baobab Tree"].image}
       alt="Baobab Tree"
@@ -1016,7 +1016,21 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Scarab Beetle": Template,
   "Clay Tablet": Template,
   "Reveling Lemon": Template,
-  "Paper Reed": Template,
+  "Paper Reed": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 22}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * -3}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 22}px`,
+      }}
+      image={ITEM_DETAILS["Paper Reed"].image}
+      alt="Paper Reed"
+    />
+  ),
 };
 // Need readonly versions for some troublesome components while in design mode
 
