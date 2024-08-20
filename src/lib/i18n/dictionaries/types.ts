@@ -700,7 +700,7 @@ export type BumpkinDelivery =
   | "bumpkin.delivery.thanks"
   | "bumpkin.delivery.waiting"
   | "bumpkin.delivery.proveYourself"
-  | "bumpkin.delivery.earnScrolls"
+  | "bumpkin.delivery.earnTickets"
   | "bumpkin.delivery.earnSFL";
 
 export type BumpkinItemBuff =
