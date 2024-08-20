@@ -17,7 +17,7 @@ import { SplitScreenView } from "components/ui/SplitScreenView";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { InventoryItemDetails } from "components/ui/layouts/InventoryItemDetails";
 
-import { BudName, isBudName } from "features/game/types/buds";
+import { Bud, BudName, isBudName } from "features/game/types/buds";
 import { CONFIG } from "lib/config";
 import { BudDetails } from "components/ui/layouts/BudDetails";
 import classNames from "classnames";
@@ -32,10 +32,8 @@ import { DIRT_PATH_VARIANTS } from "features/island/lib/alternateArt";
 import { BANNERS } from "features/game/types/banners";
 import { InnerPanel } from "components/ui/Panel";
 import { ConfirmationModal } from "components/ui/ConfirmationModal";
-import {
-  HOURGLASS_DETAILS,
-  HourglassType,
-} from "features/island/collectibles/components/Hourglass";
+import { HourglassType } from "features/island/collectibles/components/Hourglass";
+import { EXPIRY_COOLDOWNS } from "features/game/lib/collectibleBuilt";
 
 const imageDomain = CONFIG.NETWORK === "mainnet" ? "buds" : "testnet-buds";
 
@@ -56,6 +54,143 @@ export const ITEM_ICONS: (
   "Dirt Path": DIRT_PATH_VARIANTS[island],
   Greenhouse: SUNNYSIDE.icons.greenhouseIcon,
 });
+
+interface PanelContentProps {
+  selectedChestItem: InventoryItemName | `Bud-${number}`;
+  closeModal: () => void;
+  state: GameState;
+  buds: Record<number, Bud>;
+  onPlace?: (name: InventoryItemName) => void;
+  onPlaceBud?: (bud: BudName) => void;
+  isSaving?: boolean;
+}
+
+const PanelContent: React.FC<PanelContentProps> = ({
+  isSaving,
+  onPlace,
+  onPlaceBud,
+  selectedChestItem,
+  closeModal,
+  state,
+  buds,
+}) => {
+  const { t } = useAppTranslation();
+
+  const [confirmationModal, showConfirmationModal] = useState(false);
+
+  const handlePlace = () => {
+    if (
+      selectedChestItem in RESOURCES ||
+      selectedChestItem in EXPIRY_COOLDOWNS
+    ) {
+      showConfirmationModal(true);
+    } else {
+      isBudName(selectedChestItem)
+        ? onPlaceBud && onPlaceBud(selectedChestItem)
+        : onPlace && onPlace(selectedChestItem);
+      closeModal();
+    }
+  };
+
+  const getResourceNodeCondition = (
+    hourglass: HourglassType | "Time Warp Totem",
+  ) => {
+    switch (hourglass) {
+      case "Blossom Hourglass":
+        return t("landscape.hourglass.resourceNodeCondition.blossom");
+      case "Gourmet Hourglass":
+        return t("landscape.hourglass.resourceNodeCondition.gourmet");
+      case "Harvest Hourglass":
+        return t("landscape.hourglass.resourceNodeCondition.harvest");
+      case "Orchard Hourglass":
+        return t("landscape.hourglass.resourceNodeCondition.orchard");
+      case "Ore Hourglass":
+        return t("landscape.hourglass.resourceNodeCondition.ore");
+      case "Timber Hourglass":
+        return t("landscape.hourglass.resourceNodeCondition.timber");
+      case "Time Warp Totem":
+        return t("landscape.timeWarpTotem.resourceNodeCondition");
+      default:
+        return "";
+    }
+  };
+
+  if (isBudName(selectedChestItem)) {
+    const budId = Number(selectedChestItem.split("-")[1]);
+    const bud = buds[budId];
+
+    return (
+      <BudDetails
+        bud={bud}
+        budId={budId}
+        actionView={
+          onPlace && (
+            <Button onClick={handlePlace} disabled={isSaving}>
+              {isSaving ? t("saving") : t("place.map")}
+            </Button>
+          )
+        }
+      />
+    );
+  }
+
+  return (
+    <>
+      <InventoryItemDetails
+        game={state}
+        details={{
+          item: selectedChestItem,
+        }}
+        properties={{
+          showOpenSeaLink: true,
+        }}
+        actionView={
+          onPlace && (
+            <Button onClick={handlePlace} disabled={isSaving}>
+              {isSaving ? t("saving") : t("place.map")}
+            </Button>
+          )
+        }
+      />
+      <ConfirmationModal
+        show={confirmationModal}
+        onHide={() => showConfirmationModal(false)}
+        messages={
+          selectedChestItem in RESOURCES
+            ? [
+                t("landscape.confirmation.resourceNodes.one"),
+                t("landscape.confirmation.resourceNodes.two"),
+              ]
+            : [
+                selectedChestItem === "Fisher's Hourglass"
+                  ? t("landscape.confirmation.fisherHourglass", {
+                      selectedChestItem,
+                    })
+                  : t("landscape.confirmation.hourglass.one", {
+                      resourceNodeCondition: getResourceNodeCondition(
+                        selectedChestItem as HourglassType | "Time Warp Totem",
+                      ),
+                      selectedChestItem,
+                    }),
+                t("landscape.confirmation.hourglass.two", {
+                  selectedChestItem,
+                }),
+                t("landscape.confirmation.hourglass.three", {
+                  selectedChestItem,
+                }),
+              ]
+        }
+        onCancel={() => showConfirmationModal(false)}
+        onConfirm={() => {
+          onPlace && onPlace(selectedChestItem);
+          closeModal();
+          showConfirmationModal(false);
+        }}
+        confirmButtonLabel={t("place")}
+      />
+    </>
+  );
+};
 
 interface Props {
   state: GameState;
@@ -80,7 +215,6 @@ export const Chest: React.FC<Props> = ({
 }: Props) => {
   const divRef = useRef<HTMLDivElement>(null);
   const buds = getChestBuds(state);
-  const [confirmationModal, showConfirmationModal] = useState(false);
 
   const chestMap = getChestItems(state);
   const { t } = useAppTranslation();
@@ -109,21 +243,6 @@ export const Chest: React.FC<Props> = ({
   };
 
   const selectedChestItem = getSelectedChestItems();
-
-  const handlePlace = () => {
-    if (
-      selectedChestItem in RESOURCES ||
-      selectedChestItem in HOURGLASS_DETAILS ||
-      selectedChestItem === "Time Warp Totem"
-    ) {
-      showConfirmationModal(true);
-    } else {
-      isBudName(selectedChestItem)
-        ? onPlaceBud && onPlaceBud(selectedChestItem)
-        : onPlace && onPlace(selectedChestItem);
-      closeModal();
-    }
-  };
 
   const handleItemClick = (item: InventoryItemName | BudName) => {
     onSelect(item);
@@ -160,108 +279,6 @@ export const Chest: React.FC<Props> = ({
     );
   }
 
-  const PanelContent: React.FC = () => {
-    const { t } = useAppTranslation();
-    const getResourceNodeCondition = (
-      hourglass: HourglassType | "Time Warp Totem",
-    ) => {
-      switch (hourglass) {
-        case "Blossom Hourglass":
-          return t("landscape.hourglass.resourceNodeCondition.blossom");
-        case "Gourmet Hourglass":
-          return t("landscape.hourglass.resourceNodeCondition.gourmet");
-        case "Harvest Hourglass":
-          return t("landscape.hourglass.resourceNodeCondition.harvest");
-        case "Orchard Hourglass":
-          return t("landscape.hourglass.resourceNodeCondition.orchard");
-        case "Ore Hourglass":
-          return t("landscape.hourglass.resourceNodeCondition.ore");
-        case "Timber Hourglass":
-          return t("landscape.hourglass.resourceNodeCondition.timber");
-        case "Time Warp Totem":
-          return t("landscape.timeWarpTotem.resourceNodeCondition");
-        default:
-          return "";
-      }
-    };
-
-    if (isBudName(selectedChestItem)) {
-      const budId = Number(selectedChestItem.split("-")[1]);
-      const bud = buds[budId];
-
-      return (
-        <BudDetails
-          bud={bud}
-          budId={budId}
-          actionView={
-            onPlace && (
-              <Button onClick={handlePlace} disabled={isSaving}>
-                {isSaving ? t("saving") : t("place.map")}
-              </Button>
-            )
-          }
-        />
-      );
-    }
-
-    return (
-      <>
-        <InventoryItemDetails
-          game={state}
-          details={{
-            item: selectedChestItem,
-          }}
-          properties={{
-            showOpenSeaLink: true,
-          }}
-          actionView={
-            onPlace && (
-              <Button onClick={handlePlace} disabled={isSaving}>
-                {isSaving ? t("saving") : t("place.map")}
-              </Button>
-            )
-          }
-        />
-        <ConfirmationModal
-          show={confirmationModal}
-          onHide={() => showConfirmationModal(false)}
-          messages={
-            selectedChestItem in RESOURCES
-              ? [
-                  t("landscape.confirmation.resourceNodes.one"),
-                  t("landscape.confirmation.resourceNodes.two"),
-                ]
-              : [
-                  selectedChestItem === "Fisher's Hourglass"
-                    ? t("landscape.confirmation.fisherHourglass", {
-                        selectedChestItem,
-                      })
-                    : t("landscape.confirmation.hourglass.one", {
-                        resourceNodeCondition: getResourceNodeCondition(
-                          selectedChestItem as HourglassType,
-                        ),
-                        selectedChestItem,
-                      }),
-                  t("landscape.confirmation.hourglass.two", {
-                    selectedChestItem,
-                  }),
-                  t("landscape.confirmation.hourglass.three", {
-                    selectedChestItem,
-                  }),
-                ]
-          }
-          onCancel={() => showConfirmationModal(false)}
-          onConfirm={() => {
-            onPlace && onPlace(selectedChestItem);
-            closeModal();
-            showConfirmationModal(false);
-          }}
-          confirmButtonLabel={t("place")}
-        />
-      </>
-    );
-  };
-
   // Sort collectibles by type
   const resources = getKeys(collectibles).filter((name) => name in RESOURCES);
   const buildings = getKeys(collectibles).filter((name) => name in BUILDINGS);
@@ -283,7 +300,17 @@ export const Chest: React.FC<Props> = ({
       tallMobileContent={true}
       wideModal={true}
       showPanel={!!selectedChestItem}
-      panel={<PanelContent />}
+      panel={
+        <PanelContent
+          state={state}
+          selectedChestItem={selectedChestItem}
+          closeModal={closeModal}
+          onPlace={onPlace}
+          onPlaceBud={onPlaceBud}
+          isSaving={isSaving}
+          buds={buds}
+        />
+      }
       content={
         <>
           {!!Object.values(buds).length && (

@@ -121,7 +121,7 @@ type HourglassDetail = {
   boostMillis: number;
 };
 
-export const HOURGLASS_DETAILS: Record<HourglassType, HourglassDetail> = {
+const HOURGLASS_DETAILS: Record<HourglassType, HourglassDetail> = {
   "Gourmet Hourglass": {
     fullImage: gourmetHourglassFull,
     halfImage: gourmetHourglassHalf,
