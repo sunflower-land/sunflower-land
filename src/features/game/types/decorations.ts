@@ -663,7 +663,7 @@ export const DECORATION_DIMENSIONS: Record<DecorationName, Dimensions> = {
     width: 2,
   },
   "Paper Reed": {
-    height: 1,
+    height: 2,
     width: 1,
   },
 };
