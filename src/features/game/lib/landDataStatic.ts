@@ -307,7 +307,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     spawnedAt: 0,
   },
   farmHands: { bumpkins: {} },
-  bumpkin: { ...TEST_BUMPKIN, skills: { "Chonky Scarecrow": 1 } },
+  bumpkin: TEST_BUMPKIN,
   buds: {
     1: {
       aura: "Basic",

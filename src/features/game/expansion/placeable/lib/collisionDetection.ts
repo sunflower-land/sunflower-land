@@ -505,25 +505,34 @@ export function isWithinAOE(
   };
 
   const hasChonkyScarecrow = skills["Chonky Scarecrow"];
-  const boostedDistance = hasChonkyScarecrow ? 2 : 0;
+  const hasHorrorMike = skills["Horror Mike"];
+  const hasLauriesGains = skills["Laurie's Gains"];
+
+  const boostedDistance = () => {
+    switch (AOEItemName) {
+      case "Basic Scarecrow":
+        return hasChonkyScarecrow ? 2 : 0;
+      case "Scary Mike":
+        return hasHorrorMike ? 2 : 0;
+      case "Laurie the Chuckle Crow":
+        return hasLauriesGains ? 2 : 0;
+      default:
+        return 0;
+    }
+  };
 
   switch (AOEItemName) {
     case "Basic Scarecrow":
-      return isWithinRectangle(
-        { x: x - 1 - boostedDistance, y: y - height, height, width },
-        {
-          x: x + 1 + boostedDistance,
-          y: y - height - 2 - boostedDistance * 2,
-          height,
-          width,
-        },
-      );
-
     case "Scary Mike":
     case "Laurie the Chuckle Crow": {
       return isWithinRectangle(
-        { x: x - 1, y: y - height, height, width },
-        { x: x + 1, y: y - height - 2, height, width },
+        { x: x - 1 - boostedDistance(), y: y - height, height, width },
+        {
+          x: x + 1 + boostedDistance(),
+          y: y - height - 2 - boostedDistance() * 2,
+          height,
+          width,
+        },
       );
     }
 
