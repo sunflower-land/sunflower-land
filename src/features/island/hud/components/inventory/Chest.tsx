@@ -107,11 +107,9 @@ const PanelContent: React.FC<PanelContentProps> = ({
       "Fisher's Hourglass": "landscape.hourglass.resourceNodeCondition.fishers",
     };
 
-    return hourglassCondition[hourglass]
-      ? t(hourglassCondition[hourglass], {
-          selectedChestItem,
-        })
-      : "";
+    return t(hourglassCondition[hourglass], {
+      selectedChestItem,
+    });
   };
 
   if (isBudName(selectedChestItem)) {
