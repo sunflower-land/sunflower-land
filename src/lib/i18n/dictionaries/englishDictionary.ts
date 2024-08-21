@@ -275,7 +275,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   gotIt: "Got it",
   "grant.wish": "Grant New Wish",
   greenhouse: "Greenhouse",
-  growing: "Growing",
+  growing: "growing",
   guide: "Guide",
   honey: "Honey",
   "hungry?": "Hungry?",
@@ -350,6 +350,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   requires: "Requires",
   requirements: "Requirements",
   resources: "Resources",
+  "resource.nodes": "Resource Nodes",
   restock: "Restock",
   retry: "Retry",
   reward: "Reward",
@@ -927,7 +928,7 @@ const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
   "description.rice.panda.boost": "+0.25 Rice",
   "description.olive.shirt.boost": "+0.25 Olive",
   "description.tofu.mask.boost": "+0.1 Soybean",
-  "description.gourmet.hourglass.boost": "+50% Cooking Speed (4hrs)",
+  "description.gourmet.hourglass.boost": "-50% Cooking Time (4hrs)",
   "description.harvest.hourglass.boost": "-25% Crop Growth Time (6hrs)",
   "description.timber.hourglass.boost": "-25% Tree Recovery Time (4hrs)",
   "description.ore.hourglass.boost": "-50% Mineral Recovery Time (3hrs)",
@@ -3344,6 +3345,30 @@ const landscapeTerms: Record<LandscapeTerms, string> = {
   "landscape.expansion.date":
     "More expansions will be available on the 7th February.",
   "landscape.great.work": "Great work Bumpkin!",
+  "landscape.confirmation.resourceNodes.one":
+    "Once this node is placed down, you will not be able to dig it back up to your chest.",
+  "landscape.confirmation.resourceNodes.two":
+    "Are you sure you want to place this down?",
+  "landscape.confirmation.hourglass.one":
+    "Once placed, the effects of the {{selectedChestItem}} will begin immediately and cannot be paused or cancelled.",
+  "landscape.confirmation.hourglass.two":
+    "Are you sure you want to place down the {{selectedChestItem}} and activate it?",
+  "landscape.hourglass.resourceNodeCondition.fishers":
+    "Please ensure that you have casts remaining for the day before activating the {{selectedChestItem}}.",
+  "landscape.hourglass.resourceNodeCondition.gourmet":
+    "Please ensure no cooking buildings are working before activating the {{selectedChestItem}}.",
+  "landscape.hourglass.resourceNodeCondition.harvest":
+    "Please ensure no crops are growing before activating the {{selectedChestItem}}.",
+  "landscape.hourglass.resourceNodeCondition.timber":
+    "Please ensure no trees are regenerating before activating the {{selectedChestItem}}.",
+  "landscape.hourglass.resourceNodeCondition.orchard":
+    "Please ensure no fruit trees are growing before activating the {{selectedChestItem}}.",
+  "landscape.hourglass.resourceNodeCondition.blossom":
+    "Please ensure no flowers are growing before activating the {{selectedChestItem}}.",
+  "landscape.hourglass.resourceNodeCondition.ore":
+    "Please ensure no minerals are regenerating before activating the {{selectedChestItem}}.",
+  "landscape.timeWarpTotem.resourceNodeCondition":
+    "Please ensure no minerals or trees are regenerating and no crops, fruits, or flowers are growing before activating the {{selectedChestItem}}.",
 };
 
 const levelUpMessages: Record<LevelUpMessages, string> = {
