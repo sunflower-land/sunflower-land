@@ -1011,11 +1011,39 @@ export const COLLECTIBLE_COMPONENTS: Record<
   // To Update
   Sundial: Template,
   "Sand Golem": Template,
-  "Cactus King": Template,
+  "Cactus King": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 19}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * -1.5}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 19}px`,
+      }}
+      image={ITEM_DETAILS["Cactus King"].image}
+      alt="Cactus King"
+    />
+  ),
   "Lemon Frog": Template,
   "Scarab Beetle": Template,
   "Clay Tablet": Template,
-  "Reveling Lemon": Template,
+  "Reveling Lemon": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 23}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 4}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 23}px`,
+      }}
+      image={ITEM_DETAILS["Reveling Lemon"].image}
+      alt="Reveling Lemon"
+    />
+  ),
   "Paper Reed": (props: CollectibleProps) => (
     <ImageStyle
       {...props}
