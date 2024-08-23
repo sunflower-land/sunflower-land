@@ -178,6 +178,7 @@ export type BumpkinSkillRevamp = {
   requirements: {
     points: number;
     skill: number; // Number of skills required to unlock this skill (0 means it's a tier 1 skill)
+    cooldown?: number; // Timestamp of the amount of time the skill takes to reload
   };
   boosts: string;
   image: string;
@@ -539,6 +540,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     requirements: {
       points: 3,
       skill: 5,
+      cooldown: 1000 * 60 * 60 * 72, // 72 hours
     },
     boosts:
       "Ability to make all crops currently growing ready to be harvested (1/72h)",
@@ -645,6 +647,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     requirements: {
       points: 3,
       skill: 5,
+      cooldown: 1000 * 60 * 60 * 72, // 72 hours
     },
     boosts:
       "Ability to make all fruit currently growing ready to be harvested (1/72h)",
@@ -741,6 +744,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     requirements: {
       points: 3,
       skill: 5,
+      cooldown: 1000 * 60 * 60 * 24, // 24 hours
     },
     boosts: "Ability to make all trees instantly grow (1/24h)",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
@@ -901,6 +905,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     requirements: {
       points: 3,
       skill: 5,
+      cooldown: 1000 * 60 * 60 * 96, // 96 hours
     },
     boosts:
       "Ability to instantly reduce egg laying time by 10hours to chickens currently laying eggs (1/96h)",
@@ -977,6 +982,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     requirements: {
       points: 3,
       skill: 5,
+      cooldown: 1000 * 60 * 60 * 96, // 96 hours
     },
     boosts:
       "Ability to make all Greenhouse crops currently growing ready to be harvested (1/96h)",
@@ -1208,6 +1214,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     requirements: {
       points: 3,
       skill: 5,
+      cooldown: 1000 * 60 * 60 * 72, // 72 hours
     },
     boosts:
       "Ability make all meals currently cooking ready to be eaten (1/72h)",
@@ -1388,6 +1395,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     requirements: {
       points: 3,
       skill: 5,
+      cooldown: 1000 * 60 * 60 * 96, // 96 hours
     },
     boosts: "Ability to make empty oil wells instantly refill (1/96h)",
     image: SUNNYSIDE?.skills?.green_thumb_LE,

@@ -57,6 +57,7 @@ import { detectBot, DetectBotAction } from "./detectBot";
 import { pickSkill, PickSkillAction } from "./landExpansion/pickSkill";
 import { choseSkill, ChoseSkillAction } from "./landExpansion/choseSkill";
 import { resetSkills, ResetSkillsAction } from "./landExpansion/resetSkills";
+import { skillUse, SkillUseAction } from "./landExpansion/skillUsed";
 import { seedBought, SeedBoughtAction } from "./landExpansion/seedBought";
 import {
   claimAchievement,
@@ -443,7 +444,8 @@ export type PlayingEvent =
   | ClaimFactionPrizeAction
   | FeedFactionPetAction
   | LeaveFactionAction
-  | BuyMoreDigsAction;
+  | BuyMoreDigsAction
+  | SkillUseAction;
 
 export type PlacementEvent =
   | ConstructBuildingAction
@@ -538,6 +540,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "skill.picked": pickSkill,
   "skill.chosen": choseSkill,
   "skills.reset": resetSkills,
+  "skill.used": skillUse,
   "seed.bought": seedBought,
   "achievement.claimed": claimAchievement,
   "chicken.fed": LandExpansionFeedChicken,
