@@ -107,16 +107,32 @@ export const SkillPathDetails: React.FC<Props> = ({
           image={skill.image}
           isSelected={selectedSkill === skill}
           onClick={() => setSelectedSkill(skill)}
-          showOverlay={hasSkill}
+          showOverlay={hasSkill || skill.power}
           overlayIcon={
-            <img
-              src={SUNNYSIDE.icons.confirm}
-              alt="claimed"
-              className="relative object-contain"
-              style={{
-                width: `${PIXEL_SCALE * 12}px`,
-              }}
-            />
+            <>
+              {hasSkill && (
+                <img
+                  src={SUNNYSIDE.icons.confirm}
+                  alt="claimed"
+                  className="relative object-contain"
+                  style={{
+                    width: `${PIXEL_SCALE * 12}px`,
+                  }}
+                />
+              )}
+
+              {skill.power && (
+                <img
+                  src={SUNNYSIDE.icons.lightning}
+                  className="absolute z-20"
+                  style={{
+                    right: `${PIXEL_SCALE * -6}px`,
+                    bottom: `${PIXEL_SCALE * -6}px`,
+                    width: `${PIXEL_SCALE * 11}px`,
+                  }}
+                />
+              )}
+            </>
           }
         >
           {skill.name}
@@ -127,6 +143,7 @@ export const SkillPathDetails: React.FC<Props> = ({
 
   return (
     <SplitScreenView
+      avoidInnerPanelUse
       wideModal
       panel={
         <div className="flex flex-col h-full justify-between">

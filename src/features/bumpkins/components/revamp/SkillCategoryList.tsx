@@ -36,11 +36,9 @@ const iconList = {
 export const SkillCategoryList = ({
   skillPointsInfo,
   onClick,
-  onBack,
 }: {
   skillPointsInfo: () => JSX.Element;
   onClick: (category: BumpkinRevampSkillTree) => void;
-  onBack: () => void;
 }) => {
   const { gameService } = useContext(Context);
   const [
@@ -74,64 +72,52 @@ export const SkillCategoryList = ({
   };
   return (
     <>
-      <InnerPanel className="flex flex-col h-full overflow-y-auto scrollable max-h-96">
-        <div
-          className="flex flex-row my-2 items-center"
-          style={{ margin: `${PIXEL_SCALE * 2}px` }}
+      <div
+        className="flex flex-row my-2 items-center overflow-y-auto scrollable"
+        style={{ margin: `${PIXEL_SCALE * 2}px` }}
+      >
+        {skillPointsInfo()}
+      </div>
+
+      {REVAMP_SKILL_TREE_CATEGORIES.map((category) => {
+        const skills = getRevampSkills(category);
+        const icon = iconList[skills[0].tree];
+        const skillsAcquiredInCategoryCount = getKeys({
+          ...bumpkin?.skills,
+        }).filter((acquiredSkillName) =>
+          skills.find((skill) => skill.name === acquiredSkillName),
+        ).length;
+
+        return (
+          <div key={category} onClick={() => onClick(category)}>
+            <ButtonPanel className="flex relative items-center !py-2 mb-1 cursor-pointer hover:bg-brown-200">
+              <Label
+                type="default"
+                className="px-1 text-xxs absolute -top-3 -right-1"
+              >
+                {`${skillsAcquiredInCategoryCount}/${skills.length}`}
+              </Label>
+              <div className="flex justify-center items-center">
+                <img
+                  src={icon}
+                  style={{ opacity: 0, marginRight: `${PIXEL_SCALE * 4}px` }}
+                  onLoad={(e) => setImageWidth(e.currentTarget)}
+                />
+                <span className="text-sm">{category}</span>
+              </div>
+            </ButtonPanel>
+          </div>
+        );
+      })}
+
+      <div className="flex flex-row items-center">
+        <p
+          className="text-xs cursor-pointer underline"
+          onClick={() => setShowSkillsResetModal(true)}
         >
-          <img
-            src={SUNNYSIDE.icons.arrow_left}
-            className="cursor-pointer"
-            alt="back"
-            style={{
-              width: `${PIXEL_SCALE * 11}px`,
-              marginRight: `${PIXEL_SCALE * 4}px`,
-            }}
-            onClick={onBack}
-          />
-          {skillPointsInfo()}
-        </div>
-
-        {REVAMP_SKILL_TREE_CATEGORIES.map((category) => {
-          const skills = getRevampSkills(category);
-          const icon = iconList[skills[0].tree];
-          const skillsAcquiredInCategoryCount = getKeys({
-            ...bumpkin?.skills,
-          }).filter((acquiredSkillName) =>
-            skills.find((skill) => skill.name === acquiredSkillName),
-          ).length;
-
-          return (
-            <div key={category} onClick={() => onClick(category)}>
-              <ButtonPanel className="flex relative items-center !py-2 mb-1 cursor-pointer hover:bg-brown-200">
-                <Label
-                  type="default"
-                  className="px-1 text-xxs absolute -top-3 -right-1"
-                >
-                  {`${skillsAcquiredInCategoryCount}/${skills.length}`}
-                </Label>
-                <div className="flex justify-center items-center">
-                  <img
-                    src={icon}
-                    style={{ opacity: 0, marginRight: `${PIXEL_SCALE * 4}px` }}
-                    onLoad={(e) => setImageWidth(e.currentTarget)}
-                  />
-                  <span className="text-sm">{category}</span>
-                </div>
-              </ButtonPanel>
-            </div>
-          );
-        })}
-
-        <div className="flex flex-row items-center">
-          <p
-            className="text-xs cursor-pointer underline"
-            onClick={() => setShowSkillsResetModal(true)}
-          >
-            {"Reset Skills"}
-          </p>
-        </div>
-      </InnerPanel>
+          {"Reset Skills"}
+        </p>
+      </div>
 
       <Modal
         show={showSkillsResetModal}

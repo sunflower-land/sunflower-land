@@ -13,18 +13,13 @@ import { SkillCategoryList } from "./SkillCategoryList";
 import { SkillPathDetails } from "./SkillPathDetails";
 import { Label } from "components/ui/Label";
 import { findLevelRequiredForNextSkillPoint } from "features/game/lib/level";
-import { SUNNYSIDE } from "assets/sunnyside";
-import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { OuterPanel } from "components/ui/Panel";
 
 interface Props {
-  onBack: () => void;
-  onClose: () => void;
   readonly: boolean;
 }
 
-export const Skills: React.FC<Props> = ({ onBack, readonly }) => {
+export const Skills: React.FC<Props> = ({ readonly }) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
   const {
@@ -52,8 +47,6 @@ export const Skills: React.FC<Props> = ({ onBack, readonly }) => {
       handleBackToSkillList();
       return;
     }
-
-    onBack();
   };
   const { t } = useAppTranslation();
   const { bumpkin } = state;
@@ -82,16 +75,10 @@ export const Skills: React.FC<Props> = ({ onBack, readonly }) => {
   };
 
   return (
-    <div
-      style={{
-        minHeight: "200px",
-        maxHeight: "calc(100vh - 200px)",
-      }}
-    >
+    <div className="min-h-[200px] max-h-96">
       {!selectedSkillPath && (
         <SkillCategoryList
           onClick={(category) => onSkillCategoryClickHandler(category)}
-          onBack={handleBack}
           skillPointsInfo={skillPointsInfo}
         />
       )}
@@ -104,22 +91,5 @@ export const Skills: React.FC<Props> = ({ onBack, readonly }) => {
         />
       )}
     </div>
-  );
-};
-
-export const SkillsModal: React.FC<Props> = ({ onBack, onClose, readonly }) => {
-  const [tab, setTab] = useState(0);
-  const { t } = useAppTranslation();
-  return (
-    <CloseButtonPanel
-      currentTab={tab}
-      setCurrentTab={setTab}
-      tabs={[{ icon: SUNNYSIDE.badges.seedSpecialist, name: t("skills") }]}
-      onClose={onClose}
-      container={OuterPanel}
-    >
-      {/* @note: There is only one tab, no extra judgment is needed. */}
-      <Skills onBack={onBack} onClose={onClose} readonly={readonly} />
-    </CloseButtonPanel>
   );
 };

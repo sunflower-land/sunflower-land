@@ -12,6 +12,7 @@ import classNames from "classnames";
  * @param panel The top or right panel view.
  * @param content The bottom or left content view.
  * @param mobileReversePanelOrder Whether to show the panel below the content on mobile.
+ * @param avoidInnerPanelUse Whether to avoid using the InnerPanel component for the content view.
  */
 interface Props {
   divRef?: React.RefObject<HTMLDivElement>;
@@ -22,6 +23,7 @@ interface Props {
   panel: JSX.Element;
   content: JSX.Element;
   mobileReversePanelOrder?: boolean;
+  avoidInnerPanelUse?: boolean;
 }
 
 /**
@@ -37,7 +39,43 @@ export const SplitScreenView: React.FC<Props> = ({
   mobileReversePanelOrder = false,
   panel: header,
   content,
+  avoidInnerPanelUse = false,
 }: Props) => {
+  if (avoidInnerPanelUse) {
+    return (
+      <div
+        className={classNames("flex sm:flex-row", {
+          "flex-col": mobileReversePanelOrder,
+          "flex-col-reverse": !mobileReversePanelOrder,
+        })}
+      >
+        <div
+          className={classNames("w-full sm:w-3/5 h-fit sm:max-h-96 p-1 flex", {
+            "max-h-80": tallMobileContent,
+            "max-h-56": !tallMobileContent,
+            "lg:w-3/4": wideModal,
+            "flex-wrap overflow-y-auto scrollable overflow-x-hidden sm:mr-1":
+              contentScrollable,
+            "flex-col": !contentScrollable,
+            "mt-1 sm:mt-0": !mobileReversePanelOrder,
+          })}
+        >
+          {content}
+        </div>
+        {showHeader && (
+          <InnerPanel
+            className={classNames("w-full sm:w-2/5 h-fit", {
+              "lg:w-1/4": wideModal,
+              "mt-1 sm:mt-0": mobileReversePanelOrder,
+            })}
+          >
+            {header}
+          </InnerPanel>
+        )}
+      </div>
+    );
+  }
+
   return (
     <div
       className={classNames("flex sm:flex-row", {
