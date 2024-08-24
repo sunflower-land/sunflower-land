@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useRef } from "react";
 import {
   BumpkinSkillRevamp,
   BumpkinRevampSkillTree,
@@ -42,6 +42,8 @@ export const SkillPathDetails: React.FC<Props> = ({
     context: { state },
   } = gameState;
   const { bumpkin } = state;
+
+  const divRef = useRef<HTMLDivElement>(null);
 
   // States
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
@@ -108,6 +110,7 @@ export const SkillPathDetails: React.FC<Props> = ({
           isSelected={selectedSkill === skill}
           onClick={() => setSelectedSkill(skill)}
           showOverlay={hasSkill || skill.power}
+          parentDivRef={divRef}
           overlayIcon={
             <>
               {hasSkill && (
@@ -143,13 +146,13 @@ export const SkillPathDetails: React.FC<Props> = ({
 
   return (
     <SplitScreenView
-      avoidInnerPanelUse
+      divRef={divRef}
       wideModal
       panel={
         <div className="flex flex-col h-full justify-between">
           {/* Header */}
           <div className="flex flex-col h-full px-1 py-0">
-            <div className="flex space-x-2 justify-start items-center sm:flex-col-reverse md:space-x-0">
+            <div className="flex space-x-2 justify-start items-center sm:flex-col-reverse sm:my-0 my-2 md:space-x-0">
               <div className="sm:mt-2">
                 <SquareIcon icon={selectedSkill.image} width={14} />
               </div>

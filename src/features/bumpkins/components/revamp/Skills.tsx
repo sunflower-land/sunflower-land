@@ -60,11 +60,9 @@ export const Skills: React.FC<Props> = ({ readonly }) => {
 
     return (
       <div className="flex flex-wrap gap-1">
-        {availableSkillPoints > 0 && (
-          <Label type="default">
-            {t("skillPts")} {availableSkillPoints}
-          </Label>
-        )}
+        <Label type="default">
+          {t("skillPts")} {availableSkillPoints}
+        </Label>
         {nextLevelWithSkillPoint && (
           <Label type="default" className="text-xxs px-1 whitespace-nowrap">
             {t("nextSkillPtLvl")} {nextLevelWithSkillPoint}
@@ -75,7 +73,7 @@ export const Skills: React.FC<Props> = ({ readonly }) => {
   };
 
   return (
-    <div className="min-h-[200px] max-h-96">
+    <div className="min-h-fit">
       {!selectedSkillPath && (
         <SkillCategoryList
           onClick={(category) => onSkillCategoryClickHandler(category)}

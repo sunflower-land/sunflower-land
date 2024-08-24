@@ -71,52 +71,54 @@ export const SkillCategoryList = ({
     });
   };
   return (
-    <>
-      <div
-        className="flex flex-row my-2 items-center overflow-y-auto scrollable"
-        style={{ margin: `${PIXEL_SCALE * 2}px` }}
-      >
-        {skillPointsInfo()}
-      </div>
-
-      {REVAMP_SKILL_TREE_CATEGORIES.map((category) => {
-        const skills = getRevampSkills(category);
-        const icon = iconList[skills[0].tree];
-        const skillsAcquiredInCategoryCount = getKeys({
-          ...bumpkin?.skills,
-        }).filter((acquiredSkillName) =>
-          skills.find((skill) => skill.name === acquiredSkillName),
-        ).length;
-
-        return (
-          <div key={category} onClick={() => onClick(category)}>
-            <ButtonPanel className="flex relative items-center !py-2 mb-1 cursor-pointer hover:bg-brown-200">
-              <Label
-                type="default"
-                className="px-1 text-xxs absolute -top-3 -right-1"
-              >
-                {`${skillsAcquiredInCategoryCount}/${skills.length}`}
-              </Label>
-              <div className="flex justify-center items-center">
-                <img
-                  src={icon}
-                  style={{ opacity: 0, marginRight: `${PIXEL_SCALE * 4}px` }}
-                  onLoad={(e) => setImageWidth(e.currentTarget)}
-                />
-                <span className="text-sm">{category}</span>
-              </div>
-            </ButtonPanel>
-          </div>
-        );
-      })}
-
-      <div className="flex flex-row items-center">
-        <p
-          className="text-xs cursor-pointer underline"
-          onClick={() => setShowSkillsResetModal(true)}
+    <InnerPanel>
+      <div className="flex flex-col max-h-96 overflow-y-auto scrollable">
+        <div
+          className="flex flex-row my-2 items-center"
+          style={{ margin: `${PIXEL_SCALE * 2}px` }}
         >
-          {"Reset Skills"}
-        </p>
+          {skillPointsInfo()}
+        </div>
+
+        {REVAMP_SKILL_TREE_CATEGORIES.map((category) => {
+          const skills = getRevampSkills(category);
+          const icon = iconList[skills[0].tree];
+          const skillsAcquiredInCategoryCount = getKeys({
+            ...bumpkin?.skills,
+          }).filter((acquiredSkillName) =>
+            skills.find((skill) => skill.name === acquiredSkillName),
+          ).length;
+
+          return (
+            <div key={category} onClick={() => onClick(category)}>
+              <ButtonPanel className="flex relative items-center !py-2 mb-1 cursor-pointer hover:bg-brown-200">
+                <Label
+                  type="default"
+                  className="px-1 text-xxs absolute -top-3 -right-1"
+                >
+                  {`${skillsAcquiredInCategoryCount}/${skills.length}`}
+                </Label>
+                <div className="flex justify-center items-center">
+                  <img
+                    src={icon}
+                    style={{ opacity: 0, marginRight: `${PIXEL_SCALE * 4}px` }}
+                    onLoad={(e) => setImageWidth(e.currentTarget)}
+                  />
+                  <span className="text-sm">{category}</span>
+                </div>
+              </ButtonPanel>
+            </div>
+          );
+        })}
+
+        <div className="flex flex-row items-center">
+          <p
+            className="text-xs cursor-pointer underline"
+            onClick={() => setShowSkillsResetModal(true)}
+          >
+            {"Reset Skills"}
+          </p>
+        </div>
       </div>
 
       <Modal
@@ -159,6 +161,6 @@ export const SkillCategoryList = ({
           </InnerPanel>
         </OuterPanel>
       </Modal>
-    </>
+    </InnerPanel>
   );
 };
