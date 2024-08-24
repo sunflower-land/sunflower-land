@@ -1,3 +1,4 @@
+import "lib/__mocks__/configMock";
 import { INITIAL_BUMPKIN, TEST_FARM } from "../../lib/constants";
 import { skillUse } from "./skillUsed";
 
