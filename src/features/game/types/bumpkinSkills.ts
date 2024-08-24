@@ -519,7 +519,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
       points: 2,
       skill: 2,
     },
-    boosts: "Basic Scarecrow AOE increase size to 7x8",
+    boosts: "Basic Scarecrow AOE increase size to 7x7",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
   "Horror Mike": {
@@ -529,7 +529,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
       points: 2,
       skill: 2,
     },
-    boosts: "Scary Mike AOE increase size to 7x8",
+    boosts: "Scary Mike AOE increase size to 7x7",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
   // Crops - Tier 3
@@ -582,7 +582,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
       points: 3,
       skill: 5,
     },
-    boosts: "Laurie Crow AOE increase size to 7x8",
+    boosts: "Laurie Crow AOE increase size to 7x7",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
 
