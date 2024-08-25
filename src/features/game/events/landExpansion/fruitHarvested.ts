@@ -82,7 +82,19 @@ const isFruit = (resource: Resource): resource is FruitName => {
   return resource in FRUIT();
 };
 
+// Basic = Blueberry & Orange - Skill
+const isBasicFruit = (resource: Resource): resource is FruitName => {
+  return resource === "Blueberry" || resource === "Orange";
+};
+
+// Advanced = Apple, Banana - Skill
+const isAdvancedFruit = (resource: Resource): resource is FruitName => {
+  return resource === "Apple" || resource === "Banana";
+};
+
 export function getFruitYield({ name, game, fertiliser }: FruitYield) {
+  const { bumpkin } = game;
+
   let amount = 1;
 
   if (name === "Apple" && isCollectibleBuilt({ name: "Lady Bug", game })) {
@@ -107,6 +119,14 @@ export function getFruitYield({ name, game, fertiliser }: FruitYield) {
       name === "Banana") &&
     isWearableActive({ name: "Fruit Picker Apron", game })
   ) {
+    amount += 0.1;
+  }
+
+  if (bumpkin.skills["Fruitful Fumble"] && isBasicFruit(name)) {
+    amount += 0.1;
+  }
+
+  if (bumpkin.skills["Tropical Orchard"] && isAdvancedFruit(name)) {
     amount += 0.1;
   }
 
