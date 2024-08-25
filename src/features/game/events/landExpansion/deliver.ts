@@ -13,6 +13,7 @@ import { getSeasonChangeover } from "lib/utils/getSeasonWeek";
 import cloneDeep from "lodash.clonedeep";
 import { isWearableActive } from "features/game/lib/wearables";
 import { FACTION_OUTFITS } from "features/game/lib/factions";
+import { FRUIT, FruitName } from "features/game/types/fruits";
 
 export const TICKET_REWARDS: Record<QuestNPCName, number> = {
   "pumpkin' pete": 1,
@@ -27,6 +28,8 @@ export const TICKET_REWARDS: Record<QuestNPCName, number> = {
   jester: 4,
   pharaoh: 5,
 };
+
+const isFruit = (name: FruitName) => name in FRUIT();
 
 export function generateDeliveryTickets({
   game,
@@ -175,12 +178,22 @@ const clone = (state: GameState): GameState => {
 export function getOrderSellPrice<T>(game: GameState, order: Order): T {
   let mul = 1;
 
+  // Michelin Stars - 5% bonus
   if (game.bumpkin?.skills["Michelin Stars"]) {
     mul += 0.05;
   }
 
+  // SFL Swindler - 10% bonus
   if (game.bumpkin?.skills["SFL Swindler"] && order.reward.sfl) {
     mul += 0.1;
+  }
+
+  // Fruity Profit - 50% Coins bonus if fruit
+  if (game.bumpkin?.skills["Fruity Profit"] && order.reward.coins) {
+    const items = getKeys(order.items);
+    if (items.some((name) => isFruit(name as FruitName))) {
+      mul += 0.5;
+    }
   }
 
   const items = getKeys(order.items);
