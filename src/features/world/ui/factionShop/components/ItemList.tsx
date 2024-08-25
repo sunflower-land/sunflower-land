@@ -64,7 +64,16 @@ export const ItemsList: React.FC<Props> = ({
     return ITEM_DETAILS[`${singular} Emblem` as InventoryItemName].image;
   };
 
-  const sortedItems = items.sort((a, b) => Number(a.price.sub(b.price)));
+  const sortedItems = items.sort((a, b) => {
+    const factionA = a.faction || "";
+    const factionB = b.faction || "";
+
+    if (factionA === factionB) {
+      return Number(a.price) - Number(b.price);
+    }
+    return factionA.localeCompare(factionB);
+  });
+
   const { t } = useAppTranslation();
 
   return (
