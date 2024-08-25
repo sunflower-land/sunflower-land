@@ -6,27 +6,19 @@ import {
 
 import cloneDeep from "lodash.clonedeep";
 
-/**
- * @deprecated This function is obsolete and should not be used.
- * Use `StartMinigameAttemptAction` and `SubmitMinigameScoreAction` instead.
- */
-export type PlayMinigameAction = {
-  type: "minigame.played";
+export type SubmitMinigameScoreAction = {
+  type: "minigame.scoreSubmitted";
   id: MinigameName;
   score: number;
 };
 
 type Options = {
   state: Readonly<GameState>;
-  action: PlayMinigameAction;
+  action: SubmitMinigameScoreAction;
   createdAt?: number;
 };
 
-/**
- * @deprecated This function is obsolete and should not be used.
- * Use `startMinigameAttempt` and `recordMinigameScore` instead.
- */
-export function playMinigame({
+export function submitMinigameScore({
   state,
   action,
   createdAt = Date.now(),
@@ -57,7 +49,6 @@ export function playMinigame({
       ...minigame.history,
       [todayKey]: {
         ...daily,
-        attempts: daily.attempts + 1,
         highscore: Math.max(daily.highscore, action.score),
       },
     },
