@@ -694,6 +694,8 @@ export const STATIC_OFFLINE_FARM: GameState = {
 
     "Pirate Bounty": new Decimal(50),
     Scarab: new Decimal(50),
+    "Reveling Lemon": new Decimal(1),
+    "Cactus King": new Decimal(1),
   },
   wardrobe: {
     "Tofu Mask": 1,

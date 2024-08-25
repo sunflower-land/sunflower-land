@@ -668,6 +668,8 @@ import cannonball from "src/assets/sfts/cannonball.webp";
 import tomatoBombard from "src/assets/sfts/tomato_bombard.gif";
 import camel from "src/assets/sfts/camel.webp";
 import paperReed from "src/assets/sfts/paper_reed.webp";
+import cactusKing from "src/assets/sfts/cactus_king.webp";
+import revelingLemon from "src/assets/sfts/reveling_lemon.gif";
 
 import scarab from "assets/resources/scarab.webp";
 import hieroglyph from "assets/resources/hieroglyph.webp";
@@ -8871,7 +8873,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Reveling Lemon": {
-    image: "",
+    image: revelingLemon,
     description: {
       en: "",
     },
@@ -8895,7 +8897,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Cactus King": {
-    image: "",
+    image: cactusKing,
     description: {
       en: "",
     },
