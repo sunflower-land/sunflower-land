@@ -9,6 +9,7 @@ import { useActor } from "@xstate/react";
 import { PortalExampleScene } from "./PortalExampleScene";
 import { NPCModals } from "features/world/ui/NPCModals";
 import { InteractableModals } from "features/world/ui/InteractableModals";
+import { BumpkinBreaksScene } from "./BumpkinBreaksScene";
 
 export const PortalExamplePhaser: React.FC = () => {
   const { portalService } = useContext(PortalContext);
@@ -17,10 +18,10 @@ export const PortalExamplePhaser: React.FC = () => {
   const game = useRef<Game>();
 
   // This must match the key of your scene [PortalExampleScene]
-  const scene = "portal_example";
+  const scene = "bumpkin_breaks";
 
   // Preloader is useful if you want to load the standard Sunflower Land assets + SFX
-  const scenes = [Preloader, PortalExampleScene];
+  const scenes = [Preloader, PortalExampleScene, BumpkinBreaksScene];
 
   useEffect(() => {
     const config: Phaser.Types.Core.GameConfig = {
