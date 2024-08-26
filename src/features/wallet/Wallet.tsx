@@ -119,9 +119,9 @@ export const Wallet: React.FC<Props> = ({
           )}
 
           <Wallets
-            onConnect={(chosenProvider) =>
+            onConnect={(connector) =>
               walletService.send("CONNECT_TO_WALLET", {
-                chosenProvider,
+                connector,
               })
             }
             // Once logged in, only show Metamask for simplicity
@@ -394,9 +394,9 @@ export const PortalWallet: React.FC<Props> = ({
           )}
 
           <Wallets
-            onConnect={(chosenProvider) =>
+            onConnect={(connector) =>
               walletService.send("CONNECT_TO_WALLET", {
-                chosenProvider,
+                connector,
               })
             }
             // Once logged in, only show Metamask for simplicity
