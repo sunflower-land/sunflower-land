@@ -2078,14 +2078,10 @@ const factions: Record<Factions, string> = {
     "啊啊，我喜欢你的热情！但厨房还没开张呢。过会儿再来吧。",
   "faction.kitchen.preparing": "我还在准备订单呢！还请过几分钟再回来吧。",
   "faction.kitchen.newRequests": "新请求： {{time}}",
-  "faction.openingSoon":
-    "帮派堡楼将于7月8日开放。赚取徽记、为荣耀成事并领取奖赏吧！",
   "faction.emblems": "纹章",
   "faction.emblems.intro.one": "哇哦，都看看这些纹章。您是真名副其实的勇士！",
-  "faction.emblems.intro.three":
-    "您手上的纹章越多，您受封的阶衔越高，您赚得的徽记也会更多。",
   "faction.emblems.intro.two":
-    "7月8日，帮派堡楼将会开放。您便可以完成任务、赚取徽记并领取奖赏了。",
+    "您手上的纹章越多，您受封的阶衔越高，您赚得的徽记也会更多。",
   "faction.tradeEmblems": "买卖纹章，爬升阶衔，领受特权。",
   "faction.marksBoost": "徽记加成将于7月8日应用到帮派活动上。",
   "faction.shop.onlyFor": "仅限 {{faction}}",
