@@ -2934,7 +2934,6 @@ const gameTerms: Record<GameTerms, string> = {
   "new.delivery.in": ENGLISH_TERMS["new.delivery.in"],
   "new.delivery.levelup": ENGLISH_TERMS["new.delivery.levelup"],
   "no.sfl": "SFL bulunamadı",
-  opensea: "OpenSea",
   polygonscan: "PolygonScan",
   potions: "İksirler",
   "proof.of.humanity": "İnsanlığın Kanıtı",
@@ -3284,7 +3283,6 @@ const interactableModals: Record<InteractableModals, string> = {
     "Söylentiye göre kendileriyle birlikte mutant ürünler yetiştirecek Bumpkin çırakları arıyorlar.",
   "interactableModals.guildHouse.message":
     "Bekle Bumpkin! Lonca Evi'ne girmek istiyorsanız Bud'a ihtiyacınız var.",
-  "interactableModals.guildHouse.budsCollection": "Opensea'de Buds Koleksiyonu",
   "interactableModals.bettyHome.message":
     "Ah tatlım, mahsullerimi ne kadar sevsem de evim özel bir alan, şu anda ziyaretçilere açık değil.",
   "interactableModals.bertHome.message":
@@ -5167,9 +5165,6 @@ const trader: Record<Trader, string> = {
 
 const transactionTerms: Record<TransactionTerms, string> = {
   "transaction.starterOffer": ENGLISH_TERMS["transaction.starterOffer"],
-  "transaction.t&c.one":
-    "Sunflower Land'de oturum açmak için şartlar ve koşulları kabul edin.",
-  "transaction.t&c.two": "Şartlar ve Koşulları kabul edin",
   "transaction.mintFarm": "Çiftliğiniz basıldı!",
   "transaction.farm.ready": "Çiftliğiniz şu tarihte hazır olacak:",
   "transaction.networkFeeRequired":
@@ -5182,8 +5177,6 @@ const transactionTerms: Record<TransactionTerms, string> = {
     "Devam etmek için metamask açılır penceresinde işlemi kabul etmeniz gerekir.",
   "transaction.noFee":
     "Bu istek bir blockchain işlemini tetiklemeyecek veya herhangi bir gas ücreti gerektirmeyecektir.",
-  "transaction.chooseDonationGame":
-    "Desteğin için teşekkürler! Lütfen bağış yapmayı sevdiğiniz oyunu seçin.",
   "transaction.minblockbucks": "Minimum 5 Block Bucks",
   "transaction.payCash": "Nakit Ödeme",
   "transaction.matic": "Matic",
@@ -5207,7 +5200,6 @@ const transactionTerms: Record<TransactionTerms, string> = {
   "transaction.withdraw.one": "Geri Çekiliyor",
   "transaction.withdraw.sent": "Öğeleriniz/jetonlarınız şu adrese gönderildi:",
   "transaction.withdraw.view": "Öğelerinizi şurada görüntüleyebilirsiniz:",
-  "transaction.openSea": "OpenSea",
   "transaction.withdraw.four":
     "SFL Tokenini cüzdanınıza aktararak tokenlerinizi görüntüleyebilirsiniz.",
   "transaction.withdraw.five": "SFL Tokeni MetaMask'a aktarın",
@@ -5215,22 +5207,17 @@ const transactionTerms: Record<TransactionTerms, string> = {
     "OpenSea'nin öğelerinizi görüntülemesinin 30 dakikaya kadar sürebileceğini lütfen unutmayın. Ayrıca öğelerinizi şu adreste de görüntüleyebilirsiniz",
   "transaction.withdraw.polygon": "PolygonScan",
   "transaction.id": "Transaction ID",
-  "transaction.termsOfService": "Hizmet şartlarını kabul edin",
-  "transaction.termsOfService.one":
-    "Çiftliğinizi satın alabilmeniz için Sunflower Land'in hizmet şartlarını kabul etmeniz gerekmektedir.",
-  "transaction.termsOfService.two":
-    "Bu adım, hizmet şartlarını kabul etmeniz için sizi yeni dizi cüzdanınıza geri götürecektir.",
   "transaction.buy.BlockBucks": "Block Bucks Satın Al",
 };
 
 const transfer: Record<Transfer, string> = {
-  "transfer.sure.adress":
+  "transfer.sure.address":
     "Lütfen sağladığınız adresin Polygon Blockchain'de olduğundan, doğru olduğundan ve size ait olduğundan emin olun. Yanlış adreslerden kurtarma mümkün değildir.",
   "transfer.Account": ENGLISH_TERMS["transfer.Account"],
   // "Your Account #{{farmID}} has been transferred to {{receivingAddress}}!",
   "transfer.Farm": "Çiftliğini transfer ediyor!",
   "transfer.Refresh": "Sayfayı yenilemeyin",
-  "transfer.Taccount": "Hesabınızı aktarın",
+  "transfer.account": "Hesabınızı aktarın",
   "transfer.address": "Cüzdan adresi: ",
 };
 
@@ -5340,8 +5327,6 @@ const winner: Record<Winner, string> = {
 };
 
 const wishingWellTerms: Record<WishingWell, string> = {
-  "wishingWell.makeWish":
-    "Yeni bir dilek dile ve ne kadar şanslı olduğunu gör!",
   "wishingWell.newWish":
     "Mevcut LP token bakiyenize göre sizin için yeni bir dilek dile getirildi!",
   "wishingWell.noReward":
@@ -5355,8 +5340,6 @@ const wishingWellTerms: Record<WishingWell, string> = {
   "wishingWell.wish.made": "Bir dilek tuttun!",
   "wishingWell.wish.timeTillNextWish":
     "Bir sonraki dilek zamanı: {{nextWishTime}}",
-  "wishingWell.wish.thanksForSupport":
-    "Projeyi desteklediğiniz ve dilek tuttuğunuz için teşekkür ederiz.",
   "wishingWell.wish.comeBackAfter":
     ENGLISH_TERMS["wishingWell.wish.comeBackAfter"],
   // "Come back in {{nextWishTime}} to see just how lucky you have been!",
@@ -5370,10 +5353,6 @@ const wishingWellTerms: Record<WishingWell, string> = {
     "Oyunda likidite sağlayan çiftçilerin dilekleri yerine getirilir.",
   "wishingWell.info.three":
     "Görünüşe göre cüzdanınızda o sihirli LP jetonları var!",
-  "wishingWell.noLiquidity":
-    "Henüz likidite sağlıyormuşsunuz gibi görünmüyor. Daha fazla bilgi,",
-  "wishingWell.rewardsInWell": "Kuyudaki ödül miktarı",
-  "wishingWell.luck": "Bakalım ne kadar şanslısın!",
   "wishingWell.moreInfo": ENGLISH_TERMS["wishingWell.moreInfo"], // "More info",
 };
 
@@ -5395,10 +5374,6 @@ const withdraw: Record<Withdraw, string> = {
   "withdraw.restricted": ENGLISH_TERMS["withdraw.restricted"],
   "withdraw.bumpkin.wearing":
     "Bumpkin'iniz şu anda geri alınamayan aşağıdaki öğeleri giyiyor. Geri çekilmeden önce bunları donanımdan çıkarmanız gerekecek.",
-  "withdraw.bumpkin.sure.withdraw":
-    "Bumpkin'inizi geri çekmek istediğinizden emin misiniz?",
-  "withdraw.bumpkin.closed": ENGLISH_TERMS["withdraw.bumpkin.closed"],
-  "withdraw.bumpkin.closing": ENGLISH_TERMS["withdraw.bumpkin.closing"],
   "withdraw.buds": "Çekilecek Tomurcukları seçin",
   "withdraw.budRestricted": "Bugünkü tomurcuk kutusunda kullanıldı",
 };

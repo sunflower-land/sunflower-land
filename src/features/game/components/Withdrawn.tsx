@@ -35,7 +35,7 @@ export const Withdrawn: React.FC = () => {
             target="_blank"
             rel="noopener noreferrer"
           >
-            {t("transaction.openSea")}
+            {t("opensea")}
           </a>
         </span>
 

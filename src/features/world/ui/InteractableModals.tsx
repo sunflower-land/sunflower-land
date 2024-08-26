@@ -579,7 +579,7 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
                   },
                 },
                 {
-                  text: t("interactableModals.guildHouse.budsCollection"),
+                  text: t("opensea"),
                   cb: () => {
                     window.open(
                       "https://opensea.io/collection/sunflower-land-buds",

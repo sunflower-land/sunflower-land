@@ -3051,7 +3051,6 @@ const gameTerms: Record<GameTerms, string> = {
   "new.delivery.in": ENGLISH_TERMS["new.delivery.in"],
   "new.delivery.levelup": "Montez de niveau pour débloquer plus de livraisons.",
   "no.sfl": "Aucun jeton SFL trouvé",
-  opensea: "OpenSea",
   polygonscan: "PolygonScan",
   potions: "Potions",
   "proof.of.humanity": "Preuve d'Humanité",
@@ -3400,8 +3399,6 @@ const interactableModals: Record<InteractableModals, string> = {
     "On raconte qu'ils cherchent des apprentis Bumpkin pour cultiver des cultures mutantes avec eux.",
   "interactableModals.guildHouse.message":
     "Attendez un instant, Bumpkin ! Vous avez besoin d'un Bud si vous voulez entrer dans la Maison de la Guilde.",
-  "interactableModals.guildHouse.budsCollection":
-    "Collection de Buds sur Opensea",
   "interactableModals.bettyHome.message":
     "Oh, chéri, autant j'aime mes cultures, ma maison est un espace privé, pas ouverte aux visiteurs en ce moment.",
   "interactableModals.bertHome.message":
@@ -5322,9 +5319,6 @@ const trader: Record<Trader, string> = {
 
 const transactionTerms: Record<TransactionTerms, string> = {
   "transaction.starterOffer": ENGLISH_TERMS["transaction.starterOffer"],
-  "transaction.t&c.one":
-    "Acceptez les termes et conditions pour vous connecter à Sunflower Land.",
-  "transaction.t&c.two": "Accepter les termes et conditions",
   "transaction.mintFarm": "Votre ferme a été mintée!",
   "transaction.farm.ready": "Votre ferme sera prête dans",
   "transaction.networkFeeRequired":
@@ -5337,8 +5331,6 @@ const transactionTerms: Record<TransactionTerms, string> = {
     "Vous devez accepter la transaction dans la fenêtre contextuelle de MetaMask pour continuer.",
   "transaction.noFee":
     "Cette demande ne déclenchera pas de transaction blockchain ni de frais de gaz.",
-  "transaction.chooseDonationGame":
-    "Merci pour votre soutien ! Veuillez choisir le jeu auquel vous souhaitez faire un don.",
   "transaction.minblockbucks": "Minimum 5 Block Bucks",
   "transaction.payCash": "Payer en espèces",
   "transaction.matic": "Matic",
@@ -5364,7 +5356,6 @@ const transactionTerms: Record<TransactionTerms, string> = {
   "transaction.withdraw.one": "Retrait de",
   "transaction.withdraw.sent": "Vos objets/tokens ont été envoyés à",
   "transaction.withdraw.view": "Vous pouvez voir vos objets sur",
-  "transaction.openSea": "OpenSea",
   "transaction.withdraw.four":
     "Vous pouvez voir vos tokens en important le Token SFL dans votre portefeuille.",
   "transaction.withdraw.five": "Importer le Token SFL dans MetaMask",
@@ -5372,22 +5363,17 @@ const transactionTerms: Record<TransactionTerms, string> = {
     "Veuillez noter qu'OpenSea peut mettre jusqu'à 30 minutes pour afficher vos objets. Vous pouvez également voir vos objets sur",
   "transaction.withdraw.polygon": "PolygonScan",
   "transaction.id": "ID de transaction",
-  "transaction.termsOfService": "Acceptez les conditions d'utilisation",
-  "transaction.termsOfService.one":
-    "Pour acheter votre ferme, vous devez accepter les conditions d'utilisation de Sunflower Land.",
-  "transaction.termsOfService.two":
-    "Cette étape vous ramènera à votre nouveau portefeuille de séquence pour accepter les conditions d'utilisation.",
   "transaction.buy.BlockBucks": "Acheter des Block Bucks",
 };
 
 const transfer: Record<Transfer, string> = {
-  "transfer.sure.adress":
+  "transfer.sure.address":
     "Veuillez vous assurer que l'adresse que vous avez fournie appartient à la Blockchain Polygon, qu'elle est correcte et qu'elle vous appartient. Il n'y a aucune récupération possible en cas d'adresse incorrecte.",
   "transfer.Account":
     "Votre compte n°{{farmID}} a été transféré à {{receivingAddress}} !",
   "transfer.Farm": "Transfert de votre ferme!",
   "transfer.Refresh": "Ne rafraîchissez pas ce navigateur",
-  "transfer.Taccount": "Transférer votre compte",
+  "transfer.account": "Transférer votre compte",
   "transfer.address": "Adresse du portefeuille: ",
 };
 
@@ -5499,8 +5485,6 @@ const winner: Record<Winner, string> = {
 };
 
 const wishingWellTerms: Record<WishingWell, string> = {
-  "wishingWell.makeWish":
-    "Exaucez un nouveau vœu et voyez à quel point vous êtes chanceux!",
   "wishingWell.newWish":
     "Un nouveau vœu a été fait pour vous en fonction de votre solde actuel de jetons LP!",
   "wishingWell.noReward":
@@ -5513,8 +5497,6 @@ const wishingWellTerms: Record<WishingWell, string> = {
   "wishingWell.wish.made": "Vous avez fait un vœu!",
   "wishingWell.wish.timeTillNextWish":
     "Temps jusqu'au prochain vœu: {{nextWishTime}}",
-  "wishingWell.wish.thanksForSupport":
-    "Merci de soutenir le projet et de faire un vœu.",
   "wishingWell.wish.comeBackAfter":
     "Reviens dans {{nextWishTime}} pour voir à quel point tu as été chanceux !",
   "wishingWell.wish.warning.one":
@@ -5527,11 +5509,6 @@ const wishingWellTerms: Record<WishingWell, string> = {
     "Les vœux sont accordés aux fermiers qui fournissent de la liquidité dans le jeu.",
   "wishingWell.info.three":
     "Il semble que vous ayez ces jetons LP magiques dans votre portefeuille!",
-  "wishingWell.noLiquidity":
-    "Il semble que vous ne fournissiez pas encore de liquidité. Plus d'informations,",
-  "wishingWell.rewardsInWell": "Montant des récompenses dans le puits",
-  "wishingWell.luck": "Voyons à quel point vous êtes chanceux!",
-
   "wishingWell.moreInfo": "Plus d'informations",
 };
 
@@ -5554,10 +5531,6 @@ const withdraw: Record<Withdraw, string> = {
   "withdraw.restricted": ENGLISH_TERMS["withdraw.restricted"],
   "withdraw.bumpkin.wearing":
     "Votre Bumpkin porte actuellement les objets suivants qui ne peuvent pas être retirés. Vous devrez les déséquiper avant de pouvoir les retirer.",
-  "withdraw.bumpkin.sure.withdraw":
-    "Êtes-vous sûr de vouloir retirer votre Bumpkin?",
-  "withdraw.bumpkin.closed": ENGLISH_TERMS["withdraw.bumpkin.closed"],
-  "withdraw.bumpkin.closing": ENGLISH_TERMS["withdraw.bumpkin.closing"],
   "withdraw.buds": "Sélectionnez des Buds à retirer",
 };
 

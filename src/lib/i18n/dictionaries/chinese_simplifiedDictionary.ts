@@ -2600,7 +2600,6 @@ const gameTerms: Record<GameTerms, string> = {
   "granting.wish": ENGLISH_TERMS["granting.wish"],
   "new.delivery.in": ENGLISH_TERMS["new.delivery.in"],
   "no.sfl": ENGLISH_TERMS["no.sfl"],
-  opensea: ENGLISH_TERMS["opensea"],
   polygonscan: ENGLISH_TERMS["polygonscan"],
   potions: ENGLISH_TERMS["potions"],
   "proof.of.humanity": ENGLISH_TERMS["proof.of.humanity"],
@@ -2907,8 +2906,6 @@ const interactableModals: Record<InteractableModals, string> = {
     ENGLISH_TERMS["interactableModals.potionHouse.message2"],
   "interactableModals.guildHouse.message":
     ENGLISH_TERMS["interactableModals.guildHouse.message"],
-  "interactableModals.guildHouse.budsCollection":
-    ENGLISH_TERMS["interactableModals.guildHouse.budsCollection"],
   "interactableModals.bettyHome.message":
     ENGLISH_TERMS["interactableModals.bettyHome.message"],
   "interactableModals.bertHome.message":
@@ -4564,8 +4561,6 @@ const trader: Record<Trader, string> = {
 
 const transactionTerms: Record<TransactionTerms, string> = {
   "transaction.starterOffer": ENGLISH_TERMS["transaction.starterOffer"],
-  "transaction.t&c.one": ENGLISH_TERMS["transaction.t&c.one"],
-  "transaction.t&c.two": ENGLISH_TERMS["transaction.t&c.two"],
   "transaction.mintFarm": ENGLISH_TERMS["transaction.mintFarm"],
   "transaction.farm.ready": ENGLISH_TERMS["transaction.farm.ready"],
   "transaction.networkFeeRequired":
@@ -4576,8 +4571,6 @@ const transactionTerms: Record<TransactionTerms, string> = {
   "transaction.rejected": ENGLISH_TERMS["transaction.rejected"],
   "transaction.message0": ENGLISH_TERMS["transaction.message0"],
   "transaction.noFee": ENGLISH_TERMS["transaction.noFee"],
-  "transaction.chooseDonationGame":
-    ENGLISH_TERMS["transaction.chooseDonationGame"],
   "transaction.minblockbucks": ENGLISH_TERMS["transaction.minblockbucks"],
   "transaction.payCash": ENGLISH_TERMS["transaction.payCash"],
   "transaction.matic": ENGLISH_TERMS["transaction.matic"],
@@ -4599,27 +4592,21 @@ const transactionTerms: Record<TransactionTerms, string> = {
   "transaction.withdraw.one": ENGLISH_TERMS["transaction.withdraw.one"],
   "transaction.withdraw.sent": ENGLISH_TERMS["transaction.withdraw.sent"],
   "transaction.withdraw.view": ENGLISH_TERMS["transaction.withdraw.view"],
-  "transaction.openSea": ENGLISH_TERMS["transaction.openSea"],
   "transaction.withdraw.four": ENGLISH_TERMS["transaction.withdraw.four"],
   "transaction.withdraw.five": ENGLISH_TERMS["transaction.withdraw.five"],
   "transaction.displayItems": ENGLISH_TERMS["transaction.displayItems"],
   "transaction.withdraw.polygon": ENGLISH_TERMS["transaction.withdraw.polygon"],
   "transaction.id": ENGLISH_TERMS["transaction.id"],
-  "transaction.termsOfService": ENGLISH_TERMS["transaction.termsOfService"],
-  "transaction.termsOfService.one":
-    ENGLISH_TERMS["transaction.termsOfService.one"],
-  "transaction.termsOfService.two":
-    ENGLISH_TERMS["transaction.termsOfService.two"],
   "transaction.buy.BlockBucks": ENGLISH_TERMS["transaction.buy.BlockBucks"],
 };
 
 const transfer: Record<Transfer, string> = {
-  "transfer.sure.adress":
+  "transfer.sure.address":
     "请确保您提供的钱包地址在 Polygon 区块链上，正确且归您所有。如果您输入错误的钱包地址，您将无法恢复您的农场。",
   "transfer.Account": "您的农场 #{{farmID}} 已转移到 {{receivingAddress}}！",
   "transfer.Farm": "您正在转移您的农场！",
   "transfer.Refresh": "请勿刷新浏览器！",
-  "transfer.Taccount": "转移农场所有权",
+  "transfer.account": "转移农场所有权",
   "transfer.address": "接收钱包地址：",
 };
 
@@ -4713,7 +4700,6 @@ const winner: Record<Winner, string> = {
 };
 
 const wishingWellTerms: Record<WishingWell, string> = {
-  "wishingWell.makeWish": ENGLISH_TERMS["wishingWell.makeWish"],
   "wishingWell.newWish": ENGLISH_TERMS["wishingWell.newWish"],
   "wishingWell.noReward": ENGLISH_TERMS["wishingWell.noReward"],
   "wishingWell.wish.lucky": ENGLISH_TERMS["wishingWell.wish.lucky"],
@@ -4724,8 +4710,6 @@ const wishingWellTerms: Record<WishingWell, string> = {
   "wishingWell.wish.made": ENGLISH_TERMS["wishingWell.wish.made"],
   "wishingWell.wish.timeTillNextWish":
     ENGLISH_TERMS["wishingWell.wish.timeTillNextWish"],
-  "wishingWell.wish.thanksForSupport":
-    ENGLISH_TERMS["wishingWell.wish.thanksForSupport"],
   "wishingWell.wish.comeBackAfter":
     ENGLISH_TERMS["wishingWell.wish.comeBackAfter"],
   "wishingWell.wish.warning.one": ENGLISH_TERMS["wishingWell.wish.warning.one"],
@@ -4734,9 +4718,6 @@ const wishingWellTerms: Record<WishingWell, string> = {
   "wishingWell.info.two": ENGLISH_TERMS["wishingWell.info.two"],
   "wishingWell.info.three": ENGLISH_TERMS["wishingWell.info.three"],
   "wishingWell.moreInfo": ENGLISH_TERMS["wishingWell.moreInfo"],
-  "wishingWell.noLiquidity": ENGLISH_TERMS["wishingWell.noLiquidity"],
-  "wishingWell.rewardsInWell": ENGLISH_TERMS["wishingWell.rewardsInWell"],
-  "wishingWell.luck": ENGLISH_TERMS["wishingWell.luck"],
 };
 
 const withdraw: Record<Withdraw, string> = {
@@ -4754,11 +4735,8 @@ const withdraw: Record<Withdraw, string> = {
   "withdraw.restricted": ENGLISH_TERMS["withdraw.restricted"],
   "withdraw.bumpkin.wearing":
     "你的乡巴佬目前穿着以下无法撤回的衣服。你需要先更换衣服，然后才能撤回。",
-  "withdraw.bumpkin.sure.withdraw": "您确定要撤回您的乡巴佬吗？",
   "withdraw.buds": "请选择要退出的 Buds",
   "withdraw.budRestricted": "用于今天的 Bud Box",
-  "withdraw.bumpkin.closed": ENGLISH_TERMS["withdraw.bumpkin.closed"],
-  "withdraw.bumpkin.closing": ENGLISH_TERMS["withdraw.bumpkin.closing"],
 };
 
 const world: Record<World, string> = {
