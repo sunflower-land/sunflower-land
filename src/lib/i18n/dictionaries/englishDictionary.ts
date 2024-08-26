@@ -71,7 +71,6 @@ import {
   GuideTerms,
   Harvestflower,
   HarvestBeeHive,
-  HayseedHankPlaza,
   HayseedHankV2,
   Helper,
   HeliosSunflower,
@@ -174,6 +173,7 @@ import {
   FactionShopDescription,
   GuideFactionPet,
   DesertKeys,
+  MarketplaceTerms,
 } from "./types";
 
 const generalTerms: Record<GeneralTerms, string> = {
@@ -275,7 +275,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   gotIt: "Got it",
   "grant.wish": "Grant New Wish",
   greenhouse: "Greenhouse",
-  growing: "Growing",
+  growing: "growing",
   guide: "Guide",
   honey: "Honey",
   "hungry?": "Hungry?",
@@ -350,6 +350,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   requires: "Requires",
   requirements: "Requirements",
   resources: "Resources",
+  "resource.nodes": "Resource Nodes",
   restock: "Restock",
   retry: "Retry",
   reward: "Reward",
@@ -593,7 +594,7 @@ const addSFL: Record<AddSFL, string> = {
   "addSFL.referralFee":
     "Sunflower Land takes a 5% referral fee to complete this transaction.",
   "addSFL.swapTitle": "Swap Details",
-  "addSFL.minimumReceived": "Minimum Received: ",
+  "addSFL.minimumReceived": "Minimum Received: {{sflReceived}} SFL",
 };
 
 const auction: Record<Auction, string> = {
@@ -824,7 +825,7 @@ const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
   "description.laurie.chuckle.crow.boost": "+0.2 Advanced Crops",
   "description.bale.boost": "+0.2 Eggs",
   "description.immortal.pear.boost": "+1 Fruit Harvest per seed",
-  "description.treasure.map.boost": "+20% Coins on Treasure Bounty Sales",
+  "description.treasure.map.boost": "+20% Coins Treasure Bounty Sale Price",
   "description.poppy.boost": "+0.1 Corn",
   "description.kernaldo.boost": "-25% Corn Growth Time",
   "description.grain.grinder.boost": "+20% Cake XP",
@@ -927,7 +928,7 @@ const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
   "description.rice.panda.boost": "+0.25 Rice",
   "description.olive.shirt.boost": "+0.25 Olive",
   "description.tofu.mask.boost": "+0.1 Soybean",
-  "description.gourmet.hourglass.boost": "+50% Cooking Speed (4hrs)",
+  "description.gourmet.hourglass.boost": "-50% Cooking Time (4hrs)",
   "description.harvest.hourglass.boost": "-25% Crop Growth Time (6hrs)",
   "description.timber.hourglass.boost": "-25% Tree Recovery Time (4hrs)",
   "description.ore.hourglass.boost": "-50% Mineral Recovery Time (3hrs)",
@@ -944,7 +945,7 @@ const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
   "description.tomato.clown.boost": "-50% Tomato Growth Time",
   "description.cannonball.boost": "-25% Tomato Growth Time",
   "description.tomato.bombard.boost": "+1 Tomato",
-  "description.camel.boost": "+1 Sand and +30% Artefact Shop Bounty Sell Price",
+  "description.camel.boost": "+1 Sand and +30% Treasure Bounty Sale Price",
   "description.reveling.lemon.boost": "+0.25 Lemon",
   "description.lemon.frog.boost": "-25% Lemon Growth Time",
 };
@@ -1011,7 +1012,7 @@ const bumpkinDelivery: Record<BumpkinDelivery, string> = {
     "I've been waiting for this. Thanks a bunch! Come back soon for more deliveries.",
   "bumpkin.delivery.proveYourself":
     "Prove yourself worthy. Level up {{missingLevels}} more times.",
-  "bumpkin.delivery.earnScrolls": "Earn scrolls to craft exclusive items.",
+  "bumpkin.delivery.earnTickets": "Earn {{ticket}}s to craft exclusive items.",
   "bumpkin.delivery.earnSFL": "Earn SFL to trade & build your empire.",
 };
 
@@ -1078,6 +1079,26 @@ const bumpkinItemBuff: Record<BumpkinItemBuff, string> = {
   "bumpkinItemBuff.ancient.shovel.boost": "Dig treasure without Sand Shovel",
   "bumpkinItemBuff.grape.pants": "+0.2 Grapes",
   "bumpkinItemBuff.pirate.potion": "Unlock Pirate Chest",
+  "bumpkinItemBuff.bumpkin.crown.boost":
+    "+25% SFL & Coin Deliveries, +10% Marks",
+  "bumpkinItemBuff.goblin.crown.boost":
+    "+25% SFL & Coin Deliveries, +10% Marks",
+  "bumpkinItemBuff.nightshade.crown.boost":
+    "+25% SFL & Coin Deliveries, +10% Marks",
+  "bumpkinItemBuff.sunflorian.crown.boost":
+    "+25% SFL & Coin Deliveries, +10% Marks",
+  "bumpkinItemBuff.bumpkin.shield.boost": "+0.25 Wood & Minerals",
+  "bumpkinItemBuff.goblin.shield.boost": "+0.25 Wood & Minerals",
+  "bumpkinItemBuff.nightshade.shield.boost": "+0.25 Wood & Minerals",
+  "bumpkinItemBuff.sunflorian.shield.boost": "+0.25 Wood & Minerals",
+  "bumpkinItemBuff.bumpkin.quiver.boost": "+0.25 Crops & Fruits",
+  "bumpkinItemBuff.goblin.quiver.boost": "+0.25 Crops & Fruits",
+  "bumpkinItemBuff.nightshade.quiver.boost": "+0.25 Crops & Fruits",
+  "bumpkinItemBuff.sunflorian.quiver.boost": "+0.25 Crops & Fruits",
+  "bumpkinItemBuff.bumpkin.medallion.boost": "-25% Cooking Time",
+  "bumpkinItemBuff.goblin.medallion.boost": "-25% Cooking Time",
+  "bumpkinItemBuff.nightshade.medallion.boost": "-25% Cooking Time",
+  "bumpkinItemBuff.sunflorian.medallion.boost": "-25% Cooking Time",
 };
 
 const bumpkinPart: Record<BumpkinPart, string> = {
@@ -1313,8 +1334,8 @@ const composterDescription: Record<ComposterDescription, string> = {
 };
 
 const confirmationTerms: Record<ConfirmationTerms, string> = {
-  "confirmation.sellCrops":
-    "Are you sure you want to sell {{cropAmount}} {{cropName}} for {{coinAmount}} Coins?",
+  "confirmation.sell":
+    "Are you sure you want to sell {{amount}} {{name}} for {{coinAmount}} Coins?",
   "confirmation.buyCrops":
     "Are you sure you want to spend {{coinAmount}} Coins to buy {{seedNo}} {{seedName}}s?",
   "confirmation.enterAmount": "Enter Amount to Sell:",
@@ -1406,6 +1427,16 @@ const conversations: Record<Conversations, string> = {
     "As you level up, you will unlock new areas to explore. First up is the Pumpkin Plaza....my home!",
   "pete.pumpkinPlaza.two":
     "Here you can complete deliveries for rewards, craft magical items & trade with other players.",
+  "richie.challenge": "Challenge",
+  "richie.rewarded": "Congratulations, you are one step closer!",
+  "richie.completed": "Completed",
+  "richie.completed.description":
+    "Well done Bumpkin, you have completed all of my challenges. Stay tuned for more rewards!",
+  "richie.rewards": "Rewards",
+  "richie.onboarding": "Do you have what it takes to complete my challenges?",
+  "richie.dailyChallenges": "Are you ready for my daily challenges?",
+  "richie.final": "Final challenge",
+
   "sunflowerLand.islandDescription":
     "Sunflower Land is filled with exciting islands where you can complete deliveries, craft rare NFTs and even dig for treasure!",
   "sunflowerLand.opportunitiesDescription":
@@ -1421,6 +1452,12 @@ const conversations: Record<Conversations, string> = {
   "luna.portals": "Portals",
   "luna.rewards": "Rewards",
   "luna.travel": "Travel to these player built portals and earn rewards.",
+  "richie.intro.one":
+    "Howdy there, Bumpkin! Are you ready to roll up your sleeves and explore the magical world of Sunflower Land?",
+  "richie.intro.two":
+    "This game ain't just about planting seeds and waiting. Oh no! Here, you can earn rare Web3 collectibles & trade with thousands of players.",
+  "richie.intro.three":
+    "To get started, you will want to chop down those trees and expand your island.",
   "pete.intro.one":
     "Howdy there, Bumpkin! Are you ready to get your hands dirty and explore the magical world of Sunflower Land?",
   "pete.intro.two":
@@ -3083,14 +3120,6 @@ const harvestflower: Record<Harvestflower, string> = {
   "harvestflower.alr.plant": "Flower is already planted",
 };
 
-const hayseedHankPlaza: Record<HayseedHankPlaza, string> = {
-  "hayseedHankPlaza.cannotCompleteChore": "Cannot complete this chore?",
-  "hayseedHankPlaza.skipChore": "Skip chore",
-  "hayseedHankPlaza.canSkipIn": "You can skip this chore in",
-  "hayseedHankPlaza.wellDone": "Well done",
-  "hayseedHankPlaza.lendAHand": "Lend a hand?",
-};
-
 const hayseedHankV2: Record<HayseedHankV2, string> = {
   "hayseedHankv2.dialog1":
     "Well, howdy there, young whippersnappers! I'm Hayseed Hank, a seasoned ol' Bumpkin farmer, tending to the land like in the good ol' days.",
@@ -3102,6 +3131,7 @@ const hayseedHankV2: Record<HayseedHankV2, string> = {
   "hayseedHankv2.skipChores": "You can skip chores each new day",
   "hayseedHankv2.greeting":
     "Well, howdy there, young whippersnappers! I'm Hayseed Hank...",
+  "hayseedHankv2.confirmSkipChore": "Are you sure you want to skip this chore?",
 };
 
 const heliosSunflower: Record<HeliosSunflower, string> = {
@@ -3315,6 +3345,30 @@ const landscapeTerms: Record<LandscapeTerms, string> = {
   "landscape.expansion.date":
     "More expansions will be available on the 7th February.",
   "landscape.great.work": "Great work Bumpkin!",
+  "landscape.confirmation.resourceNodes.one":
+    "Once this node is placed down, you will not be able to dig it back up to your chest.",
+  "landscape.confirmation.resourceNodes.two":
+    "Are you sure you want to place this down?",
+  "landscape.confirmation.hourglass.one":
+    "Once placed, the effects of the {{selectedChestItem}} will begin immediately and cannot be paused or cancelled.",
+  "landscape.confirmation.hourglass.two":
+    "Are you sure you want to place down the {{selectedChestItem}} and activate it?",
+  "landscape.hourglass.resourceNodeCondition.fishers":
+    "Please ensure that you have casts remaining for the day before activating the {{selectedChestItem}}.",
+  "landscape.hourglass.resourceNodeCondition.gourmet":
+    "Please ensure no cooking buildings are working before activating the {{selectedChestItem}}.",
+  "landscape.hourglass.resourceNodeCondition.harvest":
+    "Please ensure no crops are growing before activating the {{selectedChestItem}}.",
+  "landscape.hourglass.resourceNodeCondition.timber":
+    "Please ensure no trees are regenerating before activating the {{selectedChestItem}}.",
+  "landscape.hourglass.resourceNodeCondition.orchard":
+    "Please ensure no fruit trees are growing before activating the {{selectedChestItem}}.",
+  "landscape.hourglass.resourceNodeCondition.blossom":
+    "Please ensure no flowers are growing before activating the {{selectedChestItem}}.",
+  "landscape.hourglass.resourceNodeCondition.ore":
+    "Please ensure no minerals are regenerating before activating the {{selectedChestItem}}.",
+  "landscape.timeWarpTotem.resourceNodeCondition":
+    "Please ensure no minerals or trees are regenerating and no crops, fruits, or flowers are growing before activating the {{selectedChestItem}}.",
 };
 
 const levelUpMessages: Record<LevelUpMessages, string> = {
@@ -4831,7 +4885,7 @@ const restock: Record<Restock, string> = {
   "restock.sure": "Are you sure you want to Restock?",
   "restock.tooManySeeds": "You have too many seeds in your basket!",
   "seeds.reachingInventoryLimit": "You are reaching your seed basket limit!",
-  "crops.noCropsToSell": "You have no {{cropName}} to Sell!",
+  "crops.noCropsToSell": "You have no {{cropName}} to sell!",
   "seeds.plantingSpot.needed": "{{plantingSpot}} Needed",
 };
 
@@ -5582,7 +5636,7 @@ const greenhouse: Record<GreenhouseKeys, string> = {
 const minigame: Record<Minigame, string> = {
   "minigame.chickenRescue": "Minigame - Chicken Rescue",
   "minigame.comingSoon": "Coming soon...",
-  "minigame.completed": "Complete",
+  "minigame.completed": "Completed",
   "minigame.confirm": "Are you sure you want to spend the following:",
   "minigame.noPrizeAvailable": "No daily prize available",
   "minigame.playNow": "Play now",
@@ -5654,7 +5708,7 @@ export const desertTerms: Record<DesertKeys, string> = {
   "desert.notice.one":
     "Welcome to the Desert. Can you solve the Pharaoh's puzzle and find the hidden treasures?",
   "desert.notice.two":
-    "Discover {{ticket}}s & exchange them for rewards before time runs out.",
+    "Discover {{ticket}}s & exchange them for rewards before it goes away!",
   "desert.notice.three": "Use hieroglyphs to upgrade your digging.",
   "desert.notice.four": "Sell resources at the shop for coins.",
   "desert.notice.five":
@@ -5669,6 +5723,26 @@ export const desertTerms: Record<DesertKeys, string> = {
   "desert.digs": "{{amount}} digs",
   "desert.buyDigs.confirmation":
     "Are you sure you want to buy 5 digs for 1 Block Buck?",
+  "desert.noTreasureToSell": "You have no {{treasure}} to sell!",
+};
+
+export const marketplaceTerms: Record<MarketplaceTerms, string> = {
+  "marketplace.collectibles": "Collectibles",
+  "marketplace.buyNow": "Buy now",
+  "marketplace.description": "Description",
+  "marketplace.listForSale": "List for sale",
+  "marketplace.walletRequired": "Wallet required",
+  "marketplace.listings": "Listings",
+  "marketplace.noListings": "No listings available.",
+  "marketplace.noOffers": "No offers available.",
+  "marketplace.offers": "Offers",
+  "marketplace.topOffer": "Top offer",
+  "marketplace.acceptOffer": "Accept offer",
+  "marketplace.makeOffer": "Make an offer",
+  "marketplace.expiry": "Expiry",
+  "marketplace.from": "From",
+  "marketplace.sfl": "SFL",
+  "marketplace.priceHistory": "Price history",
 };
 
 export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
@@ -5752,7 +5826,6 @@ export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
   ...guideTerms,
   ...harvestBeeHive,
   ...harvestflower,
-  ...hayseedHankPlaza,
   ...hayseedHankV2,
   ...heliosSunflower,
   ...helper,
@@ -5767,6 +5840,7 @@ export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
   ...levelUpMessages,
   ...loser,
   ...lostSunflorian,
+  ...marketplaceTerms,
   ...megaStore,
   ...milestoneMessages,
   ...modalDescription,

@@ -180,6 +180,7 @@ export const SUNNYSIDE = {
     //Prestige Island
     springRaft: `${CONFIG.PROTECTED_IMAGE_URL}/land/prestige_raft.png`,
     desertRaft: `${CONFIG.PROTECTED_IMAGE_URL}/land/desert_prestige_raft.png`,
+    rewardsRaft: `${CONFIG.PROTECTED_IMAGE_URL}/land/rewards_raft.png`,
 
     island: `${CONFIG.PROTECTED_IMAGE_URL}/land/islands/island.webp`,
     mushroomIsland: `${CONFIG.PROTECTED_IMAGE_URL}/land/mushroom_island.png`,
@@ -432,6 +433,9 @@ export const SUNNYSIDE = {
     playIcon: `${CONFIG.PROTECTED_IMAGE_URL}/icons/play.png`,
     decorationbush: `${CONFIG.PROTECTED_IMAGE_URL}/icons/decoration.png`,
     suspicious: `${CONFIG.PROTECTED_IMAGE_URL}/icons/decoration.png`,
+    mouse: `${CONFIG.PROTECTED_IMAGE_URL}/icons/mouse.png`,
+    hank: `${CONFIG.PROTECTED_IMAGE_URL}/icons/hank.png`,
+    pete: `${CONFIG.PROTECTED_IMAGE_URL}/icons/pete.png`,
     //Social Icons
     polygonIcon: `${CONFIG.PROTECTED_IMAGE_URL}/icons/polygon-token.png`,
     walletIcon: `${CONFIG.PROTECTED_IMAGE_URL}/icons/wallet.png`,

@@ -71,7 +71,6 @@ import {
   GuideTerms,
   Harvestflower,
   HarvestBeeHive,
-  HayseedHankPlaza,
   HayseedHankV2,
   Helper,
   HeliosSunflower,
@@ -175,6 +174,7 @@ import {
   FactionShopDescription,
   GuideFactionPet,
   DesertKeys,
+  MarketplaceTerms,
 } from "./types";
 
 const generalTerms: Record<GeneralTerms, string> = {
@@ -443,6 +443,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   wearable: ENGLISH_TERMS.wearable,
   cosmetic: ENGLISH_TERMS.cosmetic,
   decoration: ENGLISH_TERMS.decoration,
+  "resource.nodes": ENGLISH_TERMS["resource.nodes"],
 };
 
 const timeUnits: Record<TimeUnits, string> = {
@@ -595,7 +596,7 @@ const addSFL: Record<AddSFL, string> = {
   "addSFL.referralFee":
     "Sunflower Land prend une commission de parrainage de 5% pour compléter cette transaction.",
   "addSFL.swapTitle": "Détails de l'échange",
-  "addSFL.minimumReceived": "Minimum reçu: ",
+  "addSFL.minimumReceived": "Minimum reçu: {{sflReceived}} SFL",
 };
 
 const auction: Record<Auction, string> = {
@@ -1050,7 +1051,7 @@ const bumpkinDelivery: Record<BumpkinDelivery, string> = {
     "J'attendais ça. Merci beaucoup ! Reviens bientôt pour plus de livraisons.",
   "bumpkin.delivery.proveYourself":
     "Prouve que tu es digne. Agrandis ton île {{missingLevels}} fois de plus.",
-  "bumpkin.delivery.earnScrolls": ENGLISH_TERMS["bumpkin.delivery.earnScrolls"],
+  "bumpkin.delivery.earnTickets": ENGLISH_TERMS["bumpkin.delivery.earnTickets"],
   "bumpkin.delivery.earnSFL": ENGLISH_TERMS["bumpkin.delivery.earnSFL"],
 };
 
@@ -1144,6 +1145,38 @@ const bumpkinItemBuff: Record<BumpkinItemBuff, string> = {
   "bumpkinItemBuff.grape.pants": ENGLISH_TERMS["bumpkinItemBuff.grape.pants"],
   "bumpkinItemBuff.pirate.potion":
     ENGLISH_TERMS["bumpkinItemBuff.pirate.potion"],
+  "bumpkinItemBuff.bumpkin.crown.boost":
+    ENGLISH_TERMS["bumpkinItemBuff.bumpkin.crown.boost"],
+  "bumpkinItemBuff.goblin.crown.boost":
+    ENGLISH_TERMS["bumpkinItemBuff.goblin.crown.boost"],
+  "bumpkinItemBuff.nightshade.crown.boost":
+    ENGLISH_TERMS["bumpkinItemBuff.nightshade.crown.boost"],
+  "bumpkinItemBuff.sunflorian.crown.boost":
+    ENGLISH_TERMS["bumpkinItemBuff.sunflorian.crown.boost"],
+  "bumpkinItemBuff.bumpkin.shield.boost":
+    ENGLISH_TERMS["bumpkinItemBuff.bumpkin.shield.boost"],
+  "bumpkinItemBuff.goblin.shield.boost":
+    ENGLISH_TERMS["bumpkinItemBuff.goblin.shield.boost"],
+  "bumpkinItemBuff.nightshade.shield.boost":
+    ENGLISH_TERMS["bumpkinItemBuff.nightshade.shield.boost"],
+  "bumpkinItemBuff.sunflorian.shield.boost":
+    ENGLISH_TERMS["bumpkinItemBuff.sunflorian.shield.boost"],
+  "bumpkinItemBuff.bumpkin.quiver.boost":
+    ENGLISH_TERMS["bumpkinItemBuff.bumpkin.quiver.boost"],
+  "bumpkinItemBuff.goblin.quiver.boost":
+    ENGLISH_TERMS["bumpkinItemBuff.goblin.quiver.boost"],
+  "bumpkinItemBuff.nightshade.quiver.boost":
+    ENGLISH_TERMS["bumpkinItemBuff.nightshade.quiver.boost"],
+  "bumpkinItemBuff.sunflorian.quiver.boost":
+    ENGLISH_TERMS["bumpkinItemBuff.sunflorian.quiver.boost"],
+  "bumpkinItemBuff.bumpkin.medallion.boost":
+    ENGLISH_TERMS["bumpkinItemBuff.bumpkin.medallion.boost"],
+  "bumpkinItemBuff.goblin.medallion.boost":
+    ENGLISH_TERMS["bumpkinItemBuff.goblin.medallion.boost"],
+  "bumpkinItemBuff.nightshade.medallion.boost":
+    ENGLISH_TERMS["bumpkinItemBuff.nightshade.medallion.boost"],
+  "bumpkinItemBuff.sunflorian.medallion.boost":
+    ENGLISH_TERMS["bumpkinItemBuff.sunflorian.medallion.boost"],
 };
 
 const bumpkinPart: Record<BumpkinPart, string> = {
@@ -1401,8 +1434,8 @@ const confirmSkill: Record<ConfirmSkill, string> = {
 };
 
 const confirmationTerms: Record<ConfirmationTerms, string> = {
-  "confirmation.sellCrops":
-    "Êtes-vous sûr de vouloir vendre {{cropAmount}} {{cropName}} pour {{coinAmount}} pièces ?",
+  "confirmation.sell":
+    "Êtes-vous sûr de vouloir vendre {{amount}} {{name}} pour {{coinAmount}} pièces ?",
   "confirmation.buyCrops": ENGLISH_TERMS["confirmation.buyCrops"],
   "confirmation.enterAmount": ENGLISH_TERMS["confirmation.enterAmount"],
   "confirmation.sellSeasonalArtefact":
@@ -1483,6 +1516,17 @@ const conversations: Record<Conversations, string> = {
     "À mesure que tu montes de niveau, tu débloqueras de nouvelles zones à explorer. En premier lieu, il y a la Pumpkin Plaza... ma maison!",
   "pete.pumpkinPlaza.two":
     "Ici, tu peux effectuer des livraisons pour obtenir des récompenses, fabriquer des objets magiques et échanger avec d'autres joueurs.",
+  "richie.intro.one": ENGLISH_TERMS["richie.intro.one"],
+  "richie.intro.two": ENGLISH_TERMS["richie.intro.two"],
+  "richie.intro.three": ENGLISH_TERMS["richie.intro.three"],
+  "richie.challenge": ENGLISH_TERMS["richie.challenge"],
+  "richie.rewarded": ENGLISH_TERMS["richie.rewarded"],
+  "richie.completed": ENGLISH_TERMS["richie.completed"],
+  "richie.completed.description": ENGLISH_TERMS["richie.completed.description"],
+  "richie.rewards": ENGLISH_TERMS["richie.rewards"],
+  "richie.onboarding": ENGLISH_TERMS["richie.onboarding"],
+  "richie.dailyChallenges": ENGLISH_TERMS["richie.dailyChallenges"],
+  "richie.final": ENGLISH_TERMS["richie.final"],
   "sunflowerLand.islandDescription":
     "Sunflower Land est rempli d'îles passionnantes où tu peux effectuer des livraisons, fabriquer des NFT rares et même creuser des trésors!",
   "sunflowerLand.opportunitiesDescription":
@@ -3209,15 +3253,6 @@ const harvestflower: Record<Harvestflower, string> = {
   "harvestflower.alr.plant": "La fleur est déjà plantée",
 };
 
-const hayseedHankPlaza: Record<HayseedHankPlaza, string> = {
-  "hayseedHankPlaza.cannotCompleteChore":
-    "Impossible de terminer cette corvée?",
-  "hayseedHankPlaza.skipChore": "Passer la corvée",
-  "hayseedHankPlaza.canSkipIn": "Vous pouvez passer cette corvée dans",
-  "hayseedHankPlaza.wellDone": "Bien joué",
-  "hayseedHankPlaza.lendAHand": "Donner un coup de main?",
-};
-
 const hayseedHankV2: Record<HayseedHankV2, string> = {
   "hayseedHankv2.dialog1":
     "Eh bien, bonjour à vous, jeunes froussards ! Je suis Hayseed Hank, un vieux fermier expérimenté, travaillant la terre comme au bon vieux temps.",
@@ -3230,6 +3265,8 @@ const hayseedHankV2: Record<HayseedHankV2, string> = {
     "Vous pouvez sauter des corvées chaque nouveau jour.",
   "hayseedHankv2.greeting":
     "Eh bien, bonjour à vous, jeunes froussards ! Je suis Hayseed Hank...",
+  "hayseedHankv2.confirmSkipChore":
+    ENGLISH_TERMS["hayseedHankv2.confirmSkipChore"],
 };
 
 const heliosSunflower: Record<HeliosSunflower, string> = {
@@ -3451,6 +3488,30 @@ const landscapeTerms: Record<LandscapeTerms, string> = {
   "landscape.expansion.date":
     "Plus d'extensions seront disponibles le 7 février.",
   "landscape.great.work": "Excellent travail, Bumpkin!",
+  "landscape.confirmation.resourceNodes.one":
+    ENGLISH_TERMS["landscape.confirmation.resourceNodes.one"],
+  "landscape.confirmation.resourceNodes.two":
+    ENGLISH_TERMS["landscape.confirmation.resourceNodes.two"],
+  "landscape.hourglass.resourceNodeCondition.fishers":
+    ENGLISH_TERMS["landscape.hourglass.resourceNodeCondition.fishers"],
+  "landscape.confirmation.hourglass.one":
+    ENGLISH_TERMS["landscape.confirmation.hourglass.one"],
+  "landscape.confirmation.hourglass.two":
+    ENGLISH_TERMS["landscape.confirmation.hourglass.two"],
+  "landscape.hourglass.resourceNodeCondition.gourmet":
+    ENGLISH_TERMS["landscape.hourglass.resourceNodeCondition.gourmet"],
+  "landscape.hourglass.resourceNodeCondition.harvest":
+    ENGLISH_TERMS["landscape.hourglass.resourceNodeCondition.harvest"],
+  "landscape.hourglass.resourceNodeCondition.timber":
+    ENGLISH_TERMS["landscape.hourglass.resourceNodeCondition.timber"],
+  "landscape.hourglass.resourceNodeCondition.orchard":
+    ENGLISH_TERMS["landscape.hourglass.resourceNodeCondition.orchard"],
+  "landscape.hourglass.resourceNodeCondition.blossom":
+    ENGLISH_TERMS["landscape.hourglass.resourceNodeCondition.blossom"],
+  "landscape.hourglass.resourceNodeCondition.ore":
+    ENGLISH_TERMS["landscape.hourglass.resourceNodeCondition.ore"],
+  "landscape.timeWarpTotem.resourceNodeCondition":
+    ENGLISH_TERMS["landscape.timeWarpTotem.resourceNodeCondition"],
 };
 
 const levelUpMessages: Record<LevelUpMessages, string> = {
@@ -5769,6 +5830,26 @@ export const desertTerms: Record<DesertKeys, string> = {
   "desert.extraDigs": ENGLISH_TERMS["desert.extraDigs"],
   "desert.digs": ENGLISH_TERMS["desert.digs"],
   "desert.buyDigs.confirmation": ENGLISH_TERMS["desert.buyDigs.confirmation"],
+  "desert.noTreasureToSell": ENGLISH_TERMS["desert.noTreasureToSell"],
+};
+
+export const marketplaceTerms: Record<MarketplaceTerms, string> = {
+  "marketplace.collectibles": ENGLISH_TERMS["marketplace.collectibles"],
+  "marketplace.buyNow": ENGLISH_TERMS["marketplace.buyNow"],
+  "marketplace.description": ENGLISH_TERMS["marketplace.description"],
+  "marketplace.listForSale": ENGLISH_TERMS["marketplace.listForSale"],
+  "marketplace.walletRequired": ENGLISH_TERMS["marketplace.walletRequired"],
+  "marketplace.listings": ENGLISH_TERMS["marketplace.listings"],
+  "marketplace.noListings": ENGLISH_TERMS["marketplace.noListings"],
+  "marketplace.noOffers": ENGLISH_TERMS["marketplace.noOffers"],
+  "marketplace.offers": ENGLISH_TERMS["marketplace.offers"],
+  "marketplace.topOffer": ENGLISH_TERMS["marketplace.topOffer"],
+  "marketplace.acceptOffer": ENGLISH_TERMS["marketplace.acceptOffer"],
+  "marketplace.makeOffer": ENGLISH_TERMS["marketplace.makeOffer"],
+  "marketplace.expiry": ENGLISH_TERMS["marketplace.expiry"],
+  "marketplace.priceHistory": ENGLISH_TERMS["marketplace.priceHistory"],
+  "marketplace.from": ENGLISH_TERMS["marketplace.from"],
+  "marketplace.sfl": ENGLISH_TERMS["marketplace.sfl"],
 };
 
 export const FRENCH_TERMS: Record<TranslationKeys, string> = {
@@ -5851,7 +5932,6 @@ export const FRENCH_TERMS: Record<TranslationKeys, string> = {
   ...guideTerms,
   ...harvestBeeHive,
   ...harvestflower,
-  ...hayseedHankPlaza,
   ...hayseedHankV2,
   ...heliosSunflower,
   ...helper,
@@ -5866,6 +5946,7 @@ export const FRENCH_TERMS: Record<TranslationKeys, string> = {
   ...levelUpMessages,
   ...loser,
   ...lostSunflorian,
+  ...marketplaceTerms,
   ...megaStore,
   ...milestoneMessages,
   ...minigame,

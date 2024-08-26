@@ -270,6 +270,7 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
             [...cropCompost, ...fruitCompost, ...fertilisers],
             ITEM_DETAILS["Rapid Root"].image,
           )}
+          {itemsSection(t("tools"), allTools, ITEM_DETAILS["Axe"].image)}
           {itemsSection(t("crops"), crops, ITEM_DETAILS.Sunflower.image)}
           {itemsSection(t("fruits"), fruits, ITEM_DETAILS["Orange"].image)}
           {itemsSection(t("flowers"), flowers, SUNNYSIDE.icons.seedling)}
@@ -278,7 +279,6 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
             [...exotic, ...exotics],
             ITEM_DETAILS["White Carrot"].image,
           )}
-          {itemsSection(t("tools"), allTools, ITEM_DETAILS["Axe"].image)}
           {itemsSection(t("resources"), resources, ITEM_DETAILS["Wood"].image)}
           {itemsSection(
             t("bait"),

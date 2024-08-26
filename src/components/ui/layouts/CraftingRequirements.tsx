@@ -316,7 +316,7 @@ export const CraftingRequirements: React.FC<Props> = ({
           <Label
             icon={SUNNYSIDE.icons.stopwatch}
             type="warning"
-            className="my-1 mx-auto"
+            className="my-1 mx-auto whitespace-nowrap"
           >
             {formatDateRange(details.from, details.to as Date)}
           </Label>

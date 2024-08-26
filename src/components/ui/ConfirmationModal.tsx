@@ -52,7 +52,7 @@ export const ConfirmationModal: React.FC<ConfirmProps> = ({
           {icon && <img src={icon} style={imageStyle} />}
           {/* Convert each message into separate spans */}
           {messages.map((msg, index) => (
-            <span key={index} className="text-sm text-start w-full mb-1">
+            <span key={index} className="text-sm text-start w-full m-1">
               {msg}
             </span>
           ))}

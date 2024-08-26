@@ -6,6 +6,10 @@ import {
 
 import cloneDeep from "lodash.clonedeep";
 
+/**
+ * @deprecated This function is obsolete and should not be used.
+ * Use `StartMinigameAttemptAction` and `SubmitMinigameScoreAction` instead.
+ */
 export type PlayMinigameAction = {
   type: "minigame.played";
   id: MinigameName;
@@ -18,6 +22,10 @@ type Options = {
   createdAt?: number;
 };
 
+/**
+ * @deprecated This function is obsolete and should not be used.
+ * Use `startMinigameAttempt` and `recordMinigameScore` instead.
+ */
 export function playMinigame({
   state,
   action,

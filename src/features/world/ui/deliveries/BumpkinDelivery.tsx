@@ -696,36 +696,38 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
 
           <InnerPanel>
             <div className="px-2 ">
-              <div className="flex flex-col sm:flex sm:justify-between sm:items-center mb-2 gap-1">
-                <Label type="default" icon={SUNNYSIDE.icons.expression_chat}>
-                  {t("delivery")}
-                </Label>
-
-                {delivery?.completedAt && (
-                  <Label
-                    style={{ whiteSpace: "nowrap" }}
-                    type="success"
-                    secondaryIcon={SUNNYSIDE.icons.confirm}
-                  >
-                    {t("completed")}
+              <div className="flex flex-col justify-between items-stretch mb-2 gap-1">
+                <div className="flex flex-row justify-between w-full">
+                  <Label type="default" icon={SUNNYSIDE.icons.expression_chat}>
+                    {t("delivery")}
                   </Label>
-                )}
-                {isLocked && (
-                  <Label type="danger" icon={SUNNYSIDE.icons.lock}>
-                    {`Lvl ${NPC_DELIVERY_LEVELS[npc as DeliveryNpcName]} required`}
-                  </Label>
-                )}
-                {!delivery?.completedAt && requiresSeasonPass && (
-                  <VIPAccess
-                    isVIP={hasVIP}
-                    onUpgrade={() => {
-                      onClose && onClose();
-                      openModal("BUY_BANNER");
-                    }}
-                  />
-                )}
+                  {delivery?.completedAt && (
+                    <Label
+                      style={{ whiteSpace: "nowrap" }}
+                      type="success"
+                      secondaryIcon={SUNNYSIDE.icons.confirm}
+                    >
+                      {t("completed")}
+                    </Label>
+                  )}
+                </div>
+                <div className="flex flex-row justify-between w-full">
+                  {!delivery?.completedAt && requiresSeasonPass && (
+                    <VIPAccess
+                      isVIP={hasVIP}
+                      onUpgrade={() => {
+                        onClose && onClose();
+                        openModal("BUY_BANNER");
+                      }}
+                    />
+                  )}
+                  {isLocked && (
+                    <Label type="danger" secondaryIcon={SUNNYSIDE.icons.lock}>
+                      {`Lvl ${NPC_DELIVERY_LEVELS[npc as DeliveryNpcName]} required`}
+                    </Label>
+                  )}
+                </div>
               </div>
-
               {!delivery && !isLocked && (
                 <p className="text-xs mb-1">{t("no.delivery.avl")}</p>
               )}

@@ -329,11 +329,10 @@ export const Crops: React.FC = () => {
         show={showConfirmationModal}
         onHide={closeConfirmationModal}
         messages={[
-          t("confirmation.sellCrops", {
-            cropAmount:
-              state.island.type !== "basic" ? customAmount : cropAmount,
-            cropName: selected.name,
-            coinAmount: coinAmount,
+          t("confirmation.sell", {
+            amount: state.island.type !== "basic" ? customAmount : cropAmount,
+            name: selected.name,
+            coinAmount,
           }),
         ]}
         onCancel={closeConfirmationModal}
@@ -356,7 +355,9 @@ export const Crops: React.FC = () => {
         onHide={closeBulkSellModal}
         customAmount={customAmount}
         setCustomAmount={setCustomAmount}
-        cropAmount={cropAmount}
+        itemAmount={cropAmount}
+        bumpkinParts={NPC_WEARABLES.betty}
+        maxDecimalPlaces={2}
         onCancel={closeBulkSellModal}
         onSell={openConfirmationModal}
         coinAmount={coinAmount}

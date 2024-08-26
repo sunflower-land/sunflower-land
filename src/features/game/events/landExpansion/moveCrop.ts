@@ -34,6 +34,7 @@ export function isLocked(
   plot: CropPlot,
   collectibles: Collectibles,
   createdAt: number,
+  bumpkin: GameState["bumpkin"],
 ): boolean {
   const crop = plot.crop;
 
@@ -66,7 +67,14 @@ export function isLocked(
       width: plot.width,
     };
 
-    if (isWithinAOE("Basic Scarecrow", scarecrowPosition, plotPosition)) {
+    if (
+      isWithinAOE(
+        "Basic Scarecrow",
+        scarecrowPosition,
+        plotPosition,
+        bumpkin.skills,
+      )
+    ) {
       return true;
     }
   }
@@ -90,7 +98,9 @@ export function isLocked(
       width: plot.width,
     };
 
-    if (isWithinAOE("Scary Mike", scarecrowPosition, plotPosition)) {
+    if (
+      isWithinAOE("Scary Mike", scarecrowPosition, plotPosition, bumpkin.skills)
+    ) {
       return true;
     }
   }
@@ -121,7 +131,9 @@ export function isLocked(
       width: plot.width,
     };
 
-    if (isWithinAOE("Sir Goldensnout", itemPosition, plotPosition)) {
+    if (
+      isWithinAOE("Sir Goldensnout", itemPosition, plotPosition, bumpkin.skills)
+    ) {
       return true;
     }
   }
@@ -150,7 +162,12 @@ export function isLocked(
     };
 
     if (
-      isWithinAOE("Laurie the Chuckle Crow", scarecrowPosition, plotPosition)
+      isWithinAOE(
+        "Laurie the Chuckle Crow",
+        scarecrowPosition,
+        plotPosition,
+        bumpkin.skills,
+      )
     ) {
       return true;
     }
@@ -177,7 +194,7 @@ export function isLocked(
       width: plot.width,
     };
 
-    if (isWithinAOE("Gnome", gnomePosition, plotPosition)) {
+    if (isWithinAOE("Gnome", gnomePosition, plotPosition, bumpkin.skills)) {
       return true;
     }
   }
@@ -200,7 +217,7 @@ export function isLocked(
       width: plot.width,
     };
 
-    if (isWithinAOE("Queen Cornelia", position, plotPosition)) {
+    if (isWithinAOE("Queen Cornelia", position, plotPosition, bumpkin.skills)) {
       return true;
     }
   }
@@ -225,7 +242,7 @@ export function moveCrop({
     throw new Error(MOVE_CROP_ERRORS.CROP_NOT_PLACED);
   }
 
-  if (isLocked(plot, collectibles, createdAt)) {
+  if (isLocked(plot, collectibles, createdAt, stateCopy.bumpkin)) {
     throw new Error(MOVE_CROP_ERRORS.AOE_LOCKED);
   }
 

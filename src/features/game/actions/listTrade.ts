@@ -11,6 +11,7 @@ type Request = {
   sellerId: number;
   token: string;
   transactionId: string;
+  signature?: string;
 };
 
 export async function listRequest(request: Request): Promise<GameState> {
@@ -29,6 +30,7 @@ export async function listRequest(request: Request): Promise<GameState> {
       sellerId: request.sellerId,
       items: request.items,
       sfl: request.sfl,
+      signature: request.signature,
       createdAt: new Date().toISOString(),
     }),
   });

@@ -173,6 +173,7 @@ export type GeneralTerms =
   | "requires"
   | "requirements"
   | "resources"
+  | "resource.nodes"
   | "restock"
   | "retry"
   | "reward"
@@ -700,7 +701,7 @@ export type BumpkinDelivery =
   | "bumpkin.delivery.thanks"
   | "bumpkin.delivery.waiting"
   | "bumpkin.delivery.proveYourself"
-  | "bumpkin.delivery.earnScrolls"
+  | "bumpkin.delivery.earnTickets"
   | "bumpkin.delivery.earnSFL";
 
 export type BumpkinItemBuff =
@@ -764,7 +765,23 @@ export type BumpkinItemBuff =
   | "bumpkinItemBuff.oil.overalls.boost"
   | "bumpkinItemBuff.ancient.shovel.boost"
   | "bumpkinItemBuff.grape.pants"
-  | "bumpkinItemBuff.pirate.potion";
+  | "bumpkinItemBuff.pirate.potion"
+  | "bumpkinItemBuff.bumpkin.crown.boost"
+  | "bumpkinItemBuff.goblin.crown.boost"
+  | "bumpkinItemBuff.nightshade.crown.boost"
+  | "bumpkinItemBuff.sunflorian.crown.boost"
+  | "bumpkinItemBuff.bumpkin.shield.boost"
+  | "bumpkinItemBuff.goblin.shield.boost"
+  | "bumpkinItemBuff.nightshade.shield.boost"
+  | "bumpkinItemBuff.sunflorian.shield.boost"
+  | "bumpkinItemBuff.bumpkin.quiver.boost"
+  | "bumpkinItemBuff.goblin.quiver.boost"
+  | "bumpkinItemBuff.nightshade.quiver.boost"
+  | "bumpkinItemBuff.sunflorian.quiver.boost"
+  | "bumpkinItemBuff.bumpkin.medallion.boost"
+  | "bumpkinItemBuff.goblin.medallion.boost"
+  | "bumpkinItemBuff.nightshade.medallion.boost"
+  | "bumpkinItemBuff.sunflorian.medallion.boost";
 
 export type BumpkinPart =
   | "equip.background"
@@ -954,7 +971,7 @@ export type ComposterDescription =
 export type ConfirmSkill = "confirm.skillClaim";
 
 export type ConfirmationTerms =
-  | "confirmation.sellCrops"
+  | "confirmation.sell"
   | "confirmation.buyCrops"
   | "confirmation.enterAmount"
   | "confirmation.sellSeasonalArtefact"
@@ -1006,6 +1023,14 @@ export type Conversations =
   | "pete.help.zero"
   | "pete.pumpkinPlaza.one"
   | "pete.pumpkinPlaza.two"
+  | "richie.challenge"
+  | "richie.rewarded"
+  | "richie.completed"
+  | "richie.completed.description"
+  | "richie.rewards"
+  | "richie.onboarding"
+  | "richie.dailyChallenges"
+  | "richie.final"
   | "sunflowerLand.islandDescription"
   | "sunflowerLand.opportunitiesDescription"
   | "sunflowerLand.returnHomeInstruction"
@@ -1015,6 +1040,9 @@ export type Conversations =
   | "luna.portals"
   | "luna.rewards"
   | "luna.travel"
+  | "richie.intro.one"
+  | "richie.intro.two"
+  | "richie.intro.three"
   | "pete.intro.one"
   | "pete.intro.two"
   | "pete.intro.three"
@@ -2189,13 +2217,6 @@ export type HarvestBeeHive =
   | "harvestBeeHive.notPlaced"
   | "harvestBeeHive.noHoney";
 
-export type HayseedHankPlaza =
-  | "hayseedHankPlaza.cannotCompleteChore"
-  | "hayseedHankPlaza.skipChore"
-  | "hayseedHankPlaza.canSkipIn"
-  | "hayseedHankPlaza.wellDone"
-  | "hayseedHankPlaza.lendAHand";
-
 export type HayseedHankV2 =
   | "hayseedHankv2.dialog1"
   | "hayseedHankv2.dialog2"
@@ -2203,7 +2224,8 @@ export type HayseedHankV2 =
   | "hayseedHankv2.title"
   | "hayseedHankv2.newChoresAvailable"
   | "hayseedHankv2.skipChores"
-  | "hayseedHankv2.greeting";
+  | "hayseedHankv2.greeting"
+  | "hayseedHankv2.confirmSkipChore";
 
 export type Helper =
   | "helper.highScore1"
@@ -2344,7 +2366,19 @@ export type LandscapeTerms =
   | "landscape.timerPopover"
   | "landscape.dragMe"
   | "landscape.expansion.date"
-  | "landscape.great.work";
+  | "landscape.great.work"
+  | "landscape.confirmation.resourceNodes.one"
+  | "landscape.confirmation.resourceNodes.two"
+  | "landscape.confirmation.hourglass.one"
+  | "landscape.confirmation.hourglass.two"
+  | "landscape.hourglass.resourceNodeCondition.fishers"
+  | "landscape.hourglass.resourceNodeCondition.gourmet"
+  | "landscape.hourglass.resourceNodeCondition.harvest"
+  | "landscape.hourglass.resourceNodeCondition.timber"
+  | "landscape.hourglass.resourceNodeCondition.orchard"
+  | "landscape.hourglass.resourceNodeCondition.blossom"
+  | "landscape.hourglass.resourceNodeCondition.ore"
+  | "landscape.timeWarpTotem.resourceNodeCondition";
 
 export type LevelUpMessages =
   | "levelUp.2"
@@ -3848,7 +3882,26 @@ export type DesertKeys =
   | "desert.hud.newSite"
   | "desert.extraDigs"
   | "desert.digs"
-  | "desert.buyDigs.confirmation";
+  | "desert.buyDigs.confirmation"
+  | "desert.noTreasureToSell";
+
+export type MarketplaceTerms =
+  | "marketplace.collectibles"
+  | "marketplace.walletRequired"
+  | "marketplace.listForSale"
+  | "marketplace.description"
+  | "marketplace.buyNow"
+  | "marketplace.listings"
+  | "marketplace.noListings"
+  | "marketplace.offers"
+  | "marketplace.noOffers"
+  | "marketplace.topOffer"
+  | "marketplace.acceptOffer"
+  | "marketplace.makeOffer"
+  | "marketplace.sfl"
+  | "marketplace.expiry"
+  | "marketplace.priceHistory"
+  | "marketplace.from";
 
 export type TranslationKeys =
   | AchievementsTerms
@@ -3930,7 +3983,6 @@ export type TranslationKeys =
   | Factions
   | Harvestflower
   | HarvestBeeHive
-  | HayseedHankPlaza
   | HayseedHankV2
   | Helper
   | HeliosSunflower
@@ -3944,6 +3996,7 @@ export type TranslationKeys =
   | LevelUpMessages
   | Loser
   | LostSunflorian
+  | MarketplaceTerms
   | MegaStore
   | MilestoneMessages
   | Minigame

@@ -95,6 +95,7 @@ import { setCachedMarketPrices } from "features/world/ui/market/lib/marketCache"
 import { MinigameName } from "../types/minigames";
 import { OFFLINE_FARM } from "./landData";
 import { isValidRedirect } from "features/portal/lib/portalUtil";
+import { Effect, postEffect } from "../actions/effect";
 
 // Run at startup in case removed from query params
 const portalName = new URLSearchParams(window.location.search).get("portal");
@@ -246,6 +247,7 @@ type ListingEvent = {
   sellerId: number;
   items: Partial<Record<InventoryItemName, number>>;
   sfl: number;
+  signature?: string;
 };
 
 type DeleteTradeListingEvent = {
@@ -271,6 +273,11 @@ type SellMarketResourceEvent = {
 export type UpdateUsernameEvent = {
   type: "UPDATE_USERNAME";
   username: string;
+};
+
+type PostEffectEvent = {
+  type: "POST_EFFECT";
+  effect: Effect;
 };
 
 export type BlockchainEvent =
@@ -337,6 +344,7 @@ export type BlockchainEvent =
   | DepositEvent
   | UpdateEvent
   | UpdateUsernameEvent
+  | PostEffectEvent
   | { type: "EXPAND" }
   | { type: "SAVE_SUCCESS" }
   | { type: "UPGRADE" }
@@ -1035,6 +1043,7 @@ export function startGame(authContext: AuthContext) {
               target: "buyingSFL",
             },
             LIST_TRADE: { target: "listing" },
+            POST_EFFECT: { target: "effect" },
             DELETE_TRADE_LISTING: { target: "deleteTradeListing" },
             FULFILL_TRADE_LISTING: { target: "fulfillTradeListing" },
             SELL_MARKET_RESOURCE: { target: "sellMarketResource" },
@@ -1461,7 +1470,7 @@ export function startGame(authContext: AuthContext) {
           entry: "setTransactionId",
           invoke: {
             src: async (context, event) => {
-              const { sellerId, items, sfl } = event as ListingEvent;
+              const { sellerId, items, sfl, signature } = event as ListingEvent;
 
               if (context.actions.length > 0) {
                 await autosave({
@@ -1481,6 +1490,7 @@ export function startGame(authContext: AuthContext) {
                 items,
                 sfl,
                 transactionId: context.transactionId as string,
+                signature,
               });
 
               return { state };
@@ -1505,6 +1515,50 @@ export function startGame(authContext: AuthContext) {
         listed: {
           on: {
             CONTINUE: "playing",
+          },
+        },
+        effect: {
+          entry: "setTransactionId",
+          invoke: {
+            src: async (context, event) => {
+              const { effect } = event as PostEffectEvent;
+
+              if (context.actions.length > 0) {
+                await autosave({
+                  farmId: Number(context.farmId),
+                  sessionId: context.sessionId as string,
+                  actions: context.actions,
+                  token: authContext.user.rawToken as string,
+                  fingerprint: context.fingerprint as string,
+                  deviceTrackerId: context.deviceTrackerId as string,
+                  transactionId: context.transactionId as string,
+                });
+              }
+
+              const state = await postEffect({
+                farmId: Number(context.farmId),
+                effect,
+                token: authContext.user.rawToken as string,
+                transactionId: context.transactionId as string,
+              });
+
+              return { state };
+            },
+            onDone: [
+              {
+                target: "playing",
+                actions: [
+                  assign((_, event) => ({
+                    actions: [],
+                    state: event.data.state,
+                  })),
+                ],
+              },
+            ],
+            onError: {
+              target: "error",
+              actions: "assignErrorMessage",
+            },
           },
         },
         deleteTradeListing: {
@@ -2035,7 +2089,10 @@ export function startGame(authContext: AuthContext) {
       actions: {
         initialiseAnalytics: (context, event: any) => {
           if (!ART_MODE) {
-            gameAnalytics.initialise(event.data.analyticsId);
+            gameAnalytics.initialise({
+              id: event.data.analyticsId,
+              experiments: context.state?.experiments ?? [],
+            });
             onboardingAnalytics.initialise({
               id: context.farmId,
             });

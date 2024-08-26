@@ -27,6 +27,7 @@ export function isLocked(
   rock: Rock,
   collectibles: Collectibles,
   createdAt: number,
+  bumpkin: GameState["bumpkin"],
 ): boolean {
   const minedAt = rock.stone.minedAt;
 
@@ -34,7 +35,7 @@ export function isLocked(
 
   if (canMine(rock, GOLD_RECOVERY_TIME, createdAt)) return false;
 
-  return isAOEImpacted(collectibles, rock, ["Emerald Turtle"]);
+  return isAOEImpacted(collectibles, rock, ["Emerald Turtle"], bumpkin);
 }
 
 export function moveGold({
@@ -53,7 +54,14 @@ export function moveGold({
     throw new Error(MOVE_GOLD_ERRORS.GOLD_NOT_PLACED);
   }
 
-  if (isLocked(gold[action.id], stateCopy.collectibles, createdAt)) {
+  if (
+    isLocked(
+      gold[action.id],
+      stateCopy.collectibles,
+      createdAt,
+      stateCopy.bumpkin,
+    )
+  ) {
     throw new Error(MOVE_GOLD_ERRORS.AOE_LOCKED);
   }
 

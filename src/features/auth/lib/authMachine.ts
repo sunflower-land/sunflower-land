@@ -397,7 +397,6 @@ export const authMachine = createMachine(
             const { farm, token } = await signUp({
               token: context.user.rawToken as string,
               transactionId: context.transactionId as string,
-              promoCode: getPromoCode(),
               referrerId: getReferrerID(),
               utm: getUTMs(),
             });

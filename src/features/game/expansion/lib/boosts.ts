@@ -17,7 +17,10 @@ import { getBudExperienceBoosts } from "features/game/lib/getBudExperienceBoosts
 import { getBumpkinLevel } from "features/game/lib/level";
 import { isWearableActive } from "features/game/lib/wearables";
 import { SellableItem } from "features/game/events/landExpansion/sellCrop";
-import { getFactionPetBoostMultiplier } from "features/game/lib/factions";
+import {
+  FACTION_ITEMS,
+  getFactionPetBoostMultiplier,
+} from "features/game/lib/factions";
 
 const crops = CROPS;
 
@@ -56,7 +59,11 @@ export const getSellPrice = ({
 }) => {
   let price = item.sellPrice;
 
-  const inventory = game.inventory;
+  const { inventory, bumpkin } = game;
+
+  if (!bumpkin) {
+    throw new Error("You do not have a Bumpkin");
+  }
 
   if (!price) return 0;
 
@@ -84,6 +91,10 @@ export const getSellPrice = ({
 
   if (specialEventMultiplier) {
     price = price * specialEventMultiplier;
+  }
+
+  if (bumpkin.skills["Coin Swindler"] && item.name in CROPS) {
+    price = price * 1.1;
   }
 
   return price;
@@ -122,6 +133,18 @@ export const getCookingTime = (
   // Luna's Hat - 50% reduction
   if (isWearableActive({ name: "Luna's Hat", game })) {
     reducedSecs = reducedSecs.mul(0.5);
+  }
+
+  //Faction Medallion -25% reduction
+  const factionName = game.faction?.name;
+  if (
+    factionName &&
+    isWearableActive({
+      game,
+      name: FACTION_ITEMS[factionName].necklace,
+    })
+  ) {
+    reducedSecs = reducedSecs.mul(0.75);
   }
 
   if (isCollectibleActive({ name: "Time Warp Totem", game })) {

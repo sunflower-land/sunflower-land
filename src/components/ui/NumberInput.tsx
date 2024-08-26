@@ -81,9 +81,10 @@ export const NumberInput: React.FC<Props> = ({
         }
       }}
       className={classNames(
-        "shadow-inner shadow-black bg-brown-200 w-full p-2 h-10 placeholder-error font-secondary",
+        "shadow-inner shadow-black bg-brown-200 w-full p-2 h-10 font-secondary",
         {
-          "text-error": isOutOfRange,
+          "text-error placeholder-error": isOutOfRange,
+          "placeholder-black": !isOutOfRange,
         },
         className,
       )}

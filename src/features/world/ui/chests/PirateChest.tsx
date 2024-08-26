@@ -166,9 +166,9 @@ interface Props {
 }
 
 export const PirateChestModal: React.FC<Props> = ({
-  show,
   onClose,
   setIsLoading,
+  show,
 }) => {
   const { t } = useAppTranslation();
 
@@ -179,7 +179,6 @@ export const PirateChestModal: React.FC<Props> = ({
 
   return (
     <Modal
-      show={show}
       onHide={
         isPicking ||
         (isRevealing &&
@@ -187,6 +186,7 @@ export const PirateChestModal: React.FC<Props> = ({
           ? undefined
           : onClose
       }
+      show={show}
     >
       <CloseButtonPanel
         onClose={

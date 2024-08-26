@@ -6467,7 +6467,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/2116.gif",
     attributes: [
-      { trait_type: "Boost", value: "Other" },
+      { trait_type: "Boost", value: "Treasure" },
       {
         display_type: "boost_number",
         trait_type: "Increase daily digs",
@@ -7236,7 +7236,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     image: "../public/erc1155/images/2017.png",
     attributes: [
       { trait_type: "Tradable", value: "No" },
-      { trait_type: "Boost", value: "Other" },
+      { trait_type: "Boost", value: "Cooking" },
       {
         display_type: "boost_percentage",
         trait_type: "Cooking Time",
@@ -8714,7 +8714,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     image: "../public/erc1155/images/2075.png",
     attributes: [
       { trait_type: "Purpose", value: "Consumable" },
-      { trait_type: "Boost", value: "Other" },
+      { trait_type: "Boost", value: "Fruit" },
       {
         display_type: "boost_percentage",
         trait_type: "Fruit Growth Time",
@@ -9066,7 +9066,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "../public/erc1155/images/question_mark.png",
+    image: "../public/erc1155/images/2109.gif",
     name: "Reveling Lemon",
   },
   "Anubis Jackal": {
@@ -9110,7 +9110,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "../public/erc1155/images/question_mark.png",
+    image: "../public/erc1155/images/2113.png",
     name: "Cactus King",
   },
   "Lemon Frog": {
@@ -9253,7 +9253,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "../public/erc1155/images/question_mark.png",
+    image: "../public/erc1155/images/2125.png",
     name: "Paper Reed",
   },
   Camel: {
@@ -11178,7 +11178,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
         trait_type: "Cooking Time",
         value: -50,
       },
-      { trait_type: "Boost", value: "Food & XP" },
+      { trait_type: "Boost", value: "Cooking" },
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
@@ -13030,7 +13030,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
     decimals: 0,
     attributes: [
       { trait_type: "Part", value: "Hat" },
-      { trait_type: "Boost", value: "Resource" },
+      { trait_type: "Boost", value: "Crop" },
       {
         display_type: "boost_number",
         trait_type: "Increase Rice Yield",
@@ -13064,7 +13064,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
     decimals: 0,
     attributes: [
       { trait_type: "Part", value: "SecondaryTool" },
-      { trait_type: "Boost", value: "Resource" },
+      { trait_type: "Boost", value: "Crop" },
       {
         display_type: "boost_number",
         trait_type: "Increase Olive Yield",
@@ -13130,7 +13130,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
         trait_type: "Increase XP gains",
         value: 25,
       },
-      { trait_type: "Boost", value: "Food & XP" },
+      { trait_type: "Boost", value: "XP" },
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
@@ -13912,7 +13912,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
     attributes: [
       { trait_type: "Part", value: "Tool" },
       { trait_type: "Tradable", value: "Yes" },
-      { trait_type: "Boost", value: "Other" },
+      { trait_type: "Boost", value: "Treasure" },
       {
         display_type: "boost_number",
         trait_type: "Dig treasure without Sand Shovel",
@@ -14019,7 +14019,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
   },
   "Bumpkin Crown": {
     description:
-      "A magestic crown with intricate design and eerie glowing games, fit for a Bumpkin Leader. Earn 25% more in SFL and Coin deliveries. Earn +10% marks when pledged to this faction. Multiples of this item do not stack.",
+      "A magestic crown with intricate design and eerie glowing games, fit for a Bumpkin Leader. Earn 25% more in SFL and Coin deliveries. Earn 25% more in SFL and Coin deliveries, and Earn +10% marks when pledged to this faction. Multiples of this item do not stack.",
     decimals: 0,
     attributes: [
       { trait_type: "Part", value: "Hat" },
@@ -14047,7 +14047,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
   },
   "Goblin Crown": {
     description:
-      "A dark, jagged crown with glowing gems, ideal for the Goblin King. Earn 25% more in SFL and Coin deliveries. Earn +10% marks when pledged to this faction. Multiples of this item do not stack.",
+      "A dark, jagged crown with glowing gems, ideal for the Goblin King. Earn 25% more in SFL and Coin deliveries. Earn 25% more in SFL and Coin deliveries, and Earn +10% marks when pledged to this faction. Multiples of this item do not stack.",
     decimals: 0,
     attributes: [
       { trait_type: "Part", value: "Hat" },
@@ -14075,7 +14075,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
   },
   "Nightshade Crown": {
     description:
-      "A midnight-black crown with deep purple and silver details, fitting for a leader whose presence commands respect and mystery. Earn 25% more in SFL and Coin deliveries. Earn +10% marks when pledged to this faction. Multiples of this item do not stack.",
+      "A midnight-black crown with deep purple and silver details, fitting for a leader whose presence commands respect and mystery. Earn 25% more in SFL and Coin deliveries, and Earn +10% marks when pledged to this faction. Multiples of this item do not stack.",
     decimals: 0,
     attributes: [
       { trait_type: "Part", value: "Hat" },
@@ -14103,7 +14103,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
   },
   "Sunflorian Crown": {
     description:
-      "A majestic crown, adorned with a radiant ruby centerpiece and golden embellishments, it evokes the grandeur and authority of a leader. Earn 25% more in SFL and Coin deliveries. Earn +10% marks when pledged to this faction. Multiples of this item do not stack.",
+      "A majestic crown, adorned with a radiant ruby centerpiece and golden embellishments, it evokes the grandeur and authority of a leader. Earn 25% more in SFL and Coin deliveries, and Earn +10% marks when pledged to this faction. Multiples of this item do not stack.",
     decimals: 0,
     attributes: [
       { trait_type: "Part", value: "Hat" },
@@ -14131,7 +14131,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
   },
   "Bumpkin Shield": {
     description:
-      "This shield radiates with a divine blue light, symbolizing protection and justice. Wood and mineral drops increases by 0.25. Multiples of this item do not stack.",
+      "This shield radiates with a divine blue light, symbolizing protection and justice. Wood and mineral drops increases by 0.25 when pledged to this faction. Multiples of this item do not stack.",
     decimals: 0,
     attributes: [
       { trait_type: "Part", value: "SecondaryTool" },
@@ -14154,7 +14154,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
   },
   "Goblin Shield": {
     description:
-      "This shield is built for Goblin warriors who thrive in the heat of battle. Wood and mineral drops increases by 0.25. Multiples of this item do not stack.",
+      "This shield is built for Goblin warriors who thrive in the heat of battle. Wood and mineral drops increases by 0.25 when pledged to this faction. Multiples of this item do not stack.",
     decimals: 0,
     attributes: [
       { trait_type: "Part", value: "SecondaryTool" },
@@ -14177,7 +14177,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
   },
   "Nightshade Shield": {
     description:
-      "The shield’s surface is a deep, shadowy black feathers with intricate violet accents that pulse with ominous energy. Wood and mineral drops increases by 0.25. Multiples of this item do not stack.",
+      "The shield’s surface is a deep, shadowy black feathers with intricate violet accents that pulse with ominous energy. Wood and mineral drops increases by 0.25 when pledged to this faction. Multiples of this item do not stack.",
     decimals: 0,
     attributes: [
       { trait_type: "Part", value: "SecondaryTool" },
@@ -14200,7 +14200,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
   },
   "Sunflorian Shield": {
     description:
-      "A symbol of divine authority, the Sunflorian Shield is reserved for only the most noble of kings and queens. Wood and mineral drops increases by 0.25. Multiples of this item do not stack.",
+      "A symbol of divine authority, the Sunflorian Shield is reserved for only the most noble of kings and queens. Wood and mineral drops increases by 0.25 when pledged to this faction. Multiples of this item do not stack.",
     decimals: 0,
     attributes: [
       { trait_type: "Part", value: "SecondaryTool" },
@@ -14223,7 +14223,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
   },
   "Bumpkin Quiver": {
     description:
-      "The Bumpkin Quiver features vibrant red and blue fabrics, reinforced with iron accents that speak to the strength and resilience of the Bumpkin. Crops and fruit yield increases by 0.25. Multiples of this item do not stack.",
+      "The Bumpkin Quiver features vibrant red and blue fabrics, reinforced with iron accents that speak to the strength and resilience of the Bumpkin. Crops and fruit yield increases by 0.25 when pledged to this faction. Multiples of this item do not stack.",
     decimals: 0,
     attributes: [
       { trait_type: "Part", value: "Wings" },
@@ -14246,7 +14246,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
   },
   "Goblin Quiver": {
     description:
-      "Crafted from the parts of horned-beasts and stitched with Goblin ingenuity, this quiver is as rugged as it is practical. Crops and fruit yield increases by 0.25. Multiples of this item do not stack.",
+      "Crafted from the parts of horned-beasts and stitched with Goblin ingenuity, this quiver is as rugged as it is practical. Crops and fruit yield increases by 0.25 when pledged to this faction. Multiples of this item do not stack.",
     decimals: 0,
     attributes: [
       { trait_type: "Part", value: "Wings" },
@@ -14269,7 +14269,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
   },
   "Nightshade Quiver": {
     description:
-      "Enigmatic and sleek, the Nightshade Quiver is bound in dark, supple leather, designed for those who harvest under the cover of darkness. Crops and fruit yield increases by 0.25. Multiples of this item do not stack.",
+      "Enigmatic and sleek, the Nightshade Quiver is bound in dark, supple leather, designed for those who harvest under the cover of darkness. Crops and fruit yield increases by 0.25 when pledged to this faction. Multiples of this item do not stack.",
     decimals: 0,
     attributes: [
       { trait_type: "Part", value: "Wings" },
@@ -14292,7 +14292,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
   },
   "Sunflorian Quiver": {
     description:
-      "The Sunflorian Quiver, crafted from luxurious cream-colored fabric and adorned with gleaming gold accents, is a symbol of royal grace and divine blessing. Crops and fruit yield increases by 0.25. Multiples of this item do not stack.",
+      "The Sunflorian Quiver, crafted from luxurious cream-colored fabric and adorned with gleaming gold accents, is a symbol of royal grace and divine blessing. Crops and fruit yield increases by 0.25 when pledged to this faction. Multiples of this item do not stack.",
     decimals: 0,
     attributes: [
       { trait_type: "Part", value: "Wings" },
@@ -14315,7 +14315,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
   },
   "Bumpkin Medallion": {
     description:
-      "This sturdy medallion, crafted from iron and adorned with blue gem, is beloved by Bumpkins. Enhances cooking speed by 25%. Multiples of this item do not stack.",
+      "This sturdy medallion, crafted from iron and adorned with blue gem, is beloved by Bumpkins. Enhances cooking speed by 25% when pledged to this faction. Multiples of this item do not stack.",
     decimals: 0,
     attributes: [
       { trait_type: "Part", value: "Necklace" },
@@ -14325,7 +14325,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
         trait_type: "Cooking Time",
         value: -25,
       },
-      { trait_type: "Boost", value: "Food & XP" },
+      { trait_type: "Boost", value: "Cooking" },
     ],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/wearables/images/388.png",
@@ -14333,7 +14333,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
   },
   "Goblin Medallion": {
     description:
-      "Favored by Goblins for its efficiency, it helps you prepare meals at lightning speed, just like their ingenious contraptions and creations. Enhances cooking speed by 25%. Multiples of this item do not stack.",
+      "Favored by Goblins for its efficiency, it helps you prepare meals at lightning speed, just like their ingenious contraptions and creations. Enhances cooking speed by 25% when pledged to this faction. Multiples of this item do not stack.",
     decimals: 0,
     attributes: [
       { trait_type: "Part", value: "Necklace" },
@@ -14343,7 +14343,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
         trait_type: "Cooking Time",
         value: -25,
       },
-      { trait_type: "Boost", value: "Food & XP" },
+      { trait_type: "Boost", value: "Cooking" },
     ],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/wearables/images/389.png",
@@ -14351,7 +14351,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
   },
   "Nightshade Medallion": {
     description:
-      "This medallion channels the Nightshade's secretive allure and their skill in crafting refined and exotic dishes swiftly. Enhances cooking speed by 25%. Multiples of this item do not stack.",
+      "This medallion channels the Nightshade's secretive allure and their skill in crafting refined and exotic dishes swiftly. Enhances cooking speed by 25% when pledged to this faction. Multiples of this item do not stack.",
     decimals: 0,
     attributes: [
       { trait_type: "Part", value: "Necklace" },
@@ -14361,7 +14361,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
         trait_type: "Cooking Time",
         value: -25,
       },
-      { trait_type: "Boost", value: "Food & XP" },
+      { trait_type: "Boost", value: "Cooking" },
     ],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/wearables/images/390.png",
@@ -14369,7 +14369,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
   },
   "Sunflorian Medallion": {
     description:
-      "This medallion embody the Sunflorians' blend of warmth and efficiency, ensuring your culinary creations are prepared with grace and swiftness. Enhances cooking speed by 25%. Multiples of this item do not stack.",
+      "This medallion embody the Sunflorians' blend of warmth and efficiency, ensuring your culinary creations are prepared with grace and swiftness. Enhances cooking speed by 25% when pledged to this faction. Multiples of this item do not stack.",
     decimals: 0,
     attributes: [
       { trait_type: "Part", value: "Necklace" },
@@ -14379,7 +14379,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
         trait_type: "Cooking Time",
         value: -25,
       },
-      { trait_type: "Boost", value: "Food & XP" },
+      { trait_type: "Boost", value: "Cooking" },
     ],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/wearables/images/391.png",

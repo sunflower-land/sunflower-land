@@ -307,7 +307,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     spawnedAt: 0,
   },
   farmHands: { bumpkins: {} },
-  bumpkin: { ...TEST_BUMPKIN },
+  bumpkin: TEST_BUMPKIN,
   buds: {
     1: {
       aura: "Basic",
@@ -385,6 +385,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     },
   },
   inventory: {
+    "Basic Scarecrow": new Decimal(1),
     "Lemon Shark": new Decimal(1),
     "Beta Pass": new Decimal(1),
     "Paint Can": new Decimal(1),
@@ -393,6 +394,23 @@ export const STATIC_OFFLINE_FARM: GameState = {
     "Benevolence Flag": new Decimal(1),
     "Generosity Flag": new Decimal(1),
     "Devotion Flag": new Decimal(1),
+    "Camel Bone": new Decimal(1000),
+    Sand: new Decimal(1000),
+    Crab: new Decimal(1000),
+    "Old Bottle": new Decimal(1000),
+    "Sea Cucumber": new Decimal(1000),
+    Vase: new Decimal(1000),
+    Seaweed: new Decimal(1000),
+    "Cockle Shell": new Decimal(1000),
+    Starfish: new Decimal(1000),
+    "Iron Compass": new Decimal(1000),
+    "Wooden Compass": new Decimal(1000),
+    "Emerald Compass": new Decimal(1000),
+    Pipi: new Decimal(1000),
+    Hieroglyph: new Decimal(1000),
+    "Clam Shell": new Decimal(1000),
+    Coral: new Decimal(50),
+    Pearl: new Decimal(50),
     Rug: new Decimal(1),
     "Sunflorian Throne": new Decimal(1),
     "Nightshade Throne": new Decimal(1),
@@ -674,8 +692,10 @@ export const STATIC_OFFLINE_FARM: GameState = {
     "Goblin Silver Champion": new Decimal(1),
     // "Pharaoh's Treasure Banner": new Decimal(1),
 
-    "Pirate Bounty": new Decimal(1),
-    Scarab: new Decimal(1),
+    "Pirate Bounty": new Decimal(50),
+    Scarab: new Decimal(50),
+    "Reveling Lemon": new Decimal(1),
+    "Cactus King": new Decimal(1),
   },
   wardrobe: {
     "Tofu Mask": 1,
@@ -719,7 +739,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     "Sunflower Amulet": 2,
   },
 
-  createdAt: new Date("2024-06-16").getTime(),
+  createdAt: new Date().getTime(),
 
   conversations: ["hank-intro"],
 

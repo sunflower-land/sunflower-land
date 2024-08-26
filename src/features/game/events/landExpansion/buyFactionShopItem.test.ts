@@ -71,6 +71,69 @@ describe("buyFactionShopItem", () => {
     ).toThrow("Player does not have enough marks");
   });
 
+  it("throws an error if player does not have required wearable", () => {
+    expect(() =>
+      buyFactionShopItem({
+        state: {
+          ...GAME_STATE,
+          inventory: {
+            Mark: new Decimal(FACTION_SHOP_ITEMS["Goblin Crown"].price),
+          },
+        },
+        action: {
+          type: "factionShopItem.bought",
+          item: "Goblin Crown",
+        },
+      }),
+    ).toThrow("Player does not have enough required item");
+  });
+
+  it("throws an error if required wearable is active", () => {
+    expect(() =>
+      buyFactionShopItem({
+        state: {
+          ...GAME_STATE,
+          inventory: {
+            Mark: new Decimal(FACTION_SHOP_ITEMS["Goblin Crown"].price),
+          },
+          wardrobe: {
+            "Goblin Helmet": 3,
+          },
+          bumpkin: {
+            ...INITIAL_BUMPKIN,
+            equipped: { ...INITIAL_BUMPKIN.equipped, hat: "Goblin Helmet" },
+          },
+        },
+        action: {
+          type: "factionShopItem.bought",
+          item: "Goblin Crown",
+        },
+      }),
+    ).toThrow("Player is using required item");
+  });
+
+  it("purchases a crown", () => {
+    const state = buyFactionShopItem({
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          Mark: new Decimal(FACTION_SHOP_ITEMS["Goblin Crown"].price),
+        },
+        wardrobe: {
+          "Goblin Helmet": 1,
+        },
+      },
+      action: {
+        type: "factionShopItem.bought",
+        item: "Goblin Crown",
+      },
+    });
+
+    expect(state.wardrobe["Goblin Helmet"]).toBe(0);
+    expect(state.wardrobe["Goblin Crown"]).toBe(1);
+    expect(state.inventory.Mark).toStrictEqual(new Decimal(0));
+  });
+
   it("purchases a wearable", () => {
     const state = buyFactionShopItem({
       state: {

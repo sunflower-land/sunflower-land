@@ -71,6 +71,8 @@ import { TradeableName } from "../actions/sellMarketResource";
 import { MinigameCurrency } from "../events/minigames/purchaseMinigameItem";
 import { FactionShopCollectibleName, FactionShopFoodName } from "./factionShop";
 import { DiggingFormationName } from "./desert";
+import { Rewards } from "./rewards";
+import { ExperimentName } from "lib/flags";
 
 export type Reward = {
   coins?: number;
@@ -333,7 +335,7 @@ export type Bumpkin = {
     Record<BumpkinSkillName, number> & Record<BumpkinRevampSkillName, number>
   >;
   achievements?: Partial<Record<AchievementName, number>>;
-  activity?: Partial<Record<BumpkinActivityName, number>>;
+  activity: Partial<Record<BumpkinActivityName, number>>;
   previousSkillsResetAt?: number;
 };
 
@@ -1124,6 +1126,8 @@ export type DonationItemName =
 export interface GameState {
   home: Home;
 
+  rewards: Rewards;
+
   island: {
     type: IslandType;
     upgradedAt?: number;
@@ -1274,6 +1278,8 @@ export interface GameState {
     amount: Decimal;
   };
   desert: Desert;
+
+  experiments: ExperimentName[];
 }
 
 export interface Context {

@@ -15,7 +15,7 @@ export function claimPrize() {
 }
 
 /**
- * Exit the portal
+ * Exits the portal
  */
 export function goHome() {
   if (isInIframe) {
@@ -72,11 +72,34 @@ export function donate({ matic, address }: { matic: number; address: string }) {
 }
 
 /**
+ * Starts a minigame attempt
+ */
+export function startAttempt() {
+  if (!isInIframe) {
+    alert(`Sunflower Land running in test mode - attempt started`);
+  } else {
+    window.parent.postMessage({ event: "attemptStarted" }, "*");
+  }
+}
+
+/**
+ * Submits a minigame score
+ */
+export function submitScore({ score }: { score: number }) {
+  if (!isInIframe) {
+    alert(`Sunflower Land running in test mode - score submitted`);
+  } else {
+    window.parent.postMessage({ event: "scoreSubmitted", score }, "*");
+  }
+}
+
+/**
+ * @deprecated Use `attemptStarted` and `scoreSubmitted` instead
  * When to want to store the score
  */
 export function played({ score }: { score: number }) {
   if (!isInIframe) {
-    alert(`Sunflower Land running in test mode - score submitted`);
+    alert(`Sunflower Land running in test mode - played`);
   } else {
     window.parent.postMessage({ event: "played", score }, "*");
   }

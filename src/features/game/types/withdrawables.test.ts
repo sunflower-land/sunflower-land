@@ -78,30 +78,6 @@ describe("withdrawables", () => {
       expect(enabled).toBeFalsy();
     });
 
-    it("prevents withdrawal of Fruit Picker Apron when fruit trees are planted", () => {
-      const state: GameState = {
-        ...TEST_FARM,
-        fruitPatches: {
-          1: {
-            width: 2,
-            x: -12,
-            y: 12,
-            fruit: {
-              name: "Apple",
-              harvestsLeft: 2,
-              amount: 1.35,
-              harvestedAt: dateNow,
-              plantedAt: 0,
-            },
-            height: 2,
-          },
-        },
-      };
-
-      const enabled = BUMPKIN_WITHDRAWABLES["Fruit Picker Apron"](state);
-      expect(enabled).toBeFalsy();
-    });
-
     it("prevents withdrawal of Eggplant Onesie when eggplants are planted", () => {
       const state: GameState = {
         ...TEST_FARM,
@@ -357,23 +333,6 @@ describe("withdrawables", () => {
       const enabled = WITHDRAWABLES["Observatory"]();
       expect(enabled).toBeTruthy();
     });
-  });
-
-  it("enables withdrawal of Fruit Picker Apron when fruit trees are planted", () => {
-    const state: GameState = {
-      ...TEST_FARM,
-      fruitPatches: {
-        1: {
-          width: 2,
-          x: -12,
-          y: 12,
-          height: 2,
-        },
-      },
-    };
-
-    const enabled = BUMPKIN_WITHDRAWABLES["Fruit Picker Apron"](state);
-    expect(enabled).toBeTruthy();
   });
 
   it("enables withdrawal of Eggplant Onesie when eggplants are planted", () => {

@@ -342,8 +342,21 @@ import {
   UnlockMinigameAchievementsAction,
 } from "./minigames/unlockMinigameAchievements";
 import { BuyMoreDigsAction, buyMoreDigs } from "./landExpansion/buyMoreDigs";
+import {
+  completeDailyChallenge,
+  CompleteDailyChallengeAction,
+} from "./landExpansion/completeDailyChallenge";
+import {
+  startMinigameAttempt,
+  StartMinigameAttemptAction,
+} from "./minigames/startMinigameAttempt";
+import {
+  submitMinigameScore,
+  SubmitMinigameScoreAction,
+} from "./minigames/submitMinigameScore";
 
 export type PlayingEvent =
+  | CompleteDailyChallengeAction
   | OilGreenhouseAction
   | HarvestGreenhouseAction
   | PlantGreenhouseAction
@@ -429,6 +442,8 @@ export type PlayingEvent =
   | DrillOilReserveAction
   | ClaimMinigamePrizeAction
   | PurchaseMinigameAction
+  | StartMinigameAttemptAction
+  | SubmitMinigameScoreAction
   | PlayMinigameAction
   | UnlockMinigameAchievementsAction
   | SupplyCropMachineAction
@@ -509,6 +524,7 @@ type Handlers<T> = {
 };
 
 export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
+  "dailyChallenge.completed": completeDailyChallenge,
   "faction.left": leaveFaction,
   "faction.prizeClaimed": claimFactionPrize,
   "greenhouse.oiled": oilGreenhouse,
@@ -516,6 +532,8 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "greenhouse.planted": plantGreenhouse,
   "minigame.itemPurchased": purchaseMinigameItem,
   "minigame.prizeClaimed": claimMinigamePrize,
+  "minigame.attemptStarted": startMinigameAttempt,
+  "minigame.scoreSubmitted": submitMinigameScore,
   "minigame.played": playMinigame,
   "minigame.achievementsUnlocked": unlockMinigameAchievements,
   "airdrop.claimed": claimAirdrop,

@@ -113,8 +113,8 @@ export const FactionShop: React.FC<Props> = ({ onClose }) => {
       tabs={[{ icon: shopIcon, name: "Faction Shop" }]}
       onClose={onClose}
     >
-      <div className="relative h-full w-full">
-        <div className="flex flex-col p-2 pt-1 space-y-3 overflow-y-auto scrollable max-h-[300px]">
+      <div className="relative h-[450px] w-full">
+        <div className="flex flex-col p-2 pt-1 space-y-3 overflow-y-auto scrollable max-h-[450px]">
           <span className="text-xs">{t("faction.shop.welcome")}</span>
           {/* Wearables */}
           <ItemsList
