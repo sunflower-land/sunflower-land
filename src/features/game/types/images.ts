@@ -8809,7 +8809,7 @@ export const ITEM_DETAILS: Items = {
   Sand: {
     image: sand,
     description: {
-      en: "It get's everywhere",
+      en: "It gets everywhere",
     },
   },
   Scarab: {

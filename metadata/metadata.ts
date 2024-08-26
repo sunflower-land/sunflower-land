@@ -8930,7 +8930,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     ],
   },
   Sand: {
-    description: "It get's everywhere!",
+    description: "It gets everywhere!",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/1411.png",
