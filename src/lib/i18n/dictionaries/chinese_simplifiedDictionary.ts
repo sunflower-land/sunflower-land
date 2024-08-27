@@ -1133,6 +1133,7 @@ const bumpkinTrade: Record<BumpkinTrade, string> = {
   "bumpkinTrade.sellConfirmation":
     "确认卖出 {{quantity}} {{resource}} 以赚 {{price}} SFL？",
   "bumpkinTrade.cant.sell.all": "无法出售全部",
+  "bumpkinTrade.listed": ENGLISH_TERMS["bumpkinTrade.listed"],
 };
 
 const buyFarmHand: Record<BuyFarmHand, string> = {

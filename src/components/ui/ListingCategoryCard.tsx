@@ -11,6 +11,8 @@ import increase_arrow from "assets/icons/increase_arrow.png";
 import decrease_arrow from "assets/icons/decrease_arrow.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { SquareIcon } from "./SquareIcon";
+import { SUNNYSIDE } from "assets/sunnyside";
+import { useSound } from "lib/utils/hooks/useSound";
 
 interface Props {
   itemName: InventoryItemName;
@@ -35,24 +37,41 @@ export const ListingCategoryCard: React.FC<Props> = ({
 }) => {
   const { t } = useAppTranslation();
 
+  const button = useSound("button");
+
+  const onClickWithSound = () => {
+    button.play();
+    onClick?.();
+  };
+
   return (
     <OuterPanel
       className={classNames(
         "w-full relative flex flex-col items-center justify-center",
         {
-          "cursor-not-allowed opacity-75": disabled,
-          "cursor-pointer hover:bg-brown-200": !disabled,
+          "cursor-not-allowed opacity-50": disabled,
+          "cursor-pointer hover:brightness-90": !disabled,
         },
       )}
-      onClick={onClick}
+      style={{
+        borderImage: `url(${SUNNYSIDE.ui.primaryButton})`,
+        borderStyle: "solid",
+        borderWidth: `8px 8px 10px 8px`,
+        borderImageSlice: "3 3 4 3 fill",
+        imageRendering: "pixelated",
+        borderImageRepeat: "stretch",
+        borderRadius: `${PIXEL_SCALE * 5}px`,
+        color: "#674544",
+      }}
+      onClick={onClickWithSound}
     >
       {inventoryAmount && (
         <Label
           type="default"
           className="absolute"
           style={{
-            top: `${PIXEL_SCALE * -5}px`,
-            right: `${PIXEL_SCALE * -3}px`,
+            top: `${PIXEL_SCALE * -6}px`,
+            right: `${PIXEL_SCALE * -4}px`,
           }}
         >
           {formatNumber(inventoryAmount, { decimalPlaces: 0 })}
@@ -70,8 +89,8 @@ export const ListingCategoryCard: React.FC<Props> = ({
         type="warning"
         className="w-full text-center p-1"
         style={{
-          width: `calc(100% + ${PIXEL_SCALE * 6}px)`,
-          marginBottom: `${PIXEL_SCALE * -3}px`,
+          width: `calc(100% + ${PIXEL_SCALE * 8}px)`,
+          marginBottom: `${PIXEL_SCALE * -4}px`,
         }}
       >
         <span
@@ -94,8 +113,8 @@ export const ListingCategoryCard: React.FC<Props> = ({
             className="absolute"
             style={{
               width: `${PIXEL_SCALE * 10}px`,
-              right: `${PIXEL_SCALE * -2}px`,
-              top: `${PIXEL_SCALE * -10}px`,
+              right: `${PIXEL_SCALE * -3}px`,
+              top: `${PIXEL_SCALE * -11}px`,
             }}
           />
         )}
@@ -105,8 +124,8 @@ export const ListingCategoryCard: React.FC<Props> = ({
             className="absolute"
             style={{
               width: `${PIXEL_SCALE * 10}px`,
-              right: `${PIXEL_SCALE * -2}px`,
-              top: `${PIXEL_SCALE * -10}px`,
+              right: `${PIXEL_SCALE * -3}px`,
+              top: `${PIXEL_SCALE * -11}px`,
             }}
           />
         )}
