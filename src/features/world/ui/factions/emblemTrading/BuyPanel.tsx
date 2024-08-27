@@ -85,7 +85,7 @@ export const BuyPanel: React.FC<{
           </Label>
         )}
       </div>
-      <div className="flex flex-col min-h-[150px] items-start justify-between">
+      <div className="flex flex-col items-start justify-between">
         <div className="flex overflow-y-auto relative w-full mt-4">
           <ListView
             emblem={emblem}
@@ -211,10 +211,24 @@ const ListView: React.FC<ListViewProps> = ({
 
   if (warning === "hoarding") {
     return (
-      <div className="p-1 flex flex-col items-center">
-        <img src={SUNNYSIDE.icons.lock} className="w-1/5 mb-2" />
+      <div className="flex flex-col items-center w-full">
+        <img
+          src={SUNNYSIDE.icons.lock}
+          className="mb-2"
+          style={{
+            width: `${PIXEL_SCALE * 12}px`,
+          }}
+        />
         <p className="text-sm mb-1 text-center">{t("playerTrade.max.item")}</p>
         <p className="text-xs mb-1 text-center">{t("playerTrade.Progress")}</p>
+        <Button
+          className="mt-2"
+          onClick={() => {
+            setWarning(undefined);
+          }}
+        >
+          {t("back")}
+        </Button>
       </div>
     );
   }
