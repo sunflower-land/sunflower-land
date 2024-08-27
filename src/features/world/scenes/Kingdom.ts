@@ -175,10 +175,6 @@ export class KingdomScene extends BaseScene {
     this.initialiseNPCs(KINGDOM_NPCS);
     this.addShopDisplayItems();
 
-    this.onCollision["faction_door"] = async (obj1, obj2) => {
-      interactableModalManager.open("faction_launch");
-    };
-
     const chickenRescuePortal = this.add.sprite(285, 515, "portal");
     this.anims.create({
       key: "portal_anim",

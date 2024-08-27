@@ -2221,11 +2221,9 @@ const exoticShopItems: Record<ExoticShopItems, string> = {
 const factions: Record<Factions, string> = {
   "faction.emblems": ENGLISH_TERMS["faction.emblems"],
   "faction.emblems.intro.one": ENGLISH_TERMS["faction.emblems.intro.one"],
-  "faction.emblems.intro.three": ENGLISH_TERMS["faction.emblems.intro.three"],
   "faction.emblems.intro.two": ENGLISH_TERMS["faction.emblems.intro.two"],
   "faction.tradeEmblems": ENGLISH_TERMS["faction.tradeEmblems"],
   "faction.marksBoost": ENGLISH_TERMS["faction.marksBoost"],
-  "faction.openingSoon": ENGLISH_TERMS["faction.openingSoon"],
   "faction.join": ENGLISH_TERMS["faction.join"],
   "faction.description.bumpkins": ENGLISH_TERMS["faction.description.bumpkins"],
   "faction.description.goblins": ENGLISH_TERMS["faction.description.goblins"],
@@ -2959,7 +2957,6 @@ const gameTerms: Record<GameTerms, string> = {
   "new.delivery.in": ENGLISH_TERMS["new.delivery.in"],
   "new.delivery.levelup": ENGLISH_TERMS["new.delivery.levelup"],
   "no.sfl": "Nenhum token SFL encontrado",
-  opensea: "OpenSea",
   polygonscan: "PolygonScan",
   potions: "Poções",
   "proof.of.humanity": "Prova de Humanidade",
@@ -3333,7 +3330,6 @@ const interactableModals: Record<InteractableModals, string> = {
     "Rumor tem, eles estão procurando aprendizes Bumpkin para cultivar culturas mutantes com eles.",
   "interactableModals.guildHouse.message":
     "Espere aí Bumpkin! Você precisa de um Bud se quiser entrar no Clube.",
-  "interactableModals.guildHouse.budsCollection": "Coleção de Buds no Opensea",
   "interactableModals.bettyHome.message":
     "Oh, querido, por mais que eu ame minhas plantações, minha casa é um espaço privado, não aberto a visitantes agora.",
   "interactableModals.bertHome.message":
@@ -5161,9 +5157,6 @@ const trader: Record<Trader, string> = {
 
 const transactionTerms: Record<TransactionTerms, string> = {
   "transaction.starterOffer": ENGLISH_TERMS["transaction.starterOffer"],
-  "transaction.t&c.one":
-    "Aceite os termos e condições para entrar no Sunflower Land.",
-  "transaction.t&c.two": "Aceitar Termos e Condições",
   "transaction.mintFarm": "Sua fazenda foi mintada!",
   "transaction.farm.ready": "Sua fazenda estará pronta em",
   "transaction.networkFeeRequired":
@@ -5176,8 +5169,6 @@ const transactionTerms: Record<TransactionTerms, string> = {
     "Você precisa aceitar a transação na janela pop-up do metamask para continuar.",
   "transaction.noFee":
     "Esta solicitação não desencadeará uma transação na blockchain ou custará taxas de gás.",
-  "transaction.chooseDonationGame":
-    "Obrigado pelo seu apoio! Por favor, escolha o jogo para o qual deseja doar.",
   "transaction.minblockbucks": "Mínimo 5 Block Bucks",
   "transaction.payCash": "Pagar com Dinheiro",
   "transaction.matic": "Matic",
@@ -5202,7 +5193,6 @@ const transactionTerms: Record<TransactionTerms, string> = {
   "transaction.withdraw.one": "Retirando",
   "transaction.withdraw.sent": "Seus itens/tokens foram enviados para",
   "transaction.withdraw.view": "Você pode ver seus itens em",
-  "transaction.openSea": "OpenSea",
   "transaction.withdraw.four":
     "Você pode ver seus tokens importando o Token SFL para sua carteira.",
   "transaction.withdraw.five": "Importar Token SFL para o MetaMask",
@@ -5210,22 +5200,17 @@ const transactionTerms: Record<TransactionTerms, string> = {
     "Observe que o OpenSea pode levar até 30 minutos para exibir seus itens. Você também pode ver seus itens em",
   "transaction.withdraw.polygon": "PolygonScan",
   "transaction.id": "ID da Transação",
-  "transaction.termsOfService": "Aceitar os termos de serviço",
-  "transaction.termsOfService.one":
-    "Para comprar sua fazenda, você precisará aceitar os termos de serviço do Sunflower Land.",
-  "transaction.termsOfService.two":
-    "Esta etapa o levará de volta para sua nova carteira de sequência para aceitar os termos de serviço.",
   "transaction.buy.BlockBucks": ENGLISH_TERMS["transaction.buy.BlockBucks"],
 };
 
 const transfer: Record<Transfer, string> = {
-  "transfer.sure.adress":
+  "transfer.sure.address":
     "Certifique-se de que o endereço que você forneceu está na Blockchain Polygon, está correto e é de sua propriedade. Não há recuperação de endereços incorretos.",
   "transfer.Account": ENGLISH_TERMS["transfer.Account"],
   // "Your Account #{{farmID}} has been transferred to {{receivingAddress}}!",
   "transfer.Farm": "Transferindo sua fazenda!",
   "transfer.Refresh": "Não atualize este navegador",
-  "transfer.Taccount": "Transferir sua conta",
+  "transfer.account": "Transferir sua conta",
   "transfer.address": "Endereço da carteira: ",
 };
 
@@ -5333,7 +5318,6 @@ const winner: Record<Winner, string> = {
 };
 
 const wishingWellTerms: Record<WishingWell, string> = {
-  "wishingWell.makeWish": "Conceda um novo desejo e veja quão sortudo você é!",
   "wishingWell.newWish":
     "Um novo desejo foi feito para você com base no seu saldo atual de tokens LP!",
   "wishingWell.noReward":
@@ -5347,8 +5331,6 @@ const wishingWellTerms: Record<WishingWell, string> = {
   "wishingWell.wish.made": "Você fez um desejo!",
   "wishingWell.wish.timeTillNextWish":
     "Tempo até o próximo desejo: {{nextWishTime}}",
-  "wishingWell.wish.thanksForSupport":
-    "Obrigado por apoiar o projeto e fazer um desejo.",
   "wishingWell.wish.comeBackAfter":
     ENGLISH_TERMS["wishingWell.wish.comeBackAfter"],
   // "Come back in {{nextWishTime}} to see just how lucky you have been!",
@@ -5362,10 +5344,6 @@ const wishingWellTerms: Record<WishingWell, string> = {
     "Os desejos são concedidos aos fazendeiros que forneceram liquidez no jogo.",
   "wishingWell.info.three":
     "Parece que você tem esses tokens LP mágicos em sua carteira!",
-  "wishingWell.noLiquidity":
-    "Parece que você ainda não está fornecendo liquidez. Mais informações,",
-  "wishingWell.rewardsInWell": "Quantidade de recompensas no poço",
-  "wishingWell.luck": "Vamos ver quão sortudo você é!",
   "wishingWell.moreInfo": "Mais informações",
 };
 
@@ -5387,10 +5365,6 @@ const withdraw: Record<Withdraw, string> = {
   "withdraw.restricted": ENGLISH_TERMS["withdraw.restricted"],
   "withdraw.bumpkin.wearing":
     "Seu Bumpkin está atualmente usando o(s) seguinte(s) item(ns) que não podem ser retirados. Você precisará desequipá-los antes de poder retirar.",
-  "withdraw.bumpkin.sure.withdraw":
-    "Tem certeza de que deseja retirar seu Bumpkin?",
-  "withdraw.bumpkin.closed": ENGLISH_TERMS["withdraw.bumpkin.closed"],
-  "withdraw.bumpkin.closing": ENGLISH_TERMS["withdraw.bumpkin.closing"],
   "withdraw.buds": "Selecione Buds para retirar",
 };
 

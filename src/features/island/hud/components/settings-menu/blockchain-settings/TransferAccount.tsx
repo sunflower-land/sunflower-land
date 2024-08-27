@@ -89,7 +89,7 @@ export const TransferAccount: React.FC = () => {
 
   return (
     <div className="p-2">
-      <p>{t("transfer.Taccount")}</p>
+      <p>{t("transfer.account")}</p>
       <p className="text-xs mt-2">{t("transfer.address")}</p>
       <input
         type="text"
@@ -103,7 +103,7 @@ export const TransferAccount: React.FC = () => {
           src={SUNNYSIDE.icons.expression_alerted}
           className="h-6 pt-2 pr-2"
         />
-        <span className="text-xs mt-2">{t("transfer.sure.adress")}</span>
+        <span className="text-xs mt-2">{t("transfer.sure.address")}</span>
       </div>
       <Button
         className="mt-2"
