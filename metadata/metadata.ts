@@ -5796,7 +5796,8 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
   },
 
   "Fruitful Blend": {
-    description: "Fruitful Blend boosts the yield of each fruit growing on fruit patches by +0.1",
+    description:
+      "Fruitful Blend boosts the yield of each fruit growing on fruit patches by +0.1",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/630.png",
@@ -5840,7 +5841,8 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     ],
   },
   Butterflyfish: {
-    description: "A fish with a fashion-forward sense, flaunting its vivid, stylish stripes.",
+    description:
+      "A fish with a fashion-forward sense, flaunting its vivid, stylish stripes.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/1502.png",
@@ -5850,7 +5852,8 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     ],
   },
   Blowfish: {
-    description: "The round, inflated comedian of the sea, guaranteed to bring a smile.",
+    description:
+      "The round, inflated comedian of the sea, guaranteed to bring a smile.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/1503.png",
@@ -5860,7 +5863,8 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     ],
   },
   Clownfish: {
-    description: "The underwater jester, sporting a tangerine tuxedo and a clownish charm.",
+    description:
+      "The underwater jester, sporting a tangerine tuxedo and a clownish charm.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/1504.png",
@@ -5870,7 +5874,8 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     ],
   },
   "Sea Bass": {
-    description: "Your 'not-so-exciting' friend with silver scales – a bassic catch!",
+    description:
+      "Your 'not-so-exciting' friend with silver scales – a bassic catch!",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/1505.png",
@@ -5880,7 +5885,8 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     ],
   },
   "Sea Horse": {
-    description: "The ocean's slow-motion dancer, swaying gracefully in the aquatic ballet.",
+    description:
+      "The ocean's slow-motion dancer, swaying gracefully in the aquatic ballet.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/1506.png",
@@ -5890,7 +5896,8 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     ],
   },
   "Horse Mackerel": {
-    description: "A speedster with a shiny coat, always racing through the waves.",
+    description:
+      "A speedster with a shiny coat, always racing through the waves.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/1507.png",
@@ -5930,7 +5937,8 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     ],
   },
   "Olive Flounder": {
-    description: "The seabed's master of disguise, always blending in with the crowd.",
+    description:
+      "The seabed's master of disguise, always blending in with the crowd.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/1511.png",
@@ -5960,7 +5968,8 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     ],
   },
   "Zebra Turkeyfish": {
-    description: "Stripes, spines, and a zesty disposition, this fish is a true showstopper!",
+    description:
+      "Stripes, spines, and a zesty disposition, this fish is a true showstopper!",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/1514.png",
@@ -5970,7 +5979,8 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     ],
   },
   Ray: {
-    description: "The underwater glider, a serene winged beauty through the waves.",
+    description:
+      "The underwater glider, a serene winged beauty through the waves.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/1515.png",
@@ -5980,7 +5990,8 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     ],
   },
   "Hammerhead shark": {
-    description: "Meet the shark with a head for business, and a body for adventure!",
+    description:
+      "Meet the shark with a head for business, and a body for adventure!",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/1516.png",
@@ -5990,7 +6001,8 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     ],
   },
   Tuna: {
-    description: "The ocean's muscle-bound sprinter, ready for a fin-tastic race!",
+    description:
+      "The ocean's muscle-bound sprinter, ready for a fin-tastic race!",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/1517.png",
@@ -6000,7 +6012,8 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     ],
   },
   "Mahi Mahi": {
-    description: "A fish that believes in living life colorfully with fins of gold.",
+    description:
+      "A fish that believes in living life colorfully with fins of gold.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/1518.png",
@@ -6010,7 +6023,8 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     ],
   },
   "Blue Marlin": {
-    description: "An oceanic legend, the marlin with an attitude as deep as the sea.",
+    description:
+      "An oceanic legend, the marlin with an attitude as deep as the sea.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/1519.png",
@@ -6030,7 +6044,8 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     ],
   },
   "Football fish": {
-    description: "The MVP of the deep, a bioluminescent star that's ready to play!",
+    description:
+      "The MVP of the deep, a bioluminescent star that's ready to play!",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/1521.png",
@@ -6040,7 +6055,8 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     ],
   },
   Sunfish: {
-    description: "The ocean's sunbather, basking in the spotlight with fins held high.",
+    description:
+      "The ocean's sunbather, basking in the spotlight with fins held high.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/1522.png",
@@ -6050,7 +6066,8 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     ],
   },
   Coelacanth: {
-    description: "A prehistoric relic, with a taste for the past and the present.",
+    description:
+      "A prehistoric relic, with a taste for the past and the present.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/1523.png",
@@ -6060,7 +6077,8 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     ],
   },
   "Whale Shark": {
-    description: "The gentle giant of the deep, sifting treasures from the ocean's buffet.",
+    description:
+      "The gentle giant of the deep, sifting treasures from the ocean's buffet.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/1524.png",
@@ -6070,7 +6088,8 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     ],
   },
   "Barred Knifejaw": {
-    description: "An oceanic outlaw with black-and-white stripes and a heart of gold.",
+    description:
+      "An oceanic outlaw with black-and-white stripes and a heart of gold.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/1525.png",
@@ -6080,7 +6099,8 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     ],
   },
   "Saw Shark": {
-    description: "With a saw-like snout, it's the ocean's carpenter, always cutting edge!",
+    description:
+      "With a saw-like snout, it's the ocean's carpenter, always cutting edge!",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/1526.png",
@@ -6090,7 +6110,8 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     ],
   },
   "White Shark": {
-    description: "The shark with a killer smile, ruling the seas with fin-tensity!",
+    description:
+      "The shark with a killer smile, ruling the seas with fin-tensity!",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/1527.png",
@@ -6100,7 +6121,8 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     ],
   },
   "Twilight Anglerfish": {
-    description: "A deep-sea angler with a built-in nightlight, guiding its way through darkness.",
+    description:
+      "A deep-sea angler with a built-in nightlight, guiding its way through darkness.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/1528.png",
@@ -6110,7 +6132,8 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     ],
   },
   "Starlight Tuna": {
-    description: "A tuna that outshines the stars, ready to light up your collection.",
+    description:
+      "A tuna that outshines the stars, ready to light up your collection.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/1529.png",
@@ -6120,7 +6143,8 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     ],
   },
   "Radiant Ray": {
-    description: "A ray that prefers to glow in the dark, with a shimmering secret to share.",
+    description:
+      "A ray that prefers to glow in the dark, with a shimmering secret to share.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/1530.png",
@@ -6136,7 +6160,8 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     ],
   },
   "Phantom Barracuda": {
-    description: "An elusive and ghostly fish of the deep, hiding in the shadows.",
+    description:
+      "An elusive and ghostly fish of the deep, hiding in the shadows.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/1531.png",
@@ -6146,7 +6171,8 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     ],
   },
   "Gilded Swordfish": {
-    description: "A swordfish with scales that sparkle like gold, the ultimate catch!",
+    description:
+      "A swordfish with scales that sparkle like gold, the ultimate catch!",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/1532.png",
@@ -6620,7 +6646,8 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     ],
   },
   Angelfish: {
-    description: "The aquatic celestial beauty, adorned in a palette of vibrant hues.",
+    description:
+      "The aquatic celestial beauty, adorned in a palette of vibrant hues.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/1534.png",
@@ -6631,7 +6658,8 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
   },
 
   Parrotfish: {
-    description: "A kaleidoscope of colors beneath the waves, this fish is nature's living artwork.",
+    description:
+      "A kaleidoscope of colors beneath the waves, this fish is nature's living artwork.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/1536.png",
@@ -6641,7 +6669,8 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     ],
   },
   Halibut: {
-    description: "The flat ocean floor dweller, a master of disguise in sandy camouflage.",
+    description:
+      "The flat ocean floor dweller, a master of disguise in sandy camouflage.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/1535.png",
