@@ -27,6 +27,7 @@ import { getKeys } from "features/game/types/decorations";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { formatNumber } from "lib/utils/formatNumber";
 import token from "assets/icons/sfl.webp";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 
 const MAX_NON_VIP_PURCHASES = 3;
 
@@ -194,9 +195,15 @@ const ListView: React.FC<ListViewProps> = ({
 
   if (listings.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center h-full w-full">
-        <div className="flex flex-col items-center justify-center pb-4">
-          <img src={SUNNYSIDE.icons.search} className="w-16 mx-auto my-2" />
+      <div className="flex flex-col items-center justify-center w-full">
+        <div className="flex flex-col items-center justify-center pb-2">
+          <img
+            src={SUNNYSIDE.icons.search}
+            className="mx-auto my-2"
+            style={{
+              width: `${PIXEL_SCALE * 13}px`,
+            }}
+          />
           <p className="text-sm">{t("trading.no.listings")}</p>
         </div>
       </div>

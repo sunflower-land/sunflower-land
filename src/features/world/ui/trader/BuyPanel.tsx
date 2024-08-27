@@ -70,7 +70,6 @@ export const BuyPanel: React.FC<
   const dailyPurchases = state.trades.dailyPurchases ?? { count: 0, date: 0 };
   const remainingFreePurchases = getRemainingFreePurchases(dailyPurchases);
   const hasPurchasesRemaining = isVIP || remainingFreePurchases > 0;
-  // console.log(`${selected} asdfasd`);
 
   const onSearch = async (resource: Partial<InventoryItemName>) => {
     setSelected(resource);
@@ -246,8 +245,8 @@ const ListView: React.FC<ListViewProps> = ({
 
   if (listings.length === 0) {
     return (
-      <div>
-        <div className="flex items-center">
+      <div className="flex flex-col items-center w-full">
+        <div className="flex items-center w-full">
           <img
             src={SUNNYSIDE.icons.arrow_left}
             className="self-start cursor-pointer mr-3"
@@ -263,8 +262,14 @@ const ListView: React.FC<ListViewProps> = ({
             {selected}
           </Label>
         </div>
-        <div className="flex flex-col items-center justify-center pb-4">
-          <img src={SUNNYSIDE.icons.search} className="w-16 mx-auto my-2" />
+        <div className="flex flex-col items-center justify-center pb-2">
+          <img
+            src={SUNNYSIDE.icons.search}
+            className="mx-auto my-2"
+            style={{
+              width: `${PIXEL_SCALE * 13}px`,
+            }}
+          />
           <p className="text-sm">{t("trading.no.listings")}</p>
         </div>
       </div>

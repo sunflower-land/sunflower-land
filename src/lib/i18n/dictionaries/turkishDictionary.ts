@@ -1242,6 +1242,7 @@ const bumpkinTrade: Record<BumpkinTrade, string> = {
   "bumpkinTrade.sellConfirmation":
     ENGLISH_TERMS["bumpkinTrade.sellConfirmation"],
   "bumpkinTrade.cant.sell.all": ENGLISH_TERMS["bumpkinTrade.cant.sell.all"],
+  "bumpkinTrade.listed": ENGLISH_TERMS["bumpkinTrade.listed"],
 };
 
 const goblinTrade: Record<GoblinTrade, string> = {
