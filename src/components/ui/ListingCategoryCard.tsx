@@ -12,6 +12,7 @@ import decrease_arrow from "assets/icons/decrease_arrow.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { SquareIcon } from "./SquareIcon";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { useSound } from "lib/utils/hooks/useSound";
 
 interface Props {
   itemName: InventoryItemName;
@@ -36,6 +37,13 @@ export const ListingCategoryCard: React.FC<Props> = ({
 }) => {
   const { t } = useAppTranslation();
 
+  const button = useSound("button");
+
+  const onClickWithSound = () => {
+    button.play();
+    onClick?.();
+  };
+
   return (
     <OuterPanel
       className={classNames(
@@ -55,7 +63,7 @@ export const ListingCategoryCard: React.FC<Props> = ({
         borderRadius: `${PIXEL_SCALE * 5}px`,
         color: "#674544",
       }}
-      onClick={onClick}
+      onClick={onClickWithSound}
     >
       {inventoryAmount && (
         <Label
