@@ -31,6 +31,7 @@ import {
   EMBLEM_TRADE_MINIMUMS,
   EMBLEM_TRADE_LIMITS,
 } from "features/game/actions/tradeLimits";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 
 const MAX_NON_VIP_LISTINGS = 1;
 const MAX_SFL = 150;
@@ -485,7 +486,9 @@ export const Trade: React.FC<{
         <div className="p-1 flex flex-col items-center">
           <img
             src={tradeIcon}
-            className="w-1/5 mx-auto my-2 img-highlight-heavy"
+            style={{
+              width: `${PIXEL_SCALE * 17}px`,
+            }}
           />
           <p className="text-sm">{t("bumpkinTrade.noTradeListed")}</p>
         </div>
