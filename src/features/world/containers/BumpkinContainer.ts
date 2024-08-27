@@ -17,7 +17,7 @@ const NAME_ALIASES: Partial<Record<NPCName, string>> = {
   "pumpkin' pete": "pete",
   "hammerin harry": "auctioneer",
 };
-const NPCS_WITH_ALERTS: Partial<Record<NPCName, boolean>> = {
+export const NPCS_WITH_ALERTS: Partial<Record<NPCName, boolean>> = {
   "pumpkin' pete": true,
   hank: true,
   santa: true,
