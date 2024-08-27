@@ -78,7 +78,7 @@ export const BuyPanel: React.FC<
   };
 
   return (
-    <div className="flex flex-col max-h-[400px] divide-brown-600">
+    <div className="flex flex-col divide-brown-600">
       <div className="pl-2 pt-2 space-y-1 sm:space-y-0 sm:flex items-center justify-between ml-1.5">
         <VIPAccess
           isVIP={isVIP}
@@ -100,8 +100,8 @@ export const BuyPanel: React.FC<
           </Label>
         )}
       </div>
-      <div className="flex flex-col items-start justify-between">
-        <div className="flex overflow-y-auto relative w-full scrollable">
+      <div className="flex flex-col items-start justify-between mt-1">
+        <div className="flex overflow-y-auto relative w-full max-h-[400px] scrollable">
           {view === "search" && (
             <SearchView
               floorPrices={floorPrices}
@@ -125,13 +125,13 @@ interface SearchViewProps extends Props {
   onSearch: (name: InventoryItemName) => void;
 }
 const SearchView: React.FC<SearchViewProps> = ({ floorPrices, onSearch }) => {
-  // if (Object.keys(floorPrices).length === 0) {
-  //   return <Loading />;
-  // }
+  if (Object.keys(floorPrices).length === 0) {
+    return <Loading />;
+  }
 
   return (
     <div className="p-2">
-      <div className="flex flex-wrap mt-2">
+      <div className="flex flex-wrap">
         {getKeys(TRADE_LIMITS).map((name) => (
           <div
             key={name}
@@ -180,6 +180,8 @@ const ListView: React.FC<ListViewProps> = ({
   const inventory = state.inventory;
 
   useEffect(() => {
+    if (!selected || fulfillListing) return;
+
     const load = async () => {
       setLoading(true);
       try {
@@ -194,13 +196,23 @@ const ListView: React.FC<ListViewProps> = ({
       }
       setLoading(false);
     };
+
     load();
+
     const interval = setInterval(load, THIRTY_SECONDS);
+
     return () => {
       clearInterval(interval);
       setUpdatedAt(undefined);
     };
-  }, [THIRTY_SECONDS, authState.context.user.rawToken, selected, setUpdatedAt]);
+  }, [
+    THIRTY_SECONDS,
+    authState.context.user.rawToken,
+    selected,
+    setUpdatedAt,
+    fulfillListing,
+  ]);
+
   const onConfirm = async (listing: Listing) => {
     setfulfillListing(true);
     gameService.send("FULFILL_TRADE_LISTING", {
@@ -209,6 +221,7 @@ const ListView: React.FC<ListViewProps> = ({
       listingType: makeListingType(listing.items),
     });
   };
+
   const confirm = (listing: Listing) => {
     const updatedInventory = getKeys(listing.items).reduce(
       (acc, name) => ({
@@ -342,7 +355,7 @@ const ListView: React.FC<ListViewProps> = ({
                 <div className="ml-1">
                   <div className="flex items-center mb-1">
                     <img src={token} className="h-6 mr-1" />
-                    <p className="text-xs">{`${selectedListing.sfl} SFL`}</p>
+                    <p className="text-xs">{`${formatNumber(selectedListing.sfl, { decimalPlaces: 4 })} SFL`}</p>
                   </div>
                   <p className="text-xxs">
                     {t("bumpkinTrade.price/unit", {
@@ -421,7 +434,7 @@ const ListView: React.FC<ListViewProps> = ({
                     <div className="ml-1">
                       <div className="flex items-center mb-1">
                         <img src={token} className="h-6 mr-1" />
-                        <p className="text-xs">{`${listing.sfl} SFL`}</p>
+                        <p className="text-xs">{`${formatNumber(listing.sfl, { decimalPlaces: 4 })} SFL`}</p>
                       </div>
                       <p className="text-xxs">
                         {t("bumpkinTrade.price/unit", {

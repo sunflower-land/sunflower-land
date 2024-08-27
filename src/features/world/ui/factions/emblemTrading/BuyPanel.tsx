@@ -62,7 +62,7 @@ export const BuyPanel: React.FC<{
   const hasPurchasesRemaining = isVIP || remainingFreePurchases > 0;
 
   return (
-    <div className="flex flex-col max-h-[400px] divide-brown-600">
+    <div className="flex flex-col divide-brown-600">
       <div className="pl-2 pt-2 space-y-1 sm:space-y-0 sm:flex items-center justify-between ml-1.5">
         <VIPAccess
           isVIP={isVIP}
@@ -85,8 +85,8 @@ export const BuyPanel: React.FC<{
           </Label>
         )}
       </div>
-      <div className="flex flex-col items-start justify-between">
-        <div className="flex overflow-y-auto relative w-full mt-4">
+      <div className="flex flex-col items-start justify-between mt-1">
+        <div className="flex overflow-y-auto relative w-full max-h-[400px] scrollable">
           <ListView
             emblem={emblem}
             hasPurchasesRemaining={hasPurchasesRemaining}
@@ -127,6 +127,8 @@ const ListView: React.FC<ListViewProps> = ({
   const THIRTY_SECONDS = 1000 * 30;
 
   useEffect(() => {
+    if (fulfillListing) return;
+
     const load = async () => {
       setLoading(true);
       try {
@@ -141,13 +143,22 @@ const ListView: React.FC<ListViewProps> = ({
       }
       setLoading(false);
     };
+
     load();
+
     const interval = setInterval(load, THIRTY_SECONDS);
+
     return () => {
       clearInterval(interval);
       setUpdatedAt(undefined);
     };
-  }, [THIRTY_SECONDS, authState.context.user.rawToken, emblem, setUpdatedAt]);
+  }, [
+    THIRTY_SECONDS,
+    authState.context.user.rawToken,
+    emblem,
+    setUpdatedAt,
+    fulfillListing,
+  ]);
 
   const onConfirm = async (listing: Listing) => {
     setfulfillListing(true);
@@ -276,7 +287,7 @@ const ListView: React.FC<ListViewProps> = ({
                 <div className="ml-1">
                   <div className="flex items-center mb-1">
                     <img src={token} className="h-6 mr-1" />
-                    <p className="text-xs">{`${selectedListing.sfl} SFL`}</p>
+                    <p className="text-xs">{`${formatNumber(selectedListing.sfl, { decimalPlaces: 4 })} SFL`}</p>
                   </div>
                   <p className="text-xxs">
                     {t("bumpkinTrade.price/unit", {
@@ -344,7 +355,7 @@ const ListView: React.FC<ListViewProps> = ({
                     <div className="ml-1">
                       <div className="flex items-center mb-1">
                         <img src={token} className="h-6 mr-1" />
-                        <p className="text-xs">{`${listing.sfl} SFL`}</p>
+                        <p className="text-xs">{`${formatNumber(listing.sfl, { decimalPlaces: 4 })} SFL`}</p>
                       </div>
                       <p className="text-xxs">
                         {t("bumpkinTrade.price/unit", {
