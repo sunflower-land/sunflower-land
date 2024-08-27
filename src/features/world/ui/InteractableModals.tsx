@@ -34,6 +34,7 @@ import { Champions } from "./factions/Champions";
 import { KingdomNoticeboard } from "./kingdom/KingdomNoticeboard";
 import { FactionNoticeboard } from "./factions/FactionNoticeboard";
 import { CropsAndChickens } from "./portals/CropsAndChickens";
+import { FruitDash } from "./portals/FruitDash";
 import { DesertNoticeboard } from "./beach/DesertNoticeboard";
 import { PirateChestModal } from "./chests/PirateChest";
 import { ExampleDonations } from "./donations/ExampleDonations";
@@ -106,6 +107,7 @@ type InteractableName =
   | "sunflorians_faction"
   | "chicken_rescue"
   | "crops_and_chickens"
+  | "fruit_dash"
   | "festival_of_colors"
   // to replace pledge factions
   | "join_goblins"
@@ -460,6 +462,15 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
           bumpkinParts={NPC_WEARABLES["cluck e cheese"]}
         >
           <CropsAndChickens onClose={closeModal} />
+        </CloseButtonPanel>
+      </Modal>
+
+      <Modal show={interactable === "fruit_dash"} onHide={closeModal}>
+        <CloseButtonPanel
+          onClose={closeModal}
+          bumpkinParts={NPC_WEARABLES["miranda"]}
+        >
+          <FruitDash onClose={closeModal} />
         </CloseButtonPanel>
       </Modal>
 
