@@ -6490,7 +6490,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     description: "A ruling chicken, +1 Dig.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "../public/erc1155/images/2116.gif",
+    image: "../public/erc1155/images/2116.png",
     attributes: [
       { trait_type: "Boost", value: "Treasure" },
       {
