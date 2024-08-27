@@ -14047,7 +14047,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
   },
   "Bumpkin Crown": {
     description:
-      "A magestic crown with intricate design and eerie glowing games, fit for a Bumpkin Leader. Earn 25% more in SFL and Coin deliveries. Earn 25% more in SFL and Coin deliveries, and Earn +10% marks when pledged to this faction. Multiples of this item do not stack.",
+      "A magestic crown with intricate design and eerie glowing games, fit for a Bumpkin Leader. Earn 25% more in SFL and Coin deliveries, and Earn +10% marks when pledged to this faction. Multiples of this item do not stack.",
     decimals: 0,
     attributes: [
       { trait_type: "Part", value: "Hat" },
@@ -14075,7 +14075,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
   },
   "Goblin Crown": {
     description:
-      "A dark, jagged crown with glowing gems, ideal for the Goblin King. Earn 25% more in SFL and Coin deliveries. Earn 25% more in SFL and Coin deliveries, and Earn +10% marks when pledged to this faction. Multiples of this item do not stack.",
+      "A dark, jagged crown with glowing gems, ideal for the Goblin King. Earn 25% more in SFL and Coin deliveries, and Earn +10% marks when pledged to this faction. Multiples of this item do not stack.",
     decimals: 0,
     attributes: [
       { trait_type: "Part", value: "Hat" },

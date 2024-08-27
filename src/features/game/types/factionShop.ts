@@ -269,7 +269,7 @@ const BUMPKIN_FACTION_ITEMS: Record<
     limit: null,
     currency: "Mark",
     shortDescription:
-      "A magestic crown with intricate design and eerie glowing games, fit for a Bumpkin Leader. Earn 25% more in SFL and Coin deliveries. Earn 25% more in SFL and Coin deliveries, and Earn +10% marks when pledged to this faction. Multiples of this item do not stack.",
+      "A magestic crown with intricate design and eerie glowing games, fit for a Bumpkin Leader. Earn 25% more in SFL and Coin deliveries, and Earn +10% marks when pledged to this faction. Multiples of this item do not stack.",
     type: "wearable",
     faction: "bumpkins",
   },
@@ -437,7 +437,7 @@ const GOBLIN_FACTION_ITEMS: Record<
     limit: null,
     currency: "Mark",
     shortDescription:
-      "A dark, jagged crown with glowing gems, ideal for the Goblin King. Earn 25% more in SFL and Coin deliveries. Earn 25% more in SFL and Coin deliveries, and Earn +10% marks when pledged to this faction. Multiples of this item do not stack.",
+      "A dark, jagged crown with glowing gems, ideal for the Goblin King. Earn 25% more in SFL and Coin deliveries, and Earn +10% marks when pledged to this faction. Multiples of this item do not stack.",
     type: "wearable",
     faction: "goblins",
   },
