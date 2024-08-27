@@ -956,7 +956,6 @@ export function startGame(authContext: AuthContext) {
                   if (!context.farmAddress) return;
 
                   const sessionID = await getSessionId(
-                    wallet.web3Provider,
                     context.farmId as number,
                   );
 
@@ -1769,8 +1768,7 @@ export function startGame(authContext: AuthContext) {
               } = event as DepositEvent;
 
               await depositToFarm({
-                web3: wallet.web3Provider,
-                account: wallet.myAccount,
+                account: wallet.getAccount(),
                 farmId: context.nftId as number,
                 sfl: sfl,
                 itemIds: itemIds,

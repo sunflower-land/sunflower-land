@@ -8,7 +8,7 @@ const budsDepositAddress = CONFIG.BUD_DEPOSIT_CONTRACT;
 export interface DepositArgs {
   account: `0x${string}`;
   farmId: number;
-  sfl: `0x${string}`;
+  sfl: string;
   itemIds: number[];
   itemAmounts: string[];
   wearableIds: number[];
@@ -33,7 +33,7 @@ export async function depositToFarm({
     account,
     args: [
       BigInt(farmId),
-      sfl,
+      BingInt(sfl),
       itemIds.map(BigInt),
       itemAmounts.map(BigInt),
       wearableIds.map(BigInt),
