@@ -19,15 +19,12 @@ import { BumpkinItem } from "features/game/types/bumpkin";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { capitalize } from "lib/utils/capitalize";
-import {
-  FactionShopWearable,
-  FactionShopCollectible,
-  FactionShopFood,
-} from "features/game/types/factionShop";
+
 import { isWearableActive } from "features/game/lib/wearables";
+import { FactionShopItem } from "features/game/types/factionShop";
 
 interface ItemOverlayProps {
-  item: FactionShopWearable | FactionShopCollectible | FactionShopFood | null;
+  item: FactionShopItem | null;
   image: string;
   isWearable: boolean;
   buff?: BuffLabel;
@@ -83,9 +80,7 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
     imgElement.src = image;
   }, []);
 
-  const getBalanceOfItem = (
-    item: FactionShopWearable | FactionShopCollectible | FactionShopFood | null,
-  ): number => {
+  const getBalanceOfItem = (item: FactionShopItem | null): number => {
     if (!item) return 0;
 
     if (item.type === "wearable") {

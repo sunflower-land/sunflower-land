@@ -1,5 +1,5 @@
 import Decimal from "decimal.js-light";
-import { FactionName, ShopItemBase } from "./game";
+import { FactionName, Keys, ShopItemBase } from "./game";
 import { translate } from "lib/i18n/translate";
 import { HourglassType } from "features/island/collectibles/components/Hourglass";
 
@@ -123,15 +123,21 @@ export type FactionShopFood = {
   name: FactionShopFoodName;
 } & FactionItemBase;
 
+export type FactionShopKeys = {
+  name: Keys;
+} & FactionItemBase;
+
 export type FactionShopItemName =
   | FactionShopWearableName
   | FactionShopCollectibleName
-  | FactionShopFoodName;
+  | FactionShopFoodName
+  | Keys;
 
 export type FactionShopItem =
   | FactionShopWearable
   | FactionShopCollectible
-  | FactionShopFood;
+  | FactionShopFood
+  | FactionShopKeys;
 
 const BUMPKIN_FACTION_ITEMS: Record<
   BumpkinFactionCollectibleName | BumpkinFactionWearableName,
@@ -816,6 +822,33 @@ const NIGHTSHADE_FACTION_ITEMS: Record<
   },
 };
 
+export const FACTION_SHOP_KEYS: Record<Keys, FactionShopKeys> = {
+  "Treasure Key": {
+    name: "Treasure Key",
+    price: new Decimal(500),
+    limit: null,
+    currency: "Mark",
+    shortDescription: translate("description.treasure.key"),
+    type: "keys",
+  },
+  "Rare Key": {
+    name: "Rare Key",
+    price: new Decimal(1500),
+    limit: null,
+    currency: "Mark",
+    shortDescription: translate("description.rare.key"),
+    type: "keys",
+  },
+  "Luxury Key": {
+    name: "Luxury Key",
+    price: new Decimal(5000),
+    limit: null,
+    currency: "Mark",
+    shortDescription: translate("description.luxury.key"),
+    type: "keys",
+  },
+};
+
 export const FACTION_SHOP_ITEMS: Record<FactionShopItemName, FactionShopItem> =
   {
     "Golden Faction Goblet": {
@@ -936,4 +969,5 @@ export const FACTION_SHOP_ITEMS: Record<FactionShopItemName, FactionShopItem> =
     ...GOBLIN_FACTION_ITEMS,
     ...SUNFLORIAN_FACTION_ITEMS,
     ...NIGHTSHADE_FACTION_ITEMS,
+    ...FACTION_SHOP_KEYS,
   };
