@@ -276,7 +276,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   gotIt: "Понятно",
   "grant.wish": "Исполнить желание",
   greenhouse: "Теплица",
-  growing: "Растет",
+  growing: "растет",
   guide: "Гайд",
   honey: "Мед",
   "hungry?": "Голоден?",
@@ -340,8 +340,8 @@ const generalTerms: Record<GeneralTerms, string> = {
   refresh: "Обновить",
   refreshing: "Обновляем",
   remaining: "осталось",
-  "remaining.free.listings": "Осталось {{listingsRemaining}} листингов",
-  "remaining.free.listing": "Остался 1 листинг",
+  "remaining.free.listings": "Осталось {{listingsRemaining}} продаж",
+  "remaining.free.listing": "Осталась 1 продажа",
   "remaining.free.purchases": "Осталось {{purchasesRemaining}} покупок",
   "remaining.free.purchase": "Осталась 1 покупка",
   remove: "Удалить",
@@ -351,6 +351,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   requires: "Требуется",
   requirements: "Требования",
   resources: "Ресурсы",
+  "resource.nodes": "Ноды ресурсов",
   restock: "Пополнить запасы",
   retry: "Попробовать снова",
   reward: "Награда",
@@ -443,7 +444,6 @@ const generalTerms: Record<GeneralTerms, string> = {
   vipAccess: "VIP-доступ",
   bought: "Купил",
   "sell.amount": "Продать {{amount}}",
-  "resource.nodes": ENGLISH_TERMS["resource.nodes"],
 };
 
 const timeUnits: Record<TimeUnits, string> = {
@@ -779,7 +779,7 @@ const boostDescriptions: Record<BoostDescriptions, string> = {
   "description.stellar.sunflower":
     "Звездный! Дает 3% шанс на получение +10 sunflowers при сборе.",
   "description.lady.bug":
-    "Потрясающая букашка, которая питается тлями. Улучшает качество яблок.",
+    "Потрясающая букашка, которая питается тлей. Улучшает качество яблок.",
   "description.squirrel.monkey":
     "Естественный оранжевый хищник. Апельсиновые деревья пугаются, когда Squirrel Monkey рядом с ними.",
   "description.black.bearry":
@@ -800,11 +800,11 @@ const boostDescriptions: Record<BoostDescriptions, string> = {
   "description.genie.lamp":
     "Волшебная лампа, в которой живет джин, исполняющий три твоих желания.",
   "description.basic.scarecrow":
-    "Бустит находящиеся рядом Sunflowers, Potatoes и Pumpkins.",
+    "Увеличивает урожай находящихся рядом Sunflowers, Potatoes и Pumpkins.",
   "description.scary.mike":
-    "Бустит находящиеся рядом Carrots, Cabbages, Soybeans, Beetroots, Cauliflowers и Parsnips",
+    "Увеличивает урожай находящихся рядом Carrots, Cabbages, Soybeans, Beetroots, Cauliflowers и Parsnips",
   "description.laurie.chuckle.crow":
-    "Бустит находящиеся рядом Eggplant, Corn, Radish, Wheat и Kale",
+    "Увеличивает урожай находящихся рядом Eggplant, Corn, Radish, Wheat и Kale",
   "description.immortal.pear": "Увеличивает время жизни фруктовых лунок.",
   "description.bale": "Бустит находящихся рядом кур.",
   "description.sir.goldensnout":
@@ -1055,7 +1055,7 @@ const bumpkinItemBuff: Record<BumpkinItemBuff, string> = {
   "bumpkinItemBuff.bucket.o.worms.boost": "+1 Червь",
   "bumpkinItemBuff.luminous.anglerfish.topper.boost": "+50% опыта с рыбы",
   "bumpkinItemBuff.angler.waders.boost": "+10 к лимиту рыбалки",
-  "bumpkinItemBuff.ancient.rod.boost": "Ловля без rod",
+  "bumpkinItemBuff.ancient.rod.boost": "Ловля без удочки",
   "bumpkinItemBuff.banana.amulet.boost": "+0.5 Bananas",
   "bumpkinItemBuff.banana.boost": "-20% времени роста Banana",
   "bumpkinItemBuff.deep.sea.helm": "3x шанс на Marine Marvels",
@@ -1086,55 +1086,57 @@ const bumpkinItemBuff: Record<BumpkinItemBuff, string> = {
   "bumpkinItemBuff.bumpkin.sword": "+10% Marks",
   "bumpkinItemBuff.bumpkin.pants": "+5% Marks",
   "bumpkinItemBuff.bumpkin.sabatons": "+5% Marks",
-  "bumpkinItemBuff.crab.trap": "+1 Crab when digging or drilling",
-  "bumpkinItemBuff.bionic.drill": "+5 Desert Digs",
-  "bumpkinItemBuff.infernal.drill.boost": "Drill Oil without Oil Drill",
+  "bumpkinItemBuff.crab.trap": "+1 Crab при поиске сокровищ",
+  "bumpkinItemBuff.bionic.drill": "+5 копок",
+  "bumpkinItemBuff.infernal.drill.boost":
+    "Добыча нефти без использования Oil Drill",
   "bumpkinItemBuff.lemon.shield.boost": "+1 Lemon",
-  "bumpkinItemBuff.dev.wrench.boost": "-50% Oil Regeneration Time",
+  "bumpkinItemBuff.dev.wrench.boost": "-50% времени добычи нефти",
   "bumpkinItemBuff.oil.overalls.boost": "+10 Oil",
-  "bumpkinItemBuff.ancient.shovel.boost": "Dig treasure without Sand Shovel",
+  "bumpkinItemBuff.ancient.shovel.boost":
+    "Поиск сокровищ без использования Sand Shovel",
   "bumpkinItemBuff.grape.pants": "+0.2 Grapes",
   "bumpkinItemBuff.pirate.potion": "Открывает пиратский сундук",
   "bumpkinItemBuff.bumpkin.crown.boost":
-    "+25% SFL & Coin Deliveries, +10% Marks",
+    "+25% SFL & Coin за доставки, +10% Marks",
   "bumpkinItemBuff.goblin.crown.boost":
-    "+25% SFL & Coin Deliveries, +10% Marks",
+    "+25% SFL & Coin за доставки, +10% Marks",
   "bumpkinItemBuff.nightshade.crown.boost":
-    "+25% SFL & Coin Deliveries, +10% Marks",
+    "+25% SFL & Coin за доставки, +10% Marks",
   "bumpkinItemBuff.sunflorian.crown.boost":
-    "+25% SFL & Coin Deliveries, +10% Marks",
-  "bumpkinItemBuff.bumpkin.shield.boost": "+0.25 Wood & Minerals",
-  "bumpkinItemBuff.goblin.shield.boost": "+0.25 Wood & Minerals",
-  "bumpkinItemBuff.nightshade.shield.boost": "+0.25 Wood & Minerals",
-  "bumpkinItemBuff.sunflorian.shield.boost": "+0.25 Wood & Minerals",
-  "bumpkinItemBuff.bumpkin.quiver.boost": "+0.25 Crops & Fruits",
-  "bumpkinItemBuff.goblin.quiver.boost": "+0.25 Crops & Fruits",
-  "bumpkinItemBuff.nightshade.quiver.boost": "+0.25 Crops & Fruits",
-  "bumpkinItemBuff.sunflorian.quiver.boost": "+0.25 Crops & Fruits",
-  "bumpkinItemBuff.bumpkin.medallion.boost": "-25% Cooking Time",
-  "bumpkinItemBuff.goblin.medallion.boost": "-25% Cooking Time",
-  "bumpkinItemBuff.nightshade.medallion.boost": "-25% Cooking Time",
-  "bumpkinItemBuff.sunflorian.medallion.boost": "-25% Cooking Time",
+    "+25% SFL & Coin за доставки, +10% Marks",
+  "bumpkinItemBuff.bumpkin.shield.boost": "+0.25 дерева и минералов",
+  "bumpkinItemBuff.goblin.shield.boost": "+0.25 дерева и минералов",
+  "bumpkinItemBuff.nightshade.shield.boost": "+0.25 дерева и минералов",
+  "bumpkinItemBuff.sunflorian.shield.boost": "+0.25 дерева и минералов",
+  "bumpkinItemBuff.bumpkin.quiver.boost": "+0.25 к урожаю овощей и фруктов",
+  "bumpkinItemBuff.goblin.quiver.boost": "+0.25 к урожаю овощей и фруктов",
+  "bumpkinItemBuff.nightshade.quiver.boost": "+0.25 к урожаю овощей и фруктов",
+  "bumpkinItemBuff.sunflorian.quiver.boost": "+0.25 к урожаю овощей и фруктов",
+  "bumpkinItemBuff.bumpkin.medallion.boost": "-25% к времени готовки",
+  "bumpkinItemBuff.goblin.medallion.boost": "-25% к времени готовки",
+  "bumpkinItemBuff.nightshade.medallion.boost": "-25% к времени готовки",
+  "bumpkinItemBuff.sunflorian.medallion.boost": "-25% к времени готовки",
 };
 
 const bumpkinPart: Record<BumpkinPart, string> = {
-  "equip.background": "Background",
-  "equip.hair": "Hair",
-  "equip.body": "Body",
-  "equip.shirt": "Shirt",
-  "equip.pants": "Pants",
-  "equip.shoes": "Shoes",
-  "equip.tool": "Tool",
-  "equip.necklace": "Necklace",
-  "equip.coat": "Coat",
-  "equip.hat": "Hat",
-  "equip.secondaryTool": "Secondary Tool",
-  "equip.onesie": "Onesie",
-  "equip.suit": "Suit",
-  "equip.wings": "Wings",
-  "equip.dress": "Dress",
-  "equip.beard": "Beard",
-  "equip.aura": "Aura",
+  "equip.background": "Фон",
+  "equip.hair": "Прическа",
+  "equip.body": "Туловище",
+  "equip.shirt": "Рубашка",
+  "equip.pants": "Штаны",
+  "equip.shoes": "Обувь",
+  "equip.tool": "Инструмент",
+  "equip.necklace": "Ожерелье",
+  "equip.coat": "Плащ",
+  "equip.hat": "Шапка",
+  "equip.secondaryTool": "Доп инструмент",
+  "equip.onesie": "Кигуруми",
+  "equip.suit": "Костюм",
+  "equip.wings": "Крылья",
+  "equip.dress": "Платье",
+  "equip.beard": "Борода",
+  "equip.aura": "Аура",
 };
 
 const bumpkinPartRequirements: Record<BumpkinPartRequirements, string> = {
@@ -1143,7 +1145,7 @@ const bumpkinPartRequirements: Record<BumpkinPartRequirements, string> = {
   "equip.missingShoes": "Требуется обувь",
   "equip.missingShirt": "Требуется рубашка",
   "equip.missingPants": "Требуются брюки",
-  "equip.missingBackground": "Требуется задний фон",
+  "equip.missingBackground": "Требуется фон",
 };
 
 const bumpkinSkillsDescription: Record<BumpkinSkillsDescription, string> = {
@@ -1154,15 +1156,15 @@ const bumpkinSkillsDescription: Record<BumpkinSkillsDescription, string> = {
   "description.golden.flowers": "Шанс на выпадение Gold с Sunflowers",
   "description.happy.crop": "Шанс получить двойной урожай",
   // Trees
-  "description.lumberjack": "С Trees падает на 10% больше",
-  "description.tree.hugger": "Trees вырастают на 20% быстрее",
-  "description.tough.tree": "Шанс получить 3x Wood",
+  "description.lumberjack": "На 10% больше дерева при рубке",
+  "description.tree.hugger": "Деревья вырастают на 20% быстрее",
+  "description.tough.tree": "Шанс получить 3x дерева",
   "description.money.tree": "Шанс на выпадение монет",
   // Rocks
-  "description.digger": "Падает на 10% больше Stone",
+  "description.digger": "На 10% больше камня при добыче",
   "description.coal.face": "Stones восстанавливаются на 20% быстрее",
   "description.seeker": "Привлечение каменных монстров",
-  "description.gold.rush": "Шанс получить 2.5x gold",
+  "description.gold.rush": "Шанс получить 2.5x золота",
   // Cooking
   "description.rush.hour": "Блюда готовятся на 10% быстрее",
   "description.kitchen.hand": "Блюда дают дополнительно 5% опыта",
@@ -1205,6 +1207,7 @@ const bumpkinTrade: Record<BumpkinTrade, string> = {
     "Продать {{quantity}} {{resource}} за {{price}} SFL?",
   "bumpkinTrade.cant.sell.all": "Нельзя продать все",
   "bumpkinTrade.price/unit": "{{price}}/шт",
+  "bumpkinTrade.listed": ENGLISH_TERMS["bumpkinTrade.listed"],
 };
 
 const goblinTrade: Record<GoblinTrade, string> = {
@@ -1250,31 +1253,29 @@ const chickenWinner: Record<ChickenWinner, string> = {
 const choresStart: Record<ChoresStart, string> = {
   "chores.harvestFields": "Собери урожай с грядок",
   "chores.harvestFieldsIntro":
-    "Эти грядки сами себя не вспашут. Собери 3 Sunflowers.",
+    "Эти грядки сами себя не вспашут. Собери 3 подсолнуха.",
   "chores.earnSflIntro":
     "Если ты хочешь добиться больших успехов в фермерских делах, то лучше начни с продажи sunflowers, покупки семян и получения прибыли.",
   "chores.reachLevel": "Прокачайся до 2 уровня",
   "chores.reachLevelIntro":
     "Если ты хочешь повысить уровень и открыть новые возможности, то тебе следует приготовить еду и заточить ее.",
-  "chores.chopTrees": "Срубить 3 Trees",
+  "chores.chopTrees": "Срубить 3 дерева",
   "chores.helpWithTrees":
     "Мои старые кости уже не такие как раньше, не поможешь ли ты мне срубить эти проклятые деревья? Наш местный кузнец поможет тебе смастерить немного инструментов.",
-  "chores.noChore":
-    "К сожалению, у меня сейчас нет списка дел, которые надо сделать.",
+  "chores.noChore": "К сожалению, у меня сейчас нет дел, которые надо сделать.",
   "chores.newSeason": "Приближается новый сезон, список дел временно закрыт.",
   "chores.choresFrozen": "Скоро появится новый сезонный список дел.",
-  "kingdomChores.preparing": "Секунду, думаю какие задание тебе еще дать.",
-  "kingdomChores.completed":
-    " Ого, похоже ты все уже сделал! Ну может позже еще появяться. ",
+  "kingdomChores.preparing": "Секунду, думаю, какие задание тебе еще дать.",
+  "kingdomChores.completed": " Ого! Похоже, ты уже все сделал! Заходи позже.",
   "kingdomChores.noChores":
-    "Уф, сейчас у меня нет для тебя заданий, но может позже еще появятся.",
+    "Ох, сейчас у меня нет для тебя заданий. Возможно, позже еще появятся.",
   "kingdomChores.noUpcoming": "Больше нет заданий",
   "kingdomChores.progress": "Прогресс: {{progress}}",
   "kingdomChores.nextSkip": "Следующий пропуск задания: {{skip}}",
   "kingdomChores.skipWarning":
-    "Ты можешь пропустить только одно задание в сутки",
+    "Ты можешь пропустить только одно задание в день",
   "kingdomChores.completeActive":
-    "Заверши активные задания чтобы получить доступ к следующим",
+    "Заверши активные задания, чтобы получить доступ к следующим",
   "kingdomChores.loading": "Ищем еще задания",
   "kingdomChores.reset": "Новые задания через: {{timeLeft}}",
 };
@@ -1329,7 +1330,7 @@ const chumDetails: Record<ChumDetails, string> = {
 
 const community: Record<Community, string> = {
   "community.toast": "Текст тоста пуст",
-  "community.url": "Введите URL-адрес вашего репозитория",
+  "community.url": "Введи URL-адрес своего репозитория",
   "comunity.Travel": "Отправиться на острова, построенные сообществом",
 };
 
@@ -1410,15 +1411,15 @@ const conversations: Record<Conversations, string> = {
   "betty.market-intro.one":
     "Отличные новости фермер, ты только что научился сажать растения",
   "betty.market-intro.two":
-    "Ты можешь собирать урожай и продавать его на рынке, чтобы развить свой остров.",
+    "Собирай урожай и продавай его на рынке, чтобы развить свой остров.",
   "betty.market-intro.three":
-    "You can harvest them and sell them at my market to earn coins and grow your farming empire",
+    "Собирай и продавай овощи на моем рынке, чтобы заработать монеты и развить свою фермерскую империю",
   "betty.market-intro.four":
     "Собери эти Sunflowers и начинай развивать свою фермерскую империю.",
   "firepit-intro.one": "На костре все вкуснее!!",
   "firepit-intro.two":
     "Если захочешь поднять уровень и выучить новые навыки, то собирай урожай и неси его мне. Я смогу приготовить пару сытных блюд для тебя. ",
-  "firepit.increasedXP": "Increased XP",
+  "firepit.increasedXP": "Получен опыт",
   "bruce-intro.headline": "Введение в кулинарию",
   "bruce-intro.one": "Я владелец этого маленького уютного бистро.",
   "bruce-intro.two":
@@ -1443,7 +1444,7 @@ const conversations: Record<Conversations, string> = {
   "pete.levelthree.one": "Поздравляю, твои навыки действительно хороши!",
   "pete.levelthree.two": "Похоже у тебя есть невыполненные доставки на Плазе.",
   "pete.levelthree.three":
-    "Посмотри свои доставки слева внизу экрана, как только ты соберешь необходимые ресурсы, ты сможешь их выполнить. .",
+    "Посмотри свои доставки слева внизу экрана, как только ты соберешь необходимые ресурсы, ты сможешь их выполнить.",
   "pete.levelthree.four":
     "Ты можешь путешествовать, нажав на значок мира в левом нижнем углу.",
   "pete.help.zero":
@@ -1453,21 +1454,20 @@ const conversations: Record<Conversations, string> = {
   "pete.pumpkinPlaza.two":
     "Здесь ты можешь выполнять доставки и получать за них награды, крафтить волшебные предметы и торговать с другими игроками.",
 
-  "richie.challenge": "Challenge",
-  "richie.rewarded": "Congratulations, you are one step closer!",
-  "richie.completed": "Completed",
+  "richie.challenge": "Испытание",
+  "richie.rewarded": "Поздравляю, ты на шаг ближе!",
+  "richie.completed": "Выполнено",
   "richie.completed.description":
-    "Well done Bumpkin, you have completed all of my challenges. Stay tuned for more rewards!",
-  "richie.rewards": "Rewards",
-  "richie.onboarding": "Do you have what it takes to complete my challenges?",
-  "richie.dailyChallenges": "Are you ready for my daily challenges?",
-  "richie.final": "Final challenge",
+    "Молодец бампкин, ты выполнил все мои испытания. Следи за новыми наградами!",
+  "richie.rewards": "Награды",
+  "richie.onboarding": "Думаешь сможешь пройти мои испытания?",
+  "richie.dailyChallenges": "Ты готов к моим ежедневным испытаниям?",
+  "richie.final": "Заключительное испытание",
   "richie.intro.one":
-    "Howdy there, Bumpkin! Are you ready to roll up your sleeves and explore the magical world of Sunflower Land?",
+    "Привет, бампкин! Ты готов закатать рукава и начать исследовать магический мир Sunflower Land?",
   "richie.intro.two":
-    "This game ain't just about planting seeds and waiting. Oh no! Here, you can earn rare Web3 collectibles & trade with thousands of players.",
-  "richie.intro.three":
-    "To get started, you will want to chop down those trees and expand your island.",
+    "Эта игра не только про посадку растений и ожидание их созревания. О нет! Здесь ты можешь заработать редкие web3 предметы и торговать с тысячами других игроков.",
+  "richie.intro.three": "Для начала сруби те три дерева и расширь свой остров.",
 
   "sunflowerLand.islandDescription":
     "Sunflower Land полон захватывающих островов, где ты можешь выполнять доставки, крафтить редкие NFTs и даже раскапывать сокровища!",
@@ -1719,8 +1719,8 @@ const decorationDescriptions: Record<DecorationDescriptions, string> = {
   "description.chessRug": "Шахматный коврик",
   "description.cluckapult": "Курапульта",
   "description.goldenGallant": "Золотой конь",
-  "description.goldenGarrison": "Золотой ладья",
-  "description.goldenGuardian": "Золотой пешка",
+  "description.goldenGarrison": "Золотая ладья",
+  "description.goldenGuardian": "Золотая пешка",
   "description.noviceKnight": "Новенький конь",
   "description.regularPawn": "Базовая пешка",
   "description.rookieRook": "Простая ладья",
@@ -1766,7 +1766,7 @@ const decorationDescriptions: Record<DecorationDescriptions, string> = {
   "description.nancy": "Отгоняет ворон. Растения растут на 15% быстрее",
   "description.scarecrow": "Пугало-гоблин. Урожай с растений увеличен на 20%",
   "description.kuebiko":
-    "Даже торговецы боится этого пугала. Семена теперь бесплатные",
+    "Даже торговцы боятся этого пугала. Семена теперь бесплатные",
   "description.golden.cauliflower": "Удваивает урожай с cauliflower",
   "description.mysterious.parsnip": "Parsnips растут на 50% быстрее",
   "description.carrot.sword": "Увеличивает шанс на появление растений-мутантов",
@@ -1779,7 +1779,7 @@ const decorationDescriptions: Record<DecorationDescriptions, string> = {
   "description.chicken": "Производит eggs. Нужна wheat для корма",
   "description.cow": "Производит milk. Нужна wheat для корма",
   "description.pig": "Производит manure. Нужна wheat для корма",
-  "description.sheep": "Produces wool. Нужна wheat для корма",
+  "description.sheep": "Производит wool. Нужна wheat для корма",
   "description.basic.land": "Базовая земля",
   "description.crop.plot": "Пустая грядка для выращивания растений",
   "description.gold.rock": "Горная порода пригодная для добычи gold",
@@ -1859,7 +1859,7 @@ const decorationDescriptions: Record<DecorationDescriptions, string> = {
     "Эта рыба, представляющая собой калейдоскоп цветов под волнами, является живым произведением искусства.",
   "description.Farmhand": "Полезный помощник",
   "description.Beehive":
-    "Шумный рой, производящий Honey из активно растущих цветов; 10% шанс при сборе Honey вызвать пчелиный рой, который опылит все посевы на +0.2 к урожаю!",
+    "Шумный рой, производящий Honey из активно растущих цветов; 10% шанс при сборе Honey вызвать пчелиный рой, который опылит все посевы и даст +0.2 к урожаю!",
   // Flowers
   "description.red.pansy": "Красная фиалка.",
   "description.yellow.pansy": "Желтая фиалка.",
@@ -2007,7 +2007,7 @@ const detail: Record<Detail, string> = {
   "detail.how.item": "Как получить этот предмет?",
   "detail.Claim.Reward": "Забрать награду",
   "detail.basket.empty": "Твоя корзина пуста!",
-  "detail.view.item": "Посмотреть предмет на",
+  "detail.view.item": "Посмотреть на",
 };
 
 const discordBonus: Record<DiscordBonus, string> = {
@@ -2041,7 +2041,7 @@ const donation: Record<Donation, string> = {
     "Украшения будут выданы после окончания сбора пожертвований..",
   "donation.specialEvent": "Благотворительное мероприятие",
   "donation.toPortal":
-    "Would you like to donate {{amount}} MATIC to {{portalName}}?",
+    "Ты собираешься пожертвовать {{amount}} MATIC разработчикам {{portalName}}?",
 };
 
 const draftBid: Record<DraftBid, string> = {
@@ -2056,44 +2056,44 @@ const errorAndAccess: Record<ErrorAndAccess, string> = {
     "Доступ открыт только для бета-тестеров",
   "errorAndAccess.denied.message": "У тебя пока что нет доступа к игре",
   "errorAndAccess.instructions.part1": "Убедись, что ты присоединился к ",
-  "errorAndAccess.sflDiscord": "Sunflower Land Discord",
+  "errorAndAccess.sflDiscord": "Sunflower Land Discord сервер",
   "errorAndAccess.instructions.part2":
     ", зайди в канал #verify и получи роль 'farmer'.",
   "error.cannotPlaceInside": "Нельзя разместить в помещении",
 };
 
 const errorTerms: Record<ErrorTerms, string> = {
-  "error.file": "Error File",
+  "error.file": "Файл с ошибкой",
   "error.betaTestersOnly": "Только для бета-тестеров!",
   "error.congestion.one":
-    "Мы стараемся изо всех сил, но, похоже, у Polygon большой трафик или вы потеряли соединение.",
+    "Мы стараемся изо всех сил, но, похоже, у Polygon большой трафик или ты потерял соединение.",
   "error.congestion.two":
     "Если эта ошибка повторяется, пожалуйста, попробуйте изменить свой Metamask RPC",
   "error.connection.one":
-    "It looks like we encountered a problem. Quite often this is just a simple connection issue. You can try again or reach out for help if the issue persists.",
-  "error.connection.two": "Get help",
+    "Похоже мы столкнулись с проблемой. Обычно это просто проблема с соединением. Попробуй снова или свяжись с нами, если проблема не уходит.",
+  "error.connection.two": "Получить помощь",
   "error.connection.three":
-    "Please provide the following information when you contact support:",
+    "Пожалуйста, передай следующую информацию службе поддержки:",
   "error.connection.four":
-    "Если проблема не устранена, вы можете обратиться за помощью в нашу службу поддержки, либо перейти в наш discord и спросить у нашего сообщества",
+    "Если проблема не устранена, ты можешь обратиться за помощью в нашу службу поддержки, либо перейти в наш discord и спросить у нашего сообщества",
   "error.diagnostic.info": "Диагностическая информация",
   "error.forbidden.goblinVillage": "Тебе нельзя тут быть!",
   "error.multipleDevices.one": "Открыто несколько устройств",
   "error.multipleDevices.two":
-    "Пожалуйста, закройте все другие вкладки в браузере или на устройствах, которые вы используете.",
+    "Пожалуйста, закройте все другие вкладки в браузере или на устройствах, которые ты используешь.",
   "error.multipleWallets.one": "Несколько кошельков",
   "error.multipleWallets.two":
-    "Похоже, что у вас установлено несколько кошельков. Это может привести к неожиданному поведению. Попробуйте отключить все кошельки, кроме одного.",
+    "Похоже, что у тебя установлено несколько кошельков. Это может привести к непредсказуемому поведению. Попробуй отключить все кошельки, кроме одного.",
   "error.polygonRPC":
-    "Пожалуйста, попробуйте еще раз или проверьте настройки вашего Polygon RPC.",
+    "Пожалуйста, попробуй еще раз или проверь настройки своего Polygon RPC.",
   "error.toManyRequest.one": "Слишков много запросов!",
   "error.toManyRequest.two":
     "Похоже, ты был занят! Пожалуйста, повтори попытку позже.",
-  "error.Web3NotFound": "Web3 Not Found",
+  "error.Web3NotFound": "Web3 не найден",
   "error.wentWrong": "Упс! Что-то пошло не так!",
-  "error.getHelp": "Get help",
-  "error.contactSupport": "Contact support",
-  "error.askOnDiscord": "Ask on discord",
+  "error.getHelp": "Получить помощь",
+  "error.contactSupport": "Связаться с поддержкой",
+  "error.askOnDiscord": "Спроси в discord’е",
   "error.tooManyFarms":
     "Притормози, бампкин! Похоже, что у тебя слишком много аккаунтов. Пожалуйста, повтори попытку позже.",
   "error.clock.not.synced": "Часы не синхронизированы",
@@ -2108,8 +2108,8 @@ const errorTerms: Record<ErrorTerms, string> = {
   "error.missingRod": "Отсутствует удочка",
   "error.missingBait": "Отсутствует наживка",
   "error.alreadyCasted": "Уже заброшена",
-  "error.unsupportedChum": "{{chum}} не поддерживаемая насадка",
-  "error.insufficientChum": "Недостаточно насадок",
+  "error.unsupportedChum": "{{chum}} не поддерживаемая наживка",
+  "error.insufficientChum": "Недостаточно наживок",
   "error.alr.composter": "Компостер уже полон",
   "error.no.alr.composter": "Компостер не готов к производству",
   "error.missing": "Отсутствуют требуемые материалы",
@@ -2260,18 +2260,14 @@ const factions: Record<Factions, string> = {
   "faction.kitchen.gatherResources":
     "Так много новобранцев… как же мне накормить их всех? Может, ты мне немного поможешь?",
   "faction.pet.gatherResources": "(урчит живот)...",
-  "faction.pet.contributingMember": "Contributing member",
+  "faction.pet.contributingMember": "Участник",
   "faction.kitchen.preparing":
     "Я как раз готовлю заказы, возвращайся через пару минут!",
   "faction.kitchen.newRequests": "Новые заказы: {{time}}",
-  "faction.openingSoon":
-    "Faction houses are opening on July 8th. Earn marks, compete for glory and claim rewards!",
   "faction.emblems": "Эмблемы",
   "faction.emblems.intro.one":
     "Ого, ты только посмотри на все эти эмблемы. Ты, похоже, настоящий воин!",
   "faction.emblems.intro.two":
-    "On July 8th the Faction House will open. You will be able to complete tasks, earn marks and claim rewards.",
-  "faction.emblems.intro.three":
     "Чем больше эмблем у тебя будет, тем выше будет твой ранг (и статус), и тем больше марок ты сможешь заработать.",
   "faction.tradeEmblems":
     "Покупай эмблемы, чтобы повысить свой ранг и получить навыки.",
@@ -2607,8 +2603,8 @@ const flowerBed: Record<FlowerBed, string> = {
     "Пчелиные рои дают +0.2 к урожаю любым посевам.",
   "flowerBed.newSpecies.discovered": "Боже мой, ты открыл новый вид цветка!",
   "flowerBed.newSpecies.superLucky":
-    "Wow! It's your lucky day, you've made two discoveries in one go! You've discovered a new species of flower and an extra mutant flower has appeared!",
-  "flowerBed.newSpecies.mutant": "A mutant flower has appeared!",
+    "Ого! Сегодня твой счастливый день, ты сделал два открытия за один раз! Ты открыл новый вид цветка, и появился дополнительный мутантный цветок",
+  "flowerBed.newSpecies.mutant": "А вот и цветок-мутант!",
   "flowerBedContent.select.combination": "Выбери свою комбинацию",
   "flowerBedContent.select.seed": "Выбери семя",
   "flowerBedContent.select.crossbreed": "Выбери скрещивание",
@@ -2910,7 +2906,6 @@ const gameTerms: Record<GameTerms, string> = {
   "new.delivery.levelup":
     "Поднимай уровень, чтобы разблокировать больше доставок.",
   "no.sfl": "Токены SFL не найдены",
-  opensea: "OpenSea",
   polygonscan: "PolygonScan",
   potions: "Зелья",
   "proof.of.humanity": "Доказательство человечности",
@@ -2976,7 +2971,7 @@ const goblin_messages: Record<GOBLIN_MESSAGES, string> = {
 
 const goldTooth: Record<GoldTooth, string> = {
   "goldTooth.intro.part1":
-    "Аррр, мои дорогие! Район, где копают сокровища, полон богатств и приключений, и скоро он откроет свои ворота для вас, отважных фермеров!",
+    "Аррр, мои дорогие! Район, где копают сокровища, полон богатств и приключений, и скоро он откроет свои ворота для тебя, отважного фермера!",
   "goldTooth.intro.part2":
     "Будьте готовы присоединиться к моей команде, ведь охота за богатством начнется уже совсем скоро!",
 };
@@ -3033,53 +3028,53 @@ const guideTerms: Record<GuideTerms, string> = {
   "gathering.guide.one":
     "Чтобы преуспеть в Sunflower Land, необходимо овладеть искусством сбора ресурсов. Начни с создания инструментов для сбора различных ресурсов. Используй надежный топор, чтобы срубить деревья и добыть древесину. Чтобы создать инструменты, посети местный верстак и обменяй монеты/ресурсы на нужный инструмент.",
   "gathering.guide.two":
-    "По мере продвижения и сбора достаточного количества ресурсов вы откроете возможность расширить свою территорию. Расширение территории открывает новые горизонты в Sunflower Land. Новые территории открывают сокровищницу ресурсов, включая плодородную почву для выращивания сельскохозяйственных культур, деревья, залежи ценных камней, драгоценные железные жилы, мерцающие золотые месторождения, восхитительные фруктовые грядки и многое другое.",
+    "По мере продвижения и сбора достаточного количества ресурсов ты откроешь возможность расширить свою территорию. Расширение территории открывает новые горизонты в Sunflower Land. Новые территории открывают сокровищницу ресурсов, включая плодородную почву для выращивания сельскохозяйственных культур, деревья, залежи ценных камней, драгоценные железные жилы, мерцающие золотые месторождения, восхитительные фруктовые грядки и многое другое.",
   "gathering.guide.three":
-    "Помните, что сбор ресурсов и расширение земель - это основа вашего фермерского пути. Принимайте вызовы и награды, которые приходят с каждым шагом, и наблюдайте, как ваша ферма процветает, наполняясь щедрыми ресурсами и бесконечными возможностями.",
+    "Помните, что сбор ресурсов и расширение земель - это основа твоего фермерского пути. Принимай вызовы и награды, которые приходят с каждым шагом, и наблюдай, как твоя ферма процветает, наполняясь щедрыми ресурсами и бесконечными возможностями.",
 
   "crops.guide.one":
-    "В Sunflower Land посевы играют решающую роль на вашем пути к процветанию. Сажая и собирая урожай, вы можете зарабатывать монеты или использовать их для создания ценных рецептов и предметов в игре.",
+    "В Sunflower Land посевы играют решающую роль на твоем пути к процветанию. Сажая и собирая урожай, ты можешь зарабатывать монеты или использовать их для создания ценных рецептов и предметов в игре.",
   "crops.guide.two":
-    "Чтобы вырастить культуры, вам нужно приобрести соответствующие семена во внутриигровом магазине. У каждой культуры разное время роста: от 1 минуты для Sunflower до 36 часов для Kale. Когда культуры полностью вырастут, вы сможете собрать урожай и извлечь из него пользу.",
+    "Чтобы вырастить культуры, тебе нужно приобрести соответствующие семена во внутриигровом магазине. У каждой культуры разное время роста: от 1 минуты для Sunflower до 36 часов для Kale. Когда культуры полностью вырастут, ты сможешь собрать урожай и извлечь из него пользу.",
   "crops.guide.three":
-    "Помните, что по мере того, как вы будете расширять свои угодья и продвигаться по игре, вам будет доступно все больше культур, что откроет новые возможности для заработка монет и изучения огромного потенциала фермерской экономики Sunflower Land. Не бойтесь испачкать руки, сажайте семена и наблюдайте за тем, как расцветают ваши посевы, собирая урожай на пути к успеху!",
+    "Помни, что по мере того, как ты будешь расширять свои угодья и продвигаться по игре, тебе будет доступно все больше культур, что откроет новые возможности для заработка монет и изучения огромного потенциала фермерской экономики Sunflower Land. Не бойся испачкать руки, сажай семена и наблюдай за тем, как расцветают твои посевы, собирая урожай на пути к успеху!",
 
   "building.guide.one":
-    "Изучите разнообразные постройки, доступные по мере продвижения в Sunflower Land. От курятников до мастерских и не только - каждое строение дает уникальные преимущества вашей ферме. Воспользуйтесь этими зданиями, чтобы оптимизировать свои сельскохозяйственные операции, повысить производительность и открыть новые возможности. Тщательно спланируйте свою территорию и наслаждайтесь наградами, которые принесет вам процветающая ферма в Sunflower Land.",
+    "Изучи разнообразные постройки, доступные по мере продвижения в Sunflower Land. От курятников до мастерских и не только - каждое строение дает уникальные преимущества твоей ферме. Воспользуйся этими зданиями, чтобы оптимизировать свои сельскохозяйственные операции, повысить производительность и открыть новые возможности. Тщательно спланируй свою территорию и наслаждайся наградами, которые принесет тебе процветающая ферма в Sunflower Land.",
   "building.guide.two":
     'В Sunflower Land, здания - это краеугольный камень твоего фермерского пути. Чтобы открыть меню построек, нажми на значок инвентаря и выбери вкладку "Постройки". Выбери нужное строение и вернись на экран фермы. Найди свободное место, отмеченное зеленым цветом, и подтверди размещение. Дождись окончания таймера, и твое новое здание будет готово к использованию. Здания дают различные преимущества и открывают захватывающие игровые возможности. Стратегически правильно расположи их на своей ферме, чтобы добиться максимальной эффективности, и наблюдай, как растет и процветает твоя империя.',
 
   "cooking.guide.one":
-    "Приготовление пищи позволяет вам накормить своего бампкина и помочь ему получить ценные очки опыта (XP). Используя собранный урожай, вы можете приготовить вкусную еду в различных зданиях, предназначенных для ее приготовления.",
+    "Приготовление пищи позволяет тебе накормить своего бампкина и помочь ему получить ценные очки опыта (XP). Используя собранный урожай, ты можешь приготовить вкусную еду в различных зданиях, предназначенных для ее приготовления.",
   "cooking.guide.two":
-    "Начиная с Fire Pit, на каждой ферме есть базовые возможности для приготовления пищи. Однако по мере развития вы сможете открыть более продвинутые здания, такие как Kitchen, Bakery, Deli и Smoothie Shack, каждое из которых предлагает более широкий выбор рецептов и кулинарных изысков.",
+    "Начиная с Fire Pit, на каждой ферме есть базовые возможности для приготовления пищи. Однако по мере развития ты сможешь открыть более продвинутые здания, такие как Kitchen, Bakery, Deli и Smoothie Shack, каждое из которых предлагает более широкий выбор рецептов и кулинарных изысков.",
   "cooking.guide.three":
-    "Чтобы приготовить еду, просто выберите здание и укажите рецепт, который вы хотите приготовить. В рецепте будут указаны необходимые ингредиенты, количество XP, получаемое при употреблении, и время приготовления. Запустив процесс приготовления, следите за таймером, чтобы знать, когда еда будет готова к получению.",
+    "Чтобы приготовить еду, просто выберите здание и укажите рецепт, который ты хочешь приготовить. В рецепте будут указаны необходимые ингредиенты, количество XP, получаемое при употреблении, и время приготовления. Запустив процесс приготовления, следите за таймером, чтобы знать, когда еда будет готова к получению.",
   "cooking.guide.four":
-    "Когда еда будет готова, заберите ее из здания, щелкнув по ней и переместив в инвентарь. После этого вы сможете взаимодействовать со своим бампкином на ферме и накормить его приготовленной едой, помогая ему получить XP и продвинуться дальше по игре.",
+    "Когда еда будет готова, заберите ее из здания, щелкнув по ней и переместив в инвентарь. После этого ты сможешь взаимодействовать со своим бампкином на ферме и накормить его приготовленной едой, помогая ему получить XP и продвинуться дальше по игре.",
   "cooking.guide.five":
     "Экспериментируйте с различными рецептами, открывайте новые здания и познавайте радость кулинарии, воспитывая своего бампкина и отправляясь в восхитительное кулинарное приключение в Sunflower Land.",
 
   "animals.guide.one":
-    "Куры в Sunflower Land - это прекрасное дополнение к вашей ферме, производящие яица, которые можно использовать в различных рецептах и крафте. Чтобы завести кур, вам нужно достичь 9-го уровня и построить Hen House. После этого вы сможете купить кур или разместить уже имеющихся. Просто перетащите их на ферму, как и здания. На стандартной ферме каждый курятник вмещает до 10 кур, а если вы владеете Chicken Coop NFT, то это ограничение увеличивается до 15.",
+    "Куры в Sunflower Land - это прекрасное дополнение к твоей ферме, производящие яица, которые можно использовать в различных рецептах и крафте. Чтобы завести кур, тебе нужно достичь 9-го уровня и построить Hen House. После этого ты сможешь купить кур или разместить уже имеющихся. Просто перетащите их на ферму, как и здания. На стандартной ферме каждый курятник вмещает до 10 кур, а если ты владеешь Chicken Coop NFT, то это ограничение увеличивается до 15.",
   "animals.guide.two":
-    "У каждой курицы над головой есть индикатор, отображающий ее текущее настроение или потребности. Она может быть голодной, уставшей, счастливой или готовой к кладке. Чтобы ваши куры были довольны и продуктивны, кормите их пшеницей из инвентаря. Кормление запускает таймер яиц, по которому яйца появляются на свет через 48 часов. Когда яйца будут готовы, посетите свою ферму, проверьте значок над каждой курицей и нажмите на нее, чтобы узнать тип яйца, которое вылупилось. Иногда вы можете даже обнаружить редких цыплят-мутантов, которые дают особые преимущества: ускоренное производство яиц, повышенную урожайность или уменьшенное потребление пищи.",
+    "У каждой курицы над головой есть индикатор, отображающий ее текущее настроение или потребности. Она может быть голодной, уставшей, счастливой или готовой к кладке. Чтобы твои куры были довольны и продуктивны, корми их пшеницей из инвентаря. Кормление запускает таймер яиц, по которому яйца появляются на свет через 48 часов. Когда яйца будут готовы, посети свою ферму, проверь значок над каждой курицей и нажмите на нее, чтобы узнать тип яйца, которое вылупилось. Иногда ты можешь даже обнаружить редких цыплят-мутантов, которые дают особые преимущества: ускоренное производство яиц, повышенную урожайность или уменьшенное потребление пищи.",
   "animals.guide.three":
-    "Выращивание цыплят и сбор их яиц добавляет динамику и пользу вашей ферме в Sunflower Land. Экспериментируйте с рецептами, используйте яйца в своих ремесленных начинаниях и наслаждайтесь сюрпризами, которые приносят редкие куры-мутанты. Постройте процветающее птицеводческое хозяйство и пожинайте плоды своего труда, погружаясь в очаровательный мир Sunflower Land.",
+    "Выращивание цыплят и сбор их яиц добавляет динамику и пользу твоей ферме в Sunflower Land. Экспериментируйте с рецептами, используйте яйца в своих ремесленных начинаниях и наслаждайтесь сюрпризами, которые приносят редкие куры-мутанты. Постройте процветающее птицеводческое хозяйство и пожинайте плоды своего труда, погружаясь в очаровательный мир Sunflower Land.",
 
   "crafting.guide.one":
-    "В Sunflower Land создание NFT - важнейший аспект повышения производительности фермерского хозяйства и ускорения прогресса. Эти особые предметы дают различные бонусы, такие как ускорение роста урожая, улучшение приготовления пищи и увеличение ресурсов, что может значительно ускорить ваш путь. Максимально используя монеты, вы сможете создавать инструменты, собирать ресурсы и расширять свои земли, чтобы еще больше укрепить свою фермерскую империю.",
+    "В Sunflower Land создание NFT - важнейший аспект повышения производительности фермерского хозяйства и ускорения прогресса. Эти особые предметы дают различные бонусы, такие как ускорение роста урожая, улучшение приготовления пищи и увеличение ресурсов, что может значительно ускорить твой путь. Максимально используя монеты, ты сможешь создавать инструменты, собирать ресурсы и расширять свои земли, чтобы еще больше укрепить свою фермерскую империю.",
   "crafting.guide.two":
-    "Чтобы начать изготавливать предметы, мы посетим Игоря, искусного ремесленника в Санфлории. После того как вы сядете на лодку и прибудете в Санфлорию, отправляйтесь на вершину острова, чтобы поговорить с Игорем. В настоящее время он предлагает Базовое пугало, которое повышает скорость выращивания подсолнухов, картофеля и тыкв. Это отличная сделка, которая требует обмена ваших ресурсов на пугало. Получив его, вернитесь на главный остров и войдите в режим проектирования, нажав на значок белой руки в правом верхнем углу игры.",
+    "Чтобы начать изготавливать предметы, мы посетим Игоря, искусного ремесленника в Санфлории. После того как ты сядешь на лодку и прибудешь в Санфлорию, отправляйся на вершину острова, чтобы поговорить с Игорем. В настоящее время он предлагает Базовое пугало, которое повышает скорость выращивания подсолнухов, картофеля и тыкв. Это отличная сделка, которая требует обмена твоих ресурсов на пугало. Получив его, вернись на главный остров и войди в режим проектирования, нажав на значок белой руки в правом верхнем углу игры.",
   "crafting.guide.three":
-    "В режиме дизайна вы можете стратегически правильно расставить предметы и распределить ресурсы на своей ферме, чтобы оптимизировать ее планировку и повысить привлекательность. Этот шаг имеет решающее значение для максимальной эффективности фермы. Например, поставьте пугало над участками, которые вы хотите усилить. Кроме того, подумайте о приобретении украшений, которые придадут вашей земле шарм и опрятность.",
+    "В режиме дизайна ты можешь стратегически правильно расставить предметы и распределить ресурсы на своей ферме, чтобы оптимизировать ее планировку и повысить привлекательность. Этот шаг имеет решающее значение для максимальной эффективности фермы. Например, поставь пугало над участками, которые ты хочешь усилить. Кроме того, подумай о приобретении украшений, которые придадут твоей земле шарм и опрятность.",
   "crafting.guide.four":
-    "Создавая оборудование и размещая его в стратегически важных местах, вы сможете усилить свои фермерские способности, превратить остров в дом, которым можно гордиться, и ускорить свой прогресс в Стране подсолнухов.",
+    "Создавая оборудование и размещая его в стратегически важных местах, ты сможешь усилить свои фермерские способности, превратить остров в дом, которым можно гордиться, и ускорить свой прогресс в Стране подсолнухов.",
 
   "deliveries.guide.one":
-    "Доставки в Sunflower Land - это увлекательная возможность помочь голодным гоблинам и собратьям-бампкинам, получая за это вознаграждение. Каждый день вы сможете увидеть все заказы, которые у вас есть, нажав на доску доставки в левой нижней части экрана. Заказы были сделаны некоторыми местными NPC, которых можно найти в окрестностях Плазы. Чтобы выполнить заказ, вам нужно отправиться на лодке на Тыквенную Плазу и отыскать NPC, ожидающего доставку. Как только вы их найдете, нажмите на них, чтобы доставить заказ и получить награду.",
+    "Доставки в Sunflower Land - это увлекательная возможность помочь голодным гоблинам и собратьям-бампкинам, получая за это вознаграждение. Каждый день ты сможешь увидеть все заказы, которые у тебя есть, нажав на доску доставки в левой нижней части экрана. Заказы были сделаны некоторыми местными NPC, которых можно найти в окрестностях Плазы. Чтобы выполнить заказ, тебе нужно отправиться на лодке на Тыквенную Плазу и отыскать NPC, ожидающего доставку. Как только ты их найдешь, нажми на них, чтобы доставить заказ и получить награду.",
   "deliveries.guide.two":
-    "Как новый игрок, вы начинаете с тремя слотами для заказов, но по мере развития вашей фермы вы откроете дополнительные слоты, что позволит продвинутым игрокам брать на себя больше заказов. Новые заказы поступают каждые 24 часа, предлагая различные задания - от выращивания продуктов до приготовления еды и сбора ресурсов. Выполняя заказы, вы получаете бонусы за прохождение этапов, включая блок-баксы, SFL, монеты, вкусные пирожные и другие награды. Система вознаграждений зависит от сложности задания, поэтому для получения максимального выигрыша отдавайте предпочтение тем заказам, которые предлагают большее вознаграждение. Следите за доской и выполняйте разнообразные заказы, повышая уровень и открывая новые здания, чтобы выполнять более сложные задания.",
+    "Как новый игрок, ты начинаешь с тремя слотами для заказов, но по мере развития твоей фермы ты откроешь дополнительные слоты, что позволит продвинутым игрокам брать на себя больше заказов. Новые заказы поступают каждые 24 часа, предлагая различные задания - от выращивания продуктов до приготовления еды и сбора ресурсов. Выполняя заказы, ты получишь бонусы за прохождение этапов, включая блок-баксы, SFL, монеты, вкусные пирожные и другие награды. Система вознаграждений зависит от сложности задания, поэтому для получения максимального выигрыша отдавай предпочтение тем заказам, которые предлагают большее вознаграждение. Следи за доской и выполняй разнообразные заказы, повышая уровень и открывая новые здания, чтобы выполнять более сложные задания.",
   "deliveries.intro":
     "Путешествуй и доставляй товары, чтобы заработать награды.",
   "deliveries.new": "Новые доставки",
@@ -3090,9 +3085,9 @@ const guideTerms: Record<GuideTerms, string> = {
   "chores.kingdom.intro":
     "Выполняй задания на ферме и зарабатывай марки в доме фракции",
   "scavenger.guide.one":
-    "Занимаясь копанием в Sunflower Land, вы сможете обнаружить спрятанные сокровища и собрать ценные ресурсы. Первый аспект - это поиск сокровищ на Острове сокровищ, где вы можете стать пиратом-кладоискателем. Создав песчаную лопату и отправившись на Остров сокровищ, вы сможете копать в темных песчаных местах, чтобы обнаружить разнообразные сокровища, включая богатства, украшения и даже древние NFT с полезными свойствами.",
+    "Занимаясь копанием в Sunflower Land, ты сможешь обнаружить спрятанные сокровища и собрать ценные ресурсы. Первый аспект - это поиск сокровищ на Острове сокровищ, где ты можешь стать пиратом-кладоискателем. Создав песчаную лопату и отправившись на Остров сокровищ, ты сможешь копать в темных песчаных местах, чтобы обнаружить разнообразные сокровища, включая богатства, украшения и даже древние NFT с полезными свойствами.",
   "scavenger.guide.two":
-    "Еще одна возможность это сбор диких грибов, которые спонтанно появляются на вашей ферме и близлежащих островах. Эти грибы можно собирать бесплатно и использовать в рецептах, квестах и крафте. Следите за грибами, так как они появляются каждые 16 часов, а максимальное количество грибов на вашей ферме не должно превышать 5 штук. Если на вашей ферме нет места, грибы появятся на соседних островах, чтобы вы не упустили эти ценные ресурсы.",
+    "Еще одна возможность это сбор диких грибов, которые спонтанно появляются на твоей ферме и близлежащих островах. Эти грибы можно собирать бесплатно и использовать в рецептах, квестах и крафте. Следи за грибами, так как они появляются каждые 16 часов, а максимальное количество грибов на твоей ферме не должно превышать 5 штук. Если на ферме нет места, грибы появятся на соседних островах, чтобы ты не упустил эти ценные ресурсы.",
 
   "fruit.guide.one":
     "В Sunflower Land фрукты играют роль ценного ресурса, который можно продать за монеты или использовать в различных рецептах и крафтах. В отличие от урожая, фруктовые лунки обладают уникальной способностью неоднократно восстанавливаться после сбора, обеспечивая игрокам надежный источник фруктов.",
@@ -3215,11 +3210,11 @@ const interactableModals: Record<InteractableModals, string> = {
   "interactableModals.returnhome.message": "Ты хотел бы вернуться домой?",
   "interactableModals.fatChicken.message":
     "Почему эти бампкины не оставят меня в покое, я просто хочу отдохнуть.",
-  "interactableModals.lazyBud.message": "Ииип! Так устал.....",
+  "interactableModals.lazyBud.message": "Иип! Я так устал.....",
   "interactableModals.bud.message":
-    "Хммм, я лучше оставлю его в покое. Уверен, его хозяин ищет его.",
+    "Хммм, лучше оставлю его в покое. Уверен, что хозяин ищет его.",
   "interactableModals.walrus.message":
-    "Арррррррррр! Рыбный магазин не откроется, пока я не получу свою рыбу.",
+    "Аррррр! Рыбный магазин не откроется, пока я не получу свою рыбу.",
   "interactableModals.plazaBlueBook.message1":
     "Чтобы призвать искателей, мы должны собрать сущность земли - тыквы, вскормленные землей, и яйца, обещающие новое начало.",
   "interactableModals.plazaBlueBook.message2":
@@ -3294,7 +3289,6 @@ const interactableModals: Record<InteractableModals, string> = {
     "Ходят слухи, что они ищут подмастерьев, чтобы вместе с ними выращивать урожай мутантов.",
   "interactableModals.guildHouse.message":
     "Погоди, бампкин! Тебе нужен питомец, если ты хочешь войти в дом гильдии.",
-  "interactableModals.guildHouse.budsCollection": "OpenSea",
   "interactableModals.bettyHome.message":
     "О, дорогой, как бы я ни любила свой урожай, мой дом - это личное пространство, сейчас он не открыт для посетителей.",
   "interactableModals.bertHome.message":
@@ -3314,11 +3308,11 @@ const introPage: Record<IntroPage, string> = {
   "introPage.welcome":
     "Добро пожаловать в комнату зелий, мой любознательный ученик!",
   "introPage.description":
-    "Я - Безумный Ученый Бампкин, помогу вам в этом волшебном путешествии в мир зельеварения. Приготовьтесь раскрыть секреты страны подсолнухов! Каждая попытка будет стоить 320 монет.",
+    "Я - Безумный Ученый Бампкин, помогу тебе в этом волшебном путешествии в мир зельеварения. Приготовься раскрыть секреты страны подсолнухов! Каждая попытка будет стоить 320 монет.",
   "introPage.mission":
-    "Ваша задача: расшифровать правильную комбинацию зелий в заколдованной таблице.",
+    "Твоя задача: расшифровать правильную комбинацию зелий в заколдованной таблице.",
   "introPage.tip":
-    "Помните, чем больше правильных зелий вы выберете, тем счастливее будет растение, что увеличит ваши шансы на получение редких предметов!",
+    "Помни, чем больше правильных зелий ты выберешь, тем счастливее будет растение, что увеличит твои шансы на получение редких предметов!",
   "introPage.chaosPotion": "Остерегайтесь зелья хаоса, оно все разрушает!",
   "introPage.playButton": "Давайте сыграем",
 };
@@ -3352,29 +3346,28 @@ const landscapeTerms: Record<LandscapeTerms, string> = {
   "landscape.expansion.date": "Новые расширения появятся в игре 7 февраля.",
   "landscape.great.work": "Отличная работа, дружище!",
   "landscape.confirmation.resourceNodes.one":
-    ENGLISH_TERMS["landscape.confirmation.resourceNodes.one"],
-  "landscape.confirmation.resourceNodes.two":
-    ENGLISH_TERMS["landscape.confirmation.resourceNodes.two"],
-  "landscape.hourglass.resourceNodeCondition.fishers":
-    ENGLISH_TERMS["landscape.hourglass.resourceNodeCondition.fishers"],
+    "После установки на острове, ты не сможешь убрать его обратно в сундук.",
+  "landscape.confirmation.resourceNodes.two": "Точно уверен?",
   "landscape.confirmation.hourglass.one":
-    ENGLISH_TERMS["landscape.confirmation.hourglass.one"],
+    "После установки эффект {{selectedChestItem}} начнет действовать немедленно и не может быть приостановлен или отменен.",
   "landscape.confirmation.hourglass.two":
-    ENGLISH_TERMS["landscape.confirmation.hourglass.two"],
+    "Ты точно хочешь установить и активировать {{selectedChestItem}}?",
+  "landscape.hourglass.resourceNodeCondition.fishers":
+    "Пожалуйста проверь, что у тебя остались силы на рыбную ловлю перед активацией {{selectedChestItem}}.",
   "landscape.hourglass.resourceNodeCondition.gourmet":
-    ENGLISH_TERMS["landscape.hourglass.resourceNodeCondition.gourmet"],
+    "Перед активацией  {{selectedChestItem}} убедитесь, что ни одно из зданий, где можно готовить, не работает.",
   "landscape.hourglass.resourceNodeCondition.harvest":
-    ENGLISH_TERMS["landscape.hourglass.resourceNodeCondition.harvest"],
+    "Перед активацией {{selectedChestItem}} помни, что буст не работает на уже посаженные растения.",
   "landscape.hourglass.resourceNodeCondition.timber":
-    ENGLISH_TERMS["landscape.hourglass.resourceNodeCondition.timber"],
+    "Перед активацией  {{selectedChestItem}} убедитесь, что деревья не восстанавливаются.",
   "landscape.hourglass.resourceNodeCondition.orchard":
-    ENGLISH_TERMS["landscape.hourglass.resourceNodeCondition.orchard"],
+    "Перед активацией  {{selectedChestItem}} убедитесь, что фруктовые деревья не растут.",
   "landscape.hourglass.resourceNodeCondition.blossom":
-    ENGLISH_TERMS["landscape.hourglass.resourceNodeCondition.blossom"],
+    "Перед активацией {{selectedChestItem}}  помни, что буст не работает на уже растущие цветы.",
   "landscape.hourglass.resourceNodeCondition.ore":
-    ENGLISH_TERMS["landscape.hourglass.resourceNodeCondition.ore"],
+    "Перед активацией {{selectedChestItem}} убедитесь, что минералы не восстанавливаются.",
   "landscape.timeWarpTotem.resourceNodeCondition":
-    ENGLISH_TERMS["landscape.timeWarpTotem.resourceNodeCondition"],
+    "Перед активацией {{selectedChestItem}} убедитесь, что никакие минералы или деревья не восстанавливаются, а также не растут никакие культуры, фрукты или цветы.",
 };
 
 const levelUpMessages: Record<LevelUpMessages, string> = {
@@ -3603,7 +3596,7 @@ const npc_message: Record<NPC_MESSAGE, string> = {
   "npcMessages.pumpkinpete.msg5":
     "Нужна помощь, друг? У меня есть для тебя самые разнообразные культуры!",
   "npcMessages.pumpkinpete.msg6":
-    "Энергичный Пит к вашим услугам! Урожай? Кто-нибудь?",
+    "Энергичный Пит к твоим услугам! Урожай? Кто-нибудь?",
   "npcMessages.pumpkinpete.msg7":
     "Добро пожаловать на плазу! Давай сделаем твой день ярче с помощью урожая!",
   // Cornwell
@@ -3821,17 +3814,17 @@ const npc_message: Record<NPC_MESSAGE, string> = {
   "npcMessages.oldSalty.msg3":
     "Эти волны полны сокровищ! Готов ли ты к этому приключению?",
   "npcMessages.oldSalty.msg4":
-    "Yo ho ho! The sea's secrets are out there, waitin' to be uncovered. Help me find 'em, will ye?",
+    "Йо-хо-хо! Секреты моря ждут, чтобы их раскрыли. Поможешь мне, ладно?",
   "npcMessages.oldSalty.msg5":
-    "Aye, the scent of gold is in the air! Fetch me the treasures and let's share the bounty!",
+    "Аррр, в воздухе пахнет золотом! Принеси мне сокровища и поделим добычу!",
   "npcMessages.oldSalty.msg6":
-    "The sea be a cruel mistress, but she holds riches untold. Help me plunder her depths!",
+    "Море — жестокая проказница, но таит в себе несметные богатства. Помоги мне ограбить ее глубины!",
   "npcMessages.oldSalty.msg7":
-    "X marks the spot, and the treasure is near. Lend me a hand in uncovering it, matey!",
+    "Крестом отмечено место, где спрятанно сокровище. Помоги мне отыскать его матрос!",
   "npcMessages.pharaoh.msg1":
-    "Greetings, traveler. The sands conceal many secrets. Can you help me uncover the relics of my ancestors?",
+    "Приветствую тебя, путник. Песком покрыто много тайн. Поможешь ли ты мне отыскать реликвии моих предков?",
   "npcMessages.pharaoh.msg2":
-    "Wanderer, I seek the wisdom of ages past. Bring me the artifacts that hold the key to our history.",
+    "Странник, я ищу мудрость прошлых веков. Принеси мне артефакты, хранящие ключ к нашей истории.",
   "npcMessages.pharaoh.msg3":
     "In the desert sands lie forgotten treasures. Will you aid me in discovering them?",
   "npcMessages.pharaoh.msg4":
@@ -3854,7 +3847,7 @@ const nftminting: Record<NFTMinting, string> = {
 const npc: Record<Npc, string> = {
   "npc.Modal.Hammer": "Собирайтесь, друзья, аукцион вот-вот начнется!",
   "npc.Modal.Petro":
-    "With a bit of oil and some elbow grease, I can crack open anything!",
+    "С небольшим количеством нефти и усилий я могу открыть что угодно!",
   "npc.Modal.Marcus":
     "Эй! Тебе запрещено входить в мой дом. Не смей трогать мои вещи!",
   "npc.Modal.Billy": "Всем привет! Меня зовут Билли.",
@@ -4023,29 +4016,29 @@ const npcDialogues: Record<NpcDialogues, string> = {
     "Эгегей, ты нашел сокровище, за которым я охотился. Ты будешь настоящей легендой в этих водах!",
   //  Old Salty Negative Delivery
   "npcDialogues.oldSalty.negativeDelivery1":
-    "Арррр, нет сокровищ для Старого Солти? Держи глаза открытыми, мой дорогой. Скрытые драгоценности ждут тебя!",
+    "Арррр, нет сокровищ для Старого Солти? Держи глаза открытыми, приятель. Скрытые драгоценности ждут тебя!",
   "npcDialogues.oldSalty.negativeDelivery2":
-    "Ух, подлец! Нет сокровищ для Старого Солти? Продолжайте искать, и ты найдешь самый большой сундук!",
+    "Ух, подлец! Нет сокровищ для Старого Солти? Продолжай искать, и ты найдешь самый большой сундук!",
   "npcDialogues.oldSalty.negativeDelivery3":
-    "Встряхни Кости! Нет сокровищ для Старого Солти? Продолжай плыть, приятель. Добыча где то там, ждет тебя.!",
+    "Встряхни Кости! Нет сокровищ для Старого Солти? Продолжай плыть, приятель. Добыча где то там, ждет тебя!",
   // Old Salty NoOrder
   "npcDialogues.oldSalty.noOrder1":
-    "У вас нет активных заказов для бухты сокровищ Старого Солти, но это не значит, что здесь не будет приключений. Следите за скрытыми сокровищами и неизведанными водами.!",
+    "У тебя нет активных заказов для бухты сокровищ Старого Солти, но это не значит, что здесь не будет приключений. Следи за скрытыми сокровищами и неизведанными водами!",
   "npcDialogues.oldSalty.noOrder2":
     "На данный момент Старый Солти не ищет сокровищ, но не волнуйся, мой дорогой! В открытом море таятся бесчисленные богатства, ожидающие, что их найдут.",
   // Old Salty Pirate Chest
   "npcDialogues.oldSalty.missingPotion1":
-    "Ahoy, mateys! I be guardin' this plunder for me loyal crew.",
+    "Эй, матросы! Я придержу эту добычу для моей верной команды.",
   "npcDialogues.oldSalty.missingPotion2":
-    "Return when ye've the heart and body of a true pirate!",
+    "Возвращайся, когда у тебя будет тело и сердце настоящего пирата!",
   "npcDialogues.oldSalty.chestUnopened1":
-    "Ahoy, mateys! It seems I've found a fellow pirate among ye!",
+    "Ахой, приятель! Кажется, я нашел среди нас пирата!",
   "npcDialogues.oldSalty.chestUnopened2":
-    "You are entitled to one treasure gift per day.",
+    "Ты имеешь право на получение одного подарка из сокровищницы в день.",
   "npcDialogues.oldSalty.chestOpened1":
-    "Ye've cracked open the Pirate Chest today!",
+    "Сегодня ты уже вскрыл пиратский сундук!",
   "npcDialogues.oldSalty.chestOpened2":
-    "Return on the morrow to plunder the Pirate Chest once more!",
+    "Верниcь завтра, чтобы снова разграбить пиратский сундук!",
   // Raven Intro
   "npcDialogues.raven.intro1":
     "Добро пожаловать в мою скромную обитель. Но будь осторожен, тут везде варятся зелья. Ты нашел то, что я заказывала?",
@@ -4204,9 +4197,9 @@ const npcDialogues: Record<NpcDialogues, string> = {
     "Ах, мой зоркий друг! Доставленные тобой вещи займут почетное место в коллекции моей мельницы.",
   // Cornwell Negative Delivery
   "npcDialogues.cornwell.negativeDelivery1":
-    "О, похоже, вы не нашли то, что я ищу. Не бойтесь; исследование продолжается. Смело продолжайте свое путешествие.",
+    "О, похоже, ты не нашел то, что я ищу. Не бойтесь; исследование продолжается. Смело продолжайте свое путешествие.",
   "npcDialogues.cornwell.negativeDelivery2":
-    "Хм, не совсем то, что я ожидал. Но не отчаивайтесь! Продолжайте искать, и сокровища откроются вам сами.",
+    "Хм, не совсем то, что я ожидал. Но не отчаивайся! Продолжай искать, и сокровища откроются тебе сами.",
   "npcDialogues.cornwell.negativeDelivery3":
     "Оуу, похоже, желаемые мной предметы ускользают от тебя. Неважно, твое любопытство в конце концов приведет тебя к нужным открытиям.",
   "npcDialogues.cornwell.negativeDelivery4":
@@ -4215,13 +4208,13 @@ const npcDialogues: Record<NpcDialogues, string> = {
     "О, мой дорогой путешественник, похоже, ты не привез с собой то, что я искал. Но твоя преданность истории достойна похвалы.",
   // Cornwell NoOrder
   "npcDialogues.cornwell.noOrder1":
-    "Ах, похоже, сейчас нет предметов, которые вы могли бы доставить. Но не отчаивайтесь! Ваше путешествие в нашей стране полно неисчислимых приключений, которые ждут, чтобы их нашли.",
+    "Ах, похоже, сейчас нет предметов, которые ты мог бы доставить. Но не отчаивайся! Твое путешествие в нашей стране полно неисчислимых приключений, которые ждут, чтобы их нашли.",
   "npcDialogues.cornwell.noOrder2":
-    "О, похоже, сейчас мне не нужны ваши услуги. Но не волнуйтесь; страницы истории перелистываются бесконечно, и новые задания обязательно появятся.",
+    "О, похоже, сейчас мне не нужны твои услуги. Но не волнуйся; страницы истории перелистываются бесконечно, и новые задания обязательно появятся.",
   "npcDialogues.cornwell.noOrder3":
-    "Ах, мои извинения, но мне нечем сейчас вас занять. Но не бойтесь; ваш путь искателя знаний обязательно приведет вас к новым приключениям.",
+    "Ах, мои извинения, но мне нечем сейчас тебя занять. Но не бойся; твой путь искателя знаний обязательно приведет тебя к новым приключениям.",
   "npcDialogues.cornwell.noOrder4":
-    "Ах, похоже, для вас пока нет никаких поручений. Но не теряйте надежды; ваша любознательная натура вскоре приведет вас к новым захватывающим задачам.",
+    "Ах, похоже, для тебя пока нет никаких поручений. Но не теряй надежды; твоя любознательная натура вскоре приведет тебя к новым захватывающим задачам.",
   // Pumpkin Pete Intro
   "npcDialogues.pumpkinPete.intro1":
     "Я ждал тебя, мой друг! Ты уже приготовил мой заказ?",
@@ -4243,7 +4236,7 @@ const npcDialogues: Record<NpcDialogues, string> = {
   "npcDialogues.pumpkinPete.positiveDelivery4":
     "Фантастика! Ты прибыл именно с тем, что я хотел. Твоя доброта - как солнечный свет на нашей плазе!",
   "npcDialogues.pumpkinPete.positiveDelivery5":
-    "О, тыквенные семечки! Ты принес мне именно то, что мне было нужно. Плаза благодарна вам за помощь!",
+    "О, тыквенные семечки! Ты принес мне именно то, что мне было нужно. Плаза благодарна тебе за помощь!",
   // Pumpkin Pete Negative Delivery
   "npcDialogues.pumpkinPete.negativeDelivery1":
     "О, нет. У тебя нет того, что я ищу. Но не волнуйся и возвращайся, когда найдешь что нибудь!",
@@ -4263,40 +4256,40 @@ const npcDialogues: Record<NpcDialogues, string> = {
 
   // Peggy
   "npcDialogues.peggy.intro1":
-    "Hello there, darling! Have you come to bring me some scrumptious delights? I can't wait to see what you've cooked up!",
+    "Привет, милаха! Ты принес мне какие-нибудь деликатесы? Не терпится увидеть, что же ты приготовил!",
   "npcDialogues.peggy.intro2":
-    "Well, butter my biscuits! Have you got those tasty treats ready for me? I'm all set for some delicious fun!",
+    "А ну ка, намажь мне печенье маслом!Я готова к вкусному веселью!",
   "npcDialogues.peggy.intro3":
-    "Howdy, partner! I’ve been waiting to see what delicious creation you’ve brought me. Ready to share some culinary joy?",
+    "Привет, напарник! Готов поделиться кулинарной радостью?",
   "npcDialogues.peggy.intro4":
-    "Hiya, sweetie! What’s cookin’? Did you bring me some of those mouthwatering dishes I’ve been dreaming of?",
+    "Привет, сладуся! Ты принес мне некоторые из тех аппетитных блюд, о которых я мечтала?",
   "npcDialogues.peggy.intro5":
-    "Oh, hello there! I’m so excited to see what delectable delights you’ve prepared. Have you got my order?",
+    "О, привет! Я так рада увидеть, какие восхитительные деликатесы ты приготовил.",
 
   "npcDialogues.peggy.positiveDelivery1":
-    "Yum-tastic! You've cooked up just what I was craving. You're the best cook in the plaza!",
+    "Вкуснятина! Ты приготовила именно то, что я жаждал. Ты лучший повар на площади!",
   "npcDialogues.peggy.positiveDelivery2":
-    "Oh, my taste buds are dancing! You've delivered the perfect dish. You're a culinary superstar!",
+    "О, мои вкусовые рецепторы танцуют! Ты кулинарная суперзвезда!",
   "npcDialogues.peggy.positiveDelivery3":
-    "Deliciousness achieved! You've whipped up exactly what I needed. You're a true kitchen hero!",
+    "Вкусность достигнута! Ты настоящий кулинарный герой!",
   "npcDialogues.peggy.positiveDelivery4":
-    "Fantastic feast! You've brought me exactly what I was hoping for. The whole plaza will enjoy this!",
+    "Фантастический пир! Вся площадь будет наслаждаться этим!",
   "npcDialogues.peggy.positiveDelivery5":
-    "Wow, what a treat! You've cooked and delivered the perfect meal. You've made my day, and the plaza too!",
+    "Ого, какая прелесть! Ты приготовил и доставили идеальную еду. Ты сделали мой день!",
   "npcDialogues.peggy.negativeDelivery1":
-    "Oh dear, it looks like this isn’t quite what I needed. No worries, though! Keep cooking and bring it back when you can.",
+    "О, боже, похоже, это не совсем то, что мне нужно. Продолжайте готовить и принесите, когда сможете.",
   "npcDialogues.peggy.negativeDelivery2":
-    "Oops, this isn’t quite right. But don’t fret! Cook up another dish and come back soon!",
+    "Упс, это не совсем так, но не волнуйтесь! Приготовьте еще одно блюдо и возвращайтесь поскорее!",
   "npcDialogues.peggy.negativeDelivery3":
-    "This isn’t what I was hoping for, but don’t give up! Keep those cooking skills sharp and try again later.",
+    "Это не то, на что я надеялся, но не сдавайся! Оттачивай кулинарные навыки и у тебя все получится.",
   "npcDialogues.peggy.negativeDelivery4":
-    "Oh, this isn’t quite the dish I was craving. Keep exploring your recipes and bring me something else when you can!",
+    "О, это не совсем то блюдо, которое я жаждал. Продолжай изучать рецепты и принеси мне что-нибудь еще, когда сможешь!",
   "npcDialogues.peggy.negativeDelivery5":
-    "Not quite the meal I was after, but don’t worry! Try cooking something else and come back with your next culinary creation.",
+    "Не совсем то блюдо, которое я искал, но не волнуйтесь! Попробуйте приготовить что-нибудь еще и возвращайтесь со своим кулинарным творением.",
   "npcDialogues.peggy.noOrder1":
-    "Ah, it seems I don’t have an active order for you at the moment. But feel free to explore and cook up a storm in the plaza!",
+    "Ах, похоже, у меня нет для тебя заказа на данный момент. Но ты всегда можешь приготовить бурю на площади!",
   "npcDialogues.peggy.noOrder2":
-    "No current order for you today, but don’t let that stop you! If you need any cooking advice or just want to chat, I’m here!",
+    "На сегодня у тебя нет дел, но пусть это тебя не останавливает! Если тебе нужен совет по готовке или ты просто хочешь поболтать, я здесь!",
 
   // NPC gift dialogues
   "npcDialogues.pumpkinPete.reward":
@@ -4529,7 +4522,7 @@ const npcDialogues: Record<NpcDialogues, string> = {
   "npcDialogues.gambit.negativeDelivery3":
     "Ах, не повезло! У тебя ничего нет. Но не сдавайся, всегда есть другой шанс!",
   "npcDialogues.gambit.negativeDelivery4":
-    "Близко, но не то! У вас нет того, что мне нужно. Попробуй еще раз, игра еще не окончена.",
+    "Близко, но не то! У тебя нет того, что мне нужно. Попробуй еще раз, игра еще не окончена.",
   "npcDialogues.gambit.negativeDelivery5":
     "Мда, похоже, в этот раз вам не повезло. Но не волнуйтесь, продолжайте играть, и в конце концов выиграете.",
 
@@ -4582,9 +4575,9 @@ const npcDialogues: Record<NpcDialogues, string> = {
 
   // Jester gift dialogues
   "npcDialogues.jester.reward":
-    "Браво! Вот вам сувенир за ваши хлопоты. Продолжайте в ом же духе!",
+    "Браво! Вот тебе сувенир за твои хлопоты. Продолжай в том же духе!",
   "npcDialogues.jester.flowerIntro":
-    "Видели ли вы когда-нибудь красный Балун или красную Гвоздику(Карнатион)? Они всегда заставляют меня улыбаться...",
+    "Видел ли ты когда-нибудь красный Балун или красную Гвоздику(Карнатион)? Они всегда заставляют меня улыбаться...",
   "npcDialogues.jester.averageFlower":
     "Хммм, не похоже на удар под дых, но сойдет. Спасибо!",
   "npcDialogues.jester.badFlower":
@@ -4602,162 +4595,166 @@ const npcDialogues: Record<NpcDialogues, string> = {
   "npcDialogues.pharaoh.negativeDelivery2":
     "Ничего не нашли сегодня? Путь открытий долог, но упорство приведет нас к цели.",
   "npcDialogues.pharaoh.negativeDelivery3":
-    "Секреты древних пока остаются скрытыми. Продолжай, и ты найдешь сокровищи, которые мы ищем.",
+    "Секреты древних пока остаются скрытыми. Продолжай, и ты найдешь сокровища, которые мы ищем.",
   "npcDialogues.pharaoh.positiveDelivery1":
-    "Ах, вы нашли реликвию древних. Ваши усилия приближают нас к разгадке тайн прошлого.",
+    "Ах, ты нашел реликвию древних. Твои усилия приближают нас к разгадке тайн прошлого.",
   "npcDialogues.pharaoh.positiveDelivery2":
-    "Behold, a treasure from a bygone era. Your discovery is invaluable to my quest for lost knowledge.",
+    "Узри сокровище из ушедшей эпохи. Твое открытие бесценно для моих поисков утраченных знаний.",
   "npcDialogues.pharaoh.positiveDelivery3":
-    "This artifact is a key to our forgotten history. Your contribution is greatly appreciated, noble traveler.",
+    "Этот артефакт — ключ к забытой истории. Твой вклад высоко оценится, благородный путешественник.",
   "npcDialogues.pharaoh.intro1":
-    "Greetings, traveler. I am the Pharaoh, seeker of lost relics and forgotten knowledge. Have you uncovered any ancient treasures?",
+    "Приветствую тебя, путник. Я — Фараон, искатель утерянных реликвий и забытых знаний. Нашел ли ты что нибудь древние?",
   "npcDialogues.pharaoh.intro2":
-    "Welcome, wanderer. The sands of time hold many secrets, and I am in search of them. Have you found any artifacts on your journey?",
+    "Добро пожаловать, странник. Пески времени хранят множество секретов. Нашел ли ты какие-нибудь артефакты в своем путешествии?",
   "npcDialogues.pharaoh.intro3":
-    "Hail, explorer. I am the Pharaoh, guardian of ancient secrets. Have you discovered any relics that might aid in solving the mysteries of our past?",
+    "Приветствую тебя, исследователь. Я фараон, хранитель древних секретов. Нашел ли ты реликвии, которые могли бы помочь в разгадке тайн нашего прошлого?",
 };
 
 const nyeButton: Record<NyeButton, string> = {
   "plaza.magicButton.query":
-    "A magical button has appeared in the plaza. Do you want to press it?",
+    "На площади появилась волшебная кнопка. Хотите нажать на нее?",
 };
 
 const obsessionDialogue: Record<ObsessionDialogue, string> = {
   "obsessionDialogue.line1":
-    "Ah, the {{itemName}}! I only wish to see it, not possess. Show it to me, and {{seasonalTicket}}s will be your reward.",
+    "Уф, {{itemName}}! Я хочу только увидеть это, а не обладать. Покажи мне, и {{seasonalTicket}} будет твоей наградой.",
   "obsessionDialogue.line2":
-    "You've brought the {{itemName}}? I merely want to gaze upon it. Let me see, and {{seasonalTicket}}s shall be yours.",
+    "Ты принес {{itemName}}? Я просто хочу на него посмотреть. Дай мне посмотреть, и {{seasonalTicket}} будут твоими.",
   "obsessionDialogue.line3":
-    "Is that the {{itemName}} you have? A mere glance is all I desire. Fore this, you'll receive {{seasonalTicket}}s.",
+    "{{itemName}} у тебя? Мне только посмотреть. За это ты получишь {{seasonalTicket}}.",
   "obsessionDialogue.line4":
-    "The {{itemName}}! I don't want to keep it, just to behold it. Show it to me, and {{seasonalTicket}}s are yours.",
+    "{{itemName}}! Я не хочу его оставлять, просто чтобы полюбоваться. Покажи его мне, и {{seasonalTicket}} твои.",
   "obsessionDialogue.line5":
-    "You offer a view of the {{itemName}}? All I ask is to see it briefly. For your generosity, {{seasonalTicket}}s will be granted to you.",
+    "Ты дашь посмотреть {{itemName}}? Все, что я прошу, это взглянуть на него мельком. За твою щедрость тебе будут выписаны {{seasonalTicket}}.",
 };
 
 const offer: Record<Offer, string> = {
-  "offer.okxOffer": "Howdy Farmer, I have an exclusive OKX offer for you!",
+  "offer.okxOffer":
+    "Привет, фермер, у меня для тебя эксклюзивное предложение от биржи OKX!",
   "offer.beginWithNFT":
-    "To begin you will need to mint a free Farm NFT. This will include:",
-  "offer.getStarterPack": "Get Starter Pack Now",
-  "offer.newHere": "Howdy Farmer, you look new here!",
-  "offer.getStarted": "Get Started Now",
-  "offer.not.enough.BlockBucks": "You do not have enough Block Bucks!",
+    "Для начала тебе нужно будет создать бесплатный Farm NFT. Это будет включать:",
+  "offer.getStarterPack": "Получите стартовый пакет сейчас",
+  "offer.newHere": "Привет, Фармер, ты здесь как новенький!",
+  "offer.getStarted": "Ну погнали",
+  "offer.not.enough.BlockBucks": "У тебя недостаточно Block Bucks!",
 };
 
 const onboarding: Record<Onboarding, string> = {
-  "onboarding.welcome": "Welcome to decentralized gaming!",
-  "onboarding.step.one": "Step 1/3",
-  "onboarding.step.two": "Step 2/3 (Create a wallet)",
-  "onboarding.step.three": "Step 3/3 (Create your NFT)",
+  "onboarding.welcome": "Добро пожаловать в децентрализованную игру!",
+  "onboarding.step.one": "Шаг 1/3",
+  "onboarding.step.two": "Шаг 2/3 (Создай кошелек)",
+  "onboarding.step.three": "Шаг 3/3 (Создай свою NFT)",
   "onboarding.intro.one":
-    "In your travels, you will earn rare NFTs that need to be protected. To keep these secure you'll need a Web3 wallet.",
-  "onboarding.intro.two": "To begin your journey, your wallet will receive",
-  "onboarding.cheer": "You're almost there!",
-  "onboarding.form.one": "Fill in your details",
+    "В своих путешествиях ты будешь получать редкие NFT, которые нужно защищать. Чтобы сохранить их в безопасности, тебе понадобится кошелек Web3.",
+  "onboarding.intro.two":
+    "Чтобы начать свое путешествие, твой кошелек должен быть готов",
+  "onboarding.cheer": "Ты почти у цели!",
+  "onboarding.form.one": "Заполни свои данные",
   "onboarding.form.two":
-    "and we will send a free NFT to play. (This will take us 3-7 days)",
-  "onboarding.duplicateUser.one": "Already signed up!",
+    "и мы отправим бесплатный NFT для игры. (Это займет у нас 3-7 дней)",
+  "onboarding.duplicateUser.one": "Уже зарегистрировались!",
   "onboarding.duplicateUser.two":
-    "It looks like you have already registered for beta testing using a different address. Only one address can be used during beta testing. ",
-  "onboarding.starterPack": "Starter Pack",
-  "onboarding.settingWallet": "Setting up your wallet",
+    "Похоже, ты уже зарегистрировался на бета-тестирование, используя другой адрес. Во время бета-тестирования можно использовать только один адрес.",
+  "onboarding.starterPack": "Стартовый пакет",
+  "onboarding.settingWallet": "Настрой свой кошелек",
   "onboarding.wallet.one":
-    "There are many wallet providers out there, but we've partnered with Sequence because they're easy to use and secure.",
+    "Существует множество поставщиков кошельков, но мы сотрудничаем с Sequence, потому что они просты в использовании и безопасны.",
   "onboarding.wallet.two":
-    "Select a sign-up method in the pop-up window and you're good to go. I'll see you back here in just a minute!",
-  "onboarding.wallet.haveWallet": "I already have a wallet",
-  "onboarding.wallet.createButton": "Create wallet",
-  "onboarding.wallet.acceptButton": "Accept terms of service",
-  "onboarding.buyFarm.title": "Buy your farm!",
+    "Выберите способ регистрации во всплывающем окне, и все. Увидимся здесь через минуту!",
+  "onboarding.wallet.haveWallet": "У меня уже есть кошелек",
+  "onboarding.wallet.createButton": "Создать кошелек",
+  "onboarding.wallet.acceptButton": "Принять юридические штучки",
+  "onboarding.buyFarm.title": "Купи свою ферму!",
   "onboarding.buyFarm.one":
-    "Now that your wallet is all set up, it's time to get your very own farm NFT! ",
+    "Теперь, когда твой кошелек полностью настроен, пришло время завести собственную ферму NFT! ",
   "onboarding.buyFarm.two":
-    "This NFT will securely store all your progress in Sunflower Land and allow you to keep coming back to tend to your farm.",
-  "onboarding.wallet.already": "I already have a wallet ",
+    "Этот NFT надежно сохранит весь твой прогресс в Sunflower Land и позволит тебе безопасно ухаживать за своей фермой.",
+  "onboarding.wallet.already": "У меня уже есть кошелек",
 };
 
 const onCollectReward: Record<OnCollectReward, string> = {
-  "onCollectReward.Missing.Seed": "Missing Seeds",
-  "onCollectReward.Market": "Go to the Market to purchase seeds.",
-  "onCollectReward.Missing.Shovel": "Missing Shovel",
+  "onCollectReward.Missing.Seed": "Пропавшие семена",
+  "onCollectReward.Market": "Идите на рынок, чтобы купить семена.",
+  "onCollectReward.Missing.Shovel": "Пропавшая лопата",
   "onCollectReward.Missing.Shovel.description":
-    "Expand your island to find it.",
+    "Расширьте свой остров, чтобы найти лопаты.",
 };
 
 const orderhelp: Record<OrderHelp, string> = {
-  "orderhelp.Skip.hour": "You're only able to skip an order after 24 hours!",
+  "orderhelp.Skip.hour": "Пропустить заказ можно только раз в сутки!",
   "orderhelp.New.Season":
-    "A new season approaches, ticket deliveries will temporarily close.",
-  "orderhelp.New.Season.arrival": "Seasonal deliveries opening soon...",
-  "orderhelp.Wisely": "Choose wisely!",
-  "orderhelp.SkipIn": "Skip in",
-  "orderhelp.NoRight": "Not Right Now",
+    "Приближается новый сезон, доставка билетов временно прекращается.",
+  "orderhelp.New.Season.arrival": "Скоро открытие сезонных поставок...",
+  "orderhelp.Wisely": "Выбирайте мудро!",
+  "orderhelp.SkipIn": "Пропустить через",
+  "orderhelp.NoRight": "Не сейчас",
   "orderhelp.ticket.deliveries.closed":
-    "Ticket deliveries are currently closed",
+    "Доставка билетов в настоящее время закрыта.",
 };
 
 const pending: Record<Pending, string> = {
-  "pending.calcul": "The results are being calculated.",
-  "pending.comeback": "Come back later.",
+  "pending.calcul": "Результаты подсчитываются.",
+  "pending.comeback": "Заходи попозже.",
 };
 
 const personHood: Record<PersonHood, string> = {
-  "personHood.Details": "Failed Loading Personhood Details",
-  "personHood.Identify": "Your identity could not be verified",
-  "personHood.Congrat": "Congratulations, your identity has been verified!",
+  "personHood.Details": "Не удалось загрузить сведения о личности",
+  "personHood.Identify": "Твоя личность не может быть проверена",
+  "personHood.Congrat": "Поздравляем, твоя личность подтверждена!",
 };
 
 const piratechest: Record<PirateChest, string> = {
   "piratechest.greeting":
-    "Ahoy matey! Set sail and come back later for a chest full of swashbuckling rewards!",
-  "piratechest.refreshesIn": "Chest Refreshes in:",
+    "Ахой, приятель! Отправляйся в плавание и возвращайся позже за сундуком с наградами!",
+  "piratechest.refreshesIn": "Сундук обновится через:",
   "piratechest.warning":
-    "Ahoy there! This chest be filled with treasures fit for a pirate king, but beware, only those with a pirate skin can open it and claim the booty within!",
+    "Ахой! Этот сундук наполнен сокровищами, достойными короля пиратов, но осторожно, только те, у кого есть пиратская кожа, могут открыть его и забрать добычу!",
 };
 
 const pirateQuest: Record<PirateQuest, string> = {
-  "questDescription.farmerQuest1": "Harvest 1000 Sunflowers",
-  "questDescription.fruitQuest1": "Harvest 10 Blueberries",
-  "questDescription.fruitQuest2": "Harvest 100 Oranges",
-  "questDescription.fruitQuest3": "Harvest 750 Apples",
-  "questDescription.pirateQuest1": "Dig 30 holes",
-  "questDescription.pirateQuest2": "Collect 10 Seaweeds",
-  "questDescription.pirateQuest3": "Collect 10 Pipis",
-  "questDescription.pirateQuest4": "Collect 5 Corals",
+  "questDescription.farmerQuest1": "Собери 1000 Sunflowers",
+  "questDescription.fruitQuest1": "Собери 10 Blueberries",
+  "questDescription.fruitQuest2": "Собери 100 Oranges",
+  "questDescription.fruitQuest3": "Собери 750 Apples",
+  "questDescription.pirateQuest1": "Выкоппай 30 ямок",
+  "questDescription.pirateQuest2": "Собери 10 Seaweeds",
+  "questDescription.pirateQuest3": "Собери 10 Pipis",
+  "questDescription.pirateQuest4": "Собери 5 Corals",
   "piratequest.welcome":
-    "Welcome to the high seas of adventure, where ye be tested as a true pirate. Set sail on a journey to find the richest pillage and become the greatest pirate to ever grace the ocean waves.",
+    "Добро пожаловать в открытое море приключений, где ты испытаешь себя как настоящий пират. Отправляйся в путешествие, чтобы найти самую богатую добычу и стать величайшим пиратом, когда-либо украшавшим океанские волны.",
   "piratequest.finestPirate":
-    "Ahoy, ye be the finest pirate on the seven seas with yer loot!!",
+    "Эй, ты будешь лучшим пиратом на семи морях со своей добычей!",
 };
 
 const pickserver: Record<Pickserver, string> = {
-  "pickserver.server": "Choose a server to join",
-  "pickserver.full": "Полон",
-  "pickserver.explore": "Explore custom project islands.",
-  "pickserver.built": "Do you want to build your own island?",
+  "pickserver.server": "Выберите сервер, к которому хотите присоединиться",
+  "pickserver.full": "Полоная коробочка",
+  "pickserver.explore": "Исследуйте острова проекта.",
+  "pickserver.built": "Хотите построить свой собственный остров?",
 };
 
 const playerTrade: Record<PlayerTrade, string> = {
-  "playerTrade.no.trade": "No trades available.",
-  "playerTrade.max.item": "Oh no! You've reached your max items.",
+  "playerTrade.no.trade": "Нет доступных сделок.",
+  "playerTrade.max.item":
+    "О нет! Ты достиг максимального количества предметов.",
   "playerTrade.Progress":
-    "Please store your progress on chain before continuing.",
-  "playerTrade.transaction":
-    "Oh oh! It looks like you have a transaction in progress.",
-  "playerTrade.Please": "Please allow 5 minutes before continuing.",
+    "Пожалуйста, сохраните свой прогресс в блокчейне, прежде чем продолжить.",
+  "playerTrade.transaction": "Ой-ой! Похоже, у тебя идет транзакция.",
+  "playerTrade.Please":
+    "Пожалуйста, подождите 5 минут, прежде чем продолжить..",
   "playerTrade.sold": "Продано",
   "playerTrade.sale": "На продажу: ",
-  "playerTrade.title.congrat": "Поздравляем, твой листинг был куплен!",
+  "playerTrade.title.congrat": "Поздравляем, твоя продажа завершена!",
 };
 
 const portal: Record<Portal, string> = {
   "portal.wrong": "Что-то пошло не так",
-  "portal.unauthorised": "unauthorised",
+  "portal.unauthorised": "неавторизован",
   "portal.examples": ENGLISH_TERMS["portal.examples"],
-  "portal.example.intro": ENGLISH_TERMS["portal.example.intro"],
   "portal.example.claimPrize": "Забери свой приз!",
-  "portal.example.purchase": ENGLISH_TERMS["portal.example.purchase"],
+  "portal.example.intro":
+    "Привет, привет, добро пожаловать на этот тестовый портал.",
+  "portal.example.purchase": "Купить поддельный пропуск",
   "portal.example.unlockAchievements":
     ENGLISH_TERMS["portal.example.unlockAchievements"],
 };
@@ -4769,81 +4766,79 @@ const purchaseableBaitTranslation: Record<PurchaseableBaitTranslation, string> =
   };
 
 const quest: Record<Quest, string> = {
-  "quest.mint.free": "Mint Free Wearable",
-  "quest.equipWearable": "Equip this wearable on your Bumpkin",
-  "quest.congrats": "Congratulations, you have minted a {{wearable}}",
+  "quest.mint.free": "Получи бесплатную одежку",
+  "quest.equipWearable": "Наряди своего бампкина",
+  "quest.congrats": "Поздравляем, ты получил {{wearable}}",
 };
 
 const questions: Record<Questions, string> = {
-  "questions.obtain.MATIC": "How do I get MATIC?",
-  "questions.lowCash": "Short on Cash?",
+  "questions.obtain.MATIC": "Как мне получить MATIC?",
+  "questions.lowCash": "Не хватает наличных денег?",
 };
 
 const reaction: Record<Reaction, string> = {
-  "reaction.bumpkin": "Lvl 3 Bumpkin",
-  "reaction.bumpkin.10": "Lvl 10 Bumpkin",
-  "reaction.bumpkin.30": "Lvl 30 Bumpkin",
-  "reaction.bumpkin.40": "Lvl 40 Bumpkin",
-  "reaction.sunflowers": "Harvest 100,000 Sunflowers",
-  "reaction.crops": "Harvest 10,000 crops",
-  "reaction.goblin": "Turn into a Goblin",
-  "reaction.crown": "Own a Goblin Crown",
+  "reaction.bumpkin": "3 уровень Бампкина",
+  "reaction.bumpkin.10": "10 уровень Бампкина",
+  "reaction.bumpkin.30": "30 уровень Бампкина",
+  "reaction.bumpkin.40": "40 уровень Бампкина",
+  "reaction.sunflowers": "Собери 100,000 Sunflowers",
+  "reaction.crops": "Собери 10,000 урожая",
+  "reaction.goblin": "Превратись в Гоблина",
+  "reaction.crown": "Завладей Гоблинской короной",
 };
 
 const reactionBud: Record<ReactionBud, string> = {
-  "reaction.bud.show": "Show your buds",
-  "reaction.bud.select": "Select a bud to place in the plaza",
-  "reaction.bud.noFound": "No buds found in your inventory",
+  "reaction.bud.show": "Покажи своего Бада",
+  "reaction.bud.select": "Выбери Бада",
+  "reaction.bud.noFound": "Нету Бадов",
 };
 
 const refunded: Record<Refunded, string> = {
-  "refunded.itemsReturned": "Your items have been returned to your inventory",
-  "refunded.goodLuck": "Good luck next time!",
+  "refunded.itemsReturned": "Твоя ставка была возвращена в инвентарь.",
+  "refunded.goodLuck": "В следующий раз точно получится!",
 };
 
 const removeHungryCaterpillar: Record<RemoveHungryCaterpillar, string> = {
-  "removeHungryCaterpillar.title": "Remove Hungry Caterpillar?",
+  "removeHungryCaterpillar.title": "Убрать Голодную гусеницу?",
   "removeHungryCaterpillar.description":
-    "This action will remove all your flower seeds from your inventory.",
-  "removeHungryCaterpillar.removeFlowerSeeds": "Remove flower seeds",
-  "removeHungryCaterpillar.confirmation":
-    "Are you sure you want to remove your Hungry Caterpillar?",
+    "Ну тогда мы удалим все семена цветов из инвентаря.",
+  "removeHungryCaterpillar.removeFlowerSeeds": "Ну удалить семена цветов",
+  "removeHungryCaterpillar.confirmation": "Точно убираем Голодную гусеницу?",
 };
 
 const removeKuebiko: Record<RemoveKuebiko, string> = {
-  "removeKuebiko.title": "Remove Kuebiko",
-  "removeKuebiko.description":
-    "This action will remove all your seeds from your inventory.",
-  "removeKuebiko.removeSeeds": "Remove seeds",
+  "removeKuebiko.title": "Убрать Куебико?",
+  "removeKuebiko.description": "Ну тогда мы удалим все семена из инвентаря.",
+  "removeKuebiko.removeSeeds": "Удаляем семена",
 };
 
 const resale: Record<Resale, string> = {
-  "resale.actionText": "Resale",
+  "resale.actionText": "Перепродажа",
 };
 
 const restock: Record<Restock, string> = {
   "restock.one.buck":
-    "Ты потратишь 1 Block Buck, чтобы пополнить запасы всех магазинных предметов в игре.",
+    "Ты потратишь 1 Block Buck, чтобы пополнить запасы всех предметов в магазинах.",
   "restock.sure": "Ты уверен, что хочешь пополнить запасы?",
   "restock.tooManySeeds": "У тебя слишком много семян в инвентаре!",
-  "seeds.reachingInventoryLimit": "You are reaching your seed basket limit!",
+  "seeds.reachingInventoryLimit": "У тебя полная корзина!",
   "crops.noCropsToSell": "У тебя нет {{cropName}} для продажи!",
-  "seeds.plantingSpot.needed": "{{plantingSpot}} Needed",
+  "seeds.plantingSpot.needed": "{{plantingSpot}} нужно",
 };
 
 const retreatTerms: Record<RetreatTerms, string> = {
-  "retreatTerms.lookingForRareItems": "Looking for rare items?",
+  "retreatTerms.lookingForRareItems": "Ищешь что то редкое?",
   "retreatTerms.resale.one":
-    "Players can trade special items they crafted in-game.",
+    "Игроки могут торговать особыми предметами, которые они создали в игре.",
   "retreatTerms.resale.two":
-    "You can purchase these on secondary marketplaces like OpenSea.",
-  "retreatTerms.resale.three": "View items on OpenSea",
+    "Ты можешь купить их на вторичных торговых площадках, например OpenSea.",
+  "retreatTerms.resale.three": "Посмотреть на OpenSea",
 };
 
 const resources: Record<Resources, string> = {
   "resources.recoversIn": "Восстановится через:",
   "resources.boulder.rareMineFound": "Ты нашел редкую жилу!",
-  "resources.boulder.advancedMining": "Advanced mining on its way.",
+  "resources.boulder.advancedMining": "Прокаченная добыча на подходе.",
 };
 
 const rewardTerms: Record<RewardTerms, string> = {
@@ -4856,7 +4851,7 @@ const rewardTerms: Record<RewardTerms, string> = {
   "reward.lvlRequirement":
     "Ты должен быть 3 уровня, чтобы получать ежедневные награды.",
   "reward.whatCouldItBe": "Что же это может быть?",
-  "reward.streakBonus": "3x streak bonus",
+  "reward.streakBonus": "3x для в ряд",
   "reward.found": "Ты нашел",
   "reward.spendWisely": "Потрать их с умом.",
   "reward.wearable": "Одежда для твоего бампкина",
@@ -4868,24 +4863,22 @@ const rewardTerms: Record<RewardTerms, string> = {
 
 const rulesGameStart: Record<RulesGameStart, string> = {
   "rules.gameStart":
-    "At the beginning of the game, the plant will randomly pick a combination of 4 potions and 1 'chaos' potion. The combination can be all different or all the same.",
+    "В начале игры растение случайным образом выберет комбинацию из 4 зелий и 1 зелья «хаоса». Комбинации могут быть как разными, так и одинаковыми.",
   "rules.chaosPotionRule":
-    "If you add the 'chaos' potion your score for that attempt will be 0.",
-  "rules.potion.feedback":
-    "Select your potions and unveil the secrets of the plants!",
-  "BloomBoost.description": "Ignite your plants with vibrant blooms!",
+    "Если ты добавишь зелье «хаоса», твой счет за эту попытку будет равен 0.",
+  "rules.potion.feedback": "Выбирайте зелья и раскройте секреты растений!",
+  "BloomBoost.description": "Подарите своим растениям яркое цветение!",
   "DreamDrip.description":
-    "Drizzle your plants with magical dreams and fantasies.",
+    "Окропите свои растения волшебными мечтами и фантазиями.",
   "EarthEssence.description":
-    "Harness the power of the earth to nurture your plants.",
-  "FlowerPower.description":
-    "Unleash a burst of floral energy upon your plants.",
+    "Используйте силу земли для выращивания своих растений.",
+  "FlowerPower.description": "Дай волю цветочной энергии своим растениям.",
   "SilverSyrup.description":
-    "A sweet syrup to bring out the best in your plants.",
+    "Сладкий сироп, который поможет твоим растениям раскрыть весь потенциал.",
   "HappyHooch.description":
-    "A potion to bring joy and laughter to your plants.",
+    "Зелье, которое принесет радость и смех твоим растениям.",
   "OrganicOasis.description":
-    "Create a lush, organic paradise for your plants.",
+    "Создай пышный органический рай для своих растений.",
 };
 
 const rulesTerms: Record<RulesTerms, string> = {
@@ -4899,14 +4892,14 @@ const rulesTerms: Record<RulesTerms, string> = {
 const pwaInstall: Record<PwaInstall, string> = {
   "install.app": "Установить приложение",
   "magic.link": "Магическая ссылка",
-  "generating.link": "Generating Link",
-  "generating.code": "Generating Code",
+  "generating.link": "Создать ссылку",
+  "generating.code": "Создать код",
   "install.app.desktop.description":
-    "Scan the code below to install on your device. Please be sure to open in either Safari or Chrome browser.",
+    "Сканируйте код ниже, чтобы установить на свое устройство. Убедитесь что открываете в Safari или Chrome.",
   "install.app.mobile.metamask.description":
-    "Copy the magic link below and open it in {{browser}} on your device to install!",
-  "do.not.share.link": "Do not share this link!",
-  "do.not.share.code": "Do not share this code!",
+    "Скопируйте волшебную ссылку ниже и откройте ее в {{browser}} для установки!",
+  "do.not.share.link": "Не шарь ссылку!",
+  "do.not.share.code": "И код тоже не показывай!",
   "qr.code.not.working": "QR-код не работает?",
 };
 
@@ -4915,9 +4908,9 @@ const sceneDialogueKey: Record<SceneDialogueKey, string> = {
 };
 
 const seasonTerms: Record<SeasonTerms, string> = {
-  "season.access": "У вас есть доступ к",
-  "season.banner": "Сезонный Баннер",
-  "season.bonusTickets": "Бонусные Сезонные Билеты",
+  "season.access": "У тебя есть доступ к",
+  "season.banner": "Сезонный баннер",
+  "season.bonusTickets": "Бонусные сезонные билеты",
   "season.boostXP": "+10% Опыта от еды",
   "season.buyNow": "Купить сейчас",
   "season.discount": "Скидка 25% SFL на сезонные предметы",
@@ -4925,42 +4918,40 @@ const seasonTerms: Record<SeasonTerms, string> = {
   "season.goodLuck": "Удачи в сезоне!",
   "season.includes": "Содержит:",
   "season.limitedOffer": "Ограниченное время!",
-  "season.wearableAirdrop": "Аирдроп Сезонной Одежды",
+  "season.wearableAirdrop": "Аирдроп сезонной одежды",
   "season.place.land": "Ты должен разместить это на своей земле",
-  "season.megastore.discount": "SFL Скидка в Мегасторе",
+  "season.megastore.discount": "Скидка на SFL в Мегасторе",
   "season.supporter.gift": "Подарок для сторонников",
   "season.free.season.passes": "Бесплатные сезонные баннеры",
-  "season.free.season.passes.description":
-    "Получайте баннеры для каждого сезона",
+  "season.free.season.passes.description": "Получай баннеры для каждого сезона",
   "season.vip.access": "Сезонный VIP-доступ",
-  "season.vip.claim": "Claim your monthly seasonal airdrop.",
+  "season.vip.claim": "Забери свой ежемесячный сезонный аирдроп.",
   "season.vip.description":
-    "Dominate the season with perks, discounts, bonus tickets, airdrops and more!",
-  "season.vip.purchase": "Purchase VIP Items",
+    "Доминируй в сезоне благодаря привилегиям, скидкам, бонусным билетам, аирдропам и многому другому!",
+  "season.vip.purchase": "Приобрести VIP-предметы",
   "season.mystery.gift": "Таинственный подарок",
   "season.xp.boost": "10% XP буст",
   "season.lifetime.farmer": "Фермер на всю жизнь",
-  "season.free.with.lifetime": "Free with Lifetime Farmer",
-  "season.pharaohs.gift": "5 Extra Desert Digs",
-  "season.ticket.bonus": "+2 {{item}}s (deliveries & chores)",
+  "season.free.with.lifetime": "Бесплатно с Lifetime Farmer",
+  "season.pharaohs.gift": "+5 дополнительных копок на пляже",
+  "season.ticket.bonus": "+2 {{item}} (для доставок и списка дел)",
   "season.codex.intro":
-    "Earn {{ticket}}s to craft exclusive collectibles & wearables for your farm in this limited season...Hurry before time runs out!",
-  "season.codex.howToEarn": "How to earn {{ticket}}s?",
-  "season.codex.howToEarn.one":
-    "Visit the plaza & deliver resources to Bumpkins.",
-  "season.codex.howToEarn.two": "Complete Hank's chores.",
-  "season.codex.howToEarn.three": "Compete in the faction competition.",
-  "season.codex.nextDrop": "Next Drop",
-  "season.codex.seasonalDrops": "Seasonal Drops",
+    "Зарабатывай {{ticket}}, чтобы создавать эксклюзивную одежду и коллекционные предметы для твоей фермы в этом ограниченном по времени сезоне...Поторопись, пока время не истекло!",
+  "season.codex.howToEarn": "Как получить {{ticket}}?",
+  "season.codex.howToEarn.one": "Посещай плазу и доставляй ресурсы бампкинам.",
+  "season.codex.howToEarn.two": "Завершай список дел Hank'а.",
+  "season.codex.howToEarn.three": "Соревнуйся в фракционных состязаниях.",
+  "season.codex.nextDrop": "Следующий аукцион",
+  "season.codex.seasonalDrops": "Сезонные аукционы",
   "season.codex.seasonalDrops.description":
-    "Compete with others for the rarest items! Visit the Auctioneer in the plaza for more details.",
-  "season.codex.soldOut": "Sold out",
-  "season.codex.mutants": "Mutants",
-  "season.codex.mutants.discover": "Discover the seasonal mutants!",
-  "season.codex.mutants.one": "Collect eggs to discover the {{item}}.",
-  "season.codex.mutants.two": "Fish in the depths for the {{item}}.",
+    "Соревнуйся с другими игроками за самые редкие предметы! За подробностями обращайся к Auctioneer на плазе.",
+  "season.codex.soldOut": "Расродано",
+  "season.codex.mutants": "Мутанты",
+  "season.codex.mutants.discover": "Найди сезонных мутантов!",
+  "season.codex.mutants.one": "Собирай яйца, чтобы найти {{item}}.",
+  "season.codex.mutants.two": "Рыбачь на глубине, чтобы найти {{item}}.",
   "season.codex.mutants.three":
-    "Experiment with flowers to discover the {{item}}.",
+    "Экспериментируй с цветами, чтобы найти {{item}}.",
 };
 
 const share: Record<Share, string> = {
@@ -4973,7 +4964,7 @@ const share: Record<Share, string> = {
   "share.Tweet": "Твитнуть",
   "share.chooseServer": "Выбери сервер для входа",
   "share.FULL": "ЗАПОЛНЕН",
-  "share.exploreCustomIslands": "Explore custom project islands.",
+  "share.exploreCustomIslands": "Исследуйте острова индивидуальных проектов.",
   "share.buildYourOwnIsland": "Ты хочешь построить свой собственный остров?",
 };
 
@@ -4994,156 +4985,156 @@ const shopItems: Record<ShopItems, string> = {
 };
 
 const showingFarm: Record<ShowingFarm, string> = {
-  "showing.farm": "Showing on Farm",
-  "showing.wallet": "In Wallet",
+  "showing.farm": "Показать",
+  "showing.wallet": "в кошыльке",
 };
 
 const snorklerDialogues: Record<SnorklerDialogues, string> = {
-  "snorkler.vastOcean": "It is a vast ocean!",
-  "snorkler.goldBeneath": "There must be gold somewhere beneath the surface.",
+  "snorkler.vastOcean": "Это голубой океан!",
+  "snorkler.goldBeneath": "Где-то под поверхностью должно быть золото.",
 };
 
 const somethingWentWrong: Record<SomethingWentWrong, string> = {
-  "somethingWentWrong.supportTeam": "support team",
-  "somethingWentWrong.jumpingOver": "or jumping over to our",
-  "somethingWentWrong.askingCommunity": "and asking our community.",
+  "somethingWentWrong.supportTeam": "поддержка",
+  "somethingWentWrong.jumpingOver": "или иди на",
+  "somethingWentWrong.askingCommunity": "и попроси помощи у комьюнити.",
 };
 
 const specialEvent: Record<SpecialEvent, string> = {
   "special.event.easterIntro":
-    "Oh no, my 6 rabbits have gone missing again....they must be searching for food. Can you help me find them? They look similar to other rabbits but have a unique sparkle. Click on them to capture them.",
-  "special.event.rabbitsMissing": "Rabbits missing",
-  "special.event.link": "Airdrop link",
-  "special.event.claimForm":
-    "Please fill in the form below to claim your airdrop.",
-  "special.event.airdropHandling":
-    "Airdrops are handled externally and may take a few days to arrive.",
-  "special.event.walletRequired": "Wallet Required",
-  "special.event.web3Wallet":
-    "A Web3 wallet is required to claim this airdrop.",
-  "special.event.airdrop": "Airdrop",
-  "special.event.finishedLabel": "Event Finished",
+    "О нет, мои 6 кроликов снова пропали... они, должно быть, проглодались. Поможешь мне их найти? Они похожи на других кроликов, но у них есть уникальный блеск. Щелкните по ним, чтобы поймать их.",
+  "special.event.rabbitsMissing": "Кроликов пропало",
+  "special.event.link": "Аирдроп",
+  "special.event.claimForm": "Заполни форму чтобы забрать аирдроп.",
+  "special.event.airdropHandling": "Аирдроп может занять несколько дней..",
+  "special.event.walletRequired": "Нужен кошелек",
+  "special.event.web3Wallet": "Для получения аирдропа необходим кошелек Web3.",
+  "special.event.airdrop": "Аирдроп",
+  "special.event.finishedLabel": "Событие завершилось",
   "special.event.finished":
-    "This event has finished. Stay tuned for future events!",
+    "Это событие завершено. Следите за будущими событиями!",
   "special.event.ineligible":
-    "There is no work needing to be done right now, thanks for stopping by though!",
+    "Сейчас нет необходимости делать какую-либо работу, но спасибо, что зашел!",
 };
 
 const statements: Record<Statements, string> = {
-  "statements.adventure": "Start your Adventure!",
+  "statements.adventure": "Начнем это приключение!",
   "statements.auctioneer.one":
-    "I've travelled far and wide across Sunflower Land in search for exotic treasures to bring to my fellow Bumpkins.",
+    "Я объездил всю страну Подсолнухов в поисках экзотических артефактов, чтобы привезти их моим собратьям-деревенщинам.",
   "statements.auctioneer.two":
-    "Don't miss one of the Auctions where a swing of my mighty hammer can turn your hard-earned resources into rare, minted marvels!",
-  "statements.beta.one": "Beta is only accessible to our OG farmers.",
-  "statements.beta.two": "Stay tuned for updates. We will be going live soon!",
-  "statements.better.luck": "Better luck next time!",
+    "Не пропусти ни один из аукционов, где взмах моего могучего молота может превратить твои с трудом заработанные ресурсы в редкие, чеканные чудеса!",
+  "statements.beta.one": "Бета-версия доступна только нашим OG фермерам.",
+  "statements.beta.two": "Следи за обновлениями. Скоро мы выйдем в эфир!",
+  "statements.better.luck": "В следующий раз точно получится!",
   "statements.blacklist.one":
-    "The anti-bot and multi-account detection system has picked up strange behaviour. Actions have been restricted.",
+    "Система обнаружения антиботов и мультиаккаунтов обнаружила странное поведение. Действия были ограничены.",
   "statements.blacklist.two":
-    "Please submit a ticket with details and we will get back to you.",
-  "statements.clickBottle": "Click on a bottle to add to your guess",
+    "Пожалуйста, отправь сообщения с подробностями, и мы свяжемся с вами.",
+  "statements.clickBottle": "Нажми на бутылку, чтобы попробовать угадать",
   "statements.clock.one":
-    "Uh oh, it looks like your clock is not in sync with the game. Set date and time to automatic to avoid disruptions",
+    "Ой-ой, похоже, твои часы не синхронизированы с игрой. Установите дату и время на автоматическое, чтобы избежать сбоев",
   "statements.clock.two":
-    "Need help to sync your clock? Have a look at our guide!",
-  "statements.conversation.one": "I've got something for you!",
+    "Нужна помощь в синхронизации часов? Ознакомьтесь с нашим руководством!",
+  "statements.conversation.one": "У меня есть кое-что для тебя!",
   "statements.cooldown":
-    "To protect the community, we require a 2 week waiting period before this farm can be accessed.",
-  "statements.docs": "Go to docs",
-  "statements.dontRefresh": "Do not refresh your browser!",
-  "statements.guide.one": "Go to guide",
-  "statements.guide.two": "Check out this guide to help you get started.",
+    "Чтобы защитить сообщество, нам требуется двухнедельный период ожидания, прежде чем можно будет получить доступ к этой ферме.",
+  "statements.docs": "Почитать документы",
+  "statements.dontRefresh": "Не обновляй браузер!",
+  "statements.guide.one": "Перейти к руководству",
+  "statements.guide.two":
+    "Ознакомься с этим руководством, которое поможет быстро начать.",
   "statements.jigger.one":
-    "You will be redirected to a 3rd party service to take a quick selfie. Never share any personal information or crypto data.",
-  "statements.jigger.two": "You failed the Jigger Proof of Humanity.",
+    "Ты будешь перенаправлен на сторонний сервис, чтобы сделать быстрое селфи. Никогда не делись личной информацией или криптографическими данными.",
+  "statements.jigger.two": "Ты не смог доказать свою человечность.",
   "statements.jigger.three":
-    "You can continue playing, but some actions will be restricted while you are being verified.",
+    "Ты можешь продолжать играть, но некоторые действия будут ограничены, пока проводится проверка.",
   "statements.jigger.four":
-    "Please reach out to support@usejigger.com if you beleive this was a mistake.",
+    "Если ты считаешь, что это была ошибка, напиши на support@usejigger.com..",
   "statements.jigger.five":
-    "Your proof of humanity is still being processed by Jigger. This can take up to 2 hours.",
+    "Твои доказательства все еще обрабатывается. Это может занять до 2 часов.",
   "statements.jigger.six":
-    "The multi-account detection system has picked up strange behaviour.",
-  "statements.lvlUp": "Feed your Bumpkin to level up",
+    "Система обнаружения нескольких аккаунтов обнаружила странное поведение.",
+  "statements.lvlUp": "Корми своего бампкина, чтобы повысить свой уровень",
   "statements.maintenance":
-    "New things are coming! Thanks for your patience, the game will be live again shortly.",
-  "statements.minted": "The goblins have crafted your ",
+    "Скоро будет что-то новое! Спасибо за терпение, игра скоро снова будет доступна.",
+  "statements.minted": "Гоблины создали твой ",
   "statements.minting":
-    "Please be patient while your item is minted on the Blockchain.",
-  "statements.mutant.chicken":
-    "Поздравляю, твоя курица снесла очень редкого мутанта!",
+    "Пожалуйста, прояви терпение, пока товар будет добавлен в блокчейн.",
+  "statements.mutant.chicken": "Поздравляю, твоя курица выносила мутанта!",
   "statements.news":
-    "Receive the latest news, complete chores & feed your Bumpkin.",
-  "statements.ohNo": "Oh no! Something went wrong!",
-  "statements.openGuide": "Open guide",
-  "statements.patience": "Thank you for your patience.",
+    "Получай последние новости, выполняй домашние дела и корми своего бампкина.",
+  "statements.ohNo": "О нет! Что-то просыпалось!",
+  "statements.openGuide": "Открыть руководство",
+  "statements.patience": "Спасибо за твое терпение.",
   "statements.potionRule.one":
-    "Objective: Figure out the combination. You have 3 tries to get it right. The game will end if you have a perfect potion or if you run out of tries.",
-  "statements.potionRule.two":
-    "Choose a combination of potions and attempt to mix them.",
+    "Цель: Разгадать комбинацию. У тебя есть 3 попытки. Игра закончится, если у тебя будет идеальное зелье или если закончатся попытки.",
+  "statements.potionRule.two": "Выбери комбинацию зелий и попробуй их смешать.",
   "statements.potionRule.three":
-    "Adjust your next combination based on the feedback given.",
+    "Скорректируй следующую комбинацию на основе результатов.",
   "statements.potionRule.four":
-    "When the game is complete, the score for your last attempt will determine help to determine your reward.",
-  "statements.potionRule.five": "A perfect potion in the perfect position",
-  "statements.potionRule.six": "Correct potion but wrong position",
-  "statements.potionRule.seven": "Oops, wrong potion",
-  "statements.sflLim.one": "You have reached the daily SFL limit.",
+    "Когда игра будет завершена, счет твоей последней попытки определит награду.",
+  "statements.potionRule.five": "Идеальное зелье в идеальном месте",
+  "statements.potionRule.six": "Правильное зелье, но неправильная позиция",
+  "statements.potionRule.seven": "Упс, не то зелье.",
+  "statements.sflLim.one": "Ты достиг дневного лимита SFL.",
   "statements.sflLim.two":
-    "You can continue playing, but will need to wait until tomorrow to sync again.",
-  "statements.sniped": "Oh no! Another player bought that trade before you.",
-  "statements.switchNetwork": "Add or Switch Network",
+    "Ты можешь продолжить игру, но тебе придется подождать до завтра, чтобы снова синхронизироваться.",
+  "statements.sniped":
+    "О нет! Другой игрок увел эту сделку у тебя из под носа.",
+  "statements.switchNetwork": "Добавить или переключить сеть",
   "statements.sync":
-    "Please bear with us while we sync all of your data on chain.",
+    "Пожалуйста, наберись терпения, пока мы синхронизируем все данные в блокчейне.",
   "statements.tapCont": "Нажми, чтобы продолжить",
   "statements.price.change":
-    "Oh no! Looks like the price has changed, please try again!",
+    "О нет! Кажется, цена изменилась, попробуй еще раз!",
 
   "statements.tutorial.one":
-    "The boat will take you between islands where you can discover new lands and exciting adventures.",
+    "Лодка прокатит тебя между островами, где ты сможешь открыть для себя новые земли и захватывающие приключения.",
   "statements.tutorial.two":
-    "Many lands are far away and will require an experienced Bumpkin before you can visit them.",
+    "Многие земли находятся далеко, и для того, чтобы их посетить, тебе понадобится опытный бампкин.",
   "statements.tutorial.three":
-    "Your adventure begins now, how far you explore ... that is on you.",
+    "Твое приключение начинается сейчас, а как далеко ты зайдешь, зависит только от тебя.",
   "statements.visit.firePit":
-    "Visit the Fire Pit to cook food and feed your Bumpkin.",
-  "statements.wishing.well.info.four": "provide liquidity",
-  "statements.wishing.well.info.five": " in the game",
-  "statements.wishing.well.info.six": "providing liquidity",
+    "На Fire Pit можно быстро приготовит еду для Бампкина.",
+  "statements.wishing.well.info.four": "обеспеч ликвидность",
+  "statements.wishing.well.info.five": " в игре",
+  "statements.wishing.well.info.six": "предоставление ликвидности",
   "statements.wishing.well.worthwell":
-    "There is currently {{rewards}} SFL worth of rewards in the well!",
+    "В настоящее время в колодце находится награда на сумму {{rewards}} SFL!",
   "statements.wishing.well.look.like":
-    "It doesn't look like you are providing liquidity yet.",
-  "statements.wishing.well.lucky": "Let's see how lucky you are!",
+    "Похоже, тыы пока не предоставляете ликвидность.",
+  "statements.wishing.well.lucky": "Посмотрим, насколько тебе повезло!",
   "statements.wrongChain.one":
-    "Check out this guide to help you get connected.",
-  "statements.feed.bumpkin.one": "You have no food in your inventory.",
+    "Ознакомьтесь с этим руководством, оно поможет тебе подключиться.",
+  "statements.feed.bumpkin.one": "У тебя нет еды в инвентаре.",
   "statements.feed.bumpkin.two":
-    "You will need to cook food in order to feed your Bumpkin.",
-  "statements.empty.chest": "Your chest is empty, discover rare items today!",
+    "Тебе нужно будет приготовить еду, чтобы накормить своего бампкина.",
+  "statements.empty.chest": "Твой сундук пуст, ищи редкие предметы!",
   "statements.chest.captcha": "Нажми на сундук, чтобы открыть его",
-  "statements.frankie.plaza": "Travel to the plaza to craft rare decorations!",
-  "statements.blacksmith.plaza": "Travel to the Plaza for more rare items.",
-  "statements.water.well.needed.one": "Additional Water Well required.",
+  "statements.frankie.plaza":
+    "Отправляйся на Плазу, чтобы изготовить редкий декор!",
+  "statements.blacksmith.plaza":
+    "Отправляйся на Плазуза за еще более редкими предметами.",
+  "statements.water.well.needed.one": "Требуется дополнительный колодец.",
   "statements.water.well.needed.two":
-    "In order to support more crops, build a well.",
-  "statements.soldOut": "Sold out",
-  "statements.soldOutWearables": "View sold out wearables",
-  "statements.craft.composter": "Craft at Composter",
-  "statements.wallet.to.inventory.transfer": "Deposit items from your wallet",
-  "statements.crop.water": "These crops need water!",
+    "Чтобы вырастить больше урожая, нужен колодец.",
+  "statements.soldOut": "Продано",
+  "statements.soldOutWearables": "Посмотреть распроданную одежду",
+  "statements.craft.composter": "Сделай Composter",
+  "statements.wallet.to.inventory.transfer": "Перенеси предметы из кошелька",
+  "statements.crop.water": "Этим культурам нужна вода!",
   "statements.daily.limit": "Дневной лимит: ",
-  "statements.sure.buy": "Are you sure you want to buy {{item}}?",
-  "statements.perplayer": "per Player",
-  "statements.minted.goToChest": "Go to your chest and place it on your island",
+  "statements.sure.buy": "Ты точно хочешь купить {{item}}?",
+  "statements.perplayer": "за игрока",
+  "statements.minted.goToChest":
+    "Открой сундуку и поставь его на своем острове.",
   "statements.minted.withdrawAfterMint":
-    "You will be able to withdraw your item once the mint has finished",
-  "statements.startgame": "Start Game",
+    "Ты сможешь забрать свой артефакт после окончания чеканки.",
+  "statements.startgame": "Начать игру",
 
   "statements.session.expired":
-    "It looks like your session has expired. Please refresh the page to continue playing.",
-  "statements.translation.joinDiscord": "Присоединиться к Discord’у",
+    "Похоже, что твоя сессия истекла. Пожалуйста, обнови страницу, чтобы продолжить игру.",
+  "statements.translation.joinDiscord": "Присоединиться к Discord серверу",
 };
 
 const stopGoblin: Record<StopGoblin, string> = {
@@ -5157,19 +5148,18 @@ const stopGoblin: Record<StopGoblin, string> = {
 };
 
 const swarming: Record<Swarming, string> = {
-  "swarming.tooLongToFarm":
-    "Pay attention, you took too long to farm your crops!",
+  "swarming.tooLongToFarm": "Уффффф, ты слишком долго собирал урожай!",
   "swarming.goblinsTakenOver":
-    "The Goblins have taken over your farm. You must wait for them to leave",
+    "Гоблины захватили твою ферму. Тебе придется подождать, пока они уйдут.",
 };
 
 const tieBreaker: Record<TieBreaker, string> = {
-  "tieBreaker.tiebreaker": "Tiebreaker",
+  "tieBreaker.tiebreaker": "Одинаковые ставки",
   "tieBreaker.closeBid":
-    "A tie breaker is chosen by whichever Bumpkin has more experience. Unfortunately you lost.",
+    "В этом случае артефакт уходит тому, у кого больше опыта. К сожалению, ты проиграл.",
   "tieBreaker.betterLuck":
-    "Time to eat some more cakes! Better luck next time.",
-  "tieBreaker.refund": "Refund resource",
+    "Время съесть еще тортов! В следующий раз повезет больше.",
+  "tieBreaker.refund": "Забрать ставку",
 };
 
 const toolDescriptions: Record<ToolDescriptions, string> = {
@@ -5178,7 +5168,7 @@ const toolDescriptions: Record<ToolDescriptions, string> = {
   "description.pickaxe": "Используется для сбора камня",
   "description.stone.pickaxe": "Используется для сбора железа",
   "description.iron.pickaxe": "Используется для сбора золота",
-  "description.gold.pickaxe": "Используется для сбора crimstone и sunstone",
+  "description.gold.pickaxe": "Используется для сбора кримстоуна и санстоуна",
   "description.rod": "Используется для ловли рыбы",
   "description.rusty.shovel":
     "Используется для удаления строений и коллекционных предметов",
@@ -5186,261 +5176,240 @@ const toolDescriptions: Record<ToolDescriptions, string> = {
   "description.sand.shovel": "Используется для выкапывания сокровищ",
   "description.sand.drill":
     "Бурит глубоко в поисках необычных или редких сокровищ",
-  "description.oil.drill": "Бурит для добычи oil",
+  "description.oil.drill": "Бур для добычи oil",
 };
 
 const transactionTerms: Record<TransactionTerms, string> = {
-  "transaction.starterOffer": "Starter offer",
-  "transaction.t&c.one":
-    "Accept the terms and conditions to sign in to Sunflower Land.",
-  "transaction.t&c.two": "Accept Terms and Conditions",
-  "transaction.mintFarm": "Your farm has been minted!",
-  "transaction.farm.ready": "Your farm will be ready in",
+  "transaction.starterOffer": "Стартовое предложение",
+  "transaction.mintFarm": "Твоя ферма уже создана!",
+  "transaction.farm.ready": "Твоя ферма будет готова через",
   "transaction.networkFeeRequired":
-    "To secure your NFTs on the Blockchain, a small network fee is required.",
-  "transaction.estimated.fee": "Estimated fee",
-  "transaction.payCardCash": "Pay with Card/Cash",
-  "transaction.creditCard": "*Credit card fees apply",
-  "transaction.rejected": "Transaction Rejected!",
+    "Для защиты твоих NFT-токенов в блокчейне требуется небольшая сетевая комиссия.",
+  "transaction.estimated.fee": "Примерная комиссия",
+  "transaction.payCardCash": "Оплата картой/наличными",
+  "transaction.creditCard": "*При оплате кредитной картой взимается комиссия.",
+  "transaction.rejected": "Транзакция отклонена!",
   "transaction.message0":
-    "You need to accept the transaction in the metamask popup to continue.",
+    "Чтобы продолжить, тебе необходимо принять транзакцию во всплывающем окне.",
   "transaction.noFee":
-    "This request will not trigger a blockchain transaction or cost any gas fees.",
-  "transaction.chooseDonationGame":
-    "Thank you for your support! Kindly choose the game that you like donate to.",
-  "transaction.minblockbucks": "Minimum 5 Block Bucks",
-  "transaction.payCash": "Pay with Cash",
+    "Этот запрос не инициирует транзакцию в блокчейне и не повлечет за собой никаких комиссий за газ.",
+  "transaction.minblockbucks": "Минимум 5 Block Bucks",
+  "transaction.payCash": "Оплата наличными",
   "transaction.matic": "Matic",
-  "transaction.payMatic": "Pay with MATIC",
-  "transaction.storeBlockBucks": "Block bucks will be stored on your farm.",
-  "transaction.excludeFees": "*Prices exclude transaction fees.",
+  "transaction.payMatic": "Оплата через MATIC",
+  "transaction.storeBlockBucks": "Block bucks будут храниться на твоей ферме.",
+  "transaction.excludeFees": "*Цены не включают комиссию за транзакцию.",
   "transaction.storeProgress.blockchain.one":
-    "Do you wish to store your progress on the Blockchain?",
+    "Хочешь сохранить свой прогресс в блокчейне?",
   "transaction.storeProgress.blockchain.two":
-    "Storing data on the Blockchain does not restock shops.",
-  "transaction.storeProgress": "Store progress",
-  "transaction.storeProgress.chain": "Store progress on chain",
+    "Хранение данных в блокчейне не пополняет запасы магазинов.",
+  "transaction.storeProgress": "Прогресс магазина",
+  "transaction.storeProgress.chain": "Сохранение прогресса в блокчейне",
   "transaction.storeProgress.success": "Ура! Твои вещи записаны в блокчейн!",
-  "transaction.trade.congrats": "Congratulations, your trade was successful",
-  "transaction.processing": "Processing your transaction.",
+  "transaction.trade.congrats": "Поздравляем, твоя сделка прошла успешно.",
+  "transaction.processing": "Обработка твоей транзакции.",
   "transaction.pleaseWait":
-    "Please wait for your transaction to be confirmed by the Blockchain.",
+    "Пожалуйста, дождись подтверждения транзакции блокчейном.",
   "transaction.unconfirmed.reset":
-    "After 5 minutes, any unconfirmed transactions will be reset.",
-  "transaction.withdraw.one": "Withdrawing",
-  "transaction.withdraw.sent": "Your items/tokens have been sent to",
-  "transaction.withdraw.view": "You can view your items on",
-  "transaction.openSea": "OpenSea",
+    "Через 5 минут все неподтвержденные транзакции будут сброшены.",
+  "transaction.withdraw.one": "Вывод",
+  "transaction.withdraw.sent": "Твои предметы/жетоны были отправлены",
+  "transaction.withdraw.view": "Ты можешь просмотреть свои товары на",
   "transaction.withdraw.four":
-    "You can view your tokens by importing the SFL Token to your wallet.",
-  "transaction.withdraw.five": "Import SFL Token to MetaMask",
+    "Ты можешь просмотреть свои токены, импортировав SFL в свой кошелек.",
+  "transaction.withdraw.five": "Импорт токена SFL в MetaMask",
   "transaction.displayItems":
-    "Please note that OpenSea can take up to 30 minutes to display your items. You can also view your items on",
+    "Обрати внимание, что OpenSea может потребоваться до 30 минут, чтобы отобразить твои товары. Ты также можешь просмотреть свои товары на",
   "transaction.withdraw.polygon": "PolygonScan",
-  "transaction.id": "Transaction ID",
-  "transaction.termsOfService": "Accept the terms of service",
-  "transaction.termsOfService.one":
-    "In order to buy your farm you will need to accept the Sunflower Land terms of service.",
-  "transaction.termsOfService.two":
-    "This step will take you back to your new sequence wallet to accept the terms of service.",
-  "transaction.buy.BlockBucks": "Buy Block Bucks",
+  "transaction.id": "ID транзакции",
+  "transaction.buy.BlockBucks": "Купить Block Bucks",
 };
 
 const transfer: Record<Transfer, string> = {
-  "transfer.sure.adress":
-    "Please ensure that the address you provided is on the Polygon Blockchain, is correct and is owned by you. There is no recovery from incorrect addresses.",
+  "transfer.sure.address":
+    "Пожалуйста, убедись, что указанный адрес находится в сети Polygon, является правильным и принадлежит тебе. Восстановление чужих адресов невозможно.",
   "transfer.Account":
-    "Your Account #{{farmID}} has been transferred to {{receivingAddress}}!",
-  "transfer.Farm": "Transferring your farm!",
-  "transfer.Refresh": "Do not refresh this browser",
-  "transfer.Taccount": "Transfer your account",
-  "transfer.address": "Wallet address: ",
+    "Твой аккаунт #{{farmID}} был переведен на {{receivingAddress}}!",
+  "transfer.Farm": "Передача твоей фермы!",
+  "transfer.Refresh": "Не обновляй страницу",
+  "transfer.account": "Перенеси свой аккаунт",
+  "transfer.address": "Адрес кошелька: ",
 };
 
 const treasureModal: Record<TreasureModal, string> = {
-  "treasureModal.noShovelTitle": "No Sand Shovel!",
+  "treasureModal.noShovelTitle": "А где лопата?",
   "treasureModal.needShovel":
-    "You need to have a Sand Shovel equipped to be able to dig for treasure!",
+    "Тебе понадобится лопата, чтобы выкопать сокровище!",
   "treasureModal.purchaseShovel":
-    "If you need to purchase one, you can head to the Treasure Shop at the southern end of the island.",
-  "treasureModal.gotIt": "Got it",
-  "treasureModal.maxHolesTitle": "Max holes reached!",
-  "treasureModal.saveTreasure": "Save some treasure for the rest of us!",
+    "Если тебе нужно ее купить, можешь отправиться в Treasure Shop в южной части острова.",
+  "treasureModal.gotIt": "Понятно",
+  "treasureModal.maxHolesTitle": "Хватит копаний на сегодня!",
+  "treasureModal.saveTreasure": "Оставь немного сокровищ для остальных!",
   "treasureModal.comeBackTomorrow":
-    "Come back tomorrow to search for more treasure.",
-  "treasureModal.drilling": "Drilling",
+    "Возвращайтесь завтра, чтобы найти еще сокровища.",
+  "treasureModal.drilling": "Бурение",
 };
 
 const tutorialPage: Record<TutorialPage, string> = {
   "tutorial.pageOne.text1":
-    "This menu will show you the levels required to unlock new buildings.",
+    "В этом меню ты увидишь уровни, необходимые для разблокировки новых зданий.",
   "tutorial.pageOne.text2":
-    "Some of these can be built multiple times once you reach a certain level.",
+    "Некоторые из них можно построить несколько раз, как только ты достигнешь определенного уровня.",
   "tutorial.pageTwo.text1":
-    "Buildings are an important way to progress through the game as they will help you to expand and evolve.",
+    "Здания — важный способ продвижения по игре, поскольку они помогут тебе расширяться и развивать ферму.",
   "tutorial.pageTwo.text2":
-    "Lets start by leveling up our Bumpkin so we can get the Workbench to learn about tools.",
+    "Давай начнем с повышения уровня бампкина, чтобы ты мог получить верстак для изготовления инструментов.",
 };
 
 const visitislandEnter: Record<VisitislandEnter, string> = {
-  "visitIsland.enterIslandId": "Enter Island ID",
-  "visitIsland.visit": "Visit",
+  "visitIsland.enterIslandId": "Введи ID острова",
+  "visitIsland.visit": "Посетить",
 };
 
 const visitislandNotFound: Record<VisitislandNotFound, string> = {
-  "visitislandNotFound.title": "Island Not Found!",
+  "visitislandNotFound.title": "Остров не найден!",
 };
 
 const wallet: Record<Wallet, string> = {
   "wallet.connect": "Подключи свой кошелек",
-  "wallet.linkWeb3": "Link Web3 Wallet",
+  "wallet.linkWeb3": "Ссылка на  Web3 кошелек",
   "wallet.setupWeb3":
-    "To access this feature, you must first setup a Web3 wallet",
-  "wallet.wrongWallet": "Wrong Wallet",
-  "wallet.connectedWrongWallet": "You are connected to the wrong wallet",
-  "wallet.missingNFT": "Missing NFT",
+    "Чтобы получить доступ к этой функции, тебе необходимо сначала настроить кошелек Web3.",
+  "wallet.wrongWallet": "Неправильный кошелек",
+  "wallet.connectedWrongWallet": "Ты подключен к неправильному кошельку.",
+  "wallet.missingNFT": "Отсутствует NFT",
   "wallet.requireFarmNFT":
-    "Some actions require a Farm NFT. This helps keep all of your items secure on the Blockchain",
+    "Некоторые действия требуют NFT фермы. Это поможет сохранить все предметы в безопасности в блокчейне",
   "wallet.uniqueFarmNFT":
-    "A unique farm NFT will be minted to store your progress",
-  "wallet.mintFreeNFT": "Mint your NFT",
-  "wallet.wrongChain": "Wrong Chain",
-  "wallet.walletAlreadyLinked": "Wallet already linked",
-  "wallet.linkAnotherWallet": "Please link another wallet",
+    "Будет создана уникальный Farm NFT для хранения твоего прогресса",
+  "wallet.mintFreeNFT": "Создай свой NFT",
+  "wallet.wrongChain": "Не та сеть",
+  "wallet.walletAlreadyLinked": "Кошелек уже привязан",
+  "wallet.linkAnotherWallet": "Пожалуйста, привяжи другой кошелек",
   "wallet.transferFarm":
-    "Please transfer the farm to another wallet in order to mint the new account",
-  "wallet.signRequest": "Sign",
-  "wallet.signRequestInWallet": "Sign the request in your wallet to continue",
+    "Пожалуйста, перенеси ферму на другой кошелек, чтобы создать новый аккаунт.",
+  "wallet.signRequest": "Подпись",
+  "wallet.signRequestInWallet":
+    "Подпиши запрос в своем кошельке, чтобы продолжить",
 };
 
 const warningTerms: Record<WarningTerms, string> = {
-  "warning.noAxe": "No Axe Selected!",
-  "warning.chat.maxCharacters": "Max characters",
-  "warning.chat.noSpecialCharacters": "No special characters",
+  "warning.noAxe": "Нет топоров!",
+  "warning.chat.maxCharacters": "Макс. количество знаков",
+  "warning.chat.noSpecialCharacters": "Никаких специальных символов!",
   "warning.level.required": "Необходимый уровень: {{lvl}}",
-  "warning.hoarding.message":
-    "Are you {{indefiniteArticle}} {{itemName}} hoarder?!",
+  "warning.hoarding.message": "Ты держишь {{indefiniteArticle}} {{itemName}}?!",
   // indefiniteArticle: 'a' or 'an' depending if first letter is vowel.
   // If this is not used in your language, leave the `{{indefiniteArticle}}` part out
-  "warning.hoarding.indefiniteArticle.a": "a", // Leave this blank if not needed
-  "warning.hoarding.indefiniteArticle.an": "an", // Leave this blank if not needed
+  "warning.hoarding.indefiniteArticle.a": "", // Leave this blank if not needed
+  "warning.hoarding.indefiniteArticle.an": "", // Leave this blank if not needed
   "warning.hoarding.one":
-    "Word is that Goblins are known to raid farms that have an abundance of resources.",
+    "Говорят, что гоблины совершают набеги на фермы, в которых много ресурсов.",
   "warning.hoarding.two":
-    "To protect yourself and keep those precious resources safe, please store your progress on chain.",
-  "travelRequirement.notice": "Before travelling, you must level up.",
+    "Чтобы защитить себя и сохранить эти драгоценные ресурсы в безопасности, пожалуйста, сохрани свой прогресс в блокчейне.",
+  "travelRequirement.notice":
+    "Перед путешествием тебе необходимо повысить свой уровень.",
 };
 
 const welcomeTerms: Record<WelcomeTerms, string> = {
   "welcome.createAccount": "Создать аккаунт",
-  "welcome.creatingAccount": "Creating your account",
-  "welcome.email": "Email & Social Login",
+  "welcome.creatingAccount": "Создание аккаунта",
+  "welcome.email": "Вход через электронную почту и социальные сети",
   "welcome.login": "Авторизация",
   "welcome.needHelp": "Нужна помощь?",
   "welcome.otherWallets": "Другие кошельки",
   "welcome.signingIn": "Выполняется вход",
-  "welcome.signIn.Message": "Для входа подпишите сообщение в кошельке.",
+  "welcome.signIn.Message": "Для входа подпиши сообщение в кошельке.",
   "welcome.takeover.ownership":
-    "It looks like you are new to Sunflower Land and have claimed ownership of another player's account.",
-  "welcome.promo": "Add Promo Code",
-  "welcome.offline":
-    "Hey there Bumpkin, it looks like you aren't online. Please check your network connection.",
+    "Похоже, ты новичок в Sunflower Land и заявил права собственности на аккаунт другого игрока..",
+  "welcome.promo": "Введи промокод",
+  "welcome.offline": "Похоже, ты не в сети. Может стоит проверить подключение?",
 };
 
 const winner: Record<Winner, string> = {
-  "winner.mintTime": "You have 24 hours to mint your prize.",
-  "winner.mintTime.one": "No items available to craft!",
+  "winner.mintTime": "У тебя есть 24 часа, чтобы забрать свой приз.",
+  "winner.mintTime.one": "Нет предметов, доступных для создания!",
 };
 
 const wishingWellTerms: Record<WishingWell, string> = {
-  "wishingWell.makeWish": "Grant a new wish and see how lucky you are!",
   "wishingWell.newWish":
-    "A new wish has been made for you based on your current balance of LP tokens!",
+    "Для тебя создано новое желание на основе твоего текущего баланса токенов LP!",
   "wishingWell.noReward":
-    "You have no reward available! Liquidity needs to be held for 3 days to get a reward!",
-  "wishingWell.wish.lucky": "Grant a new wish and see how lucky you are!",
-  "wishingWell.sflRewardsReceived": "You received {{reward}} SFL!",
-  "wishingWell.wish.grantTime": "It's time to grant your wish!",
-  "wishingWell.wish.granted": "Your wish has been granted.",
-  "wishingWell.wish.made": "You have made a wish!",
-  "wishingWell.wish.timeTillNextWish": "Time till next wish: {{nextWishTime}}",
-  "wishingWell.wish.thanksForSupport":
-    "Thanks for supporting the project and making a wish.",
+    "Нет доступного вознаграждения! Ликвидность должна удерживаться в течение 3 дней, чтобы получилось что то ценное!",
+  "wishingWell.wish.lucky":
+    "Загадай новое желание и увидишь, насколько тебе повезет!",
+  "wishingWell.sflRewardsReceived": "Ты получили {{reward}} SFL!",
+  "wishingWell.wish.grantTime": "Пришло время загадать твое желание!",
+  "wishingWell.wish.granted": "Твое желание было исполнено.",
+  "wishingWell.wish.made": "Ты загадал желание!",
+  "wishingWell.wish.timeTillNextWish":
+    "Время до следующего желания: {{nextWishTime}}",
   "wishingWell.wish.comeBackAfter":
-    "Come back in {{nextWishTime}} to see just how lucky you have been!",
+    "Возвращайтесь через {{nextWishTime}}, чтобы узнать, насколько вам повезло!",
   "wishingWell.wish.warning.one":
-    "Be aware that only the LP tokens you held at the time the wish was made will be considered when the wish is granted.",
+    "Имей в виду, что при исполнении желания будут учитываться только те токены LP, которые у тебя были на момент загадывания желания.",
   "wishingWell.wish.warning.two":
-    "If you remove your liquidity during this time you won't receive any rewards.",
+    "Если ты удалишь свою ликвидность в течение этого времени, то не получишь никаких вознаграждений.",
   "wishingWell.info.one":
-    "The wishing well is a magical place where SFL rewards can be made just by making a wish!",
+    "Колодец желаний — это волшебное место, где можно получить SFL, просто загадав желание!",
   "wishingWell.info.two":
-    "Wishes are granted to farmers who provided liquidity in the game.",
+    "Желания исполняются тем фермерам, кто предоставили ликвидность в игре.",
   "wishingWell.info.three":
-    "Looks like you have those magic LP tokens in your wallet!",
-  "wishingWell.moreInfo": "More info",
-  "wishingWell.noLiquidity":
-    "It doesn't look like you're providing liquidity yet. More info,",
-  "wishingWell.rewardsInWell": "Amount of rewards in the well",
-  "wishingWell.luck": "Let's see how lucky you are!",
+    "Похоже, у тебя в кошельке есть волшебные жетоны LP!",
+  "wishingWell.moreInfo": "Узнать подробнее",
 };
 
 const withdraw: Record<Withdraw, string> = {
-  "withdraw.proof":
-    "Proof of humanity is needed for this feature. Please take a quick selfie.",
-  "withdraw.verification": "Start Verification",
-  "withdraw.unsave": "Any unsaved progress will be lost.",
+  "withdraw.proof": "Для этой функции необходимо быстрое селфи.",
+  "withdraw.verification": "Начать проверку",
+  "withdraw.unsave": "Любой несохраненный прогресс будет утерян.",
   "withdraw.sync":
-    "You can only withdraw items that you have synced to the blockchain.",
-  "withdraw.available": "Available May 9th",
-  "withdraw.sfl.available": "SFL is available on-chain",
-  "withdraw.send.wallet": "Sent to your wallet",
-  "withdraw.choose": "Choose amount to withdraw",
-  "withdraw.receive": "You will receive: {{sflReceived}} SFL",
-  "withdraw.select.item": "Select items to withdraw",
+    "Ты можешь вывести только те товары, которые синхронизировали с блокчейном.",
+  "withdraw.available": "Старт 9 мая",
+  "withdraw.sfl.available": "SFL доступен в сети",
+  "withdraw.send.wallet": "Отправить на кошелек",
+  "withdraw.choose": "Выбери сумму для вывода",
+  "withdraw.receive": "Ты получишь: {{sflReceived}} SFL",
+  "withdraw.select.item": "Выбери товары для вывода",
   "withdraw.opensea":
-    "Once withdrawn, you will be able to view your items on OpenSea.",
+    "После вывода ты сможешь просматривать свои товары на OpenSea.",
   "withdraw.restricted":
-    "Some items cannot be withdrawn. Other items may be restricted when in use or still being built.",
+    "Некоторые предметы не могут быть выведены. Это может быть из-за того что они используются или все еще строятся.",
   "withdraw.bumpkin.wearing":
-    "Your Bumpkin is currently wearing the following item(s) that can't be withdrawn. You will need to unequip them before you can withdraw.",
-  "withdraw.bumpkin.sure.withdraw":
-    "Are you sure you want to withdraw your Bumpkin?",
-  "withdraw.bumpkin.closed": "Bumpkin withdrawal has been permanently disabled",
-  "withdraw.bumpkin.closing":
-    "Bumpkins are moving off chain. Bumpkin withdrawal will be permanently disabled, {{timeRemaining}}",
-  "withdraw.buds": "Select Buds to withdraw",
-  "withdraw.budRestricted": "Used in today's bud box",
+    "Твой бампкин в настоящее время носит следующие предметы, и поэтому их нельзя вывести. Сначала тебе нужно их снять, а только потом вывести.",
+  "withdraw.buds": "Выберите Бада для вывода",
+  "withdraw.budRestricted": "Уже открыл коробку",
 };
 
 const world: Record<World, string> = {
   "world.newArea": "Новое",
-  "world.intro.one": "Howdy Traveller! Welcome to the Pumpkin Plaza.",
+  "world.intro.one": "Привет, путешественник! Добро пожаловать в плазу.",
   "world.intro.two":
-    "The plaza is home to a diverse group of hungry Bumpkins and Goblins that need your help!",
+    "Плаза это дом для разнообразных голодных Бампкинов и Гоблинов, которым нужна твоя помощь!",
   "world.intro.missingDelivery":
-    "Hmmm, it looks like you haven't gathered resources for a delivery yet. You can still explore in the meantime.",
+    "Хммм, похоже, ты еще не собрал ресурсы для доставки. Ты все еще можешь наверстать в это время.",
   "world.intro.delivery":
-    "Oh great, it looks like you've got the resources for a delivery!",
-  "world.intro.levelUpToTravel": "Level up to travel",
-  "world.intro.findNPC": "Explore the plaza and find {{name}}.",
-  "world.intro.find": "Find",
+    "О, отлично, похоже, у тебя есть ресурсы для доставки!",
+  "world.intro.levelUpToTravel": "Повышайте уровень, чтобы путешествовать",
+  "world.intro.findNPC": "Исследуйте площадь и найдите {{name}}.",
+  "world.intro.find": "Искать",
   "world.intro.visit":
-    "Visit NPCs and complete deliveries to earn SFL, Coins and rare rewards.",
+    "Посещайте NPC и выполняйте доставки, чтобы заработать SFL, монеты и редкие награды.",
   "world.intro.craft":
-    "Craft rare collectibles, wearables and decorations at the different shops.",
+    "Создавайте редкие коллекционные предметы, предметы одежды и украшения в разных магазинах.",
   "world.intro.carf.limited":
-    "Hurry, items are only available for a limited time!",
+    "Спешите, товары доступны только в течение ограниченного времени!",
   "world.intro.trade":
-    "Trade resources with other players. To interact with a player, walk nearby and click on them.",
+    "Обменивайтесь ресурсами с другими игроками. Чтобы торговать с игроком, пройдите рядом и нажмите на него.",
   "world.intro.auction":
-    "Prepare your resources & visit the Auction House to compete with other players for rare collectibles!",
-  "world.intro.four": "To move your Bumpkin, use the keyboard arrow keys",
-  "world.intro.five": "On touch screen, use the joystick.",
+    "Подготовьте свои ресурсы и посетите аукционный дом, чтобы побороться с другими игроками за редкие коллекционные предметы!",
+  "world.intro.four":
+    "Чтобы ходить, используйте клавиши со стрелками на клавиатуре.",
+  "world.intro.five": "Или используйте джойстик сенсорном экране.",
   "world.intro.six":
-    "To interact with a Bumpkin or an object, walk near it and click it",
+    "Чтобы взаимодействовать с персонажами или объектам, подойдите к нему и щелкните по нему.",
   "world.intro.seven":
-    "No harrasment, swearing or bullying. Thank you for respecting others.",
+    "Никакого харамсмента, газлайтинга, ругательств или издевательств. Только фан и взаимоуважение.",
   "world.plaza": "Плаза",
   "world.beach": "Пляж",
   "world.woodlands": "Лес",
@@ -5454,37 +5423,37 @@ const world: Record<World, string> = {
 const wornDescription: Record<WornDescription, string> = {
   "worm.earthworm": "Извивающийся червяк, привлекающий мелкую рыбу.",
   "worm.grub": "Сочная личинка - идеальный вариант для продвинутых рыболовов.",
-  "worm.redWiggler": "Экзотический червь, приманивающий редких рыб.",
+  "worm.redWiggler": "Экзотический червь, для самых элитных рыб.",
 };
 
 const milestoneMessages: Record<MilestoneMessages, string> = {
   "milestone.noviceAngler":
-    "Поздравляем, вы только что достигли отметки Novice Angler! Поймав каждую основную рыбу, вы встали на путь профессионала в рыбной ловле.",
+    "Поздравляем, ты только что достиг отметки Novice Angler! Поймав каждую основную рыбу, ты встал на путь профессионала в рыбной ловле.",
   "milestone.advancedAngler":
-    "Впечатляет, вы только что достигли отметки Advanced Angler! Вы овладели искусством ловли продвинутой рыбы. Продолжайте в том же духе!",
+    "Впечатляет, ты только что достиг отметки Advanced Angler! Ты овладел искусством ловли продвинутой рыбы. Продолжайте в том же духе!",
   "milestone.expertAngler":
-    "Вау, вы только что достигли отметки Expert Angler! Теперь вы настоящий эксперт по рыбной ловле! Поймать 300 рыб - это не маленький подвиг.",
+    "Вау, ты только что достиг отметки Expert Angler! Теперь ты настоящий эксперт по рыбной ловле! Поймать 300 рыб - это не маленький подвиг.",
   "milestone.fishEncyclopedia":
-    "Поздравляем, вы только что достигли отметки Fish Encyclopedia! Вы стали настоящим знатоком рыб! Знакомство с каждой рыбой, относящейся к базовому, продвинутому и экспертному уровню, - это выдающееся достижение.",
+    "Поздравляем, ты только что достиг отметки Fish Encyclopedia! Ты стал настоящим знатоком рыб! Знакомство с каждой рыбой, относящейся к базовому, продвинутому и экспертному уровню, - это выдающееся достижение.",
   "milestone.masterAngler":
-    "Вау, вы только что достигли отметки Master Angler! Поймать 1500 рыб - это свидетельство вашего мастерства рыболова.",
+    "Вау, ты только что достиг отметки Master Angler! Поймать 1500 рыб - это свидетельство твоего мастерства рыболова.",
   "milestone.marineMarvelMaster":
-    "Поздравляем, вы только что достигли отметки Marine Marvel Master! Вы - бесспорный чемпион морей! Поимка каждого Marvel доказывает ваше рыболовное мастерство, как ничто другое.",
+    "Поздравляем, ты только что достиг отметки Marine Marvel Master! Ты - бесспорный чемпион морей! Поимка каждого Marvel доказывает твое рыболовное мастерство, как ничто другое.",
   "milestone.deepSeaDiver":
-    "Поздравляем, вы только что достигли отметки Deep Sea Diver! Вы заслужили Deep Sea Helm - таинственную корону, которая привлекает Marvel'ов на ваш крючок.",
+    "Поздравляем, ты только что достиг отметки Deep Sea Diver! Ты заслужил Deep Sea Helm - таинственную корону, которая привлекает Marvel'ов на твой крючок.",
   "milestone.sunpetalSavant":
-    "Поздравляем, вы только что достигли отметки Sunpetal Savant! Вы открыли для себя все возможные варианты с Sunpetal.",
+    "Поздравляем, ты только что достиг отметки Sunpetal Savant! Ты открыл для себя все возможные варианты с Sunpetal.",
   "milestone.bloomBigShot":
-    "Поздравляем, вы только что достигли отметки Bloom Big Shot! Вы открыли для себя каждый вариант с Bloom.Вы - настоящий Bloom эксперт!",
+    "Поздравляем, ты только что достиг отметки Bloom Big Shot! Ты открыл для себя каждый вариант с Bloom. Ты - настоящий Bloom эксперт!",
   "milestone.lilyLuminary":
-    "Поздравляем, вы только что достигли отметки Lily Luminary! Вы открыли для себя все варианты цветов из Lily.",
+    "Поздравляем, ты только что достигли отметки Lily Luminary! Ты открыл для себя все варианты цветов из Lily.",
 };
 
 const event: Record<Event, string> = {
   "event.christmas": "Рождественское событие!",
-  "event.LunarNewYear": "Событие, связанное с Лунным Новым годом",
+  "event.LunarNewYear": "Лунный Новый год",
   "event.GasHero": "Событие Gas Hero",
-  "event.Easter": "Пасхальное событие",
+  "event.Easter": "Пасха",
   "event.valentines.rewards": "Валентиновские награды",
 };
 
@@ -5503,7 +5472,7 @@ const trader: Record<Trader, string> = {
   "trader.cancel.trade": "Отменить сделку",
   "trader.you.receive": "Ты получишь",
   "trader.PoH":
-    'Для этой функции необходимо подтверждение "человечности". Пожалуйста, сделай быстрое селфи.',
+    'Для этой функции необходимо подтверждение "личности". Пожалуйста, сделай быстрое селфи.',
   "trader.start.verification": "Начать верификацию",
 };
 
@@ -5527,7 +5496,7 @@ const trading: Record<Trading, string> = {
 
 export const restrictionReason: Record<RestrictionReason, string> = {
   "restrictionReason.isGrowing": "{{item}} растет",
-  "restrictionReason.beanPlanted": "Magic Bean растет",
+  "restrictionReason.beanPlanted": "Волшебные бобы растут",
   "restrictionReason.cropsGrowing": "Урожай растет",
   "restrictionReason.?cropGrowing": "{{crop}} растет",
   "restrictionReason.basicCropsGrowing": "Базовые культуры растут",
@@ -5535,10 +5504,10 @@ export const restrictionReason: Record<RestrictionReason, string> = {
   "restrictionReason.advancedCropsGrowing": "Продвинутые культуры растут",
   "restrictionReason.fruitsGrowing": "Фрукты растут",
   "restrictionReason.treesChopped": "Деревья срублены",
-  "restrictionReason.stoneMined": "Stone добыт",
-  "restrictionReason.ironMined": "Iron добыто",
-  "restrictionReason.goldMined": "Gold добыто",
-  "restrictionReason.crimstoneMined": "Crimstone добыт",
+  "restrictionReason.stoneMined": "Камень добыт",
+  "restrictionReason.ironMined": "Железо добыто",
+  "restrictionReason.goldMined": "Золото добыто",
+  "restrictionReason.crimstoneMined": "Кримстоун добыт",
   "restrictionReason.chickensFed": "Куры покромлены",
   "restrictionReason.treasuresDug": "Выкопаны ямы с сокровищами",
   "restrictionReason.inUse": "Используется",
@@ -5550,10 +5519,10 @@ export const restrictionReason: Record<RestrictionReason, string> = {
   "restrictionReason.festiveSeason":
     "Заблокировано во время праздничного сезона",
   "restrictionReason.noRestriction": "Нет ограничений",
-  "restrictionReason.genieLampRubbed": "Genie Lamp потерта",
-  "restrictionReason.oilReserveDrilled": "Oil reserves are drilled",
-  "restrictionReason.buildingInUse": "Building is in use",
-  "restrictionReason.beehiveInUse": "Beehive in use",
+  "restrictionReason.genieLampRubbed": "Волшебная лампа потерта",
+  "restrictionReason.oilReserveDrilled": "Добыча идет полным ходом",
+  "restrictionReason.buildingInUse": "Постройка занята",
+  "restrictionReason.beehiveInUse": "Улей за работой",
 };
 
 export const leaderboardTerms: Record<Leaderboard, string> = {
@@ -5561,51 +5530,53 @@ export const leaderboardTerms: Record<Leaderboard, string> = {
   "leaderboard.error":
     "Ошибка при загрузке таблицы лидеров. Пожалуйста, повторите попытку позже.",
   "leaderboard.initialising":
-    "Рассчитываем ваш ранг. Пожалуйста, повторите попытку позже.",
+    "Рассчитываем твой ранг. Пожалуйста, повтори попытку позже.",
   "leaderboard.topTen": "Топ 10",
   "leaderboard.yourPosition": "Твоя позиция",
-  "leaderboard.factionMembers": "Faction Members",
-  "leaderboard.champions": "Champions",
-  "leaderboard.congratulations": "Congratulations to the {{faction}}!",
-  "leaderboard.resultsPending": "Results pending...",
+  "leaderboard.factionMembers": "Члены фракции",
+  "leaderboard.champions": "Чемпионы",
+  "leaderboard.congratulations": "Поздравляем {{faction}}!",
+  "leaderboard.resultsPending": "Ожидаем результаты…",
 
-  "leaderboard.position": "Position",
-  "leaderboard.weeklyScore": "Weekly score",
-  "leaderboard.player": "Player",
-  "leaderboard.score": "Score",
-  "leaderboard.prizes": "Prizes",
-  "leaderboard.faction.description": "Each week you can win bonus prizes.",
-  "leaderboard.faction.champion": "Champion faction",
-  "leaderboard.faction.bonusPrizeWeek": "Bonus prize week",
+  "leaderboard.position": "Место",
+  "leaderboard.weeklyScore": "Недельные итоги",
+  "leaderboard.player": "Игрок",
+  "leaderboard.score": "Счет",
+  "leaderboard.prizes": "Призы",
+  "leaderboard.faction.description":
+    "Каждую неделю ты можешь выиграть ценные призы.",
+  "leaderboard.faction.champion": "Фракция чемпионов",
+  "leaderboard.faction.bonusPrizeWeek": "Неделя с реально крутыми призами",
   "leaderboard.faction.championPrizes":
-    "Your faction score is calculated by how many marks the top 100 players earn. All players in the winning faction will receive:",
-  "leaderboard.faction.bonusMarks": "Bonus +10% Marks",
-  "leaderboard.faction.topPlayers": "Top Player Prizes",
+    "Счет твоей фракции рассчитывается на основе того, сколько очков заработали 100 лучших игроков. Все игроки победившей фракции получат:",
+  "leaderboard.faction.bonusMarks": "Бонус +10% марок",
+  "leaderboard.faction.topPlayers": "Призы лучшим игрокам",
   "leaderboard.faction.topPlayerPrizes":
-    "The top 50 players in each faction will receive:",
+    "50 лучших игроков каждой фракции получат:",
 };
 
 const gameOptions: Record<GameOptions, string> = {
   "gameOptions.title": "Настройки игры",
   "gameOptions.farmId": "ID фермы #{{farmId}}",
   "gameOptions.logout": "Выйти из системы",
-  "gameOptions.confirmLogout": "Вы уверены, что хотите выйти из системы?",
+  "gameOptions.confirmLogout": "Ты уверен, что хочешь выйти из системы?",
 
   // Amoy Actions
-  "gameOptions.amoyActions": "Amoy Testnet Actions",
-  "gameOptions.amoyActions.timeMachine": "Time Machine",
+  "gameOptions.amoyActions": "Действия тестового сервера (Amoy)",
+  "gameOptions.amoyActions.timeMachine": "Машина времени",
 
   // Blockchain Settings
-  "gameOptions.blockchainSettings": "Blockchain Settings",
-  "gameOptions.blockchainSettings.refreshChain": "Refresh from Chain",
-  "gameOptions.blockchainSettings.storeOnChain": "Store on Chain",
-  "gameOptions.blockchainSettings.swapMaticForSFL": "Swap MATIC for SFL",
-  "gameOptions.blockchainSettings.transferOwnership": "Transfer Ownership",
+  "gameOptions.blockchainSettings": "Настройки блокчейна",
+  "gameOptions.blockchainSettings.refreshChain": "Обновить из цепи",
+  "gameOptions.blockchainSettings.storeOnChain": "Сохранить в цепи",
+  "gameOptions.blockchainSettings.swapMaticForSFL": "Обменять MATIC на SFL",
+  "gameOptions.blockchainSettings.transferOwnership":
+    "Передача права собственности",
 
   // General Settings
   "gameOptions.generalSettings": "Общие настройки",
   "gameOptions.generalSettings.connectDiscord": "Подключиться к Discord",
-  "gameOptions.generalSettings.assignRole": "Assign Discord Role",
+  "gameOptions.generalSettings.assignRole": "Назначить роль в Discord",
   "gameOptions.generalSettings.changeLanguage": "Изменить язык",
   "gameOptions.generalSettings.darkMode": "Темный режим",
   "gameOptions.generalSettings.lightMode": "Светлый режим",
@@ -5618,168 +5589,168 @@ const gameOptions: Record<GameOptions, string> = {
   // Plaza Settings
   "gameOptions.plazaSettings": "Настройки Плазы",
   "gameOptions.plazaSettings.title.mutedPlayers": "Заглушенные игроки",
-  "gameOptions.plazaSettings.title.keybinds": "Keybinds",
+  "gameOptions.plazaSettings.title.keybinds": "Сочетания клавиш",
   "gameOptions.plazaSettings.mutedPlayers.description":
-    "Если вы заглушили некоторых игроков с помощью команды /mute, вы можете увидеть их здесь и убрать, если захотите.",
+    "Если ты заглушил некоторых игроков с помощью команды /mute, ты можешь увидеть их здесь и убрать, если захочешь.",
   "gameOptions.plazaSettings.keybinds.description":
-    "Need to know what keybinds are available? Check them out here.",
+    "Хотите узнать, какие сочетания клавиш доступны? Проверьте их здесь.",
   "gameOptions.plazaSettings.noMutedPlayers": "Ты никого не заглушал.",
   "gameOptions.plazaSettings.changeServer": "Сменить сервер",
 };
 
 const greenhouse: Record<GreenhouseKeys, string> = {
-  "greenhouse.oilDescription": "The greenhouse needs oil to grow plants.",
-  "greenhouse.oilRequired": "Oil required",
-  "greenhouse.oilInMachine": "{{oil}} Oil in machine",
-  "greenhouse.insertOil": "Insert Oil: {{oil}} available",
-  "greenhouse.numberOil": "{{oil}} Oil",
+  "greenhouse.oilDescription": "Для выращивания растений в теплице нужна нефть",
+  "greenhouse.oilRequired": "Требуется нефть",
+  "greenhouse.oilInMachine": "{{oil}} нефти в баке",
+  "greenhouse.insertOil": "Добавь нефти: {{oil}} доступно",
+  "greenhouse.numberOil": "{{oil}} Нефть",
 };
 
 const minigame: Record<Minigame, string> = {
-  "minigame.chickenRescue": "Minigame - Chicken Rescue",
-  "minigame.comingSoon": "Coming soon...",
-  "minigame.completed": "Completed",
-  "minigame.confirm": "Are you sure you want to spend the following:",
-  "minigame.noPrizeAvailable": "No daily prize available",
-  "minigame.playNow": "Play now",
-  "minigame.purchase": "Purchase",
-  "minigame.chickenRescueHelp": "Can you help me rescue the chickens?",
-  "minigame.discovered.one": "Howdy Bumpkin, you've discovered a portal!",
+  "minigame.chickenRescue": "Миниигра - Спасение куриц",
+  "minigame.comingSoon": "Скоро...",
+  "minigame.completed": "Всех спас",
+  "minigame.confirm": "Ты уверен, что хочешь потратить:",
+  "minigame.noPrizeAvailable": "Ежедневный приз недоступен",
+  "minigame.playNow": "Играть",
+  "minigame.purchase": "Купить",
+  "minigame.chickenRescueHelp": "Можешь ли ты помочь мне вывести цыплят?",
+  "minigame.discovered.one": "Привет, ты открыл портал!",
   "minigame.discovered.two":
-    "Step into the magical realm to earn rewards and glory. Good luck!",
-  "minigame.communityEvent": "Community event",
-  "minigame.festivalOfColors": "Festival of colors",
+    "Шагните в волшебный мир, чтобы получить награды и славу. Удачи!",
+  "minigame.communityEvent": "Общественное мероприятие",
+  "minigame.festivalOfColors": "Фестиваль красок",
   "minigame.festivalOfColors.comingSoon":
-    "A community event is coming on the 25th of June...",
+    "25 июня состоится общественное мероприятие...",
   "minigame.festivalOfColors.intro":
-    "Celebrate the season of colors in this community designed event.",
-  "minigame.festivalOfColors.mission": "Find the paint bombs!",
+    "Отпразднуйте сезон красок на этом мероприятии, организованном сообществом.",
+  "minigame.festivalOfColors.mission": "Найди цветные шары!",
 };
 
 const cropMachine: Record<CropMachine, string> = {
-  "cropMachine.moreOilRequired": "More oil required",
-  "cropMachine.oilTank": "Oil tank",
-  "cropMachine.machineRuntime": "Machine runtime {{time}}",
-  "cropMachine.growTimeRemaining": "Grow time remaining: {{time}}",
-  "cropMachine.paused": "Paused",
-  "cropMachine.readyToHarvest": "Ready to harvest",
-  "cropMachine.boosted": "Boosted",
-  "cropMachine.totalSeeds": "Total seeds planted: {{total}}",
-  "cropMachine.totalCrops": "Total {{cropName}} yield: {{total}}",
-  "cropMachine.harvest": "Harvest",
-  "cropMachine.pickSeed": "Select a seed",
-  "cropMachine.addSeeds": "Add {{seedType}}s",
-  "cropMachine.availableInventory": "Available {{amount}}",
-  "cropMachine.seeds": "Seeds: {{amount}}",
-  "cropMachine.growTime": "Grow time: {{time}}",
-  "cropMachine.all": "All",
-  "cropMachine.addSeedPack": "Add seed pack",
-  "cropMachine.notStartedYet": "Not started yet",
-  "cropMachine.seedPacks": "Seed packs",
-  "cropMachine.readyCropPacks": "Ready crop packs",
+  "cropMachine.moreOilRequired": "Нужно больше нефти",
+  "cropMachine.oilTank": "Цистерна",
+  "cropMachine.machineRuntime": "Время работы {{time}}",
+  "cropMachine.growTimeRemaining": "Рости осталось: {{time}}",
+  "cropMachine.paused": "На паузе",
+  "cropMachine.readyToHarvest": "Готово к сбору",
+  "cropMachine.boosted": "Прокачено",
+  "cropMachine.totalSeeds": "Всего посажено: {{total}}",
+  "cropMachine.totalCrops": "Всего {{cropName}} собранно: {{total}}",
+  "cropMachine.harvest": "Собрать",
+  "cropMachine.pickSeed": "Выбери семя",
+  "cropMachine.addSeeds": "Добавить {{seedType}}",
+  "cropMachine.availableInventory": "Доступно {{amount}}",
+  "cropMachine.seeds": "Семена: {{amount}}",
+  "cropMachine.growTime": "Время роста: {{time}}",
+  "cropMachine.all": "Все",
+  "cropMachine.addSeedPack": "Добавить семя кучей",
+  "cropMachine.notStartedYet": "Не запущено",
+  "cropMachine.seedPacks": "Наборы семян",
+  "cropMachine.readyCropPacks": "Готовые пакеты урожая",
   "cropMachine.readyCropPacks.description":
-    "You currently have {{totalReady}} crop packs to harvest! Click the pack you want to harvest.",
-  "cropMachine.harvestCropPack": "Harvest crop pack",
-  "cropMachine.addOil": "Add oil",
+    "В настоящее время у тебя есть {{totalReady}} пакетов для сбора урожая! Щелкни на пакет, в который ты хочешь собрать.",
+  "cropMachine.harvestCropPack": "Собрать урожай",
+  "cropMachine.addOil": "Добавить нефти",
   "cropMachine.oil.description":
-    "Your machine needs oil to run. Every seed pack will require a certain amount of oil based on how long the crops take to grow. As you add oil you can see how long the machine will run when given that amount.",
-  "cropMachine.maxRuntime": "Max runtime: {{time}}",
-  "cropMachine.oilToAdd": "Oil to add: {{amount}}",
-  "cropMachine.totalRuntime": "Total runtime: {{time}}",
-  "cropMachine.running": "Crop Machine is running",
-  "cropMachine.stopped": "Crop Machine has stopped",
-  "cropMachine.idle": "Crop Machine is idle",
-  "cropMachine.name": "Crop Machine",
+    "Для работы твоей машины необходима нефть. Каждому пакету семян потребуется определенное количество нефти в зависимости от того, как долго растут культуры. Добавляя нефть, ты можешь увидеть, как долго машина будет работать при таком количестве нефти.",
+  "cropMachine.maxRuntime": "Время работы: {{time}}",
+  "cropMachine.oilToAdd": "Добавить нефти: {{amount}}",
+  "cropMachine.totalRuntime": "Время работы: {{time}}",
+  "cropMachine.running": "Машина для сбора урожая работает",
+  "cropMachine.stopped": "Машина для сбора урожая остановлена",
+  "cropMachine.idle": "Машина для сбора урожая простаивает",
+  "cropMachine.name": "Машина для сбора урожая",
 };
 
 const removeCropMachine: Record<RemoveCropMachine, string> = {
-  "removeCropMachine.title": "Remove Crop Machine?",
+  "removeCropMachine.title": "Убрать машину для сбора урожая?",
   "removeCropMachine.description":
-    "This action will remove all the oil stored in your crop machine.",
+    "Это действие удалит всю нефть, хранящуюся в твоей сельскохозяйственной машине.",
 };
 
 const username: Record<Username, string> = {
-  "username.tooShort": "Username is too short (min 3 characters)",
-  "username.tooLong": "Username is too long (max 12 characters)",
-  "username.invalidChar": "Username contains invalid characters",
-  "username.startWithLetter": "Username must start with a letter",
+  "username.tooShort": "Имя слишком короткое (минимум 3 буквы)",
+  "username.tooLong": "Имя слишком длинное (не больше 12 букв)",
+  "username.invalidChar": "Имя содержит странные знаки",
+  "username.startWithLetter": "Имя обычно начинается с буквы",
 };
 
 export const easterEggTerms: Record<EasterEggKeys, string> = {
-  "easterEgg.queensDiary": "Victoria's Diary",
-  "easterEgg.jesterDiary": "Jester's Diary",
-  "easterEgg.tywinDiary": "Tywin's Diary",
-  "easterEgg.kingDiary": "King's Diary",
-  "easterEgg.lostKnight": "Lost Knight",
-  "easterEgg.knight": "Hellllllp...Don't trust the Gambit or his dirty tricks!",
+  "easterEgg.queensDiary": "Дневник Виктории",
+  "easterEgg.jesterDiary": "Дневник Джестера",
+  "easterEgg.tywinDiary": "Дневник Тайвина",
+  "easterEgg.kingDiary": "Дневник короля",
+  "easterEgg.lostKnight": "Потерянный Рыцарь",
+  "easterEgg.knight": "Черт возьми... Не доверяй Гамбиту и его грязным трюкам!",
   "easterEgg.kingdomBook1":
-    "Dear Diary, I fear the king may never return. Whispers in the court suggest someone may seize the throne in his absence. This kingdom teeters on a knife's edge.",
+    "Дорогой дневник, я боюсь, что король может никогда не вернуться. Ходит шепот при дворе, что кто-то может захватить трон в его отсутствие. Это королевство балансирует на острие ножа.",
   "easterEgg.kingdomBook2":
-    "Tywin is too weak and far too soft on the Bumpkins. They need to pay more taxes. This kingdom needs a firm hand, not his gentle touch.",
+    "Тайвин слишком слаб и слишком мягок с деревенщиной. Им нужно платить больше налогов. Этому королевству нужна твердая рука, а не его нежное прикосновение.",
   "easterEgg.kingdomBook3":
-    "The royals are a cruel bunch. They treat everyone like dirt beneath their feet. No wonder no one likes them! At least they give me plenty of material for my jokes.",
+    "Королевская семья — жестокие засранцы. Они обращаются со всеми, как с грязью под ногтями. Неудивительно, что их никто не любит! По крайней мере, они дают мне достаточно материала для моих шуток.",
   "easterEgg.kingdomBook4":
-    "Authority and respect are crucial to suppressing the Goblins. We didn’t endure the war only to hand them power. They must be kept in their place for our kingdom's safety.",
+    "Власть и уважение имеют решающее значение для подавления гоблинов. Мы не для того терпели войну, чтобы передать им власть. Их нужно держать нв узде ради безопасности нашего королевства.",
   "easterEgg.kingdomBook5":
-    "To be king, I must be extra cruel. Once I ascend the throne, all Goblins will suffer. Their rebellion ends with me, and our kingdom will be stronger for it.",
+    "Чтобы быть королем, я должен быть жестоким. Когда я взойду на трон, все гоблины будут страдать. Их восстание закончится со мной, и наше королевство станет сильнее чем когда либо.",
   "easterEgg.desertBook1":
-    "Camels are a sacred animal, rumoured to transport rare artefacts. They say not all arrived at their destination and their remains are scattered throughout the site.",
+    "Верблюды — священные животные, по слухам, перевозящие редкие артефакты. Говорят, что не все прибыли в пункт назначения, и их останки разбросаны по всему месту.",
   "easterEgg.desertBook2":
-    "The desert reveals layers of history. Each desert storm brings us closer to the past.",
+    "Пустыня открывает слои истории. Каждая пустынная буря приближает нас к прошлому.",
   "easterEgg.desertBook3":
-    "An ancient secret is revealed in the desert, deciphered by the language of my ancestors.",
+    "Древняя тайна раскрыта в пустыне, расшифрованная языком моих предков.",
   "easterEgg.desertBook4":
-    "I've crossed the seas from Treasure Island to find this bountiful land....and all for what? Some lousy relics!",
-  "easterEgg.digbysDiary": "Digby's Diary",
-  "easterEgg.goldtoothsDiary": "Goldtooth's Diary",
-  "easterEgg.pharaohsDiary": "Pharaoh's Diary",
+    "Я пересек моря от Острова Сокровищ, чтобы найти эту благодатную землю... и все ради чего? Какие-то паршивые реликвии!",
+  "easterEgg.digbysDiary": "Дневник Дигби",
+  "easterEgg.goldtoothsDiary": "Дневник Голдтуса",
+  "easterEgg.pharaohsDiary": "Дневник Фараона",
 };
 
 export const desertTerms: Record<DesertKeys, string> = {
   "digby.streakReward":
-    "Discover all the items above for a bonus prize. Unlock daily streaks for extra rewards.",
-  "digby.streak": "Digging Streak",
+    "Найди все предметы для получения бонусного приза. Не пропускай и для дополнительных наград.",
+  "digby.streak": "Копательная серия",
   "digby.claimPrize":
-    "Well done Bumpkin! Don't forget to claim your bonus prize!",
+    "Молодец, Бампкин! Не забудь получить свой бонусный приз!",
   "digby.noShovels":
-    "Hey, you need a sand shovel to dig here! Speak to Jafar..",
-  "digby.noDrills":
-    "Looks like you don't have any sand drills! Speak to Jafar..",
-  "digby.noDigsLeft": "You have no more digs left! Maybe I can help...",
-  "digby.puzzle": "Digging puzzle",
-  "digby.patterns": "Patterns",
+    "Эй, тебе нужна лопата для песка, чтобы копать здесь! Поговори с Джафаром...",
+  "digby.noDrills": "Похоже, у тебя нет песчаных буров! Но они есть у Джафара.",
+  "digby.noDigsLeft": "Ты как будто подустал копать, может я смогу помочь...",
+  "digby.puzzle": "Головоломка «Раскопки»",
+  "digby.patterns": "Схема узоров",
   "digby.today":
-    "Howdy explorer, today the following items have been spotted in the desert puzzle.",
+    "Привет, исследователь, сегодня в головоломке пустыни были обнаружены следующие предметы:",
   "digby.guide.one":
-    "You can find items by digging in the archaelogical site. Learn the ancient clues, to find what you seek in the desert.",
-  "digby.guide.two": "Crabs are always located next to treasure.",
-  "digby.guide.three": "If you discover sand, there is no treasure nearby.",
+    "Ты можешь найти предметы, копая в археологических раскопках. Изучите древние подсказки, чтобы найти то, что ты ищешь в пустыне.",
+  "digby.guide.two": "Крабы всегда находятся рядом с сокровищами.",
+  "digby.guide.three":
+    "Если ты обнаружил песок, то рядом нет сокровищ(по горизонтали и вертикали).",
   "digby.guide.four":
-    "Each day a desert storm resets the puzzle with new patterns and resources.",
+    "Каждый день буря в пустыне перестраивает головоломку, обновляя схему и ресурсы.",
   "desert.notice.one":
-    "Welcome to the Desert. Can you solve the Pharaoh's puzzle and find the hidden treasures?",
+    "Добро пожаловать в пустыню. Сможешь ли ты решить загадку фараона и найти спрятанные сокровища?",
   "desert.notice.two":
-    "Discover {{ticket}}s & exchange them for rewards before it goes away!",
-  "desert.notice.three": "Use hieroglyphs to upgrade your digging.",
-  "desert.notice.four": "Sell resources at the shop for coins.",
-  "desert.notice.five":
-    "Gather items for NPC deliveries in exchange for rewards.",
+    "Найди {{ticket}} и обменяйте их на награды, прежде чем они исчезнут!",
+  "desert.notice.three":
+    "Используй hieroglyphs, чтобы улучшить свои навыки копания.",
+  "desert.notice.four": "Продавай накопанное в магазине за монеты.",
+  "desert.notice.five": "Или неси предметы для NPC в обмен на награды.",
   "digby.moreDigsIntro":
-    "Ahhh you're looking for more digs? No worries! There are multiple ways to get more. Check out the options below!",
-  "digby.buyMoreDigs": "Buy 5 more digs for 1",
-  "desert.hud.digsLeft": "{{digsLeft}} digs left",
-  "desert.hud.noDigsLeft": "No digs left...",
-  "desert.hud.newSite": "New dig site!",
-  "desert.extraDigs": "Extra digs",
-  "desert.digs": "{{amount}} digs",
+    "Аааа, устали копать? Не беспокойтесь! Есть несколько способов копать больше. Ознакомьтесь с вариантами ниже!",
+  "digby.buyMoreDigs": "Купи на 5 копок больше за 1",
+  "desert.hud.digsLeft": "{{digsLeft}} копок осталось",
+  "desert.hud.noDigsLeft": "Копки закончились...",
+  "desert.hud.newSite": "Новое место раскопок!",
+  "desert.extraDigs": "Дополнительные копки",
+  "desert.digs": "{{amount}} копаний",
   "desert.buyDigs.confirmation":
-    "Are you sure you want to buy 5 digs for 1 Block Buck?",
-  "desert.noTreasureToSell": "You have no {{treasure}} to sell!",
+    "Ты уверен, что хочешь купить 5 копок за 1 Block Bucks?",
+  "desert.noTreasureToSell": "У тебя нет {{treasure}} на продажу!",
 };
 
 const changeLanguage: Record<ChangeLanguage, string> = {
   "changeLanguage.confirm":
-    "Это действие обновит страницу. Вы уверены, что хотите сменить язык?",
+    "Это действие обновит страницу. Ты уверен, что хочешь сменить язык?",
   "changeLanguage.contribute": "Хочешь внести свой вклад?",
   "changeLanguage.contribute.message":
     "Если ты заинтересован в переводе на предпочитаемый тобой язык, пожалуйста, свяжись с одним из модераторов сервера Sunflower Land Discord:",
@@ -5787,22 +5758,22 @@ const changeLanguage: Record<ChangeLanguage, string> = {
 };
 
 export const marketplaceTerms: Record<MarketplaceTerms, string> = {
-  "marketplace.collectibles": "Collectibles",
-  "marketplace.buyNow": "Buy now",
-  "marketplace.description": "Description",
-  "marketplace.listForSale": "List for sale",
-  "marketplace.walletRequired": "Wallet required",
-  "marketplace.listings": "Listings",
-  "marketplace.noListings": "No listings available.",
-  "marketplace.noOffers": "No offers available.",
-  "marketplace.offers": "Offers",
-  "marketplace.topOffer": "Top offer",
-  "marketplace.acceptOffer": "Accept offer",
-  "marketplace.makeOffer": "Make an offer",
-  "marketplace.expiry": "Expiry",
-  "marketplace.from": "From",
+  "marketplace.collectibles": "Артефакты",
+  "marketplace.buyNow": "Купить",
+  "marketplace.description": "Описание",
+  "marketplace.listForSale": "Список на продажу",
+  "marketplace.walletRequired": "Нужен кошелек",
+  "marketplace.listings": "Продажа",
+  "marketplace.noListings": "Ничего нет.",
+  "marketplace.noOffers": "И тут ничего нет.",
+  "marketplace.offers": "Предлжения",
+  "marketplace.topOffer": "Лучшее предложение",
+  "marketplace.acceptOffer": "Принять предложение",
+  "marketplace.makeOffer": "Сделать предложение",
+  "marketplace.expiry": "Действительно до",
+  "marketplace.from": "От",
   "marketplace.sfl": "SFL",
-  "marketplace.priceHistory": "Price history",
+  "marketplace.priceHistory": "История цен",
 };
 
 export const RUSSIAN_TERMS: Record<TranslationKeys, string> = {

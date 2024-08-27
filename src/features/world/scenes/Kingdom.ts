@@ -175,10 +175,6 @@ export class KingdomScene extends BaseScene {
     this.initialiseNPCs(KINGDOM_NPCS);
     this.addShopDisplayItems();
 
-    this.onCollision["faction_door"] = async (obj1, obj2) => {
-      interactableModalManager.open("faction_launch");
-    };
-
     const chickenRescuePortal = this.add.sprite(285, 515, "portal");
     this.anims.create({
       key: "portal_anim",
@@ -244,6 +240,28 @@ export class KingdomScene extends BaseScene {
       this.physics.world.enable(cropsAndChickensPortal);
       this.colliders?.add(cropsAndChickensPortal);
       (cropsAndChickensPortal.body as Phaser.Physics.Arcade.Body)
+        .setSize(32, 32)
+        .setOffset(0, 0)
+        .setImmovable(true)
+        .setCollideWorldBounds(true);
+    }
+
+    if (hasFeatureAccess(this.gameState, "FRUIT_DASH")) {
+      const fruitDashPortal = this.add.sprite(40, 510, "portal");
+      fruitDashPortal.play("portal_anim", true);
+      fruitDashPortal
+        .setInteractive({ cursor: "pointer" })
+        .on("pointerdown", () => {
+          if (this.checkDistanceToSprite(fruitDashPortal, 40)) {
+            interactableModalManager.open("fruit_dash");
+          } else {
+            this.currentPlayer?.speak(translate("base.iam.far.away"));
+          }
+        });
+
+      this.physics.world.enable(fruitDashPortal);
+      this.colliders?.add(fruitDashPortal);
+      (fruitDashPortal.body as Phaser.Physics.Arcade.Body)
         .setSize(32, 32)
         .setOffset(0, 0)
         .setImmovable(true)

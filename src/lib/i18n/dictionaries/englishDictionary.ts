@@ -1187,6 +1187,7 @@ const bumpkinTrade: Record<BumpkinTrade, string> = {
     "Sell {{quantity}} {{resource}} for {{price}} SFL?",
   "bumpkinTrade.cant.sell.all": "Can't sell all",
   "bumpkinTrade.price/unit": "{{price}}/unit",
+  "bumpkinTrade.listed": "Listed",
 };
 
 const goblinTrade: Record<GoblinTrade, string> = {
@@ -2278,14 +2279,10 @@ const factions: Record<Factions, string> = {
   "faction.kitchen.preparing":
     "I'm still preparing my orders! Please come back in a few minutes.",
   "faction.kitchen.newRequests": "New requests: {{time}}",
-  "faction.openingSoon":
-    "Faction houses are opening on July 8th. Earn marks, compete for glory and claim rewards!",
   "faction.emblems": "Emblems",
   "faction.emblems.intro.one":
     "Wow, look at all those emblems. You are a true warrior!",
   "faction.emblems.intro.two":
-    "On July 8th the Faction House will open. You will be able to complete tasks, earn marks and claim rewards.",
-  "faction.emblems.intro.three":
     "The more emblems you have, the higher your rank and more marks you can earn.",
   "faction.tradeEmblems": "Trade emblems to climb the ranks and attain perks.",
   "faction.marksBoost":
@@ -2907,7 +2904,6 @@ const gameTerms: Record<GameTerms, string> = {
   "new.delivery.in": "New deliveries: {{timeLeft}}",
   "new.delivery.levelup": "Level up to unlock more deliveries.",
   "no.sfl": "No SFL tokens found",
-  opensea: "OpenSea",
   polygonscan: "PolygonScan",
   potions: "Potions",
   "proof.of.humanity": "Proof of Humanity",
@@ -3262,7 +3258,6 @@ const interactableModals: Record<InteractableModals, string> = {
     "Rumour has it they are searching for Bumpkin apprentices to grow mutant crops with them.",
   "interactableModals.guildHouse.message":
     "Hold on Bumpkin! You need a Bud if you want to enter the Guild House.",
-  "interactableModals.guildHouse.budsCollection": "Opensea",
   "interactableModals.bettyHome.message":
     "Oh, sweetie, as much as I love my crops, my house is a private space, not open to visitors right now.",
   "interactableModals.bertHome.message":
@@ -5237,9 +5232,6 @@ const trader: Record<Trader, string> = {
 
 const transactionTerms: Record<TransactionTerms, string> = {
   "transaction.starterOffer": "Starter offer",
-  "transaction.t&c.one":
-    "Accept the terms and conditions to sign in to Sunflower Land.",
-  "transaction.t&c.two": "Accept Terms and Conditions",
   "transaction.mintFarm": "Your farm has been minted!",
   "transaction.farm.ready": "Your farm will be ready in",
   "transaction.networkFeeRequired":
@@ -5252,8 +5244,6 @@ const transactionTerms: Record<TransactionTerms, string> = {
     "You need to accept the transaction in the metamask popup to continue.",
   "transaction.noFee":
     "This request will not trigger a blockchain transaction or cost any gas fees.",
-  "transaction.chooseDonationGame":
-    "Thank you for your support! Kindly choose the game that you like donate to.",
   "transaction.minblockbucks": "Minimum 5 Block Bucks",
   "transaction.payCash": "Pay with Cash",
   "transaction.matic": "Matic",
@@ -5277,7 +5267,6 @@ const transactionTerms: Record<TransactionTerms, string> = {
   "transaction.withdraw.one": "Withdrawing",
   "transaction.withdraw.sent": "Your items/tokens have been sent to:",
   "transaction.withdraw.view": "You can view your items on",
-  "transaction.openSea": "OpenSea",
   "transaction.withdraw.four":
     "You can view your tokens by importing the SFL Token to your wallet.",
   "transaction.withdraw.five": "Import SFL Token to MetaMask",
@@ -5285,22 +5274,17 @@ const transactionTerms: Record<TransactionTerms, string> = {
     "Please note that OpenSea can take up to 30 minutes to display your items. You can also view your items on",
   "transaction.withdraw.polygon": "PolygonScan",
   "transaction.id": "Transaction ID:",
-  "transaction.termsOfService": "Accept the terms of service",
-  "transaction.termsOfService.one":
-    "In order to buy your farm you will need to accept the Sunflower Land terms of service.",
-  "transaction.termsOfService.two":
-    "This step will take you back to your new sequence wallet to accept the terms of service.",
   "transaction.buy.BlockBucks": "Buy Block Bucks",
 };
 
 const transfer: Record<Transfer, string> = {
-  "transfer.sure.adress":
+  "transfer.sure.address":
     "Please ensure that the address you provided is on the Polygon Blockchain, is correct and is owned by you. There is no recovery from incorrect addresses.",
   "transfer.Account":
     "Your Account #{{farmID}} has been transferred to {{receivingAddress}}!",
   "transfer.Farm": "Transferring your farm!",
   "transfer.Refresh": "Do not refresh this browser",
-  "transfer.Taccount": "Transfer your account",
+  "transfer.account": "Transfer your account",
   "transfer.address": "Wallet address: ",
 };
 
@@ -5408,7 +5392,6 @@ const winner: Record<Winner, string> = {
 };
 
 const wishingWellTerms: Record<WishingWell, string> = {
-  "wishingWell.makeWish": "Grant a new wish and see how lucky you are!",
   "wishingWell.newWish":
     "A new wish has been made for you based on your current balance of LP tokens!",
   "wishingWell.noReward":
@@ -5419,8 +5402,6 @@ const wishingWellTerms: Record<WishingWell, string> = {
   "wishingWell.wish.granted": "Your wish has been granted.",
   "wishingWell.wish.made": "You have made a wish!",
   "wishingWell.wish.timeTillNextWish": "Time till next wish: {{nextWishTime}}",
-  "wishingWell.wish.thanksForSupport":
-    "Thanks for supporting the project and making a wish.",
   "wishingWell.wish.comeBackAfter":
     "Come back in {{nextWishTime}} to see just how lucky you have been!",
   "wishingWell.wish.warning.one":
@@ -5434,10 +5415,6 @@ const wishingWellTerms: Record<WishingWell, string> = {
   "wishingWell.info.three":
     "Looks like you have those magic LP tokens in your wallet!",
   "wishingWell.moreInfo": "More info",
-  "wishingWell.noLiquidity":
-    "It doesn't look like you're providing liquidity yet. More info,",
-  "wishingWell.rewardsInWell": "Amount of rewards in the well",
-  "wishingWell.luck": "Let's see how lucky you are!",
 };
 
 const withdraw: Record<Withdraw, string> = {
@@ -5459,11 +5436,6 @@ const withdraw: Record<Withdraw, string> = {
     "Some items cannot be withdrawn. Other items may be restricted when in use or still being built.",
   "withdraw.bumpkin.wearing":
     "Your Bumpkin is currently wearing the following item(s) that can't be withdrawn. You will need to unequip them before you can withdraw.",
-  "withdraw.bumpkin.sure.withdraw":
-    "Are you sure you want to withdraw your Bumpkin?",
-  "withdraw.bumpkin.closed": "Bumpkin withdrawal has been permanently disabled",
-  "withdraw.bumpkin.closing":
-    "Bumpkins are moving off chain. Bumpkin withdrawal will be permanently disabled, {{timeRemaining}}",
   "withdraw.buds": "Select Buds to withdraw",
   "withdraw.budRestricted": "Used in today's bud box",
 };

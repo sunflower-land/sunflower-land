@@ -868,7 +868,8 @@ export type BumpkinTrade =
   | "bumpkinTrade.maximumFloor"
   | "bumpkinTrade.floorPrice"
   | "bumpkinTrade.sellConfirmation"
-  | "bumpkinTrade.cant.sell.all";
+  | "bumpkinTrade.cant.sell.all"
+  | "bumpkinTrade.listed";
 
 export type GoblinTrade =
   | "goblinTrade.select"
@@ -1651,11 +1652,9 @@ export type Factions =
   | "faction.claimEmblems.percentile"
   | "faction.claimEmblems.travelNow"
   | "faction.claimEmblems.visitMe"
-  | "faction.openingSoon"
   | "faction.emblems"
   | "faction.emblems.intro.one"
   | "faction.emblems.intro.two"
-  | "faction.emblems.intro.three"
   | "faction.tradeEmblems"
   | "faction.marksBoost"
   | "faction.shop.onlyFor"
@@ -2083,7 +2082,6 @@ export type GameTerms =
   | "new.delivery.in"
   | "new.delivery.levelup"
   | "no.sfl"
-  | "opensea"
   | "polygonscan"
   | "potions"
   | "proof.of.humanity"
@@ -2319,7 +2317,6 @@ export type InteractableModals =
   | "interactableModals.potionHouse.message1"
   | "interactableModals.potionHouse.message2"
   | "interactableModals.guildHouse.message"
-  | "interactableModals.guildHouse.budsCollection"
   | "interactableModals.bettyHome.message"
   | "interactableModals.bertHome.message"
   | "interactableModals.beach.message1"
@@ -3502,7 +3499,6 @@ export type TransactionTerms =
   | "transaction.excludeFees"
   | "transaction.starterOffer"
   | "transaction.id"
-  | "transaction.termsOfService"
   | "transaction.matic"
   | "transaction.message0"
   | "transaction.noFee"
@@ -3510,7 +3506,6 @@ export type TransactionTerms =
   | "transaction.mintFarm"
   | "transaction.farm.ready"
   | "transaction.networkFeeRequired"
-  | "transaction.openSea"
   | "transaction.payCardCash"
   | "transaction.payCash"
   | "transaction.payMatic"
@@ -3518,9 +3513,6 @@ export type TransactionTerms =
   | "transaction.storeProgress"
   | "transaction.rejected"
   | "transaction.storeProgress.success"
-  | "transaction.t&c.one"
-  | "transaction.t&c.two"
-  | "transaction.chooseDonationGame"
   | "transaction.processing"
   | "transaction.pleaseWait"
   | "transaction.unconfirmed.reset"
@@ -3531,16 +3523,14 @@ export type TransactionTerms =
   | "transaction.withdraw.five"
   | "transaction.displayItems"
   | "transaction.withdraw.polygon"
-  | "transaction.termsOfService.one"
-  | "transaction.termsOfService.two"
   | "transaction.buy.BlockBucks";
 
 export type Transfer =
-  | "transfer.sure.adress"
+  | "transfer.sure.address"
   | "transfer.Account"
   | "transfer.Farm"
   | "transfer.Refresh"
-  | "transfer.Taccount"
+  | "transfer.account"
   | "transfer.address";
 
 export type TreasureModal =
@@ -3616,7 +3606,6 @@ export type WelcomeTerms =
 export type Winner = "winner.mintTime" | "winner.mintTime.one";
 
 export type WishingWell =
-  | "wishingWell.makeWish"
   | "wishingWell.newWish"
   | "wishingWell.noReward"
   | "wishingWell.wish.lucky"
@@ -3625,17 +3614,13 @@ export type WishingWell =
   | "wishingWell.wish.granted"
   | "wishingWell.wish.made"
   | "wishingWell.wish.timeTillNextWish"
-  | "wishingWell.wish.thanksForSupport"
   | "wishingWell.wish.comeBackAfter"
   | "wishingWell.wish.warning.one"
   | "wishingWell.wish.warning.two"
   | "wishingWell.info.one"
   | "wishingWell.info.two"
   | "wishingWell.info.three"
-  | "wishingWell.moreInfo"
-  | "wishingWell.noLiquidity"
-  | "wishingWell.rewardsInWell"
-  | "wishingWell.luck";
+  | "wishingWell.moreInfo";
 
 export type Withdraw =
   | "withdraw.proof"
@@ -3652,9 +3637,6 @@ export type Withdraw =
   | "withdraw.restricted"
   | "withdraw.budRestricted"
   | "withdraw.bumpkin.wearing"
-  | "withdraw.bumpkin.sure.withdraw"
-  | "withdraw.bumpkin.closed"
-  | "withdraw.bumpkin.closing"
   | "withdraw.buds";
 
 export type WornDescription =

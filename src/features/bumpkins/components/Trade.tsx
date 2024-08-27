@@ -100,7 +100,7 @@ const ListTrade: React.FC<{
   if (!selected) {
     return (
       <div className="space-y-2">
-        <div className="pl-2 pt-2">
+        <div className="pl-2 py-2">
           <Label icon={SUNNYSIDE.icons.basket} type="default">
             {t("bumpkinTrade.like.list")}
           </Label>
@@ -125,7 +125,9 @@ const ListTrade: React.FC<{
     );
   }
 
-  const unitPrice = sfl.dividedBy(quantity);
+  const unitPrice = quantity.equals(0)
+    ? new Decimal(0)
+    : sfl.dividedBy(quantity);
   const tooLittle =
     !!quantity && quantity.lessThan(TRADE_MINIMUMS[selected] ?? 0);
 
@@ -304,7 +306,7 @@ const ListTrade: React.FC<{
         <p className="text-xs font-secondary">
           {quantity.equals(0)
             ? "0.0000 SFL"
-            : `${formatNumber(sfl.dividedBy(quantity), {
+            : `${formatNumber(unitPrice, {
                 decimalPlaces: 4,
                 showTrailingZeros: true,
               })} SFL`}
@@ -431,15 +433,17 @@ const TradeDetails: React.FC<{
               />
             ))}
             <div>
-              <Label type="default" className="ml-1 mt-0.5">{`Listed`}</Label>
+              <Label type="default" className="ml-1 mt-0.5">
+                {t("bumpkinTrade.listed")}
+              </Label>
               <div className="flex items-center mr-0.5 mt-1">
                 <img src={token} className="h-6 mr-1" />
                 <p className="text-xs">{`${trade.sfl} SFL`}</p>
               </div>
             </div>
           </div>
-          <div className="flex flex-col justify-between h-full">
-            <Button className="mb-1" onClick={onCancel}>
+          <div className="flex items-center">
+            <Button onClick={onCancel}>
               {isOldListing ? "Cancel old" : t("cancel")}
             </Button>
           </div>
