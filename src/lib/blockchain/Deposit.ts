@@ -33,7 +33,7 @@ export async function depositToFarm({
     account,
     args: [
       BigInt(farmId),
-      BingInt(sfl),
+      BigInt(sfl),
       itemIds.map(BigInt),
       itemAmounts.map(BigInt),
       wearableIds.map(BigInt),

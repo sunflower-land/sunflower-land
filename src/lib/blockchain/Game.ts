@@ -1,6 +1,6 @@
 import { CONFIG } from "lib/config";
 import { fromWei } from "web3-utils";
-import GameABI from "./abis/SunflowerLandGame.json";
+import GameABI from "./abis/SunflowerLandGame";
 import { onboardingAnalytics } from "lib/onboardingAnalytics";
 import { getNextSessionId, getSessionId } from "./Session";
 import { writeContract } from "@wagmi/core";
@@ -21,13 +21,13 @@ type ProgressData = {
 };
 
 export type SyncProgressArgs = {
-  account: string;
-  signature: string;
-  sender: string;
+  account: `0x${string}`;
+  signature: `0x${string}`;
+  sender: `0x${string}`;
   farmId: number;
   deadline: number;
-  sessionId: string;
-  nextSessionId: string;
+  sessionId: `0x${string}`;
+  nextSessionId: `0x${string}`;
   progress: ProgressData;
   fee: string;
   purchase: {
@@ -56,14 +56,25 @@ export async function syncProgress({
     args: [
       {
         signature,
-        farmId,
-        deadline,
+        farmId: BigInt(farmId),
+        deadline: BigInt(deadline),
         sessionId,
         nextSessionId,
-        progress,
-        fee,
+        progress: {
+          mintIds: progress.mintIds.map(BigInt),
+          mintAmounts: progress.mintAmounts.map(BigInt),
+          burnIds: progress.burnIds.map(BigInt),
+          burnAmounts: progress.burnAmounts.map(BigInt),
+          wearableIds: progress.wearableIds.map(BigInt),
+          wearableAmounts: progress.wearableAmounts.map(BigInt),
+          wearableBurnIds: progress.wearableBurnIds.map(BigInt),
+          wearableBurnAmounts: progress.wearableBurnAmounts.map(BigInt),
+          tokens: BigInt(progress.tokens),
+        },
+        fee: BigInt(fee),
       },
     ],
+    account,
   });
 
   if (purchase) {

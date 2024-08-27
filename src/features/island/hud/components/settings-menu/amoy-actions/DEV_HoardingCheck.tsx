@@ -1,11 +1,11 @@
 import { Button } from "components/ui/Button";
 import { KNOWN_IDS } from "features/game/types";
 import React, { ChangeEvent, useState } from "react";
-import GameABI from "lib/blockchain/abis/SunflowerLandGame.json";
-import { AbiItem } from "web3-utils";
+import GameABI from "lib/blockchain/abis/SunflowerLandGame";
 import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { ContentComponentProps } from "../GameOptions";
+import { readContract } from "@wagmi/core";
 
 interface Props {
   network: "mainnet" | "amoy";
@@ -63,12 +63,14 @@ export const DEV_HoarderCheck: React.FC<Props & ContentComponentProps> = ({
         network === "mainnet"
           ? "0xfB84a7D985f9336987C89e1518E9A897b013080B"
           : "0x05BbC2c442A7468538e68B1F70a97C9140227b0e";
-      const web3 = new Web3(rpc);
-      const contract = new web3.eth.Contract(
-        GameABI as AbiItem[],
-        gameContract,
-      );
-      const maxAmount = await contract.methods.getMaxItemAmounts(maxIds).call();
+
+      const maxAmount = await readContract("???", {
+        abi: GameABI,
+        address: gameContract,
+        functionName: "getMaxItemAmounts",
+        args: [maxIds],
+      });
+
       const inventoryLimits: string[] = [];
 
       Object.keys(current).forEach((key) => {

@@ -14,7 +14,7 @@ export interface Context {
 type DonateEvent = {
   type: "DONATE";
   donation: number;
-  to?: string;
+  to?: `0x${string}`;
 };
 
 type Event = DonateEvent | { type: "BOTTLE_CLICK" } | { type: "CLOSE" };

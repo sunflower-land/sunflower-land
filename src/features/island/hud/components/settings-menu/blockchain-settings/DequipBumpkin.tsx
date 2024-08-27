@@ -30,10 +30,7 @@ export const DequipBumpkin: React.FC = () => {
 
   useEffect(() => {
     const load = async () => {
-      const walletBumpkins = await loadBumpkins(
-        wallet.web3Provider,
-        wallet.myAccount as string,
-      );
+      const walletBumpkins = await loadBumpkins(wallet.getAccount());
 
       setWalletBumpkins(walletBumpkins);
 
@@ -56,13 +53,11 @@ export const DequipBumpkin: React.FC = () => {
 
     // Get all the IDs + Amounts currently on the Bumpkin
     const wearables = await loadWearablesBalanceBatch(
-      wallet.web3Provider,
       bumpkin.wardrobe, // Bumpkin wallet address
     );
 
     await dequipBumpkin({
-      web3: wallet.web3Provider,
-      account: wallet.myAccount as string,
+      account: wallet.getAccount(),
       bumpkinId: selectedBumpkinId as number,
       ids: Object.keys(wearables).map(Number),
       amounts: Object.values(wearables),
@@ -116,7 +111,7 @@ export const DequipBumpkin: React.FC = () => {
     <>
       <div className="p-2">
         <Label className="my-2 font-secondary" type="default" icon={walletIcon}>
-          {shortAddress(wallet.myAccount as string)}
+          {shortAddress(wallet.getAccount())}
         </Label>
         <p className="mb-3 text-sm">{t("dequipper.intro")}</p>
         <div className="flex flex-wrap max-h-48 overflow-y-scroll">
@@ -124,7 +119,7 @@ export const DequipBumpkin: React.FC = () => {
             const parts = interpretTokenUri(bumpkin.tokenURI).equipped;
             return (
               <OuterPanel
-                key={bumpkin.tokenId}
+                key={String(bumpkin.tokenId)}
                 onClick={() => setSelectedBumpkinId(Number(bumpkin.tokenId))}
                 className="flex flex-col relative cursor-pointer hover:bg-brown-200 h-20 w-20 items-center justify-center mr-2 mb-2"
               >

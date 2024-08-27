@@ -7,19 +7,22 @@ import { readContract, writeContract } from "@wagmi/core";
 import { config } from "features/wallet/WalletProvider";
 
 export async function getCreatedAt(
-  account: string,
+  account: `0x${string}`,
   address: `0x${string}`,
   attempts = 1,
 ): Promise<number> {
   await new Promise((res) => setTimeout(res, 3000 * attempts));
 
   try {
-    return await readContract(config, {
+    const createdAt = await readContract(config, {
       abi: ABI,
       address: CONFIG.ACCOUNT_MINTER_CONTRACT,
       functionName: "farmCreatedAt",
       args: [address],
+      account,
     });
+
+    return Number(createdAt);
   } catch (e) {
     const error = parseMetamaskError(e);
     if (attempts < 3) {
@@ -40,13 +43,14 @@ export async function createNewAccount({
   signature: `0x${string}`;
   deadline: number;
   fee: string;
-}): Promise<string> {
+}) {
   await writeContract(config, {
     abi: ABI,
     address: CONFIG.ACCOUNT_MINTER_CONTRACT,
     functionName: "mintAccount",
     args: [signature, BigInt(deadline), BigInt(fee), account],
     value: BigInt(fee),
+    account,
   });
 
   onboardingAnalytics.logEvent("purchase", {

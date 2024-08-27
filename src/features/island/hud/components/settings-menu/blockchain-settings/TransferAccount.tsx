@@ -33,7 +33,7 @@ export const TransferAccount: React.FC = () => {
         receiver: receiver.address,
         farmId: gameService.state.context.farmId,
         token: authState.context.user.rawToken as string,
-        account: wallet.myAccount as string,
+        account: wallet.getAccount(),
         nftId: gameService.state.context.nftId!,
       });
       setState("success");

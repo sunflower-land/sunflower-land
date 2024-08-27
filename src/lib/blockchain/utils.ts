@@ -1,21 +1,5 @@
 import { ERRORS } from "lib/errors";
 
-const MINIMUM_GAS_PRICE = 40;
-
-export async function estimateGasPrice(web3: Web3, incr = 1) {
-  const minimum = MINIMUM_GAS_PRICE * 1000000000;
-  try {
-    const e = await web3.eth.getGasPrice();
-    let gasPrice = e ? Number(e) * incr : undefined;
-    if (!gasPrice || gasPrice < minimum) {
-      gasPrice = minimum;
-    }
-    return gasPrice;
-  } catch {
-    return minimum;
-  }
-}
-
 export function parseMetamaskError(error: any): Error {
   // eslint-disable-next-line no-console
   console.log({ parse: error });
