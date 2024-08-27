@@ -1,6 +1,6 @@
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { SpeakingModal } from "features/game/components/SpeakingModal";
-import { NPCName, NPC_WEARABLES } from "lib/npcs";
+import { NPCName, NPC_WEARABLES, acknowledgeNPC } from "lib/npcs";
 import React, { useContext, useEffect, useState } from "react";
 import { Modal } from "components/ui/Modal";
 import { DeliveryPanel } from "./deliveries/DeliveryPanel";
@@ -36,6 +36,7 @@ import { Context } from "features/game/GameProvider";
 import { Digby } from "./beach/Digby";
 import { CropsAndChickens } from "./portals/CropsAndChickens";
 import { ExampleDonations } from "./donations/ExampleDonations";
+import { NPCS_WITH_ALERTS } from "../containers/BumpkinContainer";
 
 class NpcModalManager {
   private listener?: (npc: NPCName, isOpen: boolean) => void;
@@ -76,6 +77,9 @@ export const NPCModals: React.FC<Props> = ({ scene, id }) => {
   }, []);
 
   const closeModal = () => {
+    if (npc && !!NPCS_WITH_ALERTS[npc]) {
+      acknowledgeNPC(npc);
+    }
     setNpc(undefined);
   };
 
