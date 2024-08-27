@@ -42,8 +42,7 @@ export async function buySFL({
   // Do contract call
   const receipt = await buySFLOnChain({
     ...transaction,
-    web3: wallet.web3Provider,
-    account: wallet.myAccount,
+    account: wallet.getAccount(),
     matic,
     amountOutMin,
   });

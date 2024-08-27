@@ -1,7 +1,6 @@
 import Decimal from "decimal.js-light";
 import { KNOWN_IDS, IDS } from "features/game/types";
 import { InventoryItemName } from "features/game/types/game";
-import Web3 from "web3";
 import { AbiItem } from "web3-utils";
 import InventoryJSON from "./abis/Inventory.json";
 import { CONFIG } from "lib/config";

@@ -37,7 +37,6 @@ import { ErrorCode, ERRORS } from "lib/errors";
 import { makeGame } from "./transforms";
 import { reset } from "features/farming/hud/actions/reset";
 // import { getGameRulesLastRead } from "features/announcements/announcementsStorage";
-import { OnChainEvent } from "../actions/onChainEvents";
 import { checkProgress, processEvent } from "./processEvent";
 import {
   landscapingMachine,
@@ -119,7 +118,6 @@ export interface Context {
   errorCode?: ErrorCode;
   transactionId?: string;
   fingerprint?: string;
-  notifications?: OnChainEvent[];
   maxedItem?: InventoryItemName | "SFL";
   goblinSwarm?: Date;
   deviceTrackerId?: string;
@@ -605,15 +603,12 @@ export function startGame(authContext: AuthContext) {
 
               setOnboardingComplete();
 
-              const notifications: OnChainEvent[] = [];
-
               return {
                 farmId: Number(response.farmId),
                 isBlacklisted: response.isBlacklisted,
                 state: response.game,
                 sessionId: response.sessionId,
                 fingerprint,
-                notifications,
                 deviceTrackerId: response.deviceTrackerId,
                 announcements: response.announcements,
                 transaction: response.transaction,
@@ -2120,7 +2115,6 @@ export function startGame(authContext: AuthContext) {
           state: (_, event) => event.data.state,
           sessionId: (_, event) => event.data.sessionId,
           fingerprint: (_, event) => event.data.fingerprint,
-          notifications: (_, event) => event.data.notifications,
           deviceTrackerId: (_, event) => event.data.deviceTrackerId,
           announcements: (_, event) => event.data.announcements,
           transaction: (_, event) => event.data.transaction,

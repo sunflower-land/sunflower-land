@@ -78,7 +78,6 @@
     "viem": "2.x",
     "vite-plugin-pwa": "^0.17.4",
     "wagmi": "^2.12.7",
-    "web3-health-check": "^1.0.17",
     "web3-utils": "^1.6.1",
     "xstate": "^4.33.1"
   },

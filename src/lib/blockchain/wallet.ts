@@ -1,179 +1,46 @@
-import { pingHealthCheck } from "web3-health-check";
 import { ERRORS } from "lib/errors";
-import Web3 from "web3";
 
-import { fromWei, toBN, toHex, toWei } from "web3-utils";
+import { fromWei, toBN } from "web3-utils";
 import { CONFIG } from "lib/config";
-import { estimateGasPrice, parseMetamaskError } from "./utils";
-import { createAlchemyWeb3 } from "@alch/alchemy-web3";
+import { parseMetamaskError } from "./utils";
 import Decimal from "decimal.js-light";
-import { Web3SupportedProviders } from "lib/web3SupportedProviders";
+import {
+  getAccount,
+  getBalance,
+  getChainId,
+  sendTransaction,
+  switchChain,
+} from "@wagmi/core";
+import { config } from "features/wallet/WalletProvider";
+import { parseEther } from "viem";
 
 const UNISWAP_ROUTER = CONFIG.QUICKSWAP_ROUTER_CONTRACT;
 const WMATIC_ADDRESS = CONFIG.WMATIC_CONTRACT;
 const SFL_TOKEN_ADDRESS = CONFIG.TOKEN_CONTRACT;
 
 /**
- * A wrapper of Web3 which handles retries and other common errors.
+ * A wrapper of Viem which handles retries and other common errors.
  */
 export class Wallet {
-  private web3: Web3 = new Web3(
-    CONFIG.NETWORK === "mainnet"
-      ? "https://rpc-mainnet.maticvigil.com"
-      : "https://rpc-amoy.polygon.technology",
-  );
+  public getAccount() {
+    const { address } = getAccount(config);
 
-  private account: string | null = null;
-
-  private type: Web3SupportedProviders | null = null;
-  private rawProvider: any | null = null;
-
-  private async initialiseContracts() {
-    try {
-      // TODO - initialise a test contract???
-      // const isHealthy = await this.healthCheck();
-      // Maintainers of package typed incorrectly
-      // if (!isHealthy) {
-      //   throw new Error("Unable to reach Polygon");
-      // }
-    } catch (e: any) {
-      // Timeout, retry
-      if (e.code === "-32005") {
-        // eslint-disable-next-line no-console
-        console.error("Retrying...");
-        await new Promise((res) => window.setTimeout(res, 3000));
-      } else {
-        // eslint-disable-next-line no-console
-        console.error(e);
-        throw e;
-      }
-    }
-  }
-
-  public async healthCheck() {
-    if (window.location.hostname == "localhost") {
-      return true;
-    }
-
-    const statusCode = await pingHealthCheck(
-      this.web3 as Web3,
-      this.account as string,
-    );
-
-    const isHealthy = (statusCode as any) !== 500;
-
-    return isHealthy;
-  }
-
-  private async getAccount() {
-    if (!this.web3) {
+    if (!address) {
       throw new Error(ERRORS.NO_WEB3);
     }
 
-    const maticAccounts = await this.web3.eth.getAccounts();
-    return maticAccounts[0];
-  }
-
-  private async loadAccount() {
-    this.account = await this.getAccount();
+    return address;
   }
 
   public async getMaticBalance() {
-    if (!this.web3) {
-      throw new Error(ERRORS.NO_WEB3);
-    }
-
-    const balance = await this.web3?.eth.getBalance(this.account as string);
-
-    return new Decimal(balance);
-  }
-
-  public async initialise(
-    provider: any,
-    type: Web3SupportedProviders,
-    retryCount = 0,
-  ): Promise<void> {
-    this.type = type;
-    try {
-      // Smooth out the loading state
-      await new Promise((res) => setTimeout(res, 1000));
-      this.web3 = new Web3(provider);
-      this.rawProvider = provider;
-      await this.loadAccount();
-
-      const chainId = await this.web3?.eth.getChainId();
-
-      if (!(chainId === CONFIG.POLYGON_CHAIN_ID)) {
-        await this.initialiseNetwork(provider);
-      }
-
-      await this.initialiseContracts();
-    } catch (e: any) {
-      // If it is a user error, we don't want to retry
-      if (e.message === ERRORS.WRONG_CHAIN || e.message === ERRORS.NO_WEB3) {
-        throw e;
-      }
-
-      // If it is not a known error, keep trying
-      if (retryCount < 3) {
-        await new Promise((res) => setTimeout(res, 2000));
-
-        return this.initialise(provider, type, retryCount + 1);
-      }
-
-      throw e;
-    }
-  }
-
-  public isAlchemy = false;
-  public async overrideProvider() {
-    this.isAlchemy = true;
-
-    if (CONFIG.ALCHEMY_RPC) {
-      // eslint-disable-next-line no-console
-      console.log("Provider overridden");
-
-      let web3;
-
-      if (this.type === Web3SupportedProviders.METAMASK) {
-        web3 = createAlchemyWeb3(CONFIG.ALCHEMY_RPC);
-      } else {
-        web3 = createAlchemyWeb3(CONFIG.ALCHEMY_RPC, {
-          writeProvider: this.rawProvider,
-        });
-      }
-
-      this.web3 = new Web3(web3 as any);
-
-      await this.initialiseContracts();
-    }
-  }
-
-  public async signTransaction(nonce: number, account = this.account) {
-    if (!this.web3) {
-      throw new Error(ERRORS.NO_WEB3);
-    }
-
-    const message = this.generateSignatureMessage({
-      address: account as string,
-      nonce,
+    return await getBalance(config, {
+      address: this.getAccount(),
     });
+  }
 
-    try {
-      const signature = await this.web3.eth.personal.sign(
-        message,
-        account as string,
-        // Empty password, handled by Metamask
-        "",
-      );
-
-      return {
-        signature,
-      };
-    } catch (error: any) {
-      const parsed = parseMetamaskError(error);
-      throw parsed;
-    }
+  public async checkDefaultNetwork() {
+    const chainId = getChainId(config);
+    return chainId === CONFIG.POLYGON_CHAIN_ID;
   }
 
   private getDefaultChainParam() {
@@ -204,69 +71,25 @@ export class Wallet {
     }
   }
 
-  public async checkDefaultNetwork() {
-    const chainId = await this.web3?.eth.getChainId();
-    return chainId === CONFIG.POLYGON_CHAIN_ID;
-  }
-
-  public async switchNetwork(provider: any) {
-    await provider.request({
-      method: "wallet_switchEthereumChain",
-      params: [
-        { chainId: `0x${Number(CONFIG.POLYGON_CHAIN_ID).toString(16)}` },
-      ],
+  public async switchNetwork() {
+    await switchChain(config, {
+      chainId: `0x${Number(CONFIG.POLYGON_CHAIN_ID).toString(16)}`,
+      addEthereumChainParameter: this.getDefaultChainParam(),
     });
   }
 
-  public async addNetwork(provider: any) {
-    try {
-      const defaultChainParam = this.getDefaultChainParam();
-      await provider.request({
-        method: "wallet_addEthereumChain",
-        params: [
-          {
-            ...defaultChainParam,
-          },
-        ],
-      });
-    } catch (addError) {
-      throw new Error(ERRORS.WRONG_CHAIN);
-    }
-  }
-
-  public async initialiseNetwork(provider: any) {
-    try {
-      await this.switchNetwork(provider);
-    } catch (e: any) {
-      if (e.code === 4902) {
-        await this.addNetwork(provider);
-      }
-      throw e;
-    }
+  public async initialiseNetwork() {
+    await this.switchNetwork();
   }
 
   public async donate(
     donation: number,
-    to = CONFIG.DONATION_ADDRESS as string,
+    to = CONFIG.DONATION_ADDRESS as `0x${string}`,
   ) {
-    const gasPrice = await estimateGasPrice(this.web3 as Web3);
-
-    try {
-      await this.web3?.eth.sendTransaction({
-        from: wallet.myAccount as string,
-        to,
-        value: toHex(toWei(donation.toString(), "ether")),
-        gasPrice,
-      });
-    } catch (error: any) {
-      const parsed = parseMetamaskError(error);
-
-      throw parsed;
-    }
-  }
-
-  public get myAccount() {
-    return this.account;
+    await sendTransaction(config, {
+      to,
+      value: parseEther(donation.toString()),
+    });
   }
 
   public async getBlockNumber() {
@@ -308,10 +131,6 @@ export class Wallet {
 
       throw parsed;
     }
-  }
-
-  public get web3Provider() {
-    return this.web3;
   }
 
   public async getSFLForMatic(matic: string) {

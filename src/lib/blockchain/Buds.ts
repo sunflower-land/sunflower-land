@@ -4,8 +4,6 @@ import { parseMetamaskError } from "./utils";
 import { CONFIG } from "lib/config";
 import BudABI from "./abis/Buds.json";
 
-import Web3 from "web3";
-
 const contractAddress = CONFIG.BUD_CONTRACT;
 
 export async function getBudsBalance(

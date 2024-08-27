@@ -311,17 +311,13 @@ export const walletMachine = createMachine<Context, WalletEvent, WalletState>({
       invoke: {
         src: async (context, event) => {
           const createdAt = await getCreatedAt(
-            wallet.web3Provider,
-            context.address as string,
-            context.address as string,
+            context.address as `0x${string}`,
+            context.address as `0x${string}`,
           );
 
           if (createdAt) {
             // Ensure they still have a farm (wasn't a long time ago)
-            const farms = await getFarms(
-              wallet.web3Provider,
-              context.address as string,
-            );
+            const farms = await getFarms(context.address as string);
             if (farms.length >= 1) {
               return {
                 readyAt: (createdAt + 60) * 1000,

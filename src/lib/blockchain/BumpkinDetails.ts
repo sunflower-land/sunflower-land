@@ -1,5 +1,4 @@
 import { CONFIG } from "lib/config";
-import Web3 from "web3";
 import { AbiItem } from "web3-utils";
 import BumpkinDetailsABI from "./abis/BumpkinDetails.json";
 import { BumpkinDetails as IBumpkinDetails } from "./types/BumpkinDetails";

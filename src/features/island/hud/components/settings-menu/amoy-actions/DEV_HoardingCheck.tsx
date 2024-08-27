@@ -2,7 +2,6 @@ import { Button } from "components/ui/Button";
 import { KNOWN_IDS } from "features/game/types";
 import React, { ChangeEvent, useState } from "react";
 import GameABI from "lib/blockchain/abis/SunflowerLandGame.json";
-import Web3 from "web3";
 import { AbiItem } from "web3-utils";
 import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";

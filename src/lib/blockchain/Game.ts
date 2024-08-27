@@ -1,11 +1,10 @@
 import { CONFIG } from "lib/config";
-import Web3 from "web3";
-import { AbiItem, fromWei } from "web3-utils";
+import { fromWei } from "web3-utils";
 import GameABI from "./abis/SunflowerLandGame.json";
-import { estimateGasPrice, parseMetamaskError } from "./utils";
 import { onboardingAnalytics } from "lib/onboardingAnalytics";
 import { getNextSessionId, getSessionId } from "./Session";
-import { SunflowerLandGame } from "./types/SunflowerLandGame";
+import { writeContract } from "@wagmi/core";
+import { config } from "features/wallet/WalletProvider";
 
 const address = CONFIG.GAME_CONTRACT;
 
@@ -22,7 +21,6 @@ type ProgressData = {
 };
 
 export type SyncProgressArgs = {
-  web3: Web3;
   account: string;
   signature: string;
   sender: string;
@@ -39,7 +37,6 @@ export type SyncProgressArgs = {
 };
 
 export async function syncProgress({
-  web3,
   account,
   signature,
   sessionId,
@@ -50,17 +47,14 @@ export async function syncProgress({
   fee,
   purchase,
 }: SyncProgressArgs): Promise<string> {
-  const oldSessionId = await getSessionId(web3, farmId);
-  const gasPrice = await estimateGasPrice(web3);
+  const oldSessionId = await getSessionId(farmId);
 
-  await new Promise((resolve, reject) => {
-    (
-      new web3.eth.Contract(
-        GameABI as AbiItem[],
-        address as string,
-      ) as unknown as SunflowerLandGame
-    ).methods
-      .syncProgress({
+  await writeContract(config, {
+    abi: GameABI,
+    functionName: "syncProgress",
+    address,
+    args: [
+      {
         signature,
         farmId,
         deadline,
@@ -68,51 +62,26 @@ export async function syncProgress({
         nextSessionId,
         progress,
         fee,
-      })
-      .send({ from: account, value: fee, gasPrice })
-      .on("error", function (error: any) {
-        const parsed = parseMetamaskError(error);
-        reject(parsed);
-      })
-      .on("transactionHash", async (transactionHash: any) => {
-        if (purchase) {
-          // https://developers.google.com/analytics/devguides/collection/ga4/reference/events?sjid=11955999175679069053-AP&client_type=gtag#purchase
-          onboardingAnalytics.logEvent("purchase", {
-            currency: "MATIC",
-            // Unique ID to prevent duplicate events
-            transaction_id: `${sessionId}-${farmId}`,
-            value: Number(fromWei(fee)),
-            items: [
-              {
-                item_id: purchase.name.split(" ").join("_"),
-                item_name: purchase.name,
-                quantity: purchase.amount,
-              },
-            ],
-          });
-        }
-
-        try {
-          // Sequence wallet doesn't resolve the receipt. Therefore
-          // We try to fetch it after we have a tx hash returned
-          // From Sequence.
-          const receipt = await web3.eth.getTransactionReceipt(transactionHash);
-
-          if (receipt) resolve(receipt);
-        } catch (e) {
-          reject(e);
-        }
-      })
-      .on("receipt", function (receipt: any) {
-        resolve(receipt);
-      });
+      },
+    ],
   });
 
-  const newSessionId = await getNextSessionId(
-    web3,
-    account,
-    farmId,
-    oldSessionId,
-  );
-  return newSessionId;
+  if (purchase) {
+    // https://developers.google.com/analytics/devguides/collection/ga4/reference/events?sjid=11955999175679069053-AP&client_type=gtag#purchase
+    onboardingAnalytics.logEvent("purchase", {
+      currency: "MATIC",
+      // Unique ID to prevent duplicate events
+      transaction_id: `${sessionId}-${farmId}`,
+      value: Number(fromWei(fee)),
+      items: [
+        {
+          item_id: purchase.name.split(" ").join("_"),
+          item_name: purchase.name,
+          quantity: purchase.amount,
+        },
+      ],
+    });
+  }
+
+  return await getNextSessionId(account, farmId, oldSessionId);
 }

@@ -1,5 +1,4 @@
 import { ERRORS } from "lib/errors";
-import Web3 from "web3";
 
 const MINIMUM_GAS_PRICE = 40;
 

@@ -195,7 +195,7 @@ export const WithdrawResources: React.FC<Props> = ({ onWithdraw }) => {
           />
           <div className="flex flex-col gap-1">
             <p>{t("deliveryitem.deliverToWallet")}</p>
-            <WalletAddressLabel walletAddress={wallet.myAccount || "XXXX"} />
+            <WalletAddressLabel walletAddress={wallet.getAccount() || "XXXX"} />
           </div>
         </div>
 

@@ -1,34 +1,30 @@
 import { CONFIG } from "lib/config";
-import Web3 from "web3";
 import { AbiItem, toWei, fromWei } from "web3-utils";
-import TokenJSON from "./abis/Token.json";
-import { SunflowerLandToken, Transfer } from "./types/SunflowerLandToken";
+import TokenJSON from "./abis/Token";
 import { estimateGasPrice, parseMetamaskError } from "./utils";
 import Decimal from "decimal.js-light";
+import { readContract } from "@wagmi/core";
+import { config } from "features/wallet/WalletProvider";
 
 /**
  * Keep full wei amount as used for approving/sending
  */
 export async function sflBalanceOf(
-  web3: Web3,
-  address: string,
+  address: `0x${string}`,
   attempts = 0,
-): Promise<string> {
+): Promise<BigInt> {
   try {
-    const balance = await (
-      new web3.eth.Contract(
-        TokenJSON as AbiItem[],
-        CONFIG.TOKEN_CONTRACT as string,
-      ) as unknown as SunflowerLandToken
-    ).methods
-      .balanceOf(address)
-      .call();
-
-    return balance;
+    return await readContract(config, {
+      abi: TokenJSON,
+      address: CONFIG.TOKEN_CONTRACT,
+      functionName: "balanceOf",
+      args: [address],
+      account: address,
+    });
   } catch (e) {
     const error = parseMetamaskError(e);
     if (attempts < 3) {
-      return await sflBalanceOf(web3, address, attempts + 1);
+      return await sflBalanceOf(address, attempts + 1);
     }
 
     throw error;
