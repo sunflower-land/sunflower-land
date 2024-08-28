@@ -294,7 +294,6 @@ import {
   PurchaseMinigameAction,
   purchaseMinigameItem,
 } from "./minigames/purchaseMinigameItem";
-import { PlayMinigameAction, playMinigame } from "./minigames/playMinigame";
 import {
   claimMinigamePrize,
   ClaimMinigamePrizeAction,
@@ -440,7 +439,6 @@ export type PlayingEvent =
   | PurchaseMinigameAction
   | StartMinigameAttemptAction
   | SubmitMinigameScoreAction
-  | PlayMinigameAction
   | SupplyCropMachineAction
   | HarvestCropMachineAction
   | SupplyCookingOilAction
@@ -529,7 +527,6 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "minigame.prizeClaimed": claimMinigamePrize,
   "minigame.attemptStarted": startMinigameAttempt,
   "minigame.scoreSubmitted": submitMinigameScore,
-  "minigame.played": playMinigame,
   "airdrop.claimed": claimAirdrop,
   "bot.detected": detectBot,
   "seed.planted": landExpansionPlant,
