@@ -1,3 +1,7 @@
+import { KNOWN_IDS } from ".";
+import { BumpkinItem, ITEM_IDS, ITEM_NAMES } from "./bumpkin";
+import { InventoryItemName } from "./game";
+
 export type CollectionName =
   | "collectibles"
   | "wearables"
@@ -35,3 +39,10 @@ export type Collection = {
   type: CollectionName;
   items: Tradeable[];
 };
+
+type BudNFTName = `Bud #${number}`;
+
+export type MarketplaceTradeableName =
+  | InventoryItemName
+  | BumpkinItem
+  | BudNFTName;

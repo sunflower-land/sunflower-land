@@ -34,7 +34,7 @@ type Props = {
   id: number;
   hasBoost: boolean;
   supply: number;
-  price: Decimal;
+  price?: Decimal;
   onClick?: () => void;
 };
 
@@ -110,10 +110,12 @@ export const ListViewCard: React.FC<Props> = ({
         </div>
       </ButtonPanel>
 
-      <Label
-        className="absolute bottom-0 left-0 !w-full"
-        type="warning"
-      >{`${price} SFL`}</Label>
+      {price && (
+        <Label
+          className="absolute bottom-0 left-0 !w-full"
+          type="warning"
+        >{`${price} SFL`}</Label>
+      )}
     </div>
   );
 };
