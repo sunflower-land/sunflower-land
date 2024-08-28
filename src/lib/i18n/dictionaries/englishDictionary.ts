@@ -5713,6 +5713,16 @@ export const marketplaceTerms: Record<MarketplaceTerms, string> = {
   "marketplace.from": "From",
   "marketplace.sfl": "SFL",
   "marketplace.priceHistory": "Price history",
+  "marketplace.confirmDetails": "Please confirm the following details.",
+  "marketplace.howMuch": "How much SFL would you like to offer?",
+  "marketplace.offerSuccess":
+    "Congratulations, you have made an offer. Now be patient and wait for a Bumpkin to accept!",
+  "marketplace.sflLocked": "SFL secured",
+  "marketplace.sflLocked.description":
+    "Your SFL will be safely stored while an offer is being made.",
+  "marketplace.signAndOffer": "Sign & Offer",
+  "marketplace.signOffer":
+    "Please confirm the following details and securely sign the information. The transaction will not be made until the offer is accepted.",
 };
 
 export const ENGLISH_TERMS: Record<TranslationKeys, string> = {

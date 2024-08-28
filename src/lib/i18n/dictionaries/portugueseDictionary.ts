@@ -5688,6 +5688,14 @@ export const marketplaceTerms: Record<MarketplaceTerms, string> = {
   "marketplace.from": ENGLISH_TERMS["marketplace.from"],
   "marketplace.priceHistory": ENGLISH_TERMS["marketplace.priceHistory"],
   "marketplace.sfl": ENGLISH_TERMS["marketplace.sfl"],
+  "marketplace.offerSuccess": ENGLISH_TERMS["marketplace.offerSuccess"],
+  "marketplace.confirmDetails": ENGLISH_TERMS["marketplace.confirmDetails"],
+  "marketplace.signOffer": ENGLISH_TERMS["marketplace.signOffer"],
+  "marketplace.signAndOffer": ENGLISH_TERMS["marketplace.signAndOffer"],
+  "marketplace.howMuch": ENGLISH_TERMS["marketplace.howMuch"],
+  "marketplace.sflLocked": ENGLISH_TERMS["marketplace.sflLocked"],
+  "marketplace.sflLocked.description":
+    ENGLISH_TERMS["marketplace.sflLocked.description"],
 };
 
 export const PORTUGUESE_TERMS: Record<TranslationKeys, string> = {

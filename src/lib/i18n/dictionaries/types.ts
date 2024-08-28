@@ -3881,7 +3881,14 @@ export type MarketplaceTerms =
   | "marketplace.sfl"
   | "marketplace.expiry"
   | "marketplace.priceHistory"
-  | "marketplace.from";
+  | "marketplace.from"
+  | "marketplace.offerSuccess"
+  | "marketplace.confirmDetails"
+  | "marketplace.signOffer"
+  | "marketplace.signAndOffer"
+  | "marketplace.howMuch"
+  | "marketplace.sflLocked"
+  | "marketplace.sflLocked.description";
 
 export type TranslationKeys =
   | AchievementsTerms
