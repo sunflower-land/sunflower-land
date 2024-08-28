@@ -5722,7 +5722,7 @@ export const marketplaceTerms: Record<MarketplaceTerms, string> = {
     "Your SFL will be safely stored while an offer is being made.",
   "marketplace.signAndOffer": "Sign & Offer",
   "marketplace.signOffer":
-    "Please confirm the following details and securely sign the information. The transaction will not be made until the offer is accepted.",
+    "Please confirm the following details and securely sign the information. The transaction will not be made until the offer is live.",
 };
 
 export const ENGLISH_TERMS: Record<TranslationKeys, string> = {

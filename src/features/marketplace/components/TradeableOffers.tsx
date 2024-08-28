@@ -18,7 +18,6 @@ import bg from "assets/ui/3x3_bg.png";
 import { TradeTable } from "./TradeTable";
 import { Loading } from "features/auth/components";
 import { Modal } from "components/ui/Modal";
-import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { NumberInput } from "components/ui/NumberInput";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
@@ -111,10 +110,14 @@ const MakeOffer: React.FC<{
         },
       });
 
-      await waitFor(gameService, (state) => {
-        if (state.matches("error")) throw new Error("Insert failed");
-        return state.matches("playing");
-      });
+      await waitFor(
+        gameService,
+        (state) => {
+          if (state.matches("error")) throw new Error("Insert failed");
+          return state.matches("playing");
+        },
+        { timeout: 60 * 1000 },
+      );
     } finally {
       setIsOffering(false);
     }
