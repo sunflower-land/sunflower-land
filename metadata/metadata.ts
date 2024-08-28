@@ -5779,7 +5779,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     ],
   },
   "Sprout Mix": {
-    description: "Sprout Mix increases your crop yield by +0.2",
+    description: "Sprout Mix increases your crop yield from plots by +0.2",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/629.png",
@@ -6748,7 +6748,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     ],
   },
   "Farmhand Coupon": {
-    description: "?",
+    description: "A coupon to exchange for a farm hand of your choice.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/728.png",
@@ -7257,8 +7257,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
   },
 
   "Desert Gnome": {
-    description:
-      "The Blossombeard Gnome is a powerful companion for your farming adventures.",
+    description: "A gnome that can survive the harshest of conditions.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/2017.png",
@@ -7419,7 +7418,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
 
   "Rare Key": {
     name: "Rare Key",
-    description: "A magic key that can unlock rewards in the plaza",
+    description: "A magic key that can unlock rewards in the beach",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/933.png",
@@ -7431,7 +7430,8 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
 
   "Prize Ticket": {
     name: "Prize Ticket",
-    description: "A free entry into the end of season giveaway",
+    description:
+      "A prized ticket. You can use it to enter the monthly goblin raffle.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/934.png",
@@ -7541,7 +7541,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
 
   "Turbo Sprout": {
     name: "Turbo Sprout",
-    description: "An engine that boosts the Green House's growth speed by 50%.",
+    description: "An engine that reduces the Green House's growth time by 50%.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/495.png",
@@ -7581,7 +7581,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     image: "../public/erc1155/images/497.png",
     attributes: [
       { trait_type: "Tradable", value: "Yes" },
-      { trait_type: "Boost", value: "Crop" },
+      { trait_type: "Boost", value: "Fruit" },
       {
         display_type: "boost_number",
         trait_type: "Increase Grape Yield",
@@ -7656,7 +7656,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/2016.png",
     attributes: [
-      { trait_type: "Boost", value: "Crop" },
+      { trait_type: "Boost", value: "Fruit" },
       { trait_type: "Tradable", value: "Yes" },
       {
         display_type: "boost_number",
@@ -7711,7 +7711,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
   },
   "Bullseye Board": {
     name: "Bullseye Board",
-    description: "Hit the mark every time.!",
+    description: "Hit the mark every time!",
 
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
@@ -7960,7 +7960,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: `../public/erc1155/images/254.png`,
     attributes: [
-      { trait_type: "Purpose", value: "Seed" },
+      { trait_type: "Purpose", value: "Crop" },
       { trait_type: "Tradable", value: "No" },
     ],
   },
@@ -8187,7 +8187,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/742.png",
     attributes: [
-      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Purpose", value: "Coupon" },
       { trait_type: "Tradable", value: "No" },
     ],
   },
@@ -8200,7 +8200,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/741.png",
     attributes: [
-      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Purpose", value: "Coupon" },
       { trait_type: "Tradable", value: "No" },
     ],
   },
@@ -8213,7 +8213,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/744.png",
     attributes: [
-      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Purpose", value: "Coupon" },
       { trait_type: "Tradable", value: "No" },
     ],
   },
@@ -8226,7 +8226,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/743.png",
     attributes: [
-      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Purpose", value: "Coupon" },
       { trait_type: "Tradable", value: "No" },
     ],
   },
@@ -8237,7 +8237,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/745.png",
     attributes: [
-      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Purpose", value: "Coupon" },
       { trait_type: "Tradable", value: "No" },
     ],
   },
@@ -8325,7 +8325,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
   },
   "Nightshade Throne": {
     name: "Nightshade Throne",
-    description: "A throne fit for a Sunflorian.",
+    description: "A throne fit for a Nightshade.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/2042.png",
@@ -8336,7 +8336,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
   },
   "Goblin Throne": {
     name: "Goblin Throne",
-    description: "A throne fit for a Sunflorian.",
+    description: "A throne fit for a Goblin.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/2043.png",
@@ -8347,7 +8347,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
   },
   "Bumpkin Throne": {
     name: "Bumpkin Throne",
-    description: "A throne fit for a Sunflorian.",
+    description: "A throne fit for a Bumpkin.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/2044.png",
@@ -8435,7 +8435,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
   },
   "Amethyst Nightshade Goblet": {
     name: "Amethyst Nightshade Goblet",
-    description: "An amethyst encrusted goblet",
+    description: "An amethyst encrusted goblet.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/2052.png",
@@ -8479,7 +8479,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
   },
   "Nightshade Bunting": {
     name: "Nightshade Bunting",
-    description: "Colorful flags celebrating the Nightshade faction.",
+    description: "Colorful flags celebrating the Nightshade Faction.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/2056.png",
@@ -8490,7 +8490,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
   },
   "Goblin Bunting": {
     name: "Goblin Bunting",
-    description: "Colorful flags celebrating the Goblin faction.",
+    description: "Colorful flags celebrating the Goblin Faction.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/2057.png",
@@ -8501,7 +8501,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
   },
   "Bumpkin Bunting": {
     name: "Bumpkin Bunting",
-    description: "Colorful flags celebrating the Bumpkin faction.",
+    description: "Colorful flags celebrating the Bumpkin Faction.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/2058.png",
@@ -8808,7 +8808,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
   "Sunflorian Faction Rug": {
     name: "Sunflorian Faction Rug",
     description:
-      "A magnificent rug made by the talented Sunflorian faction artisans.",
+      "A magnificent rug made by the talented Sunflorian Faction artisans.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/2078.png",
@@ -8820,7 +8820,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
   "Nightshade Faction Rug": {
     name: "Nightshade Faction Rug",
     description:
-      "A magnificent rug made by the talented Nightshade faction artisans.",
+      "A magnificent rug made by the talented Nightshade Faction artisans.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/2079.png",
@@ -8832,7 +8832,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
   "Goblin Faction Rug": {
     name: "Goblin Faction Rug",
     description:
-      "A magnificent rug made by the talented Goblin faction artisans.",
+      "A magnificent rug made by the talented Goblin Faction artisans.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/2080.png",
@@ -8844,7 +8844,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
   "Bumpkin Faction Rug": {
     name: "Bumpkin Faction Rug",
     description:
-      "A magnificent rug made by the talented Bumpkin faction artisans.",
+      "A magnificent rug made by the talented Bumpkin Faction artisans.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/2081.png",
@@ -8938,7 +8938,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     ],
   },
   "Cockle Shell": {
-    description: "Bones of an ancient camel, rumoured to transport artefacts",
+    description: "A beautiful shell.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/1409.png",
