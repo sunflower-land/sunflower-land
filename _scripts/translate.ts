@@ -20,10 +20,15 @@ import {
 // Set up the Translate client
 const client = new TranslateClient({ region: "ap-southeast-2" });
 
-async function translateTerms(targetLanguage: LanguageCode) {
+// Utility function for sleep (backoff)
+function sleep(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+async function translateTerms(targetLanguage: string) {
   const translatedTerms = {};
 
-  // Batch translation: Group terms into batches (e.g., 10 terms per batch)
+  // Group terms into batches (e.g., 10 terms per batch)
   const batchSize = 10;
   const termKeys = Object.keys(ENGLISH_TERMS);
   const termBatches: string[][] = [];
@@ -31,75 +36,86 @@ async function translateTerms(targetLanguage: LanguageCode) {
     termBatches.push(termKeys.slice(i, i + batchSize));
   }
 
-  // Parallelize translation requests
-  await Promise.all(
-    termBatches.map(async (batch) => {
-      const batchTranslations = await Promise.all(
-        batch.map(async (term) => {
-          const englishText = ENGLISH_TERMS[term];
-          console.log(`'${term}': '${englishText}'`);
-          if (!englishText.trim()) {
-            console.warn("Skipping empty term:", term);
-            return ""; // Return an empty string for empty terms
-          }
+  // Sequentially process each batch
+  for (const termBatch of termBatches) {
+    for (const term of termBatch) {
+      const englishText = ENGLISH_TERMS[term].trim();
+      if (!englishText) {
+        console.warn("Skipping empty term:", term);
+        translatedTerms[term] = ""; // Return an empty string for empty terms
+        continue;
+      }
+
+      const params = {
+        Text: englishText,
+        SourceLanguageCode: "en",
+        TargetLanguageCode: targetLanguage,
+      };
+      const command = new TranslateTextCommand(params);
+
+      try {
+        const response = await client.send(command);
+        translatedTerms[term] = response.TranslatedText;
+        const translatedText = response.TranslatedText;
+        console.log(`'${term}': '${translatedText}'`);
+      } catch (error) {
+        console.error(
+          "Translation error for term",
+          term,
+          targetLanguage,
+          ":",
+          error.message,
+        );
+        // Implement exponential backoff with a maximum retry count
+        const maxRetries = 5;
+        let retries = 0;
+        while (retries < maxRetries) {
+          const backoffTime = Math.pow(2, retries) * 100; // Exponential backoff
+          await sleep(backoffTime);
           try {
-            const params = {
-              Text: englishText,
-              SourceLanguageCode: "en",
-              TargetLanguageCode: targetLanguage,
-            };
-            const command = new TranslateTextCommand(params);
             const response = await client.send(command);
-            const translatedText = response.TranslatedText;
-            console.log(`'${term}': '${translatedText}'`);
-            return translatedText;
-          } catch (error) {
+            translatedTerms[term] = response.TranslatedText;
+            break;
+          } catch (retryError) {
             console.error(
-              "Translation error for term",
+              "Retry translation error for term",
               term,
               targetLanguage,
               ":",
-              error.message,
+              retryError.message,
             );
-            // Implement backoff and retry logic here
-            await sleep(1000); // Wait for 1 second before retrying
-            return ""; // Return an empty string for failed translations
+            retries++;
           }
-        }),
-      );
-      batch.forEach((term, index) => {
-        translatedTerms[term] = batchTranslations[index];
-      });
-    }),
-  );
-
+        }
+      }
+    }
+  }
+  console.log(translatedTerms);
   return translatedTerms;
 }
 
-// Utility function for sleep (backoff)
-function sleep(ms: number) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-}
-
-async function main(language: LanguageCode) {
-  const translatedTerms = await translateTerms(language);
+async function main(targetLanguage: string) {
+  const translatedTerms = await translateTerms(targetLanguage);
   console.log(translatedTerms);
 
   const languageJson = path.join(
     __dirname,
-    `../src/lib/i18n/dictionaries/${language}.json`,
+    `../src/lib/i18n/dictionaries/${targetLanguage}.json`,
   );
   fs.writeFile(languageJson, JSON.stringify(translatedTerms), () => undefined);
 }
 
-// Parse the command line arguments
-const args = process.argv.slice(2); // Remove the first two arguments (node and script path)
-const targetLanguage = args[0]; // The first argument should be the language code (e.g., "fr")
+const languages = getKeys(languageDetails);
+languages.forEach((lang) => lang !== "en" && main(lang));
 
-if (targetLanguage) {
-  main(targetLanguage as LanguageCode);
-} else {
-  console.error(
-    "Please provide a target language code (e.g., yarn translate fr (for french)).",
-  );
-}
+// Parse the command line arguments
+// const args = process.argv.slice(2); // Remove the first two arguments (node and script path)
+// const targetLanguage = args[0]; // The first argument should be the language code (e.g., "fr")
+
+// if (targetLanguage) {
+//   main(targetLanguage as LanguageCode);
+// } else {
+//   console.error(
+//     "Please provide a target language code (e.g., yarn translate fr (for french)).",
+//   );
+// }
