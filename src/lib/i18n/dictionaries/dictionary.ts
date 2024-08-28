@@ -15,7 +15,7 @@ import turkeyFlag from "assets/sfts/flags/turkey_flag.gif";
 import chinaFlag from "assets/sfts/flags/china_flag.gif";
 import russiaFlag from "assets/sfts/flags/russia_flag.gif";
 
-export type LanguageCode = "en" | "fr" | "pt" | "tk" | "zh-CN" | "ru";
+export type LanguageCode = "en" | "fr" | "pt" | "tr" | "zh-CN" | "ru";
 
 export type TranslationResource = Record<TranslationKeys, string>;
 
@@ -46,7 +46,7 @@ export const languageDetails: Record<LanguageCode, LanguageDetails> = {
     languageImage: [russiaFlag],
     imageAlt: ["Russia Flag"],
   },
-  tk: {
+  tr: {
     languageName: "Türkçe",
     languageImage: [turkeyFlag],
     imageAlt: ["Turkey Flag"],
@@ -71,7 +71,7 @@ export const resources: Record<
   pt: {
     translation: PORTUGUESE_TERMS,
   },
-  tk: {
+  tr: {
     translation: TURKISH_TERMS,
   },
   "zh-CN": {

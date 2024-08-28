@@ -4,7 +4,10 @@ import * as fs from "fs";
 import * as path from "path";
 
 import { ENGLISH_TERMS } from "../src/lib/i18n/dictionaries/englishDictionary";
-import { LanguageCode } from "../src/lib/i18n/dictionaries/dictionary";
+import {
+  LanguageCode,
+  languageDetails,
+} from "../src/lib/i18n/dictionaries/dictionary";
 import { getKeys } from "../src/features/game/types/decorations";
 import { TranslationKeys } from "../src/lib/i18n/dictionaries/types";
 
@@ -17,7 +20,7 @@ import {
 // Set up the Translate client
 const client = new TranslateClient({ region: "ap-southeast-2" });
 
-async function translateTerms(targetLanguage: string) {
+async function translateTerms(targetLanguage: LanguageCode) {
   const translatedTerms = {};
 
   // Batch translation: Group terms into batches (e.g., 10 terms per batch)
@@ -78,7 +81,7 @@ function sleep(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-async function main(language: string) {
+async function main(language: LanguageCode) {
   const translatedTerms = await translateTerms(language);
   console.log(translatedTerms);
 
@@ -89,18 +92,14 @@ async function main(language: string) {
   fs.writeFile(languageJson, JSON.stringify(translatedTerms), () => undefined);
 }
 
-main("fr");
-main("zh-CN");
-main("ru");
-main("pt-BR");
 // Parse the command line arguments
-// const args = process.argv.slice(2); // Remove the first two arguments (node and script path)
-// const targetLanguage = args[0]; // The first argument should be the language code (e.g., "fr")
+const args = process.argv.slice(2); // Remove the first two arguments (node and script path)
+const targetLanguage = args[0]; // The first argument should be the language code (e.g., "fr")
 
-// if (targetLanguage) {
-//   main(targetLanguage);
-// } else {
-//   console.error(
-//     "Please provide a target language code (e.g., yarn translate fr (for french)).",
-//   );
-// }
+if (targetLanguage) {
+  main(targetLanguage as LanguageCode);
+} else {
+  console.error(
+    "Please provide a target language code (e.g., yarn translate fr (for french)).",
+  );
+}
