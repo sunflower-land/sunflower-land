@@ -9,7 +9,6 @@ import fslIcon from "assets/icons/fsl_id.svg";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 import { Label } from "components/ui/Label";
-import { Web3SupportedProviders } from "lib/web3SupportedProviders";
 import { getPromoCode } from "features/game/actions/loadSession";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { CONFIG } from "lib/config";
@@ -18,7 +17,12 @@ import { Wallet } from "features/wallet/Wallet";
 import { useIsPWA } from "lib/utils/hooks/useIsPWA";
 import { isMobile } from "mobile-device-detect";
 import { Loading } from "./Loading";
-import { Connector, CreateConnectorFn, getConnectors } from "@wagmi/core";
+import {
+  Connector,
+  CreateConnectorFn,
+  getConnectors,
+  injected,
+} from "@wagmi/core";
 import {
   WalletContext,
   config,
@@ -177,7 +181,19 @@ export const Wallets: React.FC<Props> = ({ onConnect, showAll = true }) => {
       {isBitget && (
         <Button
           className="mb-1 py-2 text-sm relative"
-          onClick={() => onConnect(Web3SupportedProviders.BITGET)}
+          onClick={() =>
+            onConnect(
+              injected({
+                target() {
+                  return {
+                    id: "windowProvider",
+                    name: "Window Provider",
+                    provider: (window as any).bitkeep?.ethereum,
+                  };
+                },
+              }),
+            )
+          }
         >
           <div className="px-8">
             <img
@@ -185,12 +201,6 @@ export const Wallets: React.FC<Props> = ({ onConnect, showAll = true }) => {
               alt="Bitget"
               className="h-7 ml-2.5 mr-6 absolute left-0 top-1 rounded-sm"
             />
-            <Label
-              type="info"
-              className="absolute top-1/2 -translate-y-1/2 right-1"
-            >
-              {t("featured")}
-            </Label>
             {"Bitget Wallet"}
           </div>
         </Button>
@@ -199,14 +209,47 @@ export const Wallets: React.FC<Props> = ({ onConnect, showAll = true }) => {
       {isCryptoCom && (
         <Button
           className="mb-1 py-2 text-sm relative"
-          onClick={() => onConnect(Web3SupportedProviders.CRYPTO_COM)}
+          onClick={() =>
+            onConnect(
+              injected({
+                target() {
+                  if (
+                    typeof (window as any).deficonnectProvider !== "undefined"
+                  ) {
+                    return {
+                      id: "windowProvider",
+                      name: "Window Provider",
+                      provider: (window as any).deficonnectProvider,
+                    };
+                  }
+
+                  if (
+                    navigator?.userAgent?.includes("DeFiWallet") &&
+                    window.ethereum
+                  ) {
+                    return {
+                      id: "windowProvider",
+                      name: "Window Provider",
+                      provider: window.ethereum,
+                    };
+                  }
+
+                  return {
+                    id: "windowProvider",
+                    name: "Window Provider",
+                    provider: undefined,
+                  };
+                },
+              }),
+            )
+          }
         ></Button>
       )}
 
       {isEarnAlliance && (
         <Button
           className="mb-1 py-2 text-sm relative justify-start"
-          onClick={connectToMetaMask}
+          onClick={() => onConnect(metaMaskConnector)}
         >
           <div className="px-8 mr-2 flex ">
             <img

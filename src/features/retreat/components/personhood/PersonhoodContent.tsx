@@ -14,6 +14,8 @@ import { Loading } from "features/auth/components";
 import { Button } from "components/ui/Button";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Context } from "features/game/GameProvider";
+import { signMessage } from "@wagmi/core";
+import { config } from "features/wallet/WalletProvider";
 
 export const PersonhoodContent: React.FC = () => {
   const { authService } = useContext(AuthProvider.Context);
@@ -64,13 +66,15 @@ export const PersonhoodContent: React.FC = () => {
   }, []);
 
   const sign = useCallback(
-    (payload: string | object) =>
-      wallet.web3Provider.eth.personal.sign(
-        String(payload),
-        wallet.myAccount as string,
-        "",
-      ),
-    [wallet.myAccount],
+    async (payload: string | object) => {
+      const response = await signMessage(config, {
+        message: String(payload),
+        account: wallet.getAccount(),
+      });
+
+      return response;
+    },
+    [wallet.getAccount()],
   );
 
   if (loading) {
@@ -117,7 +121,7 @@ export const PersonhoodContent: React.FC = () => {
         onFinish={() => onFinish()}
         sessionId={personHoodDetails.sessionId}
         signCallback={sign}
-        walletAddress={wallet.myAccount as string}
+        walletAddress={wallet.getAccount()}
       />
     </>
   );

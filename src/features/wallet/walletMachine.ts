@@ -231,7 +231,7 @@ export const walletMachine = createMachine<Context, WalletEvent, WalletState>({
 
           const signature = await signMessage(config, {
             message: generateSignatureMessage({
-              address: context.address,
+              address: context.address!,
               nonce: timestamp,
             }),
           });
@@ -317,7 +317,7 @@ export const walletMachine = createMachine<Context, WalletEvent, WalletState>({
 
           if (createdAt) {
             // Ensure they still have a farm (wasn't a long time ago)
-            const farms = await getFarms(context.address as string);
+            const farms = await getFarms(context.address as `0x${string}`);
             if (farms.length >= 1) {
               return {
                 readyAt: (createdAt + 60) * 1000,

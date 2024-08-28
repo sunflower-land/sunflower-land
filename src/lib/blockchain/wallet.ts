@@ -1,6 +1,5 @@
 import { ERRORS } from "lib/errors";
 
-import { fromWei, toBN } from "web3-utils";
 import { CONFIG } from "lib/config";
 import { parseMetamaskError } from "./utils";
 import Decimal from "decimal.js-light";
@@ -8,11 +7,12 @@ import {
   getAccount,
   getBalance,
   getChainId,
+  readContract,
   sendTransaction,
   switchChain,
 } from "@wagmi/core";
 import { config } from "features/wallet/WalletProvider";
-import { parseEther } from "viem";
+import { formatEther, parseEther } from "viem";
 
 const UNISWAP_ROUTER = CONFIG.QUICKSWAP_ROUTER_CONTRACT;
 const WMATIC_ADDRESS = CONFIG.WMATIC_CONTRACT;
@@ -33,9 +33,10 @@ export class Wallet {
   }
 
   public async getMaticBalance() {
-    return await getBalance(config, {
+    const response = await getBalance(config, {
       address: this.getAccount(),
     });
+    return Number(response.value);
   }
 
   public async checkDefaultNetwork() {
@@ -73,7 +74,7 @@ export class Wallet {
 
   public async switchNetwork() {
     await switchChain(config, {
-      chainId: `0x${Number(CONFIG.POLYGON_CHAIN_ID).toString(16)}`,
+      chainId: CONFIG.POLYGON_CHAIN_ID as 137 | 80002,
       addEthereumChainParameter: this.getDefaultChainParam(),
     });
   }
@@ -90,22 +91,6 @@ export class Wallet {
       to,
       value: parseEther(donation.toString()),
     });
-  }
-
-  public async getBlockNumber() {
-    try {
-      const number = await this.web3?.eth.getBlockNumber();
-
-      if (!number) {
-        throw new Error(ERRORS.NETWORK_CONGESTED);
-      }
-
-      return number;
-    } catch (error: any) {
-      const parsed = parseMetamaskError(error);
-
-      throw parsed;
-    }
   }
 
   public async addTokenToMetamask() {
@@ -134,64 +119,54 @@ export class Wallet {
   }
 
   public async getSFLForMatic(matic: string) {
-    if (!this.web3) {
-      throw new Error(ERRORS.NO_WEB3);
-    }
+    const maticMinusFee = (BigInt(matic) * BigInt(950)) / BigInt(1000);
 
-    const encodedFunctionSignature = this.web3.eth.abi.encodeFunctionSignature(
-      "getAmountsOut(uint256,address[])",
-    );
-
-    const maticMinusFee = toBN(matic).mul(toBN(950)).div(toBN(1000));
-
-    const encodedParameters = this.web3.eth.abi
-      .encodeParameters(
-        ["uint256", "address[]"],
-        [maticMinusFee, [WMATIC_ADDRESS, SFL_TOKEN_ADDRESS]],
-      )
-      .substring(2);
-
-    const data = encodedFunctionSignature + encodedParameters;
-
-    const result = await this.web3.eth.call({ to: UNISWAP_ROUTER, data });
-    const decodedResult = this.web3.eth.abi.decodeParameter(
-      "uint256[]",
-      result,
-    );
+    const result = await readContract(config, {
+      abi: [
+        {
+          inputs: [
+            { internalType: "uint256", name: "amountIn", type: "uint256" },
+            { internalType: "address[]", name: "path", type: "address[]" },
+          ],
+          name: "getAmountsOut",
+          outputs: [{ internalType: "uint256[]", name: "", type: "uint256[]" }],
+          stateMutability: "view",
+          type: "function",
+        },
+      ],
+      address: UNISWAP_ROUTER as `0x${string}`,
+      functionName: "getAmountsOut",
+      args: [maticMinusFee, [WMATIC_ADDRESS, SFL_TOKEN_ADDRESS]],
+    });
 
     // decodedResult[0] is the amount of Matic needed to buy SFL
     // decodedResult[1] is the amount of SFL to be bought
-    return new Decimal(fromWei(toBN(decodedResult[1])));
+    return new Decimal(formatEther(result[1]));
   }
 
   public async getMaticForSFL(sfl: string) {
-    if (!this.web3) {
-      throw new Error(ERRORS.NO_WEB3);
-    }
-
-    const encodedFunctionSignature = this.web3.eth.abi.encodeFunctionSignature(
-      "getAmountsIn(uint256,address[])",
-    );
-
-    const encodedParameters = this.web3.eth.abi
-      .encodeParameters(
-        ["uint256", "address[]"],
-        [toBN(sfl), [WMATIC_ADDRESS, SFL_TOKEN_ADDRESS]],
-      )
-      .substring(2);
-
-    const data = encodedFunctionSignature + encodedParameters;
-
-    const result = await this.web3.eth.call({ to: UNISWAP_ROUTER, data });
-    const decodedResult = this.web3.eth.abi.decodeParameter(
-      "uint256[]",
-      result,
-    );
+    const result = await readContract(config, {
+      abi: [
+        {
+          inputs: [
+            { internalType: "uint256", name: "amountOut", type: "uint256" },
+            { internalType: "address[]", name: "path", type: "address[]" },
+          ],
+          name: "getAmountsIn",
+          outputs: [{ internalType: "uint256[]", name: "", type: "uint256[]" }],
+          stateMutability: "view",
+          type: "function",
+        },
+      ],
+      address: UNISWAP_ROUTER as `0x${string}`,
+      functionName: "getAmountsIn",
+      args: [BigInt(sfl), [WMATIC_ADDRESS, SFL_TOKEN_ADDRESS]],
+    });
 
     // decodedResult[0] is the amount of Matic needed to buy SFL
     // decodedResult[1] is the amount of SFL to be bought
     const maticWithFee = new Decimal(
-      fromWei(toBN(decodedResult[0]).div(toBN(950)).mul(toBN(1000))),
+      formatEther((result[0] / BigInt(950)) * BigInt(1000)),
     );
 
     return maticWithFee;

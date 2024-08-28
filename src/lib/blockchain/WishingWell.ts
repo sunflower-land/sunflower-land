@@ -60,21 +60,25 @@ export async function canCollectFromWell(
 
 export async function lastCollectedFromWell(
   account: `0x${string}`,
-): Promise<BigInt> {
-  return await readContract(config, {
-    abi: WishingWellJSON,
-    address: address,
-    functionName: "lastUpdatedAt",
-    args: [account],
-    account,
-  });
+): Promise<number> {
+  return Number(
+    await readContract(config, {
+      abi: WishingWellJSON,
+      address: address,
+      functionName: "lastUpdatedAt",
+      args: [account],
+      account,
+    }),
+  );
 }
 
-export async function getLockedPeriod(account: `0x${string}`): Promise<BigInt> {
-  return await readContract(config, {
-    abi: WishingWellJSON,
-    address: address,
-    functionName: "getLockedPeriod",
-    account,
-  });
+export async function getLockedPeriod(account: `0x${string}`): Promise<number> {
+  return Number(
+    await readContract(config, {
+      abi: WishingWellJSON,
+      address: address,
+      functionName: "getLockedPeriod",
+      account,
+    }),
+  );
 }

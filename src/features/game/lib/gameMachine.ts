@@ -640,13 +640,6 @@ export function startGame(authContext: AuthContext) {
             ],
             onError: [
               {
-                target: "loading",
-                cond: () => !wallet.isAlchemy,
-                actions: () => {
-                  wallet.overrideProvider();
-                },
-              },
-              {
                 target: "error",
                 actions: "assignErrorMessage",
               },
@@ -971,13 +964,6 @@ export function startGame(authContext: AuthContext) {
               };
             },
             onError: [
-              {
-                target: "playing",
-                cond: () => !wallet.isAlchemy,
-                actions: () => {
-                  wallet.overrideProvider();
-                },
-              },
               {
                 target: "error",
                 actions: "assignErrorMessage",
@@ -1756,7 +1742,7 @@ export function startGame(authContext: AuthContext) {
         depositing: {
           invoke: {
             src: async (context, event) => {
-              if (!wallet.myAccount) throw new Error("No account");
+              if (!wallet.getAccount()) throw new Error("No account");
 
               const {
                 sfl,

@@ -5,13 +5,13 @@ import React, { useContext, useState } from "react";
 import budIcon from "assets/icons/bud.png";
 import wearableIcon from "assets/icons/wearables.webp";
 import { Context } from "features/game/GameProvider";
-import { wallet } from "lib/blockchain/wallet";
 import { GameWallet } from "features/wallet/Wallet";
-import { ethers } from "ethers";
 
 import { CollectionName } from "features/game/types/marketplace";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { Collection } from "./Collection";
+import { signTypedData } from "@wagmi/core";
+import { config } from "features/wallet/WalletProvider";
 
 type MarketplaceCollection = {
   name: string;
@@ -88,29 +88,24 @@ const ListTrade: React.FC = () => {
   const onClick = async () => {
     setIsSigning(true);
 
-    const signer = new ethers.providers.Web3Provider(
-      wallet.web3Provider.givenProvider,
-    ).getSigner();
-
-    const domain = {
-      name: "Sunflower Land",
-    };
-
-    const types = {
-      Listing: [
-        { name: "item", type: "string" },
-        { name: "quantity", type: "uint256" },
-        { name: "SFL", type: "uint256" },
-      ],
-    };
-
-    const message = {
-      item: "Kuebiko",
-      quantity: 1,
-      SFL: 1,
-    };
-
-    const signature = await signer._signTypedData(domain, types, message);
+    const signature = await signTypedData(config, {
+      primaryType: "Listing",
+      types: {
+        Listing: [
+          { name: "item", type: "string" },
+          { name: "quantity", type: "uint256" },
+          { name: "SFL", type: "uint256" },
+        ],
+      },
+      message: {
+        item: "Kuebiko",
+        quantity: BigInt(1),
+        SFL: BigInt(1),
+      },
+      domain: {
+        name: "Sunflower Land",
+      },
+    });
 
     gameService.send("POST_EFFECT", {
       effect: {

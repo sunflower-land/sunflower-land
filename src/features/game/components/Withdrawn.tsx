@@ -47,7 +47,7 @@ export const Withdrawn: React.FC = () => {
           {t("transaction.displayItems")}{" "}
           <a
             className="underline hover:text-white"
-            href={`https://polygonscan.com/address/${wallet.myAccount}#tokentxnsErc1155`}
+            href={`https://polygonscan.com/address/${wallet.getAccount()}#tokentxnsErc1155`}
             target="_blank"
             rel="noopener noreferrer"
           >

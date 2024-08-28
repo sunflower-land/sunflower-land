@@ -5,7 +5,9 @@ import GameABI from "lib/blockchain/abis/SunflowerLandGame";
 import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { ContentComponentProps } from "../GameOptions";
-import { readContract } from "@wagmi/core";
+import { readContract } from "viem/actions";
+import { createPublicClient, encodePacked, http } from "viem";
+import { polygon, polygonAmoy } from "viem/chains";
 
 interface Props {
   network: "mainnet" | "amoy";
@@ -54,22 +56,25 @@ export const DEV_HoarderCheck: React.FC<Props & ContentComponentProps> = ({
         .map(String)
         .map((key) => (KNOWN_IDS as any)[key]);
 
-      const rpc =
-        network === "mainnet"
-          ? "https://polygon-rpc.com/"
-          : "https://rpc.ankr.com/polygon_amoy";
+      const publicClient = createPublicClient({
+        transport: http(),
+        chain: network === "mainnet" ? polygon : polygonAmoy,
+      });
 
       const gameContract =
         network === "mainnet"
           ? "0xfB84a7D985f9336987C89e1518E9A897b013080B"
           : "0x05BbC2c442A7468538e68B1F70a97C9140227b0e";
 
-      const maxAmount = await readContract("???", {
-        abi: GameABI,
-        address: gameContract,
-        functionName: "getMaxItemAmounts",
-        args: [maxIds],
-      });
+      // Note this is imported from viem, not wagmi
+      const maxAmount = (
+        await readContract(publicClient, {
+          abi: GameABI,
+          address: gameContract,
+          functionName: "getMaxItemAmounts",
+          args: [maxIds],
+        })
+      ).map(Number);
 
       const inventoryLimits: string[] = [];
 
@@ -100,14 +105,14 @@ export const DEV_HoarderCheck: React.FC<Props & ContentComponentProps> = ({
 
       const getOnChainMax = async (wearableName: string) => {
         const id = ITEM_IDS[wearableName as BumpkinItem];
-        const storage = web3.utils.soliditySha3(
-          { type: "uint256", value: String(id) },
-          { type: "uint", value: "13" },
-        ) as string;
 
-        const hex = await web3.eth.getStorageAt(gameContract, storage);
+        const storage = encodePacked(["uint256, uint"], [id, 13] as any);
+        const hex = await publicClient.getStorageAt({
+          address: gameContract,
+          slot: storage,
+        });
 
-        return parseInt(hex, 16);
+        return parseInt(hex as any, 16);
       };
 
       for (const key of Object.keys(currentWardrobe)) {

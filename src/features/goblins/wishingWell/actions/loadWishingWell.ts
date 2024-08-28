@@ -60,10 +60,10 @@ export async function loadWishingWell(
   }
 
   return {
-    myTokensInWell,
-    totalTokensInWell,
+    myTokensInWell: String(myTokensInWell),
+    totalTokensInWell: String(totalTokensInWell),
     canCollect,
-    lpTokens,
+    lpTokens: String(lpTokens),
     lockedTime,
     lockedPeriod,
   };
