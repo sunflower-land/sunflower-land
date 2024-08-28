@@ -15,7 +15,6 @@ import bg from "assets/ui/3x3_bg.png";
 import walletIcon from "assets/icons/wallet.png";
 import sflIcon from "assets/icons/sfl.webp";
 import tradeIcon from "assets/icons/trade.png";
-import increaseArrow from "assets/icons/increase_arrow.png";
 
 import { Label } from "components/ui/Label";
 import { SUNNYSIDE } from "assets/sunnyside";

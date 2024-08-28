@@ -6,8 +6,6 @@ import { setPrecision } from "lib/utils/formatNumber";
 import bg from "assets/ui/input_box_border.png";
 import activeBg from "assets/ui/active_input_box_border.png";
 
-import { PIXEL_SCALE } from "features/game/lib/constants";
-
 const VALID_INTEGER = new RegExp(/^\d+$/);
 
 type Props = {
