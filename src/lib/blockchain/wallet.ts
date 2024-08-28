@@ -25,16 +25,17 @@ export class Wallet {
   public getAccount() {
     const { address } = getAccount(config);
 
-    if (!address) {
-      throw new Error(ERRORS.NO_WEB3);
-    }
-
     return address;
   }
 
   public async getMaticBalance() {
+    const account = this.getAccount();
+    if (!account) {
+      throw new Error(ERRORS.NO_WEB3);
+    }
+
     const response = await getBalance(config, {
-      address: this.getAccount(),
+      address: account,
     });
     return Number(response.value);
   }

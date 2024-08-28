@@ -8,8 +8,19 @@ import { mintNFTFarm } from "./actions/mintFarm";
 import { migrate } from "./actions/migrate";
 import { getCreatedAt } from "lib/blockchain/AccountMinter";
 import { Connector } from "wagmi";
-import { getAccount, connect, signMessage } from "@wagmi/core";
-import { config } from "./WalletProvider";
+import {
+  getAccount,
+  connect,
+  signMessage,
+  CreateConnectorFn,
+} from "@wagmi/core";
+import {
+  bitGetConnector,
+  config,
+  cryptoComConnector,
+  okexConnector,
+  phantomConnector,
+} from "./WalletProvider";
 import { generateSignatureMessage } from "lib/blockchain/wallet";
 
 export const ART_MODE = !CONFIG.API_URL;
@@ -62,7 +73,7 @@ type InitialiseEvent = {
 
 type ConnectWalletEvent = {
   type: "CONNECT_TO_WALLET";
-  connector: Connector;
+  connector: Connector | CreateConnectorFn;
 };
 
 export type WalletEvent =
@@ -145,30 +156,27 @@ export const walletMachine = createMachine<Context, WalletEvent, WalletState>({
 
           // Either the player has tried to connect a different wallet, or they are connecting for the first time
           if (
-            account.connector?.uid !== connector.uid ||
+            account.connector?.uid !== (connector as Connector).uid ||
             account.isDisconnected
           ) {
-            await connect(config, { connector });
+            try {
+              await connect(config, { connector });
+            } catch (e) {
+              switch (connector) {
+                case okexConnector:
+                  throw new Error(ERRORS.NO_WEB3);
+                case bitGetConnector:
+                  throw new Error(ERRORS.NO_WEB3_BITGET);
+                case cryptoComConnector:
+                  throw new Error(ERRORS.NO_WEB3_CRYPTO_COM);
+                case phantomConnector:
+                  throw new Error(ERRORS.NO_WEB3_PHANTOM);
+                default:
+                  throw new Error(ERRORS.NO_WEB3);
+              }
+            }
             account = getAccount(config);
           }
-
-          // const web3ConnectStrategy = web3ConnectStrategyFactory(chosenWallet);
-          // onboardingAnalytics.logEvent(
-          //   web3ConnectStrategy.getConnectEventType(),
-          // );
-          // if (!web3ConnectStrategy.isAvailable()) {
-          //   web3ConnectStrategy.whenUnavailableAction();
-          //   return;
-          // }
-          // await web3ConnectStrategy.initialize();
-          // await web3ConnectStrategy.requestAccounts();
-
-          // const web3 = {
-          //   wallet: chosenWallet,
-          //   provider: web3ConnectStrategy.getProvider(),
-          // };
-
-          // await wallet.initialise(web3.provider, web3.wallet);
 
           return {
             address: account.address,
