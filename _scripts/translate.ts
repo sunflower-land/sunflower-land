@@ -33,12 +33,14 @@ async function translateTerms(targetLanguage: LanguageCode) {
   );
   if (fs.existsSync(languageJson)) {
     const existingTerms = JSON.parse(fs.readFileSync(languageJson, "utf-8"));
-    for (const term of Object.keys(ENGLISH_TERMS)) {
-      if (existingTerms[term]) {
+    const existingTermKeys = getKeys(existingTerms) as TranslationKeys[];
+    const englishTermKeys = getKeys(ENGLISH_TERMS);
+    existingTermKeys.forEach((term) => {
+      if (englishTermKeys.includes(term) && existingTerms[term]) {
         console.log(`Skipping existing term in ${targetLanguage}: ${term}`);
         translatedTerms[term] = existingTerms[term];
       }
-    }
+    });
   }
 
   // Group terms into batches (e.g., 10 terms per batch)
