@@ -145,7 +145,7 @@ export const walletMachine = createMachine<Context, WalletEvent, WalletState>({
     initialising: {
       id: "initialising",
       invoke: {
-        src: async (_: Context, event: any) => {
+        src: async (context: Context, event: any) => {
           const _event = event as ConnectWalletEvent | undefined;
           const connector = _event?.connector;
           if (!connector) {
@@ -178,8 +178,18 @@ export const walletMachine = createMachine<Context, WalletEvent, WalletState>({
             account = getAccount(config);
           }
 
+          let address = account.address;
+
+          const linkedAddress = context.linkedAddress;
+
+          if (!!linkedAddress && linkedAddress !== "") {
+            address = account.addresses?.find(
+              (address) => address === linkedAddress,
+            );
+          }
+
           return {
-            address: account.address,
+            address: address,
             wallet: connector.name,
           };
         },

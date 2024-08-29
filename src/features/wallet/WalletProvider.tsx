@@ -69,7 +69,16 @@ export const bitGetConnector = injected({
 });
 
 export const okexConnector = injected({
-  target: "okxWallet",
+  target() {
+    return {
+      id: "okxwallet",
+      name: "OKX Wallet",
+      provider:
+        typeof (window as any).okxwallet !== "undefined"
+          ? window.ethereum
+          : undefined,
+    };
+  },
 });
 
 export const phantomConnector = injected({
