@@ -5771,6 +5771,14 @@ export const marketplaceTerms: Record<MarketplaceTerms, string> = {
   "marketplace.from": "От",
   "marketplace.sfl": "SFL",
   "marketplace.priceHistory": "История цен",
+  "marketplace.offerSuccess": ENGLISH_TERMS["marketplace.offerSuccess"],
+  "marketplace.confirmDetails": ENGLISH_TERMS["marketplace.confirmDetails"],
+  "marketplace.signOffer": ENGLISH_TERMS["marketplace.signOffer"],
+  "marketplace.signAndOffer": ENGLISH_TERMS["marketplace.signAndOffer"],
+  "marketplace.howMuch": ENGLISH_TERMS["marketplace.howMuch"],
+  "marketplace.sflLocked": ENGLISH_TERMS["marketplace.sflLocked"],
+  "marketplace.sflLocked.description":
+    ENGLISH_TERMS["marketplace.sflLocked.description"],
 };
 
 export const RUSSIAN_TERMS: Record<TranslationKeys, string> = {
