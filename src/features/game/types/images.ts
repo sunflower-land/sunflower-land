@@ -711,7 +711,7 @@ export const ITEM_DETAILS: Items = {
     image: CROP_LIFECYCLE.Sunflower.crop,
     description: {
       en: "A sunny flower",
-      pt: "A sunny flower",
+      "pt-BR": "A sunny flower",
       "zh-CN": "A sunny flower",
       fr: "A sunny flower",
       tr: "A sunny flower",
@@ -721,7 +721,7 @@ export const ITEM_DETAILS: Items = {
     image: CROP_LIFECYCLE.Potato.crop,
     description: {
       en: "Healthier than you might think.",
-      pt: "Healthier than you might think.",
+      "pt-BR": "Healthier than you might think.",
       "zh-CN": "Healthier than you might think.",
       fr: "Healthier than you might think.",
       tr: "Healthier than you might think.",
@@ -731,7 +731,7 @@ export const ITEM_DETAILS: Items = {
     image: CROP_LIFECYCLE.Pumpkin.crop,
     description: {
       en: "There's more to pumpkin than pie.",
-      pt: "There's more to pumpkin than pie.",
+      "pt-BR": "There's more to pumpkin than pie.",
       "zh-CN": "There's more to pumpkin than pie.",
       fr: "There's more to pumpkin than pie.",
       tr: "There's more to pumpkin than pie.",
@@ -741,7 +741,7 @@ export const ITEM_DETAILS: Items = {
     image: CROP_LIFECYCLE.Carrot.crop,
     description: {
       en: "They're good for your eyes!",
-      pt: "They're good for your eyes!",
+      "pt-BR": "They're good for your eyes!",
       "zh-CN": "They're good for your eyes!",
       fr: "They're good for your eyes!",
       tr: "They're good for your eyes!",
@@ -751,7 +751,7 @@ export const ITEM_DETAILS: Items = {
     image: CROP_LIFECYCLE.Cabbage.crop,
     description: {
       en: "Once a luxury, now a food for many.",
-      pt: "Once a luxury, now a food for many.",
+      "pt-BR": "Once a luxury, now a food for many.",
       "zh-CN": "Once a luxury, now a food for many.",
       fr: "Once a luxury, now a food for many.",
       tr: "Once a luxury, now a food for many.",
@@ -761,7 +761,7 @@ export const ITEM_DETAILS: Items = {
     image: CROP_LIFECYCLE.Beetroot.crop,
     description: {
       en: "Good for hangovers!",
-      pt: "Good for hangovers!",
+      "pt-BR": "Good for hangovers!",
       "zh-CN": "Good for hangovers!",
       fr: "Good for hangovers!",
       tr: "Good for hangovers!",
@@ -771,7 +771,7 @@ export const ITEM_DETAILS: Items = {
     image: CROP_LIFECYCLE.Cauliflower.crop,
     description: {
       en: "Excellent rice substitute!",
-      pt: "Excellent rice substitute!",
+      "pt-BR": "Excellent rice substitute!",
       "zh-CN": "Excellent rice substitute!",
       fr: "Excellent rice substitute!",
       tr: "Excellent rice substitute!",
@@ -781,7 +781,7 @@ export const ITEM_DETAILS: Items = {
     image: CROP_LIFECYCLE.Parsnip.crop,
     description: {
       en: "Not to be mistaken for carrots.",
-      pt: "Not to be mistaken for carrots.",
+      "pt-BR": "Not to be mistaken for carrots.",
       "zh-CN": "Not to be mistaken for carrots.",
       fr: "Not to be mistaken for carrots.",
       tr: "Not to be mistaken for carrots.",
@@ -791,7 +791,7 @@ export const ITEM_DETAILS: Items = {
     image: CROP_LIFECYCLE.Eggplant.crop,
     description: {
       en: "Nature's edible work of art.",
-      pt: "Nature's edible work of art.",
+      "pt-BR": "Nature's edible work of art.",
       "zh-CN": "Nature's edible work of art.",
       fr: "Nature's edible work of art.",
       tr: "Nature's edible work of art.",
@@ -801,7 +801,7 @@ export const ITEM_DETAILS: Items = {
     image: CROP_LIFECYCLE.Corn.crop,
     description: {
       en: "Sun-kissed kernels of delight, nature's summer treasure.",
-      pt: "Sun-kissed kernels of delight, nature's summer treasure.",
+      "pt-BR": "Sun-kissed kernels of delight, nature's summer treasure.",
       "zh-CN": "Sun-kissed kernels of delight, nature's summer treasure.",
       fr: "Sun-kissed kernels of delight, nature's summer treasure.",
       tr: "Sun-kissed kernels of delight, nature's summer treasure.",
@@ -811,7 +811,7 @@ export const ITEM_DETAILS: Items = {
     image: CROP_LIFECYCLE.Radish.crop,
     description: {
       en: "Takes time but is worth the wait!",
-      pt: "Takes time but is worth the wait!",
+      "pt-BR": "Takes time but is worth the wait!",
       "zh-CN": "Takes time but is worth the wait!",
       fr: "Takes time but is worth the wait!",
       tr: "Takes time but is worth the wait!",
@@ -821,7 +821,7 @@ export const ITEM_DETAILS: Items = {
     image: CROP_LIFECYCLE.Wheat.crop,
     description: {
       en: "The most harvested crop in the world.",
-      pt: "The most harvested crop in the world.",
+      "pt-BR": "The most harvested crop in the world.",
       "zh-CN": "The most harvested crop in the world.",
       fr: "The most harvested crop in the world.",
       tr: "The most harvested crop in the world.",
@@ -831,7 +831,7 @@ export const ITEM_DETAILS: Items = {
     image: CROP_LIFECYCLE.Kale.crop,
     description: {
       en: "A Bumpkin Power Food!",
-      pt: "A Bumpkin Power Food!",
+      "pt-BR": "A Bumpkin Power Food!",
       "zh-CN": "A Bumpkin Power Food!",
       fr: "A Bumpkin Power Food!",
       tr: "A Bumpkin Power Food!",
@@ -841,7 +841,7 @@ export const ITEM_DETAILS: Items = {
     image: CROP_LIFECYCLE.Soybean.crop,
     description: {
       en: "A versatile legume!",
-      pt: "A versatile legume!",
+      "pt-BR": "A versatile legume!",
       "zh-CN": "A versatile legume!",
       fr: "A versatile legume!",
       tr: "A versatile legume!",
@@ -852,7 +852,7 @@ export const ITEM_DETAILS: Items = {
     secondaryImage: CROP_LIFECYCLE.Sunflower.crop,
     description: {
       en: "A sunny flower",
-      pt: "A sunny flower",
+      "pt-BR": "A sunny flower",
       "zh-CN": "A sunny flower",
       fr: "A sunny flower",
       tr: "A sunny flower",
@@ -863,7 +863,7 @@ export const ITEM_DETAILS: Items = {
     secondaryImage: CROP_LIFECYCLE.Potato.crop,
     description: {
       en: "Healthier than you might think.",
-      pt: "Healthier than you might think.",
+      "pt-BR": "Healthier than you might think.",
       "zh-CN": "Healthier than you might think.",
       fr: "Healthier than you might think.",
       tr: "Healthier than you might think.",
@@ -874,7 +874,7 @@ export const ITEM_DETAILS: Items = {
     secondaryImage: CROP_LIFECYCLE.Pumpkin.crop,
     description: {
       en: "There's more to pumpkin than pie.",
-      pt: "There's more to pumpkin than pie.",
+      "pt-BR": "There's more to pumpkin than pie.",
       "zh-CN": "There's more to pumpkin than pie.",
       fr: "There's more to pumpkin than pie.",
       tr: "There's more to pumpkin than pie.",
@@ -885,7 +885,7 @@ export const ITEM_DETAILS: Items = {
     secondaryImage: CROP_LIFECYCLE.Carrot.crop,
     description: {
       en: "They're good for your eyes!",
-      pt: "They're good for your eyes!",
+      "pt-BR": "They're good for your eyes!",
       "zh-CN": "They're good for your eyes!",
       fr: "They're good for your eyes!",
       tr: "They're good for your eyes!",
@@ -896,7 +896,7 @@ export const ITEM_DETAILS: Items = {
     secondaryImage: CROP_LIFECYCLE.Cabbage.crop,
     description: {
       en: "Once a luxury, now a food for many.",
-      pt: "Once a luxury, now a food for many.",
+      "pt-BR": "Once a luxury, now a food for many.",
       "zh-CN": "Once a luxury, now a food for many.",
       fr: "Once a luxury, now a food for many.",
       tr: "Once a luxury, now a food for many.",
@@ -907,7 +907,7 @@ export const ITEM_DETAILS: Items = {
     secondaryImage: CROP_LIFECYCLE.Beetroot.crop,
     description: {
       en: "Good for hangovers!",
-      pt: "Good for hangovers!",
+      "pt-BR": "Good for hangovers!",
       "zh-CN": "Good for hangovers!",
       fr: "Good for hangovers!",
       tr: "Good for hangovers!",
@@ -918,7 +918,7 @@ export const ITEM_DETAILS: Items = {
     secondaryImage: CROP_LIFECYCLE.Cauliflower.crop,
     description: {
       en: "Excellent rice substitute!",
-      pt: "Excellent rice substitute!",
+      "pt-BR": "Excellent rice substitute!",
       "zh-CN": "Excellent rice substitute!",
       fr: "Excellent rice substitute!",
       tr: "Excellent rice substitute!",
@@ -929,7 +929,7 @@ export const ITEM_DETAILS: Items = {
     secondaryImage: CROP_LIFECYCLE.Parsnip.crop,
     description: {
       en: "Not to be mistaken for carrots.",
-      pt: "Not to be mistaken for carrots.",
+      "pt-BR": "Not to be mistaken for carrots.",
       "zh-CN": "Not to be mistaken for carrots.",
       fr: "Not to be mistaken for carrots.",
       tr: "Not to be mistaken for carrots.",
@@ -940,7 +940,7 @@ export const ITEM_DETAILS: Items = {
     secondaryImage: CROP_LIFECYCLE.Eggplant.crop,
     description: {
       en: "Nature's edible work of art.",
-      pt: "Nature's edible work of art.",
+      "pt-BR": "Nature's edible work of art.",
       "zh-CN": "Nature's edible work of art.",
       fr: "Nature's edible work of art.",
       tr: "Nature's edible work of art.",
@@ -951,7 +951,7 @@ export const ITEM_DETAILS: Items = {
     secondaryImage: CROP_LIFECYCLE.Corn.crop,
     description: {
       en: "Sun-kissed kernels of delight, nature's summer treasure.",
-      pt: "Sun-kissed kernels of delight, nature's summer treasure.",
+      "pt-BR": "Sun-kissed kernels of delight, nature's summer treasure.",
       "zh-CN": "Sun-kissed kernels of delight, nature's summer treasure.",
       fr: "Sun-kissed kernels of delight, nature's summer treasure.",
       tr: "Sun-kissed kernels of delight, nature's summer treasure.",
@@ -962,7 +962,7 @@ export const ITEM_DETAILS: Items = {
     secondaryImage: CROP_LIFECYCLE.Radish.crop,
     description: {
       en: "Takes time but is worth the wait!",
-      pt: "Takes time but is worth the wait!",
+      "pt-BR": "Takes time but is worth the wait!",
       "zh-CN": "Takes time but is worth the wait!",
       fr: "Takes time but is worth the wait!",
       tr: "Takes time but is worth the wait!",
@@ -973,7 +973,7 @@ export const ITEM_DETAILS: Items = {
     secondaryImage: CROP_LIFECYCLE.Wheat.crop,
     description: {
       en: "The most harvested crop in the world.",
-      pt: "The most harvested crop in the world.",
+      "pt-BR": "The most harvested crop in the world.",
       "zh-CN": "The most harvested crop in the world.",
       fr: "The most harvested crop in the world.",
       tr: "The most harvested crop in the world.",
@@ -983,7 +983,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.crops.magicBean,
     description: {
       en: "What will grow?",
-      pt: "What will grow?",
+      "pt-BR": "What will grow?",
       "zh-CN": "What will grow?",
       fr: "What will grow?",
       tr: "What will grow?",
@@ -993,7 +993,7 @@ export const ITEM_DETAILS: Items = {
     image: CROP_LIFECYCLE.Kale.seed,
     description: {
       en: "A Bumpkin Power Food!",
-      pt: "A Bumpkin Power Food!",
+      "pt-BR": "A Bumpkin Power Food!",
       "zh-CN": "A Bumpkin Power Food!",
       fr: "A Bumpkin Power Food!",
       tr: "A Bumpkin Power Food!",
@@ -1003,7 +1003,7 @@ export const ITEM_DETAILS: Items = {
     image: CROP_LIFECYCLE.Soybean.seed,
     description: {
       en: "A versatile legume!",
-      pt: "A versatile legume!",
+      "pt-BR": "A versatile legume!",
       "zh-CN": "A versatile legume!",
       fr: "A versatile legume!",
       tr: "A versatile legume!",
@@ -1013,7 +1013,7 @@ export const ITEM_DETAILS: Items = {
     image: appleSeed,
     description: {
       en: "Perfect for homemade Apple Pie",
-      pt: "Perfect for homemade Apple Pie",
+      "pt-BR": "Perfect for homemade Apple Pie",
       "zh-CN": "Perfect for homemade Apple Pie",
       fr: "Perfect for homemade Apple Pie",
       tr: "Perfect for homemade Apple Pie",
@@ -1023,7 +1023,7 @@ export const ITEM_DETAILS: Items = {
     image: blueberrySeed,
     description: {
       en: "A Goblin's weakness",
-      pt: "A Goblin's weakness",
+      "pt-BR": "A Goblin's weakness",
       "zh-CN": "A Goblin's weakness",
       fr: "A Goblin's weakness",
       tr: "A Goblin's weakness",
@@ -1033,7 +1033,7 @@ export const ITEM_DETAILS: Items = {
     image: orangeSeed,
     description: {
       en: "Vitamin C to keep your Bumpkin Healthy",
-      pt: "Vitamin C to keep your Bumpkin Healthy",
+      "pt-BR": "Vitamin C to keep your Bumpkin Healthy",
       "zh-CN": "Vitamin C to keep your Bumpkin Healthy",
       fr: "Vitamin C to keep your Bumpkin Healthy",
       tr: "Vitamin C to keep your Bumpkin Healthy",
@@ -1043,7 +1043,7 @@ export const ITEM_DETAILS: Items = {
     image: bananaPlant,
     description: {
       en: "Oh banana!",
-      pt: "Oh banana!",
+      "pt-BR": "Oh banana!",
       "zh-CN": "Oh banana!",
       fr: "Oh banana!",
       tr: "Oh banana!",
@@ -1053,7 +1053,7 @@ export const ITEM_DETAILS: Items = {
     image: tomatoSeed,
     description: {
       en: "Rich in Lycopene",
-      pt: "Rich in Lycopene",
+      "pt-BR": "Rich in Lycopene",
       "zh-CN": "Rich in Lycopene",
       fr: "Rich in Lycopene",
       tr: "Rich in Lycopene",
@@ -1063,7 +1063,7 @@ export const ITEM_DETAILS: Items = {
     image: lemonSeed,
     description: {
       en: "Because sometimes, you just can't squeeze an orange!",
-      pt: "Because sometimes, you just can't squeeze an orange!",
+      "pt-BR": "Because sometimes, you just can't squeeze an orange!",
       "zh-CN": "Because sometimes, you just can't squeeze an orange!",
       fr: "Because sometimes, you just can't squeeze an orange!",
       tr: "Because sometimes, you just can't squeeze an orange!",
@@ -1073,7 +1073,7 @@ export const ITEM_DETAILS: Items = {
     image: sunpetalSeed,
     description: {
       en: "A sunpetal seed",
-      pt: "A sunpetal seed",
+      "pt-BR": "A sunpetal seed",
       "zh-CN": "A sunpetal seed",
       fr: "A sunpetal seed",
       tr: "A sunpetal seed",
@@ -1083,7 +1083,7 @@ export const ITEM_DETAILS: Items = {
     image: bloomSeed,
     description: {
       en: "A bloom seed",
-      pt: "A bloom seed",
+      "pt-BR": "A bloom seed",
       "zh-CN": "A bloom seed",
       fr: "A bloom seed",
       tr: "A bloom seed",
@@ -1093,7 +1093,7 @@ export const ITEM_DETAILS: Items = {
     image: lilySeed,
     description: {
       en: "A lily seed",
-      pt: "A lily seed",
+      "pt-BR": "A lily seed",
       "zh-CN": "A lily seed",
       fr: "A lily seed",
       tr: "A lily seed",
@@ -1103,7 +1103,7 @@ export const ITEM_DETAILS: Items = {
     image: applePie,
     description: {
       en: "Bumpkin Betty's famous recipe",
-      pt: "Bumpkin Betty's famous recipe",
+      "pt-BR": "Bumpkin Betty's famous recipe",
       "zh-CN": "Bumpkin Betty's famous recipe",
       fr: "Bumpkin Betty's famous recipe",
       tr: "Bumpkin Betty's famous recipe",
@@ -1113,7 +1113,7 @@ export const ITEM_DETAILS: Items = {
     image: blueberryJam,
     description: {
       en: "Goblins will do anything for this jam",
-      pt: "Goblins will do anything for this jam",
+      "pt-BR": "Goblins will do anything for this jam",
       "zh-CN": "Goblins will do anything for this jam",
       fr: "Goblins will do anything for this jam",
       tr: "Goblins will do anything for this jam",
@@ -1123,7 +1123,7 @@ export const ITEM_DETAILS: Items = {
     image: honeyCake,
     description: {
       en: "A scrumptious cake!",
-      pt: "A scrumptious cake!",
+      "pt-BR": "A scrumptious cake!",
       "zh-CN": "A scrumptious cake!",
       fr: "A scrumptious cake!",
       tr: "A scrumptious cake!",
@@ -1133,7 +1133,7 @@ export const ITEM_DETAILS: Items = {
     image: kaleMushroomPie,
     description: {
       en: "A traditional Sapphiron recipe",
-      pt: "A traditional Sapphiron recipe",
+      "pt-BR": "A traditional Sapphiron recipe",
       "zh-CN": "A traditional Sapphiron recipe",
       fr: "A traditional Sapphiron recipe",
       tr: "A traditional Sapphiron recipe",
@@ -1143,7 +1143,7 @@ export const ITEM_DETAILS: Items = {
     image: kaleStew,
     description: {
       en: "A perfect Bumpkin Booster!",
-      pt: "A perfect Bumpkin Booster!",
+      "pt-BR": "A perfect Bumpkin Booster!",
       "zh-CN": "A perfect Bumpkin Booster!",
       fr: "A perfect Bumpkin Booster!",
       tr: "A perfect Bumpkin Booster!",
@@ -1153,7 +1153,7 @@ export const ITEM_DETAILS: Items = {
     image: mushroomJacketPotato,
     description: {
       en: "Cram them taters with what ya got!",
-      pt: "Cram them taters with what ya got!",
+      "pt-BR": "Cram them taters with what ya got!",
       "zh-CN": "Cram them taters with what ya got!",
       fr: "Cram them taters with what ya got!",
       tr: "Cram them taters with what ya got!",
@@ -1163,7 +1163,7 @@ export const ITEM_DETAILS: Items = {
     image: mushroomSoup,
     description: {
       en: "Warm your Bumpkin's soul.",
-      pt: "Warm your Bumpkin's soul.",
+      "pt-BR": "Warm your Bumpkin's soul.",
       "zh-CN": "Warm your Bumpkin's soul.",
       fr: "Warm your Bumpkin's soul.",
       tr: "Warm your Bumpkin's soul.",
@@ -1173,7 +1173,7 @@ export const ITEM_DETAILS: Items = {
     image: orangeCake,
     description: {
       en: "Orange you glad we aren't cooking apples",
-      pt: "Orange you glad we aren't cooking apples",
+      "pt-BR": "Orange you glad we aren't cooking apples",
       "zh-CN": "Orange you glad we aren't cooking apples",
       fr: "Orange you glad we aren't cooking apples",
       tr: "Orange you glad we aren't cooking apples",
@@ -1183,7 +1183,7 @@ export const ITEM_DETAILS: Items = {
     image: sunflowerCrunch,
     description: {
       en: "Crunchy goodness. Try not to burn it.",
-      pt: "Crunchy goodness. Try not to burn it.",
+      "pt-BR": "Crunchy goodness. Try not to burn it.",
       "zh-CN": "Crunchy goodness. Try not to burn it.",
       fr: "Crunchy goodness. Try not to burn it.",
       tr: "Crunchy goodness. Try not to burn it.",
@@ -1193,7 +1193,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.resource.magic_mushroom,
     description: {
       en: "Used to cook advanced recipes",
-      pt: "Used to cook advanced recipes",
+      "pt-BR": "Used to cook advanced recipes",
       "zh-CN": "Used to cook advanced recipes",
       fr: "Used to cook advanced recipes",
       tr: "Used to cook advanced recipes",
@@ -1203,7 +1203,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.resource.wild_mushroom,
     description: {
       en: "Used to cook basic recipes",
-      pt: "Used to cook basic recipes",
+      "pt-BR": "Used to cook basic recipes",
       "zh-CN": "Used to cook basic recipes",
       fr: "Used to cook basic recipes",
       tr: "Used to cook basic recipes",
@@ -1213,7 +1213,7 @@ export const ITEM_DETAILS: Items = {
     image: apple,
     description: {
       en: "Perfect for homemade Apple Pie",
-      pt: "Perfect for homemade Apple Pie",
+      "pt-BR": "Perfect for homemade Apple Pie",
       "zh-CN": "Perfect for homemade Apple Pie",
       fr: "Perfect for homemade Apple Pie",
       tr: "Perfect for homemade Apple Pie",
@@ -1223,7 +1223,7 @@ export const ITEM_DETAILS: Items = {
     image: blueberry,
     description: {
       en: "A Goblin's weakness",
-      pt: "A Goblin's weakness",
+      "pt-BR": "A Goblin's weakness",
       "zh-CN": "A Goblin's weakness",
       fr: "A Goblin's weakness",
       tr: "A Goblin's weakness",
@@ -1233,7 +1233,7 @@ export const ITEM_DETAILS: Items = {
     image: orange,
     description: {
       en: "Vitamin C to keep your Bumpkin Healthy",
-      pt: "Vitamin C to keep your Bumpkin Healthy",
+      "pt-BR": "Vitamin C to keep your Bumpkin Healthy",
       "zh-CN": "Vitamin C to keep your Bumpkin Healthy",
       fr: "Vitamin C to keep your Bumpkin Healthy",
       tr: "Vitamin C to keep your Bumpkin Healthy",
@@ -1243,7 +1243,7 @@ export const ITEM_DETAILS: Items = {
     image: banana,
     description: {
       en: "Oh banana!",
-      pt: "Oh banana!",
+      "pt-BR": "Oh banana!",
       "zh-CN": "Oh banana!",
       fr: "Oh banana!",
       tr: "Oh banana!",
@@ -1253,7 +1253,7 @@ export const ITEM_DETAILS: Items = {
     image: tomato,
     description: {
       en: "Rich in Lycopene",
-      pt: "Rich in Lycopene",
+      "pt-BR": "Rich in Lycopene",
       "zh-CN": "Rich in Lycopene",
       fr: "Rich in Lycopene",
       tr: "Rich in Lycopene",
@@ -1263,7 +1263,7 @@ export const ITEM_DETAILS: Items = {
     image: lemon,
     description: {
       en: "Because sometimes, you just can't squeeze an orange!",
-      pt: "Because sometimes, you just can't squeeze an orange!",
+      "pt-BR": "Because sometimes, you just can't squeeze an orange!",
       "zh-CN": "Because sometimes, you just can't squeeze an orange!",
       fr: "Because sometimes, you just can't squeeze an orange!",
       tr: "Because sometimes, you just can't squeeze an orange!",
@@ -1273,7 +1273,7 @@ export const ITEM_DETAILS: Items = {
     image: honey,
     description: {
       en: "Used to sweeten your cooking",
-      pt: "Used to sweeten your cooking",
+      "pt-BR": "Used to sweeten your cooking",
       "zh-CN": "Used to sweeten your cooking",
       fr: "Used to sweeten your cooking",
       tr: "Used to sweeten your cooking",
@@ -1283,7 +1283,7 @@ export const ITEM_DETAILS: Items = {
     image: appleJuice,
     description: {
       en: "A crisp refreshing beverage",
-      pt: "A crisp refreshing beverage",
+      "pt-BR": "A crisp refreshing beverage",
       "zh-CN": "A crisp refreshing beverage",
       fr: "A crisp refreshing beverage",
       tr: "A crisp refreshing beverage",
@@ -1293,7 +1293,7 @@ export const ITEM_DETAILS: Items = {
     image: orangeJuice,
     description: {
       en: "OJ matches perfectly with a Club Sandwich",
-      pt: "OJ matches perfectly with a Club Sandwich",
+      "pt-BR": "OJ matches perfectly with a Club Sandwich",
       "zh-CN": "OJ matches perfectly with a Club Sandwich",
       fr: "OJ matches perfectly with a Club Sandwich",
       tr: "OJ matches perfectly with a Club Sandwich",
@@ -1303,7 +1303,7 @@ export const ITEM_DETAILS: Items = {
     image: purpleSmoothie,
     description: {
       en: "You can hardly taste the Cabbage",
-      pt: "You can hardly taste the Cabbage",
+      "pt-BR": "You can hardly taste the Cabbage",
       "zh-CN": "You can hardly taste the Cabbage",
       fr: "You can hardly taste the Cabbage",
       tr: "You can hardly taste the Cabbage",
@@ -1313,7 +1313,7 @@ export const ITEM_DETAILS: Items = {
     image: bumpkinDetox,
     description: {
       en: "Wash away the sins of last night",
-      pt: "Wash away the sins of last night",
+      "pt-BR": "Wash away the sins of last night",
       "zh-CN": "Wash away the sins of last night",
       fr: "Wash away the sins of last night",
       tr: "Wash away the sins of last night",
@@ -1323,7 +1323,7 @@ export const ITEM_DETAILS: Items = {
     image: powerSmoothie,
     description: {
       en: "Official drink of the Bumpkin Powerlifting Society",
-      pt: "Official drink of the Bumpkin Powerlifting Society",
+      "pt-BR": "Official drink of the Bumpkin Powerlifting Society",
       "zh-CN": "Official drink of the Bumpkin Powerlifting Society",
       fr: "Official drink of the Bumpkin Powerlifting Society",
       tr: "Official drink of the Bumpkin Powerlifting Society",
@@ -1333,7 +1333,7 @@ export const ITEM_DETAILS: Items = {
     image: bumpkinRoast,
     description: {
       en: "A traditional Bumpkin dish",
-      pt: "A traditional Bumpkin dish",
+      "pt-BR": "A traditional Bumpkin dish",
       "zh-CN": "A traditional Bumpkin dish",
       fr: "A traditional Bumpkin dish",
       tr: "A traditional Bumpkin dish",
@@ -1343,7 +1343,7 @@ export const ITEM_DETAILS: Items = {
     image: goblinBrunch,
     description: {
       en: "A traditional Goblin dish",
-      pt: "A traditional Goblin dish",
+      "pt-BR": "A traditional Goblin dish",
       "zh-CN": "A traditional Goblin dish",
       fr: "A traditional Goblin dish",
       tr: "A traditional Goblin dish",
@@ -1353,7 +1353,7 @@ export const ITEM_DETAILS: Items = {
     image: fruitSalad,
     description: {
       en: "Fruit Salad, Yummy Yummy",
-      pt: "Fruit Salad, Yummy Yummy",
+      "pt-BR": "Fruit Salad, Yummy Yummy",
       "zh-CN": "Fruit Salad, Yummy Yummy",
       fr: "Fruit Salad, Yummy Yummy",
       tr: "Fruit Salad, Yummy Yummy",
@@ -1363,7 +1363,7 @@ export const ITEM_DETAILS: Items = {
     image: kaleOmelette,
     description: {
       en: "A healthy breakfast",
-      pt: "A healthy breakfast",
+      "pt-BR": "A healthy breakfast",
       "zh-CN": "A healthy breakfast",
       fr: "A healthy breakfast",
       tr: "A healthy breakfast",
@@ -1373,7 +1373,7 @@ export const ITEM_DETAILS: Items = {
     image: cabbersNMash,
     description: {
       en: "Cabbages and Mashed Potatoes",
-      pt: "Cabbages and Mashed Potatoes",
+      "pt-BR": "Cabbages and Mashed Potatoes",
       "zh-CN": "Cabbages and Mashed Potatoes",
       fr: "Cabbages and Mashed Potatoes",
       tr: "Cabbages and Mashed Potatoes",
@@ -1383,7 +1383,7 @@ export const ITEM_DETAILS: Items = {
     image: fancyFries,
     description: {
       en: "Fantastic Fries",
-      pt: "Fantastic Fries",
+      "pt-BR": "Fantastic Fries",
       "zh-CN": "Fantastic Fries",
       fr: "Fantastic Fries",
       tr: "Fantastic Fries",
@@ -1393,7 +1393,7 @@ export const ITEM_DETAILS: Items = {
     image: bananaBlast,
     description: {
       en: "The ultimate fruity fuel for those with a peel for power!",
-      pt: "The ultimate fruity fuel for those with a peel for power!",
+      "pt-BR": "The ultimate fruity fuel for those with a peel for power!",
       "zh-CN": "The ultimate fruity fuel for those with a peel for power!",
       fr: "The ultimate fruity fuel for those with a peel for power!",
       tr: "The ultimate fruity fuel for those with a peel for power!",
@@ -1403,7 +1403,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.resource.wood,
     description: {
       en: "Used to craft items",
-      pt: "Used to craft items",
+      "pt-BR": "Used to craft items",
       "zh-CN": "Used to craft items",
       fr: "Used to craft items",
       tr: "Used to craft items",
@@ -1413,7 +1413,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.resource.stone,
     description: {
       en: "Used to craft items",
-      pt: "Used to craft items",
+      "pt-BR": "Used to craft items",
       "zh-CN": "Used to craft items",
       fr: "Used to craft items",
       tr: "Used to craft items",
@@ -1423,7 +1423,7 @@ export const ITEM_DETAILS: Items = {
     image: iron,
     description: {
       en: "Used to craft items",
-      pt: "Used to craft items",
+      "pt-BR": "Used to craft items",
       "zh-CN": "Used to craft items",
       fr: "Used to craft items",
       tr: "Used to craft items",
@@ -1433,7 +1433,7 @@ export const ITEM_DETAILS: Items = {
     image: crimstone,
     description: {
       en: "Used to craft items",
-      pt: "Used to craft items",
+      "pt-BR": "Used to craft items",
       "zh-CN": "Used to craft items",
       fr: "Used to craft items",
       tr: "Used to craft items",
@@ -1443,7 +1443,7 @@ export const ITEM_DETAILS: Items = {
     image: gold,
     description: {
       en: "Used to craft items",
-      pt: "Used to craft items",
+      "pt-BR": "Used to craft items",
       "zh-CN": "Used to craft items",
       fr: "Used to craft items",
       tr: "Used to craft items",
@@ -1453,7 +1453,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.resource.diamond,
     description: {
       en: "Used to craft items",
-      pt: "Used to craft items",
+      "pt-BR": "Used to craft items",
       "zh-CN": "Used to craft items",
       fr: "Used to craft items",
       tr: "Used to craft items",
@@ -1463,7 +1463,7 @@ export const ITEM_DETAILS: Items = {
     image: sunstone,
     description: {
       en: "Used to craft items",
-      pt: "Used to craft items",
+      "pt-BR": "Used to craft items",
       "zh-CN": "Used to craft items",
       fr: "Used to craft items",
       tr: "Used to craft items",
@@ -1473,7 +1473,7 @@ export const ITEM_DETAILS: Items = {
     image: oil,
     description: {
       en: "Used to craft items",
-      pt: "Used to craft items",
+      "pt-BR": "Used to craft items",
       "zh-CN": "Used to craft items",
       fr: "Used to craft items",
       tr: "Used to craft items",
@@ -1483,7 +1483,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.resource.egg,
     description: {
       en: "Used to craft items",
-      pt: "Used to craft items",
+      "pt-BR": "Used to craft items",
       "zh-CN": "Used to craft items",
       fr: "Used to craft items",
       tr: "Used to craft items",
@@ -1493,7 +1493,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.resource.chicken,
     description: {
       en: "Used to lay eggs",
-      pt: "Used to lay eggs",
+      "pt-BR": "Used to lay eggs",
       "zh-CN": "Used to lay eggs",
       fr: "Used to lay eggs",
       tr: "Used to lay eggs",
@@ -1503,7 +1503,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.icons.expression_confused,
     description: {
       en: "Used to lay eggs",
-      pt: "Used to lay eggs",
+      "pt-BR": "Used to lay eggs",
       "zh-CN": "Used to lay eggs",
       fr: "Used to lay eggs",
       tr: "Used to lay eggs",
@@ -1513,7 +1513,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.icons.expression_confused,
     description: {
       en: "Used to lay eggs",
-      pt: "Used to lay eggs",
+      "pt-BR": "Used to lay eggs",
       "zh-CN": "Used to lay eggs",
       fr: "Used to lay eggs",
       tr: "Used to lay eggs",
@@ -1523,7 +1523,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.icons.expression_confused,
     description: {
       en: "Used to lay eggs",
-      pt: "Used to lay eggs",
+      "pt-BR": "Used to lay eggs",
       "zh-CN": "Used to lay eggs",
       fr: "Used to lay eggs",
       tr: "Used to lay eggs",
@@ -1533,7 +1533,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.tools.axe,
     description: {
       en: "Used to chop wood",
-      pt: "Used to chop wood",
+      "pt-BR": "Used to chop wood",
       "zh-CN": "Used to chop wood",
       fr: "Used to chop wood",
       tr: "Used to chop wood",
@@ -1543,7 +1543,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.tools.wood_pickaxe,
     description: {
       en: "Used to mine stone",
-      pt: "Used to mine stone",
+      "pt-BR": "Used to mine stone",
       "zh-CN": "Used to mine stone",
       fr: "Used to mine stone",
       tr: "Used to mine stone",
@@ -1553,7 +1553,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.tools.stone_pickaxe,
     description: {
       en: "Used to mine iron",
-      pt: "Used to mine iron",
+      "pt-BR": "Used to mine iron",
       "zh-CN": "Used to mine iron",
       fr: "Used to mine iron",
       tr: "Used to mine iron",
@@ -1563,7 +1563,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.tools.iron_pickaxe,
     description: {
       en: "Used to mine gold",
-      pt: "Used to mine gold",
+      "pt-BR": "Used to mine gold",
       "zh-CN": "Used to mine gold",
       fr: "Used to mine gold",
       tr: "Used to mine gold",
@@ -1573,7 +1573,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.tools.gold_pickaxe,
     description: {
       en: "Used to mine crimstone and sunstone",
-      pt: "Used to mine crimstone and sunstone",
+      "pt-BR": "Used to mine crimstone and sunstone",
       "zh-CN": "Used to mine crimstone and sunstone",
       fr: "Used to mine crimstone and sunstone",
       tr: "Used to mine crimstone and sunstone",
@@ -1583,7 +1583,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.tools.hammer,
     description: {
       en: "Coming soon",
-      pt: "Coming soon",
+      "pt-BR": "Coming soon",
       "zh-CN": "Coming soon",
       fr: "Coming soon",
       tr: "Coming soon",
@@ -1593,7 +1593,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.tools.fishing_rod,
     description: {
       en: "Used to catch fish",
-      pt: "Used to catch fish",
+      "pt-BR": "Used to catch fish",
       "zh-CN": "Used to catch fish",
       fr: "Used to catch fish",
       tr: "Used to catch fish",
@@ -1603,7 +1603,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.tools.rusty_shovel,
     description: {
       en: "Used to remove buildings and collectibles",
-      pt: "Used to remove buildings and collectibles",
+      "pt-BR": "Used to remove buildings and collectibles",
       "zh-CN": "Used to remove buildings and collectibles",
       fr: "Used to remove buildings and collectibles",
       tr: "Used to remove buildings and collectibles",
@@ -1613,7 +1613,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.tools.shovel,
     description: {
       en: "Plant and harvest crops.",
-      pt: "Plant and harvest crops.",
+      "pt-BR": "Plant and harvest crops.",
       "zh-CN": "Plant and harvest crops.",
       fr: "Plant and harvest crops.",
       tr: "Plant and harvest crops.",
@@ -1623,7 +1623,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.tools.sand_shovel,
     description: {
       en: "Used for digging treasure",
-      pt: "Usado para escavar tesouros",
+      "pt-BR": "Usado para escavar tesouros",
       "zh-CN": "用来挖宝藏",
       fr: "Utilisé pour creuser des trésors",
       tr: "Hazine kazmak için kullanılır",
@@ -1633,7 +1633,7 @@ export const ITEM_DETAILS: Items = {
     image: drill,
     description: {
       en: "Drill deep for uncommon or rare treasure",
-      pt: "Perfurar profundamente por tesouros incomuns ou raros",
+      "pt-BR": "Perfurar profundamente por tesouros incomuns ou raros",
       "zh-CN": "深入挖掘不寻常或稀有的宝藏",
       fr: "Creusez profondément pour trouver des trésors peu communs ou rares",
       tr: "Sıra dışı veya nadir hazineler için derinlere inin",
@@ -1643,7 +1643,7 @@ export const ITEM_DETAILS: Items = {
     image: oilDrill,
     description: {
       en: "Drill for oil",
-      pt: "Drill for oil",
+      "pt-BR": "Drill for oil",
       "zh-CN": "石油钻探",
       fr: "Drill for oil",
       tr: "Drill for oil",
@@ -1653,7 +1653,7 @@ export const ITEM_DETAILS: Items = {
     image: blockBuck,
     description: {
       en: "A valuable token in Sunflower Land!",
-      pt: "Um token valioso em Sunflower Land!",
+      "pt-BR": "Um token valioso em Sunflower Land!",
       "zh-CN": "A valuable token in Sunflower Land!",
       fr: "Un jeton précieux dans Sunflower Land!",
       tr: "Ayçiçeği Ülkesinde değerli bir jeton!",
@@ -1663,7 +1663,7 @@ export const ITEM_DETAILS: Items = {
     image: sunflowerStatue,
     description: {
       en: "A symbol of the holy token",
-      pt: "A symbol of the holy token",
+      "pt-BR": "A symbol of the holy token",
       "zh-CN": "A symbol of the holy token",
       fr: "A symbol of the holy token",
       tr: "A symbol of the holy token",
@@ -1673,7 +1673,7 @@ export const ITEM_DETAILS: Items = {
     image: potatoStatue,
     description: {
       en: "The OG potato hustler flex",
-      pt: "The OG potato hustler flex",
+      "pt-BR": "The OG potato hustler flex",
       "zh-CN": "The OG potato hustler flex",
       fr: "The OG potato hustler flex",
       tr: "The OG potato hustler flex",
@@ -1683,7 +1683,7 @@ export const ITEM_DETAILS: Items = {
     image: nancy,
     description: {
       en: "Keeps a few crows away. Crops grow 15% faster",
-      pt: "Keeps a few crows away. Crops grow 15% faster",
+      "pt-BR": "Keeps a few crows away. Crops grow 15% faster",
       "zh-CN": "Keeps a few crows away. Crops grow 15% faster",
       fr: "Keeps a few crows away. Crops grow 15% faster",
       tr: "Keeps a few crows away. Crops grow 15% faster",
@@ -1693,7 +1693,7 @@ export const ITEM_DETAILS: Items = {
     image: scarecrow,
     description: {
       en: "A goblin scarecrow. Yield 20% more crops",
-      pt: "A goblin scarecrow. Yield 20% more crops",
+      "pt-BR": "A goblin scarecrow. Yield 20% more crops",
       "zh-CN": "A goblin scarecrow. Yield 20% more crops",
       fr: "A goblin scarecrow. Yield 20% more crops",
       tr: "A goblin scarecrow. Yield 20% more crops",
@@ -1703,7 +1703,8 @@ export const ITEM_DETAILS: Items = {
     image: kuebiko,
     description: {
       en: "Even the shopkeeper is scared of this scarecrow. Seeds are free",
-      pt: "Even the shopkeeper is scared of this scarecrow. Seeds are free",
+      "pt-BR":
+        "Even the shopkeeper is scared of this scarecrow. Seeds are free",
       "zh-CN":
         "Even the shopkeeper is scared of this scarecrow. Seeds are free",
       fr: "Even the shopkeeper is scared of this scarecrow. Seeds are free",
@@ -1714,7 +1715,7 @@ export const ITEM_DETAILS: Items = {
     image: christmasTree,
     description: {
       en: "Receive a Santa Airdrop on Christmas day",
-      pt: "Receive a Santa Airdrop on Christmas day",
+      "pt-BR": "Receive a Santa Airdrop on Christmas day",
       "zh-CN": "Receive a Santa Airdrop on Christmas day",
       fr: "Receive a Santa Airdrop on Christmas day",
       tr: "Receive a Santa Airdrop on Christmas day",
@@ -1724,7 +1725,7 @@ export const ITEM_DETAILS: Items = {
     image: gnome,
     description: {
       en: "A lucky gnome",
-      pt: "A lucky gnome",
+      "pt-BR": "A lucky gnome",
       "zh-CN": "A lucky gnome",
       fr: "A lucky gnome",
       tr: "A lucky gnome",
@@ -1734,7 +1735,7 @@ export const ITEM_DETAILS: Items = {
     image: goldEgg,
     description: {
       en: "Feed chickens without needing wheat",
-      pt: "Feed chickens without needing wheat",
+      "pt-BR": "Feed chickens without needing wheat",
       "zh-CN": "Feed chickens without needing wheat",
       fr: "Feed chickens without needing wheat",
       tr: "Feed chickens without needing wheat",
@@ -1744,7 +1745,7 @@ export const ITEM_DETAILS: Items = {
     image: farmCat,
     description: {
       en: "Keep the rats away",
-      pt: "Keep the rats away",
+      "pt-BR": "Keep the rats away",
       "zh-CN": "Keep the rats away",
       fr: "Keep the rats away",
       tr: "Keep the rats away",
@@ -1754,7 +1755,7 @@ export const ITEM_DETAILS: Items = {
     image: farmDog,
     description: {
       en: "Herd sheep with your farm dog",
-      pt: "Herd sheep with your farm dog",
+      "pt-BR": "Herd sheep with your farm dog",
       "zh-CN": "Herd sheep with your farm dog",
       fr: "Herd sheep with your farm dog",
       tr: "Herd sheep with your farm dog",
@@ -1764,7 +1765,7 @@ export const ITEM_DETAILS: Items = {
     image: chickenCoop,
     description: {
       en: "Collect 2x the amount of eggs",
-      pt: "Collect 2x the amount of eggs",
+      "pt-BR": "Collect 2x the amount of eggs",
       "zh-CN": "Collect 2x the amount of eggs",
       fr: "Collect 2x the amount of eggs",
       tr: "Collect 2x the amount of eggs",
@@ -1774,7 +1775,7 @@ export const ITEM_DETAILS: Items = {
     image: goldenCauliflower,
     description: {
       en: "Doubles cauliflower yield",
-      pt: "Doubles cauliflower yield",
+      "pt-BR": "Doubles cauliflower yield",
       "zh-CN": "Doubles cauliflower yield",
       fr: "Doubles cauliflower yield",
       tr: "Doubles cauliflower yield",
@@ -1784,7 +1785,7 @@ export const ITEM_DETAILS: Items = {
     image: sunflowerRock,
     description: {
       en: "The game that broke Polygon",
-      pt: "The game that broke Polygon",
+      "pt-BR": "The game that broke Polygon",
       "zh-CN": "The game that broke Polygon",
       fr: "The game that broke Polygon",
       tr: "The game that broke Polygon",
@@ -1794,7 +1795,7 @@ export const ITEM_DETAILS: Items = {
     image: sunflowerTombstone,
     description: {
       en: "In memory of Sunflower Farmers",
-      pt: "In memory of Sunflower Farmers",
+      "pt-BR": "In memory of Sunflower Farmers",
       "zh-CN": "In memory of Sunflower Farmers",
       fr: "In memory of Sunflower Farmers",
       tr: "In memory of Sunflower Farmers",
@@ -1804,7 +1805,7 @@ export const ITEM_DETAILS: Items = {
     image: crown,
     description: {
       en: "Summon the leader of the Goblins",
-      pt: "Summon the leader of the Goblins",
+      "pt-BR": "Summon the leader of the Goblins",
       "zh-CN": "Summon the leader of the Goblins",
       fr: "Summon the leader of the Goblins",
       tr: "Summon the leader of the Goblins",
@@ -1814,7 +1815,7 @@ export const ITEM_DETAILS: Items = {
     image: fountain,
     description: {
       en: "A relaxing fountain for your farm",
-      pt: "A relaxing fountain for your farm",
+      "pt-BR": "A relaxing fountain for your farm",
       "zh-CN": "A relaxing fountain for your farm",
       fr: "A relaxing fountain for your farm",
       tr: "A relaxing fountain for your farm",
@@ -1824,7 +1825,7 @@ export const ITEM_DETAILS: Items = {
     image: beaver,
     description: {
       en: "Increase wood drops by 20%",
-      pt: "Increase wood drops by 20%",
+      "pt-BR": "Increase wood drops by 20%",
       "zh-CN": "Increase wood drops by 20%",
       fr: "Increase wood drops by 20%",
       tr: "Increase wood drops by 20%",
@@ -1834,7 +1835,7 @@ export const ITEM_DETAILS: Items = {
     image: apprenticeBeaver,
     description: {
       en: "Trees recover 50% faster",
-      pt: "Trees recover 50% faster",
+      "pt-BR": "Trees recover 50% faster",
       "zh-CN": "Trees recover 50% faster",
       fr: "Trees recover 50% faster",
       tr: "Trees recover 50% faster",
@@ -1844,7 +1845,7 @@ export const ITEM_DETAILS: Items = {
     image: constructionBeaver,
     description: {
       en: "Cut trees without axes",
-      pt: "Cut trees without axes",
+      "pt-BR": "Cut trees without axes",
       "zh-CN": "Cut trees without axes",
       fr: "Cut trees without axes",
       tr: "Cut trees without axes",
@@ -1854,7 +1855,7 @@ export const ITEM_DETAILS: Items = {
     image: mysteriousParsnip,
     description: {
       en: "Parsnips grow 50% faster",
-      pt: "Parsnips grow 50% faster",
+      "pt-BR": "Parsnips grow 50% faster",
       "zh-CN": "Parsnips grow 50% faster",
       fr: "Parsnips grow 50% faster",
       tr: "Parsnips grow 50% faster",
@@ -1864,7 +1865,7 @@ export const ITEM_DETAILS: Items = {
     image: carrotSword,
     description: {
       en: "Increase chance of a mutant crop appearing",
-      pt: "Increase chance of a mutant crop appearing",
+      "pt-BR": "Increase chance of a mutant crop appearing",
       "zh-CN": "Increase chance of a mutant crop appearing",
       fr: "Increase chance of a mutant crop appearing",
       tr: "Increase chance of a mutant crop appearing",
@@ -1874,7 +1875,7 @@ export const ITEM_DETAILS: Items = {
     image: goldenBonsai,
     description: {
       en: "Goblins love bonsai too",
-      pt: "Goblins love bonsai too",
+      "pt-BR": "Goblins love bonsai too",
       "zh-CN": "Goblins love bonsai too",
       fr: "Goblins love bonsai too",
       tr: "Goblins love bonsai too",
@@ -1884,7 +1885,7 @@ export const ITEM_DETAILS: Items = {
     image: nyonStatue,
     description: {
       en: "In memory of Nyon Lann",
-      pt: "In memory of Nyon Lann",
+      "pt-BR": "In memory of Nyon Lann",
       "zh-CN": "In memory of Nyon Lann",
       fr: "In memory of Nyon Lann",
       tr: "In memory of Nyon Lann",
@@ -1894,7 +1895,7 @@ export const ITEM_DETAILS: Items = {
     image: homelessTent,
     description: {
       en: "A nice and cozy tent",
-      pt: "A nice and cozy tent",
+      "pt-BR": "A nice and cozy tent",
       "zh-CN": "A nice and cozy tent",
       fr: "A nice and cozy tent",
       tr: "A nice and cozy tent",
@@ -1904,7 +1905,7 @@ export const ITEM_DETAILS: Items = {
     image: farmerBath,
     description: {
       en: "A beetroot scented bath for the farmers",
-      pt: "A beetroot scented bath for the farmers",
+      "pt-BR": "A beetroot scented bath for the farmers",
       "zh-CN": "A beetroot scented bath for the farmers",
       fr: "A beetroot scented bath for the farmers",
       tr: "A beetroot scented bath for the farmers",
@@ -1914,7 +1915,7 @@ export const ITEM_DETAILS: Items = {
     image: mysteriousHead,
     description: {
       en: "A statue thought to protect farmers",
-      pt: "A statue thought to protect farmers",
+      "pt-BR": "A statue thought to protect farmers",
       "zh-CN": "A statue thought to protect farmers",
       fr: "A statue thought to protect farmers",
       tr: "A statue thought to protect farmers",
@@ -1924,7 +1925,7 @@ export const ITEM_DETAILS: Items = {
     image: tunnelMole,
     description: {
       en: "Gives a 25% increase to stone mines",
-      pt: "Gives a 25% increase to stone mines",
+      "pt-BR": "Gives a 25% increase to stone mines",
       "zh-CN": "Gives a 25% increase to stone mines",
       fr: "Gives a 25% increase to stone mines",
       tr: "Gives a 25% increase to stone mines",
@@ -1934,7 +1935,7 @@ export const ITEM_DETAILS: Items = {
     image: rockyMole,
     description: {
       en: "Gives a 25% increase to iron mines",
-      pt: "Gives a 25% increase to iron mines",
+      "pt-BR": "Gives a 25% increase to iron mines",
       "zh-CN": "Gives a 25% increase to iron mines",
       fr: "Gives a 25% increase to iron mines",
       tr: "Gives a 25% increase to iron mines",
@@ -1944,7 +1945,7 @@ export const ITEM_DETAILS: Items = {
     image: nugget,
     description: {
       en: "Gives a 25% increase to gold mines",
-      pt: "Gives a 25% increase to gold mines",
+      "pt-BR": "Gives a 25% increase to gold mines",
       "zh-CN": "Gives a 25% increase to gold mines",
       fr: "Gives a 25% increase to gold mines",
       tr: "Gives a 25% increase to gold mines",
@@ -1954,7 +1955,7 @@ export const ITEM_DETAILS: Items = {
     image: rockGolem,
     description: {
       en: "Gives a 10% chance to get 3x stone",
-      pt: "Gives a 10% chance to get 3x stone",
+      "pt-BR": "Gives a 10% chance to get 3x stone",
       "zh-CN": "Gives a 10% chance to get 3x stone",
       fr: "Gives a 10% chance to get 3x stone",
       tr: "Gives a 10% chance to get 3x stone",
@@ -1964,7 +1965,7 @@ export const ITEM_DETAILS: Items = {
     image: rooster,
     description: {
       en: "Doubles the chance of dropping a mutant chicken",
-      pt: "Doubles the chance of dropping a mutant chicken",
+      "pt-BR": "Doubles the chance of dropping a mutant chicken",
       "zh-CN": "Doubles the chance of dropping a mutant chicken",
       fr: "Doubles the chance of dropping a mutant chicken",
       tr: "Doubles the chance of dropping a mutant chicken",
@@ -1974,7 +1975,8 @@ export const ITEM_DETAILS: Items = {
     image: wickerMan,
     description: {
       en: "Join hands and make a chain, the shadow of the Wicker Man will rise up again",
-      pt: "Join hands and make a chain, the shadow of the Wicker Man will rise up again",
+      "pt-BR":
+        "Join hands and make a chain, the shadow of the Wicker Man will rise up again",
       "zh-CN":
         "Join hands and make a chain, the shadow of the Wicker Man will rise up again",
       fr: "Join hands and make a chain, the shadow of the Wicker Man will rise up again",
@@ -1985,7 +1987,7 @@ export const ITEM_DETAILS: Items = {
     image: pumpkinSoup,
     description: {
       en: "A creamy soup that goblins love",
-      pt: "A creamy soup that goblins love",
+      "pt-BR": "A creamy soup that goblins love",
       "zh-CN": "A creamy soup that goblins love",
       fr: "A creamy soup that goblins love",
       tr: "A creamy soup that goblins love",
@@ -1995,7 +1997,7 @@ export const ITEM_DETAILS: Items = {
     image: roastedCauliflower,
     description: {
       en: "A Goblin's favourite",
-      pt: "A Goblin's favourite",
+      "pt-BR": "A Goblin's favourite",
       "zh-CN": "A Goblin's favourite",
       fr: "A Goblin's favourite",
       tr: "A Goblin's favourite",
@@ -2005,7 +2007,7 @@ export const ITEM_DETAILS: Items = {
     image: radishPie,
     description: {
       en: "Despised by humans, loved by goblins",
-      pt: "Despised by humans, loved by goblins",
+      "pt-BR": "Despised by humans, loved by goblins",
       "zh-CN": "Despised by humans, loved by goblins",
       fr: "Despised by humans, loved by goblins",
       tr: "Despised by humans, loved by goblins",
@@ -2015,7 +2017,7 @@ export const ITEM_DETAILS: Items = {
     image: beetrootCake,
     description: {
       en: "Beetroot Cake",
-      pt: "Beetroot Cake",
+      "pt-BR": "Beetroot Cake",
       "zh-CN": "Beetroot Cake",
       fr: "Beetroot Cake",
       tr: "Beetroot Cake",
@@ -2025,7 +2027,7 @@ export const ITEM_DETAILS: Items = {
     image: cabbageCake,
     description: {
       en: "Cabbage Cake",
-      pt: "Cabbage Cake",
+      "pt-BR": "Cabbage Cake",
       "zh-CN": "Cabbage Cake",
       fr: "Cabbage Cake",
       tr: "Cabbage Cake",
@@ -2035,7 +2037,7 @@ export const ITEM_DETAILS: Items = {
     image: carrotCake,
     description: {
       en: "Carrot Cake",
-      pt: "Carrot Cake",
+      "pt-BR": "Carrot Cake",
       "zh-CN": "Carrot Cake",
       fr: "Carrot Cake",
       tr: "Carrot Cake",
@@ -2045,7 +2047,7 @@ export const ITEM_DETAILS: Items = {
     image: cauliflowerCake,
     description: {
       en: "Cauliflower Cake",
-      pt: "Cauliflower Cake",
+      "pt-BR": "Cauliflower Cake",
       "zh-CN": "Cauliflower Cake",
       fr: "Cauliflower Cake",
       tr: "Cauliflower Cake",
@@ -2055,7 +2057,7 @@ export const ITEM_DETAILS: Items = {
     image: parsnipCake,
     description: {
       en: "Parsnip Cake",
-      pt: "Parsnip Cake",
+      "pt-BR": "Parsnip Cake",
       "zh-CN": "Parsnip Cake",
       fr: "Parsnip Cake",
       tr: "Parsnip Cake",
@@ -2065,7 +2067,7 @@ export const ITEM_DETAILS: Items = {
     image: potatoCake,
     description: {
       en: "Potato Cake",
-      pt: "Potato Cake",
+      "pt-BR": "Potato Cake",
       "zh-CN": "Potato Cake",
       fr: "Potato Cake",
       tr: "Potato Cake",
@@ -2075,7 +2077,7 @@ export const ITEM_DETAILS: Items = {
     image: pumpkinCake,
     description: {
       en: "Pumpkin Cake",
-      pt: "Pumpkin Cake",
+      "pt-BR": "Pumpkin Cake",
       "zh-CN": "Pumpkin Cake",
       fr: "Pumpkin Cake",
       tr: "Pumpkin Cake",
@@ -2085,7 +2087,7 @@ export const ITEM_DETAILS: Items = {
     image: radishCake,
     description: {
       en: "Radish Cake",
-      pt: "Radish Cake",
+      "pt-BR": "Radish Cake",
       "zh-CN": "Radish Cake",
       fr: "Radish Cake",
       tr: "Radish Cake",
@@ -2095,7 +2097,7 @@ export const ITEM_DETAILS: Items = {
     image: sunflowerCake,
     description: {
       en: "Sunflower Cake",
-      pt: "Sunflower Cake",
+      "pt-BR": "Sunflower Cake",
       "zh-CN": "Sunflower Cake",
       fr: "Sunflower Cake",
       tr: "Sunflower Cake",
@@ -2105,7 +2107,7 @@ export const ITEM_DETAILS: Items = {
     image: wheatCake,
     description: {
       en: "Wheat Cake",
-      pt: "Wheat Cake",
+      "pt-BR": "Wheat Cake",
       "zh-CN": "Wheat Cake",
       fr: "Wheat Cake",
       tr: "Wheat Cake",
@@ -2115,7 +2117,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.badges.greenThumb,
     description: {
       en: "Crops are worth 5% more",
-      pt: "Crops are worth 5% more",
+      "pt-BR": "Crops are worth 5% more",
       "zh-CN": "Crops are worth 5% more",
       fr: "Crops are worth 5% more",
       tr: "Crops are worth 5% more",
@@ -2125,7 +2127,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.badges.barnManager,
     description: {
       en: "Animals yield 10% more goods",
-      pt: "Animals yield 10% more goods",
+      "pt-BR": "Animals yield 10% more goods",
       "zh-CN": "Animals yield 10% more goods",
       fr: "Animals yield 10% more goods",
       tr: "Animals yield 10% more goods",
@@ -2135,7 +2137,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.badges.seedSpecialist,
     description: {
       en: "Crops grow 10% faster",
-      pt: "Crops grow 10% faster",
+      "pt-BR": "Crops grow 10% faster",
       "zh-CN": "Crops grow 10% faster",
       fr: "Crops grow 10% faster",
       tr: "Crops grow 10% faster",
@@ -2145,7 +2147,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.badges.wrangler,
     description: {
       en: "Animals produce goods 10% faster",
-      pt: "Animals produce goods 10% faster",
+      "pt-BR": "Animals produce goods 10% faster",
       "zh-CN": "Animals produce goods 10% faster",
       fr: "Animals produce goods 10% faster",
       tr: "Animals produce goods 10% faster",
@@ -2155,7 +2157,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.badges.lumberjack,
     description: {
       en: "Increase wood drops by 10%",
-      pt: "Increase wood drops by 10%",
+      "pt-BR": "Increase wood drops by 10%",
       "zh-CN": "Increase wood drops by 10%",
       fr: "Increase wood drops by 10%",
       tr: "Increase wood drops by 10%",
@@ -2165,7 +2167,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.badges.prospector,
     description: {
       en: "Increase stone drops by 20%",
-      pt: "Increase stone drops by 20%",
+      "pt-BR": "Increase stone drops by 20%",
       "zh-CN": "Increase stone drops by 20%",
       fr: "Increase stone drops by 20%",
       tr: "Increase stone drops by 20%",
@@ -2175,7 +2177,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.badges.logger,
     description: {
       en: "Axes last 50% longer",
-      pt: "Axes last 50% longer",
+      "pt-BR": "Axes last 50% longer",
       "zh-CN": "Axes last 50% longer",
       fr: "Axes last 50% longer",
       tr: "Axes last 50% longer",
@@ -2185,7 +2187,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.badges.goldRush,
     description: {
       en: "Increase gold drops by 50%",
-      pt: "Increase gold drops by 50%",
+      "pt-BR": "Increase gold drops by 50%",
       "zh-CN": "Increase gold drops by 50%",
       fr: "Increase gold drops by 50%",
       tr: "Increase gold drops by 50%",
@@ -2195,7 +2197,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.badges.artist,
     description: {
       en: "Save 10% on shop & blacksmith tools",
-      pt: "Save 10% on shop & blacksmith tools",
+      "pt-BR": "Save 10% on shop & blacksmith tools",
       "zh-CN": "Save 10% on shop & blacksmith tools",
       fr: "Save 10% on shop & blacksmith tools",
       tr: "Save 10% on shop & blacksmith tools",
@@ -2205,7 +2207,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.badges.coder,
     description: {
       en: "Crops yield 20% more",
-      pt: "Crops yield 20% more",
+      "pt-BR": "Crops yield 20% more",
       "zh-CN": "Crops yield 20% more",
       fr: "Crops yield 20% more",
       tr: "Crops yield 20% more",
@@ -2215,7 +2217,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.badges.liquidityProvider,
     description: {
       en: "50% reduced SFL withdrawal fee",
-      pt: "50% reduced SFL withdrawal fee",
+      "pt-BR": "50% reduced SFL withdrawal fee",
       "zh-CN": "50% reduced SFL withdrawal fee",
       fr: "50% reduced SFL withdrawal fee",
       tr: "50% reduced SFL withdrawal fee",
@@ -2225,7 +2227,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.badges.discord,
     description: {
       en: "Yield 35% more wood",
-      pt: "Yield 35% more wood",
+      "pt-BR": "Yield 35% more wood",
       "zh-CN": "Yield 35% more wood",
       fr: "Yield 35% more wood",
       tr: "Yield 35% more wood",
@@ -2235,7 +2237,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.badges.warrior,
     description: {
       en: "Early access to land expansion",
-      pt: "Early access to land expansion",
+      "pt-BR": "Early access to land expansion",
       "zh-CN": "Early access to land expansion",
       fr: "Early access to land expansion",
       tr: "Early access to land expansion",
@@ -2245,7 +2247,7 @@ export const ITEM_DETAILS: Items = {
     image: ticket,
     description: {
       en: "Free Trades! Woohoo!",
-      pt: "Negociações grátis! Uhu!",
+      "pt-BR": "Negociações grátis! Uhu!",
       "zh-CN": "Free Trades! Woohoo!",
       fr: "Échanges gratuits ! Hourra!",
       tr: "Serbest Ticaret! Vay be!",
@@ -2255,7 +2257,7 @@ export const ITEM_DETAILS: Items = {
     image: betaPass,
     description: {
       en: "Gain early access to features for testing.",
-      pt: "Acesso antecipado a recursos para teste.",
+      "pt-BR": "Acesso antecipado a recursos para teste.",
       "zh-CN": "Gain early access to features for testing.",
       fr: "Accédez en avant-première à des fonctionnalités pour les tester.",
       tr: "Test amaçlı özelliklere erken erişim sağlayın.",
@@ -2265,7 +2267,7 @@ export const ITEM_DETAILS: Items = {
     image: warBond,
     description: {
       en: "A mark of a true warrior",
-      pt: "Uma marca de um verdadeiro guerreiro",
+      "pt-BR": "Uma marca de um verdadeiro guerreiro",
       "zh-CN": "A mark of a true warrior",
       fr: "La marque d'un vrai guerrier",
       tr: "Gerçek bir savaşçının işareti",
@@ -2275,7 +2277,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.icons.expression_confused,
     description: {
       en: "A display of allegiance",
-      pt: "Uma exibição de lealdade",
+      "pt-BR": "Uma exibição de lealdade",
       "zh-CN": "A display of allegiance",
       fr: "Une déclaration d'allégeance",
       tr: "Bir bağlılık gösterisi",
@@ -2285,7 +2287,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.icons.expression_confused,
     description: {
       en: "A display of allegiance",
-      pt: "Uma exibição de lealdade",
+      "pt-BR": "Uma exibição de lealdade",
       "zh-CN": "A display of allegiance",
       fr: "Une déclaration d'allégeance",
       tr: "Bir bağlılık gösterisi",
@@ -2295,7 +2297,7 @@ export const ITEM_DETAILS: Items = {
     image: humanBanner,
     description: {
       en: "A display of allegiance to the Human cause",
-      pt: "Uma exibição de lealdade à causa humana",
+      "pt-BR": "Uma exibição de lealdade à causa humana",
       "zh-CN": "彰显为人类伟业献身的盟约",
       fr: "Un affichage d'allégeance à la cause des Humains.",
       tr: "İnsan davasına bağlılığın bir göstergesi",
@@ -2305,7 +2307,7 @@ export const ITEM_DETAILS: Items = {
     image: goblinBanner,
     description: {
       en: "A display of allegiance to the Goblin cause",
-      pt: "Uma exibição de lealdade à causa dos Goblins",
+      "pt-BR": "Uma exibição de lealdade à causa dos Goblins",
       "zh-CN": "彰显为哥布林伟业献身的盟约",
       fr: "Un affichage d'allégeance à la cause des Gobelins.",
       tr: "Goblin davasına bağlılığın bir göstergesi",
@@ -2315,7 +2317,7 @@ export const ITEM_DETAILS: Items = {
     image: sunflorianFactionBanner,
     description: {
       en: "A display of allegiance to the Sunflorian Faction",
-      pt: "A display of allegiance to the Sunflorian Faction",
+      "pt-BR": "A display of allegiance to the Sunflorian Faction",
       "zh-CN": "彰显对 Sunflorian 派系的忠心",
       fr: "A display of allegiance to the Sunflorian Faction",
       tr: "A display of allegiance to the Sunflorian Faction",
@@ -2325,7 +2327,7 @@ export const ITEM_DETAILS: Items = {
     image: nightshadeFactionBanner,
     description: {
       en: "A display of allegiance to the Nightshade Faction",
-      pt: "A display of allegiance to the Nightshade Faction",
+      "pt-BR": "A display of allegiance to the Nightshade Faction",
       "zh-CN": "彰显对 Nightshade 派系的忠心",
       fr: "A display of allegiance to the Nightshade Faction",
       tr: "A display of allegiance to the Nightshade Faction",
@@ -2335,7 +2337,7 @@ export const ITEM_DETAILS: Items = {
     image: bumpkinFactionBanner,
     description: {
       en: "A display of allegiance to the Bumpkin Faction",
-      pt: "A display of allegiance to the Bumpkin Faction",
+      "pt-BR": "A display of allegiance to the Bumpkin Faction",
       "zh-CN": "彰显对 Bumpkin 派系的忠心",
       fr: "A display of allegiance to the Bumpkin Faction",
       tr: "A display of allegiance to the Bumpkin Faction",
@@ -2345,7 +2347,7 @@ export const ITEM_DETAILS: Items = {
     image: goblinFactionBanner,
     description: {
       en: "A display of allegiance to the Goblin Faction",
-      pt: "A display of allegiance to the Goblin Faction",
+      "pt-BR": "A display of allegiance to the Goblin Faction",
       "zh-CN": "彰显对 Goblin 派系的忠心",
       fr: "A display of allegiance to the Goblin Faction",
       tr: "A display of allegiance to the Goblin Faction",
@@ -2355,7 +2357,7 @@ export const ITEM_DETAILS: Items = {
     image: australiaFlag,
     description: {
       en: "Australian flag",
-      pt: "Australian flag",
+      "pt-BR": "Australian flag",
       "zh-CN": "Australian flag",
       fr: "Australian flag",
       tr: "Australian flag",
@@ -2365,7 +2367,7 @@ export const ITEM_DETAILS: Items = {
     image: belgiumFlag,
     description: {
       en: "Belgian flag",
-      pt: "Belgian flag",
+      "pt-BR": "Belgian flag",
       "zh-CN": "Belgian flag",
       fr: "Belgian flag",
       tr: "Belgian flag",
@@ -2375,7 +2377,7 @@ export const ITEM_DETAILS: Items = {
     image: brazilFlag,
     description: {
       en: "Brazilian flag",
-      pt: "Brazilian flag",
+      "pt-BR": "Brazilian flag",
       "zh-CN": "Brazilian flag",
       fr: "Brazilian flag",
       tr: "Brazilian flag",
@@ -2385,7 +2387,7 @@ export const ITEM_DETAILS: Items = {
     image: chinaFlag,
     description: {
       en: "Chinese flag",
-      pt: "Chinese flag",
+      "pt-BR": "Chinese flag",
       "zh-CN": "Chinese flag",
       fr: "Chinese flag",
       tr: "Chinese flag",
@@ -2395,7 +2397,7 @@ export const ITEM_DETAILS: Items = {
     image: finlandFlag,
     description: {
       en: "Finnish flag",
-      pt: "Finnish flag",
+      "pt-BR": "Finnish flag",
       "zh-CN": "Finnish flag",
       fr: "Finnish flag",
       tr: "Finnish flag",
@@ -2405,7 +2407,7 @@ export const ITEM_DETAILS: Items = {
     image: franceFlag,
     description: {
       en: "French flag",
-      pt: "French flag",
+      "pt-BR": "French flag",
       "zh-CN": "French flag",
       fr: "French flag",
       tr: "French flag",
@@ -2415,7 +2417,7 @@ export const ITEM_DETAILS: Items = {
     image: germanFlag,
     description: {
       en: "German flag",
-      pt: "German flag",
+      "pt-BR": "German flag",
       "zh-CN": "German flag",
       fr: "German flag",
       tr: "German flag",
@@ -2425,7 +2427,7 @@ export const ITEM_DETAILS: Items = {
     image: indonesiaFlag,
     description: {
       en: "Indonesian flag",
-      pt: "Indonesian flag",
+      "pt-BR": "Indonesian flag",
       "zh-CN": "Indonesian flag",
       fr: "Indonesian flag",
       tr: "Indonesian flag",
@@ -2435,7 +2437,7 @@ export const ITEM_DETAILS: Items = {
     image: indiaFlag,
     description: {
       en: "Indian flag",
-      pt: "Indian flag",
+      "pt-BR": "Indian flag",
       "zh-CN": "Indian flag",
       fr: "Indian flag",
       tr: "Indian flag",
@@ -2445,7 +2447,7 @@ export const ITEM_DETAILS: Items = {
     image: iranFlag,
     description: {
       en: "Iranian flag",
-      pt: "Iranian flag",
+      "pt-BR": "Iranian flag",
       "zh-CN": "Iranian flag",
       fr: "Iranian flag",
       tr: "Iranian flag",
@@ -2455,7 +2457,7 @@ export const ITEM_DETAILS: Items = {
     image: italyFlag,
     description: {
       en: "Italian flag",
-      pt: "Italian flag",
+      "pt-BR": "Italian flag",
       "zh-CN": "Italian flag",
       fr: "Italian flag",
       tr: "Italian flag",
@@ -2465,7 +2467,7 @@ export const ITEM_DETAILS: Items = {
     image: japanFlag,
     description: {
       en: "Japanese flag",
-      pt: "Japanese flag",
+      "pt-BR": "Japanese flag",
       "zh-CN": "Japanese flag",
       fr: "Japanese flag",
       tr: "Japanese flag",
@@ -2475,7 +2477,7 @@ export const ITEM_DETAILS: Items = {
     image: moroccoFlag,
     description: {
       en: "Moroccan flag",
-      pt: "Moroccan flag",
+      "pt-BR": "Moroccan flag",
       "zh-CN": "Moroccan flag",
       fr: "Moroccan flag",
       tr: "Moroccan flag",
@@ -2485,7 +2487,7 @@ export const ITEM_DETAILS: Items = {
     image: netherlandsFlag,
     description: {
       en: "Dutch flag",
-      pt: "Dutch flag",
+      "pt-BR": "Dutch flag",
       "zh-CN": "Dutch flag",
       fr: "Dutch flag",
       tr: "Dutch flag",
@@ -2495,7 +2497,7 @@ export const ITEM_DETAILS: Items = {
     image: phillipinesFlag,
     description: {
       en: "Philippine flag",
-      pt: "Philippine flag",
+      "pt-BR": "Philippine flag",
       "zh-CN": "Philippine flag",
       fr: "Philippine flag",
       tr: "Philippine flag",
@@ -2505,7 +2507,7 @@ export const ITEM_DETAILS: Items = {
     image: polandFlag,
     description: {
       en: "Polish flag",
-      pt: "Polish flag",
+      "pt-BR": "Polish flag",
       "zh-CN": "Polish flag",
       fr: "Polish flag",
       tr: "Polish flag",
@@ -2515,7 +2517,7 @@ export const ITEM_DETAILS: Items = {
     image: portugalFlag,
     description: {
       en: "Portuguese flag",
-      pt: "Portuguese flag",
+      "pt-BR": "Portuguese flag",
       "zh-CN": "Portuguese flag",
       fr: "Portuguese flag",
       tr: "Portuguese flag",
@@ -2525,7 +2527,7 @@ export const ITEM_DETAILS: Items = {
     image: russiaFlag,
     description: {
       en: "Russian flag",
-      pt: "Russian flag",
+      "pt-BR": "Russian flag",
       "zh-CN": "Russian flag",
       fr: "Russian flag",
       tr: "Russian flag",
@@ -2535,7 +2537,7 @@ export const ITEM_DETAILS: Items = {
     image: saudiArabiaFlag,
     description: {
       en: "Saudi Arabian flag",
-      pt: "Saudi Arabian flag",
+      "pt-BR": "Saudi Arabian flag",
       "zh-CN": "Saudi Arabian flag",
       fr: "Saudi Arabian flag",
       tr: "Saudi Arabian flag",
@@ -2545,7 +2547,7 @@ export const ITEM_DETAILS: Items = {
     image: southKoreaFlag,
     description: {
       en: "South Korean flag",
-      pt: "South Korean flag",
+      "pt-BR": "South Korean flag",
       "zh-CN": "South Korean flag",
       fr: "South Korean flag",
       tr: "South Korean flag",
@@ -2555,7 +2557,7 @@ export const ITEM_DETAILS: Items = {
     image: spainFlag,
     description: {
       en: "Spanish flag",
-      pt: "Spanish flag",
+      "pt-BR": "Spanish flag",
       "zh-CN": "Spanish flag",
       fr: "Spanish flag",
       tr: "Spanish flag",
@@ -2565,7 +2567,7 @@ export const ITEM_DETAILS: Items = {
     image: sunflowerFlag,
     description: {
       en: "Sunflower flag",
-      pt: "Sunflower flag",
+      "pt-BR": "Sunflower flag",
       "zh-CN": "Sunflower flag",
       fr: "Sunflower flag",
       tr: "Sunflower flag",
@@ -2575,7 +2577,7 @@ export const ITEM_DETAILS: Items = {
     image: thailandFlag,
     description: {
       en: "Thai flag",
-      pt: "Thai flag",
+      "pt-BR": "Thai flag",
       "zh-CN": "Thai flag",
       fr: "Thai flag",
       tr: "Thai flag",
@@ -2585,7 +2587,7 @@ export const ITEM_DETAILS: Items = {
     image: turkeyFlag,
     description: {
       en: "Turkish flag",
-      pt: "Turkish flag",
+      "pt-BR": "Turkish flag",
       "zh-CN": "Turkish flag",
       fr: "Turkish flag",
       tr: "Turkish flag",
@@ -2595,7 +2597,7 @@ export const ITEM_DETAILS: Items = {
     image: ukraineFlag,
     description: {
       en: "Ukrainian flag",
-      pt: "Ukrainian flag",
+      "pt-BR": "Ukrainian flag",
       "zh-CN": "Ukrainian flag",
       fr: "Ukrainian flag",
       tr: "Ukrainian flag",
@@ -2605,7 +2607,7 @@ export const ITEM_DETAILS: Items = {
     image: usaFlag,
     description: {
       en: "American flag",
-      pt: "American flag",
+      "pt-BR": "American flag",
       "zh-CN": "American flag",
       fr: "American flag",
       tr: "American flag",
@@ -2615,7 +2617,7 @@ export const ITEM_DETAILS: Items = {
     image: vietnamFlag,
     description: {
       en: "Vietnamese flag",
-      pt: "Vietnamese flag",
+      "pt-BR": "Vietnamese flag",
       "zh-CN": "Vietnamese flag",
       fr: "Vietnamese flag",
       tr: "Vietnamese flag",
@@ -2625,7 +2627,7 @@ export const ITEM_DETAILS: Items = {
     image: canadian_flag,
     description: {
       en: "Canadian flag",
-      pt: "Canadian flag",
+      "pt-BR": "Canadian flag",
       "zh-CN": "Canadian flag",
       fr: "Canadian flag",
       tr: "Canadian flag",
@@ -2635,7 +2637,7 @@ export const ITEM_DETAILS: Items = {
     image: singaporean_flag,
     description: {
       en: "Singaporean flag",
-      pt: "Singaporean flag",
+      "pt-BR": "Singaporean flag",
       "zh-CN": "Singaporean flag",
       fr: "Singaporean flag",
       tr: "Singaporean flag",
@@ -2645,7 +2647,7 @@ export const ITEM_DETAILS: Items = {
     image: british_flag,
     description: {
       en: "British flag",
-      pt: "British flag",
+      "pt-BR": "British flag",
       "zh-CN": "British flag",
       fr: "British flag",
       tr: "British flag",
@@ -2655,7 +2657,7 @@ export const ITEM_DETAILS: Items = {
     image: sierra_leone_flag,
     description: {
       en: "Sierra Leone flag",
-      pt: "Sierra Leone flag",
+      "pt-BR": "Sierra Leone flag",
       "zh-CN": "Sierra Leone flag",
       fr: "Sierra Leone flag",
       tr: "Sierra Leone flag",
@@ -2665,7 +2667,7 @@ export const ITEM_DETAILS: Items = {
     image: romanian_flag,
     description: {
       en: "Romanian flag",
-      pt: "Romanian flag",
+      "pt-BR": "Romanian flag",
       "zh-CN": "Romanian flag",
       fr: "Romanian flag",
       tr: "Romanian flag",
@@ -2675,7 +2677,7 @@ export const ITEM_DETAILS: Items = {
     image: rainbow_flag,
     description: {
       en: "Rainbow flag",
-      pt: "Rainbow flag",
+      "pt-BR": "Rainbow flag",
       "zh-CN": "Rainbow flag",
       fr: "Rainbow flag",
       tr: "Rainbow flag",
@@ -2685,7 +2687,7 @@ export const ITEM_DETAILS: Items = {
     image: goblin_flag,
     description: {
       en: "Goblin flag",
-      pt: "Goblin flag",
+      "pt-BR": "Goblin flag",
       "zh-CN": "Goblin flag",
       fr: "Goblin flag",
       tr: "Goblin flag",
@@ -2695,7 +2697,7 @@ export const ITEM_DETAILS: Items = {
     image: pirate_flag,
     description: {
       en: "Pirate flag",
-      pt: "Pirate flag",
+      "pt-BR": "Pirate flag",
       "zh-CN": "Pirate flag",
       fr: "Pirate flag",
       tr: "Pirate flag",
@@ -2705,7 +2707,7 @@ export const ITEM_DETAILS: Items = {
     image: algerian_flag,
     description: {
       en: "Algerian flag",
-      pt: "Algerian flag",
+      "pt-BR": "Algerian flag",
       "zh-CN": "Algerian flag",
       fr: "Algerian flag",
       tr: "Algerian flag",
@@ -2715,7 +2717,7 @@ export const ITEM_DETAILS: Items = {
     image: mexican_flag,
     description: {
       en: "Mexican flag",
-      pt: "Mexican flag",
+      "pt-BR": "Mexican flag",
       "zh-CN": "Mexican flag",
       fr: "Mexican flag",
       tr: "Mexican flag",
@@ -2725,7 +2727,7 @@ export const ITEM_DETAILS: Items = {
     image: dominican_republic_flag,
     description: {
       en: "Dominican Republic flag",
-      pt: "Dominican Republic flag",
+      "pt-BR": "Dominican Republic flag",
       "zh-CN": "Dominican Republic flag",
       fr: "Dominican Republic flag",
       tr: "Dominican Republic flag",
@@ -2735,7 +2737,7 @@ export const ITEM_DETAILS: Items = {
     image: argentinian_flag,
     description: {
       en: "Argentinian flag",
-      pt: "Argentinian flag",
+      "pt-BR": "Argentinian flag",
       "zh-CN": "Argentinian flag",
       fr: "Argentinian flag",
       tr: "Argentinian flag",
@@ -2745,7 +2747,7 @@ export const ITEM_DETAILS: Items = {
     image: lithuanian_flag,
     description: {
       en: "Lithuanian flag",
-      pt: "Lithuanian flag",
+      "pt-BR": "Lithuanian flag",
       "zh-CN": "Lithuanian flag",
       fr: "Lithuanian flag",
       tr: "Lithuanian flag",
@@ -2755,7 +2757,7 @@ export const ITEM_DETAILS: Items = {
     image: malaysian_flag,
     description: {
       en: "Malaysian flag",
-      pt: "Malaysian flag",
+      "pt-BR": "Malaysian flag",
       "zh-CN": "Malaysian flag",
       fr: "Malaysian flag",
       tr: "Malaysian flag",
@@ -2765,7 +2767,7 @@ export const ITEM_DETAILS: Items = {
     image: colombian_flag,
     description: {
       en: "Colombian flag",
-      pt: "Colombian flag",
+      "pt-BR": "Colombian flag",
       "zh-CN": "Colombian flag",
       fr: "Colombian flag",
       tr: "Colombian flag",
@@ -2775,7 +2777,7 @@ export const ITEM_DETAILS: Items = {
     image: easterBasket,
     description: {
       en: "Easter Event",
-      pt: "Evento de Páscoa",
+      "pt-BR": "Evento de Páscoa",
       "zh-CN": "复活节活动",
       fr: "Événement de Pâques",
       tr: "Paskalya Etkinliği",
@@ -2785,7 +2787,7 @@ export const ITEM_DETAILS: Items = {
     image: easterBunny,
     description: {
       en: "Earn 20% more Carrots",
-      pt: "Ganhe 20% mais cenouras",
+      "pt-BR": "Ganhe 20% mais cenouras",
       "zh-CN": "增加 20 % 胡萝卜产出",
       fr: "Gagnez 20 % de carottes supplémentaires.",
       tr: "%20 daha fazla Havuç kazanın",
@@ -2795,7 +2797,7 @@ export const ITEM_DETAILS: Items = {
     image: pabloBunny,
     description: {
       en: "A magical Easter bunny",
-      pt: "Um coelho mágico de Páscoa",
+      "pt-BR": "Um coelho mágico de Páscoa",
       "zh-CN": "一只神奇的复活节兔子",
       fr: "Un lapin de Pâques magique",
       tr: "Büyülü bir paskalya tavşanı",
@@ -2805,7 +2807,7 @@ export const ITEM_DETAILS: Items = {
     image: blueEgg,
     description: {
       en: "A blue easter egg",
-      pt: "Um ovo de Páscoa azul",
+      "pt-BR": "Um ovo de Páscoa azul",
       "zh-CN": "一个蓝色的复活节彩蛋",
       fr: "Un œuf de Pâques bleu",
       tr: "Mavi bir Paskalya yumurtası",
@@ -2815,7 +2817,7 @@ export const ITEM_DETAILS: Items = {
     image: orangeEgg,
     description: {
       en: "An orange easter egg",
-      pt: "Um ovo de Páscoa laranja",
+      "pt-BR": "Um ovo de Páscoa laranja",
       "zh-CN": "一个橙色的复活节彩蛋",
       fr: "Un œuf de Pâques orange",
       tr: "Turuncu bir Paskalya yumurtası",
@@ -2825,7 +2827,7 @@ export const ITEM_DETAILS: Items = {
     image: greenEgg,
     description: {
       en: "A green easter egg",
-      pt: "Um ovo de Páscoa verde",
+      "pt-BR": "Um ovo de Páscoa verde",
       "zh-CN": "一个绿色的复活节彩蛋",
       fr: "Un œuf de Pâques vert",
       tr: "Yeşil bir Paskalya yumurtası",
@@ -2835,7 +2837,7 @@ export const ITEM_DETAILS: Items = {
     image: yellowEgg,
     description: {
       en: "A yellow easter egg",
-      pt: "Um ovo de Páscoa amarelo",
+      "pt-BR": "Um ovo de Páscoa amarelo",
       "zh-CN": "一个黄色的复活节彩蛋",
       fr: "Un œuf de Pâques jaune",
       tr: "Sarı bir Paskalya yumurtası",
@@ -2845,7 +2847,7 @@ export const ITEM_DETAILS: Items = {
     image: redEgg,
     description: {
       en: "A red easter egg",
-      pt: "Um ovo de Páscoa vermelho",
+      "pt-BR": "Um ovo de Páscoa vermelho",
       "zh-CN": "一个红色的复活节彩蛋",
       fr: "Un œuf de Pâques rouge",
       tr: "Kırmızı bir Paskalya yumurtası",
@@ -2855,7 +2857,7 @@ export const ITEM_DETAILS: Items = {
     image: pinkEgg,
     description: {
       en: "A pink easter egg",
-      pt: "Um ovo de Páscoa rosa",
+      "pt-BR": "Um ovo de Páscoa rosa",
       "zh-CN": "一个粉色的复活节彩蛋",
       fr: "Un œuf de Pâques rose",
       tr: "Pembe bir Paskalya yumurtası",
@@ -2865,7 +2867,7 @@ export const ITEM_DETAILS: Items = {
     image: purpleEgg,
     description: {
       en: "A purple easter egg",
-      pt: "Um ovo de Páscoa roxo",
+      "pt-BR": "Um ovo de Páscoa roxo",
       "zh-CN": "一个紫色的复活节彩蛋",
       fr: "Un œuf de Pâques violet",
       tr: "Mor bir Paskalya yumurtası",
@@ -2875,7 +2877,7 @@ export const ITEM_DETAILS: Items = {
     image: momCoreEngine,
     description: {
       en: "The power of the sunflower",
-      pt: "The power of the sunflower",
+      "pt-BR": "The power of the sunflower",
       "zh-CN": "The power of the sunflower",
       fr: "The power of the sunflower",
       tr: "The power of the sunflower",
@@ -2885,7 +2887,7 @@ export const ITEM_DETAILS: Items = {
     image: observatory,
     description: {
       en: "Explore the stars and improve scientific development",
-      pt: "Explore the stars and improve scientific development",
+      "pt-BR": "Explore the stars and improve scientific development",
       "zh-CN": "Explore the stars and improve scientific development",
       fr: "Explore the stars and improve scientific development",
       tr: "Explore the stars and improve scientific development",
@@ -2895,7 +2897,7 @@ export const ITEM_DETAILS: Items = {
     image: goblinKey,
     description: {
       en: "The Goblin Key",
-      pt: "A Chave do Goblin",
+      "pt-BR": "A Chave do Goblin",
       "zh-CN": "The Goblin Key",
       fr: "La Clé des Gobelins",
       tr: "Goblin Anahtarı",
@@ -2905,7 +2907,7 @@ export const ITEM_DETAILS: Items = {
     image: sunflowerKey,
     description: {
       en: "The Sunflower Key",
-      pt: "A Chave do Girassol",
+      "pt-BR": "A Chave do Girassol",
       "zh-CN": "The Sunflower Key",
       fr: "La Clé du Tournesol",
       tr: "Ayçiçeği Anahtarı",
@@ -2915,7 +2917,7 @@ export const ITEM_DETAILS: Items = {
     image: ancientGoblinSword,
     description: {
       en: "An Ancient Goblin Sword",
-      pt: "Uma Antiga Espada de Goblin",
+      "pt-BR": "Uma Antiga Espada de Goblin",
       "zh-CN": "An Ancient Goblin Sword",
       fr: "Une Ancienne Épée des Gobelins",
       tr: "Kadim Bir Goblin Kılıcı",
@@ -2925,7 +2927,7 @@ export const ITEM_DETAILS: Items = {
     image: ancientHumanWarhammer,
     description: {
       en: "An Ancient Human Warhammer",
-      pt: "Um Antigo Martelo de Guerra Humano",
+      "pt-BR": "Um Antigo Martelo de Guerra Humano",
       "zh-CN": "An Ancient Human Warhammer",
       fr: "Un Ancien Marteau de Guerre Humain",
       tr: "Kadim Bir İnsan Savaş Çekici",
@@ -2935,7 +2937,7 @@ export const ITEM_DETAILS: Items = {
     image: speedChicken,
     description: {
       en: "Produces eggs 10% faster",
-      pt: "Produces eggs 10% faster",
+      "pt-BR": "Produces eggs 10% faster",
       "zh-CN": "Produces eggs 10% faster",
       fr: "Produces eggs 10% faster",
       tr: "Produces eggs 10% faster",
@@ -2945,7 +2947,7 @@ export const ITEM_DETAILS: Items = {
     image: fatChicken,
     description: {
       en: "10% less wheat needed to feed a chicken",
-      pt: "10% less wheat needed to feed a chicken",
+      "pt-BR": "10% less wheat needed to feed a chicken",
       "zh-CN": "10% less wheat needed to feed a chicken",
       fr: "10% less wheat needed to feed a chicken",
       tr: "10% less wheat needed to feed a chicken",
@@ -2955,7 +2957,7 @@ export const ITEM_DETAILS: Items = {
     image: richChicken,
     description: {
       en: "Yields 10% more eggs",
-      pt: "Yields 10% more eggs",
+      "pt-BR": "Yields 10% more eggs",
       "zh-CN": "Yields 10% more eggs",
       fr: "Yields 10% more eggs",
       tr: "Yields 10% more eggs",
@@ -2965,7 +2967,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.icons.expression_confused,
     description: {
       en: "Gives 20% extra SFL selling cakes",
-      pt: "Dá 20% a mais na venda de bolos SFL",
+      "pt-BR": "Dá 20% a mais na venda de bolos SFL",
       "zh-CN": "给予额外 20 % 蛋糕销售 SFL 利润",
       fr: "Donne 20 % de revenus SFL supplémentaires en vendant des gâteaux.",
       tr: "Pasta satışında %20 ekstra SFL verir",
@@ -2975,7 +2977,7 @@ export const ITEM_DETAILS: Items = {
     image: chefHat,
     description: {
       en: "La couronne d'un boulanger légendaire !",
-      pt: "A coroa de um padeiro lendário!",
+      "pt-BR": "A coroa de um padeiro lendário!",
       "zh-CN": "传奇面包师的桂冠！",
       fr: "La couronne d'un boulanger légendaire!",
       tr: "Efsanevi fırıncının tacı!",
@@ -2985,7 +2987,7 @@ export const ITEM_DETAILS: Items = {
     image: rapidGrowth,
     description: {
       en: "Apply to a crop to grow twice as fast",
-      pt: "Apply to a crop to grow twice as fast",
+      "pt-BR": "Apply to a crop to grow twice as fast",
       "zh-CN": "Apply to a crop to grow twice as fast",
       fr: "Apply to a crop to grow twice as fast",
       tr: "Apply to a crop to grow twice as fast",
@@ -2995,7 +2997,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.building.firePit,
     description: {
       en: "Roast your Sunflowers, feed and level up your Bumpkin",
-      pt: "Faça comidas, alimente e evolua seu Bumpkin",
+      "pt-BR": "Faça comidas, alimente e evolua seu Bumpkin",
       "zh-CN": "火堆。烤你的向日葵，喂食并升级你的乡包佬",
       fr: "Faites griller vos Sunflowers, nourrissez et améliorez votre Bumpkin",
       tr: "Ayçiçeği kavurun, Bumpkininizi besleyin ve seviye atlatın.",
@@ -3005,7 +3007,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.building.market,
     description: {
       en: "Buy and sell at the Farmer's Market",
-      pt: "Compre e venda no Mercado dos Agricultores",
+      "pt-BR": "Compre e venda no Mercado dos Agricultores",
       "zh-CN": "市场。在农贸市场购买和出售",
       fr: "Achetez et vendez au marché des fermiers",
       tr: "Çiftçi pazarında alım ve satım yapın.",
@@ -3015,7 +3017,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.building.townCenter,
     description: {
       en: "Gather around the town center for the latest news",
-      pt: "Reúna-se ao redor do centro da cidade para as últimas notícias",
+      "pt-BR": "Reúna-se ao redor do centro da cidade para as últimas notícias",
       "zh-CN": "镇中心。聚集到 Town Center 获取最新消息",
       fr: "Rassemblez-vous autour du centre-ville pour les dernières nouvelles",
       tr: "En son haberler için şehir merkezinde toplanın.",
@@ -3025,7 +3027,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.building.house,
     description: {
       en: "A place to rest your head",
-      pt: "Um lugar para descansar a cabeça",
+      "pt-BR": "Um lugar para descansar a cabeça",
       "zh-CN": "房屋。一个让你休息的地方",
       fr: "Un endroit où reposer votre tête",
       tr: "Kafanı dinleyebileceğin bir yer.",
@@ -3035,7 +3037,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.building.manor,
     description: {
       en: "A place to rest your head",
-      pt: "Um lugar para descansar a cabeça",
+      "pt-BR": "Um lugar para descansar a cabeça",
       "zh-CN": "房屋。一个让你休息的地方",
       fr: "Un endroit où reposer votre tête",
       tr: "Kafanı dinleyebileceğin bir yer.",
@@ -3045,7 +3047,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.building.cropMachine,
     description: {
       en: "Automate your crop production",
-      pt: "Automatize suas plantações",
+      "pt-BR": "Automatize suas plantações",
       "zh-CN": "基础庄稼生产自动化（消耗石油运转）",
       fr: "Automate your crop production",
       tr: "Automate your crop production",
@@ -3055,7 +3057,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.building.kitchen,
     description: {
       en: "Step up your cooking game",
-      pt: "Melhore sua habilidade culinária",
+      "pt-BR": "Melhore sua habilidade culinária",
       "zh-CN": "厨房。升级您的烹饪游戏",
       fr: "Améliorez vos compétences en cuisine",
       tr: "Aşçılığınızı geliştirin",
@@ -3065,7 +3067,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.building.bakery,
     description: {
       en: "Bake your favourite cakes",
-      pt: "Asse seus bolos favoritos",
+      "pt-BR": "Asse seus bolos favoritos",
       "zh-CN": "面包房。烤你最喜欢的蛋糕",
       fr: "Préparez vos gâteaux préférés",
       tr: "Favori pastalarınızı pişirin",
@@ -3075,7 +3077,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.building.workbench,
     description: {
       en: "Craft tools to collect resources",
-      pt: "Faça ferramentas para coletar recursos",
+      "pt-BR": "Faça ferramentas para coletar recursos",
       "zh-CN": "工作台。锻造收集资源的工具",
       fr: "Fabriquez des outils pour collecter des ressources",
       tr: "Kaynak toplamak için alet üretin",
@@ -3085,7 +3087,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.building.well,
     description: {
       en: "Crops need water!",
-      pt: "As plantações precisam de água!",
+      "pt-BR": "As plantações precisam de água!",
       "zh-CN": "水井。庄稼需要水！",
       fr: "Les cultures ont besoin d'eau!",
       tr: "Mahsullerin suya ihtiyacı var!",
@@ -3095,7 +3097,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.building.tent,
     description: {
       en: "(Discontinued)",
-      pt: "(Descontinuado)",
+      "pt-BR": "(Descontinuado)",
       "zh-CN": "帐篷。（已绝版）",
       fr: "(Arrêté)",
       tr: "(Artık üretilmiyor)",
@@ -3105,7 +3107,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.building.chickenHouse,
     description: {
       en: "Grow your chicken empire",
-      pt: "Expanda seu império de galinhas",
+      "pt-BR": "Expanda seu império de galinhas",
       "zh-CN": "鸡窝。发展您的养鸡帝国。",
       fr: "Développez votre empire de poulets",
       tr: "Tavuk imparatorluğunuzu kurun",
@@ -3115,7 +3117,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.building.deli,
     description: {
       en: "Satisfy your appetite with these delicatessen foods!",
-      pt: "Satisfaça seu apetite com esses alimentos delicatessen!",
+      "pt-BR": "Satisfaça seu apetite com esses alimentos delicatessen!",
       "zh-CN": "熟食店。这些熟食满足你的口腹之欲！",
       fr: "Satisfaites votre appétit avec ces mets délicats!",
       tr: "Mezelerle iştahınızı tatmin edin!",
@@ -3125,7 +3127,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.building.smoothieShack,
     description: {
       en: "Freshly squeezed!",
-      pt: "Produz sucos e batidas espremidos na hora!",
+      "pt-BR": "Produz sucos e batidas espremidos na hora!",
       "zh-CN": "沙冰屋。鲜榨！",
       fr: "Pressé à froid!",
       tr: "Taze sıkılmış!",
@@ -3135,7 +3137,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.building.toolshed,
     description: {
       en: "Increase your workbench tool stock by 50%",
-      pt: "Aumente seu estoque de ferramentas em 50%",
+      "pt-BR": "Aumente seu estoque de ferramentas em 50%",
       "zh-CN": "工具棚。Workbench 工具库存增加 50 %",
       fr: "Augmentez votre stock d'outils d'établi de 50 %",
       tr: "Çalışma tezgahı aletlerinizi %50 arttırın",
@@ -3145,7 +3147,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.building.warehouse,
     description: {
       en: "Increase your seed stocks by 20%",
-      pt: "Aumente seu estoque de sementes em 20%",
+      "pt-BR": "Aumente seu estoque de sementes em 20%",
       "zh-CN": "仓库。种子库存增加 20 %",
       fr: "Augmentez vos stocks de graines de 20 %",
       tr: "Tohum stoğunuzu %20 arttırın",
@@ -3155,7 +3157,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.icons.expression_confused,
     description: {
       en: "10% increased Sunflower yield.",
-      pt: "Aumenta o rendimento do Girassol em 10%.",
+      "pt-BR": "Aumenta o rendimento do Girassol em 10%.",
       "zh-CN": "增加 10 % 向日葵产出",
       fr: "Augmentation de 10 % du rendement en Sunflowers.",
       tr: "Ayçiçeği veriminde %10 artış.",
@@ -3165,7 +3167,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.icons.expression_confused,
     description: {
       en: "Carrots grow 20% faster.",
-      pt: "As cenouras crescem 20% mais rápido.",
+      "pt-BR": "As cenouras crescem 20% mais rápido.",
       "zh-CN": "增加 20 % 胡萝卜生长速度",
       fr: "Les carottes poussent 20 % plus vite.",
       tr: "Havuçlar %20 daha hızlı büyür.",
@@ -3175,7 +3177,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.icons.expression_confused,
     description: {
       en: "20% increased Beetroot yield.",
-      pt: "Aumento de 20% na produção de Beterraba.",
+      "pt-BR": "Aumento de 20% na produção de Beterraba.",
       "zh-CN": "增加 20 % 甜菜根产出",
       fr: "Augmentation de 20 % du rendement en betteraves.",
       tr: "Pancar veriminde %20 artış.",
@@ -3185,7 +3187,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.icons.expression_confused,
     description: {
       en: "Chance for 10x crop yield.",
-      pt: "Chance de colheita 10 vezes maior.",
+      "pt-BR": "Chance de colheita 10 vezes maior.",
       "zh-CN": "有几率收获 10 倍庄稼产出",
       fr: "Chance d'obtenir un rendement de culture 10 fois supérieur.",
       tr: "10x mahsul verimi şansı.",
@@ -3195,7 +3197,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.icons.expression_confused,
     description: {
       en: "A mark of a true warrior.",
-      pt: "Marca de um verdadeiro guerreiro.",
+      "pt-BR": "Marca de um verdadeiro guerreiro.",
       "zh-CN": "真正战士的标志",
       fr: "Marque d'un véritable guerrier.",
       tr: "Gerçek bir savaşçının işareti.",
@@ -3205,7 +3207,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.icons.expression_confused,
     description: {
       en: "Protect your thighs.",
-      pt: "Proteja suas coxas.",
+      "pt-BR": "Proteja suas coxas.",
       "zh-CN": "保驾你的腿部",
       fr: "Protégez vos cuisses.",
       tr: "Kalçalarınızı koruyun.",
@@ -3215,7 +3217,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.icons.expression_confused,
     description: {
       en: "Immune to arrows.",
-      pt: "Imune a flechas.",
+      "pt-BR": "Imune a flechas.",
       "zh-CN": "免疫箭矢",
       fr: "Immunité aux flèches.",
       tr: "Oklara karşı bağışıklı.",
@@ -3225,7 +3227,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.icons.expression_confused,
     description: {
       en: "A hero of Sunflower Land. Free Sunflower Seeds!",
-      pt: "Um herói da Terra do Girassol. Sementes de girassol grátis!",
+      "pt-BR": "Um herói da Terra do Girassol. Sementes de girassol grátis!",
       "zh-CN": "Sunflower Land 的英雄。免费向日葵种子！",
       fr: "Un héros de Sunflower Land. Des graines de tournesol gratuites!",
       tr: "Ayçiçeği Diyarı'nın bir kahramanı. Ücretsiz Ayçiçeği Tohumları!",
@@ -3235,7 +3237,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.icons.expression_confused,
     description: {
       en: "A rare hat for your Bumpkin.",
-      pt: "Um chapéu raro para o seu Bumpkin.",
+      "pt-BR": "Um chapéu raro para o seu Bumpkin.",
       "zh-CN": "乡包佬的稀有帽子",
       fr: "Un chapeau rare pour votre Bumpkin.",
       tr: "Bumpkin'iniz için nadir bir şapka.",
@@ -3245,7 +3247,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.decorations.warSkull,
     description: {
       en: "Decorate the land with the bones of your enemies.",
-      pt: "Decore a terra com os ossos de seus inimigos.",
+      "pt-BR": "Decore a terra com os ossos de seus inimigos.",
       "zh-CN": "用敌人的骨颅装点您的地盘",
       fr: "Décorez l'île avec les os de vos ennemis.",
       tr: "Ülkeyi düşmanlarınızın kemikleriyle süsleyin.",
@@ -3255,7 +3257,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.decorations.warTombstone,
     description: {
       en: "R.I.P",
-      pt: "R.I.P",
+      "pt-BR": "R.I.P",
       "zh-CN": "愿您安息",
       fr: "R.I.P",
       tr: "HUZUR İÇİNDE YATSIN",
@@ -3265,7 +3267,7 @@ export const ITEM_DETAILS: Items = {
     image: undeadChicken,
     description: {
       en: "An unfortunate casualty of the war. 10% increased egg yield.",
-      pt: "Uma casualidade da guerra. 10% de aumento na produção de ovos.",
+      "pt-BR": "Uma casualidade da guerra. 10% de aumento na produção de ovos.",
       "zh-CN": "战争的不幸亡者。提升 10 % 鸡蛋产量。",
       fr: "Une victime malheureuse de la guerre. 10% de rendement en œufs supplémentaire.",
       tr: "Savaşın talihsiz bir kaybı. Yumurta veriminde 10% artış.",
@@ -3275,7 +3277,7 @@ export const ITEM_DETAILS: Items = {
     image: boiledEgg,
     description: {
       en: "Boiled Eggs are great for breakfast",
-      pt: "Ovos cozidos são ótimos para o café da manhã",
+      "pt-BR": "Ovos cozidos são ótimos para o café da manhã",
       "zh-CN": "煮鸡蛋非常适合早餐。",
       fr: "Les œufs durs sont parfaits pour le petit-déjeuner",
       tr: "Haşlanmış Yumurta kahvaltıda harikadır",
@@ -3285,7 +3287,7 @@ export const ITEM_DETAILS: Items = {
     image: bumpkinBroth,
     description: {
       en: "A nutritious broth to replenish your Bumpkin",
-      pt: "Um caldo nutritivo para repor seu Bumpkin",
+      "pt-BR": "Um caldo nutritivo para repor seu Bumpkin",
       "zh-CN": "营养丰富的肉汤，可以补充你的乡巴佬。",
       fr: "Un bouillon nutritif pour recharger votre Bumpkin",
       tr: "Bumpkin'inizi yenilemek için besleyici bir et suyu",
@@ -3295,7 +3297,7 @@ export const ITEM_DETAILS: Items = {
     image: mashedPotato,
     description: {
       en: "My life is potato.",
-      pt: "Minha vida é batata.",
+      "pt-BR": "Minha vida é batata.",
       "zh-CN": "我的生活就是土豆。",
       fr: "Ma vie, c'est la potato.",
       tr: "Benim hayatım patates.",
@@ -3305,7 +3307,7 @@ export const ITEM_DETAILS: Items = {
     image: bumpkinSalad,
     description: {
       en: "Gotta keep your Bumpkin healthy!",
-      pt: "Você precisa manter seu Bumpkin saudável!",
+      "pt-BR": "Você precisa manter seu Bumpkin saudável!",
       "zh-CN": "Gotta keep your Bumpkin healthy!",
       fr: "Il faut garder votre Bumpkin en bonne santé!",
       tr: "Bumpkin'inizi sağlıklı tutmalısınız!",
@@ -3315,7 +3317,7 @@ export const ITEM_DETAILS: Items = {
     image: goblinsTreat,
     description: {
       en: "Goblins go crazy for this stuff!",
-      pt: "Goblins ficam loucos por isso!",
+      "pt-BR": "Goblins ficam loucos por isso!",
       "zh-CN": "Goblins go crazy for this stuff!",
       fr: "Les gobelins raffolent de ce truc!",
       tr: "Goblinler bu şeylere deli oluyor!",
@@ -3325,7 +3327,7 @@ export const ITEM_DETAILS: Items = {
     image: cauliflowerBurger,
     description: {
       en: "Calling all cauliflower lovers!",
-      pt: "Chamando todos os amantes de couve-flor!",
+      "pt-BR": "Chamando todos os amantes de couve-flor!",
       "zh-CN": "Calling all cauliflower lovers!",
       fr: "Appel à tous les amateurs de Cauliflower!",
       tr: "Tüm karnabahar severleri çağırıyoruz!",
@@ -3335,7 +3337,7 @@ export const ITEM_DETAILS: Items = {
     image: clubSandwich,
     description: {
       en: "Filled with Carrots and Roasted Sunflower Seeds",
-      pt: "Recheado com cenouras e sementes de girassol torradas",
+      "pt-BR": "Recheado com cenouras e sementes de girassol torradas",
       "zh-CN": "Filled with Carrots and Roasted Sunflower Seeds",
       fr: "Rempli de carottes et de graines de tournesol rôties",
       tr: "Havuç ve Kavrulmuş Ay Çekirdeği Dolgulu",
@@ -3345,7 +3347,7 @@ export const ITEM_DETAILS: Items = {
     image: roastVeggies,
     description: {
       en: "Even Goblins need to eat their veggies!",
-      pt: "Até os Goblins precisam comer seus vegetais!",
+      "pt-BR": "Até os Goblins precisam comer seus vegetais!",
       "zh-CN": "Even Goblins need to eat their veggies!",
       fr: "Même les gobelins ont besoin de manger leurs légumes!",
       tr: "Goblinlerin bile sebzelerini yemesi gerekiyor!",
@@ -3355,7 +3357,7 @@ export const ITEM_DETAILS: Items = {
     image: pancakes,
     description: {
       en: "A great start to a Bumpkins day",
-      pt: "Um ótimo começo para o dia de um Bumpkin",
+      "pt-BR": "Um ótimo começo para o dia de um Bumpkin",
       "zh-CN": "A great start to a Bumpkins day",
       fr: "Un excellent début de journée pour un Bumpkin",
       tr: "Bumpkins gününe harika bir başlangıç",
@@ -3365,7 +3367,7 @@ export const ITEM_DETAILS: Items = {
     image: fermentedCarrots,
     description: {
       en: "Got a surplus of carrots?",
-      pt: "Tem um excedente de cenouras?",
+      "pt-BR": "Tem um excedente de cenouras?",
       "zh-CN": "有多剩余的胡萝卜吗？",
       fr: "Vous avez un surplus de carottes?",
       tr: "Fazla havuç var mı?",
@@ -3375,7 +3377,7 @@ export const ITEM_DETAILS: Items = {
     image: sauerkraut,
     description: {
       en: "No more boring Cabbage!",
-      pt: "Não mais repolho chato!",
+      "pt-BR": "Não mais repolho chato!",
       "zh-CN": "再也不是无聊的卷心菜了！",
       fr: "Fini le Cabbage ennuyeux!",
       tr: "Artık sıkıcı Lahana yok!",
@@ -3385,7 +3387,7 @@ export const ITEM_DETAILS: Items = {
     image: reindeerCarrot,
     description: {
       en: "Rudolph can't stop eating them!",
-      pt: "Rudolph não consegue parar de comê-los!",
+      "pt-BR": "Rudolph não consegue parar de comê-los!",
       "zh-CN": "鲁道夫无法停止吃它们！",
       fr: "Rudolph ne peut pas s'arrêter de les manger!",
       tr: "Rudolph onları yemeyi bırakamıyor!",
@@ -3395,7 +3397,7 @@ export const ITEM_DETAILS: Items = {
     image: bumpkinGanoush,
     description: {
       en: "Zesty roasted eggplant spread.",
-      pt: "Espalhe berinjela assada com zeste.",
+      "pt-BR": "Espalhe berinjela assada com zeste.",
       "zh-CN": "Zesty roasted eggplant spread.",
       fr: "Sauce d'aubergine rôtie relevée.",
       tr: "Lezzetli közlenmiş patlıcan yayıldı.",
@@ -3405,7 +3407,7 @@ export const ITEM_DETAILS: Items = {
     image: eggplantCake,
     description: {
       en: "Sweet farm-fresh dessert surprise.",
-      pt: "Surpresa de sobremesa fresca da fazenda.",
+      "pt-BR": "Surpresa de sobremesa fresca da fazenda.",
       "zh-CN": "甜美的新鲜甜点惊喜。",
       fr: "Douceur sucrée tout droit de la ferme.",
       tr: "Taze tatlı sürpriz.",
@@ -3415,7 +3417,7 @@ export const ITEM_DETAILS: Items = {
     image: cornBread,
     description: {
       en: "Hearty golden farm-fresh bread.",
-      pt: "Pão de fazenda dourado e saudável.",
+      "pt-BR": "Pão de fazenda dourado e saudável.",
       "zh-CN": "丰盛的金色农家面包。",
       fr: "Un pain rustique doré et frais de la ferme.",
       tr: "Doyurucu altın çiftlik taze ekmeği.",
@@ -3425,7 +3427,7 @@ export const ITEM_DETAILS: Items = {
     image: popcorn,
     description: {
       en: "Classic homegrown crunchy snack.",
-      pt: "Lanche crocante caseiro clássico.",
+      "pt-BR": "Lanche crocante caseiro clássico.",
       "zh-CN": "经典的自制脆脆小吃。",
       fr: "Une collation croustillante classique cultivée à la maison.",
       tr: "Klasik evde yetiştirilen çıtır atıştırmalık.",
@@ -3435,7 +3437,8 @@ export const ITEM_DETAILS: Items = {
     image: chowder,
     description: {
       en: "Sailor's delight in a bowl! Dive in, there's treasure inside!",
-      pt: "Delícia de marinheiro em uma tigela! Mergulhe, há tesouro dentro!",
+      "pt-BR":
+        "Delícia de marinheiro em uma tigela! Mergulhe, há tesouro dentro!",
       "zh-CN": "Sailor's delight in a bowl! Dive in, there's treasure inside!",
       fr: "Le délice d'un marin dans un bol ! Plongez-y, il y a un trésor à l'intérieur!",
       tr: "Denizcinin kasedeki lokumu! Dalın, içeride hazine var!",
@@ -3445,7 +3448,8 @@ export const ITEM_DETAILS: Items = {
     image: gumbo,
     description: {
       en: "A pot full of magic! Every spoonful's a Mardi Gras parade!",
-      pt: "Uma panela cheia de magia! Cada colherada é um desfile de Mardi Gras!",
+      "pt-BR":
+        "Uma panela cheia de magia! Cada colherada é um desfile de Mardi Gras!",
       "zh-CN": "一锅充满魔力！ 每一勺都是狂欢节游行！",
       fr: "Une marmite pleine de magie ! Chaque cuillerée est une parade de Mardi Gras!",
       tr: "Büyü dolu bir kap! Her kaşık dolusu bir Mardi Gras geçit törenidir!",
@@ -3455,7 +3459,8 @@ export const ITEM_DETAILS: Items = {
     image: fermentedFish,
     description: {
       en: "Daring delicacy! Unleash the Viking within with every bite!",
-      pt: "Delicadeza audaciosa! Liberte o Viking que há dentro com cada mordida!",
+      "pt-BR":
+        "Delicadeza audaciosa! Liberte o Viking que há dentro com cada mordida!",
       "zh-CN": "大胆的美食！每一口都能释放内心的维京战士！",
       fr: "Délice audacieux ! Libérez le Viking qui est en vous à chaque bouchée!",
       tr: "Cesur bir lezzet! Her lokmada içinizdeki Viking'i serbest bırakın!",
@@ -3465,7 +3470,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.achievement.explorer,
     description: {
       en: "Expand your Land",
-      pt: "Expand your Land",
+      "pt-BR": "Expand your Land",
       "zh-CN": "Expand your Land",
       fr: "Expand your Land",
       tr: "Expand your Land",
@@ -3475,7 +3480,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.achievement.busyBumpkin,
     description: {
       en: "Reach level 2",
-      pt: "Reach level 2",
+      "pt-BR": "Reach level 2",
       "zh-CN": "Reach level 2",
       fr: "Reach level 2",
       tr: "Reach level 2",
@@ -3485,7 +3490,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.achievement.brilliantBumpkin,
     description: {
       en: "Reach level 20",
-      pt: "Reach level 20",
+      "pt-BR": "Reach level 20",
       "zh-CN": "Reach level 20",
       fr: "Reach level 20",
       tr: "Reach level 20",
@@ -3495,7 +3500,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.achievement.sunSeeker,
     description: {
       en: "Harvest Sunflower 100 times",
-      pt: "Harvest Sunflower 100 times",
+      "pt-BR": "Harvest Sunflower 100 times",
       "zh-CN": "Harvest Sunflower 100 times",
       fr: "Harvest Sunflower 100 times",
       tr: "Harvest Sunflower 100 times",
@@ -3505,7 +3510,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.achievement.sunflowerSuperstar,
     description: {
       en: "Harvest Sunflower 100,000 times",
-      pt: "Harvest Sunflower 100,000 times",
+      "pt-BR": "Harvest Sunflower 100,000 times",
       "zh-CN": "Harvest Sunflower 100,000 times",
       fr: "Harvest Sunflower 100,000 times",
       tr: "Harvest Sunflower 100,000 times",
@@ -3515,7 +3520,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.achievement.myLifeIsPotato,
     description: {
       en: "Harvest Potato 5,000 times",
-      pt: "Harvest Potato 5,000 times",
+      "pt-BR": "Harvest Potato 5,000 times",
       "zh-CN": "Harvest Potato 5,000 times",
       fr: "Harvest Potato 5,000 times",
       tr: "Harvest Potato 5,000 times",
@@ -3525,7 +3530,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.achievement.jackOLantern,
     description: {
       en: "Harvest Pumpkin 500 times",
-      pt: "Harvest Pumpkin 500 times",
+      "pt-BR": "Harvest Pumpkin 500 times",
       "zh-CN": "Harvest Pumpkin 500 times",
       fr: "Harvest Pumpkin 500 times",
       tr: "Harvest Pumpkin 500 times",
@@ -3535,7 +3540,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.achievement.twentyTwentyVision,
     description: {
       en: "Harvest Carrot 10,000 times",
-      pt: "Harvest Carrot 10,000 times",
+      "pt-BR": "Harvest Carrot 10,000 times",
       "zh-CN": "Harvest Carrot 10,000 times",
       fr: "Harvest Carrot 10,000 times",
       tr: "Harvest Carrot 10,000 times",
@@ -3545,7 +3550,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.achievement.cabbageKing,
     description: {
       en: "Harvest Cabbage 200 times",
-      pt: "Harvest Cabbage 200 times",
+      "pt-BR": "Harvest Cabbage 200 times",
       "zh-CN": "Harvest Cabbage 200 times",
       fr: "Harvest Cabbage 200 times",
       tr: "Harvest Cabbage 200 times",
@@ -3555,7 +3560,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.achievement.beetrootBeast,
     description: {
       en: "Harvest Beetroot 2,000 times",
-      pt: "Harvest Beetroot 2,000 times",
+      "pt-BR": "Harvest Beetroot 2,000 times",
       "zh-CN": "Harvest Beetroot 2,000 times",
       fr: "Harvest Beetroot 2,000 times",
       tr: "Harvest Beetroot 2,000 times",
@@ -3565,7 +3570,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.achievement.coolCauliflower,
     description: {
       en: "Harvest Cauliflower 100 times",
-      pt: "Harvest Cauliflower 100 times",
+      "pt-BR": "Harvest Cauliflower 100 times",
       "zh-CN": "Harvest Cauliflower 100 times",
       fr: "Harvest Cauliflower 100 times",
       tr: "Harvest Cauliflower 100 times",
@@ -3575,7 +3580,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.achievement.patientParsnip,
     description: {
       en: "Harvest Parsnip 5,000 times",
-      pt: "Harvest Parsnip 5,000 times",
+      "pt-BR": "Harvest Parsnip 5,000 times",
       "zh-CN": "Harvest Parsnip 5,000 times",
       fr: "Harvest Parsnip 5,000 times",
       tr: "Harvest Parsnip 5,000 times",
@@ -3585,7 +3590,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.achievement.rapidRadish,
     description: {
       en: "Harvest Radish 200 times",
-      pt: "Harvest Radish 200 times",
+      "pt-BR": "Harvest Radish 200 times",
       "zh-CN": "Harvest Radish 200 times",
       fr: "Harvest Radish 200 times",
       tr: "Harvest Radish 200 times",
@@ -3595,7 +3600,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.achievement.stapleCrop,
     description: {
       en: "Harvest Wheat 10,000 times",
-      pt: "Harvest Wheat 10,000 times",
+      "pt-BR": "Harvest Wheat 10,000 times",
       "zh-CN": "Harvest Wheat 10,000 times",
       fr: "Harvest Wheat 10,000 times",
       tr: "Harvest Wheat 10,000 times",
@@ -3605,7 +3610,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.achievement.farmHand,
     description: {
       en: "Harvest crops 10,000 times",
-      pt: "Harvest crops 10,000 times",
+      "pt-BR": "Harvest crops 10,000 times",
       "zh-CN": "Harvest crops 10,000 times",
       fr: "Harvest crops 10,000 times",
       tr: "Harvest crops 10,000 times",
@@ -3615,7 +3620,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.achievement.cropChampion,
     description: {
       en: "Harvest 1 million crops",
-      pt: "Harvest 1 million crops",
+      "pt-BR": "Harvest 1 million crops",
       "zh-CN": "Harvest 1 million crops",
       fr: "Harvest 1 million crops",
       tr: "Harvest 1 million crops",
@@ -3625,7 +3630,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.achievement.breadWinner,
     description: {
       en: "Earn 0.001 SFL",
-      pt: "Earn 0.001 SFL",
+      "pt-BR": "Earn 0.001 SFL",
       "zh-CN": "Earn 0.001 SFL",
       fr: "Earn 0.001 SFL",
       tr: "Earn 0.001 SFL",
@@ -3635,7 +3640,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.achievement.bumpkinBillionaire,
     description: {
       en: "Earn 5,000 SFL",
-      pt: "Earn 5,000 SFL",
+      "pt-BR": "Earn 5,000 SFL",
       "zh-CN": "Earn 5,000 SFL",
       fr: "Earn 5,000 SFL",
       tr: "Earn 5,000 SFL",
@@ -3645,7 +3650,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.achievement.bigSpender,
     description: {
       en: "Spend 10 SFL",
-      pt: "Spend 10 SFL",
+      "pt-BR": "Spend 10 SFL",
       "zh-CN": "Spend 10 SFL",
       fr: "Spend 10 SFL",
       tr: "Spend 10 SFL",
@@ -3655,7 +3660,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.achievement.highRoller,
     description: {
       en: "Spend 7,500 SFL",
-      pt: "Spend 7,500 SFL",
+      "pt-BR": "Spend 7,500 SFL",
       "zh-CN": "Spend 7,500 SFL",
       fr: "Spend 7,500 SFL",
       tr: "Spend 7,500 SFL",
@@ -3665,7 +3670,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.achievement.timberrr,
     description: {
       en: "Chop 150 trees",
-      pt: "Chop 150 trees",
+      "pt-BR": "Chop 150 trees",
       "zh-CN": "Chop 150 trees",
       fr: "Chop 150 trees",
       tr: "Chop 150 trees",
@@ -3675,7 +3680,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.achievement.bumpkinChainsawAmateur,
     description: {
       en: "Chop 5,000 trees",
-      pt: "Chop 5,000 trees",
+      "pt-BR": "Chop 5,000 trees",
       "zh-CN": "Chop 5,000 trees",
       fr: "Chop 5,000 trees",
       tr: "Chop 5,000 trees",
@@ -3685,7 +3690,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.achievement.driller,
     description: {
       en: "Mine 50 stone rocks",
-      pt: "Mine 50 stone rocks",
+      "pt-BR": "Mine 50 stone rocks",
       "zh-CN": "Mine 50 stone rocks",
       fr: "Mine 50 stone rocks",
       tr: "Mine 50 stone rocks",
@@ -3695,7 +3700,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.achievement.canary,
     description: {
       en: "Mine 1,000 stone rocks",
-      pt: "Mine 1,000 stone rocks",
+      "pt-BR": "Mine 1,000 stone rocks",
       "zh-CN": "Mine 1,000 stone rocks",
       fr: "Mine 1,000 stone rocks",
       tr: "Mine 1,000 stone rocks",
@@ -3705,7 +3710,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.achievement.ironEyes,
     description: {
       en: "Mine 50 iron rocks",
-      pt: "Mine 50 iron rocks",
+      "pt-BR": "Mine 50 iron rocks",
       "zh-CN": "Mine 50 iron rocks",
       fr: "Mine 50 iron rocks",
       tr: "Mine 50 iron rocks",
@@ -3715,7 +3720,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.achievement.somethingShiny,
     description: {
       en: "Mine 500 iron rocks",
-      pt: "Mine 500 iron rocks",
+      "pt-BR": "Mine 500 iron rocks",
       "zh-CN": "Mine 500 iron rocks",
       fr: "Mine 500 iron rocks",
       tr: "Mine 500 iron rocks",
@@ -3725,7 +3730,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.achievement.elDorado,
     description: {
       en: "Mine 50 gold rocks",
-      pt: "Mine 50 gold rocks",
+      "pt-BR": "Mine 50 gold rocks",
       "zh-CN": "Mine 50 gold rocks",
       fr: "Mine 50 gold rocks",
       tr: "Mine 50 gold rocks",
@@ -3735,7 +3740,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.achievement.goldFever,
     description: {
       en: "Mine 500 gold rocks",
-      pt: "Mine 500 gold rocks",
+      "pt-BR": "Mine 500 gold rocks",
       "zh-CN": "Mine 500 gold rocks",
       fr: "Mine 500 gold rocks",
       tr: "Mine 500 gold rocks",
@@ -3745,7 +3750,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.achievement.kissTheCook,
     description: {
       en: "Cook 20 meals",
-      pt: "Cook 20 meals",
+      "pt-BR": "Cook 20 meals",
       "zh-CN": "Cook 20 meals",
       fr: "Cook 20 meals",
       tr: "Cook 20 meals",
@@ -3755,7 +3760,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.achievement.bakersDozen,
     description: {
       en: "Bake 13 cakes",
-      pt: "Bake 13 cakes",
+      "pt-BR": "Bake 13 cakes",
       "zh-CN": "Bake 13 cakes",
       fr: "Bake 13 cakes",
       tr: "Bake 13 cakes",
@@ -3765,7 +3770,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.achievement.chefDeCuisine,
     description: {
       en: "Cook 5,000 meals",
-      pt: "Cook 5,000 meals",
+      "pt-BR": "Cook 5,000 meals",
       "zh-CN": "Cook 5,000 meals",
       fr: "Cook 5,000 meals",
       tr: "Cook 5,000 meals",
@@ -3775,7 +3780,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.achievement.craftmanship,
     description: {
       en: "Craft 100 tools",
-      pt: "Craft 100 tools",
+      "pt-BR": "Craft 100 tools",
       "zh-CN": "Craft 100 tools",
       fr: "Craft 100 tools",
       tr: "Craft 100 tools",
@@ -3785,7 +3790,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.achievement.timeToChop,
     description: {
       en: "Craft 500 axes",
-      pt: "Craft 500 axes",
+      "pt-BR": "Craft 500 axes",
       "zh-CN": "Craft 500 axes",
       fr: "Craft 500 axes",
       tr: "Craft 500 axes",
@@ -3795,7 +3800,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.achievement.contractor,
     description: {
       en: "Have 10 buildings constructed on your land",
-      pt: "Have 10 buildings constructed on your land",
+      "pt-BR": "Have 10 buildings constructed on your land",
       "zh-CN": "Have 10 buildings constructed on your land",
       fr: "Have 10 buildings constructed on your land",
       tr: "Have 10 buildings constructed on your land",
@@ -3805,7 +3810,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.achievement.museum,
     description: {
       en: "Have 10 different kinds of rare items placed on your land",
-      pt: "Have 10 different kinds of rare items placed on your land",
+      "pt-BR": "Have 10 different kinds of rare items placed on your land",
       "zh-CN": "Have 10 different kinds of rare items placed on your land",
       fr: "Have 10 different kinds of rare items placed on your land",
       tr: "Have 10 different kinds of rare items placed on your land",
@@ -3815,7 +3820,7 @@ export const ITEM_DETAILS: Items = {
     image: null,
     description: {
       en: "",
-      pt: "",
+      "pt-BR": "",
       "zh-CN": "",
       fr: "",
       tr: "",
@@ -3825,7 +3830,7 @@ export const ITEM_DETAILS: Items = {
     image: null,
     description: {
       en: "",
-      pt: "",
+      "pt-BR": "",
       "zh-CN": "",
       fr: "",
       tr: "",
@@ -3835,7 +3840,7 @@ export const ITEM_DETAILS: Items = {
     image: null,
     description: {
       en: "",
-      pt: "",
+      "pt-BR": "",
       "zh-CN": "",
       fr: "",
       tr: "",
@@ -3845,7 +3850,7 @@ export const ITEM_DETAILS: Items = {
     image: null,
     description: {
       en: "",
-      pt: "",
+      "pt-BR": "",
       "zh-CN": "",
       fr: "",
       tr: "",
@@ -3855,7 +3860,7 @@ export const ITEM_DETAILS: Items = {
     image: null,
     description: {
       en: "",
-      pt: "",
+      "pt-BR": "",
       "zh-CN": "",
       fr: "",
       tr: "",
@@ -3865,7 +3870,7 @@ export const ITEM_DETAILS: Items = {
     image: null,
     description: {
       en: "",
-      pt: "",
+      "pt-BR": "",
       "zh-CN": "",
       fr: "",
       tr: "",
@@ -3875,7 +3880,7 @@ export const ITEM_DETAILS: Items = {
     image: null,
     description: {
       en: "",
-      pt: "",
+      "pt-BR": "",
       "zh-CN": "",
       fr: "",
       tr: "",
@@ -3885,7 +3890,7 @@ export const ITEM_DETAILS: Items = {
     image: null,
     description: {
       en: "",
-      pt: "",
+      "pt-BR": "",
       "zh-CN": "",
       fr: "",
       tr: "",
@@ -3895,7 +3900,7 @@ export const ITEM_DETAILS: Items = {
     image: null,
     description: {
       en: "",
-      pt: "",
+      "pt-BR": "",
       "zh-CN": "",
       fr: "",
       tr: "",
@@ -3905,7 +3910,7 @@ export const ITEM_DETAILS: Items = {
     image: null,
     description: {
       en: "",
-      pt: "",
+      "pt-BR": "",
       "zh-CN": "",
       fr: "",
       tr: "",
@@ -3915,7 +3920,7 @@ export const ITEM_DETAILS: Items = {
     image: null,
     description: {
       en: "",
-      pt: "",
+      "pt-BR": "",
       "zh-CN": "",
       fr: "",
       tr: "",
@@ -3925,7 +3930,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.decorations.whiteTulips,
     description: {
       en: "Keep the smell of goblins away.",
-      pt: "Mantenha o cheiro dos goblins afastado.",
+      "pt-BR": "Mantenha o cheiro dos goblins afastado.",
       "zh-CN": "远离哥布林的嗅味",
       fr: "Éloignez l'odeur des Gobelins.",
       tr: "Goblinlerin kokusunu uzak tutun.",
@@ -3935,7 +3940,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.decorations.pottedSunflower,
     description: {
       en: "Brighten up your land.",
-      pt: "Ilumine sua terra.",
+      "pt-BR": "Ilumine sua terra.",
       "zh-CN": "为你的岛上增添阳光",
       fr: "Illuminez votre île.",
       tr: "Toprağınızı aydınlatın.",
@@ -3945,7 +3950,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.decorations.cactus,
     description: {
       en: "Saves water and makes your farm look stunning!",
-      pt: "Economiza água e deixa sua fazenda deslumbrante!",
+      "pt-BR": "Economiza água e deixa sua fazenda deslumbrante!",
       "zh-CN": "节约用水并让您的农场美丽惊人！",
       fr: "Économise de l'eau et rend votre ferme magnifique!",
       tr: "Su tasarrufu sağlar ve çiftliğinizin muhteşem görünmesini sağlar!",
@@ -3955,7 +3960,7 @@ export const ITEM_DETAILS: Items = {
     image: jackOLanternItem,
     description: {
       en: "A Halloween special event item",
-      pt: "Um item especial de evento de Halloween",
+      "pt-BR": "Um item especial de evento de Halloween",
       "zh-CN": "A Halloween special event item",
       fr: "Un objet spécial d'événement d'Halloween",
       tr: "Cadılar Bayramı özel etkinlik öğesi",
@@ -3965,7 +3970,7 @@ export const ITEM_DETAILS: Items = {
     image: victoriaSisters,
     description: {
       en: "The pumpkin loving sisters",
-      pt: "As irmãs amantes de abóbora",
+      "pt-BR": "As irmãs amantes de abóbora",
       "zh-CN": "热爱南瓜的姐妹们",
       fr: "Les sœurs amatrices de pumpkins",
       tr: "Balkabağı seven kız kardeşler",
@@ -3975,7 +3980,7 @@ export const ITEM_DETAILS: Items = {
     image: basicBear,
     description: {
       en: "A basic bear. Use this at Goblin Retreat to build a bear!",
-      pt: "A basic bear. Use this at Goblin Retreat to build a bear!",
+      "pt-BR": "A basic bear. Use this at Goblin Retreat to build a bear!",
       "zh-CN": "A basic bear. Use this at Goblin Retreat to build a bear!",
       fr: "A basic bear. Use this at Goblin Retreat to build a bear!",
       tr: "A basic bear. Use this at Goblin Retreat to build a bear!",
@@ -3985,7 +3990,7 @@ export const ITEM_DETAILS: Items = {
     image: chefBear,
     description: {
       en: "Every chef needs a helping hand",
-      pt: "Todo chef precisa de uma mãozinha",
+      "pt-BR": "Todo chef precisa de uma mãozinha",
       "zh-CN": "每个厨师都需要个帮手",
       fr: "Chaque chef a besoin d'une aide précieuse.",
       tr: "Her şefin bir yardım eline ihtiyacı vardır",
@@ -3995,7 +4000,7 @@ export const ITEM_DETAILS: Items = {
     image: constructionBear,
     description: {
       en: "Always build in a bear market",
-      pt: "Sempre construa em um mercado em baixa",
+      "pt-BR": "Sempre construa em um mercado em baixa",
       "zh-CN": "熊市里就是要建设投入",
       fr: "Toujours construire en période de marché baissier.",
       tr: "Her zaman bir ayı piyasasında inşa edin",
@@ -4005,7 +4010,7 @@ export const ITEM_DETAILS: Items = {
     image: angelBear,
     description: {
       en: "Time to transcend peasant farming",
-      pt: "Hora de transcender a agricultura camponesa",
+      "pt-BR": "Hora de transcender a agricultura camponesa",
       "zh-CN": "是时候升华耕地生活了",
       fr: "Le moment de transcender l'agriculture paysanne.",
       tr: "Köylü çiftçiliğini aşmanın zamanı geldi",
@@ -4015,7 +4020,7 @@ export const ITEM_DETAILS: Items = {
     image: badassBear,
     description: {
       en: "Nothing stands in your way.",
-      pt: "Nada fica no seu caminho.",
+      "pt-BR": "Nada fica no seu caminho.",
       "zh-CN": "没人能挡着你的道",
       fr: "Rien ne se dresse sur votre chemin.",
       tr: "Hiçbir şey yolunuza çıkamaz.",
@@ -4025,7 +4030,7 @@ export const ITEM_DETAILS: Items = {
     image: bearTrap,
     description: {
       en: "It's a trap!",
-      pt: "É uma armadilha!",
+      "pt-BR": "É uma armadilha!",
       "zh-CN": "是个陷阱！",
       fr: "C'est un piège!",
       tr: "Bu bir tuzak!",
@@ -4035,7 +4040,7 @@ export const ITEM_DETAILS: Items = {
     image: brilliantBear,
     description: {
       en: "Pure brilliance!",
-      pt: "Pura genialidade!",
+      "pt-BR": "Pura genialidade!",
       "zh-CN": "纯然聪耀！",
       fr: "Pure brillance!",
       tr: "Saf parlaklık!",
@@ -4045,7 +4050,7 @@ export const ITEM_DETAILS: Items = {
     image: classyBear,
     description: {
       en: "More SFL than you know what to do with it!",
-      pt: "Mais SFL do que você sabe o que fazer com isso!",
+      "pt-BR": "Mais SFL do que você sabe o que fazer com isso!",
       "zh-CN": "SFL 多到你都不知道怎么花！",
       fr: "Plus SFL que vous ne savez quoi en faire!",
       tr: "Bununla ne yapacağınızı bildiğinizden daha fazla SFL!",
@@ -4055,7 +4060,7 @@ export const ITEM_DETAILS: Items = {
     image: farmerBear,
     description: {
       en: "Nothing quite like a hard day's work!",
-      pt: "Nada como um dia de trabalho árduo!",
+      "pt-BR": "Nada como um dia de trabalho árduo!",
       "zh-CN": "辛勤劳作的一天，无可比拟！",
       fr: "Rien de tel qu'une dure journée de travail!",
       tr: "Hiçbir şey zorlu bir günlük çalışma gibisi yoktur!",
@@ -4065,7 +4070,7 @@ export const ITEM_DETAILS: Items = {
     image: richBear,
     description: {
       en: "A prized possession",
-      pt: "Uma posse valorizada",
+      "pt-BR": "Uma posse valorizada",
       "zh-CN": "好一个珍贵的财物",
       fr: "Une possession précieuse.",
       tr: "Değerli bir sahiplik",
@@ -4075,7 +4080,7 @@ export const ITEM_DETAILS: Items = {
     image: sunflowerBear,
     description: {
       en: "A Bear's cherished crop",
-      pt: "Uma colheita apreciada pelo urso",
+      "pt-BR": "Uma colheita apreciada pelo urso",
       "zh-CN": "这庄稼，小熊视如珍宝",
       fr: "Une culture chérie par un ours.",
       tr: "Bir Ayının değerli mahsulü",
@@ -4085,7 +4090,7 @@ export const ITEM_DETAILS: Items = {
     image: christmasBear,
     description: {
       en: "Santa's favorite",
-      pt: "Santa's favorite",
+      "pt-BR": "Santa's favorite",
       "zh-CN": "Santa's favorite",
       fr: "Santa's favorite",
       tr: "Santa's favorite",
@@ -4095,7 +4100,7 @@ export const ITEM_DETAILS: Items = {
     image: betaBear,
     description: {
       en: "A bear found through special testing events",
-      pt: "Um urso encontrado através de eventos de teste especiais",
+      "pt-BR": "Um urso encontrado através de eventos de teste especiais",
       "zh-CN": "特殊测试活动找到的小熊",
       fr: "Un ours trouvé lors d'événements de test spéciaux.",
       tr: "Özel test etkinlikleriyle bulunan bir ayı",
@@ -4105,7 +4110,7 @@ export const ITEM_DETAILS: Items = {
     image: rainbowArtistBear,
     description: {
       en: "The owner is a beautiful bear artist!",
-      pt: "O proprietário é um belo artista urso!",
+      "pt-BR": "O proprietário é um belo artista urso!",
       "zh-CN": "主人可是个美丽小熊艺术家！",
       fr: "Le propriétaire est un bel artiste de l'ours!",
       tr: "Sahibi güzel bir ayı sanatçısı!",
@@ -4115,7 +4120,7 @@ export const ITEM_DETAILS: Items = {
     image: cabbageBoy,
     description: {
       en: "Don't wake the baby!",
-      pt: "Não acorde o bebê!",
+      "pt-BR": "Não acorde o bebê!",
       "zh-CN": "不要吵醒宝宝！",
       fr: "Ne réveillez pas le bébé!",
       tr: "Bebeği uyandırma!",
@@ -4125,7 +4130,7 @@ export const ITEM_DETAILS: Items = {
     image: cabbageGirl,
     description: {
       en: "Shhh it's sleeping",
-      pt: "Shhh, está dormindo",
+      "pt-BR": "Shhh, está dormindo",
       "zh-CN": "嘘，它正在睡觉",
       fr: "Chut, il dort",
       tr: "Şşş.. Uyuyor",
@@ -4135,7 +4140,7 @@ export const ITEM_DETAILS: Items = {
     image: wendy,
     description: {
       en: "Cast an enchantment to entice the wood fairies.",
-      pt: "Lance um encantamento para atrair as fadas da madeira.",
+      "pt-BR": "Lance um encantamento para atrair as fadas da madeira.",
       "zh-CN": "施放一个魔法来吸引林中仙子",
       fr: "Lancez un enchantement pour attirer les fées de la forêt.",
       tr: "Orman perilerini baştan çıkarmak için bir büyü yap.",
@@ -4145,7 +4150,7 @@ export const ITEM_DETAILS: Items = {
     image: prizedPotato,
     description: {
       en: "A precious potato, encourages bonus potatoes on harvest.",
-      pt: "Uma batata preciosa, incentiva batatas extras na colheita.",
+      "pt-BR": "Uma batata preciosa, incentiva batatas extras na colheita.",
       "zh-CN": "一颗珍贵的土豆，能在收获时带来额外土豆",
       fr: "Une précieuse potato, encourage les potato bonus à la récolte.",
       tr: "Değerli bir patates, hasat sırasında bonus patatesleri teşvik eder.",
@@ -4155,7 +4160,8 @@ export const ITEM_DETAILS: Items = {
     image: potatoMutant,
     description: {
       en: "Potent! Grants a 3% chance to get +10 potatoes on harvest.",
-      pt: "Potente! Concede 3% de chance de obter +10 batatas na colheita.",
+      "pt-BR":
+        "Potente! Concede 3% de chance de obter +10 batatas na colheita.",
       "zh-CN": "强效！在收获时有 3 % 的机会 +10 土豆",
       fr: "Puissant ! Donne une chance de 3% d'obtenir +10 potato à la récolte.",
       tr: "Etkili! Hasatta 3% şans ile +10 patates verir.",
@@ -4165,7 +4171,8 @@ export const ITEM_DETAILS: Items = {
     image: radishMutant,
     description: {
       en: "Radical! Grants a 3% chance to get +10 radishes on harvest.",
-      pt: "Radical! Concede 3% de chance de obter +10 rabanetes na colheita.",
+      "pt-BR":
+        "Radical! Concede 3% de chance de obter +10 rabanetes na colheita.",
       "zh-CN": "激进！在收获时有 3 % 的机会 +10 小萝卜",
       fr: "Radical ! Donne une chance de 3% d'obtenir +10 Radish à la récolte.",
       tr: "Radikal! Hasatta 3% şans ile +10 turp verir.",
@@ -4175,7 +4182,8 @@ export const ITEM_DETAILS: Items = {
     image: sunflowerMutant,
     description: {
       en: "Stellar! Grants a 3% chance to get +10 sunflowers on harvest.",
-      pt: "Estelar! Concede 3% de chance de obter +10 girassóis na colheita.",
+      "pt-BR":
+        "Estelar! Concede 3% de chance de obter +10 girassóis na colheita.",
       "zh-CN": "卓越！在收获时有 3 % 的机会 +10 向日葵",
       fr: "Stellaire ! Donne une chance de 3% d'obtenir +10 Sunflowers à la récolte.",
       tr: "Yıldız! Hasatta 3% şans ile +10 ayçiçeği verir.",
@@ -4185,7 +4193,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.decorations.pottedPotato,
     description: {
       en: "Potato blood runs through your Bumpkin.",
-      pt: "O sangue da batata corre pelo seu Bumpkin.",
+      "pt-BR": "O sangue da batata corre pelo seu Bumpkin.",
       "zh-CN": "土豆血在你的乡包佬体内流淌。",
       fr: "Le sang de la potato coule dans votre Bumpkin.",
       tr: "Bumpkin'in içinden patates kanı akıyor.",
@@ -4195,7 +4203,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.decorations.pottedPumpkin,
     description: {
       en: "Pumpkins for Bumpkins",
-      pt: "Pumpkins for Bumpkins",
+      "pt-BR": "Pumpkins for Bumpkins",
       "zh-CN": "Pumpkins for Bumpkins",
       fr: "Pumpkins for Bumpkins",
       tr: "Pumpkins for Bumpkins",
@@ -4205,7 +4213,7 @@ export const ITEM_DETAILS: Items = {
     image: goldenCrop,
     description: {
       en: "A shiny golden crop",
-      pt: "Uma safra dourada brilhante",
+      "pt-BR": "Uma safra dourada brilhante",
       "zh-CN": "A shiny golden crop",
       fr: "Une culture dorée étincelante",
       tr: "Parlak altın bir mahsul",
@@ -4215,7 +4223,7 @@ export const ITEM_DETAILS: Items = {
     image: snowglobe,
     description: {
       en: "Swirl the snow and watch it come to life",
-      pt: "Gire a neve e veja-a ganhar vida",
+      "pt-BR": "Gire a neve e veja-a ganhar vida",
       "zh-CN": "摇一摇，看雪再活生机",
       fr: "Remuez la neige et regardez-la prendre vie.",
       tr: "Karları döndürün ve canlanmasını izleyin",
@@ -4225,7 +4233,7 @@ export const ITEM_DETAILS: Items = {
     image: immortalPear,
     description: {
       en: "Increase the survival of your fruit patches.",
-      pt: "Increase the survival of your fruit patches.",
+      "pt-BR": "Increase the survival of your fruit patches.",
       "zh-CN": "一种能使果树寿命变长的长寿梨",
       fr: "Increase the survival of your fruit patches.",
       tr: "Increase the survival of your fruit patches.",
@@ -4235,7 +4243,8 @@ export const ITEM_DETAILS: Items = {
     image: ladybug,
     description: {
       en: "An incredible bug that feeds on aphids. Improves Apple quality.",
-      pt: "Um inseto incrível que se alimenta de pulgões. Melhora a qualidade da maçã.",
+      "pt-BR":
+        "Um inseto incrível que se alimenta de pulgões. Melhora a qualidade da maçã.",
       "zh-CN": "一种令人啧啧称奇的虫子，以蚜虫为食。 能够提升苹果品质",
       fr: "Un incroyable insecte qui se nourrit de pucerons. Améliore la qualité des pommes.",
       tr: "Yaprak bitleriyle beslenen inanılmaz bir böcek. Elma kalitesini artırır.",
@@ -4245,7 +4254,8 @@ export const ITEM_DETAILS: Items = {
     image: squirrelMonkey,
     description: {
       en: "A natural orange predator. Orange Trees are scared when a Squirrel Monkey is around.",
-      pt: "Um predador natural de laranjas. As árvores de laranja ficam assustadas quando um Macaco-Esquilo está por perto.",
+      "pt-BR":
+        "Um predador natural de laranjas. As árvores de laranja ficam assustadas quando um Macaco-Esquilo está por perto.",
       "zh-CN": "天然的香橙捕食客。有 Squirrel Monkey 在附近时，橙树都感到害怕",
       fr: "Un prédateur naturel des oranges. Les arbres d'orange ont peur quand un Singe Écureuil est dans les parages.",
       tr: "Doğal turuncu bir yırtıcı hayvan. Portakal ağaçları Squirrel Monkey etraftayken korkar.",
@@ -4255,7 +4265,8 @@ export const ITEM_DETAILS: Items = {
     image: blackBear,
     description: {
       en: "His favorite treat - plump, juicy blueberries. Gobbles them up by the handful!",
-      pt: "Seu deleite favorito - Mirtilos suculentos e rechonchudos. Devora-os a punhados!",
+      "pt-BR":
+        "Seu deleite favorito - Mirtilos suculentos e rechonchudos. Devora-os a punhados!",
       "zh-CN": "他最喜欢的零食——丰满多汁的蓝莓。他一把把地狼吞虎咽！",
       fr: "Sa gourmandise préférée - des myrtilles dodues et juteuses. Il les engloutit par poignées!",
       tr: "En sevdiği ikram; dolgun,sulu yaban mersini. Onları avuç avuç yutar!",
@@ -4265,7 +4276,8 @@ export const ITEM_DETAILS: Items = {
     image: devilBear,
     description: {
       en: "Better the Devil you know than the Devil you don't",
-      pt: "Melhor o Diabo que você conhece do que o Diabo que você não conhece",
+      "pt-BR":
+        "Melhor o Diabo que você conhece do que o Diabo que você não conhece",
       "zh-CN": "知根知底的恶魔总比不知的好",
       fr: "Mieux vaut le Diable que vous connaissez que le Diable que vous ne connaissez pas.",
       tr: "Tanıdığın Şeytan tanımadığın Şeytandan iyidir",
@@ -4275,7 +4287,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.achievement.orangeSqueeze,
     description: {
       en: "Harvest Orange 100 times",
-      pt: "Harvest Orange 100 times",
+      "pt-BR": "Harvest Orange 100 times",
       "zh-CN": "Harvest Orange 100 times",
       fr: "Harvest Orange 100 times",
       tr: "Harvest Orange 100 times",
@@ -4285,7 +4297,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.achievement.appleOfMyEye,
     description: {
       en: "Harvest Apple 500 times",
-      pt: "Harvest Apple 500 times",
+      "pt-BR": "Harvest Apple 500 times",
       "zh-CN": "Harvest Apple 500 times",
       fr: "Harvest Apple 500 times",
       tr: "Harvest Apple 500 times",
@@ -4295,7 +4307,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.achievement.blueChip,
     description: {
       en: "Harvest Blueberry 5,000 times",
-      pt: "Harvest Blueberry 5,000 times",
+      "pt-BR": "Harvest Blueberry 5,000 times",
       "zh-CN": "Harvest Blueberry 5,000 times",
       fr: "Harvest Blueberry 5,000 times",
       tr: "Harvest Blueberry 5,000 times",
@@ -4305,7 +4317,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.achievement.fruitPlatter,
     description: {
       en: "Harvest 50,000 fruits",
-      pt: "Harvest 50,000 fruits",
+      "pt-BR": "Harvest 50,000 fruits",
       "zh-CN": "Harvest 50,000 fruits",
       fr: "Harvest 50,000 fruits",
       tr: "Harvest 50,000 fruits",
@@ -4315,7 +4327,7 @@ export const ITEM_DETAILS: Items = {
     image: ayamCemani,
     description: {
       en: "The rarest chicken in existence!",
-      pt: "O frango mais raro que existe!",
+      "pt-BR": "O frango mais raro que existe!",
       "zh-CN": "世上最稀有的鸡！",
       fr: "La poule la plus rare qui existe!",
       tr: "Var olan en nadir tavuk!",
@@ -4325,7 +4337,7 @@ export const ITEM_DETAILS: Items = {
     image: collectibleBear,
     description: {
       en: "A prized bear, still in mint condition!",
-      pt: "Um urso valioso, ainda em condição de menta!",
+      "pt-BR": "Um urso valioso, ainda em condição de menta!",
       "zh-CN": "小熊奖品，全新无损！",
       fr: "Un ours précieux, toujours en parfait état!",
       tr: "Değerli bir ayı, hala mükemmel durumda!",
@@ -4335,7 +4347,7 @@ export const ITEM_DETAILS: Items = {
     image: cyborgBear,
     description: {
       en: "Hasta la vista, bear",
-      pt: "Hasta la vista, urso",
+      "pt-BR": "Hasta la vista, urso",
       "zh-CN": "后会有期，熊儿",
       fr: "Hasta la vista, l'ours.",
       tr: "Görüşürüz, ayı",
@@ -4345,7 +4357,7 @@ export const ITEM_DETAILS: Items = {
     image: manekiNeko,
     description: {
       en: "The beckoning cat. Pull its arm and good luck will come",
-      pt: "O gato da sorte. Puxe o braço e a boa sorte virá",
+      "pt-BR": "O gato da sorte. Puxe o braço e a boa sorte virá",
       "zh-CN": "招财猫。拉动手臂，好运来临",
       fr: "Le chat qui fait signe. Tirez sur son bras et la bonne chance viendra",
       tr: "Şanslı kedi. Kolunu çek ve güzel şanslar gelecek",
@@ -4355,7 +4367,7 @@ export const ITEM_DETAILS: Items = {
     image: redEnvelope,
     description: {
       en: "Wow, you are lucky!",
-      pt: "Uau, você tem sorte!",
+      "pt-BR": "Uau, você tem sorte!",
       "zh-CN": "Wow, you are lucky!",
       fr: "Wow, vous avez de la chance!",
       tr: "Vay, şanslısın!",
@@ -4365,7 +4377,7 @@ export const ITEM_DETAILS: Items = {
     image: loveLetter,
     description: {
       en: "Convey feelings of love",
-      pt: "Expressar sentimentos de amor",
+      "pt-BR": "Expressar sentimentos de amor",
       "zh-CN": "Convey feelings of love",
       fr: "Transmettez des sentiments d'amour",
       tr: "Sevgi duygularını aktarın",
@@ -4375,7 +4387,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.resource.clam_shell,
     description: {
       en: "A clam shell.",
-      pt: "Uma concha de marisco.",
+      "pt-BR": "Uma concha de marisco.",
       "zh-CN": "蛤壳。一块蛤壳。",
       fr: "Une coquille de palourde.",
       tr: "Bir İstiridye kabuğu.",
@@ -4385,7 +4397,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.resource.sea_cucumber,
     description: {
       en: "A sea cucumber.",
-      pt: "Um pepino-do-mar.",
+      "pt-BR": "Um pepino-do-mar.",
       "zh-CN": "海参。一根海参。",
       fr: "Un concombre de mer.",
       tr: "Bir Deniz hıyarı.",
@@ -4395,7 +4407,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.resource.coral,
     description: {
       en: "A piece of coral, it's pretty",
-      pt: "Um pedaço de coral, é bonito",
+      "pt-BR": "Um pedaço de coral, é bonito",
       "zh-CN": "珊瑚。一块珊瑚，很漂亮",
       fr: "Un morceau de corail, c'est joli",
       tr: "Bir parça mercan, çok tatlı.",
@@ -4405,7 +4417,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.resource.crab,
     description: {
       en: "A crab, watch out for its claws!",
-      pt: "Um caranguejo, cuidado com suas garras!",
+      "pt-BR": "Um caranguejo, cuidado com suas garras!",
       "zh-CN": "螃蟹。小心它的爪子！",
       fr: "Un crabe, attention à ses pinces!",
       tr: "Bir yengeç, kıskaçlarına dikkat et!!",
@@ -4415,7 +4427,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.resource.starfish,
     description: {
       en: "The star of the sea.",
-      pt: "A estrela do mar.",
+      "pt-BR": "A estrela do mar.",
       "zh-CN": "海星。海中之星。",
       fr: "L'étoile de la mer.",
       tr: "Denizin yıldızı.",
@@ -4425,7 +4437,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.resource.pirate_bounty,
     description: {
       en: "A bounty for a pirate. It's worth a lot of money.",
-      pt: "Uma recompensa por um pirata. Vale muito dinheiro.",
+      "pt-BR": "Uma recompensa por um pirata. Vale muito dinheiro.",
       "zh-CN": "海盗赏金。给海盗的赏金，值很多钱。",
       fr: "Une prime pour un pirate. Elle vaut beaucoup d'argent.",
       tr: "Korsan için bir ganimet. Çok para ediyor.",
@@ -4435,7 +4447,7 @@ export const ITEM_DETAILS: Items = {
     image: pirateCake,
     description: {
       en: "Great for Pirate themed birthday parties.",
-      pt: "Great for Pirate themed birthday parties.",
+      "pt-BR": "Great for Pirate themed birthday parties.",
       "zh-CN": "Great for Pirate themed birthday parties.",
       fr: "Great for Pirate themed birthday parties.",
       tr: "Great for Pirate themed birthday parties.",
@@ -4445,7 +4457,7 @@ export const ITEM_DETAILS: Items = {
     image: abandonedBear,
     description: {
       en: "A bear that was left behind on the island.",
-      pt: "Um urso que foi deixado para trás na ilha.",
+      "pt-BR": "Um urso que foi deixado para trás na ilha.",
       "zh-CN": "一只被落在岛上的小熊",
       fr: "Un ours qui a été laissé derrière sur l'île.",
       tr: "Adada geride bırakılan bir ayı.",
@@ -4455,7 +4467,7 @@ export const ITEM_DETAILS: Items = {
     image: turtleBear,
     description: {
       en: "Turtley enough for the turtle club.",
-      pt: "Suficientemente tartarugoso para o clube da tartaruga.",
+      "pt-BR": "Suficientemente tartarugoso para o clube da tartaruga.",
       "zh-CN": "够龟样去参加龟龟俱乐部了",
       fr: "Assez pour le club des tortues.",
       tr: "Kaplumbağa kulübü için yeterince kaplumbağa var.",
@@ -4465,7 +4477,7 @@ export const ITEM_DETAILS: Items = {
     image: tRexSkull,
     description: {
       en: "A skull from a T-Rex! Amazing!",
-      pt: "Um crânio de um T-Rex! Incrível!",
+      "pt-BR": "Um crânio de um T-Rex! Incrível!",
       "zh-CN": "暴龙头骨！棒极了！",
       fr: "Un crâne de T-Rex ! Incroyable!",
       tr: "T-Rex'ten bir kafatası! İnanılmaz!",
@@ -4475,7 +4487,7 @@ export const ITEM_DETAILS: Items = {
     image: sunflowerCoin,
     description: {
       en: "A coin made of sunflowers.",
-      pt: "Uma moeda feita de girassóis.",
+      "pt-BR": "Uma moeda feita de girassóis.",
       "zh-CN": "一颗向日葵做的硬币",
       fr: "Une pièce faite de Sunflowers.",
       tr: "Ayçiçeklerinden yapılmış bir madeni para.",
@@ -4485,7 +4497,7 @@ export const ITEM_DETAILS: Items = {
     image: foliant,
     description: {
       en: "A book of spells.",
-      pt: "Um livro de feitiços.",
+      "pt-BR": "Um livro de feitiços.",
       "zh-CN": "一本咒法书",
       fr: "Un livre de sorts.",
       tr: "Bir büyü kitabı.",
@@ -4495,7 +4507,7 @@ export const ITEM_DETAILS: Items = {
     image: skeletonKingStaff,
     description: {
       en: "All hail the Skeleton King!",
-      pt: "Toda a glória ao Rei Esquelético!",
+      "pt-BR": "Toda a glória ao Rei Esquelético!",
       "zh-CN": "骷髅王万岁！",
       fr: "Tous saluent le Roi Squelette!",
       tr: "Hepiniz İskelet Kral'ı selamlayın!",
@@ -4505,7 +4517,7 @@ export const ITEM_DETAILS: Items = {
     image: lifeguardBear,
     description: {
       en: "Lifeguard Bear is here to save the day!",
-      pt: "O Urso Salva-vidas está aqui para salvar o dia!",
+      "pt-BR": "O Urso Salva-vidas está aqui para salvar o dia!",
       "zh-CN": "救生熊来拯救世界了！",
       fr: "L'ours sauveteur est là pour sauver la journée!",
       tr: "Cankurtaran Ayı günü kurtarmak için burada!",
@@ -4515,7 +4527,7 @@ export const ITEM_DETAILS: Items = {
     image: snorkelBear,
     description: {
       en: "Snorkel Bear loves to swim.",
-      pt: "O Urso Snorkel adora nadar.",
+      "pt-BR": "O Urso Snorkel adora nadar.",
       "zh-CN": "呼吸管熊热爱游泳",
       fr: "L'ours tuba aime nager.",
       tr: "Şnorkel Ayı yüzmeyi çok seviyor.",
@@ -4525,7 +4537,7 @@ export const ITEM_DETAILS: Items = {
     image: parasaurSkull,
     description: {
       en: "A skull from a parasaur!",
-      pt: "Um crânio de um parasaur!",
+      "pt-BR": "Um crânio de um parasaur!",
       "zh-CN": "一个副栉龙头骨！",
       fr: "Un crâne de parasaur!",
       tr: "Parasaur'dan bir kafatası!",
@@ -4535,7 +4547,7 @@ export const ITEM_DETAILS: Items = {
     image: goblinBear,
     description: {
       en: "A goblin bear. It's a bit scary.",
-      pt: "Um urso goblin. É um pouco assustador.",
+      "pt-BR": "Um urso goblin. É um pouco assustador.",
       "zh-CN": "一只哥布林熊。有点吓人",
       fr: "Un ours gobelin. C'est un peu effrayant.",
       tr: "Bir goblin ayı. Biraz korkutucu.",
@@ -4545,7 +4557,7 @@ export const ITEM_DETAILS: Items = {
     image: goldenBearHead,
     description: {
       en: "Spooky, but cool.",
-      pt: "Assustador, mas legal.",
+      "pt-BR": "Assustador, mas legal.",
       "zh-CN": "诡异，但很酷",
       fr: "Effrayant, mais cool.",
       tr: "Ürkütücü ama harika.",
@@ -4555,7 +4567,7 @@ export const ITEM_DETAILS: Items = {
     image: pirateBear,
     description: {
       en: "Argh, matey! Hug me!",
-      pt: "Argh, pirata! Abraço!",
+      "pt-BR": "Argh, pirata! Abraço!",
       "zh-CN": "呀啊，伙计！抱我！",
       fr: "Argh, matelot ! Serre-moi dans tes bras!",
       tr: "Ah, dostum! Sarıl bana!",
@@ -4565,7 +4577,7 @@ export const ITEM_DETAILS: Items = {
     image: galleon,
     description: {
       en: "A toy ship, still in pretty good nick.",
-      pt: "Um navio de brinquedo, ainda em muito bom estado.",
+      "pt-BR": "Um navio de brinquedo, ainda em muito bom estado.",
       "zh-CN": "玩具船，但完好无损",
       fr: "Un navire jouet, toujours en très bon état.",
       tr: "Oyuncak bir gemi, hala oldukça iyi durumda.",
@@ -4575,7 +4587,7 @@ export const ITEM_DETAILS: Items = {
     image: dinosaurBone,
     description: {
       en: "A Dinosaur Bone! What kind of creature was this?",
-      pt: "Um Osso de Dinossauro! Que tipo de criatura era esta?",
+      "pt-BR": "Um Osso de Dinossauro! Que tipo de criatura era esta?",
       "zh-CN": "恐龙骨头！这真是怎么一种生物？",
       fr: "Un os de dinosaure ! De quelle créature s'agit-il?",
       tr: "Bir Dinozor Kemiği! Bu nasıl bir yaratıktı?",
@@ -4586,7 +4598,7 @@ export const ITEM_DETAILS: Items = {
     // image: require("assets/sfts/bears/human_bear.webp"),
     description: {
       en: "A human bear. Even scarier than a goblin bear.",
-      pt: "Um urso humano. Ainda mais assustador do que um urso goblin.",
+      "pt-BR": "Um urso humano. Ainda mais assustador do que um urso goblin.",
       "zh-CN": "人型熊。甚至比哥布林熊还要吓人",
       fr: "Un ours humain. Encore plus effrayant qu'un ours gobelin.",
       tr: "Bir insan ayı. Bir goblin ayıdan bile daha korkutucu.",
@@ -4596,7 +4608,8 @@ export const ITEM_DETAILS: Items = {
     image: woodenCompass,
     description: {
       en: "It may not be high-tech, but it will always steer you in the right direction, wood you believe it?",
-      pt: "Pode não ser alta tecnologia, mas sempre vai te guiar na direção certa, você acreditaria nisso?",
+      "pt-BR":
+        "Pode não ser alta tecnologia, mas sempre vai te guiar na direção certa, você acreditaria nisso?",
       "zh-CN":
         "木指南针。它可能不是高科技，但它总会引导你走向正确的方向，你信不？",
       fr: "Il n'est peut-être pas high-tech, mais il vous orientera toujours dans la bonne direction, vous le croyez en bois?",
@@ -4607,7 +4620,8 @@ export const ITEM_DETAILS: Items = {
     image: ironCompass,
     description: {
       en: "Iron out your path to treasure! This compass is 'attract'-ive, and not just to the magnetic North!",
-      pt: "Endireite seu caminho para o tesouro! Esta bússola é 'atrativa', e não apenas para o Norte magnético!",
+      "pt-BR":
+        "Endireite seu caminho para o tesouro! Esta bússola é 'atrativa', e não apenas para o Norte magnético!",
       "zh-CN":
         "铁指南针。开辟你的宝藏之路！这个指南针很有吸引力，而且不仅仅是对磁极！",
       fr: "Redressez votre chemin vers le trésor ! Ce compas est 'attirant', et pas seulement vers le Nord magnétique!",
@@ -4618,7 +4632,8 @@ export const ITEM_DETAILS: Items = {
     image: emeraldCompass,
     description: {
       en: "Guide your way through the lush mysteries of life! This compass doesn't just point North, it points towards opulence and grandeur!",
-      pt: "Guie seu caminho através dos mistérios exuberantes da vida! Esta bússola aponta para a opulência e grandiosidade!",
+      "pt-BR":
+        "Guie seu caminho através dos mistérios exuberantes da vida! Esta bússola aponta para a opulência e grandiosidade!",
       "zh-CN":
         "玉指南针。引导你探索生命的繁茂奥秘！这个指南针不仅指向北方，还指向富贵伟业！",
       fr: "Guidez votre chemin à travers les mystères luxuriants de la vie ! Ce compas ne pointe pas seulement vers le Nord, il pointe vers l'opulence et la grandeur!",
@@ -4629,7 +4644,8 @@ export const ITEM_DETAILS: Items = {
     image: oldBottle,
     description: {
       en: "Antique pirate bottle, echoing tales of high seas adventure.",
-      pt: "Garrafa de pirata antiga, ecoando contos de aventura em alto mar.",
+      "pt-BR":
+        "Garrafa de pirata antiga, ecoando contos de aventura em alto mar.",
       "zh-CN": "老旧漂流瓶。古董海盗瓶，印照着公海冒险传说。",
       fr: "Bouteille de pirate antique, évoquant des récits d'aventures en haute mer.",
       tr: "Antik korsan şişesi, açık deniz maceralarının hikayelerini yankılıyor.",
@@ -4639,7 +4655,8 @@ export const ITEM_DETAILS: Items = {
     image: tikiTotem,
     description: {
       en: "The Tiki Totem adds 0.1 wood to every tree you chop.",
-      pt: "O Totem Tiki adiciona 0,1 madeira a cada árvore que você corta.",
+      "pt-BR":
+        "O Totem Tiki adiciona 0,1 madeira a cada árvore que você corta.",
       "zh-CN": "Tiki Totem 会在你每次砍树时额外增加 0.1 个木头",
       fr: "Le Totem Tiki ajoute 0,1 de Wood à chaque arbre que vous coupez.",
       tr: "Tiki Totem kestiğiniz her ağaca 0.1 odun ekler.",
@@ -4649,7 +4666,8 @@ export const ITEM_DETAILS: Items = {
     image: lunarCalendar,
     description: {
       en: "Crops now follow the lunar cycle! 10% increase to crop growth speed.",
-      pt: "Os cultivos agora seguem o ciclo lunar! Aumento de 10% na velocidade de crescimento das plantações.",
+      "pt-BR":
+        "Os cultivos agora seguem o ciclo lunar! Aumento de 10% na velocidade de crescimento das plantações.",
       "zh-CN": "庄稼现在遵循满月周期！庄稼生长速度提高 10 %",
       fr: "Les cultures suivent désormais le cycle lunaire ! Augmentation de 10% de la vitesse de croissance des cultures.",
       tr: "Mahsuller artık ay döngüsünü takip ediyor! Mahsullerin büyüme hızında 10% artış.",
@@ -4659,7 +4677,8 @@ export const ITEM_DETAILS: Items = {
     image: heartOfDavyJones,
     description: {
       en: "Whoever possesses it holds immense power over the seven seas, can dig for treasure without tiring.",
-      pt: "Quem o possui detém um poder imenso sobre os sete mares, pode cavar tesouros sem se cansar.",
+      "pt-BR":
+        "Quem o possui detém um poder imenso sobre os sete mares, pode cavar tesouros sem se cansar.",
       "zh-CN": "谁拥有它，谁就拥有掌控七大洋的浩瀚力量，可以挖掘财宝不知疲倦",
       fr: "Celui qui le possède détient un immense pouvoir sur les sept mers, peut creuser des trésors sans se fatiguer.",
       tr: "Ona sahip olan kişi yedi deniz üzerinde muazzam bir güce sahip olur,yorulmadan hazine kazabilir.",
@@ -4669,7 +4688,8 @@ export const ITEM_DETAILS: Items = {
     image: treasureMap,
     description: {
       en: "An enchanted map that leads the holder to valuable treasure. +20% profit from beach bounty items.",
-      pt: "Um mapa encantado que leva o portador a tesouros valiosos. +20% de lucro com a venda de itens de recompensa da praia.",
+      "pt-BR":
+        "Um mapa encantado que leva o portador a tesouros valiosos. +20% de lucro com a venda de itens de recompensa da praia.",
       "zh-CN": "一张魔法地图，能引领持有者找到珍贵的财宝。沙岸财宝的利润 +20 %",
       fr: "Une carte enchantée qui guide son détenteur vers un trésor précieux. +20% de profit sur les objets de la chasse à la plage.",
       tr: "Sahibini değerli bir hazineye götüren gizemli bir harita. Plaj ödül eşyalarından +20% kar.",
@@ -4679,7 +4699,7 @@ export const ITEM_DETAILS: Items = {
     image: heartBalloons,
     description: {
       en: "Use them as decorations for romantic occasions.",
-      pt: "Use-os como decoração para ocasiões românticas.",
+      "pt-BR": "Use-os como decoração para ocasiões românticas.",
       "zh-CN": "用作浪漫场合的装饰吧",
       fr: "Utilisez-les comme décoration pour des occasions romantiques.",
       tr: "Bunları romantik günler için dekorasyon olarak kullanın.",
@@ -4689,7 +4709,7 @@ export const ITEM_DETAILS: Items = {
     image: flamingo,
     description: {
       en: "Represents a symbol of love's beauty standing tall and confident.",
-      pt: "Representa um símbolo da beleza do amor, alto e confiante.",
+      "pt-BR": "Representa um símbolo da beleza do amor, alto e confiante.",
       "zh-CN": "爱的标志挺立高岸",
       fr: "Représente un symbole de la beauté de l'amour, debout grand et confiant.",
       tr: "Dikenli ve kendinden emin duran aşkın güzelliğinin simgesidir.",
@@ -4699,7 +4719,8 @@ export const ITEM_DETAILS: Items = {
     image: blossomTree,
     description: {
       en: "Its delicate petals symbolizes the beauty and fragility of love.",
-      pt: "Suas delicadas pétalas simbolizam a beleza e fragilidade do amor.",
+      "pt-BR":
+        "Suas delicadas pétalas simbolizam a beleza e fragilidade do amor.",
       "zh-CN": "精致的花瓣象征着美丽而脆弱的爱",
       fr: "Ses pétales délicats symbolisent la beauté et la fragilité de l'amour.",
       tr: "Narin yaprakları aşkın güzelliğini ve kırılganlığını simgelemektedir.",
@@ -4709,7 +4730,7 @@ export const ITEM_DETAILS: Items = {
     image: pearl,
     description: {
       en: "Shimmers in the sun.",
-      pt: "Brilha ao sol.",
+      "pt-BR": "Brilha ao sol.",
       "zh-CN": "珍珠。阳光之下闪闪发光。",
       fr: "Brille au soleil.",
       tr: "Güneşte parlıyor.",
@@ -4719,7 +4740,7 @@ export const ITEM_DETAILS: Items = {
     image: pipi,
     description: {
       en: "Plebidonax deltoides, found in the Pacific Ocean.",
-      pt: "Plebidonax deltoides, encontrado no Oceano Pacífico.",
+      "pt-BR": "Plebidonax deltoides, encontrado no Oceano Pacífico.",
       "zh-CN": "三角斧蛤。发现于太平洋。",
       fr: "Plebidonax deltoides, trouvé dans l'océan Pacifique.",
       tr: "Plebidonax deltoides, Pasifik okyanusunda bulundu.",
@@ -4729,7 +4750,7 @@ export const ITEM_DETAILS: Items = {
     image: seaweed,
     description: {
       en: "Seaweed.",
-      pt: "Algas marinhas.",
+      "pt-BR": "Algas marinhas.",
       "zh-CN": "海藻。",
       fr: "Des algues marines.",
       tr: "Deniz yosunu.",
@@ -4739,7 +4760,8 @@ export const ITEM_DETAILS: Items = {
     image: whaleBear,
     description: {
       en: "It has a round, furry body like a bear, but with the fins, tail, and blowhole of a whale.",
-      pt: "Tem um corpo redondo e peludo como um urso, mas com as barbatanas, cauda e sopro de uma baleia.",
+      "pt-BR":
+        "Tem um corpo redondo e peludo como um urso, mas com as barbatanas, cauda e sopro de uma baleia.",
       "zh-CN": "圆润毛绒的身体恰似小熊，但有着鲸鱼的鱼鳍、鱼尾和气孔",
       fr: "Il a un corps rond et poilu comme un ours, mais avec les nageoires, la queue et le blowhole d'une baleine.",
       tr: "Bir ayı gibi yuvarlak, tüylü bir vücudu vardır, ancak yüzgeçleri, kuyruğu ve bir balinanın hava deliği vardır.",
@@ -4749,7 +4771,7 @@ export const ITEM_DETAILS: Items = {
     image: valentineBear,
     description: {
       en: "For those who love.",
-      pt: "Para aqueles que amam.",
+      "pt-BR": "Para aqueles que amam.",
       "zh-CN": "为愿爱之人",
       fr: "Pour ceux qui aiment.",
       tr: "Sevenler için.",
@@ -4759,7 +4781,7 @@ export const ITEM_DETAILS: Items = {
     image: easterBear,
     description: {
       en: "How can a Bunny lay eggs?",
-      pt: "Como um coelho pode botar ovos?",
+      "pt-BR": "Como um coelho pode botar ovos?",
       "zh-CN": "兔子怎么下蛋？",
       fr: "Comment un lapin peut-il pondre des œufs?",
       tr: "Bir Tavşan nasıl yumurtlayabilir?",
@@ -4769,7 +4791,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.sfts.easterBush,
     description: {
       en: "What is inside?",
-      pt: "O que tem dentro?",
+      "pt-BR": "O que tem dentro?",
       "zh-CN": "里头是什么？",
       fr: "Qu'y a-t-il à l'intérieur?",
       tr: "İçerideki ne?",
@@ -4779,7 +4801,8 @@ export const ITEM_DETAILS: Items = {
     image: giantCarrot,
     description: {
       en: "A giant carrot stood, casting fun shadows, as rabbits gazed in wonder.",
-      pt: "Uma cenoura gigante ficou, lançando sombras divertidas, enquanto coelhos observavam maravilhados.",
+      "pt-BR":
+        "Uma cenoura gigante ficou, lançando sombras divertidas, enquanto coelhos observavam maravilhados.",
       "zh-CN": "巨大的胡萝卜直立着，奇趣的影子投下着，注视的兔子惊讶着",
       fr: "Une grosse carotte debout, projetant des ombres amusantes, alors que les lapins contemplent avec émerveillement.",
       tr: "Tavşanlar merakla bakarken dev bir havuç eğlenceli gölgeler yaratarak duruyordu.",
@@ -4789,7 +4812,7 @@ export const ITEM_DETAILS: Items = {
     image: ironIdol,
     description: {
       en: "The Idol adds 1 iron every time you mine iron.",
-      pt: "O Ídolo adiciona 1 ferro toda vez que você minera ferro.",
+      "pt-BR": "O Ídolo adiciona 1 ferro toda vez que você minera ferro.",
       "zh-CN": "每次开采铁矿，偶像都会额外赐你 1 块铁矿",
       fr: "L'Idole ajoute 1 fer à chaque fois que vous minez du fer.",
       tr: "Idol, demir kazdığında +1 demir ekler.",
@@ -4799,7 +4822,8 @@ export const ITEM_DETAILS: Items = {
     image: genieLamp,
     description: {
       en: "A magical lamp that contains a genie who will grant you three wishes.",
-      pt: "Uma lâmpada mágica que contém um gênio que concederá três desejos.",
+      "pt-BR":
+        "Uma lâmpada mágica que contém um gênio que concederá três desejos.",
       "zh-CN": "一盏有魔力的灯，里面有一个能帮你实现三个愿望的精灵",
       fr: "Une lampe magique contenant un génie qui vous accordera trois vœux.",
       tr: "İçinde sana 3 dilek hakkı verecek bir cin içeren sihirli bir lamba.",
@@ -4809,7 +4833,8 @@ export const ITEM_DETAILS: Items = {
     image: emeraldTurtle,
     description: {
       en: "The Emerald Turtle gives +0.5 to any minerals you mine within its Area of Effect.",
-      pt: "A Tartaruga Esmeralda dá +0,5 a quaisquer minerais que você minera dentro de sua Área de Efeito.",
+      "pt-BR":
+        "A Tartaruga Esmeralda dá +0,5 a quaisquer minerais que você minera dentro de sua Área de Efeito.",
       "zh-CN":
         "Emerald Turtle 会为你在其作用范围内开采的任何基矿带来 +0.5 增益",
       fr: "La Tortue d'Émeraude ajoute +0,5 à tous les minéraux que vous minez dans sa zone d'effet.",
@@ -4820,7 +4845,8 @@ export const ITEM_DETAILS: Items = {
     image: tinTurtle,
     description: {
       en: "The Tin Turtle gives +0.1 to Stones you mine within its Area of Effect.",
-      pt: "A Tartaruga de Estanho dá +0,1 a Pedras que você minera dentro de sua Área de Efeito.",
+      "pt-BR":
+        "A Tartaruga de Estanho dá +0,1 a Pedras que você minera dentro de sua Área de Efeito.",
       "zh-CN": "Tin Turtle 会为你在其作用范围内开采的石头带来 +0.1 增益",
       fr: "La Tortue d'Étain ajoute +0,1 aux pierres que vous minez dans sa zone d'effet.",
       tr: "Küçük Kaplumbağa etki alanı içinde kazdığın taşlara +0.1 verir.",
@@ -4830,7 +4856,7 @@ export const ITEM_DETAILS: Items = {
     image: basicScarecrow,
     description: {
       en: "Boost nearby Sunflowers, Potatoes and Pumpkins.",
-      pt: "Boost nearby Sunflowers, Potatoes and Pumpkins.",
+      "pt-BR": "Boost nearby Sunflowers, Potatoes and Pumpkins.",
       "zh-CN": "Boost nearby Sunflowers, Potatoes and Pumpkins.",
       fr: "Boost nearby Sunflowers, Potatoes and Pumpkins.",
       tr: "Boost nearby Sunflowers, Potatoes and Pumpkins.",
@@ -4840,7 +4866,8 @@ export const ITEM_DETAILS: Items = {
     image: bale,
     description: {
       en: "Boost nearby chickens.",
-      pt: "Vizinho favorito das aves, fornece um retiro aconchegante para as galinhas",
+      "pt-BR":
+        "Vizinho favorito das aves, fornece um retiro aconchegante para as galinhas",
       "zh-CN": "家禽们最喜欢的邻居，为鸡们提供一个舒适的休息地",
       fr: "Le voisin préféré de la volaille, offrant une retraite confortable aux poules",
       tr: "Tavuklar için konforlu bir sığınak sağlayan,kümes hayvanlarının en sevdiği komşusu.",
@@ -4850,7 +4877,8 @@ export const ITEM_DETAILS: Items = {
     image: sirGoldenSnout,
     description: {
       en: "A royal member, Sir GoldenSnout infuses your farm with sovereign prosperity through its golden manure.",
-      pt: "A royal member, Sir GoldenSnout infuses your farm with sovereign prosperity through its golden manure.",
+      "pt-BR":
+        "A royal member, Sir GoldenSnout infuses your farm with sovereign prosperity through its golden manure.",
       "zh-CN":
         "A royal member, Sir GoldenSnout infuses your farm with sovereign prosperity through its golden manure.",
       fr: "A royal member, Sir GoldenSnout infuses your farm with sovereign prosperity through its golden manure.",
@@ -4861,7 +4889,8 @@ export const ITEM_DETAILS: Items = {
     image: scaryMike,
     description: {
       en: "Boost nearby Carrots, Cabbages, Soybeans, Beetroots, Cauliflowers and Parsnips",
-      pt: "Boost nearby Carrots, Cabbages, Soybeans, Beetroots, Cauliflowers and Parsnips",
+      "pt-BR":
+        "Boost nearby Carrots, Cabbages, Soybeans, Beetroots, Cauliflowers and Parsnips",
       "zh-CN":
         "Boost nearby Carrots, Cabbages, Soybeans, Beetroots, Cauliflowers and Parsnips",
       fr: "Boost nearby Carrots, Cabbages, Soybeans, Beetroots, Cauliflowers and Parsnips",
@@ -4872,7 +4901,7 @@ export const ITEM_DETAILS: Items = {
     image: laurie,
     description: {
       en: "Boost nearby Eggplant, Corn, Radish, Wheat and Kale",
-      pt: "Boost nearby Eggplant, Corn, Radish, Wheat and Kale",
+      "pt-BR": "Boost nearby Eggplant, Corn, Radish, Wheat and Kale",
       "zh-CN": "Boost nearby Eggplant, Corn, Radish, Wheat and Kale",
       fr: "Boost nearby Eggplant, Corn, Radish, Wheat and Kale",
       tr: "Boost nearby Eggplant, Corn, Radish, Wheat and Kale",
@@ -4882,7 +4911,8 @@ export const ITEM_DETAILS: Items = {
     image: freyaFox,
     description: {
       en: "Enchanting guardian, boosts pumpkin growth with her mystical charm. Harvest abundant pumpkins under her watchful gaze.",
-      pt: "Enchanting guardian, boosts pumpkin growth with her mystical charm. Harvest abundant pumpkins under her watchful gaze.",
+      "pt-BR":
+        "Enchanting guardian, boosts pumpkin growth with her mystical charm. Harvest abundant pumpkins under her watchful gaze.",
       "zh-CN":
         "Enchanting guardian, boosts pumpkin growth with her mystical charm. Harvest abundant pumpkins under her watchful gaze.",
       fr: "Enchanting guardian, boosts pumpkin growth with her mystical charm. Harvest abundant pumpkins under her watchful gaze.",
@@ -4893,7 +4923,8 @@ export const ITEM_DETAILS: Items = {
     image: queenCornelia,
     description: {
       en: "Command the regal power of Queen Cornelia and experience a magnificent Area of Effect boost to your corn production. +1 Corn.",
-      pt: "Comande o poder régio da Rainha Cornelia e experimente um magnífico impulso de Área de Efeito para a produção de milho. +1 Milho.",
+      "pt-BR":
+        "Comande o poder régio da Rainha Cornelia e experimente um magnífico impulso de Área de Efeito para a produção de milho. +1 Milho.",
       "zh-CN":
         "掌控Queen Cornelia的威严力量，并体验大块区域内玉米产量的显著提升。+1 玉米",
       fr: "Commandez le pouvoir royal de la Reine Cornelia et bénéficiez d'un magnifique boost de zone d'effet pour votre production de Corn. +1 de Corn.",
@@ -4904,7 +4935,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.building.basicComposter,
     description: {
       en: "Produces bait & fertiliser on a regular basis.",
-      pt: "Produz iscas e fertilizantes regularmente.",
+      "pt-BR": "Produz iscas e fertilizantes regularmente.",
       "zh-CN": "箱式堆肥器。定期生产鱼饵和肥料",
       fr: "Produit régulièrement de l'appât et de l'engrais.",
       tr: "Düzenli olarak yem ve gübre üretir.",
@@ -4914,7 +4945,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.building.advancedComposter,
     description: {
       en: "Produces advanced bait & fertiliser on a regular basis.",
-      pt: "Produz iscas e fertilizantes avançados regularmente.",
+      "pt-BR": "Produz iscas e fertilizantes avançados regularmente.",
       "zh-CN": "涡轮堆肥器。定期生产高级鱼饵和肥料",
       fr: "Produit régulièrement de l'appât et de l'engrais avancés.",
       tr: "Düzenli olarak gelişmiş yem ve gübre üretir.",
@@ -4924,7 +4955,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.building.expertComposter,
     description: {
       en: "Produces expert bait & fertiliser on a regular basis.",
-      pt: "Produz iscas e fertilizantes especialistas regularmente.",
+      "pt-BR": "Produz iscas e fertilizantes especialistas regularmente.",
       "zh-CN": "旗舰堆肥器。定期生产专业鱼饵和肥料",
       fr: "Produit régulièrement de l'appât et de l'engrais experts.",
       tr: "Düzenli olarak uzman yem ve gübre üretir.",
@@ -4934,7 +4965,7 @@ export const ITEM_DETAILS: Items = {
     image: solarFlareTicket,
     description: {
       en: "A ticket used during the Solar Flare Season",
-      pt: "Um ticket usado durante a Temporada de Solar Flare",
+      "pt-BR": "Um ticket usado durante a Temporada de Solar Flare",
       "zh-CN": "A ticket used during the Solar Flare Season",
       fr: "Un billet utilisé pendant la saison des Éruptions Solaires",
       tr: "Güneş Patlaması Sezonunda kullanılan bir bilet",
@@ -4944,7 +4975,7 @@ export const ITEM_DETAILS: Items = {
     image: dawnBreakerTicket,
     description: {
       en: "A ticket used during the Dawn Breaker Season",
-      pt: "Um ticket usado durante a Temporada Danw Breaker",
+      "pt-BR": "Um ticket usado durante a Temporada Danw Breaker",
       "zh-CN": "A ticket used during the Dawn Breaker Season",
       fr: "Un billet utilisé pendant la saison de l'Éclaireur de l'Aube",
       tr: "Şafak Kıran Sezonunda kullanılan bir bilet",
@@ -4954,7 +4985,7 @@ export const ITEM_DETAILS: Items = {
     image: crowFeather,
     description: {
       en: "A ticket used during the Witches' Eve Ticket Season",
-      pt: "Um ticket usado durante Whiches' Eve",
+      "pt-BR": "Um ticket usado durante Whiches' Eve",
       "zh-CN": "A ticket used during the Witches' Eve Ticket Season",
       fr: "Un billet utilisé pendant la saison des Billets de la Veille des Sorcières",
       tr: "Cadılar Bayramı Bilet Sezonunda kullanılan bir bilet",
@@ -4964,7 +4995,7 @@ export const ITEM_DETAILS: Items = {
     image: mermaidScale,
     description: {
       en: "A ticket used during the Catch the Kraken Season",
-      pt: "Um ticket usado durante a Temporada de Catch the Kraken",
+      "pt-BR": "Um ticket usado durante a Temporada de Catch the Kraken",
       "zh-CN": "A ticket used during the Catch the Kraken Season",
       fr: "Un billet utilisé pendant la saison de la Chasse au Kraken",
       tr: "Kraken'i Yakala Sezonunda kullanılan bir bilet",
@@ -4974,7 +5005,7 @@ export const ITEM_DETAILS: Items = {
     image: tulipBulb,
     description: {
       en: "A ticket used during the Spring Blossom",
-      pt: "Um ticket usado durante a ",
+      "pt-BR": "Um ticket usado durante a ",
       "zh-CN": "A ticket used during the Spring Blossom",
       fr: "Un billet utilisé pendant la Floraison du Printemps.",
       tr: "Bahar Çiçeği sırasında kullanılan bir bilet",
@@ -4984,7 +5015,7 @@ export const ITEM_DETAILS: Items = {
     image: scroll,
     description: {
       en: "A ticket used during the Clash of Factions Season",
-      pt: "Um ticket usado durante a temporada Clash of Factions",
+      "pt-BR": "Um ticket usado durante a temporada Clash of Factions",
       "zh-CN": "A ticket used during the Clash of Factions Season",
       fr: "A ticket used during the Clash of Factions Season",
       tr: "A ticket used during the Clash of Factions Season",
@@ -4994,7 +5025,7 @@ export const ITEM_DETAILS: Items = {
     image: amberFossil,
     description: {
       en: "A ticket used during the Pharaoh's Treasure Season",
-      pt: "Um ticket usado durante a temporada Pharaoh's Treasure",
+      "pt-BR": "Um ticket usado durante a temporada Pharaoh's Treasure",
       "zh-CN": "A ticket used during the Pharaoh's Treasure Season",
       fr: "A ticket used during the Pharaoh's Treasure Season",
       tr: "A ticket used during the Pharaoh's Treasure Season",
@@ -5004,7 +5035,7 @@ export const ITEM_DETAILS: Items = {
     image: bumpkinEmblem,
     description: {
       en: "Show your allegiance to the Bumpkins",
-      pt: "Show your allegiance to the Bumpkins",
+      "pt-BR": "Show your allegiance to the Bumpkins",
       "zh-CN": "Show your allegiance to the Bumpkins",
       fr: "Show your allegiance to the Bumpkins",
       tr: "Show your allegiance to the Bumpkins",
@@ -5014,7 +5045,7 @@ export const ITEM_DETAILS: Items = {
     image: goblinEmblem,
     description: {
       en: "Show your allegiance to the Goblins",
-      pt: "Show your allegiance to the Goblins",
+      "pt-BR": "Show your allegiance to the Goblins",
       "zh-CN": "Show your allegiance to the Goblins",
       fr: "Show your allegiance to the Goblins",
       tr: "Show your allegiance to the Goblins",
@@ -5024,7 +5055,7 @@ export const ITEM_DETAILS: Items = {
     image: nightshadeEmblem,
     description: {
       en: "Show your allegiance to the Nightshades",
-      pt: "Show your allegiance to the Nightshades",
+      "pt-BR": "Show your allegiance to the Nightshades",
       "zh-CN": "Show your allegiance to the Nightshades",
       fr: "Show your allegiance to the Nightshades",
       tr: "Show your allegiance to the Nightshades",
@@ -5034,7 +5065,7 @@ export const ITEM_DETAILS: Items = {
     image: sunflorianEmblem,
     description: {
       en: "Show your allegiance to the Sunflorians",
-      pt: "Show your allegiance to the Sunflorians",
+      "pt-BR": "Show your allegiance to the Sunflorians",
       "zh-CN": "Show your allegiance to the Sunflorians",
       fr: "Show your allegiance to the Sunflorians",
       tr: "Show your allegiance to the Sunflorians",
@@ -5044,7 +5075,7 @@ export const ITEM_DETAILS: Items = {
     image: mark,
     description: {
       en: "Use these in the faction shop",
-      pt: "Use these in the faction shop",
+      "pt-BR": "Use these in the faction shop",
       "zh-CN": "Use these in the faction shop",
       fr: "Use these in the faction shop",
       tr: "Use these in the faction shop",
@@ -5054,7 +5085,7 @@ export const ITEM_DETAILS: Items = {
     image: supporterTicket,
     description: {
       en: "The mark of a true supporter of the game!",
-      pt: "A marca de um verdadeiro apoiador do jogo!",
+      "pt-BR": "A marca de um verdadeiro apoiador do jogo!",
       "zh-CN": "The mark of a true supporter of the game!",
       fr: "La marque d'un véritable supporter du jeu!",
       tr: "Oyunun gerçek bir destekçisinin işareti!",
@@ -5064,7 +5095,7 @@ export const ITEM_DETAILS: Items = {
     image: sunflowerKey,
     description: {
       en: "Visit the plaza to unlock your reward",
-      pt: "Visite o Plaza para desbloquear sua recompensa",
+      "pt-BR": "Visite o Plaza para desbloquear sua recompensa",
       "zh-CN": "Visit the plaza to unlock your reward",
       fr: "Visitez la place pour débloquer votre récompense",
       tr: "Ödülünüzün kilidini açmak için Plazayı ziyaret edin",
@@ -5074,7 +5105,7 @@ export const ITEM_DETAILS: Items = {
     image: beachBall,
     description: {
       en: "Bouncy ball brings beachy vibes, blows boredom away.",
-      pt: "A bola saltitante traz vibrações de praia, afasta o tédio.",
+      "pt-BR": "A bola saltitante traz vibrações de praia, afasta o tédio.",
       "zh-CN": "弹跳的小球跃动着海滩气息，赶走所有无聊",
       fr: "La balle rebondissante apporte des vibrations de plage, chasse l'ennui.",
       tr: "Zıplayan top, plaj havası verir ve can sıkıntısını giderir.",
@@ -5084,7 +5115,8 @@ export const ITEM_DETAILS: Items = {
     image: palmTree,
     description: {
       en: "Tall, beachy, shady and chic, palm trees make waves sashay.",
-      pt: "Alto, de praia, sombreado e chique, as palmeiras fazem as ondas gingarem.",
+      "pt-BR":
+        "Alto, de praia, sombreado e chique, as palmeiras fazem as ondas gingarem.",
       "zh-CN": "高大、滩岸、阴凉、别致，棕榈树摇曳着海浪",
       fr: "Haut, branché, ombragé et chic, les palmiers font des vagues.",
       tr: "Uzun, kumsal, gölgeli ve şık palmiye ağaçları dalgaları dalgalandırıyor.",
@@ -5094,7 +5126,8 @@ export const ITEM_DETAILS: Items = {
     image: karkinos,
     description: {
       en: "Pinchy but kind, the crabby cabbage-boosting addition to your farm!",
-      pt: "Afiado mas gentil, adição de repolho “caranguejo” à sua fazenda!",
+      "pt-BR":
+        "Afiado mas gentil, adição de repolho “caranguejo” à sua fazenda!",
       "zh-CN": "咔叽诺斯。掐得也温柔，卷心好帮手！",
       fr: "Pincé mais gentil, l'ajout crabe-Cabbage à votre ferme qui améliore la production de choux!",
       tr: "Çimdik sever ama kibar, çiftliğine lahana artırıcı bir yengeç!",
@@ -5104,7 +5137,8 @@ export const ITEM_DETAILS: Items = {
     image: mushroomHouse,
     description: {
       en: "A whimsical, fungi-abode where the walls sprout with charm and even the furniture has a 'spore-tacular' flair!",
-      pt: "Uma morada fungosa e caprichosa onde as paredes brotam com charme e até os móveis têm um toque 'esporacular'!",
+      "pt-BR":
+        "Uma morada fungosa e caprichosa onde as paredes brotam com charme e até os móveis têm um toque 'esporacular'!",
       "zh-CN": "好一个真上老菌的奇趣妙妙屋，四壁散发迷人魅力，家具孢含惊奇！",
       fr: "Une demeure fantasque pleine de champignons où les murs poussent avec charme et même les meubles ont un flair 'spore-taculaire'!",
       tr: "Duvarların cazibesiyle filizlendiği ve eşyaların bile mantarşem bir zarafete sahip olduğu tuhaf mantar meskeni!",
@@ -5114,7 +5148,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.resource.land,
     description: {
       en: "A basic piece of land",
-      pt: "Um pedaço básico de terra",
+      "pt-BR": "Um pedaço básico de terra",
       "zh-CN": "一片基础岛地",
       fr: "Un morceau d'île basique.",
       tr: "Temel bir toprak parçası",
@@ -5124,7 +5158,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.resource.plot,
     description: {
       en: "An empty plot to plant crops on",
-      pt: "Um espaço vazio para plantar",
+      "pt-BR": "Um espaço vazio para plantar",
       "zh-CN": "一块空田以种庄稼",
       fr: "Une parcelle vide pour planter des cultures.",
       tr: "Bitki yetiştirmek için boş bir arsa",
@@ -5134,7 +5168,7 @@ export const ITEM_DETAILS: Items = {
     image: sunstoneRock,
     description: {
       en: "A mineable rock to collect sunstone",
-      pt: "A mineable rock to collect sunstone",
+      "pt-BR": "A mineable rock to collect sunstone",
       "zh-CN": "A mineable rock to collect sunstone",
       fr: "A mineable rock to collect sunstone",
       tr: "A mineable rock to collect sunstone",
@@ -5144,7 +5178,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.resource.goldStone,
     description: {
       en: "A mineable rock to collect gold",
-      pt: "Uma rocha minerável para coletar ouro",
+      "pt-BR": "Uma rocha minerável para coletar ouro",
       "zh-CN": "一片矿脉以收集黄金",
       fr: "Une roche exploitable pour collecter de l'or.",
       tr: "Altın toplamak için kazılabilen bir kaya",
@@ -5154,7 +5188,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.resource.ironStone,
     description: {
       en: "A mineable rock to collect iron",
-      pt: "Uma rocha minerável para coletar ferro",
+      "pt-BR": "Uma rocha minerável para coletar ferro",
       "zh-CN": "一片矿脉以收集铁矿",
       fr: "Une roche exploitable pour collecter du fer.",
       tr: "Demir toplamak için kazılabilen bir kaya",
@@ -5164,7 +5198,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.resource.stone_small,
     description: {
       en: "A mineable rock to collect stone",
-      pt: "Uma rocha minerável para coletar pedra",
+      "pt-BR": "Uma rocha minerável para coletar pedra",
       "zh-CN": "一片矿脉以收集石头",
       fr: "Une roche exploitable pour collecter de la pierre.",
       tr: "Taş toplamak için kazılabilen bir kaya",
@@ -5174,7 +5208,7 @@ export const ITEM_DETAILS: Items = {
     image: crimstoneRock,
     description: {
       en: "A mineable rock to collect crimstone",
-      pt: "Uma rocha minerável para coletar Crimstone",
+      "pt-BR": "Uma rocha minerável para coletar Crimstone",
       "zh-CN": "一片矿脉以收集红宝石",
       fr: "Une roche exploitable pour collecter du crimstone.",
       tr: "Kızıltaş toplamak için kazılabilen bir kaya",
@@ -5184,7 +5218,7 @@ export const ITEM_DETAILS: Items = {
     image: oilReserve,
     description: {
       en: "A source of oil",
-      pt: "Uma reserva para coletar petróleo",
+      "pt-BR": "Uma reserva para coletar petróleo",
       "zh-CN": "石油之源",
       fr: "A source of oil",
       tr: "A source of oil",
@@ -5194,7 +5228,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.resource.tree,
     description: {
       en: "A choppable tree to collect wood",
-      pt: "Uma árvore cortável para coletar madeira",
+      "pt-BR": "Uma árvore cortável para coletar madeira",
       "zh-CN": "一棵树木以收集木头",
       fr: "Un arbre que vous pouvez abattre pour collecter du Wood.",
       tr: "Odun toplamak için kesilebilir bir ağaç",
@@ -5204,7 +5238,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.resource.fruitPatch,
     description: {
       en: "An empty plot to plant fruit on",
-      pt: "Um terreno vazio para plantar frutas",
+      "pt-BR": "Um terreno vazio para plantar frutas",
       "zh-CN": "一块空田以种水果",
       fr: "Une parcelle vide pour planter des fruits.",
       tr: "Meyve dikmek için boş bir arsa",
@@ -5214,7 +5248,7 @@ export const ITEM_DETAILS: Items = {
     image: flowerBed,
     description: {
       en: "An empty plot to plant flowers on",
-      pt: "Um terreno vazio para plantar flores",
+      "pt-BR": "Um terreno vazio para plantar flores",
       "zh-CN": "一块空田以种花卉",
       fr: "Une parcelle vide pour planter des fleurs.",
       tr: "Çiçek dikmek için boş bir arsa",
@@ -5224,7 +5258,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.resource.boulder,
     description: {
       en: "A mythical rock that can drop rare minerals",
-      pt: "Uma rocha mítica que pode liberar minerais raros",
+      "pt-BR": "Uma rocha mítica que pode liberar minerais raros",
       "zh-CN": "一片神秘矿脉可掉落稀有矿物",
       fr: "Une roche mythique qui peut laisser tomber des minéraux rares.",
       tr: "Nadir mineralleri düşürebilen efsanevi bir kaya",
@@ -5234,7 +5268,8 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.sfts.dirt,
     description: {
       en: "Keep your farmer boots clean with a well trodden path.",
-      pt: "Mantenha suas botas de fazendeiro limpas com um caminho bem pisado.",
+      "pt-BR":
+        "Mantenha suas botas de fazendeiro limpas com um caminho bem pisado.",
       "zh-CN": "千足踏过的小径总不脏鞋",
       fr: "Gardez vos bottes de fermier propres avec un chemin bien foulé.",
       tr: "Çiftçi botlarınızı iyi işlenmiş bir yolla temiz tutun.",
@@ -5244,7 +5279,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.decorations.bush,
     description: {
       en: "What's lurking in the bushes?",
-      pt: "O que está espreitando nas moitas?",
+      "pt-BR": "O que está espreitando nas moitas?",
       "zh-CN": "草丛里都躲着什么？",
       fr: "Que se cache-t-il dans les buissons?",
       tr: "Çalıların arasında ne gizleniyor?",
@@ -5254,7 +5289,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.decorations.fence,
     description: {
       en: "Add a touch of rustic charm to your farm.",
-      pt: "Adicione um toque de charme rústico à sua fazenda.",
+      "pt-BR": "Adicione um toque de charme rústico à sua fazenda.",
       "zh-CN": "给你的农场来点乡村魅力",
       fr: "Ajoutez une touche de charme rustique à votre ferme.",
       tr: "Çiftliğinize rustik bir çekicilik katın.",
@@ -5264,7 +5299,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.decorations.stoneFence,
     description: {
       en: "Embrace the timeless elegance of a stone fence.",
-      pt: "Abrace a elegância atemporal de uma cerca de pedra.",
+      "pt-BR": "Abrace a elegância atemporal de uma cerca de pedra.",
       "zh-CN": "拥抱石栏的永恒优雅",
       fr: "Adoptez l'élégance intemporelle d'une clôture en pierre.",
       tr: "Taş çitin zamansız zarafetini kucaklayın.",
@@ -5274,7 +5309,7 @@ export const ITEM_DETAILS: Items = {
     image: shrub,
     description: {
       en: "Enhance your in-game landscaping with a beautiful shrub",
-      pt: "Melhore seu paisagismo no jogo com um arbusto bonito",
+      "pt-BR": "Melhore seu paisagismo no jogo com um arbusto bonito",
       "zh-CN": "一簇美妙灌木倍增您的游乐景象",
       fr: "Améliorez votre aménagement paysager en jeu avec un bel arbuste.",
       tr: "Güzel bir çalıyla oyun içi peyzajınızı geliştirin",
@@ -5284,7 +5319,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.decorations.pineTree,
     description: {
       en: "Standing tall and mighty, a needle-clad dream.",
-      pt: "De pé alto e poderoso.",
+      "pt-BR": "De pé alto e poderoso.",
       "zh-CN": "高岸雄伟，一趟层层针叶梦",
       fr: "Debout haut et puissant, un rêve habillé d'aiguilles.",
       tr: "Dik ve kudretli durmak, iğnelerle kaplı bir rüya.",
@@ -5294,7 +5329,8 @@ export const ITEM_DETAILS: Items = {
     image: fieldMaple,
     description: {
       en: "A petite charmer that spreads its leaves like a delicate green canopy.",
-      pt: "Um charme pequeno que espalha suas folhas como um dossel verde delicado.",
+      "pt-BR":
+        "Um charme pequeno que espalha suas folhas como um dossel verde delicado.",
       "zh-CN": "娇枝嫩叶展开翠绿天蓬",
       fr: "Un charmeur petit qui étend ses feuilles comme une délicate canopée verte.",
       tr: "Yapraklarını narin yeşil bir gölgelik gibi yayan küçük bir büyücü.",
@@ -5304,7 +5340,7 @@ export const ITEM_DETAILS: Items = {
     image: redMaple,
     description: {
       en: "Fiery foliage and a heart full of autumnal warmth.",
-      pt: "Folhagem ardente e um coração cheio de calor outonal.",
+      "pt-BR": "Folhagem ardente e um coração cheio de calor outonal.",
       "zh-CN": "火热红叶有一颗秋日暖心",
       fr: "Foliage enflammé et un cœur plein de chaleur automnale.",
       tr: "Ateşli yapraklar ve sonbahar sıcaklığıyla dolu bir kalp.",
@@ -5314,7 +5350,7 @@ export const ITEM_DETAILS: Items = {
     image: goldenMaple,
     description: {
       en: "Radiating brilliance with its shimmering golden leaves.",
-      pt: "Irradiando brilho com suas folhas douradas cintilantes.",
+      "pt-BR": "Irradiando brilho com suas folhas douradas cintilantes.",
       "zh-CN": "金光枫叶四绽光芒",
       fr: "Illuminant de sa brillance avec ses feuilles dorées scintillantes.",
       tr: "Parıldayan altın yapraklarıyla parlaklık saçıyor.",
@@ -5324,7 +5360,7 @@ export const ITEM_DETAILS: Items = {
     image: solarFlareBanner,
     description: {
       en: "?",
-      pt: "?",
+      "pt-BR": "?",
       "zh-CN": "?",
       fr: "?",
       tr: "?",
@@ -5334,7 +5370,7 @@ export const ITEM_DETAILS: Items = {
     image: dawnBreakerBanner,
     description: {
       en: "?",
-      pt: "?",
+      "pt-BR": "?",
       "zh-CN": "?",
       fr: "?",
       tr: "?",
@@ -5344,7 +5380,7 @@ export const ITEM_DETAILS: Items = {
     image: witchesEveBanner,
     description: {
       en: "?",
-      pt: "?",
+      "pt-BR": "?",
       "zh-CN": "?",
       fr: "?",
       tr: "?",
@@ -5354,7 +5390,8 @@ export const ITEM_DETAILS: Items = {
     image: catchTheKrakenBanner,
     description: {
       en: "The Kraken is here! The mark of a participant in the Catch the Kraken Season.",
-      pt: "O Kraken está aqui! O símbolo de um participante na Temporada de Pegar o Kraken.",
+      "pt-BR":
+        "O Kraken está aqui! O símbolo de um participante na Temporada de Pegar o Kraken.",
       "zh-CN": "海怪浮现！追捕海怪时季参与者的标志",
       fr: "Le Kraken est là ! La marque d'un participant à la saison Catch the Kraken.",
       tr: "Kraken burada! Kraken Yakalama Sezonu katılımcısının işareti.",
@@ -5364,7 +5401,7 @@ export const ITEM_DETAILS: Items = {
     image: springBlossomBanner,
     description: {
       en: "",
-      pt: "",
+      "pt-BR": "",
       "zh-CN": "",
       fr: "",
       tr: "",
@@ -5374,7 +5411,7 @@ export const ITEM_DETAILS: Items = {
     image: clashOfFactionsBanner,
     description: {
       en: "",
-      pt: "",
+      "pt-BR": "",
       "zh-CN": "",
       fr: "",
       tr: "",
@@ -5384,7 +5421,7 @@ export const ITEM_DETAILS: Items = {
     image: lifetimeFarmerBanner,
     description: {
       en: "",
-      pt: "",
+      "pt-BR": "",
       "zh-CN": "",
       fr: "",
       tr: "",
@@ -5394,7 +5431,7 @@ export const ITEM_DETAILS: Items = {
     image: pharaohsTreasureBanner,
     description: {
       en: "",
-      pt: "",
+      "pt-BR": "",
       "zh-CN": "",
       fr: "",
       tr: "",
@@ -5404,7 +5441,7 @@ export const ITEM_DETAILS: Items = {
     image: luminousLantern,
     description: {
       en: "A bright paper lantern that illuminates the way.",
-      pt: "Uma lanterna de papel brilhante que ilumina o caminho.",
+      "pt-BR": "Uma lanterna de papel brilhante que ilumina o caminho.",
       "zh-CN": "明亮纸灯笼照亮前方道路",
       fr: "Une lanterne en papier lumineuse qui éclaire le chemin.",
       tr: "Yolu aydınlatan parlak bir kağıt fener.",
@@ -5414,7 +5451,8 @@ export const ITEM_DETAILS: Items = {
     image: radianceLantern,
     description: {
       en: "A radiant paper lantern that shines with a powerful light.",
-      pt: "Uma lanterna de papel radiante que brilha com uma luz poderosa.",
+      "pt-BR":
+        "Uma lanterna de papel radiante que brilha com uma luz poderosa.",
       "zh-CN": "光亮纸灯笼射出强光闪耀",
       fr: "Une lanterne en papier radieuse qui brille d'une lumière puissante.",
       tr: "Güçlü bir ışıkla parlayan parlak bir kağıt fener.",
@@ -5424,7 +5462,8 @@ export const ITEM_DETAILS: Items = {
     image: oceanLantern,
     description: {
       en: "A wavy paper lantern that sways with the bobbing of the tide.",
-      pt: "Uma lanterna de papel ondulante que balança com o movimento da maré.",
+      "pt-BR":
+        "Uma lanterna de papel ondulante que balança com o movimento da maré.",
       "zh-CN": "海浪纸灯笼随着波涛摇曳",
       fr: "Une lanterne en papier ondulée qui flotte avec la marée.",
       tr: "Gelgitin sallanmasıyla sallanan dalgalı bir kağıt fener.",
@@ -5434,7 +5473,8 @@ export const ITEM_DETAILS: Items = {
     image: solarLantern,
     description: {
       en: "Harnessing the vibrant essence of sunflowers, the Solar Lantern emanates a warm and radiant glow.",
-      pt: "Aproveitando a essência vibrante dos girassóis, a Lanterna Solar emana um brilho quente e radiante.",
+      "pt-BR":
+        "Aproveitando a essência vibrante dos girassóis, a Lanterna Solar emana um brilho quente e radiante.",
       "zh-CN": "掌持向日葵的跃动精粹，向日灯笼散发着温暖又耀眼的荧光",
       fr: "Utilisant l'essence vibrante des Sunflowers, la lanterne solaire émet une lueur chaude et radieuse.",
       tr: "Ayçiçeklerinin canlı özünü kullanan Solar Fener, sıcak ve ışıltılı bir ışıltı yayıyor.",
@@ -5444,7 +5484,8 @@ export const ITEM_DETAILS: Items = {
     image: auroraLantern,
     description: {
       en: "A paper lantern that transforms any space into a magical wonderland.",
-      pt: "Uma lanterna de papel que transforma qualquer espaço em um mundo mágico.",
+      "pt-BR":
+        "Uma lanterna de papel que transforma qualquer espaço em um mundo mágico.",
       "zh-CN": "极光纸灯笼晕染魔法幻境",
       fr: "Une lanterne en papier qui transforme tout espace en un pays des merveilles magique.",
       tr: "Herhangi bir alanı büyülü bir harikalar diyarına dönüştüren bir kağıt fener.",
@@ -5454,7 +5495,8 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.decorations.bonniesTombstone,
     description: {
       en: "A spooky addition to any farm, Bonnie's Human Tombstone will send shivers down your spine.",
-      pt: "A spooky addition to any farm, Bonnie's Human Tombstone will send shivers down your spine.",
+      "pt-BR":
+        "A spooky addition to any farm, Bonnie's Human Tombstone will send shivers down your spine.",
       "zh-CN":
         "A spooky addition to any farm, Bonnie's Human Tombstone will send shivers down your spine.",
       fr: "A spooky addition to any farm, Bonnie's Human Tombstone will send shivers down your spine.",
@@ -5465,7 +5507,8 @@ export const ITEM_DETAILS: Items = {
     image: chestnutStool,
     description: {
       en: "The Chestnut Fungi Stool is a sturdy and rustic addition to any farm.",
-      pt: "The Chestnut Fungi Stool is a sturdy and rustic addition to any farm.",
+      "pt-BR":
+        "The Chestnut Fungi Stool is a sturdy and rustic addition to any farm.",
       "zh-CN":
         "The Chestnut Fungi Stool is a sturdy and rustic addition to any farm.",
       fr: "The Chestnut Fungi Stool is a sturdy and rustic addition to any farm.",
@@ -5476,7 +5519,8 @@ export const ITEM_DETAILS: Items = {
     image: crimsonCap,
     description: {
       en: "A towering and vibrant mushroom, the Crimson Cap Giant Mushroom will bring life to your farm.",
-      pt: "A towering and vibrant mushroom, the Crimson Cap Giant Mushroom will bring life to your farm.",
+      "pt-BR":
+        "A towering and vibrant mushroom, the Crimson Cap Giant Mushroom will bring life to your farm.",
       "zh-CN":
         "A towering and vibrant mushroom, the Crimson Cap Giant Mushroom will bring life to your farm.",
       fr: "A towering and vibrant mushroom, the Crimson Cap Giant Mushroom will bring life to your farm.",
@@ -5487,7 +5531,8 @@ export const ITEM_DETAILS: Items = {
     image: dawnUmbrellaSeat,
     description: {
       en: "Keep those Eggplants dry during those rainy days with the Dawn Umbrella Seat.",
-      pt: "Mantenha essas Berinjelas secas durante os dias chuvosos com o Guarda-chuva Assento da Aurora.",
+      "pt-BR":
+        "Mantenha essas Berinjelas secas durante os dias chuvosos com o Guarda-chuva Assento da Aurora.",
       "zh-CN": "有了晨曦伞座，叫茄子在阴雨云天也保持干爽",
       fr: "Gardez ces Eggplants au sec lors des journées pluvieuses avec le siège-parapluie Dawn.",
       tr: "Şafak Şemsiye Koltuğu ile bu yağmurlu günlerde patlıcanları kuru tutun.",
@@ -5497,7 +5542,8 @@ export const ITEM_DETAILS: Items = {
     image: eggplantGrill,
     description: {
       en: "Get cooking with the Eggplant Grill, perfect for any outdoor meal.",
-      pt: "Comece a cozinhar com a Churrasqueira de Berinjela, perfeita para qualquer refeição ao ar livre.",
+      "pt-BR":
+        "Comece a cozinhar com a Churrasqueira de Berinjela, perfeita para qualquer refeição ao ar livre.",
       "zh-CN": "用上茄子烤架做饭，户外就餐完美精选",
       fr: "Préparez vos repas en plein air avec le Eggplant Grill, parfait pour tout repas en plein air.",
       tr: "Her türlü açık hava yemeği için mükemmel olan Patlıcan Izgara ile yemek pişirin.",
@@ -5507,7 +5553,8 @@ export const ITEM_DETAILS: Items = {
     image: giantDawnMushroom,
     description: {
       en: "The Giant Dawn Mushroom is a majestic and magical addition to any farm.",
-      pt: "O Cogumelo Gigante da Aurora é uma adição majestosa e mágica para qualquer fazenda.",
+      "pt-BR":
+        "O Cogumelo Gigante da Aurora é uma adição majestosa e mágica para qualquer fazenda.",
       "zh-CN": "巨型晨曦蘑菇在任何农场都显得雄伟又魔幻",
       fr: "Le champignon géant Dawn est un ajout majestueux et magique à toute ferme.",
       tr: "Dev Şafak Mantarı her çiftliğe görkemli ve büyülü bir katkıdır.",
@@ -5517,7 +5564,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.decorations.grubnashTombstone,
     description: {
       en: "Add some mischievous charm with Grubnash's Goblin Tombstone.",
-      pt: "Add some mischievous charm with Grubnash's Goblin Tombstone.",
+      "pt-BR": "Add some mischievous charm with Grubnash's Goblin Tombstone.",
       "zh-CN": "Add some mischievous charm with Grubnash's Goblin Tombstone.",
       fr: "Add some mischievous charm with Grubnash's Goblin Tombstone.",
       tr: "Add some mischievous charm with Grubnash's Goblin Tombstone.",
@@ -5527,7 +5574,8 @@ export const ITEM_DETAILS: Items = {
     image: mahoganyCap,
     description: {
       en: "Add a touch of sophistication with the Mahogany Cap Giant Mushroom.",
-      pt: "Add a touch of sophistication with the Mahogany Cap Giant Mushroom.",
+      "pt-BR":
+        "Add a touch of sophistication with the Mahogany Cap Giant Mushroom.",
       "zh-CN":
         "Add a touch of sophistication with the Mahogany Cap Giant Mushroom.",
       fr: "Add a touch of sophistication with the Mahogany Cap Giant Mushroom.",
@@ -5538,7 +5586,8 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.decorations.shroomGlow,
     description: {
       en: "Illuminate your farm with the enchanting glow of Shroom Glow.",
-      pt: "Ilumine sua fazenda com o brilho encantador do Brilho dos Cogumelos.",
+      "pt-BR":
+        "Ilumine sua fazenda com o brilho encantador do Brilho dos Cogumelos.",
       "zh-CN": "蘑菇灯的魔力荧光照亮您的农场",
       fr: "Illuminez votre ferme avec la lueur enchanteresse de Shroom Glow.",
       tr: "Çiftliğinizi Shroom Glow'un büyüleyici ışıltısıyla aydınlatın.",
@@ -5548,7 +5597,7 @@ export const ITEM_DETAILS: Items = {
     image: toadstoolSeat,
     description: {
       en: "Sit back and relax on the whimsical Toadstool Mushroom Seat.",
-      pt: "Sit back and relax on the whimsical Toadstool Mushroom Seat.",
+      "pt-BR": "Sit back and relax on the whimsical Toadstool Mushroom Seat.",
       "zh-CN": "Sit back and relax on the whimsical Toadstool Mushroom Seat.",
       fr: "Sit back and relax on the whimsical Toadstool Mushroom Seat.",
       tr: "Sit back and relax on the whimsical Toadstool Mushroom Seat.",
@@ -5558,7 +5607,8 @@ export const ITEM_DETAILS: Items = {
     image: clementine,
     description: {
       en: "The Clementine Gnome is a cheerful companion for your farming adventures.",
-      pt: "O Gnomo Clementine é um companheiro alegre para suas aventuras na fazenda.",
+      "pt-BR":
+        "O Gnomo Clementine é um companheiro alegre para suas aventuras na fazenda.",
       "zh-CN": "小橙侏儒是你耕作冒险的欢乐伙伴",
       fr: "Le gnome Clementine est un compagnon joyeux pour vos aventures agricoles.",
       tr: "Clementine Gnome, çiftçilik maceralarınız için neşeli bir yol arkadaşıdır.",
@@ -5568,7 +5618,8 @@ export const ITEM_DETAILS: Items = {
     image: blossombeard,
     description: {
       en: "The Blossombeard Gnome is a powerful companion for your farming adventures.",
-      pt: "O Gnomo Blossombeard é um companheiro poderoso para suas aventuras na fazenda.",
+      "pt-BR":
+        "O Gnomo Blossombeard é um companheiro poderoso para suas aventuras na fazenda.",
       "zh-CN": "开花胡茬侏儒是你耕作冒险的强力帮手",
       fr: "Le gnome Blossombeard est un compagnon puissant pour vos aventures agricoles.",
       tr: "Çiçek Sakallı Gnome, çiftçilik maceralarınız için güçlü bir yol arkadaşıdır.",
@@ -5578,7 +5629,7 @@ export const ITEM_DETAILS: Items = {
     image: desertgnome,
     description: {
       en: "A gnome that can survive the harshest of conditions.",
-      pt: "A gnome that can survive the harshest of conditions.",
+      "pt-BR": "A gnome that can survive the harshest of conditions.",
       "zh-CN": "能够在最恶劣的条件下生存的侏儒。",
       fr: "A gnome that can survive the harshest of conditions.",
       tr: "A gnome that can survive the harshest of conditions.",
@@ -5588,7 +5639,8 @@ export const ITEM_DETAILS: Items = {
     image: cobalt,
     description: {
       en: "The Cobalt Gnome adds a pop of color to your farm with his vibrant hat.",
-      pt: "O Gnomo Cobalt adiciona um toque de cor à sua fazenda com seu chapéu vibrante.",
+      "pt-BR":
+        "O Gnomo Cobalt adiciona um toque de cor à sua fazenda com seu chapéu vibrante.",
       "zh-CN": "钴侏儒用他的鲜艳帽子为你的农场另添时兴增色",
       fr: "Le gnome Cobalt ajoute une touche de couleur à votre ferme avec son chapeau vibrant.",
       tr: "Kobalt Gnome, canlı şapkasıyla çiftliğinize renk katar.",
@@ -5598,7 +5650,8 @@ export const ITEM_DETAILS: Items = {
     image: purpleTrail,
     description: {
       en: "Leave your opponents in a trail of envy with the mesmerizing and unique Purple Trail",
-      pt: "Deixe seus oponentes com inveja com a trilha roxa única e fascinante",
+      "pt-BR":
+        "Deixe seus oponentes com inveja com a trilha roxa única e fascinante",
       "zh-CN": "有了这迷人独特的 Purple Trail，让你的对手垂涎食尘吧",
       fr: "Laissez vos adversaires derrière vous dans un sillage d'envie avec le sentier violet captivant et unique",
       tr: "Büyüleyici ve eşsiz Purple Trail ile rakiplerini kıskançlık içinde bırak.",
@@ -5608,7 +5661,7 @@ export const ITEM_DETAILS: Items = {
     image: maximus,
     description: {
       en: "Squash the competition with plump Maximus",
-      pt: "Esmague a competição com o robusto Maximus",
+      "pt-BR": "Esmague a competição com o robusto Maximus",
       "zh-CN": "用丰满的 Maximus 碾压全场",
       fr: "Écrasez la concurrence avec le joufflu Maximus",
       tr: "Tombul Maximus ile rekabeti ezip geç!",
@@ -5618,7 +5671,7 @@ export const ITEM_DETAILS: Items = {
     image: obie,
     description: {
       en: "A fierce eggplant soldier",
-      pt: "Um feroz soldado de Berinjela",
+      "pt-BR": "Um feroz soldado de Berinjela",
       "zh-CN": "凶悍的长茄兵。",
       fr: "Un vaillant soldat Eggplant",
       tr: "Azılı bir patlıcan askeri",
@@ -5628,7 +5681,7 @@ export const ITEM_DETAILS: Items = {
     image: hoot,
     description: {
       en: "Hoot hoot! Have you solved my riddle yet?",
-      pt: "Hoot hoot! Você já resolveu meu enigma?",
+      "pt-BR": "Hoot hoot! Você já resolveu meu enigma?",
       "zh-CN": "呼呜！呼呜！解开我的谜语没？",
       fr: "Hibou hibou ! Avez-vous résolu mon énigme?",
       tr: "Vay vay! Bilmecemi hâlâ çözmedin mi?",
@@ -5638,7 +5691,7 @@ export const ITEM_DETAILS: Items = {
     image: genieBear,
     description: {
       en: "Exactly what I wished for!",
-      pt: "Exatamente o que eu desejei!",
+      "pt-BR": "Exatamente o que eu desejei!",
       "zh-CN": "正是我想要的！",
       fr: "Exactement ce que je souhaitais!",
       tr: "Tam olarak istediğim şey!",
@@ -5648,7 +5701,7 @@ export const ITEM_DETAILS: Items = {
     image: bettyLantern,
     description: {
       en: "It looks so real! I wonder how they crafted this.",
-      pt: "Parece tão real! Eu me pergunto como eles fizeram isso.",
+      "pt-BR": "Parece tão real! Eu me pergunto como eles fizeram isso.",
       "zh-CN": "看起来栩栩如生！好奇他们是怎么打造这出来的",
       fr: "Elle a l'air tellement réelle ! Je me demande comment ils l'ont fabriquée.",
       tr: "O kadar gerçek görünüyor ki! Bunu nasıl hazırladıklarını merak ediyorum.",
@@ -5658,7 +5711,8 @@ export const ITEM_DETAILS: Items = {
     image: bumpkinLantern,
     description: {
       en: "Moving closer you hear murmurs of a living Bumpkin...creepy!",
-      pt: "Aproximando-se, você ouve murmúrios de um Bumpkin vivo... assustador!",
+      "pt-BR":
+        "Aproximando-se, você ouve murmúrios de um Bumpkin vivo... assustador!",
       "zh-CN": "凑近听，能听到乡包佬的呢喃低语……可怕！",
       fr: "En vous approchant, vous entendez des murmures d'un Bumpkin vivant... effrayant!",
       tr: "Yaklaştığınızda yaşayan bir Bumpkin'in mırıltılarını duyarsınız... tüyler ürpertici!",
@@ -5668,7 +5722,7 @@ export const ITEM_DETAILS: Items = {
     image: eggplantBear,
     description: {
       en: "The mark of a generous eggplant whale.",
-      pt: "O símbolo de uma baleia berinjela generosa.",
+      "pt-BR": "O símbolo de uma baleia berinjela generosa.",
       "zh-CN": "茄子大亨慷慨的标志",
       fr: "La marque généreuse Eggplant balaine.",
       tr: "Cömert bir patlıcan balinasının işareti.",
@@ -5678,7 +5732,7 @@ export const ITEM_DETAILS: Items = {
     image: goblinLantern,
     description: {
       en: "A scary looking lantern",
-      pt: "Uma lanterna com uma aparência assustadora",
+      "pt-BR": "Uma lanterna com uma aparência assustadora",
       "zh-CN": "看着吓人的灯笼",
       fr: "Une lanterne au look effrayant.",
       tr: "Korkunç görünümlü bir fener",
@@ -5688,7 +5742,8 @@ export const ITEM_DETAILS: Items = {
     image: dawnFlower,
     description: {
       en: "Embrace the radiant beauty of the Dawn Flower as its delicate petals shimmer with the first light of day",
-      pt: "Abraçe a beleza radiante da Flor da Aurora enquanto suas pétalas delicadas brilham com a primeira luz do dia",
+      "pt-BR":
+        "Abraçe a beleza radiante da Flor da Aurora enquanto suas pétalas delicadas brilham com a primeira luz do dia",
       "zh-CN": "拥吻 Dawn Flower 的夺目美丽，她精致的花瓣闪烁着第一缕晨光",
       fr: "Embrassez la beauté radieuse de la Dawn Flower alors que ses pétales délicats scintillent avec les premières lueurs du jour.",
       tr: "Günün ilk ışıklarında narin yaprakları parıldayan Şafak Çiçeğinin ışıltılı güzelliğini kucaklayın",
@@ -5698,7 +5753,8 @@ export const ITEM_DETAILS: Items = {
     image: goldPass,
     description: {
       en: "An exclusive pass that enables the holder to craft rare NFTs, trade, withdraw and access bonus content.",
-      pt: "Um passe exclusivo que permite ao portador criar NFTs raros, negociar, sacar e acessar conteúdo bônus.",
+      "pt-BR":
+        "Um passe exclusivo que permite ao portador criar NFTs raros, negociar, sacar e acessar conteúdo bônus.",
       "zh-CN":
         "An exclusive pass that enables the holder to craft rare NFTs, trade, withdraw and access bonus content.",
       fr: "Un laissez-passer exclusif permettant au détenteur de fabriquer des NFT rares, de commercer, de retirer et d'accéder à du contenu bonus.",
@@ -5709,7 +5765,7 @@ export const ITEM_DETAILS: Items = {
     image: poppy,
     description: {
       en: "The mystical corn kernel. +0.1 Corn per harvest,",
-      pt: "O grão de milho místico. +0,1 Milho por colheita,",
+      "pt-BR": "O grão de milho místico. +0,1 Milho por colheita,",
       "zh-CN": "神秘的玉米粒。玉米产量 +0.1",
       fr: "Le noyau de maïs mystique. +0,1 de Corn par récolte,",
       tr: "Mistik mısır çekirdeği.Mısır hasatında hasat başı +0.1 ekler,",
@@ -5719,7 +5775,8 @@ export const ITEM_DETAILS: Items = {
     image: elPolloVeloz,
     description: {
       en: "Give me those eggs, fast! 4 hour speed boost on egg laying.",
-      pt: "Dê-me esses ovos rápido! Aumento de velocidade de 4 horas na postura de ovos.",
+      "pt-BR":
+        "Dê-me esses ovos rápido! Aumento de velocidade de 4 horas na postura de ovos.",
       "zh-CN": "交出那些蛋，快！鸡的下蛋速度加快 4 小时。",
       fr: "Donnez-moi ces œufs, vite ! Boost de vitesse de 4 heures sur la ponte des œufs.",
       tr: "Şu yumurtaları bana ver,çabuk! Yumurtlamada 4 saatlik hız artışı.",
@@ -5729,7 +5786,7 @@ export const ITEM_DETAILS: Items = {
     image: grainGrinder,
     description: {
       en: "Grind your grain and experience a delectable surge in Cake XP.",
-      pt: "Moa seu grão e experimente um aumento delicioso no XP do bolo.",
+      "pt-BR": "Moa seu grão e experimente um aumento delicioso no XP do bolo.",
       "zh-CN": "磨碎你的谷物，享受美味蛋糕，增加你获得的 XP",
       fr: "Moulez votre grain et ressentez une montée délectable de l'XP du gâteau.",
       tr: "Tahılını öğüt ve pasta XP’sinde nefis bir artışın tadını çıkar.",
@@ -5739,7 +5796,8 @@ export const ITEM_DETAILS: Items = {
     image: kernaldo,
     description: {
       en: "The magical corn whisperer. +25% Corn Growth Speed.",
-      pt: "O sussurro de milho mágico. +25% de Velocidade de Crescimento de Milho.",
+      "pt-BR":
+        "O sussurro de milho mágico. +25% de Velocidade de Crescimento de Milho.",
       "zh-CN": "神奇的玉米语者让玉米达 25 % 更快高长大",
       fr: "Le chuchoteur de maïs magique. +25% de vitesse de croissance du Corn.",
       tr: "Büyülü mısır fısıldayan. Mısırlar için 25% büyüme hızı.",
@@ -5749,7 +5807,8 @@ export const ITEM_DETAILS: Items = {
     image: candles,
     description: {
       en: "Enchant your farm with flickering spectral flames during Witches' Eve.",
-      pt: "Encante sua fazenda com chamas espectrais cintilantes durante a Véspera das Bruxas.",
+      "pt-BR":
+        "Encante sua fazenda com chamas espectrais cintilantes durante a Véspera das Bruxas.",
       "zh-CN": "在女巫之夜借跳跃的火焰为您的农场附上魔力",
       fr: "Enchantez votre ferme avec des flammes spectrales vacillantes pendant la Veille des Sorcières.",
       tr: "Cadılar Bayramı sırasında çiftliğinizi titreyen hayalet alevlerle büyüleyin.",
@@ -5759,7 +5818,7 @@ export const ITEM_DETAILS: Items = {
     image: hauntedStump,
     description: {
       en: "Summon spirits and add eerie charm to your farm.",
-      pt: "Chame espíritos e adicione charme sinistro à sua fazenda.",
+      "pt-BR": "Chame espíritos e adicione charme sinistro à sua fazenda.",
       "zh-CN": "召来通灵让你的农场萦绕鬼魅",
       fr: "Invoquez des esprits et ajoutez un charme étrange à votre ferme.",
       tr: "Ruhları çağırın ve çiftliğinize ürkütücü bir çekicilik katın.",
@@ -5769,7 +5828,8 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.decorations.spookyTree,
     description: {
       en: "A hauntingly fun addition to your farm's decor!",
-      pt: "Uma adição assustadoramente divertida à decoração da sua fazenda!",
+      "pt-BR":
+        "Uma adição assustadoramente divertida à decoração da sua fazenda!",
       "zh-CN": "增添农场上的闹鬼奇趣！",
       fr: "Un ajout amusant et hanté à la décoration de votre ferme!",
       tr: "Çiftliğinizin dekoruna akıl almaz derecede eğlenceli bir katkı!",
@@ -5779,7 +5839,8 @@ export const ITEM_DETAILS: Items = {
     image: observer,
     description: {
       en: "A perpetually roving eyeball, always vigilant and ever-watchful!",
-      pt: "Um globo ocular em movimento perpétuo, sempre vigilante e sempre atento!",
+      "pt-BR":
+        "Um globo ocular em movimento perpétuo, sempre vigilante e sempre atento!",
       "zh-CN": "永不停转的眼珠，永存戒心、永不松眼！",
       fr: "Un œil perpétuellement en mouvement, toujours vigilant et attentif!",
       tr: "Sürekli gezinen bir göz küresi, her zaman tetikte ve her zaman tetikte!",
@@ -5789,7 +5850,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.decorations.crowRock,
     description: {
       en: "A crow perched atop a mysterious rock.",
-      pt: "Um corvo empoleirado em uma rocha misteriosa.",
+      "pt-BR": "Um corvo empoleirado em uma rocha misteriosa.",
       "zh-CN": "乌鸦栖息的神秘石块",
       fr: "Un corbeau perché sur un rocher mystérieux.",
       tr: "Gizemli bir kayanın tepesine tünemiş bir karga.",
@@ -5799,7 +5860,8 @@ export const ITEM_DETAILS: Items = {
     image: miniCornMaze,
     description: {
       en: "A memento of the beloved maze from the 2023 Witches' Eve season.",
-      pt: "Uma lembrança do adorado labirinto da temporada Witches' Eve de 2023.",
+      "pt-BR":
+        "Uma lembrança do adorado labirinto da temporada Witches' Eve de 2023.",
       "zh-CN": "2023 年女巫之夜时季广受喜爱迷宫的纪念品",
       fr: "Un souvenir du labyrinthe bien-aimé de la saison de la Veille des Sorcières 2023.",
       tr: "2023 Cadılar Bayramı sezonundan sevilen labirentten bir hatıra.",
@@ -5809,7 +5871,7 @@ export const ITEM_DETAILS: Items = {
     image: giantCabbage,
     description: {
       en: "A giant cabbage.",
-      pt: "A giant cabbage.",
+      "pt-BR": "A giant cabbage.",
       "zh-CN": "A giant cabbage.",
       fr: "A giant cabbage.",
       tr: "A giant cabbage.",
@@ -5819,7 +5881,7 @@ export const ITEM_DETAILS: Items = {
     image: giantPotato,
     description: {
       en: "A giant potato.",
-      pt: "A giant potato.",
+      "pt-BR": "A giant potato.",
       "zh-CN": "A giant potato.",
       fr: "A giant potato.",
       tr: "A giant potato.",
@@ -5829,7 +5891,7 @@ export const ITEM_DETAILS: Items = {
     image: giantPumpkin,
     description: {
       en: "A giant pumpkin.",
-      pt: "A giant pumpkin.",
+      "pt-BR": "A giant pumpkin.",
       "zh-CN": "A giant pumpkin.",
       fr: "A giant pumpkin.",
       tr: "A giant pumpkin.",
@@ -5839,7 +5901,8 @@ export const ITEM_DETAILS: Items = {
     image: potionPoint,
     description: {
       en: "A reward from the Potion House. Use this to buy items from Garth.",
-      pt: "A reward from the Potion House. Use this to buy items from Garth.",
+      "pt-BR":
+        "A reward from the Potion House. Use this to buy items from Garth.",
       "zh-CN":
         "A reward from the Potion House. Use this to buy items from Garth.",
       fr: "A reward from the Potion House. Use this to buy items from Garth.",
@@ -5850,7 +5913,7 @@ export const ITEM_DETAILS: Items = {
     image: labGrownCarrot,
     description: {
       en: "+0.2 Carrot Yield",
-      pt: "+0.2 Carrot Yield",
+      "pt-BR": "+0.2 Carrot Yield",
       "zh-CN": "+0.2 Carrot Yield",
       fr: "+0.2 Carrot Yield",
       tr: "+0.2 Carrot Yield",
@@ -5860,7 +5923,7 @@ export const ITEM_DETAILS: Items = {
     image: labGrownPumpkin,
     description: {
       en: "+0.3 Pumpkin Yield",
-      pt: "+0.3 Pumpkin Yield",
+      "pt-BR": "+0.3 Pumpkin Yield",
       "zh-CN": "+0.3 Pumpkin Yield",
       fr: "+0.3 Pumpkin Yield",
       tr: "+0.3 Pumpkin Yield",
@@ -5870,7 +5933,7 @@ export const ITEM_DETAILS: Items = {
     image: labGrownRadish,
     description: {
       en: "+0.4 Radish Yield",
-      pt: "+0.4 Radish Yield",
+      "pt-BR": "+0.4 Radish Yield",
       "zh-CN": "+0.4 Radish Yield",
       fr: "+0.4 Radish Yield",
       tr: "+0.4 Radish Yield",
@@ -5880,7 +5943,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.sfts.adirondackPotato,
     description: {
       en: "A rugged spud, Adirondack style!",
-      pt: "A rugged spud, Adirondack style!",
+      "pt-BR": "A rugged spud, Adirondack style!",
       "zh-CN": "A rugged spud, Adirondack style!",
       fr: "A rugged spud, Adirondack style!",
       tr: "A rugged spud, Adirondack style!",
@@ -5890,7 +5953,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.sfts.blackMagic,
     description: {
       en: "A dark and mysterious flower!",
-      pt: "A dark and mysterious flower!",
+      "pt-BR": "A dark and mysterious flower!",
       "zh-CN": "A dark and mysterious flower!",
       fr: "A dark and mysterious flower!",
       tr: "A dark and mysterious flower!",
@@ -5900,7 +5963,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.sfts.chiogga,
     description: {
       en: "A rainbow beet!",
-      pt: "A rainbow beet!",
+      "pt-BR": "A rainbow beet!",
       "zh-CN": "A rainbow beet!",
       fr: "A rainbow beet!",
       tr: "A rainbow beet!",
@@ -5910,7 +5973,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.sfts.goldenHelios,
     description: {
       en: "Sun-kissed grandeur!",
-      pt: "Sun-kissed grandeur!",
+      "pt-BR": "Sun-kissed grandeur!",
       "zh-CN": "Sun-kissed grandeur!",
       fr: "Sun-kissed grandeur!",
       tr: "Sun-kissed grandeur!",
@@ -5920,7 +5983,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.sfts.purpleCauliflower,
     description: {
       en: "A regal purple cauliflowser",
-      pt: "A regal purple cauliflowser",
+      "pt-BR": "A regal purple cauliflowser",
       "zh-CN": "A regal purple cauliflowser",
       fr: "A regal purple cauliflowser",
       tr: "A regal purple cauliflowser",
@@ -5930,7 +5993,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.sfts.wartyGoblinPumpkin,
     description: {
       en: "A whimsical, wart-covered pumpkin",
-      pt: "A whimsical, wart-covered pumpkin",
+      "pt-BR": "A whimsical, wart-covered pumpkin",
       "zh-CN": "A whimsical, wart-covered pumpkin",
       fr: "A whimsical, wart-covered pumpkin",
       tr: "A whimsical, wart-covered pumpkin",
@@ -5940,7 +6003,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.sfts.whiteCarrot,
     description: {
       en: "A pale carrot with pale roots",
-      pt: "A pale carrot with pale roots",
+      "pt-BR": "A pale carrot with pale roots",
       "zh-CN": "A pale carrot with pale roots",
       fr: "A pale carrot with pale roots",
       tr: "A pale carrot with pale roots",
@@ -5950,7 +6013,8 @@ export const ITEM_DETAILS: Items = {
     image: budTicket,
     description: {
       en: "A guaranteed spot to mint a Bud at the Sunflower Land Buds NFT drop.",
-      pt: "Um lugar garantido para mintar um Bud no lançamento de NFTs do Sunflower Land Buds.",
+      "pt-BR":
+        "Um lugar garantido para mintar um Bud no lançamento de NFTs do Sunflower Land Buds.",
       "zh-CN":
         "A guaranteed spot to mint a Bud at the Sunflower Land Buds NFT drop.",
       fr: "Une place garantie pour frapper un Bud lors de la distribution des NFT Sunflower Land Buds.",
@@ -5961,7 +6025,7 @@ export const ITEM_DETAILS: Items = {
     image: budSeedling,
     description: {
       en: "A seedling to be exchanged for a free Bud NFT",
-      pt: "Uma muda a ser trocada por um Bud NFT gratuito",
+      "pt-BR": "Uma muda a ser trocada por um Bud NFT gratuito",
       "zh-CN": "A seedling to be exchanged for a free Bud NFT",
       fr: "Une jeune pousse à échanger contre un NFT Bud gratuit",
       tr: "Ücretsiz Bud NFT ile değiştirilecek bir fide",
@@ -5971,7 +6035,7 @@ export const ITEM_DETAILS: Items = {
     image: sign,
     description: {
       en: "Show your farm ID with pride!",
-      pt: "Mostre sua identificação da fazenda com orgulho!",
+      "pt-BR": "Mostre sua identificação da fazenda com orgulho!",
       "zh-CN": "骄傲地炫耀您的农场号码吧！",
       fr: "Montrez fièrement votre ID de ferme!",
       tr: "Çiftlik kimliğinizi gururla gösterin!",
@@ -5981,7 +6045,7 @@ export const ITEM_DETAILS: Items = {
     image: whiteCrow,
     description: {
       en: "A mysterious and ethereal white crow",
-      pt: "Um corvo branco misterioso e etéreo",
+      "pt-BR": "Um corvo branco misterioso e etéreo",
       "zh-CN": "神秘空灵的白乌鸦",
       fr: "Un corbeau blanc mystérieux et éthéré.",
       tr: "Gizemli ve ruhani bir beyaz karga",
@@ -5991,7 +6055,7 @@ export const ITEM_DETAILS: Items = {
     image: earthworm,
     description: {
       en: "A wriggly worm that attracts small fish.",
-      pt: "A wriggly worm that attracts small fish.",
+      "pt-BR": "A wriggly worm that attracts small fish.",
       "zh-CN": "A wriggly worm that attracts small fish.",
       fr: "A wriggly worm that attracts small fish.",
       tr: "A wriggly worm that attracts small fish.",
@@ -6001,7 +6065,7 @@ export const ITEM_DETAILS: Items = {
     image: grub,
     description: {
       en: "A juicy grub - perfect for advanced fish.",
-      pt: "A juicy grub - perfect for advanced fish.",
+      "pt-BR": "A juicy grub - perfect for advanced fish.",
       "zh-CN": "A juicy grub - perfect for advanced fish.",
       fr: "A juicy grub - perfect for advanced fish.",
       tr: "A juicy grub - perfect for advanced fish.",
@@ -6011,7 +6075,7 @@ export const ITEM_DETAILS: Items = {
     image: redWiggler,
     description: {
       en: "An exotic worm that entices rare fish.",
-      pt: "An exotic worm that entices rare fish.",
+      "pt-BR": "An exotic worm that entices rare fish.",
       "zh-CN": "An exotic worm that entices rare fish.",
       fr: "An exotic worm that entices rare fish.",
       tr: "An exotic worm that entices rare fish.",
@@ -6021,7 +6085,7 @@ export const ITEM_DETAILS: Items = {
     image: fishingLure,
     description: {
       en: "Great for catching rare fish ! ",
-      pt: "Great for catching rare fish ! ",
+      "pt-BR": "Great for catching rare fish ! ",
       "zh-CN": "Great for catching rare fish ! ",
       fr: "Great for catching rare fish ! ",
       tr: "Great for catching rare fish ! ",
@@ -6037,7 +6101,7 @@ export const ITEM_DETAILS: Items = {
     image: sproutMix,
     description: {
       en: "Sprout Mix increases your crop yield from plots by +0.2",
-      pt: "Sprout Mix increases your crop yield from plots by +0.2",
+      "pt-BR": "Sprout Mix increases your crop yield from plots by +0.2",
       "zh-CN": "Sprout Mix increases your crop yield from plots by +0.2",
       fr: "Sprout Mix increases your crop yield from plots by +0.2",
       tr: "Sprout Mix increases your crop yield from plots by +0.2",
@@ -6047,7 +6111,8 @@ export const ITEM_DETAILS: Items = {
     image: fruitfulBlend,
     description: {
       en: "Fruitful Blend boosts the yield of each fruit growing on fruit patches by +0.1",
-      pt: "Fruitful Blend boosts the yield of each fruit growing on fruit patches by +0.1",
+      "pt-BR":
+        "Fruitful Blend boosts the yield of each fruit growing on fruit patches by +0.1",
       "zh-CN":
         "Fruitful Blend boosts the yield of each fruit growing on fruit patches by +0.1",
       fr: "Fruitful Blend boosts the yield of each fruit growing on fruit patches by +0.1",
@@ -6058,7 +6123,7 @@ export const ITEM_DETAILS: Items = {
     image: rapidRoot,
     description: {
       en: "Rapid Root reduces crop growth time from plots by 50%",
-      pt: "Rapid Root reduces crop growth time from plots by 50%",
+      "pt-BR": "Rapid Root reduces crop growth time from plots by 50%",
       "zh-CN": "Rapid Root reduces crop growth time from plots by 50%",
       fr: "Rapid Root reduces crop growth time from plots by 50%",
       tr: "Rapid Root reduces crop growth time from plots by 50%",
@@ -6069,7 +6134,7 @@ export const ITEM_DETAILS: Items = {
     howToGetItem: [
       {
         en: "Ocean fishing",
-        pt: "Pesca no mar",
+        "pt-BR": "Pesca no mar",
         fr: "Pêche en mer",
         tr: "Okyanus balıkçılığı",
         "zh-CN": "海上垂钓",
@@ -6077,7 +6142,7 @@ export const ITEM_DETAILS: Items = {
     ],
     description: {
       en: "The ocean's pocket-sized darting acrobat, always in a hurry!",
-      pt: "O acrobata saltitante do oceano, sempre com pressa!",
+      "pt-BR": "O acrobata saltitante do oceano, sempre com pressa!",
       "zh-CN": "海洋里的袖珍飞镖，总是匆匆忙忙！",
       fr: "L'acrobate miniature des océans, toujours pressé!",
       tr: "Okyanusun cep boyutunda dart akrobatı, her zaman acelesi var!",
@@ -6088,7 +6153,7 @@ export const ITEM_DETAILS: Items = {
     howToGetItem: [
       {
         en: "Ocean fishing",
-        pt: "Pesca no mar",
+        "pt-BR": "Pesca no mar",
         fr: "Pêche en mer",
         tr: "Okyanus balıkçılığı",
         "zh-CN": "海上垂钓",
@@ -6096,7 +6161,8 @@ export const ITEM_DETAILS: Items = {
     ],
     description: {
       en: "A fish with a fashion-forward sense, flaunting its vivid, stylish stripes.",
-      pt: "Um peixe com um senso de moda avançado, exibindo suas listras vívidas e estilosas.",
+      "pt-BR":
+        "Um peixe com um senso de moda avançado, exibindo suas listras vívidas e estilosas.",
       "zh-CN": "时尚前卫的鱼，显摆其鲜艳、时髦的条纹。",
       fr: "Un poisson à la mode, arborant ses rayures vives et élégantes.",
       tr: "Canlı, şık çizgileriyle gösteriş yapan, ileri moda anlayışına sahip bir balık.",
@@ -6107,7 +6173,7 @@ export const ITEM_DETAILS: Items = {
     howToGetItem: [
       {
         en: "Ocean fishing",
-        pt: "Pesca no mar",
+        "pt-BR": "Pesca no mar",
         fr: "Pêche en mer",
         tr: "Okyanus balıkçılığı",
         "zh-CN": "海上垂钓",
@@ -6115,7 +6181,8 @@ export const ITEM_DETAILS: Items = {
     ],
     description: {
       en: "The round, inflated comedian of the sea, guaranteed to bring a smile.",
-      pt: "O comediante redondo e inflado do mar, garantido para trazer um sorriso.",
+      "pt-BR":
+        "O comediante redondo e inflado do mar, garantido para trazer um sorriso.",
       "zh-CN": "海中的圆润喜剧演员，保证让你笑容满面。",
       fr: "Le comique rond et gonflé de la mer, garanti pour vous faire sourire.",
       tr: "Denizin yuvarlak, şişirilmiş komedyeni, bir gülümseme getirmeyi garanti ediyor.",
@@ -6126,7 +6193,7 @@ export const ITEM_DETAILS: Items = {
     howToGetItem: [
       {
         en: "Ocean fishing",
-        pt: "Pesca no mar",
+        "pt-BR": "Pesca no mar",
         fr: "Pêche en mer",
         tr: "Okyanus balıkçılığı",
         "zh-CN": "海上垂钓",
@@ -6134,7 +6201,8 @@ export const ITEM_DETAILS: Items = {
     ],
     description: {
       en: "The underwater jester, sporting a tangerine tuxedo and a clownish charm.",
-      pt: "O bobo da corte subaquático, vestindo um terno tangerina e um charme de palhaço.",
+      "pt-BR":
+        "O bobo da corte subaquático, vestindo um terno tangerina e um charme de palhaço.",
       "zh-CN": "水下的小丑，身着橘色礼服，充满小丑般的魅力。",
       fr: "Le bouffon sous-marin, portant un smoking mandarine et un charme clownesque.",
       tr: "Mandalina rengi bir smokini ve palyaço çekiciliğiyle su altı soytarısı.",
@@ -6145,7 +6213,7 @@ export const ITEM_DETAILS: Items = {
     howToGetItem: [
       {
         en: "Ocean fishing",
-        pt: "Pesca no mar",
+        "pt-BR": "Pesca no mar",
         fr: "Pêche en mer",
         tr: "Okyanus balıkçılığı",
         "zh-CN": "海上垂钓",
@@ -6153,7 +6221,8 @@ export const ITEM_DETAILS: Items = {
     ],
     description: {
       en: "Your 'not-so-exciting' friend with silver scales – a bassic catch!",
-      pt: "Seu amigo 'não-tão-exciting' com escamas prateadas - uma captura básica!",
+      "pt-BR":
+        "Seu amigo 'não-tão-exciting' com escamas prateadas - uma captura básica!",
       "zh-CN": "你的“不那么令人兴奋的”朋友，银色的鳞片——一个基础的捕获！",
       fr: "Votre ami 'pas très excitant' aux écailles argentées - une prise basique!",
       tr: "Gümüş pullu 'o kadar da heyecan verici olmayan' arkadaşınız – basit bir yakalama!",
@@ -6164,7 +6233,7 @@ export const ITEM_DETAILS: Items = {
     howToGetItem: [
       {
         en: "Ocean fishing",
-        pt: "Pesca no mar",
+        "pt-BR": "Pesca no mar",
         fr: "Pêche en mer",
         tr: "Okyanus balıkçılığı",
         "zh-CN": "海上垂钓",
@@ -6172,7 +6241,8 @@ export const ITEM_DETAILS: Items = {
     ],
     description: {
       en: "The ocean's slow-motion dancer, swaying gracefully in the aquatic ballet.",
-      pt: "O dançarino em câmera lenta do oceano, balançando gracioso no balé aquático.",
+      "pt-BR":
+        "O dançarino em câmera lenta do oceano, balançando gracioso no balé aquático.",
       "zh-CN": "海洋中的慢动作舞者，在水下芭蕾中优雅地摇摆。",
       fr: "La danseuse au ralenti de l'océan, se balançant gracieusement dans le ballet aquatique.",
       tr: "Okyanusun ağır çekim dansçısı, su balesinde zarif bir şekilde sallanıyor.",
@@ -6183,7 +6253,7 @@ export const ITEM_DETAILS: Items = {
     howToGetItem: [
       {
         en: "Ocean fishing",
-        pt: "Pesca no mar",
+        "pt-BR": "Pesca no mar",
         fr: "Pêche en mer",
         tr: "Okyanus balıkçılığı",
         "zh-CN": "海上垂钓",
@@ -6191,7 +6261,8 @@ export const ITEM_DETAILS: Items = {
     ],
     description: {
       en: "A speedster with a shiny coat, always racing through the waves.",
-      pt: "Um velocista com um casaco brilhante, sempre correndo pelas ondas.",
+      "pt-BR":
+        "Um velocista com um casaco brilhante, sempre correndo pelas ondas.",
       "zh-CN": "一位身披闪亮外衣的速度选手，总是在波浪中穿梭。",
       fr: "Un sprinter à la brillante robe, toujours en course à travers les vagues.",
       tr: "Daima dalgaların arasında yarışan, parlak paltolu bir hızcı.",
@@ -6202,7 +6273,7 @@ export const ITEM_DETAILS: Items = {
     howToGetItem: [
       {
         en: "Ocean fishing",
-        pt: "Pesca no mar",
+        "pt-BR": "Pesca no mar",
         fr: "Pêche en mer",
         tr: "Okyanus balıkçılığı",
         "zh-CN": "海上垂钓",
@@ -6210,7 +6281,8 @@ export const ITEM_DETAILS: Items = {
     ],
     description: {
       en: "The deep-sea enigma with tentacles to tickle your curiosity.",
-      pt: "O enigma das profundezas com tentáculos para despertar sua curiosidade.",
+      "pt-BR":
+        "O enigma das profundezas com tentáculos para despertar sua curiosidade.",
       "zh-CN": "深海之谜，用其触须勾起你的好奇心。",
       fr: "L'énigme des profondeurs avec des tentacules pour titiller votre curiosité.",
       tr: "Merakınızı gıdıklayacak dokunaçlara sahip derin deniz gizemi.",
@@ -6221,7 +6293,7 @@ export const ITEM_DETAILS: Items = {
     howToGetItem: [
       {
         en: "Ocean fishing",
-        pt: "Pesca no mar",
+        "pt-BR": "Pesca no mar",
         fr: "Pêche en mer",
         tr: "Okyanus balıkçılığı",
         "zh-CN": "海上垂钓",
@@ -6229,7 +6301,8 @@ export const ITEM_DETAILS: Items = {
     ],
     description: {
       en: "A catch worth its weight in gold, dressed in fiery crimson.",
-      pt: "Uma captura que vale seu peso em ouro, vestida de carmesim ardente.",
+      "pt-BR":
+        "Uma captura que vale seu peso em ouro, vestida de carmesim ardente.",
       "zh-CN": "价值连城的捕获，身披火红色。",
       fr: "Une prise qui vaut son pesant d'or, vêtue de rouge ardent.",
       tr: "Ağır kırmızıya bürünmüş, ağırlığınca altın değerinde bir av.",
@@ -6240,7 +6313,7 @@ export const ITEM_DETAILS: Items = {
     howToGetItem: [
       {
         en: "Ocean fishing",
-        pt: "Pesca no mar",
+        "pt-BR": "Pesca no mar",
         fr: "Pêche en mer",
         tr: "Okyanus balıkçılığı",
         "zh-CN": "海上垂钓",
@@ -6248,7 +6321,8 @@ export const ITEM_DETAILS: Items = {
     ],
     description: {
       en: "A slinky, sinister lurker in the ocean's shadowy corners.",
-      pt: "Um espreitador sinistro e sinuoso nos cantos sombrios do oceano.",
+      "pt-BR":
+        "Um espreitador sinistro e sinuoso nos cantos sombrios do oceano.",
       "zh-CN": "海洋中阴暗角落里的狡猾潜伏者。",
       fr: "Un habitant sinistre et insaisissable des coins sombres de l'océan.",
       tr: "Okyanusun gölgeli köşelerinde sinsi, uğursuz bir pusuya yatmış.",
@@ -6259,7 +6333,7 @@ export const ITEM_DETAILS: Items = {
     howToGetItem: [
       {
         en: "Ocean fishing",
-        pt: "Pesca no mar",
+        "pt-BR": "Pesca no mar",
         fr: "Pêche en mer",
         tr: "Okyanus balıkçılığı",
         "zh-CN": "海上垂钓",
@@ -6267,7 +6341,8 @@ export const ITEM_DETAILS: Items = {
     ],
     description: {
       en: "The seabed's master of disguise, always blending in with the crowd.",
-      pt: "O mestre do disfarce do leito marinho, sempre se misturando com a multidão.",
+      "pt-BR":
+        "O mestre do disfarce do leito marinho, sempre se misturando com a multidão.",
       "zh-CN": "海床上的伪装大师，总是与众不同。",
       fr: "Le maître du déguisement du fond marin, toujours en train de se fondre dans la foule.",
       tr: "Deniz yatağının kılık değiştirme ustası, her zaman kalabalığa karışıyor.",
@@ -6278,7 +6353,7 @@ export const ITEM_DETAILS: Items = {
     howToGetItem: [
       {
         en: "Ocean fishing",
-        pt: "Pesca no mar",
+        "pt-BR": "Pesca no mar",
         fr: "Pêche en mer",
         tr: "Okyanus balıkçılığı",
         "zh-CN": "海上垂钓",
@@ -6286,7 +6361,7 @@ export const ITEM_DETAILS: Items = {
     ],
     description: {
       en: "Meet the fish with the Napoleon complex – short, but regal!",
-      pt: "Conheça o peixe com o complexo de Napoleão - curto, mas real!",
+      "pt-BR": "Conheça o peixe com o complexo de Napoleão - curto, mas real!",
       "zh-CN": "认识一下患有拿破仑情结的鱼——短小，但雍容华贵！",
       fr: "Rencontrez le poisson au complexe de Napoléon - petit, mais royal!",
       tr: "Balıklarla Napolyon kompleksiyle tanışın – kısa ama muhteşem!",
@@ -6297,7 +6372,7 @@ export const ITEM_DETAILS: Items = {
     howToGetItem: [
       {
         en: "Ocean fishing",
-        pt: "Pesca no mar",
+        "pt-BR": "Pesca no mar",
         fr: "Pêche en mer",
         tr: "Okyanus balıkçılığı",
         "zh-CN": "海上垂钓",
@@ -6305,7 +6380,8 @@ export const ITEM_DETAILS: Items = {
     ],
     description: {
       en: "The ocean's neon warrior, armed with a spine-sharp attitude.",
-      pt: "O guerreiro neon do oceano, armado com uma atitude afiada de espinha.",
+      "pt-BR":
+        "O guerreiro neon do oceano, armado com uma atitude afiada de espinha.",
       "zh-CN": "海洋中的霓虹战士，武装着锋利的态度。",
       fr: "Le guerrier néon de l'océan, armé d'une attitude pointue.",
       tr: "Okyanusun neon savaşçısı, keskin bir tavırla donanmış.",
@@ -6316,7 +6392,7 @@ export const ITEM_DETAILS: Items = {
     howToGetItem: [
       {
         en: "Ocean fishing",
-        pt: "Pesca no mar",
+        "pt-BR": "Pesca no mar",
         fr: "Pêche en mer",
         tr: "Okyanus balıkçılığı",
         "zh-CN": "海上垂钓",
@@ -6324,7 +6400,8 @@ export const ITEM_DETAILS: Items = {
     ],
     description: {
       en: "Stripes, spines, and a zesty disposition, this fish is a true showstopper!",
-      pt: "Listras, espinhos e uma disposição, este peixe é um verdadeiro espetáculo!",
+      "pt-BR":
+        "Listras, espinhos e uma disposição, este peixe é um verdadeiro espetáculo!",
       "zh-CN": "条纹、刺和充满活力的性格，这条鱼是真正的焦点！",
       fr: "Des rayures, des épines et une disposition zestée, ce poisson est vraiment sensationnel!",
       tr: "Çizgileri, dikenleri ve neşeli yapısıyla bu balık gerçek bir gösterişçidir!",
@@ -6335,7 +6412,7 @@ export const ITEM_DETAILS: Items = {
     howToGetItem: [
       {
         en: "Ocean fishing",
-        pt: "Pesca no mar",
+        "pt-BR": "Pesca no mar",
         fr: "Pêche en mer",
         tr: "Okyanus balıkçılığı",
         "zh-CN": "海上垂钓",
@@ -6343,7 +6420,8 @@ export const ITEM_DETAILS: Items = {
     ],
     description: {
       en: "The underwater glider, a serene winged beauty through the waves.",
-      pt: "O planejador subaquático, uma beleza alada serena através das ondas.",
+      "pt-BR":
+        "O planejador subaquático, uma beleza alada serena através das ondas.",
       "zh-CN": "水下的滑翔者，通过波浪中的宁静翅膀展现出的优雅。",
       fr: "Le planeur sous-marin, une belle aile sereine à travers les vagues.",
       tr: "Su altı planörü, dalgaların arasından geçen sakin kanatlı bir güzellik.",
@@ -6354,7 +6432,7 @@ export const ITEM_DETAILS: Items = {
     howToGetItem: [
       {
         en: "Ocean fishing",
-        pt: "Pesca no mar",
+        "pt-BR": "Pesca no mar",
         fr: "Pêche en mer",
         tr: "Okyanus balıkçılığı",
         "zh-CN": "海上垂钓",
@@ -6362,7 +6440,8 @@ export const ITEM_DETAILS: Items = {
     ],
     description: {
       en: "Meet the shark with a head for business, and a body for adventure!",
-      pt: "Conheça o tubarão com cabeça para negócios e corpo para aventura!",
+      "pt-BR":
+        "Conheça o tubarão com cabeça para negócios e corpo para aventura!",
       "zh-CN": "这是一只头脑灵活、身体追求冒险的鲨鱼！",
       fr: "Rencontrez le requin à la tête d'affiche, prêt pour une collision de tête avec la saveur!",
       tr: "İş için kafası ve macera için vücudu olan köpekbalığıyla tanışın!",
@@ -6373,7 +6452,7 @@ export const ITEM_DETAILS: Items = {
     howToGetItem: [
       {
         en: "Ocean fishing",
-        pt: "Pesca no mar",
+        "pt-BR": "Pesca no mar",
         fr: "Pêche en mer",
         tr: "Okyanus balıkçılığı",
         "zh-CN": "海上垂钓",
@@ -6381,7 +6460,8 @@ export const ITEM_DETAILS: Items = {
     ],
     description: {
       en: "The ocean's muscle-bound sprinter, ready for a fin-tastic race!",
-      pt: "O velocista musculoso do oceano, pronto para uma corrida fantástica!",
+      "pt-BR":
+        "O velocista musculoso do oceano, pronto para uma corrida fantástica!",
       "zh-CN": "海洋中肌肉发达的短跑运动员，准备好进行一场鳍部的精彩比赛！",
       fr: "Le sprinter musclé de l'océan, prêt pour une course fantastique!",
       tr: "Okyanusun kaslı sprinteri, muhteşem bir yarışa hazır!",
@@ -6392,7 +6472,7 @@ export const ITEM_DETAILS: Items = {
     howToGetItem: [
       {
         en: "Ocean fishing",
-        pt: "Pesca no mar",
+        "pt-BR": "Pesca no mar",
         fr: "Pêche en mer",
         tr: "Okyanus balıkçılığı",
         "zh-CN": "海上垂钓",
@@ -6400,7 +6480,8 @@ export const ITEM_DETAILS: Items = {
     ],
     description: {
       en: "A fish that believes in living life colorfully with fins of gold.",
-      pt: "Um peixe que acredita em viver a vida coloridamente com barbatanas de ouro.",
+      "pt-BR":
+        "Um peixe que acredita em viver a vida coloridamente com barbatanas de ouro.",
       "zh-CN": "一条相信生活要多姿多彩的鱼，金色的鳍片。",
       fr: "Un poisson qui croit en une vie colorée avec des nageoires dorées.",
       tr: "Altın yüzgeçlerle hayatı rengarenk yaşamaya inanan bir balık.",
@@ -6411,7 +6492,7 @@ export const ITEM_DETAILS: Items = {
     howToGetItem: [
       {
         en: "Ocean fishing",
-        pt: "Pesca no mar",
+        "pt-BR": "Pesca no mar",
         fr: "Pêche en mer",
         tr: "Okyanus balıkçılığı",
         "zh-CN": "海上垂钓",
@@ -6419,7 +6500,8 @@ export const ITEM_DETAILS: Items = {
     ],
     description: {
       en: "An oceanic legend, the marlin with an attitude as deep as the sea.",
-      pt: "Uma lenda oceânica, o marlim com uma atitude tão profunda quanto o mar.",
+      "pt-BR":
+        "Uma lenda oceânica, o marlim com uma atitude tão profunda quanto o mar.",
       "zh-CN": "海洋的传奇，马林鱼，拥有深海一样的态度。",
       fr: "Une légende océanique, le marlin avec une attitude aussi profonde que la mer.",
       tr: "Okyanus efsanesi, tavrı deniz kadar derin olan marlin.",
@@ -6430,7 +6512,7 @@ export const ITEM_DETAILS: Items = {
     howToGetItem: [
       {
         en: "Ocean fishing",
-        pt: "Pesca no mar",
+        "pt-BR": "Pesca no mar",
         fr: "Pêche en mer",
         tr: "Okyanus balıkçılığı",
         "zh-CN": "海上垂钓",
@@ -6438,7 +6520,7 @@ export const ITEM_DETAILS: Items = {
     ],
     description: {
       en: "The long and the long of it – an enigmatic ocean wanderer.",
-      pt: "O longo e o longo disso - um errante enigmático do oceano.",
+      "pt-BR": "O longo e o longo disso - um errante enigmático do oceano.",
       "zh-CN": "长而漫长——一位神秘的海洋流浪者。",
       fr: "Le long et le long de lui - un voyageur océanique énigmatique.",
       tr: "Uzun lafın kısası esrarengiz bir okyanus gezgini.",
@@ -6449,7 +6531,7 @@ export const ITEM_DETAILS: Items = {
     howToGetItem: [
       {
         en: "Ocean fishing",
-        pt: "Pesca no mar",
+        "pt-BR": "Pesca no mar",
         fr: "Pêche en mer",
         tr: "Okyanus balıkçılığı",
         "zh-CN": "海上垂钓",
@@ -6457,7 +6539,8 @@ export const ITEM_DETAILS: Items = {
     ],
     description: {
       en: "The MVP of the deep, a bioluminescent star that's ready to play!",
-      pt: "O MVP do fundo do mar, uma estrela bioluminescente pronta para jogar!",
+      "pt-BR":
+        "O MVP do fundo do mar, uma estrela bioluminescente pronta para jogar!",
       "zh-CN": "深海的MVP，一颗准备参与比赛的生物发光之星！",
       fr: "Le MVP des profondeurs, une star bioluminescente prête à jouer!",
       tr: "Derinlerin MVP'si, oynamaya hazır biyolüminesan bir yıldız!",
@@ -6468,7 +6551,7 @@ export const ITEM_DETAILS: Items = {
     howToGetItem: [
       {
         en: "Ocean fishing",
-        pt: "Pesca no mar",
+        "pt-BR": "Pesca no mar",
         fr: "Pêche en mer",
         tr: "Okyanus balıkçılığı",
         "zh-CN": "海上垂钓",
@@ -6476,7 +6559,8 @@ export const ITEM_DETAILS: Items = {
     ],
     description: {
       en: "The ocean's sunbather, basking in the spotlight with fins held high.",
-      pt: "O banhista do oceano, banhando-se no holofote com barbatanas erguidas.",
+      "pt-BR":
+        "O banhista do oceano, banhando-se no holofote com barbatanas erguidas.",
       "zh-CN": "海洋中的晒太阳者，高举鳍片，享受着聚光灯下的时刻。",
       fr: "Le preneur de soleil de l'océan, se prélassant sous les projecteurs avec des nageoires bien dressées.",
       tr: "Okyanusta güneşlenen, yüzgeçlerini yüksekte tutarak spot ışıklarının tadını çıkarıyor.",
@@ -6487,7 +6571,7 @@ export const ITEM_DETAILS: Items = {
     howToGetItem: [
       {
         en: "Ocean fishing",
-        pt: "Pesca no mar",
+        "pt-BR": "Pesca no mar",
         fr: "Pêche en mer",
         tr: "Okyanus balıkçılığı",
         "zh-CN": "海上垂钓",
@@ -6495,7 +6579,8 @@ export const ITEM_DETAILS: Items = {
     ],
     description: {
       en: "A prehistoric relic, with a taste for the past and the present.",
-      pt: "Um relicário pré-histórico, com um gosto pelo passado e pelo presente.",
+      "pt-BR":
+        "Um relicário pré-histórico, com um gosto pelo passado e pelo presente.",
       "zh-CN": "一个古老的遗迹，对过去和现在都有一种品味。",
       fr: "Un vestige préhistorique, avec un goût pour le passé et le présent.",
       tr: "Geçmişe ve bugüne dair bir tada sahip, tarih öncesi bir kalıntı.",
@@ -6506,7 +6591,7 @@ export const ITEM_DETAILS: Items = {
     howToGetItem: [
       {
         en: "Ocean fishing",
-        pt: "Pesca no mar",
+        "pt-BR": "Pesca no mar",
         fr: "Pêche en mer",
         tr: "Okyanus balıkçılığı",
         "zh-CN": "海上垂钓",
@@ -6514,7 +6599,8 @@ export const ITEM_DETAILS: Items = {
     ],
     description: {
       en: "The gentle giant of the deep, sifting treasures from the ocean's buffet.",
-      pt: "O gigante gentil das profundezas, peneirando tesouros no buffet do oceano.",
+      "pt-BR":
+        "O gigante gentil das profundezas, peneirando tesouros no buffet do oceano.",
       "zh-CN": "深海的温柔巨人，从海洋的自助餐中筛选珍宝。",
       fr: "Le doux géant des profondeurs, filtrant les trésors du buffet océanique.",
       tr: "Derinlerin nazik devi, okyanusun büfesinden hazineleri ayıklıyor.",
@@ -6525,7 +6611,7 @@ export const ITEM_DETAILS: Items = {
     howToGetItem: [
       {
         en: "Ocean fishing",
-        pt: "Pesca no mar",
+        "pt-BR": "Pesca no mar",
         fr: "Pêche en mer",
         tr: "Okyanus balıkçılığı",
         "zh-CN": "海上垂钓",
@@ -6533,7 +6619,8 @@ export const ITEM_DETAILS: Items = {
     ],
     description: {
       en: "An oceanic outlaw with black-and-white stripes and a heart of gold.",
-      pt: "Um fora da lei oceânico com listras em preto e branco e um coração de ouro.",
+      "pt-BR":
+        "Um fora da lei oceânico com listras em preto e branco e um coração de ouro.",
       "zh-CN": "一位带有黑白条纹和黄金心的海洋流氓。",
       fr: "Un hors-la-loi océanique aux rayures noires et blanches et au cœur d'or.",
       tr: "Siyah-beyaz çizgili ve altın kalpli bir okyanus kanun kaçağı.",
@@ -6544,7 +6631,7 @@ export const ITEM_DETAILS: Items = {
     howToGetItem: [
       {
         en: "Ocean fishing",
-        pt: "Pesca no mar",
+        "pt-BR": "Pesca no mar",
         fr: "Pêche en mer",
         tr: "Okyanus balıkçılığı",
         "zh-CN": "海上垂钓",
@@ -6552,7 +6639,8 @@ export const ITEM_DETAILS: Items = {
     ],
     description: {
       en: "With a saw-like snout, it's the ocean's carpenter, always cutting edge!",
-      pt: "Com um focinho em forma de serra, é o carpinteiro do oceano, sempre à frente!",
+      "pt-BR":
+        "Com um focinho em forma de serra, é o carpinteiro do oceano, sempre à frente!",
       "zh-CN": "以锯齿状的吻，它是海洋的木工，总是走在潮流的前沿！",
       fr: "Avec un museau en forme de scie, c'est le charpentier de l'océan, toujours à la pointe!",
       tr: "Testere benzeri burnuyla okyanusun marangozudur, her zaman son teknolojiye sahiptir!",
@@ -6563,7 +6651,7 @@ export const ITEM_DETAILS: Items = {
     howToGetItem: [
       {
         en: "Ocean fishing",
-        pt: "Pesca no mar",
+        "pt-BR": "Pesca no mar",
         fr: "Pêche en mer",
         tr: "Okyanus balıkçılığı",
         "zh-CN": "海上垂钓",
@@ -6571,7 +6659,8 @@ export const ITEM_DETAILS: Items = {
     ],
     description: {
       en: "The shark with a killer smile, ruling the seas with fin-tensity!",
-      pt: "O tubarão com um sorriso assassino, dominando os mares com intensidade de barbatana!",
+      "pt-BR":
+        "O tubarão com um sorriso assassino, dominando os mares com intensidade de barbatana!",
       "zh-CN": "带着杀手般的笑容统治海洋的鲨鱼，以鳍的强度为傲！",
       fr: "Le requin au sourire meurtrier, régnant sur les mers avec une fin-tensité!",
       tr: "Denizleri son derece güçlü bir şekilde yöneten, öldürücü gülümsemeye sahip köpekbalığı!",
@@ -6582,7 +6671,7 @@ export const ITEM_DETAILS: Items = {
     howToGetItem: [
       {
         en: "Ocean fishing",
-        pt: "Pesca no mar",
+        "pt-BR": "Pesca no mar",
         fr: "Pêche en mer",
         tr: "Okyanus balıkçılığı",
         "zh-CN": "海上垂钓",
@@ -6591,7 +6680,8 @@ export const ITEM_DETAILS: Items = {
     itemType: "collectible",
     description: {
       en: "A deep-sea angler with a built-in nightlight, guiding its way through darkness.",
-      pt: "Um pescador de águas profundas com uma luz noturna embutida, guiando seu caminho através da escuridão.",
+      "pt-BR":
+        "Um pescador de águas profundas com uma luz noturna embutida, guiando seu caminho através da escuridão.",
       "zh-CN": "一种深海琵琶鱼，内置夜灯，引领其穿越黑暗。",
       fr: "Un poisson-pêcheur des profondeurs avec une lumière intégrée, guidant son chemin à travers les ténèbres.",
       tr: "Dahili gece lambasına sahip, karanlıkta yolunu gösteren bir derin deniz balıkçısı.",
@@ -6602,7 +6692,7 @@ export const ITEM_DETAILS: Items = {
     howToGetItem: [
       {
         en: "Ocean fishing",
-        pt: "Pesca no mar",
+        "pt-BR": "Pesca no mar",
         fr: "Pêche en mer",
         tr: "Okyanus balıkçılığı",
         "zh-CN": "海上垂钓",
@@ -6611,7 +6701,8 @@ export const ITEM_DETAILS: Items = {
     itemType: "collectible",
     description: {
       en: "A tuna that outshines the stars, ready to light up your collection.",
-      pt: "Um atum que supera as estrelas, pronto para iluminar sua coleção.",
+      "pt-BR":
+        "Um atum que supera as estrelas, pronto para iluminar sua coleção.",
       "zh-CN": "一条比星星还要耀眼的金枪鱼，准备照亮你的收藏。",
       fr: "Un thon qui brille plus que les étoiles, prêt à illuminer votre collection.",
       tr: "Koleksiyonunuzu aydınlatmaya hazır, yıldızları gölgede bırakan bir ton balığı.",
@@ -6622,7 +6713,7 @@ export const ITEM_DETAILS: Items = {
     howToGetItem: [
       {
         en: "Ocean fishing",
-        pt: "Pesca no mar",
+        "pt-BR": "Pesca no mar",
         fr: "Pêche en mer",
         tr: "Okyanus balıkçılığı",
         "zh-CN": "海上垂钓",
@@ -6631,7 +6722,8 @@ export const ITEM_DETAILS: Items = {
     itemType: "collectible",
     description: {
       en: "A ray that prefers to glow in the dark, with a shimmering secret to share.",
-      pt: "Um raio que prefere brilhar no escuro, com um segredo cintilante para compartilhar.",
+      "pt-BR":
+        "Um raio que prefere brilhar no escuro, com um segredo cintilante para compartilhar.",
       "zh-CN": "一种在黑暗中发光的鳐鱼，有着闪亮的秘密要分享。",
       fr: "Une raie qui préfère briller dans l'obscurité, avec un secret scintillant à partager.",
       tr: "Paylaşacak parıldayan bir sırrı olan, karanlıkta parlamayı tercih eden bir ışın.",
@@ -6642,7 +6734,7 @@ export const ITEM_DETAILS: Items = {
     howToGetItem: [
       {
         en: "Ocean fishing",
-        pt: "Pesca no mar",
+        "pt-BR": "Pesca no mar",
         fr: "Pêche en mer",
         tr: "Okyanus balıkçılığı",
         "zh-CN": "海上垂钓",
@@ -6651,7 +6743,8 @@ export const ITEM_DETAILS: Items = {
     itemType: "collectible",
     description: {
       en: "An elusive and ghostly fish of the deep, hiding in the shadows.",
-      pt: "Um peixe fantasmagórico e elusivo das profundezas, escondido nas sombras.",
+      "pt-BR":
+        "Um peixe fantasmagórico e elusivo das profundezas, escondido nas sombras.",
       "zh-CN": "一种深海中难以捉摸且幽灵般的鱼，隐藏在阴影中。",
       fr: "Un barracuda insaisissable et fantomatique des profondeurs, se cachant dans les ombres.",
       tr: "Derinlerin, gölgelerde saklanan, bulunması zor ve hayaletimsi bir balığı.",
@@ -6662,7 +6755,7 @@ export const ITEM_DETAILS: Items = {
     howToGetItem: [
       {
         en: "Ocean fishing",
-        pt: "Pesca no mar",
+        "pt-BR": "Pesca no mar",
         fr: "Pêche en mer",
         tr: "Okyanus balıkçılığı",
         "zh-CN": "海上垂钓",
@@ -6671,7 +6764,8 @@ export const ITEM_DETAILS: Items = {
     itemType: "collectible",
     description: {
       en: "A swordfish with scales that sparkle like gold, the ultimate catch!",
-      pt: "Um peixe-espada com escamas que brilham como ouro, a captura definitiva!",
+      "pt-BR":
+        "Um peixe-espada com escamas que brilham como ouro, a captura definitiva!",
       "zh-CN": "一条鳞片闪耀如金的剑鱼，终极的捕获！",
       fr: "Un espadon aux écailles qui scintillent comme de l'or, la capture ultime!",
       tr: "Altın gibi parıldayan pullara sahip bir kılıç balığı, en iyi av!",
@@ -6682,7 +6776,7 @@ export const ITEM_DETAILS: Items = {
     howToGetItem: [
       {
         en: "Ocean fishing",
-        pt: "Pesca no mar",
+        "pt-BR": "Pesca no mar",
         fr: "Pêche en mer",
         tr: "Okyanus balıkçılığı",
         "zh-CN": "海上垂钓",
@@ -6691,7 +6785,7 @@ export const ITEM_DETAILS: Items = {
     itemType: "collectible",
     description: {
       en: "A rare, vibrant jewel of the Spring waters.",
-      pt: "Uma joia rara e vibrante das águas da primavera.",
+      "pt-BR": "Uma joia rara e vibrante das águas da primavera.",
       "zh-CN": "春天水域中稀有、充满活力的宝石。",
       fr: "Un joyau rare et vibrant des eaux du printemps.",
       tr: "Kaynak sularının nadir, canlı bir mücevheri.",
@@ -6702,7 +6796,7 @@ export const ITEM_DETAILS: Items = {
     howToGetItem: [
       {
         en: "Ocean fishing",
-        pt: "Pesca no mar",
+        "pt-BR": "Pesca no mar",
         fr: "Pêche en mer",
         tr: "Okyanus balıkçılığı",
         "zh-CN": "海上垂钓",
@@ -6711,7 +6805,7 @@ export const ITEM_DETAILS: Items = {
     itemType: "collectible",
     description: {
       en: "The rare armored swimmer of faction season!",
-      pt: "The rare armored swimmer of faction season!",
+      "pt-BR": "The rare armored swimmer of faction season!",
       "zh-CN": "派系赛季稀有的装甲游泳者！",
       fr: "The rare armored swimmer of faction season!",
       tr: "The rare armored swimmer of faction season!",
@@ -6722,7 +6816,7 @@ export const ITEM_DETAILS: Items = {
     howToGetItem: [
       {
         en: "Ocean fishing",
-        pt: "Pesca no mar",
+        "pt-BR": "Pesca no mar",
         fr: "Pêche en mer",
         tr: "Okyanus balıkçılığı",
         "zh-CN": "海上垂钓",
@@ -6731,7 +6825,8 @@ export const ITEM_DETAILS: Items = {
     itemType: "collectible",
     description: {
       en: "A zesty, zippy swimmer of the Summer seas. Only available during Pharaoh's Treasure season.",
-      pt: "A zesty, zippy swimmer of the Summer seas. Only available during Pharaoh's Treasure season.",
+      "pt-BR":
+        "A zesty, zippy swimmer of the Summer seas. Only available during Pharaoh's Treasure season.",
       "zh-CN":
         "A zesty, zippy swimmer of the Summer seas. Only available during Pharaoh's Treasure season.",
       fr: "A zesty, zippy swimmer of the Summer seas. Only available during Pharaoh's Treasure season.",
@@ -6742,7 +6837,8 @@ export const ITEM_DETAILS: Items = {
     image: krakenTentacle,
     description: {
       en: "Dive into deep-sea mystery! This tentacle teases tales of ancient ocean legends and watery wonders.",
-      pt: "Mergulhe no mistério do mar profundo! Este tentáculo provoca contos de lendas oceânicas antigas e maravilhas aquáticas.",
+      "pt-BR":
+        "Mergulhe no mistério do mar profundo! Este tentáculo provoca contos de lendas oceânicas antigas e maravilhas aquáticas.",
       "zh-CN": "挖掘深海奥秘！这触手戏说着古老海洋传说与水底奇世的故事",
       fr: "Plongez dans le mystère des profondeurs ! Cette tentacule évoque des contes anciens de légendes marines et de merveilles aquatiques.",
       tr: "Derin deniz gizemine dalın! Bu dokunaç, antik okyanus efsaneleri ve su harikaları hakkındaki hikayeleri anlatıyor.",
@@ -6752,7 +6848,7 @@ export const ITEM_DETAILS: Items = {
     image: sapoDocuras,
     description: {
       en: "A real treat!",
-      pt: "Um verdadeiro agrado!",
+      "pt-BR": "Um verdadeiro agrado!",
       "zh-CN": "真正的享受！",
       fr: "Un vrai régal!",
       tr: "Gerçek bir tehdit!",
@@ -6762,7 +6858,7 @@ export const ITEM_DETAILS: Items = {
     image: sapoTravessura,
     description: {
       en: "Oh oh...someone was naughty",
-      pt: "Oh oh... alguém foi travesso",
+      "pt-BR": "Oh oh... alguém foi travesso",
       "zh-CN": "噢噢……有人调皮了",
       fr: "Oh oh... quelqu'un a été méchant.",
       tr: "Oh oh... birisi yaramazlık yapmış",
@@ -6772,7 +6868,7 @@ export const ITEM_DETAILS: Items = {
     image: lifeguardRing,
     description: {
       en: "Stay afloat with style, your seaside savior!",
-      pt: "Mantenha-se à tona com estilo, seu salvador à beira-mar!",
+      "pt-BR": "Mantenha-se à tona com estilo, seu salvador à beira-mar!",
       "zh-CN": "漂浮你的风尚，你的海岸救星！",
       fr: "Restez à flot avec style, votre sauveur en bord de mer!",
       tr: "Deniz kenarındaki kurtarıcınız, stilinizle ayakta kalın!",
@@ -6782,7 +6878,8 @@ export const ITEM_DETAILS: Items = {
     image: beachUmbrella,
     description: {
       en: "Shade, shelter, and seaside chic in one sunny setup!",
-      pt: "Sombra, abrigo e elegância à beira-mar em um único conjunto ensolarado!",
+      "pt-BR":
+        "Sombra, abrigo e elegância à beira-mar em um único conjunto ensolarado!",
       "zh-CN": "遮阳、歇息，一撑架起海滨风尚！",
       fr: "Ombre, abri et élégance en bord de mer en un seul arrangement ensoleillé!",
       tr: "Güneşli bir ortamda gölge, barınak ve deniz kenarı şıklığı!",
@@ -6792,7 +6889,8 @@ export const ITEM_DETAILS: Items = {
     image: hideawayHerman,
     description: {
       en: "Herman's here to hide, but always peeks for a party!",
-      pt: "Herman está aqui para se esconder, mas sempre dá uma espiada em uma festa!",
+      "pt-BR":
+        "Herman está aqui para se esconder, mas sempre dá uma espiada em uma festa!",
       "zh-CN": "Herman 在这躲着，但总是瞄着等派对！",
       fr: "Herman est là pour se cacher, mais regarde toujours pour une fête!",
       tr: "Herman saklanmak için burada ama her zaman bir parti arıyor!",
@@ -6802,7 +6900,8 @@ export const ITEM_DETAILS: Items = {
     image: shiftySheldon,
     description: {
       en: "Sheldon's sly, always scuttling to the next sandy surprise!",
-      pt: "Sheldon é astuto, sempre se movendo para a próxima surpresa arenosa!",
+      "pt-BR":
+        "Sheldon é astuto, sempre se movendo para a próxima surpresa arenosa!",
       "zh-CN": "狡猾的 Sheldon，总是匆忙凿着下一个沙岸惊喜！",
       fr: "Sheldon est sournois, toujours en train de se faufiler vers la prochaine surprise sableuse!",
       tr: "Sheldon kurnazdır, her zaman bir sonraki sürprize koşar!",
@@ -6812,7 +6911,7 @@ export const ITEM_DETAILS: Items = {
     image: tikiTorch,
     description: {
       en: "Light the night, tropical vibes burning bright!",
-      pt: "Ilumine a noite, vibrações tropicais brilhando intensamente!",
+      "pt-BR": "Ilumine a noite, vibrações tropicais brilhando intensamente!",
       "zh-CN": "照亮黑夜，热带风味点燃一切！",
       fr: "Illuminez la nuit, des vibrations tropicales brûlant brillamment!",
       tr: "Geceyi aydınlatın, tropik titreşimler parlak bir şekilde yanıyor!",
@@ -6822,7 +6921,7 @@ export const ITEM_DETAILS: Items = {
     image: surfboard,
     description: {
       en: "Ride the waves of wonder, beach bliss on board!",
-      pt: "Surfe nas ondas da maravilha, bliss de praia a bordo!",
+      "pt-BR": "Surfe nas ondas da maravilha, bliss de praia a bordo!",
       "zh-CN": "驾驭你的惊涛骇浪，愿沙滩祝福你的浪板！",
       fr: "Ridez les vagues de l'émerveillement, béatitude de plage à bord!",
       tr: "Harika dalgalarda gezin, teknede plaj mutluluğu!",
@@ -6832,7 +6931,8 @@ export const ITEM_DETAILS: Items = {
     image: walrus,
     description: {
       en: "With his trusty tusks and love for the deep, he'll ensure you reel in an extra fish every time",
-      pt: "Com suas presas confiáveis e amor pelo fundo do mar, ele garantirá que você pesque um peixe extra toda vez",
+      "pt-BR":
+        "Com suas presas confiáveis e amor pelo fundo do mar, ele garantirá que você pesque um peixe extra toda vez",
       "zh-CN":
         "凭借他可靠的獠牙和对深海的热爱，他会确保你每次都能钓上额外一条鱼",
       fr: "Avec ses défenses fiables et son amour pour les profondeurs, il s'assurera que vous pêchiez un poisson de plus à chaque fois.",
@@ -6843,7 +6943,8 @@ export const ITEM_DETAILS: Items = {
     image: alba,
     description: {
       en: "With her keen instincts, she ensures you get a little extra splash in your catch. 50% chance of +1 Basic Fish!",
-      pt: "Com seus instintos afiados, ela garante que você receba um pouco de splash extra em sua pesca. 50% de chance de +1 Peixe Básico!",
+      "pt-BR":
+        "Com seus instintos afiados, ela garante que você receba um pouco de splash extra em sua pesca. 50% de chance de +1 Peixe Básico!",
       "zh-CN":
         "凭借她的敏锐直觉，她会确保你上钩的会有额外水花。50% 的几率 +1 基础鱼！",
       fr: "Avec ses instincts aiguisés, elle s'assure que vous avez un peu plus de plaisir dans votre pêche. 50 % de chances d'obtenir +1 poisson de base!",
@@ -6854,7 +6955,8 @@ export const ITEM_DETAILS: Items = {
     image: knowledgeCrab,
     description: {
       en: "The Knowledge Crab doubles your Sprout Mix effect, making your soil treasures as rich as sea plunder!",
-      pt: "O Caranguejo do Conhecimento duplica o efeito da sua Mistura de Broto, tornando seus tesouros de solo tão ricos quanto pilhagem do mar!",
+      "pt-BR":
+        "O Caranguejo do Conhecimento duplica o efeito da sua Mistura de Broto, tornando seus tesouros de solo tão ricos quanto pilhagem do mar!",
       "zh-CN":
         "Knowledge Crab 让你的 Sprout Mix 效果翻倍，让你的田地财宝跟海上劫掠一样滋润！",
       fr: "Le crabe de la connaissance double l'effet de votre mélange de graines, rendant vos trésors de sol aussi riches que les pillages marins!",
@@ -6865,7 +6967,8 @@ export const ITEM_DETAILS: Items = {
     image: anchor,
     description: {
       en: "Drop anchor with this nautical gem, making every spot seaworthy and splash-tastically stylish!",
-      pt: "Ancore com esta joia náutica, tornando cada local próprio para navegação e estilisticamente espirituoso!",
+      "pt-BR":
+        "Ancore com esta joia náutica, tornando cada local próprio para navegação e estilisticamente espirituoso!",
       "zh-CN": "用这颗航海明珠抛锚，让每一块地方都风生水起又流行时锚！",
       fr: "Jetez l'ancre avec cette gemme nautique, rendant chaque endroit navigable et d'une élégance éclaboussante!",
       tr: "Bu deniz mücevheriyle demir atın, her noktayı denize uygun hale getirin ve su sıçramasına son derece şık bir hale getirin!",
@@ -6875,7 +6978,8 @@ export const ITEM_DETAILS: Items = {
     image: rubberDucky,
     description: {
       en: "Float on fun with this classic quacker, bringing bubbly joy to every corner!",
-      pt: "Flutue na diversão com este patinho clássico, trazendo alegria borbulhante para todos os cantos!",
+      "pt-BR":
+        "Flutue na diversão com este patinho clássico, trazendo alegria borbulhante para todos os cantos!",
       "zh-CN": "伴着这经典叫叫玩具漂浮，传颂胶胶奇趣到每一角落！",
       fr: "Flottez dans le plaisir avec ce canard classique, apportant une joie pétillante à chaque coin!",
       tr: "Her köşeye neşeli bir neşe getiren bu klasik şarlatanla eğlencenin tadını çıkarın!",
@@ -6885,7 +6989,8 @@ export const ITEM_DETAILS: Items = {
     image: krakenHead,
     description: {
       en: "Dive into deep-sea mystery! This head teases tales of ancient ocean legends and watery wonders.",
-      pt: "Mergulhe no mistério do mar profundo! Esta cabeça provoca contos de lendas oceânicas antigas e maravilhas aquáticas.",
+      "pt-BR":
+        "Mergulhe no mistério do mar profundo! Esta cabeça provoca contos de lendas oceânicas antigas e maravilhas aquáticas.",
       "zh-CN": "挖掘深海奥秘！这大脑戏说着古老海洋传说与水底奇世的故事",
       fr: "Plongez dans le mystère des profondeurs ! Cette tête évoque des contes anciens de légendes marines et de merveilles aquatiques.",
       tr: "Derin deniz gizemine dalın! Bu kafa, eski okyanus efsaneleri ve su harikaları hakkındaki hikayeleri anlatıyor.",
@@ -6895,7 +7000,7 @@ export const ITEM_DETAILS: Items = {
     image: bananaChicken,
     description: {
       en: "A chicken that boosts bananas. What a world we live in.",
-      pt: "Um frango que impulsiona bananas. Em que mundo vivemos?!",
+      "pt-BR": "Um frango que impulsiona bananas. Em que mundo vivemos?!",
       "zh-CN": "一只能让香蕉增加产量的鸡。我们这世界可真奇妙。",
       fr: "Une poule qui booste les bananes. Quel monde nous vivons.",
       tr: "Muzları artıran bir tavuk. Nasıl bir dünyada yaşıyoruz.",
@@ -6905,7 +7010,8 @@ export const ITEM_DETAILS: Items = {
     image: crimPeckster,
     description: {
       en: "A gem detective with a knack for unearthing Crimstones.",
-      pt: "Um detetive de gemas com habilidade para desenterrar Crimstones.",
+      "pt-BR":
+        "Um detetive de gemas com habilidade para desenterrar Crimstones.",
       "zh-CN": "一位精通揪出红宝石的宝石侦探",
       fr: "Un détective de gemmes avec un talent pour déterrer des Crimstones.",
       tr: "Kızıltaşları gün yüzüne çıkarma yeteneğine sahip bir mücevher dedektifi.",
@@ -6915,7 +7021,7 @@ export const ITEM_DETAILS: Items = {
     image: knightChicken,
     description: {
       en: "A strong and noble chicken boosting your oil yield.",
-      pt: "A strong and noble chicken boosting your oil yield.",
+      "pt-BR": "A strong and noble chicken boosting your oil yield.",
       "zh-CN": "一只强大而高贵的鸡为您的油田增强产出",
       fr: "A strong and noble chicken boosting your oil yield.",
       tr: "A strong and noble chicken boosting your oil yield.",
@@ -6925,7 +7031,7 @@ export const ITEM_DETAILS: Items = {
     image: pharaohChicken,
     description: {
       en: "A ruling chicken, +1 Dig.",
-      pt: "A ruling chicken, +1 Dig.",
+      "pt-BR": "A ruling chicken, +1 Dig.",
       "zh-CN": "A ruling chicken, +1 Dig.",
       fr: "A ruling chicken, +1 Dig.",
       tr: "A ruling chicken, +1 Dig.",
@@ -6935,7 +7041,8 @@ export const ITEM_DETAILS: Items = {
     image: skillShrimpy,
     description: {
       en: "Shrimpy's here to help! He'll ensure you get that extra XP from fish.",
-      pt: "Shrimpy está aqui para ajudar! Ele garantirá que você obtenha XP extra de peixes.",
+      "pt-BR":
+        "Shrimpy está aqui para ajudar! Ele garantirá que você obtenha XP extra de peixes.",
       "zh-CN": "Shrimpy 来帮忙了！他来保你从鱼身上获取额外 XP",
       fr: "Shrimpy est là pour vous aider ! Il s'assurera que vous obteniez de l'XP supplémentaire des poissons.",
       tr: "Shrimpy yardım etmek için burada! Balıklardan ekstra XP elde etmeni sağlayacaktır.",
@@ -6945,7 +7052,8 @@ export const ITEM_DETAILS: Items = {
     image: soilKrabby,
     description: {
       en: "Speedy sifting with a smile! Enjoy a 10% composter speed boost with this crustaceous champ.",
-      pt: "Peneira rápida com um sorriso! Desfrute de um aumento de velocidade de 10% no composto com este campeão crustáceo.",
+      "pt-BR":
+        "Peneira rápida com um sorriso! Desfrute de um aumento de velocidade de 10% no composto com este campeão crustáceo.",
       "zh-CN": "微笑面对挑拣！有这位坚壳硬汉超人相伴，享受更快 10 % 的堆肥时间",
       fr: "Tamisage rapide avec le sourire ! Profitez d'une augmentation de vitesse de 10% de la compostière avec ce champion crustacé.",
       tr: "Bir gülümseme ile hızlan! Bu kabuklu şampiyon ile 10% gübre üretme hızı artışının tadını çıkar.",
@@ -6955,7 +7063,8 @@ export const ITEM_DETAILS: Items = {
     image: nana,
     description: {
       en: "This rare beauty is a surefire way to boost your banana harvests.",
-      pt: "Esta beleza rara é uma maneira infalível de impulsionar suas colheitas de banana.",
+      "pt-BR":
+        "Esta beleza rara é uma maneira infalível de impulsionar suas colheitas de banana.",
       "zh-CN": "这个稀有品种的香蕉美人保你香蕉收成有所增进",
       fr: "Cette beauté rare est un moyen sûr d'augmenter votre récolte de bananes.",
       tr: "Bu nadir güzellik, muz hasadını artırmanın kesin bir yoludur.",
@@ -6965,7 +7074,8 @@ export const ITEM_DETAILS: Items = {
     image: timeWarpTotem,
     description: {
       en: "2x speed for crops, trees, fruits, cooking & minerals. Only lasts for 2 hours",
-      pt: "2x speed for crops, trees, fruits, cooking & minerals. Only lasts for 2 hours",
+      "pt-BR":
+        "2x speed for crops, trees, fruits, cooking & minerals. Only lasts for 2 hours",
       "zh-CN":
         "庄稼、树木、水果、烹饪和基矿的速度加倍。仅持续2小时（请在开始计时/收获资源前放置）",
       fr: "2x speed for crops, trees, fruits, cooking & minerals. Only lasts for 2 hours",
@@ -6976,7 +7086,7 @@ export const ITEM_DETAILS: Items = {
     image: communityCoin,
     description: {
       en: "A valued coin that can be exchanged for rewards",
-      pt: "Uma moeda valiosa que pode ser trocada por recompensas",
+      "pt-BR": "Uma moeda valiosa que pode ser trocada por recompensas",
       "zh-CN": "A valued coin that can be exchanged for rewards",
       fr: "Une pièce de valeur pouvant être échangée contre des récompenses",
       tr: "Ödüllerle takas edilebilecek değerli bir para",
@@ -6986,7 +7096,8 @@ export const ITEM_DETAILS: Items = {
     image: communityCoin,
     description: {
       en: "A token earned from mini-games and adventures. Can be exchanged for rewards.",
-      pt: "Um token ganho de minijogos e aventuras. Pode ser trocado por recompensas.",
+      "pt-BR":
+        "Um token ganho de minijogos e aventuras. Pode ser trocado por recompensas.",
       "zh-CN": "从小游戏与冒险挣来的代币。可以换取奖赏。",
       fr: "Un jeton gagné grâce à des mini-jeux et des aventures. Peut être échangé contre des récompenses.",
       tr: "Mini oyunlardan ve maceralardan kazanılan bir jeton. Ödüllerle takas edilebilir.",
@@ -6996,7 +7107,7 @@ export const ITEM_DETAILS: Items = {
     image: nutcracker,
     description: {
       en: "A festive decoration from 2023.",
-      pt: "Uma decoração festiva de 2023.",
+      "pt-BR": "Uma decoração festiva de 2023.",
       "zh-CN": "2023 年的节日装饰",
       fr: "Une décoration festive de 2023.",
       tr: "2023'ten kalma şenlikli bir dekorasyon.",
@@ -7006,7 +7117,8 @@ export const ITEM_DETAILS: Items = {
     image: festiveTree,
     description: {
       en: "A festive tree available each holiday season. I wonder if it is big enough for santa to see?",
-      pt: "Uma árvore festiva disponível em cada temporada de festas. Eu me pergunto se é grande o suficiente para o Papai Noel ver?",
+      "pt-BR":
+        "Uma árvore festiva disponível em cada temporada de festas. Eu me pergunto se é grande o suficiente para o Papai Noel ver?",
       "zh-CN": "每到佳节搬上台面的节庆树。好奇够不够大让圣诞老人看见呢？",
       fr: "Un arbre festif disponible chaque saison des fêtes. Je me demande s'il est assez grand pour que le Père Noël le voie?",
       tr: "Her tatil sezonunda şenlikli bir ağaç mevcuttur. Acaba Noel Baba'nın görebileceği kadar büyük mü?",
@@ -7016,7 +7128,7 @@ export const ITEM_DETAILS: Items = {
     image: whiteFestiveFox,
     description: {
       en: "The blessing of the White Fox inhabits the generous farms",
-      pt: "A bênção da Raposa Branca habita as fazendas generosas",
+      "pt-BR": "A bênção da Raposa Branca habita as fazendas generosas",
       "zh-CN": "白狐的赐福安居在慷慨的农场",
       fr: "La bénédiction du Renard Blanc habite les fermes généreuses.",
       tr: "Beyaz Tilki'nin kutsaması cömert çiftliklerde yaşıyor",
@@ -7026,7 +7138,7 @@ export const ITEM_DETAILS: Items = {
     image: grinxsHammer,
     description: {
       en: "The magical hammer from Grinx, the legendary Goblin Blacksmith.",
-      pt: "O martelo mágico de Grinx, o lendário Ferreiro Goblin.",
+      "pt-BR": "O martelo mágico de Grinx, o lendário Ferreiro Goblin.",
       "zh-CN": "出自传奇哥布林铁匠 Grinx 之手的魔法锤子",
       fr: "Le marteau magique de Grinx, le légendaire forgeron gobelin.",
       tr: "Efsanevi Goblin Demircisi Grinx'in sihirli çekici.",
@@ -7037,7 +7149,7 @@ export const ITEM_DETAILS: Items = {
     howToGetItem: [
       {
         en: "Beach fishing",
-        pt: "Beach fishing",
+        "pt-BR": "Beach fishing",
         fr: "Beach fishing",
         tr: "Beach fishing",
         "zh-CN": "Beach fishing",
@@ -7045,7 +7157,8 @@ export const ITEM_DETAILS: Items = {
     ],
     description: {
       en: "The aquatic celestial beauty, adorned in a palette of vibrant hues.",
-      pt: "A beleza celestial aquática, adornada com uma paleta de cores vibrantes.",
+      "pt-BR":
+        "A beleza celestial aquática, adornada com uma paleta de cores vibrantes.",
       "zh-CN": "海洋的天蓝之美，点缀着缤纷跃动弧光",
       fr: "La beauté céleste aquatique, ornée d'une palette de couleurs vibrantes.",
       tr: "Canlı tonlardan oluşan bir paletle süslenmiş sudaki göksel güzellik.",
@@ -7056,7 +7169,7 @@ export const ITEM_DETAILS: Items = {
     howToGetItem: [
       {
         en: "Beach fishing",
-        pt: "Beach fishing",
+        "pt-BR": "Beach fishing",
         fr: "Beach fishing",
         tr: "Beach fishing",
         "zh-CN": "Beach fishing",
@@ -7064,7 +7177,8 @@ export const ITEM_DETAILS: Items = {
     ],
     description: {
       en: "The flat ocean floor dweller, a master of disguise in sandy camouflage.",
-      pt: "O habitante plano do fundo do oceano, um mestre do disfarce em camuflagem arenosa.",
+      "pt-BR":
+        "O habitante plano do fundo do oceano, um mestre do disfarce em camuflagem arenosa.",
       "zh-CN": "海底平地的潜居者，披着沙色迷彩的伪装大师",
       fr: "Le habitant plat du fond de l'océan, un maître du déguisement en camouflage sableux.",
       tr: "Düz okyanus tabanı sakini, kumlu kamuflajda kılık değiştirme ustası.",
@@ -7075,7 +7189,7 @@ export const ITEM_DETAILS: Items = {
     howToGetItem: [
       {
         en: "Beach fishing",
-        pt: "Beach fishing",
+        "pt-BR": "Beach fishing",
         fr: "Beach fishing",
         tr: "Beach fishing",
         "zh-CN": "Beach fishing",
@@ -7083,7 +7197,8 @@ export const ITEM_DETAILS: Items = {
     ],
     description: {
       en: "A kaleidoscope of colors beneath the waves, this fish is nature's living artwork.",
-      pt: "Um caleidoscópio de cores sob as ondas, este peixe é a obra de arte viva da natureza.",
+      "pt-BR":
+        "Um caleidoscópio de cores sob as ondas, este peixe é a obra de arte viva da natureza.",
       "zh-CN": "海浪下的七彩万花筒，这鱼就是大自然的鲜活艺术造物",
       fr: "Un kaléidoscope de couleurs sous les vagues, ce poisson est une œuvre d'art vivante de la nature.",
       tr: "Dalgaların altındaki renklerden oluşan bir kaleydoskop olan bu balık, doğanın yaşayan sanat eseridir.",
@@ -7093,7 +7208,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.decorations.rug,
     description: {
       en: "?",
-      pt: "?",
+      "pt-BR": "?",
       "zh-CN": "?",
       fr: "?",
       tr: "?",
@@ -7103,7 +7218,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.decorations.wardrobe,
     description: {
       en: "?",
-      pt: "?",
+      "pt-BR": "?",
       "zh-CN": "?",
       fr: "?",
       tr: "?",
@@ -7113,7 +7228,7 @@ export const ITEM_DETAILS: Items = {
     image: budTicket,
     description: {
       en: "?",
-      pt: "?",
+      "pt-BR": "?",
       "zh-CN": "?",
       fr: "?",
       tr: "?",
@@ -7123,7 +7238,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.icons.player,
     description: {
       en: "A helpful farmhand",
-      pt: "Um ajudante de fazenda útil",
+      "pt-BR": "Um ajudante de fazenda útil",
       "zh-CN": "热心的雇农",
       fr: "Un ouvrier agricole utile.",
       tr: "Yardımsever bir çiftçi",
@@ -7133,7 +7248,8 @@ export const ITEM_DETAILS: Items = {
     image: beehive,
     description: {
       en: "A bustling beehive, producing honey from actively growing flowers; 10% chance upon Honey harvest to summon a bee swarm which will pollinate all growing crops with a +0.2 boost!",
-      pt: "Uma colmeia agitada, produzindo mel a partir de flores em crescimento ativo; 10% de chance ao colher Mel de invocar um enxame de abelhas que polinizará todas as plantações em crescimento com um impulso de +0.2!",
+      "pt-BR":
+        "Uma colmeia agitada, produzindo mel a partir de flores em crescimento ativo; 10% de chance ao colher Mel de invocar um enxame de abelhas que polinizará todas as plantações em crescimento com um impulso de +0.2!",
       "zh-CN":
         "熙熙攘攘的蜂巢，从生长的花卉采来产出蜂蜜；收获满溢的蜂蜜有 10 % 的概率召来蜂群，为生长的庄稼授粉增加 0.2 的产出！",
       fr: "Une ruche animée, produisant du Honey à partir de fleurs en croissance active ; 10 % de chance lors de la récolte du Honey d'invoquer un essaim d'abeilles qui pollinisera toutes les cultures en croissance avec un bonus de +0.2!",
@@ -7144,7 +7260,7 @@ export const ITEM_DETAILS: Items = {
     image: redPansy,
     description: {
       en: "A red pansy.",
-      pt: "Uma pansy vermelha.",
+      "pt-BR": "Uma pansy vermelha.",
       "zh-CN": "红三色堇。一朵红三色堇。",
       fr: "Une red pansy.",
       tr: "Kırmızı bir menekşe.",
@@ -7154,7 +7270,7 @@ export const ITEM_DETAILS: Items = {
     image: yellowPansy,
     description: {
       en: "A yellow pansy.",
-      pt: "Uma pansy amarela.",
+      "pt-BR": "Uma pansy amarela.",
       "zh-CN": "黄三色堇。一朵黄三色堇。",
       fr: "Une yellow pansy.",
       tr: "Sarı bir menekşe.",
@@ -7164,7 +7280,7 @@ export const ITEM_DETAILS: Items = {
     image: purplePansy,
     description: {
       en: "A purple pansy.",
-      pt: "Uma pansy roxa.",
+      "pt-BR": "Uma pansy roxa.",
       "zh-CN": "紫三色堇。一朵紫三色堇。",
       fr: "Une purple pansy.",
       tr: "Mor bir menekşe.",
@@ -7174,7 +7290,7 @@ export const ITEM_DETAILS: Items = {
     image: whitePansy,
     description: {
       en: "A white pansy.",
-      pt: "Uma pansy branca.",
+      "pt-BR": "Uma pansy branca.",
       "zh-CN": "白三色堇。一朵白三色堇。",
       fr: "Une white panssy.",
       tr: "Beyaz bir menekşe.",
@@ -7184,7 +7300,7 @@ export const ITEM_DETAILS: Items = {
     image: bluePansy,
     description: {
       en: "A blue pansy.",
-      pt: "Uma pansy azul.",
+      "pt-BR": "Uma pansy azul.",
       "zh-CN": "蓝三色堇。一朵蓝三色堇。",
       fr: "Une blue pansy.",
       tr: "Mavi bir menekşe.",
@@ -7194,7 +7310,7 @@ export const ITEM_DETAILS: Items = {
     image: redCosmos,
     description: {
       en: "A red cosmos.",
-      pt: "Um cosmos vermelho.",
+      "pt-BR": "Um cosmos vermelho.",
       "zh-CN": "红波斯菊。一朵红波斯菊。",
       fr: "Un red cosmos.",
       tr: "Kırmızı bir Cosmos.",
@@ -7204,7 +7320,7 @@ export const ITEM_DETAILS: Items = {
     image: yellowCosmos,
     description: {
       en: "A yellow cosmos.",
-      pt: "Um cosmos amarelo.",
+      "pt-BR": "Um cosmos amarelo.",
       "zh-CN": "黄波斯菊。一朵黄色波斯菊。",
       fr: "Un yellow cosmos.",
       tr: "Sarı bir Cosmos.",
@@ -7214,7 +7330,7 @@ export const ITEM_DETAILS: Items = {
     image: purpleCosmos,
     description: {
       en: "A purple cosmos.",
-      pt: "Um cosmos roxo.",
+      "pt-BR": "Um cosmos roxo.",
       "zh-CN": "紫波斯菊。一朵紫波斯菊。",
       fr: "Un purple cosmos.",
       tr: "Mor bir Cosmos.",
@@ -7224,7 +7340,7 @@ export const ITEM_DETAILS: Items = {
     image: whiteCosmos,
     description: {
       en: "A white cosmos.",
-      pt: "Um cosmos branco.",
+      "pt-BR": "Um cosmos branco.",
       "zh-CN": "白波斯菊。一朵白波斯菊。",
       fr: "Un white cosmos.",
       tr: "Beyaz bir Cosmos.",
@@ -7234,7 +7350,7 @@ export const ITEM_DETAILS: Items = {
     image: blueCosmos,
     description: {
       en: "A blue cosmos.",
-      pt: "Um cosmos azul.",
+      "pt-BR": "Um cosmos azul.",
       "zh-CN": "蓝波斯菊。一朵蓝波斯菊。",
       fr: "Un blue cosmos.",
       tr: "Mavi bir Cosmos.",
@@ -7244,7 +7360,7 @@ export const ITEM_DETAILS: Items = {
     image: redBalloonFlower,
     description: {
       en: "A red balloon flower.",
-      pt: "Uma flor de balão vermelho.",
+      "pt-BR": "Uma flor de balão vermelho.",
       "zh-CN": "红桔梗。一朵红桔梗。",
       fr: "Une red balloon flower.",
       tr: "Kırmızı balon çiçeği.",
@@ -7254,7 +7370,7 @@ export const ITEM_DETAILS: Items = {
     image: yellowBalloonFlower,
     description: {
       en: "A yellow balloon flower.",
-      pt: "Uma flor de balão amarelo.",
+      "pt-BR": "Uma flor de balão amarelo.",
       "zh-CN": "黄桔梗。一朵黄桔梗。",
       fr: "Une yellow balloon flower.",
       tr: "Sarı balon çiçeği.",
@@ -7264,7 +7380,7 @@ export const ITEM_DETAILS: Items = {
     image: purpleBalloonFlower,
     description: {
       en: "A purple balloon flower.",
-      pt: "Uma flor de balão roxo.",
+      "pt-BR": "Uma flor de balão roxo.",
       "zh-CN": "紫桔梗。一朵紫桔梗。",
       fr: "Une purple balloon flower.",
       tr: "Mor bir balon çiçeği.",
@@ -7274,7 +7390,7 @@ export const ITEM_DETAILS: Items = {
     image: whiteBalloonFlower,
     description: {
       en: "A white balloon flower.",
-      pt: "Uma flor de balão branca.",
+      "pt-BR": "Uma flor de balão branca.",
       "zh-CN": "白桔梗。一朵白桔梗。",
       fr: "Une white balloon flower.",
       tr: "Beyaz bir balon çiçeği.",
@@ -7284,7 +7400,7 @@ export const ITEM_DETAILS: Items = {
     image: blueBalloonFlower,
     description: {
       en: "A blue balloon flower.",
-      pt: "Uma flor de balão azul.",
+      "pt-BR": "Uma flor de balão azul.",
       "zh-CN": "蓝桔梗。一朵蓝桔梗。",
       fr: "Une blue balloon flower.",
       tr: "Mavi balon çiçeği.",
@@ -7294,7 +7410,7 @@ export const ITEM_DETAILS: Items = {
     image: redCarnation,
     description: {
       en: "A red carnation.",
-      pt: "Um cravo vermelho.",
+      "pt-BR": "Um cravo vermelho.",
       "zh-CN": "红康乃馨。一朵红康乃馨。",
       fr: "Une red carnation.",
       tr: "Kırmızı bir karanfil.",
@@ -7304,7 +7420,7 @@ export const ITEM_DETAILS: Items = {
     image: yellowCarnation,
     description: {
       en: "A yellow carnation.",
-      pt: "Um cravo amarelo.",
+      "pt-BR": "Um cravo amarelo.",
       "zh-CN": "黄康乃馨。一朵黄康乃馨。",
       fr: "Une yellow carnation.",
       tr: "Sarı bir karanfil.",
@@ -7314,7 +7430,7 @@ export const ITEM_DETAILS: Items = {
     image: purpleCarnation,
     description: {
       en: "A purple carnation.",
-      pt: "Um cravo roxo.",
+      "pt-BR": "Um cravo roxo.",
       "zh-CN": "紫康乃馨。一朵紫康乃馨。",
       fr: "Une purple carnation.",
       tr: "Mor bir karanfil.",
@@ -7324,7 +7440,7 @@ export const ITEM_DETAILS: Items = {
     image: whiteCarnation,
     description: {
       en: "A white carnation.",
-      pt: "Um cravo branco.",
+      "pt-BR": "Um cravo branco.",
       "zh-CN": "白康乃馨。一朵白康乃馨。",
       fr: "Unewhite carnation.",
       tr: "Beyaz bir karanfil.",
@@ -7334,7 +7450,7 @@ export const ITEM_DETAILS: Items = {
     image: blueCarnation,
     description: {
       en: "A blue carnation.",
-      pt: "Um cravo azul.",
+      "pt-BR": "Um cravo azul.",
       "zh-CN": "蓝康乃馨。一朵蓝康乃馨。",
       fr: "Une blue carnation.",
       tr: "Mavi bir karanfil.",
@@ -7344,7 +7460,8 @@ export const ITEM_DETAILS: Items = {
     image: hummingBird,
     description: {
       en: "A tiny jewel of the sky, the Humming Bird flits with colorful grace.",
-      pt: "Um joia minúscula do céu, o Beija-flor flutua com graça colorida.",
+      "pt-BR":
+        "Um joia minúscula do céu, o Beija-flor flutua com graça colorida.",
       "zh-CN": "小小天上明珠，Humming Bird 捧七彩的优雅飞掠而过",
       fr: "Un joyau du ciel, le Colibri virevolte avec grâce et couleur.",
       tr: "Gökyüzünün minik bir mücevheri olan Sinek Kuşu, rengarenk bir zarafetle uçuyor.",
@@ -7354,7 +7471,8 @@ export const ITEM_DETAILS: Items = {
     image: queenBee,
     description: {
       en: "Majestic ruler of the hive, the Queen Bee buzzes with regal authority.",
-      pt: "Régia majestosa da colmeia, a Abelha Rainha zumbindo com autoridade régia.",
+      "pt-BR":
+        "Régia majestosa da colmeia, a Abelha Rainha zumbindo com autoridade régia.",
       "zh-CN": "蜂巢的威严统领，Queen Bee 以至高君权嗡嗡号令",
       fr: "Majestueuse reine de la ruche, l'Abeille Reine bourdonne avec autorité royale.",
       tr: "Kovanın görkemli hükümdarı Kraliçe Arı, kraliyet otoritesiyle vızıldıyor.",
@@ -7364,7 +7482,8 @@ export const ITEM_DETAILS: Items = {
     image: flowerFox,
     description: {
       en: "The Flower Fox, a playful creature adorned with petals, brings joy to the garden.",
-      pt: "A Raposa Flor, uma criatura lúdica adornada com pétalas, traz alegria ao jardim.",
+      "pt-BR":
+        "A Raposa Flor, uma criatura lúdica adornada com pétalas, traz alegria ao jardim.",
       "zh-CN": "Flower Fox，花瓣簇拥的欢欣生灵，为花园带来雀跃",
       fr: "Le Renard des Fleurs, une créature espiègle ornée de pétales, apporte de la joie au jardin.",
       tr: "Yapraklarla süslenmiş oyuncu bir yaratık olan Çiçek Tilki, bahçeye neşe katıyor.",
@@ -7374,7 +7493,8 @@ export const ITEM_DETAILS: Items = {
     image: hungryCaterpillar,
     description: {
       en: "Munching through leaves, the Hungry Caterpillar is always ready for a tasty adventure.",
-      pt: "Devorando folhas, a Lagarta Faminta está sempre pronta para uma aventura saborosa.",
+      "pt-BR":
+        "Devorando folhas, a Lagarta Faminta está sempre pronta para uma aventura saborosa.",
       "zh-CN": "嚼着树叶，Hungry Caterpillar 总蓄势等待下一场美味冒险",
       fr: "Se régalant de feuilles, la Chenille Gourmande est toujours prête pour une aventure savoureuse.",
       tr: "Yaprakları yerken Aç Tırtıl her zaman lezzetli bir maceraya hazırdır.",
@@ -7384,7 +7504,8 @@ export const ITEM_DETAILS: Items = {
     image: sunriseBloomRug,
     description: {
       en: "Step onto the Sunrise Bloom Rug, where petals dance around a floral sunrise.",
-      pt: "Pise no Tapete de Flores do Amanhecer, onde pétalas dançam ao redor de um nascer do sol floral.",
+      "pt-BR":
+        "Pise no Tapete de Flores do Amanhecer, onde pétalas dançam ao redor de um nascer do sol floral.",
       "zh-CN": "踏上 Sunrise Bloom Rug，花瓣在之上舞起花香晨光。",
       fr: "Marchez sur le Tapis de l'Éclosion du Soleil, où les pétales dansent autour d'un lever de soleil floral.",
       tr: "Yaprakların çiçekli gün doğumu etrafında dans ettiği Sunrise Bloom Rug'a adım atın.",
@@ -7394,7 +7515,7 @@ export const ITEM_DETAILS: Items = {
     image: flowerRug,
     description: {
       en: "Add a touch of nature's elegance to your home.",
-      pt: "Add a touch of nature's elegance to your home.",
+      "pt-BR": "Add a touch of nature's elegance to your home.",
       "zh-CN": "Add a touch of nature's elegance to your home.",
       fr: "Add a touch of nature's elegance to your home.",
       tr: "Add a touch of nature's elegance to your home.",
@@ -7404,7 +7525,8 @@ export const ITEM_DETAILS: Items = {
     image: teaRug,
     description: {
       en: "Rug boasting a warm and inviting tea-colored hue that exudes comfort.",
-      pt: "Rug boasting a warm and inviting tea-colored hue that exudes comfort.",
+      "pt-BR":
+        "Rug boasting a warm and inviting tea-colored hue that exudes comfort.",
       "zh-CN":
         "Rug boasting a warm and inviting tea-colored hue that exudes comfort.",
       fr: "Rug boasting a warm and inviting tea-colored hue that exudes comfort.",
@@ -7415,7 +7537,8 @@ export const ITEM_DETAILS: Items = {
     image: greenFieldRug,
     description: {
       en: "A beautiful rug of deep green hue's reminiscent of a vibrant meadow in full bloom.",
-      pt: "A beautiful rug of deep green hue's reminiscent of a vibrant meadow in full bloom.",
+      "pt-BR":
+        "A beautiful rug of deep green hue's reminiscent of a vibrant meadow in full bloom.",
       "zh-CN":
         "A beautiful rug of deep green hue's reminiscent of a vibrant meadow in full bloom.",
       fr: "A beautiful rug of deep green hue's reminiscent of a vibrant meadow in full bloom.",
@@ -7426,7 +7549,8 @@ export const ITEM_DETAILS: Items = {
     image: blossomRoyale,
     description: {
       en: "The Blossom Royale, a giant flower in vibrant blue and pink, stands in majestic bloom.",
-      pt: "O Royale da Flor, uma flor gigante em azul e rosa vibrantes, está em majestosa floração.",
+      "pt-BR":
+        "O Royale da Flor, uma flor gigante em azul e rosa vibrantes, está em majestosa floração.",
       "zh-CN": "Blossom Royale，蓝与粉鲜活荡漾的巨大花朵，挺拔撑起俨然绽放。",
       fr: "Le Blossom Royale, une fleur géante aux couleurs bleues et roses vibrantes, se dresse en majesté.",
       tr: "Canlı mavi ve pembe renkte dev bir çiçek olan Blossom Royale, görkemli bir çiçek içinde duruyor.",
@@ -7436,7 +7560,8 @@ export const ITEM_DETAILS: Items = {
     image: rainbow,
     description: {
       en: "A cheerful Rainbow, bridging sky and earth with its colorful arch.",
-      pt: "Um Arco-íris alegre, unindo o céu e a terra com seu arco colorido.",
+      "pt-BR":
+        "Um Arco-íris alegre, unindo o céu e a terra com seu arco colorido.",
       "zh-CN": "欢乐彩虹，为天地搭起七彩拱桥。",
       fr: "Un arc-en-ciel joyeux, reliant le ciel et la terre avec son arc-en-ciel coloré.",
       tr: "Rengarenk kemeriyle gökyüzü ile yeryüzü arasında köprü oluşturan neşeli bir Gökkuşağı.",
@@ -7446,7 +7571,8 @@ export const ITEM_DETAILS: Items = {
     image: enchantedRose,
     description: {
       en: "The Enchanted Rose, a symbol of eternal beauty, captivates with its magical allure.",
-      pt: "A Rosa Encantada, um símbolo de beleza eterna, cativa com seu fascínio mágico.",
+      "pt-BR":
+        "A Rosa Encantada, um símbolo de beleza eterna, cativa com seu fascínio mágico.",
       "zh-CN": "Enchanted Rose，永生美丽的象征，沉迷在她的魔法魅力里吧。",
       fr: "La Rose Enchantée, symbole de beauté éternelle, captive par son charme magique.",
       tr: "Sonsuz güzelliğin sembolü olan Büyülü Gül, büyülü cazibesiyle büyülüyor.",
@@ -7456,7 +7582,8 @@ export const ITEM_DETAILS: Items = {
     image: flowerCart,
     description: {
       en: "The Flower Cart, brimming with blooms, is a mobile garden of floral delights.",
-      pt: "O Carrinho de Flores, transbordante de flores, é um jardim móvel de delícias florais.",
+      "pt-BR":
+        "O Carrinho de Flores, transbordante de flores, é um jardim móvel de delícias florais.",
       "zh-CN": "Flower Cart，满盛花开，移动花园推动鲜花喜悦。",
       fr: "Le Chariot de Fleurs, débordant de fleurs, est un jardin mobile de délices floraux.",
       tr: "Çiçeklerle dolu Çiçek Arabası, çiçek lezzetleriyle dolu hareketli bir bahçedir.",
@@ -7466,7 +7593,8 @@ export const ITEM_DETAILS: Items = {
     image: capybara,
     description: {
       en: "The Capybara, a laid-back friend, enjoys lazy days by the water's edge.",
-      pt: "A Capivara, uma amiga tranquila, desfruta de dias preguiçosos à beira da água.",
+      "pt-BR":
+        "A Capivara, uma amiga tranquila, desfruta de dias preguiçosos à beira da água.",
       "zh-CN": "Capybara，悠闲伙伴，享受水边的慵懒时光。",
       fr: "Le Capybara, un ami décontracté, apprécie les journées paisibles au bord de l'eau.",
       tr: "Rahat bir arkadaş olan Kapibara, su kenarında tembel günlerin tadını çıkarır.",
@@ -7476,7 +7604,8 @@ export const ITEM_DETAILS: Items = {
     image: prismPetal,
     description: {
       en: "Wow! What a beautiful flower! I think this one is worthy of placing on your farm.",
-      pt: "Uau! Que flor bonita! Acho que esta vale a pena colocar em sua fazenda.",
+      "pt-BR":
+        "Uau! Que flor bonita! Acho que esta vale a pena colocar em sua fazenda.",
       "zh-CN": "哇！好一朵漂亮鲜花！我看这朵很值得你放在农场上。",
       fr: "Waouh ! Quelle belle fleur ! Je pense que celle-ci mérite d'être placée sur votre ferme.",
       tr: "Vay! Ne güzel bir çiçek! Bunun çiftliğinize yerleştirmeye değer olduğunu düşünüyorum.",
@@ -7486,7 +7615,8 @@ export const ITEM_DETAILS: Items = {
     image: celestialFrostbloom,
     description: {
       en: "Wow! What a beautiful flower! I think this one is worthy of placing on your farm.",
-      pt: "Uau! Que flor bonita! Acho que esta vale a pena colocar em sua fazenda.",
+      "pt-BR":
+        "Uau! Que flor bonita! Acho que esta vale a pena colocar em sua fazenda.",
       "zh-CN": "哇！好一朵漂亮鲜花！我看这朵很值得你放在农场上。",
       fr: "Waouh ! Quelle belle fleur ! Je pense que celle-ci mérite d'être placée sur votre ferme.",
       tr: "Vay! Ne güzel bir çiçek! Bunun çiftliğinize yerleştirmeye değer olduğunu düşünüyorum.",
@@ -7496,7 +7626,8 @@ export const ITEM_DETAILS: Items = {
     image: primulaEnigma,
     description: {
       en: "Wow! What a beautiful flower! I think this one is worthy of placing on your farm.",
-      pt: "Uau! Que flor bonita! Acho que esta vale a pena colocar em sua fazenda.",
+      "pt-BR":
+        "Uau! Que flor bonita! Acho que esta vale a pena colocar em sua fazenda.",
       "zh-CN": "哇！好一朵漂亮鲜花！我看这朵很值得你放在农场上。",
       fr: "Waouh ! Quelle belle fleur ! Je pense que celle-ci mérite d'être placée sur votre ferme.",
       tr: "Vay! Ne güzel bir çiçek! Bunun çiftliğinize yerleştirmeye değer olduğunu düşünüyorum.",
@@ -7506,7 +7637,7 @@ export const ITEM_DETAILS: Items = {
     image: redDaffodil,
     description: {
       en: "A red daffodil.",
-      pt: "Um narciso vermelho.",
+      "pt-BR": "Um narciso vermelho.",
       "zh-CN": "红水仙花。一朵红水仙花。",
       fr: "Une red daffodil.",
       tr: "Kırmızı bir nergis.",
@@ -7516,7 +7647,7 @@ export const ITEM_DETAILS: Items = {
     image: yellowDaffodil,
     description: {
       en: "A yellow daffodil.",
-      pt: "Um narciso amarelo.",
+      "pt-BR": "Um narciso amarelo.",
       "zh-CN": "黄水仙花。一朵黄水仙花。",
       fr: "Une yellow daffodil.",
       tr: "Sarı bir nergis.",
@@ -7526,7 +7657,7 @@ export const ITEM_DETAILS: Items = {
     image: purpleDaffodil,
     description: {
       en: "A purple daffodil.",
-      pt: "Um narciso roxo.",
+      "pt-BR": "Um narciso roxo.",
       "zh-CN": "紫水仙花。一朵紫水仙花l。",
       fr: "Une purple daffodil.",
       tr: "Mor bir nergis.",
@@ -7536,7 +7667,7 @@ export const ITEM_DETAILS: Items = {
     image: whiteDaffodil,
     description: {
       en: "A white daffodil.",
-      pt: "Um narciso branco.",
+      "pt-BR": "Um narciso branco.",
       "zh-CN": "白水仙花。一朵白水仙花。",
       fr: "Une white daffodil.",
       tr: "Beyaz bir nergis.",
@@ -7546,7 +7677,7 @@ export const ITEM_DETAILS: Items = {
     image: blueDaffodil,
     description: {
       en: "A blue daffodil.",
-      pt: "Um narciso azul.",
+      "pt-BR": "Um narciso azul.",
       "zh-CN": "蓝水仙花。一朵蓝水仙花。",
       fr: "Une blue daffodil.",
       tr: "Mavi bir nergis.",
@@ -7556,7 +7687,7 @@ export const ITEM_DETAILS: Items = {
     image: redLotus,
     description: {
       en: "A red lotus.",
-      pt: "Um lótus vermelho.",
+      "pt-BR": "Um lótus vermelho.",
       "zh-CN": "红莲花。一朵红莲花。",
       fr: "Un red lotus.",
       tr: "Kırmızı bir nilüfer.",
@@ -7566,7 +7697,7 @@ export const ITEM_DETAILS: Items = {
     image: yellowLotus,
     description: {
       en: "A yellow lotus.",
-      pt: "Um lótus amarelo.",
+      "pt-BR": "Um lótus amarelo.",
       "zh-CN": "黄莲花。一朵黄莲花。",
       fr: "Un yellow lotus.",
       tr: "Sarı bir nilüfer.",
@@ -7576,7 +7707,7 @@ export const ITEM_DETAILS: Items = {
     image: purpleLotus,
     description: {
       en: "A purple lotus.",
-      pt: "Um lótus roxo.",
+      "pt-BR": "Um lótus roxo.",
       "zh-CN": "紫莲花。一朵紫莲花。",
       fr: "Un purple lotus.",
       tr: "Mor bir nilüfer.",
@@ -7586,7 +7717,7 @@ export const ITEM_DETAILS: Items = {
     image: whiteLotus,
     description: {
       en: "A white lotus.",
-      pt: "Um lótus branco.",
+      "pt-BR": "Um lótus branco.",
       "zh-CN": "白莲花。一朵白莲花。",
       fr: "Un white lotus.",
       tr: "Beyaz bir nilüfer.",
@@ -7596,7 +7727,7 @@ export const ITEM_DETAILS: Items = {
     image: blueLotus,
     description: {
       en: "A blue lotus.",
-      pt: "Um lótus azul.",
+      "pt-BR": "Um lótus azul.",
       "zh-CN": "蓝莲花。一朵蓝莲花。",
       fr: "Un blue lotus.",
       tr: "Mavi bir nilüfer.",
@@ -7606,7 +7737,7 @@ export const ITEM_DETAILS: Items = {
     image: earnAllianceBanner,
     description: {
       en: "A special event banner",
-      pt: "Um banner de evento especial",
+      "pt-BR": "Um banner de evento especial",
       "zh-CN": "一杆特别活动的旗帜",
       fr: "A special event banner",
       tr: "Özel bir etkinlik bayrağı",
@@ -7616,7 +7747,8 @@ export const ITEM_DETAILS: Items = {
     image: luxuryKey,
     description: {
       en: "Visit the plaza near woodlands to unlock your reward",
-      pt: "Visite o Plaza perto de Woodlands para desbloquear sua recompensa",
+      "pt-BR":
+        "Visite o Plaza perto de Woodlands para desbloquear sua recompensa",
       "zh-CN": "Visit the plaza near woodlands to unlock your reward",
       fr: "Visitez la place près des bois pour débloquer votre récompense",
       tr: "Plazanın Ağaç diyarına yakın olan kısmında sandığınızı açın",
@@ -7626,7 +7758,7 @@ export const ITEM_DETAILS: Items = {
     image: rareKey,
     description: {
       en: "Visit the beach to unlock your reward",
-      pt: "Visite a praia para desbloquear sua recompensa",
+      "pt-BR": "Visite a praia para desbloquear sua recompensa",
       "zh-CN": "Visit the beach to unlock your reward",
       fr: "Visitez la plage pour débloquer votre récompense",
       tr: "Sahili ziyaret edin ve sandığınızı açın",
@@ -7636,7 +7768,7 @@ export const ITEM_DETAILS: Items = {
     image: prizeTicket,
     description: {
       en: "A prized ticket. You can use it to enter the monthly goblin raffle.",
-      pt: "Um ticket para entrar nos sorteios de prêmios",
+      "pt-BR": "Um ticket para entrar nos sorteios de prêmios",
       "zh-CN":
         "A prized ticket. You can use it to enter the monthly goblin raffle.",
       fr: "Un ticket pour participer au concours de fin de saison",
@@ -7647,7 +7779,8 @@ export const ITEM_DETAILS: Items = {
     image: babyPanda,
     description: {
       en: "A cute panda from the Gas Hero event. Double experience for beginners during March.",
-      pt: "A cute panda from the Gas Hero event. Double experience for beginners during March.",
+      "pt-BR":
+        "A cute panda from the Gas Hero event. Double experience for beginners during March.",
       "zh-CN":
         "A cute panda from the Gas Hero event. Double experience for beginners during March.",
       fr: "Un adorable panda de l'événement Gas Hero.",
@@ -7658,7 +7791,7 @@ export const ITEM_DETAILS: Items = {
     image: baozi,
     description: {
       en: "A delicious treat from the Lunar New Year event.",
-      pt: "A delicious treat from the Lunar New Year event.",
+      "pt-BR": "A delicious treat from the Lunar New Year event.",
       "zh-CN": "A delicious treat from the Lunar New Year event.",
       fr: "Une délicieuse friandise de l'événement du Nouvel An lunaire.",
       tr: "Ay Yeni Yılı etkinliğinden lezzetli bir ikram.",
@@ -7668,7 +7801,7 @@ export const ITEM_DETAILS: Items = {
     image: communityEgg,
     description: {
       en: "Wow, you must really care about the community!",
-      pt: "Wow, you must really care about the community!",
+      "pt-BR": "Wow, you must really care about the community!",
       "zh-CN": "哇，你一定非常关心社区！",
       fr: "Wow, vous devez vraiment vous soucier de la communauté !",
       tr: "Wow, you must really care about the community!",
@@ -7678,7 +7811,8 @@ export const ITEM_DETAILS: Items = {
     image: hungryHare,
     description: {
       en: "This ravenous rabbit hops through your farm. A special event item from Easter 2024",
-      pt: "This ravenous rabbit hops through your farm. A special event item from Easter 2024",
+      "pt-BR":
+        "This ravenous rabbit hops through your farm. A special event item from Easter 2024",
       "zh-CN": "这只贪吃的小兔子跳进了你的农场。2024年复活节的特别活动物品",
       fr: "Ce lapin vorace saute dans votre ferme. Un objet spécial de l'événement de Pâques 2024.",
       tr: "This ravenous rabbit hops through your farm. A special event item from Easter 2024",
@@ -7688,7 +7822,7 @@ export const ITEM_DETAILS: Items = {
     image: turboSprout,
     description: {
       en: "An engine that reduces the Green House's growth time by 50%.",
-      pt: "An engine that reduces the Green House's growth time by 50%.",
+      "pt-BR": "An engine that reduces the Green House's growth time by 50%.",
       "zh-CN": "一台为温室减少 50 % 生长时间的引擎。",
       fr: "An engine that reduces the Green House's growth time by 50%.",
       tr: "An engine that reduces the Green House's growth time by 50%.",
@@ -7698,7 +7832,7 @@ export const ITEM_DETAILS: Items = {
     image: soybliss,
     description: {
       en: "A unique soy creature that gives +1 Soybean yield.",
-      pt: "A unique soy creature that gives +1 Soybean yield.",
+      "pt-BR": "A unique soy creature that gives +1 Soybean yield.",
       "zh-CN": "为大豆 +1 产出的奇特豆豆生物。",
       fr: "A unique soy creature that gives +1 Soybean yield.",
       tr: "A unique soy creature that gives +1 Soybean yield.",
@@ -7708,7 +7842,7 @@ export const ITEM_DETAILS: Items = {
     image: grapeGranny,
     description: {
       en: "Wise matriarch nurturing grapes to flourish with +1 yield.",
-      pt: "Wise matriarch nurturing grapes to flourish with +1 yield.",
+      "pt-BR": "Wise matriarch nurturing grapes to flourish with +1 yield.",
       "zh-CN": "女族长悉心睿智的照料助长葡萄 +1 产出。",
       fr: "Wise matriarch nurturing grapes to flourish with +1 yield.",
       tr: "Wise matriarch nurturing grapes to flourish with +1 yield.",
@@ -7718,7 +7852,7 @@ export const ITEM_DETAILS: Items = {
     image: royalThrone,
     description: {
       en: "A throne fit for the highest ranking farmer.",
-      pt: "A throne fit for the highest ranking farmer.",
+      "pt-BR": "A throne fit for the highest ranking farmer.",
       "zh-CN": "为至高阶农夫打造的王位。",
       fr: "A throne fit for the highest ranking farmer.",
       tr: "A throne fit for the highest ranking farmer.",
@@ -7728,7 +7862,7 @@ export const ITEM_DETAILS: Items = {
     image: lilyEgg,
     description: {
       en: "Tiny delight, grand beauty, endless wonder.",
-      pt: "Tiny delight, grand beauty, endless wonder.",
+      "pt-BR": "Tiny delight, grand beauty, endless wonder.",
       "zh-CN": "小小欣喜，大大美丽，久久惊奇。",
       fr: "Tiny delight, grand beauty, endless wonder.",
       tr: "Tiny delight, grand beauty, endless wonder.",
@@ -7738,7 +7872,7 @@ export const ITEM_DETAILS: Items = {
     image: goblet,
     description: {
       en: "A goblet that holds the finest of wines.",
-      pt: "A goblet that holds the finest of wines.",
+      "pt-BR": "A goblet that holds the finest of wines.",
       "zh-CN": "至珍美酒高杯藏。",
       fr: "A goblet that holds the finest of wines.",
       tr: "A goblet that holds the finest of wines.",
@@ -7748,7 +7882,7 @@ export const ITEM_DETAILS: Items = {
     image: fancyRug,
     description: {
       en: "A rug that brings a touch of elegance to any room.",
-      pt: "A rug that brings a touch of elegance to any room.",
+      "pt-BR": "A rug that brings a touch of elegance to any room.",
       "zh-CN": "叫任何房间都蓬荜生辉的地毯。",
       fr: "A rug that brings a touch of elegance to any room.",
       tr: "A rug that brings a touch of elegance to any room.",
@@ -7758,7 +7892,8 @@ export const ITEM_DETAILS: Items = {
     image: clock,
     description: {
       en: "A Clock that keeps time with the gentle ticking of the seasons.",
-      pt: "A Clock that keeps time with the gentle ticking of the seasons.",
+      "pt-BR":
+        "A Clock that keeps time with the gentle ticking of the seasons.",
       "zh-CN": "时钟的脚步轻响时季的滴答",
       fr: "A Clock that keeps time with the gentle ticking of the seasons.",
       tr: "A Clock that keeps time with the gentle ticking of the seasons.",
@@ -7768,7 +7903,7 @@ export const ITEM_DETAILS: Items = {
     image: vinny,
     description: {
       en: "Vinny, a friendly grapevine, is always ready for a chat.",
-      pt: "Vinny, a friendly grapevine, is always ready for a chat.",
+      "pt-BR": "Vinny, a friendly grapevine, is always ready for a chat.",
       "zh-CN": "Vinny，友善葡萄藤，随时欢迎闲聊。",
       fr: "Vinny, a friendly grapevine, is always ready for a chat.",
       tr: "Vinny, a friendly grapevine, is always ready for a chat.",
@@ -7778,7 +7913,7 @@ export const ITEM_DETAILS: Items = {
     image: beetrootBlaze,
     description: {
       en: "A spicy beetroot-infused magic mushroom dish",
-      pt: "A spicy beetroot-infused magic mushroom dish",
+      "pt-BR": "A spicy beetroot-infused magic mushroom dish",
       "zh-CN": "A spicy beetroot-infused magic mushroom dish",
       fr: "A spicy beetroot-infused magic mushroom dish",
       tr: "A spicy beetroot-infused magic mushroom dish",
@@ -7788,7 +7923,7 @@ export const ITEM_DETAILS: Items = {
     image: rapidRoast,
     description: {
       en: "For Bumpkins in a hurry...",
-      pt: "For Bumpkins in a hurry...",
+      "pt-BR": "For Bumpkins in a hurry...",
       "zh-CN": "对于急着赶路的乡巴佬来说……",
       fr: "For Bumpkins in a hurry...",
       tr: "For Bumpkins in a hurry...",
@@ -7798,7 +7933,7 @@ export const ITEM_DETAILS: Items = {
     image: shroomSyrup,
     description: {
       en: "The essence of bees and enchanted fungi",
-      pt: "The essence of bees and enchanted fungi",
+      "pt-BR": "The essence of bees and enchanted fungi",
       "zh-CN": "The essence of bees and enchanted fungi",
       fr: "The essence of bees and enchanted fungi",
       tr: "The essence of bees and enchanted fungi",
@@ -7808,7 +7943,7 @@ export const ITEM_DETAILS: Items = {
     image: gauchoRug,
     description: {
       en: "A commerative rug to support South Brazil.",
-      pt: "A commerative rug to support South Brazil.",
+      "pt-BR": "A commerative rug to support South Brazil.",
       "zh-CN": "纪念驰援南巴西的地毯。",
       fr: "A commerative rug to support South Brazil.",
       tr: "A commerative rug to support South Brazil.",
@@ -7818,7 +7953,7 @@ export const ITEM_DETAILS: Items = {
     image: battleCryDrum,
     description: {
       en: "",
-      pt: "",
+      "pt-BR": "",
       "zh-CN": "",
       fr: "",
       tr: "",
@@ -7828,7 +7963,7 @@ export const ITEM_DETAILS: Items = {
     image: bullseyBoard,
     description: {
       en: "",
-      pt: "",
+      "pt-BR": "",
       "zh-CN": "",
       fr: "",
       tr: "",
@@ -7838,7 +7973,7 @@ export const ITEM_DETAILS: Items = {
     image: chessRug,
     description: {
       en: "",
-      pt: "",
+      "pt-BR": "",
       "zh-CN": "",
       fr: "",
       tr: "",
@@ -7848,7 +7983,7 @@ export const ITEM_DETAILS: Items = {
     image: cluckapult,
     description: {
       en: "",
-      pt: "",
+      "pt-BR": "",
       "zh-CN": "",
       fr: "",
       tr: "",
@@ -7858,7 +7993,7 @@ export const ITEM_DETAILS: Items = {
     image: goldenGallant,
     description: {
       en: "",
-      pt: "",
+      "pt-BR": "",
       "zh-CN": "",
       fr: "",
       tr: "",
@@ -7868,7 +8003,7 @@ export const ITEM_DETAILS: Items = {
     image: goldenGarrison,
     description: {
       en: "",
-      pt: "",
+      "pt-BR": "",
       "zh-CN": "",
       fr: "",
       tr: "",
@@ -7878,7 +8013,7 @@ export const ITEM_DETAILS: Items = {
     image: goldenGurdian,
     description: {
       en: "",
-      pt: "",
+      "pt-BR": "",
       "zh-CN": "",
       fr: "",
       tr: "",
@@ -7888,7 +8023,7 @@ export const ITEM_DETAILS: Items = {
     image: noviceKnight,
     description: {
       en: "",
-      pt: "",
+      "pt-BR": "",
       "zh-CN": "",
       fr: "",
       tr: "",
@@ -7898,7 +8033,7 @@ export const ITEM_DETAILS: Items = {
     image: regularPawn,
     description: {
       en: "",
-      pt: "",
+      "pt-BR": "",
       "zh-CN": "",
       fr: "",
       tr: "",
@@ -7908,7 +8043,7 @@ export const ITEM_DETAILS: Items = {
     image: rookieRook,
     description: {
       en: "",
-      pt: "",
+      "pt-BR": "",
       "zh-CN": "",
       fr: "",
       tr: "",
@@ -7918,7 +8053,7 @@ export const ITEM_DETAILS: Items = {
     image: silverSentinel,
     description: {
       en: "",
-      pt: "",
+      "pt-BR": "",
       "zh-CN": "",
       fr: "",
       tr: "",
@@ -7928,7 +8063,7 @@ export const ITEM_DETAILS: Items = {
     image: silverSquire,
     description: {
       en: "",
-      pt: "",
+      "pt-BR": "",
       "zh-CN": "",
       fr: "",
       tr: "",
@@ -7938,7 +8073,7 @@ export const ITEM_DETAILS: Items = {
     image: silverStallion,
     description: {
       en: "",
-      pt: "",
+      "pt-BR": "",
       "zh-CN": "",
       fr: "",
       tr: "",
@@ -7948,7 +8083,7 @@ export const ITEM_DETAILS: Items = {
     image: traineeTarget,
     description: {
       en: "",
-      pt: "",
+      "pt-BR": "",
       "zh-CN": "",
       fr: "",
       tr: "",
@@ -7958,7 +8093,7 @@ export const ITEM_DETAILS: Items = {
     image: twisterRug,
     description: {
       en: "",
-      pt: "",
+      "pt-BR": "",
       "zh-CN": "",
       fr: "",
       tr: "",
@@ -7968,7 +8103,7 @@ export const ITEM_DETAILS: Items = {
     image: grapeSeed,
     description: {
       en: "A zesty and desired fruit.",
-      pt: "A zesty and desired fruit.",
+      "pt-BR": "A zesty and desired fruit.",
       "zh-CN": "一种甜美神往的水果",
       fr: "A zesty and desired fruit.",
       tr: "A zesty and desired fruit.",
@@ -7978,7 +8113,7 @@ export const ITEM_DETAILS: Items = {
     image: oliveSeed,
     description: {
       en: "A luxury for advanced farmers.",
-      pt: "A luxury for advanced farmers.",
+      "pt-BR": "A luxury for advanced farmers.",
       "zh-CN": "高端农夫的奢品",
       fr: "A luxury for advanced farmers.",
       tr: "A luxury for advanced farmers.",
@@ -7988,7 +8123,7 @@ export const ITEM_DETAILS: Items = {
     image: riceSeed,
     description: {
       en: "Perfect for rations!",
-      pt: "Perfect for rations!",
+      "pt-BR": "Perfect for rations!",
       "zh-CN": "完美口粮！",
       fr: "Perfect for rations!",
       tr: "Perfect for rations!",
@@ -7998,7 +8133,7 @@ export const ITEM_DETAILS: Items = {
     image: grape,
     description: {
       en: "A zesty and desired fruit.",
-      pt: "A zesty and desired fruit.",
+      "pt-BR": "A zesty and desired fruit.",
       "zh-CN": "一种甜美神往的水果",
       fr: "A zesty and desired fruit.",
       tr: "A zesty and desired fruit.",
@@ -8008,7 +8143,7 @@ export const ITEM_DETAILS: Items = {
     image: olive,
     description: {
       en: "A luxury for advanced farmers.",
-      pt: "A luxury for advanced farmers.",
+      "pt-BR": "A luxury for advanced farmers.",
       "zh-CN": "高端农夫的奢品",
       fr: "A luxury for advanced farmers.",
       tr: "A luxury for advanced farmers.",
@@ -8018,7 +8153,7 @@ export const ITEM_DETAILS: Items = {
     image: rice,
     description: {
       en: "Perfect for rations!",
-      pt: "Perfect for rations!",
+      "pt-BR": "Perfect for rations!",
       "zh-CN": "完美口粮！",
       fr: "Perfect for rations!",
       tr: "Perfect for rations!",
@@ -8028,7 +8163,7 @@ export const ITEM_DETAILS: Items = {
     image: antipasto,
     description: {
       en: "Assorted bites, perfect for sharing.",
-      pt: "Assorted bites, perfect for sharing.",
+      "pt-BR": "Assorted bites, perfect for sharing.",
       "zh-CN": "Assorted bites, perfect for sharing.",
       fr: "Assorted bites, perfect for sharing.",
       tr: "Assorted bites, perfect for sharing.",
@@ -8038,7 +8173,7 @@ export const ITEM_DETAILS: Items = {
     image: carrotJuice,
     description: {
       en: "Refreshing juice, pressed fresh by bumpkins.",
-      pt: "Refreshing juice, pressed fresh by bumpkins.",
+      "pt-BR": "Refreshing juice, pressed fresh by bumpkins.",
       "zh-CN": "Refreshing juice, pressed fresh by bumpkins.",
       fr: "Refreshing juice, pressed fresh by bumpkins.",
       tr: "Refreshing juice, pressed fresh by bumpkins.",
@@ -8048,7 +8183,7 @@ export const ITEM_DETAILS: Items = {
     image: fishBasket,
     description: {
       en: "Oceanic flavors, sourced by goblins.",
-      pt: "Oceanic flavors, sourced by goblins.",
+      "pt-BR": "Oceanic flavors, sourced by goblins.",
       "zh-CN": "Oceanic flavors, sourced by goblins.",
       fr: "Oceanic flavors, sourced by goblins.",
       tr: "Oceanic flavors, sourced by goblins.",
@@ -8058,7 +8193,7 @@ export const ITEM_DETAILS: Items = {
     image: fishBurger,
     description: {
       en: "Succulent burger, loved by seaside adventurers.",
-      pt: "Succulent burger, loved by seaside adventurers.",
+      "pt-BR": "Succulent burger, loved by seaside adventurers.",
       "zh-CN": "Succulent burger, loved by seaside adventurers.",
       fr: "Succulent burger, loved by seaside adventurers.",
       tr: "Succulent burger, loved by seaside adventurers.",
@@ -8068,7 +8203,7 @@ export const ITEM_DETAILS: Items = {
     image: fishnChips,
     description: {
       en: "Classic seaside meal, loved by all.",
-      pt: "Classic seaside meal, loved by all.",
+      "pt-BR": "Classic seaside meal, loved by all.",
       "zh-CN": "Classic seaside meal, loved by all.",
       fr: "Classic seaside meal, loved by all.",
       tr: "Classic seaside meal, loved by all.",
@@ -8078,7 +8213,7 @@ export const ITEM_DETAILS: Items = {
     image: fishOmelette,
     description: {
       en: "Flavorful omelette, filled with oceanic treasures.",
-      pt: "Flavorful omelette, filled with oceanic treasures.",
+      "pt-BR": "Flavorful omelette, filled with oceanic treasures.",
       "zh-CN": "Flavorful omelette, filled with oceanic treasures.",
       fr: "Flavorful omelette, filled with oceanic treasures.",
       tr: "Flavorful omelette, filled with oceanic treasures.",
@@ -8088,7 +8223,7 @@ export const ITEM_DETAILS: Items = {
     image: friedCalamari,
     description: {
       en: "Crispy calamari rings, a delicious indulgence.",
-      pt: "Crispy calamari rings, a delicious indulgence.",
+      "pt-BR": "Crispy calamari rings, a delicious indulgence.",
       "zh-CN": "Crispy calamari rings, a delicious indulgence.",
       fr: "Crispy calamari rings, a delicious indulgence.",
       tr: "Crispy calamari rings, a delicious indulgence.",
@@ -8098,7 +8233,7 @@ export const ITEM_DETAILS: Items = {
     image: friedTofu,
     description: {
       en: "Golden fried tofu, crafted with care.",
-      pt: "Golden fried tofu, crafted with care.",
+      "pt-BR": "Golden fried tofu, crafted with care.",
       "zh-CN": "Golden fried tofu, crafted with care.",
       fr: "Golden fried tofu, crafted with care.",
       tr: "Golden fried tofu, crafted with care.",
@@ -8108,7 +8243,7 @@ export const ITEM_DETAILS: Items = {
     image: grapeJuice,
     description: {
       en: "Sweet and tangy juice, freshly squeezed.",
-      pt: "Sweet and tangy juice, freshly squeezed.",
+      "pt-BR": "Sweet and tangy juice, freshly squeezed.",
       "zh-CN": "Sweet and tangy juice, freshly squeezed.",
       fr: "Sweet and tangy juice, freshly squeezed.",
       tr: "Sweet and tangy juice, freshly squeezed.",
@@ -8118,7 +8253,7 @@ export const ITEM_DETAILS: Items = {
     image: oceansOlive,
     description: {
       en: "Delightful oceanic dish, a true Sunflorian delicacy.",
-      pt: "Delightful oceanic dish, a true Sunflorian delicacy.",
+      "pt-BR": "Delightful oceanic dish, a true Sunflorian delicacy.",
       "zh-CN": "Delightful oceanic dish, a true Sunflorian delicacy.",
       fr: "Delightful oceanic dish, a true Sunflorian delicacy.",
       tr: "Delightful oceanic dish, a true Sunflorian delicacy.",
@@ -8128,7 +8263,7 @@ export const ITEM_DETAILS: Items = {
     image: quickJuice,
     description: {
       en: "Quick energy boost, a Goblin favourite.",
-      pt: "Quick energy boost, a Goblin favourite.",
+      "pt-BR": "Quick energy boost, a Goblin favourite.",
       "zh-CN": "Quick energy boost, a Goblin favourite.",
       fr: "Quick energy boost, a Goblin favourite.",
       tr: "Quick energy boost, a Goblin favourite.",
@@ -8138,7 +8273,7 @@ export const ITEM_DETAILS: Items = {
     image: riceBun,
     description: {
       en: "Soft and fluffy rice bun, a favorite.",
-      pt: "Soft and fluffy rice bun, a favorite.",
+      "pt-BR": "Soft and fluffy rice bun, a favorite.",
       "zh-CN": "Soft and fluffy rice bun, a favorite.",
       fr: "Soft and fluffy rice bun, a favorite.",
       tr: "Soft and fluffy rice bun, a favorite.",
@@ -8148,7 +8283,7 @@ export const ITEM_DETAILS: Items = {
     image: slowJuice,
     description: {
       en: "Nutrient-rich juice, handcrafted by bumpkins.",
-      pt: "Nutrient-rich juice, handcrafted by bumpkins.",
+      "pt-BR": "Nutrient-rich juice, handcrafted by bumpkins.",
       "zh-CN": "Nutrient-rich juice, handcrafted by bumpkins.",
       fr: "Nutrient-rich juice, handcrafted by bumpkins.",
       tr: "Nutrient-rich juice, handcrafted by bumpkins.",
@@ -8158,7 +8293,7 @@ export const ITEM_DETAILS: Items = {
     image: redRice,
     description: {
       en: "Perfectly steamed red rice, a bumpkin's delight.",
-      pt: "Perfectly steamed red rice, a bumpkin's delight.",
+      "pt-BR": "Perfectly steamed red rice, a bumpkin's delight.",
       "zh-CN": "Perfectly steamed red rice, a bumpkin's delight.",
       fr: "Perfectly steamed red rice, a bumpkin's delight.",
       tr: "Perfectly steamed red rice, a bumpkin's delight.",
@@ -8168,7 +8303,7 @@ export const ITEM_DETAILS: Items = {
     image: sushiRoll,
     description: {
       en: "Delicious sushi roll, skillfully prepared.",
-      pt: "Delicious sushi roll, skillfully prepared.",
+      "pt-BR": "Delicious sushi roll, skillfully prepared.",
       "zh-CN": "Delicious sushi roll, skillfully prepared.",
       fr: "Delicious sushi roll, skillfully prepared.",
       tr: "Delicious sushi roll, skillfully prepared.",
@@ -8178,7 +8313,7 @@ export const ITEM_DETAILS: Items = {
     image: theLot,
     description: {
       en: "Flavorful fruit blend, refreshing and nutritious.",
-      pt: "Flavorful fruit blend, refreshing and nutritious.",
+      "pt-BR": "Flavorful fruit blend, refreshing and nutritious.",
       "zh-CN": "Flavorful fruit blend, refreshing and nutritious.",
       fr: "Flavorful fruit blend, refreshing and nutritious.",
       tr: "Flavorful fruit blend, refreshing and nutritious.",
@@ -8188,7 +8323,7 @@ export const ITEM_DETAILS: Items = {
     image: tofuScramble,
     description: {
       en: "Hearty scramble, packed with protein and flavor.",
-      pt: "Hearty scramble, packed with protein and flavor.",
+      "pt-BR": "Hearty scramble, packed with protein and flavor.",
       "zh-CN": "Hearty scramble, packed with protein and flavor.",
       fr: "Hearty scramble, packed with protein and flavor.",
       tr: "Hearty scramble, packed with protein and flavor.",
@@ -8198,7 +8333,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.building.greenhouse,
     description: {
       en: "A sanctuary for sensitive crops",
-      pt: "A sanctuary for sensitive crops",
+      "pt-BR": "A sanctuary for sensitive crops",
       "zh-CN": "温室。娇弱庄稼的庇护所（消耗石油运转）",
       fr: "A sanctuary for sensitive crops",
       tr: "A sanctuary for sensitive crops",
@@ -8208,7 +8343,7 @@ export const ITEM_DETAILS: Items = {
     image: ricePanda,
     description: {
       en: "A smart panda never forgets to water the rice.",
-      pt: "A smart panda never forgets to water the rice.",
+      "pt-BR": "A smart panda never forgets to water the rice.",
       "zh-CN": "熊猫很聪明，从不忘记给稻米浇水。",
       fr: "A smart panda never forgets to water the rice.",
       tr: "A smart panda never forgets to water the rice.",
@@ -8218,7 +8353,8 @@ export const ITEM_DETAILS: Items = {
     image: benevolenceFlag,
     description: {
       en: "For players who have shown great benevolence by contributing significantly to the Bumpkins.",
-      pt: "For players who have shown great benevolence by contributing significantly to the Bumpkins.",
+      "pt-BR":
+        "For players who have shown great benevolence by contributing significantly to the Bumpkins.",
       "zh-CN":
         "For players who have shown great benevolence by contributing significantly to the Bumpkins.",
       fr: "For players who have shown great benevolence by contributing significantly to the Bumpkins.",
@@ -8229,7 +8365,8 @@ export const ITEM_DETAILS: Items = {
     image: devotionFlag,
     description: {
       en: "For players who have shown unwavering devotion by donating extensively to the Nightshades, reflecting their cult-like dedication",
-      pt: "For players who have shown unwavering devotion by donating extensively to the Nightshades, reflecting their cult-like dedication",
+      "pt-BR":
+        "For players who have shown unwavering devotion by donating extensively to the Nightshades, reflecting their cult-like dedication",
       "zh-CN":
         "For players who have shown unwavering devotion by donating extensively to the Nightshades, reflecting their cult-like dedication",
       fr: "For players who have shown unwavering devotion by donating extensively to the Nightshades, reflecting their cult-like dedication",
@@ -8240,7 +8377,8 @@ export const ITEM_DETAILS: Items = {
     image: generosityFlag,
     description: {
       en: "For players who have donated substantial resources to the Goblins.",
-      pt: "For players who have donated substantial resources to the Goblins.",
+      "pt-BR":
+        "For players who have donated substantial resources to the Goblins.",
       "zh-CN":
         "For players who have donated substantial resources to the Goblins.",
       fr: "For players who have donated substantial resources to the Goblins.",
@@ -8251,7 +8389,8 @@ export const ITEM_DETAILS: Items = {
     image: splendorFlag,
     description: {
       en: "For players who have generously supported the Sunflorians, symbolizing their splendor in generosity.",
-      pt: "For players who have generously supported the Sunflorians, symbolizing their splendor in generosity.",
+      "pt-BR":
+        "For players who have generously supported the Sunflorians, symbolizing their splendor in generosity.",
       "zh-CN":
         "For players who have generously supported the Sunflorians, symbolizing their splendor in generosity.",
       fr: "For players who have generously supported the Sunflorians, symbolizing their splendor in generosity.",
@@ -8262,7 +8401,7 @@ export const ITEM_DETAILS: Items = {
     image: jellyLamp,
     description: {
       en: "A lamp that brings a touch of luxury to any room.",
-      pt: "A lamp that brings a touch of luxury to any room.",
+      "pt-BR": "A lamp that brings a touch of luxury to any room.",
       "zh-CN": "A lamp that brings a touch of luxury to any room.",
       fr: "A lamp that brings a touch of luxury to any room.",
       tr: "A lamp that brings a touch of luxury to any room.",
@@ -8272,7 +8411,7 @@ export const ITEM_DETAILS: Items = {
     image: paintCan,
     description: {
       en: "A paint can discovered in the festival of colors",
-      pt: "A paint can discovered in the festival of colors",
+      "pt-BR": "A paint can discovered in the festival of colors",
       "zh-CN": "A paint can discovered in the festival of colors",
       fr: "A paint can discovered in the festival of colors",
       tr: "A paint can discovered in the festival of colors",
@@ -8282,7 +8421,7 @@ export const ITEM_DETAILS: Items = {
     image: sunflorianThrone,
     description: {
       en: "A throne fit for a Sunflorian.",
-      pt: "A throne fit for a Sunflorian.",
+      "pt-BR": "A throne fit for a Sunflorian.",
       "zh-CN": "A throne fit for a Sunflorian.",
       fr: "A throne fit for a Sunflorian.",
       tr: "A throne fit for a Sunflorian.",
@@ -8292,7 +8431,7 @@ export const ITEM_DETAILS: Items = {
     image: nightshadeThrone,
     description: {
       en: "A throne fit for a Nightshade.",
-      pt: "A throne fit for a Nightshade.",
+      "pt-BR": "A throne fit for a Nightshade.",
       "zh-CN": "A throne fit for a Nightshade.",
       fr: "A throne fit for a Nightshade.",
       tr: "A throne fit for a Nightshade.",
@@ -8302,7 +8441,7 @@ export const ITEM_DETAILS: Items = {
     image: goblinThrone,
     description: {
       en: "A throne fit for a Goblin.",
-      pt: "A throne fit for a Goblin.",
+      "pt-BR": "A throne fit for a Goblin.",
       "zh-CN": "A throne fit for a Goblin.",
       fr: "A throne fit for a Goblin.",
       tr: "A throne fit for a Goblin.",
@@ -8312,7 +8451,7 @@ export const ITEM_DETAILS: Items = {
     image: bumpkinThrone,
     description: {
       en: "A throne fit for a Bumpkin.",
-      pt: "A throne fit for a Bumpkin.",
+      "pt-BR": "A throne fit for a Bumpkin.",
       "zh-CN": "A throne fit for a Bumpkin.",
       fr: "A throne fit for a Bumpkin.",
       tr: "A throne fit for a Bumpkin.",
@@ -8322,7 +8461,7 @@ export const ITEM_DETAILS: Items = {
     image: goldenSunflorianEgg,
     description: {
       en: "A jewelled egg created by the House of Sunflorian.",
-      pt: "A jewelled egg created by the House of Sunflorian.",
+      "pt-BR": "A jewelled egg created by the House of Sunflorian.",
       "zh-CN": "A jewelled egg created by the House of Sunflorian.",
       fr: "A jewelled egg created by the House of Sunflorian.",
       tr: "A jewelled egg created by the House of Sunflorian.",
@@ -8332,7 +8471,7 @@ export const ITEM_DETAILS: Items = {
     image: goblinMischiefEgg,
     description: {
       en: "A jewelled egg created by the House of Goblin.",
-      pt: "A jewelled egg created by the House of Goblin.",
+      "pt-BR": "A jewelled egg created by the House of Goblin.",
       "zh-CN": "A jewelled egg created by the House of Goblin.",
       fr: "A jewelled egg created by the House of Goblin.",
       tr: "A jewelled egg created by the House of Goblin.",
@@ -8342,7 +8481,7 @@ export const ITEM_DETAILS: Items = {
     image: bumpkinCharmEgg,
     description: {
       en: "A jewelled egg created by the House of Bumpkin.",
-      pt: "A jewelled egg created by the House of Bumpkin.",
+      "pt-BR": "A jewelled egg created by the House of Bumpkin.",
       "zh-CN": "A jewelled egg created by the House of Bumpkin.",
       fr: "A jewelled egg created by the House of Bumpkin.",
       tr: "A jewelled egg created by the House of Bumpkin.",
@@ -8352,7 +8491,7 @@ export const ITEM_DETAILS: Items = {
     image: nightshadeVeilEgg,
     description: {
       en: "A jewelled egg created by the House of Nightshade.",
-      pt: "A jewelled egg created by the House of Nightshade.",
+      "pt-BR": "A jewelled egg created by the House of Nightshade.",
       "zh-CN": "A jewelled egg created by the House of Nightshade.",
       fr: "A jewelled egg created by the House of Nightshade.",
       tr: "A jewelled egg created by the House of Nightshade.",
@@ -8362,7 +8501,7 @@ export const ITEM_DETAILS: Items = {
     image: emeraldGoblinGoblet,
     description: {
       en: "An emerald encrusted goblet.",
-      pt: "An emerald encrusted goblet.",
+      "pt-BR": "An emerald encrusted goblet.",
       "zh-CN": "An emerald encrusted goblet.",
       fr: "An emerald encrusted goblet.",
       tr: "An emerald encrusted goblet.",
@@ -8372,7 +8511,7 @@ export const ITEM_DETAILS: Items = {
     image: opalSunflorianGoblet,
     description: {
       en: "An opal encrusted goblet.",
-      pt: "An opal encrusted goblet.",
+      "pt-BR": "An opal encrusted goblet.",
       "zh-CN": "An opal encrusted goblet.",
       fr: "An opal encrusted goblet.",
       tr: "An opal encrusted goblet.",
@@ -8382,7 +8521,7 @@ export const ITEM_DETAILS: Items = {
     image: sapphireBumpkinGoblet,
     description: {
       en: "A sapphire encrusted goblet.",
-      pt: "A sapphire encrusted goblet.",
+      "pt-BR": "A sapphire encrusted goblet.",
       "zh-CN": "A sapphire encrusted goblet.",
       fr: "A sapphire encrusted goblet.",
       tr: "A sapphire encrusted goblet.",
@@ -8392,7 +8531,7 @@ export const ITEM_DETAILS: Items = {
     image: amethystNightshadeGoblet,
     description: {
       en: "An amethyst encrusted goblet.",
-      pt: "An amethyst encrusted goblet.",
+      "pt-BR": "An amethyst encrusted goblet.",
       "zh-CN": "An amethyst encrusted goblet.",
       fr: "An amethyst encrusted goblet.",
       tr: "An amethyst encrusted goblet.",
@@ -8402,7 +8541,7 @@ export const ITEM_DETAILS: Items = {
     image: goldenFactionGoblet,
     description: {
       en: "A golden goblet.",
-      pt: "A golden goblet.",
+      "pt-BR": "A golden goblet.",
       "zh-CN": "A golden goblet.",
       fr: "A golden goblet.",
       tr: "A golden goblet.",
@@ -8412,7 +8551,7 @@ export const ITEM_DETAILS: Items = {
     image: rubyFactionGoblet,
     description: {
       en: "A ruby encrusted goblet.",
-      pt: "A ruby encrusted goblet.",
+      "pt-BR": "A ruby encrusted goblet.",
       "zh-CN": "A ruby encrusted goblet.",
       fr: "A ruby encrusted goblet.",
       tr: "A ruby encrusted goblet.",
@@ -8422,7 +8561,7 @@ export const ITEM_DETAILS: Items = {
     image: sunflorianBunting,
     description: {
       en: "Colorful flags celebrating the Sunflorian Faction.",
-      pt: "Colorful flags celebrating the Sunflorian Faction.",
+      "pt-BR": "Colorful flags celebrating the Sunflorian Faction.",
       "zh-CN": "Colorful flags celebrating the Sunflorian Faction.",
       fr: "Colorful flags celebrating the Sunflorian Faction.",
       tr: "Colorful flags celebrating the Sunflorian Faction.",
@@ -8432,7 +8571,7 @@ export const ITEM_DETAILS: Items = {
     image: nightshadeBunting,
     description: {
       en: "Colorful flags celebrating the Nightshade faction.",
-      pt: "Colorful flags celebrating the Nightshade faction.",
+      "pt-BR": "Colorful flags celebrating the Nightshade faction.",
       "zh-CN": "Colorful flags celebrating the Nightshade faction.",
       fr: "Colorful flags celebrating the Nightshade faction.",
       tr: "Colorful flags celebrating the Nightshade faction.",
@@ -8442,7 +8581,7 @@ export const ITEM_DETAILS: Items = {
     image: goblinBunting,
     description: {
       en: "Colorful flags celebrating the Goblin faction.",
-      pt: "Colorful flags celebrating the Goblin faction.",
+      "pt-BR": "Colorful flags celebrating the Goblin faction.",
       "zh-CN": "Colorful flags celebrating the Goblin faction.",
       fr: "Colorful flags celebrating the Goblin faction.",
       tr: "Colorful flags celebrating the Goblin faction.",
@@ -8452,7 +8591,7 @@ export const ITEM_DETAILS: Items = {
     image: bumpkinBunting,
     description: {
       en: "Colorful flags celebrating the Bumpkin faction.",
-      pt: "Colorful flags celebrating the Bumpkin faction.",
+      "pt-BR": "Colorful flags celebrating the Bumpkin faction.",
       "zh-CN": "Colorful flags celebrating the Bumpkin faction.",
       fr: "Colorful flags celebrating the Bumpkin faction.",
       tr: "Colorful flags celebrating the Bumpkin faction.",
@@ -8462,7 +8601,7 @@ export const ITEM_DETAILS: Items = {
     image: sunflorianCandles,
     description: {
       en: "Sunflorian Faction decorative candles.",
-      pt: "Sunflorian Faction decorative candles.",
+      "pt-BR": "Sunflorian Faction decorative candles.",
       "zh-CN": "Sunflorian Faction decorative candles.",
       fr: "Sunflorian Faction decorative candles.",
       tr: "Sunflorian Faction decorative candles.",
@@ -8472,7 +8611,7 @@ export const ITEM_DETAILS: Items = {
     image: nightshadeCandles,
     description: {
       en: "Nightshade Faction decorative candles.",
-      pt: "Nightshade Faction decorative candles.",
+      "pt-BR": "Nightshade Faction decorative candles.",
       "zh-CN": "Nightshade Faction decorative candles.",
       fr: "Nightshade Faction decorative candles.",
       tr: "Nightshade Faction decorative candles.",
@@ -8482,7 +8621,7 @@ export const ITEM_DETAILS: Items = {
     image: goblinCandles,
     description: {
       en: "Goblin Faction decorative candles.",
-      pt: "Goblin Faction decorative candles.",
+      "pt-BR": "Goblin Faction decorative candles.",
       "zh-CN": "Goblin Faction decorative candles.",
       fr: "Goblin Faction decorative candles.",
       tr: "Goblin Faction decorative candles.",
@@ -8492,7 +8631,7 @@ export const ITEM_DETAILS: Items = {
     image: bumpkinCandles,
     description: {
       en: "Bumpkin Faction decorative candles.",
-      pt: "Bumpkin Faction decorative candles.",
+      "pt-BR": "Bumpkin Faction decorative candles.",
       "zh-CN": "Bumpkin Faction decorative candles.",
       fr: "Bumpkin Faction decorative candles.",
       tr: "Bumpkin Faction decorative candles.",
@@ -8502,7 +8641,7 @@ export const ITEM_DETAILS: Items = {
     image: sunflorianLeftWall,
     description: {
       en: "Illuminate your living quarters with a Sunflorian Wall Sconce.",
-      pt: "Illuminate your living quarters with a Sunflorian Wall Sconce.",
+      "pt-BR": "Illuminate your living quarters with a Sunflorian Wall Sconce.",
       "zh-CN": "Illuminate your living quarters with a Sunflorian Wall Sconce.",
       fr: "Illuminate your living quarters with a Sunflorian Wall Sconce.",
       tr: "Illuminate your living quarters with a Sunflorian Wall Sconce.",
@@ -8512,7 +8651,7 @@ export const ITEM_DETAILS: Items = {
     image: nightshadeLeftWall,
     description: {
       en: "Illuminate your living quarters with a Nightshade Wall Sconce.",
-      pt: "Illuminate your living quarters with a Nightshade Wall Sconce.",
+      "pt-BR": "Illuminate your living quarters with a Nightshade Wall Sconce.",
       "zh-CN": "Illuminate your living quarters with a Nightshade Wall Sconce.",
       fr: "Illuminate your living quarters with a Nightshade Wall Sconce.",
       tr: "Illuminate your living quarters with a Nightshade Wall Sconce.",
@@ -8522,7 +8661,7 @@ export const ITEM_DETAILS: Items = {
     image: goblinLeftWall,
     description: {
       en: "Illuminate your living quarters with a Goblin Wall Sconce.",
-      pt: "Illuminate your living quarters with a Goblin Wall Sconce.",
+      "pt-BR": "Illuminate your living quarters with a Goblin Wall Sconce.",
       "zh-CN": "Illuminate your living quarters with a Goblin Wall Sconce.",
       fr: "Illuminate your living quarters with a Goblin Wall Sconce.",
       tr: "Illuminate your living quarters with a Goblin Wall Sconce.",
@@ -8532,7 +8671,7 @@ export const ITEM_DETAILS: Items = {
     image: bumpkinLeftWall,
     description: {
       en: "Illuminate your living quarters with a Bumpkin Wall Sconce.",
-      pt: "Illuminate your living quarters with a Bumpkin Wall Sconce.",
+      "pt-BR": "Illuminate your living quarters with a Bumpkin Wall Sconce.",
       "zh-CN": "Illuminate your living quarters with a Bumpkin Wall Sconce.",
       fr: "Illuminate your living quarters with a Bumpkin Wall Sconce.",
       tr: "Illuminate your living quarters with a Bumpkin Wall Sconce.",
@@ -8542,7 +8681,7 @@ export const ITEM_DETAILS: Items = {
     image: sunflorianRightWall,
     description: {
       en: "Illuminate your living quarters with a Sunflorian Wall Sconce.",
-      pt: "Illuminate your living quarters with a Sunflorian Wall Sconce.",
+      "pt-BR": "Illuminate your living quarters with a Sunflorian Wall Sconce.",
       "zh-CN": "Illuminate your living quarters with a Sunflorian Wall Sconce.",
       fr: "Illuminate your living quarters with a Sunflorian Wall Sconce.",
       tr: "Illuminate your living quarters with a Sunflorian Wall Sconce.",
@@ -8552,7 +8691,7 @@ export const ITEM_DETAILS: Items = {
     image: nightshadeRightWall,
     description: {
       en: "Illuminate your living quarters with a Nightshade Wall Sconce.",
-      pt: "Illuminate your living quarters with a Nightshade Wall Sconce.",
+      "pt-BR": "Illuminate your living quarters with a Nightshade Wall Sconce.",
       "zh-CN": "Illuminate your living quarters with a Nightshade Wall Sconce.",
       fr: "Illuminate your living quarters with a Nightshade Wall Sconce.",
       tr: "Illuminate your living quarters with a Nightshade Wall Sconce.",
@@ -8562,7 +8701,7 @@ export const ITEM_DETAILS: Items = {
     image: goblinRightWall,
     description: {
       en: "Illuminate your living quarters with a Goblin Wall Sconce.",
-      pt: "Illuminate your living quarters with a Goblin Wall Sconce.",
+      "pt-BR": "Illuminate your living quarters with a Goblin Wall Sconce.",
       "zh-CN": "Illuminate your living quarters with a Goblin Wall Sconce.",
       fr: "Illuminate your living quarters with a Goblin Wall Sconce.",
       tr: "Illuminate your living quarters with a Goblin Wall Sconce.",
@@ -8572,7 +8711,7 @@ export const ITEM_DETAILS: Items = {
     image: bumpkinRightWall,
     description: {
       en: "Illuminate your living quarters with a Bumpkin Wall Sconce.",
-      pt: "Illuminate your living quarters with a Bumpkin Wall Sconce.",
+      "pt-BR": "Illuminate your living quarters with a Bumpkin Wall Sconce.",
       "zh-CN": "Illuminate your living quarters with a Bumpkin Wall Sconce.",
       fr: "Illuminate your living quarters with a Bumpkin Wall Sconce.",
       tr: "Illuminate your living quarters with a Bumpkin Wall Sconce.",
@@ -8582,7 +8721,7 @@ export const ITEM_DETAILS: Items = {
     image: gourmetHourglass,
     description: {
       en: "Reduces cooking time by 50% for 4 hours.",
-      pt: "Reduces cooking time by 50% for 4 hours.",
+      "pt-BR": "Reduces cooking time by 50% for 4 hours.",
       "zh-CN": "Reduces cooking time by 50% for 4 hours.",
       fr: "Reduces cooking time by 50% for 4 hours.",
       tr: "Reduces cooking time by 50% for 4 hours.",
@@ -8592,7 +8731,7 @@ export const ITEM_DETAILS: Items = {
     image: harvestHourglass,
     description: {
       en: "Reduces crop growth time by 25% for 6 hours.",
-      pt: "Reduces crop growth time by 25% for 6 hours.",
+      "pt-BR": "Reduces crop growth time by 25% for 6 hours.",
       "zh-CN": "Reduces crop growth time by 25% for 6 hours.",
       fr: "Reduces crop growth time by 25% for 6 hours.",
       tr: "Reduces crop growth time by 25% for 6 hours.",
@@ -8602,7 +8741,7 @@ export const ITEM_DETAILS: Items = {
     image: timberHourglass,
     description: {
       en: "Reduces tree recovery time by 25% for 4 hours.",
-      pt: "Reduces tree recovery time by 25% for 4 hours.",
+      "pt-BR": "Reduces tree recovery time by 25% for 4 hours.",
       "zh-CN": "Reduces tree recovery time by 25% for 4 hours.",
       fr: "Reduces tree recovery time by 25% for 4 hours.",
       tr: "Reduces tree recovery time by 25% for 4 hours.",
@@ -8612,7 +8751,7 @@ export const ITEM_DETAILS: Items = {
     image: oreHourglass,
     description: {
       en: "Reduces mineral replenish cooldown by 50% for 3 hours.",
-      pt: "Reduces mineral replenish cooldown by 50% for 3 hours.",
+      "pt-BR": "Reduces mineral replenish cooldown by 50% for 3 hours.",
       "zh-CN": "Reduces mineral replenish cooldown by 50% for 3 hours.",
       fr: "Reduces mineral replenish cooldown by 50% for 3 hours.",
       tr: "Reduces mineral replenish cooldown by 50% for 3 hours.",
@@ -8622,7 +8761,7 @@ export const ITEM_DETAILS: Items = {
     image: orchardHourglass,
     description: {
       en: "Reduces fruit growth time by 25% for 6 hours.",
-      pt: "Reduces fruit growth time by 25% for 6 hours.",
+      "pt-BR": "Reduces fruit growth time by 25% for 6 hours.",
       "zh-CN": "Reduces fruit growth time by 25% for 6 hours.",
       fr: "Reduces fruit growth time by 25% for 6 hours.",
       tr: "Reduces fruit growth time by 25% for 6 hours.",
@@ -8632,7 +8771,7 @@ export const ITEM_DETAILS: Items = {
     image: blossomHourglass,
     description: {
       en: "Reduces flower growth time by 25% for 4 hours.",
-      pt: "Reduces flower growth time by 25% for 4 hours.",
+      "pt-BR": "Reduces flower growth time by 25% for 4 hours.",
       "zh-CN": "Reduces flower growth time by 25% for 4 hours.",
       fr: "Reduces flower growth time by 25% for 4 hours.",
       tr: "Reduces flower growth time by 25% for 4 hours.",
@@ -8642,7 +8781,7 @@ export const ITEM_DETAILS: Items = {
     image: fishersHourglass,
     description: {
       en: "Gives a 50% chance of +1 fish for 4 hours.",
-      pt: "Gives a 50% chance of +1 fish for 4 hours.",
+      "pt-BR": "Gives a 50% chance of +1 fish for 4 hours.",
       "zh-CN": "Gives a 50% chance of +1 fish for 4 hours.",
       fr: "Gives a 50% chance of +1 fish for 4 hours.",
       tr: "Gives a 50% chance of +1 fish for 4 hours.",
@@ -8652,7 +8791,8 @@ export const ITEM_DETAILS: Items = {
     image: sunflorianFactionRug,
     description: {
       en: "A magnificent rug made by the talented Sunflorian faction artisans.",
-      pt: "A magnificent rug made by the talented Sunflorian faction artisans.",
+      "pt-BR":
+        "A magnificent rug made by the talented Sunflorian faction artisans.",
       "zh-CN":
         "A magnificent rug made by the talented Sunflorian faction artisans.",
       fr: "A magnificent rug made by the talented Sunflorian faction artisans.",
@@ -8663,7 +8803,8 @@ export const ITEM_DETAILS: Items = {
     image: nightshadeFactionRug,
     description: {
       en: "A magnificent rug made by the talented Nightshade faction artisans.",
-      pt: "A magnificent rug made by the talented Nightshade faction artisans.",
+      "pt-BR":
+        "A magnificent rug made by the talented Nightshade faction artisans.",
       "zh-CN":
         "A magnificent rug made by the talented Nightshade faction artisans.",
       fr: "A magnificent rug made by the talented Nightshade faction artisans.",
@@ -8674,7 +8815,8 @@ export const ITEM_DETAILS: Items = {
     image: goblinFactionRug,
     description: {
       en: "A magnificent rug made by the talented Goblin faction artisans.",
-      pt: "A magnificent rug made by the talented Goblin faction artisans.",
+      "pt-BR":
+        "A magnificent rug made by the talented Goblin faction artisans.",
       "zh-CN":
         "A magnificent rug made by the talented Goblin faction artisans.",
       fr: "A magnificent rug made by the talented Goblin faction artisans.",
@@ -8685,7 +8827,8 @@ export const ITEM_DETAILS: Items = {
     image: bumpkinFactionRug,
     description: {
       en: "A magnificent rug made by the talented Bumpkin faction artisans.",
-      pt: "A magnificent rug made by the talented Bumpkin faction artisans.",
+      "pt-BR":
+        "A magnificent rug made by the talented Bumpkin faction artisans.",
       "zh-CN":
         "A magnificent rug made by the talented Bumpkin faction artisans.",
       fr: "A magnificent rug made by the talented Bumpkin faction artisans.",
@@ -8980,7 +9123,7 @@ export const ITEM_DETAILS: Items = {
       en: "A mean looking camel!",
       "zh-CN": "A mean looking camel!",
       fr: "A mean looking camel!",
-      pt: "A mean looking camel!",
+      "pt-BR": "A mean looking camel!",
       ru: "A mean looking camel!",
       tr: "A mean looking camel!",
     },

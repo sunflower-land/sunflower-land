@@ -1,7 +1,7 @@
 import { ENGLISH_TERMS } from "./englishDictionary";
 import TURKISH_TERMS from "./tr.json";
 import CHINESE_SIMPLIFIED_TERMS from "./zh-CN.json";
-import PORTUGUESE_TERMS from "./pt.json";
+import PORTUGUESE_TERMS from "./pt-BR.json";
 import FRENCH_TERMS from "./fr.json";
 import RUSSIAN_TERMS from "./ru.json";
 import { TranslationKeys } from "./types";
@@ -15,9 +15,9 @@ import turkeyFlag from "assets/sfts/flags/turkey_flag.gif";
 import chinaFlag from "assets/sfts/flags/china_flag.gif";
 import russiaFlag from "assets/sfts/flags/russia_flag.gif";
 
-export type LanguageCode = "en" | "fr" | "pt" | "tr" | "zh-CN" | "ru";
+export type LanguageCode = "en" | "fr" | "pt-BR" | "tr" | "zh-CN" | "ru";
 
-export type TranslationResource = Partial<Record<TranslationKeys, string>>;
+export type TranslationResource = Record<TranslationKeys, string>;
 
 interface LanguageDetails {
   languageName: string;
@@ -36,7 +36,7 @@ export const languageDetails: Record<LanguageCode, LanguageDetails> = {
     languageImage: [franceFlag],
     imageAlt: ["France Flag"],
   },
-  pt: {
+  "pt-BR": {
     languageName: "Português",
     languageImage: [brazilFlag, portugalFlag],
     imageAlt: ["Brazil Flag", "Portugual Flag"],
@@ -58,9 +58,8 @@ export const languageDetails: Record<LanguageCode, LanguageDetails> = {
   },
 };
 
-export const resources: Record<
-  LanguageCode,
-  { translation: TranslationResource }
+export const resources: Partial<
+  Record<LanguageCode, { translation: TranslationResource }>
 > = {
   en: {
     translation: ENGLISH_TERMS,
@@ -68,7 +67,7 @@ export const resources: Record<
   fr: {
     translation: FRENCH_TERMS,
   },
-  pt: {
+  "pt-BR": {
     translation: PORTUGUESE_TERMS,
   },
   tr: {
