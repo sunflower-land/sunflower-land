@@ -6,6 +6,7 @@ type TradeTableItem = {
   price: number;
   expiresAt: string;
   createdById: number;
+  icon?: string;
 };
 
 export const TradeTable: React.FC<{ items: TradeTableItem[]; id: number }> = ({
@@ -29,10 +30,12 @@ export const TradeTable: React.FC<{ items: TradeTableItem[]; id: number }> = ({
         </tr>
       </thead>
       <tbody>
-        {items.map(({ createdById, price, expiresAt }, index) => (
+        {items.map(({ createdById, price, expiresAt, icon }, index) => (
           <tr
             key={index}
-            className={classNames({ "bg-[#ead4aa]": id === createdById })}
+            className={classNames("relative", {
+              "bg-[#ead4aa]": id === createdById,
+            })}
           >
             <td
               style={{ border: "1px solid #b96f50" }}
@@ -48,9 +51,12 @@ export const TradeTable: React.FC<{ items: TradeTableItem[]; id: number }> = ({
             </td>
             <td
               style={{ border: "1px solid #b96f50" }}
-              className="p-1.5 truncate text-center"
+              className="p-1.5 truncate text-center relative"
             >
               {createdById}
+              {icon && (
+                <img src={icon} className="absolute right-2 top-1 h-4" />
+              )}
             </td>
           </tr>
         ))}

@@ -5,7 +5,10 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
 import { InnerPanel, Panel } from "components/ui/Panel";
-import { TradeableDetails } from "features/game/types/marketplace";
+import {
+  CollectionName,
+  TradeableDetails,
+} from "features/game/types/marketplace";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 import walletIcon from "assets/icons/wallet.png";
@@ -22,12 +25,42 @@ import { NumberInput } from "components/ui/NumberInput";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
 import { GameWallet } from "features/wallet/Wallet";
-import { TradeableDisplay } from "../lib/tradeables";
+import { getOfferItem, TradeableDisplay } from "../lib/tradeables";
 import confetti from "canvas-confetti";
 import { signTypedData } from "@wagmi/core";
 import { config } from "features/wallet/WalletProvider";
+import { getKeys } from "features/game/types/decorations";
+import { RemoveOffer } from "./RemoveOffer";
 
 // TODO - move make offer here, signing state + submitting state
+export const TradeableSummary: React.FC<{
+  display: TradeableDisplay;
+  sfl: number;
+}> = ({ display, sfl }) => {
+  return (
+    <div className="flex">
+      <div className="h-12 w-12 mr-2 relative">
+        <img src={bg} className="w-full rounded-sm" />
+        <img
+          src={display.image}
+          className="w-1/2 absolute"
+          style={{
+            left: "50%",
+            transform: "translate(-50%, 50%)",
+            bottom: "50%",
+          }}
+        />
+      </div>
+      <div>
+        <span className="text-sm">{`1 x ${display.name}`}</span>
+        <div className="flex items-center">
+          <span className="text-sm">{`${sfl} SFL`}</span>
+          <img src={sflIcon} className="h-6 ml-1" />
+        </div>
+      </div>
+    </div>
+  );
+};
 
 const MakeOffer: React.FC<{
   onClose: () => void;
@@ -153,27 +186,7 @@ const MakeOffer: React.FC<{
             {t("are.you.sure")}
           </Label>
           <p className="text-xs mb-2">{t("marketplace.confirmDetails")}</p>
-          <div className="flex">
-            <div className="h-12 w-12 mr-2 relative">
-              <img src={bg} className="w-full rounded-sm" />
-              <img
-                src={display.image}
-                className="w-1/2 absolute"
-                style={{
-                  left: "50%",
-                  transform: "translate(-50%, 50%)",
-                  bottom: "50%",
-                }}
-              />
-            </div>
-            <div>
-              <span className="text-sm">{`1 x ${display.name}`}</span>
-              <div className="flex items-center">
-                <span className="text-sm">{`${offer} SFL`}</span>
-                <img src={sflIcon} className="h-6 ml-1" />
-              </div>
-            </div>
-          </div>
+          <TradeableSummary display={display} sfl={offer} />
         </div>
 
         <div className="flex">
@@ -195,27 +208,7 @@ const MakeOffer: React.FC<{
               {t("are.you.sure")}
             </Label>
             <p className="text-xs mb-2">{t("marketplace.signOffer")}</p>
-            <div className="flex">
-              <div className="h-12 w-12 mr-2 relative">
-                <img src={bg} className="w-full rounded-sm" />
-                <img
-                  src={display.image}
-                  className="w-1/2 absolute"
-                  style={{
-                    left: "50%",
-                    transform: "translate(-50%, 50%)",
-                    bottom: "50%",
-                  }}
-                />
-              </div>
-              <div>
-                <span className="text-sm">{`1 x ${display.name}`}</span>
-                <div className="flex items-center">
-                  <span className="text-sm">{`${offer} SFL`}</span>
-                  <img src={sflIcon} className="h-6 ml-1" />
-                </div>
-              </div>
-            </div>
+            <TradeableSummary display={display} sfl={offer} />
           </div>
 
           <div className="flex">
@@ -290,6 +283,8 @@ export const TradeableOffers: React.FC<{
 
   const { t } = useAppTranslation();
 
+  console.log({ farmId });
+
   const [showMakeOffer, setShowMakeOffer] = useState(false);
 
   const topOffer = tradeable?.offers.reduce((highest, listing) => {
@@ -351,6 +346,10 @@ export const TradeableOffers: React.FC<{
                   price: offer.sfl,
                   expiresAt: "30 days", // TODO,
                   createdById: offer.offeredById,
+                  icon:
+                    offer.offeredById === farmId
+                      ? SUNNYSIDE.icons.player
+                      : undefined,
                 }))}
                 id={farmId}
               />
@@ -362,6 +361,72 @@ export const TradeableOffers: React.FC<{
               onClick={() => setShowMakeOffer(true)}
             >
               {t("marketplace.makeOffer")}
+            </Button>
+          </div>
+        </div>
+      </InnerPanel>
+    </>
+  );
+};
+
+export const YourOffer: React.FC<{
+  onOfferRemoved: () => void;
+  collection: CollectionName;
+  id: number;
+}> = ({ onOfferRemoved, collection, id }) => {
+  const { gameService } = useContext(Context);
+  const [gameState] = useActor(gameService);
+  const [showRemove, setShowRemove] = useState(false);
+  const { t } = useAppTranslation();
+
+  const { trades } = gameState.context.state;
+  const offers = trades.offers ?? {};
+
+  const offerIds = getKeys(offers).filter((offerId) => {
+    const offer = offers[offerId];
+    const itemId = getOfferItem({ offer });
+
+    // Make sure the offer is for this item
+    return offer.collection === collection && itemId === id;
+  });
+
+  // Get their highest offer for the current item
+  const myOfferId = offerIds.reduce((highest, offerId) => {
+    const offer = offers[offerId];
+    return offer.sfl > offers[highest].sfl ? offerId : highest;
+  }, offerIds[0]);
+
+  if (!myOfferId) return null;
+
+  const offer = offers[myOfferId];
+
+  return (
+    <>
+      <Modal show={!!showRemove} onHide={() => setShowRemove(false)}>
+        <RemoveOffer
+          id={myOfferId as string}
+          offer={offer}
+          onClose={() => setShowRemove(false)}
+          onDone={() => {
+            onOfferRemoved();
+            setShowRemove(false);
+          }}
+        />
+      </Modal>
+      <InnerPanel className="mb-1">
+        <div className="p-2">
+          <div className="flex justify-between mb-2">
+            <Label type="info" icon={increaseArrow}>
+              {t("marketplace.yourOffer")}
+            </Label>
+          </div>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center">
+              <img src={sflIcon} className="h-8 mr-2" />
+              <p className="text-base">{`${offer.sfl} SFL`}</p>
+            </div>
+            <Button className="w-fit" onClick={() => setShowRemove(true)}>
+              {t("marketplace.cancelOffer")}
             </Button>
           </div>
         </div>
