@@ -15,10 +15,12 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { Button } from "components/ui/Button";
 import { shortAddress } from "lib/utils/shortAddress";
 import { NFTMigrating, NFTMinting, NFTWaiting } from "./components/NFTMinting";
-import { WalletContext } from "./WalletProvider";
+import { config, WalletContext } from "./WalletProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Loading } from "features/auth/components";
 import { PortalContext } from "features/portal/example/lib/PortalProvider";
+import { useAccount, useChainId, WagmiProvider } from "wagmi";
+import { watchAccount } from "@wagmi/core";
 
 interface Props {
   action: WalletAction;
@@ -72,6 +74,10 @@ export const Wallet: React.FC<Props> = ({
       });
     }
   }, [walletState.value]);
+
+  const { address, chainId } = useAccount();
+
+  console.log({ address, chainId });
 
   if (walletState.matches("ready")) {
     return <>{children}</>;
@@ -278,7 +284,7 @@ export const GameWallet: React.FC<Props> = ({
   const [gameState] = useActor(gameService);
 
   return (
-    <>
+    <WagmiProvider config={config}>
       <Wallet
         action={action}
         id={gameState.context.farmId}
@@ -306,7 +312,7 @@ export const GameWallet: React.FC<Props> = ({
       >
         {children}
       </Wallet>
-    </>
+    </WagmiProvider>
   );
 };
 

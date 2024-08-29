@@ -146,11 +146,14 @@ export const walletMachine = createMachine<Context, WalletEvent, WalletState>({
       id: "initialising",
       invoke: {
         src: async (_: Context, event: any) => {
+          console.log("Run initialising");
           const _event = event as ConnectWalletEvent | undefined;
           const connector = _event?.connector;
           if (!connector) {
             throw new Error("Could not determine wallet provider.");
           }
+
+          // Check and throw
 
           let account = getAccount(config);
 
