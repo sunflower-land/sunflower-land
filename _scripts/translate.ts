@@ -3,7 +3,10 @@ import * as fs from "fs";
 import * as path from "path";
 
 import { ENGLISH_TERMS } from "../src/lib/i18n/dictionaries/englishDictionary";
-import { LanguageCode } from "../src/lib/i18n/dictionaries/dictionary";
+import {
+  LanguageCode,
+  languageDetails,
+} from "../src/lib/i18n/dictionaries/dictionary";
 import { getKeys } from "../src/features/game/types/decorations";
 import { TranslationKeys } from "../src/lib/i18n/dictionaries/types";
 
@@ -138,17 +141,17 @@ async function translateTerms(targetLanguage: LanguageCode) {
   fs.writeFile(languageJson, JSON.stringify(translatedTerms), () => undefined);
 }
 
-// const languages = getKeys(languageDetails);
-// languages.forEach((lang) => lang !== "en" && translateTerms(lang));
+const languages = getKeys(languageDetails);
+languages.forEach((lang) => lang !== "en" && translateTerms(lang));
 
 // Parse the command line arguments
-const args = process.argv.slice(2); // Remove the first two arguments (node and script path)
-const targetLanguage = args[0]; // The first argument should be the language code (e.g., "fr")
+// const args = process.argv.slice(2); // Remove the first two arguments (node and script path)
+// const targetLanguage = args[0]; // The first argument should be the language code (e.g., "fr")
 
-if (targetLanguage) {
-  translateTerms(targetLanguage as LanguageCode);
-} else {
-  console.error(
-    "Please provide a target language code (e.g., yarn translate fr (for french)).",
-  );
-}
+// if (targetLanguage) {
+//   translateTerms(targetLanguage as LanguageCode);
+// } else {
+//   console.error(
+//     "Please provide a target language code (e.g., yarn translate fr (for french)).",
+//   );
+// }
