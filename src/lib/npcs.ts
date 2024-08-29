@@ -704,7 +704,7 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     shirt: "Striped Blue Shirt",
     coat: "Pirate General Coat",
     tool: "Pirate Scimitar",
-    background: "Seashore Background",
+    background: "Desert Background",
     shoes: "Peg Leg",
   },
   miranda: {
