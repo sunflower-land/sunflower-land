@@ -1,18 +1,44 @@
-name: CI
+name: Translate
+
 on:
-  pull_request:
+  push:
     branches:
       - main
+    paths:
+      - englishDictionary.ts
+
 jobs:
-  build:
+  translate:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v4
-      - name: Install modules
-        run: yarn
-      - name: Typescript check
-        run: yarn tsc
-      - name: Run tests
-        run: yarn test
-      - name: Run lint
-        run: yarn lint
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "20"
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1.5.9
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-southeast-2
+
+      - name: Run translation script
+        run: yarn translate
+
+      - name: Commit changes
+        run: |
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "actions@github.com"
+          git add .
+          git commit -m "Update translations"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
