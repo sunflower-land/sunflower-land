@@ -36,7 +36,6 @@ async function translateTerms(targetLanguage: LanguageCode) {
     const existingTermKeys = getKeys(existingTerms) as TranslationKeys[];
     existingTermKeys.forEach((term) => {
       if (englishTermKeys.includes(term) && existingTerms[term]) {
-        console.log(`Skipping existing term in ${targetLanguage}: ${term}`);
         translatedTerms[term] = existingTerms[term];
       }
     });
@@ -77,9 +76,6 @@ async function translateTerms(targetLanguage: LanguageCode) {
         const token = `[${index}@/$]`; // [0@/$] , [1@/$], [2@/$] etc
         englishText = englishText.replace(str, token);
       });
-
-      console.log(placeholders);
-      console.log(englishText);
 
       const params = {
         Text: englishText,
@@ -131,8 +127,11 @@ async function translateTerms(targetLanguage: LanguageCode) {
     }
   }
 
-  console.log(translatedTerms);
-  fs.writeFile(languageJson, JSON.stringify(translatedTerms), () => undefined);
+  fs.writeFile(
+    languageJson,
+    JSON.stringify(translatedTerms, null, 2),
+    () => undefined,
+  );
 }
 
 const languages = getKeys(languageDetails);

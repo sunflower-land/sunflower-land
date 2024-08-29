@@ -3438,10 +3438,10 @@
   "npcMessages.pharaoh.msg5": "Вас ждут утерянные языки и забытые знания. Помогите мне найти артефакты, которые расскажут о нашем прошлом.",
   "npcMessages.pharaoh.msg6": "Мощи моего народа разбросаны и утеряны. Можете ли вы принести их мне, чтобы мы могли у них поучиться?",
   "npcMessages.pharaoh.msg7": "Пески времени скрыли многое. Помогите мне вернуть сокровища ушедшей эпохи.",
-  "npcDialogues.oldSalty.intro3": "",
   "share.FarmNFTImageAlt": "NFT-изображение фермы «Подсолнухи и земля»",
   "transaction.matic": "Matic",
   "transaction.withdraw.polygon": "Сканирование полигонов",
-  "warning.hoarding.indefiniteArticle.a": "",
-  "warning.hoarding.indefiniteArticle.an": ""
+  "warning.hoarding.indefiniteArticle.a": "_",
+  "warning.hoarding.indefiniteArticle.an": "_",
+  "npcDialogues.oldSalty.intro3": ""
 }
