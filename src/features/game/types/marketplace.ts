@@ -1,5 +1,4 @@
-import { KNOWN_IDS } from ".";
-import { BumpkinItem, ITEM_IDS, ITEM_NAMES } from "./bumpkin";
+import { BumpkinItem } from "./bumpkin";
 import { InventoryItemName } from "./game";
 
 export type CollectionName =
