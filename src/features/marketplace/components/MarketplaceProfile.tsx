@@ -1,7 +1,11 @@
 import { Label } from "components/ui/Label";
 import { InnerPanel } from "components/ui/Panel";
 import React, { useContext } from "react";
+
 import lock from "assets/icons/lock.png";
+import trade from "assets/icons/trade.png";
+import chest from "assets/icons/chest.png";
+
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
 import { getKeys } from "features/game/types/decorations";
@@ -22,7 +26,7 @@ import { availableWardrobe } from "features/game/events/landExpansion/equip";
 
 export const MarketplaceProfile: React.FC = () => {
   return (
-    <div className="h-full overflow-y-scroll ">
+    <div className="overflow-y-scroll scrollable pr-1">
       <MyListings />
       <MyOffers />
       <MyCollection />
@@ -42,7 +46,7 @@ const MyListings: React.FC = () => {
   return (
     <InnerPanel className="mb-2">
       <div className="p-2">
-        <Label className="mb-2" type="default" icon={lock}>
+        <Label className="mb-2" type="default" icon={trade}>
           My listings
         </Label>
         <div className="flex flex-wrap  gap-2">
@@ -90,12 +94,22 @@ const MyOffers: React.FC = () => {
 
   const navigate = useNavigate();
 
+  const escrowedSFL = getKeys(offers).reduce(
+    (total, id) => total + offers[id].sfl,
+    0,
+  );
+
   return (
     <InnerPanel className="mb-2">
       <div className="p-2">
-        <Label className="mb-2" type="default" icon={lock}>
-          My offers
-        </Label>
+        <div className="flex justify-between items-center">
+          <Label className="mb-2" type="default" icon={trade}>
+            My offers
+          </Label>
+          <Label className="mb-2" type="formula" icon={lock}>
+            {`${escrowedSFL} SFL Locked`}
+          </Label>
+        </div>
         <div className="flex flex-wrap gap-2">
           {getKeys(offers).length === 0 && (
             <p className="text-sm">
@@ -191,7 +205,7 @@ const MyCollection: React.FC = () => {
   return (
     <InnerPanel>
       <div className="p-2">
-        <Label className="mb-2" type="default" icon={lock}>
+        <Label className="mb-2" type="default" icon={chest}>
           My collection
         </Label>
 
