@@ -14416,4 +14416,40 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
     image: "../public/wearables/images/391.png",
     name: "Sunflorian Medallion",
   },
+  "Pumpkin Plaza Background": {
+    description:
+      " A place where the air is filled with the scent of fresh pumpkins and the sound of a creaking windmill. The place is alive with unique Bumpkins, each with their own stories and quirks. Whether you're tending to the vibrant plaza or chatting with the locals, Pumpkin Plaza offers a warm, welcoming atmosphere that feels like home.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Background" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/392.png",
+    name: "Pumpkin Plaza Background",
+  },
+  "Goblin Retreat Background": {
+    description:
+      "This lively enclave is where Goblins gather to trade rare resources and share tales of adventure. The Retreat is a bustling hub of activity, where Bumpkins can meet friends, engage in bartering, and uncover the secrets of the Goblin's mischievous ways.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Background" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/393.png",
+    name: "Goblin Retreat Background",
+  },
+  "Kingdom Background": {
+    description:
+      "The majestic heart of the realm, where the queen presides over the land. The Kingdom is divided among four powerful factions — Bumpkins, Goblins, Nightshades, and Sunflorians — each vying for influence and favor.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Background" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/394.png",
+    name: "Kingdom Background",
+  },
 };
