@@ -4,8 +4,8 @@ on:
   push:
     branches:
       - poc/aws-translate
-    # paths:
-    #   - englishDictionary.ts
+    paths:
+      - src/lib/i18n/dictionaries/englishDictionary.ts
 
 jobs:
   translate:
