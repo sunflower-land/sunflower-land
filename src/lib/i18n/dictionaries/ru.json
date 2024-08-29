@@ -3176,7 +3176,7 @@
   "warning.chat.maxCharacters": "Макс. количество знаков",
   "warning.chat.noSpecialCharacters": "Никаких специальных символов!",
   "warning.level.required": "Необходимый уровень: {{lvl}}",
-  "warning.hoarding.message": "Ты держишь {{indefiniteArticle}} {{itemName}}?!",
+  "warning.hoarding.message": "Ты держишь {{itemName}}?!",
   "warning.hoarding.one": "Говорят, что гоблины совершают набеги на фермы, в которых много ресурсов.",
   "warning.hoarding.two": "Чтобы защитить себя и сохранить эти драгоценные ресурсы в безопасности, пожалуйста, сохрани свой прогресс в блокчейне.",
   "travelRequirement.notice": "Перед путешествием тебе необходимо повысить свой уровень.",
@@ -3442,6 +3442,6 @@
   "share.FarmNFTImageAlt": "NFT-изображение фермы «Подсолнухи и земля»",
   "transaction.matic": "Matic",
   "transaction.withdraw.polygon": "Сканирование полигонов",
-  "warning.hoarding.indefiniteArticle.a": "_",
-  "warning.hoarding.indefiniteArticle.an": "_"
+  "warning.hoarding.indefiniteArticle.a": "",
+  "warning.hoarding.indefiniteArticle.an": ""
 }
