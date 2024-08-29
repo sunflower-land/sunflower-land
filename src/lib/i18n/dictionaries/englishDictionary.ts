@@ -5723,6 +5723,14 @@ export const marketplaceTerms: Record<MarketplaceTerms, string> = {
   "marketplace.signAndOffer": "Sign & Offer",
   "marketplace.signOffer":
     "Please confirm the following details and securely sign the information. The transaction will not be made until the offer is live.",
+  "marketplace.myCollection": "Your Collection",
+  "marketplace.myListings": "Your listings",
+  "marketplace.myOffers": "Your offers",
+  "marketplace.noCollection":
+    "You do not have any available items in your collection.",
+  "marketplace.noMyOffers": "You have not made any offers.",
+  "marketplace.sflEscrowed": "{{sfl}} SFL Locked",
+  "marketplace.noMyListings": "You do not have any listings.",
 };
 
 export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
