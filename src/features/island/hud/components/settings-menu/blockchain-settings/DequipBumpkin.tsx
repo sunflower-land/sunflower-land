@@ -113,7 +113,7 @@ export const DequipBumpkin: React.FC = () => {
     <>
       <div className="p-2">
         <Label className="my-2 font-secondary" type="default" icon={walletIcon}>
-          {shortAddress(wallet.getAccount())}
+          {shortAddress(wallet.getAccount() as `0x${string}`)}
         </Label>
         <p className="mb-3 text-sm">{t("dequipper.intro")}</p>
         <div className="flex flex-wrap max-h-48 overflow-y-scroll">
