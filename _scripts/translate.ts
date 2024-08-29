@@ -3,10 +3,7 @@ import * as fs from "fs";
 import * as path from "path";
 
 import { ENGLISH_TERMS } from "../src/lib/i18n/dictionaries/englishDictionary";
-import {
-  LanguageCode,
-  languageDetails,
-} from "../src/lib/i18n/dictionaries/dictionary";
+import { LanguageCode } from "../src/lib/i18n/dictionaries/dictionary";
 import { getKeys } from "../src/features/game/types/decorations";
 import { TranslationKeys } from "../src/lib/i18n/dictionaries/types";
 
@@ -77,7 +74,7 @@ async function translateTerms(targetLanguage: LanguageCode) {
 
       // Replace all of our placeholders, with some other string that won't get translated
       placeholders.forEach((str, index) => {
-        const token = `$${index}@/$`; // $1$, $2$, $3$
+        const token = `[${index}@/$]`; // $1$, $2$, $3$
         englishText = englishText.replace(str, token);
       });
 
@@ -98,7 +95,7 @@ async function translateTerms(targetLanguage: LanguageCode) {
         let translatedText = response.TranslatedText || "";
         // Qual e a sua $1$ e a sua $2$ e a sua $3$
         placeholders.forEach((str, index) => {
-          const token = `$${index}@/$`;
+          const token = `[${index}@/$]`;
           translatedText = translatedText.replace(token, str);
         });
         // Put all of our placeholders back into the string
@@ -141,17 +138,17 @@ async function translateTerms(targetLanguage: LanguageCode) {
   fs.writeFile(languageJson, JSON.stringify(translatedTerms), () => undefined);
 }
 
-const languages = getKeys(languageDetails);
-languages.forEach((lang) => lang !== "en" && translateTerms(lang));
+// const languages = getKeys(languageDetails);
+// languages.forEach((lang) => lang !== "en" && translateTerms(lang));
 
 // Parse the command line arguments
-// const args = process.argv.slice(2); // Remove the first two arguments (node and script path)
-// const targetLanguage = args[0]; // The first argument should be the language code (e.g., "fr")
+const args = process.argv.slice(2); // Remove the first two arguments (node and script path)
+const targetLanguage = args[0]; // The first argument should be the language code (e.g., "fr")
 
-// if (targetLanguage) {
-//   main(targetLanguage as LanguageCode);
-// } else {
-//   console.error(
-//     "Please provide a target language code (e.g., yarn translate fr (for french)).",
-//   );
-// }
+if (targetLanguage) {
+  translateTerms(targetLanguage as LanguageCode);
+} else {
+  console.error(
+    "Please provide a target language code (e.g., yarn translate fr (for french)).",
+  );
+}

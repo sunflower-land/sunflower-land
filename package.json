@@ -14,6 +14,7 @@
     "metadata": "NODE_PATH=./src NODE_ENV=metadata vite-node --project metadata/node.tsconfig.json metadata/generateMetadata.ts",
     "images": "NODE_PATH=./src NODE_ENV=metadata ts-node --project metadata/node.tsconfig.json metadata/generateImages.ts",
     "translate": "NODE_PATH=./src NODE_ENV=metadata vite-node --project metadata/node.tsconfig.json _scripts/translate.ts",
+    "convert": "NODE_PATH=./src NODE_ENV=metadata vite-node --project metadata/node.tsconfig.json _scripts/convertToJson.ts",
     "prepare": "husky install"
   },
   "browserslist": [
