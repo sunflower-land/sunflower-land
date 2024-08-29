@@ -23,6 +23,7 @@ import {
 } from "features/game/types/withdrawables";
 import { getChestItems } from "features/island/hud/components/inventory/utils/inventory";
 import { availableWardrobe } from "features/game/events/landExpansion/equip";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 export const MarketplaceProfile: React.FC = () => {
   return (
@@ -35,6 +36,8 @@ export const MarketplaceProfile: React.FC = () => {
 };
 
 const MyListings: React.FC = () => {
+  const { t } = useAppTranslation();
+
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 
@@ -47,11 +50,11 @@ const MyListings: React.FC = () => {
     <InnerPanel className="mb-2">
       <div className="p-2">
         <Label className="mb-2" type="default" icon={trade}>
-          My listings
+          {t("marketplace.myListings")}
         </Label>
         <div className="flex flex-wrap  gap-2">
           {getKeys(listings).length === 0 && (
-            <p className="text-sm">You have not listed any items yet.</p>
+            <p className="text-sm">{t("marketplace.noMyListings")}</p>
           )}
           {getKeys(listings).map((id) => {
             const listing = listings[id];
@@ -86,6 +89,8 @@ const MyListings: React.FC = () => {
 };
 
 const MyOffers: React.FC = () => {
+  const { t } = useAppTranslation();
+
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 
@@ -104,17 +109,15 @@ const MyOffers: React.FC = () => {
       <div className="p-2">
         <div className="flex justify-between items-center">
           <Label className="mb-2" type="default" icon={trade}>
-            My offers
+            {t("marketplace.myOffers")}
           </Label>
           <Label className="mb-2" type="formula" icon={lock}>
-            {`${escrowedSFL} SFL Locked`}
+            {t("marketplace.sflEscrowed", { sfl: escrowedSFL })}
           </Label>
         </div>
         <div className="flex flex-wrap gap-2">
           {getKeys(offers).length === 0 && (
-            <p className="text-sm">
-              You have not made an offer for another item.
-            </p>
+            <p className="text-sm">{t("marketplace.noMyOffers")}</p>
           )}
           {getKeys(offers).map((id) => {
             const offer = offers[id];
@@ -153,6 +156,8 @@ type CollectionItem = {
   count: number;
 };
 const MyCollection: React.FC = () => {
+  const { t } = useAppTranslation();
+
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 
@@ -160,9 +165,9 @@ const MyCollection: React.FC = () => {
 
   const navigate = useNavigate();
 
-  let items: CollectionItem[] = [];
+  const items: CollectionItem[] = [];
 
-  let inventory = getChestItems(gameState.context.state);
+  const inventory = getChestItems(gameState.context.state);
   getKeys(inventory).forEach((name) => {
     if (name in TRADE_LIMITS) {
       items.push({
@@ -206,14 +211,12 @@ const MyCollection: React.FC = () => {
     <InnerPanel>
       <div className="p-2">
         <Label className="mb-2" type="default" icon={chest}>
-          My collection
+          {t("marketplace.myCollection")}
         </Label>
 
         <div className="flex flex-wrap gap-2">
           {getKeys(items).length === 0 && (
-            <p className="text-sm">
-              You do not have any available items in your collection.
-            </p>
+            <p className="text-sm">{t("marketplace.noCollection")}</p>
           )}
           {items.map((item) => {
             const details = getTradeableDisplay({

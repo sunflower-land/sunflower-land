@@ -5684,6 +5684,13 @@ export const marketplaceTerms: Record<MarketplaceTerms, string> = {
   "marketplace.sflLocked": ENGLISH_TERMS["marketplace.sflLocked"],
   "marketplace.sflLocked.description":
     ENGLISH_TERMS["marketplace.sflLocked.description"],
+  "marketplace.myOffers": ENGLISH_TERMS["marketplace.myOffers"],
+  "marketplace.sflEscrowed": ENGLISH_TERMS["marketplace.sflEscrowed"],
+  "marketplace.noMyOffers": ENGLISH_TERMS["marketplace.noMyOffers"],
+  "marketplace.myListings": ENGLISH_TERMS["marketplace.myListings"],
+  "marketplace.noMyListings": ENGLISH_TERMS["marketplace.noMyListings"],
+  "marketplace.myCollection": ENGLISH_TERMS["marketplace.myCollection"],
+  "marketplace.noCollection": ENGLISH_TERMS["marketplace.noCollection"],
 };
 
 export const TURKISH_TERMS: Record<TranslationKeys, string> = {

@@ -3888,7 +3888,14 @@ export type MarketplaceTerms =
   | "marketplace.signAndOffer"
   | "marketplace.howMuch"
   | "marketplace.sflLocked"
-  | "marketplace.sflLocked.description";
+  | "marketplace.sflLocked.description"
+  | "marketplace.myOffers"
+  | "marketplace.sflEscrowed"
+  | "marketplace.noMyOffers"
+  | "marketplace.myListings"
+  | "marketplace.noMyListings"
+  | "marketplace.myCollection"
+  | "marketplace.noCollection";
 
 export type TranslationKeys =
   | AchievementsTerms
