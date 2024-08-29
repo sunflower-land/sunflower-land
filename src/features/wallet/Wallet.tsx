@@ -142,25 +142,20 @@ export const Wallet: React.FC<Props> = ({
 
     if (walletState.matches("wrongWallet")) {
       return (
-        <>
-          <div className="p-2">
-            <div className="flex justify-between items-center">
-              <Label type="danger" icon={walletIcon}>
-                {t("wallet.wrongWallet")}
-              </Label>
-              {linkedAddress && (
-                <Label type="formula">{shortAddress(linkedAddress)}</Label>
-              )}
-            </div>
-            <p className="text-sm my-2">
-              {t("wallet.connectedWrongWallet")}
-              {"."}
-            </p>
+        <div className="p-2">
+          <div className="flex justify-between items-center">
+            <Label type="danger" icon={walletIcon}>
+              {t("wallet.wrongWallet")}
+            </Label>
+            {linkedAddress && (
+              <Label type="formula">{shortAddress(linkedAddress)}</Label>
+            )}
           </div>
-          <Button onClick={() => walletService.send("ACCOUNT_CHANGED")}>
-            {t("try.again")}
-          </Button>
-        </>
+          <p className="text-sm my-2">
+            {t("wallet.connectedWrongWallet")}
+            {"."}
+          </p>
+        </div>
       );
     }
 
