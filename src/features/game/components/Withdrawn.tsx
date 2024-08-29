@@ -23,7 +23,7 @@ export const Withdrawn: React.FC = () => {
         <p className="mb-4">
           {t("transaction.withdraw.sent")}{" "}
           <span className="text-center mb-2 ml-2 text-sm font-secondary">
-            {shortAddress(wallet.getAccount())}
+            {shortAddress(wallet.getAccount() as string)}
           </span>
         </p>
 

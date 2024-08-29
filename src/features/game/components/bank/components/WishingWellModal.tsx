@@ -206,7 +206,7 @@ const NoWish = ({ totalTokensInWell, hasLPTokens, onClick }: NoWishArgs) => {
             className="w-6"
           />
           <span className="ml-2 font-secondary">
-            {shortAddress(wallet.getAccount())}
+            {shortAddress(wallet.getAccount() as string)}
           </span>
         </div>
         {hasLPTokens ? (

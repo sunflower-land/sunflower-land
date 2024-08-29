@@ -160,13 +160,19 @@ const DepositOptions: React.FC<Props> = ({
       }
 
       try {
-        const sflBalanceFn = sflBalanceOf(wallet.getAccount());
+        const sflBalanceFn = sflBalanceOf(wallet.getAccount() as `0x${string}`);
 
-        const inventoryBalanceFn = getInventoryBalances(wallet.getAccount());
+        const inventoryBalanceFn = getInventoryBalances(
+          wallet.getAccount() as `0x${string}`,
+        );
 
-        const wearableBalanceFn = loadWardrobe(wallet.getAccount());
+        const wearableBalanceFn = loadWardrobe(
+          wallet.getAccount() as `0x${string}`,
+        );
 
-        const budBalanceFn = getBudsBalance(wallet.getAccount());
+        const budBalanceFn = getBudsBalance(
+          wallet.getAccount() as `0x${string}`,
+        );
 
         const [sflBalance, inventoryBalance, wearableBalance, budBalance] =
           await Promise.all([

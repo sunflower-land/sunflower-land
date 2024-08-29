@@ -17,6 +17,7 @@ export const WalletContext = React.createContext<{
 );
 
 export const sequenceConnector = sequenceWallet({
+  defaultNetwork: "polygon",
   connectOptions: {
     app: "Sunflower Land",
     projectAccessKey: CONFIG.SEQUENCE_ACCESS_KEY,

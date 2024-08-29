@@ -131,7 +131,7 @@ export const ClaimAccount: React.FC<{
     const load = async () => {
       setIsLoading(true);
 
-      const farms = await getFarms(wallet.getAccount());
+      const farms = await getFarms(wallet.getAccount() as `0x${string}`);
 
       const ids = farms.map((farm) => Number(farm.tokenId));
 

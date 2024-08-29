@@ -30,7 +30,9 @@ export const DequipBumpkin: React.FC = () => {
 
   useEffect(() => {
     const load = async () => {
-      const walletBumpkins = await loadBumpkins(wallet.getAccount());
+      const walletBumpkins = await loadBumpkins(
+        wallet.getAccount() as `0x${string}`,
+      );
 
       setWalletBumpkins(walletBumpkins);
 
@@ -57,7 +59,7 @@ export const DequipBumpkin: React.FC = () => {
     );
 
     await dequipBumpkin({
-      account: wallet.getAccount(),
+      account: wallet.getAccount() as `0x${string}`,
       bumpkinId: selectedBumpkinId as number,
       ids: Object.keys(wearables).map(Number),
       amounts: Object.values(wearables),

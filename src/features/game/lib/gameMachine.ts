@@ -1754,7 +1754,7 @@ export function startGame(authContext: AuthContext) {
               } = event as DepositEvent;
 
               await depositToFarm({
-                account: wallet.getAccount(),
+                account: wallet.getAccount() as `0x${string}`,
                 farmId: context.nftId as number,
                 sfl: sfl,
                 itemIds: itemIds,
