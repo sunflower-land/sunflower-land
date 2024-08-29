@@ -15,10 +15,11 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { Button } from "components/ui/Button";
 import { shortAddress } from "lib/utils/shortAddress";
 import { NFTMigrating, NFTMinting, NFTWaiting } from "./components/NFTMinting";
-import { WalletContext } from "./WalletProvider";
+import { WalletContext, config } from "./WalletProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Loading } from "features/auth/components";
 import { PortalContext } from "features/portal/example/lib/PortalProvider";
+import { WagmiProvider, useAccount } from "wagmi";
 
 interface Props {
   action: WalletAction;
@@ -35,7 +36,7 @@ interface Props {
   wrapper?: React.FC;
 }
 
-export const Wallet: React.FC<Props> = ({
+const WrappedWallet: React.FC<Props> = ({
   action,
   onReady,
   children,
@@ -48,6 +49,16 @@ export const Wallet: React.FC<Props> = ({
   const [authState] = useActor(authService);
 
   const { walletService } = useContext(WalletContext);
+
+  const { address, chainId } = useAccount();
+
+  useEffect(() => {
+    walletService.send("ACCOUNT_CHANGED");
+  }, [address]);
+
+  useEffect(() => {
+    walletService.send("CHAIN_CHANGED");
+  }, [chainId]);
 
   useEffect(() => {
     walletService.send("INITIALISE", {
@@ -267,6 +278,12 @@ export const Wallet: React.FC<Props> = ({
   // Show wallet states
   return <Wrapper>{Content()}</Wrapper>;
 };
+
+export const Wallet: React.FC<Props> = (props) => (
+  <WagmiProvider config={config}>
+    <WrappedWallet {...props} />
+  </WagmiProvider>
+);
 
 export const GameWallet: React.FC<Props> = ({
   children,
