@@ -1,16 +1,27 @@
 import { createMachine, Interpreter, State, assign } from "xstate";
 import { CONFIG } from "lib/config";
 
-import { onboardingAnalytics } from "lib/onboardingAnalytics";
-import { web3ConnectStrategyFactory } from "../auth/lib/web3-connect-strategy/web3ConnectStrategy.factory";
-import { wallet } from "lib/blockchain/wallet";
-import { Web3SupportedProviders } from "lib/web3SupportedProviders";
 import { linkWallet } from "features/wallet/actions/linkWallet";
 import { ERRORS } from "lib/errors";
 import { getFarms } from "lib/blockchain/Farm";
 import { mintNFTFarm } from "./actions/mintFarm";
 import { migrate } from "./actions/migrate";
 import { getCreatedAt } from "lib/blockchain/AccountMinter";
+import { Connector } from "wagmi";
+import {
+  getAccount,
+  connect,
+  signMessage,
+  CreateConnectorFn,
+} from "@wagmi/core";
+import {
+  bitGetConnector,
+  config,
+  cryptoComConnector,
+  okexConnector,
+  phantomConnector,
+} from "./WalletProvider";
+import { generateSignatureMessage } from "lib/blockchain/wallet";
 
 export const ART_MODE = !CONFIG.API_URL;
 
@@ -20,7 +31,6 @@ export interface Context {
   linkedAddress?: string;
   farmAddress?: string;
   errorCode: string;
-  provider: any; // TODO?
   jwt?: string;
   signature?: string;
   action?: WalletAction;
@@ -63,7 +73,7 @@ type InitialiseEvent = {
 
 type ConnectWalletEvent = {
   type: "CONNECT_TO_WALLET";
-  chosenProvider: Web3SupportedProviders;
+  connector: Connector | CreateConnectorFn;
 };
 
 export type WalletEvent =
@@ -119,7 +129,6 @@ export const walletMachine = createMachine<Context, WalletEvent, WalletState>({
     linkedAddress: "",
     farmAddress: "",
     errorCode: "",
-    provider: null,
     jwt: "",
     signature: "",
     nftReadyAt: 0,
@@ -138,39 +147,45 @@ export const walletMachine = createMachine<Context, WalletEvent, WalletState>({
       invoke: {
         src: async (_: Context, event: any) => {
           const _event = event as ConnectWalletEvent | undefined;
-          const chosenWallet = _event?.chosenProvider;
-          if (!chosenWallet) {
+          const connector = _event?.connector;
+          if (!connector) {
             throw new Error("Could not determine wallet provider.");
           }
 
-          const web3ConnectStrategy = web3ConnectStrategyFactory(chosenWallet);
-          onboardingAnalytics.logEvent(
-            web3ConnectStrategy.getConnectEventType(),
-          );
-          if (!web3ConnectStrategy.isAvailable()) {
-            web3ConnectStrategy.whenUnavailableAction();
-            return;
+          let account = getAccount(config);
+
+          // Either the player has tried to connect a different wallet, or they are connecting for the first time
+          if (
+            account.connector?.uid !== (connector as Connector).uid ||
+            account.isDisconnected
+          ) {
+            try {
+              await connect(config, { connector });
+            } catch (e) {
+              switch (connector) {
+                case okexConnector:
+                  throw new Error(ERRORS.NO_WEB3);
+                case bitGetConnector:
+                  throw new Error(ERRORS.NO_WEB3_BITGET);
+                case cryptoComConnector:
+                  throw new Error(ERRORS.NO_WEB3_CRYPTO_COM);
+                case phantomConnector:
+                  throw new Error(ERRORS.NO_WEB3_PHANTOM);
+                default:
+                  throw new Error(ERRORS.NO_WEB3);
+              }
+            }
+            account = getAccount(config);
           }
-          await web3ConnectStrategy.initialize();
-          await web3ConnectStrategy.requestAccounts();
-
-          const web3 = {
-            wallet: chosenWallet,
-            provider: web3ConnectStrategy.getProvider(),
-          };
-
-          await wallet.initialise(web3.provider, web3.wallet);
 
           return {
-            address: wallet.myAccount,
-            wallet: chosenWallet,
-            provider: web3ConnectStrategy.getProvider(),
+            address: account.address,
+            wallet: connector.name,
           };
         },
         onDone: {
           target: "checking",
           actions: assign<Context, any>({
-            provider: (_: Context, event: any) => event.data.provider,
             address: (_: Context, event: any) => event.data.address,
           }),
         },
@@ -219,9 +234,15 @@ export const walletMachine = createMachine<Context, WalletEvent, WalletState>({
     signing: {
       id: "signing",
       invoke: {
-        src: async (_: Context) => {
+        src: async (context: Context) => {
           const timestamp = Math.floor(Date.now() / 8.64e7);
-          const { signature } = await wallet.signTransaction(timestamp);
+
+          const signature = await signMessage(config, {
+            message: generateSignatureMessage({
+              address: context.address!,
+              nonce: timestamp,
+            }),
+          });
 
           return { signature };
         },
@@ -298,17 +319,13 @@ export const walletMachine = createMachine<Context, WalletEvent, WalletState>({
       invoke: {
         src: async (context, event) => {
           const createdAt = await getCreatedAt(
-            wallet.web3Provider,
-            context.address as string,
-            context.address as string,
+            context.address as `0x${string}`,
+            context.address as `0x${string}`,
           );
 
           if (createdAt) {
             // Ensure they still have a farm (wasn't a long time ago)
-            const farms = await getFarms(
-              wallet.web3Provider,
-              context.address as string,
-            );
+            const farms = await getFarms(context.address as `0x${string}`);
             if (farms.length >= 1) {
               return {
                 readyAt: (createdAt + 60) * 1000,
@@ -425,7 +442,6 @@ export const walletMachine = createMachine<Context, WalletEvent, WalletState>({
         action: (_: Context) => undefined,
         signature: (_: Context) => undefined,
         address: (_: Context) => undefined,
-        provider: (_: Context) => undefined,
       }),
     },
     INITIALISE: {

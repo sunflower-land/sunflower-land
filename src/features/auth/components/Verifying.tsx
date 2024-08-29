@@ -40,7 +40,7 @@ export const Verifying: React.FC = () => {
           ) {
             authService.send("VERIFIED", {
               data: {
-                account: wallet.myAccount,
+                account: wallet.getAccount(),
                 token: e.data,
               },
             });

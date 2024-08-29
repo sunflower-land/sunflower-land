@@ -50,7 +50,7 @@ export async function mintNFTFarm(request: Request) {
   }
 
   const payload: {
-    signature: string;
+    signature: `0x${string}`;
     deadline: number;
     charity: string;
     fee: string;
@@ -61,10 +61,9 @@ export async function mintNFTFarm(request: Request) {
   } = await response.json();
 
   await createNewAccount({
-    account: wallet.myAccount as string,
+    account: wallet.getAccount() as `0x${string}`,
     deadline: payload.deadline,
     fee: payload.fee,
     signature: payload.signature,
-    web3: wallet.web3Provider,
   });
 }

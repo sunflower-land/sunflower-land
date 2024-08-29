@@ -22,10 +22,10 @@ import { NumberInput } from "components/ui/NumberInput";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
 import { GameWallet } from "features/wallet/Wallet";
-import { ethers } from "ethers";
-import { wallet } from "lib/blockchain/wallet";
 import { TradeableDisplay } from "../lib/tradeables";
 import confetti from "canvas-confetti";
+import { signTypedData } from "@wagmi/core";
+import { config } from "features/wallet/WalletProvider";
 
 // TODO - move make offer here, signing state + submitting state
 
@@ -49,31 +49,26 @@ const MakeOffer: React.FC<{
   const [showSuccess, setShowSuccess] = useState(false);
 
   const sign = async () => {
-    const signer = new ethers.providers.Web3Provider(
-      wallet.web3Provider.givenProvider,
-    ).getSigner();
-
-    const domain = {
-      name: "Sunflower Land",
-    };
-
-    const types = {
-      Offer: [
-        { name: "item", type: "string" },
-        { name: "collection", type: "string" },
-        { name: "quantity", type: "uint256" },
-        { name: "SFL", type: "uint256" },
-      ],
-    };
-
-    const message = {
-      item: display.name,
-      quantity: 1,
-      SFL: offer,
-      collection: display.type,
-    };
-
-    const signature = await signer._signTypedData(domain, types, message);
+    const signature = await signTypedData(config, {
+      primaryType: "Offer",
+      types: {
+        Offer: [
+          { name: "item", type: "string" },
+          { name: "collection", type: "string" },
+          { name: "quantity", type: "uint256" },
+          { name: "SFL", type: "uint256" },
+        ],
+      },
+      message: {
+        item: display.name,
+        quantity: BigInt(1),
+        SFL: BigInt(offer),
+        collection: display.type,
+      },
+      domain: {
+        name: "Sunflower Land",
+      },
+    });
 
     confirm({ signature });
 
