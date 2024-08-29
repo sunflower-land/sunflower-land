@@ -30,8 +30,8 @@ async function translateTerms(targetLanguage: string) {
 
   // Group terms into batches (e.g., 10 terms per batch)
   const batchSize = 10;
-  const termKeys = Object.keys(ENGLISH_TERMS);
-  const termBatches: string[][] = [];
+  const termKeys = getKeys(ENGLISH_TERMS);
+  const termBatches: TranslationKeys[][] = [];
   for (let i = 0; i < termKeys.length; i += batchSize) {
     termBatches.push(termKeys.slice(i, i + batchSize));
   }
