@@ -1372,7 +1372,7 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   // To update dimensions
   Sarcophagus: { width: 1, height: 2 },
   Cannonball: { width: 1, height: 1 },
-  "Clay Tablet": { width: 1, height: 1 },
+  "Clay Tablet": { width: 2, height: 1 },
   "Snake in Jar": { width: 1, height: 1 },
   "Reveling Lemon": { width: 2, height: 2 },
   "Anubis Jackal": { width: 2, height: 2 },

@@ -1007,10 +1007,6 @@ export const COLLECTIBLE_COMPONENTS: Record<
       alt="Camel"
     />
   ),
-
-  // To Update
-  Sundial: Template,
-  "Sand Golem": Template,
   "Cactus King": (props: CollectibleProps) => (
     <ImageStyle
       {...props}
@@ -1026,9 +1022,6 @@ export const COLLECTIBLE_COMPONENTS: Record<
       alt="Cactus King"
     />
   ),
-  "Lemon Frog": Template,
-  "Scarab Beetle": Template,
-  "Clay Tablet": Template,
   "Reveling Lemon": (props: CollectibleProps) => (
     <ImageStyle
       {...props}
@@ -1059,6 +1052,27 @@ export const COLLECTIBLE_COMPONENTS: Record<
       alt="Paper Reed"
     />
   ),
+  "Clay Tablet": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 32}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 32}px`,
+      }}
+      image={ITEM_DETAILS["Clay Tablet"].image}
+      alt="Clay Tablet"
+    />
+  ),
+
+  // To Update
+  Sundial: Template,
+  "Sand Golem": Template,
+  "Lemon Frog": Template,
+  "Scarab Beetle": Template,
 };
 // Need readonly versions for some troublesome components while in design mode
 

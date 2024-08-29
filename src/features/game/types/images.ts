@@ -670,6 +670,7 @@ import camel from "src/assets/sfts/camel.webp";
 import paperReed from "src/assets/sfts/paper_reed.webp";
 import cactusKing from "src/assets/sfts/cactus_king.webp";
 import revelingLemon from "src/assets/sfts/reveling_lemon.gif";
+import clayTablet from "src/assets/sfts/clay_tablet.webp";
 
 import scarab from "assets/resources/scarab.webp";
 import hieroglyph from "assets/resources/hieroglyph.webp";
@@ -8861,7 +8862,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Clay Tablet": {
-    image: "",
+    image: clayTablet,
     description: {
       en: "",
     },
@@ -8884,36 +8885,13 @@ export const ITEM_DETAILS: Items = {
       en: "",
     },
   },
-  Sundial: {
-    image: "",
-    description: {
-      en: "",
-    },
-  },
-  "Sand Golem": {
-    image: "",
-    description: {
-      en: "",
-    },
-  },
   "Cactus King": {
     image: cactusKing,
     description: {
       en: "",
     },
   },
-  "Lemon Frog": {
-    image: "",
-    description: {
-      en: "",
-    },
-  },
-  "Scarab Beetle": {
-    image: "",
-    description: {
-      en: "",
-    },
-  },
+
   "Adrift Ark": {
     image: adriftArk,
     description: {
@@ -8989,6 +8967,30 @@ export const ITEM_DETAILS: Items = {
     image: tomatoBombard,
     description: {
       en: "Home to Cannonball, and is ready to strike anyone who gets in its way",
+    },
+  },
+  Sundial: {
+    image: "",
+    description: {
+      en: "",
+    },
+  },
+  "Sand Golem": {
+    image: "",
+    description: {
+      en: "",
+    },
+  },
+  "Lemon Frog": {
+    image: "",
+    description: {
+      en: "",
+    },
+  },
+  "Scarab Beetle": {
+    image: "",
+    description: {
+      en: "",
     },
   },
 };
