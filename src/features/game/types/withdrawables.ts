@@ -1596,4 +1596,9 @@ export const BUMPKIN_WITHDRAWABLES: Record<
   "Goblin Medallion": () => false,
   "Nightshade Medallion": () => false,
   "Sunflorian Medallion": () => false,
+
+  // Map Background
+  "Pumpkin Plaza Background": () => false,
+  "Goblin Retreat Background": () => false,
+  "Kingdom Background": () => false,
 };
