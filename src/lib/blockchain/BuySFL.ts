@@ -1,7 +1,7 @@
 import { CONFIG } from "lib/config";
 import BuySFLAbi from "./abis/BuySFL";
 import { config } from "features/wallet/WalletProvider";
-import { writeContract } from "@wagmi/core";
+import { waitForTransactionReceipt, writeContract } from "@wagmi/core";
 
 const address = CONFIG.BUY_SFL_CONTRACT;
 
@@ -24,7 +24,7 @@ export async function buySFL({
   feePercent,
   matic,
 }: BuySFLArgs) {
-  await writeContract(config, {
+  const hash = await writeContract(config, {
     abi: BuySFLAbi,
     address: address as `0x${string}`,
     functionName: "swap",
@@ -38,4 +38,5 @@ export async function buySFL({
     value: BigInt(matic),
     account,
   });
+  await waitForTransactionReceipt(config, { hash });
 }

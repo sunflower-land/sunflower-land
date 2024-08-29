@@ -1,6 +1,6 @@
 import { CONFIG } from "lib/config";
 import BudDepositAbi from "./abis/BudDeposit";
-import { writeContract } from "@wagmi/core";
+import { waitForTransactionReceipt, writeContract } from "@wagmi/core";
 import { config } from "features/wallet/WalletProvider";
 
 const budsDepositAddress = CONFIG.BUD_DEPOSIT_CONTRACT;
@@ -26,7 +26,7 @@ export async function depositToFarm({
   wearableIds,
   budIds,
 }: DepositArgs) {
-  return await writeContract(config, {
+  const hash = await writeContract(config, {
     abi: BudDepositAbi,
     address: budsDepositAddress as `0x${string}`,
     functionName: "depositToFarm",
@@ -41,4 +41,5 @@ export async function depositToFarm({
       budIds.map(BigInt),
     ],
   });
+  await waitForTransactionReceipt(config, { hash });
 }

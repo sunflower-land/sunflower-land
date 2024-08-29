@@ -1,7 +1,7 @@
 import { CONFIG } from "lib/config";
 import WithdrawalABI from "./abis/Withdrawals";
 import { getNextSessionId, getSessionId } from "./Session";
-import { writeContract } from "@wagmi/core";
+import { waitForTransactionReceipt, writeContract } from "@wagmi/core";
 import { config } from "features/wallet/WalletProvider";
 
 const address = CONFIG.WITHDRAWAL_CONTRACT;
@@ -28,7 +28,7 @@ export async function withdrawSFLTransaction({
 }): Promise<string> {
   const oldSessionId = sessionId;
 
-  await writeContract(config, {
+  const hash = await writeContract(config, {
     abi: WithdrawalABI,
     address: address as `0x${string}`,
     functionName: "withdrawSFL",
@@ -43,6 +43,7 @@ export async function withdrawSFLTransaction({
     ],
     account,
   });
+  await waitForTransactionReceipt(config, { hash });
 
   return await getNextSessionId(account, farmId, oldSessionId);
 }
@@ -69,7 +70,7 @@ export async function withdrawItemsTransaction({
 }): Promise<string> {
   const oldSessionId = sessionId;
 
-  writeContract(config, {
+  const hash = await writeContract(config, {
     abi: WithdrawalABI,
     address: address as `0x${string}`,
     functionName: "withdrawItems",
@@ -84,6 +85,7 @@ export async function withdrawItemsTransaction({
     ],
     account,
   });
+  await waitForTransactionReceipt(config, { hash });
 
   return await getNextSessionId(account, farmId, oldSessionId);
 }
@@ -110,7 +112,7 @@ export async function withdrawWearablesTransaction({
 }): Promise<string> {
   const oldSessionId = await getSessionId(farmId);
 
-  await writeContract(config, {
+  const hash = await writeContract(config, {
     abi: WithdrawalABI,
     address: address as `0x${string}`,
     functionName: "withdrawWearables",
@@ -125,6 +127,7 @@ export async function withdrawWearablesTransaction({
     ],
     account,
   });
+  await waitForTransactionReceipt(config, { hash });
 
   return await getNextSessionId(account, farmId, oldSessionId);
 }
@@ -149,7 +152,7 @@ export async function withdrawBudsTransaction({
 }): Promise<string> {
   const oldSessionId = await getSessionId(farmId);
 
-  await writeContract(config, {
+  const hash = await writeContract(config, {
     abi: WithdrawalABI,
     address: address as `0x${string}`,
     functionName: "withdrawBuds",
@@ -163,6 +166,7 @@ export async function withdrawBudsTransaction({
     ],
     account,
   });
+  await waitForTransactionReceipt(config, { hash });
 
   return await getNextSessionId(account, farmId, oldSessionId);
 }

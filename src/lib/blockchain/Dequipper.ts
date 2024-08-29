@@ -1,7 +1,7 @@
 import ABI from "./abis/Dequipper";
 import { CONFIG } from "lib/config";
 import { config } from "features/wallet/WalletProvider";
-import { writeContract } from "@wagmi/core";
+import { waitForTransactionReceipt, writeContract } from "@wagmi/core";
 
 export async function dequipBumpkin({
   account,
@@ -14,11 +14,12 @@ export async function dequipBumpkin({
   ids: number[];
   amounts: number[];
 }): Promise<void> {
-  await writeContract(config, {
+  const hash = await writeContract(config, {
     abi: ABI,
     address: CONFIG.DEQUIPPER_CONTRACT as `0x${string}`,
     functionName: "dequip",
     args: [BigInt(bumpkinId), ids.map(BigInt), amounts.map(BigInt)],
     account,
   });
+  await waitForTransactionReceipt(config, { hash });
 }

@@ -1,17 +1,22 @@
 import { CONFIG } from "lib/config";
 import WishingWellJSON from "./abis/WishingWell";
-import { readContract, writeContract } from "@wagmi/core";
+import {
+  readContract,
+  waitForTransactionReceipt,
+  writeContract,
+} from "@wagmi/core";
 import { config } from "features/wallet/WalletProvider";
 
 const address = CONFIG.WISHING_WELL_CONTRACT;
 
 export async function wish(account: `0x${string}`) {
-  return await writeContract(config, {
+  const hash = await writeContract(config, {
     abi: WishingWellJSON,
     address,
     functionName: "wish",
     account,
   });
+  await waitForTransactionReceipt(config, { hash });
 }
 
 export async function collectFromWellOnChain({
@@ -27,13 +32,14 @@ export async function collectFromWellOnChain({
   deadline: number;
   farmId: number;
 }) {
-  return await writeContract(config, {
+  const hash = await writeContract(config, {
     abi: WishingWellJSON,
     address: address,
     functionName: "collectFromWell",
     args: [signature, BigInt(tokens), BigInt(deadline), BigInt(farmId)],
     account,
   });
+  await waitForTransactionReceipt(config, { hash });
 }
 
 export async function getWellBalance(account: `0x${string}`) {

@@ -3,7 +3,11 @@ import { fromWei } from "web3-utils";
 import ABI from "./abis/AccountMinter";
 import { parseMetamaskError } from "./utils";
 import { onboardingAnalytics } from "lib/onboardingAnalytics";
-import { readContract, writeContract } from "@wagmi/core";
+import {
+  readContract,
+  waitForTransactionReceipt,
+  writeContract,
+} from "@wagmi/core";
 import { config } from "features/wallet/WalletProvider";
 
 export async function getCreatedAt(
@@ -44,7 +48,7 @@ export async function createNewAccount({
   deadline: number;
   fee: string;
 }) {
-  await writeContract(config, {
+  const hash = await writeContract(config, {
     abi: ABI,
     address: CONFIG.ACCOUNT_MINTER_CONTRACT,
     functionName: "mintAccount",
@@ -52,6 +56,7 @@ export async function createNewAccount({
     value: BigInt(fee),
     account,
   });
+  await waitForTransactionReceipt(config, { hash });
 
   onboardingAnalytics.logEvent("purchase", {
     currency: "MATIC",
