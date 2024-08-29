@@ -10,7 +10,7 @@ import {
 import { trackActivity } from "features/game/types/bumpkinActivity";
 import cloneDeep from "lodash.clonedeep";
 
-import { GameState } from "../../types/game";
+import { GameState, Inventory } from "../../types/game";
 import {
   PURCHASEABLE_BAIT,
   PurchaseableBait,
@@ -39,6 +39,14 @@ type Options = {
   action: CraftToolAction;
 };
 
+function getToolPrice(tool: Tool, inventory: Inventory) {
+  let price = tool.price;
+  if (inventory.Artist?.gte(1)) {
+    price *= 0.9;
+  }
+  return price;
+}
+
 export function craftTool({ state, action }: Options) {
   const stateCopy: GameState = cloneDeep(state);
   const bumpkin = stateCopy.bumpkin;
@@ -61,7 +69,7 @@ export function craftTool({ state, action }: Options) {
   if (bumpkin === undefined) {
     throw new Error("You do not have a Bumpkin!");
   }
-  const price = tool.price * amount;
+  const price = getToolPrice(tool, stateCopy.inventory) * amount;
 
   if (stateCopy.coins < price) {
     throw new Error("Insufficient Coins");
