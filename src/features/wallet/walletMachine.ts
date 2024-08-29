@@ -152,8 +152,6 @@ export const walletMachine = createMachine<Context, WalletEvent, WalletState>({
             throw new Error("Could not determine wallet provider.");
           }
 
-          await wallet.initialiseNetwork();
-
           let account = getAccount(config);
 
           // Either the player has tried to connect a different wallet, or they are connecting for the first time
@@ -179,6 +177,8 @@ export const walletMachine = createMachine<Context, WalletEvent, WalletState>({
             }
             account = getAccount(config);
           }
+
+          await wallet.initialiseNetwork();
 
           return {
             address: account.address,
