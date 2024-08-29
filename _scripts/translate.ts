@@ -11,7 +11,6 @@ import {
 import { getKeys } from "../src/features/game/types/decorations";
 import { TranslationKeys } from "../src/lib/i18n/dictionaries/types";
 
-import fr from "../src/lib/i18n/dictionaries/fr.json";
 import {
   TranslateClient,
   TranslateTextCommand,
@@ -28,6 +27,21 @@ function sleep(ms: number) {
 async function translateTerms(targetLanguage: string) {
   const translatedTerms = {};
 
+  // Check if the target language file already exists
+  const languageJson = path.join(
+    __dirname,
+    `../src/lib/i18n/dictionaries/${targetLanguage}.json`,
+  );
+  if (fs.existsSync(languageJson)) {
+    const existingTerms = JSON.parse(fs.readFileSync(languageJson, "utf-8"));
+    for (const term of Object.keys(ENGLISH_TERMS)) {
+      if (existingTerms[term]) {
+        console.log(`Skipping existing term in ${targetLanguage}: ${term}`);
+        translatedTerms[term] = existingTerms[term];
+      }
+    }
+  }
+
   // Group terms into batches (e.g., 10 terms per batch)
   const batchSize = 10;
   const termKeys = getKeys(ENGLISH_TERMS);
@@ -39,6 +53,11 @@ async function translateTerms(targetLanguage: string) {
   // Sequentially process each batch
   for (const termBatch of termBatches) {
     for (const term of termBatch) {
+      if (translatedTerms[term]) {
+        // Term already translated (either from existing file or skipped)
+        continue;
+      }
+
       const englishText = ENGLISH_TERMS[term].trim();
       if (!englishText) {
         console.warn("Skipping empty term:", term);
@@ -90,23 +109,13 @@ async function translateTerms(targetLanguage: string) {
       }
     }
   }
-  console.log(translatedTerms);
-  return translatedTerms;
-}
 
-async function main(targetLanguage: string) {
-  const translatedTerms = await translateTerms(targetLanguage);
   console.log(translatedTerms);
-
-  const languageJson = path.join(
-    __dirname,
-    `../src/lib/i18n/dictionaries/${targetLanguage}.json`,
-  );
   fs.writeFile(languageJson, JSON.stringify(translatedTerms), () => undefined);
 }
 
 const languages = getKeys(languageDetails);
-languages.forEach((lang) => lang !== "en" && main(lang));
+languages.forEach((lang) => lang !== "en" && translateTerms(lang));
 
 // Parse the command line arguments
 // const args = process.argv.slice(2); // Remove the first two arguments (node and script path)
