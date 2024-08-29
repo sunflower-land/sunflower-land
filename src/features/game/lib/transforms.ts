@@ -41,15 +41,6 @@ export function makeGame(farm: any): GameState {
     username: farm.username,
     trades: farm.trades,
     farmHands: farm.farmHands,
-    tradeOffer: farm.tradeOffer
-      ? {
-          ...farm.tradeOffer,
-          ingredients: farm.tradeOffer.ingredients.map((ingredient: any) => ({
-            ...ingredient,
-            amount: new Decimal(ingredient.amount),
-          })),
-        }
-      : undefined,
 
     bertObsession: farm.bertObsession,
 
