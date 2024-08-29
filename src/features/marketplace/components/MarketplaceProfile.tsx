@@ -1,5 +1,5 @@
 import { Label } from "components/ui/Label";
-import { InnerPanel, Panel } from "components/ui/Panel";
+import { InnerPanel } from "components/ui/Panel";
 import React, { useContext, useState } from "react";
 
 import lock from "assets/icons/lock.png";
@@ -25,7 +25,6 @@ import { getChestItems } from "features/island/hud/components/inventory/utils/in
 import { availableWardrobe } from "features/game/events/landExpansion/equip";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Modal } from "components/ui/Modal";
-import { Button } from "components/ui/Button";
 import { RemoveOffer } from "./RemoveOffer";
 
 export const MarketplaceProfile: React.FC = () => {
@@ -91,9 +90,7 @@ const MyListings: React.FC = () => {
   );
 };
 
-const MyOffers: React.FC<{
-  onRemoved: () => void;
-}> = ({ onRemoved }) => {
+const MyOffers: React.FC = () => {
   const { t } = useAppTranslation();
 
   const { gameService } = useContext(Context);
@@ -118,7 +115,7 @@ const MyOffers: React.FC<{
           id={removeId as string}
           offer={offers[removeId as string]}
           onClose={() => setRemoveId(undefined)}
-          onDone={onRemoved}
+          onDone={() => setRemoveId(undefined)}
         />
       </Modal>
 
