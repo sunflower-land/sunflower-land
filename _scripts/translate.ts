@@ -1,4 +1,3 @@
-/* eslint-disable unused-imports/no-unused-imports */
 /* eslint-disable no-console */
 import * as fs from "fs";
 import * as path from "path";
