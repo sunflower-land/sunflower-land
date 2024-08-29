@@ -1,7 +1,7 @@
 import { CONFIG } from "lib/config";
 import ABI from "./abis/Auction";
 import { getNextSessionId, getSessionId } from "./Session";
-import { writeContract } from "@wagmi/core";
+import { waitForTransactionReceipt, writeContract } from "@wagmi/core";
 import { config } from "features/wallet/WalletProvider";
 
 const address = CONFIG.AUCTION_CONTRACT;
@@ -30,7 +30,7 @@ export async function mintAuctionCollectible({
 }): Promise<string> {
   const oldSessionId = await getSessionId(farmId);
 
-  await writeContract(config, {
+  const hash = await writeContract(config, {
     abi: ABI,
     address: address as `0x${string}`,
     functionName: "mintCollectible",
@@ -47,6 +47,7 @@ export async function mintAuctionCollectible({
     value: BigInt(fee),
     account,
   });
+  await waitForTransactionReceipt(config, { hash });
 
   return await getNextSessionId(account, farmId, oldSessionId);
 }
@@ -75,7 +76,7 @@ export async function mintAuctionWearable({
 }): Promise<string> {
   const oldSessionId = await getSessionId(farmId);
 
-  writeContract(config, {
+  const hash = await writeContract(config, {
     abi: ABI,
     address: address as `0x${string}`,
     functionName: "mintWearable",
@@ -91,6 +92,7 @@ export async function mintAuctionWearable({
     ],
     account,
   });
+  await waitForTransactionReceipt(config, { hash });
 
   return await getNextSessionId(account, farmId, oldSessionId);
 }

@@ -1,7 +1,11 @@
 import ABI from "./abis/SunflowerDailyRewards";
 import { CONFIG } from "lib/config";
 import { parseMetamaskError } from "./utils";
-import { readContract, writeContract } from "@wagmi/core";
+import {
+  readContract,
+  waitForTransactionReceipt,
+  writeContract,
+} from "@wagmi/core";
 import { config } from "features/wallet/WalletProvider";
 
 export async function getDailyCode(
@@ -37,11 +41,12 @@ export async function trackDailyReward({
   account: `0x${string}`;
   code: number;
 }): Promise<void> {
-  await writeContract(config, {
+  const hash = await writeContract(config, {
     abi: ABI,
     address: CONFIG.DAILY_REWARD_CONTRACT as `0x${string}`,
     functionName: "reward",
     args: [code],
     account,
   });
+  await waitForTransactionReceipt(config, { hash });
 }

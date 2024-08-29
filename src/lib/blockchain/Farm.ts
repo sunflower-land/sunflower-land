@@ -1,7 +1,11 @@
 import { CONFIG } from "lib/config";
 import FarmABI from "./abis/Farm";
 import { parseMetamaskError } from "./utils";
-import { readContract, writeContract } from "@wagmi/core";
+import {
+  readContract,
+  waitForTransactionReceipt,
+  writeContract,
+} from "@wagmi/core";
 import { config } from "features/wallet/WalletProvider";
 
 const address = CONFIG.FARM_CONTRACT;
@@ -45,11 +49,12 @@ export async function transfer({
   to: `0x${string}`;
   tokenId: number;
 }) {
-  await writeContract(config, {
+  const hash = await writeContract(config, {
     abi: FarmABI,
     address,
     functionName: "transferFrom",
     args: [account, to, BigInt(tokenId)],
     account,
   });
+  await waitForTransactionReceipt(config, { hash });
 }

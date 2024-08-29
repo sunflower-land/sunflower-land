@@ -3,7 +3,7 @@ import { fromWei } from "web3-utils";
 import GameABI from "./abis/SunflowerLandGame";
 import { onboardingAnalytics } from "lib/onboardingAnalytics";
 import { getNextSessionId, getSessionId } from "./Session";
-import { writeContract } from "@wagmi/core";
+import { waitForTransactionReceipt, writeContract } from "@wagmi/core";
 import { config } from "features/wallet/WalletProvider";
 
 const address = CONFIG.GAME_CONTRACT;
@@ -49,7 +49,7 @@ export async function syncProgress({
 }: SyncProgressArgs): Promise<string> {
   const oldSessionId = await getSessionId(farmId);
 
-  await writeContract(config, {
+  const hash = await writeContract(config, {
     abi: GameABI,
     functionName: "syncProgress",
     address,
@@ -76,6 +76,7 @@ export async function syncProgress({
     ],
     account,
   });
+  await waitForTransactionReceipt(config, { hash });
 
   if (purchase) {
     // https://developers.google.com/analytics/devguides/collection/ga4/reference/events?sjid=11955999175679069053-AP&client_type=gtag#purchase

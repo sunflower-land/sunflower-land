@@ -21,7 +21,7 @@ import {
   okexConnector,
   phantomConnector,
 } from "./WalletProvider";
-import { generateSignatureMessage } from "lib/blockchain/wallet";
+import { generateSignatureMessage, wallet } from "lib/blockchain/wallet";
 
 export const ART_MODE = !CONFIG.API_URL;
 
@@ -151,6 +151,8 @@ export const walletMachine = createMachine<Context, WalletEvent, WalletState>({
           if (!connector) {
             throw new Error("Could not determine wallet provider.");
           }
+
+          await wallet.initialiseNetwork();
 
           let account = getAccount(config);
 
