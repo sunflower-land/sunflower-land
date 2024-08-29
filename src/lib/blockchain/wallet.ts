@@ -82,6 +82,8 @@ export class Wallet {
 
   public async initialiseNetwork() {
     await this.switchNetwork();
+
+    // Add netwokr
   }
 
   public async donate(

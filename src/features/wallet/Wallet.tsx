@@ -77,7 +77,13 @@ export const Wallet: React.FC<Props> = ({
 
   const { address, chainId } = useAccount();
 
-  console.log({ address, chainId });
+  useEffect(() => {
+    walletService.send("ACCOUNT_CHANGED");
+  }, [address]);
+
+  useEffect(() => {
+    walletService.send("CHAIN_CHANGED");
+  }, [chainId]);
 
   if (walletState.matches("ready")) {
     return <>{children}</>;
