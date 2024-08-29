@@ -283,8 +283,6 @@ export const TradeableOffers: React.FC<{
 
   const { t } = useAppTranslation();
 
-  console.log({ farmId });
-
   const [showMakeOffer, setShowMakeOffer] = useState(false);
 
   const topOffer = tradeable?.offers.reduce((highest, listing) => {

@@ -5,7 +5,6 @@ import { Panel } from "components/ui/Panel";
 import { Loading } from "features/auth/components";
 import { Context } from "features/game/GameProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { getTax } from "lib/utils/tax";
 import React, { useContext, useState } from "react";
 import { waitFor } from "xstate/lib/waitFor";
 import { getOfferItem, getTradeableDisplay } from "../lib/tradeables";
@@ -64,9 +63,9 @@ export const RemoveOffer: React.FC<Props> = ({
       <Panel>
         <div className="p-2">
           <Label type="success" className="mb-2">
-            Success
+            {t("success")}
           </Label>
-          <p className="text-sm mb-2">Your offer was removed.</p>
+          <p className="text-sm mb-2">{t("marketplace.offerRemoved")}</p>
         </div>
         <div className="flex">
           <Button onClick={onDone}>{t("continue")}</Button>
@@ -104,10 +103,10 @@ export const RemoveOffer: React.FC<Props> = ({
     <Panel>
       <div className="p-2">
         <Label type="danger" className="mb-2">
-          Cancel offer
+          {t("marketplace.cancelOffer")}
         </Label>
         <p className="text-sm mb-2">
-          Are you sure you want to cancel your offer?
+          {t("marketplace.cancelOffer.areYouSure")}
         </p>
         <TradeableSummary display={display} sfl={offer.sfl} />
       </div>
