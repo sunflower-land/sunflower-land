@@ -24,7 +24,7 @@ function sleep(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-async function translateTerms(targetLanguage: string) {
+async function translateTerms(targetLanguage: LanguageCode) {
   const translatedTerms = {};
 
   // Check if the target language file already exists
@@ -58,12 +58,32 @@ async function translateTerms(targetLanguage: string) {
         continue;
       }
 
-      const englishText = ENGLISH_TERMS[term].trim();
+      let englishText = ENGLISH_TERMS[term].trim();
       if (!englishText) {
         console.warn("Skipping empty term:", term);
         translatedTerms[term] = ""; // Return an empty string for empty terms
         continue;
       }
+
+      // "What is your {{name}} and your {{id}} and your {{amount}}"
+      const regex = /{{(.*?)}}/g;
+      // Extract all placeholders
+      const placeholders: string[] = []; // {{name}}, {{id}}, {{amount}}
+      let match: RegExpExecArray | null;
+      while ((match = regex.exec(englishText)) !== null) {
+        placeholders.push(match[0]); // match[0] contains the full placeholder, e.g., "{{name}}"
+      }
+
+      // Replace all of our placeholders, with some other string that won't get translated
+      placeholders.forEach((str, index) => {
+        const token = `$${index}@/$`; // $1$, $2$, $3$
+        englishText = englishText.replace(str, token);
+      });
+
+      // What is your $1$ and your $2$ and your $3$
+
+      console.log(placeholders);
+      console.log(englishText);
 
       const params = {
         Text: englishText,
@@ -74,8 +94,14 @@ async function translateTerms(targetLanguage: string) {
 
       try {
         const response = await client.send(command);
-        translatedTerms[term] = response.TranslatedText;
-        const translatedText = response.TranslatedText;
+        let translatedText = response.TranslatedText || "";
+        // Qual e a sua $1$ e a sua $2$ e a sua $3$
+        placeholders.forEach((str, index) => {
+          const token = `$${index}@/$`;
+          translatedText = translatedText.replace(token, str);
+        });
+        // Put all of our placeholders back into the string
+        translatedTerms[term] = translatedText;
         console.log(`'${term}': '${translatedText}'`);
       } catch (error) {
         console.error(
