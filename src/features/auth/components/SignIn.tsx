@@ -68,7 +68,7 @@ const OtherWallets: React.FC<{
                 src={world}
                 className="w-7 h-7 mobile:w-6 mobile:h-6  ml-2 mr-6 absolute left-0 top-1"
               />
-              {"Mobile Wallet"}
+              {"Mobile Wallet Browser"}
             </div>
           </Button>
         )}
