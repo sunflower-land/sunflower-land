@@ -21,6 +21,7 @@ import { Loading } from "features/auth/components";
 import { PortalContext } from "features/portal/example/lib/PortalProvider";
 import { WagmiProvider, useAccount } from "wagmi";
 import { CONFIG } from "lib/config";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 interface Props {
   action: WalletAction;
@@ -282,9 +283,13 @@ const WrappedWallet: React.FC<Props> = ({
   return <Wrapper>{Content()}</Wrapper>;
 };
 
+const queryClient = new QueryClient();
+
 export const Wallet: React.FC<Props> = (props) => (
   <WagmiProvider config={config}>
-    <WrappedWallet {...props} />
+    <QueryClientProvider client={queryClient}>
+      <WrappedWallet {...props} />
+    </QueryClientProvider>
   </WagmiProvider>
 );
 
