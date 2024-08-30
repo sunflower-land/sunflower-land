@@ -3122,7 +3122,6 @@
   "marketplace.sflLocked.description": "Bir teklif yapılırken SFL\"niz güvenli bir şekilde saklanacaktır.",
   "marketplace.signAndOffer": "İmzala ve Teklif",
   "marketplace.signOffer": "Lütfen aşağıdaki ayrıntıları onaylayın ve bilgileri güvenli bir şekilde imzalayın. Teklif yayınlanana kadar işlem yapılmayacaktır.",
-  "marketplace.myCollection": "Koleksiyonunuz",
   "marketplace.myListings": "Listeleriniz",
   "marketplace.myOffers": "Teklifleriniz",
   "marketplace.noCollection": "Koleksiyonunuzda mevcut herhangi bir öğeniz yok.",
@@ -3443,5 +3442,6 @@
   "description.silverStallion": "",
   "description.traineeTarget": "",
   "description.twisterRug": "",
+  "marketplace.myCollection": "Koleksiyonunuz",
   "npcDialogues.oldSalty.intro3": ""
 }

@@ -3120,7 +3120,6 @@
   "marketplace.sflLocked.description": "Votre SFL sera stocké en toute sécurité pendant qu'une offre est faite.",
   "marketplace.signAndOffer": "Signez et offrez",
   "marketplace.signOffer": "Veuillez confirmer les informations suivantes et signer les informations en toute sécurité. La transaction ne sera pas effectuée tant que l'offre ne sera pas en ligne.",
-  "marketplace.myCollection": "Votre collection",
   "marketplace.myListings": "Vos annonces",
   "marketplace.myOffers": "Vos offres",
   "marketplace.noCollection": "Vous n'avez aucun article disponible dans votre collection.",
@@ -3443,5 +3442,6 @@
   "description.silverStallion": "",
   "description.traineeTarget": "",
   "description.twisterRug": "",
+  "marketplace.myCollection": "Votre collection",
   "npcDialogues.oldSalty.intro3": ""
 }

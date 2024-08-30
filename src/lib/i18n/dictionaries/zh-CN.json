@@ -2521,7 +2521,6 @@
   "marketplace.sflLocked.description": "在出价期间，您的SFL将安全存储。",
   "marketplace.signAndOffer": "签名并报价",
   "marketplace.signOffer": "请确认以下详细信息并安全地签署信息。在报价生效之前，不会进行交易。",
-  "marketplace.myCollection": "你的藏品",
   "marketplace.myListings": "您的房源",
   "marketplace.myOffers": "你的报价",
   "marketplace.noCollection": "您的收藏中没有任何可用的物品。",
@@ -3443,5 +3442,6 @@
   "description.silverStallion": "",
   "description.traineeTarget": "",
   "description.twisterRug": "",
+  "marketplace.myCollection": "你的藏品",
   "npcDialogues.oldSalty.intro3": ""
 }

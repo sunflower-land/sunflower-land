@@ -3424,7 +3424,6 @@
   "marketplace.sflLocked.description": "Ваш SFL будет надежно храниться во время размещения предложения.",
   "marketplace.signAndOffer": "Подпишитесь и предложите",
   "marketplace.signOffer": "Пожалуйста, подтвердите следующие данные и надежно подпишите информацию. Транзакция не будет произведена до тех пор, пока предложение не вступит в силу.",
-  "marketplace.myCollection": "Ваша коллекция",
   "marketplace.myListings": "Ваши объявления",
   "marketplace.myOffers": "Ваши предложения",
   "marketplace.noCollection": "В вашей коллекции нет доступных предметов.",
@@ -3443,5 +3442,6 @@
   "transaction.withdraw.polygon": "Сканирование полигонов",
   "warning.hoarding.indefiniteArticle.a": "_",
   "warning.hoarding.indefiniteArticle.an": "_",
+  "marketplace.myCollection": "Ваша коллекция",
   "npcDialogues.oldSalty.intro3": ""
 }
