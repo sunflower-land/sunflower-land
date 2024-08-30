@@ -42,8 +42,6 @@ const OtherWallets: React.FC<{
 }> = ({ onConnect, showSequence = false }) => {
   const { t } = useAppTranslation();
 
-  const { connectors } = useConnect();
-
   return (
     <>
       <>
@@ -140,25 +138,6 @@ const OtherWallets: React.FC<{
             {"Phantom Wallet"}
           </div>
         </Button>
-        <>
-          {connectors
-            .filter((connector) => connector.type === "injected")
-            .map((connector) => (
-              <Button
-                className="mb-1 py-2 text-sm relative"
-                onClick={() => onConnect(connector)}
-                key={connector.name}
-              >
-                <div className="px-8">
-                  <img
-                    src={connector.icon}
-                    className="h-7 ml-2.5 mr-6 absolute left-0 top-1 rounded-sm"
-                  />
-                  {connector.name}
-                </div>
-              </Button>
-            ))}
-        </>
       </>
     </>
   );
@@ -183,6 +162,7 @@ export const Wallets: React.FC<Props> = ({ onConnect, showAll = true }) => {
         <>
           {connectors
             .filter((connector) => connector.type === "injected")
+            .filter((connector) => connector.name !== "MetaMask")
             .map((connector) => (
               <Button
                 className="mb-1 py-2 text-sm relative"
