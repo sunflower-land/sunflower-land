@@ -1084,7 +1084,8 @@ export const READONLY_COLLECTIBLES: Record<
 
   "Basic Scarecrow": (props: CollectibleProps) => {
     const hasChonkyScarecrow = props.game.bumpkin.skills["Chonky Scarecrow"];
-    const chonkyOffset = hasChonkyScarecrow ? 4 : 0;
+    const offset = hasChonkyScarecrow ? 4 : 0;
+    const height = hasChonkyScarecrow ? 5 : 0;
 
     return (
       <div
@@ -1098,9 +1099,9 @@ export const READONLY_COLLECTIBLES: Record<
         <div
           className="absolute bottom-0 bg-blue-300 bg-opacity-50 animate-pulse z-50 pointer-events-none"
           style={{
-            width: `${PIXEL_SCALE * 16 * (3 + chonkyOffset)}px`,
-            height: `${PIXEL_SCALE * 16 * (3 + chonkyOffset)}px`,
-            left: `${PIXEL_SCALE * -13 - (chonkyOffset / 2) * PIXEL_SCALE * 16}px`,
+            width: `${PIXEL_SCALE * 16 * (3 + offset)}px`,
+            height: `${PIXEL_SCALE * 16 * (3 + height)}px`,
+            left: `${PIXEL_SCALE * -13 - (offset / 2) * PIXEL_SCALE * 16}px`,
             top: `${PIXEL_SCALE * 31}px`,
           }}
         >
@@ -1109,8 +1110,8 @@ export const READONLY_COLLECTIBLES: Record<
             className="absolute bottom-0 opacity-50 animate-pulsate"
             style={{
               width: `${PIXEL_SCALE * 10}px`,
-              left: `${PIXEL_SCALE * 19 + (chonkyOffset / 2) * PIXEL_SCALE * 16}px`,
-              top: `${PIXEL_SCALE * 17 + (chonkyOffset / 2) * PIXEL_SCALE * 16}px`,
+              left: `${PIXEL_SCALE * 19 + (offset / 2) * PIXEL_SCALE * 16}px`,
+              top: `${PIXEL_SCALE * 17 + (offset / 1.5) * PIXEL_SCALE * 16}px`,
             }}
           />
         </div>
@@ -1121,6 +1122,7 @@ export const READONLY_COLLECTIBLES: Record<
   "Scary Mike": (props: CollectibleProps) => {
     const hasHorrorMike = props.game.bumpkin.skills["Horror Mike"];
     const offset = hasHorrorMike ? 4 : 0;
+    const height = hasHorrorMike ? 5 : 0;
 
     return (
       <div
@@ -1135,7 +1137,7 @@ export const READONLY_COLLECTIBLES: Record<
           className="absolute bottom-0 bg-blue-300 bg-opacity-50 animate-pulse z-50 pointer-events-none"
           style={{
             width: `${PIXEL_SCALE * 16 * (3 + offset)}px`,
-            height: `${PIXEL_SCALE * 16 * (3 + offset)}px`,
+            height: `${PIXEL_SCALE * 16 * (3 + height)}px`,
             left: `${PIXEL_SCALE * -13 - (offset / 2) * PIXEL_SCALE * 16}px`,
             top: `${PIXEL_SCALE * 29}px`,
           }}
@@ -1146,7 +1148,7 @@ export const READONLY_COLLECTIBLES: Record<
             style={{
               width: `${PIXEL_SCALE * 10}px`,
               left: `${PIXEL_SCALE * 19 + (offset / 2) * PIXEL_SCALE * 16}px`,
-              top: `${PIXEL_SCALE * 17 + (offset / 2) * PIXEL_SCALE * 16}px`,
+              top: `${PIXEL_SCALE * 17 + (offset / 1.5) * PIXEL_SCALE * 16}px`,
             }}
           />
         </div>
@@ -1157,6 +1159,7 @@ export const READONLY_COLLECTIBLES: Record<
   "Laurie the Chuckle Crow": (props: CollectibleProps) => {
     const hasLauriesGains = props.game.bumpkin.skills["Laurie's Gains"];
     const offset = hasLauriesGains ? 4 : 0;
+    const height = hasLauriesGains ? 5 : 0;
 
     return (
       <div
@@ -1174,7 +1177,7 @@ export const READONLY_COLLECTIBLES: Record<
           className="absolute bottom-0 bg-blue-300 bg-opacity-50 animate-pulse z-50 pointer-events-none"
           style={{
             width: `${PIXEL_SCALE * 16 * (3 + offset)}px`,
-            height: `${PIXEL_SCALE * 16 * (3 + offset)}px`,
+            height: `${PIXEL_SCALE * 16 * (3 + height)}px`,
             left: `${PIXEL_SCALE * -13 - (offset / 2) * PIXEL_SCALE * 16}px`,
             top: `${PIXEL_SCALE * 27}px`,
           }}
@@ -1185,7 +1188,7 @@ export const READONLY_COLLECTIBLES: Record<
             style={{
               width: `${PIXEL_SCALE * 10}px`,
               left: `${PIXEL_SCALE * 19 + (offset / 2) * PIXEL_SCALE * 16}px`,
-              top: `${PIXEL_SCALE * 17 + (offset / 2) * PIXEL_SCALE * 16}px`,
+              top: `${PIXEL_SCALE * 17 + (offset / 1.5) * PIXEL_SCALE * 16}px`,
             }}
           />
         </div>
