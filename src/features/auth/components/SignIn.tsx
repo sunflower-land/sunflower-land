@@ -175,9 +175,30 @@ export const Wallets: React.FC<Props> = ({ onConnect, showAll = true }) => {
   const isMobilePWA = isMobile && isPWA;
   const { t } = useAppTranslation();
 
+  const { connectors } = useConnect();
+
   const MainWallets = () => {
     return (
       <>
+        <>
+          {connectors
+            .filter((connector) => connector.type === "injected")
+            .map((connector) => (
+              <Button
+                className="mb-1 py-2 text-sm relative"
+                onClick={() => onConnect(connector)}
+                key={connector.name}
+              >
+                <div className="px-8">
+                  <img
+                    src={connector.icon}
+                    className="h-7 ml-2.5 mr-6 absolute left-0 top-1 rounded-sm"
+                  />
+                  {connector.name}
+                </div>
+              </Button>
+            ))}
+        </>
         <Button
           className="mb-1 py-2 text-sm relative justify-start"
           onClick={() => onConnect(metaMaskConnector)}
