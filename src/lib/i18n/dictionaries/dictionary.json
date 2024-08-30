@@ -3444,5 +3444,9 @@
   "easterEgg.digbysDiary": "Digby's Diary",
   "easterEgg.goldtoothsDiary": "Goldtooth's Diary",
   "easterEgg.pharaohsDiary": "Pharaoh's Diary",
-  "marketplace.title3": "Title"
+  "marketplace.title3": "Title",
+  "marketplace.cancelOffer": "Cancel offer",
+  "marketplace.yourOffer": "Your offer",
+  "marketplace.offerRemoved": "Your offer has been removed",
+  "marketplace.cancelOffer.areYouSure": "Are you sure you want to remove your offer?"
 }

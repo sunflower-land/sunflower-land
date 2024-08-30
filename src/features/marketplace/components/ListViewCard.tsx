@@ -26,6 +26,7 @@ import woodlandsBackground from "assets/buds-backgrounds/woodlands_shadow.png";
 import caveBackground from "assets/buds-backgrounds/cave_shadow.png";
 import seaBackground from "assets/buds-backgrounds/sea_shadow.png";
 import { Bud, TypeTrait } from "lib/buds/types";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 type Props = {
   name: string;
@@ -36,6 +37,7 @@ type Props = {
   supply: number;
   price?: Decimal;
   onClick?: () => void;
+  onRemove?: () => void;
 };
 
 const data = CONFIG.NETWORK === "mainnet" ? buds : testnetBuds;
@@ -49,6 +51,7 @@ export const ListViewCard: React.FC<Props> = ({
   hasBoost,
   price,
   onClick,
+  onRemove,
 }) => {
   const [size, setSize] = useState({ width: 0, height: 0 });
 
@@ -69,8 +72,19 @@ export const ListViewCard: React.FC<Props> = ({
   };
 
   return (
-    <div className="relative cursor-pointer" onClick={onClick}>
-      <ButtonPanel>
+    <div className="relative cursor-pointer">
+      {onRemove && (
+        <img
+          src={SUNNYSIDE.ui.disc_cancel}
+          className="w-12 absolute -top-2 -right-2 cursor-pointer z-10 hover:scale-110"
+          onClick={(e) => {
+            e.preventDefault();
+
+            onRemove();
+          }}
+        />
+      )}
+      <ButtonPanel onClick={onClick}>
         <div className="w-32 sm:w-40 flex flex-col">
           <div className="relative">
             <p className="text-white absolute top-1 left-1 text-xs">{`x${supply}`}</p>

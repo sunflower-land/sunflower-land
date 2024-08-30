@@ -1,6 +1,6 @@
 import { Label } from "components/ui/Label";
 import { InnerPanel } from "components/ui/Panel";
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 
 import lock from "assets/icons/lock.png";
 import trade from "assets/icons/trade.png";
@@ -24,6 +24,8 @@ import {
 import { getChestItems } from "features/island/hud/components/inventory/utils/inventory";
 import { availableWardrobe } from "features/game/events/landExpansion/equip";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { Modal } from "components/ui/Modal";
+import { RemoveOffer } from "./RemoveOffer";
 
 export const MarketplaceProfile: React.FC = () => {
   return (
@@ -94,6 +96,8 @@ const MyOffers: React.FC = () => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 
+  const [removeId, setRemoveId] = useState<string>();
+
   const { trades } = gameState.context.state;
   const offers = trades.offers ?? {};
 
@@ -105,48 +109,62 @@ const MyOffers: React.FC = () => {
   );
 
   return (
-    <InnerPanel className="mb-2">
-      <div className="p-2">
-        <div className="flex justify-between items-center">
-          <Label className="mb-2" type="default" icon={trade}>
-            {t("marketplace.myOffers")}
-          </Label>
-          <Label className="mb-2" type="formula" icon={lock}>
-            {t("marketplace.sflEscrowed", { sfl: escrowedSFL })}
-          </Label>
-        </div>
-        <div className="flex flex-wrap gap-2">
-          {getKeys(offers).length === 0 && (
-            <p className="text-sm">{t("marketplace.noMyOffers")}</p>
-          )}
-          {getKeys(offers).map((id) => {
-            const offer = offers[id];
+    <>
+      <Modal show={!!removeId} onHide={() => setRemoveId(undefined)}>
+        <RemoveOffer
+          id={removeId as string}
+          offer={offers[removeId as string]}
+          onClose={() => setRemoveId(undefined)}
+          onDone={() => setRemoveId(undefined)}
+        />
+      </Modal>
 
-            const itemId = getOfferItem({ offer });
-            const details = getTradeableDisplay({
-              id: itemId,
-              type: offer.collection,
-            });
+      <InnerPanel className="mb-2">
+        <div className="p-2">
+          <div className="flex justify-between items-center">
+            <Label className="mb-2" type="default" icon={trade}>
+              {t("marketplace.myOffers")}
+            </Label>
+            <Label className="mb-2" type="formula" icon={lock}>
+              {t("marketplace.sflEscrowed", { sfl: escrowedSFL })}
+            </Label>
+          </div>
+          <div className="flex flex-wrap gap-2">
+            {getKeys(offers).length === 0 && (
+              <p className="text-sm">{t("marketplace.noMyOffers")}</p>
+            )}
+            {getKeys(offers).map((id) => {
+              const offer = offers[id];
 
-            return (
-              <ListViewCard
-                name={details.name}
-                hasBoost={!!details.buff}
-                price={new Decimal(offer.sfl)}
-                image={details.image}
-                supply={0}
-                type={details.type}
-                id={itemId}
-                key={id}
-                onClick={() => {
-                  navigate(`/marketplace/${details.type}/${itemId}`);
-                }}
-              />
-            );
-          })}
+              const itemId = getOfferItem({ offer });
+              const details = getTradeableDisplay({
+                id: itemId,
+                type: offer.collection,
+              });
+
+              return (
+                <ListViewCard
+                  name={details.name}
+                  hasBoost={!!details.buff}
+                  price={new Decimal(offer.sfl)}
+                  image={details.image}
+                  supply={0}
+                  type={details.type}
+                  id={itemId}
+                  key={id}
+                  onClick={() => {
+                    navigate(`/marketplace/${details.type}/${itemId}`);
+                  }}
+                  onRemove={() => {
+                    setRemoveId(id);
+                  }}
+                />
+              );
+            })}
+          </div>
         </div>
-      </div>
-    </InnerPanel>
+      </InnerPanel>
+    </>
   );
 };
 
