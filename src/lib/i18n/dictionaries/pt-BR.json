@@ -3444,5 +3444,9 @@
   "description.silverStallion": "",
   "description.traineeTarget": "",
   "description.twisterRug": "",
-  "npcDialogues.oldSalty.intro3": ""
+  "npcDialogues.oldSalty.intro3": "",
+  "marketplace.cancelOffer": "Cancelar oferta",
+  "marketplace.yourOffer": "Sua oferta",
+  "marketplace.offerRemoved": "Sua oferta foi removida",
+  "marketplace.cancelOffer.areYouSure": "Tem certeza de que deseja remover sua oferta?"
 }

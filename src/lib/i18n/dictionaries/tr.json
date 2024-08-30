@@ -3444,5 +3444,9 @@
   "description.silverStallion": "",
   "description.traineeTarget": "",
   "description.twisterRug": "",
-  "npcDialogues.oldSalty.intro3": ""
+  "npcDialogues.oldSalty.intro3": "",
+  "marketplace.cancelOffer": "Teklifi iptal et",
+  "marketplace.yourOffer": "Teklifiniz",
+  "marketplace.offerRemoved": "Teklifiniz kaldırıldı",
+  "marketplace.cancelOffer.areYouSure": "Teklifinizi kaldırmak istediğinizden emin misiniz?"
 }

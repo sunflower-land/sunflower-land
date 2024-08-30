@@ -3444,5 +3444,9 @@
   "questions.obtain.pol": "Как получить POL?",
   "transaction.pol": "БАССЕЙН",
   "transaction.payPol": "Оплата с помощью POL",
-  "npcDialogues.oldSalty.intro3": ""
+  "npcDialogues.oldSalty.intro3": "",
+  "marketplace.cancelOffer": "Отменить предложение",
+  "marketplace.yourOffer": "Ваше предложение",
+  "marketplace.offerRemoved": "Ваше предложение удалено",
+  "marketplace.cancelOffer.areYouSure": "Вы действительно хотите удалить свое предложение?"
 }

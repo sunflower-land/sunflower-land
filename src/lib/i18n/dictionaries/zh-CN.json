@@ -3444,5 +3444,9 @@
   "description.silverStallion": "",
   "description.traineeTarget": "",
   "description.twisterRug": "",
-  "npcDialogues.oldSalty.intro3": ""
+  "npcDialogues.oldSalty.intro3": "",
+  "marketplace.cancelOffer": "取消报价",
+  "marketplace.yourOffer": "你的报价",
+  "marketplace.offerRemoved": "您的报价已被删除",
+  "marketplace.cancelOffer.areYouSure": "您确定要删除报价吗？"
 }
