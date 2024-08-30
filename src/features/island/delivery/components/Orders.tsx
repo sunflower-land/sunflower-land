@@ -51,6 +51,8 @@ import { getBumpkinLevel } from "features/game/lib/level";
 import { SquareIcon } from "components/ui/SquareIcon";
 import { formatNumber } from "lib/utils/formatNumber";
 import { isMobile } from "mobile-device-detect";
+import { getImageUrl } from "lib/utils/getImageURLS";
+import { ITEM_IDS } from "features/game/types/bumpkin";
 
 // Bumpkins
 export const BEACH_BUMPKINS: NPCName[] = [
@@ -611,7 +613,18 @@ export const DeliveryOrders: React.FC<Props> = ({
                 backgroundSize: `${32 * PIXEL_SCALE}px`,
               }}
             />
-            <div key={previewOrder.from} className="w-1/2 md:w-full md:-ml-8">
+
+            <div
+              className="absolute -top-10 -left-2.5 right-0 md:-inset-2 bg-no-repeat"
+              style={{
+                height: `${PIXEL_SCALE * 80}px`,
+                backgroundImage: `url(${getImageUrl(ITEM_IDS[NPC_WEARABLES[previewOrder.from].background])})`,
+                backgroundSize: isMobile
+                  ? `calc(${PIXEL_SCALE * 105}px + 5vw)`
+                  : `${85 * PIXEL_SCALE}px`,
+              }}
+            />
+            <div key={previewOrder.from} className="w-9/12 md:w-full md:-ml-8">
               <DynamicNFT
                 key={previewOrder.from}
                 bumpkinParts={NPC_WEARABLES[previewOrder.from]}

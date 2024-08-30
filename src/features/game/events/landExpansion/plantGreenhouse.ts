@@ -1,5 +1,3 @@
-import cloneDeep from "lodash.clonedeep";
-
 import { GameState } from "features/game/types/game";
 
 import {
@@ -23,6 +21,7 @@ import { getCropTime, getCropYieldAmount } from "./plant";
 import { getFruitYield } from "./fruitHarvested";
 import { getFruitTime } from "./fruitPlanted";
 import { Resource } from "features/game/lib/getBudYieldBoosts";
+import { produce } from "immer";
 
 export type PlantGreenhouseAction = {
   type: "greenhouse.planted";
@@ -139,64 +138,64 @@ export function plantGreenhouse({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  const game = cloneDeep(state) as GameState;
+  return produce(state, (game) => {
+    // Requires Greenhouse exists
+    if (!game.buildings.Greenhouse) {
+      throw new Error("Greenhouse does not exist");
+    }
 
-  // Requires Greenhouse exists
-  if (!game.buildings.Greenhouse) {
-    throw new Error("Greenhouse does not exist");
-  }
+    if (!game.bumpkin) {
+      throw new Error("No Bumpkin");
+    }
 
-  if (!game.bumpkin) {
-    throw new Error("No Bumpkin");
-  }
+    if (!SEED_TO_PLANT[action.seed]) {
+      throw new Error("Not a valid seed");
+    }
 
-  if (!SEED_TO_PLANT[action.seed]) {
-    throw new Error("Not a valid seed");
-  }
+    const seeds = game.inventory[action.seed] ?? new Decimal(0);
+    if (seeds.lt(1)) {
+      throw new Error(`Missing ${action.seed}`);
+    }
 
-  const seeds = game.inventory[action.seed] ?? new Decimal(0);
-  if (seeds.lt(1)) {
-    throw new Error(`Missing ${action.seed}`);
-  }
+    if (game.greenhouse.oil < OIL_USAGE[action.seed]) {
+      throw new Error("Not enough Oil");
+    }
 
-  if (game.greenhouse.oil < OIL_USAGE[action.seed]) {
-    throw new Error("Not enough Oil");
-  }
+    const potId = action.id;
+    if (!Number.isInteger(potId) || potId <= 0 || potId > MAX_POTS) {
+      throw new Error("Not a valid pot");
+    }
 
-  const potId = action.id;
-  if (!Number.isInteger(potId) || potId <= 0 || potId > MAX_POTS) {
-    throw new Error("Not a valid pot");
-  }
+    const pot = game.greenhouse.pots[potId] ?? {};
 
-  const pot = game.greenhouse.pots[potId] ?? {};
+    if (pot.plant) {
+      throw new Error("Plant already exists");
+    }
 
-  if (pot.plant) {
-    throw new Error("Plant already exists");
-  }
+    const plantName = SEED_TO_PLANT[action.seed];
+    // Plants
+    game.greenhouse.pots[potId] = {
+      plant: {
+        amount: getGreenhouseYieldAmount({
+          crop: plantName,
+          game,
+        }),
+        name: plantName,
+        plantedAt: getPlantedAt({ createdAt, crop: plantName, game }),
+      },
+    };
 
-  const plantName = SEED_TO_PLANT[action.seed];
-  // Plants
-  game.greenhouse.pots[potId] = {
-    plant: {
-      amount: getGreenhouseYieldAmount({
-        crop: plantName,
-        game,
-      }),
-      name: plantName,
-      plantedAt: getPlantedAt({ createdAt, crop: plantName, game }),
-    },
-  };
+    // Subtracts seed
+    game.inventory[action.seed] = seeds.sub(1);
 
-  // Subtracts seed
-  game.inventory[action.seed] = seeds.sub(1);
+    // Use oil
+    game.greenhouse.oil -= OIL_USAGE[action.seed];
 
-  // Use oil
-  game.greenhouse.oil -= OIL_USAGE[action.seed];
+    // Tracks Analytics
+    const activityName: BumpkinActivityName = `${plantName} Planted`;
 
-  // Tracks Analytics
-  const activityName: BumpkinActivityName = `${plantName} Planted`;
+    game.bumpkin.activity = trackActivity(activityName, game.bumpkin.activity);
 
-  game.bumpkin.activity = trackActivity(activityName, game.bumpkin.activity);
-
-  return game;
+    return game;
+  });
 }

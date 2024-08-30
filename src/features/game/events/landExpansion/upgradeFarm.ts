@@ -9,9 +9,9 @@ import {
   IslandType,
 } from "features/game/types/game";
 
-import cloneDeep from "lodash.clonedeep";
 import { translate } from "lib/i18n/translate";
 import { Coordinates } from "features/game/expansion/components/MapPlacement";
+import cloneDeep from "lodash.clonedeep";
 
 export type UpgradeFarmAction = {
   type: "farm.upgraded";

@@ -73,6 +73,7 @@ import { FactionShopCollectibleName, FactionShopFoodName } from "./factionShop";
 import { DiggingFormationName } from "./desert";
 import { Rewards } from "./rewards";
 import { ExperimentName } from "lib/flags";
+import { CollectionName, MarketplaceTradeableName } from "./marketplace";
 
 export type Reward = {
   coins?: number;
@@ -421,17 +422,6 @@ export type StockExpiry = Partial<Record<InventoryItemName, string>>;
 
 type PastAction = GameEvent & {
   createdAt: Date;
-};
-
-export type TradeOffer = {
-  name: InventoryItemName;
-  amount: number;
-  startAt: string;
-  endAt: string;
-  ingredients: {
-    name: InventoryItemName;
-    amount: Decimal;
-  }[];
 };
 
 export interface CurrentObsession {
@@ -938,6 +928,16 @@ export type TradeListing = {
   buyerId?: number;
 };
 
+export type TradeOffer = {
+  items: Partial<Record<MarketplaceTradeableName, number>>;
+  sfl: number;
+  collection: CollectionName;
+  createdAt: number;
+  fulfilledAt?: number;
+  fulfilledById?: number;
+  signature?: string;
+};
+
 type FishingSpot = {
   castedAt?: number;
   bait?: FishingBait;
@@ -1144,7 +1144,6 @@ export interface GameState {
   createdAt: number;
 
   tradedAt?: string;
-  tradeOffer?: TradeOffer;
   bertObsession?: CurrentObsession;
   bertObsessionCompletedAt?: Date;
   warCollectionOffer?: WarCollectionOffer;
@@ -1252,6 +1251,7 @@ export interface GameState {
 
   trades: {
     listings?: Record<string, TradeListing>;
+    offers?: Record<string, TradeOffer>;
     dailyListings?: { date: number; count: number };
     dailyPurchases?: { date: number; count: number };
   };

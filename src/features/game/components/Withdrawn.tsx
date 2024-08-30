@@ -23,7 +23,7 @@ export const Withdrawn: React.FC = () => {
         <p className="mb-4">
           {t("transaction.withdraw.sent")}{" "}
           <span className="text-center mb-2 ml-2 text-sm font-secondary">
-            {shortAddress(wallet.myAccount as string)}
+            {shortAddress(wallet.getAccount() as string)}
           </span>
         </p>
 
@@ -47,7 +47,7 @@ export const Withdrawn: React.FC = () => {
           {t("transaction.displayItems")}{" "}
           <a
             className="underline hover:text-white"
-            href={`https://polygonscan.com/address/${wallet.myAccount}#tokentxnsErc1155`}
+            href={`https://polygonscan.com/address/${wallet.getAccount()}#tokentxnsErc1155`}
             target="_blank"
             rel="noopener noreferrer"
           >

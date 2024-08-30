@@ -1,8 +1,8 @@
 import { Coordinates } from "features/game/expansion/components/MapPlacement";
 import { Collectibles, GameState, Rock } from "features/game/types/game";
-import cloneDeep from "lodash.clonedeep";
 import { canMine } from "./stoneMine";
 import { isAOEImpacted } from "features/game/expansion/placeable/lib/collisionDetection";
+import { produce } from "immer";
 
 export enum MOVE_STONE_ERRORS {
   NO_BUMPKIN = "You do not have a Bumpkin!",
@@ -47,30 +47,31 @@ export function moveStone({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  const stateCopy = cloneDeep(state) as GameState;
-  const stones = stateCopy.stones;
+  return produce(state, (stateCopy) => {
+    const stones = stateCopy.stones;
 
-  if (stateCopy.bumpkin === undefined) {
-    throw new Error(MOVE_STONE_ERRORS.NO_BUMPKIN);
-  }
+    if (stateCopy.bumpkin === undefined) {
+      throw new Error(MOVE_STONE_ERRORS.NO_BUMPKIN);
+    }
 
-  if (!stones[action.id]) {
-    throw new Error(MOVE_STONE_ERRORS.STONE_NOT_PLACED);
-  }
+    if (!stones[action.id]) {
+      throw new Error(MOVE_STONE_ERRORS.STONE_NOT_PLACED);
+    }
 
-  if (
-    isLocked(
-      stones[action.id],
-      stateCopy.collectibles,
-      createdAt,
-      stateCopy.bumpkin,
-    )
-  ) {
-    throw new Error(MOVE_STONE_ERRORS.AOE_LOCKED);
-  }
+    if (
+      isLocked(
+        stones[action.id],
+        stateCopy.collectibles,
+        createdAt,
+        stateCopy.bumpkin,
+      )
+    ) {
+      throw new Error(MOVE_STONE_ERRORS.AOE_LOCKED);
+    }
 
-  stones[action.id].x = action.coordinates.x;
-  stones[action.id].y = action.coordinates.y;
+    stones[action.id].x = action.coordinates.x;
+    stones[action.id].y = action.coordinates.y;
 
-  return stateCopy;
+    return stateCopy;
+  });
 }

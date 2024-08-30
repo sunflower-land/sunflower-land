@@ -1,7 +1,6 @@
-import cloneDeep from "lodash.clonedeep";
-
 import { GameState } from "features/game/types/game";
 import Decimal from "decimal.js-light";
+import { produce } from "immer";
 
 export type OilGreenhouseAction = {
   type: "greenhouse.oiled";
@@ -21,26 +20,26 @@ export function oilGreenhouse({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  const game = cloneDeep(state);
+  return produce(state, (game) => {
+    const oil = game.inventory.Oil ?? new Decimal(0);
 
-  const oil = game.inventory.Oil ?? new Decimal(0);
+    if (oil.lt(action.amount)) {
+      throw new Error("Missing oil");
+    }
 
-  if (oil.lt(action.amount)) {
-    throw new Error("Missing oil");
-  }
+    if (!Number.isInteger(action.amount) || action.amount <= 0) {
+      throw new Error("Incorrect amount");
+    }
 
-  if (!Number.isInteger(action.amount) || action.amount <= 0) {
-    throw new Error("Incorrect amount");
-  }
+    const totalOil = game.greenhouse.oil + action.amount;
 
-  const totalOil = game.greenhouse.oil + action.amount;
+    if (totalOil > MAX_GREENHOUSE_OIL) {
+      throw new Error("Greenhouse is full");
+    }
 
-  if (totalOil > MAX_GREENHOUSE_OIL) {
-    throw new Error("Greenhouse is full");
-  }
+    game.inventory.Oil = oil.sub(action.amount);
+    game.greenhouse.oil = totalOil;
 
-  game.inventory.Oil = oil.sub(action.amount);
-  game.greenhouse.oil = totalOil;
-
-  return game;
+    return game;
+  });
 }

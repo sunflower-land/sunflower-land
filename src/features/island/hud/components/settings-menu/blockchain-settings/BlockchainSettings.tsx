@@ -39,7 +39,7 @@ export const BlockchainSettings: React.FC<ContentComponentProps> = ({
           {t("gameOptions.blockchainSettings.storeOnChain")}
         </Button>
         <Button onClick={() => onSubMenuClick("swapSFL")}>
-          {t("gameOptions.blockchainSettings.swapMaticForSFL")}
+          {t("gameOptions.blockchainSettings.swapPOLForSFL")}
         </Button>
         <Button onClick={() => onSubMenuClick("dequip")}>
           {t("dequipper.dequip")}

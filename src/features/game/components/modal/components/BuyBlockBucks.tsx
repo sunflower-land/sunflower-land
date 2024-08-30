@@ -211,7 +211,7 @@ export const BuyBlockBucks: React.FC<Props> = ({
                   width: `calc(100% + ${PIXEL_SCALE * 6}px)`,
                 }}
               >
-                {t("transaction.payMatic")}
+                {t("transaction.payPol")}
               </Label>
             </ButtonPanel>
           </div>
