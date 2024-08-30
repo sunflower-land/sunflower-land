@@ -935,78 +935,83 @@ describe("deliver", () => {
     expect(state.inventory[getSeasonalTicket()]).toEqual(new Decimal(3));
   });
 
-  it("add 10% more SFL profit on completed deliveries if player has SFL Swindler", () => {
+  it("add 20% coins bonus if has Betty's Friend skill on Betty's orders with Coins reward", () => {
     const state = deliverOrder({
       state: {
         ...TEST_FARM,
-        balance: new Decimal(0),
-        inventory: {
-          "Sunflower Cake": new Decimal(1),
-        },
-        coins: 0,
-        delivery: {
-          ...TEST_FARM.delivery,
-          orders: [
-            {
-              id: "123",
-              createdAt: 0,
-              readyAt: Date.now(),
-              from: "betty",
-              items: {
-                "Sunflower Cake": 1,
-              },
-              reward: { sfl: 100 },
-            },
-          ],
-        },
         bumpkin: {
           ...INITIAL_BUMPKIN,
           skills: {
-            "SFL Swindler": 1,
+            "Betty's Friend": 1,
           },
         },
-      },
-      action: {
-        id: "123",
-        type: "order.delivered",
-      },
-    });
-
-    expect(state.balance).toEqual(new Decimal(110));
-  });
-
-  it("does not add 10% more SFL profit on completed deliveries with SFL Swindler if reward is not SFL", () => {
-    const state = deliverOrder({
-      state: {
-        ...TEST_FARM,
-        balance: new Decimal(100),
         inventory: {
-          "Sunflower Cake": new Decimal(1),
+          Sunflower: new Decimal(60),
         },
-        coins: 0,
         delivery: {
           ...TEST_FARM.delivery,
+          fulfilledCount: 3,
           orders: [
             {
               id: "123",
               createdAt: 0,
-              readyAt: Date.now(),
+              readyAt: new Date("2023-10-31T15:00:00Z").getTime(),
               from: "betty",
               items: {
-                "Sunflower Cake": 1,
+                Sunflower: 50,
               },
-              reward: { coins: 320 },
+              reward: { coins: 100 },
             },
           ],
         },
-        bumpkin: INITIAL_BUMPKIN,
       },
       action: {
         id: "123",
         type: "order.delivered",
       },
+      createdAt: new Date("2024-05-10T16:00:00Z").getTime(),
     });
 
-    expect(state.coins).toEqual(320);
+    expect(state.coins).toEqual(120);
+  });
+
+  it("does not add 20% coins bonus if has Betty's Friend skill on non Betty's orders with Coins reward", () => {
+    const state = deliverOrder({
+      state: {
+        ...TEST_FARM,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          skills: {
+            "Betty's Friend": 1,
+          },
+        },
+        inventory: {
+          Sunflower: new Decimal(60),
+        },
+        delivery: {
+          ...TEST_FARM.delivery,
+          fulfilledCount: 3,
+          orders: [
+            {
+              id: "123",
+              createdAt: 0,
+              readyAt: new Date("2023-10-31T15:00:00Z").getTime(),
+              from: "pumpkin' pete",
+              items: {
+                Sunflower: 50,
+              },
+              reward: { coins: 100 },
+            },
+          ],
+        },
+      },
+      action: {
+        id: "123",
+        type: "order.delivered",
+      },
+      createdAt: new Date("2024-05-10T16:00:00Z").getTime(),
+    });
+
+    expect(state.coins).toEqual(100);
   });
 });

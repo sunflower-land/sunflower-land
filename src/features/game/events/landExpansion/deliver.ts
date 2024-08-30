@@ -179,8 +179,12 @@ export function getOrderSellPrice<T>(game: GameState, order: Order): T {
     mul += 0.05;
   }
 
-  if (game.bumpkin?.skills["SFL Swindler"] && order.reward.sfl) {
-    mul += 0.1;
+  if (
+    order.from === "betty" &&
+    game.bumpkin?.skills["Betty's Friend"] &&
+    order.reward.coins
+  ) {
+    mul += 0.2;
   }
 
   const items = getKeys(order.items);
