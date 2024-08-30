@@ -49,7 +49,19 @@ const OtherWallets: React.FC<{
         {isMobile && (
           <Button
             className="mb-1 py-2 text-sm relative"
-            onClick={() => onConnect(injected())}
+            onClick={() =>
+              onConnect(
+                injected({
+                  target() {
+                    return {
+                      id: "Mobile",
+                      name: "Mobile Browser Provider",
+                      provider: window.ethereum,
+                    };
+                  },
+                }),
+              )
+            }
           >
             <div className="px-8">
               <img
