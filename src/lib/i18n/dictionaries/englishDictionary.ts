@@ -5719,7 +5719,7 @@ export const marketplaceTerms: Record<MarketplaceTerms, string> = {
     "Congratulations, you have made an offer. Now be patient and wait for a Bumpkin to accept!",
   "marketplace.sflLocked": "SFL secured",
   "marketplace.sflLocked.description":
-    "Your SFL will be safely stored while an offer is being made.",
+    "Your SFL will be safely stored while an offer is active.",
   "marketplace.signAndOffer": "Sign & Offer",
   "marketplace.signOffer":
     "Please confirm the following details and securely sign the information. The transaction will not be made until the offer is live.",
