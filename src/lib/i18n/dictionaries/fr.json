@@ -3427,6 +3427,7 @@
   "easterEgg.goldtoothsDiary": "Le journal de Goldtooth",
   "easterEgg.pharaohsDiary": "Journal de Pharaon",
   "marketplace.myCollection": "Votre collection",
+  "marketplace.sflLocked.description": "Votre SFL sera stocké en toute sécurité pendant qu'une offre est active.",
   "description.battleCryDrum": "",
   "description.bullseyeBoard": "",
   "description.chessRug": "",
@@ -3442,6 +3443,6 @@
   "description.silverStallion": "",
   "description.traineeTarget": "",
   "description.twisterRug": "",
-  "marketplace.sflLocked.description": "Votre SFL sera stocké en toute sécurité pendant qu'une offre est active.",
-  "npcDialogues.oldSalty.intro3": ""
+  "npcDialogues.oldSalty.intro3": "",
+  "marketplace.title2": "Titre"
 }
