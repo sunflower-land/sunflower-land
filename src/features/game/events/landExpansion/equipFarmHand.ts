@@ -1,7 +1,7 @@
-import cloneDeep from "lodash.clonedeep";
 import { assertEquipment } from "./equip";
 import { Equipped } from "features/game/types/bumpkin";
 import { GameState } from "features/game/types/game";
+import { produce } from "immer";
 
 export type EquipFarmHandAction = {
   type: "farmHand.equipped";
@@ -20,16 +20,17 @@ export function equipFarmhand({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  const game = cloneDeep(state);
-  const bumpkin = game.farmHands.bumpkins[action.id];
+  return produce(state, (game) => {
+    const bumpkin = game.farmHands.bumpkins[action.id];
 
-  if (bumpkin === undefined) {
-    throw new Error("Farm hand does not exist");
-  }
+    if (bumpkin === undefined) {
+      throw new Error("Farm hand does not exist");
+    }
 
-  assertEquipment({ game, equipment: action.equipment, bumpkin });
+    assertEquipment({ game, equipment: action.equipment, bumpkin });
 
-  bumpkin.equipped = action.equipment;
+    bumpkin.equipped = action.equipment;
 
-  return game;
+    return game;
+  });
 }

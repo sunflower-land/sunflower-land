@@ -1,6 +1,6 @@
 import Decimal from "decimal.js-light";
 import { GameState } from "features/game/types/game";
-import cloneDeep from "lodash.clonedeep";
+import { produce } from "immer";
 
 export enum REMOVE_CHICKEN_ERRORS {
   INVALID_CHICKEN = "This chicken does not exist",
@@ -18,29 +18,29 @@ type Options = {
 };
 
 export function removeChicken({ state, action }: Options) {
-  const stateCopy = cloneDeep(state) as GameState;
+  return produce(state, (stateCopy) => {
+    const { chickens, inventory, bumpkin } = stateCopy;
 
-  const { chickens, inventory, bumpkin } = stateCopy;
+    if (bumpkin === undefined) {
+      throw new Error("You do not have a Bumpkin!");
+    }
 
-  if (bumpkin === undefined) {
-    throw new Error("You do not have a Bumpkin!");
-  }
+    if (!chickens[action.id]) {
+      throw new Error(REMOVE_CHICKEN_ERRORS.INVALID_CHICKEN);
+    }
 
-  if (!chickens[action.id]) {
-    throw new Error(REMOVE_CHICKEN_ERRORS.INVALID_CHICKEN);
-  }
+    if (chickens[action.id].fedAt) {
+      throw new Error(REMOVE_CHICKEN_ERRORS.CHICKEN_BREWING_EGG);
+    }
 
-  if (chickens[action.id].fedAt) {
-    throw new Error(REMOVE_CHICKEN_ERRORS.CHICKEN_BREWING_EGG);
-  }
+    // TODO - remove once landscaping is launched
+    const shovelAmount = inventory["Rusty Shovel"] || new Decimal(0);
+    if (shovelAmount.gte(1)) {
+      inventory["Rusty Shovel"] = inventory["Rusty Shovel"]?.minus(1);
+    }
 
-  // TODO - remove once landscaping is launched
-  const shovelAmount = inventory["Rusty Shovel"] || new Decimal(0);
-  if (shovelAmount.gte(1)) {
-    inventory["Rusty Shovel"] = inventory["Rusty Shovel"]?.minus(1);
-  }
+    delete chickens[action.id];
 
-  delete chickens[action.id];
-
-  return stateCopy;
+    return stateCopy;
+  });
 }

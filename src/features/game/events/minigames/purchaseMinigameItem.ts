@@ -8,8 +8,7 @@ import {
   SUPPORTED_MINIGAMES,
 } from "features/game/types/minigames";
 import { COMMODITIES, CommodityName } from "features/game/types/resources";
-
-import cloneDeep from "lodash.clonedeep";
+import { produce } from "immer";
 
 export type MinigameCurrency = CropName | FruitName | CommodityName;
 
@@ -48,69 +47,70 @@ export function purchaseMinigameItem({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  const game = cloneDeep<GameState>(state);
-
-  if (!SUPPORTED_MINIGAMES.includes(action.id)) {
-    throw new Error(`${action.id} is not a valid minigame`);
-  }
-
-  if (game.balance.lt(action.sfl)) {
-    throw new Error("Insufficient SFL");
-  }
-
-  if (action.sfl < 0) {
-    throw new Error("SFL must be positive");
-  }
-
-  if (action.sfl > SFL_LIMIT) {
-    throw new Error("SFL is greater than purchase limit");
-  }
-
-  game.inventory = getKeys(action.items ?? {}).reduce((inventory, name) => {
-    const count = inventory[name] || new Decimal(0);
-    const totalAmount = action.items[name] ?? 0;
-
-    if (totalAmount > (MINIGAME_CURRENCY_LIMITS[name] ?? 0)) {
-      throw new Error(`Purchase limit exceeded: ${name}`);
+  return produce(state, (game) => {
+    if (!SUPPORTED_MINIGAMES.includes(action.id)) {
+      throw new Error(`${action.id} is not a valid minigame`);
     }
 
-    if (count.lessThan(totalAmount)) {
-      throw new Error(`Insufficient resource: ${name}`);
+    if (game.balance.lt(action.sfl)) {
+      throw new Error("Insufficient SFL");
     }
 
-    if (totalAmount < 0) {
-      throw new Error(`Cannot spend negative amount: ${name}`);
+    if (action.sfl < 0) {
+      throw new Error("SFL must be positive");
     }
 
-    return {
-      ...inventory,
-      [name]: count.sub(totalAmount),
+    if (action.sfl > SFL_LIMIT) {
+      throw new Error("SFL is greater than purchase limit");
+    }
+
+    game.inventory = getKeys(action.items ?? {}).reduce((inventory, name) => {
+      const count = inventory[name] || new Decimal(0);
+      const totalAmount = action.items[name] ?? 0;
+
+      if (totalAmount > (MINIGAME_CURRENCY_LIMITS[name] ?? 0)) {
+        throw new Error(`Purchase limit exceeded: ${name}`);
+      }
+
+      if (count.lessThan(totalAmount)) {
+        throw new Error(`Insufficient resource: ${name}`);
+      }
+
+      if (totalAmount < 0) {
+        throw new Error(`Cannot spend negative amount: ${name}`);
+      }
+
+      return {
+        ...inventory,
+        [name]: count.sub(totalAmount),
+      };
+    }, game.inventory);
+
+    const minigames = (game.minigames ??
+      {}) as Required<GameState>["minigames"];
+    const minigame = minigames.games[action.id] ?? {
+      history: {},
+      purchases: [],
+      highscore: 0,
     };
-  }, game.inventory);
 
-  const minigames = (game.minigames ?? {}) as Required<GameState>["minigames"];
-  const minigame = minigames.games[action.id] ?? {
-    history: {},
-    purchases: [],
-    highscore: 0,
-  };
+    const purchases = minigame.purchases ?? [];
 
-  const purchases = minigame.purchases ?? [];
+    minigames.games[action.id] = {
+      ...minigame,
+      purchases: [
+        ...purchases,
+        {
+          purchasedAt: createdAt,
+          sfl: action.sfl,
+          items: action.items,
+        },
+      ],
+    };
 
-  minigames.games[action.id] = {
-    ...minigame,
-    purchases: [
-      ...purchases,
-      {
-        purchasedAt: createdAt,
-        sfl: action.sfl,
-        items: action.items,
-      },
-    ],
-  };
+    // Burn the SFL
+    game.balance = game.balance.sub(action.sfl);
 
-  // Burn the SFL
-  game.balance = game.balance.sub(action.sfl);
-
-  return game;
+    return game;
+  });
 }
