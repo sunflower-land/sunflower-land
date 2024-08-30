@@ -13,6 +13,7 @@
     "test": "jest",
     "metadata": "NODE_PATH=./src NODE_ENV=metadata vite-node --project metadata/node.tsconfig.json metadata/generateMetadata.ts",
     "images": "NODE_PATH=./src NODE_ENV=metadata ts-node --project metadata/node.tsconfig.json metadata/generateImages.ts",
+    "translate": "NODE_PATH=./src NODE_ENV=metadata vite-node --project metadata/node.tsconfig.json _scripts/translate.ts",
     "prepare": "husky install"
   },
   "browserslist": [
@@ -82,6 +83,7 @@
     "xstate": "^4.33.1"
   },
   "devDependencies": {
+    "@aws-sdk/client-translate": "^3.637.0",
     "@testing-library/react-hooks": "^7.0.2",
     "@types/bad-words": "^3.0.1",
     "@types/canvas-confetti": "^1.6.4",
