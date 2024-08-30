@@ -6,7 +6,7 @@ import {
   MILESTONES,
   isInventoryItemReward,
 } from "features/game/types/milestones";
-import cloneDeep from "lodash.clonedeep";
+import { produce } from "immer";
 
 export type ClaimMilestoneAction = {
   type: "milestone.claimed";
@@ -19,38 +19,40 @@ type Options = {
 };
 
 export function claimMilestone({ state, action }: Options): GameState {
-  const copy = cloneDeep(state) as GameState;
+  return produce(state, (copy) => {
+    const milestone = MILESTONES[action.milestone];
 
-  const milestone = MILESTONES[action.milestone];
-
-  if (copy.milestones[action.milestone]) {
-    throw new Error("You already have this milestone");
-  }
-
-  const percentageComplete = milestone.percentageComplete(copy.farmActivity);
-
-  if (percentageComplete < 100) {
-    throw new Error("You do not meet the requirements");
-  }
-
-  copy.milestones[action.milestone] = 1;
-
-  const rewards = getKeys(milestone.reward);
-
-  for (const reward of rewards) {
-    const rewardAmount = Number(milestone.reward[reward]);
-
-    if (isInventoryItemReward(reward)) {
-      const amountInInventory = copy.inventory[reward] ?? new Decimal(0);
-
-      copy.inventory[reward] = amountInInventory.add(new Decimal(rewardAmount));
-
-      continue;
+    if (copy.milestones[action.milestone]) {
+      throw new Error("You already have this milestone");
     }
 
-    const amountInWardrobe = copy.wardrobe[reward] ?? 0;
-    copy.wardrobe[reward] = amountInWardrobe + rewardAmount;
-  }
+    const percentageComplete = milestone.percentageComplete(copy.farmActivity);
 
-  return copy;
+    if (percentageComplete < 100) {
+      throw new Error("You do not meet the requirements");
+    }
+
+    copy.milestones[action.milestone] = 1;
+
+    const rewards = getKeys(milestone.reward);
+
+    for (const reward of rewards) {
+      const rewardAmount = Number(milestone.reward[reward]);
+
+      if (isInventoryItemReward(reward)) {
+        const amountInInventory = copy.inventory[reward] ?? new Decimal(0);
+
+        copy.inventory[reward] = amountInInventory.add(
+          new Decimal(rewardAmount),
+        );
+
+        continue;
+      }
+
+      const amountInWardrobe = copy.wardrobe[reward] ?? 0;
+      copy.wardrobe[reward] = amountInWardrobe + rewardAmount;
+    }
+
+    return copy;
+  });
 }

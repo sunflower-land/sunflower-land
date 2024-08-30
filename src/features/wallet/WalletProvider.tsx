@@ -79,7 +79,7 @@ export const phantomConnector = injected({
 export const config = createConfig({
   chains: [CONFIG.NETWORK === "mainnet" ? polygon : polygonAmoy],
   multiInjectedProviderDiscovery: true,
-  connectors: [sequenceConnector, walletConnectConnector, metaMaskConnector],
+  connectors: [],
   transports: {
     [polygon.id]: fallback([http(), http(CONFIG.ALCHEMY_RPC)]),
     [polygonAmoy.id]: fallback([http(), http(CONFIG.ALCHEMY_RPC)]),

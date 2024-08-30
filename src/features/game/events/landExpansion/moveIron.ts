@@ -3,7 +3,7 @@ import { canMine } from "features/game/expansion/lib/utils";
 import { isAOEImpacted } from "features/game/expansion/placeable/lib/collisionDetection";
 import { IRON_RECOVERY_TIME } from "features/game/lib/constants";
 import { Collectibles, GameState, Rock } from "features/game/types/game";
-import cloneDeep from "lodash.clonedeep";
+import { produce } from "immer";
 
 export enum MOVE_IRON_ERRORS {
   NO_BUMPKIN = "You do not have a Bumpkin!",
@@ -44,30 +44,31 @@ export function moveIron({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  const stateCopy = cloneDeep(state) as GameState;
-  const iron = stateCopy.iron;
+  return produce(state, (stateCopy) => {
+    const iron = stateCopy.iron;
 
-  if (stateCopy.bumpkin === undefined) {
-    throw new Error(MOVE_IRON_ERRORS.NO_BUMPKIN);
-  }
+    if (stateCopy.bumpkin === undefined) {
+      throw new Error(MOVE_IRON_ERRORS.NO_BUMPKIN);
+    }
 
-  if (!iron[action.id]) {
-    throw new Error(MOVE_IRON_ERRORS.IRON_NOT_PLACED);
-  }
+    if (!iron[action.id]) {
+      throw new Error(MOVE_IRON_ERRORS.IRON_NOT_PLACED);
+    }
 
-  if (
-    isLocked(
-      iron[action.id],
-      stateCopy.collectibles,
-      createdAt,
-      stateCopy.bumpkin,
-    )
-  ) {
-    throw new Error(MOVE_IRON_ERRORS.AOE_LOCKED);
-  }
+    if (
+      isLocked(
+        iron[action.id],
+        stateCopy.collectibles,
+        createdAt,
+        stateCopy.bumpkin,
+      )
+    ) {
+      throw new Error(MOVE_IRON_ERRORS.AOE_LOCKED);
+    }
 
-  iron[action.id].x = action.coordinates.x;
-  iron[action.id].y = action.coordinates.y;
+    iron[action.id].x = action.coordinates.x;
+    iron[action.id].y = action.coordinates.y;
 
-  return stateCopy;
+    return stateCopy;
+  });
 }

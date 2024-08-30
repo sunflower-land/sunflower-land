@@ -7,10 +7,10 @@ import {
   GameState,
   Position,
 } from "features/game/types/game";
-import cloneDeep from "lodash.clonedeep";
 import { isReadyToHarvest } from "./harvest";
 import { CROPS } from "features/game/types/crops";
 import { isBasicCrop, isMediumCrop, isAdvancedCrop } from "./harvest";
+import { produce } from "immer";
 
 export enum MOVE_CROP_ERRORS {
   NO_BUMPKIN = "You do not have a Bumpkin!",
@@ -230,24 +230,25 @@ export function moveCrop({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  const stateCopy = cloneDeep(state) as GameState;
-  const { crops, collectibles } = stateCopy;
-  const plot = crops[action.id];
+  return produce(state, (stateCopy) => {
+    const { crops, collectibles } = stateCopy;
+    const plot = crops[action.id];
 
-  if (stateCopy.bumpkin === undefined) {
-    throw new Error(MOVE_CROP_ERRORS.NO_BUMPKIN);
-  }
+    if (stateCopy.bumpkin === undefined) {
+      throw new Error(MOVE_CROP_ERRORS.NO_BUMPKIN);
+    }
 
-  if (!plot) {
-    throw new Error(MOVE_CROP_ERRORS.CROP_NOT_PLACED);
-  }
+    if (!plot) {
+      throw new Error(MOVE_CROP_ERRORS.CROP_NOT_PLACED);
+    }
 
-  if (isLocked(plot, collectibles, createdAt, stateCopy.bumpkin)) {
-    throw new Error(MOVE_CROP_ERRORS.AOE_LOCKED);
-  }
+    if (isLocked(plot, collectibles, createdAt, stateCopy.bumpkin)) {
+      throw new Error(MOVE_CROP_ERRORS.AOE_LOCKED);
+    }
 
-  crops[action.id].x = action.coordinates.x;
-  crops[action.id].y = action.coordinates.y;
+    crops[action.id].x = action.coordinates.x;
+    crops[action.id].y = action.coordinates.y;
 
-  return stateCopy;
+    return stateCopy;
+  });
 }

@@ -7,6 +7,7 @@ import metamaskIcon from "assets/icons/metamask_pixel.png";
 import walletIcon from "assets/icons/wallet.png";
 import fslIcon from "assets/icons/fsl_id.svg";
 import { PIXEL_SCALE } from "features/game/lib/constants";
+import world from "assets/icons/world.png";
 
 import { Label } from "components/ui/Label";
 import { getPromoCode } from "features/game/actions/loadSession";
@@ -17,7 +18,7 @@ import { Wallet } from "features/wallet/Wallet";
 import { useIsPWA } from "lib/utils/hooks/useIsPWA";
 import { isMobile } from "mobile-device-detect";
 import { Loading } from "./Loading";
-import { Connector, CreateConnectorFn } from "@wagmi/core";
+import { Connector, CreateConnectorFn, injected } from "@wagmi/core";
 import {
   WalletContext,
   bitGetConnector,
@@ -29,6 +30,7 @@ import {
   walletConnectConnector,
 } from "features/wallet/WalletProvider";
 import { useActor } from "@xstate/react";
+import { useConnect } from "wagmi";
 
 const CONTENT_HEIGHT = 365;
 
@@ -44,6 +46,32 @@ const OtherWallets: React.FC<{
   return (
     <>
       <>
+        {isMobile && (
+          <Button
+            className="mb-1 py-2 text-sm relative"
+            onClick={() =>
+              onConnect(
+                injected({
+                  target() {
+                    return {
+                      id: "Mobile",
+                      name: "Mobile Browser Provider",
+                      provider: window.ethereum,
+                    };
+                  },
+                }),
+              )
+            }
+          >
+            <div className="px-8">
+              <img
+                src={world}
+                className="w-7 h-7 mobile:w-6 mobile:h-6  ml-2 mr-6 absolute left-0 top-1"
+              />
+              {"Mobile Wallet Browser"}
+            </div>
+          </Button>
+        )}
         {showSequence && (
           <Button
             className="mb-1 py-2 text-sm relative"
@@ -153,9 +181,31 @@ export const Wallets: React.FC<Props> = ({ onConnect, showAll = true }) => {
   const isMobilePWA = isMobile && isPWA;
   const { t } = useAppTranslation();
 
+  const { connectors } = useConnect();
+
   const MainWallets = () => {
     return (
       <>
+        <>
+          {connectors
+            .filter((connector) => connector.type === "injected")
+            .filter((connector) => connector.name !== "MetaMask")
+            .map((connector) => (
+              <Button
+                className="mb-1 py-2 text-sm relative"
+                onClick={() => onConnect(connector)}
+                key={connector.name}
+              >
+                <div className="px-8">
+                  <img
+                    src={connector.icon}
+                    className="h-7 ml-2.5 mr-6 absolute left-0 top-1 rounded-sm"
+                  />
+                  {connector.name}
+                </div>
+              </Button>
+            ))}
+        </>
         <Button
           className="mb-1 py-2 text-sm relative justify-start"
           onClick={() => onConnect(metaMaskConnector)}

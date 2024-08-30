@@ -1,6 +1,6 @@
-import cloneDeep from "lodash.clonedeep";
 import { GameState } from "features/game/types/game";
 import { isChoreId } from "./completeChore";
+import { produce } from "immer";
 
 export type SkipChoreAction = {
   type: "chore.skipped";
@@ -25,43 +25,44 @@ export function skipChore({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  const game = cloneDeep(state);
-  const { id } = action;
-  const { chores, bumpkin } = game;
+  return produce(state, (game) => {
+    const { id } = action;
+    const { chores, bumpkin } = game;
 
-  if (id === undefined) {
-    throw new Error("Chore ID not supplied");
-  }
+    if (id === undefined) {
+      throw new Error("Chore ID not supplied");
+    }
 
-  if (!chores) {
-    throw new Error("No chores found");
-  }
+    if (!chores) {
+      throw new Error("No chores found");
+    }
 
-  if (!bumpkin) {
-    throw new Error("No bumpkin found");
-  }
-  if (!isChoreId(id)) {
-    throw new Error("Invalid chore ID");
-  }
+    if (!bumpkin) {
+      throw new Error("No bumpkin found");
+    }
+    if (!isChoreId(id)) {
+      throw new Error("Invalid chore ID");
+    }
 
-  const chore = chores.chores[id];
+    const chore = chores.chores[id];
 
-  if ((chore.completedAt ?? 0) > 0) {
-    throw new Error("Chore is already completed");
-  }
+    if ((chore.completedAt ?? 0) > 0) {
+      throw new Error("Chore is already completed");
+    }
 
-  if (bumpkin.id !== chore.bumpkinId) {
-    throw new Error("Not the same bumpkin");
-  }
+    if (bumpkin.id !== chore.bumpkinId) {
+      throw new Error("Not the same bumpkin");
+    }
 
-  const dayOfYear = getDayOfYear(new Date(createdAt));
-  const choreDayOfYear = getDayOfYear(new Date(chore.createdAt ?? 0));
+    const dayOfYear = getDayOfYear(new Date(createdAt));
+    const choreDayOfYear = getDayOfYear(new Date(chore.createdAt ?? 0));
 
-  if (dayOfYear <= choreDayOfYear) {
+    if (dayOfYear <= choreDayOfYear) {
+      return game;
+    }
+
+    // Skip chore
+
     return game;
-  }
-
-  // Skip chore
-
-  return game;
+  });
 }

@@ -22,15 +22,18 @@ import { Button } from "components/ui/Button";
 import { PriceHistory } from "./PriceHistory";
 import { TradeTable } from "./TradeTable";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { TradeableOffers } from "./TradeableOffers";
+import { TradeableOffers, YourOffer } from "./TradeableOffers";
+import { Context } from "features/game/GameProvider";
 
 export const Tradeable: React.FC = () => {
   const { authService } = useContext(Auth.Context);
   const [authState] = useActor(authService);
+  const { gameService } = useContext(Context);
+  const [gameState] = useActor(gameService);
 
   const { t } = useAppTranslation();
 
-  const farmId = 1; // TODO
+  const farmId = gameState.context.farmId;
 
   const { collection, id } = useParams<{
     collection: CollectionName;
@@ -96,6 +99,12 @@ export const Tradeable: React.FC = () => {
             tradeable={tradeable}
           />
         </div>
+
+        <YourOffer
+          onOfferRemoved={load}
+          collection={collection as CollectionName}
+          id={Number(id)}
+        />
 
         <PriceHistory />
 

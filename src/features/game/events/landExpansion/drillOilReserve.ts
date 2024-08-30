@@ -2,7 +2,7 @@ import Decimal from "decimal.js-light";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { isWearableActive } from "features/game/lib/wearables";
 import { GameState, OilReserve } from "features/game/types/game";
-import cloneDeep from "lodash.clonedeep";
+import { produce } from "immer";
 
 export type DrillOilReserveAction = {
   type: "oilReserve.drilled";
@@ -78,36 +78,36 @@ export function drillOilReserve({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  const game: GameState = cloneDeep(state);
+  return produce(state, (game) => {
+    const oilReserve = game.oilReserves[action.id];
+    const requiredDrills = getRequiredOilDrillAmount(state);
+    const drillAmount = game.inventory["Oil Drill"] || new Decimal(0);
 
-  const oilReserve = game.oilReserves[action.id];
-  const requiredDrills = getRequiredOilDrillAmount(state);
-  const drillAmount = game.inventory["Oil Drill"] || new Decimal(0);
+    if (!oilReserve) {
+      throw new Error(`Oil reserve #${action.id} not found`);
+    }
 
-  if (!oilReserve) {
-    throw new Error(`Oil reserve #${action.id} not found`);
-  }
+    if (drillAmount.lessThan(requiredDrills)) {
+      throw new Error("No oil drills available");
+    }
 
-  if (drillAmount.lessThan(requiredDrills)) {
-    throw new Error("No oil drills available");
-  }
+    if (!canDrillOilReserve(oilReserve, createdAt)) {
+      throw new Error("Oil reserve is still recovering");
+    }
 
-  if (!canDrillOilReserve(oilReserve, createdAt)) {
-    throw new Error("Oil reserve is still recovering");
-  }
+    // Add oil amount from last mine
+    game.inventory.Oil = (game.inventory.Oil ?? new Decimal(0)).add(
+      oilReserve.oil.amount,
+    );
+    // Take away one drill
+    game.inventory["Oil Drill"] = drillAmount.sub(requiredDrills);
+    // Update drilled at time
+    oilReserve.oil.drilledAt = getDrilledAt({ createdAt, game: game });
+    // Increment drilled count
+    oilReserve.drilled += 1;
+    // Set next drill drop amount
+    oilReserve.oil.amount = getNextOilDropAmount(game, oilReserve);
 
-  // Add oil amount from last mine
-  game.inventory.Oil = (game.inventory.Oil ?? new Decimal(0)).add(
-    oilReserve.oil.amount,
-  );
-  // Take away one drill
-  game.inventory["Oil Drill"] = drillAmount.sub(requiredDrills);
-  // Update drilled at time
-  oilReserve.oil.drilledAt = getDrilledAt({ createdAt, game: game });
-  // Increment drilled count
-  oilReserve.drilled += 1;
-  // Set next drill drop amount
-  oilReserve.oil.amount = getNextOilDropAmount(game, oilReserve);
-
-  return game;
+    return game;
+  });
 }

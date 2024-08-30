@@ -1,7 +1,7 @@
 import { Coordinates } from "features/game/expansion/components/MapPlacement";
 import { GameState, Rock } from "features/game/types/game";
-import cloneDeep from "lodash.clonedeep";
 import { canMine } from "./stoneMine";
+import { produce } from "immer";
 
 export enum MOVE_CRIMSTONE_ERRORS {
   NO_BUMPKIN = "You do not have a Bumpkin!",
@@ -36,23 +36,24 @@ export function moveCrimstone({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  const stateCopy = cloneDeep(state) as GameState;
-  const crimstones = stateCopy.crimstones;
+  return produce(state, (stateCopy) => {
+    const crimstones = stateCopy.crimstones;
 
-  if (stateCopy.bumpkin === undefined) {
-    throw new Error(MOVE_CRIMSTONE_ERRORS.NO_BUMPKIN);
-  }
+    if (stateCopy.bumpkin === undefined) {
+      throw new Error(MOVE_CRIMSTONE_ERRORS.NO_BUMPKIN);
+    }
 
-  if (!crimstones[action.id]) {
-    throw new Error(MOVE_CRIMSTONE_ERRORS.CRIMSTONE_NOT_PLACED);
-  }
+    if (!crimstones[action.id]) {
+      throw new Error(MOVE_CRIMSTONE_ERRORS.CRIMSTONE_NOT_PLACED);
+    }
 
-  if (isLocked(crimstones[action.id], createdAt)) {
-    throw new Error(MOVE_CRIMSTONE_ERRORS.AOE_LOCKED);
-  }
+    if (isLocked(crimstones[action.id], createdAt)) {
+      throw new Error(MOVE_CRIMSTONE_ERRORS.AOE_LOCKED);
+    }
 
-  crimstones[action.id].x = action.coordinates.x;
-  crimstones[action.id].y = action.coordinates.y;
+    crimstones[action.id].x = action.coordinates.x;
+    crimstones[action.id].y = action.coordinates.y;
 
-  return stateCopy;
+    return stateCopy;
+  });
 }

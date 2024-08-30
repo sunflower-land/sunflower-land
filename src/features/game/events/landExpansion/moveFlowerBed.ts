@@ -2,7 +2,7 @@ import { Coordinates } from "features/game/expansion/components/MapPlacement";
 import { detectCollision } from "features/game/expansion/placeable/lib/collisionDetection";
 import { GameState } from "features/game/types/game";
 import { RESOURCE_DIMENSIONS } from "features/game/types/resources";
-import cloneDeep from "lodash.clonedeep";
+import { produce } from "immer";
 import { translate } from "lib/i18n/translate";
 
 export type MoveFlowerBedAction = {
@@ -22,33 +22,33 @@ export function moveFlowerBed({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  const stateCopy = cloneDeep(state) as GameState;
+  return produce(state, (stateCopy) => {
+    const flowerBed = stateCopy.flowers.flowerBeds[action.id];
 
-  const flowerBed = stateCopy.flowers.flowerBeds[action.id];
+    if (!flowerBed) {
+      throw new Error(translate("harvestflower.noFlowerBed"));
+    }
 
-  if (!flowerBed) {
-    throw new Error(translate("harvestflower.noFlowerBed"));
-  }
+    const dimensions = RESOURCE_DIMENSIONS["Flower Bed"];
+    const collides = detectCollision({
+      state: stateCopy,
+      name: "Flower Bed",
+      location: "farm",
+      position: {
+        x: action.coordinates.x,
+        y: action.coordinates.y,
+        height: dimensions.height,
+        width: dimensions.width,
+      },
+    });
 
-  const dimensions = RESOURCE_DIMENSIONS["Flower Bed"];
-  const collides = detectCollision({
-    state: stateCopy,
-    name: "Flower Bed",
-    location: "farm",
-    position: {
-      x: action.coordinates.x,
-      y: action.coordinates.y,
-      height: dimensions.height,
-      width: dimensions.width,
-    },
+    if (collides) {
+      throw new Error("Flower Bed collides");
+    }
+
+    flowerBed.x = action.coordinates.x;
+    flowerBed.y = action.coordinates.y;
+
+    return stateCopy;
   });
-
-  if (collides) {
-    throw new Error("Flower Bed collides");
-  }
-
-  flowerBed.x = action.coordinates.x;
-  flowerBed.y = action.coordinates.y;
-
-  return stateCopy;
 }

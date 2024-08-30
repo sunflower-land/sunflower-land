@@ -4,7 +4,7 @@ import {
   PotionName,
   PotionStatus,
 } from "features/game/types/game";
-import cloneDeep from "lodash.clonedeep";
+import { produce } from "immer";
 
 const MAX_ATTEMPTS = 3;
 
@@ -41,53 +41,53 @@ export function calculateScore(attempt: Attempt): number {
 }
 
 export function mixPotion({ state, action }: Options): GameState {
-  const stateCopy = cloneDeep<GameState>(state);
+  return produce(state, (stateCopy) => {
+    const potions = action.potions;
+    const attemptIndex = action.attemptNumber - 1;
 
-  const potions = action.potions;
-  const attemptIndex = action.attemptNumber - 1;
+    if (!stateCopy.potionHouse) {
+      throw new Error("You cannot mix potions without a potion house");
+    }
 
-  if (!stateCopy.potionHouse) {
-    throw new Error("You cannot mix potions without a potion house");
-  }
+    if (
+      stateCopy.potionHouse.game.status === "finished" &&
+      action.attemptNumber !== 1
+    ) {
+      throw new Error("Cannot mix potion on a finished game");
+    }
 
-  if (
-    stateCopy.potionHouse.game.status === "finished" &&
-    action.attemptNumber !== 1
-  ) {
-    throw new Error("Cannot mix potion on a finished game");
-  }
+    if (action.attemptNumber > MAX_ATTEMPTS) {
+      throw new Error(`Attempt ${MAX_ATTEMPTS} is the last attempt`);
+    }
 
-  if (action.attemptNumber > MAX_ATTEMPTS) {
-    throw new Error(`Attempt ${MAX_ATTEMPTS} is the last attempt`);
-  }
+    if (stateCopy.potionHouse.game.attempts[attemptIndex]) {
+      throw new Error(`Attempt ${action.attemptNumber} has already been made`);
+    }
 
-  if (stateCopy.potionHouse.game.attempts[attemptIndex]) {
-    throw new Error(`Attempt ${action.attemptNumber} has already been made`);
-  }
+    if (stateCopy.potionHouse.game.attempts.length !== attemptIndex) {
+      throw new Error(`Attempt ${attemptIndex} has not been made yet`);
+    }
 
-  if (stateCopy.potionHouse.game.attempts.length !== attemptIndex) {
-    throw new Error(`Attempt ${attemptIndex} has not been made yet`);
-  }
+    const attempt: Attempt = [
+      {
+        potion: potions[0],
+        status: "pending",
+      },
+      {
+        potion: potions[1],
+        status: "pending",
+      },
+      {
+        potion: potions[2],
+        status: "pending",
+      },
+      {
+        potion: potions[3],
+        status: "pending",
+      },
+    ];
+    stateCopy.potionHouse.game.attempts.push(attempt);
 
-  const attempt: Attempt = [
-    {
-      potion: potions[0],
-      status: "pending",
-    },
-    {
-      potion: potions[1],
-      status: "pending",
-    },
-    {
-      potion: potions[2],
-      status: "pending",
-    },
-    {
-      potion: potions[3],
-      status: "pending",
-    },
-  ];
-  stateCopy.potionHouse.game.attempts.push(attempt);
-
-  return stateCopy;
+    return stateCopy;
+  });
 }
