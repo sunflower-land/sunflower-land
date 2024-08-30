@@ -3,7 +3,7 @@ name: Translate
 on:
   push:
     branches:
-      - poc/aws-translate
+      - main
     paths:
       - src/lib/i18n/dictionaries/englishDictionary.ts
 

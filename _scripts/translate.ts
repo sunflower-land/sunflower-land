@@ -151,7 +151,7 @@ async function englishToJSON() {
     __dirname,
     `../src/lib/i18n/dictionaries/en.json`,
   );
-  fs.writeFileSync(languageJson, JSON.stringify(ENGLISH_TERMS));
+  fs.writeFileSync(languageJson, JSON.stringify(ENGLISH_TERMS, null, 2));
 }
 
 async function runTranslations() {
