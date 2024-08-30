@@ -3427,6 +3427,8 @@
   "easterEgg.goldtoothsDiary": "Goldtooth Günlüğü",
   "easterEgg.pharaohsDiary": "Firavun'un Günlüğü",
   "marketplace.myCollection": "Koleksiyonunuz",
+  "marketplace.sflLocked.description": "Teklif etkinken SFL\"niz güvenli bir şekilde saklanacaktır.",
+  "marketplace.title2": "Başlık",
   "description.battleCryDrum": "",
   "description.bullseyeBoard": "",
   "description.chessRug": "",
@@ -3442,6 +3444,5 @@
   "description.silverStallion": "",
   "description.traineeTarget": "",
   "description.twisterRug": "",
-  "marketplace.sflLocked.description": "Teklif etkinken SFL\"niz güvenli bir şekilde saklanacaktır.",
   "npcDialogues.oldSalty.intro3": ""
 }
