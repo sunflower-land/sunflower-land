@@ -1773,7 +1773,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
       { trait_type: "Tradable", value: "No" },
       {
         display_type: "boost_percentage",
-        trait_type: "Tools discount",
+        trait_type: "Seeds and Tools discount",
         value: 10,
       },
     ],
