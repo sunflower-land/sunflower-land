@@ -29,6 +29,7 @@ import {
   walletConnectConnector,
 } from "features/wallet/WalletProvider";
 import { useActor } from "@xstate/react";
+import { useConnect } from "wagmi";
 
 const CONTENT_HEIGHT = 365;
 
@@ -40,6 +41,8 @@ const OtherWallets: React.FC<{
   showSequence?: boolean;
 }> = ({ onConnect, showSequence = false }) => {
   const { t } = useAppTranslation();
+
+  const { connectors } = useConnect();
 
   return (
     <>
@@ -137,6 +140,25 @@ const OtherWallets: React.FC<{
             {"Phantom Wallet"}
           </div>
         </Button>
+        <>
+          {connectors
+            .filter((connector) => connector.type === "injected")
+            .map((connector) => (
+              <Button
+                className="mb-1 py-2 text-sm relative"
+                onClick={() => onConnect(connector)}
+                key={connector.name}
+              >
+                <div className="px-8">
+                  <img
+                    src={connector.icon}
+                    className="h-7 ml-2.5 mr-6 absolute left-0 top-1 rounded-sm"
+                  />
+                  {connector.name}
+                </div>
+              </Button>
+            ))}
+        </>
       </>
     </>
   );
@@ -153,9 +175,30 @@ export const Wallets: React.FC<Props> = ({ onConnect, showAll = true }) => {
   const isMobilePWA = isMobile && isPWA;
   const { t } = useAppTranslation();
 
+  const { connectors } = useConnect();
+
   const MainWallets = () => {
     return (
       <>
+        <>
+          {connectors
+            .filter((connector) => connector.type === "injected")
+            .map((connector) => (
+              <Button
+                className="mb-1 py-2 text-sm relative"
+                onClick={() => onConnect(connector)}
+                key={connector.name}
+              >
+                <div className="px-8">
+                  <img
+                    src={connector.icon}
+                    className="h-7 ml-2.5 mr-6 absolute left-0 top-1 rounded-sm"
+                  />
+                  {connector.name}
+                </div>
+              </Button>
+            ))}
+        </>
         <Button
           className="mb-1 py-2 text-sm relative justify-start"
           onClick={() => onConnect(metaMaskConnector)}
