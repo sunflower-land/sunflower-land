@@ -17,7 +17,7 @@ import russiaFlag from "assets/sfts/flags/russia_flag.gif";
 
 export type LanguageCode = "en" | "fr" | "pt-BR" | "tr" | "zh-CN" | "ru";
 
-export type TranslationResource = Record<TranslationKeys, string>;
+export type TranslationResource = Partial<Record<TranslationKeys, string>>;
 
 interface LanguageDetails {
   languageName: string;
