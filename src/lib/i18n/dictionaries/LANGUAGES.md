@@ -1,3 +1,17 @@
+# How to add a new translatable term
+
+1. Add a new term into `dictionary.json` (e.g. "marketplace.title": "Welcome" )
+
+2. Use the term in line
+
+```
+const { t } = useAppTranslation()
+
+return <p>{t("marketplace.title)}</p>
+```
+
+_Do not update en.json - this is a file we use to track which terms have been translated_
+
 # How to add new Languages
 
 1. In `dictionary.ts` add your language code in type `LanguageCode` (see [here](https://docs.aws.amazon.com/translate/latest/dg/what-is-languages.html#what-is-languages-supported) for supported languages)

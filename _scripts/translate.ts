@@ -2,7 +2,7 @@
 import * as fs from "fs";
 import * as path from "path";
 
-import { ENGLISH_TERMS } from "../src/lib/i18n/dictionaries/englishDictionary";
+import ENGLISH_TERMS from "../src/lib/i18n/dictionaries/dictionary.json";
 import {
   LanguageCode,
   languageDetails,
