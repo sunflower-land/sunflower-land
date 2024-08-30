@@ -4,8 +4,8 @@ on:
   push:
     branches:
       - main
-    # paths:
-    #   - src/lib/i18n/dictionaries/dictionary.json
+    paths:
+      - src/lib/i18n/dictionaries/dictionary.json
 
 jobs:
   translate:
@@ -39,7 +39,7 @@ jobs:
 
       - uses: EndBug/add-and-commit@v9
         with:
-          message: "[CHORE] Update translations"
+          message: "[BOT] Update translations [skip ci]"
           committer_name: Translator Bot
           committer_email: translator@sunflower-land.com
           add: src/lib/i18n/dictionaries/*.json
