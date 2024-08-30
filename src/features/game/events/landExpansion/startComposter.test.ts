@@ -200,7 +200,7 @@ describe("start Compost Bin", () => {
     );
   });
 
-  it("gives +5 Sprout Mix with Efficient Bin skill", () => {
+  it("gives +3 Sprout Mix with Efficient Bin skill", () => {
     const state: GameState = {
       ...GAME_STATE,
       inventory: {
@@ -238,10 +238,10 @@ describe("start Compost Bin", () => {
 
     expect(
       newState.buildings["Compost Bin"]?.[0].producing?.items["Sprout Mix"],
-    ).toBe(15);
+    ).toBe(13);
   });
 
-  it("doesn't gives +5 Sprout Mix with Efficient Bin skill if not Compost Bin", () => {
+  it("doesn't gives +3 Sprout Mix with Efficient Bin skill if not Compost Bin", () => {
     const state: GameState = {
       ...GAME_STATE,
       inventory: {
@@ -480,7 +480,7 @@ describe("start Turbo Composter", () => {
     );
   });
 
-  it("gives +3 Fruitful Blend with Turbo Charged skill", () => {
+  it("gives +5 Fruitful Blend with Turbo Charged skill", () => {
     const state: GameState = {
       ...GAME_STATE,
       inventory: {
@@ -520,10 +520,10 @@ describe("start Turbo Composter", () => {
       newState.buildings["Turbo Composter"]?.[0].producing?.items[
         "Fruitful Blend"
       ],
-    ).toBe(6);
+    ).toBe(8);
   });
 
-  it("doesn't gives +3 Fruitful Blend with Turbo Charged skill if not a Turbo Composter", () => {
+  it("doesn't gives +5 Fruitful Blend with Turbo Charged skill if not a Turbo Composter", () => {
     const state: GameState = {
       ...GAME_STATE,
       inventory: {
