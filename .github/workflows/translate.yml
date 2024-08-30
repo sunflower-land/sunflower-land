@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths:
-      - src/lib/i18n/dictionaries/englishDictionary.ts
+      - src/lib/i18n/dictionaries/dictionary.json
 
 jobs:
   translate:
