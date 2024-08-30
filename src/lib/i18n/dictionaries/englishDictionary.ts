@@ -5723,7 +5723,7 @@ export const marketplaceTerms: Record<MarketplaceTerms, string> = {
   "marketplace.signAndOffer": "Sign & Offer",
   "marketplace.signOffer":
     "Please confirm the following details and securely sign the information. The transaction will not be made until the offer is live.",
-  "marketplace.myCollection": "Your collection",
+  "marketplace.myCollection": "Your current collection",
   "marketplace.myListings": "Your listings",
   "marketplace.myOffers": "Your offers",
   "marketplace.noCollection":

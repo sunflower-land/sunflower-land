@@ -1,4 +1,4 @@
-import { ENGLISH_TERMS } from "./englishDictionary";
+import ENGLISH_TERMS from "./en.json";
 import TURKISH_TERMS from "./tr.json";
 import CHINESE_SIMPLIFIED_TERMS from "./zh-CN.json";
 import PORTUGUESE_TERMS from "./pt-BR.json";

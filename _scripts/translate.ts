@@ -28,14 +28,26 @@ async function translateTerms(targetLanguage: LanguageCode) {
     __dirname,
     `../src/lib/i18n/dictionaries/${targetLanguage}.json`,
   );
-  const englishTermKeys = getKeys(ENGLISH_TERMS);
 
+  const englishJson = path.join(
+    __dirname,
+    `../src/lib/i18n/dictionaries/en.json`,
+  );
+
+  const englishTermKeys = getKeys(ENGLISH_TERMS);
+  const existingEnglishTerms = JSON.parse(
+    fs.readFileSync(englishJson, "utf-8"),
+  );
   // Check if the target language file already exists
   if (fs.existsSync(languageJson)) {
     const existingTerms = JSON.parse(fs.readFileSync(languageJson, "utf-8"));
     const existingTermKeys = getKeys(existingTerms) as TranslationKeys[];
     existingTermKeys.forEach((term) => {
-      if (englishTermKeys.includes(term) && existingTerms[term]) {
+      if (
+        englishTermKeys.includes(term) &&
+        existingTerms[term] &&
+        existingEnglishTerms[term] === ENGLISH_TERMS[term]
+      ) {
         translatedTerms[term] = existingTerms[term];
       }
     });
@@ -71,9 +83,9 @@ async function translateTerms(targetLanguage: LanguageCode) {
         placeholders.push(match[0]); // match[0] contains the full placeholder, e.g., "{{name}}"
       }
 
-      // Replace all of our placeholders, with some other string that won't get translated
+      // Replace all of our placeholders with some other string that won't get translated
       placeholders.forEach((str, index) => {
-        const token = `[${index}@/$]`; // [0@/$] , [1@/$], [2@/$] etc
+        const token = `[${index}@/$]`; // [0@/$], [1@/$], [2@/$] etc.
         englishText = englishText.replace(str, token);
       });
 
@@ -134,8 +146,29 @@ async function translateTerms(targetLanguage: LanguageCode) {
   );
 }
 
-const languages = getKeys(languageDetails);
-languages.forEach((lang) => lang !== "en" && translateTerms(lang));
+async function englishToJSON() {
+  const languageJson = path.join(
+    __dirname,
+    `../src/lib/i18n/dictionaries/en.json`,
+  );
+  fs.writeFileSync(languageJson, JSON.stringify(ENGLISH_TERMS));
+}
+
+async function runTranslations() {
+  const languages = getKeys(languageDetails);
+
+  // Translate all languages except English first
+  for (const lang of languages) {
+    if (lang !== "en") {
+      await translateTerms(lang);
+    }
+  }
+
+  // Process English last
+  await englishToJSON();
+}
+
+runTranslations();
 
 // Parse the command line arguments
 // const args = process.argv.slice(2); // Remove the first two arguments (node and script path)
