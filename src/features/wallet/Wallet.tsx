@@ -20,6 +20,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Loading } from "features/auth/components";
 import { PortalContext } from "features/portal/example/lib/PortalProvider";
 import { WagmiProvider, useAccount } from "wagmi";
+import { CONFIG } from "lib/config";
 
 interface Props {
   action: WalletAction;
@@ -57,7 +58,9 @@ const WrappedWallet: React.FC<Props> = ({
   }, [address]);
 
   useEffect(() => {
-    walletService.send("CHAIN_CHANGED");
+    if (chainId !== CONFIG.POLYGON_CHAIN_ID) {
+      walletService.send("CHAIN_CHANGED");
+    }
   }, [chainId]);
 
   useEffect(() => {

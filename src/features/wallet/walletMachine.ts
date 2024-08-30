@@ -178,7 +178,26 @@ export const walletMachine = createMachine<Context, WalletEvent, WalletState>({
             account = getAccount(config);
           }
 
-          await wallet.initialiseNetwork();
+          const pendingState: { status: "pending" | "done" } = {
+            status: "pending",
+          };
+
+          // Metamask is unreliable at switching networks - so polling helps to stabilise the network switch
+          await Promise.race([
+            (async () => {
+              for (let i = 0; i < 120; i++) {
+                if (pendingState.status === "done") break;
+                const { chainId } = getAccount(config);
+                if (chainId === CONFIG.POLYGON_CHAIN_ID) break;
+
+                await new Promise((r) => setTimeout(r, 500));
+              }
+            })(),
+            (async () => {
+              await wallet.initialiseNetwork();
+              pendingState.status = "done";
+            })(),
+          ]);
 
           return {
             address: account.address,
