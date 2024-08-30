@@ -307,7 +307,7 @@ export const settingMenus: Record<SettingMenuId, SettingMenu> = {
     content: TransferAccount,
   },
   swapSFL: {
-    title: translate("gameOptions.blockchainSettings.swapMaticForSFL"),
+    title: translate("gameOptions.blockchainSettings.swapPOLForSFL"),
     parent: "blockchain",
     content: AddSFL,
   },
