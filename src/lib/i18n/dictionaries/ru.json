@@ -3421,7 +3421,6 @@
   "marketplace.howMuch": "Сколько SFL вы хотели бы предложить?",
   "marketplace.offerSuccess": "Поздравляем, вы сделали предложение. А теперь наберитесь терпения и дождитесь, когда Bumpkin примет вас!",
   "marketplace.sflLocked": "SFL защищен",
-  "marketplace.sflLocked.description": "Ваш SFL будет надежно храниться во время размещения предложения.",
   "marketplace.signAndOffer": "Подпишитесь и предложите",
   "marketplace.signOffer": "Пожалуйста, подтвердите следующие данные и надежно подпишите информацию. Транзакция не будет произведена до тех пор, пока предложение не вступит в силу.",
   "marketplace.myListings": "Ваши объявления",
@@ -3443,5 +3442,6 @@
   "warning.hoarding.indefiniteArticle.a": "_",
   "warning.hoarding.indefiniteArticle.an": "_",
   "marketplace.myCollection": "Ваша коллекция",
+  "marketplace.sflLocked.description": "Ваш SFL будет надежно храниться, пока действует предложение.",
   "npcDialogues.oldSalty.intro3": ""
 }

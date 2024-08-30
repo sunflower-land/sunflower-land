@@ -3117,7 +3117,6 @@
   "marketplace.howMuch": "Quelle quantité de SFL souhaitez-vous offrir ?",
   "marketplace.offerSuccess": "Félicitations, vous avez fait une offre. Maintenant, soyez patient et attendez qu'un Bumpkin accepte !",
   "marketplace.sflLocked": "SFL sécurisé",
-  "marketplace.sflLocked.description": "Votre SFL sera stocké en toute sécurité pendant qu'une offre est faite.",
   "marketplace.signAndOffer": "Signez et offrez",
   "marketplace.signOffer": "Veuillez confirmer les informations suivantes et signer les informations en toute sécurité. La transaction ne sera pas effectuée tant que l'offre ne sera pas en ligne.",
   "marketplace.myListings": "Vos annonces",
@@ -3427,6 +3426,7 @@
   "easterEgg.digbysDiary": "Le journal de Digby",
   "easterEgg.goldtoothsDiary": "Le journal de Goldtooth",
   "easterEgg.pharaohsDiary": "Journal de Pharaon",
+  "marketplace.myCollection": "Votre collection",
   "description.battleCryDrum": "",
   "description.bullseyeBoard": "",
   "description.chessRug": "",
@@ -3442,6 +3442,6 @@
   "description.silverStallion": "",
   "description.traineeTarget": "",
   "description.twisterRug": "",
-  "marketplace.myCollection": "Votre collection",
+  "marketplace.sflLocked.description": "Votre SFL sera stocké en toute sécurité pendant qu'une offre est active.",
   "npcDialogues.oldSalty.intro3": ""
 }

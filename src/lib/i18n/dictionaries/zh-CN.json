@@ -2518,7 +2518,6 @@
   "marketplace.howMuch": "你想提供多少 SFL？",
   "marketplace.offerSuccess": "恭喜你，你已经出价了。现在耐心等待 Bumpkin 接受！",
   "marketplace.sflLocked": "SFL 安全",
-  "marketplace.sflLocked.description": "在出价期间，您的SFL将安全存储。",
   "marketplace.signAndOffer": "签名并报价",
   "marketplace.signOffer": "请确认以下详细信息并安全地签署信息。在报价生效之前，不会进行交易。",
   "marketplace.myListings": "您的房源",
@@ -3427,6 +3426,7 @@
   "easterEgg.digbysDiary": "迪格比的日记",
   "easterEgg.goldtoothsDiary": "金牙的日记",
   "easterEgg.pharaohsDiary": "法老日记",
+  "marketplace.myCollection": "你的藏品",
   "description.battleCryDrum": "",
   "description.bullseyeBoard": "",
   "description.chessRug": "",
@@ -3442,6 +3442,6 @@
   "description.silverStallion": "",
   "description.traineeTarget": "",
   "description.twisterRug": "",
-  "marketplace.myCollection": "你的藏品",
+  "marketplace.sflLocked.description": "在优惠有效期间，您的SFL将安全存储。",
   "npcDialogues.oldSalty.intro3": ""
 }

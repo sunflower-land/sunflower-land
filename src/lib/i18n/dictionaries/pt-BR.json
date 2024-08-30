@@ -3087,7 +3087,6 @@
   "marketplace.howMuch": "Quanto SFL você gostaria de oferecer?",
   "marketplace.offerSuccess": "Parabéns, você fez uma oferta. Agora seja paciente e espere que um caipira aceite!",
   "marketplace.sflLocked": "SFL protegido",
-  "marketplace.sflLocked.description": "Seu SFL será armazenado com segurança enquanto uma oferta estiver sendo feita.",
   "marketplace.signAndOffer": "Assine e ofereça",
   "marketplace.signOffer": "Confirme os detalhes a seguir e assine as informações com segurança. A transação não será feita até que a oferta seja publicada.",
   "marketplace.myListings": "Suas listagens",
@@ -3427,6 +3426,7 @@
   "easterEgg.digbysDiary": "Diário de Digby",
   "easterEgg.goldtoothsDiary": "Diário de Goldtooth",
   "easterEgg.pharaohsDiary": "Diário do Faraó",
+  "marketplace.myCollection": "Sua coleção",
   "description.battleCryDrum": "",
   "description.bullseyeBoard": "",
   "description.chessRug": "",
@@ -3442,6 +3442,6 @@
   "description.silverStallion": "",
   "description.traineeTarget": "",
   "description.twisterRug": "",
-  "marketplace.myCollection": "Sua coleção",
+  "marketplace.sflLocked.description": "Seu SFL será armazenado com segurança enquanto uma oferta estiver ativa.",
   "npcDialogues.oldSalty.intro3": ""
 }

@@ -3119,7 +3119,6 @@
   "marketplace.howMuch": "Ne kadar SFL sunmak istersiniz?",
   "marketplace.offerSuccess": "Tebrikler, bir teklifte bulundun. Şimdi sabırlı olun ve bir Bumpkin'in kabul etmesini bekleyin!",
   "marketplace.sflLocked": "SFL güvence altına alındı",
-  "marketplace.sflLocked.description": "Bir teklif yapılırken SFL\"niz güvenli bir şekilde saklanacaktır.",
   "marketplace.signAndOffer": "İmzala ve Teklif",
   "marketplace.signOffer": "Lütfen aşağıdaki ayrıntıları onaylayın ve bilgileri güvenli bir şekilde imzalayın. Teklif yayınlanana kadar işlem yapılmayacaktır.",
   "marketplace.myListings": "Listeleriniz",
@@ -3427,6 +3426,7 @@
   "easterEgg.digbysDiary": "Digby'nin Günlüğü",
   "easterEgg.goldtoothsDiary": "Goldtooth Günlüğü",
   "easterEgg.pharaohsDiary": "Firavun'un Günlüğü",
+  "marketplace.myCollection": "Koleksiyonunuz",
   "description.battleCryDrum": "",
   "description.bullseyeBoard": "",
   "description.chessRug": "",
@@ -3442,6 +3442,6 @@
   "description.silverStallion": "",
   "description.traineeTarget": "",
   "description.twisterRug": "",
-  "marketplace.myCollection": "Koleksiyonunuz",
+  "marketplace.sflLocked.description": "Teklif etkinken SFL\"niz güvenli bir şekilde saklanacaktır.",
   "npcDialogues.oldSalty.intro3": ""
 }
