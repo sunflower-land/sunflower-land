@@ -3428,7 +3428,6 @@
   "easterEgg.pharaohsDiary": "法老日记",
   "marketplace.myCollection": "你的藏品",
   "marketplace.sflLocked.description": "在优惠有效期间，您的SFL将安全存储。",
-  "marketplace.title2": "标题",
   "description.battleCryDrum": "",
   "description.bullseyeBoard": "",
   "description.chessRug": "",
@@ -3444,5 +3443,6 @@
   "description.silverStallion": "",
   "description.traineeTarget": "",
   "description.twisterRug": "",
-  "npcDialogues.oldSalty.intro3": ""
+  "npcDialogues.oldSalty.intro3": "",
+  "marketplace.title3": "标题"
 }
