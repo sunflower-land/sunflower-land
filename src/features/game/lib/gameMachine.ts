@@ -519,7 +519,7 @@ export const saveGame = async (
 
   // This gives the UI time to indicate that a save is taking place both when clicking save
   // and when autosaving
-  await new Promise((res) => setTimeout(res, 1000));
+  await new Promise((res) => setTimeout(res, 500));
 
   return {
     saveAt,

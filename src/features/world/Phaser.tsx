@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { Game, AUTO } from "phaser";
-import { useActor, useSelector } from "@xstate/react";
+import { useSelector } from "@xstate/react";
 import NinePatchPlugin from "phaser3-rex-plugins/plugins/ninepatch-plugin.js";
 import VirtualJoystickPlugin from "phaser3-rex-plugins/plugins/virtualjoystick-plugin.js";
 import { PhaserNavMeshPlugin } from "phaser-navmesh";
@@ -45,7 +45,7 @@ import SoundOffIcon from "assets/icons/sound_off.png";
 import { handleCommand } from "./lib/chatCommands";
 import { Moderation, UpdateUsernameEvent } from "features/game/lib/gameMachine";
 import { BeachScene } from "./scenes/BeachScene";
-import { FactionName, GameState, Inventory } from "features/game/types/game";
+import { Inventory } from "features/game/types/game";
 import { FishingModal } from "./ui/FishingModal";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { HudContainer } from "components/ui/HudContainer";
@@ -61,9 +61,14 @@ import { ExampleAnimationScene } from "./scenes/examples/AnimationScene";
 import { ExampleRPGScene } from "./scenes/examples/RPGScene";
 import { EventObject } from "xstate";
 import { ToastContext } from "features/game/toast/ToastProvider";
+import { AuthMachineState } from "features/auth/lib/authMachine";
+import worldIcon from "assets/icons/world.png";
 
 const _roomState = (state: MachineState) => state.value;
 const _scene = (state: MachineState) => state.context.sceneId;
+
+const _rawToken = (state: AuthMachineState) =>
+  state.context.user.rawToken ?? "";
 
 type Player = {
   playerId: string;
@@ -101,7 +106,6 @@ export const PhaserComponent: React.FC<Props> = ({
 
   const { authService } = useContext(AuthProvider.Context);
   const { gameService, selectedItem, shortcutItem } = useContext(Context);
-  const [authState] = useActor(authService);
 
   const { toastsList } = useContext(ToastContext);
 
@@ -123,9 +127,7 @@ export const PhaserComponent: React.FC<Props> = ({
   const mmoState = useSelector(mmoService, _roomState);
   const scene = useSelector(mmoService, _scene);
 
-  const hasHouseAccess = (gameState: GameState, factionHouse: FactionName) => {
-    return gameState.faction?.name === factionHouse;
-  };
+  const rawToken = useSelector(authService, _rawToken);
 
   const scenes = [
     Preloader,
@@ -150,7 +152,7 @@ export const PhaserComponent: React.FC<Props> = ({
     // Set up community APIs
     (window as any).CommunityAPI = prepareAPI({
       farmId: gameService.state.context.farmId as number,
-      jwt: authState.context.user.rawToken as string,
+      jwt: rawToken,
       gameService,
     });
 
@@ -235,7 +237,6 @@ export const PhaserComponent: React.FC<Props> = ({
     });
 
     game.current.registry.set("mmoService", mmoService); // LEGACY
-    game.current.registry.set("mmoServer", mmoService.state.context.server);
     game.current.registry.set("gameState", gameService.state.context.state);
     game.current.registry.set("authService", authService);
     game.current.registry.set("gameService", gameService);
@@ -267,6 +268,11 @@ export const PhaserComponent: React.FC<Props> = ({
       gameService.off(listener);
     };
   }, []);
+
+  // When server changes, update game registry
+  useEffect(() => {
+    game.current?.registry.set("mmoServer", mmoService.state.context.server);
+  }, [mmoService.state.context.server]);
 
   // When selected item changes in context, update game registry
   useEffect(() => {
@@ -501,16 +507,24 @@ export const PhaserComponent: React.FC<Props> = ({
 
         <CommunityToasts />
 
+        {mmoState === "connecting" && (
+          <Label
+            type="chill"
+            icon={worldIcon}
+            className="fixed top-2 left-1/2 -translate-x-1/2 flex items-center"
+          >
+            {t("mmo.connecting")}
+          </Label>
+        )}
         {mmoState === "error" && (
-          <InnerPanel
+          <Label
+            type="danger"
+            icon={SUNNYSIDE.icons.cancel}
             className="fixed top-2 left-1/2 -translate-x-1/2 flex items-center cursor-pointer"
             onClick={() => mmoService.send("RETRY")}
           >
-            <img src={SUNNYSIDE.icons.sad} className="h-4 mr-1" />
-            <div className="mb-0.5">
-              <Label type="danger">{t("chat.Fail")}</Label>
-            </div>
-          </InnerPanel>
+            {t("mmo.connectionFailed")}
+          </Label>
         )}
       </HudContainer>
 
