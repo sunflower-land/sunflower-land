@@ -257,7 +257,7 @@ const ListTrade: React.FC<{
             }}
           />
         </div>
-        <div className="flex-1 flex flex-col items-end ml-2">
+        <div className="flex-1 flex flex-col items-end">
           <div className="flex items-center">
             {sfl.greaterThan(MAX_SFL) && (
               <Label type="danger" className="my-1 ml-2 mr-1">
