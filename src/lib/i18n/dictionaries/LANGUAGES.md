@@ -24,7 +24,7 @@ _Do not update en.json - this is a file we use to track which terms have been tr
 
 4. Import your new json file in a similar format to other translation files
 
-5. in `resources` add the translation resource you just generated
+5. in `resources` add the translation resource you just created
 
 6. Upon merge, the translate script will run and the dictionary will be automatically translated
 
