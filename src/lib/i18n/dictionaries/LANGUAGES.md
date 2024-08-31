@@ -18,7 +18,19 @@ _Do not update en.json - this is a file we use to track which terms have been tr
 
 2. In `languageDetails` add details for the flag image, flag alt and the Language name
 
-3. Run `yarn translate` to generate the translation file for your new language. (you will need AWS credentials to run this)
+### If you don't have AWS Credentials
+
+3. Create an empty json file with the language code as the file name (e.g. `es.json` for spanish) and have curly brackets `{}` as its content.
+
+4. Import your new json file in a similar format to other translation files
+
+5. in `resources` add the translation resource you just generated
+
+6. Upon merge, the translate script will run and the dictionary will be automatically translated
+
+### If you have AWS Credentials
+
+3. Run `yarn translate` to generate the translation file for your new language.
 
 4. Import your new json file in a similar format to other translation files
 
