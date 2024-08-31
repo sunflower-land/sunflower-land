@@ -14,8 +14,9 @@ import franceFlag from "assets/sfts/flags/france_flag.gif";
 import turkeyFlag from "assets/sfts/flags/turkey_flag.gif";
 import chinaFlag from "assets/sfts/flags/china_flag.gif";
 import russiaFlag from "assets/sfts/flags/russia_flag.gif";
+import spainFlag from "assets/sfts/flags/spain_flag.gif";
 
-export type LanguageCode = "en" | "fr" | "pt-BR" | "tr" | "zh-CN" | "ru";
+export type LanguageCode = "en" | "es" | "fr" | "pt-BR" | "tr" | "zh-CN" | "ru";
 
 export type TranslationResource = Partial<Record<TranslationKeys, string>>;
 
@@ -55,6 +56,11 @@ export const languageDetails: Record<LanguageCode, LanguageDetails> = {
     languageName: "简体中文",
     languageImage: [chinaFlag],
     imageAlt: ["China Flag"],
+  },
+  es: {
+    languageName: "Español",
+    languageImage: [spainFlag],
+    imageAlt: ["Spain Flag"],
   },
 };
 
