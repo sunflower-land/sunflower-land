@@ -3448,5 +3448,6 @@
   "marketplace.cancelOffer": "Cancel offer",
   "marketplace.yourOffer": "Your offer",
   "marketplace.offerRemoved": "Your offer has been removed",
-  "marketplace.cancelOffer.areYouSure": "Are you sure you want to remove your offer?"
+  "marketplace.cancelOffer.areYouSure": "Are you sure you want to remove your offer?",
+  "kingdom.shop.helmet.currently.equipped": "{{helmet}} currently equipped! Unequip to purchase."
 }
