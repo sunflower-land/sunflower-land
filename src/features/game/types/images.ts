@@ -717,7 +717,7 @@ export interface ItemDetails {
   boostedDescriptions?: [{ name: string; description: string }];
   image: any;
   secondaryImage?: any;
-  howToGetItem?: string;
+  howToGetItem?: string[];
   // TODO: Extend this as the codex grows eg. Resource etc
   itemType?: "collectible";
 }
@@ -2875,15 +2875,7 @@ export const ITEM_DETAILS: Items = {
   },
   Anchovy: {
     image: anchovy,
-    howToGetItem: [
-      {
-        en: "Ocean fishing",
-        "pt-BR": "Pesca no mar",
-        fr: "Pêche en mer",
-        tr: "Okyanus balıkçılığı",
-        "zh-CN": "海上垂钓",
-      },
-    ],
+    howToGetItem: [translate("ocean.fishing"), translate("beach.fishing")],
     description: {
       en: "The ocean's pocket-sized darting acrobat, always in a hurry!",
       "pt-BR": "O acrobata saltitante do oceano, sempre com pressa!",
@@ -2894,15 +2886,7 @@ export const ITEM_DETAILS: Items = {
   },
   Butterflyfish: {
     image: butterflyfish,
-    howToGetItem: [
-      {
-        en: "Ocean fishing",
-        "pt-BR": "Pesca no mar",
-        fr: "Pêche en mer",
-        tr: "Okyanus balıkçılığı",
-        "zh-CN": "海上垂钓",
-      },
-    ],
+    howToGetItem: [translate("ocean.fishing"), translate("beach.fishing")],
     description: {
       en: "A fish with a fashion-forward sense, flaunting its vivid, stylish stripes.",
       "pt-BR":
@@ -2914,15 +2898,7 @@ export const ITEM_DETAILS: Items = {
   },
   Blowfish: {
     image: blowfish,
-    howToGetItem: [
-      {
-        en: "Ocean fishing",
-        "pt-BR": "Pesca no mar",
-        fr: "Pêche en mer",
-        tr: "Okyanus balıkçılığı",
-        "zh-CN": "海上垂钓",
-      },
-    ],
+    howToGetItem: [translate("ocean.fishing"), translate("beach.fishing")],
     description: {
       en: "The round, inflated comedian of the sea, guaranteed to bring a smile.",
       "pt-BR":
@@ -2934,15 +2910,7 @@ export const ITEM_DETAILS: Items = {
   },
   Clownfish: {
     image: clownfish,
-    howToGetItem: [
-      {
-        en: "Ocean fishing",
-        "pt-BR": "Pesca no mar",
-        fr: "Pêche en mer",
-        tr: "Okyanus balıkçılığı",
-        "zh-CN": "海上垂钓",
-      },
-    ],
+    howToGetItem: [translate("ocean.fishing"), translate("beach.fishing")],
     description: {
       en: "The underwater jester, sporting a tangerine tuxedo and a clownish charm.",
       "pt-BR":
@@ -2954,15 +2922,7 @@ export const ITEM_DETAILS: Items = {
   },
   "Sea Bass": {
     image: seaBass,
-    howToGetItem: [
-      {
-        en: "Ocean fishing",
-        "pt-BR": "Pesca no mar",
-        fr: "Pêche en mer",
-        tr: "Okyanus balıkçılığı",
-        "zh-CN": "海上垂钓",
-      },
-    ],
+    howToGetItem: [translate("ocean.fishing"), translate("beach.fishing")],
     description: {
       en: "Your 'not-so-exciting' friend with silver scales – a bassic catch!",
       "pt-BR":
@@ -2974,15 +2934,7 @@ export const ITEM_DETAILS: Items = {
   },
   "Sea Horse": {
     image: seahorse,
-    howToGetItem: [
-      {
-        en: "Ocean fishing",
-        "pt-BR": "Pesca no mar",
-        fr: "Pêche en mer",
-        tr: "Okyanus balıkçılığı",
-        "zh-CN": "海上垂钓",
-      },
-    ],
+    howToGetItem: [translate("ocean.fishing"), translate("beach.fishing")],
     description: {
       en: "The ocean's slow-motion dancer, swaying gracefully in the aquatic ballet.",
       "pt-BR":
@@ -2994,15 +2946,7 @@ export const ITEM_DETAILS: Items = {
   },
   "Horse Mackerel": {
     image: horseMackerel,
-    howToGetItem: [
-      {
-        en: "Ocean fishing",
-        "pt-BR": "Pesca no mar",
-        fr: "Pêche en mer",
-        tr: "Okyanus balıkçılığı",
-        "zh-CN": "海上垂钓",
-      },
-    ],
+    howToGetItem: [translate("ocean.fishing"), translate("beach.fishing")],
     description: {
       en: "A speedster with a shiny coat, always racing through the waves.",
       "pt-BR":
@@ -3014,15 +2958,7 @@ export const ITEM_DETAILS: Items = {
   },
   Squid: {
     image: squid,
-    howToGetItem: [
-      {
-        en: "Ocean fishing",
-        "pt-BR": "Pesca no mar",
-        fr: "Pêche en mer",
-        tr: "Okyanus balıkçılığı",
-        "zh-CN": "海上垂钓",
-      },
-    ],
+    howToGetItem: [translate("ocean.fishing"), translate("beach.fishing")],
     description: {
       en: "The deep-sea enigma with tentacles to tickle your curiosity.",
       "pt-BR":
@@ -3034,15 +2970,7 @@ export const ITEM_DETAILS: Items = {
   },
   "Red Snapper": {
     image: redSnapper,
-    howToGetItem: [
-      {
-        en: "Ocean fishing",
-        "pt-BR": "Pesca no mar",
-        fr: "Pêche en mer",
-        tr: "Okyanus balıkçılığı",
-        "zh-CN": "海上垂钓",
-      },
-    ],
+    howToGetItem: [translate("ocean.fishing"), translate("beach.fishing")],
     description: {
       en: "A catch worth its weight in gold, dressed in fiery crimson.",
       "pt-BR":
@@ -3054,15 +2982,7 @@ export const ITEM_DETAILS: Items = {
   },
   "Moray Eel": {
     image: morayEel,
-    howToGetItem: [
-      {
-        en: "Ocean fishing",
-        "pt-BR": "Pesca no mar",
-        fr: "Pêche en mer",
-        tr: "Okyanus balıkçılığı",
-        "zh-CN": "海上垂钓",
-      },
-    ],
+    howToGetItem: [translate("ocean.fishing"), translate("beach.fishing")],
     description: {
       en: "A slinky, sinister lurker in the ocean's shadowy corners.",
       "pt-BR":
@@ -3074,15 +2994,7 @@ export const ITEM_DETAILS: Items = {
   },
   "Olive Flounder": {
     image: oliveFlounder,
-    howToGetItem: [
-      {
-        en: "Ocean fishing",
-        "pt-BR": "Pesca no mar",
-        fr: "Pêche en mer",
-        tr: "Okyanus balıkçılığı",
-        "zh-CN": "海上垂钓",
-      },
-    ],
+    howToGetItem: [translate("ocean.fishing"), translate("beach.fishing")],
     description: {
       en: "The seabed's master of disguise, always blending in with the crowd.",
       "pt-BR":
@@ -3094,15 +3006,7 @@ export const ITEM_DETAILS: Items = {
   },
   Napoleanfish: {
     image: napoleonfish,
-    howToGetItem: [
-      {
-        en: "Ocean fishing",
-        "pt-BR": "Pesca no mar",
-        fr: "Pêche en mer",
-        tr: "Okyanus balıkçılığı",
-        "zh-CN": "海上垂钓",
-      },
-    ],
+    howToGetItem: [translate("ocean.fishing"), translate("beach.fishing")],
     description: {
       en: "Meet the fish with the Napoleon complex – short, but regal!",
       "pt-BR": "Conheça o peixe com o complexo de Napoleão - curto, mas real!",
@@ -3113,15 +3017,7 @@ export const ITEM_DETAILS: Items = {
   },
   Surgeonfish: {
     image: surgeonfish,
-    howToGetItem: [
-      {
-        en: "Ocean fishing",
-        "pt-BR": "Pesca no mar",
-        fr: "Pêche en mer",
-        tr: "Okyanus balıkçılığı",
-        "zh-CN": "海上垂钓",
-      },
-    ],
+    howToGetItem: [translate("ocean.fishing"), translate("beach.fishing")],
     description: {
       en: "The ocean's neon warrior, armed with a spine-sharp attitude.",
       "pt-BR":
@@ -3133,15 +3029,7 @@ export const ITEM_DETAILS: Items = {
   },
   "Zebra Turkeyfish": {
     image: zebraTurkeyfish,
-    howToGetItem: [
-      {
-        en: "Ocean fishing",
-        "pt-BR": "Pesca no mar",
-        fr: "Pêche en mer",
-        tr: "Okyanus balıkçılığı",
-        "zh-CN": "海上垂钓",
-      },
-    ],
+    howToGetItem: [translate("ocean.fishing"), translate("beach.fishing")],
     description: {
       en: "Stripes, spines, and a zesty disposition, this fish is a true showstopper!",
       "pt-BR":
@@ -3153,15 +3041,7 @@ export const ITEM_DETAILS: Items = {
   },
   Ray: {
     image: ray,
-    howToGetItem: [
-      {
-        en: "Ocean fishing",
-        "pt-BR": "Pesca no mar",
-        fr: "Pêche en mer",
-        tr: "Okyanus balıkçılığı",
-        "zh-CN": "海上垂钓",
-      },
-    ],
+    howToGetItem: [translate("ocean.fishing"), translate("beach.fishing")],
     description: {
       en: "The underwater glider, a serene winged beauty through the waves.",
       "pt-BR":
@@ -3173,15 +3053,7 @@ export const ITEM_DETAILS: Items = {
   },
   "Hammerhead shark": {
     image: hammerheadShark,
-    howToGetItem: [
-      {
-        en: "Ocean fishing",
-        "pt-BR": "Pesca no mar",
-        fr: "Pêche en mer",
-        tr: "Okyanus balıkçılığı",
-        "zh-CN": "海上垂钓",
-      },
-    ],
+    howToGetItem: [translate("ocean.fishing"), translate("beach.fishing")],
     description: {
       en: "Meet the shark with a head for business, and a body for adventure!",
       "pt-BR":
@@ -3193,15 +3065,7 @@ export const ITEM_DETAILS: Items = {
   },
   Tuna: {
     image: tuna,
-    howToGetItem: [
-      {
-        en: "Ocean fishing",
-        "pt-BR": "Pesca no mar",
-        fr: "Pêche en mer",
-        tr: "Okyanus balıkçılığı",
-        "zh-CN": "海上垂钓",
-      },
-    ],
+    howToGetItem: [translate("ocean.fishing"), translate("beach.fishing")],
     description: {
       en: "The ocean's muscle-bound sprinter, ready for a fin-tastic race!",
       "pt-BR":
@@ -3213,15 +3077,7 @@ export const ITEM_DETAILS: Items = {
   },
   "Mahi Mahi": {
     image: mahiMahi,
-    howToGetItem: [
-      {
-        en: "Ocean fishing",
-        "pt-BR": "Pesca no mar",
-        fr: "Pêche en mer",
-        tr: "Okyanus balıkçılığı",
-        "zh-CN": "海上垂钓",
-      },
-    ],
+    howToGetItem: [translate("ocean.fishing"), translate("beach.fishing")],
     description: {
       en: "A fish that believes in living life colorfully with fins of gold.",
       "pt-BR":
@@ -3233,15 +3089,7 @@ export const ITEM_DETAILS: Items = {
   },
   "Blue Marlin": {
     image: blueMarlin,
-    howToGetItem: [
-      {
-        en: "Ocean fishing",
-        "pt-BR": "Pesca no mar",
-        fr: "Pêche en mer",
-        tr: "Okyanus balıkçılığı",
-        "zh-CN": "海上垂钓",
-      },
-    ],
+    howToGetItem: [translate("ocean.fishing"), translate("beach.fishing")],
     description: {
       en: "An oceanic legend, the marlin with an attitude as deep as the sea.",
       "pt-BR":
@@ -3253,15 +3101,7 @@ export const ITEM_DETAILS: Items = {
   },
   Oarfish: {
     image: oarfish,
-    howToGetItem: [
-      {
-        en: "Ocean fishing",
-        "pt-BR": "Pesca no mar",
-        fr: "Pêche en mer",
-        tr: "Okyanus balıkçılığı",
-        "zh-CN": "海上垂钓",
-      },
-    ],
+    howToGetItem: [translate("ocean.fishing"), translate("beach.fishing")],
     description: {
       en: "The long and the long of it – an enigmatic ocean wanderer.",
       "pt-BR": "O longo e o longo disso - um errante enigmático do oceano.",
@@ -3272,15 +3112,7 @@ export const ITEM_DETAILS: Items = {
   },
   "Football fish": {
     image: footballFish,
-    howToGetItem: [
-      {
-        en: "Ocean fishing",
-        "pt-BR": "Pesca no mar",
-        fr: "Pêche en mer",
-        tr: "Okyanus balıkçılığı",
-        "zh-CN": "海上垂钓",
-      },
-    ],
+    howToGetItem: [translate("ocean.fishing"), translate("beach.fishing")],
     description: {
       en: "The MVP of the deep, a bioluminescent star that's ready to play!",
       "pt-BR":
@@ -3292,15 +3124,7 @@ export const ITEM_DETAILS: Items = {
   },
   Sunfish: {
     image: sunfish,
-    howToGetItem: [
-      {
-        en: "Ocean fishing",
-        "pt-BR": "Pesca no mar",
-        fr: "Pêche en mer",
-        tr: "Okyanus balıkçılığı",
-        "zh-CN": "海上垂钓",
-      },
-    ],
+    howToGetItem: [translate("ocean.fishing"), translate("beach.fishing")],
     description: {
       en: "The ocean's sunbather, basking in the spotlight with fins held high.",
       "pt-BR":
@@ -3312,15 +3136,7 @@ export const ITEM_DETAILS: Items = {
   },
   Coelacanth: {
     image: coelacanth,
-    howToGetItem: [
-      {
-        en: "Ocean fishing",
-        "pt-BR": "Pesca no mar",
-        fr: "Pêche en mer",
-        tr: "Okyanus balıkçılığı",
-        "zh-CN": "海上垂钓",
-      },
-    ],
+    howToGetItem: [translate("ocean.fishing"), translate("beach.fishing")],
     description: {
       en: "A prehistoric relic, with a taste for the past and the present.",
       "pt-BR":
@@ -3332,15 +3148,7 @@ export const ITEM_DETAILS: Items = {
   },
   "Whale Shark": {
     image: whaleShark,
-    howToGetItem: [
-      {
-        en: "Ocean fishing",
-        "pt-BR": "Pesca no mar",
-        fr: "Pêche en mer",
-        tr: "Okyanus balıkçılığı",
-        "zh-CN": "海上垂钓",
-      },
-    ],
+    howToGetItem: [translate("ocean.fishing"), translate("beach.fishing")],
     description: {
       en: "The gentle giant of the deep, sifting treasures from the ocean's buffet.",
       "pt-BR":
@@ -3352,15 +3160,7 @@ export const ITEM_DETAILS: Items = {
   },
   "Barred Knifejaw": {
     image: barredKnifejaw,
-    howToGetItem: [
-      {
-        en: "Ocean fishing",
-        "pt-BR": "Pesca no mar",
-        fr: "Pêche en mer",
-        tr: "Okyanus balıkçılığı",
-        "zh-CN": "海上垂钓",
-      },
-    ],
+    howToGetItem: [translate("ocean.fishing"), translate("beach.fishing")],
     description: {
       en: "An oceanic outlaw with black-and-white stripes and a heart of gold.",
       "pt-BR":
@@ -3372,15 +3172,7 @@ export const ITEM_DETAILS: Items = {
   },
   "Saw Shark": {
     image: sawShark,
-    howToGetItem: [
-      {
-        en: "Ocean fishing",
-        "pt-BR": "Pesca no mar",
-        fr: "Pêche en mer",
-        tr: "Okyanus balıkçılığı",
-        "zh-CN": "海上垂钓",
-      },
-    ],
+    howToGetItem: [translate("ocean.fishing"), translate("beach.fishing")],
     description: {
       en: "With a saw-like snout, it's the ocean's carpenter, always cutting edge!",
       "pt-BR":
@@ -3392,15 +3184,7 @@ export const ITEM_DETAILS: Items = {
   },
   "White Shark": {
     image: whiteShark,
-    howToGetItem: [
-      {
-        en: "Ocean fishing",
-        "pt-BR": "Pesca no mar",
-        fr: "Pêche en mer",
-        tr: "Okyanus balıkçılığı",
-        "zh-CN": "海上垂钓",
-      },
-    ],
+    howToGetItem: [translate("ocean.fishing"), translate("beach.fishing")],
     description: {
       en: "The shark with a killer smile, ruling the seas with fin-tensity!",
       "pt-BR":
@@ -3412,15 +3196,7 @@ export const ITEM_DETAILS: Items = {
   },
   "Twilight Anglerfish": {
     image: twilightAnglerfish,
-    howToGetItem: [
-      {
-        en: "Ocean fishing",
-        "pt-BR": "Pesca no mar",
-        fr: "Pêche en mer",
-        tr: "Okyanus balıkçılığı",
-        "zh-CN": "海上垂钓",
-      },
-    ],
+    howToGetItem: [translate("ocean.fishing"), translate("beach.fishing")],
     itemType: "collectible",
     description: {
       en: "A deep-sea angler with a built-in nightlight, guiding its way through darkness.",
@@ -3433,15 +3209,7 @@ export const ITEM_DETAILS: Items = {
   },
   "Starlight Tuna": {
     image: startlightTuna,
-    howToGetItem: [
-      {
-        en: "Ocean fishing",
-        "pt-BR": "Pesca no mar",
-        fr: "Pêche en mer",
-        tr: "Okyanus balıkçılığı",
-        "zh-CN": "海上垂钓",
-      },
-    ],
+    howToGetItem: [translate("ocean.fishing"), translate("beach.fishing")],
     itemType: "collectible",
     description: {
       en: "A tuna that outshines the stars, ready to light up your collection.",
@@ -3454,15 +3222,7 @@ export const ITEM_DETAILS: Items = {
   },
   "Radiant Ray": {
     image: radiantRay,
-    howToGetItem: [
-      {
-        en: "Ocean fishing",
-        "pt-BR": "Pesca no mar",
-        fr: "Pêche en mer",
-        tr: "Okyanus balıkçılığı",
-        "zh-CN": "海上垂钓",
-      },
-    ],
+    howToGetItem: [translate("ocean.fishing"), translate("beach.fishing")],
     itemType: "collectible",
     description: {
       en: "A ray that prefers to glow in the dark, with a shimmering secret to share.",
@@ -3475,15 +3235,7 @@ export const ITEM_DETAILS: Items = {
   },
   "Phantom Barracuda": {
     image: phantomBarracuda,
-    howToGetItem: [
-      {
-        en: "Ocean fishing",
-        "pt-BR": "Pesca no mar",
-        fr: "Pêche en mer",
-        tr: "Okyanus balıkçılığı",
-        "zh-CN": "海上垂钓",
-      },
-    ],
+    howToGetItem: [translate("ocean.fishing"), translate("beach.fishing")],
     itemType: "collectible",
     description: {
       en: "An elusive and ghostly fish of the deep, hiding in the shadows.",
@@ -3496,15 +3248,7 @@ export const ITEM_DETAILS: Items = {
   },
   "Gilded Swordfish": {
     image: gildedSwordfish,
-    howToGetItem: [
-      {
-        en: "Ocean fishing",
-        "pt-BR": "Pesca no mar",
-        fr: "Pêche en mer",
-        tr: "Okyanus balıkçılığı",
-        "zh-CN": "海上垂钓",
-      },
-    ],
+    howToGetItem: [translate("ocean.fishing"), translate("beach.fishing")],
     itemType: "collectible",
     description: {
       en: "A swordfish with scales that sparkle like gold, the ultimate catch!",
@@ -3517,15 +3261,7 @@ export const ITEM_DETAILS: Items = {
   },
   "Crimson Carp": {
     image: crimsonCarp,
-    howToGetItem: [
-      {
-        en: "Ocean fishing",
-        "pt-BR": "Pesca no mar",
-        fr: "Pêche en mer",
-        tr: "Okyanus balıkçılığı",
-        "zh-CN": "海上垂钓",
-      },
-    ],
+    howToGetItem: [translate("ocean.fishing"), translate("beach.fishing")],
     itemType: "collectible",
     description: {
       en: "A rare, vibrant jewel of the Spring waters.",
@@ -3537,15 +3273,7 @@ export const ITEM_DETAILS: Items = {
   },
   "Battle Fish": {
     image: battleFish,
-    howToGetItem: [
-      {
-        en: "Ocean fishing",
-        "pt-BR": "Pesca no mar",
-        fr: "Pêche en mer",
-        tr: "Okyanus balıkçılığı",
-        "zh-CN": "海上垂钓",
-      },
-    ],
+    howToGetItem: [translate("ocean.fishing"), translate("beach.fishing")],
     itemType: "collectible",
     description: {
       en: "The rare armored swimmer of faction season!",
@@ -3557,15 +3285,7 @@ export const ITEM_DETAILS: Items = {
   },
   "Lemon Shark": {
     image: lemonShark,
-    howToGetItem: [
-      {
-        en: "Ocean fishing",
-        "pt-BR": "Pesca no mar",
-        fr: "Pêche en mer",
-        tr: "Okyanus balıkçılığı",
-        "zh-CN": "海上垂钓",
-      },
-    ],
+    howToGetItem: [translate("ocean.fishing"), translate("beach.fishing")],
     itemType: "collectible",
     description: {
       en: "A zesty, zippy swimmer of the Summer seas. Only available during Pharaoh's Treasure season.",
@@ -3890,15 +3610,7 @@ export const ITEM_DETAILS: Items = {
   },
   Angelfish: {
     image: angelFish,
-    howToGetItem: [
-      {
-        en: "Beach fishing",
-        "pt-BR": "Beach fishing",
-        fr: "Beach fishing",
-        tr: "Beach fishing",
-        "zh-CN": "Beach fishing",
-      },
-    ],
+    howToGetItem: [translate("beach.fishing")],
     description: {
       en: "The aquatic celestial beauty, adorned in a palette of vibrant hues.",
       "pt-BR":
@@ -3910,15 +3622,7 @@ export const ITEM_DETAILS: Items = {
   },
   Halibut: {
     image: halibut,
-    howToGetItem: [
-      {
-        en: "Beach fishing",
-        "pt-BR": "Beach fishing",
-        fr: "Beach fishing",
-        tr: "Beach fishing",
-        "zh-CN": "Beach fishing",
-      },
-    ],
+    howToGetItem: [translate("beach.fishing")],
     description: {
       en: "The flat ocean floor dweller, a master of disguise in sandy camouflage.",
       "pt-BR":
@@ -3930,15 +3634,7 @@ export const ITEM_DETAILS: Items = {
   },
   Parrotfish: {
     image: parrotFish,
-    howToGetItem: [
-      {
-        en: "Beach fishing",
-        "pt-BR": "Beach fishing",
-        fr: "Beach fishing",
-        tr: "Beach fishing",
-        "zh-CN": "Beach fishing",
-      },
-    ],
+    howToGetItem: [translate("beach.fishing")],
     description: {
       en: "A kaleidoscope of colors beneath the waves, this fish is nature's living artwork.",
       "pt-BR":
