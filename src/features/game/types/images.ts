@@ -680,15 +680,15 @@ import vase from "assets/resources/vase.webp";
 
 import { COUPONS, EASTER_EGG, FERTILISERS, InventoryItemName } from "./game";
 
-import { CROPS, CROP_SEEDS } from "./crops";
+import { CROPS, CROP_SEEDS, GREENHOUSE_SEEDS } from "./crops";
 import { AchievementName, ACHIEVEMENTS } from "./achievements";
 
 //Golden Crop Event
 
 import { SUNNYSIDE } from "assets/sunnyside";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
-import { FRUIT, FRUIT_SEEDS } from "./fruits";
-import { FLOWER_SEEDS } from "./flowers";
+import { FRUIT, FRUIT_SEEDS, GREENHOUSE_FRUIT_SEEDS } from "./fruits";
+import { FLOWER_SEEDS, FLOWERS } from "./flowers";
 import { CONSUMABLES, COOKABLES } from "./consumables";
 import { COMMODITIES } from "./resources";
 import { BEANS } from "./beans";
@@ -2876,1688 +2876,672 @@ export const ITEM_DETAILS: Items = {
   Anchovy: {
     image: anchovy,
     howToGetItem: [translate("ocean.fishing"), translate("beach.fishing")],
-    description: {
-      en: "The ocean's pocket-sized darting acrobat, always in a hurry!",
-      "pt-BR": "O acrobata saltitante do oceano, sempre com pressa!",
-      "zh-CN": "海洋里的袖珍飞镖，总是匆匆忙忙！",
-      fr: "L'acrobate miniature des océans, toujours pressé!",
-      tr: "Okyanusun cep boyutunda dart akrobatı, her zaman acelesi var!",
-    },
+    description: translate("description.anchovy.one"),
   },
   Butterflyfish: {
     image: butterflyfish,
     howToGetItem: [translate("ocean.fishing"), translate("beach.fishing")],
-    description: {
-      en: "A fish with a fashion-forward sense, flaunting its vivid, stylish stripes.",
-      "pt-BR":
-        "Um peixe com um senso de moda avançado, exibindo suas listras vívidas e estilosas.",
-      "zh-CN": "时尚前卫的鱼，显摆其鲜艳、时髦的条纹。",
-      fr: "Un poisson à la mode, arborant ses rayures vives et élégantes.",
-      tr: "Canlı, şık çizgileriyle gösteriş yapan, ileri moda anlayışına sahip bir balık.",
-    },
+    description: translate("description.butterflyfish.one"),
   },
   Blowfish: {
     image: blowfish,
     howToGetItem: [translate("ocean.fishing"), translate("beach.fishing")],
-    description: {
-      en: "The round, inflated comedian of the sea, guaranteed to bring a smile.",
-      "pt-BR":
-        "O comediante redondo e inflado do mar, garantido para trazer um sorriso.",
-      "zh-CN": "海中的圆润喜剧演员，保证让你笑容满面。",
-      fr: "Le comique rond et gonflé de la mer, garanti pour vous faire sourire.",
-      tr: "Denizin yuvarlak, şişirilmiş komedyeni, bir gülümseme getirmeyi garanti ediyor.",
-    },
+    description: translate("description.blowfish.one"),
   },
   Clownfish: {
     image: clownfish,
     howToGetItem: [translate("ocean.fishing"), translate("beach.fishing")],
-    description: {
-      en: "The underwater jester, sporting a tangerine tuxedo and a clownish charm.",
-      "pt-BR":
-        "O bobo da corte subaquático, vestindo um terno tangerina e um charme de palhaço.",
-      "zh-CN": "水下的小丑，身着橘色礼服，充满小丑般的魅力。",
-      fr: "Le bouffon sous-marin, portant un smoking mandarine et un charme clownesque.",
-      tr: "Mandalina rengi bir smokini ve palyaço çekiciliğiyle su altı soytarısı.",
-    },
+    description: translate("description.clownfish.one"),
   },
   "Sea Bass": {
     image: seaBass,
     howToGetItem: [translate("ocean.fishing"), translate("beach.fishing")],
-    description: {
-      en: "Your 'not-so-exciting' friend with silver scales – a bassic catch!",
-      "pt-BR":
-        "Seu amigo 'não-tão-exciting' com escamas prateadas - uma captura básica!",
-      "zh-CN": "你的“不那么令人兴奋的”朋友，银色的鳞片——一个基础的捕获！",
-      fr: "Votre ami 'pas très excitant' aux écailles argentées - une prise basique!",
-      tr: "Gümüş pullu 'o kadar da heyecan verici olmayan' arkadaşınız – basit bir yakalama!",
-    },
+    description: translate("description.seabass.one"),
   },
   "Sea Horse": {
     image: seahorse,
     howToGetItem: [translate("ocean.fishing"), translate("beach.fishing")],
-    description: {
-      en: "The ocean's slow-motion dancer, swaying gracefully in the aquatic ballet.",
-      "pt-BR":
-        "O dançarino em câmera lenta do oceano, balançando gracioso no balé aquático.",
-      "zh-CN": "海洋中的慢动作舞者，在水下芭蕾中优雅地摇摆。",
-      fr: "La danseuse au ralenti de l'océan, se balançant gracieusement dans le ballet aquatique.",
-      tr: "Okyanusun ağır çekim dansçısı, su balesinde zarif bir şekilde sallanıyor.",
-    },
+    description: translate("description.seahorse.one"),
   },
   "Horse Mackerel": {
     image: horseMackerel,
     howToGetItem: [translate("ocean.fishing"), translate("beach.fishing")],
-    description: {
-      en: "A speedster with a shiny coat, always racing through the waves.",
-      "pt-BR":
-        "Um velocista com um casaco brilhante, sempre correndo pelas ondas.",
-      "zh-CN": "一位身披闪亮外衣的速度选手，总是在波浪中穿梭。",
-      fr: "Un sprinter à la brillante robe, toujours en course à travers les vagues.",
-      tr: "Daima dalgaların arasında yarışan, parlak paltolu bir hızcı.",
-    },
+    description: translate("description.horsemackerel.one"),
   },
   Squid: {
     image: squid,
     howToGetItem: [translate("ocean.fishing"), translate("beach.fishing")],
-    description: {
-      en: "The deep-sea enigma with tentacles to tickle your curiosity.",
-      "pt-BR":
-        "O enigma das profundezas com tentáculos para despertar sua curiosidade.",
-      "zh-CN": "深海之谜，用其触须勾起你的好奇心。",
-      fr: "L'énigme des profondeurs avec des tentacules pour titiller votre curiosité.",
-      tr: "Merakınızı gıdıklayacak dokunaçlara sahip derin deniz gizemi.",
-    },
+    description: translate("description.squid.one"),
   },
   "Red Snapper": {
     image: redSnapper,
     howToGetItem: [translate("ocean.fishing"), translate("beach.fishing")],
-    description: {
-      en: "A catch worth its weight in gold, dressed in fiery crimson.",
-      "pt-BR":
-        "Uma captura que vale seu peso em ouro, vestida de carmesim ardente.",
-      "zh-CN": "价值连城的捕获，身披火红色。",
-      fr: "Une prise qui vaut son pesant d'or, vêtue de rouge ardent.",
-      tr: "Ağır kırmızıya bürünmüş, ağırlığınca altın değerinde bir av.",
-    },
+    description: translate("description.redsnapper.one"),
   },
   "Moray Eel": {
     image: morayEel,
     howToGetItem: [translate("ocean.fishing"), translate("beach.fishing")],
-    description: {
-      en: "A slinky, sinister lurker in the ocean's shadowy corners.",
-      "pt-BR":
-        "Um espreitador sinistro e sinuoso nos cantos sombrios do oceano.",
-      "zh-CN": "海洋中阴暗角落里的狡猾潜伏者。",
-      fr: "Un habitant sinistre et insaisissable des coins sombres de l'océan.",
-      tr: "Okyanusun gölgeli köşelerinde sinsi, uğursuz bir pusuya yatmış.",
-    },
+    description: translate("description.morayeel.one"),
   },
   "Olive Flounder": {
     image: oliveFlounder,
     howToGetItem: [translate("ocean.fishing"), translate("beach.fishing")],
-    description: {
-      en: "The seabed's master of disguise, always blending in with the crowd.",
-      "pt-BR":
-        "O mestre do disfarce do leito marinho, sempre se misturando com a multidão.",
-      "zh-CN": "海床上的伪装大师，总是与众不同。",
-      fr: "Le maître du déguisement du fond marin, toujours en train de se fondre dans la foule.",
-      tr: "Deniz yatağının kılık değiştirme ustası, her zaman kalabalığa karışıyor.",
-    },
+    description: translate("description.oliveflounder.one"),
   },
   Napoleanfish: {
     image: napoleonfish,
     howToGetItem: [translate("ocean.fishing"), translate("beach.fishing")],
-    description: {
-      en: "Meet the fish with the Napoleon complex – short, but regal!",
-      "pt-BR": "Conheça o peixe com o complexo de Napoleão - curto, mas real!",
-      "zh-CN": "认识一下患有拿破仑情结的鱼——短小，但雍容华贵！",
-      fr: "Rencontrez le poisson au complexe de Napoléon - petit, mais royal!",
-      tr: "Balıklarla Napolyon kompleksiyle tanışın – kısa ama muhteşem!",
-    },
+    description: translate("description.napoleanfish.one"),
   },
   Surgeonfish: {
     image: surgeonfish,
     howToGetItem: [translate("ocean.fishing"), translate("beach.fishing")],
-    description: {
-      en: "The ocean's neon warrior, armed with a spine-sharp attitude.",
-      "pt-BR":
-        "O guerreiro neon do oceano, armado com uma atitude afiada de espinha.",
-      "zh-CN": "海洋中的霓虹战士，武装着锋利的态度。",
-      fr: "Le guerrier néon de l'océan, armé d'une attitude pointue.",
-      tr: "Okyanusun neon savaşçısı, keskin bir tavırla donanmış.",
-    },
+    description: translate("description.surgeonfish.one"),
   },
   "Zebra Turkeyfish": {
     image: zebraTurkeyfish,
     howToGetItem: [translate("ocean.fishing"), translate("beach.fishing")],
-    description: {
-      en: "Stripes, spines, and a zesty disposition, this fish is a true showstopper!",
-      "pt-BR":
-        "Listras, espinhos e uma disposição, este peixe é um verdadeiro espetáculo!",
-      "zh-CN": "条纹、刺和充满活力的性格，这条鱼是真正的焦点！",
-      fr: "Des rayures, des épines et une disposition zestée, ce poisson est vraiment sensationnel!",
-      tr: "Çizgileri, dikenleri ve neşeli yapısıyla bu balık gerçek bir gösterişçidir!",
-    },
+    description: translate("description.zebraturkeyfish.one"),
   },
   Ray: {
     image: ray,
     howToGetItem: [translate("ocean.fishing"), translate("beach.fishing")],
-    description: {
-      en: "The underwater glider, a serene winged beauty through the waves.",
-      "pt-BR":
-        "O planejador subaquático, uma beleza alada serena através das ondas.",
-      "zh-CN": "水下的滑翔者，通过波浪中的宁静翅膀展现出的优雅。",
-      fr: "Le planeur sous-marin, une belle aile sereine à travers les vagues.",
-      tr: "Su altı planörü, dalgaların arasından geçen sakin kanatlı bir güzellik.",
-    },
+    description: translate("description.ray.one"),
   },
   "Hammerhead shark": {
     image: hammerheadShark,
     howToGetItem: [translate("ocean.fishing"), translate("beach.fishing")],
-    description: {
-      en: "Meet the shark with a head for business, and a body for adventure!",
-      "pt-BR":
-        "Conheça o tubarão com cabeça para negócios e corpo para aventura!",
-      "zh-CN": "这是一只头脑灵活、身体追求冒险的鲨鱼！",
-      fr: "Rencontrez le requin à la tête d'affiche, prêt pour une collision de tête avec la saveur!",
-      tr: "İş için kafası ve macera için vücudu olan köpekbalığıyla tanışın!",
-    },
+    description: translate("description.hammerheadshark.one"),
   },
   Tuna: {
     image: tuna,
     howToGetItem: [translate("ocean.fishing"), translate("beach.fishing")],
-    description: {
-      en: "The ocean's muscle-bound sprinter, ready for a fin-tastic race!",
-      "pt-BR":
-        "O velocista musculoso do oceano, pronto para uma corrida fantástica!",
-      "zh-CN": "海洋中肌肉发达的短跑运动员，准备好进行一场鳍部的精彩比赛！",
-      fr: "Le sprinter musclé de l'océan, prêt pour une course fantastique!",
-      tr: "Okyanusun kaslı sprinteri, muhteşem bir yarışa hazır!",
-    },
+    description: translate("description.tuna.one"),
   },
   "Mahi Mahi": {
     image: mahiMahi,
     howToGetItem: [translate("ocean.fishing"), translate("beach.fishing")],
-    description: {
-      en: "A fish that believes in living life colorfully with fins of gold.",
-      "pt-BR":
-        "Um peixe que acredita em viver a vida coloridamente com barbatanas de ouro.",
-      "zh-CN": "一条相信生活要多姿多彩的鱼，金色的鳍片。",
-      fr: "Un poisson qui croit en une vie colorée avec des nageoires dorées.",
-      tr: "Altın yüzgeçlerle hayatı rengarenk yaşamaya inanan bir balık.",
-    },
+    description: translate("description.mahimahi.one"),
   },
   "Blue Marlin": {
     image: blueMarlin,
     howToGetItem: [translate("ocean.fishing"), translate("beach.fishing")],
-    description: {
-      en: "An oceanic legend, the marlin with an attitude as deep as the sea.",
-      "pt-BR":
-        "Uma lenda oceânica, o marlim com uma atitude tão profunda quanto o mar.",
-      "zh-CN": "海洋的传奇，马林鱼，拥有深海一样的态度。",
-      fr: "Une légende océanique, le marlin avec une attitude aussi profonde que la mer.",
-      tr: "Okyanus efsanesi, tavrı deniz kadar derin olan marlin.",
-    },
+    description: translate("description.bluemarlin.one"),
   },
   Oarfish: {
     image: oarfish,
     howToGetItem: [translate("ocean.fishing"), translate("beach.fishing")],
-    description: {
-      en: "The long and the long of it – an enigmatic ocean wanderer.",
-      "pt-BR": "O longo e o longo disso - um errante enigmático do oceano.",
-      "zh-CN": "长而漫长——一位神秘的海洋流浪者。",
-      fr: "Le long et le long de lui - un voyageur océanique énigmatique.",
-      tr: "Uzun lafın kısası esrarengiz bir okyanus gezgini.",
-    },
+    description: translate("description.oarfish.one"),
   },
   "Football fish": {
     image: footballFish,
     howToGetItem: [translate("ocean.fishing"), translate("beach.fishing")],
-    description: {
-      en: "The MVP of the deep, a bioluminescent star that's ready to play!",
-      "pt-BR":
-        "O MVP do fundo do mar, uma estrela bioluminescente pronta para jogar!",
-      "zh-CN": "深海的MVP，一颗准备参与比赛的生物发光之星！",
-      fr: "Le MVP des profondeurs, une star bioluminescente prête à jouer!",
-      tr: "Derinlerin MVP'si, oynamaya hazır biyolüminesan bir yıldız!",
-    },
+    description: translate("description.footballfish.one"),
   },
   Sunfish: {
     image: sunfish,
     howToGetItem: [translate("ocean.fishing"), translate("beach.fishing")],
-    description: {
-      en: "The ocean's sunbather, basking in the spotlight with fins held high.",
-      "pt-BR":
-        "O banhista do oceano, banhando-se no holofote com barbatanas erguidas.",
-      "zh-CN": "海洋中的晒太阳者，高举鳍片，享受着聚光灯下的时刻。",
-      fr: "Le preneur de soleil de l'océan, se prélassant sous les projecteurs avec des nageoires bien dressées.",
-      tr: "Okyanusta güneşlenen, yüzgeçlerini yüksekte tutarak spot ışıklarının tadını çıkarıyor.",
-    },
+    description: translate("description.sunfish.one"),
   },
   Coelacanth: {
     image: coelacanth,
     howToGetItem: [translate("ocean.fishing"), translate("beach.fishing")],
-    description: {
-      en: "A prehistoric relic, with a taste for the past and the present.",
-      "pt-BR":
-        "Um relicário pré-histórico, com um gosto pelo passado e pelo presente.",
-      "zh-CN": "一个古老的遗迹，对过去和现在都有一种品味。",
-      fr: "Un vestige préhistorique, avec un goût pour le passé et le présent.",
-      tr: "Geçmişe ve bugüne dair bir tada sahip, tarih öncesi bir kalıntı.",
-    },
+    description: translate("description.coelacanth.one"),
   },
   "Whale Shark": {
     image: whaleShark,
     howToGetItem: [translate("ocean.fishing"), translate("beach.fishing")],
-    description: {
-      en: "The gentle giant of the deep, sifting treasures from the ocean's buffet.",
-      "pt-BR":
-        "O gigante gentil das profundezas, peneirando tesouros no buffet do oceano.",
-      "zh-CN": "深海的温柔巨人，从海洋的自助餐中筛选珍宝。",
-      fr: "Le doux géant des profondeurs, filtrant les trésors du buffet océanique.",
-      tr: "Derinlerin nazik devi, okyanusun büfesinden hazineleri ayıklıyor.",
-    },
+    description: translate("description.whaleshark.one"),
   },
   "Barred Knifejaw": {
     image: barredKnifejaw,
     howToGetItem: [translate("ocean.fishing"), translate("beach.fishing")],
-    description: {
-      en: "An oceanic outlaw with black-and-white stripes and a heart of gold.",
-      "pt-BR":
-        "Um fora da lei oceânico com listras em preto e branco e um coração de ouro.",
-      "zh-CN": "一位带有黑白条纹和黄金心的海洋流氓。",
-      fr: "Un hors-la-loi océanique aux rayures noires et blanches et au cœur d'or.",
-      tr: "Siyah-beyaz çizgili ve altın kalpli bir okyanus kanun kaçağı.",
-    },
+    description: translate("description.barredknifejaw.one"),
   },
   "Saw Shark": {
     image: sawShark,
     howToGetItem: [translate("ocean.fishing"), translate("beach.fishing")],
-    description: {
-      en: "With a saw-like snout, it's the ocean's carpenter, always cutting edge!",
-      "pt-BR":
-        "Com um focinho em forma de serra, é o carpinteiro do oceano, sempre à frente!",
-      "zh-CN": "以锯齿状的吻，它是海洋的木工，总是走在潮流的前沿！",
-      fr: "Avec un museau en forme de scie, c'est le charpentier de l'océan, toujours à la pointe!",
-      tr: "Testere benzeri burnuyla okyanusun marangozudur, her zaman son teknolojiye sahiptir!",
-    },
+    description: translate("description.sawshark.one"),
   },
   "White Shark": {
     image: whiteShark,
     howToGetItem: [translate("ocean.fishing"), translate("beach.fishing")],
-    description: {
-      en: "The shark with a killer smile, ruling the seas with fin-tensity!",
-      "pt-BR":
-        "O tubarão com um sorriso assassino, dominando os mares com intensidade de barbatana!",
-      "zh-CN": "带着杀手般的笑容统治海洋的鲨鱼，以鳍的强度为傲！",
-      fr: "Le requin au sourire meurtrier, régnant sur les mers avec une fin-tensité!",
-      tr: "Denizleri son derece güçlü bir şekilde yöneten, öldürücü gülümsemeye sahip köpekbalığı!",
-    },
+    description: translate("description.whiteshark.one"),
   },
   "Twilight Anglerfish": {
     image: twilightAnglerfish,
     howToGetItem: [translate("ocean.fishing"), translate("beach.fishing")],
     itemType: "collectible",
-    description: {
-      en: "A deep-sea angler with a built-in nightlight, guiding its way through darkness.",
-      "pt-BR":
-        "Um pescador de águas profundas com uma luz noturna embutida, guiando seu caminho através da escuridão.",
-      "zh-CN": "一种深海琵琶鱼，内置夜灯，引领其穿越黑暗。",
-      fr: "Un poisson-pêcheur des profondeurs avec une lumière intégrée, guidant son chemin à travers les ténèbres.",
-      tr: "Dahili gece lambasına sahip, karanlıkta yolunu gösteren bir derin deniz balıkçısı.",
-    },
+    description: translate("description.twilight.anglerfish"),
   },
   "Starlight Tuna": {
     image: startlightTuna,
     howToGetItem: [translate("ocean.fishing"), translate("beach.fishing")],
     itemType: "collectible",
-    description: {
-      en: "A tuna that outshines the stars, ready to light up your collection.",
-      "pt-BR":
-        "Um atum que supera as estrelas, pronto para iluminar sua coleção.",
-      "zh-CN": "一条比星星还要耀眼的金枪鱼，准备照亮你的收藏。",
-      fr: "Un thon qui brille plus que les étoiles, prêt à illuminer votre collection.",
-      tr: "Koleksiyonunuzu aydınlatmaya hazır, yıldızları gölgede bırakan bir ton balığı.",
-    },
+    description: translate("description.starlight.tuna"),
   },
   "Radiant Ray": {
     image: radiantRay,
     howToGetItem: [translate("ocean.fishing"), translate("beach.fishing")],
     itemType: "collectible",
-    description: {
-      en: "A ray that prefers to glow in the dark, with a shimmering secret to share.",
-      "pt-BR":
-        "Um raio que prefere brilhar no escuro, com um segredo cintilante para compartilhar.",
-      "zh-CN": "一种在黑暗中发光的鳐鱼，有着闪亮的秘密要分享。",
-      fr: "Une raie qui préfère briller dans l'obscurité, avec un secret scintillant à partager.",
-      tr: "Paylaşacak parıldayan bir sırrı olan, karanlıkta parlamayı tercih eden bir ışın.",
-    },
+    description: translate("description.radiant.ray"),
   },
   "Phantom Barracuda": {
     image: phantomBarracuda,
     howToGetItem: [translate("ocean.fishing"), translate("beach.fishing")],
     itemType: "collectible",
-    description: {
-      en: "An elusive and ghostly fish of the deep, hiding in the shadows.",
-      "pt-BR":
-        "Um peixe fantasmagórico e elusivo das profundezas, escondido nas sombras.",
-      "zh-CN": "一种深海中难以捉摸且幽灵般的鱼，隐藏在阴影中。",
-      fr: "Un barracuda insaisissable et fantomatique des profondeurs, se cachant dans les ombres.",
-      tr: "Derinlerin, gölgelerde saklanan, bulunması zor ve hayaletimsi bir balığı.",
-    },
+    description: translate("description.phantom.barracuda"),
   },
   "Gilded Swordfish": {
     image: gildedSwordfish,
     howToGetItem: [translate("ocean.fishing"), translate("beach.fishing")],
     itemType: "collectible",
-    description: {
-      en: "A swordfish with scales that sparkle like gold, the ultimate catch!",
-      "pt-BR":
-        "Um peixe-espada com escamas que brilham como ouro, a captura definitiva!",
-      "zh-CN": "一条鳞片闪耀如金的剑鱼，终极的捕获！",
-      fr: "Un espadon aux écailles qui scintillent comme de l'or, la capture ultime!",
-      tr: "Altın gibi parıldayan pullara sahip bir kılıç balığı, en iyi av!",
-    },
+    description: translate("description.gilded.swordfish"),
   },
   "Crimson Carp": {
     image: crimsonCarp,
     howToGetItem: [translate("ocean.fishing"), translate("beach.fishing")],
     itemType: "collectible",
-    description: {
-      en: "A rare, vibrant jewel of the Spring waters.",
-      "pt-BR": "Uma joia rara e vibrante das águas da primavera.",
-      "zh-CN": "春天水域中稀有、充满活力的宝石。",
-      fr: "Un joyau rare et vibrant des eaux du printemps.",
-      tr: "Kaynak sularının nadir, canlı bir mücevheri.",
-    },
+    description: translate("description.crimson.carp"),
   },
   "Battle Fish": {
     image: battleFish,
     howToGetItem: [translate("ocean.fishing"), translate("beach.fishing")],
     itemType: "collectible",
-    description: {
-      en: "The rare armored swimmer of faction season!",
-      "pt-BR": "The rare armored swimmer of faction season!",
-      "zh-CN": "派系赛季稀有的装甲游泳者！",
-      fr: "The rare armored swimmer of faction season!",
-      tr: "The rare armored swimmer of faction season!",
-    },
+    description: translate("description.battle.fish"),
   },
   "Lemon Shark": {
     image: lemonShark,
     howToGetItem: [translate("ocean.fishing"), translate("beach.fishing")],
     itemType: "collectible",
-    description: {
-      en: "A zesty, zippy swimmer of the Summer seas. Only available during Pharaoh's Treasure season.",
-      "pt-BR":
-        "A zesty, zippy swimmer of the Summer seas. Only available during Pharaoh's Treasure season.",
-      "zh-CN":
-        "A zesty, zippy swimmer of the Summer seas. Only available during Pharaoh's Treasure season.",
-      fr: "A zesty, zippy swimmer of the Summer seas. Only available during Pharaoh's Treasure season.",
-      tr: "A zesty, zippy swimmer of the Summer seas. Only available during Pharaoh's Treasure season.",
-    },
+    description: translate("description.lemon.shark.boost"),
   },
   "Kraken Tentacle": {
     image: krakenTentacle,
-    description: {
-      en: "Dive into deep-sea mystery! This tentacle teases tales of ancient ocean legends and watery wonders.",
-      "pt-BR":
-        "Mergulhe no mistério do mar profundo! Este tentáculo provoca contos de lendas oceânicas antigas e maravilhas aquáticas.",
-      "zh-CN": "挖掘深海奥秘！这触手戏说着古老海洋传说与水底奇世的故事",
-      fr: "Plongez dans le mystère des profondeurs ! Cette tentacule évoque des contes anciens de légendes marines et de merveilles aquatiques.",
-      tr: "Derin deniz gizemine dalın! Bu dokunaç, antik okyanus efsaneleri ve su harikaları hakkındaki hikayeleri anlatıyor.",
-    },
+    description: translate("description.kraken.tentacle"),
   },
   "Sapo Docuras": {
     image: sapoDocuras,
-    description: {
-      en: "A real treat!",
-      "pt-BR": "Um verdadeiro agrado!",
-      "zh-CN": "真正的享受！",
-      fr: "Un vrai régal!",
-      tr: "Gerçek bir tehdit!",
-    },
+    description: translate("description.sapo.docuras"),
   },
   "Sapo Travessuras": {
     image: sapoTravessura,
-    description: {
-      en: "Oh oh...someone was naughty",
-      "pt-BR": "Oh oh... alguém foi travesso",
-      "zh-CN": "噢噢……有人调皮了",
-      fr: "Oh oh... quelqu'un a été méchant.",
-      tr: "Oh oh... birisi yaramazlık yapmış",
-    },
+    description: translate("description.sapo.travessuras"),
   },
   "Lifeguard Ring": {
     image: lifeguardRing,
-    description: {
-      en: "Stay afloat with style, your seaside savior!",
-      "pt-BR": "Mantenha-se à tona com estilo, seu salvador à beira-mar!",
-      "zh-CN": "漂浮你的风尚，你的海岸救星！",
-      fr: "Restez à flot avec style, votre sauveur en bord de mer!",
-      tr: "Deniz kenarındaki kurtarıcınız, stilinizle ayakta kalın!",
-    },
+    description: translate("description.lifeguard.ring"),
   },
   "Beach Umbrella": {
     image: beachUmbrella,
-    description: {
-      en: "Shade, shelter, and seaside chic in one sunny setup!",
-      "pt-BR":
-        "Sombra, abrigo e elegância à beira-mar em um único conjunto ensolarado!",
-      "zh-CN": "遮阳、歇息，一撑架起海滨风尚！",
-      fr: "Ombre, abri et élégance en bord de mer en un seul arrangement ensoleillé!",
-      tr: "Güneşli bir ortamda gölge, barınak ve deniz kenarı şıklığı!",
-    },
+    description: translate("description.beach.umbrella"),
   },
   "Hideaway Herman": {
     image: hideawayHerman,
-    description: {
-      en: "Herman's here to hide, but always peeks for a party!",
-      "pt-BR":
-        "Herman está aqui para se esconder, mas sempre dá uma espiada em uma festa!",
-      "zh-CN": "Herman 在这躲着，但总是瞄着等派对！",
-      fr: "Herman est là pour se cacher, mais regarde toujours pour une fête!",
-      tr: "Herman saklanmak için burada ama her zaman bir parti arıyor!",
-    },
+    description: translate("description.hideaway.herman"),
   },
   "Shifty Sheldon": {
     image: shiftySheldon,
-    description: {
-      en: "Sheldon's sly, always scuttling to the next sandy surprise!",
-      "pt-BR":
-        "Sheldon é astuto, sempre se movendo para a próxima surpresa arenosa!",
-      "zh-CN": "狡猾的 Sheldon，总是匆忙凿着下一个沙岸惊喜！",
-      fr: "Sheldon est sournois, toujours en train de se faufiler vers la prochaine surprise sableuse!",
-      tr: "Sheldon kurnazdır, her zaman bir sonraki sürprize koşar!",
-    },
+    description: translate("description.shifty.sheldon"),
   },
   "Tiki Torch": {
     image: tikiTorch,
-    description: {
-      en: "Light the night, tropical vibes burning bright!",
-      "pt-BR": "Ilumine a noite, vibrações tropicais brilhando intensamente!",
-      "zh-CN": "照亮黑夜，热带风味点燃一切！",
-      fr: "Illuminez la nuit, des vibrations tropicales brûlant brillamment!",
-      tr: "Geceyi aydınlatın, tropik titreşimler parlak bir şekilde yanıyor!",
-    },
+    description: translate("description.tiki.torch"),
   },
   Surfboard: {
     image: surfboard,
-    description: {
-      en: "Ride the waves of wonder, beach bliss on board!",
-      "pt-BR": "Surfe nas ondas da maravilha, bliss de praia a bordo!",
-      "zh-CN": "驾驭你的惊涛骇浪，愿沙滩祝福你的浪板！",
-      fr: "Ridez les vagues de l'émerveillement, béatitude de plage à bord!",
-      tr: "Harika dalgalarda gezin, teknede plaj mutluluğu!",
-    },
+    description: translate("description.surfboard"),
   },
   Walrus: {
     image: walrus,
-    description: {
-      en: "With his trusty tusks and love for the deep, he'll ensure you reel in an extra fish every time",
-      "pt-BR":
-        "Com suas presas confiáveis e amor pelo fundo do mar, ele garantirá que você pesque um peixe extra toda vez",
-      "zh-CN":
-        "凭借他可靠的獠牙和对深海的热爱，他会确保你每次都能钓上额外一条鱼",
-      fr: "Avec ses défenses fiables et son amour pour les profondeurs, il s'assurera que vous pêchiez un poisson de plus à chaque fois.",
-      tr: "Güvenilir dişleri ve derinlere olan sevgisiyle, her seferinde ekstra bir balık yakalamanızı sağlayacaktır.",
-    },
+    description: translate("description.walrus"),
   },
   Alba: {
     image: alba,
-    description: {
-      en: "With her keen instincts, she ensures you get a little extra splash in your catch. 50% chance of +1 Basic Fish!",
-      "pt-BR":
-        "Com seus instintos afiados, ela garante que você receba um pouco de splash extra em sua pesca. 50% de chance de +1 Peixe Básico!",
-      "zh-CN":
-        "凭借她的敏锐直觉，她会确保你上钩的会有额外水花。50% 的几率 +1 基础鱼！",
-      fr: "Avec ses instincts aiguisés, elle s'assure que vous avez un peu plus de plaisir dans votre pêche. 50 % de chances d'obtenir +1 poisson de base!",
-      tr: "Keskin içgüdüleri sayesinde avınıza biraz daha fazla katkı sağlamanızı sağlar. %50 ihtimalle +1 Temel Balık!",
-    },
+    description: translate("description.alba"),
   },
   "Knowledge Crab": {
     image: knowledgeCrab,
-    description: {
-      en: "The Knowledge Crab doubles your Sprout Mix effect, making your soil treasures as rich as sea plunder!",
-      "pt-BR":
-        "O Caranguejo do Conhecimento duplica o efeito da sua Mistura de Broto, tornando seus tesouros de solo tão ricos quanto pilhagem do mar!",
-      "zh-CN":
-        "Knowledge Crab 让你的 Sprout Mix 效果翻倍，让你的田地财宝跟海上劫掠一样滋润！",
-      fr: "Le crabe de la connaissance double l'effet de votre mélange de graines, rendant vos trésors de sol aussi riches que les pillages marins!",
-      tr: "Bilgi Yengeç, Filiz Karışımı etkinizi ikiye katlayarak toprak hazinelerinizi deniz yağmacılığı kadar zengin hale getirir!",
-    },
+    description: translate("description.knowledge.crab"),
   },
   Anchor: {
     image: anchor,
-    description: {
-      en: "Drop anchor with this nautical gem, making every spot seaworthy and splash-tastically stylish!",
-      "pt-BR":
-        "Ancore com esta joia náutica, tornando cada local próprio para navegação e estilisticamente espirituoso!",
-      "zh-CN": "用这颗航海明珠抛锚，让每一块地方都风生水起又流行时锚！",
-      fr: "Jetez l'ancre avec cette gemme nautique, rendant chaque endroit navigable et d'une élégance éclaboussante!",
-      tr: "Bu deniz mücevheriyle demir atın, her noktayı denize uygun hale getirin ve su sıçramasına son derece şık bir hale getirin!",
-    },
+    description: translate("description.anchor"),
   },
   "Rubber Ducky": {
     image: rubberDucky,
-    description: {
-      en: "Float on fun with this classic quacker, bringing bubbly joy to every corner!",
-      "pt-BR":
-        "Flutue na diversão com este patinho clássico, trazendo alegria borbulhante para todos os cantos!",
-      "zh-CN": "伴着这经典叫叫玩具漂浮，传颂胶胶奇趣到每一角落！",
-      fr: "Flottez dans le plaisir avec ce canard classique, apportant une joie pétillante à chaque coin!",
-      tr: "Her köşeye neşeli bir neşe getiren bu klasik şarlatanla eğlencenin tadını çıkarın!",
-    },
+    description: translate("description.rubber.ducky"),
   },
   "Kraken Head": {
     image: krakenHead,
-    description: {
-      en: "Dive into deep-sea mystery! This head teases tales of ancient ocean legends and watery wonders.",
-      "pt-BR":
-        "Mergulhe no mistério do mar profundo! Esta cabeça provoca contos de lendas oceânicas antigas e maravilhas aquáticas.",
-      "zh-CN": "挖掘深海奥秘！这大脑戏说着古老海洋传说与水底奇世的故事",
-      fr: "Plongez dans le mystère des profondeurs ! Cette tête évoque des contes anciens de légendes marines et de merveilles aquatiques.",
-      tr: "Derin deniz gizemine dalın! Bu kafa, eski okyanus efsaneleri ve su harikaları hakkındaki hikayeleri anlatıyor.",
-    },
+    description: translate("description.kraken.head"),
   },
   "Banana Chicken": {
     image: bananaChicken,
-    description: {
-      en: "A chicken that boosts bananas. What a world we live in.",
-      "pt-BR": "Um frango que impulsiona bananas. Em que mundo vivemos?!",
-      "zh-CN": "一只能让香蕉增加产量的鸡。我们这世界可真奇妙。",
-      fr: "Une poule qui booste les bananes. Quel monde nous vivons.",
-      tr: "Muzları artıran bir tavuk. Nasıl bir dünyada yaşıyoruz.",
-    },
+    description: translate("description.banana.chicken"),
   },
   "Crim Peckster": {
     image: crimPeckster,
-    description: {
-      en: "A gem detective with a knack for unearthing Crimstones.",
-      "pt-BR":
-        "Um detetive de gemas com habilidade para desenterrar Crimstones.",
-      "zh-CN": "一位精通揪出红宝石的宝石侦探",
-      fr: "Un détective de gemmes avec un talent pour déterrer des Crimstones.",
-      tr: "Kızıltaşları gün yüzüne çıkarma yeteneğine sahip bir mücevher dedektifi.",
-    },
+    description: translate("description.crim.peckster"),
   },
   "Knight Chicken": {
     image: knightChicken,
-    description: {
-      en: "A strong and noble chicken boosting your oil yield.",
-      "pt-BR": "A strong and noble chicken boosting your oil yield.",
-      "zh-CN": "一只强大而高贵的鸡为您的油田增强产出",
-      fr: "A strong and noble chicken boosting your oil yield.",
-      tr: "A strong and noble chicken boosting your oil yield.",
-    },
+    description: translate("description.knight.chicken"),
   },
   "Pharaoh Chicken": {
     image: pharaohChicken,
-    description: {
-      en: "A ruling chicken, +1 Dig.",
-      "pt-BR": "A ruling chicken, +1 Dig.",
-      "zh-CN": "A ruling chicken, +1 Dig.",
-      fr: "A ruling chicken, +1 Dig.",
-      tr: "A ruling chicken, +1 Dig.",
-    },
+    description: translate("description.pharaoh.chicken"),
   },
   "Skill Shrimpy": {
     image: skillShrimpy,
-    description: {
-      en: "Shrimpy's here to help! He'll ensure you get that extra XP from fish.",
-      "pt-BR":
-        "Shrimpy está aqui para ajudar! Ele garantirá que você obtenha XP extra de peixes.",
-      "zh-CN": "Shrimpy 来帮忙了！他来保你从鱼身上获取额外 XP",
-      fr: "Shrimpy est là pour vous aider ! Il s'assurera que vous obteniez de l'XP supplémentaire des poissons.",
-      tr: "Shrimpy yardım etmek için burada! Balıklardan ekstra XP elde etmeni sağlayacaktır.",
-    },
+    description: translate("description.skill.shrimpy"),
   },
   "Soil Krabby": {
     image: soilKrabby,
-    description: {
-      en: "Speedy sifting with a smile! Enjoy a 10% composter speed boost with this crustaceous champ.",
-      "pt-BR":
-        "Peneira rápida com um sorriso! Desfrute de um aumento de velocidade de 10% no composto com este campeão crustáceo.",
-      "zh-CN": "微笑面对挑拣！有这位坚壳硬汉超人相伴，享受更快 10 % 的堆肥时间",
-      fr: "Tamisage rapide avec le sourire ! Profitez d'une augmentation de vitesse de 10% de la compostière avec ce champion crustacé.",
-      tr: "Bir gülümseme ile hızlan! Bu kabuklu şampiyon ile 10% gübre üretme hızı artışının tadını çıkar.",
-    },
+    description: translate("description.soil.krabby"),
   },
   Nana: {
     image: nana,
-    description: {
-      en: "This rare beauty is a surefire way to boost your banana harvests.",
-      "pt-BR":
-        "Esta beleza rara é uma maneira infalível de impulsionar suas colheitas de banana.",
-      "zh-CN": "这个稀有品种的香蕉美人保你香蕉收成有所增进",
-      fr: "Cette beauté rare est un moyen sûr d'augmenter votre récolte de bananes.",
-      tr: "Bu nadir güzellik, muz hasadını artırmanın kesin bir yoludur.",
-    },
+    description: translate("description.nana"),
   },
   "Time Warp Totem": {
     image: timeWarpTotem,
-    description: {
-      en: "2x speed for crops, trees, fruits, cooking & minerals. Only lasts for 2 hours",
-      "pt-BR":
-        "2x speed for crops, trees, fruits, cooking & minerals. Only lasts for 2 hours",
-      "zh-CN":
-        "庄稼、树木、水果、烹饪和基矿的速度加倍。仅持续2小时（请在开始计时/收获资源前放置）",
-      fr: "2x speed for crops, trees, fruits, cooking & minerals. Only lasts for 2 hours",
-      tr: "2x speed for crops, trees, fruits, cooking & minerals. Only lasts for 2 hours",
-    },
+    description: translate("description.time.warp.totem"),
   },
   "Community Coin": {
     image: communityCoin,
-    description: {
-      en: "A valued coin that can be exchanged for rewards",
-      "pt-BR": "Uma moeda valiosa que pode ser trocada por recompensas",
-      "zh-CN": "A valued coin that can be exchanged for rewards",
-      fr: "Une pièce de valeur pouvant être échangée contre des récompenses",
-      tr: "Ödüllerle takas edilebilecek değerli bir para",
-    },
+    description: translate("description.community.coin"),
   },
   "Arcade Token": {
     image: communityCoin,
-    description: {
-      en: "A token earned from mini-games and adventures. Can be exchanged for rewards.",
-      "pt-BR":
-        "Um token ganho de minijogos e aventuras. Pode ser trocado por recompensas.",
-      "zh-CN": "从小游戏与冒险挣来的代币。可以换取奖赏。",
-      fr: "Un jeton gagné grâce à des mini-jeux et des aventures. Peut être échangé contre des récompenses.",
-      tr: "Mini oyunlardan ve maceralardan kazanılan bir jeton. Ödüllerle takas edilebilir.",
-    },
+    description: translate("description.arcade.token"),
   },
   "Bumpkin Nutcracker": {
     image: nutcracker,
-    description: {
-      en: "A festive decoration from 2023.",
-      "pt-BR": "Uma decoração festiva de 2023.",
-      "zh-CN": "2023 年的节日装饰",
-      fr: "Une décoration festive de 2023.",
-      tr: "2023'ten kalma şenlikli bir dekorasyon.",
-    },
+    description: translate("description.bumpkin.nutcracker"),
   },
   "Festive Tree": {
     image: festiveTree,
-    description: {
-      en: "A festive tree available each holiday season. I wonder if it is big enough for santa to see?",
-      "pt-BR":
-        "Uma árvore festiva disponível em cada temporada de festas. Eu me pergunto se é grande o suficiente para o Papai Noel ver?",
-      "zh-CN": "每到佳节搬上台面的节庆树。好奇够不够大让圣诞老人看见呢？",
-      fr: "Un arbre festif disponible chaque saison des fêtes. Je me demande s'il est assez grand pour que le Père Noël le voie?",
-      tr: "Her tatil sezonunda şenlikli bir ağaç mevcuttur. Acaba Noel Baba'nın görebileceği kadar büyük mü?",
-    },
+    description: translate("description.festive.tree"),
   },
   "White Festive Fox": {
     image: whiteFestiveFox,
-    description: {
-      en: "The blessing of the White Fox inhabits the generous farms",
-      "pt-BR": "A bênção da Raposa Branca habita as fazendas generosas",
-      "zh-CN": "白狐的赐福安居在慷慨的农场",
-      fr: "La bénédiction du Renard Blanc habite les fermes généreuses.",
-      tr: "Beyaz Tilki'nin kutsaması cömert çiftliklerde yaşıyor",
-    },
+    description: translate("description.white.festive.fox"),
   },
   "Grinx's Hammer": {
     image: grinxsHammer,
-    description: {
-      en: "The magical hammer from Grinx, the legendary Goblin Blacksmith.",
-      "pt-BR": "O martelo mágico de Grinx, o lendário Ferreiro Goblin.",
-      "zh-CN": "出自传奇哥布林铁匠 Grinx 之手的魔法锤子",
-      fr: "Le marteau magique de Grinx, le légendaire forgeron gobelin.",
-      tr: "Efsanevi Goblin Demircisi Grinx'in sihirli çekici.",
-    },
+    description: translate("description.grinxs.hammer"),
   },
   Angelfish: {
     image: angelFish,
     howToGetItem: [translate("beach.fishing")],
-    description: {
-      en: "The aquatic celestial beauty, adorned in a palette of vibrant hues.",
-      "pt-BR":
-        "A beleza celestial aquática, adornada com uma paleta de cores vibrantes.",
-      "zh-CN": "海洋的天蓝之美，点缀着缤纷跃动弧光",
-      fr: "La beauté céleste aquatique, ornée d'une palette de couleurs vibrantes.",
-      tr: "Canlı tonlardan oluşan bir paletle süslenmiş sudaki göksel güzellik.",
-    },
+    description: translate("description.angelfish"),
   },
   Halibut: {
     image: halibut,
     howToGetItem: [translate("beach.fishing")],
-    description: {
-      en: "The flat ocean floor dweller, a master of disguise in sandy camouflage.",
-      "pt-BR":
-        "O habitante plano do fundo do oceano, um mestre do disfarce em camuflagem arenosa.",
-      "zh-CN": "海底平地的潜居者，披着沙色迷彩的伪装大师",
-      fr: "Le habitant plat du fond de l'océan, un maître du déguisement en camouflage sableux.",
-      tr: "Düz okyanus tabanı sakini, kumlu kamuflajda kılık değiştirme ustası.",
-    },
+    description: translate("description.halibut"),
   },
   Parrotfish: {
     image: parrotFish,
     howToGetItem: [translate("beach.fishing")],
-    description: {
-      en: "A kaleidoscope of colors beneath the waves, this fish is nature's living artwork.",
-      "pt-BR":
-        "Um caleidoscópio de cores sob as ondas, este peixe é a obra de arte viva da natureza.",
-      "zh-CN": "海浪下的七彩万花筒，这鱼就是大自然的鲜活艺术造物",
-      fr: "Un kaléidoscope de couleurs sous les vagues, ce poisson est une œuvre d'art vivante de la nature.",
-      tr: "Dalgaların altındaki renklerden oluşan bir kaleydoskop olan bu balık, doğanın yaşayan sanat eseridir.",
-    },
+    description: translate("description.parrotFish"),
   },
   Rug: {
     image: SUNNYSIDE.decorations.rug,
-    description: {
-      en: "?",
-      "pt-BR": "?",
-      "zh-CN": "?",
-      fr: "?",
-      tr: "?",
-    },
+    description: "?",
   },
   Wardrobe: {
     image: SUNNYSIDE.decorations.wardrobe,
-    description: {
-      en: "?",
-      "pt-BR": "?",
-      "zh-CN": "?",
-      fr: "?",
-      tr: "?",
-    },
+    description: "?",
   },
   "Farmhand Coupon": {
     image: budTicket,
-    description: {
-      en: "?",
-      "pt-BR": "?",
-      "zh-CN": "?",
-      fr: "?",
-      tr: "?",
-    },
+    description: translate("description.farmhand.coupon"),
   },
   Farmhand: {
     image: SUNNYSIDE.icons.player,
-    description: {
-      en: "A helpful farmhand",
-      "pt-BR": "Um ajudante de fazenda útil",
-      "zh-CN": "热心的雇农",
-      fr: "Un ouvrier agricole utile.",
-      tr: "Yardımsever bir çiftçi",
-    },
+    description: translate("description.farmhand"),
   },
   Beehive: {
     image: beehive,
-    description: {
-      en: "A bustling beehive, producing honey from actively growing flowers; 10% chance upon Honey harvest to summon a bee swarm which will pollinate all growing crops with a +0.2 boost!",
-      "pt-BR":
-        "Uma colmeia agitada, produzindo mel a partir de flores em crescimento ativo; 10% de chance ao colher Mel de invocar um enxame de abelhas que polinizará todas as plantações em crescimento com um impulso de +0.2!",
-      "zh-CN":
-        "熙熙攘攘的蜂巢，从生长的花卉采来产出蜂蜜；收获满溢的蜂蜜有 10 % 的概率召来蜂群，为生长的庄稼授粉增加 0.2 的产出！",
-      fr: "Une ruche animée, produisant du Honey à partir de fleurs en croissance active ; 10 % de chance lors de la récolte du Honey d'invoquer un essaim d'abeilles qui pollinisera toutes les cultures en croissance avec un bonus de +0.2!",
-      tr: "Aktif olarak büyüyen çiçeklerden bal üreten hareketli bir arı kovanı; Bal hasadında, büyüyen tüm mahsulleri +0,2 artışla tozlaştıracak bir arı sürüsü çağırma şansı %10!",
-    },
+    description: translate("description.Beehive"),
   },
   "Red Pansy": {
     image: redPansy,
-    description: {
-      en: "A red pansy.",
-      "pt-BR": "Uma pansy vermelha.",
-      "zh-CN": "红三色堇。一朵红三色堇。",
-      fr: "Une red pansy.",
-      tr: "Kırmızı bir menekşe.",
-    },
+    description: FLOWERS["Red Pansy"].description,
   },
   "Yellow Pansy": {
     image: yellowPansy,
-    description: {
-      en: "A yellow pansy.",
-      "pt-BR": "Uma pansy amarela.",
-      "zh-CN": "黄三色堇。一朵黄三色堇。",
-      fr: "Une yellow pansy.",
-      tr: "Sarı bir menekşe.",
-    },
+    description: FLOWERS["Yellow Pansy"].description,
   },
   "Purple Pansy": {
     image: purplePansy,
-    description: {
-      en: "A purple pansy.",
-      "pt-BR": "Uma pansy roxa.",
-      "zh-CN": "紫三色堇。一朵紫三色堇。",
-      fr: "Une purple pansy.",
-      tr: "Mor bir menekşe.",
-    },
+    description: FLOWERS["Purple Pansy"].description,
   },
   "White Pansy": {
     image: whitePansy,
-    description: {
-      en: "A white pansy.",
-      "pt-BR": "Uma pansy branca.",
-      "zh-CN": "白三色堇。一朵白三色堇。",
-      fr: "Une white panssy.",
-      tr: "Beyaz bir menekşe.",
-    },
+    description: FLOWERS["White Pansy"].description,
   },
   "Blue Pansy": {
     image: bluePansy,
-    description: {
-      en: "A blue pansy.",
-      "pt-BR": "Uma pansy azul.",
-      "zh-CN": "蓝三色堇。一朵蓝三色堇。",
-      fr: "Une blue pansy.",
-      tr: "Mavi bir menekşe.",
-    },
+    description: FLOWERS["Blue Pansy"].description,
   },
   "Red Cosmos": {
     image: redCosmos,
-    description: {
-      en: "A red cosmos.",
-      "pt-BR": "Um cosmos vermelho.",
-      "zh-CN": "红波斯菊。一朵红波斯菊。",
-      fr: "Un red cosmos.",
-      tr: "Kırmızı bir Cosmos.",
-    },
+    description: FLOWERS["Red Cosmos"].description,
   },
   "Yellow Cosmos": {
     image: yellowCosmos,
-    description: {
-      en: "A yellow cosmos.",
-      "pt-BR": "Um cosmos amarelo.",
-      "zh-CN": "黄波斯菊。一朵黄色波斯菊。",
-      fr: "Un yellow cosmos.",
-      tr: "Sarı bir Cosmos.",
-    },
+    description: FLOWERS["Yellow Cosmos"].description,
   },
   "Purple Cosmos": {
     image: purpleCosmos,
-    description: {
-      en: "A purple cosmos.",
-      "pt-BR": "Um cosmos roxo.",
-      "zh-CN": "紫波斯菊。一朵紫波斯菊。",
-      fr: "Un purple cosmos.",
-      tr: "Mor bir Cosmos.",
-    },
+    description: FLOWERS["Purple Cosmos"].description,
   },
   "White Cosmos": {
     image: whiteCosmos,
-    description: {
-      en: "A white cosmos.",
-      "pt-BR": "Um cosmos branco.",
-      "zh-CN": "白波斯菊。一朵白波斯菊。",
-      fr: "Un white cosmos.",
-      tr: "Beyaz bir Cosmos.",
-    },
+    description: FLOWERS["White Cosmos"].description,
   },
   "Blue Cosmos": {
     image: blueCosmos,
-    description: {
-      en: "A blue cosmos.",
-      "pt-BR": "Um cosmos azul.",
-      "zh-CN": "蓝波斯菊。一朵蓝波斯菊。",
-      fr: "Un blue cosmos.",
-      tr: "Mavi bir Cosmos.",
-    },
+    description: FLOWERS["Blue Cosmos"].description,
   },
   "Red Balloon Flower": {
     image: redBalloonFlower,
-    description: {
-      en: "A red balloon flower.",
-      "pt-BR": "Uma flor de balão vermelho.",
-      "zh-CN": "红桔梗。一朵红桔梗。",
-      fr: "Une red balloon flower.",
-      tr: "Kırmızı balon çiçeği.",
-    },
+    description: FLOWERS["Red Balloon Flower"].description,
   },
   "Yellow Balloon Flower": {
     image: yellowBalloonFlower,
-    description: {
-      en: "A yellow balloon flower.",
-      "pt-BR": "Uma flor de balão amarelo.",
-      "zh-CN": "黄桔梗。一朵黄桔梗。",
-      fr: "Une yellow balloon flower.",
-      tr: "Sarı balon çiçeği.",
-    },
+    description: FLOWERS["Yellow Balloon Flower"].description,
   },
   "Purple Balloon Flower": {
     image: purpleBalloonFlower,
-    description: {
-      en: "A purple balloon flower.",
-      "pt-BR": "Uma flor de balão roxo.",
-      "zh-CN": "紫桔梗。一朵紫桔梗。",
-      fr: "Une purple balloon flower.",
-      tr: "Mor bir balon çiçeği.",
-    },
+    description: FLOWERS["Purple Balloon Flower"].description,
   },
   "White Balloon Flower": {
     image: whiteBalloonFlower,
-    description: {
-      en: "A white balloon flower.",
-      "pt-BR": "Uma flor de balão branca.",
-      "zh-CN": "白桔梗。一朵白桔梗。",
-      fr: "Une white balloon flower.",
-      tr: "Beyaz bir balon çiçeği.",
-    },
+    description: FLOWERS["White Balloon Flower"].description,
   },
   "Blue Balloon Flower": {
     image: blueBalloonFlower,
-    description: {
-      en: "A blue balloon flower.",
-      "pt-BR": "Uma flor de balão azul.",
-      "zh-CN": "蓝桔梗。一朵蓝桔梗。",
-      fr: "Une blue balloon flower.",
-      tr: "Mavi balon çiçeği.",
-    },
+    description: FLOWERS["Blue Balloon Flower"].description,
   },
   "Red Carnation": {
     image: redCarnation,
-    description: {
-      en: "A red carnation.",
-      "pt-BR": "Um cravo vermelho.",
-      "zh-CN": "红康乃馨。一朵红康乃馨。",
-      fr: "Une red carnation.",
-      tr: "Kırmızı bir karanfil.",
-    },
+    description: FLOWERS["Red Carnation"].description,
   },
   "Yellow Carnation": {
     image: yellowCarnation,
-    description: {
-      en: "A yellow carnation.",
-      "pt-BR": "Um cravo amarelo.",
-      "zh-CN": "黄康乃馨。一朵黄康乃馨。",
-      fr: "Une yellow carnation.",
-      tr: "Sarı bir karanfil.",
-    },
+    description: FLOWERS["Yellow Carnation"].description,
   },
   "Purple Carnation": {
     image: purpleCarnation,
-    description: {
-      en: "A purple carnation.",
-      "pt-BR": "Um cravo roxo.",
-      "zh-CN": "紫康乃馨。一朵紫康乃馨。",
-      fr: "Une purple carnation.",
-      tr: "Mor bir karanfil.",
-    },
+    description: FLOWERS["Purple Carnation"].description,
   },
   "White Carnation": {
     image: whiteCarnation,
-    description: {
-      en: "A white carnation.",
-      "pt-BR": "Um cravo branco.",
-      "zh-CN": "白康乃馨。一朵白康乃馨。",
-      fr: "Unewhite carnation.",
-      tr: "Beyaz bir karanfil.",
-    },
+    description: FLOWERS["White Carnation"].description,
   },
   "Blue Carnation": {
     image: blueCarnation,
-    description: {
-      en: "A blue carnation.",
-      "pt-BR": "Um cravo azul.",
-      "zh-CN": "蓝康乃馨。一朵蓝康乃馨。",
-      fr: "Une blue carnation.",
-      tr: "Mavi bir karanfil.",
-    },
+    description: FLOWERS["Blue Carnation"].description,
   },
   "Humming Bird": {
     image: hummingBird,
-    description: {
-      en: "A tiny jewel of the sky, the Humming Bird flits with colorful grace.",
-      "pt-BR":
-        "Um joia minúscula do céu, o Beija-flor flutua com graça colorida.",
-      "zh-CN": "小小天上明珠，Humming Bird 捧七彩的优雅飞掠而过",
-      fr: "Un joyau du ciel, le Colibri virevolte avec grâce et couleur.",
-      tr: "Gökyüzünün minik bir mücevheri olan Sinek Kuşu, rengarenk bir zarafetle uçuyor.",
-    },
+    description: translate("description.humming.bird"),
   },
   "Queen Bee": {
     image: queenBee,
-    description: {
-      en: "Majestic ruler of the hive, the Queen Bee buzzes with regal authority.",
-      "pt-BR":
-        "Régia majestosa da colmeia, a Abelha Rainha zumbindo com autoridade régia.",
-      "zh-CN": "蜂巢的威严统领，Queen Bee 以至高君权嗡嗡号令",
-      fr: "Majestueuse reine de la ruche, l'Abeille Reine bourdonne avec autorité royale.",
-      tr: "Kovanın görkemli hükümdarı Kraliçe Arı, kraliyet otoritesiyle vızıldıyor.",
-    },
+    description: translate("description.queen.bee"),
   },
   "Flower Fox": {
     image: flowerFox,
-    description: {
-      en: "The Flower Fox, a playful creature adorned with petals, brings joy to the garden.",
-      "pt-BR":
-        "A Raposa Flor, uma criatura lúdica adornada com pétalas, traz alegria ao jardim.",
-      "zh-CN": "Flower Fox，花瓣簇拥的欢欣生灵，为花园带来雀跃",
-      fr: "Le Renard des Fleurs, une créature espiègle ornée de pétales, apporte de la joie au jardin.",
-      tr: "Yapraklarla süslenmiş oyuncu bir yaratık olan Çiçek Tilki, bahçeye neşe katıyor.",
-    },
+    description: translate("description.flower.fox"),
   },
   "Hungry Caterpillar": {
     image: hungryCaterpillar,
-    description: {
-      en: "Munching through leaves, the Hungry Caterpillar is always ready for a tasty adventure.",
-      "pt-BR":
-        "Devorando folhas, a Lagarta Faminta está sempre pronta para uma aventura saborosa.",
-      "zh-CN": "嚼着树叶，Hungry Caterpillar 总蓄势等待下一场美味冒险",
-      fr: "Se régalant de feuilles, la Chenille Gourmande est toujours prête pour une aventure savoureuse.",
-      tr: "Yaprakları yerken Aç Tırtıl her zaman lezzetli bir maceraya hazırdır.",
-    },
+    description: translate("description.hungry.caterpillar"),
   },
   "Sunrise Bloom Rug": {
     image: sunriseBloomRug,
-    description: {
-      en: "Step onto the Sunrise Bloom Rug, where petals dance around a floral sunrise.",
-      "pt-BR":
-        "Pise no Tapete de Flores do Amanhecer, onde pétalas dançam ao redor de um nascer do sol floral.",
-      "zh-CN": "踏上 Sunrise Bloom Rug，花瓣在之上舞起花香晨光。",
-      fr: "Marchez sur le Tapis de l'Éclosion du Soleil, où les pétales dansent autour d'un lever de soleil floral.",
-      tr: "Yaprakların çiçekli gün doğumu etrafında dans ettiği Sunrise Bloom Rug'a adım atın.",
-    },
+    description: translate("description.sunrise.bloom.rug"),
   },
   "Flower Rug": {
     image: flowerRug,
-    description: {
-      en: "Add a touch of nature's elegance to your home.",
-      "pt-BR": "Add a touch of nature's elegance to your home.",
-      "zh-CN": "Add a touch of nature's elegance to your home.",
-      fr: "Add a touch of nature's elegance to your home.",
-      tr: "Add a touch of nature's elegance to your home.",
-    },
+    description: translate("description.flower.rug"),
   },
   "Tea Rug": {
     image: teaRug,
-    description: {
-      en: "Rug boasting a warm and inviting tea-colored hue that exudes comfort.",
-      "pt-BR":
-        "Rug boasting a warm and inviting tea-colored hue that exudes comfort.",
-      "zh-CN":
-        "Rug boasting a warm and inviting tea-colored hue that exudes comfort.",
-      fr: "Rug boasting a warm and inviting tea-colored hue that exudes comfort.",
-      tr: "Rug boasting a warm and inviting tea-colored hue that exudes comfort.",
-    },
+    description: translate("description.tea.rug"),
   },
   "Green Field Rug": {
     image: greenFieldRug,
-    description: {
-      en: "A beautiful rug of deep green hue's reminiscent of a vibrant meadow in full bloom.",
-      "pt-BR":
-        "A beautiful rug of deep green hue's reminiscent of a vibrant meadow in full bloom.",
-      "zh-CN":
-        "A beautiful rug of deep green hue's reminiscent of a vibrant meadow in full bloom.",
-      fr: "A beautiful rug of deep green hue's reminiscent of a vibrant meadow in full bloom.",
-      tr: "A beautiful rug of deep green hue's reminiscent of a vibrant meadow in full bloom.",
-    },
+    description: translate("description.green.field.rug"),
   },
   "Blossom Royale": {
     image: blossomRoyale,
-    description: {
-      en: "The Blossom Royale, a giant flower in vibrant blue and pink, stands in majestic bloom.",
-      "pt-BR":
-        "O Royale da Flor, uma flor gigante em azul e rosa vibrantes, está em majestosa floração.",
-      "zh-CN": "Blossom Royale，蓝与粉鲜活荡漾的巨大花朵，挺拔撑起俨然绽放。",
-      fr: "Le Blossom Royale, une fleur géante aux couleurs bleues et roses vibrantes, se dresse en majesté.",
-      tr: "Canlı mavi ve pembe renkte dev bir çiçek olan Blossom Royale, görkemli bir çiçek içinde duruyor.",
-    },
+    description: translate("description.blossom.royale"),
   },
   Rainbow: {
     image: rainbow,
-    description: {
-      en: "A cheerful Rainbow, bridging sky and earth with its colorful arch.",
-      "pt-BR":
-        "Um Arco-íris alegre, unindo o céu e a terra com seu arco colorido.",
-      "zh-CN": "欢乐彩虹，为天地搭起七彩拱桥。",
-      fr: "Un arc-en-ciel joyeux, reliant le ciel et la terre avec son arc-en-ciel coloré.",
-      tr: "Rengarenk kemeriyle gökyüzü ile yeryüzü arasında köprü oluşturan neşeli bir Gökkuşağı.",
-    },
+    description: translate("description.rainbow"),
   },
   "Enchanted Rose": {
     image: enchantedRose,
-    description: {
-      en: "The Enchanted Rose, a symbol of eternal beauty, captivates with its magical allure.",
-      "pt-BR":
-        "A Rosa Encantada, um símbolo de beleza eterna, cativa com seu fascínio mágico.",
-      "zh-CN": "Enchanted Rose，永生美丽的象征，沉迷在她的魔法魅力里吧。",
-      fr: "La Rose Enchantée, symbole de beauté éternelle, captive par son charme magique.",
-      tr: "Sonsuz güzelliğin sembolü olan Büyülü Gül, büyülü cazibesiyle büyülüyor.",
-    },
+    description: translate("description.enchanted.rose"),
   },
   "Flower Cart": {
     image: flowerCart,
-    description: {
-      en: "The Flower Cart, brimming with blooms, is a mobile garden of floral delights.",
-      "pt-BR":
-        "O Carrinho de Flores, transbordante de flores, é um jardim móvel de delícias florais.",
-      "zh-CN": "Flower Cart，满盛花开，移动花园推动鲜花喜悦。",
-      fr: "Le Chariot de Fleurs, débordant de fleurs, est un jardin mobile de délices floraux.",
-      tr: "Çiçeklerle dolu Çiçek Arabası, çiçek lezzetleriyle dolu hareketli bir bahçedir.",
-    },
+    description: translate("description.flower.cart"),
   },
   Capybara: {
     image: capybara,
-    description: {
-      en: "The Capybara, a laid-back friend, enjoys lazy days by the water's edge.",
-      "pt-BR":
-        "A Capivara, uma amiga tranquila, desfruta de dias preguiçosos à beira da água.",
-      "zh-CN": "Capybara，悠闲伙伴，享受水边的慵懒时光。",
-      fr: "Le Capybara, un ami décontracté, apprécie les journées paisibles au bord de l'eau.",
-      tr: "Rahat bir arkadaş olan Kapibara, su kenarında tembel günlerin tadını çıkarır.",
-    },
+    description: translate("description.capybara"),
   },
   "Prism Petal": {
     image: prismPetal,
-    description: {
-      en: "Wow! What a beautiful flower! I think this one is worthy of placing on your farm.",
-      "pt-BR":
-        "Uau! Que flor bonita! Acho que esta vale a pena colocar em sua fazenda.",
-      "zh-CN": "哇！好一朵漂亮鲜花！我看这朵很值得你放在农场上。",
-      fr: "Waouh ! Quelle belle fleur ! Je pense que celle-ci mérite d'être placée sur votre ferme.",
-      tr: "Vay! Ne güzel bir çiçek! Bunun çiftliğinize yerleştirmeye değer olduğunu düşünüyorum.",
-    },
+    description: FLOWERS["Prism Petal"].description,
   },
   "Celestial Frostbloom": {
     image: celestialFrostbloom,
-    description: {
-      en: "Wow! What a beautiful flower! I think this one is worthy of placing on your farm.",
-      "pt-BR":
-        "Uau! Que flor bonita! Acho que esta vale a pena colocar em sua fazenda.",
-      "zh-CN": "哇！好一朵漂亮鲜花！我看这朵很值得你放在农场上。",
-      fr: "Waouh ! Quelle belle fleur ! Je pense que celle-ci mérite d'être placée sur votre ferme.",
-      tr: "Vay! Ne güzel bir çiçek! Bunun çiftliğinize yerleştirmeye değer olduğunu düşünüyorum.",
-    },
+    description: FLOWERS["Celestial Frostbloom"].description,
   },
   "Primula Enigma": {
     image: primulaEnigma,
-    description: {
-      en: "Wow! What a beautiful flower! I think this one is worthy of placing on your farm.",
-      "pt-BR":
-        "Uau! Que flor bonita! Acho que esta vale a pena colocar em sua fazenda.",
-      "zh-CN": "哇！好一朵漂亮鲜花！我看这朵很值得你放在农场上。",
-      fr: "Waouh ! Quelle belle fleur ! Je pense que celle-ci mérite d'être placée sur votre ferme.",
-      tr: "Vay! Ne güzel bir çiçek! Bunun çiftliğinize yerleştirmeye değer olduğunu düşünüyorum.",
-    },
+    description: FLOWERS["Primula Enigma"].description,
   },
   "Red Daffodil": {
     image: redDaffodil,
-    description: {
-      en: "A red daffodil.",
-      "pt-BR": "Um narciso vermelho.",
-      "zh-CN": "红水仙花。一朵红水仙花。",
-      fr: "Une red daffodil.",
-      tr: "Kırmızı bir nergis.",
-    },
+    description: FLOWERS["Red Daffodil"].description,
   },
   "Yellow Daffodil": {
     image: yellowDaffodil,
-    description: {
-      en: "A yellow daffodil.",
-      "pt-BR": "Um narciso amarelo.",
-      "zh-CN": "黄水仙花。一朵黄水仙花。",
-      fr: "Une yellow daffodil.",
-      tr: "Sarı bir nergis.",
-    },
+    description: FLOWERS["Yellow Daffodil"].description,
   },
   "Purple Daffodil": {
     image: purpleDaffodil,
-    description: {
-      en: "A purple daffodil.",
-      "pt-BR": "Um narciso roxo.",
-      "zh-CN": "紫水仙花。一朵紫水仙花l。",
-      fr: "Une purple daffodil.",
-      tr: "Mor bir nergis.",
-    },
+    description: FLOWERS["Purple Daffodil"].description,
   },
   "White Daffodil": {
     image: whiteDaffodil,
-    description: {
-      en: "A white daffodil.",
-      "pt-BR": "Um narciso branco.",
-      "zh-CN": "白水仙花。一朵白水仙花。",
-      fr: "Une white daffodil.",
-      tr: "Beyaz bir nergis.",
-    },
+    description: FLOWERS["White Daffodil"].description,
   },
   "Blue Daffodil": {
     image: blueDaffodil,
-    description: {
-      en: "A blue daffodil.",
-      "pt-BR": "Um narciso azul.",
-      "zh-CN": "蓝水仙花。一朵蓝水仙花。",
-      fr: "Une blue daffodil.",
-      tr: "Mavi bir nergis.",
-    },
+    description: FLOWERS["Blue Daffodil"].description,
   },
   "Red Lotus": {
     image: redLotus,
-    description: {
-      en: "A red lotus.",
-      "pt-BR": "Um lótus vermelho.",
-      "zh-CN": "红莲花。一朵红莲花。",
-      fr: "Un red lotus.",
-      tr: "Kırmızı bir nilüfer.",
-    },
+    description: FLOWERS["Red Lotus"].description,
   },
   "Yellow Lotus": {
     image: yellowLotus,
-    description: {
-      en: "A yellow lotus.",
-      "pt-BR": "Um lótus amarelo.",
-      "zh-CN": "黄莲花。一朵黄莲花。",
-      fr: "Un yellow lotus.",
-      tr: "Sarı bir nilüfer.",
-    },
+    description: FLOWERS["Yellow Lotus"].description,
   },
   "Purple Lotus": {
     image: purpleLotus,
-    description: {
-      en: "A purple lotus.",
-      "pt-BR": "Um lótus roxo.",
-      "zh-CN": "紫莲花。一朵紫莲花。",
-      fr: "Un purple lotus.",
-      tr: "Mor bir nilüfer.",
-    },
+    description: FLOWERS["Purple Lotus"].description,
   },
   "White Lotus": {
     image: whiteLotus,
-    description: {
-      en: "A white lotus.",
-      "pt-BR": "Um lótus branco.",
-      "zh-CN": "白莲花。一朵白莲花。",
-      fr: "Un white lotus.",
-      tr: "Beyaz bir nilüfer.",
-    },
+    description: FLOWERS["White Lotus"].description,
   },
   "Blue Lotus": {
     image: blueLotus,
-    description: {
-      en: "A blue lotus.",
-      "pt-BR": "Um lótus azul.",
-      "zh-CN": "蓝莲花。一朵蓝莲花。",
-      fr: "Un blue lotus.",
-      tr: "Mavi bir nilüfer.",
-    },
+    description: FLOWERS["Blue Lotus"].description,
   },
   "Earn Alliance Banner": {
     image: earnAllianceBanner,
-    description: {
-      en: "A special event banner",
-      "pt-BR": "Um banner de evento especial",
-      "zh-CN": "一杆特别活动的旗帜",
-      fr: "A special event banner",
-      tr: "Özel bir etkinlik bayrağı",
-    },
+    description: translate("description.earnAllianceBanner"),
   },
   "Luxury Key": {
     image: luxuryKey,
-    description: {
-      en: "Visit the plaza near woodlands to unlock your reward",
-      "pt-BR":
-        "Visite o Plaza perto de Woodlands para desbloquear sua recompensa",
-      "zh-CN": "Visit the plaza near woodlands to unlock your reward",
-      fr: "Visitez la place près des bois pour débloquer votre récompense",
-      tr: "Plazanın Ağaç diyarına yakın olan kısmında sandığınızı açın",
-    },
+    description: translate("description.luxury.key"),
   },
   "Rare Key": {
     image: rareKey,
-    description: {
-      en: "Visit the beach to unlock your reward",
-      "pt-BR": "Visite a praia para desbloquear sua recompensa",
-      "zh-CN": "Visit the beach to unlock your reward",
-      fr: "Visitez la plage pour débloquer votre récompense",
-      tr: "Sahili ziyaret edin ve sandığınızı açın",
-    },
+    description: translate("description.rare.key"),
   },
   "Prize Ticket": {
     image: prizeTicket,
-    description: {
-      en: "A prized ticket. You can use it to enter the monthly goblin raffle.",
-      "pt-BR": "Um ticket para entrar nos sorteios de prêmios",
-      "zh-CN":
-        "A prized ticket. You can use it to enter the monthly goblin raffle.",
-      fr: "Un ticket pour participer au concours de fin de saison",
-      tr: "Ödül çekilişlerine katılmak için bir bilet",
-    },
+    description: COUPONS["Prize Ticket"].description,
   },
   "Baby Panda": {
     image: babyPanda,
-    description: {
-      en: "A cute panda from the Gas Hero event. Double experience for beginners during March.",
-      "pt-BR":
-        "A cute panda from the Gas Hero event. Double experience for beginners during March.",
-      "zh-CN":
-        "A cute panda from the Gas Hero event. Double experience for beginners during March.",
-      fr: "Un adorable panda de l'événement Gas Hero.",
-      tr: "Gas Hero etkinliğinden sevimli bir panda. Mart ayında yeni başlayanlar için 2x XP.",
-    },
+    description: translate("description.babyPanda"),
   },
   Baozi: {
     image: baozi,
-    description: {
-      en: "A delicious treat from the Lunar New Year event.",
-      "pt-BR": "A delicious treat from the Lunar New Year event.",
-      "zh-CN": "A delicious treat from the Lunar New Year event.",
-      fr: "Une délicieuse friandise de l'événement du Nouvel An lunaire.",
-      tr: "Ay Yeni Yılı etkinliğinden lezzetli bir ikram.",
-    },
+    description: translate("description.baozi"),
   },
   "Community Egg": {
     image: communityEgg,
-    description: {
-      en: "Wow, you must really care about the community!",
-      "pt-BR": "Wow, you must really care about the community!",
-      "zh-CN": "哇，你一定非常关心社区！",
-      fr: "Wow, vous devez vraiment vous soucier de la communauté !",
-      tr: "Wow, you must really care about the community!",
-    },
+    description: translate("description.communityEgg"),
   },
   "Hungry Hare": {
     image: hungryHare,
-    description: {
-      en: "This ravenous rabbit hops through your farm. A special event item from Easter 2024",
-      "pt-BR":
-        "This ravenous rabbit hops through your farm. A special event item from Easter 2024",
-      "zh-CN": "这只贪吃的小兔子跳进了你的农场。2024年复活节的特别活动物品",
-      fr: "Ce lapin vorace saute dans votre ferme. Un objet spécial de l'événement de Pâques 2024.",
-      tr: "This ravenous rabbit hops through your farm. A special event item from Easter 2024",
-    },
+    description: translate("description.hungryHare"),
   },
   "Turbo Sprout": {
     image: turboSprout,
-    description: {
-      en: "An engine that reduces the Green House's growth time by 50%.",
-      "pt-BR": "An engine that reduces the Green House's growth time by 50%.",
-      "zh-CN": "一台为温室减少 50 % 生长时间的引擎。",
-      fr: "An engine that reduces the Green House's growth time by 50%.",
-      tr: "An engine that reduces the Green House's growth time by 50%.",
-    },
+    description: translate("description.turbo.sprout"),
   },
   Soybliss: {
     image: soybliss,
-    description: {
-      en: "A unique soy creature that gives +1 Soybean yield.",
-      "pt-BR": "A unique soy creature that gives +1 Soybean yield.",
-      "zh-CN": "为大豆 +1 产出的奇特豆豆生物。",
-      fr: "A unique soy creature that gives +1 Soybean yield.",
-      tr: "A unique soy creature that gives +1 Soybean yield.",
-    },
+    description: translate("description.soybliss"),
   },
   "Grape Granny": {
     image: grapeGranny,
-    description: {
-      en: "Wise matriarch nurturing grapes to flourish with +1 yield.",
-      "pt-BR": "Wise matriarch nurturing grapes to flourish with +1 yield.",
-      "zh-CN": "女族长悉心睿智的照料助长葡萄 +1 产出。",
-      fr: "Wise matriarch nurturing grapes to flourish with +1 yield.",
-      tr: "Wise matriarch nurturing grapes to flourish with +1 yield.",
-    },
+    description: translate("description.grape.granny"),
   },
   "Royal Throne": {
     image: royalThrone,
-    description: {
-      en: "A throne fit for the highest ranking farmer.",
-      "pt-BR": "A throne fit for the highest ranking farmer.",
-      "zh-CN": "为至高阶农夫打造的王位。",
-      fr: "A throne fit for the highest ranking farmer.",
-      tr: "A throne fit for the highest ranking farmer.",
-    },
+    description: translate("description.royal.throne"),
   },
   "Lily Egg": {
     image: lilyEgg,
-    description: {
-      en: "Tiny delight, grand beauty, endless wonder.",
-      "pt-BR": "Tiny delight, grand beauty, endless wonder.",
-      "zh-CN": "小小欣喜，大大美丽，久久惊奇。",
-      fr: "Tiny delight, grand beauty, endless wonder.",
-      tr: "Tiny delight, grand beauty, endless wonder.",
-    },
+    description: translate("description.lily.egg"),
   },
   Goblet: {
     image: goblet,
-    description: {
-      en: "A goblet that holds the finest of wines.",
-      "pt-BR": "A goblet that holds the finest of wines.",
-      "zh-CN": "至珍美酒高杯藏。",
-      fr: "A goblet that holds the finest of wines.",
-      tr: "A goblet that holds the finest of wines.",
-    },
+    description: translate("description.goblet"),
   },
   "Fancy Rug": {
     image: fancyRug,
-    description: {
-      en: "A rug that brings a touch of elegance to any room.",
-      "pt-BR": "A rug that brings a touch of elegance to any room.",
-      "zh-CN": "叫任何房间都蓬荜生辉的地毯。",
-      fr: "A rug that brings a touch of elegance to any room.",
-      tr: "A rug that brings a touch of elegance to any room.",
-    },
+    description: translate("description.fancy.rug"),
   },
   Clock: {
     image: clock,
-    description: {
-      en: "A Clock that keeps time with the gentle ticking of the seasons.",
-      "pt-BR":
-        "A Clock that keeps time with the gentle ticking of the seasons.",
-      "zh-CN": "时钟的脚步轻响时季的滴答",
-      fr: "A Clock that keeps time with the gentle ticking of the seasons.",
-      tr: "A Clock that keeps time with the gentle ticking of the seasons.",
-    },
+    description: translate("description.clock"),
   },
   Vinny: {
     image: vinny,
-    description: {
-      en: "Vinny, a friendly grapevine, is always ready for a chat.",
-      "pt-BR": "Vinny, a friendly grapevine, is always ready for a chat.",
-      "zh-CN": "Vinny，友善葡萄藤，随时欢迎闲聊。",
-      fr: "Vinny, a friendly grapevine, is always ready for a chat.",
-      tr: "Vinny, a friendly grapevine, is always ready for a chat.",
-    },
+    description: translate("description.vinny"),
   },
   "Beetroot Blaze": {
     image: beetrootBlaze,
-    description: {
-      en: "A spicy beetroot-infused magic mushroom dish",
-      "pt-BR": "A spicy beetroot-infused magic mushroom dish",
-      "zh-CN": "A spicy beetroot-infused magic mushroom dish",
-      fr: "A spicy beetroot-infused magic mushroom dish",
-      tr: "A spicy beetroot-infused magic mushroom dish",
-    },
+    description: CONSUMABLES["Beetroot Blaze"].description,
   },
   "Rapid Roast": {
     image: rapidRoast,
-    description: {
-      en: "For Bumpkins in a hurry...",
-      "pt-BR": "For Bumpkins in a hurry...",
-      "zh-CN": "对于急着赶路的乡巴佬来说……",
-      fr: "For Bumpkins in a hurry...",
-      tr: "For Bumpkins in a hurry...",
-    },
+    description: CONSUMABLES["Rapid Roast"].description,
   },
   "Shroom Syrup": {
     image: shroomSyrup,
-    description: {
-      en: "The essence of bees and enchanted fungi",
-      "pt-BR": "The essence of bees and enchanted fungi",
-      "zh-CN": "The essence of bees and enchanted fungi",
-      fr: "The essence of bees and enchanted fungi",
-      tr: "The essence of bees and enchanted fungi",
-    },
+    description: CONSUMABLES["Shroom Syrup"].description,
   },
   "Gaucho Rug": {
     image: gauchoRug,
-    description: {
-      en: "A commerative rug to support South Brazil.",
-      "pt-BR": "A commerative rug to support South Brazil.",
-      "zh-CN": "纪念驰援南巴西的地毯。",
-      fr: "A commerative rug to support South Brazil.",
-      tr: "A commerative rug to support South Brazil.",
-    },
+    description: translate("description.gauchoRug"),
   },
   "Battlecry Drum": {
     image: battleCryDrum,
-    description: {
-      en: "",
-      "pt-BR": "",
-      "zh-CN": "",
-      fr: "",
-      tr: "",
-    },
+    description: "",
   },
   "Bullseye Board": {
     image: bullseyBoard,
-    description: {
-      en: "",
-      "pt-BR": "",
-      "zh-CN": "",
-      fr: "",
-      tr: "",
-    },
+    description: "",
   },
   "Chess Rug": {
     image: chessRug,
-    description: {
-      en: "",
-      "pt-BR": "",
-      "zh-CN": "",
-      fr: "",
-      tr: "",
-    },
+    description: "",
   },
   Cluckapult: {
     image: cluckapult,
-    description: {
-      en: "",
-      "pt-BR": "",
-      "zh-CN": "",
-      fr: "",
-      tr: "",
-    },
+    description: "",
   },
   "Golden Gallant": {
     image: goldenGallant,
-    description: {
-      en: "",
-      "pt-BR": "",
-      "zh-CN": "",
-      fr: "",
-      tr: "",
-    },
+    description: "",
   },
   "Golden Garrison": {
     image: goldenGarrison,
-    description: {
-      en: "",
-      "pt-BR": "",
-      "zh-CN": "",
-      fr: "",
-      tr: "",
-    },
+    description: "",
   },
   "Golden Guardian": {
     image: goldenGurdian,
-    description: {
-      en: "",
-      "pt-BR": "",
-      "zh-CN": "",
-      fr: "",
-      tr: "",
-    },
+    description: "",
   },
   "Novice Knight": {
     image: noviceKnight,
-    description: {
-      en: "",
-      "pt-BR": "",
-      "zh-CN": "",
-      fr: "",
-      tr: "",
-    },
+    description: "",
   },
   "Regular Pawn": {
     image: regularPawn,
-    description: {
-      en: "",
-      "pt-BR": "",
-      "zh-CN": "",
-      fr: "",
-      tr: "",
-    },
+    description: "",
   },
   "Rookie Rook": {
     image: rookieRook,
-    description: {
-      en: "",
-      "pt-BR": "",
-      "zh-CN": "",
-      fr: "",
-      tr: "",
-    },
+    description: "",
   },
   "Silver Sentinel": {
     image: silverSentinel,
-    description: {
-      en: "",
-      "pt-BR": "",
-      "zh-CN": "",
-      fr: "",
-      tr: "",
-    },
+    description: "",
   },
   "Silver Squire": {
     image: silverSquire,
-    description: {
-      en: "",
-      "pt-BR": "",
-      "zh-CN": "",
-      fr: "",
-      tr: "",
-    },
+    description: "",
   },
   "Silver Stallion": {
     image: silverStallion,
-    description: {
-      en: "",
-      "pt-BR": "",
-      "zh-CN": "",
-      fr: "",
-      tr: "",
-    },
+    description: "",
   },
   "Trainee Target": {
     image: traineeTarget,
-    description: {
-      en: "",
-      "pt-BR": "",
-      "zh-CN": "",
-      fr: "",
-      tr: "",
-    },
+    description: "",
   },
   "Twister Rug": {
     image: twisterRug,
-    description: {
-      en: "",
-      "pt-BR": "",
-      "zh-CN": "",
-      fr: "",
-      tr: "",
-    },
+    description: "",
   },
   "Grape Seed": {
     image: grapeSeed,
-    description: {
-      en: "A zesty and desired fruit.",
-      "pt-BR": "A zesty and desired fruit.",
-      "zh-CN": "一种甜美神往的水果",
-      fr: "A zesty and desired fruit.",
-      tr: "A zesty and desired fruit.",
-    },
+    description: GREENHOUSE_FRUIT_SEEDS()["Grape Seed"].description,
   },
   "Olive Seed": {
     image: oliveSeed,
-    description: {
-      en: "A luxury for advanced farmers.",
-      "pt-BR": "A luxury for advanced farmers.",
-      "zh-CN": "高端农夫的奢品",
-      fr: "A luxury for advanced farmers.",
-      tr: "A luxury for advanced farmers.",
-    },
+    description: GREENHOUSE_SEEDS["Olive Seed"].description,
   },
   "Rice Seed": {
     image: riceSeed,
@@ -5409,15 +4393,11 @@ export const ITEM_DETAILS: Items = {
   },
   "Hapy Jar": {
     image: hapyJar,
-    description: {
-      en: "",
-    },
+    description: "",
   },
   "Imsety Jar": {
     image: imsetyJar,
-    description: {
-      en: "",
-    },
+    description: "",
   },
   Cannonball: {
     image: cannonball,
@@ -5427,51 +4407,35 @@ export const ITEM_DETAILS: Items = {
   },
   Sarcophagus: {
     image: sarcophagus,
-    description: {
-      en: "",
-    },
+    description: "",
   },
   "Duamutef Jar": {
     image: duamutefJar,
-    description: {
-      en: "",
-    },
+    description: "",
   },
   "Qebehsenuef Jar": {
     image: qebehsenuefJar,
-    description: {
-      en: "",
-    },
+    description: "",
   },
   "Clay Tablet": {
     image: clayTablet,
-    description: {
-      en: "",
-    },
+    description: "",
   },
   "Snake in Jar": {
     image: snakeInJar,
-    description: {
-      en: "",
-    },
+    description: "",
   },
   "Reveling Lemon": {
     image: revelingLemon,
-    description: {
-      en: "",
-    },
+    description: "",
   },
   "Anubis Jackal": {
     image: anubisJackal,
-    description: {
-      en: "",
-    },
+    description: "",
   },
   "Cactus King": {
     image: cactusKing,
-    description: {
-      en: "",
-    },
+    description: "",
   },
 
   "Adrift Ark": {
@@ -5494,39 +4458,27 @@ export const ITEM_DETAILS: Items = {
   },
   "Pharaoh Gnome": {
     image: pharaohGnome,
-    description: {
-      en: "",
-    },
+    description: "",
   },
   "Lemon Tea Bath": {
     image: lemonTeaBath,
-    description: {
-      en: "",
-    },
+    description: "",
   },
   "Tomato Clown": {
     image: tomatoClown,
-    description: {
-      en: "",
-    },
+    description: "",
   },
   Pyramid: {
     image: pyramid,
-    description: {
-      en: "",
-    },
+    description: "",
   },
   Oasis: {
     image: oasis,
-    description: {
-      en: "",
-    },
+    description: "",
   },
   "Paper Reed": {
     image: paperReed,
-    description: {
-      en: "",
-    },
+    description: "",
   },
   "Baobab Tree": {
     image: baobabTree,
@@ -5553,26 +4505,18 @@ export const ITEM_DETAILS: Items = {
   },
   Sundial: {
     image: "",
-    description: {
-      en: "",
-    },
+    description: "",
   },
   "Sand Golem": {
     image: "",
-    description: {
-      en: "",
-    },
+    description: "",
   },
   "Lemon Frog": {
     image: "",
-    description: {
-      en: "",
-    },
+    description: "",
   },
   "Scarab Beetle": {
     image: "",
-    description: {
-      en: "",
-    },
+    description: "",
   },
 };
