@@ -312,7 +312,7 @@ export const IslandUpgrader: React.FC<Props> = ({ gameState, offset }) => {
         >
           <div
             style={{ zIndex: 9999999 }}
-            className="bg-black absolute z-10 inset-0 pointer-events-none flex justify-center items-center"
+            className="bg-black text-white absolute inset-0 pointer-events-none flex justify-center items-center"
           >
             <Loading text={t("islandupgrade.exploring")} />
           </div>
