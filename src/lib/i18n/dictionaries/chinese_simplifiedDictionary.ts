@@ -2371,61 +2371,62 @@ const flowerbreed: Record<Flowerbreed, string> = {
 };
 
 const flowerShopTerms: Record<FlowerShopTerms, string> = {
-  "flowerShop.desired.dreaming": ENGLISH_TERMS["flowerShop.desired.dreaming"],
+  "flowerShop.desired.dreaming":
+    "噢，我一直做梦都想养一朵 {{desiredFlowerName}}！",
   "flowerShop.desired.delightful":
-    ENGLISH_TERMS["flowerShop.desired.delightful"],
-  "flowerShop.desired.wonderful": ENGLISH_TERMS["flowerShop.desired.wonderful"],
-  "flowerShop.desired.setMyHeart":
-    ENGLISH_TERMS["flowerShop.desired.setMyHeart"],
-  "flowerShop.missingPages.alas": ENGLISH_TERMS["flowerShop.missingPages.alas"],
+    "要是能拥有一朵 {{desiredFlowerName}}，那得多快乐啊！",
+  "flowerShop.desired.wonderful":
+    "要是能拥有一朵 {{desiredFlowerName}}，那得多美妙啊！",
+  "flowerShop.desired.setMyHeart": "我已决意要养一朵 {{desiredFlowerName}}。",
+  "flowerShop.missingPages.alas":
+    "但可惜！我弄丢了我杂交书册的书页！它们一定在广场的某处。",
   "flowerShop.missingPages.cantBelieve":
-    ENGLISH_TERMS["flowerShop.missingPages.cantBelieve"],
+    "但难以置信，我记载绝佳花卉杂交配方的书页不见了。它们一定在广场的某处。",
   "flowerShop.missingPages.inABind":
-    ENGLISH_TERMS["flowerShop.missingPages.inABind"],
+    "不过，我现在有点为难——记载我杂交技术的书页好像不见了。它们一定在广场的某处。",
   "flowerShop.missingPages.sadly":
-    ENGLISH_TERMS["flowerShop.missingPages.sadly"],
-  "flowerShop.noFlowers.noTrade": ENGLISH_TERMS["flowerShop.noFlowers.noTrade"],
-  "flowerShop.do.have.trade": ENGLISH_TERMS["flowerShop.do.have.trade"],
-  "flowerShop.do.have.trade.one": ENGLISH_TERMS["flowerShop.do.have.trade.one"],
+    "可惜，我的杂交笔记不见了！我肯定他们就在这里附近。它们一定在广场的某处。",
+  "flowerShop.noFlowers.noTrade": "我很抱歉，我现在没有想要交易的花卉。",
+  "flowerShop.do.have.trade": "请问你有 {{desiredFlower}} 来跟我交易吗？",
+  "flowerShop.do.have.trade.one":
+    "请问你愿意用 {{desiredFlower}} 来跟我交易吗？",
 };
 
 const foodDescriptions: Record<FoodDescriptions, string> = {
   // Fire Pit
   "description.pumpkin.soup": "哥布林们喜爱的奶油汤。",
-  "description.mashed.potato": "我的生活就是土豆。",
-  "description.bumpkin.broth": "营养丰富的肉汤，可以补充你的乡巴佬。",
+  "description.mashed.potato": "我的生活便是土豆。",
+  "description.bumpkin.broth": "营养丰富的肉汤，恢复乡包佬元气。",
   "description.boiled.eggs": "煮鸡蛋非常适合早餐。",
-  "description.kale.stew": "完美的乡巴佬助推器！",
-  "description.mushroom.soup": "温暖你乡巴佬的灵魂。",
-  "description.reindeer.carrot": "鲁道夫无法停止吃它们！",
-  "description.kale.omelette": "一顿健康的早餐。",
-  "description.cabbers.mash": "卷心菜和土豆泥",
+  "description.kale.stew": "完美的乡包佬助力品！",
+  "description.mushroom.soup": "温暖乡包佬的心灵。",
+  "description.reindeer.carrot": "鲁道夫吃得停不下来！",
+  "description.kale.omelette": "一顿营养早餐。",
+  "description.cabbers.mash": "卷心菜和土豆泥。",
   "description.popcorn": "经典的自制脆脆小吃。",
-  "description.gumbo": "一锅充满魔力！ 每一勺都是狂欢节游行！",
-  "description.rapidRoast": "对于急着赶路的乡巴佬来说……",
+  "description.gumbo": "整锅充满魔力！ 每一勺都是狂欢节游行！",
+  "description.rapidRoast": "要是乡包佬急着赶路……",
 
   // Kitchen
-  "description.roast.veggies": ENGLISH_TERMS["description.roast.veggies"],
-  "description.bumpkin.salad": ENGLISH_TERMS["description.bumpkin.salad"],
-  "description.goblins.treat": ENGLISH_TERMS["description.goblins.treat"],
-  "description.cauliflower.burger":
-    ENGLISH_TERMS["description.cauliflower.burger"],
-  "description.club.sandwich": ENGLISH_TERMS["description.club.sandwich"],
-  "description.mushroom.jacket.potatoes":
-    ENGLISH_TERMS["description.mushroom.jacket.potatoes"],
-  "description.sunflower.crunch": ENGLISH_TERMS["description.sunflower.crunch"],
-  "description.bumpkin.roast": ENGLISH_TERMS["description.bumpkin.roast"],
-  "description.goblin.brunch": ENGLISH_TERMS["description.goblin.brunch"],
-  "description.fruit.salad": ENGLISH_TERMS["description.fruit.salad"],
-  "description.bumpkin.ganoush": ENGLISH_TERMS["description.bumpkin.ganoush"],
-  "description.chowder": ENGLISH_TERMS["description.chowder"],
-  "description.pancakes": ENGLISH_TERMS["description.pancakes"],
-  "description.beetrootBlaze": ENGLISH_TERMS["description.beetrootBlaze"],
+  "description.roast.veggies": "哪怕是哥布林也要吃点蔬菜！",
+  "description.bumpkin.salad": "得维持你乡包佬健康！",
+  "description.goblins.treat": "哥布林为之发狂！",
+  "description.cauliflower.burger": "召唤所有花椰菜爱好者！",
+  "description.club.sandwich": "满是胡萝卜与烤葵花籽",
+  "description.mushroom.jacket.potatoes": "土豆里有什么塞什么！",
+  "description.sunflower.crunch": "唯我酥脆，可别烤焦。",
+  "description.bumpkin.roast": "乡包佬传统佳肴",
+  "description.goblin.brunch": "哥布林传统名菜",
+  "description.fruit.salad": "水果沙拉，好吃好吃",
+  "description.bumpkin.ganoush": "鲜香烤茄泥。",
+  "description.chowder": "水手乐见齐一碗！沉溺吧，里头可有宝贝！",
+  "description.pancakes": "开启乡包佬美好一天",
+  "description.beetrootBlaze": "浓厚甜菜根风味的辛辣魔法蘑菇菜肴",
 
   // Bakery
-  "description.apple.pie": "乡巴佬 Betty 的著名食谱",
+  "description.apple.pie": "乡包佬 Betty 的著名食谱",
   "description.kale.mushroom.pie": "一份来自 Sapphiro 的传统食谱",
-  "description.cornbread": "丰盛的金色农家面包。",
+  "description.cornbread": "暖心地道的金色农家面包。",
   "description.sunflower.cake": "向日葵蛋糕",
   "description.potato.cake": "土豆蛋糕",
   "description.pumpkin.cake": "南瓜蛋糕",
@@ -2438,7 +2439,7 @@ const foodDescriptions: Record<FoodDescriptions, string> = {
   "description.wheat.cake": "小麦蛋糕",
   "description.honey.cake": "一块美味的蛋糕！",
   "description.eggplant.cake": "甜美的新鲜甜点惊喜。",
-  "description.orange.cake": "橘子蛋糕。",
+  "description.orange.cake": "橘子橘子，你可庆幸咱不是在煮苹果",
   "description.pirate.cake": "适合海盗主题生日派对。",
 
   // Deli
@@ -2447,27 +2448,25 @@ const foodDescriptions: Record<FoodDescriptions, string> = {
   "description.sauerkraut": "再也不是无聊的卷心菜了！",
   "description.fancy.fries": "奇妙的薯条",
   "description.fermented.fish": "大胆的美食！每一口都能释放内心的维京战士！",
-  "description.fermented.shroomSyrup":
-    ENGLISH_TERMS["description.fermented.shroomSyrup"],
+  "description.fermented.shroomSyrup": "蜂之精华与真菌魔法",
 
   // Smoothie Shack
-  "description.apple.juice": ENGLISH_TERMS["description.apple.juice"],
-  "description.orange.juice": ENGLISH_TERMS["description.orange.juice"],
-  "description.purple.smoothie": ENGLISH_TERMS["description.purple.smoothie"],
-  "description.power.smoothie": ENGLISH_TERMS["description.power.smoothie"],
-  "description.bumpkin.detox": ENGLISH_TERMS["description.bumpkin.detox"],
-  "description.banana.blast": ENGLISH_TERMS["description.banana.blast"],
+  "description.apple.juice": "爽脆饮料",
+  "description.orange.juice": "橙汁绝配派对三明治",
+  "description.purple.smoothie": "你几乎尝不出卷心菜",
+  "description.power.smoothie": "乡包佬大力结社的官方饮品",
+  "description.bumpkin.detox": "洗却昨夜罪恶",
+  "description.banana.blast": "追求力量之人的极限水果动力！",
 
   // Unused foods
-  "description.roasted.cauliflower":
-    ENGLISH_TERMS["description.roasted.cauliflower"],
-  "description.radish.pie": ENGLISH_TERMS["description.radish.pie"],
-  "description.antipasto": ENGLISH_TERMS["description.antipasto"],
-  "description.carrotJuice": ENGLISH_TERMS["description.carrotJuice"],
-  "description.fishBasket": ENGLISH_TERMS["description.fishBasket"],
-  "description.fishBurger": ENGLISH_TERMS["description.fishBurger"],
-  "description.fishnChips": ENGLISH_TERMS["description.fishnChips"],
-  "description.fishOmelette": ENGLISH_TERMS["description.fishOmelette"],
+  "description.roasted.cauliflower": "哥布林的最爱",
+  "description.radish.pie": "人类不爱吃，哥布林爱吃",
+  "description.antipasto": "串串分开，易取所爱",
+  "description.carrotJuice": "鲜爽果汁，乡包佬鲜榨。",
+  "description.fishBasket": "海洋风味，哥布林精选",
+  "description.fishBurger": "多汁汉堡，海滨冒险家最爱",
+  "description.fishnChips": "经典海滨菜肴，人见人爱。",
+  "description.fishOmelette": "美味煎蛋，卷满海洋珍宝。",
   "description.friedCalamari": ENGLISH_TERMS["description.friedCalamari"],
   "description.friedTofu": ENGLISH_TERMS["description.friedTofu"],
   "description.grapeJuice": ENGLISH_TERMS["description.grapeJuice"],
