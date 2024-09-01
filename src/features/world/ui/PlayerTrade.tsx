@@ -7,7 +7,7 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import React, { useContext, useEffect, useState } from "react";
 import { Context } from "features/game/GameProvider";
 import { Button } from "components/ui/Button";
-import { useActor } from "@xstate/react";
+import { useSelector } from "@xstate/react";
 import { InnerPanel } from "components/ui/Panel";
 import { SUNNYSIDE } from "assets/sunnyside";
 import * as AuthProvider from "features/auth/lib/Provider";
@@ -18,16 +18,36 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { makeListingType } from "lib/utils/makeTradeListingType";
 import { Loading } from "features/auth/components";
 import token from "assets/icons/sfl.webp";
+import { AuthMachineState } from "features/auth/lib/authMachine";
+import { MachineState } from "features/game/lib/gameMachine";
+import { CannotTrade } from "./CannotTrade";
+
+const _rawToken = (state: AuthMachineState) => state.context.user.rawToken;
+
+const _experience = (state: MachineState) =>
+  state.context.state.bumpkin?.experience ?? 0;
+const _inventory = (state: MachineState) => state.context.state.inventory;
+const _previousInventory = (state: MachineState) =>
+  state.context.state.previousInventory;
+const _balance = (state: MachineState) => state.context.state.balance;
+const _transactionExpiresAt = (state: MachineState) =>
+  state.context.transaction?.expiresAt;
 
 interface Props {
   farmId: number;
   onClose: () => void;
 }
+
 export const PlayerTrade: React.FC<Props> = ({ farmId, onClose }) => {
   const { gameService } = useContext(Context);
-  const [gameState] = useActor(gameService);
+  const experience = useSelector(gameService, _experience);
+  const inventory = useSelector(gameService, _inventory);
+  const previousInventory = useSelector(gameService, _previousInventory);
+  const balance = useSelector(gameService, _balance);
+  const transactionExpiresAt = useSelector(gameService, _transactionExpiresAt);
+
   const { authService } = useContext(AuthProvider.Context);
-  const [authState] = useActor(authService);
+  const rawToken = useSelector(authService, _rawToken);
 
   const [warning, setWarning] = useState<"pendingTransaction" | "hoarding">();
   const [isLoading, setIsLoading] = useState(true);
@@ -38,12 +58,15 @@ export const PlayerTrade: React.FC<Props> = ({ farmId, onClose }) => {
 
   const { t } = useAppTranslation();
 
+  const level = getBumpkinLevel(experience);
+  const canTrade = level >= 10;
+
+  // load listings if the player can trade
   useEffect(() => {
+    if (!canTrade) return;
+
     const load = async () => {
-      const farm = await loadGameStateForVisit(
-        farmId,
-        authState.context.user.rawToken,
-      );
+      const farm = await loadGameStateForVisit(farmId, rawToken);
 
       const listings = farm.state.trades?.listings;
       setListings(listings);
@@ -54,26 +77,8 @@ export const PlayerTrade: React.FC<Props> = ({ farmId, onClose }) => {
     load();
   }, []);
 
-  const level = getBumpkinLevel(
-    gameState.context.state.bumpkin?.experience ?? 0,
-  );
-
-  if (level < 10) {
-    return (
-      <div className="relative">
-        <Label type="info" className="absolute top-2 right-2">
-          {t("beta")}
-        </Label>
-        <div className="p-1 flex flex-col items-center">
-          <img
-            src={SUNNYSIDE.icons.lock}
-            className="w-1/5 mx-auto my-2 img-highlight-heavy"
-          />
-          <p className="text-sm">{t("bumpkinTrade.minLevel")}</p>
-          <p className="text-xs mb-2">{t("statements.lvlUp")}</p>
-        </div>
-      </div>
-    );
+  if (!canTrade) {
+    return <CannotTrade />;
   }
 
   if (isLoading) {
@@ -111,8 +116,7 @@ export const PlayerTrade: React.FC<Props> = ({ farmId, onClose }) => {
   }
 
   const confirm = (listingId: string) => {
-    // Check hoard
-    const inventory = gameState.context.state.inventory;
+    // Check hoarding
     const updatedInventory = getKeys(listings[listingId].items).reduce(
       (acc, name) => ({
         ...acc,
@@ -125,7 +129,7 @@ export const PlayerTrade: React.FC<Props> = ({ farmId, onClose }) => {
 
     const hasMaxedOut = hasMaxItems({
       current: updatedInventory,
-      old: gameState.context.state.previousInventory,
+      old: previousInventory,
     });
 
     if (hasMaxedOut) {
@@ -133,10 +137,7 @@ export const PlayerTrade: React.FC<Props> = ({ farmId, onClose }) => {
       return;
     }
 
-    if (
-      gameState.context.transaction &&
-      gameState.context.transaction.expiresAt > Date.now()
-    ) {
+    if (transactionExpiresAt && transactionExpiresAt > Date.now()) {
       setWarning("pendingTransaction");
       return;
     }
@@ -175,7 +176,7 @@ export const PlayerTrade: React.FC<Props> = ({ farmId, onClose }) => {
       );
     }
 
-    const hasSFL = gameState.context.state.balance.gte(listings[listingId].sfl);
+    const hasSFL = balance.gte(listings[listingId].sfl);
     const disabled = !hasSFL;
 
     return (

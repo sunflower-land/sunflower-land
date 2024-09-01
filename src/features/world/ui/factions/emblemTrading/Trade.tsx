@@ -32,6 +32,7 @@ import {
   EMBLEM_TRADE_LIMITS,
 } from "features/game/actions/tradeLimits";
 import { PIXEL_SCALE } from "features/game/lib/constants";
+import { CannotTrade } from "../../CannotTrade";
 
 const MAX_NON_VIP_LISTINGS = 1;
 const MAX_SFL = 150;
@@ -431,18 +432,7 @@ export const Trade: React.FC<{
   };
 
   if (level < 10) {
-    return (
-      <div className="relative">
-        <div className="p-1 flex flex-col items-center">
-          <img
-            src={SUNNYSIDE.icons.lock}
-            className="w-1/5 mx-auto my-2 img-highlight-heavy"
-          />
-          <p className="text-sm">{t("bumpkinTrade.minLevel")}</p>
-          <p className="text-xs mb-2">{t("statements.lvlUp")}</p>
-        </div>
-      </div>
-    );
+    return <CannotTrade />;
   }
 
   if (showListing) {
