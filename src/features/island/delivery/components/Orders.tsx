@@ -730,12 +730,10 @@ export const DeliveryOrders: React.FC<Props> = ({
                 })}
               </div>
               <div
-                className="flex justify-between w-full"
+                className="flex justify-between w-full border-t border-white"
                 style={{
-                  marginTop: "2px",
+                  marginTop: "3px",
                   paddingTop: "3px",
-                  borderStyle: "dashed",
-                  borderTop: "1px dashed #ead4aa",
                   marginBottom: "6px",
                 }}
               >
