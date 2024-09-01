@@ -153,7 +153,7 @@ export const BuildingOilTank = ({
             type={"default"}
             className="ml-1.5 mt-2.5 cursor-pointer"
             icon={ITEM_DETAILS.Oil.image}
-            secondaryIcon={SUNNYSIDE.ui.add_button}
+            secondaryIcon={SUNNYSIDE.icons.plus}
             onClick={() => setShowAddOilModal(true)}
           >
             {t("cooking.building.oil.boost")}
@@ -164,7 +164,7 @@ export const BuildingOilTank = ({
               type={"default"}
               className="ml-1.5 mt-2.5"
               icon={ITEM_DETAILS.Oil.image}
-              secondaryIcon={SUNNYSIDE.ui.add_button}
+              secondaryIcon={SUNNYSIDE.icons.plus}
               onClick={() => setShowAddOilModal(true)}
             >
               {t("cropMachine.oilTank")}

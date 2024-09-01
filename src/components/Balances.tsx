@@ -57,12 +57,12 @@ export const Balances: React.FC<Props> = ({
             />
           </div>
           <img
-            src={SUNNYSIDE.ui.add_button}
+            src={SUNNYSIDE.icons.plus}
             className="absolute"
             style={{
-              width: 20,
-              right: -8,
-              top: -4,
+              width: 14,
+              right: -6,
+              top: -1,
             }}
           />
         </div>
