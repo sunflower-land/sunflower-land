@@ -1655,7 +1655,7 @@
   "gameOptions.plazaSettings.changeServer": "Change server",
   "auction.winner": "Auction Winner!",
   "bumpkin.level": "Bumpkin level",
-  "bumpkinBuzz": "Mailbox",
+  "mailbox": "Mailbox",
   "dailyLim": "Daily SFL Limit",
   "farm.banned": "This farm is banned",
   "gobSwarm": "Goblin Swarm!",
