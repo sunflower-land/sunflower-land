@@ -1,6 +1,7 @@
 import React from "react";
 import { Button } from "components/ui/Button";
 import {
+  ARABIC_FONT_CONFIG,
   changeFont,
   CHINESE_FONT_CONFIG,
   CYRILLIC_FONT_CONFIG,
@@ -10,13 +11,24 @@ import { getKeys } from "features/game/types/decorations";
 
 export const FontSettings: React.FC = () => {
   const language = localStorage.getItem("language") ?? "en";
-  const fonts = getKeys(
-    language === "zh-CN"
-      ? CHINESE_FONT_CONFIG
-      : language === "ru"
-        ? CYRILLIC_FONT_CONFIG
-        : FONT_CONFIG,
-  );
+
+  let fontconfig;
+  switch (language) {
+    case "zh-CN":
+      fontconfig = CHINESE_FONT_CONFIG;
+      break;
+    case "ar":
+    case "fa":
+      fontconfig = ARABIC_FONT_CONFIG;
+      break;
+    case "ru":
+      fontconfig = CYRILLIC_FONT_CONFIG;
+      break;
+    default:
+      fontconfig = FONT_CONFIG;
+  }
+
+  const fonts = getKeys(fontconfig);
 
   return (
     <>

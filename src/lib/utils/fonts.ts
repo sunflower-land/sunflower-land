@@ -114,6 +114,25 @@ export const CHINESE_FONT_CONFIG: Partial<Record<Font, FontSettings>> = {
   },
 };
 
+export const ARABIC_FONT_CONFIG: Partial<Record<Font, FontSettings>> = {
+  Default: {
+    fontFamily: "Handjet",
+    xxs: [16, 16],
+    xs: [18, 18],
+    sm: [20, 20],
+    base: [27, 27],
+    lg: [32, 32],
+  },
+  "Sans Serif": {
+    fontFamily: "sans-serif",
+    xxs: [14, 14],
+    xs: [16, 16],
+    sm: [18, 18],
+    base: [25, 25],
+    lg: [30, 30],
+  },
+};
+
 export function initialiseFont() {
   const font = getCachedFont();
 
@@ -173,7 +192,9 @@ export function changeFont(font: Font) {
     ? CYRILLIC_FONT_CONFIG[font]
     : ["zh-CN"].includes(lang)
       ? CHINESE_FONT_CONFIG[font]
-      : FONT_CONFIG[font];
+      : ["fa"].includes(lang) || ["ar"].includes(lang)
+        ? ARABIC_FONT_CONFIG[font]
+        : FONT_CONFIG[font];
 
   if (config) {
     setFontProperties(config);
