@@ -57,6 +57,7 @@ export const GREENHOUSE_SEEDS: Record<GreenHouseCropSeedName, Seed> = {
     bumpkinLevel: 40,
     plantSeconds: 32 * 60 * 60,
     plantingSpot: "Greenhouse",
+    yield: "Rice",
   },
   "Olive Seed": {
     price: 320,
@@ -64,6 +65,7 @@ export const GREENHOUSE_SEEDS: Record<GreenHouseCropSeedName, Seed> = {
     bumpkinLevel: 40,
     plantSeconds: 44 * 60 * 60,
     plantingSpot: "Greenhouse",
+    yield: "Olive",
   },
 };
 

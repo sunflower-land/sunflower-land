@@ -17,33 +17,18 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { Label } from "components/ui/Label";
 import { getKeys } from "features/game/types/craftables";
 import { LEVEL_EXPERIENCE } from "features/game/lib/level";
-import { CROPS } from "features/game/types/crops";
 import { BUILDINGS } from "features/game/types/buildings";
 import { ITEM_DETAILS } from "features/game/types/images";
 import worldIcon from "assets/icons/world_small.png";
-import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 import { translate } from "lib/i18n/translate";
 import {
   EXPANSION_REQUIREMENTS,
   Land,
 } from "features/game/expansion/lib/expansionRequirements";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { SEEDS } from "features/game/types/seeds";
 
 const BONUS_UNLOCKS: Record<number, { text: string; icon: string }[]> = {
-  2: [
-    {
-      text: "Crops",
-      icon: SUNNYSIDE.tools.shovel,
-    },
-    {
-      text: "Sunflower",
-      icon: CROP_LIFECYCLE.Sunflower.crop,
-    },
-    {
-      text: "Potato",
-      icon: CROP_LIFECYCLE.Potato.crop,
-    },
-  ],
   3: [
     {
       text: "Travel",
@@ -69,13 +54,20 @@ function generateUnlockLabels(): Record<
   { text: string; icon: string }[]
 > {
   const levels = getKeys(LEVEL_EXPERIENCE);
+  const seeds = SEEDS();
 
   const unlocks = levels.reduce(
     (acc, id) => {
       const level = Number(id);
-      const crops = getKeys(CROPS)
-        .filter((name) => CROPS[name].bumpkinLevel === level)
-        .map((name) => ({ text: name, icon: ITEM_DETAILS[name].image }));
+      const crops = getKeys(seeds)
+        .filter((seedName) => seeds[seedName].bumpkinLevel === level)
+        .map((seedName) => {
+          const name = seeds[seedName].yield ?? seedName;
+          return {
+            text: name,
+            icon: ITEM_DETAILS[name].image,
+          };
+        });
 
       const buildings = getKeys(BUILDINGS)
         .filter((name) =>
