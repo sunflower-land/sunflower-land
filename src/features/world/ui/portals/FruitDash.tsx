@@ -22,15 +22,12 @@ import { SpeakingText } from "features/game/components/SpeakingModal";
 import { getKeys } from "features/game/types/craftables";
 import { ITEM_DETAILS } from "features/game/types/images";
 
-export function hasReadCropsAndChickensNotice() {
-  return !!localStorage.getItem("cropsAndChickens.notice");
+export function hasReadFruitDashNotice() {
+  return !!localStorage.getItem("fruitDash.notice");
 }
 
 function acknowledgeIntro() {
-  return localStorage.setItem(
-    "cropsAndChickens.notice",
-    new Date().toISOString(),
-  );
+  return localStorage.setItem("fruitDash.notice", new Date().toISOString());
 }
 
 export const MinigamePrizeUI: React.FC<{
@@ -186,15 +183,17 @@ export const FruitDash: React.FC<Props> = ({ onClose }) => {
       <div className="mb-1">
         <div className="p-2">
           <Label type="default" className="mb-1" icon={factions}>
-            {`Fruit dash`}
+            {t("fruit-dash.portal.title")}
           </Label>
-          <InlineDialogue message={`Description...`} />
+          <InlineDialogue message={t("fruit-dash.portal.description")} />
         </div>
 
         <MinigamePrizeUI
           prize={prize}
           history={dailyAttempt}
-          mission={`Objective...`}
+          mission={t("fruit-dash.portal.missionObjectives", {
+            targetScore: prize?.score ?? 0,
+          })}
         />
       </div>
       <Button onClick={playNow}>{t("minigame.playNow")}</Button>
