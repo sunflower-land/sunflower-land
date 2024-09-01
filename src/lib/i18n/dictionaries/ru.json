@@ -1691,7 +1691,6 @@
   "growing": "растет",
   "guide": "Гайд",
   "honey": "Мед",
-  "hungry?": "Голоден?",
   "info": "Инфо",
   "item": "Предмет",
   "inventory": "Инвентарь",
@@ -3030,7 +3029,6 @@
   "statements.wishing.well.look.like": "Похоже, тыы пока не предоставляете ликвидность.",
   "statements.wishing.well.lucky": "Посмотрим, насколько тебе повезло!",
   "statements.wrongChain.one": "Ознакомьтесь с этим руководством, оно поможет тебе подключиться.",
-  "statements.feed.bumpkin.one": "У тебя нет еды в инвентаре.",
   "statements.feed.bumpkin.two": "Тебе нужно будет приготовить еду, чтобы накормить своего бампкина.",
   "statements.empty.chest": "Твой сундук пуст, ищи редкие предметы!",
   "statements.chest.captcha": "Нажми на сундук, чтобы открыть его",
@@ -3444,9 +3442,10 @@
   "questions.obtain.pol": "Как получить POL?",
   "transaction.pol": "БАССЕЙН",
   "transaction.payPol": "Оплата с помощью POL",
-  "npcDialogues.oldSalty.intro3": "",
   "marketplace.cancelOffer": "Отменить предложение",
   "marketplace.yourOffer": "Ваше предложение",
   "marketplace.offerRemoved": "Ваше предложение удалено",
-  "marketplace.cancelOffer.areYouSure": "Вы действительно хотите удалить свое предложение?"
+  "marketplace.cancelOffer.areYouSure": "Вы действительно хотите удалить свое предложение?",
+  "statements.feed.bumpkin.one": "В инвентаре нет продуктов",
+  "npcDialogues.oldSalty.intro3": ""
 }

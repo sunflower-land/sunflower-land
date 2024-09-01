@@ -1222,7 +1222,6 @@
   "go.home": "Rentrer chez soi",
   "gotIt": "Compris",
   "grant.wish": "Exaucer un vœu",
-  "hungry?": "Affamé?",
   "item": "Objet",
   "labels": "Étiquettes",
   "land": "Île",
@@ -2232,7 +2231,6 @@
   "statements.wishing.well.look.like": "Il semble que vous ne fournissiez pas encore de liquidité.",
   "statements.wishing.well.lucky": "Voyons à quel point vous êtes chanceux!",
   "statements.wrongChain.one": "Consultez ce guide pour vous connecter.",
-  "statements.feed.bumpkin.one": "Vous n'avez pas de nourriture dans votre inventaire.",
   "statements.feed.bumpkin.two": "Vous devrez cuisiner de la nourriture pour nourrir votre Bumpkin.",
   "statements.empty.chest": "Votre coffre est vide, découvrez des objets rares aujourd'hui!",
   "statements.chest.captcha": "Appuyez sur le coffre pour l'ouvrir",
@@ -3429,6 +3427,11 @@
   "questions.obtain.pol": "Comment puis-je obtenir POL?",
   "transaction.pol": "POL",
   "transaction.payPol": "Payez avec POL",
+  "marketplace.cancelOffer": "Annuler l'offre",
+  "marketplace.yourOffer": "Votre offre",
+  "marketplace.offerRemoved": "Votre offre a été supprimée",
+  "marketplace.cancelOffer.areYouSure": "Êtes-vous sûr de vouloir supprimer votre offre ?",
+  "statements.feed.bumpkin.one": "Aucune nourriture en stock",
   "description.battleCryDrum": "",
   "description.bullseyeBoard": "",
   "description.chessRug": "",
@@ -3444,9 +3447,5 @@
   "description.silverStallion": "",
   "description.traineeTarget": "",
   "description.twisterRug": "",
-  "npcDialogues.oldSalty.intro3": "",
-  "marketplace.cancelOffer": "Annuler l'offre",
-  "marketplace.yourOffer": "Votre offre",
-  "marketplace.offerRemoved": "Votre offre a été supprimée",
-  "marketplace.cancelOffer.areYouSure": "Êtes-vous sûr de vouloir supprimer votre offre ?"
+  "npcDialogues.oldSalty.intro3": ""
 }

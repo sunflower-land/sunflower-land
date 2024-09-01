@@ -1165,7 +1165,6 @@
   "grant.wish": "Conceder Novo Desejo",
   "guide": "Guia",
   "honey": "Mel",
-  "hungry?": "Com Fome?",
   "info": "Informações",
   "item": "Item",
   "land": "Terra",
@@ -2167,7 +2166,6 @@
   "statements.wishing.well.info.six": "fornecendo liquidez",
   "statements.wishing.well.lucky": "Vamos ver o quão sortudo você é!",
   "statements.wrongChain.one": "Confira este guia para ajudá-lo a se conectar.",
-  "statements.feed.bumpkin.one": "Você não tem comida em seu inventário.",
   "statements.feed.bumpkin.two": "Você precisará cozinhar comida para alimentar seu Bumpkin.",
   "statements.empty.chest": "Seu baú está vazio, descubra itens raros hoje!",
   "statements.chest.captcha": "Toque no baú para abri-lo",
@@ -3429,6 +3427,11 @@
   "questions.obtain.pol": "Como faço para obter o POL?",
   "transaction.pol": "PISCINA",
   "transaction.payPol": "Pague com POL",
+  "marketplace.cancelOffer": "Cancelar oferta",
+  "marketplace.yourOffer": "Sua oferta",
+  "marketplace.offerRemoved": "Sua oferta foi removida",
+  "marketplace.cancelOffer.areYouSure": "Tem certeza de que deseja remover sua oferta?",
+  "statements.feed.bumpkin.one": "Não há comida no inventário",
   "description.battleCryDrum": "",
   "description.bullseyeBoard": "",
   "description.chessRug": "",
@@ -3444,9 +3447,5 @@
   "description.silverStallion": "",
   "description.traineeTarget": "",
   "description.twisterRug": "",
-  "npcDialogues.oldSalty.intro3": "",
-  "marketplace.cancelOffer": "Cancelar oferta",
-  "marketplace.yourOffer": "Sua oferta",
-  "marketplace.offerRemoved": "Sua oferta foi removida",
-  "marketplace.cancelOffer.areYouSure": "Tem certeza de que deseja remover sua oferta?"
+  "npcDialogues.oldSalty.intro3": ""
 }

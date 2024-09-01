@@ -1515,7 +1515,6 @@
   "guide": "指南",
   "growing": "正在种植",
   "honey": "蜂蜜",
-  "hungry?": "饿了么？",
   "info": "概览",
   "item": "物品：",
   "land": "农场",
@@ -1944,7 +1943,6 @@
   "statements.sync": "请耐心等待，我们会将您的进度存储在区块链上。",
   "statements.tapCont": "点击继续",
   "statements.visit.firePit": "访问 Fire Pit 做饭并喂你的乡巴佬。",
-  "statements.feed.bumpkin.one": "你的库存中没有食物。",
   "statements.feed.bumpkin.two": "你需要烹饪食物来喂养你的土包。",
   "statements.chest.captcha": "点击箱子将其打开",
   "statements.water.well.needed.one": "需要追加 Water Well。",
@@ -3429,6 +3427,11 @@
   "questions.obtain.pol": "我如何获得 POL？",
   "transaction.pol": "POL",
   "transaction.payPol": "使用 POL 付款",
+  "marketplace.cancelOffer": "取消报价",
+  "marketplace.yourOffer": "你的报价",
+  "marketplace.offerRemoved": "您的报价已被删除",
+  "marketplace.cancelOffer.areYouSure": "您确定要删除报价吗？",
+  "statements.feed.bumpkin.one": "库存中没有食物",
   "description.battleCryDrum": "",
   "description.bullseyeBoard": "",
   "description.chessRug": "",
@@ -3444,9 +3447,5 @@
   "description.silverStallion": "",
   "description.traineeTarget": "",
   "description.twisterRug": "",
-  "npcDialogues.oldSalty.intro3": "",
-  "marketplace.cancelOffer": "取消报价",
-  "marketplace.yourOffer": "你的报价",
-  "marketplace.offerRemoved": "您的报价已被删除",
-  "marketplace.cancelOffer.areYouSure": "您确定要删除报价吗？"
+  "npcDialogues.oldSalty.intro3": ""
 }

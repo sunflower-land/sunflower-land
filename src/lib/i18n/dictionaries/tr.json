@@ -1204,7 +1204,6 @@
   "grant.wish": "Yeni Dilek Dile",
   "guide": "Rehber",
   "honey": "Bal",
-  "hungry?": "Aç mısın?",
   "info": "Bilgi",
   "item": "Öğe",
   "land": "Ada",
@@ -2224,7 +2223,6 @@
   "statements.wishing.well.info.six": "likidite sağlanıyor",
   "statements.wishing.well.lucky": "Bakalım ne kadar şanslısın!",
   "statements.wrongChain.one": "Bağlantı kurmanıza yardımcı olacak bu kılavuza göz atın.",
-  "statements.feed.bumpkin.one": "Envanterinizde yiyecek yok.",
   "statements.feed.bumpkin.two": "Bumpkin'inizi beslemek için yemek pişirmeniz gerekecek.",
   "statements.empty.chest": "Sandığınız boş, bugün nadir eşyaları keşfedin!",
   "statements.chest.captcha": "Açmak için sandığa dokunun",
@@ -3429,6 +3427,11 @@
   "questions.obtain.pol": "POL'yi nasıl alabilirim?",
   "transaction.pol": "POL",
   "transaction.payPol": "POL ile öde",
+  "marketplace.cancelOffer": "Teklifi iptal et",
+  "marketplace.yourOffer": "Teklifiniz",
+  "marketplace.offerRemoved": "Teklifiniz kaldırıldı",
+  "marketplace.cancelOffer.areYouSure": "Teklifinizi kaldırmak istediğinizden emin misiniz?",
+  "statements.feed.bumpkin.one": "Envanterde yiyecek yok",
   "description.battleCryDrum": "",
   "description.bullseyeBoard": "",
   "description.chessRug": "",
@@ -3444,9 +3447,5 @@
   "description.silverStallion": "",
   "description.traineeTarget": "",
   "description.twisterRug": "",
-  "npcDialogues.oldSalty.intro3": "",
-  "marketplace.cancelOffer": "Teklifi iptal et",
-  "marketplace.yourOffer": "Teklifiniz",
-  "marketplace.offerRemoved": "Teklifiniz kaldırıldı",
-  "marketplace.cancelOffer.areYouSure": "Teklifinizi kaldırmak istediğinizden emin misiniz?"
+  "npcDialogues.oldSalty.intro3": ""
 }
