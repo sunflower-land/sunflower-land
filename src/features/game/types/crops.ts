@@ -22,7 +22,6 @@ export type Crop = {
   harvestSeconds: number;
   name: CropName;
   description: string;
-  bumpkinLevel: number;
   disabled?: boolean;
 };
 
@@ -33,7 +32,6 @@ export type GreenHouseCrop = {
   harvestSeconds: number;
   name: GreenHouseCropName;
   description: string;
-  bumpkinLevel: number;
   disabled?: boolean;
 };
 
@@ -43,14 +41,12 @@ export const GREENHOUSE_CROPS: Record<GreenHouseCropName, GreenHouseCrop> = {
     harvestSeconds: 32 * 60 * 60,
     name: "Rice",
     description: "A staple food for many.",
-    bumpkinLevel: 10,
   },
   Olive: {
     sellPrice: 400,
     harvestSeconds: 44 * 60 * 60,
     name: "Olive",
     description: "Zesty with a rich history.",
-    bumpkinLevel: 10,
   },
 };
 
@@ -81,98 +77,84 @@ export const CROPS: Record<CropName, Crop> = {
     name: "Sunflower",
     description: translate("description.sunflower"),
     sellPrice: 0.02,
-    bumpkinLevel: 1,
     harvestSeconds: 1 * 60,
   },
   Potato: {
     name: "Potato",
     description: translate("description.potato"),
     sellPrice: 0.14,
-    bumpkinLevel: 1,
     harvestSeconds: 5 * 60,
   },
   Pumpkin: {
     name: "Pumpkin",
     description: translate("description.pumpkin"),
     sellPrice: 0.4,
-    bumpkinLevel: 2,
     harvestSeconds: 30 * 60,
   },
   Carrot: {
     name: "Carrot",
     description: translate("description.carrot"),
     sellPrice: 0.8,
-    bumpkinLevel: 2,
     harvestSeconds: 60 * 60,
   },
   Cabbage: {
     name: "Cabbage",
     description: translate("description.cabbage"),
     sellPrice: 1.5,
-    bumpkinLevel: 3,
     harvestSeconds: 2 * 60 * 60,
   },
   Soybean: {
     name: "Soybean",
     description: translate("description.soybean"),
     sellPrice: 2.3,
-    bumpkinLevel: 3,
     harvestSeconds: 3 * 60 * 60,
   },
   Beetroot: {
     name: "Beetroot",
     description: translate("description.beetroot"),
     sellPrice: 2.8,
-    bumpkinLevel: 3,
     harvestSeconds: 4 * 60 * 60,
   },
   Cauliflower: {
     name: "Cauliflower",
     description: translate("description.cauliflower"),
     sellPrice: 4.25,
-    bumpkinLevel: 4,
     harvestSeconds: 8 * 60 * 60,
   },
   Parsnip: {
     name: "Parsnip",
     description: translate("description.parsnip"),
     sellPrice: 6.5,
-    bumpkinLevel: 4,
     harvestSeconds: 12 * 60 * 60,
   },
   Eggplant: {
     name: "Eggplant",
     description: translate("description.eggplant"),
     sellPrice: 8,
-    bumpkinLevel: 5,
     harvestSeconds: 16 * 60 * 60,
   },
   Corn: {
     name: "Corn",
     description: translate("description.corn"),
     sellPrice: 9,
-    bumpkinLevel: 5,
     harvestSeconds: 20 * 60 * 60,
   },
   Radish: {
     name: "Radish",
     description: translate("description.radish"),
     sellPrice: 9.5,
-    bumpkinLevel: 5,
     harvestSeconds: 24 * 60 * 60,
   },
   Wheat: {
     name: "Wheat",
     description: translate("description.wheat"),
     sellPrice: 7,
-    bumpkinLevel: 5,
     harvestSeconds: 24 * 60 * 60,
   },
   Kale: {
     name: "Kale",
     description: translate("description.kale"),
     sellPrice: 10,
-    bumpkinLevel: 7,
     harvestSeconds: 36 * 60 * 60,
   },
 };
