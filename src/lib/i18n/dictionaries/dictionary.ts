@@ -5,6 +5,7 @@ import PORTUGUESE_TERMS from "./pt-BR.json";
 import FRENCH_TERMS from "./fr.json";
 import RUSSIAN_TERMS from "./ru.json";
 import ITALIAN_TERMS from "./it.json";
+import SPANISH_TERMS from "./es.json";
 import { TranslationKeys } from "./types";
 
 import britishFlag from "assets/sfts/flags/british_flag.gif";
@@ -83,6 +84,7 @@ export const resources: Partial<
   Record<LanguageCode, { translation: TranslationResource }>
 > = {
   en: { translation: ENGLISH_TERMS },
+  es: { translation: SPANISH_TERMS },
   fr: { translation: FRENCH_TERMS },
   "pt-BR": { translation: PORTUGUESE_TERMS },
   tr: { translation: TURKISH_TERMS },
