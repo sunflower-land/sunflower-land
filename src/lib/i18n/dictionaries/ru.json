@@ -2087,7 +2087,6 @@
   "landscape.hourglass.resourceNodeCondition.orchard": "Перед активацией  {{selectedChestItem}} убедитесь, что фруктовые деревья не растут.",
   "landscape.hourglass.resourceNodeCondition.blossom": "Перед активацией {{selectedChestItem}}  помни, что буст не работает на уже растущие цветы.",
   "landscape.hourglass.resourceNodeCondition.ore": "Перед активацией {{selectedChestItem}} убедитесь, что минералы не восстанавливаются.",
-  "landscape.timeWarpTotem.resourceNodeCondition": "Перед активацией {{selectedChestItem}} убедитесь, что никакие минералы или деревья не восстанавливаются, а также не растут никакие культуры, фрукты или цветы.",
   "leaderboard.leaderboard": "Таблица лидеров",
   "leaderboard.error": "Ошибка при загрузке таблицы лидеров. Пожалуйста, повторите попытку позже.",
   "leaderboard.initialising": "Рассчитываем твой ранг. Пожалуйста, повтори попытку позже.",
@@ -3453,5 +3452,6 @@
   "fruit-dash.portal.description": "Бегайте по ферме, уклоняйтесь от препятствий и собирайте вкусные фрукты.",
   "fruit-dash.portal.missionObjectives": "Миссия: набрать {{targetScore}} очков.",
   "fruit-dash.portal.rewardMessage": "Поздравляем, вы выполнили задание! Вот ваша награда.",
+  "landscape.timeWarpTotem.resourceNodeCondition": "Пожалуйста, убедитесь, что минералы, деревья не восстанавливаются, не растут сельскохозяйственные культуры или фрукты, а также не работают кухонные помещения, прежде чем активировать {{selectedChestItem}}.",
   "npcDialogues.oldSalty.intro3": ""
 }

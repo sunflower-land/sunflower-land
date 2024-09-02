@@ -2461,7 +2461,6 @@
   "landscape.hourglass.resourceNodeCondition.orchard": "在激活 {{selectedChestItem}} 之前，请确保没有果树生长。",
   "landscape.hourglass.resourceNodeCondition.blossom": "在激活 {{selectedChestItem}} 之前，请确保没有花朵生长。",
   "landscape.hourglass.resourceNodeCondition.ore": "在激活 {{selectedChestItem}} 之前，请确保没有矿物质在再生。",
-  "landscape.timeWarpTotem.resourceNodeCondition": "在激活 {{selectedChestItem}} 之前，请确保没有矿物质或树木在再生，也没有农作物、水果或花朵生长。",
   "leaderboard.leaderboard": "排行榜",
   "leaderboard.error": "加载排行榜时出错。请稍后再试。",
   "leaderboard.initialising": "计算你的排名。请稍后再试。",
@@ -3453,5 +3452,6 @@
   "description.silverStallion": "",
   "description.traineeTarget": "",
   "description.twisterRug": "",
+  "landscape.timeWarpTotem.resourceNodeCondition": "在激活 {{selectedChestItem}} 之前，请确保没有矿物质或树木在再生，没有农作物或水果生长，烹饪建筑物不起作用。",
   "npcDialogues.oldSalty.intro3": ""
 }

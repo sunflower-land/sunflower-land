@@ -2172,7 +2172,6 @@
   "landscape.hourglass.resourceNodeCondition.orchard": "Asegúrese de que no haya árboles frutales antes de activar el {{selectedChestItem}}.",
   "landscape.hourglass.resourceNodeCondition.blossom": "Asegúrate de que no estén creciendo flores antes de activar el {{selectedChestItem}}.",
   "landscape.hourglass.resourceNodeCondition.ore": "Asegúrese de que ningún mineral se esté regenerando antes de activar el {{selectedChestItem}}.",
-  "landscape.timeWarpTotem.resourceNodeCondition": "Asegúrese de que ningún mineral o árbol se esté regenerando y de que no haya cultivos, frutas o flores antes de activar el {{selectedChestItem}}.",
   "leaderboard.leaderboard": "Tabla clasificatoria",
   "leaderboard.error": "Error al cargar la tabla de clasificación. Vuelve a intentarlo más tarde.",
   "leaderboard.initialising": "Calcular tu rango. Vuelve a intentarlo más tarde.",
@@ -3453,5 +3452,6 @@
   "description.silverStallion": "",
   "description.traineeTarget": "",
   "description.twisterRug": "",
+  "landscape.timeWarpTotem.resourceNodeCondition": "Antes de activar el {{selectedChestItem}}, asegúrate de que ningún mineral o árbol se esté regenerando, de que no haya cultivos ni frutos y de que no haya instalaciones para cocinar en funcionamiento.",
   "npcDialogues.oldSalty.intro3": ""
 }

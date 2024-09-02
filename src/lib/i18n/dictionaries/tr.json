@@ -3066,7 +3066,6 @@
   "landscape.hourglass.resourceNodeCondition.orchard": "Lütfen {{selectedChestItem}} öğesini etkinleştirmeden önce meyve ağaçlarının büyümediğinden emin olun.",
   "landscape.hourglass.resourceNodeCondition.blossom": "Lütfen {{selectedChestItem}} öğesini etkinleştirmeden önce çiçek büyümediğinden emin olun.",
   "landscape.hourglass.resourceNodeCondition.ore": "Lütfen {{selectedChestItem}} öğesini etkinleştirmeden önce hiçbir mineralin yenilenmediğinden emin olun.",
-  "landscape.timeWarpTotem.resourceNodeCondition": "Lütfen {{selectedChestItem}} öğesini etkinleştirmeden önce hiçbir mineral veya ağaç yenilenmediğinden ve mahsul, meyve veya çiçek yetişmediğinden emin olun.",
   "leaderboard.leaderboard": "Liderlik Tablosu",
   "leaderboard.error": "Liderlik tablosu yüklenirken hata oluştu. Lütfen daha sonra tekrar deneyin.",
   "leaderboard.initialising": "Rütbenizi hesaplamak. Lütfen daha sonra tekrar deneyin.",
@@ -3453,5 +3452,6 @@
   "description.silverStallion": "",
   "description.traineeTarget": "",
   "description.twisterRug": "",
+  "landscape.timeWarpTotem.resourceNodeCondition": "Lütfen {{selectedChestItem}} özelliğini etkinleştirmeden önce hiçbir mineral veya ağaç yenilenmediğinden, mahsul veya meyve yetişmediğinden ve pişirme binalarının çalışmadığından emin olun.",
   "npcDialogues.oldSalty.intro3": ""
 }

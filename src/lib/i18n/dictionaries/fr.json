@@ -3064,7 +3064,6 @@
   "landscape.hourglass.resourceNodeCondition.orchard": "Assurez-vous qu'aucun arbre fruitier ne pousse avant d'activer le {{selectedChestItem}}.",
   "landscape.hourglass.resourceNodeCondition.blossom": "Assurez-vous qu'aucune fleur ne pousse avant d'activer le {{selectedChestItem}}.",
   "landscape.hourglass.resourceNodeCondition.ore": "Assurez-vous qu'aucun minéral ne se régénère avant d'activer le {{selectedChestItem}}.",
-  "landscape.timeWarpTotem.resourceNodeCondition": "Assurez-vous qu'aucun minéral ou arbre ne se régénère et qu'aucune culture, aucun fruit ou aucune fleur ne pousse avant d'activer le {{selectedChestItem}}.",
   "leaderboard.leaderboard": "Classement",
   "leaderboard.error": "Erreur lors du chargement du classement. Veuillez réessayer ultérieurement.",
   "leaderboard.initialising": "Calculez votre rang. Veuillez réessayer ultérieurement.",
@@ -3453,5 +3452,6 @@
   "description.silverStallion": "",
   "description.traineeTarget": "",
   "description.twisterRug": "",
+  "landscape.timeWarpTotem.resourceNodeCondition": "Assurez-vous qu'aucun minéral ou arbre ne se régénère, qu'aucune récolte ou aucun fruit ne pousse et qu'aucun bâtiment de cuisine ne fonctionne avant d'activer le {{selectedChestItem}}.",
   "npcDialogues.oldSalty.intro3": ""
 }

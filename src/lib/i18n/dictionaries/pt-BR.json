@@ -3034,7 +3034,6 @@
   "landscape.hourglass.resourceNodeCondition.orchard": "Certifique-se de que nenhuma árvore frutífera esteja crescendo antes de ativar o {{selectedChestItem}}.",
   "landscape.hourglass.resourceNodeCondition.blossom": "Certifique-se de que nenhuma flor esteja crescendo antes de ativar o {{selectedChestItem}}.",
   "landscape.hourglass.resourceNodeCondition.ore": "Certifique-se de que nenhum mineral esteja se regenerando antes de ativar o {{selectedChestItem}}.",
-  "landscape.timeWarpTotem.resourceNodeCondition": "Certifique-se de que nenhum mineral ou árvore esteja se regenerando e que nenhuma safra, fruta ou flor esteja crescendo antes de ativar o {{selectedChestItem}}.",
   "leaderboard.leaderboard": "Tabela de classificação",
   "leaderboard.error": "Erro ao carregar a tabela de classificação. Por favor, tente novamente mais tarde.",
   "leaderboard.initialising": "Calculando sua classificação. Por favor, tente novamente mais tarde.",
@@ -3453,5 +3452,6 @@
   "description.silverStallion": "",
   "description.traineeTarget": "",
   "description.twisterRug": "",
+  "landscape.timeWarpTotem.resourceNodeCondition": "Certifique-se de que nenhum mineral ou árvore esteja se regenerando, que nenhuma safra ou fruta esteja crescendo e que nenhum prédio de cozinha esteja funcionando antes de ativar o {{selectedChestItem}}.",
   "npcDialogues.oldSalty.intro3": ""
 }
