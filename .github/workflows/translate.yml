@@ -1,11 +1,9 @@
 name: Translate
 on:
-  pull_request:
+  push:
     branches:
-      - main
-    # push:
-    #   branches:
-    #     - main
+      # - main
+      - fix/translate-actions
     paths:
       - src/lib/i18n/dictionaries/dictionary.json
       - src/lib/i18n/dictionaries/dictionary.ts
