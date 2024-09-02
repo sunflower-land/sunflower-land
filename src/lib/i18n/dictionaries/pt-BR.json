@@ -3433,6 +3433,7 @@
   "mmo.connecting": "Conectando-se ao servidor...",
   "mmo.connectionFailed": "Falha na conexão, clique para tentar novamente",
   "statements.feed.bumpkin.one": "Não há comida no inventário",
+  "kingdom.shop.helmet.currently.equipped": "{{helmet}} atualmente equipado! Desequipado para comprar.",
   "description.battleCryDrum": "",
   "description.bullseyeBoard": "",
   "description.chessRug": "",
@@ -3448,6 +3449,5 @@
   "description.silverStallion": "",
   "description.traineeTarget": "",
   "description.twisterRug": "",
-  "npcDialogues.oldSalty.intro3": "",
-  "kingdom.shop.helmet.currently.equipped": "{{helmet}} atualmente equipado! Desequipado para comprar."
+  "npcDialogues.oldSalty.intro3": ""
 }
