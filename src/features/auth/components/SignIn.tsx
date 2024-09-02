@@ -378,6 +378,7 @@ export const SignIn: React.FC<{ type: "signin" | "signup" }> = ({ type }) => {
       className="px-2 overflow-y-auto   scrollable"
       style={{ maxHeight: CONTENT_HEIGHT }}
     >
+      <div>{walletState.value}</div>
       {walletState.matches("chooseWallet") && (
         <>
           <div
