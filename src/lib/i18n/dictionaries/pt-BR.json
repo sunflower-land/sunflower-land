@@ -3432,6 +3432,7 @@
   "marketplace.cancelOffer.areYouSure": "Tem certeza de que deseja remover sua oferta?",
   "mmo.connecting": "Conectando-se ao servidor...",
   "mmo.connectionFailed": "Falha na conexão, clique para tentar novamente",
+  "statements.feed.bumpkin.one": "Não há comida no inventário",
   "description.battleCryDrum": "",
   "description.bullseyeBoard": "",
   "description.chessRug": "",
@@ -3448,5 +3449,5 @@
   "description.traineeTarget": "",
   "description.twisterRug": "",
   "npcDialogues.oldSalty.intro3": "",
-  "statements.feed.bumpkin.one": "Não há comida no inventário"
+  "kingdom.shop.helmet.currently.equipped": "{{helmet}} atualmente equipado! Desequipado para comprar."
 }

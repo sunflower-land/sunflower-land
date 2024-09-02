@@ -3432,6 +3432,7 @@
   "marketplace.cancelOffer.areYouSure": "Teklifinizi kaldırmak istediğinizden emin misiniz?",
   "mmo.connecting": "Sunucuya bağlanıyor...",
   "mmo.connectionFailed": "Bağlantı başarısız oldu, tekrar denemek için tıklayın",
+  "statements.feed.bumpkin.one": "Envanterde yiyecek yok",
   "description.battleCryDrum": "",
   "description.bullseyeBoard": "",
   "description.chessRug": "",
@@ -3448,5 +3449,5 @@
   "description.traineeTarget": "",
   "description.twisterRug": "",
   "npcDialogues.oldSalty.intro3": "",
-  "statements.feed.bumpkin.one": "Envanterde yiyecek yok"
+  "kingdom.shop.helmet.currently.equipped": "{{helmet}} şu anda donanımlı! Satın almak için ekipmanı kaldırın."
 }

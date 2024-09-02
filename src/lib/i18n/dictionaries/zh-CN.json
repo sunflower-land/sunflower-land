@@ -3432,6 +3432,7 @@
   "marketplace.cancelOffer.areYouSure": "您确定要删除报价吗？",
   "mmo.connecting": "正在连接服务器...",
   "mmo.connectionFailed": "连接失败，点击重试",
+  "statements.feed.bumpkin.one": "库存中没有食物",
   "description.battleCryDrum": "",
   "description.bullseyeBoard": "",
   "description.chessRug": "",
@@ -3448,5 +3449,5 @@
   "description.traineeTarget": "",
   "description.twisterRug": "",
   "npcDialogues.oldSalty.intro3": "",
-  "statements.feed.bumpkin.one": "库存中没有食物"
+  "kingdom.shop.helmet.currently.equipped": "{{helmet}} 目前已装备！取消装备购买。"
 }

@@ -3447,6 +3447,7 @@
   "marketplace.cancelOffer.areYouSure": "Вы действительно хотите удалить свое предложение?",
   "mmo.connecting": "Подключение к серверу...",
   "mmo.connectionFailed": "Не удалось подключиться, нажмите, чтобы повторить",
+  "statements.feed.bumpkin.one": "В инвентаре нет продуктов",
   "npcDialogues.oldSalty.intro3": "",
-  "statements.feed.bumpkin.one": "В инвентаре нет продуктов"
+  "kingdom.shop.helmet.currently.equipped": "{{helmet}} в настоящее время оборудован! Не готов к покупке."
 }
