@@ -59,13 +59,23 @@ const WrappedWallet: React.FC<Props> = ({
 
     // Metamask Mobile accidentally triggers this on route changes
     const didChange = address !== walletServiceAddress;
-    if (didChange) {
+    if (
+      didChange &&
+      (
+        ["initialising", "signing", "linking", "minting", "migrating"] as const
+      ).every((state) => !walletState.matches(state))
+    ) {
       walletService.send("ACCOUNT_CHANGED");
     }
   }, [address]);
 
   useEffect(() => {
-    if (chainId !== CONFIG.POLYGON_CHAIN_ID) {
+    if (
+      chainId !== CONFIG.POLYGON_CHAIN_ID &&
+      (
+        ["initialising", "signing", "linking", "minting", "migrating"] as const
+      ).every((state) => !walletState.matches(state))
+    ) {
       walletService.send("CHAIN_CHANGED");
     }
   }, [chainId]);
