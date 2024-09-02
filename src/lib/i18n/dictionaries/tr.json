@@ -3433,6 +3433,7 @@
   "mmo.connecting": "Sunucuya bağlanıyor...",
   "mmo.connectionFailed": "Bağlantı başarısız oldu, tekrar denemek için tıklayın",
   "statements.feed.bumpkin.one": "Envanterde yiyecek yok",
+  "kingdom.shop.helmet.currently.equipped": "{{helmet}} şu anda donanımlı! Satın almak için ekipmanı kaldırın.",
   "description.battleCryDrum": "",
   "description.bullseyeBoard": "",
   "description.chessRug": "",
@@ -3448,6 +3449,5 @@
   "description.silverStallion": "",
   "description.traineeTarget": "",
   "description.twisterRug": "",
-  "npcDialogues.oldSalty.intro3": "",
-  "kingdom.shop.helmet.currently.equipped": "{{helmet}} şu anda donanımlı! Satın almak için ekipmanı kaldırın."
+  "npcDialogues.oldSalty.intro3": ""
 }
