@@ -56,7 +56,7 @@ const WrappedWallet: React.FC<Props> = ({
 
   useEffect(() => {
     if (connector?.name !== "Mobile Browser Provider") {
-      walletService.send("ACCOUNT_CHANGED");
+      // walletService.send("ACCOUNT_CHANGED");
     }
   }, [address]);
 
@@ -65,7 +65,7 @@ const WrappedWallet: React.FC<Props> = ({
       chainId !== CONFIG.POLYGON_CHAIN_ID &&
       connector?.name !== "Mobile Browser Provider"
     ) {
-      walletService.send("CHAIN_CHANGED");
+      // walletService.send("CHAIN_CHANGED");
     }
   }, [chainId]);
 
