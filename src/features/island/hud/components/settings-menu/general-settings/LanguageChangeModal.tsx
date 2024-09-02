@@ -39,19 +39,17 @@ export const LanguageSwitcher: React.FC = () => {
     }
   };
 
-  const getFontSizeClass = (languageCode: LanguageCode): string => {
-    if (languageCode === language) {
-      return "";
+  function getFontSizeClass(languageCode: string): string {
+    switch (languageCode) {
+      case "zh-CN":
+      case "zh-TW":
+        return "!text-[18px]";
+      case "ru":
+        return fontType === "Bold" ? "!text-[26px]" : "";
+      default:
+        return "";
     }
-    if (languageCode === "zh-CN") {
-      return "!text-[18px]";
-    }
-    if (languageCode === "ru" && fontType === "Bold") {
-      return "!text-[26px]";
-    }
-
-    return "";
-  };
+  }
 
   const languageArray = getKeys(languageDetails);
   return (
@@ -79,7 +77,7 @@ export const LanguageSwitcher: React.FC = () => {
               className={`${getFontNameClass(languageCode)} ${getFontSizeClass(languageCode)}`}
             >
               {languageDetails[languageCode].languageName}
-            </span>{" "}
+            </span>
             {language === languageCode && t("changeLanguage.currentLanguage")}
           </Button>
         ))}

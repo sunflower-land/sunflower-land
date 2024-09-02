@@ -10,13 +10,19 @@ import { getKeys } from "features/game/types/decorations";
 
 export const FontSettings: React.FC = () => {
   const language = localStorage.getItem("language") ?? "en";
-  const fonts = getKeys(
-    language === "zh-CN"
-      ? CHINESE_FONT_CONFIG
-      : language === "ru"
-        ? CYRILLIC_FONT_CONFIG
-        : FONT_CONFIG,
-  );
+
+  const getFontConfig = () => {
+    switch (language) {
+      case "zh-CN":
+      case "zh-TW":
+        return CHINESE_FONT_CONFIG;
+      case "ru":
+        return CYRILLIC_FONT_CONFIG;
+      default:
+        return FONT_CONFIG;
+    }
+  };
+  const fonts = getKeys(getFontConfig());
 
   return (
     <>

@@ -16,7 +16,7 @@ export function getCachedFont(): Font {
 
 export type Font = "Default" | "Bold" | "Sans Serif" | "Chunky (Old)";
 
-interface FontSettings {
+export interface FontSettings {
   fontFamily: string;
   xxs: [number, number];
   xs: [number, number];
@@ -169,12 +169,20 @@ function setFontProperties(config: FontSettings) {
 
 export function changeFont(font: Font) {
   const lang = localStorage.getItem("language") || "en";
-  const config = ["ru"].includes(lang)
-    ? CYRILLIC_FONT_CONFIG[font]
-    : ["zh-CN"].includes(lang)
-      ? CHINESE_FONT_CONFIG[font]
-      : FONT_CONFIG[font];
 
+  const getFontConfig = () => {
+    switch (lang) {
+      case "zh-CN":
+      case "zh-TW":
+        return CHINESE_FONT_CONFIG[font];
+      case "ru":
+        return CYRILLIC_FONT_CONFIG[font];
+      default:
+        return FONT_CONFIG[font];
+    }
+  };
+
+  const config = getFontConfig();
   if (config) {
     setFontProperties(config);
   } else {

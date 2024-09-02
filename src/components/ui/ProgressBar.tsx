@@ -199,6 +199,21 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({
 }) => {
   const currentLanguage = localStorage.getItem("language") || "en";
 
+  let customFont: string;
+  let customTopStyle: string;
+  switch (currentLanguage) {
+    case "zh-CN":
+    case "zh-TW":
+      customFont = "font-Ark";
+      customTopStyle = "4px";
+      break;
+    default:
+      customFont = "font-pixel";
+      customTopStyle = "6px";
+  }
+
+  // Now you can use the 'fontName' variable as needed.
+
   return (
     <div className="absolute" {...divProps}>
       {seconds > 0 && (
@@ -210,14 +225,12 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({
           }}
         >
           <span
-            className={`text-white text-center ${
-              currentLanguage === "zh-CN" ? "font-Ark" : "font-pixel"
-            }`}
+            className={`text-white text-center ${customFont}`}
             style={{
               padding: "0px 1px",
               height: "9px",
               lineHeight: "7px",
-              top: `${currentLanguage === "zh-CN" ? "4px" : "6px"}`,
+              top: `${customTopStyle}`,
               position: "relative",
               textShadow: "1px 1px black",
               whiteSpace: "nowrap",
