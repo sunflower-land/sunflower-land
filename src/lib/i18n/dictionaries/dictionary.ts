@@ -1,6 +1,7 @@
 import ENGLISH_TERMS from "./dictionary.json";
 import TURKISH_TERMS from "./tr.json";
 import CHINESE_SIMPLIFIED_TERMS from "./zh-CN.json";
+// import CHINESE_TRADITIONAL_TERMS from "./zh-TW.json";
 import PORTUGUESE_TERMS from "./pt-BR.json";
 import FRENCH_TERMS from "./fr.json";
 import RUSSIAN_TERMS from "./ru.json";
@@ -26,6 +27,7 @@ export type LanguageCode =
   | "pt-BR"
   | "tr"
   | "zh-CN"
+  | "zh-TW"
   | "ru"
   | "it";
 
@@ -33,8 +35,8 @@ export type TranslationResource = Partial<Record<TranslationKeys, string>>;
 
 interface LanguageDetails {
   languageName: string;
-  languageImage: string[];
-  imageAlt: string[]; // Used for the image alt, won't be shown in game
+  languageImage?: string[];
+  imageAlt?: string[]; // Used for the image alt, won't be shown in game
 }
 
 export const languageDetails: Record<LanguageCode, LanguageDetails> = {
@@ -78,6 +80,9 @@ export const languageDetails: Record<LanguageCode, LanguageDetails> = {
     languageImage: [italyFlag],
     imageAlt: ["Italy Flag"],
   },
+  "zh-TW": {
+    languageName: "繁体中文",
+  },
 };
 
 export const resources: Partial<
@@ -89,6 +94,7 @@ export const resources: Partial<
   "pt-BR": { translation: PORTUGUESE_TERMS },
   tr: { translation: TURKISH_TERMS },
   "zh-CN": { translation: CHINESE_SIMPLIFIED_TERMS },
+  // "zh-TW": { translation: CHINESE_TRADITIONAL_TERMS },
   ru: { translation: RUSSIAN_TERMS },
   it: { translation: ITALIAN_TERMS },
 };
