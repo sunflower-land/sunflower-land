@@ -33,12 +33,19 @@ import {
   getListingsFloorPrices,
 } from "features/game/actions/getListingsFloorPrices";
 import { Context as AuthContext } from "features/auth/lib/Provider";
-import { useActor } from "@xstate/react";
+import { useSelector } from "@xstate/react";
 import { Loading } from "features/auth/components";
 import { formatNumber } from "lib/utils/formatNumber";
 import { hasFeatureAccess } from "lib/flags";
+import { AuthMachineState } from "features/auth/lib/authMachine";
+import { MachineState } from "features/game/lib/gameMachine";
 
 type ViewState = "home" | "achievements" | "skills" | "skills2";
+
+const _rawToken = (state: AuthMachineState) => state.context.user.rawToken;
+
+const _experience = (state: MachineState) =>
+  state.context.state.bumpkin?.experience ?? 0;
 
 export const BumpkinLevel: React.FC<{ experience?: number }> = ({
   experience = 0,
@@ -99,8 +106,13 @@ export const BumpkinModal: React.FC<Props> = ({
   gameState,
 }) => {
   const { gameService } = useContext(Context);
+  const experience = useSelector(gameService, _experience);
+  const level = getBumpkinLevel(experience);
+  const maxLevel = isMaxLevel(experience);
+  const canTrade = level >= 10;
+
   const { authService } = useContext(AuthContext);
-  const [authState] = useActor(authService);
+  const rawToken = useSelector(authService, _rawToken);
   const [floorPrices, setFloorPrices] = useState<FloorPrices>({});
   const [isLoading, setIsLoading] = useState(false);
   const [view, setView] = useState<ViewState>(initialView);
@@ -126,21 +138,19 @@ export const BumpkinModal: React.FC<Props> = ({
   };
 
   useEffect(() => {
-    if (tab === 2) {
-      const load = async () => {
-        setIsLoading(true);
-        const floorPrices = await getListingsFloorPrices(
-          authState.context.user.rawToken,
-        );
-        setFloorPrices((prevFloorPrices) => ({
-          ...prevFloorPrices,
-          ...floorPrices,
-        }));
+    if (tab !== 2 || !canTrade) return;
 
-        setIsLoading(false);
-      };
-      load();
-    }
+    const load = async () => {
+      setIsLoading(true);
+      const floorPrices = await getListingsFloorPrices(rawToken);
+      setFloorPrices((prevFloorPrices) => ({
+        ...prevFloorPrices,
+        ...floorPrices,
+      }));
+
+      setIsLoading(false);
+    };
+    load();
   }, [tab]);
 
   if (view === "achievements") {
@@ -172,10 +182,6 @@ export const BumpkinModal: React.FC<Props> = ({
       />
     );
   }
-
-  const experience = bumpkin?.experience ?? 0;
-  const level = getBumpkinLevel(experience);
-  const maxLevel = isMaxLevel(experience);
 
   const hasAvailableSP = getAvailableBumpkinSkillPoints(bumpkin) > 0;
 
