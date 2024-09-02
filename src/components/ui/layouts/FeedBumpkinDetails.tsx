@@ -4,7 +4,6 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import React from "react";
 import { RequirementLabel } from "../RequirementsLabel";
 import { SquareIcon } from "../SquareIcon";
-import { translateTerms } from "lib/i18n/translate";
 
 /**
  * The props for the details for items.
@@ -47,7 +46,7 @@ export const FeedBumpkinDetails: React.FC<Props> = ({
     const item = ITEM_DETAILS[details.item];
     const icon = item.image;
     const title = details.item;
-    const description = translateTerms(item.description);
+    const description = item.description;
 
     return (
       <>
