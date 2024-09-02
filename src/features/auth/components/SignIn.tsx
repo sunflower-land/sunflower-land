@@ -46,32 +46,6 @@ const OtherWallets: React.FC<{
   return (
     <>
       <>
-        {isMobile && (
-          <Button
-            className="mb-1 py-2 text-sm relative"
-            onClick={() =>
-              onConnect(
-                injected({
-                  target() {
-                    return {
-                      id: "Mobile",
-                      name: "Mobile Browser Provider",
-                      provider: window.ethereum,
-                    };
-                  },
-                }),
-              )
-            }
-          >
-            <div className="px-8">
-              <img
-                src={world}
-                className="w-7 h-7 mobile:w-6 mobile:h-6  ml-2 mr-6 absolute left-0 top-1"
-              />
-              {"Mobile Wallet Browser"}
-            </div>
-          </Button>
-        )}
         {showSequence && (
           <Button
             className="mb-1 py-2 text-sm relative"
@@ -183,12 +157,44 @@ export const Wallets: React.FC<Props> = ({ onConnect, showAll = true }) => {
 
   const { connectors } = useConnect();
 
+  const eip6963Connectors = connectors.filter(
+    (connector) => connector.type === "injected",
+  );
+
+  // There is an injected provider, but it's not showing up in EIP-6963
+  const showFallback = !!window.ethereum && eip6963Connectors.length === 0;
+
   const MainWallets = () => {
     return (
       <>
+        {showFallback && (
+          <Button
+            className="mb-1 py-2 text-sm relative"
+            onClick={() =>
+              onConnect(
+                injected({
+                  target() {
+                    return {
+                      id: "injected",
+                      name: "Injected Wallet",
+                      provider: window.ethereum,
+                    };
+                  },
+                }),
+              )
+            }
+          >
+            <div className="px-8">
+              <img
+                src={world}
+                className="w-7 h-7 mobile:w-6 mobile:h-6  ml-2 mr-6 absolute left-0 top-1"
+              />
+              {"Web3 Wallet"}
+            </div>
+          </Button>
+        )}
         <>
-          {connectors
-            .filter((connector) => connector.type === "injected")
+          {eip6963Connectors
             .filter((connector) => connector.name !== "MetaMask")
             .map((connector) => (
               <Button
