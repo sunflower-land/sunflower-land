@@ -1639,7 +1639,6 @@
   "gameOptions.plazaSettings.changeServer": "Cambia server",
   "auction.winner": "Vincitore dell'asta!",
   "bumpkin.level": "Livello Bumpkin",
-  "bumpkinBuzz": "Cassetta postale",
   "dailyLim": "Limite SFL giornaliero",
   "farm.banned": "Questa fattoria è vietata",
   "gobSwarm": "Sciame di Goblin!",
@@ -3437,6 +3436,7 @@
   "fruit-dash.portal.description": "Corri attraverso la fattoria, schiva gli ostacoli e raccogli deliziosi frutti.",
   "fruit-dash.portal.missionObjectives": "Missione: Raggiungi {{targetScore}} punti.",
   "fruit-dash.portal.rewardMessage": "Congratulazioni, hai completato la missione! Ecco la tua ricompensa.",
+  "landscape.timeWarpTotem.resourceNodeCondition": "Assicurati che nessun minerale o albero si stia rigenerando, che non crescano colture o frutti e che nessun edificio di cottura funzioni prima di attivare {{selectedChestItem}}.",
   "description.battleCryDrum": "",
   "description.bullseyeBoard": "",
   "description.chessRug": "",
@@ -3452,6 +3452,6 @@
   "description.silverStallion": "",
   "description.traineeTarget": "",
   "description.twisterRug": "",
-  "landscape.timeWarpTotem.resourceNodeCondition": "Assicurati che nessun minerale o albero si stia rigenerando, che non crescano colture o frutti e che nessun edificio di cottura funzioni prima di attivare {{selectedChestItem}}.",
+  "mailbox": "Cassetta postale",
   "npcDialogues.oldSalty.intro3": ""
 }

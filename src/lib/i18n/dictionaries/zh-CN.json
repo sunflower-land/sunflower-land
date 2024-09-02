@@ -2257,7 +2257,6 @@
   "gameOptions.generalSettings.assignRole": "分配 Discord 角色",
   "auction.winner": "拍卖赢家！",
   "bumpkin.level": "Bumpkin 等级",
-  "bumpkinBuzz": "邮箱",
   "dailyLim": "每日 SFL 限额",
   "farm.banned": "这个农场被禁了",
   "gobSwarm": "哥布林群！",
@@ -3437,6 +3436,7 @@
   "fruit-dash.portal.description": "穿过农场，躲避障碍，收集美味的水果。",
   "fruit-dash.portal.missionObjectives": "任务：达到 {{targetScore}} 点数。",
   "fruit-dash.portal.rewardMessage": "恭喜，你完成了任务！这是你的奖励。",
+  "landscape.timeWarpTotem.resourceNodeCondition": "在激活 {{selectedChestItem}} 之前，请确保没有矿物质或树木在再生，没有农作物或水果生长，烹饪建筑物不起作用。",
   "description.battleCryDrum": "",
   "description.bullseyeBoard": "",
   "description.chessRug": "",
@@ -3452,6 +3452,6 @@
   "description.silverStallion": "",
   "description.traineeTarget": "",
   "description.twisterRug": "",
-  "landscape.timeWarpTotem.resourceNodeCondition": "在激活 {{selectedChestItem}} 之前，请确保没有矿物质或树木在再生，没有农作物或水果生长，烹饪建筑物不起作用。",
+  "mailbox": "邮箱",
   "npcDialogues.oldSalty.intro3": ""
 }

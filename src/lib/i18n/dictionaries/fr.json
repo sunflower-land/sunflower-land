@@ -1116,7 +1116,6 @@
   "gameOptions.plazaSettings.changeServer": "Changer de serveur",
   "auction.winner": "Gagnant de l'enchère!",
   "bumpkin.level": "Niveau de Bumpkin",
-  "bumpkinBuzz": "Boites aux lettres",
   "dailyLim": "Limite quotidienne de SFL",
   "farm.banned": "Cette ferme est interdite",
   "gobSwarm": "Nuée de Gobelins!",
@@ -3437,6 +3436,7 @@
   "fruit-dash.portal.description": "Parcourez la ferme, évitez les obstacles et récoltez de délicieux fruits.",
   "fruit-dash.portal.missionObjectives": "Mission : Atteindre {{targetScore}} points.",
   "fruit-dash.portal.rewardMessage": "Félicitations, vous avez terminé la mission ! Voici ta récompense.",
+  "landscape.timeWarpTotem.resourceNodeCondition": "Assurez-vous qu'aucun minéral ou arbre ne se régénère, qu'aucune récolte ou aucun fruit ne pousse et qu'aucun bâtiment de cuisine ne fonctionne avant d'activer le {{selectedChestItem}}.",
   "description.battleCryDrum": "",
   "description.bullseyeBoard": "",
   "description.chessRug": "",
@@ -3452,6 +3452,6 @@
   "description.silverStallion": "",
   "description.traineeTarget": "",
   "description.twisterRug": "",
-  "landscape.timeWarpTotem.resourceNodeCondition": "Assurez-vous qu'aucun minéral ou arbre ne se régénère, qu'aucune récolte ou aucun fruit ne pousse et qu'aucun bâtiment de cuisine ne fonctionne avant d'activer le {{selectedChestItem}}.",
+  "mailbox": "Boîte aux lettres",
   "npcDialogues.oldSalty.intro3": ""
 }

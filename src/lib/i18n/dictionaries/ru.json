@@ -1565,7 +1565,6 @@
   "gameOptions.plazaSettings.changeServer": "Сменить сервер",
   "auction.winner": "Победитель аукциона!",
   "bumpkin.level": "Уровень бампкина",
-  "bumpkinBuzz": "Почтовый ящик",
   "dailyLim": "Дневной лимит SFL",
   "farm.banned": "Эта ферма забанена",
   "gobSwarm": "Толпа гоблинов!",
@@ -3453,5 +3452,6 @@
   "fruit-dash.portal.missionObjectives": "Миссия: набрать {{targetScore}} очков.",
   "fruit-dash.portal.rewardMessage": "Поздравляем, вы выполнили задание! Вот ваша награда.",
   "landscape.timeWarpTotem.resourceNodeCondition": "Пожалуйста, убедитесь, что минералы, деревья не восстанавливаются, не растут сельскохозяйственные культуры или фрукты, а также не работают кухонные помещения, прежде чем активировать {{selectedChestItem}}.",
+  "mailbox": "Почтовый ящик",
   "npcDialogues.oldSalty.intro3": ""
 }

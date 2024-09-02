@@ -1073,7 +1073,6 @@
   "gameOptions.plazaSettings.noMutedPlayers": "Você não tem jogadores silenciados.",
   "auction.winner": "Vencedor do leilão!",
   "bumpkin.level": "Nível Bumpkin",
-  "bumpkinBuzz": "Zumbido Bumpkin",
   "dailyLim": "Limite Diário SFL",
   "farm.banned": "Esta fazenda está banida",
   "gobSwarm": "Enxame de Goblins!",
@@ -3437,6 +3436,7 @@
   "fruit-dash.portal.description": "Corra pela fazenda, evite obstáculos e colete frutas deliciosas.",
   "fruit-dash.portal.missionObjectives": "Missão: Alcançar {{targetScore}} pontos.",
   "fruit-dash.portal.rewardMessage": "Parabéns, você completou a missão! Aqui está sua recompensa.",
+  "landscape.timeWarpTotem.resourceNodeCondition": "Certifique-se de que nenhum mineral ou árvore esteja se regenerando, que nenhuma safra ou fruta esteja crescendo e que nenhum prédio de cozinha esteja funcionando antes de ativar o {{selectedChestItem}}.",
   "description.battleCryDrum": "",
   "description.bullseyeBoard": "",
   "description.chessRug": "",
@@ -3452,6 +3452,6 @@
   "description.silverStallion": "",
   "description.traineeTarget": "",
   "description.twisterRug": "",
-  "landscape.timeWarpTotem.resourceNodeCondition": "Certifique-se de que nenhum mineral ou árvore esteja se regenerando, que nenhuma safra ou fruta esteja crescendo e que nenhum prédio de cozinha esteja funcionando antes de ativar o {{selectedChestItem}}.",
+  "mailbox": "Caixa de correio",
   "npcDialogues.oldSalty.intro3": ""
 }
