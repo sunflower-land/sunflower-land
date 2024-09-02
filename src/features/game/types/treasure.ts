@@ -88,7 +88,7 @@ export const SEASONAL_ARTEFACT: Record<
     sellPrice: 200,
     from: SEASONS["Pharaoh's Treasure"].startDate,
     to: SEASONS["Pharaoh's Treasure"].endDate,
-    description: "",
+    description: translate("descvription.scarab"),
   },
 };
 
@@ -96,11 +96,11 @@ export const SELLABLE_TREASURE: Record<BeachBountyTreasure, SellableTreasure> =
   {
     Sand: {
       sellPrice: 10,
-      description: "",
+      description: translate("description.sand"),
     },
     "Camel Bone": {
       sellPrice: 10,
-      description: "",
+      description: translate("description.camel.bone"),
     },
     Crab: {
       sellPrice: 15,
@@ -116,7 +116,7 @@ export const SELLABLE_TREASURE: Record<BeachBountyTreasure, SellableTreasure> =
     },
     Vase: {
       sellPrice: 50,
-      description: "",
+      description: translate("description.vase"),
     },
     Seaweed: {
       sellPrice: 75,
@@ -124,7 +124,7 @@ export const SELLABLE_TREASURE: Record<BeachBountyTreasure, SellableTreasure> =
     },
     "Cockle Shell": {
       sellPrice: 100,
-      description: "",
+      description: translate("description.cockle.shell"),
     },
     Starfish: {
       sellPrice: 112.5,
@@ -148,7 +148,7 @@ export const SELLABLE_TREASURE: Record<BeachBountyTreasure, SellableTreasure> =
     },
     Hieroglyph: {
       sellPrice: 250,
-      description: "",
+      description: translate("description.hieroglyph"),
     },
     "Clam Shell": {
       sellPrice: 375,

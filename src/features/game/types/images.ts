@@ -680,14 +680,19 @@ import vase from "assets/resources/vase.webp";
 
 import { COUPONS, EASTER_EGG, FERTILISERS, InventoryItemName } from "./game";
 
-import { CROPS, CROP_SEEDS, GREENHOUSE_SEEDS } from "./crops";
+import { CROPS, CROP_SEEDS, GREENHOUSE_CROPS, GREENHOUSE_SEEDS } from "./crops";
 import { AchievementName, ACHIEVEMENTS } from "./achievements";
 
 //Golden Crop Event
 
 import { SUNNYSIDE } from "assets/sunnyside";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
-import { FRUIT, FRUIT_SEEDS, GREENHOUSE_FRUIT_SEEDS } from "./fruits";
+import {
+  FRUIT,
+  FRUIT_SEEDS,
+  GREENHOUSE_FRUIT,
+  GREENHOUSE_FRUIT_SEEDS,
+} from "./fruits";
 import { FLOWER_SEEDS, FLOWERS } from "./flowers";
 import { CONSUMABLES, COOKABLES } from "./consumables";
 import { COMMODITIES } from "./resources";
@@ -711,6 +716,7 @@ import { TREASURE_TOOLS } from "./tools";
 import { translate } from "lib/i18n/translate";
 import { BASIC_DECORATIONS } from "./decorations";
 import { SELLABLE_TREASURE } from "./treasure";
+import { TREASURE_COLLECTIBLE_ITEM } from "./collectibles";
 
 export interface ItemDetails {
   description: string;
@@ -3545,851 +3551,371 @@ export const ITEM_DETAILS: Items = {
   },
   "Rice Seed": {
     image: riceSeed,
-    description: {
-      en: "Perfect for rations!",
-      "pt-BR": "Perfect for rations!",
-      "zh-CN": "完美口粮！",
-      fr: "Perfect for rations!",
-      tr: "Perfect for rations!",
-    },
+    description: GREENHOUSE_SEEDS["Rice Seed"].description,
   },
   Grape: {
     image: grape,
-    description: {
-      en: "A zesty and desired fruit.",
-      "pt-BR": "A zesty and desired fruit.",
-      "zh-CN": "一种甜美神往的水果",
-      fr: "A zesty and desired fruit.",
-      tr: "A zesty and desired fruit.",
-    },
+    description: GREENHOUSE_FRUIT().Grape.description,
   },
   Olive: {
     image: olive,
-    description: {
-      en: "A luxury for advanced farmers.",
-      "pt-BR": "A luxury for advanced farmers.",
-      "zh-CN": "高端农夫的奢品",
-      fr: "A luxury for advanced farmers.",
-      tr: "A luxury for advanced farmers.",
-    },
+    description: GREENHOUSE_CROPS.Olive.description,
   },
   Rice: {
     image: rice,
-    description: {
-      en: "Perfect for rations!",
-      "pt-BR": "Perfect for rations!",
-      "zh-CN": "完美口粮！",
-      fr: "Perfect for rations!",
-      tr: "Perfect for rations!",
-    },
+    description: GREENHOUSE_CROPS.Rice.description,
   },
   Antipasto: {
     image: antipasto,
-    description: {
-      en: "Assorted bites, perfect for sharing.",
-      "pt-BR": "Assorted bites, perfect for sharing.",
-      "zh-CN": "Assorted bites, perfect for sharing.",
-      fr: "Assorted bites, perfect for sharing.",
-      tr: "Assorted bites, perfect for sharing.",
-    },
+    description: CONSUMABLES.Antipasto.description,
   },
   "Carrot Juice": {
     image: carrotJuice,
-    description: {
-      en: "Refreshing juice, pressed fresh by bumpkins.",
-      "pt-BR": "Refreshing juice, pressed fresh by bumpkins.",
-      "zh-CN": "Refreshing juice, pressed fresh by bumpkins.",
-      fr: "Refreshing juice, pressed fresh by bumpkins.",
-      tr: "Refreshing juice, pressed fresh by bumpkins.",
-    },
+    description: CONSUMABLES["Carrot Juice"].description,
   },
   "Seafood Basket": {
     image: fishBasket,
-    description: {
-      en: "Oceanic flavors, sourced by goblins.",
-      "pt-BR": "Oceanic flavors, sourced by goblins.",
-      "zh-CN": "Oceanic flavors, sourced by goblins.",
-      fr: "Oceanic flavors, sourced by goblins.",
-      tr: "Oceanic flavors, sourced by goblins.",
-    },
+    description: CONSUMABLES["Seafood Basket"].description,
   },
   "Fish Burger": {
     image: fishBurger,
-    description: {
-      en: "Succulent burger, loved by seaside adventurers.",
-      "pt-BR": "Succulent burger, loved by seaside adventurers.",
-      "zh-CN": "Succulent burger, loved by seaside adventurers.",
-      fr: "Succulent burger, loved by seaside adventurers.",
-      tr: "Succulent burger, loved by seaside adventurers.",
-    },
+    description: CONSUMABLES["Fish Burger"].description,
   },
   "Fish n Chips": {
     image: fishnChips,
-    description: {
-      en: "Classic seaside meal, loved by all.",
-      "pt-BR": "Classic seaside meal, loved by all.",
-      "zh-CN": "Classic seaside meal, loved by all.",
-      fr: "Classic seaside meal, loved by all.",
-      tr: "Classic seaside meal, loved by all.",
-    },
+    description: CONSUMABLES["Fish n Chips"].description,
   },
   "Fish Omelette": {
     image: fishOmelette,
-    description: {
-      en: "Flavorful omelette, filled with oceanic treasures.",
-      "pt-BR": "Flavorful omelette, filled with oceanic treasures.",
-      "zh-CN": "Flavorful omelette, filled with oceanic treasures.",
-      fr: "Flavorful omelette, filled with oceanic treasures.",
-      tr: "Flavorful omelette, filled with oceanic treasures.",
-    },
+    description: CONSUMABLES["Fish Omelette"].description,
   },
   "Fried Calamari": {
     image: friedCalamari,
-    description: {
-      en: "Crispy calamari rings, a delicious indulgence.",
-      "pt-BR": "Crispy calamari rings, a delicious indulgence.",
-      "zh-CN": "Crispy calamari rings, a delicious indulgence.",
-      fr: "Crispy calamari rings, a delicious indulgence.",
-      tr: "Crispy calamari rings, a delicious indulgence.",
-    },
+    description: CONSUMABLES["Fried Calamari"].description,
   },
   "Fried Tofu": {
     image: friedTofu,
-    description: {
-      en: "Golden fried tofu, crafted with care.",
-      "pt-BR": "Golden fried tofu, crafted with care.",
-      "zh-CN": "Golden fried tofu, crafted with care.",
-      fr: "Golden fried tofu, crafted with care.",
-      tr: "Golden fried tofu, crafted with care.",
-    },
+    description: CONSUMABLES["Fried Tofu"].description,
   },
   "Grape Juice": {
     image: grapeJuice,
-    description: {
-      en: "Sweet and tangy juice, freshly squeezed.",
-      "pt-BR": "Sweet and tangy juice, freshly squeezed.",
-      "zh-CN": "Sweet and tangy juice, freshly squeezed.",
-      fr: "Sweet and tangy juice, freshly squeezed.",
-      tr: "Sweet and tangy juice, freshly squeezed.",
-    },
+    description: CONSUMABLES["Grape Juice"].description,
   },
   "Ocean's Olive": {
     image: oceansOlive,
-    description: {
-      en: "Delightful oceanic dish, a true Sunflorian delicacy.",
-      "pt-BR": "Delightful oceanic dish, a true Sunflorian delicacy.",
-      "zh-CN": "Delightful oceanic dish, a true Sunflorian delicacy.",
-      fr: "Delightful oceanic dish, a true Sunflorian delicacy.",
-      tr: "Delightful oceanic dish, a true Sunflorian delicacy.",
-    },
+    description: CONSUMABLES["Ocean's Olive"].description,
   },
   "Quick Juice": {
     image: quickJuice,
-    description: {
-      en: "Quick energy boost, a Goblin favourite.",
-      "pt-BR": "Quick energy boost, a Goblin favourite.",
-      "zh-CN": "Quick energy boost, a Goblin favourite.",
-      fr: "Quick energy boost, a Goblin favourite.",
-      tr: "Quick energy boost, a Goblin favourite.",
-    },
+    description: CONSUMABLES["Quick Juice"].description,
   },
   "Rice Bun": {
     image: riceBun,
-    description: {
-      en: "Soft and fluffy rice bun, a favorite.",
-      "pt-BR": "Soft and fluffy rice bun, a favorite.",
-      "zh-CN": "Soft and fluffy rice bun, a favorite.",
-      fr: "Soft and fluffy rice bun, a favorite.",
-      tr: "Soft and fluffy rice bun, a favorite.",
-    },
+    description: CONSUMABLES["Rice Bun"].description,
   },
   "Slow Juice": {
     image: slowJuice,
-    description: {
-      en: "Nutrient-rich juice, handcrafted by bumpkins.",
-      "pt-BR": "Nutrient-rich juice, handcrafted by bumpkins.",
-      "zh-CN": "Nutrient-rich juice, handcrafted by bumpkins.",
-      fr: "Nutrient-rich juice, handcrafted by bumpkins.",
-      tr: "Nutrient-rich juice, handcrafted by bumpkins.",
-    },
+    description: CONSUMABLES["Slow Juice"].description,
   },
   "Steamed Red Rice": {
     image: redRice,
-    description: {
-      en: "Perfectly steamed red rice, a bumpkin's delight.",
-      "pt-BR": "Perfectly steamed red rice, a bumpkin's delight.",
-      "zh-CN": "Perfectly steamed red rice, a bumpkin's delight.",
-      fr: "Perfectly steamed red rice, a bumpkin's delight.",
-      tr: "Perfectly steamed red rice, a bumpkin's delight.",
-    },
+    description: CONSUMABLES["Steamed Red Rice"].description,
   },
   "Sushi Roll": {
     image: sushiRoll,
-    description: {
-      en: "Delicious sushi roll, skillfully prepared.",
-      "pt-BR": "Delicious sushi roll, skillfully prepared.",
-      "zh-CN": "Delicious sushi roll, skillfully prepared.",
-      fr: "Delicious sushi roll, skillfully prepared.",
-      tr: "Delicious sushi roll, skillfully prepared.",
-    },
+    description: CONSUMABLES["Sushi Roll"].description,
   },
   "The Lot": {
     image: theLot,
-    description: {
-      en: "Flavorful fruit blend, refreshing and nutritious.",
-      "pt-BR": "Flavorful fruit blend, refreshing and nutritious.",
-      "zh-CN": "Flavorful fruit blend, refreshing and nutritious.",
-      fr: "Flavorful fruit blend, refreshing and nutritious.",
-      tr: "Flavorful fruit blend, refreshing and nutritious.",
-    },
+    description: CONSUMABLES["The Lot"].description,
   },
   "Tofu Scramble": {
     image: tofuScramble,
-    description: {
-      en: "Hearty scramble, packed with protein and flavor.",
-      "pt-BR": "Hearty scramble, packed with protein and flavor.",
-      "zh-CN": "Hearty scramble, packed with protein and flavor.",
-      fr: "Hearty scramble, packed with protein and flavor.",
-      tr: "Hearty scramble, packed with protein and flavor.",
-    },
+    description: CONSUMABLES["Tofu Scramble"].description,
   },
   Greenhouse: {
     image: SUNNYSIDE.building.greenhouse,
-    description: {
-      en: "A sanctuary for sensitive crops",
-      "pt-BR": "A sanctuary for sensitive crops",
-      "zh-CN": "温室。娇弱庄稼的庇护所（消耗石油运转）",
-      fr: "A sanctuary for sensitive crops",
-      tr: "A sanctuary for sensitive crops",
-    },
+    description: translate("description.greenhouse"),
   },
   "Rice Panda": {
     image: ricePanda,
-    description: {
-      en: "A smart panda never forgets to water the rice.",
-      "pt-BR": "A smart panda never forgets to water the rice.",
-      "zh-CN": "熊猫很聪明，从不忘记给稻米浇水。",
-      fr: "A smart panda never forgets to water the rice.",
-      tr: "A smart panda never forgets to water the rice.",
-    },
+    description: translate("description.ricePanda"),
   },
   "Benevolence Flag": {
     image: benevolenceFlag,
-    description: {
-      en: "For players who have shown great benevolence by contributing significantly to the Bumpkins.",
-      "pt-BR":
-        "For players who have shown great benevolence by contributing significantly to the Bumpkins.",
-      "zh-CN":
-        "For players who have shown great benevolence by contributing significantly to the Bumpkins.",
-      fr: "For players who have shown great benevolence by contributing significantly to the Bumpkins.",
-      tr: "For players who have shown great benevolence by contributing significantly to the Bumpkins.",
-    },
+    description: translate("description.benevolenceFlag"),
   },
   "Devotion Flag": {
     image: devotionFlag,
-    description: {
-      en: "For players who have shown unwavering devotion by donating extensively to the Nightshades, reflecting their cult-like dedication",
-      "pt-BR":
-        "For players who have shown unwavering devotion by donating extensively to the Nightshades, reflecting their cult-like dedication",
-      "zh-CN":
-        "For players who have shown unwavering devotion by donating extensively to the Nightshades, reflecting their cult-like dedication",
-      fr: "For players who have shown unwavering devotion by donating extensively to the Nightshades, reflecting their cult-like dedication",
-      tr: "For players who have shown unwavering devotion by donating extensively to the Nightshades, reflecting their cult-like dedication",
-    },
+    description: translate("description.devotionFlag"),
   },
   "Generosity Flag": {
     image: generosityFlag,
-    description: {
-      en: "For players who have donated substantial resources to the Goblins.",
-      "pt-BR":
-        "For players who have donated substantial resources to the Goblins.",
-      "zh-CN":
-        "For players who have donated substantial resources to the Goblins.",
-      fr: "For players who have donated substantial resources to the Goblins.",
-      tr: "For players who have donated substantial resources to the Goblins.",
-    },
+    description: translate("description.generosityFlag"),
   },
   "Splendor Flag": {
     image: splendorFlag,
-    description: {
-      en: "For players who have generously supported the Sunflorians, symbolizing their splendor in generosity.",
-      "pt-BR":
-        "For players who have generously supported the Sunflorians, symbolizing their splendor in generosity.",
-      "zh-CN":
-        "For players who have generously supported the Sunflorians, symbolizing their splendor in generosity.",
-      fr: "For players who have generously supported the Sunflorians, symbolizing their splendor in generosity.",
-      tr: "For players who have generously supported the Sunflorians, symbolizing their splendor in generosity.",
-    },
+    description: translate("description.splendorFlag"),
   },
   "Jelly Lamp": {
     image: jellyLamp,
-    description: {
-      en: "A lamp that brings a touch of luxury to any room.",
-      "pt-BR": "A lamp that brings a touch of luxury to any room.",
-      "zh-CN": "A lamp that brings a touch of luxury to any room.",
-      fr: "A lamp that brings a touch of luxury to any room.",
-      tr: "A lamp that brings a touch of luxury to any room.",
-    },
+    description: translate("description.jellyLamp"),
   },
   "Paint Can": {
     image: paintCan,
-    description: {
-      en: "A paint can discovered in the festival of colors",
-      "pt-BR": "A paint can discovered in the festival of colors",
-      "zh-CN": "A paint can discovered in the festival of colors",
-      fr: "A paint can discovered in the festival of colors",
-      tr: "A paint can discovered in the festival of colors",
-    },
+    description: translate("description.paintCan"),
   },
   "Sunflorian Throne": {
     image: sunflorianThrone,
-    description: {
-      en: "A throne fit for a Sunflorian.",
-      "pt-BR": "A throne fit for a Sunflorian.",
-      "zh-CN": "A throne fit for a Sunflorian.",
-      fr: "A throne fit for a Sunflorian.",
-      tr: "A throne fit for a Sunflorian.",
-    },
+    description: translate("description.factionShop.sunflorianThrone"),
   },
   "Nightshade Throne": {
     image: nightshadeThrone,
-    description: {
-      en: "A throne fit for a Nightshade.",
-      "pt-BR": "A throne fit for a Nightshade.",
-      "zh-CN": "A throne fit for a Nightshade.",
-      fr: "A throne fit for a Nightshade.",
-      tr: "A throne fit for a Nightshade.",
-    },
+    description: translate("description.factionShop.nightshadeThrone"),
   },
   "Goblin Throne": {
     image: goblinThrone,
-    description: {
-      en: "A throne fit for a Goblin.",
-      "pt-BR": "A throne fit for a Goblin.",
-      "zh-CN": "A throne fit for a Goblin.",
-      fr: "A throne fit for a Goblin.",
-      tr: "A throne fit for a Goblin.",
-    },
+    description: translate("description.factionShop.goblinThrone"),
   },
   "Bumpkin Throne": {
     image: bumpkinThrone,
-    description: {
-      en: "A throne fit for a Bumpkin.",
-      "pt-BR": "A throne fit for a Bumpkin.",
-      "zh-CN": "A throne fit for a Bumpkin.",
-      fr: "A throne fit for a Bumpkin.",
-      tr: "A throne fit for a Bumpkin.",
-    },
+    description: translate("description.factionShop.bumpkinThrone"),
   },
   "Golden Sunflorian Egg": {
     image: goldenSunflorianEgg,
-    description: {
-      en: "A jewelled egg created by the House of Sunflorian.",
-      "pt-BR": "A jewelled egg created by the House of Sunflorian.",
-      "zh-CN": "A jewelled egg created by the House of Sunflorian.",
-      fr: "A jewelled egg created by the House of Sunflorian.",
-      tr: "A jewelled egg created by the House of Sunflorian.",
-    },
+    description: translate("description.factionShop.goldenSunflorianEgg"),
   },
   "Goblin Mischief Egg": {
     image: goblinMischiefEgg,
-    description: {
-      en: "A jewelled egg created by the House of Goblin.",
-      "pt-BR": "A jewelled egg created by the House of Goblin.",
-      "zh-CN": "A jewelled egg created by the House of Goblin.",
-      fr: "A jewelled egg created by the House of Goblin.",
-      tr: "A jewelled egg created by the House of Goblin.",
-    },
+    description: translate("description.factionShop.goblinMischiefEgg"),
   },
   "Bumpkin Charm Egg": {
     image: bumpkinCharmEgg,
-    description: {
-      en: "A jewelled egg created by the House of Bumpkin.",
-      "pt-BR": "A jewelled egg created by the House of Bumpkin.",
-      "zh-CN": "A jewelled egg created by the House of Bumpkin.",
-      fr: "A jewelled egg created by the House of Bumpkin.",
-      tr: "A jewelled egg created by the House of Bumpkin.",
-    },
+    description: translate("description.factionShop.bumpkinCharmEgg"),
   },
   "Nightshade Veil Egg": {
     image: nightshadeVeilEgg,
-    description: {
-      en: "A jewelled egg created by the House of Nightshade.",
-      "pt-BR": "A jewelled egg created by the House of Nightshade.",
-      "zh-CN": "A jewelled egg created by the House of Nightshade.",
-      fr: "A jewelled egg created by the House of Nightshade.",
-      tr: "A jewelled egg created by the House of Nightshade.",
-    },
+    description: translate("description.factionShop.nightshadeVeilEgg"),
   },
   "Emerald Goblin Goblet": {
     image: emeraldGoblinGoblet,
-    description: {
-      en: "An emerald encrusted goblet.",
-      "pt-BR": "An emerald encrusted goblet.",
-      "zh-CN": "An emerald encrusted goblet.",
-      fr: "An emerald encrusted goblet.",
-      tr: "An emerald encrusted goblet.",
-    },
+    description: translate("description.factionShop.emeraldGoblinGoblet"),
   },
   "Opal Sunflorian Goblet": {
     image: opalSunflorianGoblet,
-    description: {
-      en: "An opal encrusted goblet.",
-      "pt-BR": "An opal encrusted goblet.",
-      "zh-CN": "An opal encrusted goblet.",
-      fr: "An opal encrusted goblet.",
-      tr: "An opal encrusted goblet.",
-    },
+    description: translate("description.factionShop.opalSunflorianGoblet"),
   },
   "Sapphire Bumpkin Goblet": {
     image: sapphireBumpkinGoblet,
-    description: {
-      en: "A sapphire encrusted goblet.",
-      "pt-BR": "A sapphire encrusted goblet.",
-      "zh-CN": "A sapphire encrusted goblet.",
-      fr: "A sapphire encrusted goblet.",
-      tr: "A sapphire encrusted goblet.",
-    },
+    description: translate("description.factionShop.sapphireBumpkinGoblet"),
   },
   "Amethyst Nightshade Goblet": {
     image: amethystNightshadeGoblet,
-    description: {
-      en: "An amethyst encrusted goblet.",
-      "pt-BR": "An amethyst encrusted goblet.",
-      "zh-CN": "An amethyst encrusted goblet.",
-      fr: "An amethyst encrusted goblet.",
-      tr: "An amethyst encrusted goblet.",
-    },
+    description: translate("description.factionShop.amethystNightshadeGoblet"),
   },
   "Golden Faction Goblet": {
     image: goldenFactionGoblet,
-    description: {
-      en: "A golden goblet.",
-      "pt-BR": "A golden goblet.",
-      "zh-CN": "A golden goblet.",
-      fr: "A golden goblet.",
-      tr: "A golden goblet.",
-    },
+    description: translate("description.factionShop.goldenFactionGoblet"),
   },
   "Ruby Faction Goblet": {
     image: rubyFactionGoblet,
-    description: {
-      en: "A ruby encrusted goblet.",
-      "pt-BR": "A ruby encrusted goblet.",
-      "zh-CN": "A ruby encrusted goblet.",
-      fr: "A ruby encrusted goblet.",
-      tr: "A ruby encrusted goblet.",
-    },
+    description: translate("description.factionShop.rubyFactionGoblet"),
   },
   "Sunflorian Bunting": {
     image: sunflorianBunting,
-    description: {
-      en: "Colorful flags celebrating the Sunflorian Faction.",
-      "pt-BR": "Colorful flags celebrating the Sunflorian Faction.",
-      "zh-CN": "Colorful flags celebrating the Sunflorian Faction.",
-      fr: "Colorful flags celebrating the Sunflorian Faction.",
-      tr: "Colorful flags celebrating the Sunflorian Faction.",
-    },
+    description: translate("description.factionShop.sunflorianBunting"),
   },
   "Nightshade Bunting": {
     image: nightshadeBunting,
-    description: {
-      en: "Colorful flags celebrating the Nightshade faction.",
-      "pt-BR": "Colorful flags celebrating the Nightshade faction.",
-      "zh-CN": "Colorful flags celebrating the Nightshade faction.",
-      fr: "Colorful flags celebrating the Nightshade faction.",
-      tr: "Colorful flags celebrating the Nightshade faction.",
-    },
+    description: translate("description.factionShop.nightshadeBunting"),
   },
   "Goblin Bunting": {
     image: goblinBunting,
-    description: {
-      en: "Colorful flags celebrating the Goblin faction.",
-      "pt-BR": "Colorful flags celebrating the Goblin faction.",
-      "zh-CN": "Colorful flags celebrating the Goblin faction.",
-      fr: "Colorful flags celebrating the Goblin faction.",
-      tr: "Colorful flags celebrating the Goblin faction.",
-    },
+    description: translate("description.factionShop.goblinBunting"),
   },
   "Bumpkin Bunting": {
     image: bumpkinBunting,
-    description: {
-      en: "Colorful flags celebrating the Bumpkin faction.",
-      "pt-BR": "Colorful flags celebrating the Bumpkin faction.",
-      "zh-CN": "Colorful flags celebrating the Bumpkin faction.",
-      fr: "Colorful flags celebrating the Bumpkin faction.",
-      tr: "Colorful flags celebrating the Bumpkin faction.",
-    },
+    description: translate("description.factionShop.bumpkinBunting"),
   },
   "Sunflorian Candles": {
     image: sunflorianCandles,
-    description: {
-      en: "Sunflorian Faction decorative candles.",
-      "pt-BR": "Sunflorian Faction decorative candles.",
-      "zh-CN": "Sunflorian Faction decorative candles.",
-      fr: "Sunflorian Faction decorative candles.",
-      tr: "Sunflorian Faction decorative candles.",
-    },
+    description: translate("description.factionShop.sunflorianCandles"),
   },
   "Nightshade Candles": {
     image: nightshadeCandles,
-    description: {
-      en: "Nightshade Faction decorative candles.",
-      "pt-BR": "Nightshade Faction decorative candles.",
-      "zh-CN": "Nightshade Faction decorative candles.",
-      fr: "Nightshade Faction decorative candles.",
-      tr: "Nightshade Faction decorative candles.",
-    },
+    description: translate("description.factionShop.nightshadeCandles"),
   },
   "Goblin Candles": {
     image: goblinCandles,
-    description: {
-      en: "Goblin Faction decorative candles.",
-      "pt-BR": "Goblin Faction decorative candles.",
-      "zh-CN": "Goblin Faction decorative candles.",
-      fr: "Goblin Faction decorative candles.",
-      tr: "Goblin Faction decorative candles.",
-    },
+    description: translate("description.factionShop.goblinCandles"),
   },
   "Bumpkin Candles": {
     image: bumpkinCandles,
-    description: {
-      en: "Bumpkin Faction decorative candles.",
-      "pt-BR": "Bumpkin Faction decorative candles.",
-      "zh-CN": "Bumpkin Faction decorative candles.",
-      fr: "Bumpkin Faction decorative candles.",
-      tr: "Bumpkin Faction decorative candles.",
-    },
+    description: translate("description.factionShop.bumpkinCandles"),
   },
   "Sunflorian Left Wall Sconce": {
     image: sunflorianLeftWall,
-    description: {
-      en: "Illuminate your living quarters with a Sunflorian Wall Sconce.",
-      "pt-BR": "Illuminate your living quarters with a Sunflorian Wall Sconce.",
-      "zh-CN": "Illuminate your living quarters with a Sunflorian Wall Sconce.",
-      fr: "Illuminate your living quarters with a Sunflorian Wall Sconce.",
-      tr: "Illuminate your living quarters with a Sunflorian Wall Sconce.",
-    },
+    description: translate("description.factionShop.sunflorianLeftWallSconce"),
   },
   "Nightshade Left Wall Sconce": {
     image: nightshadeLeftWall,
-    description: {
-      en: "Illuminate your living quarters with a Nightshade Wall Sconce.",
-      "pt-BR": "Illuminate your living quarters with a Nightshade Wall Sconce.",
-      "zh-CN": "Illuminate your living quarters with a Nightshade Wall Sconce.",
-      fr: "Illuminate your living quarters with a Nightshade Wall Sconce.",
-      tr: "Illuminate your living quarters with a Nightshade Wall Sconce.",
-    },
+    description: translate("description.factionShop.nightshadeLeftWallSconce"),
   },
   "Goblin Left Wall Sconce": {
     image: goblinLeftWall,
-    description: {
-      en: "Illuminate your living quarters with a Goblin Wall Sconce.",
-      "pt-BR": "Illuminate your living quarters with a Goblin Wall Sconce.",
-      "zh-CN": "Illuminate your living quarters with a Goblin Wall Sconce.",
-      fr: "Illuminate your living quarters with a Goblin Wall Sconce.",
-      tr: "Illuminate your living quarters with a Goblin Wall Sconce.",
-    },
+    description: translate("description.factionShop.goblinLeftWallSconce"),
   },
   "Bumpkin Left Wall Sconce": {
     image: bumpkinLeftWall,
-    description: {
-      en: "Illuminate your living quarters with a Bumpkin Wall Sconce.",
-      "pt-BR": "Illuminate your living quarters with a Bumpkin Wall Sconce.",
-      "zh-CN": "Illuminate your living quarters with a Bumpkin Wall Sconce.",
-      fr: "Illuminate your living quarters with a Bumpkin Wall Sconce.",
-      tr: "Illuminate your living quarters with a Bumpkin Wall Sconce.",
-    },
+    description: translate("description.factionShop.bumpkinLeftWallSconce"),
   },
   "Sunflorian Right Wall Sconce": {
     image: sunflorianRightWall,
-    description: {
-      en: "Illuminate your living quarters with a Sunflorian Wall Sconce.",
-      "pt-BR": "Illuminate your living quarters with a Sunflorian Wall Sconce.",
-      "zh-CN": "Illuminate your living quarters with a Sunflorian Wall Sconce.",
-      fr: "Illuminate your living quarters with a Sunflorian Wall Sconce.",
-      tr: "Illuminate your living quarters with a Sunflorian Wall Sconce.",
-    },
+    description: translate("description.factionShop.sunflorianRightWallSconce"),
   },
   "Nightshade Right Wall Sconce": {
     image: nightshadeRightWall,
-    description: {
-      en: "Illuminate your living quarters with a Nightshade Wall Sconce.",
-      "pt-BR": "Illuminate your living quarters with a Nightshade Wall Sconce.",
-      "zh-CN": "Illuminate your living quarters with a Nightshade Wall Sconce.",
-      fr: "Illuminate your living quarters with a Nightshade Wall Sconce.",
-      tr: "Illuminate your living quarters with a Nightshade Wall Sconce.",
-    },
+    description: translate("description.factionShop.nightshadeRightWallSconce"),
   },
   "Goblin Right Wall Sconce": {
     image: goblinRightWall,
-    description: {
-      en: "Illuminate your living quarters with a Goblin Wall Sconce.",
-      "pt-BR": "Illuminate your living quarters with a Goblin Wall Sconce.",
-      "zh-CN": "Illuminate your living quarters with a Goblin Wall Sconce.",
-      fr: "Illuminate your living quarters with a Goblin Wall Sconce.",
-      tr: "Illuminate your living quarters with a Goblin Wall Sconce.",
-    },
+    description: translate("description.factionShop.goblinRightWallSconce"),
   },
   "Bumpkin Right Wall Sconce": {
     image: bumpkinRightWall,
-    description: {
-      en: "Illuminate your living quarters with a Bumpkin Wall Sconce.",
-      "pt-BR": "Illuminate your living quarters with a Bumpkin Wall Sconce.",
-      "zh-CN": "Illuminate your living quarters with a Bumpkin Wall Sconce.",
-      fr: "Illuminate your living quarters with a Bumpkin Wall Sconce.",
-      tr: "Illuminate your living quarters with a Bumpkin Wall Sconce.",
-    },
+    description: translate("description.factionShop.bumpkinRightWallSconce"),
   },
   "Gourmet Hourglass": {
     image: gourmetHourglass,
-    description: {
-      en: "Reduces cooking time by 50% for 4 hours.",
-      "pt-BR": "Reduces cooking time by 50% for 4 hours.",
-      "zh-CN": "Reduces cooking time by 50% for 4 hours.",
-      fr: "Reduces cooking time by 50% for 4 hours.",
-      tr: "Reduces cooking time by 50% for 4 hours.",
-    },
+    description: translate("description.factionShop.cookingBoost"),
   },
   "Harvest Hourglass": {
     image: harvestHourglass,
-    description: {
-      en: "Reduces crop growth time by 25% for 6 hours.",
-      "pt-BR": "Reduces crop growth time by 25% for 6 hours.",
-      "zh-CN": "Reduces crop growth time by 25% for 6 hours.",
-      fr: "Reduces crop growth time by 25% for 6 hours.",
-      tr: "Reduces crop growth time by 25% for 6 hours.",
-    },
+    description: translate("description.factionShop.cropBoost"),
   },
   "Timber Hourglass": {
     image: timberHourglass,
-    description: {
-      en: "Reduces tree recovery time by 25% for 4 hours.",
-      "pt-BR": "Reduces tree recovery time by 25% for 4 hours.",
-      "zh-CN": "Reduces tree recovery time by 25% for 4 hours.",
-      fr: "Reduces tree recovery time by 25% for 4 hours.",
-      tr: "Reduces tree recovery time by 25% for 4 hours.",
-    },
+    description: translate("description.factionShop.woodBoost"),
   },
   "Ore Hourglass": {
     image: oreHourglass,
-    description: {
-      en: "Reduces mineral replenish cooldown by 50% for 3 hours.",
-      "pt-BR": "Reduces mineral replenish cooldown by 50% for 3 hours.",
-      "zh-CN": "Reduces mineral replenish cooldown by 50% for 3 hours.",
-      fr: "Reduces mineral replenish cooldown by 50% for 3 hours.",
-      tr: "Reduces mineral replenish cooldown by 50% for 3 hours.",
-    },
+    description: translate("description.factionShop.mineralBoost"),
   },
   "Orchard Hourglass": {
     image: orchardHourglass,
-    description: {
-      en: "Reduces fruit growth time by 25% for 6 hours.",
-      "pt-BR": "Reduces fruit growth time by 25% for 6 hours.",
-      "zh-CN": "Reduces fruit growth time by 25% for 6 hours.",
-      fr: "Reduces fruit growth time by 25% for 6 hours.",
-      tr: "Reduces fruit growth time by 25% for 6 hours.",
-    },
+    description: translate("description.factionShop.fruitBoost"),
   },
   "Blossom Hourglass": {
     image: blossomHourglass,
-    description: {
-      en: "Reduces flower growth time by 25% for 4 hours.",
-      "pt-BR": "Reduces flower growth time by 25% for 4 hours.",
-      "zh-CN": "Reduces flower growth time by 25% for 4 hours.",
-      fr: "Reduces flower growth time by 25% for 4 hours.",
-      tr: "Reduces flower growth time by 25% for 4 hours.",
-    },
+    description: translate("description.factionShop.flowerBoost"),
   },
   "Fisher's Hourglass": {
     image: fishersHourglass,
-    description: {
-      en: "Gives a 50% chance of +1 fish for 4 hours.",
-      "pt-BR": "Gives a 50% chance of +1 fish for 4 hours.",
-      "zh-CN": "Gives a 50% chance of +1 fish for 4 hours.",
-      fr: "Gives a 50% chance of +1 fish for 4 hours.",
-      tr: "Gives a 50% chance of +1 fish for 4 hours.",
-    },
+    description: translate("description.factionShop.fishBoost"),
   },
   "Sunflorian Faction Rug": {
     image: sunflorianFactionRug,
-    description: {
-      en: "A magnificent rug made by the talented Sunflorian faction artisans.",
-      "pt-BR":
-        "A magnificent rug made by the talented Sunflorian faction artisans.",
-      "zh-CN":
-        "A magnificent rug made by the talented Sunflorian faction artisans.",
-      fr: "A magnificent rug made by the talented Sunflorian faction artisans.",
-      tr: "A magnificent rug made by the talented Sunflorian faction artisans.",
-    },
+    description: translate("description.factionShop.sunflorianFactionRug"),
   },
   "Nightshade Faction Rug": {
     image: nightshadeFactionRug,
-    description: {
-      en: "A magnificent rug made by the talented Nightshade faction artisans.",
-      "pt-BR":
-        "A magnificent rug made by the talented Nightshade faction artisans.",
-      "zh-CN":
-        "A magnificent rug made by the talented Nightshade faction artisans.",
-      fr: "A magnificent rug made by the talented Nightshade faction artisans.",
-      tr: "A magnificent rug made by the talented Nightshade faction artisans.",
-    },
+    description: translate("description.factionShop.nightshadeFactionRug"),
   },
   "Goblin Faction Rug": {
     image: goblinFactionRug,
-    description: {
-      en: "A magnificent rug made by the talented Goblin faction artisans.",
-      "pt-BR":
-        "A magnificent rug made by the talented Goblin faction artisans.",
-      "zh-CN":
-        "A magnificent rug made by the talented Goblin faction artisans.",
-      fr: "A magnificent rug made by the talented Goblin faction artisans.",
-      tr: "A magnificent rug made by the talented Goblin faction artisans.",
-    },
+    description: translate("description.factionShop.goblinFactionRug"),
   },
   "Bumpkin Faction Rug": {
     image: bumpkinFactionRug,
-    description: {
-      en: "A magnificent rug made by the talented Bumpkin faction artisans.",
-      "pt-BR":
-        "A magnificent rug made by the talented Bumpkin faction artisans.",
-      "zh-CN":
-        "A magnificent rug made by the talented Bumpkin faction artisans.",
-      fr: "A magnificent rug made by the talented Bumpkin faction artisans.",
-      tr: "A magnificent rug made by the talented Bumpkin faction artisans.",
-    },
+    description: translate("description.factionShop.bumpkinFactionRug"),
   },
   "Goblin Gold Champion": {
     image: goblinGoldChampion,
-    description: {
-      en: "The ultimate champion among Goblins, revered for unparalleled skill and cunning.",
-    },
+    description: translate("description.factionShop.goblinGoldChampion"),
   },
   "Goblin Silver Champion": {
     image: goblinSilverChampion,
-    description: {
-      en: "A distinguished Goblin warrior, honored for exceptional bravery and strategic prowess.",
-    },
+    description: translate("description.factionShop.goblinSilverChampion"),
   },
   "Goblin Bronze Champion": {
     image: goblinBronzeChampion,
-    description: {
-      en: "A skilled Goblin competitor, recognized for tenacity and quick thinking.",
-    },
-  },
-  "Bumpkin Bronze Champion": {
-    image: bumpkinBronzeChampion,
-    description: {
-      en: "A humble yet formidable Bumpkin champion, celebrated for steadfast determination.",
-    },
+    description: translate("description.factionShop.goblinBronzeChampion"),
   },
   "Bumpkin Gold Champion": {
     image: bumpkinGoldChampion,
-    description: {
-      en: "The premier Bumpkin champion, known for unmatched dedication and skill.",
-    },
+    description: translate("description.factionShop.bumpkinGoldChampion"),
   },
   "Bumpkin Silver Champion": {
     image: bumpkinSilverChampion,
-    description: {
-      en: "A respected Bumpkin competitor, esteemed for resilience and clever strategy.",
-    },
+    description: translate("description.factionShop.bumpkinSilverChampion"),
+  },
+  "Bumpkin Bronze Champion": {
+    image: bumpkinBronzeChampion,
+    description: translate("description.factionShop.bumpkinBronzeChampion"),
   },
   "Nightshade Bronze Champion": {
     image: nightshadeBronzeChampion,
-    description: {
-      en: "A shadowy Nightshade champion, feared for agility and cunning tactics.",
-    },
+    description: translate("description.factionShop.nightshadeBronzeChampion"),
   },
   "Nightshade Gold Champion": {
     image: nightshadeGoldChampion,
-    description: {
-      en: "The elite Nightshade champion, renowned for deadly precision and strategic brilliance.",
-    },
+    description: translate("description.factionShop.nightshadeGoldChampion"),
   },
   "Nightshade Silver Champion": {
     image: nightshadeSilverChampion,
-    description: {
-      en: "A skilled Nightshade warrior, acknowledged for stealth and decisive action.",
-    },
+    description: translate("description.factionShop.nightshadeSilverChampion"),
   },
   "Sunflorian Bronze Champion": {
     image: sunflorianBronzeChampion,
-    description: {
-      en: "A radiant Sunflorian champion, celebrated for courage and noble spirit.",
-    },
+    description: translate("description.factionShop.sunflorianBronzeChampion"),
   },
   "Sunflorian Gold Champion": {
     image: sunflorianGoldChampion,
-    description: {
-      en: "The illustrious Sunflorian champion, revered for valor and unwavering determination.",
-    },
+    description: translate("description.factionShop.sunflorianGoldChampion"),
   },
   "Sunflorian Silver Champion": {
     image: sunflorianSilverChampion,
-    description: {
-      en: "An esteemed Sunflorian competitor, known for grace and strategic acumen.",
-    },
+    description: translate("description.factionShop.sunflorianSilverChampion"),
   },
   "Glazed Carrots": {
     image: glazedCarrots,
-    description: {
-      en: "Sweet and savory carrots, a delightful side dish.",
-    },
+    description: CONSUMABLES["Glazed Carrots"].description,
   },
   Caponata: {
     image: caponata,
-    description: {
-      en: "A flavorful eggplant dish, perfect for sharing.",
-    },
+    description: CONSUMABLES.Caponata.description,
   },
   Paella: {
     image: paella,
-    description: {
-      en: "A classic Spanish dish, brimming with flavor.",
-    },
+    description: CONSUMABLES.Paella.description,
   },
   "Desert Rose": {
     image: desertRose,
-    description: {
-      en: "A mutant flower that can be found during the Pharaoh's Treasure season.",
-    },
+    description: translate("description.desert.rose"),
   },
   "Camel Bone": {
     image: camelBone,
-    description: {
-      en: "Bones of an ancient camel, rumoured to transport artefacts",
-    },
+    description: SELLABLE_TREASURE["Camel Bone"].description,
   },
   "Cockle Shell": {
     image: cockleShell,
-    description: {
-      en: "A beautiful shell.",
-    },
+    description: SELLABLE_TREASURE["Cockle Shell"].description,
   },
   Hieroglyph: {
     image: hieroglyph,
-    description: {
-      en: "Unlock the secrets of the hieroglyphs.",
-    },
+    description: SELLABLE_TREASURE.Hieroglyph.description,
   },
   Sand: {
     image: sand,
-    description: {
-      en: "It gets everywhere",
-    },
+    description: SELLABLE_TREASURE.Sand.description,
   },
   Scarab: {
     image: scarab,
-    description: {
-      en: "Pharaoh's lost artefact.",
-    },
+    description: SELLABLE_TREASURE.Scarab.description,
   },
   Vase: {
     image: vase,
-    description: {
-      en: "A beautiful vase.",
-    },
+    description: SELLABLE_TREASURE.Vase.description,
   },
   "Hapy Jar": {
     image: hapyJar,
@@ -4401,9 +3927,7 @@ export const ITEM_DETAILS: Items = {
   },
   Cannonball: {
     image: cannonball,
-    description: {
-      en: "Cannonball is ferocious being. Residing in Tomato Bombard, it's ready to strike anyone who gets in its way",
-    },
+    description: translate("description.cannonball"),
   },
   Sarcophagus: {
     image: sarcophagus,
@@ -4440,21 +3964,15 @@ export const ITEM_DETAILS: Items = {
 
   "Adrift Ark": {
     image: adriftArk,
-    description: {
-      en: "A sandcastle on the shore intricately crafted to resemble a capsized boat, complete with shell portholes and seaweed flags fluttering atop its sculpted hull.",
-    },
+    description: TREASURE_COLLECTIBLE_ITEM["Adrift Ark"].description,
   },
   Castellan: {
     image: castellan,
-    description: {
-      en: "Castellan is a charming sandcastle figure adorned with colorful accessories, symbolizing playful spirit and creativity.",
-    },
+    description: TREASURE_COLLECTIBLE_ITEM.Castellan.description,
   },
   "Sunlit Citadel": {
     image: sunlitCitadel,
-    description: {
-      en: "A Castle to show your pride",
-    },
+    description: TREASURE_COLLECTIBLE_ITEM["Sunlit Citadel"].description,
   },
   "Pharaoh Gnome": {
     image: pharaohGnome,
@@ -4482,26 +4000,15 @@ export const ITEM_DETAILS: Items = {
   },
   "Baobab Tree": {
     image: baobabTree,
-    description: {
-      en: "Guardian of the desert, the Baobab Tree stands tall and proud.",
-    },
+    description: TREASURE_COLLECTIBLE_ITEM["Baobab Tree"].description,
   },
   Camel: {
     image: camel,
-    description: {
-      en: "A mean looking camel!",
-      "zh-CN": "A mean looking camel!",
-      fr: "A mean looking camel!",
-      "pt-BR": "A mean looking camel!",
-      ru: "A mean looking camel!",
-      tr: "A mean looking camel!",
-    },
+    description: TREASURE_COLLECTIBLE_ITEM.Camel.description,
   },
   "Tomato Bombard": {
     image: tomatoBombard,
-    description: {
-      en: "Home to Cannonball, and is ready to strike anyone who gets in its way",
-    },
+    description: translate("description.tomato.bombard"),
   },
   Sundial: {
     image: "",
