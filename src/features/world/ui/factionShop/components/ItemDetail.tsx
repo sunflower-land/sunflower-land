@@ -267,7 +267,11 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
                         item.faction !== pledgedFaction &&
                         getFactionOnlyLabel(item.faction)}
                       {!!wearableActive && !!wearableReq && (
-                        <Label type="danger">{`${item?.requires as BumpkinItem} Currently Equipped!`}</Label>
+                        <Label type="danger">
+                          {t("kingdom.shop.helmet.currently.equipped", {
+                            helmet: item?.requires as BumpkinItem,
+                          })}
+                        </Label>
                       )}
                       {!!buff && (
                         <Label
