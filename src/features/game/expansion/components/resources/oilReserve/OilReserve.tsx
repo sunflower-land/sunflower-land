@@ -9,6 +9,7 @@ import { getTimeLeft } from "lib/utils/time";
 import {
   OIL_RESERVE_RECOVERY_TIME,
   canDrillOilReserve,
+  getRequiredOilDrillAmount,
 } from "features/game/events/landExpansion/drillOilReserve";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 import { RecoveringOilReserve } from "./components/RecoveringOilReserve";
@@ -32,6 +33,8 @@ export const OilReserve: React.FC<Props> = ({ id }) => {
   const [drilling, setDrilling] = useState(false);
   const [oiledAmount, setOilAmount] = useState<number>();
 
+  const state = gameService.state.context.state;
+
   const reserve = useSelector(gameService, _reserve(id), compareResource);
   const drills = useSelector(gameService, _drills);
   const timeLeft = getTimeLeft(
@@ -44,7 +47,7 @@ export const OilReserve: React.FC<Props> = ({ id }) => {
   useUiRefresher({ active: !ready });
 
   const handleDrill = async () => {
-    if (!ready || drills.lessThan(1)) return;
+    if (!ready || drills.lessThan(getRequiredOilDrillAmount(state))) return;
 
     const newState = gameService.send({
       type: "oilReserve.drilled",
@@ -60,11 +63,12 @@ export const OilReserve: React.FC<Props> = ({ id }) => {
       setDrilling(false);
     }
   };
+  const hasDrill = drills.gte(getRequiredOilDrillAmount(state));
 
   return (
     <div className="relative w-full h-full flex justify-center items-center">
       {ready && (
-        <RecoveredOilReserve hasDrill={drills.gte(1)} onDrill={handleDrill} />
+        <RecoveredOilReserve hasDrill={hasDrill} onDrill={handleDrill} />
       )}
       {halfReady && <RecoveringOilReserve timeLeft={timeLeft} />}
       {!ready && !halfReady && (
