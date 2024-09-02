@@ -11,9 +11,6 @@ import "./lib/i18n";
 import { WalletProvider } from "features/wallet/WalletProvider";
 import { useServiceWorkerUpdate } from "lib/utils/hooks/useServiceWorkerUpdate";
 
-import { setAutoFreeze } from "immer";
-setAutoFreeze(false);
-
 // Initialise Global Settings
 initialise();
 

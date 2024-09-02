@@ -66,7 +66,7 @@ export const getActiveFlower = (hive: Beehive) => {
 };
 
 export const getCurrentHoneyProduced = (hive: Beehive) => {
-  const attachedFlowers = hive.flowers.sort(
+  const attachedFlowers = [...hive.flowers].sort(
     (a, b) => a.attachedAt - b.attachedAt,
   );
 
