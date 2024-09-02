@@ -160,8 +160,9 @@ export const Wallets: React.FC<Props> = ({ onConnect, showAll = true }) => {
   const eip6963Connectors = connectors.filter(
     (connector) => connector.type === "injected",
   );
-  const showFallback =
-    isMobile && window.ethereum && eip6963Connectors.length === 0;
+
+  // There is an injected provider, but it's not showing up in EIP-6963
+  const showFallback = !!window.ethereum && eip6963Connectors.length === 0;
 
   const MainWallets = () => {
     return (
@@ -174,8 +175,8 @@ export const Wallets: React.FC<Props> = ({ onConnect, showAll = true }) => {
                 injected({
                   target() {
                     return {
-                      id: "Mobile",
-                      name: "Mobile Browser Provider",
+                      id: "injected",
+                      name: "Injected Wallet",
                       provider: window.ethereum,
                     };
                   },
@@ -188,7 +189,7 @@ export const Wallets: React.FC<Props> = ({ onConnect, showAll = true }) => {
                 src={world}
                 className="w-7 h-7 mobile:w-6 mobile:h-6  ml-2 mr-6 absolute left-0 top-1"
               />
-              {"Mobile Wallet Browser"}
+              {"Web3 Wallet"}
             </div>
           </Button>
         )}
