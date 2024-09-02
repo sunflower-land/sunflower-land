@@ -66,14 +66,15 @@ export const LanguageSwitcher: React.FC = () => {
             }}
             disabled={language === languageCode}
           >
-            {languageDetails[languageCode].languageImage.map((img, index) => (
-              <img
-                key={index}
-                style={{ display: "inline-block", marginRight: "5px" }}
-                src={img}
-                alt={languageDetails[languageCode].imageAlt[index]}
-              />
-            ))}
+            {languageDetails[languageCode].languageImage &&
+              languageDetails[languageCode].languageImage.map((img, index) => (
+                <img
+                  key={index}
+                  style={{ display: "inline-block", marginRight: "5px" }}
+                  src={img}
+                  alt={languageDetails[languageCode]?.imageAlt?.[index]}
+                />
+              ))}
             <span
               className={`${getFontNameClass(languageCode)} ${getFontSizeClass(languageCode)}`}
             >
