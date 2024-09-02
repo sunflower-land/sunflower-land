@@ -52,25 +52,26 @@ const WrappedWallet: React.FC<Props> = ({
 
   const { walletService } = useContext(WalletContext);
 
-  const { address, chainId, connector } = useAccount();
+  const { address, chainId } = useAccount();
 
   useEffect(() => {
-    if (connector?.name !== "Mobile Browser Provider") {
-      document.body.prepend(`ACCOUNT: ${connector?.name}`);
-      document.body.prepend(`ACCOUNT: ${connector?.id}`);
-
-      // walletService.send("ACCOUNT_CHANGED");
+    if (
+      (
+        ["initialising", "signing", "linking", "minting", "migrating"] as const
+      ).every((state) => !walletState.matches(state))
+    ) {
+      walletService.send("ACCOUNT_CHANGED");
     }
   }, [address]);
 
   useEffect(() => {
     if (
       chainId !== CONFIG.POLYGON_CHAIN_ID &&
-      connector?.name !== "Mobile Browser Provider"
+      (
+        ["initialising", "signing", "linking", "minting", "migrating"] as const
+      ).every((state) => !walletState.matches(state))
     ) {
-      document.body.prepend(`CHAIN: ${connector?.name}`);
-      document.body.prepend(`CHAIN: ${connector?.id}`);
-      // walletService.send("CHAIN_CHANGED");
+      walletService.send("CHAIN_CHANGED");
     }
   }, [chainId]);
 
