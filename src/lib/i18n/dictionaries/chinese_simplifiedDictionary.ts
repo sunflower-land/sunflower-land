@@ -2553,46 +2553,46 @@ const gameDescriptions: Record<GameDescriptions, string> = {
 };
 
 const gameTerms: Record<GameTerms, string> = {
-  "auction.winner": ENGLISH_TERMS["auction.winner"],
-  "bumpkin.level": ENGLISH_TERMS["bumpkin.level"],
-  bumpkinBuzz: ENGLISH_TERMS["bumpkinBuzz"],
-  dailyLim: ENGLISH_TERMS["dailyLim"],
-  "farm.banned": ENGLISH_TERMS["farm.banned"],
-  gobSwarm: ENGLISH_TERMS["gobSwarm"],
-  "granting.wish": ENGLISH_TERMS["granting.wish"],
-  "new.delivery.in": ENGLISH_TERMS["new.delivery.in"],
-  "no.sfl": ENGLISH_TERMS["no.sfl"],
+  "auction.winner": "竞拍得主！",
+  "bumpkin.level": "乡包佬等级",
+  bumpkinBuzz: "邮箱",
+  dailyLim: "每日 SFL 上限",
+  "farm.banned": "该农场已被封禁d"
+  gobSwarm: "Goblin 狂潮！",
+  "granting.wish": "您的许愿正在实现",
+  "new.delivery.in": "送货刷新： {{timeLeft}}",
+  "no.sfl": "未找到 SFL 代币",
   opensea: "OpenSea",
   polygonscan: "PolygonScan",
-  potions: ENGLISH_TERMS["potions"],
-  "proof.of.humanity": ENGLISH_TERMS["proof.of.humanity"],
-  sflDiscord: ENGLISH_TERMS["sflDiscord"],
-  "in.progress": ENGLISH_TERMS["in.progress"],
-  "compost.complete": ENGLISH_TERMS["compost.complete"],
-  "aoe.locked": ENGLISH_TERMS["aoe.locked"],
-  sunflowerLandCodex: ENGLISH_TERMS["sunflowerLandCodex"],
-  "new.delivery.levelup": ENGLISH_TERMS["new.delivery.levelup"],
-  "harvest.number": ENGLISH_TERMS["harvest.number"],
-  "level.number": ENGLISH_TERMS["level.number"],
-  "visiting.farmId": ENGLISH_TERMS["visiting.farmId"],
+  potions: "药水",
+  "proof.of.humanity": "人类之证",
+  sflDiscord: "Sunflower Land Discord 服务器",
+  "in.progress": "进行中",
+  "compost.complete": "堆肥完成",
+  "aoe.locked": "AOE 锁定",
+  sunflowerLandCodex: "Sunflower Land 宝典",
+  "new.delivery.levelup": "请升级解锁更多送货。",
+  "harvest.number": "{{minHarvest}}-{{maxHarvest}} 次收获",
+  "level.number": "{{level}} 级",
+  "visiting.farmId": "正在参观 #{{farmId}}",
   "stock.left": "剩下 {{stock}} 个",
   "stock.inStock": "库存 {{stock}} 个",
 };
 
 const garbageCollector: Record<GarbageCollector, string> = {
   "garbageCollector.welcome": "欢迎来到我的小店。",
-  "garbageCollector.description": "我是垃圾商人，只要是垃圾，你有的我都买。",
+  "garbageCollector.description": "我是垃圾回收商人，只要是垃圾，你有的我都买。",
 };
 
 const genieLamp: Record<GenieLamp, string> = {
   "genieLamp.ready.wish": "准备好许愿了吗？",
-  "genieLamp.cannotWithdraw": "一旦摩擦了神灯，就无法将它从农场上提出。",
+  "genieLamp.cannotWithdraw": "一旦揉搓了神灯，就无法再将它从农场上提取。",
 };
 
 const getContent: Record<GetContent, string> = {
   "getContent.error": "故障！",
   "getContent.joining": "加入中",
-  "getContent.accessGranted": "您现在有权访问 Discord 频道。过去看看吧！",
+  "getContent.accessGranted": "您现已有权访问 Discord 频道。过去看看吧！",
   "getContent.connectToDiscord": "您必须连接到 Discord 才能加入受限频道。",
   "getContent.connect": "连接",
   "getContent.getAccess": "获取 Discord 受限频道的访问权限",
@@ -2606,26 +2606,26 @@ const getInputErrorMessage: Record<GetInputErrorMessage, string> = {
 };
 
 const goblin_messages: Record<GOBLIN_MESSAGES, string> = {
-  "goblinMessages.msg1": "喂，人类！给我点吃的，不然的话...",
-  "goblinMessages.msg2": "我总是饿着，有什么好吃的给我吗？",
-  "goblinMessages.msg3": "我不在乎是什么，只要给我些食物！",
+  "goblinMessages.msg1": "喂，人类！给我点吃的，不然的话……",
+  "goblinMessages.msg2": "我总觉饥饿，有什么好吃的给我吗？",
+  "goblinMessages.msg3": "我不在乎是什么，只管给我些吃的！",
   "goblinMessages.msg4": "如果你再不给我东西吃，我可能得开始啃你了。",
   "goblinMessages.msg5": "我听说人类的食物是最好的，给我拿点来！",
   "goblinMessages.msg6": "嘿，你有没有不会让我生病的食物？",
-  "goblinMessages.msg7": "吃同样的东西我有点腻了，有没有点不同的？",
-  "goblinMessages.msg8": "我想尝尝新鲜的，有什么奇异的东西吗？",
+  "goblinMessages.msg7": "总是吃同一款我都有点腻了，有没有点新鲜的？",
+  "goblinMessages.msg8": "我想尝点新玩意儿，有什么新奇的东西吗？",
   "goblinMessages.msg9":
-    "嘿，有零食可以分享吗？我保证我不会- 嗯- 应该不会把它给偷了。",
-  "goblinMessages.msg10": "我不在乎是什么，只要给我食物！",
+    "嘿喂，有零食可以分享吗？我保证我不会把它给偷走……应该。",
+  "goblinMessages.msg10": "我不在乎是什么，只管给我吃的！",
 };
 
 const goblinTrade: Record<GoblinTrade, string> = {
-  "goblinTrade.bulk": ENGLISH_TERMS["goblinTrade.bulk"],
-  "goblinTrade.conversion": ENGLISH_TERMS["goblinTrade.conversion"],
-  "goblinTrade.select": ENGLISH_TERMS["goblinTrade.select"],
-  "goblinTrade.hoarding": ENGLISH_TERMS["goblinTrade.hoarding"],
-  "goblinTrade.vipRequired": ENGLISH_TERMS["goblinTrade.vipRequired"],
-  "goblinTrade.vipDelivery": ENGLISH_TERMS["goblinTrade.vipDelivery"],
+  "goblinTrade.bulk": "批发数量",
+  "goblinTrade.conversion": "换算",
+  "goblinTrade.select": "选择要出售的资源",
+  "goblinTrade.hoarding": "噢不！您已经达到了 SFL 的上限。",
+  "goblinTrade.vipRequired": "需要 VIP 权限",
+  "goblinTrade.vipDelivery": "唔，看起来你只是个普通乡包佬。我只跟 VIP 做买卖。",
 };
 
 const goldTooth: Record<GoldTooth, string> = {
