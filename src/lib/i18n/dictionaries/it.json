@@ -3433,6 +3433,11 @@
   "marketplace.cancelOffer.areYouSure": "Sei sicuro di voler rimuovere la tua offerta?",
   "mmo.connecting": "Connessione al server...",
   "mmo.connectionFailed": "Connessione non riuscita, fai clic per riprovare",
+  "kingdom.shop.helmet.currently.equipped": "{{helmet}} attualmente equipaggiato! Unequip per l'acquisto.",
+  "fruit-dash.portal.title": "Minigioco - Fruit Dash",
+  "fruit-dash.portal.description": "Corri attraverso la fattoria, schiva gli ostacoli e raccogli deliziosi frutti.",
+  "fruit-dash.portal.missionObjectives": "Missione: Raggiungi {{targetScore}} punti.",
+  "fruit-dash.portal.rewardMessage": "Congratulazioni, hai completato la missione! Ecco la tua ricompensa.",
   "description.battleCryDrum": "",
   "description.bullseyeBoard": "",
   "description.chessRug": "",
@@ -3448,6 +3453,5 @@
   "description.silverStallion": "",
   "description.traineeTarget": "",
   "description.twisterRug": "",
-  "npcDialogues.oldSalty.intro3": "",
-  "kingdom.shop.helmet.currently.equipped": "{{helmet}} attualmente equipaggiato! Unequip per l'acquisto."
+  "npcDialogues.oldSalty.intro3": ""
 }

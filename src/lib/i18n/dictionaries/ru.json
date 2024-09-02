@@ -3449,5 +3449,9 @@
   "mmo.connectionFailed": "Не удалось подключиться, нажмите, чтобы повторить",
   "statements.feed.bumpkin.one": "В инвентаре нет продуктов",
   "kingdom.shop.helmet.currently.equipped": "{{helmet}} в настоящее время оборудован! Не готов к покупке.",
+  "fruit-dash.portal.title": "Мини-игра «Fruit Dash»",
+  "fruit-dash.portal.description": "Бегайте по ферме, уклоняйтесь от препятствий и собирайте вкусные фрукты.",
+  "fruit-dash.portal.missionObjectives": "Миссия: набрать {{targetScore}} очков.",
+  "fruit-dash.portal.rewardMessage": "Поздравляем, вы выполнили задание! Вот ваша награда.",
   "npcDialogues.oldSalty.intro3": ""
 }
