@@ -1,11 +1,14 @@
 name: Translate
-
 on:
-  push:
+  pull_request:
     branches:
       - main
+    # push:
+    #   branches:
+    #     - main
     paths:
       - src/lib/i18n/dictionaries/dictionary.json
+      - src/lib/i18n/dictionaries/dictionary.ts
 
 jobs:
   translate:
@@ -26,6 +29,12 @@ jobs:
 
       - name: Install dependencies
         run: yarn install
+
+      - name: Merge Changes from main
+        run: |
+          git fetch origin
+          git merge origin/main
+          git push
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1.5.9
