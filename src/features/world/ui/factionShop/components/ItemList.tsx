@@ -64,7 +64,7 @@ export const ItemsList: React.FC<Props> = ({
     return ITEM_DETAILS[`${singular} Emblem` as InventoryItemName].image;
   };
 
-  const sortedItems = items.sort((a, b) => {
+  const sortedItems = items.slice().sort((a, b) => {
     const factionA = a.faction || "";
     const factionB = b.faction || "";
 
