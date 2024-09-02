@@ -212,8 +212,6 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({
       customTopStyle = "6px";
   }
 
-  // Now you can use the 'fontName' variable as needed.
-
   return (
     <div className="absolute" {...divProps}>
       {seconds > 0 && (

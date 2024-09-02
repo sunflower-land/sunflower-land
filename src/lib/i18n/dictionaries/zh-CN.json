@@ -126,7 +126,7 @@
   "birdieplaza.currentSeason": "我们目前正处于 {{currentSeason}} 季节，乡包佬们对 {{seasonalTicket}} 疯狂不已。",
   "birdieplaza.collectTickets": "收集足够的 {{seasonalTicket}} 即可制作稀有 NFT。这就是我获得这套稀有服装的方法！",
   "birdieplaza.whatIsSeason": "什么是时季？",
-  "birdieplaza.howToEarnTickets": "我怎样赚取",
+  "birdieplaza.howToEarnTickets": "我怎样赚取 {{seasonalTicket}}?",
   "birdieplaza.earnTicketsVariety": "您可以通过多种方式赚取 {{seasonalTicket}}。",
   "birdieplaza.commonMethod": "赚取 {{seasonalTicket}} 最常见的方法是收集资源并将其交给广场上的乡包佬。",
   "birdieplaza.choresAndRewards": "您还可以通过完成 Hank 的日常农活和领取每日奖励来赚取 {{seasonalTicket}}！",

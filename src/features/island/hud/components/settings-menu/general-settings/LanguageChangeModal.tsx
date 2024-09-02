@@ -70,7 +70,7 @@ export const LanguageSwitcher: React.FC = () => {
                   key={index}
                   style={{ display: "inline-block", marginRight: "5px" }}
                   src={img}
-                  alt={languageDetails[languageCode]?.imageAlt?.[index]}
+                  alt={languageDetails[languageCode].imageAlt?.[index]}
                 />
               ))}
             <span

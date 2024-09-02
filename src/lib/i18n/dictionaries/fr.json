@@ -2648,7 +2648,7 @@
   "cropMachine.totalCrops": "Rendement total {{cropName}} : {{total}}",
   "cropMachine.harvest": "Récolte",
   "cropMachine.pickSeed": "Sélectionnez une graine",
-  "cropMachine.addSeeds": "Ajoutez [0@/$ s]",
+  "cropMachine.addSeeds": "Ajouter des {{seedType}}s",
   "cropMachine.availableInventory": "Disponible {{amount}}",
   "cropMachine.seeds": "Graines : {{amount}}",
   "cropMachine.growTime": "Durée de croissance : {{time}}",
