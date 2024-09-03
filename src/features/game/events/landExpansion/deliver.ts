@@ -179,9 +179,12 @@ export function getOrderSellPrice<T>(game: GameState, order: Order): T {
     mul += 0.05;
   }
 
-  // SFL Swindler - 10% bonus
-  if (game.bumpkin?.skills["SFL Swindler"] && order.reward.sfl) {
-    mul += 0.1;
+  if (
+    order.from === "betty" &&
+    game.bumpkin?.skills["Betty's Friend"] &&
+    order.reward.coins
+  ) {
+    mul += 0.2;
   }
 
   // Fruity Profit - 50% Coins bonus if fruit

@@ -38,7 +38,7 @@ export type BumpkinRevampSkillName =
   | "Strong Roots"
   | "Coin Swindler"
   | "Golden Sunflower"
-  | "SFL Swindler"
+  | "Betty's Friend"
   | "Chonky Scarecrow"
   | "Horror Mike"
   | "Instant Growth"
@@ -440,7 +440,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
       skill: 0,
     },
     boosts:
-      "+0.1 Medium Crop Yield (Carrots, Cabbages, Soybeans, Beetroots, Cauliflowers, Parsnips",
+      "+0.1 Medium Crop Yield (Carrots, Cabbages, Soybeans, Beetroots, Cauliflowers, Parsnips)",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
   "Efficient Bin": {
@@ -450,7 +450,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
       points: 1,
       skill: 0,
     },
-    boosts: "+5 Sprout Mix (Requires Compost Bin)",
+    boosts: "+3 Sprout Mix (Requires Compost Bin)",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
   "Turbo Charged": {
@@ -491,7 +491,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
       points: 2,
       skill: 2,
     },
-    boosts: "+10% profit selling crops (Seed Shop)",
+    boosts: "+10% Coins when selling crops (Seed Shop)",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
   "Golden Sunflower": {
@@ -501,17 +501,18 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
       points: 2,
       skill: 2,
     },
-    boosts: "Golden Sunflower (1/700 chance)",
+    boosts:
+      "Chance of getting +0.35 gold when manually harvesting sunflowers (0.15%)",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
-  "SFL Swindler": {
-    name: "SFL Swindler",
+  "Betty's Friend": {
+    name: "Betty's Friend",
     tree: "Crops",
     requirements: {
       points: 2,
       skill: 2,
     },
-    boosts: "+10% Crop deliveries SFL profit",
+    boosts: "Betty Coin delivery revenue increased by 20%",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
   "Chonky Scarecrow": {
