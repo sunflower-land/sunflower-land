@@ -39,6 +39,26 @@ type Options = {
   action: CraftToolAction;
 };
 
+export function getToolPrice(
+  tool: Tool,
+  amount: number,
+  game: Readonly<GameState>,
+) {
+  const { name } = tool;
+  const { bumpkin } = game;
+
+  // Default price
+  let price = tool.price;
+
+  // Feller's Discount Skill: 20% off on Axes
+  if (bumpkin.skills["Feller's Discount"] && name === "Axe") {
+    price = price * 0.8;
+  }
+
+  // Return the price for the amount of tools
+  return price * amount;
+}
+
 export function craftTool({ state, action }: Options) {
   const stateCopy: GameState = cloneDeep(state);
   const bumpkin = stateCopy.bumpkin;
@@ -61,7 +81,7 @@ export function craftTool({ state, action }: Options) {
   if (bumpkin === undefined) {
     throw new Error("You do not have a Bumpkin!");
   }
-  const price = tool.price * amount;
+  const price = getToolPrice(tool, amount, stateCopy);
 
   if (stateCopy.coins < price) {
     throw new Error("Insufficient Coins");

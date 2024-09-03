@@ -21,6 +21,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { Label } from "components/ui/Label";
 import { capitalize } from "lib/utils/capitalize";
 import { IslandType } from "features/game/types/game";
+import { getToolPrice } from "features/game/events/landExpansion/craftTool";
 
 interface Props {
   onClose: (e?: SyntheticEvent) => void;
@@ -130,7 +131,7 @@ export const Tools: React.FC<Props> = ({ onClose }) => {
             item: selectedName,
           }}
           requirements={{
-            coins: selected.price,
+            coins: getToolPrice(selected, 1, state),
             resources: selected.ingredients,
           }}
           actionView={getAction()}
