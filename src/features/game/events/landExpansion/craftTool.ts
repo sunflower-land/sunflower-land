@@ -45,7 +45,7 @@ export function getToolPrice(
   game: Readonly<GameState>,
 ) {
   const { name } = tool;
-  const { bumpkin } = game;
+  const { bumpkin, inventory } = game;
 
   // Default price
   let price = tool.price;
@@ -53,6 +53,11 @@ export function getToolPrice(
   // Feller's Discount Skill: 20% off on Axes
   if (bumpkin.skills["Feller's Discount"] && name === "Axe") {
     price = price * 0.8;
+  }
+
+  // Artist's Discount Skill: 10% off
+  if (inventory["Artist"]?.gte(1)) {
+    price = price * 0.9;
   }
 
   // Return the price for the amount of tools
