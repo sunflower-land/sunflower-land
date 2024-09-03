@@ -18,11 +18,12 @@ import { Wallet } from "features/wallet/Wallet";
 import { useIsPWA } from "lib/utils/hooks/useIsPWA";
 import { isMobile } from "mobile-device-detect";
 import { Loading } from "./Loading";
-import { Connector, CreateConnectorFn, injected } from "@wagmi/core";
+import { Connector, CreateConnectorFn } from "@wagmi/core";
 import {
   WalletContext,
   bitGetConnector,
   cryptoComConnector,
+  fallbackConnector,
   metaMaskConnector,
   okexConnector,
   phantomConnector,
@@ -165,7 +166,7 @@ const MainWallets: React.FC<Props & Page> = ({
   const { connectors } = useConnect();
 
   const eip6963Connectors = connectors.filter(
-    (connector) => connector.type === "injected",
+    (connector) => connector.type === "injected" && connector,
   );
 
   // There is an injected provider, but it's not showing up in EIP-6963
@@ -176,19 +177,7 @@ const MainWallets: React.FC<Props & Page> = ({
       {showFallback && (
         <Button
           className="mb-1 py-2 text-sm relative"
-          onClick={() =>
-            onConnect(
-              injected({
-                target() {
-                  return {
-                    id: "injected",
-                    name: "Injected Wallet",
-                    provider: window.ethereum,
-                  };
-                },
-              }),
-            )
-          }
+          onClick={() => onConnect(fallbackConnector)}
         >
           <div className="px-8">
             <img

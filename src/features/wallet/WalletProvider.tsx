@@ -76,10 +76,29 @@ export const phantomConnector = injected({
   target: "phantom",
 });
 
+export const fallbackConnector = injected({
+  target() {
+    return {
+      id: "injected",
+      name: "Injected Wallet",
+      provider: window.ethereum,
+    };
+  },
+});
+
 export const config = createConfig({
   chains: [CONFIG.NETWORK === "mainnet" ? polygon : polygonAmoy],
   multiInjectedProviderDiscovery: true,
-  connectors: [],
+  connectors: [
+    sequenceConnector,
+    walletConnectConnector,
+    metaMaskConnector,
+    cryptoComConnector,
+    bitGetConnector,
+    okexConnector,
+    phantomConnector,
+    fallbackConnector,
+  ],
   transports: {
     [polygon.id]: fallback([http(), http(CONFIG.ALCHEMY_RPC)]),
     [polygonAmoy.id]: fallback([http(), http(CONFIG.ALCHEMY_RPC)]),
