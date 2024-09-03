@@ -293,17 +293,10 @@ export const WishingWellModal: React.FC<Props> = ({ onClose }) => {
   return (
     <Modal show={true} onHide={handleClose}>
       <Panel className="relative">
-        <GameWallet
-          action="wishingWell"
-          wrapper={({ children }) => (
-            <div>
-              <Label type="default" icon={giftIcon} className="text-center m-1">
-                {`Wishing well`}
-              </Label>
-              {children}
-            </div>
-          )}
-        >
+        <Label type="default" icon={giftIcon} className="text-center m-1">
+          {`Wishing well`}
+        </Label>
+        <GameWallet action="wishingWell">
           {machine.matches("loading") && <Loading />}
           {(machine.matches("granting") || machine.matches("signing")) && (
             <Loading text={t("granting.wish")} />
