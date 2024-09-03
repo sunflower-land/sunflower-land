@@ -5,7 +5,6 @@ import { Button } from "components/ui/Button";
 import { Context } from "features/game/GameProvider";
 import { getKeys } from "features/game/types/craftables";
 import {
-  FactionEmblem,
   GameState,
   Inventory,
   InventoryItemName,
@@ -30,7 +29,6 @@ import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { VIPAccess } from "features/game/components/VipAccess";
 import { getDayOfYear } from "lib/utils/time";
 import { ListingCategoryCard } from "components/ui/ListingCategoryCard";
-import { FACTION_EMBLEMS } from "features/game/events/landExpansion/joinFaction";
 import { NumberInput } from "components/ui/NumberInput";
 import { hasFeatureAccess } from "lib/flags";
 import {
@@ -101,7 +99,19 @@ const ListTrade: React.FC<{
   if (!selected) {
     return (
       <div className="space-y-2">
-        <div className="pl-2 py-2">
+        <div className="flex items-center">
+          <img
+            src={SUNNYSIDE.icons.arrow_left}
+            className="self-start cursor-pointer mr-3"
+            style={{
+              top: `${PIXEL_SCALE * 2}px`,
+              left: `${PIXEL_SCALE * 2}px`,
+              width: `${PIXEL_SCALE * 11}px`,
+              height: `${PIXEL_SCALE * 12}px`,
+            }}
+            alt="back"
+            onClick={onCancel}
+          />
           <Label icon={SUNNYSIDE.icons.basket} type="default">
             {t("bumpkinTrade.like.list")}
           </Label>
@@ -340,7 +350,7 @@ const ListTrade: React.FC<{
       </div>
       <div className="flex mt-2">
         <Button onClick={onCancel} className="mr-1">
-          {t("bumpkinTrade.cancel")}
+          {t("cancel")}
         </Button>
         <Button
           disabled={
@@ -365,10 +375,9 @@ const ListTrade: React.FC<{
 
 const TradeDetails: React.FC<{
   trade: TradeListing;
-  isOldListing: boolean;
   onCancel: () => void;
   onClaim: () => void;
-}> = ({ trade, onCancel, onClaim, isOldListing }) => {
+}> = ({ trade, onCancel, onClaim }) => {
   const { t } = useAppTranslation();
 
   const { gameService } = useContext(Context); // To remove after testing ends
@@ -444,9 +453,7 @@ const TradeDetails: React.FC<{
             </div>
           </div>
           <div className="flex items-center">
-            <Button onClick={onCancel}>
-              {isOldListing ? "Cancel old" : t("cancel")}
-            </Button>
+            <Button onClick={onCancel}>{t("cancel")}</Button>
           </div>
         </div>
       </InnerPanel>
@@ -519,7 +526,7 @@ export const Trade: React.FC<{
   if (getKeys(trades).length === 0) {
     return (
       <div className="relative">
-        <div className="pl-2 pt-2 space-y-1 sm:space-y-0 sm:flex items-center justify-between ml-1.5">
+        <div className="flex flex-wrap gap-1 items-center justify-between pl-2 pt-2 ml-1.5">
           <VIPAccess
             isVIP={isVIP}
             onUpgrade={() => {
@@ -583,32 +590,24 @@ export const Trade: React.FC<{
               })}`}
         </Label>
       </div>
-      {getKeys(trades)
-        .filter((listingId) => {
-          const items = Object.keys(trades[listingId].items);
-          return !items.some((item) =>
-            Object.values(FACTION_EMBLEMS).includes(item as FactionEmblem),
-          );
-        })
-        .map((listingId, index) => {
-          return (
-            <div className="mt-2" key={index}>
-              <TradeDetails
-                onCancel={() =>
-                  onCancel(listingId, makeListingType(trades[listingId].items))
-                }
-                onClaim={() => {
-                  gameService.send("trade.received", {
-                    tradeId: listingId,
-                  });
-                  gameService.send("SAVE");
-                }}
-                trade={trades[listingId]}
-                isOldListing={listingId.length < 38}
-              />
-            </div>
-          );
-        })}
+      {getKeys(trades).map((listingId, index) => {
+        return (
+          <div className="mt-2" key={index}>
+            <TradeDetails
+              onCancel={() =>
+                onCancel(listingId, makeListingType(trades[listingId].items))
+              }
+              onClaim={() => {
+                gameService.send("trade.received", {
+                  tradeId: listingId,
+                });
+                gameService.send("SAVE");
+              }}
+              trade={trades[listingId]}
+            />
+          </div>
+        );
+      })}
 
       {!hideButton && getKeys(trades).length < 3 && (
         <div className="relative mt-2">

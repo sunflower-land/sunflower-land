@@ -343,7 +343,7 @@ const ListView: React.FC<ListViewProps> = ({
         <OuterPanel>
           <div className="flex justify-between">
             <div>
-              <div className="flex flex-wrap w-52 items-center">
+              <div className="flex items-center gap-1">
                 {getKeys(selectedListing.items).map((item, index) => (
                   <Box
                     image={ITEM_DETAILS[item].image}
@@ -390,23 +390,26 @@ const ListView: React.FC<ListViewProps> = ({
 
   return (
     <div className="flex flex-col w-full pl-2 pt-1">
-      <div className="flex items-center">
-        <img
-          src={SUNNYSIDE.icons.arrow_left}
-          className="self-start cursor-pointer mr-3"
-          style={{
-            top: `${PIXEL_SCALE * 2}px`,
-            left: `${PIXEL_SCALE * 2}px`,
-            width: `${PIXEL_SCALE * 11}px`,
-          }}
-          alt="back"
-          onClick={onBack}
-        />
-        <Label type="default" icon={ITEM_DETAILS[selected].image}>
-          {selected}
-        </Label>
+      <div className="flex flex-wrap justify-between items-center gap-1">
+        <div className="flex items-center gap-1">
+          <img
+            src={SUNNYSIDE.icons.arrow_left}
+            className="self-start cursor-pointer mr-3"
+            style={{
+              top: `${PIXEL_SCALE * 2}px`,
+              left: `${PIXEL_SCALE * 2}px`,
+              width: `${PIXEL_SCALE * 11}px`,
+              height: `${PIXEL_SCALE * 12}px`,
+            }}
+            alt="back"
+            onClick={onBack}
+          />
+          <Label type="default" icon={ITEM_DETAILS[selected].image}>
+            {selected}
+          </Label>
+        </div>
         {!!inventory[selected] && (
-          <Label type="warning" className="ml-auto">
+          <Label type="warning">
             {`${t("inventory")}: ${formatNumber(inventory[selected], { decimalPlaces: 0 })}`}
           </Label>
         )}
@@ -420,9 +423,9 @@ const ListView: React.FC<ListViewProps> = ({
           const unitPrice = listing.sfl / listingItem;
           return (
             <OuterPanel className="mb-2" key={`data-${index}`}>
-              <div className="flex justify-between">
+              <div className="flex justify-between gap-1">
                 <div className="justify-start">
-                  <div className="flex flex-wrap w-52 items-center">
+                  <div className="flex items-center">
                     {getKeys(listing.items).map((item) => (
                       <Box
                         image={ITEM_DETAILS[item].image}
@@ -501,16 +504,18 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
       </div>
     );
   }
+
   if (selectedListing?.id == listing.id) {
     return (
       <Button disabled={loading} onClick={() => onConfirm(listing)}>
         <div className="flex items-center gap-2">
-          <SquareIcon icon={SUNNYSIDE.icons.confirm} width={7} />
-          <span>{t("confirm")}</span>
+          <SquareIcon icon={SUNNYSIDE.icons.confirm} width={8} />
+          <span className="hidden sm:block">{t("confirm")}</span>
         </div>
       </Button>
     );
   }
+
   return (
     <Button disabled={disabled} onClick={() => confirm(listing)}>
       {t("buy")}

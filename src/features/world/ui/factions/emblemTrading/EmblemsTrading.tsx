@@ -20,10 +20,12 @@ import { SpeakingModal } from "features/game/components/SpeakingModal";
 import { Label } from "components/ui/Label";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 import { getRelativeTime } from "lib/utils/time";
+import { NPC_WEARABLES, NPCName } from "lib/npcs";
 
 interface Props {
-  onClose: () => void;
+  npc: NPCName;
   emblem: FactionEmblem;
+  onClose: () => void;
 }
 
 export const EMBLEM_TO_FACTION: Record<FactionEmblem, FactionName> = {
@@ -33,8 +35,7 @@ export const EMBLEM_TO_FACTION: Record<FactionEmblem, FactionName> = {
   "Sunflorian Emblem": "sunflorians",
 };
 
-export const EmblemsTrading: React.FC<Props> = ({ onClose, emblem }) => {
-  const [showIntro, setShowIntro] = useState(true);
+export const EmblemsTrading: React.FC<Props> = ({ npc, emblem, onClose }) => {
   const [tab, setTab] = useState(0);
   const { t } = useAppTranslation();
 
@@ -79,26 +80,11 @@ export const EmblemsTrading: React.FC<Props> = ({ onClose, emblem }) => {
     );
   }
 
-  if (showIntro) {
-    return (
-      <SpeakingModal
-        message={[
-          {
-            text: t("faction.emblems.intro.one"),
-          },
-          {
-            text: t("faction.emblems.intro.two"),
-          },
-        ]}
-        onClose={() => setShowIntro(false)}
-      />
-    );
-  }
-
   return (
     <>
       {tab === 1 && updatedAt && <LastUpdated updatedAt={updatedAt} />}
       <CloseButtonPanel
+        bumpkinParts={NPC_WEARABLES[npc]}
         onClose={notCloseable ? undefined : onClose}
         tabs={[
           { icon: ITEM_DETAILS[emblem].image, name: t("faction.emblems") },

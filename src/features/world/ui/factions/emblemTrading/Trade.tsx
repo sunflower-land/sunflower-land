@@ -281,7 +281,7 @@ const ListTrade: React.FC<{
       </div>
       <div className="flex mt-2">
         <Button onClick={onCancel} className="mr-1">
-          {t("bumpkinTrade.cancel")}
+          {t("cancel")}
         </Button>
         <Button
           disabled={
@@ -306,10 +306,9 @@ const ListTrade: React.FC<{
 
 const TradeDetails: React.FC<{
   trade: TradeListing;
-  isOldListing: boolean;
   onCancel: () => void;
   onClaim: () => void;
-}> = ({ trade, onCancel, onClaim, isOldListing }) => {
+}> = ({ trade, onCancel, onClaim }) => {
   const { t } = useAppTranslation();
 
   if (trade.boughtAt) {
@@ -374,9 +373,7 @@ const TradeDetails: React.FC<{
             </div>
           </div>
           <div className="flex items-center">
-            <Button onClick={onCancel}>
-              {isOldListing ? "Cancel old" : t("cancel")}
-            </Button>
+            <Button onClick={onCancel}>{t("cancel")}</Button>
           </div>
         </div>
       </OuterPanel>
@@ -495,7 +492,7 @@ export const Trade: React.FC<{
 
   return (
     <div>
-      <div className="pl-2 pt-2 space-y-1 sm:space-y-0 sm:flex items-center justify-between ml-1.5">
+      <div className="flex flex-wrap gap-1 items-center justify-between pl-2 pt-2 ml-1.5">
         <VIPAccess
           isVIP={isVIP}
           onUpgrade={() => {
@@ -517,32 +514,24 @@ export const Trade: React.FC<{
           </Label>
         )}
       </div>
-      {getKeys(trades)
-        .filter((listingId) => {
-          return (
-            makeListingType(trades[listingId].items) ===
-            makeListingType({ [emblem]: 0 })
-          );
-        })
-        .map((listingId, index) => {
-          return (
-            <div className="mt-2" key={index}>
-              <TradeDetails
-                onCancel={() =>
-                  onCancel(listingId, makeListingType(trades[listingId].items))
-                }
-                onClaim={() => {
-                  gameService.send("trade.received", {
-                    tradeId: listingId,
-                  });
-                  gameService.send("SAVE");
-                }}
-                trade={trades[listingId]}
-                isOldListing={listingId.length < 38}
-              />
-            </div>
-          );
-        })}
+      {getKeys(trades).map((listingId, index) => {
+        return (
+          <div className="mt-2" key={index}>
+            <TradeDetails
+              onCancel={() =>
+                onCancel(listingId, makeListingType(trades[listingId].items))
+              }
+              onClaim={() => {
+                gameService.send("trade.received", {
+                  tradeId: listingId,
+                });
+                gameService.send("SAVE");
+              }}
+              trade={trades[listingId]}
+            />
+          </div>
+        );
+      })}
       {getKeys(trades).length < 3 && (
         <div className="relative mt-2">
           <Button

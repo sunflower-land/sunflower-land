@@ -275,7 +275,7 @@ const ListView: React.FC<ListViewProps> = ({
         <OuterPanel>
           <div className="flex justify-between">
             <div>
-              <div className="flex flex-wrap w-52 items-center">
+              <div className="flex items-center gap-1">
                 {getKeys(selectedListing.items).map((item, index) => (
                   <Box
                     image={ITEM_DETAILS[item].image}
@@ -322,12 +322,14 @@ const ListView: React.FC<ListViewProps> = ({
 
   return (
     <div className="flex flex-col w-full pl-2 pt-1">
-      <div className="flex items-center ml-1">
-        <Label type="default" icon={ITEM_DETAILS[emblem].image}>
-          {emblem}
-        </Label>
+      <div className="flex flex-wrap justify-between items-center gap-1">
+        <div className="flex items-center gap-1 ml-1">
+          <Label type="default" icon={ITEM_DETAILS[emblem].image}>
+            {emblem}
+          </Label>
+        </div>
         {!!inventory[emblem] && (
-          <Label type="warning" className="ml-auto">
+          <Label type="warning">
             {`${t("inventory")}: ${formatNumber(inventory[emblem], { decimalPlaces: 0 })}`}
           </Label>
         )}
@@ -341,9 +343,9 @@ const ListView: React.FC<ListViewProps> = ({
           const unitPrice = listing.sfl / listingItem;
           return (
             <OuterPanel className="mb-2" key={`data-${index}`}>
-              <div className="flex justify-between">
+              <div className="flex justify-between gap-1">
                 <div className="justify-start">
-                  <div className="flex flex-wrap w-52 items-center">
+                  <div className="flex items-center">
                     {getKeys(listing.items).map((item) => (
                       <Box
                         image={ITEM_DETAILS[item].image}
@@ -428,7 +430,7 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
       <Button disabled={loading} onClick={() => onConfirm(listing)}>
         <div className="flex items-center gap-2">
           <SquareIcon icon={SUNNYSIDE.icons.confirm} width={7} />
-          <span>{t("confirm")}</span>
+          <span className="hidden sm:block">{t("confirm")}</span>
         </div>
       </Button>
     );
