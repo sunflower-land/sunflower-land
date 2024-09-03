@@ -39,7 +39,7 @@ type Options = {
   action: CraftToolAction;
 };
 
-function getToolPrice(tool: Tool, inventory: Inventory) {
+export function getToolPrice(tool: Tool, inventory: Inventory) {
   let price = tool.price;
   if (inventory.Artist?.gte(1)) {
     price *= 0.9;

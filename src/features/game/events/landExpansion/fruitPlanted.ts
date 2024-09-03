@@ -43,6 +43,12 @@ export function getPlantedAt(
   return createdAt - offset * 1000;
 }
 
+const isBasicFruitSeed = (name: FruitSeedName | GreenHouseFruitSeedName) =>
+  name === "Blueberry Seed" || name === "Orange Seed";
+
+const isAdvancedFruitSeed = (name: FruitSeedName | GreenHouseFruitSeedName) =>
+  name === "Apple Seed" || name === "Orange Seed";
+
 /**
  * Generic boost for all fruit types - normal + greenhouse
  */
@@ -74,6 +80,7 @@ export const getFruitPatchTime = (
   game: GameState,
   _: BumpkinParts,
 ) => {
+  const { bumpkin } = game;
   let seconds = FRUIT_SEEDS()[fruitSeedName]?.plantSeconds ?? 0;
 
   const baseMultiplier = getFruitTime({ game, name: fruitSeedName });
@@ -103,6 +110,7 @@ export const getFruitPatchTime = (
     seconds = seconds * 0.8;
   }
 
+  // Lemon Tea Bath: 50% reduction
   if (
     fruitSeedName === "Lemon Seed" &&
     isCollectibleBuilt({ name: "Lemon Tea Bath", game })
@@ -110,6 +118,7 @@ export const getFruitPatchTime = (
     seconds = seconds * 0.5;
   }
 
+  // Lemon Frog: 25% reduction
   if (
     fruitSeedName === "Lemon Seed" &&
     isCollectibleBuilt({ name: "Lemon Frog", game })
@@ -117,6 +126,7 @@ export const getFruitPatchTime = (
     seconds = seconds * 0.75;
   }
 
+  // Tomato Clown: 50% reduction
   if (
     fruitSeedName === "Tomato Seed" &&
     isCollectibleBuilt({ name: "Tomato Clown", game })
@@ -124,11 +134,30 @@ export const getFruitPatchTime = (
     seconds = seconds * 0.5;
   }
 
+  // Cannon
   if (
     fruitSeedName === "Tomato Seed" &&
     isCollectibleBuilt({ name: "Cannonball", game })
   ) {
     seconds = seconds * 0.75;
+  }
+
+  // Catchup Skill: 10% reduction
+  if (
+    (fruitSeedName === "Tomato Seed" || fruitSeedName === "Lemon Seed") &&
+    bumpkin.skills["Catchup"]
+  ) {
+    seconds = seconds * 0.9;
+  }
+
+  // Fruit Turbocharge Skill: 10% reduction
+  if (isBasicFruitSeed(fruitSeedName) && bumpkin.skills["Fruit Turbocharge"]) {
+    seconds = seconds * 0.9;
+  }
+
+  // Prime Produce Skill: 10% reduction
+  if (isAdvancedFruitSeed(fruitSeedName) && bumpkin.skills["Prime Produce"]) {
+    seconds = seconds * 0.9;
   }
 
   return seconds;

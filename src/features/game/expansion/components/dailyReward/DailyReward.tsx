@@ -287,15 +287,16 @@ export const DailyReward: React.FC = () => {
           </CloseButtonPanel>
         )}
         {!showIntro && (
-          <GameWallet
-            action="dailyReward"
-            onReady={() => {
-              chestService.send("LOAD");
-            }}
-            wrapper={({ children }) => <Panel>{children}</Panel>}
-          >
-            <ModalContent />
-          </GameWallet>
+          <Panel>
+            <GameWallet
+              action="dailyReward"
+              onReady={() => {
+                chestService.send("LOAD");
+              }}
+            >
+              <ModalContent />
+            </GameWallet>
+          </Panel>
         )}
       </Modal>
     </>

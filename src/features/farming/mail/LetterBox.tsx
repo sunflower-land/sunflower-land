@@ -51,10 +51,13 @@ export const LetterBox: React.FC = () => {
 
       return (
         <Panel bumpkinParts={NPC_WEARABLES[details.from]}>
-          <div className="flex items-center mb-1">
+          <div className="flex items-center mb-1 p-1">
             <img
               src={SUNNYSIDE.icons.arrow_left}
-              className="h-6 mr-2 cursor-pointer"
+              className="mr-2 cursor-pointer"
+              style={{
+                width: `${PIXEL_SCALE * 11}px`,
+              }}
               onClick={() => setSelected(undefined)}
             />
             <p className="text-sm capitalize ml-1 underline">{details.from}</p>
@@ -82,7 +85,7 @@ export const LetterBox: React.FC = () => {
     return (
       <CloseButtonPanel
         onClose={close}
-        tabs={[{ icon: letter, name: t("bumpkinBuzz") }]}
+        tabs={[{ icon: letter, name: t("mailbox") }]}
         currentTab={tab}
         setCurrentTab={setTab}
       >
@@ -106,7 +109,7 @@ export const LetterBox: React.FC = () => {
           <img
             src={letterDisc}
             className={
-              "absolute  z-20 cursor-pointer group-hover:img-highlight" +
+              "absolute z-20 cursor-pointer group-hover:img-highlight" +
               (showAnimations ? " animate-pulsate" : "")
             }
             style={{

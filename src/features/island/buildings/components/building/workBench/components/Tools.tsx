@@ -21,6 +21,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { Label } from "components/ui/Label";
 import { capitalize } from "lib/utils/capitalize";
 import { IslandType } from "features/game/types/game";
+import { getToolPrice } from "features/game/events/landExpansion/craftTool";
 
 interface Props {
   onClose: (e?: SyntheticEvent) => void;
@@ -38,6 +39,7 @@ export const Tools: React.FC<Props> = ({ onClose }) => {
 
   const selected = WORKBENCH_TOOLS[selectedName];
   const inventory = state.inventory;
+  const price = getToolPrice(selected, inventory);
 
   const lessIngredients = (amount = 1) =>
     getKeys(selected.ingredients).some((name) =>
@@ -45,9 +47,9 @@ export const Tools: React.FC<Props> = ({ onClose }) => {
     );
 
   const lessFunds = (amount = 1) => {
-    if (!selected.price) return;
+    if (!price) return;
 
-    return state.coins < selected.price * amount;
+    return state.coins < price * amount;
   };
 
   const onToolClick = (toolName: WorkbenchToolName) => {
@@ -130,7 +132,7 @@ export const Tools: React.FC<Props> = ({ onClose }) => {
             item: selectedName,
           }}
           requirements={{
-            coins: selected.price,
+            coins: price,
             resources: selected.ingredients,
           }}
           actionView={getAction()}
