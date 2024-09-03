@@ -2227,7 +2227,7 @@
   "description.golden.crop": "（往期）闪着金光的庄稼",
   "description.red.envelope": "（往期）哇，你真幸运！",
   "description.love.letter": "（往期）传达爱意",
-"description.solar.flare.ticket": "（往期）日光耀斑时季使用的票券。",
+  "description.solar.flare.ticket": "（往期）日光耀斑时季使用的票券。",
   "description.dawn.breaker.ticket": "（往期）破晓来使时季使用的票券。",
   "description.crow.feather": "（往期）女巫之夜时季使用的票券。",
   "description.mermaid.scale": "（往期）追捕海怪时季使用的票券。",
@@ -2256,7 +2256,7 @@
   "auction.winner": "竞拍得主！",
   "bumpkin.level": "乡包佬等级",
   "dailyLim": "每日 SFL 上限",
-  "farm.banned": "该农场已被封禁"
+  "farm.banned": "该农场已被封禁",
   "gobSwarm": "Goblin 狂潮！",
   "granting.wish": "您的许愿正在实现",
   "harvest.number": "{{minHarvest}}-{{maxHarvest}} 次收成",
