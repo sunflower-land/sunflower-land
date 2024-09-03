@@ -888,6 +888,40 @@ describe("fruitHarvested", () => {
       });
     });
 
+    it("gives +.1 Tomato & Lemon yield with Red Sour skill", () => {
+      const amount = getFruitYield({
+        game: {
+          ...TEST_FARM,
+          bumpkin: {
+            ...TEST_FARM.bumpkin,
+            skills: {
+              "Red Sour": 1,
+            },
+          },
+        },
+        name: "Tomato",
+      });
+
+      expect(amount).toEqual(1.1);
+    });
+
+    it("does not give Red Sour skill bonus if not a Tomato or Lemon", () => {
+      const amount = getFruitYield({
+        game: {
+          ...TEST_FARM,
+          bumpkin: {
+            ...TEST_FARM.bumpkin,
+            skills: {
+              "Red Sour": 1,
+            },
+          },
+        },
+        name: "Blueberry",
+      });
+
+      expect(amount).toEqual(1);
+    });
+
     it("gives +.1 basic fruit yield with Fruitful Fumble skill", () => {
       const amount = getFruitYield({
         game: {
