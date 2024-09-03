@@ -166,7 +166,7 @@ const MainWallets: React.FC<Props & Page> = ({
   const { connectors } = useConnect();
 
   const eip6963Connectors = connectors.filter(
-    (connector) => connector.type === "injected" && connector,
+    (connector) => connector.type === "injected" && !!connector.icon,
   );
 
   // There is an injected provider, but it's not showing up in EIP-6963

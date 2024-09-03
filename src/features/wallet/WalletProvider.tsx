@@ -92,7 +92,6 @@ export const config = createConfig({
   connectors: [
     sequenceConnector,
     walletConnectConnector,
-    metaMaskConnector,
     cryptoComConnector,
     bitGetConnector,
     okexConnector,
