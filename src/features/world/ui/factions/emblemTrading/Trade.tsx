@@ -339,9 +339,7 @@ const TradeDetails: React.FC<{
               </div>
             </div>
             <div className="flex flex-col justify-between h-full">
-              <Button className="mb-1" onClick={onClaim}>
-                {t("claim")}
-              </Button>
+              <Button onClick={onClaim}>{t("claim")}</Button>
             </div>
           </div>
         </OuterPanel>

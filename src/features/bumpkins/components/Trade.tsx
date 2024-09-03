@@ -107,7 +107,7 @@ const ListTrade: React.FC<{
               top: `${PIXEL_SCALE * 2}px`,
               left: `${PIXEL_SCALE * 2}px`,
               width: `${PIXEL_SCALE * 11}px`,
-              height: `${PIXEL_SCALE * 12}px`,
+              height: `${PIXEL_SCALE * 11}px`,
             }}
             alt="back"
             onClick={onCancel}
@@ -419,9 +419,7 @@ const TradeDetails: React.FC<{
               </div>
             </div>
             <div className="flex flex-col justify-between h-full">
-              <Button className="mb-1" onClick={onClaim}>
-                {t("claim")}
-              </Button>
+              <Button onClick={onClaim}>{t("claim")}</Button>
             </div>
           </div>
         </InnerPanel>
