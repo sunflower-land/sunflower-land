@@ -8231,7 +8231,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
   },
   Mark: {
     name: "Mark",
-    description: "Currency of the Factions. Use this in the Marks Shop.",
+    description: "Currency of the Factions. Use this in the Faction Shop.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/745.png",
