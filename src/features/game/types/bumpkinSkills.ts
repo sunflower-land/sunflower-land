@@ -47,8 +47,10 @@ export type BumpkinRevampSkillName =
   | "Premium Worms"
   | "Laurie's Gains"
   // Fruit
+  | "Red Sour"
   | "Fruitful Fumble"
   | "Tropical Orchard"
+  | "Catchup"
   | "Fruit Turbocharge"
   | "Prime Produce"
   | "Fruity Profit"
@@ -587,6 +589,16 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
   },
 
   // Fruit - Tier 1
+  "Red Sour": {
+    name: "Red Sour",
+    tree: "Fruit",
+    requirements: {
+      points: 1,
+      skill: 0,
+    },
+    boosts: "+0.1 Fruit Yield for Tomatoes & Lemons",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
   "Fruitful Fumble": {
     name: "Fruitful Fumble",
     tree: "Fruit",
@@ -608,6 +620,16 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
   // Fruit - Tier 2
+  Catchup: {
+    name: "Catchup",
+    tree: "Fruit",
+    requirements: {
+      points: 2,
+      skill: 2,
+    },
+    boosts: "Tomatoes & Lemons grows 10% faster",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
   "Fruit Turbocharge": {
     name: "Fruit Turbocharge",
     tree: "Fruit",
@@ -636,7 +658,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
       points: 3,
       skill: 5,
     },
-    boosts: "+30% Fruit Deliveries SFL revenue",
+    boosts: "Tango Coin delivery revenue +50%",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
   "Fruity Rush Hour": {

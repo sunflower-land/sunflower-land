@@ -109,9 +109,9 @@ const updateProducedHoney = ({ game, createdAt }: UpdateBeehives) => {
 
   getKeys(beehives).forEach((hiveId) => {
     const hive = beehives[hiveId];
-    const attachedFlowers = hive.flowers.sort(
-      (a, b) => a.attachedAt - b.attachedAt,
-    );
+    const attachedFlowers = hive.flowers
+      .slice()
+      .sort((a, b) => a.attachedAt - b.attachedAt);
 
     attachedFlowers.forEach((attachedFlower) => {
       const plantedFlower = flowers.flowerBeds[attachedFlower.id].flower;
@@ -226,9 +226,9 @@ const getBeehiveDetail = ({
     return honey + Math.max(end - start, 0) * (flower.rate ?? 1);
   }, beehive.honey.produced);
 
-  const lastAttachment = beehive.flowers.sort(
-    (a, b) => b.attachedUntil - a.attachedUntil,
-  )[0];
+  const lastAttachment = beehive.flowers
+    .slice()
+    .sort((a, b) => b.attachedUntil - a.attachedUntil)[0];
 
   return {
     beehiveAvailableAt: lastAttachment

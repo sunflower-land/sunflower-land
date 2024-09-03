@@ -37,8 +37,9 @@ import {
   TRADE_LIMITS,
   TRADE_MINIMUMS,
 } from "features/game/actions/tradeLimits";
+import { PIXEL_SCALE } from "features/game/lib/constants";
+import { CannotTrade } from "features/world/ui/CannotTrade";
 
-const MAX_NON_VIP_LISTINGS = 1;
 const MAX_SFL = 150;
 
 const ISLAND_LIMITS: Record<IslandType, number> = {
@@ -257,7 +258,7 @@ const ListTrade: React.FC<{
             }}
           />
         </div>
-        <div className="flex-1 flex flex-col items-end ml-2">
+        <div className="flex-1 flex flex-col items-end">
           <div className="flex items-center">
             {sfl.greaterThan(MAX_SFL) && (
               <Label type="danger" className="my-1 ml-2 mr-1">
@@ -500,18 +501,7 @@ export const Trade: React.FC<{
   };
 
   if (level < 10) {
-    return (
-      <div className="relative">
-        <div className="p-1 flex flex-col items-center">
-          <img
-            src={SUNNYSIDE.icons.lock}
-            className="w-1/5 mx-auto my-2 img-highlight-heavy"
-          />
-          <p className="text-sm">{t("bumpkinTrade.minLevel")}</p>
-          <p className="text-xs mb-2">{t("statements.lvlUp")}</p>
-        </div>
-      </div>
-    );
+    return <CannotTrade />;
   }
 
   if (showListing) {
@@ -553,7 +543,9 @@ export const Trade: React.FC<{
         <div className="p-1 flex flex-col items-center">
           <img
             src={tradeIcon}
-            className="w-1/5 mx-auto my-2 img-highlight-heavy"
+            style={{
+              width: `${PIXEL_SCALE * 17}px`,
+            }}
           />
           <p className="text-sm">{t("bumpkinTrade.noTradeListed")}</p>
           <p className="text-xs mb-2">{t("bumpkinTrade.sell")}</p>

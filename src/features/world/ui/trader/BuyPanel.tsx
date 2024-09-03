@@ -31,6 +31,7 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { formatNumber } from "lib/utils/formatNumber";
 import { makeListingType } from "lib/utils/makeTradeListingType";
 import { TRADE_LIMITS } from "features/game/actions/tradeLimits";
+import { SquareIcon } from "components/ui/SquareIcon";
 
 const MAX_NON_VIP_PURCHASES = 3;
 
@@ -77,62 +78,60 @@ export const BuyPanel: React.FC<
   };
 
   return (
-    <>
-      <div className="flex flex-col max-h-[400px] divide-brown-600">
-        <div className="pl-2 pt-2 space-y-1 sm:space-y-0 sm:flex items-center justify-between ml-1.5">
-          <VIPAccess
-            isVIP={isVIP}
-            onUpgrade={() => openModal("BUY_BANNER")}
-            text={t("bumpkinTrade.unlockMoreTrades")}
-          />
-          {!isVIP && (
-            <Label
-              type={hasPurchasesRemaining ? "success" : "danger"}
-              className="-ml-2"
-            >
-              {remainingFreePurchases === 1
-                ? `${t("remaining.free.purchase")}`
-                : `${t("remaining.free.purchases", {
-                    purchasesRemaining: hasPurchasesRemaining
-                      ? remainingFreePurchases
-                      : t("no"),
-                  })}`}
-            </Label>
+    <div className="flex flex-col divide-brown-600">
+      <div className="pl-2 pt-2 space-y-1 sm:space-y-0 sm:flex items-center justify-between ml-1.5">
+        <VIPAccess
+          isVIP={isVIP}
+          onUpgrade={() => openModal("BUY_BANNER")}
+          text={t("bumpkinTrade.unlockMoreTrades")}
+        />
+        {!isVIP && (
+          <Label
+            type={hasPurchasesRemaining ? "success" : "danger"}
+            className="-ml-2"
+          >
+            {remainingFreePurchases === 1
+              ? `${t("remaining.free.purchase")}`
+              : `${t("remaining.free.purchases", {
+                  purchasesRemaining: hasPurchasesRemaining
+                    ? remainingFreePurchases
+                    : t("no"),
+                })}`}
+          </Label>
+        )}
+      </div>
+      <div className="flex flex-col items-start justify-between mt-1">
+        <div className="flex overflow-y-auto relative w-full max-h-[400px] scrollable">
+          {view === "search" && (
+            <SearchView
+              floorPrices={floorPrices}
+              onSearch={(name) => onSearch(name)}
+            />
+          )}
+          {view === "list" && (
+            <ListView
+              onBack={() => setView("search")}
+              selected={selected ?? "Sunflower"}
+              hasPurchasesRemaining={hasPurchasesRemaining}
+              setUpdatedAt={setUpdatedAt}
+            />
           )}
         </div>
-        <div className="flex flex-col min-h-[150px] items-start justify-between">
-          <div className="flex overflow-y-auto relative w-full scrollable">
-            {view === "search" && (
-              <SearchView
-                floorPrices={floorPrices}
-                onSearch={(name) => onSearch(name)}
-              />
-            )}
-            {view === "list" && (
-              <ListView
-                onBack={() => setView("search")}
-                selected={selected ?? "Sunflower"}
-                hasPurchasesRemaining={hasPurchasesRemaining}
-                setUpdatedAt={setUpdatedAt}
-              />
-            )}
-          </div>
-        </div>
       </div>
-    </>
+    </div>
   );
 };
 interface SearchViewProps extends Props {
   onSearch: (name: InventoryItemName) => void;
 }
 const SearchView: React.FC<SearchViewProps> = ({ floorPrices, onSearch }) => {
-  if (floorPrices.Sunflower == undefined) {
+  if (Object.keys(floorPrices).length === 0) {
     return <Loading />;
   }
 
   return (
     <div className="p-2">
-      <div className="flex flex-wrap mt-2">
+      <div className="flex flex-wrap">
         {getKeys(TRADE_LIMITS).map((name) => (
           <div
             key={name}
@@ -181,6 +180,8 @@ const ListView: React.FC<ListViewProps> = ({
   const inventory = state.inventory;
 
   useEffect(() => {
+    if (!selected || fulfillListing) return;
+
     const load = async () => {
       setLoading(true);
       try {
@@ -195,13 +196,23 @@ const ListView: React.FC<ListViewProps> = ({
       }
       setLoading(false);
     };
+
     load();
+
     const interval = setInterval(load, THIRTY_SECONDS);
+
     return () => {
       clearInterval(interval);
       setUpdatedAt(undefined);
     };
-  }, [THIRTY_SECONDS, authState.context.user.rawToken, selected, setUpdatedAt]);
+  }, [
+    THIRTY_SECONDS,
+    authState.context.user.rawToken,
+    selected,
+    setUpdatedAt,
+    fulfillListing,
+  ]);
+
   const onConfirm = async (listing: Listing) => {
     setfulfillListing(true);
     gameService.send("FULFILL_TRADE_LISTING", {
@@ -210,6 +221,7 @@ const ListView: React.FC<ListViewProps> = ({
       listingType: makeListingType(listing.items),
     });
   };
+
   const confirm = (listing: Listing) => {
     const updatedInventory = getKeys(listing.items).reduce(
       (acc, name) => ({
@@ -278,10 +290,24 @@ const ListView: React.FC<ListViewProps> = ({
 
   if (warning === "hoarding") {
     return (
-      <div className="p-1 flex flex-col items-center">
-        <img src={SUNNYSIDE.icons.lock} className="w-1/5 mb-2" />
+      <div className="flex flex-col items-center w-full">
+        <img
+          src={SUNNYSIDE.icons.lock}
+          className="mb-2"
+          style={{
+            width: `${PIXEL_SCALE * 12}px`,
+          }}
+        />
         <p className="text-sm mb-1 text-center">{t("playerTrade.max.item")}</p>
         <p className="text-xs mb-1 text-center">{t("playerTrade.Progress")}</p>
+        <Button
+          className="mt-2"
+          onClick={() => {
+            setWarning(undefined);
+          }}
+        >
+          {t("back")}
+        </Button>
       </div>
     );
   }
@@ -298,7 +324,6 @@ const ListView: React.FC<ListViewProps> = ({
     );
   }
 
-  // if (loading) {
   if (gameService.state.matches("fulfillTradeListing")) {
     return <Loading text={t("trading")} />;
   }
@@ -310,61 +335,56 @@ const ListView: React.FC<ListViewProps> = ({
     const unitPrice = selectedListing.sfl / listingItem;
 
     return (
-      <>
-        <div className="flex flex-col w-full p-2">
-          <img src={SUNNYSIDE.icons.confirm} className="mx-auto h-6 my-2" />
-          <p className="text-sm mb-2 text-center">
-            {t("trading.listing.fulfilled")}
-          </p>
-          <OuterPanel>
-            <div className="flex justify-between">
-              <div>
-                <div className="flex flex-wrap w-52 items-center">
-                  {getKeys(selectedListing.items).map((item, index) => (
-                    <Box
-                      image={ITEM_DETAILS[item].image}
-                      count={new Decimal(selectedListing.items[item] ?? 0)}
-                      disabled
-                      key={`items-${index}`}
-                    />
-                  ))}
-                  <div className="ml-1">
-                    <div className="flex items-center mb-1">
-                      <img src={token} className="h-6 mr-1" />
-                      <p className="text-xs">{`${selectedListing.sfl} SFL`}</p>
-                    </div>
-                    <p className="text-xxs">
-                      {t("bumpkinTrade.price/unit", {
-                        price: formatNumber(unitPrice, {
-                          decimalPlaces: 4,
-                          showTrailingZeros: true,
-                        }),
-                      })}
-                    </p>
+      <div className="flex flex-col w-full p-2">
+        <img src={SUNNYSIDE.icons.confirm} className="mx-auto h-6 my-2" />
+        <p className="text-sm mb-2 text-center">
+          {t("trading.listing.fulfilled")}
+        </p>
+        <OuterPanel>
+          <div className="flex justify-between">
+            <div>
+              <div className="flex flex-wrap w-52 items-center">
+                {getKeys(selectedListing.items).map((item, index) => (
+                  <Box
+                    image={ITEM_DETAILS[item].image}
+                    count={new Decimal(selectedListing.items[item] ?? 0)}
+                    disabled
+                    key={`items-${index}`}
+                  />
+                ))}
+                <div className="ml-1">
+                  <div className="flex items-center mb-1">
+                    <img src={token} className="h-6 mr-1" />
+                    <p className="text-xs">{`${formatNumber(selectedListing.sfl, { decimalPlaces: 4 })} SFL`}</p>
                   </div>
-                </div>
-              </div>
-
-              <div className="">
-                <div className="flex items-center mt-1  justify-end mr-0.5">
-                  <Label type="success" className="mb-4 capitalize">
-                    {t("purchased")}
-                  </Label>
+                  <p className="text-xxs">
+                    {t("bumpkinTrade.price/unit", {
+                      price: formatNumber(unitPrice, {
+                        decimalPlaces: 4,
+                        showTrailingZeros: true,
+                      }),
+                    })}
+                  </p>
                 </div>
               </div>
             </div>
-          </OuterPanel>
-          <Button
-            className="mt-2"
-            onClick={() => {
-              setLoading(false);
-              onBack();
-            }}
-          >
-            {t("continue")}
-          </Button>
-        </div>
-      </>
+
+            <div className="flex items-start">
+              <Label type="success">{t("purchased")}</Label>
+            </div>
+          </div>
+        </OuterPanel>
+        <Button
+          className="mt-2"
+          onClick={() => {
+            setLoading(false);
+            setfulfillListing(false);
+            setSelectedListing(undefined);
+          }}
+        >
+          {t("continue")}
+        </Button>
+      </div>
     );
   }
 
@@ -414,7 +434,7 @@ const ListView: React.FC<ListViewProps> = ({
                     <div className="ml-1">
                       <div className="flex items-center mb-1">
                         <img src={token} className="h-6 mr-1" />
-                        <p className="text-xs">{`${listing.sfl} SFL`}</p>
+                        <p className="text-xs">{`${formatNumber(listing.sfl, { decimalPlaces: 4 })} SFL`}</p>
                       </div>
                       <p className="text-xxs">
                         {t("bumpkinTrade.price/unit", {
@@ -428,8 +448,8 @@ const ListView: React.FC<ListViewProps> = ({
                   </div>
                 </div>
 
-                <div>
-                  <GetActionButtons
+                <div className="flex items-center">
+                  <ActionButtons
                     loading={loading}
                     listing={listing}
                     selectedListing={selectedListing}
@@ -460,7 +480,7 @@ interface ActionButtonsProps {
   state: GameState;
 }
 
-const GetActionButtons: React.FC<ActionButtonsProps> = ({
+const ActionButtons: React.FC<ActionButtonsProps> = ({
   loading,
   listing,
   selectedListing,
@@ -476,19 +496,17 @@ const GetActionButtons: React.FC<ActionButtonsProps> = ({
 
   if (listing.farmId == farmId) {
     return (
-      <div className="flex items-center mt-1  justify-end mr-0.5">
-        <Label type="danger" className="mb-4">
-          {t("trading.your.listing")}
-        </Label>
+      <div className="flex items-start h-full">
+        <Label type="danger">{t("trading.your.listing")}</Label>
       </div>
     );
   }
   if (selectedListing?.id == listing.id) {
     return (
       <Button disabled={loading} onClick={() => onConfirm(listing)}>
-        <div className="flex items-center">
-          <img src={SUNNYSIDE.icons.confirm} className="h-4 mr-1" />
-          <span className="text-xs">{t("confirm")}</span>
+        <div className="flex items-center gap-2">
+          <SquareIcon icon={SUNNYSIDE.icons.confirm} width={7} />
+          <span>{t("confirm")}</span>
         </div>
       </Button>
     );

@@ -6,7 +6,7 @@ import { BuyPanel } from "../trader/BuyPanel";
 import { Trade } from "features/bumpkins/components/Trade";
 import { Context } from "features/game/GameProvider";
 import { Context as AuthContext } from "features/auth/lib/Provider";
-import { useActor } from "@xstate/react";
+import { useSelector } from "@xstate/react";
 
 import tradeIcon from "assets/icons/trade.png";
 import {
@@ -16,6 +16,9 @@ import {
 import { Label } from "components/ui/Label";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 import { getRelativeTime } from "lib/utils/time";
+import { AuthMachineState } from "features/auth/lib/authMachine";
+
+const _rawToken = (state: AuthMachineState) => state.context.user.rawToken;
 
 interface Props {
   onClose: () => void;
@@ -27,7 +30,7 @@ export const TradingBoard: React.FC<Props> = ({ onClose }) => {
 
   const { gameService } = useContext(Context);
   const { authService } = useContext(AuthContext);
-  const [authState] = useActor(authService);
+  const rawToken = useSelector(authService, _rawToken);
 
   const [floorPrices, setFloorPrices] = useState<FloorPrices>({});
 
@@ -36,9 +39,7 @@ export const TradingBoard: React.FC<Props> = ({ onClose }) => {
 
   useEffect(() => {
     const load = async () => {
-      const floorPrices = await getListingsFloorPrices(
-        authState.context.user.rawToken,
-      );
+      const floorPrices = await getListingsFloorPrices(rawToken);
       setFloorPrices((prevFloorPrices) => ({
         ...prevFloorPrices,
         ...floorPrices,

@@ -7,7 +7,6 @@ import { InventoryItemName, TradeOffer } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { CollectionName } from "features/game/types/marketplace";
 import { budImageDomain } from "features/island/collectibles/components/Bud";
-import { translateTerms } from "lib/i18n/translate";
 import { OPEN_SEA_WEARABLES } from "metadata/metadata";
 
 export type TradeableDisplay = {
@@ -55,7 +54,7 @@ export function getTradeableDisplay({
 
   return {
     name,
-    description: translateTerms(details.description),
+    description: details.description,
     image: details.image,
     buff: COLLECTIBLE_BUFF_LABELS[name],
     type,

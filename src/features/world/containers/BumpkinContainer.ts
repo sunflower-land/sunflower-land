@@ -148,10 +148,6 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
     return this.direction;
   }
 
-  get isWalking() {
-    return !!this.sprite?.anims?.currentAnim?.key?.includes("bumpkin-walking");
-  }
-
   private async loadSprites(scene: Phaser.Scene) {
     const keyName = tokenUriBuilder(this.clothing);
     this.idleSpriteKey = `${keyName}-bumpkin-idle-sheet`;
