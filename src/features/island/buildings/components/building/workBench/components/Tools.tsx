@@ -39,7 +39,7 @@ export const Tools: React.FC<Props> = ({ onClose }) => {
 
   const selected = WORKBENCH_TOOLS[selectedName];
   const inventory = state.inventory;
-  const price = getToolPrice(selected, inventory);
+  const price = getToolPrice(selected, 1, state);
 
   const lessIngredients = (amount = 1) =>
     getKeys(selected.ingredients).some((name) =>

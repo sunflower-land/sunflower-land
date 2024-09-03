@@ -72,6 +72,11 @@ export const INITIAL_STOCK = (state?: GameState): Inventory => {
     }
   }
 
+  // increase Axe stock by 20% if player has More Axes skill
+  if (state?.bumpkin?.skills["More Axes"]) {
+    tools.Axe = new Decimal(Math.ceil(tools.Axe.toNumber() * 1.2));
+  }
+
   const seeds: Record<SeedName, Decimal> = {
     "Sunflower Seed": new Decimal(400),
     "Potato Seed": new Decimal(200),

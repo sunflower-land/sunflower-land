@@ -8,14 +8,14 @@ import {
   WORKBENCH_TOOLS,
 } from "features/game/types/tools";
 import { trackActivity } from "features/game/types/bumpkinActivity";
+import cloneDeep from "lodash.clonedeep";
 
-import { GameState, Inventory } from "../../types/game";
+import { GameState } from "../../types/game";
 import {
   PURCHASEABLE_BAIT,
   PurchaseableBait,
 } from "features/game/types/fishing";
 import { hasRequiredIslandExpansion } from "features/game/lib/hasRequiredIslandExpansion";
-import { produce } from "immer";
 
 type CraftableToolName =
   | WorkbenchToolName
@@ -39,82 +39,96 @@ type Options = {
   action: CraftToolAction;
 };
 
-export function getToolPrice(tool: Tool, inventory: Inventory) {
+export function getToolPrice(
+  tool: Tool,
+  amount: number,
+  game: Readonly<GameState>,
+) {
+  const { name } = tool;
+  const { bumpkin, inventory } = game;
+
+  // Default price
   let price = tool.price;
-  if (inventory.Artist?.gte(1)) {
-    price *= 0.9;
+
+  // Feller's Discount Skill: 20% off on Axes
+  if (bumpkin.skills["Feller's Discount"] && name === "Axe") {
+    price = price * 0.8;
   }
-  return price;
+
+  // Artist's Discount Skill: 10% off
+  if (inventory["Artist"]?.gte(1)) {
+    price = price * 0.9;
+  }
+
+  // Return the price for the amount of tools
+  return price * amount;
 }
 
 export function craftTool({ state, action }: Options) {
-  return produce(state, (stateCopy) => {
-    const bumpkin = stateCopy.bumpkin;
+  const stateCopy: GameState = cloneDeep(state);
+  const bumpkin = stateCopy.bumpkin;
 
-    const tool = CRAFTABLE_TOOLS[action.tool];
-    const amount = action.amount ?? 1;
+  const tool = CRAFTABLE_TOOLS[action.tool];
+  const amount = action.amount ?? 1;
 
-    if (!tool) {
-      throw new Error("Tool does not exist");
-    }
+  if (!tool) {
+    throw new Error("Tool does not exist");
+  }
 
-    if (
-      !hasRequiredIslandExpansion(stateCopy.island.type, tool.requiredIsland)
-    ) {
-      throw new Error("You do not have the required island expansion");
-    }
+  if (!hasRequiredIslandExpansion(stateCopy.island.type, tool.requiredIsland)) {
+    throw new Error("You do not have the required island expansion");
+  }
 
-    if (stateCopy.stock[action.tool]?.lt(1)) {
-      throw new Error("Not enough stock");
-    }
+  if (stateCopy.stock[action.tool]?.lt(1)) {
+    throw new Error("Not enough stock");
+  }
 
-    if (bumpkin === undefined) {
-      throw new Error("You do not have a Bumpkin!");
-    }
-    const price = getToolPrice(tool, stateCopy.inventory) * amount;
+  if (bumpkin === undefined) {
+    throw new Error("You do not have a Bumpkin!");
+  }
+  const price = getToolPrice(tool, amount, stateCopy);
 
-    if (stateCopy.coins < price) {
-      throw new Error("Insufficient Coins");
-    }
+  if (stateCopy.coins < price) {
+    throw new Error("Insufficient Coins");
+  }
 
-    const subtractedInventory = getKeys(tool.ingredients).reduce(
-      (inventory, ingredientName) => {
-        const count = inventory[ingredientName] || new Decimal(0);
-        const totalAmount =
-          tool.ingredients[ingredientName]?.mul(amount) || new Decimal(0);
+  const subtractedInventory = getKeys(tool.ingredients).reduce(
+    (inventory, ingredientName) => {
+      const count = inventory[ingredientName] || new Decimal(0);
+      const totalAmount =
+        tool.ingredients[ingredientName]?.mul(amount) || new Decimal(0);
 
-        if (count.lessThan(totalAmount)) {
-          throw new Error(`Insufficient ingredient: ${ingredientName}`);
-        }
+      if (count.lessThan(totalAmount)) {
+        throw new Error(`Insufficient ingredient: ${ingredientName}`);
+      }
 
-        return {
-          ...inventory,
-          [ingredientName]: count.sub(totalAmount),
-        };
-      },
-      stateCopy.inventory,
-    );
+      return {
+        ...inventory,
+        [ingredientName]: count.sub(totalAmount),
+      };
+    },
+    stateCopy.inventory,
+  );
 
-    const oldAmount = stateCopy.inventory[action.tool] || new Decimal(0);
+  const oldAmount = stateCopy.inventory[action.tool] || new Decimal(0);
 
-    bumpkin.activity = trackActivity(
-      `${action.tool} Crafted`,
-      bumpkin.activity,
-      new Decimal(amount),
-    );
-    bumpkin.activity = trackActivity(
-      "Coins Spent",
-      bumpkin.activity,
-      new Decimal(price),
-    );
+  bumpkin.activity = trackActivity(
+    `${action.tool} Crafted`,
+    bumpkin.activity,
+    new Decimal(amount),
+  );
+  bumpkin.activity = trackActivity(
+    "Coins Spent",
+    bumpkin.activity,
+    new Decimal(price),
+  );
 
-    stateCopy.coins = stateCopy.coins - price;
-    stateCopy.inventory = {
-      ...subtractedInventory,
-      [action.tool]: oldAmount.add(amount) as Decimal,
-    };
-    stateCopy.stock[action.tool] = stateCopy.stock[action.tool]?.minus(amount);
+  stateCopy.coins = stateCopy.coins - price;
+  stateCopy.inventory = {
+    ...subtractedInventory,
+    [action.tool]: oldAmount.add(amount) as Decimal,
+  };
+  stateCopy.stock[action.tool] = stateCopy.stock[action.tool]?.minus(amount);
 
-    return stateCopy;
-  });
+  return stateCopy;
 }
