@@ -52,7 +52,7 @@ const ToolContent: React.FC<ToolContentProps> = ({ onClose, selectedName }) => {
   const selected = TREASURE_TOOLS[selectedName];
   const inventory = state.inventory;
   const bulkToolCraftAmount = makeBulkBuyTools(stock);
-  const price = getToolPrice(selected, inventory);
+  const price = getToolPrice(selected, 1, state);
 
   const lessFunds = (amount = 1) => {
     if (!price) return;
