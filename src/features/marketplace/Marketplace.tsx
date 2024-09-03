@@ -46,7 +46,7 @@ export const Marketplace: React.FC = () => {
   return (
     <GameProvider>
       <div className="bg-[#181425] w-full h-full">
-        <OuterPanel className="h-full">
+        <OuterPanel className="h-full" style={{ paddingBottom: "42px" }}>
           <div className="flex overflow-x-auto scrollbar-hide mr-auto">
             {tabs.map((tab, index) => (
               <Tab

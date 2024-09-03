@@ -226,9 +226,6 @@ export const mmoMachine = createMachine<MMOContext, MMOEvent, MMOState>({
             return { roomId: undefined };
           }
 
-          // Server connection is too fast
-          await new Promise((res) => setTimeout(res, 1000));
-
           const client = new Client(url);
 
           const available = await client?.getAvailableRooms();
@@ -333,8 +330,6 @@ export const mmoMachine = createMachine<MMOContext, MMOEvent, MMOState>({
       invoke: {
         id: "joining",
         src: (context, event) => async () => {
-          await new Promise((r) => setTimeout(r, 1000));
-
           // Join server based on what was selected
           const server = await context.client?.joinOrCreate<PlazaRoomState>(
             context.serverId,
@@ -395,7 +390,13 @@ export const mmoMachine = createMachine<MMOContext, MMOEvent, MMOState>({
     },
 
     kicked: {},
-    reconnecting: {},
+    reconnecting: {
+      always: [
+        {
+          target: "connecting",
+        },
+      ],
+    },
     error: {
       on: {
         RETRY: {

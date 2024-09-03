@@ -18,7 +18,8 @@ import { MachineState } from "features/game/lib/gameMachine";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { OuterPanel } from "components/ui/Panel";
+import { Label } from "components/ui/Label";
+import { InnerPanel } from "components/ui/Panel";
 
 interface Props {
   food: Consumable[];
@@ -48,25 +49,24 @@ export const Feed: React.FC<Props> = ({ food }) => {
 
   if (!selected) {
     return (
-      <OuterPanel>
-        <div className="flex flex-col items-center p-2">
-          <span className="text-base text-center mb-4">{t("hungry?")}</span>
-          <span className="w-full text-sm mb-3">
-            {t("statements.feed.bumpkin.one")}
-          </span>
-          <span className="w-full text-sm mb-2">
+      <InnerPanel>
+        <div className="flex flex-col p-2">
+          <Label type="warning">{t("statements.feed.bumpkin.one")}</Label>
+          <span className="w-full my-2">
             {t("statements.feed.bumpkin.two")}
           </span>
-          <img
-            src={SUNNYSIDE.building.firePit}
-            className="my-2"
-            alt={"Fire Pit"}
-            style={{
-              width: `${PIXEL_SCALE * 47}px`,
-            }}
-          />
+          <div className="flex flex-col items-center">
+            <img
+              src={SUNNYSIDE.building.firePit}
+              className="my-2"
+              alt={"Fire Pit"}
+              style={{
+                width: `${PIXEL_SCALE * 47}px`,
+              }}
+            />
+          </div>
         </div>
-      </OuterPanel>
+      </InnerPanel>
     );
   }
 

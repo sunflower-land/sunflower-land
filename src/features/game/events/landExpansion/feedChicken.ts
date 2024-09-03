@@ -5,7 +5,7 @@ import {
   MUTANT_CHICKEN_BOOST_AMOUNT,
 } from "features/game/lib/constants";
 import { Bumpkin, GameState, Inventory } from "features/game/types/game";
-import cloneDeep from "lodash.clonedeep";
+import { produce } from "immer";
 
 export type LandExpansionFeedChickenAction = {
   type: "chicken.fed";
@@ -68,43 +68,44 @@ export function feedChicken({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  const stateCopy = cloneDeep(state);
-  const { bumpkin, inventory, collectibles } = stateCopy;
+  return produce(state, (stateCopy) => {
+    const { bumpkin, inventory, collectibles } = stateCopy;
 
-  if (!bumpkin) {
-    throw new Error("You do not have a Bumpkin!");
-  }
+    if (!bumpkin) {
+      throw new Error("You do not have a Bumpkin!");
+    }
 
-  const chickens = stateCopy.chickens || {};
-  const chicken = chickens[action.id];
+    const chickens = stateCopy.chickens || {};
+    const chicken = chickens[action.id];
 
-  if (!chicken) {
-    throw new Error("This chicken does not exist");
-  }
+    if (!chicken) {
+      throw new Error("This chicken does not exist");
+    }
 
-  const isChickenHungry =
-    chicken?.fedAt && createdAt - chicken.fedAt < CHICKEN_TIME_TO_EGG;
+    const isChickenHungry =
+      chicken?.fedAt && createdAt - chicken.fedAt < CHICKEN_TIME_TO_EGG;
 
-  if (isChickenHungry) {
-    throw new Error("This chicken is not hungry");
-  }
+    if (isChickenHungry) {
+      throw new Error("This chicken is not hungry");
+    }
 
-  const wheatRequired = getWheatRequiredToFeed(stateCopy);
+    const wheatRequired = getWheatRequiredToFeed(stateCopy);
 
-  if (
-    wheatRequired.gt(0) &&
-    (!inventory.Wheat || inventory.Wheat.lt(wheatRequired))
-  ) {
-    throw new Error("No wheat to feed chickens");
-  }
+    if (
+      wheatRequired.gt(0) &&
+      (!inventory.Wheat || inventory.Wheat.lt(wheatRequired))
+    ) {
+      throw new Error("No wheat to feed chickens");
+    }
 
-  const currentWheat = inventory.Wheat || new Decimal(0);
-  inventory.Wheat = currentWheat.minus(wheatRequired);
-  chickens[action.id] = {
-    ...chickens[action.id],
-    fedAt: makeFedAt(inventory, stateCopy, createdAt, bumpkin),
-    multiplier: 1,
-  };
+    const currentWheat = inventory.Wheat || new Decimal(0);
+    inventory.Wheat = currentWheat.minus(wheatRequired);
+    chickens[action.id] = {
+      ...chickens[action.id],
+      fedAt: makeFedAt(inventory, stateCopy, createdAt, bumpkin),
+      multiplier: 1,
+    };
 
-  return stateCopy;
+    return stateCopy;
+  });
 }

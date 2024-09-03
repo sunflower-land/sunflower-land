@@ -30,6 +30,7 @@ import { BUMPKIN_ITEM_BUFF_LABELS } from "features/game/types/bumpkinItemBuffs";
 import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
 
 import lightning from "assets/icons/lightning.png";
+import { getToolPrice } from "features/game/events/landExpansion/craftTool";
 
 interface ToolContentProps {
   selectedName: TreasureToolName;
@@ -51,11 +52,12 @@ const ToolContent: React.FC<ToolContentProps> = ({ onClose, selectedName }) => {
   const selected = TREASURE_TOOLS[selectedName];
   const inventory = state.inventory;
   const bulkToolCraftAmount = makeBulkBuyTools(stock);
+  const price = getToolPrice(selected, inventory);
 
   const lessFunds = (amount = 1) => {
-    if (!selected.price) return;
+    if (!price) return;
 
-    return state.coins < selected.price * amount;
+    return state.coins < price * amount;
   };
   const lessIngredients = (amount = 1) =>
     getKeys(selected.ingredients).some((name) =>
@@ -78,7 +80,7 @@ const ToolContent: React.FC<ToolContentProps> = ({ onClose, selectedName }) => {
       stock={stock}
       details={{ item: selectedName }}
       requirements={{
-        coins: selected.price,
+        coins: price,
         resources: selected.ingredients,
       }}
       actionView={

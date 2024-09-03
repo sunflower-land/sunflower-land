@@ -20,9 +20,13 @@ https://docs.sunflower-land.com/contributing/portals/portal-apis
 
 Call `purchase` in `./lib/portalUtil.ts` to spend a players SFL or items.
 
-## Store score
+## Start attempt
 
-Call `played` in `./lib/portalUtil.ts` to record a players progress, attempts and score.
+Call `startAttempt` in `./lib/portalUtil.ts` to start an attempt of a play.
+
+## Submit score
+
+Call `submitScore` in `./lib/portalUtil.ts` to submit the player score.
 
 ## Claim Prize
 

@@ -12,10 +12,10 @@ import {
 } from "features/game/types/fruits";
 import { Bumpkin, GameState } from "features/game/types/game";
 import { randomInt } from "lib/utils/random";
-import cloneDeep from "lodash.clonedeep";
 import { getFruitYield } from "./fruitHarvested";
 import { BumpkinParts } from "lib/utils/tokenUriBuilder";
 import { isWearableActive } from "features/game/lib/wearables";
+import { produce } from "immer";
 
 export type PlantFruitAction = {
   type: "fruit.planted";
@@ -42,6 +42,12 @@ export function getPlantedAt(
 
   return createdAt - offset * 1000;
 }
+
+const isBasicFruitSeed = (name: FruitSeedName | GreenHouseFruitSeedName) =>
+  name === "Blueberry Seed" || name === "Orange Seed";
+
+const isAdvancedFruitSeed = (name: FruitSeedName | GreenHouseFruitSeedName) =>
+  name === "Apple Seed" || name === "Banana Plant";
 
 /**
  * Generic boost for all fruit types - normal + greenhouse
@@ -74,6 +80,7 @@ export const getFruitPatchTime = (
   game: GameState,
   _: BumpkinParts,
 ) => {
+  const { bumpkin } = game;
   let seconds = FRUIT_SEEDS()[fruitSeedName]?.plantSeconds ?? 0;
 
   const baseMultiplier = getFruitTime({ game, name: fruitSeedName });
@@ -103,6 +110,7 @@ export const getFruitPatchTime = (
     seconds = seconds * 0.8;
   }
 
+  // Lemon Tea Bath: 50% reduction
   if (
     fruitSeedName === "Lemon Seed" &&
     isCollectibleBuilt({ name: "Lemon Tea Bath", game })
@@ -110,6 +118,7 @@ export const getFruitPatchTime = (
     seconds = seconds * 0.5;
   }
 
+  // Lemon Frog: 25% reduction
   if (
     fruitSeedName === "Lemon Seed" &&
     isCollectibleBuilt({ name: "Lemon Frog", game })
@@ -117,6 +126,7 @@ export const getFruitPatchTime = (
     seconds = seconds * 0.75;
   }
 
+  // Tomato Clown: 50% reduction
   if (
     fruitSeedName === "Tomato Seed" &&
     isCollectibleBuilt({ name: "Tomato Clown", game })
@@ -124,11 +134,30 @@ export const getFruitPatchTime = (
     seconds = seconds * 0.5;
   }
 
+  // Cannon
   if (
     fruitSeedName === "Tomato Seed" &&
     isCollectibleBuilt({ name: "Cannonball", game })
   ) {
     seconds = seconds * 0.75;
+  }
+
+  // Catchup Skill: 10% reduction
+  if (
+    (fruitSeedName === "Tomato Seed" || fruitSeedName === "Lemon Seed") &&
+    bumpkin.skills["Catchup"]
+  ) {
+    seconds = seconds * 0.9;
+  }
+
+  // Fruit Turbocharge Skill: 10% reduction
+  if (isBasicFruitSeed(fruitSeedName) && bumpkin.skills["Fruit Turbocharge"]) {
+    seconds = seconds * 0.9;
+  }
+
+  // Prime Produce Skill: 10% reduction
+  if (isAdvancedFruitSeed(fruitSeedName) && bumpkin.skills["Prime Produce"]) {
+    seconds = seconds * 0.9;
   }
 
   return seconds;
@@ -147,71 +176,73 @@ export function plantFruit({
   createdAt = Date.now(),
   harvestsLeft = getHarvestsLeft,
 }: Options): GameState {
-  const stateCopy = cloneDeep(state);
-  const { fruitPatches, bumpkin } = stateCopy;
+  return produce(state, (stateCopy) => {
+    const { fruitPatches, bumpkin } = stateCopy;
 
-  if (!bumpkin) {
-    throw new Error("You do not have a Bumpkin!");
-  }
+    if (!bumpkin) {
+      throw new Error("You do not have a Bumpkin!");
+    }
 
-  const patch = fruitPatches[action.index];
+    const patch = fruitPatches[action.index];
 
-  if (!patch) {
-    throw new Error("Fruit patch does not exist");
-  }
+    if (!patch) {
+      throw new Error("Fruit patch does not exist");
+    }
 
-  if (patch.fruit?.plantedAt) {
-    throw new Error("Fruit is already planted");
-  }
+    if (patch.fruit?.plantedAt) {
+      throw new Error("Fruit is already planted");
+    }
 
-  if (!isFruitSeed(action.seed)) {
-    throw new Error("Not a fruit seed");
-  }
+    if (!isFruitSeed(action.seed)) {
+      throw new Error("Not a fruit seed");
+    }
 
-  const seedCount = stateCopy.inventory[action.seed] || new Decimal(0);
+    const seedCount = stateCopy.inventory[action.seed] || new Decimal(0);
 
-  if (seedCount.lessThan(1)) {
-    throw new Error("Not enough seeds");
-  }
+    if (seedCount.lessThan(1)) {
+      throw new Error("Not enough seeds");
+    }
 
-  let harvestCount = harvestsLeft();
-  const invalidAmount = harvestCount > 6 || harvestCount < 3;
+    let harvestCount = harvestsLeft();
+    const invalidAmount = harvestCount > 6 || harvestCount < 3;
 
-  if (invalidAmount) {
-    throw new Error("Invalid harvests left amount");
-  }
+    if (invalidAmount) {
+      throw new Error("Invalid harvests left amount");
+    }
 
-  if (isCollectibleBuilt({ name: "Immortal Pear", game: stateCopy })) {
-    harvestCount += 1;
-  }
+    if (isCollectibleBuilt({ name: "Immortal Pear", game: stateCopy })) {
+      harvestCount += 1;
+    }
 
-  stateCopy.inventory[action.seed] = stateCopy.inventory[action.seed]?.minus(1);
+    stateCopy.inventory[action.seed] =
+      stateCopy.inventory[action.seed]?.minus(1);
 
-  const fruitName = FRUIT_SEEDS()[action.seed].yield;
+    const fruitName = FRUIT_SEEDS()[action.seed].yield;
 
-  patch.fruit = {
-    name: fruitName,
-    plantedAt: getPlantedAt(
-      action.seed,
-      (stateCopy.bumpkin as Bumpkin).equipped,
-      stateCopy,
-      createdAt,
-    ),
-    amount: getFruitYield({
+    patch.fruit = {
       name: fruitName,
-      game: stateCopy,
-      fertiliser: patch.fertiliser?.name,
-    }),
-    harvestedAt: 0,
-    // Value will be overridden by BE
-    harvestsLeft: harvestCount,
-  };
+      plantedAt: getPlantedAt(
+        action.seed,
+        (stateCopy.bumpkin as Bumpkin).equipped,
+        stateCopy,
+        createdAt,
+      ),
+      amount: getFruitYield({
+        name: fruitName,
+        game: stateCopy,
+        fertiliser: patch.fertiliser?.name,
+      }),
+      harvestedAt: 0,
+      // Value will be overridden by BE
+      harvestsLeft: harvestCount,
+    };
 
-  bumpkin.activity = trackActivity(
-    `${action.seed} Planted`,
-    bumpkin?.activity,
-    new Decimal(1),
-  );
+    bumpkin.activity = trackActivity(
+      `${action.seed} Planted`,
+      bumpkin?.activity,
+      new Decimal(1),
+    );
 
-  return stateCopy;
+    return stateCopy;
+  });
 }

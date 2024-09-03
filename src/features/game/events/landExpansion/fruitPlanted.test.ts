@@ -1462,4 +1462,124 @@ describe("getFruitTime", () => {
     );
     expect(time).toEqual(plantSeconds);
   });
+
+  it("applies a 10% growth speed boost on Tomato & Lemon seeds with Catchup skill", () => {
+    const seed = "Tomato Seed";
+    const plantSeconds = FRUIT_SEEDS()[seed].plantSeconds;
+    const time = getFruitPatchTime(
+      seed,
+      {
+        ...TEST_FARM,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          skills: {
+            Catchup: 1,
+          },
+        },
+      },
+      INITIAL_BUMPKIN.equipped,
+    );
+
+    expect(time).toEqual(plantSeconds * 0.9);
+  });
+
+  it("does not applies Catchup skill on other seeds", () => {
+    const seed = "Apple Seed";
+    const plantSeconds = FRUIT_SEEDS()[seed].plantSeconds;
+    const time = getFruitPatchTime(
+      seed,
+      {
+        ...TEST_FARM,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          skills: {
+            Catchup: 1,
+          },
+        },
+      },
+      INITIAL_BUMPKIN.equipped,
+    );
+
+    expect(time).toEqual(plantSeconds);
+  });
+
+  it("applies a 10% growth speed boost on basic fruit with Fruit Turbocharge skill", () => {
+    const seed = "Blueberry Seed";
+    const plantSeconds = FRUIT_SEEDS()[seed].plantSeconds;
+    const time = getFruitPatchTime(
+      seed,
+      {
+        ...TEST_FARM,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          skills: {
+            "Fruit Turbocharge": 1,
+          },
+        },
+      },
+      INITIAL_BUMPKIN.equipped,
+    );
+
+    expect(time).toEqual(plantSeconds * 0.9);
+  });
+
+  it("does not applies Fruit Turbocharge skill on advanced fruit", () => {
+    const seed = "Apple Seed";
+    const plantSeconds = FRUIT_SEEDS()[seed].plantSeconds;
+    const time = getFruitPatchTime(
+      seed,
+      {
+        ...TEST_FARM,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          skills: {
+            "Fruit Turbocharge": 1,
+          },
+        },
+      },
+      INITIAL_BUMPKIN.equipped,
+    );
+
+    expect(time).toEqual(plantSeconds);
+  });
+
+  it("applies a 10% growth speed boost on advanced fruit with Prime Produce skill", () => {
+    const seed = "Apple Seed";
+    const plantSeconds = FRUIT_SEEDS()[seed].plantSeconds;
+    const time = getFruitPatchTime(
+      seed,
+      {
+        ...TEST_FARM,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          skills: {
+            "Prime Produce": 1,
+          },
+        },
+      },
+      INITIAL_BUMPKIN.equipped,
+    );
+
+    expect(time).toEqual(plantSeconds * 0.9);
+  });
+
+  it("does not applies Prime Produce skill on basic fruit", () => {
+    const seed = "Blueberry Seed";
+    const plantSeconds = FRUIT_SEEDS()[seed].plantSeconds;
+    const time = getFruitPatchTime(
+      seed,
+      {
+        ...TEST_FARM,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          skills: {
+            "Prime Produce": 1,
+          },
+        },
+      },
+      INITIAL_BUMPKIN.equipped,
+    );
+
+    expect(time).toEqual(plantSeconds);
+  });
 });

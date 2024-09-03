@@ -2,15 +2,12 @@ import React, { useEffect, useState } from "react";
 import { PotionHouse } from "features/game/expansion/components/potions/PotionHouse";
 import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
-import {
-  SpeakingModal,
-  SpeakingText,
-} from "features/game/components/SpeakingModal";
+import { SpeakingModal } from "features/game/components/SpeakingModal";
 import { NPC_WEARABLES } from "lib/npcs";
 import { AuctionHouseModal } from "./AuctionHouseModal";
 import { BoatModal } from "./BoatModal";
 import { PlazaBanner } from "./PlazaBanner";
-import { OuterPanel, Panel } from "components/ui/Panel";
+import { OuterPanel } from "components/ui/Panel";
 import { NyeButton } from "./NyeButton";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { BasicTreasureChest } from "./chests/BasicTreasureChest";
@@ -34,6 +31,7 @@ import { Champions } from "./factions/Champions";
 import { KingdomNoticeboard } from "./kingdom/KingdomNoticeboard";
 import { FactionNoticeboard } from "./factions/FactionNoticeboard";
 import { CropsAndChickens } from "./portals/CropsAndChickens";
+import { FruitDash } from "./portals/FruitDash";
 import { DesertNoticeboard } from "./beach/DesertNoticeboard";
 import { PirateChestModal } from "./chests/PirateChest";
 import { ExampleDonations } from "./donations/ExampleDonations";
@@ -46,7 +44,6 @@ type InteractableName =
   | "faction_intro"
   | "vip_chest"
   | "weekly_faction_prize"
-  | "faction_launch"
   | "donations"
   | "garbage_collector"
   | "basic_chest"
@@ -106,6 +103,7 @@ type InteractableName =
   | "sunflorians_faction"
   | "chicken_rescue"
   | "crops_and_chickens"
+  | "fruit_dash"
   | "festival_of_colors"
   // to replace pledge factions
   | "join_goblins"
@@ -463,6 +461,15 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
         </CloseButtonPanel>
       </Modal>
 
+      <Modal show={interactable === "fruit_dash"} onHide={closeModal}>
+        <CloseButtonPanel
+          onClose={closeModal}
+          bumpkinParts={NPC_WEARABLES["felga"]}
+        >
+          <FruitDash onClose={closeModal} />
+        </CloseButtonPanel>
+      </Modal>
+
       <Modal show={interactable === "festival_of_colors"} onHide={closeModal}>
         <CloseButtonPanel
           onClose={closeModal}
@@ -583,7 +590,7 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
                   },
                 },
                 {
-                  text: t("interactableModals.guildHouse.budsCollection"),
+                  text: t("opensea"),
                   cb: () => {
                     window.open(
                       "https://opensea.io/collection/sunflower-land-buds",
@@ -667,19 +674,6 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
       </Modal>
       <Modal show={interactable === "nye_button"} onHide={closeModal}>
         <NyeButton onClose={closeModal} />
-      </Modal>
-
-      <Modal show={interactable === "faction_launch"} onHide={closeModal}>
-        <Panel>
-          <SpeakingText
-            message={[
-              {
-                text: t("faction.openingSoon"),
-              },
-            ]}
-            onClose={closeModal}
-          />
-        </Panel>
       </Modal>
 
       <Modal show={interactable === "fan_art"} onHide={closeModal}>

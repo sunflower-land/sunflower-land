@@ -111,9 +111,18 @@ export const Portal: React.FC<Props> = ({ portalName, onClose }) => {
       return;
     }
 
-    if (event.data.event === "played") {
-      // Purchase the item
-      gameService.send("minigame.played", {
+    if (event.data.event === "attemptStarted") {
+      // Start the minigame attempt
+      gameService.send("minigame.attemptStarted", {
+        id: portalName,
+      });
+      gameService.send("SAVE");
+      return;
+    }
+
+    if (event.data.event === "scoreSubmitted") {
+      // Submit the minigame score
+      gameService.send("minigame.scoreSubmitted", {
         score: event.data.score,
         id: portalName,
       });

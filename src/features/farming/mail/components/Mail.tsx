@@ -1,4 +1,4 @@
-import { useActor } from "@xstate/react";
+import { useSelector } from "@xstate/react";
 import { ButtonPanel } from "components/ui/Panel";
 import { Context } from "features/game/GameProvider";
 import React, { useContext } from "react";
@@ -6,11 +6,15 @@ import { NPCFixed } from "features/island/bumpkin/components/NPC";
 import { NPCName, NPC_WEARABLES } from "lib/npcs";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { getKeys } from "features/game/types/craftables";
-import chest from "assets/icons/chest.png";
+import giftIcon from "assets/icons/gift.png";
 import letter from "assets/icons/letter.png";
 
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Announcements } from "features/game/types/announcements";
+import classNames from "classnames";
+import { MachineState } from "features/game/lib/gameMachine";
+
+const _mailboxRead = (state: MachineState) => state.context.state.mailbox.read;
 
 interface Props {
   setSelected: (name?: string) => void;
@@ -18,20 +22,27 @@ interface Props {
 }
 export const Mail: React.FC<Props> = ({ setSelected, announcements }) => {
   const { gameService } = useContext(Context);
-  const [gameState] = useActor(gameService);
+  const mailboxRead = useSelector(gameService, _mailboxRead);
+
   const { t } = useAppTranslation();
 
-  let ids = gameState.context.state.mailbox.read.map((item) => item.id);
+  let ids = mailboxRead.map((item) => item.id);
 
   const announcementIds: string[] = getKeys(announcements)
-    // Ensure they haven't read it already
+    // ensure they haven't read it already
     .filter((id) => !ids.find((readId) => readId === id));
 
   ids = [...announcementIds, ...ids];
   if (ids.length === 0) {
     return (
       <div className="flex items-center justify-center flex-col">
-        <img src={letter} className="w-32 my-2" />
+        <img
+          src={letter}
+          className="my-2"
+          style={{
+            width: `${PIXEL_SCALE * 14}px`,
+          }}
+        />
         <p className="mb-2 text-sm">{t("no.mail")}</p>
       </div>
     );
@@ -40,9 +51,7 @@ export const Mail: React.FC<Props> = ({ setSelected, announcements }) => {
   const open = (id: string) => {
     setSelected(id);
 
-    const read = gameState.context.state.mailbox.read.find(
-      (item) => item.id === id,
-    );
+    const read = mailboxRead.find((item) => item.id === id);
 
     const details = announcements[id];
 
@@ -63,9 +72,11 @@ export const Mail: React.FC<Props> = ({ setSelected, announcements }) => {
           return null;
         }
 
-        const isRead = gameState.context.state.mailbox.read.find(
-          (item) => item.id === id,
-        );
+        const isRead = mailboxRead.find((item) => item.id === id);
+
+        const showUnreadDot = !isRead && !details.reward;
+        const showGiftIcon = !isRead && !!details.reward;
+
         return (
           <ButtonPanel
             key={id}
@@ -79,17 +90,28 @@ export const Mail: React.FC<Props> = ({ setSelected, announcements }) => {
               />
             </div>
             <div>
-              <p className="text-sm">{details.headline}</p>
+              <p
+                className={classNames("text-sm", {
+                  "mr-4": showUnreadDot,
+                  "mr-10": showGiftIcon,
+                })}
+              >
+                {details.headline}
+              </p>
               <p className="text-xs capitalize underline">{details.from}</p>
             </div>
-            {!isRead && !details.reward && (
+            {showUnreadDot && (
               <div className="bg-blue-500 border-1 border-white w-3 h-3 rounded-full absolute right-1 top-1" />
             )}
-            {!isRead && !!details.reward && (
-              <img
-                src={chest}
-                className="w-6 animate-pulsate img-highlight-heavy absolute right-1 top-1"
-              />
+            {showGiftIcon && (
+              <div className="absolute flex items-center h-full top-0 right-1">
+                <img
+                  src={giftIcon}
+                  style={{
+                    width: `${PIXEL_SCALE * 12}px`,
+                  }}
+                />
+              </div>
             )}
           </ButtonPanel>
         );

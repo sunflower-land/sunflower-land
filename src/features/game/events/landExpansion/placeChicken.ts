@@ -1,7 +1,7 @@
 import { getKeys } from "features/game/types/craftables";
-import cloneDeep from "lodash.clonedeep";
 import { GameState } from "../../types/game";
 import { getSupportedChickens } from "./utils";
+import { produce } from "immer";
 
 export type PlaceChickenAction = {
   type: "chicken.placed";
@@ -23,37 +23,38 @@ export function placeChicken({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  const stateCopy = cloneDeep(state);
-  const bumpkin = stateCopy.bumpkin;
+  return produce(state, (stateCopy) => {
+    const bumpkin = stateCopy.bumpkin;
 
-  if (bumpkin === undefined) {
-    throw new Error("You do not have a Bumpkin!");
-  }
+    if (bumpkin === undefined) {
+      throw new Error("You do not have a Bumpkin!");
+    }
 
-  const placedChickens = getKeys(stateCopy.chickens).filter(
-    (index) => stateCopy.chickens[index].coordinates,
-  ).length;
+    const placedChickens = getKeys(stateCopy.chickens).filter(
+      (index) => stateCopy.chickens[index].coordinates,
+    ).length;
 
-  if (stateCopy.inventory.Chicken?.lte(placedChickens)) {
-    throw new Error("You do not have any available chickens");
-  }
+    if (stateCopy.inventory.Chicken?.lte(placedChickens)) {
+      throw new Error("You do not have any available chickens");
+    }
 
-  const availableSpots = getSupportedChickens(stateCopy);
+    const availableSpots = getSupportedChickens(stateCopy);
 
-  if (placedChickens === availableSpots) {
-    throw new Error("Insufficient space for more chickens");
-  }
+    if (placedChickens === availableSpots) {
+      throw new Error("Insufficient space for more chickens");
+    }
 
-  const chickens: GameState["chickens"] = {
-    ...stateCopy.chickens,
-    [action.id]: {
-      multiplier: 1,
-      coordinates: action.coordinates,
-    },
-  };
+    const chickens: GameState["chickens"] = {
+      ...stateCopy.chickens,
+      [action.id]: {
+        multiplier: 1,
+        coordinates: action.coordinates,
+      },
+    };
 
-  return {
-    ...stateCopy,
-    chickens,
-  };
+    return {
+      ...stateCopy,
+      chickens,
+    };
+  });
 }

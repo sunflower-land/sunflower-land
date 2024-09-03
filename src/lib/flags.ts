@@ -45,7 +45,8 @@ export type FeatureName =
   | "DESERT_PLAZA"
   | "SKILLS_REVAMP"
   | "MARKETPLACE"
-  | "ONBOARDING_REWARDS";
+  | "ONBOARDING_REWARDS"
+  | "FRUIT_DASH";
 
 // Used for testing production features
 export const ADMIN_IDS = [1, 3, 51, 39488, 128727];
@@ -72,6 +73,7 @@ const featureFlags: Record<FeatureName, FeatureFlag> = {
   },
   CHAMPIONS: betaTimeBasedFeatureFlag(new Date("2024-07-15T00:00:00Z")),
   CROP_QUICK_SELECT: defaultFeatureFlag,
+  FRUIT_DASH: defaultFeatureFlag,
   CROPS_AND_CHICKENS: betaTimeBasedFeatureFlag(
     new Date("2024-08-07T00:00:00Z"),
   ),

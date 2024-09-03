@@ -457,7 +457,7 @@ export const FACTION_PRIZES: (
   // 11th - 25th all get marks + 5 seasonal tickets
   ...new Array(15)
     .fill({
-      coins: 500,
+      coins: 15000,
       sfl: 50,
       items: {
         Mark: 2500,
@@ -471,20 +471,36 @@ export const FACTION_PRIZES: (
       }),
       {},
     ),
-  // 26th - 50th all get 5 seasonal tickets
+  // 26th - 50th all get 4 seasonal tickets
   ...new Array(25)
     .fill({
-      coins: 500,
-      sfl: 50,
+      coins: 10000,
+      sfl: 0,
       items: {
         Mark: 1500,
-        [ticket]: ticketsEnabled ? 5 : 0,
+        [ticket]: ticketsEnabled ? 4 : 0,
       },
     })
     .reduce(
       (acc, item, index) => ({
         ...acc,
         [index + 26]: item,
+      }),
+      {},
+    ),
+  // 51st - 100th get coins and marks
+  ...new Array(50)
+    .fill({
+      coins: 5000,
+      sfl: 0,
+      items: {
+        Mark: 500,
+      },
+    })
+    .reduce(
+      (acc, item, index) => ({
+        ...acc,
+        [index + 51]: item,
       }),
       {},
     ),

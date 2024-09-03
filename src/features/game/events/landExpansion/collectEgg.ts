@@ -1,8 +1,8 @@
 import Decimal from "decimal.js-light";
 import { trackActivity } from "features/game/types/bumpkinActivity";
-import cloneDeep from "lodash.clonedeep";
 import { CHICKEN_TIME_TO_EGG } from "../../lib/constants";
 import { Chicken, GameState } from "../../types/game";
+import { produce } from "immer";
 
 export type LandExpansionCollectEggAction = {
   type: "chicken.collectEgg";
@@ -24,43 +24,44 @@ export function collectEggs({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  const stateCopy = cloneDeep(state);
-  const chickens = stateCopy.chickens || {};
-  const chicken = chickens[action.id];
+  return produce(state, (stateCopy) => {
+    const chickens = stateCopy.chickens || {};
+    const chicken = chickens[action.id];
 
-  if (stateCopy.bumpkin === undefined) {
-    throw new Error("You do not have a Bumpkin!");
-  }
+    if (stateCopy.bumpkin === undefined) {
+      throw new Error("You do not have a Bumpkin!");
+    }
 
-  if (!chicken) {
-    throw new Error("This chicken does not exist");
-  }
+    if (!chicken) {
+      throw new Error("This chicken does not exist");
+    }
 
-  if (!eggIsReady(chicken, createdAt)) {
-    throw new Error("This chicken hasn't layed an egg");
-  }
+    if (!eggIsReady(chicken, createdAt)) {
+      throw new Error("This chicken hasn't layed an egg");
+    }
 
-  const mutantChicken = chicken.reward?.items?.[0];
+    const mutantChicken = chicken.reward?.items?.[0];
 
-  delete chickens[action.id].fedAt;
+    delete chickens[action.id].fedAt;
 
-  stateCopy.bumpkin.activity = trackActivity(
-    "Egg Collected",
-    stateCopy.bumpkin.activity,
-  );
-
-  const currentEggs = stateCopy.inventory.Egg || new Decimal(0);
-
-  stateCopy.inventory.Egg = currentEggs.add(1 * chicken.multiplier);
-
-  if (mutantChicken) {
-    const mutantInInventory =
-      stateCopy.inventory[mutantChicken.name] || new Decimal(0);
-
-    stateCopy.inventory[mutantChicken.name] = mutantInInventory.add(
-      mutantChicken.amount,
+    stateCopy.bumpkin.activity = trackActivity(
+      "Egg Collected",
+      stateCopy.bumpkin.activity,
     );
-  }
 
-  return stateCopy;
+    const currentEggs = stateCopy.inventory.Egg || new Decimal(0);
+
+    stateCopy.inventory.Egg = currentEggs.add(1 * chicken.multiplier);
+
+    if (mutantChicken) {
+      const mutantInInventory =
+        stateCopy.inventory[mutantChicken.name] || new Decimal(0);
+
+      stateCopy.inventory[mutantChicken.name] = mutantInInventory.add(
+        mutantChicken.amount,
+      );
+    }
+
+    return stateCopy;
+  });
 }

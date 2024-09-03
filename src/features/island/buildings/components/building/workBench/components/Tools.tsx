@@ -39,6 +39,7 @@ export const Tools: React.FC<Props> = ({ onClose }) => {
 
   const selected = WORKBENCH_TOOLS[selectedName];
   const inventory = state.inventory;
+  const price = getToolPrice(selected, 1, state);
 
   const lessIngredients = (amount = 1) =>
     getKeys(selected.ingredients).some((name) =>
@@ -46,9 +47,9 @@ export const Tools: React.FC<Props> = ({ onClose }) => {
     );
 
   const lessFunds = (amount = 1) => {
-    if (!selected.price) return;
+    if (!price) return;
 
-    return state.coins < selected.price * amount;
+    return state.coins < price * amount;
   };
 
   const onToolClick = (toolName: WorkbenchToolName) => {
@@ -131,7 +132,7 @@ export const Tools: React.FC<Props> = ({ onClose }) => {
             item: selectedName,
           }}
           requirements={{
-            coins: getToolPrice(selected, 1, state),
+            coins: price,
             resources: selected.ingredients,
           }}
           actionView={getAction()}

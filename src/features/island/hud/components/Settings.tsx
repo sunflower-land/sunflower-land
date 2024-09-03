@@ -34,9 +34,8 @@ export const Settings: React.FC<Props> = ({ isFarming }) => {
 
   const button = useSound("button");
 
-  // The actions included in this more buttons should not be shown if the player is in goblin retreat or visiting another farm
-  const showLimitedButtons =
-    pathname.includes("retreat") || pathname.includes("visit");
+  // The actions included in this more buttons should not be shown if the player is visiting another farm
+  const showLimitedButtons = pathname.includes("visit");
 
   const cogRef = useRef<HTMLDivElement>(null);
 
