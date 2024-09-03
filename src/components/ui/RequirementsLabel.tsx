@@ -13,7 +13,6 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { formatNumber } from "lib/utils/formatNumber";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { BumpkinItem } from "features/game/types/bumpkin";
-import { isWearableActive } from "features/game/lib/wearables";
 import { useActor } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
 
@@ -251,10 +250,7 @@ export const RequirementLabel: React.FC<Props> = (props) => {
 
   const labelType = () => {
     if (props.type === "wearable") {
-      if (
-        requirementMet &&
-        !isWearableActive({ game: state, name: props.requirement })
-      ) {
+      if (requirementMet) {
         return "success";
       }
       return "danger";
@@ -273,16 +269,16 @@ export const RequirementLabel: React.FC<Props> = (props) => {
       <div className="flex items-center">
         {!props.hideIcon && <SquareIcon icon={getIcon()} width={7} />}
         {props.type === "sfl" && props.showLabel && (
-          <span className="text-xs ml-1 ">{"SFL"}</span>
+          <span className="text-xs ml-1">{"SFL"}</span>
         )}
         {props.type === "item" && props.showLabel && (
-          <span className="text-xs ml-1 ">{props.item}</span>
+          <span className="text-xs ml-1">{props.item}</span>
         )}
         {props.type === "wearable" && props.showLabel && (
-          <span className="text-xs ml-1 ">{props.item}</span>
+          <span className="text-xs ml-1">{props.item}</span>
         )}
         {props.type === "coins" && props.showLabel && (
-          <span className="text-xs ml-1 ">{t("coins")}</span>
+          <span className="text-xs ml-1">{t("coins")}</span>
         )}
       </div>
 
@@ -293,8 +289,7 @@ export const RequirementLabel: React.FC<Props> = (props) => {
         type={labelType()}
         secondaryIcon={
           props.type === "wearable"
-            ? requirementMet &&
-              !isWearableActive({ game: state, name: props.requirement })
+            ? requirementMet
               ? SUNNYSIDE.icons.confirm
               : SUNNYSIDE.icons.cancel
             : undefined

@@ -5,6 +5,8 @@ import { setPrecision } from "lib/utils/formatNumber";
 
 import bg from "assets/ui/input_box_border.png";
 import activeBg from "assets/ui/active_input_box_border.png";
+import { SquareIcon } from "./SquareIcon";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 
 const VALID_INTEGER = new RegExp(/^\d+$/);
 
@@ -47,19 +49,17 @@ export const NumberInput: React.FC<Props> = ({
   }, [value]);
 
   return (
-    <div className="relative">
+    <div className="relative w-full">
       <input
         style={{
           textAlign: isRightAligned ? "right" : "left",
-          fontSize: "36px",
           borderStyle: "solid",
           borderImage: `url(${isFocused ? activeBg : bg})`,
-          borderWidth: `10px 10px 10px 10px`,
+          borderWidth: `${PIXEL_SCALE * 4}px`,
           borderImageSlice: isFocused ? "4 fill" : "4 4 4 4 fill",
-          padding: isFocused ? "2px" : 0,
+          padding: 0,
           imageRendering: "pixelated",
           borderImageRepeat: "stretch",
-          // borderRadius: `${PIXEL_SCALE * 5}px`,
           outline: "none",
         }}
         type="number"
@@ -95,11 +95,9 @@ export const NumberInput: React.FC<Props> = ({
         )}
       />
       {icon && (
-        <img
-          src={icon}
-          style={{ height: "24px" }}
-          className="absolute right-3 top-2"
-        />
+        <div className="absolute flex flex-row items-center mx-2 pointer-events-none h-full top-0 right-0">
+          <SquareIcon icon={icon} width={10} />
+        </div>
       )}
     </div>
   );

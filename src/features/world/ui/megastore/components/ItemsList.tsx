@@ -64,7 +64,9 @@ export const ItemsList: React.FC<Props> = ({
     return ITEM_DETAILS[currencyItem as InventoryItemName].image;
   };
 
-  const sortedItems = items.sort((a, b) => Number(a.price.sub(b.price)));
+  const sortedItems = items
+    .slice()
+    .sort((a, b) => Number(a.price.sub(b.price)));
   const { t } = useAppTranslation();
 
   return (

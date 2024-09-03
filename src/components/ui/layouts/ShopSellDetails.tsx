@@ -4,7 +4,6 @@ import React from "react";
 import { RequirementLabel } from "../RequirementsLabel";
 import { SquareIcon } from "../SquareIcon";
 import Decimal from "decimal.js-light";
-import { translateTerms } from "lib/i18n/translate";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { formatDateRange } from "lib/utils/time";
 import { Label } from "../Label";
@@ -53,7 +52,7 @@ export const ShopSellDetails: React.FC<Props> = ({
     const item = ITEM_DETAILS[details.item];
     const icon = item.image;
     const title = details.item;
-    const description = translateTerms(item.description);
+    const description = item.description;
 
     return (
       <>
