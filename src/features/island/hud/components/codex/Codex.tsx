@@ -191,8 +191,7 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
                         type="default"
                         className="absolute -top-3 left-3 z-10"
                         style={{
-                          paddingLeft: "2.5px",
-                          paddingRight: "1.5px",
+                          padding: "0 2.5",
                           height: "24px",
                         }}
                       >
