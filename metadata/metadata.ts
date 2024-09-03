@@ -9289,7 +9289,6 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     description: "A mean looking camel!",
     decimals: 0,
     attributes: [
-      { trait_type: "Purpose", value: "Boost" },
       { trait_type: "Tradable", value: "Yes" },
       { trait_type: "Boost", value: "Treasure" },
       {
@@ -12074,7 +12073,8 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
     name: "Coconut Mask",
   },
   "Crab Trap": {
-    description: "A decorative trap for catching crabs and other crustaceans.",
+    description:
+      "A handcrafted trap, designed for those who desire to catch an additional crab when digging or drilling.",
     decimals: 0,
     attributes: [
       { trait_type: "Part", value: "SecondaryTool" },
