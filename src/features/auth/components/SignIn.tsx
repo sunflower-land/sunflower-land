@@ -163,33 +163,8 @@ const MainWallets: React.FC<Props & Page> = ({
 }) => {
   const { t } = useAppTranslation();
 
-  const { connectors } = useConnect();
-
-  const eip6963Connectors = connectors.filter(
-    (connector) => connector.type === "injected" && !!connector.icon,
-  );
-
   return (
     <>
-      <>
-        {eip6963Connectors
-          .filter((connector) => connector.name !== "MetaMask")
-          .map((connector) => (
-            <Button
-              className="mb-1 py-2 text-sm relative"
-              onClick={() => onConnect(connector)}
-              key={connector.name}
-            >
-              <div className="px-8">
-                <img
-                  src={connector.icon}
-                  className="h-7 ml-2.5 mr-6 absolute left-0 top-1 rounded-sm"
-                />
-                {connector.name}
-              </div>
-            </Button>
-          ))}
-      </>
       <Button
         className="mb-1 py-2 text-sm relative justify-start"
         onClick={() => onConnect(metaMaskConnector)}
@@ -314,6 +289,25 @@ export const Wallets: React.FC<Props> = ({ onConnect, showAll = true }) => {
           </div>
         </Button>
       )}
+      <>
+        {eip6963Connectors
+          .filter((connector) => connector.name !== "MetaMask")
+          .map((connector) => (
+            <Button
+              className="mb-1 py-2 text-sm relative"
+              onClick={() => onConnect(connector)}
+              key={connector.name}
+            >
+              <div className="px-8">
+                <img
+                  src={connector.icon}
+                  className="h-7 ml-2.5 mr-6 absolute left-0 top-1 rounded-sm"
+                />
+                {connector.name}
+              </div>
+            </Button>
+          ))}
+      </>
       {isBitget && (
         <Button
           className="mb-1 py-2 text-sm relative"
