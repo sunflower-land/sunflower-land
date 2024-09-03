@@ -169,25 +169,8 @@ const MainWallets: React.FC<Props & Page> = ({
     (connector) => connector.type === "injected" && !!connector.icon,
   );
 
-  // There is an injected provider, but it's not showing up in EIP-6963
-  const showFallback = !!window.ethereum && eip6963Connectors.length === 0;
-
   return (
     <>
-      {showFallback && (
-        <Button
-          className="mb-1 py-2 text-sm relative"
-          onClick={() => onConnect(fallbackConnector)}
-        >
-          <div className="px-8">
-            <img
-              src={world}
-              className="w-7 h-7 mobile:w-6 mobile:h-6  ml-2 mr-6 absolute left-0 top-1"
-            />
-            {"Web3 Wallet"}
-          </div>
-        </Button>
-      )}
       <>
         {eip6963Connectors
           .filter((connector) => connector.name !== "MetaMask")
@@ -298,6 +281,8 @@ export const Wallets: React.FC<Props> = ({ onConnect, showAll = true }) => {
   const isPWA = useIsPWA();
   const isMobilePWA = isMobile && isPWA;
 
+  const { connectors } = useConnect();
+
   if (isMobilePWA) {
     return <PWAWallets onConnect={onConnect} showAll={showAll} />;
   }
@@ -306,8 +291,29 @@ export const Wallets: React.FC<Props> = ({ onConnect, showAll = true }) => {
   const isEarnAlliance = getPromoCode() === "EARN";
   const isBitget = getPromoCode() === "BITGET";
 
+  const eip6963Connectors = connectors.filter(
+    (connector) => connector.type === "injected" && !!connector.icon,
+  );
+
+  // There is an injected provider, but it's not showing up in EIP-6963
+  const showFallback = !!window.ethereum && eip6963Connectors.length === 0;
+
   return (
     <>
+      {showFallback && (
+        <Button
+          className="mb-1 py-2 text-sm relative"
+          onClick={() => onConnect(fallbackConnector)}
+        >
+          <div className="px-8">
+            <img
+              src={world}
+              className="w-7 h-7 mobile:w-6 mobile:h-6  ml-2 mr-6 absolute left-0 top-1"
+            />
+            {"Web3 Wallet"}
+          </div>
+        </Button>
+      )}
       {isBitget && (
         <Button
           className="mb-1 py-2 text-sm relative"
