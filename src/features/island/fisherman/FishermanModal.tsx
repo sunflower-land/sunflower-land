@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useState } from "react";
 import { useActor, useSelector } from "@xstate/react";
 
 import { SUNNYSIDE } from "assets/sunnyside";
-import plus from "assets/icons/plus.png";
 import lightning from "assets/icons/lightning.png";
 import fullMoon from "assets/icons/full_moon.png";
 import { Box } from "components/ui/Box";
@@ -37,6 +36,8 @@ import {
   getBasketItems,
   getChestItems,
 } from "../hud/components/inventory/utils/inventory";
+import { PIXEL_SCALE } from "features/game/lib/constants";
+import { SquareIcon } from "components/ui/SquareIcon";
 
 const host = window.location.host.replace(/^www\./, "");
 const LOCAL_STORAGE_KEY = `fisherman-read.${host}-${window.location.pathname}`;
@@ -303,14 +304,18 @@ const BaitSelection: React.FC<{
       </div>
       <InnerPanel className="mb-1">
         {chum ? (
-          <div className="flex items-center justify-between mb-1">
-            <div className="flex items-center">
-              <img src={ITEM_DETAILS[chum].image} className="h-5 mr-1" />
+          <div className="flex items-center justify-between gap-1 mx-0.5">
+            <div className="flex items-center gap-1">
+              <SquareIcon icon={ITEM_DETAILS[chum].image} width={7} />
               <Label type="default">{`Chum - ${CHUM_AMOUNTS[chum]} ${chum}`}</Label>
             </div>
             <img
               src={SUNNYSIDE.icons.cancel}
-              className="h-5 pr-0.5 cursor-pointer"
+              className="cursor-pointer"
+              style={{
+                width: `${PIXEL_SCALE * 11}px`,
+                height: `${PIXEL_SCALE * 11}px`,
+              }}
               onClick={() => {
                 setChum(undefined);
                 localStorage.removeItem("lastSelectedChum");
@@ -318,23 +323,23 @@ const BaitSelection: React.FC<{
             />
           </div>
         ) : (
-          <div className="p-1 flex justify-between items-center flex-1 w-full">
-            <div className="flex">
-              <img
-                src={SUNNYSIDE.icons.expression_confused}
-                className="h-4 mr-2"
+          <div className="flex items-center justify-between gap-1 mx-0.5">
+            <div className="flex items-center gap-1">
+              <SquareIcon
+                icon={SUNNYSIDE.icons.expression_confused}
+                width={7}
               />
               <p className="text-xs mb-1">{t("fishermanModal.attractFish")}</p>
             </div>
-            <Button
-              disabled={fishingLimitReached}
-              className={`h-[30px] w-[40px]`}
+            <img
+              src={SUNNYSIDE.icons.plus}
+              className="cursor-pointer"
+              style={{
+                width: `${PIXEL_SCALE * 10}px`,
+                height: `${PIXEL_SCALE * 10}px`,
+              }}
               onClick={() => setShowChum(true)}
-            >
-              <div className="flex items-center">
-                <img src={plus} className="w-8 mt-1" />
-              </div>
-            </Button>
+            />
           </div>
         )}
       </InnerPanel>

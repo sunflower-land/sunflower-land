@@ -22,7 +22,6 @@ import {
   getOilTimeInMillis,
   getTotalOilMillisInMachine,
 } from "features/game/events/landExpansion/supplyCropMachine";
-import add from "assets/icons/plus.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import oilBarrel from "assets/icons/oil_barrel.webp";
 import { Button } from "components/ui/Button";
@@ -313,7 +312,11 @@ export const CropMachineModal: React.FC<Props> = ({
               <div className="flex flex-col w-full">
                 {!selectedSeed ? (
                   <>
-                    <Label type="default" icon={add} className="ml-2.5 my-1">
+                    <Label
+                      type="default"
+                      icon={SUNNYSIDE.icons.plus}
+                      className="ml-2.5 my-1"
+                    >
                       {t("cropMachine.pickSeed")}
                     </Label>
                     <div className="flex">
@@ -483,7 +486,7 @@ export const CropMachineModal: React.FC<Props> = ({
                   return (
                     <Box
                       key={index}
-                      image={add}
+                      image={SUNNYSIDE.icons.plus}
                       onClick={() => setSelectedPackIndex(index)}
                       isSelected={index === selectedPackIndex}
                     />
