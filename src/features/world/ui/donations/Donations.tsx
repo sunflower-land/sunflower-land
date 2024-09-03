@@ -85,7 +85,7 @@ export const Donations: React.FC<Props> = ({
                 </Button>
               </div>
               <span className="text-xs font-secondary my-2">
-                {t("amount.matic")}
+                {t("amount.pol")}
               </span>
             </div>
 

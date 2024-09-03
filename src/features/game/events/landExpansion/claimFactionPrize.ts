@@ -1,7 +1,7 @@
 import Decimal from "decimal.js-light";
 import { getKeys } from "features/game/types/craftables";
 import { GameState } from "features/game/types/game";
-import cloneDeep from "lodash.clonedeep";
+import { produce } from "immer";
 
 export type ClaimFactionPrizeAction = {
   type: "faction.prizeClaimed";
@@ -19,28 +19,28 @@ export function claimFactionPrize({
   action,
   createdAt = Date.now(),
 }: Options) {
-  const game: GameState = cloneDeep(state);
+  return produce(state, (game) => {
+    const week = game.faction?.history?.[action.week];
+    if (!week?.results?.reward) {
+      throw new Error(`Prize not found for week ${action.week}`);
+    }
 
-  const week = game.faction?.history?.[action.week];
-  if (!week?.results?.reward) {
-    throw new Error(`Prize not found for week ${action.week}`);
-  }
+    if (week.results.claimedAt) {
+      throw new Error(`Prize already claimed`);
+    }
 
-  if (week.results.claimedAt) {
-    throw new Error(`Prize already claimed`);
-  }
+    const reward = week.results.reward;
 
-  const reward = week.results.reward;
+    game.balance = game.balance.add(reward.sfl);
+    game.coins = game.coins + reward.coins;
 
-  game.balance = game.balance.add(reward.sfl);
-  game.coins = game.coins + reward.coins;
+    getKeys(reward.items).forEach((name) => {
+      const previous = game.inventory[name] ?? new Decimal(0);
+      game.inventory[name] = previous.add(reward.items[name] ?? 0);
+    });
 
-  getKeys(reward.items).forEach((name) => {
-    const previous = game.inventory[name] ?? new Decimal(0);
-    game.inventory[name] = previous.add(reward.items[name] ?? 0);
+    week.results.claimedAt = createdAt;
+
+    return game;
   });
-
-  week.results.claimedAt = createdAt;
-
-  return game;
 }

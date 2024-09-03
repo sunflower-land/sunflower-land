@@ -15,7 +15,6 @@ import bg from "assets/ui/3x3_bg.png";
 import walletIcon from "assets/icons/wallet.png";
 import sflIcon from "assets/icons/sfl.webp";
 import tradeIcon from "assets/icons/trade.png";
-import increaseArrow from "assets/icons/increase_arrow.png";
 
 import { Label } from "components/ui/Label";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -23,14 +22,18 @@ import { Button } from "components/ui/Button";
 import { PriceHistory } from "./PriceHistory";
 import { TradeTable } from "./TradeTable";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { TradeableOffers, YourOffer } from "./TradeableOffers";
+import { Context } from "features/game/GameProvider";
 
 export const Tradeable: React.FC = () => {
   const { authService } = useContext(Auth.Context);
   const [authState] = useActor(authService);
+  const { gameService } = useContext(Context);
+  const [gameState] = useActor(gameService);
 
   const { t } = useAppTranslation();
 
-  const farmId = 1; // TODO
+  const farmId = gameState.context.farmId;
 
   const { collection, id } = useParams<{
     collection: CollectionName;
@@ -40,21 +43,23 @@ export const Tradeable: React.FC = () => {
 
   const [tradeable, setTradeable] = useState<TradeableDetails | null>();
 
+  const load = async () => {
+    try {
+      setTradeable(undefined);
+
+      const data = await loadTradeable({
+        type: collection as CollectionName,
+        id: Number(id),
+        token: authState.context.user.rawToken as string,
+      });
+
+      setTradeable(data);
+    } catch {
+      setTradeable(null);
+    }
+  };
+
   useEffect(() => {
-    const load = async () => {
-      try {
-        const data = await loadTradeable({
-          type: collection as CollectionName,
-          id: Number(id),
-          token: authState.context.user.rawToken as string,
-        });
-
-        setTradeable(data);
-      } catch {
-        setTradeable(null);
-      }
-    };
-
     load();
   }, []);
 
@@ -95,11 +100,23 @@ export const Tradeable: React.FC = () => {
           />
         </div>
 
+        <YourOffer
+          onOfferRemoved={load}
+          collection={collection as CollectionName}
+          id={Number(id)}
+        />
+
         <PriceHistory />
 
         <Listings tradeable={tradeable} farmId={farmId} />
 
-        <Offers tradeable={tradeable} farmId={farmId} />
+        <TradeableOffers
+          id={Number(id)}
+          tradeable={tradeable}
+          display={display}
+          farmId={farmId}
+          onOfferMade={load}
+        />
       </div>
     </div>
   );
@@ -246,72 +263,5 @@ const Listings: React.FC<{
         </div>
       </div>
     </InnerPanel>
-  );
-};
-
-const Offers: React.FC<{
-  tradeable?: TradeableDetails;
-  farmId: number;
-}> = ({ tradeable, farmId }) => {
-  const { t } = useAppTranslation();
-
-  const topOffer = tradeable?.offers.reduce((highest, listing) => {
-    return listing.sfl > highest.sfl ? listing : highest;
-  }, tradeable?.offers?.[0]);
-
-  return (
-    <>
-      {topOffer && (
-        <InnerPanel className="mb-1">
-          <div className="p-2">
-            <div className="flex justify-between mb-2">
-              <Label type="default" icon={increaseArrow}>
-                {t("marketplace.topOffer")}
-              </Label>
-              <Label
-                type="chill"
-                icon={SUNNYSIDE.icons.player}
-              >{`#${topOffer.offeredById}`}</Label>
-            </div>
-            <div className="flex items-center justify-between">
-              <div className="flex items-center">
-                <img src={sflIcon} className="h-8 mr-2" />
-                <p className="text-base">{`${topOffer.sfl} SFL`}</p>
-              </div>
-              <Button className="w-fit">{t("marketplace.makeOffer")}</Button>
-            </div>
-          </div>
-        </InnerPanel>
-      )}
-
-      <InnerPanel className="mb-1">
-        <div className="p-2">
-          <Label icon={tradeIcon} type="default" className="mb-2">
-            {t("marketplace.offers")}
-          </Label>
-          <div className="mb-2">
-            {!tradeable && <Loading />}
-            {tradeable?.offers.length === 0 && (
-              <p className="text-sm">{t("marketplace.noOffers")}</p>
-            )}
-            {!!tradeable?.offers.length && (
-              <TradeTable
-                items={tradeable.offers.map((offer) => ({
-                  price: offer.sfl,
-                  expiresAt: "30 days", // TODO,
-                  createdById: offer.offeredById,
-                }))}
-                id={farmId}
-              />
-            )}
-          </div>
-          <div className="w-full justify-end flex">
-            <Button className="w-full sm:w-fit">
-              {t("marketplace.makeOffer")}
-            </Button>
-          </div>
-        </div>
-      </InnerPanel>
-    </>
   );
 };

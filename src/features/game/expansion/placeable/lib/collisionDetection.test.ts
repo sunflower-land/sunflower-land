@@ -1,13 +1,13 @@
 import Decimal from "decimal.js-light";
 import { TEST_FARM } from "features/game/lib/constants";
 import { GameState, Position } from "features/game/types/game";
-import cloneDeep from "lodash.clonedeep";
 import {
   detectCollision,
   isOverlapping,
   isWithinAOE,
 } from "./collisionDetection";
 import { Dimensions } from "features/game/types/buildings";
+import cloneDeep from "lodash.clonedeep";
 
 describe("isOverlapping", () => {
   it("returns false if there is no overlap between two positions", () => {

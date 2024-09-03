@@ -15,10 +15,13 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { Button } from "components/ui/Button";
 import { shortAddress } from "lib/utils/shortAddress";
 import { NFTMigrating, NFTMinting, NFTWaiting } from "./components/NFTMinting";
-import { WalletContext } from "./WalletProvider";
+import { WalletContext, config } from "./WalletProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Loading } from "features/auth/components";
 import { PortalContext } from "features/portal/example/lib/PortalProvider";
+import { WagmiProvider, useAccount } from "wagmi";
+import { CONFIG } from "lib/config";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 interface Props {
   action: WalletAction;
@@ -35,7 +38,7 @@ interface Props {
   wrapper?: React.FC;
 }
 
-export const Wallet: React.FC<Props> = ({
+const WrappedWallet: React.FC<Props> = ({
   action,
   onReady,
   children,
@@ -48,6 +51,34 @@ export const Wallet: React.FC<Props> = ({
   const [authState] = useActor(authService);
 
   const { walletService } = useContext(WalletContext);
+
+  const { address, chainId } = useAccount();
+
+  useEffect(() => {
+    const walletServiceAddress = walletService.state.context.address;
+
+    // Metamask Mobile accidentally triggers this on route changes
+    const didChange = address !== walletServiceAddress;
+    if (
+      didChange &&
+      (
+        ["initialising", "signing", "linking", "minting", "migrating"] as const
+      ).every((state) => !walletState.matches(state))
+    ) {
+      walletService.send("ACCOUNT_CHANGED");
+    }
+  }, [address]);
+
+  useEffect(() => {
+    if (
+      chainId !== CONFIG.POLYGON_CHAIN_ID &&
+      (
+        ["initialising", "signing", "linking", "minting", "migrating"] as const
+      ).every((state) => !walletState.matches(state))
+    ) {
+      walletService.send("CHAIN_CHANGED");
+    }
+  }, [chainId]);
 
   useEffect(() => {
     walletService.send("INITIALISE", {
@@ -119,9 +150,9 @@ export const Wallet: React.FC<Props> = ({
           )}
 
           <Wallets
-            onConnect={(chosenProvider) =>
+            onConnect={(connector) =>
               walletService.send("CONNECT_TO_WALLET", {
-                chosenProvider,
+                connector,
               })
             }
             // Once logged in, only show Metamask for simplicity
@@ -268,6 +299,16 @@ export const Wallet: React.FC<Props> = ({
   return <Wrapper>{Content()}</Wrapper>;
 };
 
+const queryClient = new QueryClient();
+
+export const Wallet: React.FC<Props> = (props) => (
+  <WagmiProvider config={config}>
+    <QueryClientProvider client={queryClient}>
+      <WrappedWallet {...props} />
+    </QueryClientProvider>
+  </WagmiProvider>
+);
+
 export const GameWallet: React.FC<Props> = ({
   children,
   onReady,
@@ -394,9 +435,9 @@ export const PortalWallet: React.FC<Props> = ({
           )}
 
           <Wallets
-            onConnect={(chosenProvider) =>
+            onConnect={(connector) =>
               walletService.send("CONNECT_TO_WALLET", {
-                chosenProvider,
+                connector,
               })
             }
             // Once logged in, only show Metamask for simplicity

@@ -115,7 +115,6 @@ export const npcDialogues: Partial<Record<NPCName, DeliveryNPCDialogue>> = {
     intro: [
       translate("npcDialogues.oldSalty.intro1"),
       translate("npcDialogues.oldSalty.intro2"),
-      translate("npcDialogues.oldSalty.intro3"),
     ],
     positiveDelivery: [
       translate("npcDialogues.oldSalty.positiveDelivery1"),

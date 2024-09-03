@@ -34,7 +34,7 @@ import { InnerPanel } from "components/ui/Panel";
 import { ConfirmationModal } from "components/ui/ConfirmationModal";
 import { HourglassType } from "features/island/collectibles/components/Hourglass";
 import { EXPIRY_COOLDOWNS } from "features/game/lib/collectibleBuilt";
-import { LandscapeTerms } from "lib/i18n/dictionaries/types";
+import { TranslationKeys } from "lib/i18n/dictionaries/types";
 
 const imageDomain = CONFIG.NETWORK === "mainnet" ? "buds" : "testnet-buds";
 
@@ -96,7 +96,7 @@ const PanelContent: React.FC<PanelContentProps> = ({
   };
 
   const getResourceNodeCondition = (hourglass: TimeBasedConsumables) => {
-    const hourglassCondition: Record<TimeBasedConsumables, LandscapeTerms> = {
+    const hourglassCondition: Record<TimeBasedConsumables, TranslationKeys> = {
       "Blossom Hourglass": "landscape.hourglass.resourceNodeCondition.blossom",
       "Gourmet Hourglass": "landscape.hourglass.resourceNodeCondition.gourmet",
       "Harvest Hourglass": "landscape.hourglass.resourceNodeCondition.harvest",

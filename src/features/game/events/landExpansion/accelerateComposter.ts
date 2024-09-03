@@ -3,7 +3,7 @@ import {
   composterDetails,
 } from "features/game/types/composters";
 import { CompostBuilding, GameState } from "features/game/types/game";
-import cloneDeep from "lodash.clonedeep";
+import { produce } from "immer";
 import { translate } from "lib/i18n/translate";
 
 export type AccelerateComposterAction = {
@@ -22,42 +22,42 @@ export function accelerateComposter({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  const stateCopy = cloneDeep<GameState>(state);
+  return produce(state, (stateCopy) => {
+    const buildings = stateCopy.buildings[action.building] as CompostBuilding[];
+    if (!buildings) {
+      throw new Error(translate("error.composterNotExist"));
+    }
 
-  const buildings = stateCopy.buildings[action.building] as CompostBuilding[];
-  if (!buildings) {
-    throw new Error(translate("error.composterNotExist"));
-  }
+    const composter = buildings[0];
+    const producing = composter.producing;
 
-  const composter = buildings[0];
-  const producing = composter.producing;
+    if (!producing) {
+      throw new Error(translate("error.composterNotProducing"));
+    }
 
-  if (!producing) {
-    throw new Error(translate("error.composterNotProducing"));
-  }
+    if (createdAt > producing.readyAt) {
+      throw new Error(translate("error.composterAlreadyDone"));
+    }
 
-  if (createdAt > producing.readyAt) {
-    throw new Error(translate("error.composterAlreadyDone"));
-  }
+    if (composter.boost) {
+      throw new Error(translate("error.composterAlreadyBoosted"));
+    }
 
-  if (composter.boost) {
-    throw new Error(translate("error.composterAlreadyBoosted"));
-  }
+    const details = composterDetails[action.building];
+    if (!stateCopy.inventory.Egg?.gte(details.eggBoostRequirements)) {
+      throw new Error(translate("error.missingEggs"));
+    }
 
-  const details = composterDetails[action.building];
-  if (!stateCopy.inventory.Egg?.gte(details.eggBoostRequirements)) {
-    throw new Error(translate("error.missingEggs"));
-  }
+    // Subtract eggs
+    stateCopy.inventory.Egg = stateCopy.inventory.Egg.sub(
+      details.eggBoostRequirements,
+    );
 
-  // Subtract eggs
-  stateCopy.inventory.Egg = stateCopy.inventory.Egg.sub(
-    details.eggBoostRequirements,
-  );
+    // Subtract time
+    producing.readyAt -= details.eggBoostMilliseconds;
 
-  // Subtract time
-  producing.readyAt -= details.eggBoostMilliseconds;
+    composter.boost = { Egg: details.eggBoostRequirements };
 
-  composter.boost = { Egg: details.eggBoostRequirements };
-
-  return stateCopy;
+    return stateCopy;
+  });
 }

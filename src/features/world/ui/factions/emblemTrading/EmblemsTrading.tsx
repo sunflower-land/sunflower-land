@@ -87,7 +87,7 @@ export const EmblemsTrading: React.FC<Props> = ({ onClose, emblem }) => {
             text: t("faction.emblems.intro.one"),
           },
           {
-            text: t("faction.emblems.intro.three"),
+            text: t("faction.emblems.intro.two"),
           },
         ]}
         onClose={() => setShowIntro(false)}

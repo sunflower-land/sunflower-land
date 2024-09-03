@@ -3,7 +3,7 @@ import { canMine } from "features/game/expansion/lib/utils";
 import { SUNSTONE_RECOVERY_TIME } from "features/game/lib/constants";
 import { trackActivity } from "features/game/types/bumpkinActivity";
 import { GameState } from "features/game/types/game";
-import cloneDeep from "lodash.clonedeep";
+import { produce } from "immer";
 
 export type MineSunstoneAction = {
   type: "sunstoneRock.mined";
@@ -28,50 +28,51 @@ export function mineSunstone({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  const stateCopy = cloneDeep(state);
-  const { bumpkin } = stateCopy;
-  const { index } = action;
+  return produce(state, (stateCopy) => {
+    const { bumpkin } = stateCopy;
+    const { index } = action;
 
-  if (!bumpkin) {
-    throw new Error(EVENT_ERRORS.NO_BUMPKIN);
-  }
+    if (!bumpkin) {
+      throw new Error(EVENT_ERRORS.NO_BUMPKIN);
+    }
 
-  const sunstoneRock = stateCopy.sunstones[index];
+    const sunstoneRock = stateCopy.sunstones[index];
 
-  if (!sunstoneRock) {
-    throw new Error(EVENT_ERRORS.NO_SUNSTONE);
-  }
+    if (!sunstoneRock) {
+      throw new Error(EVENT_ERRORS.NO_SUNSTONE);
+    }
 
-  if (!canMine(sunstoneRock, SUNSTONE_RECOVERY_TIME, createdAt)) {
-    throw new Error(EVENT_ERRORS.STILL_RECOVERING);
-  }
+    if (!canMine(sunstoneRock, SUNSTONE_RECOVERY_TIME, createdAt)) {
+      throw new Error(EVENT_ERRORS.STILL_RECOVERING);
+    }
 
-  const toolAmount = stateCopy.inventory["Gold Pickaxe"] || new Decimal(0);
+    const toolAmount = stateCopy.inventory["Gold Pickaxe"] || new Decimal(0);
 
-  if (toolAmount.lessThan(1)) {
-    throw new Error(EVENT_ERRORS.NO_PICKAXES);
-  }
+    if (toolAmount.lessThan(1)) {
+      throw new Error(EVENT_ERRORS.NO_PICKAXES);
+    }
 
-  const sunstoneMined = sunstoneRock.stone.amount;
-  const amountInInventory = stateCopy.inventory.Sunstone || new Decimal(0);
+    const sunstoneMined = sunstoneRock.stone.amount;
+    const amountInInventory = stateCopy.inventory.Sunstone || new Decimal(0);
 
-  sunstoneRock.stone = {
-    minedAt: createdAt,
-    amount: 1,
-  };
+    sunstoneRock.stone = {
+      minedAt: createdAt,
+      amount: 1,
+    };
 
-  stateCopy.inventory["Gold Pickaxe"] = toolAmount.sub(1);
-  stateCopy.inventory.Sunstone = amountInInventory.add(sunstoneMined);
+    stateCopy.inventory["Gold Pickaxe"] = toolAmount.sub(1);
+    stateCopy.inventory.Sunstone = amountInInventory.add(sunstoneMined);
 
-  stateCopy.sunstones[index].minesLeft = sunstoneRock.minesLeft - 1;
+    stateCopy.sunstones[index].minesLeft = sunstoneRock.minesLeft - 1;
 
-  if (stateCopy.sunstones[index].minesLeft === 0) {
-    delete stateCopy.sunstones[index];
-    stateCopy.inventory["Sunstone Rock"] =
-      stateCopy.inventory["Sunstone Rock"]?.sub(1);
-  }
+    if (stateCopy.sunstones[index].minesLeft === 0) {
+      delete stateCopy.sunstones[index];
+      stateCopy.inventory["Sunstone Rock"] =
+        stateCopy.inventory["Sunstone Rock"]?.sub(1);
+    }
 
-  bumpkin.activity = trackActivity("Sunstone Mined", bumpkin.activity);
+    bumpkin.activity = trackActivity("Sunstone Mined", bumpkin.activity);
 
-  return stateCopy;
+    return stateCopy;
+  });
 }

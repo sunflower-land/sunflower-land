@@ -1,11 +1,10 @@
-import cloneDeep from "lodash.clonedeep";
-
 import { GameState } from "features/game/types/game";
 import {
   ResourceName,
   RESOURCE_DIMENSIONS,
 } from "features/game/types/resources";
 import Decimal from "decimal.js-light";
+import { produce } from "immer";
 
 export type PlaceFruitPatchAction = {
   type: "fruitPatch.placed";
@@ -28,25 +27,25 @@ export function placeFruitPatch({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  const game = cloneDeep(state) as GameState;
+  return produce(state, (game) => {
+    const available = (game.inventory["Fruit Patch"] || new Decimal(0)).minus(
+      Object.keys(game.fruitPatches).length,
+    );
 
-  const available = (game.inventory["Fruit Patch"] || new Decimal(0)).minus(
-    Object.keys(game.fruitPatches).length,
-  );
+    if (available.lt(1)) {
+      throw new Error("No fruit patches available");
+    }
 
-  if (available.lt(1)) {
-    throw new Error("No fruit patches available");
-  }
+    game.fruitPatches = {
+      ...game.fruitPatches,
+      [action.id as unknown as number]: {
+        createdAt: createdAt,
+        x: action.coordinates.x,
+        y: action.coordinates.y,
+        ...RESOURCE_DIMENSIONS["Fruit Patch"],
+      },
+    };
 
-  game.fruitPatches = {
-    ...game.fruitPatches,
-    [action.id as unknown as number]: {
-      createdAt: createdAt,
-      x: action.coordinates.x,
-      y: action.coordinates.y,
-      ...RESOURCE_DIMENSIONS["Fruit Patch"],
-    },
-  };
-
-  return game;
+    return game;
+  });
 }

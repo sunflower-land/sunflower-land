@@ -1,9 +1,9 @@
 import Decimal from "decimal.js-light";
 import { screenTracker } from "lib/utils/screen";
-import cloneDeep from "lodash.clonedeep";
 import { CROPS } from "../../types/crops";
 import { GameState, InventoryItemName } from "../../types/game";
 import { isReadyToHarvest } from "./harvest";
+import { produce } from "immer";
 
 export enum REMOVE_CROP_ERRORS {
   EMPTY_EXPANSION = "Expansion does not exist!",
@@ -29,50 +29,49 @@ type Options = {
 };
 
 export function removeCrop({ state, action, createdAt = Date.now() }: Options) {
-  const stateCopy = cloneDeep(state);
-  const { crops: plots, inventory } = stateCopy;
+  return produce(state, (stateCopy) => {
+    const { crops: plots, inventory } = stateCopy;
 
-  if (action.index < 0) {
-    throw new Error(REMOVE_CROP_ERRORS.EMPTY_PLOT);
-  }
+    if (action.index < 0) {
+      throw new Error(REMOVE_CROP_ERRORS.EMPTY_PLOT);
+    }
 
-  if (!Number.isInteger(action.index)) {
-    throw new Error(REMOVE_CROP_ERRORS.EMPTY_PLOT);
-  }
+    if (!Number.isInteger(action.index)) {
+      throw new Error(REMOVE_CROP_ERRORS.EMPTY_PLOT);
+    }
 
-  if (action.index >= Object.keys(plots).length) {
-    throw new Error(REMOVE_CROP_ERRORS.EMPTY_PLOT);
-  }
+    if (action.index >= Object.keys(plots).length) {
+      throw new Error(REMOVE_CROP_ERRORS.EMPTY_PLOT);
+    }
 
-  const plot = plots[action.index];
-  const crop = plot && plot.crop;
+    const plot = plots[action.index];
+    const crop = plot && plot.crop;
 
-  if (!crop) {
-    throw new Error(REMOVE_CROP_ERRORS.EMPTY_CROP);
-  }
+    if (!crop) {
+      throw new Error(REMOVE_CROP_ERRORS.EMPTY_CROP);
+    }
 
-  if (action.item !== "Shovel") {
-    throw new Error(REMOVE_CROP_ERRORS.NO_VALID_SHOVEL_SELECTED);
-  }
+    if (action.item !== "Shovel") {
+      throw new Error(REMOVE_CROP_ERRORS.NO_VALID_SHOVEL_SELECTED);
+    }
 
-  const shovelAmount = stateCopy.inventory.Shovel || new Decimal(0);
-  if (shovelAmount.lessThan(1)) {
-    throw new Error(REMOVE_CROP_ERRORS.NO_SHOVEL_AVAILABLE);
-  }
+    const shovelAmount = stateCopy.inventory.Shovel || new Decimal(0);
+    if (shovelAmount.lessThan(1)) {
+      throw new Error(REMOVE_CROP_ERRORS.NO_SHOVEL_AVAILABLE);
+    }
 
-  const cropDetails = CROPS[crop.name];
-  if (isReadyToHarvest(createdAt, crop, cropDetails)) {
-    throw new Error(REMOVE_CROP_ERRORS.READY_TO_HARVEST);
-  }
+    const cropDetails = CROPS[crop.name];
+    if (isReadyToHarvest(createdAt, crop, cropDetails)) {
+      throw new Error(REMOVE_CROP_ERRORS.READY_TO_HARVEST);
+    }
 
-  if (!screenTracker.calculate()) {
-    throw new Error(REMOVE_CROP_ERRORS.INVALID_PLANT);
-  }
+    if (!screenTracker.calculate()) {
+      throw new Error(REMOVE_CROP_ERRORS.INVALID_PLANT);
+    }
 
-  delete plot.crop;
+    delete plot.crop;
 
-  return {
-    ...stateCopy,
-    crops: plots,
-  } as GameState;
+    stateCopy.crops = plots;
+    return stateCopy;
+  });
 }

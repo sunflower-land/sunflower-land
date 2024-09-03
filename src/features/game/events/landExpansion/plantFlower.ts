@@ -10,12 +10,12 @@ import {
   isFlowerSeed,
 } from "features/game/types/flowers";
 import { GameState } from "features/game/types/game";
-import cloneDeep from "lodash.clonedeep";
 import { translate } from "lib/i18n/translate";
 import {
   isCollectibleActive,
   isCollectibleBuilt,
 } from "features/game/lib/collectibleBuilt";
+import { produce } from "immer";
 
 export type PlantFlowerAction = {
   type: "flower.planted";
@@ -76,68 +76,69 @@ export function plantFlower({
   action,
   createdAt = Date.now(),
 }: Options) {
-  const stateCopy: GameState = cloneDeep(state);
-  const { flowers, bumpkin } = stateCopy;
+  return produce(state, (stateCopy) => {
+    const { flowers, bumpkin } = stateCopy;
 
-  if (!bumpkin) {
-    throw new Error("You do not have a Bumpkin!");
-  }
+    if (!bumpkin) {
+      throw new Error("You do not have a Bumpkin!");
+    }
 
-  const flowerBed = flowers.flowerBeds[action.id];
+    const flowerBed = flowers.flowerBeds[action.id];
 
-  if (!flowerBed) {
-    throw new Error(translate("harvestflower.noFlowerBed"));
-  }
+    if (!flowerBed) {
+      throw new Error(translate("harvestflower.noFlowerBed"));
+    }
 
-  if (flowerBed.flower?.plantedAt) {
-    throw new Error(translate("harvestflower.alr.plant"));
-  }
+    if (flowerBed.flower?.plantedAt) {
+      throw new Error(translate("harvestflower.alr.plant"));
+    }
 
-  if (!isFlowerSeed(action.seed)) {
-    throw new Error("Not a flower seed");
-  }
+    if (!isFlowerSeed(action.seed)) {
+      throw new Error("Not a flower seed");
+    }
 
-  const seedCount = stateCopy.inventory[action.seed] ?? new Decimal(0);
+    const seedCount = stateCopy.inventory[action.seed] ?? new Decimal(0);
 
-  if (seedCount.lessThan(1)) {
-    throw new Error("Not enough seeds");
-  }
+    if (seedCount.lessThan(1)) {
+      throw new Error("Not enough seeds");
+    }
 
-  const crossBreedCount =
-    stateCopy.inventory[action.crossbreed] ?? new Decimal(0);
-  const crossBreedAmount = FLOWER_CROSS_BREED_AMOUNTS[action.crossbreed];
+    const crossBreedCount =
+      stateCopy.inventory[action.crossbreed] ?? new Decimal(0);
+    const crossBreedAmount = FLOWER_CROSS_BREED_AMOUNTS[action.crossbreed];
 
-  if (crossBreedCount.lessThan(crossBreedAmount)) {
-    throw new Error("Not enough crossbreeds");
-  }
+    if (crossBreedCount.lessThan(crossBreedAmount)) {
+      throw new Error("Not enough crossbreeds");
+    }
 
-  stateCopy.inventory[action.seed] = seedCount.minus(1);
-  stateCopy.inventory[action.crossbreed] =
-    crossBreedCount.minus(crossBreedAmount);
+    stateCopy.inventory[action.seed] = seedCount.minus(1);
+    stateCopy.inventory[action.crossbreed] =
+      crossBreedCount.minus(crossBreedAmount);
 
-  flowerBed.flower = {
-    plantedAt: getPlantedAt({
-      seed: action.seed,
+    flowerBed.flower = {
+      plantedAt: getPlantedAt({
+        seed: action.seed,
+        createdAt,
+        boostedTime: getFlowerTime(action.seed, stateCopy),
+      }),
+      amount: 1,
+      name: "Red Pansy",
+      dirty: true,
+    };
+
+    bumpkin.activity = trackActivity(
+      `${action.seed} Planted`,
+      bumpkin?.activity,
+      new Decimal(1),
+    );
+
+    const updatedBeehives = updateBeehives({
+      game: stateCopy,
       createdAt,
-      boostedTime: getFlowerTime(action.seed, stateCopy),
-    }),
-    amount: 1,
-    name: "Red Pansy",
-    dirty: true,
-  };
+    });
 
-  bumpkin.activity = trackActivity(
-    `${action.seed} Planted`,
-    bumpkin?.activity,
-    new Decimal(1),
-  );
+    stateCopy.beehives = updatedBeehives;
 
-  const updatedBeehives = updateBeehives({
-    game: stateCopy,
-    createdAt,
+    return stateCopy;
   });
-
-  stateCopy.beehives = updatedBeehives;
-
-  return stateCopy;
 }

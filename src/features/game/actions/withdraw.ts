@@ -50,8 +50,7 @@ export async function withdrawSFL({
 
   const newSessionId = await withdrawSFLTransaction({
     ...transaction,
-    web3: wallet.web3Provider,
-    account: wallet.myAccount,
+    account: wallet.getAccount(),
   });
 
   return { sessionId: newSessionId, verified: true };
@@ -100,8 +99,7 @@ export async function withdrawItems({
 
   const newSessionId = await withdrawItemsTransaction({
     ...transaction,
-    web3: wallet.web3Provider,
-    account: wallet.myAccount,
+    account: wallet.getAccount(),
   });
 
   return { sessionId: newSessionId, verified: true };
@@ -152,8 +150,7 @@ export async function withdrawWearables({
 
   const newSessionId = await withdrawWearablesTransaction({
     ...transaction,
-    web3: wallet.web3Provider,
-    account: wallet.myAccount,
+    account: wallet.getAccount(),
   });
 
   return { sessionId: newSessionId, verified: true };
@@ -196,8 +193,7 @@ export async function withdrawBuds({
 
   const newSessionId = await withdrawBudsTransaction({
     ...transaction,
-    web3: wallet.web3Provider,
-    account: wallet.myAccount,
+    account: wallet.getAccount(),
   });
 
   return { sessionId: newSessionId, verified: true };

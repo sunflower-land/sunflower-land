@@ -28,7 +28,7 @@ export const AddSFL: React.FC = () => {
       setIsLoading(true);
       const balance = await wallet.getMaticBalance();
 
-      setMaticBalance(balance);
+      setMaticBalance(new Decimal(balance));
       setIsLoading(false);
     };
 

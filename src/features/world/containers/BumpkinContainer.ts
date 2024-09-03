@@ -17,7 +17,7 @@ const NAME_ALIASES: Partial<Record<NPCName, string>> = {
   "pumpkin' pete": "pete",
   "hammerin harry": "auctioneer",
 };
-const NPCS_WITH_ALERTS: Partial<Record<NPCName, boolean>> = {
+export const NPCS_WITH_ALERTS: Partial<Record<NPCName, boolean>> = {
   "pumpkin' pete": true,
   hank: true,
   santa: true,
@@ -146,10 +146,6 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
 
   get directionFacing() {
     return this.direction;
-  }
-
-  get isWalking() {
-    return !!this.sprite?.anims?.currentAnim?.key?.includes("bumpkin-walking");
   }
 
   private async loadSprites(scene: Phaser.Scene) {

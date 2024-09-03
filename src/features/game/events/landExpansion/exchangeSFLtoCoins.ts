@@ -1,5 +1,5 @@
 import { GameState } from "features/game/types/game";
-import cloneDeep from "lodash.clonedeep";
+import { produce } from "immer";
 
 type ExchangePackage = { sfl: number; coins: number };
 export type PackageId = 1 | 2 | 3;
@@ -29,25 +29,26 @@ export function exchangeSFLtoCoins({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  const game: GameState = cloneDeep(state);
-  const { bumpkin, balance } = game;
+  return produce(state, (game) => {
+    const { bumpkin, balance } = game;
 
-  if (!SFL_TO_COIN_PACKAGES[action.packageId]) {
-    throw new Error("Invalid packageId");
-  }
+    if (!SFL_TO_COIN_PACKAGES[action.packageId]) {
+      throw new Error("Invalid packageId");
+    }
 
-  const { sfl, coins } = SFL_TO_COIN_PACKAGES[action.packageId];
+    const { sfl, coins } = SFL_TO_COIN_PACKAGES[action.packageId];
 
-  if (bumpkin === undefined) {
-    throw new Error("You do not have a Bumpkin");
-  }
+    if (bumpkin === undefined) {
+      throw new Error("You do not have a Bumpkin");
+    }
 
-  if (balance.lt(sfl)) {
-    throw new Error("Not enough SFL");
-  }
+    if (balance.lt(sfl)) {
+      throw new Error("Not enough SFL");
+    }
 
-  game.balance = balance.minus(sfl);
-  game.coins += coins;
+    game.balance = balance.minus(sfl);
+    game.coins += coins;
 
-  return game;
+    return game;
+  });
 }

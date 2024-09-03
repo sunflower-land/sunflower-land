@@ -4,7 +4,7 @@ import { isCollectibleActive } from "features/game/lib/collectibleBuilt";
 import { GOLD_RECOVERY_TIME } from "features/game/lib/constants";
 import { trackActivity } from "features/game/types/bumpkinActivity";
 import { GameState } from "features/game/types/game";
-import cloneDeep from "lodash.clonedeep";
+import { produce } from "immer";
 
 export type LandExpansionMineGoldAction = {
   type: "goldRock.mined";
@@ -55,41 +55,42 @@ export function mineGold({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  const stateCopy = cloneDeep(state);
-  const { bumpkin, collectibles } = stateCopy;
+  return produce(state, (stateCopy) => {
+    const { bumpkin, collectibles } = stateCopy;
 
-  const { index } = action;
-  if (!bumpkin) {
-    throw new Error(EVENT_ERRORS.NO_BUMPKIN);
-  }
+    const { index } = action;
+    if (!bumpkin) {
+      throw new Error(EVENT_ERRORS.NO_BUMPKIN);
+    }
 
-  const goldRock = stateCopy.gold[index];
+    const goldRock = stateCopy.gold[index];
 
-  if (!goldRock) {
-    throw new Error("No gold rock found.");
-  }
+    if (!goldRock) {
+      throw new Error("No gold rock found.");
+    }
 
-  if (!canMine(goldRock, GOLD_RECOVERY_TIME, createdAt)) {
-    throw new Error(EVENT_ERRORS.STILL_RECOVERING);
-  }
+    if (!canMine(goldRock, GOLD_RECOVERY_TIME, createdAt)) {
+      throw new Error(EVENT_ERRORS.STILL_RECOVERING);
+    }
 
-  const toolAmount = stateCopy.inventory["Iron Pickaxe"] || new Decimal(0);
+    const toolAmount = stateCopy.inventory["Iron Pickaxe"] || new Decimal(0);
 
-  if (toolAmount.lessThan(1)) {
-    throw new Error(EVENT_ERRORS.NO_PICKAXES);
-  }
+    if (toolAmount.lessThan(1)) {
+      throw new Error(EVENT_ERRORS.NO_PICKAXES);
+    }
 
-  const goldMined = goldRock.stone.amount;
-  const amountInInventory = stateCopy.inventory.Gold || new Decimal(0);
+    const goldMined = goldRock.stone.amount;
+    const amountInInventory = stateCopy.inventory.Gold || new Decimal(0);
 
-  goldRock.stone = {
-    minedAt: getMinedAt({ createdAt, game: stateCopy }),
-    amount: 2,
-  };
-  bumpkin.activity = trackActivity("Gold Mined", bumpkin.activity);
+    goldRock.stone = {
+      minedAt: getMinedAt({ createdAt, game: stateCopy }),
+      amount: 2,
+    };
+    bumpkin.activity = trackActivity("Gold Mined", bumpkin.activity);
 
-  stateCopy.inventory["Iron Pickaxe"] = toolAmount.sub(1);
-  stateCopy.inventory.Gold = amountInInventory.add(goldMined);
+    stateCopy.inventory["Iron Pickaxe"] = toolAmount.sub(1);
+    stateCopy.inventory.Gold = amountInInventory.add(goldMined);
 
-  return stateCopy;
+    return stateCopy;
+  });
 }

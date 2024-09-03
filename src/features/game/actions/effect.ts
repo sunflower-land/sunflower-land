@@ -20,7 +20,7 @@ type Request = {
 };
 
 export async function postEffect(request: Request): Promise<GameState> {
-  const response = await window.fetch(`${API_URL}/effect/${request.farmId}`, {
+  const response = await window.fetch(`${API_URL}/event/${request.farmId}`, {
     method: "POST",
     headers: {
       "content-type": "application/json;charset=UTF-8",
@@ -32,7 +32,7 @@ export async function postEffect(request: Request): Promise<GameState> {
         : {}),
     },
     body: JSON.stringify({
-      effect: request.effect,
+      event: request.effect,
       createdAt: new Date().toISOString(),
     }),
   });
