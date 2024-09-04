@@ -24,7 +24,7 @@ import { SpeakingText } from "features/game/components/SpeakingModal";
 import { Panel } from "components/ui/Panel";
 import { Button } from "components/ui/Button";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { translate, translateTerms } from "lib/i18n/translate";
+import { translate } from "lib/i18n/translate";
 import { IslandType } from "features/game/types/game";
 import { FLOWER_VARIANTS } from "../lib/alternateArt";
 
@@ -242,7 +242,7 @@ export const FlowerBed: React.FC<Props> = ({ id }) => {
                     className="h-12 mb-2"
                   />
                   <span className="text-xs text-center mb-2">
-                    {translateTerms(ITEM_DETAILS[flower.name].description)}
+                    {ITEM_DETAILS[flower.name].description}
                   </span>
                 </div>
               )}
@@ -262,7 +262,7 @@ export const FlowerBed: React.FC<Props> = ({ id }) => {
                           className="h-12 mb-2"
                         />
                         <span className="text-xs text-center mb-2">
-                          {translateTerms(ITEM_DETAILS[item.name].description)}
+                          {ITEM_DETAILS[item.name].description}
                         </span>
                         {boost && (
                           <Label

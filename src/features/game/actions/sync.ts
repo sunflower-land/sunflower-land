@@ -54,8 +54,7 @@ export async function sync({
   // TODO
   const newSessionId = await syncProgress({
     ...transaction,
-    web3: wallet.web3Provider,
-    account: wallet.myAccount,
+    account: wallet.getAccount(),
     blockBucks,
   });
 

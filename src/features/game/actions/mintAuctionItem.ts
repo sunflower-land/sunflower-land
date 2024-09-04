@@ -49,14 +49,12 @@ export async function mintAuctionItem(request: Request) {
   if (transaction.type === "collectible") {
     sessionId = await mintAuctionCollectible({
       ...transaction,
-      web3: wallet.web3Provider,
-      account: wallet.myAccount,
+      account: wallet.getAccount(),
     });
   } else {
     sessionId = await mintAuctionWearable({
       ...transaction,
-      web3: wallet.web3Provider,
-      account: wallet.myAccount,
+      account: wallet.getAccount(),
     });
   }
 

@@ -1,15 +1,13 @@
 import { CONFIG } from "lib/config";
-import Web3 from "web3";
-import { AbiItem } from "web3-utils";
-import BuySFLAbi from "./abis/BuySFL.json";
-import { estimateGasPrice, parseMetamaskError } from "./utils";
+import BuySFLAbi from "./abis/BuySFL";
+import { config } from "features/wallet/WalletProvider";
+import { waitForTransactionReceipt, writeContract } from "@wagmi/core";
 
 const address = CONFIG.BUY_SFL_CONTRACT;
 
 interface BuySFLArgs {
-  web3: Web3;
-  account: string;
-  signature: string;
+  account: `0x${string}`;
+  signature: `0x${string}`;
   farmId: number;
   amountOutMin: number;
   deadline: number;
@@ -18,7 +16,6 @@ interface BuySFLArgs {
 }
 
 export async function buySFL({
-  web3,
   account,
   signature,
   farmId,
@@ -27,36 +24,19 @@ export async function buySFL({
   feePercent,
   matic,
 }: BuySFLArgs) {
-  const gasPrice = await estimateGasPrice(web3);
-
-  await new Promise((resolve, reject) => {
-    new web3.eth.Contract(BuySFLAbi as AbiItem[], address as string).methods
-      .swap(signature, farmId, amountOutMin, deadline, feePercent)
-      .send({ from: account, value: matic, gasPrice })
-      .on("error", function (error: any) {
-        // eslint-disable-next-line no-console
-        console.log({ error });
-        const parsed = parseMetamaskError(error);
-
-        reject(parsed);
-      })
-      .on("transactionHash", async (transactionHash: any) => {
-        // eslint-disable-next-line no-console
-        console.log({ transactionHash });
-        try {
-          // Sequence wallet doesn't resolve the receipt. Therefore
-          // We try to fetch it after we have a tx hash returned
-          // From Sequence.
-          const receipt: any =
-            await web3.eth.getTransactionReceipt(transactionHash);
-
-          if (receipt) resolve(receipt);
-        } catch (e) {
-          reject(e);
-        }
-      })
-      .on("receipt", function (receipt: any) {
-        resolve(receipt);
-      });
+  const hash = await writeContract(config, {
+    abi: BuySFLAbi,
+    address: address as `0x${string}`,
+    functionName: "swap",
+    args: [
+      signature,
+      BigInt(farmId),
+      BigInt(amountOutMin),
+      BigInt(deadline),
+      BigInt(feePercent),
+    ],
+    value: BigInt(matic),
+    account,
   });
+  await waitForTransactionReceipt(config, { hash });
 }

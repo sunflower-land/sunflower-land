@@ -5,14 +5,17 @@ import {
 } from "features/game/lib/collectibleBuilt";
 import { TREE_RECOVERY_TIME } from "features/game/lib/constants";
 import { trackActivity } from "features/game/types/bumpkinActivity";
-import { BumpkinSkillName } from "features/game/types/bumpkinSkills";
+import {
+  BumpkinRevampSkillName,
+  BumpkinSkillName,
+} from "features/game/types/bumpkinSkills";
 import {
   GameState,
   Inventory,
   InventoryItemName,
   Tree,
 } from "features/game/types/game";
-import cloneDeep from "lodash.clonedeep";
+import { produce } from "immer";
 
 export enum CHOP_ERRORS {
   MISSING_AXE = "No axe",
@@ -22,7 +25,9 @@ export enum CHOP_ERRORS {
 }
 
 type GetChoppedAtArgs = {
-  skills: Partial<Record<BumpkinSkillName, number>>;
+  skills: Partial<
+    Record<BumpkinSkillName, number> & Record<BumpkinRevampSkillName, number>
+  >;
   game: GameState;
   createdAt: number;
 };
@@ -65,6 +70,11 @@ export function getChoppedAt({
     totalSeconds = totalSeconds * 0.8;
   }
 
+  // 10% faster
+  if (skills["Tree Charge"]) {
+    totalSeconds = totalSeconds * 0.9;
+  }
+
   if (isCollectibleActive({ name: "Time Warp Totem", game })) {
     totalSeconds = totalSeconds * 0.5;
   }
@@ -101,46 +111,47 @@ export function chop({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  const stateCopy = cloneDeep(state);
-  const { trees, bumpkin, collectibles, inventory } = stateCopy;
+  return produce(state, (stateCopy) => {
+    const { trees, bumpkin, collectibles, inventory } = stateCopy;
 
-  if (bumpkin === undefined) {
-    throw new Error("You do not have a Bumpkin!");
-  }
+    if (bumpkin === undefined) {
+      throw new Error("You do not have a Bumpkin!");
+    }
 
-  const requiredAxes = getRequiredAxeAmount(state.inventory, state);
+    const requiredAxes = getRequiredAxeAmount(state.inventory, state);
 
-  const axeAmount = inventory.Axe || new Decimal(0);
-  if (axeAmount.lessThan(requiredAxes)) {
-    throw new Error(CHOP_ERRORS.NO_AXES);
-  }
+    const axeAmount = inventory.Axe || new Decimal(0);
+    if (axeAmount.lessThan(requiredAxes)) {
+      throw new Error(CHOP_ERRORS.NO_AXES);
+    }
 
-  const tree = trees[action.index];
+    const tree = trees[action.index];
 
-  if (!tree) {
-    throw new Error(CHOP_ERRORS.NO_TREE);
-  }
+    if (!tree) {
+      throw new Error(CHOP_ERRORS.NO_TREE);
+    }
 
-  if (!canChop(tree, createdAt)) {
-    throw new Error(CHOP_ERRORS.STILL_GROWING);
-  }
+    if (!canChop(tree, createdAt)) {
+      throw new Error(CHOP_ERRORS.STILL_GROWING);
+    }
 
-  const woodHarvested = tree.wood.amount;
-  const woodAmount = inventory.Wood || new Decimal(0);
+    const woodHarvested = tree.wood.amount;
+    const woodAmount = inventory.Wood || new Decimal(0);
 
-  tree.wood = {
-    choppedAt: getChoppedAt({
-      createdAt,
-      skills: bumpkin.skills,
-      game: stateCopy,
-    }),
-    // Placeholder amount for next drop. This will get overridden on the next autosave.
-    amount: 1,
-  };
-  inventory.Axe = axeAmount.sub(requiredAxes);
-  inventory.Wood = woodAmount.add(woodHarvested);
+    tree.wood = {
+      choppedAt: getChoppedAt({
+        createdAt,
+        skills: bumpkin.skills,
+        game: stateCopy,
+      }),
+      // Placeholder amount for next drop. This will get overridden on the next autosave.
+      amount: 1,
+    };
+    inventory.Axe = axeAmount.sub(requiredAxes);
+    inventory.Wood = woodAmount.add(woodHarvested);
 
-  bumpkin.activity = trackActivity("Tree Chopped", bumpkin.activity);
+    bumpkin.activity = trackActivity("Tree Chopped", bumpkin.activity);
 
-  return stateCopy;
+    return stateCopy;
+  });
 }

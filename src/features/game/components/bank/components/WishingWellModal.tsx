@@ -9,7 +9,6 @@ import { Button } from "components/ui/Button";
 import { wallet } from "lib/blockchain/wallet";
 import { fromWei } from "web3-utils";
 import { shortAddress } from "lib/utils/shortAddress";
-import { CONFIG } from "lib/config";
 import { SomethingWentWrong } from "features/auth/components/SomethingWentWrong";
 import classNames from "classnames";
 import {
@@ -20,7 +19,6 @@ import { WishingWellTokens } from "../../../../goblins/wishingWell/actions/loadW
 import { formatNumber } from "lib/utils/formatNumber";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { mintTestnetTokens } from "lib/blockchain/Pair";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { translate } from "lib/i18n/translate";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -208,7 +206,7 @@ const NoWish = ({ totalTokensInWell, hasLPTokens, onClick }: NoWishArgs) => {
             className="w-6"
           />
           <span className="ml-2 font-secondary">
-            {shortAddress(wallet.myAccount as string)}
+            {shortAddress(wallet.getAccount() as string)}
           </span>
         </div>
         {hasLPTokens ? (
@@ -235,18 +233,6 @@ const NoWish = ({ totalTokensInWell, hasLPTokens, onClick }: NoWishArgs) => {
           {hasLPTokens ? translate("make.wish") : translate("add.liquidity")}
         </Button>
       </div>
-      {CONFIG.NETWORK === "amoy" && (
-        <div>
-          <Button
-            className="text-xs mt-2"
-            onClick={() =>
-              mintTestnetTokens(wallet.web3Provider, wallet.myAccount as string)
-            }
-          >
-            {"Mint testnet LP tokens"}
-          </Button>
-        </div>
-      )}
     </>
   );
 };
@@ -307,17 +293,10 @@ export const WishingWellModal: React.FC<Props> = ({ onClose }) => {
   return (
     <Modal show={true} onHide={handleClose}>
       <Panel className="relative">
-        <GameWallet
-          action="wishingWell"
-          wrapper={({ children }) => (
-            <div>
-              <Label type="default" icon={giftIcon} className="text-center m-1">
-                {`Wishing well`}
-              </Label>
-              {children}
-            </div>
-          )}
-        >
+        <Label type="default" icon={giftIcon} className="text-center m-1">
+          {t("wishing.well")}
+        </Label>
+        <GameWallet action="wishingWell">
           {machine.matches("loading") && <Loading />}
           {(machine.matches("granting") || machine.matches("signing")) && (
             <Loading text={t("granting.wish")} />

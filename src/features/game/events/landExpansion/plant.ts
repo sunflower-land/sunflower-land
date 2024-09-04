@@ -1,4 +1,3 @@
-import cloneDeep from "lodash.clonedeep";
 import Decimal from "decimal.js-light";
 
 import { CropName, CROPS, GreenHouseCropName } from "../../types/crops";
@@ -41,6 +40,7 @@ import { isBuildingEnabled } from "features/game/expansion/lib/buildingRequireme
 import { isWearableActive } from "features/game/lib/wearables";
 import { isGreenhouseCrop } from "./plantGreenhouse";
 import { FACTION_ITEMS } from "features/game/lib/factions";
+import { produce } from "immer";
 
 export type LandExpansionPlantAction = {
   type: "seed.planted";
@@ -676,72 +676,73 @@ export function plant({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  const stateCopy = cloneDeep(state);
-  const { crops: plots, bumpkin, inventory } = stateCopy;
-  const buds = stateCopy.buds ?? {};
+  return produce(state, (stateCopy) => {
+    const { crops: plots, bumpkin, inventory } = stateCopy;
+    const buds = stateCopy.buds ?? {};
 
-  if (bumpkin === undefined) {
-    throw new Error("You do not have a Bumpkin!");
-  }
+    if (bumpkin === undefined) {
+      throw new Error("You do not have a Bumpkin!");
+    }
 
-  if (!action.index) {
-    throw new Error("Plot does not exist");
-  }
+    if (!action.index) {
+      throw new Error("Plot does not exist");
+    }
 
-  const plot = plots[action.index];
+    const plot = plots[action.index];
 
-  if (!plot) {
-    throw new Error("Plot does not exist");
-  }
+    if (!plot) {
+      throw new Error("Plot does not exist");
+    }
 
-  if (plot.crop?.plantedAt) {
-    throw new Error("Crop is already planted");
-  }
+    if (plot.crop?.plantedAt) {
+      throw new Error("Crop is already planted");
+    }
 
-  if (!action.item) {
-    throw new Error("No seed selected");
-  }
+    if (!action.item) {
+      throw new Error("No seed selected");
+    }
 
-  if (!(action.item in SEEDS())) {
-    throw new Error("Not a seed");
-  }
+    if (!(action.item in SEEDS())) {
+      throw new Error("Not a seed");
+    }
 
-  const seedCount = inventory[action.item] || new Decimal(0);
+    const seedCount = inventory[action.item] || new Decimal(0);
 
-  if (seedCount.lessThan(1)) {
-    throw new Error("Not enough seeds");
-  }
+    if (seedCount.lessThan(1)) {
+      throw new Error("Not enough seeds");
+    }
 
-  const cropName = action.item.split(" ")[0] as CropName;
+    const cropName = action.item.split(" ")[0] as CropName;
 
-  const activityName: BumpkinActivityName = `${cropName} Planted`;
+    const activityName: BumpkinActivityName = `${cropName} Planted`;
 
-  bumpkin.activity = trackActivity(activityName, bumpkin.activity);
+    bumpkin.activity = trackActivity(activityName, bumpkin.activity);
 
-  plots[action.index] = {
-    ...plot,
-    crop: {
-      id: action.cropId,
-      plantedAt: getPlantedAt({
-        crop: cropName,
-        inventory,
-        game: stateCopy,
-        createdAt,
-        plot,
-        buds,
-        fertiliser: plot.fertiliser?.name,
-      }),
-      name: cropName,
-      amount: getCropYieldAmount({
-        crop: cropName,
-        game: stateCopy,
-        plot,
-        fertiliser: plot.fertiliser?.name,
-      }),
-    },
-  };
+    plots[action.index] = {
+      ...plot,
+      crop: {
+        id: action.cropId,
+        plantedAt: getPlantedAt({
+          crop: cropName,
+          inventory,
+          game: stateCopy,
+          createdAt,
+          plot,
+          buds,
+          fertiliser: plot.fertiliser?.name,
+        }),
+        name: cropName,
+        amount: getCropYieldAmount({
+          crop: cropName,
+          game: stateCopy,
+          plot,
+          fertiliser: plot.fertiliser?.name,
+        }),
+      },
+    };
 
-  inventory[action.item] = seedCount.sub(1);
+    inventory[action.item] = seedCount.sub(1);
 
-  return stateCopy;
+    return stateCopy;
+  });
 }

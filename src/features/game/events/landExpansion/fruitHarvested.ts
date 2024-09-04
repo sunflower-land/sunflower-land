@@ -16,7 +16,6 @@ import {
   GreenHouseFruitName,
 } from "features/game/types/fruits";
 import { Bumpkin, GameState, PlantedFruit } from "features/game/types/game";
-import cloneDeep from "lodash.clonedeep";
 import { getTimeLeft } from "lib/utils/time";
 import { FruitPatch } from "features/game/types/game";
 import { FruitCompostName } from "features/game/types/composters";
@@ -24,6 +23,7 @@ import { getPlantedAt } from "./fruitPlanted";
 import { isWearableActive } from "features/game/lib/wearables";
 import { isGreenhouseFruit } from "./plantGreenhouse";
 import { FACTION_ITEMS } from "features/game/lib/factions";
+import { produce } from "immer";
 
 export type HarvestFruitAction = {
   type: "fruit.harvested";
@@ -82,7 +82,19 @@ const isFruit = (resource: Resource): resource is FruitName => {
   return resource in FRUIT();
 };
 
+// Basic = Blueberry & Orange - Skill
+const isBasicFruit = (resource: Resource): resource is FruitName => {
+  return resource === "Blueberry" || resource === "Orange";
+};
+
+// Advanced = Apple, Banana - Skill
+const isAdvancedFruit = (resource: Resource): resource is FruitName => {
+  return resource === "Apple" || resource === "Banana";
+};
+
 export function getFruitYield({ name, game, fertiliser }: FruitYield) {
+  const { bumpkin } = game;
+
   let amount = 1;
 
   if (name === "Apple" && isCollectibleBuilt({ name: "Lady Bug", game })) {
@@ -96,6 +108,10 @@ export function getFruitYield({ name, game, fertiliser }: FruitYield) {
     amount += 1;
   }
 
+  if (isFruit(name) && isCollectibleBuilt({ name: "Macaw", game })) {
+    amount += 0.1;
+  }
+
   if (isFruit(name) && isWearableActive({ name: "Camel Onesie", game })) {
     amount += 0.1;
   }
@@ -107,6 +123,18 @@ export function getFruitYield({ name, game, fertiliser }: FruitYield) {
       name === "Banana") &&
     isWearableActive({ name: "Fruit Picker Apron", game })
   ) {
+    amount += 0.1;
+  }
+
+  if (bumpkin.skills["Red Sour"] && (name === "Tomato" || name === "Lemon")) {
+    amount += 0.1;
+  }
+
+  if (bumpkin.skills["Fruitful Fumble"] && isBasicFruit(name)) {
+    amount += 0.1;
+  }
+
+  if (bumpkin.skills["Tropical Orchard"] && isAdvancedFruit(name)) {
     amount += 0.1;
   }
 
@@ -190,60 +218,61 @@ export function harvestFruit({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  const stateCopy = cloneDeep(state);
-  const { fruitPatches, bumpkin, collectibles } = stateCopy;
+  return produce(state, (stateCopy) => {
+    const { fruitPatches, bumpkin, collectibles } = stateCopy;
 
-  if (!bumpkin) {
-    throw new Error("You do not have a Bumpkin!");
-  }
+    if (!bumpkin) {
+      throw new Error("You do not have a Bumpkin!");
+    }
 
-  const patch = fruitPatches[action.index];
+    const patch = fruitPatches[action.index];
 
-  if (!patch) {
-    throw new Error("Fruit patch does not exist");
-  }
+    if (!patch) {
+      throw new Error("Fruit patch does not exist");
+    }
 
-  if (!patch.fruit) {
-    throw new Error("Nothing was planted");
-  }
+    if (!patch.fruit) {
+      throw new Error("Nothing was planted");
+    }
 
-  const { name, plantedAt, harvestsLeft, harvestedAt, amount } = patch.fruit;
+    const { name, plantedAt, harvestsLeft, harvestedAt, amount } = patch.fruit;
 
-  const { seed } = FRUIT()[name];
-  const { plantSeconds } = FRUIT_SEEDS()[seed];
+    const { seed } = FRUIT()[name];
+    const { plantSeconds } = FRUIT_SEEDS()[seed];
 
-  if (createdAt - plantedAt < plantSeconds * 1000) {
-    throw new Error("Not ready");
-  }
+    if (createdAt - plantedAt < plantSeconds * 1000) {
+      throw new Error("Not ready");
+    }
 
-  if (createdAt - harvestedAt < plantSeconds * 1000) {
-    throw new Error("Fruit is still replenishing");
-  }
+    if (createdAt - harvestedAt < plantSeconds * 1000) {
+      throw new Error("Fruit is still replenishing");
+    }
 
-  if (!harvestsLeft) {
-    throw new Error("No harvest left");
-  }
+    if (!harvestsLeft) {
+      throw new Error("No harvest left");
+    }
 
-  stateCopy.inventory[name] =
-    stateCopy.inventory[name]?.add(amount) ?? new Decimal(amount);
+    stateCopy.inventory[name] =
+      stateCopy.inventory[name]?.add(amount) ?? new Decimal(amount);
 
-  patch.fruit.harvestsLeft = patch.fruit.harvestsLeft - 1;
-  patch.fruit.harvestedAt = getPlantedAt(
-    seed,
-    (stateCopy.bumpkin as Bumpkin).equipped,
-    stateCopy,
-    createdAt,
-  );
+    patch.fruit.harvestsLeft = patch.fruit.harvestsLeft - 1;
+    patch.fruit.harvestedAt = getPlantedAt(
+      seed,
+      (stateCopy.bumpkin as Bumpkin).equipped,
+      stateCopy,
+      createdAt,
+    );
 
-  patch.fruit.amount = getFruitYield({
-    game: stateCopy,
-    name,
-    fertiliser: patch.fertiliser?.name,
+    patch.fruit.amount = getFruitYield({
+      game: stateCopy,
+      name,
+      fertiliser: patch.fertiliser?.name,
+    });
+
+    const activityName: BumpkinActivityName = `${name} Harvested`;
+
+    bumpkin.activity = trackActivity(activityName, bumpkin.activity);
+
+    return stateCopy;
   });
-
-  const activityName: BumpkinActivityName = `${name} Harvested`;
-
-  bumpkin.activity = trackActivity(activityName, bumpkin.activity);
-
-  return stateCopy;
 }

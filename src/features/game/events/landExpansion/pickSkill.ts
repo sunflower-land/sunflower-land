@@ -5,7 +5,7 @@ import {
 } from "features/game/types/bumpkinSkills";
 import { getKeys } from "features/game/types/craftables";
 import { Bumpkin, GameState } from "features/game/types/game";
-import cloneDeep from "lodash.clonedeep";
+import { produce } from "immer";
 
 export type PickSkillAction = {
   type: "skill.picked";
@@ -37,30 +37,31 @@ export const getAvailableBumpkinSkillPoints = (bumpkin?: Bumpkin) => {
 };
 
 export function pickSkill({ state, action, createdAt = Date.now() }: Options) {
-  const stateCopy = cloneDeep(state);
-  const { bumpkin } = stateCopy;
-  if (bumpkin == undefined) {
-    throw new Error("You do not have a Bumpkin!");
-  }
+  return produce(state, (stateCopy) => {
+    const { bumpkin } = stateCopy;
+    if (bumpkin == undefined) {
+      throw new Error("You do not have a Bumpkin!");
+    }
 
-  const availableSkillPoints = getAvailableBumpkinSkillPoints(bumpkin);
+    const availableSkillPoints = getAvailableBumpkinSkillPoints(bumpkin);
 
-  const requirements = BUMPKIN_SKILL_TREE[action.skill].requirements;
+    const requirements = BUMPKIN_SKILL_TREE[action.skill].requirements;
 
-  if (availableSkillPoints < requirements.points) {
-    throw new Error("You do not have enough skill points");
-  }
+    if (availableSkillPoints < requirements.points) {
+      throw new Error("You do not have enough skill points");
+    }
 
-  if (requirements.skill && !bumpkin.skills[requirements.skill]) {
-    throw new Error("Missing previous skill requirement");
-  }
-  const bumpkinHasSkill = bumpkin.skills[action.skill];
+    if (requirements.skill && !bumpkin.skills[requirements.skill]) {
+      throw new Error("Missing previous skill requirement");
+    }
+    const bumpkinHasSkill = bumpkin.skills[action.skill];
 
-  if (bumpkinHasSkill) {
-    throw new Error("You already have this skill");
-  }
+    if (bumpkinHasSkill) {
+      throw new Error("You already have this skill");
+    }
 
-  bumpkin.skills = { ...bumpkin.skills, [action.skill]: 1 };
+    bumpkin.skills = { ...bumpkin.skills, [action.skill]: 1 };
 
-  return stateCopy;
+    return stateCopy;
+  });
 }

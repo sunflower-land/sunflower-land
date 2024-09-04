@@ -118,12 +118,6 @@ export const Label: React.FC<Props> = ({
         paddingRight: secondaryIcon ? "14px" : icon ? "4px" : "3px",
         color: LABEL_STYLES[type].textColour,
         ...style,
-
-        // Normal font styles
-        // textShadow:
-        //   LABEL_STYLES[type].textColour === "#ffffff"
-        //     ? "1px 1px #1f1f1f"
-        //     : "none",
       }}
     >
       {icon && (
@@ -137,20 +131,7 @@ export const Label: React.FC<Props> = ({
           }}
         />
       )}
-      <span
-        className="text-xs pt-0 pb-0.5"
-        style={{
-          textAlign: "center",
-          // Normal font styles
-
-          // Pixel Font styles
-          // paddingTop: "2px",
-          // fontSize: `22px`,
-          fontSize: "inherit",
-        }}
-      >
-        {children}
-      </span>
+      {children}
       {secondaryIcon && (
         <SquareIcon
           icon={secondaryIcon}

@@ -295,7 +295,6 @@ import {
   PurchaseMinigameAction,
   purchaseMinigameItem,
 } from "./minigames/purchaseMinigameItem";
-import { PlayMinigameAction, playMinigame } from "./minigames/playMinigame";
 import {
   claimMinigamePrize,
   ClaimMinigamePrizeAction,
@@ -343,6 +342,14 @@ import {
   completeDailyChallenge,
   CompleteDailyChallengeAction,
 } from "./landExpansion/completeDailyChallenge";
+import {
+  startMinigameAttempt,
+  StartMinigameAttemptAction,
+} from "./minigames/startMinigameAttempt";
+import {
+  submitMinigameScore,
+  SubmitMinigameScoreAction,
+} from "./minigames/submitMinigameScore";
 
 export type PlayingEvent =
   | CompleteDailyChallengeAction
@@ -431,7 +438,8 @@ export type PlayingEvent =
   | DrillOilReserveAction
   | ClaimMinigamePrizeAction
   | PurchaseMinigameAction
-  | PlayMinigameAction
+  | StartMinigameAttemptAction
+  | SubmitMinigameScoreAction
   | SupplyCropMachineAction
   | HarvestCropMachineAction
   | SupplyCookingOilAction
@@ -519,7 +527,8 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "greenhouse.planted": plantGreenhouse,
   "minigame.itemPurchased": purchaseMinigameItem,
   "minigame.prizeClaimed": claimMinigamePrize,
-  "minigame.played": playMinigame,
+  "minigame.attemptStarted": startMinigameAttempt,
+  "minigame.scoreSubmitted": submitMinigameScore,
   "airdrop.claimed": claimAirdrop,
   "bot.detected": detectBot,
   "seed.planted": landExpansionPlant,

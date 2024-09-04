@@ -254,6 +254,13 @@ const heliosBlacksmith: Record<HeliosBlacksmithItem, () => boolean> = {
   Nana: () => true,
   "Soil Krabby": () => true,
   "Skill Shrimpy": () => true,
+  "Stone Beetle": () => false,
+  "Iron Beetle": () => false,
+  "Gold Beetle": () => false,
+  "Fairy Circle": () => false,
+  Squirrel: () => false,
+  Macaw: () => false,
+  Butterfly: () => false,
 };
 
 const treasureCollectible: Record<TreasureCollectibleItem, () => boolean> = {
@@ -1249,15 +1256,13 @@ export const BUMPKIN_WITHDRAWABLES: Record<
   "Pineapple Shirt": () => true,
   "China Town Background": () => true,
   "Lion Dance Mask": () => true,
-  "Fruit Picker Shirt": () => true,
-  "Fruit Picker Apron": (state) =>
-    canWithdrawBoostedWearable("Fruit Picker Apron", state),
-  "Fruit Bowl": () => true,
-  "Striped Blue Shirt": () => true,
-  "Peg Leg": () => true,
-  "Pirate Potion": (state) =>
-    canWithdrawBoostedWearable("Pirate Potion", state),
-  "Pirate Hat": () => true,
+  "Fruit Picker Shirt": () => false,
+  "Fruit Picker Apron": () => false,
+  "Fruit Bowl": () => false,
+  "Striped Blue Shirt": () => false,
+  "Peg Leg": () => false,
+  "Pirate Potion": () => false,
+  "Pirate Hat": () => false,
   "Pirate General Coat": () => true,
   "Pirate Pants": () => true,
   "Pirate Leather Polo": () => true,
@@ -1598,4 +1603,9 @@ export const BUMPKIN_WITHDRAWABLES: Record<
   "Goblin Medallion": () => false,
   "Nightshade Medallion": () => false,
   "Sunflorian Medallion": () => false,
+
+  // Map Background
+  "Pumpkin Plaza Background": () => false,
+  "Goblin Retreat Background": () => false,
+  "Kingdom Background": () => false,
 };

@@ -5,8 +5,8 @@ import {
   FACTION_SHOP_ITEMS,
 } from "features/game/types/factionShop";
 import { GameState, InventoryItemName } from "features/game/types/game";
-import cloneDeep from "lodash.clonedeep";
 import { isWearableActive } from "features/game/lib/wearables";
+import { produce } from "immer";
 
 export type BuyFactionShopItemAction = {
   type: "factionShopItem.bought";
@@ -34,61 +34,66 @@ export function buyFactionShopItem({
   action,
   createdAt = Date.now(),
 }: Options) {
-  const stateCopy: GameState = cloneDeep(state);
-  const game = cloneDeep(state);
-  const { faction, inventory, wardrobe, bumpkin } = stateCopy;
+  return produce(state, (stateCopy) => {
+    const { faction, inventory, wardrobe, bumpkin } = stateCopy;
 
-  if (!bumpkin) {
-    throw new Error(BUY_FACTION_SHOP_ITEM_ERRORS.NO_BUMPKIN);
-  }
-
-  if (!faction?.name) {
-    throw new Error(BUY_FACTION_SHOP_ITEM_ERRORS.NO_FACTION);
-  }
-
-  const item = FACTION_SHOP_ITEMS[action.item];
-
-  if (!item) {
-    throw new Error(BUY_FACTION_SHOP_ITEM_ERRORS.ITEM_NOT_FOUND);
-  }
-
-  const { faction: requiredFaction, price, type } = item;
-
-  if (requiredFaction && faction?.name !== requiredFaction) {
-    throw new Error(
-      BUY_FACTION_SHOP_ITEM_ERRORS.PLAYER_NOT_IN_REQUIRED_FACTION,
-    );
-  }
-  if (item.requires) {
-    const currentWardrobe = wardrobe[item.requires as BumpkinItem] ?? 0;
-    if (isWearableActive({ name: item.requires as BumpkinItem, game })) {
-      throw new Error(BUY_FACTION_SHOP_ITEM_ERRORS.PREREQUISITE_IS_EQUIPPED);
+    if (!bumpkin) {
+      throw new Error(BUY_FACTION_SHOP_ITEM_ERRORS.NO_BUMPKIN);
     }
-    const burnAmount = 1; // We expect that the wearable being burnt is always 1
-    if (currentWardrobe < burnAmount || currentWardrobe === 0) {
-      throw new Error(BUY_FACTION_SHOP_ITEM_ERRORS.NOT_ENOUGH_PREREQUISITE);
+
+    if (!faction?.name) {
+      throw new Error(BUY_FACTION_SHOP_ITEM_ERRORS.NO_FACTION);
     }
-    wardrobe[item.requires as BumpkinItem] = currentWardrobe - burnAmount;
-  }
 
-  const marksBalance = inventory["Mark"] ?? new Decimal(0);
+    const item = FACTION_SHOP_ITEMS[action.item];
 
-  if (marksBalance.lt(price)) {
-    throw new Error(BUY_FACTION_SHOP_ITEM_ERRORS.NOT_ENOUGH_MARKS);
-  }
+    if (!item) {
+      throw new Error(BUY_FACTION_SHOP_ITEM_ERRORS.ITEM_NOT_FOUND);
+    }
 
-  inventory.Mark = marksBalance.minus(price);
+    const { faction: requiredFaction, price, type } = item;
 
-  if (type === "wearable") {
-    const current = wardrobe[action.item as BumpkinItem] ?? 0;
+    if (requiredFaction && faction?.name !== requiredFaction) {
+      throw new Error(
+        BUY_FACTION_SHOP_ITEM_ERRORS.PLAYER_NOT_IN_REQUIRED_FACTION,
+      );
+    }
+    if (item.requires) {
+      const currentWardrobe = wardrobe[item.requires as BumpkinItem] ?? 0;
+      if (
+        isWearableActive({
+          name: item.requires as BumpkinItem,
+          game: stateCopy,
+        })
+      ) {
+        throw new Error(BUY_FACTION_SHOP_ITEM_ERRORS.PREREQUISITE_IS_EQUIPPED);
+      }
+      const burnAmount = 1; // We expect that the wearable being burnt is always 1
+      if (currentWardrobe < burnAmount || currentWardrobe === 0) {
+        throw new Error(BUY_FACTION_SHOP_ITEM_ERRORS.NOT_ENOUGH_PREREQUISITE);
+      }
+      wardrobe[item.requires as BumpkinItem] = currentWardrobe - burnAmount;
+    }
 
-    wardrobe[action.item as BumpkinItem] = current + 1;
-  } else {
-    const current =
-      inventory[action.item as InventoryItemName] ?? new Decimal(0);
+    const marksBalance = inventory["Mark"] ?? new Decimal(0);
 
-    inventory[action.item as InventoryItemName] = current.add(1);
-  }
+    if (marksBalance.lt(price)) {
+      throw new Error(BUY_FACTION_SHOP_ITEM_ERRORS.NOT_ENOUGH_MARKS);
+    }
 
-  return stateCopy;
+    inventory.Mark = marksBalance.minus(price);
+
+    if (type === "wearable") {
+      const current = wardrobe[action.item as BumpkinItem] ?? 0;
+
+      wardrobe[action.item as BumpkinItem] = current + 1;
+    } else {
+      const current =
+        inventory[action.item as InventoryItemName] ?? new Decimal(0);
+
+      inventory[action.item as InventoryItemName] = current.add(1);
+    }
+
+    return stateCopy;
+  });
 }

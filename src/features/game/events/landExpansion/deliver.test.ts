@@ -935,15 +935,95 @@ describe("deliver", () => {
     expect(state.inventory[getSeasonalTicket()]).toEqual(new Decimal(3));
   });
 
-  it("add 10% more SFL profit on completed deliveries if player has SFL Swindler", () => {
+  it("add 20% coins bonus if has Betty's Friend skill on Betty's orders with Coins reward", () => {
     const state = deliverOrder({
       state: {
         ...TEST_FARM,
-        balance: new Decimal(0),
-        inventory: {
-          "Sunflower Cake": new Decimal(1),
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          skills: {
+            "Betty's Friend": 1,
+          },
         },
+        inventory: {
+          Sunflower: new Decimal(60),
+        },
+        delivery: {
+          ...TEST_FARM.delivery,
+          fulfilledCount: 3,
+          orders: [
+            {
+              id: "123",
+              createdAt: 0,
+              readyAt: new Date("2023-10-31T15:00:00Z").getTime(),
+              from: "betty",
+              items: {
+                Sunflower: 50,
+              },
+              reward: { coins: 100 },
+            },
+          ],
+        },
+      },
+      action: {
+        id: "123",
+        type: "order.delivered",
+      },
+      createdAt: new Date("2024-05-10T16:00:00Z").getTime(),
+    });
+
+    expect(state.coins).toEqual(120);
+  });
+
+  it("does not add 20% coins bonus if has Betty's Friend skill on non Betty's orders with Coins reward", () => {
+    const state = deliverOrder({
+      state: {
+        ...TEST_FARM,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          skills: {
+            "Betty's Friend": 1,
+          },
+        },
+        inventory: {
+          Sunflower: new Decimal(60),
+        },
+        delivery: {
+          ...TEST_FARM.delivery,
+          fulfilledCount: 3,
+          orders: [
+            {
+              id: "123",
+              createdAt: 0,
+              readyAt: new Date("2023-10-31T15:00:00Z").getTime(),
+              from: "pumpkin' pete",
+              items: {
+                Sunflower: 50,
+              },
+              reward: { coins: 100 },
+            },
+          ],
+        },
+      },
+      action: {
+        id: "123",
+        type: "order.delivered",
+      },
+      createdAt: new Date("2024-05-10T16:00:00Z").getTime(),
+    });
+
+    expect(state.coins).toEqual(100);
+  });
+
+  it("gives 50% more Coins profit on completed fruit deliveries if player has Fruity Profit skill", () => {
+    const state = deliverOrder({
+      state: {
+        ...TEST_FARM,
         coins: 0,
+        inventory: {
+          Orange: new Decimal(5),
+          Grape: new Decimal(2),
+        },
         delivery: {
           ...TEST_FARM.delivery,
           orders: [
@@ -953,16 +1033,17 @@ describe("deliver", () => {
               readyAt: Date.now(),
               from: "betty",
               items: {
-                "Sunflower Cake": 1,
+                Orange: 5,
+                Grape: 2,
               },
-              reward: { sfl: 100 },
+              reward: { coins: 320 },
             },
           ],
         },
         bumpkin: {
           ...INITIAL_BUMPKIN,
           skills: {
-            "SFL Swindler": 1,
+            "Fruity Profit": 1,
           },
         },
       },
@@ -972,18 +1053,17 @@ describe("deliver", () => {
       },
     });
 
-    expect(state.balance).toEqual(new Decimal(110));
+    expect(state.coins).toEqual(480);
   });
 
-  it("does not add 10% more SFL profit on completed deliveries with SFL Swindler if reward is not SFL", () => {
+  it("does not give Fruity Profit bonus if item is not fruit", () => {
     const state = deliverOrder({
       state: {
         ...TEST_FARM,
-        balance: new Decimal(100),
+        coins: 0,
         inventory: {
           "Sunflower Cake": new Decimal(1),
         },
-        coins: 0,
         delivery: {
           ...TEST_FARM.delivery,
           orders: [
@@ -999,7 +1079,12 @@ describe("deliver", () => {
             },
           ],
         },
-        bumpkin: INITIAL_BUMPKIN,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          skills: {
+            "Fruity Profit": 1,
+          },
+        },
       },
       action: {
         id: "123",

@@ -1,4 +1,3 @@
-import { wallet } from "lib/blockchain/wallet";
 import { collectFromWellOnChain } from "lib/blockchain/WishingWell";
 import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
@@ -15,7 +14,7 @@ type Request = {
 const API_URL = CONFIG.API_URL;
 
 export interface SignedTransaction {
-  signature: string;
+  signature: `0x${string}`;
   tokens: string;
   deadline: number;
   farmId: number;
@@ -60,12 +59,11 @@ export async function signCollectFromWell({
 }
 
 export async function collectFromWell(
-  account: string,
+  account: `0x${string}`,
   transaction: SignedTransaction,
 ) {
   const receipt = await collectFromWellOnChain({
     ...transaction,
-    web3: wallet.web3Provider,
     account: account,
   });
 

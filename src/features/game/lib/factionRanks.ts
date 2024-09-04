@@ -34,6 +34,7 @@ import goblins_chevron_six from "assets/icons/factions/goblins/chevron_six.webp"
 import { FACTION_EMBLEMS } from "../events/landExpansion/joinFaction";
 import Decimal from "decimal.js-light";
 import { BoostType, BoostValue } from "../types/boosts";
+import { getKeys } from "../types/decorations";
 
 type BumpkinRank =
   | "forager"
@@ -82,204 +83,278 @@ type Rank = {
   icon: string;
 };
 
-export const RANKS: Record<FactionRank, Rank> = {
+const RANK_DATA: Record<FactionRank, Omit<Rank, "icon">> = {
   // Bumpkins
   forager: {
     name: "rancher",
     faction: "bumpkins",
     emblemsRequired: 0,
-    icon: bumpkins_chevron_zero,
   },
   rancher: {
     name: "rancher",
     faction: "bumpkins",
-    emblemsRequired: 35,
-    icon: bumpkins_chevron_one,
-    boost: "+5% Marks",
+    emblemsRequired: 25,
   },
   agrarian: {
     name: "agrarian",
     faction: "bumpkins",
     emblemsRequired: 300,
-    icon: bumpkins_chevron_two,
-    boost: "+150% Marks",
   },
   steward: {
     name: "steward",
     faction: "bumpkins",
     emblemsRequired: 2500,
-    icon: bumpkins_chevron_three,
-    boost: "+300% Marks",
   },
   sentinel: {
     name: "sentinel",
     faction: "bumpkins",
-    emblemsRequired: 5000,
-    icon: bumpkins_chevron_four,
-    boost: "+350% Marks",
+    emblemsRequired: 5200,
   },
   warden: {
     name: "warden",
     faction: "bumpkins",
-    emblemsRequired: 9000,
-    icon: bumpkins_chevron_five,
-    boost: "+380% Marks",
+    emblemsRequired: 9700,
   },
   overseer: {
     name: "overseer",
     faction: "bumpkins",
-    emblemsRequired: 16000,
-    icon: bumpkins_chevron_six,
-    boost: "+400% Marks",
+    emblemsRequired: 23300,
   },
   // Nightshades
   pagan: {
     name: "pagan",
     faction: "nightshades",
     emblemsRequired: 0,
-    icon: nightshades_chevron_zero,
   },
   occultist: {
     name: "occultist",
     faction: "nightshades",
-    emblemsRequired: 35,
-    icon: nightshades_chevron_one,
-    boost: "+5% Marks",
+    emblemsRequired: 20,
   },
   enchanter: {
     name: "enchanter",
     faction: "nightshades",
-    emblemsRequired: 350,
-    icon: nightshades_chevron_two,
-    boost: "+150% Marks",
+    emblemsRequired: 290,
   },
   raver: {
     name: "raver",
     faction: "nightshades",
     emblemsRequired: 2700,
-    icon: nightshades_chevron_three,
-    boost: "+300% Marks",
   },
   witch: {
     name: "witch",
     faction: "nightshades",
     emblemsRequired: 5500,
-    icon: nightshades_chevron_four,
-    boost: "+350% Marks",
   },
   sorcerer: {
     name: "sorcerer",
     faction: "nightshades",
-    emblemsRequired: 8500,
-    icon: nightshades_chevron_five,
-    boost: "+380% Marks",
+    emblemsRequired: 8700,
   },
   lich: {
     name: "lich",
     faction: "nightshades",
-    emblemsRequired: 15000,
-    icon: nightshades_chevron_six,
-    boost: "+400% Marks",
+    emblemsRequired: 16850,
   },
   // Goblins
   hobgoblin: {
     name: "hobgoblin",
     faction: "goblins",
     emblemsRequired: 0,
-    icon: goblins_chevron_zero,
   },
   grunt: {
     name: "grunt",
     faction: "goblins",
-    emblemsRequired: 45,
-    icon: goblins_chevron_one,
-    boost: "+5% Marks",
+    emblemsRequired: 20,
   },
   marauder: {
     name: "marauder",
     faction: "goblins",
     emblemsRequired: 500,
-    icon: goblins_chevron_two,
-    boost: "+150% Marks",
   },
   elite: {
     name: "elite",
     faction: "goblins",
     emblemsRequired: 4200,
-    icon: goblins_chevron_three,
-    boost: "+300% Marks",
   },
   commander: {
     name: "commander",
     faction: "goblins",
     emblemsRequired: 8000,
-    icon: goblins_chevron_four,
-    boost: "+350% Marks",
   },
   warchief: {
     name: "warchief",
     faction: "goblins",
-    emblemsRequired: 13000,
-    icon: goblins_chevron_five,
-    boost: "+380% Marks",
+    emblemsRequired: 13300,
   },
   warlord: {
     name: "warlord",
     faction: "goblins",
-    emblemsRequired: 17000,
-    icon: goblins_chevron_six,
-    boost: "+400% Marks",
+    emblemsRequired: 23500,
   },
   // Sunflorians
   initiate: {
     name: "initiate",
     faction: "sunflorians",
     emblemsRequired: 0,
-    icon: sunflorians_chevron_zero,
   },
   squire: {
     name: "squire",
     faction: "sunflorians",
-    emblemsRequired: 45,
-    icon: sunflorians_chevron_one,
-    boost: "+5% Marks",
+    emblemsRequired: 15,
   },
   captain: {
     name: "captain",
     faction: "sunflorians",
-    emblemsRequired: 400,
-    icon: sunflorians_chevron_two,
-    boost: "+150% Marks",
+    emblemsRequired: 250,
   },
   knight: {
     name: "knight",
     faction: "sunflorians",
     emblemsRequired: 3000,
-    icon: sunflorians_chevron_three,
-    boost: "+300% Marks",
   },
   guardian: {
     name: "guardian",
     faction: "sunflorians",
     emblemsRequired: 6000,
-    icon: sunflorians_chevron_four,
-    boost: "+350% Marks",
   },
   paladin: {
     name: "paladin",
     faction: "sunflorians",
     emblemsRequired: 11000,
-    icon: sunflorians_chevron_five,
-    boost: "+380% Marks",
   },
   archduke: {
     name: "archduke",
     faction: "sunflorians",
-    emblemsRequired: 17000,
+    emblemsRequired: 24000,
+  },
+};
+
+export const RANK_DISPLAY: Record<FactionRank, Pick<Rank, "icon" | "boost">> = {
+  // Bumpkins
+  forager: {
+    icon: bumpkins_chevron_zero,
+  },
+  rancher: {
+    icon: bumpkins_chevron_one,
+    boost: "+5% Marks",
+  },
+  agrarian: {
+    icon: bumpkins_chevron_two,
+    boost: "+150% Marks",
+  },
+  steward: {
+    icon: bumpkins_chevron_three,
+    boost: "+300% Marks",
+  },
+  sentinel: {
+    icon: bumpkins_chevron_four,
+    boost: "+350% Marks",
+  },
+  warden: {
+    icon: bumpkins_chevron_five,
+    boost: "+380% Marks",
+  },
+  overseer: {
+    icon: bumpkins_chevron_six,
+    boost: "+400% Marks",
+  },
+  // Nightshades
+  pagan: {
+    icon: nightshades_chevron_zero,
+  },
+  occultist: {
+    icon: nightshades_chevron_one,
+    boost: "+5% Marks",
+  },
+  enchanter: {
+    icon: nightshades_chevron_two,
+    boost: "+150% Marks",
+  },
+  raver: {
+    icon: nightshades_chevron_three,
+    boost: "+300% Marks",
+  },
+  witch: {
+    icon: nightshades_chevron_four,
+    boost: "+350% Marks",
+  },
+  sorcerer: {
+    icon: nightshades_chevron_five,
+    boost: "+380% Marks",
+  },
+  lich: {
+    icon: nightshades_chevron_six,
+    boost: "+400% Marks",
+  },
+  // Goblins
+  hobgoblin: {
+    icon: goblins_chevron_zero,
+  },
+  grunt: {
+    icon: goblins_chevron_one,
+    boost: "+5% Marks",
+  },
+  marauder: {
+    icon: goblins_chevron_two,
+    boost: "+150% Marks",
+  },
+  elite: {
+    icon: goblins_chevron_three,
+    boost: "+300% Marks",
+  },
+  commander: {
+    icon: goblins_chevron_four,
+    boost: "+350% Marks",
+  },
+  warchief: {
+    icon: goblins_chevron_five,
+    boost: "+380% Marks",
+  },
+  warlord: {
+    icon: goblins_chevron_six,
+    boost: "+400% Marks",
+  },
+  // Sunflorians
+  initiate: {
+    icon: sunflorians_chevron_zero,
+  },
+  squire: {
+    icon: sunflorians_chevron_one,
+    boost: "+5% Marks",
+  },
+  captain: {
+    icon: sunflorians_chevron_two,
+    boost: "+150% Marks",
+  },
+  knight: {
+    icon: sunflorians_chevron_three,
+    boost: "+300% Marks",
+  },
+  guardian: {
+    icon: sunflorians_chevron_four,
+    boost: "+350% Marks",
+  },
+  paladin: {
+    icon: sunflorians_chevron_five,
+    boost: "+380% Marks",
+  },
+  archduke: {
     icon: sunflorians_chevron_six,
     boost: "+400% Marks",
   },
 };
+
+export const RANKS: Record<FactionRank, Rank> = getKeys(RANK_DATA).reduce(
+  (acc, name) => ({
+    ...acc,
+    [name]: {
+      ...RANK_DATA[name],
+      ...RANK_DISPLAY[name],
+    },
+  }),
+  {} as Record<FactionRank, Rank>,
+);
 
 export const getFactionRanking = (
   faction: FactionName,

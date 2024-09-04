@@ -1,5 +1,5 @@
 import { defineConfig } from "vite";
-import reactRefresh from "@vitejs/plugin-react-refresh";
+import react from "@vitejs/plugin-react";
 import tsconfigPaths from "vite-tsconfig-paths";
 import { minifyHtml, injectHtml } from "vite-plugin-html";
 import { VitePWA } from "vite-plugin-pwa";
@@ -7,7 +7,7 @@ import { VitePWA } from "vite-plugin-pwa";
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
-    reactRefresh(),
+    react(),
     tsconfigPaths(),
     minifyHtml(),
     injectHtml({
@@ -92,7 +92,6 @@ export default defineConfig({
   // Addresses web3 issue
   resolve: {
     alias: {
-      web3: "web3/dist/web3.min.js",
       process: "process/browser",
       stream: "stream-browserify",
       zlib: "browserify-zlib",

@@ -37,7 +37,6 @@ import { ErrorCode, ERRORS } from "lib/errors";
 import { makeGame } from "./transforms";
 import { reset } from "features/farming/hud/actions/reset";
 // import { getGameRulesLastRead } from "features/announcements/announcementsStorage";
-import { OnChainEvent } from "../actions/onChainEvents";
 import { checkProgress, processEvent } from "./processEvent";
 import {
   landscapingMachine,
@@ -119,7 +118,6 @@ export interface Context {
   errorCode?: ErrorCode;
   transactionId?: string;
   fingerprint?: string;
-  notifications?: OnChainEvent[];
   maxedItem?: InventoryItemName | "SFL";
   goblinSwarm?: Date;
   deviceTrackerId?: string;
@@ -521,7 +519,7 @@ export const saveGame = async (
 
   // This gives the UI time to indicate that a save is taking place both when clicking save
   // and when autosaving
-  await new Promise((res) => setTimeout(res, 1000));
+  await new Promise((res) => setTimeout(res, 500));
 
   return {
     saveAt,
@@ -605,15 +603,12 @@ export function startGame(authContext: AuthContext) {
 
               setOnboardingComplete();
 
-              const notifications: OnChainEvent[] = [];
-
               return {
                 farmId: Number(response.farmId),
                 isBlacklisted: response.isBlacklisted,
                 state: response.game,
                 sessionId: response.sessionId,
                 fingerprint,
-                notifications,
                 deviceTrackerId: response.deviceTrackerId,
                 announcements: response.announcements,
                 transaction: response.transaction,
@@ -644,13 +639,6 @@ export function startGame(authContext: AuthContext) {
               },
             ],
             onError: [
-              {
-                target: "loading",
-                cond: () => !wallet.isAlchemy,
-                actions: () => {
-                  wallet.overrideProvider();
-                },
-              },
               {
                 target: "error",
                 actions: "assignErrorMessage",
@@ -961,7 +949,6 @@ export function startGame(authContext: AuthContext) {
                   if (!context.farmAddress) return;
 
                   const sessionID = await getSessionId(
-                    wallet.web3Provider,
                     context.farmId as number,
                   );
 
@@ -977,13 +964,6 @@ export function startGame(authContext: AuthContext) {
               };
             },
             onError: [
-              {
-                target: "playing",
-                cond: () => !wallet.isAlchemy,
-                actions: () => {
-                  wallet.overrideProvider();
-                },
-              },
               {
                 target: "error",
                 actions: "assignErrorMessage",
@@ -1762,7 +1742,7 @@ export function startGame(authContext: AuthContext) {
         depositing: {
           invoke: {
             src: async (context, event) => {
-              if (!wallet.myAccount) throw new Error("No account");
+              if (!wallet.getAccount()) throw new Error("No account");
 
               const {
                 sfl,
@@ -1774,8 +1754,7 @@ export function startGame(authContext: AuthContext) {
               } = event as DepositEvent;
 
               await depositToFarm({
-                web3: wallet.web3Provider,
-                account: wallet.myAccount,
+                account: wallet.getAccount() as `0x${string}`,
                 farmId: context.nftId as number,
                 sfl: sfl,
                 itemIds: itemIds,
@@ -2120,7 +2099,6 @@ export function startGame(authContext: AuthContext) {
           state: (_, event) => event.data.state,
           sessionId: (_, event) => event.data.sessionId,
           fingerprint: (_, event) => event.data.fingerprint,
-          notifications: (_, event) => event.data.notifications,
           deviceTrackerId: (_, event) => event.data.deviceTrackerId,
           announcements: (_, event) => event.data.announcements,
           transaction: (_, event) => event.data.transaction,

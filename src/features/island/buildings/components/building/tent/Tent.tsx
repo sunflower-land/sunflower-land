@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 
 import { SUNNYSIDE } from "assets/sunnyside";
 
@@ -15,8 +15,7 @@ import classNames from "classnames";
 import { BuildingName } from "features/game/types/buildings";
 import { MachineState } from "features/game/lib/gameMachine";
 import { PlacedItem } from "features/game/types/game";
-import { OnChainBumpkin, loadBumpkins } from "lib/blockchain/BumpkinDetails";
-import { wallet } from "lib/blockchain/wallet";
+import { OnChainBumpkin } from "lib/blockchain/BumpkinDetails";
 
 const selectBuildings = (state: MachineState) => state.context.state.buildings;
 
@@ -43,19 +42,6 @@ export const Tent: React.FC<BuildingProps> = ({
   );
 
   const [walletBumpkins, setWalletBumpkins] = useState<OnChainBumpkin[]>([]);
-
-  useEffect(() => {
-    const load = async () => {
-      const walletBumpkins = await loadBumpkins(
-        wallet.web3Provider,
-        wallet.myAccount as string,
-      );
-
-      setWalletBumpkins(walletBumpkins);
-    };
-
-    load();
-  }, []);
 
   const bumpkin = buildingIndex !== undefined && walletBumpkins[buildingIndex];
 

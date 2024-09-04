@@ -1372,13 +1372,13 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   // To update dimensions
   Sarcophagus: { width: 1, height: 2 },
   Cannonball: { width: 1, height: 1 },
-  "Clay Tablet": { width: 1, height: 1 },
+  "Clay Tablet": { width: 2, height: 1 },
   "Snake in Jar": { width: 1, height: 1 },
-  "Reveling Lemon": { width: 1, height: 1 },
+  "Reveling Lemon": { width: 2, height: 2 },
   "Anubis Jackal": { width: 2, height: 2 },
   Sundial: { width: 1, height: 1 },
   "Sand Golem": { width: 1, height: 1 },
-  "Cactus King": { width: 1, height: 1 },
+  "Cactus King": { width: 1, height: 2 },
   "Lemon Frog": { width: 1, height: 1 },
   "Scarab Beetle": { width: 1, height: 1 },
   "Lemon Tea Bath": { width: 3, height: 2 },
@@ -1388,11 +1388,15 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Baobab Tree": { width: 3, height: 3 },
   Camel: { width: 2, height: 1 },
   "Tomato Bombard": { width: 2, height: 2 },
+  "Stone Beetle": { width: 1, height: 2 },
+  "Iron Beetle": { width: 1, height: 2 },
+  "Gold Beetle": { width: 1, height: 2 },
+  "Fairy Circle": { width: 2, height: 2 },
+  Squirrel: { width: 2, height: 1 },
+  Macaw: { width: 1, height: 1 },
+  Butterfly: { width: 1, height: 1 },
 };
 
 export const ANIMAL_DIMENSIONS: Record<"Chicken", Dimensions> = {
-  Chicken: {
-    width: 1,
-    height: 1,
-  },
+  Chicken: { width: 1, height: 1 },
 };

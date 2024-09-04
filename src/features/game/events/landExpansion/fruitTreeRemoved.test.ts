@@ -241,4 +241,26 @@ describe("fruitTreeRemoved", () => {
       }),
     ).toThrow("No axes left");
   });
+
+  it("applies a +1 wood reward on removal with Fruity Woody skill", () => {
+    const state = removeFruitTree({
+      state: {
+        ...GAME_STATE,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          skills: {
+            ...INITIAL_BUMPKIN.skills,
+            "Fruity Woody": 1,
+          },
+        },
+      },
+      action: {
+        type: "fruitTree.removed",
+        index: "0",
+        selectedItem: "Axe",
+      },
+    });
+
+    expect(state.inventory.Wood).toStrictEqual(new Decimal(3));
+  });
 });

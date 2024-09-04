@@ -307,7 +307,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     spawnedAt: 0,
   },
   farmHands: { bumpkins: {} },
-  bumpkin: { ...TEST_BUMPKIN, skills: { "Chonky Scarecrow": 1 } },
+  bumpkin: TEST_BUMPKIN,
   buds: {
     1: {
       aura: "Basic",
@@ -694,6 +694,9 @@ export const STATIC_OFFLINE_FARM: GameState = {
 
     "Pirate Bounty": new Decimal(50),
     Scarab: new Decimal(50),
+    "Reveling Lemon": new Decimal(1),
+    "Cactus King": new Decimal(1),
+    "Clay Tablet": new Decimal(1),
   },
   wardrobe: {
     "Tofu Mask": 1,

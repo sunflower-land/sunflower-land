@@ -501,4 +501,17 @@ describe("getChoppedAt", () => {
 
     expect(createdAt).toEqual(now);
   });
+
+  it("applies a 10% recovery time boost with Tree Charge skill", () => {
+    const now = Date.now();
+
+    const time = getChoppedAt({
+      game: TEST_FARM,
+      skills: { "Tree Charge": 1 },
+      createdAt: now,
+    });
+
+    const treeTimeWithBoost = TREE_RECOVERY_TIME * 1000 * 0.1;
+    expect(time).toEqual(now - treeTimeWithBoost);
+  });
 });

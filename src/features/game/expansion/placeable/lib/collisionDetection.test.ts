@@ -1,13 +1,13 @@
 import Decimal from "decimal.js-light";
 import { TEST_FARM } from "features/game/lib/constants";
 import { GameState, Position } from "features/game/types/game";
-import cloneDeep from "lodash.clonedeep";
 import {
   detectCollision,
   isOverlapping,
   isWithinAOE,
 } from "./collisionDetection";
 import { Dimensions } from "features/game/types/buildings";
+import cloneDeep from "lodash.clonedeep";
 
 describe("isOverlapping", () => {
   it("returns false if there is no overlap between two positions", () => {
@@ -319,6 +319,38 @@ describe("isWithinAOE", () => {
         { ...plot, x: plot.x - 2, y: plot.y - 3 },
         {
           "Chonky Scarecrow": 1,
+        },
+      );
+
+      expect(result).toBe(true);
+    },
+  );
+
+  it.each([plot1, plot2, plot3, plot4, plot5, plot6, plot7, plot8, plot9])(
+    "returns true if Scary Mike is inside boosted AOE (Horror Mike) %s",
+    (plot) => {
+      const result = isWithinAOE(
+        "Scary Mike",
+        { x: 0, y: 0, height: 2, width: 1 },
+        { ...plot, x: plot.x - 2, y: plot.y - 3 },
+        {
+          "Horror Mike": 1,
+        },
+      );
+
+      expect(result).toBe(true);
+    },
+  );
+
+  it.each([plot1, plot2, plot3, plot4, plot5, plot6, plot7, plot8, plot9])(
+    "returns true if Laurie the Chuckle Crow is inside boosted AOE (Laurie's Gain) %s",
+    (plot) => {
+      const result = isWithinAOE(
+        "Laurie the Chuckle Crow",
+        { x: 0, y: 0, height: 2, width: 1 },
+        { ...plot, x: plot.x - 2, y: plot.y - 3 },
+        {
+          "Laurie's Gains": 1,
         },
       );
 
