@@ -9335,6 +9335,123 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     image: "../public/erc1155/images/2128.png",
     name: "Tomato Bombard",
   },
+  "Stone Beetle": {
+    description: "",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Boost", value: "Resource" },
+      {
+        display_type: "boost_number",
+        trait_type: "Increase Stone Yield",
+        value: 0.1,
+      },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2129.png",
+    name: "Stone Beetle",
+  },
+  "Iron Beetle": {
+    description: "",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Boost", value: "Resource" },
+      {
+        display_type: "boost_number",
+        trait_type: "Increase Iron Yield",
+        value: 0.1,
+      },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2130.png",
+    name: "Iron Beetle",
+  },
+  "Gold Beetle": {
+    description: "",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Boost", value: "Resource" },
+      {
+        display_type: "boost_number",
+        trait_type: "Increase Gold Yield",
+        value: 0.1,
+      },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2131.png",
+    name: "Gold Beetle",
+  },
+  "Fairy Circle": {
+    description: "",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Boost", value: "Resource" },
+      {
+        display_type: "boost_number",
+        trait_type: "Increase Wild Mushroom Yield",
+        value: 0.2,
+      },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2132.png",
+    name: "Fairy Circle",
+  },
+  Squirrel: {
+    description: "",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Boost", value: "Resource" },
+      {
+        display_type: "boost_number",
+        trait_type: "Increase Wood Yield",
+        value: 0.1,
+      },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2133.png",
+    name: "Squirrel",
+  },
+  Macaw: {
+    description: "",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Boost", value: "Fruit" },
+      {
+        display_type: "boost_number",
+        trait_type: "Increase Fruit Yield",
+        value: 0.1,
+      },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2134.png",
+    name: "Macaw",
+  },
+  Butterfly: {
+    description: "",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Boost", value: "Flower" },
+      {
+        display_type: "boost_percentage",
+        trait_type: "Flower Critical Hit Chance",
+        value: 20,
+      },
+      {
+        display_type: "boost_number",
+        trait_type: "Critical Flower Amount",
+        value: 1,
+      },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2135.png",
+    name: "Butterfly",
+  },
 };
 
 export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {

@@ -236,6 +236,15 @@ export const MAX_ITEMS: Inventory = {
   "Tomato Bombard": new Decimal(1),
   Cannonball: new Decimal(1),
 
+  // New Blacksmith Equipment
+  "Stone Beetle": new Decimal(5),
+  "Iron Beetle": new Decimal(5),
+  "Gold Beetle": new Decimal(5),
+  "Fairy Circle": new Decimal(5),
+  Squirrel: new Decimal(5),
+  Butterfly: new Decimal(5),
+  Macaw: new Decimal(5),
+
   ...(Object.keys(EXOTIC_CROPS) as InventoryItemName[]).reduce(
     (acc, name) => ({
       ...acc,
