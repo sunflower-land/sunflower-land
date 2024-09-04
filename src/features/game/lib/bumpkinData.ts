@@ -33,4 +33,5 @@ export const TEST_BUMPKIN: Bumpkin = {
     "Sunflower Planted": 5,
     "Tree Chopped": 5,
   },
+  previousPowerUseAt: {},
 };

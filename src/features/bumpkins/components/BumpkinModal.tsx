@@ -5,7 +5,7 @@ import token from "assets/icons/sfl.webp";
 
 import { Equipped as BumpkinParts } from "features/game/types/bumpkin";
 import { DynamicNFT } from "./DynamicNFT";
-import { ButtonPanel } from "components/ui/Panel";
+import { ButtonPanel, OuterPanel } from "components/ui/Panel";
 import {
   getBumpkinLevel,
   getExperienceToNextLevel,
@@ -14,7 +14,7 @@ import {
 
 import { AchievementsModal } from "./Achievements";
 import { SkillsModal } from "./Skills";
-import { SkillsModal as SkillsModal2 } from "./revamp/Skills";
+import { Skills } from "./revamp/Skills";
 import { CONFIG } from "lib/config";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { SkillBadges } from "./SkillBadges";
@@ -37,10 +37,15 @@ import { useSelector } from "@xstate/react";
 import { Loading } from "features/auth/components";
 import { formatNumber } from "lib/utils/formatNumber";
 import { hasFeatureAccess } from "lib/flags";
+import {
+  BUMPKIN_REVAMP_SKILL_TREE,
+  BumpkinRevampSkillName,
+} from "features/game/types/bumpkinSkills";
+import { Label } from "components/ui/Label";
 import { AuthMachineState } from "features/auth/lib/authMachine";
 import { MachineState } from "features/game/lib/gameMachine";
 
-type ViewState = "home" | "achievements" | "skills" | "skills2";
+type ViewState = "home" | "achievements" | "skills" | "powers";
 
 const _rawToken = (state: AuthMachineState) => state.context.user.rawToken;
 
@@ -138,7 +143,7 @@ export const BumpkinModal: React.FC<Props> = ({
   };
 
   useEffect(() => {
-    if (tab !== 2 || !canTrade) return;
+    if (tab !== 3 || !canTrade) return;
 
     const load = async () => {
       setIsLoading(true);
@@ -173,48 +178,63 @@ export const BumpkinModal: React.FC<Props> = ({
     );
   }
 
-  if (view === "skills2") {
-    return (
-      <SkillsModal2
-        readonly={readonly}
-        onBack={() => setView("home")}
-        onClose={onClose}
-      />
-    );
-  }
-
   const hasAvailableSP = getAvailableBumpkinSkillPoints(bumpkin) > 0;
+
+  const hasPowerSkills = Object.keys(bumpkin?.skills ?? {}).some(
+    (skillName) => {
+      const skill =
+        BUMPKIN_REVAMP_SKILL_TREE[skillName as BumpkinRevampSkillName];
+      return skill?.power;
+    },
+  );
+
+  const renderTabs = () => {
+    if (readonly) {
+      return [
+        {
+          icon: SUNNYSIDE.icons.player,
+          name: t("info"),
+        },
+      ];
+    }
+
+    return [
+      {
+        icon: SUNNYSIDE.icons.player,
+        name: t("info"),
+      },
+      ...(hasFeatureAccess(gameState, "SKILLS_REVAMP")
+        ? [
+            {
+              icon: SUNNYSIDE.badges.seedSpecialist,
+              name: "Skills",
+            },
+          ]
+        : []),
+
+      {
+        icon: SUNNYSIDE.icons.wardrobe,
+        name: t("equip"),
+      },
+      {
+        icon: token,
+        name: t("trades"),
+      },
+    ];
+  };
 
   return (
     <CloseButtonPanel
       currentTab={tab}
       setCurrentTab={setTab}
       onClose={onClose}
-      tabs={[
-        {
-          icon: SUNNYSIDE.icons.player,
-          name: t("info"),
-        },
-        ...(!readonly
-          ? [
-              {
-                icon: SUNNYSIDE.icons.wardrobe,
-                name: t("equip"),
-              },
-              {
-                icon: token,
-                name: t("trades"),
-              },
-            ]
-          : []),
-      ]}
+      tabs={renderTabs()}
+      container={tab === 1 ? OuterPanel : undefined}
     >
       <div
         style={{
           maxHeight: "calc(100vh - 200px)",
-          overflowY: "auto",
         }}
-        className="scrollable"
       >
         {tab === 0 && (
           <div className="flex flex-wrap">
@@ -274,33 +294,13 @@ export const BumpkinModal: React.FC<Props> = ({
                       />
                     )}
                   </div>
-                  <span className="text-sm underline">{t("viewAll")}</span>
+                  <img src={SUNNYSIDE.icons.chevron_right} className="h-6" />
                 </div>
                 <SkillBadges
                   inventory={inventory}
                   bumpkin={bumpkin as Bumpkin}
                 />
               </ButtonPanel>
-
-              {hasFeatureAccess(gameState, "SKILLS_REVAMP") && (
-                <ButtonPanel
-                  onClick={() => setView("skills2")}
-                  className="mb-2 relative mt-1 !px-2 !py-1"
-                >
-                  <div className="flex items-center mb-1 justify-between">
-                    <div className="flex items-center">
-                      <span className="text-sm">{"Skills Revamp"}</span>
-                      {hasAvailableSP && !readonly && (
-                        <img
-                          src={SUNNYSIDE.icons.expression_alerted}
-                          className="h-4 ml-2"
-                        />
-                      )}
-                    </div>
-                    <span className="text-sm underline">{t("viewAll")}</span>
-                  </div>
-                </ButtonPanel>
-              )}
 
               <ButtonPanel
                 onClick={() => setView("achievements")}
@@ -310,14 +310,35 @@ export const BumpkinModal: React.FC<Props> = ({
                   <div className="flex items-center">
                     <span className="text-sm">{t("achievements")}</span>
                   </div>
-                  <span className="underline text-sm">{t("viewAll")}</span>
+                  <img src={SUNNYSIDE.icons.chevron_right} className="h-6" />
+                </div>
+                <AchievementBadges achievements={bumpkin?.achievements} />
+              </ButtonPanel>
+
+              <ButtonPanel
+                disabled={!hasPowerSkills}
+                onClick={() => setView("powers")}
+                className="mb-2 relative mt-1 !px-2 !py-1"
+              >
+                <div className="flex items-center mb-1 justify-between">
+                  <div className="flex items-center">
+                    <span className="text-sm">{"Skill Powers"}</span>
+                  </div>
+                  {hasPowerSkills ? (
+                    <img src={SUNNYSIDE.icons.chevron_right} className="h-6" />
+                  ) : (
+                    <Label type="warning" className="text-xxs">
+                      {"Claim a power skill to unlock!"}
+                    </Label>
+                  )}
                 </div>
                 <AchievementBadges achievements={bumpkin?.achievements} />
               </ButtonPanel>
             </div>
           </div>
         )}
-        {tab === 1 && (
+        {tab === 1 && <Skills readonly={readonly} />}
+        {tab === 2 && (
           <BumpkinEquip
             equipment={bumpkin.equipped}
             game={gameState}
@@ -329,12 +350,12 @@ export const BumpkinModal: React.FC<Props> = ({
             }}
           />
         )}
-        {tab === 2 && isLoading && (
+        {tab === 3 && isLoading && (
           <div className="my-2">
             <Loading />
           </div>
         )}
-        {tab === 2 && !isLoading && <Trade floorPrices={floorPrices} />}
+        {tab === 3 && !isLoading && <Trade floorPrices={floorPrices} />}
       </div>
     </CloseButtonPanel>
   );

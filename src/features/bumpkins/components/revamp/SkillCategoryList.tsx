@@ -36,11 +36,9 @@ const iconList = {
 export const SkillCategoryList = ({
   skillPointsInfo,
   onClick,
-  onBack,
 }: {
   skillPointsInfo: () => JSX.Element;
   onClick: (category: BumpkinRevampSkillTree) => void;
-  onBack: () => void;
 }) => {
   const { gameService } = useContext(Context);
   const [
@@ -73,22 +71,12 @@ export const SkillCategoryList = ({
     });
   };
   return (
-    <>
-      <InnerPanel className="flex flex-col h-full overflow-y-auto scrollable max-h-96">
+    <InnerPanel>
+      <div className="flex flex-col max-h-96 overflow-y-auto scrollable">
         <div
           className="flex flex-row my-2 items-center"
           style={{ margin: `${PIXEL_SCALE * 2}px` }}
         >
-          <img
-            src={SUNNYSIDE.icons.arrow_left}
-            className="cursor-pointer"
-            alt="back"
-            style={{
-              width: `${PIXEL_SCALE * 11}px`,
-              marginRight: `${PIXEL_SCALE * 4}px`,
-            }}
-            onClick={onBack}
-          />
           {skillPointsInfo()}
         </div>
 
@@ -131,7 +119,7 @@ export const SkillCategoryList = ({
             {"Reset Skills"}
           </p>
         </div>
-      </InnerPanel>
+      </div>
 
       <Modal
         show={showSkillsResetModal}
@@ -173,6 +161,6 @@ export const SkillCategoryList = ({
           </InnerPanel>
         </OuterPanel>
       </Modal>
-    </>
+    </InnerPanel>
   );
 };

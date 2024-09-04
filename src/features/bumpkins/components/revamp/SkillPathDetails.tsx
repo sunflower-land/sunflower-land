@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useRef } from "react";
 import {
   BumpkinSkillRevamp,
   BumpkinRevampSkillTree,
@@ -42,6 +42,8 @@ export const SkillPathDetails: React.FC<Props> = ({
     context: { state },
   } = gameState;
   const { bumpkin } = state;
+
+  const divRef = useRef<HTMLDivElement>(null);
 
   // States
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
@@ -107,16 +109,33 @@ export const SkillPathDetails: React.FC<Props> = ({
           image={skill.image}
           isSelected={selectedSkill === skill}
           onClick={() => setSelectedSkill(skill)}
-          showOverlay={hasSkill}
+          showOverlay={hasSkill || skill.power}
+          parentDivRef={divRef}
           overlayIcon={
-            <img
-              src={SUNNYSIDE.icons.confirm}
-              alt="claimed"
-              className="relative object-contain"
-              style={{
-                width: `${PIXEL_SCALE * 12}px`,
-              }}
-            />
+            <>
+              {hasSkill && (
+                <img
+                  src={SUNNYSIDE.icons.confirm}
+                  alt="claimed"
+                  className="relative object-contain"
+                  style={{
+                    width: `${PIXEL_SCALE * 12}px`,
+                  }}
+                />
+              )}
+
+              {skill.power && (
+                <img
+                  src={SUNNYSIDE.icons.lightning}
+                  className="absolute z-20"
+                  style={{
+                    right: `${PIXEL_SCALE * -6}px`,
+                    bottom: `${PIXEL_SCALE * -6}px`,
+                    width: `${PIXEL_SCALE * 11}px`,
+                  }}
+                />
+              )}
+            </>
           }
         >
           {skill.name}
@@ -127,12 +146,13 @@ export const SkillPathDetails: React.FC<Props> = ({
 
   return (
     <SplitScreenView
+      divRef={divRef}
       wideModal
       panel={
         <div className="flex flex-col h-full justify-between">
           {/* Header */}
           <div className="flex flex-col h-full px-1 py-0">
-            <div className="flex space-x-2 justify-start items-center sm:flex-col-reverse md:space-x-0">
+            <div className="flex space-x-2 justify-start items-center sm:flex-col-reverse sm:my-0 my-2 md:space-x-0">
               <div className="sm:mt-2">
                 <SquareIcon icon={selectedSkill.image} width={14} />
               </div>

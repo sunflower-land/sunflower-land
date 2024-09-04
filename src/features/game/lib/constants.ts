@@ -334,6 +334,7 @@ export const INITIAL_BUMPKIN: Bumpkin = {
   achievements: {},
 
   activity: {},
+  previousPowerUseAt: {},
 };
 
 export const INITIAL_FARM: GameState = {
