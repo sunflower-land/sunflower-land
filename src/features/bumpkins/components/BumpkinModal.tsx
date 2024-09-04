@@ -44,6 +44,7 @@ import {
 import { Label } from "components/ui/Label";
 import { AuthMachineState } from "features/auth/lib/authMachine";
 import { MachineState } from "features/game/lib/gameMachine";
+import { SkillPower } from "./revamp/SkillPower";
 
 type ViewState = "home" | "achievements" | "skills" | "powers";
 
@@ -176,6 +177,10 @@ export const BumpkinModal: React.FC<Props> = ({
         onClose={onClose}
       />
     );
+  }
+
+  if (view === "powers") {
+    return <SkillPower readonly={readonly} onBack={() => setView("home")} />;
   }
 
   const hasAvailableSP = getAvailableBumpkinSkillPoints(bumpkin) > 0;
@@ -317,7 +322,7 @@ export const BumpkinModal: React.FC<Props> = ({
 
               <ButtonPanel
                 disabled={!hasPowerSkills}
-                onClick={() => setView("powers")}
+                onClick={() => hasPowerSkills && setView("powers")}
                 className="mb-2 relative mt-1 !px-2 !py-1"
               >
                 <div className="flex items-center mb-1 justify-between">

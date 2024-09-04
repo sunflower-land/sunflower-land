@@ -1561,3 +1561,9 @@ export const createRevampSkillPath = (skills: BumpkinSkillRevamp[]) => {
 
   return skillsByTier;
 };
+
+export const getPowerSkills = () => {
+  return Object.values(BUMPKIN_REVAMP_SKILL_TREE).filter(
+    (skill) => skill.power,
+  );
+};
