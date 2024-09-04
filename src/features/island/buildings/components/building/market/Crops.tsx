@@ -11,7 +11,6 @@ import { setPrecision } from "lib/utils/formatNumber";
 import { Fruit, FRUIT, GREENHOUSE_FRUIT } from "features/game/types/fruits";
 import { SplitScreenView } from "components/ui/SplitScreenView";
 import { ShopSellDetails } from "components/ui/layouts/ShopSellDetails";
-import { getBumpkinLevel } from "features/game/lib/level";
 import lightning from "assets/icons/lightning.png";
 import orange from "assets/resources/orange.png";
 import {
@@ -81,7 +80,6 @@ export const Crops: React.FC = () => {
       ? crop.sellPrice
       : getSellPrice({ item: crop, game: state });
 
-  const bumpkinLevel = getBumpkinLevel(state.bumpkin?.experience ?? 0);
   const cropAmount = setPrecision(inventory[selected.name] ?? 0, 2);
   const coinAmount = setPrecision(
     new Decimal(displaySellPrice(selected)).mul(
@@ -119,12 +117,9 @@ export const Crops: React.FC = () => {
     .reduce(
       (acc, key) => ({
         ...acc,
-        [key]: { ...EXOTIC_CROPS[key], disabled: false, bumpkinLevel: 0 },
+        [key]: { ...EXOTIC_CROPS[key], disabled: false },
       }),
-      {} as Record<
-        ExoticCropName,
-        ExoticCrop & { disabled: false; bumpkinLevel: 0 }
-      >,
+      {} as Record<ExoticCropName, ExoticCrop & { disabled: false }>,
     );
 
   const cropsAndFruits = Object.values({
@@ -226,12 +221,6 @@ export const Crops: React.FC = () => {
                     image={ITEM_DETAILS[item.name].image}
                     count={inventory[item.name]}
                     parentDivRef={divRef}
-                    secondaryImage={
-                      bumpkinLevel < item.bumpkinLevel
-                        ? SUNNYSIDE.icons.lock
-                        : undefined
-                    }
-                    showOverlay={bumpkinLevel < item.bumpkinLevel}
                   />
                 ))}
             </div>
@@ -251,12 +240,6 @@ export const Crops: React.FC = () => {
                     image={ITEM_DETAILS[item.name].image}
                     count={inventory[item.name]}
                     parentDivRef={divRef}
-                    secondaryImage={
-                      bumpkinLevel < item.bumpkinLevel
-                        ? SUNNYSIDE.icons.lock
-                        : undefined
-                    }
-                    showOverlay={bumpkinLevel < item.bumpkinLevel}
                   />
                 ))}
             </div>
@@ -276,12 +259,6 @@ export const Crops: React.FC = () => {
                     image={ITEM_DETAILS[item.name].image}
                     count={inventory[item.name]}
                     parentDivRef={divRef}
-                    secondaryImage={
-                      bumpkinLevel < item.bumpkinLevel
-                        ? SUNNYSIDE.icons.lock
-                        : undefined
-                    }
-                    showOverlay={bumpkinLevel < item.bumpkinLevel}
                   />
                 ))}
             </div>
@@ -312,12 +289,6 @@ export const Crops: React.FC = () => {
                       image={ITEM_DETAILS[item.name].image}
                       count={inventory[item.name]}
                       parentDivRef={divRef}
-                      secondaryImage={
-                        bumpkinLevel < item.bumpkinLevel
-                          ? SUNNYSIDE.icons.lock
-                          : undefined
-                      }
-                      showOverlay={bumpkinLevel < item.bumpkinLevel}
                     />
                   ))}
               </div>
