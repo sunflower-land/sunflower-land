@@ -31,7 +31,7 @@ export type DailyRewardState = {
   context: DailyRewardContext;
 };
 
-export type DailyRewardEvent =
+type DailyRewardEvent =
   | { type: "OPEN" }
   | { type: "LOAD" }
   | { type: "UNLOCK" }
