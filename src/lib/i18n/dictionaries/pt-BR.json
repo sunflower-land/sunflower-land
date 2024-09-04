@@ -3004,7 +3004,6 @@
   "island.pumpkin.plaza": "Pumpkin Plaza",
   "island.kingdom": "Reino",
   "island.helios": "Helios",
-  "islandupgrade.warning": "Certifique-se de que não há plantações, frutas, construções, galinhas, cogumelos, carmesim, flores ou mel em andamento. Eles não poderão ser colhidos e serão devolvidos ao seu inventário. As pedras do sol permanecerão colocadas em sua terra.",
   "islandupgrade.welcomeDesertIsland": "Bem-vindo ao deserto!",
   "islandupgrade.notReadyExpandMore": "Você não está pronto. Expanda {{remainingExpansions}} mais vezes",
   "islandupgrade.desertResourcesDescription": "O ambiente árido do deserto exige novas tecnologias para sobreviver. Expanda sua terra para descobrir novos edifícios e o que há dentro!",
@@ -3544,5 +3543,6 @@
   "description.factionShop.goblinFactionRug": "Um tapete magnífico feito pelos talentosos artesãos da Facção Goblin.",
   "description.factionShop.bumpkinFactionRug": "Um tapete magnífico feito pelos talentosos artesãos da Bumpkin Faction.",
   "description.faction.mark": "Use-os na Loja de Facções",
-  "description.vase": "Um item frágil dos tempos antigos"
+  "description.vase": "Um item frágil dos tempos antigos",
+  "islandupgrade.warning": "Certifique-se de não ter plantações, frutas, construções, galinhas, carmesim, flores ou mel em andamento. Eles não poderão ser colhidos e serão devolvidos ao seu inventário. Sunstones, House, Market, Fire Pit e Workbench permanecerão colocados em sua terra."
 }

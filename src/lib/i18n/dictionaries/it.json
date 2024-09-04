@@ -2124,7 +2124,6 @@
   "islandNotFound.message": "Sei atterrato nel bel mezzo del nulla!",
   "islandNotFound.takeMeHome": "Portami a casa",
   "islandupgrade.confirmUpgrade": "Sei sicuro di voler passare a una nuova isola.",
-  "islandupgrade.warning": "Assicurati di non avere colture, frutta, edifici, polli, funghi, crestone, fiori o miele in corso. Questi non potranno essere raccolti e verranno restituiti al tuo inventario. Le pietre solari rimarranno posizionate sulla tua terra.",
   "islandupgrade.upgradeIsland": "Isola di aggiornamento",
   "islandupgrade.newOpportunities": "Un'isola esotica ti aspetta con nuove risorse e opportunità per far crescere la tua fattoria.",
   "islandupgrade.confirmation": "Vuoi effettuare l'upgrade? Inizierai su una piccola isola con tutti i tuoi oggetti.",
@@ -3544,5 +3543,6 @@
   "description.factionShop.goblinFactionRug": "Un magnifico tappeto realizzato dai talentuosi artigiani della Goblin Faction.",
   "description.factionShop.bumpkinFactionRug": "Un magnifico tappeto realizzato dai talentuosi artigiani di Bumpkin Faction.",
   "description.faction.mark": "Usali nel Faction Shop",
-  "description.vase": "Un oggetto fragile dei tempi antichi"
+  "description.vase": "Un oggetto fragile dei tempi antichi",
+  "islandupgrade.warning": "Assicurati di non avere raccolti, frutta, edifici, polli, crestone, fiori o miele in corso. Questi non potranno essere raccolti e verranno restituiti al tuo inventario. Sunstones, House, Market, Fire Pit e Workbench rimarranno sulla tua terra."
 }

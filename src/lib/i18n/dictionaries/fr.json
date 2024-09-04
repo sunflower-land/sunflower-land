@@ -3034,7 +3034,6 @@
   "confirmation.craft": "Êtes-vous sûr de vouloir créer {{item}} ?",
   "island.kingdom": "Royaume",
   "island.helios": "Hélios",
-  "islandupgrade.warning": "Assurez-vous de ne pas avoir de récoltes, de fruits, de bâtiments, de poulets, de champignons, de pourpre, de fleurs ou de miel en cours de préparation. Ils ne pourront pas être récoltés et seront retournés dans votre inventaire. Les pierres solaires resteront placées sur votre terrain.",
   "islandupgrade.welcomeDesertIsland": "Bienvenue dans le désert !",
   "islandupgrade.notReadyExpandMore": "Tu n'es pas prête. Étendre {{remainingExpansions}} plusieurs fois",
   "islandupgrade.desertResourcesDescription": "L'environnement désertique rude nécessite de nouvelles technologies pour survivre. Agrandissez votre terrain pour découvrir de nouveaux bâtiments et ce qu'il y a à l'intérieur !",
@@ -3544,5 +3543,6 @@
   "description.factionShop.goblinFactionRug": "Un magnifique tapis fabriqué par les talentueux artisans de la Goblin Faction.",
   "description.factionShop.bumpkinFactionRug": "Un magnifique tapis fabriqué par les talentueux artisans de Bumpkin Faction.",
   "description.faction.mark": "Utilisez-les dans la boutique des factions",
-  "description.vase": "Un objet fragile datant de l'antiquité"
+  "description.vase": "Un objet fragile datant de l'antiquité",
+  "islandupgrade.warning": "Assurez-vous de ne pas avoir de récoltes, de fruits, de bâtiments, de poulets, de pierres pourpres, de fleurs ou de miel en cours. Ils ne pourront pas être récoltés et seront retournés dans votre inventaire. Les pierres solaires, la maison, le marché, le foyer et l'établi resteront placés sur votre terrain."
 }

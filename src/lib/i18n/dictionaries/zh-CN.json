@@ -2422,7 +2422,6 @@
   "islandNotFound.message": "你已经降落在茫茫荒野中！",
   "islandNotFound.takeMeHome": "带我回家",
   "islandupgrade.confirmUpgrade": "你确定要升级到新岛吗。",
-  "islandupgrade.warning": "确保你没有任何农作物、水果、建筑物、鸡、蘑菇、猩红石、鲜花或蜂蜜在进行中。这些将无法收获并将退回您的库存。日光石将保留在你的土地上。",
   "islandupgrade.welcomeDesertIsland": "欢迎来到沙漠！",
   "islandupgrade.desertResourcesDescription": "恶劣的沙漠环境需要新技术才能生存。扩大你的土地，发现新的建筑物和里面的东西！",
   "islandupgrade.requiredIsland": "在 {{islandType}} 处解锁",
@@ -3544,5 +3543,6 @@
   "description.factionShop.goblinFactionRug": "由才华横溢的哥布林派工匠制作的精美地毯。",
   "description.factionShop.bumpkinFactionRug": "由才华横溢的 Bumpkin Faction 工匠制作的精美地毯。",
   "description.faction.mark": "在派系商店中使用这些",
-  "description.vase": "远古时代的易碎物品"
+  "description.vase": "远古时代的易碎物品",
+  "islandupgrade.warning": "确保你没有任何农作物、水果、建筑物、鸡、猩红石、鲜花或蜂蜜在进行中。这些将无法收获并将退回您的库存。日光石、房屋、市场、火坑和工作台将保留在你的土地上。"
 }

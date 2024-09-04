@@ -2124,7 +2124,6 @@
   "islandNotFound.message": "¡Has aterrizado en medio de la nada!",
   "islandNotFound.takeMeHome": "Llévame a casa",
   "islandupgrade.confirmUpgrade": "¿Estás seguro de que quieres cambiarte a una nueva isla?",
-  "islandupgrade.warning": "Asegúrese de no tener cultivos, frutas, edificios, pollos, hongos, carmesí, flores o miel en progreso. No podrás cosecharlos y se devolverán a tu inventario. Las piedras solares permanecerán en tu tierra.",
   "islandupgrade.upgradeIsland": "Isla de mejora",
   "islandupgrade.newOpportunities": "Te espera una isla exótica con nuevos recursos y oportunidades para hacer crecer tu granja.",
   "islandupgrade.confirmation": "¿Le gustaría actualizar? Empezarás en una pequeña isla con todos tus objetos.",
@@ -3544,5 +3543,6 @@
   "description.factionShop.goblinFactionRug": "Una magnífica alfombra hecha por los talentosos artesanos de la Facción de los Duendes.",
   "description.factionShop.bumpkinFactionRug": "Una magnífica alfombra hecha por los talentosos artesanos de Bumpkin Faction.",
   "description.faction.mark": "Utilízalos en la tienda de facciones",
-  "description.vase": "Un objeto frágil de la antigüedad"
+  "description.vase": "Un objeto frágil de la antigüedad",
+  "islandupgrade.warning": "Asegúrese de no tener cultivos, frutas, edificios, pollos, carmesí, flores o miel en progreso. No podrás cosecharlos y se devolverán a tu inventario. Sunstones, House, Market, Fire Pit y Workbench permanecerán en tu terreno."
 }
