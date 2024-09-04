@@ -65,12 +65,13 @@ const _megastore = (state: MachineState) => state.context.state.megastore;
 
 export const MegaStore: React.FC<Props> = ({ onClose }) => {
   const [tab, setTab] = useState(0);
+  const { t } = useAppTranslation();
   return (
     <CloseButtonPanel
       bumpkinParts={NPC_WEARABLES.stella}
       tabs={[
-        { icon: shopIcon, name: "Monthly" },
-        { icon: lightning, name: "Seasonal" },
+        { icon: shopIcon, name: t("monthly") },
+        { icon: lightning, name: t("seasonal") },
       ]}
       onClose={onClose}
       currentTab={tab}
@@ -232,7 +233,7 @@ export const MegaSeasonContent: React.FC<{ readonly?: boolean }> = ({
           megastore.collectibles.filter((name) => name.megaItem === true),
         ).length > 0 && (
           <ItemsList
-            itemsLabel="Mega Collectible"
+            itemsLabel={t("mega.collectibles")}
             type="collectibles"
             items={megastore.collectibles.filter(
               (name) => name.megaItem === true,
@@ -243,7 +244,7 @@ export const MegaSeasonContent: React.FC<{ readonly?: boolean }> = ({
         {getKeys(megastore.wearables.filter((name) => name.megaItem === true))
           .length > 0 && (
           <ItemsList
-            itemsLabel="Mega Wearable"
+            itemsLabel={t("mega.wearables")}
             type="wearables"
             items={megastore.wearables.filter((name) => name.megaItem === true)}
             onItemClick={handleClickItem}
