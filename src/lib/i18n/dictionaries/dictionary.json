@@ -3544,5 +3544,7 @@
   "description.fairy.circle.boost": "+0.2 Wild Mushroom",
   "description.gold.beetle.boost": "+0.1 Gold",
   "description.stone.beetle.boost": "+0.1 Stone",
-  "description.iron.beetle.boost": "+0.1 Iron"
+  "description.iron.beetle.boost": "+0.1 Iron",
+  "available.all.season": "Available all season",
+  "megastore.message.allSeason": "Here are items that are available for purchase throughout the whole season. Be sure to grab it before the end of the season!"
 }
