@@ -143,7 +143,9 @@ export const MegaStoreContent: React.FC<{ readonly?: boolean }> = ({
         <ItemsList
           itemsLabel={t("wearables")}
           type="wearables"
-          items={megastore.wearables.filter((name) => name.megaItem === false)}
+          items={megastore.wearables.filter(
+            (name) => name.availableAllSeason === false,
+          )}
           onItemClick={handleClickItem}
         />
         {/* Collectibles */}
@@ -151,7 +153,7 @@ export const MegaStoreContent: React.FC<{ readonly?: boolean }> = ({
           itemsLabel={t("collectibles")}
           type="collectibles"
           items={megastore.collectibles.filter(
-            (name) => name.megaItem === false,
+            (name) => name.availableAllSeason === false,
           )}
           onItemClick={handleClickItem}
         />
@@ -230,23 +232,30 @@ export const MegaSeasonContent: React.FC<{ readonly?: boolean }> = ({
           {readonly ? t("megaStore.visit") : t("megastore.message.allSeason")}
         </span>
         {getKeys(
-          megastore.collectibles.filter((name) => name.megaItem === true),
+          megastore.collectibles.filter(
+            (name) => name.availableAllSeason === true,
+          ),
         ).length > 0 && (
           <ItemsList
             itemsLabel={t("mega.collectibles")}
             type="collectibles"
             items={megastore.collectibles.filter(
-              (name) => name.megaItem === true,
+              (name) => name.availableAllSeason === true,
             )}
             onItemClick={handleClickItem}
           />
         )}
-        {getKeys(megastore.wearables.filter((name) => name.megaItem === true))
-          .length > 0 && (
+        {getKeys(
+          megastore.wearables.filter(
+            (name) => name.availableAllSeason === true,
+          ),
+        ).length > 0 && (
           <ItemsList
             itemsLabel={t("mega.wearables")}
             type="wearables"
-            items={megastore.wearables.filter((name) => name.megaItem === true)}
+            items={megastore.wearables.filter(
+              (name) => name.availableAllSeason === true,
+            )}
             onItemClick={handleClickItem}
           />
         )}
