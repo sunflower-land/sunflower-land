@@ -1133,6 +1133,11 @@ export interface GameState {
 
   rewards: Rewards;
 
+  // There are more fields but unused
+  transaction?: {
+    createdAt: number;
+  };
+
   island: {
     type: IslandType;
     upgradedAt?: number;

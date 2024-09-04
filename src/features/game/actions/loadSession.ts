@@ -23,10 +23,7 @@ type Response = {
   isBlacklisted?: boolean;
   deviceTrackerId: string;
   announcements: Announcements;
-  transaction?: {
-    type: "withdraw_bumpkin";
-    expiresAt: number;
-  };
+
   verified: boolean;
   promoCode?: string;
   moderation: Moderation;
@@ -93,7 +90,6 @@ export async function loadSession(request: Request): Promise<Response> {
     isBlacklisted,
     deviceTrackerId,
     announcements,
-    transaction,
     verified,
     moderation,
     promoCode: promo,
@@ -112,7 +108,6 @@ export async function loadSession(request: Request): Promise<Response> {
     deviceTrackerId: string;
     status?: "COOL_DOWN";
     announcements: Announcements;
-    transaction: { type: "withdraw_bumpkin"; expiresAt: number };
     verified: boolean;
     moderation: Moderation;
     promoCode?: string;
@@ -136,7 +131,6 @@ export async function loadSession(request: Request): Promise<Response> {
     isBlacklisted,
     deviceTrackerId,
     announcements,
-    transaction,
     verified,
     moderation,
     promoCode: promo,

@@ -128,7 +128,6 @@ export interface Context {
     wardrobe: Record<BumpkinItem, number>;
   };
   announcements: Announcements;
-  transaction?: { type: "withdraw_bumpkin"; expiresAt: number };
   auctionResults?: AuctionResults;
   promoCode?: string;
   moderation: Moderation;
@@ -611,7 +610,6 @@ export function startGame(authContext: AuthContext) {
                 fingerprint,
                 deviceTrackerId: response.deviceTrackerId,
                 announcements: response.announcements,
-                transaction: response.transaction,
                 moderation: response.moderation,
                 promoCode: response.promoCode,
                 farmAddress: response.farmAddress,
@@ -730,10 +728,7 @@ export function startGame(authContext: AuthContext) {
           always: [
             {
               target: "transacting",
-              cond: (context: Context) =>
-                !!context.transaction &&
-                context.transaction.type === "withdraw_bumpkin" &&
-                context.transaction.expiresAt > Date.now(),
+              cond: (context: Context) => !!context.state.transaction,
             },
 
             {
@@ -2101,7 +2096,6 @@ export function startGame(authContext: AuthContext) {
           fingerprint: (_, event) => event.data.fingerprint,
           deviceTrackerId: (_, event) => event.data.deviceTrackerId,
           announcements: (_, event) => event.data.announcements,
-          transaction: (_, event) => event.data.transaction,
           moderation: (_, event) => event.data.moderation,
           promoCode: (_, event) => event.data.promoCode,
           farmAddress: (_, event) => event.data.farmAddress,
