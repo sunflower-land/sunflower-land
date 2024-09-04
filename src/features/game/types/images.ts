@@ -678,6 +678,14 @@ import camelBone from "assets/resources/camel_bone.webp";
 import cockleShell from "assets/resources/cockle_shell.webp";
 import vase from "assets/resources/vase.webp";
 
+import stoneBeetle from "assets/sfts/stone_beetle.webp";
+import ironBeetle from "assets/sfts/iron_beetle.webp";
+import goldBeetle from "assets/sfts/gold_beetle.webp";
+import fairyCircle from "assets/sfts/fairy_circle.webp";
+import macaw from "assets/sfts/macaw.webp";
+import butterfly from "assets/sfts/butterfly.webp";
+import squirrel from "assets/sfts/squirrel.webp";
+
 import { COUPONS, EASTER_EGG, FERTILISERS, InventoryItemName } from "./game";
 
 import { CROPS, CROP_SEEDS, GREENHOUSE_CROPS, GREENHOUSE_SEEDS } from "./crops";
@@ -4009,6 +4017,34 @@ export const ITEM_DETAILS: Items = {
   "Tomato Bombard": {
     image: tomatoBombard,
     description: translate("description.tomato.bombard"),
+  },
+  "Stone Beetle": {
+    image: stoneBeetle,
+    description: translate("description.stone.beetle"),
+  },
+  "Iron Beetle": {
+    image: ironBeetle,
+    description: translate("description.iron.beetle"),
+  },
+  "Gold Beetle": {
+    image: goldBeetle,
+    description: translate("description.gold.beetle"),
+  },
+  "Fairy Circle": {
+    image: fairyCircle,
+    description: translate("description.fairy.circle"),
+  },
+  Squirrel: {
+    image: squirrel,
+    description: translate("description.squirrel"),
+  },
+  Macaw: {
+    image: macaw,
+    description: translate("description.macaw"),
+  },
+  Butterfly: {
+    image: butterfly,
+    description: translate("description.butterfly"),
   },
   Sundial: {
     image: "",

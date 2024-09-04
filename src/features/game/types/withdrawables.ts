@@ -254,6 +254,13 @@ const heliosBlacksmith: Record<HeliosBlacksmithItem, () => boolean> = {
   Nana: () => true,
   "Soil Krabby": () => true,
   "Skill Shrimpy": () => true,
+  "Stone Beetle": () => false,
+  "Iron Beetle": () => false,
+  "Gold Beetle": () => false,
+  "Fairy Circle": () => false,
+  Squirrel: () => false,
+  Macaw: () => false,
+  Butterfly: () => false,
 };
 
 const treasureCollectible: Record<TreasureCollectibleItem, () => boolean> = {

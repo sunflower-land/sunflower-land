@@ -28,6 +28,13 @@ const VALID_EQUIPMENT: HeliosBlacksmithItem[] = [
   "Laurie the Chuckle Crow",
   "Immortal Pear",
   "Bale",
+  "Stone Beetle",
+  "Iron Beetle",
+  "Gold Beetle",
+  "Fairy Circle",
+  "Macaw",
+  "Squirrel",
+  "Butterfly",
 ];
 
 export const IslandBlacksmithItems: React.FC = () => {
