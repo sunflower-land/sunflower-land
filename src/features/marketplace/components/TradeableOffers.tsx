@@ -40,6 +40,8 @@ import {
 import { KNOWN_IDS, KNOWN_ITEMS } from "features/game/types";
 import { ITEM_NAMES } from "features/game/types/bumpkin";
 import { availableWardrobe } from "features/game/events/landExpansion/equip";
+import { CONFIG } from "lib/config";
+import { acceptOfferTransaction } from "lib/blockchain/Marketplace";
 
 // TODO - move make offer here, signing state + submitting state
 export const TradeableSummary: React.FC<{
@@ -94,21 +96,32 @@ const MakeOffer: React.FC<{
     const signature = await signTypedData(config, {
       primaryType: "Offer",
       types: {
+        EIP712Domain: [
+          { name: "name", type: "string" },
+          { name: "version", type: "string" },
+          { name: "chainId", type: "uint256" },
+          { name: "verifyingContract", type: "address" },
+        ],
         Offer: [
           { name: "item", type: "string" },
           { name: "collection", type: "string" },
+          { name: "id", type: "uint256" },
           { name: "quantity", type: "uint256" },
           { name: "SFL", type: "uint256" },
         ],
       },
+      domain: {
+        name: "TESTING",
+        version: "1",
+        chainId: BigInt(CONFIG.POLYGON_CHAIN_ID),
+        verifyingContract: CONFIG.MARKETPLACE_CONTRACT as `0x${string}`,
+      },
       message: {
         item: display.name,
+        collection: display.type,
+        id: BigInt(id),
         quantity: BigInt(1),
         SFL: BigInt(offer),
-        collection: display.type,
-      },
-      domain: {
-        name: "Sunflower Land",
       },
     });
 
@@ -143,6 +156,7 @@ const MakeOffer: React.FC<{
           id,
           collection: display.type,
           signature,
+          contract: CONFIG.MARKETPLACE_CONTRACT,
           sfl: offer,
         },
       });
@@ -300,33 +314,82 @@ const AcceptOffer: React.FC<{
   const confirm = async () => {
     setIsAccepting(true);
 
-    if (tradeable?.type === "instant") {
-      try {
-        gameService.send("POST_EFFECT", {
+    try {
+      const response: {
+        signature: string;
+        sessionId: string;
+        nextSessionId: string;
+        deadline: number;
+        farmId: number;
+        fee: string;
+        offer: {
+          tradeId: string;
+          signature: string;
+          farmId: number;
+          id: number;
+          sfl: number;
+          collection: string;
+          name: string;
+        };
+        sender: string;
+      } = await new Promise(async (res, rej) => {
+        await gameService.send("POST_EFFECT", {
           effect: {
             type: "marketplace.offerAccepted",
             id: offer.tradeId,
           },
         });
 
-        await waitFor(
-          gameService,
-          (state) => {
-            if (state.matches("error")) throw new Error("Insert failed");
-            return state.matches("playing");
-          },
-          { timeout: 60 * 1000 },
-        );
+        gameService.onTransition((state, event) => {
+          if (state.matches("playing")) {
+            const data = event.data.response;
+            res(data);
+          } else if (state.matches("error")) {
+            rej();
+          }
+        });
+      });
 
+      if (tradeable?.type === "instant") {
         confetti();
         setShowSuccess(true);
-      } finally {
-        setIsAccepting(false);
+        return;
       }
-    }
 
-    // On chain offer
-    console.log("Accept on chain");
+      // Fire API
+      await acceptOfferTransaction({
+        account: response.sender as `0x${string}`,
+        deadline: response.deadline,
+        farmId: response.farmId,
+        fee: response.fee,
+        nextSessionId: response.nextSessionId as `0x${string}`,
+        offer: response.offer,
+        sessionId: response.sessionId as `0x${string}`,
+        signature: response.signature as `0x${string}`,
+      });
+
+      confetti();
+      setShowSuccess(true);
+      // await gameService.send("POST_EFFECT", {
+      //   effect: {
+      //     type: "marketplace.offerAccepted",
+      //     id: offer.tradeId,
+      //   },
+      // });
+
+      // await waitFor(
+      //   gameService,
+      //   (state) => {
+      //     if (state.matches("error")) throw new Error("Insert failed");
+      //     return state.matches("playing");
+      //   },
+      //   { timeout: 60 * 1000 },
+      // );
+
+      // Do onchain?
+    } finally {
+      setIsAccepting(false);
+    }
   };
 
   if (showSuccess) {
@@ -371,46 +434,58 @@ const AcceptOffer: React.FC<{
     hasItem = !!getChestBuds(game)[tradeable?.id as number];
   }
 
-  return (
-    <>
-      <div className="p-2">
-        <div className="flex justify-between mb-2">
-          <Label type="default" className="-ml-1">
-            {t("marketplace.acceptOffer")}
-          </Label>
-          {tradeable?.type === "onchain" && (
-            <Label type="formula" icon={walletIcon} className="-mr-1">
-              {t("marketplace.walletRequired")}
+  const Content = () => {
+    return (
+      <>
+        <div className="p-2">
+          <div className="flex justify-between mb-2">
+            <Label type="default" className="-ml-1">
+              {t("marketplace.acceptOffer")}
             </Label>
-          )}
+            {tradeable?.type === "onchain" && (
+              <Label type="formula" icon={walletIcon} className="-mr-1">
+                {t("marketplace.walletRequired")}
+              </Label>
+            )}
+          </div>
+          <TradeableSummary display={display} sfl={offer.sfl} />
         </div>
-        <TradeableSummary display={display} sfl={offer.sfl} />
-      </div>
 
-      {!hasItem && (
-        <Label
-          type="danger"
-          className="my-2"
-        >{`You do not have ${display.name}`}</Label>
-      )}
+        {!hasItem && (
+          <Label
+            type="danger"
+            className="my-2"
+          >{`You do not have ${display.name}`}</Label>
+        )}
 
-      <div className="flex">
-        <Button className="mr-1" onClick={() => onClose()}>
-          {t("cancel")}
-        </Button>
-        <Button
-          disabled={!hasItem}
-          onClick={() => confirm()}
-          className="relative"
-        >
-          <span>{t("confirm")}</span>
-          {tradeable?.type === "onchain" && (
-            <img src={walletIcon} className="absolute right-1 top-0.5 h-7" />
-          )}
-        </Button>
-      </div>
-    </>
-  );
+        <div className="flex">
+          <Button className="mr-1" onClick={() => onClose()}>
+            {t("cancel")}
+          </Button>
+          <Button
+            disabled={!hasItem}
+            onClick={() => confirm()}
+            className="relative"
+          >
+            <span>{t("confirm")}</span>
+            {tradeable?.type === "onchain" && (
+              <img src={walletIcon} className="absolute right-1 top-0.5 h-7" />
+            )}
+          </Button>
+        </div>
+      </>
+    );
+  };
+
+  if (tradeable?.type === "onchain") {
+    return (
+      <GameWallet action="marketplace">
+        <Content />
+      </GameWallet>
+    );
+  }
+
+  return <Content />;
 };
 
 export const TradeableOffers: React.FC<{

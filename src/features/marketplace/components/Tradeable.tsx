@@ -24,6 +24,13 @@ import { TradeTable } from "./TradeTable";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { TradeableOffers, YourOffer } from "./TradeableOffers";
 import { Context } from "features/game/GameProvider";
+import { KNOWN_ITEMS } from "features/game/types";
+import {
+  getChestBuds,
+  getChestItems,
+} from "features/island/hud/components/inventory/utils/inventory";
+import { ITEM_NAMES } from "features/game/types/bumpkin";
+import { availableWardrobe } from "features/game/events/landExpansion/equip";
 
 export const Tradeable: React.FC = () => {
   const { authService } = useContext(Auth.Context);
@@ -128,11 +135,30 @@ const TradeableHeader: React.FC<{
   display: TradeableDisplay;
   tradeable?: TradeableDetails;
 }> = ({ collection, onBack, display, tradeable }) => {
+  const { gameService } = useContext(Context);
+  const [gameState] = useActor(gameService);
   const { t } = useAppTranslation();
 
   const cheapestListing = tradeable?.listings.reduce((cheapest, listing) => {
     return listing.sfl < cheapest.sfl ? listing : cheapest;
   }, tradeable?.listings?.[0]);
+
+  let count = 0;
+
+  const game = gameState.context.state;
+  if (display.type === "collectibles") {
+    const name = KNOWN_ITEMS[tradeable?.id as number];
+    count = getChestItems(game)[name]?.toNumber() ?? 0;
+  }
+
+  if (display.type === "wearables") {
+    const name = ITEM_NAMES[tradeable?.id as number];
+    count = availableWardrobe(game)[name] ?? 0;
+  }
+
+  if (display.type === "buds") {
+    count = !!getChestBuds(game)[tradeable?.id as number] ? 1 : 0;
+  }
 
   return (
     <InnerPanel className="w-full mb-1">
@@ -152,7 +178,7 @@ const TradeableHeader: React.FC<{
               </Label>
             )}
 
-            <Label type="default">{`You own: ?`}</Label>
+            <Label type="default">{`You own: ${count}`}</Label>
           </div>
         </div>
         <div className="flex">
