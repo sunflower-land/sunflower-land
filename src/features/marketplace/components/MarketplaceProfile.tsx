@@ -152,12 +152,21 @@ const MyOffers: React.FC = () => {
                   type={details.type}
                   id={itemId}
                   key={id}
-                  onClick={() => {
-                    navigate(`/marketplace/${details.type}/${itemId}`);
-                  }}
-                  onRemove={() => {
-                    setRemoveId(id);
-                  }}
+                  isSold={!!offer.fulfilledAt}
+                  onClick={
+                    offer.fulfilledAt
+                      ? undefined
+                      : () => {
+                          navigate(`/marketplace/${details.type}/${itemId}`);
+                        }
+                  }
+                  onRemove={
+                    offer.fulfilledAt
+                      ? undefined
+                      : () => {
+                          setRemoveId(id);
+                        }
+                  }
                 />
               );
             })}
