@@ -294,7 +294,7 @@ export const WishingWellModal: React.FC<Props> = ({ onClose }) => {
     <Modal show={true} onHide={handleClose}>
       <Panel className="relative">
         <Label type="default" icon={giftIcon} className="text-center m-1">
-          {t("wishing.well")}
+          {`Wishing well`}
         </Label>
         <GameWallet action="wishingWell">
           {machine.matches("loading") && <Loading />}
