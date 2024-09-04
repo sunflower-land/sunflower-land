@@ -2142,7 +2142,7 @@
   "islandNotFound.message": "You have landed in the middle of nowhere!",
   "islandNotFound.takeMeHome": "Take me home",
   "islandupgrade.confirmUpgrade": "Are you sure you want to upgrade to a new island.",
-  "islandupgrade.warning": "Make sure you do not have any crops, fruit, buildings, chickens, mushrooms, crimstone, flowers or honey in progress. These will not be able to be harvested and will be returned to your inventory. Sunstones will remain placed on your land.",
+  "islandupgrade.warning": "Make sure you do not have any crops, fruit, buildings, chickens, crimstone, flowers or honey in progress. These will not be able to be harvested and will be returned to your inventory. Sunstones, House, Market, Fire Pit and Workbench will remain placed on your land.",
   "islandupgrade.upgradeIsland": "Upgrade Island",
   "islandupgrade.newOpportunities": "An exotic island awaits you with new resources and opportunities to grow your farm.",
   "islandupgrade.confirmation": "Would you like to upgrade? You will start on a small island with all of your items.",
