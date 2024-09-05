@@ -18,6 +18,7 @@ import { Label } from "components/ui/Label";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { MachineState } from "features/game/lib/gameMachine";
 import { translate } from "lib/i18n/translate";
+import { Transaction } from "features/island/hud/Transaction";
 
 const getPageIcon = (page: Page) => {
   switch (page) {
@@ -212,6 +213,11 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
     gameService.send("PROVE_PERSONHOOD");
     onClose();
   };
+
+  const transaction = gameService.state.context.state.transaction;
+  if (transaction) {
+    return <Transaction onClose={onClose} />;
+  }
 
   if (!verified) {
     return (

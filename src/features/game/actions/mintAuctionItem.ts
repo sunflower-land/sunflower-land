@@ -54,7 +54,7 @@ export async function mintAuctionItem(request: Request) {
   } else {
     sessionId = await mintAuctionWearable({
       ...transaction,
-      account: wallet.getAccount(),
+      sender: wallet.getAccount(),
     });
   }
 

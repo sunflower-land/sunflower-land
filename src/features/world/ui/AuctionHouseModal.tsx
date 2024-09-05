@@ -1,5 +1,6 @@
 import { useActor } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
+import { Transaction } from "features/island/hud/Transaction";
 import { AuctioneerModal } from "features/retreat/components/auctioneer/AuctioneerModal";
 import React, { useContext } from "react";
 
@@ -18,6 +19,11 @@ export const AuctionHouseModal: React.FC<Props> = ({
   const {
     context: { state, linkedWallet },
   } = gameState;
+
+  const transaction = state.transaction;
+  if (transaction) {
+    return <Transaction onClose={closeModal} />;
+  }
 
   return (
     <AuctioneerModal

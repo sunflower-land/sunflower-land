@@ -9,6 +9,7 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { ITEM_IDS } from "features/game/types/bumpkin";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { getImageUrl } from "lib/utils/getImageURLS";
+import { Transaction } from "features/island/hud/Transaction";
 
 export const ClaimAuction: React.FC = () => {
   const { gameService } = useContext(GameContext);
@@ -23,6 +24,11 @@ export const ClaimAuction: React.FC = () => {
   const onClose = () => {
     gameService.send("CLOSE");
   };
+
+  const transaction = gameService.state.context.state.transaction;
+  if (transaction) {
+    return <Transaction onClose={onClose} />;
+  }
 
   return (
     <Modal show={true} onHide={onClose}>

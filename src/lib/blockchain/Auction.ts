@@ -49,7 +49,7 @@ export async function mintAuctionCollectible({
     value: BigInt(fee),
     account: sender as `0x${string}`,
   });
-  saveTxHash({ event: "transaction.bidMinted", hash });
+  saveTxHash({ event: "transaction.bidMinted", hash, sessionId });
 
   await waitForTransactionReceipt(config, { hash });
 
@@ -57,7 +57,7 @@ export async function mintAuctionCollectible({
 }
 
 export async function mintAuctionWearable({
-  account,
+  sender,
   signature,
   sessionId,
   nextSessionId,
@@ -66,37 +66,26 @@ export async function mintAuctionWearable({
   mintId,
   supply,
   fee,
-}: {
-  account: `0x${string}`;
-  signature: `0x${string}`;
-  sessionId: `0x${string}`;
-  nextSessionId: `0x${string}`;
-  deadline: number;
-  // Data
-  farmId: number;
-  mintId: number;
-  supply: number;
-  fee: number;
-}): Promise<string> {
-  const oldSessionId = await getSessionId(farmId);
+}: MintBidParams): Promise<string> {
+  const oldSessionId = await getSessionId(farmId as number);
 
   const hash = await writeContract(config, {
     abi: ABI,
     address: address as `0x${string}`,
     functionName: "mintWearable",
     args: [
-      signature,
-      sessionId,
-      nextSessionId,
+      signature as `0x${string}`,
+      sessionId as `0x${string}`,
+      nextSessionId as `0x${string}`,
       BigInt(deadline),
       BigInt(farmId),
       BigInt(fee),
       BigInt(mintId),
       BigInt(supply),
     ],
-    account,
+    account: sender as `0x${string}`,
   });
   await waitForTransactionReceipt(config, { hash });
 
-  return await getNextSessionId(account, farmId, oldSessionId);
+  return await getNextSessionId(sender, farmId as number, oldSessionId);
 }

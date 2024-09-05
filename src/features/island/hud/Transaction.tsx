@@ -23,7 +23,10 @@ import { syncProgress } from "lib/blockchain/Game";
 import { useWaitForTransactionReceipt } from "wagmi";
 import {
   DEADLINE_MS,
+  GameTransaction,
   loadActiveTxHash,
+  TRANSACTION_HANDLERS,
+  TransactionHandler,
   TransactionName,
 } from "features/game/types/transactions";
 import { GameWallet } from "features/wallet/Wallet";
@@ -34,6 +37,11 @@ import lockIcon from "assets/icons/lock.png";
 
 import { Loading } from "features/auth/components";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import {
+  mintAuctionCollectible,
+  mintAuctionWearable,
+} from "lib/blockchain/Auction";
+import { withdrawItemsTransaction } from "lib/blockchain/Withdrawals";
 
 export const TransactionCountdown: React.FC = () => {
   const { gameService } = useContext(Context);
@@ -95,6 +103,15 @@ export const Transaction: React.FC<Props> = ({ onClose }) => {
   );
 };
 
+const EVENT_TO_NAME: Record<TransactionName, string> = {
+  "transaction.bidMinted": "Mint auction item",
+  "transaction.budWithdrawn": "Withdraw bud",
+  "transaction.itemsWithdrawn": "Withdraw items",
+  "transaction.progressSynced": "Store on chain",
+  "transaction.sflWithdrawn": "Withdraw SFL",
+  "transaction.wearablesWithdrawn": "Withdraw wearables",
+};
+
 export const TransactionProgress: React.FC<Props> = ({ onClose }) => {
   const { gameService } = useContext(Context);
   const { t } = useAppTranslation();
@@ -120,10 +137,10 @@ export const TransactionProgress: React.FC<Props> = ({ onClose }) => {
     setIsSubmitting(true);
 
     try {
-      if (transaction.event === "transaction.progressSynced") {
-        await syncProgress(transaction.data.params);
-      }
+      const handler = TRANSACTION_HANDLERS[transaction.event];
+      await handler(transaction.data as any);
     } catch (e) {
+      console.log({ error: e });
     } finally {
       setIsSubmitting(false);
     }
@@ -202,10 +219,15 @@ export const TransactionProgress: React.FC<Props> = ({ onClose }) => {
           <TimerDisplay time={end} />
         </div>
         <p className="text-sm mb-2">
-          You have a transaction which was already initiated. It looks like
-          there was an issue.
+          You have a transaction in progress. You can wait for it to timeout or
+          submit it again.
         </p>
-        <p>{transaction.event}</p>
+        <div className="flex items-center">
+          <Label type="formula" className="-ml-1 mr-2">
+            Transaction: {EVENT_TO_NAME[transaction.event]}
+          </Label>
+          <span className="text-xs italic"></span>
+        </div>
       </div>
       <div className="flex">
         <Button className="mr-1" onClick={onClose}>

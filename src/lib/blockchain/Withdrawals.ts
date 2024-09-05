@@ -28,6 +28,7 @@ export async function withdrawSFLTransaction({
   tax,
   sfl,
 }: WithdrawSFLParams): Promise<string> {
+  console.log("Withdraw SFL");
   const oldSessionId = sessionId;
 
   const hash = await writeContract(config, {
@@ -45,7 +46,7 @@ export async function withdrawSFLTransaction({
     ],
     account: sender as `0x${string}`,
   });
-  saveTxHash({ event: "transaction.sflWithdrawn", hash });
+  saveTxHash({ event: "transaction.sflWithdrawn", hash, sessionId });
 
   await waitForTransactionReceipt(config, { hash });
 
@@ -90,7 +91,7 @@ export async function withdrawItemsTransaction({
     ],
     account: sender as `0x${string}`,
   });
-  saveTxHash({ event: "transaction.itemsWithdrawn", hash });
+  saveTxHash({ event: "transaction.itemsWithdrawn", hash, sessionId });
   await waitForTransactionReceipt(config, { hash });
 
   return await getNextSessionId(sender, farmId, oldSessionId);
@@ -134,7 +135,7 @@ export async function withdrawWearablesTransaction({
     ],
     account: sender as `0x${string}`,
   });
-  saveTxHash({ event: "transaction.wearablesWithdrawn", hash });
+  saveTxHash({ event: "transaction.wearablesWithdrawn", hash, sessionId });
   await waitForTransactionReceipt(config, { hash });
 
   return await getNextSessionId(sender, farmId, oldSessionId);
@@ -175,7 +176,7 @@ export async function withdrawBudsTransaction({
     ],
     account: sender as `0x${string}`,
   });
-  saveTxHash({ event: "transaction.budWithdrawn", hash });
+  saveTxHash({ event: "transaction.budWithdrawn", hash, sessionId });
   await waitForTransactionReceipt(config, { hash });
 
   return await getNextSessionId(sender, farmId, oldSessionId);

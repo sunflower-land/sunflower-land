@@ -22,6 +22,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useLocation } from "react-router-dom";
 import { SpecialEventCountdown } from "./SpecialEventCountdown";
 import { DesertDiggingDisplay } from "./components/DesertDiggingDisplay";
+import { TransactionCountdown } from "./Transaction";
 
 /**
  * Heads up display - a concept used in games for the small overlaid display of information.
@@ -108,6 +109,8 @@ const HudComponent: React.FC = () => {
           left: `${PIXEL_SCALE * 28}px`,
         }}
       >
+        <TransactionCountdown />
+
         <AuctionCountdown />
         <SpecialEventCountdown />
       </div>

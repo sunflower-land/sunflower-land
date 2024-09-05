@@ -1,12 +1,17 @@
-import { SyncProgressParams } from "lib/blockchain/Game";
+import { syncProgress, SyncProgressParams } from "lib/blockchain/Game";
 import { GameState, InventoryItemName, Wardrobe } from "./game";
-import { MintBidParams } from "lib/blockchain/Auction";
+import { mintAuctionCollectible, MintBidParams } from "lib/blockchain/Auction";
 import {
   WithdrawBudsParams,
+  withdrawBudsTransaction,
   WithdrawItemsParams,
+  withdrawItemsTransaction,
   WithdrawSFLParams,
+  withdrawSFLTransaction,
   WithdrawWearablesParams,
+  withdrawWearablesTransaction,
 } from "lib/blockchain/Withdrawals";
+import { withdrawBuds, withdrawWearables } from "../actions/withdraw";
 
 export type BidMintedTransaction = {
   event: "transaction.bidMinted";
@@ -124,9 +129,30 @@ export function loadActiveTxHash({
 
   if (txHash.sessionId !== sessionId) return null;
 
-  // const hasExpired = txHash.deadline * 1000 + DEADLINE_MS < Date.now();
-
-  // if (hasExpired) return null;
-
   return txHash;
 }
+
+export type TransactionHandler = {
+  [Name in GameTransaction["event"]]: (
+    data: Extract<GameTransaction, { event: Name }>["data"],
+  ) => Promise<string>;
+};
+
+export const TRANSACTION_HANDLERS: TransactionHandler = {
+  "transaction.budWithdrawn": (data) => withdrawBudsTransaction(data.params),
+  "transaction.itemsWithdrawn": (data) => withdrawItemsTransaction(data.params),
+  "transaction.progressSynced": (data) => syncProgress(data.params),
+  "transaction.sflWithdrawn": (data) => {
+    console.log({ run: data });
+    return withdrawSFLTransaction(data.params);
+  },
+  "transaction.wearablesWithdrawn": (data) =>
+    withdrawWearablesTransaction(data.params),
+  "transaction.bidMinted": (data) => {
+    if (!!data.bid?.collectible) {
+      return mintAuctionCollectible(data.params);
+    }
+
+    return mintAuctionCollectible(data.params);
+  },
+};
