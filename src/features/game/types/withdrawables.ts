@@ -608,8 +608,10 @@ const seasonalDecorations: Record<SeasonalDecorationName, () => boolean> = {
   "Battlecry Drum": () => false,
   "Golden Gallant": () => false,
   "Golden Guardian": () => false,
-  "Rookie Rook": () => false,
-  "Silver Sentinel": () => false,
+  "Rookie Rook": () =>
+    canWithdrawTimebasedItem(SEASONS["Pharaoh's Treasure"].endDate),
+  "Silver Sentinel": () =>
+    canWithdrawTimebasedItem(SEASONS["Pharaoh's Treasure"].endDate),
   "Silver Stallion": () => false,
 
   Blossombeard: () => false,
@@ -1436,7 +1438,8 @@ export const BUMPKIN_WITHDRAWABLES: Record<
   "Ugly Christmas Sweater": () => true,
   "Candy Cane": () => true,
   "Elf Hat": () => true,
-  "Elf Potion": () => false,
+  "Elf Potion": () =>
+    canWithdrawTimebasedItem(SEASONS["Pharaoh's Treasure"].endDate),
   "Elf Shoes": () => false,
   "Elf Suit": () => true,
   "Santa Beard": () => true,
