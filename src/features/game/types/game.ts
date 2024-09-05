@@ -975,13 +975,19 @@ export type ShopItemBase = {
   type: "wearable" | "collectible" | "food";
 };
 
+type AvailableAllSeason = {
+  availableAllSeason: boolean;
+};
+
 export type WearablesItem = {
   name: BumpkinItem;
-} & ShopItemBase;
+} & ShopItemBase &
+  AvailableAllSeason;
 
 export type CollectiblesItem = {
   name: InventoryItemName;
-} & ShopItemBase;
+} & ShopItemBase &
+  AvailableAllSeason;
 
 export type MegaStoreItemName = BumpkinItem | InventoryItemName;
 
