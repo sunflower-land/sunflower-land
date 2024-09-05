@@ -13,9 +13,13 @@ import { ModalOverlay } from "components/ui/ModalOverlay";
 import classNames from "classnames";
 import { getCurrentSeason, SEASONS } from "features/game/types/seasons";
 import { getKeys } from "features/game/types/decorations";
-import { getItemImage, getItemBuffLabel, isWearablesItem } from "./MegaStore";
+import {
+  getItemImage,
+  getItemBuffLabel,
+  isWearablesItem,
+  _megastore,
+} from "./MegaStore";
 import { useSelector } from "@xstate/react";
-import { MachineState } from "features/game/lib/gameMachine";
 import { Context } from "features/game/GameProvider";
 
 export const MegaStoreSeasonal: React.FC<{
@@ -23,7 +27,6 @@ export const MegaStoreSeasonal: React.FC<{
 }> = ({ readonly }) => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
-  const _megastore = (state: MachineState) => state.context.state.megastore;
   const megastore = useSelector(gameService, _megastore);
   const getTotalSecondsAvailableMega = () => {
     const { startDate, endDate } = SEASONS[getCurrentSeason()];
