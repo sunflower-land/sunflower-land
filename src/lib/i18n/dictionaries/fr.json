@@ -2814,7 +2814,7 @@
   "faction.shop.welcome": "Bienvenue dans la boutique Faction ! Utilisez vos marques pour acheter des bonus temporaires, des accessoires portables élégants et des objets de collection rares. Plongez dans le vif du sujet et trouvez votre prochaine addition géniale !",
   "faction.goodLuck": "Bonne chance cette semaine !",
   "faction.noPrizeFound": "Aucun prix n'a été trouvé",
-  "faction.pet.weeklyGoal": "Objectif hebdomadaire : {{totalXP}}/{{goalXP}} XP",
+  "faction.pet.weeklyGoal": "Objectif hebdomadaire : {{totalXP}} / {{goalXP}} XP",
   "faction.pet.hungry": "Notre animal de compagnie bien-aimé compte sur vous pour rester en vie ! Nourrissez-le 30 % de plus chaque semaine pour répondre à sa faim croissante. Maintenez une séquence pour faire gagner à votre faction d'incroyables bonus d'expérience et des points supplémentaires !",
   "faction.pet.fed": "Un travail fantastique ! Vous avez débloqué un bonus précieux. L'animal de compagnie de la faction est plus sain que jamais et tous les membres reçoivent un bonus d'expérience. Visons la prochaine série !",
   "faction.pet.sleeping": "L'animal s'est endormi pendant une semaine à cause de la faim. Assurez-vous de bien le nourrir à son réveil pour maintenir notre série en vie.",

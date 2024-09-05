@@ -2806,7 +2806,7 @@
   "faction.shop.welcome": "Faction Shop\"a hoş geldiniz! Geçici takviyeler, şık giyilebilir ürünler ve nadir koleksiyonlar satın almak için markalarınızı kullanın. Dalın ve bir sonraki harika eklemenizi bulun!",
   "faction.goodLuck": "Bu hafta iyi şanslar!",
   "faction.noPrizeFound": "Ödül bulunamadı",
-  "faction.pet.weeklyGoal": "Haftalık hedef: {{totalXP}}/{{goalXP}} XP",
+  "faction.pet.weeklyGoal": "Haftalık hedef: {{totalXP}} / {{goalXP}} XP",
   "faction.pet.hungry": "Sevgili evcil hayvanımız hayatta kalmak için size güveniyor! Büyüyen açlığını gidermek için her hafta% 30 daha fazla besleyin. Grubunuza inanılmaz DP bonusları ve ek notlar kazanmak için bir seri sürdürün!",
   "faction.pet.fed": "Harika iş! Değerli bir bonusun kilidini açtınız. Grubun evcil hayvanı her zamankinden daha sağlıklı ve tüm üyeler XP artışı alıyor. Bir sonraki seriyi hedefleyelim!",
   "faction.pet.sleeping": "Evcil hayvan açlık nedeniyle bir hafta uyudu. Serimizi canlı tutmak için uyandığında onu iyi beslediğinizden emin olun.",
