@@ -32,6 +32,12 @@ const SEASONAL_REWARDS: (weight: number) => ChestReward[] = (weight) => {
       { items: { "Cactus King": 1 }, weighting: weight },
       { items: { "Lemon Frog": 1 }, weighting: weight },
       { items: { "Scarab Beetle": 1 }, weighting: weight },
+      { items: { "Golden Garrison": 1 }, weighting: weight },
+      { items: { "Rookie Rook": 1 }, weighting: weight },
+      { items: { "Silver Sentinel": 1 }, weighting: weight },
+      { items: { "Sunlit Citadel": 1 }, weighting: weight },
+      { items: { Camel: 1 }, weighting: weight },
+      { items: { "Baobab Tree": 1 }, weighting: weight },
       { wearables: { "Grape Pants": 1 }, weighting: weight },
       { wearables: { "Amber Amulet": 1 }, weighting: weight },
       { wearables: { "Explorer Shirt": 1 }, weighting: weight },
@@ -42,6 +48,8 @@ const SEASONAL_REWARDS: (weight: number) => ChestReward[] = (weight) => {
       { wearables: { "Explorer Hat": 1 }, weighting: weight },
       { wearables: { "Desert Camel Background": 1 }, weighting: weight },
       { wearables: { "Rock Hammer": 1 }, weighting: weight },
+      { wearables: { "Elf Potion": 1 }, weighting: weight },
+      { wearables: { "Scarab Wings": 1 }, weighting: weight },
     ];
   } else {
     return [];
