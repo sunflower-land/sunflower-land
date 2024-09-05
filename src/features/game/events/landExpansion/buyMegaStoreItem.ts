@@ -109,15 +109,13 @@ export function buyMegaStoreItem({
 
     // This is where the key is bought
     if (isKey(name)) {
-      // Ensure `keysBought` and `treasureShop` are properly initialized
+      // Ensure `keysBought` is properly initialized
       if (!stateCopy.pumpkinPlaza.keysBought) {
         stateCopy.pumpkinPlaza.keysBought = {
           treasureShop: {},
           megastore: {},
           factionShop: {},
         };
-      } else if (!stateCopy.pumpkinPlaza.keysBought.megastore) {
-        stateCopy.pumpkinPlaza.keysBought.megastore = {};
       }
 
       stateCopy.pumpkinPlaza.keysBought.megastore[name as Keys] = {

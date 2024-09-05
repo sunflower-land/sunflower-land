@@ -101,15 +101,13 @@ export function buyFactionShopItem({
 
     // This is where the key is bought
     if (isKey(action.item)) {
-      // Ensure `keysBought` and `treasureShop` are properly initialized
+      // Ensure `keysBought` is properly initialized
       if (!stateCopy.pumpkinPlaza.keysBought) {
         stateCopy.pumpkinPlaza.keysBought = {
           treasureShop: {},
           megastore: {},
           factionShop: {},
         };
-      } else if (!stateCopy.pumpkinPlaza.keysBought.factionShop) {
-        stateCopy.pumpkinPlaza.keysBought.factionShop = {};
       }
 
       stateCopy.pumpkinPlaza.keysBought.factionShop[action.item as Keys] = {
