@@ -50,7 +50,7 @@ export async function withdrawSFL({
 
   const newSessionId = await withdrawSFLTransaction({
     ...transaction,
-    account: wallet.getAccount(),
+    sender: wallet.getAccount(),
   });
 
   return { sessionId: newSessionId, verified: true };
@@ -99,7 +99,7 @@ export async function withdrawItems({
 
   const newSessionId = await withdrawItemsTransaction({
     ...transaction,
-    account: wallet.getAccount(),
+    sender: wallet.getAccount(),
   });
 
   return { sessionId: newSessionId, verified: true };
@@ -150,7 +150,7 @@ export async function withdrawWearables({
 
   const newSessionId = await withdrawWearablesTransaction({
     ...transaction,
-    account: wallet.getAccount(),
+    sender: wallet.getAccount(),
   });
 
   return { sessionId: newSessionId, verified: true };
@@ -193,7 +193,7 @@ export async function withdrawBuds({
 
   const newSessionId = await withdrawBudsTransaction({
     ...transaction,
-    account: wallet.getAccount(),
+    sender: wallet.getAccount(),
   });
 
   return { sessionId: newSessionId, verified: true };

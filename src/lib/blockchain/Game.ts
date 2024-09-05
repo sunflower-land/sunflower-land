@@ -5,39 +5,33 @@ import { onboardingAnalytics } from "lib/onboardingAnalytics";
 import { getNextSessionId, getSessionId } from "./Session";
 import { waitForTransactionReceipt, writeContract } from "@wagmi/core";
 import { config } from "features/wallet/WalletProvider";
+import { saveTxHash } from "features/game/types/transactions";
 
 const address = CONFIG.GAME_CONTRACT;
 
-type ProgressData = {
-  mintIds: number[];
-  mintAmounts: string[];
-  burnIds: number[];
-  burnAmounts: string[];
-  wearableIds: number[];
-  wearableAmounts: number[];
-  wearableBurnIds: number[];
-  wearableBurnAmounts: number[];
-  tokens: string;
-};
-
-export type SyncProgressArgs = {
-  account: `0x${string}`;
-  signature: `0x${string}`;
-  sender: `0x${string}`;
+export type SyncProgressParams = {
+  signature: string;
+  sessionId: string;
+  nextSessionId: string;
   farmId: number;
+  sender: string;
   deadline: number;
-  sessionId: `0x${string}`;
-  nextSessionId: `0x${string}`;
-  progress: ProgressData;
   fee: string;
-  purchase: {
-    name: string;
-    amount: number;
+  progress: {
+    wearableIds: number[];
+    wearableAmounts: number[];
+    wearableBurnIds: number[];
+    wearableBurnAmounts: number[];
+    mintIds: number[];
+    mintAmounts: string[];
+    burnIds: number[];
+    burnAmounts: string[];
+    tokens: string;
   };
 };
 
 export async function syncProgress({
-  account,
+  sender,
   signature,
   sessionId,
   nextSessionId,
@@ -45,8 +39,7 @@ export async function syncProgress({
   farmId,
   progress,
   fee,
-  purchase,
-}: SyncProgressArgs): Promise<string> {
+}: SyncProgressParams): Promise<string> {
   const oldSessionId = await getSessionId(farmId);
 
   const hash = await writeContract(config, {
@@ -55,11 +48,11 @@ export async function syncProgress({
     address,
     args: [
       {
-        signature,
+        signature: signature as `0x${string}`,
         farmId: BigInt(farmId),
         deadline: BigInt(deadline),
-        sessionId,
-        nextSessionId,
+        sessionId: sessionId as `0x${string}`,
+        nextSessionId: nextSessionId as `0x${string}`,
         progress: {
           mintIds: progress.mintIds.map(BigInt),
           mintAmounts: progress.mintAmounts.map(BigInt),
@@ -74,26 +67,17 @@ export async function syncProgress({
         fee: BigInt(fee),
       },
     ],
-    account,
+    account: sender as `0x${string}`,
   });
+
+  saveTxHash({
+    event: "transaction.progressSynced",
+    hash,
+    // deadline,
+    sessionId,
+  });
+
   await waitForTransactionReceipt(config, { hash });
 
-  if (purchase) {
-    // https://developers.google.com/analytics/devguides/collection/ga4/reference/events?sjid=11955999175679069053-AP&client_type=gtag#purchase
-    onboardingAnalytics.logEvent("purchase", {
-      currency: "MATIC",
-      // Unique ID to prevent duplicate events
-      transaction_id: `${sessionId}-${farmId}`,
-      value: Number(fromWei(fee)),
-      items: [
-        {
-          item_id: purchase.name.split(" ").join("_"),
-          item_name: purchase.name,
-          quantity: purchase.amount,
-        },
-      ],
-    });
-  }
-
-  return await getNextSessionId(account, farmId, oldSessionId);
+  return await getNextSessionId(sender, farmId, oldSessionId);
 }

@@ -51,11 +51,9 @@ export async function sync({
     throw new Error(ERRORS.SYNC_SERVER_ERROR);
   }
 
-  // TODO
   const newSessionId = await syncProgress({
     ...transaction,
-    account: wallet.getAccount(),
-    blockBucks,
+    sender: wallet.getAccount(),
   });
 
   return { verified: true, sessionId: newSessionId };

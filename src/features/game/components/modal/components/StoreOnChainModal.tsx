@@ -5,6 +5,8 @@ import { Context } from "features/game/GameProvider";
 import { Button } from "components/ui/Button";
 import { GameWallet } from "features/wallet/Wallet";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { Transaction } from "features/island/hud/Transaction";
+import { Panel } from "components/ui/Panel";
 
 interface Props {
   onClose: () => void;
@@ -12,6 +14,7 @@ interface Props {
 export const StoreOnChainModal: React.FC<Props> = ({ onClose }) => {
   const { gameService } = useContext(Context);
   const { t } = useAppTranslation();
+
   const storeData = () => {
     gameService.send("SYNC", {
       captcha: "",
@@ -20,6 +23,16 @@ export const StoreOnChainModal: React.FC<Props> = ({ onClose }) => {
 
     onClose();
   };
+
+  // Transaction already in progress
+  const transaction = gameService.state.context.state.transaction;
+  if (transaction) {
+    return (
+      <Panel>
+        <Transaction onClose={onClose} />
+      </Panel>
+    );
+  }
 
   return (
     <CloseButtonPanel

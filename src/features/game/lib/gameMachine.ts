@@ -726,10 +726,10 @@ export function startGame(authContext: AuthContext) {
         },
         notifying: {
           always: [
-            {
-              target: "transacting",
-              cond: (context: Context) => !!context.state.transaction,
-            },
+            // {
+            //   target: "transacting",
+            //   cond: (context: Context) => !!context.state.transaction,
+            // },
 
             {
               target: "gameRules",
