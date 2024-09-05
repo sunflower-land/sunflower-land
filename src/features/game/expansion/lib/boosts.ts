@@ -57,7 +57,7 @@ export const getSellPrice = ({
   game: GameState;
   now?: Date;
 }) => {
-  let price = item.sellPrice;
+  const price = item.sellPrice;
 
   const { inventory, bumpkin } = game;
 
@@ -67,9 +67,11 @@ export const getSellPrice = ({
 
   if (!price) return 0;
 
+  let multiplier = 1;
+
   // apply Green Thumb boost to crop LEGACY SKILL!
   if (item.name in crops && inventory["Green Thumb"]?.greaterThanOrEqualTo(1)) {
-    price = price * 1.05;
+    multiplier += 0.05;
   }
 
   // Crop Shortage during initial gameplay
@@ -77,7 +79,7 @@ export const getSellPrice = ({
     game.createdAt + CROP_SHORTAGE_HOURS * 60 * 60 * 1000 > now.getTime();
 
   if (item.name in CROPS && isCropShortage) {
-    price = price * 2;
+    multiplier += 1;
   }
 
   // Special Events
@@ -90,14 +92,14 @@ export const getSellPrice = ({
   ]?.saleMultiplier;
 
   if (specialEventMultiplier) {
-    price = price * specialEventMultiplier;
+    multiplier += specialEventMultiplier - 1;
   }
 
   if (bumpkin.skills["Coin Swindler"] && item.name in CROPS) {
-    price = price * 1.1;
+    multiplier += 0.1;
   }
 
-  return price;
+  return price * multiplier;
 };
 
 /**
