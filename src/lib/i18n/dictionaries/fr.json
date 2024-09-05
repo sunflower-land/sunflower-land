@@ -3544,5 +3544,11 @@
   "description.factionShop.bumpkinFactionRug": "Un magnifique tapis fabriqué par les talentueux artisans de Bumpkin Faction.",
   "description.faction.mark": "Utilisez-les dans la boutique des factions",
   "description.vase": "Un objet fragile datant de l'antiquité",
-  "islandupgrade.warning": "Assurez-vous de ne pas avoir de récoltes, de fruits, de bâtiments, de poulets, de pierres pourpres, de fleurs ou de miel en cours. Ils ne pourront pas être récoltés et seront retournés dans votre inventaire. Les pierres solaires, la maison, le marché, le foyer et l'établi resteront placés sur votre terrain."
+  "islandupgrade.warning": "Assurez-vous de ne pas avoir de récoltes, de fruits, de bâtiments, de poulets, de pierres pourpres, de fleurs ou de miel en cours. Ils ne pourront pas être récoltés et seront retournés dans votre inventaire. Les pierres solaires, la maison, le marché, le foyer et l'établi resteront placés sur votre terrain.",
+  "available.all.season": "Disponible toute la saison",
+  "megastore.message.allSeason": "Voici les articles disponibles à l'achat tout au long de la saison. N'oubliez pas de vous le procurer avant la fin de la saison !",
+  "monthly": "Mensuel",
+  "seasonal": "Saisonnier",
+  "mega.collectibles": "Objets de collection Mega",
+  "mega.wearables": "Mega Wearables"
 }
