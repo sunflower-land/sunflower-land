@@ -134,7 +134,17 @@ const CollectibleContent: React.FC<CollectibleContentProps> = ({
       context: { state },
     },
   ] = useActor(gameService);
-  const inventory = state.inventory;
+  const { inventory, pumpkinPlaza } = state;
+
+  const isKey = (name: TreasureCollectibleItem | Keys): name is Keys =>
+    name in ARTEFACT_SHOP_KEYS;
+
+  const keysBoughtAt =
+    pumpkinPlaza.keysBought.treasureShop[selectedName as Keys]?.boughtAt;
+  const keysBoughtToday =
+    !!keysBoughtAt &&
+    new Date(keysBoughtAt).toISOString().substring(0, 10) ===
+      new Date().toISOString().substring(0, 10);
 
   const lessIngredients = () =>
     getKeys(selected.ingredients).some((name) =>
@@ -174,6 +184,12 @@ const CollectibleContent: React.FC<CollectibleContentProps> = ({
           <p className="text-xxs text-center mb-1 font-secondary">
             {t("alr.crafted")}
           </p>
+        ) : isKey(selectedName) && keysBoughtToday ? (
+          <Label type="danger" className="text-center mb-1 font-secondary">
+            {t("key.bought")}
+            <br />
+            {t("come.back.tomorrow.key")}
+          </Label>
         ) : (
           <Button disabled={lessIngredients()} onClick={craft}>
             {t("craft")}

@@ -3,12 +3,12 @@ import { BumpkinItem } from "features/game/types/bumpkin";
 import {
   FactionShopItemName,
   FACTION_SHOP_ITEMS,
+  FACTION_SHOP_KEYS,
 } from "features/game/types/factionShop";
 import { GameState, InventoryItemName, Keys } from "features/game/types/game";
 import { isWearableActive } from "features/game/lib/wearables";
 import { produce } from "immer";
 import { trackActivity } from "features/game/types/bumpkinActivity";
-import { ARTEFACT_SHOP_KEYS } from "features/game/types/collectibles";
 
 export type BuyFactionShopItemAction = {
   type: "factionShopItem.bought";
@@ -97,7 +97,7 @@ export function buyFactionShopItem({
     }
 
     const isKey = (name: FactionShopItemName): name is Keys =>
-      name in ARTEFACT_SHOP_KEYS;
+      name in FACTION_SHOP_KEYS;
 
     // This is where the key is bought
     if (isKey(action.item)) {

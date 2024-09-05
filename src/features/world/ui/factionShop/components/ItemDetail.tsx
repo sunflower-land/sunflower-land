@@ -2,7 +2,7 @@ import React, { useContext, useLayoutEffect, useState } from "react";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Label } from "components/ui/Label";
 import Decimal from "decimal.js-light";
-import { FactionName, InventoryItemName } from "features/game/types/game";
+import { FactionName, InventoryItemName, Keys } from "features/game/types/game";
 
 import { Context } from "features/game/GameProvider";
 import { useActor, useSelector } from "@xstate/react";
@@ -21,7 +21,11 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { capitalize } from "lib/utils/capitalize";
 
 import { isWearableActive } from "features/game/lib/wearables";
-import { FactionShopItem } from "features/game/types/factionShop";
+import {
+  FACTION_SHOP_KEYS,
+  FactionShopItem,
+  FactionShopItemName,
+} from "features/game/types/factionShop";
 
 interface ItemOverlayProps {
   item: FactionShopItem | null;
@@ -36,6 +40,8 @@ const _inventory = (state: MachineState) => state.context.state.inventory;
 const _wardrobe = (state: MachineState) => state.context.state.wardrobe;
 const _pledgedFaction = (state: MachineState) =>
   state.context.state.faction?.name;
+const _keysBought = (state: MachineState) =>
+  state.context.state.pumpkinPlaza.keysBought;
 
 export const ItemDetail: React.FC<ItemOverlayProps> = ({
   item,
@@ -57,6 +63,7 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
   const inventory = useSelector(gameService, _inventory);
   const wardrobe = useSelector(gameService, _wardrobe);
   const pledgedFaction = useSelector(gameService, _pledgedFaction);
+  const keysBought = useSelector(gameService, _keysBought);
 
   const [imageWidth, setImageWidth] = useState<number>(0);
   const [showSuccess, setShowSuccess] = useState<boolean>(false);
@@ -93,6 +100,8 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
   };
 
   const canBuy = () => {
+    if (keysBoughtToday) return false;
+
     if (!item) return false;
 
     if (item.limit && getBalanceOfItem(item) >= item.limit) return false;
@@ -213,6 +222,13 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
   };
 
   const currency = item?.currency as InventoryItemName;
+  const isKey = (name: FactionShopItemName): name is Keys =>
+    name in FACTION_SHOP_KEYS;
+  const keysBoughtAt = keysBought.factionShop[item?.name as Keys]?.boughtAt;
+  const keysBoughtToday =
+    !!keysBoughtAt &&
+    new Date(keysBoughtAt).toISOString().substring(0, 10) ===
+      new Date().toISOString().substring(0, 10);
 
   return (
     <InnerPanel className="shadow">
@@ -309,7 +325,7 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
           </div>
           {!showSuccess && (
             <div
-              className={classNames("flex", {
+              className={classNames("flex w-full", {
                 "space-x-1": confirmBuy,
               })}
             >
@@ -318,9 +334,17 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
                   {t("cancel")}
                 </Button>
               )}
-              <Button disabled={!canBuy()} onClick={buttonHandler}>
-                {getButtonLabel()}
-              </Button>
+              {item?.name && isKey(item?.name) && !!keysBoughtToday ? (
+                <Label className="w-full flex-grow text-center" type="danger">
+                  {t("key.bought")}
+                  <br />
+                  {t("come.back.tomorrow.key")}
+                </Label>
+              ) : (
+                <Button disabled={!canBuy()} onClick={buttonHandler}>
+                  {getButtonLabel()}
+                </Button>
+              )}
             </div>
           )}
           {showSuccess && (
