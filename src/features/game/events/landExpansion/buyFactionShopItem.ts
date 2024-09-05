@@ -7,6 +7,7 @@ import {
 import { GameState, InventoryItemName } from "features/game/types/game";
 import { isWearableActive } from "features/game/lib/wearables";
 import { produce } from "immer";
+import { trackActivity } from "features/game/types/bumpkinActivity";
 
 export type BuyFactionShopItemAction = {
   type: "factionShopItem.bought";
@@ -93,6 +94,8 @@ export function buyFactionShopItem({
 
       inventory[action.item as InventoryItemName] = current.add(1);
     }
+
+    bumpkin.activity = trackActivity(`${action.item} Bought`, bumpkin.activity);
 
     return stateCopy;
   });

@@ -7,7 +7,7 @@ import {
 
 import { trackActivity } from "features/game/types/bumpkinActivity";
 
-import { GameState } from "../../types/game";
+import { GameState, Keys } from "../../types/game";
 import {
   HeliosBlacksmithItem,
   HELIOS_BLACKSMITH_ITEMS,
@@ -15,6 +15,7 @@ import {
   PotionHouseItemName,
   TreasureCollectibleItem,
   TREASURE_COLLECTIBLE_ITEM,
+  ARTEFACT_SHOP_KEYS,
 } from "features/game/types/collectibles";
 import { detectCollision } from "features/game/expansion/placeable/lib/collisionDetection";
 import { produce } from "immer";
@@ -28,9 +29,15 @@ export const COLLECTIBLE_CRAFT_SECONDS: Partial<
   "Scary Mike": 60,
 };
 
+type CraftableCollectibleItem =
+  | HeliosBlacksmithItem
+  | TreasureCollectibleItem
+  | PotionHouseItemName
+  | Keys;
+
 export type CraftCollectibleAction = {
   type: "collectible.crafted";
-  name: HeliosBlacksmithItem | TreasureCollectibleItem | PotionHouseItemName;
+  name: CraftableCollectibleItem;
   id?: string;
   coordinates?: {
     x: number;
@@ -45,12 +52,15 @@ type Options = {
 };
 
 const isPotionHouseItem = (
-  name: HeliosBlacksmithItem | PotionHouseItemName | TreasureCollectibleItem,
+  name: CraftableCollectibleItem,
 ): name is PotionHouseItemName => name in POTION_HOUSE_ITEMS;
 
 const isTreasureCollectible = (
-  name: HeliosBlacksmithItem | PotionHouseItemName | TreasureCollectibleItem,
+  name: CraftableCollectibleItem,
 ): name is TreasureCollectibleItem => name in TREASURE_COLLECTIBLE_ITEM;
+
+const isKey = (name: CraftableCollectibleItem): name is Keys =>
+  name in ARTEFACT_SHOP_KEYS;
 
 export function craftCollectible({
   state,
@@ -64,7 +74,9 @@ export function craftCollectible({
       ? POTION_HOUSE_ITEMS[action.name]
       : isTreasureCollectible(action.name)
         ? TREASURE_COLLECTIBLE_ITEM[action.name]
-        : HELIOS_BLACKSMITH_ITEMS(state, new Date(createdAt))[action.name];
+        : isKey(action.name)
+          ? ARTEFACT_SHOP_KEYS[action.name]
+          : HELIOS_BLACKSMITH_ITEMS(state, new Date(createdAt))[action.name];
 
     if (!item) {
       throw new Error("Item does not exist");
@@ -116,7 +128,7 @@ export function craftCollectible({
       bumpkin.activity,
     );
 
-    if (action.coordinates && action.id) {
+    if (action.coordinates && action.id && !isKey(action.name)) {
       const dimensions = COLLECTIBLES_DIMENSIONS[action.name];
       const collides = detectCollision({
         state: stateCopy,

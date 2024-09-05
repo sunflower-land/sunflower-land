@@ -95,18 +95,11 @@ export function buyMegaStoreItem({
       const oldAmount = stateCopy.wardrobe[name as BumpkinItem] ?? 0;
 
       stateCopy.wardrobe[name as BumpkinItem] = oldAmount + 1;
-
-      return stateCopy;
-    }
-
-    // Collectible
-    if (item.type === "collectible") {
+    } else {
       const oldAmount =
         stateCopy.inventory[name as InventoryItemName] ?? new Decimal(0);
 
       stateCopy.inventory[name as InventoryItemName] = oldAmount.add(1);
-
-      return stateCopy;
     }
 
     return stateCopy;
