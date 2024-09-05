@@ -3544,5 +3544,11 @@
   "description.factionShop.bumpkinFactionRug": "Una magnífica alfombra hecha por los talentosos artesanos de Bumpkin Faction.",
   "description.faction.mark": "Utilízalos en la tienda de facciones",
   "description.vase": "Un objeto frágil de la antigüedad",
-  "islandupgrade.warning": "Asegúrese de no tener cultivos, frutas, edificios, pollos, carmesí, flores o miel en progreso. No podrás cosecharlos y se devolverán a tu inventario. Sunstones, House, Market, Fire Pit y Workbench permanecerán en tu terreno."
+  "islandupgrade.warning": "Asegúrese de no tener cultivos, frutas, edificios, pollos, carmesí, flores o miel en progreso. No podrás cosecharlos y se devolverán a tu inventario. Sunstones, House, Market, Fire Pit y Workbench permanecerán en tu terreno.",
+  "available.all.season": "Disponible toda la temporada",
+  "megastore.message.allSeason": "Estos son los artículos que están disponibles para su compra durante toda la temporada. ¡Asegúrate de conseguirlo antes de que acabe la temporada!",
+  "monthly": "Mensualmente",
+  "seasonal": "Estacional",
+  "mega.collectibles": "Mega coleccionables",
+  "mega.wearables": "Mega dispositivos portátiles"
 }

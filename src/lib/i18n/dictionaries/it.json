@@ -3544,5 +3544,11 @@
   "description.factionShop.bumpkinFactionRug": "Un magnifico tappeto realizzato dai talentuosi artigiani di Bumpkin Faction.",
   "description.faction.mark": "Usali nel Faction Shop",
   "description.vase": "Un oggetto fragile dei tempi antichi",
-  "islandupgrade.warning": "Assicurati di non avere raccolti, frutta, edifici, polli, crestone, fiori o miele in corso. Questi non potranno essere raccolti e verranno restituiti al tuo inventario. Sunstones, House, Market, Fire Pit e Workbench rimarranno sulla tua terra."
+  "islandupgrade.warning": "Assicurati di non avere raccolti, frutta, edifici, polli, crestone, fiori o miele in corso. Questi non potranno essere raccolti e verranno restituiti al tuo inventario. Sunstones, House, Market, Fire Pit e Workbench rimarranno sulla tua terra.",
+  "available.all.season": "Disponibile per tutta la stagione",
+  "megastore.message.allSeason": "Ecco gli articoli che sono disponibili per l'acquisto durante tutta la stagione. Assicuratevi di prenderlo prima della fine della stagione!",
+  "monthly": "Mensile",
+  "seasonal": "Stagionale",
+  "mega.collectibles": "Mega oggetti da collezione",
+  "mega.wearables": "Mega dispositivi indossabili"
 }
