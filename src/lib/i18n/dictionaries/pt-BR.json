@@ -3544,5 +3544,11 @@
   "description.factionShop.bumpkinFactionRug": "Um tapete magnífico feito pelos talentosos artesãos da Bumpkin Faction.",
   "description.faction.mark": "Use-os na Loja de Facções",
   "description.vase": "Um item frágil dos tempos antigos",
-  "islandupgrade.warning": "Certifique-se de não ter plantações, frutas, construções, galinhas, carmesim, flores ou mel em andamento. Eles não poderão ser colhidos e serão devolvidos ao seu inventário. Sunstones, House, Market, Fire Pit e Workbench permanecerão colocados em sua terra."
+  "islandupgrade.warning": "Certifique-se de não ter plantações, frutas, construções, galinhas, carmesim, flores ou mel em andamento. Eles não poderão ser colhidos e serão devolvidos ao seu inventário. Sunstones, House, Market, Fire Pit e Workbench permanecerão colocados em sua terra.",
+  "available.all.season": "Disponível durante toda a temporada",
+  "megastore.message.allSeason": "Aqui estão os itens que estão disponíveis para compra durante toda a temporada. Não deixe de pegá-lo antes do final da temporada!",
+  "monthly": "Mensalmente",
+  "seasonal": "Sazonal",
+  "mega.collectibles": "Mega itens colecionáveis",
+  "mega.wearables": "Megadispositivos vestíveis"
 }

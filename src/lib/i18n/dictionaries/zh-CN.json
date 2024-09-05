@@ -3544,5 +3544,11 @@
   "description.factionShop.bumpkinFactionRug": "由才华横溢的 Bumpkin Faction 工匠制作的精美地毯。",
   "description.faction.mark": "在派系商店中使用这些",
   "description.vase": "远古时代的易碎物品",
-  "islandupgrade.warning": "确保你没有任何农作物、水果、建筑物、鸡、猩红石、鲜花或蜂蜜在进行中。这些将无法收获并将退回您的库存。日光石、房屋、市场、火坑和工作台将保留在你的土地上。"
+  "islandupgrade.warning": "确保你没有任何农作物、水果、建筑物、鸡、猩红石、鲜花或蜂蜜在进行中。这些将无法收获并将退回您的库存。日光石、房屋、市场、火坑和工作台将保留在你的土地上。",
+  "available.all.season": "整个季节都可用",
+  "megastore.message.allSeason": "以下是整个季节都可以购买的物品。一定要在赛季结束前把它拿起来！",
+  "monthly": "每月",
+  "seasonal": "季节性",
+  "mega.collectibles": "超级收藏品",
+  "mega.wearables": "超级可穿戴设备"
 }
