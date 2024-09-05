@@ -1124,6 +1124,14 @@ export type DonationItemName =
   | CommodityName
   | Worm;
 
+type KeysBoughtAt = Partial<Record<Keys, { boughtAt: number }>>;
+
+export type KeysBought = {
+  factionShop?: KeysBoughtAt;
+  treasureShop?: KeysBoughtAt;
+  megastore?: KeysBoughtAt;
+};
+
 export interface GameState {
   home: Home;
 
@@ -1274,6 +1282,7 @@ export interface GameState {
     >;
   };
   faction?: Faction;
+  keysBought?: KeysBought;
   dailyFactionDonationRequest?: {
     resource: DonationItemName;
     amount: Decimal;
