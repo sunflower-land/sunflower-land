@@ -450,7 +450,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
       points: 1,
       skill: 0,
     },
-    boosts: "+3 Sprout Mix (Requires Compost Bin)",
+    boosts: "+3 Sprout Mix when collecting from Compost Bin",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
   "Turbo Charged": {
@@ -460,7 +460,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
       points: 1,
       skill: 0,
     },
-    boosts: "+5 Fruitful Blend (Requires Turbo Composter)",
+    boosts: "+5 Fruitful Blend when collecting from Turbo Composter",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
   "Old Farmer": {
@@ -491,7 +491,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
       points: 2,
       skill: 2,
     },
-    boosts: "+10% Coins when selling crops (Seed Shop)",
+    boosts: "+10% coins to base value of plot crops in Betty's Market",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
   "Golden Sunflower": {
@@ -575,7 +575,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
       points: 3,
       skill: 5,
     },
-    boosts: "+10 Rapid Root (Requires Premium Composter)",
+    boosts: "+10 Rapid Root when collecting from Premium Composter",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
   "Laurie's Gains": {
@@ -597,7 +597,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
       points: 1,
       skill: 0,
     },
-    boosts: "+0.1 Fruit Yield for Tomatoes & Lemons",
+    boosts: "+0.1 Fruit Yield (Tomatoes, Lemons)",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
   "Fruitful Fumble": {
