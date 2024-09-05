@@ -170,6 +170,23 @@ export function craftCollectible({
     };
     stateCopy.stock[action.name] = stateCopy.stock[action.name]?.minus(1);
 
+    if (isKey(action.name)) {
+      // Ensure `keysBought` and `treasureShop` are properly initialized
+      if (!stateCopy.pumpkinPlaza.keysBought) {
+        stateCopy.pumpkinPlaza.keysBought = {
+          treasureShop: {},
+          megastore: {},
+          factionShop: {},
+        };
+      } else if (!stateCopy.pumpkinPlaza.keysBought.treasureShop) {
+        stateCopy.pumpkinPlaza.keysBought.treasureShop = {};
+      }
+
+      stateCopy.pumpkinPlaza.keysBought.treasureShop[action.name] = {
+        boughtAt: createdAt,
+      };
+    }
+
     return stateCopy;
   });
 }

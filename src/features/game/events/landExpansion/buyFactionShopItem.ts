@@ -4,10 +4,11 @@ import {
   FactionShopItemName,
   FACTION_SHOP_ITEMS,
 } from "features/game/types/factionShop";
-import { GameState, InventoryItemName } from "features/game/types/game";
+import { GameState, InventoryItemName, Keys } from "features/game/types/game";
 import { isWearableActive } from "features/game/lib/wearables";
 import { produce } from "immer";
 import { trackActivity } from "features/game/types/bumpkinActivity";
+import { ARTEFACT_SHOP_KEYS } from "features/game/types/collectibles";
 
 export type BuyFactionShopItemAction = {
   type: "factionShopItem.bought";
@@ -93,6 +94,27 @@ export function buyFactionShopItem({
         inventory[action.item as InventoryItemName] ?? new Decimal(0);
 
       inventory[action.item as InventoryItemName] = current.add(1);
+    }
+
+    const isKey = (name: FactionShopItemName): name is Keys =>
+      name in ARTEFACT_SHOP_KEYS;
+
+    // This is where the key is bought
+    if (isKey(action.item)) {
+      // Ensure `keysBought` and `treasureShop` are properly initialized
+      if (!stateCopy.pumpkinPlaza.keysBought) {
+        stateCopy.pumpkinPlaza.keysBought = {
+          treasureShop: {},
+          megastore: {},
+          factionShop: {},
+        };
+      } else if (!stateCopy.pumpkinPlaza.keysBought.factionShop) {
+        stateCopy.pumpkinPlaza.keysBought.factionShop = {};
+      }
+
+      stateCopy.pumpkinPlaza.keysBought.factionShop[action.item as Keys] = {
+        boughtAt: createdAt,
+      };
     }
 
     bumpkin.activity = trackActivity(`${action.item} Bought`, bumpkin.activity);

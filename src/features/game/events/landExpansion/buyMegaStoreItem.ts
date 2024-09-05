@@ -1,9 +1,11 @@
 import Decimal from "decimal.js-light";
 import { BumpkinItem } from "features/game/types/bumpkin";
 import { trackActivity } from "features/game/types/bumpkinActivity";
+import { ARTEFACT_SHOP_KEYS } from "features/game/types/collectibles";
 import {
   GameState,
   InventoryItemName,
+  Keys,
   MegaStoreItemName,
 } from "features/game/types/game";
 import { getSeasonalTicket } from "features/game/types/seasons";
@@ -100,6 +102,27 @@ export function buyMegaStoreItem({
         stateCopy.inventory[name as InventoryItemName] ?? new Decimal(0);
 
       stateCopy.inventory[name as InventoryItemName] = oldAmount.add(1);
+    }
+
+    const isKey = (name: MegaStoreItemName): name is Keys =>
+      name in ARTEFACT_SHOP_KEYS;
+
+    // This is where the key is bought
+    if (isKey(name)) {
+      // Ensure `keysBought` and `treasureShop` are properly initialized
+      if (!stateCopy.pumpkinPlaza.keysBought) {
+        stateCopy.pumpkinPlaza.keysBought = {
+          treasureShop: {},
+          megastore: {},
+          factionShop: {},
+        };
+      } else if (!stateCopy.pumpkinPlaza.keysBought.megastore) {
+        stateCopy.pumpkinPlaza.keysBought.megastore = {};
+      }
+
+      stateCopy.pumpkinPlaza.keysBought.megastore[name as Keys] = {
+        boughtAt: createdAt,
+      };
     }
 
     return stateCopy;

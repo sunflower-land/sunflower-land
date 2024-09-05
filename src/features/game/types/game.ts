@@ -1125,12 +1125,8 @@ export type DonationItemName =
   | Worm;
 
 type KeysBoughtAt = Partial<Record<Keys, { boughtAt: number }>>;
-
-export type KeysBought = {
-  factionShop?: KeysBoughtAt;
-  treasureShop?: KeysBoughtAt;
-  megastore?: KeysBoughtAt;
-};
+type Stores = "factionShop" | "treasureShop" | "megastore";
+export type KeysBought = Record<Stores, KeysBoughtAt>;
 
 export interface GameState {
   home: Home;
@@ -1241,6 +1237,7 @@ export interface GameState {
     pirateChest?: {
       openedAt: number;
     };
+    keysBought: KeysBought;
   };
   conversations: ConversationName[];
   mailbox: {
@@ -1282,7 +1279,6 @@ export interface GameState {
     >;
   };
   faction?: Faction;
-  keysBought?: KeysBought;
   dailyFactionDonationRequest?: {
     resource: DonationItemName;
     amount: Decimal;
