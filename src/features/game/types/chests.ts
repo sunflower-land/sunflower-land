@@ -9,14 +9,44 @@ export type ChestReward = {
   coins?: number;
 };
 
-const SEASONAL_REWARDS: (weight: number) => ChestReward[] = (weight) =>
-  Date.now() >= SEASONS["Pharaoh's Treasure"].startDate.getTime() &&
-  Date.now() < SEASONS["Pharaoh's Treasure"].endDate.getTime()
-    ? [
-        { wearables: { "Grape Pants": 1 }, weighting: weight },
-        { items: { "Paper Reed": 1 }, weighting: weight },
-      ]
-    : [];
+const SEASONAL_REWARDS: (weight: number) => ChestReward[] = (weight) => {
+  const isPharaohSeason =
+    Date.now() >= SEASONS["Pharaoh's Treasure"].startDate.getTime() &&
+    Date.now() < SEASONS["Pharaoh's Treasure"].endDate.getTime();
+
+  if (isPharaohSeason) {
+    return [
+      { items: { "Paper Reed": 1 }, weighting: weight },
+      { items: { "Hapy Jar": 1 }, weighting: weight },
+      { items: { "Imsety Jar": 1 }, weighting: weight },
+      { items: { "Duamutef Jar": 1 }, weighting: weight },
+      { items: { "Qebehsenuef Jar": 1 }, weighting: weight },
+      { items: { Cannonball: 1 }, weighting: weight },
+      { items: { Sarcophagus: 1 }, weighting: weight },
+      { items: { "Clay Tablet": 1 }, weighting: weight },
+      { items: { "Snake in Jar": 1 }, weighting: weight },
+      { items: { "Reveling Lemon": 1 }, weighting: weight },
+      { items: { "Anubis Jackal": 1 }, weighting: weight },
+      { items: { Sundial: 1 }, weighting: weight },
+      { items: { "Sand Golem": 1 }, weighting: weight },
+      { items: { "Cactus King": 1 }, weighting: weight },
+      { items: { "Lemon Frog": 1 }, weighting: weight },
+      { items: { "Scarab Beetle": 1 }, weighting: weight },
+      { wearables: { "Grape Pants": 1 }, weighting: weight },
+      { wearables: { "Amber Amulet": 1 }, weighting: weight },
+      { wearables: { "Explorer Shirt": 1 }, weighting: weight },
+      { wearables: { "Crab Trap": 1 }, weighting: weight },
+      { wearables: { "Water Gourd": 1 }, weighting: weight },
+      { wearables: { "Ankh Shirt": 1 }, weighting: weight },
+      { wearables: { "Explorer Shorts": 1 }, weighting: weight },
+      { wearables: { "Explorer Hat": 1 }, weighting: weight },
+      { wearables: { "Desert Camel Background": 1 }, weighting: weight },
+      { wearables: { "Rock Hammer": 1 }, weighting: weight },
+    ];
+  } else {
+    return [];
+  }
+};
 
 export const BASIC_REWARDS: () => ChestReward[] = () => [
   { sfl: 5, weighting: 100 },
