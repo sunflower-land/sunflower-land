@@ -205,12 +205,14 @@ export class BeachScene extends BaseScene {
       key: "beach",
     });
     super.create();
+    //To use when there are bumpkins under testing
+    // const filteredBumpkins = BUMPKINS.filter((bumpkin) => {
+    //   return true;
+    // });
 
-    const filteredBumpkins = BUMPKINS.filter((bumpkin) => {
-      return true;
-    });
+    // this.initialiseNPCs(filteredBumpkins);
 
-    this.initialiseNPCs(filteredBumpkins);
+    this.initialiseNPCs(BUMPKINS);
 
     this.digbyProgressBar = new ProgressBarContainer(this, 337, 234);
 

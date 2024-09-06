@@ -9,7 +9,7 @@ import { PlaceableContainer } from "../containers/PlaceableContainer";
 import { budImageDomain } from "features/island/collectibles/components/Bud";
 import { SOUNDS } from "assets/sound-effects/soundEffects";
 import { NPCName } from "lib/npcs";
-import { FactionName, GameState } from "features/game/types/game";
+import { FactionName } from "features/game/types/game";
 import { translate } from "lib/i18n/translate";
 
 export type FactionNPC = {
@@ -126,7 +126,7 @@ export class PlazaScene extends BaseScene {
 
   public arrows: Phaser.GameObjects.Sprite | undefined;
 
-  constructor({ gameState }: { gameState: GameState }) {
+  constructor() {
     super({
       name: "plaza",
       map: {

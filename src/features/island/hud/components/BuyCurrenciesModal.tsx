@@ -160,7 +160,7 @@ export const BuyCurrenciesModal: React.FC<Props> = ({
           tabs={[
             { icon: blockBuckIcon, name: `Block Bucks` },
             { icon: exchangeIcon, name: `${t("sfl/coins")}` },
-            ...[{ icon: vipIcon, name: "VIP" }],
+            { icon: vipIcon, name: "VIP" },
           ]}
         >
           {tab === 0 && (
