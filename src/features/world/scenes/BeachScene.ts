@@ -7,7 +7,6 @@ import { FishermanContainer } from "../containers/FishermanContainer";
 import { interactableModalManager } from "../ui/InteractableModals";
 import { translate } from "lib/i18n/translate";
 import { InventoryItemName } from "features/game/types/game";
-import { hasFeatureAccess } from "lib/flags";
 import { gameAnalytics } from "lib/gameAnalytics";
 import {
   BeachBountyTreasure,
@@ -208,19 +207,6 @@ export class BeachScene extends BaseScene {
     super.create();
 
     const filteredBumpkins = BUMPKINS.filter((bumpkin) => {
-      // Show new NPC(Desert Merchant) if you're beta tester
-      if (bumpkin.npc === "jafar") {
-        return hasFeatureAccess(
-          this.gameService.state.context.state,
-          "TEST_DIGGING",
-        );
-      }
-      if (bumpkin.npc === "goldtooth") {
-        return !hasFeatureAccess(
-          this.gameService.state.context.state,
-          "TEST_DIGGING",
-        );
-      }
       return true;
     });
 

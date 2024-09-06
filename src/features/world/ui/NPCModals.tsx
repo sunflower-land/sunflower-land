@@ -30,8 +30,6 @@ import { FlowerShop } from "./flowerShop/FlowerShop";
 import { FactionShop } from "./factionShop/FactionShop";
 import { FactionPetPanel } from "./factions/FactionPetPanel";
 import { TreasureShop } from "./beach/treasure_shop/TreasureShop";
-import { GoldTooth } from "./npcs/GoldTooth";
-import { hasFeatureAccess } from "lib/flags";
 import { Context } from "features/game/GameProvider";
 import { Digby } from "./beach/Digby";
 import { CropsAndChickens } from "./portals/CropsAndChickens";
@@ -170,17 +168,7 @@ export const NPCModals: React.FC<Props> = ({ scene, id }) => {
             <CropsAndChickens onClose={closeModal} />
           </CloseButtonPanel>
         )}
-        {npc === "jafar" &&
-          hasFeatureAccess(gameService.state.context.state, "TEST_DIGGING") && (
-            <TreasureShop onClose={closeModal} />
-          )}
-        {/* Remove on release */}
-        {npc === "goldtooth" &&
-          !hasFeatureAccess(
-            gameService.state.context.state,
-            "TEST_DIGGING",
-          ) && <GoldTooth onClose={closeModal} />}
-
+        {npc === "jafar" && <TreasureShop onClose={closeModal} />}
         {npc === "hank" && <HayseedHankV2 onClose={closeModal} />}
         {npc === "gabi" && (
           <CloseButtonPanel

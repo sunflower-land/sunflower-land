@@ -27,10 +27,6 @@ export type FeatureName =
   | "EASTER"
   | "CROP_MACHINE"
   | "CROP_QUICK_SELECT"
-  | "FACTION_KITCHEN"
-  | "FACTION_CHORES"
-  | "TEST_DIGGING"
-  | "NEW_FRUITS"
   | "DESERT_PLAZA"
   | "SKILLS_REVAMP"
   | "MARKETPLACE"
@@ -62,10 +58,6 @@ const featureFlags: Record<FeatureName, FeatureFlag> = {
   EASTER: () => false, // To re-enable next easter
   // Just in case we need to disable the crop machine, leave the flag in temporarily
   CROP_MACHINE: () => true,
-  FACTION_KITCHEN: betaTimeBasedFeatureFlag(new Date("2022-07-08T00:00:00Z")),
-  FACTION_CHORES: betaTimeBasedFeatureFlag(new Date("2022-07-08T00:00:00Z")),
-  TEST_DIGGING: betaTimeBasedFeatureFlag(new Date("2024-08-01T00:00:00Z")),
-  NEW_FRUITS: betaTimeBasedFeatureFlag(new Date("2024-08-01T00:00:00Z")),
   DESERT_PLAZA: betaTimeBasedFeatureFlag(new Date("2024-08-01T00:00:00Z")),
   SKILLS_REVAMP: testnetFeatureFlag,
 };
