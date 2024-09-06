@@ -31,7 +31,6 @@ export type FeatureName =
   | "EASTER"
   | "FACTIONS"
   | "BANNER_SALES"
-  | "CROPS_AND_CHICKENS"
   | "CROP_MACHINE"
   | "DESERT_RECIPES"
   | "FACTION_HOUSE"
@@ -66,9 +65,6 @@ const featureFlags: Record<FeatureName, FeatureFlag> = {
   MARKETPLACE: testnetFeatureFlag,
   CROP_QUICK_SELECT: defaultFeatureFlag,
   FRUIT_DASH: defaultFeatureFlag,
-  CROPS_AND_CHICKENS: betaTimeBasedFeatureFlag(
-    new Date("2024-08-07T00:00:00Z"),
-  ),
   PORTALS: testnetFeatureFlag,
   JEST_TEST: defaultFeatureFlag,
   DESERT_RECIPES: defaultFeatureFlag,
