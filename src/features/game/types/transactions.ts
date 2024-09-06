@@ -1,6 +1,10 @@
 import { syncProgress, SyncProgressParams } from "lib/blockchain/Game";
 import { GameState, InventoryItemName, Wardrobe } from "./game";
-import { mintAuctionCollectible, MintBidParams } from "lib/blockchain/Auction";
+import {
+  mintAuctionCollectible,
+  mintAuctionWearable,
+  MintBidParams,
+} from "lib/blockchain/Auction";
 import {
   WithdrawBudsParams,
   withdrawBudsTransaction,
@@ -161,7 +165,7 @@ export const ONCHAIN_TRANSACTIONS: TransactionHandler = {
       return mintAuctionCollectible(data.params);
     }
 
-    return mintAuctionCollectible(data.params);
+    return mintAuctionWearable(data.params);
   },
 };
 

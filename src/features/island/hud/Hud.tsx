@@ -174,11 +174,7 @@ const HudComponent: React.FC<{
             left: `${PIXEL_SCALE * 28}px`,
           }}
         >
-          <WagmiProvider config={config}>
-            <QueryClientProvider client={queryClient}>
-              <TransactionCountdown />
-            </QueryClientProvider>
-          </WagmiProvider>
+          <TransactionCountdown />
           <AuctionCountdown />
           <SpecialEventCountdown />
           <SeasonBannerCountdown />

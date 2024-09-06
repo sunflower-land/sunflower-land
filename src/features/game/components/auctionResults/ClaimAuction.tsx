@@ -39,7 +39,7 @@ export const ClaimAuction: React.FC = () => {
         <Winner
           onMint={() =>
             gameService.send("TRANSACT", {
-              transaction: "transaction.wearablesWithdrawn",
+              transaction: "transaction.bidMinted",
               request: {
                 auctionId: bid.auctionId,
               },

@@ -21,9 +21,6 @@ export const AuctionHouseModal: React.FC<Props> = ({
   } = gameState;
 
   const transaction = state.transaction;
-  if (transaction) {
-    return <Transaction onClose={closeModal} />;
-  }
 
   return (
     <AuctioneerModal

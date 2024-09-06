@@ -85,6 +85,7 @@ export async function mintAuctionWearable({
     ],
     account: sender as `0x${string}`,
   });
+  saveTxHash({ event: "transaction.bidMinted", hash, sessionId, deadline });
   await waitForTransactionReceipt(config, { hash });
 
   return await getNextSessionId(sender, farmId as number, oldSessionId);

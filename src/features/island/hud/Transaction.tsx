@@ -8,7 +8,7 @@ import { TimerDisplay } from "features/retreat/components/auctioneer/AuctionDeta
 import { useCountdown } from "lib/utils/hooks/useCountdown";
 import { Modal } from "components/ui/Modal";
 import { Button } from "components/ui/Button";
-import { useAccount, useWaitForTransactionReceipt } from "wagmi";
+import { useAccount, useWaitForTransactionReceipt, WagmiProvider } from "wagmi";
 import {
   DEADLINE_MS,
   GameTransaction,
@@ -16,7 +16,7 @@ import {
   ONCHAIN_TRANSACTIONS,
   TransactionName,
 } from "features/game/types/transactions";
-import { GameWallet } from "features/wallet/Wallet";
+import { GameWallet, queryClient } from "features/wallet/Wallet";
 
 import walletIcon from "assets/icons/wallet.png";
 import lockIcon from "assets/icons/lock.png";
@@ -26,6 +26,8 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
 import { wallet } from "lib/blockchain/wallet";
+import { config } from "features/wallet/WalletProvider";
+import { QueryClientProvider } from "@tanstack/react-query";
 
 const _transaction = (state: MachineState) => state.context.state.transaction;
 
@@ -54,10 +56,14 @@ export const TransactionCountdown: React.FC = () => {
         className="flex justify-center"
         id="emblem-airdrop"
       >
-        <TransactionWidget
-          transaction={transaction}
-          onOpen={() => setShowTransaction(true)}
-        />
+        <WagmiProvider config={config}>
+          <QueryClientProvider client={queryClient}>
+            <TransactionWidget
+              transaction={transaction}
+              onOpen={() => setShowTransaction(true)}
+            />
+          </QueryClientProvider>
+        </WagmiProvider>
       </ButtonPanel>
     </>
   );

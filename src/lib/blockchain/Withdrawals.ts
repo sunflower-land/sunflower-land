@@ -76,6 +76,17 @@ export async function withdrawItemsTransaction({
 }: WithdrawItemsParams): Promise<string> {
   const oldSessionId = sessionId;
 
+  console.log({
+    sender,
+    signature,
+    sessionId,
+    nextSessionId,
+    deadline,
+    farmId,
+    ids,
+    amounts,
+  });
+
   const hash = await writeContract(config, {
     abi: WithdrawalABI,
     address: address as `0x${string}`,
