@@ -31,7 +31,6 @@ import { IslandNotFound } from "./components/IslandNotFound";
 import { Rules } from "../components/Rules";
 import { Introduction } from "./components/Introduction";
 import { Purchasing } from "../components/Purchasing";
-import { Transacting } from "../components/Transacting";
 import { Minting } from "../components/Minting";
 import { ClaimAuction } from "../components/auctionResults/ClaimAuction";
 import { RefundAuction } from "../components/auctionResults/RefundAuction";
@@ -64,6 +63,7 @@ import { useSound } from "lib/utils/hooks/useSound";
 import { SomethingArrived } from "./components/SomethingArrived";
 import { TradeAlreadyFulfilled } from "../components/TradeAlreadyFulfilled";
 import { NPC_WEARABLES } from "lib/npcs";
+import { Transaction } from "features/island/hud/Transaction";
 
 const land = SUNNYSIDE.land.island;
 
@@ -115,8 +115,8 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   airdrop: true,
   portalling: true,
   provingPersonhood: false,
-  withdrawing: true,
-  withdrawn: true,
+  // withdrawing: true,
+  // withdrawn: true,
   sellMarketResource: false,
   somethingArrived: true,
 };
@@ -475,7 +475,7 @@ export const GameWrapper: React.FC = ({ children }) => {
 
             {coolingDown && <Cooldown />}
             {gameRules && <Rules />}
-            {transacting && <Transacting />}
+            {transacting && <Transaction />}
             {depositing && <Loading text="Depositing" />}
             {trading && <Loading text="Trading" />}
             {traded && <Traded />}

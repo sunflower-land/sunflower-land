@@ -11,7 +11,14 @@ import {
   WithdrawWearablesParams,
   withdrawWearablesTransaction,
 } from "lib/blockchain/Withdrawals";
-import { withdrawBuds, withdrawWearables } from "../actions/withdraw";
+import {
+  withdrawBudsRequest,
+  withdrawItemsRequest,
+  withdrawSFLRequest,
+  withdrawWearablesRequest,
+} from "../actions/withdraw";
+import { sync } from "../actions/sync";
+import { mintAuctionItemRequest } from "../actions/mintAuctionItem";
 
 export type BidMintedTransaction = {
   event: "transaction.bidMinted";
@@ -80,7 +87,7 @@ export type TransactionName = Extract<
 >["event"];
 
 type TransactionHash = {
-  // deadline: number;
+  deadline: number;
   sessionId: string;
   hash: string;
   event: TransactionName;
@@ -94,19 +101,19 @@ const LOCAL_STORAGE_KEY = `sb_wiz.hash.v.${host}-${window.location.pathname}`;
 export function saveTxHash({
   hash,
   event,
-  // deadline,
+  deadline,
   sessionId,
 }: {
   hash: string;
   sessionId: string;
   event: TransactionName;
-  // deadline: number;
+  deadline: number;
 }) {
   const txHash: TransactionHash = {
     hash,
     event,
     sessionId,
-    // deadline,
+    deadline,
   };
 
   localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(txHash));
@@ -129,6 +136,8 @@ export function loadActiveTxHash({
 
   if (txHash.sessionId !== sessionId) return null;
 
+  if (txHash.deadline * 1000 < Date.now()) return null;
+
   return txHash;
 }
 
@@ -138,16 +147,15 @@ export type TransactionHandler = {
   ) => Promise<string>;
 };
 
-export const TRANSACTION_HANDLERS: TransactionHandler = {
+export const ONCHAIN_TRANSACTIONS: TransactionHandler = {
   "transaction.budWithdrawn": (data) => withdrawBudsTransaction(data.params),
   "transaction.itemsWithdrawn": (data) => withdrawItemsTransaction(data.params),
   "transaction.progressSynced": (data) => syncProgress(data.params),
-  "transaction.sflWithdrawn": (data) => {
-    console.log({ run: data });
-    return withdrawSFLTransaction(data.params);
-  },
+  "transaction.sflWithdrawn": (data) => withdrawSFLTransaction(data.params),
   "transaction.wearablesWithdrawn": (data) =>
     withdrawWearablesTransaction(data.params),
+
+  // Minting a bid has 2 separate contract methods
   "transaction.bidMinted": (data) => {
     if (!!data.bid?.collectible) {
       return mintAuctionCollectible(data.params);
@@ -155,4 +163,24 @@ export const TRANSACTION_HANDLERS: TransactionHandler = {
 
     return mintAuctionCollectible(data.params);
   },
+};
+
+export type SignatureHandler = {
+  [Name in GameTransaction["event"]]: (
+    data: Extract<GameTransaction, { event: Name }>["data"],
+  ) => Promise<string>;
+};
+
+type TransactionRequest = Record<
+  TransactionName,
+  ({}: any) => Promise<{ game: GameState }>
+>;
+
+export const TRANSACTION_SIGNATURES: TransactionRequest = {
+  "transaction.progressSynced": sync,
+  "transaction.bidMinted": mintAuctionItemRequest,
+  "transaction.budWithdrawn": withdrawBudsRequest,
+  "transaction.itemsWithdrawn": withdrawItemsRequest,
+  "transaction.sflWithdrawn": withdrawSFLRequest,
+  "transaction.wearablesWithdrawn": withdrawWearablesRequest,
 };

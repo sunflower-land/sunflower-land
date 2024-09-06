@@ -7,6 +7,8 @@ import {
 import { wallet } from "lib/blockchain/wallet";
 import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
+import { makeGame } from "../lib/transforms";
+import { GameState } from "../types/game";
 
 const API_URL = CONFIG.API_URL;
 
@@ -19,13 +21,13 @@ type SFLOptions = {
   transactionId: string;
 };
 
-export async function withdrawSFL({
+export async function withdrawSFLRequest({
   farmId,
   sessionId,
   sfl,
   token,
   transactionId,
-}: SFLOptions) {
+}: SFLOptions): Promise<{ game: GameState }> {
   const response = await window.fetch(`${API_URL}/withdraw-sfl/${farmId}`, {
     method: "POST",
     headers: {
@@ -48,12 +50,9 @@ export async function withdrawSFL({
 
   const transaction = await response.json();
 
-  const newSessionId = await withdrawSFLTransaction({
-    ...transaction,
-    sender: wallet.getAccount(),
-  });
-
-  return { sessionId: newSessionId, verified: true };
+  return {
+    game: makeGame(transaction.farm),
+  };
 }
 
 type ItemsOptions = {
@@ -66,14 +65,14 @@ type ItemsOptions = {
   transactionId: string;
 };
 
-export async function withdrawItems({
+export async function withdrawItemsRequest({
   farmId,
   sessionId,
   ids,
   amounts,
   token,
   transactionId,
-}: ItemsOptions) {
+}: ItemsOptions): Promise<{ game: GameState }> {
   const response = await window.fetch(`${API_URL}/withdraw-items/${farmId}`, {
     method: "POST",
     headers: {
@@ -97,12 +96,9 @@ export async function withdrawItems({
 
   const transaction = await response.json();
 
-  const newSessionId = await withdrawItemsTransaction({
-    ...transaction,
-    sender: wallet.getAccount(),
-  });
-
-  return { sessionId: newSessionId, verified: true };
+  return {
+    game: makeGame(transaction.farm),
+  };
 }
 
 type WearableOptions = {
@@ -115,13 +111,13 @@ type WearableOptions = {
   transactionId: string;
 };
 
-export async function withdrawWearables({
+export async function withdrawWearablesRequest({
   farmId,
   ids,
   amounts,
   token,
   transactionId,
-}: WearableOptions) {
+}: WearableOptions): Promise<{ game: GameState }> {
   const response = await window.fetch(
     `${API_URL}/withdraw-wearables/${farmId}`,
     {
@@ -148,12 +144,9 @@ export async function withdrawWearables({
 
   const transaction = await response.json();
 
-  const newSessionId = await withdrawWearablesTransaction({
-    ...transaction,
-    sender: wallet.getAccount(),
-  });
-
-  return { sessionId: newSessionId, verified: true };
+  return {
+    game: makeGame(transaction.farm),
+  };
 }
 
 type BudOptions = {
@@ -163,12 +156,12 @@ type BudOptions = {
   token: string;
 };
 
-export async function withdrawBuds({
+export async function withdrawBudsRequest({
   farmId,
   budIds,
   transactionId,
   token,
-}: BudOptions) {
+}: BudOptions): Promise<{ game: GameState }> {
   const response = await window.fetch(`${API_URL}/withdraw-buds/${farmId}`, {
     method: "POST",
     headers: {
@@ -191,10 +184,7 @@ export async function withdrawBuds({
 
   const transaction = await response.json();
 
-  const newSessionId = await withdrawBudsTransaction({
-    ...transaction,
-    sender: wallet.getAccount(),
-  });
-
-  return { sessionId: newSessionId, verified: true };
+  return {
+    game: makeGame(transaction.farm),
+  };
 }

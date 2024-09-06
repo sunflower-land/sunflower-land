@@ -49,7 +49,7 @@ export async function mintAuctionCollectible({
     value: BigInt(fee),
     account: sender as `0x${string}`,
   });
-  saveTxHash({ event: "transaction.bidMinted", hash, sessionId });
+  saveTxHash({ event: "transaction.bidMinted", hash, sessionId, deadline });
 
   await waitForTransactionReceipt(config, { hash });
 
