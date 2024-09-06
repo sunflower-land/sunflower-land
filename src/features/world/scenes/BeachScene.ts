@@ -48,12 +48,6 @@ const BUMPKINS: NPCBumpkin[] = [
   { npc: "jafar", x: 478, y: 220, direction: "left" },
   { npc: "corale", x: 215, y: 750 },
   { npc: "miranda", x: 418, y: 487 },
-  {
-    // To remove on digging release
-    npc: "goldtooth",
-    x: 384,
-    y: 335,
-  },
 ];
 
 export type DigAnalytics = {
