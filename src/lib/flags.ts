@@ -36,7 +36,6 @@ export type FeatureName =
   | "DESERT_RECIPES"
   | "FACTION_HOUSE"
   | "CROP_QUICK_SELECT"
-  | "FESTIVAL_OF_COLORS"
   | "FACTION_KITCHEN"
   | "FACTION_CHORES"
   | "CHAMPIONS"
@@ -66,11 +65,6 @@ const featureFlags: Record<FeatureName, FeatureFlag> = {
   ONBOARDING_REWARDS: (game) =>
     game.experiments.includes("ONBOARDING_CHALLENGES"),
   MARKETPLACE: testnetFeatureFlag,
-  FESTIVAL_OF_COLORS: (game) => {
-    if (defaultFeatureFlag(game)) return true;
-
-    return Date.now() > new Date("2024-06-25T00:00:00Z").getTime();
-  },
   CHAMPIONS: betaTimeBasedFeatureFlag(new Date("2024-07-15T00:00:00Z")),
   CROP_QUICK_SELECT: defaultFeatureFlag,
   FRUIT_DASH: defaultFeatureFlag,
