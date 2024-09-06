@@ -1,7 +1,5 @@
 import { CONFIG } from "lib/config";
-import { fromWei } from "web3-utils";
 import GameABI from "./abis/SunflowerLandGame";
-import { onboardingAnalytics } from "lib/onboardingAnalytics";
 import { getNextSessionId, getSessionId } from "./Session";
 import { waitForTransactionReceipt, writeContract } from "@wagmi/core";
 import { config } from "features/wallet/WalletProvider";
@@ -73,7 +71,7 @@ export async function syncProgress({
   saveTxHash({
     event: "transaction.progressSynced",
     hash,
-    // deadline,
+    deadline,
     sessionId,
   });
 

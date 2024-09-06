@@ -36,7 +36,12 @@ export const AuctionHouseModal: React.FC<Props> = ({
       }}
       onMint={(id) => {
         closeModal();
-        gameService.send("MINT", { auctionId: id });
+        gameService.send("TRANSACT", {
+          transaction: "transaction.wearablesWithdrawn",
+          request: {
+            auctionId: id,
+          },
+        });
       }}
       deviceTrackerId={gameState.context.deviceTrackerId as string}
       linkedAddress={linkedWallet}

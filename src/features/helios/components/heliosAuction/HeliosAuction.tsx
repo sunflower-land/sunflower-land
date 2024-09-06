@@ -58,7 +58,12 @@ export const HeliosAuction: React.FC = () => {
         }}
         onMint={(id) => {
           setIsOpen(false);
-          gameService.send("MINT", { auctionId: id });
+          gameService.send("TRANSACT", {
+            transaction: "transaction.wearablesWithdrawn",
+            request: {
+              auctionId: id,
+            },
+          });
         }}
         deviceTrackerId={gameState.context.deviceTrackerId as string}
         linkedAddress={gameState.context.linkedWallet}
