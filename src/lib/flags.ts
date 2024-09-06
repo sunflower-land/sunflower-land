@@ -25,9 +25,7 @@ export type FeatureName =
   | "JEST_TEST"
   | "PORTALS"
   | "EASTER"
-  | "CROP_MACHINE"
   | "CROP_QUICK_SELECT"
-  | "DESERT_PLAZA"
   | "SKILLS_REVAMP"
   | "MARKETPLACE"
   | "ONBOARDING_REWARDS"
@@ -56,9 +54,6 @@ const featureFlags: Record<FeatureName, FeatureFlag> = {
   PORTALS: testnetFeatureFlag,
   JEST_TEST: defaultFeatureFlag,
   EASTER: () => false, // To re-enable next easter
-  // Just in case we need to disable the crop machine, leave the flag in temporarily
-  CROP_MACHINE: () => true,
-  DESERT_PLAZA: betaTimeBasedFeatureFlag(new Date("2024-08-01T00:00:00Z")),
   SKILLS_REVAMP: testnetFeatureFlag,
 };
 
