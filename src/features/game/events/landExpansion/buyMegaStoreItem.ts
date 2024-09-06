@@ -109,6 +109,16 @@ export function buyMegaStoreItem({
 
     // This is where the key is bought
     if (isKey(name)) {
+      const keyBoughtAt =
+        stateCopy.pumpkinPlaza.keysBought?.megastore[name as Keys]?.boughtAt;
+      if (keyBoughtAt) {
+        const currentTime = new Date(createdAt).toISOString().slice(0, 10);
+        const lastBoughtTime = new Date(keyBoughtAt).toISOString().slice(0, 10);
+
+        if (currentTime === lastBoughtTime) {
+          throw new Error("Already bought today");
+        }
+      }
       // Ensure `keysBought` is properly initialized
       if (!stateCopy.pumpkinPlaza.keysBought) {
         stateCopy.pumpkinPlaza.keysBought = {

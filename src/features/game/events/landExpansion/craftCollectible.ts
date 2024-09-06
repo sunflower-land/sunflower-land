@@ -171,6 +171,16 @@ export function craftCollectible({
     stateCopy.stock[action.name] = stateCopy.stock[action.name]?.minus(1);
 
     if (isKey(action.name)) {
+      const keyBoughtAt =
+        stateCopy.pumpkinPlaza.keysBought?.treasureShop[action.name]?.boughtAt;
+      if (keyBoughtAt) {
+        const currentTime = new Date(createdAt).toISOString().slice(0, 10);
+        const lastBoughtTime = new Date(keyBoughtAt).toISOString().slice(0, 10);
+
+        if (currentTime === lastBoughtTime) {
+          throw new Error("Already bought today");
+        }
+      }
       // Ensure `keysBought` is properly initialized
       if (!stateCopy.pumpkinPlaza.keysBought) {
         stateCopy.pumpkinPlaza.keysBought = {
