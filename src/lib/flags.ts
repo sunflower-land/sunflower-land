@@ -6,10 +6,6 @@ const defaultFeatureFlag = ({ inventory }: GameState) =>
 
 const testnetFeatureFlag = () => CONFIG.NETWORK === "amoy";
 
-const clashOfFactionsFeatureFlag = () => {
-  return true;
-};
-
 const timeBasedFeatureFlag = (date: Date) => () => {
   return testnetFeatureFlag() || Date.now() > date.getTime();
 };
@@ -29,10 +25,7 @@ export type FeatureName =
   | "JEST_TEST"
   | "PORTALS"
   | "EASTER"
-  | "FACTIONS"
-  | "BANNER_SALES"
   | "CROP_MACHINE"
-  | "DESERT_RECIPES"
   | "CROP_QUICK_SELECT"
   | "FACTION_KITCHEN"
   | "FACTION_CHORES"
@@ -62,16 +55,11 @@ const featureFlags: Record<FeatureName, FeatureFlag> = {
   ONBOARDING_REWARDS: (game) =>
     game.experiments.includes("ONBOARDING_CHALLENGES"),
   MARKETPLACE: testnetFeatureFlag,
-  CROP_QUICK_SELECT: defaultFeatureFlag,
+  CROP_QUICK_SELECT: defaultFeatureFlag, // Potential release to public?
   FRUIT_DASH: defaultFeatureFlag,
   PORTALS: testnetFeatureFlag,
   JEST_TEST: defaultFeatureFlag,
-  DESERT_RECIPES: defaultFeatureFlag,
-  EASTER: (game) => {
-    return false;
-  },
-  FACTIONS: clashOfFactionsFeatureFlag,
-  BANNER_SALES: clashOfFactionsFeatureFlag,
+  EASTER: () => false, // To re-enable next easter
   // Just in case we need to disable the crop machine, leave the flag in temporarily
   CROP_MACHINE: () => true,
   FACTION_KITCHEN: betaTimeBasedFeatureFlag(new Date("2022-07-08T00:00:00Z")),
