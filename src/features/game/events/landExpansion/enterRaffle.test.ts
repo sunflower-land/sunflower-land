@@ -26,7 +26,6 @@ describe("enterRaffle", () => {
           "Prize Ticket": new Decimal(1),
         },
         pumpkinPlaza: {
-          ...TEST_FARM.pumpkinPlaza,
           raffle: {
             entries: {
               "2024-02": 12,

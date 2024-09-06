@@ -140,7 +140,7 @@ const CollectibleContent: React.FC<CollectibleContentProps> = ({
     name in ARTEFACT_SHOP_KEYS;
 
   const keysBoughtAt =
-    pumpkinPlaza.keysBought.treasureShop[selectedName as Keys]?.boughtAt;
+    pumpkinPlaza.keysBought?.treasureShop[selectedName as Keys]?.boughtAt;
   const keysBoughtToday =
     !!keysBoughtAt &&
     new Date(keysBoughtAt).toISOString().substring(0, 10) ===

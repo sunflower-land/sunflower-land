@@ -61,7 +61,7 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
 
   const isKey = (name: InventoryItemName): name is Keys =>
     name in FACTION_SHOP_KEYS;
-  const keysBoughtAt = keysBought.megastore[item?.name as Keys]?.boughtAt;
+  const keysBoughtAt = keysBought?.megastore[item?.name as Keys]?.boughtAt;
   const keysBoughtToday =
     !!keysBoughtAt &&
     new Date(keysBoughtAt).toISOString().substring(0, 10) ===

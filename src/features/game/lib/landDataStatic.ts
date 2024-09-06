@@ -875,11 +875,6 @@ export const STATIC_OFFLINE_FARM: GameState = {
         "2024-03": 12,
       },
     },
-    keysBought: {
-      treasureShop: {},
-      megastore: {},
-      factionShop: {},
-    },
   },
   treasureIsland: {
     holes: {},

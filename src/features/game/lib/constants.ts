@@ -477,13 +477,7 @@ export const INITIAL_FARM: GameState = {
     ],
   },
   collectibles: {},
-  pumpkinPlaza: {
-    keysBought: {
-      treasureShop: {},
-      megastore: {},
-      factionShop: {},
-    },
-  },
+  pumpkinPlaza: {},
   treasureIsland: {
     holes: {},
   },
@@ -701,13 +695,7 @@ export const TEST_FARM: GameState = {
     "Radish Cake": "2025-01-01T00:00:00.000Z",
     "Wheat Cake": "1970-01-01T00:00:00.000Z",
   },
-  pumpkinPlaza: {
-    keysBought: {
-      treasureShop: {},
-      megastore: {},
-      factionShop: {},
-    },
-  },
+  pumpkinPlaza: {},
   delivery: {
     fulfilledCount: 0,
     orders: [],
@@ -923,13 +911,7 @@ export const EMPTY: GameState = {
   buildings: {},
   collectibles: {},
   mysteryPrizes: {},
-  pumpkinPlaza: {
-    keysBought: {
-      treasureShop: {},
-      megastore: {},
-      factionShop: {},
-    },
-  },
+  pumpkinPlaza: {},
   dailyRewards: { streaks: 0 },
   auctioneer: {},
 

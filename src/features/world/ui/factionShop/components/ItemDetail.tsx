@@ -224,7 +224,7 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
   const currency = item?.currency as InventoryItemName;
   const isKey = (name: FactionShopItemName): name is Keys =>
     name in FACTION_SHOP_KEYS;
-  const keysBoughtAt = keysBought.factionShop[item?.name as Keys]?.boughtAt;
+  const keysBoughtAt = keysBought?.factionShop[item?.name as Keys]?.boughtAt;
   const keysBoughtToday =
     !!keysBoughtAt &&
     new Date(keysBoughtAt).toISOString().substring(0, 10) ===

@@ -1237,7 +1237,7 @@ export interface GameState {
     pirateChest?: {
       openedAt: number;
     };
-    keysBought: KeysBought;
+    keysBought?: KeysBought;
   };
   conversations: ConversationName[];
   mailbox: {
