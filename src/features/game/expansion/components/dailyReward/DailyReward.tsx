@@ -286,7 +286,8 @@ export const DailyReward: React.FC = () => {
             <Button onClick={() => setShowIntro(false)}>{t("continue")}</Button>
           </CloseButtonPanel>
         )}
-        {!showIntro && (
+
+        {!showIntro && chestState.matches("idle") && (
           <Panel>
             <GameWallet
               action="dailyReward"
@@ -297,6 +298,17 @@ export const DailyReward: React.FC = () => {
               <ModalContent />
             </GameWallet>
           </Panel>
+        )}
+
+        {!showIntro && !chestState.matches("idle") && (
+          <GameWallet
+            action="dailyReward"
+            onReady={() => {
+              chestService.send("LOAD");
+            }}
+          >
+            <ModalContent />
+          </GameWallet>
         )}
       </Modal>
     </>
