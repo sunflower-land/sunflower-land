@@ -38,7 +38,6 @@ export type FeatureName =
   | "CROP_QUICK_SELECT"
   | "FACTION_KITCHEN"
   | "FACTION_CHORES"
-  | "CHAMPIONS"
   | "TEST_DIGGING"
   | "NEW_FRUITS"
   | "DESERT_PLAZA"
@@ -65,7 +64,6 @@ const featureFlags: Record<FeatureName, FeatureFlag> = {
   ONBOARDING_REWARDS: (game) =>
     game.experiments.includes("ONBOARDING_CHALLENGES"),
   MARKETPLACE: testnetFeatureFlag,
-  CHAMPIONS: betaTimeBasedFeatureFlag(new Date("2024-07-15T00:00:00Z")),
   CROP_QUICK_SELECT: defaultFeatureFlag,
   FRUIT_DASH: defaultFeatureFlag,
   CROPS_AND_CHICKENS: betaTimeBasedFeatureFlag(

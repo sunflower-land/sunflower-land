@@ -371,15 +371,13 @@ export class KingdomScene extends BaseScene {
       });
     });
 
-    if (hasFeatureAccess(this.gameState, "CHAMPIONS")) {
-      this.setChampions();
+    this.setChampions();
 
-      // After 30 seconds of new week, show the new throne!
-      const secondsTillReset = secondsTillWeekReset() + 30;
-      setTimeout(() => {
-        this.setChampions();
-      }, secondsTillReset * 1000);
-    }
+    // After 30 seconds of new week, show the new throne!
+    const secondsTillReset = secondsTillWeekReset() + 30;
+    setTimeout(() => {
+      this.setChampions();
+    }, secondsTillReset * 1000);
 
     if (!hasReadKingdomNotice()) {
       this.add.image(280, 720, "question_disc").setDepth(1000000);
