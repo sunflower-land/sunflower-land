@@ -1242,7 +1242,7 @@
   "faction.shop.welcome": "¡Bienvenido a la tienda de facciones! Usa tus marcas para comprar potenciadores temporales, prendas elegantes y objetos coleccionables poco comunes. ¡Sumérgete y encuentra tu próxima gran incorporación!",
   "faction.goodLuck": "¡Buena suerte esta semana!",
   "faction.noPrizeFound": "No se encontró ningún premio",
-  "faction.pet.weeklyGoal": "Objetivo semanal: {{totalXP}}/{{goalXP}} XP",
+  "faction.pet.weeklyGoal": "Objetivo semanal: {{totalXP}} / {{goalXP}} XP",
   "faction.pet.hungry": "¡Nuestra querida mascota depende de ti para mantenerse con vida! Dale de comer un 30% más cada semana para satisfacer su creciente hambre. ¡Mantén una racha para conseguir increíbles bonificaciones de XP y marcas adicionales para tu facción!",
   "faction.pet.fed": "¡Fantástico trabajo! Has desbloqueado una valiosa bonificación. La mascota de la facción está más sana que nunca y todos los miembros reciben una mejora de XP. ¡Apuntemos a la próxima racha!",
   "faction.pet.sleeping": "La mascota se ha ido a dormir durante una semana debido al hambre. Asegúrate de darle de comer bien cuando se despierte para mantener viva nuestra racha.",

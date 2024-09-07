@@ -2774,7 +2774,7 @@
   "faction.shop.welcome": "Bem-vindo à Faction Shop! Use suas marcas para comprar reforços temporários, acessórios estilosos e itens colecionáveis raros. Mergulhe e encontre sua próxima grande adição!",
   "faction.goodLuck": "Boa sorte esta semana!",
   "faction.noPrizeFound": "Nenhum prêmio encontrado",
-  "faction.pet.weeklyGoal": "Gol semanal: {{totalXP}}/{{goalXP}} XP",
+  "faction.pet.weeklyGoal": "Gol semanal: {{totalXP}} / {{goalXP}} XP",
   "faction.pet.hungry": "Nosso querido animal de estimação depende de você para se manter vivo! Alimente-o 30% a mais a cada semana para suprir sua fome crescente. Mantenha uma sequência para ganhar incríveis bônus de XP e marcas adicionais para sua facção!",
   "faction.pet.fed": "Trabalho fantástico! Você desbloqueou um bônus valioso. O animal de estimação da facção está mais saudável do que nunca e todos os membros recebem um aumento de XP. Vamos tentar a próxima sequência!",
   "faction.pet.sleeping": "O animal dormiu por uma semana devido à fome. Certifique-se de alimentá-lo bem quando ele acordar para manter nossa sequência viva.",
