@@ -70,7 +70,11 @@ function areAnyGreenhouseCropGrowing(game: GameState): Restriction {
 export function areAnyCropsOrGreenhouseCropsGrowing(
   game: GameState,
 ): Restriction {
-  const [greenhouseCropsGrowing] = areAnyGreenhouseCropGrowing(game);
+  const cropsToCheck: GreenHouseCropName[] = ["Olive", "Rice"];
+  const greenhouseCropsGrowing = cropsToCheck.some(
+    (crop) => greenhouseCropIsGrowing({ crop, game })[0],
+  );
+
   const [cropsGrowing] = areAnyCropsGrowing(game);
 
   const anyCropsGrowing = greenhouseCropsGrowing || cropsGrowing;
