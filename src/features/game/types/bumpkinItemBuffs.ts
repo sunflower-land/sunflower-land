@@ -517,4 +517,14 @@ export const BUMPKIN_ITEM_BUFF_LABELS: Partial<Record<BumpkinItem, BuffLabel>> =
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
       boostedItemIcon: chefHat,
     },
+    Halo: {
+      shortDescription: translate("description.halo.boost"),
+      labelType: "vibrant",
+      boostTypeIcon: lightning,
+    },
+    "Gift Giver": {
+      shortDescription: translate("description.gift.giver.boost"),
+      labelType: "vibrant",
+      boostTypeIcon: lightning,
+    },
   };
