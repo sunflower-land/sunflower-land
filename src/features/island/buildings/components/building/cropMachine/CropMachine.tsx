@@ -22,7 +22,6 @@ import { Harvesting } from "./components/Harvesting";
 import { CropMachineBuilding } from "features/game/types/game";
 
 import { AddSeedsInput } from "features/game/events/landExpansion/supplyCropMachine";
-import { hasFeatureAccess } from "lib/flags";
 import { SUNNYSIDE } from "assets/sunnyside";
 
 const _cropMachine = (id: string) => (state: MachineState) => {
@@ -73,11 +72,7 @@ export const CropMachine: React.FC<Props> = ({ id }) => {
   const running = useSelector(cropMachineService, _running);
   const paused = useSelector(cropMachineService, _paused);
 
-  const handleClick = () => {
-    hasFeatureAccess(gameService.state.context.state, "CROP_MACHINE") &&
-      setShowModal(true);
-  };
-
+  const handleClick = () => setShowModal(true);
   const handleAddSeeds = (seeds: AddSeedsInput) => {
     const updated = gameService.send({ type: "cropMachine.supplied", seeds });
 

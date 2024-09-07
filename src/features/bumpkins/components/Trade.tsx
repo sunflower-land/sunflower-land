@@ -32,7 +32,6 @@ import { getDayOfYear } from "lib/utils/time";
 import { ListingCategoryCard } from "components/ui/ListingCategoryCard";
 import { FACTION_EMBLEMS } from "features/game/events/landExpansion/joinFaction";
 import { NumberInput } from "components/ui/NumberInput";
-import { hasFeatureAccess } from "lib/flags";
 import {
   TRADE_LIMITS,
   TRADE_MINIMUMS,
@@ -380,23 +379,14 @@ const TradeDetails: React.FC<{
           <div className="flex justify-between">
             <div>
               <div className="flex flex-wrap">
-                {getKeys(trade.items)
-                  .filter(
-                    (name) =>
-                      (name !== "Tomato" && name !== "Lemon") ||
-                      hasFeatureAccess(
-                        gameService.state.context.state,
-                        "NEW_FRUITS",
-                      ),
-                  )
-                  .map((name) => (
-                    <Box
-                      image={ITEM_DETAILS[name].image}
-                      count={new Decimal(trade.items[name] ?? 0)}
-                      disabled
-                      key={name}
-                    />
-                  ))}
+                {getKeys(trade.items).map((name) => (
+                  <Box
+                    image={ITEM_DETAILS[name].image}
+                    count={new Decimal(trade.items[name] ?? 0)}
+                    disabled
+                    key={name}
+                  />
+                ))}
 
                 <div>
                   <Label type="success" className="ml-1 mt-0.5">

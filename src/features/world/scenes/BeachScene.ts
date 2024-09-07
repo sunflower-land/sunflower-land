@@ -7,7 +7,6 @@ import { FishermanContainer } from "../containers/FishermanContainer";
 import { interactableModalManager } from "../ui/InteractableModals";
 import { translate } from "lib/i18n/translate";
 import { InventoryItemName } from "features/game/types/game";
-import { hasFeatureAccess } from "lib/flags";
 import { gameAnalytics } from "lib/gameAnalytics";
 import {
   BeachBountyTreasure,
@@ -49,12 +48,6 @@ const BUMPKINS: NPCBumpkin[] = [
   { npc: "jafar", x: 478, y: 220, direction: "left" },
   { npc: "corale", x: 215, y: 750 },
   { npc: "miranda", x: 418, y: 487 },
-  {
-    // To remove on digging release
-    npc: "goldtooth",
-    x: 384,
-    y: 335,
-  },
 ];
 
 export type DigAnalytics = {
@@ -206,25 +199,14 @@ export class BeachScene extends BaseScene {
       key: "beach",
     });
     super.create();
+    //To use when there are bumpkins under testing
+    // const filteredBumpkins = BUMPKINS.filter((bumpkin) => {
+    //   return true;
+    // });
 
-    const filteredBumpkins = BUMPKINS.filter((bumpkin) => {
-      // Show new NPC(Desert Merchant) if you're beta tester
-      if (bumpkin.npc === "jafar") {
-        return hasFeatureAccess(
-          this.gameService.state.context.state,
-          "TEST_DIGGING",
-        );
-      }
-      if (bumpkin.npc === "goldtooth") {
-        return !hasFeatureAccess(
-          this.gameService.state.context.state,
-          "TEST_DIGGING",
-        );
-      }
-      return true;
-    });
+    // this.initialiseNPCs(filteredBumpkins);
 
-    this.initialiseNPCs(filteredBumpkins);
+    this.initialiseNPCs(BUMPKINS);
 
     this.digbyProgressBar = new ProgressBarContainer(this, 337, 234);
 
