@@ -7,6 +7,7 @@ import RUSSIAN_TERMS from "./ru.json";
 import ITALIAN_TERMS from "./it.json";
 import SPANISH_TERMS from "./es.json";
 import GERMAN_TERMS from "./de.json";
+import KOREAN_TERMS from "./ko.json";
 import { TranslationKeys } from "./types";
 
 import britishFlag from "assets/sfts/flags/british_flag.gif";
@@ -20,6 +21,7 @@ import russiaFlag from "assets/sfts/flags/russia_flag.gif";
 import spainFlag from "assets/sfts/flags/spain_flag.gif";
 import italyFlag from "assets/sfts/flags/italy_flag.gif";
 import germanFlag from "assets/sfts/flags/germany_flag.gif";
+import southKoreanFlag from "assets/sfts/flags/south_korea_flag.gif";
 
 export type LanguageCode =
   | "en"
@@ -30,7 +32,8 @@ export type LanguageCode =
   | "tr"
   | "zh-CN"
   | "ru"
-  | "it";
+  | "it"
+  | "ko";
 
 export type TranslationResource = Partial<Record<TranslationKeys, string>>;
 
@@ -66,6 +69,11 @@ export const languageDetails: Record<LanguageCode, LanguageDetails> = {
     languageImage: [italyFlag],
     imageAlt: ["Italy Flag"],
   },
+  ko: {
+    languageName: "한국인",
+    languageImage: [southKoreanFlag],
+    imageAlt: ["South Korea Flag"],
+  },
   "pt-BR": {
     languageName: "Português",
     languageImage: [brazilFlag, portugalFlag],
@@ -100,4 +108,5 @@ export const resources: Partial<
   ru: { translation: RUSSIAN_TERMS },
   it: { translation: ITALIAN_TERMS },
   de: { translation: GERMAN_TERMS },
+  ko: { translation: KOREAN_TERMS },
 };

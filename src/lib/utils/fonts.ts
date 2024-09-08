@@ -114,6 +114,25 @@ export const CHINESE_FONT_CONFIG: Partial<Record<Font, FontSettings>> = {
   },
 };
 
+export const KOREAN_FONT_CONFIG: Partial<Record<Font, FontSettings>> = {
+  Default: {
+    fontFamily: "Noto Serif KR",
+    xxs: [14, 14],
+    xs: [16, 16],
+    sm: [18, 18],
+    base: [25, 25],
+    lg: [30, 30],
+  },
+  "Sans Serif": {
+    fontFamily: "sans-serif",
+    xxs: [14, 14],
+    xs: [16, 16],
+    sm: [18, 18],
+    base: [25, 25],
+    lg: [30, 30],
+  },
+};
+
 export function initialiseFont() {
   const font = getCachedFont();
 
@@ -169,11 +188,18 @@ function setFontProperties(config: FontSettings) {
 
 export function changeFont(font: Font) {
   const lang = localStorage.getItem("language") || "en";
-  const config = ["ru"].includes(lang)
-    ? CYRILLIC_FONT_CONFIG[font]
-    : ["zh-CN"].includes(lang)
-      ? CHINESE_FONT_CONFIG[font]
-      : FONT_CONFIG[font];
+  const config = (() => {
+    switch (lang) {
+      case "ru":
+        return CYRILLIC_FONT_CONFIG[font];
+      case "zh-CN":
+        return CHINESE_FONT_CONFIG[font];
+      case "ko":
+        return KOREAN_FONT_CONFIG[font];
+      default:
+        return FONT_CONFIG[font];
+    }
+  })();
 
   if (config) {
     setFontProperties(config);
