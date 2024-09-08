@@ -8,7 +8,11 @@ import {
 } from "features/game/lib/constants";
 import { FruitName, GreenHouseFruitName } from "features/game/types/fruits";
 import { GameState, InventoryItemName } from "features/game/types/game";
-import { CropName, GreenHouseCropName } from "features/game/types/crops";
+import {
+  CropName,
+  GREENHOUSE_CROPS,
+  GreenHouseCropName,
+} from "features/game/types/crops";
 import { canMine } from "../expansion/lib/utils";
 import { areUnsupportedChickensBrewing } from "features/game/events/landExpansion/removeBuilding";
 import { Bud, StemTrait, TypeTrait } from "./buds";
@@ -26,6 +30,7 @@ import { getCurrentHoneyProduced } from "../expansion/components/resources/beehi
 import { DEFAULT_HONEY_PRODUCTION_TIME } from "../lib/updateBeehives";
 import { translate } from "lib/i18n/translate";
 import { canDrillOilReserve } from "../events/landExpansion/drillOilReserve";
+import { getKeys } from "./decorations";
 
 export type Restriction = [boolean, string];
 type RemoveCondition = (gameState: GameState) => Restriction;
@@ -70,7 +75,7 @@ function areAnyGreenhouseCropGrowing(game: GameState): Restriction {
 export function areAnyCropsOrGreenhouseCropsGrowing(
   game: GameState,
 ): Restriction {
-  const cropsToCheck: GreenHouseCropName[] = ["Olive", "Rice"];
+  const cropsToCheck = getKeys(GREENHOUSE_CROPS);
   const greenhouseCropsGrowing = cropsToCheck.some(
     (crop) => greenhouseCropIsGrowing({ crop, game })[0],
   );
