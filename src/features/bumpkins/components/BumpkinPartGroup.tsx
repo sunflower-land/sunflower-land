@@ -8,10 +8,16 @@ import lightning from "assets/icons/lightning.png";
 
 import { BumpkinPart, ITEM_IDS } from "features/game/types/bumpkin";
 import { BumpkinParts } from "lib/utils/tokenUriBuilder";
-import { BUMPKIN_ITEM_BUFF_LABELS } from "features/game/types/bumpkinItemBuffs";
+import {
+  BUMPKIN_ITEM_BUFF_LABELS,
+  SPECIAL_ITEM_BUFF_LABELS,
+} from "features/game/types/bumpkinItemBuffs";
 import { BUMPKIN_PART_SILHOUETTE } from "features/game/types/bumpkinPartSilhouettes";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { pixelBlueBorderStyle } from "features/game/lib/style";
+import {
+  pixelBlueBorderStyle,
+  pixelVibrantBorderStyle,
+} from "features/game/lib/style";
 import { getImageUrl } from "lib/utils/getImageURLS";
 
 interface Props {
@@ -27,14 +33,23 @@ export const BumpkinPartGroup: React.FC<Props> = ({
   selected,
   onSelect,
 }) => {
+  // useEffect(() => {}, []);
+
   return (
     <div className="grid grid-cols-4 gap-2">
       {bumpkinParts.map((name) => {
         const bumpkinItem = equipped[name];
-        const buffLabel = bumpkinItem
-          ? BUMPKIN_ITEM_BUFF_LABELS[bumpkinItem] ?? ""
+        const boostLabel = bumpkinItem
+          ? (BUMPKIN_ITEM_BUFF_LABELS[bumpkinItem] &&
+              !SPECIAL_ITEM_BUFF_LABELS[bumpkinItem]) ??
+            ""
           : "";
 
+        const specialItem = bumpkinItem
+          ? SPECIAL_ITEM_BUFF_LABELS[bumpkinItem] ?? ""
+          : "";
+
+        const buffLabel = boostLabel || specialItem;
         return (
           <OuterPanel
             key={name}
@@ -48,8 +63,15 @@ export const BumpkinPartGroup: React.FC<Props> = ({
           >
             {!!buffLabel && (
               <div
-                className="absolute -right-2 -top-2 bg-[#1e6dd5]"
-                style={{ ...pixelBlueBorderStyle }}
+                className={classNames("absolute -right-2 -top-2", {
+                  "bg-[#b65389]": specialItem,
+                  "bg-[#1e6dd5]": boostLabel,
+                })}
+                style={
+                  specialItem
+                    ? { ...pixelVibrantBorderStyle }
+                    : { ...pixelBlueBorderStyle }
+                }
               >
                 <SquareIcon icon={lightning} width={4} />
               </div>
