@@ -20,7 +20,7 @@ import { Label } from "components/ui/Label";
 import classNames from "classnames";
 import {
   BUMPKIN_ITEM_BUFF_LABELS,
-  SPECIAL_ITEM_BUFF_LABELS,
+  SPECIAL_ITEM_LABELS,
 } from "features/game/types/bumpkinItemBuffs";
 import { BumpkinParts } from "lib/utils/tokenUriBuilder";
 import { GameState } from "features/game/types/game";
@@ -183,7 +183,7 @@ export const BumpkinEquip: React.FC<Props> = ({ equipment, onEquip, game }) => {
     );
     setFilteredWardrobeNames(filteredWardrobe);
     setSelectedBumpkinItem(equipped[selectedBumpkinPart]);
-  }, [equipped, selectedBumpkinPart, wardrobeSortedByBuff]);
+  }, [selectedBumpkinPart]);
 
   return (
     <div className="p-2">
@@ -238,9 +238,9 @@ export const BumpkinEquip: React.FC<Props> = ({ equipment, onEquip, game }) => {
                   {filteredWardrobeNames.map((name) => {
                     const boostLabel =
                       BUMPKIN_ITEM_BUFF_LABELS[name] &&
-                      !SPECIAL_ITEM_BUFF_LABELS[name];
+                      !SPECIAL_ITEM_LABELS[name];
 
-                    const specialItem = SPECIAL_ITEM_BUFF_LABELS[name];
+                    const specialItem = SPECIAL_ITEM_LABELS[name];
 
                     const buffLabel = boostLabel || specialItem;
 
@@ -280,8 +280,8 @@ export const BumpkinEquip: React.FC<Props> = ({ equipment, onEquip, game }) => {
                             })}
                             style={
                               specialItem
-                                ? { ...pixelVibrantBorderStyle }
-                                : { ...pixelBlueBorderStyle }
+                                ? pixelVibrantBorderStyle
+                                : pixelBlueBorderStyle
                             }
                           >
                             <SquareIcon icon={lightning} width={4} />

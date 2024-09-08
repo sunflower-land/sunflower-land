@@ -10,7 +10,7 @@ import { BumpkinPart, ITEM_IDS } from "features/game/types/bumpkin";
 import { BumpkinParts } from "lib/utils/tokenUriBuilder";
 import {
   BUMPKIN_ITEM_BUFF_LABELS,
-  SPECIAL_ITEM_BUFF_LABELS,
+  SPECIAL_ITEM_LABELS,
 } from "features/game/types/bumpkinItemBuffs";
 import { BUMPKIN_PART_SILHOUETTE } from "features/game/types/bumpkinPartSilhouettes";
 import { PIXEL_SCALE } from "features/game/lib/constants";
@@ -41,12 +41,12 @@ export const BumpkinPartGroup: React.FC<Props> = ({
         const bumpkinItem = equipped[name];
         const boostLabel = bumpkinItem
           ? (BUMPKIN_ITEM_BUFF_LABELS[bumpkinItem] &&
-              !SPECIAL_ITEM_BUFF_LABELS[bumpkinItem]) ??
+              !SPECIAL_ITEM_LABELS[bumpkinItem]) ??
             ""
           : "";
 
         const specialItem = bumpkinItem
-          ? SPECIAL_ITEM_BUFF_LABELS[bumpkinItem] ?? ""
+          ? SPECIAL_ITEM_LABELS[bumpkinItem] ?? ""
           : "";
 
         const buffLabel = boostLabel || specialItem;
@@ -68,9 +68,7 @@ export const BumpkinPartGroup: React.FC<Props> = ({
                   "bg-[#1e6dd5]": boostLabel,
                 })}
                 style={
-                  specialItem
-                    ? { ...pixelVibrantBorderStyle }
-                    : { ...pixelBlueBorderStyle }
+                  specialItem ? pixelVibrantBorderStyle : pixelBlueBorderStyle
                 }
               >
                 <SquareIcon icon={lightning} width={4} />
