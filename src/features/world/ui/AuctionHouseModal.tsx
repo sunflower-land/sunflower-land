@@ -33,7 +33,7 @@ export const AuctionHouseModal: React.FC<Props> = ({
       onMint={(id) => {
         closeModal();
         gameService.send("TRANSACT", {
-          transaction: "transaction.wearablesWithdrawn",
+          transaction: "transaction.bidMinted",
           request: {
             auctionId: id,
           },

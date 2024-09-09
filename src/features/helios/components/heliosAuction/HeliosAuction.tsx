@@ -59,7 +59,7 @@ export const HeliosAuction: React.FC = () => {
         onMint={(id) => {
           setIsOpen(false);
           gameService.send("TRANSACT", {
-            transaction: "transaction.wearablesWithdrawn",
+            transaction: "transaction.bidMinted",
             request: {
               auctionId: id,
             },
