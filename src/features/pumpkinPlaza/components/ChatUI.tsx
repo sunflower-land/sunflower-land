@@ -117,8 +117,6 @@ export const ChatUI: React.FC<Props> = ({
           "absolute top-48 left-3 transition-transform origin-top-left ease-in-out duration-300",
           { "scale-0": !showChatMessages, "scale-100": showChatMessages },
         )}
-        // eslint-disable-next-line no-console
-        onClick={console.log}
       >
         <ChatText
           messages={messages}
@@ -132,8 +130,6 @@ export const ChatUI: React.FC<Props> = ({
           "absolute top-44 left-3 transition-transform origin-top-left ease-in-out duration-300",
           { "scale-0": !showReactions, "scale-100": showReactions },
         )}
-        // eslint-disable-next-line no-console
-        onClick={console.log}
       >
         <Reactions
           gameState={gameState}
