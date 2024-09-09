@@ -51,7 +51,7 @@ const featureFlags: Record<FeatureName, FeatureFlag> = {
     game.experiments.includes("ONBOARDING_CHALLENGES"),
   MARKETPLACE: testnetFeatureFlag,
   CROP_QUICK_SELECT: defaultFeatureFlag, // Potential release to public?
-  FRUIT_DASH: defaultFeatureFlag,
+  FRUIT_DASH: betaTimeBasedFeatureFlag(new Date("2024-09-10T00:00:00Z")),
   PORTALS: testnetFeatureFlag,
   JEST_TEST: defaultFeatureFlag,
   EASTER: () => false, // To re-enable next easter
