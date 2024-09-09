@@ -32,11 +32,11 @@ export type Scenes = {
 
 export type SceneId = keyof Scenes;
 
-function getDefaultServer(): ServerId | undefined {
+export function getDefaultServer(): ServerId | undefined {
   return localStorage.getItem("mmo_server") as ServerId | undefined;
 }
 
-function saveDefaultServer(serverId: ServerId) {
+export function saveDefaultServer(serverId: ServerId) {
   localStorage.setItem("mmo_server", serverId);
 }
 
@@ -67,14 +67,14 @@ export type ServerId =
   | "sunflorea_brazil"
   | "sunflorea_magic";
 
-type ServerName =
+export type ServerName =
   | "Bliss"
   | "Dream"
   | "Oasis"
   | "Brazil"
   | "Magic"
   | "Bumpkin Bazaar";
-type ServerPurpose = "Chill & Chat" | "Trading";
+export type ServerPurpose = "Chill & Chat" | "Trading";
 
 export type Server = {
   name: ServerName;
@@ -166,7 +166,7 @@ export type MMOEvent =
   | { type: "CONTINUE" }
   | { type: "DISCONNECTED" }
   | { type: "RETRY" }
-  | { type: "CHANGE_SERVER" }
+  | { type: "CHANGE_SERVER"; serverId: ServerId }
   | ConnectEvent
   | SwitchScene
   | UpdatePreviousScene;
@@ -226,8 +226,13 @@ export const mmoMachine = createMachine<MMOContext, MMOEvent, MMOState>({
             return { roomId: undefined };
           }
 
-          const client = new Client(url);
+          // In case it's a server switch - leave the current server and wipe context data for the new one
+          if (context.server) {
+            context.server.leave();
+            context.server = undefined;
+          }
 
+          const client = new Client(url);
           const available = await client?.getAvailableRooms();
 
           // Iterate through the available rooms and update the server population
@@ -372,7 +377,12 @@ export const mmoMachine = createMachine<MMOContext, MMOEvent, MMOState>({
       ],
       on: {
         CHANGE_SERVER: {
-          target: "connected",
+          target: "connecting",
+          actions: [
+            assign({
+              serverId: (_, event) => event.serverId,
+            }),
+          ],
         },
       },
     },
@@ -421,6 +431,24 @@ export const mmoMachine = createMachine<MMOContext, MMOEvent, MMOState>({
     },
   },
 });
+
+/**
+ * Fetch available Plaza servers
+ * @returns {Promise<Server[]>} Available servers
+ * @export fetchAvailableServers
+ * @async
+ */
+export async function fetchAvailableServers(): Promise<Server[]> {
+  const client = new Client(CONFIG.ROOM_URL);
+  const available = await client.getAvailableRooms();
+
+  // Iterate through the available rooms and update the server population
+  return SERVERS.map((server) => {
+    const colyseusRoom = available.find((room) => room.name === server.id);
+    const population = colyseusRoom?.clients ?? 0;
+    return { ...server, population };
+  });
+}
 
 /**
  * Simple bus to send MMO events from game

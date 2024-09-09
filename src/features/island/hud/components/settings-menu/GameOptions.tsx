@@ -46,6 +46,7 @@ import { ConfirmationModal } from "components/ui/ConfirmationModal";
 import ticket from "assets/icons/ticket.png";
 import { DEV_HoarderCheck } from "./amoy-actions/DEV_HoardingCheck";
 import { WalletAddressLabel } from "components/ui/WalletAddressLabel";
+import { PickServer } from "./plaza-settings/PickServer";
 
 export interface ContentComponentProps {
   onSubMenuClick: (id: SettingMenuId) => void;
@@ -249,7 +250,10 @@ export type SettingMenuId =
 
   // Amoy Testnet Actions
   | "mainnetHoardingCheck"
-  | "amoyHoardingCheck";
+  | "amoyHoardingCheck"
+
+  // Plaza Settings
+  | "pickServer";
 
 interface SettingMenu {
   title: string;
@@ -349,5 +353,12 @@ export const settingMenus: Record<SettingMenuId, SettingMenu> = {
     title: "Hoarding Check (Amoy)",
     parent: "amoy",
     content: (props) => <DEV_HoarderCheck {...props} network="amoy" />,
+  },
+
+  // Plaza Settings
+  pickServer: {
+    title: "Pick Server",
+    parent: "plaza",
+    content: PickServer,
   },
 };
