@@ -34,6 +34,7 @@ import lightning from "assets/icons/lightning.png";
 import { getToolPrice } from "features/game/events/landExpansion/craftTool";
 import { Keys } from "features/game/types/game";
 import { hasFeatureAccess } from "lib/flags";
+import { isMobile } from "mobile-device-detect";
 
 interface ToolContentProps {
   selectedName: TreasureToolName;
@@ -146,6 +147,7 @@ const CollectibleContent: React.FC<CollectibleContentProps> = ({
     !!keysBoughtAt &&
     new Date(keysBoughtAt).toISOString().substring(0, 10) ===
       new Date().toISOString().substring(0, 10);
+  const keysAmountBoughtToday = keysBoughtToday ? 1 : 0;
 
   const lessIngredients = () =>
     getKeys(selected.ingredients).some((name) =>
@@ -181,21 +183,33 @@ const CollectibleContent: React.FC<CollectibleContentProps> = ({
         coins: selected.coins,
       }}
       actionView={
-        isAlreadyCrafted && isBoost ? (
-          <p className="text-xxs text-center mb-1 font-secondary">
-            {t("alr.crafted")}
-          </p>
-        ) : isKey(selectedName) && keysBoughtToday ? (
-          <Label type="danger" className="text-center mb-1 font-secondary">
-            {t("key.bought")}
-            <br />
-            {t("come.back.tomorrow.key")}
-          </Label>
-        ) : (
-          <Button disabled={lessIngredients()} onClick={craft}>
-            {t("craft")}
-          </Button>
-        )
+        <>
+          {isKey(selectedName) && (
+            <div
+              className={`flex mb-1 ${
+                isMobile ? "items-left" : "justify-center items-center"
+              }`}
+            >
+              <Label type={keysBoughtToday ? "danger" : "default"}>
+                {t("keys.dailyLimit", { keysAmountBoughtToday })}
+              </Label>
+            </div>
+          )}
+          {isAlreadyCrafted && isBoost ? (
+            <p className="text-xxs text-center mb-1 font-secondary">
+              {t("alr.crafted")}
+            </p>
+          ) : (
+            <Button
+              disabled={
+                lessIngredients() || (isKey(selectedName) && keysBoughtToday)
+              }
+              onClick={craft}
+            >
+              {t("craft")}
+            </Button>
+          )}
+        </>
       }
     />
   );

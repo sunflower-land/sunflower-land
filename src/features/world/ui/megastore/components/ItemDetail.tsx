@@ -67,6 +67,8 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
     new Date(keysBoughtAt).toISOString().substring(0, 10) ===
       new Date().toISOString().substring(0, 10);
 
+  const keysAmountBoughtToday = keysBoughtToday ? 1 : 0;
+
   useLayoutEffect(() => {
     if (isWearable) {
       setImageWidth(PIXEL_SCALE * 50);
@@ -245,6 +247,14 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
                       }}
                     />
                     {!!item?.limit && getLimitLabel()}
+                    {item?.type === "keys" && (
+                      <Label
+                        type={keysBoughtToday ? "danger" : "default"}
+                        className="absolute bottom-1 right-1 text-xxs"
+                      >
+                        {t("keys.dailyLimit", { keysAmountBoughtToday })}
+                      </Label>
+                    )}
                   </div>
                   <div className="flex flex-col space-y-2">
                     {!!buff && (
@@ -298,22 +308,18 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
                       {t("cancel")}
                     </Button>
                   )}
-                  {item?.name &&
-                  isKey(item?.name as InventoryItemName) &&
-                  !!keysBoughtToday ? (
-                    <Label
-                      className="w-full flex-grow text-center"
-                      type="danger"
-                    >
-                      {t("key.bought")}
-                      <br />
-                      {t("come.back.tomorrow.key")}
-                    </Label>
-                  ) : (
-                    <Button disabled={!canBuy()} onClick={buttonHandler}>
-                      {getButtonLabel()}
-                    </Button>
-                  )}
+
+                  <Button
+                    disabled={
+                      !canBuy() ||
+                      (item?.name &&
+                        isKey(item?.name as InventoryItemName) &&
+                        !!keysBoughtToday)
+                    }
+                    onClick={buttonHandler}
+                  >
+                    {getButtonLabel()}
+                  </Button>
                 </div>
               )}
               {showSuccess && (
