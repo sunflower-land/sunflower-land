@@ -163,7 +163,7 @@ export const Bert: React.FC<Props> = ({ onClose }) => {
       setCurrentTab={setTab}
       currentTab={tab}
     >
-      {tab === 0 && <DeliveryPanelContent npc="bert" onClose={onClose} />}
+      {tab === 0 && <DeliveryPanelContent npc="bert" />}
       {tab === 1 && (
         <div className="w-full flex flex-col items-center pt-0.5">
           {!currentObsession && (
