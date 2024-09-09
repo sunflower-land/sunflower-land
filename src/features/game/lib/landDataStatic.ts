@@ -722,6 +722,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     "Coin Aura": 1,
     "Gift Giver": 1,
     "Desert Merchant Turban": 1,
+    Halo: 1,
   },
   previousWardrobe: {
     "Elf Suit": 1,

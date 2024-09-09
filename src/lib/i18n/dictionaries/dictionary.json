@@ -3553,5 +3553,7 @@
   "mega.collectibles": "Mega Collectibles",
   "mega.wearables": "Mega Wearables",
   "key.bought": "Key recently bought!",
-  "come.back.tomorrow.key": "Come back tomorrow to buy another key."
+  "come.back.tomorrow.key": "Come back tomorrow to buy another key.",
+  "description.gift.giver.boost": "Gift players a gift",
+  "description.halo.boost": "Access to mod tools"
 }
