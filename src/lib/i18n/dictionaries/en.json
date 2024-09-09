@@ -3531,6 +3531,7 @@
   "description.baobab.tree": "A nice looking tree!",
   "description.camel": "A mean looking camel!",
   "description.tomato.bombard": "Home to Cannonball, and is ready to strike anyone who gets in its way",
+  "keys": "Keys",
   "description.butterfly": "Butterfly loves the scent of flowers. 20% chance of +1 Flower",
   "description.macaw": "Macaw loves picking fruits. +0.1 Fruit",
   "description.squirrel": "Squirrel likes hanging out in the forest. +0.1 Wood",
@@ -3550,5 +3551,7 @@
   "monthly": "Monthly",
   "seasonal": "Seasonal",
   "mega.collectibles": "Mega Collectibles",
-  "mega.wearables": "Mega Wearables"
+  "mega.wearables": "Mega Wearables",
+  "key.bought": "Key recently bought!",
+  "come.back.tomorrow.key": "Come back tomorrow to buy another key."
 }
