@@ -308,22 +308,18 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
                       {t("cancel")}
                     </Button>
                   )}
-                  {item?.name &&
-                  isKey(item?.name as InventoryItemName) &&
-                  !!keysBoughtToday ? (
-                    <Label
-                      className="w-full flex-grow text-center"
-                      type="danger"
-                    >
-                      {t("key.bought")}
-                      <br />
-                      {t("come.back.tomorrow.key")}
-                    </Label>
-                  ) : (
-                    <Button disabled={!canBuy()} onClick={buttonHandler}>
-                      {getButtonLabel()}
-                    </Button>
-                  )}
+
+                  <Button
+                    disabled={
+                      !canBuy() ||
+                      (item?.name &&
+                        isKey(item?.name as InventoryItemName) &&
+                        !!keysBoughtToday)
+                    }
+                    onClick={buttonHandler}
+                  >
+                    {getButtonLabel()}
+                  </Button>
                 </div>
               )}
               {showSuccess && (

@@ -34,6 +34,7 @@ import lightning from "assets/icons/lightning.png";
 import { getToolPrice } from "features/game/events/landExpansion/craftTool";
 import { Keys } from "features/game/types/game";
 import { hasFeatureAccess } from "lib/flags";
+import { isMobile } from "mobile-device-detect";
 
 interface ToolContentProps {
   selectedName: TreasureToolName;
@@ -184,7 +185,11 @@ const CollectibleContent: React.FC<CollectibleContentProps> = ({
       actionView={
         <>
           {isKey(selectedName) && (
-            <div className="flex justify-center items-center mb-1">
+            <div
+              className={`flex mb-1 ${
+                isMobile ? "items-left" : "justify-center items-center"
+              }`}
+            >
               <Label type={keysBoughtToday ? "danger" : "default"}>
                 {t("keys.dailyLimit", { keysAmountBoughtToday })}
               </Label>
@@ -194,16 +199,13 @@ const CollectibleContent: React.FC<CollectibleContentProps> = ({
             <p className="text-xxs text-center mb-1 font-secondary">
               {t("alr.crafted")}
             </p>
-          ) : isKey(selectedName) && keysBoughtToday ? (
-            <div className="flex justify-center items-center">
-              <Label type="danger" className="text-center font-secondary">
-                {t("key.bought")}
-                <br />
-                {t("come.back.tomorrow.key")}
-              </Label>
-            </div>
           ) : (
-            <Button disabled={lessIngredients()} onClick={craft}>
+            <Button
+              disabled={
+                lessIngredients() || (isKey(selectedName) && keysBoughtToday)
+              }
+              onClick={craft}
+            >
               {t("craft")}
             </Button>
           )}
