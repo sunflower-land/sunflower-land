@@ -33,7 +33,6 @@ export const BumpkinPartGroup: React.FC<Props> = ({
   selected,
   onSelect,
 }) => {
-
   return (
     <div className="grid grid-cols-4 gap-2">
       {bumpkinParts.map((name) => {
