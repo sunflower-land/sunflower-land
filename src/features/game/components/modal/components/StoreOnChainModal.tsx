@@ -35,7 +35,7 @@ export const StoreOnChainModal: React.FC<Props> = ({ onClose }) => {
   if (transaction) {
     return (
       <Panel>
-        <Transaction onClose={onClose} />
+        <Transaction isBlocked onClose={onClose} />
       </Panel>
     );
   }

@@ -191,7 +191,7 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
 
   const transaction = gameService.state.context.state.transaction;
   if (transaction) {
-    return <Transaction onClose={onClose} />;
+    return <Transaction isBlocked onClose={onClose} />;
   }
 
   if (!verified) {

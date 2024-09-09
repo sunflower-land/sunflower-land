@@ -27,7 +27,7 @@ export const ClaimAuction: React.FC = () => {
 
   const transaction = gameService.state.context.state.transaction;
   if (transaction) {
-    return <Transaction onClose={onClose} />;
+    return <Transaction isBlocked onClose={onClose} />;
   }
 
   return (

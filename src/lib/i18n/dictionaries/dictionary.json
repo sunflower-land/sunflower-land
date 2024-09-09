@@ -3574,6 +3574,7 @@
   "transaction.preparing": "Preparing transaction",
   "transaction.success.message": "Congratulations, your transaction was secured.",
   "transaction.ready": "You have a transaction ready to submit.",
+  "transaction.blocked": "Hold up, you already have a transaction that has been initiated.",
   "transaction.cleared": "Transaction cleared",
   "transaction.cleared.message": "Your transaction was unable to go through. Please try again.",
   "transaction.waiting": "{{name}} in progress",

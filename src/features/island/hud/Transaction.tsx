@@ -52,10 +52,7 @@ export const TransactionCountdown: React.FC = () => {
           <Transaction onClose={() => setShowTransaction(false)} />
         </Panel>
       </Modal>
-      <ButtonPanel
-        onClick={() => setShowTransaction(true)}
-        className="flex justify-center"
-      >
+      <ButtonPanel onClick={() => setShowTransaction(true)} className="fle">
         <WagmiProvider config={config}>
           <QueryClientProvider client={queryClient}>
             <TransactionWidget
@@ -195,11 +192,12 @@ const TransactionWidget: React.FC<{
 
 interface Props {
   onClose?: () => void;
+  isBlocked?: boolean;
 }
 
 const _isTransacting = (state: MachineState) => state.matches("transacting");
 
-export const Transaction: React.FC<Props> = ({ onClose }) => {
+export const Transaction: React.FC<Props> = ({ onClose, isBlocked }) => {
   const { gameService } = useContext(Context);
   const isTransacting = useSelector(gameService, _isTransacting);
   const { t } = useAppTranslation();
@@ -218,7 +216,7 @@ export const Transaction: React.FC<Props> = ({ onClose }) => {
   return (
     <>
       <GameWallet action="sync">
-        <TransactionProgress onClose={onClose} />
+        <TransactionProgress isBlocked={isBlocked} onClose={onClose} />
       </GameWallet>
     </>
   );
@@ -233,7 +231,10 @@ const EVENT_TO_NAME: Record<TransactionName, string> = {
   "transaction.wearablesWithdrawn": "Withdraw wearables",
 };
 
-export const TransactionProgress: React.FC<Props> = ({ onClose }) => {
+export const TransactionProgress: React.FC<Props> = ({
+  onClose,
+  isBlocked,
+}) => {
   const { gameService } = useContext(Context);
   const { t } = useAppTranslation();
 
@@ -260,9 +261,15 @@ export const TransactionProgress: React.FC<Props> = ({ onClose }) => {
   const submit = async () => {
     setIsSubmitting(true);
 
-    const handler = ONCHAIN_TRANSACTIONS[transaction.event];
-    await handler(transaction.data as any);
-    setIsSubmitting(false);
+    try {
+      const handler = ONCHAIN_TRANSACTIONS[transaction.event];
+      await handler(transaction.data as any);
+    } catch (e) {
+      // eslint-disable-next-line no-console
+      console.error(e);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const reload = () => {
@@ -377,7 +384,10 @@ export const TransactionProgress: React.FC<Props> = ({ onClose }) => {
           </Label>
           <TimerDisplay time={expired} />
         </div>
-        <p className="text-sm mb-2">{t("transaction.ready")}</p>
+
+        <p className="text-sm mb-2">
+          {isBlocked ? t("transaction.blocked") : t("transaction.ready")}
+        </p>
       </div>
       <div className="flex">
         {onClose && (
