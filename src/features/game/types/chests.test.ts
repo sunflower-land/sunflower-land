@@ -28,15 +28,15 @@ describe("SEASONAL_REWARDS", () => {
 
     expect(BASIC_REWARDS()).toContainEqual({
       wearables: { "Grape Pants": 1 },
-      weighting: 5,
+      weighting: 2.5,
     });
     expect(RARE_REWARDS()).toContainEqual({
       wearables: { "Grape Pants": 1 },
-      weighting: 25,
+      weighting: 12.5,
     });
     expect(LUXURY_REWARDS()).toContainEqual({
       wearables: { "Grape Pants": 1 },
-      weighting: 25,
+      weighting: 12.5,
     });
 
     jest.clearAllTimers();
