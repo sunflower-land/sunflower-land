@@ -1,5 +1,3 @@
-import { syncProgress, SyncProgressParams } from "lib/blockchain/Game";
-import { wallet } from "lib/blockchain/wallet";
 import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
 import { GameState } from "../types/game";
@@ -18,11 +16,6 @@ export async function sync({
   token,
   transactionId,
 }: SyncSignatureRequest): Promise<{ game: GameState }> {
-  console.log({
-    farmId,
-    token,
-    transactionId,
-  });
   const response = await window.fetch(`${API_URL}/sync-progress/${farmId}`, {
     method: "POST",
     headers: {

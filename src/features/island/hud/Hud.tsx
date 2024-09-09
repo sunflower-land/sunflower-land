@@ -27,10 +27,6 @@ import marketplaceIcon from "assets/icons/shop_disc.png";
 import { hasFeatureAccess } from "lib/flags";
 import { useNavigate } from "react-router-dom";
 import { TransactionCountdown } from "./Transaction";
-import { WagmiProvider } from "wagmi";
-import { config } from "features/wallet/WalletProvider";
-import { QueryClientProvider } from "@tanstack/react-query";
-import { queryClient } from "features/wallet/Wallet";
 
 const _farmAddress = (state: MachineState) => state.context.farmAddress;
 const _showMarketplace = (state: MachineState) =>

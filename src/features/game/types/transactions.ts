@@ -162,7 +162,7 @@ export const ONCHAIN_TRANSACTIONS: TransactionHandler = {
 
   // Minting a bid has 2 separate contract methods
   "transaction.bidMinted": (data) => {
-    if (!!data.bid?.collectible) {
+    if (data.bid?.collectible) {
       return mintAuctionCollectible(data.params);
     }
 
@@ -178,7 +178,7 @@ export type SignatureHandler = {
 
 type TransactionRequest = Record<
   TransactionName,
-  ({}: any) => Promise<{ game: GameState }>
+  (_: any) => Promise<{ game: GameState }>
 >;
 
 export const TRANSACTION_SIGNATURES: TransactionRequest = {

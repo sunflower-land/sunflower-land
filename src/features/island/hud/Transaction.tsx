@@ -55,7 +55,6 @@ export const TransactionCountdown: React.FC = () => {
       <ButtonPanel
         onClick={() => setShowTransaction(true)}
         className="flex justify-center"
-        id="emblem-airdrop"
       >
         <WagmiProvider config={config}>
           <QueryClientProvider client={queryClient}>
@@ -76,8 +75,8 @@ const TransactionWidget: React.FC<{
 }> = ({ transaction, onOpen }) => {
   const { gameService } = useContext(Context);
   const { isConnected, address } = useAccount();
+  const { t } = useAppTranslation();
 
-  console.log({ isConnected });
   const tx = loadActiveTxHash({
     event: transaction?.event as TransactionName,
     sessionId: gameService.state.context.sessionId as string,
@@ -93,8 +92,6 @@ const TransactionWidget: React.FC<{
     }
   }, [isSuccess]);
 
-  console.log({ isSuccess, isError, isLoading });
-
   const timedOut =
     Date.now() >
     (transaction.createdAt ?? 0) + DEADLINE_MS + DEADLINE_BUFFER_MS;
@@ -104,10 +101,10 @@ const TransactionWidget: React.FC<{
       <div>
         <div className="h-6 flex justify-between">
           <Label type={"danger"} className="ml-1 mr-1" icon={walletIcon}>
-            {`Transaction`}
+            {t("transaction")}
           </Label>
         </div>
-        <span className="text-sm">Timed out</span>
+        <span className="text-sm">{t("transaction.timedOut")}</span>
       </div>
     );
   }
@@ -121,10 +118,10 @@ const TransactionWidget: React.FC<{
       <div>
         <div className="h-6 flex justify-between">
           <Label type={"danger"} className="ml-1 mr-1" icon={walletIcon}>
-            {`Transaction`}
+            {t("transaction")}
           </Label>
         </div>
-        <span className="text-sm">Expired</span>
+        <span className="text-sm">{t("transaction.expired")}</span>
       </div>
     );
   }
@@ -134,24 +131,23 @@ const TransactionWidget: React.FC<{
       <div>
         <div className="h-6 flex justify-between">
           <Label type={"default"} className="ml-1 mr-1" icon={walletIcon}>
-            {`Transaction`}
+            {t("transaction")}
           </Label>
         </div>
-        <span className="text-sm">Not submitted</span>
+        <span className="text-sm">{t("transaction.notSubmitted")}</span>
       </div>
     );
   }
 
   // Is not connected to game wallet?
   const test = wallet.getAccount();
-  console.log({ isConnected, address, test });
 
   if (!isConnected) {
     return (
       <div>
         <div className="h-6 flex justify-between">
           <Label type={"default"} className="ml-1 mr-1" icon={walletIcon}>
-            {`Transaction`}
+            {t("transaction")}
           </Label>
         </div>
         <Loading />
@@ -164,10 +160,10 @@ const TransactionWidget: React.FC<{
       <div>
         <div className="h-6 flex justify-between">
           <Label type={"success"} className="ml-1 mr-1" icon={walletIcon}>
-            {`Transaction`}
+            {t("transaction")}
           </Label>
         </div>
-        <span>Success</span>
+        <span>{t("transaction.success")}</span>
       </div>
     );
   }
@@ -177,10 +173,10 @@ const TransactionWidget: React.FC<{
       <div>
         <div className="h-6 flex justify-between">
           <Label type={"danger"} className="ml-1 mr-1" icon={walletIcon}>
-            {`Transaction`}
+            {t("transaction")}
           </Label>
         </div>
-        <span className="text-sm">Error</span>
+        <span className="text-sm">{t("transaction.error")}</span>
       </div>
     );
   }
@@ -189,7 +185,7 @@ const TransactionWidget: React.FC<{
     <div>
       <div className="h-6 flex justify-between">
         <Label type={"default"} className="ml-1 mr-1" icon={walletIcon}>
-          {`Transaction`}
+          {t("transaction")}
         </Label>
       </div>
       <Loading />
@@ -206,14 +202,15 @@ const _isTransacting = (state: MachineState) => state.matches("transacting");
 export const Transaction: React.FC<Props> = ({ onClose }) => {
   const { gameService } = useContext(Context);
   const isTransacting = useSelector(gameService, _isTransacting);
+  const { t } = useAppTranslation();
 
   if (isTransacting) {
     return (
       <div className="p-2">
         <Label type="default" className="mb-2" icon={walletIcon}>
-          Transaction in progress
+          {t("transaction.inProgress")}
         </Label>
-        <Loading text="Preparing transaction" />
+        <Loading text={t("transaction.preparing")} />
       </div>
     );
   }
@@ -263,14 +260,9 @@ export const TransactionProgress: React.FC<Props> = ({ onClose }) => {
   const submit = async () => {
     setIsSubmitting(true);
 
-    try {
-      const handler = ONCHAIN_TRANSACTIONS[transaction.event];
-      await handler(transaction.data as any);
-    } catch (e) {
-      console.log({ error: e });
-    } finally {
-      setIsSubmitting(false);
-    }
+    const handler = ONCHAIN_TRANSACTIONS[transaction.event];
+    await handler(transaction.data as any);
+    setIsSubmitting(false);
   };
 
   const reload = () => {
@@ -286,14 +278,12 @@ export const TransactionProgress: React.FC<Props> = ({ onClose }) => {
         <div className="p-2">
           <div className="flex items-center justify-between mb-2">
             <Label icon={walletIcon} type="success" className="-ml-1">
-              Success
+              {t("transaction.success")}
             </Label>
           </div>
-          <p className="text-sm mb-2">
-            Congratulations, your transaction was secured
-          </p>
+          <p className="text-sm mb-2">{t("transaction.success.message")}</p>
         </div>
-        <Button onClick={reload}>Continue</Button>
+        <Button onClick={reload}>{t("continue")}</Button>
       </>
     );
   }
@@ -307,14 +297,12 @@ export const TransactionProgress: React.FC<Props> = ({ onClose }) => {
         <div className="p-2">
           <div className="flex items-center justify-between mb-2">
             <Label icon={lockIcon} type="danger" className="-ml-1">
-              Transaction cleared
+              {t("transaction.cleared")}
             </Label>
           </div>
-          <p className="text-sm mb-2">
-            Your transaction was unable to go through. Please try again.
-          </p>
+          <p className="text-sm mb-2">{t("transaction.cleared.message")}</p>
         </div>
-        <Button onClick={reload}>Continue</Button>
+        <Button onClick={reload}> {t("continue")}</Button>
       </>
     );
   }
@@ -326,14 +314,11 @@ export const TransactionProgress: React.FC<Props> = ({ onClose }) => {
         <div className="p-2">
           <div className="flex items-center justify-between mb-2">
             <Label icon={lockIcon} type="danger" className="-ml-1">
-              Transaction expired
+              {t("transaction.expired")}
             </Label>
             <TimerDisplay time={timedOut} />
           </div>
-          <p className="text-sm mb-2">
-            Looks like your transaction expired. Sit tight while we clear the
-            transaction for you.
-          </p>
+          <p className="text-sm mb-2">{t("transaction.expired.message")}</p>
         </div>
       </>
     );
@@ -345,16 +330,16 @@ export const TransactionProgress: React.FC<Props> = ({ onClose }) => {
         <div className="p-2">
           <div className="flex items-center justify-between mb-2 flex-wrap">
             <Label icon={lockIcon} type="danger" className="-ml-1">
-              {EVENT_TO_NAME[transaction.event]} error
+              {EVENT_TO_NAME[transaction.event]} {t("error")}
             </Label>
             <TimerDisplay time={expired} />
           </div>
-          <p className="text-sm mb-2">Looks like something went wrong.</p>
+          <p className="text-sm mb-2">{t("transaction.error.message")}</p>
         </div>
         <div className="flex">
           {onClose && (
             <Button className="mr-1" onClick={onClose}>
-              Close
+              {t("close")}
             </Button>
           )}
 
@@ -372,20 +357,11 @@ export const TransactionProgress: React.FC<Props> = ({ onClose }) => {
       <>
         <div className="p-2">
           <Label icon={lockIcon} type="default" className="mb-2">
-            Transaction in progress
+            {t("transaction.inProgress")}
           </Label>
           <Loading />
-          {/* <p>{tx?.hash}</p>
-          <p>
-            {JSON.stringify({
-              isLoading,
-              isSuccess,
-              isError,
-            })}
-          </p> */}
-          {/* <Button onClick={submit}>Submit</Button> */}
         </div>
-        <Button onClick={onClose}>Close</Button>
+        <Button onClick={onClose}>{t("close")}</Button>
       </>
     );
   }
@@ -395,16 +371,18 @@ export const TransactionProgress: React.FC<Props> = ({ onClose }) => {
       <div className="p-2">
         <div className="flex items-center justify-between mb-2 flex-wrap">
           <Label icon={lockIcon} type="default" className="-ml-1">
-            {EVENT_TO_NAME[transaction.event]} in progress
+            {t("transaction.waiting", {
+              name: EVENT_TO_NAME[transaction.event],
+            })}
           </Label>
           <TimerDisplay time={expired} />
         </div>
-        <p className="text-sm mb-2">You have a transaction ready to submit.</p>
+        <p className="text-sm mb-2">{t("transaction.ready")}</p>
       </div>
       <div className="flex">
         {onClose && (
           <Button className="mr-1" onClick={onClose}>
-            Close
+            {t("close")}
           </Button>
         )}
 

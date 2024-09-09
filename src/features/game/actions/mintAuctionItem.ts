@@ -1,13 +1,6 @@
-import {
-  mintAuctionCollectible,
-  mintAuctionWearable,
-} from "lib/blockchain/Auction";
-import { wallet } from "lib/blockchain/wallet";
 import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
-import { Bid, GameState, InventoryItemName } from "../types/game";
-import { gameAnalytics } from "lib/gameAnalytics";
-import { getSeasonalTicket } from "../types/seasons";
+import { Bid, GameState } from "../types/game";
 import { makeGame } from "../lib/transforms";
 
 type Request = {

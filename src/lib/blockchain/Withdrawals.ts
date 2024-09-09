@@ -28,7 +28,6 @@ export async function withdrawSFLTransaction({
   tax,
   sfl,
 }: WithdrawSFLParams): Promise<string> {
-  console.log("Withdraw SFL");
   const oldSessionId = sessionId;
 
   const hash = await writeContract(config, {
@@ -75,17 +74,6 @@ export async function withdrawItemsTransaction({
   amounts,
 }: WithdrawItemsParams): Promise<string> {
   const oldSessionId = sessionId;
-
-  console.log({
-    sender,
-    signature,
-    sessionId,
-    nextSessionId,
-    deadline,
-    farmId,
-    ids,
-    amounts,
-  });
 
   const hash = await writeContract(config, {
     abi: WithdrawalABI,

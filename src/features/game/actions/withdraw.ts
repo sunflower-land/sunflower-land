@@ -1,10 +1,3 @@
-import {
-  withdrawBudsTransaction,
-  withdrawItemsTransaction,
-  withdrawSFLTransaction,
-  withdrawWearablesTransaction,
-} from "lib/blockchain/Withdrawals";
-import { wallet } from "lib/blockchain/wallet";
 import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
 import { makeGame } from "../lib/transforms";

@@ -1,7 +1,5 @@
-import React, { useContext, useRef, useState } from "react";
-import ReCAPTCHA from "react-google-recaptcha";
+import React, { useContext, useState } from "react";
 import { useSelector } from "@xstate/react";
-import { CONFIG } from "lib/config";
 
 import { Button } from "components/ui/Button";
 import { WithdrawTokens } from "./WithdrawTokens";

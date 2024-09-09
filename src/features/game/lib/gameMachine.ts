@@ -32,7 +32,6 @@ import { getPromoCode, loadSession } from "../actions/loadSession";
 import { EMPTY } from "./constants";
 import { autosave } from "../actions/autosave";
 import { CollectibleName } from "../types/craftables";
-import { sync } from "../actions/sync";
 import { ErrorCode, ERRORS } from "lib/errors";
 import { makeGame } from "./transforms";
 import { reset } from "features/farming/hud/actions/reset";
@@ -89,11 +88,7 @@ import { MinigameName } from "../types/minigames";
 import { OFFLINE_FARM } from "./landData";
 import { isValidRedirect } from "features/portal/lib/portalUtil";
 import { Effect, postEffect } from "../actions/effect";
-import {
-  ONCHAIN_TRANSACTIONS,
-  TRANSACTION_SIGNATURES,
-  TransactionName,
-} from "../types/transactions";
+import { TRANSACTION_SIGNATURES, TransactionName } from "../types/transactions";
 
 // Run at startup in case removed from query params
 const portalName = new URLSearchParams(window.location.search).get("portal");
@@ -1151,7 +1146,6 @@ export function startGame(authContext: AuthContext) {
 
               const { transaction, request } = event as TransactEvent;
 
-              console.log({ request });
               const { game } = await TRANSACTION_SIGNATURES[transaction]({
                 ...request,
                 farmId: Number(context.farmId),
