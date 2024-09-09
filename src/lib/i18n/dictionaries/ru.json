@@ -3416,8 +3416,6 @@
   "npcMessages.pharaoh.msg7": "Пески времени скрыли многое. Помогите мне вернуть сокровища ушедшей эпохи.",
   "share.FarmNFTImageAlt": "NFT-изображение фермы",
   "transaction.withdraw.polygon": "Сканирование полигонов",
-  "warning.hoarding.indefiniteArticle.a": "",
-  "warning.hoarding.indefiniteArticle.an": "",
   "marketplace.myCollection": "Ваша коллекция",
   "marketplace.sflLocked.description": "Ваш SFL будет надежно храниться, пока действует предложение.",
   "marketplace.title3": "Заголовок",
@@ -3553,5 +3551,11 @@
   "description.fairy.circle.boost": "+0.2 к урожаю диких грибов",
   "description.gold.beetle.boost": "+0.1 к добыче золота",
   "description.stone.beetle.boost": "+0.1 к добыче камня",
-  "description.iron.beetle.boost": "+0.1 к добыче железа"
+  "description.iron.beetle.boost": "+0.1 к добыче железа",
+  "fruit-dash.portal.title": "Мини-игра «Fruit Dash»",
+  "fruit-dash.portal.description": "Бегайте по ферме, уклоняйтесь от препятствий и собирайте вкусные фрукты.",
+  "fruit-dash.portal.missionObjectives": "Миссия: набрать {{targetScore}} очков.",
+  "fruit-dash.portal.rewardMessage": "Поздравляем, вы выполнили задание! Вот ваша награда.",
+  "warning.hoarding.indefiniteArticle.a": "_",
+  "warning.hoarding.indefiniteArticle.an": "_"
 }
