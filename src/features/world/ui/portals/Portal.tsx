@@ -23,6 +23,7 @@ import { ITEM_DETAILS } from "features/game/types/images";
 
 import sflIcon from "assets/icons/sfl.webp";
 import { IPortalDonation, PortalDonation } from "./PortalDonation";
+import { getCachedFont } from "lib/utils/fonts";
 
 interface Props {
   portalName: MinigameName;
@@ -67,14 +68,15 @@ export const Portal: React.FC<Props> = ({ portalName, onClose }) => {
         token = portalToken;
       }
 
-      const baseUrl = `https://${portalName}.sunflower-land.com`;
+      let baseUrl = `https://${portalName}.sunflower-land.com`;
 
       // If testing a local portal, uncomment this line
-      // baseUrl = `http://localhost:3001`;
+      baseUrl = `http://localhost:3001`;
 
       const language = localStorage.getItem("language") || "en";
+      const font = getCachedFont();
 
-      const url = `${baseUrl}?jwt=${token}&network=${CONFIG.NETWORK}&language=${language}`;
+      const url = `${baseUrl}?jwt=${token}&network=${CONFIG.NETWORK}&language=${language}&font=${font}`;
 
       setUrl(url);
 
