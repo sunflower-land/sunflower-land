@@ -3557,5 +3557,6 @@
   "key.bought": "Key recently bought!",
   "come.back.tomorrow.key": "Come back tomorrow to buy another key.",
   "description.gift.giver.boost": "Gift players a gift",
-  "description.halo.boost": "Access to mod tools"
+  "description.halo.boost": "Access to mod tools",
+  "keys.dailyLimit": "Daily Limit: {{keysAmountBoughtToday}}/1"
 }

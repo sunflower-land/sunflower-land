@@ -230,6 +230,8 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
     new Date(keysBoughtAt).toISOString().substring(0, 10) ===
       new Date().toISOString().substring(0, 10);
 
+  const keysAmountBoughtToday = keysBoughtToday ? 1 : 0;
+
   return (
     <InnerPanel className="shadow">
       {isVisible && (
@@ -271,6 +273,14 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
                       }}
                     />
                     {!!item?.limit && getLimitLabel()}
+                    {item?.type === "keys" && (
+                      <Label
+                        type={keysBoughtToday ? "danger" : "default"}
+                        className="absolute bottom-1 right-1 text-xxs"
+                      >
+                        {t("keys.dailyLimit", { keysAmountBoughtToday })}
+                      </Label>
+                    )}
                   </div>
                   <div className="flex flex-col space-y-2">
                     <div className="flex content-start flex-col sm:flex-row sm:flex-wrap gap-2">
