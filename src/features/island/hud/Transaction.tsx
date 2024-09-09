@@ -10,6 +10,7 @@ import { Modal } from "components/ui/Modal";
 import { Button } from "components/ui/Button";
 import { useAccount, useWaitForTransactionReceipt, WagmiProvider } from "wagmi";
 import {
+  DEADLINE_BUFFER_MS,
   DEADLINE_MS,
   GameTransaction,
   loadActiveTxHash,
@@ -94,7 +95,9 @@ const TransactionWidget: React.FC<{
 
   console.log({ isSuccess, isError, isLoading });
 
-  const timedOut = Date.now() > (transaction.createdAt ?? 0) + DEADLINE_MS;
+  const timedOut =
+    Date.now() >
+    (transaction.createdAt ?? 0) + DEADLINE_MS + DEADLINE_BUFFER_MS;
 
   if (timedOut) {
     return (
@@ -105,6 +108,23 @@ const TransactionWidget: React.FC<{
           </Label>
         </div>
         <span className="text-sm">Timed out</span>
+      </div>
+    );
+  }
+
+  const isExpired =
+    Date.now() >
+    (transaction.createdAt ?? 0) + DEADLINE_MS + DEADLINE_BUFFER_MS;
+
+  if (isExpired) {
+    return (
+      <div>
+        <div className="h-6 flex justify-between">
+          <Label type={"danger"} className="ml-1 mr-1" icon={walletIcon}>
+            {`Transaction`}
+          </Label>
+        </div>
+        <span className="text-sm">Expired</span>
       </div>
     );
   }
@@ -233,7 +253,10 @@ export const TransactionProgress: React.FC<Props> = ({ onClose }) => {
     hash: tx?.hash as `0x${string}`,
   });
 
-  const end = useCountdown((transaction?.createdAt ?? 0) + DEADLINE_MS);
+  const expired = useCountdown((transaction?.createdAt ?? 0) + DEADLINE_MS);
+  const timedOut = useCountdown(
+    (transaction?.createdAt ?? 0) + DEADLINE_MS + DEADLINE_BUFFER_MS,
+  );
 
   if (!transaction) return null;
 
@@ -275,18 +298,43 @@ export const TransactionProgress: React.FC<Props> = ({ onClose }) => {
     );
   }
 
-  if (Date.now() > (transaction?.createdAt ?? 0) + DEADLINE_MS) {
+  const isTimedOut =
+    Date.now() >
+    (transaction?.createdAt ?? 0) + DEADLINE_MS + DEADLINE_BUFFER_MS;
+  if (isTimedOut) {
     return (
       <>
         <div className="p-2">
           <div className="flex items-center justify-between mb-2">
             <Label icon={lockIcon} type="danger" className="-ml-1">
-              Transaction timed out
+              Transaction cleared
             </Label>
           </div>
-          <p className="text-sm mb-2">Looks like your transaction timed out.</p>
+          <p className="text-sm mb-2">
+            Your transaction was unable to go through. Please try again.
+          </p>
         </div>
         <Button onClick={reload}>Continue</Button>
+      </>
+    );
+  }
+
+  const isExpired = Date.now() > (transaction?.createdAt ?? 0) + DEADLINE_MS;
+  if (isExpired) {
+    return (
+      <>
+        <div className="p-2">
+          <div className="flex items-center justify-between mb-2">
+            <Label icon={lockIcon} type="danger" className="-ml-1">
+              Transaction expired
+            </Label>
+            <TimerDisplay time={timedOut} />
+          </div>
+          <p className="text-sm mb-2">
+            Looks like your transaction expired. Sit tight while we clear the
+            transaction for you.
+          </p>
+        </div>
       </>
     );
   }
@@ -299,7 +347,7 @@ export const TransactionProgress: React.FC<Props> = ({ onClose }) => {
             <Label icon={lockIcon} type="danger" className="-ml-1">
               {EVENT_TO_NAME[transaction.event]} error
             </Label>
-            <TimerDisplay time={end} />
+            <TimerDisplay time={expired} />
           </div>
           <p className="text-sm mb-2">Looks like something went wrong.</p>
         </div>
@@ -349,7 +397,7 @@ export const TransactionProgress: React.FC<Props> = ({ onClose }) => {
           <Label icon={lockIcon} type="default" className="-ml-1">
             {EVENT_TO_NAME[transaction.event]} in progress
           </Label>
-          <TimerDisplay time={end} />
+          <TimerDisplay time={expired} />
         </div>
         <p className="text-sm mb-2">You have a transaction ready to submit.</p>
       </div>

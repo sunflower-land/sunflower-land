@@ -98,6 +98,7 @@ type TransactionHash = {
 };
 
 export const DEADLINE_MS = 5 * 60 * 1000;
+export const DEADLINE_BUFFER_MS = 1 * 60 * 1000;
 
 const host = window.location.host.replace(/^www\./, "");
 const LOCAL_STORAGE_KEY = `sb_wiz.hash.v.${host}-${window.location.pathname}`;
