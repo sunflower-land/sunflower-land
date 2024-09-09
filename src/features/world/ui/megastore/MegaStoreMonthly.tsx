@@ -8,9 +8,13 @@ import { getTimeLeft, secondsToString } from "lib/utils/time";
 import React, { useState, useEffect, useContext } from "react";
 import { ItemDetail } from "./components/ItemDetail";
 import { ItemsList } from "./components/ItemsList";
-import { getItemImage, getItemBuffLabel, isWearablesItem } from "./MegaStore";
+import {
+  getItemImage,
+  getItemBuffLabel,
+  isWearablesItem,
+  _megastore,
+} from "./MegaStore";
 import { useSelector } from "@xstate/react";
-import { MachineState } from "features/game/lib/gameMachine";
 import { Context } from "features/game/GameProvider";
 import lightning from "assets/icons/lightning.png";
 
@@ -18,7 +22,6 @@ export const MegaStoreMonthly: React.FC<{
   readonly?: boolean;
 }> = ({ readonly }) => {
   const { gameService } = useContext(Context);
-  const _megastore = (state: MachineState) => state.context.state.megastore;
   const megastore = useSelector(gameService, _megastore);
   const [selectedItem, setSelectedItem] = useState<
     WearablesItem | CollectiblesItem | null

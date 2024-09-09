@@ -9,14 +9,52 @@ export type ChestReward = {
   coins?: number;
 };
 
-const SEASONAL_REWARDS: (weight: number) => ChestReward[] = (weight) =>
-  Date.now() >= SEASONS["Pharaoh's Treasure"].startDate.getTime() &&
-  Date.now() < SEASONS["Pharaoh's Treasure"].endDate.getTime()
-    ? [
-        { wearables: { "Grape Pants": 1 }, weighting: weight },
-        { items: { "Paper Reed": 1 }, weighting: weight },
-      ]
-    : [];
+const SEASONAL_REWARDS: (weight: number) => ChestReward[] = (weight) => {
+  const isPharaohSeason =
+    Date.now() >= SEASONS["Pharaoh's Treasure"].startDate.getTime() &&
+    Date.now() < SEASONS["Pharaoh's Treasure"].endDate.getTime();
+
+  if (isPharaohSeason) {
+    return [
+      { items: { "Paper Reed": 1 }, weighting: weight },
+      { items: { "Hapy Jar": 1 }, weighting: weight },
+      { items: { "Imsety Jar": 1 }, weighting: weight },
+      { items: { "Duamutef Jar": 1 }, weighting: weight },
+      { items: { "Qebehsenuef Jar": 1 }, weighting: weight },
+      { items: { Cannonball: 1 }, weighting: weight },
+      { items: { Sarcophagus: 1 }, weighting: weight },
+      { items: { "Clay Tablet": 1 }, weighting: weight },
+      { items: { "Snake in Jar": 1 }, weighting: weight },
+      { items: { "Reveling Lemon": 1 }, weighting: weight },
+      { items: { "Anubis Jackal": 1 }, weighting: weight },
+      { items: { Sundial: 1 }, weighting: weight },
+      { items: { "Sand Golem": 1 }, weighting: weight },
+      { items: { "Cactus King": 1 }, weighting: weight },
+      { items: { "Lemon Frog": 1 }, weighting: weight },
+      { items: { "Scarab Beetle": 1 }, weighting: weight },
+      { items: { "Golden Garrison": 1 }, weighting: weight },
+      { items: { "Rookie Rook": 1 }, weighting: weight },
+      { items: { "Silver Sentinel": 1 }, weighting: weight },
+      { items: { "Sunlit Citadel": 1 }, weighting: weight },
+      { items: { Camel: 1 }, weighting: weight },
+      { items: { "Baobab Tree": 1 }, weighting: weight },
+      { wearables: { "Grape Pants": 1 }, weighting: weight },
+      { wearables: { "Amber Amulet": 1 }, weighting: weight },
+      { wearables: { "Explorer Shirt": 1 }, weighting: weight },
+      { wearables: { "Crab Trap": 1 }, weighting: weight },
+      { wearables: { "Water Gourd": 1 }, weighting: weight },
+      { wearables: { "Ankh Shirt": 1 }, weighting: weight },
+      { wearables: { "Explorer Shorts": 1 }, weighting: weight },
+      { wearables: { "Explorer Hat": 1 }, weighting: weight },
+      { wearables: { "Desert Camel Background": 1 }, weighting: weight },
+      { wearables: { "Rock Hammer": 1 }, weighting: weight },
+      { wearables: { "Elf Potion": 1 }, weighting: weight },
+      { wearables: { "Scarab Wings": 1 }, weighting: weight },
+    ];
+  } else {
+    return [];
+  }
+};
 
 export const BASIC_REWARDS: () => ChestReward[] = () => [
   { sfl: 5, weighting: 100 },
@@ -37,8 +75,6 @@ export const BASIC_REWARDS: () => ChestReward[] = () => [
   { items: { "Bumpkin Roast": 3 }, weighting: 40 },
   { items: { "Fermented Carrots": 5 }, weighting: 50 },
   { items: { "Blueberry Jam": 3 }, weighting: 100 },
-  { wearables: { "Fox Hat": 1 }, weighting: 50 },
-  { items: { "Time Warp Totem": 1 }, weighting: 25 },
   { items: { Rug: 1 }, weighting: 25 },
   { items: { "Prize Ticket": 1 }, weighting: 5 },
   ...SEASONAL_REWARDS(5),
@@ -64,10 +100,7 @@ export const RARE_REWARDS: () => ChestReward[] = () => [
   { items: { "Wheat Cake": 3 }, weighting: 20 },
   { items: { "Goblin Brunch": 3 }, weighting: 50 },
   { items: { "Bumpkin Roast": 3 }, weighting: 40 },
-  { wearables: { "Fox Hat": 1 }, weighting: 25 },
-  { items: { "Time Warp Totem": 1 }, weighting: 25 },
   { items: { "Prize Ticket": 1 }, weighting: 20 },
-  { items: { "Twister Rug": 1 }, weighting: 25 },
   ...SEASONAL_REWARDS(25),
 ];
 
@@ -89,7 +122,6 @@ export const LUXURY_REWARDS: () => ChestReward[] = () => [
   { items: { "Pirate Cake": 10 }, weighting: 50 },
   { items: { "Goblin Brunch": 10 }, weighting: 25 },
   { items: { "Bumpkin Roast": 10 }, weighting: 25 },
-  { items: { "Time Warp Totem": 1 }, weighting: 25 },
   { items: { "Prize Ticket": 1 }, weighting: 50 },
   ...SEASONAL_REWARDS(25),
 ];
@@ -100,7 +132,6 @@ export const BUD_BOX_REWARDS: ChestReward[] = [
   { items: { "Pirate Cake": 3 }, weighting: 5 },
   { items: { "Red Pansy": 2 }, weighting: 10 },
   { items: { "Purple Cosmos": 2 }, weighting: 10 },
-  { items: { "Time Warp Totem": 1 }, weighting: 10 },
   { wearables: { "Seedling Hat": 1 }, weighting: 1 },
   { items: { "Prize Ticket": 1 }, weighting: 10 },
   { items: { "Oil Drill": 2 }, weighting: 5 },

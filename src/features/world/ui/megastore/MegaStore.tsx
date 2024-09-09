@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { ITEM_IDS } from "features/game/types/bumpkin";
 import { BUMPKIN_ITEM_BUFF_LABELS } from "features/game/types/bumpkinItemBuffs";
@@ -15,9 +15,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { getImageUrl } from "lib/utils/getImageURLS";
 import { MegaStoreMonthly } from "./MegaStoreMonthly";
 import { MegaStoreSeasonal } from "./MegaStoreSeasonal";
-import { useSelector } from "@xstate/react";
 import { MachineState } from "features/game/lib/gameMachine";
-import { Context } from "features/game/GameProvider";
 
 interface Props {
   onClose: () => void;
@@ -54,12 +52,12 @@ export const getItemBuffLabel = (
   return COLLECTIBLE_BUFF_LABELS[item.name];
 };
 
+export const _megastore = (state: MachineState) =>
+  state.context.state.megastore;
+
 export const MegaStore: React.FC<Props> = ({ onClose }) => {
   const { t } = useAppTranslation();
   const [tab, setTab] = useState(0);
-  const { gameService } = useContext(Context);
-  const _megastore = (state: MachineState) => state.context.state.megastore;
-  const megastore = useSelector(gameService, _megastore);
 
   return (
     <CloseButtonPanel

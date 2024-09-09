@@ -198,13 +198,13 @@ export type Coupons =
   | "Arcade Token"
   | "Farmhand Coupon"
   | "Farmhand"
-  | "Treasure Key"
-  | "Rare Key"
-  | "Luxury Key"
   | "Prize Ticket"
   | "Mark"
+  | Keys
   | SeasonalTicket
   | FactionEmblem;
+
+export type Keys = "Treasure Key" | "Rare Key" | "Luxury Key";
 
 export const COUPONS: Record<Coupons, { description: string }> = {
   "Gold Pass": {
@@ -972,7 +972,7 @@ export type ShopItemBase = {
   currency: Currency;
   price: Decimal;
   limit: number | null;
-  type: "wearable" | "collectible" | "food";
+  type: "wearable" | "collectible" | "food" | "keys";
 };
 
 type AvailableAllSeason = {
@@ -1124,6 +1124,10 @@ export type DonationItemName =
   | CommodityName
   | Worm;
 
+type KeysBoughtAt = Partial<Record<Keys, { boughtAt: number }>>;
+type Stores = "factionShop" | "treasureShop" | "megastore";
+export type KeysBought = Record<Stores, KeysBoughtAt>;
+
 export interface GameState {
   home: Home;
 
@@ -1233,6 +1237,7 @@ export interface GameState {
     pirateChest?: {
       openedAt: number;
     };
+    keysBought?: KeysBought;
   };
   conversations: ConversationName[];
   mailbox: {

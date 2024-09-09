@@ -3,6 +3,7 @@ import "lib/__mocks__/configMock";
 import { TEST_FARM } from "../../lib/constants";
 import { GameState } from "../../types/game";
 import { craftCollectible } from "./craftCollectible";
+import { ARTEFACT_SHOP_KEYS } from "features/game/types/collectibles";
 
 const GAME_STATE: GameState = TEST_FARM;
 
@@ -213,5 +214,58 @@ describe("craftCollectible", () => {
       x: 0,
       y: 5,
     });
+  });
+
+  it("throws an error if key already bought today", () => {
+    expect(() =>
+      craftCollectible({
+        state: {
+          ...GAME_STATE,
+          inventory: {
+            "Treasure Key": new Decimal(0),
+            ...ARTEFACT_SHOP_KEYS["Treasure Key"].ingredients,
+          },
+          pumpkinPlaza: {
+            keysBought: {
+              factionShop: {},
+              treasureShop: {
+                "Treasure Key": {
+                  boughtAt: new Date("2024-08-09").getTime(),
+                },
+              },
+              megastore: {},
+            },
+          },
+        },
+        action: {
+          type: "collectible.crafted",
+          name: "Treasure Key",
+        },
+        createdAt: new Date("2024-08-09").getTime(),
+      }),
+    ).toThrow("Already bought today");
+  });
+
+  it("updates createdAt when key is bought", () => {
+    const state = craftCollectible({
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          ...ARTEFACT_SHOP_KEYS["Treasure Key"].ingredients,
+          "Treasure Key": new Decimal(0),
+        },
+      },
+      action: {
+        type: "collectible.crafted",
+        name: "Treasure Key",
+      },
+      createdAt: new Date("2024-09-01").getTime(),
+    });
+    expect(state.inventory["Treasure Key"]).toStrictEqual(new Decimal(1));
+    expect(state.inventory.Hieroglyph).toStrictEqual(new Decimal(0));
+    expect(state.inventory.Sand).toStrictEqual(new Decimal(0));
+    expect(
+      state.pumpkinPlaza.keysBought?.treasureShop["Treasure Key"]?.boughtAt,
+    ).toEqual(new Date("2024-09-01").getTime());
   });
 });

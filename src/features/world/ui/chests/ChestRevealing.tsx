@@ -20,11 +20,10 @@ import { getKeys } from "features/game/types/craftables";
 import { Label } from "components/ui/Label";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { getImageUrl } from "lib/utils/getImageURLS";
+import { Keys } from "features/game/types/game";
 
 export type ChestRewardType =
-  | "Treasure Key"
-  | "Rare Key"
-  | "Luxury Key"
+  | Keys
   | "Bud Box"
   | "Gift Giver"
   | "Basic Desert Rewards"

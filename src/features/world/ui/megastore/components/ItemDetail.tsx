@@ -5,6 +5,7 @@ import Decimal from "decimal.js-light";
 import {
   CollectiblesItem,
   InventoryItemName,
+  Keys,
   WearablesItem,
 } from "features/game/types/game";
 
@@ -22,6 +23,7 @@ import { getSeasonalTicket } from "features/game/types/seasons";
 import confetti from "canvas-confetti";
 import { BumpkinItem } from "features/game/types/bumpkin";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { FACTION_SHOP_KEYS } from "features/game/types/factionShop";
 
 interface ItemOverlayProps {
   item: WearablesItem | CollectiblesItem | null;
@@ -36,6 +38,8 @@ interface ItemOverlayProps {
 const _sflBalance = (state: MachineState) => state.context.state.balance;
 const _inventory = (state: MachineState) => state.context.state.inventory;
 const _wardrobe = (state: MachineState) => state.context.state.wardrobe;
+const _keysBought = (state: MachineState) =>
+  state.context.state.pumpkinPlaza.keysBought;
 
 export const ItemDetail: React.FC<ItemOverlayProps> = ({
   item,
@@ -50,9 +54,18 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
   const sflBalance = useSelector(gameService, _sflBalance);
   const inventory = useSelector(gameService, _inventory);
   const wardrobe = useSelector(gameService, _wardrobe);
+  const keysBought = useSelector(gameService, _keysBought);
   const [imageWidth, setImageWidth] = useState<number>(0);
   const [showSuccess, setShowSuccess] = useState<boolean>(false);
   const [confirmBuy, setConfirmBuy] = useState<boolean>(false);
+
+  const isKey = (name: InventoryItemName): name is Keys =>
+    name in FACTION_SHOP_KEYS;
+  const keysBoughtAt = keysBought?.megastore[item?.name as Keys]?.boughtAt;
+  const keysBoughtToday =
+    !!keysBoughtAt &&
+    new Date(keysBoughtAt).toISOString().substring(0, 10) ===
+      new Date().toISOString().substring(0, 10);
 
   useLayoutEffect(() => {
     if (isWearable) {
@@ -87,6 +100,8 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
   };
 
   const canBuy = () => {
+    if (keysBoughtToday) return false;
+
     if (!item) return false;
 
     if (item.limit && getBalanceOfItem(item) >= item.limit) return false;
@@ -274,7 +289,7 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
             <>
               {!showSuccess && (
                 <div
-                  className={classNames("flex", {
+                  className={classNames("flex w-full", {
                     "space-x-1": confirmBuy,
                   })}
                 >
@@ -283,9 +298,22 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
                       {t("cancel")}
                     </Button>
                   )}
-                  <Button disabled={!canBuy()} onClick={buttonHandler}>
-                    {getButtonLabel()}
-                  </Button>
+                  {item?.name &&
+                  isKey(item?.name as InventoryItemName) &&
+                  !!keysBoughtToday ? (
+                    <Label
+                      className="w-full flex-grow text-center"
+                      type="danger"
+                    >
+                      {t("key.bought")}
+                      <br />
+                      {t("come.back.tomorrow.key")}
+                    </Label>
+                  ) : (
+                    <Button disabled={!canBuy()} onClick={buttonHandler}>
+                      {getButtonLabel()}
+                    </Button>
+                  )}
                 </div>
               )}
               {showSuccess && (

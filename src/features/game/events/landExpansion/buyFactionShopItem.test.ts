@@ -173,4 +173,56 @@ describe("buyFactionShopItem", () => {
     expect(state.inventory["Bumpkin Charm Egg"]).toStrictEqual(new Decimal(1));
     expect(state.inventory.Mark).toStrictEqual(new Decimal(0));
   });
+
+  it("throws an error if key already bought today", () => {
+    expect(() =>
+      buyFactionShopItem({
+        state: {
+          ...GAME_STATE,
+          inventory: {
+            "Treasure Key": new Decimal(0),
+            Mark: new Decimal(FACTION_SHOP_ITEMS["Treasure Key"].price),
+          },
+          pumpkinPlaza: {
+            keysBought: {
+              factionShop: {
+                "Treasure Key": {
+                  boughtAt: new Date("2024-08-09").getTime(),
+                },
+              },
+              treasureShop: {},
+              megastore: {},
+            },
+          },
+        },
+        action: {
+          type: "factionShopItem.bought",
+          item: "Treasure Key",
+        },
+        createdAt: new Date("2024-08-09").getTime(),
+      }),
+    ).toThrow("Already bought today");
+  });
+
+  it("updates createdAt when key is bought", () => {
+    const state = buyFactionShopItem({
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          "Treasure Key": new Decimal(0),
+          Mark: new Decimal(FACTION_SHOP_ITEMS["Treasure Key"].price),
+        },
+      },
+      action: {
+        type: "factionShopItem.bought",
+        item: "Treasure Key",
+      },
+      createdAt: new Date("2024-09-01").getTime(),
+    });
+    expect(state.inventory["Treasure Key"]).toStrictEqual(new Decimal(1));
+    expect(state.inventory.Mark).toStrictEqual(new Decimal(0));
+    expect(
+      state.pumpkinPlaza.keysBought?.factionShop["Treasure Key"]?.boughtAt,
+    ).toEqual(new Date("2024-09-01").getTime());
+  });
 });
