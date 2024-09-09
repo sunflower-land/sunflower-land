@@ -3530,8 +3530,6 @@
   "description.gift.giver.boost": "Раздача игрокам подарков",
   "description.halo.boost": "Доступ к инструментам модератора",
   "keys": "Ключи",
-  "key.bought": "Ключ недавно куплен!",
-  "come.back.tomorrow.key": "Приходи завтра, чтобы купить еще один ключ.",
   "available.all.season": "Доступны в течение всего сезона",
   "megastore.message.allSeason": "Здесь представлены товары, которые можно приобрести в течение всего сезона. Обязательно приобретите их до конца сезона!",
   "monthly": "Ежемесячные",
@@ -3557,5 +3555,6 @@
   "fruit-dash.portal.missionObjectives": "Миссия: набрать {{targetScore}} очков.",
   "fruit-dash.portal.rewardMessage": "Поздравляем, вы выполнили задание! Вот ваша награда.",
   "warning.hoarding.indefiniteArticle.a": "_",
-  "warning.hoarding.indefiniteArticle.an": "_"
+  "warning.hoarding.indefiniteArticle.an": "_",
+  "keys.dailyLimit": "Дневной лимит: {{keysAmountBoughtToday}} /1"
 }

@@ -3547,8 +3547,6 @@
   "fruit.guide.two": "Meyve dikmek için, Petal Paradise'a yükselttikten sonra kullanılabilir hale gelen daha büyük meyve yamaları edinmeniz gerekecek.",
   "seasons.guide.one": "Ayçiçeği Ülkesindeki mevsimler oyuna heyecan ve tazelik getiriyor, oyunculara yeni zorluklar ve fırsatlar sunuyor. Her sezonda oyuncular, dinamik ve gelişen bir oyun deneyimi yaratarak çeşitli yeni giyilebilir ve koleksiyonlar, mevsimsel mutantlar ve nadir hazineleri dört gözle bekleyebilir. Bu, oyuncuları stratejilerini uyarlamaya ve çiftliklerinde yeni olasılıkları keşfetmeye teşvik eder. Ek olarak, sezonluk biletler oyuna stratejik bir unsur katar. Oyuncular ister nadir eşyaları toplamak, ister süslemeler ve kozmetik ürünleri tercih etmek veya Jetonlarla bilet takas etmek olsun, biletlerini nasıl akıllıca tahsis edeceklerine karar vermelidir. Sezonluk mekanik, oyunu ilgi çekici tutar ve Sunflower Land'de her zaman dört gözle bekleyeceğiniz bir şey olmasını sağlar.",
   "keys": "Anahtarlar",
-  "key.bought": "Anahtar yakın zamanda satın alındı!",
-  "come.back.tomorrow.key": "Yarın bir anahtar almak için gel.",
   "seasonedFarmer.description": "50 Sezonluk Bilet Topla",
   "crops.guide.two": "Mahsul yetiştirmek için ilgili tohumları Betty'nin pazarından satın almanız gerekir. Her mahsulün Ayçiçekleri için sadece 1 dakikadan Kale için 36 saate kadar değişen farklı bir büyüme süresi vardır. Mahsuller tamamen büyüdüğünde, onları hasat edebilir ve ödüllerini toplayabilirsiniz.",
   "cooking.guide.four": "Yiyecek hazır olduğunda, üzerine tıklayarak ve envanterinize taşıyarak binadan alın. Ardından Çadırın veya çiftlikteki evin yakınındaki Bumpkin NPC'nizle etkileşime girebilir ve onlara hazır yiyeceklerle besleyebilir, XP kazanmalarına ve oyunda daha da ilerlemelerine yardımcı olabilirsiniz.",
@@ -3557,5 +3555,6 @@
   "seasons.guide.two": "Stella's Mega Store, Auction House ve Jafar mağazasında mevsimlik giyilebilir ve koleksiyon eşyalarının mevcudiyeti, Ayçiçeği Ülkesine bir heyecan katmanı daha katıyor. Oyuncular, bu mevsimlik eşyaları üretmek veya açık artırmalarda teklif vermek için sezonluk biletler, hazineler ve diğer özel gereksinimleri toplamalı ve rekabet ve aciliyet duygusu teşvik etmelidir. Oyuncular zaman dolmadan istedikleri öğeleri güvence altına almayı hedefledikleri için önceden planlama ve strateji oluşturma çok önemli hale geliyor.",
   "seasons.guide.three": "Her sezonun benzersiz teklifleri ve sürpriz etkinliklerin beklentisiyle, Sunflower Land oyuncuları yıl boyunca meşgul ve eğlendirerek canlı ve sürekli gelişen bir çiftçilik deneyimi yaratır.",
   "description.gift.giver.boost": "Oyunculara hediye edin",
-  "description.halo.boost": "Mod araçlarına erişim"
+  "description.halo.boost": "Mod araçlarına erişim",
+  "keys.dailyLimit": "Günlük Limit: {{keysAmountBoughtToday}} /1"
 }

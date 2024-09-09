@@ -3547,8 +3547,6 @@
   "fruit.guide.two": "Para plantar fruta, necesitarás adquirir parcelas frutales más grandes, que estarán disponibles después de actualizar a Petal Paradise.",
   "seasons.guide.one": "Las temporadas en Sunflower Land aportan emoción y frescura al juego, ofreciendo a los jugadores nuevos desafíos y oportunidades. Con cada temporada, los jugadores podrán disfrutar de una variedad de nuevos objetos portátiles y coleccionables, mutantes de temporada y tesoros raros, que crearán una experiencia de juego dinámica y en constante evolución. Esto anima a los jugadores a adaptar sus estrategias y explorar nuevas posibilidades en sus granjas. Además, los boletos de temporada añaden un elemento estratégico al juego. Los jugadores deben decidir cómo distribuir sus boletos de manera inteligente, ya sea recolectando objetos raros, optando por decoraciones y cosméticos o canjeando boletos por monedas. La mecánica estacional mantiene el juego atractivo y garantiza que siempre haya algo que esperar en Sunflower Land.",
   "keys": "Llaves",
-  "key.bought": "¡Llave comprada recientemente!",
-  "come.back.tomorrow.key": "Vuelve mañana para comprar otra llave.",
   "seasonedFarmer.description": "Consigue 50 entradas de temporada",
   "crops.guide.two": "Para cultivar, debe comprar las semillas respectivas en el mercado de Betty. Cada cultivo tiene un tiempo de crecimiento diferente, que va desde solo 1 minuto para los girasoles hasta 36 horas para la col rizada. Una vez que las cosechas hayan crecido por completo, podrás cosecharlas y cosechar las recompensas.",
   "cooking.guide.four": "Cuando la comida esté lista, recupérala del edificio haciendo clic en ella y moviéndola a tu inventario. Luego, puedes interactuar con tu NPC Bumpkin cerca de la tienda de campaña o la casa de la granja y darle de comer la comida preparada, lo que le ayudará a ganar XP y progresar en el juego.",
@@ -3557,5 +3555,6 @@
   "seasons.guide.two": "La disponibilidad de prendas de vestir y objetos coleccionables de temporada en la Mega Store de Stella, la Casa de Subastas y la tienda de Jafar añade otro nivel de emoción a Sunflower Land. Los jugadores deben reunir boletos de temporada, tesoros y otros requisitos específicos para fabricar estos objetos de temporada o pujar por ellos en subastas, lo que fomenta un sentido de competencia y urgencia. La planificación anticipada y la elaboración de estrategias son cruciales, ya que los jugadores tienen como objetivo conseguir los objetos que desean antes de que acabe el tiempo.",
   "seasons.guide.three": "Con las ofertas únicas de cada temporada y la anticipación de eventos sorpresa, Sunflower Land mantiene a los jugadores interesados y entretenidos durante todo el año, creando una experiencia agrícola vibrante y en constante evolución.",
   "description.gift.giver.boost": "Regala un regalo a los jugadores",
-  "description.halo.boost": "Acceso a herramientas de modificación"
+  "description.halo.boost": "Acceso a herramientas de modificación",
+  "keys.dailyLimit": "Límite diario: {{keysAmountBoughtToday}} /1"
 }

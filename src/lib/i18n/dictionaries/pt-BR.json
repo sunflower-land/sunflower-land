@@ -3547,8 +3547,6 @@
   "fruit.guide.two": "Para plantar frutas, você precisará adquirir canteiros de frutas maiores, que ficam disponíveis após a atualização para o Petal Paradise.",
   "seasons.guide.one": "As temporadas em Sunflower Land trazem emoção e frescor ao jogo, oferecendo aos jogadores novos desafios e oportunidades. A cada temporada, os jogadores podem contar com uma variedade de novos itens vestíveis e colecionáveis, mutantes sazonais e tesouros raros, criando uma experiência de jogo dinâmica e em evolução. Isso incentiva os jogadores a adaptarem suas estratégias e explorarem novas possibilidades em suas fazendas. Além disso, os ingressos sazonais adicionam um elemento estratégico ao jogo. Os jogadores devem decidir como alocar seus ingressos com sabedoria, seja coletando itens raros, optando por decorações e cosméticos ou trocando ingressos por moedas. A mecânica sazonal mantém o jogo envolvente e garante que sempre haja algo pelo que esperar em Sunflower Land.",
   "keys": "Chaves",
-  "key.bought": "Chave comprada recentemente!",
-  "come.back.tomorrow.key": "Volte amanhã para comprar outra chave.",
   "seasonedFarmer.description": "Colete 50 ingressos sazonais",
   "crops.guide.two": "Para cultivar, você precisa comprar as respectivas sementes no mercado de Betty. Cada safra tem um tempo de crescimento diferente, variando de apenas 1 minuto para girassóis a 36 horas para couve. Quando as safras estiverem totalmente crescidas, você poderá colhê-las e colher os frutos.",
   "cooking.guide.four": "Quando a comida estiver pronta, retire-a do prédio clicando nela e movendo-a para o seu inventário. Depois, você pode interagir com seu NPC Bumpkin perto da tenda ou casa na fazenda e alimentá-lo com a comida preparada, ajudando-o a ganhar XP e progredir ainda mais no jogo.",
@@ -3557,5 +3555,6 @@
   "seasons.guide.two": "A disponibilidade de itens vestíveis e colecionáveis sazonais na Stella's Mega Store, na Auction House e na loja de Jafar adiciona outra camada de emoção à Sunflower Land. Os jogadores devem reunir ingressos sazonais, tesouros e outros requisitos específicos para criar esses itens sazonais ou licitá-los em leilões, promovendo um senso de competição e urgência. Planejar com antecedência e criar estratégias se tornam cruciais, pois os jogadores buscam garantir os itens desejados antes que o tempo acabe.",
   "seasons.guide.three": "Com as ofertas exclusivas de cada temporada e a expectativa de eventos surpresa, Sunflower Land mantém os jogadores engajados e entretidos durante todo o ano, criando uma experiência agrícola vibrante e em constante evolução.",
   "description.gift.giver.boost": "Presenteie os jogadores com um presente",
-  "description.halo.boost": "Acesso às ferramentas de modificação"
+  "description.halo.boost": "Acesso às ferramentas de modificação",
+  "keys.dailyLimit": "Limite diário: {{keysAmountBoughtToday}} /1"
 }
