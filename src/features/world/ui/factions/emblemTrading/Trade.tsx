@@ -25,7 +25,6 @@ import { formatNumber, setPrecision } from "lib/utils/formatNumber";
 import { hasVipAccess } from "features/game/lib/vipAccess";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { VIPAccess } from "features/game/components/VipAccess";
-import { getDayOfYear } from "lib/utils/time";
 import { NumberInput } from "components/ui/NumberInput";
 import {
   EMBLEM_TRADE_MINIMUMS,
@@ -35,19 +34,7 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { CannotTrade } from "../../CannotTrade";
 import { getRemainingListings } from "features/bumpkins/components/Trade";
 
-const MAX_NON_VIP_LISTINGS = 1;
 const MAX_SFL = 150;
-
-function getRemainingFreeListings(dailyListings: {
-  count: number;
-  date: number;
-}) {
-  if (dailyListings.date !== getDayOfYear(new Date())) {
-    return MAX_NON_VIP_LISTINGS;
-  }
-  return MAX_NON_VIP_LISTINGS - dailyListings.count;
-}
-
 type Items = Partial<Record<InventoryItemName, number>>;
 
 const ListTrade: React.FC<{
@@ -397,10 +384,6 @@ export const Trade: React.FC<{
   const [showListing, setShowListing] = useState(false);
 
   const isVIP = hasVipAccess(gameState.context.state.inventory);
-  const dailyListings = gameState.context.state.trades.dailyListings ?? {
-    count: 0,
-    date: 0,
-  };
   const remainingListings = getRemainingListings({
     game: gameState.context.state,
   });

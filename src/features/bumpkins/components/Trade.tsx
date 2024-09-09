@@ -370,8 +370,6 @@ const TradeDetails: React.FC<{
 }> = ({ trade, onCancel, onClaim, isOldListing }) => {
   const { t } = useAppTranslation();
 
-  const { gameService } = useContext(Context); // To remove after testing ends
-
   if (trade.boughtAt) {
     return (
       <div>
