@@ -23,6 +23,10 @@ import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 import brazilFlag from "assets/sfts/flags/brazil_flag.gif";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
+interface Props {
+  onClose: () => void;
+}
+
 type Server = {
   population: number;
   name: ServerName;
@@ -64,7 +68,7 @@ const progressBar = (progress: number, max: number, server: number) => {
   );
 };
 
-export const PickServer: React.FC = () => {
+export const PickServer: React.FC<Props> = ({ onClose }) => {
   const { t } = useAppTranslation();
 
   const [tab, setTab] = useState(0);
@@ -95,6 +99,7 @@ export const PickServer: React.FC = () => {
       }
 
       saveDefaultServer(server.id);
+      onClose();
     },
     [selectedServer],
   );
