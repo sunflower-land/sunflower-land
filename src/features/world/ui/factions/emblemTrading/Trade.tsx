@@ -33,6 +33,7 @@ import {
 } from "features/game/actions/tradeLimits";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { CannotTrade } from "../../CannotTrade";
+import { getRemainingListings } from "features/bumpkins/components/Trade";
 
 const MAX_NON_VIP_LISTINGS = 1;
 const MAX_SFL = 150;
@@ -400,7 +401,9 @@ export const Trade: React.FC<{
     count: 0,
     date: 0,
   };
-  const remainingListings = getRemainingFreeListings(dailyListings);
+  const remainingListings = getRemainingListings({
+    game: gameState.context.state,
+  });
   const hasListingsRemaining = isVIP || remainingListings > 0;
   // Show listings
   const trades = gameState.context.state.trades?.listings ?? {};
@@ -408,6 +411,13 @@ export const Trade: React.FC<{
   const level = getBumpkinLevel(
     gameState.context.state.bumpkin?.experience ?? 0,
   );
+
+  const emblemListings = getKeys(trades).filter((listingId) => {
+    return (
+      makeListingType(trades[listingId].items) ===
+      makeListingType({ [emblem]: 0 })
+    );
+  });
 
   const onList = (items: Items, sfl: number) => {
     gameService.send("LIST_TRADE", {
@@ -448,7 +458,7 @@ export const Trade: React.FC<{
     );
   }
 
-  if (getKeys(trades).length === 0) {
+  if (emblemListings.length === 0) {
     return (
       <div className="relative">
         <div className="pl-2 pt-2 space-y-1 sm:space-y-0 sm:flex items-center justify-between ml-1.5">
@@ -517,33 +527,26 @@ export const Trade: React.FC<{
           </Label>
         )}
       </div>
-      {getKeys(trades)
-        .filter((listingId) => {
-          return (
-            makeListingType(trades[listingId].items) ===
-            makeListingType({ [emblem]: 0 })
-          );
-        })
-        .map((listingId, index) => {
-          return (
-            <div className="mt-2" key={index}>
-              <TradeDetails
-                onCancel={() =>
-                  onCancel(listingId, makeListingType(trades[listingId].items))
-                }
-                onClaim={() => {
-                  gameService.send("trade.received", {
-                    tradeId: listingId,
-                  });
-                  gameService.send("SAVE");
-                }}
-                trade={trades[listingId]}
-                isOldListing={listingId.length < 38}
-              />
-            </div>
-          );
-        })}
-      {getKeys(trades).length < 3 && (
+      {emblemListings.map((listingId, index) => {
+        return (
+          <div className="mt-2" key={index}>
+            <TradeDetails
+              onCancel={() =>
+                onCancel(listingId, makeListingType(trades[listingId].items))
+              }
+              onClaim={() => {
+                gameService.send("trade.received", {
+                  tradeId: listingId,
+                });
+                gameService.send("SAVE");
+              }}
+              trade={trades[listingId]}
+              isOldListing={listingId.length < 38}
+            />
+          </div>
+        );
+      })}
+      {emblemListings.length < 3 && (
         <div className="relative mt-2">
           <Button
             onClick={() => setShowListing(true)}
@@ -553,7 +556,7 @@ export const Trade: React.FC<{
           </Button>
         </div>
       )}
-      {getKeys(trades).length >= 3 && (
+      {emblemListings.length >= 3 && (
         <div className="relative my-2">
           <Label type="danger" icon={SUNNYSIDE.icons.lock} className="mx-auto">
             {t("bumpkinTrade.maxListings")}
