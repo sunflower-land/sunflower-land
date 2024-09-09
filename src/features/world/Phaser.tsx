@@ -84,7 +84,7 @@ type Player = {
 export type ModerationEvent = {
   type: "kick" | "mute";
   farmId: number;
-  reason: string;
+  arg: string;
   mutedUntil?: number;
 };
 
@@ -171,7 +171,7 @@ export const PhaserComponent: React.FC<Props> = ({
         setIsMuted({
           type: "mute",
           farmId: gameService.state.context.farmId as number,
-          reason: latestMute.reason,
+          arg: latestMute.reason,
           mutedUntil: latestMute.mutedUntil,
         });
       }
