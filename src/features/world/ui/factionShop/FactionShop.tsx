@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { ITEM_IDS } from "features/game/types/bumpkin";
 import { BUMPKIN_ITEM_BUFF_LABELS } from "features/game/types/bumpkinItemBuffs";
@@ -25,6 +25,9 @@ import {
 } from "features/game/types/factionShop";
 import { ItemsList } from "./components/ItemList";
 import { CONSUMABLES, FACTION_FOOD } from "features/game/types/consumables";
+import { hasFeatureAccess } from "lib/flags";
+import { Context } from "features/game/GameProvider";
+import { useActor } from "@xstate/react";
 
 interface Props {
   onClose: () => void;
@@ -85,6 +88,12 @@ export const getItemBuffLabel = (
 };
 
 export const FactionShop: React.FC<Props> = ({ onClose }) => {
+  const { gameService } = useContext(Context);
+  const [
+    {
+      context: { state },
+    },
+  ] = useActor(gameService);
   const { t } = useAppTranslation();
 
   const [selectedItem, setSelectedItem] = useState<FactionShopItem | null>(
@@ -149,12 +158,14 @@ export const FactionShop: React.FC<Props> = ({ onClose }) => {
             onItemClick={handleClickItem}
           />
           {/* Keys */}
-          <ItemsList
-            itemsLabel="Keys"
-            type="keys"
-            items={keys}
-            onItemClick={handleClickItem}
-          />
+          {hasFeatureAccess(state, "TREASURE_UPDATES") && (
+            <ItemsList
+              itemsLabel="Keys"
+              type="keys"
+              items={keys}
+              onItemClick={handleClickItem}
+            />
+          )}
         </div>
 
         <ModalOverlay

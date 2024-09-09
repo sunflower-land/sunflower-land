@@ -33,6 +33,7 @@ import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuff
 import lightning from "assets/icons/lightning.png";
 import { getToolPrice } from "features/game/events/landExpansion/craftTool";
 import { Keys } from "features/game/types/game";
+import { hasFeatureAccess } from "lib/flags";
 
 interface ToolContentProps {
   selectedName: TreasureToolName;
@@ -447,23 +448,27 @@ export const TreasureShopBuy: React.FC<Props> = ({ onClose }) => {
               );
             })}
           </div>
-          <Label type="default">{t("keys")}</Label>
-          <div className="flex flex-wrap mb-2">
-            {unlimitedKeys.map((name) => {
-              return (
-                <Box
-                  isSelected={selectedName === name}
-                  key={name}
-                  alternateIcon={
-                    COLLECTIBLE_BUFF_LABELS[name] ? lightning : undefined
-                  }
-                  onClick={() => setSelectedName(name)}
-                  count={inventory[name]}
-                  image={ITEM_DETAILS[name].image}
-                />
-              );
-            })}
-          </div>
+          {hasFeatureAccess(state, "TREASURE_UPDATES") && (
+            <>
+              <Label type="default">{t("keys")}</Label>
+              <div className="flex flex-wrap mb-2">
+                {unlimitedKeys.map((name) => {
+                  return (
+                    <Box
+                      isSelected={selectedName === name}
+                      key={name}
+                      alternateIcon={
+                        COLLECTIBLE_BUFF_LABELS[name] ? lightning : undefined
+                      }
+                      onClick={() => setSelectedName(name)}
+                      count={inventory[name]}
+                      image={ITEM_DETAILS[name].image}
+                    />
+                  );
+                })}
+              </div>
+            </>
+          )}
         </div>
       }
     />

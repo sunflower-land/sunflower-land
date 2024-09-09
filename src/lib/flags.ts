@@ -29,7 +29,8 @@ export type FeatureName =
   | "SKILLS_REVAMP"
   | "MARKETPLACE"
   | "ONBOARDING_REWARDS"
-  | "FRUIT_DASH";
+  | "FRUIT_DASH"
+  | "TREASURE_UPDATES";
 
 // Used for testing production features
 export const ADMIN_IDS = [1, 3, 51, 39488, 128727];
@@ -55,6 +56,7 @@ const featureFlags: Record<FeatureName, FeatureFlag> = {
   JEST_TEST: defaultFeatureFlag,
   EASTER: () => false, // To re-enable next easter
   SKILLS_REVAMP: testnetFeatureFlag,
+  TREASURE_UPDATES: defaultFeatureFlag,
 };
 
 export const hasFeatureAccess = (game: GameState, featureName: FeatureName) => {

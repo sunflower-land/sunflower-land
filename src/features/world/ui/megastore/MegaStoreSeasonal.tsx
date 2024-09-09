@@ -19,14 +19,20 @@ import {
   isWearablesItem,
   _megastore,
 } from "./MegaStore";
-import { useSelector } from "@xstate/react";
+import { useActor, useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
+import { hasFeatureAccess } from "lib/flags";
 
 export const MegaStoreSeasonal: React.FC<{
   readonly?: boolean;
 }> = ({ readonly }) => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
+  const [
+    {
+      context: { state },
+    },
+  ] = useActor(gameService);
   const megastore = useSelector(gameService, _megastore);
   const getTotalSecondsAvailableMega = () => {
     const { startDate, endDate } = SEASONS[getCurrentSeason()];
@@ -105,21 +111,22 @@ export const MegaStoreSeasonal: React.FC<{
             onItemClick={handleClickItem}
           />
         )}
-        {getKeys(
-          megastore.collectibles.filter(
-            (name) => name.availableAllSeason === true,
-          ),
-        ).length > 0 && (
-          <ItemsList
-            itemsLabel={t("keys")}
-            type="keys"
-            items={megastore.collectibles.filter(
-              (name) =>
-                name.availableAllSeason === true && name.type === "keys",
-            )}
-            onItemClick={handleClickItem}
-          />
-        )}
+        {hasFeatureAccess(state, "TREASURE_UPDATES") &&
+          getKeys(
+            megastore.collectibles.filter(
+              (name) => name.availableAllSeason === true,
+            ),
+          ).length > 0 && (
+            <ItemsList
+              itemsLabel={t("keys")}
+              type="keys"
+              items={megastore.collectibles.filter(
+                (name) =>
+                  name.availableAllSeason === true && name.type === "keys",
+              )}
+              onItemClick={handleClickItem}
+            />
+          )}
       </div>
 
       <ModalOverlay
