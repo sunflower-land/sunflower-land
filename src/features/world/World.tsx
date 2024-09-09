@@ -90,9 +90,12 @@ export const MMO: React.FC<MMOProps> = ({ isCommunity }) => {
   // We need to listen to events outside of MMO scope (Settings Panel)
   useEffect(() => {
     // Subscribe to the event
-    const eventSubscription = PubSub.subscribe("CHANGE_SERVER", () => {
-      mmoService.send("CHANGE_SERVER");
-    });
+    const eventSubscription = PubSub.subscribe(
+      "CHANGE_SERVER",
+      (message: string, data?: any) => {
+        mmoService.send("CHANGE_SERVER", { serverId: data.serverId });
+      },
+    );
 
     return () => {
       PubSub.unsubscribe(eventSubscription);
