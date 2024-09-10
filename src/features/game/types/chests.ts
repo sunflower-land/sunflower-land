@@ -231,3 +231,16 @@ export const EXPERT_DESERT_STREAK: ChestReward[] = [
   { items: { "Pirate Cake": 1 }, weighting: 5 },
   { items: { "Shroom Syrup": 1 }, weighting: 1 },
 ];
+
+export const MANEKI_NEKO_REWARDS: ChestReward[] = [
+  { items: { "Pumpkin Soup": 1 }, weighting: 50 },
+  { items: { "Cauliflower Burger": 1 }, weighting: 35 },
+  { items: { "Mashed Potato": 1 }, weighting: 30 },
+  { items: { "Boiled Eggs": 1 }, weighting: 30 },
+  { items: { "Bumpkin Broth": 1 }, weighting: 30 },
+  { items: { "Sunflower Crunch": 1 }, weighting: 20 },
+  { items: { "Bumpkin Salad": 1 }, weighting: 15 },
+  { items: { "Goblin's Treat": 1 }, weighting: 15 },
+  { items: { "Kale Stew": 1 }, weighting: 10 },
+  { items: { "Sunflower Cake": 1 }, weighting: 5 },
+];

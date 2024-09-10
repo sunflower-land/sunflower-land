@@ -9,6 +9,7 @@ import {
   EXPERT_DESERT_STREAK,
   ChestReward,
   PIRATE_CHEST_REWARDS,
+  MANEKI_NEKO_REWARDS,
 } from "features/game/types/chests";
 import { ITEM_DETAILS } from "features/game/types/images";
 import React, { useCallback, useEffect } from "react";
@@ -29,7 +30,8 @@ export type ChestRewardType =
   | "Basic Desert Rewards"
   | "Advanced Desert Rewards"
   | "Expert Desert Rewards"
-  | "Pirate Chest";
+  | "Pirate Chest"
+  | "Maneki Neko";
 
 interface Props {
   type: ChestRewardType;
@@ -45,6 +47,7 @@ const CHEST_LOOT: () => Record<ChestRewardType, ChestReward[]> = () => ({
   "Advanced Desert Rewards": ADVANCED_DESERT_STREAK,
   "Expert Desert Rewards": EXPERT_DESERT_STREAK,
   "Pirate Chest": PIRATE_CHEST_REWARDS,
+  "Maneki Neko": MANEKI_NEKO_REWARDS,
 });
 
 export const ChestRevealing: React.FC<Props> = ({ type }) => {
