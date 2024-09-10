@@ -44,8 +44,13 @@ export const World: React.FC<Props> = ({ isCommunity = false }) => {
 const _isLoading = (state: MachineState) => state.matches("loading");
 
 // MMO Machine
+const _isConnecting = (state: MMOMachineState) => state.matches("connecting");
 const _isConnected = (state: MMOMachineState) => state.matches("connected");
+const _isJoining = (state: MMOMachineState) => state.matches("joining");
+const _isJoined = (state: MMOMachineState) => state.matches("joined");
 const _isKicked = (state: MMOMachineState) => state.matches("kicked");
+const _isMMOInitialising = (state: MMOMachineState) =>
+  state.matches("initialising");
 const _isIntroducing = (state: MMOMachineState) =>
   state.matches("introduction");
 
@@ -102,11 +107,17 @@ export const MMO: React.FC<MMOProps> = ({ isCommunity }) => {
     };
   }, []);
 
+  const isInitialising = useSelector(mmoService, _isMMOInitialising);
+  const isConnecting = useSelector(mmoService, _isConnecting);
+  const isJoining = useSelector(mmoService, _isJoining);
   const isKicked = useSelector(mmoService, _isKicked);
   const isConnected = useSelector(mmoService, _isConnected);
   const isIntroducting = useSelector(mmoService, _isIntroducing);
 
-  if (isKicked || isConnected) {
+  const isTraveling =
+    isInitialising || isConnecting || isConnected || isKicked || isJoining;
+
+  if (isTraveling) {
     return <TravelScreen mmoService={mmoService} />;
   }
 
