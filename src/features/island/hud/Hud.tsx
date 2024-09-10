@@ -189,27 +189,13 @@ const HudComponent: React.FC<{
           <Panel>
             <Button
               onClick={async () => {
-                const response = await fetch(
-                  `${CONFIG.API_URL}/auth/fsl/link`,
-                  {
-                    method: "GET",
-                    headers: {
-                      "Content-Type": "application/json;charset=UTF-8",
-                      Authorization: `Bearer ${authService.state.context.user.rawToken}`,
-                      "x-transaction-id": randomID(),
-                    },
-                  },
+                const redirect = encodeURIComponent(
+                  CONFIG.DISCORD_REDIRECT as string,
                 );
+                const appKey = "RWi72tQ1oz8i"; // TODO .env?
+                const url = `https://id.fsl.com/api/account/oauth/authorize?response_type=code&appkey=${appKey}&redirect_uri=${redirect}&scope=basic%20wallet`;
 
-                if (response.status === 401) {
-                  throw new Error(ERRORS.UNAUTHORIZED);
-                }
-
-                if (response.status >= 400) {
-                  throw new Error(ERRORS.MAGIC_LINK_ERROR);
-                }
-
-                return await response.json();
+                window.location.href = url;
               }}
             >
               Link SFL
