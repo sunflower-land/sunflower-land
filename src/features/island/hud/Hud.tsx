@@ -26,6 +26,7 @@ import { SeasonBannerCountdown } from "./SeasonBannerCountdown";
 import marketplaceIcon from "assets/icons/shop_disc.png";
 import { hasFeatureAccess } from "lib/flags";
 import { useNavigate } from "react-router-dom";
+import { TransactionCountdown } from "./Transaction";
 
 const _farmAddress = (state: MachineState) => state.context.farmAddress;
 const _showMarketplace = (state: MachineState) =>
@@ -169,6 +170,7 @@ const HudComponent: React.FC<{
             left: `${PIXEL_SCALE * 28}px`,
           }}
         >
+          <TransactionCountdown />
           <AuctionCountdown />
           <SpecialEventCountdown />
           <SeasonBannerCountdown />

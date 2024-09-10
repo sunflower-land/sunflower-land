@@ -23,6 +23,7 @@ import { ITEM_DETAILS } from "features/game/types/images";
 
 import sflIcon from "assets/icons/sfl.webp";
 import { IPortalDonation, PortalDonation } from "./PortalDonation";
+import { getCachedFont } from "lib/utils/fonts";
 
 interface Props {
   portalName: MinigameName;
@@ -73,8 +74,9 @@ export const Portal: React.FC<Props> = ({ portalName, onClose }) => {
       // baseUrl = `http://localhost:3001`;
 
       const language = localStorage.getItem("language") || "en";
+      const font = getCachedFont();
 
-      const url = `${baseUrl}?jwt=${token}&network=${CONFIG.NETWORK}&language=${language}`;
+      const url = `${baseUrl}?jwt=${token}&network=${CONFIG.NETWORK}&language=${language}&font=${font}`;
 
       setUrl(url);
 

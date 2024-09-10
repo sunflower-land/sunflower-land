@@ -26,7 +26,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {
   itemsLabel: string;
-  type: "wearables" | "collectibles";
+  type: "wearables" | "collectibles" | "keys";
   items: (WearablesItem | CollectiblesItem)[];
   onItemClick: (item: WearablesItem | CollectiblesItem) => void;
 }

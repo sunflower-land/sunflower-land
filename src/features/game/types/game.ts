@@ -74,6 +74,7 @@ import { DiggingFormationName } from "./desert";
 import { Rewards } from "./rewards";
 import { ExperimentName } from "lib/flags";
 import { CollectionName, MarketplaceTradeableName } from "./marketplace";
+import { GameTransaction } from "./transactions";
 
 export type Reward = {
   coins?: number;
@@ -198,13 +199,13 @@ export type Coupons =
   | "Arcade Token"
   | "Farmhand Coupon"
   | "Farmhand"
-  | "Treasure Key"
-  | "Rare Key"
-  | "Luxury Key"
   | "Prize Ticket"
   | "Mark"
+  | Keys
   | SeasonalTicket
   | FactionEmblem;
+
+export type Keys = "Treasure Key" | "Rare Key" | "Luxury Key";
 
 export const COUPONS: Record<Coupons, { description: string }> = {
   "Gold Pass": {
@@ -972,7 +973,7 @@ export type ShopItemBase = {
   currency: Currency;
   price: Decimal;
   limit: number | null;
-  type: "wearable" | "collectible" | "food";
+  type: "wearable" | "collectible" | "food" | "keys";
 };
 
 type AvailableAllSeason = {
@@ -1124,10 +1125,17 @@ export type DonationItemName =
   | CommodityName
   | Worm;
 
+type KeysBoughtAt = Partial<Record<Keys, { boughtAt: number }>>;
+type Stores = "factionShop" | "treasureShop" | "megastore";
+export type KeysBought = Record<Stores, KeysBoughtAt>;
+
 export interface GameState {
   home: Home;
 
   rewards: Rewards;
+
+  // There are more fields but unused
+  transaction?: GameTransaction;
 
   island: {
     type: IslandType;
@@ -1233,6 +1241,7 @@ export interface GameState {
     pirateChest?: {
       openedAt: number;
     };
+    keysBought?: KeysBought;
   };
   conversations: ConversationName[];
   mailbox: {

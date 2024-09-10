@@ -1,13 +1,17 @@
 export class SpeechBubble extends Phaser.GameObjects.Container {
   text: Phaser.GameObjects.BitmapText;
   bubble: Phaser.GameObjects.BitmapText;
+
   constructor(scene: Phaser.Scene, text: string, direction: "left" | "right") {
     super(scene, 0, 0);
     this.scene = scene;
 
-    const MAX_WIDTH = 40;
+    const MAX_WIDTH = 100;
+    const MAX_CHARS_PER_LINE = 40;
+    const formattedText = this.wordWrap(text, MAX_CHARS_PER_LINE);
+
     this.text = scene.add
-      .bitmapText(0, 0, "pixelmix", text, 3.5)
+      .bitmapText(0, 0, "pixelmix", formattedText, 3.5)
       .setMaxWidth(MAX_WIDTH);
 
     const bounds = this.text.getBounds();
@@ -35,6 +39,25 @@ export class SpeechBubble extends Phaser.GameObjects.Container {
       direction === "right" ? 2 : -bounds.width,
       -bounds.height - 12,
     );
+  }
+
+  // Method to wrap text with a max number of characters per line
+  private wordWrap(text: string, maxCharsPerLine: number): string {
+    const words = text.split(" ");
+    let wrappedText = "";
+    let currentLine = "";
+
+    words.forEach((word) => {
+      if ((currentLine + word).length <= maxCharsPerLine) {
+        currentLine += word + " ";
+      } else {
+        wrappedText += currentLine.trim() + "\n";
+        currentLine = word + " ";
+      }
+    });
+
+    wrappedText += currentLine.trim();
+    return wrappedText;
   }
 
   public changeDirection(direction: "right" | "left") {

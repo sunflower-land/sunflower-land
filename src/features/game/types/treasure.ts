@@ -88,7 +88,7 @@ export const SEASONAL_ARTEFACT: Record<
     sellPrice: 200,
     from: SEASONS["Pharaoh's Treasure"].startDate,
     to: SEASONS["Pharaoh's Treasure"].endDate,
-    description: translate("descvription.scarab"),
+    description: translate("description.scarab"),
   },
 };
 

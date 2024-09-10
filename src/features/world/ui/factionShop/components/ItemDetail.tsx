@@ -2,7 +2,7 @@ import React, { useContext, useLayoutEffect, useState } from "react";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Label } from "components/ui/Label";
 import Decimal from "decimal.js-light";
-import { FactionName, InventoryItemName } from "features/game/types/game";
+import { FactionName, InventoryItemName, Keys } from "features/game/types/game";
 
 import { Context } from "features/game/GameProvider";
 import { useActor, useSelector } from "@xstate/react";
@@ -19,15 +19,16 @@ import { BumpkinItem } from "features/game/types/bumpkin";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { capitalize } from "lib/utils/capitalize";
-import {
-  FactionShopWearable,
-  FactionShopCollectible,
-  FactionShopFood,
-} from "features/game/types/factionShop";
+
 import { isWearableActive } from "features/game/lib/wearables";
+import {
+  FACTION_SHOP_KEYS,
+  FactionShopItem,
+  FactionShopItemName,
+} from "features/game/types/factionShop";
 
 interface ItemOverlayProps {
-  item: FactionShopWearable | FactionShopCollectible | FactionShopFood | null;
+  item: FactionShopItem | null;
   image: string;
   isWearable: boolean;
   buff?: BuffLabel;
@@ -39,6 +40,8 @@ const _inventory = (state: MachineState) => state.context.state.inventory;
 const _wardrobe = (state: MachineState) => state.context.state.wardrobe;
 const _pledgedFaction = (state: MachineState) =>
   state.context.state.faction?.name;
+const _keysBought = (state: MachineState) =>
+  state.context.state.pumpkinPlaza.keysBought;
 
 export const ItemDetail: React.FC<ItemOverlayProps> = ({
   item,
@@ -60,6 +63,7 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
   const inventory = useSelector(gameService, _inventory);
   const wardrobe = useSelector(gameService, _wardrobe);
   const pledgedFaction = useSelector(gameService, _pledgedFaction);
+  const keysBought = useSelector(gameService, _keysBought);
 
   const [imageWidth, setImageWidth] = useState<number>(0);
   const [showSuccess, setShowSuccess] = useState<boolean>(false);
@@ -83,9 +87,7 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
     imgElement.src = image;
   }, []);
 
-  const getBalanceOfItem = (
-    item: FactionShopWearable | FactionShopCollectible | FactionShopFood | null,
-  ): number => {
+  const getBalanceOfItem = (item: FactionShopItem | null): number => {
     if (!item) return 0;
 
     if (item.type === "wearable") {
@@ -98,6 +100,8 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
   };
 
   const canBuy = () => {
+    if (keysBoughtToday) return false;
+
     if (!item) return false;
 
     if (item.limit && getBalanceOfItem(item) >= item.limit) return false;
@@ -218,6 +222,15 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
   };
 
   const currency = item?.currency as InventoryItemName;
+  const isKey = (name: FactionShopItemName): name is Keys =>
+    name in FACTION_SHOP_KEYS;
+  const keysBoughtAt = keysBought?.factionShop[item?.name as Keys]?.boughtAt;
+  const keysBoughtToday =
+    !!keysBoughtAt &&
+    new Date(keysBoughtAt).toISOString().substring(0, 10) ===
+      new Date().toISOString().substring(0, 10);
+
+  const keysAmountBoughtToday = keysBoughtToday ? 1 : 0;
 
   return (
     <InnerPanel className="shadow">
@@ -260,6 +273,14 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
                       }}
                     />
                     {!!item?.limit && getLimitLabel()}
+                    {item?.type === "keys" && (
+                      <Label
+                        type={keysBoughtToday ? "danger" : "default"}
+                        className="absolute bottom-1 right-1 text-xxs"
+                      >
+                        {t("keys.dailyLimit", { keysAmountBoughtToday })}
+                      </Label>
+                    )}
                   </div>
                   <div className="flex flex-col space-y-2">
                     <div className="flex content-start flex-col sm:flex-row sm:flex-wrap gap-2">
@@ -314,7 +335,7 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
           </div>
           {!showSuccess && (
             <div
-              className={classNames("flex", {
+              className={classNames("flex w-full", {
                 "space-x-1": confirmBuy,
               })}
             >
@@ -323,7 +344,14 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
                   {t("cancel")}
                 </Button>
               )}
-              <Button disabled={!canBuy()} onClick={buttonHandler}>
+
+              <Button
+                disabled={
+                  !canBuy() ||
+                  (item?.name && isKey(item?.name) && !!keysBoughtToday)
+                }
+                onClick={buttonHandler}
+              >
                 {getButtonLabel()}
               </Button>
             </div>

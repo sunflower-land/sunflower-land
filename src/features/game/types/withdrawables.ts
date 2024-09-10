@@ -608,8 +608,10 @@ const seasonalDecorations: Record<SeasonalDecorationName, () => boolean> = {
   "Battlecry Drum": () => false,
   "Golden Gallant": () => false,
   "Golden Guardian": () => false,
-  "Rookie Rook": () => false,
-  "Silver Sentinel": () => false,
+  "Rookie Rook": () =>
+    canWithdrawTimebasedItem(SEASONS["Pharaoh's Treasure"].endDate),
+  "Silver Sentinel": () =>
+    canWithdrawTimebasedItem(SEASONS["Pharaoh's Treasure"].endDate),
   "Silver Stallion": () => false,
 
   Blossombeard: () => false,
@@ -855,7 +857,7 @@ const eventDecoration: Record<EventDecorationName, () => boolean> = {
   "Dawn Flower": () => true,
   "Sapo Docuras": () => true,
   "Sapo Travessuras": () => true,
-  "Time Warp Totem": () => false,
+  "Time Warp Totem": () => true,
 
   "Bumpkin Nutcracker": () => true,
   "Festive Tree": () => false,
@@ -997,7 +999,7 @@ const megastore: Record<MegaStoreCollectibleName, () => boolean> = {
   "Silver Squire": () => canWithdrawTimebasedItem(new Date("2024-08-01")),
   Cluckapult: () => canWithdrawTimebasedItem(new Date("2024-08-01")),
   "Bullseye Board": () => canWithdrawTimebasedItem(new Date("2024-08-01")),
-  "Twister Rug": () => canWithdrawTimebasedItem(new Date("2024-08-01")),
+  "Twister Rug": () => true,
 
   "Hapy Jar": () => canWithdrawTimebasedItem(new Date("2024-09-01")),
   "Duamutef Jar": () => canWithdrawTimebasedItem(new Date("2024-10-01")),
@@ -1436,7 +1438,8 @@ export const BUMPKIN_WITHDRAWABLES: Record<
   "Ugly Christmas Sweater": () => true,
   "Candy Cane": () => true,
   "Elf Hat": () => true,
-  "Elf Potion": () => false,
+  "Elf Potion": () =>
+    canWithdrawTimebasedItem(SEASONS["Pharaoh's Treasure"].endDate),
   "Elf Shoes": () => false,
   "Elf Suit": () => true,
   "Santa Beard": () => true,

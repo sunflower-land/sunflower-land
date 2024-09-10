@@ -42,9 +42,7 @@ export const PlazaSettings: React.FC<ContentComponentProps> = ({
   };
 
   const changeServer = () => {
-    PubSub.publish("CHANGE_SERVER");
-    onSubMenuClick("main");
-    onClose();
+    onSubMenuClick("pickServer");
   };
 
   {

@@ -1,5 +1,5 @@
 import Decimal from "decimal.js-light";
-import { GameState, Inventory } from "./game";
+import { GameState, Inventory, Keys } from "./game";
 import { translate } from "lib/i18n/translate";
 import { SEASONS } from "./seasons";
 
@@ -289,8 +289,32 @@ export const HELIOS_BLACKSMITH_ITEMS: (
   },
 });
 
+export const ARTEFACT_SHOP_KEYS: Record<Keys, CraftableCollectible> = {
+  "Treasure Key": {
+    ingredients: {
+      Sand: new Decimal(10),
+      Hieroglyph: new Decimal(2),
+    },
+    description: translate("description.treasure.key"),
+  },
+  "Rare Key": {
+    ingredients: {
+      Sand: new Decimal(30),
+      Hieroglyph: new Decimal(10),
+    },
+    description: translate("description.rare.key"),
+  },
+  "Luxury Key": {
+    ingredients: {
+      Sand: new Decimal(100),
+      Hieroglyph: new Decimal(20),
+    },
+    description: translate("description.luxury.key"),
+  },
+};
+
 export const TREASURE_COLLECTIBLE_ITEM: Record<
-  TreasureCollectibleItem,
+  TreasureCollectibleItem | Keys,
   CraftableCollectible
 > = {
   "Treasure Map": {
@@ -338,6 +362,7 @@ export const TREASURE_COLLECTIBLE_ITEM: Record<
     from: SEASONS["Pharaoh's Treasure"].startDate,
     to: SEASONS["Pharaoh's Treasure"].endDate,
   },
+  ...ARTEFACT_SHOP_KEYS,
 };
 
 export type PotionHouseItem = CraftableCollectible & {

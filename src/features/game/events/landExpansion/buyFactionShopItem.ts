@@ -3,10 +3,12 @@ import { BumpkinItem } from "features/game/types/bumpkin";
 import {
   FactionShopItemName,
   FACTION_SHOP_ITEMS,
+  FACTION_SHOP_KEYS,
 } from "features/game/types/factionShop";
-import { GameState, InventoryItemName } from "features/game/types/game";
+import { GameState, InventoryItemName, Keys } from "features/game/types/game";
 import { isWearableActive } from "features/game/lib/wearables";
 import { produce } from "immer";
+import { trackActivity } from "features/game/types/bumpkinActivity";
 
 export type BuyFactionShopItemAction = {
   type: "factionShopItem.bought";
@@ -93,6 +95,38 @@ export function buyFactionShopItem({
 
       inventory[action.item as InventoryItemName] = current.add(1);
     }
+
+    const isKey = (name: FactionShopItemName): name is Keys =>
+      name in FACTION_SHOP_KEYS;
+
+    // This is where the key is bought
+    if (isKey(action.item)) {
+      const keyBoughtAt =
+        stateCopy.pumpkinPlaza.keysBought?.factionShop[action.item as Keys]
+          ?.boughtAt;
+      if (keyBoughtAt) {
+        const currentTime = new Date(createdAt).toISOString().slice(0, 10);
+        const lastBoughtTime = new Date(keyBoughtAt).toISOString().slice(0, 10);
+
+        if (currentTime === lastBoughtTime) {
+          throw new Error("Already bought today");
+        }
+      }
+      // Ensure `keysBought` is properly initialized
+      if (!stateCopy.pumpkinPlaza.keysBought) {
+        stateCopy.pumpkinPlaza.keysBought = {
+          treasureShop: {},
+          megastore: {},
+          factionShop: {},
+        };
+      }
+
+      stateCopy.pumpkinPlaza.keysBought.factionShop[action.item as Keys] = {
+        boughtAt: createdAt,
+      };
+    }
+
+    bumpkin.activity = trackActivity(`${action.item} Bought`, bumpkin.activity);
 
     return stateCopy;
   });
