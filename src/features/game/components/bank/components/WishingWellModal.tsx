@@ -1,10 +1,9 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { useActor, useInterpret } from "@xstate/react";
 import { Modal } from "components/ui/Modal";
 import ReCAPTCHA from "react-google-recaptcha";
 import * as AuthProvider from "features/auth/lib/Provider";
 
-import { Panel } from "components/ui/Panel";
 import { Button } from "components/ui/Button";
 import { wallet } from "lib/blockchain/wallet";
 import { fromWei } from "web3-utils";
@@ -25,10 +24,11 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { GameWallet } from "features/wallet/Wallet";
 import { Label } from "components/ui/Label";
 import giftIcon from "assets/icons/gift.png";
-import token from "assets/icons/sfl.webp";
+import tokenIcon from "assets/icons/sfl.webp";
 import { Context } from "features/game/GameProvider";
 import { BumpkinParts, tokenUriBuilder } from "lib/utils/tokenUriBuilder";
 import { Loading } from "features/auth/components";
+import { CloseButtonPanel } from "../../CloseablePanel";
 
 type GrantedArgs = Pick<WishingWellTokens, "lockedTime"> & {
   onClose: () => void;
@@ -57,7 +57,7 @@ const Granted = ({ lockedTime, onClose, reward }: GrantedArgs) => {
       <div className="p-2">
         <div className="flex flex-col items-center mb-3">
           <h1 className="text-lg mb-4 text-center">{t("congrats")}</h1>
-          <img src={token} alt="sunflower token" className="w-16 mb-2" />
+          <img src={tokenIcon} alt="sunflower token" className="w-16 mb-2" />
         </div>
         <p className="mb-4 text-sm">{t("wishingWell.wish.granted")}</p>
         <p className="mb-4 text-sm">
@@ -244,6 +244,8 @@ export const WishingWellModal: React.FC<Props> = ({ onClose }) => {
   const { authService } = useContext(AuthProvider.Context);
   const [authState] = useActor(authService);
 
+  const [tab, setTab] = useState(0);
+
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 
@@ -292,89 +294,155 @@ export const WishingWellModal: React.FC<Props> = ({ onClose }) => {
 
   return (
     <Modal show={true} onHide={handleClose}>
-      <Panel className="relative">
-        <Label type="default" icon={giftIcon} className="text-center m-1">
-          {`Wishing well`}
-        </Label>
-        <GameWallet action="wishingWell">
-          {machine.matches("loading") && <Loading />}
-          {(machine.matches("granting") || machine.matches("signing")) && (
-            <Loading text={t("granting.wish")} />
-          )}
-          {machine.matches("wishing") && <Loading text={t("making.wish")} />}
-          {machine.matches("error") && (
-            <div>
-              {errorCode === "NO_TOKENS" ? (
-                <span className="mt-2">{t("no.sfl")}</span>
-              ) : (
-                <SomethingWentWrong />
+      <CloseButtonPanel
+        currentTab={tab}
+        setCurrentTab={setTab}
+        tabs={[
+          {
+            icon: giftIcon,
+            name: "Wishing Well",
+          },
+          {
+            icon: tokenIcon,
+            name: "Merkl",
+            alert: true,
+          },
+        ]}
+        className="relative"
+      >
+        {tab === 0 && (
+          <>
+            <Label type="default" icon={giftIcon} className="text-center m-1">
+              {`Wishing well`}
+            </Label>
+            <GameWallet action="wishingWell">
+              {machine.matches("loading") && <Loading />}
+              {(machine.matches("granting") || machine.matches("signing")) && (
+                <Loading text={t("granting.wish")} />
               )}
-            </div>
-          )}
-          <img
-            src={SUNNYSIDE.icons.close}
-            className="absolute cursor-pointer m-2 z-20"
-            onClick={handleClose}
-            style={{
-              top: `${PIXEL_SCALE * 1}px`,
-              right: `${PIXEL_SCALE * 1}px`,
-              width: `${PIXEL_SCALE * 11}px`,
-            }}
-          />
-          {machine.matches("noLiquidity") && (
-            <NoWish
-              totalTokensInWell={wishingWell.totalTokensInWell}
-              hasLPTokens={Number(wishingWell.lpTokens) > 0}
-              onClick={goToQuickSwap}
-            />
-          )}
-          {machine.matches("zeroTokens") && (
-            <ZeroTokens onClick={() => send("WISH")} />
-          )}
-          {machine.matches("canWish") && (
-            <NoWish
-              totalTokensInWell={wishingWell.totalTokensInWell}
-              onClick={() => send("WISH")}
-              hasLPTokens={Number(wishingWell.lpTokens) > 0}
-            />
-          )}
-          {(machine.matches("waiting") || machine.matches("wished")) && (
-            <WaitingForWish lockedTime={wishingWell.lockedTime as string} />
-          )}
-          {machine.matches("readyToGrant") && (
-            <GrantWish
-              totalTokensInWell={wishingWell.totalTokensInWell}
-              onClick={() => send("GRANT_WISH")}
-            />
-          )}
-          {machine.matches("granted") && (
-            <Granted
-              reward={
-                machine.context.totalRewards
-                  ? formatNumber(machine.context.totalRewards, {
-                      decimalPlaces: 4,
-                    })
-                  : "?"
-              }
-              lockedTime={wishingWell.lockedTime}
-              onClose={handleClose}
-            />
-          )}
-          {machine.matches("captcha") && (
-            <div className="p-1">
-              <ReCAPTCHA
-                sitekey="6Lfqm6MeAAAAAFS5a0vwAfTGUwnlNoHziyIlOl1s"
-                onChange={(captcha: string | null) => {
-                  if (captcha) {
-                    send({ type: "VERIFIED", captcha });
-                  }
+              {machine.matches("wishing") && (
+                <Loading text={t("making.wish")} />
+              )}
+              {machine.matches("error") && (
+                <div>
+                  {errorCode === "NO_TOKENS" ? (
+                    <span className="mt-2">{t("no.sfl")}</span>
+                  ) : (
+                    <SomethingWentWrong />
+                  )}
+                </div>
+              )}
+              <img
+                src={SUNNYSIDE.icons.close}
+                className="absolute cursor-pointer m-2 z-20"
+                onClick={handleClose}
+                style={{
+                  top: `${PIXEL_SCALE * 1}px`,
+                  right: `${PIXEL_SCALE * 1}px`,
+                  width: `${PIXEL_SCALE * 11}px`,
                 }}
-                className="w-full m-0 flex items-center justify-center"
               />
-            </div>
-          )}
-        </GameWallet>
-      </Panel>
+              {machine.matches("noLiquidity") && (
+                <NoWish
+                  totalTokensInWell={wishingWell.totalTokensInWell}
+                  hasLPTokens={Number(wishingWell.lpTokens) > 0}
+                  onClick={goToQuickSwap}
+                />
+              )}
+              {machine.matches("zeroTokens") && (
+                <ZeroTokens onClick={() => send("WISH")} />
+              )}
+              {machine.matches("canWish") && (
+                <NoWish
+                  totalTokensInWell={wishingWell.totalTokensInWell}
+                  onClick={() => send("WISH")}
+                  hasLPTokens={Number(wishingWell.lpTokens) > 0}
+                />
+              )}
+              {(machine.matches("waiting") || machine.matches("wished")) && (
+                <WaitingForWish lockedTime={wishingWell.lockedTime as string} />
+              )}
+              {machine.matches("readyToGrant") && (
+                <GrantWish
+                  totalTokensInWell={wishingWell.totalTokensInWell}
+                  onClick={() => send("GRANT_WISH")}
+                />
+              )}
+              {machine.matches("granted") && (
+                <Granted
+                  reward={
+                    machine.context.totalRewards
+                      ? formatNumber(machine.context.totalRewards, {
+                          decimalPlaces: 4,
+                        })
+                      : "?"
+                  }
+                  lockedTime={wishingWell.lockedTime}
+                  onClose={handleClose}
+                />
+              )}
+              {machine.matches("captcha") && (
+                <div className="p-1">
+                  <ReCAPTCHA
+                    sitekey="6Lfqm6MeAAAAAFS5a0vwAfTGUwnlNoHziyIlOl1s"
+                    onChange={(captcha: string | null) => {
+                      if (captcha) {
+                        send({ type: "VERIFIED", captcha });
+                      }
+                    }}
+                    className="w-full m-0 flex items-center justify-center"
+                  />
+                </div>
+              )}
+            </GameWallet>
+          </>
+        )}
+
+        {tab === 1 && <Merkl />}
+      </CloseButtonPanel>
     </Modal>
+  );
+};
+
+const Merkl: React.FC = () => {
+  const [page, setPage] = useState(0);
+  const { t } = useAppTranslation();
+
+  if (page === 1) {
+    return (
+      <>
+        <div className="p-2">
+          <Label type="danger" className="mb-2">
+            {t("merkl.leaving")}
+          </Label>
+          <p className="text-sm mb-2">{t("merkl.3rdParty")}</p>
+          <p className="text-sm">{t("merkl.dyor")}</p>
+        </div>
+        <Button
+          onClick={() => {
+            window
+              .open(
+                "https://merkl.angle.money/polygon/pool/2/0xe69e0100A7607c10c8B313b2E757dFA301F29bd3",
+                "_blank",
+              )
+              ?.focus();
+          }}
+        >
+          {t("open")}
+        </Button>
+      </>
+    );
+  }
+  return (
+    <>
+      <div className="p-2">
+        <Label type="default" className="mb-2">
+          {t("merkl.quickswapPool")}
+        </Label>
+        <p className="text-sm mb-2">{t("merkl.introducing")}</p>
+        <p className="text-sm">{t("merkl.introducing.two")}</p>
+      </div>
+      <Button onClick={() => setPage(1)}>{t("read.more")}</Button>
+    </>
   );
 };
