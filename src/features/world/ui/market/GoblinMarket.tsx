@@ -11,7 +11,7 @@ import {
   getCachedMarketPrices,
   setCachedMarketPrices,
 } from "./lib/marketCache";
-import { Maintenance } from "features/auth/components/Maintenance";
+import { SalesPanel } from "./SalesPanel";
 
 const THIRTY_SECONDS = 1000 * 30;
 const SIXTY_SECONDS = 1000 * 60;
@@ -67,8 +67,7 @@ export const GoblinMarket: React.FC<Props> = ({ onClose }) => {
       onClose={selling ? undefined : onClose}
       tabs={[{ icon: SUNNYSIDE.icons.search, name: t("sell") }]}
     >
-      {/* {<SalesPanel marketPrices={marketPrices} loadingNewPrices={loading} />} */}
-      <Maintenance />
+      <SalesPanel marketPrices={marketPrices} loadingNewPrices={loading} />
     </CloseButtonPanel>
   );
 };
