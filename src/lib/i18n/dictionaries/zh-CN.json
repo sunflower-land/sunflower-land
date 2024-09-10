@@ -3562,5 +3562,22 @@
   "merkl.introducing": "介绍 Merkl 奖励！",
   "merkl.introducing.two": "一种通过支持生态系统来赚取 SFL 的全新改进方式。",
   "merkl.quickswapPool": "Quickswap V3 USDC",
-  "merkl.leaving": "离开向日葵乐园"
+  "merkl.leaving": "离开向日葵乐园",
+  "transaction": "交易",
+  "transaction.expired": "已过期",
+  "transaction.expired.message": "看来您的交易已过期。请稍候，我们正在为您清算交易。",
+  "transaction.notSubmitted": "未提交",
+  "transaction.success": "成功",
+  "transaction.error": "错误",
+  "transaction.error.message": "看起来好像出了点问题。",
+  "transaction.inProgress": "交易进行中",
+  "transaction.preparing": "准备交易",
+  "transaction.success.message": "恭喜，您的交易已得到保障。",
+  "transaction.ready": "您有一笔交易准备提交。",
+  "transaction.blocked": "等等，您已经启动了一笔交易。",
+  "transaction.cleared": "交易已清除",
+  "transaction.cleared.message": "您的交易无法通过。请重试。",
+  "transaction.waiting": "{{name}} 正在进行中",
+  "transaction.somethingWentWrong": "嗯，出了点问题。请再试一次。",
+  "transaction.timedOut": "超时了"
 }

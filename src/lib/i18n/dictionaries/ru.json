@@ -3562,5 +3562,22 @@
   "merkl.introducing": "Представляем награды Merkl!",
   "merkl.introducing.two": "Новый и улучшенный способ заработать SFL за поддержку экосистемы.",
   "merkl.quickswapPool": "Пул постоянного тока Quickswap V3",
-  "merkl.leaving": "Покидая землю подсолнечника"
+  "merkl.leaving": "Покидая землю подсолнечника",
+  "transaction": "транзакция",
+  "transaction.expired": "Истек",
+  "transaction.expired.message": "Похоже, срок действия вашей транзакции истек. Подождите, пока мы завершим транзакцию за вас.",
+  "transaction.notSubmitted": "Не отправлено",
+  "transaction.success": "Успех",
+  "transaction.error": "Ошибка",
+  "transaction.error.message": "Похоже, что-то пошло не так.",
+  "transaction.inProgress": "Выполняется транзакция",
+  "transaction.preparing": "Подготовка транзакции",
+  "transaction.success.message": "Поздравляем, ваша транзакция была защищена.",
+  "transaction.ready": "У вас есть транзакция, готовая к отправке.",
+  "transaction.blocked": "Подождите, у вас уже есть транзакция, которая была инициирована.",
+  "transaction.cleared": "Транзакция завершена",
+  "transaction.cleared.message": "Не удалось провести транзакцию. Пожалуйста, попробуйте еще раз.",
+  "transaction.waiting": "{{name}} в разработке",
+  "transaction.somethingWentWrong": "Хммм, что-то пошло не так. Пожалуйста, попробуйте еще раз.",
+  "transaction.timedOut": "Время ожидания истекло"
 }

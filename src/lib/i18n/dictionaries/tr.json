@@ -3562,5 +3562,22 @@
   "merkl.introducing": "Merkl ödülleri ile tanışın!",
   "merkl.introducing.two": "Ekosistemi desteklemek için SFL kazanmanın yeni ve geliştirilmiş bir yolu.",
   "merkl.quickswapPool": "Quickswap V3 USDC Havuzu",
-  "merkl.leaving": "Ayçiçeği Topraklarından Ayrılmak"
+  "merkl.leaving": "Ayçiçeği Topraklarından Ayrılmak",
+  "transaction": "İşlem",
+  "transaction.expired": "Süresi doldu",
+  "transaction.expired.message": "Görünüşe göre işlemin süresi doldu. İşlemi sizin için tamamlarken lütfen bekleyin.",
+  "transaction.notSubmitted": "Gönderilmedi",
+  "transaction.success": "Başarı",
+  "transaction.error": "Hata",
+  "transaction.error.message": "Bir şeyler ters gitmiş gibi görünüyor.",
+  "transaction.inProgress": "İşlem devam ediyor",
+  "transaction.preparing": "İşlem hazırlama",
+  "transaction.success.message": "Tebrikler, işleminiz güvence altına alındı.",
+  "transaction.ready": "Göndermeye hazır bir işleminiz var.",
+  "transaction.blocked": "Bekle, zaten başlatılmış bir işleminiz var.",
+  "transaction.cleared": "İşlem onaylandı",
+  "transaction.cleared.message": "İşleminiz gerçekleşemedi. Lütfen tekrar deneyin.",
+  "transaction.waiting": "{{name}} devam ediyor",
+  "transaction.somethingWentWrong": "Hmmm, bir şeyler ters gitti. Lütfen tekrar deneyin.",
+  "transaction.timedOut": "Zaman aşımına uğradı"
 }

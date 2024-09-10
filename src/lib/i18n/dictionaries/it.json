@@ -3562,5 +3562,22 @@
   "merkl.introducing": "Ti presentiamo i premi Merkl!",
   "merkl.introducing.two": "Un modo nuovo e migliorato per guadagnare SFL supportando l'ecosistema.",
   "merkl.quickswapPool": "Pool USDC Quickswap V3",
-  "merkl.leaving": "Lasciando Sunflower Land"
+  "merkl.leaving": "Lasciando Sunflower Land",
+  "transaction": "Transazione",
+  "transaction.expired": "Scaduto",
+  "transaction.expired.message": "Sembra che la transazione sia scaduta. Attendi mentre cancelliamo la transazione per te.",
+  "transaction.notSubmitted": "Non inviato",
+  "transaction.success": "Successo",
+  "transaction.error": "Errore",
+  "transaction.error.message": "Sembra che qualcosa sia andato storto.",
+  "transaction.inProgress": "Transazione in corso",
+  "transaction.preparing": "Preparazione della transazione",
+  "transaction.success.message": "Congratulazioni, la transazione è stata protetta.",
+  "transaction.ready": "Hai una transazione pronta per essere inviata.",
+  "transaction.blocked": "Aspetta, hai già avviato una transazione.",
+  "transaction.cleared": "Transazione liquidata",
+  "transaction.cleared.message": "La transazione non è andata a buon fine. Per favore riprova.",
+  "transaction.waiting": "{{name}} in corso",
+  "transaction.somethingWentWrong": "Hmmm, qualcosa è andato storto. Per favore riprova.",
+  "transaction.timedOut": "Scaduto"
 }

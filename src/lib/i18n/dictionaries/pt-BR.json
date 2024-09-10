@@ -3562,5 +3562,22 @@
   "merkl.introducing": "Apresentando as recompensas Merkl!",
   "merkl.introducing.two": "Uma maneira nova e aprimorada de ganhar SFL para apoiar o ecossistema.",
   "merkl.quickswapPool": "Pool USDC Quickswap V3",
-  "merkl.leaving": "Saindo da terra do girassol"
+  "merkl.leaving": "Saindo da terra do girassol",
+  "transaction": "Transação",
+  "transaction.expired": "Expirado",
+  "transaction.expired.message": "Parece que sua transação expirou. Aguarde enquanto liberamos a transação para você.",
+  "transaction.notSubmitted": "Não enviado",
+  "transaction.success": "Sucesso",
+  "transaction.error": "Erro",
+  "transaction.error.message": "Parece que algo deu errado.",
+  "transaction.inProgress": "Transação em andamento",
+  "transaction.preparing": "Preparando a transação",
+  "transaction.success.message": "Parabéns, sua transação foi garantida.",
+  "transaction.ready": "Você tem uma transação pronta para ser enviada.",
+  "transaction.blocked": "Espere, você já tem uma transação que foi iniciada.",
+  "transaction.cleared": "Transação cancelada",
+  "transaction.cleared.message": "Sua transação não pôde ser concluída. Por favor, tente novamente.",
+  "transaction.waiting": "{{name}} em andamento",
+  "transaction.somethingWentWrong": "Hmmm, algo deu errado. Por favor, tente novamente.",
+  "transaction.timedOut": "Expirou o tempo limite"
 }
