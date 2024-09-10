@@ -30,8 +30,6 @@ const _inventory = (state: MachineState) => state.context.state.inventory;
 const _previousInventory = (state: MachineState) =>
   state.context.state.previousInventory;
 const _balance = (state: MachineState) => state.context.state.balance;
-const _transactionExpiresAt = (state: MachineState) =>
-  state.context.transaction?.expiresAt;
 
 interface Props {
   farmId: number;
@@ -44,12 +42,11 @@ export const PlayerTrade: React.FC<Props> = ({ farmId, onClose }) => {
   const inventory = useSelector(gameService, _inventory);
   const previousInventory = useSelector(gameService, _previousInventory);
   const balance = useSelector(gameService, _balance);
-  const transactionExpiresAt = useSelector(gameService, _transactionExpiresAt);
 
   const { authService } = useContext(AuthProvider.Context);
   const rawToken = useSelector(authService, _rawToken);
 
-  const [warning, setWarning] = useState<"pendingTransaction" | "hoarding">();
+  const [warning, setWarning] = useState<"hoarding">();
   const [isLoading, setIsLoading] = useState(true);
   const [listings, setListings] = useState<
     Record<string, TradeListing> | undefined
@@ -103,18 +100,6 @@ export const PlayerTrade: React.FC<Props> = ({ farmId, onClose }) => {
     );
   }
 
-  if (warning === "pendingTransaction") {
-    return (
-      <div className="p-1 flex flex-col items-center">
-        <img src={SUNNYSIDE.icons.timer} className="w-1/6 mb-2" />
-        <p className="text-sm mb-1 text-center">
-          {t("playerTrade.transaction")}
-        </p>
-        <p className="text-xs mb-1 text-center">{t("playerTrade.Please")}</p>
-      </div>
-    );
-  }
-
   const confirm = (listingId: string) => {
     // Check hoarding
     const updatedInventory = getKeys(listings[listingId].items).reduce(
@@ -134,11 +119,6 @@ export const PlayerTrade: React.FC<Props> = ({ farmId, onClose }) => {
 
     if (hasMaxedOut) {
       setWarning("hoarding");
-      return;
-    }
-
-    if (transactionExpiresAt && transactionExpiresAt > Date.now()) {
-      setWarning("pendingTransaction");
       return;
     }
 

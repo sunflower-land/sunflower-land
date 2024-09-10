@@ -74,11 +74,13 @@ export const WithdrawResources: React.FC<Props> = ({ onWithdraw }) => {
       toWei(selected[item]?.toString() as string, getItemUnit(item)),
     );
 
-    gameService.send("WITHDRAW", {
-      ids,
-      amounts,
-      sfl: 0,
-      captcha: "0x",
+    gameService.send("TRANSACT", {
+      transaction: "transaction.itemsWithdrawn",
+      request: {
+        captcha: "0x",
+        amounts: amounts,
+        ids: ids,
+      },
     });
 
     onWithdraw();

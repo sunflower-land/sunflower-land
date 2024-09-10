@@ -28,8 +28,8 @@ type Props = {
 
 type TimeObject = {
   time: {
-    days: number;
-    hours: number;
+    days?: number;
+    hours?: number;
     minutes: number;
     seconds: number;
   };
@@ -41,7 +41,9 @@ export const TimerDisplay = ({ time, fontSize = 40, color }: TimeObject) => {
   const timeKeys = getKeys(time);
 
   const times = timeKeys.map((key) => {
-    const value = time[key].toString().padStart(2, "0");
+    const value = time[key as keyof TimeObject["time"]]
+      ?.toString()
+      .padStart(2, "0");
 
     return value;
   });

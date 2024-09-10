@@ -74,6 +74,7 @@ import { DiggingFormationName } from "./desert";
 import { Rewards } from "./rewards";
 import { ExperimentName } from "lib/flags";
 import { CollectionName, MarketplaceTradeableName } from "./marketplace";
+import { GameTransaction } from "./transactions";
 
 export type Reward = {
   coins?: number;
@@ -1132,6 +1133,9 @@ export interface GameState {
   home: Home;
 
   rewards: Rewards;
+
+  // There are more fields but unused
+  transaction?: GameTransaction;
 
   island: {
     type: IslandType;

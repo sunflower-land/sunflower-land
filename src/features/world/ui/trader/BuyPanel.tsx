@@ -174,7 +174,7 @@ const ListView: React.FC<ListViewProps> = ({
   const [warning, setWarning] = useState<"pendingTransaction" | "hoarding">();
   const [
     {
-      context: { state, transaction, farmId },
+      context: { state, farmId },
     },
   ] = useActor(gameService);
   const inventory = state.inventory;
@@ -243,11 +243,6 @@ const ListView: React.FC<ListViewProps> = ({
       return;
     }
 
-    if (transaction && transaction.expiresAt > Date.now()) {
-      setWarning("pendingTransaction");
-      return;
-    }
-
     setSelectedListing(listing);
   };
 
@@ -308,18 +303,6 @@ const ListView: React.FC<ListViewProps> = ({
         >
           {t("back")}
         </Button>
-      </div>
-    );
-  }
-
-  if (warning === "pendingTransaction") {
-    return (
-      <div className="p-1 flex flex-col items-center">
-        <img src={SUNNYSIDE.icons.timer} className="w-1/6 mb-2" />
-        <p className="text-sm mb-1 text-center">
-          {t("playerTrade.transaction")}
-        </p>
-        <p className="text-xs mb-1 text-center">{t("playerTrade.Please")}</p>
       </div>
     );
   }

@@ -304,7 +304,7 @@ const WrappedWallet: React.FC<Props> = ({
   );
 };
 
-const queryClient = new QueryClient();
+export const queryClient = new QueryClient();
 
 export const Wallet: React.FC<Props> = (props) => (
   <WagmiProvider config={config}>

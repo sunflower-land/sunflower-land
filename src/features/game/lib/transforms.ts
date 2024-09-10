@@ -111,5 +111,6 @@ export function makeGame(farm: any): GameState {
         }
       : undefined,
     desert: farm.desert,
+    transaction: farm.transaction,
   };
 }
