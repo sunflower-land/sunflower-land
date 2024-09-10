@@ -3556,5 +3556,11 @@
   "seasons.guide.three": "Sunflower Land通过每个赛季的独特产品和对惊喜活动的期待，让玩家全年保持参与和娱乐，创造一种充满活力和不断变化的农业体验。",
   "description.gift.giver.boost": "向玩家赠送礼物",
   "description.halo.boost": "访问模组工具",
-  "keys.dailyLimit": "每日限额：{{keysAmountBoughtToday}} /1"
+  "keys.dailyLimit": "每日限额：{{keysAmountBoughtToday}} /1",
+  "merkl.3rdParty": "默克尔和Quickswap是去中心化服务，不是由向日葵乐园运营的。",
+  "merkl.dyor": "一定要自己做研究，风险自负。",
+  "merkl.introducing": "介绍 Merkl 奖励！",
+  "merkl.introducing.two": "一种通过支持生态系统来赚取 SFL 的全新改进方式。",
+  "merkl.quickswapPool": "Quickswap V3 USDC",
+  "merkl.leaving": "离开向日葵乐园"
 }

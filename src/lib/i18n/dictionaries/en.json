@@ -3556,5 +3556,11 @@
   "mega.wearables": "Mega Wearables",
   "description.gift.giver.boost": "Gift players a gift",
   "description.halo.boost": "Access to mod tools",
-  "keys.dailyLimit": "Daily Limit: {{keysAmountBoughtToday}}/1"
+  "keys.dailyLimit": "Daily Limit: {{keysAmountBoughtToday}}/1",
+  "merkl.3rdParty": "Merkl & Quickswap are decentralised services and not operated by Sunflower Land.",
+  "merkl.dyor": "Always do your own research and proceed at your own risk.",
+  "merkl.introducing": "Introducing Merkl rewards!",
+  "merkl.introducing.two": "A new and improved way to earn SFL for supporting the ecosystem.",
+  "merkl.quickswapPool": "Quickswap V3 USDC Pool",
+  "merkl.leaving": "Leaving Sunflower Land"
 }

@@ -3556,5 +3556,11 @@
   "fruit-dash.portal.rewardMessage": "Поздравляем, вы выполнили задание! Вот ваша награда.",
   "warning.hoarding.indefiniteArticle.a": "_",
   "warning.hoarding.indefiniteArticle.an": "_",
-  "keys.dailyLimit": "Дневной лимит: {{keysAmountBoughtToday}} /1"
+  "keys.dailyLimit": "Дневной лимит: {{keysAmountBoughtToday}} /1",
+  "merkl.3rdParty": "Merkl и Quickswap — это децентрализованные сервисы, которыми не управляет Sunflower Land.",
+  "merkl.dyor": "Всегда проводите собственное исследование и действуйте на свой страх и риск.",
+  "merkl.introducing": "Представляем награды Merkl!",
+  "merkl.introducing.two": "Новый и улучшенный способ заработать SFL за поддержку экосистемы.",
+  "merkl.quickswapPool": "Пул постоянного тока Quickswap V3",
+  "merkl.leaving": "Покидая землю подсолнечника"
 }

@@ -3556,5 +3556,11 @@
   "seasons.guide.three": "Her sezonun benzersiz teklifleri ve sürpriz etkinliklerin beklentisiyle, Sunflower Land oyuncuları yıl boyunca meşgul ve eğlendirerek canlı ve sürekli gelişen bir çiftçilik deneyimi yaratır.",
   "description.gift.giver.boost": "Oyunculara hediye edin",
   "description.halo.boost": "Mod araçlarına erişim",
-  "keys.dailyLimit": "Günlük Limit: {{keysAmountBoughtToday}} /1"
+  "keys.dailyLimit": "Günlük Limit: {{keysAmountBoughtToday}} /1",
+  "merkl.3rdParty": "Merkl & Quickswap merkezi olmayan hizmetlerdir ve Sunflower Land tarafından işletilmez.",
+  "merkl.dyor": "Her zaman kendi araştırmanızı yapın ve kendi sorumluluğunuzda ilerleyin.",
+  "merkl.introducing": "Merkl ödülleri ile tanışın!",
+  "merkl.introducing.two": "Ekosistemi desteklemek için SFL kazanmanın yeni ve geliştirilmiş bir yolu.",
+  "merkl.quickswapPool": "Quickswap V3 USDC Havuzu",
+  "merkl.leaving": "Ayçiçeği Topraklarından Ayrılmak"
 }

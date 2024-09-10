@@ -3556,5 +3556,11 @@
   "seasons.guide.three": "Con le offerte uniche di ogni stagione e l'anticipazione di eventi a sorpresa, Sunflower Land mantiene i giocatori impegnati e intrattenuti durante tutto l'anno, creando un'esperienza agricola vivace e in continua evoluzione.",
   "description.gift.giver.boost": "Regala un regalo ai giocatori",
   "description.halo.boost": "Accesso agli strumenti di modifica",
-  "keys.dailyLimit": "Limite giornaliero: {{keysAmountBoughtToday}} /1"
+  "keys.dailyLimit": "Limite giornaliero: {{keysAmountBoughtToday}} /1",
+  "merkl.3rdParty": "Merkl e Quickswap sono servizi decentralizzati e non gestiti da Sunflower Land.",
+  "merkl.dyor": "Fai sempre le tue ricerche e procedi a tuo rischio e pericolo.",
+  "merkl.introducing": "Ti presentiamo i premi Merkl!",
+  "merkl.introducing.two": "Un modo nuovo e migliorato per guadagnare SFL supportando l'ecosistema.",
+  "merkl.quickswapPool": "Pool USDC Quickswap V3",
+  "merkl.leaving": "Lasciando Sunflower Land"
 }
