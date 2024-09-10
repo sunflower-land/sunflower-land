@@ -74,6 +74,8 @@ const TransactionWidget: React.FC<{
   const { isConnected, address } = useAccount();
   const { t } = useAppTranslation();
 
+  const [_, setRender] = useState(0);
+
   const tx = loadActiveTxHash({
     event: transaction?.event as TransactionName,
     sessionId: gameService.state.context.sessionId as string,
@@ -88,6 +90,13 @@ const TransactionWidget: React.FC<{
       onOpen();
     }
   }, [isSuccess]);
+
+  // Keeps widget in sync with transaction changes
+  useEffect(() => {
+    const interval = setInterval(() => setRender((r) => r + 1), 1000);
+
+    () => clearInterval(interval);
+  }, []);
 
   const timedOut =
     Date.now() >
@@ -106,9 +115,7 @@ const TransactionWidget: React.FC<{
     );
   }
 
-  const isExpired =
-    Date.now() >
-    (transaction.createdAt ?? 0) + DEADLINE_MS + DEADLINE_BUFFER_MS;
+  const isExpired = Date.now() > (transaction.createdAt ?? 0) + DEADLINE_MS;
 
   if (isExpired) {
     return (
@@ -237,6 +244,8 @@ export const TransactionProgress: React.FC<Props> = ({
 }) => {
   const { gameService } = useContext(Context);
   const { t } = useAppTranslation();
+  const [error, setError] = useState<string>();
+  const [showError, setShowError] = useState<boolean>();
 
   const transaction = gameService.state.context.state.transaction;
 
@@ -267,6 +276,7 @@ export const TransactionProgress: React.FC<Props> = ({
     } catch (e) {
       // eslint-disable-next-line no-console
       console.error(e);
+      setError((e as any)?.shortMessage ?? "Something went wrong");
     } finally {
       setIsSubmitting(false);
     }
@@ -377,13 +387,35 @@ export const TransactionProgress: React.FC<Props> = ({
     <>
       <div className="p-2">
         <div className="flex items-center justify-between mb-2 flex-wrap">
-          <Label icon={lockIcon} type="default" className="-ml-1">
+          <Label
+            icon={lockIcon}
+            type={error ? "danger" : "default"}
+            className="-ml-1"
+          >
             {t("transaction.waiting", {
               name: EVENT_TO_NAME[transaction.event],
             })}
           </Label>
           <TimerDisplay time={expired} />
         </div>
+
+        {error && (
+          <div className="mb-2">
+            <span className="text-sm">
+              {t("transaction.somethingWentWrong")}
+            </span>
+            {showError ? (
+              <p className="text-xs mt-2">{error}</p>
+            ) : (
+              <span
+                onClick={() => setShowError(true)}
+                className="text-xs cursor-pointer underline ml-2"
+              >
+                {t("read.more")}
+              </span>
+            )}
+          </div>
+        )}
 
         <p className="text-sm mb-2">
           {isBlocked ? t("transaction.blocked") : t("transaction.ready")}
