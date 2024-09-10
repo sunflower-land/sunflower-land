@@ -27,6 +27,13 @@ import marketplaceIcon from "assets/icons/shop_disc.png";
 import { hasFeatureAccess } from "lib/flags";
 import { useNavigate } from "react-router-dom";
 import { TransactionCountdown } from "./Transaction";
+import { Modal } from "components/ui/Modal";
+import { Button } from "components/ui/Button";
+import { Panel } from "components/ui/Panel";
+import { CONFIG } from "lib/config";
+import * as AuthProvider from "features/auth/lib/Provider";
+import { randomID } from "lib/utils/random";
+import { ERRORS } from "lib/errors";
 
 const _farmAddress = (state: MachineState) => state.context.farmAddress;
 const _showMarketplace = (state: MachineState) =>
@@ -41,6 +48,8 @@ const HudComponent: React.FC<{
   moveButtonsUp?: boolean;
   location: CollectibleLocation;
 }> = ({ isFarming, location }) => {
+  const { authService } = useContext(AuthProvider.Context);
+
   const { gameService, shortcutItem, selectedItem } = useContext(Context);
   const [gameState] = useActor(gameService);
 
@@ -176,6 +185,37 @@ const HudComponent: React.FC<{
           <SeasonBannerCountdown />
         </div>
 
+        <Modal show>
+          <Panel>
+            <Button
+              onClick={async () => {
+                const response = await fetch(
+                  `${CONFIG.API_URL}/auth/fsl/link`,
+                  {
+                    method: "GET",
+                    headers: {
+                      "Content-Type": "application/json;charset=UTF-8",
+                      Authorization: `Bearer ${authService.state.context.user.rawToken}`,
+                      "x-transaction-id": randomID(),
+                    },
+                  },
+                );
+
+                if (response.status === 401) {
+                  throw new Error(ERRORS.UNAUTHORIZED);
+                }
+
+                if (response.status >= 400) {
+                  throw new Error(ERRORS.MAGIC_LINK_ERROR);
+                }
+
+                return await response.json();
+              }}
+            >
+              Link SFL
+            </Button>
+          </Panel>
+        </Modal>
         <div
           className="absolute z-50 flex flex-col justify-between"
           style={{
