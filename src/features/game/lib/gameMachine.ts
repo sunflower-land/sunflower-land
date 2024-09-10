@@ -148,29 +148,6 @@ export type Moderation = {
   }[];
 };
 
-// type MintEvent = {
-//   type: "MINT";
-//   auctionId: string;
-// };
-
-// type WithdrawEvent = {
-//   type: "WITHDRAW";
-//   sfl: number;
-//   ids: number[];
-//   amounts: string[];
-//   bumpkinId?: number;
-//   wearableIds: number[];
-//   wearableAmounts: number[];
-//   captcha: string;
-//   budIds: number[];
-// };
-
-// type SyncEvent = {
-//   captcha: string;
-//   type: "SYNC";
-//   blockBucks: number;
-// };
-
 type CommunityEvent = {
   type: "COMMUNITY_UPDATE";
   game: GameState;
@@ -283,7 +260,6 @@ export type BlockchainEvent =
     }
   | TransactEvent
   | WalletUpdatedEvent
-  // | SyncEvent
   | CommunityEvent
   | ListingEvent
   | DeleteTradeListingEvent
@@ -331,9 +307,7 @@ export type BlockchainEvent =
   | {
       type: "PERSONHOOD_CANCELLED";
     }
-  // | WithdrawEvent
   | GameEvent
-  // | MintEvent
   | LandscapeEvent
   | VisitEvent
   | BuySFLEvent
@@ -433,9 +407,6 @@ export type BlockchainState = {
     | "introduction"
     | "playing"
     | "autosaving"
-    | "syncing"
-    | "synced"
-    | "minting"
     | "buyingSFL"
     | "revealing"
     | "revealed"
@@ -447,7 +418,6 @@ export type BlockchainState = {
     | "hoarding"
     | "mailbox"
     | "transacting"
-    // | "transacted"
     | "depositing"
     | "landscaping"
     | "specialOffer"
@@ -470,8 +440,6 @@ export type BlockchainState = {
     | "claimAuction"
     | "refundAuction"
     | "blacklisted"
-    // | "withdrawing"
-    // | "withdrawn"
     | "provingPersonhood"
     | "somethingArrived"
     | "randomising"; // TEST ONLY
@@ -728,11 +696,6 @@ export function startGame(authContext: AuthContext) {
         },
         notifying: {
           always: [
-            // {
-            //   target: "transacting",
-            //   cond: (context: Context) => !!context.state.transaction,
-            // },
-
             {
               target: "gameRules",
               cond: () => {
@@ -916,9 +879,6 @@ export function startGame(authContext: AuthContext) {
         },
         claimAuction: {
           on: {
-            // MINT: {
-            //   target: "minting",
-            // },
             TRANSACT: {
               target: "transacting",
             },
@@ -983,15 +943,6 @@ export function startGame(authContext: AuthContext) {
             SAVE: {
               target: "autosaving",
             },
-            // SYNC: {
-            //   target: "syncing",
-            // },
-            // MINT: {
-            //   target: "minting",
-            // },
-            // WITHDRAW: {
-            //   target: "withdrawing",
-            // },
             TRANSACT: {
               target: "transacting",
             },
@@ -1159,12 +1110,9 @@ export function startGame(authContext: AuthContext) {
               };
             },
             onDone: {
-              // target: "transacted",
               target: "playing",
               actions: [
                 assign((_, event) => ({
-                  // sessionId: event.data.sessionId,
-                  // Store the transaction
                   state: event.data.farm,
                   actions: [],
                 })),
@@ -1186,99 +1134,7 @@ export function startGame(authContext: AuthContext) {
             ],
           },
         },
-        // syncing: {
-        //   entry: "setTransactionId",
-        //   invoke: {
-        //     src: async (context, event) => {
-        //       // Autosave just in case
-        //       if (context.actions.length > 0) {
-        //         await autosave({
-        //           farmId: Number(context.farmId),
-        //           sessionId: context.sessionId as string,
-        //           actions: context.actions,
-        //           token: authContext.user.rawToken as string,
-        //           fingerprint: context.fingerprint as string,
-        //           deviceTrackerId: context.deviceTrackerId as string,
-        //           transactionId: context.transactionId as string,
-        //         });
-        //       }
 
-        //       const { sessionId } = await sync({
-        //         farmId: Number(context.farmId),
-        //         sessionId: context.sessionId as string,
-        //         token: authContext.user.rawToken as string,
-        //         captcha: (event as SyncEvent).captcha,
-        //         transactionId: context.transactionId as string,
-        //         blockBucks: (event as SyncEvent).blockBucks,
-        //       });
-
-        //       return {
-        //         sessionId: sessionId,
-        //       };
-        //     },
-        //     onDone: {
-        //       target: "synced",
-        //       actions: assign((_, event) => ({
-        //         sessionId: event.data.sessionId,
-        //         actions: [],
-        //       })),
-        //     },
-        //     onError: [
-        //       {
-        //         target: "playing",
-        //         cond: (_, event: any) =>
-        //           event.data.message === ERRORS.REJECTED_TRANSACTION,
-        //         actions: assign((_) => ({
-        //           actions: [],
-        //         })),
-        //       },
-        //       {
-        //         target: "error",
-        //         actions: "assignErrorMessage",
-        //       },
-        //     ],
-        //   },
-        // },
-        // minting: {
-        //   entry: "setTransactionId",
-        //   invoke: {
-        //     src: async (context, event) => {
-        //       const { auctionId } = event as MintEvent;
-
-        //       const { sessionId } = await mintAuctionItem({
-        //         farmId: Number(context.farmId),
-        //         token: authContext.user.rawToken as string,
-        //         auctionId,
-        //         transactionId: context.transactionId as string,
-        //         bid: context.state.auctioneer.bid,
-        //       });
-
-        //       return {
-        //         sessionId: sessionId,
-        //       };
-        //     },
-        //     onDone: {
-        //       target: "synced",
-        //       actions: assign((_, event) => ({
-        //         sessionId: event.data.sessionId,
-        //       })),
-        //     },
-        //     onError: [
-        //       {
-        //         target: "playing",
-        //         cond: (_, event: any) =>
-        //           event.data.message === ERRORS.REJECTED_TRANSACTION,
-        //         actions: assign((_) => ({
-        //           actions: [],
-        //         })),
-        //       },
-        //       {
-        //         target: "error",
-        //         actions: "assignErrorMessage",
-        //       },
-        //     ],
-        //   },
-        // },
         buyingBlockBucks: {
           entry: "setTransactionId",
           invoke: {
@@ -1871,25 +1727,8 @@ export function startGame(authContext: AuthContext) {
             },
           },
         },
-        // transacted: {
-        //   on: {
-        //     REFRESH: {
-        //       target: "loading",
-        //     },
-        //   },
-        // },
-        // synced: {
-        //   on: {
-        //     REFRESH: {
-        //       target: "loading",
-        //     },
-        //   },
-        // },
         hoarding: {
           on: {
-            // SYNC: {
-            //   target: "syncing",
-            // },
             TRANSACT: {
               target: "transacting",
             },
@@ -1964,108 +1803,7 @@ export function startGame(authContext: AuthContext) {
             },
           },
         },
-        // withdrawing: {
-        //   entry: "setTransactionId",
-        //   invoke: {
-        //     src: async (context, event) => {
-        //       const {
-        //         amounts,
-        //         ids,
-        //         sfl,
-        //         captcha,
-        //         type,
-        //         wearableAmounts,
-        //         wearableIds,
-        //         bumpkinId,
-        //         budIds,
-        //       } = event as WithdrawEvent;
 
-        //       if (Number(sfl) > 0) {
-        //         const { sessionId } = await withdrawSFL({
-        //           farmId: Number(context.farmId),
-        //           sessionId: context.sessionId as string,
-        //           token: authContext.user.rawToken as string,
-        //           sfl,
-        //           captcha,
-        //           transactionId: context.transactionId as string,
-        //         });
-
-        //         return {
-        //           sessionId,
-        //         };
-        //       }
-
-        //       if (ids.length > 0) {
-        //         const { sessionId } = await withdrawItems({
-        //           farmId: Number(context.farmId),
-        //           sessionId: context.sessionId as string,
-        //           token: authContext.user.rawToken as string,
-        //           amounts,
-        //           ids,
-        //           captcha,
-        //           transactionId: context.transactionId as string,
-        //         });
-
-        //         return {
-        //           sessionId,
-        //         };
-        //       }
-
-        //       if (wearableIds.length > 0) {
-        //         const { sessionId } = await withdrawWearables({
-        //           farmId: Number(context.farmId),
-        //           sessionId: context.sessionId as string,
-        //           token: authContext.user.rawToken as string,
-        //           amounts: wearableAmounts,
-        //           ids: wearableIds,
-        //           captcha,
-        //           transactionId: context.transactionId as string,
-        //         });
-
-        //         return {
-        //           sessionId,
-        //         };
-        //       }
-
-        //       if (budIds.length > 0) {
-        //         const { sessionId } = await withdrawBuds({
-        //           farmId: Number(context.farmId),
-        //           token: authContext.user.rawToken as string,
-        //           transactionId: context.transactionId as string,
-        //           budIds,
-        //         });
-
-        //         return {
-        //           sessionId,
-        //         };
-        //       }
-        //     },
-        //     onDone: {
-        //       target: "withdrawn",
-        //       actions: assign({
-        //         sessionId: (_, event) => event.data.sessionId,
-        //       }),
-        //     },
-        //     onError: [
-        //       {
-        //         target: "playing",
-        //         cond: (_, event: any) =>
-        //           event.data.message === ERRORS.REJECTED_TRANSACTION,
-        //       },
-        //       {
-        //         target: "error",
-        //         actions: "assignErrorMessage",
-        //       },
-        //     ],
-        //   },
-        // },
-        // withdrawn: {
-        //   on: {
-        //     REFRESH: {
-        //       target: "loading",
-        //     },
-        //   },
-        // },
         provingPersonhood: {
           on: {
             PERSONHOOD_FINISHED: {

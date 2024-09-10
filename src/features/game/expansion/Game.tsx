@@ -15,8 +15,6 @@ import { INITIAL_SESSION, MachineState, StateValues } from "../lib/gameMachine";
 import { ToastProvider } from "../toast/ToastProvider";
 import { ToastPanel } from "../toast/ToastPanel";
 import { Panel } from "components/ui/Panel";
-import { Success } from "../components/Success";
-import { Syncing } from "../components/Syncing";
 
 import { Hoarding } from "../components/Hoarding";
 import { Swarming } from "../components/Swarming";
@@ -31,7 +29,6 @@ import { IslandNotFound } from "./components/IslandNotFound";
 import { Rules } from "../components/Rules";
 import { Introduction } from "./components/Introduction";
 import { Purchasing } from "../components/Purchasing";
-import { Minting } from "../components/Minting";
 import { ClaimAuction } from "../components/auctionResults/ClaimAuction";
 import { RefundAuction } from "../components/auctionResults/RefundAuction";
 import { Promo } from "./components/Promo";
@@ -51,8 +48,6 @@ import { ListingDeleted } from "../components/listingDeleted";
 import { AuthMachineState } from "features/auth/lib/authMachine";
 import { usePWAInstall } from "features/pwa/PWAInstallProvider";
 import { fixInstallPromptTextStyles } from "features/pwa/lib/fixInstallPromptStyles";
-import { Withdrawing } from "../components/Withdrawing";
-import { Withdrawn } from "../components/Withdrawn";
 import { PersonhoodContent } from "features/retreat/components/personhood/PersonhoodContent";
 import { hasFeatureAccess } from "lib/flags";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -72,8 +67,6 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   loading: true,
   playing: false,
   autosaving: false,
-  syncing: true,
-  synced: true,
   error: true,
   buyingBlockBucks: true,
   refreshing: true,
@@ -95,7 +88,6 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   introduction: false,
   specialOffer: true,
   transacting: true,
-  minting: true,
   auctionResults: false,
   claimAuction: false,
   refundAuction: false,
@@ -115,8 +107,6 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   airdrop: true,
   portalling: true,
   provingPersonhood: false,
-  // withdrawing: true,
-  // withdrawn: true,
   sellMarketResource: false,
   somethingArrived: true,
 };
@@ -143,8 +133,6 @@ const hasMarketPriceChanged = (state: MachineState) =>
 const isRefreshing = (state: MachineState) => state.matches("refreshing");
 const isBuyingSFL = (state: MachineState) => state.matches("buyingSFL");
 const isError = (state: MachineState) => state.matches("error");
-const isSynced = (state: MachineState) => state.matches("synced");
-const isSyncing = (state: MachineState) => state.matches("syncing");
 const isHoarding = (state: MachineState) => state.matches("hoarding");
 const isVisiting = (state: MachineState) => state.matches("visiting");
 const isSwarming = (state: MachineState) => state.matches("swarming");
@@ -154,7 +142,6 @@ const isPurchasing = (state: MachineState) =>
 const isCoolingDown = (state: MachineState) => state.matches("coolingDown");
 const isGameRules = (state: MachineState) => state.matches("gameRules");
 const isDepositing = (state: MachineState) => state.matches("depositing");
-const isMinting = (state: MachineState) => state.matches("minting");
 const isLoadingLandToVisit = (state: MachineState) =>
   state.matches("loadLandToVisit");
 const isLoadingSession = (state: MachineState) =>
@@ -165,8 +152,6 @@ const currentState = (state: MachineState) => state.value;
 const getErrorCode = (state: MachineState) => state.context.errorCode;
 const getActions = (state: MachineState) => state.context.actions;
 
-const isWithdrawing = (state: MachineState) => state.matches("withdrawing");
-const isWithdrawn = (state: MachineState) => state.matches("withdrawn");
 const isTransacting = (state: MachineState) => state.matches("transacting");
 const isClaimAuction = (state: MachineState) => state.matches("claimAuction");
 const isRefundingAuction = (state: MachineState) =>
@@ -269,8 +254,6 @@ export const GameWrapper: React.FC = ({ children }) => {
 
   const loading = useSelector(gameService, isLoading);
   const provingPersonhood = useSelector(gameService, isProvingPersonhood);
-  const withdrawing = useSelector(gameService, isWithdrawing);
-  const withdrawn = useSelector(gameService, isWithdrawn);
   const portalling = useSelector(gameService, isPortalling);
   const trading = useSelector(gameService, isTrading);
   const traded = useSelector(gameService, isTraded);
@@ -287,8 +270,6 @@ export const GameWrapper: React.FC = ({ children }) => {
   const refreshing = useSelector(gameService, isRefreshing);
   const buyingSFL = useSelector(gameService, isBuyingSFL);
   const error = useSelector(gameService, isError);
-  const synced = useSelector(gameService, isSynced);
-  const syncing = useSelector(gameService, isSyncing);
   const purchasing = useSelector(gameService, isPurchasing);
   const hoarding = useSelector(gameService, isHoarding);
   const swarming = useSelector(gameService, isSwarming);
@@ -301,7 +282,6 @@ export const GameWrapper: React.FC = ({ children }) => {
   const errorCode = useSelector(gameService, getErrorCode);
   const actions = useSelector(gameService, getActions);
   const transacting = useSelector(gameService, isTransacting);
-  const minting = useSelector(gameService, isMinting);
   const claimingAuction = useSelector(gameService, isClaimAuction);
   const refundAuction = useSelector(gameService, isRefundingAuction);
   const promo = useSelector(gameService, isPromoing);
@@ -467,8 +447,6 @@ export const GameWrapper: React.FC = ({ children }) => {
             {refreshing && <Refreshing />}
             {buyingSFL && <AddingSFL />}
             {error && <ErrorMessage errorCode={errorCode as ErrorCode} />}
-            {synced && <Success />}
-            {syncing && <Syncing />}
             {purchasing && <Purchasing />}
             {hoarding && <Hoarding />}
             {swarming && <Swarming />}
@@ -486,12 +464,9 @@ export const GameWrapper: React.FC = ({ children }) => {
             {sniped && <Sniped />}
             {tradeAlreadyFulfilled && <TradeAlreadyFulfilled />}
             {marketPriceChanged && <PriceChange />}
-            {minting && <Minting />}
             {promo && <Promo />}
             {airdrop && <AirdropPopup />}
             {specialOffer && <VIPOffer />}
-            {withdrawing && <Withdrawing />}
-            {withdrawn && <Withdrawn />}
             {hasSomethingArrived && <SomethingArrived />}
           </Panel>
         </Modal>

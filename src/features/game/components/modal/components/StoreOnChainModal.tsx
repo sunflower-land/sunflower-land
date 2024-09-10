@@ -16,11 +16,6 @@ export const StoreOnChainModal: React.FC<Props> = ({ onClose }) => {
   const { t } = useAppTranslation();
 
   const storeData = () => {
-    // gameService.send("SYNC", {
-    //   captcha: "",
-    //   blockBucks: 0,
-    // });
-
     gameService.send("TRANSACT", {
       transaction: "transaction.progressSynced",
       request: {
