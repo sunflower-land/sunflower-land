@@ -77,9 +77,9 @@ const SEASONAL_REWARDS: (weight: number) => ChestReward[] = (weight) => {
 };
 
 export const BASIC_REWARDS: () => ChestReward[] = () => [
-  { sfl: 5, weighting: 100 * multiplier },
-  { sfl: 10, weighting: 50 * multiplier },
-  { sfl: 25, weighting: 20 * multiplier },
+  { coins: 1440, weighting: 100 * multiplier },
+  { coins: 2880, weighting: 50 * multiplier },
+  { coins: 7200, weighting: 20 * multiplier },
   { items: { "Block Buck": 1 }, weighting: 100 * multiplier },
   { items: { "Block Buck": 2 }, weighting: 50 * multiplier },
   { items: { "Block Buck": 5 }, weighting: 20 * multiplier },
@@ -104,10 +104,10 @@ export const BASIC_REWARDS: () => ChestReward[] = () => [
 ];
 
 export const RARE_REWARDS: () => ChestReward[] = () => [
-  { sfl: 5, weighting: 50 * multiplier },
-  { sfl: 10, weighting: 100 * multiplier },
-  { sfl: 25, weighting: 50 * multiplier },
-  { sfl: 50, weighting: 20 * multiplier },
+  { coins: 1440, weighting: 50 * multiplier },
+  { coins: 2880, weighting: 100 * multiplier },
+  { coins: 7200, weighting: 50 * multiplier },
+  { coins: 14400, weighting: 20 * multiplier },
   { items: { "Block Buck": 1 }, weighting: 50 * multiplier },
   { items: { "Block Buck": 2 }, weighting: 100 * multiplier },
   { items: { "Block Buck": 5 }, weighting: 50 * multiplier },
@@ -134,9 +134,9 @@ export const RARE_REWARDS: () => ChestReward[] = () => [
 ];
 
 export const LUXURY_REWARDS: () => ChestReward[] = () => [
-  { sfl: 10, weighting: 50 * multiplier },
-  { sfl: 25, weighting: 100 * multiplier },
-  { sfl: 50, weighting: 50 * multiplier },
+  { coins: 2880, weighting: 50 * multiplier },
+  { coins: 7200, weighting: 100 * multiplier },
+  { coins: 14400, weighting: 50 * multiplier },
   { items: { "Block Buck": 5 }, weighting: 50 * multiplier },
   { items: { "Block Buck": 10 }, weighting: 100 * multiplier },
   { items: { "Block Buck": 25 }, weighting: 25 * multiplier },

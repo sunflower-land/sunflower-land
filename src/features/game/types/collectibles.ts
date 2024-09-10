@@ -292,22 +292,22 @@ export const HELIOS_BLACKSMITH_ITEMS: (
 export const ARTEFACT_SHOP_KEYS: Record<Keys, CraftableCollectible> = {
   "Treasure Key": {
     ingredients: {
-      Sand: new Decimal(10),
-      Hieroglyph: new Decimal(2),
+      Sand: new Decimal(25),
+      Hieroglyph: new Decimal(5),
     },
     description: translate("description.treasure.key"),
   },
   "Rare Key": {
     ingredients: {
-      Sand: new Decimal(30),
-      Hieroglyph: new Decimal(10),
+      Sand: new Decimal(75),
+      Hieroglyph: new Decimal(15),
     },
     description: translate("description.rare.key"),
   },
   "Luxury Key": {
     ingredients: {
-      Sand: new Decimal(100),
-      Hieroglyph: new Decimal(20),
+      Sand: new Decimal(250),
+      Hieroglyph: new Decimal(50),
     },
     description: translate("description.luxury.key"),
   },
