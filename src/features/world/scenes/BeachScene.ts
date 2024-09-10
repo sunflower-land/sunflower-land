@@ -1621,7 +1621,6 @@ export class BeachScene extends BaseScene {
     if (this.isPlayerInDigArea(this.currentPlayer.x, this.currentPlayer.y)) {
       this.updatePlayer();
       this.updateOtherPlayers();
-      this.updateShaders();
       this.handleDigbyWarnings();
     } else {
       // this.noToolHoverBox?.setVisible(false);
