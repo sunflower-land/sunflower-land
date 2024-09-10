@@ -436,6 +436,9 @@ const Merkl: React.FC = () => {
   return (
     <>
       <div className="p-2">
+        <Label type="default" className="mb-2">
+          {t("merkl.quickswapPool")}
+        </Label>
         <p className="text-sm mb-2">{t("merkl.introducing")}</p>
         <p className="text-sm">{t("merkl.introducing.two")}</p>
       </div>
