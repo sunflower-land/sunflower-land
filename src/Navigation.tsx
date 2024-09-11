@@ -30,6 +30,8 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import classNames from "classnames";
+import { Marketplace } from "features/marketplace/Marketplace";
+import { OAuth } from "features/auth/OAuth";
 
 // Lazy load routes
 const World = lazy(() =>
@@ -189,6 +191,8 @@ export const Navigation: React.FC = () => {
                     />
                   )}
                   <Route path="/world/:name" element={<World key="world" />} />
+                  <Route path="/oauth/:name" element={<OAuth key="oauth" />} />
+                  <Route path="/marketplace/*" element={<Marketplace />} />
                   <Route
                     path="/community/:name"
                     element={<World key="community" isCommunity />}
