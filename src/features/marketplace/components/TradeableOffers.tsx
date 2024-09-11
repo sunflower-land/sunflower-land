@@ -32,16 +32,15 @@ import { signTypedData } from "@wagmi/core";
 import { config } from "features/wallet/WalletProvider";
 import { getKeys } from "features/game/types/decorations";
 import { RemoveOffer } from "./RemoveOffer";
-import { TradeOffer } from "features/game/types/game";
 import {
   getChestBuds,
   getChestItems,
 } from "features/island/hud/components/inventory/utils/inventory";
-import { KNOWN_IDS, KNOWN_ITEMS } from "features/game/types";
+import { KNOWN_ITEMS } from "features/game/types";
 import { ITEM_NAMES } from "features/game/types/bumpkin";
 import { availableWardrobe } from "features/game/events/landExpansion/equip";
 import { CONFIG } from "lib/config";
-import { acceptOfferTransaction } from "lib/blockchain/Marketplace";
+import { Transaction } from "features/island/hud/Transaction";
 
 // TODO - move make offer here, signing state + submitting state
 export const TradeableSummary: React.FC<{
@@ -311,85 +310,39 @@ const AcceptOffer: React.FC<{
   const [isAccepting, setIsAccepting] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
 
+  if (gameState.context.state.transaction && tradeable?.type === "onchain") {
+    return <Transaction isBlocked />;
+  }
+
   const confirm = async () => {
     setIsAccepting(true);
 
-    try {
-      const response: {
-        signature: string;
-        sessionId: string;
-        nextSessionId: string;
-        deadline: number;
-        farmId: number;
-        fee: string;
-        offer: {
-          tradeId: string;
-          signature: string;
-          farmId: number;
-          id: number;
-          sfl: number;
-          collection: string;
-          name: string;
-        };
-        sender: string;
-      } = await new Promise(async (res, rej) => {
-        await gameService.send("POST_EFFECT", {
-          effect: {
-            type: "marketplace.offerAccepted",
-            id: offer.tradeId,
-          },
-        });
+    gameService.send("POST_EFFECT", {
+      effect: {
+        type: "marketplace.offerAccepted",
+        id: offer.tradeId,
+      },
+    });
 
-        gameService.onTransition((state, event) => {
-          if (state.matches("playing")) {
-            const data = event.data.response;
-            res(data);
-          } else if (state.matches("error")) {
-            rej();
-          }
-        });
-      });
+    await waitFor(
+      gameService,
+      (state) => {
+        if (state.matches("error")) throw new Error("Insert failed");
+        return state.matches("playing");
+      },
+      { timeout: 60 * 1000 },
+    );
 
-      if (tradeable?.type === "instant") {
-        confetti();
-        setShowSuccess(true);
-        return;
-      }
-
-      // Fire API
-      await acceptOfferTransaction({
-        account: response.sender as `0x${string}`,
-        deadline: response.deadline,
-        farmId: response.farmId,
-        fee: response.fee,
-        nextSessionId: response.nextSessionId as `0x${string}`,
-        offer: response.offer,
-        sessionId: response.sessionId as `0x${string}`,
-        signature: response.signature as `0x${string}`,
-      });
-
+    if (tradeable?.type === "instant") {
       confetti();
       setShowSuccess(true);
-      // await gameService.send("POST_EFFECT", {
-      //   effect: {
-      //     type: "marketplace.offerAccepted",
-      //     id: offer.tradeId,
-      //   },
-      // });
-
-      // await waitFor(
-      //   gameService,
-      //   (state) => {
-      //     if (state.matches("error")) throw new Error("Insert failed");
-      //     return state.matches("playing");
-      //   },
-      //   { timeout: 60 * 1000 },
-      // );
-
-      // Do onchain?
-    } finally {
-      setIsAccepting(false);
+      return;
+    } else {
+      // Handled through transaction UX
+      onClose();
     }
+
+    setIsAccepting(false);
   };
 
   if (showSuccess) {
