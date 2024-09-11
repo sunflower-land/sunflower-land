@@ -175,7 +175,7 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
 
   const onWithdrawBuds = async (ids: number[]) => {
     gameService.send("TRANSACT", {
-      transaction: "transaction.budsWithdrawn",
+      transaction: "transaction.budWithdrawn",
       request: {
         captcha: token,
         budIds: ids,
