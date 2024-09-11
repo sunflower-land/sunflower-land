@@ -31,12 +31,18 @@ import { config } from "features/wallet/WalletProvider";
 import { QueryClientProvider } from "@tanstack/react-query";
 
 const _transaction = (state: MachineState) => state.context.state.transaction;
-
+const compareTransaction = (prev?: GameTransaction, next?: GameTransaction) => {
+  return JSON.stringify(prev) === JSON.stringify(next);
+};
 export const TransactionCountdown: React.FC = () => {
   const { gameService } = useContext(Context);
   const [showTransaction, setShowTransaction] = useState(false);
 
-  const transaction = useSelector(gameService, _transaction);
+  const transaction = useSelector(
+    gameService,
+    _transaction,
+    compareTransaction,
+  );
 
   useEffect(() => {
     // Whenever something with transaction changes - pop up
