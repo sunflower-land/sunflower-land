@@ -568,7 +568,9 @@ export const DepositModal: React.FC<DepositModalProps> = ({
 
 const _farmAddress = (state: MachineState) => state.context.farmAddress ?? "";
 
-export const DepositWrapper: React.FC = () => {
+export const DepositWrapper: React.FC<{ onClose: () => void }> = ({
+  onClose,
+}) => {
   const { gameService } = useContext(GameContext);
   const farmAddress = useSelector(gameService, _farmAddress);
 
@@ -578,5 +580,11 @@ export const DepositWrapper: React.FC = () => {
     gameService.send("DEPOSIT", args);
   };
 
-  return <Deposit farmAddress={farmAddress} onDeposit={handleDeposit} />;
+  return (
+    <Deposit
+      farmAddress={farmAddress}
+      onDeposit={handleDeposit}
+      onClose={onClose}
+    />
+  );
 };
