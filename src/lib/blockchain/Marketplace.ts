@@ -51,7 +51,7 @@ export async function acceptOfferTransaction({
       BigInt(fee),
       offer,
     ],
-    sender,
+    account: sender,
   });
 
   saveTxHash({ event: "transaction.offerAccepted", hash, sessionId, deadline });
