@@ -34,6 +34,11 @@ import {
   AUDIO_MUTED_EVENT,
   getAudioMutedSetting,
 } from "lib/utils/hooks/useIsAudioMuted";
+import { DarkModePipeline } from "../shaders/darkModeShader";
+import {
+  DARK_MODE_EVENT,
+  getDarkModeSetting,
+} from "lib/utils/hooks/useIsDarkMode";
 
 export type NPCBumpkin = {
   x: number;
@@ -173,6 +178,65 @@ export abstract class BaseScene extends Phaser.Scene {
     this.sound.mute = event.detail;
   };
 
+  /**
+   * Changes the dark mode setting when the event is triggered.
+   * @param event The event.
+   */
+  private onSetDarkMode = (event: CustomEvent) => {
+    // get pipeline
+    const darkModePipeline = this.cameras.main.getPostPipeline(
+      "DarkModePipeline",
+    ) as DarkModePipeline;
+    if (!darkModePipeline) return;
+
+    // set dark mode
+    darkModePipeline.isDarkMode = event.detail;
+  };
+
+  /**
+   * Initializes the shaders and listeners.
+   */
+  private initializeShaders = () => {
+    // add dark mode shader
+    (
+      this.renderer as Phaser.Renderer.WebGL.WebGLRenderer
+    ).pipelines?.addPostPipeline("DarkModePipeline", DarkModePipeline);
+    this.cameras.main.setPostPipeline(DarkModePipeline);
+
+    // add event listener for settings
+    window.addEventListener(DARK_MODE_EVENT as any, this.onSetDarkMode);
+    this.onSetDarkMode({ detail: getDarkModeSetting() } as CustomEvent);
+  };
+
+  /**
+   * Updates the shaders.
+   */
+  updateShaders = () => {
+    // get pipeline
+    const darkModePipeline = this.cameras.main.getPostPipeline(
+      "DarkModePipeline",
+    ) as DarkModePipeline;
+    if (!darkModePipeline?.isDarkMode || !this.currentPlayer) return;
+
+    // calculate the player's position relative to the camera
+    const mapWidth = this.map.widthInPixels;
+    const mapHeight = this.map.heightInPixels;
+    const screenWidth = this.cameras.main.worldView.width;
+    const screenHeight = this.cameras.main.worldView.height;
+    const worldViewX = this.cameras.main.worldView.x;
+    const worldViewY = this.cameras.main.worldView.y;
+    const offsetX = Math.max(0, (screenWidth - mapWidth) / 2);
+    const offsetY = Math.max(0, (screenHeight - mapHeight) / 2);
+
+    const relativeX =
+      (this.currentPlayer.x - worldViewX + offsetX) / screenWidth;
+    const relativeY =
+      (this.currentPlayer.y - worldViewY + offsetY) / screenHeight;
+
+    // set light sources
+    darkModePipeline.lightSources = [{ x: relativeX, y: relativeY }];
+  };
+
   preload() {
     if (this.options.map?.json) {
       const json = {
@@ -191,6 +255,8 @@ export abstract class BaseScene extends Phaser.Scene {
     try {
       this.initialiseMap();
       this.initialiseSounds();
+
+      this.initializeShaders();
 
       // set audio mute state and listen for changes
       this.sound.mute = getAudioMutedSetting();
@@ -737,6 +803,7 @@ export abstract class BaseScene extends Phaser.Scene {
     this.switchScene();
     this.updatePlayer();
     this.updateOtherPlayers();
+    this.updateShaders();
     this.updateUsernames();
     this.updateFactions();
   }
