@@ -3674,5 +3674,6 @@
   "gems.shipment.arrived": "Ship has arrived",
   "gems.shipment.shops": "All seeds and tool stock will be replenished at the shops.",
   "faction.shop.title": "Faction Shop",
-  "faction.shop.membersOnly": "Faction member exclusive"
+  "faction.shop.membersOnly": "Faction member exclusive",
+  "description.trade.points": "Earned from trading collectibles and wearables in the marketplace. Can be exchanged for in-game rewards."
 }

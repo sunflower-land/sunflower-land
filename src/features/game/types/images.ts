@@ -4082,4 +4082,8 @@ export const ITEM_DETAILS: Items = {
     image: gem,
     description: translate("description.gem"),
   },
+  "Trade Points": {
+    image: "",
+    description: COUPONS["Trade Points"].description,
+  },
 };

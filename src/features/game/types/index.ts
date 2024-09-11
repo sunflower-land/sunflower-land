@@ -393,6 +393,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Pharaoh's Treasure Banner": 746,
   "Amber Fossil": 747,
   Gem: 748,
+  "Trade Points": 749,
 
   "Australian Flag": 801,
   "Belgian Flag": 802,

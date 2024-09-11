@@ -205,6 +205,7 @@ export type Coupons =
   | "Farmhand"
   | "Prize Ticket"
   | "Mark"
+  | "Trade Points"
   | Keys
   | SeasonalTicket
   | FactionEmblem;
@@ -313,6 +314,9 @@ export const COUPONS: Record<Coupons, { description: string }> = {
   },
   Mark: {
     description: translate("description.faction.mark"),
+  },
+  "Trade Points": {
+    description: translate("description.trade.points"),
   },
 };
 
