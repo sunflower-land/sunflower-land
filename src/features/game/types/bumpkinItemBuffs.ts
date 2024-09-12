@@ -376,7 +376,7 @@ export const BUMPKIN_ITEM_BUFF_LABELS: Partial<Record<BumpkinItem, BuffLabel>> =
       boostedItemIcon: ITEM_DETAILS.Mark.image,
     },
     "Camel Onesie": {
-      shortDescription: translate("description.macaw.camel.onesie.boost"),
+      shortDescription: translate("description.camel.onesie.boost"),
       labelType: "success",
       boostedItemIcon: powerup,
     },

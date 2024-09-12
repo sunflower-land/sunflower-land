@@ -729,7 +729,7 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
     boostTypeIcon: powerup,
   },
   Macaw: {
-    shortDescription: translate("description.macaw.camel.onesie.boost"),
+    shortDescription: translate("description.macaw.boost"),
     labelType: "success",
     boostTypeIcon: powerup,
   },
