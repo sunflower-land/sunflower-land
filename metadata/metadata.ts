@@ -9336,7 +9336,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     name: "Tomato Bombard",
   },
   "Stone Beetle": {
-    description: "",
+    description: "Beetle made of stone. +0.1 Stone",
     decimals: 0,
     attributes: [
       { trait_type: "Boost", value: "Resource" },
@@ -9352,7 +9352,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     name: "Stone Beetle",
   },
   "Iron Beetle": {
-    description: "",
+    description: "Beetle made of iron. +0.1 Iron",
     decimals: 0,
     attributes: [
       { trait_type: "Boost", value: "Resource" },
@@ -9368,7 +9368,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     name: "Iron Beetle",
   },
   "Gold Beetle": {
-    description: "",
+    description: "Beetle made of gold. +0.1 Gold",
     decimals: 0,
     attributes: [
       { trait_type: "Boost", value: "Resource" },
@@ -9384,7 +9384,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     name: "Gold Beetle",
   },
   "Fairy Circle": {
-    description: "",
+    description: "Circle of fairy mushrooms. +0.2 Wild Mushroom",
     decimals: 0,
     attributes: [
       { trait_type: "Boost", value: "Resource" },
@@ -9400,7 +9400,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     name: "Fairy Circle",
   },
   Squirrel: {
-    description: "",
+    description: "Squirrel likes hanging out in the forest. +0.1 Wood",
     decimals: 0,
     attributes: [
       { trait_type: "Boost", value: "Resource" },
@@ -9416,13 +9416,13 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     name: "Squirrel",
   },
   Macaw: {
-    description: "",
+    description: "Macaw loves picking fruits. +0.1 Fruit Patch Yield",
     decimals: 0,
     attributes: [
       { trait_type: "Boost", value: "Fruit" },
       {
         display_type: "boost_number",
-        trait_type: "Increase Fruit Yield",
+        trait_type: "Increase Fruit Patch Yield",
         value: 0.1,
       },
       { trait_type: "Tradable", value: "No" },
@@ -9432,7 +9432,8 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     name: "Macaw",
   },
   Butterfly: {
-    description: "",
+    description:
+      "Butterfly loves the scent of flowers. 20% chance of +1 Flower",
     decimals: 0,
     attributes: [
       { trait_type: "Boost", value: "Flower" },
