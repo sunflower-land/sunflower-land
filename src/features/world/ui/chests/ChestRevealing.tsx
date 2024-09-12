@@ -117,7 +117,7 @@ export const ChestRevealing: React.FC<Props> = ({ type }) => {
       <Label icon={SUNNYSIDE.decorations.treasure_chest} type="default">
         {label}
       </Label>
-      <img src={image} className="h-24 mx-auto my-2" />
+      <img src={image} className="h-20 mx-auto my-2" />
     </div>
   );
 };
