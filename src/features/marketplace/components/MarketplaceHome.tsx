@@ -1,4 +1,4 @@
-import { ButtonPanel, InnerPanel } from "components/ui/Panel";
+import { InnerPanel } from "components/ui/Panel";
 import { ITEM_DETAILS } from "features/game/types/images";
 import React, { useContext, useState } from "react";
 
@@ -12,6 +12,8 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { Collection } from "./Collection";
 import { signTypedData } from "@wagmi/core";
 import { config } from "features/wallet/WalletProvider";
+import { SUNNYSIDE } from "assets/sunnyside";
+import { TextInput } from "components/ui/TextInput";
 
 type MarketplaceCollection = {
   name: string;
@@ -46,27 +48,28 @@ export const MarketplaceHome: React.FC = () => {
   const { collection } = useParams<{ collection: CollectionName }>();
   const { pathname } = useLocation();
 
+  const [search, setSearch] = useState("");
+
   return (
-    <InnerPanel className="h-full overflow-y-scroll">
-      <div className="flex flex-wrap sticky -top-1 pb-1 z-10 bg-brown-200">
-        {COLLECTIONS.map((collection) => (
-          <div key={collection.name} className="relative  pr-1 w-1/2 sm:w-auto">
-            <ButtonPanel
-              onClick={() => {
-                navigate(collection.route);
-              }}
-              className="flex items-center"
-              selected={collection.name === pathname}
-            >
-              <img src={collection.icon} className="h-8 mr-2" />
-              <span className="text-sm sm:text-base">{collection.name}</span>
-            </ButtonPanel>
-          </div>
-        ))}
-        <List />
+    <div className="flex">
+      <InnerPanel className="w-64 h-96 mr-1 hidden sm:block">{`Filters`}</InnerPanel>
+      <div className="h-full w-full">
+        <InnerPanel className="h-full  w-full mb-1">
+          <TextInput
+            icon={SUNNYSIDE.icons.search}
+            value={search}
+            onValueChange={setSearch}
+          />
+        </InnerPanel>
+        <InnerPanel className="h-full  w-full">
+          <Collection
+            search={search}
+            key={collection}
+            type={collection ?? "collectibles"}
+          />
+        </InnerPanel>
       </div>
-      <Collection key={collection} type={collection ?? "collectibles"} />
-    </InnerPanel>
+    </div>
   );
 };
 
