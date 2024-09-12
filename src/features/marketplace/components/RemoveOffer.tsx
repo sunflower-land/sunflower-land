@@ -7,7 +7,8 @@ import { Context } from "features/game/GameProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import React, { useContext, useState } from "react";
 import { waitFor } from "xstate/lib/waitFor";
-import { getOfferItem, getTradeableDisplay } from "../lib/tradeables";
+import { getTradeableDisplay } from "../lib/tradeables";
+import { getOfferItem } from "../lib/offers";
 import { TradeOffer } from "features/game/types/game";
 import { TradeableSummary } from "./TradeableOffers";
 

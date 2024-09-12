@@ -1,5 +1,5 @@
 import { Label } from "components/ui/Label";
-import { InnerPanel } from "components/ui/Panel";
+import { InnerPanel, Panel } from "components/ui/Panel";
 import React, { useContext, useState } from "react";
 
 import lock from "assets/icons/lock.png";
@@ -9,7 +9,8 @@ import chest from "assets/icons/chest.png";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
 import { getKeys } from "features/game/types/decorations";
-import { getOfferItem, getTradeableDisplay } from "../lib/tradeables";
+import { getTradeableDisplay } from "../lib/tradeables";
+import { getOfferItem, getTradeType } from "../lib/offers";
 import { ITEM_IDS } from "features/game/types/bumpkin";
 import { KNOWN_IDS } from "features/game/types";
 import { ListViewCard } from "./ListViewCard";
@@ -26,6 +27,8 @@ import { availableWardrobe } from "features/game/events/landExpansion/equip";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Modal } from "components/ui/Modal";
 import { RemoveOffer } from "./RemoveOffer";
+import { ClaimReward } from "features/game/expansion/components/ClaimReward";
+import { NPC_WEARABLES } from "lib/npcs";
 
 export const MarketplaceProfile: React.FC = () => {
   return (
@@ -96,6 +99,8 @@ const MyOffers: React.FC = () => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 
+  const [claimId, setClaimId] = useState<string>();
+
   const [removeId, setRemoveId] = useState<string>();
 
   const { trades } = gameState.context.state;
@@ -108,8 +113,50 @@ const MyOffers: React.FC = () => {
     0,
   );
 
+  const claim = () => {
+    const offer = offers[claimId as string];
+
+    gameService.send("offer.claimed", {
+      tradeId: claimId,
+    });
+
+    // For on chain items let's fire a refresh
+    const itemId = getOfferItem({ offer });
+    if (
+      getTradeType({ collection: offer.collection, id: itemId }) === "onchain"
+    ) {
+      gameService.send("RESET");
+    }
+
+    setClaimId(undefined);
+  };
+
   return (
     <>
+      <Modal show={!!claimId} onHide={() => setClaimId(undefined)}>
+        <Panel bumpkinParts={NPC_WEARABLES["hammerin harry"]}>
+          <ClaimReward
+            onClaim={claim}
+            onClose={() => setClaimId(undefined)}
+            reward={{
+              createdAt: Date.now(),
+              id: "offer-claimed",
+              items:
+                offers[claimId as string]?.collection === "collectibles"
+                  ? offers[claimId as string].items
+                  : {},
+              wearables:
+                offers[claimId as string]?.collection === "wearables"
+                  ? offers[claimId as string].items
+                  : {},
+              sfl: 0,
+              coins: 0,
+              message: t("marketplace.offerClaimed"),
+            }}
+          />
+        </Panel>
+      </Modal>
+
       <Modal show={!!removeId} onHide={() => setRemoveId(undefined)}>
         <RemoveOffer
           id={removeId as string}
@@ -152,12 +199,21 @@ const MyOffers: React.FC = () => {
                   type={details.type}
                   id={itemId}
                   key={id}
-                  onClick={() => {
-                    navigate(`/marketplace/${details.type}/${itemId}`);
-                  }}
-                  onRemove={() => {
-                    setRemoveId(id);
-                  }}
+                  isSold={!!offer.fulfilledAt}
+                  onClick={
+                    offer.fulfilledAt
+                      ? () => setClaimId(id)
+                      : () => {
+                          navigate(`/marketplace/${details.type}/${itemId}`);
+                        }
+                  }
+                  onRemove={
+                    offer.fulfilledAt
+                      ? undefined
+                      : () => {
+                          setRemoveId(id);
+                        }
+                  }
                 />
               );
             })}

@@ -293,7 +293,7 @@ export const ARTEFACT_SHOP_KEYS: Record<Keys, CraftableCollectible> = {
   "Treasure Key": {
     ingredients: {
       Sand: new Decimal(10),
-      Hieroglyph: new Decimal(2),
+      Hieroglyph: new Decimal(3),
     },
     description: translate("description.treasure.key"),
   },
@@ -307,7 +307,7 @@ export const ARTEFACT_SHOP_KEYS: Record<Keys, CraftableCollectible> = {
   "Luxury Key": {
     ingredients: {
       Sand: new Decimal(100),
-      Hieroglyph: new Decimal(20),
+      Hieroglyph: new Decimal(30),
     },
     description: translate("description.luxury.key"),
   },

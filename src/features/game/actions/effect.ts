@@ -19,7 +19,9 @@ type Request = {
   effect: Effect;
 };
 
-export async function postEffect(request: Request): Promise<GameState> {
+export async function postEffect(
+  request: Request,
+): Promise<{ gameState: GameState; data: any }> {
   const response = await window.fetch(`${API_URL}/event/${request.farmId}`, {
     method: "POST",
     headers: {
@@ -45,7 +47,10 @@ export async function postEffect(request: Request): Promise<GameState> {
     throw new Error(ERRORS.EFFECT_SERVER_ERROR);
   }
 
-  const data = await response.json();
+  const { gameState, ...data } = await response.json();
 
-  return makeGame(data);
+  return {
+    gameState: makeGame(gameState),
+    data,
+  };
 }

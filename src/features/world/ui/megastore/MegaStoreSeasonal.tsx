@@ -55,7 +55,7 @@ export const MegaStoreSeasonal: React.FC<{
   };
 
   const megaTimeRemaining = getTimeLeft(
-    megastore.available.from,
+    SEASONS[getCurrentSeason()].startDate.getTime(),
     getTotalSecondsAvailableMega(),
   );
 
