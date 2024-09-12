@@ -14,8 +14,9 @@ import { getTradeableDisplay } from "../lib/tradeables";
 
 interface Props {
   type: CollectionName;
+  search: string;
 }
-export const Collection: React.FC<Props> = ({ type }) => {
+export const Collection: React.FC<Props> = ({ type, search }) => {
   const { authService } = useContext(Auth.Context);
   const [authState] = useActor(authService);
 
@@ -44,9 +45,16 @@ export const Collection: React.FC<Props> = ({ type }) => {
     return <Loading />;
   }
 
+  const items =
+    collection?.items.filter((item) => {
+      const display = getTradeableDisplay({ type, id: item.id });
+
+      return display.name.toLowerCase().includes(search.toLocaleLowerCase());
+    }) ?? [];
+
   return (
     <div className="flex flex-wrap gap-2">
-      {collection?.items.map((item) => {
+      {items.map((item) => {
         const display = getTradeableDisplay({ type, id: item.id });
 
         return (

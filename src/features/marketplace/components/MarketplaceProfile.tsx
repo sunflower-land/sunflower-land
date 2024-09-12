@@ -29,6 +29,8 @@ import { Modal } from "components/ui/Modal";
 import { RemoveOffer } from "./RemoveOffer";
 import { ClaimReward } from "features/game/expansion/components/ClaimReward";
 import { NPC_WEARABLES } from "lib/npcs";
+import { SUNNYSIDE } from "assets/sunnyside";
+import { TextInput } from "components/ui/TextInput";
 
 export const MarketplaceProfile: React.FC = () => {
   return (
@@ -235,11 +237,12 @@ const MyCollection: React.FC = () => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 
+  const [search, setSearch] = useState("");
   const { buds } = gameState.context.state;
 
   const navigate = useNavigate();
 
-  const items: CollectionItem[] = [];
+  let items: CollectionItem[] = [];
 
   const inventory = getChestItems(gameState.context.state);
   getKeys(inventory).forEach((name) => {
@@ -281,40 +284,57 @@ const MyCollection: React.FC = () => {
     }
   });
 
+  items = items.filter((item) => {
+    const details = getTradeableDisplay({
+      id: item.id,
+      type: item.collection,
+    });
+
+    return details.name.toLowerCase().includes(search.toLowerCase());
+  });
+
   return (
-    <InnerPanel>
-      <div className="p-2">
-        <Label className="mb-2" type="default" icon={chest}>
+    <>
+      <InnerPanel className="h-full  w-full mb-1">
+        <Label className="mb-2 ml-2" type="default" icon={chest}>
           {t("marketplace.myCollection")}
         </Label>
-
-        <div className="flex flex-wrap gap-2">
-          {getKeys(items).length === 0 && (
-            <p className="text-sm">{t("marketplace.noCollection")}</p>
-          )}
-          {items.map((item) => {
-            const details = getTradeableDisplay({
-              id: item.id,
-              type: item.collection,
-            });
-
-            return (
-              <ListViewCard
-                name={details.name}
-                hasBoost={!!details.buff}
-                image={details.image}
-                supply={0}
-                type={details.type}
-                id={item.id}
-                key={`${item.id}-${item.collection}`}
-                onClick={() => {
-                  navigate(`/marketplace/${details.type}/${item.id}`);
-                }}
-              />
-            );
-          })}
+        <div className="flex items-center">
+          <TextInput
+            icon={SUNNYSIDE.icons.search}
+            value={search}
+            onValueChange={setSearch}
+          />
         </div>
-      </div>
-    </InnerPanel>
+        <div className="p-2">
+          <div className="flex flex-wrap gap-2">
+            {getKeys(items).length === 0 && (
+              <p className="text-sm">{t("marketplace.noCollection")}</p>
+            )}
+            {items.map((item) => {
+              const details = getTradeableDisplay({
+                id: item.id,
+                type: item.collection,
+              });
+
+              return (
+                <ListViewCard
+                  name={details.name}
+                  hasBoost={!!details.buff}
+                  image={details.image}
+                  supply={0}
+                  type={details.type}
+                  id={item.id}
+                  key={`${item.id}-${item.collection}`}
+                  onClick={() => {
+                    navigate(`/marketplace/${details.type}/${item.id}`);
+                  }}
+                />
+              );
+            })}
+          </div>
+        </div>
+      </InnerPanel>
+    </>
   );
 };
