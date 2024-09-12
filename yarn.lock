@@ -6639,16 +6639,15 @@ colorette@^2.0.16:
   resolved "https://registry.yarnpkg.com/colorette/-/colorette-2.0.16.tgz#713b9af84fdb000139f04546bd4a93f62a5085da"
   integrity sha512-hUewv7oMjCp+wkBv5Rm0v87eJhq4woh5rSR+42YSQJKecCqgIqNkZ6lAlQms/BwHPJA5NKMRlpxPRv0n8HQW6g==
 
-colyseus.js@^0.15.0:
-  version "0.15.0"
-  resolved "https://registry.yarnpkg.com/colyseus.js/-/colyseus.js-0.15.0.tgz#1c1b464953fe0a599956ed163ec6da1d44e1049f"
-  integrity sha512-PNgXocpbdBBdiNtxPxiKxBLSHel4iDJg9pqh/A6gXPUaRmClo2IGPtblrbLctdR9n3Azl3XDhyhQm1J2KJ1mHg==
+colyseus.js@^0.15.26:
+  version "0.15.26"
+  resolved "https://registry.yarnpkg.com/colyseus.js/-/colyseus.js-0.15.26.tgz#57f3ba663d3fbc044aca8ffbc637b6f956cd6778"
+  integrity sha512-FH4sloxkVLHpLJ7+KC8nCAJ5BXgeyL8RfgzhSbm1sLVSJ91hs+ji0C8TqifwYWQa+oSE5Vr5J4r4vcIG2zM5gw==
   dependencies:
     "@colyseus/schema" "^2.0.4"
     httpie "^2.0.0-next.13"
-    nanoevents "^5.1.12"
-    notepack.io "^2.1.3"
     tslib "^2.1.0"
+    ws "^8.13.0"
 
 combined-stream@^1.0.8:
   version "1.0.8"
@@ -9723,11 +9722,6 @@ multiformats@^9.4.2:
   resolved "https://registry.yarnpkg.com/multiformats/-/multiformats-9.9.0.tgz#c68354e7d21037a8f1f8833c8ccd68618e8f1d37"
   integrity sha512-HoMUjhH9T8DDBNT+6xzkrd9ga/XiBI4xLr58LJACwK6G3HTOPeMz4nB4KJs33L2BelrIJa7P0VuNaVF3hMYfjg==
 
-nanoevents@^5.1.12:
-  version "5.1.13"
-  resolved "https://registry.yarnpkg.com/nanoevents/-/nanoevents-5.1.13.tgz#0e49c30acbcf847c10f29f1d1e7147c0f88fa3d1"
-  integrity sha512-JFAeG9fp0QZnRoESHjkbVFbZ9BkOXkkagUVwZVo/pkSX+Fq1VKlY+5og/8X9CYc6C7vje/CV+bwJ5M2X0+IY9Q==
-
 nanoid@^3.3.4:
   version "3.3.4"
   resolved "https://registry.yarnpkg.com/nanoid/-/nanoid-3.3.4.tgz#730b67e3cd09e2deacf03c027c81c9d9dbc5e8ab"
@@ -9837,11 +9831,6 @@ normalize-range@^0.1.2:
   version "0.1.2"
   resolved "https://registry.npmjs.org/normalize-range/-/normalize-range-0.1.2.tgz"
   integrity sha1-LRDAa9/TEuqXd2laTShDlFa3WUI=
-
-notepack.io@^2.1.3:
-  version "2.3.0"
-  resolved "https://registry.yarnpkg.com/notepack.io/-/notepack.io-2.3.0.tgz#a6214d1cf41d9fe59d2024affaf097c1a462e27f"
-  integrity sha512-9RiFDxeydHsWOqdthRUck2Kd4UW2NzVd2xxOulZiQ9mvge6ElsHXLpwD3HEJyql6sFEnEn/eMO7HSdS0M5mWkA==
 
 npm-run-path@^4.0.1:
   version "4.0.1"
@@ -12585,6 +12574,11 @@ ws@^7.5.1:
   version "7.5.9"
   resolved "https://registry.yarnpkg.com/ws/-/ws-7.5.9.tgz#54fa7db29f4c7cec68b1ddd3a89de099942bb591"
   integrity sha512-F+P9Jil7UiSKSkppIiD94dN07AwvFixvLIj1Og1Rl9GGMuNipJnV9JzjD6XuqmAeiswGvUmNLjr5cFuXwNS77Q==
+
+ws@^8.13.0:
+  version "8.18.0"
+  resolved "https://registry.yarnpkg.com/ws/-/ws-8.18.0.tgz#0d7505a6eafe2b0e712d232b42279f53bc289bbc"
+  integrity sha512-8VbfWfHLbbwu3+N6OKsOMpBdT4kXPDDB9cJk2bJ6mh9ucxdlnNvH1e+roYkKmN9Nxw2yjz7VzeO9oOz2zJ04Pw==
 
 xml-name-validator@^3.0.0:
   version "3.0.0"
