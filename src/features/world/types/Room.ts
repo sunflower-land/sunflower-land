@@ -42,6 +42,7 @@ export interface Bud extends Schema {
   y: number;
   sceneId: SceneId;
   id: number;
+  expiration: number;
 }
 
 export interface Message extends Schema {
@@ -50,6 +51,7 @@ export interface Message extends Schema {
   sessionId: string;
   sceneId: SceneId;
   sentAt: number;
+  id: string;
 }
 
 export interface Reaction extends Schema {
