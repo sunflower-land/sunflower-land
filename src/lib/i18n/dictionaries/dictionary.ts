@@ -18,10 +18,12 @@ import chinaFlag from "assets/sfts/flags/china_flag.gif";
 import russiaFlag from "assets/sfts/flags/russia_flag.gif";
 import spainFlag from "assets/sfts/flags/spain_flag.gif";
 import italyFlag from "assets/sfts/flags/italy_flag.gif";
+import germanFlag from "assets/sfts/flags/germany_flag.gif";
 
 export type LanguageCode =
   | "en"
   | "es"
+  | "de"
   | "fr"
   | "pt-BR"
   | "tr"
@@ -43,10 +45,25 @@ export const languageDetails: Record<LanguageCode, LanguageDetails> = {
     languageImage: [britishFlag, usaFlag],
     imageAlt: ["United Kingdom Flag", "United States of America Flag"],
   },
+  de: {
+    languageName: "Deutsch",
+    languageImage: [germanFlag],
+    imageAlt: ["Germany Flag"],
+  },
+  es: {
+    languageName: "Español",
+    languageImage: [spainFlag],
+    imageAlt: ["Spain Flag"],
+  },
   fr: {
     languageName: "Français",
     languageImage: [franceFlag],
     imageAlt: ["France Flag"],
+  },
+  it: {
+    languageName: "Italiano",
+    languageImage: [italyFlag],
+    imageAlt: ["Italy Flag"],
   },
   "pt-BR": {
     languageName: "Português",
@@ -67,16 +84,6 @@ export const languageDetails: Record<LanguageCode, LanguageDetails> = {
     languageName: "简体中文",
     languageImage: [chinaFlag],
     imageAlt: ["China Flag"],
-  },
-  es: {
-    languageName: "Español",
-    languageImage: [spainFlag],
-    imageAlt: ["Spain Flag"],
-  },
-  it: {
-    languageName: "Italiano",
-    languageImage: [italyFlag],
-    imageAlt: ["Italy Flag"],
   },
 };
 
