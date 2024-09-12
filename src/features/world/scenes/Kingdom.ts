@@ -167,10 +167,11 @@ export class KingdomScene extends BaseScene {
   }
 
   create() {
-    super.create();
     this.map = this.make.tilemap({
       key: "kingdom",
     });
+
+    super.create();
 
     this.initialiseNPCs(KINGDOM_NPCS);
     this.addShopDisplayItems();

@@ -198,6 +198,7 @@ export class BeachScene extends BaseScene {
     this.map = this.make.tilemap({
       key: "beach",
     });
+
     super.create();
     //To use when there are bumpkins under testing
     // const filteredBumpkins = BUMPKINS.filter((bumpkin) => {
