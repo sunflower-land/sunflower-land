@@ -3544,6 +3544,7 @@
   "description.iron.beetle": "Жук из железа. +0.1 к добыче железа",
   "description.stone.beetle": "Жук из камня. +0.1 к добыче камня",
   "description.macaw.boost": "+0.1 к урожаю фруктов",
+  "description.camel.onesie.boost": "+0.1 к урожаю фруктов",
   "description.butterfly.boost": "20% вероятность получения +1 цветка",
   "description.squirrel.boost": "+0.1 к добыче дерева",
   "description.fairy.circle.boost": "+0.2 к урожаю диких грибов",
