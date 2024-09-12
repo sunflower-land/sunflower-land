@@ -87,7 +87,11 @@ export const getCurrentSpeed = (hive: Beehive) => {
     .sort((a, b) => a.attachedAt - b.attachedAt);
 
   return attachedFlowers.reduce((rate, attachedFlower) => {
-    if (attachedFlower.attachedUntil <= Date.now()) return rate;
+    if (
+      attachedFlower.attachedUntil <= Date.now() ||
+      attachedFlower.attachedAt > Date.now()
+    )
+      return rate;
 
     return (rate += attachedFlower.rate ?? 1);
   }, 0);
