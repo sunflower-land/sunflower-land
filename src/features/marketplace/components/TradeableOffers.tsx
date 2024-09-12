@@ -574,6 +574,8 @@ export const YourOffer: React.FC<{
     const offer = offers[offerId];
     const itemId = getOfferItem({ offer });
 
+    if (offer.fulfilledAt) return false;
+
     // Make sure the offer is for this item
     return offer.collection === collection && itemId === id;
   });
