@@ -270,7 +270,7 @@ export const HELIOS_BLACKSMITH_ITEMS: (
   },
   Macaw: {
     description: translate("description.macaw"),
-    boost: translate("description.macaw.boost"),
+    boost: translate("description.macaw.camel.onesie.boost"),
     coins: 10000,
     ingredients: {
       Apple: new Decimal(10),
