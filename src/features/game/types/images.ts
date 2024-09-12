@@ -671,6 +671,10 @@ import paperReed from "src/assets/sfts/paper_reed.webp";
 import cactusKing from "src/assets/sfts/cactus_king.webp";
 import revelingLemon from "src/assets/sfts/reveling_lemon.gif";
 import clayTablet from "src/assets/sfts/clay_tablet.webp";
+import lemonFrog from "src/assets/sfts/lemon_frog.webp";
+import sandGolem from "src/assets/sfts/sand_golem.webp";
+import scarabBeetle from "src/assets/sfts/scarab_beetle.webp";
+import sundial from "src/assets/sfts/sundial.webp";
 
 import scarab from "assets/resources/scarab.webp";
 import hieroglyph from "assets/resources/hieroglyph.webp";
@@ -738,8 +742,6 @@ export interface ItemDetails {
 
 type Items = Record<InventoryItemName | AchievementName, ItemDetails>;
 
-const crops = CROPS;
-const seeds = CROP_SEEDS;
 export const ITEM_DETAILS: Items = {
   Sunflower: {
     image: CROP_LIFECYCLE.Sunflower.crop,
@@ -4047,19 +4049,19 @@ export const ITEM_DETAILS: Items = {
     description: translate("description.butterfly"),
   },
   Sundial: {
-    image: "",
+    image: sundial,
     description: "",
   },
   "Sand Golem": {
-    image: "",
+    image: sandGolem,
     description: "",
   },
   "Lemon Frog": {
-    image: "",
+    image: lemonFrog,
     description: "",
   },
   "Scarab Beetle": {
-    image: "",
+    image: scarabBeetle,
     description: "",
   },
 };

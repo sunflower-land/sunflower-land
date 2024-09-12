@@ -327,7 +327,7 @@ import {
 } from "features/game/types/decorations";
 import { PharaohsTreasureBanner } from "./components/PharaohsTreasureBanner";
 import { DesertRose } from "./components/DesertRose";
-import { Template } from "./components/template/Template";
+// import { Template } from "./components/template/Template";
 import { PharaohChicken } from "./components/PharaohChicken";
 import { ImageStyle } from "./components/template/ImageStyle";
 import { LemonShark } from "./components/LemonShark";
@@ -1080,7 +1080,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
         width: `${PIXEL_SCALE * 15}px`,
       }}
       image={ITEM_DETAILS["Stone Beetle"].image}
-      alt="Camel"
+      alt="Stone Beetle"
     />
   ),
   "Iron Beetle": (props: CollectibleProps) => (
@@ -1095,7 +1095,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
         width: `${PIXEL_SCALE * 15}px`,
       }}
       image={ITEM_DETAILS["Iron Beetle"].image}
-      alt="Camel"
+      alt="Iron Beetle"
     />
   ),
   "Gold Beetle": (props: CollectibleProps) => (
@@ -1110,7 +1110,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
         width: `${PIXEL_SCALE * 15}px`,
       }}
       image={ITEM_DETAILS["Gold Beetle"].image}
-      alt="Camel"
+      alt="Gold Beetle"
     />
   ),
   "Fairy Circle": (props: CollectibleProps) => (
@@ -1125,7 +1125,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
         width: `${PIXEL_SCALE * 35}px`,
       }}
       image={ITEM_DETAILS["Fairy Circle"].image}
-      alt="Camel"
+      alt="Fairy Circle"
     />
   ),
   Squirrel: (props: CollectibleProps) => (
@@ -1140,7 +1140,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
         width: `${PIXEL_SCALE * 26}px`,
       }}
       image={ITEM_DETAILS.Squirrel.image}
-      alt="Camel"
+      alt="Squirrel"
     />
   ),
   Macaw: (props: CollectibleProps) => (
@@ -1155,7 +1155,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
         width: `${PIXEL_SCALE * 14}px`,
       }}
       image={ITEM_DETAILS.Macaw.image}
-      alt="Camel"
+      alt="Macaw"
     />
   ),
   Butterfly: (props: CollectibleProps) => (
@@ -1170,15 +1170,71 @@ export const COLLECTIBLE_COMPONENTS: Record<
         width: `${PIXEL_SCALE * 13}px`,
       }}
       image={ITEM_DETAILS.Butterfly.image}
-      alt="Camel"
+      alt="Butterfly"
     />
   ),
 
   // To Update
-  Sundial: Template,
-  "Sand Golem": Template,
-  "Lemon Frog": Template,
-  "Scarab Beetle": Template,
+  Sundial: (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 28}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 2}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 28}px`,
+      }}
+      image={ITEM_DETAILS.Sundial.image}
+      alt="Sundial"
+    />
+  ),
+  "Sand Golem": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 28}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 2}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 28}px`,
+      }}
+      image={ITEM_DETAILS["Sand Golem"].image}
+      alt="Sand Golem"
+    />
+  ),
+  "Lemon Frog": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 19}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * -1.5}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 19}px`,
+      }}
+      image={ITEM_DETAILS["Lemon Frog"].image}
+      alt="Lemon Frog"
+    />
+  ),
+  "Scarab Beetle": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 26}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 3}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 26}px`,
+      }}
+      image={ITEM_DETAILS["Scarab Beetle"].image}
+      alt="Scarab Beetle"
+    />
+  ),
 };
 // Need readonly versions for some troublesome components while in design mode
 
