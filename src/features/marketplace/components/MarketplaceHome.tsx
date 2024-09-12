@@ -1,9 +1,10 @@
-import { InnerPanel } from "components/ui/Panel";
+import { ButtonPanel, InnerPanel, Panel } from "components/ui/Panel";
 import { ITEM_DETAILS } from "features/game/types/images";
 import React, { useContext, useState } from "react";
 
 import budIcon from "assets/icons/bud.png";
 import wearableIcon from "assets/icons/wearables.webp";
+import lightning from "assets/icons/lightning.png";
 import { Context } from "features/game/GameProvider";
 import { GameWallet } from "features/wallet/Wallet";
 
@@ -14,6 +15,10 @@ import { signTypedData } from "@wagmi/core";
 import { config } from "features/wallet/WalletProvider";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { TextInput } from "components/ui/TextInput";
+import { TranslationKeys } from "lib/i18n/dictionaries/types";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { Label } from "components/ui/Label";
+import { SquareIcon } from "components/ui/SquareIcon";
 
 type MarketplaceCollection = {
   name: string;
@@ -52,7 +57,9 @@ export const MarketplaceHome: React.FC = () => {
 
   return (
     <div className="flex h-full">
-      <InnerPanel className="w-64 h-96 mr-1 hidden lg:block">{`Filters`}</InnerPanel>
+      <InnerPanel className="w-64 h-96 mr-1 hidden lg:block">
+        <Filters />
+      </InnerPanel>
       <div className="h-full w-full">
         <InnerPanel className="w-full mb-1">
           <TextInput
@@ -69,6 +76,93 @@ export const MarketplaceHome: React.FC = () => {
           />
         </InnerPanel>
       </div>
+    </div>
+  );
+};
+
+type MarketplacePurpose = "boost" | "decoration" | "resource";
+
+type MarketplaceFilters = {
+  collections: CollectionName[];
+  purpose: MarketplacePurpose[];
+};
+
+const COLLECTION_FILTERS: {
+  name: CollectionName;
+  icon: string;
+  term: TranslationKeys;
+}[] = [
+  {
+    name: "collectibles",
+    term: "collectibles",
+    icon: ITEM_DETAILS["Gnome"].image,
+  },
+  {
+    name: "wearables",
+    term: "wearables",
+    icon: wearableIcon,
+  },
+  {
+    name: "buds",
+    term: "buds",
+    icon: budIcon,
+  },
+];
+
+const PURPOSE_FILTERS: {
+  name: MarketplacePurpose;
+  icon: string;
+  term: TranslationKeys;
+}[] = [
+  {
+    name: "boost",
+    term: "marketplace.boost",
+    icon: lightning,
+  },
+  {
+    name: "decoration",
+    term: "decoration",
+    icon: SUNNYSIDE.icons.heart,
+  },
+  {
+    name: "resource",
+    term: "resource",
+    icon: ITEM_DETAILS.Carrot.image,
+  },
+];
+
+const Filters: React.FC = () => {
+  const { t } = useAppTranslation();
+  return (
+    <div className="p-1">
+      <Label className="-ml-1 mb-2" type="default">
+        {t("marketplace.category")}
+      </Label>
+      {COLLECTION_FILTERS.map((filter) => (
+        <div className="flex justify-between items-center">
+          <div className="flex items-center">
+            <SquareIcon icon={filter.icon} width={10} />
+            <span className="text-sm ml-1">{t(filter.term)}</span>
+          </div>
+          <ButtonPanel>
+            <div className="h-2 w-2"></div>
+          </ButtonPanel>
+        </div>
+      ))}
+      <Label className="-ml-1 my-2" type="default">
+        {t("marketplace.purpose")}
+      </Label>
+      {PURPOSE_FILTERS.map((filter) => (
+        <div className="flex justify-between items-center">
+          <div className="flex items-center">
+            <SquareIcon icon={filter.icon} width={10} />
+            <span className="text-sm ml-1">{t(filter.term)}</span>
+          </div>
+          <ButtonPanel>
+            <div className="h-2 w-2"></div>
+          </ButtonPanel>
+        </div>
+      ))}
     </div>
   );
 };
