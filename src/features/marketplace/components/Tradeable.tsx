@@ -157,7 +157,7 @@ const TradeableHeader: React.FC<{
   }
 
   if (display.type === "buds") {
-    count = !!getChestBuds(game)[tradeable?.id as number] ? 1 : 0;
+    count = getChestBuds(game)[tradeable?.id as number] ? 1 : 0;
   }
 
   return (
