@@ -227,6 +227,7 @@ const GameContent: React.FC = () => {
       <div className="absolute w-full h-full z-10">
         <Routes>
           <Route path="/" element={<Land />} />
+          <Route path="/marketplace/*" element={<Land />} />
           {/* Legacy route */}
           <Route path="/farm" element={<Land />} />
           <Route path="/home" element={<Home />} />
