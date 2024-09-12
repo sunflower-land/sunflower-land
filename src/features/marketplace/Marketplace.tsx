@@ -29,7 +29,7 @@ const tabs = [
   {
     name: "Profile",
     icon: SUNNYSIDE.icons.player,
-    alert: 0,
+    alert: 1,
     route: "/marketplace/profile",
   },
   {
