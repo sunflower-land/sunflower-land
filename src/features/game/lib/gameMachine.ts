@@ -1433,14 +1433,14 @@ export function startGame(authContext: AuthContext) {
                 });
               }
 
-              const state = await postEffect({
+              const { gameState, data } = await postEffect({
                 farmId: Number(context.farmId),
                 effect,
                 token: authContext.user.rawToken as string,
                 transactionId: context.transactionId as string,
               });
 
-              return { state };
+              return { state: gameState, response: data };
             },
             onDone: [
               {

@@ -242,6 +242,7 @@ const EVENT_TO_NAME: Record<TransactionName, string> = {
   "transaction.progressSynced": "Store on chain",
   "transaction.sflWithdrawn": "Withdraw SFL",
   "transaction.wearablesWithdrawn": "Withdraw wearables",
+  "transaction.offerAccepted": "Accept offer",
 };
 
 export const TransactionProgress: React.FC<Props> = ({

@@ -7,6 +7,7 @@ import { Label } from "components/ui/Label";
 import { InnerPanel, Panel } from "components/ui/Panel";
 import {
   CollectionName,
+  Offer,
   TradeableDetails,
 } from "features/game/types/marketplace";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -31,6 +32,15 @@ import { signTypedData } from "@wagmi/core";
 import { config } from "features/wallet/WalletProvider";
 import { getKeys } from "features/game/types/decorations";
 import { RemoveOffer } from "./RemoveOffer";
+import {
+  getChestBuds,
+  getChestItems,
+} from "features/island/hud/components/inventory/utils/inventory";
+import { KNOWN_ITEMS } from "features/game/types";
+import { ITEM_NAMES } from "features/game/types/bumpkin";
+import { availableWardrobe } from "features/game/events/landExpansion/equip";
+import { CONFIG } from "lib/config";
+import { Transaction } from "features/island/hud/Transaction";
 
 // TODO - move make offer here, signing state + submitting state
 export const TradeableSummary: React.FC<{
@@ -85,21 +95,32 @@ const MakeOffer: React.FC<{
     const signature = await signTypedData(config, {
       primaryType: "Offer",
       types: {
+        EIP712Domain: [
+          { name: "name", type: "string" },
+          { name: "version", type: "string" },
+          { name: "chainId", type: "uint256" },
+          { name: "verifyingContract", type: "address" },
+        ],
         Offer: [
           { name: "item", type: "string" },
           { name: "collection", type: "string" },
+          { name: "id", type: "uint256" },
           { name: "quantity", type: "uint256" },
           { name: "SFL", type: "uint256" },
         ],
       },
+      domain: {
+        name: "TESTING",
+        version: "1",
+        chainId: BigInt(CONFIG.POLYGON_CHAIN_ID),
+        verifyingContract: CONFIG.MARKETPLACE_CONTRACT as `0x${string}`,
+      },
       message: {
         item: display.name,
+        collection: display.type,
+        id: BigInt(id),
         quantity: BigInt(1),
         SFL: BigInt(offer),
-        collection: display.type,
-      },
-      domain: {
-        name: "Sunflower Land",
       },
     });
 
@@ -134,6 +155,7 @@ const MakeOffer: React.FC<{
           id,
           collection: display.type,
           signature,
+          contract: CONFIG.MARKETPLACE_CONTRACT,
           sfl: offer,
         },
       });
@@ -272,6 +294,153 @@ const MakeOffer: React.FC<{
   );
 };
 
+const AcceptOffer: React.FC<{
+  onClose: () => void;
+  tradeable?: TradeableDetails;
+  display: TradeableDisplay;
+  offer: Offer;
+  id: number;
+  onOfferAccepted: () => void;
+}> = ({ onClose, tradeable, display, id, offer, onOfferAccepted }) => {
+  const { t } = useAppTranslation();
+
+  const { gameService } = useContext(Context);
+  const [gameState] = useActor(gameService);
+
+  const [isAccepting, setIsAccepting] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
+
+  if (gameState.context.state.transaction && tradeable?.type === "onchain") {
+    return <Transaction isBlocked />;
+  }
+
+  const confirm = async () => {
+    setIsAccepting(true);
+
+    gameService.send("POST_EFFECT", {
+      effect: {
+        type: "marketplace.offerAccepted",
+        id: offer.tradeId,
+      },
+    });
+
+    await waitFor(
+      gameService,
+      (state) => {
+        if (state.matches("error")) throw new Error("Insert failed");
+        return state.matches("playing");
+      },
+      { timeout: 60 * 1000 },
+    );
+
+    if (tradeable?.type === "instant") {
+      confetti();
+      setShowSuccess(true);
+      return;
+    } else {
+      // Handled through transaction UX
+      onClose();
+    }
+
+    setIsAccepting(false);
+  };
+
+  if (showSuccess) {
+    return (
+      <>
+        <div className="p-2">
+          <Label type="success" className="mb-2">
+            {t("success")}
+          </Label>
+          <p className="text-sm mb-2">{t("marketplace.offerSuccess")}</p>
+        </div>
+        <Button
+          onClick={() => {
+            onOfferAccepted();
+          }}
+        >
+          {t("continue")}
+        </Button>
+      </>
+    );
+  }
+
+  if (isAccepting) {
+    return <Loading />;
+  }
+
+  const game = gameState.context.state;
+
+  let hasItem = false;
+
+  if (display.type === "collectibles") {
+    const name = KNOWN_ITEMS[tradeable?.id as number];
+    hasItem = !!getChestItems(game)[name]?.gte(1);
+  }
+
+  if (display.type === "wearables") {
+    const name = ITEM_NAMES[tradeable?.id as number];
+    hasItem = !!availableWardrobe(game)[name];
+  }
+
+  if (display.type === "buds") {
+    hasItem = !!getChestBuds(game)[tradeable?.id as number];
+  }
+
+  const Content = () => {
+    return (
+      <>
+        <div className="p-2">
+          <div className="flex justify-between mb-2">
+            <Label type="default" className="-ml-1">
+              {t("marketplace.acceptOffer")}
+            </Label>
+            {tradeable?.type === "onchain" && (
+              <Label type="formula" icon={walletIcon} className="-mr-1">
+                {t("marketplace.walletRequired")}
+              </Label>
+            )}
+          </div>
+          <TradeableSummary display={display} sfl={offer.sfl} />
+        </div>
+
+        {!hasItem && (
+          <Label
+            type="danger"
+            className="my-2"
+          >{`You do not have ${display.name}`}</Label>
+        )}
+
+        <div className="flex">
+          <Button className="mr-1" onClick={() => onClose()}>
+            {t("cancel")}
+          </Button>
+          <Button
+            disabled={!hasItem}
+            onClick={() => confirm()}
+            className="relative"
+          >
+            <span>{t("confirm")}</span>
+            {tradeable?.type === "onchain" && (
+              <img src={walletIcon} className="absolute right-1 top-0.5 h-7" />
+            )}
+          </Button>
+        </div>
+      </>
+    );
+  };
+
+  if (tradeable?.type === "onchain") {
+    return (
+      <GameWallet action="marketplace">
+        <Content />
+      </GameWallet>
+    );
+  }
+
+  return <Content />;
+};
+
 export const TradeableOffers: React.FC<{
   tradeable?: TradeableDetails;
   farmId: number;
@@ -284,6 +453,7 @@ export const TradeableOffers: React.FC<{
   const { t } = useAppTranslation();
 
   const [showMakeOffer, setShowMakeOffer] = useState(false);
+  const [acceptOffer, setAcceptOffer] = useState<Offer>();
 
   const topOffer = tradeable?.offers.reduce((highest, listing) => {
     return listing.sfl > highest.sfl ? listing : highest;
@@ -300,6 +470,21 @@ export const TradeableOffers: React.FC<{
             onClose={() => setShowMakeOffer(false)}
             onOfferMade={() => {
               setShowMakeOffer(false);
+              onOfferMade();
+            }}
+          />
+        </Panel>
+      </Modal>
+      <Modal show={!!acceptOffer} onHide={() => setAcceptOffer(undefined)}>
+        <Panel>
+          <AcceptOffer
+            id={id}
+            tradeable={tradeable}
+            display={display}
+            offer={acceptOffer as Offer}
+            onClose={() => setAcceptOffer(undefined)}
+            onOfferAccepted={() => {
+              setAcceptOffer(undefined);
               onOfferMade();
             }}
           />
@@ -322,7 +507,12 @@ export const TradeableOffers: React.FC<{
                 <img src={sflIcon} className="h-8 mr-2" />
                 <p className="text-base">{`${topOffer.sfl} SFL`}</p>
               </div>
-              <Button className="w-fit">{t("marketplace.acceptOffer")}</Button>
+              <Button
+                onClick={() => setAcceptOffer(topOffer)}
+                className="w-fit"
+              >
+                {t("marketplace.acceptOffer")}
+              </Button>
             </div>
           </div>
         </InnerPanel>
@@ -383,6 +573,8 @@ export const YourOffer: React.FC<{
   const offerIds = getKeys(offers).filter((offerId) => {
     const offer = offers[offerId];
     const itemId = getOfferItem({ offer });
+
+    if (offer.fulfilledAt) return false;
 
     // Make sure the offer is for this item
     return offer.collection === collection && itemId === id;

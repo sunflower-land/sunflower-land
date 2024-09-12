@@ -14,7 +14,8 @@ export type Tradeable = {
   type: "onchain" | "instant";
 };
 
-type Offer = {
+export type Offer = {
+  tradeId: string;
   sfl: number;
   quantity: number;
   offeredById: number;
