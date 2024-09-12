@@ -53,24 +53,28 @@ export const Collection: React.FC<Props> = ({ type, search }) => {
     }) ?? [];
 
   return (
-    <div className="flex flex-wrap gap-2">
+    <div className="flex flex-wrap w-full">
       {items.map((item) => {
         const display = getTradeableDisplay({ type, id: item.id });
 
         return (
-          <ListViewCard
-            name={display.name}
-            hasBoost={!!display.buff}
-            price={new Decimal(item.floor)}
-            image={display.image}
-            supply={item.supply}
-            type={type}
-            id={item.id}
+          <div
+            className="w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/5 xl:w-1/6 pr-1 pb-1"
             key={item.id}
-            onClick={() => {
-              navigate(`/marketplace/${type}/${item.id}`);
-            }}
-          />
+          >
+            <ListViewCard
+              name={display.name}
+              hasBoost={!!display.buff}
+              price={new Decimal(item.floor)}
+              image={display.image}
+              supply={item.supply}
+              type={type}
+              id={item.id}
+              onClick={() => {
+                navigate(`/marketplace/${type}/${item.id}`);
+              }}
+            />
+          </div>
         );
       })}
     </div>

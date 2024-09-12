@@ -51,17 +51,17 @@ export const MarketplaceHome: React.FC = () => {
   const [search, setSearch] = useState("");
 
   return (
-    <div className="flex">
-      <InnerPanel className="w-64 h-96 mr-1 hidden sm:block">{`Filters`}</InnerPanel>
+    <div className="flex h-full">
+      <InnerPanel className="w-64 h-96 mr-1 hidden lg:block">{`Filters`}</InnerPanel>
       <div className="h-full w-full">
-        <InnerPanel className="h-full  w-full mb-1">
+        <InnerPanel className="w-full mb-1">
           <TextInput
             icon={SUNNYSIDE.icons.search}
             value={search}
             onValueChange={setSearch}
           />
         </InnerPanel>
-        <InnerPanel className="h-full  w-full">
+        <InnerPanel className="h-full  w-full overflow-scroll scrollable pr-1 overflow-x-hidden">
           <Collection
             search={search}
             key={collection}

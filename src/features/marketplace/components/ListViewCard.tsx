@@ -87,7 +87,7 @@ export const ListViewCard: React.FC<Props> = ({
         />
       )}
       <ButtonPanel onClick={onClick}>
-        <div className="w-32 sm:w-40 flex flex-col">
+        <div className="w-full flex flex-col">
           <div className="relative">
             <p className="text-white absolute top-1 left-1 text-xs">{`x${supply}`}</p>
             {type === "buds" ? (
