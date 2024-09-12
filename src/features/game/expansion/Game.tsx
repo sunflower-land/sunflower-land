@@ -37,6 +37,7 @@ import { Sniped } from "../components/Sniped";
 import { NewMail } from "./components/NewMail";
 import { Blacklisted } from "../components/Blacklisted";
 import { AirdropPopup } from "./components/Airdrop";
+import { OffersPopup } from "./components/Offers";
 import { PIXEL_SCALE, TEST_FARM } from "../lib/constants";
 import classNames from "classnames";
 import { Label } from "components/ui/Label";
@@ -105,6 +106,7 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   mailbox: false,
   blacklisted: true,
   airdrop: true,
+  offers: true,
   portalling: true,
   provingPersonhood: false,
   sellMarketResource: false,
@@ -159,6 +161,7 @@ const isRefundingAuction = (state: MachineState) =>
 const isPromoing = (state: MachineState) => state.matches("promo");
 const isBlacklisted = (state: MachineState) => state.matches("blacklisted");
 const hasAirdrop = (state: MachineState) => state.matches("airdrop");
+const hasFulfilledOffers = (state: MachineState) => state.matches("offers");
 const hasSpecialOffer = (state: MachineState) => state.matches("specialOffer");
 const isPlaying = (state: MachineState) => state.matches("playing");
 const somethingArrived = (state: MachineState) =>
@@ -287,6 +290,7 @@ export const GameWrapper: React.FC = ({ children }) => {
   const promo = useSelector(gameService, isPromoing);
   const blacklisted = useSelector(gameService, isBlacklisted);
   const airdrop = useSelector(gameService, hasAirdrop);
+  const showOffers = useSelector(gameService, hasFulfilledOffers);
   const specialOffer = useSelector(gameService, hasSpecialOffer);
   const playing = useSelector(gameService, isPlaying);
   const hasSomethingArrived = useSelector(gameService, somethingArrived);
@@ -466,6 +470,7 @@ export const GameWrapper: React.FC = ({ children }) => {
             {marketPriceChanged && <PriceChange />}
             {promo && <Promo />}
             {airdrop && <AirdropPopup />}
+            {showOffers && <OffersPopup />}
             {specialOffer && <VIPOffer />}
             {hasSomethingArrived && <SomethingArrived />}
           </Panel>

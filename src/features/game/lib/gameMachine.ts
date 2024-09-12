@@ -89,6 +89,7 @@ import { OFFLINE_FARM } from "./landData";
 import { isValidRedirect } from "features/portal/lib/portalUtil";
 import { Effect, postEffect } from "../actions/effect";
 import { TRANSACTION_SIGNATURES, TransactionName } from "../types/transactions";
+import { getKeys } from "../types/decorations";
 
 // Run at startup in case removed from query params
 const portalName = new URLSearchParams(window.location.search).get("portal");
@@ -434,6 +435,7 @@ export type BlockchainState = {
     | "priceChanged"
     | "buds"
     | "airdrop"
+    | "offers"
     | "coolingDown"
     | "buyingBlockBucks"
     | "auctionResults"
@@ -771,6 +773,13 @@ export function startGame(authContext: AuthContext) {
               cond: (context: Context) => !!context.state.auctioneer.bid,
             },
             {
+              target: "offers",
+              cond: (context: Context) =>
+                getKeys(context.state.trades.offers ?? {}).some(
+                  (id) => !!context.state.trades.offers![id].fulfilledAt,
+                ),
+            },
+            {
               target: "playing",
             },
           ],
@@ -828,6 +837,17 @@ export function startGame(authContext: AuthContext) {
         airdrop: {
           on: {
             "airdrop.claimed": (GAME_EVENT_HANDLERS as any)["airdrop.claimed"],
+            CLOSE: {
+              target: "playing",
+            },
+          },
+        },
+        offers: {
+          on: {
+            "offer.claimed": (GAME_EVENT_HANDLERS as any)["offer.claimed"],
+            RESET: {
+              target: "refreshing",
+            },
             CLOSE: {
               target: "playing",
             },
@@ -1695,6 +1715,18 @@ export function startGame(authContext: AuthContext) {
           entry: "setTransactionId",
           invoke: {
             src: async (context, e) => {
+              if (context.actions.length > 0) {
+                await autosave({
+                  farmId: Number(context.farmId),
+                  sessionId: context.sessionId as string,
+                  actions: context.actions,
+                  token: authContext.user.rawToken as string,
+                  fingerprint: context.fingerprint as string,
+                  deviceTrackerId: context.deviceTrackerId as string,
+                  transactionId: context.transactionId as string,
+                });
+              }
+
               const { success, changeset } = await reset({
                 farmId: context.farmId,
                 token: authContext.user.rawToken as string,
@@ -1709,6 +1741,7 @@ export function startGame(authContext: AuthContext) {
                 target: "loading",
                 actions: assign({
                   revealed: (_, event) => event.data.changeset,
+                  actions: (_) => [],
                 }),
               },
             ],
