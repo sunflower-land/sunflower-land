@@ -3580,5 +3580,6 @@
   "description.iron.beetle": "Demirden yapılmış böcek.",
   "description.stone.beetle": "Taştan yapılmış böcek.",
   "description.macaw.boost": "+0.1 Meyve Yaması Verimi",
-  "description.camel.onesie.boost": "+0.1 Meyve Yaması Verimi"
+  "description.camel.onesie.boost": "+0.1 Meyve Yaması Verimi",
+  "marketplace.offerClaimed": "Tebrikler, teklifiniz kabul edildi!"
 }

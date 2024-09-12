@@ -3580,5 +3580,6 @@
   "description.iron.beetle": "Scarabée en fer.",
   "description.stone.beetle": "Scarabée en pierre.",
   "description.macaw.boost": "Rendement des parcelles fruitières de +0,1",
-  "description.camel.onesie.boost": "Rendement des parcelles fruitières de +0,1"
+  "description.camel.onesie.boost": "Rendement des parcelles fruitières de +0,1",
+  "marketplace.offerClaimed": "Félicitations, votre offre a été acceptée !"
 }

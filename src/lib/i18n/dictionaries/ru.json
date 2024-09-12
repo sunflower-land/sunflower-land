@@ -3580,5 +3580,6 @@
   "description.iron.beetle": "Жук сделан из железа.",
   "description.stone.beetle": "Жук, сделанный из камня.",
   "description.macaw.boost": "Урожайность фруктовых грядок +0,1",
-  "description.camel.onesie.boost": "Урожайность фруктовых грядок +0,1"
+  "description.camel.onesie.boost": "Урожайность фруктовых грядок +0,1",
+  "marketplace.offerClaimed": "Поздравляем, ваше предложение принято!"
 }

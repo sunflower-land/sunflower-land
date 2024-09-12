@@ -3580,5 +3580,6 @@
   "description.iron.beetle": "Scarabeo in ferro.",
   "description.stone.beetle": "Scarabeo in pietra.",
   "description.macaw.boost": "+0,1 resa in frutteto",
-  "description.camel.onesie.boost": "+0,1 resa in frutteto"
+  "description.camel.onesie.boost": "+0,1 resa in frutteto",
+  "marketplace.offerClaimed": "Congratulazioni, la tua offerta è stata accettata!"
 }

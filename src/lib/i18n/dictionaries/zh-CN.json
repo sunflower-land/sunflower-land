@@ -3580,5 +3580,6 @@
   "description.iron.beetle": "甲壳虫由铁制成。",
   "description.stone.beetle": "甲壳虫是用石头做的。",
   "description.macaw.boost": "+0.1 水果地产量",
-  "description.camel.onesie.boost": "+0.1 水果地产量"
+  "description.camel.onesie.boost": "+0.1 水果地产量",
+  "marketplace.offerClaimed": "恭喜，您的报价已被接受！"
 }
