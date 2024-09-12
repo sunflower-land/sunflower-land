@@ -825,7 +825,7 @@ const NIGHTSHADE_FACTION_ITEMS: Record<
 export const FACTION_SHOP_KEYS: Record<Keys, FactionShopKeys> = {
   "Treasure Key": {
     name: "Treasure Key",
-    price: new Decimal(500),
+    price: new Decimal(1000),
     limit: null,
     currency: "Mark",
     shortDescription: translate("description.treasure.key"),
@@ -833,7 +833,7 @@ export const FACTION_SHOP_KEYS: Record<Keys, FactionShopKeys> = {
   },
   "Rare Key": {
     name: "Rare Key",
-    price: new Decimal(1500),
+    price: new Decimal(3000),
     limit: null,
     currency: "Mark",
     shortDescription: translate("description.rare.key"),
@@ -841,7 +841,7 @@ export const FACTION_SHOP_KEYS: Record<Keys, FactionShopKeys> = {
   },
   "Luxury Key": {
     name: "Luxury Key",
-    price: new Decimal(5000),
+    price: new Decimal(10000),
     limit: null,
     currency: "Mark",
     shortDescription: translate("description.luxury.key"),
