@@ -17,7 +17,7 @@ export const calculateMuteTime = (
     }
     case "remaining": {
       const now = new Date().getTime();
-      const remaining = time - now;
+      const remaining = (time - now) / 1000;
 
       return secondsToString(remaining, {
         length: "full",
