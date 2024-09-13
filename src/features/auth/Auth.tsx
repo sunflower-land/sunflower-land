@@ -106,8 +106,8 @@ export const Auth: React.FC<Props> = ({ showOfflineModal }) => {
             )}
             {authState.matches("signUp") && <SignUp />}
             {authState.matches("oauthorising") && <Loading />}
-            {authState.matches("creating") && <Loading text="Creating" />}
-            {authState.matches("claiming") && <Loading text="Claiming" />}
+            {authState.matches("creating") && <Loading text={t("creating")} />}
+            {authState.matches("claiming") && <Loading text={t("claiming")} />}
             {authState.matches("unauthorised") && (
               <ErrorMessage
                 errorCode={authState.context.errorCode as ErrorCode}

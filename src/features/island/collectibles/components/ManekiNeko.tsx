@@ -15,12 +15,14 @@ import { TimeLeftPanel } from "components/ui/TimeLeftPanel";
 import classNames from "classnames";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 import { canShake } from "features/game/types/removeables";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {
   id: string;
 }
 
 export const ManekiNeko: React.FC<Props> = ({ id }) => {
+  const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
   const [showTooltip, setShowTooltip] = useState(false);
@@ -108,7 +110,7 @@ export const ManekiNeko: React.FC<Props> = ({ id }) => {
           }}
         >
           <TimeLeftPanel
-            text="Ready in:"
+            text={t("ready.in")}
             timeLeft={nextRefreshInSeconds}
             showTimeLeft={showTooltip}
           />
