@@ -3580,5 +3580,12 @@
   "description.stone.beetle": "Taştan yapılmış böcek.",
   "description.macaw.boost": "+0.1 Meyve Yaması Verimi",
   "description.camel.onesie.boost": "+0.1 Meyve Yaması Verimi",
-  "marketplace.offerClaimed": "Tebrikler, teklifiniz kabul edildi!"
+  "marketplace.offerClaimed": "Tebrikler, teklifiniz kabul edildi!",
+  "ready.in": "Hazır:",
+  "creating": "Oluşturma",
+  "claiming": "Talep Etmek",
+  "depositing": "Para Yatırma",
+  "listing": "Listeleme",
+  "deleting.listing": "Listeyi silme",
+  "selling": "Satışlar"
 }

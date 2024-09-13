@@ -3580,5 +3580,12 @@
   "description.stone.beetle": "Besouro feito de pedra.",
   "description.macaw.boost": "+0,1 Rendimento de canteiros de frutas",
   "description.camel.onesie.boost": "+0,1 Rendimento de canteiros de frutas",
-  "marketplace.offerClaimed": "Parabéns, sua oferta foi aceita!"
+  "marketplace.offerClaimed": "Parabéns, sua oferta foi aceita!",
+  "ready.in": "Pronto em:",
+  "creating": "Criando",
+  "claiming": "Reivindicando",
+  "depositing": "Depositando",
+  "listing": "Listando",
+  "deleting.listing": "Excluindo o anúncio",
+  "selling": "Vendendo"
 }

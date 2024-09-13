@@ -3580,5 +3580,12 @@
   "description.stone.beetle": "Escarabajo hecho de piedra.",
   "description.macaw.boost": "+0.1 Rendimiento de huertos frutales",
   "description.camel.onesie.boost": "+0.1 Rendimiento de huertos frutales",
-  "marketplace.offerClaimed": "¡Enhorabuena, tu oferta ha sido aceptada!"
+  "marketplace.offerClaimed": "¡Enhorabuena, tu oferta ha sido aceptada!",
+  "ready.in": "Listo en:",
+  "creating": "Creando",
+  "claiming": "Reclamando",
+  "depositing": "Depositar",
+  "listing": "Listado",
+  "deleting.listing": "Eliminar el anuncio",
+  "selling": "Vender"
 }

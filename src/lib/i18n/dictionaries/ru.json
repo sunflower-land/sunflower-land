@@ -3580,5 +3580,12 @@
   "description.stone.beetle": "Жук, сделанный из камня.",
   "description.macaw.boost": "Урожайность фруктовых грядок +0.1",
   "description.camel.onesie.boost": "Урожайность фруктовых грядок +0.1",
-  "marketplace.offerClaimed": "Поздравляем, ваше предложение принято!"
+  "marketplace.offerClaimed": "Поздравляем, ваше предложение принято!",
+  "ready.in": "Готово к работе:",
+  "creating": "Создание",
+  "claiming": "Утверждая",
+  "depositing": "Внесение депозита",
+  "listing": "Объявление",
+  "deleting.listing": "Удаление объявления",
+  "selling": "Продажа"
 }
