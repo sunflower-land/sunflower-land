@@ -31,6 +31,7 @@ import { DEFAULT_HONEY_PRODUCTION_TIME } from "../lib/updateBeehives";
 import { translate } from "lib/i18n/translate";
 import { canDrillOilReserve } from "../events/landExpansion/drillOilReserve";
 import { getKeys } from "./decorations";
+import Decimal from "decimal.js-light";
 
 export type Restriction = [boolean, string];
 type RemoveCondition = (gameState: GameState) => Restriction;
@@ -661,4 +662,15 @@ export const hasMoveRestriction = (
   );
 
   return [isRestricted && isAoEItem, restrictionReason];
+};
+
+export const canWithdrawBoostedCollectible = (
+  name: InventoryItemName,
+  state?: GameState,
+): boolean => {
+  if (!state) return false;
+
+  if ((state.inventory?.[name] ?? new Decimal(0)).greaterThan(1)) return true;
+
+  return REMOVAL_RESTRICTIONS[name]?.(state)[0] ?? false;
 };

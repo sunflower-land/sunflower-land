@@ -80,6 +80,7 @@ import {
 import { canWithdrawBoostedWearable } from "./wearableValidation";
 import { FlowerName, FlowerSeedName, MutantFlowerName } from "./flowers";
 import { FactionShopCollectibleName, FactionShopFoodName } from "./factionShop";
+import { canWithdrawBoostedCollectible } from "./removeables";
 
 const canWithdrawTimebasedItem = (availableAt: Date) => {
   const now = new Date();
@@ -192,14 +193,15 @@ const questItems: Record<QuestItem, () => boolean> = {
   "Sunflower Key": () => false,
 };
 
-const warTentItems: Record<WarTentItem, () => boolean> = {
+const warTentItems: Record<WarTentItem, (state?: GameState) => boolean> = {
   "Beetroot Amulet": () => false,
   "Carrot Amulet": () => false,
   "Sunflower Amulet": () => false,
   "Green Amulet": () => false,
   "Skull Hat": () => false,
   "Sunflower Shield": () => false,
-  "Undead Rooster": () => true,
+  "Undead Rooster": (state) =>
+    canWithdrawBoostedCollectible("Undead Rooster", state),
   "War Skull": () => true,
   "War Tombstone": () => true,
   "Warrior Helmet": () => false,
@@ -242,17 +244,20 @@ const factionBanners = {
   "Sunflorian Faction Banner": () => false,
 };
 
-const heliosBlacksmith: Record<HeliosBlacksmithItem, () => boolean> = {
+const heliosBlacksmith: Record<
+  HeliosBlacksmithItem,
+  (state?: GameState) => boolean
+> = {
   "Immortal Pear": () => false,
   "Basic Scarecrow": () => false,
   Bale: () => false,
   "Scary Mike": () => false,
   "Laurie the Chuckle Crow": () => false,
   "Grain Grinder": () => true,
-  Kernaldo: () => true,
-  Poppy: () => true,
-  Nana: () => true,
-  "Soil Krabby": () => true,
+  Kernaldo: (state) => canWithdrawBoostedCollectible("Kernaldo", state),
+  Poppy: (state) => canWithdrawBoostedCollectible("Poppy", state),
+  Nana: (state) => canWithdrawBoostedCollectible("Nana", state),
+  "Soil Krabby": (state) => canWithdrawBoostedCollectible("Soil Krabby", state),
   "Skill Shrimpy": () => true,
   "Stone Beetle": () => false,
   "Iron Beetle": () => false,
@@ -306,16 +311,23 @@ const resources: Record<ResourceName, () => boolean> = {
   "Oil Reserve": () => false,
 };
 
-const mutantChickens: Record<MutantChicken, () => boolean> = {
-  "Ayam Cemani": () => true,
-  "Fat Chicken": () => true,
-  "Rich Chicken": () => true,
-  "Speed Chicken": () => true,
-  "El Pollo Veloz": () => true,
-  "Banana Chicken": () => true,
-  "Crim Peckster": () => true,
-  "Knight Chicken": () => true,
-  "Pharaoh Chicken": () =>
+const mutantChickens: Record<MutantChicken, (state?: GameState) => boolean> = {
+  "Ayam Cemani": (state) => canWithdrawBoostedCollectible("Ayam Cemani", state),
+  "Fat Chicken": (state) => canWithdrawBoostedCollectible("Fat Chicken", state),
+  "Rich Chicken": (state) =>
+    canWithdrawBoostedCollectible("Rich Chicken", state),
+  "Speed Chicken": (state) =>
+    canWithdrawBoostedCollectible("Speed Chicken", state),
+  "El Pollo Veloz": (state) =>
+    canWithdrawBoostedCollectible("El Pollo Veloz", state),
+  "Banana Chicken": (state) =>
+    canWithdrawBoostedCollectible("Banana Chicken", state),
+  "Crim Peckster": (state) =>
+    canWithdrawBoostedCollectible("Crim Peckster", state),
+  "Knight Chicken": (state) =>
+    canWithdrawBoostedCollectible("Knight Chicken", state),
+  "Pharaoh Chicken": (state) =>
+    canWithdrawBoostedCollectible("Pharaoh Chicken", state) &&
     canWithdrawTimebasedItem(SEASONS["Pharaoh's Treasure"].endDate),
 };
 
@@ -639,10 +651,13 @@ const seasonalDecorations: Record<SeasonalDecorationName, () => boolean> = {
   "Paper Reed": () => hasSeasonEnded("Pharaoh's Treasure"),
 };
 
-const mutantCrop: Record<MutantCropName, () => boolean> = {
-  "Stellar Sunflower": () => true,
-  "Potent Potato": () => true,
-  "Radical Radish": () => true,
+const mutantCrop: Record<MutantCropName, (state?: GameState) => boolean> = {
+  "Stellar Sunflower": (state) =>
+    canWithdrawBoostedCollectible("Stellar Sunflower", state),
+  "Potent Potato": (state) =>
+    canWithdrawBoostedCollectible("Potent Potato", state),
+  "Radical Radish": (state) =>
+    canWithdrawBoostedCollectible("Radical Radish", state),
 };
 
 const specialEvents: Record<SpecialEvent | MOMEventItem, () => boolean> = {
@@ -657,11 +672,15 @@ const points: Record<Points, () => boolean> = {
   "Goblin War Point": () => false,
 };
 
-const goblinBlacksmith: Record<GoblinBlacksmithItemName, () => boolean> = {
+const goblinBlacksmith: Record<
+  GoblinBlacksmithItemName,
+  (state?: GameState) => boolean
+> = {
   "Mushroom House": () => true,
-  Obie: () => true,
-  "Purple Trail": () => true,
-  Maximus: () => true,
+  Obie: (state) => canWithdrawBoostedCollectible("Obie", state),
+  "Purple Trail": (state) =>
+    canWithdrawBoostedCollectible("Purple Trail", state),
+  Maximus: (state) => canWithdrawBoostedCollectible("Maximus", state),
 };
 
 const animals: Record<Animal, () => boolean> = {
@@ -671,94 +690,124 @@ const animals: Record<Animal, () => boolean> = {
   Chicken: () => false,
 };
 
-const barnItems: Record<BarnItem, () => boolean> = {
-  "Chicken Coop": () => true,
-  "Easter Bunny": () => true,
+const barnItems: Record<BarnItem, (state?: GameState) => boolean> = {
+  "Chicken Coop": (state) =>
+    canWithdrawBoostedCollectible("Chicken Coop", state),
+  "Easter Bunny": (state) =>
+    canWithdrawBoostedCollectible("Easter Bunny", state),
   "Farm Cat": () => true,
   "Farm Dog": () => true,
-  "Gold Egg": () => true,
-  Rooster: () => true,
+  "Gold Egg": (state) => canWithdrawBoostedCollectible("Gold Egg", state),
+  Rooster: (state) => canWithdrawBoostedCollectible("Rooster", state),
 };
 
-const blacksmithItems: Record<LegacyItem, () => boolean> = {
+const blacksmithItems: Record<LegacyItem, (state?: GameState) => boolean> = {
   "Sunflower Statue": () => true,
   "Potato Statue": () => true,
   "Christmas Tree": () => true,
-  Gnome: () => true,
+  Gnome: (state) => canWithdrawBoostedCollectible("Gnome", state),
   "Sunflower Tombstone": () => true,
   "Sunflower Rock": () => true,
   "Goblin Crown": () => true,
   Fountain: () => true,
   "Egg Basket": () => false,
-  "Woody the Beaver": () => true,
-  "Apprentice Beaver": () => true,
-  "Foreman Beaver": () => true,
+  "Woody the Beaver": (state) =>
+    canWithdrawBoostedCollectible("Woody the Beaver", state),
+  "Apprentice Beaver": (state) =>
+    canWithdrawBoostedCollectible("Apprentice Beaver", state),
+  "Foreman Beaver": (state) =>
+    canWithdrawBoostedCollectible("Foreman Beaver", state),
   "Nyon Statue": () => true,
   "Homeless Tent": () => true,
   "Farmer Bath": () => true,
   "Mysterious Head": () => true,
-  "Rock Golem": () => true,
-  "Tunnel Mole": () => true,
-  "Rocky the Mole": () => true,
-  Nugget: () => true,
+  "Rock Golem": (state) => canWithdrawBoostedCollectible("Rock Golem", state),
+  "Tunnel Mole": (state) => canWithdrawBoostedCollectible("Tunnel Mole", state),
+  "Rocky the Mole": (state) =>
+    canWithdrawBoostedCollectible("Rocky the Mole", state),
+  Nugget: (state) => canWithdrawBoostedCollectible("Nugget", state),
 };
 
-const travelingSalesmanItems: Record<TravelingSalesmanItem, () => boolean> = {
+const travelingSalesmanItems: Record<
+  TravelingSalesmanItem,
+  (state?: GameState) => boolean
+> = {
   "Christmas Bear": () => true,
   "Golden Bonsai": () => true,
-  "Victoria Sisters": () => true,
+  "Victoria Sisters": (state) =>
+    canWithdrawBoostedCollectible("Victoria Sisters", state),
   "Wicker Man": () => true,
 };
 
-const soldOut: Record<SoldOutCollectibleName, () => boolean> = {
-  "Peeled Potato": () => true,
-  "Christmas Snow Globe": () => true,
-  "Beta Bear": () => true,
-  "Cyborg Bear": () => true,
-  "Wood Nymph Wendy": () => true,
-  "Squirrel Monkey": () => true,
-  "Black Bearry": () => true,
-  "Lady Bug": () => true,
-  "Cabbage Boy": () => true,
-  "Cabbage Girl": () => true,
-  "Maneki Neko": () => true,
-  "Heart Balloons": () => true,
-  Flamingo: () => true,
-  "Blossom Tree": () => true,
-  "Palm Tree": () => true,
-  "Beach Ball": () => true,
-  "Collectible Bear": () => true,
-  "Pablo The Bunny": () => true,
-  "Easter Bush": () => true,
-  "Giant Carrot": () => true,
-  Hoot: () => true,
-  "Sir Goldensnout": () => true,
-  "Freya Fox": () => true,
-  "Queen Cornelia": () => true,
-  "White Crow": () => true,
+const soldOut: Record<SoldOutCollectibleName, (state?: GameState) => boolean> =
+  {
+    "Peeled Potato": (state) =>
+      canWithdrawBoostedCollectible("Peeled Potato", state),
+    "Christmas Snow Globe": () => true,
+    "Beta Bear": () => true,
+    "Cyborg Bear": () => true,
+    "Wood Nymph Wendy": (state) =>
+      canWithdrawBoostedCollectible("Wood Nymph Wendy", state),
+    "Squirrel Monkey": (state) =>
+      canWithdrawBoostedCollectible("Squirrel Monkey", state),
+    "Black Bearry": (state) =>
+      canWithdrawBoostedCollectible("Black Bearry", state),
+    "Lady Bug": (state) => canWithdrawBoostedCollectible("Lady Bug", state),
+    "Cabbage Boy": (state) =>
+      canWithdrawBoostedCollectible("Cabbage Boy", state),
+    "Cabbage Girl": (state) =>
+      canWithdrawBoostedCollectible("Cabbage Girl", state),
+    "Maneki Neko": (state) =>
+      canWithdrawBoostedCollectible("Maneki Neko", state),
+    "Heart Balloons": () => true,
+    Flamingo: () => true,
+    "Blossom Tree": () => true,
+    "Palm Tree": () => true,
+    "Beach Ball": () => true,
+    "Collectible Bear": () => true,
+    "Pablo The Bunny": (state) =>
+      canWithdrawBoostedCollectible("Pablo The Bunny", state),
+    "Easter Bush": () => true,
+    "Giant Carrot": () => true,
+    Hoot: () => true,
+    "Sir Goldensnout": (state) =>
+      canWithdrawBoostedCollectible("Sir Goldensnout", state),
+    "Freya Fox": (state) => canWithdrawBoostedCollectible("Freya Fox", state),
+    "Queen Cornelia": (state) =>
+      canWithdrawBoostedCollectible("Queen Cornelia", state),
+    "White Crow": () => true,
 
-  Walrus: () => true,
-  Alba: () => true,
-  "Knowledge Crab": () => true,
-  Anchor: () => true,
-  "Rubber Ducky": () => true,
-  "Kraken Head": () => true,
-  "Blossom Royale": () => true,
-  "Humming Bird": () => true,
-  "Hungry Caterpillar": () => true,
-  "Queen Bee": () => true,
-  "Turbo Sprout": () => true,
-  Soybliss: () => true,
-  "Grape Granny": () => true,
-  "Royal Throne": () => true,
-  "Lily Egg": () => true,
-  Goblet: () => true,
-  "Pharaoh Gnome": () => canWithdrawTimebasedItem(new Date("2024-10-15")), // Last Auction 14th October
-  "Lemon Tea Bath": () => canWithdrawTimebasedItem(new Date("2024-10-09")), // Last Auction 9th October
-  "Tomato Clown": () => canWithdrawTimebasedItem(new Date("2024-10-06")), // Last Auction 5th October
-  Pyramid: () => canWithdrawTimebasedItem(new Date("2024-09-27")), // Last Auction 26th September
-  Oasis: () => canWithdrawTimebasedItem(new Date("2024-09-24")), // Last Auction 23rd September
-};
+    Walrus: (state) => canWithdrawBoostedCollectible("Walrus", state),
+    Alba: (state) => canWithdrawBoostedCollectible("Alba", state),
+    "Knowledge Crab": (state) =>
+      canWithdrawBoostedCollectible("Knowledge Crab", state),
+    Anchor: () => true,
+    "Rubber Ducky": () => true,
+    "Kraken Head": () => true,
+    "Blossom Royale": () => true,
+    "Humming Bird": () => true,
+    "Hungry Caterpillar": () => true,
+    "Queen Bee": (state) => canWithdrawBoostedCollectible("Queen Bee", state),
+    "Turbo Sprout": (state) =>
+      canWithdrawBoostedCollectible("Turbo Sprout", state),
+    Soybliss: (state) => canWithdrawBoostedCollectible("Soybliss", state),
+    "Grape Granny": (state) =>
+      canWithdrawBoostedCollectible("Grape Granny", state),
+    "Royal Throne": () => true,
+    "Lily Egg": () => true,
+    Goblet: () => true,
+    "Pharaoh Gnome": () =>
+      canWithdrawBoostedCollectible("Pharaoh Gnome") &&
+      canWithdrawTimebasedItem(new Date("2024-10-15")), // Last Auction 14th October
+    "Lemon Tea Bath": (state) =>
+      canWithdrawBoostedCollectible("Lemon Tea Bath", state) &&
+      canWithdrawTimebasedItem(new Date("2024-10-09")), // Last Auction 9th October
+    "Tomato Clown": (state) =>
+      canWithdrawBoostedCollectible("Tomato Clown", state) &&
+      canWithdrawTimebasedItem(new Date("2024-10-06")), // Last Auction 5th October
+    Pyramid: () => canWithdrawTimebasedItem(new Date("2024-09-27")), // Last Auction 26th September
+    Oasis: () => canWithdrawTimebasedItem(new Date("2024-09-24")), // Last Auction 23rd September
+  };
 
 const achievementDecoration: Record<AchievementDecorationName, () => boolean> =
   {
@@ -776,30 +825,39 @@ const achievementDecoration: Record<AchievementDecorationName, () => boolean> =
     "Devil Bear": () => true,
   };
 
-const market: Record<MarketItem, () => boolean> = {
+const market: Record<MarketItem, (state?: GameState) => boolean> = {
   // TODO add rule when beans are introduced
-  "Carrot Sword": () => true,
+  "Carrot Sword": (state) =>
+    canWithdrawBoostedCollectible("Carrot Sword", state),
 
-  "Golden Cauliflower": () => true,
-  "Mysterious Parsnip": () => true,
-  Nancy: () => true,
-  Scarecrow: () => true,
-  Kuebiko: () => true,
+  "Golden Cauliflower": (state) =>
+    canWithdrawBoostedCollectible("Golden Cauliflower", state),
+  "Mysterious Parsnip": (state) =>
+    canWithdrawBoostedCollectible("Mysterious Parsnip", state),
+  Nancy: (state) => canWithdrawBoostedCollectible("Nancy", state),
+  Scarecrow: (state) => canWithdrawBoostedCollectible("Scarecrow", state),
+  Kuebiko: (state) => canWithdrawBoostedCollectible("Kuebiko", state),
 };
 
-const boostTreasure: Record<BoostTreasure, () => boolean> = {
-  "Lunar Calendar": () => true,
-  "Tiki Totem": () => true,
+const boostTreasure: Record<BoostTreasure, (state?: GameState) => boolean> = {
+  "Lunar Calendar": (state) =>
+    canWithdrawBoostedCollectible("Lunar Calendar", state),
+  "Tiki Totem": (state) => canWithdrawBoostedCollectible("Tiki Totem", state),
   "Genie Lamp": () => true,
   Foliant: () => true,
 };
 
-const goblinPirate: Record<GoblinPirateItemName, () => boolean> = {
-  "Iron Idol": () => true,
-  "Heart of Davy Jones": () => true,
-  Karkinos: () => true,
-  "Emerald Turtle": () => true,
-  "Tin Turtle": () => true, // Mint ended
+const goblinPirate: Record<
+  GoblinPirateItemName,
+  (state?: GameState) => boolean
+> = {
+  "Iron Idol": (state) => canWithdrawBoostedCollectible("Iron Idol", state),
+  "Heart of Davy Jones": (state) =>
+    canWithdrawBoostedCollectible("Heart of Davy Jones", state),
+  Karkinos: (state) => canWithdrawBoostedCollectible("Karkinos", state),
+  "Emerald Turtle": (state) =>
+    canWithdrawBoostedCollectible("Emerald Turtle", state),
+  "Tin Turtle": (state) => canWithdrawBoostedCollectible("Tin Turtle", state),
   "Golden Bear Head": () => false,
   "Parasaur Skull": () => false,
 };
@@ -843,7 +901,10 @@ const beachBounty: Record<BeachBountyTreasure, () => boolean> = {
   Vase: () => false,
 };
 
-const eventDecoration: Record<EventDecorationName, () => boolean> = {
+const eventDecoration: Record<
+  EventDecorationName,
+  (state?: GameState) => boolean
+> = {
   "Hungry Hare": () => true,
   "Community Egg": () => true,
   "Baby Panda": () => true,
@@ -861,7 +922,8 @@ const eventDecoration: Record<EventDecorationName, () => boolean> = {
 
   "Bumpkin Nutcracker": () => true,
   "Festive Tree": () => false,
-  "Grinx's Hammer": () => true,
+  "Grinx's Hammer": (state) =>
+    canWithdrawBoostedCollectible("Grinx's Hammer", state),
   "White Festive Fox": () => true,
   "Earn Alliance Banner": () => true,
   "Benevolence Flag": () => true,
@@ -930,7 +992,10 @@ const compost: Record<CompostName, () => boolean> = {
   "Rapid Root": () => false,
 };
 
-const fish: Record<FishName | MarineMarvelName | OldFishName, () => boolean> = {
+const fish: Record<
+  FishName | MarineMarvelName | OldFishName,
+  (state?: GameState) => boolean
+> = {
   Anchovy: () => false,
   Butterflyfish: () => false,
   Blowfish: () => false,
@@ -967,9 +1032,13 @@ const fish: Record<FishName | MarineMarvelName | OldFishName, () => boolean> = {
   Angelfish: () => false,
   Halibut: () => false,
   Parrotfish: () => false,
-  "Lemon Shark": () => hasSeasonEnded("Pharaoh's Treasure"),
+  "Lemon Shark": (state) =>
+    canWithdrawBoostedCollectible("Lemon Shark", state) &&
+    hasSeasonEnded("Pharaoh's Treasure"),
   "Crimson Carp": () => hasSeasonEnded("Clash of Factions"),
-  "Battle Fish": () => hasSeasonEnded("Clash of Factions"),
+  "Battle Fish": (state) =>
+    canWithdrawBoostedCollectible("Battle Fish", state) &&
+    hasSeasonEnded("Clash of Factions"),
 };
 
 const interiors: Record<InteriorDecorationName, () => boolean> = {
@@ -977,11 +1046,14 @@ const interiors: Record<InteriorDecorationName, () => boolean> = {
   Wardrobe: () => false,
 };
 
-const megastore: Record<MegaStoreCollectibleName, () => boolean> = {
+const megastore: Record<
+  MegaStoreCollectibleName,
+  (state?: GameState) => boolean
+> = {
   Rainbow: () => true,
   Capybara: () => true,
   "Enchanted Rose": () => true,
-  "Flower Fox": () => true,
+  "Flower Fox": (state) => canWithdrawBoostedCollectible("Flower Fox", state),
   "Sunrise Bloom Rug": () => true,
   "Flower Rug": () => true,
   "Green Field Rug": () => true,
@@ -989,13 +1061,15 @@ const megastore: Record<MegaStoreCollectibleName, () => boolean> = {
   "Tea Rug": () => true,
   "Fancy Rug": () => true,
   Clock: () => true,
-  Vinny: () => true,
+  Vinny: (state) => canWithdrawBoostedCollectible("Vinny", state),
   "Regular Pawn": () => true,
   "Novice Knight": () => true,
   "Golden Garrison": () => true,
   "Trainee Target": () => true,
   "Chess Rug": () => true,
-  "Rice Panda": () => canWithdrawTimebasedItem(new Date("2024-08-01")),
+  "Rice Panda": (state) =>
+    canWithdrawBoostedCollectible("Rice Panda", state) &&
+    canWithdrawTimebasedItem(new Date("2024-08-01")),
   "Silver Squire": () => canWithdrawTimebasedItem(new Date("2024-08-01")),
   Cluckapult: () => canWithdrawTimebasedItem(new Date("2024-08-01")),
   "Bullseye Board": () => canWithdrawTimebasedItem(new Date("2024-08-01")),
@@ -1005,18 +1079,26 @@ const megastore: Record<MegaStoreCollectibleName, () => boolean> = {
   "Duamutef Jar": () => canWithdrawTimebasedItem(new Date("2024-10-01")),
   "Qebehsenuef Jar": () => canWithdrawTimebasedItem(new Date("2024-11-01")),
   "Imsety Jar": () => canWithdrawTimebasedItem(new Date("2024-09-01")),
-  Cannonball: () => canWithdrawTimebasedItem(new Date("2024-09-01")),
+  Cannonball: (state) =>
+    canWithdrawBoostedCollectible("Cannonball", state) &&
+    canWithdrawTimebasedItem(new Date("2024-09-01")),
   Sarcophagus: () => canWithdrawTimebasedItem(new Date("2024-09-01")),
   "Clay Tablet": () => canWithdrawTimebasedItem(new Date("2024-10-01")),
   "Snake in Jar": () => canWithdrawTimebasedItem(new Date("2024-10-01")),
-  "Reveling Lemon": () => canWithdrawTimebasedItem(new Date("2024-10-01")),
+  "Reveling Lemon": (state) =>
+    canWithdrawBoostedCollectible("Reveling Lemon", state) &&
+    canWithdrawTimebasedItem(new Date("2024-10-01")),
   "Anubis Jackal": () => canWithdrawTimebasedItem(new Date("2024-10-01")),
   Sundial: () => canWithdrawTimebasedItem(new Date("2024-11-01")),
   "Sand Golem": () => canWithdrawTimebasedItem(new Date("2024-11-01")),
   "Cactus King": () => canWithdrawTimebasedItem(new Date("2024-11-01")),
-  "Lemon Frog": () => canWithdrawTimebasedItem(new Date("2024-11-01")),
+  "Lemon Frog": (state) =>
+    canWithdrawBoostedCollectible("Lemon Frog", state) &&
+    canWithdrawTimebasedItem(new Date("2024-11-01")),
   "Scarab Beetle": () => canWithdrawTimebasedItem(new Date("2024-11-01")),
-  "Tomato Bombard": () => hasSeasonEnded("Pharaoh's Treasure"),
+  "Tomato Bombard": (state) =>
+    canWithdrawBoostedCollectible("Tomato Bombard", state) &&
+    hasSeasonEnded("Pharaoh's Treasure"),
 };
 
 const greenHouseFruitSeed: Record<GreenHouseFruitSeedName, () => boolean> = {
@@ -1090,12 +1172,17 @@ const factionShopFood: Record<FactionShopFoodName, () => boolean> = {
   Paella: () => false,
 };
 
-const mutantFlowers: Record<MutantFlowerName, () => boolean> = {
-  "Desert Rose": () =>
-    canWithdrawTimebasedItem(SEASONS["Pharaoh's Treasure"].endDate),
-};
+const mutantFlowers: Record<MutantFlowerName, (state?: GameState) => boolean> =
+  {
+    "Desert Rose": (state) =>
+      canWithdrawBoostedCollectible("Desert Rose", state) &&
+      canWithdrawTimebasedItem(SEASONS["Pharaoh's Treasure"].endDate),
+  };
 
-export const WITHDRAWABLES: Record<InventoryItemName, () => boolean> = {
+export const WITHDRAWABLES: Record<
+  InventoryItemName,
+  (state?: GameState) => boolean
+> = {
   ...greenHouseCrop,
   ...greenHouseCropSeed,
   ...greenHouseFruitSeed,
