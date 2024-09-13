@@ -187,7 +187,7 @@ export const SalesPanel: React.FC<{
   }
 
   if (gameService.state.matches("sellMarketResource")) {
-    return <Loading text="Selling" />;
+    return <Loading text={t("selling")} />;
   }
 
   if (confirm) {
