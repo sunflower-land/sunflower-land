@@ -2370,7 +2370,7 @@
   "beehive.honeyProductionPaused": "A produção de mel foi interrompida",
   "beehive.yield": "Rendimento",
   "beehive.honeyPerFullHive": "{{multiplier}} mel/colmeia completa",
-  "beehive.speed": "Rapidez",
+  "beehive.speed": "Velocidade",
   "beehive.fullHivePerDay": "{{speed}} completo {{hive}}/dia",
   "beehive.estimatedFull": "Total estimado",
   "beehive.hive.singular": "colmeia",
@@ -3330,8 +3330,8 @@
   "world.plaza": "Plaza",
   "world.beach": "Praia",
   "world.woodlands": "Florestas",
-  "world.retreat": "Recuar",
-  "world.home": "Início",
+  "world.retreat": "Esconderijo",
+  "world.home": "Casa",
   "world.kingdom": "Reino",
   "world.faction": "Facção",
   "world.travelTo": "Viaje para {{location}}",
@@ -3580,5 +3580,12 @@
   "description.stone.beetle": "Besouro feito de pedra.",
   "description.macaw.boost": "+0,1 Rendimento de canteiros de frutas",
   "description.camel.onesie.boost": "+0,1 Rendimento de canteiros de frutas",
-  "marketplace.offerClaimed": "Parabéns, sua oferta foi aceita!"
+  "marketplace.offerClaimed": "Parabéns, sua oferta foi aceita!",
+  "ready.in": "Pronto em:",
+  "creating": "Criando",
+  "claiming": "Reivindicando",
+  "depositing": "Depositando",
+  "listing": "Listando",
+  "deleting.listing": "Excluindo o anúncio",
+  "selling": "Vendendo"
 }

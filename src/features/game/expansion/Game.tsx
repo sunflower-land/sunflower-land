@@ -227,6 +227,7 @@ const GameContent: React.FC = () => {
       <div className="absolute w-full h-full z-10">
         <Routes>
           <Route path="/" element={<Land />} />
+          <Route path="/marketplace/*" element={<Land />} />
           {/* Legacy route */}
           <Route path="/farm" element={<Land />} />
           <Route path="/home" element={<Home />} />
@@ -458,12 +459,12 @@ export const GameWrapper: React.FC = ({ children }) => {
             {coolingDown && <Cooldown />}
             {gameRules && <Rules />}
             {transacting && <Transaction />}
-            {depositing && <Loading text="Depositing" />}
-            {trading && <Loading text="Trading" />}
+            {depositing && <Loading text={t("depositing")} />}
+            {trading && <Loading text={t("trading")} />}
             {traded && <Traded />}
-            {listing && <Loading text="Listing" />}
+            {listing && <Loading text={t("listing")} />}
             {listed && <Listed />}
-            {deletingListing && <Loading text="Deleting listing" />}
+            {deletingListing && <Loading text={t("deleting.listing")} />}
             {listingDeleted && <ListingDeleted />}
             {sniped && <Sniped />}
             {tradeAlreadyFulfilled && <TradeAlreadyFulfilled />}
