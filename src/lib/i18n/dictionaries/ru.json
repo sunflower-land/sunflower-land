@@ -3587,5 +3587,8 @@
   "depositing": "Внесение депозита",
   "listing": "Объявление",
   "deleting.listing": "Удаление объявления",
-  "selling": "Продажа"
+  "selling": "Продажа",
+  "marketplace.collection": "Коллекция",
+  "marketplace.purpose": "Назначение",
+  "marketplace.boost": "Усиление"
 }

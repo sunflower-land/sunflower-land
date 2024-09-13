@@ -3587,5 +3587,8 @@
   "depositing": "Einzahlen",
   "listing": "Listung",
   "deleting.listing": "Eintrag löschen",
-  "selling": "Verkauf"
+  "selling": "Verkauf",
+  "marketplace.collection": "Sammlung",
+  "marketplace.purpose": "Zweck",
+  "marketplace.boost": "Boost"
 }

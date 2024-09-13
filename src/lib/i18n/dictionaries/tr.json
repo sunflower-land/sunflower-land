@@ -3587,5 +3587,8 @@
   "depositing": "Para Yatırma",
   "listing": "Listeleme",
   "deleting.listing": "Listeyi silme",
-  "selling": "Satışlar"
+  "selling": "Satışlar",
+  "marketplace.collection": "Koleksiyon",
+  "marketplace.purpose": "Amaç",
+  "marketplace.boost": "Yükseltme"
 }

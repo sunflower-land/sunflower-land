@@ -3587,5 +3587,8 @@
   "depositing": "Deposito",
   "listing": "Inserzione",
   "deleting.listing": "Eliminazione dell'elenco",
-  "selling": "Vendita"
+  "selling": "Vendita",
+  "marketplace.collection": "Collezione",
+  "marketplace.purpose": "Scopo",
+  "marketplace.boost": "Incremento"
 }

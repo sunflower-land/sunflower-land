@@ -3587,5 +3587,8 @@
   "depositing": "存款",
   "listing": "清单",
   "deleting.listing": "删除清单",
-  "selling": "正在出售"
+  "selling": "正在出售",
+  "marketplace.collection": "藏品",
+  "marketplace.purpose": "目的",
+  "marketplace.boost": "提升"
 }

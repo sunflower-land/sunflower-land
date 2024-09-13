@@ -3587,5 +3587,8 @@
   "depositing": "Depositando",
   "listing": "Listando",
   "deleting.listing": "Excluindo o anúncio",
-  "selling": "Vendendo"
+  "selling": "Vendendo",
+  "marketplace.collection": "Coleção",
+  "marketplace.purpose": "Propósito",
+  "marketplace.boost": "Impulsione"
 }
