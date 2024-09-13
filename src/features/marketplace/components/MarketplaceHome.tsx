@@ -1,10 +1,12 @@
-import { ButtonPanel, InnerPanel, Panel } from "components/ui/Panel";
+import { ButtonPanel, InnerPanel } from "components/ui/Panel";
 import { ITEM_DETAILS } from "features/game/types/images";
 import React, { useContext, useState } from "react";
 
 import budIcon from "assets/icons/bud.png";
 import wearableIcon from "assets/icons/wearables.webp";
 import lightning from "assets/icons/lightning.png";
+import filterIcon from "assets/icons/filter_icon.webp";
+
 import { Context } from "features/game/GameProvider";
 import { GameWallet } from "features/wallet/Wallet";
 
@@ -19,6 +21,9 @@ import { TranslationKeys } from "lib/i18n/dictionaries/types";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Label } from "components/ui/Label";
 import { SquareIcon } from "components/ui/SquareIcon";
+import { PIXEL_SCALE } from "features/game/lib/constants";
+import { Modal } from "components/ui/Modal";
+import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 
 type MarketplaceCollection = {
   name: string;
@@ -54,38 +59,50 @@ export const MarketplaceHome: React.FC = () => {
   const { pathname } = useLocation();
 
   const [search, setSearch] = useState("");
+  const [purpose, setPurpose] = useState<MarketplacePurpose>("boost");
 
+  const [showFilters, setShowFilters] = useState(false);
   return (
-    <div className="flex h-full">
-      <InnerPanel className="w-64 h-96 mr-1 hidden lg:block">
-        <Filters />
-      </InnerPanel>
-      <div className="h-full w-full">
-        <InnerPanel className="w-full mb-1">
-          <TextInput
-            icon={SUNNYSIDE.icons.search}
-            value={search}
-            onValueChange={setSearch}
-          />
+    <>
+      <div className="flex h-full">
+        <InnerPanel className="w-64 h-96 mr-1 hidden lg:block">
+          <Filters purpose={purpose} onPurposeChange={setPurpose} />
         </InnerPanel>
-        <InnerPanel className="h-full  w-full overflow-scroll scrollable pr-1 overflow-x-hidden">
-          <Collection
-            search={search}
-            key={collection}
-            type={collection ?? "collectibles"}
-          />
-        </InnerPanel>
+        <div className="flex-1 flex flex-col">
+          <InnerPanel className="w-full mb-1">
+            <div className="flex  items-center">
+              <TextInput
+                icon={SUNNYSIDE.icons.search}
+                value={search}
+                onValueChange={setSearch}
+              />
+              <img
+                src={filterIcon}
+                onClick={() => setShowFilters(true)}
+                className="h-8 mx-1 block lg:hidden cursor-pointer"
+              />
+            </div>
+          </InnerPanel>
+          <InnerPanel className="flex-1 w-full overflow-scroll scrollable pr-1 overflow-x-hidden">
+            <Collection
+              search={search}
+              key={collection}
+              purpose={purpose}
+              type={collection ?? "collectibles"}
+            />
+          </InnerPanel>
+        </div>
       </div>
-    </div>
+      <Modal show={showFilters} onHide={() => setShowFilters(false)}>
+        <CloseButtonPanel onClose={() => setShowFilters(false)}>
+          <Filters purpose={purpose} onPurposeChange={setPurpose} />
+        </CloseButtonPanel>
+      </Modal>
+    </>
   );
 };
 
-type MarketplacePurpose = "boost" | "decoration" | "resource";
-
-type MarketplaceFilters = {
-  collections: CollectionName[];
-  purpose: MarketplacePurpose[];
-};
+export type MarketplacePurpose = "boost" | "decoration" | "resource";
 
 const COLLECTION_FILTERS: {
   name: CollectionName;
@@ -124,28 +141,49 @@ const PURPOSE_FILTERS: {
     term: "decoration",
     icon: SUNNYSIDE.icons.heart,
   },
-  {
-    name: "resource",
-    term: "resource",
-    icon: ITEM_DETAILS.Carrot.image,
-  },
+  // {
+  //   name: "resource",
+  //   term: "resource",
+  //   icon: ITEM_DETAILS.Carrot.image,
+  // },
 ];
 
-const Filters: React.FC = () => {
+const Filters: React.FC<{
+  purpose: MarketplacePurpose;
+  onPurposeChange: (purpose: MarketplacePurpose) => void;
+}> = ({ purpose, onPurposeChange }) => {
   const { t } = useAppTranslation();
+
+  const navigate = useNavigate();
+  const { pathname } = useLocation();
+
   return (
     <div className="p-1">
       <Label className="-ml-1 mb-2" type="default">
-        {t("marketplace.category")}
+        {t("marketplace.collection")}
       </Label>
       {COLLECTION_FILTERS.map((filter) => (
-        <div className="flex justify-between items-center">
+        <div className="flex justify-between items-center" key={filter.name}>
           <div className="flex items-center">
             <SquareIcon icon={filter.icon} width={10} />
             <span className="text-sm ml-1">{t(filter.term)}</span>
           </div>
-          <ButtonPanel>
+          <ButtonPanel
+            onClick={() => {
+              navigate(`/marketplace/${filter.name}`);
+            }}
+            className="relative"
+          >
             <div className="h-2 w-2"></div>
+            {pathname.includes(filter.name) && (
+              <img
+                src={SUNNYSIDE.icons.confirm}
+                className="absolute top-0 right-0"
+                style={{
+                  width: `${PIXEL_SCALE * 14}px`,
+                }}
+              />
+            )}
           </ButtonPanel>
         </div>
       ))}
@@ -153,13 +191,22 @@ const Filters: React.FC = () => {
         {t("marketplace.purpose")}
       </Label>
       {PURPOSE_FILTERS.map((filter) => (
-        <div className="flex justify-between items-center">
+        <div className="flex justify-between items-center" key={filter.name}>
           <div className="flex items-center">
             <SquareIcon icon={filter.icon} width={10} />
             <span className="text-sm ml-1">{t(filter.term)}</span>
           </div>
-          <ButtonPanel>
+          <ButtonPanel onClick={() => onPurposeChange(filter.name)}>
             <div className="h-2 w-2"></div>
+            {purpose === filter.name && (
+              <img
+                src={SUNNYSIDE.icons.confirm}
+                className="absolute top-0 right-0"
+                style={{
+                  width: `${PIXEL_SCALE * 14}px`,
+                }}
+              />
+            )}
           </ButtonPanel>
         </div>
       ))}
