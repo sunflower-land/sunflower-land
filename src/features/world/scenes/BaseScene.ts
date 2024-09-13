@@ -34,11 +34,13 @@ import {
   AUDIO_MUTED_EVENT,
   getAudioMutedSetting,
 } from "lib/utils/hooks/useIsAudioMuted";
-import { DarkModePipeline } from "../shaders/darkModeShader";
+import { NightShaderPipeline } from "../shaders/nightShader";
 import {
-  DARK_MODE_EVENT,
-  getDarkModeSetting,
-} from "lib/utils/hooks/useIsDarkMode";
+  PLAZA_SHADER_EVENT,
+  PlazaShader,
+  PlazaShaders,
+  getPlazaShaderSetting,
+} from "lib/utils/hooks/usePlazaShader";
 
 export type NPCBumpkin = {
   x: number;
@@ -179,33 +181,66 @@ export abstract class BaseScene extends Phaser.Scene {
   };
 
   /**
-   * Changes the dark mode setting when the event is triggered.
+   * Changes the shader when the event is triggered.
    * @param event The event.
    */
-  private onSetDarkMode = (event: CustomEvent) => {
-    // get pipeline
-    const darkModePipeline = this.cameras.main.getPostPipeline(
-      "DarkModePipeline",
-    ) as DarkModePipeline;
-    if (!darkModePipeline) return;
+  private onSetPlazaShader = (event: CustomEvent) => {
+    if (!this.cameras.main) return;
 
-    // set dark mode
-    darkModePipeline.isDarkMode = event.detail;
+    const plazaShader = event.detail as PlazaShader;
+
+    // reset shader if no shader is selected
+    if (plazaShader === "none" && this.cameras.main.hasPostPipeline) {
+      this.cameras.main.resetPostPipeline();
+      return;
+    }
+
+    const existingPipelines = this.cameras.main.postPipelines;
+    const existingSamePipelines = existingPipelines.filter(
+      (pipeline) => pipeline.name === plazaShader,
+    );
+    const existingOtherPipelines = existingPipelines.filter(
+      (pipeline) => pipeline.name !== plazaShader,
+    );
+
+    // add the shader if it doesn't exist
+    if (existingSamePipelines.length === 0) {
+      this.cameras.main.setPostPipeline(plazaShader);
+    }
+
+    // remove other shaders
+    if (existingOtherPipelines.length > 0) {
+      existingOtherPipelines.forEach((pipeline) =>
+        this.cameras.main.removePostPipeline(pipeline),
+      );
+    }
   };
 
   /**
    * Initializes the shaders and listeners.
    */
   private initializeShaders = () => {
-    // add dark mode shader
-    (
+    const rendererPipelines = (
       this.renderer as Phaser.Renderer.WebGL.WebGLRenderer
-    ).pipelines?.addPostPipeline("DarkModePipeline", DarkModePipeline);
-    this.cameras.main.setPostPipeline(DarkModePipeline);
+    ).pipelines;
+
+    // define all shaders here
+    const shaderActions: Record<PlazaShader, () => void> = {
+      none: () => undefined,
+      night: () =>
+        rendererPipelines?.addPostPipeline("night", NightShaderPipeline),
+      // add other shaders here
+    };
+
+    // add all shaders to pipeline
+    const plazaShaders = Object.keys(PlazaShaders) as PlazaShader[];
+    plazaShaders.forEach((shader) => {
+      shaderActions[shader]?.();
+    });
 
     // add event listener for settings
-    window.addEventListener(DARK_MODE_EVENT as any, this.onSetDarkMode);
-    this.onSetDarkMode({ detail: getDarkModeSetting() } as CustomEvent);
+    window.addEventListener(PLAZA_SHADER_EVENT as any, this.onSetPlazaShader);
+    this.onSetPlazaShader({ detail: getPlazaShaderSetting() } as CustomEvent);
   };
 
   /**
@@ -213,10 +248,10 @@ export abstract class BaseScene extends Phaser.Scene {
    */
   updateShaders = () => {
     // get pipeline
-    const darkModePipeline = this.cameras.main.getPostPipeline(
-      "DarkModePipeline",
-    ) as DarkModePipeline;
-    if (!darkModePipeline?.isDarkMode || !this.currentPlayer) return;
+    const nightShaderPipeline = this.cameras.main.getPostPipeline(
+      "night",
+    ) as NightShaderPipeline;
+    if (!nightShaderPipeline || !this.currentPlayer) return;
 
     // calculate the player's position relative to the camera
     const mapWidth = this.map.widthInPixels;
@@ -234,7 +269,7 @@ export abstract class BaseScene extends Phaser.Scene {
       (this.currentPlayer.y - worldViewY + offsetY) / screenHeight;
 
     // set light sources
-    darkModePipeline.lightSources = [{ x: relativeX, y: relativeY }];
+    nightShaderPipeline.lightSources = [{ x: relativeX, y: relativeY }];
   };
 
   preload() {

@@ -1,7 +1,7 @@
 const MAX_LIGHT_SOURCES = 1;
 
 const fragShader = `
-#define SHADER_NAME DARK_MODE_SHADER
+#define SHADER_NAME NIGHT_SHADER
 
 #ifdef GL_ES
 precision mediump float;
@@ -9,7 +9,6 @@ precision mediump float;
 
 varying vec2 outTexCoord;
 uniform sampler2D uMainSampler;
-uniform float isDarkMode;
 uniform vec2 screenResolution;
 uniform vec2 lightSources[${MAX_LIGHT_SOURCES}];
 
@@ -57,11 +56,6 @@ vec3 lightEffect(vec3 color) {
 void main() {
   vec4 texColor = texture2D(uMainSampler, outTexCoord);
   
-  if (isDarkMode == 0.0) {
-    gl_FragColor = texColor;
-    return;
-  }
-
   // set to 0.5 for debugging
   bool isRightHalf = outTexCoord.x >= 0.0;
 
@@ -121,9 +115,8 @@ void main() {
 }
 `;
 
-export class DarkModePipeline extends Phaser.Renderer.WebGL.Pipelines
+export class NightShaderPipeline extends Phaser.Renderer.WebGL.Pipelines
   .PostFXPipeline {
-  isDarkMode = false;
   lightSources: { x: number; y: number }[] = [];
 
   constructor(game: Phaser.Game) {
@@ -134,7 +127,6 @@ export class DarkModePipeline extends Phaser.Renderer.WebGL.Pipelines
   }
 
   onPreRender(): void {
-    this.set1f("isDarkMode", this.isDarkMode ? 1.0 : 0.0);
     this.set2f(
       "screenResolution",
       Number(this.game.config.width) ?? 1,
