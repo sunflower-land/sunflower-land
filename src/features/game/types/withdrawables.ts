@@ -268,13 +268,18 @@ const heliosBlacksmith: Record<
   Butterfly: () => false,
 };
 
-const treasureCollectible: Record<TreasureCollectibleItem, () => boolean> = {
+const treasureCollectible: Record<
+  TreasureCollectibleItem,
+  (state?: GameState) => boolean
+> = {
   "Treasure Map": () => false,
   "Adrift Ark": () => false,
   Castellan: () => false,
   "Sunlit Citadel": () => hasSeasonEnded("Pharaoh's Treasure"),
   "Baobab Tree": () => hasSeasonEnded("Pharaoh's Treasure"),
-  Camel: () => hasSeasonEnded("Pharaoh's Treasure"),
+  Camel: (state) =>
+    canWithdrawBoostedCollectible("Camel", state) &&
+    hasSeasonEnded("Pharaoh's Treasure"),
 };
 
 const commodities: Record<CommodityName, () => boolean> = {
@@ -769,7 +774,7 @@ const soldOut: Record<SoldOutCollectibleName, (state?: GameState) => boolean> =
       canWithdrawBoostedCollectible("Pablo The Bunny", state),
     "Easter Bush": () => true,
     "Giant Carrot": () => true,
-    Hoot: () => true,
+    Hoot: (state) => canWithdrawBoostedCollectible("Hoot", state),
     "Sir Goldensnout": (state) =>
       canWithdrawBoostedCollectible("Sir Goldensnout", state),
     "Freya Fox": (state) => canWithdrawBoostedCollectible("Freya Fox", state),
@@ -785,7 +790,8 @@ const soldOut: Record<SoldOutCollectibleName, (state?: GameState) => boolean> =
     "Rubber Ducky": () => true,
     "Kraken Head": () => true,
     "Blossom Royale": () => true,
-    "Humming Bird": () => true,
+    "Humming Bird": (state) =>
+      canWithdrawBoostedCollectible("Humming Bird", state),
     "Hungry Caterpillar": () => true,
     "Queen Bee": (state) => canWithdrawBoostedCollectible("Queen Bee", state),
     "Turbo Sprout": (state) =>
@@ -844,7 +850,7 @@ const boostTreasure: Record<BoostTreasure, (state?: GameState) => boolean> = {
     canWithdrawBoostedCollectible("Lunar Calendar", state),
   "Tiki Totem": (state) => canWithdrawBoostedCollectible("Tiki Totem", state),
   "Genie Lamp": () => true,
-  Foliant: () => true,
+  Foliant: (state) => canWithdrawBoostedCollectible("Foliant", state),
 };
 
 const goblinPirate: Record<
@@ -1035,7 +1041,9 @@ const fish: Record<
   "Lemon Shark": (state) =>
     canWithdrawBoostedCollectible("Lemon Shark", state) &&
     hasSeasonEnded("Pharaoh's Treasure"),
-  "Crimson Carp": () => hasSeasonEnded("Clash of Factions"),
+  "Crimson Carp": (state) =>
+    canWithdrawBoostedCollectible("Crimson Carp", state) &&
+    hasSeasonEnded("Clash of Factions"),
   "Battle Fish": (state) =>
     canWithdrawBoostedCollectible("Battle Fish", state) &&
     hasSeasonEnded("Clash of Factions"),

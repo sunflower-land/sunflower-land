@@ -13,9 +13,9 @@ import {
   isCrimstoneHammerActive,
   areAnyOGFruitsGrowing,
   hasFishedToday,
-  areBonusTreasureHolesDug,
   areAnyCropsOrGreenhouseCropsGrowing,
   hasOpenedPirateChest,
+  areTreasureHolesDug,
 } from "./removeables";
 import { GameState } from "./game";
 
@@ -75,7 +75,7 @@ const withdrawConditions: Partial<Record<BumpkinItem, isWithdrawable>> = {
   "Dev Wrench": (state) => !areAnyOilReservesDrilled(state)[0],
   "Oil Overalls": (state) => !areAnyOilReservesDrilled(state)[0],
   "Hornet Mask": (state) => isBeehivesFull(state)[0],
-  "Ancient Shovel": (state) => areBonusTreasureHolesDug(state)[0],
+  "Ancient Shovel": (state) => areTreasureHolesDug(state)[0],
   "Pirate Potion": (state) => !hasOpenedPirateChest(state)[0],
 };
 
