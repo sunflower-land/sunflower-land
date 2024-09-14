@@ -6,6 +6,7 @@ import FRENCH_TERMS from "./fr.json";
 import RUSSIAN_TERMS from "./ru.json";
 import ITALIAN_TERMS from "./it.json";
 import SPANISH_TERMS from "./es.json";
+import GERMAN_TERMS from "./de.json";
 import { TranslationKeys } from "./types";
 
 import britishFlag from "assets/sfts/flags/british_flag.gif";
@@ -98,4 +99,5 @@ export const resources: Partial<
   "zh-CN": { translation: CHINESE_SIMPLIFIED_TERMS },
   ru: { translation: RUSSIAN_TERMS },
   it: { translation: ITALIAN_TERMS },
+  de: { translation: GERMAN_TERMS },
 };
