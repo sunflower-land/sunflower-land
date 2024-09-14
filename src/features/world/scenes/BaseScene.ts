@@ -2,7 +2,6 @@ import Phaser, { Physics } from "phaser";
 
 import VirtualJoystick from "phaser3-rex-plugins/plugins/virtualjoystick.js";
 
-import { SQUARE_WIDTH } from "features/game/lib/constants";
 import { BumpkinContainer } from "../containers/BumpkinContainer";
 import { interactableModalManager } from "../ui/InteractableModals";
 import { NPCName, NPC_WEARABLES } from "lib/npcs";
@@ -47,6 +46,8 @@ export type NPCBumpkin = {
 // 3 Times per second send position to server
 const SEND_PACKET_RATE = 10;
 const NAME_TAG_OFFSET_PX = 12;
+
+const HALLOWEEN_SQUARE_WIDTH = 32;
 
 type BaseSceneOptions = {
   name: SceneId;
@@ -258,10 +259,10 @@ export abstract class BaseScene extends Phaser.Scene {
     const tileset = this.map.addTilesetImage(
       "Sunnyside V3",
       this.options.map.imageKey ?? "tileset",
-      16,
-      16,
-      1,
-      2,
+      // 16,
+      // 16,
+      // 1,
+      // 2,
     ) as Phaser.Tilemaps.Tileset;
 
     // Set up collider layers
@@ -338,36 +339,36 @@ export abstract class BaseScene extends Phaser.Scene {
     // Debugging purposes - display colliders in pink
     this.physics.world.drawDebug = false;
 
-    // Set up the Z layers to draw in correct order
-    const TOP_LAYERS = [
-      "Decorations Layer 1",
-      "Decorations Foreground",
-      "Decorations Layer 2",
-      "Decorations Layer 3",
-      "Decorations Layer 4",
-      "Building Layer 2",
-      "Building Layer 3",
-      "Building Layer 4",
-      "Club House Roof",
-      "Building Layer 4",
-      "Building Decorations 2",
-    ];
-    this.map.layers.forEach((layerData, idx) => {
-      if (layerData.name === "Crows") return;
+    // // Set up the Z layers to draw in correct order
+    // const TOP_LAYERS = [
+    //   "Decorations Layer 1",
+    //   "Decorations Foreground",
+    //   "Decorations Layer 2",
+    //   "Decorations Layer 3",
+    //   "Decorations Layer 4",
+    //   "Building Layer 2",
+    //   "Building Layer 3",
+    //   "Building Layer 4",
+    //   "Club House Roof",
+    //   "Building Layer 4",
+    //   "Building Decorations 2",
+    // ];
+    // this.map.layers.forEach((layerData, idx) => {
+    //   if (layerData.name === "Crows" || layerData.name === "NewLayer") return;
 
-      const layer = this.map.createLayer(layerData.name, [tileset], 0, 0);
-      if (TOP_LAYERS.includes(layerData.name)) {
-        layer?.setDepth(1000000);
-      }
+    //   const layer = this.map.createLayer(layerData.name, [tileset], 0, 0);
+    //   if (TOP_LAYERS.includes(layerData.name)) {
+    //     layer?.setDepth(1000000);
+    //   }
 
-      this.layers[layerData.name] = layer as Phaser.Tilemaps.TilemapLayer;
-    });
+    //   this.layers[layerData.name] = layer as Phaser.Tilemaps.TilemapLayer;
+    // });
 
     this.physics.world.setBounds(
       0,
       0,
-      this.map.width * SQUARE_WIDTH,
-      this.map.height * SQUARE_WIDTH,
+      this.map.width * HALLOWEEN_SQUARE_WIDTH,
+      this.map.height * HALLOWEEN_SQUARE_WIDTH,
     );
   }
 
@@ -377,16 +378,17 @@ export abstract class BaseScene extends Phaser.Scene {
     camera.setBounds(
       0,
       0,
-      this.map.width * SQUARE_WIDTH,
-      this.map.height * SQUARE_WIDTH,
+      this.map.width * HALLOWEEN_SQUARE_WIDTH,
+      this.map.height * HALLOWEEN_SQUARE_WIDTH,
     );
 
     camera.setZoom(this.zoom);
 
     // Center it on canvas
-    const offsetX = (window.innerWidth - this.map.width * 4 * SQUARE_WIDTH) / 2;
+    const offsetX =
+      (window.innerWidth - this.map.width * 4 * HALLOWEEN_SQUARE_WIDTH) / 2;
     const offsetY =
-      (window.innerHeight - this.map.height * 4 * SQUARE_WIDTH) / 2;
+      (window.innerHeight - this.map.height * 4 * HALLOWEEN_SQUARE_WIDTH) / 2;
     camera.setPosition(Math.max(offsetX, 0), Math.max(offsetY, 0));
 
     camera.fadeIn();

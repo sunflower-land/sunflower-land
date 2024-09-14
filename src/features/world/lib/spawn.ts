@@ -13,8 +13,8 @@ const randomYOffset = Math.random() * 20;
 export const SPAWNS: () => SpawnLocation = () => ({
   halloween: {
     default: {
-      x: 450,
-      y: 425,
+      x: 130,
+      y: 120,
     },
   },
   portal_example: {
