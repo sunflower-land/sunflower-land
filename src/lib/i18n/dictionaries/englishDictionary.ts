@@ -33,6 +33,7 @@ import {
   CropMachine,
   CropFruitDescriptions,
   CropsAndChickensMessages,
+  HalloweenMessages,
   DeliveryItem,
   DefaultDialogue,
   DecorationDescriptions,
@@ -1548,6 +1549,16 @@ const cropsAndChickens: Record<CropsAndChickensMessages, string> = {
     "Mission: Deposit {{targetScore}} points worth of crops",
   "crops-and-chickens.portal.rewardMessage":
     "Congratulations, you completed the mission! Here is your reward.",
+};
+
+const halloween: Record<HalloweenMessages, string> = {
+  "halloween.portal.title": "Minigame - Halloween",
+  "halloween.portal.description": "Can you hold on in the maze?",
+  "halloween.portal.missionObjectives":
+    "Mission: Deposit {{targetScore}} points worth of crops",
+  "halloween.portal.rewardMessage":
+    "Congratulations, you completed the mission! Here is your reward.",
+  "halloween.achievementUnlocked": "Achievement unlocked",
 };
 
 const decorationDescriptions: Record<DecorationDescriptions, string> = {
@@ -5694,6 +5705,7 @@ export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
   ...cropFruitDescriptions,
   ...cropMachine,
   ...cropsAndChickens,
+  ...halloween,
   ...decorationDescriptions,
   ...defaultDialogue,
   ...delivery,

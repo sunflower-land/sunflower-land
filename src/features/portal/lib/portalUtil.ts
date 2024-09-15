@@ -15,7 +15,7 @@ export function claimPrize() {
 }
 
 /**
- * Exit the portal
+ * Exits the portal
  */
 export function goHome() {
   if (isInIframe) {
@@ -72,13 +72,46 @@ export function donate({ matic, address }: { matic: number; address: string }) {
 }
 
 /**
- * When to want to store the score
+ * Starts a minigame attempt
  */
-export function played({ score }: { score: number }) {
+export function startAttempt() {
   if (!isInIframe) {
-    alert(`Sunflower Land running in test mode - score submitted`);
+    alert(`Sunflower Land running in test mode - attempt started`);
   } else {
-    window.parent.postMessage({ event: "played", score }, "*");
+    window.parent.postMessage({ event: "attemptStarted" }, "*");
+  }
+}
+
+/**
+ * Submits a minigame score
+ */
+export function submitScore({ score }: { score: number }) {
+  if (!isInIframe) {
+    alert(
+      `Sunflower Land running in test mode - score submitted (` +
+        score.toString() +
+        `)`,
+    );
+  } else {
+    window.parent.postMessage({ event: "scoreSubmitted", score }, "*");
+  }
+}
+
+/**
+ * When a player unlocks achievements
+ */
+export function achievementsUnlocked({
+  achievementNames,
+}: {
+  achievementNames: string[];
+}) {
+  if (!isInIframe) {
+    alert(`Sunflower Land running in test mode - achievements unlocked`);
+  } else {
+    window.parent.postMessage(
+      { event: "achievementsUnlocked", achievementNames },
+      "*",
+    );
   }
 }
 

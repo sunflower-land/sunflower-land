@@ -1,17 +1,17 @@
 import React, { useContext } from "react";
 import { useActor } from "@xstate/react";
-import { PortalContext } from "../lib/PortalProvider";
+import { PortalContext } from "../../lib/PortalProvider";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { SUNNYSIDE } from "assets/sunnyside";
 import worldIcon from "assets/icons/world.png";
-import { goHome } from "../../lib/portalUtil";
+import { goHome } from "../../../lib/portalUtil";
 import { HudContainer } from "components/ui/HudContainer";
 import { Balances } from "components/Balances";
 import Decimal from "decimal.js-light";
 
 import { Inventory } from "features/island/hud/components/inventory/Inventory";
 
-export const HalloweenHUD: React.FC = () => {
+export const HalloweenHud: React.FC = () => {
   const { portalService } = useContext(PortalContext);
   const [portalState] = useActor(portalService);
 

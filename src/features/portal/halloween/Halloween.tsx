@@ -9,7 +9,7 @@ import { PortalContext } from "./lib/PortalProvider";
 import { Label } from "components/ui/Label";
 
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { HalloweenHUD } from "./components/HalloweenHUD";
+import { HalloweenHud } from "./components/hud/HalloweenHud";
 import { HalloweenPhaser } from "./HalloweenPhaser";
 
 import { authorisePortal } from "../lib/portalUtil";
@@ -76,7 +76,7 @@ export const Halloween: React.FC = () => {
     <div>
       {gameState && (
         <>
-          <HalloweenHUD />
+          <HalloweenHud />
           <HalloweenPhaser />
         </>
       )}
