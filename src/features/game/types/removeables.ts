@@ -21,6 +21,7 @@ import {
   isBasicCrop,
   isMediumCrop,
   isCropGrowing,
+  isOvernightCrop,
 } from "features/game/events/landExpansion/harvest";
 import { isFruitGrowing } from "features/game/events/landExpansion/fruitHarvested";
 import { CompostName, isComposting } from "./composters";
@@ -31,6 +32,7 @@ import { DEFAULT_HONEY_PRODUCTION_TIME } from "../lib/updateBeehives";
 import { translate } from "lib/i18n/translate";
 import { canDrillOilReserve } from "../events/landExpansion/drillOilReserve";
 import { getKeys } from "./decorations";
+import Decimal from "decimal.js-light";
 
 export type Restriction = [boolean, string];
 type RemoveCondition = (gameState: GameState) => Restriction;
@@ -158,6 +160,15 @@ function areAnyAdvancedCropsGrowing(game: GameState): Restriction {
   return [cropsGrowing, translate("restrictionReason.advancedCropsGrowing")];
 }
 
+function areAnyOvernightCropsGrowing(game: GameState): Restriction {
+  const cropsGrowing = Object.values(game.crops ?? {}).some(
+    (plot) =>
+      plot.crop && isOvernightCrop(plot.crop?.name) && isCropGrowing(plot),
+  );
+
+  return [cropsGrowing, translate("restrictionReason.advancedCropsGrowing")];
+}
+
 function areAnyAdvancedOrMediumCropsGrowing(game: GameState): Restriction {
   const mediumCropsGrowing = areAnyMediumCropsGrowing(game);
   const advancedCropsGrowing = areAnyAdvancedCropsGrowing(game);
@@ -237,13 +248,16 @@ export function areAnyChickensFed(game: GameState): Restriction {
 }
 
 const MAX_DIGS = 25;
-export function areBonusTreasureHolesDug(game: GameState): Restriction {
+export function areTreasureHolesDug(
+  game: GameState,
+  threshold = 0,
+): Restriction {
   const holes = game.desert.digging.grid.flat().map((hole) => {
     const today = new Date().toISOString().substring(0, 10);
-
     return +(new Date(hole.dugAt).toISOString().substring(0, 10) === today);
   });
-  const holesDug = holes.reduce((sum, value) => sum + value, 0) > MAX_DIGS;
+
+  const holesDug = holes.reduce((sum, value) => sum + value, 0) > threshold;
 
   return [holesDug, translate("restrictionReason.treasuresDug")];
 }
@@ -413,6 +427,8 @@ export const REMOVAL_RESTRICTIONS: Partial<
   Maximus: (game) => cropIsGrowing({ item: "Eggplant", game }),
   Obie: (game) => cropIsGrowing({ item: "Eggplant", game }),
   "Purple Trail": (game) => cropIsGrowing({ item: "Eggplant", game }),
+  Foliant: (game) => cropIsGrowing({ item: "Kale", game }),
+  Hoot: (game) => areAnyOvernightCropsGrowing(game),
 
   // Fruit Boosts
   "Squirrel Monkey": (game) => areFruitsGrowing(game, "Orange"),
@@ -446,6 +462,7 @@ export const REMOVAL_RESTRICTIONS: Partial<
   Nugget: (game) => areAnyGoldsMined(game),
   "Tin Turtle": (game) => areAnyStonesMined(game),
   "Emerald Turtle": (game) => areAnyMineralsMined(game),
+  "Crimson Carp": (game) => areAnyCrimstonesMined(game),
 
   // Mutant Crops
   "Carrot Sword": (game) => beanIsPlanted(game),
@@ -453,7 +470,8 @@ export const REMOVAL_RESTRICTIONS: Partial<
   "Potent Potato": (game) => cropIsGrowing({ item: "Potato", game }),
   "Radical Radish": (game) => cropIsGrowing({ item: "Radish", game }),
 
-  "Heart of Davy Jones": (game) => areBonusTreasureHolesDug(game),
+  "Heart of Davy Jones": (game) => areTreasureHolesDug(game, MAX_DIGS),
+  Camel: (game) => areTreasureHolesDug(game),
 
   "Maneki Neko": (game) => hasShakenManeki(game),
   "Festive Tree": (game) => hasShakenTree(game),
@@ -472,6 +490,7 @@ export const REMOVAL_RESTRICTIONS: Partial<
   // Honey
   "Queen Bee": (game) => isProducingHoney(game),
   "Flower Fox": (game) => areFlowersGrowing(game),
+  "Humming Bird": (game) => areFlowersGrowing(game),
 
   // Clash of Factions
   Soybliss: (game) => cropIsGrowing({ item: "Soybean", game }),
@@ -523,7 +542,7 @@ export const REMOVAL_RESTRICTIONS: Partial<
   ],
 
   // Pharaoh's Treasure
-  "Pharaoh Chicken": (game) => areBonusTreasureHolesDug(game),
+  "Pharaoh Chicken": (game) => areTreasureHolesDug(game, MAX_DIGS),
   "Desert Rose": (game) => areFlowersGrowing(game),
   "Lemon Shark": (game) => areFruitsGrowing(game, "Lemon"),
   "Lemon Frog": (game) => areFruitsGrowing(game, "Lemon"),
@@ -661,4 +680,15 @@ export const hasMoveRestriction = (
   );
 
   return [isRestricted && isAoEItem, restrictionReason];
+};
+
+export const canWithdrawBoostedCollectible = (
+  name: InventoryItemName,
+  state?: GameState,
+): boolean => {
+  if (!state) return false;
+
+  if ((state.inventory?.[name] ?? new Decimal(0)).greaterThan(1)) return true;
+
+  return REMOVAL_RESTRICTIONS[name]?.(state)[0] ?? false;
 };
