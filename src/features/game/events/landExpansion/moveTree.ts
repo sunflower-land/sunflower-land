@@ -1,6 +1,6 @@
 import { Coordinates } from "features/game/expansion/components/MapPlacement";
 import { GameState } from "features/game/types/game";
-import cloneDeep from "lodash.clonedeep";
+import { produce } from "immer";
 
 export enum MOVE_TREE_ERRORS {
   NO_BUMPKIN = "You do not have a Bumpkin!",
@@ -24,19 +24,20 @@ export function moveTree({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  const stateCopy = cloneDeep(state) as GameState;
-  const trees = stateCopy.trees;
+  return produce(state, (stateCopy) => {
+    const trees = stateCopy.trees;
 
-  if (stateCopy.bumpkin === undefined) {
-    throw new Error(MOVE_TREE_ERRORS.NO_BUMPKIN);
-  }
+    if (stateCopy.bumpkin === undefined) {
+      throw new Error(MOVE_TREE_ERRORS.NO_BUMPKIN);
+    }
 
-  if (!trees[action.id]) {
-    throw new Error(MOVE_TREE_ERRORS.TREE_NOT_PLACED);
-  }
+    if (!trees[action.id]) {
+      throw new Error(MOVE_TREE_ERRORS.TREE_NOT_PLACED);
+    }
 
-  trees[action.id].x = action.coordinates.x;
-  trees[action.id].y = action.coordinates.y;
+    trees[action.id].x = action.coordinates.x;
+    trees[action.id].y = action.coordinates.y;
 
-  return stateCopy;
+    return stateCopy;
+  });
 }

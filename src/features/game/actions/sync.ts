@@ -1,27 +1,21 @@
-import { syncProgress } from "lib/blockchain/Game";
-import { wallet } from "lib/blockchain/wallet";
 import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
+import { GameState } from "../types/game";
+import { makeGame } from "../lib/transforms";
 
 const API_URL = CONFIG.API_URL;
 
-type Options = {
+export type SyncSignatureRequest = {
   farmId: number;
-  sessionId: string;
   token: string;
-  captcha?: string;
   transactionId: string;
-  blockBucks: number;
 };
 
 export async function sync({
   farmId,
-  sessionId,
   token,
-  captcha,
   transactionId,
-  blockBucks,
-}: Options) {
+}: SyncSignatureRequest): Promise<{ game: GameState }> {
   const response = await window.fetch(`${API_URL}/sync-progress/${farmId}`, {
     method: "POST",
     headers: {
@@ -29,11 +23,7 @@ export async function sync({
       Authorization: `Bearer ${token}`,
       "X-Transaction-ID": transactionId,
     },
-    body: JSON.stringify({
-      sessionId: sessionId,
-      captcha,
-      blockBucks,
-    }),
+    body: JSON.stringify({}),
   });
 
   if (response.status === 429) {
@@ -51,13 +41,14 @@ export async function sync({
     throw new Error(ERRORS.SYNC_SERVER_ERROR);
   }
 
-  // TODO
-  const newSessionId = await syncProgress({
-    ...transaction,
-    web3: wallet.web3Provider,
-    account: wallet.myAccount,
-    blockBucks,
-  });
+  // const newSessionId = await syncProgress({
+  //   ...transaction,
+  //   sender: wallet.getAccount(),
+  // });
 
-  return { verified: true, sessionId: newSessionId };
+  // return { verified: true, sessionId: newSessionId };
+
+  return {
+    game: makeGame(transaction.farm),
+  };
 }

@@ -504,6 +504,41 @@ describe("factionKitchenDeliver", () => {
     expect(state.inventory["Mark"]?.toNumber()).toBe(30);
   });
 
+  it("applies 50% more points when the whole faction outfit is active but using crown", () => {
+    const state = deliverFactionKitchen({
+      state: {
+        ...GAME_STATE,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          equipped: {
+            ...INITIAL_BUMPKIN.equipped,
+            shirt: "Goblin Armor",
+            tool: "Goblin Axe",
+            shoes: "Goblin Sabatons",
+            pants: "Goblin Pants",
+            hat: "Goblin Crown",
+          },
+        },
+        inventory: { Honey: new Decimal(5) },
+        faction: {
+          ...(GAME_STATE.faction as Faction),
+          kitchen: {
+            week,
+            requests: [{ item: "Honey", amount: 1, dailyFulfilled: {} }],
+          },
+        },
+      },
+      action: {
+        type: "factionKitchen.delivered",
+        resourceIndex: 0,
+      },
+      createdAt: startTime,
+    });
+
+    expect(state.faction?.history?.[week].score).toBe(30);
+    expect(state.inventory["Mark"]?.toNumber()).toBe(30);
+  });
+
   it("rewards 400% bonus marks if top rank in faction", () => {
     const state = deliverFactionKitchen({
       state: {

@@ -18,13 +18,19 @@ import lightning from "assets/icons/lightning.png";
 
 import { Label } from "components/ui/Label";
 import classNames from "classnames";
-import { BUMPKIN_ITEM_BUFF_LABELS } from "features/game/types/bumpkinItemBuffs";
+import {
+  BUMPKIN_ITEM_BUFF_LABELS,
+  SPECIAL_ITEM_LABELS,
+} from "features/game/types/bumpkinItemBuffs";
 import { BumpkinParts } from "lib/utils/tokenUriBuilder";
 import { GameState } from "features/game/types/game";
 import { availableWardrobe } from "features/game/events/landExpansion/equip";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { getImageUrl } from "lib/utils/getImageURLS";
-import { pixelBlueBorderStyle } from "features/game/lib/style";
+import {
+  pixelBlueBorderStyle,
+  pixelVibrantBorderStyle,
+} from "features/game/lib/style";
 
 const REQUIRED: BumpkinPart[] = [
   "background",
@@ -205,14 +211,14 @@ export const BumpkinEquip: React.FC<Props> = ({ equipment, onEquip, game }) => {
             equipped={equipped}
             selected={selectedBumpkinPart}
             onSelect={(bumpkinPart) => setSelectedBumpkinPart(bumpkinPart)}
-          ></BumpkinPartGroup>
+          />
           <Label type="default">{t("optional")}</Label>
           <BumpkinPartGroup
             bumpkinParts={NOTREQUIRED}
             equipped={equipped}
             selected={selectedBumpkinPart}
             onSelect={(bumpkinPart) => setSelectedBumpkinPart(bumpkinPart)}
-          ></BumpkinPartGroup>
+          />
         </div>
 
         <div className="flex-1 flex max-h-[300px] sm:max-h-[306px]">
@@ -230,7 +236,13 @@ export const BumpkinEquip: React.FC<Props> = ({ equipment, onEquip, game }) => {
               ) : (
                 <div className="w-full grid grid-cols-5 sm:grid-cols-4 py-1 px-1 gap-2">
                   {filteredWardrobeNames.map((name) => {
-                    const buffLabel = BUMPKIN_ITEM_BUFF_LABELS[name];
+                    const boostLabel =
+                      BUMPKIN_ITEM_BUFF_LABELS[name] &&
+                      !SPECIAL_ITEM_LABELS[name];
+
+                    const specialItem = SPECIAL_ITEM_LABELS[name];
+
+                    const buffLabel = boostLabel || specialItem;
 
                     return (
                       <OuterPanel
@@ -262,8 +274,15 @@ export const BumpkinEquip: React.FC<Props> = ({ equipment, onEquip, game }) => {
                         )}
                         {!!buffLabel && (
                           <div
-                            className="absolute -right-2 -top-2 bg-[#1e6dd5]"
-                            style={{ ...pixelBlueBorderStyle }}
+                            className={classNames("absolute -right-2 -top-2", {
+                              "bg-[#b65389]": specialItem,
+                              "bg-[#1e6dd5]": boostLabel,
+                            })}
+                            style={
+                              specialItem
+                                ? pixelVibrantBorderStyle
+                                : pixelBlueBorderStyle
+                            }
                           >
                             <SquareIcon icon={lightning} width={4} />
                           </div>

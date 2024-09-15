@@ -22,6 +22,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { hasFeatureAccess } from "lib/flags";
 import { WalletInUse } from "./components/WalletInUse";
 import { LoginSettings } from "./components/LoginSettings";
+import { NPC_WEARABLES } from "lib/npcs";
 
 type Props = {
   showOfflineModal: boolean;
@@ -82,8 +83,19 @@ export const Auth: React.FC<Props> = ({ showOfflineModal }) => {
             </>
           </div>
         </div>
-        {!showOfflineModal ? (
-          <Panel className="pb-1 relative">
+        {showOfflineModal ? (
+          <Panel>
+            <div className="text-sm p-1 mb-1">{t("welcome.offline")}</div>
+          </Panel>
+        ) : (
+          <Panel
+            bumpkinParts={
+              authState.matches("unauthorised")
+                ? NPC_WEARABLES["worried pete"]
+                : undefined
+            }
+            className="pb-1 relative"
+          >
             {authState.matches("welcome") && <Welcome />}
             {authState.matches("noAccount") && <NoAccount />}
             {authState.matches("walletInUse") && <WalletInUse />}
@@ -94,17 +106,13 @@ export const Auth: React.FC<Props> = ({ showOfflineModal }) => {
             )}
             {authState.matches("signUp") && <SignUp />}
             {authState.matches("oauthorising") && <Loading />}
-            {authState.matches("creating") && <Loading text="Creating" />}
-            {authState.matches("claiming") && <Loading text="Claiming" />}
+            {authState.matches("creating") && <Loading text={t("creating")} />}
+            {authState.matches("claiming") && <Loading text={t("claiming")} />}
             {authState.matches("unauthorised") && (
               <ErrorMessage
                 errorCode={authState.context.errorCode as ErrorCode}
               />
             )}
-          </Panel>
-        ) : (
-          <Panel>
-            <div className="text-sm p-1 mb-1">{t("welcome.offline")}</div>
           </Panel>
         )}
       </Modal>

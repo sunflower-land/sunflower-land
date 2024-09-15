@@ -19,7 +19,6 @@ import { NPC } from "features/island/bumpkin/components/NPC";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { getImageUrl } from "lib/utils/getImageURLS";
 import { ITEM_ICONS } from "features/island/hud/components/inventory/Chest";
-import { translateTerms } from "lib/i18n/translate";
 
 /**
  * The props for the details for items.
@@ -114,7 +113,7 @@ function getDetails(
 
     return {
       count: inventoryCount,
-      description: translateTerms(ITEM_DETAILS[details.item].description),
+      description: ITEM_DETAILS[details.item].description,
       image:
         ITEM_ICONS(game.island.type)[details.item] ??
         ITEM_DETAILS[details.item].image,
@@ -316,7 +315,7 @@ export const CraftingRequirements: React.FC<Props> = ({
           <Label
             icon={SUNNYSIDE.icons.stopwatch}
             type="warning"
-            className="my-1 mx-auto"
+            className="my-1 mx-auto whitespace-nowrap"
           >
             {formatDateRange(details.from, details.to as Date)}
           </Label>

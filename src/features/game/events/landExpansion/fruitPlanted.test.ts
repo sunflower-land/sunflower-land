@@ -858,6 +858,120 @@ describe("fruitPlanted", () => {
     ).toEqual(1.5);
   });
 
+  it("includes Faction Shield +0.25 bonus on all Fruits growing from Fruit patches", () => {
+    const seedAmount = new Decimal(5);
+
+    const patchIndex = "1";
+
+    const state = plantFruit({
+      state: {
+        ...GAME_STATE,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          equipped: {
+            wings: "Goblin Quiver",
+            ...INITIAL_BUMPKIN.equipped,
+          },
+        },
+        faction: {
+          name: "goblins",
+          pledgedAt: 0,
+          history: {},
+          points: 0,
+        },
+        inventory: {
+          "Apple Seed": seedAmount,
+        },
+      },
+      createdAt: dateNow,
+      action: {
+        type: "fruit.planted",
+        index: patchIndex,
+        seed: "Apple Seed",
+      },
+    });
+
+    const fruitPatches = state.fruitPatches;
+
+    expect(
+      (fruitPatches as Record<number, FruitPatch>)[patchIndex].fruit?.amount,
+    ).toEqual(1.25);
+  });
+
+  it("Faction Shield +0.25 bonus will not apply when pledged on different faction.", () => {
+    const seedAmount = new Decimal(5);
+
+    const patchIndex = "1";
+
+    const state = plantFruit({
+      state: {
+        ...GAME_STATE,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          equipped: {
+            wings: "Goblin Quiver",
+            ...INITIAL_BUMPKIN.equipped,
+          },
+        },
+        faction: {
+          name: "nightshades",
+          pledgedAt: 0,
+          history: {},
+          points: 0,
+        },
+        inventory: {
+          "Apple Seed": seedAmount,
+        },
+      },
+      createdAt: dateNow,
+      action: {
+        type: "fruit.planted",
+        index: patchIndex,
+        seed: "Apple Seed",
+      },
+    });
+
+    const fruitPatches = state.fruitPatches;
+
+    expect(
+      (fruitPatches as Record<number, FruitPatch>)[patchIndex].fruit?.amount,
+    ).toEqual(1);
+  });
+
+  it("Faction Shield +0.25 bonus will not apply when not pledged on a faction.", () => {
+    const seedAmount = new Decimal(5);
+
+    const patchIndex = "1";
+
+    const state = plantFruit({
+      state: {
+        ...GAME_STATE,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          equipped: {
+            wings: "Goblin Quiver",
+            ...INITIAL_BUMPKIN.equipped,
+          },
+        },
+        inventory: {
+          "Apple Seed": seedAmount,
+        },
+      },
+      createdAt: dateNow,
+      action: {
+        type: "fruit.planted",
+        index: patchIndex,
+        seed: "Apple Seed",
+      },
+    });
+
+    const fruitPatches = state.fruitPatches;
+
+    expect(
+      (fruitPatches as Record<number, FruitPatch>)[patchIndex].fruit?.amount,
+    ).toEqual(1);
+  });
+
   it("does not include Banana Amulet +0.5 bonus on Apples", () => {
     const seedAmount = new Decimal(5);
 
@@ -1346,6 +1460,126 @@ describe("getFruitTime", () => {
       },
       INITIAL_BUMPKIN.equipped,
     );
+    expect(time).toEqual(plantSeconds);
+  });
+
+  it("applies a 10% growth speed boost on Tomato & Lemon seeds with Catchup skill", () => {
+    const seed = "Tomato Seed";
+    const plantSeconds = FRUIT_SEEDS()[seed].plantSeconds;
+    const time = getFruitPatchTime(
+      seed,
+      {
+        ...TEST_FARM,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          skills: {
+            Catchup: 1,
+          },
+        },
+      },
+      INITIAL_BUMPKIN.equipped,
+    );
+
+    expect(time).toEqual(plantSeconds * 0.9);
+  });
+
+  it("does not applies Catchup skill on other seeds", () => {
+    const seed = "Apple Seed";
+    const plantSeconds = FRUIT_SEEDS()[seed].plantSeconds;
+    const time = getFruitPatchTime(
+      seed,
+      {
+        ...TEST_FARM,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          skills: {
+            Catchup: 1,
+          },
+        },
+      },
+      INITIAL_BUMPKIN.equipped,
+    );
+
+    expect(time).toEqual(plantSeconds);
+  });
+
+  it("applies a 10% growth speed boost on basic fruit with Fruit Turbocharge skill", () => {
+    const seed = "Blueberry Seed";
+    const plantSeconds = FRUIT_SEEDS()[seed].plantSeconds;
+    const time = getFruitPatchTime(
+      seed,
+      {
+        ...TEST_FARM,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          skills: {
+            "Fruit Turbocharge": 1,
+          },
+        },
+      },
+      INITIAL_BUMPKIN.equipped,
+    );
+
+    expect(time).toEqual(plantSeconds * 0.9);
+  });
+
+  it("does not applies Fruit Turbocharge skill on advanced fruit", () => {
+    const seed = "Apple Seed";
+    const plantSeconds = FRUIT_SEEDS()[seed].plantSeconds;
+    const time = getFruitPatchTime(
+      seed,
+      {
+        ...TEST_FARM,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          skills: {
+            "Fruit Turbocharge": 1,
+          },
+        },
+      },
+      INITIAL_BUMPKIN.equipped,
+    );
+
+    expect(time).toEqual(plantSeconds);
+  });
+
+  it("applies a 10% growth speed boost on advanced fruit with Prime Produce skill", () => {
+    const seed = "Apple Seed";
+    const plantSeconds = FRUIT_SEEDS()[seed].plantSeconds;
+    const time = getFruitPatchTime(
+      seed,
+      {
+        ...TEST_FARM,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          skills: {
+            "Prime Produce": 1,
+          },
+        },
+      },
+      INITIAL_BUMPKIN.equipped,
+    );
+
+    expect(time).toEqual(plantSeconds * 0.9);
+  });
+
+  it("does not applies Prime Produce skill on basic fruit", () => {
+    const seed = "Blueberry Seed";
+    const plantSeconds = FRUIT_SEEDS()[seed].plantSeconds;
+    const time = getFruitPatchTime(
+      seed,
+      {
+        ...TEST_FARM,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          skills: {
+            "Prime Produce": 1,
+          },
+        },
+      },
+      INITIAL_BUMPKIN.equipped,
+    );
+
     expect(time).toEqual(plantSeconds);
   });
 });

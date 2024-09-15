@@ -1,7 +1,7 @@
 import { SUNNYSIDE } from "assets/sunnyside";
 import { AchievementName } from "features/game/types/achievements";
 import { ITEM_DETAILS } from "features/game/types/images";
-
+import { getSeasonalTicket } from "features/game/types/seasons";
 import { translate } from "lib/i18n/translate";
 
 export type GuidePath =
@@ -190,7 +190,9 @@ ${translate("crops.guide.three")}`,
       {
         text: `${translate("deliveries.guide.one")}
 
-              ${translate("deliveries.guide.two")}`,
+              ${translate("deliveries.guide.two")}
+              
+              ${translate("deliveries.guide.three")}`,
       },
     ],
   },
@@ -230,12 +232,14 @@ ${translate("crops.guide.three")}`,
 
   seasons: {
     achievements: ["Seasoned Farmer"],
-    icon: SUNNYSIDE.icons.stopwatch,
+    icon: ITEM_DETAILS[getSeasonalTicket()].image,
     description: [
       {
         text: `${translate("seasons.guide.one")}
 
-              ${translate("seasons.guide.two")}`,
+              ${translate("seasons.guide.two")}
+              
+              ${translate("seasons.guide.three")}`,
       },
     ],
     docs: "https://docs.sunflower-land.com/player-guides/seasons",

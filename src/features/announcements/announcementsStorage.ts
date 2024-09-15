@@ -86,3 +86,14 @@ export function hasUnreadMail(
 
   return hasAnnouncement;
 }
+
+export function acknowledgeSpecialEvent() {
+  localStorage.setItem("specialEventRead", new Date().toISOString());
+}
+
+export function specialEventLastAcknowledged(): Date | null {
+  const value = localStorage.getItem("specialEventRead");
+  if (!value) return null;
+
+  return new Date(value);
+}

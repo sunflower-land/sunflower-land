@@ -5,7 +5,13 @@ import {
 import { KNOWN_IDS } from ".";
 import { BumpkinItem } from "./bumpkin";
 import { getKeys } from "./craftables";
-import { FishType, FishName, FISH, MarineMarvelName } from "./fishing";
+import {
+  FishType,
+  FishName,
+  FISH,
+  MarineMarvelName,
+  SEASONAL_FISH,
+} from "./fishing";
 import { InventoryItemName, GameState } from "./game";
 import { FLOWERS } from "./flowers";
 import { translate } from "lib/i18n/translate";
@@ -129,9 +135,13 @@ export const FISH_MILESTONES: Record<FishMilestoneName, Milestone> = {
   "Marine Marvel Master": {
     task: translate("quest.marine.marvel"),
     percentageComplete: (farmActivity: GameState["farmActivity"]) => {
-      const totalFishRequired = FISH_BY_TYPE["marine marvel"].length;
+      const nonSeasonalMarvels = FISH_BY_TYPE["marine marvel"].filter(
+        (marvel) => !Object.keys(SEASONAL_FISH).includes(marvel),
+      );
 
-      const totalFishCaught = FISH_BY_TYPE["marine marvel"].reduce(
+      const totalFishRequired = nonSeasonalMarvels.length;
+
+      const totalFishCaught = nonSeasonalMarvels.reduce(
         (total, name) =>
           total + Math.min(farmActivity[`${name} Caught`] ?? 0, 1),
         0,

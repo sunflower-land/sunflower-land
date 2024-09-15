@@ -15,7 +15,7 @@ import { BuildingName } from "./buildings";
 import { GameEvent } from "../events";
 import { BumpkinItem, Equipped as BumpkinParts } from "./bumpkin";
 import { ConsumableName, CookableName } from "./consumables";
-import { BumpkinSkillName } from "./bumpkinSkills";
+import { BumpkinSkillName, BumpkinRevampSkillName } from "./bumpkinSkills";
 import { AchievementName } from "./achievements";
 import { BumpkinActivityName } from "./bumpkinActivity";
 import { DecorationName } from "./decorations";
@@ -71,6 +71,10 @@ import { TradeableName } from "../actions/sellMarketResource";
 import { MinigameCurrency } from "../events/minigames/purchaseMinigameItem";
 import { FactionShopCollectibleName, FactionShopFoodName } from "./factionShop";
 import { DiggingFormationName } from "./desert";
+import { Rewards } from "./rewards";
+import { ExperimentName } from "lib/flags";
+import { CollectionName, MarketplaceTradeableName } from "./marketplace";
+import { GameTransaction } from "./transactions";
 
 export type Reward = {
   coins?: number;
@@ -195,13 +199,13 @@ export type Coupons =
   | "Arcade Token"
   | "Farmhand Coupon"
   | "Farmhand"
-  | "Treasure Key"
-  | "Rare Key"
-  | "Luxury Key"
   | "Prize Ticket"
   | "Mark"
+  | Keys
   | SeasonalTicket
   | FactionEmblem;
+
+export type Keys = "Treasure Key" | "Rare Key" | "Luxury Key";
 
 export const COUPONS: Record<Coupons, { description: string }> = {
   "Gold Pass": {
@@ -329,9 +333,12 @@ export type Bumpkin = {
   equipped: BumpkinParts;
   tokenUri: string;
   experience: number;
-  skills: Partial<Record<BumpkinSkillName, number>>;
+  skills: Partial<
+    Record<BumpkinSkillName, number> & Record<BumpkinRevampSkillName, number>
+  >;
   achievements?: Partial<Record<AchievementName, number>>;
-  activity?: Partial<Record<BumpkinActivityName, number>>;
+  activity: Partial<Record<BumpkinActivityName, number>>;
+  previousSkillsResetAt?: number;
 };
 
 export type SpecialEvent = "Chef Apron" | "Chef Hat";
@@ -416,17 +423,6 @@ export type StockExpiry = Partial<Record<InventoryItemName, string>>;
 
 type PastAction = GameEvent & {
   createdAt: Date;
-};
-
-export type TradeOffer = {
-  name: InventoryItemName;
-  amount: number;
-  startAt: string;
-  endAt: string;
-  ingredients: {
-    name: InventoryItemName;
-    amount: Decimal;
-  }[];
 };
 
 export interface CurrentObsession {
@@ -933,6 +929,16 @@ export type TradeListing = {
   buyerId?: number;
 };
 
+export type TradeOffer = {
+  items: Partial<Record<MarketplaceTradeableName, number>>;
+  sfl: number;
+  collection: CollectionName;
+  createdAt: number;
+  fulfilledAt?: number;
+  fulfilledById?: number;
+  signature?: string;
+};
+
 type FishingSpot = {
   castedAt?: number;
   bait?: FishingBait;
@@ -972,16 +978,22 @@ export type ShopItemBase = {
   currency: Currency;
   price: Decimal;
   limit: number | null;
-  type: "wearable" | "collectible" | "food";
+  type: "wearable" | "collectible" | "food" | "keys";
+};
+
+type AvailableAllSeason = {
+  availableAllSeason: boolean;
 };
 
 export type WearablesItem = {
   name: BumpkinItem;
-} & ShopItemBase;
+} & ShopItemBase &
+  AvailableAllSeason;
 
 export type CollectiblesItem = {
   name: InventoryItemName;
-} & ShopItemBase;
+} & ShopItemBase &
+  AvailableAllSeason;
 
 export type MegaStoreItemName = BumpkinItem | InventoryItemName;
 
@@ -1118,8 +1130,17 @@ export type DonationItemName =
   | CommodityName
   | Worm;
 
+type KeysBoughtAt = Partial<Record<Keys, { boughtAt: number }>>;
+type Stores = "factionShop" | "treasureShop" | "megastore";
+export type KeysBought = Record<Stores, KeysBoughtAt>;
+
 export interface GameState {
   home: Home;
+
+  rewards: Rewards;
+
+  // There are more fields but unused
+  transaction?: GameTransaction;
 
   island: {
     type: IslandType;
@@ -1137,7 +1158,6 @@ export interface GameState {
   createdAt: number;
 
   tradedAt?: string;
-  tradeOffer?: TradeOffer;
   bertObsession?: CurrentObsession;
   bertObsessionCompletedAt?: Date;
   warCollectionOffer?: WarCollectionOffer;
@@ -1223,6 +1243,10 @@ export interface GameState {
     giftGiver?: {
       openedAt: number;
     };
+    pirateChest?: {
+      openedAt: number;
+    };
+    keysBought?: KeysBought;
   };
   conversations: ConversationName[];
   mailbox: {
@@ -1242,6 +1266,7 @@ export interface GameState {
 
   trades: {
     listings?: Record<string, TradeListing>;
+    offers?: Record<string, TradeOffer>;
     dailyListings?: { date: number; count: number };
     dailyPurchases?: { date: number; count: number };
   };
@@ -1268,6 +1293,8 @@ export interface GameState {
     amount: Decimal;
   };
   desert: Desert;
+
+  experiments: ExperimentName[];
 }
 
 export interface Context {

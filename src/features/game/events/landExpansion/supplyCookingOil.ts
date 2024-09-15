@@ -1,8 +1,8 @@
 import { GameState } from "features/game/types/game";
-import cloneDeep from "lodash.clonedeep";
 import { translate } from "lib/i18n/translate";
 import { CookingBuildingName } from "features/game/types/buildings";
 import Decimal from "decimal.js-light";
+import { produce } from "immer";
 
 export type SupplyCookingOilAction = {
   type: "cookingOil.supplied";
@@ -31,34 +31,34 @@ export function supplyCookingOil({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  const stateCopy = cloneDeep<GameState>(state);
+  return produce(state, (stateCopy) => {
+    const buildings = stateCopy.buildings[action.building];
+    if (!buildings) {
+      throw new Error(translate("error.buildingNotExist"));
+    }
 
-  const buildings = stateCopy.buildings[action.building];
-  if (!buildings) {
-    throw new Error(translate("error.buildingNotExist"));
-  }
+    const building = buildings.find((b) => b.id === action.buildingId);
+    if (!building) {
+      throw new Error(translate("error.buildingNotExist"));
+    }
 
-  const building = buildings.find((b) => b.id === action.buildingId);
-  if (!building) {
-    throw new Error(translate("error.buildingNotExist"));
-  }
+    const oilInInventory = stateCopy.inventory["Oil"] || new Decimal(0);
 
-  const oilInInventory = stateCopy.inventory["Oil"] || new Decimal(0);
+    if (oilInInventory.lessThan(action.oilQuantity)) {
+      throw new Error(translate("error.notEnoughOil"));
+    }
 
-  if (oilInInventory.lessThan(action.oilQuantity)) {
-    throw new Error(translate("error.notEnoughOil"));
-  }
+    const oilCapacity = BUILDING_DAILY_OIL_CAPACITY[action.building];
+    const oilInBuilding = building.oil || 0;
 
-  const oilCapacity = BUILDING_DAILY_OIL_CAPACITY[action.building];
-  const oilInBuilding = building.oil || 0;
+    if (oilInBuilding + action.oilQuantity > oilCapacity) {
+      throw new Error(translate("error.oilCapacityExceeded"));
+    }
 
-  if (oilInBuilding + action.oilQuantity > oilCapacity) {
-    throw new Error(translate("error.oilCapacityExceeded"));
-  }
+    stateCopy.inventory["Oil"] = oilInInventory.sub(action.oilQuantity);
 
-  stateCopy.inventory["Oil"] = oilInInventory.sub(action.oilQuantity);
+    building.oil = oilInBuilding + action.oilQuantity;
 
-  building.oil = oilInBuilding + action.oilQuantity;
-
-  return stateCopy;
+    return stateCopy;
+  });
 }

@@ -11,6 +11,7 @@ import { getKeys } from "../types/craftables";
 import { BumpkinParts, tokenUriBuilder } from "lib/utils/tokenUriBuilder";
 import { Equipped } from "../types/bumpkin";
 import { SeedName } from "../types/seeds";
+import { INITIAL_REWARDS } from "../types/rewards";
 
 // Our "zoom" factor
 export const PIXEL_SCALE = 2.625;
@@ -69,6 +70,11 @@ export const INITIAL_STOCK = (state?: GameState): Inventory => {
         Math.ceil(tools[tool as keyof typeof tools].toNumber() * 1.5),
       );
     }
+  }
+
+  // increase Axe stock by 20% if player has More Axes skill
+  if (state?.bumpkin?.skills["More Axes"]) {
+    tools.Axe = new Decimal(Math.ceil(tools.Axe.toNumber() * 1.2));
   }
 
   const seeds: Record<SeedName, Decimal> = {
@@ -354,6 +360,8 @@ export const INITIAL_FARM: GameState = {
 
   bumpkin: INITIAL_BUMPKIN,
 
+  rewards: INITIAL_REWARDS,
+
   minigames: {
     games: {},
     prizes: {},
@@ -412,6 +420,8 @@ export const INITIAL_FARM: GameState = {
   },
 
   createdAt: new Date().getTime(),
+
+  experiments: ["ONBOARDING_CHALLENGES"],
 
   ...INITIAL_RESOURCES,
 
@@ -567,6 +577,7 @@ export const TEST_FARM: GameState = {
     "Basic Land": new Decimal(3),
   },
   previousInventory: {},
+  rewards: INITIAL_REWARDS,
   minigames: {
     games: {},
     prizes: {},
@@ -578,6 +589,7 @@ export const TEST_FARM: GameState = {
   },
   stock: INITIAL_STOCK(),
   chickens: {},
+  experiments: [],
   farmActivity: {},
   milestones: {},
   home: { collectibles: {} },
@@ -858,6 +870,8 @@ export const EMPTY: GameState = {
     Stone: new Decimal(10),
   },
   bumpkin: INITIAL_BUMPKIN,
+  rewards: INITIAL_REWARDS,
+  experiments: [],
   minigames: {
     games: {},
     prizes: {},

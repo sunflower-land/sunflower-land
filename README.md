@@ -1,6 +1,7 @@
 <h1 align="center">Sunflower Land</h1>
 <p align="center">
 <a href="https://github.com/sunflower-land/sunflower-land/actions/workflows/ci.yml/"><img src="https://github.com/sunflower-land/sunflower-land/actions/workflows/ci.yml/badge.svg" alt="CI Build Status" /></a>
+<a href="https://github.com/sunflower-land/sunflower-land/actions/workflows/translate.yml/"><img src="https://github.com/sunflower-land/sunflower-land/actions/workflows/translate.yml/badge.svg" alt="Translate" /></a>
 <a href="https://github.com/sunflower-land/sunflower-land/actions/workflows/testnet.yml"><img src="https://github.com/sunflower-land/sunflower-land/actions/workflows/testnet.yml/badge.svg" alt="Testnet deploy" /></a>
 <a href="https://github.com/sunflower-land/sunflower-land/actions/workflows/mainnet.yml"> <img src="https://github.com/sunflower-land/sunflower-land/actions/workflows/mainnet.yml/badge.svg" alt="Mainnet deploy" /></a>
 <a href="https://twitter.com/0xSunflowerLand"><img src="https://img.shields.io/twitter/follow/0xSunflowerLand?style=social" height="100%" alt="Twitter Follow: 0xSunflowerLand" /></a>

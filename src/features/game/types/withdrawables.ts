@@ -254,6 +254,13 @@ const heliosBlacksmith: Record<HeliosBlacksmithItem, () => boolean> = {
   Nana: () => true,
   "Soil Krabby": () => true,
   "Skill Shrimpy": () => true,
+  "Stone Beetle": () => false,
+  "Iron Beetle": () => false,
+  "Gold Beetle": () => false,
+  "Fairy Circle": () => false,
+  Squirrel: () => false,
+  Macaw: () => false,
+  Butterfly: () => false,
 };
 
 const treasureCollectible: Record<TreasureCollectibleItem, () => boolean> = {
@@ -601,8 +608,10 @@ const seasonalDecorations: Record<SeasonalDecorationName, () => boolean> = {
   "Battlecry Drum": () => false,
   "Golden Gallant": () => false,
   "Golden Guardian": () => false,
-  "Rookie Rook": () => false,
-  "Silver Sentinel": () => false,
+  "Rookie Rook": () =>
+    canWithdrawTimebasedItem(SEASONS["Pharaoh's Treasure"].endDate),
+  "Silver Sentinel": () =>
+    canWithdrawTimebasedItem(SEASONS["Pharaoh's Treasure"].endDate),
   "Silver Stallion": () => false,
 
   Blossombeard: () => false,
@@ -848,7 +857,7 @@ const eventDecoration: Record<EventDecorationName, () => boolean> = {
   "Dawn Flower": () => true,
   "Sapo Docuras": () => true,
   "Sapo Travessuras": () => true,
-  "Time Warp Totem": () => false,
+  "Time Warp Totem": () => true,
 
   "Bumpkin Nutcracker": () => true,
   "Festive Tree": () => false,
@@ -990,7 +999,7 @@ const megastore: Record<MegaStoreCollectibleName, () => boolean> = {
   "Silver Squire": () => canWithdrawTimebasedItem(new Date("2024-08-01")),
   Cluckapult: () => canWithdrawTimebasedItem(new Date("2024-08-01")),
   "Bullseye Board": () => canWithdrawTimebasedItem(new Date("2024-08-01")),
-  "Twister Rug": () => canWithdrawTimebasedItem(new Date("2024-08-01")),
+  "Twister Rug": () => true,
 
   "Hapy Jar": () => canWithdrawTimebasedItem(new Date("2024-09-01")),
   "Duamutef Jar": () => canWithdrawTimebasedItem(new Date("2024-10-01")),
@@ -1249,14 +1258,13 @@ export const BUMPKIN_WITHDRAWABLES: Record<
   "Pineapple Shirt": () => true,
   "China Town Background": () => true,
   "Lion Dance Mask": () => true,
-  "Fruit Picker Shirt": () => true,
-  "Fruit Picker Apron": (state) =>
-    canWithdrawBoostedWearable("Fruit Picker Apron", state),
-  "Fruit Bowl": () => true,
-  "Striped Blue Shirt": () => true,
-  "Peg Leg": () => true,
-  "Pirate Potion": () => true,
-  "Pirate Hat": () => true,
+  "Fruit Picker Shirt": () => false,
+  "Fruit Picker Apron": () => false,
+  "Fruit Bowl": () => false,
+  "Striped Blue Shirt": () => false,
+  "Peg Leg": () => false,
+  "Pirate Potion": () => false,
+  "Pirate Hat": () => false,
   "Pirate General Coat": () => true,
   "Pirate Pants": () => true,
   "Pirate Leather Polo": () => true,
@@ -1430,7 +1438,8 @@ export const BUMPKIN_WITHDRAWABLES: Record<
   "Ugly Christmas Sweater": () => true,
   "Candy Cane": () => true,
   "Elf Hat": () => true,
-  "Elf Potion": () => false,
+  "Elf Potion": () =>
+    canWithdrawTimebasedItem(SEASONS["Pharaoh's Treasure"].endDate),
   "Elf Shoes": () => false,
   "Elf Suit": () => true,
   "Santa Beard": () => true,
@@ -1579,4 +1588,27 @@ export const BUMPKIN_WITHDRAWABLES: Record<
     canWithdrawBoostedWearable("Grape Pants", state) &&
     hasSeasonEnded("Pharaoh's Treasure"),
   "Fossil Head": () => canWithdrawTimebasedItem(new Date("2024-10-03")), // Last Auction 2nd October
+
+  //Kingdom Shop Items
+  "Bumpkin Crown": () => false,
+  "Goblin Crown": () => false,
+  "Nightshade Crown": () => false,
+  "Sunflorian Crown": () => false,
+  "Bumpkin Shield": () => false,
+  "Goblin Shield": () => false,
+  "Nightshade Shield": () => false,
+  "Sunflorian Shield": () => false,
+  "Bumpkin Quiver": () => false,
+  "Goblin Quiver": () => false,
+  "Nightshade Quiver": () => false,
+  "Sunflorian Quiver": () => false,
+  "Bumpkin Medallion": () => false,
+  "Goblin Medallion": () => false,
+  "Nightshade Medallion": () => false,
+  "Sunflorian Medallion": () => false,
+
+  // Map Background
+  "Pumpkin Plaza Background": () => false,
+  "Goblin Retreat Background": () => false,
+  "Kingdom Background": () => false,
 };

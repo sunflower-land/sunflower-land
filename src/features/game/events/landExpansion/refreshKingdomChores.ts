@@ -1,5 +1,5 @@
 import { GameState } from "features/game/types/game";
-import cloneDeep from "lodash.clonedeep";
+import { produce } from "immer";
 
 export type RefreshKingdomChoresAction = {
   type: "kingdomChores.refreshed";
@@ -11,5 +11,7 @@ type Options = {
 };
 
 export function refreshKingdomChores({ state }: Options) {
-  return cloneDeep<GameState>(state);
+  return produce(state, (stateCopy) => {
+    return stateCopy;
+  });
 }

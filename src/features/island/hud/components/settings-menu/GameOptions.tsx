@@ -10,10 +10,8 @@ import { Context as GameContext } from "features/game/GameProvider";
 
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Label } from "components/ui/Label";
-import { shortAddress } from "lib/utils/shortAddress";
 import { translate } from "lib/i18n/translate";
 
-import walletIcon from "assets/icons/wallet.png";
 import { removeJWT } from "features/auth/actions/social";
 import { WalletContext } from "features/wallet/WalletProvider";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
@@ -46,7 +44,10 @@ import { AppearanceSettings } from "./general-settings/AppearanceSettings";
 import { FontSettings } from "./general-settings/FontSettings";
 import { ConfirmationModal } from "components/ui/ConfirmationModal";
 import ticket from "assets/icons/ticket.png";
+import lockIcon from "assets/icons/lock.png";
 import { DEV_HoarderCheck } from "./amoy-actions/DEV_HoardingCheck";
+import { WalletAddressLabel } from "components/ui/WalletAddressLabel";
+import { PickServer } from "./plaza-settings/PickServer";
 
 export interface ContentComponentProps {
   onSubMenuClick: (id: SettingMenuId) => void;
@@ -97,6 +98,8 @@ const GameOptions: React.FC<ContentComponentProps> = ({
     walletService.send("RESET");
   };
 
+  const canRefresh = !gameService.state.context.state.transaction;
+
   return (
     <>
       {/* Root menu */}
@@ -135,20 +138,12 @@ const GameOptions: React.FC<ContentComponentProps> = ({
         </div>
         <div className="flex flex-wrap items-center justify-between mx-2">
           {gameService.state?.context?.linkedWallet && (
-            <Label
-              type="formula"
-              className="mb-1 mr-4"
-              icon={walletIcon}
-              onClick={() => {
-                copypaste.play();
-                clipboard.copy(
-                  gameService.state?.context?.linkedWallet as string,
-                );
-              }}
-            >
-              {t("linked.wallet")} {"-"}{" "}
-              {shortAddress(gameService.state.context.linkedWallet)}
-            </Label>
+            <WalletAddressLabel
+              walletAddress={
+                (gameService.state?.context?.linkedWallet as string) || "XXXX"
+              }
+              showLabelTitle={true}
+            />
           )}
         </div>
       </>
@@ -157,21 +152,16 @@ const GameOptions: React.FC<ContentComponentProps> = ({
           <span>{t("install.app")}</span>
         </Button>
       )}
-      {/* To revamp and add back later*/}
-      {/* <li className="p-1">
-                  <Button disabled={true} onClick={handleHowToPlay}>
-                    <div className="flex items-center justify-center">
-                      <span>{t("gameOptions.howToPlay")}</span>
-                      <img
-                        src={SUNNYSIDE.icons.expression_confused}
-                        className="w-3 ml-2"
-                        alt="question-mark"
-                      />
-                    </div>
-                  </Button>
-                  </li> */}
-      <Button className="p-1 mb-1" onClick={refreshSession}>
+      <Button
+        disabled={!canRefresh}
+        className="p-1 mb-1 relative"
+        onClick={refreshSession}
+      >
         {t("gameOptions.blockchainSettings.refreshChain")}
+
+        {!canRefresh && (
+          <img src={lockIcon} className="absolute right-1 top-0.5 h-7" />
+        )}
       </Button>
       {CONFIG.NETWORK === "amoy" && (
         <Button className="p-1 mb-1" onClick={() => onSubMenuClick("amoy")}>
@@ -271,7 +261,10 @@ export type SettingMenuId =
 
   // Amoy Testnet Actions
   | "mainnetHoardingCheck"
-  | "amoyHoardingCheck";
+  | "amoyHoardingCheck"
+
+  // Plaza Settings
+  | "pickServer";
 
 interface SettingMenu {
   title: string;
@@ -329,7 +322,7 @@ export const settingMenus: Record<SettingMenuId, SettingMenu> = {
     content: TransferAccount,
   },
   swapSFL: {
-    title: translate("gameOptions.blockchainSettings.swapMaticForSFL"),
+    title: translate("gameOptions.blockchainSettings.swapPOLForSFL"),
     parent: "blockchain",
     content: AddSFL,
   },
@@ -371,5 +364,12 @@ export const settingMenus: Record<SettingMenuId, SettingMenu> = {
     title: "Hoarding Check (Amoy)",
     parent: "amoy",
     content: (props) => <DEV_HoarderCheck {...props} network="amoy" />,
+  },
+
+  // Plaza Settings
+  pickServer: {
+    title: "Pick Server",
+    parent: "plaza",
+    content: PickServer,
   },
 };

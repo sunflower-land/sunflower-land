@@ -1,10 +1,10 @@
 import Decimal from "decimal.js-light";
-import cloneDeep from "lodash.clonedeep";
 import {
   FRUIT_COMPOST,
   FruitCompostName,
 } from "features/game/types/composters";
 import { GameState, PlantedFruit } from "features/game/types/game";
+import { produce } from "immer";
 
 export enum FERTILISE_FRUIT_ERRORS {
   EMPTY_PATCH = "Fruit Patch does not exist!",
@@ -40,48 +40,49 @@ export function fertiliseFruitPatch({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  const stateCopy = cloneDeep(state);
-  const { fruitPatches, inventory } = stateCopy;
+  return produce(state, (stateCopy) => {
+    const { fruitPatches, inventory } = stateCopy;
 
-  const fruitPatch = fruitPatches[action.patchID];
+    const fruitPatch = fruitPatches[action.patchID];
 
-  if (!fruitPatch) {
-    throw new Error(FERTILISE_FRUIT_ERRORS.EMPTY_PATCH);
-  }
+    if (!fruitPatch) {
+      throw new Error(FERTILISE_FRUIT_ERRORS.EMPTY_PATCH);
+    }
 
-  if (fruitPatch.fertiliser) {
-    throw new Error(FERTILISE_FRUIT_ERRORS.FRUIT_ALREADY_FERTILISED);
-  }
+    if (fruitPatch.fertiliser) {
+      throw new Error(FERTILISE_FRUIT_ERRORS.FRUIT_ALREADY_FERTILISED);
+    }
 
-  if (!action.fertiliser) {
-    throw new Error(FERTILISE_FRUIT_ERRORS.NO_FERTILISER_SELECTED);
-  }
+    if (!action.fertiliser) {
+      throw new Error(FERTILISE_FRUIT_ERRORS.NO_FERTILISER_SELECTED);
+    }
 
-  if (!(action.fertiliser in FRUIT_COMPOST)) {
-    throw new Error(FERTILISE_FRUIT_ERRORS.NOT_A_FERTILISER);
-  }
+    if (!(action.fertiliser in FRUIT_COMPOST)) {
+      throw new Error(FERTILISE_FRUIT_ERRORS.NOT_A_FERTILISER);
+    }
 
-  const fertiliserAmount = inventory[action.fertiliser] || new Decimal(0);
+    const fertiliserAmount = inventory[action.fertiliser] || new Decimal(0);
 
-  if (fertiliserAmount.lessThan(1)) {
-    throw new Error(FERTILISE_FRUIT_ERRORS.NOT_ENOUGH_FERTILISER);
-  }
+    if (fertiliserAmount.lessThan(1)) {
+      throw new Error(FERTILISE_FRUIT_ERRORS.NOT_ENOUGH_FERTILISER);
+    }
 
-  // Apply fertiliser
-  fruitPatches[action.patchID] = {
-    ...fruitPatch,
-    fertiliser: {
-      name: action.fertiliser,
-      fertilisedAt: createdAt,
-    },
-  };
+    // Apply fertiliser
+    fruitPatches[action.patchID] = {
+      ...fruitPatch,
+      fertiliser: {
+        name: action.fertiliser,
+        fertilisedAt: createdAt,
+      },
+    };
 
-  // Apply boost to already planted
-  if (fruitPatch.fruit) {
-    fruitPatch.fruit.amount += 0.1;
-  }
+    // Apply boost to already planted
+    if (fruitPatch.fruit) {
+      fruitPatch.fruit.amount += 0.1;
+    }
 
-  inventory[action.fertiliser] = fertiliserAmount.minus(1);
+    inventory[action.fertiliser] = fertiliserAmount.minus(1);
 
-  return stateCopy;
+    return stateCopy;
+  });
 }

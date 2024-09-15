@@ -385,6 +385,190 @@ describe("deliver", () => {
     expect(state.coins).toEqual(336);
   });
 
+  it("rewards 25% SFL when Crown is Active", () => {
+    const state = deliverOrder({
+      state: {
+        ...TEST_FARM,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          equipped: {
+            ...INITIAL_BUMPKIN.equipped,
+            hat: "Goblin Crown",
+          },
+        },
+        faction: {
+          name: "goblins",
+          pledgedAt: 0,
+          history: {},
+          points: 0,
+        },
+        inventory: {
+          "Eggplant Cake": new Decimal(1),
+        },
+        delivery: {
+          ...TEST_FARM.delivery,
+          fulfilledCount: 0,
+          orders: [
+            {
+              id: "123",
+              createdAt: 0,
+              readyAt: Date.now(),
+              from: "betty",
+              items: {
+                "Eggplant Cake": 1,
+              },
+              reward: { sfl: 320 },
+            },
+          ],
+        },
+      },
+      action: {
+        id: "123",
+        type: "order.delivered",
+      },
+    });
+
+    expect(state.balance).toEqual(new Decimal(400));
+  });
+
+  it("rewards 25% Coins when Crown is Active", () => {
+    const state = deliverOrder({
+      state: {
+        ...TEST_FARM,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          equipped: {
+            ...INITIAL_BUMPKIN.equipped,
+            hat: "Goblin Crown",
+          },
+        },
+        faction: {
+          name: "goblins",
+          pledgedAt: 0,
+          history: {},
+          points: 0,
+        },
+        inventory: {
+          "Eggplant Cake": new Decimal(1),
+        },
+        delivery: {
+          ...TEST_FARM.delivery,
+          fulfilledCount: 0,
+          orders: [
+            {
+              id: "123",
+              createdAt: 0,
+              readyAt: Date.now(),
+              from: "betty",
+              items: {
+                "Eggplant Cake": 1,
+              },
+              reward: { coins: 320 },
+            },
+          ],
+        },
+      },
+      action: {
+        id: "123",
+        type: "order.delivered",
+      },
+    });
+
+    expect(state.coins).toEqual(400);
+  });
+
+  it("Crown Boost won't apply if not in a faction", () => {
+    const state = deliverOrder({
+      state: {
+        ...TEST_FARM,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          equipped: {
+            ...INITIAL_BUMPKIN.equipped,
+            hat: "Goblin Crown",
+          },
+        },
+        faction: {
+          name: "nightshades",
+          pledgedAt: 0,
+          history: {},
+          points: 0,
+        },
+        inventory: {
+          "Eggplant Cake": new Decimal(1),
+        },
+        delivery: {
+          ...TEST_FARM.delivery,
+          fulfilledCount: 0,
+          orders: [
+            {
+              id: "123",
+              createdAt: 0,
+              readyAt: Date.now(),
+              from: "betty",
+              items: {
+                "Eggplant Cake": 1,
+              },
+              reward: { coins: 320 },
+            },
+          ],
+        },
+      },
+      action: {
+        id: "123",
+        type: "order.delivered",
+      },
+    });
+
+    expect(state.coins).toEqual(320);
+  });
+
+  it("Crown Boost won't apply if not in the right faction", () => {
+    const state = deliverOrder({
+      state: {
+        ...TEST_FARM,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          equipped: {
+            ...INITIAL_BUMPKIN.equipped,
+            hat: "Goblin Crown",
+          },
+        },
+        faction: {
+          name: "nightshades",
+          pledgedAt: 0,
+          history: {},
+          points: 0,
+        },
+        inventory: {
+          "Eggplant Cake": new Decimal(1),
+        },
+        delivery: {
+          ...TEST_FARM.delivery,
+          fulfilledCount: 0,
+          orders: [
+            {
+              id: "123",
+              createdAt: 0,
+              readyAt: Date.now(),
+              from: "betty",
+              items: {
+                "Eggplant Cake": 1,
+              },
+              reward: { coins: 320 },
+            },
+          ],
+        },
+      },
+      action: {
+        id: "123",
+        type: "order.delivered",
+      },
+    });
+
+    expect(state.coins).toEqual(320);
+  });
+
   it("rewards season tickets", () => {
     const state = deliverOrder({
       state: {
@@ -749,5 +933,165 @@ describe("deliver", () => {
     });
 
     expect(state.inventory[getSeasonalTicket()]).toEqual(new Decimal(3));
+  });
+
+  it("add 20% coins bonus if has Betty's Friend skill on Betty's orders with Coins reward", () => {
+    const state = deliverOrder({
+      state: {
+        ...TEST_FARM,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          skills: {
+            "Betty's Friend": 1,
+          },
+        },
+        inventory: {
+          Sunflower: new Decimal(60),
+        },
+        delivery: {
+          ...TEST_FARM.delivery,
+          fulfilledCount: 3,
+          orders: [
+            {
+              id: "123",
+              createdAt: 0,
+              readyAt: new Date("2023-10-31T15:00:00Z").getTime(),
+              from: "betty",
+              items: {
+                Sunflower: 50,
+              },
+              reward: { coins: 100 },
+            },
+          ],
+        },
+      },
+      action: {
+        id: "123",
+        type: "order.delivered",
+      },
+      createdAt: new Date("2024-05-10T16:00:00Z").getTime(),
+    });
+
+    expect(state.coins).toEqual(120);
+  });
+
+  it("does not add 20% coins bonus if has Betty's Friend skill on non Betty's orders with Coins reward", () => {
+    const state = deliverOrder({
+      state: {
+        ...TEST_FARM,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          skills: {
+            "Betty's Friend": 1,
+          },
+        },
+        inventory: {
+          Sunflower: new Decimal(60),
+        },
+        delivery: {
+          ...TEST_FARM.delivery,
+          fulfilledCount: 3,
+          orders: [
+            {
+              id: "123",
+              createdAt: 0,
+              readyAt: new Date("2023-10-31T15:00:00Z").getTime(),
+              from: "pumpkin' pete",
+              items: {
+                Sunflower: 50,
+              },
+              reward: { coins: 100 },
+            },
+          ],
+        },
+      },
+      action: {
+        id: "123",
+        type: "order.delivered",
+      },
+      createdAt: new Date("2024-05-10T16:00:00Z").getTime(),
+    });
+
+    expect(state.coins).toEqual(100);
+  });
+
+  it("gives 50% more Coins profit on completed fruit deliveries if player has Fruity Profit skill", () => {
+    const state = deliverOrder({
+      state: {
+        ...TEST_FARM,
+        coins: 0,
+        inventory: {
+          Orange: new Decimal(5),
+          Grape: new Decimal(2),
+        },
+        delivery: {
+          ...TEST_FARM.delivery,
+          orders: [
+            {
+              id: "123",
+              createdAt: 0,
+              readyAt: Date.now(),
+              from: "betty",
+              items: {
+                Orange: 5,
+                Grape: 2,
+              },
+              reward: { coins: 320 },
+            },
+          ],
+        },
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          skills: {
+            "Fruity Profit": 1,
+          },
+        },
+      },
+      action: {
+        id: "123",
+        type: "order.delivered",
+      },
+    });
+
+    expect(state.coins).toEqual(480);
+  });
+
+  it("does not give Fruity Profit bonus if item is not fruit", () => {
+    const state = deliverOrder({
+      state: {
+        ...TEST_FARM,
+        coins: 0,
+        inventory: {
+          "Sunflower Cake": new Decimal(1),
+        },
+        delivery: {
+          ...TEST_FARM.delivery,
+          orders: [
+            {
+              id: "123",
+              createdAt: 0,
+              readyAt: Date.now(),
+              from: "betty",
+              items: {
+                "Sunflower Cake": 1,
+              },
+              reward: { coins: 320 },
+            },
+          ],
+        },
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          skills: {
+            "Fruity Profit": 1,
+          },
+        },
+      },
+      action: {
+        id: "123",
+        type: "order.delivered",
+      },
+    });
+
+    expect(state.coins).toEqual(320);
   });
 });

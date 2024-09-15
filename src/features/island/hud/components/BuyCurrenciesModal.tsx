@@ -30,7 +30,6 @@ import { Button } from "components/ui/Button";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { SquareIcon } from "components/ui/SquareIcon";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { hasFeatureAccess } from "lib/flags";
 import { VIPItems } from "../../../game/components/modal/components/VIPItems";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
@@ -161,9 +160,7 @@ export const BuyCurrenciesModal: React.FC<Props> = ({
           tabs={[
             { icon: blockBuckIcon, name: `Block Bucks` },
             { icon: exchangeIcon, name: `${t("sfl/coins")}` },
-            ...(hasFeatureAccess(state, "BANNER_SALES")
-              ? [{ icon: vipIcon, name: "VIP" }]
-              : []),
+            { icon: vipIcon, name: "VIP" },
           ]}
         >
           {tab === 0 && (
@@ -264,9 +261,7 @@ export const BuyCurrenciesModal: React.FC<Props> = ({
               )}
             </div>
           )}
-          {tab === 2 && hasFeatureAccess(state, "BANNER_SALES") && (
-            <VIPItems onClose={onClose} />
-          )}
+          {tab === 2 && <VIPItems onClose={onClose} />}
         </CloseButtonPanel>
       )}
     </Modal>

@@ -71,6 +71,69 @@ describe("buyFactionShopItem", () => {
     ).toThrow("Player does not have enough marks");
   });
 
+  it("throws an error if player does not have required wearable", () => {
+    expect(() =>
+      buyFactionShopItem({
+        state: {
+          ...GAME_STATE,
+          inventory: {
+            Mark: new Decimal(FACTION_SHOP_ITEMS["Goblin Crown"].price),
+          },
+        },
+        action: {
+          type: "factionShopItem.bought",
+          item: "Goblin Crown",
+        },
+      }),
+    ).toThrow("Player does not have enough required item");
+  });
+
+  it("throws an error if required wearable is active", () => {
+    expect(() =>
+      buyFactionShopItem({
+        state: {
+          ...GAME_STATE,
+          inventory: {
+            Mark: new Decimal(FACTION_SHOP_ITEMS["Goblin Crown"].price),
+          },
+          wardrobe: {
+            "Goblin Helmet": 3,
+          },
+          bumpkin: {
+            ...INITIAL_BUMPKIN,
+            equipped: { ...INITIAL_BUMPKIN.equipped, hat: "Goblin Helmet" },
+          },
+        },
+        action: {
+          type: "factionShopItem.bought",
+          item: "Goblin Crown",
+        },
+      }),
+    ).toThrow("Player is using required item");
+  });
+
+  it("purchases a crown", () => {
+    const state = buyFactionShopItem({
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          Mark: new Decimal(FACTION_SHOP_ITEMS["Goblin Crown"].price),
+        },
+        wardrobe: {
+          "Goblin Helmet": 1,
+        },
+      },
+      action: {
+        type: "factionShopItem.bought",
+        item: "Goblin Crown",
+      },
+    });
+
+    expect(state.wardrobe["Goblin Helmet"]).toBe(0);
+    expect(state.wardrobe["Goblin Crown"]).toBe(1);
+    expect(state.inventory.Mark).toStrictEqual(new Decimal(0));
+  });
+
   it("purchases a wearable", () => {
     const state = buyFactionShopItem({
       state: {
@@ -109,5 +172,57 @@ describe("buyFactionShopItem", () => {
 
     expect(state.inventory["Bumpkin Charm Egg"]).toStrictEqual(new Decimal(1));
     expect(state.inventory.Mark).toStrictEqual(new Decimal(0));
+  });
+
+  it("throws an error if key already bought today", () => {
+    expect(() =>
+      buyFactionShopItem({
+        state: {
+          ...GAME_STATE,
+          inventory: {
+            "Treasure Key": new Decimal(0),
+            Mark: new Decimal(FACTION_SHOP_ITEMS["Treasure Key"].price),
+          },
+          pumpkinPlaza: {
+            keysBought: {
+              factionShop: {
+                "Treasure Key": {
+                  boughtAt: new Date("2024-08-09").getTime(),
+                },
+              },
+              treasureShop: {},
+              megastore: {},
+            },
+          },
+        },
+        action: {
+          type: "factionShopItem.bought",
+          item: "Treasure Key",
+        },
+        createdAt: new Date("2024-08-09").getTime(),
+      }),
+    ).toThrow("Already bought today");
+  });
+
+  it("updates createdAt when key is bought", () => {
+    const state = buyFactionShopItem({
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          "Treasure Key": new Decimal(0),
+          Mark: new Decimal(FACTION_SHOP_ITEMS["Treasure Key"].price),
+        },
+      },
+      action: {
+        type: "factionShopItem.bought",
+        item: "Treasure Key",
+      },
+      createdAt: new Date("2024-09-01").getTime(),
+    });
+    expect(state.inventory["Treasure Key"]).toStrictEqual(new Decimal(1));
+    expect(state.inventory.Mark).toStrictEqual(new Decimal(0));
+    expect(
+      state.pumpkinPlaza.keysBought?.factionShop["Treasure Key"]?.boughtAt,
+    ).toEqual(new Date("2024-09-01").getTime());
   });
 });

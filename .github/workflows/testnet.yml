@@ -38,7 +38,7 @@ jobs:
           VITE_ACCOUNT_MINTER_CONTRACT: "0x891a1910fCf5Fae3e91DECE231806fae720b7743"
           VITE_SESSION_CONTRACT: "0x91083eE5761D5b0C286AB6bfb1E73E5895EaBe22"
           VITE_AUCTION_CONTRACT: "0x4AF3425117D7D50f84aA300cc6EF72a1211f543F"
-          VITE_GAME_CONTRACT: "0x05BbC2c442A7468538e68B1F70a97C9140227b0e"
+          VITE_GAME_CONTRACT: "0x6EC7018cA99bd820077D16724AAD72706524B1dF"
           VITE_FARM_CONTRACT: "0x6E625972Ca5206Ae213650CDc10fba1878540352"
           VITE_INVENTORY_CONTRACT: "0xAF9f4013b569A69Ed43DB368598B37fE08fa3520"
           VITE_TOKEN_CONTRACT: "0x64C865248a4ba3E9993F0c948246C0cC17E50F8F"
@@ -75,6 +75,7 @@ jobs:
 
           VITE_BUD_CONTRACT: "0x5b6563e99A8FCafE125b6023D723E8d372e36E96"
           VITE_DEQUIPPER_CONTRACT: "0x1D14762E8A50E031e4Da3125c300a1D7370CBA4f"
+          VITE_MARKETPLACE_CONTRACT: "0x092801ab2375c03a15D6dEbfF8da80F80Ca1F697"
 
           VITE_ALCHEMY_RPC: ${{ secrets.ALCHEMY_RPC }}
           VITE_POKO_API_KEY: ${{ secrets.POKO_API_KEY }}
@@ -87,7 +88,7 @@ jobs:
           VITE_ANIMATION_URL: "https://animations-dev.sunflower-land.com"
 
       - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v1.5.9
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}

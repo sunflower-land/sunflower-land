@@ -17,7 +17,10 @@ import { getBudExperienceBoosts } from "features/game/lib/getBudExperienceBoosts
 import { getBumpkinLevel } from "features/game/lib/level";
 import { isWearableActive } from "features/game/lib/wearables";
 import { SellableItem } from "features/game/events/landExpansion/sellCrop";
-import { getFactionPetBoostMultiplier } from "features/game/lib/factions";
+import {
+  FACTION_ITEMS,
+  getFactionPetBoostMultiplier,
+} from "features/game/lib/factions";
 
 const crops = CROPS;
 
@@ -54,15 +57,21 @@ export const getSellPrice = ({
   game: GameState;
   now?: Date;
 }) => {
-  let price = item.sellPrice;
+  const price = item.sellPrice;
 
-  const inventory = game.inventory;
+  const { inventory, bumpkin } = game;
+
+  if (!bumpkin) {
+    throw new Error("You do not have a Bumpkin");
+  }
 
   if (!price) return 0;
 
+  let multiplier = 1;
+
   // apply Green Thumb boost to crop LEGACY SKILL!
   if (item.name in crops && inventory["Green Thumb"]?.greaterThanOrEqualTo(1)) {
-    price = price * 1.05;
+    multiplier += 0.05;
   }
 
   // Crop Shortage during initial gameplay
@@ -70,7 +79,7 @@ export const getSellPrice = ({
     game.createdAt + CROP_SHORTAGE_HOURS * 60 * 60 * 1000 > now.getTime();
 
   if (item.name in CROPS && isCropShortage) {
-    price = price * 2;
+    multiplier += 1;
   }
 
   // Special Events
@@ -83,10 +92,14 @@ export const getSellPrice = ({
   ]?.saleMultiplier;
 
   if (specialEventMultiplier) {
-    price = price * specialEventMultiplier;
+    multiplier += specialEventMultiplier - 1;
   }
 
-  return price;
+  if (bumpkin.skills["Coin Swindler"] && item.name in CROPS) {
+    multiplier += 0.1;
+  }
+
+  return price * multiplier;
 };
 
 /**
@@ -122,6 +135,18 @@ export const getCookingTime = (
   // Luna's Hat - 50% reduction
   if (isWearableActive({ name: "Luna's Hat", game })) {
     reducedSecs = reducedSecs.mul(0.5);
+  }
+
+  //Faction Medallion -25% reduction
+  const factionName = game.faction?.name;
+  if (
+    factionName &&
+    isWearableActive({
+      game,
+      name: FACTION_ITEMS[factionName].necklace,
+    })
+  ) {
+    reducedSecs = reducedSecs.mul(0.75);
   }
 
   if (isCollectibleActive({ name: "Time Warp Totem", game })) {

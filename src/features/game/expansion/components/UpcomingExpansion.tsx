@@ -297,10 +297,13 @@ export const UpcomingExpansion: React.FC = () => {
     // Only pulsate first 5 times
     state.inventory["Basic Land"]?.lte(4);
 
-  const maxExpanded = expansions > 9;
   const islandType = state.island.type;
-
-  const hasFullBasicIsland = maxExpanded && islandType === "basic";
+  const maxExpanded =
+    islandType === "basic"
+      ? expansions > 9
+      : islandType === "spring"
+        ? expansions > 16
+        : null;
 
   return (
     <>
@@ -312,7 +315,7 @@ export const UpcomingExpansion: React.FC = () => {
         />
       )}
 
-      {!state.expansionConstruction && requirements && !hasFullBasicIsland && (
+      {!state.expansionConstruction && requirements && !maxExpanded && (
         <ExpandIcon
           canExpand={canExpand}
           inventory={state.inventory}

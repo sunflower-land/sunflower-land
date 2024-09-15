@@ -12,11 +12,12 @@ import React, { useContext, useState } from "react";
 
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { ChestRevealing } from "./ChestRevealing";
+import { Keys } from "features/game/types/game";
 
 interface Props {
   onClose: () => void;
   location: "plaza";
-  type: "Treasure Key" | "Rare Key" | "Luxury Key";
+  type: Keys;
   setIsLoading?: (isLoading: boolean) => void;
 }
 

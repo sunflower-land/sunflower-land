@@ -3,6 +3,7 @@ import { CONFIG } from "./config";
 import { Currency, InventoryItemName } from "features/game/types/game";
 import { BumpkinItem } from "features/game/types/bumpkin";
 import { DigAnalytics } from "features/world/scenes/BeachScene";
+import { ExperimentName } from "./flags";
 
 // Their type definition has some issues, extract to here
 enum EGAResourceFlowType {
@@ -21,7 +22,13 @@ enum EGAResourceFlowType {
 class GameAnalyticTracker {
   private executed: Record<string, boolean> = {};
 
-  public async initialise(id: number) {
+  public async initialise({
+    id,
+    experiments,
+  }: {
+    id: number;
+    experiments: ExperimentName[];
+  }) {
     try {
       if (!id) {
         throw new Error("Missing User ID for analytics");
@@ -32,6 +39,16 @@ class GameAnalyticTracker {
       GameAnalytics.configureBuild(CONFIG.RELEASE_VERSION);
 
       GameAnalytics.configureUserId(`account${id}`);
+
+      const validExperiments: ExperimentName[] = ["ONBOARDING_CHALLENGES"];
+      GameAnalytics.configureAvailableCustomDimensions01([
+        "NONE",
+        ...validExperiments,
+      ]);
+
+      if (experiments.length > 0) {
+        GameAnalytics.setCustomDimension01(experiments[0]);
+      }
 
       GameAnalytics.configureAvailableResourceCurrencies([
         "SFL",

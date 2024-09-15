@@ -1,4 +1,3 @@
-import cloneDeep from "lodash.clonedeep";
 import Decimal from "decimal.js-light";
 import {
   ConsumableName,
@@ -14,6 +13,7 @@ import {
   BuildingName,
   CookingBuildingName,
 } from "features/game/types/buildings";
+import { produce } from "immer";
 
 export const FLAGGED_RECIPES: Partial<Record<ConsumableName, FeatureName>> = {};
 
@@ -126,67 +126,70 @@ export function cook({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  const stateCopy: GameState = cloneDeep(state);
+  return produce(state, (stateCopy) => {
+    const { building: requiredBuilding, ingredients } = COOKABLES[action.item];
+    const { buildings, bumpkin } = stateCopy;
+    const buildingsOfRequiredType = buildings[requiredBuilding];
 
-  const { building: requiredBuilding, ingredients } = COOKABLES[action.item];
-  const { buildings, bumpkin } = stateCopy;
-  const buildingsOfRequiredType = buildings[requiredBuilding];
-
-  if (!Object.keys(buildings).length || !buildingsOfRequiredType) {
-    throw new Error(translate("error.requiredBuildingNotExist"));
-  }
-
-  const building = buildingsOfRequiredType.find(
-    (building) => building.id === action.buildingId,
-  );
-
-  if (bumpkin === undefined) {
-    throw new Error("You do not have a Bumpkin!");
-  }
-
-  if (!building) {
-    throw new Error(translate("error.requiredBuildingNotExist"));
-  }
-
-  if (building.crafting !== undefined) {
-    throw new Error(translate("error.cookingInProgress"));
-  }
-
-  const oilConsumed = getCookingOilBoost(
-    action.item,
-    stateCopy,
-    action.buildingId,
-  ).oilConsumed;
-
-  stateCopy.inventory = getKeys(ingredients).reduce((inventory, ingredient) => {
-    const count = inventory[ingredient] || new Decimal(0);
-    const amount = ingredients[ingredient] || new Decimal(0);
-
-    if (count.lessThan(amount)) {
-      throw new Error(`Insufficient ingredient: ${ingredient}`);
+    if (!Object.keys(buildings).length || !buildingsOfRequiredType) {
+      throw new Error(translate("error.requiredBuildingNotExist"));
     }
 
-    return {
-      ...inventory,
-      [ingredient]: count.sub(amount),
+    const building = buildingsOfRequiredType.find(
+      (building) => building.id === action.buildingId,
+    );
+
+    if (bumpkin === undefined) {
+      throw new Error("You do not have a Bumpkin!");
+    }
+
+    if (!building) {
+      throw new Error(translate("error.requiredBuildingNotExist"));
+    }
+
+    if (building.crafting !== undefined) {
+      throw new Error(translate("error.cookingInProgress"));
+    }
+
+    const oilConsumed = getCookingOilBoost(
+      action.item,
+      stateCopy,
+      action.buildingId,
+    ).oilConsumed;
+
+    stateCopy.inventory = getKeys(ingredients).reduce(
+      (inventory, ingredient) => {
+        const count = inventory[ingredient] || new Decimal(0);
+        const amount = ingredients[ingredient] || new Decimal(0);
+
+        if (count.lessThan(amount)) {
+          throw new Error(`Insufficient ingredient: ${ingredient}`);
+        }
+
+        return {
+          ...inventory,
+          [ingredient]: count.sub(amount),
+        };
+      },
+      stateCopy.inventory,
+    );
+
+    building.crafting = {
+      name: action.item,
+      boost: { Oil: oilConsumed },
+      readyAt: getReadyAt({
+        buildingId: action.buildingId,
+        item: action.item,
+        bumpkin,
+        createdAt,
+        game: stateCopy,
+      }),
     };
-  }, stateCopy.inventory);
 
-  building.crafting = {
-    name: action.item,
-    boost: { Oil: oilConsumed },
-    readyAt: getReadyAt({
-      buildingId: action.buildingId,
-      item: action.item,
-      bumpkin,
-      createdAt,
-      game: stateCopy,
-    }),
-  };
+    const previousOilRemaining = building.oil || 0;
 
-  const previousOilRemaining = building.oil || 0;
+    building.oil = previousOilRemaining - oilConsumed;
 
-  building.oil = previousOilRemaining - oilConsumed;
-
-  return stateCopy;
+    return stateCopy;
+  });
 }

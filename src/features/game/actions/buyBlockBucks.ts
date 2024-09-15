@@ -55,8 +55,7 @@ export async function buyBlockBucks(request: Request): Promise<Response> {
 export async function buyBlockBucksMATIC(transaction: any) {
   await _buyBlockBucksMATIC({
     ...transaction,
-    web3: wallet.web3Provider,
-    account: wallet.myAccount as string,
+    account: wallet.getAccount(),
   });
 
   return { success: true, verified: true };

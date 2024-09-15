@@ -1,11 +1,10 @@
-import cloneDeep from "lodash.clonedeep";
-
 import { GameState } from "features/game/types/game";
 import {
   ResourceName,
   RESOURCE_DIMENSIONS,
 } from "features/game/types/resources";
 import Decimal from "decimal.js-light";
+import { produce } from "immer";
 
 export type PlaceIronAction = {
   type: "iron.placed";
@@ -28,29 +27,29 @@ export function placeIron({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  const game = cloneDeep(state) as GameState;
+  return produce(state, (game) => {
+    const available = (game.inventory["Iron Rock"] || new Decimal(0)).minus(
+      Object.keys(game.iron).length,
+    );
 
-  const available = (game.inventory["Iron Rock"] || new Decimal(0)).minus(
-    Object.keys(game.iron).length,
-  );
+    if (available.lt(1)) {
+      throw new Error("No iron available");
+    }
 
-  if (available.lt(1)) {
-    throw new Error("No iron available");
-  }
-
-  game.iron = {
-    ...game.iron,
-    [action.id as unknown as number]: {
-      createdAt: createdAt,
-      x: action.coordinates.x,
-      y: action.coordinates.y,
-      ...RESOURCE_DIMENSIONS["Iron Rock"],
-      stone: {
-        amount: 0,
-        minedAt: 0,
+    game.iron = {
+      ...game.iron,
+      [action.id as unknown as number]: {
+        createdAt: createdAt,
+        x: action.coordinates.x,
+        y: action.coordinates.y,
+        ...RESOURCE_DIMENSIONS["Iron Rock"],
+        stone: {
+          amount: 0,
+          minedAt: 0,
+        },
       },
-    },
-  };
+    };
 
-  return game;
+    return game;
+  });
 }

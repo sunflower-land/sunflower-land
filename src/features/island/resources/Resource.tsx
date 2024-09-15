@@ -216,6 +216,7 @@ const _crops = (state: MachineState) => state.context.state.crops;
 const _stones = (state: MachineState) => state.context.state.stones;
 const _iron = (state: MachineState) => state.context.state.iron;
 const _gold = (state: MachineState) => state.context.state.gold;
+const _bumpkin = (state: MachineState) => state.context.state.bumpkin;
 
 const LockedResource: React.FC<ResourceProps> = (props) => {
   const [showPopover, setShowPopover] = useState(false);
@@ -269,6 +270,7 @@ const LandscapingResource: React.FC<ResourceProps> = (props) => {
   const stones = useSelector(gameService, _stones);
   const iron = useSelector(gameService, _iron);
   const gold = useSelector(gameService, _gold);
+  const bumpkin = useSelector(gameService, _bumpkin);
 
   const isResourceLocked = (): boolean => {
     const isPlot = props.name === "Crop Plot";
@@ -278,22 +280,22 @@ const LandscapingResource: React.FC<ResourceProps> = (props) => {
 
     if (isPlot) {
       const plot = crops[props.id];
-      return isPlotLocked(plot, collectibles, Date.now());
+      return isPlotLocked(plot, collectibles, Date.now(), bumpkin);
     }
 
     if (isStone) {
       const stoneRock = stones[props.id];
-      return isStoneLocked(stoneRock, collectibles, Date.now());
+      return isStoneLocked(stoneRock, collectibles, Date.now(), bumpkin);
     }
 
     if (isIron) {
       const ironRock = iron[props.id];
-      return isIronLocked(ironRock, collectibles, Date.now());
+      return isIronLocked(ironRock, collectibles, Date.now(), bumpkin);
     }
 
     if (isGold) {
       const goldRock = gold[props.id];
-      return isGoldLocked(goldRock, collectibles, Date.now());
+      return isGoldLocked(goldRock, collectibles, Date.now(), bumpkin);
     }
 
     return false;

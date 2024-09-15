@@ -90,6 +90,7 @@ export abstract class BaseScene extends Phaser.Scene {
 
   public joystick?: VirtualJoystick;
   private switchToScene?: SceneId;
+  public isCameraFading = false;
   private options: Required<BaseSceneOptions>;
 
   public map: Phaser.Tilemaps.Tilemap = {} as Phaser.Tilemaps.Tilemap;
@@ -391,7 +392,15 @@ export abstract class BaseScene extends Phaser.Scene {
       (window.innerHeight - this.map.height * 4 * HALLOWEEN_SQUARE_WIDTH) / 2;
     camera.setPosition(Math.max(offsetX, 0), Math.max(offsetY, 0));
 
-    camera.fadeIn();
+    camera.fadeIn(500);
+
+    camera.on(
+      "camerafadeincomplete",
+      () => {
+        this.isCameraFading = false;
+      },
+      this,
+    );
   }
 
   public initialiseMMO() {
@@ -653,7 +662,7 @@ export abstract class BaseScene extends Phaser.Scene {
 
           // Change scenes
           const warpTo = (obj2 as any).data?.list?.warp;
-          if (warpTo && this.currentPlayer?.isWalking) {
+          if (warpTo && !this.isCameraFading) {
             this.changeScene(warpTo);
           }
 
@@ -749,7 +758,11 @@ export abstract class BaseScene extends Phaser.Scene {
     return (Math.atan2(y, x) * 180) / Math.PI;
   }
 
-  public walkingSpeed = 50;
+  get walkingSpeed() {
+    if (this.isCameraFading) return 0;
+
+    return WALKING_SPEED;
+  }
 
   updatePlayer() {
     if (!this.currentPlayer?.body) {
@@ -757,7 +770,7 @@ export abstract class BaseScene extends Phaser.Scene {
     }
 
     // Update faction
-    const faction = this.gameService?.state.context.state.faction?.name;
+    const faction = this.gameState.faction?.name;
 
     if (this.currentPlayer.faction !== faction) {
       this.currentPlayer.faction = faction;
@@ -1069,7 +1082,7 @@ export abstract class BaseScene extends Phaser.Scene {
   }
 
   initialiseNPCs(npcs: NPCBumpkin[]) {
-    npcs.forEach((bumpkin, index) => {
+    npcs.forEach((bumpkin) => {
       const defaultClick = () => {
         const distance = Phaser.Math.Distance.BetweenPoints(
           container,
@@ -1077,7 +1090,7 @@ export abstract class BaseScene extends Phaser.Scene {
         );
 
         if (distance > 50) {
-          container.speak("You are too far away");
+          container.speak(translate("base.far.away"));
           return;
         }
         npcModalManager.open(bumpkin.npc);
@@ -1123,17 +1136,15 @@ export abstract class BaseScene extends Phaser.Scene {
    * @param {SceneId} scene The desired scene.
    */
   protected changeScene = (scene: SceneId) => {
-    const originalWalkingSpeed = this.walkingSpeed;
-    this.walkingSpeed = 0;
+    this.isCameraFading = true;
 
     this.currentPlayer?.stopSpeaking();
-    this.cameras.main.fadeOut(1000);
+    this.cameras.main.fadeOut(500);
 
     this.cameras.main.on(
       "camerafadeoutcomplete",
       () => {
         this.switchToScene = scene;
-        this.walkingSpeed = originalWalkingSpeed;
       },
       this,
     );

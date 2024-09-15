@@ -4,7 +4,9 @@ import React from "react";
 import { RequirementLabel } from "../RequirementsLabel";
 import { SquareIcon } from "../SquareIcon";
 import Decimal from "decimal.js-light";
-import { translateTerms } from "lib/i18n/translate";
+import { SUNNYSIDE } from "assets/sunnyside";
+import { formatDateRange } from "lib/utils/time";
+import { Label } from "../Label";
 
 /**
  * The props for the details for items.
@@ -12,6 +14,8 @@ import { translateTerms } from "lib/i18n/translate";
  */
 interface ItemDetailsProps {
   item: InventoryItemName;
+  from?: Date;
+  to?: Date;
 }
 
 /**
@@ -48,7 +52,7 @@ export const ShopSellDetails: React.FC<Props> = ({
     const item = ITEM_DETAILS[details.item];
     const icon = item.image;
     const title = details.item;
-    const description = translateTerms(item.description);
+    const description = item.description;
 
     return (
       <>
@@ -89,6 +93,15 @@ export const ShopSellDetails: React.FC<Props> = ({
   return (
     <div className="flex flex-col h-full justify-center">
       <div className="flex flex-col h-full px-1 py-0">
+        {details.from && (
+          <Label
+            icon={SUNNYSIDE.icons.stopwatch}
+            type="warning"
+            className="my-1 mx-auto whitespace-nowrap"
+          >
+            {formatDateRange(details.from, details.to as Date)}
+          </Label>
+        )}
         {getItemDetail()}
         {getProperties()}
       </div>

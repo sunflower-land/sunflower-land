@@ -1,7 +1,5 @@
-import { useActor } from "@xstate/react";
+import { useSelector } from "@xstate/react";
 import React, { useContext, useState } from "react";
-
-import { shortAddress } from "lib/utils/shortAddress";
 
 import { Button } from "components/ui/Button";
 import { Box } from "components/ui/Box";
@@ -14,6 +12,10 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { CONFIG } from "lib/config";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Context } from "features/game/GameProvider";
+import { MachineState } from "features/game/lib/gameMachine";
+import { Label } from "components/ui/Label";
+import { WalletAddressLabel } from "components/ui/WalletAddressLabel";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 
 const imageDomain = CONFIG.NETWORK === "mainnet" ? "buds" : "testnet-buds";
 
@@ -21,13 +23,15 @@ interface Props {
   onWithdraw: (ids: number[]) => void;
 }
 
-export const WithdrawBuds: React.FC<Props> = ({ onWithdraw }) => {
-  const { gameService } = useContext(Context);
-  const [gameState] = useActor(gameService);
+const _state = (state: MachineState) => state.context.state;
 
+export const WithdrawBuds: React.FC<Props> = ({ onWithdraw }) => {
   const { t } = useAppTranslation();
 
-  const buds = gameState.context.state.buds ?? {};
+  const { gameService } = useContext(Context);
+  const state = useSelector(gameService, _state);
+
+  const buds = state.buds ?? {};
 
   const [unselected, setUnselected] = useState<number[]>(
     getKeys(buds).filter((budId) => !buds[budId].coordinates),
@@ -46,8 +50,13 @@ export const WithdrawBuds: React.FC<Props> = ({ onWithdraw }) => {
 
   return (
     <>
-      <div className="p-2 mt-3">
-        <h2 className="mb-3">{t("withdraw.buds")}</h2>
+      <div className="p-2 mb-2">
+        <Label type="warning" className="mb-2">
+          <span className="text-xs">{t("withdraw.restricted")}</span>
+        </Label>
+        <Label type="default" className="mb-2">
+          {t("withdraw.buds")}
+        </Label>
         <div className="flex flex-wrap h-fit -ml-1.5">
           {unselected.map((budId) => (
             <Box
@@ -64,8 +73,10 @@ export const WithdrawBuds: React.FC<Props> = ({ onWithdraw }) => {
               .map((_, index) => <Box disabled key={index} />)}
         </div>
 
-        <div className="mt-2">
-          <h2 className="">{t("selected")}</h2>
+        <div className="mt-4">
+          <Label type="default" className="mb-2">
+            {t("selected")}
+          </Label>
           <div className="flex flex-wrap h-fit mt-2 -ml-1.5">
             {selected.map((budId) => (
               <Box
@@ -83,18 +94,22 @@ export const WithdrawBuds: React.FC<Props> = ({ onWithdraw }) => {
           </div>
         </div>
 
-        <div className="border-white border-t-2 w-full my-3" />
-        <div className="flex items-center mt-2 mb-2  border-white">
-          <img src={SUNNYSIDE.icons.player} className="h-8 mr-2" />
-          <div>
-            <p className="text-sm">{t("withdraw.send.wallet")}</p>
-            <p className="text-sm font-secondary">
-              {shortAddress(wallet.myAccount || "XXXX")}
-            </p>
+        <div className="w-full my-3 border-t border-white" />
+        <div className="flex items-center mb-2 text-xs">
+          <img
+            src={SUNNYSIDE.icons.player}
+            className="mr-3"
+            style={{
+              width: `${PIXEL_SCALE * 13}px`,
+            }}
+          />
+          <div className="flex flex-col gap-1">
+            <p>{t("withdraw.send.wallet")}</p>
+            <WalletAddressLabel walletAddress={wallet.getAccount() || "XXXX"} />
           </div>
         </div>
 
-        <span className="text-sm mb-4">
+        <p className="text-xs">
           {t("withdraw.opensea")}{" "}
           <a
             className="underline hover:text-blue-500"
@@ -104,12 +119,10 @@ export const WithdrawBuds: React.FC<Props> = ({ onWithdraw }) => {
           >
             {t("read.more")}
           </a>
-          {"."}
-        </span>
+        </p>
       </div>
 
       <Button
-        className="mt-3"
         onClick={() => onWithdraw(selected)}
         disabled={selected.length <= 0}
       >

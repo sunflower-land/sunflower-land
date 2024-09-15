@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useActor } from "@xstate/react";
 
 import { Context } from "features/game/GameProvider";
@@ -31,6 +31,7 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { formatNumber } from "lib/utils/formatNumber";
 import { makeListingType } from "lib/utils/makeTradeListingType";
 import { TRADE_LIMITS } from "features/game/actions/tradeLimits";
+import { SquareIcon } from "components/ui/SquareIcon";
 
 const MAX_NON_VIP_PURCHASES = 3;
 
@@ -48,34 +49,177 @@ interface Props {
   floorPrices: FloorPrices;
 }
 
-export const BuyPanel: React.FC<Props> = ({ floorPrices }) => {
+export const BuyPanel: React.FC<
+  Props & {
+    setUpdatedAt: (updatedAt: number | undefined) => void;
+  }
+> = ({ floorPrices, setUpdatedAt }) => {
   const { t } = useAppTranslation();
-  const { gameService } = useContext(Context);
-  const { authService } = useContext(AuthContext);
-  const [authState] = useActor(authService);
 
   const { openModal } = useContext(ModalContext);
 
   const [view, setView] = useState<"search" | "list">("search");
-  const [selected, setSelected] = useState<InventoryItemName>("Sunflower");
-  const [listings, setListings] = useState<Listing[]>([]);
-  const [selectedListing, setSelectedListing] = useState<Listing>();
-  const [isSearching, setIsSearching] = useState(false);
-  const [warning, setWarning] = useState<"pendingTransaction" | "hoarding">();
-  const [loading, setLoading] = useState(false);
+  const [selected, setSelected] = useState<InventoryItemName>();
+  const { gameService } = useContext(Context);
   const [
     {
-      context: { state, transaction, farmId },
+      context: { state },
     },
   ] = useActor(gameService);
-  const inventory = state.inventory;
+
   const isVIP = hasVipAccess(state.inventory);
   const dailyPurchases = state.trades.dailyPurchases ?? { count: 0, date: 0 };
   const remainingFreePurchases = getRemainingFreePurchases(dailyPurchases);
   const hasPurchasesRemaining = isVIP || remainingFreePurchases > 0;
 
-  const onBack = () => {
-    setView("search");
+  const onSearch = async (resource: Partial<InventoryItemName>) => {
+    setSelected(resource);
+    setView("list");
+  };
+
+  return (
+    <div className="flex flex-col divide-brown-600">
+      <div className="pl-2 pt-2 space-y-1 sm:space-y-0 sm:flex items-center justify-between ml-1.5">
+        <VIPAccess
+          isVIP={isVIP}
+          onUpgrade={() => openModal("BUY_BANNER")}
+          text={t("bumpkinTrade.unlockMoreTrades")}
+        />
+        {!isVIP && (
+          <Label
+            type={hasPurchasesRemaining ? "success" : "danger"}
+            className="-ml-2"
+          >
+            {remainingFreePurchases === 1
+              ? `${t("remaining.free.purchase")}`
+              : `${t("remaining.free.purchases", {
+                  purchasesRemaining: hasPurchasesRemaining
+                    ? remainingFreePurchases
+                    : t("no"),
+                })}`}
+          </Label>
+        )}
+      </div>
+      <div className="flex flex-col items-start justify-between mt-1">
+        <div className="flex overflow-y-auto relative w-full max-h-[400px] scrollable">
+          {view === "search" && (
+            <SearchView
+              floorPrices={floorPrices}
+              onSearch={(name) => onSearch(name)}
+            />
+          )}
+          {view === "list" && (
+            <ListView
+              onBack={() => setView("search")}
+              selected={selected ?? "Sunflower"}
+              hasPurchasesRemaining={hasPurchasesRemaining}
+              setUpdatedAt={setUpdatedAt}
+            />
+          )}
+        </div>
+      </div>
+    </div>
+  );
+};
+interface SearchViewProps extends Props {
+  onSearch: (name: InventoryItemName) => void;
+}
+const SearchView: React.FC<SearchViewProps> = ({ floorPrices, onSearch }) => {
+  if (Object.keys(floorPrices).length === 0) {
+    return <Loading />;
+  }
+
+  return (
+    <div className="p-2">
+      <div className="flex flex-wrap">
+        {getKeys(TRADE_LIMITS).map((name) => (
+          <div
+            key={name}
+            className="w-1/3 sm:w-1/4 md:w-1/5 lg:w-1/6 pr-1 pb-1"
+          >
+            <ListingCategoryCard
+              itemName={name}
+              pricePerUnit={floorPrices[name]}
+              onClick={() => onSearch(name)}
+            />
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+interface ListViewProps {
+  onBack: () => void;
+  selected: InventoryItemName;
+  hasPurchasesRemaining: boolean;
+  setUpdatedAt: (updatedAt: number | undefined) => void;
+}
+
+const ListView: React.FC<ListViewProps> = ({
+  onBack,
+  selected,
+  hasPurchasesRemaining,
+  setUpdatedAt,
+}) => {
+  const { gameService } = useContext(Context);
+  const { t } = useAppTranslation();
+  const THIRTY_SECONDS = 1000 * 30;
+  const [listings, setListings] = useState<Listing[]>([]);
+  const [loading, setLoading] = useState(true);
+  const { authService } = useContext(AuthContext);
+  const [authState] = useActor(authService);
+  const [fulfillListing, setfulfillListing] = useState(false);
+  const [selectedListing, setSelectedListing] = useState<Listing>();
+  const [warning, setWarning] = useState<"pendingTransaction" | "hoarding">();
+  const [
+    {
+      context: { state, farmId },
+    },
+  ] = useActor(gameService);
+  const inventory = state.inventory;
+
+  useEffect(() => {
+    if (!selected || fulfillListing) return;
+
+    const load = async () => {
+      setLoading(true);
+      try {
+        const listings = await getTradeListings(
+          selected.toLowerCase(),
+          authState.context.user.rawToken,
+        );
+        setUpdatedAt(Date.now());
+        setListings(listings);
+      } catch {
+        setListings([]);
+      }
+      setLoading(false);
+    };
+
+    load();
+
+    const interval = setInterval(load, THIRTY_SECONDS);
+
+    return () => {
+      clearInterval(interval);
+      setUpdatedAt(undefined);
+    };
+  }, [
+    THIRTY_SECONDS,
+    authState.context.user.rawToken,
+    selected,
+    setUpdatedAt,
+    fulfillListing,
+  ]);
+
+  const onConfirm = async (listing: Listing) => {
+    setfulfillListing(true);
+    gameService.send("FULFILL_TRADE_LISTING", {
+      sellerId: listing.farmId,
+      listingId: listing.id,
+      listingType: makeListingType(listing.items),
+    });
   };
 
   const confirm = (listing: Listing) => {
@@ -99,164 +243,17 @@ export const BuyPanel: React.FC<Props> = ({ floorPrices }) => {
       return;
     }
 
-    if (transaction && transaction.expiresAt > Date.now()) {
-      setWarning("pendingTransaction");
-      return;
-    }
-
     setSelectedListing(listing);
   };
 
-  const onConfirm = async (listing: Listing) => {
-    gameService.send("FULFILL_TRADE_LISTING", {
-      sellerId: listing.farmId,
-      listingId: listing.id,
-      listingType: makeListingType(listing.items),
-    });
-    setLoading(true);
-  };
-
-  const onSearch = async (resource: Partial<InventoryItemName>) => {
-    setSelected(resource);
-
-    setIsSearching(true);
-    const listings = await getTradeListings(
-      resource.toLowerCase(),
-      authState.context.user.rawToken,
-    );
-
-    setListings(listings);
-    setIsSearching(false);
-    setView("list");
-  };
-
-  return (
-    <>
-      <div className="flex flex-col max-h-[400px] divide-brown-600">
-        <div className="pl-2 pt-2 space-y-1 sm:space-y-0 sm:flex items-center justify-between ml-1.5">
-          <VIPAccess
-            isVIP={isVIP}
-            onUpgrade={() => {
-              openModal("BUY_BANNER");
-            }}
-            text={t("bumpkinTrade.unlockMoreTrades")}
-          />
-          {!isVIP && (
-            <Label
-              type={hasPurchasesRemaining ? "success" : "danger"}
-              className="-ml-2"
-            >
-              {remainingFreePurchases === 1
-                ? `${t("remaining.free.purchase")}`
-                : `${t("remaining.free.purchases", {
-                    purchasesRemaining: hasPurchasesRemaining
-                      ? remainingFreePurchases
-                      : t("no"),
-                  })}`}
-            </Label>
-          )}
-        </div>
-        <div className="flex flex-col min-h-[150px] items-start justify-between">
-          {isSearching && <Loading text={t("searching")} />}
-          {!isSearching && (
-            <div className="flex overflow-y-auto relative w-full scrollable">
-              {view === "search" && (
-                <SearchView
-                  floorPrices={floorPrices}
-                  onSearch={(name) => onSearch(name)}
-                />
-              )}
-              {view === "list" && (
-                <ListView
-                  listings={listings}
-                  onBack={onBack}
-                  onClick={() => {
-                    setLoading(false);
-                    setView("search");
-                  }}
-                  selected={selected}
-                  warning={warning}
-                  loading={loading}
-                  selectedListing={selectedListing}
-                  farmId={farmId}
-                  hasPurchasesRemaining={hasPurchasesRemaining}
-                  onConfirm={onConfirm}
-                  confirm={confirm}
-                  state={state}
-                />
-              )}
-            </div>
-          )}
-        </div>
-      </div>
-    </>
-  );
-};
-interface SearchViewProps extends Props {
-  onSearch: (name: InventoryItemName) => void;
-}
-const SearchView: React.FC<SearchViewProps> = ({ floorPrices, onSearch }) => {
-  if (floorPrices.Sunflower == undefined) {
-    return <Loading />;
+  if (loading && listings.length === 0) {
+    return <Loading text={t("searching")} />;
   }
-
-  return (
-    <div className="p-2">
-      <div className="flex flex-wrap mt-2">
-        {getKeys(TRADE_LIMITS).map((name) => (
-          <div
-            key={name}
-            className="w-1/3 sm:w-1/4 md:w-1/5 lg:w-1/6 pr-1 pb-1"
-          >
-            <ListingCategoryCard
-              itemName={name}
-              pricePerUnit={floorPrices[name]}
-              onClick={() => onSearch(name)}
-            />
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-};
-
-interface ListViewProps {
-  listings: Listing[];
-  onBack: () => void;
-  selected: InventoryItemName;
-  warning?: string;
-  loading: boolean;
-  selectedListing?: Listing;
-  farmId: number;
-  hasPurchasesRemaining: boolean;
-  onConfirm: (listing: Listing) => void;
-  confirm: (listing: Listing) => void;
-  state: GameState;
-  onClick: () => void;
-}
-
-const ListView: React.FC<ListViewProps> = ({
-  listings,
-  onBack,
-  selected,
-  warning,
-  loading,
-  selectedListing,
-  farmId,
-  hasPurchasesRemaining,
-  onConfirm,
-  confirm,
-  state,
-  onClick,
-}) => {
-  const { gameService } = useContext(Context);
-  const inventory = state.inventory;
-  const { t } = useAppTranslation();
 
   if (listings.length === 0) {
     return (
-      <div>
-        <div className="flex items-center">
+      <div className="flex flex-col items-center w-full">
+        <div className="flex items-center w-full">
           <img
             src={SUNNYSIDE.icons.arrow_left}
             className="self-start cursor-pointer mr-3"
@@ -266,14 +263,20 @@ const ListView: React.FC<ListViewProps> = ({
               width: `${PIXEL_SCALE * 11}px`,
             }}
             alt="back"
-            onClick={() => onBack()}
+            onClick={onBack}
           />
           <Label type="default" icon={ITEM_DETAILS[selected].image}>
             {selected}
           </Label>
         </div>
-        <div className="flex flex-col items-center justify-center pb-4">
-          <img src={SUNNYSIDE.icons.search} className="w-16 mx-auto my-2" />
+        <div className="flex flex-col items-center justify-center pb-2">
+          <img
+            src={SUNNYSIDE.icons.search}
+            className="mx-auto my-2"
+            style={{
+              width: `${PIXEL_SCALE * 13}px`,
+            }}
+          />
           <p className="text-sm">{t("trading.no.listings")}</p>
         </div>
       </div>
@@ -282,89 +285,90 @@ const ListView: React.FC<ListViewProps> = ({
 
   if (warning === "hoarding") {
     return (
-      <div className="p-1 flex flex-col items-center">
-        <img src={SUNNYSIDE.icons.lock} className="w-1/5 mb-2" />
+      <div className="flex flex-col items-center w-full">
+        <img
+          src={SUNNYSIDE.icons.lock}
+          className="mb-2"
+          style={{
+            width: `${PIXEL_SCALE * 12}px`,
+          }}
+        />
         <p className="text-sm mb-1 text-center">{t("playerTrade.max.item")}</p>
         <p className="text-xs mb-1 text-center">{t("playerTrade.Progress")}</p>
+        <Button
+          className="mt-2"
+          onClick={() => {
+            setWarning(undefined);
+          }}
+        >
+          {t("back")}
+        </Button>
       </div>
     );
   }
 
-  if (warning === "pendingTransaction") {
+  if (gameService.state.matches("fulfillTradeListing")) {
+    return <Loading text={t("trading")} />;
+  }
+
+  if (fulfillListing && selectedListing) {
+    const listingItem = selectedListing.items[
+      getKeys(selectedListing.items)[0]
+    ] as number;
+    const unitPrice = selectedListing.sfl / listingItem;
+
     return (
-      <div className="p-1 flex flex-col items-center">
-        <img src={SUNNYSIDE.icons.timer} className="w-1/6 mb-2" />
-        <p className="text-sm mb-1 text-center">
-          {t("playerTrade.transaction")}
+      <div className="flex flex-col w-full p-2">
+        <img src={SUNNYSIDE.icons.confirm} className="mx-auto h-6 my-2" />
+        <p className="text-sm mb-2 text-center">
+          {t("trading.listing.fulfilled")}
         </p>
-        <p className="text-xs mb-1 text-center">{t("playerTrade.Please")}</p>
-      </div>
-    );
-  }
-
-  if (loading) {
-    if (gameService.state.matches("fulfillTradeListing")) {
-      return <Loading text={t("trading")} />;
-    }
-
-    if (selectedListing) {
-      const listingItem = selectedListing.items[
-        getKeys(selectedListing.items)[0]
-      ] as number;
-      const unitPrice = selectedListing.sfl / listingItem;
-
-      return (
-        <>
-          <div className="flex flex-col w-full p-2">
-            <img src={SUNNYSIDE.icons.confirm} className="mx-auto h-6 my-2" />
-            <p className="text-sm mb-2 text-center">
-              {t("trading.listing.fulfilled")}
-            </p>
-            <OuterPanel>
-              <div className="flex justify-between">
-                <div>
-                  <div className="flex flex-wrap w-52 items-center">
-                    {getKeys(selectedListing.items).map((item, index) => (
-                      <Box
-                        image={ITEM_DETAILS[item].image}
-                        count={new Decimal(selectedListing.items[item] ?? 0)}
-                        disabled
-                        key={`items-${index}`}
-                      />
-                    ))}
-                    <div className="ml-1">
-                      <div className="flex items-center mb-1">
-                        <img src={token} className="h-6 mr-1" />
-                        <p className="text-xs">{`${selectedListing.sfl} SFL`}</p>
-                      </div>
-                      <p className="text-xxs">
-                        {t("bumpkinTrade.price/unit", {
-                          price: formatNumber(unitPrice, {
-                            decimalPlaces: 4,
-                            showTrailingZeros: true,
-                          }),
-                        })}
-                      </p>
-                    </div>
+        <OuterPanel>
+          <div className="flex justify-between">
+            <div>
+              <div className="flex flex-wrap w-52 items-center">
+                {getKeys(selectedListing.items).map((item, index) => (
+                  <Box
+                    image={ITEM_DETAILS[item].image}
+                    count={new Decimal(selectedListing.items[item] ?? 0)}
+                    disabled
+                    key={`items-${index}`}
+                  />
+                ))}
+                <div className="ml-1">
+                  <div className="flex items-center mb-1">
+                    <img src={token} className="h-6 mr-1" />
+                    <p className="text-xs">{`${formatNumber(selectedListing.sfl, { decimalPlaces: 4 })} SFL`}</p>
                   </div>
-                </div>
-
-                <div className="">
-                  <div className="flex items-center mt-1  justify-end mr-0.5">
-                    <Label type="success" className="mb-4 capitalize">
-                      {t("purchased")}
-                    </Label>
-                  </div>
+                  <p className="text-xxs">
+                    {t("bumpkinTrade.price/unit", {
+                      price: formatNumber(unitPrice, {
+                        decimalPlaces: 4,
+                        showTrailingZeros: true,
+                      }),
+                    })}
+                  </p>
                 </div>
               </div>
-            </OuterPanel>
-            <Button className="mt-2" onClick={onClick}>
-              {t("continue")}
-            </Button>
+            </div>
+
+            <div className="flex items-start">
+              <Label type="success">{t("purchased")}</Label>
+            </div>
           </div>
-        </>
-      );
-    }
+        </OuterPanel>
+        <Button
+          className="mt-2"
+          onClick={() => {
+            setLoading(false);
+            setfulfillListing(false);
+            setSelectedListing(undefined);
+          }}
+        >
+          {t("continue")}
+        </Button>
+      </div>
+    );
   }
 
   return (
@@ -379,14 +383,16 @@ const ListView: React.FC<ListViewProps> = ({
             width: `${PIXEL_SCALE * 11}px`,
           }}
           alt="back"
-          onClick={() => onBack()}
+          onClick={onBack}
         />
         <Label type="default" icon={ITEM_DETAILS[selected].image}>
           {selected}
         </Label>
-        <Label type="warning" className="ml-auto">
-          {`${t("inventory")}: ${formatNumber(inventory[selected], { decimalPlaces: 0 })}`}
-        </Label>
+        {!!inventory[selected] && (
+          <Label type="warning" className="ml-auto">
+            {`${t("inventory")}: ${formatNumber(inventory[selected], { decimalPlaces: 0 })}`}
+          </Label>
+        )}
       </div>
       <div className="flex-1 pr-2 overflow-y-auto scrollable mt-1">
         {listings.map((listing, index) => {
@@ -411,7 +417,7 @@ const ListView: React.FC<ListViewProps> = ({
                     <div className="ml-1">
                       <div className="flex items-center mb-1">
                         <img src={token} className="h-6 mr-1" />
-                        <p className="text-xs">{`${listing.sfl} SFL`}</p>
+                        <p className="text-xs">{`${formatNumber(listing.sfl, { decimalPlaces: 4 })} SFL`}</p>
                       </div>
                       <p className="text-xxs">
                         {t("bumpkinTrade.price/unit", {
@@ -425,8 +431,9 @@ const ListView: React.FC<ListViewProps> = ({
                   </div>
                 </div>
 
-                <div>
-                  <GetActionButtons
+                <div className="flex items-center">
+                  <ActionButtons
+                    loading={loading}
                     listing={listing}
                     selectedListing={selectedListing}
                     farmId={farmId}
@@ -446,6 +453,7 @@ const ListView: React.FC<ListViewProps> = ({
 };
 
 interface ActionButtonsProps {
+  loading: boolean;
   listing: Listing;
   selectedListing?: Listing;
   farmId: number;
@@ -455,7 +463,8 @@ interface ActionButtonsProps {
   state: GameState;
 }
 
-const GetActionButtons: React.FC<ActionButtonsProps> = ({
+const ActionButtons: React.FC<ActionButtonsProps> = ({
+  loading,
   listing,
   selectedListing,
   farmId,
@@ -465,30 +474,26 @@ const GetActionButtons: React.FC<ActionButtonsProps> = ({
   state,
 }) => {
   const { t } = useAppTranslation();
+  const hasSFL = state.balance.gte(listing.sfl);
+  const disabled = !hasSFL || !hasPurchasesRemaining || loading;
+
   if (listing.farmId == farmId) {
     return (
-      <div className="flex items-center mt-1  justify-end mr-0.5">
-        <Label type="danger" className="mb-4">
-          {t("trading.your.listing")}
-        </Label>
+      <div className="flex items-start h-full">
+        <Label type="danger">{t("trading.your.listing")}</Label>
       </div>
     );
   }
-
   if (selectedListing?.id == listing.id) {
     return (
-      <Button onClick={() => onConfirm(listing)}>
-        <div className="flex items-center">
-          <img src={SUNNYSIDE.icons.confirm} className="h-4 mr-1" />
-          <span className="text-xs">{t("confirm")}</span>
+      <Button disabled={loading} onClick={() => onConfirm(listing)}>
+        <div className="flex items-center gap-2">
+          <SquareIcon icon={SUNNYSIDE.icons.confirm} width={7} />
+          <span>{t("confirm")}</span>
         </div>
       </Button>
     );
   }
-
-  const hasSFL = state.balance.gte(listing.sfl);
-  const disabled = !hasSFL || !hasPurchasesRemaining;
-
   return (
     <Button disabled={disabled} onClick={() => confirm(listing)}>
       {t("buy")}

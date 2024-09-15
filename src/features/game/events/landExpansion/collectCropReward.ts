@@ -1,8 +1,8 @@
 import Decimal from "decimal.js-light";
-import cloneDeep from "lodash.clonedeep";
 
 import { CROPS } from "../../types/crops";
 import { GameState } from "../../types/game";
+import { produce } from "immer";
 
 export type CollectCropRewardAction = {
   type: "cropReward.collected";
@@ -20,46 +20,47 @@ export function collectCropReward({
   action,
   createdAt = Date.now(),
 }: Options) {
-  const stateCopy = cloneDeep(state);
-  const plot = stateCopy.crops[action.plotIndex];
+  return produce(state, (stateCopy) => {
+    const plot = stateCopy.crops[action.plotIndex];
 
-  if (!plot) {
-    throw new Error("Plot does not exist");
-  }
+    if (!plot) {
+      throw new Error("Plot does not exist");
+    }
 
-  const { crop: plantedCrop } = plot;
+    const { crop: plantedCrop } = plot;
 
-  if (!plantedCrop) {
-    throw new Error("Plot does not have a crop");
-  }
+    if (!plantedCrop) {
+      throw new Error("Plot does not have a crop");
+    }
 
-  if (!plantedCrop.reward) {
-    throw new Error("Crop does not have a reward");
-  }
+    if (!plantedCrop.reward) {
+      throw new Error("Crop does not have a reward");
+    }
 
-  const crop = CROPS[plantedCrop.name];
+    const crop = CROPS[plantedCrop.name];
 
-  if (createdAt - plantedCrop.plantedAt < crop.harvestSeconds * 1000) {
-    throw new Error("Not ready");
-  }
+    if (createdAt - plantedCrop.plantedAt < crop.harvestSeconds * 1000) {
+      throw new Error("Not ready");
+    }
 
-  const {
-    reward: { items, coins },
-  } = plantedCrop;
+    const {
+      reward: { items, coins },
+    } = plantedCrop;
 
-  if (items?.length) {
-    items.forEach(({ name, amount }) => {
-      const itemBalance = stateCopy.inventory[name] || new Decimal(0);
+    if (items?.length) {
+      items.forEach(({ name, amount }) => {
+        const itemBalance = stateCopy.inventory[name] || new Decimal(0);
 
-      stateCopy.inventory[name] = itemBalance.add(new Decimal(amount));
-    });
-  }
+        stateCopy.inventory[name] = itemBalance.add(new Decimal(amount));
+      });
+    }
 
-  if (coins) {
-    stateCopy.coins = stateCopy.coins + coins;
-  }
+    if (coins) {
+      stateCopy.coins = stateCopy.coins + coins;
+    }
 
-  delete plantedCrop.reward;
+    delete plantedCrop.reward;
 
-  return stateCopy;
+    return stateCopy;
+  });
 }

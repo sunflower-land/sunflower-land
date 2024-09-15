@@ -252,8 +252,7 @@ export const Box: React.FC<BoxProps> = ({
             <Label
               type={countLabelType}
               style={{
-                paddingLeft: "2.5px",
-                paddingRight: "1.5px",
+                padding: "0 2.5",
                 height: "24px",
               }}
             >
@@ -277,10 +276,8 @@ export const Box: React.FC<BoxProps> = ({
           >
             <Label
               type="default"
-              className="px-0.5"
               style={{
-                paddingLeft: "2.5px",
-                paddingRight: "1.5px",
+                padding: "0 2.5",
                 height: "24px",
               }}
             >

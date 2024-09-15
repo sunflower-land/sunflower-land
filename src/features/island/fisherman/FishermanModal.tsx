@@ -31,7 +31,7 @@ import {
 } from "features/game/types/fishing";
 import { MachineState } from "features/game/lib/gameMachine";
 import { isWearableActive } from "features/game/lib/wearables";
-import { translate, translateTerms } from "lib/i18n/translate";
+import { translate } from "lib/i18n/translate";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import {
   getBasketItems,
@@ -219,8 +219,8 @@ const BaitSelection: React.FC<{
     <>
       <InnerPanel>
         <div className="p-2">
-          <div className="flex items-center justify-between flex-wrap">
-            <div className="flex items-center gap-2">
+          <div className="flex items-center justify-between flex-wrap gap-1">
+            <div className="flex items-center gap-1">
               {tide === "Dusktide" ? (
                 <Label
                   icon={SUNNYSIDE.icons.stopwatch}
@@ -281,11 +281,9 @@ const BaitSelection: React.FC<{
             <img src={ITEM_DETAILS[bait].image} className="h-10 mr-2" />
             <div>
               <p className="text-sm mb-1">{bait}</p>
-              <p className="text-xs">
-                {translateTerms(ITEM_DETAILS[bait].description)}
-              </p>
+              <p className="text-xs">{ITEM_DETAILS[bait].description}</p>
               {!items[bait] && bait !== "Fishing Lure" && (
-                <Label className="mt-1" type="default">
+                <Label className="mt-2" type="default">
                   {t("statements.craft.composter")}
                 </Label>
               )}

@@ -5,7 +5,7 @@ module.exports = {
   content: ["./src/**/*.tsx"],
   theme: {
     fontFamily: {
-      body: ['"Basic","LXGW WenKai TC"'],
+      body: ['"Basic", "Ark"'],
       game: '"Sigmar One", cursive, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"',
       pixel: ["Secondary"],
       error: `ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;`,
@@ -59,6 +59,12 @@ module.exports = {
       ...colors,
     },
     extend: {
+      fontFamily: {
+        ruDefault: ["Basis33"],
+        ruSansSerif: ["sans-serif"],
+        ruBold: ["Born2bSporty"],
+        ruChunkyOld: ["Russo\\ One"],
+      },
       colors: {
         green: {
           background: "#63c74d",
@@ -96,4 +102,10 @@ module.exports = {
       },
     },
   },
+  safelist: [
+    "font-ruDefault",
+    "font-ruSansSerif",
+    "font-ruBold",
+    "font-ruChunkyOld",
+  ],
 };

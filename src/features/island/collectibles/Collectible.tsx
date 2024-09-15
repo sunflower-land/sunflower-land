@@ -20,6 +20,7 @@ import {
 } from "./CollectibleCollection";
 import { CollectibleLocation } from "features/game/types/collectibles";
 import { GameState } from "features/game/types/game";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 export type CollectibleProps = {
   name: CollectibleName;
@@ -50,6 +51,7 @@ const InProgressCollectible: React.FC<Props> = ({
   location,
   game,
 }) => {
+  const { t } = useAppTranslation();
   const CollectiblePlaced = COLLECTIBLE_COMPONENTS[name];
   const [showTooltip, setShowTooltip] = useState(false);
 
@@ -98,7 +100,7 @@ const InProgressCollectible: React.FC<Props> = ({
         }}
       >
         <TimeLeftPanel
-          text="Ready in:"
+          text={t("ready.in")}
           timeLeft={secondsLeft}
           showTimeLeft={showTooltip}
         />

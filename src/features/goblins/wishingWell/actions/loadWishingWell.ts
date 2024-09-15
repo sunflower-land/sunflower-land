@@ -1,6 +1,5 @@
 import { getPairBalance } from "lib/blockchain/Pair";
 import { sflBalanceOf } from "lib/blockchain/Token";
-import { wallet } from "lib/blockchain/wallet";
 import {
   canCollectFromWell,
   getLockedPeriod,
@@ -25,19 +24,15 @@ export type WishingWellTokens = {
  * Load Blockchain data for the wishing well
  */
 export async function loadWishingWell(
-  account: string,
+  account: `0x${string}`,
 ): Promise<WishingWellTokens> {
-  const tokensInWellPromise = getWellBalance(wallet.web3Provider, account);
-  const canCollectPromise = canCollectFromWell(wallet.web3Provider, account);
-  const lastCollectedPromise = lastCollectedFromWell(
-    wallet.web3Provider,
-    account,
-  );
-  const lockedPeriodPromise = getLockedPeriod(wallet.web3Provider, account);
-  const lpTokensPromise = getPairBalance(wallet.web3Provider, account);
+  const tokensInWellPromise = getWellBalance(account);
+  const canCollectPromise = canCollectFromWell(account);
+  const lastCollectedPromise = lastCollectedFromWell(account);
+  const lockedPeriodPromise = getLockedPeriod(account);
+  const lpTokensPromise = getPairBalance(account);
   const totalTokensInWellPromise = sflBalanceOf(
-    wallet.web3Provider,
-    wishingWellAddress as string,
+    wishingWellAddress as `0x${string}`,
   );
 
   const [
@@ -65,10 +60,10 @@ export async function loadWishingWell(
   }
 
   return {
-    myTokensInWell,
-    totalTokensInWell,
+    myTokensInWell: String(myTokensInWell),
+    totalTokensInWell: String(totalTokensInWell),
     canCollect,
-    lpTokens,
+    lpTokens: String(lpTokens),
     lockedTime,
     lockedPeriod,
   };

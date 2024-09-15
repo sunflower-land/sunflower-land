@@ -9,7 +9,7 @@ import {
 } from "features/game/lib/factions";
 import { BoostType, BoostValue } from "features/game/types/boosts";
 import { GameState } from "features/game/types/game";
-import cloneDeep from "lodash.clonedeep";
+import { produce } from "immer";
 
 export enum DELIVER_FACTION_KITCHEN_ERRORS {
   NO_FACTION = "Player has not joined a faction",
@@ -50,59 +50,62 @@ export function deliverFactionKitchen({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  const stateCopy = cloneDeep(state);
-  const { faction, inventory } = stateCopy;
+  return produce(state, (stateCopy) => {
+    const { faction, inventory } = stateCopy;
 
-  if (!faction) {
-    throw new Error(DELIVER_FACTION_KITCHEN_ERRORS.NO_FACTION);
-  }
+    if (!faction) {
+      throw new Error(DELIVER_FACTION_KITCHEN_ERRORS.NO_FACTION);
+    }
 
-  if (createdAt < START_DATE.getTime()) {
-    throw new Error(DELIVER_FACTION_KITCHEN_ERRORS.FACTION_KITCHEN_NOT_STARTED);
-  }
+    if (createdAt < START_DATE.getTime()) {
+      throw new Error(
+        DELIVER_FACTION_KITCHEN_ERRORS.FACTION_KITCHEN_NOT_STARTED,
+      );
+    }
 
-  const { kitchen } = faction;
+    const { kitchen } = faction;
 
-  if (!kitchen) {
-    throw new Error(DELIVER_FACTION_KITCHEN_ERRORS.NO_KITCHEN_DATA);
-  }
+    if (!kitchen) {
+      throw new Error(DELIVER_FACTION_KITCHEN_ERRORS.NO_KITCHEN_DATA);
+    }
 
-  const { requests: resources } = kitchen;
+    const { requests: resources } = kitchen;
 
-  if (!resources[action.resourceIndex]) {
-    throw new Error(DELIVER_FACTION_KITCHEN_ERRORS.NO_RESOURCE_FOUND);
-  }
+    if (!resources[action.resourceIndex]) {
+      throw new Error(DELIVER_FACTION_KITCHEN_ERRORS.NO_RESOURCE_FOUND);
+    }
 
-  const request = resources[action.resourceIndex];
-  const resourceBalance = inventory[request.item] ?? new Decimal(0);
+    const request = resources[action.resourceIndex];
+    const resourceBalance = inventory[request.item] ?? new Decimal(0);
 
-  if (resourceBalance.lt(request.amount)) {
-    throw new Error(DELIVER_FACTION_KITCHEN_ERRORS.INSUFFICIENT_RESOURCES);
-  }
+    if (resourceBalance.lt(request.amount)) {
+      throw new Error(DELIVER_FACTION_KITCHEN_ERRORS.INSUFFICIENT_RESOURCES);
+    }
 
-  inventory[request.item] = resourceBalance.minus(request.amount);
+    inventory[request.item] = resourceBalance.minus(request.amount);
 
-  const week = getFactionWeek({ date: new Date(createdAt) });
-  const day = getFactionWeekday(createdAt);
-  const marksBalance = inventory["Mark"] ?? new Decimal(0);
-  const fulfilledToday = request.dailyFulfilled[day] ?? 0;
+    const week = getFactionWeek({ date: new Date(createdAt) });
+    const day = getFactionWeekday(createdAt);
+    const marksBalance = inventory["Mark"] ?? new Decimal(0);
+    const fulfilledToday = request.dailyFulfilled[day] ?? 0;
 
-  const points = calculatePoints(fulfilledToday, BASE_POINTS);
-  const boostPoints = getKingdomKitchenBoost(stateCopy, points)[0];
-  const totalPoints = points + boostPoints;
+    const points = calculatePoints(fulfilledToday, BASE_POINTS);
+    const boostPoints = getKingdomKitchenBoost(stateCopy, points)[0];
+    const totalPoints = points + boostPoints;
 
-  const leaderboard = faction.history[week] ?? {
-    score: 0,
-    petXP: 0,
-  };
+    const leaderboard = faction.history[week] ?? {
+      score: 0,
+      petXP: 0,
+    };
 
-  faction.history[week] = {
-    ...leaderboard,
-    score: leaderboard.score + totalPoints,
-  };
-  inventory["Mark"] = marksBalance.plus(totalPoints);
+    faction.history[week] = {
+      ...leaderboard,
+      score: leaderboard.score + totalPoints,
+    };
+    inventory["Mark"] = marksBalance.plus(totalPoints);
 
-  request.dailyFulfilled[day] = fulfilledToday + 1;
+    request.dailyFulfilled[day] = fulfilledToday + 1;
 
-  return stateCopy;
+    return stateCopy;
+  });
 }

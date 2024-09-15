@@ -55,6 +55,8 @@ import {
 import { feedBumpkin, FeedBumpkinAction } from "./landExpansion/feedBumpkin";
 import { detectBot, DetectBotAction } from "./detectBot";
 import { pickSkill, PickSkillAction } from "./landExpansion/pickSkill";
+import { choseSkill, ChoseSkillAction } from "./landExpansion/choseSkill";
+import { resetSkills, ResetSkillsAction } from "./landExpansion/resetSkills";
 import { seedBought, SeedBoughtAction } from "./landExpansion/seedBought";
 import {
   claimAchievement,
@@ -292,7 +294,6 @@ import {
   PurchaseMinigameAction,
   purchaseMinigameItem,
 } from "./minigames/purchaseMinigameItem";
-import { PlayMinigameAction, playMinigame } from "./minigames/playMinigame";
 import {
   claimMinigamePrize,
   ClaimMinigamePrizeAction,
@@ -336,8 +337,23 @@ import {
 } from "./landExpansion/skipKingdomChore";
 import { leaveFaction, LeaveFactionAction } from "./landExpansion/leaveFaction";
 import { BuyMoreDigsAction, buyMoreDigs } from "./landExpansion/buyMoreDigs";
+import {
+  completeDailyChallenge,
+  CompleteDailyChallengeAction,
+} from "./landExpansion/completeDailyChallenge";
+import {
+  startMinigameAttempt,
+  StartMinigameAttemptAction,
+} from "./minigames/startMinigameAttempt";
+import {
+  submitMinigameScore,
+  SubmitMinigameScoreAction,
+} from "./minigames/submitMinigameScore";
+import { claimOffer, ClaimOfferAction } from "./landExpansion/offerClaimed";
 
 export type PlayingEvent =
+  | ClaimOfferAction
+  | CompleteDailyChallengeAction
   | OilGreenhouseAction
   | HarvestGreenhouseAction
   | PlantGreenhouseAction
@@ -357,6 +373,8 @@ export type PlayingEvent =
   | FeedBumpkinAction
   | DetectBotAction
   | PickSkillAction
+  | ChoseSkillAction
+  | ResetSkillsAction
   | SeedBoughtAction
   | ClaimAchievementAction
   | LandExpansionFeedChickenAction
@@ -421,7 +439,8 @@ export type PlayingEvent =
   | DrillOilReserveAction
   | ClaimMinigamePrizeAction
   | PurchaseMinigameAction
-  | PlayMinigameAction
+  | StartMinigameAttemptAction
+  | SubmitMinigameScoreAction
   | SupplyCropMachineAction
   | HarvestCropMachineAction
   | SupplyCookingOilAction
@@ -500,6 +519,8 @@ type Handlers<T> = {
 };
 
 export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
+  "offer.claimed": claimOffer,
+  "dailyChallenge.completed": completeDailyChallenge,
   "faction.left": leaveFaction,
   "faction.prizeClaimed": claimFactionPrize,
   "greenhouse.oiled": oilGreenhouse,
@@ -507,7 +528,8 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "greenhouse.planted": plantGreenhouse,
   "minigame.itemPurchased": purchaseMinigameItem,
   "minigame.prizeClaimed": claimMinigamePrize,
-  "minigame.played": playMinigame,
+  "minigame.attemptStarted": startMinigameAttempt,
+  "minigame.scoreSubmitted": submitMinigameScore,
   "airdrop.claimed": claimAirdrop,
   "bot.detected": detectBot,
   "seed.planted": landExpansionPlant,
@@ -526,6 +548,8 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "recipe.collected": collectRecipe,
   "bumpkin.feed": feedBumpkin,
   "skill.picked": pickSkill,
+  "skill.chosen": choseSkill,
+  "skills.reset": resetSkills,
   "seed.bought": seedBought,
   "achievement.claimed": claimAchievement,
   "chicken.fed": LandExpansionFeedChicken,
