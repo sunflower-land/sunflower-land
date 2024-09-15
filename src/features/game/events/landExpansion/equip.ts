@@ -1,8 +1,8 @@
 import { Equipped } from "features/game/types/bumpkin";
 import { getKeys } from "features/game/types/craftables";
 import { Bumpkin, GameState, Wardrobe } from "features/game/types/game";
+import { produce } from "immer";
 import { BumpkinParts } from "lib/utils/tokenUriBuilder";
-import cloneDeep from "lodash.clonedeep";
 
 export type EquipBumpkinAction = {
   type: "bumpkin.equipped";
@@ -20,18 +20,19 @@ export function equip({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  const game = cloneDeep(state);
-  const { bumpkin } = game;
+  return produce(state, (game) => {
+    const { bumpkin } = game;
 
-  if (bumpkin === undefined) {
-    throw new Error("You do not have a Bumpkin!");
-  }
+    if (bumpkin === undefined) {
+      throw new Error("You do not have a Bumpkin!");
+    }
 
-  assertEquipment({ game, equipment: action.equipment, bumpkin });
+    assertEquipment({ game, equipment: action.equipment, bumpkin });
 
-  bumpkin.equipped = action.equipment;
+    bumpkin.equipped = action.equipment;
 
-  return game;
+    return game;
+  });
 }
 
 export function assertEquipment({

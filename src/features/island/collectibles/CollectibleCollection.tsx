@@ -327,7 +327,7 @@ import {
 } from "features/game/types/decorations";
 import { PharaohsTreasureBanner } from "./components/PharaohsTreasureBanner";
 import { DesertRose } from "./components/DesertRose";
-import { Template } from "./components/template/Template";
+// import { Template } from "./components/template/Template";
 import { PharaohChicken } from "./components/PharaohChicken";
 import { ImageStyle } from "./components/template/ImageStyle";
 import { LemonShark } from "./components/LemonShark";
@@ -980,12 +980,12 @@ export const COLLECTIBLE_COMPONENTS: Record<
     <ImageStyle
       {...props}
       divStyle={{
-        width: `${PIXEL_SCALE * 11}px`,
-        bottom: `${PIXEL_SCALE * 3}px`,
-        left: `${PIXEL_SCALE * 2.5}px`,
+        width: `${PIXEL_SCALE * 51}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * -1.5}px`,
       }}
       imgStyle={{
-        width: `${PIXEL_SCALE * 11}px`,
+        width: `${PIXEL_SCALE * 51}px`,
       }}
       image={ITEM_DETAILS["Baobab Tree"].image}
       alt="Baobab Tree"
@@ -1008,15 +1008,233 @@ export const COLLECTIBLE_COMPONENTS: Record<
     />
   ),
 
+  "Cactus King": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 19}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * -1.5}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 19}px`,
+      }}
+      image={ITEM_DETAILS["Cactus King"].image}
+      alt="Cactus King"
+    />
+  ),
+  "Reveling Lemon": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 23}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 4}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 23}px`,
+      }}
+      image={ITEM_DETAILS["Reveling Lemon"].image}
+      alt="Reveling Lemon"
+    />
+  ),
+  "Paper Reed": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 22}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * -3}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 22}px`,
+      }}
+      image={ITEM_DETAILS["Paper Reed"].image}
+      alt="Paper Reed"
+    />
+  ),
+  "Clay Tablet": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 32}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 32}px`,
+      }}
+      image={ITEM_DETAILS["Clay Tablet"].image}
+      alt="Clay Tablet"
+    />
+  ),
+  "Stone Beetle": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 15}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0.5}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 15}px`,
+      }}
+      image={ITEM_DETAILS["Stone Beetle"].image}
+      alt="Stone Beetle"
+    />
+  ),
+  "Iron Beetle": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 15}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0.5}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 15}px`,
+      }}
+      image={ITEM_DETAILS["Iron Beetle"].image}
+      alt="Iron Beetle"
+    />
+  ),
+  "Gold Beetle": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 15}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0.5}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 15}px`,
+      }}
+      image={ITEM_DETAILS["Gold Beetle"].image}
+      alt="Gold Beetle"
+    />
+  ),
+  "Fairy Circle": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 35}px`,
+        bottom: `${PIXEL_SCALE * 3}px`,
+        left: `${PIXEL_SCALE * -1.5}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 35}px`,
+      }}
+      image={ITEM_DETAILS["Fairy Circle"].image}
+      alt="Fairy Circle"
+    />
+  ),
+  Squirrel: (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 26}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 26}px`,
+      }}
+      image={ITEM_DETAILS.Squirrel.image}
+      alt="Squirrel"
+    />
+  ),
+  Macaw: (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 14}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 2.5}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 14}px`,
+      }}
+      image={ITEM_DETAILS.Macaw.image}
+      alt="Macaw"
+    />
+  ),
+  Butterfly: (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 13}px`,
+        bottom: `${PIXEL_SCALE * 2}px`,
+        left: `${PIXEL_SCALE * 2.5}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 13}px`,
+      }}
+      image={ITEM_DETAILS.Butterfly.image}
+      alt="Butterfly"
+    />
+  ),
+
   // To Update
-  Sundial: Template,
-  "Sand Golem": Template,
-  "Cactus King": Template,
-  "Lemon Frog": Template,
-  "Scarab Beetle": Template,
-  "Clay Tablet": Template,
-  "Reveling Lemon": Template,
-  "Paper Reed": Template,
+  Sundial: (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 28}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 2}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 28}px`,
+      }}
+      image={ITEM_DETAILS.Sundial.image}
+      alt="Sundial"
+    />
+  ),
+  "Sand Golem": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 28}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 2}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 28}px`,
+      }}
+      image={ITEM_DETAILS["Sand Golem"].image}
+      alt="Sand Golem"
+    />
+  ),
+  "Lemon Frog": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 19}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * -1.5}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 19}px`,
+      }}
+      image={ITEM_DETAILS["Lemon Frog"].image}
+      alt="Lemon Frog"
+    />
+  ),
+  "Scarab Beetle": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 26}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 3}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 26}px`,
+      }}
+      image={ITEM_DETAILS["Scarab Beetle"].image}
+      alt="Scarab Beetle"
+    />
+  ),
 };
 // Need readonly versions for some troublesome components while in design mode
 
@@ -1040,92 +1258,116 @@ export const READONLY_COLLECTIBLES: Record<
     />
   ),
 
-  "Basic Scarecrow": () => (
-    <div
-      className="absolute bottom-0"
-      style={{ width: `${PIXEL_SCALE * 22}px`, right: `${PIXEL_SCALE * -3}px` }}
-    >
-      <img src={ITEM_DETAILS["Basic Scarecrow"].image} className="w-full " />
-      <div
-        className="absolute bottom-0 bg-blue-300 bg-opacity-50 animate-pulse z-50 pointer-events-none"
-        style={{
-          width: `${PIXEL_SCALE * 16 * 3}px`,
-          height: `${PIXEL_SCALE * 16 * 3}px`,
-          left: `${PIXEL_SCALE * -13}px`,
-          top: `${PIXEL_SCALE * 31}px`,
-        }}
-      >
-        <img
-          src={lightning}
-          className="absolute bottom-0 opacity-50 animate-pulsate"
-          style={{
-            width: `${PIXEL_SCALE * 10}px`,
-            left: `${PIXEL_SCALE * 19}px`,
-            top: `${PIXEL_SCALE * 17}px`,
-          }}
-        />
-      </div>
-    </div>
-  ),
+  "Basic Scarecrow": (props: CollectibleProps) => {
+    const hasChonkyScarecrow = props.game.bumpkin.skills["Chonky Scarecrow"];
+    const chonkyOffset = hasChonkyScarecrow ? 4 : 0;
 
-  "Scary Mike": () => (
-    <div
-      className="absolute bottom-0"
-      style={{ width: `${PIXEL_SCALE * 22}px`, right: `${PIXEL_SCALE * -3}px` }}
-    >
-      <img src={ITEM_DETAILS["Scary Mike"].image} className="w-full" />
+    return (
       <div
-        className="absolute bottom-0 bg-blue-300 bg-opacity-50 animate-pulse z-50 pointer-events-none"
+        className="absolute bottom-0"
         style={{
-          width: `${PIXEL_SCALE * 16 * 3}px`,
-          height: `${PIXEL_SCALE * 16 * 3}px`,
-          left: `${PIXEL_SCALE * -13}px`,
-          top: `${PIXEL_SCALE * 29}px`,
+          width: `${PIXEL_SCALE * 22}px`,
+          right: `${PIXEL_SCALE * -3}px`,
         }}
       >
-        <img
-          src={lightning}
-          className="absolute bottom-0 opacity-50 animate-pulsate"
+        <img src={ITEM_DETAILS["Basic Scarecrow"].image} className="w-full " />
+        <div
+          className="absolute bottom-0 bg-blue-300 bg-opacity-50 animate-pulse z-50 pointer-events-none"
           style={{
-            width: `${PIXEL_SCALE * 10}px`,
-            left: `${PIXEL_SCALE * 19}px`,
-            top: `${PIXEL_SCALE * 17}px`,
+            width: `${PIXEL_SCALE * 16 * (3 + chonkyOffset)}px`,
+            height: `${PIXEL_SCALE * 16 * (3 + chonkyOffset)}px`,
+            left: `${PIXEL_SCALE * -13 - (chonkyOffset / 2) * PIXEL_SCALE * 16}px`,
+            top: `${PIXEL_SCALE * 31}px`,
           }}
-        />
+        >
+          <img
+            src={lightning}
+            className="absolute bottom-0 opacity-50 animate-pulsate"
+            style={{
+              width: `${PIXEL_SCALE * 10}px`,
+              left: `${PIXEL_SCALE * 19 + (chonkyOffset / 2) * PIXEL_SCALE * 16}px`,
+              top: `${PIXEL_SCALE * 17 + (chonkyOffset / 2) * PIXEL_SCALE * 16}px`,
+            }}
+          />
+        </div>
       </div>
-    </div>
-  ),
+    );
+  },
 
-  "Laurie the Chuckle Crow": () => (
-    <div
-      className="absolute bottom-0"
-      style={{ width: `${PIXEL_SCALE * 25}px`, right: `${PIXEL_SCALE * -5}px` }}
-    >
-      <img
-        src={ITEM_DETAILS["Laurie the Chuckle Crow"].image}
-        className="w-full"
-      />
+  "Scary Mike": (props: CollectibleProps) => {
+    const hasHorrorMike = props.game.bumpkin.skills["Horror Mike"];
+    const offset = hasHorrorMike ? 4 : 0;
+
+    return (
       <div
-        className="absolute bottom-0 bg-blue-300 bg-opacity-50 animate-pulse z-50 pointer-events-none"
+        className="absolute bottom-0"
         style={{
-          width: `${PIXEL_SCALE * 16 * 3}px`,
-          height: `${PIXEL_SCALE * 16 * 3}px`,
-          left: `${PIXEL_SCALE * -12}px`,
-          top: `${PIXEL_SCALE * 27}px`,
+          width: `${PIXEL_SCALE * 22}px`,
+          right: `${PIXEL_SCALE * -3}px`,
+        }}
+      >
+        <img src={ITEM_DETAILS["Scary Mike"].image} className="w-full" />
+        <div
+          className="absolute bottom-0 bg-blue-300 bg-opacity-50 animate-pulse z-50 pointer-events-none"
+          style={{
+            width: `${PIXEL_SCALE * 16 * (3 + offset)}px`,
+            height: `${PIXEL_SCALE * 16 * (3 + offset)}px`,
+            left: `${PIXEL_SCALE * -13 - (offset / 2) * PIXEL_SCALE * 16}px`,
+            top: `${PIXEL_SCALE * 29}px`,
+          }}
+        >
+          <img
+            src={lightning}
+            className="absolute bottom-0 opacity-50 animate-pulsate"
+            style={{
+              width: `${PIXEL_SCALE * 10}px`,
+              left: `${PIXEL_SCALE * 19 + (offset / 2) * PIXEL_SCALE * 16}px`,
+              top: `${PIXEL_SCALE * 17 + (offset / 2) * PIXEL_SCALE * 16}px`,
+            }}
+          />
+        </div>
+      </div>
+    );
+  },
+
+  "Laurie the Chuckle Crow": (props: CollectibleProps) => {
+    const hasLauriesGains = props.game.bumpkin.skills["Laurie's Gains"];
+    const offset = hasLauriesGains ? 4 : 0;
+
+    return (
+      <div
+        className="absolute bottom-0"
+        style={{
+          width: `${PIXEL_SCALE * 25}px`,
+          right: `${PIXEL_SCALE * -5}px`,
         }}
       >
         <img
-          src={lightning}
-          className="absolute bottom-0 opacity-50 animate-pulsate"
-          style={{
-            width: `${PIXEL_SCALE * 10}px`,
-            left: `${PIXEL_SCALE * 19}px`,
-            top: `${PIXEL_SCALE * 17}px`,
-          }}
+          src={ITEM_DETAILS["Laurie the Chuckle Crow"].image}
+          className="w-full"
         />
+        <div
+          className="absolute bottom-0 bg-blue-300 bg-opacity-50 animate-pulse z-50 pointer-events-none"
+          style={{
+            width: `${PIXEL_SCALE * 16 * (3 + offset)}px`,
+            height: `${PIXEL_SCALE * 16 * (3 + offset)}px`,
+            left: `${PIXEL_SCALE * -13 - (offset / 2) * PIXEL_SCALE * 16}px`,
+            top: `${PIXEL_SCALE * 27}px`,
+          }}
+        >
+          <img
+            src={lightning}
+            className="absolute bottom-0 opacity-50 animate-pulsate"
+            style={{
+              width: `${PIXEL_SCALE * 10}px`,
+              left: `${PIXEL_SCALE * 19 + (offset / 2) * PIXEL_SCALE * 16}px`,
+              top: `${PIXEL_SCALE * 17 + (offset / 2) * PIXEL_SCALE * 16}px`,
+            }}
+          />
+        </div>
       </div>
-    </div>
-  ),
+    );
+  },
   "Queen Cornelia": () => (
     <div
       id="cornelia"

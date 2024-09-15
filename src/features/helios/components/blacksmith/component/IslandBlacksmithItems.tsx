@@ -28,6 +28,13 @@ const VALID_EQUIPMENT: HeliosBlacksmithItem[] = [
   "Laurie the Chuckle Crow",
   "Immortal Pear",
   "Bale",
+  "Stone Beetle",
+  "Iron Beetle",
+  "Gold Beetle",
+  "Fairy Circle",
+  "Macaw",
+  "Squirrel",
+  "Butterfly",
 ];
 
 export const IslandBlacksmithItems: React.FC = () => {
@@ -40,15 +47,19 @@ export const IslandBlacksmithItems: React.FC = () => {
       context: { state },
     },
   ] = useActor(gameService);
-  const inventory = state.inventory;
+  const { inventory, coins } = state;
 
-  const selectedItem = HELIOS_BLACKSMITH_ITEMS(state)[selectedName]!;
+  const selectedItem = HELIOS_BLACKSMITH_ITEMS(state)[selectedName];
   const isAlreadyCrafted = inventory[selectedName]?.greaterThanOrEqualTo(1);
 
   const lessIngredients = () =>
-    getKeys(selectedItem.ingredients).some((name) =>
-      selectedItem.ingredients[name]?.greaterThan(inventory[name] || 0),
+    getKeys(selectedItem?.ingredients ?? {}).some((name) =>
+      (selectedItem?.ingredients ?? {})[name]?.greaterThan(
+        inventory[name] || 0,
+      ),
     );
+
+  const lessCoins = () => coins < (selectedItem?.coins ?? 0);
 
   const craft = () => {
     gameService.send("LANDSCAPE", {
@@ -66,19 +77,24 @@ export const IslandBlacksmithItems: React.FC = () => {
       event: `Crafting:Collectible:${selectedName}${count}`,
     });
 
-    if (selectedItem.ingredients["Block Buck"]) {
+    if ((selectedItem?.ingredients ?? {})["Block Buck"]) {
       gameAnalytics.trackSink({
         currency: "Block Buck",
-        amount: selectedItem.ingredients["Block Buck"].toNumber() ?? 1,
+        amount:
+          (
+            selectedItem?.ingredients["Block Buck"] ?? new Decimal(0)
+          ).toNumber() ?? 1,
         item: selectedName,
         type: "Collectible",
       });
     }
 
-    if (selectedItem.ingredients[getSeasonalTicket()]) {
+    if ((selectedItem?.ingredients ?? {})[getSeasonalTicket()]) {
       gameAnalytics.trackSink({
         currency: "Seasonal Ticket",
-        amount: selectedItem.ingredients[getSeasonalTicket()]?.toNumber() ?? 1,
+        amount:
+          (selectedItem?.ingredients ?? {})[getSeasonalTicket()]?.toNumber() ??
+          1,
         item: selectedName,
         type: "Collectible",
       });
@@ -94,13 +110,13 @@ export const IslandBlacksmithItems: React.FC = () => {
           gameState={state}
           details={{
             item: selectedName,
-            from: selectedItem.from,
-            to: selectedItem.to,
+            from: selectedItem?.from,
+            to: selectedItem?.to,
           }}
-          boost={selectedItem.boost}
+          boost={selectedItem?.boost}
           requirements={{
-            resources: selectedItem.ingredients,
-            coins: selectedItem.coins,
+            resources: selectedItem?.ingredients ?? {},
+            coins: selectedItem?.coins ?? 0,
           }}
           actionView={
             isAlreadyCrafted ? (
@@ -108,7 +124,10 @@ export const IslandBlacksmithItems: React.FC = () => {
                 {t("alr.crafted")}
               </p>
             ) : (
-              <Button disabled={lessIngredients()} onClick={craft}>
+              <Button
+                disabled={lessIngredients() || lessCoins()}
+                onClick={craft}
+              >
                 {t("craft")}
               </Button>
             )

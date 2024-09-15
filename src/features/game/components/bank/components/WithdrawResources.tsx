@@ -1,62 +1,57 @@
-import React, {
-  ChangeEvent,
-  useContext,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
-import { useActor } from "@xstate/react";
+import React, { useContext, useMemo, useRef, useState } from "react";
+import { useSelector } from "@xstate/react";
 import Decimal from "decimal.js-light";
 import { toWei } from "web3-utils";
-import classNames from "classnames";
 
 import { Inventory, InventoryItemName } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { KNOWN_IDS } from "features/game/types";
 import { getItemUnit } from "features/game/lib/conversion";
 import { wallet } from "lib/blockchain/wallet";
-import { shortAddress } from "lib/utils/shortAddress";
 import { Button } from "components/ui/Button";
 import { Box } from "components/ui/Box";
 
 import { SUNNYSIDE } from "assets/sunnyside";
-import { SquareIcon } from "components/ui/SquareIcon";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { pixelDarkBorderStyle } from "features/game/lib/style";
-import { isMobile } from "mobile-device-detect";
 import { getKeys } from "features/game/types/craftables";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Context } from "features/game/GameProvider";
 import { getDeliverableItems } from "features/goblins/storageHouse/lib/storageItems";
 import { formatNumber } from "lib/utils/formatNumber";
+import { NumberInput } from "components/ui/NumberInput";
+import { MachineState } from "features/game/lib/gameMachine";
+import { Label } from "components/ui/Label";
+import { WalletAddressLabel } from "components/ui/WalletAddressLabel";
+import { OuterPanel } from "components/ui/Panel";
+import { SquareIcon } from "components/ui/SquareIcon";
 
 interface Props {
   onWithdraw: () => void;
   allowLongpressWithdrawal?: boolean;
 }
 
-const DELIVERY_FEE = 30;
-const INNER_CANVAS_WIDTH = 14;
-const VALID_NUMBER = new RegExp(/^\d*\.?\d*$/);
-const INPUT_MAX_CHAR = 10;
+const DELIVERY_FEE_PERCENTAGE = 30;
+
+const _state = (state: MachineState) => state.context.state;
 
 export const WithdrawResources: React.FC<Props> = ({ onWithdraw }) => {
   const { t } = useAppTranslation();
 
   const { gameService } = useContext(Context);
-  const [gameState] = useActor(gameService);
+  const state = useSelector(gameService, _state);
 
   const deliveryItemsStartRef = useRef<HTMLDivElement>(null);
+  const divRef = useRef<HTMLDivElement>(null);
 
   const [selected, setSelected] = useState<Inventory>({});
 
   const inventory: Inventory = useMemo(() => {
-    const deliverables = getDeliverableItems({ game: gameState.context.state });
+    const deliverables = getDeliverableItems({ state: state });
 
     return Object.fromEntries(
       Object.entries(deliverables).filter(([_, v]) => v?.gt(0)),
     );
-  }, [gameState.context.state.previousInventory]);
+  }, [state.inventory, state.previousInventory]);
 
   const hasWrongInputs = (): boolean => {
     const entries = Object.entries(selected) as [InventoryItemName, Decimal][];
@@ -79,11 +74,13 @@ export const WithdrawResources: React.FC<Props> = ({ onWithdraw }) => {
       toWei(selected[item]?.toString() as string, getItemUnit(item)),
     );
 
-    gameService.send("WITHDRAW", {
-      ids,
-      amounts,
-      sfl: 0,
-      captcha: "0x",
+    gameService.send("TRANSACT", {
+      transaction: "transaction.itemsWithdrawn",
+      request: {
+        captcha: "0x",
+        amounts: amounts,
+        ids: ids,
+      },
     });
 
     onWithdraw();
@@ -107,35 +104,18 @@ export const WithdrawResources: React.FC<Props> = ({ onWithdraw }) => {
   const onRemove = (itemName: InventoryItemName) => {
     setSelected((prev) => {
       const copy = { ...prev };
-
       delete copy[itemName];
 
       return copy;
     });
   };
 
-  const handleAmountChange = (
-    e: ChangeEvent<HTMLInputElement>,
-    itemName: InventoryItemName,
-  ) => {
-    if (/^0+(?!\.)/.test(e.target.value) && e.target.value.length > 1) {
-      e.target.value = e.target.value.replace(/^0/, "");
-    }
-
-    if (VALID_NUMBER.test(e.target.value)) {
-      const input = Number(e.target.value.slice(0, INPUT_MAX_CHAR));
-
-      setSelected((prev) => ({
-        ...prev,
-        [itemName]: new Decimal(input),
-      }));
-    }
-  };
-
   return (
     <>
-      <div className="p-2 mb-2">
-        <h2 className="mb-1 text-sm">{t("deliveryitem.inventory")}</h2>
+      <div className="p-2 mb-2" ref={divRef}>
+        <Label type="default" className="mb-2">
+          {t("withdraw.select.item")}
+        </Label>
         <div className="flex flex-wrap h-fit -ml-1.5 mb-2">
           {getKeys(inventory).map((itemName) => (
             <Box
@@ -143,82 +123,97 @@ export const WithdrawResources: React.FC<Props> = ({ onWithdraw }) => {
               count={inventory[itemName]}
               onClick={() => onAdd(itemName)}
               image={ITEM_DETAILS[itemName].image}
+              parentDivRef={divRef}
             />
           ))}
         </div>
 
-        <h2 className="mb-1 text-sm">{t("deliveryitem.itemsToDeliver")}</h2>
-        <div
-          className="flex flex-col gap-2 min-h-[48px] scrollable overflow-y-auto"
-          style={{ maxHeight: 158 }}
-        >
-          <div ref={deliveryItemsStartRef} className="-mt-2"></div>
-          {getKeys(selected).map((itemName) => (
-            <div
-              className="flex items-center justify-between gap-2"
-              key={itemName}
-            >
-              <div className="flex items-center gap-2">
-                <div
-                  className="bg-brown-600"
-                  style={{
-                    width: `${PIXEL_SCALE * (INNER_CANVAS_WIDTH + 4)}px`,
-                    height: `${PIXEL_SCALE * (INNER_CANVAS_WIDTH + 4)}px`,
-                    ...pixelDarkBorderStyle,
-                  }}
-                >
-                  <SquareIcon
-                    icon={ITEM_DETAILS[itemName as InventoryItemName].image}
-                    width={INNER_CANVAS_WIDTH}
+        {getKeys(selected).length > 0 && (
+          <Label type="default" className="my-2">
+            {t("deliveryitem.itemsToDeliver")}
+          </Label>
+        )}
+        <div className="flex flex-col max-h-48 gap-1 pr-1 scrollable overflow-y-auto">
+          <div ref={deliveryItemsStartRef} />
+          {getKeys(selected).map((itemName) => {
+            const inventoryAmount = inventory[itemName] ?? new Decimal(0);
+            const selectedAmount = selected[itemName] ?? new Decimal(0);
+            return (
+              <OuterPanel
+                className="flex items-center justify-between gap-2"
+                key={itemName}
+              >
+                <div className="flex items-center gap-2">
+                  <SquareIcon icon={ITEM_DETAILS[itemName].image} width={14} />
+
+                  <NumberInput
+                    className="w-24"
+                    value={selectedAmount}
+                    maxDecimalPlaces={2}
+                    isOutOfRange={
+                      selectedAmount.lte(0) ||
+                      selectedAmount.gt(inventoryAmount)
+                    }
+                    onValueChange={(value) =>
+                      setSelected((prev) => ({
+                        ...prev,
+                        [itemName]: value,
+                      }))
+                    }
                   />
+
+                  <div className="flex flex-col">
+                    <span className="text-xxs">{`${formatNumber(
+                      selectedAmount.mul(1 - DELIVERY_FEE_PERCENTAGE / 100) ??
+                        0,
+                    )} x ${itemName}`}</span>
+                    <span className="text-xxs">{`(${formatNumber(
+                      selectedAmount.mul(DELIVERY_FEE_PERCENTAGE / 100) ?? 0,
+                    )} ${t("fee")})`}</span>
+                  </div>
                 </div>
-                <input
-                  type="number"
-                  name={itemName + "amount"}
-                  value={parseFloat(selected[itemName]?.toString() || "0")}
-                  onChange={(e) => handleAmountChange(e, itemName)}
-                  className={classNames(
-                    "px-2 py-1 bg-brown-200 text-shadow shadow-inner shadow-black",
-                    isMobile ? "w-[80px]" : "w-[140px]",
-                    {
-                      "text-error":
-                        selected[itemName]?.gt(
-                          inventory[itemName] || new Decimal(0),
-                        ) || selected[itemName]?.lte(new Decimal(0)),
-                    },
-                  )}
+                <img
+                  src={SUNNYSIDE.icons.cancel}
+                  className="mr-2 cursor-pointer"
+                  style={{
+                    width: `${PIXEL_SCALE * 11}px`,
+                    height: `${PIXEL_SCALE * 11}px`,
+                  }}
+                  onClick={() => onRemove(itemName)}
                 />
-                <div className="flex flex-col">
-                  <span className="text-xxs">{`${formatNumber(
-                    selected[itemName]?.mul(1 - DELIVERY_FEE / 100) ?? 0,
-                  )} x ${itemName}`}</span>
-                  <span className="text-xxs">{`${formatNumber(
-                    selected[itemName]?.mul(DELIVERY_FEE / 100) ?? 0,
-                  )} Goblin fee`}</span>
-                </div>
-              </div>
-              <img
-                src={SUNNYSIDE.icons.cancel}
-                className="h-4 mr-2 cursor-pointer"
-                onClick={() => onRemove(itemName)}
-              />
-            </div>
-          ))}
+              </OuterPanel>
+            );
+          })}
         </div>
 
-        <div className="w-full my-3 border-t-2 border-white" />
+        <div className="w-full my-3 border-t border-white" />
         <div className="flex items-center mb-2 text-xs">
-          <img src={SUNNYSIDE.icons.player} className="h-8 mr-2" />
-          <div>
+          <img
+            src={SUNNYSIDE.icons.player}
+            className="mr-3"
+            style={{
+              width: `${PIXEL_SCALE * 13}px`,
+            }}
+          />
+          <div className="flex flex-col gap-1">
             <p>{t("deliveryitem.deliverToWallet")}</p>
-            <p className="font-secondary">
-              {shortAddress(wallet.myAccount || "XXXX")}
-            </p>
+            <WalletAddressLabel walletAddress={wallet.getAccount() || "XXXX"} />
           </div>
         </div>
 
-        <p className="text-xs">{t("deliveryitem.viewOnOpenSea")}</p>
+        <p className="text-xs">
+          {t("deliveryitem.viewOnOpenSea")}{" "}
+          <a
+            className="underline hover:text-blue-500"
+            href="https://docs.sunflower-land.com/fundamentals/withdrawing"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {t("read.more")}
+          </a>
+        </p>
       </div>
+
       <Button onClick={withdraw} disabled={hasWrongInputs()}>
         {t("deliveryitem.deliver")}
       </Button>

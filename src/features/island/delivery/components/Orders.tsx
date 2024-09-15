@@ -50,6 +50,9 @@ import { useNavigate } from "react-router-dom";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { SquareIcon } from "components/ui/SquareIcon";
 import { formatNumber } from "lib/utils/formatNumber";
+import { isMobile } from "mobile-device-detect";
+import { getImageUrl } from "lib/utils/getImageURLS";
+import { ITEM_IDS } from "features/game/types/bumpkin";
 
 // Bumpkins
 export const BEACH_BUMPKINS: NPCName[] = [
@@ -116,12 +119,12 @@ const makeRewardAmountForLabel = ({
   if (order.reward.sfl !== undefined) {
     const sfl = getOrderSellPrice<Decimal>(gameState, order);
 
-    return sfl.toFixed(2);
+    return formatNumber(sfl, { decimalPlaces: 4 });
   }
 
   const coins = getOrderSellPrice<number>(gameState, order);
 
-  return coins % 1 === 0 ? coins.toString() : coins.toFixed(2);
+  return formatNumber(coins);
 };
 
 export type OrderCardProps = {
@@ -147,7 +150,7 @@ export const OrderCard: React.FC<OrderCardProps> = ({
     <div className="py-1 px-1" key={order.id}>
       <ButtonPanel
         onClick={() => onClick(order.id)}
-        className={classNames("w-full  !py-2 relative", {
+        className={classNames("w-full !py-2 relative", {
           "sm:!bg-brown-200": order.id === selected?.id,
         })}
         style={{ paddingBottom: "20px" }}
@@ -165,7 +168,7 @@ export const OrderCard: React.FC<OrderCardProps> = ({
             <div className="relative mb-2 mr-0.5 -ml-1">
               <NPCIcon parts={NPC_WEARABLES[order.from]} />
             </div>
-            <div className="flex-1 flex justify-center h-8 items-center w-6 ">
+            <div className="flex-1 flex justify-center h-8 items-center w-6">
               {getKeys(order.items).map((name) => {
                 let img: string;
 
@@ -274,7 +277,7 @@ export const LockedOrderCard: React.FC<{ npc: NPCName }> = ({ npc }) => {
       <ButtonPanel
         disabled
         className={classNames(
-          "w-full  !py-2 relative h-full flex items-center justify-center cursor-not-allowed",
+          "w-full !py-2 relative h-full flex items-center justify-center cursor-not-allowed",
         )}
         style={{ paddingBottom: "20px" }}
       >
@@ -295,7 +298,7 @@ export const LockedOrderCard: React.FC<{ npc: NPCName }> = ({ npc }) => {
         <Label
           type="formula"
           icon={SUNNYSIDE.icons.lock}
-          className={"absolute -bottom-2 text-center p-1 "}
+          className="absolute -bottom-2 text-center p-1"
           style={{
             left: `${PIXEL_SCALE * -3}px`,
             right: `${PIXEL_SCALE * -3}px`,
@@ -373,6 +376,13 @@ export const DeliveryOrders: React.FC<Props> = ({
     return formatNumber(coins);
   };
 
+  const getLocationName = (npcName: NPCName) => {
+    if (RETREAT_BUMPKINS.includes(npcName)) return t("island.goblin.retreat");
+    if (BEACH_BUMPKINS.includes(npcName)) return t("island.beach");
+    if (KINGDOM_BUMPKINS.includes(npcName)) return t("island.kingdom");
+    return t("island.pumpkin.plaza");
+  };
+
   if (gameService.state.matches("revealing") && isRevealing) {
     return <Revealing icon={chest} />;
   }
@@ -415,7 +425,7 @@ export const DeliveryOrders: React.FC<Props> = ({
     <div className="flex md:flex-row flex-col-reverse md:mr-1 items-start h-full">
       <InnerPanel
         className={classNames(
-          "flex flex-col h-full overflow-hidden scrollable overflow-y-auto pl-1 md:flex flex-col w-full md:w-2/3 h-full",
+          "flex flex-col h-full overflow-hidden scrollable overflow-y-auto pl-1 md:flex w-full md:w-2/3",
           {
             hidden: selectedId,
           },
@@ -456,7 +466,7 @@ export const DeliveryOrders: React.FC<Props> = ({
               type="default"
               icon={ITEM_DETAILS[getSeasonalTicket()].image}
             >
-              {`${getSeasonalTicket()}s`}
+              {getSeasonalTicket()}
             </Label>
             {ticketTasksAreFrozen && (
               <Label type="formula" icon={lock} className="mt-1">
@@ -475,7 +485,9 @@ export const DeliveryOrders: React.FC<Props> = ({
           </div>
           {level <= 8 && (
             <span className="text-xs mb-2">
-              {t("bumpkin.delivery.earnScrolls")}
+              {t("bumpkin.delivery.earnTickets", {
+                ticket: getSeasonalTicket(),
+              })}
             </span>
           )}
           {ticketTasksAreFrozen && (
@@ -573,12 +585,13 @@ export const DeliveryOrders: React.FC<Props> = ({
           <img
             src={SUNNYSIDE.icons.arrow_left}
             className={classNames(
-              "absolute top-2 left-2 h-6 w-6 cursor-pointer md:hidden z-10",
+              "absolute top-2 left-2 cursor-pointer md:hidden z-10",
               {
                 hidden: !selectedId,
                 block: !!selectedId,
               },
             )}
+            style={{ width: `${PIXEL_SCALE * 11}px` }}
             onClick={() => onSelect(undefined)}
           />
           <div
@@ -592,7 +605,7 @@ export const DeliveryOrders: React.FC<Props> = ({
             <p
               className="z-10 absolute bottom-1 right-1.5 capitalize text-xs"
               style={{
-                background: "#ffffff9e",
+                background: "#ffffffaf",
                 padding: "2px",
                 borderRadius: "3px",
               }}
@@ -608,7 +621,16 @@ export const DeliveryOrders: React.FC<Props> = ({
                 backgroundSize: `${32 * PIXEL_SCALE}px`,
               }}
             />
-            <div key={previewOrder.from} className="w-1/2 md:w-full md:-ml-8">
+
+            <div
+              className="absolute -inset-2 bg-repeat"
+              style={{
+                height: `${PIXEL_SCALE * 80}px`,
+                backgroundImage: `url(${getImageUrl(ITEM_IDS[NPC_WEARABLES[previewOrder.from].background])})`,
+                backgroundSize: "100%",
+              }}
+            />
+            <div key={previewOrder.from} className="w-9/12 md:w-full md:-ml-8">
               <DynamicNFT
                 key={previewOrder.from}
                 bumpkinParts={NPC_WEARABLES[previewOrder.from]}
@@ -635,14 +657,12 @@ export const DeliveryOrders: React.FC<Props> = ({
                 )}
               </div>
               {canSkip && (
-                <>
+                <div className="flex flex-col gap-1">
                   <Button onClick={() => setShowSkipDialog(false)}>
                     {t("orderhelp.NoRight")}
                   </Button>
-                  <Button onClick={skip} className="mt-1">
-                    {t("skip.order")}
-                  </Button>
-                </>
+                  <Button onClick={skip}>{t("skip.order")}</Button>
+                </div>
               )}
               {!canSkip && (
                 <Button onClick={() => setShowSkipDialog(false)}>
@@ -661,23 +681,11 @@ export const DeliveryOrders: React.FC<Props> = ({
                   })}
                 </p>
 
-                {RETREAT_BUMPKINS.includes(previewOrder.from) ? (
-                  <Label type="default" icon={worldIcon} className="ml-1">
-                    {t("island.goblin.retreat")}
-                  </Label>
-                ) : BEACH_BUMPKINS.includes(previewOrder.from) ? (
-                  <Label type="default" icon={worldIcon} className="ml-1">
-                    {t("island.beach")}
-                  </Label>
-                ) : KINGDOM_BUMPKINS.includes(previewOrder.from) ? (
-                  <Label type="default" icon={worldIcon} className="ml-1">
-                    {t("island.kingdom")}
-                  </Label>
-                ) : (
-                  <Label type="default" icon={worldIcon} className="ml-1">
-                    {t("island.pumpkin.plaza")}
-                  </Label>
-                )}
+                <Label type="default" icon={worldIcon} className="ml-1">
+                  <div className="pl-0.5">
+                    {getLocationName(previewOrder.from)}
+                  </div>
+                </Label>
               </div>
               <div className="">
                 {getKeys(previewOrder.items).map((itemName, index) => {
@@ -722,12 +730,10 @@ export const DeliveryOrders: React.FC<Props> = ({
                 })}
               </div>
               <div
-                className="flex justify-between w-full"
+                className="flex justify-between w-full border-t border-white"
                 style={{
-                  marginTop: "2px",
+                  marginTop: "3px",
                   paddingTop: "3px",
-                  borderStyle: "dashed",
-                  borderTop: "1px dashed #ead4aa",
                   marginBottom: "6px",
                 }}
               >
@@ -744,19 +750,21 @@ export const DeliveryOrders: React.FC<Props> = ({
                   />
                   <span className="text-xs ml-1">{t("reward")}</span>
                 </div>
-                <Label type="warning">
-                  <span>{`${
-                    generateDeliveryTickets({
-                      game: gameState,
-                      npc: previewOrder.from,
-                    }) || makeRewardAmountForLabel(previewOrder)
-                  } ${
-                    previewOrder.reward.coins
-                      ? t("coins")
-                      : previewOrder.reward.sfl
-                        ? "SFL"
-                        : `${getSeasonalTicket()}s`
-                  }`}</span>
+                <Label type="warning" className="whitespace-nowrap">
+                  <span className={!isMobile ? "text-xxs" : ""}>
+                    {`${
+                      generateDeliveryTickets({
+                        game: gameState,
+                        npc: previewOrder.from,
+                      }) || makeRewardAmountForLabel(previewOrder)
+                    } ${
+                      previewOrder.reward.coins
+                        ? t("coins")
+                        : previewOrder.reward.sfl
+                          ? "SFL"
+                          : getSeasonalTicket()
+                    }`}
+                  </span>
                 </Label>
               </div>
               {!previewOrder.completedAt &&
@@ -816,7 +824,7 @@ export const DeliveryOrders: React.FC<Props> = ({
                 </div>
               ) : (
                 <p
-                  className="underline font-secondary text-[20px] pb-1 pt-0.5 cursor-pointer hover:text-blue-500"
+                  className="underline font-secondary text-xxs pb-1 pt-0.5 cursor-pointer hover:text-blue-500"
                   onClick={() => setShowSkipDialog(true)}
                 >
                   {t("skip.order")}

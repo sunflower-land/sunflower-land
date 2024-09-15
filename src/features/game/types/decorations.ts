@@ -205,7 +205,7 @@ export const DECORATION_TEMPLATES = {
     },
     isWithdrawable: () => false,
   },
-} satisfies Record<string, Template>;
+} as Record<string, Template>;
 
 export type TemplateDecorationName = keyof typeof DECORATION_TEMPLATES;
 
@@ -663,7 +663,7 @@ export const DECORATION_DIMENSIONS: Record<DecorationName, Dimensions> = {
     width: 2,
   },
   "Paper Reed": {
-    height: 1,
+    height: 2,
     width: 1,
   },
 };

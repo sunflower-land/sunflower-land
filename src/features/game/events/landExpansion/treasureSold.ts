@@ -8,8 +8,8 @@ import {
   BeachBountyTreasure,
   SELLABLE_TREASURE,
 } from "features/game/types/treasure";
+import { produce } from "immer";
 import { setPrecision } from "lib/utils/formatNumber";
-import cloneDeep from "lodash.clonedeep";
 
 export type SellTreasureAction = {
   type: "treasure.sold";
@@ -44,48 +44,49 @@ export const isExoticCrop = (
 };
 
 export function sellTreasure({ state, action }: Options) {
-  const game: GameState = cloneDeep(state);
-  const { item, amount } = action;
+  return produce(state, (game) => {
+    const { item, amount } = action;
 
-  const { bumpkin, coins } = game;
+    const { bumpkin, coins } = game;
 
-  if (!bumpkin) {
-    throw new Error("You do not have a Bumpkin");
-  }
+    if (!bumpkin) {
+      throw new Error("You do not have a Bumpkin");
+    }
 
-  const SELLABLES = { ...SELLABLE_TREASURE, ...EXOTIC_CROPS };
-  if (!(item in SELLABLES)) {
-    throw new Error("Not for sale");
-  }
+    const SELLABLES = { ...SELLABLE_TREASURE, ...EXOTIC_CROPS };
+    if (!(item in SELLABLES)) {
+      throw new Error("Not for sale");
+    }
 
-  if (!new Decimal(amount).isInteger()) {
-    throw new Error("Invalid amount");
-  }
+    if (!new Decimal(amount).isInteger()) {
+      throw new Error("Invalid amount");
+    }
 
-  const count = game.inventory[item] || new Decimal(0);
+    const count = game.inventory[item] || new Decimal(0);
 
-  if (count.lessThan(amount)) {
-    throw new Error("Insufficient quantity to sell");
-  }
+    if (count.lessThan(amount)) {
+      throw new Error("Insufficient quantity to sell");
+    }
 
-  const price = isExoticCrop(item)
-    ? EXOTIC_CROPS[item].sellPrice
-    : getSellPrice(SELLABLES[item], game);
-  const earned = price * amount;
-  bumpkin.activity = trackActivity(
-    "Coins Earned",
-    bumpkin.activity,
-    new Decimal(earned),
-  );
+    const price = isExoticCrop(item)
+      ? EXOTIC_CROPS[item].sellPrice
+      : getSellPrice(SELLABLES[item], game);
+    const earned = price * amount;
+    bumpkin.activity = trackActivity(
+      "Coins Earned",
+      bumpkin.activity,
+      new Decimal(earned),
+    );
 
-  bumpkin.activity = trackActivity(
-    `${item} Sold`,
-    bumpkin?.activity,
-    new Decimal(amount),
-  );
+    bumpkin.activity = trackActivity(
+      `${item} Sold`,
+      bumpkin?.activity,
+      new Decimal(amount),
+    );
 
-  game.coins = coins + earned;
-  game.inventory[item] = setPrecision(count.sub(amount));
+    game.coins = coins + earned;
+    game.inventory[item] = setPrecision(count.sub(amount));
 
-  return game;
+    return game;
+  });
 }

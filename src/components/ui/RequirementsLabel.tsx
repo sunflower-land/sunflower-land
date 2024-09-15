@@ -1,6 +1,6 @@
 import Decimal from "decimal.js-light";
 import { InventoryItemName } from "features/game/types/game";
-import React from "react";
+import React, { useContext } from "react";
 import { LABEL_STYLES, Label } from "./Label";
 import { SquareIcon } from "./SquareIcon";
 import { ITEM_DETAILS } from "features/game/types/images";
@@ -12,6 +12,9 @@ import classNames from "classnames";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { formatNumber } from "lib/utils/formatNumber";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { BumpkinItem } from "features/game/types/bumpkin";
+import { useActor } from "@xstate/react";
+import { Context } from "features/game/GameProvider";
 
 /**
  * The props for SFL requirement label. Use this when the item costs SFL.
@@ -70,6 +73,14 @@ interface ItemProps {
   item: InventoryItemName;
   balance: Decimal;
   requirement: Decimal;
+  showLabel?: boolean;
+}
+
+interface WearableProps {
+  type: "wearable";
+  item: BumpkinItem;
+  balance: number;
+  requirement: BumpkinItem;
   showLabel?: boolean;
 }
 
@@ -133,6 +144,7 @@ type Props = (
   | SFLProps
   | SellSFLProps
   | ItemProps
+  | WearableProps
   | TimeProps
   | XPProps
   | LevelProps
@@ -147,6 +159,13 @@ type Props = (
  */
 export const RequirementLabel: React.FC<Props> = (props) => {
   const { t } = useAppTranslation();
+  const { gameService } = useContext(Context);
+
+  const [
+    {
+      context: { state },
+    },
+  ] = useActor(gameService);
 
   const getIcon = () => {
     switch (props.type) {
@@ -183,6 +202,9 @@ export const RequirementLabel: React.FC<Props> = (props) => {
         const roundedDownRequirement = formatNumber(props.requirement);
         return `${roundedDownInventory}/${roundedDownRequirement}`;
       }
+      case "wearable": {
+        return `${props.requirement}`;
+      }
       case "time": {
         return secondsToString(props.waitSeconds, {
           length: "medium",
@@ -212,6 +234,8 @@ export const RequirementLabel: React.FC<Props> = (props) => {
         return props.balance.greaterThanOrEqualTo(props.requirement);
       case "item":
         return props.balance.greaterThanOrEqualTo(props.requirement);
+      case "wearable":
+        return props.balance > 0;
       case "level":
         return props.currentLevel >= props.requirement;
       case "sellForSfl":
@@ -224,6 +248,17 @@ export const RequirementLabel: React.FC<Props> = (props) => {
   };
   const requirementMet = isRequirementMet();
 
+  const labelType = () => {
+    if (props.type === "wearable") {
+      if (requirementMet) {
+        return "success";
+      }
+      return "danger";
+    }
+
+    return requirementMet ? "transparent" : "danger";
+  };
+
   return (
     <div
       className={classNames(
@@ -234,13 +269,16 @@ export const RequirementLabel: React.FC<Props> = (props) => {
       <div className="flex items-center">
         {!props.hideIcon && <SquareIcon icon={getIcon()} width={7} />}
         {props.type === "sfl" && props.showLabel && (
-          <span className="text-xs ml-1 ">{"SFL"}</span>
+          <span className="text-xs ml-1">{"SFL"}</span>
         )}
         {props.type === "item" && props.showLabel && (
-          <span className="text-xs ml-1 ">{props.item}</span>
+          <span className="text-xs ml-1">{props.item}</span>
+        )}
+        {props.type === "wearable" && props.showLabel && (
+          <span className="text-xs ml-1">{props.item}</span>
         )}
         {props.type === "coins" && props.showLabel && (
-          <span className="text-xs ml-1 ">{t("coins")}</span>
+          <span className="text-xs ml-1">{t("coins")}</span>
         )}
       </div>
 
@@ -248,11 +286,16 @@ export const RequirementLabel: React.FC<Props> = (props) => {
         className={classNames("whitespace-nowrap font-secondary relative", {
           "ml-1": !requirementMet,
         })}
-        type={requirementMet ? "transparent" : "danger"}
+        type={labelType()}
+        secondaryIcon={
+          props.type === "wearable"
+            ? requirementMet
+              ? SUNNYSIDE.icons.confirm
+              : SUNNYSIDE.icons.cancel
+            : undefined
+        }
         style={{
-          color:
-            props.textColor ??
-            LABEL_STYLES[requirementMet ? "transparent" : "danger"].textColour,
+          color: props.textColor ?? LABEL_STYLES[labelType()].textColour,
         }}
       >
         {getText()}

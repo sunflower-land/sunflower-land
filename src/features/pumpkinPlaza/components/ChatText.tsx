@@ -18,11 +18,11 @@ interface Props {
   cooledDownAt?: number;
 }
 
-const MAX_CHARACTERS = 48;
+const MAX_CHARACTERS = 96;
 
 /* eslint-disable */
 const URL_REGEX = new RegExp(
-  /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gi
+  /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gi,
 );
 /* eslint-enable */
 

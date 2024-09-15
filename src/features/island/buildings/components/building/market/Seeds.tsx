@@ -44,8 +44,7 @@ import {
 } from "features/game/events/landExpansion/plantGreenhouse";
 import { NPC_WEARABLES } from "lib/npcs";
 import { ConfirmationModal } from "components/ui/ConfirmationModal";
-import { formatNumber } from "lib/utils/formatNumber";
-import { hasFeatureAccess } from "lib/flags";
+import { formatNumber, setPrecision } from "lib/utils/formatNumber";
 
 interface Props {
   onClose: () => void;
@@ -96,7 +95,10 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
 
   const stock = state.stock[selectedName] || new Decimal(0);
   const inventoryLimit = INVENTORY_LIMIT(state)[selectedName] ?? new Decimal(0);
-  const inventoryAmount = inventory[selectedName] ?? new Decimal(0);
+  const inventoryAmount = setPrecision(
+    inventory[selectedName] ?? new Decimal(0),
+    2,
+  );
   const bulkBuyLimit = inventoryLimit.minus(inventoryAmount);
   // Calculates the difference between amount in inventory and the inventory limit
   const bulkSeedBuyAmount = makeBulkBuySeeds(stock, bulkBuyLimit);
@@ -311,14 +313,6 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
           <div className="flex flex-wrap mb-2">
             {seeds
               .filter((name) => name in FRUIT_SEEDS())
-              .filter(
-                (name) =>
-                  (name !== "Tomato Seed" && name !== "Lemon Seed") ||
-                  hasFeatureAccess(
-                    gameService.state.context.state,
-                    "NEW_FRUITS",
-                  ),
-              )
               .map((name: SeedName) => (
                 <Box
                   isSelected={selectedName === name}

@@ -68,7 +68,7 @@ export const LoginSettings: React.FC = () => {
       {createPortal(
         <img
           onClick={() => setShowModal(true)}
-          className="absolute bottom-2 right-2 z-[10000] cursor-pointer"
+          className="absolute bottom-2 right-2 z-[50] cursor-pointer"
           src={settingsIcon}
           style={{
             width: `${PIXEL_SCALE * 24}px`,

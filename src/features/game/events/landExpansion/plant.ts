@@ -1,4 +1,3 @@
-import cloneDeep from "lodash.clonedeep";
 import Decimal from "decimal.js-light";
 
 import { CropName, CROPS, GreenHouseCropName } from "../../types/crops";
@@ -40,6 +39,8 @@ import { getBumpkinLevel } from "features/game/lib/level";
 import { isBuildingEnabled } from "features/game/expansion/lib/buildingRequirements";
 import { isWearableActive } from "features/game/lib/wearables";
 import { isGreenhouseCrop } from "./plantGreenhouse";
+import { FACTION_ITEMS } from "features/game/lib/factions";
+import { produce } from "immer";
 
 export type LandExpansionPlantAction = {
   type: "seed.planted";
@@ -160,6 +161,16 @@ export function getCropTime({
     seconds = seconds * 0.5;
   }
 
+  if (skills["Green Thumb 2"]) {
+    seconds = seconds * 0.95;
+  }
+
+  if (skills["Strong Roots"]) {
+    if (crop === "Radish" || crop === "Wheat" || crop === "Kale") {
+      seconds = seconds * 0.9;
+    }
+  }
+
   return seconds;
 }
 
@@ -250,7 +261,12 @@ export const getCropPlotTime = ({
 
     if (
       isCollectibleBuilt({ name: "Basic Scarecrow", game }) &&
-      isWithinAOE("Basic Scarecrow", scarecrowPosition, plotPosition)
+      isWithinAOE(
+        "Basic Scarecrow",
+        scarecrowPosition,
+        plotPosition,
+        game.bumpkin.skills,
+      )
     ) {
       seconds = seconds * 0.8;
     }
@@ -392,6 +408,18 @@ export function getCropYieldAmount({
     amount += 3;
   }
 
+  //Faction Quiver
+  const factionName = game.faction?.name;
+  if (
+    factionName &&
+    isWearableActive({
+      game,
+      name: FACTION_ITEMS[factionName].wings,
+    })
+  ) {
+    amount += 0.25;
+  }
+
   amount += getBudYieldBoosts(buds ?? {}, crop);
 
   // Specific Crop Additive Boosts
@@ -445,7 +473,7 @@ export function getCropYieldAmount({
 
     if (
       isCollectibleBuilt({ name: "Scary Mike", game }) &&
-      isWithinAOE("Scary Mike", scarecrowPosition, plotPosition)
+      isWithinAOE("Scary Mike", scarecrowPosition, plotPosition, bumpkin.skills)
     ) {
       amount = amount + 0.2;
     }
@@ -466,7 +494,7 @@ export function getCropYieldAmount({
 
     if (
       isPlotCrop(crop) &&
-      isWithinAOE("Sir Goldensnout", position, plot as CropPlot)
+      isWithinAOE("Sir Goldensnout", position, plot as CropPlot, bumpkin.skills)
     ) {
       amount = amount + 0.5;
     }
@@ -499,7 +527,12 @@ export function getCropYieldAmount({
 
     if (
       isCollectibleBuilt({ name: "Laurie the Chuckle Crow", game }) &&
-      isWithinAOE("Laurie the Chuckle Crow", scarecrowPosition, plotPosition)
+      isWithinAOE(
+        "Laurie the Chuckle Crow",
+        scarecrowPosition,
+        plotPosition,
+        bumpkin.skills,
+      )
     ) {
       amount = amount + 0.2;
     }
@@ -526,7 +559,12 @@ export function getCropYieldAmount({
 
     if (
       isCollectibleBuilt({ name: "Queen Cornelia", game }) &&
-      isWithinAOE("Queen Cornelia", scarecrowPosition, plotPosition)
+      isWithinAOE(
+        "Queen Cornelia",
+        scarecrowPosition,
+        plotPosition,
+        bumpkin.skills,
+      )
     ) {
       amount = amount + 1;
     }
@@ -594,6 +632,42 @@ export function getCropYieldAmount({
     amount += 2;
   }
 
+  if (skills["Young Farmer"] && isBasicCrop(crop)) {
+    amount += 0.1;
+  }
+
+  if (skills["Experienced Farmer"] && isMediumCrop(crop)) {
+    amount += 0.1;
+  }
+
+  if (skills["Old Farmer"] && isAdvancedCrop(crop)) {
+    amount += 0.1;
+  }
+
+  if (skills["Acre Farm"] && isAdvancedCrop(crop)) {
+    amount += 1;
+  }
+
+  if (skills["Acre Farm"] && isMediumCrop(crop)) {
+    amount -= 0.5;
+  }
+
+  if (skills["Acre Farm"] && isBasicCrop(crop)) {
+    amount -= 0.5;
+  }
+
+  if (skills["Hectare Farm"] && isAdvancedCrop(crop)) {
+    amount -= 0.5;
+  }
+
+  if (skills["Hectare Farm"] && isMediumCrop(crop)) {
+    amount += 1;
+  }
+
+  if (skills["Hectare Farm"] && isBasicCrop(crop)) {
+    amount += 1;
+  }
+
   return Number(setPrecision(amount));
 }
 
@@ -602,72 +676,73 @@ export function plant({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  const stateCopy = cloneDeep(state);
-  const { crops: plots, bumpkin, inventory } = stateCopy;
-  const buds = stateCopy.buds ?? {};
+  return produce(state, (stateCopy) => {
+    const { crops: plots, bumpkin, inventory } = stateCopy;
+    const buds = stateCopy.buds ?? {};
 
-  if (bumpkin === undefined) {
-    throw new Error("You do not have a Bumpkin!");
-  }
+    if (bumpkin === undefined) {
+      throw new Error("You do not have a Bumpkin!");
+    }
 
-  if (!action.index) {
-    throw new Error("Plot does not exist");
-  }
+    if (!action.index) {
+      throw new Error("Plot does not exist");
+    }
 
-  const plot = plots[action.index];
+    const plot = plots[action.index];
 
-  if (!plot) {
-    throw new Error("Plot does not exist");
-  }
+    if (!plot) {
+      throw new Error("Plot does not exist");
+    }
 
-  if (plot.crop?.plantedAt) {
-    throw new Error("Crop is already planted");
-  }
+    if (plot.crop?.plantedAt) {
+      throw new Error("Crop is already planted");
+    }
 
-  if (!action.item) {
-    throw new Error("No seed selected");
-  }
+    if (!action.item) {
+      throw new Error("No seed selected");
+    }
 
-  if (!(action.item in SEEDS())) {
-    throw new Error("Not a seed");
-  }
+    if (!(action.item in SEEDS())) {
+      throw new Error("Not a seed");
+    }
 
-  const seedCount = inventory[action.item] || new Decimal(0);
+    const seedCount = inventory[action.item] || new Decimal(0);
 
-  if (seedCount.lessThan(1)) {
-    throw new Error("Not enough seeds");
-  }
+    if (seedCount.lessThan(1)) {
+      throw new Error("Not enough seeds");
+    }
 
-  const cropName = action.item.split(" ")[0] as CropName;
+    const cropName = action.item.split(" ")[0] as CropName;
 
-  const activityName: BumpkinActivityName = `${cropName} Planted`;
+    const activityName: BumpkinActivityName = `${cropName} Planted`;
 
-  bumpkin.activity = trackActivity(activityName, bumpkin.activity);
+    bumpkin.activity = trackActivity(activityName, bumpkin.activity);
 
-  plots[action.index] = {
-    ...plot,
-    crop: {
-      id: action.cropId,
-      plantedAt: getPlantedAt({
-        crop: cropName,
-        inventory,
-        game: stateCopy,
-        createdAt,
-        plot,
-        buds,
-        fertiliser: plot.fertiliser?.name,
-      }),
-      name: cropName,
-      amount: getCropYieldAmount({
-        crop: cropName,
-        game: stateCopy,
-        plot,
-        fertiliser: plot.fertiliser?.name,
-      }),
-    },
-  };
+    plots[action.index] = {
+      ...plot,
+      crop: {
+        id: action.cropId,
+        plantedAt: getPlantedAt({
+          crop: cropName,
+          inventory,
+          game: stateCopy,
+          createdAt,
+          plot,
+          buds,
+          fertiliser: plot.fertiliser?.name,
+        }),
+        name: cropName,
+        amount: getCropYieldAmount({
+          crop: cropName,
+          game: stateCopy,
+          plot,
+          fertiliser: plot.fertiliser?.name,
+        }),
+      },
+    };
 
-  inventory[action.item] = seedCount.sub(1);
+    inventory[action.item] = seedCount.sub(1);
 
-  return stateCopy;
+    return stateCopy;
+  });
 }

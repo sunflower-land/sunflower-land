@@ -230,12 +230,58 @@ export const IslandUpgrader: React.FC<Props> = ({ gameState, offset }) => {
     if (showAnimations) confetti();
   };
 
-  const nextExpansioon =
+  const nextExpansion =
     (gameState.inventory["Basic Land"]?.toNumber() ?? 3) + 1;
 
   const getPosition = () => {
-    if (island === "basic" && nextExpansioon == 10) {
-      return { x: 1, y: -5 };
+    if (island === "basic") {
+      switch (nextExpansion) {
+        case 10:
+          return { x: 1, y: -5 };
+        case 11:
+          return { x: 0, y: 2 };
+        case 12:
+          return { x: 0, y: 8 };
+        case 13:
+          return { x: -1, y: 14 };
+        case 14:
+          return { x: -7, y: 14 };
+        case 15:
+          return { x: -14, y: 14 };
+        case 16:
+          return { x: -20, y: 14 };
+        case 17:
+          return { x: -26, y: 14 };
+        case 18:
+          return { x: -27, y: 8 };
+        case 19:
+          return { x: -27, y: 2 };
+        case 20:
+          return { x: -28, y: -4 };
+        case 21:
+          return { x: -28, y: -10 };
+        case 22:
+          return { x: -22, y: -10 };
+        case 23:
+          return { x: -17, y: -10 };
+        case 24:
+          return { x: -11, y: -10 };
+      }
+    }
+
+    if (island === "spring") {
+      switch (nextExpansion) {
+        case 17:
+          return { x: -26, y: 14 };
+        case 18:
+          return { x: -27, y: 8 };
+        case 19:
+          return { x: -27, y: 2 };
+        case 20:
+          return { x: -28, y: -4 };
+        case 21:
+          return { x: -28, y: -10 };
+      }
     }
 
     return { x: 7, y: 0 };
@@ -266,7 +312,7 @@ export const IslandUpgrader: React.FC<Props> = ({ gameState, offset }) => {
         >
           <div
             style={{ zIndex: 9999999 }}
-            className="bg-black absolute z-10 inset-0 pointer-events-none flex justify-center items-center"
+            className="bg-black text-white absolute inset-0 pointer-events-none flex justify-center items-center"
           >
             <Loading text={t("islandupgrade.exploring")} />
           </div>

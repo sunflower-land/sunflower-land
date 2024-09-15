@@ -41,15 +41,6 @@ export function makeGame(farm: any): GameState {
     username: farm.username,
     trades: farm.trades,
     farmHands: farm.farmHands,
-    tradeOffer: farm.tradeOffer
-      ? {
-          ...farm.tradeOffer,
-          ingredients: farm.tradeOffer.ingredients.map((ingredient: any) => ({
-            ...ingredient,
-            amount: new Decimal(ingredient.amount),
-          })),
-        }
-      : undefined,
 
     bertObsession: farm.bertObsession,
 
@@ -98,6 +89,8 @@ export function makeGame(farm: any): GameState {
     christmas: farm.christmas,
     flowerShop: farm.flowerShop,
     specialEvents: farm.specialEvents,
+    experiments: farm.experiments,
+    rewards: farm.rewards,
     megastore: {
       ...farm.megastore,
       wearables: farm.megastore.wearables.map((wearable: any) => ({
@@ -118,5 +111,6 @@ export function makeGame(farm: any): GameState {
         }
       : undefined,
     desert: farm.desert,
+    transaction: farm.transaction,
   };
 }

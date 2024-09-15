@@ -4,6 +4,7 @@ import { Context } from "../GameProvider";
 import { Button } from "components/ui/Button";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { PIXEL_SCALE } from "../lib/constants";
 
 export const ListingDeleted: React.FC = () => {
   const { gameService } = useContext(Context);
@@ -15,7 +16,13 @@ export const ListingDeleted: React.FC = () => {
   return (
     <>
       <div className="p-2">
-        <img src={SUNNYSIDE.icons.confirm} className="mx-auto h-12 my-2" />
+        <img
+          src={SUNNYSIDE.icons.confirm}
+          className="mx-auto my-2"
+          style={{
+            width: `${PIXEL_SCALE * 12}px`,
+          }}
+        />
         <p className="text-sm mb-2 text-center">
           {t("trading.listing.deleted")}
         </p>

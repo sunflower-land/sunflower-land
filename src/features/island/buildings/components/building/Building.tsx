@@ -12,6 +12,7 @@ import { Context } from "features/game/GameProvider";
 import { BUILDING_COMPONENTS, READONLY_BUILDINGS } from "./BuildingComponents";
 import { CookableName } from "features/game/types/consumables";
 import { IslandType } from "features/game/types/game";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Prop {
   name: BuildingName;
@@ -47,6 +48,7 @@ const InProgressBuilding: React.FC<Prop> = ({
   island,
 }) => {
   const [showTooltip, setShowTooltip] = useState(false);
+  const { t } = useAppTranslation();
 
   const BuildingPlaced = BUILDING_COMPONENTS[name];
 
@@ -88,7 +90,7 @@ const InProgressBuilding: React.FC<Prop> = ({
         }}
       >
         <TimeLeftPanel
-          text="Ready in:"
+          text={t("ready.in")}
           timeLeft={secondsLeft}
           showTimeLeft={showTooltip}
         />

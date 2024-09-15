@@ -1,6 +1,6 @@
-import cloneDeep from "lodash.clonedeep";
 import Decimal from "decimal.js-light";
 import { GameState } from "features/game/types/game";
+import { produce } from "immer";
 
 export type EnterRaffleAction = {
   type: "raffle.entered";
@@ -19,31 +19,29 @@ export function enterRaffle({
   createdAt = Date.now(),
   randomGenerator = Math.random,
 }: Options): GameState {
-  const game = cloneDeep(state);
+  return produce(state, (game) => {
+    const tickets = game.inventory["Prize Ticket"] ?? new Decimal(0);
 
-  const tickets = game.inventory["Prize Ticket"] ?? new Decimal(0);
+    if (!tickets.gte(1)) {
+      throw new Error("Missing Treasure Key");
+    }
 
-  if (!tickets.gte(1)) {
-    throw new Error("Missing Treasure Key");
-  }
+    game.inventory["Prize Ticket"] = tickets.sub(1);
 
-  game.inventory["Prize Ticket"] = tickets.sub(1);
+    const monthKey = new Date(createdAt).toISOString().slice(0, 7);
 
-  const monthKey = new Date(createdAt).toISOString().slice(0, 7);
+    const raffle = game.pumpkinPlaza.raffle ?? {
+      entries: {},
+    };
 
-  const raffle = game.pumpkinPlaza.raffle ?? {
-    entries: {},
-  };
+    game.pumpkinPlaza.raffle = {
+      ...raffle,
+      entries: {
+        ...raffle.entries,
+        [monthKey]: (raffle.entries[monthKey] ?? 0) + 1,
+      },
+    };
 
-  game.pumpkinPlaza.raffle = {
-    ...raffle,
-    entries: {
-      ...raffle.entries,
-      [monthKey]: (raffle.entries[monthKey] ?? 0) + 1,
-    },
-  };
-
-  return {
-    ...game,
-  };
+    return game;
+  });
 }

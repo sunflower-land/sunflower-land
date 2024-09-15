@@ -15,7 +15,11 @@ export type BumpkinBackground =
   | "Valentine's Field Background"
   | "Festival of Colors Background"
   | "Desert Background"
-  | "Desert Camel Background";
+  | "Desert Camel Background"
+  | "Desert Camel Background"
+  | "Pumpkin Plaza Background"
+  | "Goblin Retreat Background"
+  | "Kingdom Background";
 
 export type BumpkinBody =
   | "Beige Farmer Potion"
@@ -207,7 +211,11 @@ export type BumpkinNecklace =
   | "Banana Amulet"
   | "Crimstone Amulet"
   | "Amber Amulet"
-  | "Sun Scarab Amulet";
+  | "Sun Scarab Amulet"
+  | "Bumpkin Medallion"
+  | "Goblin Medallion"
+  | "Nightshade Medallion"
+  | "Sunflorian Medallion";
 
 export type BumpkinHat =
   | "Painter's Cap"
@@ -286,7 +294,11 @@ export type BumpkinHat =
   | "Explorer Hat"
   | "Oil Protection Hat"
   | "Desert Merchant Turban"
-  | "Fossil Head";
+  | "Fossil Head"
+  | "Bumpkin Crown"
+  | "Goblin Crown"
+  | "Nightshade Crown"
+  | "Sunflorian Crown";
 
 export type BumpkinPant =
   | "Farmer Overalls"
@@ -353,7 +365,11 @@ export type BumpkinSecondaryTool =
   | "Olive Shield"
   | "Paw Shield"
   | "Infernal Drill"
-  | "Lemon Shield";
+  | "Lemon Shield"
+  | "Bumpkin Shield"
+  | "Goblin Shield"
+  | "Nightshade Shield"
+  | "Sunflorian Shield";
 
 // Goes over clothes + head
 export type BumpkinOnesie =
@@ -394,7 +410,11 @@ export type BumpkinWings =
   | "Butterfly Wings"
   | "Bee Wings"
   | "Scarab Wings"
-  | "Bionic Drill";
+  | "Bionic Drill"
+  | "Bumpkin Quiver"
+  | "Goblin Quiver"
+  | "Nightshade Quiver"
+  | "Sunflorian Quiver";
 
 export type BumpkinBeard = "Wise Beard" | "Hoary Chin" | "Santa Beard";
 
@@ -792,6 +812,29 @@ export const ITEM_IDS: Record<BumpkinItem, number> = {
   "Grape Pants": 373,
   "Bionic Drill": 374,
   "Fossil Head": 375,
+
+  // Kingdom Shop Items
+  "Bumpkin Crown": 376,
+  "Goblin Crown": 377,
+  "Nightshade Crown": 378,
+  "Sunflorian Crown": 379,
+  "Bumpkin Shield": 380,
+  "Goblin Shield": 381,
+  "Nightshade Shield": 382,
+  "Sunflorian Shield": 383,
+  "Bumpkin Quiver": 384,
+  "Goblin Quiver": 385,
+  "Nightshade Quiver": 386,
+  "Sunflorian Quiver": 387,
+  "Bumpkin Medallion": 388,
+  "Goblin Medallion": 389,
+  "Nightshade Medallion": 390,
+  "Sunflorian Medallion": 391,
+
+  // Map Background
+  "Pumpkin Plaza Background": 392,
+  "Goblin Retreat Background": 393,
+  "Kingdom Background": 394,
 };
 
 // The reverse of above
@@ -1228,4 +1271,23 @@ export const BUMPKIN_ITEM_PART: Record<BumpkinItem, keyof Wallet> = {
   "Grape Pants": "pants",
   "Bionic Drill": "wings",
   "Fossil Head": "hat",
+  "Bumpkin Crown": "hat",
+  "Goblin Crown": "hat",
+  "Nightshade Crown": "hat",
+  "Sunflorian Crown": "hat",
+  "Bumpkin Shield": "secondaryTool",
+  "Goblin Shield": "secondaryTool",
+  "Nightshade Shield": "secondaryTool",
+  "Sunflorian Shield": "secondaryTool",
+  "Bumpkin Quiver": "wings",
+  "Goblin Quiver": "wings",
+  "Nightshade Quiver": "wings",
+  "Sunflorian Quiver": "wings",
+  "Bumpkin Medallion": "necklace",
+  "Goblin Medallion": "necklace",
+  "Nightshade Medallion": "necklace",
+  "Sunflorian Medallion": "necklace",
+  "Pumpkin Plaza Background": "background",
+  "Goblin Retreat Background": "background",
+  "Kingdom Background": "background",
 };

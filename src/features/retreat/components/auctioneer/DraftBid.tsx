@@ -13,11 +13,10 @@ import { GameState } from "features/game/types/game";
 import classNames from "classnames";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
 import { TimerDisplay } from "./AuctionDetails";
-import {
-  INPUT_MAX_CHAR,
-  VALID_NUMBER,
-} from "features/island/hud/components/AddSFL";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+
+const VALID_NUMBER = new RegExp(/^\d*\.?\d*$/);
+const INPUT_MAX_CHAR = 10;
 
 /**
  * If they have enough resources, default the bid to 5 tickets

@@ -1,32 +1,27 @@
 import { CONFIG } from "lib/config";
-import Web3 from "web3";
-import { AbiItem } from "web3-utils";
-import BumpkinDetailsABI from "./abis/BumpkinDetails.json";
-import { BumpkinDetails as IBumpkinDetails } from "./types/BumpkinDetails";
+import BumpkinDetailsABI from "./abis/BumpkinDetails";
+import { readContract } from "@wagmi/core";
+import { config } from "features/wallet/WalletProvider";
 
 const address = CONFIG.BUMPKIN_DETAILS_CONTRACT;
 
 export type OnChainBumpkin = {
-  tokenId: string;
+  tokenId: bigint;
   tokenURI: string;
   owner: string;
-  createdAt: string;
+  createdAt: bigint;
   createdBy: string;
-  nonce: string;
-  metadata: string;
-  wardrobe: string;
+  wardrobe: `0x${string}`;
 };
 
 export async function loadBumpkins(
-  web3: Web3,
-  account: string,
+  account: `0x${string}`,
 ): Promise<OnChainBumpkin[]> {
-  return (
-    new web3.eth.Contract(
-      BumpkinDetailsABI as AbiItem[],
-      address as string,
-    ) as unknown as IBumpkinDetails
-  ).methods
-    .loadBumpkins(account)
-    .call({ from: account });
+  return (await readContract(config, {
+    abi: BumpkinDetailsABI,
+    address: address as `0x${string}`,
+    functionName: "loadBumpkins",
+    args: [account],
+    account,
+  })) as OnChainBumpkin[];
 }

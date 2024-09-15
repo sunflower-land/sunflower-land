@@ -1,7 +1,7 @@
 import bananaTree from "assets/fruit/banana/banana_tree.png";
 import bananaTreeReady from "assets/fruit/banana/banana_tree_ready.png";
-import lemonPlant from "assets/fruit/lemon/lemon_plant.webp";
-import lemonPlantReady from "assets/fruit/lemon/lemon_plant_ready.webp";
+import lemonTree from "assets/fruit/lemon/lemonTree.webp";
+import lemonTreeReady from "assets/fruit/lemon/lemonTreeReady.webp";
 import tomatoPlant from "assets/fruit/tomato/tomatoPlant.webp";
 import tomatoPlantReady from "assets/fruit/tomato/tomatoPlantReady.webp";
 
@@ -67,8 +67,8 @@ export const FRUIT_LIFECYCLE: Record<FruitName, FruitLifecycle> = {
     seedling: CROP_LIFECYCLE.Sunflower.seedling,
     halfway: CROP_LIFECYCLE.Sunflower.halfway,
     almost: CROP_LIFECYCLE.Sunflower.almost,
-    ready: lemonPlantReady,
-    harvested: lemonPlant,
-    dead: SUNNYSIDE.fruit.bushShrub,
+    ready: lemonTreeReady,
+    harvested: lemonTree,
+    dead: SUNNYSIDE.fruit.deadTree,
   },
 };

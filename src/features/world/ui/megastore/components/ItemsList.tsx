@@ -26,7 +26,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {
   itemsLabel: string;
-  type: "wearables" | "collectibles";
+  type: "wearables" | "collectibles" | "keys";
   items: (WearablesItem | CollectiblesItem)[];
   onItemClick: (item: WearablesItem | CollectiblesItem) => void;
 }
@@ -64,7 +64,9 @@ export const ItemsList: React.FC<Props> = ({
     return ITEM_DETAILS[currencyItem as InventoryItemName].image;
   };
 
-  const sortedItems = items.sort((a, b) => Number(a.price.sub(b.price)));
+  const sortedItems = items
+    .slice()
+    .sort((a, b) => Number(a.price.sub(b.price)));
   const { t } = useAppTranslation();
 
   return (

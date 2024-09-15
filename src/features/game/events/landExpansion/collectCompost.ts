@@ -3,7 +3,7 @@ import { trackActivity } from "features/game/types/bumpkinActivity";
 import { ComposterName } from "features/game/types/composters";
 import { getKeys } from "features/game/types/craftables";
 import { CompostBuilding, GameState } from "features/game/types/game";
-import cloneDeep from "lodash.clonedeep";
+import { produce } from "immer";
 import { translate } from "lib/i18n/translate";
 
 export type collectCompostAction = {
@@ -23,47 +23,48 @@ export function collectCompost({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  const stateCopy = cloneDeep(state);
-  const { bumpkin } = stateCopy;
+  return produce(state, (stateCopy) => {
+    const { bumpkin } = stateCopy;
 
-  const building = stateCopy.buildings[action.building]?.find(
-    (b) => b.id === action.buildingId,
-  ) as CompostBuilding;
+    const building = stateCopy.buildings[action.building]?.find(
+      (b) => b.id === action.buildingId,
+    ) as CompostBuilding;
 
-  if (!building) {
-    throw new Error(translate("error.composterNotExist"));
-  }
+    if (!building) {
+      throw new Error(translate("error.composterNotExist"));
+    }
 
-  if (!bumpkin) {
-    throw new Error("You do not have a Bumpkin!");
-  }
+    if (!bumpkin) {
+      throw new Error("You do not have a Bumpkin!");
+    }
 
-  const compost = building.producing;
-  if (!compost) {
-    throw new Error(translate("error.noprod.composter"));
-  }
+    const compost = building.producing;
+    if (!compost) {
+      throw new Error(translate("error.noprod.composter"));
+    }
 
-  if (createdAt < compost.readyAt) {
-    throw new Error(translate("error.no.ready"));
-    ("Compost is not ready");
-  }
+    if (createdAt < compost.readyAt) {
+      throw new Error(translate("error.no.ready"));
+      ("Compost is not ready");
+    }
 
-  getKeys(compost.items ?? {}).forEach((name) => {
-    const previousCount = stateCopy.inventory[name] || new Decimal(0);
-    stateCopy.inventory[name] = previousCount.add(compost.items[name] ?? 0);
+    getKeys(compost.items ?? {}).forEach((name) => {
+      const previousCount = stateCopy.inventory[name] || new Decimal(0);
+      stateCopy.inventory[name] = previousCount.add(compost.items[name] ?? 0);
+    });
+
+    bumpkin.activity = trackActivity(
+      `${action.building} Collected`,
+      bumpkin?.activity,
+    );
+
+    // Set on backend
+    delete building.requires;
+
+    delete building.producing;
+
+    delete building.boost;
+
+    return stateCopy;
   });
-
-  bumpkin.activity = trackActivity(
-    `${action.building} Collected`,
-    bumpkin?.activity,
-  );
-
-  // Set on backend
-  delete building.requires;
-
-  delete building.producing;
-
-  delete building.boost;
-
-  return stateCopy;
 }

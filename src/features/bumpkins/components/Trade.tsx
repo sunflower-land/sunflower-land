@@ -32,13 +32,13 @@ import { getDayOfYear } from "lib/utils/time";
 import { ListingCategoryCard } from "components/ui/ListingCategoryCard";
 import { FACTION_EMBLEMS } from "features/game/events/landExpansion/joinFaction";
 import { NumberInput } from "components/ui/NumberInput";
-import { hasFeatureAccess } from "lib/flags";
 import {
   TRADE_LIMITS,
   TRADE_MINIMUMS,
 } from "features/game/actions/tradeLimits";
+import { PIXEL_SCALE } from "features/game/lib/constants";
+import { CannotTrade } from "features/world/ui/CannotTrade";
 
-const MAX_NON_VIP_LISTINGS = 1;
 const MAX_SFL = 150;
 
 const ISLAND_LIMITS: Record<IslandType, number> = {
@@ -47,7 +47,7 @@ const ISLAND_LIMITS: Record<IslandType, number> = {
   desert: 20,
 };
 
-function getRemainingListings({ game }: { game: GameState }) {
+export function getRemainingListings({ game }: { game: GameState }) {
   let remaining = ISLAND_LIMITS[game.island?.type] ?? 0;
 
   if (!hasVipAccess(game.inventory)) {
@@ -97,43 +97,37 @@ const ListTrade: React.FC<{
 
   const maxSFL = sfl.greaterThan(MAX_SFL);
 
-  const { gameService } = useContext(Context); // To remove after Beta Testing
-
   if (!selected) {
     return (
       <div className="space-y-2">
-        <div className="pl-2 pt-2">
+        <div className="pl-2 py-2">
           <Label icon={SUNNYSIDE.icons.basket} type="default">
             {t("bumpkinTrade.like.list")}
           </Label>
         </div>
 
         <div className="flex flex-wrap ">
-          {getKeys(TRADE_LIMITS)
-            .filter(
-              (name) =>
-                (name !== "Tomato" && name !== "Lemon") ||
-                hasFeatureAccess(gameService.state.context.state, "NEW_FRUITS"),
-            )
-            .map((name) => (
-              <div
-                key={name}
-                className="w-1/3 sm:w-1/4 md:w-1/5 lg:w-1/6 pr-1 pb-1 mb-2 px-1"
-              >
-                <ListingCategoryCard
-                  itemName={name}
-                  inventoryAmount={inventory?.[name] ?? new Decimal(0)}
-                  pricePerUnit={floorPrices[name]}
-                  onClick={() => setSelected(name)}
-                />
-              </div>
-            ))}
+          {getKeys(TRADE_LIMITS).map((name) => (
+            <div
+              key={name}
+              className="w-1/3 sm:w-1/4 md:w-1/5 lg:w-1/6 pr-1 pb-1 mb-2 px-1"
+            >
+              <ListingCategoryCard
+                itemName={name}
+                inventoryAmount={inventory?.[name] ?? new Decimal(0)}
+                pricePerUnit={floorPrices[name]}
+                onClick={() => setSelected(name)}
+              />
+            </div>
+          ))}
         </div>
       </div>
     );
   }
 
-  const unitPrice = sfl.dividedBy(quantity);
+  const unitPrice = quantity.equals(0)
+    ? new Decimal(0)
+    : sfl.dividedBy(quantity);
   const tooLittle =
     !!quantity && quantity.lessThan(TRADE_MINIMUMS[selected] ?? 0);
 
@@ -158,13 +152,19 @@ const ListTrade: React.FC<{
         </div>
         <div className="flex flex-col items-end pr-1">
           <Label
-            type={inventory[selected]?.lt(quantity) ? "danger" : "info"}
+            type={
+              (inventory?.[selected] ?? new Decimal(0)).lt(quantity)
+                ? "danger"
+                : "info"
+            }
             className="my-1"
           >
             {t("bumpkinTrade.available")}
           </Label>
           <span className="text-sm mr-1 font-secondary">
-            {formatNumber(inventory?.[selected] ?? 0, { decimalPlaces: 0 })}
+            {formatNumber(inventory?.[selected] ?? new Decimal(0), {
+              decimalPlaces: 0,
+            })}
           </span>
         </div>
       </div>
@@ -225,12 +225,12 @@ const ListTrade: React.FC<{
               {t("bumpkinTrade.quantity")}
             </Label>
             {quantity.greaterThan(TRADE_LIMITS[selected] ?? 0) && (
-              <Label type="danger" className="my-1 ml-2 mr-1">
+              <Label type="danger" className="my-1 ml-2 mr-1 whitespace-nowrap">
                 {t("bumpkinTrade.max", { max: TRADE_LIMITS[selected] ?? 0 })}
               </Label>
             )}
             {tooLittle && (
-              <Label type="danger" className="my-1 ml-2 mr-1">
+              <Label type="danger" className="my-1 ml-2 mr-1 whitespace-nowrap">
                 {t("bumpkinTrade.min", { min: TRADE_MINIMUMS[selected] ?? 0 })}
               </Label>
             )}
@@ -257,7 +257,7 @@ const ListTrade: React.FC<{
             }}
           />
         </div>
-        <div className="flex-1 flex flex-col items-end ml-2">
+        <div className="flex-1 flex flex-col items-end">
           <div className="flex items-center">
             {sfl.greaterThan(MAX_SFL) && (
               <Label type="danger" className="my-1 ml-2 mr-1">
@@ -306,7 +306,7 @@ const ListTrade: React.FC<{
         <p className="text-xs font-secondary">
           {quantity.equals(0)
             ? "0.0000 SFL"
-            : `${formatNumber(sfl.dividedBy(quantity), {
+            : `${formatNumber(unitPrice, {
                 decimalPlaces: 4,
                 showTrailingZeros: true,
               })} SFL`}
@@ -347,7 +347,8 @@ const ListTrade: React.FC<{
             isTooHigh ||
             isTooLow ||
             maxSFL ||
-            (inventory[selected]?.lt(quantity) ?? false) ||
+            quantity.gt(inventory?.[selected] ?? new Decimal(0)) ||
+            quantity.gt(TRADE_LIMITS[selected] ?? new Decimal(0)) ||
             quantity.equals(0) || // Disable when quantity is 0
             sfl.equals(0) || // Disable when sfl is 0
             isSaving
@@ -369,8 +370,6 @@ const TradeDetails: React.FC<{
 }> = ({ trade, onCancel, onClaim, isOldListing }) => {
   const { t } = useAppTranslation();
 
-  const { gameService } = useContext(Context); // To remove after testing ends
-
   if (trade.boughtAt) {
     return (
       <div>
@@ -378,23 +377,14 @@ const TradeDetails: React.FC<{
           <div className="flex justify-between">
             <div>
               <div className="flex flex-wrap">
-                {getKeys(trade.items)
-                  .filter(
-                    (name) =>
-                      (name !== "Tomato" && name !== "Lemon") ||
-                      hasFeatureAccess(
-                        gameService.state.context.state,
-                        "NEW_FRUITS",
-                      ),
-                  )
-                  .map((name) => (
-                    <Box
-                      image={ITEM_DETAILS[name].image}
-                      count={new Decimal(trade.items[name] ?? 0)}
-                      disabled
-                      key={name}
-                    />
-                  ))}
+                {getKeys(trade.items).map((name) => (
+                  <Box
+                    image={ITEM_DETAILS[name].image}
+                    count={new Decimal(trade.items[name] ?? 0)}
+                    disabled
+                    key={name}
+                  />
+                ))}
 
                 <div>
                   <Label type="success" className="ml-1 mt-0.5">
@@ -432,15 +422,17 @@ const TradeDetails: React.FC<{
               />
             ))}
             <div>
-              <Label type="default" className="ml-1 mt-0.5">{`Listed`}</Label>
+              <Label type="default" className="ml-1 mt-0.5">
+                {t("bumpkinTrade.listed")}
+              </Label>
               <div className="flex items-center mr-0.5 mt-1">
                 <img src={token} className="h-6 mr-1" />
                 <p className="text-xs">{`${trade.sfl} SFL`}</p>
               </div>
             </div>
           </div>
-          <div className="flex flex-col justify-between h-full">
-            <Button className="mb-1" onClick={onCancel}>
+          <div className="flex items-center">
+            <Button onClick={onCancel}>
               {isOldListing ? "Cancel old" : t("cancel")}
             </Button>
           </div>
@@ -474,6 +466,13 @@ export const Trade: React.FC<{
     gameState.context.state.bumpkin?.experience ?? 0,
   );
 
+  const resourceListings = getKeys(trades).filter((listingId) => {
+    const items = Object.keys(trades[listingId].items);
+    return !items.some((item) =>
+      Object.values(FACTION_EMBLEMS).includes(item as FactionEmblem),
+    );
+  });
+
   const onList = (items: Items, sfl: number) => {
     gameService.send("LIST_TRADE", {
       sellerId: gameState.context.farmId,
@@ -497,18 +496,7 @@ export const Trade: React.FC<{
   };
 
   if (level < 10) {
-    return (
-      <div className="relative">
-        <div className="p-1 flex flex-col items-center">
-          <img
-            src={SUNNYSIDE.icons.lock}
-            className="w-1/5 mx-auto my-2 img-highlight-heavy"
-          />
-          <p className="text-sm">{t("bumpkinTrade.minLevel")}</p>
-          <p className="text-xs mb-2">{t("statements.lvlUp")}</p>
-        </div>
-      </div>
-    );
+    return <CannotTrade />;
   }
 
   if (showListing) {
@@ -523,7 +511,7 @@ export const Trade: React.FC<{
     );
   }
 
-  if (getKeys(trades).length === 0) {
+  if (resourceListings.length === 0) {
     return (
       <div className="relative">
         <div className="pl-2 pt-2 space-y-1 sm:space-y-0 sm:flex items-center justify-between ml-1.5">
@@ -550,7 +538,9 @@ export const Trade: React.FC<{
         <div className="p-1 flex flex-col items-center">
           <img
             src={tradeIcon}
-            className="w-1/5 mx-auto my-2 img-highlight-heavy"
+            style={{
+              width: `${PIXEL_SCALE * 17}px`,
+            }}
           />
           <p className="text-sm">{t("bumpkinTrade.noTradeListed")}</p>
           <p className="text-xs mb-2">{t("bumpkinTrade.sell")}</p>
@@ -588,34 +578,27 @@ export const Trade: React.FC<{
               })}`}
         </Label>
       </div>
-      {getKeys(trades)
-        .filter((listingId) => {
-          const items = Object.keys(trades[listingId].items);
-          return !items.some((item) =>
-            Object.values(FACTION_EMBLEMS).includes(item as FactionEmblem),
-          );
-        })
-        .map((listingId, index) => {
-          return (
-            <div className="mt-2" key={index}>
-              <TradeDetails
-                onCancel={() =>
-                  onCancel(listingId, makeListingType(trades[listingId].items))
-                }
-                onClaim={() => {
-                  gameService.send("trade.received", {
-                    tradeId: listingId,
-                  });
-                  gameService.send("SAVE");
-                }}
-                trade={trades[listingId]}
-                isOldListing={listingId.length < 38}
-              />
-            </div>
-          );
-        })}
+      {resourceListings.map((listingId, index) => {
+        return (
+          <div className="mt-2" key={index}>
+            <TradeDetails
+              onCancel={() =>
+                onCancel(listingId, makeListingType(trades[listingId].items))
+              }
+              onClaim={() => {
+                gameService.send("trade.received", {
+                  tradeId: listingId,
+                });
+                gameService.send("SAVE");
+              }}
+              trade={trades[listingId]}
+              isOldListing={listingId.length < 38}
+            />
+          </div>
+        );
+      })}
 
-      {!hideButton && getKeys(trades).length < 3 && (
+      {!hideButton && resourceListings.length < 3 && (
         <div className="relative mt-2">
           <Button
             onClick={() => setShowListing(true)}
@@ -633,7 +616,7 @@ export const Trade: React.FC<{
         </div>
       )}
 
-      {getKeys(trades).length >= 3 && (
+      {resourceListings.length >= 3 && (
         <div className="relative my-2">
           <Label type="danger" icon={SUNNYSIDE.icons.lock} className="mx-auto">
             {t("bumpkinTrade.maxListings")}

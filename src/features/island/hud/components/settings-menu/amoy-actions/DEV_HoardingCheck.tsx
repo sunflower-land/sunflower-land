@@ -1,12 +1,13 @@
 import { Button } from "components/ui/Button";
 import { KNOWN_IDS } from "features/game/types";
 import React, { ChangeEvent, useState } from "react";
-import GameABI from "lib/blockchain/abis/SunflowerLandGame.json";
-import Web3 from "web3";
-import { AbiItem } from "web3-utils";
+import GameABI from "lib/blockchain/abis/SunflowerLandGame";
 import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { ContentComponentProps } from "../GameOptions";
+import { readContract } from "viem/actions";
+import { createPublicClient, encodePacked, http } from "viem";
+import { polygon, polygonAmoy } from "viem/chains";
 
 interface Props {
   network: "mainnet" | "amoy";
@@ -55,21 +56,26 @@ export const DEV_HoarderCheck: React.FC<Props & ContentComponentProps> = ({
         .map(String)
         .map((key) => (KNOWN_IDS as any)[key]);
 
-      const rpc =
-        network === "mainnet"
-          ? "https://polygon-rpc.com/"
-          : "https://rpc.ankr.com/polygon_amoy";
+      const publicClient = createPublicClient({
+        transport: http(),
+        chain: network === "mainnet" ? polygon : polygonAmoy,
+      });
 
       const gameContract =
         network === "mainnet"
           ? "0xfB84a7D985f9336987C89e1518E9A897b013080B"
-          : "0x27A6599DD1B1257B0e0f10fE2C83716b26c48f02";
-      const web3 = new Web3(rpc);
-      const contract = new web3.eth.Contract(
-        GameABI as AbiItem[],
-        gameContract,
-      );
-      const maxAmount = await contract.methods.getMaxItemAmounts(maxIds).call();
+          : "0x05BbC2c442A7468538e68B1F70a97C9140227b0e";
+
+      // Note this is imported from viem, not wagmi
+      const maxAmount = (
+        await readContract(publicClient, {
+          abi: GameABI,
+          address: gameContract,
+          functionName: "getMaxItemAmounts",
+          args: [maxIds],
+        })
+      ).map(Number);
+
       const inventoryLimits: string[] = [];
 
       Object.keys(current).forEach((key) => {
@@ -99,14 +105,14 @@ export const DEV_HoarderCheck: React.FC<Props & ContentComponentProps> = ({
 
       const getOnChainMax = async (wearableName: string) => {
         const id = ITEM_IDS[wearableName as BumpkinItem];
-        const storage = web3.utils.soliditySha3(
-          { type: "uint256", value: String(id) },
-          { type: "uint", value: "13" },
-        ) as string;
 
-        const hex = await web3.eth.getStorageAt(gameContract, storage);
+        const storage = encodePacked(["uint256, uint"], [id, 13] as any);
+        const hex = await publicClient.getStorageAt({
+          address: gameContract,
+          slot: storage,
+        });
 
-        return parseInt(hex, 16);
+        return parseInt(hex as any, 16);
       };
 
       for (const key of Object.keys(currentWardrobe)) {

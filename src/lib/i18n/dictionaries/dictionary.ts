@@ -1,9 +1,12 @@
-import { ENGLISH_TERMS } from "./englishDictionary";
-import { TURKISH_TERMS } from "./turkishDictionary";
-import { CHINESE_SIMPLIFIED_TERMS } from "./chinese_simplifiedDictionary";
-import { PORTUGUESE_TERMS } from "./portugueseDictionary";
-import { FRENCH_TERMS } from "./frenchDictionary";
-import { RUSSIAN_TERMS } from "./russianDictionary";
+import ENGLISH_TERMS from "./dictionary.json";
+import TURKISH_TERMS from "./tr.json";
+import CHINESE_SIMPLIFIED_TERMS from "./zh-CN.json";
+import PORTUGUESE_TERMS from "./pt-BR.json";
+import FRENCH_TERMS from "./fr.json";
+import RUSSIAN_TERMS from "./ru.json";
+import ITALIAN_TERMS from "./it.json";
+import SPANISH_TERMS from "./es.json";
+import GERMAN_TERMS from "./de.json";
 import { TranslationKeys } from "./types";
 
 import britishFlag from "assets/sfts/flags/british_flag.gif";
@@ -14,10 +17,22 @@ import franceFlag from "assets/sfts/flags/france_flag.gif";
 import turkeyFlag from "assets/sfts/flags/turkey_flag.gif";
 import chinaFlag from "assets/sfts/flags/china_flag.gif";
 import russiaFlag from "assets/sfts/flags/russia_flag.gif";
+import spainFlag from "assets/sfts/flags/spain_flag.gif";
+import italyFlag from "assets/sfts/flags/italy_flag.gif";
+import germanFlag from "assets/sfts/flags/germany_flag.gif";
 
-export type LanguageCode = "en" | "fr" | "pt" | "tk" | "zh-CN" | "ru";
+export type LanguageCode =
+  | "en"
+  | "es"
+  | "de"
+  | "fr"
+  | "pt-BR"
+  | "tr"
+  | "zh-CN"
+  | "ru"
+  | "it";
 
-export type TranslationResource = Record<TranslationKeys, string>;
+export type TranslationResource = Partial<Record<TranslationKeys, string>>;
 
 interface LanguageDetails {
   languageName: string;
@@ -31,12 +46,27 @@ export const languageDetails: Record<LanguageCode, LanguageDetails> = {
     languageImage: [britishFlag, usaFlag],
     imageAlt: ["United Kingdom Flag", "United States of America Flag"],
   },
+  de: {
+    languageName: "Deutsch",
+    languageImage: [germanFlag],
+    imageAlt: ["Germany Flag"],
+  },
+  es: {
+    languageName: "Español",
+    languageImage: [spainFlag],
+    imageAlt: ["Spain Flag"],
+  },
   fr: {
     languageName: "Français",
     languageImage: [franceFlag],
     imageAlt: ["France Flag"],
   },
-  pt: {
+  it: {
+    languageName: "Italiano",
+    languageImage: [italyFlag],
+    imageAlt: ["Italy Flag"],
+  },
+  "pt-BR": {
     languageName: "Português",
     languageImage: [brazilFlag, portugalFlag],
     imageAlt: ["Brazil Flag", "Portugual Flag"],
@@ -46,7 +76,7 @@ export const languageDetails: Record<LanguageCode, LanguageDetails> = {
     languageImage: [russiaFlag],
     imageAlt: ["Russia Flag"],
   },
-  tk: {
+  tr: {
     languageName: "Türkçe",
     languageImage: [turkeyFlag],
     imageAlt: ["Turkey Flag"],
@@ -58,26 +88,16 @@ export const languageDetails: Record<LanguageCode, LanguageDetails> = {
   },
 };
 
-export const resources: Record<
-  LanguageCode,
-  { translation: TranslationResource }
+export const resources: Partial<
+  Record<LanguageCode, { translation: TranslationResource }>
 > = {
-  en: {
-    translation: ENGLISH_TERMS,
-  },
-  fr: {
-    translation: FRENCH_TERMS,
-  },
-  pt: {
-    translation: PORTUGUESE_TERMS,
-  },
-  tk: {
-    translation: TURKISH_TERMS,
-  },
-  "zh-CN": {
-    translation: CHINESE_SIMPLIFIED_TERMS,
-  },
-  ru: {
-    translation: RUSSIAN_TERMS,
-  },
+  en: { translation: ENGLISH_TERMS },
+  es: { translation: SPANISH_TERMS },
+  fr: { translation: FRENCH_TERMS },
+  "pt-BR": { translation: PORTUGUESE_TERMS },
+  tr: { translation: TURKISH_TERMS },
+  "zh-CN": { translation: CHINESE_SIMPLIFIED_TERMS },
+  ru: { translation: RUSSIAN_TERMS },
+  it: { translation: ITALIAN_TERMS },
+  de: { translation: GERMAN_TERMS },
 };

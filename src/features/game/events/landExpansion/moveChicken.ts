@@ -7,8 +7,8 @@ import {
   GameState,
   Position,
 } from "features/game/types/game";
-import cloneDeep from "lodash.clonedeep";
 import { eggIsReady } from "./collectEgg";
+import { produce } from "immer";
 
 export enum MOVE_CHICKEN_ERRORS {
   NO_BUMPKIN = "You do not have a Bumpkin!",
@@ -20,6 +20,7 @@ export function isLocked(
   chicken: Chicken,
   collectibles: Collectibles,
   createdAt: number,
+  bumpkin: GameState["bumpkin"],
 ): boolean {
   if (!chicken || !chicken.coordinates || !chicken.fedAt) return false;
 
@@ -43,7 +44,7 @@ export function isLocked(
       width: 1,
     };
 
-    if (isWithinAOE("Bale", balePosition, chickenPosition)) {
+    if (isWithinAOE("Bale", balePosition, chickenPosition, bumpkin.skills)) {
       return true;
     }
   }
@@ -68,29 +69,32 @@ export function moveChicken({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  const stateCopy = cloneDeep(state) as GameState;
-  const chickens = stateCopy.chickens;
-  const collectibles = stateCopy.collectibles;
+  return produce(state, (stateCopy) => {
+    const chickens = stateCopy.chickens;
+    const collectibles = stateCopy.collectibles;
 
-  if (stateCopy.bumpkin === undefined) {
-    throw new Error(MOVE_CHICKEN_ERRORS.NO_BUMPKIN);
-  }
+    if (stateCopy.bumpkin === undefined) {
+      throw new Error(MOVE_CHICKEN_ERRORS.NO_BUMPKIN);
+    }
 
-  if (!chickens[action.id]?.coordinates) {
-    throw new Error(MOVE_CHICKEN_ERRORS.CHICKEN_NOT_PLACED);
-  }
+    if (!chickens[action.id]?.coordinates) {
+      throw new Error(MOVE_CHICKEN_ERRORS.CHICKEN_NOT_PLACED);
+    }
 
-  const coordinates = chickens[action.id].coordinates;
-  if (!coordinates) {
-    throw new Error(MOVE_CHICKEN_ERRORS.CHICKEN_NOT_PLACED);
-  }
+    const coordinates = chickens[action.id].coordinates;
+    if (!coordinates) {
+      throw new Error(MOVE_CHICKEN_ERRORS.CHICKEN_NOT_PLACED);
+    }
 
-  if (isLocked(chickens[action.id], collectibles, createdAt)) {
-    throw new Error(MOVE_CHICKEN_ERRORS.AOE_LOCKED);
-  }
+    if (
+      isLocked(chickens[action.id], collectibles, createdAt, stateCopy.bumpkin)
+    ) {
+      throw new Error(MOVE_CHICKEN_ERRORS.AOE_LOCKED);
+    }
 
-  coordinates.x = action.coordinates.x;
-  coordinates.y = action.coordinates.y;
+    coordinates.x = action.coordinates.x;
+    coordinates.y = action.coordinates.y;
 
-  return stateCopy;
+    return stateCopy;
+  });
 }

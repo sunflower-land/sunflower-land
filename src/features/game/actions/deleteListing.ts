@@ -10,15 +10,21 @@ type Request = {
   listingId: string;
   listingType: string;
   token: string;
+  transactionId: string;
+};
+type Response = {
+  farm: GameState;
+  error?: "ALREADY_BOUGHT";
 };
 
 export async function deleteListingRequest(
   request: Request,
-): Promise<GameState> {
+): Promise<Response> {
   const response = await window.fetch(`${API_URL}/listings`, {
     method: "DELETE",
     headers: {
       "content-type": "application/json;charset=UTF-8",
+      "X-Transaction-ID": request.transactionId,
       Authorization: `Bearer ${request.token}`,
       accept: "application/json",
       ...((window as any)["x-amz-ttl"]
@@ -29,6 +35,7 @@ export async function deleteListingRequest(
       listingId: request.listingId,
       listingType: request.listingType,
       sellerId: request.sellerId,
+      createdAt: new Date().toISOString(),
     }),
   });
 
@@ -42,5 +49,5 @@ export async function deleteListingRequest(
 
   const data = await response.json();
 
-  return makeGame(data);
+  return { farm: makeGame(data.farm), error: data.error };
 }

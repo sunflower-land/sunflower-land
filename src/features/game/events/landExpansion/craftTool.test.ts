@@ -150,4 +150,26 @@ describe("craftTool", () => {
       }),
     ).toThrow("You do not have the required island expansion");
   });
+
+  it("Axes cost 20% less coins with Feller's Discount skill", () => {
+    const state = craftTool({
+      state: {
+        ...GAME_STATE,
+        coins: 100,
+        inventory: {},
+        bumpkin: {
+          ...GAME_STATE.bumpkin,
+          skills: {
+            "Feller's Discount": 1,
+          },
+        },
+      },
+      action: {
+        type: "tool.crafted",
+        tool: "Axe",
+      },
+    });
+
+    expect(state.coins).toEqual(84);
+  });
 });
