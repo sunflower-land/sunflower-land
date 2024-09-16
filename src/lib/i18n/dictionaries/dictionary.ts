@@ -22,12 +22,14 @@ import spainFlag from "assets/sfts/flags/spain_flag.gif";
 import italyFlag from "assets/sfts/flags/italy_flag.gif";
 import germanFlag from "assets/sfts/flags/germany_flag.gif";
 import southKoreanFlag from "assets/sfts/flags/south_korea_flag.gif";
+import indonesiaFlag from "assets/sfts/flags/indonesia_flag.gif";
 
 export type LanguageCode =
   | "en"
   | "es"
   | "de"
   | "fr"
+  | "id"
   | "pt-BR"
   | "tr"
   | "zh-CN"
@@ -63,6 +65,11 @@ export const languageDetails: Record<LanguageCode, LanguageDetails> = {
     languageName: "Français",
     languageImage: [franceFlag],
     imageAlt: ["France Flag"],
+  },
+  id: {
+    languageName: "Bahasa Indonesia",
+    languageImage: [indonesiaFlag],
+    imageAlt: ["Indonesia Flag"],
   },
   it: {
     languageName: "Italiano",
