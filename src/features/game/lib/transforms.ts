@@ -33,6 +33,7 @@ export function makeGame(farm: any): GameState {
     ),
     bounties: farm.bounties,
     island: farm.island,
+    bank: farm.bank,
     home: farm.home,
     createdAt: farm.createdAt,
     chickens: farm.chickens || {},
