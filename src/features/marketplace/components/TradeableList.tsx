@@ -11,8 +11,13 @@ import { signTypedData } from "@wagmi/core";
 import { config } from "features/wallet/WalletProvider";
 
 import tradeIcon from "assets/icons/trade.png";
+import walletIcon from "assets/icons/wallet.png";
+// import sflIcon from "assets/icons/sfl.webp";
+import lockIcon from "assets/icons/lock.png";
+
 import { TradeableDisplay } from "../lib/tradeables";
 import { Button } from "components/ui/Button";
+import { getChestItems } from "features/island/hud/components/inventory/utils/inventory";
 
 export const TradeableListItem: React.FC<{
   tradeable?: TradeableDetails;
@@ -28,10 +33,11 @@ export const TradeableListItem: React.FC<{
   const [isSigning, setIsSigning] = useState(false);
 
   const itemName = KNOWN_ITEMS[id];
-  const { inventory } = gameState.context.state;
+  const { state } = gameState.context;
 
   // Check inventory count
-  const count = inventory[itemName]?.toNumber() ?? 0;
+  const count = state.inventory[itemName]?.toNumber() ?? 0;
+  const available = getChestItems(state)[itemName]?.toNumber() ?? 0;
   // If does not have one then show information saying you do not have this item
 
   // Check chest count
@@ -73,13 +79,32 @@ export const TradeableListItem: React.FC<{
     setIsSigning(false);
   };
 
+  if (count > 0 && available === 0) {
+    return (
+      <div className="flex flex-col">
+        <Label type="danger" className="my-1 ml-2" icon={lockIcon}>
+          {t("marketplace.itemInUse")}
+        </Label>
+        <div className="p-2 mb-1">{t("marketplace.itemInUseWarning")}</div>
+        <Button onClick={onClose}>{t("close")}</Button>
+      </div>
+    );
+  }
+
   return (
     <div className="flex flex-col">
-      <Label type="default" className="my-1 ml-2" icon={tradeIcon}>
-        {t("marketplace.listItem", {
-          type: `${display.type.slice(0, display.type.length - 1)}`,
-        })}
-      </Label>
+      <div className="flex justify-between">
+        <Label type="default" className="my-1 ml-2" icon={tradeIcon}>
+          {t("marketplace.listItem", {
+            type: `${display.type.slice(0, display.type.length - 1)}`,
+          })}
+        </Label>
+        {tradeable?.type === "onchain" && (
+          <Label type="formula" icon={walletIcon} className="my-1 mr-0.5">
+            {t("marketplace.walletRequired")}
+          </Label>
+        )}
+      </div>
       <div className="flex justify-between">
         <div className="flex items-center">
           <Box image={ITEM_DETAILS[itemName].image} disabled />

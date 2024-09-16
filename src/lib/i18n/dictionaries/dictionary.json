@@ -2300,6 +2300,8 @@
   "marketplace.noCollection": "You do not have any available items in your collection.",
   "marketplace.noMyOffers": "You have not made any offers.",
   "marketplace.sflEscrowed": "{{sfl}} SFL Locked",
+  "marketplace.itemInUse": "Item in use",
+  "marketplace.itemInUseWarning": "This item is currently being used on your farm. You must first remove it into your chest.",
   "marketplace.noMyListings": "You do not have any listings.",
   "marketplace.offerClaimed": "Congratulations, your offer was accepted!",
   "megaStore.visit": "Visit the Megastore in the plaza before time runs out!",
