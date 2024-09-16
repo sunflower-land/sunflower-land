@@ -531,7 +531,7 @@ export const Trade: React.FC<{
               : `${t("remaining.free.listings", {
                   listingsRemaining: hasListingsRemaining
                     ? remainingListings
-                    : "No",
+                    : t("no"),
                 })}`}
           </Label>
         </div>
@@ -574,7 +574,7 @@ export const Trade: React.FC<{
             : `${t("remaining.free.listings", {
                 listingsRemaining: hasListingsRemaining
                   ? remainingListings
-                  : "No",
+                  : t("no"),
               })}`}
         </Label>
       </div>

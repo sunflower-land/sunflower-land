@@ -66,9 +66,8 @@ export const BuyPanel: React.FC<{
       <div className="pl-2 pt-2 space-y-1 sm:space-y-0 sm:flex items-center justify-between ml-1.5">
         <VIPAccess
           isVIP={isVIP}
-          onUpgrade={() => {
-            openModal("BUY_BANNER");
-          }}
+          onUpgrade={() => openModal("BUY_BANNER")}
+          text={t("bumpkinTrade.unlockMoreTrades")}
         />
         {!isVIP && (
           <Label
