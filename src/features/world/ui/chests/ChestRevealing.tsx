@@ -9,9 +9,10 @@ import {
   EXPERT_DESERT_STREAK,
   ChestReward,
   PIRATE_CHEST_REWARDS,
+  MANEKI_NEKO_REWARDS,
 } from "features/game/types/chests";
 import { ITEM_DETAILS } from "features/game/types/images";
-import React, { useCallback, useEffect } from "react";
+import React, { useCallback, useContext, useEffect } from "react";
 
 import sfl from "assets/icons/sfl.webp";
 import coins from "assets/icons/coins.webp";
@@ -20,7 +21,10 @@ import { getKeys } from "features/game/types/craftables";
 import { Label } from "components/ui/Label";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { getImageUrl } from "lib/utils/getImageURLS";
-import { Keys } from "features/game/types/game";
+import { GameState, Keys } from "features/game/types/game";
+import { possibleRewards } from "features/game/types/collectDailyReward";
+import { Context } from "features/game/GameProvider";
+import { useActor } from "@xstate/react";
 
 export type ChestRewardType =
   | Keys
@@ -29,13 +33,17 @@ export type ChestRewardType =
   | "Basic Desert Rewards"
   | "Advanced Desert Rewards"
   | "Expert Desert Rewards"
-  | "Pirate Chest";
+  | "Pirate Chest"
+  | "Maneki Neko"
+  | "Daily Reward";
 
 interface Props {
   type: ChestRewardType;
 }
 
-const CHEST_LOOT: () => Record<ChestRewardType, ChestReward[]> = () => ({
+const CHEST_LOOT: (
+  game: GameState,
+) => Record<ChestRewardType, ChestReward[]> = (state) => ({
   "Treasure Key": BASIC_REWARDS(),
   "Rare Key": RARE_REWARDS(),
   "Luxury Key": LUXURY_REWARDS(),
@@ -45,13 +53,22 @@ const CHEST_LOOT: () => Record<ChestRewardType, ChestReward[]> = () => ({
   "Advanced Desert Rewards": ADVANCED_DESERT_STREAK,
   "Expert Desert Rewards": EXPERT_DESERT_STREAK,
   "Pirate Chest": PIRATE_CHEST_REWARDS,
+  "Maneki Neko": MANEKI_NEKO_REWARDS,
+  "Daily Reward": possibleRewards(state),
 });
 
 export const ChestRevealing: React.FC<Props> = ({ type }) => {
   const [image, setImage] = React.useState<string>(sfl);
   const [label, setLabel] = React.useState<string>("5 SFL");
 
-  const items = CHEST_LOOT()[type];
+  const { gameService } = useContext(Context);
+  const [
+    {
+      context: { state },
+    },
+  ] = useActor(gameService);
+
+  const items = CHEST_LOOT(state)[type];
 
   const pickRandomImage = useCallback(() => {
     let newImage = image;
@@ -100,7 +117,7 @@ export const ChestRevealing: React.FC<Props> = ({ type }) => {
       <Label icon={SUNNYSIDE.decorations.treasure_chest} type="default">
         {label}
       </Label>
-      <img src={image} className="h-24 mx-auto my-2" />
+      <img src={image} className="h-20 mx-auto my-2" />
     </div>
   );
 };
