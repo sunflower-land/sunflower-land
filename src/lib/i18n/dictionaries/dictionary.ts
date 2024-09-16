@@ -74,7 +74,7 @@ export const languageDetails: Record<LanguageCode, LanguageDetails> = {
     imageAlt: ["France Flag"],
   },
   id: {
-    languageName: "Bahasa Indonesia",
+    languageName: "Indonesian",
     languageImage: [indonesiaFlag],
     imageAlt: ["Indonesia Flag"],
   },
@@ -94,7 +94,7 @@ export const languageDetails: Record<LanguageCode, LanguageDetails> = {
     imageAlt: ["South Korea Flag"],
   },
   ms: {
-    languageName: "Bahasa Melayu",
+    languageName: "Malay",
     languageImage: [malaysianFlag],
     imageAlt: ["Malaysia Flag"],
   },
