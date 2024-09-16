@@ -8,7 +8,7 @@ import * as Auth from "features/auth/lib/Provider";
 import { useActor } from "@xstate/react";
 import { useNavigate, useParams } from "react-router-dom";
 import { loadTradeable } from "../actions/loadTradeable";
-import { InnerPanel } from "components/ui/Panel";
+import { InnerPanel, Panel } from "components/ui/Panel";
 import { getTradeableDisplay, TradeableDisplay } from "../lib/tradeables";
 
 import bg from "assets/ui/3x3_bg.png";
@@ -31,14 +31,14 @@ import {
 } from "features/island/hud/components/inventory/utils/inventory";
 import { ITEM_NAMES } from "features/game/types/bumpkin";
 import { availableWardrobe } from "features/game/events/landExpansion/equip";
+import { TradeableListItem } from "./TradeableList";
+import { Modal } from "components/ui/Modal";
 
 export const Tradeable: React.FC = () => {
   const { authService } = useContext(Auth.Context);
   const [authState] = useActor(authService);
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
-
-  const { t } = useAppTranslation();
 
   const farmId = gameState.context.farmId;
 
@@ -115,7 +115,13 @@ export const Tradeable: React.FC = () => {
 
         <PriceHistory />
 
-        <Listings tradeable={tradeable} farmId={farmId} />
+        <TradeableListings
+          id={Number(id)}
+          tradeable={tradeable}
+          display={display}
+          farmId={farmId}
+          collection={collection as CollectionName}
+        />
 
         <TradeableOffers
           id={Number(id)}
@@ -178,7 +184,7 @@ const TradeableHeader: React.FC<{
               </Label>
             )}
 
-            <Label type="default">{`You own: ${count}`}</Label>
+            <Label type="default">{t("marketplace.youOwn", { count })}</Label>
           </div>
         </div>
         <div className="flex">
@@ -254,40 +260,64 @@ const TradeableInfo: React.FC<{
   );
 };
 
-const Listings: React.FC<{
+const TradeableListings: React.FC<{
   tradeable?: TradeableDetails;
+  display: TradeableDisplay;
   farmId: number;
-}> = ({ tradeable, farmId }) => {
+  collection: CollectionName;
+  id: number;
+}> = ({ tradeable, farmId, display, id }) => {
+  const { gameService } = useContext(Context);
+  const [gameState] = useActor(gameService);
+
+  const [showListItem, setShowListItem] = useState(false);
+
   const { t } = useAppTranslation();
 
   return (
-    <InnerPanel className="mb-1">
-      <div className="p-2">
-        <Label icon={tradeIcon} type="default" className="mb-2">
-          {t("marketplace.listings")}
-        </Label>
-        <div className="mb-2">
-          {!tradeable && <Loading />}
-          {tradeable?.listings.length === 0 && (
-            <p className="text-sm">{t("marketplace.noListings")}</p>
-          )}
-          {!!tradeable?.listings.length && (
-            <TradeTable
-              items={tradeable.listings.map((listing) => ({
-                price: listing.sfl,
-                expiresAt: "30 days", // TODO,
-                createdById: listing.listedById,
-              }))}
-              id={farmId}
-            />
-          )}
+    <>
+      <Modal show={showListItem} onHide={() => setShowListItem(false)}>
+        <Panel>
+          <TradeableListItem
+            display={display}
+            tradeable={tradeable}
+            farmId={farmId}
+            id={id}
+            onClose={() => setShowListItem(false)}
+          />
+        </Panel>
+      </Modal>
+      <InnerPanel className="mb-1">
+        <div className="p-2">
+          <Label icon={tradeIcon} type="default" className="mb-2">
+            {t("marketplace.listings")}
+          </Label>
+          <div className="mb-2">
+            {!tradeable && <Loading />}
+            {tradeable?.listings.length === 0 && (
+              <p className="text-sm">{t("marketplace.noListings")}</p>
+            )}
+            {!!tradeable?.listings.length && (
+              <TradeTable
+                items={tradeable.listings.map((listing) => ({
+                  price: listing.sfl,
+                  expiresAt: "30 days", // TODO,
+                  createdById: listing.listedById,
+                }))}
+                id={farmId}
+              />
+            )}
+          </div>
+          <div className="w-full justify-end flex">
+            <Button
+              className="w-full sm:w-fit"
+              onClick={() => setShowListItem(true)}
+            >
+              {t("marketplace.listForSale")}
+            </Button>
+          </div>
         </div>
-        <div className="w-full justify-end flex">
-          <Button className="w-full sm:w-fit">
-            {t("marketplace.listForSale")}
-          </Button>
-        </div>
-      </div>
-    </InnerPanel>
+      </InnerPanel>
+    </>
   );
 };
