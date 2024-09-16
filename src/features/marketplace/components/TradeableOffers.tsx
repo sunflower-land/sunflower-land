@@ -544,7 +544,7 @@ export const TradeableOffers: React.FC<{
               />
             )}
           </div>
-          <div className="w-full justify-end flex">
+          <div className="w-full justify-end hidden sm:flex sm:visible">
             <Button
               className="w-full sm:w-fit"
               onClick={() => setShowMakeOffer(true)}
@@ -553,6 +553,12 @@ export const TradeableOffers: React.FC<{
             </Button>
           </div>
         </div>
+        <Button
+          className="w-full sm:hidden"
+          onClick={() => setShowMakeOffer(true)}
+        >
+          {t("marketplace.makeOffer")}
+        </Button>
       </InnerPanel>
     </>
   );

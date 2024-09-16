@@ -12,12 +12,13 @@ import { config } from "features/wallet/WalletProvider";
 
 import tradeIcon from "assets/icons/trade.png";
 import walletIcon from "assets/icons/wallet.png";
-// import sflIcon from "assets/icons/sfl.webp";
+import sflIcon from "assets/icons/sfl.webp";
 import lockIcon from "assets/icons/lock.png";
 
 import { TradeableDisplay } from "../lib/tradeables";
 import { Button } from "components/ui/Button";
 import { getChestItems } from "features/island/hud/components/inventory/utils/inventory";
+import { NumberInput } from "components/ui/NumberInput";
 
 export const TradeableListItem: React.FC<{
   tradeable?: TradeableDetails;
@@ -31,6 +32,7 @@ export const TradeableListItem: React.FC<{
   const { t } = useAppTranslation();
 
   const [isSigning, setIsSigning] = useState(false);
+  const [price, setPrice] = useState(0);
 
   const itemName = KNOWN_ITEMS[id];
   const { state } = gameState.context;
@@ -38,6 +40,7 @@ export const TradeableListItem: React.FC<{
   // Check inventory count
   const count = state.inventory[itemName]?.toNumber() ?? 0;
   const available = getChestItems(state)[itemName]?.toNumber() ?? 0;
+  const tradeFee = 0.1;
   // If does not have one then show information saying you do not have this item
 
   // Check chest count
@@ -116,11 +119,45 @@ export const TradeableListItem: React.FC<{
           </Label>
         </div>
       </div>
-      {count < 1 && (
+      {count < 1 ? (
         <>
           <div className="p-2">{`You don't own this item!`}</div>
           <Button onClick={onClose}>{t("close")}</Button>
         </>
+      ) : (
+        <div className="flex flex-col p-2">
+          <Label type="default" icon={sflIcon}>
+            {t("bumpkinTrade.price")}
+          </Label>
+          <div className="my-2 -mx-2">
+            <NumberInput
+              value={price}
+              onValueChange={(decimal) => setPrice(decimal.toNumber())}
+              maxDecimalPlaces={0}
+              icon={sflIcon}
+            />
+          </div>
+          <div
+            className="flex justify-between"
+            style={{
+              borderBottom: "1px solid #ead4aa",
+              padding: "5px 5px 5px 2px",
+            }}
+          >
+            <span className="text-xs"> {t("bumpkinTrade.listingPrice")}</span>
+            <p className="text-xs font-secondary">{`${price} SFL`}</p>
+          </div>
+          <div
+            className="flex justify-between"
+            style={{
+              borderBottom: "1px solid #ead4aa",
+              padding: "5px 5px 5px 2px",
+            }}
+          >
+            <span className="text-xs"> {t("bumpkinTrade.tradingFee")}</span>
+            <p className="text-xs font-secondary">{`${price * tradeFee} SFL`}</p>
+          </div>
+        </div>
       )}
     </div>
   );

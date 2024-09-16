@@ -188,26 +188,38 @@ const TradeableHeader: React.FC<{
           </div>
         </div>
         <div className="flex">
-          <p className="text-lg mr-0.5">{display.name}</p>
+          <p className="text-lg mr-0.5 mb-1">{display.name}</p>
         </div>
         <div className="flex items-center justify-between flex-wrap">
           {cheapestListing && (
-            <div className="flex items-center mr-2 mb-0.5 -ml-1">
+            <div className="flex items-center mr-2 sm:mb-0.5 -ml-1">
               <>
                 <img src={sflIcon} className="h-8 mr-2" />
                 <p className="text-base">{`${cheapestListing.sfl} SFL`}</p>
               </>
             </div>
           )}
-          <div className="flex items-center justify-end w-full sm:w-auto">
+          <div className="items-center justify-between hidden sm:flex sm:visible w-full sm:w-auto">
             {cheapestListing && (
-              <Button className="mr-1 w-auto">{t("marketplace.buyNow")}</Button>
+              <Button className="mr-1 w-full sm:w-auto">
+                {t("marketplace.buyNow")}
+              </Button>
             )}
-            <Button disabled className="w-auto">
+            <Button disabled className="w-full sm:w-auto">
               {t("marketplace.listForSale")}
             </Button>
           </div>
         </div>
+      </div>
+      <div className="flex items-center justify-between sm:hidden w-full sm:w-auto">
+        {cheapestListing && (
+          <Button className="mr-1 w-full sm:w-auto">
+            {t("marketplace.buyNow")}
+          </Button>
+        )}
+        <Button disabled className="w-full sm:w-auto">
+          {t("marketplace.listForSale")}
+        </Button>
       </div>
     </InnerPanel>
   );
@@ -308,7 +320,7 @@ const TradeableListings: React.FC<{
               />
             )}
           </div>
-          <div className="w-full justify-end flex">
+          <div className="w-full justify-end hidden sm:flex sm:visible">
             <Button
               className="w-full sm:w-fit"
               onClick={() => setShowListItem(true)}
@@ -317,6 +329,12 @@ const TradeableListings: React.FC<{
             </Button>
           </div>
         </div>
+        <Button
+          className="w-full sm:hidden"
+          onClick={() => setShowListItem(true)}
+        >
+          {t("marketplace.listForSale")}
+        </Button>
       </InnerPanel>
     </>
   );
