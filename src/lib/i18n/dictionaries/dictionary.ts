@@ -10,6 +10,7 @@ import ITALIAN_TERMS from "./it.json";
 import SPANISH_TERMS from "./es.json";
 import GERMAN_TERMS from "./de.json";
 import KOREAN_TERMS from "./ko.json";
+import JAPANESE_TERMS from "./ja.json";
 import { TranslationKeys } from "./types";
 
 import britishFlag from "assets/sfts/flags/british_flag.gif";
@@ -128,6 +129,7 @@ export const resources: Partial<
   fr: { translation: FRENCH_TERMS },
   id: { translation: INDONESIAN_TERMS },
   it: { translation: ITALIAN_TERMS },
+  ja: { translation: JAPANESE_TERMS },
   ko: { translation: KOREAN_TERMS },
   ms: { translation: MALAY_TERMS },
   "pt-BR": { translation: PORTUGUESE_TERMS },
