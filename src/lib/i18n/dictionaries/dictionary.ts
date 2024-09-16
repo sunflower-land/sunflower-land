@@ -4,6 +4,7 @@ import CHINESE_SIMPLIFIED_TERMS from "./zh-CN.json";
 import PORTUGUESE_TERMS from "./pt-BR.json";
 import FRENCH_TERMS from "./fr.json";
 import RUSSIAN_TERMS from "./ru.json";
+import INDONESIAN_TERMS from "./id.json";
 import ITALIAN_TERMS from "./it.json";
 import SPANISH_TERMS from "./es.json";
 import GERMAN_TERMS from "./de.json";
@@ -107,13 +108,14 @@ export const resources: Partial<
   Record<LanguageCode, { translation: TranslationResource }>
 > = {
   en: { translation: ENGLISH_TERMS },
+  de: { translation: GERMAN_TERMS },
   es: { translation: SPANISH_TERMS },
   fr: { translation: FRENCH_TERMS },
+  id: { translation: INDONESIAN_TERMS },
+  it: { translation: ITALIAN_TERMS },
+  ko: { translation: KOREAN_TERMS },
   "pt-BR": { translation: PORTUGUESE_TERMS },
+  ru: { translation: RUSSIAN_TERMS },
   tr: { translation: TURKISH_TERMS },
   "zh-CN": { translation: CHINESE_SIMPLIFIED_TERMS },
-  ru: { translation: RUSSIAN_TERMS },
-  it: { translation: ITALIAN_TERMS },
-  de: { translation: GERMAN_TERMS },
-  ko: { translation: KOREAN_TERMS },
 };
