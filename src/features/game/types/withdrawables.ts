@@ -857,7 +857,7 @@ const eventDecoration: Record<EventDecorationName, () => boolean> = {
   "Dawn Flower": () => true,
   "Sapo Docuras": () => true,
   "Sapo Travessuras": () => true,
-  "Time Warp Totem": () => true,
+  "Time Warp Totem": () => false,
 
   "Bumpkin Nutcracker": () => true,
   "Festive Tree": () => false,
