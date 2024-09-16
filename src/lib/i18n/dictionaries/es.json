@@ -1600,8 +1600,7 @@
   "gameOptions.farmId": "Número de identificación de granja {{farmId}}",
   "gameOptions.logout": "Cerrar sesión",
   "gameOptions.confirmLogout": "¿Estás seguro de que quieres cerrar sesión?",
-  "gameOptions.amoyActions": "Acciones de Amoy Testnet",
-  "gameOptions.amoyActions.timeMachine": "Máquina del tiempo",
+  "gameOptions.developerOptions.timeMachine": "Máquina del tiempo",
   "gameOptions.blockchainSettings": "Configuración de cadena de bloques",
   "gameOptions.blockchainSettings.refreshChain": "Actualizar desde Chain",
   "gameOptions.blockchainSettings.storeOnChain": "Tienda en cadena",
@@ -3590,5 +3589,6 @@
   "selling": "Vender",
   "marketplace.collection": "Colección",
   "marketplace.purpose": "Propósito",
-  "marketplace.boost": "Impulsar"
+  "marketplace.boost": "Impulsar",
+  "gameOptions.developerOptions": "Opciones para desarrolladores"
 }

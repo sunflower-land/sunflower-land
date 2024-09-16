@@ -1083,7 +1083,7 @@
   "description.baozi": "Ay Yeni Yılı etkinliğinden lezzetli bir ikram.",
   "gameOptions.logout": "Çıkış Yap",
   "gameOptions.confirmLogout": "Oturumu kapatmak istediğinizden emin misiniz?",
-  "gameOptions.amoyActions.timeMachine": "Zaman Makinesi",
+  "gameOptions.developerOptions.timeMachine": "Zaman Makinesi",
   "gameOptions.blockchainSettings.storeOnChain": "Zincirde Mağaza",
   "gameOptions.blockchainSettings.transferOwnership": "Sahipliği Aktar",
   "gameOptions.generalSettings.changeLanguage": "Dili değiştir",
@@ -2917,7 +2917,6 @@
   "description.nightshade.emblem": "Nightshades'a bağlılığınızı gösterin",
   "gameOptions.title": "Oyun Seçenekleri",
   "gameOptions.farmId": "Çiftlik Kimliği # {{farmId}}",
-  "gameOptions.amoyActions": "Amoy Testnet Eylemleri",
   "gameOptions.blockchainSettings": "Blockchain Ayarları",
   "gameOptions.blockchainSettings.refreshChain": "Zincirden Yenile",
   "gameOptions.generalSettings": "Genel Ayarlar",
@@ -3590,5 +3589,6 @@
   "selling": "Satışlar",
   "marketplace.collection": "Koleksiyon",
   "marketplace.purpose": "Amaç",
-  "marketplace.boost": "Yükseltme"
+  "marketplace.boost": "Yükseltme",
+  "gameOptions.developerOptions": "Geliştirici Seçenekleri"
 }

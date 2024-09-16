@@ -1617,8 +1617,7 @@
   "gameOptions.farmId": "ファーム ID # {{farmId}}",
   "gameOptions.logout": "ログアウト",
   "gameOptions.confirmLogout": "ログアウトしてよろしいですか?",
-  "gameOptions.amoyActions": "Amoy テストネットアクション",
-  "gameOptions.amoyActions.timeMachine": "タイムマシン",
+  "gameOptions.developerOptions.timeMachine": "タイムマシン",
   "gameOptions.blockchainSettings": "ブロックチェーン設定",
   "gameOptions.blockchainSettings.refreshChain": "チェーンから更新",
   "gameOptions.blockchainSettings.storeOnChain": "チェーンで保存",
@@ -3590,5 +3589,6 @@
   "depositing": "デポジット",
   "listing": "上場",
   "deleting.listing": "リストを削除する",
-  "selling": "売却"
+  "selling": "売却",
+  "gameOptions.developerOptions": "デベロッパーオプション"
 }

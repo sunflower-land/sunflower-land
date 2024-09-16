@@ -1617,8 +1617,7 @@
   "gameOptions.farmId": "Farm-ID # {{farmId}}",
   "gameOptions.logout": "Abmelden",
   "gameOptions.confirmLogout": "Bist du sicher, dass du dich abmelden willst?",
-  "gameOptions.amoyActions": "Amoy Testnet-Aktionen",
-  "gameOptions.amoyActions.timeMachine": "Zeitmaschine",
+  "gameOptions.developerOptions.timeMachine": "Zeitmaschine",
   "gameOptions.blockchainSettings": "Blockchain-Einstellungen",
   "gameOptions.blockchainSettings.refreshChain": "Aus Kette aktualisieren",
   "gameOptions.blockchainSettings.storeOnChain": "In der Kette einkaufen",
@@ -3590,5 +3589,6 @@
   "selling": "Verkauf",
   "marketplace.collection": "Sammlung",
   "marketplace.purpose": "Zweck",
-  "marketplace.boost": "Boost"
+  "marketplace.boost": "Boost",
+  "gameOptions.developerOptions": "Optionen für Entwickler"
 }

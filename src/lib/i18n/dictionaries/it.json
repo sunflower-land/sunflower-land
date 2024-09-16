@@ -1599,8 +1599,7 @@
   "gameOptions.farmId": "ID azienda agricola n. {{farmId}}",
   "gameOptions.logout": "Esci",
   "gameOptions.confirmLogout": "Sei sicuro di voler effettuare il logout?",
-  "gameOptions.amoyActions": "Azioni Amoy Testnet",
-  "gameOptions.amoyActions.timeMachine": "Macchina del tempo",
+  "gameOptions.developerOptions.timeMachine": "Macchina del tempo",
   "gameOptions.blockchainSettings": "Impostazioni Blockchain",
   "gameOptions.blockchainSettings.refreshChain": "Aggiorna dalla catena",
   "gameOptions.blockchainSettings.storeOnChain": "Store on Chain",
@@ -3590,5 +3589,6 @@
   "selling": "Vendita",
   "marketplace.collection": "Collezione",
   "marketplace.purpose": "Scopo",
-  "marketplace.boost": "Incremento"
+  "marketplace.boost": "Incremento",
+  "gameOptions.developerOptions": "Opzioni per gli sviluppatori"
 }

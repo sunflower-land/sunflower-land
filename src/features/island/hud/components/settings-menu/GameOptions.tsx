@@ -163,9 +163,10 @@ const GameOptions: React.FC<ContentComponentProps> = ({
           <img src={lockIcon} className="absolute right-1 top-0.5 h-7" />
         )}
       </Button>
-      {CONFIG.NETWORK === "amoy" && (
+      {(CONFIG.NETWORK === "amoy" ||
+        !!gameService.state?.context?.state.wardrobe.Halo) && (
         <Button className="p-1 mb-1" onClick={() => onSubMenuClick("amoy")}>
-          <span>{t("gameOptions.amoyActions")}</span>
+          <span>{t("gameOptions.developerOptions")}</span>
         </Button>
       )}
       <Button className="p-1 mb-1" onClick={() => onSubMenuClick("blockchain")}>
@@ -285,7 +286,7 @@ export const settingMenus: Record<SettingMenuId, SettingMenu> = {
     content: InstallAppModal,
   },
   amoy: {
-    title: translate("gameOptions.amoyActions"),
+    title: translate("gameOptions.developerOptions"),
     parent: "main",
     content: AmoyTestnetActions,
   },

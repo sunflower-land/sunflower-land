@@ -1617,8 +1617,7 @@
   "gameOptions.farmId": "ID Ladang # {{farmId}}",
   "gameOptions.logout": "Log Keluar",
   "gameOptions.confirmLogout": "Adakah anda pasti mahu Log Keluar?",
-  "gameOptions.amoyActions": "Tindakan Amoy Testnet",
-  "gameOptions.amoyActions.timeMachine": "Mesin Masa",
+  "gameOptions.developerOptions.timeMachine": "Mesin Masa",
   "gameOptions.blockchainSettings": "Tetapan Blockchain",
   "gameOptions.blockchainSettings.refreshChain": "Segarkan semula dari Rantai",
   "gameOptions.blockchainSettings.storeOnChain": "Simpan di Rantai",
@@ -3590,5 +3589,6 @@
   "depositing": "Mendepositkan",
   "listing": "Penyenaraian",
   "deleting.listing": "Memadam penyenaraian",
-  "selling": "Menjual"
+  "selling": "Menjual",
+  "gameOptions.developerOptions": "Pilihan Pemaju"
 }

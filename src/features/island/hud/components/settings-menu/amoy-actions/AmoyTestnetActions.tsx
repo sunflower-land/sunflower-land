@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { DEV_TimeMachine } from "./DEV_TimeMachine";
 import { createPortal } from "react-dom";
 import { ContentComponentProps } from "../GameOptions";
+import { CONFIG } from "lib/config";
 
 export const AmoyTestnetActions: React.FC<ContentComponentProps> = ({
   onSubMenuClick,
@@ -14,24 +15,28 @@ export const AmoyTestnetActions: React.FC<ContentComponentProps> = ({
   return (
     <>
       <Button
-        onClick={() => setShowTimeMachine(!showTimeMachine)}
-        className="p-1"
-      >
-        {t("gameOptions.amoyActions.timeMachine")}
-      </Button>
-      <Button
         onClick={() => onSubMenuClick("mainnetHoardingCheck")}
         className="p-1"
       >
         {`Hoarding Check (Mainnet)`}
       </Button>
-      <Button
-        onClick={() => onSubMenuClick("amoyHoardingCheck")}
-        className="p-1"
-      >
-        {`Hoarding Check (Amoy)`}
-      </Button>
-      {showTimeMachine && createPortal(<DEV_TimeMachine />, document.body)}
+      {CONFIG.NETWORK === "amoy" && (
+        <>
+          <Button
+            onClick={() => onSubMenuClick("amoyHoardingCheck")}
+            className="p-1"
+          >
+            {`Hoarding Check (Amoy)`}
+          </Button>
+          <Button
+            onClick={() => setShowTimeMachine(!showTimeMachine)}
+            className="p-1"
+          >
+            {t("gameOptions.developerOptions.timeMachine")}
+          </Button>
+          {showTimeMachine && createPortal(<DEV_TimeMachine />, document.body)}
+        </>
+      )}
     </>
   );
 };
