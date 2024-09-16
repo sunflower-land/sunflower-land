@@ -113,7 +113,7 @@ export const Tradeable: React.FC = () => {
           id={Number(id)}
         />
 
-        <PriceHistory />
+        <PriceHistory history={tradeable?.history} />
 
         <Listings tradeable={tradeable} farmId={farmId} />
 
