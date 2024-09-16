@@ -6,7 +6,7 @@ import { createPortal } from "react-dom";
 import { ContentComponentProps } from "../GameOptions";
 import { CONFIG } from "lib/config";
 
-export const AmoyTestnetActions: React.FC<ContentComponentProps> = ({
+export const DeveloperOptions: React.FC<ContentComponentProps> = ({
   onSubMenuClick,
 }) => {
   const { t } = useAppTranslation();

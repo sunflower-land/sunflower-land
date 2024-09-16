@@ -36,7 +36,7 @@ import { InstallAppModal } from "./general-settings/InstallAppModal";
 import { LanguageSwitcher } from "./general-settings/LanguageChangeModal";
 import { Share } from "./general-settings/Share";
 import { PlazaSettings } from "./plaza-settings/PlazaSettingsModal";
-import { AmoyTestnetActions } from "./amoy-actions/AmoyTestnetActions";
+import { DeveloperOptions } from "./developer-options/DeveloperOptions";
 import { Discord } from "./general-settings/DiscordModal";
 import { DepositWrapper } from "features/goblins/bank/components/Deposit";
 import { useSound } from "lib/utils/hooks/useSound";
@@ -45,7 +45,7 @@ import { FontSettings } from "./general-settings/FontSettings";
 import { ConfirmationModal } from "components/ui/ConfirmationModal";
 import ticket from "assets/icons/ticket.png";
 import lockIcon from "assets/icons/lock.png";
-import { DEV_HoarderCheck } from "./amoy-actions/DEV_HoardingCheck";
+import { DEV_HoarderCheck } from "./developer-options/DEV_HoardingCheck";
 import { WalletAddressLabel } from "components/ui/WalletAddressLabel";
 import { PickServer } from "./plaza-settings/PickServer";
 
@@ -288,7 +288,7 @@ export const settingMenus: Record<SettingMenuId, SettingMenu> = {
   amoy: {
     title: translate("gameOptions.developerOptions"),
     parent: "main",
-    content: AmoyTestnetActions,
+    content: DeveloperOptions,
   },
   blockchain: {
     title: translate("gameOptions.blockchainSettings"),
