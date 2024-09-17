@@ -1617,8 +1617,7 @@
   "gameOptions.farmId": "팜 ID # {{farmId}}",
   "gameOptions.logout": "로그아웃",
   "gameOptions.confirmLogout": "정말 로그아웃하시겠습니까?",
-  "gameOptions.amoyActions": "아모이 테스트넷 액션",
-  "gameOptions.amoyActions.timeMachine": "타임 머신",
+  "gameOptions.developerOptions.timeMachine": "타임 머신",
   "gameOptions.blockchainSettings": "블록체인 설정",
   "gameOptions.blockchainSettings.refreshChain": "체인에서 새로 고침",
   "gameOptions.blockchainSettings.storeOnChain": "스토어온체인",
@@ -3590,5 +3589,6 @@
   "depositing": "입금",
   "listing": "리스팅",
   "deleting.listing": "리스팅 삭제",
-  "selling": "판매"
+  "selling": "판매",
+  "gameOptions.developerOptions": "개발자 옵션"
 }

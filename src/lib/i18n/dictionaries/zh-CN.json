@@ -2236,8 +2236,7 @@
   "description.sunflorian.emblem": "向 Sunflorian 展示你的忠诚",
   "description.bumpkin.emblem": "向 Bumpkin 展示你的忠诚",
   "description.nightshade.emblem": "向 Nightshade 展示你的忠诚",
-  "gameOptions.amoyActions": "Amoy Testnet 行为",
-  "gameOptions.amoyActions.timeMachine": "时光机器",
+  "gameOptions.developerOptions.timeMachine": "时光机器",
   "gameOptions.generalSettings.connectDiscord": "连接到 Discord",
   "gameOptions.generalSettings.assignRole": "分配 Discord 角色",
   "auction.winner": "竞拍得主！",
@@ -3590,5 +3589,6 @@
   "selling": "正在出售",
   "marketplace.collection": "藏品",
   "marketplace.purpose": "目的",
-  "marketplace.boost": "提升"
+  "marketplace.boost": "提升",
+  "gameOptions.developerOptions": "开发者选项"
 }

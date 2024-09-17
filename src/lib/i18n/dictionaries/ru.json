@@ -1525,8 +1525,7 @@
   "gameOptions.farmId": "ID фермы #{{farmId}}",
   "gameOptions.logout": "Выйти из системы",
   "gameOptions.confirmLogout": "Ты уверен, что хочешь выйти из системы?",
-  "gameOptions.amoyActions": "Действия тестового сервера (Amoy)",
-  "gameOptions.amoyActions.timeMachine": "Машина времени",
+  "gameOptions.developerOptions.timeMachine": "Машина времени",
   "gameOptions.blockchainSettings": "Настройки блокчейна",
   "gameOptions.blockchainSettings.refreshChain": "Обновить из блокчейна",
   "gameOptions.blockchainSettings.storeOnChain": "Сохранить в блокчейн",
@@ -3590,5 +3589,6 @@
   "selling": "Продажа",
   "marketplace.collection": "Коллекция",
   "marketplace.purpose": "Назначение",
-  "marketplace.boost": "Усиление"
+  "marketplace.boost": "Усиление",
+  "gameOptions.developerOptions": "Опции для разработчиков"
 }

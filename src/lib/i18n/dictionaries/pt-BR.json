@@ -1053,7 +1053,7 @@
   "description.homeOwnerPainting": "Uma pintura do proprietário desta casa.",
   "gameOptions.logout": "Sair",
   "gameOptions.confirmLogout": "Tem certeza de que deseja sair?",
-  "gameOptions.amoyActions.timeMachine": "Máquina do Tempo",
+  "gameOptions.developerOptions.timeMachine": "Máquina do Tempo",
   "gameOptions.blockchainSettings.storeOnChain": "Armazenar na Blockchain",
   "gameOptions.blockchainSettings.transferOwnership": "Transferir Propriedade",
   "gameOptions.generalSettings.changeLanguage": "Alterar Idioma",
@@ -2885,7 +2885,6 @@
   "description.nightshade.emblem": "Mostre sua lealdade aos Nightshades",
   "gameOptions.title": "Opções de jogo",
   "gameOptions.farmId": "Número de identificação da fazenda {{farmId}}",
-  "gameOptions.amoyActions": "Amoy Testnet Actions",
   "gameOptions.blockchainSettings": "Configurações do Blockchain",
   "gameOptions.blockchainSettings.refreshChain": "Atualizar a partir da cadeia",
   "gameOptions.generalSettings": "Configurações gerais",
@@ -3590,5 +3589,6 @@
   "selling": "Vendendo",
   "marketplace.collection": "Coleção",
   "marketplace.purpose": "Propósito",
-  "marketplace.boost": "Impulsione"
+  "marketplace.boost": "Impulsione",
+  "gameOptions.developerOptions": "Opções do desenvolvedor"
 }

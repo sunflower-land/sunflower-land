@@ -1617,8 +1617,7 @@
   "gameOptions.farmId": "ID Peternakan # {{farmId}}",
   "gameOptions.logout": "Logout",
   "gameOptions.confirmLogout": "Apakah Anda yakin ingin Logout?",
-  "gameOptions.amoyActions": "Tindakan Amoy Testnet",
-  "gameOptions.amoyActions.timeMachine": "Mesin Waktu",
+  "gameOptions.developerOptions.timeMachine": "Mesin Waktu",
   "gameOptions.blockchainSettings": "Pengaturan Blockchain",
   "gameOptions.blockchainSettings.refreshChain": "Refresh dari Chain",
   "gameOptions.blockchainSettings.storeOnChain": "Toko di Rantaian",
@@ -3590,5 +3589,6 @@
   "depositing": "Menyetorkan",
   "listing": "Daftar",
   "deleting.listing": "Menghapus daftar",
-  "selling": "Menjual"
+  "selling": "Menjual",
+  "gameOptions.developerOptions": "Opsi Pengembang"
 }
