@@ -15,6 +15,7 @@ import { Button } from "components/ui/Button";
 import { OuterPanel } from "components/ui/Panel";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { formatNumber } from "lib/utils/formatNumber";
+import { InventoryItemName } from "features/game/types/game";
 
 interface Props {
   farmId: number;
@@ -54,7 +55,7 @@ export const TradeCompleted: React.FC<Props> = ({ mmoService, farmId }) => {
                 <div className="flex flex-wrap">
                   {getKeys(sold.items).map((name) => (
                     <Box
-                      image={ITEM_DETAILS[name].image}
+                      image={ITEM_DETAILS[name as InventoryItemName].image}
                       count={new Decimal(sold.items[name] ?? 0)}
                       disabled
                       key={name}
