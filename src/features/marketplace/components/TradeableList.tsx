@@ -226,7 +226,7 @@ export const TradeableListItem: React.FC<{
           <Button onClick={() => setShowConfirmation(false)} className="mr-1">
             {t("cancel")}
           </Button>
-          <Button onClick={() => confirm}>{t("confirm")}</Button>
+          <Button onClick={() => confirm({})}>{t("confirm")}</Button>
         </div>
       </>
     );
