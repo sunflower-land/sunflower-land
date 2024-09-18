@@ -449,8 +449,6 @@ export const TradeableOffers: React.FC<{
   id: number;
   onOfferMade: () => void;
 }> = ({ tradeable, farmId, display, id, onOfferMade }) => {
-  const { gameService } = useContext(Context);
-
   const { t } = useAppTranslation();
 
   const [showMakeOffer, setShowMakeOffer] = useState(false);

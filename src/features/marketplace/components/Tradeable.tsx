@@ -49,6 +49,29 @@ export const Tradeable: React.FC = () => {
   const navigate = useNavigate();
 
   const [tradeable, setTradeable] = useState<TradeableDetails | null>();
+  const [showListItem, setShowListItem] = useState(false);
+
+  const display = getTradeableDisplay({
+    id: Number(id),
+    type: collection as CollectionName,
+  });
+
+  let count = 0;
+
+  const game = gameState.context.state;
+  if (display.type === "collectibles") {
+    const name = KNOWN_ITEMS[tradeable?.id as number];
+    count = getChestItems(game)[name]?.toNumber() ?? 0;
+  }
+
+  if (display.type === "wearables") {
+    const name = ITEM_NAMES[tradeable?.id as number];
+    count = availableWardrobe(game)[name] ?? 0;
+  }
+
+  if (display.type === "buds") {
+    count = getChestBuds(game)[tradeable?.id as number] ? 1 : 0;
+  }
 
   const load = async () => {
     try {
@@ -78,10 +101,6 @@ export const Tradeable: React.FC = () => {
   const onBack = () => {
     navigate(`/marketplace/${collection}`);
   };
-  const display = getTradeableDisplay({
-    type: collection as CollectionName,
-    id: Number(id),
-  });
 
   return (
     <div className="flex sm:flex-row flex-col w-full scrollable overflow-y-auto h-full overflow-x-none pr-1 pb-8">
@@ -89,9 +108,11 @@ export const Tradeable: React.FC = () => {
         <div className="block sm:hidden">
           <TradeableHeader
             collection={collection as CollectionName}
-            onBack={onBack}
             display={display}
+            count={count}
             tradeable={tradeable}
+            onBack={onBack}
+            onListClick={() => setShowListItem(true)}
           />
         </div>
 
@@ -101,9 +122,11 @@ export const Tradeable: React.FC = () => {
         <div className="hidden sm:block">
           <TradeableHeader
             collection={collection as CollectionName}
-            onBack={onBack}
             display={display}
             tradeable={tradeable}
+            count={count}
+            onBack={onBack}
+            onListClick={() => setShowListItem(true)}
           />
         </div>
 
@@ -121,6 +144,15 @@ export const Tradeable: React.FC = () => {
           display={display}
           farmId={farmId}
           collection={collection as CollectionName}
+          showListItem={showListItem}
+          count={count}
+          onListingMade={load}
+          onListClick={() => {
+            setShowListItem(true);
+          }}
+          onListClose={() => {
+            setShowListItem(false);
+          }}
         />
 
         <TradeableOffers
@@ -137,34 +169,17 @@ export const Tradeable: React.FC = () => {
 
 const TradeableHeader: React.FC<{
   collection: CollectionName;
-  onBack: () => void;
   display: TradeableDisplay;
   tradeable?: TradeableDetails;
-}> = ({ collection, onBack, display, tradeable }) => {
-  const { gameService } = useContext(Context);
-  const [gameState] = useActor(gameService);
+  count: number;
+  onBack: () => void;
+  onListClick: () => void;
+}> = ({ collection, onBack, display, count, tradeable, onListClick }) => {
   const { t } = useAppTranslation();
 
   const cheapestListing = tradeable?.listings.reduce((cheapest, listing) => {
     return listing.sfl < cheapest.sfl ? listing : cheapest;
   }, tradeable?.listings?.[0]);
-
-  let count = 0;
-
-  const game = gameState.context.state;
-  if (display.type === "collectibles") {
-    const name = KNOWN_ITEMS[tradeable?.id as number];
-    count = getChestItems(game)[name]?.toNumber() ?? 0;
-  }
-
-  if (display.type === "wearables") {
-    const name = ITEM_NAMES[tradeable?.id as number];
-    count = availableWardrobe(game)[name] ?? 0;
-  }
-
-  if (display.type === "buds") {
-    count = getChestBuds(game)[tradeable?.id as number] ? 1 : 0;
-  }
 
   return (
     <InnerPanel className="w-full mb-1">
@@ -184,20 +199,25 @@ const TradeableHeader: React.FC<{
               </Label>
             )}
 
-            <Label type="default">{t("marketplace.youOwn", { count })}</Label>
+            {tradeable !== undefined && (
+              <Label type="default">{t("marketplace.youOwn", { count })}</Label>
+            )}
           </div>
         </div>
         <div className="flex">
           <p className="text-lg mr-0.5 mb-1">{display.name}</p>
         </div>
         <div className="flex items-center justify-between flex-wrap">
-          {cheapestListing && (
+          {cheapestListing ? (
             <div className="flex items-center mr-2 sm:mb-0.5 -ml-1">
               <>
                 <img src={sflIcon} className="h-8 mr-2" />
                 <p className="text-base">{`${cheapestListing.sfl} SFL`}</p>
               </>
             </div>
+          ) : (
+            // Dummy div to keep the layout consistent
+            <div className="flex items-center mr-2 sm:mb-0.5 -ml-1"></div>
           )}
           <div className="items-center justify-between hidden sm:flex sm:visible w-full sm:w-auto">
             {cheapestListing && (
@@ -205,7 +225,11 @@ const TradeableHeader: React.FC<{
                 {t("marketplace.buyNow")}
               </Button>
             )}
-            <Button disabled className="w-full sm:w-auto">
+            <Button
+              onClick={onListClick}
+              disabled={!count}
+              className="w-full sm:w-auto"
+            >
               {t("marketplace.listForSale")}
             </Button>
           </div>
@@ -217,13 +241,18 @@ const TradeableHeader: React.FC<{
             {t("marketplace.buyNow")}
           </Button>
         )}
-        <Button disabled className="w-full sm:w-auto">
+        <Button
+          onClick={onListClick}
+          disabled={!count}
+          className="w-full sm:w-auto"
+        >
           {t("marketplace.listForSale")}
         </Button>
       </div>
     </InnerPanel>
   );
 };
+
 const TradeableInfo: React.FC<{
   display: TradeableDisplay;
   tradeable?: TradeableDetails;
@@ -278,24 +307,35 @@ const TradeableListings: React.FC<{
   farmId: number;
   collection: CollectionName;
   id: number;
-}> = ({ tradeable, farmId, display, id }) => {
-  const { gameService } = useContext(Context);
-  const [gameState] = useActor(gameService);
-
-  const [showListItem, setShowListItem] = useState(false);
-
+  showListItem: boolean;
+  count: number;
+  onListClick: () => void;
+  onListClose: () => void;
+  onListingMade: () => void;
+}> = ({
+  tradeable,
+  farmId,
+  display,
+  id,
+  count,
+  showListItem,
+  onListingMade,
+  onListClick,
+  onListClose,
+}) => {
   const { t } = useAppTranslation();
 
   return (
     <>
-      <Modal show={showListItem} onHide={() => setShowListItem(false)}>
+      <Modal show={showListItem} onHide={onListClose}>
         <Panel>
           <TradeableListItem
             display={display}
             tradeable={tradeable}
             farmId={farmId}
             id={id}
-            onClose={() => setShowListItem(false)}
+            onListingMade={onListingMade}
+            onClose={onListClose}
           />
         </Panel>
       </Modal>
@@ -323,7 +363,8 @@ const TradeableListings: React.FC<{
           <div className="w-full justify-end hidden sm:flex sm:visible">
             <Button
               className="w-full sm:w-fit"
-              onClick={() => setShowListItem(true)}
+              disabled={!count}
+              onClick={onListClick}
             >
               {t("marketplace.listForSale")}
             </Button>
@@ -331,7 +372,8 @@ const TradeableListings: React.FC<{
         </div>
         <Button
           className="w-full sm:hidden"
-          onClick={() => setShowListItem(true)}
+          disabled={!count}
+          onClick={onListClick}
         >
           {t("marketplace.listForSale")}
         </Button>
