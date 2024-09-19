@@ -72,6 +72,7 @@ export type BumpkinRevampSkillName =
   | "Grubby Treat"
   | "Wriggly Treat"
   | "Fishy Fortune"
+  | "Big Catch"
   | "Composting Bonanza"
   | "Frenzied Fish"
   | "Composting Overhaul"
@@ -829,7 +830,17 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
       points: 2,
       skill: 2,
     },
-    boosts: "+30% Fish deliveries SFL profit",
+    boosts: "+50% Fish deliveries SFL profit",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
+  "Big Catch": {
+    name: "Big Catch",
+    tree: "Fishing",
+    requirements: {
+      points: 2,
+      skill: 2,
+    },
+    boosts: "Increase bar for catching game",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
   // Fishing - Tier 3
