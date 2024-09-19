@@ -200,10 +200,12 @@ export function getOrderSellPrice<T>(game: GameState, order: Order): T {
   }
 
   // Fishy Fortune - 50% Coins bonus if Corale NPC
-  if (game.bumpkin?.skills["Fishy Fortune"] && order.reward.coins) {
-    if (order.from === "corale") {
-      mul += 0.5;
-    }
+  if (
+    game.bumpkin?.skills["Fishy Fortune"] &&
+    order.reward.coins &&
+    order.from === "corale"
+  ) {
+    mul += 0.5;
   }
 
   const items = getKeys(order.items);

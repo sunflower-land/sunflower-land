@@ -1031,7 +1031,7 @@ describe("deliver", () => {
               id: "123",
               createdAt: 0,
               readyAt: Date.now(),
-              from: "betty",
+              from: "tango",
               items: {
                 Orange: 5,
                 Grape: 2,
