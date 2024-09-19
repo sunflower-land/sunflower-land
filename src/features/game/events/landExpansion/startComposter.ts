@@ -31,6 +31,12 @@ const getReadyAt = (gameState: GameState, composter: ComposterName) => {
   if (isCollectibleBuilt({ name: "Soil Krabby", game: gameState })) {
     return timeToFinish * 0.9;
   }
+
+  // gives +10% speed boost if the player has Swift Decomposer skill
+  if (gameState.bumpkin?.skills["Swift Decomposer"]) {
+    return timeToFinish * 0.9;
+  }
+
   return timeToFinish;
 };
 
