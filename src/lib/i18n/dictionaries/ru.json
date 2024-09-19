@@ -2167,8 +2167,6 @@
   "marketplace.listForSale": "Список на продажу",
   "marketplace.walletRequired": "Нужен кошелек",
   "marketplace.listings": "Продажа",
-  "marketplace.noListings": "Ничего нет.",
-  "marketplace.noOffers": "И тут ничего нет.",
   "marketplace.offers": "Предлжения",
   "marketplace.topOffer": "Лучшее предложение",
   "marketplace.acceptOffer": "Принять предложение",
@@ -3590,5 +3588,17 @@
   "marketplace.collection": "Коллекция",
   "marketplace.purpose": "Назначение",
   "marketplace.boost": "Усиление",
-  "gameOptions.developerOptions": "Опции для разработчиков"
+  "gameOptions.developerOptions": "Опции для разработчиков",
+  "marketplace.youOwn": "Вы владеете: {{count}}",
+  "marketplace.listItem": "Список {{type}}",
+  "marketplace.noListings": "Нет доступных объявлений",
+  "marketplace.noOffers": "Предложений нет",
+  "marketplace.signAndList": "Подпись и список",
+  "marketplace.itemInUse": "Изделие в употреблении",
+  "marketplace.availableCount": "Доступно: {{count}}",
+  "marketplace.itemSecured": "Товар защищен",
+  "marketplace.youDontOwn": "У вас нет этого товара!",
+  "marketplace.itemSecuredWarning": "Вы не сможете использовать свой товар, пока он есть в списке",
+  "marketplace.listedSuccess": "Поздравляем, вы успешно выставили на продажу свой {{item}}. А теперь наберитесь терпения и дождитесь, когда его купит Bumpkin!",
+  "marketplace.itemInUseWarning": "Этот предмет в настоящее время используется на вашей ферме. Сначала вы должны положить его в сундук."
 }

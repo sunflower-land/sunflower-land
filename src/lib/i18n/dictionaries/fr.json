@@ -3059,8 +3059,6 @@
   "marketplace.listForSale": "Liste à vendre",
   "marketplace.walletRequired": "Portefeuille requis",
   "marketplace.listings": "Annonces",
-  "marketplace.noListings": "Aucune annonce disponible.",
-  "marketplace.noOffers": "Aucune offre disponible.",
   "marketplace.offers": "Offres",
   "marketplace.topOffer": "Meilleure offre",
   "marketplace.acceptOffer": "Accepter l'offre",
@@ -3590,5 +3588,17 @@
   "marketplace.collection": "Recueil",
   "marketplace.purpose": "Finalité",
   "marketplace.boost": "Booster",
-  "gameOptions.developerOptions": "Options pour les développeurs"
+  "gameOptions.developerOptions": "Options pour les développeurs",
+  "marketplace.youOwn": "Vous possédez : {{count}}",
+  "marketplace.listItem": "Liste {{type}}",
+  "marketplace.noListings": "Aucune annonce disponible",
+  "marketplace.noOffers": "Aucune offre disponible",
+  "marketplace.signAndList": "Signer et lister",
+  "marketplace.itemInUse": "Article en cours d'utilisation",
+  "marketplace.availableCount": "Disponible : {{count}}",
+  "marketplace.itemSecured": "Article sécurisé",
+  "marketplace.youDontOwn": "Vous n'êtes pas propriétaire de cet article !",
+  "marketplace.itemSecuredWarning": "Vous ne pourrez pas utiliser votre article tant qu'il est mis en vente",
+  "marketplace.listedSuccess": "Félicitations, vous avez mis en vente votre {{item}} avec succès. Maintenant, soyez patient et attendez qu'un Bumpkin l'achète !",
+  "marketplace.itemInUseWarning": "Cet article est actuellement utilisé dans votre ferme. Vous devez d'abord le retirer dans votre poitrine."
 }

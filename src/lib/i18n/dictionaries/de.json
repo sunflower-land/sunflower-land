@@ -2269,8 +2269,6 @@
   "marketplace.listForSale": "Liste zum Verkauf",
   "marketplace.walletRequired": "Geldbörse erforderlich",
   "marketplace.listings": "Auflistungen",
-  "marketplace.noListings": "Keine Angebote verfügbar.",
-  "marketplace.noOffers": "Keine Angebote verfügbar.",
   "marketplace.offers": "Angebote",
   "marketplace.topOffer": "Top Angebot",
   "marketplace.acceptOffer": "Angebot annehmen",
@@ -3590,5 +3588,17 @@
   "marketplace.collection": "Sammlung",
   "marketplace.purpose": "Zweck",
   "marketplace.boost": "Boost",
-  "gameOptions.developerOptions": "Optionen für Entwickler"
+  "gameOptions.developerOptions": "Optionen für Entwickler",
+  "marketplace.youOwn": "Du besitzt: {{count}}",
+  "marketplace.listItem": "Liste {{type}}",
+  "marketplace.noListings": "Keine Angebote verfügbar",
+  "marketplace.noOffers": "Keine Angebote verfügbar",
+  "marketplace.signAndList": "Unterschreiben und auflisten",
+  "marketplace.itemInUse": "Artikel wird verwendet",
+  "marketplace.availableCount": "Verfügbar: {{count}}",
+  "marketplace.itemSecured": "Artikel gesichert",
+  "marketplace.youDontOwn": "Sie besitzen diesen Artikel nicht!",
+  "marketplace.itemSecuredWarning": "Sie können Ihren Artikel nicht verwenden, solange er aufgeführt ist",
+  "marketplace.listedSuccess": "Herzlichen Glückwunsch, Sie haben Ihre {{item}} erfolgreich zum Verkauf angeboten. Seien Sie jetzt geduldig und warten Sie, bis ein Bumpkin ihn kauft!",
+  "marketplace.itemInUseWarning": "Dieser Gegenstand wird derzeit auf deiner Farm verwendet. Du musst ihn zuerst in deine Brust nehmen."
 }

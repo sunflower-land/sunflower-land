@@ -2274,8 +2274,6 @@
   "marketplace.listForSale": "Senarai untuk dijual",
   "marketplace.walletRequired": "Dompet diperlukan",
   "marketplace.listings": "Senarai",
-  "marketplace.noListings": "Tiada penyenaraian tersedia.",
-  "marketplace.noOffers": "Tiada tawaran tersedia.",
   "marketplace.offers": "Promosi",
   "marketplace.topOffer": "Tawaran teratas",
   "marketplace.acceptOffer": "Terima tawaran",
@@ -3590,5 +3588,17 @@
   "listing": "Penyenaraian",
   "deleting.listing": "Memadam penyenaraian",
   "selling": "Menjual",
-  "gameOptions.developerOptions": "Pilihan Pemaju"
+  "gameOptions.developerOptions": "Pilihan Pemaju",
+  "marketplace.youOwn": "Anda memiliki: {{count}}",
+  "marketplace.listItem": "Senarai {{type}}",
+  "marketplace.noListings": "Tiada penyenaraian tersedia",
+  "marketplace.noOffers": "Tiada tawaran tersedia",
+  "marketplace.signAndList": "Tanda & Senarai",
+  "marketplace.itemInUse": "Item yang digunakan",
+  "marketplace.availableCount": "Tersedia: {{count}}",
+  "marketplace.itemSecured": "Item terjamin",
+  "marketplace.youDontOwn": "Anda tidak memiliki item ini!",
+  "marketplace.itemSecuredWarning": "Anda tidak akan dapat menggunakan item anda semasa ia disenaraikan",
+  "marketplace.listedSuccess": "Tahniah, anda telah berjaya menyenaraikan {{item}} anda untuk dijual. Sekarang bersabar dan tunggu Bumpkin untuk membelinya!",
+  "marketplace.itemInUseWarning": "Item ini sedang digunakan di ladang anda. Anda mesti terlebih dahulu mengeluarkannya ke dada anda."
 }

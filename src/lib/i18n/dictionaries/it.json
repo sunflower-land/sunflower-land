@@ -2233,8 +2233,6 @@
   "marketplace.listForSale": "Metti in vendita in vendita",
   "marketplace.walletRequired": "Portafoglio richiesto",
   "marketplace.listings": "Annunci",
-  "marketplace.noListings": "Nessuna inserzione disponibili.",
-  "marketplace.noOffers": "Nessuna offerta disponibili",
   "marketplace.offers": "Offerte",
   "marketplace.topOffer": "Offerta top",
   "marketplace.acceptOffer": "Accetta l'offerta",
@@ -3590,5 +3588,17 @@
   "marketplace.collection": "Collezione",
   "marketplace.purpose": "Scopo",
   "marketplace.boost": "Incremento",
-  "gameOptions.developerOptions": "Opzioni per gli sviluppatori"
+  "gameOptions.developerOptions": "Opzioni per gli sviluppatori",
+  "marketplace.youOwn": "Possiedi: {{count}}",
+  "marketplace.listItem": "Elenco {{type}}",
+  "marketplace.noListings": "Nessuna inserzione disponibile",
+  "marketplace.noOffers": "Nessuna offerta disponibile",
+  "marketplace.signAndList": "Firma ed elenca",
+  "marketplace.itemInUse": "Articolo in uso",
+  "marketplace.availableCount": "Disponibile: {{count}}",
+  "marketplace.itemSecured": "Articolo protetto",
+  "marketplace.youDontOwn": "Questo articolo non è tuo!",
+  "marketplace.itemSecuredWarning": "Non potrai utilizzare il tuo articolo mentre è in vendita",
+  "marketplace.listedSuccess": "Congratulazioni, hai messo in vendita il tuo {{item}} con successo. Ora sii paziente e aspetta che un Bumpkin lo compri!",
+  "marketplace.itemInUseWarning": "Questo oggetto è attualmente in uso nella tua fattoria. Devi prima rimuoverlo dal petto."
 }

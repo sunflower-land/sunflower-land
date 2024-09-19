@@ -3029,8 +3029,6 @@
   "marketplace.listForSale": "Lista à venda",
   "marketplace.walletRequired": "Carteira necessária",
   "marketplace.listings": "Listagens",
-  "marketplace.noListings": "Não há anúncios disponíveis.",
-  "marketplace.noOffers": "Nenhuma oferta disponível.",
   "marketplace.offers": "Ofertas",
   "marketplace.topOffer": "Oferta principal",
   "marketplace.acceptOffer": "Aceitar oferta",
@@ -3590,5 +3588,17 @@
   "marketplace.collection": "Coleção",
   "marketplace.purpose": "Propósito",
   "marketplace.boost": "Impulsione",
-  "gameOptions.developerOptions": "Opções do desenvolvedor"
+  "gameOptions.developerOptions": "Opções do desenvolvedor",
+  "marketplace.youOwn": "Você possui: {{count}}",
+  "marketplace.listItem": "Lista {{type}}",
+  "marketplace.noListings": "Não há anúncios disponíveis",
+  "marketplace.noOffers": "Nenhuma oferta disponível",
+  "marketplace.signAndList": "Assine e liste",
+  "marketplace.itemInUse": "Item em uso",
+  "marketplace.availableCount": "Disponível: {{count}}",
+  "marketplace.itemSecured": "Item protegido",
+  "marketplace.youDontOwn": "Você não possui este item!",
+  "marketplace.itemSecuredWarning": "Você não poderá usar seu item enquanto ele estiver listado",
+  "marketplace.listedSuccess": "Parabéns, você listou com sucesso seu {{item}} à venda. Agora seja paciente e espere que um caipira o compre!",
+  "marketplace.itemInUseWarning": "Este item está sendo usado atualmente em sua fazenda. Você deve primeiro removê-lo em seu peito."
 }

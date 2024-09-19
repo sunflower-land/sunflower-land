@@ -2271,8 +2271,6 @@
   "marketplace.listForSale": "판매 목록",
   "marketplace.walletRequired": "지갑 필요",
   "marketplace.listings": "표 작성",
-  "marketplace.noListings": "리스팅이 없습니다.",
-  "marketplace.noOffers": "제공되는 혜택이 없습니다.",
   "marketplace.offers": "오퍼",
   "marketplace.topOffer": "탑 오퍼",
   "marketplace.acceptOffer": "제안 수락",
@@ -3590,5 +3588,17 @@
   "listing": "리스팅",
   "deleting.listing": "리스팅 삭제",
   "selling": "판매",
-  "gameOptions.developerOptions": "개발자 옵션"
+  "gameOptions.developerOptions": "개발자 옵션",
+  "marketplace.youOwn": "본인 소유: {{count}}",
+  "marketplace.listItem": "리스트 {{type}}",
+  "marketplace.noListings": "리스팅이 없습니다.",
+  "marketplace.noOffers": "이용 가능한 오퍼 없음",
+  "marketplace.signAndList": "서명 및 목록",
+  "marketplace.itemInUse": "사용 중인 항목",
+  "marketplace.availableCount": "구매 가능: {{count}}",
+  "marketplace.itemSecured": "아이템 확보",
+  "marketplace.youDontOwn": "이 아이템을 소유하고 있지 않습니다!",
+  "marketplace.itemSecuredWarning": "목록에 있는 동안에는 아이템을 사용할 수 없습니다.",
+  "marketplace.listedSuccess": "축하합니다. {{item}} 님의 [0@/$] 매물이 성공적으로 등록되었습니다.이제 인내심을 갖고 범프킨이 구매할 때까지 기다리세요!",
+  "marketplace.itemInUseWarning": "이 품목은 현재 농장에서 사용 중입니다.먼저 가슴에 넣어야 합니다."
 }

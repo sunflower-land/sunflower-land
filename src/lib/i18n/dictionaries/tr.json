@@ -3061,8 +3061,6 @@
   "marketplace.listForSale": "Satılık liste",
   "marketplace.walletRequired": "Cüzdan gerekli",
   "marketplace.listings": "Listeler",
-  "marketplace.noListings": "Mevcut liste yok.",
-  "marketplace.noOffers": "Teklif yok.",
   "marketplace.offers": "Teklifler",
   "marketplace.topOffer": "En iyi teklif",
   "marketplace.acceptOffer": "Teklifi kabul et",
@@ -3590,5 +3588,17 @@
   "marketplace.collection": "Koleksiyon",
   "marketplace.purpose": "Amaç",
   "marketplace.boost": "Yükseltme",
-  "gameOptions.developerOptions": "Geliştirici Seçenekleri"
+  "gameOptions.developerOptions": "Geliştirici Seçenekleri",
+  "marketplace.youOwn": "Sahibiniz: {{count}}",
+  "marketplace.listItem": "Liste {{type}}",
+  "marketplace.noListings": "Mevcut ilan yok",
+  "marketplace.noOffers": "Teklif yok",
+  "marketplace.signAndList": "İmzala ve Liste",
+  "marketplace.itemInUse": "Kullanımdaki öğe",
+  "marketplace.availableCount": "Mevcut: {{count}}",
+  "marketplace.itemSecured": "Öğe güvence altına alındı",
+  "marketplace.youDontOwn": "Bu öğeye sahip değilsin!",
+  "marketplace.itemSecuredWarning": "Öğenizi listede iken kullanamazsınız",
+  "marketplace.listedSuccess": "Tebrikler, {{item}} 'nizi satışa başarıyla listelediniz. Şimdi sabırlı olun ve bir Bumpkin'in satın almasını bekleyin!",
+  "marketplace.itemInUseWarning": "Bu ürün şu anda çiftliğinizde kullanılıyor. Önce göğsünüze çıkarmalısınız."
 }

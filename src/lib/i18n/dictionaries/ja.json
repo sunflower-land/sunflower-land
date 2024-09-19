@@ -2274,8 +2274,6 @@
   "marketplace.listForSale": "販売リスト",
   "marketplace.walletRequired": "ウォレットが必要です",
   "marketplace.listings": "リスト",
-  "marketplace.noListings": "出品情報はありません。",
-  "marketplace.noOffers": "ご利用いただけるオファーはありません。",
   "marketplace.offers": "オファー",
   "marketplace.topOffer": "トップオファー",
   "marketplace.acceptOffer": "オファーを受け入れる",
@@ -3590,5 +3588,17 @@
   "listing": "上場",
   "deleting.listing": "リストを削除する",
   "selling": "売却",
-  "gameOptions.developerOptions": "デベロッパーオプション"
+  "gameOptions.developerOptions": "デベロッパーオプション",
+  "marketplace.youOwn": "あなたが所有している:{{count}}",
+  "marketplace.listItem": "リスト {{type}}",
+  "marketplace.noListings": "出品情報はありません",
+  "marketplace.noOffers": "ご利用いただけるオファーはありません",
+  "marketplace.signAndList": "サイン&リスト",
+  "marketplace.itemInUse": "使用中のアイテム",
+  "marketplace.availableCount": "ご利用可能:{{count}}",
+  "marketplace.itemSecured": "アイテムは保護されました",
+  "marketplace.youDontOwn": "あなたはこのアイテムを所有していません！",
+  "marketplace.itemSecuredWarning": "商品が掲載されている間は使用できません",
+  "marketplace.listedSuccess": "おめでとうございます。{{item}} の販売が完了しました。しばらくお待ちください。バンプキンが購入されるのを待ちましょう。",
+  "marketplace.itemInUseWarning": "このアイテムは現在あなたの農場で使用されています。まずそれを胸の中に取り出さなければなりません。"
 }

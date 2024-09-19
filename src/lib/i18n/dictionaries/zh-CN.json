@@ -2462,8 +2462,6 @@
   "marketplace.listForSale": "待售清单",
   "marketplace.walletRequired": "需要钱包",
   "marketplace.listings": "商品信息",
-  "marketplace.noListings": "没有可用的清单。",
-  "marketplace.noOffers": "没有可用的优惠。",
   "marketplace.offers": "优惠",
   "marketplace.topOffer": "最高报价",
   "marketplace.acceptOffer": "接受报价",
@@ -3590,5 +3588,17 @@
   "marketplace.collection": "藏品",
   "marketplace.purpose": "目的",
   "marketplace.boost": "提升",
-  "gameOptions.developerOptions": "开发者选项"
+  "gameOptions.developerOptions": "开发者选项",
+  "marketplace.youOwn": "你拥有：{{count}}",
+  "marketplace.listItem": "清单 {{type}}",
+  "marketplace.noListings": "没有可用的房源",
+  "marketplace.noOffers": "没有可用的优惠",
+  "marketplace.signAndList": "签名并列出",
+  "marketplace.itemInUse": "正在使用的物品",
+  "marketplace.availableCount": "可用：{{count}}",
+  "marketplace.itemSecured": "物品已安全",
+  "marketplace.youDontOwn": "你不拥有这件商品！",
+  "marketplace.itemSecuredWarning": "您的物品在列出时将无法使用",
+  "marketplace.listedSuccess": "恭喜，您已成功将您的 {{item}} 列为待售商品。现在耐心等待 Bumpkin 买下它！",
+  "marketplace.itemInUseWarning": "此物品目前正在您的农场使用。你必须先把它移到你的胸口。"
 }

@@ -2274,8 +2274,6 @@
   "marketplace.listForSale": "Daftar untuk dijual",
   "marketplace.walletRequired": "Dompet diperlukan",
   "marketplace.listings": "Daftar",
-  "marketplace.noListings": "Tidak ada daftar yang tersedia.",
-  "marketplace.noOffers": "Tidak ada penawaran yang tersedia.",
   "marketplace.offers": "Penawaran",
   "marketplace.topOffer": "Penawaran teratas",
   "marketplace.acceptOffer": "Terima penawaran",
@@ -3590,5 +3588,17 @@
   "listing": "Daftar",
   "deleting.listing": "Menghapus daftar",
   "selling": "Menjual",
-  "gameOptions.developerOptions": "Opsi Pengembang"
+  "gameOptions.developerOptions": "Opsi Pengembang",
+  "marketplace.youOwn": "Anda memiliki: {{count}}",
+  "marketplace.listItem": "Daftar {{type}}",
+  "marketplace.noListings": "Tidak ada daftar yang tersedia",
+  "marketplace.noOffers": "Tidak ada penawaran yang tersedia",
+  "marketplace.signAndList": "Tanda & Daftar",
+  "marketplace.itemInUse": "Barang yang digunakan",
+  "marketplace.availableCount": "Tersedia: {{count}}",
+  "marketplace.itemSecured": "Barang diamankan",
+  "marketplace.youDontOwn": "Anda tidak memiliki item ini!",
+  "marketplace.itemSecuredWarning": "Anda tidak akan dapat menggunakan item Anda saat terdaftar",
+  "marketplace.listedSuccess": "Selamat, Anda telah berhasil mendaftarkan {{item}} Anda untuk dijual. Sekarang bersabarlah dan tunggu Bumpkin membelinya!",
+  "marketplace.itemInUseWarning": "Item ini saat ini sedang digunakan di pertanian Anda. Anda harus terlebih dahulu mengeluarkannya ke dada Anda."
 }
