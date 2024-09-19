@@ -282,7 +282,7 @@ export const TradeableListItem: React.FC<{
       </div>
       {count < 1 ? (
         <>
-          <div className="p-2">{`You don't own this item!`}</div>
+          <div className="p-2">{t("marketplace.youDontOwn")}</div>
           <Button onClick={onClose}>{t("close")}</Button>
         </>
       ) : (

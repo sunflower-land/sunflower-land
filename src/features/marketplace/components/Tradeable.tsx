@@ -5,7 +5,7 @@ import {
 } from "features/game/types/marketplace";
 import React, { useContext, useEffect, useState } from "react";
 import * as Auth from "features/auth/lib/Provider";
-import { useActor } from "@xstate/react";
+import { useActor, useSelector } from "@xstate/react";
 import { useNavigate, useParams } from "react-router-dom";
 import { loadTradeable } from "../actions/loadTradeable";
 import { InnerPanel, Panel } from "components/ui/Panel";
@@ -33,6 +33,7 @@ import { ITEM_NAMES } from "features/game/types/bumpkin";
 import { availableWardrobe } from "features/game/events/landExpansion/equip";
 import { TradeableListItem } from "./TradeableList";
 import { Modal } from "components/ui/Modal";
+import { MachineState } from "features/game/lib/gameMachine";
 
 export const Tradeable: React.FC = () => {
   const { authService } = useContext(Auth.Context);
@@ -301,6 +302,8 @@ const TradeableInfo: React.FC<{
   );
 };
 
+const _isListing = (state: MachineState) => state.matches("effect");
+
 const TradeableListings: React.FC<{
   tradeable?: TradeableDetails;
   display: TradeableDisplay;
@@ -323,11 +326,14 @@ const TradeableListings: React.FC<{
   onListClick,
   onListClose,
 }) => {
+  const { gameService } = useContext(Context);
   const { t } = useAppTranslation();
+
+  const isListing = useSelector(gameService, _isListing);
 
   return (
     <>
-      <Modal show={showListItem} onHide={onListClose}>
+      <Modal show={showListItem} onHide={!isListing ? onListClose : undefined}>
         <Panel>
           <TradeableListItem
             display={display}

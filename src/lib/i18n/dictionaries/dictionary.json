@@ -2304,6 +2304,7 @@
   "marketplace.itemInUse": "Item in use",
   "marketplace.availableCount": "Available: {{count}}",
   "marketplace.itemSecured": "Item secured",
+  "marketplace.youDontOwn": "You do not own this item!",
   "marketplace.itemSecuredWarning": "You will not be able to use your item while it's listed",
   "marketplace.listedSuccess": "Congratulations, you have successfully listed your {{item}} for sale. Now be patient and wait for a Bumpkin to buy it!",
   "marketplace.itemInUseWarning": "This item is currently being used on your farm. You must first remove it into your chest.",
