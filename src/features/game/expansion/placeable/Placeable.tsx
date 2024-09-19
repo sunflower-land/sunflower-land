@@ -221,10 +221,9 @@ export const Placeable: React.FC<Props> = ({ location }) => {
           >
             {showHint && (
               <div
-                className="flex absolute pointer-events-none"
+                className="flex absolute pointer-events-none z-50 bg-[#000000af] p-1 rounded w-max"
                 style={{
                   top: "-35px",
-                  width: "135px",
                 }}
               >
                 <img src={SUNNYSIDE.icons.drag} className="h-6 mr-2" />
