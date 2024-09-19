@@ -1,5 +1,5 @@
 import Decimal from "decimal.js-light";
-import { GameState } from "features/game/types/game";
+import { GameState, InventoryItemName } from "features/game/types/game";
 import { getKeys } from "features/game/types/craftables";
 import { produce } from "immer";
 
@@ -32,8 +32,11 @@ export function cancelTrade({
 
     // Add items
     getKeys(trade.items).forEach((name) => {
-      const previous = game.inventory[name] ?? new Decimal(0);
-      game.inventory[name] = previous.add(trade.items[name] ?? 0);
+      const previous =
+        game.inventory[name as InventoryItemName] ?? new Decimal(0);
+      game.inventory[name as InventoryItemName] = previous.add(
+        trade.items[name] ?? 0,
+      );
     });
 
     // Remove Trade
