@@ -78,6 +78,7 @@ export function startComposter({
       );
     });
 
+    const produce = composterDetails[action.building].produce;
     let produceAmount = composterDetails[action.building].produceAmount;
 
     if (skills["Efficient Bin"] && action.building === "Compost Bin") {
@@ -90,6 +91,10 @@ export function startComposter({
 
     if (skills["Premium Worms"] && action.building === "Premium Composter") {
       produceAmount += 10;
+    }
+
+    if (skills["Composting Overhaul"] && produce === "Sprout Mix") {
+      produceAmount -= 5;
     }
 
     // start the production
