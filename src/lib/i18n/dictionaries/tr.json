@@ -2995,7 +2995,6 @@
   "greenhouse.numberOil": "{{oil}} Petrol",
   "guide.compost.addEggs.confirmation": "Kompost üretim süresini {{time}} azaltmak için {{noEggs}} Yumurta eklemek istediğinizden emin misiniz?",
   "guide.factionPet.one": "Evcil hayvan her hafta 3 yiyecek isteyecektir. Beslendiğinde, yiyeceklerden elde edilen DP, fraksiyonun toplam DP sayısına gidecektir.",
-  "guide.factionPet.two": "Grubunuzun her hafta ulaşmaları gereken bir hedef xp'ye sahip olacak. Eğer grup hedefe ulaşırsa, gelecek haftaki hedef, haftanın toplam XP'sinden %15 daha zor olacak! Hedefe ulaşılmazsa, 1000 x fraksiyon üyesine geri sıfırlanır.",
   "guide.factionPet.three": "Eğer fraksiyon hedefe ulaşamazsa, evcil hayvan 1 hafta boyunca uyuyacaktır.",
   "guide.factionPet.four": "Grup 2 veya daha fazla haftalık bir seriye ulaştığında, katkıda bulunan her fraksiyon üyesine, bumpkinleri yemek yediğinde bir DP bonusu verilecektir! Katkıda bulunan bir üye olmak için, evcil hayvanı önceki hafta boyunca her talepten en az 1 tanesini beslemiş olmanız gerekir.",
   "guide.factionPet.five": "Katkıda bulunan üye: Bir sonraki hafta potansiyel seri artışlara hak kazanmak için, bir oyuncunun her evcil hayvanın isteklerinden birini yerine getirmesi gerekir.",
@@ -3600,5 +3599,6 @@
   "marketplace.youDontOwn": "Bu öğeye sahip değilsin!",
   "marketplace.itemSecuredWarning": "Öğenizi listede iken kullanamazsınız",
   "marketplace.listedSuccess": "Tebrikler, {{item}} 'nizi satışa başarıyla listelediniz. Şimdi sabırlı olun ve bir Bumpkin'in satın almasını bekleyin!",
-  "marketplace.itemInUseWarning": "Bu ürün şu anda çiftliğinizde kullanılıyor. Önce göğsünüze çıkarmalısınız."
+  "marketplace.itemInUseWarning": "Bu ürün şu anda çiftliğinizde kullanılıyor. Önce göğsünüze çıkarmalısınız.",
+  "guide.factionPet.two": "Grubunuzun her hafta ulaşmaları gereken bir hedef xp'ye sahip olacak. Eğer grup hedefe ulaşırsa, gelecek haftanın hedefi önceki haftanın hedefin% 25 daha fazla olacaktır! Hedefe ulaşılmazsa, 1000 x fraksiyon üyesine geri sıfırlanır."
 }

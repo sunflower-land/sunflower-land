@@ -2280,7 +2280,6 @@
   "greenhouse.numberOil": "{{oil}} 石油",
   "guide.compost.addEggs.confirmation": "你确定要添加 {{noEggs}} 个鸡蛋来缩短堆肥生产时间 {{time}} 吗？",
   "guide.factionPet.one": "每周宠物都会要求 3 种食物。喂食后，食物中的经验值将计入该阵营的总经验值。",
-  "guide.factionPet.two": "你的阵营将有每周需要达到的目标经验值。如果派系达到目标，下周的目标将比本周达到的总经验值难 15%！如果未达到目标，它将重置为 1000 x 个派系成员。",
   "guide.factionPet.three": "如果派系未达到目标，则宠物将入睡 1 周。",
   "guide.factionPet.four": "一旦阵营达到 2 周或更长时间的连胜纪录，每位派系成员在 bumpkin 吃东西时都会获得经验值加成！要成为缴费会员，您需要在前一周为每份申请至少喂一只宠物。",
   "guide.factionPet.five": "贡献成员：为了有资格在接下来的一周内获得潜在的连胜提升，玩家需要满足每只宠物的其中一个请求。",
@@ -3600,5 +3599,6 @@
   "marketplace.youDontOwn": "你不拥有这件商品！",
   "marketplace.itemSecuredWarning": "您的物品在列出时将无法使用",
   "marketplace.listedSuccess": "恭喜，您已成功将您的 {{item}} 列为待售商品。现在耐心等待 Bumpkin 买下它！",
-  "marketplace.itemInUseWarning": "此物品目前正在您的农场使用。你必须先把它移到你的胸口。"
+  "marketplace.itemInUseWarning": "此物品目前正在您的农场使用。你必须先把它移到你的胸口。",
+  "guide.factionPet.two": "你的阵营将有每周需要达到的目标经验值。如果派系达到目标，下周的目标将比前一周的目标高出 25%！如果未达到目标，它将重置回 1000 x 阵营成员。"
 }

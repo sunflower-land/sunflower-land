@@ -1982,7 +1982,6 @@
   "guide.compost.useEggs": "Bosan menunggu? Gunakan Telur untuk mempercepat pengeluaran kompos",
   "guide.compost.addEggs.confirmation": "Adakah anda pasti ingin menambah {{noEggs}} Telur untuk mengurangkan masa pengeluaran kompos sebanyak {{time}}?",
   "guide.factionPet.one": "Setiap minggu haiwan peliharaan akan meminta 3 makanan. Apabila diberi makan, XP dari makanan akan pergi ke jumlah XP untuk puak.",
-  "guide.factionPet.two": "Puak anda akan mempunyai matlamat xp yang perlu mereka capai setiap minggu. Sekiranya puak mencapai matlamat, matlamat minggu depan akan menjadi 15% lebih sukar daripada jumlah xp yang dicapai untuk minggu ini! Jika matlamat tidak dicapai, ia akan ditetapkan semula kepada 1000 x ahli puak.",
   "guide.factionPet.three": "Sekiranya puak tidak mencapai matlamat maka haiwan peliharaan akan tidur selama 1 minggu.",
   "guide.factionPet.four": "Setelah puak mencapai serangan 2 atau lebih minggu, bonus XP akan diberikan kepada setiap ahli puak yang menyumbang apabila bumpkin mereka makan! Untuk menjadi ahli penyumbang, anda perlu memberi makan haiwan kesayangan sekurang-kurangnya 1 daripada setiap permintaan pada minggu sebelumnya.",
   "guide.factionPet.five": "Ahli penyumbang: Untuk layak mendapat peningkatan potensi pada minggu berikutnya, pemain perlu memenuhi salah satu permintaan setiap haiwan peliharaan.",
@@ -3600,5 +3599,6 @@
   "marketplace.youDontOwn": "Anda tidak memiliki item ini!",
   "marketplace.itemSecuredWarning": "Anda tidak akan dapat menggunakan item anda semasa ia disenaraikan",
   "marketplace.listedSuccess": "Tahniah, anda telah berjaya menyenaraikan {{item}} anda untuk dijual. Sekarang bersabar dan tunggu Bumpkin untuk membelinya!",
-  "marketplace.itemInUseWarning": "Item ini sedang digunakan di ladang anda. Anda mesti terlebih dahulu mengeluarkannya ke dada anda."
+  "marketplace.itemInUseWarning": "Item ini sedang digunakan di ladang anda. Anda mesti terlebih dahulu mengeluarkannya ke dada anda.",
+  "guide.factionPet.two": "Puak anda akan mempunyai matlamat xp yang perlu mereka capai setiap minggu. Sekiranya puak mencapai matlamat, matlamat minggu depan akan menjadi 25% lebih banyak daripada matlamat minggu sebelumnya! Jika matlamat tidak dicapai, ia akan ditetapkan semula kepada 1000 x ahli puak."
 }

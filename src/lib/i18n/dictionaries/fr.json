@@ -2997,7 +2997,6 @@
   "greenhouse.numberOil": "{{oil}} Pétrole",
   "guide.compost.addEggs.confirmation": "Êtes-vous sûr de vouloir ajouter {{noEggs}} œufs pour réduire le temps de production de compost de {{time}} ?",
   "guide.factionPet.one": "Chaque semaine, l'animal demandera 3 aliments. Une fois nourrie, l'XP de la nourriture sera reportée au total des XP de la faction.",
-  "guide.factionPet.two": "Votre faction aura un objectif d'expérience à atteindre chaque semaine. Si la faction atteint son objectif, l'objectif de la semaine prochaine sera 15 % plus difficile que le total d'expérience atteint cette semaine ! Si l'objectif n'est pas atteint, il sera remis à 1 000 membres de faction.",
   "guide.factionPet.three": "Si la faction n'atteint pas l'objectif, l'animal s'endormira pendant 1 semaine.",
   "guide.factionPet.four": "Une fois que la faction aura atteint une séquence de 2 semaines ou plus, un bonus d'expérience sera accordé à chaque membre de la faction contributrice lorsque son bumpkin mangera ! Pour être membre contributeur, vous devez avoir nourri l'animal au moins une fois pour chaque demande au cours de la semaine précédente.",
   "guide.factionPet.five": "Membre contributeur : pour pouvoir bénéficier d'un bonus de série potentiel la semaine suivante, un joueur doit répondre à une des demandes de chaque animal de compagnie.",
@@ -3600,5 +3599,6 @@
   "marketplace.youDontOwn": "Vous n'êtes pas propriétaire de cet article !",
   "marketplace.itemSecuredWarning": "Vous ne pourrez pas utiliser votre article tant qu'il est mis en vente",
   "marketplace.listedSuccess": "Félicitations, vous avez mis en vente votre {{item}} avec succès. Maintenant, soyez patient et attendez qu'un Bumpkin l'achète !",
-  "marketplace.itemInUseWarning": "Cet article est actuellement utilisé dans votre ferme. Vous devez d'abord le retirer dans votre poitrine."
+  "marketplace.itemInUseWarning": "Cet article est actuellement utilisé dans votre ferme. Vous devez d'abord le retirer dans votre poitrine.",
+  "guide.factionPet.two": "Votre faction aura un objectif d'expérience à atteindre chaque semaine. Si la faction atteint l'objectif, l'objectif de la semaine prochaine sera supérieur de 25 % à l'objectif de la semaine précédente ! Si l'objectif n'est pas atteint, il sera remis à 1 000 membres de faction."
 }

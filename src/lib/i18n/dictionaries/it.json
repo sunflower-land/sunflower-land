@@ -1963,7 +1963,6 @@
   "guide.compost.useEggs": "Stanco di aspettare? Usa le uova per accelerare la produzione di compost",
   "guide.compost.addEggs.confirmation": "Sei sicuro di voler aggiungere {{noEggs}} uova per ridurre i tempi di produzione del compost di {{time}}?",
   "guide.factionPet.one": "Ogni settimana l'animale richiederà 3 alimenti. Una volta nutriti, gli XP contenuti nel cibo andranno a sommarsi al totale degli XP della fazione.",
-  "guide.factionPet.two": "La tua fazione avrà un obiettivo di XP da raggiungere ogni settimana. Se la fazione raggiunge l'obiettivo, quello della settimana successiva sarà del 15% più duro dell'esperienza totale ottenuta per la settimana! Se l'obiettivo non viene raggiunto, verrà ripristinato a 1000 x membri della fazione.",
   "guide.factionPet.three": "Se la fazione non raggiunge l'obiettivo, l'animale dormirà per 1 settimana.",
   "guide.factionPet.four": "Una volta che la fazione avrà raggiunto una serie di 2 o più settimane, verrà assegnato un bonus di XP a ogni membro della fazione che contribuisce quando il suo pappagallo mangia! Per diventare un membro contributore, dovrai aver dato da mangiare all'animale domestico almeno una volta per ogni richiesta effettuata la settimana precedente.",
   "guide.factionPet.five": "Membro contributore: per avere diritto a potenziali incrementi di serie nella settimana successiva, un giocatore deve soddisfare una delle richieste di ogni animale domestico.",
@@ -3600,5 +3599,6 @@
   "marketplace.youDontOwn": "Questo articolo non è tuo!",
   "marketplace.itemSecuredWarning": "Non potrai utilizzare il tuo articolo mentre è in vendita",
   "marketplace.listedSuccess": "Congratulazioni, hai messo in vendita il tuo {{item}} con successo. Ora sii paziente e aspetta che un Bumpkin lo compri!",
-  "marketplace.itemInUseWarning": "Questo oggetto è attualmente in uso nella tua fattoria. Devi prima rimuoverlo dal petto."
+  "marketplace.itemInUseWarning": "Questo oggetto è attualmente in uso nella tua fattoria. Devi prima rimuoverlo dal petto.",
+  "guide.factionPet.two": "La tua fazione avrà un obiettivo di XP da raggiungere ogni settimana. Se la fazione raggiunge l'obiettivo, l'obiettivo della settimana successiva sarà del 25% in più rispetto all'obiettivo della settimana precedente! Se l'obiettivo non viene raggiunto, verrà ripristinato a 1000 x membri della fazione."
 }

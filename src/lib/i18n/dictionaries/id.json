@@ -1982,7 +1982,6 @@
   "guide.compost.useEggs": "Bosan menunggu? Gunakan Telur untuk mempercepat produksi kompos",
   "guide.compost.addEggs.confirmation": "Apakah Anda yakin ingin menambahkan {{noEggs}} Telur untuk mengurangi waktu produksi kompos sebesar {{time}}?",
   "guide.factionPet.one": "Setiap minggu hewan peliharaan akan meminta 3 makanan. Saat diberi makan, XP dari makanan akan masuk ke penghitungan XP total untuk faksi.",
-  "guide.factionPet.two": "Fraksi Anda akan memiliki target xp yang perlu mereka capai setiap minggu. Jika faksi mencapai tujuan, tujuan minggu depan akan 15% lebih sulit daripada total xp yang dicapai untuk minggu ini! Jika tujuan tidak tercapai, itu akan diatur ulang kembali ke 1000 x anggota faksi.",
   "guide.factionPet.three": "Jika faksi tidak mencapai tujuan maka hewan peliharaan akan tidur selama 1 minggu.",
   "guide.factionPet.four": "Setelah faksi mencapai beruntun 2 minggu atau lebih, bonus XP akan diberikan kepada setiap anggota faksi yang berkontribusi ketika bumpkin mereka makan! Untuk menjadi anggota yang berkontribusi, Anda harus memberi makan hewan peliharaan setidaknya 1 dari setiap permintaan selama seminggu sebelumnya.",
   "guide.factionPet.five": "Anggota yang berkontribusi: Agar memenuhi syarat untuk potensi peningkatan beruntun di minggu berikutnya, pemain harus memenuhi salah satu permintaan setiap hewan peliharaan.",
@@ -3600,5 +3599,6 @@
   "marketplace.youDontOwn": "Anda tidak memiliki item ini!",
   "marketplace.itemSecuredWarning": "Anda tidak akan dapat menggunakan item Anda saat terdaftar",
   "marketplace.listedSuccess": "Selamat, Anda telah berhasil mendaftarkan {{item}} Anda untuk dijual. Sekarang bersabarlah dan tunggu Bumpkin membelinya!",
-  "marketplace.itemInUseWarning": "Item ini saat ini sedang digunakan di pertanian Anda. Anda harus terlebih dahulu mengeluarkannya ke dada Anda."
+  "marketplace.itemInUseWarning": "Item ini saat ini sedang digunakan di pertanian Anda. Anda harus terlebih dahulu mengeluarkannya ke dada Anda.",
+  "guide.factionPet.two": "Fraksi Anda akan memiliki target xp yang perlu mereka capai setiap minggu. Jika faksi mencapai tujuan, gol minggu depan akan menjadi 25% lebih banyak dari tujuan minggu sebelumnya! Jika tujuan tidak tercapai, itu akan diatur ulang kembali ke 1000 x anggota faksi."
 }

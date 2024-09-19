@@ -2963,7 +2963,6 @@
   "greenhouse.numberOil": "{{oil}} Óleo",
   "guide.compost.addEggs.confirmation": "Tem certeza de que deseja adicionar {{noEggs}} ovos para reduzir o tempo de produção de composto em {{time}}?",
   "guide.factionPet.one": "A cada semana, o animal solicitará 3 alimentos. Quando alimentada, a EXP da comida vai para a contagem total de XP da facção.",
-  "guide.factionPet.two": "Sua facção terá uma meta de XP que eles precisam atingir a cada semana. Se a facção atingir a meta, a meta da próxima semana será 15% mais difícil do que o total de XP alcançado na semana! Se a meta não for alcançada, ela será redefinida para 1000 x membros da facção.",
   "guide.factionPet.three": "Se a facção não atingir a meta, o animal dormirá por 1 semana.",
   "guide.factionPet.four": "Quando a facção atingir uma sequência de 2 ou mais semanas, um bônus de EXP será concedido a cada membro contribuinte da facção quando seu caipira comer! Para ser um membro colaborador, você precisará ter alimentado o animal de estimação com pelo menos 1 de cada solicitação durante a semana anterior.",
   "guide.factionPet.five": "Membro colaborador: Para se qualificar para possíveis aumentos de sequência na semana seguinte, o jogador precisa atender a uma das solicitações de cada animal de estimação.",
@@ -3600,5 +3599,6 @@
   "marketplace.youDontOwn": "Você não possui este item!",
   "marketplace.itemSecuredWarning": "Você não poderá usar seu item enquanto ele estiver listado",
   "marketplace.listedSuccess": "Parabéns, você listou com sucesso seu {{item}} à venda. Agora seja paciente e espere que um caipira o compre!",
-  "marketplace.itemInUseWarning": "Este item está sendo usado atualmente em sua fazenda. Você deve primeiro removê-lo em seu peito."
+  "marketplace.itemInUseWarning": "Este item está sendo usado atualmente em sua fazenda. Você deve primeiro removê-lo em seu peito.",
+  "guide.factionPet.two": "Sua facção terá uma meta de XP que eles precisam atingir a cada semana. Se a facção atingir a meta, a meta da próxima semana será 25% maior do que a meta da semana anterior! Se a meta não for alcançada, ela será redefinida para 1000 x membros da facção."
 }

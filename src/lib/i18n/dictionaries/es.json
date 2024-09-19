@@ -1964,7 +1964,6 @@
   "guide.compost.useEggs": "¿Cansado de esperar? Usa huevos para acelerar la producción de abono",
   "guide.compost.addEggs.confirmation": "¿Estás seguro de que quieres agregar {{noEggs}} huevos para reducir el tiempo de producción de abono en {{time}}?",
   "guide.factionPet.one": "Cada semana la mascota solicitará 3 alimentos. Cuando se le dé de comer, la XP obtenida con la comida se sumará a la cantidad total de XP de la facción.",
-  "guide.factionPet.two": "Tu facción tendrá un objetivo de XP que deberá alcanzar cada semana. Si la facción alcanza el objetivo, el objetivo de la semana siguiente será un 15% más difícil que el total de puntos de experiencia conseguidos durante la semana! Si no se alcanza el objetivo, se restablecerá a 1000 miembros de la facción.",
   "guide.factionPet.three": "Si la facción no alcanza la meta, la mascota dormirá durante 1 semana.",
   "guide.factionPet.four": "Cuando la facción alcance una racha de 2 o más semanas, se otorgará una bonificación de XP a cada miembro de la facción que contribuya cuando su conejita se coma! Para ser miembro contribuyente, tendréis que haber dado de comer a la mascota al menos una vez por cada solicitud que hayáis hecho durante la semana anterior.",
   "guide.factionPet.five": "Miembro colaborador: Para poder recibir posibles mejoras de racha en la semana siguiente, el jugador debe cumplir con una de las solicitudes de cada mascota.",
@@ -3600,5 +3599,6 @@
   "marketplace.youDontOwn": "¡No eres dueño de este artículo!",
   "marketplace.itemSecuredWarning": "No podrás usar tu artículo mientras esté en venta",
   "marketplace.listedSuccess": "Enhorabuena, has puesto a la venta correctamente tu {{item}}. ¡Ahora ten paciencia y espera a que un Bumpkin lo compre!",
-  "marketplace.itemInUseWarning": "Este artículo se está utilizando actualmente en tu granja. Primero debes retirarlo y colocarlo en tu pecho."
+  "marketplace.itemInUseWarning": "Este artículo se está utilizando actualmente en tu granja. Primero debes retirarlo y colocarlo en tu pecho.",
+  "guide.factionPet.two": "Tu facción tendrá un objetivo de XP que deberá alcanzar cada semana. Si la facción alcanza la meta, ¡la meta de la semana siguiente será un 25% más alta que la de la semana anterior! Si no se alcanza el objetivo, se restablecerá a 1000 miembros de la facción."
 }
