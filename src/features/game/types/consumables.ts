@@ -1135,17 +1135,17 @@ export const FISH: Record<FishName, Consumable> = {
 export const FACTION_FOOD: Record<FactionShopFoodName, Consumable> = {
   Caponata: {
     name: "Caponata",
-    description: "A traditional Brazilian snack",
+    description: translate("description.factionShop.caponata.two"),
     experience: 6000,
   },
   "Glazed Carrots": {
     name: "Glazed Carrots",
-    description: "A traditional Brazilian dish",
+    description: translate("description.factionShop.glazedCarrots.two"),
     experience: 3000,
   },
   Paella: {
     name: "Paella",
-    description: "A traditional Spanish dish",
+    description: translate("description.factionShop.paella.two"),
     experience: 10000,
   },
 };
