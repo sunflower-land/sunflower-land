@@ -2253,7 +2253,7 @@
   "sflDiscord": "Sunflower Land Discord 服务器",
   "in.progress": "进行中",
   "compost.complete": "堆肥完成",
-  "aoe.locked": "AOE 已锁定",
+  "aoe.locked": "AOE 已锁定", // stop stamp
   "sunflowerLandCodex": "Sunflower Land 宝典",
   "visiting.farmId": "正在参观 #{{farmId}}",
   "pirate.chest": "海盗宝箱",
