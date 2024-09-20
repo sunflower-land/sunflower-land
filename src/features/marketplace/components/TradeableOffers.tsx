@@ -449,6 +449,8 @@ export const TradeableOffers: React.FC<{
   id: number;
   onOfferMade: () => void;
 }> = ({ tradeable, farmId, display, id, onOfferMade }) => {
+  const { gameService } = useContext(Context);
+
   const { t } = useAppTranslation();
 
   const [showMakeOffer, setShowMakeOffer] = useState(false);
@@ -542,7 +544,7 @@ export const TradeableOffers: React.FC<{
               />
             )}
           </div>
-          <div className="w-full justify-end hidden sm:flex sm:visible">
+          <div className="w-full justify-end flex">
             <Button
               className="w-full sm:w-fit"
               onClick={() => setShowMakeOffer(true)}
@@ -551,12 +553,6 @@ export const TradeableOffers: React.FC<{
             </Button>
           </div>
         </div>
-        <Button
-          className="w-full sm:hidden"
-          onClick={() => setShowMakeOffer(true)}
-        >
-          {t("marketplace.makeOffer")}
-        </Button>
       </InnerPanel>
     </>
   );
