@@ -122,8 +122,8 @@ export const MAX_ITEMS: Inventory = {
   Iron: new Decimal("800"),
   Stone: new Decimal("1600"),
   Wood: new Decimal("8000"),
-  "Wild Mushroom": new Decimal("100"),
-  "Magic Mushroom": new Decimal("100"),
+  "Wild Mushroom": new Decimal("75"),
+  "Magic Mushroom": new Decimal("75"),
   Honey: new Decimal("350"),
   Oil: new Decimal("1500"),
 
