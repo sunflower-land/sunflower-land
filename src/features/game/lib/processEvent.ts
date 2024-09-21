@@ -149,7 +149,7 @@ export const MAX_ITEMS: Inventory = {
   "Oil Drill": new Decimal("50"),
   "Rusty Shovel": new Decimal("100"),
   "Sand Shovel": new Decimal(300),
-  "Sand Drill": new Decimal(30),
+  "Sand Drill": new Decimal(60),
   Rod: new Decimal("200"),
 
   //Treasure Island Decorations
