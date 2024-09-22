@@ -87,7 +87,7 @@ import { setCachedMarketPrices } from "features/world/ui/market/lib/marketCache"
 import { MinigameName } from "../types/minigames";
 import { OFFLINE_FARM } from "./landData";
 import { isValidRedirect } from "features/portal/lib/portalUtil";
-import { Effect, postEffect } from "../actions/effect";
+import { postEffect } from "../actions/effect";
 import { TRANSACTION_SIGNATURES, TransactionName } from "../types/transactions";
 import { getKeys } from "../types/decorations";
 
@@ -246,7 +246,7 @@ export type UpdateUsernameEvent = {
 
 type PostEffectEvent = {
   type: "POST_EFFECT";
-  effect: Effect;
+  effect: any;
 };
 
 type TransactEvent = {

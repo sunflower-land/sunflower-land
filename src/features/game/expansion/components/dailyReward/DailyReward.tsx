@@ -7,7 +7,7 @@ import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { Revealing } from "features/game/components/Revealing";
+import { ChestRevealing } from "features/world/ui/chests/ChestRevealing";
 import { Revealed } from "features/game/components/Revealed";
 import { rewardChestMachine } from "./rewardChestMachine";
 import { Button } from "components/ui/Button";
@@ -211,7 +211,7 @@ export const DailyReward: React.FC = () => {
     if (chestState.matches("opening")) {
       return (
         <Panel>
-          <Revealing icon={SUNNYSIDE.icons.treasure} />
+          <ChestRevealing type="Daily Reward" />
         </Panel>
       );
     }

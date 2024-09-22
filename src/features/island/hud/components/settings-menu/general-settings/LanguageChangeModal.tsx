@@ -40,23 +40,21 @@ export const LanguageSwitcher: React.FC = () => {
   };
 
   const getFontSizeClass = (languageCode: LanguageCode): string => {
-    if (languageCode === language) {
-      return "";
+    switch (languageCode) {
+      case "ko":
+      case "zh-CN":
+        return "!text-[20px]";
+      case "ru":
+        return fontType === "Bold" ? "!text-[26px]" : "";
+      default:
+        return "";
     }
-    if (languageCode === "zh-CN") {
-      return "!text-[18px]";
-    }
-    if (languageCode === "ru" && fontType === "Bold") {
-      return "!text-[26px]";
-    }
-
-    return "";
   };
 
   const languageArray = getKeys(languageDetails);
   return (
     <>
-      <div className="p-1 space-y-2">
+      <div className="p-1 space-y-2 max-h-[400px] overflow-y-auto scrollable">
         {languageArray.map((languageCode) => (
           <Button
             key={languageCode}

@@ -917,7 +917,7 @@ export type Minigame = {
 };
 
 export type TradeListing = {
-  items: Partial<Record<InventoryItemName, number>>;
+  items: Partial<Record<MarketplaceTradeableName, number>>;
   sfl: number;
   createdAt: number;
   boughtAt?: number;
