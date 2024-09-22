@@ -73,7 +73,6 @@ const AchievementToastProvider: React.FC = ({ children }) => {
                       width={16}
                     />
                     <div className="flex flex-col gap-1 w-full">
-                      <div>{t("halloween.achievementUnlocked")}</div>
                       <div className="text-xs">{achievement.title}</div>
                     </div>
                     <img

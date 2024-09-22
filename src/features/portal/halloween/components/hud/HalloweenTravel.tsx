@@ -11,7 +11,7 @@ import { PortalMachineState } from "../../lib/HalloweenMachine";
 import { useSound } from "lib/utils/hooks/useSound";
 import classNames from "classnames";
 import { isTouchDevice } from "features/world/lib/device";
-import { FRUIT_DASH_NPC_WEREABLES } from "../../util/HalloweenConstants";
+import { FRUIT_DASH_NPC_WEREABLES } from "../../HalloweenConstants";
 
 const _isPlaying = (state: PortalMachineState) => state.matches("playing");
 const _isJoystickActive = (state: PortalMachineState) =>

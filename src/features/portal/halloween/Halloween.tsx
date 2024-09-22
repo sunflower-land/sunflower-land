@@ -17,6 +17,8 @@ import { PortalMachineState } from "./lib/halloweenMachine";
 import { Loading } from "features/auth/components";
 import { CONFIG } from "lib/config";
 
+import AchievementToastProvider from "./providers/AchievementToastProvider";
+
 const _gameState = (state: PortalMachineState) => state.context.state;
 
 /**
@@ -75,10 +77,10 @@ export const Halloween: React.FC = () => {
   return (
     <div>
       {gameState && (
-        <>
+        <AchievementToastProvider>
           <HalloweenHud />
           <HalloweenPhaser />
-        </>
+        </AchievementToastProvider>
       )}
     </div>
   );
