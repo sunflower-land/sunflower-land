@@ -256,19 +256,21 @@ const MyCollection: React.FC = () => {
 
   const inventory = getChestItems(gameState.context.state);
   getKeys(inventory).forEach((name) => {
-    if (name in TRADE_LIMITS) {
-      items.push({
-        id: KNOWN_IDS[name],
-        collection: "resources",
-        count: inventory[name]?.toNumber() ?? 0,
-      });
-    }
-
-    if (!(name in TRADE_LIMITS) && WITHDRAWABLES[name]()) {
+    if (WITHDRAWABLES[name]()) {
       items.push({
         id: KNOWN_IDS[name],
         collection: "collectibles",
         count: inventory[name]?.toNumber() ?? 0,
+      });
+    }
+  });
+
+  getKeys(gameState.context.state.inventory).forEach((name) => {
+    if (name in TRADE_LIMITS) {
+      items.push({
+        id: KNOWN_IDS[name],
+        collection: "resources",
+        count: gameState.context.state.inventory[name]?.toNumber() ?? 0,
       });
     }
   });

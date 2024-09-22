@@ -42,6 +42,8 @@ import { ITEM_NAMES } from "features/game/types/bumpkin";
 import { availableWardrobe } from "features/game/events/landExpansion/equip";
 import { CONFIG } from "lib/config";
 import { Transaction } from "features/island/hud/Transaction";
+import { InventoryItemName } from "features/game/types/game";
+import { TRADE_MINIMUMS } from "features/game/actions/tradeLimits";
 
 // TODO - move make offer here, signing state + submitting state
 export const TradeableSummary: React.FC<{
@@ -84,9 +86,12 @@ const MakeOffer: React.FC<{
 
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
-  const { balance } = gameState.context.state;
+  const { balance, inventory } = gameState.context.state;
 
   const [offer, setOffer] = useState(0);
+  const [quantity, setQuantity] = useState(
+    TRADE_MINIMUMS[display.name as InventoryItemName] ?? 1,
+  );
   const [isSigning, setIsSigning] = useState(false);
   const [isOffering, setIsOffering] = useState(false);
   const [showConfirmation, setShowConfirmation] = useState(false);
@@ -120,7 +125,7 @@ const MakeOffer: React.FC<{
         item: display.name,
         collection: display.type,
         id: BigInt(id),
-        quantity: BigInt(1),
+        quantity: BigInt(quantity),
         SFL: BigInt(offer),
       },
     });
@@ -158,6 +163,7 @@ const MakeOffer: React.FC<{
           signature,
           contract: CONFIG.MARKETPLACE_CONTRACT,
           sfl: offer,
+          quantity,
         },
       });
 
@@ -269,6 +275,23 @@ const MakeOffer: React.FC<{
             icon={sflIcon}
           />
         </div>
+
+        {display.type === "resources" && (
+          <>
+            <p className="text-sm">{t("marketplace.quantity")}</p>
+            <div className="my-2 -mx-2">
+              <NumberInput
+                value={quantity}
+                onValueChange={(decimal) => setQuantity(decimal.toNumber())}
+                maxDecimalPlaces={2}
+                isOutOfRange={inventory[display.name as InventoryItemName]?.lt(
+                  offer,
+                )}
+                icon={SUNNYSIDE.icons.basket}
+              />
+            </div>
+          </>
+        )}
 
         <Label type="default" className="-ml-1 mb-1" icon={lockIcon}>
           {t("marketplace.sflLocked")}

@@ -119,6 +119,11 @@ const COLLECTION_FILTERS: {
     term: "buds",
     icon: budIcon,
   },
+  {
+    name: "resources",
+    term: "resources",
+    icon: ITEM_DETAILS.Carrot.image,
+  },
 ];
 
 const PURPOSE_FILTERS: {
