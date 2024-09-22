@@ -7,7 +7,6 @@ import shadow from "assets/npcs/shadow16px.png";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
-import { Revealing } from "features/game/components/Revealing";
 import { Revealed } from "features/game/components/Revealed";
 import { Panel } from "components/ui/Panel";
 import { Modal } from "components/ui/Modal";
@@ -16,6 +15,7 @@ import classNames from "classnames";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 import { canShake } from "features/game/types/removeables";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { ChestRevealing } from "features/world/ui/chests/ChestRevealing";
 
 interface Props {
   id: string;
@@ -119,7 +119,7 @@ export const ManekiNeko: React.FC<Props> = ({ id }) => {
       {gameState.matches("revealing") && isRevealing && (
         <Modal show>
           <Panel>
-            <Revealing icon={manekiNekoShaking} />
+            <ChestRevealing type="Maneki Neko" />
           </Panel>
         </Modal>
       )}

@@ -36,7 +36,7 @@ import { InstallAppModal } from "./general-settings/InstallAppModal";
 import { LanguageSwitcher } from "./general-settings/LanguageChangeModal";
 import { Share } from "./general-settings/Share";
 import { PlazaSettings } from "./plaza-settings/PlazaSettingsModal";
-import { AmoyTestnetActions } from "./amoy-actions/AmoyTestnetActions";
+import { DeveloperOptions } from "./developer-options/DeveloperOptions";
 import { Discord } from "./general-settings/DiscordModal";
 import { DepositWrapper } from "features/goblins/bank/components/Deposit";
 import { useSound } from "lib/utils/hooks/useSound";
@@ -45,7 +45,7 @@ import { FontSettings } from "./general-settings/FontSettings";
 import { ConfirmationModal } from "components/ui/ConfirmationModal";
 import ticket from "assets/icons/ticket.png";
 import lockIcon from "assets/icons/lock.png";
-import { DEV_HoarderCheck } from "./amoy-actions/DEV_HoardingCheck";
+import { DEV_HoarderCheck } from "./developer-options/DEV_HoardingCheck";
 import { WalletAddressLabel } from "components/ui/WalletAddressLabel";
 import { PickServer } from "./plaza-settings/PickServer";
 
@@ -163,9 +163,10 @@ const GameOptions: React.FC<ContentComponentProps> = ({
           <img src={lockIcon} className="absolute right-1 top-0.5 h-7" />
         )}
       </Button>
-      {CONFIG.NETWORK === "amoy" && (
+      {(CONFIG.NETWORK === "amoy" ||
+        !!gameService.state?.context?.state.wardrobe.Halo) && (
         <Button className="p-1 mb-1" onClick={() => onSubMenuClick("amoy")}>
-          <span>{t("gameOptions.amoyActions")}</span>
+          <span>{t("gameOptions.developerOptions")}</span>
         </Button>
       )}
       <Button className="p-1 mb-1" onClick={() => onSubMenuClick("blockchain")}>
@@ -285,9 +286,9 @@ export const settingMenus: Record<SettingMenuId, SettingMenu> = {
     content: InstallAppModal,
   },
   amoy: {
-    title: translate("gameOptions.amoyActions"),
+    title: translate("gameOptions.developerOptions"),
     parent: "main",
-    content: AmoyTestnetActions,
+    content: DeveloperOptions,
   },
   blockchain: {
     title: translate("gameOptions.blockchainSettings"),

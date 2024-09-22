@@ -800,8 +800,8 @@ const goblinPirate: Record<GoblinPirateItemName, () => boolean> = {
   Karkinos: () => true,
   "Emerald Turtle": () => true,
   "Tin Turtle": () => true, // Mint ended
-  "Golden Bear Head": () => false,
-  "Parasaur Skull": () => false,
+  "Golden Bear Head": () => true, // Mint ended
+  "Parasaur Skull": () => true, // Mint ended
 };
 
 const treasureDecoration: Record<DecorationTreasure, () => boolean> = {
@@ -857,7 +857,7 @@ const eventDecoration: Record<EventDecorationName, () => boolean> = {
   "Dawn Flower": () => true,
   "Sapo Docuras": () => true,
   "Sapo Travessuras": () => true,
-  "Time Warp Totem": () => true,
+  "Time Warp Totem": () => false,
 
   "Bumpkin Nutcracker": () => true,
   "Festive Tree": () => false,
@@ -1306,8 +1306,8 @@ export const BUMPKIN_WITHDRAWABLES: Record<
   "Mushroom Lamp": () => false, // Not Launched
   "Mushroom Lights Background": () => false, // Not Launched
   "Mushroom Pants": () => false, // Not Launched
-  "Mushroom Shield": () => false, // Not Launched
-  "Mushroom Shoes": () => false, // Not Launched
+  "Mushroom Shield": () => true,
+  "Mushroom Shoes": () => true,
   "Mushroom Sweater": () => true,
   "Rash Vest": () => false, // Not Launched
   "Squid Hat": () => true,
@@ -1460,7 +1460,7 @@ export const BUMPKIN_WITHDRAWABLES: Record<
   "Beekeeper Hat": (state) =>
     canWithdrawBoostedWearable("Beekeeper Hat", state),
   "Beekeeper Suit": () => true,
-  "Crimstone Boots": () => false,
+  "Crimstone Boots": () => true,
   "Crimstone Pants": () => true,
   "Crimstone Armor": (state) =>
     canWithdrawBoostedWearable("Crimstone Armor", state),

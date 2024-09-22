@@ -379,7 +379,7 @@ const TradeDetails: React.FC<{
               <div className="flex flex-wrap">
                 {getKeys(trade.items).map((name) => (
                   <Box
-                    image={ITEM_DETAILS[name].image}
+                    image={ITEM_DETAILS[name as InventoryItemName].image}
                     count={new Decimal(trade.items[name] ?? 0)}
                     disabled
                     key={name}
@@ -415,7 +415,7 @@ const TradeDetails: React.FC<{
           <div className="flex flex-wrap">
             {getKeys(trade.items).map((name) => (
               <Box
-                image={ITEM_DETAILS[name].image}
+                image={ITEM_DETAILS[name as InventoryItemName].image}
                 count={new Decimal(trade.items[name] ?? 0)}
                 disabled
                 key={name}
@@ -531,7 +531,7 @@ export const Trade: React.FC<{
               : `${t("remaining.free.listings", {
                   listingsRemaining: hasListingsRemaining
                     ? remainingListings
-                    : "No",
+                    : t("no"),
                 })}`}
           </Label>
         </div>
@@ -574,7 +574,7 @@ export const Trade: React.FC<{
             : `${t("remaining.free.listings", {
                 listingsRemaining: hasListingsRemaining
                   ? remainingListings
-                  : "No",
+                  : t("no"),
               })}`}
         </Label>
       </div>

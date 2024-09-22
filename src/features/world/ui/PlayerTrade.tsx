@@ -2,7 +2,7 @@ import { Box } from "components/ui/Box";
 import Decimal from "decimal.js-light";
 import { loadGameStateForVisit } from "features/game/actions/loadGameStateForVisit";
 import { getKeys } from "features/game/types/craftables";
-import { TradeListing } from "features/game/types/game";
+import { InventoryItemName, TradeListing } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import React, { useContext, useEffect, useState } from "react";
 import { Context } from "features/game/GameProvider";
@@ -105,7 +105,7 @@ export const PlayerTrade: React.FC<Props> = ({ farmId, onClose }) => {
     const updatedInventory = getKeys(listings[listingId].items).reduce(
       (acc, name) => ({
         ...acc,
-        [name]: (inventory[name] ?? new Decimal(0)).add(
+        [name]: (inventory[name as InventoryItemName] ?? new Decimal(0)).add(
           listings[listingId].items[name] ?? 0,
         ),
       }),
@@ -208,7 +208,7 @@ export const PlayerTrade: React.FC<Props> = ({ farmId, onClose }) => {
                 <div className="flex flex-wrap">
                   {getKeys(listings[listingId].items).map((name) => (
                     <Box
-                      image={ITEM_DETAILS[name].image}
+                      image={ITEM_DETAILS[name as InventoryItemName].image}
                       count={new Decimal(listings[listingId].items[name] ?? 0)}
                       disabled
                       key={name}
