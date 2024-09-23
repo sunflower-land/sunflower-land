@@ -6,9 +6,15 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { Button } from "components/ui/Button";
 import { redirectOAuth } from "../actions/oauth";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { Context } from "features/game/GameProvider";
+import { useActor } from "@xstate/react";
 
 export const NotOnDiscordServer: React.FC = () => {
   const { authService } = useContext(AuthProvider.Context);
+
+  const { gameService } = useContext(Context);
+  const [gameState] = useActor(gameService);
+
   const { t } = useAppTranslation();
   return (
     <div className="flex flex-col text-center  items-center p-1">
@@ -45,7 +51,7 @@ export const NotOnDiscordServer: React.FC = () => {
           onClick={() => {
             // Remove query parameters from url
             window.history.pushState({}, "", window.location.pathname);
-            authService.send("RETURN");
+            gameService.send("REFRESH");
           }}
           className="mr-1"
         >
@@ -53,7 +59,7 @@ export const NotOnDiscordServer: React.FC = () => {
         </Button>
         <Button
           onClick={() => {
-            redirectOAuth();
+            redirectOAuth({ nonce: gameState.context.oauthNonce });
           }}
         >
           {t("try.again")}

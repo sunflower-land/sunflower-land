@@ -27,13 +27,7 @@ import marketplaceIcon from "assets/icons/shop_disc.png";
 import { hasFeatureAccess } from "lib/flags";
 import { useNavigate } from "react-router-dom";
 import { TransactionCountdown } from "./Transaction";
-import { Modal } from "components/ui/Modal";
-import { Button } from "components/ui/Button";
-import { Panel } from "components/ui/Panel";
-import { CONFIG } from "lib/config";
 import * as AuthProvider from "features/auth/lib/Provider";
-import { randomID } from "lib/utils/random";
-import { ERRORS } from "lib/errors";
 
 const _farmAddress = (state: MachineState) => state.context.farmAddress;
 const _showMarketplace = (state: MachineState) =>
@@ -184,24 +178,6 @@ const HudComponent: React.FC<{
           <SpecialEventCountdown />
           <SeasonBannerCountdown />
         </div>
-
-        {/* <Modal show>
-          <Panel>
-            <Button
-              onClick={async () => {
-                const redirect = encodeURIComponent(
-                  CONFIG.DISCORD_REDIRECT as string,
-                );
-                const appKey = "RWi72tQ1oz8i"; // TODO .env?
-                const url = `https://id.fsl.com/api/account/oauth/authorize?response_type=code&appkey=${appKey}&redirect_uri=${redirect}&scope=basic%20wallet`;
-
-                window.location.href = url;
-              }}
-            >
-              Link SFL
-            </Button>
-          </Panel>
-        </Modal> */}
         <div
           className="absolute z-50 flex flex-col justify-between"
           style={{

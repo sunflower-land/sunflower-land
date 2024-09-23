@@ -1,6 +1,5 @@
 import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
-import { getToken } from "./social";
 import { makeGame } from "features/game/lib/transforms";
 import { GameState } from "features/game/types/game";
 
@@ -61,13 +60,18 @@ export async function oauthorise({
   return { game, fslId, discordId };
 }
 
-export function redirectOAuth() {
+export function redirectOAuth({ nonce }: { nonce: string }) {
   // const applicationID = "946044940008435803";
   const applicationID = "1287592468124012634";
 
-  const redirect = encodeURIComponent("http://localhost:3000/#/oauth/discord");
+  // const redirect = encodeURIComponent("http://localhost:3000/#/oauth/discord");
+  const redirect = encodeURIComponent(
+    "https://api-hannigan.sunflower-land.com/oauth/discord",
+  );
+
+  const state = nonce;
 
   // Guild = server
   const scope = "guilds.members.read";
-  window.location.href = `https://discord.com/api/oauth2/authorize?response_type=code&client_id=${applicationID}&scope=${scope}&redirect_uri=${redirect}&prompt=consent`;
+  window.location.href = `https://discord.com/api/oauth2/authorize?response_type=code&client_id=${applicationID}&scope=${scope}&redirect_uri=${redirect}&prompt=consent&state=${state}`;
 }

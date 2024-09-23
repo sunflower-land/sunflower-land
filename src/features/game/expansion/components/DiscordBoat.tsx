@@ -47,7 +47,7 @@ export const DiscordBonus: React.FC<{ onClose: () => void }> = ({
   >(initialState());
 
   const oauth = () => {
-    redirectOAuth();
+    redirectOAuth({ nonce: gameState.context.oauthNonce });
   };
 
   const acknowledge = () => {

@@ -90,21 +90,20 @@ import { isValidRedirect } from "features/portal/lib/portalUtil";
 import { postEffect } from "../actions/effect";
 import { TRANSACTION_SIGNATURES, TransactionName } from "../types/transactions";
 import { getKeys } from "../types/decorations";
-import { oauthorise } from "features/auth/actions/oauth";
 
 // Run at startup in case removed from query params
 const portalName = new URLSearchParams(window.location.search).get("portal");
-
-const getOAuthCode = () => {
-  const code = new URLSearchParams(window.location.search).get("code");
-
-  return code;
-};
 
 const getRedirect = () => {
   const code = new URLSearchParams(window.location.search).get("redirect");
 
   return code;
+};
+
+const getError = () => {
+  const error = new URLSearchParams(window.location.search).get("error");
+
+  return error;
 };
 
 export type PastAction = GameEvent & {
@@ -142,6 +141,7 @@ export interface Context {
   purchases: Purchase[];
   discordId?: string;
   fslId?: string;
+  oauthNonce: string;
 }
 
 export type Moderation = {
@@ -408,7 +408,6 @@ const PLACEMENT_EVENT_HANDLERS: TransitionsConfig<Context, BlockchainEvent> =
 
 export type BlockchainState = {
   value:
-    | "oauthorising"
     | "loading"
     | "loadLandToVisit"
     | "landToVisitNotFound"
@@ -554,6 +553,7 @@ export function startGame(authContext: AuthContext) {
         saveQueued: false,
         verified: !CONFIG.API_URL,
         purchases: [],
+        oauthNonce: "",
       },
       states: {
         loading: {
@@ -563,7 +563,13 @@ export function startGame(authContext: AuthContext) {
               target: "loadLandToVisit",
               cond: () => window.location.href.includes("visit"),
             },
-
+            {
+              target: "error",
+              cond: () => !!getError(),
+              actions: assign({
+                errorCode: (_) => getError() as ErrorCode,
+              }),
+            },
             {
               target: "notifying",
               cond: () => ART_MODE,
@@ -604,6 +610,7 @@ export function startGame(authContext: AuthContext) {
                 purchases: response.purchases,
                 discordId: response.discordId,
                 fslId: response.fslId,
+                oauthNonce: response.oauthNonce,
               };
             },
             onDone: [
@@ -656,42 +663,7 @@ export function startGame(authContext: AuthContext) {
             },
           },
         },
-        oauthorising: {
-          id: "oauthorising",
-          invoke: {
-            src: async (context) => {
-              const code = getOAuthCode() as string;
-              const hash = window.location.hash; // "#/oauth/discord"
-              const path = hash.split("/"); // Split by "/"
-              // Check if the structure matches and get the last part (i.e. "discord")
-              const type = path[2];
 
-              if (!type) {
-                throw new Error(`No Oauth Type provided`);
-              }
-
-              // Navigates to Discord OAuth Flow
-              const { game, fslId, discordId } = await oauthorise({
-                code,
-                transactionId: context.transactionId as string,
-                jwt: authContext.user.rawToken as string,
-                type,
-                farmId: context.farmId,
-              });
-
-              console.log({ game, fslId, discordId });
-
-              window.history.pushState({}, "", window.location.pathname);
-            },
-            onDone: {
-              target: "loading",
-            },
-            onError: {
-              target: "error",
-              actions: "assignErrorMessage",
-            },
-          },
-        },
         loadLandToVisit: {
           invoke: {
             src: async (_, event) => {
@@ -748,10 +720,6 @@ export function startGame(authContext: AuthContext) {
         },
         notifying: {
           always: [
-            {
-              target: "oauthorising",
-              cond: () => !!getOAuthCode(),
-            },
             {
               target: "gameRules",
               cond: () => {
@@ -2007,6 +1975,7 @@ export function startGame(authContext: AuthContext) {
           purchases: (_, event) => event.data.purchases,
           discordId: (_, event) => event.data.discordId,
           fslId: (_, event) => event.data.fslId,
+          oauthNonce: (_, event) => event.data.oauthNonce,
         }),
         setTransactionId: assign<Context, any>({
           transactionId: () => randomID(),
