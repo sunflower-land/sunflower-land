@@ -191,7 +191,10 @@ export const Navigation: React.FC = () => {
                     />
                   )}
                   <Route path="/world/:name" element={<World key="world" />} />
-                  <Route path="/oauth/:name" element={<OAuth key="oauth" />} />
+                  <Route
+                    path="/oauth/:name"
+                    element={<LandExpansion key="oauth" />}
+                  />
                   <Route path="/marketplace/*" element={<Marketplace />} />
                   <Route
                     path="/community/:name"

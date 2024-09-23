@@ -319,10 +319,10 @@ export const authMachine = createMachine(
             target: "noAccount",
             cond: (context) => !context.user.token?.farmId,
           },
-          {
-            target: "oauthorising",
-            cond: "hasDiscordCode",
-          },
+          // {
+          //   target: "oauthorising",
+          //   cond: "hasDiscordCode",
+          // },
           {
             target: "connected",
           },

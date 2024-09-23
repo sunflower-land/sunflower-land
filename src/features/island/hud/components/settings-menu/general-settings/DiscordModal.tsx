@@ -61,7 +61,7 @@ export const Discord: React.FC = () => {
 
   const [state, setState] = useState<
     "idle" | "noDiscord" | "joining" | "joined" | "error"
-  >(authState.context.user.token?.discordId ? "idle" : "noDiscord");
+  >(!!gameState.context.discordId ? "idle" : "noDiscord");
 
   const inventory = gameState.context.state.inventory;
   const faction = gameState.context.state.faction?.name;
@@ -72,7 +72,7 @@ export const Discord: React.FC = () => {
   };
 
   const addRole = async (role: DiscordRole) => {
-    if (!authState.context.user.token?.discordId) {
+    if (!gameState.context.discordId) {
       setState("noDiscord");
       return;
     }
@@ -91,9 +91,9 @@ export const Discord: React.FC = () => {
     }
   };
 
-  if (CONFIG.NETWORK === "amoy") {
-    return null;
-  }
+  // if (CONFIG.NETWORK === "amoy") {
+  //   return null;
+  // }
 
   if (state === "error") {
     return <span className="">{t("getContent.error")}</span>;

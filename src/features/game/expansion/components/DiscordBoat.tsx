@@ -35,7 +35,7 @@ export const DiscordBonus: React.FC<{ onClose: () => void }> = ({
       return "claimed";
     }
 
-    if (authState.context.user.token?.discordId) {
+    if (gameState.context.discordId) {
       return "connected";
     }
 
@@ -153,7 +153,7 @@ export const DiscordBoat: React.FC = () => {
   }
 
   // When ready, show boat above island
-  const isReady = authState.context.user.token?.discordId && !isClaimed;
+  const isReady = !!gameService.state.context.discordId && !isClaimed;
 
   if (alreadyClaimed.current) {
     return null;

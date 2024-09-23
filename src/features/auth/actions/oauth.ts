@@ -51,8 +51,10 @@ export async function oauthorise(
 }
 
 export function redirectOAuth() {
-  const applicationID = "946044940008435803";
-  const redirect = encodeURIComponent(CONFIG.DISCORD_REDIRECT as string);
+  // const applicationID = "946044940008435803";
+  const applicationID = "1287592468124012634";
+
+  const redirect = encodeURIComponent("http://localhost:3000/#/oauth/discord");
 
   // Guild = server
   const scope = "guilds.members.read";

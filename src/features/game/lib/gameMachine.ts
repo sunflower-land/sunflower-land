@@ -94,6 +94,12 @@ import { getKeys } from "../types/decorations";
 // Run at startup in case removed from query params
 const portalName = new URLSearchParams(window.location.search).get("portal");
 
+const getOAuthCode = () => {
+  const code = new URLSearchParams(window.location.search).get("code");
+
+  return code;
+};
+
 const getRedirect = () => {
   const code = new URLSearchParams(window.location.search).get("redirect");
 
@@ -133,6 +139,8 @@ export interface Context {
   paused?: boolean;
   verified?: boolean;
   purchases: Purchase[];
+  discordId?: string;
+  fslId?: string;
 }
 
 export type Moderation = {
@@ -399,6 +407,7 @@ const PLACEMENT_EVENT_HANDLERS: TransitionsConfig<Context, BlockchainEvent> =
 
 export type BlockchainState = {
   value:
+    | "oauthorising"
     | "loading"
     | "loadLandToVisit"
     | "landToVisitNotFound"
@@ -554,6 +563,10 @@ export function startGame(authContext: AuthContext) {
               cond: () => window.location.href.includes("visit"),
             },
             {
+              target: "oauthorising",
+              cond: () => !!getOAuthCode(),
+            },
+            {
               target: "notifying",
               cond: () => ART_MODE,
               actions: assign({
@@ -591,6 +604,8 @@ export function startGame(authContext: AuthContext) {
                 wallet: response.wallet,
                 verified: response.verified,
                 purchases: response.purchases,
+                discordId: response.discordId,
+                fslId: response.fslId,
               };
             },
             onDone: [
@@ -1951,6 +1966,8 @@ export function startGame(authContext: AuthContext) {
           nftId: (_, event) => event.data.nftId,
           verified: (_, event) => event.data.verified,
           purchases: (_, event) => event.data.purchases,
+          discordId: (_, event) => event.data.discordId,
+          fslId: (_, event) => event.data.fslId,
         }),
         setTransactionId: assign<Context, any>({
           transactionId: () => randomID(),

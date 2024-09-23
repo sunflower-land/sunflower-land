@@ -185,7 +185,7 @@ const HudComponent: React.FC<{
           <SeasonBannerCountdown />
         </div>
 
-        <Modal show>
+        {/* <Modal show>
           <Panel>
             <Button
               onClick={async () => {
@@ -201,7 +201,7 @@ const HudComponent: React.FC<{
               Link SFL
             </Button>
           </Panel>
-        </Modal>
+        </Modal> */}
         <div
           className="absolute z-50 flex flex-col justify-between"
           style={{
