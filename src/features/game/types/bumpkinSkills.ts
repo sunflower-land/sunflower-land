@@ -67,11 +67,12 @@ export type BumpkinRevampSkillName =
   | "Tree Blitz"
   // Fishing
   | "Swift Decomposer"
-  | "FIsherman's 5 Fold"
+  | "Fisherman's 5 Fold"
   | "Wormy Treat"
   | "Grubby Treat"
   | "Wriggly Treat"
   | "Fishy Fortune"
+  | "Big Catch"
   | "Composting Bonanza"
   | "Frenzied Fish"
   | "Composting Overhaul"
@@ -781,8 +782,8 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     boosts: "Composter speed 10% quicker",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
-  "FIsherman's 5 Fold": {
-    name: "FIsherman's 5 Fold",
+  "Fisherman's 5 Fold": {
+    name: "Fisherman's 5 Fold",
     tree: "Fishing",
     requirements: {
       points: 1,
@@ -829,7 +830,17 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
       points: 2,
       skill: 2,
     },
-    boosts: "+30% Fish deliveries SFL profit",
+    boosts: "+50% Fish deliveries SFL profit",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
+  "Big Catch": {
+    name: "Big Catch",
+    tree: "Fishing",
+    requirements: {
+      points: 2,
+      skill: 2,
+    },
+    boosts: "Increase bar for catching game",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
   // Fishing - Tier 3

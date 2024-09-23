@@ -1031,7 +1031,7 @@ describe("deliver", () => {
               id: "123",
               createdAt: 0,
               readyAt: Date.now(),
-              from: "betty",
+              from: "tango",
               items: {
                 Orange: 5,
                 Grape: 2,
@@ -1093,5 +1093,44 @@ describe("deliver", () => {
     });
 
     expect(state.coins).toEqual(320);
+  });
+
+  it("gives a +50% coins bonus on completed orders from Corale if player has Fishy Fortune skill", () => {
+    const state = deliverOrder({
+      state: {
+        ...TEST_FARM,
+        coins: 0,
+        inventory: {
+          "Sunflower Cake": new Decimal(1),
+        },
+        delivery: {
+          ...TEST_FARM.delivery,
+          orders: [
+            {
+              id: "123",
+              createdAt: 0,
+              readyAt: Date.now(),
+              from: "corale",
+              items: {
+                "Sunflower Cake": 1,
+              },
+              reward: { coins: 320 },
+            },
+          ],
+        },
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          skills: {
+            "Fishy Fortune": 1,
+          },
+        },
+      },
+      action: {
+        id: "123",
+        type: "order.delivered",
+      },
+    });
+
+    expect(state.coins).toEqual(480);
   });
 });
