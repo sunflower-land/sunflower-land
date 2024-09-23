@@ -2867,8 +2867,6 @@
   "onboarding.cheer": "Kau hampir sampai!",
   "onboarding.form.one": "Isi rincian Anda",
   "onboarding.form.two": "dan kami akan mengirim NFT gratis untuk dimainkan. (Ini akan memakan waktu 3-7 hari)",
-  "onboarding.duplicateUser.one": "Sudah mendaftar!",
-  "onboarding.duplicateUser.two": "Sepertinya Anda telah mendaftar untuk pengujian beta menggunakan alamat yang berbeda. Hanya satu alamat yang dapat digunakan selama pengujian beta.",
   "onboarding.starterPack": "Paket Pemula",
   "onboarding.settingWallet": "Menyiapkan dompet Anda",
   "onboarding.wallet.one": "Ada banyak penyedia dompet di luar sana, tetapi kami telah bermitra dengan Sequence karena mereka mudah digunakan dan aman.",
@@ -3622,5 +3620,7 @@
   "description.factionShop.nightshadeCrown": "Mahkota hitam tengah malam dengan detail ungu tua dan perak, cocok untuk seorang pemimpin yang kehadirannya menimbulkan rasa hormat dan misteri. Dapatkan 25% lebih banyak dalam pengiriman SFL dan Koin, dan Dapatkan +10% mark saat dijanjikan ke faksi ini. Kelipatan item ini tidak menumpuk.",
   "description.factionShop.nightshadeShield": "Permukaan perisai adalah bulu hitam gelap yang dalam dengan aksen ungu rumit yang berdenyut dengan energi yang tidak menyenangkan. Penurunan kayu dan mineral meningkat 0,25 ketika dijanjikan ke faksi ini. Kelipatan item ini tidak menumpuk.",
   "description.factionShop.nightshadeQuiver": "Misterius dan ramping, Nightshade Quiver diikat dengan kulit gelap dan lentur, dirancang untuk mereka yang memanen di bawah naungan kegelapan. Hasil panen dan buah meningkat 0,25 ketika dijanjikan ke faksi ini. Kelipatan item ini tidak menumpuk.",
-  "description.factionShop.nightshadeMedallion": "Medali ini menyalurkan daya tarik rahasia Nightshade dan keterampilan mereka dalam membuat hidangan halus dan eksotis dengan cepat. Meningkatkan kecepatan memasak sebesar 25% ketika dijanjikan ke faksi ini. Kelipatan item ini tidak menumpuk."
+  "description.factionShop.nightshadeMedallion": "Medali ini menyalurkan daya tarik rahasia Nightshade dan keterampilan mereka dalam membuat hidangan halus dan eksotis dengan cepat. Meningkatkan kecepatan memasak sebesar 25% ketika dijanjikan ke faksi ini. Kelipatan item ini tidak menumpuk.",
+  "onboarding.duplicateUser.one": "Sudah terhubung!",
+  "onboarding.duplicateUser.two": "Sepertinya akun ini sudah digunakan."
 }

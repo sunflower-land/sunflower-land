@@ -2867,8 +2867,6 @@
   "onboarding.cheer": "もうすぐ着きます！",
   "onboarding.form.one": "詳細を記入してください",
   "onboarding.form.two": "そして、無料のNFTを送ってプレイします。(これには3～7日かかります)",
-  "onboarding.duplicateUser.one": "すでにサインアップしています！",
-  "onboarding.duplicateUser.two": "別のアドレスを使用してすでにベータテストに登録されているようです。ベータテスト中に使用できるアドレスは 1 つだけです。",
   "onboarding.starterPack": "スターターパック",
   "onboarding.settingWallet": "ウォレットのセットアップ",
   "onboarding.wallet.one": "ウォレットプロバイダーはたくさんありますが、使いやすく安全なため、Sequenceと提携しました。",
@@ -3622,5 +3620,7 @@
   "description.factionShop.nightshadeCrown": "深いパープルとシルバーのディテールをあしらったミッドナイトブラックの王冠。尊敬と謎に満ちた存在感を放つリーダーにぴったりです。この陣営に誓約すると、SFLとコインの配達で獲得できるポイントが 25% 増え、+10% のマークを獲得できます。このアイテムを複数個重ねることはできません。",
   "description.factionShop.nightshadeShield": "盾の表面は深みのある影のような黒い羽根で、複雑なバイオレットのアクセントが効いており、不吉なエネルギーが脈打っています。この陣営に誓約すると、ウッドとミネラルのドロップが0.25増加します。このアイテムを複数個重ねることはできません。",
   "description.factionShop.nightshadeQuiver": "謎めいたおしゃれなナイトシェード・クワイバーは、暗闇に隠れて収穫する人のためにデザインされた、ダークでしなやかなレザーで綴じられています。この陣営に誓約すると、作物と果物の収穫量が0.25増加します。このアイテムを複数個重ねることはできません。",
-  "description.factionShop.nightshadeMedallion": "このメダリオンは、ナイトシェードの秘密に満ちた魅力と、洗練されたエキゾチックな料理を素早く作る彼らの技術が伝わってきます。この陣営に誓約すると、調理速度が 25% 向上する。このアイテムは複数重ねてもスタックしません。"
+  "description.factionShop.nightshadeMedallion": "このメダリオンは、ナイトシェードの秘密に満ちた魅力と、洗練されたエキゾチックな料理を素早く作る彼らの技術が伝わってきます。この陣営に誓約すると、調理速度が 25% 向上する。このアイテムは複数重ねてもスタックしません。",
+  "onboarding.duplicateUser.one": "既にリンクされています！",
+  "onboarding.duplicateUser.two": "このアカウントはすでに使用されているようです。"
 }

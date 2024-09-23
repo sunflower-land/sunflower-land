@@ -2825,8 +2825,6 @@
   "onboarding.cheer": "Ci sei quasi!",
   "onboarding.form.one": "Inserisci i tuoi dati",
   "onboarding.form.two": "e invieremo un NFT gratuito per giocare. (Ci vorranno 3-7 giorni)",
-  "onboarding.duplicateUser.one": "Ti sei già registrato!",
-  "onboarding.duplicateUser.two": "Sembra che tu ti sia già registrato per il beta testing utilizzando un indirizzo diverso. È possibile utilizzare un solo indirizzo durante il beta test.",
   "onboarding.starterPack": "Pacchetto iniziale",
   "onboarding.settingWallet": "Configurare il portafoglio",
   "onboarding.wallet.one": "Esistono molti fornitori di portafogli, ma abbiamo collaborato con Sequence perché sono facili da usare e sicuri.",
@@ -3622,5 +3620,7 @@
   "description.factionShop.nightshadeCrown": "Una corona nera mezzanotte con dettagli viola intenso e argento, perfetta per un leader la cui presenza incute rispetto e mistero. Guadagna il 25% in più con le consegne di SFL e monete e guadagna +10% di punti se ti impegni a favore di questa fazione. I multipli di questo oggetto non sono cumulabili.",
   "description.factionShop.nightshadeShield": "La superficie dello scudo è costituita da piume nere profonde e ombrose con intricati accenti viola che pulsano di energia minacciosa. Le gocce di legno e minerali aumentano di 0,25 se conferite a questa fazione. I multipli di questo oggetto non si accumulano.",
   "description.factionShop.nightshadeQuiver": "Enigmatica ed elegante, la Nightshade Quiver è rivestita in morbida pelle scura, progettata per coloro che raccolgono al riparo dell'oscurità. La resa dei raccolti e della frutta aumenta di 0,25 se si affida a questa fazione. I multipli di questo oggetto non si accumulano.",
-  "description.factionShop.nightshadeMedallion": "Questo medaglione esprime il fascino riservato dei Nightshade e la loro abilità nel creare rapidamente piatti raffinati ed esotici. Aumenta la velocità di cottura del 25% se si affida a questa fazione. I multipli di questo oggetto non sono cumulabili."
+  "description.factionShop.nightshadeMedallion": "Questo medaglione esprime il fascino riservato dei Nightshade e la loro abilità nel creare rapidamente piatti raffinati ed esotici. Aumenta la velocità di cottura del 25% se si affida a questa fazione. I multipli di questo oggetto non sono cumulabili.",
+  "onboarding.duplicateUser.one": "Già collegato!",
+  "onboarding.duplicateUser.two": "Sembra che questo account sia già stato utilizzato."
 }

@@ -2867,8 +2867,6 @@
   "onboarding.cheer": "Anda hampir di sana!",
   "onboarding.form.one": "Isi butiran anda",
   "onboarding.form.two": "dan kami akan menghantar NFT percuma untuk bermain. (Ini akan mengambil masa 3-7 hari)",
-  "onboarding.duplicateUser.one": "Sudah mendaftar!",
-  "onboarding.duplicateUser.two": "Nampaknya anda telah mendaftar untuk ujian beta menggunakan alamat yang berbeza. Hanya satu alamat yang boleh digunakan semasa ujian beta.",
   "onboarding.starterPack": "Pek Permulaan",
   "onboarding.settingWallet": "Menyediakan dompet anda",
   "onboarding.wallet.one": "Terdapat banyak penyedia dompet di luar sana, tetapi kami telah bekerjasama dengan Sequence kerana ia mudah digunakan dan selamat.",
@@ -3622,5 +3620,7 @@
   "description.factionShop.nightshadeCrown": "Mahkota hitam tengah malam dengan perincian ungu dan perak tua, sesuai untuk pemimpin yang kehadirannya memerintahkan rasa hormat dan misteri. Dapatkan 25% lebih banyak dalam penghantaran SFL dan Syiling, dan Dapatkan markah +10% apabila berjanji kepada puak ini. Gandakan item ini tidak disusun.",
   "description.factionShop.nightshadeShield": "Permukaan perisai adalah bulu hitam yang dalam dan teduh dengan aksen ungu rumit yang berdenyut dengan tenaga yang tidak menyenangkan. Penurunan kayu dan mineral meningkat sebanyak 0.25 apabila dijanjikan kepada puak ini. Gandakan item ini tidak disusun.",
   "description.factionShop.nightshadeQuiver": "Misteri dan anggun, Nightshade Quiver diikat dengan kulit gelap dan lembut, direka untuk mereka yang menuai di bawah penutup kegelapan. Hasil tanaman dan buah meningkat sebanyak 0.25 apabila dijanjikan kepada puak ini. Gandakan item ini tidak disusun.",
-  "description.factionShop.nightshadeMedallion": "Medali ini menyalurkan daya tarikan rahsia Nightshade dan kemahiran mereka dalam membuat hidangan halus dan eksotik dengan cepat. Meningkatkan kelajuan memasak sebanyak 25% apabila dijanjikan kepada puak ini. Gandakan item ini tidak disusun."
+  "description.factionShop.nightshadeMedallion": "Medali ini menyalurkan daya tarikan rahsia Nightshade dan kemahiran mereka dalam membuat hidangan halus dan eksotik dengan cepat. Meningkatkan kelajuan memasak sebanyak 25% apabila dijanjikan kepada puak ini. Gandakan item ini tidak disusun.",
+  "onboarding.duplicateUser.one": "Sudah dihubungkan!",
+  "onboarding.duplicateUser.two": "Nampaknya akaun ini telah digunakan."
 }

@@ -1975,8 +1975,6 @@
   "onboarding.cheer": "Vous y êtes presque!",
   "onboarding.form.one": "Remplissez vos coordonnées",
   "onboarding.form.two": "et nous vous enverrons un NFT gratuit pour jouer. (Cela nous prendra de 3 à 7 jours)",
-  "onboarding.duplicateUser.one": "Déjà inscrit!",
-  "onboarding.duplicateUser.two": "Il semble que vous vous soyez déjà inscrit pour les tests bêta en utilisant une adresse différente. Une seule adresse peut être utilisée lors des tests bêta.",
   "onboarding.starterPack": "Pack de Démarrage",
   "onboarding.settingWallet": "Configuration de votre portefeuille",
   "onboarding.wallet.one": "Il existe de nombreux fournisseurs de portefeuilles, mais nous avons choisi Sequence car ils sont faciles à utiliser et sécurisés.",
@@ -3622,5 +3620,7 @@
   "description.factionShop.nightshadeCrown": "Une couronne noire de minuit ornée de détails violet foncé et argentés, digne d'un leader dont la présence inspire respect et mystère. Gagnez 25 % de plus en termes de SFL et de livraisons de pièces, et gagnez plus de 10 % de points lorsque vous vous engagez dans cette faction. Les multiples de cet article ne se cumulent pas.",
   "description.factionShop.nightshadeShield": "La surface du bouclier est constituée de plumes noires sombres et profondes aux accents violets complexes qui pulsent d'une énergie inquiétante. Les butins de bois et de minéraux augmentent de 0,25 lorsqu'ils sont donnés à cette faction. Les multiples de cet article ne se cumulent pas.",
   "description.factionShop.nightshadeQuiver": "Énigmatique et élégant, le Nightshade Quiver est relié en cuir souple et foncé, conçu pour ceux qui récoltent dans l'obscurité. Le rendement des récoltes et des fruits augmente de 0,25 lorsqu'on s'engage auprès de cette faction. Les multiples de cet article ne se cumulent pas.",
-  "description.factionShop.nightshadeMedallion": "Ce médaillon témoigne de l'attrait secret de la Nightshade et de son habileté à préparer rapidement des plats raffinés et exotiques. Améliore la vitesse de cuisson de 25 % lorsque vous faites un don à cette faction. Les multiples de cet article ne se cumulent pas."
+  "description.factionShop.nightshadeMedallion": "Ce médaillon témoigne de l'attrait secret de la Nightshade et de son habileté à préparer rapidement des plats raffinés et exotiques. Améliore la vitesse de cuisson de 25 % lorsque vous faites un don à cette faction. Les multiples de cet article ne se cumulent pas.",
+  "onboarding.duplicateUser.one": "Déjà connecté !",
+  "onboarding.duplicateUser.two": "Il semblerait que ce compte ait déjà été utilisé."
 }

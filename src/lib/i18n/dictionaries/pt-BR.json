@@ -1934,8 +1934,6 @@
   "onboarding.cheer": "Você está quase lá!",
   "onboarding.form.one": "Preencha seus detalhes",
   "onboarding.form.two": "e enviaremos um NFT gratuito para você jogar. (Isso nos levará de 3 a 7 dias)",
-  "onboarding.duplicateUser.one": "Já registrado!",
-  "onboarding.duplicateUser.two": "Parece que você já se cadastrou para teste beta usando um endereço diferente. Apenas um endereço pode ser usado durante o teste beta.",
   "onboarding.starterPack": "Pacote Inicial",
   "onboarding.settingWallet": "Configurando sua carteira",
   "onboarding.wallet.one": "Existem muitos provedores de carteiras por aí, mas escolhemos a Sequence porque são fáceis de usar e seguros.",
@@ -3622,5 +3620,7 @@
   "description.factionShop.nightshadeCrown": "Uma coroa preta meia-noite com detalhes em roxo profundo e prata, adequada para um líder cuja presença exige respeito e mistério. Ganhe 25% a mais em entregas de SFL e moedas e ganhe +10% de marcas ao se comprometer com essa facção. Os múltiplos deste item não se acumulam.",
   "description.factionShop.nightshadeShield": "A superfície do escudo é composta por penas pretas profundas e sombrias com intrincados toques violetas que pulsam com uma energia sinistra. As gotas de madeira e minerais aumentam em 0,25 quando aplicadas a essa facção. Os múltiplos deste item não se acumulam.",
   "description.factionShop.nightshadeQuiver": "Enigmático e elegante, o Nightshade Quiver é encadernado em couro escuro e flexível, projetado para aqueles que colhem sob o manto da escuridão. A produção de safras e frutas aumenta em 0,25 quando cedida a esta facção. Os múltiplos deste item não se acumulam.",
-  "description.factionShop.nightshadeMedallion": "Este medalhão canaliza o fascínio secreto do Nightshade e sua habilidade em preparar pratos refinados e exóticos com rapidez. Aumenta a velocidade de cozimento em 25% quando entregue a essa facção. Os múltiplos deste item não se acumulam."
+  "description.factionShop.nightshadeMedallion": "Este medalhão canaliza o fascínio secreto do Nightshade e sua habilidade em preparar pratos refinados e exóticos com rapidez. Aumenta a velocidade de cozimento em 25% quando entregue a essa facção. Os múltiplos deste item não se acumulam.",
+  "onboarding.duplicateUser.one": "Já está vinculado!",
+  "onboarding.duplicateUser.two": "Parece que essa conta já foi usada."
 }

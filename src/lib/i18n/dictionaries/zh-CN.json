@@ -3031,8 +3031,6 @@
   "onboarding.cheer": "你快到了！",
   "onboarding.form.one": "填写您的详细信息",
   "onboarding.form.two": "我们将免费发送一个 NFT 来玩。（这将需要我们 3-7 天）",
-  "onboarding.duplicateUser.one": "已经注册了！",
-  "onboarding.duplicateUser.two": "看来你已经使用其他地址注册了 beta 测试。在 beta 测试期间只能使用一个地址。",
   "onboarding.starterPack": "新手包",
   "onboarding.settingWallet": "设置你的钱包",
   "onboarding.wallet.one": "市面上有许多钱包提供商，但我们之所以与Sequence合作，是因为它们易于使用且安全。",
@@ -3622,5 +3620,7 @@
   "description.factionShop.nightshadeCrown": "一款带有深紫色和银色细节的午夜黑色皇冠，适合一位尊敬和神秘的领导者。在 SFL 和金币配送中获得 25% 的额外收益，向该阵营承诺时可获得 +10% 的分数。此物品的倍数不能叠加。",
   "description.factionShop.nightshadeShield": "盾牌的表面是一根深沉而阴暗的黑色羽毛，带有错综复杂的紫罗兰色点缀，会产生不祥的能量。向该阵营承诺时，掉落的木材和矿物会增加 0.25。此物品的倍数不能叠加。",
   "description.factionShop.nightshadeQuiver": "Nightshade Quiver 神秘而时尚，采用深色柔软皮革装订，专为那些在黑暗掩护下收获的人而设计。当向该派系承诺时，农作物和水果产量将增加0.25％。此物品的倍数不能叠加。",
-  "description.factionShop.nightshadeMedallion": "这枚奖章传递了 Nightshade 的秘密魅力以及他们快速制作精致和充满异国情调的菜肴的技巧。当承诺加入该阵营时，烹饪速度提高 25%。此物品的倍数不能叠加。"
+  "description.factionShop.nightshadeMedallion": "这枚奖章传递了 Nightshade 的秘密魅力以及他们快速制作精致和充满异国情调的菜肴的技巧。当承诺加入该阵营时，烹饪速度提高 25%。此物品的倍数不能叠加。",
+  "onboarding.duplicateUser.one": "已经链接了！",
+  "onboarding.duplicateUser.two": "看来这个账户已经被使用了。"
 }

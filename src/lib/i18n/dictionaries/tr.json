@@ -1973,8 +1973,6 @@
   "onboarding.cheer": "Neredeyse oradasınız!",
   "onboarding.form.one": "Bilgilerinizi doldurun",
   "onboarding.form.two": "ve oynayacak ücretsiz bir NFT göndereceğiz. (Bu, bize 3-7 gün sürecektir)",
-  "onboarding.duplicateUser.one": "Zaten kaydoldunuz!",
-  "onboarding.duplicateUser.two": "Beta testi için farklı bir adres kullanarak kaydolduğunuzu gösteriyor gibi görünüyor. Beta testi sırasında yalnızca bir adres kullanılabilir. ",
   "onboarding.starterPack": "Başlangıç Paketi",
   "onboarding.settingWallet": "Cüzdanınızı ayarlama",
   "onboarding.wallet.one": "Çok sayıda cüzdan sağlayıcısı var, ancak Sequence ile işbirliği yaptık çünkü kullanımı kolay ve güvenlidirler.",
@@ -3622,5 +3620,7 @@
   "description.factionShop.nightshadeCrown": "Derin mor ve gümüş detaylara sahip gece yarısı siyahı taç, varlığı saygı ve gizem gerektiren bir lider için uygun. SFL ve Coin teslimatlarında %25 daha fazla kazanın ve bu fraksiyona taahhütte bulunduğunuzda +%10 puan kazanın. Bu öğenin katları yığılmaz.",
   "description.factionShop.nightshadeShield": "Kalkanın yüzeyi, uğursuz enerjiyle titreşen karmaşık mor aksanlara sahip derin, gölgeli siyah bir tüydür. Bu fraksiyona taahhüt edildiğinde odun ve mineral damlaları 0.25 artar. Bu öğenin katları yığılmaz.",
   "description.factionShop.nightshadeQuiver": "Gizemli ve şık Nightshade Quiver, karanlığın örtüsü altında hasat yapanlar için tasarlanmış koyu, esnek deriden yapılmıştır. Bu fraksiyona taahhüt edildiğinde mahsul ve meyve verimi 0,25 artar. Bu öğenin katları yığılmaz.",
-  "description.factionShop.nightshadeMedallion": "Bu madalyon, Nightsshade'in gizli cazibesini ve rafine ve egzotik yemekleri hızlı bir şekilde hazırlama becerilerini kanalize ediyor. Bu fraksiyona taahhüt edildiğinde pişirme hızını% 25 artırır. Bu öğenin katları yığılmaz."
+  "description.factionShop.nightshadeMedallion": "Bu madalyon, Nightsshade'in gizli cazibesini ve rafine ve egzotik yemekleri hızlı bir şekilde hazırlama becerilerini kanalize ediyor. Bu fraksiyona taahhüt edildiğinde pişirme hızını% 25 artırır. Bu öğenin katları yığılmaz.",
+  "onboarding.duplicateUser.one": "Zaten bağlantılı!",
+  "onboarding.duplicateUser.two": "Görünüşe göre bu hesap zaten kullanılmış."
 }

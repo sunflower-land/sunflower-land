@@ -2861,8 +2861,6 @@
   "onboarding.cheer": "Du bist fast da!",
   "onboarding.form.one": "Füllen Sie Ihre Daten aus",
   "onboarding.form.two": "und wir werden ein kostenloses NFT zum Spielen schicken. (Das wird 3-7 Tage dauern)",
-  "onboarding.duplicateUser.one": "Schon angemeldet!",
-  "onboarding.duplicateUser.two": "Es sieht so aus, als hätten Sie sich bereits mit einer anderen Adresse für den Betatest registriert. Während des Betatests kann nur eine Adresse verwendet werden.",
   "onboarding.starterPack": "Starterpaket",
   "onboarding.settingWallet": "Deine Wallet einrichten",
   "onboarding.wallet.one": "Es gibt viele Wallet-Anbieter, aber wir haben eine Partnerschaft mit Sequence geschlossen, weil sie einfach zu bedienen und sicher sind.",
@@ -3622,5 +3620,7 @@
   "description.factionShop.nightshadeCrown": "Eine nachtschwarze Krone mit tiefvioletten und silbernen Details, wie geschaffen für einen Anführer, dessen Präsenz Respekt und Mysterium einflößt. Verdient 25% mehr an SFL- und Münzlieferungen und verdient +10% Punkte, wenn ihr Geld dieser Fraktion zusagt. Vielfache dieser Gegenstände lassen sich nicht stapeln.",
   "description.factionShop.nightshadeShield": "Die Oberfläche des Schildes besteht aus tiefen, schattenhaften schwarzen Federn mit komplizierten violetten Akzenten, die vor unheilvoller Energie pulsieren. Die Menge an Holz und Mineralien erhöht sich um 0,25, wenn sie dieser Fraktion zugeteilt werden. Vielfache dieser Gegenstände lassen sich nicht stapeln.",
   "description.factionShop.nightshadeQuiver": "Der rätselhafte und elegante Nightshade Quiver ist in dunkles, geschmeidiges Leder gebunden und für diejenigen konzipiert, die im Schutz der Dunkelheit ernten. Der Ernte- und Fruchtertrag erhöht sich um 0,25, wenn sie an diese Fraktion verpfändet werden. Vielfache dieser Gegenstände lassen sich nicht stapeln.",
-  "description.factionShop.nightshadeMedallion": "Dieses Medaillon verdeutlicht den geheimnisvollen Reiz der Nightshade und ihre Fähigkeit, raffinierte und exotische Gerichte im Handumdrehen zuzubereiten. Erhöht die Kochgeschwindigkeit um 25%, wenn es dieser Fraktion zugesagt wird. Vielfache dieser Gegenstände lassen sich nicht stapeln."
+  "description.factionShop.nightshadeMedallion": "Dieses Medaillon verdeutlicht den geheimnisvollen Reiz der Nightshade und ihre Fähigkeit, raffinierte und exotische Gerichte im Handumdrehen zuzubereiten. Erhöht die Kochgeschwindigkeit um 25%, wenn es dieser Fraktion zugesagt wird. Vielfache dieser Gegenstände lassen sich nicht stapeln.",
+  "onboarding.duplicateUser.one": "Schon verlinkt!",
+  "onboarding.duplicateUser.two": "Es sieht so aus, als ob dieses Konto bereits verwendet wurde."
 }
