@@ -67,7 +67,7 @@ export const getChestBuds = (
   return Object.fromEntries(
     Object.entries(state.buds ?? {}).filter(
       ([id, bud]) =>
-        !bud.coordinates || !listed[`Bud #${id}` as MarketplaceTradeableName],
+        !bud.coordinates && !listed[`Bud #${id}` as MarketplaceTradeableName],
     ),
   );
 };
