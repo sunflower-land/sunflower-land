@@ -164,7 +164,7 @@ export type BlockchainState = {
     | "authorising"
     | "visiting"
     | "verifying"
-    | "oauthorising"
+    // | "oauthorising"
     | "unauthorised"
     | "authorised"
     | "connected"
@@ -299,20 +299,20 @@ export const authMachine = createMachine(
           },
         },
       },
-      oauthorising: {
-        entry: "setTransactionId",
-        invoke: {
-          src: "oauthorise",
-          onDone: {
-            target: "connected",
-            actions: ["assignToken", "saveToken"],
-          },
-          onError: {
-            target: "unauthorised",
-            actions: "assignErrorMessage",
-          },
-        },
-      },
+      // oauthorising: {
+      //   entry: "setTransactionId",
+      //   invoke: {
+      //     src: "oauthorise",
+      //     onDone: {
+      //       target: "connected",
+      //       actions: ["assignToken", "saveToken"],
+      //     },
+      //     onError: {
+      //       target: "unauthorised",
+      //       actions: "assignErrorMessage",
+      //     },
+      //   },
+      // },
       authorised: {
         always: [
           {
@@ -473,15 +473,15 @@ export const authMachine = createMachine(
 
         return { token };
       },
-      oauthorise: async (context) => {
-        const code = getDiscordCode() as string;
-        // Navigates to Discord OAuth Flow
-        const { token } = await oauthorise(
-          code,
-          context.transactionId as string,
-        );
-        return { token };
-      },
+      // oauthorise: async (context) => {
+      //   const code = getDiscordCode() as string;
+      //   // Navigates to Discord OAuth Flow
+      //   const { token } = await oauthorise(
+      //     code,
+      //     context.transactionId as string,
+      //   );
+      //   return { token };
+      // },
     },
     actions: {
       assignToken: assign<Context, any>({

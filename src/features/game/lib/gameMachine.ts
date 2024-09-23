@@ -90,6 +90,7 @@ import { isValidRedirect } from "features/portal/lib/portalUtil";
 import { postEffect } from "../actions/effect";
 import { TRANSACTION_SIGNATURES, TransactionName } from "../types/transactions";
 import { getKeys } from "../types/decorations";
+import { oauthorise } from "features/auth/actions/oauth";
 
 // Run at startup in case removed from query params
 const portalName = new URLSearchParams(window.location.search).get("portal");
@@ -562,10 +563,7 @@ export function startGame(authContext: AuthContext) {
               target: "loadLandToVisit",
               cond: () => window.location.href.includes("visit"),
             },
-            {
-              target: "oauthorising",
-              cond: () => !!getOAuthCode(),
-            },
+
             {
               target: "notifying",
               cond: () => ART_MODE,
@@ -618,6 +616,7 @@ export function startGame(authContext: AuthContext) {
                 cond: () => !!portalName,
                 actions: ["assignGame"],
               },
+
               {
                 target: "notifying",
                 actions: ["assignGame", "assignUrl", "initialiseAnalytics"],
@@ -650,6 +649,42 @@ export function startGame(authContext: AuthContext) {
               }
 
               window.location.href = `${redirect}?jwt=${token}`;
+            },
+            onError: {
+              target: "error",
+              actions: "assignErrorMessage",
+            },
+          },
+        },
+        oauthorising: {
+          id: "oauthorising",
+          invoke: {
+            src: async (context) => {
+              const code = getOAuthCode() as string;
+              const hash = window.location.hash; // "#/oauth/discord"
+              const path = hash.split("/"); // Split by "/"
+              // Check if the structure matches and get the last part (i.e. "discord")
+              const type = path[2];
+
+              if (!type) {
+                throw new Error(`No Oauth Type provided`);
+              }
+
+              // Navigates to Discord OAuth Flow
+              const { game, fslId, discordId } = await oauthorise({
+                code,
+                transactionId: context.transactionId as string,
+                jwt: authContext.user.rawToken as string,
+                type,
+                farmId: context.farmId,
+              });
+
+              console.log({ game, fslId, discordId });
+
+              window.history.pushState({}, "", window.location.pathname);
+            },
+            onDone: {
+              target: "loading",
             },
             onError: {
               target: "error",
@@ -713,6 +748,10 @@ export function startGame(authContext: AuthContext) {
         },
         notifying: {
           always: [
+            {
+              target: "oauthorising",
+              cond: () => !!getOAuthCode(),
+            },
             {
               target: "gameRules",
               cond: () => {

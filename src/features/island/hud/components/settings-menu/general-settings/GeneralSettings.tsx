@@ -17,6 +17,20 @@ export const GeneralSettings: React.FC<ContentComponentProps> = ({
 
   return (
     <>
+      <Button
+        onClick={() => {
+          const redirect = encodeURIComponent(
+            CONFIG.DISCORD_REDIRECT as string,
+          );
+          const appKey = "RWi72tQ1oz8i"; // TODO .env?
+          const url = `https://id.fsl.com/api/account/oauth/authorize?response_type=code&appkey=${appKey}&redirect_uri=${redirect}&scope=basic%20wallet`;
+
+          window.location.href = url;
+        }}
+        className="mb-1"
+      >
+        <span>{`FSL`}</span>
+      </Button>
       <Button onClick={() => onSubMenuClick("discord")} className="mb-1">
         <span>{`Discord`}</span>
       </Button>
