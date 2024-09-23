@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 
-import { redirectOAuth } from "features/auth/actions/oauth";
+import { discordOAuth } from "features/auth/actions/oauth";
 import * as Auth from "features/auth/lib/Provider";
 import budIcon from "assets/icons/bud.png";
 
@@ -67,7 +67,7 @@ export const Discord: React.FC = () => {
 
   const buds = gameState.context.state.buds;
   const oauth = () => {
-    redirectOAuth({ nonce: gameState.context.oauthNonce });
+    discordOAuth({ nonce: gameState.context.oauthNonce });
   };
 
   const addRole = async (role: DiscordRole) => {

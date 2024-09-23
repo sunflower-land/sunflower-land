@@ -12,7 +12,7 @@ import { Label } from "components/ui/Label";
 import { Button } from "components/ui/Button";
 import { useActor, useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
-import { redirectOAuth } from "features/auth/actions/oauth";
+import { discordOAuth } from "features/auth/actions/oauth";
 import { ClaimReward } from "./ClaimReward";
 import { BONUSES } from "features/game/types/bonuses";
 import { gameAnalytics } from "lib/gameAnalytics";
@@ -47,7 +47,7 @@ export const DiscordBonus: React.FC<{ onClose: () => void }> = ({
   >(initialState());
 
   const oauth = () => {
-    redirectOAuth({ nonce: gameState.context.oauthNonce });
+    discordOAuth({ nonce: gameState.context.oauthNonce });
   };
 
   const acknowledge = () => {

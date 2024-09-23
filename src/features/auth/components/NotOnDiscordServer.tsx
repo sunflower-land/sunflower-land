@@ -4,7 +4,7 @@ import * as AuthProvider from "features/auth/lib/Provider";
 
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Button } from "components/ui/Button";
-import { redirectOAuth } from "../actions/oauth";
+import { discordOAuth } from "../actions/oauth";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
@@ -59,7 +59,7 @@ export const NotOnDiscordServer: React.FC = () => {
         </Button>
         <Button
           onClick={() => {
-            redirectOAuth({ nonce: gameState.context.oauthNonce });
+            discordOAuth({ nonce: gameState.context.oauthNonce });
           }}
         >
           {t("try.again")}
