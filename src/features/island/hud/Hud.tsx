@@ -27,6 +27,7 @@ import marketplaceIcon from "assets/icons/shop_disc.png";
 import { hasFeatureAccess } from "lib/flags";
 import { useNavigate } from "react-router-dom";
 import { TransactionCountdown } from "./Transaction";
+import * as AuthProvider from "features/auth/lib/Provider";
 
 const _farmAddress = (state: MachineState) => state.context.farmAddress;
 const _showMarketplace = (state: MachineState) =>
@@ -41,6 +42,8 @@ const HudComponent: React.FC<{
   moveButtonsUp?: boolean;
   location: CollectibleLocation;
 }> = ({ isFarming, location }) => {
+  const { authService } = useContext(AuthProvider.Context);
+
   const { gameService, shortcutItem, selectedItem } = useContext(Context);
   const [gameState] = useActor(gameService);
 
@@ -175,7 +178,6 @@ const HudComponent: React.FC<{
           <SpecialEventCountdown />
           <SeasonBannerCountdown />
         </div>
-
         <div
           className="absolute z-50 flex flex-col justify-between"
           style={{

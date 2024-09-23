@@ -69,7 +69,6 @@ export type Token = {
     landExpansion?: boolean;
     verified?: boolean;
   };
-  discordId?: string;
   farmId?: number;
 };
 
