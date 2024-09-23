@@ -65,7 +65,6 @@ const land = SUNNYSIDE.land.island;
 
 export const AUTO_SAVE_INTERVAL = 1000 * 30; // autosave every 30 seconds
 const SHOW_MODAL: Record<StateValues, boolean> = {
-  oauthorising: true,
   loading: true,
   playing: false,
   autosaving: false,
@@ -118,7 +117,6 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
 const isLoading = (state: MachineState) =>
   state.matches("loading") || state.matches("portalling");
 const isPortalling = (state: MachineState) => state.matches("portalling");
-const isOauthorising = (state: MachineState) => state.matches("oauthorising");
 const isTrading = (state: MachineState) => state.matches("trading");
 const isTraded = (state: MachineState) => state.matches("traded");
 const isListing = (state: MachineState) => state.matches("listing");
@@ -259,7 +257,6 @@ export const GameWrapper: React.FC = ({ children }) => {
   const pwaInstallRef = usePWAInstall();
 
   const loading = useSelector(gameService, isLoading);
-  const oauthorising = useSelector(gameService, isOauthorising);
   const provingPersonhood = useSelector(gameService, isProvingPersonhood);
   const portalling = useSelector(gameService, isPortalling);
   const trading = useSelector(gameService, isTrading);
@@ -477,7 +474,6 @@ export const GameWrapper: React.FC = ({ children }) => {
             {showOffers && <OffersPopup />}
             {specialOffer && <VIPOffer />}
             {hasSomethingArrived && <SomethingArrived />}
-            {oauthorising && <Loading text="Linking" />}
           </Panel>
         </Modal>
 
