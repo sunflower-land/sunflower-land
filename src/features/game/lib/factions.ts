@@ -368,6 +368,79 @@ export const BONUS_FACTION_PRIZES: Record<
         {},
       ),
   },
+  "2024-09-23": {
+    1: {
+      items: {
+        Mark: 30000,
+      },
+    },
+    2: {
+      items: {
+        Mark: 25000,
+      },
+    },
+    3: {
+      items: {
+        Mark: 20000,
+      },
+    },
+    // 4th to 6th
+    ...new Array(3)
+      .fill({
+        items: {
+          Mark: 15000,
+        },
+      })
+      .reduce(
+        (acc, item, i) => ({
+          ...acc,
+          [i + 4]: item,
+        }),
+        {},
+      ),
+    // 7th to 10th
+    ...new Array(4)
+      .fill({
+        items: {
+          Mark: 10000,
+        },
+      })
+      .reduce(
+        (acc, item, i) => ({
+          ...acc,
+          [i + 7]: item,
+        }),
+        {},
+      ),
+    // 11th to 25th
+    ...new Array(15)
+      .fill({
+        items: {
+          Mark: 5000,
+        },
+      })
+      .reduce(
+        (acc, item, i) => ({
+          ...acc,
+          [i + 11]: item,
+        }),
+        {},
+      ),
+    // 26th to 50th
+    ...new Array(25)
+      .fill({
+        items: {
+          Mark: 2500,
+        },
+      })
+      .reduce(
+        (acc, item, i) => ({
+          ...acc,
+          [i + 26]: item,
+        }),
+        {},
+      ),
+  },
 };
 
 export const FACTION_PRIZES: (
