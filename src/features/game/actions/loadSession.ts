@@ -33,6 +33,9 @@ type Response = {
   wallet?: string;
   nftId?: number;
   purchases: Purchase[];
+  discordId?: string;
+  fslId?: string;
+  oauthNonce: string;
 };
 
 const API_URL = CONFIG.API_URL;
@@ -101,6 +104,9 @@ export async function loadSession(request: Request): Promise<Response> {
     wallet,
     nftId,
     purchases,
+    discordId,
+    fslId,
+    oauthNonce,
   } = await sanitizeHTTPResponse<{
     farm: any;
     startedAt: string;
@@ -119,6 +125,9 @@ export async function loadSession(request: Request): Promise<Response> {
     linkedWallet?: string;
     wallet?: string;
     purchases: Purchase[];
+    discordId?: string;
+    fslId?: string;
+    oauthNonce: string;
   }>(response);
 
   saveSession(farm.id);
@@ -139,6 +148,9 @@ export async function loadSession(request: Request): Promise<Response> {
     wallet,
     nftId,
     purchases,
+    fslId,
+    discordId,
+    oauthNonce,
   };
 }
 

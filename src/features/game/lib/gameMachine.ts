@@ -87,7 +87,7 @@ import { setCachedMarketPrices } from "features/world/ui/market/lib/marketCache"
 import { MinigameName } from "../types/minigames";
 import { OFFLINE_FARM } from "./landData";
 import { isValidRedirect } from "features/portal/lib/portalUtil";
-import { Effect, postEffect } from "../actions/effect";
+import { postEffect } from "../actions/effect";
 import { TRANSACTION_SIGNATURES, TransactionName } from "../types/transactions";
 import { getKeys } from "../types/decorations";
 
@@ -98,6 +98,12 @@ const getRedirect = () => {
   const code = new URLSearchParams(window.location.search).get("redirect");
 
   return code;
+};
+
+const getError = () => {
+  const error = new URLSearchParams(window.location.search).get("error");
+
+  return error;
 };
 
 export type PastAction = GameEvent & {
@@ -133,6 +139,9 @@ export interface Context {
   paused?: boolean;
   verified?: boolean;
   purchases: Purchase[];
+  discordId?: string;
+  fslId?: string;
+  oauthNonce: string;
 }
 
 export type Moderation = {
@@ -246,7 +255,7 @@ export type UpdateUsernameEvent = {
 
 type PostEffectEvent = {
   type: "POST_EFFECT";
-  effect: Effect;
+  effect: any;
 };
 
 type TransactEvent = {
@@ -544,6 +553,7 @@ export function startGame(authContext: AuthContext) {
         saveQueued: false,
         verified: !CONFIG.API_URL,
         purchases: [],
+        oauthNonce: "",
       },
       states: {
         loading: {
@@ -552,6 +562,13 @@ export function startGame(authContext: AuthContext) {
             {
               target: "loadLandToVisit",
               cond: () => window.location.href.includes("visit"),
+            },
+            {
+              target: "error",
+              cond: () => !!getError(),
+              actions: assign({
+                errorCode: (_) => getError() as ErrorCode,
+              }),
             },
             {
               target: "notifying",
@@ -591,6 +608,9 @@ export function startGame(authContext: AuthContext) {
                 wallet: response.wallet,
                 verified: response.verified,
                 purchases: response.purchases,
+                discordId: response.discordId,
+                fslId: response.fslId,
+                oauthNonce: response.oauthNonce,
               };
             },
             onDone: [
@@ -603,6 +623,7 @@ export function startGame(authContext: AuthContext) {
                 cond: () => !!portalName,
                 actions: ["assignGame"],
               },
+
               {
                 target: "notifying",
                 actions: ["assignGame", "assignUrl", "initialiseAnalytics"],
@@ -642,6 +663,7 @@ export function startGame(authContext: AuthContext) {
             },
           },
         },
+
         loadLandToVisit: {
           invoke: {
             src: async (_, event) => {
@@ -1951,6 +1973,9 @@ export function startGame(authContext: AuthContext) {
           nftId: (_, event) => event.data.nftId,
           verified: (_, event) => event.data.verified,
           purchases: (_, event) => event.data.purchases,
+          discordId: (_, event) => event.data.discordId,
+          fslId: (_, event) => event.data.fslId,
+          oauthNonce: (_, event) => event.data.oauthNonce,
         }),
         setTransactionId: assign<Context, any>({
           transactionId: () => randomID(),

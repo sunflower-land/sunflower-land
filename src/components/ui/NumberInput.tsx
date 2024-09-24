@@ -53,13 +53,13 @@ export const NumberInput: React.FC<Props> = ({
       <input
         style={{
           textAlign: isRightAligned ? "right" : "left",
+          borderImageRepeat: "stretch",
           borderStyle: "solid",
           borderImage: `url(${isFocused ? activeBg : bg})`,
           borderWidth: `${PIXEL_SCALE * 4}px`,
           borderImageSlice: isFocused ? "4 fill" : "4 4 4 4 fill",
           padding: 0,
           imageRendering: "pixelated",
-          borderImageRepeat: "stretch",
           outline: "none",
         }}
         type="number"

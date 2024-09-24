@@ -31,6 +31,7 @@ import { ClaimReward } from "features/game/expansion/components/ClaimReward";
 import { NPC_WEARABLES } from "lib/npcs";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { TextInput } from "components/ui/TextInput";
+import { InventoryItemName } from "features/game/types/game";
 
 export const MarketplaceProfile: React.FC = () => {
   return (
@@ -67,7 +68,8 @@ const MyListings: React.FC = () => {
             const listing = listings[id];
 
             // TODO - more listed types. Only resources currently support
-            const itemId = KNOWN_IDS[getKeys(listing.items ?? {})[0]];
+            const itemId =
+              KNOWN_IDS[getKeys(listing.items ?? {})[0] as InventoryItemName];
             const details = getTradeableDisplay({
               id: itemId,
               type: "resources",

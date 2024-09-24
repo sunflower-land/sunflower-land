@@ -1,22 +1,15 @@
 import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
-import { GameState, InventoryItemName } from "../types/game";
+import { GameState } from "../types/game";
 import { makeGame } from "../lib/transforms";
 
 const API_URL = CONFIG.API_URL;
-
-export type Effect = {
-  type: "marketplace.onChainCollectibleListed";
-  item: InventoryItemName;
-  signature: string;
-  sfl: number;
-};
 
 type Request = {
   farmId: number;
   token: string;
   transactionId: string;
-  effect: Effect;
+  effect: any;
 };
 
 export async function postEffect(
