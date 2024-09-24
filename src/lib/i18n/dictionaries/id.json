@@ -2280,7 +2280,6 @@
   "marketplace.expiry": "Kedaluwarsa",
   "marketplace.from": "Dari",
   "marketplace.sfl": "SFL",
-  "marketplace.priceHistory": "Sejarah harga",
   "marketplace.confirmDetails": "Harap konfirmasikan rincian berikut.",
   "marketplace.howMuch": "Berapa banyak SFL yang ingin Anda tawarkan?",
   "marketplace.offerSuccess": "Selamat, Anda telah membuat penawaran. Sekarang bersabarlah dan tunggu Bumpkin menerimanya!",
@@ -3622,5 +3621,8 @@
   "description.factionShop.nightshadeQuiver": "Misterius dan ramping, Nightshade Quiver diikat dengan kulit gelap dan lentur, dirancang untuk mereka yang memanen di bawah naungan kegelapan. Hasil panen dan buah meningkat 0,25 ketika dijanjikan ke faksi ini. Kelipatan item ini tidak menumpuk.",
   "description.factionShop.nightshadeMedallion": "Medali ini menyalurkan daya tarik rahasia Nightshade dan keterampilan mereka dalam membuat hidangan halus dan eksotis dengan cepat. Meningkatkan kecepatan memasak sebesar 25% ketika dijanjikan ke faksi ini. Kelipatan item ini tidak menumpuk.",
   "onboarding.duplicateUser.one": "Sudah terhubung!",
-  "onboarding.duplicateUser.two": "Sepertinya akun ini sudah digunakan."
+  "onboarding.duplicateUser.two": "Sepertinya akun ini sudah digunakan.",
+  "marketplace.lastSold": "Terakhir dijual: {{sfl}} SFL",
+  "marketplace.noSales": "Belum ada penjualan baru-baru ini.",
+  "marketplace.priceHistory": "Riwayat penjualan"
 }

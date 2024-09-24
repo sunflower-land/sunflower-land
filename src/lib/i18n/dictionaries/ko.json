@@ -2277,7 +2277,6 @@
   "marketplace.expiry": "만료",
   "marketplace.from": "에서",
   "marketplace.sfl": "SFL",
-  "marketplace.priceHistory": "가격 내역",
   "marketplace.confirmDetails": "다음 세부 정보를 확인하십시오.",
   "marketplace.howMuch": "얼마나 많은 SFL을 제공하시겠습니까?",
   "marketplace.offerSuccess": "축하합니다. 제안을 하셨습니다.이제 인내심을 갖고 범프킨이 수락할 때까지 기다리세요!",
@@ -3622,5 +3621,8 @@
   "description.factionShop.nightshadeQuiver": "불가사의하고 세련된 나이트셰이드 퀴버는 어둡고 유연한 가죽으로 묶여 어둠 속에서 수확하는 사람들을 위해 디자인되었습니다.이 진영에 서약하면 작물과 과일 수확량이 0.25만큼 증가합니다.이 아이템은 여러 개 중첩되지 않습니다.",
   "description.factionShop.nightshadeMedallion": "이 메달리온은 세련되고 이국적인 요리를 신속하게 만드는 나이트셰이드의 비밀스러운 매력과 기술을 보여줍니다.이 진영에 서약하면 요리 속도가 25% 빨라집니다.이 아이템은 여러 개 중첩되지 않습니다.",
   "onboarding.duplicateUser.one": "이미 연결되었습니다!",
-  "onboarding.duplicateUser.two": "이 계정은 이미 사용된 것 같습니다."
+  "onboarding.duplicateUser.two": "이 계정은 이미 사용된 것 같습니다.",
+  "marketplace.lastSold": "최근 판매: {{sfl}} SFL",
+  "marketplace.noSales": "최근 판매가 없습니다.",
+  "marketplace.priceHistory": "판매 내역"
 }

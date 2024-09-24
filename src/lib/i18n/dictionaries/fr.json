@@ -3063,7 +3063,6 @@
   "marketplace.expiry": "Expiration",
   "marketplace.from": "À partir de",
   "marketplace.sfl": "SFL",
-  "marketplace.priceHistory": "Historique des prix",
   "marketplace.confirmDetails": "Veuillez confirmer les informations suivantes.",
   "marketplace.howMuch": "Quelle quantité de SFL souhaitez-vous offrir ?",
   "marketplace.offerSuccess": "Félicitations, vous avez fait une offre. Maintenant, soyez patient et attendez qu'un Bumpkin accepte !",
@@ -3622,5 +3621,8 @@
   "description.factionShop.nightshadeQuiver": "Énigmatique et élégant, le Nightshade Quiver est relié en cuir souple et foncé, conçu pour ceux qui récoltent dans l'obscurité. Le rendement des récoltes et des fruits augmente de 0,25 lorsqu'on s'engage auprès de cette faction. Les multiples de cet article ne se cumulent pas.",
   "description.factionShop.nightshadeMedallion": "Ce médaillon témoigne de l'attrait secret de la Nightshade et de son habileté à préparer rapidement des plats raffinés et exotiques. Améliore la vitesse de cuisson de 25 % lorsque vous faites un don à cette faction. Les multiples de cet article ne se cumulent pas.",
   "onboarding.duplicateUser.one": "Déjà connecté !",
-  "onboarding.duplicateUser.two": "Il semblerait que ce compte ait déjà été utilisé."
+  "onboarding.duplicateUser.two": "Il semblerait que ce compte ait déjà été utilisé.",
+  "marketplace.lastSold": "Dernière vente : {{sfl}} SFL",
+  "marketplace.noSales": "Il n'y a pas eu de ventes récentes.",
+  "marketplace.priceHistory": "Historique des ventes"
 }

@@ -3065,7 +3065,6 @@
   "marketplace.expiry": "Son kullanma tarihi",
   "marketplace.from": "Nereden",
   "marketplace.sfl": "SFL",
-  "marketplace.priceHistory": "Fiyat geçmişi",
   "marketplace.confirmDetails": "Lütfen aşağıdaki ayrıntıları onaylayın.",
   "marketplace.howMuch": "Ne kadar SFL sunmak istersiniz?",
   "marketplace.offerSuccess": "Tebrikler, bir teklifte bulundun. Şimdi sabırlı olun ve bir Bumpkin'in kabul etmesini bekleyin!",
@@ -3622,5 +3621,8 @@
   "description.factionShop.nightshadeQuiver": "Gizemli ve şık Nightshade Quiver, karanlığın örtüsü altında hasat yapanlar için tasarlanmış koyu, esnek deriden yapılmıştır. Bu fraksiyona taahhüt edildiğinde mahsul ve meyve verimi 0,25 artar. Bu öğenin katları yığılmaz.",
   "description.factionShop.nightshadeMedallion": "Bu madalyon, Nightsshade'in gizli cazibesini ve rafine ve egzotik yemekleri hızlı bir şekilde hazırlama becerilerini kanalize ediyor. Bu fraksiyona taahhüt edildiğinde pişirme hızını% 25 artırır. Bu öğenin katları yığılmaz.",
   "onboarding.duplicateUser.one": "Zaten bağlantılı!",
-  "onboarding.duplicateUser.two": "Görünüşe göre bu hesap zaten kullanılmış."
+  "onboarding.duplicateUser.two": "Görünüşe göre bu hesap zaten kullanılmış.",
+  "marketplace.lastSold": "Son satılan: {{sfl}} SFL",
+  "marketplace.noSales": "Son zamanlarda satış yapılmadı.",
+  "marketplace.priceHistory": "Satış geçmişi"
 }

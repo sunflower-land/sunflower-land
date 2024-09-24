@@ -2468,7 +2468,6 @@
   "marketplace.expiry": "到期",
   "marketplace.from": "来自",
   "marketplace.sfl": "SFL",
-  "marketplace.priceHistory": "价格历史",
   "marketplace.confirmDetails": "请确认以下细节。",
   "marketplace.howMuch": "你想提供多少 SFL？",
   "marketplace.offerSuccess": "恭喜你，你已经出价了。现在耐心等待 Bumpkin 接受！",
@@ -3622,5 +3621,8 @@
   "description.factionShop.nightshadeQuiver": "Nightshade Quiver 神秘而时尚，采用深色柔软皮革装订，专为那些在黑暗掩护下收获的人而设计。当向该派系承诺时，农作物和水果产量将增加0.25％。此物品的倍数不能叠加。",
   "description.factionShop.nightshadeMedallion": "这枚奖章传递了 Nightshade 的秘密魅力以及他们快速制作精致和充满异国情调的菜肴的技巧。当承诺加入该阵营时，烹饪速度提高 25%。此物品的倍数不能叠加。",
   "onboarding.duplicateUser.one": "已经链接了！",
-  "onboarding.duplicateUser.two": "看来这个账户已经被使用了。"
+  "onboarding.duplicateUser.two": "看来这个账户已经被使用了。",
+  "marketplace.lastSold": "最后售出时间：{{sfl}} SFL",
+  "marketplace.noSales": "最近没有销售。",
+  "marketplace.priceHistory": "销售记录"
 }

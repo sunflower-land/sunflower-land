@@ -2280,7 +2280,6 @@
   "marketplace.expiry": "Tamat tempoh",
   "marketplace.from": "Dari",
   "marketplace.sfl": "SFL",
-  "marketplace.priceHistory": "Sejarah harga",
   "marketplace.confirmDetails": "Sila sahkan butiran berikut.",
   "marketplace.howMuch": "Berapa banyak SFL yang anda ingin tawarkan?",
   "marketplace.offerSuccess": "Tahniah, anda telah membuat tawaran. Sekarang bersabar dan tunggu Bumpkin menerima!",
@@ -3622,5 +3621,8 @@
   "description.factionShop.nightshadeQuiver": "Misteri dan anggun, Nightshade Quiver diikat dengan kulit gelap dan lembut, direka untuk mereka yang menuai di bawah penutup kegelapan. Hasil tanaman dan buah meningkat sebanyak 0.25 apabila dijanjikan kepada puak ini. Gandakan item ini tidak disusun.",
   "description.factionShop.nightshadeMedallion": "Medali ini menyalurkan daya tarikan rahsia Nightshade dan kemahiran mereka dalam membuat hidangan halus dan eksotik dengan cepat. Meningkatkan kelajuan memasak sebanyak 25% apabila dijanjikan kepada puak ini. Gandakan item ini tidak disusun.",
   "onboarding.duplicateUser.one": "Sudah dihubungkan!",
-  "onboarding.duplicateUser.two": "Nampaknya akaun ini telah digunakan."
+  "onboarding.duplicateUser.two": "Nampaknya akaun ini telah digunakan.",
+  "marketplace.lastSold": "Terakhir dijual: {{sfl}} SFL",
+  "marketplace.noSales": "Tidak ada jualan baru-baru ini.",
+  "marketplace.priceHistory": "Sejarah jualan"
 }

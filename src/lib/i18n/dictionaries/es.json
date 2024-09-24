@@ -2241,7 +2241,6 @@
   "marketplace.expiry": "Caducidad",
   "marketplace.from": "Desde",
   "marketplace.sfl": "SFL",
-  "marketplace.priceHistory": "Historial de precios",
   "marketplace.confirmDetails": "Confirme los siguientes detalles.",
   "marketplace.howMuch": "¿Cuánto SFL te gustaría ofrecer?",
   "marketplace.offerSuccess": "Enhorabuena, has hecho una oferta. Ahora sé paciente y espera a que un Bumpkin acepte!",
@@ -3622,5 +3621,8 @@
   "description.factionShop.nightshadeQuiver": "Enigmático y elegante, el Nightshade Quiver está encuadernado en cuero oscuro y flexible, diseñado para quienes cosechan al amparo de la oscuridad. La cosecha y la producción de fruta aumentan un 0,25 puntos si se donan a esta facción. Los múltiplos de este objeto no se acumulan.",
   "description.factionShop.nightshadeMedallion": "Este medallón refleja el encanto secreto de la Sombra Nocturna y su habilidad para elaborar platos refinados y exóticos con rapidez. Aumenta un 25% la velocidad de cocción cuando se entrega a esta facción. Los múltiplos de este objeto no se acumulan.",
   "onboarding.duplicateUser.one": "¡Ya está vinculado!",
-  "onboarding.duplicateUser.two": "Parece que esta cuenta ya se ha utilizado."
+  "onboarding.duplicateUser.two": "Parece que esta cuenta ya se ha utilizado.",
+  "marketplace.lastSold": "Última venta: {{sfl}} SFL",
+  "marketplace.noSales": "No ha habido ventas recientes.",
+  "marketplace.priceHistory": "Historial de ventas"
 }
