@@ -3624,5 +3624,7 @@
   "depositing": "Depositing",
   "listing": "Listing",
   "deleting.listing": "Deleting listing",
-  "selling": "Selling"
+  "selling": "Selling",
+  "leaderboard.faction.all.members": "All Members",
+  "leaderboard.faction.additionalPrizes": "Additional prizes will be airdropped manually after the faction week is over."
 }

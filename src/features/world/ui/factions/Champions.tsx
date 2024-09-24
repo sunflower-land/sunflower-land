@@ -257,7 +257,7 @@ export const ChampionsPrizes: React.FC = () => {
         <tbody>
           <tr>
             <td style={{ border: "1px solid #b96f50" }} className="p-1.5">
-              {`All`}
+              {t("leaderboard.faction.all.members")}
             </td>
             <td style={{ border: "1px solid #b96f50" }} className="truncate">
               <div className="flex items-center space-x-1">
@@ -269,10 +269,16 @@ export const ChampionsPrizes: React.FC = () => {
           </tr>
         </tbody>
       </table>
-
-      <Label type="default" className="mb-2 ml-1" icon={gift}>
-        {t("leaderboard.faction.topPlayers")}
-      </Label>
+      <div className="mb-1">
+        <Label type="default" className="mb-2 ml-1" icon={gift}>
+          {t("leaderboard.faction.topPlayers")}
+        </Label>
+        {!!MONTHLY_PRIZES && (
+          <Label type="vibrant">
+            {t("leaderboard.faction.additionalPrizes")}
+          </Label>
+        )}
+      </div>
       <p className="text-xs mb-2">{t("leaderboard.faction.topPlayerPrizes")}</p>
       <table className="w-full text-xs table-auto border-collapse">
         <tbody>
