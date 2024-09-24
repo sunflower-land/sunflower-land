@@ -1158,7 +1158,8 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
       points: 3,
       skill: 5,
     },
-    boosts: "Increased all pickaxe type quantities per BB (?%)",
+    boosts:
+      "Increase stock of pickaxe by 70, stone pickaxe by 20, iron pickaxe by 7",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
   "Fire Kissed": {
