@@ -51,7 +51,7 @@ export const TradeableSummary: React.FC<{
   return (
     <div className="flex">
       <div className="h-12 w-12 mr-2 relative">
-        <img src={bg} className="w-full rounded-sm" />
+        <img src={bg} className="w-full rounded" />
         <img
           src={display.image}
           className="w-1/2 absolute"
@@ -449,8 +449,6 @@ export const TradeableOffers: React.FC<{
   id: number;
   onOfferMade: () => void;
 }> = ({ tradeable, farmId, display, id, onOfferMade }) => {
-  const { gameService } = useContext(Context);
-
   const { t } = useAppTranslation();
 
   const [showMakeOffer, setShowMakeOffer] = useState(false);

@@ -2292,6 +2292,8 @@
   "lostSunflorian.line1": "My father sent me here to rule over Helios.",
   "lostSunflorian.line2": "Unfortunately, these Bumpkins don't like me watching them.",
   "lostSunflorian.line3": "I can't wait to return to Sunfloria.",
+  "marketplace.areYouSureYouWantToBuy": "Are you sure you want to buy this item?",
+  "marketplace.signAndBuy": "Sign & Buy",
   "marketplace.youOwn": "You own: {{count}}",
   "marketplace.collection": "Collection",
   "marketplace.purpose": "Purpose",

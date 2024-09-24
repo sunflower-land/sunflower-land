@@ -50,7 +50,6 @@ export type WalletAction =
   | "dequip"
   | "wishingWell"
   | "connectWallet"
-  | "listTrade"
   | "marketplace";
 
 // Certain actions do not require an NFT to perform
