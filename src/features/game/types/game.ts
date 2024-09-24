@@ -75,6 +75,7 @@ import { Rewards } from "./rewards";
 import { ExperimentName } from "lib/flags";
 import { CollectionName, MarketplaceTradeableName } from "./marketplace";
 import { GameTransaction } from "./transactions";
+import { CompetitionName, CompetitionProgress } from "./competitions";
 
 export type Reward = {
   coins?: number;
@@ -1133,6 +1134,10 @@ export interface GameState {
   home: Home;
 
   rewards: Rewards;
+
+  competitions: {
+    progress: Partial<Record<CompetitionName, CompetitionProgress>>;
+  };
 
   // There are more fields but unused
   transaction?: GameTransaction;

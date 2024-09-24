@@ -18,6 +18,7 @@ import { Context } from "features/game/GameProvider";
 import { CONFIG } from "lib/config";
 import { LaTomatina } from "./LaTomatina";
 import { Richie } from "./Richie";
+import { CompetitionBoard } from "features/competition/CompetitionBoard";
 
 interface Props {
   townCenterBuilt: boolean;
@@ -103,7 +104,9 @@ export const WaterComponent: React.FC<Props> = ({
 
       <IslandUpgrader gameState={gameState} offset={offset} />
 
-      <Richie />
+      {/* <Richie /> */}
+
+      <CompetitionBoard />
 
       <MapPlacement x={-5 - offset} y={2} width={4}>
         <LaTomatina event={gameState.specialEvents.current["La Tomatina"]} />
