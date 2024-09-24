@@ -187,6 +187,14 @@ export function getOrderSellPrice<T>(game: GameState, order: Order): T {
     mul += 0.2;
   }
 
+  if (
+    order.from === "blacksmith" &&
+    game.bumpkin?.skills["Forge-Ward Profits"] &&
+    order.reward.coins
+  ) {
+    mul += 0.2;
+  }
+
   // Fruity Profit - 50% Coins bonus if fruit
   if (
     game.bumpkin?.skills["Fruity Profit"] &&

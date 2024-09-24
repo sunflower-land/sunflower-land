@@ -60,6 +60,16 @@ export function getToolPrice(
     price = price * 0.9;
   }
 
+  if (
+    bumpkin.skills["Frugal Miner"] &&
+    (name === "Pickaxe" ||
+      name === "Stone Pickaxe" ||
+      name === "Iron Pickaxe" ||
+      name === "Gold Pickaxe")
+  ) {
+    price = price * 0.8;
+  }
+
   // Return the price for the amount of tools
   return price * amount;
 }
