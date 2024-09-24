@@ -269,17 +269,16 @@ export const ChampionsPrizes: React.FC = () => {
           </tr>
         </tbody>
       </table>
-      <div className="mb-1">
-        <Label type="default" className="mb-2 ml-1" icon={gift}>
-          {t("leaderboard.faction.topPlayers")}
-        </Label>
-        {!!MONTHLY_PRIZES && (
-          <Label type="vibrant">
-            {t("leaderboard.faction.additionalPrizes")}
-          </Label>
-        )}
-      </div>
+
+      <Label type="default" className="mb-2 ml-1" icon={gift}>
+        {t("leaderboard.faction.topPlayers")}
+      </Label>
       <p className="text-xs mb-2">{t("leaderboard.faction.topPlayerPrizes")}</p>
+      {!!MONTHLY_PRIZES && (
+        <p className="text-xxs mb-2">
+          {t("leaderboard.faction.additionalPrizes")}
+        </p>
+      )}
       <table className="w-full text-xs table-auto border-collapse">
         <tbody>
           {prizes.map((prize, index) => {
