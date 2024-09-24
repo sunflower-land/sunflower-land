@@ -7,7 +7,7 @@ import { getTimeLeft } from "lib/utils/time";
 import { loadAudio, miningFallAudio } from "lib/utils/sfx";
 import { InventoryItemName, Rock } from "features/game/types/game";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
-import { useSelector } from "@xstate/react";
+import { useActor, useSelector } from "@xstate/react";
 import { MachineState } from "features/game/lib/gameMachine";
 import Decimal from "decimal.js-light";
 import { DepletedStone } from "./components/DepletedStone";
@@ -38,6 +38,11 @@ interface Props {
 
 export const Stone: React.FC<Props> = ({ id, index }) => {
   const { gameService, shortcutItem, showAnimations } = useContext(Context);
+  const [
+    {
+      context: { state },
+    },
+  ] = useActor(gameService);
 
   const [touchCount, setTouchCount] = useState(0);
 
@@ -91,6 +96,10 @@ export const Stone: React.FC<Props> = ({ id, index }) => {
     setTouchCount((count) => count + 1);
     shortcutItem(tool);
 
+    if (state.bumpkin.skills["Tap Prospector"]) {
+      // insta-mine the mineral
+      mine();
+    }
     // need to hit enough times to collect resource
     if (touchCount < HITS - 1) return;
 
