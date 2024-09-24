@@ -29,10 +29,17 @@ type Listing = {
   listedAt: number;
 };
 
+export type PriceHistory = {
+  date: string;
+  volume: number;
+  sales: number;
+  price: number;
+};
+
 export type TradeableDetails = Tradeable & {
   offers: Offer[];
   listings: Listing[];
-  history: { price: number; sales: number; date: string }[];
+  history: PriceHistory[];
 };
 
 export type Collection = {
