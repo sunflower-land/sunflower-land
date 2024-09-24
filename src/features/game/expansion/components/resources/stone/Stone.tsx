@@ -93,13 +93,14 @@ export const Stone: React.FC<Props> = ({ id, index }) => {
   const strike = () => {
     if (!hasTool) return;
 
-    setTouchCount((count) => count + 1);
     shortcutItem(tool);
 
     if (state.bumpkin.skills["Tap Prospector"]) {
       // insta-mine the mineral
-      mine();
+      return mine();
     }
+
+    setTouchCount((count) => count + 1);
     // need to hit enough times to collect resource
     if (touchCount < HITS - 1) return;
 
