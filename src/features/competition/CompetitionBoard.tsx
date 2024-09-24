@@ -1,5 +1,6 @@
+import * as AuthProvider from "features/auth/lib/Provider";
 import { Modal } from "components/ui/Modal";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import board from "assets/decorations/competition_board.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { MapPlacement } from "features/game/expansion/components/MapPlacement";
@@ -29,7 +30,9 @@ import {
   COMPETITION_POINTS,
   COMPETITION_TASK_DETAILS,
   COMPETITION_TASK_PROGRESS,
+  CompetitionLeaderboardResponse,
   CompetitionName,
+  CompetitionPlayer,
   CompetitionTaskName,
   getCompetitionPoints,
   getTaskCompleted,
@@ -39,6 +42,13 @@ import { Button } from "components/ui/Button";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
 import { TimerDisplay } from "features/retreat/components/auctioneer/AuctionDetails";
 import { ModalOverlay } from "components/ui/ModalOverlay";
+import {
+  getCompetitionLeaderboard,
+  getLeaderboard,
+} from "features/game/expansion/components/leaderboard/actions/leaderboard";
+import { Loading } from "features/auth/components";
+import { getRelativeTime } from "lib/utils/time";
+import { NPC } from "features/island/bumpkin/components/NPC";
 
 export const CompetitionBoard: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -219,9 +229,12 @@ const CompetitionModal: React.FC<{
         <>
           <InnerPanel className="mb-1">
             <div className="p-1">
-              <Label type="default" className="mb-2">
-                How to compete?
-              </Label>
+              <div className="flex justify-between mb-2">
+                <Label type="default" className="">
+                  Earn points
+                </Label>
+                <Label type="vibrant">{`${"TODO"} points`}</Label>
+              </div>
               <p className="text-xs mb-3">
                 Every time you complete a task below, you earn points!
               </p>
@@ -250,57 +263,7 @@ const CompetitionModal: React.FC<{
             </div>
           </InnerPanel>
 
-          <InnerPanel className="mb-1">
-            <div className="flex justify-between mb-2">
-              <Label type="default">You are 2nd</Label>
-              <Label type="vibrant">{`${playerPoints} points`}</Label>
-            </div>
-
-            <CompetitionTable
-              items={[
-                {
-                  id: 1,
-                  points: 200,
-                  username: "Steve",
-                },
-                {
-                  id: 2,
-                  points: 150,
-                  username: "George",
-                },
-                {
-                  id: 3,
-                  points: 100,
-                  username: "Frank",
-                },
-              ]}
-            />
-
-            <div className="flex justify-between mt-2">
-              <Label type="default" className="mb-2">
-                Top 10
-              </Label>
-            </div>
-            <CompetitionTable
-              items={[
-                {
-                  id: 1,
-                  points: 200,
-                  username: "Steve",
-                },
-                {
-                  id: 2,
-                  points: 150,
-                  username: "George",
-                },
-                {
-                  id: 3,
-                  points: 100,
-                  username: "Frank",
-                },
-              ]}
-            />
-          </InnerPanel>
+          <CompetitionLeaderboard name={competitionName} />
         </>
       )}
 
@@ -334,19 +297,70 @@ const CompetitionModal: React.FC<{
   );
 };
 
-type CompetitionRow = {
-  id: number;
-  username: string;
-  points: number;
+export const CompetitionLeaderboard: React.FC<{ name: CompetitionName }> = ({
+  name,
+}) => {
+  const { authService } = useContext(AuthProvider.Context);
+  const { gameService } = useContext(Context);
+  const [data, setData] = useState<CompetitionLeaderboardResponse>();
+
+  const { t } = useAppTranslation();
+  useEffect(() => {
+    const load = async () => {
+      const data = await getCompetitionLeaderboard({
+        farmId: gameService.state.context.farmId,
+        name,
+        jwt: authService.state.context.user.rawToken as string,
+      });
+
+      setData(data);
+    };
+
+    load();
+  }, []);
+
+  if (!data)
+    return (
+      <InnerPanel>
+        <Loading />
+      </InnerPanel>
+    );
+
+  const { leaderboard, lastUpdatedAt, miniboard, player } = data;
+  return (
+    <>
+      <InnerPanel className="mb-1">
+        <div className="p-1">
+          <div className="flex justify-between  items-center mb-2">
+            <Label type="default" className="">
+              Leaderboard
+            </Label>
+            <p className="font-secondary text-xs">
+              {t("last.updated")} {getRelativeTime(lastUpdatedAt)}
+            </p>
+          </div>
+          <CompetitionTable items={leaderboard} />
+
+          {player && (
+            <>
+              <p className="text-center text-xs mb-2">...</p>
+              <CompetitionTable items={miniboard} />
+            </>
+          )}
+        </div>
+      </InnerPanel>
+    </>
+  );
 };
-export const CompetitionTable: React.FC<{ items: CompetitionRow[] }> = ({
+
+export const CompetitionTable: React.FC<{ items: CompetitionPlayer[] }> = ({
   items,
 }) => {
   const { t } = useAppTranslation();
   return (
     <table className="w-full text-xs table-fixed border-collapse">
       <tbody>
-        {items.map(({ username, points }, index) => (
+        {items.map(({ username, points, rank, bumpkin }, index) => (
           <tr
             key={index}
             className={classNames("relative", {
@@ -357,12 +371,15 @@ export const CompetitionTable: React.FC<{ items: CompetitionRow[] }> = ({
               style={{ border: "1px solid #b96f50" }}
               className="p-1.5 text-left w-12"
             >
-              {toOrdinalSuffix(index + 1)}
+              {toOrdinalSuffix(rank)}
             </td>
             <td
               style={{ border: "1px solid #b96f50" }}
-              className="p-1.5 text-left"
+              className="p-1.5 text-left pl-8 relative"
             >
+              <div className="absolute" style={{ left: "4px", top: "-7px" }}>
+                <NPC width={20} parts={bumpkin} />
+              </div>
               {username}
             </td>
             <td

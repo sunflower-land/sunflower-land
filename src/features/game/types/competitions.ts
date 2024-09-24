@@ -4,6 +4,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { GameState } from "./game";
 import { getBumpkinLevel } from "../lib/level";
 import { getKeys } from "./decorations";
+import { BumpkinParts } from "lib/utils/tokenUriBuilder";
 
 export type CompetitionName = "TESTING" | "FSL";
 
@@ -128,3 +129,25 @@ export function getTaskCompleted({
 
   return completed;
 }
+
+export type CompetitionPlayer = {
+  id: number;
+  points: number;
+  username: string;
+  rank: number;
+  bumpkin: BumpkinParts;
+
+  // Following data is used for reporting + airdrops
+  nftId?: number;
+};
+
+export type CompetitionData = {
+  players: CompetitionPlayer[];
+};
+
+export type CompetitionLeaderboardResponse = {
+  leaderboard: CompetitionPlayer[];
+  miniboard: CompetitionPlayer[];
+  lastUpdatedAt: number;
+  player?: CompetitionPlayer;
+};
