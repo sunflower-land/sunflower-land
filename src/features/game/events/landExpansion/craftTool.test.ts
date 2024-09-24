@@ -172,4 +172,99 @@ describe("craftTool", () => {
 
     expect(state.coins).toEqual(84);
   });
+  it("pickaxe cost 20% less coins with  skill", () => {
+    const state = craftTool({
+      state: {
+        ...GAME_STATE,
+        coins: 100,
+        inventory: {
+          Wood: new Decimal(3),
+        },
+        bumpkin: {
+          ...GAME_STATE.bumpkin,
+          skills: {
+            "Frugal Miner": 1,
+          },
+        },
+      },
+      action: {
+        type: "tool.crafted",
+        tool: "Pickaxe",
+      },
+    });
+
+    expect(state.coins).toEqual(84);
+  });
+  it("stone pickaxe cost 20% less coins with  skill", () => {
+    const state = craftTool({
+      state: {
+        ...GAME_STATE,
+        coins: 100,
+        inventory: {
+          Wood: new Decimal(3),
+          Stone: new Decimal(5),
+        },
+        bumpkin: {
+          ...GAME_STATE.bumpkin,
+          skills: {
+            "Frugal Miner": 1,
+          },
+        },
+      },
+      action: {
+        type: "tool.crafted",
+        tool: "Stone Pickaxe",
+      },
+    });
+
+    expect(state.coins).toEqual(84);
+  });
+  it("iron pickaxe cost 20% less coins with  skill", () => {
+    const state = craftTool({
+      state: {
+        ...GAME_STATE,
+        coins: 100,
+        inventory: {
+          Wood: new Decimal(3),
+          Iron: new Decimal(5),
+        },
+        bumpkin: {
+          ...GAME_STATE.bumpkin,
+          skills: {
+            "Frugal Miner": 1,
+          },
+        },
+      },
+      action: {
+        type: "tool.crafted",
+        tool: "Iron Pickaxe",
+      },
+    });
+
+    expect(state.coins).toEqual(36);
+  });
+  it("gold pickaxe cost 20% less coins with  skill", () => {
+    const state = craftTool({
+      state: {
+        ...GAME_STATE,
+        coins: 100,
+        inventory: {
+          Wood: new Decimal(3),
+          Gold: new Decimal(3),
+        },
+        bumpkin: {
+          ...GAME_STATE.bumpkin,
+          skills: {
+            "Frugal Miner": 1,
+          },
+        },
+      },
+      action: {
+        type: "tool.crafted",
+        tool: "Gold Pickaxe",
+      },
+    });
+
+    expect(state.coins).toEqual(20);
+  });
 });

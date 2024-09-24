@@ -974,6 +974,45 @@ describe("deliver", () => {
 
     expect(state.coins).toEqual(120);
   });
+  it("add 20% coins bonus if has Forge-Ward Profits skill on Blacksmith's orders with Coins reward", () => {
+    const state = deliverOrder({
+      state: {
+        ...TEST_FARM,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          skills: {
+            "Forge-Ward Profits": 1,
+          },
+        },
+        inventory: {
+          Wood: new Decimal(50),
+        },
+        delivery: {
+          ...TEST_FARM.delivery,
+          fulfilledCount: 3,
+          orders: [
+            {
+              id: "123",
+              createdAt: 0,
+              readyAt: new Date("2023-10-31T15:00:00Z").getTime(),
+              from: "blacksmith",
+              items: {
+                Wood: 50,
+              },
+              reward: { coins: 100 },
+            },
+          ],
+        },
+      },
+      action: {
+        id: "123",
+        type: "order.delivered",
+      },
+      createdAt: new Date("2024-05-10T16:00:00Z").getTime(),
+    });
+
+    expect(state.coins).toEqual(120);
+  });
 
   it("does not add 20% coins bonus if has Betty's Friend skill on non Betty's orders with Coins reward", () => {
     const state = deliverOrder({
