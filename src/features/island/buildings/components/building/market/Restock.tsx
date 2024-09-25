@@ -11,7 +11,7 @@ import { gameAnalytics } from "lib/gameAnalytics";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { ConfirmationModal } from "components/ui/ConfirmationModal";
 import { NPC_WEARABLES } from "lib/npcs";
-import { BB_TO_GEM_RATION } from "features/game/types/game";
+import { BB_TO_GEM_RATIO } from "features/game/types/game";
 
 interface Props {
   onClose: () => void;
@@ -50,7 +50,7 @@ export const Restock: React.FC<Props> = ({ onClose }) => {
 
     gameAnalytics.trackSink({
       currency: "Gem",
-      amount: 1 * BB_TO_GEM_RATION,
+      amount: 1 * BB_TO_GEM_RATIO,
       item: "Stock",
       type: "Fee",
     });

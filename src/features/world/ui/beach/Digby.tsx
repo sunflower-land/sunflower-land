@@ -20,7 +20,7 @@ import powerup from "assets/icons/level_up.png";
 import gift from "assets/icons/gift.png";
 import blockBuck from "assets/icons/block_buck.png";
 
-import { BB_TO_GEM_RATION, Desert, GameState } from "features/game/types/game";
+import { BB_TO_GEM_RATIO, Desert, GameState } from "features/game/types/game";
 import { getKeys } from "features/game/types/decorations";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Button } from "components/ui/Button";
@@ -414,7 +414,7 @@ export const Digby: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   };
 
   const canAfford = (inventory["Gem"] ?? new Decimal(0))?.gte(
-    1 * BB_TO_GEM_RATION,
+    1 * BB_TO_GEM_RATIO,
   );
 
   return (

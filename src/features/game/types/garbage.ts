@@ -1,4 +1,4 @@
-import { BB_TO_GEM_RATION } from "./game";
+import { BB_TO_GEM_RATIO } from "./game";
 import { SeasonalTicket, SEASONS } from "./seasons";
 
 export type GarbageName =
@@ -30,7 +30,7 @@ export type Garbage = {
 export const GARBAGE: Record<GarbageName, Garbage> = {
   "Block Buck": {
     sellPrice: 0,
-    gems: BB_TO_GEM_RATION,
+    gems: BB_TO_GEM_RATIO,
   },
   "Solar Flare Ticket": {
     sellPrice: 0.1,

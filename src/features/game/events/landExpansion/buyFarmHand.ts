@@ -1,6 +1,6 @@
 import Decimal from "decimal.js-light";
 import {
-  BB_TO_GEM_RATION,
+  BB_TO_GEM_RATIO,
   GameState,
   IslandType,
   Wardrobe,
@@ -49,7 +49,7 @@ export function buyFarmhand({
       throw new Error("No space for a farm hand");
     }
 
-    const cost = (farmHands + 2) * 5 * BB_TO_GEM_RATION;
+    const cost = (farmHands + 2) * 5 * BB_TO_GEM_RATIO;
 
     // Use coupon, otherwise Gems
     const coupons = game.inventory["Farmhand Coupon"];

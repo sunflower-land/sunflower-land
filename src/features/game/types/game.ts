@@ -182,7 +182,7 @@ export type MutantChicken =
   | "Knight Chicken"
   | "Pharaoh Chicken";
 
-export const BB_TO_GEM_RATION = 100;
+export const BB_TO_GEM_RATIO = 20;
 
 export type Coupons =
   | "Gold Pass"
@@ -212,6 +212,9 @@ export type Coupons =
 export type Keys = "Treasure Key" | "Rare Key" | "Luxury Key";
 
 export const COUPONS: Record<Coupons, { description: string }> = {
+  Gem: {
+    description: translate("description.gem"),
+  },
   "Gold Pass": {
     description: translate("description.gold.pass"),
   },

@@ -7,7 +7,7 @@ import {
 } from "features/game/lib/constants";
 import { restock } from "./restock";
 import {
-  BB_TO_GEM_RATION,
+  BB_TO_GEM_RATIO,
   GameState,
   PlacedItem,
 } from "features/game/types/game";
@@ -17,7 +17,7 @@ const GAME_STATE: GameState = {
   ...TEST_FARM,
   bumpkin: INITIAL_BUMPKIN,
   inventory: {
-    Gem: new Decimal(1 * BB_TO_GEM_RATION),
+    Gem: new Decimal(1 * BB_TO_GEM_RATIO),
   },
 };
 

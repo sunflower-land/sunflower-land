@@ -18,7 +18,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { SUNNYSIDE } from "assets/sunnyside";
 import blockBuck from "assets/icons/block_buck.png";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
-import { BB_TO_GEM_RATION } from "features/game/types/game";
+import { BB_TO_GEM_RATIO } from "features/game/types/game";
 
 const isPromoting = (state: MachineState) => state.matches("specialOffer");
 const _inventory = (state: MachineState) => state.context.state.inventory;
@@ -71,10 +71,10 @@ export const PromotingModal: React.FC<Props> = ({
 
   const [showPurchased, setShowPurchased] = useState(hasPurchased);
 
-  let price = hasDiscount ? 35 * BB_TO_GEM_RATION : 50 * BB_TO_GEM_RATION;
+  let price = hasDiscount ? 35 * BB_TO_GEM_RATIO : 50 * BB_TO_GEM_RATIO;
 
   if (!isPreSeason) {
-    price = 65 * BB_TO_GEM_RATION;
+    price = 65 * BB_TO_GEM_RATIO;
   }
 
   const onCloseConfirmation = () => {

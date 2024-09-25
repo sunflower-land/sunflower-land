@@ -118,11 +118,7 @@ const LandscapingHudComponent: React.FC<{
 
   return (
     <HudContainer>
-      <Balances
-        sfl={balance}
-        coins={coins}
-        blockBucks={gems ?? new Decimal(0)}
-      />
+      <Balances sfl={balance} coins={coins} gems={gems ?? new Decimal(0)} />
 
       <>
         {idle && (

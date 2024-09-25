@@ -1,5 +1,5 @@
 import { NPCName } from "lib/npcs";
-import { BB_TO_GEM_RATION, InventoryItemName, Wardrobe } from "./game";
+import { BB_TO_GEM_RATIO, InventoryItemName, Wardrobe } from "./game";
 import { FlowerName } from "./flowers";
 
 type GiftPoints = Partial<Record<FlowerName, number>>;
@@ -119,7 +119,7 @@ export const BUMPKIN_GIFTS: Partial<Record<NPCName, BumpkinGifts>> = {
     planned: [
       {
         friendshipPoints: 5,
-        items: { Gem: 1 * BB_TO_GEM_RATION },
+        items: { Gem: 1 * BB_TO_GEM_RATIO },
         coins: 0,
         wearables: {},
       },
@@ -167,7 +167,7 @@ export const BUMPKIN_GIFTS: Partial<Record<NPCName, BumpkinGifts>> = {
       },
       {
         friendshipPoints: 40,
-        items: { Gem: 1 * BB_TO_GEM_RATION },
+        items: { Gem: 1 * BB_TO_GEM_RATIO },
         coins: 0,
         wearables: {},
       },
@@ -195,7 +195,7 @@ export const BUMPKIN_GIFTS: Partial<Record<NPCName, BumpkinGifts>> = {
       },
       {
         friendshipPoints: 110,
-        items: { Gem: 2 * BB_TO_GEM_RATION },
+        items: { Gem: 2 * BB_TO_GEM_RATIO },
         coins: 0,
         wearables: {},
       },
@@ -231,7 +231,7 @@ export const BUMPKIN_GIFTS: Partial<Record<NPCName, BumpkinGifts>> = {
       },
       {
         friendshipPoints: 100,
-        items: { Gem: 2 * BB_TO_GEM_RATION },
+        items: { Gem: 2 * BB_TO_GEM_RATIO },
         coins: 0,
         wearables: {},
       },
@@ -440,7 +440,7 @@ export const BUMPKIN_GIFTS: Partial<Record<NPCName, BumpkinGifts>> = {
       },
       {
         friendshipPoints: 150,
-        items: { Gem: 2 * BB_TO_GEM_RATION },
+        items: { Gem: 2 * BB_TO_GEM_RATIO },
         coins: 0,
         wearables: {},
       },
@@ -468,7 +468,7 @@ export const BUMPKIN_GIFTS: Partial<Record<NPCName, BumpkinGifts>> = {
       },
       {
         friendshipPoints: 175,
-        items: { Gem: 1 * BB_TO_GEM_RATION },
+        items: { Gem: 1 * BB_TO_GEM_RATIO },
         coins: 0,
         wearables: {},
       },

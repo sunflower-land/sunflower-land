@@ -17,7 +17,7 @@ import {
   Nodes,
   TOTAL_EXPANSION_NODES,
 } from "features/game/expansion/lib/expansionNodes";
-import { BB_TO_GEM_RATION } from "features/game/types/game";
+import { BB_TO_GEM_RATIO } from "features/game/types/game";
 
 describe("expansionRequirements", () => {
   it("returns normal expansion requirements", () => {
@@ -239,7 +239,7 @@ describe("revealLand", () => {
         inventory: {
           "Basic Land": new Decimal(3),
           Stone: new Decimal(5),
-          Gem: new Decimal(3 * BB_TO_GEM_RATION),
+          Gem: new Decimal(3 * BB_TO_GEM_RATIO),
           Wood: new Decimal(1),
         },
         expansionConstruction: { createdAt: 0, readyAt: 0 },
@@ -262,7 +262,7 @@ describe("revealLand", () => {
         inventory: {
           "Basic Land": new Decimal(3),
           Stone: new Decimal(5),
-          Gem: new Decimal(3 * BB_TO_GEM_RATION),
+          Gem: new Decimal(3 * BB_TO_GEM_RATIO),
           Wood: new Decimal(1),
         },
         expansionConstruction: { createdAt: 0, readyAt: 0 },

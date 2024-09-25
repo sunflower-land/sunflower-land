@@ -23,38 +23,12 @@ export interface Price {
 }
 
 const PRICES: Price[] = [
-  {
-    amount: 1,
-    usd: 0.25, // $0.25 each
-  },
-  {
-    amount: 5,
-    usd: 0.99, // $0.198 each
-  },
-  {
-    amount: 10,
-    usd: 1.75, // $0.175 each
-  },
-  {
-    amount: 20,
-    usd: 2.99, // $0.1495 each
-  },
-  {
-    amount: 100,
-    usd: 14.5, // $0.145 each
-  },
-  {
-    amount: 500,
-    usd: 65, // $0.13 each
-  },
-  {
-    amount: 1000,
-    usd: 125, // $0.125 each
-  },
-  {
-    amount: 10000,
-    usd: 1000, // $0.10 each
-  },
+  { amount: 100, usd: 0.99 },
+  { amount: 350, usd: 2.99 },
+  { amount: 600, usd: 4.99 },
+  { amount: 1250, usd: 9.99 },
+  { amount: 2750, usd: 19.99 },
+  { amount: 15000, usd: 99.99 },
 ];
 
 const _starterOfferSecondsLeft = (state: MachineState) => {
@@ -246,7 +220,7 @@ export const BuyGems: React.FC<Props> = ({
                 </div>
               </div>
               <div className="flex flex-col justify-end flex-1 items-end">
-                <span className="text-sm mb-1 line-through">{`$3.99`}</span>
+                <span className="text-sm mb-1 line-through">{`$2.99`}</span>
                 <Label type="warning">{`US$0.99`}</Label>
               </div>
             </div>

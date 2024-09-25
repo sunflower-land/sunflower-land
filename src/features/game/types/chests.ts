@@ -1,4 +1,4 @@
-import { BB_TO_GEM_RATION, InventoryItemName, Wardrobe } from "./game";
+import { BB_TO_GEM_RATIO, InventoryItemName, Wardrobe } from "./game";
 import { SEASONS } from "./seasons";
 
 export type ChestReward = {
@@ -80,10 +80,10 @@ export const BASIC_REWARDS: () => ChestReward[] = () => [
   { coins: 1600, weighting: 100 * multiplier },
   { coins: 3200, weighting: 50 * multiplier },
   { coins: 8000, weighting: 20 * multiplier },
-  { items: { Gem: 1 * BB_TO_GEM_RATION }, weighting: 100 * multiplier },
-  { items: { Gem: 2 * BB_TO_GEM_RATION }, weighting: 50 * multiplier },
-  { items: { Gem: 5 * BB_TO_GEM_RATION }, weighting: 20 * multiplier },
-  { items: { Gem: 10 * BB_TO_GEM_RATION }, weighting: 5 * multiplier },
+  { items: { Gem: 1 * BB_TO_GEM_RATIO }, weighting: 100 * multiplier },
+  { items: { Gem: 2 * BB_TO_GEM_RATIO }, weighting: 50 * multiplier },
+  { items: { Gem: 5 * BB_TO_GEM_RATIO }, weighting: 20 * multiplier },
+  { items: { Gem: 10 * BB_TO_GEM_RATIO }, weighting: 5 * multiplier },
   {
     items: { Axe: 5, Pickaxe: 5, "Stone Pickaxe": 5 },
     weighting: 100 * multiplier,
@@ -108,12 +108,12 @@ export const RARE_REWARDS: () => ChestReward[] = () => [
   { coins: 3200, weighting: 100 * multiplier },
   { coins: 8000, weighting: 50 * multiplier },
   { coins: 16000, weighting: 20 * multiplier },
-  { items: { Gem: 1 * BB_TO_GEM_RATION }, weighting: 50 * multiplier },
-  { items: { Gem: 2 * BB_TO_GEM_RATION }, weighting: 100 * multiplier },
-  { items: { Gem: 5 * BB_TO_GEM_RATION }, weighting: 50 * multiplier },
-  { items: { Gem: 10 * BB_TO_GEM_RATION }, weighting: 20 * multiplier },
-  { items: { Gem: 25 * BB_TO_GEM_RATION }, weighting: 10 * multiplier },
-  { items: { Gem: 50 * BB_TO_GEM_RATION }, weighting: 5 * multiplier },
+  { items: { Gem: 1 * BB_TO_GEM_RATIO }, weighting: 50 * multiplier },
+  { items: { Gem: 2 * BB_TO_GEM_RATIO }, weighting: 100 * multiplier },
+  { items: { Gem: 5 * BB_TO_GEM_RATIO }, weighting: 50 * multiplier },
+  { items: { Gem: 10 * BB_TO_GEM_RATIO }, weighting: 20 * multiplier },
+  { items: { Gem: 25 * BB_TO_GEM_RATIO }, weighting: 10 * multiplier },
+  { items: { Gem: 50 * BB_TO_GEM_RATIO }, weighting: 5 * multiplier },
   {
     items: { Axe: 15, Pickaxe: 15, "Stone Pickaxe": 15 },
     weighting: 50 * multiplier,
@@ -137,10 +137,10 @@ export const LUXURY_REWARDS: () => ChestReward[] = () => [
   { coins: 3200, weighting: 50 * multiplier },
   { coins: 8000, weighting: 100 * multiplier },
   { coins: 16000, weighting: 50 * multiplier },
-  { items: { Gem: 5 * BB_TO_GEM_RATION }, weighting: 50 * multiplier },
-  { items: { Gem: 10 * BB_TO_GEM_RATION }, weighting: 100 * multiplier },
-  { items: { Gem: 25 * BB_TO_GEM_RATION }, weighting: 25 * multiplier },
-  { items: { Gem: 50 * BB_TO_GEM_RATION }, weighting: 10 * multiplier },
+  { items: { Gem: 5 * BB_TO_GEM_RATIO }, weighting: 50 * multiplier },
+  { items: { Gem: 10 * BB_TO_GEM_RATIO }, weighting: 100 * multiplier },
+  { items: { Gem: 25 * BB_TO_GEM_RATIO }, weighting: 25 * multiplier },
+  { items: { Gem: 50 * BB_TO_GEM_RATIO }, weighting: 10 * multiplier },
   { items: { "Gold Pickaxe": 10 }, weighting: 75 * multiplier },
   { items: { "Oil Drill": 5 }, weighting: 50 * multiplier },
   {

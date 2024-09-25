@@ -1,5 +1,5 @@
 import Decimal from "decimal.js-light";
-import { BB_TO_GEM_RATION, GameState } from "../../types/game";
+import { BB_TO_GEM_RATIO, GameState } from "../../types/game";
 import {
   SEASONAL_BANNERS,
   SEASONS,
@@ -29,7 +29,7 @@ export function getBannerPrice(
   createdAt: number,
   farmId?: number,
 ): Decimal {
-  const lifeTimePrice = 740 * BB_TO_GEM_RATION;
+  const lifeTimePrice = 740 * BB_TO_GEM_RATIO;
 
   if (banner === "Lifetime Farmer Banner") {
     return new Decimal(lifeTimePrice);
@@ -48,15 +48,15 @@ export function getBannerPrice(
 
   if (weeksElapsed < 1) {
     const previousBannerDiscount = hasPreviousBanner ? 15 : 0;
-    return new Decimal(75 * BB_TO_GEM_RATION).sub(previousBannerDiscount);
+    return new Decimal(75 * BB_TO_GEM_RATIO).sub(previousBannerDiscount);
   }
   if (weeksElapsed < 4) {
-    return new Decimal(100 * BB_TO_GEM_RATION);
+    return new Decimal(100 * BB_TO_GEM_RATIO);
   }
   if (weeksElapsed < 8) {
-    return new Decimal(80 * BB_TO_GEM_RATION);
+    return new Decimal(80 * BB_TO_GEM_RATIO);
   }
-  return new Decimal(60 * BB_TO_GEM_RATION);
+  return new Decimal(60 * BB_TO_GEM_RATIO);
 }
 
 export function purchaseBanner({
@@ -79,7 +79,7 @@ export function purchaseBanner({
         throw new Error("You already have this banner");
       }
 
-      const lifeTimePrice = 740 * BB_TO_GEM_RATION;
+      const lifeTimePrice = 740 * BB_TO_GEM_RATIO;
 
       if (currentBlockBucks.lessThan(lifeTimePrice)) {
         throw new Error("Insufficient Gems");
