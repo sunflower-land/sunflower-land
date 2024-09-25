@@ -55,7 +55,7 @@ describe("expandLand", () => {
           Gold: new Decimal(5),
           Crimstone: new Decimal(12),
           Oil: new Decimal(10),
-          Gem: new Decimal(3),
+          Gem: new Decimal(3 * BB_TO_GEM_RATION),
         },
         coins: 325,
         island: {
