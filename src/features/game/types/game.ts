@@ -328,14 +328,16 @@ export type FactionBanner =
 
 export type GoldenCropEventItem = "Golden Crop";
 
+export type Skills = Partial<
+  Record<BumpkinSkillName, number> & Record<BumpkinRevampSkillName, number>
+>;
+
 export type Bumpkin = {
   id: number;
   equipped: BumpkinParts;
   tokenUri: string;
   experience: number;
-  skills: Partial<
-    Record<BumpkinSkillName, number> & Record<BumpkinRevampSkillName, number>
-  >;
+  skills: Skills;
   achievements?: Partial<Record<AchievementName, number>>;
   activity: Partial<Record<BumpkinActivityName, number>>;
   previousSkillsResetAt?: number;

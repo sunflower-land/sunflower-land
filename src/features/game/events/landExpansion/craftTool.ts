@@ -39,6 +39,17 @@ type Options = {
   action: CraftToolAction;
 };
 
+const isPickaxe = (name: WorkbenchToolName): boolean => {
+  const pickaxes: WorkbenchToolName[] = [
+    "Pickaxe",
+    "Stone Pickaxe",
+    "Iron Pickaxe",
+    "Gold Pickaxe",
+  ];
+
+  return pickaxes.includes(name);
+};
+
 export function getToolPrice(
   tool: Tool,
   amount: number,
@@ -58,6 +69,10 @@ export function getToolPrice(
   // Artist's Discount Skill: 10% off
   if (inventory["Artist"]?.gte(1)) {
     price = price * 0.9;
+  }
+
+  if (bumpkin.skills["Frugal Miner"] && isPickaxe(name as WorkbenchToolName)) {
+    price = price * 0.8;
   }
 
   // Return the price for the amount of tools

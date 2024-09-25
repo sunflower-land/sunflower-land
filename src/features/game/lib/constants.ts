@@ -65,16 +65,21 @@ export const INITIAL_STOCK = (state?: GameState): Inventory => {
 
   // increase in 50% tool stock if you have a toolshed
   if (state?.buildings.Toolshed && isBuildingReady(state.buildings.Toolshed)) {
-    for (const tool in tools) {
-      tools[tool as keyof typeof tools] = new Decimal(
-        Math.ceil(tools[tool as keyof typeof tools].toNumber() * 1.5),
-      );
-    }
+    getKeys(tools).forEach(
+      (tool) =>
+        (tools[tool] = new Decimal(Math.ceil(tools[tool].mul(1.5).toNumber()))),
+    );
   }
 
   // increase Axe stock by 20% if player has More Axes skill
   if (state?.bumpkin?.skills["More Axes"]) {
     tools.Axe = new Decimal(Math.ceil(tools.Axe.toNumber() * 1.2));
+  }
+
+  if (state?.bumpkin?.skills["More Picks"]) {
+    tools.Pickaxe = tools.Pickaxe.add(new Decimal(70));
+    tools["Stone Pickaxe"] = tools["Stone Pickaxe"].add(new Decimal(20));
+    tools["Iron Pickaxe"] = tools["Iron Pickaxe"].add(new Decimal(7));
   }
 
   const seeds: Record<SeedName, Decimal> = {
@@ -114,11 +119,10 @@ export const INITIAL_STOCK = (state?: GameState): Inventory => {
     isBuildingReady(state.buildings.Warehouse)
   ) {
     // Multiply each seed quantity by 1.2 and round up
-    for (const seed in seeds) {
-      seeds[seed as keyof typeof seeds] = new Decimal(
-        Math.ceil(seeds[seed as keyof typeof seeds].toNumber() * 1.2),
-      );
-    }
+    getKeys(seeds).forEach(
+      (seed) =>
+        (seeds[seed] = new Decimal(Math.ceil(seeds[seed].mul(1.2).toNumber()))),
+    );
   }
 
   return {
