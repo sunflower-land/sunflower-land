@@ -262,7 +262,7 @@ export const CompetitionModal: React.FC<{
                         <p className="text-xs">{name}</p>
                       </div>
                       <Label
-                        type="vibrant"
+                        type="warning"
                         className="absolute -top-4 -right-2"
                       >{`${COMPETITION_POINTS[competitionName].points[name]} points`}</Label>
                     </ButtonPanel>
