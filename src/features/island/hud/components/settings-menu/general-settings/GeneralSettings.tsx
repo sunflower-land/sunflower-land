@@ -36,7 +36,7 @@ export const GeneralSettings: React.FC<ContentComponentProps> = ({
           onClick={connectToFSL}
           className="mb-1 relative"
         >
-          {`FSL`}
+          {`Connect FSL ID`}
           {!!gameService.state.context.fslId && (
             <img
               src={SUNNYSIDE.icons.confirm}

@@ -1,7 +1,7 @@
 import * as AuthProvider from "features/auth/lib/Provider";
 import { Modal } from "components/ui/Modal";
 import React, { useContext, useEffect, useState } from "react";
-import board from "assets/decorations/competition_board.png";
+import board from "assets/decorations/competition_raft.webp";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { MapPlacement } from "features/game/expansion/components/MapPlacement";
 import { Context } from "features/game/GameProvider";
@@ -21,15 +21,13 @@ import { NoticeboardItems } from "features/world/ui/kingdom/KingdomNoticeboard";
 import walletIcon from "assets/icons/wallet.png";
 import sflIcon from "assets/icons/sfl.webp";
 import giftIcon from "assets/icons/gift.png";
-import worldIcon from "assets/icons/world.png";
-import levelupIcon from "assets/icons/level_up.png";
-import choreIcon from "assets/icons/chores.webp";
+import fslIcon from "assets/icons/fsl_icon.svg";
+import fslPoints from "assets/icons/fsl_points.png";
 import classNames from "classnames";
 import { toOrdinalSuffix } from "features/retreat/components/auctioneer/AuctionLeaderboardTable";
 import {
   COMPETITION_POINTS,
   COMPETITION_TASK_DETAILS,
-  COMPETITION_TASK_PROGRESS,
   CompetitionLeaderboardResponse,
   CompetitionName,
   CompetitionPlayer,
@@ -42,23 +40,21 @@ import { Button } from "components/ui/Button";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
 import { TimerDisplay } from "features/retreat/components/auctioneer/AuctionDetails";
 import { ModalOverlay } from "components/ui/ModalOverlay";
-import {
-  getCompetitionLeaderboard,
-  getLeaderboard,
-} from "features/game/expansion/components/leaderboard/actions/leaderboard";
+import { getCompetitionLeaderboard } from "features/game/expansion/components/leaderboard/actions/leaderboard";
 import { Loading } from "features/auth/components";
 import { getRelativeTime } from "lib/utils/time";
 import { NPC } from "features/island/bumpkin/components/NPC";
+import { NPC_WEARABLES } from "lib/npcs";
 
 export const CompetitionBoard: React.FC = () => {
-  const [isOpen, setIsOpen] = useState(false);
-
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
+  const [isOpen, setIsOpen] = useState(false);
 
   const { t } = useAppTranslation();
 
-  const { bumpkin, rewards, createdAt, inventory } = gameState.context.state;
+  const { bumpkin, rewards, createdAt, inventory, competitions } =
+    gameState.context.state;
 
   const coords = () => {
     const expansionCount = inventory["Basic Land"]?.toNumber() ?? 0;
@@ -80,10 +76,13 @@ export const CompetitionBoard: React.FC = () => {
       <MapPlacement x={x} y={y} width={4} height={4}>
         <img
           src={board}
-          style={{ width: `${PIXEL_SCALE * 50}px` }}
+          style={{ width: `${PIXEL_SCALE * 60}px` }}
           className="cursor-pointer hover:img-highlight"
           onClick={() => setIsOpen(true)}
         />
+        <div className="absolute left-12 top-14 pointer-events-none">
+          <NPC parts={NPC_WEARABLES.richie} />
+        </div>
       </MapPlacement>
       <Modal show={isOpen} onHide={() => setIsOpen(false)}>
         <CompetitionModal
@@ -95,7 +94,7 @@ export const CompetitionBoard: React.FC = () => {
   );
 };
 
-const CompetitionModal: React.FC<{
+export const CompetitionModal: React.FC<{
   competitionName: CompetitionName;
   onClose: () => void;
 }> = ({ onClose, competitionName }) => {
@@ -115,16 +114,17 @@ const CompetitionModal: React.FC<{
   if (showIntro) {
     return (
       <SpeakingModal
+        bumpkinParts={NPC_WEARABLES.richie}
         onClose={() => setShowIntro(false)}
         message={[
           {
-            text: "Howdy Bumpkin...you've joined at a special time!",
+            text: t("competition.intro.one"),
           },
           {
-            text: "Sunflower Land & FSL are hosting the first every farming competition.",
+            text: t("competition.intro.two"),
           },
           {
-            text: "It is time to show off your farming skills, climb the leaderboard and win prizes.",
+            text: t("competition.intro.three"),
           },
         ]}
       />
@@ -133,23 +133,17 @@ const CompetitionModal: React.FC<{
 
   if (!competitions.progress[competitionName]) {
     return (
-      <Panel>
+      <Panel bumpkinParts={NPC_WEARABLES.richie}>
         <div className="p-1">
           <Label type="default" className="mb-1">
-            Are you ready?
+            {t("competition.areYouReady")}
           </Label>
-          <p className="text-sm mb-2">
-            Would you like to join the farmer competition and compete for
-            prizes?
-          </p>
-          <p className="text-xs mb-2">
-            This competition is sponsored by our friends at FSL. You will need
-            an FSL wallet to participate and claim prizes.
-          </p>
+          <p className="text-sm mb-2">{t("competition.join")}</p>
+          <p className="text-xs mb-2">{t("competition.sponsored")}</p>
         </div>
         <div className="flex">
           <Button className="mr-1" onClick={onClose}>
-            Maybe later
+            {t("competition.maybeLater")}
           </Button>
           <Button
             onClick={() => {
@@ -158,7 +152,7 @@ const CompetitionModal: React.FC<{
               });
             }}
           >
-            Let's go!
+            {t("competition.letsGo")}
           </Button>
         </div>
       </Panel>
@@ -174,25 +168,32 @@ const CompetitionModal: React.FC<{
 
   return (
     <OuterPanel
+      bumpkinParts={NPC_WEARABLES.richie}
       className="scrollable overflow-y-scroll"
       style={{ maxHeight: "400px" }}
     >
+      <img
+        src={SUNNYSIDE.icons.close}
+        onClick={onClose}
+        className="absolute right-2 -top-12 w-10 cursor-pointer"
+      />
       <InnerPanel className="mb-1">
         <div className="p-1">
           <div className="flex justify-between mb-2 flex-wrap">
-            <Label type="default">Farmer Competition</Label>
+            <Label type="default">{t("competition.farmerCompetition")}</Label>
             <Label type="info" icon={SUNNYSIDE.icons.stopwatch}>
               <TimerDisplay fontSize={24} time={end} />
             </Label>
           </div>
+          <p className="text-xs mb-3">{t("competition.hurry")}</p>
           <NoticeboardItems
             iconWidth={8}
             items={[
-              { icon: walletIcon, text: "$10,000 USD of FSL Points" },
-              { icon: sflIcon, text: "50,000 SFL to be won!" },
+              { icon: fslPoints, text: t("competition.prizes.one") },
+              { icon: sflIcon, text: t("competition.prizes.two") },
               {
                 icon: giftIcon,
-                text: "Bonus prizes for top 10, 100 & 1000 players",
+                text: t("competition.prizes.three"),
               },
             ]}
           />
@@ -202,23 +203,33 @@ const CompetitionModal: React.FC<{
       {!gameState.context.fslId && (
         <InnerPanel className="mb-1">
           <div className="p-1">
-            <Label type="danger" className="mb-2">
-              Missing FSL ID
-            </Label>
-            <p className="text-xs mb-1 block">
-              You must create an FSL ID to participate in this competition.
+            <div className="flex flex-wrap justify-between">
+              <Label type="danger" className="mb-2">
+                {t("competition.connectFSL")}
+              </Label>
+              <Label type="default" icon={giftIcon} className="mb-2">
+                {t("competition.bonusGift")}
+              </Label>
+            </div>
+            <p className="text-xs mb-1 block">{t("competition.createID")}</p>
+            <p className="text-xs block mb-0.5">
+              {t("competition.connect.one")}
             </p>
-            <p className="text-xs block">1. Visit X and sign up for FSL ID</p>
-            <p className="text-xs block mb-1">2. Connect your FSL ID below</p>
+            <p className="text-xs block mb-1">{t("competition.connect.two")}</p>
           </div>
           <div className="flex">
-            <Button className="mr-1 relative">
-              FSL ID
-              <img src={worldIcon} className="absolute right-1 top-0.5 h-7" />
+            <Button
+              className="mr-1 relative"
+              onClick={() => {
+                window.open("https://id.fsl.com/login", "_blank")?.focus();
+              }}
+            >
+              {`FSL`}
+              <img src={fslIcon} className="absolute right-1 -top-1 h-10" />
             </Button>
 
             <Button className="relative">
-              Connect
+              {t("competition.connect")}
               <img src={walletIcon} className="absolute right-1 top-0.5 h-7" />
             </Button>
           </div>
@@ -230,17 +241,13 @@ const CompetitionModal: React.FC<{
           <InnerPanel className="mb-1">
             <div className="p-1">
               <div className="flex justify-between mb-2">
-                <Label type="default" className="">
-                  Earn points
-                </Label>
+                <Label type="default" className=""></Label>
                 <Label type="vibrant">{`${"TODO"} points`}</Label>
               </div>
-              <p className="text-xs mb-3">
-                Every time you complete a task below, you earn points!
-              </p>
+              <p className="text-xs mb-3">{t("competition.earnPoints.how")}</p>
               <div className="flex flex-wrap -mx-1 items-center">
                 {tasks.map((name) => (
-                  <div className="w-1/2 relative pr-0.5  h-full">
+                  <div key={name} className="w-1/2 relative pr-0.5  h-full">
                     <ButtonPanel
                       onClick={() => setTask(name)}
                       className="w-full relative"
@@ -264,6 +271,35 @@ const CompetitionModal: React.FC<{
           </InnerPanel>
 
           <CompetitionLeaderboard name={competitionName} />
+
+          <InnerPanel>
+            <div className="p-1">
+              <Label type="default" className="mb-2">
+                {t("competition.rules")}
+              </Label>
+              <NoticeboardItems
+                iconWidth={8}
+                items={[
+                  {
+                    icon: SUNNYSIDE.icons.timer,
+                    text: `${t("competition.rules.one")} ${new Date(COMPETITION_POINTS[competitionName].endAt + 7 * 24 * 60 * 60 * 1000).toLocaleDateString()}`,
+                  },
+                  {
+                    icon: fslPoints,
+                    text: t("competition.rules.two"),
+                  },
+                  {
+                    icon: sflIcon,
+                    text: t("competition.rules.three"),
+                  },
+                  {
+                    icon: giftIcon,
+                    text: t("competition.rules.four"),
+                  },
+                ]}
+              />
+            </div>
+          </InnerPanel>
         </>
       )}
 
@@ -321,29 +357,30 @@ export const CompetitionLeaderboard: React.FC<{ name: CompetitionName }> = ({
 
   if (!data)
     return (
-      <InnerPanel>
+      <InnerPanel className="mb-1">
         <Loading />
       </InnerPanel>
     );
 
-  const { leaderboard, lastUpdatedAt, miniboard, player } = data;
+  const { leaderboard, lastUpdated, miniboard, player } = data;
   return (
     <>
       <InnerPanel className="mb-1">
         <div className="p-1">
           <div className="flex justify-between  items-center mb-2">
             <Label type="default" className="">
-              Leaderboard
+              {t("competition.leaderboard")}
             </Label>
             <p className="font-secondary text-xs">
-              {t("last.updated")} {getRelativeTime(lastUpdatedAt)}
+              {t("last.updated")} {getRelativeTime(lastUpdated)}
             </p>
           </div>
           <CompetitionTable items={leaderboard} />
 
-          {player && (
+          {/* Only show miniboard if player isn't in the main leaderboard */}
+          {player && !miniboard.find((m) => m.id !== player.id) && (
             <>
-              <p className="text-center text-xs mb-2">...</p>
+              <p className="text-center text-xs mb-2">{`...`}</p>
               <CompetitionTable items={miniboard} />
             </>
           )}
