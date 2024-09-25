@@ -4,6 +4,7 @@ import { ITEM_NAMES } from "features/game/types/bumpkin";
 import { GameState } from "features/game/types/game";
 import { getOfferItem, getTradeType } from "features/marketplace/lib/offers";
 import { produce } from "immer";
+import { addTradePoints } from "./addTradePoints";
 
 export type ClaimOfferAction = {
   type: "offer.claimed";
@@ -50,17 +51,11 @@ export function claimOffer({ state, action, createdAt = Date.now() }: Options) {
     const tradeType = getTradeType({ collection: offer.collection, id });
 
     if (tradeType === "instant") {
-      game.inventory["Trade Point"] = (
-        game.inventory["Trade Point"] ?? new Decimal(0)
-      ).add(2);
-      game.tradePoints = game.tradePoints + 2;
+      addTradePoints({ game, points: 2, sfl: offer.sfl });
     }
 
     if (tradeType === "onchain") {
-      game.inventory["Trade Point"] = (
-        game.inventory["Trade Point"] ?? new Decimal(0)
-      ).add(10);
-      game.tradePoints = game.tradePoints + 10;
+      addTradePoints({ game, points: 10, sfl: offer.sfl });
     }
 
     return game;
