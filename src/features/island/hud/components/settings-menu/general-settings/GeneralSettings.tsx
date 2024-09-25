@@ -5,6 +5,7 @@ import { Context } from "features/game/GameProvider";
 import { ContentComponentProps } from "../GameOptions";
 import { hasFeatureAccess } from "lib/flags";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { connectToFSL } from "features/auth/actions/oauth";
 
 export const GeneralSettings: React.FC<ContentComponentProps> = ({
   onSubMenuClick,
@@ -17,23 +18,14 @@ export const GeneralSettings: React.FC<ContentComponentProps> = ({
     toggleAnimations();
   };
 
-  const connectToFSL = () => {
-    const redirect = encodeURIComponent(
-      "https://api-hannigan.sunflower-land.com/oauth/fsl",
-    );
-    const appKey = "RWi72tQ1oz8i";
-    const state = gameService.state.context.oauthNonce;
-    const url = `https://id.fsl.com/api/account/oauth/authorize?response_type=code&appkey=${appKey}&redirect_uri=${redirect}&state=${state}&scope=basic%20wallet`;
-
-    window.location.href = url;
-  };
-
   return (
     <>
       {hasFeatureAccess(gameService.state.context.state, "FSL") && (
         <Button
           disabled={!!gameService.state.context.fslId}
-          onClick={connectToFSL}
+          onClick={() =>
+            connectToFSL({ nonce: gameService.state.context.oauthNonce })
+          }
           className="mb-1 relative"
         >
           {`Connect FSL ID`}

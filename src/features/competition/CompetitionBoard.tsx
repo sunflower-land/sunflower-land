@@ -46,6 +46,7 @@ import { getRelativeTime } from "lib/utils/time";
 import { NPC } from "features/island/bumpkin/components/NPC";
 import { NPC_WEARABLES } from "lib/npcs";
 import { hasFeatureAccess } from "lib/flags";
+import { connectToFSL } from "features/auth/actions/oauth";
 
 export const CompetitionBoard: React.FC = () => {
   const { gameService } = useContext(Context);
@@ -114,6 +115,16 @@ export const CompetitionModal: React.FC<{
   const competition = COMPETITION_POINTS[competitionName];
   const end = useCountdown(competition.endAt);
 
+  const [isConnecting, setIsConnecting] = useState(false);
+
+  if (isConnecting) {
+    return (
+      <Panel>
+        <Loading />
+      </Panel>
+    );
+  }
+
   if (showIntro) {
     return (
       <SpeakingModal
@@ -163,11 +174,6 @@ export const CompetitionModal: React.FC<{
   }
 
   const tasks = getKeys(COMPETITION_POINTS[competitionName].points);
-
-  const playerPoints = getCompetitionPoints({
-    name: competitionName,
-    game: gameState.context.state,
-  });
 
   return (
     <OuterPanel
@@ -231,7 +237,13 @@ export const CompetitionModal: React.FC<{
               <img src={fslIcon} className="absolute right-1 -top-1 h-10" />
             </Button>
 
-            <Button className="relative">
+            <Button
+              className="relative"
+              onClick={() => {
+                setIsConnecting(true);
+                connectToFSL({ nonce: gameService.state.context.oauthNonce });
+              }}
+            >
               {t("competition.connect")}
               <img src={walletIcon} className="absolute right-1 top-0.5 h-7" />
             </Button>
