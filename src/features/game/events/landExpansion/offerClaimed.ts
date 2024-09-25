@@ -2,7 +2,7 @@ import Decimal from "decimal.js-light";
 import { KNOWN_ITEMS } from "features/game/types";
 import { ITEM_NAMES } from "features/game/types/bumpkin";
 import { GameState } from "features/game/types/game";
-import { getOfferItem } from "features/marketplace/lib/offers";
+import { getOfferItem, getTradeType } from "features/marketplace/lib/offers";
 import { produce } from "immer";
 
 export type ClaimOfferAction = {
@@ -45,6 +45,22 @@ export function claimOffer({ state, action, createdAt = Date.now() }: Options) {
     if (offer.collection === "wearables") {
       const name = ITEM_NAMES[id];
       game.wardrobe[name] = (game.wardrobe[name] ?? 0) + 1;
+    }
+
+    const tradeType = getTradeType({ collection: offer.collection, id });
+
+    if (tradeType === "instant") {
+      game.inventory["Trade Point"] = (
+        game.inventory["Trade Point"] ?? new Decimal(0)
+      ).add(2);
+      game.tradePoints = game.tradePoints + 2;
+    }
+
+    if (tradeType === "onchain") {
+      game.inventory["Trade Point"] = (
+        game.inventory["Trade Point"] ?? new Decimal(0)
+      ).add(10);
+      game.tradePoints = game.tradePoints + 10;
     }
 
     return game;

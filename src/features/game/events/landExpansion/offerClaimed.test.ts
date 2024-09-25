@@ -155,4 +155,35 @@ describe("offer.claimed", () => {
 
     expect(state.trades.offers).toEqual({});
   });
+
+  it("grants trade points when offer is claimed", () => {
+    const state = claimOffer({
+      action: {
+        tradeId: "123",
+        type: "offer.claimed",
+      },
+      state: {
+        ...INITIAL_FARM,
+        trades: {
+          offers: {
+            "123": {
+              collection: "collectibles",
+              items: {
+                "Fat Chicken": 1,
+              },
+              createdAt: Date.now(),
+              sfl: 15,
+              fulfilledAt: Date.now(),
+              fulfilledById: 67,
+            },
+          },
+        },
+      },
+    });
+
+    expect(state.inventory["Trade Point"]?.toNumber()).toBeGreaterThanOrEqual(
+      1,
+    );
+    expect(state.tradePoints).toBeGreaterThanOrEqual(1);
+  });
 });
