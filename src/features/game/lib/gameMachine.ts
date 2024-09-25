@@ -171,13 +171,13 @@ type WalletUpdatedEvent = {
 };
 
 type BuyBlockBucksEvent = {
-  type: "BUY_BLOCK_BUCKS";
+  type: "BUY_GEMS";
   currency: Currency;
   amount: number;
 };
 
 type UpdateBlockBucksEvent = {
-  type: "UPDATE_BLOCK_BUCKS";
+  type: "UPDATE_GEMS";
   amount: number;
 };
 
@@ -415,6 +415,7 @@ export type BlockchainState = {
     | "gameRules"
     | "portalling"
     | "introduction"
+    | "gems"
     | "playing"
     | "autosaving"
     | "buyingSFL"
@@ -745,6 +746,13 @@ export function startGame(authContext: AuthContext) {
               },
             },
 
+            {
+              target: "gems",
+              cond: (context) => {
+                return !!context.state.inventory["Block Buck"]?.gte(1);
+              },
+            },
+
             // TODO - FIX
             // {
             //   target: "mailbox",
@@ -989,7 +997,7 @@ export function startGame(authContext: AuthContext) {
             TRANSACT: {
               target: "transacting",
             },
-            BUY_BLOCK_BUCKS: {
+            BUY_GEMS: {
               target: "buyingBlockBucks",
             },
             REVEAL: {
@@ -1024,21 +1032,21 @@ export function startGame(authContext: AuthContext) {
             DELETE_TRADE_LISTING: { target: "deleteTradeListing" },
             FULFILL_TRADE_LISTING: { target: "fulfillTradeListing" },
             SELL_MARKET_RESOURCE: { target: "sellMarketResource" },
-            UPDATE_BLOCK_BUCKS: {
+            UPDATE_GEMS: {
               actions: assign((context, event) => ({
                 state: {
                   ...context.state,
                   inventory: {
                     ...context.state.inventory,
-                    "Block Buck": (
-                      context.state.inventory["Block Buck"] ?? new Decimal(0)
-                    ).add(event.amount),
+                    Gem: (context.state.inventory["Gem"] ?? new Decimal(0)).add(
+                      event.amount,
+                    ),
                   },
                 },
                 purchases: [
                   ...context.purchases,
                   {
-                    id: "Block Buck",
+                    id: "Gem",
                     method: "XSOLLA",
                     purchasedAt: Date.now(),
                     usd: 1, // Placeholder
@@ -1204,15 +1212,15 @@ export function startGame(authContext: AuthContext) {
                   ...context.state,
                   inventory: {
                     ...context.state.inventory,
-                    "Block Buck": (
-                      context.state.inventory["Block Buck"] ?? new Decimal(0)
-                    ).add(event.data.amount),
+                    Gem: (context.state.inventory["Gem"] ?? new Decimal(0)).add(
+                      event.data.amount,
+                    ),
                   },
                 },
                 purchases: [
                   ...context.purchases,
                   {
-                    id: `${event.data.amount} Block Buck`,
+                    id: `${event.data.amount} Gem`,
                     method: "MATIC",
                     purchasedAt: Date.now(),
                     usd: 1, // Placeholder
@@ -1801,6 +1809,15 @@ export function startGame(authContext: AuthContext) {
             "competition.started": (GAME_EVENT_HANDLERS as any)[
               "competition.started"
             ],
+          },
+        },
+
+        gems: {
+          on: {
+            ACKNOWLEDGE: {
+              target: "notifying",
+            },
+            "garbage.sold": (GAME_EVENT_HANDLERS as any)["garbage.sold"],
           },
         },
 

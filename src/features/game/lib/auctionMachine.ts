@@ -147,7 +147,7 @@ export const createAuctioneerMachine = ({
             {
               farmId: 44,
               experience: 10,
-              items: { Gold: 50, "Block Buck": 30, Radish: 50 },
+              items: { Gold: 50, Gem: 30, Radish: 50 },
               username: "Big Farmer",
               sfl: 1000,
               tickets: 5,
@@ -156,7 +156,7 @@ export const createAuctioneerMachine = ({
             {
               farmId: 1,
               experience: 10,
-              items: { Gold: 5, "Block Buck": 3, Radish: 5 },
+              items: { Gold: 5, Gem: 3, Radish: 5 },
               sfl: 100,
               tickets: 5,
               username: "Top Dog",
@@ -165,7 +165,7 @@ export const createAuctioneerMachine = ({
             {
               farmId: 122078,
               experience: 10,
-              items: { Gold: 5, "Block Buck": 3, Radish: 5 },
+              items: { Gold: 5, Gem: 3, Radish: 5 },
               sfl: 100,
               tickets: 5,
               rank: 3,
@@ -173,7 +173,7 @@ export const createAuctioneerMachine = ({
             {
               farmId: 156788,
               experience: 10,
-              items: { Gold: 5, "Block Buck": 3, Radish: 5 },
+              items: { Gold: 5, Gem: 3, Radish: 5 },
               sfl: 100,
               tickets: 5,
               rank: 50,
@@ -181,7 +181,7 @@ export const createAuctioneerMachine = ({
             // {
             //   farmId: 1,
             //   experience: 10,
-            //   items: { Gold: 5, "Block Buck": 3, Radish: 5 },
+            //   items: { Gold: 5, "Gem": 3, Radish: 5 },
             //   sfl: 100,
             //   tickets: 5,
             //   rank: 53,

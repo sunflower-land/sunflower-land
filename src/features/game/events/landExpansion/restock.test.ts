@@ -6,14 +6,18 @@ import {
   TEST_FARM,
 } from "features/game/lib/constants";
 import { restock } from "./restock";
-import { GameState, PlacedItem } from "features/game/types/game";
+import {
+  BB_TO_GEM_RATION,
+  GameState,
+  PlacedItem,
+} from "features/game/types/game";
 import Decimal from "decimal.js-light";
 
 const GAME_STATE: GameState = {
   ...TEST_FARM,
   bumpkin: INITIAL_BUMPKIN,
   inventory: {
-    "Block Buck": new Decimal(1),
+    Gem: new Decimal(1 * BB_TO_GEM_RATION),
   },
 };
 

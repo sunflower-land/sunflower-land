@@ -20,7 +20,7 @@ import powerup from "assets/icons/level_up.png";
 import gift from "assets/icons/gift.png";
 import blockBuck from "assets/icons/block_buck.png";
 
-import { Desert, GameState } from "features/game/types/game";
+import { BB_TO_GEM_RATION, Desert, GameState } from "features/game/types/game";
 import { getKeys } from "features/game/types/decorations";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Button } from "components/ui/Button";
@@ -406,14 +406,16 @@ export const Digby: React.FC<{ onClose: () => void }> = ({ onClose }) => {
     gameService.send("desert.digsBought");
 
     gameAnalytics.trackSink({
-      currency: "Block Buck",
+      currency: "Gem",
       amount: 1,
       item: "DesertDigs",
       type: "Fee",
     });
   };
 
-  const canAfford = (inventory["Block Buck"] ?? new Decimal(0))?.gt(0);
+  const canAfford = (inventory["Gem"] ?? new Decimal(0))?.gte(
+    1 * BB_TO_GEM_RATION,
+  );
 
   return (
     <CloseButtonPanel

@@ -98,7 +98,7 @@ export const ExpandIcon: React.FC<ExpandIconProps> = ({
                   </div>
                 )}
                 {getKeys(requirements.resources ?? {})
-                  .filter((name) => name !== "Block Buck")
+                  .filter((name) => name !== "Gem")
                   .map((name) => (
                     <div className="mr-3 flex items-center mb-1" key={name}>
                       <RequirementLabel
@@ -250,10 +250,10 @@ export const UpcomingExpansion: React.FC = () => {
     gameService.send("land.expanded");
     gameService.send("SAVE");
 
-    const blockBucks = requirements?.resources["Block Buck"] ?? 0;
+    const blockBucks = requirements?.resources["Gem"] ?? 0;
     if (blockBucks) {
       gameAnalytics.trackSink({
-        currency: "Block Buck",
+        currency: "Gem",
         amount: blockBucks,
         item: "Basic Land",
         type: "Fee",

@@ -182,6 +182,8 @@ export type MutantChicken =
   | "Knight Chicken"
   | "Pharaoh Chicken";
 
+export const BB_TO_GEM_RATION = 100;
+
 export type Coupons =
   | "Gold Pass"
   | "Trading Ticket"
@@ -192,6 +194,7 @@ export type Coupons =
   | "Red Envelope"
   | "Love Letter"
   | "Block Buck"
+  | "Gem"
   | "Sunflower Supporter"
   | "Potion Ticket"
   | "Bud Ticket"
@@ -965,7 +968,7 @@ export type Christmas = {
 
 export type Currency =
   | "SFL"
-  | "Block Buck"
+  | "Gem"
   | "Crimstone"
   | "Sunstone"
   | "Seasonal Ticket"

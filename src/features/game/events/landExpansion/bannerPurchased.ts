@@ -1,5 +1,5 @@
 import Decimal from "decimal.js-light";
-import { GameState } from "../../types/game";
+import { BB_TO_GEM_RATION, GameState } from "../../types/game";
 import {
   SEASONAL_BANNERS,
   SEASONS,
@@ -29,7 +29,7 @@ export function getBannerPrice(
   createdAt: number,
   farmId?: number,
 ): Decimal {
-  const lifeTimePrice = 740;
+  const lifeTimePrice = 740 * BB_TO_GEM_RATION;
 
   if (banner === "Lifetime Farmer Banner") {
     return new Decimal(lifeTimePrice);
@@ -48,15 +48,15 @@ export function getBannerPrice(
 
   if (weeksElapsed < 1) {
     const previousBannerDiscount = hasPreviousBanner ? 15 : 0;
-    return new Decimal(75).sub(previousBannerDiscount);
+    return new Decimal(75 * BB_TO_GEM_RATION).sub(previousBannerDiscount);
   }
   if (weeksElapsed < 4) {
-    return new Decimal(100);
+    return new Decimal(100 * BB_TO_GEM_RATION);
   }
   if (weeksElapsed < 8) {
-    return new Decimal(80);
+    return new Decimal(80 * BB_TO_GEM_RATION);
   }
-  return new Decimal(60);
+  return new Decimal(60 * BB_TO_GEM_RATION);
 }
 
 export function purchaseBanner({
@@ -72,20 +72,20 @@ export function purchaseBanner({
       throw new Error("You do not have a Bumpkin!");
     }
 
-    const currentBlockBucks = inventory["Block Buck"] ?? new Decimal(0);
+    const currentBlockBucks = inventory["Gem"] ?? new Decimal(0);
 
     if (action.name === "Lifetime Farmer Banner") {
       if (inventory["Lifetime Farmer Banner"] !== undefined) {
         throw new Error("You already have this banner");
       }
 
-      const lifeTimePrice = 740;
+      const lifeTimePrice = 740 * BB_TO_GEM_RATION;
 
       if (currentBlockBucks.lessThan(lifeTimePrice)) {
-        throw new Error("Insufficient Block Bucks");
+        throw new Error("Insufficient Gems");
       }
 
-      stateCopy.inventory["Block Buck"] = currentBlockBucks.sub(lifeTimePrice);
+      stateCopy.inventory["Gem"] = currentBlockBucks.sub(lifeTimePrice);
       stateCopy.inventory[action.name] = new Decimal(1);
 
       return stateCopy;
@@ -123,10 +123,10 @@ export function purchaseBanner({
     );
 
     if (currentBlockBucks.lessThan(price)) {
-      throw new Error("Insufficient Block Bucks");
+      throw new Error("Insufficient Gems");
     }
 
-    stateCopy.inventory["Block Buck"] = currentBlockBucks.sub(price);
+    stateCopy.inventory["Gem"] = currentBlockBucks.sub(price);
     stateCopy.inventory[action.name] = new Decimal(1);
 
     return stateCopy;

@@ -77,10 +77,10 @@ export const StylistWearables: React.FC<Props> = ({ wearables }) => {
       name: selected,
     });
 
-    if (wearable.ingredients["Block Buck"]) {
+    if (wearable.ingredients["Gem"]) {
       gameAnalytics.trackSink({
-        currency: "Block Buck",
-        amount: wearable.ingredients["Block Buck"].toNumber() ?? 1,
+        currency: "Gem",
+        amount: wearable.ingredients["Gem"].toNumber() ?? 1,
         item: selected,
         type: "Wearable",
       });

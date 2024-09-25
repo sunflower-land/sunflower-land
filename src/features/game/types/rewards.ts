@@ -2,7 +2,12 @@ import { getBumpkinLevel } from "../lib/level";
 import { SellEvent } from "./bumpkinActivity";
 import { CROPS } from "./crops";
 import { getKeys } from "./decorations";
-import { GameState, InventoryItemName, Wardrobe } from "./game";
+import {
+  BB_TO_GEM_RATION,
+  GameState,
+  InventoryItemName,
+  Wardrobe,
+} from "./game";
 
 export type Rewards = {
   challenges: {
@@ -70,7 +75,7 @@ export const ONBOARDING_CHALLENGES: DailyChallenge[] = [
     requirement: 30,
     reward: {
       items: {
-        "Block Buck": 1,
+        Gem: 1 * BB_TO_GEM_RATION,
       },
     },
   },
@@ -96,7 +101,7 @@ export const ONBOARDING_CHALLENGES: DailyChallenge[] = [
     requirement: 3,
     progress: ({ game }) => game.bumpkin.activity["Stone Mined"] ?? 0,
     reward: {
-      items: { "Block Buck": 1 },
+      items: { Gem: 1 * BB_TO_GEM_RATION },
     },
   },
   {
@@ -128,7 +133,7 @@ export const ONBOARDING_CHALLENGES: DailyChallenge[] = [
     requirement: 1,
     progress: ({ game }) => game.chores?.choresCompleted ?? 0,
     reward: {
-      items: { "Block Buck": 1 },
+      items: { Gem: 1 * BB_TO_GEM_RATION },
     },
   },
   {

@@ -75,9 +75,9 @@ const LandscapingHudComponent: React.FC<{
     compareCoins,
   );
 
-  const blockBucks = useSelector(
+  const gems = useSelector(
     gameService,
-    (state) => state.context.state.inventory["Block Buck"] ?? new Decimal(0),
+    (state) => state.context.state.inventory["Gem"] ?? new Decimal(0),
     compareBlockBucks,
   );
 
@@ -121,7 +121,7 @@ const LandscapingHudComponent: React.FC<{
       <Balances
         sfl={balance}
         coins={coins}
-        blockBucks={blockBucks ?? new Decimal(0)}
+        blockBucks={gems ?? new Decimal(0)}
       />
 
       <>

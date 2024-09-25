@@ -11,6 +11,7 @@ import { gameAnalytics } from "lib/gameAnalytics";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { ConfirmationModal } from "components/ui/ConfirmationModal";
 import { NPC_WEARABLES } from "lib/npcs";
+import { BB_TO_GEM_RATION } from "features/game/types/game";
 
 interface Props {
   onClose: () => void;
@@ -26,7 +27,7 @@ export const Restock: React.FC<Props> = ({ onClose }) => {
   const [showConfirm, setShowConfirm] = useState(false);
   const { openModal } = useContext(ModalContext);
 
-  const canRestock = gameState.context.state.inventory["Block Buck"]?.gte(1);
+  const canRestock = gameState.context.state.inventory["Gem"]?.gte(1);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -41,15 +42,15 @@ export const Restock: React.FC<Props> = ({ onClose }) => {
 
   const handleBuy = () => {
     onClose();
-    openModal("BUY_BLOCK_BUCKS");
+    openModal("BUY_GEMS");
   };
 
   const handleRestock = () => {
     gameService.send("shops.restocked");
 
     gameAnalytics.trackSink({
-      currency: "Block Buck",
-      amount: 1,
+      currency: "Gem",
+      amount: 1 * BB_TO_GEM_RATION,
       item: "Stock",
       type: "Fee",
     });
@@ -64,9 +65,9 @@ export const Restock: React.FC<Props> = ({ onClose }) => {
             className="text-xs mr-1.5 mb-0.5 font-secondary"
             style={{ wordSpacing: "-3px" }}
           >
-            {t("restock")} {"= 1 x"}
+            {t("restock")} {"= 100 x"}
           </p>
-          <SquareIcon icon={ITEM_DETAILS["Block Buck"].image} width={7} />
+          <SquareIcon icon={ITEM_DETAILS["Gem"].image} width={7} />
         </div>
       </div>
       <Button
@@ -83,7 +84,7 @@ export const Restock: React.FC<Props> = ({ onClose }) => {
           <div className="flex items-center h-4">
             <p className="mr-1.5">{t("buy")}</p>
 
-            <img src={ITEM_DETAILS["Block Buck"].image} className="h-5 -mb-1" />
+            <img src={ITEM_DETAILS["Gem"].image} className="h-5 -mb-1" />
           </div>
         </Button>
       )}

@@ -147,9 +147,7 @@ const HudComponent: React.FC<{
         <Balances
           sfl={gameState.context.state.balance}
           coins={gameState.context.state.coins}
-          blockBucks={
-            gameState.context.state.inventory["Block Buck"] ?? new Decimal(0)
-          }
+          gems={gameState.context.state.inventory["Gem"] ?? new Decimal(0)}
           onClick={handleBuyCurrenciesModal}
         />
 

@@ -31,7 +31,7 @@ describe("buyFarmHand", () => {
     ).toThrow("No space for a farm hand");
   });
 
-  it("requires a player has block buck", () => {
+  it("requires a player has Gem", () => {
     expect(() =>
       buyFarmhand({
         action: {
@@ -44,7 +44,7 @@ describe("buyFarmHand", () => {
           },
         },
       }),
-    ).toThrow("Insufficient Block Bucks");
+    ).toThrow("Insufficient Gems");
   });
 
   it("uses a Farmhand Coupon", () => {
@@ -75,7 +75,7 @@ describe("buyFarmHand", () => {
       state: {
         ...TEST_FARM,
         inventory: {
-          "Block Buck": new Decimal(25),
+          Gem: new Decimal(25),
         },
         island: {
           type: "spring",
@@ -83,7 +83,7 @@ describe("buyFarmHand", () => {
       },
     });
 
-    expect(state.inventory["Block Buck"]).toEqual(new Decimal(15));
+    expect(state.inventory["Gem"]).toEqual(new Decimal(15));
     expect(state.farmHands.bumpkins).toEqual({
       "1": {
         equipped: {
@@ -107,7 +107,7 @@ describe("buyFarmHand", () => {
       state: {
         ...TEST_FARM,
         inventory: {
-          "Block Buck": new Decimal(50),
+          Gem: new Decimal(50),
         },
         island: {
           type: "spring",
@@ -115,7 +115,7 @@ describe("buyFarmHand", () => {
       },
     });
 
-    expect(state.inventory["Block Buck"]).toEqual(new Decimal(40));
+    expect(state.inventory["Gem"]).toEqual(new Decimal(40));
 
     state = buyFarmhand({
       action: {
@@ -124,6 +124,6 @@ describe("buyFarmHand", () => {
       state,
     });
 
-    expect(state.inventory["Block Buck"]).toEqual(new Decimal(25));
+    expect(state.inventory["Gem"]).toEqual(new Decimal(25));
   });
 });

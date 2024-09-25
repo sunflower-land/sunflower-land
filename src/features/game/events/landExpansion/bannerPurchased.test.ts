@@ -17,7 +17,7 @@ describe("purchaseBanner", () => {
         state: {
           ...TEST_FARM,
           inventory: {
-            "Block Buck": new Decimal(100),
+            Gem: new Decimal(100),
           },
         },
         action: {
@@ -28,13 +28,13 @@ describe("purchaseBanner", () => {
     ).toThrow("Invalid banner");
   });
 
-  it("throws an error if insufficient block bucks", () => {
+  it("throws an error if insufficient Gems", () => {
     expect(() =>
       purchaseBanner({
         state: {
           ...TEST_FARM,
           inventory: {
-            "Block Buck": new Decimal(0),
+            Gem: new Decimal(0),
           },
         },
         action: {
@@ -42,7 +42,7 @@ describe("purchaseBanner", () => {
           name: getSeasonalBanner(),
         },
       }),
-    ).toThrow("Insufficient Block Bucks");
+    ).toThrow("Insufficient Gems");
   });
 
   it("throws an error if already has the banner", () => {
@@ -51,7 +51,7 @@ describe("purchaseBanner", () => {
         state: {
           ...TEST_FARM,
           inventory: {
-            "Block Buck": new Decimal(100),
+            Gem: new Decimal(100),
             "Spring Blossom Banner": new Decimal(1),
           },
         },
@@ -73,7 +73,7 @@ describe("purchaseBanner", () => {
       state: {
         ...TEST_FARM,
         inventory: {
-          "Block Buck": new Decimal(75),
+          Gem: new Decimal(75),
         },
       },
       action: {
@@ -86,7 +86,7 @@ describe("purchaseBanner", () => {
     expect(result).toEqual({
       ...TEST_FARM,
       inventory: {
-        "Block Buck": new Decimal(0),
+        Gem: new Decimal(0),
         [banner]: new Decimal(1),
       },
     });
@@ -103,7 +103,7 @@ describe("purchaseBanner", () => {
       state: {
         ...TEST_FARM,
         inventory: {
-          "Block Buck": new Decimal(60),
+          Gem: new Decimal(60),
           [previousSeasonalBanner]: new Decimal(1),
         },
       },
@@ -117,7 +117,7 @@ describe("purchaseBanner", () => {
     expect(result).toEqual({
       ...TEST_FARM,
       inventory: {
-        "Block Buck": new Decimal(0),
+        Gem: new Decimal(0),
         [banner]: new Decimal(1),
         [previousSeasonalBanner]: new Decimal(1),
       },
@@ -134,7 +134,7 @@ describe("purchaseBanner", () => {
       state: {
         ...TEST_FARM,
         inventory: {
-          "Block Buck": new Decimal(100),
+          Gem: new Decimal(100),
         },
       },
       action: {
@@ -147,7 +147,7 @@ describe("purchaseBanner", () => {
     expect(result).toEqual({
       ...TEST_FARM,
       inventory: {
-        "Block Buck": new Decimal(0),
+        Gem: new Decimal(0),
         [banner]: new Decimal(1),
       },
     });
@@ -163,7 +163,7 @@ describe("purchaseBanner", () => {
       state: {
         ...TEST_FARM,
         inventory: {
-          "Block Buck": new Decimal(80),
+          Gem: new Decimal(80),
         },
       },
       action: {
@@ -176,7 +176,7 @@ describe("purchaseBanner", () => {
     expect(result).toEqual({
       ...TEST_FARM,
       inventory: {
-        "Block Buck": new Decimal(0),
+        Gem: new Decimal(0),
         [banner]: new Decimal(1),
       },
     });
@@ -192,7 +192,7 @@ describe("purchaseBanner", () => {
       state: {
         ...TEST_FARM,
         inventory: {
-          "Block Buck": new Decimal(60),
+          Gem: new Decimal(60),
         },
       },
       action: {
@@ -205,7 +205,7 @@ describe("purchaseBanner", () => {
     expect(result).toEqual({
       ...TEST_FARM,
       inventory: {
-        "Block Buck": new Decimal(0),
+        Gem: new Decimal(0),
         [banner]: new Decimal(1),
       },
     });
@@ -216,7 +216,7 @@ describe("purchaseBanner", () => {
       state: {
         ...TEST_FARM,
         inventory: {
-          "Block Buck": new Decimal(740),
+          Gem: new Decimal(740),
         },
       },
       action: {
@@ -229,7 +229,7 @@ describe("purchaseBanner", () => {
     expect(result).toEqual({
       ...TEST_FARM,
       inventory: {
-        "Block Buck": new Decimal(0),
+        Gem: new Decimal(0),
         "Lifetime Farmer Banner": new Decimal(1),
       },
     });
@@ -240,7 +240,7 @@ describe("purchaseBanner", () => {
       state: {
         ...TEST_FARM,
         inventory: {
-          "Block Buck": new Decimal(100),
+          Gem: new Decimal(100),
           "Lifetime Farmer Banner": new Decimal(1),
         },
       },
@@ -250,7 +250,7 @@ describe("purchaseBanner", () => {
       },
     });
 
-    expect(result.inventory["Block Buck"]).toEqual(new Decimal(100));
+    expect(result.inventory["Gem"]).toEqual(new Decimal(100));
     expect(result.inventory[getSeasonalBanner()]).toEqual(new Decimal(1));
   });
 
@@ -260,7 +260,7 @@ describe("purchaseBanner", () => {
         state: {
           ...TEST_FARM,
           inventory: {
-            "Block Buck": new Decimal(100),
+            Gem: new Decimal(100),
           },
         },
         action: {
@@ -280,7 +280,7 @@ describe("purchaseBanner", () => {
       state: {
         ...TEST_FARM,
         inventory: {
-          "Block Buck": new Decimal(75),
+          Gem: new Decimal(75),
         },
       },
       action: {
@@ -293,7 +293,7 @@ describe("purchaseBanner", () => {
     expect(result).toEqual({
       ...TEST_FARM,
       inventory: {
-        "Block Buck": new Decimal(0),
+        Gem: new Decimal(0),
         [banner]: new Decimal(1),
       },
     });

@@ -1,6 +1,7 @@
 import { INITIAL_BUMPKIN, TEST_FARM } from "features/game/lib/constants";
 import { expandLand } from "./expandLand";
 import Decimal from "decimal.js-light";
+import { BB_TO_GEM_RATION } from "features/game/types/game";
 
 describe("expandLand", () => {
   it("requires player has sufficient coins", () => {
@@ -24,7 +25,7 @@ describe("expandLand", () => {
             Gold: new Decimal(5),
             Crimstone: new Decimal(12),
             Oil: new Decimal(10),
-            "Block Buck": new Decimal(3),
+            Gem: new Decimal(3 * BB_TO_GEM_RATION),
           },
           island: {
             type: "desert",
@@ -54,7 +55,7 @@ describe("expandLand", () => {
           Gold: new Decimal(5),
           Crimstone: new Decimal(12),
           Oil: new Decimal(10),
-          "Block Buck": new Decimal(3),
+          Gem: new Decimal(3),
         },
         coins: 325,
         island: {

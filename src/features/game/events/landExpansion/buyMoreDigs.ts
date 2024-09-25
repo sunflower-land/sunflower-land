@@ -1,5 +1,5 @@
 import Decimal from "decimal.js-light";
-import { GameState } from "features/game/types/game";
+import { BB_TO_GEM_RATION, GameState } from "features/game/types/game";
 
 import { produce } from "immer";
 
@@ -18,17 +18,15 @@ export const GRID_DIG_SPOTS = 100;
 
 export function buyMoreDigs({ state }: Options) {
   return produce(state, (game) => {
-    const blockBucks = game.inventory["Block Buck"] ?? new Decimal(0);
+    const blockBucks = game.inventory["Gem"] ?? new Decimal(0);
 
-    if (blockBucks.lt(1)) {
-      throw new Error(
-        "Player does not have enough block bucks to buy more digs",
-      );
+    if (blockBucks.lt(1 * BB_TO_GEM_RATION)) {
+      throw new Error("Player does not have enough Gems to buy more digs");
     }
 
     const extraDigs = game.desert.digging.extraDigs ?? 0;
 
-    game.inventory["Block Buck"] = blockBucks.sub(1);
+    game.inventory["Gem"] = blockBucks.sub(1 * BB_TO_GEM_RATION);
 
     game.desert.digging.extraDigs = extraDigs + EXTRA_DIGS_AMOUNT;
 

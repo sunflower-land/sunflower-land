@@ -1,6 +1,6 @@
 import Decimal from "decimal.js-light";
 import { Dimensions } from "./buildings";
-import { Inventory } from "./game";
+import { BB_TO_GEM_RATION, Inventory } from "./game";
 import { BoostTreasure, DecorationTreasure } from "./treasure";
 import { translate } from "lib/i18n/translate";
 import { Template } from "./templates";
@@ -813,7 +813,7 @@ export const LANDSCAPING_DECORATIONS: () => Record<
     coins: 200,
     ingredients: {
       Wood: new Decimal(3),
-      "Block Buck": new Decimal(1),
+      Gem: new Decimal(1 * BB_TO_GEM_RATION),
     },
   },
   "Golden Maple": {
@@ -822,7 +822,7 @@ export const LANDSCAPING_DECORATIONS: () => Record<
     coins: 200,
     ingredients: {
       Wood: new Decimal(3),
-      "Block Buck": new Decimal(1),
+      Gem: new Decimal(1 * BB_TO_GEM_RATION),
     },
   },
   "Crimson Cap": {

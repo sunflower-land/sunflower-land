@@ -5,7 +5,7 @@ import { onboardingAnalytics } from "lib/onboardingAnalytics";
 import { waitForTransactionReceipt, writeContract } from "@wagmi/core";
 import { config } from "features/wallet/WalletProvider";
 
-const address = CONFIG.BUY_BLOCK_BUCKS_CONTRACT;
+const address = CONFIG.BUY_GEMS_CONTRACT;
 
 interface BuyBlockBucksArgs {
   account: `0x${string}`;
@@ -47,8 +47,8 @@ export async function buyBlockBucksMATIC({
     value: Number(fromWei(fee.toString())),
     items: [
       {
-        item_id: "Block_Buck",
-        item_name: "Block Buck",
+        item_id: "Gem",
+        item_name: "Gem",
         quantity: amount,
       },
     ],
