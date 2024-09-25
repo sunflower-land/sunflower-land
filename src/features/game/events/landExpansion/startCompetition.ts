@@ -1,4 +1,3 @@
-import Decimal from "decimal.js-light";
 import {
   COMPETITION_POINTS,
   COMPETITION_TASK_PROGRESS,
@@ -41,19 +40,19 @@ export function startCompetition({
       throw new Error("Competition has ended");
     }
 
-    if (!!game.competitions?.progress[action.name]) {
+    if (game.competitions?.progress[action.name]) {
       throw new Error("Player has already started competition");
     }
 
     const progress = getKeys(COMPETITION_POINTS[action.name].points).reduce(
       (acc, name) => {
-        let progressFn = COMPETITION_TASK_PROGRESS[name];
+        const progressFn = COMPETITION_TASK_PROGRESS[name];
 
         if (!progressFn) {
           throw new Error(`Task ${name} does not exist`);
         }
 
-        let points = progressFn(game);
+        const points = progressFn(game);
 
         return {
           ...acc,
