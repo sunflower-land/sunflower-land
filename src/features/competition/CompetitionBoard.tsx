@@ -45,6 +45,7 @@ import { Loading } from "features/auth/components";
 import { getRelativeTime } from "lib/utils/time";
 import { NPC } from "features/island/bumpkin/components/NPC";
 import { NPC_WEARABLES } from "lib/npcs";
+import { hasFeatureAccess } from "lib/flags";
 
 export const CompetitionBoard: React.FC = () => {
   const { gameService } = useContext(Context);
@@ -55,6 +56,8 @@ export const CompetitionBoard: React.FC = () => {
 
   const { bumpkin, rewards, createdAt, inventory, competitions } =
     gameState.context.state;
+
+  if (!hasFeatureAccess(gameState.context.state, "FSL")) return null;
 
   const coords = () => {
     const expansionCount = inventory["Basic Land"]?.toNumber() ?? 0;
