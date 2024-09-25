@@ -541,6 +541,7 @@ export function startGame(authContext: AuthContext) {
       id: "gameMachine",
       initial: "loading",
       context: {
+        fslId: "123",
         farmId: Math.floor(Math.random() * 1000),
         actions: [],
         state: EMPTY,
@@ -1797,6 +1798,9 @@ export function startGame(authContext: AuthContext) {
             ACKNOWLEDGE: {
               target: "notifying",
             },
+            "competition.started": (GAME_EVENT_HANDLERS as any)[
+              "competition.started"
+            ],
           },
         },
 

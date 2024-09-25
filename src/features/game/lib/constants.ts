@@ -362,6 +362,10 @@ export const INITIAL_FARM: GameState = {
   wardrobe: {},
   previousWardrobe: {},
 
+  competitions: {
+    progress: {},
+  },
+
   bumpkin: INITIAL_BUMPKIN,
 
   rewards: INITIAL_REWARDS,
@@ -585,6 +589,9 @@ export const TEST_FARM: GameState = {
   minigames: {
     games: {},
     prizes: {},
+  },
+  competitions: {
+    progress: {},
   },
   kingdomChores: {
     chores: [],
@@ -889,6 +896,9 @@ export const EMPTY: GameState = {
   conversations: [],
   farmHands: {
     bumpkins: {},
+  },
+  competitions: {
+    progress: {},
   },
   kingdomChores: {
     chores: [],
