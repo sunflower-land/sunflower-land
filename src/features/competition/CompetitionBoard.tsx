@@ -105,7 +105,7 @@ export const CompetitionModal: React.FC<{
 
   const { competitions } = gameState.context.state;
 
-  const [showIntro, setShowIntro] = useState(true);
+  const [showIntro, setShowIntro] = useState(!competitions.progress.TESTING);
   const [task, setTask] = useState<CompetitionTaskName>();
 
   const competition = COMPETITION_POINTS[competitionName];
@@ -241,7 +241,9 @@ export const CompetitionModal: React.FC<{
           <InnerPanel className="mb-1">
             <div className="p-1">
               <div className="flex justify-between mb-2">
-                <Label type="default" className=""></Label>
+                <Label type="default" className="">
+                  {t("competition.earnPoints")}
+                </Label>
                 <Label type="vibrant">{`${"TODO"} points`}</Label>
               </div>
               <p className="text-xs mb-3">{t("competition.earnPoints.how")}</p>

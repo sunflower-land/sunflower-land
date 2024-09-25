@@ -25,10 +25,12 @@ export const Introduction: React.FC = () => {
   );
 
   // TODO - change to FSL
-  const competition = COMPETITION_POINTS.FSL;
+  const competition = COMPETITION_POINTS.TESTING;
 
   const competitionIsActive =
-    Date.now() > competition.startAt && competition.endAt < Date.now();
+    hasFeatureAccess(gameState.context.state, "FSL") &&
+    Date.now() > competition.startAt &&
+    competition.endAt > Date.now();
 
   return (
     <Modal show={gameState.matches("introduction")}>

@@ -104,7 +104,7 @@ export const WaterComponent: React.FC<Props> = ({
 
       <IslandUpgrader gameState={gameState} offset={offset} />
 
-      {/* <Richie /> */}
+      <Richie />
 
       <CompetitionBoard />
 

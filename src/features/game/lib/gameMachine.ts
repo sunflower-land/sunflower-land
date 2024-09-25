@@ -1798,6 +1798,9 @@ export function startGame(authContext: AuthContext) {
             ACKNOWLEDGE: {
               target: "notifying",
             },
+            "competition.started": (GAME_EVENT_HANDLERS as any)[
+              "competition.started"
+            ],
           },
         },
 
