@@ -244,7 +244,7 @@ export const CompetitionModal: React.FC<{
                 <Label type="default" className="">
                   {t("competition.earnPoints")}
                 </Label>
-                <Label type="vibrant">{`${"TODO"} points`}</Label>
+                <Label type="vibrant">{`${getCompetitionPoints({ game: gameState.context.state, name: competitionName })} points`}</Label>
               </div>
               <p className="text-xs mb-3">{t("competition.earnPoints.how")}</p>
               <div className="flex flex-wrap -mx-1 items-center">
