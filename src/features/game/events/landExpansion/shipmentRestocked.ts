@@ -2,6 +2,7 @@ import Decimal from "decimal.js-light";
 import { INITIAL_STOCK, StockableName } from "features/game/lib/constants";
 import { getKeys } from "features/game/types/decorations";
 import { GameState } from "features/game/types/game";
+import { secondsTillReset } from "features/helios/components/hayseedHank/HayseedHankV2";
 import { produce } from "immer";
 import { onboardingAnalytics } from "lib/onboardingAnalytics";
 
@@ -71,6 +72,12 @@ export function canRestockShipment({
   const today = new Date(now).toISOString().slice(0, 10);
 
   return restockedAt !== today;
+}
+
+export function secondsUntilShipment({ game }: { game: GameState }) {
+  // TODO - new players get as soon as out of stock (first time)
+
+  return secondsTillReset();
 }
 
 export function shipmentRestock({

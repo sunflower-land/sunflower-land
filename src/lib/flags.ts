@@ -34,7 +34,8 @@ export type FeatureName =
   | "NEW_RESOURCES_GE"
   | "FSL"
   | "ANIMAL_BUILDINGS"
-  | "BARLEY";
+  | "BARLEY"
+  | "GEM_EXPERIMENT";
 
 // Used for testing production features
 export const ADMIN_IDS = [1, 3, 51, 39488, 128727];
@@ -65,6 +66,7 @@ const featureFlags: Record<FeatureName, FeatureFlag> = {
   NEW_RESOURCES_GE: defaultFeatureFlag,
   ANIMAL_BUILDINGS: testnetFeatureFlag,
   BARLEY: testnetFeatureFlag,
+  GEM_EXPERIMENT: defaultFeatureFlag,
 };
 
 export const hasFeatureAccess = (game: GameState, featureName: FeatureName) => {

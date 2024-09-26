@@ -6,12 +6,20 @@ import { useActor } from "@xstate/react";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { SquareIcon } from "components/ui/SquareIcon";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import ticket from "assets/icons/gem.webp";
+import ticket from "assets/icons/block_buck_detailed.png";
+import stockIcon from "assets/icons/stock.webp";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { ConfirmationModal } from "components/ui/ConfirmationModal";
 import { NPC_WEARABLES } from "lib/npcs";
 import { BB_TO_GEM_RATIO } from "features/game/types/game";
+import { hasFeatureAccess } from "lib/flags";
+import { TimerDisplay } from "features/retreat/components/auctioneer/AuctionDetails";
+import { useCountdown } from "lib/utils/hooks/useCountdown";
+import {
+  canRestockShipment,
+  secondsUntilShipment,
+} from "features/game/events/landExpansion/shipmentRestocked";
 
 interface Props {
   onClose: () => void;
@@ -28,6 +36,15 @@ export const Restock: React.FC<Props> = ({ onClose }) => {
   const { openModal } = useContext(ModalContext);
 
   const canRestock = gameState.context.state.inventory["Gem"]?.gte(1);
+
+  const hasGemExperiment = hasFeatureAccess(
+    gameState.context.state,
+    "GEM_EXPERIMENT",
+  );
+
+  const shipmentAt = useCountdown(
+    secondsUntilShipment({ game: gameState.context.state }),
+  );
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -57,26 +74,34 @@ export const Restock: React.FC<Props> = ({ onClose }) => {
 
     () => setShowConfirm(false);
   };
+
+  const shipmentIsReady = canRestockShipment({ game: gameState.context.state });
+  const { days, ...shipmentTime } = shipmentAt;
+
   return (
     <>
+      <div className="flex justify-center items-center">
+        {/* <img src={stockIcon} className="h-5 mr-1" /> */}
+        <p className="text-xxs">Next stock shipment:</p>
+      </div>
+      <div className="flex justify-center items-center">
+        <img src={stockIcon} className="h-5 mr-1" />
+        <TimerDisplay time={shipmentTime} />
+      </div>
       <div className="my-1 flex flex-col mb-1 flex-1 items-center justify-end">
-        <div className="flex items-center">
-          <p
-            className="text-xs mr-1.5 mb-0.5 font-secondary"
-            style={{ wordSpacing: "-3px" }}
-          >
-            {t("restock")} {"= 20 x"}
-          </p>
-          <SquareIcon icon={ITEM_DETAILS["Gem"].image} width={7} />
-        </div>
+        <div className="flex items-center"></div>
       </div>
       <Button
         disabled={isDisabled}
-        className="mt-1"
+        className="mt-1 relative"
         onClick={() => setShowConfirm(true)}
       >
-        <div className="flex items-center h-4">
+        <div className="flex items-center h-4 ">
           <p>{t("restock")}</p>
+          <img
+            src={ITEM_DETAILS["Block Buck"].image}
+            className="h-5 absolute right-1 top-1"
+          />
         </div>
       </Button>
       {!canRestock && (
