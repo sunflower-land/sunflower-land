@@ -96,11 +96,13 @@ export const Tradeable: React.FC = () => {
       <div className="flex flex-col w-full sm:w-1/3 mr-1 mb-1">
         <div className="block sm:hidden">
           <TradeableHeader
+            farmId={farmId}
             collection={collection as CollectionName}
             display={display}
             count={count}
             tradeable={tradeable}
             onBack={onBack}
+            onPurchase={load}
             onListClick={() => setShowListItem(true)}
           />
         </div>
@@ -110,11 +112,13 @@ export const Tradeable: React.FC = () => {
       <div className="w-full">
         <div className="hidden sm:block">
           <TradeableHeader
+            farmId={farmId}
             collection={collection as CollectionName}
             display={display}
             tradeable={tradeable}
             count={count}
             onBack={onBack}
+            onPurchase={load}
             onListClick={() => setShowListItem(true)}
           />
         </div>
