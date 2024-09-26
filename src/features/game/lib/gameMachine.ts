@@ -87,7 +87,7 @@ import { setCachedMarketPrices } from "features/world/ui/market/lib/marketCache"
 import { MinigameName } from "../types/minigames";
 import { OFFLINE_FARM } from "./landData";
 import { isValidRedirect } from "features/portal/lib/portalUtil";
-import { postEffect } from "../actions/effect";
+import { Effect, postEffect } from "../actions/effect";
 import { TRANSACTION_SIGNATURES, TransactionName } from "../types/transactions";
 import { getKeys } from "../types/decorations";
 
@@ -255,7 +255,7 @@ export type UpdateUsernameEvent = {
 
 type PostEffectEvent = {
   type: "POST_EFFECT";
-  effect: any;
+  effect: Effect;
 };
 
 type TransactEvent = {
@@ -423,6 +423,9 @@ export type BlockchainState = {
     | "revealed"
     | "genieRevealed"
     | "beanRevealed"
+    | "effect"
+    | "effectSuccess"
+    | "effectFailure"
     | "error"
     | "refreshing"
     | "swarming"
@@ -1495,7 +1498,7 @@ export function startGame(authContext: AuthContext) {
             },
             onDone: [
               {
-                target: "playing",
+                target: "effectSuccess",
                 actions: [
                   assign((_, event) => ({
                     actions: [],
@@ -1505,9 +1508,19 @@ export function startGame(authContext: AuthContext) {
               },
             ],
             onError: {
-              target: "error",
+              target: "effectFailure",
               actions: "assignErrorMessage",
             },
+          },
+        },
+        effectFailure: {
+          on: {
+            ACKNOWLEDGE: "playing",
+          },
+        },
+        effectSuccess: {
+          on: {
+            CONTINUE: "playing",
           },
         },
         deleteTradeListing: {

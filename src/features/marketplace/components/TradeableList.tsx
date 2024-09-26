@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useActor } from "@xstate/react";
 import { Box } from "components/ui/Box";
 import { Label } from "components/ui/Label";
@@ -24,7 +24,6 @@ import { TradeableSummary } from "./TradeableOffers";
 import { GameWallet } from "features/wallet/Wallet";
 import { Loading } from "features/auth/components";
 import { CONFIG } from "lib/config";
-import { waitFor } from "xstate/lib/waitFor";
 import confetti from "canvas-confetti";
 import { formatNumber } from "lib/utils/formatNumber";
 import { availableWardrobe } from "features/game/events/landExpansion/equip";
@@ -46,12 +45,19 @@ export const TradeableListItem: React.FC<{
   const [isSigning, setIsSigning] = useState(false);
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
+  const [showError, setShowError] = useState(false);
   const [showItemInUseWarning, setShowItemInUseWarning] = useState(false);
   const [isListing, setIsListing] = useState(false);
   const [price, setPrice] = useState(0);
 
   const { state } = gameState.context;
   const quantity = 1;
+
+  useEffect(() => {
+    if (gameState.value === "effectSuccess") {
+      confetti();
+    }
+  }, [gameState.value]);
 
   // Check inventory count
   const getCount = () => {
@@ -103,33 +109,31 @@ export const TradeableListItem: React.FC<{
   const confirm = async ({ signature }: { signature?: string }) => {
     setIsListing(true);
 
-    try {
-      gameService.send("POST_EFFECT", {
-        effect: {
-          type: "marketplace.listed",
-          itemId: id,
-          collection: display.type,
-          sfl: price,
-          signature,
-          quantity,
-          contract: CONFIG.MARKETPLACE_CONTRACT,
-        },
-      });
+    // try {
+    gameService.send("POST_EFFECT", {
+      effect: {
+        type: "marketplace.listed",
+        itemId: id,
+        collection: display.type,
+        sfl: price,
+        signature,
+        quantity,
+        contract: CONFIG.MARKETPLACE_CONTRACT,
+      },
+    });
 
-      await waitFor(
-        gameService,
-        (state) => {
-          if (state.matches("error")) throw new Error("Insert failed");
-          return state.matches("playing");
-        },
-        { timeout: 60 * 1000 },
-      );
-    } finally {
-      setIsListing(false);
-    }
+    // await waitFor(
+    //   gameService,
+    //   (state) => {
+    //     return state.matches("playing");
+    //   },
+    //   { timeout: 60 * 1000 },
+    // );
+    // } finally {
+    //   setIsListing(false);
+    // }
 
-    confetti();
-    setShowSuccess(true);
+    // setShowSuccess(true);
   };
 
   const sign = async () => {
@@ -171,8 +175,25 @@ export const TradeableListItem: React.FC<{
     setIsSigning(false);
   };
 
+  const handleErrorClick = () => {
+    gameService.send("ACKNOWLEDGE");
+    setShowError(false);
+  };
+
   const count = getCount();
   const available = getAvailable();
+
+  if (gameState.matches("effectFailure")) {
+    return (
+      <div className="flex flex-col">
+        <Label type="danger" className="my-1 ml-2" icon={tradeIcon}>
+          {t("error")}
+        </Label>
+        <div className="p-2 mb-1">{`Something went wrong`}</div>
+        <Button onClick={handleErrorClick}>{t("close")}</Button>
+      </div>
+    );
+  }
 
   if (showItemInUseWarning) {
     return (
@@ -186,7 +207,7 @@ export const TradeableListItem: React.FC<{
     );
   }
 
-  if (showSuccess) {
+  if (gameState.matches("effectSuccess")) {
     return (
       <>
         <div className="p-2">

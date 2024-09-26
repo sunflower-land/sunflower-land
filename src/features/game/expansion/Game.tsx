@@ -114,11 +114,16 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   provingPersonhood: false,
   sellMarketResource: false,
   somethingArrived: true,
+  effect: false,
+  effectSuccess: false,
+  effectFailure: false,
 };
 
 // State change selectors
 const isLoading = (state: MachineState) =>
-  state.matches("loading") || state.matches("portalling");
+  state.matches("loading") ||
+  state.matches("portalling") ||
+  state.matches("effect");
 const isPortalling = (state: MachineState) => state.matches("portalling");
 const isTrading = (state: MachineState) => state.matches("trading");
 const isTraded = (state: MachineState) => state.matches("traded");
