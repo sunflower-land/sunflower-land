@@ -1,6 +1,6 @@
 import Decimal from "decimal.js-light";
 import { Worm } from "./composters";
-import { BB_TO_GEM_RATIO, GameState, InventoryItemName } from "./game";
+import { GameState, InventoryItemName } from "./game";
 import { Tool } from "./tools";
 import { isWearableActive } from "../lib/wearables";
 import { translate } from "lib/i18n/translate";
@@ -59,7 +59,7 @@ export type OldFishName = "Kraken Tentacle";
 export const PURCHASEABLE_BAIT: Record<PurchaseableBait, Tool> = {
   "Fishing Lure": {
     ingredients: {
-      Gem: new Decimal(1 * BB_TO_GEM_RATIO),
+      Gem: new Decimal(10),
     },
     price: 0,
     description: translate("purchaseableBait.fishingLure.description"),

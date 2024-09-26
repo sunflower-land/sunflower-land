@@ -7,7 +7,7 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Label } from "components/ui/Label";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { GameState } from "features/game/types/game";
+import { BB_TO_GEM_RATIO, GameState } from "features/game/types/game";
 import { ISLAND_BUMPKIN_CAPACITY } from "features/game/events/landExpansion/buyFarmHand";
 import { Panel } from "components/ui/Panel";
 import confetti from "canvas-confetti";
@@ -32,7 +32,7 @@ export const BuyFarmHand: React.FC<Props> = ({ onClose, gameState }) => {
   const capacity = ISLAND_BUMPKIN_CAPACITY[gameState.island.type];
   const farmHands = Object.keys(gameState.farmHands.bumpkins).length;
   const hasSpace = farmHands + 1 < capacity;
-  const cost = (farmHands + 2) * 5;
+  const cost = (farmHands + 2) * 5 * BB_TO_GEM_RATIO;
 
   const hasGems = !!gameState.inventory["Gem"]?.gte(cost);
 

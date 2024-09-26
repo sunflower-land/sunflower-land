@@ -18,9 +18,8 @@ import { secondsToString } from "lib/utils/time";
 import React, { useContext, useEffect, useState } from "react";
 import powerup from "assets/icons/level_up.png";
 import gift from "assets/icons/gift.png";
-import blockBuck from "assets/icons/block_buck.png";
 
-import { BB_TO_GEM_RATIO, Desert, GameState } from "features/game/types/game";
+import { Desert, GameState } from "features/game/types/game";
 import { getKeys } from "features/game/types/decorations";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Button } from "components/ui/Button";
@@ -407,15 +406,13 @@ export const Digby: React.FC<{ onClose: () => void }> = ({ onClose }) => {
 
     gameAnalytics.trackSink({
       currency: "Gem",
-      amount: 1,
+      amount: 10,
       item: "DesertDigs",
       type: "Fee",
     });
   };
 
-  const canAfford = (inventory["Gem"] ?? new Decimal(0))?.gte(
-    1 * BB_TO_GEM_RATIO,
-  );
+  const canAfford = (inventory["Gem"] ?? new Decimal(0))?.gte(10);
 
   return (
     <CloseButtonPanel
@@ -518,7 +515,7 @@ export const Digby: React.FC<{ onClose: () => void }> = ({ onClose }) => {
               >
                 <div className="flex items-center space-x-1">
                   <p>{t("digby.buyMoreDigs")}</p>
-                  <img src={blockBuck} className="w-4" />
+                  <img src={ITEM_DETAILS.Gem.image} className="w-4" />
                 </div>
               </Button>
             </>

@@ -6,7 +6,7 @@ import { useActor } from "@xstate/react";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { SquareIcon } from "components/ui/SquareIcon";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import ticket from "assets/icons/block_buck_detailed.png";
+import ticket from "assets/icons/gem.webp";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { ConfirmationModal } from "components/ui/ConfirmationModal";
@@ -65,7 +65,7 @@ export const Restock: React.FC<Props> = ({ onClose }) => {
             className="text-xs mr-1.5 mb-0.5 font-secondary"
             style={{ wordSpacing: "-3px" }}
           >
-            {t("restock")} {"= 100 x"}
+            {t("restock")} {"= 20 x"}
           </p>
           <SquareIcon icon={ITEM_DETAILS["Gem"].image} width={7} />
         </div>
