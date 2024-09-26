@@ -5,11 +5,23 @@ import { makeGame } from "../lib/transforms";
 
 const API_URL = CONFIG.API_URL;
 
+type EffectName =
+  | "marketplace.listingPurchased"
+  | "marketplace.listed"
+  | "marketplace.offerMade"
+  | "marketplace.offerAccepted"
+  | "marketplace.offerCancelled";
+
+export interface Effect {
+  type: EffectName;
+  id: string;
+}
+
 type Request = {
   farmId: number;
   token: string;
   transactionId: string;
-  effect: any;
+  effect: Effect;
 };
 
 export async function postEffect(

@@ -9,7 +9,7 @@ import chest from "assets/icons/chest.png";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
 import { getKeys } from "features/game/types/decorations";
-import { getTradeableDisplay } from "../lib/tradeables";
+import { getCollectionName, getTradeableDisplay } from "../lib/tradeables";
 import { getOfferItem, getTradeType } from "../lib/offers";
 import { ITEM_IDS } from "features/game/types/bumpkin";
 import { KNOWN_IDS } from "features/game/types";
@@ -68,11 +68,14 @@ const MyListings: React.FC = () => {
             const listing = listings[id];
 
             // TODO - more listed types. Only resources currently support
-            const itemId =
-              KNOWN_IDS[getKeys(listing.items ?? {})[0] as InventoryItemName];
+            const itemName = getKeys(
+              listing.items ?? {},
+            )[0] as InventoryItemName;
+            const itemId = KNOWN_IDS[itemName];
+            const collection = getCollectionName(itemName);
             const details = getTradeableDisplay({
               id: itemId,
-              type: "resources",
+              type: collection,
             });
 
             return (
