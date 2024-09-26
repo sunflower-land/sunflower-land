@@ -65,6 +65,8 @@ const GameOptions: React.FC<ContentComponentProps> = ({
   const { t } = useAppTranslation();
 
   const [isConfirmLogoutModalOpen, showConfirmLogoutModal] = useState(false);
+  const [showFarm, setShowFarm] = useState(false);
+  const [showNftId, setShowNftId] = useState(false);
 
   const copypaste = useSound("copypaste");
   const button = useSound("button");
@@ -108,8 +110,13 @@ const GameOptions: React.FC<ContentComponentProps> = ({
           <Label
             type="default"
             icon={SUNNYSIDE.icons.search}
+            popup={showFarm}
             className="mb-1 mr-4"
             onClick={() => {
+              setShowFarm(true);
+              setTimeout(() => {
+                setShowFarm(false);
+              }, 2000);
               copypaste.play();
               clipboard.copy(
                 gameService.state?.context?.farmId.toString() as string,
@@ -124,8 +131,13 @@ const GameOptions: React.FC<ContentComponentProps> = ({
             <Label
               type="default"
               icon={ticket}
+              popup={showNftId}
               className="mb-1 mr-4"
               onClick={() => {
+                setShowNftId(true);
+                setTimeout(() => {
+                  setShowNftId(false);
+                }, 2000);
                 copypaste.play();
                 clipboard.copy(
                   gameService.state?.context?.nftId?.toString() || "",
