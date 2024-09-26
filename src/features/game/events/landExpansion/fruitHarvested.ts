@@ -138,6 +138,11 @@ export function getFruitYield({ name, game, fertiliser }: FruitYield) {
     amount += 0.1;
   }
 
+  // Grape Escape +0.2 yield
+  if (name === "Grape" && bumpkin.skills["Grape Escape"]) {
+    amount += 0.2;
+  }
+
   //Faction Quiver
   const factionName = game.faction?.name;
   if (
