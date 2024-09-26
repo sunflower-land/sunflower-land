@@ -48,6 +48,7 @@ import lockIcon from "assets/icons/lock.png";
 import { DEV_HoarderCheck } from "./developer-options/DEV_HoardingCheck";
 import { WalletAddressLabel } from "components/ui/WalletAddressLabel";
 import { PickServer } from "./plaza-settings/PickServer";
+import { PlazaShaderSettings } from "./plaza-settings/PlazaShaderSettings";
 
 export interface ContentComponentProps {
   onSubMenuClick: (id: SettingMenuId) => void;
@@ -277,7 +278,8 @@ export type SettingMenuId =
   | "amoyHoardingCheck"
 
   // Plaza Settings
-  | "pickServer";
+  | "pickServer"
+  | "shader";
 
 interface SettingMenu {
   title: string;
@@ -384,5 +386,10 @@ export const settingMenus: Record<SettingMenuId, SettingMenu> = {
     title: "Pick Server",
     parent: "plaza",
     content: PickServer,
+  },
+  shader: {
+    title: translate("gameOptions.plazaSettings.shader"),
+    parent: "plaza",
+    content: PlazaShaderSettings,
   },
 };
