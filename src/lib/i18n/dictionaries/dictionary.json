@@ -3655,5 +3655,8 @@
   "competition.rules.three": "SFL will be distributed to the top 10,000 players, based on their ranking.",
   "competition.rules.four": "Bonus prizes will be announced at the end!",
   "competition.leaderboard": "Leaderboard",
-  "description.gem": "A valuable gem in Sunflower Land!"
+  "description.gem": "A valuable gem in Sunflower Land!",
+  "gems.update": "Gem update",
+  "gems.intro": "To prepare for onboarding new players, we have replaced Block Bucks with a new currency...Gems!",
+  "gems.intro.two": "You will receive 20 Gems for every Block Buck you own."
 }

@@ -1,33 +1,29 @@
 import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
-import { Panel } from "components/ui/Panel";
-import { SpeakingModal } from "features/game/components/SpeakingModal";
 import React, { useContext, useState } from "react";
 import { ClaimReward } from "./ClaimReward";
 import { Context } from "features/game/GameProvider";
 import { BB_TO_GEM_RATIO } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 export const Gems: React.FC = () => {
   const { gameService } = useContext(Context);
   const [page, setPage] = useState(0);
+
+  const { t } = useAppTranslation();
 
   if (page === 0) {
     return (
       <>
         <div className="p-1">
           <Label icon={ITEM_DETAILS.Gem.image} type="default" className="mb-2">
-            Gem update
+            {t("gems.update")}
           </Label>
-          <p className="text-sm mb-2">
-            To prepare for onboarding new players, we have replaced Block Bucks
-            with a new currency...Gems!
-          </p>
-          <p className="text-sm mb-2">
-            You will receive 100 Gems for every Block Buck you own.
-          </p>
+          <p className="text-sm mb-2">{t("gems.intro")}</p>
+          <p className="text-sm mb-2">{t("gems.intro.two")}</p>
         </div>
-        <Button onClick={() => setPage(1)}>Continue</Button>
+        <Button onClick={() => setPage(1)}>{t("continue")}</Button>
       </>
     );
   }

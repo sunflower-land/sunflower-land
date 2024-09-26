@@ -24,8 +24,6 @@ export async function buyGemsMATIC({
   deadline,
   fee,
 }: BuyBlockBucksArgs) {
-  console.log("BUY GEMS!");
-  console.log({ account, signature, farmId, amount, deadline, fee });
   const hash = await writeContract(config, {
     abi: ABI,
     address: address as `0x${string}`,
