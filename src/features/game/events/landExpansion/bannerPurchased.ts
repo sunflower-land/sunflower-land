@@ -47,7 +47,7 @@ export function getBannerPrice(
   );
 
   if (weeksElapsed < 1) {
-    const previousBannerDiscount = hasPreviousBanner ? 15 : 0;
+    const previousBannerDiscount = hasPreviousBanner ? 15 * BB_TO_GEM_RATIO : 0;
     return new Decimal(75 * BB_TO_GEM_RATIO).sub(previousBannerDiscount);
   }
   if (weeksElapsed < 4) {

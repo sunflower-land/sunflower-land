@@ -91,7 +91,7 @@ describe("garbageSold", () => {
     });
 
     expect(state.inventory["Block Buck"]).toEqual(new Decimal(0));
-    expect(state.inventory["Gem"]).toEqual(new Decimal(500));
+    expect(state.inventory["Gem"]).toEqual(new Decimal(100));
   });
 
   it("sell the treasure in bulk given sufficient quantity", () => {

@@ -1,6 +1,7 @@
 import { TEST_FARM } from "features/game/lib/constants";
 import { buyMoreDigs, GRID_DIG_SPOTS } from "./buyMoreDigs";
 import Decimal from "decimal.js-light";
+import { BB_TO_GEM_RATIO } from "features/game/types/game";
 
 describe("buyMoreDigs", () => {
   it("throws an error if the player does not have any Gems", () => {
@@ -24,7 +25,7 @@ describe("buyMoreDigs", () => {
         ...TEST_FARM,
         inventory: {
           ...TEST_FARM.inventory,
-          Gem: new Decimal(1),
+          Gem: new Decimal(1 * BB_TO_GEM_RATIO),
         },
         desert: {
           digging: {
@@ -54,7 +55,7 @@ describe("buyMoreDigs", () => {
         ...TEST_FARM,
         inventory: {
           ...TEST_FARM.inventory,
-          Gem: new Decimal(1),
+          Gem: new Decimal(1 * BB_TO_GEM_RATIO),
         },
       },
       action: { type: "desert.digsBought" },

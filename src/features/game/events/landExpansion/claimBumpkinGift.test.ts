@@ -221,7 +221,7 @@ describe("claimBumpkinGift", () => {
       state.npcs?.["pumpkin' pete"]?.friendship?.giftClaimedAtPoints,
     ).toEqual(200);
 
-    expect(state.inventory["Gem"]).toEqual(new Decimal(1));
+    expect(state.inventory["Gem"]).toEqual(new Decimal(1 * BB_TO_GEM_RATIO));
     expect(state.wardrobe["Pumpkin Hat"]).toEqual(1);
     expect(state.coins).toEqual(1280);
   });
