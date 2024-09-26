@@ -3083,6 +3083,7 @@
   "season.codex.howToEarn.two": "Complete Hank's chores.",
   "season.codex.howToEarn.three": "Compete in the faction competition.",
   "season.codex.nextDrop": "Next Drop",
+  "season.codex.nextDrop.available": "{{dropSupply}} available",
   "season.codex.seasonalDrops": "Seasonal Drops",
   "season.codex.seasonalDrops.description": "Compete with others for the rarest items! Visit the Auctioneer in the plaza for more details.",
   "season.codex.soldOut": "Sold out",
