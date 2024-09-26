@@ -171,6 +171,16 @@ export function getCropTime({
     }
   }
 
+  // Olive Express: 20% reduction
+  if (crop === "Olive" && skills["Olive Express"]) {
+    seconds = seconds * 0.8;
+  }
+
+  // Rice Rocket: 20% reduction
+  if (crop === "Rice" && skills["Rice Rocket"]) {
+    seconds = seconds * 0.8;
+  }
+
   return seconds;
 }
 
