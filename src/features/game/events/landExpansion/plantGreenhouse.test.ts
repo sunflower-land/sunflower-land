@@ -1719,7 +1719,7 @@ describe("plantGreenhouse", () => {
     const now = Date.now();
 
     let boosted = false;
-    for (let i = 0; i < 40; i++) {
+    for (let i = 0; i < 1000; i++) {
       const state = plantGreenhouse({
         action: {
           type: "greenhouse.planted",
@@ -1772,7 +1772,7 @@ describe("plantGreenhouse", () => {
     const now = Date.now();
 
     let boosted = false;
-    for (let i = 0; i < 40; i++) {
+    for (let i = 0; i < 1000; i++) {
       const state = plantGreenhouse({
         action: {
           type: "greenhouse.planted",
@@ -1825,7 +1825,7 @@ describe("plantGreenhouse", () => {
     const now = Date.now();
 
     let boosted = false;
-    for (let i = 0; i < 40; i++) {
+    for (let i = 0; i < 1000; i++) {
       const state = plantGreenhouse({
         action: {
           type: "greenhouse.planted",
