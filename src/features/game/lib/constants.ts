@@ -7,6 +7,7 @@ import {
   ExpansionConstruction,
   PlacedItem,
   BB_TO_GEM_RATIO,
+  InventoryItemName,
 } from "../types/game";
 import { getKeys } from "../types/craftables";
 import { BumpkinParts, tokenUriBuilder } from "lib/utils/tokenUriBuilder";
@@ -53,7 +54,52 @@ export const makeMegaStoreAvailableDates = () => {
 export function isBuildingReady(building: PlacedItem[]) {
   return building.some((b) => b.readyAt <= Date.now());
 }
-export const INITIAL_STOCK = (state?: GameState): Inventory => {
+
+export type StockableName = Extract<
+  InventoryItemName,
+  | "Axe"
+  | "Pickaxe"
+  | "Stone Pickaxe"
+  | "Iron Pickaxe"
+  | "Gold Pickaxe"
+  | "Oil Drill"
+  | "Rod"
+  | "Sunflower Seed"
+  | "Potato Seed"
+  | "Pumpkin Seed"
+  | "Carrot Seed"
+  | "Cabbage Seed"
+  | "Soybean Seed"
+  | "Beetroot Seed"
+  | "Cauliflower Seed"
+  | "Parsnip Seed"
+  | "Eggplant Seed"
+  | "Corn Seed"
+  | "Radish Seed"
+  | "Wheat Seed"
+  | "Kale Seed"
+  | "Grape Seed"
+  | "Olive Seed"
+  | "Rice Seed"
+  | "Tomato Seed"
+  | "Blueberry Seed"
+  | "Orange Seed"
+  | "Apple Seed"
+  | "Banana Plant"
+  | "Lemon Seed"
+  | "Sunpetal Seed"
+  | "Bloom Seed"
+  | "Lily Seed"
+  | "Sand Shovel"
+  | "Sand Drill"
+  | "Chicken"
+  | "Magic Bean"
+  | "Immortal Pear"
+>;
+
+export const INITIAL_STOCK = (
+  state?: GameState,
+): Record<StockableName, Decimal> => {
   const tools = {
     Axe: new Decimal(200),
     Pickaxe: new Decimal(60),
@@ -133,12 +179,9 @@ export const INITIAL_STOCK = (state?: GameState): Inventory => {
     // Seeds
     ...seeds,
 
-    Shovel: new Decimal(1),
-    "Rusty Shovel": new Decimal(100),
     "Sand Shovel": new Decimal(50),
     "Sand Drill": new Decimal(10),
     Chicken: new Decimal(5),
-
     "Magic Bean": new Decimal(5),
     "Immortal Pear": new Decimal(1),
   };
@@ -370,6 +413,8 @@ export const INITIAL_FARM: GameState = {
     progress: {},
   },
 
+  shipments: {},
+
   bumpkin: INITIAL_BUMPKIN,
 
   rewards: INITIAL_REWARDS,
@@ -594,6 +639,7 @@ export const TEST_FARM: GameState = {
     games: {},
     prizes: {},
   },
+  shipments: {},
   competitions: {
     progress: {},
   },
@@ -891,6 +937,7 @@ export const EMPTY: GameState = {
     games: {},
     prizes: {},
   },
+  shipments: {},
   previousInventory: {},
   chickens: {},
   stock: {},

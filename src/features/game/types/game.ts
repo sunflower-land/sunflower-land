@@ -1147,6 +1147,10 @@ export interface GameState {
     progress: Partial<Record<CompetitionName, CompetitionProgress>>;
   };
 
+  shipments: {
+    restockedAt?: number;
+  };
+
   // There are more fields but unused
   transaction?: GameTransaction;
 

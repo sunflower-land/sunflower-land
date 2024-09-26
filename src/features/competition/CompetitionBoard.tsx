@@ -64,12 +64,12 @@ export const CompetitionBoard: React.FC = () => {
     const expansionCount = inventory["Basic Land"]?.toNumber() ?? 0;
 
     if (expansionCount < 6) {
-      return { x: -6, y: -4.5 };
+      return { x: 2, y: -4.5 };
     }
     if (expansionCount >= 6 && expansionCount < 21) {
-      return { x: -6, y: -10.5 };
+      return { x: 2, y: -10.5 };
     } else {
-      return { x: -6, y: -16.5 };
+      return { x: 2, y: -16.5 };
     }
   };
 

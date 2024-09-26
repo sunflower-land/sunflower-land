@@ -354,8 +354,13 @@ import {
   startCompetition,
   StartCompetitionAction,
 } from "./landExpansion/startCompetition";
+import {
+  shipmentRestock,
+  ShipmentRestockAction,
+} from "./landExpansion/shipmentRestocked";
 
 export type PlayingEvent =
+  | ShipmentRestockAction
   | StartCompetitionAction
   | ClaimOfferAction
   | CompleteDailyChallengeAction
@@ -628,6 +633,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "factionShopItem.bought": buyFactionShopItem,
   "factionPet.fed": feedFactionPet,
   "desert.digsBought": buyMoreDigs,
+  "shipment.restocked": shipmentRestock,
 };
 
 export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {
