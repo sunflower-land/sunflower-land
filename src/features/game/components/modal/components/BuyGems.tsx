@@ -24,10 +24,10 @@ export interface Price {
 
 const PRICES: Price[] = [
   { amount: 100, usd: 0.99 },
-  { amount: 350, usd: 2.99 },
   { amount: 600, usd: 4.99 },
   { amount: 1250, usd: 9.99 },
   { amount: 2750, usd: 19.99 },
+  { amount: 7250, usd: 49.99 },
   { amount: 15000, usd: 99.99 },
 ];
 
@@ -216,7 +216,7 @@ export const BuyGems: React.FC<Props> = ({
               <div>
                 <div className="flex items-center">
                   <SquareIcon icon={ITEM_DETAILS.Gem.image} width={10} />
-                  <span className="ml-1 text-sm">{`2500 x Gems`}</span>
+                  <span className="ml-1 text-sm">{`300 x Gems`}</span>
                 </div>
               </div>
               <div className="flex flex-col justify-end flex-1 items-end">
@@ -228,30 +228,49 @@ export const BuyGems: React.FC<Props> = ({
         )}
 
         <div className="grid grid-cols-3 gap-1 gap-y-2  sm:text-sm sm:gap-2">
-          {PRICES.map((price) => (
-            <ButtonPanel
-              key={JSON.stringify(price)}
-              className="flex flex-col items-center relative cursor-pointer hover:bg-brown-300"
-              onClick={() => setPrice(price)}
-            >
-              <span className="whitespace-nowrap mb-2">{`${price.amount} x`}</span>
-              <div className="flex flex-1 justify-center items-center mb-6 w-full">
-                <img src={ITEM_DETAILS.Gem.image} className="w-2/5 sm:w-1/4" />
-              </div>
-              <Label
-                type="warning"
-                iconWidth={11}
-                className="absolute h-7  -bottom-2"
-                style={{
-                  left: `${PIXEL_SCALE * -3}px`,
-                  right: `${PIXEL_SCALE * -3}px`,
-                  width: `calc(100% + ${PIXEL_SCALE * 6}px)`,
-                }}
+          {PRICES.map((price) => {
+            // Compare price to base package
+            const base = PRICES[0].usd / PRICES[0].amount;
+            const pricePerGem = price.usd / price.amount;
+
+            console.log({ pricePerGem, base });
+
+            const bonus = (base - pricePerGem) * 100 * 100;
+
+            return (
+              <ButtonPanel
+                key={JSON.stringify(price)}
+                className="flex flex-col items-center relative cursor-pointer hover:bg-brown-300"
+                onClick={() => setPrice(price)}
               >
-                {`US$${price.usd}`}
-              </Label>
-            </ButtonPanel>
-          ))}
+                {!!bonus && (
+                  <Label type="success" className="absolute -right-2 -top-5">
+                    {`+${bonus.toFixed(0)}%`}
+                  </Label>
+                )}
+
+                <span className="whitespace-nowrap mb-2">{`${price.amount} x`}</span>
+                <div className="flex flex-1 justify-center items-center mb-6 w-full">
+                  <img
+                    src={ITEM_DETAILS.Gem.image}
+                    className="w-2/5 sm:w-1/4"
+                  />
+                </div>
+                <Label
+                  type="warning"
+                  iconWidth={11}
+                  className="absolute h-7  -bottom-2"
+                  style={{
+                    left: `${PIXEL_SCALE * -3}px`,
+                    right: `${PIXEL_SCALE * -3}px`,
+                    width: `calc(100% + ${PIXEL_SCALE * 6}px)`,
+                  }}
+                >
+                  {`US$${price.usd}`}
+                </Label>
+              </ButtonPanel>
+            );
+          })}
         </div>
       </div>
     </>

@@ -1,4 +1,4 @@
-import { buyBlockBucksMATIC as _buyBlockBucksMATIC } from "lib/blockchain/BuyBlockBucks";
+import { buyGemsMATIC } from "lib/blockchain/BuyGems";
 import { wallet } from "lib/blockchain/wallet";
 import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
@@ -25,21 +25,18 @@ type Response = {
 const API_URL = CONFIG.API_URL;
 
 export async function buyBlockBucks(request: Request): Promise<Response> {
-  const response = await window.fetch(
-    `${API_URL}/buy-block-bucks/${request.farmId}`,
-    {
-      method: "POST",
-      headers: {
-        "content-type": "application/json;charset=UTF-8",
-        Authorization: `Bearer ${request.token}`,
-        "X-Transaction-ID": request.transactionId,
-      },
-      body: JSON.stringify({
-        type: request.type,
-        amount: request.amount,
-      }),
+  const response = await window.fetch(`${API_URL}/buy-gems/${request.farmId}`, {
+    method: "POST",
+    headers: {
+      "content-type": "application/json;charset=UTF-8",
+      Authorization: `Bearer ${request.token}`,
+      "X-Transaction-ID": request.transactionId,
     },
-  );
+    body: JSON.stringify({
+      type: request.type,
+      amount: request.amount,
+    }),
+  });
 
   if (response.status === 429) {
     throw new Error(ERRORS.TOO_MANY_REQUESTS);
@@ -53,7 +50,7 @@ export async function buyBlockBucks(request: Request): Promise<Response> {
 }
 
 export async function buyBlockBucksMATIC(transaction: any) {
-  await _buyBlockBucksMATIC({
+  await buyGemsMATIC({
     ...transaction,
     account: wallet.getAccount(),
   });

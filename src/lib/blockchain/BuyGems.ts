@@ -1,6 +1,6 @@
 import { CONFIG } from "lib/config";
 import { fromWei } from "web3-utils";
-import BuyBlockBucksAbi from "./abis/BuyBlockBucks";
+import ABI from "./abis/BuyGems";
 import { onboardingAnalytics } from "lib/onboardingAnalytics";
 import { waitForTransactionReceipt, writeContract } from "@wagmi/core";
 import { config } from "features/wallet/WalletProvider";
@@ -16,7 +16,7 @@ interface BuyBlockBucksArgs {
   fee: number;
 }
 
-export async function buyBlockBucksMATIC({
+export async function buyGemsMATIC({
   account,
   signature,
   farmId,
@@ -24,10 +24,12 @@ export async function buyBlockBucksMATIC({
   deadline,
   fee,
 }: BuyBlockBucksArgs) {
+  console.log("BUY GEMS!");
+  console.log({ account, signature, farmId, amount, deadline, fee });
   const hash = await writeContract(config, {
-    abi: BuyBlockBucksAbi,
+    abi: ABI,
     address: address as `0x${string}`,
-    functionName: "buyBlockBucksMATIC",
+    functionName: "buyGems",
     args: [
       signature,
       BigInt(farmId),

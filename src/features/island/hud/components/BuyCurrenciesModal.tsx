@@ -20,7 +20,7 @@ import { MachineState } from "features/game/lib/gameMachine";
 import { useActor, useSelector } from "@xstate/react";
 import { onboardingAnalytics } from "lib/onboardingAnalytics";
 import { randomID } from "lib/utils/random";
-import { buyBlockBucksXsolla as buyGemsXsolla } from "features/game/actions/buyBlockBucks";
+import { buyBlockBucksXsolla as buyGemsXsolla } from "features/game/actions/buyGems";
 import {
   BuyGems,
   Price,

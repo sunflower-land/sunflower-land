@@ -64,7 +64,7 @@ import {
   Currency,
   buyBlockBucks,
   buyBlockBucksMATIC,
-} from "../actions/buyBlockBucks";
+} from "../actions/buyGems";
 import { getSessionId } from "lib/blockchain/Session";
 import { BumpkinItem } from "../types/bumpkin";
 import { getAuctionResults } from "../actions/getAuctionResults";
