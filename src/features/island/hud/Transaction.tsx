@@ -243,6 +243,7 @@ const EVENT_TO_NAME: Record<TransactionName, string> = {
   "transaction.sflWithdrawn": "Withdraw SFL",
   "transaction.wearablesWithdrawn": "Withdraw wearables",
   "transaction.offerAccepted": "Accept offer",
+  "transaction.listingPurchased": "Purchase listing",
 };
 
 export const TransactionProgress: React.FC<Props> = ({
