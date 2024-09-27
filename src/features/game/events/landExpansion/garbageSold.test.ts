@@ -75,6 +75,25 @@ describe("garbageSold", () => {
     );
   });
 
+  it("sells a block buck", () => {
+    const state = sellGarbage({
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          "Block Buck": new Decimal(5),
+        },
+      },
+      action: {
+        type: "garbage.sold",
+        item: "Block Buck",
+        amount: 5,
+      },
+    });
+
+    expect(state.inventory["Block Buck"]).toEqual(new Decimal(0));
+    expect(state.inventory["Gem"]).toEqual(new Decimal(100));
+  });
+
   it("sell the treasure in bulk given sufficient quantity", () => {
     const state = sellGarbage({
       state: {

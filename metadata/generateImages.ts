@@ -6,9 +6,7 @@ import { InventoryItemName } from "features/game/types/game";
 import { KNOWN_IDS } from "features/game/types";
 
 const IMAGES: Partial<Record<InventoryItemName, string>> = {
-  Sand: "src/assets/resources/sand.webp",
-  Vase: "src/assets/resources/vase.webp",
-  Hieroglyph: "src/assets/resources/hieroglyph.webp",
+  Gem: "src/assets/icons/gem.webp",
 };
 
 const WIDTH = 1920;

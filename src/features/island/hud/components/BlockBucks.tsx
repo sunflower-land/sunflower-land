@@ -32,7 +32,7 @@ export const BlockBucks: React.FC<Props> = ({
         onClick={
           !isVisiting
             ? () => {
-                openModal("BUY_BLOCK_BUCKS");
+                openModal("BUY_GEMS");
               }
             : undefined
         }

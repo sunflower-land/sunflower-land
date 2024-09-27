@@ -250,10 +250,10 @@ const WearableContent: React.FC<WearableContentProps> = ({
       name: selectedName,
     });
 
-    if (selected.ingredients["Block Buck"]) {
+    if (selected.ingredients["Gem"]) {
       gameAnalytics.trackSink({
-        currency: "Block Buck",
-        amount: selected.ingredients["Block Buck"].toNumber() ?? 1,
+        currency: "Gem",
+        amount: selected.ingredients["Gem"].toNumber() ?? 1,
         item: selectedName,
         type: "Wearable",
       });

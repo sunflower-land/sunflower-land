@@ -11,7 +11,7 @@ import { VIPItems } from "./components/VIPItems";
 import { Panel } from "components/ui/Panel";
 
 type GlobalModal =
-  | "BUY_BLOCK_BUCKS"
+  | "BUY_GEMS"
   | "BUY_BANNER"
   | "STORE_ON_CHAIN"
   | "FIRST_EXPANSION"
@@ -46,7 +46,7 @@ export const ModalProvider: FC = ({ children }) => {
       {children}
 
       <BuyCurrenciesModal
-        show={opened === "BUY_BLOCK_BUCKS"}
+        show={opened === "BUY_GEMS"}
         onClose={handleClose}
         initialTab={0}
       />
