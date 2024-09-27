@@ -5,7 +5,10 @@ import {
 } from "features/game/lib/collectibleBuilt";
 import { TREE_RECOVERY_TIME } from "features/game/lib/constants";
 import { trackActivity } from "features/game/types/bumpkinActivity";
-import { BumpkinSkillName } from "features/game/types/bumpkinSkills";
+import {
+  BumpkinRevampSkillName,
+  BumpkinSkillName,
+} from "features/game/types/bumpkinSkills";
 import {
   GameState,
   Inventory,
@@ -22,7 +25,9 @@ export enum CHOP_ERRORS {
 }
 
 type GetChoppedAtArgs = {
-  skills: Partial<Record<BumpkinSkillName, number>>;
+  skills: Partial<
+    Record<BumpkinSkillName, number> & Record<BumpkinRevampSkillName, number>
+  >;
   game: GameState;
   createdAt: number;
 };
@@ -63,6 +68,11 @@ export function getChoppedAt({
 
   if (skills["Tree Hugger"]) {
     totalSeconds = totalSeconds * 0.8;
+  }
+
+  // 10% faster
+  if (skills["Tree Charge"]) {
+    totalSeconds = totalSeconds * 0.9;
   }
 
   if (isCollectibleActive({ name: "Time Warp Totem", game })) {

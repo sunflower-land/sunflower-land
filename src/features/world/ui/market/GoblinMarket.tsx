@@ -7,11 +7,11 @@ import { Context as AuthContext } from "features/auth/lib/Provider";
 import { useActor } from "@xstate/react";
 
 import { getMarketPrices } from "features/game/actions/getMarketPrices";
-import { SalesPanel } from "./SalesPanel";
 import {
   getCachedMarketPrices,
   setCachedMarketPrices,
 } from "./lib/marketCache";
+import { SalesPanel } from "./SalesPanel";
 
 const THIRTY_SECONDS = 1000 * 30;
 const SIXTY_SECONDS = 1000 * 60;
@@ -67,7 +67,7 @@ export const GoblinMarket: React.FC<Props> = ({ onClose }) => {
       onClose={selling ? undefined : onClose}
       tabs={[{ icon: SUNNYSIDE.icons.search, name: t("sell") }]}
     >
-      {<SalesPanel marketPrices={marketPrices} loadingNewPrices={loading} />}
+      <SalesPanel marketPrices={marketPrices} loadingNewPrices={loading} />
     </CloseButtonPanel>
   );
 };

@@ -697,6 +697,11 @@ export const STATIC_OFFLINE_FARM: GameState = {
     "Reveling Lemon": new Decimal(1),
     "Cactus King": new Decimal(1),
     "Clay Tablet": new Decimal(1),
+
+    "Lemon Frog": new Decimal(1),
+    "Sand Golem": new Decimal(1),
+    "Scarab Beetle": new Decimal(1),
+    Sundial: new Decimal(1),
   },
   wardrobe: {
     "Tofu Mask": 1,
@@ -722,6 +727,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     "Coin Aura": 1,
     "Gift Giver": 1,
     "Desert Merchant Turban": 1,
+    Halo: 1,
   },
   previousWardrobe: {
     "Elf Suit": 1,

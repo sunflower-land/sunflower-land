@@ -47,7 +47,7 @@ const isBasicFruitSeed = (name: FruitSeedName | GreenHouseFruitSeedName) =>
   name === "Blueberry Seed" || name === "Orange Seed";
 
 const isAdvancedFruitSeed = (name: FruitSeedName | GreenHouseFruitSeedName) =>
-  name === "Apple Seed" || name === "Orange Seed";
+  name === "Apple Seed" || name === "Banana Plant";
 
 /**
  * Generic boost for all fruit types - normal + greenhouse

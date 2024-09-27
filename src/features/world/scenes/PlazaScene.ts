@@ -1,4 +1,3 @@
-import faction_plaza from "assets/map/plaza.json";
 import desert_plaza from "assets/map/desert_plaza.json";
 
 import { SceneId } from "../mmoMachine";
@@ -10,9 +9,8 @@ import { PlaceableContainer } from "../containers/PlaceableContainer";
 import { budImageDomain } from "features/island/collectibles/components/Bud";
 import { SOUNDS } from "assets/sound-effects/soundEffects";
 import { NPCName } from "lib/npcs";
-import { FactionName, GameState } from "features/game/types/game";
+import { FactionName } from "features/game/types/game";
 import { translate } from "lib/i18n/translate";
-import { hasFeatureAccess } from "lib/flags";
 
 export type FactionNPC = {
   npc: NPCName;
@@ -128,12 +126,11 @@ export class PlazaScene extends BaseScene {
 
   public arrows: Phaser.GameObjects.Sprite | undefined;
 
-  constructor({ gameState }: { gameState: GameState }) {
-    const showDesertMap = hasFeatureAccess(gameState, "DESERT_PLAZA");
+  constructor() {
     super({
       name: "plaza",
       map: {
-        json: showDesertMap ? desert_plaza : faction_plaza,
+        json: desert_plaza,
         imageKey: "tileset",
       },
       audio: { fx: { walk_key: "dirt_footstep" } },
@@ -379,9 +376,7 @@ export class PlazaScene extends BaseScene {
       });
 
     // Banner
-    const banner = hasFeatureAccess(this.gameState, "DESERT_PLAZA")
-      ? "pharaoh_banner"
-      : "faction_banner";
+    const banner = "pharaoh_banner";
     this.add.image(400, 225, banner).setDepth(100000000000);
     // .setInteractive({ cursor: "pointer" })
     // .on("pointerdown", () => {
@@ -461,12 +456,7 @@ export class PlazaScene extends BaseScene {
         }
       });
 
-    // Stella Collectible of the Month
-    if (hasFeatureAccess(this.gameState, "DESERT_PLAZA")) {
-      this.add.image(248, 244, "tomato_bombard");
-    } else {
-      this.add.image(248, 244, "rice_panda");
-    }
+    this.add.image(248, 244, "tomato_bombard");
 
     this.add.image(288.5, 248, "explorer_hat");
 

@@ -3,13 +3,16 @@ import React, { useContext } from "react";
 import { Button } from "components/ui/Button";
 import { Context } from "features/game/GameProvider";
 import { ContentComponentProps } from "../GameOptions";
+import { hasFeatureAccess } from "lib/flags";
+import { SUNNYSIDE } from "assets/sunnyside";
+import { connectToFSL } from "features/auth/actions/oauth";
 
 export const GeneralSettings: React.FC<ContentComponentProps> = ({
   onSubMenuClick,
 }) => {
   const { t } = useAppTranslation();
 
-  const { showAnimations, toggleAnimations } = useContext(Context);
+  const { gameService, showAnimations, toggleAnimations } = useContext(Context);
 
   const onToggleAnimations = () => {
     toggleAnimations();
@@ -17,6 +20,24 @@ export const GeneralSettings: React.FC<ContentComponentProps> = ({
 
   return (
     <>
+      {hasFeatureAccess(gameService.state.context.state, "FSL") && (
+        <Button
+          disabled={!!gameService.state.context.fslId}
+          onClick={() =>
+            connectToFSL({ nonce: gameService.state.context.oauthNonce })
+          }
+          className="mb-1 relative"
+        >
+          {`Connect FSL ID`}
+          {!!gameService.state.context.fslId && (
+            <img
+              src={SUNNYSIDE.icons.confirm}
+              className="absolute right-1 top-0.5 h-7"
+            />
+          )}
+        </Button>
+      )}
+
       <Button onClick={() => onSubMenuClick("discord")} className="mb-1">
         <span>{`Discord`}</span>
       </Button>

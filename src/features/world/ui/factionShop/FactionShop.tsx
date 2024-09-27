@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { ITEM_IDS } from "features/game/types/bumpkin";
 import { BUMPKIN_ITEM_BUFF_LABELS } from "features/game/types/bumpkinItemBuffs";
@@ -17,12 +17,17 @@ import { getImageUrl } from "lib/utils/getImageURLS";
 import { ModalOverlay } from "components/ui/ModalOverlay";
 import {
   FACTION_SHOP_ITEMS,
-  FactionShopCollectible,
   FactionShopFood,
   FactionShopWearable,
+  FactionShopItem,
+  FactionShopKeys,
+  FACTION_SHOP_KEYS,
 } from "features/game/types/factionShop";
 import { ItemsList } from "./components/ItemList";
 import { CONSUMABLES, FACTION_FOOD } from "features/game/types/consumables";
+import { hasFeatureAccess } from "lib/flags";
+import { Context } from "features/game/GameProvider";
+import { useActor } from "@xstate/react";
 
 interface Props {
   onClose: () => void;
@@ -30,21 +35,26 @@ interface Props {
 
 // type guard for WearablesItem | CollectiblesItem
 export const isWearablesItem = (
-  item: FactionShopWearable | FactionShopCollectible | FactionShopFood | null,
+  item: FactionShopItem | null,
 ): item is FactionShopWearable => {
   return (item as FactionShopWearable).name in ITEM_IDS;
 };
 
 // type guard for FoodItem
 export const isFoodItem = (
-  item: FactionShopWearable | FactionShopCollectible | FactionShopFood | null,
+  item: FactionShopItem | null,
 ): item is FactionShopFood => {
   return (item as FactionShopFood).name in FACTION_FOOD;
 };
 
-export const getItemImage = (
-  item: FactionShopWearable | FactionShopCollectible | FactionShopFood | null,
-): string => {
+// type guard for Keys
+export const isKeys = (
+  item: FactionShopItem | null,
+): item is FactionShopKeys => {
+  return (item as FactionShopKeys).name in FACTION_SHOP_KEYS;
+};
+
+export const getItemImage = (item: FactionShopItem | null): string => {
   if (!item) return "";
 
   if (isFoodItem(item)) {
@@ -59,7 +69,7 @@ export const getItemImage = (
 };
 
 export const getItemBuffLabel = (
-  item: FactionShopWearable | FactionShopCollectible | FactionShopFood | null,
+  item: FactionShopItem | null,
 ): BuffLabel | undefined => {
   if (!item) return;
 
@@ -78,9 +88,17 @@ export const getItemBuffLabel = (
 };
 
 export const FactionShop: React.FC<Props> = ({ onClose }) => {
-  const [selectedItem, setSelectedItem] = useState<
-    FactionShopWearable | FactionShopCollectible | FactionShopFood | null
-  >(null);
+  const { gameService } = useContext(Context);
+  const [
+    {
+      context: { state },
+    },
+  ] = useActor(gameService);
+  const { t } = useAppTranslation();
+
+  const [selectedItem, setSelectedItem] = useState<FactionShopItem | null>(
+    null,
+  );
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
@@ -89,9 +107,7 @@ export const FactionShop: React.FC<Props> = ({ onClose }) => {
     }
   }, [selectedItem, isVisible]);
 
-  const handleClickItem = (
-    item: FactionShopWearable | FactionShopCollectible | FactionShopFood,
-  ) => {
+  const handleClickItem = (item: FactionShopItem) => {
     setSelectedItem(item);
   };
 
@@ -106,7 +122,11 @@ export const FactionShop: React.FC<Props> = ({ onClose }) => {
   const food = Object.values(FACTION_SHOP_ITEMS).filter(
     (item) => item.type === "food",
   );
-  const { t } = useAppTranslation();
+
+  const keys = Object.values(FACTION_SHOP_ITEMS).filter(
+    (item) => item.type === "keys",
+  );
+
   return (
     <CloseButtonPanel
       bumpkinParts={NPC_WEARABLES["eldric"]}
@@ -137,6 +157,15 @@ export const FactionShop: React.FC<Props> = ({ onClose }) => {
             items={food}
             onItemClick={handleClickItem}
           />
+          {/* Keys */}
+          {hasFeatureAccess(state, "TREASURE_UPDATES") && (
+            <ItemsList
+              itemsLabel="Keys"
+              type="keys"
+              items={keys}
+              onItemClick={handleClickItem}
+            />
+          )}
         </div>
 
         <ModalOverlay

@@ -7,6 +7,7 @@ import {
 } from "./cache";
 import { FactionName, MazeAttempt } from "features/game/types/game";
 import { getFactionWeek } from "features/game/lib/factions";
+import { CompetitionName } from "features/game/types/competitions";
 
 const API_URL = CONFIG.API_URL;
 
@@ -102,6 +103,51 @@ export async function getLeaderboard<T>({
   const data = await response.json();
 
   cacheLeaderboard({ name: leaderboardName, data });
+
+  return data;
+}
+
+export async function getCompetitionLeaderboard({
+  farmId,
+  name,
+  jwt,
+}: {
+  farmId: number;
+  name: CompetitionName;
+  jwt: string;
+}) {
+  const cache = getCachedLeaderboardData({
+    name: `${name}-competition` as any, // TODO
+    duration: 1 * 60 * 1000, // Every 1 minute
+  });
+
+  if (cache) {
+    return cache;
+  }
+
+  const url = `${API_URL}/leaderboard/competition/${farmId}?name=${name}`;
+
+  const response = await window.fetch(url, {
+    method: "GET",
+    headers: {
+      "content-type": "application/json;charset=UTF-8",
+      Authorization: `Bearer ${jwt}`,
+      // "X-Transaction-ID": request.transactionId,
+    },
+  });
+
+  if (response.status === 429) {
+    throw new Error(ERRORS.TOO_MANY_REQUESTS);
+  }
+
+  if (response.status >= 400) {
+    return;
+  }
+
+  const data = await response.json();
+
+  // TODO
+  cacheLeaderboard({ name: `${name}-competition` as any, data });
 
   return data;
 }

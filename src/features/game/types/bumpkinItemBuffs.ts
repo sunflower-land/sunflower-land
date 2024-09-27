@@ -10,6 +10,19 @@ import chefHat from "assets/icons/chef_hat.png";
 import { ITEM_DETAILS } from "./images";
 import { translate } from "lib/i18n/translate";
 
+export const SPECIAL_ITEM_LABELS: Partial<Record<BumpkinItem, BuffLabel>> = {
+  Halo: {
+    shortDescription: translate("description.halo.boost"),
+    labelType: "vibrant",
+    boostTypeIcon: lightning,
+  },
+  "Gift Giver": {
+    shortDescription: translate("description.gift.giver.boost"),
+    labelType: "vibrant",
+    boostTypeIcon: lightning,
+  },
+};
+
 export const BUMPKIN_ITEM_BUFF_LABELS: Partial<Record<BumpkinItem, BuffLabel>> =
   {
     "Deep Sea Helm": {
@@ -363,7 +376,7 @@ export const BUMPKIN_ITEM_BUFF_LABELS: Partial<Record<BumpkinItem, BuffLabel>> =
       boostedItemIcon: ITEM_DETAILS.Mark.image,
     },
     "Camel Onesie": {
-      shortDescription: "+0.1 Fruit Patch Yield",
+      shortDescription: translate("description.camel.onesie.boost"),
       labelType: "success",
       boostedItemIcon: powerup,
     },
@@ -517,4 +530,5 @@ export const BUMPKIN_ITEM_BUFF_LABELS: Partial<Record<BumpkinItem, BuffLabel>> =
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
       boostedItemIcon: chefHat,
     },
+    ...SPECIAL_ITEM_LABELS,
   };

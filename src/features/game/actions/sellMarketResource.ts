@@ -12,6 +12,7 @@ export type TradeableName = Extract<
   | "Pumpkin"
   | "Carrot"
   | "Cabbage"
+  | "Soybean"
   | "Beetroot"
   | "Cauliflower"
   | "Parsnip"
@@ -20,6 +21,11 @@ export type TradeableName = Extract<
   | "Radish"
   | "Wheat"
   | "Kale"
+  | "Grape"
+  | "Rice"
+  | "Olive"
+  | "Tomato"
+  | "Lemon"
   | "Blueberry"
   | "Orange"
   | "Apple"
@@ -28,8 +34,9 @@ export type TradeableName = Extract<
   | "Stone"
   | "Iron"
   | "Gold"
+  | "Crimstone"
   | "Egg"
-  | "Soybean"
+  | "Honey"
 >;
 
 type Request = {

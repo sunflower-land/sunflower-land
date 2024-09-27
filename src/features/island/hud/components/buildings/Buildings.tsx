@@ -14,7 +14,6 @@ import { Label } from "components/ui/Label";
 import { ITEM_ICONS } from "../inventory/Chest";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { hasFeatureAccess } from "lib/flags";
 import { hasRequiredIslandExpansion } from "features/game/lib/hasRequiredIslandExpansion";
 import { IslandType } from "features/game/types/game";
 import { capitalize } from "lib/utils/capitalize";
@@ -180,13 +179,7 @@ export const Buildings: React.FC<Props> = ({ onClose }) => {
       }
       content={
         <>
-          {VALID_BUILDINGS.filter((name) => {
-            if (name === "Crop Machine") {
-              return hasFeatureAccess(state, "CROP_MACHINE");
-            }
-
-            return true;
-          }).map((name: BuildingName) => {
+          {VALID_BUILDINGS.map((name: BuildingName) => {
             const blueprints = BUILDINGS[name];
             const inventoryCount = inventory[name] || new Decimal(0);
             const nextIndex = blueprints[inventoryCount.toNumber()]

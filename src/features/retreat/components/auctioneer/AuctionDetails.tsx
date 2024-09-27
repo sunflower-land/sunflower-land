@@ -28,8 +28,8 @@ type Props = {
 
 type TimeObject = {
   time: {
-    days: number;
-    hours: number;
+    days?: number;
+    hours?: number;
     minutes: number;
     seconds: number;
   };
@@ -37,16 +37,21 @@ type TimeObject = {
   color?: string;
 };
 
-export const TimerDisplay = ({ time, fontSize = 40, color }: TimeObject) => {
+export const TimerDisplay = ({ time, fontSize, color }: TimeObject) => {
   const timeKeys = getKeys(time);
 
   const times = timeKeys.map((key) => {
-    const value = time[key].toString().padStart(2, "0");
+    const value = time[key as keyof TimeObject["time"]]
+      ?.toString()
+      .padStart(2, "0");
 
     return value;
   });
   return (
-    <span className="font-secondary text-base" style={{ color }}>
+    <span
+      className="font-secondary"
+      style={{ color, fontSize: fontSize && `${fontSize}px` }}
+    >
       {times.join(":")}
     </span>
   );

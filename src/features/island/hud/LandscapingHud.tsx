@@ -347,8 +347,7 @@ const Chest: React.FC<{
           type="default"
           className="text-xxs absolute -top-1.5 -right-0.5"
           style={{
-            paddingLeft: "2.5px",
-            paddingRight: "1.5px",
+            padding: "0 2.5",
             height: "24px",
           }}
         >

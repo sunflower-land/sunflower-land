@@ -1,7 +1,5 @@
-import React, { useContext, useRef, useState } from "react";
-import ReCAPTCHA from "react-google-recaptcha";
+import React, { useContext, useState } from "react";
 import { useSelector } from "@xstate/react";
-import { CONFIG } from "lib/config";
 
 import { Button } from "components/ui/Button";
 import { WithdrawTokens } from "./WithdrawTokens";
@@ -18,6 +16,7 @@ import { Label } from "components/ui/Label";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { MachineState } from "features/game/lib/gameMachine";
 import { translate } from "lib/i18n/translate";
+import { Transaction } from "features/island/hud/Transaction";
 
 const getPageIcon = (page: Page) => {
   switch (page) {
@@ -136,74 +135,51 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
 
   const [page, setPage] = useState<Page>("main");
 
-  const withdrawAmount = useRef({
-    ids: [] as number[],
-    amounts: [] as string[],
-    sfl: "0",
-    wearableIds: [] as number[],
-    wearableAmounts: [] as number[],
-    budIds: [] as number[],
-  });
-
-  const [showCaptcha, setShowCaptcha] = useState(false);
-
   const onWithdrawTokens = async (sfl: string) => {
-    withdrawAmount.current = {
-      ids: [],
-      amounts: [],
-      sfl,
-      wearableAmounts: [],
-      wearableIds: [],
-      budIds: [],
-    };
-    setShowCaptcha(true);
+    gameService.send("TRANSACT", {
+      transaction: "transaction.sflWithdrawn",
+      request: {
+        captcha: token,
+        sfl: sfl,
+      },
+    });
+    onClose();
   };
 
   const onWithdrawItems = async (ids: number[], amounts: string[]) => {
-    withdrawAmount.current = {
-      ids,
-      amounts,
-      sfl: "0",
-      wearableAmounts: [],
-      wearableIds: [],
-      budIds: [],
-    };
-    setShowCaptcha(true);
+    gameService.send("TRANSACT", {
+      transaction: "transaction.itemsWithdrawn",
+      request: {
+        captcha: token,
+        amounts: amounts,
+        ids: ids,
+      },
+    });
+    onClose();
   };
 
   const onWithdrawWearables = async (
     wearableIds: number[],
     wearableAmounts: number[],
   ) => {
-    withdrawAmount.current = {
-      ids: [],
-      amounts: [],
-      sfl: "0",
-      wearableAmounts,
-      wearableIds,
-      budIds: [],
-    };
-    setShowCaptcha(true);
+    gameService.send("TRANSACT", {
+      transaction: "transaction.wearablesWithdrawn",
+      request: {
+        captcha: token,
+        amounts: wearableAmounts,
+        ids: wearableIds,
+      },
+    });
+    onClose();
   };
 
   const onWithdrawBuds = async (ids: number[]) => {
-    withdrawAmount.current = {
-      ids: [],
-      amounts: [],
-      sfl: "0",
-      wearableAmounts: [],
-      wearableIds: [],
-      budIds: ids,
-    };
-    setShowCaptcha(true);
-  };
-
-  const onCaptchaSolved = async (token: string | null) => {
-    await new Promise((res) => setTimeout(res, 1000));
-
-    gameService.send("WITHDRAW", {
-      ...withdrawAmount.current,
-      captcha: token,
+    gameService.send("TRANSACT", {
+      transaction: "transaction.budWithdrawn",
+      request: {
+        captcha: token,
+        budIds: ids,
+      },
     });
     onClose();
   };
@@ -213,25 +189,16 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
     onClose();
   };
 
+  const transaction = gameService.state.context.state.transaction;
+  if (transaction) {
+    return <Transaction isBlocked onClose={onClose} />;
+  }
+
   if (!verified) {
     return (
       <>
         <p className="p-1 m-1">{t("withdraw.proof")}</p>
         <Button onClick={provePersonhood}>{t("withdraw.verification")}</Button>
-      </>
-    );
-  }
-
-  if (showCaptcha) {
-    return (
-      <>
-        <ReCAPTCHA
-          sitekey={CONFIG.RECAPTCHA_SITEKEY}
-          onChange={onCaptchaSolved}
-          onExpired={() => setShowCaptcha(false)}
-          className="w-full m-4 flex items-center justify-center"
-        />
-        <p className="text-xs p-1 m-1 text-center">{t("withdraw.unsave")}</p>
       </>
     );
   }

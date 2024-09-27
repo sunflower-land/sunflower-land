@@ -55,6 +55,7 @@ export function removeFruitTree({
 }: Options): GameState {
   return produce(state, (stateCopy) => {
     const { fruitPatches, bumpkin, inventory, collectibles } = stateCopy;
+    let woodReward = 1;
 
     if (!bumpkin) {
       throw new Error("You do not have a Bumpkin!");
@@ -92,12 +93,17 @@ export function removeFruitTree({
       throw new Error("Fruit is still available");
     }
 
+    // Fruity Woody: +1 Wood when removing a fruit tree
+    if (bumpkin.skills["Fruity Woody"]) {
+      woodReward += 1;
+    }
+
     delete patch.fruit;
     delete patch.fertiliser;
 
     inventory.Axe = axeAmount.sub(requiredAxes);
     stateCopy.inventory.Wood =
-      stateCopy.inventory.Wood?.add(1) || new Decimal(1);
+      stateCopy.inventory.Wood?.add(woodReward) || new Decimal(1);
 
     return stateCopy;
   });

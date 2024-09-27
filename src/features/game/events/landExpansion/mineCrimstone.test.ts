@@ -227,5 +227,23 @@ describe("mineCrimstone", () => {
 
       expect(time).toEqual(now - CRIMSTONE_RECOVERY_TIME * 0.2 * 1000);
     });
+    it("crimstone replenishes faster with Fireside Alchemist", () => {
+      const now = Date.now();
+
+      const time = getMinedAt({
+        game: {
+          ...GAME_STATE,
+          bumpkin: {
+            ...GAME_STATE.bumpkin,
+            skills: {
+              "Fireside Alchemist": 1,
+            },
+          },
+        },
+        createdAt: now,
+      });
+
+      expect(time).toEqual(now - CRIMSTONE_RECOVERY_TIME * 0.05 * 1000);
+    });
   });
 });

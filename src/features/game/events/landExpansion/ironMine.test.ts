@@ -239,6 +239,24 @@ describe("mineIron", () => {
   });
 
   describe("getMinedAt", () => {
+    it("reduces the cooldown time with Iron Hustle Skill", () => {
+      const now = Date.now();
+
+      const time = getMinedAt({
+        createdAt: now,
+        game: {
+          ...GAME_STATE,
+          bumpkin: {
+            ...INITIAL_BUMPKIN,
+            skills: {
+              "Iron Hustle": 1,
+            },
+          },
+        },
+      });
+      expect(time).toEqual(now - IRON_RECOVERY_TIME * 0.1 * 1000);
+    });
+
     it("returns normal mined at", () => {
       const now = Date.now();
 

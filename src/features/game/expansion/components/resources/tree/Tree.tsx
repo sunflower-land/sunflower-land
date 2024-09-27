@@ -119,6 +119,11 @@ export const Tree: React.FC<Props> = ({ id }) => {
     if (!isCollectibleBuilt({ name: "Foreman Beaver", game }))
       shortcutItem(tool);
 
+    if (game.bumpkin.skills["Insta-Chop"]) {
+      // insta-chop the tree
+      chop();
+    }
+
     // need to hit enough times to collect resource
     if (touchCount < HITS - 1) return;
 

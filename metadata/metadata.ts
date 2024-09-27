@@ -8231,7 +8231,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
   },
   Mark: {
     name: "Mark",
-    description: "Currency of the Factions. Use this in the Marks Shop.",
+    description: "Currency of the Factions. Use this in the Faction Shop.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/745.png",
@@ -9116,7 +9116,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "../public/erc1155/images/question_mark.png",
+    image: "../public/erc1155/images/2111.png",
     name: "Sundial",
   },
   "Sand Golem": {
@@ -9127,7 +9127,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "../public/erc1155/images/question_mark.png",
+    image: "../public/erc1155/images/2112.png",
     name: "Sand Golem",
   },
   "Cactus King": {
@@ -9154,7 +9154,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "../public/erc1155/images/question_mark.png",
+    image: "../public/erc1155/images/2114.png",
     name: "Lemon Frog",
   },
   "Scarab Beetle": {
@@ -9165,7 +9165,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "../public/erc1155/images/question_mark.png",
+    image: "../public/erc1155/images/2115.png",
     name: "Scarab Beetle",
   },
   "Adrift Ark": {
@@ -9289,7 +9289,6 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     description: "A mean looking camel!",
     decimals: 0,
     attributes: [
-      { trait_type: "Purpose", value: "Boost" },
       { trait_type: "Tradable", value: "Yes" },
       { trait_type: "Boost", value: "Treasure" },
       {
@@ -9335,6 +9334,124 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/2128.png",
     name: "Tomato Bombard",
+  },
+  "Stone Beetle": {
+    description: "Beetle made of stone. +0.1 Stone",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Boost", value: "Resource" },
+      {
+        display_type: "boost_number",
+        trait_type: "Increase Stone Yield",
+        value: 0.1,
+      },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2129.png",
+    name: "Stone Beetle",
+  },
+  "Iron Beetle": {
+    description: "Beetle made of iron. +0.1 Iron",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Boost", value: "Resource" },
+      {
+        display_type: "boost_number",
+        trait_type: "Increase Iron Yield",
+        value: 0.1,
+      },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2130.png",
+    name: "Iron Beetle",
+  },
+  "Gold Beetle": {
+    description: "Beetle made of gold. +0.1 Gold",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Boost", value: "Resource" },
+      {
+        display_type: "boost_number",
+        trait_type: "Increase Gold Yield",
+        value: 0.1,
+      },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2131.png",
+    name: "Gold Beetle",
+  },
+  "Fairy Circle": {
+    description: "Circle of fairy mushrooms. +0.2 Wild Mushroom",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Boost", value: "Resource" },
+      {
+        display_type: "boost_number",
+        trait_type: "Increase Wild Mushroom Yield",
+        value: 0.2,
+      },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2132.png",
+    name: "Fairy Circle",
+  },
+  Squirrel: {
+    description: "Squirrel likes hanging out in the forest. +0.1 Wood",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Boost", value: "Resource" },
+      {
+        display_type: "boost_number",
+        trait_type: "Increase Wood Yield",
+        value: 0.1,
+      },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2133.png",
+    name: "Squirrel",
+  },
+  Macaw: {
+    description: "Macaw loves picking fruits. +0.1 Fruit Patch Yield",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Boost", value: "Fruit" },
+      {
+        display_type: "boost_number",
+        trait_type: "Increase Fruit Patch Yield",
+        value: 0.1,
+      },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2134.png",
+    name: "Macaw",
+  },
+  Butterfly: {
+    description:
+      "Butterfly loves the scent of flowers. 20% chance of +1 Flower",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Boost", value: "Flower" },
+      {
+        display_type: "boost_percentage",
+        trait_type: "Flower Critical Hit Chance",
+        value: 20,
+      },
+      {
+        display_type: "boost_number",
+        trait_type: "Critical Flower Amount",
+        value: 1,
+      },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2135.png",
+    name: "Butterfly",
   },
 };
 
@@ -12074,7 +12191,8 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
     name: "Coconut Mask",
   },
   "Crab Trap": {
-    description: "A decorative trap for catching crabs and other crustaceans.",
+    description:
+      "A handcrafted trap, designed for those who desire to catch an additional crab when digging or drilling.",
     decimals: 0,
     attributes: [
       { trait_type: "Part", value: "SecondaryTool" },
@@ -14403,7 +14521,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
   },
   "Sunflorian Medallion": {
     description:
-      "This medallion embody the Sunflorians' blend of warmth and efficiency, ensuring your culinary creations are prepared with grace and swiftness. Enhances cooking speed by 25% when pledged to this faction. Multiples of this item do not stack.",
+      "This medallion embodies the Sunflorians' blend of warmth and efficiency, ensuring your culinary creations are prepared with grace and swiftness. Enhances cooking speed by 25% when pledged to this faction. Multiples of this item do not stack.",
     decimals: 0,
     attributes: [
       { trait_type: "Part", value: "Necklace" },

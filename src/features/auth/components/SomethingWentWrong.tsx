@@ -176,7 +176,7 @@ export const SomethingWentWrong: React.FC = () => {
 
   // If we get a connecting error before the game has loaded then try to connect again via the authService
   const service = gameService ?? authService;
-  const id = service.state.context?.farmId;
+  const id = service.state?.context?.farmId;
 
   const [
     {
@@ -185,6 +185,7 @@ export const SomethingWentWrong: React.FC = () => {
   ] = useActor(service);
 
   const onAcknowledge = () => {
+    window.history.pushState({}, "", window.location.pathname);
     service.send("REFRESH");
   };
 

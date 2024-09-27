@@ -1,25 +1,20 @@
 import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
-import { GameState, InventoryItemName } from "../types/game";
+import { GameState } from "../types/game";
 import { makeGame } from "../lib/transforms";
 
 const API_URL = CONFIG.API_URL;
-
-export type Effect = {
-  type: "marketplace.onChainCollectibleListed";
-  item: InventoryItemName;
-  signature: string;
-  sfl: number;
-};
 
 type Request = {
   farmId: number;
   token: string;
   transactionId: string;
-  effect: Effect;
+  effect: any;
 };
 
-export async function postEffect(request: Request): Promise<GameState> {
+export async function postEffect(
+  request: Request,
+): Promise<{ gameState: GameState; data: any }> {
   const response = await window.fetch(`${API_URL}/event/${request.farmId}`, {
     method: "POST",
     headers: {
@@ -45,7 +40,10 @@ export async function postEffect(request: Request): Promise<GameState> {
     throw new Error(ERRORS.EFFECT_SERVER_ERROR);
   }
 
-  const data = await response.json();
+  const { gameState, ...data } = await response.json();
 
-  return makeGame(data);
+  return {
+    gameState: makeGame(gameState),
+    data,
+  };
 }

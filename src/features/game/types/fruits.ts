@@ -96,7 +96,6 @@ export type Fruit = {
   isBush?: boolean;
   sellPrice: number;
   seed: FruitSeedName;
-  bumpkinLevel: number;
   disabled?: boolean;
 };
 
@@ -107,14 +106,12 @@ export const FRUIT: () => Record<FruitName, Fruit> = () => ({
     sellPrice: 2,
     seed: "Tomato Seed",
     isBush: true,
-    bumpkinLevel: 10,
   },
   Lemon: {
     description: "Because sometimes, you just can't squeeze an orange!",
     name: "Lemon",
     sellPrice: 6,
     seed: "Lemon Seed",
-    bumpkinLevel: 12,
   },
   Blueberry: {
     description: translate("description.blueberry"),
@@ -122,21 +119,18 @@ export const FRUIT: () => Record<FruitName, Fruit> = () => ({
     sellPrice: 12,
     isBush: true,
     seed: "Blueberry Seed",
-    bumpkinLevel: 13,
   },
   Orange: {
     description: translate("description.orange"),
     name: "Orange",
     sellPrice: 18,
     seed: "Orange Seed",
-    bumpkinLevel: 14,
   },
   Apple: {
     description: translate("description.apple"),
     name: "Apple",
     sellPrice: 25,
     seed: "Apple Seed",
-    bumpkinLevel: 15,
   },
   Banana: {
     description: translate("description.banana"),
@@ -144,7 +138,6 @@ export const FRUIT: () => Record<FruitName, Fruit> = () => ({
     sellPrice: 25,
     isBush: true,
     seed: "Banana Plant",
-    bumpkinLevel: 16,
   },
 });
 

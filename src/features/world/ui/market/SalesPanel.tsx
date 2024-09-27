@@ -27,6 +27,7 @@ import { hasVipAccess } from "features/game/lib/vipAccess";
 import { VIPAccess } from "features/game/components/VipAccess";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { ListingCategoryCard } from "components/ui/ListingCategoryCard";
+import { hasFeatureAccess } from "lib/flags";
 
 export const MARKET_BUNDLES: Record<TradeableName, number> = {
   Sunflower: 2000,
@@ -43,6 +44,11 @@ export const MARKET_BUNDLES: Record<TradeableName, number> = {
   Radish: 400,
   Wheat: 400,
   Kale: 400,
+  Olive: 100,
+  Rice: 100,
+  Grape: 100,
+  Tomato: 300,
+  Lemon: 250,
   Blueberry: 200,
   Orange: 200,
   Apple: 200,
@@ -51,7 +57,9 @@ export const MARKET_BUNDLES: Record<TradeableName, number> = {
   Stone: 200,
   Iron: 200,
   Gold: 100,
+  Crimstone: 20,
   Egg: 200,
+  Honey: 100,
 };
 
 const LastUpdated: React.FC<{ cachedAt: number }> = ({ cachedAt }) => {
@@ -179,7 +187,7 @@ export const SalesPanel: React.FC<{
   }
 
   if (gameService.state.matches("sellMarketResource")) {
-    return <Loading text="Selling" />;
+    return <Loading text={t("selling")} />;
   }
 
   if (confirm) {
@@ -281,32 +289,46 @@ export const SalesPanel: React.FC<{
             </div>
 
             <div className="flex flex-wrap mt-2">
-              {getKeys(MARKET_BUNDLES).map((name) => {
-                const priceMovement = getPriceMovement(
-                  marketPrices?.prices?.currentPrices?.[name] ?? 0,
-                  marketPrices?.prices?.yesterdayPrices?.[name] ?? 0,
-                );
+              {getKeys(MARKET_BUNDLES)
+                .filter(
+                  (name) =>
+                    (name !== "Tomato" &&
+                      name !== "Lemon" &&
+                      name !== "Crimstone" &&
+                      name !== "Grape" &&
+                      name !== "Rice" &&
+                      name !== "Olive" &&
+                      name !== "Honey") ||
+                    hasFeatureAccess(state, "NEW_RESOURCES_GE"),
+                )
+                .map((name) => {
+                  const priceMovement = getPriceMovement(
+                    marketPrices?.prices?.currentPrices?.[name] ?? 0,
+                    marketPrices?.prices?.yesterdayPrices?.[name] ?? 0,
+                  );
 
-                return (
-                  <div
-                    key={name}
-                    className="w-1/3 sm:w-1/4 md:w-1/5 lg:w-1/6 pr-1 pb-1"
-                  >
-                    <ListingCategoryCard
-                      itemName={name}
-                      pricePerUnit={marketPrices?.prices?.currentPrices?.[name]}
-                      disabled={!hasPrices || !hasVIP}
-                      marketBundle={MARKET_BUNDLES[name]}
-                      showPulse={showPulse}
-                      priceMovement={priceMovement}
-                      onClick={() => {
-                        if (!hasPrices || !hasVIP) return;
-                        onSell(name, marketPrices.prices.currentPrices[name]);
-                      }}
-                    />
-                  </div>
-                );
-              })}
+                  return (
+                    <div
+                      key={name}
+                      className="w-1/3 sm:w-1/4 md:w-1/5 lg:w-1/6 pr-1 pb-1"
+                    >
+                      <ListingCategoryCard
+                        itemName={name}
+                        pricePerUnit={
+                          marketPrices?.prices?.currentPrices?.[name]
+                        }
+                        disabled={!hasPrices || !hasVIP}
+                        marketBundle={MARKET_BUNDLES[name]}
+                        showPulse={showPulse}
+                        priceMovement={priceMovement}
+                        onClick={() => {
+                          if (!hasPrices || !hasVIP) return;
+                          onSell(name, marketPrices.prices.currentPrices[name]);
+                        }}
+                      />
+                    </div>
+                  );
+                })}
             </div>
           </div>
         </div>

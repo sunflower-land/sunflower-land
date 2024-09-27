@@ -14,13 +14,14 @@ import { NoticeboardItems } from "features/world/ui/kingdom/KingdomNoticeboard";
 
 import factions from "assets/icons/factions.webp";
 import chores from "assets/icons/chores.webp";
-import { MegaStoreContent } from "features/world/ui/megastore/MegaStore";
 import { SeasonalAuctions } from "../components/SeasonalAuctions";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
 import classNames from "classnames";
 import { SeasonalMutants } from "../components/SeasonalMutants";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { MegaStoreMonthly } from "features/world/ui/megastore/MegaStoreMonthly";
+import { MegaStoreSeasonal } from "features/world/ui/megastore/MegaStoreSeasonal";
 
 interface Props {
   id: string;
@@ -102,7 +103,11 @@ export const Season: React.FC<Props> = ({ id, isLoading, data }) => {
       </InnerPanel>
 
       <InnerPanel className="mb-1">
-        <MegaStoreContent readonly />
+        <MegaStoreMonthly readonly />
+      </InnerPanel>
+
+      <InnerPanel className="mb-1">
+        <MegaStoreSeasonal readonly />
       </InnerPanel>
 
       <SeasonalAuctions gameState={state} farmId={farmId} />

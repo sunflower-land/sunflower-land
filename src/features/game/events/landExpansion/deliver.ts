@@ -179,17 +179,41 @@ export function getOrderSellPrice<T>(game: GameState, order: Order): T {
     mul += 0.05;
   }
 
-  // SFL Swindler - 10% bonus
-  if (game.bumpkin?.skills["SFL Swindler"] && order.reward.sfl) {
-    mul += 0.1;
+  if (
+    order.from === "betty" &&
+    game.bumpkin?.skills["Betty's Friend"] &&
+    order.reward.coins
+  ) {
+    mul += 0.2;
+  }
+
+  if (
+    order.from === "blacksmith" &&
+    game.bumpkin?.skills["Forge-Ward Profits"] &&
+    order.reward.coins
+  ) {
+    mul += 0.2;
   }
 
   // Fruity Profit - 50% Coins bonus if fruit
-  if (game.bumpkin?.skills["Fruity Profit"] && order.reward.coins) {
+  if (
+    game.bumpkin?.skills["Fruity Profit"] &&
+    order.reward.coins &&
+    order.from === "tango"
+  ) {
     const items = getKeys(order.items);
     if (items.some((name) => isFruit(name as FruitName))) {
       mul += 0.5;
     }
+  }
+
+  // Fishy Fortune - 50% Coins bonus if Corale NPC
+  if (
+    game.bumpkin?.skills["Fishy Fortune"] &&
+    order.reward.coins &&
+    order.from === "corale"
+  ) {
+    mul += 0.5;
   }
 
   const items = getKeys(order.items);
