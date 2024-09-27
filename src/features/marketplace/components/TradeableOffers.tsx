@@ -1,5 +1,4 @@
 import React, { useContext, useState } from "react";
-import { waitFor } from "xstate/lib/waitFor.js";
 
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Button } from "components/ui/Button";
@@ -12,435 +11,37 @@ import {
 } from "features/game/types/marketplace";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
-import walletIcon from "assets/icons/wallet.png";
 import sflIcon from "assets/icons/sfl.webp";
 import tradeIcon from "assets/icons/trade.png";
-import lockIcon from "assets/icons/lock.png";
 import increaseArrow from "assets/icons/increase_arrow.png";
-import bg from "assets/ui/3x3_bg.png";
 
 import { TradeTable } from "./TradeTable";
 import { Loading } from "features/auth/components";
 import { Modal } from "components/ui/Modal";
-import { NumberInput } from "components/ui/NumberInput";
-import { Context } from "features/game/GameProvider";
-import { useActor } from "@xstate/react";
-import { GameWallet } from "features/wallet/Wallet";
+import { useSelector } from "@xstate/react";
 import { TradeableDisplay } from "../lib/tradeables";
 import { getOfferItem } from "../lib/offers";
-import confetti from "canvas-confetti";
-import { signTypedData } from "@wagmi/core";
-import { config } from "features/wallet/WalletProvider";
 import { getKeys } from "features/game/types/decorations";
 import { RemoveOffer } from "./RemoveOffer";
 import {
-  getChestBuds,
-  getChestItems,
-} from "features/island/hud/components/inventory/utils/inventory";
-import { KNOWN_ITEMS } from "features/game/types";
-import { ITEM_NAMES } from "features/game/types/bumpkin";
-import { availableWardrobe } from "features/game/events/landExpansion/equip";
-import { CONFIG } from "lib/config";
-import { Transaction } from "features/island/hud/Transaction";
+  BlockchainEvent,
+  Context as ContextType,
+  MachineState,
+} from "features/game/lib/gameMachine";
+import { useOnMachineTransition } from "lib/utils/hooks/useOnMachineTransition";
+import { Context } from "features/game/GameProvider";
+import { MakeOffer } from "./MakeOffer";
+import * as Auth from "features/auth/lib/Provider";
+import { AcceptOffer } from "./AcceptOffer";
+import { AuthMachineState } from "features/auth/lib/authMachine";
+import confetti from "canvas-confetti";
 
-// TODO - move make offer here, signing state + submitting state
-export const TradeableSummary: React.FC<{
-  display: TradeableDisplay;
-  sfl: number;
-}> = ({ display, sfl }) => {
-  return (
-    <div className="flex">
-      <div className="h-12 w-12 mr-2 relative">
-        <img src={bg} className="w-full rounded" />
-        <img
-          src={display.image}
-          className="w-1/2 absolute"
-          style={{
-            left: "50%",
-            transform: "translate(-50%, 50%)",
-            bottom: "50%",
-          }}
-        />
-      </div>
-      <div>
-        <span className="text-sm">{`1 x ${display.name}`}</span>
-        <div className="flex items-center">
-          <span className="text-sm">{`${sfl} SFL`}</span>
-          <img src={sflIcon} className="h-6 ml-1" />
-        </div>
-      </div>
-    </div>
-  );
-};
+// JWT TOKEN
 
-const MakeOffer: React.FC<{
-  onClose: () => void;
-  tradeable?: TradeableDetails;
-  display: TradeableDisplay;
-  id: number;
-  onOfferMade: () => void;
-}> = ({ onClose, tradeable, display, id, onOfferMade }) => {
-  const { t } = useAppTranslation();
-
-  const { gameService } = useContext(Context);
-  const [gameState] = useActor(gameService);
-  const { balance } = gameState.context.state;
-
-  const [offer, setOffer] = useState(0);
-  const [isSigning, setIsSigning] = useState(false);
-  const [isOffering, setIsOffering] = useState(false);
-  const [showConfirmation, setShowConfirmation] = useState(false);
-  const [showSuccess, setShowSuccess] = useState(false);
-
-  const sign = async () => {
-    const signature = await signTypedData(config, {
-      primaryType: "Offer",
-      types: {
-        EIP712Domain: [
-          { name: "name", type: "string" },
-          { name: "version", type: "string" },
-          { name: "chainId", type: "uint256" },
-          { name: "verifyingContract", type: "address" },
-        ],
-        Offer: [
-          { name: "item", type: "string" },
-          { name: "collection", type: "string" },
-          { name: "id", type: "uint256" },
-          { name: "quantity", type: "uint256" },
-          { name: "SFL", type: "uint256" },
-        ],
-      },
-      domain: {
-        name: "TESTING",
-        version: "1",
-        chainId: BigInt(CONFIG.POLYGON_CHAIN_ID),
-        verifyingContract: CONFIG.MARKETPLACE_CONTRACT as `0x${string}`,
-      },
-      message: {
-        item: display.name,
-        collection: display.type,
-        id: BigInt(id),
-        quantity: BigInt(1),
-        SFL: BigInt(offer),
-      },
-    });
-
-    confirm({ signature });
-
-    setIsSigning(false);
-  };
-
-  const submitOffer = () => {
-    if (tradeable?.type === "onchain") {
-      setIsSigning(true);
-      return;
-    }
-
-    setShowConfirmation(true);
-  };
-
-  const confirm = async ({ signature }: { signature?: string }) => {
-    setIsOffering(true);
-
-    // Show confirmation modal
-
-    // Await async action
-
-    // Show error modal
-    // Show success
-
-    try {
-      gameService.send("POST_EFFECT", {
-        effect: {
-          type: "marketplace.offerMade",
-          id,
-          collection: display.type,
-          signature,
-          contract: CONFIG.MARKETPLACE_CONTRACT,
-          sfl: offer,
-        },
-      });
-
-      await waitFor(
-        gameService,
-        (state) => {
-          if (state.matches("error")) throw new Error("Insert failed");
-          return state.matches("playing");
-        },
-        { timeout: 60 * 1000 },
-      );
-    } finally {
-      setIsOffering(false);
-    }
-
-    confetti();
-    setShowSuccess(true);
-  };
-
-  if (showSuccess) {
-    return (
-      <>
-        <div className="p-2">
-          <Label type="success" className="mb-2">
-            {t("success")}
-          </Label>
-          <p className="text-sm mb-2">{t("marketplace.offerSuccess")}</p>
-        </div>
-        <Button
-          onClick={() => {
-            onOfferMade();
-          }}
-        >
-          {t("continue")}
-        </Button>
-      </>
-    );
-  }
-
-  if (isOffering) {
-    return <Loading />;
-  }
-
-  if (showConfirmation) {
-    return (
-      <>
-        <div className="p-2">
-          <Label type="danger" className="-ml-1 mb-2">
-            {t("are.you.sure")}
-          </Label>
-          <p className="text-xs mb-2">{t("marketplace.confirmDetails")}</p>
-          <TradeableSummary display={display} sfl={offer} />
-        </div>
-
-        <div className="flex">
-          <Button onClick={() => setShowConfirmation(false)} className="mr-1">
-            {t("cancel")}
-          </Button>
-          <Button onClick={() => confirm({})}>{t("confirm")}</Button>
-        </div>
-      </>
-    );
-  }
-
-  if (isSigning) {
-    return (
-      <GameWallet action="marketplace">
-        <>
-          <div className="p-2">
-            <Label type="danger" className="-ml-1 mb-2">
-              {t("are.you.sure")}
-            </Label>
-            <p className="text-xs mb-2">{t("marketplace.signOffer")}</p>
-            <TradeableSummary display={display} sfl={offer} />
-          </div>
-
-          <div className="flex">
-            <Button onClick={() => setIsSigning(false)} className="mr-1">
-              {t("cancel")}
-            </Button>
-            <Button onClick={sign}>{t("marketplace.signAndOffer")}</Button>
-          </div>
-        </>
-      </GameWallet>
-    );
-  }
-
-  /* TODO only use game wallet when required */
-  return (
-    <>
-      <div className="p-2">
-        <div className="flex justify-between">
-          <Label type="default" className="-ml-1">
-            {t("marketplace.makeOffer")}
-          </Label>
-          {tradeable?.type === "onchain" && (
-            <Label type="formula" icon={walletIcon} className="-mr-1">
-              {t("marketplace.walletRequired")}
-            </Label>
-          )}
-        </div>
-        <p className="text-sm">{t("marketplace.howMuch")}</p>
-        <div className="my-2 -mx-2">
-          <NumberInput
-            value={offer}
-            onValueChange={(decimal) => setOffer(decimal.toNumber())}
-            maxDecimalPlaces={2}
-            isOutOfRange={balance.lt(offer)}
-            icon={sflIcon}
-          />
-        </div>
-
-        <Label type="default" className="-ml-1 mb-1" icon={lockIcon}>
-          {t("marketplace.sflLocked")}
-        </Label>
-        <p className="text-xs mb-2">{t("marketplace.sflLocked.description")}</p>
-      </div>
-
-      <div className="flex">
-        <Button className="mr-1" onClick={() => onClose()}>
-          {t("cancel")}
-        </Button>
-        <Button
-          disabled={!offer || balance.lt(offer)}
-          onClick={submitOffer}
-          className="relative"
-        >
-          <span>{t("confirm")}</span>
-          {tradeable?.type === "onchain" && (
-            <img src={walletIcon} className="absolute right-1 top-0.5 h-7" />
-          )}
-        </Button>
-      </div>
-    </>
-  );
-};
-
-const AcceptOffer: React.FC<{
-  onClose: () => void;
-  tradeable?: TradeableDetails;
-  display: TradeableDisplay;
-  offer: Offer;
-  id: number;
-  onOfferAccepted: () => void;
-}> = ({ onClose, tradeable, display, id, offer, onOfferAccepted }) => {
-  const { t } = useAppTranslation();
-
-  const { gameService } = useContext(Context);
-  const [gameState] = useActor(gameService);
-
-  const [isAccepting, setIsAccepting] = useState(false);
-  const [showSuccess, setShowSuccess] = useState(false);
-
-  if (gameState.context.state.transaction && tradeable?.type === "onchain") {
-    return <Transaction isBlocked />;
-  }
-
-  const confirm = async () => {
-    setIsAccepting(true);
-
-    gameService.send("POST_EFFECT", {
-      effect: {
-        type: "marketplace.offerAccepted",
-        id: offer.tradeId,
-      },
-    });
-
-    await waitFor(
-      gameService,
-      (state) => {
-        if (state.matches("error")) throw new Error("Insert failed");
-        return state.matches("playing");
-      },
-      { timeout: 60 * 1000 },
-    );
-
-    if (tradeable?.type === "instant") {
-      confetti();
-      setShowSuccess(true);
-      return;
-    } else {
-      // Handled through transaction UX
-      onClose();
-    }
-
-    setIsAccepting(false);
-  };
-
-  if (showSuccess) {
-    return (
-      <>
-        <div className="p-2">
-          <Label type="success" className="mb-2">
-            {t("success")}
-          </Label>
-          <p className="text-sm mb-2">{t("marketplace.offerSuccess")}</p>
-        </div>
-        <Button
-          onClick={() => {
-            onOfferAccepted();
-          }}
-        >
-          {t("continue")}
-        </Button>
-      </>
-    );
-  }
-
-  if (isAccepting) {
-    return <Loading />;
-  }
-
-  const game = gameState.context.state;
-
-  let hasItem = false;
-
-  if (display.type === "collectibles") {
-    const name = KNOWN_ITEMS[tradeable?.id as number];
-    hasItem = !!getChestItems(game)[name]?.gte(1);
-  }
-
-  if (display.type === "wearables") {
-    const name = ITEM_NAMES[tradeable?.id as number];
-    hasItem = !!availableWardrobe(game)[name];
-  }
-
-  if (display.type === "buds") {
-    hasItem = !!getChestBuds(game)[tradeable?.id as number];
-  }
-
-  const Content = () => {
-    return (
-      <>
-        <div className="p-2">
-          <div className="flex justify-between mb-2">
-            <Label type="default" className="-ml-1">
-              {t("marketplace.acceptOffer")}
-            </Label>
-            {tradeable?.type === "onchain" && (
-              <Label type="formula" icon={walletIcon} className="-mr-1">
-                {t("marketplace.walletRequired")}
-              </Label>
-            )}
-          </div>
-          <TradeableSummary display={display} sfl={offer.sfl} />
-        </div>
-
-        {!hasItem && (
-          <Label
-            type="danger"
-            className="my-2"
-          >{`You do not have ${display.name}`}</Label>
-        )}
-
-        <div className="flex">
-          <Button className="mr-1" onClick={() => onClose()}>
-            {t("cancel")}
-          </Button>
-          <Button
-            disabled={!hasItem}
-            onClick={() => confirm()}
-            className="relative"
-          >
-            <span>{t("confirm")}</span>
-            {tradeable?.type === "onchain" && (
-              <img src={walletIcon} className="absolute right-1 top-0.5 h-7" />
-            )}
-          </Button>
-        </div>
-      </>
-    );
-  };
-
-  if (tradeable?.type === "onchain") {
-    return (
-      <GameWallet action="marketplace">
-        <Content />
-      </GameWallet>
-    );
-  }
-
-  return <Content />;
-};
+const _hasPendingOfferEffect = (state: MachineState) =>
+  state.matches("marketplaceOffering") || state.matches("marketplaceAccepting");
+const _authToken = (state: AuthMachineState) =>
+  state.context.user.rawToken as string;
 
 export const TradeableOffers: React.FC<{
   tradeable?: TradeableDetails;
@@ -449,41 +50,66 @@ export const TradeableOffers: React.FC<{
   id: number;
   onOfferMade: () => void;
 }> = ({ tradeable, farmId, display, id, onOfferMade }) => {
+  const { authService } = useContext(Auth.Context);
+  const { gameService } = useContext(Context);
   const { t } = useAppTranslation();
 
+  useOnMachineTransition<ContextType, BlockchainEvent>(
+    gameService,
+    "marketplaceOfferingSuccess",
+    "playing",
+    onOfferMade,
+  );
+
+  useOnMachineTransition<ContextType, BlockchainEvent>(
+    gameService,
+    "marketplaceOffering",
+    "marketplaceOfferingSuccess",
+    confetti,
+  );
+
+  const hasPendingOfferEffect = useSelector(
+    gameService,
+    _hasPendingOfferEffect,
+  );
+  const authToken = useSelector(authService, _authToken);
+
   const [showMakeOffer, setShowMakeOffer] = useState(false);
-  const [acceptOffer, setAcceptOffer] = useState<Offer>();
+  const [showAcceptOffer, setShowAcceptOffer] = useState(false);
 
   const topOffer = tradeable?.offers.reduce((highest, listing) => {
     return listing.sfl > highest.sfl ? listing : highest;
   }, tradeable?.offers?.[0]);
 
+  const handleHide = () => {
+    if (hasPendingOfferEffect) return;
+
+    setShowMakeOffer(false);
+  };
+
   return (
     <>
-      <Modal show={showMakeOffer} onHide={() => setShowMakeOffer(false)}>
+      <Modal show={showMakeOffer} onHide={handleHide}>
         <Panel>
           <MakeOffer
             id={id}
+            authToken={authToken}
             tradeable={tradeable}
             display={display}
             onClose={() => setShowMakeOffer(false)}
-            onOfferMade={() => {
-              setShowMakeOffer(false);
-              onOfferMade();
-            }}
           />
         </Panel>
       </Modal>
-      <Modal show={!!acceptOffer} onHide={() => setAcceptOffer(undefined)}>
+      <Modal show={showAcceptOffer} onHide={handleHide}>
         <Panel>
           <AcceptOffer
+            authToken={authToken}
             id={id}
             tradeable={tradeable}
             display={display}
-            offer={acceptOffer as Offer}
-            onClose={() => setAcceptOffer(undefined)}
+            offer={topOffer as Offer}
+            onClose={() => setShowAcceptOffer(false)}
             onOfferAccepted={() => {
-              setAcceptOffer(undefined);
               onOfferMade();
             }}
           />
@@ -507,7 +133,7 @@ export const TradeableOffers: React.FC<{
                 <p className="text-base">{`${topOffer.sfl} SFL`}</p>
               </div>
               <Button
-                onClick={() => setAcceptOffer(topOffer)}
+                onClick={() => setShowAcceptOffer(true)}
                 className="w-fit"
               >
                 {t("marketplace.acceptOffer")}
@@ -556,17 +182,32 @@ export const TradeableOffers: React.FC<{
   );
 };
 
+const _isCancellingOffer = (state: MachineState) =>
+  state.matches("marketplaceCancelling");
+const _trades = (state: MachineState) => state.context.state.trades;
+
 export const YourOffer: React.FC<{
   onOfferRemoved: () => void;
   collection: CollectionName;
   id: number;
 }> = ({ onOfferRemoved, collection, id }) => {
-  const { gameService } = useContext(Context);
-  const [gameState] = useActor(gameService);
-  const [showRemove, setShowRemove] = useState(false);
   const { t } = useAppTranslation();
+  const { gameService } = useContext(Context);
+  const { authService } = useContext(Auth.Context);
 
-  const { trades } = gameState.context.state;
+  const isCancellingOffer = useSelector(gameService, _isCancellingOffer);
+  const trades = useSelector(gameService, _trades);
+  const authToken = useSelector(authService, _authToken);
+
+  const [showRemove, setShowRemove] = useState(false);
+
+  useOnMachineTransition<ContextType, BlockchainEvent>(
+    gameService,
+    "marketplaceCancellingSuccess",
+    "playing",
+    onOfferRemoved,
+  );
+
   const offers = trades.offers ?? {};
 
   const offerIds = getKeys(offers).filter((offerId) => {
@@ -589,17 +230,20 @@ export const YourOffer: React.FC<{
 
   const offer = offers[myOfferId];
 
+  const handleHide = () => {
+    if (isCancellingOffer) return;
+
+    setShowRemove(false);
+  };
+
   return (
     <>
-      <Modal show={!!showRemove} onHide={() => setShowRemove(false)}>
+      <Modal show={!!showRemove} onHide={handleHide}>
         <RemoveOffer
           id={myOfferId as string}
           offer={offer}
+          authToken={authToken}
           onClose={() => setShowRemove(false)}
-          onDone={() => {
-            onOfferRemoved();
-            setShowRemove(false);
-          }}
         />
       </Modal>
       <InnerPanel className="mb-1">
