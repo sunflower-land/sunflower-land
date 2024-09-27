@@ -5,93 +5,154 @@ export type ChestReward = {
   items?: Partial<Record<InventoryItemName, number>>;
   wearables?: Partial<Wardrobe>;
   sfl?: number;
-  weighting: number;
   coins?: number;
+  weighting: number;
 };
 
-const SEASONAL_REWARDS: (weight: number) => ChestReward[] = (weight) =>
-  Date.now() >= SEASONS["Pharaoh's Treasure"].startDate.getTime() &&
-  Date.now() < SEASONS["Pharaoh's Treasure"].endDate.getTime()
-    ? [
-        { wearables: { "Grape Pants": 1 }, weighting: weight },
-        { items: { "Paper Reed": 1 }, weighting: weight },
-      ]
-    : [];
+const multiplier = 900;
+
+const SEASONAL_REWARDS: (weight: number) => ChestReward[] = (weight) => {
+  const isPharaohSeason =
+    Date.now() >= SEASONS["Pharaoh's Treasure"].startDate.getTime() &&
+    Date.now() < SEASONS["Pharaoh's Treasure"].endDate.getTime();
+
+  if (isPharaohSeason) {
+    return [
+      { items: { "Paper Reed": 1 }, weighting: weight * multiplier },
+      { items: { "Hapy Jar": 1 }, weighting: weight * multiplier },
+      { items: { "Imsety Jar": 1 }, weighting: weight * multiplier },
+      { items: { "Duamutef Jar": 1 }, weighting: weight * multiplier },
+      { items: { "Qebehsenuef Jar": 1 }, weighting: weight * multiplier },
+      { items: { Cannonball: 1 }, weighting: weight * (multiplier / 10) },
+      { items: { Sarcophagus: 1 }, weighting: weight * (multiplier / 3) },
+      { items: { "Clay Tablet": 1 }, weighting: weight * multiplier },
+      { items: { "Snake in Jar": 1 }, weighting: weight * (multiplier / 5) },
+      { items: { "Reveling Lemon": 1 }, weighting: weight * (multiplier / 10) },
+      { items: { "Anubis Jackal": 1 }, weighting: weight * (multiplier / 3) },
+      { items: { Sundial: 1 }, weighting: weight * (multiplier / 2) },
+      { items: { "Sand Golem": 1 }, weighting: weight * (multiplier / 4) },
+      { items: { "Cactus King": 1 }, weighting: weight * (multiplier / 5) },
+      { items: { "Lemon Frog": 1 }, weighting: weight * (multiplier / 10) },
+      { items: { "Scarab Beetle": 1 }, weighting: weight * (multiplier / 3) },
+      { items: { "Golden Garrison": 1 }, weighting: weight * multiplier },
+      { items: { "Rookie Rook": 1 }, weighting: weight * multiplier },
+      { items: { "Silver Sentinel": 1 }, weighting: weight * multiplier },
+      { items: { "Sunlit Citadel": 1 }, weighting: weight * (multiplier / 25) },
+      { items: { Camel: 1 }, weighting: weight * (multiplier / 60) },
+      { items: { "Baobab Tree": 1 }, weighting: weight * (multiplier / 10) },
+      { wearables: { "Grape Pants": 1 }, weighting: weight * (multiplier / 2) },
+      {
+        wearables: { "Amber Amulet": 1 },
+        weighting: weight * (multiplier / 2),
+      },
+      {
+        wearables: { "Explorer Shirt": 1 },
+        weighting: weight * (multiplier / 4),
+      },
+      { wearables: { "Crab Trap": 1 }, weighting: weight * (multiplier / 10) },
+      { wearables: { "Water Gourd": 1 }, weighting: weight * (multiplier / 3) },
+      { wearables: { "Ankh Shirt": 1 }, weighting: weight * (multiplier / 2) },
+      {
+        wearables: { "Explorer Shorts": 1 },
+        weighting: weight * (multiplier / 3),
+      },
+      {
+        wearables: { "Explorer Hat": 1 },
+        weighting: weight * (multiplier / 4),
+      },
+      {
+        wearables: { "Desert Camel Background": 1 },
+        weighting: weight * multiplier,
+      },
+      { wearables: { "Rock Hammer": 1 }, weighting: weight * (multiplier / 3) },
+      { wearables: { "Elf Potion": 1 }, weighting: weight * multiplier },
+      {
+        wearables: { "Scarab Wings": 1 },
+        weighting: weight * (multiplier / 45),
+      },
+    ];
+  } else {
+    return [];
+  }
+};
 
 export const BASIC_REWARDS: () => ChestReward[] = () => [
-  { sfl: 5, weighting: 100 },
-  { sfl: 10, weighting: 50 },
-  { sfl: 25, weighting: 20 },
-  { items: { "Block Buck": 1 }, weighting: 100 },
-  { items: { "Block Buck": 2 }, weighting: 50 },
-  { items: { "Block Buck": 5 }, weighting: 20 },
-  { items: { "Block Buck": 10 }, weighting: 5 },
-  { items: { Axe: 5, Pickaxe: 5, "Stone Pickaxe": 5 }, weighting: 100 },
-  { items: { "Iron Pickaxe": 10 }, weighting: 10 },
-  { items: { Rod: 10 }, weighting: 20 },
-  { items: { "Rapid Root": 10, "Sprout Mix": 10 }, weighting: 50 },
-  { items: { "Fishing Lure": 10 }, weighting: 10 },
-  { items: { "Pirate Cake": 5 }, weighting: 5 },
-  { items: { "Wheat Cake": 3 }, weighting: 20 },
-  { items: { "Goblin Brunch": 3 }, weighting: 30 },
-  { items: { "Bumpkin Roast": 3 }, weighting: 40 },
-  { items: { "Fermented Carrots": 5 }, weighting: 50 },
-  { items: { "Blueberry Jam": 3 }, weighting: 100 },
-  { wearables: { "Fox Hat": 1 }, weighting: 50 },
-  { items: { "Time Warp Totem": 1 }, weighting: 25 },
-  { items: { Rug: 1 }, weighting: 25 },
-  { items: { "Prize Ticket": 1 }, weighting: 5 },
-  ...SEASONAL_REWARDS(5),
+  { coins: 1600, weighting: 100 * multiplier },
+  { coins: 3200, weighting: 50 * multiplier },
+  { coins: 8000, weighting: 20 * multiplier },
+  { items: { "Block Buck": 1 }, weighting: 100 * multiplier },
+  { items: { "Block Buck": 2 }, weighting: 50 * multiplier },
+  { items: { "Block Buck": 5 }, weighting: 20 * multiplier },
+  { items: { "Block Buck": 10 }, weighting: 5 * multiplier },
+  {
+    items: { Axe: 5, Pickaxe: 5, "Stone Pickaxe": 5 },
+    weighting: 100 * multiplier,
+  },
+  { items: { "Iron Pickaxe": 10 }, weighting: 10 * multiplier },
+  { items: { Rod: 10 }, weighting: 20 * multiplier },
+  { items: { "Rapid Root": 10, "Sprout Mix": 10 }, weighting: 50 * multiplier },
+  { items: { "Fishing Lure": 10 }, weighting: 10 * multiplier },
+  { items: { "Pirate Cake": 5 }, weighting: 5 * multiplier },
+  { items: { "Wheat Cake": 3 }, weighting: 20 * multiplier },
+  { items: { "Goblin Brunch": 3 }, weighting: 30 * multiplier },
+  { items: { "Bumpkin Roast": 3 }, weighting: 40 * multiplier },
+  { items: { "Fermented Carrots": 5 }, weighting: 50 * multiplier },
+  { items: { "Blueberry Jam": 3 }, weighting: 100 * multiplier },
+  { items: { Rug: 1 }, weighting: 25 * multiplier },
+  { items: { "Prize Ticket": 1 }, weighting: 5 * multiplier },
+  ...SEASONAL_REWARDS(5), // Multiplier is applied in SEASONAL_REWARDS so no need to multiply by multiplier
 ];
 
 export const RARE_REWARDS: () => ChestReward[] = () => [
-  { sfl: 5, weighting: 50 },
-  { sfl: 10, weighting: 100 },
-  { sfl: 25, weighting: 50 },
-  { sfl: 50, weighting: 20 },
-  { items: { "Block Buck": 1 }, weighting: 50 },
-  { items: { "Block Buck": 2 }, weighting: 100 },
-  { items: { "Block Buck": 5 }, weighting: 50 },
-  { items: { "Block Buck": 10 }, weighting: 20 },
-  { items: { "Block Buck": 25 }, weighting: 10 },
-  { items: { "Block Buck": 50 }, weighting: 5 },
-  { items: { Axe: 15, Pickaxe: 15, "Stone Pickaxe": 15 }, weighting: 50 },
-  { items: { "Gold Pickaxe": 3 }, weighting: 50 },
-  { items: { "Oil Drill": 3 }, weighting: 25 },
-  { items: { Rod: 5, Earthworm: 5, "Red Wiggler": 5, Grub: 5 }, weighting: 50 },
-  { items: { "Fishing Lure": 25 }, weighting: 25 },
-  { items: { "Pirate Cake": 5 }, weighting: 30 },
-  { items: { "Wheat Cake": 3 }, weighting: 20 },
-  { items: { "Goblin Brunch": 3 }, weighting: 50 },
-  { items: { "Bumpkin Roast": 3 }, weighting: 40 },
-  { wearables: { "Fox Hat": 1 }, weighting: 25 },
-  { items: { "Time Warp Totem": 1 }, weighting: 25 },
-  { items: { "Prize Ticket": 1 }, weighting: 20 },
-  { items: { "Twister Rug": 1 }, weighting: 25 },
-  ...SEASONAL_REWARDS(25),
+  { coins: 1600, weighting: 50 * multiplier },
+  { coins: 3200, weighting: 100 * multiplier },
+  { coins: 8000, weighting: 50 * multiplier },
+  { coins: 16000, weighting: 20 * multiplier },
+  { items: { "Block Buck": 1 }, weighting: 50 * multiplier },
+  { items: { "Block Buck": 2 }, weighting: 100 * multiplier },
+  { items: { "Block Buck": 5 }, weighting: 50 * multiplier },
+  { items: { "Block Buck": 10 }, weighting: 20 * multiplier },
+  { items: { "Block Buck": 25 }, weighting: 10 * multiplier },
+  { items: { "Block Buck": 50 }, weighting: 5 * multiplier },
+  {
+    items: { Axe: 15, Pickaxe: 15, "Stone Pickaxe": 15 },
+    weighting: 50 * multiplier,
+  },
+  { items: { "Gold Pickaxe": 3 }, weighting: 50 * multiplier },
+  { items: { "Oil Drill": 3 }, weighting: 25 * multiplier },
+  {
+    items: { Rod: 5, Earthworm: 5, "Red Wiggler": 5, Grub: 5 },
+    weighting: 50 * multiplier,
+  },
+  { items: { "Fishing Lure": 25 }, weighting: 25 * multiplier },
+  { items: { "Pirate Cake": 5 }, weighting: 30 * multiplier },
+  { items: { "Wheat Cake": 3 }, weighting: 20 * multiplier },
+  { items: { "Goblin Brunch": 3 }, weighting: 50 * multiplier },
+  { items: { "Bumpkin Roast": 3 }, weighting: 40 * multiplier },
+  { items: { "Prize Ticket": 1 }, weighting: 20 * multiplier },
+  ...SEASONAL_REWARDS(25), // Multiplier is applied in SEASONAL_REWARDS so no need to multiply by multiplier
 ];
 
 export const LUXURY_REWARDS: () => ChestReward[] = () => [
-  { sfl: 10, weighting: 50 },
-  { sfl: 25, weighting: 100 },
-  { sfl: 50, weighting: 50 },
-  { items: { "Block Buck": 5 }, weighting: 50 },
-  { items: { "Block Buck": 10 }, weighting: 100 },
-  { items: { "Block Buck": 25 }, weighting: 25 },
-  { items: { "Block Buck": 50 }, weighting: 10 },
-  { items: { "Gold Pickaxe": 10 }, weighting: 75 },
-  { items: { "Oil Drill": 5 }, weighting: 50 },
+  { coins: 3200, weighting: 50 * multiplier },
+  { coins: 8000, weighting: 100 * multiplier },
+  { coins: 16000, weighting: 50 * multiplier },
+  { items: { "Block Buck": 5 }, weighting: 50 * multiplier },
+  { items: { "Block Buck": 10 }, weighting: 100 * multiplier },
+  { items: { "Block Buck": 25 }, weighting: 25 * multiplier },
+  { items: { "Block Buck": 50 }, weighting: 10 * multiplier },
+  { items: { "Gold Pickaxe": 10 }, weighting: 75 * multiplier },
+  { items: { "Oil Drill": 5 }, weighting: 50 * multiplier },
   {
     items: { Rod: 10, Earthworm: 10, "Red Wiggler": 10, Grub: 10 },
-    weighting: 50,
+    weighting: 50 * multiplier,
   },
-  { items: { "Fishing Lure": 25 }, weighting: 25 },
-  { items: { "Pirate Cake": 10 }, weighting: 50 },
-  { items: { "Goblin Brunch": 10 }, weighting: 25 },
-  { items: { "Bumpkin Roast": 10 }, weighting: 25 },
-  { items: { "Time Warp Totem": 1 }, weighting: 25 },
-  { items: { "Prize Ticket": 1 }, weighting: 50 },
-  ...SEASONAL_REWARDS(25),
+  { items: { "Fishing Lure": 25 }, weighting: 25 * multiplier },
+  { items: { "Pirate Cake": 10 }, weighting: 50 * multiplier },
+  { items: { "Goblin Brunch": 10 }, weighting: 25 * multiplier },
+  { items: { "Bumpkin Roast": 10 }, weighting: 25 * multiplier },
+  { items: { "Prize Ticket": 1 }, weighting: 50 * multiplier },
+  ...SEASONAL_REWARDS(25), // Multiplier is applied in SEASONAL_REWARDS so no need to multiply by multiplier
 ];
 
 export const BUD_BOX_REWARDS: ChestReward[] = [
@@ -100,7 +161,6 @@ export const BUD_BOX_REWARDS: ChestReward[] = [
   { items: { "Pirate Cake": 3 }, weighting: 5 },
   { items: { "Red Pansy": 2 }, weighting: 10 },
   { items: { "Purple Cosmos": 2 }, weighting: 10 },
-  { items: { "Time Warp Totem": 1 }, weighting: 10 },
   { wearables: { "Seedling Hat": 1 }, weighting: 1 },
   { items: { "Prize Ticket": 1 }, weighting: 10 },
   { items: { "Oil Drill": 2 }, weighting: 5 },
@@ -170,4 +230,17 @@ export const EXPERT_DESERT_STREAK: ChestReward[] = [
   { items: { "Sand Drill": 3 }, weighting: 5 },
   { items: { "Pirate Cake": 1 }, weighting: 5 },
   { items: { "Shroom Syrup": 1 }, weighting: 1 },
+];
+
+export const MANEKI_NEKO_REWARDS: ChestReward[] = [
+  { items: { "Pumpkin Soup": 1 }, weighting: 50 },
+  { items: { "Cauliflower Burger": 1 }, weighting: 35 },
+  { items: { "Mashed Potato": 1 }, weighting: 30 },
+  { items: { "Boiled Eggs": 1 }, weighting: 30 },
+  { items: { "Bumpkin Broth": 1 }, weighting: 30 },
+  { items: { "Sunflower Crunch": 1 }, weighting: 20 },
+  { items: { "Bumpkin Salad": 1 }, weighting: 15 },
+  { items: { "Goblin's Treat": 1 }, weighting: 15 },
+  { items: { "Kale Stew": 1 }, weighting: 10 },
+  { items: { "Sunflower Cake": 1 }, weighting: 5 },
 ];

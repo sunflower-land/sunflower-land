@@ -6,13 +6,12 @@ import { MarketplaceProfile } from "./components/MarketplaceProfile";
 import { MarketplaceHome } from "./components/MarketplaceHome";
 import { MarketplaceRewards } from "./components/MarketplaceRewards";
 import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
-import { Tab } from "components/ui/Tab";
-import { SquareIcon } from "components/ui/SquareIcon";
 import classNames from "classnames";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { OuterPanel } from "components/ui/Panel";
+import { ButtonPanel, OuterPanel } from "components/ui/Panel";
 import { Tradeable } from "./components/Tradeable";
 import { GameProvider } from "features/game/GameProvider";
+import { TransactionCountdown } from "features/island/hud/Transaction";
 
 interface Props {
   onClose: () => void;
@@ -28,7 +27,7 @@ const tabs = [
   {
     name: "Profile",
     icon: SUNNYSIDE.icons.player,
-    alert: 0,
+    alert: 1,
     route: "/marketplace/profile",
   },
   {
@@ -47,19 +46,17 @@ export const Marketplace: React.FC = () => {
     <GameProvider>
       <div className="bg-[#181425] w-full h-full">
         <OuterPanel className="h-full" style={{ paddingBottom: "42px" }}>
-          <div className="flex overflow-x-auto scrollbar-hide mr-auto">
+          <div className="flex items-center overflow-x-auto scrollbar-hide mr-auto">
             {tabs.map((tab, index) => (
-              <Tab
+              <ButtonPanel
+                selected={tab.route === pathname}
                 key={`tab-${index}`}
-                isFirstTab={index === 0}
                 className="flex items-center relative mr-1"
-                isActive={tab.route === pathname}
                 onClick={() => {
                   // Navigate
                   navigate(tab.route);
                 }}
               >
-                <SquareIcon icon={tab.icon} width={7} />
                 <span
                   className={classNames(
                     "text-xs sm:text-sm text-ellipsis ml-1 whitespace-nowrap",
@@ -67,7 +64,7 @@ export const Marketplace: React.FC = () => {
                 >
                   {tab.name}
                 </span>
-              </Tab>
+              </ButtonPanel>
             ))}
 
             <img
@@ -91,6 +88,16 @@ export const Marketplace: React.FC = () => {
             <Route path="/:collection" element={<MarketplaceHome />} />
           </Routes>
         </OuterPanel>
+      </div>
+
+      <div
+        className="absolute z-50 flex flex-col justify-between"
+        style={{
+          bottom: `${PIXEL_SCALE * 3}px`,
+          left: `${PIXEL_SCALE * 4}px`,
+        }}
+      >
+        <TransactionCountdown />
       </div>
     </GameProvider>
   );

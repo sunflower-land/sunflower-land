@@ -108,6 +108,10 @@ export function getFruitYield({ name, game, fertiliser }: FruitYield) {
     amount += 1;
   }
 
+  if (isFruit(name) && isCollectibleBuilt({ name: "Macaw", game })) {
+    amount += 0.1;
+  }
+
   if (isFruit(name) && isWearableActive({ name: "Camel Onesie", game })) {
     amount += 0.1;
   }

@@ -671,12 +671,24 @@ import paperReed from "src/assets/sfts/paper_reed.webp";
 import cactusKing from "src/assets/sfts/cactus_king.webp";
 import revelingLemon from "src/assets/sfts/reveling_lemon.gif";
 import clayTablet from "src/assets/sfts/clay_tablet.webp";
+import lemonFrog from "src/assets/sfts/lemon_frog.webp";
+import sandGolem from "src/assets/sfts/sand_golem.webp";
+import scarabBeetle from "src/assets/sfts/scarab_beetle.webp";
+import sundial from "src/assets/sfts/sundial.webp";
 
 import scarab from "assets/resources/scarab.webp";
 import hieroglyph from "assets/resources/hieroglyph.webp";
 import camelBone from "assets/resources/camel_bone.webp";
 import cockleShell from "assets/resources/cockle_shell.webp";
 import vase from "assets/resources/vase.webp";
+
+import stoneBeetle from "assets/sfts/stone_beetle.webp";
+import ironBeetle from "assets/sfts/iron_beetle.webp";
+import goldBeetle from "assets/sfts/gold_beetle.webp";
+import fairyCircle from "assets/sfts/fairy_circle.webp";
+import macaw from "assets/sfts/macaw.webp";
+import butterfly from "assets/sfts/butterfly.webp";
+import squirrel from "assets/sfts/squirrel.webp";
 
 import { COUPONS, EASTER_EGG, FERTILISERS, InventoryItemName } from "./game";
 
@@ -730,8 +742,6 @@ export interface ItemDetails {
 
 type Items = Record<InventoryItemName | AchievementName, ItemDetails>;
 
-const crops = CROPS;
-const seeds = CROP_SEEDS;
 export const ITEM_DETAILS: Items = {
   Sunflower: {
     image: CROP_LIFECYCLE.Sunflower.crop,
@@ -4010,20 +4020,48 @@ export const ITEM_DETAILS: Items = {
     image: tomatoBombard,
     description: translate("description.tomato.bombard"),
   },
+  "Stone Beetle": {
+    image: stoneBeetle,
+    description: translate("description.stone.beetle"),
+  },
+  "Iron Beetle": {
+    image: ironBeetle,
+    description: translate("description.iron.beetle"),
+  },
+  "Gold Beetle": {
+    image: goldBeetle,
+    description: translate("description.gold.beetle"),
+  },
+  "Fairy Circle": {
+    image: fairyCircle,
+    description: translate("description.fairy.circle"),
+  },
+  Squirrel: {
+    image: squirrel,
+    description: translate("description.squirrel"),
+  },
+  Macaw: {
+    image: macaw,
+    description: translate("description.macaw"),
+  },
+  Butterfly: {
+    image: butterfly,
+    description: translate("description.butterfly"),
+  },
   Sundial: {
-    image: "",
+    image: sundial,
     description: "",
   },
   "Sand Golem": {
-    image: "",
+    image: sandGolem,
     description: "",
   },
   "Lemon Frog": {
-    image: "",
+    image: lemonFrog,
     description: "",
   },
   "Scarab Beetle": {
-    image: "",
+    image: scarabBeetle,
     description: "",
   },
 };

@@ -25,7 +25,6 @@ import { formatNumber, setPrecision } from "lib/utils/formatNumber";
 import { hasVipAccess } from "features/game/lib/vipAccess";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { VIPAccess } from "features/game/components/VipAccess";
-import { getDayOfYear } from "lib/utils/time";
 import { NumberInput } from "components/ui/NumberInput";
 import {
   EMBLEM_TRADE_MINIMUMS,
@@ -33,20 +32,9 @@ import {
 } from "features/game/actions/tradeLimits";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { CannotTrade } from "../../CannotTrade";
+import { getRemainingListings } from "features/bumpkins/components/Trade";
 
-const MAX_NON_VIP_LISTINGS = 1;
 const MAX_SFL = 150;
-
-function getRemainingFreeListings(dailyListings: {
-  count: number;
-  date: number;
-}) {
-  if (dailyListings.date !== getDayOfYear(new Date())) {
-    return MAX_NON_VIP_LISTINGS;
-  }
-  return MAX_NON_VIP_LISTINGS - dailyListings.count;
-}
-
 type Items = Partial<Record<InventoryItemName, number>>;
 
 const ListTrade: React.FC<{
@@ -321,7 +309,7 @@ const TradeDetails: React.FC<{
               <div className="flex flex-wrap">
                 {getKeys(trade.items).map((name) => (
                   <Box
-                    image={ITEM_DETAILS[name].image}
+                    image={ITEM_DETAILS[name as InventoryItemName].image}
                     count={new Decimal(trade.items[name] ?? 0)}
                     disabled
                     key={name}
@@ -357,7 +345,7 @@ const TradeDetails: React.FC<{
           <div className="flex flex-wrap">
             {getKeys(trade.items).map((name) => (
               <Box
-                image={ITEM_DETAILS[name].image}
+                image={ITEM_DETAILS[name as InventoryItemName].image}
                 count={new Decimal(trade.items[name] ?? 0)}
                 disabled
                 key={name}
@@ -396,11 +384,9 @@ export const Trade: React.FC<{
   const [showListing, setShowListing] = useState(false);
 
   const isVIP = hasVipAccess(gameState.context.state.inventory);
-  const dailyListings = gameState.context.state.trades.dailyListings ?? {
-    count: 0,
-    date: 0,
-  };
-  const remainingListings = getRemainingFreeListings(dailyListings);
+  const remainingListings = getRemainingListings({
+    game: gameState.context.state,
+  });
   const hasListingsRemaining = isVIP || remainingListings > 0;
   // Show listings
   const trades = gameState.context.state.trades?.listings ?? {};
@@ -408,6 +394,13 @@ export const Trade: React.FC<{
   const level = getBumpkinLevel(
     gameState.context.state.bumpkin?.experience ?? 0,
   );
+
+  const emblemListings = getKeys(trades).filter((listingId) => {
+    return (
+      makeListingType(trades[listingId].items) ===
+      makeListingType({ [emblem]: 0 })
+    );
+  });
 
   const onList = (items: Items, sfl: number) => {
     gameService.send("LIST_TRADE", {
@@ -448,15 +441,14 @@ export const Trade: React.FC<{
     );
   }
 
-  if (getKeys(trades).length === 0) {
+  if (emblemListings.length === 0) {
     return (
       <div className="relative">
         <div className="pl-2 pt-2 space-y-1 sm:space-y-0 sm:flex items-center justify-between ml-1.5">
           <VIPAccess
             isVIP={isVIP}
-            onUpgrade={() => {
-              openModal("BUY_BANNER");
-            }}
+            onUpgrade={() => openModal("BUY_BANNER")}
+            text={t("bumpkinTrade.unlockMoreTrades")}
           />
           {!isVIP && (
             <Label
@@ -468,7 +460,7 @@ export const Trade: React.FC<{
                 : `${t("remaining.free.listings", {
                     listingsRemaining: hasListingsRemaining
                       ? remainingListings
-                      : "No",
+                      : t("no"),
                   })}`}
             </Label>
           )}
@@ -498,9 +490,8 @@ export const Trade: React.FC<{
       <div className="pl-2 pt-2 space-y-1 sm:space-y-0 sm:flex items-center justify-between ml-1.5">
         <VIPAccess
           isVIP={isVIP}
-          onUpgrade={() => {
-            openModal("BUY_BANNER");
-          }}
+          onUpgrade={() => openModal("BUY_BANNER")}
+          text={t("bumpkinTrade.unlockMoreTrades")}
         />
         {!isVIP && (
           <Label
@@ -512,38 +503,31 @@ export const Trade: React.FC<{
               : `${t("remaining.free.listings", {
                   listingsRemaining: hasListingsRemaining
                     ? remainingListings
-                    : "No",
+                    : t("no"),
                 })}`}
           </Label>
         )}
       </div>
-      {getKeys(trades)
-        .filter((listingId) => {
-          return (
-            makeListingType(trades[listingId].items) ===
-            makeListingType({ [emblem]: 0 })
-          );
-        })
-        .map((listingId, index) => {
-          return (
-            <div className="mt-2" key={index}>
-              <TradeDetails
-                onCancel={() =>
-                  onCancel(listingId, makeListingType(trades[listingId].items))
-                }
-                onClaim={() => {
-                  gameService.send("trade.received", {
-                    tradeId: listingId,
-                  });
-                  gameService.send("SAVE");
-                }}
-                trade={trades[listingId]}
-                isOldListing={listingId.length < 38}
-              />
-            </div>
-          );
-        })}
-      {getKeys(trades).length < 3 && (
+      {emblemListings.map((listingId, index) => {
+        return (
+          <div className="mt-2" key={index}>
+            <TradeDetails
+              onCancel={() =>
+                onCancel(listingId, makeListingType(trades[listingId].items))
+              }
+              onClaim={() => {
+                gameService.send("trade.received", {
+                  tradeId: listingId,
+                });
+                gameService.send("SAVE");
+              }}
+              trade={trades[listingId]}
+              isOldListing={listingId.length < 38}
+            />
+          </div>
+        );
+      })}
+      {emblemListings.length < 3 && (
         <div className="relative mt-2">
           <Button
             onClick={() => setShowListing(true)}
@@ -553,7 +537,7 @@ export const Trade: React.FC<{
           </Button>
         </div>
       )}
-      {getKeys(trades).length >= 3 && (
+      {emblemListings.length >= 3 && (
         <div className="relative my-2">
           <Label type="danger" icon={SUNNYSIDE.icons.lock} className="mx-auto">
             {t("bumpkinTrade.maxListings")}

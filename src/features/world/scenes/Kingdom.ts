@@ -167,10 +167,11 @@ export class KingdomScene extends BaseScene {
   }
 
   create() {
-    super.create();
     this.map = this.make.tilemap({
       key: "kingdom",
     });
+
+    super.create();
 
     this.initialiseNPCs(KINGDOM_NPCS);
     this.addShopDisplayItems();
@@ -196,55 +197,53 @@ export class KingdomScene extends BaseScene {
         }
       });
 
-    if (hasFeatureAccess(this.gameState, "CROPS_AND_CHICKENS")) {
-      if (!hasReadCropsAndChickensNotice()) {
-        const cropsAndChickensPortalNotice = this.add
-          .image(400, 732, "question_disc")
-          .setDepth(1000000);
-        cropsAndChickensPortalNotice
-          .setInteractive({ cursor: "pointer" })
-          .on("pointerdown", () => {
-            if (this.checkDistanceToSprite(cropsAndChickensPortalNotice, 40)) {
-              interactableModalManager.open("crops_and_chickens");
-            } else {
-              this.currentPlayer?.speak(translate("base.iam.far.away"));
-            }
-          });
-      }
-
-      const cropsAndChickensPortal = this.add.sprite(
-        400,
-        752,
-        "portal_crops_and_chickens",
-      );
-      this.anims.create({
-        key: "portal_crops_and_chickens_anim",
-        frames: this.anims.generateFrameNumbers("portal_crops_and_chickens", {
-          start: 0,
-          end: 17,
-        }),
-        repeat: -1,
-        frameRate: 10,
-      });
-      cropsAndChickensPortal.play("portal_crops_and_chickens_anim", true);
-      cropsAndChickensPortal
+    if (!hasReadCropsAndChickensNotice()) {
+      const cropsAndChickensPortalNotice = this.add
+        .image(400, 732, "question_disc")
+        .setDepth(1000000);
+      cropsAndChickensPortalNotice
         .setInteractive({ cursor: "pointer" })
         .on("pointerdown", () => {
-          if (this.checkDistanceToSprite(cropsAndChickensPortal, 40)) {
+          if (this.checkDistanceToSprite(cropsAndChickensPortalNotice, 40)) {
             interactableModalManager.open("crops_and_chickens");
           } else {
             this.currentPlayer?.speak(translate("base.iam.far.away"));
           }
         });
-
-      this.physics.world.enable(cropsAndChickensPortal);
-      this.colliders?.add(cropsAndChickensPortal);
-      (cropsAndChickensPortal.body as Phaser.Physics.Arcade.Body)
-        .setSize(32, 32)
-        .setOffset(0, 0)
-        .setImmovable(true)
-        .setCollideWorldBounds(true);
     }
+
+    const cropsAndChickensPortal = this.add.sprite(
+      400,
+      752,
+      "portal_crops_and_chickens",
+    );
+    this.anims.create({
+      key: "portal_crops_and_chickens_anim",
+      frames: this.anims.generateFrameNumbers("portal_crops_and_chickens", {
+        start: 0,
+        end: 17,
+      }),
+      repeat: -1,
+      frameRate: 10,
+    });
+    cropsAndChickensPortal.play("portal_crops_and_chickens_anim", true);
+    cropsAndChickensPortal
+      .setInteractive({ cursor: "pointer" })
+      .on("pointerdown", () => {
+        if (this.checkDistanceToSprite(cropsAndChickensPortal, 40)) {
+          interactableModalManager.open("crops_and_chickens");
+        } else {
+          this.currentPlayer?.speak(translate("base.iam.far.away"));
+        }
+      });
+
+    this.physics.world.enable(cropsAndChickensPortal);
+    this.colliders?.add(cropsAndChickensPortal);
+    (cropsAndChickensPortal.body as Phaser.Physics.Arcade.Body)
+      .setSize(32, 32)
+      .setOffset(0, 0)
+      .setImmovable(true)
+      .setCollideWorldBounds(true);
 
     if (hasFeatureAccess(this.gameState, "FRUIT_DASH")) {
       const fruitDashPortal = this.add.sprite(40, 510, "portal");
@@ -342,8 +341,7 @@ export class KingdomScene extends BaseScene {
 
     const faction = this.gameService.state.context.state.faction?.name;
     getKeys(DOORS).forEach((key) => {
-      if (faction === key && hasFeatureAccess(this.gameState, "FACTION_HOUSE"))
-        return;
+      if (faction === key) return;
 
       const door = this.add.image(DOORS[key].x, DOORS[key].y, DOORS[key].door);
       this.physics.add.existing(door);
@@ -371,15 +369,13 @@ export class KingdomScene extends BaseScene {
       });
     });
 
-    if (hasFeatureAccess(this.gameState, "CHAMPIONS")) {
-      this.setChampions();
+    this.setChampions();
 
-      // After 30 seconds of new week, show the new throne!
-      const secondsTillReset = secondsTillWeekReset() + 30;
-      setTimeout(() => {
-        this.setChampions();
-      }, secondsTillReset * 1000);
-    }
+    // After 30 seconds of new week, show the new throne!
+    const secondsTillReset = secondsTillWeekReset() + 30;
+    setTimeout(() => {
+      this.setChampions();
+    }, secondsTillReset * 1000);
 
     if (!hasReadKingdomNotice()) {
       this.add.image(280, 720, "question_disc").setDepth(1000000);

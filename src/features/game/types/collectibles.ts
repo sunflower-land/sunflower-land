@@ -1,5 +1,5 @@
 import Decimal from "decimal.js-light";
-import { GameState, Inventory } from "./game";
+import { GameState, Inventory, Keys } from "./game";
 import { translate } from "lib/i18n/translate";
 import { SEASONS } from "./seasons";
 
@@ -33,7 +33,14 @@ export type HeliosBlacksmithItem =
   | "Grain Grinder"
   | "Skill Shrimpy"
   | "Soil Krabby"
-  | "Nana";
+  | "Nana"
+  | "Stone Beetle"
+  | "Iron Beetle"
+  | "Gold Beetle"
+  | "Fairy Circle"
+  | "Squirrel"
+  | "Macaw"
+  | "Butterfly";
 
 export type TreasureCollectibleItem =
   | "Treasure Map"
@@ -221,10 +228,93 @@ export const HELIOS_BLACKSMITH_ITEMS: (
       Orange: new Decimal(10),
     },
   },
+  Squirrel: {
+    description: translate("description.squirrel"),
+    boost: translate("description.squirrel.boost"),
+    coins: 1000,
+    ingredients: {
+      Wood: new Decimal(100),
+    },
+  },
+  "Stone Beetle": {
+    description: translate("description.stone.beetle"),
+    boost: translate("description.stone.beetle.boost"),
+    coins: 1000,
+    ingredients: {
+      Stone: new Decimal(20),
+    },
+  },
+  "Iron Beetle": {
+    description: translate("description.iron.beetle"),
+    boost: translate("description.iron.beetle.boost"),
+    coins: 2000,
+    ingredients: {
+      Iron: new Decimal(20),
+    },
+  },
+  "Gold Beetle": {
+    description: translate("description.gold.beetle"),
+    boost: translate("description.gold.beetle.boost"),
+    coins: 10000,
+    ingredients: {
+      Gold: new Decimal(20),
+    },
+  },
+  "Fairy Circle": {
+    description: translate("description.fairy.circle"),
+    boost: translate("description.fairy.circle.boost"),
+    coins: 25000,
+    ingredients: {
+      "Wild Mushroom": new Decimal(20),
+    },
+  },
+  Macaw: {
+    description: translate("description.macaw"),
+    boost: translate("description.macaw.boost"),
+    coins: 10000,
+    ingredients: {
+      Apple: new Decimal(10),
+      Blueberry: new Decimal(10),
+      Orange: new Decimal(10),
+      Banana: new Decimal(10),
+      Tomato: new Decimal(10),
+      Lemon: new Decimal(10),
+    },
+  },
+  Butterfly: {
+    description: translate("description.butterfly"),
+    boost: translate("description.butterfly.boost"),
+    coins: 15000,
+    ingredients: {},
+  },
 });
 
+export const ARTEFACT_SHOP_KEYS: Record<Keys, CraftableCollectible> = {
+  "Treasure Key": {
+    ingredients: {
+      Sand: new Decimal(10),
+      Hieroglyph: new Decimal(3),
+    },
+    description: translate("description.treasure.key"),
+  },
+  "Rare Key": {
+    ingredients: {
+      Sand: new Decimal(30),
+      Hieroglyph: new Decimal(10),
+    },
+    description: translate("description.rare.key"),
+  },
+  "Luxury Key": {
+    ingredients: {
+      Sand: new Decimal(100),
+      Hieroglyph: new Decimal(30),
+    },
+    description: translate("description.luxury.key"),
+  },
+};
+
 export const TREASURE_COLLECTIBLE_ITEM: Record<
-  TreasureCollectibleItem,
+  TreasureCollectibleItem | Keys,
   CraftableCollectible
 > = {
   "Treasure Map": {
@@ -272,6 +362,7 @@ export const TREASURE_COLLECTIBLE_ITEM: Record<
     from: SEASONS["Pharaoh's Treasure"].startDate,
     to: SEASONS["Pharaoh's Treasure"].endDate,
   },
+  ...ARTEFACT_SHOP_KEYS,
 };
 
 export type PotionHouseItem = CraftableCollectible & {

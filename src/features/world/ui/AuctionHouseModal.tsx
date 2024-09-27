@@ -19,6 +19,8 @@ export const AuctionHouseModal: React.FC<Props> = ({
     context: { state, linkedWallet },
   } = gameState;
 
+  const transaction = state.transaction;
+
   return (
     <AuctioneerModal
       farmId={id}
@@ -30,7 +32,12 @@ export const AuctionHouseModal: React.FC<Props> = ({
       }}
       onMint={(id) => {
         closeModal();
-        gameService.send("MINT", { auctionId: id });
+        gameService.send("TRANSACT", {
+          transaction: "transaction.bidMinted",
+          request: {
+            auctionId: id,
+          },
+        });
       }}
       deviceTrackerId={gameState.context.deviceTrackerId as string}
       linkedAddress={linkedWallet}

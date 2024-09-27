@@ -44,7 +44,7 @@ jobs:
           VITE_TOKEN_CONTRACT: "0xD1f9c58e33933a993A3891F8acFe05a68E1afC05"
           VITE_WISHING_WELL_CONTRACT: "0x24d32a94fA91d4C99f994622AF30Eb16bf76AEAC"
           VITE_PAIR_CONTRACT: "0x6f9e92dd4734c168a734b873dc3db77e39552eb6"
-          VITE_DISCORD_REDIRECT: "https://sunflower-land.com/play/"
+          VITE_DISCORD_REDIRECT: "https://api.sunflower-land.com/oauth/discord"
           VITE_CLIENT_VERSION: ${{ steps.date.outputs.date }}
           VITE_RELEASE_VERSION: ${{ steps.get_version.outputs.VERSION }}
           VITE_RECAPTCHA_SITEKEY: "6Lfqm6MeAAAAAFS5a0vwAfTGUwnlNoHziyIlOl1s"
@@ -70,6 +70,7 @@ jobs:
           VITE_WITHDRAWAL_CONTRACT: "0x83133174546453D99Ba7cf5e459bBA6Fb3A06b5d"
           VITE_CHRISTMAS_EVENT_DONATION: "0xE336EF65aC5532C0BfeFF52e350B22F96E784b6F"
           VITE_BUD_CONTRACT: "0x78a0cea8f323ff80985c5f9d1f9de18bb9e35996"
+          VITE_MARKETPLACE_CONTRACT: "?"
 
           VITE_ALCHEMY_RPC: ${{ secrets.ALCHEMY_RPC }}
           VITE_POKO_API_KEY: ${{ secrets.POKO_API_KEY }}

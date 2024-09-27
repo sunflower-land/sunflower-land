@@ -349,8 +349,15 @@ import {
   submitMinigameScore,
   SubmitMinigameScoreAction,
 } from "./minigames/submitMinigameScore";
+import { claimOffer, ClaimOfferAction } from "./landExpansion/offerClaimed";
+import {
+  startCompetition,
+  StartCompetitionAction,
+} from "./landExpansion/startCompetition";
 
 export type PlayingEvent =
+  | StartCompetitionAction
+  | ClaimOfferAction
   | CompleteDailyChallengeAction
   | OilGreenhouseAction
   | HarvestGreenhouseAction
@@ -517,6 +524,8 @@ type Handlers<T> = {
 };
 
 export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
+  "competition.started": startCompetition,
+  "offer.claimed": claimOffer,
   "dailyChallenge.completed": completeDailyChallenge,
   "faction.left": leaveFaction,
   "faction.prizeClaimed": claimFactionPrize,

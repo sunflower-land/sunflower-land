@@ -32,7 +32,6 @@ import { getDayOfYear } from "lib/utils/time";
 import { ListingCategoryCard } from "components/ui/ListingCategoryCard";
 import { FACTION_EMBLEMS } from "features/game/events/landExpansion/joinFaction";
 import { NumberInput } from "components/ui/NumberInput";
-import { hasFeatureAccess } from "lib/flags";
 import {
   TRADE_LIMITS,
   TRADE_MINIMUMS,
@@ -48,7 +47,7 @@ const ISLAND_LIMITS: Record<IslandType, number> = {
   desert: 20,
 };
 
-function getRemainingListings({ game }: { game: GameState }) {
+export function getRemainingListings({ game }: { game: GameState }) {
   let remaining = ISLAND_LIMITS[game.island?.type] ?? 0;
 
   if (!hasVipAccess(game.inventory)) {
@@ -371,8 +370,6 @@ const TradeDetails: React.FC<{
 }> = ({ trade, onCancel, onClaim, isOldListing }) => {
   const { t } = useAppTranslation();
 
-  const { gameService } = useContext(Context); // To remove after testing ends
-
   if (trade.boughtAt) {
     return (
       <div>
@@ -380,23 +377,14 @@ const TradeDetails: React.FC<{
           <div className="flex justify-between">
             <div>
               <div className="flex flex-wrap">
-                {getKeys(trade.items)
-                  .filter(
-                    (name) =>
-                      (name !== "Tomato" && name !== "Lemon") ||
-                      hasFeatureAccess(
-                        gameService.state.context.state,
-                        "NEW_FRUITS",
-                      ),
-                  )
-                  .map((name) => (
-                    <Box
-                      image={ITEM_DETAILS[name].image}
-                      count={new Decimal(trade.items[name] ?? 0)}
-                      disabled
-                      key={name}
-                    />
-                  ))}
+                {getKeys(trade.items).map((name) => (
+                  <Box
+                    image={ITEM_DETAILS[name as InventoryItemName].image}
+                    count={new Decimal(trade.items[name] ?? 0)}
+                    disabled
+                    key={name}
+                  />
+                ))}
 
                 <div>
                   <Label type="success" className="ml-1 mt-0.5">
@@ -427,7 +415,7 @@ const TradeDetails: React.FC<{
           <div className="flex flex-wrap">
             {getKeys(trade.items).map((name) => (
               <Box
-                image={ITEM_DETAILS[name].image}
+                image={ITEM_DETAILS[name as InventoryItemName].image}
                 count={new Decimal(trade.items[name] ?? 0)}
                 disabled
                 key={name}
@@ -478,6 +466,13 @@ export const Trade: React.FC<{
     gameState.context.state.bumpkin?.experience ?? 0,
   );
 
+  const resourceListings = getKeys(trades).filter((listingId) => {
+    const items = Object.keys(trades[listingId].items);
+    return !items.some((item) =>
+      Object.values(FACTION_EMBLEMS).includes(item as FactionEmblem),
+    );
+  });
+
   const onList = (items: Items, sfl: number) => {
     gameService.send("LIST_TRADE", {
       sellerId: gameState.context.farmId,
@@ -516,7 +511,7 @@ export const Trade: React.FC<{
     );
   }
 
-  if (getKeys(trades).length === 0) {
+  if (resourceListings.length === 0) {
     return (
       <div className="relative">
         <div className="pl-2 pt-2 space-y-1 sm:space-y-0 sm:flex items-center justify-between ml-1.5">
@@ -536,7 +531,7 @@ export const Trade: React.FC<{
               : `${t("remaining.free.listings", {
                   listingsRemaining: hasListingsRemaining
                     ? remainingListings
-                    : "No",
+                    : t("no"),
                 })}`}
           </Label>
         </div>
@@ -579,38 +574,31 @@ export const Trade: React.FC<{
             : `${t("remaining.free.listings", {
                 listingsRemaining: hasListingsRemaining
                   ? remainingListings
-                  : "No",
+                  : t("no"),
               })}`}
         </Label>
       </div>
-      {getKeys(trades)
-        .filter((listingId) => {
-          const items = Object.keys(trades[listingId].items);
-          return !items.some((item) =>
-            Object.values(FACTION_EMBLEMS).includes(item as FactionEmblem),
-          );
-        })
-        .map((listingId, index) => {
-          return (
-            <div className="mt-2" key={index}>
-              <TradeDetails
-                onCancel={() =>
-                  onCancel(listingId, makeListingType(trades[listingId].items))
-                }
-                onClaim={() => {
-                  gameService.send("trade.received", {
-                    tradeId: listingId,
-                  });
-                  gameService.send("SAVE");
-                }}
-                trade={trades[listingId]}
-                isOldListing={listingId.length < 38}
-              />
-            </div>
-          );
-        })}
+      {resourceListings.map((listingId, index) => {
+        return (
+          <div className="mt-2" key={index}>
+            <TradeDetails
+              onCancel={() =>
+                onCancel(listingId, makeListingType(trades[listingId].items))
+              }
+              onClaim={() => {
+                gameService.send("trade.received", {
+                  tradeId: listingId,
+                });
+                gameService.send("SAVE");
+              }}
+              trade={trades[listingId]}
+              isOldListing={listingId.length < 38}
+            />
+          </div>
+        );
+      })}
 
-      {!hideButton && getKeys(trades).length < 3 && (
+      {!hideButton && resourceListings.length < 3 && (
         <div className="relative mt-2">
           <Button
             onClick={() => setShowListing(true)}
@@ -628,7 +616,7 @@ export const Trade: React.FC<{
         </div>
       )}
 
-      {getKeys(trades).length >= 3 && (
+      {resourceListings.length >= 3 && (
         <div className="relative my-2">
           <Label type="danger" icon={SUNNYSIDE.icons.lock} className="mx-auto">
             {t("bumpkinTrade.maxListings")}

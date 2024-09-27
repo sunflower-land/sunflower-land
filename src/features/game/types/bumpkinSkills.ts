@@ -38,7 +38,7 @@ export type BumpkinRevampSkillName =
   | "Strong Roots"
   | "Coin Swindler"
   | "Golden Sunflower"
-  | "SFL Swindler"
+  | "Betty's Friend"
   | "Chonky Scarecrow"
   | "Horror Mike"
   | "Instant Growth"
@@ -67,11 +67,12 @@ export type BumpkinRevampSkillName =
   | "Tree Blitz"
   // Fishing
   | "Swift Decomposer"
-  | "FIsherman's 5 Fold"
+  | "Fisherman's 5 Fold"
   | "Wormy Treat"
   | "Grubby Treat"
   | "Wriggly Treat"
   | "Fishy Fortune"
+  | "Big Catch"
   | "Composting Bonanza"
   | "Frenzied Fish"
   | "Composting Overhaul"
@@ -440,7 +441,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
       skill: 0,
     },
     boosts:
-      "+0.1 Medium Crop Yield (Carrots, Cabbages, Soybeans, Beetroots, Cauliflowers, Parsnips",
+      "+0.1 Medium Crop Yield (Carrots, Cabbages, Soybeans, Beetroots, Cauliflowers, Parsnips)",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
   "Efficient Bin": {
@@ -450,7 +451,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
       points: 1,
       skill: 0,
     },
-    boosts: "+5 Sprout Mix (Requires Compost Bin)",
+    boosts: "+3 Sprout Mix when collecting from Compost Bin",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
   "Turbo Charged": {
@@ -460,7 +461,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
       points: 1,
       skill: 0,
     },
-    boosts: "+5 Fruitful Blend (Requires Turbo Composter)",
+    boosts: "+5 Fruitful Blend when collecting from Turbo Composter",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
   "Old Farmer": {
@@ -491,7 +492,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
       points: 2,
       skill: 2,
     },
-    boosts: "+10% profit selling crops (Seed Shop)",
+    boosts: "+10% coins to base value of plot crops in Betty's Market",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
   "Golden Sunflower": {
@@ -501,17 +502,18 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
       points: 2,
       skill: 2,
     },
-    boosts: "Golden Sunflower (1/700 chance)",
+    boosts:
+      "Chance of getting +0.35 gold when manually harvesting sunflowers (0.15%)",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
-  "SFL Swindler": {
-    name: "SFL Swindler",
+  "Betty's Friend": {
+    name: "Betty's Friend",
     tree: "Crops",
     requirements: {
       points: 2,
       skill: 2,
     },
-    boosts: "+10% Crop deliveries SFL profit",
+    boosts: "Betty Coin delivery revenue increased by 20%",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
   "Chonky Scarecrow": {
@@ -574,7 +576,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
       points: 3,
       skill: 5,
     },
-    boosts: "+10 Rapid Root (Requires Premium Composter)",
+    boosts: "+10 Rapid Root when collecting from Premium Composter",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
   "Laurie's Gains": {
@@ -596,7 +598,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
       points: 1,
       skill: 0,
     },
-    boosts: "+0.1 Fruit Yield for Tomatoes & Lemons",
+    boosts: "+0.1 Fruit Yield (Tomatoes, Lemons)",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
   "Fruitful Fumble": {
@@ -780,8 +782,8 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     boosts: "Composter speed 10% quicker",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
-  "FIsherman's 5 Fold": {
-    name: "FIsherman's 5 Fold",
+  "Fisherman's 5 Fold": {
+    name: "Fisherman's 5 Fold",
     tree: "Fishing",
     requirements: {
       points: 1,
@@ -828,7 +830,17 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
       points: 2,
       skill: 2,
     },
-    boosts: "+30% Fish deliveries SFL profit",
+    boosts: "+50% Fish deliveries SFL profit",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
+  "Big Catch": {
+    name: "Big Catch",
+    tree: "Fishing",
+    requirements: {
+      points: 2,
+      skill: 2,
+    },
+    boosts: "Increase bar for catching game",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
   // Fishing - Tier 3
@@ -1146,7 +1158,8 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
       points: 3,
       skill: 5,
     },
-    boosts: "Increased all pickaxe type quantities per BB (?%)",
+    boosts:
+      "Increase stock of pickaxe by 70, stone pickaxe by 20, iron pickaxe by 7",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
   "Fire Kissed": {

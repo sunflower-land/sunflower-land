@@ -47,10 +47,11 @@ export class SunflorianHouseScene extends FactionHouseScene {
   }
 
   create() {
-    super.create();
     this.map = this.make.tilemap({
       key: "faction_house",
     });
+
+    super.create();
 
     this.initialiseNPCs(SUNFLORIAN_HOUSE_NPCS);
     this.setupPrize({ x: 240, y: 384 });

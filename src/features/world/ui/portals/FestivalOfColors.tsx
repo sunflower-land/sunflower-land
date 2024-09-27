@@ -12,7 +12,6 @@ import { Portal } from "./Portal";
 import { InlineDialogue } from "../TypingMessage";
 import { SpeakingText } from "features/game/components/SpeakingModal";
 import { MinigamePrizeUI } from "./ChickenRescue";
-import { hasFeatureAccess } from "lib/flags";
 
 interface Props {
   onClose: () => void;
@@ -29,19 +28,6 @@ export const FestivalOfColors: React.FC<Props> = ({ onClose }) => {
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
 
   const { t } = useAppTranslation();
-
-  if (!hasFeatureAccess(gameState.context.state, "FESTIVAL_OF_COLORS")) {
-    return (
-      <SpeakingText
-        message={[
-          {
-            text: t("minigame.festivalOfColors.comingSoon"),
-          },
-        ]}
-        onClose={() => setShowIntro(false)}
-      />
-    );
-  }
 
   if (showIntro) {
     return (

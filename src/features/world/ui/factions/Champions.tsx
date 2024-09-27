@@ -33,7 +33,6 @@ import {
 } from "features/game/types/game";
 import { Fireworks } from "./components/Fireworks";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { hasFeatureAccess } from "lib/flags";
 import { formatNumber } from "lib/utils/formatNumber";
 import { SEASONS, getSeasonalTicket } from "features/game/types/seasons";
 
@@ -98,10 +97,6 @@ export const ChampionsLeaderboard: React.FC<Props> = ({ onClose }) => {
 
     load();
   }, []);
-
-  if (!hasFeatureAccess(gameState.context.state, "CHAMPIONS")) {
-    return <Label type="formula">{t("leaderboard.resultsPending")}</Label>;
-  }
 
   if (isLoading || !leaderboard) {
     return <Loading />;

@@ -51,7 +51,6 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { HudContainer } from "components/ui/HudContainer";
 import { RetreatScene } from "./scenes/RetreatScene";
 import { KingdomScene } from "./scenes/Kingdom";
-import { hasFeatureAccess } from "lib/flags";
 import { GoblinHouseScene } from "./scenes/GoblinHouseScene";
 import { SunflorianHouseScene } from "./scenes/SunflorianHouseScene";
 import { Loading } from "features/auth/components";
@@ -85,7 +84,7 @@ type Player = {
 export type ModerationEvent = {
   type: "kick" | "mute";
   farmId: number;
-  reason: string;
+  arg: string;
   mutedUntil?: number;
 };
 
@@ -133,17 +132,13 @@ export const PhaserComponent: React.FC<Props> = ({
     Preloader,
     new WoodlandsScene({ gameState: gameService.state.context.state }),
     BeachScene,
-    new PlazaScene({ gameState: gameService.state.context.state }),
+    PlazaScene,
     RetreatScene,
     KingdomScene,
-    ...(hasFeatureAccess(gameService.state.context.state, "FACTION_HOUSE")
-      ? [
-          GoblinHouseScene,
-          SunflorianHouseScene,
-          NightshadeHouseScene,
-          BumpkinHouseScene,
-        ]
-      : []),
+    GoblinHouseScene,
+    SunflorianHouseScene,
+    NightshadeHouseScene,
+    BumpkinHouseScene,
     ExampleAnimationScene,
     ExampleRPGScene,
   ];
@@ -176,7 +171,7 @@ export const PhaserComponent: React.FC<Props> = ({
         setIsMuted({
           type: "mute",
           farmId: gameService.state.context.farmId as number,
-          reason: latestMute.reason,
+          arg: latestMute.reason,
           mutedUntil: latestMute.mutedUntil,
         });
       }

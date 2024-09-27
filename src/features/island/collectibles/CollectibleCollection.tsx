@@ -327,7 +327,7 @@ import {
 } from "features/game/types/decorations";
 import { PharaohsTreasureBanner } from "./components/PharaohsTreasureBanner";
 import { DesertRose } from "./components/DesertRose";
-import { Template } from "./components/template/Template";
+// import { Template } from "./components/template/Template";
 import { PharaohChicken } from "./components/PharaohChicken";
 import { ImageStyle } from "./components/template/ImageStyle";
 import { LemonShark } from "./components/LemonShark";
@@ -1007,6 +1007,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
       alt="Camel"
     />
   ),
+
   "Cactus King": (props: CollectibleProps) => (
     <ImageStyle
       {...props}
@@ -1067,12 +1068,173 @@ export const COLLECTIBLE_COMPONENTS: Record<
       alt="Clay Tablet"
     />
   ),
+  "Stone Beetle": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 15}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0.5}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 15}px`,
+      }}
+      image={ITEM_DETAILS["Stone Beetle"].image}
+      alt="Stone Beetle"
+    />
+  ),
+  "Iron Beetle": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 15}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0.5}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 15}px`,
+      }}
+      image={ITEM_DETAILS["Iron Beetle"].image}
+      alt="Iron Beetle"
+    />
+  ),
+  "Gold Beetle": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 15}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0.5}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 15}px`,
+      }}
+      image={ITEM_DETAILS["Gold Beetle"].image}
+      alt="Gold Beetle"
+    />
+  ),
+  "Fairy Circle": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 35}px`,
+        bottom: `${PIXEL_SCALE * 3}px`,
+        left: `${PIXEL_SCALE * -1.5}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 35}px`,
+      }}
+      image={ITEM_DETAILS["Fairy Circle"].image}
+      alt="Fairy Circle"
+    />
+  ),
+  Squirrel: (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 26}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 26}px`,
+      }}
+      image={ITEM_DETAILS.Squirrel.image}
+      alt="Squirrel"
+    />
+  ),
+  Macaw: (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 14}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 2.5}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 14}px`,
+      }}
+      image={ITEM_DETAILS.Macaw.image}
+      alt="Macaw"
+    />
+  ),
+  Butterfly: (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 13}px`,
+        bottom: `${PIXEL_SCALE * 2}px`,
+        left: `${PIXEL_SCALE * 2.5}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 13}px`,
+      }}
+      image={ITEM_DETAILS.Butterfly.image}
+      alt="Butterfly"
+    />
+  ),
 
   // To Update
-  Sundial: Template,
-  "Sand Golem": Template,
-  "Lemon Frog": Template,
-  "Scarab Beetle": Template,
+  Sundial: (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 28}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 2}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 28}px`,
+      }}
+      image={ITEM_DETAILS.Sundial.image}
+      alt="Sundial"
+    />
+  ),
+  "Sand Golem": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 28}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 2}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 28}px`,
+      }}
+      image={ITEM_DETAILS["Sand Golem"].image}
+      alt="Sand Golem"
+    />
+  ),
+  "Lemon Frog": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 19}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * -1.5}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 19}px`,
+      }}
+      image={ITEM_DETAILS["Lemon Frog"].image}
+      alt="Lemon Frog"
+    />
+  ),
+  "Scarab Beetle": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 26}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 3}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 26}px`,
+      }}
+      image={ITEM_DETAILS["Scarab Beetle"].image}
+      alt="Scarab Beetle"
+    />
+  ),
 };
 // Need readonly versions for some troublesome components while in design mode
 

@@ -87,6 +87,8 @@ export const BudBox: React.FC<Props> = ({ onClose, setIsLoading }) => {
         return date.toLocaleDateString("tr-TR", options);
       case "zh-CN":
         return date.toLocaleDateString("zh-CN", options);
+      case "ko":
+        return date.toLocaleDateString("ko-KR", options);
       case "ru":
         return date.toLocaleDateString("ru-RU", options);
       default:

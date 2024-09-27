@@ -44,7 +44,7 @@ export const UnMuteModal: React.FC<Props> = ({
           scene.mmoService.state.context.server?.send("moderation_event", {
             type: "mute",
             farmId: farmId,
-            reason: "You have been unmuted",
+            arg: "You have been unmuted",
             mutedUntil: new Date().getTime() + 1000,
           });
         } else {

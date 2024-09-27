@@ -24,11 +24,11 @@ import { useSound } from "lib/utils/hooks/useSound";
 
 import factions from "assets/icons/factions.webp";
 import chores from "assets/icons/chores.webp";
-import gift from "assets/icons/gift.png";
 import { Leaderboards } from "features/game/expansion/components/leaderboard/actions/cache";
 import { fetchLeaderboardData } from "features/game/expansion/components/leaderboard/actions/leaderboard";
 import { FactionLeaderboard } from "./pages/FactionLeaderboard";
 import { Season } from "./pages/Season";
+import { getSeasonalTicket } from "features/game/types/seasons";
 
 interface Props {
   show: boolean;
@@ -120,7 +120,7 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
     },
     {
       name: "Leaderboard" as const,
-      icon: gift,
+      icon: ITEM_DETAILS[getSeasonalTicket()].image,
       count: 0,
     },
     {
@@ -191,8 +191,7 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
                         type="default"
                         className="absolute -top-3 left-3 z-10"
                         style={{
-                          paddingLeft: "2.5px",
-                          paddingRight: "1.5px",
+                          padding: "0 2.5",
                           height: "24px",
                         }}
                       >

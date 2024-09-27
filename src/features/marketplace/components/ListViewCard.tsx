@@ -38,6 +38,7 @@ type Props = {
   price?: Decimal;
   onClick?: () => void;
   onRemove?: () => void;
+  isSold?: boolean;
 };
 
 const data = CONFIG.NETWORK === "mainnet" ? buds : testnetBuds;
@@ -52,6 +53,7 @@ export const ListViewCard: React.FC<Props> = ({
   price,
   onClick,
   onRemove,
+  isSold,
 }) => {
   const [size, setSize] = useState({ width: 0, height: 0 });
 
@@ -85,7 +87,7 @@ export const ListViewCard: React.FC<Props> = ({
         />
       )}
       <ButtonPanel onClick={onClick}>
-        <div className="w-32 sm:w-40 flex flex-col">
+        <div className="w-full flex flex-col">
           <div className="relative">
             <p className="text-white absolute top-1 left-1 text-xs">{`x${supply}`}</p>
             {type === "buds" ? (
@@ -129,6 +131,17 @@ export const ListViewCard: React.FC<Props> = ({
           className="absolute bottom-0 left-0 !w-full"
           type="warning"
         >{`${price} SFL`}</Label>
+      )}
+
+      {isSold && (
+        <Label
+          className="absolute left-0 !w-full mt-20"
+          type="danger"
+          style={{
+            bottom: "50%",
+            transform: "translateY(calc(-50% + 10px))",
+          }}
+        >{`Sold`}</Label>
       )}
     </div>
   );
