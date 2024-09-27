@@ -12,6 +12,24 @@ type EffectName =
   | "marketplace.offerAccepted"
   | "marketplace.offerCancelled";
 
+export type StateName =
+  | "marketplacePurchasing"
+  | "marketplaceListing"
+  | "marketplaceOffering"
+  | "marketplaceAccepting"
+  | "marketplaceCancelling";
+
+export type StateNameWithStatus = `${StateName}Success` | `${StateName}Failed`;
+
+// StateName is the feature.progressive_tense_verb. This will be used as the gameMachine state.
+export const EFFECT_EVENTS: Record<EffectName, StateName> = {
+  "marketplace.listingPurchased": "marketplacePurchasing",
+  "marketplace.listed": "marketplaceListing",
+  "marketplace.offerMade": "marketplaceOffering",
+  "marketplace.offerAccepted": "marketplaceAccepting",
+  "marketplace.offerCancelled": "marketplaceCancelling",
+};
+
 export interface Effect {
   type: EffectName;
   id: string;
