@@ -6,8 +6,10 @@ import lock from "assets/icons/lock.png";
 import trade from "assets/icons/trade.png";
 import chest from "assets/icons/chest.png";
 
+import * as Auth from "features/auth/lib/Provider";
+
 import { Context } from "features/game/GameProvider";
-import { useActor } from "@xstate/react";
+import { useActor, useSelector } from "@xstate/react";
 import { getKeys } from "features/game/types/decorations";
 import { getCollectionName, getTradeableDisplay } from "../lib/tradeables";
 import { getOfferItem, getTradeType } from "../lib/offers";
@@ -32,6 +34,7 @@ import { NPC_WEARABLES } from "lib/npcs";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { TextInput } from "components/ui/TextInput";
 import { InventoryItemName } from "features/game/types/game";
+import { AuthMachineState } from "features/auth/lib/authMachine";
 
 export const MarketplaceProfile: React.FC = () => {
   return (
@@ -104,15 +107,20 @@ const MyListings: React.FC = () => {
   );
 };
 
+const _authToken = (state: AuthMachineState) =>
+  state.context.user.rawToken as string;
+
 const MyOffers: React.FC = () => {
   const { t } = useAppTranslation();
 
   const { gameService } = useContext(Context);
+  const { authService } = useContext(Auth.Context);
   const [gameState] = useActor(gameService);
 
   const [claimId, setClaimId] = useState<string>();
-
   const [removeId, setRemoveId] = useState<string>();
+
+  const authToken = useSelector(authService, _authToken);
 
   const { trades } = gameState.context.state;
   const offers = trades.offers ?? {};
@@ -170,10 +178,10 @@ const MyOffers: React.FC = () => {
 
       <Modal show={!!removeId} onHide={() => setRemoveId(undefined)}>
         <RemoveOffer
+          authToken={authToken}
           id={removeId as string}
           offer={offers[removeId as string]}
           onClose={() => setRemoveId(undefined)}
-          onDone={() => setRemoveId(undefined)}
         />
       </Modal>
 

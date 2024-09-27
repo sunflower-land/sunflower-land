@@ -8,7 +8,6 @@ import {
   CollectionName,
   TradeableDetails,
 } from "features/game/types/marketplace";
-import { MachineState } from "features/world/mmoMachine";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import React, { useContext } from "react";
 import { TradeableDisplay } from "../lib/tradeables";
@@ -17,10 +16,17 @@ import { TradeTable } from "./TradeTable";
 import { Context } from "features/game/GameProvider";
 
 import tradeIcon from "assets/icons/trade.png";
+import {
+  Context as ContextType,
+  BlockchainEvent,
+  MachineState,
+} from "features/game/lib/gameMachine";
+import { Transaction } from "features/island/hud/Transaction";
+import { useOnMachineTransition } from "lib/utils/hooks/useOnMachineTransition";
+import confetti from "canvas-confetti";
 
-const _isListing = (state: MachineState) => state.matches("effect");
-
-export const TradeableListings: React.FC<{
+type TradeableListingsProps = {
+  authToken: string;
   tradeable?: TradeableDetails;
   display: TradeableDisplay;
   farmId: number;
@@ -30,33 +36,64 @@ export const TradeableListings: React.FC<{
   count: number;
   onListClick: () => void;
   onListClose: () => void;
-  onListingMade: () => void;
-}> = ({
+  onListing: () => void;
+};
+
+const _transaction = (state: MachineState) => state.context.state.transaction;
+const _isListing = (state: MachineState) => state.matches("marketplaceListing");
+
+// CONFETTI
+
+export const TradeableListings: React.FC<TradeableListingsProps> = ({
+  authToken,
   tradeable,
   farmId,
   display,
   id,
   count,
   showListItem,
-  onListingMade,
+  onListing,
   onListClick,
   onListClose,
 }) => {
   const { gameService } = useContext(Context);
   const { t } = useAppTranslation();
 
+  const transaction = useSelector(gameService, _transaction);
   const isListing = useSelector(gameService, _isListing);
+
+  useOnMachineTransition<ContextType, BlockchainEvent>(
+    gameService,
+    "marketplaceListingSuccess",
+    "playing",
+    () => {
+      onListing();
+    },
+  );
+
+  useOnMachineTransition<ContextType, BlockchainEvent>(
+    gameService,
+    "marketplaceListing",
+    "marketplaceListingSuccess",
+    () => {
+      confetti();
+    },
+  );
+
+  if (transaction && tradeable?.type === "onchain") {
+    return <Transaction isBlocked />;
+  }
 
   return (
     <>
       <Modal show={showListItem} onHide={!isListing ? onListClose : undefined}>
         <Panel>
           <TradeableListItem
+            authToken={authToken}
             display={display}
             tradeable={tradeable}
             farmId={farmId}
             id={id}
-            onListingMade={onListingMade}
             onClose={onListClose}
           />
         </Panel>

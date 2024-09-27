@@ -14,25 +14,35 @@ import { getTradeableDisplay, TradeableDisplay } from "../lib/tradeables";
 
 import sflIcon from "assets/icons/sfl.webp";
 import walletIcon from "assets/icons/wallet.png";
-import { TradeableSummary } from "./TradeableOffers";
 import { GameWallet } from "features/wallet/Wallet";
-import { Loading } from "features/auth/components";
 import { Context } from "features/game/GameProvider";
-import { waitFor } from "xstate/lib/waitFor";
 import confetti from "canvas-confetti";
+import {
+  BlockchainEvent,
+  Context as ContextType,
+} from "features/game/lib/gameMachine";
+import { useOnMachineTransition } from "lib/utils/hooks/useOnMachineTransition";
+import { TradeableSummary } from "./TradeableSummary";
 
-const PurchaseModalContent: React.FC<{
+type PurchaseModalContentProps = {
+  authToken: string;
   listingId: string;
   tradeable: Tradeable;
   collection: CollectionName;
   price: number;
-  onPurchase: () => void;
   onClose: () => void;
-}> = ({ tradeable, collection, price, listingId, onClose, onPurchase }) => {
+};
+
+const PurchaseModalContent: React.FC<PurchaseModalContentProps> = ({
+  authToken,
+  tradeable,
+  collection,
+  price,
+  listingId,
+  onClose,
+}) => {
   const { gameService } = useContext(Context);
   const { t } = useAppTranslation();
-  const [isBuying, setIsBuying] = useState(false);
-  const [showSuccess, setShowSuccess] = useState(false);
 
   const display = getTradeableDisplay({
     id: tradeable.id,
@@ -40,60 +50,16 @@ const PurchaseModalContent: React.FC<{
   });
 
   const confirm = async () => {
-    setIsBuying(true);
-
-    gameService.send("POST_EFFECT", {
+    gameService.send("marketplace.listingPurchased", {
       effect: {
         type: "marketplace.listingPurchased",
         id: listingId,
       },
+      authToken,
     });
 
-    await waitFor(
-      gameService,
-      (state) => {
-        if (state.matches("error")) throw new Error("Purchase failed");
-
-        return state.matches("playing");
-      },
-      { timeout: 60 * 1000 },
-    );
-
-    if (tradeable?.type === "instant") {
-      confetti();
-      setIsBuying(false);
-      setShowSuccess(true);
-
-      return;
-    }
-    // Handled through transaction UX
-
     onClose();
-    setIsBuying(false);
   };
-  // HIT API TO BUY
-  // GET THE PURCHASE SIGNATURE BACK
-  // SUBMIT A TRANSACTION TO THE CONTRACT
-
-  if (isBuying) {
-    return <Loading />;
-  }
-
-  if (showSuccess) {
-    return (
-      <>
-        <div className="p-2 flex flex-col">
-          <Label type="success" className="mb-2 -ml-1">
-            {t("congrats")}
-          </Label>
-          <p className="mb-3">{t("marketplace.successfulPurchase")}</p>
-          <TradeableSummary display={display} sfl={price} />
-          <p className="mt-2 mb-1 text-xs">{t("marketplace.sentToFarm")}</p>
-        </div>
-        <Button onClick={onPurchase}>{t("continue")}</Button>
-      </>
-    );
-  }
 
   return (
     <>
@@ -123,6 +89,7 @@ const PurchaseModalContent: React.FC<{
 };
 
 type TradeableHeaderProps = {
+  authToken: string;
   farmId: number;
   collection: CollectionName;
   display: TradeableDisplay;
@@ -134,6 +101,7 @@ type TradeableHeaderProps = {
 };
 
 export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
+  authToken,
   farmId,
   collection,
   onBack,
@@ -143,6 +111,7 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
   onListClick,
   onPurchase,
 }) => {
+  const { gameService } = useContext(Context);
   const { t } = useAppTranslation();
   const [showPurchaseModal, setShowPurchaseModal] = useState(false);
 
@@ -155,6 +124,32 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
 
   // Remove cheapest listing conditions for buds
 
+  useOnMachineTransition<ContextType, BlockchainEvent>(
+    gameService,
+    "marketplacePurchasingSuccess",
+    "playing",
+    onPurchase,
+    tradeable?.type === "instant",
+  );
+
+  useOnMachineTransition<ContextType, BlockchainEvent>(
+    gameService,
+    "marketplacePurchasing",
+    "marketplacePurchasingSuccess",
+    confetti,
+    tradeable?.type === "instant",
+  );
+
+  useOnMachineTransition<ContextType, BlockchainEvent>(
+    gameService,
+    "marketplacePurchasing",
+    "marketplacePurchasingSuccess",
+    () => {
+      gameService.send("CONTINUE");
+      setShowPurchaseModal(false);
+    },
+  );
+
   return (
     <>
       {cheapestListing && (
@@ -163,21 +158,21 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
             {(tradeable as Tradeable).type === "onchain" ? (
               <GameWallet action="marketplace">
                 <PurchaseModalContent
+                  authToken={authToken}
                   listingId={cheapestListing.id}
                   price={cheapestListing?.sfl ?? 0}
                   collection={collection}
                   tradeable={tradeable as Tradeable}
-                  onPurchase={onPurchase}
                   onClose={() => setShowPurchaseModal(false)}
                 />
               </GameWallet>
             ) : (
               <PurchaseModalContent
+                authToken={authToken}
                 listingId={cheapestListing.id}
                 price={cheapestListing?.sfl ?? 0}
                 collection={collection}
                 tradeable={tradeable as Tradeable}
-                onPurchase={onPurchase}
                 onClose={() => setShowPurchaseModal(false)}
               />
             )}

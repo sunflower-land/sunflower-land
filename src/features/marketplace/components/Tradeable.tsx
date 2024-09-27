@@ -30,6 +30,7 @@ export const Tradeable: React.FC = () => {
   const [gameState] = useActor(gameService);
 
   const farmId = gameState.context.farmId;
+  const authToken = authState.context.user.rawToken as string;
 
   const { collection, id } = useParams<{
     collection: CollectionName;
@@ -96,6 +97,7 @@ export const Tradeable: React.FC = () => {
       <div className="flex flex-col w-full sm:w-1/3 mr-1 mb-1">
         <div className="block sm:hidden">
           <TradeableHeader
+            authToken={authToken}
             farmId={farmId}
             collection={collection as CollectionName}
             display={display}
@@ -112,6 +114,7 @@ export const Tradeable: React.FC = () => {
       <div className="w-full">
         <div className="hidden sm:block">
           <TradeableHeader
+            authToken={authToken}
             farmId={farmId}
             collection={collection as CollectionName}
             display={display}
@@ -133,13 +136,14 @@ export const Tradeable: React.FC = () => {
 
         <TradeableListings
           id={Number(id)}
+          authToken={authState.context.user.rawToken as string}
           tradeable={tradeable}
           display={display}
           farmId={farmId}
           collection={collection as CollectionName}
           showListItem={showListItem}
           count={count}
-          onListingMade={load}
+          onListing={load}
           onListClick={() => {
             setShowListItem(true);
           }}
