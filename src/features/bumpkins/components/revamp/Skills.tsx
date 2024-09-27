@@ -11,8 +11,6 @@ import { useActor } from "@xstate/react";
 
 import { SkillCategoryList } from "./SkillCategoryList";
 import { SkillPathDetails } from "./SkillPathDetails";
-import { Label } from "components/ui/Label";
-import { findLevelRequiredForNextSkillPoint } from "features/game/lib/level";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -61,26 +59,6 @@ export const Skills: React.FC<Props> = ({ onBack, readonly }) => {
 
   const availableSkillPoints = getAvailableBumpkinSkillPoints(bumpkin);
 
-  const skillPointsInfo = () => {
-    const nextLevelWithSkillPoint =
-      findLevelRequiredForNextSkillPoint(experience);
-
-    return (
-      <div className="flex flex-wrap gap-1">
-        {availableSkillPoints > 0 && (
-          <Label type="default">
-            {t("skillPts")} {availableSkillPoints}
-          </Label>
-        )}
-        {nextLevelWithSkillPoint && (
-          <Label type="default" className="text-xxs px-1 whitespace-nowrap">
-            {t("nextSkillPtLvl")} {nextLevelWithSkillPoint}
-          </Label>
-        )}
-      </div>
-    );
-  };
-
   return (
     <div
       style={{
@@ -92,7 +70,6 @@ export const Skills: React.FC<Props> = ({ onBack, readonly }) => {
         <SkillCategoryList
           onClick={(category) => onSkillCategoryClickHandler(category)}
           onBack={handleBack}
-          skillPointsInfo={skillPointsInfo}
         />
       )}
       {selectedSkillPath && (
