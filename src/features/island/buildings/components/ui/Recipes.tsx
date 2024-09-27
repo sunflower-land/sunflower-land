@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction, useContext } from "react";
+import React, { Dispatch, SetStateAction, useContext, useState } from "react";
 import { useActor } from "@xstate/react";
 import Decimal from "decimal.js-light";
 
@@ -44,6 +44,7 @@ import { secondsToString } from "lib/utils/time";
 import { ResizableBar } from "components/ui/ProgressBar";
 import { TimerDisplay } from "features/retreat/components/auctioneer/AuctionDetails";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
+import { getInstantGems } from "features/game/events/landExpansion/instantCook";
 
 interface Props {
   selected: Cookable;
@@ -90,6 +91,8 @@ export const Recipes: React.FC<Props> = ({
   ] = useActor(gameService);
   const inventory = state.inventory;
 
+  const [hideCooking, setHideCooking] = useState(false);
+
   const lessIngredients = () =>
     getKeys(selected.ingredients).some((name) =>
       selected?.ingredients[name]?.greaterThan(inventory[name] || 0),
@@ -108,6 +111,21 @@ export const Recipes: React.FC<Props> = ({
     onCook(selected.name);
   };
 
+  const onInstantCook = () => {
+    gameService.send("recipe.instantCooked", {
+      buildingId,
+      buildingName,
+    });
+
+    onClose();
+
+    setTimeout(() => {
+      craftingService?.send({
+        type: "INSTANT",
+      });
+    }, 100);
+  };
+
   const validRecipes = recipes.filter((recipes) => {
     const flag = FLAGGED_RECIPES[recipes.name];
     if (!flag) {
@@ -123,13 +141,16 @@ export const Recipes: React.FC<Props> = ({
   const isOilBoosted =
     state.buildings?.[buildingName]?.[0].crafting?.boost?.["Oil"];
 
-  // TODO if flag on
-  if (crafting) {
+  const hasGemExperiment = hasFeatureAccess(state, "GEM_EXPERIMENT");
+
+  if (hasGemExperiment && !hideCooking && crafting) {
     return (
       <Cooking
         name={currentlyCooking as CookableName}
         craftingService={craftingService!}
         state={state}
+        onClose={() => setHideCooking(true)}
+        onInstantCooked={onInstantCook}
       />
     );
   }
@@ -233,29 +254,38 @@ export const Cooking: React.FC<{
   craftingService: MachineInterpreter;
   name: CookableName;
   state: GameState;
-}> = ({ name, craftingService, state }) => {
-  const { cookingSeconds } = COOKABLES[name];
-
+  onClose: () => void;
+  onInstantCooked: () => void;
+}> = ({ name, craftingService, state, onClose, onInstantCooked }) => {
   const [
     {
-      context: { secondsTillReady, readyAt },
+      context: { secondsTillReady, readyAt, buildingId },
     },
   ] = useActor(craftingService);
 
+  const { cookingSeconds } = COOKABLES[name];
+
   const { days, ...ready } = useCountdown(readyAt ?? 0);
+
+  const gems = getInstantGems({
+    readyAt: readyAt as number,
+  });
 
   return (
     <InnerPanel>
-      <div className="p-1">
+      <div className="p-1 flex justify-between items-center">
         <Label
           type="default"
           icon={SUNNYSIDE.icons.stopwatch}
         >{`In progress`}</Label>
+        <span className="text-xs underline cursor-pointer" onClick={onClose}>
+          View recipes
+        </span>
       </div>
-      <div className="flex items-center">
+      <div className="flex items-center mb-1">
         <Box image={ITEM_DETAILS[name].image} />
         <div>
-          <div className="flex items-center">
+          <div className="flex items-center flex-wrap">
             <p className="text-sm mb-0.5 mr-2">{name}</p>
             <div className="flex items-center">
               <img src={xpIcon} className="h-4 mr-0.5" />
@@ -280,6 +310,20 @@ export const Cooking: React.FC<{
           </div>
         </div>
       </div>
+      <Button
+        disabled={!state.inventory.Gem?.gte(gems)}
+        className="relative"
+        onClick={onInstantCooked}
+      >
+        Instant Cook
+        <Label
+          type={state.inventory.Gem?.gte(gems) ? "default" : "danger"}
+          icon={ITEM_DETAILS.Gem.image}
+          className="flex absolute right-0 top-0.5"
+        >
+          {gems}
+        </Label>
+      </Button>
     </InnerPanel>
   );
 };
