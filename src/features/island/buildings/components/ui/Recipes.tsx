@@ -2,6 +2,8 @@ import React, { Dispatch, SetStateAction, useContext } from "react";
 import { useActor } from "@xstate/react";
 import Decimal from "decimal.js-light";
 
+import xpIcon from "assets/icons/xp.png";
+
 import { Box } from "components/ui/Box";
 import { Button } from "components/ui/Button";
 import { Context } from "features/game/GameProvider";
@@ -10,8 +12,10 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { getKeys } from "features/game/types/craftables";
 import {
   ConsumableName,
+  CONSUMABLES,
   Cookable,
   CookableName,
+  COOKABLES,
 } from "features/game/types/consumables";
 
 import { InProgressInfo } from "../building/InProgressInfo";
@@ -20,7 +24,7 @@ import {
   getCookingTime,
   getFoodExpBoost,
 } from "features/game/expansion/lib/boosts";
-import { Bumpkin } from "features/game/types/game";
+import { Bumpkin, GameState } from "features/game/types/game";
 import { SplitScreenView } from "components/ui/SplitScreenView";
 import { CraftingRequirements } from "components/ui/layouts/CraftingRequirements";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -33,6 +37,13 @@ import { BuildingName } from "features/game/types/buildings";
 import { BuildingOilTank } from "../building/BuildingOilTank";
 import pumpkinSoup from "assets/food/pumpkin_soup.png";
 import powerup from "assets/icons/level_up.png";
+import { InnerPanel, Panel } from "components/ui/Panel";
+import { SUNNYSIDE } from "assets/sunnyside";
+import { PIXEL_SCALE } from "features/game/lib/constants";
+import { secondsToString } from "lib/utils/time";
+import { ResizableBar } from "components/ui/ProgressBar";
+import { TimerDisplay } from "features/retreat/components/auctioneer/AuctionDetails";
+import { useCountdown } from "lib/utils/hooks/useCountdown";
 
 interface Props {
   selected: Cookable;
@@ -84,7 +95,13 @@ export const Recipes: React.FC<Props> = ({
       selected?.ingredients[name]?.greaterThan(inventory[name] || 0),
     );
 
+  const isGemExperiment = hasFeatureAccess(state, "GEM_EXPERIMENT");
   const cook = async () => {
+    if (isGemExperiment) {
+      onCook(selected.name);
+      return;
+    }
+
     onClose();
     // delay to allow the modal to close to avoid content flashing
     await new Promise((resolve) => setTimeout(resolve, 300));
@@ -105,6 +122,17 @@ export const Recipes: React.FC<Props> = ({
 
   const isOilBoosted =
     state.buildings?.[buildingName]?.[0].crafting?.boost?.["Oil"];
+
+  // TODO if flag on
+  if (crafting) {
+    return (
+      <Cooking
+        name={currentlyCooking as CookableName}
+        craftingService={craftingService!}
+        state={state}
+      />
+    );
+  }
 
   return (
     <SplitScreenView
@@ -198,5 +226,60 @@ export const Recipes: React.FC<Props> = ({
         </>
       }
     />
+  );
+};
+
+export const Cooking: React.FC<{
+  craftingService: MachineInterpreter;
+  name: CookableName;
+  state: GameState;
+}> = ({ name, craftingService, state }) => {
+  const { cookingSeconds } = COOKABLES[name];
+
+  const [
+    {
+      context: { secondsTillReady, readyAt },
+    },
+  ] = useActor(craftingService);
+
+  const { days, ...ready } = useCountdown(readyAt ?? 0);
+
+  return (
+    <InnerPanel>
+      <div className="p-1">
+        <Label
+          type="default"
+          icon={SUNNYSIDE.icons.stopwatch}
+        >{`In progress`}</Label>
+      </div>
+      <div className="flex items-center">
+        <Box image={ITEM_DETAILS[name].image} />
+        <div>
+          <div className="flex items-center">
+            <p className="text-sm mb-0.5 mr-2">{name}</p>
+            <div className="flex items-center">
+              <img src={xpIcon} className="h-4 mr-0.5" />
+              <p className="text-xs">
+                {getFoodExpBoost(
+                  CONSUMABLES[name],
+                  state.bumpkin,
+                  state,
+                  state.buds ?? {},
+                )}
+              </p>
+            </div>
+          </div>
+          <div className="relative flex flex-col w-full">
+            <div className="flex items-center gap-x-1">
+              <ResizableBar
+                percentage={(1 - secondsTillReady! / cookingSeconds) * 100}
+                type="progress"
+              />
+              <TimerDisplay time={ready} />
+            </div>
+          </div>
+        </div>
+      </div>
+    </InnerPanel>
   );
 };

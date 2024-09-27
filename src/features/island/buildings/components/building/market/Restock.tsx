@@ -130,6 +130,7 @@ const RestockModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
       item: "Stock",
       type: "Fee",
     });
+    confetti();
 
     onClose();
   };

@@ -129,7 +129,7 @@ export const INITIAL_RESOURCES: Pick<
 };
 
 const INITIAL_STOCK: Inventory = {
-  "Sunflower Seed": new Decimal(400),
+  "Sunflower Seed": new Decimal(0),
   "Potato Seed": new Decimal(200),
   "Pumpkin Seed": new Decimal(100),
   "Carrot Seed": new Decimal(100),
@@ -871,6 +871,10 @@ export const STATIC_OFFLINE_FARM: GameState = {
         id: "1",
         readyAt: 0,
         createdAt: 0,
+        // crafting: {
+        //   name: "Pumpkin Soup",
+        //   readyAt: Date.now() + 25 * 60 * 1000,
+        // },
       },
     ],
   },
