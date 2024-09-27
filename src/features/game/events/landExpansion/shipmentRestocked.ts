@@ -74,10 +74,16 @@ export function canRestockShipment({
   return restockedAt !== today;
 }
 
-export function secondsUntilShipment({ game }: { game: GameState }) {
+export function nextShipmentAt({ game }: { game: GameState }): number {
   // TODO - new players get as soon as out of stock (first time)
 
-  return secondsTillReset();
+  const currentTime = Date.now();
+
+  // Calculate the time until the next day in milliseconds
+  const nextDay = new Date(currentTime);
+  nextDay.setUTCHours(24, 0, 0, 0);
+
+  return nextDay.getTime();
 }
 
 export function shipmentRestock({
