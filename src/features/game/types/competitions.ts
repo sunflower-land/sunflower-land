@@ -66,8 +66,8 @@ export const COMPETITION_POINTS: Record<
     },
   },
   FSL: {
-    startAt: new Date("2024-10-04T00:00:00Z").getTime(),
-    endAt: new Date("2024-11-04T00:00:00Z").getTime(),
+    startAt: new Date("2024-10-10T00:00:00Z").getTime(),
+    endAt: new Date("2024-11-01T00:00:00Z").getTime(),
     points: {
       "Complete chore": 2,
       "Complete delivery": 2,

@@ -48,6 +48,7 @@ import lockIcon from "assets/icons/lock.png";
 import { DEV_HoarderCheck } from "./developer-options/DEV_HoardingCheck";
 import { WalletAddressLabel } from "components/ui/WalletAddressLabel";
 import { PickServer } from "./plaza-settings/PickServer";
+import { PlazaShaderSettings } from "./plaza-settings/PlazaShaderSettings";
 
 export interface ContentComponentProps {
   onSubMenuClick: (id: SettingMenuId) => void;
@@ -65,6 +66,8 @@ const GameOptions: React.FC<ContentComponentProps> = ({
   const { t } = useAppTranslation();
 
   const [isConfirmLogoutModalOpen, showConfirmLogoutModal] = useState(false);
+  const [showFarm, setShowFarm] = useState(false);
+  const [showNftId, setShowNftId] = useState(false);
 
   const copypaste = useSound("copypaste");
   const button = useSound("button");
@@ -108,8 +111,13 @@ const GameOptions: React.FC<ContentComponentProps> = ({
           <Label
             type="default"
             icon={SUNNYSIDE.icons.search}
+            popup={showFarm}
             className="mb-1 mr-4"
             onClick={() => {
+              setShowFarm(true);
+              setTimeout(() => {
+                setShowFarm(false);
+              }, 2000);
               copypaste.play();
               clipboard.copy(
                 gameService.state?.context?.farmId.toString() as string,
@@ -124,8 +132,13 @@ const GameOptions: React.FC<ContentComponentProps> = ({
             <Label
               type="default"
               icon={ticket}
+              popup={showNftId}
               className="mb-1 mr-4"
               onClick={() => {
+                setShowNftId(true);
+                setTimeout(() => {
+                  setShowNftId(false);
+                }, 2000);
                 copypaste.play();
                 clipboard.copy(
                   gameService.state?.context?.nftId?.toString() || "",
@@ -265,7 +278,8 @@ export type SettingMenuId =
   | "amoyHoardingCheck"
 
   // Plaza Settings
-  | "pickServer";
+  | "pickServer"
+  | "shader";
 
 interface SettingMenu {
   title: string;
@@ -372,5 +386,10 @@ export const settingMenus: Record<SettingMenuId, SettingMenu> = {
     title: "Pick Server",
     parent: "plaza",
     content: PickServer,
+  },
+  shader: {
+    title: translate("gameOptions.plazaSettings.shader"),
+    parent: "plaza",
+    content: PlazaShaderSettings,
   },
 };

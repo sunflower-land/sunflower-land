@@ -41,10 +41,6 @@ export const PlazaSettings: React.FC<ContentComponentProps> = ({
     setMutedPlayers([...muted]);
   };
 
-  const changeServer = () => {
-    onSubMenuClick("pickServer");
-  };
-
   {
     /*const getTitle = () => {
     switch (step) {
@@ -75,8 +71,19 @@ export const PlazaSettings: React.FC<ContentComponentProps> = ({
             <Button onClick={() => setStep("MUTED_PLAYERS")}>
               {t("gameOptions.plazaSettings.title.mutedPlayers")}
             </Button>
-            <Button onClick={changeServer}>
+            <Button
+              onClick={() => {
+                onSubMenuClick("pickServer");
+              }}
+            >
               {t("gameOptions.plazaSettings.changeServer")}
+            </Button>
+            <Button
+              onClick={() => {
+                onSubMenuClick("shader");
+              }}
+            >
+              {t("gameOptions.plazaSettings.shader")}
             </Button>
           </div>
           {/* <div className="flex flex-col gap-2">
