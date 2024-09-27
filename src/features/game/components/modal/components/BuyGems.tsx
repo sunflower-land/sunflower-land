@@ -230,8 +230,8 @@ export const BuyGems: React.FC<Props> = ({
         <div className="grid grid-cols-3 gap-1 gap-y-2  sm:text-sm sm:gap-2">
           {PRICES.map((price) => {
             // Compare price to base package
-            const gemsPerDollar = 100;
-            const expected = gemsPerDollar * Math.ceil(price.usd);
+            const gemsPerDollar = 100 / 0.99;
+            const expected = gemsPerDollar * price.usd;
             const bonus = 100 * (price.amount / expected - 1);
 
             return (
