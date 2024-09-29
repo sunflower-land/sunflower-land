@@ -81,7 +81,7 @@ export const Tradeable: React.FC = () => {
 
   useEffect(() => {
     load();
-  }, []);
+  }, [gameState.value === "loading"]);
 
   // TODO 404 view
   if (tradeable === null) {

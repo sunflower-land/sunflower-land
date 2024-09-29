@@ -114,16 +114,19 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
   const { gameService } = useContext(Context);
   const { t } = useAppTranslation();
   const [showPurchaseModal, setShowPurchaseModal] = useState(false);
+  // Remove listings that are mine
+  const filteredListings =
+    tradeable?.listings.filter((listing) => listing.listedById !== farmId) ??
+    [];
 
   // Filter out my own listings
-  const cheapestListing = tradeable?.listings.reduce((cheapest, listing) => {
-    if (listing.listedById === farmId) return cheapest;
-
+  const cheapestListing = filteredListings.reduce((cheapest, listing) => {
     return listing.sfl < cheapest.sfl ? listing : cheapest;
-  }, tradeable?.listings?.[0]);
+  }, filteredListings[0]);
 
-  // Remove cheapest listing conditions for buds
+  // TODO: Remove cheapest listing conditions for buds
 
+  // Handle instant purchase
   useOnMachineTransition<ContextType, BlockchainEvent>(
     gameService,
     "marketplacePurchasingSuccess",
@@ -214,13 +217,18 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
             <div className="items-center justify-between hidden sm:flex sm:visible w-full sm:w-auto">
               {cheapestListing && (
                 <Button
+                  disabled={!count}
                   onClick={() => setShowPurchaseModal(true)}
                   className="mr-1 w-full sm:w-auto"
                 >
                   {t("marketplace.buyNow")}
                 </Button>
               )}
-              <Button onClick={onListClick} className="w-full sm:w-auto">
+              <Button
+                disabled={!count}
+                onClick={onListClick}
+                className="w-full sm:w-auto"
+              >
                 {t("marketplace.listForSale")}
               </Button>
             </div>

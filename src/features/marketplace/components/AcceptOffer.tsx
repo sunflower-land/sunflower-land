@@ -17,7 +17,6 @@ import {
 import { KNOWN_ITEMS } from "features/game/types";
 import { ITEM_NAMES } from "features/game/types/bumpkin";
 import { availableWardrobe } from "features/game/events/landExpansion/equip";
-import { Transaction } from "features/island/hud/Transaction";
 import {
   BlockchainEvent,
   Context as ContextType,
@@ -74,9 +73,9 @@ export const AcceptOffer: React.FC<{
     onClose();
   };
 
-  if (gameState.context.state.transaction && tradeable?.type === "onchain") {
-    return <Transaction isBlocked />;
-  }
+  // if (gameState.context.state.transaction && tradeable?.type === "onchain") {
+  //   return <Transaction isBlocked />;
+  // }
 
   const game = gameState.context.state;
 

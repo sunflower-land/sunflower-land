@@ -21,7 +21,6 @@ import {
   BlockchainEvent,
   MachineState,
 } from "features/game/lib/gameMachine";
-import { Transaction } from "features/island/hud/Transaction";
 import { useOnMachineTransition } from "lib/utils/hooks/useOnMachineTransition";
 import confetti from "canvas-confetti";
 
@@ -39,7 +38,6 @@ type TradeableListingsProps = {
   onListing: () => void;
 };
 
-const _transaction = (state: MachineState) => state.context.state.transaction;
 const _isListing = (state: MachineState) => state.matches("marketplaceListing");
 
 // CONFETTI
@@ -59,7 +57,6 @@ export const TradeableListings: React.FC<TradeableListingsProps> = ({
   const { gameService } = useContext(Context);
   const { t } = useAppTranslation();
 
-  const transaction = useSelector(gameService, _transaction);
   const isListing = useSelector(gameService, _isListing);
 
   useOnMachineTransition<ContextType, BlockchainEvent>(
@@ -79,10 +76,6 @@ export const TradeableListings: React.FC<TradeableListingsProps> = ({
       confetti();
     },
   );
-
-  if (transaction && tradeable?.type === "onchain") {
-    return <Transaction isBlocked />;
-  }
 
   return (
     <>

@@ -125,12 +125,6 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
     const signature = await signTypedData(config, {
       primaryType: "Listing",
       types: {
-        EIP712Domain: [
-          { name: "name", type: "string" },
-          { name: "version", type: "string" },
-          { name: "chainId", type: "uint256" },
-          { name: "verifyingContract", type: "address" },
-        ],
         Listing: [
           { name: "farmId", type: "uint256" },
           { name: "collection", type: "string" },
@@ -139,12 +133,12 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
           { name: "quantity", type: "uint256" },
           { name: "SFL", type: "uint256" },
         ],
-      },
-      domain: {
-        name: "TESTING",
-        version: "1",
-        chainId: BigInt(CONFIG.POLYGON_CHAIN_ID),
-        verifyingContract: CONFIG.MARKETPLACE_CONTRACT as `0x${string}`,
+        EIP712Domain: [
+          { name: "name", type: "string" },
+          { name: "version", type: "string" },
+          { name: "chainId", type: "uint256" },
+          { name: "verifyingContract", type: "address" },
+        ],
       },
       message: {
         farmId: BigInt(farmId),
@@ -153,6 +147,12 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
         item: display.name,
         quantity: BigInt(quantity),
         SFL: BigInt(price),
+      },
+      domain: {
+        name: "TESTING",
+        version: "1",
+        chainId: BigInt(CONFIG.POLYGON_CHAIN_ID),
+        verifyingContract: CONFIG.MARKETPLACE_CONTRACT as `0x${string}`,
       },
     });
 
