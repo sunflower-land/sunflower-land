@@ -58,7 +58,7 @@ export const TransactionCountdown: React.FC = () => {
           <Transaction onClose={() => setShowTransaction(false)} />
         </Panel>
       </Modal>
-      <ButtonPanel onClick={() => setShowTransaction(true)} className="fle">
+      <ButtonPanel onClick={() => setShowTransaction(true)} className="flex">
         <WagmiProvider config={config}>
           <QueryClientProvider client={queryClient}>
             <TransactionWidget
@@ -110,7 +110,7 @@ const TransactionWidget: React.FC<{
 
   if (timedOut) {
     return (
-      <div>
+      <div id="testing portal">
         <div className="h-6 flex justify-between">
           <Label type={"danger"} className="ml-1 mr-1" icon={walletIcon}>
             {t("transaction")}

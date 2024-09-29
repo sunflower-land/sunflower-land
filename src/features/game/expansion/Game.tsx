@@ -77,10 +77,8 @@ function camelToDotCase(str: string): string {
 
 const land = SUNNYSIDE.land.island;
 
-export const AUTO_SAVE_INTERVAL = 1000 * 30; // autosave every 30 seconds
-const SHOW_MODAL: Record<StateValues, boolean> = {
-  gems: true,
-  ...Object.values(EFFECT_EVENTS).reduce(
+const getModalStatesForEffects = () =>
+  Object.values(EFFECT_EVENTS).reduce(
     (states, stateName) => ({
       ...states,
       [stateName]: true,
@@ -88,7 +86,12 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
       [`${stateName}Success`]: true,
     }),
     {} as Record<BlockchainState["value"], boolean>,
-  ),
+  );
+
+export const AUTO_SAVE_INTERVAL = 1000 * 30; // autosave every 30 seconds
+const SHOW_MODAL: Record<StateValues, boolean> = {
+  ...getModalStatesForEffects(),
+  gems: true,
   loading: true,
   playing: false,
   autosaving: false,
@@ -135,10 +138,6 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   provingPersonhood: false,
   sellMarketResource: false,
   somethingArrived: true,
-  // Handled in component
-  // effectPending: false,
-  effectSuccess: false,
-  effectFailure: false,
 };
 
 // State change selectors

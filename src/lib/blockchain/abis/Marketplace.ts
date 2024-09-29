@@ -227,7 +227,7 @@ export default [
           { internalType: "string", name: "collection", type: "string" },
           { internalType: "string", name: "itemName", type: "string" },
         ],
-        internalType: "struct SunflowerLandMarketplace.Listing",
+        internalType: "struct SunflowerLandMarketplace.ListingData",
         name: "_listing",
         type: "tuple",
       },
