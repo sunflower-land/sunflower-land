@@ -154,7 +154,6 @@ const NextDrop: React.FC<{ auctions: AuctionItems }> = ({ auctions }) => {
                         type="vibrant"
                         icon={lightning}
                         style={{
-                          fontSize: "23px",
                           marginLeft: "4px",
                         }}
                       >
@@ -168,7 +167,6 @@ const NextDrop: React.FC<{ auctions: AuctionItems }> = ({ auctions }) => {
                         icon={buffLabel.boostTypeIcon}
                         secondaryIcon={buffLabel.boostedItemIcon}
                         style={{
-                          fontSize: "22px",
                           marginLeft: "4px",
                         }}
                       >
@@ -182,7 +180,6 @@ const NextDrop: React.FC<{ auctions: AuctionItems }> = ({ auctions }) => {
                       type="default"
                       icon={SUNNYSIDE.icons.heart}
                       style={{
-                        fontSize: "23px",
                         marginLeft: "7px",
                       }}
                     >
@@ -193,9 +190,9 @@ const NextDrop: React.FC<{ auctions: AuctionItems }> = ({ auctions }) => {
                   </div>
                 )}
               </div>
-              <div className="flex flex-col text-center mt-1">
-                <TimerDisplay fontSize={40} time={starts} />
-                <span className="text-xs mt-1">
+              <div className="flex flex-col text-center mt-0.5 text-base">
+                <TimerDisplay time={starts} />
+                <span className="text-xs">
                   {new Date(nextDrop.startAt).toLocaleString().slice(0, -3)}
                 </span>
               </div>
