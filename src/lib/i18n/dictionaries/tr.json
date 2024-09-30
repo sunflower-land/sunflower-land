@@ -3658,5 +3658,6 @@
   "birdieplaza.choresAndRewards": "Ayrıca Hank için ev işlerini tamamlayarak, günlük sandık ödüllerini talep ederek ve grup yarışmasında yarışarak {{seasonalTicket}} s kazanabilirsiniz!",
   "birdieplaza.seasonQuests": "Bu sezon heyecan verici görevler, nadir koleksiyonlar ve kazanabileceğiniz özel giyilebilir ürünler var.",
   "birdieplaza.craftItems": "Bu nadir eşyaları elde etmek için {{seasonalTicket}} s toplamanız ve bunları Stella's Megastore'da değiştirmeniz veya Müzayede Evi'nde teklif vermeniz gerekir.",
-  "reward.streak.oneYear": "365 gün seri ödülü"
+  "reward.streak.oneYear": "365 gün seri ödülü",
+  "season.codex.nextDrop.available": "{{dropSupply}} mevcut"
 }

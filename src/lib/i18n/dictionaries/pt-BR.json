@@ -3658,5 +3658,6 @@
   "birdieplaza.choresAndRewards": "Você também pode ganhar {{seasonalTicket}} s completando tarefas para Hank, reivindicando recompensas diárias no baú e competindo na competição de facções!",
   "birdieplaza.seasonQuests": "Esta temporada tem missões emocionantes, itens colecionáveis raros e dispositivos vestíveis exclusivos que você pode ganhar.",
   "birdieplaza.craftItems": "Para obter esses itens raros, você deve coletar {{seasonalTicket}} s e trocá-los na Stella's Megastore ou licitar na Casa de Leilões.",
-  "reward.streak.oneYear": "Recompensa de sequência de 365 dias"
+  "reward.streak.oneYear": "Recompensa de sequência de 365 dias",
+  "season.codex.nextDrop.available": "{{dropSupply}} disponível"
 }

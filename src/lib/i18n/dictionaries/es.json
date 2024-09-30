@@ -3658,5 +3658,6 @@
   "birdieplaza.choresAndRewards": "¡También puedes ganar {{seasonalTicket}} s completando tareas para Hank, consiguiendo recompensas de cofres diarias y compitiendo en la competencia de facciones!",
   "birdieplaza.seasonQuests": "Esta temporada tiene misiones emocionantes, objetos coleccionables raros y artículos portátiles exclusivos que puedes conseguir.",
   "birdieplaza.craftItems": "Para obtener estos objetos raros, debes recolectar {{seasonalTicket}} s e intercambiarlos en la Megastore de Stella o pujar en la Casa de Subastas.",
-  "reward.streak.oneYear": "Recompensa de racha de 365 días"
+  "reward.streak.oneYear": "Recompensa de racha de 365 días",
+  "season.codex.nextDrop.available": "{{dropSupply}} disponible"
 }

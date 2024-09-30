@@ -3658,5 +3658,6 @@
   "birdieplaza.choresAndRewards": "Tu peux également gagner {{seasonalTicket}} s en accomplissant des corvées pour Hank, en remportant des récompenses de coffre quotidiennes et en participant à la compétition entre factions !",
   "birdieplaza.seasonQuests": "Cette saison propose des quêtes passionnantes, des objets de collection rares et des objets portables exclusifs que vous pouvez gagner.",
   "birdieplaza.craftItems": "Pour obtenir ces objets rares, vous devez collecter des {{seasonalTicket}} s et les échanger au Stella's Megastore ou enchérir à l'hôtel des ventes.",
-  "reward.streak.oneYear": "Récompense d'une série de 365 jours"
+  "reward.streak.oneYear": "Récompense d'une série de 365 jours",
+  "season.codex.nextDrop.available": "{{dropSupply}} disponible"
 }

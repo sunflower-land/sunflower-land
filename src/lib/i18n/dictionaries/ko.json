@@ -3658,5 +3658,6 @@
   "birdieplaza.choresAndRewards": "행크의 집안일을 완료하고 일일 상자 보상을 받고 진영 경쟁에서 경쟁하여 {{seasonalTicket}} s를 얻을 수도 있습니다!",
   "birdieplaza.seasonQuests": "이번 시즌에는 흥미진진한 퀘스트, 희귀 수집품, 획득할 수 있는 독점 웨어러블이 있습니다.",
   "birdieplaza.craftItems": "이러한 희귀 아이템을 얻으려면 {{seasonalTicket}} s를 모아 스텔라의 메가스토어에서 교환하거나 경매장에서 입찰해야 합니다.",
-  "reward.streak.oneYear": "365일 연속 보상"
+  "reward.streak.oneYear": "365일 연속 보상",
+  "season.codex.nextDrop.available": "{{dropSupply}} 사용 가능"
 }

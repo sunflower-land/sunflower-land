@@ -3658,5 +3658,6 @@
   "birdieplaza.choresAndRewards": "Ihr könnt auch {{seasonalTicket}} s verdienen, indem ihr Aufgaben für Hank erledigt, tägliche Truhenbelohnungen einsammelt und am Fraktionswettbewerb teilnehmt!",
   "birdieplaza.seasonQuests": "In dieser Saison erwarten dich spannende Quests, seltene Sammlerstücke und exklusive Wearables, die du dir verdienen kannst.",
   "birdieplaza.craftItems": "Um diese seltenen Gegenstände zu erhalten, müsst ihr {{seasonalTicket}} s sammeln und sie in Stellas Megastore eintauschen oder im Auktionshaus bieten.",
-  "reward.streak.oneYear": "Belohnung für eine 365-tägige Serie"
+  "reward.streak.oneYear": "Belohnung für eine 365-tägige Serie",
+  "season.codex.nextDrop.available": "{{dropSupply}} verfügbar"
 }

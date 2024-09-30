@@ -3658,5 +3658,6 @@
   "birdieplaza.choresAndRewards": "Anda juga bisa mendapatkan {{seasonalTicket}} s dengan menyelesaikan tugas untuk Hank, mengklaim hadiah peti harian dan bersaing dalam kompetisi faksi!",
   "birdieplaza.seasonQuests": "Musim ini memiliki pencarian menarik, koleksi langka, dan pakaian eksklusif yang bisa Anda peroleh.",
   "birdieplaza.craftItems": "Untuk mendapatkan barang-barang langka ini, Anda harus mengumpulkan {{seasonalTicket}} s dan menukarnya di Stella's Megastore atau menawar di Rumah Lelang.",
-  "reward.streak.oneYear": "Hadiah beruntun 365 hari"
+  "reward.streak.oneYear": "Hadiah beruntun 365 hari",
+  "season.codex.nextDrop.available": "{{dropSupply}} tersedia"
 }
