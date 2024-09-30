@@ -3651,12 +3651,12 @@
   "digby.buyMoreDigs": "10개에 굴뚝 5개를 더 구매하세요",
   "desert.buyDigs.confirmation": "정말 보석 10개에 디그 5개를 사고 싶으신가요?",
   "offer.not.enough.gems": "보석이 부족합니다!",
-  "restock.one.buck": "100개의 젬을 사용하여 게임 내 모든 상점 아이템을 재입고할 수 있습니다.",
   "transaction.minblockbucks": "최소 500 젬",
   "transaction.storeBlockBucks": "보석은 농장에 보관됩니다.",
   "transaction.buy.gems": "보석 구매하기",
   "description.gem": "선플라워 랜드의 귀중한 보석!",
   "gems.update": "젬 업데이트",
   "gems.intro": "신규 플레이어의 온보딩을 준비하기 위해 블록 벅스를 새로운 화폐인 보석으로 교체했습니다!",
-  "gems.intro.two": "블록벅을 소유할 때마다 보석 20개를 받게 됩니다."
+  "gems.intro.two": "블록벅을 소유할 때마다 보석 20개를 받게 됩니다.",
+  "restock.one.buck": "게임 내 모든 상점 아이템을 재입고하는 데 보석 20개를 사용할 수 있습니다."
 }

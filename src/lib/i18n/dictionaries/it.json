@@ -3651,12 +3651,12 @@
   "digby.buyMoreDigs": "Acquista altri 5 scavi per 10",
   "desert.buyDigs.confirmation": "Sei sicuro di voler acquistare 5 scavi per 10 gemme?",
   "offer.not.enough.gems": "Non hai abbastanza gemme!",
-  "restock.one.buck": "Utilizzerai 100 gemme per rifornire tutti gli articoli del negozio nel gioco.",
   "transaction.minblockbucks": "Minimo 500 gemme",
   "transaction.storeBlockBucks": "Le gemme verranno immagazzinate nella tua fattoria.",
   "transaction.buy.gems": "Acquista gemme",
   "description.gem": "Una gemma preziosa in Sunflower Land!",
   "gems.update": "Aggiornamento delle gemme",
   "gems.intro": "Per prepararci all'onboarding di nuovi giocatori, abbiamo sostituito i Block Bucks con una nuova valuta: le gemme!",
-  "gems.intro.two": "Riceverai 20 gemme per ogni Block Buck che possiedi."
+  "gems.intro.two": "Riceverai 20 gemme per ogni Block Buck che possiedi.",
+  "restock.one.buck": "Utilizzerai 20 gemme per rifornire tutti gli articoli del negozio nel gioco."
 }

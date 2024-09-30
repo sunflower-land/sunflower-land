@@ -3651,12 +3651,12 @@
   "digby.buyMoreDigs": "Beli 5 lagi penggalian untuk 10",
   "desert.buyDigs.confirmation": "Adakah anda pasti ingin membeli 5 penggali untuk 10 Permata?",
   "offer.not.enough.gems": "Anda tidak mempunyai permata yang mencukupi!",
-  "restock.one.buck": "Anda akan menggunakan 100 Permata untuk menyimpan semula semua barang kedai dalam permainan.",
   "transaction.minblockbucks": "Minimum 500 Permata",
   "transaction.storeBlockBucks": "Permata akan disimpan di ladang anda.",
   "transaction.buy.gems": "Beli Permata",
   "description.gem": "Permata berharga di Tanah Bunga Matahari!",
   "gems.update": "Kemas kini permata",
   "gems.intro": "Untuk mempersiapkan diri untuk memasuki pemain baru, kami telah menggantikan Block Bucks dengan mata wang baru... Permata!",
-  "gems.intro.two": "Anda akan menerima 20 Permata untuk setiap Block Buck yang anda miliki."
+  "gems.intro.two": "Anda akan menerima 20 Permata untuk setiap Block Buck yang anda miliki.",
+  "restock.one.buck": "Anda akan menggunakan 20 Permata untuk menyimpan semula semua barang kedai dalam permainan."
 }

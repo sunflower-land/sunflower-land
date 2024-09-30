@@ -3651,12 +3651,12 @@
   "digby.buyMoreDigs": "Compra 5 alojamientos más por 10",
   "desert.buyDigs.confirmation": "¿Estás seguro de que quieres comprar 5 excavaciones por 10 gemas?",
   "offer.not.enough.gems": "¡No tienes suficientes gemas!",
-  "restock.one.buck": "Vas a usar 100 gemas para reabastecer todos los objetos de la tienda del juego.",
   "transaction.minblockbucks": "Mínimo 500 gemas",
   "transaction.storeBlockBucks": "Las gemas se almacenarán en tu granja.",
   "transaction.buy.gems": "Comprar gemas",
   "description.gem": "¡Una joya valiosa en Sunflower Land!",
   "gems.update": "Actualización de gemas",
   "gems.intro": "Para prepararnos para la incorporación de nuevos jugadores, hemos sustituido los Block Bucks por una nueva moneda: ¡gemas!",
-  "gems.intro.two": "Recibirás 20 gemas por cada Block Buck que poseas."
+  "gems.intro.two": "Recibirás 20 gemas por cada Block Buck que poseas.",
+  "restock.one.buck": "Vas a usar 20 gemas para reabastecer todos los objetos de la tienda del juego."
 }

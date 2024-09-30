@@ -3651,12 +3651,12 @@
   "digby.buyMoreDigs": "10 karşılığında 5 kazı daha al",
   "desert.buyDigs.confirmation": "10 Mücevher için 5 kazı satın almak istediğinizden emin misiniz?",
   "offer.not.enough.gems": "Yeterli mücevheriniz yok!",
-  "restock.one.buck": "Oyundaki tüm mağaza öğelerini stoklamak için 100 Mücevher kullanacaksınız.",
   "transaction.minblockbucks": "Minimum 500 Mücevher",
   "transaction.storeBlockBucks": "Mücevherler çiftliğinizde saklanacak.",
   "transaction.buy.gems": "Mücevher Satın Alın",
   "description.gem": "Ayçiçeği Ülkesinde değerli bir mücevher!",
   "gems.update": "Mücevher güncellemesi",
   "gems.intro": "Yeni oyunculara katılmaya hazırlanmak için Block Bucks'ı yeni bir para birimi ile değiştirdik... Gems!",
-  "gems.intro.two": "Sahip olduğunuz her Blok Buck için 20 Mücevher alacaksınız."
+  "gems.intro.two": "Sahip olduğunuz her Blok Buck için 20 Mücevher alacaksınız.",
+  "restock.one.buck": "Oyundaki tüm mağaza öğelerini stoklamak için 20 Mücevher kullanacaksınız."
 }
