@@ -117,7 +117,7 @@ export const Bert: React.FC<Props> = ({ onClose }) => {
             reward > 1 ? "s" : ""
           }`}
         </Button>
-        <span className="text-xs font-secondary text-center">
+        <span className="text-xs text-center">
           {t("bert.day", { seasonalTicket: getSeasonalTicket() })}
         </span>
       </>
@@ -191,7 +191,7 @@ export const Bert: React.FC<Props> = ({ onClose }) => {
               </div>
               <Label
                 type="info"
-                className="font-secondary mb-2"
+                className="mb-2"
                 icon={SUNNYSIDE.icons.stopwatch}
               >
                 {`${t("offer.end")} ${secondsToString(resetSeconds, {
