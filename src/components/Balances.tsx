@@ -3,7 +3,7 @@ import Decimal from "decimal.js-light";
 
 import sflIcon from "assets/icons/sfl.webp";
 import coinsIcon from "assets/icons/coins.webp";
-import blockBucksIcon from "assets/icons/block_buck.png";
+import gemIcon from "assets/icons/gem.webp";
 
 import { formatNumber } from "lib/utils/formatNumber";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -12,16 +12,11 @@ import classNames from "classnames";
 interface Props {
   sfl: Decimal;
   coins: number;
-  blockBucks: Decimal;
+  gems: Decimal;
   onClick?: () => void;
 }
 
-export const Balances: React.FC<Props> = ({
-  sfl,
-  coins,
-  blockBucks,
-  onClick,
-}) => {
+export const Balances: React.FC<Props> = ({ sfl, coins, gems, onClick }) => {
   const [showFullBalance, setShowFullBalance] = useState(false);
 
   return (
@@ -44,12 +39,10 @@ export const Balances: React.FC<Props> = ({
             />
           </div>
           <div className="flex items-center space-x-2">
-            <span className="balance-text mt-0.5">
-              {formatNumber(blockBucks)}
-            </span>
+            <span className="balance-text mt-0.5">{formatNumber(gems)}</span>
             <img
-              src={blockBucksIcon}
-              alt="Block Bucks"
+              src={gemIcon}
+              alt="Gems"
               style={{
                 marginTop: 2,
                 width: 28,

@@ -4,7 +4,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Label } from "components/ui/Label";
 
 import creditCard from "assets/icons/credit_card.png";
-import blockBucksIcon from "assets/icons/block_buck.png";
+import whaleIcon from "assets/icons/whale.webp";
 import { Button } from "components/ui/Button";
 import { ButtonPanel } from "components/ui/Panel";
 import classNames from "classnames";
@@ -16,6 +16,7 @@ import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
 import { MachineState } from "features/game/lib/gameMachine";
 import { secondsToString } from "lib/utils/time";
+import { ITEM_DETAILS } from "features/game/types/images";
 
 export interface Price {
   amount: number;
@@ -23,38 +24,13 @@ export interface Price {
 }
 
 const PRICES: Price[] = [
-  {
-    amount: 1,
-    usd: 0.25, // $0.25 each
-  },
-  {
-    amount: 5,
-    usd: 0.99, // $0.198 each
-  },
-  {
-    amount: 10,
-    usd: 1.75, // $0.175 each
-  },
-  {
-    amount: 20,
-    usd: 2.99, // $0.1495 each
-  },
-  {
-    amount: 100,
-    usd: 14.5, // $0.145 each
-  },
-  {
-    amount: 500,
-    usd: 65, // $0.13 each
-  },
-  {
-    amount: 1000,
-    usd: 125, // $0.125 each
-  },
-  {
-    amount: 10000,
-    usd: 1000, // $0.10 each
-  },
+  { amount: 100, usd: 0.99 },
+  { amount: 600, usd: 4.99 },
+  { amount: 1250, usd: 9.99 },
+  { amount: 2750, usd: 19.99 },
+  { amount: 7400, usd: 49.99 },
+  { amount: 15000, usd: 99.99 },
+  { amount: 200000, usd: 999.99 },
 ];
 
 const _starterOfferSecondsLeft = (state: MachineState) => {
@@ -79,7 +55,7 @@ interface Props {
   onHideBuyBBLabel: (hide: boolean) => void;
 }
 
-export const BuyBlockBucks: React.FC<Props> = ({
+export const BuyGems: React.FC<Props> = ({
   isSaving,
   price,
   setPrice,
@@ -107,8 +83,8 @@ export const BuyBlockBucks: React.FC<Props> = ({
   if (!!price && showMaticConfirm) {
     return (
       <GameWallet action="purchase">
-        <Label icon={blockBucksIcon} type="default" className="ml-2">
-          {`${t("transaction.buy.BlockBucks")}`}
+        <Label icon={ITEM_DETAILS.Gem.image} type="default" className="ml-2">
+          {`${t("transaction.buy.gems")}`}
         </Label>
         <div className="py-2">
           <img
@@ -124,7 +100,7 @@ export const BuyBlockBucks: React.FC<Props> = ({
               <span>
                 {t("item")} {price.amount} {"x"}
               </span>
-              <img src={blockBucksIcon} className="w-6" />
+              <img src={ITEM_DETAILS.Gem.image} className="w-6" />
             </div>
             <span>{`${t("total")}: US$${price.usd}`}</span>
           </div>
@@ -154,7 +130,7 @@ export const BuyBlockBucks: React.FC<Props> = ({
               <span className="text-xs">
                 {t("item")} {price.amount} {"x"}
               </span>
-              <img src={blockBucksIcon} className="w-6" />
+              <img src={ITEM_DETAILS.Gem.image} className="w-6" />
             </div>
             <span className="text-xs">{`${t("total")}: US$${price.usd}`}</span>
           </div>
@@ -174,7 +150,7 @@ export const BuyBlockBucks: React.FC<Props> = ({
                 <img src={creditCard} className="w-1/5 sm:w-1/5" />
                 {price.amount === 1 && (
                   <span className="text-xs italic">
-                    {`*${t("minimum")} 5 Block Bucks`}
+                    {`*${t("minimum")} 500 Gems`}
                   </span>
                 )}
               </div>
@@ -222,6 +198,11 @@ export const BuyBlockBucks: React.FC<Props> = ({
     );
   }
 
+  const isLifetime =
+    !!gameService.getSnapshot().context.state.inventory[
+      "Lifetime Farmer Banner"
+    ];
+
   return (
     <>
       <div className="flex flex-col w-full p-1">
@@ -241,12 +222,12 @@ export const BuyBlockBucks: React.FC<Props> = ({
             <div className="flex w-full">
               <div>
                 <div className="flex items-center">
-                  <SquareIcon icon={blockBucksIcon} width={10} />
-                  <span className="ml-1 text-sm">{`25 x Block Bucks`}</span>
+                  <SquareIcon icon={ITEM_DETAILS.Gem.image} width={10} />
+                  <span className="ml-1 text-sm">{`300 x Gems`}</span>
                 </div>
               </div>
               <div className="flex flex-col justify-end flex-1 items-end">
-                <span className="text-sm mb-1 line-through">{`$3.99`}</span>
+                <span className="text-sm mb-1 line-through">{`$2.99`}</span>
                 <Label type="warning">{`US$0.99`}</Label>
               </div>
             </div>
@@ -254,30 +235,55 @@ export const BuyBlockBucks: React.FC<Props> = ({
         )}
 
         <div className="grid grid-cols-3 gap-1 gap-y-2  sm:text-sm sm:gap-2">
-          {PRICES.map((price) => (
-            <ButtonPanel
-              key={JSON.stringify(price)}
-              className="flex flex-col items-center relative cursor-pointer hover:bg-brown-300"
-              onClick={() => setPrice(price)}
-            >
-              <span className="whitespace-nowrap mb-2">{`${price.amount} x`}</span>
-              <div className="flex flex-1 justify-center items-center mb-6 w-full">
-                <img src={blockBucksIcon} className="w-2/5 sm:w-1/4" />
-              </div>
-              <Label
-                type="warning"
-                iconWidth={11}
-                className="absolute h-7  -bottom-2"
-                style={{
-                  left: `${PIXEL_SCALE * -3}px`,
-                  right: `${PIXEL_SCALE * -3}px`,
-                  width: `calc(100% + ${PIXEL_SCALE * 6}px)`,
-                }}
+          {PRICES.map((price, index) => {
+            if (index === PRICES.length - 1 && !isLifetime) return null;
+
+            // Compare price to base package
+            const gemsPerDollar = 100 / 0.99;
+            const expected = gemsPerDollar * price.usd;
+            const bonus = 100 * (price.amount / expected - 1);
+
+            return (
+              <ButtonPanel
+                key={JSON.stringify(price)}
+                className="flex flex-col items-center relative cursor-pointer hover:bg-brown-300"
+                onClick={() => setPrice(price)}
               >
-                {`US$${price.usd}`}
-              </Label>
-            </ButtonPanel>
-          ))}
+                {!!bonus && (
+                  <Label type="success" className="absolute -right-2 -top-5">
+                    {`+${bonus.toFixed(0)}%`}
+                  </Label>
+                )}
+
+                {index === PRICES.length - 1 && (
+                  <img
+                    src={whaleIcon}
+                    className="h-6 absolute -left-4 -top-4"
+                  />
+                )}
+
+                <span className="whitespace-nowrap mb-2">{`${price.amount} x`}</span>
+                <div className="flex flex-1 justify-center items-center mb-6 w-full">
+                  <img
+                    src={ITEM_DETAILS.Gem.image}
+                    className="w-2/5 sm:w-1/4"
+                  />
+                </div>
+                <Label
+                  type="warning"
+                  iconWidth={11}
+                  className="absolute h-7  -bottom-2"
+                  style={{
+                    left: `${PIXEL_SCALE * -3}px`,
+                    right: `${PIXEL_SCALE * -3}px`,
+                    width: `calc(100% + ${PIXEL_SCALE * 6}px)`,
+                  }}
+                >
+                  {`US$${price.usd}`}
+                </Label>
+              </ButtonPanel>
+            );
+          })}
         </div>
       </div>
     </>

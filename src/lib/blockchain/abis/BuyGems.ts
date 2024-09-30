@@ -11,12 +11,7 @@ export default [
         name: "_inventory",
         type: "address",
       },
-      { internalType: "contract IERC20", name: "_usdc", type: "address" },
-      {
-        internalType: "address payable",
-        name: "_feeWallet",
-        type: "address",
-      },
+      { internalType: "address payable", name: "_feeWallet", type: "address" },
     ],
     stateMutability: "nonpayable",
     type: "constructor",
@@ -31,7 +26,7 @@ export default [
         type: "uint256",
       },
     ],
-    name: "BlockBucksBought",
+    name: "GemsBought",
     type: "event",
   },
   {
@@ -64,34 +59,13 @@ export default [
     inputs: [
       { internalType: "bytes", name: "_signature", type: "bytes" },
       { internalType: "uint256", name: "_farmId", type: "uint256" },
-      {
-        internalType: "uint256",
-        name: "_blockBuckAmount",
-        type: "uint256",
-      },
+      { internalType: "uint256", name: "_blockBuckAmount", type: "uint256" },
       { internalType: "uint256", name: "_fee", type: "uint256" },
       { internalType: "uint256", name: "_deadline", type: "uint256" },
     ],
-    name: "buyBlockBucksMATIC",
+    name: "buyGems",
     outputs: [],
     stateMutability: "payable",
-    type: "function",
-  },
-  {
-    inputs: [
-      { internalType: "bytes", name: "_signature", type: "bytes" },
-      { internalType: "uint256", name: "_farmId", type: "uint256" },
-      {
-        internalType: "uint256",
-        name: "_blockBuckAmount",
-        type: "uint256",
-      },
-      { internalType: "uint256", name: "_fee", type: "uint256" },
-      { internalType: "uint256", name: "_deadline", type: "uint256" },
-    ],
-    name: "buyBlockBucksUSDC",
-    outputs: [],
-    stateMutability: "nonpayable",
     type: "function",
   },
   {
@@ -152,11 +126,7 @@ export default [
   },
   {
     inputs: [
-      {
-        internalType: "address payable",
-        name: "_feeWallet",
-        type: "address",
-      },
+      { internalType: "address payable", name: "_feeWallet", type: "address" },
     ],
     name: "transferFeeWallet",
     outputs: [],
@@ -177,4 +147,4 @@ export default [
     stateMutability: "nonpayable",
     type: "function",
   },
-] as const;
+];

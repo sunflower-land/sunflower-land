@@ -45,10 +45,10 @@ export const BeachBaitShop: React.FC = () => {
       tool: selectedName,
     });
 
-    const blockBucks = selectedItem.ingredients["Block Buck"]?.toNumber() ?? 0;
+    const blockBucks = selectedItem.ingredients["Gem"]?.toNumber() ?? 0;
     if (blockBucks > 0) {
       gameAnalytics.trackSink({
-        currency: "Block Buck",
+        currency: "Gem",
         amount: blockBucks,
         item: selectedName,
         type: "Consumable",

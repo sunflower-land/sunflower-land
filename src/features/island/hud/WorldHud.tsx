@@ -42,7 +42,7 @@ const HudComponent: React.FC = () => {
   const autosaving = gameState.matches("autosaving");
 
   const handleBuyCurrenciesModal = () => {
-    openModal("BUY_BLOCK_BUCKS");
+    openModal("BUY_GEMS");
   };
 
   const handleDepositModal = () => {
@@ -86,9 +86,7 @@ const HudComponent: React.FC = () => {
         onClick={farmAddress ? handleBuyCurrenciesModal : undefined}
         sfl={gameState.context.state.balance}
         coins={gameState.context.state.coins}
-        blockBucks={
-          gameState.context.state.inventory["Block Buck"] ?? new Decimal(0)
-        }
+        gems={gameState.context.state.inventory["Gem"] ?? new Decimal(0)}
       />
       <div
         className="absolute z-50 flex flex-col justify-between"

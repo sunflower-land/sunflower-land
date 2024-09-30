@@ -1,5 +1,10 @@
 import Decimal from "decimal.js-light";
-import { GameState, IslandType, Wardrobe } from "features/game/types/game";
+import {
+  BB_TO_GEM_RATIO,
+  GameState,
+  IslandType,
+  Wardrobe,
+} from "features/game/types/game";
 import { produce } from "immer";
 import { BumpkinParts } from "lib/utils/tokenUriBuilder";
 
@@ -44,19 +49,19 @@ export function buyFarmhand({
       throw new Error("No space for a farm hand");
     }
 
-    const cost = (farmHands + 2) * 5;
+    const cost = (farmHands + 2) * 5 * BB_TO_GEM_RATIO;
 
-    // Use coupon, otherwise Block Bucks
+    // Use coupon, otherwise Gems
     const coupons = game.inventory["Farmhand Coupon"];
     if (coupons?.gte(1)) {
       game.inventory["Farmhand Coupon"] = coupons.sub(1);
     } else {
-      const blockBucks = game.inventory["Block Buck"] ?? new Decimal(0);
+      const blockBucks = game.inventory["Gem"] ?? new Decimal(0);
       if (blockBucks.lt(cost)) {
-        throw new Error("Insufficient Block Bucks");
+        throw new Error("Insufficient Gems");
       }
 
-      game.inventory["Block Buck"] = blockBucks.sub(cost);
+      game.inventory["Gem"] = blockBucks.sub(cost);
     }
 
     const id = Object.keys(game.farmHands.bumpkins).length + 1;

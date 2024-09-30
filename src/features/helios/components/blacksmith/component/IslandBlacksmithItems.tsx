@@ -76,18 +76,6 @@ export const IslandBlacksmithItems: React.FC = () => {
       event: `Crafting:Collectible:${selectedName}${count}`,
     });
 
-    if ((selectedItem?.ingredients ?? {})["Block Buck"]) {
-      gameAnalytics.trackSink({
-        currency: "Block Buck",
-        amount:
-          (
-            selectedItem?.ingredients["Block Buck"] ?? new Decimal(0)
-          ).toNumber() ?? 1,
-        item: selectedName,
-        type: "Collectible",
-      });
-    }
-
     if ((selectedItem?.ingredients ?? {})[getSeasonalTicket()]) {
       gameAnalytics.trackSink({
         currency: "Seasonal Ticket",

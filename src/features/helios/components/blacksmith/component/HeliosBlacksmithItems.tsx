@@ -61,15 +61,6 @@ export const HeliosBlacksmithItems: React.FC = () => {
       event: `Crafting:Collectible:${selectedName}${count}`,
     });
 
-    if (selectedItem.ingredients["Block Buck"]) {
-      gameAnalytics.trackSink({
-        currency: "Block Buck",
-        amount: selectedItem.ingredients["Block Buck"].toNumber() ?? 1,
-        item: selectedName,
-        type: "Collectible",
-      });
-    }
-
     if (selectedItem.ingredients[getSeasonalTicket()]) {
       gameAnalytics.trackSink({
         currency: "Seasonal Ticket",
