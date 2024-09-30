@@ -4,6 +4,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Label } from "components/ui/Label";
 
 import creditCard from "assets/icons/credit_card.png";
+import whaleIcon from "assets/icons/whale.webp";
 import { Button } from "components/ui/Button";
 import { ButtonPanel } from "components/ui/Panel";
 import classNames from "classnames";
@@ -27,8 +28,9 @@ const PRICES: Price[] = [
   { amount: 600, usd: 4.99 },
   { amount: 1250, usd: 9.99 },
   { amount: 2750, usd: 19.99 },
-  { amount: 7250, usd: 49.99 },
+  { amount: 7400, usd: 49.99 },
   { amount: 15000, usd: 99.99 },
+  { amount: 200000, usd: 999.99 },
 ];
 
 const _starterOfferSecondsLeft = (state: MachineState) => {
@@ -196,6 +198,11 @@ export const BuyGems: React.FC<Props> = ({
     );
   }
 
+  const isLifetime =
+    !!gameService.getSnapshot().context.state.inventory[
+      "Lifetime Farmer Banner"
+    ];
+
   return (
     <>
       <div className="flex flex-col w-full p-1">
@@ -228,7 +235,9 @@ export const BuyGems: React.FC<Props> = ({
         )}
 
         <div className="grid grid-cols-3 gap-1 gap-y-2  sm:text-sm sm:gap-2">
-          {PRICES.map((price) => {
+          {PRICES.map((price, index) => {
+            if (index === PRICES.length - 1 && !isLifetime) return null;
+
             // Compare price to base package
             const gemsPerDollar = 100 / 0.99;
             const expected = gemsPerDollar * price.usd;
@@ -244,6 +253,13 @@ export const BuyGems: React.FC<Props> = ({
                   <Label type="success" className="absolute -right-2 -top-5">
                     {`+${bonus.toFixed(0)}%`}
                   </Label>
+                )}
+
+                {index === PRICES.length - 1 && (
+                  <img
+                    src={whaleIcon}
+                    className="h-6 absolute -left-4 -top-4"
+                  />
                 )}
 
                 <span className="whitespace-nowrap mb-2">{`${price.amount} x`}</span>
