@@ -143,6 +143,7 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
     tradeable?.type === "instant",
   );
 
+  // Auto close this success modal because the transaction modal will be shown
   useOnMachineTransition<ContextType, BlockchainEvent>(
     gameService,
     "marketplacePurchasing",
@@ -217,7 +218,6 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
             <div className="items-center justify-between hidden sm:flex sm:visible w-full sm:w-auto">
               {cheapestListing && (
                 <Button
-                  disabled={!count}
                   onClick={() => setShowPurchaseModal(true)}
                   className="mr-1 w-full sm:w-auto"
                 >

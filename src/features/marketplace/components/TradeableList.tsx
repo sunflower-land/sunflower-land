@@ -141,7 +141,7 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
         ],
       },
       message: {
-        farmId: BigInt(farmId),
+        farmId: BigInt(gameState.context.nftId as number),
         collection: display.type,
         itemId: BigInt(id),
         item: display.name,

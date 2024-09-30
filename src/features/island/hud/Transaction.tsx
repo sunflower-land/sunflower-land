@@ -264,7 +264,7 @@ export const TransactionProgress: React.FC<Props> = ({
     sessionId: gameService.state.context.sessionId as string,
   });
 
-  const { isSuccess, isError, isLoading } = useWaitForTransactionReceipt({
+  const { isSuccess, isError } = useWaitForTransactionReceipt({
     hash: tx?.hash as `0x${string}`,
   });
 

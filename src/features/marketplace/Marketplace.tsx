@@ -10,11 +10,6 @@ import classNames from "classnames";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { ButtonPanel, OuterPanel } from "components/ui/Panel";
 import { Tradeable } from "./components/Tradeable";
-import { TransactionCountdown } from "features/island/hud/Transaction";
-
-interface Props {
-  onClose: () => void;
-}
 
 const tabs = [
   {
@@ -87,15 +82,6 @@ export const Marketplace: React.FC = () => {
             <Route path="/:collection" element={<MarketplaceHome />} />
           </Routes>
         </OuterPanel>
-      </div>
-      <div
-        className="absolute z-50 flex flex-col justify-between"
-        style={{
-          bottom: `${PIXEL_SCALE * 3}px`,
-          left: `${PIXEL_SCALE * 4}px`,
-        }}
-      >
-        <TransactionCountdown />
       </div>
     </>
   );
