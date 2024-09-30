@@ -3651,12 +3651,12 @@
   "digby.buyMoreDigs": "Compre mais 5 escavações por 10",
   "desert.buyDigs.confirmation": "Tem certeza de que quer comprar 5 escavações por 10 gemas?",
   "offer.not.enough.gems": "Você não tem joias suficientes!",
-  "restock.one.buck": "Você vai usar 100 joias para reabastecer todos os itens da loja no jogo.",
   "transaction.minblockbucks": "Mínimo de 500 gemas",
   "transaction.storeBlockBucks": "As gemas serão armazenadas em sua fazenda.",
   "transaction.buy.gems": "Compre gemas",
   "description.gem": "Uma joia valiosa na Terra dos Girassóis!",
   "gems.update": "Atualização de gemas",
   "gems.intro": "Para nos prepararmos para a contratação de novos jogadores, substituímos o Block Bucks por uma nova moeda... Gems!",
-  "gems.intro.two": "Você receberá 20 joias por cada Block Buck que possuir."
+  "gems.intro.two": "Você receberá 20 joias por cada Block Buck que possuir.",
+  "restock.one.buck": "Você vai usar 20 joias para reabastecer todos os itens da loja no jogo."
 }

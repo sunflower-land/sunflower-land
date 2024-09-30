@@ -3651,12 +3651,12 @@
   "digby.buyMoreDigs": "Kaufe 5 weitere Ausgrabungen für 10",
   "desert.buyDigs.confirmation": "Bist du sicher, dass du 5 Ausgrabungen für 10 Edelsteine kaufen willst?",
   "offer.not.enough.gems": "Du hast nicht genug Edelsteine!",
-  "restock.one.buck": "Du wirst 100 Edelsteine verwenden, um alle Ladengegenstände im Spiel aufzufüllen.",
   "transaction.minblockbucks": "Mindestens 500 Edelsteine",
   "transaction.storeBlockBucks": "Edelsteine werden auf deiner Farm aufbewahrt.",
   "transaction.buy.gems": "Kaufe Edelsteine",
   "description.gem": "Ein wertvolles Juwel im Sonnenblumenland!",
   "gems.update": "Edelstein-Update",
   "gems.intro": "Um uns auf das Onboarding neuer Spieler vorzubereiten, haben wir Block Bucks durch eine neue Währung ersetzt... Edelsteine!",
-  "gems.intro.two": "Du erhältst 20 Edelsteine für jeden Block Buck, den du besitzt."
+  "gems.intro.two": "Du erhältst 20 Edelsteine für jeden Block Buck, den du besitzt.",
+  "restock.one.buck": "Du wirst 20 Edelsteine verwenden, um alle Ladengegenstände im Spiel aufzufüllen."
 }

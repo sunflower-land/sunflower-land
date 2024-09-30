@@ -3651,12 +3651,12 @@
   "digby.buyMoreDigs": "Achetez 5 chiens supplémentaires pour 10",
   "desert.buyDigs.confirmation": "Êtes-vous sûr de vouloir acheter 5 diggs pour 10 gemmes ?",
   "offer.not.enough.gems": "Tu n'as pas assez de gemmes !",
-  "restock.one.buck": "Vous allez utiliser 100 gemmes pour réapprovisionner tous les articles de la boutique du jeu.",
   "transaction.minblockbucks": "Minimum de 500 gemmes",
   "transaction.storeBlockBucks": "Les pierres précieuses seront stockées dans votre ferme.",
   "transaction.buy.gems": "Acheter des pierres précieuses",
   "description.gem": "Un joyau précieux à Sunflower Land !",
   "gems.update": "Mise à jour des pierres",
   "gems.intro": "Pour préparer l'intégration de nouveaux joueurs, nous avons remplacé les Block Bucks par une nouvelle devise : les gemmes !",
-  "gems.intro.two": "Vous recevrez 20 gemmes pour chaque Block Buck que vous possédez."
+  "gems.intro.two": "Vous recevrez 20 gemmes pour chaque Block Buck que vous possédez.",
+  "restock.one.buck": "Vous allez utiliser 20 gemmes pour réapprovisionner tous les articles de la boutique du jeu."
 }
