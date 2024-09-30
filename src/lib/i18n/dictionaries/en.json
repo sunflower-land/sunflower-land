@@ -3282,7 +3282,6 @@
   "transaction.rejected": "Transaction Rejected!",
   "transaction.message0": "You need to accept the transaction in the metamask popup to continue.",
   "transaction.noFee": "This request will not trigger a blockchain transaction or cost any gas fees.",
-  "transaction.minblockbucks": "Minimum 500 Gems",
   "transaction.payCash": "Pay with Cash",
   "transaction.pol": "POL",
   "transaction.payPol": "Pay with POL",
