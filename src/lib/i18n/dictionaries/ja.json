@@ -129,12 +129,8 @@
   "birdieplaza.whatIsSeason": "シーズンとは？",
   "birdieplaza.howToEarnTickets": "{{seasonalTicket}} s?",
   "birdieplaza.earnTicketsVariety": "さまざまな方法で {{seasonalTicket}} を獲得できます。",
-  "birdieplaza.commonMethod": "{{seasonalTicket}} を獲得する最も一般的な方法は、資源を集めてプラザのバンプキンに届けることです。",
-  "birdieplaza.choresAndRewards": "また、ハンクの家事をこなしてデイリー報酬を受け取ることで {{seasonalTicket}} を獲得することもできます！",
   "birdieplaza.gatherAndCraft": "{{seasonalTicket}} をたくさん集めれば、私のようにレアなアイテムを購入できるようになります。",
   "birdieplaza.newSeasonIntro": "サンフラワーランドでは、3か月ごとに新しいシーズンが始まります。",
-  "birdieplaza.seasonQuests": "今シーズンは、エキサイティングなクエストやレアな収集品が手に入ります。",
-  "birdieplaza.craftItems": "これらのレアアイテムを入手するには、{{seasonalTicket}} を集めてステラのメガストアで交換するか、オークションハウスで入札する必要があります。",
   "description.speed.chicken.one": "鶏の卵生産が 10% 速くなりました。",
   "description.speed.chicken.two": "卵の生産速度が 10% 速くなる",
   "description.fat.chicken.one": "これで、鶏の飼料あたりの小麦の必要量が 10% 減ります。",
@@ -3657,5 +3653,10 @@
   "gems.update": "Gem アップデート",
   "gems.intro": "新規プレイヤーのオンボーディングに備えて、Block Bucksを新しい通貨「ジェム」に置き換えました！",
   "gems.intro.two": "所有しているブロックバックごとに20ジェムを受け取ります。",
-  "restock.one.buck": "20個のジェムを使用して、ゲーム内のすべてのショップアイテムを補充します。"
+  "restock.one.buck": "20個のジェムを使用して、ゲーム内のすべてのショップアイテムを補充します。",
+  "birdieplaza.commonMethod": "{{seasonalTicket}} を獲得する最も一般的な方法は、資源を集めるか、他のリクエストされたアイテムを集めて、プラザや他のエリアのバンプキンに届けることです。",
+  "birdieplaza.choresAndRewards": "また、ハンクの雑用をこなしたり、デイリーチェスト報酬を受け取ったり、陣営コンペに参加したりして {{seasonalTicket}} を獲得することもできます！",
+  "birdieplaza.seasonQuests": "今シーズンには、エキサイティングなクエスト、レアな収集品、限定ウェアラブルが手に入ります。",
+  "birdieplaza.craftItems": "これらのレアアイテムを入手するには、{{seasonalTicket}} を集めてステラのメガストアで交換するか、オークションハウスで入札する必要があります。",
+  "reward.streak.oneYear": "365 日連続リワード"
 }

@@ -128,12 +128,8 @@
   "birdieplaza.whatIsSeason": "Cos'è una stagione?",
   "birdieplaza.howToEarnTickets": "{{seasonalTicket}} s?",
   "birdieplaza.earnTicketsVariety": "Puoi guadagnare {{seasonalTicket}} in diversi modi.",
-  "birdieplaza.commonMethod": "Il metodo più comune per guadagnare {{seasonalTicket}} è raccogliere risorse e consegnarle a Bumpkins in the Plaza.",
-  "birdieplaza.choresAndRewards": "Puoi guadagnare {{seasonalTicket}} anche completando le faccende per Hank e richiedendo ricompense giornaliere!",
   "birdieplaza.gatherAndCraft": "Raccogli abbastanza {{seasonalTicket}} e potrai acquistare alcuni oggetti rari come ho fatto io.",
   "birdieplaza.newSeasonIntro": "Ogni 3 mesi viene introdotta una nuova stagione a Sunflower Land.",
-  "birdieplaza.seasonQuests": "Questa stagione offre missioni entusiasmanti e rari oggetti da collezione che puoi guadagnare.",
-  "birdieplaza.craftItems": "Per ottenere questi oggetti rari, devi raccogliere {{seasonalTicket}} e cambiarli allo Stella's Megastore o fare un'offerta presso la casa d'aste.",
   "description.speed.chicken.one": "Le tue galline ora produrranno uova il 10% più velocemente.",
   "description.speed.chicken.two": "Produce uova il 10% più velocemente",
   "description.fat.chicken.one": "I tuoi polli avranno ora bisogno del 10% in meno di frumento per mangime.",
@@ -3657,5 +3653,10 @@
   "gems.update": "Aggiornamento delle gemme",
   "gems.intro": "Per prepararci all'onboarding di nuovi giocatori, abbiamo sostituito i Block Bucks con una nuova valuta: le gemme!",
   "gems.intro.two": "Riceverai 20 gemme per ogni Block Buck che possiedi.",
-  "restock.one.buck": "Utilizzerai 20 gemme per rifornire tutti gli articoli del negozio nel gioco."
+  "restock.one.buck": "Utilizzerai 20 gemme per rifornire tutti gli articoli del negozio nel gioco.",
+  "birdieplaza.commonMethod": "Il metodo più comune per guadagnare {{seasonalTicket}} è raccogliere risorse o raccogliere altri oggetti richiesti e poi consegnarli a Bumpkins in the Plaza e in altre aree.",
+  "birdieplaza.choresAndRewards": "Puoi guadagnare {{seasonalTicket}} anche completando le faccende domestiche per Hank, ottenendo ricompense giornaliere per i forzieri e partecipando alla competizione tra fazioni!",
+  "birdieplaza.seasonQuests": "Questa stagione offre missioni entusiasmanti, rari oggetti da collezione e dispositivi indossabili esclusivi che puoi guadagnare.",
+  "birdieplaza.craftItems": "Per ottenere questi oggetti rari, devi raccogliere {{seasonalTicket}} e cambiarli allo Stella's Megastore o fare un'offerta presso la Casa d'Aste.",
+  "reward.streak.oneYear": "Premi per una serie di 365 giorni"
 }

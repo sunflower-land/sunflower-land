@@ -129,12 +129,8 @@
   "birdieplaza.whatIsSeason": "시즌이란 무엇인가요?",
   "birdieplaza.howToEarnTickets": "{{seasonalTicket}}?",
   "birdieplaza.earnTicketsVariety": "다양한 방법으로 {{seasonalTicket}} 를 벌 수 있습니다.",
-  "birdieplaza.commonMethod": "{{seasonalTicket}} s를 얻는 가장 일반적인 방법은 자원을 모아 광장에 있는 범킨에게 전달하는 것입니다.",
-  "birdieplaza.choresAndRewards": "행크의 집안일을 완료하고 일일 보상을 받아 {{seasonalTicket}} s를 벌 수도 있습니다!",
   "birdieplaza.gatherAndCraft": "{{seasonalTicket}} 를 충분히 모으면 저처럼 희귀 아이템을 살 수 있을 거예요.",
   "birdieplaza.newSeasonIntro": "선플라워 랜드에서는 3개월마다 새로운 시즌이 시작됩니다.",
-  "birdieplaza.seasonQuests": "이번 시즌에는 흥미진진한 퀘스트와 획득할 수 있는 희귀 수집품이 있습니다.",
-  "birdieplaza.craftItems": "이러한 희귀 아이템을 얻으려면 {{seasonalTicket}} s를 모아 스텔라의 메가스토어에서 교환하거나 경매장에서 입찰해야 합니다.",
   "description.speed.chicken.one": "이제 닭이 달걀을 10% 더 빨리 생산할 수 있습니다.",
   "description.speed.chicken.two": "달걀을 10% 더 빠르게 생산합니다",
   "description.fat.chicken.one": "이제 닭은 사료당 10% 더 적은 밀을 필요로 합니다.",
@@ -3657,5 +3653,10 @@
   "gems.update": "젬 업데이트",
   "gems.intro": "신규 플레이어의 온보딩을 준비하기 위해 블록 벅스를 새로운 화폐인 보석으로 교체했습니다!",
   "gems.intro.two": "블록벅을 소유할 때마다 보석 20개를 받게 됩니다.",
-  "restock.one.buck": "게임 내 모든 상점 아이템을 재입고하는 데 보석 20개를 사용할 수 있습니다."
+  "restock.one.buck": "게임 내 모든 상점 아이템을 재입고하는 데 보석 20개를 사용할 수 있습니다.",
+  "birdieplaza.commonMethod": "{{seasonalTicket}} s를 얻는 가장 일반적인 방법은 자원을 수집하거나 다른 요청 아이템을 수집하여 플라자 및 기타 지역의 범킨에게 전달하는 것입니다.",
+  "birdieplaza.choresAndRewards": "행크의 집안일을 완료하고 일일 상자 보상을 받고 진영 경쟁에서 경쟁하여 {{seasonalTicket}} s를 얻을 수도 있습니다!",
+  "birdieplaza.seasonQuests": "이번 시즌에는 흥미진진한 퀘스트, 희귀 수집품, 획득할 수 있는 독점 웨어러블이 있습니다.",
+  "birdieplaza.craftItems": "이러한 희귀 아이템을 얻으려면 {{seasonalTicket}} s를 모아 스텔라의 메가스토어에서 교환하거나 경매장에서 입찰해야 합니다.",
+  "reward.streak.oneYear": "365일 연속 보상"
 }

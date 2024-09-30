@@ -129,12 +129,8 @@
   "birdieplaza.whatIsSeason": "Was ist eine Jahreszeit?",
   "birdieplaza.howToEarnTickets": "{{seasonalTicket}} s?",
   "birdieplaza.earnTicketsVariety": "Du kannst auf verschiedene Arten {{seasonalTicket}} verdienen.",
-  "birdieplaza.commonMethod": "Die gängigste Methode, {{seasonalTicket}} s zu verdienen, besteht darin, Ressourcen zu sammeln und sie an Bumpkins in the Plaza zu liefern.",
-  "birdieplaza.choresAndRewards": "Du kannst auch {{seasonalTicket}} s verdienen, indem du Aufgaben für Hank erledigst und tägliche Belohnungen einforderst!",
   "birdieplaza.gatherAndCraft": "Sammelt genug {{seasonalTicket}} s und ihr werdet seltene Gegenstände kaufen können, so wie ich es getan habe.",
   "birdieplaza.newSeasonIntro": "Alle 3 Monate wird im Sunflower Land eine neue Saison eingeführt.",
-  "birdieplaza.seasonQuests": "Diese Saison bietet spannende Quests und seltene Sammlerstücke, die du dir verdienen kannst.",
-  "birdieplaza.craftItems": "Um diese seltenen Gegenstände zu erhalten, müsst ihr {{seasonalTicket}} s sammeln und sie in Stellas Megastore eintauschen oder im Auktionshaus bieten.",
   "description.speed.chicken.one": "Ihre Hühner produzieren jetzt 10% schneller Eier.",
   "description.speed.chicken.two": "Produziert Eier 10% schneller",
   "description.fat.chicken.one": "Ihre Hühner benötigen jetzt 10% weniger Weizen pro Futter.",
@@ -3657,5 +3653,10 @@
   "gems.update": "Edelstein-Update",
   "gems.intro": "Um uns auf das Onboarding neuer Spieler vorzubereiten, haben wir Block Bucks durch eine neue Währung ersetzt... Edelsteine!",
   "gems.intro.two": "Du erhältst 20 Edelsteine für jeden Block Buck, den du besitzt.",
-  "restock.one.buck": "Du wirst 20 Edelsteine verwenden, um alle Ladengegenstände im Spiel aufzufüllen."
+  "restock.one.buck": "Du wirst 20 Edelsteine verwenden, um alle Ladengegenstände im Spiel aufzufüllen.",
+  "birdieplaza.commonMethod": "Die gängigste Methode, {{seasonalTicket}} s zu verdienen, besteht darin, Ressourcen oder andere angeforderte Gegenstände zu sammeln und sie dann an Bumpkins auf der Plaza und in einigen anderen Bereichen zu liefern.",
+  "birdieplaza.choresAndRewards": "Ihr könnt auch {{seasonalTicket}} s verdienen, indem ihr Aufgaben für Hank erledigt, tägliche Truhenbelohnungen einsammelt und am Fraktionswettbewerb teilnehmt!",
+  "birdieplaza.seasonQuests": "In dieser Saison erwarten dich spannende Quests, seltene Sammlerstücke und exklusive Wearables, die du dir verdienen kannst.",
+  "birdieplaza.craftItems": "Um diese seltenen Gegenstände zu erhalten, müsst ihr {{seasonalTicket}} s sammeln und sie in Stellas Megastore eintauschen oder im Auktionshaus bieten.",
+  "reward.streak.oneYear": "Belohnung für eine 365-tägige Serie"
 }

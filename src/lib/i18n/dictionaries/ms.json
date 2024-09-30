@@ -129,12 +129,8 @@
   "birdieplaza.whatIsSeason": "Apa itu musim?",
   "birdieplaza.howToEarnTickets": "{{seasonalTicket}} s?",
   "birdieplaza.earnTicketsVariety": "Anda boleh memperoleh {{seasonalTicket}} dalam pelbagai cara.",
-  "birdieplaza.commonMethod": "Kaedah yang paling biasa untuk mendapatkan {{seasonalTicket}} s adalah dengan mengumpulkan sumber dan menghantarnya ke Bumpkins di Plaza.",
-  "birdieplaza.choresAndRewards": "Anda juga boleh memperoleh {{seasonalTicket}} s dengan menyelesaikan tugas untuk Hank & menuntut ganjaran harian!",
   "birdieplaza.gatherAndCraft": "Kumpulkan cukup {{seasonalTicket}} s dan anda akan dapat membeli beberapa barang langka seperti yang saya lakukan.",
   "birdieplaza.newSeasonIntro": "Setiap 3 bulan musim baru diperkenalkan di Sunflower Land.",
-  "birdieplaza.seasonQuests": "Musim ini mempunyai pencarian menarik & koleksi langka yang boleh anda perolehi.",
-  "birdieplaza.craftItems": "Untuk mendapatkan barang-barang langka ini, anda mesti mengumpul {{seasonalTicket}} s dan menukarnya di Stella's Megastore atau membida di rumah lelongan.",
   "description.speed.chicken.one": "Ayam anda kini akan menghasilkan telur 10% lebih cepat.",
   "description.speed.chicken.two": "Menghasilkan telur 10% lebih cepat",
   "description.fat.chicken.one": "Ayam anda kini memerlukan 10% kurang gandum setiap makanan.",
@@ -3657,5 +3653,10 @@
   "gems.update": "Kemas kini permata",
   "gems.intro": "Untuk mempersiapkan diri untuk memasuki pemain baru, kami telah menggantikan Block Bucks dengan mata wang baru... Permata!",
   "gems.intro.two": "Anda akan menerima 20 Permata untuk setiap Block Buck yang anda miliki.",
-  "restock.one.buck": "Anda akan menggunakan 20 Permata untuk menyimpan semula semua barang kedai dalam permainan."
+  "restock.one.buck": "Anda akan menggunakan 20 Permata untuk menyimpan semula semua barang kedai dalam permainan.",
+  "birdieplaza.commonMethod": "Kaedah yang paling biasa untuk mendapatkan {{seasonalTicket}} s adalah dengan mengumpulkan sumber atau mengumpul item lain yang diminta, dan kemudian menghantarnya ke Bumpkins di Plaza dan beberapa kawasan lain.",
+  "birdieplaza.choresAndRewards": "Anda juga boleh memperoleh {{seasonalTicket}} s dengan menyelesaikan tugas untuk Hank, menuntut ganjaran dada harian dan bersaing dalam pertandingan puak!",
+  "birdieplaza.seasonQuests": "Musim ini mempunyai pencarian menarik, koleksi langka dan barang pakai eksklusif yang boleh anda perolehi.",
+  "birdieplaza.craftItems": "Untuk mendapatkan barang-barang langka ini, anda mesti mengumpul {{seasonalTicket}} s dan menukarnya di Stella's Megastore atau membida di Rumah Lelongan.",
+  "reward.streak.oneYear": "Ganjaran rentetan 365 hari"
 }

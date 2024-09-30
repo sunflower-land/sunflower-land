@@ -95,7 +95,6 @@
   "birdieplaza.admiringOutfit": "Notei você admirando meu traje. Não é fantástico?!?",
   "birdieplaza.whatIsSeason": "O que é uma Temporada?",
   "birdieplaza.newSeasonIntro": "A cada 3 meses, uma nova temporada é introduzida em Sunflower Land.",
-  "birdieplaza.seasonQuests": "Esta temporada tem missões emocionantes e colecionáveis raros que você pode ganhar.",
   "description.speed.chicken.one": "Seus frangos agora produzirão ovos 10% mais rápido.",
   "description.speed.chicken.two": "Produz ovos 10% mais rápido",
   "description.fat.chicken.one": "Seus frangos agora precisarão de 10% menos trigo por ração.",
@@ -2374,10 +2373,7 @@
   "birdieplaza.collectTickets": "Colete {{seasonalTicket}} s suficientes e você poderá criar NFTs raros. Foi assim que consegui essa roupa rara!",
   "birdieplaza.howToEarnTickets": "{{seasonalTicket}} s?",
   "birdieplaza.earnTicketsVariety": "Você pode ganhar {{seasonalTicket}} de várias maneiras.",
-  "birdieplaza.commonMethod": "O método mais comum de ganhar {{seasonalTicket}} s é reunir recursos e entregá-los ao Bumpkins in the Plaza.",
-  "birdieplaza.choresAndRewards": "Você também pode ganhar {{seasonalTicket}} s completando tarefas para Hank e reivindicando recompensas diárias!",
   "birdieplaza.gatherAndCraft": "Reúna {{seasonalTicket}} s suficientes e você poderá comprar alguns itens raros, como eu fiz.",
-  "birdieplaza.craftItems": "Para obter esses itens raros, você deve coletar {{seasonalTicket}} s e trocá-los na Stella's Megastore ou licitar na casa de leilões.",
   "description.pharaoh.chicken": "Uma galinha dominante, +1 Dig.",
   "description.knight.chicken": "Um frango forte e nobre que aumenta sua produção de óleo.",
   "description.time.warp.totem": "Velocidade 2x para plantações, árvores, frutas, culinária e minerais. Dura apenas 2 horas",
@@ -3657,5 +3653,10 @@
   "gems.update": "Atualização de gemas",
   "gems.intro": "Para nos prepararmos para a contratação de novos jogadores, substituímos o Block Bucks por uma nova moeda... Gems!",
   "gems.intro.two": "Você receberá 20 joias por cada Block Buck que possuir.",
-  "restock.one.buck": "Você vai usar 20 joias para reabastecer todos os itens da loja no jogo."
+  "restock.one.buck": "Você vai usar 20 joias para reabastecer todos os itens da loja no jogo.",
+  "birdieplaza.commonMethod": "O método mais comum de ganhar {{seasonalTicket}} s é reunir recursos ou coletar outros itens solicitados e, em seguida, entregá-los ao Bumpkins in the Plaza e a algumas outras áreas.",
+  "birdieplaza.choresAndRewards": "Você também pode ganhar {{seasonalTicket}} s completando tarefas para Hank, reivindicando recompensas diárias no baú e competindo na competição de facções!",
+  "birdieplaza.seasonQuests": "Esta temporada tem missões emocionantes, itens colecionáveis raros e dispositivos vestíveis exclusivos que você pode ganhar.",
+  "birdieplaza.craftItems": "Para obter esses itens raros, você deve coletar {{seasonalTicket}} s e trocá-los na Stella's Megastore ou licitar na Casa de Leilões.",
+  "reward.streak.oneYear": "Recompensa de sequência de 365 dias"
 }

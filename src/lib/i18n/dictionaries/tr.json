@@ -108,7 +108,6 @@
   "birdieplaza.admiringOutfit": "Kıyafetime hayran olduğunu fark ettim. Harika değil mi?!?",
   "birdieplaza.whatIsSeason": "Sezon nedir?",
   "birdieplaza.newSeasonIntro": "Sunflower Land’de her 3 ayda bir yeni sezon tanıtılıyor.",
-  "birdieplaza.seasonQuests": "Bu sezon heyecan verici görevler ve kazanabileceğiniz nadir koleksiyon öğeleri içeriyor.",
   "description.speed.chicken.one": "Artık tavukların 10% daha hızlı yumurta üretecek.",
   "description.speed.chicken.two": "Yumurtaları 10% daha hızlı üretir",
   "description.fat.chicken.one": "Tavukların artık yem başına 10% daha az buğdaya gerek duyacak.",
@@ -2419,10 +2418,7 @@
   "birdieplaza.collectTickets": "Yeterince {{seasonalTicket}} s toplayın ve nadir NFT'ler oluşturabilirsiniz. Bu nadir kıyafeti böyle aldım!",
   "birdieplaza.howToEarnTickets": "{{seasonalTicket}} s?",
   "birdieplaza.earnTicketsVariety": "{{seasonalTicket}} çeşitli şekillerde kazanabilirsiniz.",
-  "birdieplaza.commonMethod": "{{seasonalTicket}} s kazanmanın en yaygın yöntemi kaynakları toplamak ve bunları Plaza'daki Bumpkins'e teslim etmektir.",
-  "birdieplaza.choresAndRewards": "Ayrıca Hank için ev işlerini tamamlayarak ve günlük ödüller talep ederek {{seasonalTicket}} s kazanabilirsiniz!",
   "birdieplaza.gatherAndCraft": "Yeterince {{seasonalTicket}} s toplayın ve benim yaptığım gibi bazı nadir eşyaları satın alabileceksiniz.",
-  "birdieplaza.craftItems": "Bu nadir eşyaları elde etmek için {{seasonalTicket}} s toplamanız ve bunları Stella's Megastore'da değiştirmeniz veya Müzayede evinde teklif vermeniz gerekir.",
   "description.pharaoh.chicken": "Yönetici bir tavuk, +1 Dig.",
   "description.knight.chicken": "Yağ veriminizi artıran güçlü ve asil bir tavuk.",
   "description.time.warp.totem": "Mahsuller, ağaçlar, meyveler, yemek pişirme ve mineraller için 2x hız. Sadece 2 saat sürer",
@@ -3657,5 +3653,10 @@
   "gems.update": "Mücevher güncellemesi",
   "gems.intro": "Yeni oyunculara katılmaya hazırlanmak için Block Bucks'ı yeni bir para birimi ile değiştirdik... Gems!",
   "gems.intro.two": "Sahip olduğunuz her Blok Buck için 20 Mücevher alacaksınız.",
-  "restock.one.buck": "Oyundaki tüm mağaza öğelerini stoklamak için 20 Mücevher kullanacaksınız."
+  "restock.one.buck": "Oyundaki tüm mağaza öğelerini stoklamak için 20 Mücevher kullanacaksınız.",
+  "birdieplaza.commonMethod": "{{seasonalTicket}} s kazanmanın en yaygın yöntemi, kaynakları toplamak veya istenen diğer öğeleri toplamak ve ardından bunları Plaza'daki Bumpkins'e ve diğer bazı bölgelere teslim etmektir.",
+  "birdieplaza.choresAndRewards": "Ayrıca Hank için ev işlerini tamamlayarak, günlük sandık ödüllerini talep ederek ve grup yarışmasında yarışarak {{seasonalTicket}} s kazanabilirsiniz!",
+  "birdieplaza.seasonQuests": "Bu sezon heyecan verici görevler, nadir koleksiyonlar ve kazanabileceğiniz özel giyilebilir ürünler var.",
+  "birdieplaza.craftItems": "Bu nadir eşyaları elde etmek için {{seasonalTicket}} s toplamanız ve bunları Stella's Megastore'da değiştirmeniz veya Müzayede Evi'nde teklif vermeniz gerekir.",
+  "reward.streak.oneYear": "365 gün seri ödülü"
 }
