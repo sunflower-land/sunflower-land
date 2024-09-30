@@ -8,6 +8,8 @@ import { getKeys } from "../types/craftables";
 import { Label } from "components/ui/Label";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { ClaimReward } from "../expansion/components/ClaimReward";
+import Gift from "assets/icons/gift.png";
+import Lightning from "assets/icons/lightning.png";
 
 export const Revealed: React.FC<{
   onAcknowledged?: () => void;
@@ -51,8 +53,14 @@ export const Revealed: React.FC<{
       />
       {streaks && streakBonus && (
         <div className="flex flex-col items-center p-2">
-          <Label type="info" className="px-0.5 text-sm">
-            {t("reward.streakBonus")}
+          <Label
+            type="vibrant"
+            icon={currentStreaks === 365 ? Gift : Lightning}
+            className="px-0.5 text-sm"
+          >
+            {currentStreaks === 365
+              ? t("reward.streak.oneYear")
+              : t("reward.streakBonus")}
           </Label>
         </div>
       )}
