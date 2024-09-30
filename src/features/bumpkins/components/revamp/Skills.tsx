@@ -1,13 +1,9 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import {
   BumpkinSkillRevamp,
   BumpkinRevampSkillTree,
   getRevampSkills,
 } from "features/game/types/bumpkinSkills";
-
-import { getAvailableBumpkinSkillPoints } from "features/game/events/landExpansion/choseSkill";
-import { Context } from "features/game/GameProvider";
-import { useActor } from "@xstate/react";
 
 import { SkillCategoryList } from "./SkillCategoryList";
 import { SkillPathDetails } from "./SkillPathDetails";
@@ -23,12 +19,6 @@ interface Props {
 }
 
 export const Skills: React.FC<Props> = ({ onBack, readonly }) => {
-  const { gameService } = useContext(Context);
-  const [gameState] = useActor(gameService);
-  const {
-    context: { state },
-  } = gameState;
-
   const [selectedSkillPath, setSelectedSkillPath] =
     useState<BumpkinRevampSkillTree | null>(null);
   const [skillsInPath, setSkillsInTree] = useState<BumpkinSkillRevamp[]>([]);
@@ -53,11 +43,6 @@ export const Skills: React.FC<Props> = ({ onBack, readonly }) => {
 
     onBack();
   };
-  const { t } = useAppTranslation();
-  const { bumpkin } = state;
-  const experience = bumpkin?.experience || 0;
-
-  const availableSkillPoints = getAvailableBumpkinSkillPoints(bumpkin);
 
   return (
     <div

@@ -1,5 +1,3 @@
-import { testnetFeatureFlag } from "lib/flags";
-
 export type BumpkinLevel =
   | 1
   | 2
@@ -75,37 +73,37 @@ export type BumpkinLevel =
   | 72
   | 73
   | 74
-  | 75
-  | 76
-  | 77
-  | 78
-  | 79
-  | 80
-  | 81
-  | 82
-  | 83
-  | 84
-  | 85
-  | 86
-  | 87
-  | 88
-  | 89
-  | 90
-  | 91
-  | 92
-  | 93
-  | 94
-  | 95
-  | 96
-  | 97
-  | 98
-  | 99
-  | 100;
+  | 75;
+// | 76
+// | 77
+// | 78
+// | 79
+// | 80
+// | 81
+// | 82
+// | 83
+// | 84
+// | 85
+// | 86
+// | 87
+// | 88
+// | 89
+// | 90
+// | 91
+// | 92
+// | 93
+// | 94
+// | 95
+// | 96
+// | 97
+// | 98
+// | 99
+// | 100;
 
 export const LEVEL_EXPERIENCE: Record<BumpkinLevel, number> = {
   1: 0,
-  2: 5,
-  3: 55,
+  2: 2,
+  3: 22,
   4: 205,
   5: 555,
   6: 1155,
@@ -178,37 +176,37 @@ export const LEVEL_EXPERIENCE: Record<BumpkinLevel, number> = {
   73: 6263905,
   74: 6793905,
   75: 7333905,
-  76: 7883905,
-  77: 8443905,
-  78: 9013905,
-  79: 9593905,
-  80: 10183905,
-  81: 10783905,
-  82: 11393905,
-  83: 12013905,
-  84: 12643905,
-  85: 13283905,
-  86: 13933905,
-  87: 14593905,
-  88: 15263905,
-  89: 15943905,
-  90: 16633905,
-  91: 17333905,
-  92: 18043905,
-  93: 18763905,
-  94: 19493905,
-  95: 20233905,
-  96: 20983905,
-  97: 21743905,
-  98: 22513905,
-  99: 23293905,
-  100: 24083905,
+  // 76: 7883905,
+  // 77: 8443905,
+  // 78: 9013905,
+  // 79: 9593905,
+  // 80: 10183905,
+  // 81: 10783905,
+  // 82: 11393905,
+  // 83: 12013905,
+  // 84: 12643905,
+  // 85: 13283905,
+  // 86: 13933905,
+  // 87: 14593905,
+  // 88: 15263905,
+  // 89: 15943905,
+  // 90: 16633905,
+  // 91: 17333905,
+  // 92: 18043905,
+  // 93: 18763905,
+  // 94: 19493905,
+  // 95: 20233905,
+  // 96: 20983905,
+  // 97: 21743905,
+  // 98: 22513905,
+  // 99: 23293905,
+  // 100: 24083905,
 };
 
-const MAX_BUMPKIN_LEVEL = (): BumpkinLevel => (testnetFeatureFlag() ? 100 : 75);
+const MAX_BUMPKIN_LEVEL: BumpkinLevel = 75;
 
 export const isMaxLevel = (experience: number): boolean => {
-  return experience >= LEVEL_EXPERIENCE[MAX_BUMPKIN_LEVEL()];
+  return experience >= LEVEL_EXPERIENCE[MAX_BUMPKIN_LEVEL];
 };
 
 export const getBumpkinLevel = (experience: number): BumpkinLevel => {
@@ -216,7 +214,7 @@ export const getBumpkinLevel = (experience: number): BumpkinLevel => {
   for (const key in LEVEL_EXPERIENCE) {
     const level = Number(key) as BumpkinLevel;
     if (isMaxLevel(experience)) {
-      bumpkinLevel = MAX_BUMPKIN_LEVEL();
+      bumpkinLevel = MAX_BUMPKIN_LEVEL;
     } else if (experience >= LEVEL_EXPERIENCE[level]) {
       bumpkinLevel = level;
     } else {
@@ -302,31 +300,31 @@ export const SKILL_POINTS: Record<BumpkinLevel, number> = {
   73: 43,
   74: 44,
   75: 44,
-  76: 0,
-  77: 0,
-  78: 0,
-  79: 0,
-  80: 0,
-  81: 0,
-  82: 0,
-  83: 0,
-  84: 0,
-  85: 0,
-  86: 0,
-  87: 0,
-  88: 0,
-  89: 0,
-  90: 0,
-  91: 0,
-  92: 0,
-  93: 0,
-  94: 0,
-  95: 0,
-  96: 0,
-  97: 0,
-  98: 0,
-  99: 0,
-  100: 0,
+  // 76: 45,
+  // 77: 45,
+  // 78: 46,
+  // 79: 46,
+  // 80: 47,
+  // 81: 47,
+  // 82: 48,
+  // 83: 48,
+  // 84: 49,
+  // 85: 49,
+  // 86: 50,
+  // 87: 50,
+  // 88: 51,
+  // 89: 51,
+  // 90: 52,
+  // 91: 52,
+  // 92: 53,
+  // 93: 53,
+  // 94: 54,
+  // 95: 54,
+  // 96: 55,
+  // 97: 55,
+  // 98: 56,
+  // 99: 56,
+  // 100: 57,
 };
 
 export const findLevelRequiredForNextSkillPoint = (
@@ -351,7 +349,7 @@ export const getExperienceToNextLevel = (experience: number) => {
   const currentExperienceProgress = experience - currentLevelExperience;
   const experienceToNextLevel = nextLevelExperience - currentLevelExperience;
 
-  if (level === MAX_BUMPKIN_LEVEL()) {
+  if (level === MAX_BUMPKIN_LEVEL) {
     return {
       currentExperienceProgress,
       experienceToNextLevel: 0,
