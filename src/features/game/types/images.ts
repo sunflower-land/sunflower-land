@@ -16,6 +16,8 @@ import oliveSeed from "assets/greenhouse/olive_seed.webp";
 import rice from "assets/greenhouse/rice.webp";
 import riceSeed from "assets/greenhouse/rice_seed.webp";
 
+import gem from "assets/icons/gem.webp";
+
 import communityEgg from "assets/sfts/easter_donation_egg.webp";
 import hungryHare from "assets/sfts/hungryHare.png";
 
@@ -4063,5 +4065,9 @@ export const ITEM_DETAILS: Items = {
   "Scarab Beetle": {
     image: scarabBeetle,
     description: "",
+  },
+  Gem: {
+    image: gem,
+    description: translate("description.gem"),
   },
 };

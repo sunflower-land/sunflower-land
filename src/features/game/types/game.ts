@@ -182,6 +182,8 @@ export type MutantChicken =
   | "Knight Chicken"
   | "Pharaoh Chicken";
 
+export const BB_TO_GEM_RATIO = 20;
+
 export type Coupons =
   | "Gold Pass"
   | "Trading Ticket"
@@ -192,6 +194,7 @@ export type Coupons =
   | "Red Envelope"
   | "Love Letter"
   | "Block Buck"
+  | "Gem"
   | "Sunflower Supporter"
   | "Potion Ticket"
   | "Bud Ticket"
@@ -209,6 +212,9 @@ export type Coupons =
 export type Keys = "Treasure Key" | "Rare Key" | "Luxury Key";
 
 export const COUPONS: Record<Coupons, { description: string }> = {
+  Gem: {
+    description: translate("description.gem"),
+  },
   "Gold Pass": {
     description: translate("description.gold.pass"),
   },
@@ -970,7 +976,7 @@ export type Christmas = {
 
 export type Currency =
   | "SFL"
-  | "Block Buck"
+  | "Gem"
   | "Crimstone"
   | "Sunstone"
   | "Seasonal Ticket"

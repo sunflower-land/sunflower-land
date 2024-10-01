@@ -6,6 +6,7 @@ import {
   Inventory,
   ExpansionConstruction,
   PlacedItem,
+  BB_TO_GEM_RATIO,
 } from "../types/game";
 import { getKeys } from "../types/craftables";
 import { BumpkinParts, tokenUriBuilder } from "lib/utils/tokenUriBuilder";
@@ -345,6 +346,7 @@ export const INITIAL_FARM: GameState = {
   balance: new Decimal(0),
   previousBalance: new Decimal(0),
   inventory: {
+    "Lifetime Farmer Banner": new Decimal(1),
     "Town Center": new Decimal(1),
     Market: new Decimal(1),
     Workbench: new Decimal(1),
@@ -353,7 +355,7 @@ export const INITIAL_FARM: GameState = {
     Tree: new Decimal(getKeys(INITIAL_RESOURCES.trees).length),
     "Stone Rock": new Decimal(getKeys(INITIAL_RESOURCES.stones).length),
     Axe: new Decimal(10),
-    "Block Buck": new Decimal(1),
+    Gem: new Decimal(1 * BB_TO_GEM_RATIO),
     Rug: new Decimal(1),
     Wardrobe: new Decimal(1),
     Shovel: new Decimal(1),

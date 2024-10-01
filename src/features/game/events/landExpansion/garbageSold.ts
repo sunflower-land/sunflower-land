@@ -21,7 +21,7 @@ export function sellGarbage({ state, action }: Options) {
   return produce(state, (game) => {
     const { item, amount } = action;
 
-    const { bumpkin, inventory, coins } = game;
+    const { bumpkin, inventory } = game;
 
     if (!bumpkin) {
       throw new Error("You do not have a Bumpkin!");
@@ -41,20 +41,30 @@ export function sellGarbage({ state, action }: Options) {
       throw new Error("Insufficient quantity to sell");
     }
 
-    const price = GARBAGE[item].sellPrice ?? 0;
-    const coinsEarned = price * amount;
-    bumpkin.activity = trackActivity(
-      "Coins Earned",
-      bumpkin.activity,
-      new Decimal(coinsEarned),
-    );
+    const coins = GARBAGE[item].sellPrice ?? 0;
+    if (coins) {
+      const coinsEarned = coins * amount;
+      bumpkin.activity = trackActivity(
+        "Coins Earned",
+        bumpkin.activity,
+        new Decimal(coinsEarned),
+      );
+
+      game.coins += coinsEarned;
+    }
+
+    const gems = GARBAGE[item].gems ?? 0;
+    if (gems) {
+      const previous = game.inventory.Gem ?? new Decimal(0);
+      game.inventory.Gem = previous.add(gems * amount);
+    }
+
     bumpkin.activity = trackActivity(
       `${item} Sold`,
       bumpkin?.activity,
       new Decimal(amount),
     );
 
-    game.coins = coins + coinsEarned;
     game.inventory[item] = setPrecision(count.sub(amount));
 
     return game;

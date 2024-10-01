@@ -86,11 +86,7 @@ export const FlowerTrade: React.FC<Props> = ({ flowerShop, flowerCount }) => {
             />
           </div>
         </div>
-        <Label
-          type="info"
-          className="font-secondary mb-2"
-          icon={SUNNYSIDE.icons.stopwatch}
-        >
+        <Label type="info" className="mb-2" icon={SUNNYSIDE.icons.stopwatch}>
           {`${t("offer.end")} ${secondsToString(remainingSecondsInWeek, {
             length: "medium",
             removeTrailingZeros: true,

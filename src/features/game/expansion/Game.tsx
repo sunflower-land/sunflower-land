@@ -60,11 +60,14 @@ import { SomethingArrived } from "./components/SomethingArrived";
 import { TradeAlreadyFulfilled } from "../components/TradeAlreadyFulfilled";
 import { NPC_WEARABLES } from "lib/npcs";
 import { Transaction } from "features/island/hud/Transaction";
+import { Gems } from "./components/Gems";
+import { HenHouseInside } from "features/henHouse/HenHouseInside";
 
 const land = SUNNYSIDE.land.island;
 
 export const AUTO_SAVE_INTERVAL = 1000 * 30; // autosave every 30 seconds
 const SHOW_MODAL: Record<StateValues, boolean> = {
+  gems: true,
   loading: true,
   playing: false,
   autosaving: false,
@@ -141,6 +144,7 @@ const isSwarming = (state: MachineState) => state.matches("swarming");
 const isPurchasing = (state: MachineState) =>
   state.matches("purchasing") || state.matches("buyingBlockBucks");
 
+const showGems = (state: MachineState) => state.matches("gems");
 const isCoolingDown = (state: MachineState) => state.matches("coolingDown");
 const isGameRules = (state: MachineState) => state.matches("gameRules");
 const isDepositing = (state: MachineState) => state.matches("depositing");
@@ -232,6 +236,7 @@ const GameContent: React.FC = () => {
           <Route path="/farm" element={<Land />} />
           <Route path="/home" element={<Home />} />
           <Route path="/greenhouse" element={<GreenhouseInside />} />
+          <Route path="/hen-house" element={<HenHouseInside />} />
           <Route path="/helios" element={<Helios key="helios" />} />
           <Route path="*" element={<IslandNotFound />} />
         </Routes>
@@ -295,6 +300,7 @@ export const GameWrapper: React.FC = ({ children }) => {
   const specialOffer = useSelector(gameService, hasSpecialOffer);
   const playing = useSelector(gameService, isPlaying);
   const hasSomethingArrived = useSelector(gameService, somethingArrived);
+  const hasBBs = useSelector(gameService, showGems);
 
   const showPWAInstallPrompt = useSelector(authService, _showPWAInstallPrompt);
 
@@ -474,6 +480,7 @@ export const GameWrapper: React.FC = ({ children }) => {
             {showOffers && <OffersPopup />}
             {specialOffer && <VIPOffer />}
             {hasSomethingArrived && <SomethingArrived />}
+            {hasBBs && <Gems />}
           </Panel>
         </Modal>
 

@@ -400,6 +400,7 @@ const coupons: Record<Coupons, () => boolean> = {
   "Red Envelope": () => false,
   "Love Letter": () => false,
   "Block Buck": () => false,
+  Gem: () => false,
   "Solar Flare Ticket": () => false,
   "Dawn Breaker Ticket": () => false,
   "Sunflower Supporter": () => false,
