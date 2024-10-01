@@ -27,6 +27,7 @@ describe("offer.claimed", () => {
         state: {
           ...INITIAL_FARM,
           trades: {
+            tradePoints: 0,
             offers: {
               "123": {
                 collection: "collectibles",
@@ -52,6 +53,7 @@ describe("offer.claimed", () => {
       state: {
         ...INITIAL_FARM,
         trades: {
+          tradePoints: 0,
           offers: {
             "123": {
               collection: "collectibles",
@@ -80,6 +82,7 @@ describe("offer.claimed", () => {
       state: {
         ...INITIAL_FARM,
         trades: {
+          tradePoints: 0,
           offers: {
             "123": {
               collection: "wearables",
@@ -108,6 +111,7 @@ describe("offer.claimed", () => {
       state: {
         ...INITIAL_FARM,
         trades: {
+          tradePoints: 0,
           offers: {
             "123": {
               collection: "collectibles",
@@ -137,6 +141,7 @@ describe("offer.claimed", () => {
       state: {
         ...INITIAL_FARM,
         trades: {
+          tradePoints: 0,
           offers: {
             "123": {
               collection: "collectibles",
@@ -165,6 +170,7 @@ describe("offer.claimed", () => {
       state: {
         ...INITIAL_FARM,
         trades: {
+          tradePoints: 5,
           offers: {
             "123": {
               collection: "collectibles",
@@ -182,8 +188,8 @@ describe("offer.claimed", () => {
     });
 
     expect(state.inventory["Trade Point"]?.toNumber()).toBeGreaterThanOrEqual(
-      1,
+      6,
     );
-    expect(state.tradePoints).toBeGreaterThanOrEqual(1);
+    expect(state.trades.tradePoints).toBeGreaterThanOrEqual(6);
   });
 });

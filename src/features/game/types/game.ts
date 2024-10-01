@@ -1167,7 +1167,6 @@ export interface GameState {
 
   username?: string;
   coins: number;
-  tradePoints: number;
   balance: Decimal;
   previousBalance: Decimal;
   airdrops?: Airdrop[];
@@ -1284,6 +1283,7 @@ export interface GameState {
   trades: {
     listings?: Record<string, TradeListing>;
     offers?: Record<string, TradeOffer>;
+    tradePoints: number;
     dailyListings?: { date: number; count: number };
     dailyPurchases?: { date: number; count: number };
   };

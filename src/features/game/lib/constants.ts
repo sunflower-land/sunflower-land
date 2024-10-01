@@ -390,7 +390,6 @@ export const INITIAL_FARM: GameState = {
   coins: 0,
   balance: new Decimal(0),
   previousBalance: new Decimal(0),
-  tradePoints: 0,
   inventory: {
     "Lifetime Farmer Banner": new Decimal(1),
     "Town Center": new Decimal(1),
@@ -497,7 +496,9 @@ export const INITIAL_FARM: GameState = {
 
   stock: INITIAL_STOCK(),
   chickens: {},
-  trades: {},
+  trades: {
+    tradePoints: 0,
+  },
   buildings: {
     "Town Center": [
       {
@@ -614,7 +615,6 @@ export const TEST_FARM: GameState = {
   coins: 0,
   balance: new Decimal(0),
   previousBalance: new Decimal(0),
-  tradePoints: 0,
   inventory: {
     Sunflower: new Decimal(5),
     Potato: new Decimal(12),
@@ -675,7 +675,9 @@ export const TEST_FARM: GameState = {
   mailbox: {
     read: [],
   },
-  trades: {},
+  trades: {
+    tradePoints: 0,
+  },
   crops: {
     1: {
       createdAt: Date.now(),
@@ -925,7 +927,6 @@ export const EMPTY: GameState = {
   coins: 0,
   balance: new Decimal(fromWei("0")),
   previousBalance: new Decimal(fromWei("0")),
-  tradePoints: 0,
   createdAt: new Date().getTime(),
   inventory: {
     "Chicken Coop": new Decimal(1),
@@ -983,7 +984,9 @@ export const EMPTY: GameState = {
   dailyRewards: { streaks: 0 },
   auctioneer: {},
 
-  trades: {},
+  trades: {
+    tradePoints: 0,
+  },
   fruitPatches: {},
   beehives: {},
   flowers: {

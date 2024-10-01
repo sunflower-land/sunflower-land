@@ -16,7 +16,7 @@ export function addTradePoints({
   const multipliedPoints = points * pointsCalculation;
 
   // Add points to gamestate
-  game.tradePoints += multipliedPoints;
+  game.trades.tradePoints += multipliedPoints;
   game.inventory["Trade Point"] = (
     game.inventory["Trade Point"] ?? new Decimal(0)
   ).add(multipliedPoints);

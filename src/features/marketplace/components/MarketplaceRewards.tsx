@@ -12,7 +12,8 @@ import { formatNumber } from "lib/utils/formatNumber";
 import React, { useContext } from "react";
 import trade_point from "src/assets/icons/trade_point.webp";
 
-const _tradingPoints = (state: MachineState) => state.context.state.tradePoints;
+const _tradingPoints = (state: MachineState) =>
+  state.context.state.trades.tradePoints;
 
 export const MarketplaceRewards: React.FC = () => {
   const { gameService } = useContext(Context);
