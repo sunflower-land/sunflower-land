@@ -21,7 +21,6 @@ import { Swarming } from "../components/Swarming";
 import { Cooldown } from "../components/Cooldown";
 import { Route, Routes } from "react-router-dom";
 import { Land } from "./Land";
-import { Helios } from "features/helios/Helios";
 import { VisitingHud } from "features/island/hud/VisitingHud";
 import { VisitLandExpansionForm } from "./components/VisitLandExpansionForm";
 
@@ -237,7 +236,6 @@ const GameContent: React.FC = () => {
           <Route path="/home" element={<Home />} />
           <Route path="/greenhouse" element={<GreenhouseInside />} />
           <Route path="/hen-house" element={<HenHouseInside />} />
-          <Route path="/helios" element={<Helios key="helios" />} />
           <Route path="*" element={<IslandNotFound />} />
         </Routes>
       </div>

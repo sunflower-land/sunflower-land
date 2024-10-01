@@ -27,6 +27,7 @@ import { hasFeatureAccess } from "lib/flags";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { Context } from "features/game/GameProvider";
 import { craftingRequirementsMet } from "features/game/lib/craftingRequirement";
+import { use } from "matter";
 /**
  * The props for the component.
  * @param gameState The game state.
@@ -210,6 +211,8 @@ export const Expanding: React.FC<{
 }> = ({ state, onClose, onInstantExpanded }) => {
   const readyAt = state.expansionConstruction?.readyAt ?? 0;
 
+  const [_, setRender] = useState(0);
+
   const requirements = expansionRequirements({ game: state });
   const totalSeconds = requirements?.seconds ?? 0;
   const secondsTillReady = (readyAt - Date.now()) / 1000;
@@ -220,27 +223,39 @@ export const Expanding: React.FC<{
     readyAt: readyAt as number,
   });
 
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (Date.now() > readyAt) {
+        onClose();
+      }
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <>
-      <div className="p-1 flex justify-between items-center">
+      <div className="p-1 ">
         <Label
           type="default"
           icon={SUNNYSIDE.icons.stopwatch}
         >{`In progress`}</Label>
-      </div>
-      <div className="flex items-center mb-1">
-        <div>
-          <div className="relative flex flex-col w-full">
-            <div className="flex items-center gap-x-1">
-              <ResizableBar
-                percentage={(1 - secondsTillReady! / totalSeconds) * 100}
-                type="progress"
-              />
-              <TimerDisplay time={ready} />
+        <p className="text-sm my-2">Your expansion is being built...</p>
+        <div className="flex items-center mb-1">
+          <div>
+            <div className="relative flex flex-col w-full">
+              <div className="flex items-center gap-x-1">
+                <ResizableBar
+                  percentage={(1 - secondsTillReady! / totalSeconds) * 100}
+                  type="progress"
+                />
+                <TimerDisplay time={ready} />
+              </div>
             </div>
           </div>
         </div>
       </div>
+
       <Button
         disabled={!state.inventory.Gem?.gte(gems)}
         className="relative"
