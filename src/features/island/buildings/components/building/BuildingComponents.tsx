@@ -37,6 +37,7 @@ import {
 
 import { Greenhouse } from "./greenhouse/Greenhouse";
 import { CropMachine } from "./cropMachine/CropMachine";
+import { Barn } from "./barn/Barn";
 
 export interface BuildingProps {
   buildingId: string;
@@ -106,6 +107,7 @@ export const BUILDING_COMPONENTS: Record<
   Warehouse: Warehouse,
   Toolshed: Toolshed,
   "Hen House": ChickenHouse,
+  Barn: Barn,
   Kitchen: ({
     buildingId,
     buildingIndex,
