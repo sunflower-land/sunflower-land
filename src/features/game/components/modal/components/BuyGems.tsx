@@ -25,11 +25,11 @@ export interface Price {
 
 const PRICES: Price[] = [
   { amount: 100, usd: 0.99 },
-  { amount: 600, usd: 4.99 },
-  { amount: 1250, usd: 9.99 },
-  { amount: 2750, usd: 19.99 },
+  { amount: 650, usd: 4.99 },
+  { amount: 1350, usd: 9.99 },
+  { amount: 2800, usd: 19.99 },
   { amount: 7400, usd: 49.99 },
-  { amount: 15000, usd: 99.99 },
+  { amount: 15500, usd: 99.99 },
   { amount: 200000, usd: 999.99 },
 ];
 
