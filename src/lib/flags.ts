@@ -32,7 +32,8 @@ export type FeatureName =
   | "FRUIT_DASH"
   | "TREASURE_UPDATES"
   | "NEW_RESOURCES_GE"
-  | "FSL";
+  | "FSL"
+  | "ANIMAL_BUILDINGS";
 
 // Used for testing production features
 export const ADMIN_IDS = [1, 3, 51, 39488, 128727];
@@ -61,6 +62,7 @@ const featureFlags: Record<FeatureName, FeatureFlag> = {
   TREASURE_UPDATES: betaTimeBasedFeatureFlag(new Date("2024-09-16T00:00:00Z")),
   FSL: defaultFeatureFlag,
   NEW_RESOURCES_GE: defaultFeatureFlag,
+  ANIMAL_BUILDINGS: defaultFeatureFlag,
 };
 
 export const hasFeatureAccess = (game: GameState, featureName: FeatureName) => {
