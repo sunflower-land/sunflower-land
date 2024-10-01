@@ -5066,7 +5066,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
       { trait_type: "Boost", value: "Crop" },
       {
         display_type: "boost_number",
-        trait_type: "Increase Yield of Radish, Wheat, Kale & Rice",
+        trait_type: "Increase Yield of Radish, Wheat, Kale, Rice & Barley",
         value: 0.5,
       },
       { trait_type: "Tradable", value: "Yes" },
