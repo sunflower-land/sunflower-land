@@ -174,6 +174,18 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
   },
+  "Barley Seed": {
+    name: "Barley Seed",
+    description:
+      "Barley is a versatile cereal grain commonly used for food, beverages, and animal feed, known for its high fiber content and adaptability to various climates.",
+    decimals: 18,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/question_mark.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Seed" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
   "Apple Seed": {
     name: "Apple Seed",
     description:
@@ -418,6 +430,18 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     attributes: [
       { trait_type: "Purpose", value: "Crop" },
       { trait_type: "Tradable", value: "Yes" },
+    ],
+  },
+  Barley: {
+    name: "Barley",
+    description:
+      "Barley is a versatile cereal grain commonly used for food, beverages, and animal feed, known for its high fiber content and adaptability to various climates.",
+    decimals: 18,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/question_mark.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Crop" },
+      { trait_type: "Tradable", value: "No" },
     ],
   },
   Carrot: {

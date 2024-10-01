@@ -98,6 +98,7 @@ export const INITIAL_STOCK = (state?: GameState): Inventory => {
     "Radish Seed": new Decimal(40),
     "Wheat Seed": new Decimal(40),
     "Kale Seed": new Decimal(30),
+    "Barley Seed": new Decimal(30),
 
     "Grape Seed": new Decimal(10),
     "Olive Seed": new Decimal(10),
@@ -159,6 +160,7 @@ export const INVENTORY_LIMIT = (state?: GameState): Inventory => {
     "Radish Seed": new Decimal(100),
     "Wheat Seed": new Decimal(100),
     "Kale Seed": new Decimal(80),
+    "Barley Seed": new Decimal(80),
 
     "Tomato Seed": new Decimal(50),
     "Lemon Seed": new Decimal(45),

@@ -3659,5 +3659,6 @@
   "description.gem": "A valuable gem in Sunflower Land!",
   "gems.update": "Gem update",
   "gems.intro": "To prepare for onboarding new players, we have replaced Block Bucks with a new currency...Gems!",
-  "gems.intro.two": "You will receive 20 Gems for every Block Buck you own."
+  "gems.intro.two": "You will receive 20 Gems for every Block Buck you own.",
+  "description.barley": "Barley is a versatile cereal grain commonly used for food, beverages, and animal feed, known for its high fiber content and adaptability to various climates."
 }
