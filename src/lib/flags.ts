@@ -62,7 +62,7 @@ const featureFlags: Record<FeatureName, FeatureFlag> = {
   TREASURE_UPDATES: betaTimeBasedFeatureFlag(new Date("2024-09-16T00:00:00Z")),
   FSL: defaultFeatureFlag,
   NEW_RESOURCES_GE: defaultFeatureFlag,
-  ANIMAL_BUILDINGS: defaultFeatureFlag,
+  ANIMAL_BUILDINGS: testnetFeatureFlag,
 };
 
 export const hasFeatureAccess = (game: GameState, featureName: FeatureName) => {
