@@ -6,9 +6,9 @@ import { trackActivity } from "features/game/types/bumpkinActivity";
 import { setPrecision } from "lib/utils/formatNumber";
 import {
   Fruit,
-  FRUIT,
   FruitName,
   GREENHOUSE_FRUIT,
+  PATCH_FRUIT,
 } from "features/game/types/fruits";
 import { produce } from "immer";
 
@@ -23,7 +23,7 @@ export type SellCropAction = {
 
 export const SELLABLE = {
   ...CROPS,
-  ...FRUIT(),
+  ...PATCH_FRUIT(),
   ...GREENHOUSE_CROPS,
   ...GREENHOUSE_FRUIT(),
 };

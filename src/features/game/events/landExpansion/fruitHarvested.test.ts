@@ -2,7 +2,7 @@ import "lib/__mocks__/configMock";
 
 import Decimal from "decimal.js-light";
 import { INITIAL_BUMPKIN, TEST_FARM } from "features/game/lib/constants";
-import { FRUIT, FRUIT_SEEDS } from "features/game/types/fruits";
+import { FRUIT_SEEDS, PATCH_FRUIT } from "features/game/types/fruits";
 import { GameState, FruitPatch } from "features/game/types/game";
 import {
   getFruitYield,
@@ -53,7 +53,7 @@ describe("fruitHarvested", () => {
             harvestsLeft: 3,
             harvestedAt: 0,
           },
-          FRUIT().Apple,
+          PATCH_FRUIT().Apple,
         ),
       ).toBeFalsy();
     });
@@ -69,7 +69,7 @@ describe("fruitHarvested", () => {
             harvestsLeft: 2,
             harvestedAt: appleSeed.plantSeconds,
           },
-          FRUIT().Apple,
+          PATCH_FRUIT().Apple,
         ),
       ).toBeFalsy();
     });
@@ -85,7 +85,7 @@ describe("fruitHarvested", () => {
             harvestsLeft: 3,
             harvestedAt: 0,
           },
-          FRUIT().Apple,
+          PATCH_FRUIT().Apple,
         ),
       ).toBeFalsy();
     });
@@ -101,7 +101,7 @@ describe("fruitHarvested", () => {
             harvestsLeft: 2,
             harvestedAt: appleSeed.plantSeconds,
           },
-          FRUIT().Apple,
+          PATCH_FRUIT().Apple,
         ),
       ).toBeFalsy();
     });

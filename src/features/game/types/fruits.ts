@@ -99,7 +99,7 @@ export type Fruit = {
   disabled?: boolean;
 };
 
-export const FRUIT: () => Record<FruitName, Fruit> = () => ({
+export const PATCH_FRUIT: () => Record<FruitName, Fruit> = () => ({
   Tomato: {
     description: "Rich in Lycopene",
     name: "Tomato",

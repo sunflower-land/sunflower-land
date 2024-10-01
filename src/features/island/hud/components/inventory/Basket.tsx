@@ -29,11 +29,11 @@ import {
 import { COMMODITIES } from "features/game/types/resources";
 import { BEANS, EXOTIC_CROPS } from "features/game/types/beans";
 import {
-  FRUIT,
   FruitSeedName,
   FRUIT_SEEDS,
   GREENHOUSE_FRUIT_SEEDS,
   GREENHOUSE_FRUIT,
+  PATCH_FRUIT,
 } from "features/game/types/fruits";
 import { SplitScreenView } from "components/ui/SplitScreenView";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -156,7 +156,7 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
   ];
   const flowerSeeds = getItems(FLOWER_SEEDS());
   const crops = [...getItems(CROPS), ...getItems(GREENHOUSE_CROPS)];
-  const fruits = [...getItems(FRUIT()), ...getItems(GREENHOUSE_FRUIT())];
+  const fruits = [...getItems(PATCH_FRUIT()), ...getItems(GREENHOUSE_FRUIT())];
   const flowers = getItems(FLOWERS);
   const workbenchTools = getItems(WORKBENCH_TOOLS);
   const treasureTools = getItems(TREASURE_TOOLS);

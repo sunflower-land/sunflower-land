@@ -3,7 +3,7 @@ import React from "react";
 import { getTimeLeft } from "lib/utils/time";
 import { PlantedFruit } from "features/game/types/game";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
-import { FRUIT, FRUIT_SEEDS } from "features/game/types/fruits";
+import { FRUIT_SEEDS, PATCH_FRUIT } from "features/game/types/fruits";
 import { FruitSoil } from "./FruitSoil";
 
 import { FruitSeedling } from "./FruitSeedling";
@@ -28,7 +28,7 @@ const getFruitTreeStatus = (plantedFruit?: PlantedFruit): FruitTreeStatus => {
   // Dead tree/bush
   if (!harvestsLeft) return { stage: "Dead" };
 
-  const { seed } = FRUIT()[name];
+  const { seed } = PATCH_FRUIT()[name];
   const { plantSeconds } = FRUIT_SEEDS()[seed];
 
   if (harvestedAt) {

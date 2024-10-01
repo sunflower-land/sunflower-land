@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { FRUIT, FruitName } from "features/game/types/fruits";
+import { FruitName, PATCH_FRUIT } from "features/game/types/fruits";
 import { FRUIT_LIFECYCLE } from "./fruits";
 
 import { Context } from "features/game/GameProvider";
@@ -13,7 +13,7 @@ interface Props {
 export const ReplenishedTree: React.FC<Props> = ({ fruitName }) => {
   const lifecycle = FRUIT_LIFECYCLE[fruitName];
 
-  const { isBush } = FRUIT()[fruitName];
+  const { isBush } = PATCH_FRUIT()[fruitName];
   let bottom, left, width;
   switch (fruitName) {
     case "Banana":

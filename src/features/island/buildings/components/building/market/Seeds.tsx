@@ -21,10 +21,10 @@ import { getBumpkinLevel } from "features/game/lib/level";
 import { SEEDS, SeedName } from "features/game/types/seeds";
 import { Bumpkin } from "features/game/types/game";
 import {
-  FRUIT,
   FRUIT_SEEDS,
   FruitSeedName,
   GREENHOUSE_FRUIT_SEEDS,
+  PATCH_FRUIT,
 } from "features/game/types/fruits";
 import { Restock } from "features/island/buildings/components/building/market/Restock";
 import { getFruitHarvests } from "features/game/events/landExpansion/utils";
@@ -216,7 +216,7 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
       return getFlowerTime(selectedName as FlowerSeedName, state);
     }
 
-    if (yields && yields in FRUIT())
+    if (yields && yields in PATCH_FRUIT())
       return getFruitPatchTime(
         selectedName as FruitSeedName,
         state,
@@ -246,7 +246,7 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
   const getHarvestCount = () => {
     if (!yields) return undefined;
 
-    if (!(yields in FRUIT())) return undefined;
+    if (!(yields in PATCH_FRUIT())) return undefined;
 
     return getFruitHarvests(state);
   };

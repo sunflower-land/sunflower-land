@@ -12,7 +12,7 @@ import { NPCName } from "lib/npcs";
 import { getSeasonChangeover } from "lib/utils/getSeasonWeek";
 import { isWearableActive } from "features/game/lib/wearables";
 import { FACTION_OUTFITS } from "features/game/lib/factions";
-import { FRUIT, FruitName } from "features/game/types/fruits";
+import { FruitName, PATCH_FRUIT } from "features/game/types/fruits";
 import { produce } from "immer";
 
 export const TICKET_REWARDS: Record<QuestNPCName, number> = {
@@ -29,7 +29,7 @@ export const TICKET_REWARDS: Record<QuestNPCName, number> = {
   pharaoh: 5,
 };
 
-const isFruit = (name: FruitName) => name in FRUIT();
+const isFruit = (name: FruitName) => name in PATCH_FRUIT();
 
 export function generateDeliveryTickets({
   game,

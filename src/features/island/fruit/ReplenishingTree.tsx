@@ -4,7 +4,11 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
 import { ProgressBar } from "components/ui/ProgressBar";
 import { TimerPopover } from "../common/TimerPopover";
-import { FRUIT, FRUIT_SEEDS, FruitName } from "features/game/types/fruits";
+import {
+  FRUIT_SEEDS,
+  FruitName,
+  PATCH_FRUIT,
+} from "features/game/types/fruits";
 import { FRUIT_LIFECYCLE } from "./fruits";
 import classNames from "classnames";
 import { ITEM_DETAILS } from "features/game/types/images";
@@ -33,7 +37,7 @@ export const ReplenishingTree: React.FC<Props> = ({
   const [showPopover, setShowPopover] = useState(false);
   const lifecycle = FRUIT_LIFECYCLE[fruitName];
 
-  const { seed, isBush } = FRUIT()[fruitName];
+  const { seed, isBush } = PATCH_FRUIT()[fruitName];
   let bottom, left, width;
   switch (fruitName) {
     case "Banana":

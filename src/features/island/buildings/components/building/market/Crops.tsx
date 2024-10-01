@@ -8,7 +8,11 @@ import { useActor } from "@xstate/react";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { getSellPrice } from "features/game/expansion/lib/boosts";
 import { setPrecision } from "lib/utils/formatNumber";
-import { Fruit, FRUIT, GREENHOUSE_FRUIT } from "features/game/types/fruits";
+import {
+  Fruit,
+  GREENHOUSE_FRUIT,
+  PATCH_FRUIT,
+} from "features/game/types/fruits";
 import { SplitScreenView } from "components/ui/SplitScreenView";
 import { ShopSellDetails } from "components/ui/layouts/ShopSellDetails";
 import lightning from "assets/icons/lightning.png";
@@ -124,7 +128,7 @@ export const Crops: React.FC = () => {
 
   const cropsAndFruits = Object.values({
     ...CROPS,
-    ...FRUIT(),
+    ...PATCH_FRUIT(),
     ...exotics,
     ...GREENHOUSE_FRUIT(),
     ...GREENHOUSE_CROPS,
@@ -231,7 +235,9 @@ export const Crops: React.FC = () => {
             </div>
             <div className="flex flex-wrap mb-2">
               {cropsAndFruits
-                .filter((crop) => !!crop.sellPrice && crop.name in FRUIT())
+                .filter(
+                  (crop) => !!crop.sellPrice && crop.name in PATCH_FRUIT(),
+                )
                 .map((item) => (
                   <Box
                     isSelected={selected.name === item.name}

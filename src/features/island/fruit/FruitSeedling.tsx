@@ -2,7 +2,11 @@ import React, { useContext, useState } from "react";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
-import { FRUIT, FRUIT_SEEDS, FruitName } from "features/game/types/fruits";
+import {
+  FRUIT_SEEDS,
+  FruitName,
+  PATCH_FRUIT,
+} from "features/game/types/fruits";
 import { FRUIT_LIFECYCLE } from "./fruits";
 import { ProgressBar } from "components/ui/ProgressBar";
 import { TimerPopover } from "../common/TimerPopover";
@@ -31,7 +35,7 @@ const getFruitImage = (imageSource: string) => {
 export const FruitSeedling: React.FC<Props> = ({ fruitName, timeLeft }) => {
   const { showTimers } = useContext(Context);
   const [showPopover, setShowPopover] = useState(false);
-  const { seed } = FRUIT()[fruitName];
+  const { seed } = PATCH_FRUIT()[fruitName];
   const { plantSeconds } = FRUIT_SEEDS()[seed];
   const lifecycle = FRUIT_LIFECYCLE[fruitName];
 

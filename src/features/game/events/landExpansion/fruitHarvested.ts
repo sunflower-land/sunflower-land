@@ -9,11 +9,11 @@ import {
   trackActivity,
 } from "features/game/types/bumpkinActivity";
 import {
-  FRUIT,
   FruitName,
   FRUIT_SEEDS,
   Fruit,
   GreenHouseFruitName,
+  PATCH_FRUIT,
 } from "features/game/types/fruits";
 import { Bumpkin, GameState, PlantedFruit } from "features/game/types/game";
 import { getTimeLeft } from "lib/utils/time";
@@ -41,7 +41,7 @@ export const isFruitReadyToHarvest = (
   plantedFruit: PlantedFruit,
   fruitDetails: Fruit,
 ) => {
-  const { seed } = FRUIT()[fruitDetails.name];
+  const { seed } = PATCH_FRUIT()[fruitDetails.name];
   const { plantSeconds } = FRUIT_SEEDS()[seed];
 
   return (
@@ -66,7 +66,7 @@ export function isFruitGrowing(patch: FruitPatch) {
   const { name, amount, harvestsLeft, harvestedAt, plantedAt } = fruit;
   if (!harvestsLeft) return false;
 
-  const { seed } = FRUIT()[name];
+  const { seed } = PATCH_FRUIT()[name];
   const { plantSeconds } = FRUIT_SEEDS()[seed];
 
   if (harvestedAt) {
@@ -79,7 +79,7 @@ export function isFruitGrowing(patch: FruitPatch) {
 }
 
 const isFruit = (resource: Resource): resource is FruitName => {
-  return resource in FRUIT();
+  return resource in PATCH_FRUIT();
 };
 
 // Basic = Blueberry & Orange - Skill
@@ -237,7 +237,7 @@ export function harvestFruit({
 
     const { name, plantedAt, harvestsLeft, harvestedAt, amount } = patch.fruit;
 
-    const { seed } = FRUIT()[name];
+    const { seed } = PATCH_FRUIT()[name];
     const { plantSeconds } = FRUIT_SEEDS()[seed];
 
     if (createdAt - plantedAt < plantSeconds * 1000) {

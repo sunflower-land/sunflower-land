@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { InfoPopover } from "../common/InfoPopover";
 import { FRUIT_LIFECYCLE } from "./fruits";
-import { FRUIT, FruitName } from "features/game/types/fruits";
+import { PATCH_FRUIT, FruitName } from "features/game/types/fruits";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import classNames from "classnames";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -13,7 +13,7 @@ interface Props {
 }
 
 export const DeadTree = ({ fruitName, hasAxes }: Props) => {
-  const { isBush } = FRUIT()[fruitName];
+  const { isBush } = PATCH_FRUIT()[fruitName];
   const [showNoToolWarning, setShowNoToolWarning] = useState<boolean>(false);
 
   const handleHover = () => {
