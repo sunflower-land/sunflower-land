@@ -359,8 +359,10 @@ import {
   ShipmentRestockAction,
 } from "./landExpansion/shipmentRestocked";
 import { instantCook, InstantCookRecipe } from "./landExpansion/instantCook";
+import { instantExpand, InstantExpand } from "./landExpansion/instantExpand";
 
 export type PlayingEvent =
+  | InstantExpand
   | InstantCookRecipe
   | ShipmentRestockAction
   | StartCompetitionAction
@@ -531,6 +533,7 @@ type Handlers<T> = {
 };
 
 export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
+  "land.instantExpanded": instantExpand,
   "recipe.instantCooked": instantCook,
   "competition.started": startCompetition,
   "offer.claimed": claimOffer,

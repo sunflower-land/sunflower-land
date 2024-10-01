@@ -1998,7 +1998,8 @@ const LAND_4_REQUIREMENTS: Requirements = {
   resources: {
     Wood: 3,
   },
-  seconds: 5,
+  // seconds: 5,
+  seconds: 50,
   bumpkinLevel: 1,
 };
 

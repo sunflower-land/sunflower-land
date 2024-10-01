@@ -111,7 +111,7 @@ export const Recipes: React.FC<Props> = ({
     onCook(selected.name);
   };
 
-  const onInstantCook = () => {
+  const onInstantCook = (gems: number) => {
     gameService.send("recipe.instantCooked", {
       buildingId,
       buildingName,
@@ -255,7 +255,7 @@ export const Cooking: React.FC<{
   name: CookableName;
   state: GameState;
   onClose: () => void;
-  onInstantCooked: () => void;
+  onInstantCooked: (gems: number) => void;
 }> = ({ name, craftingService, state, onClose, onInstantCooked }) => {
   const [
     {
@@ -313,7 +313,7 @@ export const Cooking: React.FC<{
       <Button
         disabled={!state.inventory.Gem?.gte(gems)}
         className="relative"
-        onClick={onInstantCooked}
+        onClick={() => onInstantCooked(gems)}
       >
         Instant Cook
         <Label
