@@ -177,7 +177,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
   "Barley Seed": {
     name: "Barley Seed",
     description:
-      "Barley is a versatile cereal grain commonly used for food, beverages, and animal feed, known for its high fiber content and adaptability to various climates.",
+      "Barley is a nutritious cereal grain used in animal feed.\n\nYou can buy barley seeds in game at the market.",
     decimals: 18,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/question_mark.png",
@@ -434,8 +434,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
   },
   Barley: {
     name: "Barley",
-    description:
-      "Barley is a versatile cereal grain commonly used for food, beverages, and animal feed, known for its high fiber content and adaptability to various climates.",
+    description: "Barley is a nutritious cereal grain used in animal feed.",
     decimals: 18,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/question_mark.png",
