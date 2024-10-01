@@ -51,11 +51,11 @@ export function claimOffer({ state, action, createdAt = Date.now() }: Options) {
     const tradeType = getTradeType({ collection: offer.collection, id });
 
     if (tradeType === "instant") {
-      addTradePoints({ game, points: 2, sfl: offer.sfl });
+      game = addTradePoints({ state: game, points: 2, sfl: offer.sfl });
     }
 
     if (tradeType === "onchain") {
-      addTradePoints({ game, points: 10, sfl: offer.sfl });
+      game = addTradePoints({ state: game, points: 10, sfl: offer.sfl });
     }
 
     return game;

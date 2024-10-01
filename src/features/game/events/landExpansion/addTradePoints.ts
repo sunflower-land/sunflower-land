@@ -1,15 +1,17 @@
 import Decimal from "decimal.js-light";
 import { GameState } from "features/game/types/game";
+import cloneDeep from "lodash.clonedeep";
 
 export function addTradePoints({
-  game,
+  state,
   points,
   sfl,
 }: {
-  game: GameState;
+  state: GameState;
   points: number;
   sfl: number;
 }) {
+  const game = cloneDeep(state);
   // Define Constants
   const TRADE_POINTS_MULTIPLIER = 1; // Value adjustable
   const pointsCalculation = 1 + (sfl ^ TRADE_POINTS_MULTIPLIER);
