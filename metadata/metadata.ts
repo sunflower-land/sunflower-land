@@ -2963,6 +2963,17 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
   },
+  Barn: {
+    name: "Barn",
+    description: "A nice and cosy home for your four legged animals.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/question_mark.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Building" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
   "Undead Rooster": {
     name: "Undead Rooster",
     description: "An unfortunate casualty of the war. 10% increased egg yield.",
