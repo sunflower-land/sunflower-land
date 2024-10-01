@@ -4,14 +4,10 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { BuildingImageWrapper } from "../BuildingImageWrapper";
 import { BuildingProps } from "../Building";
 import { barnAudio, loadAudio } from "lib/utils/sfx";
-import { HEN_HOUSE_VARIANTS } from "features/island/lib/alternateArt";
 import { useNavigate } from "react-router-dom";
+import { ITEM_DETAILS } from "features/game/types/images";
 
-export const Barn: React.FC<BuildingProps> = ({
-  isBuilt,
-  onRemove,
-  island,
-}) => {
+export const Barn: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -33,13 +29,12 @@ export const Barn: React.FC<BuildingProps> = ({
 
   return (
     <>
-      <BuildingImageWrapper name="Hen House" onClick={handleClick}>
+      <BuildingImageWrapper name="Barn" onClick={handleClick}>
         <img
-          src={HEN_HOUSE_VARIANTS[island]}
+          src={ITEM_DETAILS.Barn.image}
           className="absolute bottom-0 pointer-events-none"
           style={{
-            width: `${PIXEL_SCALE * 61}px`,
-            left: `${PIXEL_SCALE * 1}px`,
+            width: `${PIXEL_SCALE * 64}px`,
           }}
         />
       </BuildingImageWrapper>
