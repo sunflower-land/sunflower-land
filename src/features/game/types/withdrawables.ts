@@ -104,7 +104,7 @@ const cropSeeds: Record<CropSeedName, () => boolean> = {
   "Soybean Seed": () => false,
 };
 
-const fruitSeed: Record<PatchFruitSeedName, () => boolean> = {
+const patchFruitSeed: Record<PatchFruitSeedName, () => boolean> = {
   "Apple Seed": () => false,
   "Blueberry Seed": () => false,
   "Orange Seed": () => false,
@@ -1105,7 +1105,7 @@ export const WITHDRAWABLES: Record<InventoryItemName, () => boolean> = {
   ...fruits,
   ...flowers,
   ...cropSeeds,
-  ...fruitSeed,
+  ...patchFruitSeed,
   ...flowerSeed,
   ...beans,
   ...questItems,
