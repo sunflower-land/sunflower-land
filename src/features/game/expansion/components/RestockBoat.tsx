@@ -13,10 +13,12 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { NPC_WEARABLES } from "lib/npcs";
 import { Button } from "components/ui/Button";
 import confetti from "canvas-confetti";
+import { hasFeatureAccess } from "lib/flags";
 
 const expansions = (state: MachineState) =>
   state.context.state.inventory["Basic Land"]?.toNumber() ?? 3;
 const canRestock = (state: MachineState) =>
+  hasFeatureAccess(state.context.state, "GEM_BOOSTS") &&
   canRestockShipment({ game: state.context.state });
 
 export const RestockBoat: React.FC = () => {
@@ -27,6 +29,7 @@ export const RestockBoat: React.FC = () => {
   const showShip = useSelector(gameService, canRestock);
 
   if (!showShip) return null;
+
   const wharfCoords = () => {
     if (expansionCount < 7) {
       return { x: -6, y: -3 };

@@ -98,7 +98,7 @@ export const Recipes: React.FC<Props> = ({
       selected?.ingredients[name]?.greaterThan(inventory[name] || 0),
     );
 
-  const isGemExperiment = hasFeatureAccess(state, "GEM_EXPERIMENT");
+  const isGemExperiment = hasFeatureAccess(state, "GEM_BOOSTS");
   const cook = async () => {
     if (isGemExperiment) {
       onCook(selected.name);
@@ -141,7 +141,7 @@ export const Recipes: React.FC<Props> = ({
   const isOilBoosted =
     state.buildings?.[buildingName]?.[0].crafting?.boost?.["Oil"];
 
-  const hasGemExperiment = hasFeatureAccess(state, "GEM_EXPERIMENT");
+  const hasGemExperiment = hasFeatureAccess(state, "GEM_BOOSTS");
 
   if (hasGemExperiment && !hideCooking && crafting) {
     return (

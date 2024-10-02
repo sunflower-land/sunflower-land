@@ -275,7 +275,7 @@ export const Building: React.FC<{
     return () => clearInterval(interval);
   }, []);
 
-  const speedUpAccess = hasFeatureAccess(state, "GEM_EXPERIMENT");
+  const speedUpAccess = hasFeatureAccess(state, "GEM_BOOSTS");
 
   return (
     <>

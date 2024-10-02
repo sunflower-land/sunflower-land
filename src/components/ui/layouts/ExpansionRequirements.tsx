@@ -75,7 +75,7 @@ export const ExpansionRequirements: React.FC<Props> = ({
   const hasLevel =
     getBumpkinLevel(bumpkin.experience) >= requirements.bumpkinLevel;
 
-  const hasGemExperiment = hasFeatureAccess(state, "GEM_EXPERIMENT");
+  const hasGemExperiment = hasFeatureAccess(state, "GEM_BOOSTS");
 
   const onExpand = () => {
     gameService.send("land.expanded");
