@@ -193,7 +193,6 @@
   "description.mysterious.parsnip.boost": "-50% Tempo de Crescimento de Nabo",
   "description.queen.cornelia.boost": "+1 Milho (AOE 3x4)",
   "description.foliant.boost": "+0.2 Couve",
-  "description.hoot.boost": "+0.5 Trigo, Rabanete, Couve, Arroz",
   "description.hungry.caterpillar.boost": "Sementes de Flores Grátis",
   "description.black.bearry.boost": "+1 Mirtilo",
   "description.squirrel.monkey.boost": "-50% Tempo de Crescimento de Laranja",
@@ -3659,5 +3658,7 @@
   "birdieplaza.seasonQuests": "Esta temporada tem missões emocionantes, itens colecionáveis raros e dispositivos vestíveis exclusivos que você pode ganhar.",
   "birdieplaza.craftItems": "Para obter esses itens raros, você deve coletar {{seasonalTicket}} s e trocá-los na Stella's Megastore ou licitar na Casa de Leilões.",
   "reward.streak.oneYear": "Recompensa de sequência de 365 dias",
-  "season.codex.nextDrop.available": "{{dropSupply}} disponível"
+  "season.codex.nextDrop.available": "{{dropSupply}} disponível",
+  "description.hoot.boost": "+0,5 Trigo, rabanete, couve, arroz, cevada",
+  "description.barley": "A cevada é um grão de cereal nutritivo usado na alimentação animal."
 }

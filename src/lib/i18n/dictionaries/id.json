@@ -237,7 +237,6 @@
   "description.mysterious.parsnip.boost": "-50% Waktu Pertumbuhan Parsnip",
   "description.queen.cornelia.boost": "+1 Jagung (AOE 3x4)",
   "description.foliant.boost": "+0.2 Kale",
-  "description.hoot.boost": "+0,5 Gandum, Lobak, Kale, Beras",
   "description.hungry.caterpillar.boost": "Benih Bunga Gratis",
   "description.black.bearry.boost": "+1 Blueberry",
   "description.squirrel.monkey.boost": "-50% Waktu Pertumbuhan Jeruk",
@@ -3659,5 +3658,7 @@
   "birdieplaza.seasonQuests": "Musim ini memiliki pencarian menarik, koleksi langka, dan pakaian eksklusif yang bisa Anda peroleh.",
   "birdieplaza.craftItems": "Untuk mendapatkan barang-barang langka ini, Anda harus mengumpulkan {{seasonalTicket}} s dan menukarnya di Stella's Megastore atau menawar di Rumah Lelang.",
   "reward.streak.oneYear": "Hadiah beruntun 365 hari",
-  "season.codex.nextDrop.available": "{{dropSupply}} tersedia"
+  "season.codex.nextDrop.available": "{{dropSupply}} tersedia",
+  "description.hoot.boost": "+0,5 Gandum, Lobak, Kangkung, Beras, Barley",
+  "description.barley": "Barley adalah biji-bijian sereal bergizi yang digunakan dalam pakan ternak."
 }

@@ -237,7 +237,6 @@
   "description.mysterious.parsnip.boost": "-50% Wachstumszeit von Pastinaken",
   "description.queen.cornelia.boost": "+1 Mais (AOE 3x4)",
   "description.foliant.boost": "+0.2 Grünkohl",
-  "description.hoot.boost": "+0.5 Weizen, Rettich, Grünkohl, Reis",
   "description.hungry.caterpillar.boost": "Kostenlose Blumensamen",
   "description.black.bearry.boost": "+1 Blaubeere",
   "description.squirrel.monkey.boost": "-50% Wachstumszeit von Orangen",
@@ -3659,5 +3658,7 @@
   "birdieplaza.seasonQuests": "In dieser Saison erwarten dich spannende Quests, seltene Sammlerstücke und exklusive Wearables, die du dir verdienen kannst.",
   "birdieplaza.craftItems": "Um diese seltenen Gegenstände zu erhalten, müsst ihr {{seasonalTicket}} s sammeln und sie in Stellas Megastore eintauschen oder im Auktionshaus bieten.",
   "reward.streak.oneYear": "Belohnung für eine 365-tägige Serie",
-  "season.codex.nextDrop.available": "{{dropSupply}} verfügbar"
+  "season.codex.nextDrop.available": "{{dropSupply}} verfügbar",
+  "description.hoot.boost": "+0.5 Weizen, Rettich, Grünkohl, Reis, Gerste",
+  "description.barley": "Gerste ist ein nahrhaftes Getreidekorn, das als Tierfutter verwendet wird."
 }

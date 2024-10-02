@@ -237,7 +237,6 @@
   "description.mysterious.parsnip.boost": "-50% 파스닙 성장 시간",
   "description.queen.cornelia.boost": "+1 옥수수 (AOE 3x4)",
   "description.foliant.boost": "+0.2 케일",
-  "description.hoot.boost": "+0.5 밀, 무, 케일, 쌀",
   "description.hungry.caterpillar.boost": "무료 꽃 씨앗",
   "description.black.bearry.boost": "+1 블루베리",
   "description.squirrel.monkey.boost": "-50% 오렌지 성장 시간",
@@ -3659,5 +3658,7 @@
   "birdieplaza.seasonQuests": "이번 시즌에는 흥미진진한 퀘스트, 희귀 수집품, 획득할 수 있는 독점 웨어러블이 있습니다.",
   "birdieplaza.craftItems": "이러한 희귀 아이템을 얻으려면 {{seasonalTicket}} s를 모아 스텔라의 메가스토어에서 교환하거나 경매장에서 입찰해야 합니다.",
   "reward.streak.oneYear": "365일 연속 보상",
-  "season.codex.nextDrop.available": "{{dropSupply}} 사용 가능"
+  "season.codex.nextDrop.available": "{{dropSupply}} 사용 가능",
+  "description.hoot.boost": "+0.5 밀, 무, 케일, 쌀, 보리",
+  "description.barley": "보리는 동물 사료에 사용되는 영양가 높은 곡물입니다."
 }
