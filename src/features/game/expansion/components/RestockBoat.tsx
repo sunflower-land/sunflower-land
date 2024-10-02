@@ -7,7 +7,6 @@ import { MachineState } from "features/game/lib/gameMachine";
 import { canRestockShipment } from "features/game/events/landExpansion/shipmentRestocked";
 import { Context } from "features/game/GameProvider";
 import { Modal } from "components/ui/Modal";
-import { Panel } from "components/ui/Panel";
 import { Label } from "components/ui/Label";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { NPC_WEARABLES } from "lib/npcs";
@@ -15,6 +14,7 @@ import { Button } from "components/ui/Button";
 import confetti from "canvas-confetti";
 import { hasFeatureAccess } from "lib/flags";
 import { getKeys } from "features/game/types/decorations";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 const expansions = (state: MachineState) =>
   state.context.state.inventory["Basic Land"]?.toNumber() ?? 3;
@@ -26,6 +26,7 @@ const canRestock = (state: MachineState) =>
   );
 
 export const RestockBoat: React.FC = () => {
+  const { t } = useAppTranslation();
   const [isOpen, setIsOpen] = useState(false);
   const { gameService } = useContext(Context);
 
@@ -64,24 +65,19 @@ export const RestockBoat: React.FC = () => {
         >
           <div className="p-1">
             <Label type="default" className="mb-2">
-              A shipment has arrived
+              {t("gems.shipment.arrived")}
             </Label>
-            <p className="text-sm mb-2">
-              Woohoo! A stock shipment has arrived for the shops.
-            </p>
-            <p className="text-sm mb-2">
-              All seeds and tool stock will be replenished at the shops.
-            </p>
+            <p className="text-sm mb-2">{t("gems.shipment.success")}</p>
+            <p className="text-sm mb-2">{t("gems.shipment.shops")}</p>
           </div>
           <Button
             onClick={() => {
               gameService.send("shipment.restocked");
               confetti();
               setIsOpen(false);
-              console.log("All done?");
             }}
           >
-            Replish stock
+            {t("gems.replenish")}
           </Button>
         </CloseButtonPanel>
       </Modal>

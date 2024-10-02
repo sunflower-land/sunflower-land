@@ -37,10 +37,8 @@ import { BuildingName } from "features/game/types/buildings";
 import { BuildingOilTank } from "../building/BuildingOilTank";
 import pumpkinSoup from "assets/food/pumpkin_soup.png";
 import powerup from "assets/icons/level_up.png";
-import { InnerPanel, Panel } from "components/ui/Panel";
+import { InnerPanel } from "components/ui/Panel";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { PIXEL_SCALE } from "features/game/lib/constants";
-import { secondsToString } from "lib/utils/time";
 import { ResizableBar } from "components/ui/ProgressBar";
 import { TimerDisplay } from "features/retreat/components/auctioneer/AuctionDetails";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
@@ -257,6 +255,7 @@ export const Cooking: React.FC<{
   onClose: () => void;
   onInstantCooked: (gems: number) => void;
 }> = ({ name, craftingService, state, onClose, onInstantCooked }) => {
+  const { t } = useAppTranslation();
   const [
     {
       context: { secondsTillReady, readyAt, buildingId },
@@ -279,7 +278,7 @@ export const Cooking: React.FC<{
           icon={SUNNYSIDE.icons.stopwatch}
         >{`In progress`}</Label>
         <span className="text-xs underline cursor-pointer" onClick={onClose}>
-          View recipes
+          {t("crafting.viewRecipes")}
         </span>
       </div>
       <div className="flex items-center mb-1">
@@ -315,7 +314,7 @@ export const Cooking: React.FC<{
         className="relative"
         onClick={() => onInstantCooked(gems)}
       >
-        Instant Cook
+        {t("gems.speedUp")}
         <Label
           type={state.inventory.Gem?.gte(gems) ? "default" : "danger"}
           icon={ITEM_DETAILS.Gem.image}

@@ -1,10 +1,8 @@
 import Decimal from "decimal.js-light";
-import { INITIAL_STOCK, StockableName } from "features/game/lib/constants";
+import { StockableName } from "features/game/lib/constants";
 import { getKeys } from "features/game/types/decorations";
 import { GameState } from "features/game/types/game";
-import { secondsTillReset } from "features/helios/components/hayseedHank/HayseedHankV2";
 import { produce } from "immer";
-import { onboardingAnalytics } from "lib/onboardingAnalytics";
 
 export type ShipmentRestockAction = {
   type: "shipment.restocked";
@@ -91,7 +89,6 @@ export function shipmentRestock({
   createdAt = Date.now(),
 }: Options): GameState {
   return produce(state, (game) => {
-    console.log("DO IT!");
     if (!canRestockShipment({ game, now: createdAt })) {
       throw new Error("Already restocked today");
     }

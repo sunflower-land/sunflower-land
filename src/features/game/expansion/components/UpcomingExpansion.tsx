@@ -11,7 +11,6 @@ import { SUNNYSIDE } from "assets/sunnyside";
 
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { useActor } from "@xstate/react";
-import { gameAnalytics } from "lib/gameAnalytics";
 import { RequirementLabel } from "components/ui/RequirementsLabel";
 import Decimal from "decimal.js-light";
 import { getKeys } from "features/game/types/craftables";
@@ -30,7 +29,6 @@ import { expansionRequirements } from "features/game/events/landExpansion/reveal
 import { translate } from "lib/i18n/translate";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { ExpansionRequirements } from "components/ui/layouts/ExpansionRequirements";
-import { Button } from "components/ui/Button";
 import confetti from "canvas-confetti";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 

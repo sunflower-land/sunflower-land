@@ -6,7 +6,6 @@ import { ExpansionConstruction } from "features/game/types/game";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
 import { ProgressBar } from "components/ui/ProgressBar";
-import { TimerPopover } from "features/island/common/TimerPopover";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Modal } from "components/ui/Modal";
 import { Expanding } from "components/ui/layouts/ExpansionRequirements";

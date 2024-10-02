@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useState } from "react";
 
 import { BuildingName } from "features/game/types/buildings";
 import { Bar, ResizableBar } from "components/ui/ProgressBar";
-import { TimeLeftPanel } from "components/ui/TimeLeftPanel";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { useSelector } from "@xstate/react";
@@ -220,6 +219,7 @@ export const Constructing: React.FC<{
   createdAt: number;
   name: BuildingName;
 }> = ({ state, onClose, onInstantBuilt, readyAt, createdAt, name }) => {
+  const { t } = useAppTranslation();
   const totalSeconds = (readyAt - createdAt) / 1000;
   const secondsTillReady = (readyAt - Date.now()) / 1000;
 
@@ -248,7 +248,7 @@ export const Constructing: React.FC<{
           type="default"
           icon={SUNNYSIDE.icons.stopwatch}
         >{`In progress`}</Label>
-        <p className="text-sm my-2">Your {name} will be ready soon!</p>
+        <p className="text-sm my-2">{t("crafting.readySoon", { name })}</p>
         <div className="flex items-center mb-1">
           <div>
             <div className="relative flex flex-col w-full">
@@ -266,7 +266,7 @@ export const Constructing: React.FC<{
 
       <div className="flex">
         <Button className="mr-1" onClick={onClose}>
-          Close
+          {t("close")}
         </Button>
         {speedUpAccess && (
           <Button
@@ -274,7 +274,7 @@ export const Constructing: React.FC<{
             className="relative ml-1"
             onClick={onInstantBuilt}
           >
-            Speed up
+            {t("gems.speedUp")}
             <Label
               type={state.inventory.Gem?.gte(gems) ? "default" : "danger"}
               icon={ITEM_DETAILS.Gem.image}

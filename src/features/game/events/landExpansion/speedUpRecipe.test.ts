@@ -13,9 +13,8 @@
 
 import { INITIAL_FARM } from "features/game/lib/constants";
 import { speedUpRecipe } from "./speedUpRecipe";
-import { GameState } from "features/game/types/game";
 import Decimal from "decimal.js-light";
-import { BAKERY_COOKABLES, CONSUMABLES } from "features/game/types/consumables";
+import { BAKERY_COOKABLES } from "features/game/types/consumables";
 
 describe("instantCook", () => {
   it("requires item is cooking", () => {

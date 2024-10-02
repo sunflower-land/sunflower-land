@@ -49,7 +49,6 @@ export const FirePit: React.FC<Props> = ({
   const potatoCount = useSelector(gameService, _potatoCount);
   const isCooking = useSelector(gameService, _cooking(Number(buildingId)));
 
-  console.log({ isCooking });
   useEffect(() => {
     loadAudio([bakeryAudio]);
   }, []);

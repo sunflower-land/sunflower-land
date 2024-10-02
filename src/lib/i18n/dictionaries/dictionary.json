@@ -3660,5 +3660,15 @@
   "gems.update": "Gem update",
   "gems.intro": "To prepare for onboarding new players, we have replaced Block Bucks with a new currency...Gems!",
   "gems.intro.two": "You will receive 20 Gems for every Block Buck you own.",
-  "description.barley": "Barley is a nutritious cereal grain used in animal feed."
+  "description.barley": "Barley is a nutritious cereal grain used in animal feed.",
+  "gems.speedUp": "Speed up",
+  "crafting.readySoon": "{{name}} will be ready soon...",
+  "crafting.expansionSoon": "Your land will be ready soon...",
+  "crafting.viewRecipes": "View recipes",
+  "gems.replenish": "Would to like to replenish the shops now for 20 Gems?",
+  "gems.nextFreeShipment": "Next free shipment:",
+  "gems.outOfstock": "Out of stock",
+  "gems.shipment.success": "Woohoo, a free shipment of stock has just arrived to replenish the shops.",
+  "gems.shipment.arrived": "Ship has arrived",
+  "gems.shipment.shops": "All seeds and tool stock will be replenished at the shops."
 }

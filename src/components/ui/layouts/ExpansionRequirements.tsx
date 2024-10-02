@@ -7,7 +7,7 @@ import {
   ExpansionRequirements as IExpansionRequirements,
   Inventory,
 } from "features/game/types/game";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import { RequirementLabel } from "../RequirementsLabel";
 import { InlineDialogue } from "features/world/ui/TypingMessage";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -26,7 +26,6 @@ import { hasFeatureAccess } from "lib/flags";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { Context } from "features/game/GameProvider";
 import { craftingRequirementsMet } from "features/game/lib/craftingRequirement";
-import { use } from "matter";
 import { getInstantGems } from "features/game/events/landExpansion/speedUpRecipe";
 /**
  * The props for the component.
@@ -176,6 +175,7 @@ export const Expanding: React.FC<{
   onClose: () => void;
   onInstantExpanded: () => void;
 }> = ({ state, onClose, onInstantExpanded }) => {
+  const { t } = useAppTranslation();
   const readyAt = state.expansionConstruction?.readyAt ?? 0;
 
   const requirements = expansionRequirements({ game: state });
@@ -207,7 +207,7 @@ export const Expanding: React.FC<{
           type="default"
           icon={SUNNYSIDE.icons.stopwatch}
         >{`In progress`}</Label>
-        <p className="text-sm my-2">Your expansion is being built...</p>
+        <p className="text-sm my-2">{t("crafting.expansionSoon")}</p>
         <div className="flex items-center mb-1">
           <div>
             <div className="relative flex flex-col w-full">
@@ -224,14 +224,14 @@ export const Expanding: React.FC<{
       </div>
 
       <div className="flex">
-        <Button onClick={onClose}>Close</Button>
+        <Button onClick={onClose}>{t("close")}</Button>
         {hasAccess && (
           <Button
             disabled={!state.inventory.Gem?.gte(gems)}
             className="relative ml-1"
             onClick={onInstantExpanded}
           >
-            Speed up
+            {t("gems.replenish")}
             <Label
               type={state.inventory.Gem?.gte(gems) ? "default" : "danger"}
               icon={ITEM_DETAILS.Gem.image}

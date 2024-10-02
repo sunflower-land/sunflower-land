@@ -1,16 +1,12 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import { Button } from "components/ui/Button";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
-import { SquareIcon } from "components/ui/SquareIcon";
-import { PIXEL_SCALE } from "features/game/lib/constants";
-import ticket from "assets/icons/block_buck_detailed.png";
 import stockIcon from "assets/icons/stock.webp";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { ConfirmationModal } from "components/ui/ConfirmationModal";
 import { NPC_WEARABLES } from "lib/npcs";
 import { BB_TO_GEM_RATIO } from "features/game/types/game";
 import { hasFeatureAccess } from "lib/flags";
@@ -67,7 +63,7 @@ export const Restock: React.FC<Props> = ({ onClose }) => {
       <>
         <div className="flex justify-center items-center">
           {/* <img src={stockIcon} className="h-5 mr-1" /> */}
-          <p className="text-xxs">Next stock shipment:</p>
+          <p className="text-xxs">{t("gems.nextFreeShipment")}</p>
         </div>
         <div className="flex justify-center items-center">
           <img src={stockIcon} className="h-5 mr-1" />
@@ -148,12 +144,10 @@ const RestockModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
     <>
       <div className="p-1">
         <Label type="danger" className="mb-2" icon={stockIcon}>
-          Out of stock
+          {t("gems.outOfstock")}
         </Label>
 
-        <p className="mb-1">
-          Would to like to replenish the shops now for 20 Gems?
-        </p>
+        <p className="mb-1">{t("gems.replenish")}</p>
       </div>
       <div className="flex justify-content-around mt-2 space-x-1">
         <Button onClick={onClose}>{t("cancel")}</Button>
@@ -212,31 +206,28 @@ const ExperimentRestockModal: React.FC<{ onClose: () => void }> = ({
     confetti();
   };
 
+  const shipmentAt = useCountdown(
+    nextShipmentAt({ game: gameState.context.state }),
+  );
+
   if (showShipment) {
     return (
       <>
         <div className="p-1">
           <Label type="default" className="mb-2" icon={stockIcon}>
-            Shipment has arrived
+            {t("gems.shipment.arrived")}
           </Label>
-          <p className="text-sm mb-2">
-            Woohoo, a free shipment of stock has just arrived to replenish the
-            shops.
-          </p>
+          <p className="text-sm mb-2">{t("gems.shipment.success")}</p>
         </div>
         <div className="flex">
           <Button className="mr-1" onClick={onClose}>
-            Close
+            {t("close")}
           </Button>
-          <Button onClick={replenish}>Restock</Button>
+          <Button onClick={replenish}>{t("restock")}</Button>
         </div>
       </>
     );
   }
-
-  const shipmentAt = useCountdown(
-    nextShipmentAt({ game: gameState.context.state }),
-  );
 
   const { days, ...shipmentTime } = shipmentAt;
 
@@ -244,16 +235,14 @@ const ExperimentRestockModal: React.FC<{ onClose: () => void }> = ({
     <>
       <div className="p-1">
         <Label type="danger" className="mb-2" icon={stockIcon}>
-          Out of stock
+          {t("gems.outOfstock")}
         </Label>
         <div className="flex flex-wrap mb-2">
-          <span className="mr-2">Next free shipment:</span>
+          <span className="mr-2">{t("gems.nextFreeShipment")}</span>
           <TimerDisplay time={shipmentTime} />
         </div>
 
-        <p className="mb-1">
-          Would to like to replenish the shops now for 20 Gems?
-        </p>
+        <p className="mb-1">{t("gems.replenish")}</p>
       </div>
       <div className="flex justify-content-around mt-2 space-x-1">
         <Button onClick={onClose}>{t("cancel")}</Button>
