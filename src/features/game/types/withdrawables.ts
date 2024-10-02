@@ -136,7 +136,7 @@ const crops: Record<CropName, () => boolean> = {
   Soybean: () => true,
 };
 
-const fruits: Record<PatchFruitName, () => boolean> = {
+const patchFruits: Record<PatchFruitName, () => boolean> = {
   Apple: () => true,
   Blueberry: () => true,
   Orange: () => true,
@@ -1102,7 +1102,7 @@ export const WITHDRAWABLES: Record<InventoryItemName, () => boolean> = {
   ...greenHouseFruitSeed,
   ...greenHouseFruit,
   ...crops,
-  ...fruits,
+  ...patchFruits,
   ...flowers,
   ...cropSeeds,
   ...patchFruitSeed,
