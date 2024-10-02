@@ -2702,7 +2702,8 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
   },
   Workbench: {
     name: "Workbench",
-    description: "A workbench used to craft tools in Sunflower Land.",
+    description:
+      "A workbench used to craft tools & buildings in Sunflower Land.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/1003.png",
@@ -2981,6 +2982,17 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/1006.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Building" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
+  Barn: {
+    name: "Barn",
+    description: "A nice and cosy home for your four legged animals.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/question_mark.png",
     attributes: [
       { trait_type: "Purpose", value: "Building" },
       { trait_type: "Tradable", value: "No" },
