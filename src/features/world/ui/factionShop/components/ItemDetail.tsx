@@ -340,8 +340,8 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
               })}
             >
               {!faction && (
-                <Label type="danger" className="ml-1 p-1 w-full flex-grow">
-                  {`You are not in a faction!`}
+                <Label type="warning" className="ml-1 p-1 w-full flex-grow">
+                  {t("faction.shop.membersOnly")}
                 </Label>
               )}
               {confirmBuy && (
