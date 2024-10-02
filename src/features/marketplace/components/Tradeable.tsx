@@ -15,7 +15,6 @@ import bg from "assets/ui/3x3_bg.png";
 import walletIcon from "assets/icons/wallet.png";
 import sflIcon from "assets/icons/sfl.webp";
 import tradeIcon from "assets/icons/trade.png";
-import trade_point from "src/assets/icons/trade_point.webp";
 
 import { Label } from "components/ui/Label";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -297,12 +296,6 @@ const TradeableInfo: React.FC<{
               {display.buff.shortDescription}
             </Label>
           )}
-          <Label type="success" icon={trade_point} className="mb-1">
-            {`Buy: ${tradeable?.type === "instant" ? "2" : "10"} Trade Points`}
-          </Label>
-          <Label type="danger" icon={trade_point}>
-            {`Sell: ${tradeable?.type === "instant" ? "1" : "5"} Trade Points`}
-          </Label>
         </div>
       </InnerPanel>
     </>
