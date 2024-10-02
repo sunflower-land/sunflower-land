@@ -188,7 +188,8 @@ export const Expanding: React.FC<{
     readyAt: readyAt as number,
   });
 
-  const hasAccess = hasFeatureAccess(state, "GEM_BOOSTS");
+  const hasAccess =
+    hasFeatureAccess(state, "GEM_BOOSTS") && state.island.type !== "desert";
 
   useEffect(() => {
     const interval = setInterval(() => {
