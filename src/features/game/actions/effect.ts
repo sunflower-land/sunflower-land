@@ -10,14 +10,16 @@ type EffectName =
   | "marketplace.listed"
   | "marketplace.offerMade"
   | "marketplace.offerAccepted"
-  | "marketplace.offerCancelled";
+  | "marketplace.offerCancelled"
+  | "reward.airdropped";
 
 export type StateName =
   | "marketplacePurchasing"
   | "marketplaceListing"
   | "marketplaceOffering"
   | "marketplaceAccepting"
-  | "marketplaceCancelling";
+  | "marketplaceCancelling"
+  | "airdroppingReward";
 
 export type StateNameWithStatus = `${StateName}Success` | `${StateName}Failed`;
 
@@ -28,11 +30,11 @@ export const EFFECT_EVENTS: Record<EffectName, StateName> = {
   "marketplace.offerMade": "marketplaceOffering",
   "marketplace.offerAccepted": "marketplaceAccepting",
   "marketplace.offerCancelled": "marketplaceCancelling",
+  "reward.airdropped": "airdroppingReward",
 };
 
 export interface Effect {
   type: EffectName;
-  id: string;
 }
 
 type Request = {

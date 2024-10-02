@@ -7,7 +7,7 @@ import { Label } from "components/ui/Label";
 import { ITEM_DETAILS } from "features/game/types/images";
 import coinsIcon from "assets/icons/coins.webp";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { postEffect } from "features/game/actions/effect";
+import { Effect, postEffect } from "features/game/actions/effect";
 import { Context } from "features/game/GameProvider";
 import { Loading } from "features/auth/components";
 
@@ -37,7 +37,7 @@ export const AdminSettings: React.FC<ContentComponentProps> = () => {
               }
             : {},
           farmId,
-        },
+        } as Effect,
         token: authService.state.context.user.rawToken as string,
         transactionId: "0x123",
       });
