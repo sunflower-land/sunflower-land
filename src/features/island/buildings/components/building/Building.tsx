@@ -23,6 +23,7 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Modal } from "components/ui/Modal";
 import confetti from "canvas-confetti";
 import { getInstantGems } from "features/game/events/landExpansion/speedUpRecipe";
+import { gameAnalytics } from "lib/gameAnalytics";
 
 interface Prop {
   name: BuildingName;
@@ -74,10 +75,17 @@ const InProgressBuilding: React.FC<Prop> = ({
     }
   }, []);
 
-  const onSpeedUp = () => {
+  const onSpeedUp = (gems: number) => {
     gameService.send("building.spedUp", {
       name,
       id,
+    });
+
+    gameAnalytics.trackSink({
+      currency: "Gem",
+      amount: gems,
+      item: "Instant Build",
+      type: "Fee",
     });
     setShowModal(false);
     confetti();
@@ -214,7 +222,7 @@ export const Building = React.memo(MoveableBuilding);
 export const Constructing: React.FC<{
   state: GameState;
   onClose: () => void;
-  onInstantBuilt: () => void;
+  onInstantBuilt: (gems: number) => void;
   readyAt: number;
   createdAt: number;
   name: BuildingName;
@@ -272,7 +280,7 @@ export const Constructing: React.FC<{
           <Button
             disabled={!state.inventory.Gem?.gte(gems)}
             className="relative ml-1"
-            onClick={onInstantBuilt}
+            onClick={() => onInstantBuilt(gems)}
           >
             {t("gems.speedUp")}
             <Label

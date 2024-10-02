@@ -30,6 +30,7 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import confetti from "canvas-confetti";
 import { hasFeatureAccess } from "lib/flags";
 import { getInstantGems } from "features/game/events/landExpansion/speedUpRecipe";
+import { gameAnalytics } from "lib/gameAnalytics";
 
 export type CollectibleProps = {
   name: CollectibleName;
@@ -76,11 +77,19 @@ const InProgressCollectible: React.FC<Props> = ({
     }
   }, []);
 
-  const onSpeedUp = () => {
+  const onSpeedUp = (gems: number) => {
     gameService.send("collectible.spedUp", {
       name,
       id,
     });
+
+    gameAnalytics.trackSink({
+      currency: "Gem",
+      amount: gems,
+      item: "Instant Build",
+      type: "Fee",
+    });
+
     setShowModal(false);
     confetti();
   };
@@ -250,7 +259,7 @@ export const Collectible: React.FC<Props> = (props) => {
 export const Building: React.FC<{
   state: GameState;
   onClose: () => void;
-  onInstantBuilt: () => void;
+  onInstantBuilt: (gems: number) => void;
   readyAt: number;
   createdAt: number;
   name: CollectibleName;
@@ -308,7 +317,7 @@ export const Building: React.FC<{
           <Button
             disabled={!state.inventory.Gem?.gte(gems)}
             className="relative ml-1"
-            onClick={onInstantBuilt}
+            onClick={() => onInstantBuilt(gems)}
           >
             {t("gems.speedUp")}
             <Label

@@ -134,6 +134,7 @@ class GameAnalyticTracker {
       | "Trade"
       | "DesertDigs"
       | "Instant Expand"
+      | "Instant Build"
       | "Instant Cook";
   }) {
     const { currency, amount, type, item } = event;

@@ -43,6 +43,7 @@ import { ResizableBar } from "components/ui/ProgressBar";
 import { TimerDisplay } from "features/retreat/components/auctioneer/AuctionDetails";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
 import { getInstantGems } from "features/game/events/landExpansion/speedUpRecipe";
+import { gameAnalytics } from "lib/gameAnalytics";
 
 interface Props {
   selected: Cookable;
@@ -113,6 +114,13 @@ export const Recipes: React.FC<Props> = ({
     gameService.send("recipe.spedUp", {
       buildingId,
       buildingName,
+    });
+
+    gameAnalytics.trackSink({
+      currency: "Gem",
+      amount: gems,
+      item: "Instant Cook",
+      type: "Fee",
     });
 
     onClose();
