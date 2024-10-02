@@ -478,7 +478,7 @@ export const INITIAL_FARM: GameState = {
 
   createdAt: new Date().getTime(),
 
-  experiments: ["ONBOARDING_CHALLENGES"],
+  experiments: ["GEM_BOOSTS"],
 
   ...INITIAL_RESOURCES,
 

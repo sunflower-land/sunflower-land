@@ -49,12 +49,19 @@ export const Restock: React.FC<Props> = ({ onClose }) => {
 
   if (showShipment) {
     return (
-      <Button className="relative" onClick={() => setShowConfirm(true)}>
-        <div className="flex items-center h-4 ">
-          <p>{t("restock")}</p>
-          <img src={stockIcon} className="h-6 absolute right-1 top-0" />
-        </div>
-      </Button>
+      <>
+        <Modal show={showConfirm} onHide={() => setShowConfirm(false)}>
+          <Panel className="sm:w-4/5 m-auto" bumpkinParts={NPC_WEARABLES.betty}>
+            <ExperimentRestockModal onClose={() => setShowConfirm(false)} />
+          </Panel>
+        </Modal>
+        <Button className="relative" onClick={() => setShowConfirm(true)}>
+          <div className="flex items-center h-4 ">
+            <p>{t("restock")}</p>
+            <img src={stockIcon} className="h-6 absolute right-1 top-0" />
+          </div>
+        </Button>
+      </>
     );
   }
 
@@ -147,7 +154,7 @@ const RestockModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
           {t("gems.outOfstock")}
         </Label>
 
-        <p className="mb-1">{t("gems.replenish")}</p>
+        <p className="mb-1">{t("gems.buyReplenish")}</p>
       </div>
       <div className="flex justify-content-around mt-2 space-x-1">
         <Button onClick={onClose}>{t("cancel")}</Button>
@@ -242,7 +249,7 @@ const ExperimentRestockModal: React.FC<{ onClose: () => void }> = ({
           <TimerDisplay time={shipmentTime} />
         </div>
 
-        <p className="mb-1">{t("gems.replenish")}</p>
+        <p className="mb-1">{t("gems.buyReplenish")}</p>
       </div>
       <div className="flex justify-content-around mt-2 space-x-1">
         <Button onClick={onClose}>{t("cancel")}</Button>

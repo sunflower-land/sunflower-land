@@ -231,7 +231,7 @@ export const Expanding: React.FC<{
             className="relative ml-1"
             onClick={onInstantExpanded}
           >
-            {t("gems.replenish")}
+            {t("gems.speedUp")}
             <Label
               type={state.inventory.Gem?.gte(gems) ? "default" : "danger"}
               icon={ITEM_DETAILS.Gem.image}
