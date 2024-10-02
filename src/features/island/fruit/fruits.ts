@@ -9,7 +9,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { PatchFruitName } from "features/game/types/fruits";
 import { CROP_LIFECYCLE } from "../plots/lib/plant";
 
-export type FruitLifecycle = {
+export type PatchFruitLifecycle = {
   seedling: string;
   halfway: string;
   almost: string;
@@ -22,7 +22,7 @@ export type FruitLifecycle = {
  * Fruits and their original prices
  * TODO - Replace deadTree images with the correct images
  */
-export const PATCH_FRUIT_LIFECYCLE: Record<PatchFruitName, FruitLifecycle> = {
+export const PATCH_FRUIT_LIFECYCLE: Record<PatchFruitName, PatchFruitLifecycle> = {
   Apple: {
     seedling: CROP_LIFECYCLE.Sunflower.seedling,
     halfway: CROP_LIFECYCLE.Sunflower.halfway,
