@@ -51,6 +51,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Olive Seed": 127,
   "Tomato Seed": 128,
   "Lemon Seed": 129,
+  "Barley Seed": 130,
 
   Sunflower: 201,
   Potato: 202,
@@ -108,6 +109,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   Olive: 254,
   Tomato: 255,
   Lemon: 256,
+  Barley: 257,
 
   Axe: 301,
   Pickaxe: 302,

@@ -237,7 +237,6 @@
   "description.mysterious.parsnip.boost": "Reduce el tiempo de crecimiento de la chirivía en un -50%.",
   "description.queen.cornelia.boost": "Incrementa en +1 el maíz (AOE 3x4).",
   "description.foliant.boost": "Incrementa en +0.2 la col rizada.",
-  "description.hoot.boost": "ncrementa en +0.5 el trigo, rábano, col rizada y arroz.",
   "description.hungry.caterpillar.boost": "Semillas de flores gratis",
   "description.black.bearry.boost": "Incrementa en +1 en arándano.",
   "description.squirrel.monkey.boost": "Reduce el tiempo de crecimiento de las naranjas en un -50%.",
@@ -3659,5 +3658,7 @@
   "birdieplaza.seasonQuests": "Esta temporada tiene misiones emocionantes, objetos coleccionables raros y artículos portátiles exclusivos que puedes conseguir.",
   "birdieplaza.craftItems": "Para obtener estos objetos raros, debes recolectar {{seasonalTicket}} s e intercambiarlos en la Megastore de Stella o pujar en la Casa de Subastas.",
   "reward.streak.oneYear": "Recompensa de racha de 365 días",
-  "season.codex.nextDrop.available": "{{dropSupply}} disponible"
+  "season.codex.nextDrop.available": "{{dropSupply}} disponible",
+  "description.hoot.boost": "+0.5 Trigo, rábano, col rizada, arroz, cebada",
+  "description.barley": "La cebada es un cereal nutritivo que se utiliza en la alimentación animal."
 }

@@ -235,7 +235,6 @@
   "description.mysterious.parsnip.boost": "-50% 防风草生长时间",
   "description.queen.cornelia.boost": "+1 玉米(AOE 3x4)",
   "description.foliant.boost": "+0.2 羽衣甘蓝",
-  "description.hoot.boost": "+0.5 小麦、小萝卜、羽衣甘蓝、稻米",
   "description.hungry.caterpillar.boost": "免费花卉种子",
   "description.black.bearry.boost": "+1 蓝莓",
   "description.squirrel.monkey.boost": "-50% 香橙生长时间",
@@ -3659,5 +3658,7 @@
   "birdieplaza.seasonQuests": "本赛季有激动人心的任务、稀有收藏品和你可以获得的专属可穿戴设备。",
   "birdieplaza.craftItems": "要获得这些稀有物品，你必须收集 {{seasonalTicket}} 并在斯特拉的超级商店兑换或在拍卖行出价。",
   "reward.streak.oneYear": "365 天连胜奖励",
-  "season.codex.nextDrop.available": "{{dropSupply}} 可用"
+  "season.codex.nextDrop.available": "{{dropSupply}} 可用",
+  "description.hoot.boost": "+0.5 小麦、萝卜、羽衣甘蓝、大米、大麦",
+  "description.barley": "大麦是一种营养丰富的谷物，用于动物饲料。"
 }

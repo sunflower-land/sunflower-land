@@ -3305,7 +3305,6 @@
   "description.pablo.bunny.boost": "+0.1 Морковь",
   "description.golden.cauliflower.boost": "+100% цветная капуста",
   "description.foliant.boost": "+0.2 Кале",
-  "description.hoot.boost": "+0.5 Пшеница, Редис, Капуста, Рис",
   "description.black.bearry.boost": "+1 Черника",
   "description.lady.bug.boost": "+0.25 Яблоко",
   "description.banana.chicken.boost": "+0.1 Банан",
@@ -3659,5 +3658,7 @@
   "birdieplaza.seasonQuests": "В этом сезоне вас ждут увлекательные задания, редкие коллекционные предметы и эксклюзивные носимые вещи, которые вы можете заработать.",
   "birdieplaza.craftItems": "Чтобы приобрести эти редкие предметы, вы должны собрать {{seasonalTicket}} и обменять их в Stella's Megastore или сделать ставку в аукционном доме.",
   "reward.streak.oneYear": "Награда за 365 дней серии",
-  "season.codex.nextDrop.available": "{{dropSupply}} доступно"
+  "season.codex.nextDrop.available": "{{dropSupply}} доступно",
+  "description.hoot.boost": "+0.5 Пшеница, редис, капуста, рис, ячмень",
+  "description.barley": "Ячмень — это питательное злаковое зерно, используемое в кормах для животных."
 }

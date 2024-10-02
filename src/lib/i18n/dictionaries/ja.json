@@ -237,7 +237,6 @@
   "description.mysterious.parsnip.boost": "パースニップの成長時間 -50%",
   "description.queen.cornelia.boost": "+1 コーン (AOE 3x4)",
   "description.foliant.boost": "+0.2 ケール",
-  "description.hoot.boost": "+0.5 小麦、大根、ケール、ライス",
   "description.hungry.caterpillar.boost": "無料の花の種",
   "description.black.bearry.boost": "+1 ブルーベリー",
   "description.squirrel.monkey.boost": "-50% オレンジの成長時間",
@@ -3659,5 +3658,7 @@
   "birdieplaza.seasonQuests": "今シーズンには、エキサイティングなクエスト、レアな収集品、限定ウェアラブルが手に入ります。",
   "birdieplaza.craftItems": "これらのレアアイテムを入手するには、{{seasonalTicket}} を集めてステラのメガストアで交換するか、オークションハウスで入札する必要があります。",
   "reward.streak.oneYear": "365 日連続リワード",
-  "season.codex.nextDrop.available": "{{dropSupply}} ご利用可能"
+  "season.codex.nextDrop.available": "{{dropSupply}} ご利用可能",
+  "description.hoot.boost": "+0.5 小麦、大根、ケール、米、大麦",
+  "description.barley": "大麦は動物飼料に使用される栄養価の高い穀物です。"
 }

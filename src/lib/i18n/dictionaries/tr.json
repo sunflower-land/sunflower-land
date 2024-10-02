@@ -206,7 +206,6 @@
   "description.mysterious.parsnip.boost": "-50% Yaban Havucu Büyüme Süresi",
   "description.queen.cornelia.boost": "+1 Mısır (Etki Alanı 3x4)",
   "description.foliant.boost": "+0.2 Kıvırcık Lahana",
-  "description.hoot.boost": "+0.5 Buğday, Turp, Kıvırcık Lahana, Pirinç",
   "description.hungry.caterpillar.boost": "Ücretsiz Çiçek Tohumları",
   "description.black.bearry.boost": "+1 Yaban Mersini",
   "description.squirrel.monkey.boost": "-50% Portakal Büyüme Süresi",
@@ -3659,5 +3658,7 @@
   "birdieplaza.seasonQuests": "Bu sezon heyecan verici görevler, nadir koleksiyonlar ve kazanabileceğiniz özel giyilebilir ürünler var.",
   "birdieplaza.craftItems": "Bu nadir eşyaları elde etmek için {{seasonalTicket}} s toplamanız ve bunları Stella's Megastore'da değiştirmeniz veya Müzayede Evi'nde teklif vermeniz gerekir.",
   "reward.streak.oneYear": "365 gün seri ödülü",
-  "season.codex.nextDrop.available": "{{dropSupply}} mevcut"
+  "season.codex.nextDrop.available": "{{dropSupply}} mevcut",
+  "description.hoot.boost": "+0.5 Buğday, Turp, Lahana, Pirinç, Arpa",
+  "description.barley": "Arpa, hayvan yemlerinde kullanılan besleyici bir tahıl tanesidir."
 }

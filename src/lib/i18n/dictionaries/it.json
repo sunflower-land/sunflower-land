@@ -236,7 +236,6 @@
   "description.mysterious.parsnip.boost": "-50% Tempo di crescita della pastinaca",
   "description.queen.cornelia.boost": "+1 Mais (AOE 3x4)",
   "description.foliant.boost": "+0,2 Kale",
-  "description.hoot.boost": "+0,5 frumento, ravanello, cavolo riccio, riso",
   "description.hungry.caterpillar.boost": "Semi di fiori gratis",
   "description.black.bearry.boost": "+1 mirtillo",
   "description.squirrel.monkey.boost": "-50% Tempo di crescita dell'arancia",
@@ -3659,5 +3658,7 @@
   "birdieplaza.seasonQuests": "Questa stagione offre missioni entusiasmanti, rari oggetti da collezione e dispositivi indossabili esclusivi che puoi guadagnare.",
   "birdieplaza.craftItems": "Per ottenere questi oggetti rari, devi raccogliere {{seasonalTicket}} e cambiarli allo Stella's Megastore o fare un'offerta presso la Casa d'Aste.",
   "reward.streak.oneYear": "Premi per una serie di 365 giorni",
-  "season.codex.nextDrop.available": "{{dropSupply}} disponibile"
+  "season.codex.nextDrop.available": "{{dropSupply}} disponibile",
+  "description.hoot.boost": "+0,5 frumento, ravanello, cavolo riccio, riso, orzo",
+  "description.barley": "L'orzo è un cereale nutriente utilizzato nell'alimentazione animale."
 }
