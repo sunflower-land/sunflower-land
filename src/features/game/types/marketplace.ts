@@ -23,6 +23,7 @@ export type Offer = {
 };
 
 type Listing = {
+  id: string;
   sfl: number;
   quantity: number;
   listedById: number;

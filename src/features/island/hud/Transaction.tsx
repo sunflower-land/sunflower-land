@@ -58,7 +58,7 @@ export const TransactionCountdown: React.FC = () => {
           <Transaction onClose={() => setShowTransaction(false)} />
         </Panel>
       </Modal>
-      <ButtonPanel onClick={() => setShowTransaction(true)} className="fle">
+      <ButtonPanel onClick={() => setShowTransaction(true)} className="flex">
         <WagmiProvider config={config}>
           <QueryClientProvider client={queryClient}>
             <TransactionWidget
@@ -110,7 +110,7 @@ const TransactionWidget: React.FC<{
 
   if (timedOut) {
     return (
-      <div>
+      <div id="testing portal">
         <div className="h-6 flex justify-between">
           <Label type={"danger"} className="ml-1 mr-1" icon={walletIcon}>
             {t("transaction")}
@@ -243,6 +243,7 @@ const EVENT_TO_NAME: Record<TransactionName, string> = {
   "transaction.sflWithdrawn": "Withdraw SFL",
   "transaction.wearablesWithdrawn": "Withdraw wearables",
   "transaction.offerAccepted": "Accept offer",
+  "transaction.listingPurchased": "Purchase listing",
 };
 
 export const TransactionProgress: React.FC<Props> = ({
@@ -263,7 +264,7 @@ export const TransactionProgress: React.FC<Props> = ({
     sessionId: gameService.state.context.sessionId as string,
   });
 
-  const { isSuccess, isError, isLoading } = useWaitForTransactionReceipt({
+  const { isSuccess, isError } = useWaitForTransactionReceipt({
     hash: tx?.hash as `0x${string}`,
   });
 

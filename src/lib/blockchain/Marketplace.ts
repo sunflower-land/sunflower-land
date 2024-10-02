@@ -59,3 +59,62 @@ export async function acceptOfferTransaction({
 
   return await getNextSessionId(sender, farmId, oldSessionId);
 }
+
+export type ListingPurchasedParams = {
+  sessionId: string;
+  nextSessionId: string;
+  deadline: number;
+  sender: string;
+  farmId: number;
+  fee: number | string;
+  signature: string;
+  listing: {
+    signature: string;
+    id: string;
+    farmId: number;
+    itemId: number;
+    sfl: number;
+    quantity: number;
+    collection: string;
+    itemName: string;
+  };
+};
+
+export async function listingPurchasedTransaction({
+  sender,
+  signature,
+  sessionId,
+  nextSessionId,
+  deadline,
+  farmId,
+  listing,
+  fee,
+}: ListingPurchasedParams): Promise<string> {
+  const oldSessionId = sessionId;
+
+  const hash = await writeContract(config, {
+    abi: MarketplaceABI,
+    address: address as `0x${string}`,
+    functionName: "purchaseListing",
+    args: [
+      listing,
+      BigInt(farmId),
+      sessionId,
+      nextSessionId,
+      BigInt(deadline),
+      BigInt(fee),
+      signature,
+    ],
+    account: sender as `0x${string}`,
+  });
+
+  saveTxHash({
+    event: "transaction.listingPurchased",
+    hash,
+    sessionId,
+    deadline,
+  });
+  await waitForTransactionReceipt(config, { hash });
+
+  return await getNextSessionId(sender, farmId, oldSessionId);
+}

@@ -19,9 +19,8 @@ const expansions = (state: MachineState) =>
   state.context.state.inventory["Basic Land"]?.toNumber() ?? 3;
 const canRestock = (state: MachineState) =>
   hasFeatureAccess(state.context.state, "GEM_BOOSTS") &&
-  canRestockShipment({ game: state.context.state }); // &&
-// Only show it after the first time they've done it
-// !!state.context.state.shipments.restockedAt;
+  canRestockShipment({ game: state.context.state }) &&
+  !!state.context.state.shipments.restockedAt;
 
 export const RestockBoat: React.FC = () => {
   const { t } = useAppTranslation();
