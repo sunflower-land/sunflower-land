@@ -9,7 +9,7 @@ describe("speedUpBuilding", () => {
         action: {
           type: "building.spedUp",
           id: "123",
-          name: "Workbench",
+          name: "Hen House",
         },
         state: INITIAL_FARM,
       });

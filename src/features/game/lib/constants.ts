@@ -130,7 +130,7 @@ export const INITIAL_STOCK = (
   }
 
   const seeds: Record<SeedName, Decimal> = {
-    "Sunflower Seed": new Decimal(0),
+    "Sunflower Seed": new Decimal(400),
     "Potato Seed": new Decimal(200),
     "Pumpkin Seed": new Decimal(150),
     "Carrot Seed": new Decimal(100),
