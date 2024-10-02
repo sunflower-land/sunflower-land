@@ -19,6 +19,7 @@ import { formatNumber } from "lib/utils/formatNumber";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { ResizableBar } from "components/ui/ProgressBar";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { Label } from "components/ui/Label";
 
 interface Props {
   onBack: () => void;
@@ -93,9 +94,13 @@ export const AchievementDetails: React.FC<Props> = ({
                     )}
                     {isAlreadyClaimed && (
                       <div className="flex items-center mt-2 mb-1">
-                        <span className="w-auto -mt-2 mb-1 bg-blue-600 border text-xxs p-1 rounded-md">
-                          {t("alr.claim")}
-                        </span>
+                        <Label
+                          className="-mt-2 mb-1"
+                          type="success"
+                          icon={SUNNYSIDE.icons.confirm}
+                        >
+                          <p className="text-xxs">{t("alr.claim")}</p>
+                        </Label>
                       </div>
                     )}
                   </div>
