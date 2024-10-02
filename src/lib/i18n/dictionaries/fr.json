@@ -3660,5 +3660,16 @@
   "reward.streak.oneYear": "Récompense d'une série de 365 jours",
   "season.codex.nextDrop.available": "{{dropSupply}} disponible",
   "description.hoot.boost": "+0,5 blé, radis, chou frisé, riz, orge",
-  "description.barley": "L'orge est une céréale nutritive utilisée dans l'alimentation animale."
+  "description.barley": "L'orge est une céréale nutritive utilisée dans l'alimentation animale.",
+  "gems.speedUp": "Accélérez",
+  "crafting.readySoon": "{{name}} sera bientôt prêt...",
+  "crafting.expansionSoon": "Votre terrain sera bientôt prêt...",
+  "crafting.viewRecipes": "Afficher les recettes",
+  "gems.buyReplenish": "Vous aimeriez réapprovisionner les boutiques dès maintenant pour 20 gemmes ?",
+  "gems.replenish": "Réapprovisionner le stock",
+  "gems.nextFreeShipment": "Prochaine livraison gratuite :",
+  "gems.outOfstock": "En rupture de stock",
+  "gems.shipment.success": "Woohoo, une livraison gratuite de stock vient d'arriver pour réapprovisionner les boutiques.",
+  "gems.shipment.arrived": "Le navire est arrivé",
+  "gems.shipment.shops": "Tous les stocks de semences et d'outils seront réapprovisionnés dans les magasins."
 }

@@ -3660,5 +3660,16 @@
   "reward.streak.oneYear": "365 天连胜奖励",
   "season.codex.nextDrop.available": "{{dropSupply}} 可用",
   "description.hoot.boost": "+0.5 小麦、萝卜、羽衣甘蓝、大米、大麦",
-  "description.barley": "大麦是一种营养丰富的谷物，用于动物饲料。"
+  "description.barley": "大麦是一种营养丰富的谷物，用于动物饲料。",
+  "gems.speedUp": "加快速度",
+  "crafting.readySoon": "{{name}} 即将准备就绪...",
+  "crafting.expansionSoon": "你的土地很快就会准备就绪...",
+  "crafting.viewRecipes": "查看食谱",
+  "gems.buyReplenish": "现在想在商店里补充 20 颗宝石吗？",
+  "gems.replenish": "补充库存",
+  "gems.nextFreeShipment": "下次免费配送：",
+  "gems.outOfstock": "缺货",
+  "gems.shipment.success": "哇，免费送货的库存刚刚到货，可以补货了。",
+  "gems.shipment.arrived": "船已经到达",
+  "gems.shipment.shops": "所有种子和工具库存将在商店补充。"
 }

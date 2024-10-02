@@ -3660,5 +3660,16 @@
   "reward.streak.oneYear": "365 日連続リワード",
   "season.codex.nextDrop.available": "{{dropSupply}} ご利用可能",
   "description.hoot.boost": "+0.5 小麦、大根、ケール、米、大麦",
-  "description.barley": "大麦は動物飼料に使用される栄養価の高い穀物です。"
+  "description.barley": "大麦は動物飼料に使用される栄養価の高い穀物です。",
+  "gems.speedUp": "スピードアップ",
+  "crafting.readySoon": "{{name}} はまもなく準備が整います...",
+  "crafting.expansionSoon": "もうすぐ土地の準備が整います...",
+  "crafting.viewRecipes": "レシピを見る",
+  "gems.buyReplenish": "今すぐショップにジェムを20個補充したいですか？",
+  "gems.replenish": "在庫を補充",
+  "gems.nextFreeShipment": "次回の無料配送:",
+  "gems.outOfstock": "在庫切れ",
+  "gems.shipment.success": "Woohoo、ショップに補充するための在庫の無料発送が届きました。",
+  "gems.shipment.arrived": "船が到着しました",
+  "gems.shipment.shops": "シードとツールストックはすべてショップで補充されます。"
 }

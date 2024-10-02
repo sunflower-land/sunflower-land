@@ -3660,5 +3660,16 @@
   "reward.streak.oneYear": "Belohnung für eine 365-tägige Serie",
   "season.codex.nextDrop.available": "{{dropSupply}} verfügbar",
   "description.hoot.boost": "+0.5 Weizen, Rettich, Grünkohl, Reis, Gerste",
-  "description.barley": "Gerste ist ein nahrhaftes Getreidekorn, das als Tierfutter verwendet wird."
+  "description.barley": "Gerste ist ein nahrhaftes Getreidekorn, das als Tierfutter verwendet wird.",
+  "gems.speedUp": "Beschleunigen",
+  "crafting.readySoon": "{{name}} wird bald fertig sein...",
+  "crafting.expansionSoon": "Dein Land wird bald fertig sein...",
+  "crafting.viewRecipes": "Rezepte ansehen",
+  "gems.buyReplenish": "Möchtest du die Läden jetzt für 20 Edelsteine auffüllen?",
+  "gems.replenish": "Lagerbestand auffüllen",
+  "gems.nextFreeShipment": "Nächste kostenlose Lieferung:",
+  "gems.outOfstock": "Nicht vorrätig",
+  "gems.shipment.success": "Woohoo, eine kostenlose Warenlieferung ist gerade eingetroffen, um die Geschäfte wieder aufzufüllen.",
+  "gems.shipment.arrived": "Das Schiff ist eingetroffen",
+  "gems.shipment.shops": "Der gesamte Saatgut- und Werkzeugbestand wird in den Geschäften aufgefüllt."
 }

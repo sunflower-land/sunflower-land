@@ -3660,5 +3660,16 @@
   "reward.streak.oneYear": "Premi per una serie di 365 giorni",
   "season.codex.nextDrop.available": "{{dropSupply}} disponibile",
   "description.hoot.boost": "+0,5 frumento, ravanello, cavolo riccio, riso, orzo",
-  "description.barley": "L'orzo è un cereale nutriente utilizzato nell'alimentazione animale."
+  "description.barley": "L'orzo è un cereale nutriente utilizzato nell'alimentazione animale.",
+  "gems.speedUp": "Accelerare",
+  "crafting.readySoon": "{{name}} sarà pronto presto...",
+  "crafting.expansionSoon": "La tua terra sarà pronta presto...",
+  "crafting.viewRecipes": "Visualizza le ricette",
+  "gems.buyReplenish": "Vuoi rifornire subito i negozi per 20 gemme?",
+  "gems.replenish": "Rifornire le scorte",
+  "gems.nextFreeShipment": "Prossima spedizione gratuita:",
+  "gems.outOfstock": "Esaurito",
+  "gems.shipment.success": "Woohoo, è appena arrivata una spedizione gratuita di scorte per rifornire i negozi.",
+  "gems.shipment.arrived": "La nave è arrivata",
+  "gems.shipment.shops": "Tutti i semi e le scorte di attrezzi verranno riforniti nei negozi."
 }

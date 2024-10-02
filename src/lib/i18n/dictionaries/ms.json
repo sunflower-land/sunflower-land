@@ -3660,5 +3660,16 @@
   "reward.streak.oneYear": "Ganjaran rentetan 365 hari",
   "season.codex.nextDrop.available": "{{dropSupply}} tersedia",
   "description.hoot.boost": "+0.5 Gandum, Lobak, Kale, Beras, Barli",
-  "description.barley": "Barli adalah bijirin bijirin berkhasiat yang digunakan dalam makanan haiwan."
+  "description.barley": "Barli adalah bijirin bijirin berkhasiat yang digunakan dalam makanan haiwan.",
+  "gems.speedUp": "Mempercepatkan",
+  "crafting.readySoon": "{{name}} akan siap tidak lama lagi...",
+  "crafting.expansionSoon": "Tanah anda akan siap tidak lama lagi...",
+  "crafting.viewRecipes": "Lihat resipi",
+  "gems.buyReplenish": "Ingin menambah kedai-kedai sekarang dengan harga 20 Permata?",
+  "gems.replenish": "Tambah semula stok",
+  "gems.nextFreeShipment": "Penghantaran percuma seterusnya:",
+  "gems.outOfstock": "Kehabisan stok",
+  "gems.shipment.success": "Woohoo, penghantaran stok percuma baru sahaja tiba untuk menambah kedai-kedai.",
+  "gems.shipment.arrived": "Kapal telah tiba",
+  "gems.shipment.shops": "Semua benih dan stok alat akan diisi semula di kedai-kedai."
 }

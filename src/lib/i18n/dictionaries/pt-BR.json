@@ -3660,5 +3660,16 @@
   "reward.streak.oneYear": "Recompensa de sequência de 365 dias",
   "season.codex.nextDrop.available": "{{dropSupply}} disponível",
   "description.hoot.boost": "+0,5 Trigo, rabanete, couve, arroz, cevada",
-  "description.barley": "A cevada é um grão de cereal nutritivo usado na alimentação animal."
+  "description.barley": "A cevada é um grão de cereal nutritivo usado na alimentação animal.",
+  "gems.speedUp": "Acelere",
+  "crafting.readySoon": "{{name}} estará pronto em breve...",
+  "crafting.expansionSoon": "Sua terra estará pronta em breve...",
+  "crafting.viewRecipes": "Exibir receitas",
+  "gems.buyReplenish": "Gostaria de reabastecer as lojas agora com 20 joias?",
+  "gems.replenish": "Reabastecer estoque",
+  "gems.nextFreeShipment": "Próxima remessa gratuita:",
+  "gems.outOfstock": "Fora de estoque",
+  "gems.shipment.success": "Uau, acaba de chegar uma remessa gratuita de estoque para reabastecer as lojas.",
+  "gems.shipment.arrived": "O navio chegou",
+  "gems.shipment.shops": "Todas as sementes e o estoque de ferramentas serão reabastecidos nas lojas."
 }

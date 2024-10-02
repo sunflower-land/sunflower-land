@@ -3660,5 +3660,16 @@
   "reward.streak.oneYear": "Награда за 365 дней серии",
   "season.codex.nextDrop.available": "{{dropSupply}} доступно",
   "description.hoot.boost": "+0.5 Пшеница, редис, капуста, рис, ячмень",
-  "description.barley": "Ячмень — это питательное злаковое зерно, используемое в кормах для животных."
+  "description.barley": "Ячмень — это питательное злаковое зерно, используемое в кормах для животных.",
+  "gems.speedUp": "Ускорьте",
+  "crafting.readySoon": "{{name}} скоро будет готов...",
+  "crafting.expansionSoon": "Скоро ваша земля будет готова...",
+  "crafting.viewRecipes": "Смотреть рецепты",
+  "gems.buyReplenish": "Хотите сейчас пополнить магазины 20 драгоценными камнями?",
+  "gems.replenish": "Пополняйте запасы",
+  "gems.nextFreeShipment": "Следующая бесплатная доставка:",
+  "gems.outOfstock": "Нет в наличии",
+  "gems.shipment.success": "Ура, только что прибыла бесплатная партия товаров для пополнения магазинов.",
+  "gems.shipment.arrived": "Корабль прибыл",
+  "gems.shipment.shops": "Все семена и инвентарь будут пополнены в магазинах."
 }

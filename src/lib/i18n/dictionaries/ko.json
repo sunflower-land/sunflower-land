@@ -3660,5 +3660,16 @@
   "reward.streak.oneYear": "365일 연속 보상",
   "season.codex.nextDrop.available": "{{dropSupply}} 사용 가능",
   "description.hoot.boost": "+0.5 밀, 무, 케일, 쌀, 보리",
-  "description.barley": "보리는 동물 사료에 사용되는 영양가 높은 곡물입니다."
+  "description.barley": "보리는 동물 사료에 사용되는 영양가 높은 곡물입니다.",
+  "gems.speedUp": "스피드 업",
+  "crafting.readySoon": "{{name}} 가 곧 준비될 예정입니다...",
+  "crafting.expansionSoon": "당신의 땅은 곧 준비될 것입니다...",
+  "crafting.viewRecipes": "레시피 보기",
+  "gems.buyReplenish": "지금 상점에 보석 20개를 보충하고 싶으신가요?",
+  "gems.replenish": "재고 보충",
+  "gems.nextFreeShipment": "다음 무료 배송:",
+  "gems.outOfstock": "재고 없음",
+  "gems.shipment.success": "우후, 상점을 보충하기 위해 무료 재고 배송이 막 도착했습니다.",
+  "gems.shipment.arrived": "배가 도착했습니다",
+  "gems.shipment.shops": "모든 씨앗과 도구 재고는 상점에서 보충됩니다."
 }

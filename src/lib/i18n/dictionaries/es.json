@@ -3660,5 +3660,16 @@
   "reward.streak.oneYear": "Recompensa de racha de 365 días",
   "season.codex.nextDrop.available": "{{dropSupply}} disponible",
   "description.hoot.boost": "+0.5 Trigo, rábano, col rizada, arroz, cebada",
-  "description.barley": "La cebada es un cereal nutritivo que se utiliza en la alimentación animal."
+  "description.barley": "La cebada es un cereal nutritivo que se utiliza en la alimentación animal.",
+  "gems.speedUp": "Acelerar",
+  "crafting.readySoon": "{{name}} estará listo pronto...",
+  "crafting.expansionSoon": "Tu terreno estará listo pronto...",
+  "crafting.viewRecipes": "Ver recetas",
+  "gems.buyReplenish": "¿Te gustaría reponer las tiendas ahora con 20 gemas?",
+  "gems.replenish": "Reponer existencias",
+  "gems.nextFreeShipment": "Próximo envío gratuito:",
+  "gems.outOfstock": "Agotado",
+  "gems.shipment.success": "Woohoo, acaba de llegar un envío gratuito de existencias para reponer las tiendas.",
+  "gems.shipment.arrived": "El barco ha llegado",
+  "gems.shipment.shops": "Todas las semillas y el stock de herramientas se repondrán en las tiendas."
 }
