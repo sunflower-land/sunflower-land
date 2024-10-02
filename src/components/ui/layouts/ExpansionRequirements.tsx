@@ -17,7 +17,6 @@ import { secondsToString } from "lib/utils/time";
 import { InnerPanel } from "../Panel";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
-import { getInstantGems } from "features/game/events/landExpansion/instantCook";
 import { ResizableBar } from "../ProgressBar";
 import { TimerDisplay } from "features/retreat/components/auctioneer/AuctionDetails";
 import { expansionRequirements } from "features/game/events/landExpansion/revealLand";
@@ -28,6 +27,7 @@ import { gameAnalytics } from "lib/gameAnalytics";
 import { Context } from "features/game/GameProvider";
 import { craftingRequirementsMet } from "features/game/lib/craftingRequirement";
 import { use } from "matter";
+import { getInstantGems } from "features/game/events/landExpansion/speedUpRecipe";
 /**
  * The props for the component.
  * @param gameState The game state.
@@ -108,7 +108,7 @@ export const ExpansionRequirements: React.FC<Props> = ({
       readyAt: readyAt as number,
     });
 
-    gameService.send("land.instantExpanded");
+    gameService.send("expansion.spedUp");
 
     gameAnalytics.trackSink({
       currency: "Gem",

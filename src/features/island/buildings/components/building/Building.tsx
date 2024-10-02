@@ -14,7 +14,6 @@ import { CookableName } from "features/game/types/consumables";
 import { GameState, IslandType } from "features/game/types/game";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
-import { getInstantGems } from "features/game/events/landExpansion/instantCook";
 import { hasFeatureAccess } from "lib/flags";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Label } from "components/ui/Label";
@@ -24,6 +23,7 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Modal } from "components/ui/Modal";
 import confetti from "canvas-confetti";
+import { getInstantGems } from "features/game/events/landExpansion/speedUpRecipe";
 
 interface Prop {
   name: BuildingName;

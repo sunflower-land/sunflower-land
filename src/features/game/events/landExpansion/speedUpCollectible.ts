@@ -2,7 +2,7 @@ import { GameState } from "features/game/types/game";
 import { produce } from "immer";
 import { CollectibleName } from "features/game/types/craftables";
 import Decimal from "decimal.js-light";
-import { getInstantGems } from "./instantCook";
+import { getInstantGems } from "./speedUpRecipe";
 
 export type SpeedUpCollectible = {
   type: "collectible.spedUp";

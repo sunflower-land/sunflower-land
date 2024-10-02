@@ -358,8 +358,14 @@ import {
   shipmentRestock,
   ShipmentRestockAction,
 } from "./landExpansion/shipmentRestocked";
-import { instantCook, InstantCookRecipe } from "./landExpansion/instantCook";
-import { instantExpand, InstantExpand } from "./landExpansion/instantExpand";
+import {
+  speedUpRecipe,
+  InstantCookRecipe,
+} from "./landExpansion/speedUpRecipe";
+import {
+  speedUpExpansion,
+  InstantExpand,
+} from "./landExpansion/speedUpExpansion";
 import {
   speedUpCollectible,
   SpeedUpCollectible,
@@ -545,8 +551,8 @@ type Handlers<T> = {
 export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "building.spedUp": speedUpBuilding,
   "collectible.spedUp": speedUpCollectible,
-  "land.instantExpanded": instantExpand,
-  "recipe.instantCooked": instantCook,
+  "expansion.spedUp": speedUpExpansion,
+  "recipe.spedUp": speedUpRecipe,
   "competition.started": startCompetition,
   "offer.claimed": claimOffer,
   "dailyChallenge.completed": completeDailyChallenge,

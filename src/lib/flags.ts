@@ -49,7 +49,7 @@ export const ADMIN_IDS = [1, 3, 51, 39488, 128727];
 
 type FeatureFlag = (game: GameState) => boolean;
 
-export type ExperimentName = "ONBOARDING_CHALLENGES";
+export type ExperimentName = "ONBOARDING_CHALLENGES" | "GEM_ACTIONS";
 
 const featureFlags: Record<FeatureName, FeatureFlag> = {
   ONBOARDING_REWARDS: (game) =>
@@ -66,7 +66,7 @@ const featureFlags: Record<FeatureName, FeatureFlag> = {
   NEW_RESOURCES_GE: defaultFeatureFlag,
   ANIMAL_BUILDINGS: testnetFeatureFlag,
   BARLEY: testnetFeatureFlag,
-  GEM_EXPERIMENT: defaultFeatureFlag,
+  GEM_EXPERIMENT: (game) => game.experiments.includes("GEM_ACTIONS"),
 };
 
 export const hasFeatureAccess = (game: GameState, featureName: FeatureName) => {

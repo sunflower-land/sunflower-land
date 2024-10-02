@@ -12,7 +12,7 @@
 // 20: Less than 48 hrs
 
 import { INITIAL_FARM } from "features/game/lib/constants";
-import { instantCook } from "./instantCook";
+import { speedUpRecipe } from "./speedUpRecipe";
 import { GameState } from "features/game/types/game";
 import Decimal from "decimal.js-light";
 import { BAKERY_COOKABLES, CONSUMABLES } from "features/game/types/consumables";
@@ -20,11 +20,11 @@ import { BAKERY_COOKABLES, CONSUMABLES } from "features/game/types/consumables";
 describe("instantCook", () => {
   it("requires item is cooking", () => {
     expect(() =>
-      instantCook({
+      speedUpRecipe({
         action: {
           buildingId: "123",
           buildingName: "Fire Pit",
-          type: "recipe.instantCooked",
+          type: "recipe.spedUp",
         },
         state: {
           ...INITIAL_FARM,
@@ -44,11 +44,11 @@ describe("instantCook", () => {
   });
   it("requires item is not ready", () => {
     expect(() =>
-      instantCook({
+      speedUpRecipe({
         action: {
           buildingId: "123",
           buildingName: "Fire Pit",
-          type: "recipe.instantCooked",
+          type: "recipe.spedUp",
         },
         state: {
           ...INITIAL_FARM,
@@ -72,11 +72,11 @@ describe("instantCook", () => {
   });
   it("requires player has the gems", () => {
     expect(() =>
-      instantCook({
+      speedUpRecipe({
         action: {
           buildingId: "123",
           buildingName: "Fire Pit",
-          type: "recipe.instantCooked",
+          type: "recipe.spedUp",
         },
         state: {
           ...INITIAL_FARM,
@@ -101,11 +101,11 @@ describe("instantCook", () => {
   });
 
   it("charges gems for a mashed potato", () => {
-    const state = instantCook({
+    const state = speedUpRecipe({
       action: {
         buildingId: "123",
         buildingName: "Fire Pit",
-        type: "recipe.instantCooked",
+        type: "recipe.spedUp",
       },
       state: {
         ...INITIAL_FARM,
@@ -132,11 +132,11 @@ describe("instantCook", () => {
 
   it("charges gems for a radish cake", () => {
     const now = Date.now();
-    const state = instantCook({
+    const state = speedUpRecipe({
       action: {
         buildingId: "123",
         buildingName: "Fire Pit",
-        type: "recipe.instantCooked",
+        type: "recipe.spedUp",
       },
       state: {
         ...INITIAL_FARM,
@@ -163,11 +163,11 @@ describe("instantCook", () => {
   });
   it("charges half the gems for a half finished radish cake", () => {
     const now = Date.now();
-    const state = instantCook({
+    const state = speedUpRecipe({
       action: {
         buildingId: "123",
         buildingName: "Fire Pit",
-        type: "recipe.instantCooked",
+        type: "recipe.spedUp",
       },
       state: {
         ...INITIAL_FARM,
@@ -194,11 +194,11 @@ describe("instantCook", () => {
     expect(state.inventory.Gem).toEqual(new Decimal(86));
   });
   it("gives the player the food", () => {
-    const state = instantCook({
+    const state = speedUpRecipe({
       action: {
         buildingId: "123",
         buildingName: "Fire Pit",
-        type: "recipe.instantCooked",
+        type: "recipe.spedUp",
       },
       state: {
         ...INITIAL_FARM,

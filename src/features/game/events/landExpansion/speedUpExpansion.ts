@@ -1,10 +1,10 @@
 import { GameState } from "features/game/types/game";
 import { produce } from "immer";
-import { getInstantGems } from "./instantCook";
+import { getInstantGems } from "./speedUpRecipe";
 import Decimal from "decimal.js-light";
 
 export type InstantExpand = {
-  type: "land.instantExpanded";
+  type: "expansion.spedUp";
 };
 
 type Options = {
@@ -13,7 +13,7 @@ type Options = {
   createdAt?: number;
 };
 
-export function instantExpand({
+export function speedUpExpansion({
   state,
   action,
   createdAt = Date.now(),

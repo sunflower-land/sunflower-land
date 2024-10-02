@@ -5,7 +5,7 @@ import { GameState } from "features/game/types/game";
 import { produce } from "immer";
 
 export type InstantCookRecipe = {
-  type: "recipe.instantCooked";
+  type: "recipe.spedUp";
   buildingId: string;
   buildingName: BuildingName;
 };
@@ -50,7 +50,7 @@ export function getInstantGems({
   return 100;
 }
 
-export function instantCook({
+export function speedUpRecipe({
   state,
   action,
   createdAt = Date.now(),

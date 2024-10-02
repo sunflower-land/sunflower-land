@@ -1,13 +1,13 @@
 import { INITIAL_FARM } from "features/game/lib/constants";
-import { instantExpand } from "./instantExpand";
+import { speedUpExpansion } from "./speedUpExpansion";
 import Decimal from "decimal.js-light";
 
 describe("instantExpand", () => {
   it("requires expansion is in progress", () => {
     expect(() =>
-      instantExpand({
+      speedUpExpansion({
         action: {
-          type: "land.instantExpanded",
+          type: "expansion.spedUp",
         },
         state: {
           ...INITIAL_FARM,
@@ -18,9 +18,9 @@ describe("instantExpand", () => {
 
   it("requires expansion is not ready", () => {
     expect(() =>
-      instantExpand({
+      speedUpExpansion({
         action: {
-          type: "land.instantExpanded",
+          type: "expansion.spedUp",
         },
         state: {
           ...INITIAL_FARM,
@@ -35,9 +35,9 @@ describe("instantExpand", () => {
 
   it("requires player has the gems", () => {
     expect(() =>
-      instantExpand({
+      speedUpExpansion({
         action: {
-          type: "land.instantExpanded",
+          type: "expansion.spedUp",
         },
         state: {
           ...INITIAL_FARM,
@@ -54,9 +54,9 @@ describe("instantExpand", () => {
   });
 
   it("charges gems", () => {
-    const state = instantExpand({
+    const state = speedUpExpansion({
       action: {
-        type: "land.instantExpanded",
+        type: "expansion.spedUp",
       },
       state: {
         ...INITIAL_FARM,
@@ -75,9 +75,9 @@ describe("instantExpand", () => {
 
   it("instantly expands the land", () => {
     const now = Date.now();
-    const state = instantExpand({
+    const state = speedUpExpansion({
       action: {
-        type: "land.instantExpanded",
+        type: "expansion.spedUp",
       },
       state: {
         ...INITIAL_FARM,

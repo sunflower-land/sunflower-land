@@ -44,7 +44,7 @@ import { secondsToString } from "lib/utils/time";
 import { ResizableBar } from "components/ui/ProgressBar";
 import { TimerDisplay } from "features/retreat/components/auctioneer/AuctionDetails";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
-import { getInstantGems } from "features/game/events/landExpansion/instantCook";
+import { getInstantGems } from "features/game/events/landExpansion/speedUpRecipe";
 
 interface Props {
   selected: Cookable;
@@ -112,7 +112,7 @@ export const Recipes: React.FC<Props> = ({
   };
 
   const onInstantCook = (gems: number) => {
-    gameService.send("recipe.instantCooked", {
+    gameService.send("recipe.spedUp", {
       buildingId,
       buildingName,
     });
