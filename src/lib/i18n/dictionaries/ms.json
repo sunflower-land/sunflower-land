@@ -3672,5 +3672,7 @@
   "gems.shipment.arrived": "Kapal telah tiba",
   "gems.shipment.shops": "Semua benih dan stok alat akan diisi semula di kedai-kedai.",
   "description.barn": "Rumah yang bagus dan selesa untuk rakan berkaki empat anda.",
-  "description.workbench": "Alat kraf, bangunan dan item rangsangan untuk membantu anda di ladang anda"
+  "description.workbench": "Alat kraf, bangunan dan item rangsangan untuk membantu anda di ladang anda",
+  "faction.shop.title": "Kedai Faksi",
+  "faction.shop.membersOnly": "Ahli puak eksklusif"
 }

@@ -3672,5 +3672,7 @@
   "gems.shipment.arrived": "Kapal telah tiba",
   "gems.shipment.shops": "Semua benih dan persediaan alat akan diisi ulang di toko-toko.",
   "description.barn": "Rumah yang bagus dan nyaman untuk teman berkaki empat Anda.",
-  "description.workbench": "Alat kerajinan, bangunan, dan item tambahan untuk membantu Anda di pertanian Anda"
+  "description.workbench": "Alat kerajinan, bangunan, dan item tambahan untuk membantu Anda di pertanian Anda",
+  "faction.shop.title": "Toko Fraksi",
+  "faction.shop.membersOnly": "Anggota Fraksi eksklusif"
 }

@@ -3672,5 +3672,7 @@
   "gems.shipment.arrived": "船已经到达",
   "gems.shipment.shops": "所有种子和工具库存将在商店补充。",
   "description.barn": "漂亮舒适的房子，适合你的四条腿的朋友。",
-  "description.workbench": "制作工具、建筑物和增强物品来帮助你在农场工作"
+  "description.workbench": "制作工具、建筑物和增强物品来帮助你在农场工作",
+  "faction.shop.title": "派系商店",
+  "faction.shop.membersOnly": "派系成员专享"
 }

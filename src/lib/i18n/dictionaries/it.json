@@ -3672,5 +3672,7 @@
   "gems.shipment.arrived": "La nave è arrivata",
   "gems.shipment.shops": "Tutti i semi e le scorte di attrezzi verranno riforniti nei negozi.",
   "description.barn": "Casa bella e accogliente per i tuoi amici a quattro zampe.",
-  "description.workbench": "Crea strumenti, edifici e potenzia oggetti per aiutarti nella tua fattoria"
+  "description.workbench": "Crea strumenti, edifici e potenzia oggetti per aiutarti nella tua fattoria",
+  "faction.shop.title": "Faction Shop",
+  "faction.shop.membersOnly": "Esclusiva per membri della fazione"
 }

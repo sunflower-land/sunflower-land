@@ -3672,5 +3672,7 @@
   "gems.shipment.arrived": "배가 도착했습니다",
   "gems.shipment.shops": "모든 씨앗과 도구 재고는 상점에서 보충됩니다.",
   "description.barn": "네 발 달린 친구들을 위한 멋지고 아늑한 집입니다.",
-  "description.workbench": "농장에서 도와줄 도구, 건물, 부스트 아이템 제작"
+  "description.workbench": "농장에서 도와줄 도구, 건물, 부스트 아이템 제작",
+  "faction.shop.title": "팩션 샵",
+  "faction.shop.membersOnly": "팩션 멤버 전용"
 }

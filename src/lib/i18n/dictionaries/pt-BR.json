@@ -3672,5 +3672,7 @@
   "gems.shipment.arrived": "O navio chegou",
   "gems.shipment.shops": "Todas as sementes e o estoque de ferramentas serão reabastecidos nas lojas.",
   "description.barn": "Casa agradável e aconchegante para seus amigos de quatro patas.",
-  "description.workbench": "Crie ferramentas, edifícios e itens de reforço para ajudá-lo em sua fazenda"
+  "description.workbench": "Crie ferramentas, edifícios e itens de reforço para ajudá-lo em sua fazenda",
+  "faction.shop.title": "Loja de facções",
+  "faction.shop.membersOnly": "Exclusivo para membros da facção"
 }

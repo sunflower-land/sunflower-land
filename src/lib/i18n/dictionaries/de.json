@@ -3672,5 +3672,7 @@
   "gems.shipment.arrived": "Das Schiff ist eingetroffen",
   "gems.shipment.shops": "Der gesamte Saatgut- und Werkzeugbestand wird in den Geschäften aufgefüllt.",
   "description.barn": "Schönes und gemütliches Haus für Ihre vierbeinigen Freunde.",
-  "description.workbench": "Stelle Werkzeuge, Gebäude und Boost-Gegenstände her, um dir auf deiner Farm zu helfen"
+  "description.workbench": "Stelle Werkzeuge, Gebäude und Boost-Gegenstände her, um dir auf deiner Farm zu helfen",
+  "faction.shop.title": "Fraktionsshop",
+  "faction.shop.membersOnly": "Exklusiv für Fraktionsmitglieder"
 }

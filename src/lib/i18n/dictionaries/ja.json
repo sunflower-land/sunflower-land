@@ -3672,5 +3672,7 @@
   "gems.shipment.arrived": "船が到着しました",
   "gems.shipment.shops": "シードとツールストックはすべてショップで補充されます。",
   "description.barn": "4本足の友達のための素敵で居心地の良い家。",
-  "description.workbench": "農場で役立つ道具、建物、ブーストアイテムを作ろう"
+  "description.workbench": "農場で役立つ道具、建物、ブーストアイテムを作ろう",
+  "faction.shop.title": "ファクションショップ",
+  "faction.shop.membersOnly": "ファクションメンバー限定"
 }

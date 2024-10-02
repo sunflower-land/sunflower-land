@@ -3672,5 +3672,7 @@
   "gems.shipment.arrived": "Gemi geldi",
   "gems.shipment.shops": "Tüm tohumlar ve alet stokları mağazalarda yenilenecektir.",
   "description.barn": "Dört ayaklı arkadaşlarınız için güzel ve rahat bir ev.",
-  "description.workbench": "Çiftliğinizde size yardımcı olacak araçlar, binalar ve destek öğeleri üretin"
+  "description.workbench": "Çiftliğinizde size yardımcı olacak araçlar, binalar ve destek öğeleri üretin",
+  "faction.shop.title": "Fraksiyon Dükkanı",
+  "faction.shop.membersOnly": "Grup üyesine özel"
 }
