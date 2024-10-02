@@ -30,7 +30,6 @@ export type FeatureName =
   | "MARKETPLACE"
   | "ONBOARDING_REWARDS"
   | "FRUIT_DASH"
-  | "TREASURE_UPDATES"
   | "NEW_RESOURCES_GE"
   | "FSL"
   | "ANIMAL_BUILDINGS"
@@ -61,7 +60,6 @@ const featureFlags: Record<FeatureName, FeatureFlag> = {
   JEST_TEST: defaultFeatureFlag,
   EASTER: () => false, // To re-enable next easter
   SKILLS_REVAMP: testnetFeatureFlag,
-  TREASURE_UPDATES: betaTimeBasedFeatureFlag(new Date("2024-09-16T00:00:00Z")),
   FSL: defaultFeatureFlag,
   NEW_RESOURCES_GE: defaultFeatureFlag,
   ANIMAL_BUILDINGS: testnetFeatureFlag,

@@ -38,8 +38,7 @@ interface ItemOverlayProps {
 
 const _inventory = (state: MachineState) => state.context.state.inventory;
 const _wardrobe = (state: MachineState) => state.context.state.wardrobe;
-const _pledgedFaction = (state: MachineState) =>
-  state.context.state.faction?.name;
+const _faction = (state: MachineState) => state.context.state.faction;
 const _keysBought = (state: MachineState) =>
   state.context.state.pumpkinPlaza.keysBought;
 
@@ -62,7 +61,8 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
 
   const inventory = useSelector(gameService, _inventory);
   const wardrobe = useSelector(gameService, _wardrobe);
-  const pledgedFaction = useSelector(gameService, _pledgedFaction);
+  const faction = useSelector(gameService, _faction);
+  const pledgedFaction = faction?.name;
   const keysBought = useSelector(gameService, _keysBought);
 
   const [imageWidth, setImageWidth] = useState<number>(0);
@@ -339,21 +339,28 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
                 "space-x-1": confirmBuy,
               })}
             >
+              {!faction && (
+                <Label type="danger" className="ml-1 p-1 w-full flex-grow">
+                  {`You are not in a faction!`}
+                </Label>
+              )}
               {confirmBuy && (
                 <Button onClick={() => setConfirmBuy(false)}>
                   {t("cancel")}
                 </Button>
               )}
 
-              <Button
-                disabled={
-                  !canBuy() ||
-                  (item?.name && isKey(item?.name) && !!keysBoughtToday)
-                }
-                onClick={buttonHandler}
-              >
-                {getButtonLabel()}
-              </Button>
+              {!!faction && (
+                <Button
+                  disabled={
+                    !canBuy() ||
+                    (item?.name && isKey(item?.name) && !!keysBoughtToday)
+                  }
+                  onClick={buttonHandler}
+                >
+                  {getButtonLabel()}
+                </Button>
+              )}
             </div>
           )}
           {showSuccess && (

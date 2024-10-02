@@ -21,7 +21,6 @@ import {
 } from "./MegaStore";
 import { useActor, useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
-import { hasFeatureAccess } from "lib/flags";
 
 export const MegaStoreSeasonal: React.FC<{
   readonly?: boolean;
@@ -111,22 +110,21 @@ export const MegaStoreSeasonal: React.FC<{
             onItemClick={handleClickItem}
           />
         )}
-        {hasFeatureAccess(state, "TREASURE_UPDATES") &&
-          getKeys(
-            megastore.collectibles.filter(
-              (name) => name.availableAllSeason === true,
-            ),
-          ).length > 0 && (
-            <ItemsList
-              itemsLabel={t("keys")}
-              type="keys"
-              items={megastore.collectibles.filter(
-                (name) =>
-                  name.availableAllSeason === true && name.type === "keys",
-              )}
-              onItemClick={handleClickItem}
-            />
-          )}
+        {getKeys(
+          megastore.collectibles.filter(
+            (name) => name.availableAllSeason === true,
+          ),
+        ).length > 0 && (
+          <ItemsList
+            itemsLabel={t("keys")}
+            type="keys"
+            items={megastore.collectibles.filter(
+              (name) =>
+                name.availableAllSeason === true && name.type === "keys",
+            )}
+            onItemClick={handleClickItem}
+          />
+        )}
       </div>
 
       <ModalOverlay
