@@ -2,7 +2,11 @@ import { FERTILISERS, InventoryItemName } from "../types/game";
 import { SHOVELS, TOOLS } from "../types/craftables";
 import { CROPS, CROP_SEEDS, GREENHOUSE_CROPS } from "../types/crops";
 import { COMMODITIES } from "../types/resources";
-import { GREENHOUSE_FRUIT, PATCH_FRUIT, PATCH_FRUIT_SEEDS } from "../types/fruits";
+import {
+  GREENHOUSE_FRUIT,
+  PATCH_FRUIT,
+  PATCH_FRUIT_SEEDS,
+} from "../types/fruits";
 import { TREASURE_TOOLS } from "../types/tools";
 import { FLOWER_SEEDS } from "../types/flowers";
 

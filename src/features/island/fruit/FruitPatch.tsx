@@ -68,7 +68,8 @@ export const FruitPatch: React.FC<Props> = ({ id, index }) => {
   const [playShakingAnimation, setPlayShakingAnimation] = useState(false);
   const [collectingFruit, setCollectingFruit] = useState(false);
   const [collectingWood, setCollectingWood] = useState(false);
-  const [collectedFruitName, setCollectedFruitName] = useState<PatchFruitName>();
+  const [collectedFruitName, setCollectedFruitName] =
+    useState<PatchFruitName>();
   const [collectedFruitAmount, setCollectedFruitAmount] = useState<number>();
   const [collectedWoodAmount, setCollectedWoodAmount] = useState<number>();
   const fruitPatch = useSelector(

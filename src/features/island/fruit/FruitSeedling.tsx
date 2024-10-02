@@ -32,7 +32,10 @@ const getFruitImage = (imageSource: string) => {
   );
 };
 
-export const FruitSeedling: React.FC<Props> = ({ patchFruitName, timeLeft }) => {
+export const FruitSeedling: React.FC<Props> = ({
+  patchFruitName,
+  timeLeft,
+}) => {
   const { showTimers } = useContext(Context);
   const [showPopover, setShowPopover] = useState(false);
   const { seed } = PATCH_FRUIT()[patchFruitName];

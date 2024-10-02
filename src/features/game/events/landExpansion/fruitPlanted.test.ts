@@ -2,7 +2,10 @@ import "lib/__mocks__/configMock";
 
 import Decimal from "decimal.js-light";
 import { INITIAL_BUMPKIN, TEST_FARM } from "features/game/lib/constants";
-import { PATCH_FRUIT_SEEDS, PatchFruitSeedName } from "features/game/types/fruits";
+import {
+  PATCH_FRUIT_SEEDS,
+  PatchFruitSeedName,
+} from "features/game/types/fruits";
 import { FruitPatch, GameState } from "features/game/types/game";
 import { getFruitPatchTime, plantFruit } from "./fruitPlanted";
 
@@ -393,7 +396,9 @@ describe("fruitPlanted", () => {
     ).toEqual(1);
     expect(
       (fruitPatches as Record<number, FruitPatch>)[patchIndex].fruit?.plantedAt,
-    ).toEqual(dateNow - (PATCH_FRUIT_SEEDS()["Orange Seed"].plantSeconds * 1000) / 2);
+    ).toEqual(
+      dateNow - (PATCH_FRUIT_SEEDS()["Orange Seed"].plantSeconds * 1000) / 2,
+    );
   });
 
   it("gives a 50% growth time reduction when Lemon Tea Bath is placed", () => {
@@ -435,7 +440,9 @@ describe("fruitPlanted", () => {
     ).toEqual(1);
     expect(
       (fruitPatches as Record<number, FruitPatch>)[patchIndex].fruit?.plantedAt,
-    ).toEqual(dateNow - (PATCH_FRUIT_SEEDS()["Lemon Seed"].plantSeconds * 1000) / 2);
+    ).toEqual(
+      dateNow - (PATCH_FRUIT_SEEDS()["Lemon Seed"].plantSeconds * 1000) / 2,
+    );
   });
 
   it("gives a 25% growth time reduction when Lemon Frog is placed", () => {
@@ -477,7 +484,9 @@ describe("fruitPlanted", () => {
     ).toEqual(1);
     expect(
       (fruitPatches as Record<number, FruitPatch>)[patchIndex].fruit?.plantedAt,
-    ).toEqual(dateNow - PATCH_FRUIT_SEEDS()["Lemon Seed"].plantSeconds * 1000 * 0.25);
+    ).toEqual(
+      dateNow - PATCH_FRUIT_SEEDS()["Lemon Seed"].plantSeconds * 1000 * 0.25,
+    );
   });
 
   it("gives a 62.5% growth time reduction on lemons when Lemon Frog and Lemon Tea Bath are placed", () => {
@@ -572,7 +581,9 @@ describe("fruitPlanted", () => {
     ).toEqual(1);
     expect(
       (fruitPatches as Record<number, FruitPatch>)[patchIndex].fruit?.plantedAt,
-    ).toEqual(dateNow - (PATCH_FRUIT_SEEDS()["Tomato Seed"].plantSeconds * 1000) / 2);
+    ).toEqual(
+      dateNow - (PATCH_FRUIT_SEEDS()["Tomato Seed"].plantSeconds * 1000) / 2,
+    );
   });
 
   it("gives a 25% growth time reduction on tomatoes when Cannonball is placed", () => {

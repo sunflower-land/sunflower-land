@@ -391,7 +391,10 @@ describe("removeCollectible", () => {
 
   it("burns all flower seeds if a Hungry Caterpillar is removed", () => {
     const fruitSeeds = Object.fromEntries(
-      Object.entries(PATCH_FRUIT_SEEDS()).map(([name]) => [name, new Decimal(1)]),
+      Object.entries(PATCH_FRUIT_SEEDS()).map(([name]) => [
+        name,
+        new Decimal(1),
+      ]),
     );
 
     const gameState = removeCollectible({

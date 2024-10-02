@@ -46,8 +46,9 @@ export function getPlantedAt(
 const isBasicFruitSeed = (name: PatchFruitSeedName | GreenHouseFruitSeedName) =>
   name === "Blueberry Seed" || name === "Orange Seed";
 
-const isAdvancedFruitSeed = (name: PatchFruitSeedName | GreenHouseFruitSeedName) =>
-  name === "Apple Seed" || name === "Banana Plant";
+const isAdvancedFruitSeed = (
+  name: PatchFruitSeedName | GreenHouseFruitSeedName,
+) => name === "Apple Seed" || name === "Banana Plant";
 
 /**
  * Generic boost for all fruit types - normal + greenhouse
@@ -144,19 +145,26 @@ export const getFruitPatchTime = (
 
   // Catchup Skill: 10% reduction
   if (
-    (patchFruitSeedName === "Tomato Seed" || patchFruitSeedName === "Lemon Seed") &&
+    (patchFruitSeedName === "Tomato Seed" ||
+      patchFruitSeedName === "Lemon Seed") &&
     bumpkin.skills["Catchup"]
   ) {
     seconds = seconds * 0.9;
   }
 
   // Fruit Turbocharge Skill: 10% reduction
-  if (isBasicFruitSeed(patchFruitSeedName) && bumpkin.skills["Fruit Turbocharge"]) {
+  if (
+    isBasicFruitSeed(patchFruitSeedName) &&
+    bumpkin.skills["Fruit Turbocharge"]
+  ) {
     seconds = seconds * 0.9;
   }
 
   // Prime Produce Skill: 10% reduction
-  if (isAdvancedFruitSeed(patchFruitSeedName) && bumpkin.skills["Prime Produce"]) {
+  if (
+    isAdvancedFruitSeed(patchFruitSeedName) &&
+    bumpkin.skills["Prime Produce"]
+  ) {
     seconds = seconds * 0.9;
   }
 

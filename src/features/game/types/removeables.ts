@@ -6,7 +6,10 @@ import {
   IRON_RECOVERY_TIME,
   STONE_RECOVERY_TIME,
 } from "features/game/lib/constants";
-import { GreenHouseFruitName, PatchFruitName } from "features/game/types/fruits";
+import {
+  GreenHouseFruitName,
+  PatchFruitName,
+} from "features/game/types/fruits";
 import { GameState, InventoryItemName } from "features/game/types/game";
 import {
   CropName,
