@@ -49,10 +49,7 @@ const COLLECTIONS: MarketplaceCollection[] = [
 ];
 
 export const MarketplaceHome: React.FC = () => {
-  const navigate = useNavigate();
   const { collection } = useParams<{ collection: CollectionName }>();
-  const { pathname } = useLocation();
-
   const [search, setSearch] = useState("");
   const [purpose, setPurpose] = useState<MarketplacePurpose>("boost");
 
