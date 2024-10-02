@@ -36,10 +36,10 @@ export type FruitSeed = {
 };
 
 export function isFruitSeed(seed: FruitSeedName) {
-  return getKeys(FRUIT_SEEDS()).includes(seed);
+  return getKeys(PATCH_FRUIT_SEEDS()).includes(seed);
 }
 
-export const FRUIT_SEEDS: () => Record<FruitSeedName, FruitSeed> = () => ({
+export const PATCH_FRUIT_SEEDS: () => Record<FruitSeedName, FruitSeed> = () => ({
   "Tomato Seed": {
     price: 5,
     description: "Rich in Lycopene",

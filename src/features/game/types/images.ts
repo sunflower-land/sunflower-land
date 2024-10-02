@@ -702,10 +702,10 @@ import { AchievementName, ACHIEVEMENTS } from "./achievements";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 import {
-  FRUIT_SEEDS,
   GREENHOUSE_FRUIT,
   GREENHOUSE_FRUIT_SEEDS,
   PATCH_FRUIT,
+  PATCH_FRUIT_SEEDS,
 } from "./fruits";
 import { FLOWER_SEEDS, FLOWERS } from "./flowers";
 import { CONSUMABLES, COOKABLES } from "./consumables";
@@ -875,27 +875,27 @@ export const ITEM_DETAILS: Items = {
   },
   "Apple Seed": {
     image: appleSeed,
-    description: FRUIT_SEEDS()["Apple Seed"].description,
+    description: PATCH_FRUIT_SEEDS()["Apple Seed"].description,
   },
   "Blueberry Seed": {
     image: blueberrySeed,
-    description: FRUIT_SEEDS()["Blueberry Seed"].description,
+    description: PATCH_FRUIT_SEEDS()["Blueberry Seed"].description,
   },
   "Orange Seed": {
     image: orangeSeed,
-    description: FRUIT_SEEDS()["Orange Seed"].description,
+    description: PATCH_FRUIT_SEEDS()["Orange Seed"].description,
   },
   "Banana Plant": {
     image: bananaPlant,
-    description: FRUIT_SEEDS()["Banana Plant"].description,
+    description: PATCH_FRUIT_SEEDS()["Banana Plant"].description,
   },
   "Tomato Seed": {
     image: tomatoSeed,
-    description: FRUIT_SEEDS()["Tomato Seed"].description,
+    description: PATCH_FRUIT_SEEDS()["Tomato Seed"].description,
   },
   "Lemon Seed": {
     image: lemonSeed,
-    description: FRUIT_SEEDS()["Lemon Seed"].description,
+    description: PATCH_FRUIT_SEEDS()["Lemon Seed"].description,
   },
   "Sunpetal Seed": {
     image: sunpetalSeed,

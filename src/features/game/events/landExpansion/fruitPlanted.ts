@@ -6,9 +6,9 @@ import {
 import { trackActivity } from "features/game/types/bumpkinActivity";
 import {
   FruitSeedName,
-  FRUIT_SEEDS,
-  isFruitSeed,
   GreenHouseFruitSeedName,
+  isFruitSeed,
+  PATCH_FRUIT_SEEDS,
 } from "features/game/types/fruits";
 import { Bumpkin, GameState } from "features/game/types/game";
 import { randomInt } from "lib/utils/random";
@@ -35,7 +35,7 @@ export function getPlantedAt(
 ) {
   if (!fruitSeedName) return createdAt;
 
-  const fruitTime = FRUIT_SEEDS()[fruitSeedName].plantSeconds;
+  const fruitTime = PATCH_FRUIT_SEEDS()[fruitSeedName].plantSeconds;
   const boostedTime = getFruitPatchTime(fruitSeedName, game, wearables);
 
   const offset = fruitTime - boostedTime;
@@ -81,7 +81,7 @@ export const getFruitPatchTime = (
   _: BumpkinParts,
 ) => {
   const { bumpkin } = game;
-  let seconds = FRUIT_SEEDS()[fruitSeedName]?.plantSeconds ?? 0;
+  let seconds = PATCH_FRUIT_SEEDS()[fruitSeedName]?.plantSeconds ?? 0;
 
   const baseMultiplier = getFruitTime({ game, name: fruitSeedName });
   seconds *= baseMultiplier;
@@ -217,7 +217,7 @@ export function plantFruit({
     stateCopy.inventory[action.seed] =
       stateCopy.inventory[action.seed]?.minus(1);
 
-    const fruitName = FRUIT_SEEDS()[action.seed].yield;
+    const fruitName = PATCH_FRUIT_SEEDS()[action.seed].yield;
 
     patch.fruit = {
       name: fruitName,

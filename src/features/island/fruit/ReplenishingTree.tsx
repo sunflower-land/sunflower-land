@@ -5,9 +5,9 @@ import { Context } from "features/game/GameProvider";
 import { ProgressBar } from "components/ui/ProgressBar";
 import { TimerPopover } from "../common/TimerPopover";
 import {
-  FRUIT_SEEDS,
   FruitName,
   PATCH_FRUIT,
+  PATCH_FRUIT_SEEDS,
 } from "features/game/types/fruits";
 import { FRUIT_LIFECYCLE } from "./fruits";
 import classNames from "classnames";
@@ -61,7 +61,7 @@ export const ReplenishingTree: React.FC<Props> = ({
       width = isBush ? 24 : 26;
   }
 
-  const { plantSeconds } = FRUIT_SEEDS()[seed];
+  const { plantSeconds } = PATCH_FRUIT_SEEDS()[seed];
 
   const replenishPercentage = 100 - (timeLeft / plantSeconds) * 100;
 

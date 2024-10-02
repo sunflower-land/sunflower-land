@@ -2,7 +2,7 @@ import "lib/__mocks__/configMock";
 
 import Decimal from "decimal.js-light";
 import { INITIAL_BUMPKIN, TEST_FARM } from "features/game/lib/constants";
-import { FruitSeedName, FRUIT_SEEDS } from "features/game/types/fruits";
+import { FruitSeedName, PATCH_FRUIT_SEEDS } from "features/game/types/fruits";
 import { FruitPatch, GameState } from "features/game/types/game";
 import { getFruitPatchTime, plantFruit } from "./fruitPlanted";
 
@@ -393,7 +393,7 @@ describe("fruitPlanted", () => {
     ).toEqual(1);
     expect(
       (fruitPatches as Record<number, FruitPatch>)[patchIndex].fruit?.plantedAt,
-    ).toEqual(dateNow - (FRUIT_SEEDS()["Orange Seed"].plantSeconds * 1000) / 2);
+    ).toEqual(dateNow - (PATCH_FRUIT_SEEDS()["Orange Seed"].plantSeconds * 1000) / 2);
   });
 
   it("gives a 50% growth time reduction when Lemon Tea Bath is placed", () => {
@@ -435,7 +435,7 @@ describe("fruitPlanted", () => {
     ).toEqual(1);
     expect(
       (fruitPatches as Record<number, FruitPatch>)[patchIndex].fruit?.plantedAt,
-    ).toEqual(dateNow - (FRUIT_SEEDS()["Lemon Seed"].plantSeconds * 1000) / 2);
+    ).toEqual(dateNow - (PATCH_FRUIT_SEEDS()["Lemon Seed"].plantSeconds * 1000) / 2);
   });
 
   it("gives a 25% growth time reduction when Lemon Frog is placed", () => {
@@ -477,7 +477,7 @@ describe("fruitPlanted", () => {
     ).toEqual(1);
     expect(
       (fruitPatches as Record<number, FruitPatch>)[patchIndex].fruit?.plantedAt,
-    ).toEqual(dateNow - FRUIT_SEEDS()["Lemon Seed"].plantSeconds * 1000 * 0.25);
+    ).toEqual(dateNow - PATCH_FRUIT_SEEDS()["Lemon Seed"].plantSeconds * 1000 * 0.25);
   });
 
   it("gives a 62.5% growth time reduction on lemons when Lemon Frog and Lemon Tea Bath are placed", () => {
@@ -529,7 +529,7 @@ describe("fruitPlanted", () => {
     expect(
       (fruitPatches as Record<number, FruitPatch>)[patchIndex].fruit?.plantedAt,
     ).toEqual(
-      dateNow - FRUIT_SEEDS()["Lemon Seed"].plantSeconds * 1000 * 0.625,
+      dateNow - PATCH_FRUIT_SEEDS()["Lemon Seed"].plantSeconds * 1000 * 0.625,
     );
   });
 
@@ -572,7 +572,7 @@ describe("fruitPlanted", () => {
     ).toEqual(1);
     expect(
       (fruitPatches as Record<number, FruitPatch>)[patchIndex].fruit?.plantedAt,
-    ).toEqual(dateNow - (FRUIT_SEEDS()["Tomato Seed"].plantSeconds * 1000) / 2);
+    ).toEqual(dateNow - (PATCH_FRUIT_SEEDS()["Tomato Seed"].plantSeconds * 1000) / 2);
   });
 
   it("gives a 25% growth time reduction on tomatoes when Cannonball is placed", () => {
@@ -615,7 +615,7 @@ describe("fruitPlanted", () => {
     expect(
       (fruitPatches as Record<number, FruitPatch>)[patchIndex].fruit?.plantedAt,
     ).toEqual(
-      dateNow - FRUIT_SEEDS()["Tomato Seed"].plantSeconds * 1000 * 0.25,
+      dateNow - PATCH_FRUIT_SEEDS()["Tomato Seed"].plantSeconds * 1000 * 0.25,
     );
   });
 
@@ -668,7 +668,7 @@ describe("fruitPlanted", () => {
     expect(
       (fruitPatches as Record<number, FruitPatch>)[patchIndex].fruit?.plantedAt,
     ).toEqual(
-      dateNow - FRUIT_SEEDS()["Tomato Seed"].plantSeconds * 1000 * 0.625,
+      dateNow - PATCH_FRUIT_SEEDS()["Tomato Seed"].plantSeconds * 1000 * 0.625,
     );
   });
 
@@ -1256,7 +1256,7 @@ describe("fruitPlanted", () => {
 describe("getFruitTime", () => {
   it("applies a 50% speed boost with Squirrel Monkey placed for orange seeds", () => {
     const seed = "Orange Seed";
-    const orangePlantSeconds = FRUIT_SEEDS()[seed].plantSeconds;
+    const orangePlantSeconds = PATCH_FRUIT_SEEDS()[seed].plantSeconds;
     const time = getFruitPatchTime(
       seed,
       {
@@ -1278,7 +1278,7 @@ describe("getFruitTime", () => {
   });
   it("does not apply a 50% speed boost with Squirrel Monkey placed for other seeds", () => {
     const seed = "Apple Seed";
-    const applePlantSeconds = FRUIT_SEEDS()[seed].plantSeconds;
+    const applePlantSeconds = PATCH_FRUIT_SEEDS()[seed].plantSeconds;
     const time = getFruitPatchTime(
       seed,
       {
@@ -1301,7 +1301,7 @@ describe("getFruitTime", () => {
 
   it("applies a 50% time reduction for Lemons when Lemon Tea Bath is placed", () => {
     const seed = "Lemon Seed";
-    const lemonPlantSeconds = FRUIT_SEEDS()[seed].plantSeconds;
+    const lemonPlantSeconds = PATCH_FRUIT_SEEDS()[seed].plantSeconds;
     const time = getFruitPatchTime(
       seed,
       {
@@ -1324,7 +1324,7 @@ describe("getFruitTime", () => {
 
   it("gives a 50% growth time reduction for tomatoes when Tomato Clown is placed", () => {
     const seed = "Tomato Seed";
-    const tomatoPlantSeconds = FRUIT_SEEDS()[seed].plantSeconds;
+    const tomatoPlantSeconds = PATCH_FRUIT_SEEDS()[seed].plantSeconds;
     const time = getFruitPatchTime(
       seed,
       {
@@ -1347,7 +1347,7 @@ describe("getFruitTime", () => {
 
   it("applies a 10% speed boost with Nana placed for Banana plant", () => {
     const seed = "Banana Plant";
-    const orangePlantSeconds = FRUIT_SEEDS()[seed].plantSeconds;
+    const orangePlantSeconds = PATCH_FRUIT_SEEDS()[seed].plantSeconds;
     const time = getFruitPatchTime(
       seed,
       {
@@ -1369,7 +1369,7 @@ describe("getFruitTime", () => {
   });
   it("does not apply a 10% speed boost with Nana placed for other seeds", () => {
     const seed = "Apple Seed";
-    const applePlantSeconds = FRUIT_SEEDS()[seed].plantSeconds;
+    const applePlantSeconds = PATCH_FRUIT_SEEDS()[seed].plantSeconds;
     const time = getFruitPatchTime(
       seed,
       {
@@ -1392,7 +1392,7 @@ describe("getFruitTime", () => {
 
   it("applies a 20% speed boost with Banana Onesie", () => {
     const seed = "Banana Plant";
-    const orangePlantSeconds = FRUIT_SEEDS()[seed].plantSeconds;
+    const orangePlantSeconds = PATCH_FRUIT_SEEDS()[seed].plantSeconds;
     const time = getFruitPatchTime(
       seed,
       {
@@ -1417,7 +1417,7 @@ describe("getFruitTime", () => {
   it("applies a Orchard Hourglass boost of -25% fruit growth time for 6 hours", () => {
     const now = Date.now();
     const seed = "Banana Plant";
-    const plantSeconds = FRUIT_SEEDS()[seed].plantSeconds;
+    const plantSeconds = PATCH_FRUIT_SEEDS()[seed].plantSeconds;
     const time = getFruitPatchTime(
       seed,
       {
@@ -1442,7 +1442,7 @@ describe("getFruitTime", () => {
     const now = Date.now();
     const sevenHoursAgo = now - 1000 * 60 * 60 * 7;
     const seed = "Banana Plant";
-    const plantSeconds = FRUIT_SEEDS()[seed].plantSeconds;
+    const plantSeconds = PATCH_FRUIT_SEEDS()[seed].plantSeconds;
     const time = getFruitPatchTime(
       seed,
       {
@@ -1465,7 +1465,7 @@ describe("getFruitTime", () => {
 
   it("applies a 10% growth speed boost on Tomato & Lemon seeds with Catchup skill", () => {
     const seed = "Tomato Seed";
-    const plantSeconds = FRUIT_SEEDS()[seed].plantSeconds;
+    const plantSeconds = PATCH_FRUIT_SEEDS()[seed].plantSeconds;
     const time = getFruitPatchTime(
       seed,
       {
@@ -1485,7 +1485,7 @@ describe("getFruitTime", () => {
 
   it("does not applies Catchup skill on other seeds", () => {
     const seed = "Apple Seed";
-    const plantSeconds = FRUIT_SEEDS()[seed].plantSeconds;
+    const plantSeconds = PATCH_FRUIT_SEEDS()[seed].plantSeconds;
     const time = getFruitPatchTime(
       seed,
       {
@@ -1505,7 +1505,7 @@ describe("getFruitTime", () => {
 
   it("applies a 10% growth speed boost on basic fruit with Fruit Turbocharge skill", () => {
     const seed = "Blueberry Seed";
-    const plantSeconds = FRUIT_SEEDS()[seed].plantSeconds;
+    const plantSeconds = PATCH_FRUIT_SEEDS()[seed].plantSeconds;
     const time = getFruitPatchTime(
       seed,
       {
@@ -1525,7 +1525,7 @@ describe("getFruitTime", () => {
 
   it("does not applies Fruit Turbocharge skill on advanced fruit", () => {
     const seed = "Apple Seed";
-    const plantSeconds = FRUIT_SEEDS()[seed].plantSeconds;
+    const plantSeconds = PATCH_FRUIT_SEEDS()[seed].plantSeconds;
     const time = getFruitPatchTime(
       seed,
       {
@@ -1545,7 +1545,7 @@ describe("getFruitTime", () => {
 
   it("applies a 10% growth speed boost on advanced fruit with Prime Produce skill", () => {
     const seed = "Apple Seed";
-    const plantSeconds = FRUIT_SEEDS()[seed].plantSeconds;
+    const plantSeconds = PATCH_FRUIT_SEEDS()[seed].plantSeconds;
     const time = getFruitPatchTime(
       seed,
       {
@@ -1565,7 +1565,7 @@ describe("getFruitTime", () => {
 
   it("does not applies Prime Produce skill on basic fruit", () => {
     const seed = "Blueberry Seed";
-    const plantSeconds = FRUIT_SEEDS()[seed].plantSeconds;
+    const plantSeconds = PATCH_FRUIT_SEEDS()[seed].plantSeconds;
     const time = getFruitPatchTime(
       seed,
       {

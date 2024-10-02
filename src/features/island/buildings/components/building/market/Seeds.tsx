@@ -21,10 +21,10 @@ import { getBumpkinLevel } from "features/game/lib/level";
 import { SEEDS, SeedName } from "features/game/types/seeds";
 import { Bumpkin } from "features/game/types/game";
 import {
-  FRUIT_SEEDS,
   FruitSeedName,
   GREENHOUSE_FRUIT_SEEDS,
   PATCH_FRUIT,
+  PATCH_FRUIT_SEEDS,
 } from "features/game/types/fruits";
 import { Restock } from "features/island/buildings/components/building/market/Restock";
 import { getFruitHarvests } from "features/game/events/landExpansion/utils";
@@ -312,7 +312,7 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
           </Label>
           <div className="flex flex-wrap mb-2">
             {seeds
-              .filter((name) => name in FRUIT_SEEDS())
+              .filter((name) => name in PATCH_FRUIT_SEEDS())
               .map((name: SeedName) => (
                 <Box
                   isSelected={selectedName === name}
