@@ -350,7 +350,6 @@
   "description.town.center": "타운 센터에 모여 최신 뉴스를 확인하세요",
   "description.market": "파머스 마켓에서 구매 및 판매",
   "description.fire.pit": "해바라기를 구워 범프킨에게 먹이를 주고 레벨을 올리세요",
-  "description.workbench": "자원 수집을 위한 도구 제작",
   "description.tent": "(단종)",
   "description.house": "머리를 쉴 수 있는 곳",
   "description.crop.machine": "농작물 생산을 자동화하세요",
@@ -3671,5 +3670,7 @@
   "gems.outOfstock": "재고 없음",
   "gems.shipment.success": "우후, 상점을 보충하기 위해 무료 재고 배송이 막 도착했습니다.",
   "gems.shipment.arrived": "배가 도착했습니다",
-  "gems.shipment.shops": "모든 씨앗과 도구 재고는 상점에서 보충됩니다."
+  "gems.shipment.shops": "모든 씨앗과 도구 재고는 상점에서 보충됩니다.",
+  "description.barn": "네 발 달린 친구들을 위한 멋지고 아늑한 집입니다.",
+  "description.workbench": "농장에서 도와줄 도구, 건물, 부스트 아이템 제작"
 }

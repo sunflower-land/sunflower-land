@@ -350,7 +350,6 @@
   "description.town.center": "Berkumpul di sekitar pusat bandar untuk berita terkini",
   "description.market": "Beli dan jual di Pasar Petani",
   "description.fire.pit": "Panggang Bunga Matahari anda, beri makan dan tingkatkan Bumpkin anda",
-  "description.workbench": "Alat kraf untuk mengumpul sumber",
   "description.tent": "(Dihentikan)",
   "description.house": "Tempat untuk berehat kepala anda",
   "description.crop.machine": "Automasikan pengeluaran tanaman anda",
@@ -3671,5 +3670,7 @@
   "gems.outOfstock": "Kehabisan stok",
   "gems.shipment.success": "Woohoo, penghantaran stok percuma baru sahaja tiba untuk menambah kedai-kedai.",
   "gems.shipment.arrived": "Kapal telah tiba",
-  "gems.shipment.shops": "Semua benih dan stok alat akan diisi semula di kedai-kedai."
+  "gems.shipment.shops": "Semua benih dan stok alat akan diisi semula di kedai-kedai.",
+  "description.barn": "Rumah yang bagus dan selesa untuk rakan berkaki empat anda.",
+  "description.workbench": "Alat kraf, bangunan dan item rangsangan untuk membantu anda di ladang anda"
 }

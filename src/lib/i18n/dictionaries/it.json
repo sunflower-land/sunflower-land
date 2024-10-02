@@ -348,7 +348,6 @@
   "description.town.center": "Riunitevi in giro per il centro della città per le ultime notizie",
   "description.market": "Compra e vendi al Farmer's Market",
   "description.fire.pit": "Arrostisci i tuoi girasoli, dai da mangiare e fai salire di livello il tuo Bumpkin",
-  "description.workbench": "Crea strumenti per raccogliere risorse",
   "description.tent": "(Fuori produzione)",
   "description.house": "Un posto dove riposare la testa",
   "description.crop.machine": "Automatizza la tua produzione agricola",
@@ -3671,5 +3670,7 @@
   "gems.outOfstock": "Esaurito",
   "gems.shipment.success": "Woohoo, è appena arrivata una spedizione gratuita di scorte per rifornire i negozi.",
   "gems.shipment.arrived": "La nave è arrivata",
-  "gems.shipment.shops": "Tutti i semi e le scorte di attrezzi verranno riforniti nei negozi."
+  "gems.shipment.shops": "Tutti i semi e le scorte di attrezzi verranno riforniti nei negozi.",
+  "description.barn": "Casa bella e accogliente per i tuoi amici a quattro zampe.",
+  "description.workbench": "Crea strumenti, edifici e potenzia oggetti per aiutarti nella tua fattoria"
 }

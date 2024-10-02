@@ -350,7 +350,6 @@
   "description.town.center": "町の中心部に集まって最新ニュースをチェックしよう",
   "description.market": "ファーマーズマーケットでの売買",
   "description.fire.pit": "ひまわりを焼いて、バンプキンにエサをあげてレベルアップしよう",
-  "description.workbench": "資源を集めるためのクラフトツール",
   "description.tent": "(廃止)",
   "description.house": "頭を休める場所",
   "description.crop.machine": "作物生産を自動化",
@@ -3671,5 +3670,7 @@
   "gems.outOfstock": "在庫切れ",
   "gems.shipment.success": "Woohoo、ショップに補充するための在庫の無料発送が届きました。",
   "gems.shipment.arrived": "船が到着しました",
-  "gems.shipment.shops": "シードとツールストックはすべてショップで補充されます。"
+  "gems.shipment.shops": "シードとツールストックはすべてショップで補充されます。",
+  "description.barn": "4本足の友達のための素敵で居心地の良い家。",
+  "description.workbench": "農場で役立つ道具、建物、ブーストアイテムを作ろう"
 }
