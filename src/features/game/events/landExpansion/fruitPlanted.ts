@@ -5,10 +5,10 @@ import {
 } from "features/game/lib/collectibleBuilt";
 import { trackActivity } from "features/game/types/bumpkinActivity";
 import {
-  FruitSeedName,
   GreenHouseFruitSeedName,
   isFruitSeed,
   PATCH_FRUIT_SEEDS,
+  PatchFruitSeedName,
 } from "features/game/types/fruits";
 import { Bumpkin, GameState } from "features/game/types/game";
 import { randomInt } from "lib/utils/random";
@@ -20,7 +20,7 @@ import { produce } from "immer";
 export type PlantFruitAction = {
   type: "fruit.planted";
   index: string;
-  seed: FruitSeedName;
+  seed: PatchFruitSeedName;
 };
 
 function getHarvestsLeft() {
@@ -28,25 +28,25 @@ function getHarvestsLeft() {
 }
 
 export function getPlantedAt(
-  fruitSeedName: FruitSeedName,
+  patchFruitSeedName: PatchFruitSeedName,
   wearables: BumpkinParts,
   game: GameState,
   createdAt: number,
 ) {
-  if (!fruitSeedName) return createdAt;
+  if (!patchFruitSeedName) return createdAt;
 
-  const fruitTime = PATCH_FRUIT_SEEDS()[fruitSeedName].plantSeconds;
-  const boostedTime = getFruitPatchTime(fruitSeedName, game, wearables);
+  const fruitTime = PATCH_FRUIT_SEEDS()[patchFruitSeedName].plantSeconds;
+  const boostedTime = getFruitPatchTime(patchFruitSeedName, game, wearables);
 
   const offset = fruitTime - boostedTime;
 
   return createdAt - offset * 1000;
 }
 
-const isBasicFruitSeed = (name: FruitSeedName | GreenHouseFruitSeedName) =>
+const isBasicFruitSeed = (name: PatchFruitSeedName | GreenHouseFruitSeedName) =>
   name === "Blueberry Seed" || name === "Orange Seed";
 
-const isAdvancedFruitSeed = (name: FruitSeedName | GreenHouseFruitSeedName) =>
+const isAdvancedFruitSeed = (name: PatchFruitSeedName | GreenHouseFruitSeedName) =>
   name === "Apple Seed" || name === "Banana Plant";
 
 /**
@@ -57,7 +57,7 @@ export function getFruitTime({
   name,
 }: {
   game: GameState;
-  name: FruitSeedName | GreenHouseFruitSeedName;
+  name: GreenHouseFruitSeedName | PatchFruitSeedName;
 }) {
   let seconds = 1;
 
@@ -76,19 +76,19 @@ export function getFruitTime({
  * Based on boosts, how long a fruit will take to grow
  */
 export const getFruitPatchTime = (
-  fruitSeedName: FruitSeedName,
+  patchFruitSeedName: PatchFruitSeedName,
   game: GameState,
   _: BumpkinParts,
 ) => {
   const { bumpkin } = game;
-  let seconds = PATCH_FRUIT_SEEDS()[fruitSeedName]?.plantSeconds ?? 0;
+  let seconds = PATCH_FRUIT_SEEDS()[patchFruitSeedName]?.plantSeconds ?? 0;
 
-  const baseMultiplier = getFruitTime({ game, name: fruitSeedName });
+  const baseMultiplier = getFruitTime({ game, name: patchFruitSeedName });
   seconds *= baseMultiplier;
 
   // Squirrel Monkey: 50% reduction
   if (
-    fruitSeedName === "Orange Seed" &&
+    patchFruitSeedName === "Orange Seed" &&
     isCollectibleBuilt({ name: "Squirrel Monkey", game })
   ) {
     seconds = seconds * 0.5;
@@ -96,7 +96,7 @@ export const getFruitPatchTime = (
 
   // Nana: 10% reduction
   if (
-    fruitSeedName === "Banana Plant" &&
+    patchFruitSeedName === "Banana Plant" &&
     isCollectibleBuilt({ name: "Nana", game })
   ) {
     seconds = seconds * 0.9;
@@ -104,7 +104,7 @@ export const getFruitPatchTime = (
 
   // Banana Onesie: 20% reduction
   if (
-    fruitSeedName === "Banana Plant" &&
+    patchFruitSeedName === "Banana Plant" &&
     isWearableActive({ name: "Banana Onesie", game })
   ) {
     seconds = seconds * 0.8;
@@ -112,7 +112,7 @@ export const getFruitPatchTime = (
 
   // Lemon Tea Bath: 50% reduction
   if (
-    fruitSeedName === "Lemon Seed" &&
+    patchFruitSeedName === "Lemon Seed" &&
     isCollectibleBuilt({ name: "Lemon Tea Bath", game })
   ) {
     seconds = seconds * 0.5;
@@ -120,7 +120,7 @@ export const getFruitPatchTime = (
 
   // Lemon Frog: 25% reduction
   if (
-    fruitSeedName === "Lemon Seed" &&
+    patchFruitSeedName === "Lemon Seed" &&
     isCollectibleBuilt({ name: "Lemon Frog", game })
   ) {
     seconds = seconds * 0.75;
@@ -128,7 +128,7 @@ export const getFruitPatchTime = (
 
   // Tomato Clown: 50% reduction
   if (
-    fruitSeedName === "Tomato Seed" &&
+    patchFruitSeedName === "Tomato Seed" &&
     isCollectibleBuilt({ name: "Tomato Clown", game })
   ) {
     seconds = seconds * 0.5;
@@ -136,7 +136,7 @@ export const getFruitPatchTime = (
 
   // Cannon
   if (
-    fruitSeedName === "Tomato Seed" &&
+    patchFruitSeedName === "Tomato Seed" &&
     isCollectibleBuilt({ name: "Cannonball", game })
   ) {
     seconds = seconds * 0.75;
@@ -144,19 +144,19 @@ export const getFruitPatchTime = (
 
   // Catchup Skill: 10% reduction
   if (
-    (fruitSeedName === "Tomato Seed" || fruitSeedName === "Lemon Seed") &&
+    (patchFruitSeedName === "Tomato Seed" || patchFruitSeedName === "Lemon Seed") &&
     bumpkin.skills["Catchup"]
   ) {
     seconds = seconds * 0.9;
   }
 
   // Fruit Turbocharge Skill: 10% reduction
-  if (isBasicFruitSeed(fruitSeedName) && bumpkin.skills["Fruit Turbocharge"]) {
+  if (isBasicFruitSeed(patchFruitSeedName) && bumpkin.skills["Fruit Turbocharge"]) {
     seconds = seconds * 0.9;
   }
 
   // Prime Produce Skill: 10% reduction
-  if (isAdvancedFruitSeed(fruitSeedName) && bumpkin.skills["Prime Produce"]) {
+  if (isAdvancedFruitSeed(patchFruitSeedName) && bumpkin.skills["Prime Produce"]) {
     seconds = seconds * 0.9;
   }
 

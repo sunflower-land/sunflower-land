@@ -2,7 +2,7 @@ import "lib/__mocks__/configMock";
 
 import Decimal from "decimal.js-light";
 import { INITIAL_BUMPKIN, TEST_FARM } from "features/game/lib/constants";
-import { FruitSeedName, PATCH_FRUIT_SEEDS } from "features/game/types/fruits";
+import { PATCH_FRUIT_SEEDS, PatchFruitSeedName } from "features/game/types/fruits";
 import { FruitPatch, GameState } from "features/game/types/game";
 import { getFruitPatchTime, plantFruit } from "./fruitPlanted";
 
@@ -100,7 +100,7 @@ describe("fruitPlanted", () => {
         action: {
           type: "fruit.planted",
           index: "1",
-          seed: "Sunflower Seed" as FruitSeedName,
+          seed: "Sunflower Seed" as PatchFruitSeedName,
         },
       }),
     ).toThrow("Not a fruit seed");

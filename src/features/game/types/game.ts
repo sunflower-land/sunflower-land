@@ -22,9 +22,9 @@ import { DecorationName } from "./decorations";
 import { BeanName, ExoticCropName, MutantCropName } from "./beans";
 import {
   FruitName,
-  FruitSeedName,
   GreenHouseFruitName,
   GreenHouseFruitSeedName,
+  PatchFruitSeedName,
 } from "./fruits";
 import { TreasureName } from "./treasure";
 import {
@@ -365,7 +365,7 @@ export type InventoryItemName =
   | BeanName
   | MutantCropName
   | FruitName
-  | FruitSeedName
+  | PatchFruitSeedName
   | FlowerSeedName
   | GreenHouseFruitSeedName
   | GreenHouseFruitName

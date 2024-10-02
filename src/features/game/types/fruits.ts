@@ -17,7 +17,7 @@ export type FruitName =
 export type GreenHouseFruitName = "Grape";
 export type GreenHouseFruitSeedName = "Grape Seed";
 
-export type FruitSeedName =
+export type PatchFruitSeedName =
   | "Apple Seed"
   | "Blueberry Seed"
   | "Orange Seed"
@@ -35,11 +35,11 @@ export type FruitSeed = {
   disabled?: boolean;
 };
 
-export function isFruitSeed(seed: FruitSeedName) {
+export function isFruitSeed(seed: PatchFruitSeedName) {
   return getKeys(PATCH_FRUIT_SEEDS()).includes(seed);
 }
 
-export const PATCH_FRUIT_SEEDS: () => Record<FruitSeedName, FruitSeed> = () => ({
+export const PATCH_FRUIT_SEEDS: () => Record<PatchFruitSeedName, FruitSeed> = () => ({
   "Tomato Seed": {
     price: 5,
     description: "Rich in Lycopene",
@@ -95,7 +95,7 @@ export type Fruit = {
   name: FruitName;
   isBush?: boolean;
   sellPrice: number;
-  seed: FruitSeedName;
+  seed: PatchFruitSeedName;
   disabled?: boolean;
 };
 

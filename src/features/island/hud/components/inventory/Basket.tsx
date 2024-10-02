@@ -29,11 +29,11 @@ import {
 import { COMMODITIES } from "features/game/types/resources";
 import { BEANS, EXOTIC_CROPS } from "features/game/types/beans";
 import {
-  FruitSeedName,
   GREENHOUSE_FRUIT_SEEDS,
   GREENHOUSE_FRUIT,
   PATCH_FRUIT,
   PATCH_FRUIT_SEEDS,
+  PatchFruitSeedName,
 } from "features/game/types/fruits";
 import { SplitScreenView } from "components/ui/SplitScreenView";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -97,7 +97,7 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
 
   const isFruitSeed = (
     selected: InventoryItemName,
-  ): selected is FruitSeedName => selected in PATCH_FRUIT_SEEDS();
+  ): selected is PatchFruitSeedName => selected in PATCH_FRUIT_SEEDS();
   const isSeed = (selected: InventoryItemName): selected is SeedName =>
     isFruitSeed(selected) ||
     selected in CROP_SEEDS ||

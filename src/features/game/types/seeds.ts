@@ -8,18 +8,18 @@ import {
 } from "./crops";
 import {
   FruitName,
-  FruitSeedName,
   GREENHOUSE_FRUIT_SEEDS,
   GreenHouseFruitName,
   GreenHouseFruitSeedName,
   PATCH_FRUIT_SEEDS,
+  PatchFruitSeedName,
 } from "./fruits";
 import { FLOWER_SEEDS, FlowerSeedName } from "./flowers";
 import { ResourceName } from "./resources";
 
 export type SeedName =
   | CropSeedName
-  | FruitSeedName
+  | PatchFruitSeedName
   | FlowerSeedName
   | GreenHouseCropSeedName
   | GreenHouseFruitSeedName;
