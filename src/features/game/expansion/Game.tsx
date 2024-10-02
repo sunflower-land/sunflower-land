@@ -91,6 +91,7 @@ const getModalStatesForEffects = () =>
 export const AUTO_SAVE_INTERVAL = 1000 * 30; // autosave every 30 seconds
 const SHOW_MODAL: Record<StateValues, boolean> = {
   ...getModalStatesForEffects(),
+  // Every new state should be added below here
   gems: true,
   loading: true,
   playing: false,
