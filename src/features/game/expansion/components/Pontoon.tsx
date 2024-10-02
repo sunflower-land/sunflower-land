@@ -8,6 +8,11 @@ import { Context } from "features/game/GameProvider";
 import { ProgressBar } from "components/ui/ProgressBar";
 import { TimerPopover } from "features/island/common/TimerPopover";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { Modal } from "components/ui/Modal";
+import { Expanding } from "components/ui/layouts/ExpansionRequirements";
+import { getInstantGems } from "features/game/events/landExpansion/speedUpRecipe";
+import { gameAnalytics } from "lib/gameAnalytics";
+import { Panel } from "components/ui/Panel";
 
 interface Props {
   expansion: ExpansionConstruction;
@@ -18,6 +23,8 @@ interface Props {
  * Goblins working hard constructing a piece of land
  */
 export const Pontoon: React.FC<Props> = ({ expansion, onDone }) => {
+  const { gameService } = useContext(Context);
+
   const { showTimers } = useContext(Context);
 
   const [showPopover, setShowPopover] = useState(false);
@@ -25,6 +32,8 @@ export const Pontoon: React.FC<Props> = ({ expansion, onDone }) => {
     (expansion.readyAt - Date.now()) / 1000,
   );
   const { t } = useAppTranslation();
+
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -40,55 +49,70 @@ export const Pontoon: React.FC<Props> = ({ expansion, onDone }) => {
     return () => clearInterval(interval);
   }, []);
 
+  const onInstantExpand = () => {
+    const readyAt =
+      gameService.getSnapshot().context.state.expansionConstruction?.readyAt ??
+      0;
+    const gems = getInstantGems({
+      readyAt: readyAt as number,
+    });
+
+    gameService.send("expansion.spedUp");
+
+    gameAnalytics.trackSink({
+      currency: "Gem",
+      amount: gems,
+      item: "Instant Expand",
+      type: "Fee",
+    });
+
+    setShowModal(false);
+  };
+
   // Land is still being built
   const constructionTime = (expansion.readyAt - expansion.createdAt) / 1000;
+
   return (
-    <div
-      onMouseEnter={() => setShowPopover(true)}
-      onMouseLeave={() => setShowPopover(false)}
-      className="w-full h-full"
-    >
-      <img
-        src={SUNNYSIDE.land.pontoon}
-        style={{
-          top: `${PIXEL_SCALE * 20}px`,
-          left: `${PIXEL_SCALE * -10}px`,
-          width: `${PIXEL_SCALE * 129}px`,
-        }}
-        className="relative max-w-none"
-      />
-
-      {/* Timer popover */}
+    <>
+      <Modal show={showModal} onHide={() => setShowModal(false)}>
+        <Panel>
+          <Expanding
+            onClose={() => setShowModal(false)}
+            state={gameService.getSnapshot().context.state}
+            onInstantExpanded={onInstantExpand}
+          />
+        </Panel>
+      </Modal>
       <div
-        className="flex justify-center absolute w-full pointer-events-none"
-        style={{
-          top: `${PIXEL_SCALE * -2}px`,
-          left: `${PIXEL_SCALE * 7}px`,
-        }}
+        onClick={() => setShowModal(true)}
+        className="w-full h-full cursor-pointer"
       >
-        <TimerPopover
-          image={SUNNYSIDE.land.island}
-          description={t("landscape.timerPopover")}
-          showPopover={showPopover}
-          timeLeft={secondsLeft}
-        />
-      </div>
-
-      {showTimers && (
-        <ProgressBar
-          seconds={secondsLeft}
-          percentage={
-            ((constructionTime - secondsLeft) / constructionTime) * 100
-          }
-          type="progress"
-          formatLength="medium"
+        <img
+          src={SUNNYSIDE.land.pontoon}
           style={{
-            top: `${PIXEL_SCALE * 82}px`,
-            left: `${PIXEL_SCALE * 45}px`,
-            whiteSpace: "nowrap",
+            top: `${PIXEL_SCALE * 20}px`,
+            left: `${PIXEL_SCALE * -10}px`,
+            width: `${PIXEL_SCALE * 129}px`,
           }}
+          className="relative max-w-none"
         />
-      )}
-    </div>
+
+        {showTimers && (
+          <ProgressBar
+            seconds={secondsLeft}
+            percentage={
+              ((constructionTime - secondsLeft) / constructionTime) * 100
+            }
+            type="progress"
+            formatLength="medium"
+            style={{
+              top: `${PIXEL_SCALE * 82}px`,
+              left: `${PIXEL_SCALE * 45}px`,
+              whiteSpace: "nowrap",
+            }}
+          />
+        )}
+      </div>
+    </>
   );
 };

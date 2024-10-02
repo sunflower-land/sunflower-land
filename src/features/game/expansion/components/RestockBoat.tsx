@@ -14,12 +14,16 @@ import { NPC_WEARABLES } from "lib/npcs";
 import { Button } from "components/ui/Button";
 import confetti from "canvas-confetti";
 import { hasFeatureAccess } from "lib/flags";
+import { getKeys } from "features/game/types/decorations";
 
 const expansions = (state: MachineState) =>
   state.context.state.inventory["Basic Land"]?.toNumber() ?? 3;
 const canRestock = (state: MachineState) =>
   hasFeatureAccess(state.context.state, "GEM_BOOSTS") &&
-  canRestockShipment({ game: state.context.state });
+  canRestockShipment({ game: state.context.state }) &&
+  getKeys(state.context.state.stock).some((name) =>
+    state.context.state.stock[name]?.lte(0),
+  );
 
 export const RestockBoat: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);

@@ -70,12 +70,8 @@ export const ExpansionRequirements: React.FC<Props> = ({
   const { t } = useAppTranslation();
   const { gameService, showAnimations } = useContext(Context);
 
-  const [hideExpanding, setHideExpanding] = useState(false);
-
   const hasLevel =
     getBumpkinLevel(bumpkin.experience) >= requirements.bumpkinLevel;
-
-  const hasGemExperiment = hasFeatureAccess(state, "GEM_BOOSTS");
 
   const onExpand = () => {
     gameService.send("land.expanded");
@@ -97,37 +93,8 @@ export const ExpansionRequirements: React.FC<Props> = ({
       event: `Farm:Expanding:Expansion${expansions}`,
     });
 
-    if (!hasGemExperiment) {
-      onClose();
-    }
-  };
-
-  const onInstantExpanded = () => {
-    const readyAt = state.expansionConstruction?.readyAt ?? 0;
-    const gems = getInstantGems({
-      readyAt: readyAt as number,
-    });
-
-    gameService.send("expansion.spedUp");
-
-    gameAnalytics.trackSink({
-      currency: "Gem",
-      amount: gems,
-      item: "Instant Expand",
-      type: "Fee",
-    });
     onClose();
   };
-
-  if (hasGemExperiment && !hideExpanding && !!state.expansionConstruction) {
-    return (
-      <Expanding
-        state={state}
-        onClose={onClose}
-        onInstantExpanded={onInstantExpanded}
-      />
-    );
-  }
 
   const canExpand = craftingRequirementsMet(state, requirements);
 
@@ -211,8 +178,6 @@ export const Expanding: React.FC<{
 }> = ({ state, onClose, onInstantExpanded }) => {
   const readyAt = state.expansionConstruction?.readyAt ?? 0;
 
-  const [_, setRender] = useState(0);
-
   const requirements = expansionRequirements({ game: state });
   const totalSeconds = requirements?.seconds ?? 0;
   const secondsTillReady = (readyAt - Date.now()) / 1000;
@@ -222,6 +187,8 @@ export const Expanding: React.FC<{
   const gems = getInstantGems({
     readyAt: readyAt as number,
   });
+
+  const hasAccess = hasFeatureAccess(state, "GEM_BOOSTS");
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -256,20 +223,25 @@ export const Expanding: React.FC<{
         </div>
       </div>
 
-      <Button
-        disabled={!state.inventory.Gem?.gte(gems)}
-        className="relative"
-        onClick={onInstantExpanded}
-      >
-        Instant Expand
-        <Label
-          type={state.inventory.Gem?.gte(gems) ? "default" : "danger"}
-          icon={ITEM_DETAILS.Gem.image}
-          className="flex absolute right-0 top-0.5"
-        >
-          {gems}
-        </Label>
-      </Button>
+      <div className="flex">
+        <Button onClick={onClose}>Close</Button>
+        {hasAccess && (
+          <Button
+            disabled={!state.inventory.Gem?.gte(gems)}
+            className="relative ml-1"
+            onClick={onInstantExpanded}
+          >
+            Speed up
+            <Label
+              type={state.inventory.Gem?.gte(gems) ? "default" : "danger"}
+              icon={ITEM_DETAILS.Gem.image}
+              className="flex absolute right-0 -top-5"
+            >
+              {gems}
+            </Label>
+          </Button>
+        )}
+      </div>
     </>
   );
 };

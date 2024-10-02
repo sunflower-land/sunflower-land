@@ -95,7 +95,6 @@ export const Restock: React.FC<Props> = ({ onClose }) => {
     );
   }
 
-  console.log({ shipmentIsReady, showShipment, shipmentAt, shipmentTime });
   return (
     <>
       <Button className="mt-1 relative" onClick={() => setShowConfirm(true)}>
@@ -124,14 +123,7 @@ const RestockModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 
-  const hasGemExperiment = hasFeatureAccess(
-    gameState.context.state,
-    "GEM_BOOSTS",
-  );
-  const shipmentIsReady = canRestockShipment({ game: gameState.context.state });
-  const showShipment = hasGemExperiment && shipmentIsReady;
-
-  const canRestock = gameState.context.state.inventory["Block Buck"]?.gte(1);
+  const canRestock = gameState.context.state.inventory["Gem"]?.gte(20);
 
   const handleRestock = () => {
     if (!canRestock) {
@@ -152,50 +144,12 @@ const RestockModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
     onClose();
   };
 
-  const replenish = () => {
-    gameService.send("shipment.restocked");
-    onClose();
-    confetti();
-  };
-
-  if (showShipment) {
-    return (
-      <>
-        <div className="p-1">
-          <Label type="default" className="mb-2" icon={stockIcon}>
-            Shipment has arrived
-          </Label>
-          <p className="text-sm mb-2">
-            Woohoo, a free shipment of stock has just arrived to replenish the
-            shops.
-          </p>
-        </div>
-        <div className="flex">
-          <Button className="mr-1" onClick={onClose}>
-            Close
-          </Button>
-          <Button onClick={replenish}>Restock</Button>
-        </div>
-      </>
-    );
-  }
-
-  const shipmentAt = useCountdown(
-    nextShipmentAt({ game: gameState.context.state }),
-  );
-
-  const { days, ...shipmentTime } = shipmentAt;
-
   return (
     <>
       <div className="p-1">
         <Label type="danger" className="mb-2" icon={stockIcon}>
           Out of stock
         </Label>
-        <div className="flex flex-wrap mb-2">
-          <span className="mr-2">Next free shipment:</span>
-          <TimerDisplay time={shipmentTime} />
-        </div>
 
         <p className="mb-1">
           Would to like to replenish the shops now for 20 Gems?
@@ -231,7 +185,7 @@ const ExperimentRestockModal: React.FC<{ onClose: () => void }> = ({
   const shipmentIsReady = canRestockShipment({ game: gameState.context.state });
   const showShipment = hasGemExperiment && shipmentIsReady;
 
-  const canRestock = gameState.context.state.inventory["Block Buck"]?.gte(1);
+  const canRestock = gameState.context.state.inventory["Gem"]?.gte(20);
 
   const handleRestock = () => {
     if (!canRestock) {
