@@ -1721,6 +1721,10 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.building.chickenHouse,
     description: translate("description.hen.house"),
   },
+  Barn: {
+    image: SUNNYSIDE.building.barn,
+    description: translate("description.barn"),
+  },
   Deli: {
     image: SUNNYSIDE.building.deli,
     description: translate("description.deli"),

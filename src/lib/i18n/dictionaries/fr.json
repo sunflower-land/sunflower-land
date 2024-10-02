@@ -265,7 +265,6 @@
   "description.town.center": "Rassemblez-vous autour du centre-ville pour les dernières nouvelles",
   "description.market": "Achetez et vendez au marché des fermiers",
   "description.fire.pit": "Faites griller vos Sunflowers, nourrissez et améliorez votre Bumpkin",
-  "description.workbench": "Fabriquez des outils pour collecter des ressources",
   "description.tent": "(Arrêté)",
   "description.house": "Un endroit où reposer votre tête",
   "bumpkin.delivery.selectFlower": "Sélectionne une fleur",
@@ -3671,5 +3670,7 @@
   "gems.outOfstock": "En rupture de stock",
   "gems.shipment.success": "Woohoo, une livraison gratuite de stock vient d'arriver pour réapprovisionner les boutiques.",
   "gems.shipment.arrived": "Le navire est arrivé",
-  "gems.shipment.shops": "Tous les stocks de semences et d'outils seront réapprovisionnés dans les magasins."
+  "gems.shipment.shops": "Tous les stocks de semences et d'outils seront réapprovisionnés dans les magasins.",
+  "description.barn": "Maison agréable et confortable pour vos amis à quatre pattes.",
+  "description.workbench": "Fabriquez des outils, des bâtiments et des objets d'amélioration pour vous aider dans votre ferme"
 }

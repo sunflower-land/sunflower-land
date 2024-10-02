@@ -279,7 +279,6 @@
   "description.town.center": "En son haberler için şehir merkezinde toplanın.",
   "description.market": "Çiftçi pazarında alım ve satım yapın.",
   "description.fire.pit": "Ayçiçeği kavurun, Bumpkininizi besleyin ve seviye atlatın.",
-  "description.workbench": "Kaynak toplamak için alet üretin",
   "description.tent": "(Artık üretilmiyor)",
   "description.house": "Kafanı dinleyebileceğin bir yer.",
   "bumpkin.delivery.selectFlower": "Çiçek seç",
@@ -3671,5 +3670,7 @@
   "gems.outOfstock": "Stoklar tükendi",
   "gems.shipment.success": "Woohoo, dükkanları yenilemek için ücretsiz bir stok sevkiyatı geldi.",
   "gems.shipment.arrived": "Gemi geldi",
-  "gems.shipment.shops": "Tüm tohumlar ve alet stokları mağazalarda yenilenecektir."
+  "gems.shipment.shops": "Tüm tohumlar ve alet stokları mağazalarda yenilenecektir.",
+  "description.barn": "Dört ayaklı arkadaşlarınız için güzel ve rahat bir ev.",
+  "description.workbench": "Çiftliğinizde size yardımcı olacak araçlar, binalar ve destek öğeleri üretin"
 }

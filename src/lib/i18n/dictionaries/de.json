@@ -350,7 +350,6 @@
   "description.town.center": "Versammeln Sie sich im Stadtzentrum, um die neuesten Nachrichten zu erhalten",
   "description.market": "Auf dem Bauernmarkt kaufen und verkaufen",
   "description.fire.pit": "Röste deine Sonnenblumen, füttere und verbessere deinen Bumpkin",
-  "description.workbench": "Stelle Werkzeuge her, um Ressourcen zu sammeln",
   "description.tent": "(Eingestellt)",
   "description.house": "Ein Ort, an dem Sie Ihren Kopf ausruhen können",
   "description.crop.machine": "Automatisieren Sie Ihre Pflanzenproduktion",
@@ -3671,5 +3670,7 @@
   "gems.outOfstock": "Nicht vorrätig",
   "gems.shipment.success": "Woohoo, eine kostenlose Warenlieferung ist gerade eingetroffen, um die Geschäfte wieder aufzufüllen.",
   "gems.shipment.arrived": "Das Schiff ist eingetroffen",
-  "gems.shipment.shops": "Der gesamte Saatgut- und Werkzeugbestand wird in den Geschäften aufgefüllt."
+  "gems.shipment.shops": "Der gesamte Saatgut- und Werkzeugbestand wird in den Geschäften aufgefüllt.",
+  "description.barn": "Schönes und gemütliches Haus für Ihre vierbeinigen Freunde.",
+  "description.workbench": "Stelle Werkzeuge, Gebäude und Boost-Gegenstände her, um dir auf deiner Farm zu helfen"
 }

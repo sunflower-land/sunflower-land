@@ -342,7 +342,6 @@
   "description.town.center": "城镇中心。聚集到 Town Center 获取最新消息",
   "description.market": "市场。在农贸市场购买和出售",
   "description.fire.pit": "火堆。烤你的向日葵，喂食并升级你的乡包佬",
-  "description.workbench": "工作台。锻造收集资源的工具",
   "description.tent": "帐篷。（已绝版）",
   "description.house": "房屋。一个让你休息的地方",
   "description.greenhouse": "温室。娇弱庄稼的庇护所（消耗石油运转）",
@@ -3671,5 +3670,7 @@
   "gems.outOfstock": "缺货",
   "gems.shipment.success": "哇，免费送货的库存刚刚到货，可以补货了。",
   "gems.shipment.arrived": "船已经到达",
-  "gems.shipment.shops": "所有种子和工具库存将在商店补充。"
+  "gems.shipment.shops": "所有种子和工具库存将在商店补充。",
+  "description.barn": "漂亮舒适的房子，适合你的四条腿的朋友。",
+  "description.workbench": "制作工具、建筑物和增强物品来帮助你在农场工作"
 }

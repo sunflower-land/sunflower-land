@@ -263,7 +263,6 @@
   "description.town.center": "Reúna-se ao redor do centro da cidade para as últimas notícias",
   "description.market": "Compre e venda no Mercado dos Agricultores",
   "description.fire.pit": "Faça comidas, alimente e evolua seu Bumpkin",
-  "description.workbench": "Faça ferramentas para coletar recursos",
   "description.tent": "(Descontinuado)",
   "description.house": "Um lugar para descansar a cabeça",
   "description.crop.machine": "Automatize suas plantações",
@@ -3671,5 +3670,7 @@
   "gems.outOfstock": "Fora de estoque",
   "gems.shipment.success": "Uau, acaba de chegar uma remessa gratuita de estoque para reabastecer as lojas.",
   "gems.shipment.arrived": "O navio chegou",
-  "gems.shipment.shops": "Todas as sementes e o estoque de ferramentas serão reabastecidos nas lojas."
+  "gems.shipment.shops": "Todas as sementes e o estoque de ferramentas serão reabastecidos nas lojas.",
+  "description.barn": "Casa agradável e aconchegante para seus amigos de quatro patas.",
+  "description.workbench": "Crie ferramentas, edifícios e itens de reforço para ajudá-lo em sua fazenda"
 }

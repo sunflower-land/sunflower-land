@@ -61,6 +61,7 @@ import { NPC_WEARABLES } from "lib/npcs";
 import { Transaction } from "features/island/hud/Transaction";
 import { Gems } from "./components/Gems";
 import { HenHouseInside } from "features/henHouse/HenHouseInside";
+import { BarnInside } from "features/barn/BarnInside";
 
 const land = SUNNYSIDE.land.island;
 
@@ -235,6 +236,7 @@ const GameContent: React.FC = () => {
           <Route path="/farm" element={<Land />} />
           <Route path="/home" element={<Home />} />
           <Route path="/greenhouse" element={<GreenhouseInside />} />
+          <Route path="/barn" element={<BarnInside />} />
           <Route path="/hen-house" element={<HenHouseInside />} />
           <Route path="*" element={<IslandNotFound />} />
         </Routes>
