@@ -9,7 +9,7 @@ import {
   PATCH_FRUIT_SEEDS,
   PatchFruitName,
 } from "features/game/types/fruits";
-import { FRUIT_LIFECYCLE } from "./fruits";
+import { PATCH_FRUIT_LIFECYCLE } from "./fruits";
 import classNames from "classnames";
 import { ITEM_DETAILS } from "features/game/types/images";
 
@@ -35,7 +35,7 @@ export const ReplenishingTree: React.FC<Props> = ({
 }) => {
   const { showTimers } = useContext(Context);
   const [showPopover, setShowPopover] = useState(false);
-  const lifecycle = FRUIT_LIFECYCLE[patchFruitName];
+  const lifecycle = PATCH_FRUIT_LIFECYCLE[patchFruitName];
 
   const { seed, isBush } = PATCH_FRUIT()[patchFruitName];
   let bottom, left, width;

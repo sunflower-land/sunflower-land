@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { InfoPopover } from "../common/InfoPopover";
-import { FRUIT_LIFECYCLE } from "./fruits";
+import { PATCH_FRUIT_LIFECYCLE } from "./fruits";
 import { PATCH_FRUIT, PatchFruitName } from "features/game/types/fruits";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import classNames from "classnames";
@@ -39,7 +39,7 @@ export const DeadTree = ({ patchFruitName, hasAxes }: Props) => {
       >
         {/* Dead tree/bush */}
         <img
-          src={FRUIT_LIFECYCLE[patchFruitName].dead}
+          src={PATCH_FRUIT_LIFECYCLE[patchFruitName].dead}
           className="absolute"
           style={{
             bottom: `${PIXEL_SCALE * (isBush ? 9 : 5)}px`,

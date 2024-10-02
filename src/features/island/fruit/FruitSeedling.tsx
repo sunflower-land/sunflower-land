@@ -7,7 +7,7 @@ import {
   PATCH_FRUIT_SEEDS,
   PatchFruitName,
 } from "features/game/types/fruits";
-import { FRUIT_LIFECYCLE } from "./fruits";
+import { PATCH_FRUIT_LIFECYCLE } from "./fruits";
 import { ProgressBar } from "components/ui/ProgressBar";
 import { TimerPopover } from "../common/TimerPopover";
 import { ITEM_DETAILS } from "features/game/types/images";
@@ -37,7 +37,7 @@ export const FruitSeedling: React.FC<Props> = ({ patchFruitName, timeLeft }) => 
   const [showPopover, setShowPopover] = useState(false);
   const { seed } = PATCH_FRUIT()[patchFruitName];
   const { plantSeconds } = PATCH_FRUIT_SEEDS()[seed];
-  const lifecycle = FRUIT_LIFECYCLE[patchFruitName];
+  const lifecycle = PATCH_FRUIT_LIFECYCLE[patchFruitName];
 
   const growPercentage = 100 - (timeLeft / plantSeconds) * 100;
   const isAlmostReady = growPercentage >= 50;

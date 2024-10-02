@@ -22,7 +22,7 @@ export type FruitLifecycle = {
  * Fruits and their original prices
  * TODO - Replace deadTree images with the correct images
  */
-export const FRUIT_LIFECYCLE: Record<PatchFruitName, FruitLifecycle> = {
+export const PATCH_FRUIT_LIFECYCLE: Record<PatchFruitName, FruitLifecycle> = {
   Apple: {
     seedling: CROP_LIFECYCLE.Sunflower.seedling,
     halfway: CROP_LIFECYCLE.Sunflower.halfway,
