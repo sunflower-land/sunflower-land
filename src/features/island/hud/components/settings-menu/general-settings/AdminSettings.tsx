@@ -9,10 +9,12 @@ import coinsIcon from "assets/icons/coins.webp";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Context } from "features/game/GameProvider";
 
-export const AdminSettings: React.FC<ContentComponentProps> = () => {
+export const AdminSettings: React.FC<
+  ContentComponentProps & { id?: number }
+> = ({ id = 0 }) => {
   const { authService } = useContext(AuthProvider.Context);
   const { gameService } = useContext(Context);
-  const [farmId, setFarmId] = useState(0);
+  const [farmId, setFarmId] = useState(id);
   const [coins, setCoins] = useState(0);
   const [gems, setGems] = useState(0);
 
