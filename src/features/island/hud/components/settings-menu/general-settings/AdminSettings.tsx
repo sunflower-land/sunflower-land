@@ -7,9 +7,7 @@ import { Label } from "components/ui/Label";
 import { ITEM_DETAILS } from "features/game/types/images";
 import coinsIcon from "assets/icons/coins.webp";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { Effect, postEffect } from "features/game/actions/effect";
 import { Context } from "features/game/GameProvider";
-import { Loading } from "features/auth/components";
 
 export const AdminSettings: React.FC<ContentComponentProps> = () => {
   const { authService } = useContext(AuthProvider.Context);
@@ -18,48 +16,21 @@ export const AdminSettings: React.FC<ContentComponentProps> = () => {
   const [coins, setCoins] = useState(0);
   const [gems, setGems] = useState(0);
 
-  const [state, setState] = useState<"idle" | "sending" | "success" | "error">(
-    "idle",
-  );
-
   const send = async () => {
-    setState("sending");
-
-    try {
-      await postEffect({
-        farmId: Number(gameService.state.context.farmId),
-        effect: {
-          type: "reward.airdropped",
-          coins: coins,
-          items: gems
-            ? {
-                Gem: gems,
-              }
-            : {},
-          farmId,
-        } as Effect,
-        token: authService.state.context.user.rawToken as string,
-        transactionId: "0x123",
-      });
-
-      setState("success");
-    } catch (e) {
-      alert(e);
-      setState("error");
-    }
+    gameService.send("reward.airdropped", {
+      effect: {
+        type: "reward.airdropped",
+        coins: coins,
+        items: gems
+          ? {
+              Gem: gems,
+            }
+          : {},
+        farmId,
+      },
+      authToken: authService.state.context.user.rawToken as string,
+    });
   };
-
-  if (state === "error") {
-    return <span>{`Something went wrong`}</span>;
-  }
-
-  if (state === "sending") {
-    return <Loading />;
-  }
-
-  if (state === "success") {
-    return <span>{`Success!`}</span>;
-  }
 
   return (
     <>
