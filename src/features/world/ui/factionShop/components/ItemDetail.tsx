@@ -255,7 +255,7 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
                   <div
                     className="w-[40%] relative min-w-[40%] rounded-md overflow-hidden shadow-md mr-2 flex justify-center items-center h-32"
                     style={
-                      item?.type === "collectible"
+                      item?.type !== "wearable"
                         ? {
                             backgroundImage: `url(${SUNNYSIDE.ui.grey_background})`,
                             backgroundSize: "cover",
@@ -287,6 +287,11 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
                       {!!item?.faction &&
                         item.faction !== pledgedFaction &&
                         getFactionOnlyLabel(item.faction)}
+                      {!faction && !item?.faction && (
+                        <Label type="warning">
+                          {t("faction.shop.membersOnly")}
+                        </Label>
+                      )}
                       {!!wearableActive && !!wearableReq && (
                         <Label type="danger">
                           {t("kingdom.shop.helmet.currently.equipped", {
@@ -339,11 +344,6 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
                 "space-x-1": confirmBuy,
               })}
             >
-              {!faction && (
-                <Label type="warning" className="ml-1 p-1 w-full flex-grow">
-                  {t("faction.shop.membersOnly")}
-                </Label>
-              )}
               {confirmBuy && (
                 <Button onClick={() => setConfirmBuy(false)}>
                   {t("cancel")}
