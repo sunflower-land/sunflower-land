@@ -5,15 +5,15 @@ import { getSellPrice } from "features/game/expansion/lib/boosts";
 import { trackActivity } from "features/game/types/bumpkinActivity";
 import { setPrecision } from "lib/utils/formatNumber";
 import {
-  Fruit,
   GREENHOUSE_FRUIT,
   PATCH_FRUIT,
+  PatchFruit,
   PatchFruitName,
 } from "features/game/types/fruits";
 import { produce } from "immer";
 
 export type SellableName = CropName | PatchFruitName;
-export type SellableItem = Crop | Fruit;
+export type SellableItem = Crop | PatchFruit;
 
 export type SellCropAction = {
   type: "crop.sold";

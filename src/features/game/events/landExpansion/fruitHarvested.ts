@@ -9,10 +9,10 @@ import {
   trackActivity,
 } from "features/game/types/bumpkinActivity";
 import {
-  Fruit,
   GreenHouseFruitName,
   PATCH_FRUIT,
   PATCH_FRUIT_SEEDS,
+  PatchFruit,
   PatchFruitName,
 } from "features/game/types/fruits";
 import { Bumpkin, GameState, PlantedFruit } from "features/game/types/game";
@@ -39,7 +39,7 @@ type Options = {
 export const isFruitReadyToHarvest = (
   createdAt: number,
   plantedFruit: PlantedFruit,
-  fruitDetails: Fruit,
+  fruitDetails: PatchFruit,
 ) => {
   const { seed } = PATCH_FRUIT()[fruitDetails.name];
   const { plantSeconds } = PATCH_FRUIT_SEEDS()[seed];

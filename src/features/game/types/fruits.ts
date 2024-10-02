@@ -90,7 +90,7 @@ export const PATCH_FRUIT_SEEDS: () => Record<PatchFruitSeedName, PatchFruitSeed>
   },
 });
 
-export type Fruit = {
+export type PatchFruit = {
   description: string;
   name: PatchFruitName;
   isBush?: boolean;
@@ -99,7 +99,7 @@ export type Fruit = {
   disabled?: boolean;
 };
 
-export const PATCH_FRUIT: () => Record<PatchFruitName, Fruit> = () => ({
+export const PATCH_FRUIT: () => Record<PatchFruitName, PatchFruit> = () => ({
   Tomato: {
     description: "Rich in Lycopene",
     name: "Tomato",

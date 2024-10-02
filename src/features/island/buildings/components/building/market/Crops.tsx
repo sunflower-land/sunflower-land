@@ -9,9 +9,9 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { getSellPrice } from "features/game/expansion/lib/boosts";
 import { setPrecision } from "lib/utils/formatNumber";
 import {
-  Fruit,
   GREENHOUSE_FRUIT,
   PATCH_FRUIT,
+  PatchFruit,
 } from "features/game/types/fruits";
 import { SplitScreenView } from "components/ui/SplitScreenView";
 import { ShopSellDetails } from "components/ui/layouts/ShopSellDetails";
@@ -33,13 +33,13 @@ import { BulkSellModal } from "components/ui/BulkSellModal";
 import { SUNNYSIDE } from "assets/sunnyside";
 
 export const isExoticCrop = (
-  item: Crop | Fruit | ExoticCrop,
+  item: Crop | PatchFruit | ExoticCrop,
 ): item is ExoticCrop => {
   return item.name in EXOTIC_CROPS;
 };
 
 export const Crops: React.FC = () => {
-  const [selected, setSelected] = useState<Crop | Fruit | ExoticCrop>(
+  const [selected, setSelected] = useState<Crop | PatchFruit | ExoticCrop>(
     CROPS.Sunflower,
   );
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
@@ -79,7 +79,7 @@ export const Crops: React.FC = () => {
     }
   };
 
-  const displaySellPrice = (crop: Crop | Fruit | ExoticCrop) =>
+  const displaySellPrice = (crop: Crop | PatchFruit | ExoticCrop) =>
     isExoticCrop(crop)
       ? crop.sellPrice
       : getSellPrice({ item: crop, game: state });
