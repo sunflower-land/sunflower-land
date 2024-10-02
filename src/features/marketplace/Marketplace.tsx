@@ -10,12 +10,6 @@ import classNames from "classnames";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { ButtonPanel, OuterPanel } from "components/ui/Panel";
 import { Tradeable } from "./components/Tradeable";
-import { GameProvider } from "features/game/GameProvider";
-import { TransactionCountdown } from "features/island/hud/Transaction";
-
-interface Props {
-  onClose: () => void;
-}
 
 const tabs = [
   {
@@ -43,7 +37,7 @@ export const Marketplace: React.FC = () => {
   const navigate = useNavigate();
 
   return (
-    <GameProvider>
+    <>
       <div className="bg-[#181425] w-full h-full">
         <OuterPanel className="h-full" style={{ paddingBottom: "42px" }}>
           <div className="flex items-center overflow-x-auto scrollbar-hide mr-auto">
@@ -89,16 +83,6 @@ export const Marketplace: React.FC = () => {
           </Routes>
         </OuterPanel>
       </div>
-
-      <div
-        className="absolute z-50 flex flex-col justify-between"
-        style={{
-          bottom: `${PIXEL_SCALE * 3}px`,
-          left: `${PIXEL_SCALE * 4}px`,
-        }}
-      >
-        <TransactionCountdown />
-      </div>
-    </GameProvider>
+    </>
   );
 };

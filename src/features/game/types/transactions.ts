@@ -26,6 +26,8 @@ import { mintAuctionItemRequest } from "../actions/mintAuctionItem";
 import {
   AcceptOfferParams,
   acceptOfferTransaction,
+  ListingPurchasedParams,
+  listingPurchasedTransaction,
 } from "lib/blockchain/Marketplace";
 
 export type BidMintedTransaction = {
@@ -90,6 +92,15 @@ export type AcceptOfferTransaction = {
   };
 };
 
+export type ListingPurchasedTransaction = {
+  event: "transaction.listingPurchased";
+  createdAt: number;
+  data: {
+    buds: GameState["buds"];
+    params: ListingPurchasedParams;
+  };
+};
+
 export type GameTransaction =
   | ProgressSyncedTransaction
   | WearablesWithdrawnTransaction
@@ -97,7 +108,8 @@ export type GameTransaction =
   | BudWithdrawnTransaction
   | SFLWithdrawnTransaction
   | BidMintedTransaction
-  | AcceptOfferTransaction;
+  | AcceptOfferTransaction
+  | ListingPurchasedTransaction;
 
 export type TransactionName = Extract<
   GameTransaction,
@@ -168,6 +180,8 @@ export type TransactionHandler = {
 
 export const ONCHAIN_TRANSACTIONS: TransactionHandler = {
   "transaction.offerAccepted": (data) => acceptOfferTransaction(data.params),
+  "transaction.listingPurchased": (data) =>
+    listingPurchasedTransaction(data.params),
   "transaction.budWithdrawn": (data) => withdrawBudsTransaction(data.params),
   "transaction.itemsWithdrawn": (data) => withdrawItemsTransaction(data.params),
   "transaction.progressSynced": (data) => syncProgress(data.params),
@@ -198,6 +212,7 @@ type TransactionRequest = Record<
 
 export const TRANSACTION_SIGNATURES: TransactionRequest = {
   "transaction.offerAccepted": () => ({}) as any, // uses new effect flow
+  "transaction.listingPurchased": () => ({}) as any, // uses new effect flow
   "transaction.progressSynced": sync,
   "transaction.bidMinted": mintAuctionItemRequest,
   "transaction.budWithdrawn": withdrawBudsRequest,

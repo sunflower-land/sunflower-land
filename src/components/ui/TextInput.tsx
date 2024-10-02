@@ -35,13 +35,13 @@ export const TextInput: React.FC<Props> = ({
         style={{
           borderStyle: "solid",
           background: "white",
-          borderImage: `url(${isFocused ? activeBg : bg})`,
-          borderWidth: `10px 10px 10px 10px`,
-          borderImageSlice: isFocused ? "4 fill" : "4 4 4 4 fill",
           padding: `0 ${padding}px`,
           imageRendering: "pixelated",
           borderImageRepeat: "stretch",
           outline: "none",
+          borderImage: `url(${isFocused ? activeBg : bg})`,
+          borderWidth: `10px 10px 10px 10px`,
+          borderImageSlice: isFocused ? "4 fill" : "4 4 4 4 fill",
         }}
         type="text"
         placeholder="Search here..."

@@ -5,6 +5,7 @@ import {
   TransitionsConfig,
   State,
   send,
+  DoneInvokeEvent,
 } from "xstate";
 import {
   PLAYING_EVENTS,
@@ -87,7 +88,13 @@ import { setCachedMarketPrices } from "features/world/ui/market/lib/marketCache"
 import { MinigameName } from "../types/minigames";
 import { OFFLINE_FARM } from "./landData";
 import { isValidRedirect } from "features/portal/lib/portalUtil";
-import { postEffect } from "../actions/effect";
+import {
+  Effect,
+  EFFECT_EVENTS,
+  postEffect,
+  StateName,
+  StateNameWithStatus,
+} from "../actions/effect";
 import { TRANSACTION_SIGNATURES, TransactionName } from "../types/transactions";
 import { getKeys } from "../types/decorations";
 
@@ -255,7 +262,8 @@ export type UpdateUsernameEvent = {
 
 type PostEffectEvent = {
   type: "POST_EFFECT";
-  effect: any;
+  effect: Effect;
+  authToken: string;
 };
 
 type TransactEvent = {
@@ -331,7 +339,8 @@ export type BlockchainEvent =
   | { type: "SAVE_SUCCESS" }
   | { type: "UPGRADE" }
   | { type: "CLOSE" }
-  | { type: "RANDOMISE" }; // Test only
+  | { type: "RANDOMISE" }
+  | Effect; // Test only
 
 // // For each game event, convert it to an XState event + handler
 const GAME_EVENT_HANDLERS: TransitionsConfig<Context, BlockchainEvent> =
@@ -406,6 +415,78 @@ const PLACEMENT_EVENT_HANDLERS: TransitionsConfig<Context, BlockchainEvent> =
     {},
   );
 
+const EFFECT_EVENT_HANDLERS: TransitionsConfig<Context, BlockchainEvent> =
+  getKeys(EFFECT_EVENTS).reduce(
+    (events, eventName) => ({
+      ...events,
+      [eventName]: {
+        target: EFFECT_EVENTS[eventName],
+      },
+    }),
+    {},
+  );
+
+const EFFECT_STATES = Object.values(EFFECT_EVENTS).reduce(
+  (states, stateName) => ({
+    ...states,
+    [`${stateName}Success`]: {
+      on: {
+        CONTINUE: { target: "playing" },
+      },
+    },
+    [`${stateName}Failure`]: {
+      on: {
+        CONTINUE: { target: "playing" },
+      },
+    },
+    [stateName]: {
+      entry: "setTransactionId",
+      invoke: {
+        src: async (context: Context, event: PostEffectEvent) => {
+          const { effect, authToken } = event;
+
+          if (context.actions.length > 0) {
+            await autosave({
+              farmId: Number(context.farmId),
+              sessionId: context.sessionId as string,
+              actions: context.actions,
+              token: authToken,
+              fingerprint: context.fingerprint as string,
+              deviceTrackerId: context.deviceTrackerId as string,
+              transactionId: context.transactionId as string,
+            });
+          }
+
+          const { gameState, data } = await postEffect({
+            farmId: Number(context.farmId),
+            effect,
+            token: authToken,
+            transactionId: context.transactionId as string,
+          });
+
+          return { state: gameState, response: data };
+        },
+        onDone: [
+          {
+            target: `${stateName}Success`,
+            actions: [
+              assign((_, event: DoneInvokeEvent<any>) => ({
+                actions: [],
+                state: event.data.state,
+              })),
+            ],
+          },
+        ],
+        onError: {
+          target: `${stateName}Failure`,
+          actions: "assignErrorMessage",
+        },
+      },
+    },
+  }),
+  {},
+);
+
 export type BlockchainState = {
   value:
     | "loading"
@@ -423,6 +504,9 @@ export type BlockchainState = {
     | "revealed"
     | "genieRevealed"
     | "beanRevealed"
+    // | "effectPending"
+    | "effectSuccess"
+    | "effectFailure"
     | "error"
     | "refreshing"
     | "swarming"
@@ -454,7 +538,9 @@ export type BlockchainState = {
     | "blacklisted"
     | "provingPersonhood"
     | "somethingArrived"
-    | "randomising"; // TEST ONLY
+    | "randomising"
+    | StateName
+    | StateNameWithStatus; // TEST ONLY
   context: Context;
 };
 
@@ -558,6 +644,7 @@ export function startGame(authContext: AuthContext) {
         oauthNonce: "",
       },
       states: {
+        ...EFFECT_STATES,
         loading: {
           id: "loading",
           always: [
@@ -982,6 +1069,7 @@ export function startGame(authContext: AuthContext) {
             ],
           },
           on: {
+            ...EFFECT_EVENT_HANDLERS,
             ...GAME_EVENT_HANDLERS,
             UPDATE_USERNAME: {
               actions: assign((context, event) => ({
@@ -1028,7 +1116,7 @@ export function startGame(authContext: AuthContext) {
               target: "buyingSFL",
             },
             LIST_TRADE: { target: "listing" },
-            POST_EFFECT: { target: "effect" },
+            // POST_EFFECT: { target: "effectPending" },
             DELETE_TRADE_LISTING: { target: "deleteTradeListing" },
             FULFILL_TRADE_LISTING: { target: "fulfillTradeListing" },
             SELL_MARKET_RESOURCE: { target: "sellMarketResource" },
@@ -1466,7 +1554,7 @@ export function startGame(authContext: AuthContext) {
             CONTINUE: "playing",
           },
         },
-        effect: {
+        effectPending: {
           entry: "setTransactionId",
           invoke: {
             src: async (context, event) => {
@@ -1495,7 +1583,7 @@ export function startGame(authContext: AuthContext) {
             },
             onDone: [
               {
-                target: "playing",
+                target: "effectSuccess",
                 actions: [
                   assign((_, event) => ({
                     actions: [],
@@ -1505,9 +1593,19 @@ export function startGame(authContext: AuthContext) {
               },
             ],
             onError: {
-              target: "error",
+              target: "effectFailure",
               actions: "assignErrorMessage",
             },
+          },
+        },
+        effectFailure: {
+          on: {
+            ACKNOWLEDGE: "playing",
+          },
+        },
+        effectSuccess: {
+          on: {
+            CONTINUE: "playing",
           },
         },
         deleteTradeListing: {
