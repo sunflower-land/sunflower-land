@@ -6,7 +6,7 @@ import {
 import { trackActivity } from "features/game/types/bumpkinActivity";
 import {
   GreenHouseFruitSeedName,
-  isFruitSeed,
+  isPatchFruitSeed,
   PATCH_FRUIT_SEEDS,
   PatchFruitSeedName,
 } from "features/game/types/fruits";
@@ -193,7 +193,7 @@ export function plantFruit({
       throw new Error("Fruit is already planted");
     }
 
-    if (!isFruitSeed(action.seed)) {
+    if (!isPatchFruitSeed(action.seed)) {
       throw new Error("Not a fruit seed");
     }
 

@@ -35,7 +35,7 @@ export type PatchFruitSeed = {
   disabled?: boolean;
 };
 
-export function isFruitSeed(seed: PatchFruitSeedName) {
+export function isPatchFruitSeed(seed: PatchFruitSeedName) {
   return getKeys(PATCH_FRUIT_SEEDS()).includes(seed);
 }
 

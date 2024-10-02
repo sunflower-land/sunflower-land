@@ -95,11 +95,11 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
 
   const selectedItem = selected ?? getKeys(basketMap)[0] ?? "Sunflower Seed";
 
-  const isFruitSeed = (
+  const isPatchFruitSeed = (
     selected: InventoryItemName,
   ): selected is PatchFruitSeedName => selected in PATCH_FRUIT_SEEDS();
   const isSeed = (selected: InventoryItemName): selected is SeedName =>
-    isFruitSeed(selected) ||
+    isPatchFruitSeed(selected) ||
     selected in CROP_SEEDS ||
     selected in FLOWER_SEEDS() ||
     selected in GREENHOUSE_SEEDS ||
@@ -111,7 +111,7 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
       return SEEDS()[seedName].plantSeconds;
     }
 
-    if (isFruitSeed(seedName)) {
+    if (isPatchFruitSeed(seedName)) {
       return getFruitPatchTime(
         seedName,
         gameState,
@@ -238,7 +238,7 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
               item: selectedItem,
             }}
             properties={{
-              harvests: isFruitSeed(selectedItem)
+              harvests: isPatchFruitSeed(selectedItem)
                 ? {
                     minHarvest: harvestCounts[0],
                     maxHarvest: harvestCounts[1],
