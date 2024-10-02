@@ -45,6 +45,7 @@ import {
 import { NPC_WEARABLES } from "lib/npcs";
 import { ConfirmationModal } from "components/ui/ConfirmationModal";
 import { formatNumber, setPrecision } from "lib/utils/formatNumber";
+import { hasFeatureAccess } from "lib/flags";
 
 interface Props {
   onClose: () => void;
@@ -293,6 +294,10 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
           <div className="flex flex-wrap mb-2">
             {seeds
               .filter((name) => name in CROP_SEEDS)
+              .filter(
+                (name) =>
+                  name !== "Barley Seed" || hasFeatureAccess(state, "BARLEY"),
+              )
               .map((name: SeedName) => (
                 <Box
                   isSelected={selectedName === name}

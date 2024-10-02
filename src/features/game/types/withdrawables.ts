@@ -102,6 +102,7 @@ const cropSeeds: Record<CropSeedName, () => boolean> = {
   "Radish Seed": () => false,
   "Wheat Seed": () => false,
   "Soybean Seed": () => false,
+  "Barley Seed": () => false,
 };
 
 const fruitSeed: Record<FruitSeedName, () => boolean> = {
@@ -134,6 +135,7 @@ const crops: Record<CropName, () => boolean> = {
   Radish: () => true,
   Wheat: () => true,
   Soybean: () => true,
+  Barley: () => false,
 };
 
 const fruits: Record<FruitName, () => boolean> = {

@@ -27,6 +27,7 @@ export const MAX_ITEMS: Inventory = {
   Radish: new Decimal("4000"),
   Wheat: new Decimal("4000"),
   Kale: new Decimal("4000"),
+  Barley: new Decimal("4050"),
 
   Tomato: new Decimal(1200),
   Lemon: new Decimal(1000),
@@ -66,6 +67,7 @@ export const MAX_ITEMS: Inventory = {
   "Radish Seed": new Decimal(170),
   "Wheat Seed": new Decimal(170),
   "Kale Seed": new Decimal(150),
+  "Barley Seed": new Decimal(150),
 
   "Tomato Seed": new Decimal(100),
   "Apple Seed": new Decimal(100),
