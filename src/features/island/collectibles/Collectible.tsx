@@ -30,6 +30,7 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import confetti from "canvas-confetti";
+import { hasFeatureAccess } from "lib/flags";
 
 export type CollectibleProps = {
   name: CollectibleName;
@@ -82,6 +83,7 @@ const InProgressCollectible: React.FC<Props> = ({
       id,
     });
     setShowModal(false);
+    confetti();
   };
 
   return (
@@ -273,6 +275,8 @@ export const Building: React.FC<{
     return () => clearInterval(interval);
   }, []);
 
+  const speedUpAccess = hasFeatureAccess(state, "GEM_EXPERIMENT");
+
   return (
     <>
       <div className="p-1 ">
@@ -280,7 +284,7 @@ export const Building: React.FC<{
           type="default"
           icon={SUNNYSIDE.icons.stopwatch}
         >{`In progress`}</Label>
-        <p className="text-sm my-2">Your {name} is being built...</p>
+        <p className="text-sm my-2">Your {name} will be ready soon!</p>
         <div className="flex items-center mb-1">
           <div>
             <div className="relative flex flex-col w-full">
@@ -300,20 +304,22 @@ export const Building: React.FC<{
         <Button className="mr-1" onClick={onClose}>
           Close
         </Button>
-        <Button
-          disabled={!state.inventory.Gem?.gte(gems)}
-          className="relative"
-          onClick={onInstantBuilt}
-        >
-          Speed up
-          <Label
-            type={state.inventory.Gem?.gte(gems) ? "default" : "danger"}
-            icon={ITEM_DETAILS.Gem.image}
-            className="flex absolute right-0 top-0.5"
+        {speedUpAccess && (
+          <Button
+            disabled={!state.inventory.Gem?.gte(gems)}
+            className="relative ml-1"
+            onClick={onInstantBuilt}
           >
-            {gems}
-          </Label>
-        </Button>
+            Speed up
+            <Label
+              type={state.inventory.Gem?.gte(gems) ? "default" : "danger"}
+              icon={ITEM_DETAILS.Gem.image}
+              className="flex absolute right-0 top-0.5"
+            >
+              {gems}
+            </Label>
+          </Button>
+        )}
       </div>
     </>
   );
