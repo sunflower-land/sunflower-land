@@ -288,7 +288,7 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
                         item.faction !== pledgedFaction &&
                         getFactionOnlyLabel(item.faction)}
                       {!faction && !item?.faction && (
-                        <Label type="warning">
+                        <Label type="default" className="whitespace-nowrap">
                           {t("faction.shop.membersOnly")}
                         </Label>
                       )}
