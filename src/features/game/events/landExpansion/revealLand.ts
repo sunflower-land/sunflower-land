@@ -400,7 +400,7 @@ export function getRewards({
         id: "expansion-sixth-airdrop",
         items: {
           "Time Warp Totem": 1,
-          Gem: 1,
+          Gem: 20,
         },
         message: "Woohoo, you discovered a gift!",
         sfl: 0,
@@ -417,7 +417,7 @@ export function getRewards({
   const blockBuckAirdrop = {
     createdAt,
     items: {
-      Gem: 1,
+      Gem: 20,
     },
     sfl: 0,
     coins: 0,
