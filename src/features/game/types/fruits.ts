@@ -6,7 +6,7 @@ import { getKeys } from "./craftables";
 import { translate } from "lib/i18n/translate";
 import { ResourceName } from "./resources";
 
-export type FruitName =
+export type PatchFruitName =
   | "Apple"
   | "Blueberry"
   | "Orange"
@@ -30,7 +30,7 @@ export type PatchFruitSeed = {
   description: string;
   plantSeconds: number;
   bumpkinLevel: number;
-  yield: FruitName;
+  yield: PatchFruitName;
   plantingSpot: ResourceName | "Greenhouse";
   disabled?: boolean;
 };
@@ -92,14 +92,14 @@ export const PATCH_FRUIT_SEEDS: () => Record<PatchFruitSeedName, PatchFruitSeed>
 
 export type Fruit = {
   description: string;
-  name: FruitName;
+  name: PatchFruitName;
   isBush?: boolean;
   sellPrice: number;
   seed: PatchFruitSeedName;
   disabled?: boolean;
 };
 
-export const PATCH_FRUIT: () => Record<FruitName, Fruit> = () => ({
+export const PATCH_FRUIT: () => Record<PatchFruitName, Fruit> = () => ({
   Tomato: {
     description: "Rich in Lycopene",
     name: "Tomato",

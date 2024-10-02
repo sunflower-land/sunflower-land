@@ -88,7 +88,7 @@ export const FruitTree: React.FC<Props> = ({
   if (treeStatus.stage === "Dead") {
     return (
       <div className="absolute w-full h-full" onClick={removeTree}>
-        <DeadTree fruitName={name} hasAxes={hasAxes} />
+        <DeadTree patchFruitName={name} hasAxes={hasAxes} />
       </div>
     );
   }
@@ -97,7 +97,7 @@ export const FruitTree: React.FC<Props> = ({
   if (treeStatus.stage === "Seedling" && !!treeStatus.timeLeft) {
     return (
       <div className="absolute w-full h-full" onClick={fertilise}>
-        <FruitSeedling fruitName={name} timeLeft={treeStatus.timeLeft} />
+        <FruitSeedling patchFruitName={name} timeLeft={treeStatus.timeLeft} />
       </div>
     );
   }
@@ -107,7 +107,7 @@ export const FruitTree: React.FC<Props> = ({
     return (
       <div className="absolute w-full h-full" onClick={fertilise}>
         <ReplenishingTree
-          fruitName={name}
+          patchFruitName={name}
           timeLeft={treeStatus.timeLeft}
           playShakeAnimation={playShakingAnimation}
         />
@@ -118,7 +118,7 @@ export const FruitTree: React.FC<Props> = ({
   // Ready tree
   return (
     <div className="absolute w-full h-full" onClick={harvestFruit}>
-      <ReplenishedTree fruitName={name} />
+      <ReplenishedTree patchFruitName={name} />
     </div>
   );
 };

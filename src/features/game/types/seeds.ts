@@ -7,11 +7,11 @@ import {
   GreenHouseCropSeedName,
 } from "./crops";
 import {
-  FruitName,
   GREENHOUSE_FRUIT_SEEDS,
   GreenHouseFruitName,
   GreenHouseFruitSeedName,
   PATCH_FRUIT_SEEDS,
+  PatchFruitName,
   PatchFruitSeedName,
 } from "./fruits";
 import { FLOWER_SEEDS, FlowerSeedName } from "./flowers";
@@ -32,7 +32,7 @@ export type Seed = {
   plantingSpot: ResourceName | "Greenhouse";
   yield?:
     | CropName
-    | FruitName
+    | PatchFruitName
     | FlowerSeedName
     | GreenHouseCropName
     | GreenHouseFruitName;

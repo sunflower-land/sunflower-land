@@ -21,9 +21,9 @@ import { BumpkinActivityName } from "./bumpkinActivity";
 import { DecorationName } from "./decorations";
 import { BeanName, ExoticCropName, MutantCropName } from "./beans";
 import {
-  FruitName,
   GreenHouseFruitName,
   GreenHouseFruitSeedName,
+  PatchFruitName,
   PatchFruitSeedName,
 } from "./fruits";
 import { TreasureName } from "./treasure";
@@ -364,7 +364,7 @@ export type InventoryItemName =
   | CropSeedName
   | BeanName
   | MutantCropName
-  | FruitName
+  | PatchFruitName
   | PatchFruitSeedName
   | FlowerSeedName
   | GreenHouseFruitSeedName
@@ -473,7 +473,7 @@ export type PlantedCrop = {
 };
 
 export type PlantedFruit = {
-  name: FruitName;
+  name: PatchFruitName;
   plantedAt: number;
   amount: number;
   harvestsLeft: number;
@@ -1130,7 +1130,7 @@ export type Faction = {
 export type DonationItemName =
   | CropName
   | FishName
-  | FruitName
+  | PatchFruitName
   | CommodityName
   | Worm;
 

@@ -3,9 +3,9 @@ import React, { useContext, useState } from "react";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
 import {
-  FruitName,
   PATCH_FRUIT,
   PATCH_FRUIT_SEEDS,
+  PatchFruitName,
 } from "features/game/types/fruits";
 import { FRUIT_LIFECYCLE } from "./fruits";
 import { ProgressBar } from "components/ui/ProgressBar";
@@ -13,7 +13,7 @@ import { TimerPopover } from "../common/TimerPopover";
 import { ITEM_DETAILS } from "features/game/types/images";
 
 interface Props {
-  fruitName: FruitName;
+  patchFruitName: PatchFruitName;
   timeLeft: number;
 }
 
@@ -32,12 +32,12 @@ const getFruitImage = (imageSource: string) => {
   );
 };
 
-export const FruitSeedling: React.FC<Props> = ({ fruitName, timeLeft }) => {
+export const FruitSeedling: React.FC<Props> = ({ patchFruitName, timeLeft }) => {
   const { showTimers } = useContext(Context);
   const [showPopover, setShowPopover] = useState(false);
-  const { seed } = PATCH_FRUIT()[fruitName];
+  const { seed } = PATCH_FRUIT()[patchFruitName];
   const { plantSeconds } = PATCH_FRUIT_SEEDS()[seed];
-  const lifecycle = FRUIT_LIFECYCLE[fruitName];
+  const lifecycle = FRUIT_LIFECYCLE[patchFruitName];
 
   const growPercentage = 100 - (timeLeft / plantSeconds) * 100;
   const isAlmostReady = growPercentage >= 50;
@@ -45,17 +45,17 @@ export const FruitSeedling: React.FC<Props> = ({ fruitName, timeLeft }) => {
 
   let description: string;
 
-  switch (fruitName) {
+  switch (patchFruitName) {
     case "Banana":
     case "Tomato":
     case "Lemon":
-      description = `${fruitName} Plant Growing`;
+      description = `${patchFruitName} Plant Growing`;
       break;
     case "Blueberry":
       description = "Blueberry Bush Growing";
       break;
     default:
-      description = `${fruitName} Tree Growing`;
+      description = `${patchFruitName} Tree Growing`;
   }
   const lifecycleStage = isAlmostReady
     ? lifecycle.almost
@@ -100,7 +100,7 @@ export const FruitSeedling: React.FC<Props> = ({ fruitName, timeLeft }) => {
       >
         <TimerPopover
           showPopover={showPopover}
-          image={ITEM_DETAILS[fruitName].image}
+          image={ITEM_DETAILS[patchFruitName].image}
           description={description}
           timeLeft={timeLeft}
         />

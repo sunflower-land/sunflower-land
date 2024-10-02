@@ -6,13 +6,13 @@ import { trackActivity } from "features/game/types/bumpkinActivity";
 import { setPrecision } from "lib/utils/formatNumber";
 import {
   Fruit,
-  FruitName,
   GREENHOUSE_FRUIT,
   PATCH_FRUIT,
+  PatchFruitName,
 } from "features/game/types/fruits";
 import { produce } from "immer";
 
-export type SellableName = CropName | FruitName;
+export type SellableName = CropName | PatchFruitName;
 export type SellableItem = Crop | Fruit;
 
 export type SellCropAction = {

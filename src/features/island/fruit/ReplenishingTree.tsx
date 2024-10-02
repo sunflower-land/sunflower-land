@@ -5,15 +5,15 @@ import { Context } from "features/game/GameProvider";
 import { ProgressBar } from "components/ui/ProgressBar";
 import { TimerPopover } from "../common/TimerPopover";
 import {
-  FruitName,
   PATCH_FRUIT,
   PATCH_FRUIT_SEEDS,
+  PatchFruitName,
 } from "features/game/types/fruits";
 import { FRUIT_LIFECYCLE } from "./fruits";
 import classNames from "classnames";
 import { ITEM_DETAILS } from "features/game/types/images";
 
-const pluralisedNames: Record<FruitName, string> = {
+const pluralisedNames: Record<PatchFruitName, string> = {
   Orange: "Oranges",
   Blueberry: "Blueberries",
   Apple: "Apples",
@@ -23,23 +23,23 @@ const pluralisedNames: Record<FruitName, string> = {
 };
 
 interface Props {
-  fruitName: FruitName;
+  patchFruitName: PatchFruitName;
   timeLeft: number;
   playShakeAnimation: boolean;
 }
 
 export const ReplenishingTree: React.FC<Props> = ({
-  fruitName,
+  patchFruitName,
   timeLeft,
   playShakeAnimation,
 }) => {
   const { showTimers } = useContext(Context);
   const [showPopover, setShowPopover] = useState(false);
-  const lifecycle = FRUIT_LIFECYCLE[fruitName];
+  const lifecycle = FRUIT_LIFECYCLE[patchFruitName];
 
-  const { seed, isBush } = PATCH_FRUIT()[fruitName];
+  const { seed, isBush } = PATCH_FRUIT()[patchFruitName];
   let bottom, left, width;
-  switch (fruitName) {
+  switch (patchFruitName) {
     case "Banana":
       bottom = 8;
       left = 1.2;
@@ -112,8 +112,8 @@ export const ReplenishingTree: React.FC<Props> = ({
       >
         <TimerPopover
           showPopover={showPopover}
-          image={ITEM_DETAILS[fruitName].image}
-          description={`${pluralisedNames[fruitName]} Replenishing`}
+          image={ITEM_DETAILS[patchFruitName].image}
+          description={`${pluralisedNames[patchFruitName]} Replenishing`}
           timeLeft={timeLeft}
         />
       </div>

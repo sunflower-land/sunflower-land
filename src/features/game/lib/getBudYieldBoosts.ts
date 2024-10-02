@@ -11,10 +11,10 @@ import {
   GreenHouseCropName,
 } from "../types/crops";
 import {
-  FruitName,
   GREENHOUSE_FRUIT,
   GreenHouseFruitName,
   PATCH_FRUIT,
+  PatchFruitName,
 } from "../types/fruits";
 import { GameState } from "../types/game";
 import { CommodityName, MushroomName } from "../types/resources";
@@ -22,7 +22,7 @@ import { CommodityName, MushroomName } from "../types/resources";
 export type Resource =
   | CommodityName
   | CropName
-  | FruitName
+  | PatchFruitName
   | MushroomName
   | GreenHouseCropName
   | GreenHouseFruitName;

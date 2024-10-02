@@ -9,11 +9,11 @@ import {
   trackActivity,
 } from "features/game/types/bumpkinActivity";
 import {
-  FruitName,
   Fruit,
   GreenHouseFruitName,
   PATCH_FRUIT,
   PATCH_FRUIT_SEEDS,
+  PatchFruitName,
 } from "features/game/types/fruits";
 import { Bumpkin, GameState, PlantedFruit } from "features/game/types/game";
 import { getTimeLeft } from "lib/utils/time";
@@ -54,7 +54,7 @@ export const isFruitReadyToHarvest = (
 };
 
 type FruitYield = {
-  name: FruitName | GreenHouseFruitName;
+  name: GreenHouseFruitName | PatchFruitName;
   game: GameState;
   fertiliser?: FruitCompostName;
 };
@@ -78,17 +78,17 @@ export function isFruitGrowing(patch: FruitPatch) {
   return growingTimeLeft > 0;
 }
 
-const isFruit = (resource: Resource): resource is FruitName => {
+const isFruit = (resource: Resource): resource is PatchFruitName => {
   return resource in PATCH_FRUIT();
 };
 
 // Basic = Blueberry & Orange - Skill
-const isBasicFruit = (resource: Resource): resource is FruitName => {
+const isBasicFruit = (resource: Resource): resource is PatchFruitName => {
   return resource === "Blueberry" || resource === "Orange";
 };
 
 // Advanced = Apple, Banana - Skill
-const isAdvancedFruit = (resource: Resource): resource is FruitName => {
+const isAdvancedFruit = (resource: Resource): resource is PatchFruitName => {
   return resource === "Apple" || resource === "Banana";
 };
 
