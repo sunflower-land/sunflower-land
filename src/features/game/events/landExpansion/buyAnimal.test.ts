@@ -1,5 +1,7 @@
 import { INITIAL_BUMPKIN, TEST_FARM } from "features/game/lib/constants";
+import { AnimalType } from "features/game/types/animals";
 import { AnimalState } from "features/game/types/game";
+import { buyAnimal } from "./buyAnimal";
 
 function makeAnimals(count: number, type: AnimalType) {
   return new Array(count).fill(0).reduce(
@@ -41,7 +43,7 @@ describe("buyAnimal", () => {
         },
         action: {
           id: "0",
-          animal: "chicken",
+          animal: "Chicken",
           coordinates: {
             x: 2,
             y: 2,
@@ -49,7 +51,7 @@ describe("buyAnimal", () => {
           type: "animal.bought",
         },
       }),
-    ).toThrow("Insufficient coins to buy a chicken");
+    ).toThrow("Insufficient coins to buy a Chicken");
   });
 
   it("throws an error if the player does not have the required building placed", () => {
@@ -63,7 +65,7 @@ describe("buyAnimal", () => {
         },
         action: {
           id: "0",
-          animal: "chicken",
+          animal: "Chicken",
           coordinates: {
             x: 2,
             y: 2,
@@ -85,7 +87,7 @@ describe("buyAnimal", () => {
         },
         action: {
           id: "0",
-          animal: "chicken",
+          animal: "Chicken",
           coordinates: {
             x: 2,
             y: 2,
@@ -115,12 +117,12 @@ describe("buyAnimal", () => {
           },
           henHouse: {
             level: 0,
-            animals: makeAnimals(10, "chicken"),
+            animals: makeAnimals(10, "Chicken"),
           },
         },
         action: {
           id: "0",
-          animal: "chicken",
+          animal: "Chicken",
           coordinates: {
             x: 2,
             y: 2,
@@ -150,12 +152,12 @@ describe("buyAnimal", () => {
           },
           henHouse: {
             level: 0,
-            animals: makeAnimals(1, "chicken"),
+            animals: makeAnimals(1, "Chicken"),
           },
         },
         action: {
           id: "0",
-          animal: "chicken",
+          animal: "Chicken",
           coordinates: {
             x: 0,
             y: 0,
@@ -184,12 +186,12 @@ describe("buyAnimal", () => {
         },
         barn: {
           level: 0,
-          animals: makeAnimals(3, "cow"),
+          animals: makeAnimals(3, "Cow"),
         },
       },
       action: {
         id: "0",
-        animal: "cow",
+        animal: "Cow",
         coordinates: {
           x: 2,
           y: 2,
@@ -219,12 +221,12 @@ describe("buyAnimal", () => {
         },
         barn: {
           level: 0,
-          animals: makeAnimals(3, "cow"),
+          animals: makeAnimals(3, "Cow"),
         },
       },
       action: {
         id: "0",
-        animal: "cow",
+        animal: "Cow",
         coordinates: {
           x: 2,
           y: 2,
@@ -236,11 +238,47 @@ describe("buyAnimal", () => {
     expect(state.barn?.animals).toMatchObject({
       0: {
         id: "0",
-        type: "cow",
+        type: "Cow",
         state: "idle",
         createdAt: expect.any(Number),
         coordinates: { x: 2, y: 2 },
       },
     });
+  });
+
+  it("tracks the bumpkin activity", () => {
+    const state = buyAnimal({
+      state: {
+        ...TEST_FARM,
+        coins: 1000,
+        bumpkin: leveledUpBumpkin,
+        buildings: {
+          Barn: [
+            {
+              coordinates: { x: 0, y: 0 },
+              createdAt: 0,
+              id: "123",
+              readyAt: 0,
+            },
+          ],
+        },
+        barn: {
+          level: 0,
+          animals: makeAnimals(3, "Cow"),
+        },
+      },
+      action: {
+        id: "0",
+        animal: "Cow",
+        coordinates: {
+          x: 2,
+          y: 2,
+        },
+        type: "animal.bought",
+      },
+    });
+
+    expect(state.bumpkin.activity["Cow Bought"]).toBe(1);
+    expect(state.bumpkin.activity["Coins Spent"]).toBe(100);
   });
 });

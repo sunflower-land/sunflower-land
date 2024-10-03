@@ -231,7 +231,7 @@ describe("detectCollisions", () => {
     expect(hasCollision).toBe(true);
   });
 
-  it.only("return true if a collision is detected between two animals inside an animal house", () => {
+  it("return true if a collision is detected between two animals inside an animal house", () => {
     const state: GameState = {
       ...TEST_FARM,
       henHouse: {
@@ -239,7 +239,7 @@ describe("detectCollisions", () => {
         animals: {
           "123": {
             id: "123",
-            type: "chicken",
+            type: "Chicken",
             state: "idle",
             coordinates: {
               x: -1,
@@ -249,7 +249,7 @@ describe("detectCollisions", () => {
           },
           "124": {
             id: "124",
-            type: "chicken",
+            type: "Chicken",
             state: "idle",
             coordinates: {
               x: 1,
@@ -270,7 +270,7 @@ describe("detectCollisions", () => {
         width: 1,
       },
       location: "henHouse",
-      name: "chicken",
+      name: "Chicken",
     });
 
     expect(hasCollision).toBe(true);
