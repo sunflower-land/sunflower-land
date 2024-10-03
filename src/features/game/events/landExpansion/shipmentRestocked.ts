@@ -93,13 +93,15 @@ export function shipmentRestock({
       throw new Error("Already restocked today");
     }
 
-    game.stock = getKeys(SHIPMENT_STOCK).reduce(
-      (acc, name) => ({
+    game.stock = getKeys(SHIPMENT_STOCK).reduce((acc, name) => {
+      const previous = game.stock[name] ?? new Decimal(0);
+      const newAmount = new Decimal(SHIPMENT_STOCK[name]);
+
+      return {
         ...acc,
-        [name]: new Decimal(SHIPMENT_STOCK[name]),
-      }),
-      {},
-    );
+        [name]: previous.gt(newAmount) ? previous : newAmount,
+      };
+    }, {});
 
     game.shipments.restockedAt = createdAt;
 
