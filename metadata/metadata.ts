@@ -14618,4 +14618,16 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
     image: "../public/wearables/images/394.png",
     name: "Kingdom Background",
   },
+  "Gam3s Cap": {
+    description:
+      "This stylish cap not only shows off your in-game style but also serves as a badge of honor for supporting your favourite in Web3 gaming in GAM3S.GG, a web3 gaming platform that acts as a hub for web3 gamers. Available through special events.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Hat" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/395.png",
+    name: "Gam3s Cap",
+  },
 };
