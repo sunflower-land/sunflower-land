@@ -233,7 +233,7 @@ export const CompetitionModal: React.FC<{
                 window.open("https://id.fsl.com/login", "_blank")?.focus();
               }}
             >
-              {`FSL`}
+              {`FSL ID`}
               <img src={fslIcon} className="absolute right-1 -top-1 h-10" />
             </Button>
 

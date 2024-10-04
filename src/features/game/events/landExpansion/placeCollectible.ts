@@ -4,7 +4,7 @@ import {
 } from "../../types/craftables";
 import { GameState, PlacedItem } from "features/game/types/game";
 import { trackActivity } from "features/game/types/bumpkinActivity";
-import { CollectibleLocation } from "features/game/types/collectibles";
+import { PlaceableLocation } from "features/game/types/collectibles";
 import { produce } from "immer";
 
 export type PlaceCollectibleAction = {
@@ -15,7 +15,7 @@ export type PlaceCollectibleAction = {
     x: number;
     y: number;
   };
-  location: CollectibleLocation;
+  location: PlaceableLocation;
 };
 
 type Options = {

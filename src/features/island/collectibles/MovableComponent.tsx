@@ -35,7 +35,7 @@ import { ZoomContext } from "components/ZoomProvider";
 import { InnerPanel } from "components/ui/Panel";
 import { RemoveKuebikoModal } from "./RemoveKuebikoModal";
 import { hasRemoveRestriction } from "features/game/types/removeables";
-import { CollectibleLocation } from "features/game/types/collectibles";
+import { PlaceableLocation } from "features/game/types/collectibles";
 import { RemoveHungryCaterpillarModal } from "./RemoveHungryCaterpillarModal";
 import { RemoveCropMachineModal } from "./RemoveCropMachineModal";
 
@@ -131,7 +131,7 @@ export interface MovableProps {
   index: number;
   x: number;
   y: number;
-  location?: CollectibleLocation;
+  location?: PlaceableLocation;
 }
 
 const getMovingItem = (state: MachineState) => state.context.moving;

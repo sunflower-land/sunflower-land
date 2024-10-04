@@ -27,6 +27,28 @@ describe("shipmentRestocked", () => {
     );
   });
 
+  it("does not reduce existing stock", () => {
+    const now = Date.now();
+    const state = shipmentRestock({
+      action: {
+        type: "shipment.restocked",
+      },
+      state: {
+        ...INITIAL_FARM,
+        stock: {
+          ...INITIAL_FARM.stock,
+          "Sunflower Seed": new Decimal(500),
+        },
+        shipments: {
+          restockedAt: new Date("2023-04-04").getTime(),
+        },
+      },
+    });
+
+    expect(state.shipments.restockedAt).toEqual(now);
+    expect(state.stock["Sunflower Seed"]).toEqual(new Decimal(500));
+  });
+
   it("only restocks a shipment once per day", () => {
     expect(() =>
       shipmentRestock({

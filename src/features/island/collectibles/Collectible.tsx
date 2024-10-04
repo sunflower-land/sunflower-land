@@ -17,7 +17,7 @@ import {
   COLLECTIBLE_COMPONENTS,
   READONLY_COLLECTIBLES,
 } from "./CollectibleCollection";
-import { CollectibleLocation } from "features/game/types/collectibles";
+import { PlaceableLocation } from "features/game/types/collectibles";
 import { GameState } from "features/game/types/game";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
@@ -40,13 +40,13 @@ export type CollectibleProps = {
   x: number;
   y: number;
   grid: GameGrid;
-  location: CollectibleLocation;
+  location: PlaceableLocation;
   game: GameState;
 };
 
 type Props = CollectibleProps & {
   showTimers: boolean;
-  location: CollectibleLocation;
+  location: PlaceableLocation;
 };
 
 const InProgressCollectible: React.FC<Props> = ({
