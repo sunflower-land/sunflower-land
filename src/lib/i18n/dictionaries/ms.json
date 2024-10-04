@@ -3690,5 +3690,10 @@
   "competition.rules.two": "Mata FSL akan diedarkan kepada 5,000 pemain teratas, berdasarkan kedudukan mereka.",
   "competition.rules.three": "SFL akan diedarkan kepada 5,000 pemain teratas, berdasarkan kedudukan mereka.",
   "alr.claim": "Sudah Dituntut",
-  "competition.intro.two": "Kami menganjurkan pertandingan pertanian pertama dengan ID FSL."
+  "competition.intro.two": "Kami menganjurkan pertandingan pertanian pertama dengan ID FSL.",
+  "description.marty": "Seorang juara FSL Morchi.",
+  "description.morty": "Seorang Morchi ditemui di Tanah Bunga Matahari!",
+  "description.miffy": "Morchi yang jarang berlaku. Gandakan XP semasa Pertandingan FSL.",
+  "description.mog": "Morchi yang malas.",
+  "miffy.boost": "2x XP"
 }

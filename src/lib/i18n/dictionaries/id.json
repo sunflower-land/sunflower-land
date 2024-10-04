@@ -3690,5 +3690,10 @@
   "competition.rules.two": "Poin FSL akan didistribusikan ke 5.000 pemain teratas, berdasarkan peringkat mereka.",
   "competition.rules.three": "SFL akan didistribusikan ke 5.000 pemain teratas, berdasarkan peringkat mereka.",
   "alr.claim": "Sudah Diklaim",
-  "competition.intro.two": "Kami menyelenggarakan kompetisi pertanian pertama dengan FSL ID."
+  "competition.intro.two": "Kami menyelenggarakan kompetisi pertanian pertama dengan FSL ID.",
+  "description.marty": "Seorang juara FSL Morchi.",
+  "description.morty": "Seekor Morchi ditemukan di Tanah Bunga Matahari!",
+  "description.miffy": "Morchi langka. Menggandakan XP selama Kompetisi FSL.",
+  "description.mog": "Morchi yang malas.",
+  "miffy.boost": "2x XP"
 }

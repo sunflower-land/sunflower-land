@@ -3690,5 +3690,10 @@
   "competition.rules.two": "FSL Puanları sıralamalarına göre en iyi 5.000 oyuncuya dağıtılacaktır.",
   "competition.rules.three": "SFL, sıralamalarına göre en iyi 5.000 oyuncuya dağıtılacak.",
   "alr.claim": "Zaten Talep Edildi",
-  "competition.intro.two": "FSL ID ile ilk çiftçilik yarışmasına ev sahipliği yapıyoruz."
+  "competition.intro.two": "FSL ID ile ilk çiftçilik yarışmasına ev sahipliği yapıyoruz.",
+  "description.marty": "Bir FSL şampiyonu Morchi.",
+  "description.morty": "Ayçiçeği Ülkesinde bir Morchi keşfedildi!",
+  "description.miffy": "Nadir bir Morchi. FSL Yarışması sırasında DP'yi ikiye katlar.",
+  "description.mog": "Tembel bir Morchi.",
+  "miffy.boost": "2 kat Deneyim"
 }

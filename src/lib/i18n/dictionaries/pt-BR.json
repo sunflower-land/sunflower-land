@@ -3690,5 +3690,10 @@
   "competition.rules.two": "Os pontos FSL serão distribuídos aos 5.000 melhores jogadores, com base em sua classificação.",
   "competition.rules.three": "O SFL será distribuído aos 5.000 melhores jogadores, com base em sua classificação.",
   "alr.claim": "Já reivindicado",
-  "competition.intro.two": "Estamos organizando a primeira competição agrícola com o FSL ID."
+  "competition.intro.two": "Estamos organizando a primeira competição agrícola com o FSL ID.",
+  "description.marty": "Um campeão da FSL, Morchi.",
+  "description.morty": "Um Morchi descoberto na Terra dos Girassóis!",
+  "description.miffy": "Um Morchi raro. Duplica a EXP durante a competição FSL.",
+  "description.mog": "Um Morchi preguiçoso.",
+  "miffy.boost": "2x XP"
 }

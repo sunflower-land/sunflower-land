@@ -3690,5 +3690,10 @@
   "competition.rules.two": "FSL积分将根据排名分配给前5,000名玩家。",
   "competition.rules.three": "SFL将根据排名分配给前5,000名玩家。",
   "alr.claim": "已经申领了",
-  "competition.intro.two": "我们将举办有史以来第一次使用FSL ID的农业竞赛。"
+  "competition.intro.two": "我们将举办有史以来第一次使用FSL ID的农业竞赛。",
+  "description.marty": "FSL 冠军 Morchi。",
+  "description.morty": "在向日葵之地发现了莫奇！",
+  "description.miffy": "稀有的 Morchi。在 FSL 比赛中将经验值翻倍。",
+  "description.mog": "一个懒散的 Morchi。",
+  "miffy.boost": "2x XP"
 }

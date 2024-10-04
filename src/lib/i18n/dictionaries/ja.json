@@ -3690,5 +3690,10 @@
   "competition.rules.two": "FSLポイントは、ランキングに基づいて上位5,000人のプレイヤーに分配されます。",
   "competition.rules.three": "SFLは、ランキングに基づいて上位5,000人のプレーヤーに配布されます。",
   "alr.claim": "すでに申請済み",
-  "competition.intro.two": "FSL IDを使った初めての農業コンテストを開催します。"
+  "competition.intro.two": "FSL IDを使った初めての農業コンテストを開催します。",
+  "description.marty": "FSLチャンピオンのモルチ。",
+  "description.morty": "ひまわりランドでモルチを発見！",
+  "description.miffy": "珍しいモルチ。FSLコンペティション中はXPが2倍になります。",
+  "description.mog": "怠惰なモルチ。",
+  "miffy.boost": "XP x 2"
 }
