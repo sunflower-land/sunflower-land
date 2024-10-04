@@ -1117,7 +1117,6 @@
   "add": "Ekle",
   "addSFL": "SFL Ekle",
   "add.liquidity": "Likidite Ekle",
-  "alr.claim": "Zaten Talep Edildi!",
   "alr.completed": "Çoktan Tamamlandı",
   "alr.crafted": "Zaten Üretildi!",
   "alr.minted": "Zaten Mintlendi!",
@@ -3690,5 +3689,6 @@
   "competition.earnPoints": "Liderlik tablosu puanları kazanın",
   "competition.earnPoints.how": "Aşağıdaki bir görevi her tamamladığınızda, liderlik tablosu puanları kazanırsınız!",
   "competition.rules.two": "FSL Puanları sıralamalarına göre en iyi 5.000 oyuncuya dağıtılacaktır.",
-  "competition.rules.three": "SFL, sıralamalarına göre en iyi 5.000 oyuncuya dağıtılacak."
+  "competition.rules.three": "SFL, sıralamalarına göre en iyi 5.000 oyuncuya dağıtılacak.",
+  "alr.claim": "Zaten Talep Edildi"
 }

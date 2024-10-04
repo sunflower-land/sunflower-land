@@ -1670,7 +1670,6 @@
   "add": "Tambah",
   "addSFL": "Tambah SFL",
   "add.liquidity": "Tambah Kecairan",
-  "alr.claim": "Sudah dituntut!",
   "alr.completed": "Sudah Selesai",
   "alr.crafted": "Sudah Dibuat!",
   "alr.minted": "Sudah dicetak!",
@@ -3690,5 +3689,6 @@
   "competition.earnPoints": "Dapatkan mata papan pendahulu",
   "competition.earnPoints.how": "Setiap kali anda menyelesaikan tugas di bawah, anda memperoleh mata papan pendahulu!",
   "competition.rules.two": "Mata FSL akan diedarkan kepada 5,000 pemain teratas, berdasarkan kedudukan mereka.",
-  "competition.rules.three": "SFL akan diedarkan kepada 5,000 pemain teratas, berdasarkan kedudukan mereka."
+  "competition.rules.three": "SFL akan diedarkan kepada 5,000 pemain teratas, berdasarkan kedudukan mereka.",
+  "alr.claim": "Sudah Dituntut"
 }

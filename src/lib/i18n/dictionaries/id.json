@@ -1670,7 +1670,6 @@
   "add": "Tambah",
   "addSFL": "Tambahkan SFL",
   "add.liquidity": "Tambahkan Likuiditas",
-  "alr.claim": "Sudah Diklaim!",
   "alr.completed": "Sudah Selesai",
   "alr.crafted": "Sudah Dibuat!",
   "alr.minted": "Sudah dicetak!",
@@ -3690,5 +3689,6 @@
   "competition.earnPoints": "Dapatkan poin papan peringkat",
   "competition.earnPoints.how": "Setiap kali Anda menyelesaikan tugas di bawah ini, Anda mendapatkan poin papan peringkat!",
   "competition.rules.two": "Poin FSL akan didistribusikan ke 5.000 pemain teratas, berdasarkan peringkat mereka.",
-  "competition.rules.three": "SFL akan didistribusikan ke 5.000 pemain teratas, berdasarkan peringkat mereka."
+  "competition.rules.three": "SFL akan didistribusikan ke 5.000 pemain teratas, berdasarkan peringkat mereka.",
+  "alr.claim": "Sudah Diklaim"
 }

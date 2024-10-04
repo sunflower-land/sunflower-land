@@ -1670,7 +1670,6 @@
   "add": "追加",
   "addSFL": "SFL を追加",
   "add.liquidity": "流動性を追加",
-  "alr.claim": "すでに申請済みです！",
   "alr.completed": "すでに完了しています",
   "alr.crafted": "すでに作成されています！",
   "alr.minted": "すでに鋳造されています！",
@@ -3690,5 +3689,6 @@
   "competition.earnPoints": "リーダーボードポイントを獲得",
   "competition.earnPoints.how": "以下のタスクを完了するたびに、リーダーボードポイントを獲得できます！",
   "competition.rules.two": "FSLポイントは、ランキングに基づいて上位5,000人のプレイヤーに分配されます。",
-  "competition.rules.three": "SFLは、ランキングに基づいて上位5,000人のプレーヤーに配布されます。"
+  "competition.rules.three": "SFLは、ランキングに基づいて上位5,000人のプレーヤーに配布されます。",
+  "alr.claim": "すでに申請済み"
 }

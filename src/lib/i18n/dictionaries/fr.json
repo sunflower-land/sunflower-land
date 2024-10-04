@@ -1125,7 +1125,6 @@
   "add": "Ajouter",
   "addSFL": "Ajouter SFL",
   "add.liquidity": "Ajouter de la liquidité",
-  "alr.claim": "Déjà réclamé!",
   "alr.completed": "Déjà terminé",
   "alr.crafted": "Déjà fabriqué!",
   "alr.minted": "Déjà obtenu!",
@@ -3690,5 +3689,6 @@
   "competition.earnPoints": "Gagnez des points au classement",
   "competition.earnPoints.how": "Chaque fois que vous terminez une tâche ci-dessous, vous gagnez des points de classement !",
   "competition.rules.two": "Les points FSL seront distribués aux 5 000 meilleurs joueurs, en fonction de leur classement.",
-  "competition.rules.three": "La SFL sera distribuée aux 5 000 meilleurs joueurs, en fonction de leur classement."
+  "competition.rules.three": "La SFL sera distribuée aux 5 000 meilleurs joueurs, en fonction de leur classement.",
+  "alr.claim": "Déjà réclamé"
 }

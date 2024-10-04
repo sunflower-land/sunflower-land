@@ -1651,7 +1651,6 @@
   "add": "Inserisci",
   "addSFL": "Aggiungi SFL",
   "add.liquidity": "Aggiungi liquidità",
-  "alr.claim": "Già rivendicato!",
   "alr.completed": "Già completato",
   "alr.crafted": "Già realizzato!",
   "alr.minted": "Già coniato!",
@@ -3690,5 +3689,6 @@
   "competition.earnPoints": "Guadagna punti in classifica",
   "competition.earnPoints.how": "Ogni volta che completi un'attività qui sotto, guadagni punti in classifica!",
   "competition.rules.two": "I punti FSL verranno distribuiti ai primi 5.000 giocatori, in base alla loro classifica.",
-  "competition.rules.three": "SFL sarà distribuito ai primi 5.000 giocatori, in base alla loro classifica."
+  "competition.rules.three": "SFL sarà distribuito ai primi 5.000 giocatori, in base alla loro classifica.",
+  "alr.claim": "Già rivendicato"
 }

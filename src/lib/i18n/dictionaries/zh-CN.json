@@ -1423,7 +1423,6 @@
   "add": "添加",
   "addSFL": "添加 SFL",
   "add.liquidity": "添加流动性",
-  "alr.claim": "已领取！",
   "alr.completed": "已完成",
   "alr.crafted": "已锻造！",
   "alr.minted": "已铸造！",
@@ -3690,5 +3689,6 @@
   "competition.earnPoints": "赚取排行榜积分",
   "competition.earnPoints.how": "每当你完成以下任务时，你就会获得排行榜积分！",
   "competition.rules.two": "FSL积分将根据排名分配给前5,000名玩家。",
-  "competition.rules.three": "SFL将根据排名分配给前5,000名玩家。"
+  "competition.rules.three": "SFL将根据排名分配给前5,000名玩家。",
+  "alr.claim": "已经申领了"
 }
