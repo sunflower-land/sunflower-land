@@ -3629,12 +3629,8 @@
   "competition.connect.one": "1. Visite https://id.fsl.com/login e inscríbase para obtener una FSL ID.",
   "competition.connect.two": "2. Conecta tu FSL ID a continuación.",
   "competition.connect": "Conectar",
-  "competition.earnPoints": "Gana puntos",
-  "competition.earnPoints.how": "¡Cada vez que completes una de las siguientes tareas, ganarás puntos!",
   "competition.rules": "Reglas",
   "competition.rules.one": "Los premios se distribuirán en:",
-  "competition.rules.two": "Los puntos FSL se distribuirán entre los 2500 mejores jugadores en función de su clasificación.",
-  "competition.rules.three": "La SFL se distribuirá entre los 10 000 mejores jugadores en función de su clasificación.",
   "competition.rules.four": "¡Los premios adicionales se anunciarán al final!",
   "competition.leaderboard": "Tabla clasificatoria",
   "digby.buyMoreDigs": "Compra 5 alojamientos más por 10",
@@ -3690,5 +3686,9 @@
   "marketplace.listing.failure": "Vaya, algo salió mal. Por favor, inténtelo de nuevo.",
   "marketplace.sentToFarm": "Este artículo ha sido enviado a tu granja",
   "competition.intro.two": "Estamos organizando la primera competencia agrícola con ID.",
-  "competition.sponsored": "Este concurso está patrocinado por nuestros amigos de FSL ID. Necesitarás un monedero FSL ID para participar y reclamar premios."
+  "competition.sponsored": "Este concurso está patrocinado por nuestros amigos de FSL ID. Necesitarás un monedero FSL ID para participar y reclamar premios.",
+  "competition.earnPoints": "Gana puntos en la clasificación",
+  "competition.earnPoints.how": "¡Cada vez que completes una de las siguientes tareas, ganarás puntos en la clasificación!",
+  "competition.rules.two": "Los puntos FSL se distribuirán entre los 5000 mejores jugadores en función de su clasificación.",
+  "competition.rules.three": "La SFL se distribuirá entre los 5000 mejores jugadores en función de su clasificación."
 }

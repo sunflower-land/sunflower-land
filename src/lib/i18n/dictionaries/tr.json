@@ -3629,12 +3629,8 @@
   "competition.connect.one": "1. https://id.fsl.com/login adresini ziyaret edin ve FSL ID için kaydolun.",
   "competition.connect.two": "2. FSL kimliğinizi aşağıya bağlayın.",
   "competition.connect": "Bağlan",
-  "competition.earnPoints": "Puan kazanın",
-  "competition.earnPoints.how": "Aşağıdaki bir görevi her tamamladığınızda, puan kazanırsınız!",
   "competition.rules": "Kuralları",
   "competition.rules.one": "Ödüller şu tarihlerde dağıtılacaktır:",
-  "competition.rules.two": "FSL Puanları sıralamalarına göre en iyi 2500 oyuncuya dağıtılacaktır.",
-  "competition.rules.three": "SFL, sıralamalarına göre en iyi 10.000 oyuncuya dağıtılacak.",
   "competition.rules.four": "Bonus ödüller sonunda açıklanacak!",
   "competition.leaderboard": "Liderlik Tablosu",
   "digby.buyMoreDigs": "10 karşılığında 5 kazı daha al",
@@ -3690,5 +3686,9 @@
   "marketplace.listing.failure": "Hata, bir şeyler ters gitti. Lütfen tekrar deneyin.",
   "marketplace.sentToFarm": "Bu ürün çiftliğinize gönderildi",
   "competition.intro.two": "ID ile ilk çiftçilik yarışmasına ev sahipliği yapıyoruz.",
-  "competition.sponsored": "Bu yarışma FSL ID\"deki arkadaşlarımız tarafından desteklenmektedir.. Katılmak ve ödüller talep etmek için bir FSL ID cüzdanına ihtiyacınız olacak."
+  "competition.sponsored": "Bu yarışma FSL ID\"deki arkadaşlarımız tarafından desteklenmektedir.. Katılmak ve ödüller talep etmek için bir FSL ID cüzdanına ihtiyacınız olacak.",
+  "competition.earnPoints": "Liderlik tablosu puanları kazanın",
+  "competition.earnPoints.how": "Aşağıdaki bir görevi her tamamladığınızda, liderlik tablosu puanları kazanırsınız!",
+  "competition.rules.two": "FSL Puanları sıralamalarına göre en iyi 5.000 oyuncuya dağıtılacaktır.",
+  "competition.rules.three": "SFL, sıralamalarına göre en iyi 5.000 oyuncuya dağıtılacak."
 }

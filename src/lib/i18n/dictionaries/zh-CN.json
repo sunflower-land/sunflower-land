@@ -3629,12 +3629,8 @@
   "competition.connect.one": "1。访问 https://id.fsl.com/login 并注册 FSL ID。",
   "competition.connect.two": "2。在下面连接您的 FSL ID。",
   "competition.connect": "连接",
-  "competition.earnPoints": "赚取积分",
-  "competition.earnPoints.how": "每次完成以下任务，即可获得积分！",
   "competition.rules": "规则",
   "competition.rules.one": "奖品将发放于：",
-  "competition.rules.two": "FSL积分将根据排名分配给前2500名玩家。",
-  "competition.rules.three": "SFL将根据排名分配给前10,000名玩家。",
   "competition.rules.four": "奖励将在最后公布！",
   "competition.leaderboard": "排行榜",
   "digby.buyMoreDigs": "花 10 个再买 5 个挖洞",
@@ -3690,5 +3686,9 @@
   "marketplace.listing.failure": "哎呀，出了点问题。请重试。",
   "marketplace.sentToFarm": "这件商品已发送到你的农场",
   "competition.intro.two": "我们将举办有史以来第一次使用ID的农业竞赛。",
-  "competition.sponsored": "本次比赛由我们在FSL ID的朋友赞助。您将需要一个FSL ID钱包才能参与和领取奖品。"
+  "competition.sponsored": "本次比赛由我们在FSL ID的朋友赞助。您将需要一个FSL ID钱包才能参与和领取奖品。",
+  "competition.earnPoints": "赚取排行榜积分",
+  "competition.earnPoints.how": "每当你完成以下任务时，你就会获得排行榜积分！",
+  "competition.rules.two": "FSL积分将根据排名分配给前5,000名玩家。",
+  "competition.rules.three": "SFL将根据排名分配给前5,000名玩家。"
 }

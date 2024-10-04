@@ -3629,12 +3629,8 @@
   "competition.connect.one": "1. Lawati https://id.fsl.com/login dan daftar untuk ID FSL.",
   "competition.connect.two": "2. Sambungkan ID FSL anda di bawah.",
   "competition.connect": "Sambungkan",
-  "competition.earnPoints": "Dapatkan mata",
-  "competition.earnPoints.how": "Setiap kali anda menyelesaikan tugas di bawah, anda memperoleh mata!",
   "competition.rules": "Peraturan",
   "competition.rules.one": "Hadiah akan diedarkan pada:",
-  "competition.rules.two": "Mata FSL akan diedarkan kepada 2500 pemain teratas, berdasarkan kedudukan mereka.",
-  "competition.rules.three": "SFL akan diedarkan kepada 10,000 pemain teratas, berdasarkan kedudukan mereka.",
   "competition.rules.four": "Hadiah bonus akan diumumkan pada akhir!",
   "competition.leaderboard": "Papan pendahulu",
   "digby.buyMoreDigs": "Beli 5 lagi penggalian untuk 10",
@@ -3690,5 +3686,9 @@
   "marketplace.listing.failure": "Oops, ada yang salah. Sila cuba lagi.",
   "marketplace.sentToFarm": "Item ini telah dihantar ke ladang anda",
   "competition.intro.two": "Kami menganjurkan pertandingan pertanian pertama dengan ID.",
-  "competition.sponsored": "Pertandingan ini ditaja oleh rakan-rakan kami di FSL ID. Anda memerlukan dompet ID FSL untuk mengambil bahagian dan menuntut hadiah."
+  "competition.sponsored": "Pertandingan ini ditaja oleh rakan-rakan kami di FSL ID. Anda memerlukan dompet ID FSL untuk mengambil bahagian dan menuntut hadiah.",
+  "competition.earnPoints": "Dapatkan mata papan pendahulu",
+  "competition.earnPoints.how": "Setiap kali anda menyelesaikan tugas di bawah, anda memperoleh mata papan pendahulu!",
+  "competition.rules.two": "Mata FSL akan diedarkan kepada 5,000 pemain teratas, berdasarkan kedudukan mereka.",
+  "competition.rules.three": "SFL akan diedarkan kepada 5,000 pemain teratas, berdasarkan kedudukan mereka."
 }
