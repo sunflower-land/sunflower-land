@@ -1,6 +1,6 @@
 import { GameState } from "../../types/game";
 import { CollectibleName } from "features/game/types/craftables";
-import { CollectibleLocation } from "features/game/types/collectibles";
+import { PlaceableLocation } from "features/game/types/collectibles";
 import { HourglassType } from "features/island/collectibles/components/Hourglass";
 import Decimal from "decimal.js-light";
 import { produce } from "immer";
@@ -8,7 +8,7 @@ import { produce } from "immer";
 export type BurnCollectibleAction = {
   type: "collectible.burned";
   name: CollectibleName;
-  location: CollectibleLocation;
+  location: PlaceableLocation;
   id: string;
 };
 

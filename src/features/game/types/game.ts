@@ -76,6 +76,7 @@ import { ExperimentName } from "lib/flags";
 import { CollectionName, MarketplaceTradeableName } from "./marketplace";
 import { GameTransaction } from "./transactions";
 import { CompetitionName, CompetitionProgress } from "./competitions";
+import { AnimalType } from "./animals";
 
 export type Reward = {
   coins?: number;
@@ -1138,6 +1139,21 @@ type KeysBoughtAt = Partial<Record<Keys, { boughtAt: number }>>;
 type Stores = "factionShop" | "treasureShop" | "megastore";
 export type KeysBought = Record<Stores, KeysBoughtAt>;
 
+export type AnimalBuildingKey = "henHouse" | "barn";
+
+export type AnimalState = {
+  id: string;
+  type: AnimalType;
+  state: "idle";
+  createdAt: number;
+  coordinates: Coordinates;
+};
+
+export type AnimalBuilding = {
+  level: number;
+  animals: Record<string, AnimalState>;
+};
+
 export interface GameState {
   home: Home;
 
@@ -1307,6 +1323,8 @@ export interface GameState {
   desert: Desert;
 
   experiments: ExperimentName[];
+  henHouse?: AnimalBuilding;
+  barn?: AnimalBuilding;
 }
 
 export interface Context {

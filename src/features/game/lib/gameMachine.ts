@@ -51,7 +51,7 @@ import { loadGameStateForVisit } from "../actions/loadGameStateForVisit";
 import { randomID } from "lib/utils/random";
 
 import { buySFL } from "../actions/buySFL";
-import { CollectibleLocation } from "../types/collectibles";
+import { PlaceableLocation } from "../types/collectibles";
 import {
   getGameRulesLastRead,
   getIntroductionRead,
@@ -198,7 +198,7 @@ type LandscapeEvent = {
   };
   multiple?: boolean;
   maximum?: number;
-  location: CollectibleLocation;
+  location: PlaceableLocation;
 };
 
 type VisitEvent = {
