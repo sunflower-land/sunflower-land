@@ -14,7 +14,7 @@ import classNames from "classnames";
 import { TravelButton } from "./components/deliveries/TravelButton";
 import { CodexButton } from "./components/codex/CodexButton";
 import { AuctionCountdown } from "features/retreat/components/auctioneer/AuctionCountdown";
-import { CollectibleLocation } from "features/game/types/collectibles";
+import { PlaceableLocation } from "features/game/types/collectibles";
 import { HudContainer } from "components/ui/HudContainer";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import Decimal from "decimal.js-light";
@@ -40,7 +40,7 @@ const _showMarketplace = (state: MachineState) =>
 const HudComponent: React.FC<{
   isFarming: boolean;
   moveButtonsUp?: boolean;
-  location: CollectibleLocation;
+  location: PlaceableLocation;
 }> = ({ isFarming, location }) => {
   const { authService } = useContext(AuthProvider.Context);
 

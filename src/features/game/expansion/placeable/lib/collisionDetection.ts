@@ -1,4 +1,6 @@
 import {
+  AnimalBuilding,
+  AnimalBuildingKey,
   Collectibles,
   GameState,
   InventoryItemName,
@@ -19,7 +21,8 @@ import {
   MUSHROOM_DIMENSIONS,
   RESOURCE_DIMENSIONS,
 } from "features/game/types/resources";
-import { CollectibleLocation } from "features/game/types/collectibles";
+import { PlaceableLocation } from "features/game/types/collectibles";
+import { ANIMALS, AnimalType } from "features/game/types/animals";
 
 type BoundingBox = Position;
 
@@ -202,6 +205,64 @@ export const HOME_BOUNDS: Record<IslandType, BoundingBox> = {
   },
 };
 
+const ANIMAL_HOUSE_BOUNDS: Record<
+  AnimalBuildingKey,
+  Record<number, BoundingBox>
+> = {
+  henHouse: {
+    0: {
+      height: 6,
+      width: 6,
+      x: -3,
+      y: -3,
+    },
+    1: {
+      height: 8,
+      width: 8,
+      x: -4,
+      y: -4,
+    },
+    2: {
+      height: 10,
+      width: 10,
+      x: -5,
+      y: -5,
+    },
+    3: {
+      height: 12,
+      width: 12,
+      x: -6,
+      y: -6,
+    },
+  },
+  barn: {
+    0: {
+      height: 6,
+      width: 6,
+      x: -3,
+      y: -3,
+    },
+    1: {
+      height: 8,
+      width: 8,
+      x: -4,
+      y: -4,
+    },
+    2: {
+      height: 10,
+      width: 10,
+      x: -5,
+      y: -5,
+    },
+    3: {
+      height: 12,
+      width: 12,
+      x: -6,
+      y: -6,
+    },
+  },
+};
+
 const NON_COLLIDING_OBJECTS: InventoryItemName[] = [
   "Chess Rug",
   "Twister Rug",
@@ -217,6 +278,7 @@ const NON_COLLIDING_OBJECTS: InventoryItemName[] = [
   "Goblin Faction Rug",
   "Nightshade Faction Rug",
 ];
+
 function detectHomeCollision({
   state,
   position,
@@ -275,6 +337,43 @@ function detectHomeCollision({
 
   return boundingBoxes.some((resourceBoundingBox) =>
     isOverlapping(position, resourceBoundingBox),
+  );
+}
+
+function detectAnimalHouseCollision({
+  state,
+  position,
+  location,
+}: {
+  state: GameState;
+  position: BoundingBox;
+  location: PlaceableLocation;
+}) {
+  const buildingKey = location as AnimalBuildingKey;
+  const building = state[buildingKey] as AnimalBuilding;
+  const bounds = ANIMAL_HOUSE_BOUNDS[buildingKey][building.level];
+
+  const isOutside =
+    position.x < bounds.x ||
+    position.x + position.width > bounds.x + bounds.width ||
+    position.y > bounds.y + bounds.height ||
+    position.y - position.height < bounds.y;
+
+  if (isOutside) return true;
+
+  // TODO: Add any static objects that are inside the animal houses eg. feeders
+
+  const placedAnimalBounds = Object.values(building.animals).map((animal) => {
+    return {
+      x: animal.coordinates.x,
+      y: animal.coordinates.y,
+      height: ANIMALS[animal.type].height,
+      width: ANIMALS[animal.type].width,
+    };
+  });
+
+  return placedAnimalBounds.some((animalBoundingBox) =>
+    isOverlapping(position, animalBoundingBox),
   );
 }
 
@@ -438,20 +537,26 @@ export function detectCollision({
   location,
   name,
 }: {
-  location: CollectibleLocation;
+  location: PlaceableLocation;
   state: GameState;
   position: Position;
-  name: InventoryItemName;
+  name: InventoryItemName | AnimalType;
 }) {
+  if (location === "henHouse") {
+    return detectAnimalHouseCollision({ state, position, location });
+  }
+
+  const item = name as InventoryItemName;
+
   if (location === "home") {
-    return detectHomeCollision({ state, position, name });
+    return detectHomeCollision({ state, position, name: item });
   }
 
   const expansions = state.inventory["Basic Land"]?.toNumber() ?? 3;
 
   return (
     detectWaterCollision(expansions, position) ||
-    detectPlaceableCollision(state, position, name) ||
+    detectPlaceableCollision(state, position, item) ||
     detectLandCornerCollision(expansions, position) ||
     detectChickenCollision(state, position) ||
     detectMushroomCollision(state, position)
@@ -620,3 +725,23 @@ export function pickEmptyPosition({
 
   return availablePositions[0];
 }
+
+// const pickRandomPositionInAnimalHouse = (
+//   gameState: GameState,
+//   buildingBounds: BoundingBox,
+//   buildingKey: AnimalBuildingKey,
+// ): Position | undefined => {
+//   const positionsInBounding = splitBoundingBox(buildingBounds);
+
+//   // Shuffles in place
+//   shuffle(positionsInBounding);
+
+//   return positionsInBounding.find(
+//     (boundingBox) =>
+//       detectAnimalHouseCollision({
+//         state: gameState,
+//         position: boundingBox,
+//         location: buildingKey,
+//       }) === false,
+//   );
+// };

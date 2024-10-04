@@ -1,5 +1,5 @@
 import { Coordinates } from "features/game/expansion/components/MapPlacement";
-import { CollectibleLocation } from "features/game/types/collectibles";
+import { PlaceableLocation } from "features/game/types/collectibles";
 import { CollectibleName } from "features/game/types/craftables";
 import { GameState } from "features/game/types/game";
 import { hasMoveRestriction } from "features/game/types/removeables";
@@ -16,7 +16,7 @@ export type MoveCollectibleAction = {
   name: CollectibleName;
   coordinates: Coordinates;
   id: string;
-  location: CollectibleLocation;
+  location: PlaceableLocation;
 };
 
 type Options = {

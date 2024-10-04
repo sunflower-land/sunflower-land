@@ -27,7 +27,7 @@ import { getGameGrid } from "./lib/makeGrid";
 import { READONLY_BUILDINGS } from "features/island/buildings/components/building/BuildingComponents";
 import { ZoomContext } from "components/ZoomProvider";
 import { isBudName } from "features/game/types/buds";
-import { CollectibleLocation } from "features/game/types/collectibles";
+import { PlaceableLocation } from "features/game/types/collectibles";
 import { RESOURCE_DIMENSIONS } from "features/game/types/resources";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { IslandType } from "features/game/types/game";
@@ -93,7 +93,7 @@ export const getInitialCoordinates = (origin?: Coordinates) => {
 };
 
 interface Props {
-  location: CollectibleLocation;
+  location: PlaceableLocation;
 }
 export const Placeable: React.FC<Props> = ({ location }) => {
   const { scale } = useContext(ZoomContext);
