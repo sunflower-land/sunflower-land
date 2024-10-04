@@ -361,6 +361,7 @@ export type WarItems =
   | "Warrior Pants";
 
 export type InventoryItemName =
+  | AnimalResource
   | CropName
   | CropSeedName
   | BeanName
@@ -1140,6 +1141,13 @@ type Stores = "factionShop" | "treasureShop" | "megastore";
 export type KeysBought = Record<Stores, KeysBoughtAt>;
 
 export type AnimalBuildingKey = "henHouse" | "barn";
+export type AnimalResource =
+  | "Egg"
+  | "Leather"
+  | "Wool"
+  | "Merino Wool"
+  | "Feather"
+  | "Milk";
 
 export type AnimalState = {
   id: string;
