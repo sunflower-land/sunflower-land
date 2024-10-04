@@ -535,8 +535,15 @@ export const SUNNYSIDE = {
   },
   //Resources
   resource: {
-    chicken: `${CONFIG.PROTECTED_IMAGE_URL}/resources/chicken.png`,
-    egg: `${CONFIG.PROTECTED_IMAGE_URL}/resources/egg.png`,
+    // Animals
+    chicken: `${CONFIG.PROTECTED_IMAGE_URL}/resources/animals/chicken.png`,
+    egg: `${CONFIG.PROTECTED_IMAGE_URL}/resources/animals/egg.png`,
+    feather: `${CONFIG.PROTECTED_IMAGE_URL}/resources/animals/feather.webp`,
+    leather: `${CONFIG.PROTECTED_IMAGE_URL}/resources/animals/leather.webp`,
+    merino_wool: `${CONFIG.PROTECTED_IMAGE_URL}/resources/animals/merino_wool.webp`,
+    milk: `${CONFIG.PROTECTED_IMAGE_URL}/resources/animals/milk.webp`,
+    wool: `${CONFIG.PROTECTED_IMAGE_URL}/resources/animals/wool.webp`,
+
     //Treasures
     sand: `${CONFIG.PROTECTED_IMAGE_URL}/resources/treasures/sand.webp`,
     clam_shell: `${CONFIG.PROTECTED_IMAGE_URL}/resources/treasures/clam_shell.webp`,
