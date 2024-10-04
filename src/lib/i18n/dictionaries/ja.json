@@ -3613,11 +3613,9 @@
   "plazaShader.none": "[なし]",
   "plazaShader.night": "ナイト",
   "competition.intro.one": "やあ、バンプキン... ひまわりランドで何かおもしろいことが起こっています！",
-  "competition.intro.two": "FSLとの初めての農業コンテストを開催します。",
   "competition.intro.three": "今すぐ農業を始めて、10,000ドル以上のFSLポイントやその他の賞品を獲得しましょう。",
   "competition.areYouReady": "準備はできていますか？",
   "competition.join": "ファーマーズコンペティションに参加して賞品を競いませんか？",
-  "competition.sponsored": "このコンテストは、FSLの友人たちが主催しています。参加して賞品を受け取るにはFSLウォレットが必要です。",
   "competition.maybeLater": "多分後で",
   "competition.letsGo": "行こう！",
   "competition.farmerCompetition": "ファーマーコンテスト",
@@ -3690,5 +3688,7 @@
   "marketplace.offering.success": "おめでとうございます。オファーは正常に行われました。しばらくお待ちください。バンプキンが受け入れてくれるのを待ちましょう！",
   "marketplace.listing.success": "おめでとうございます。商品の出品が完了しました。しばらくお待ちください。バンプキンが買ってくれるのを待ちましょう。",
   "marketplace.listing.failure": "おっと、何かがおかしくなりました。もう一度試してください。",
-  "marketplace.sentToFarm": "この商品はあなたの農場に送られました"
+  "marketplace.sentToFarm": "この商品はあなたの農場に送られました",
+  "competition.intro.two": "IDを使った初めての農業コンテストを開催します。",
+  "competition.sponsored": "このコンテストは、FSL IDの友人たちが主催しています。参加して賞品を受け取るにはFSL IDウォレットが必要です。"
 }

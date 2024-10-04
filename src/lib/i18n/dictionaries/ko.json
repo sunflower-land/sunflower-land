@@ -3613,11 +3613,9 @@
   "plazaShader.none": "없음",
   "plazaShader.night": "야간",
   "competition.intro.one": "안녕하세요 범프킨... 선플라워 랜드에서 신나는 일이 벌어지고 있어요!",
-  "competition.intro.two": "우리는 FSL과 함께 최초의 농업 대회를 개최하고 있습니다.",
   "competition.intro.three": "오늘 파밍을 시작하여 $10,000 이상의 FSL 포인트 및 기타 상품을 받으세요.",
   "competition.areYouReady": "준비 되셨나요?",
   "competition.join": "농부 대회에 참가하여 상품을 놓고 경쟁하고 싶습니까?",
-  "competition.sponsored": "이 대회는 FSL의 친구들이 후원합니다.참가하고 상품을 받으려면 FSL 지갑이 필요합니다.",
   "competition.maybeLater": "어쩌면 나중에",
   "competition.letsGo": "어서 가자!",
   "competition.farmerCompetition": "농부 경진대회",
@@ -3690,5 +3688,7 @@
   "marketplace.offering.success": "축하합니다. 성공적으로 제안을 하셨습니다.이제 인내심을 갖고 범프킨이 수락할 때까지 기다리세요!",
   "marketplace.listing.success": "축하합니다. 판매 품목이 성공적으로 등록되었습니다.이제 인내심을 갖고 범프킨이 구매할 때까지 기다리세요!",
   "marketplace.listing.failure": "죄송합니다. 문제가 발생했습니다.다시 시도해 주세요.",
-  "marketplace.sentToFarm": "이 품목은 농장으로 발송되었습니다"
+  "marketplace.sentToFarm": "이 품목은 농장으로 발송되었습니다",
+  "competition.intro.two": "신분증을 이용한 최초의 농업 대회를 개최하고 있습니다.",
+  "competition.sponsored": "이 대회는 FSL ID의 친구들이 후원합니다.참가하고 상품을 받으려면 FSL ID 지갑이 필요합니다."
 }
