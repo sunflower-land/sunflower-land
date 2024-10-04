@@ -3613,11 +3613,9 @@
   "plazaShader.none": "Tiada",
   "plazaShader.night": "Malam",
   "competition.intro.one": "Howdy Bumpkin... sesuatu yang menarik sedang berlaku di Sunflower Land!",
-  "competition.intro.two": "Kami menganjurkan pertandingan pertanian pertama dengan FSL.",
   "competition.intro.three": "Mulakan bertani hari ini untuk memenangi bahagian lebih dari $10,000 mata FSL & hadiah lain.",
   "competition.areYouReady": "Adakah anda bersedia?",
   "competition.join": "Adakah anda ingin menyertai pertandingan petani dan bersaing untuk hadiah?",
-  "competition.sponsored": "Pertandingan ini ditaja oleh rakan-rakan kami di FSL. Anda memerlukan dompet FSL untuk mengambil bahagian dan menuntut hadiah.",
   "competition.maybeLater": "Mayber kemudian",
   "competition.letsGo": "Mari kita pergi!",
   "competition.farmerCompetition": "Pertandingan petani",
@@ -3690,5 +3688,7 @@
   "marketplace.offering.success": "Tahniah, anda telah berjaya membuat tawaran. Sekarang bersabar dan tunggu Bumpkin diterima!",
   "marketplace.listing.success": "Tahniah, anda telah berjaya menyenaraikan item anda untuk dijual. Sekarang bersabar dan tunggu Bumpkin untuk membelinya!",
   "marketplace.listing.failure": "Oops, ada yang salah. Sila cuba lagi.",
-  "marketplace.sentToFarm": "Item ini telah dihantar ke ladang anda"
+  "marketplace.sentToFarm": "Item ini telah dihantar ke ladang anda",
+  "competition.intro.two": "Kami menganjurkan pertandingan pertanian pertama dengan ID.",
+  "competition.sponsored": "Pertandingan ini ditaja oleh rakan-rakan kami di FSL ID. Anda memerlukan dompet ID FSL untuk mengambil bahagian dan menuntut hadiah."
 }
