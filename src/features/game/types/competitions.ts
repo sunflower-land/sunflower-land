@@ -66,13 +66,13 @@ export const COMPETITION_POINTS: Record<
     },
   },
   FSL: {
-    startAt: new Date("2024-10-10T00:00:00Z").getTime(),
-    endAt: new Date("2024-11-01T00:00:00Z").getTime(),
+    startAt: new Date("2024-10-08T00:00:00Z").getTime(),
+    endAt: new Date("2024-10-29T00:00:00Z").getTime(),
     points: {
-      "Complete chore": 2,
+      "Complete chore": 1,
       "Complete delivery": 2,
-      "Expand island": 10,
-      "Level up": 5,
+      "Level up": 10,
+      "Expand island": 15,
     },
   },
 };
