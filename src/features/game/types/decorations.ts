@@ -205,6 +205,34 @@ export const DECORATION_TEMPLATES = {
     },
     isWithdrawable: () => false,
   },
+  Miffy: {
+    dimensions: {
+      width: 1,
+      height: 1,
+    },
+    isWithdrawable: () => Date.now() > new Date("2024-11-01").getTime(),
+  },
+  Morty: {
+    dimensions: {
+      width: 1,
+      height: 1,
+    },
+    isWithdrawable: () => Date.now() > new Date("2024-11-01").getTime(),
+  },
+  Marty: {
+    dimensions: {
+      width: 2,
+      height: 1,
+    },
+    isWithdrawable: () => Date.now() > new Date("2024-11-01").getTime(),
+  },
+  Mog: {
+    dimensions: {
+      width: 1,
+      height: 1,
+    },
+    isWithdrawable: () => Date.now() > new Date("2024-11-01").getTime(),
+  },
 } satisfies Record<string, Template>;
 
 export type TemplateDecorationName = keyof typeof DECORATION_TEMPLATES;

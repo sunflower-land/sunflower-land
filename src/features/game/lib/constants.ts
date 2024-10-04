@@ -391,6 +391,10 @@ export const INITIAL_FARM: GameState = {
   balance: new Decimal(0),
   previousBalance: new Decimal(0),
   inventory: {
+    Marty: new Decimal(2),
+    Miffy: new Decimal(2),
+    Morty: new Decimal(2),
+    Mog: new Decimal(2),
     "Lifetime Farmer Banner": new Decimal(1),
     "Town Center": new Decimal(1),
     Market: new Decimal(1),
