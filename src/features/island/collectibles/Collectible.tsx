@@ -62,7 +62,7 @@ const InProgressCollectible: React.FC<Props> = ({
   game,
 }) => {
   const { t } = useAppTranslation();
-  const { gameService } = useContext(Context);
+  const { gameService, showAnimations } = useContext(Context);
   const CollectiblePlaced = COLLECTIBLE_COMPONENTS[name];
 
   const [showModal, setShowModal] = useState(false);
@@ -91,7 +91,7 @@ const InProgressCollectible: React.FC<Props> = ({
     });
 
     setShowModal(false);
-    confetti();
+    if (showAnimations) confetti();
   };
 
   return (
