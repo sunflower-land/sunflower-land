@@ -2,7 +2,7 @@ import Decimal from "decimal.js-light";
 import { KNOWN_ITEMS } from "features/game/types";
 import { ITEM_NAMES } from "features/game/types/bumpkin";
 import { GameState } from "features/game/types/game";
-import { getOfferItem, getTradeType } from "features/marketplace/lib/offers";
+import { getOfferItem } from "features/marketplace/lib/offers";
 import { produce } from "immer";
 import { addTradePoints } from "./addTradePoints";
 
@@ -34,6 +34,7 @@ export function claimOffer({ state, action, createdAt = Date.now() }: Options) {
 
     // On chain trade = do not add items since they have already been sent
     if (offer.signature) {
+      game = addTradePoints({ state: game, points: 10, sfl: offer.sfl });
       return game;
     }
 
@@ -48,15 +49,7 @@ export function claimOffer({ state, action, createdAt = Date.now() }: Options) {
       game.wardrobe[name] = (game.wardrobe[name] ?? 0) + 1;
     }
 
-    const tradeType = getTradeType({ collection: offer.collection, id });
-
-    if (tradeType === "instant") {
-      game = addTradePoints({ state: game, points: 2, sfl: offer.sfl });
-    }
-
-    if (tradeType === "onchain") {
-      game = addTradePoints({ state: game, points: 10, sfl: offer.sfl });
-    }
+    game = addTradePoints({ state: game, points: 2, sfl: offer.sfl });
 
     return game;
   });
