@@ -59,10 +59,10 @@ export const COMPETITION_POINTS: Record<
     startAt: new Date("2024-09-04T00:00:00Z").getTime(),
     endAt: new Date("2024-10-06T00:00:00Z").getTime(),
     points: {
-      "Complete chore": 2,
+      "Complete chore": 1,
       "Complete delivery": 2,
-      "Expand island": 10,
-      "Level up": 5,
+      "Level up": 10,
+      "Expand island": 15,
     },
   },
   FSL: {
