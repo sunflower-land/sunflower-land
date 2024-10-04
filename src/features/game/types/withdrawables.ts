@@ -1616,4 +1616,7 @@ export const BUMPKIN_WITHDRAWABLES: Record<
   "Pumpkin Plaza Background": () => false,
   "Goblin Retreat Background": () => false,
   "Kingdom Background": () => false,
+
+  //Gam3s Cap
+  "Gam3s Cap": () => false,
 };

@@ -27,7 +27,7 @@ import { InventoryItemName } from "features/game/types/game";
 import { RemoveKuebikoModal } from "../collectibles/RemoveKuebikoModal";
 import { hasRemoveRestriction } from "features/game/types/removeables";
 import { BudName } from "features/game/types/buds";
-import { CollectibleLocation } from "features/game/types/collectibles";
+import { PlaceableLocation } from "features/game/types/collectibles";
 import { HudContainer } from "components/ui/HudContainer";
 import { RemoveHungryCaterpillarModal } from "../collectibles/RemoveHungryCaterpillarModal";
 import { useSound } from "lib/utils/hooks/useSound";
@@ -51,7 +51,7 @@ const selectMovingItem = (state: MachineState) => state.context.moving;
 const isIdle = (state: MachineState) => state.matches({ editing: "idle" });
 
 const LandscapingHudComponent: React.FC<{
-  location: CollectibleLocation;
+  location: PlaceableLocation;
 }> = ({ location }) => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
