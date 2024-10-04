@@ -49,6 +49,7 @@ import { DEV_HoarderCheck } from "./developer-options/DEV_HoardingCheck";
 import { WalletAddressLabel } from "components/ui/WalletAddressLabel";
 import { PickServer } from "./plaza-settings/PickServer";
 import { PlazaShaderSettings } from "./plaza-settings/PlazaShaderSettings";
+import { AdminSettings } from "./general-settings/AdminSettings";
 
 export interface ContentComponentProps {
   onSubMenuClick: (id: SettingMenuId) => void;
@@ -191,6 +192,12 @@ const GameOptions: React.FC<ContentComponentProps> = ({
       <Button className="p-1 mb-1" onClick={() => onSubMenuClick("plaza")}>
         <span>{t("gameOptions.plazaSettings")}</span>
       </Button>
+      {(CONFIG.NETWORK === "amoy" ||
+        gameService.state.context.farmId === 1) && (
+        <Button className="p-1 mb-1" onClick={() => onSubMenuClick("admin")}>
+          <span>{`Admin`}</span>
+        </Button>
+      )}
       <Button className="p-1 mb-1" onClick={() => showConfirmLogoutModal(true)}>
         {t("gameOptions.logout")}
       </Button>
@@ -259,6 +266,7 @@ export type SettingMenuId =
   | "blockchain"
   | "general"
   | "plaza"
+  | "admin"
 
   // Blockchain Settings
   | "deposit"
@@ -293,6 +301,11 @@ export const settingMenus: Record<SettingMenuId, SettingMenu> = {
     title: translate("gameOptions.title"),
     parent: "main",
     content: GameOptions,
+  },
+  admin: {
+    title: `Admin`,
+    parent: "main",
+    content: AdminSettings,
   },
   installApp: {
     title: translate("install.app"),

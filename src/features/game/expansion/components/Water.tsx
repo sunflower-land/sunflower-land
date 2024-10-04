@@ -19,6 +19,7 @@ import { CONFIG } from "lib/config";
 import { LaTomatina } from "./LaTomatina";
 import { Richie } from "./Richie";
 import { CompetitionBoard } from "features/competition/CompetitionBoard";
+import { RestockBoat } from "./RestockBoat";
 
 interface Props {
   townCenterBuilt: boolean;
@@ -105,6 +106,8 @@ export const WaterComponent: React.FC<Props> = ({
       <IslandUpgrader gameState={gameState} offset={offset} />
 
       <Richie />
+
+      <RestockBoat />
 
       <CompetitionBoard />
 

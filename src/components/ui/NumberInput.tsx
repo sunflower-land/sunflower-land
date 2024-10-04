@@ -32,7 +32,7 @@ export const NumberInput: React.FC<Props> = ({
   const VALID_DECIMAL_NUMBER = new RegExp(
     `^\\d*(\\.\\d{0,${maxDecimalPlaces}})?$`,
   );
-  const INPUT_MAX_CHAR = Math.max(maxDecimalPlaces + 4, 10);
+  const INPUT_MAX_CHAR = Math.max(maxDecimalPlaces + 4, 20);
 
   const [numberDisplay, setNumberDisplay] = useState("");
   const [isFocused, setIsFocused] = useState(false); // State for focus

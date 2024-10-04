@@ -801,6 +801,10 @@ export const ITEM_DETAILS: Items = {
     image: CROP_LIFECYCLE.Soybean.crop,
     description: CROPS.Soybean.description,
   },
+  Barley: {
+    image: CROP_LIFECYCLE.Barley.crop,
+    description: translate("description.barley"),
+  },
   "Sunflower Seed": {
     image: CROP_LIFECYCLE.Sunflower.seed,
     secondaryImage: CROP_LIFECYCLE.Sunflower.crop,
@@ -860,6 +864,10 @@ export const ITEM_DETAILS: Items = {
     image: CROP_LIFECYCLE.Wheat.seed,
     secondaryImage: CROP_LIFECYCLE.Wheat.crop,
     description: CROP_SEEDS["Wheat Seed"].description,
+  },
+  "Barley Seed": {
+    image: CROP_LIFECYCLE.Barley.seed,
+    description: translate("description.barley"),
   },
   "Magic Bean": {
     image: SUNNYSIDE.crops.magicBean,
@@ -1712,6 +1720,10 @@ export const ITEM_DETAILS: Items = {
   "Hen House": {
     image: SUNNYSIDE.building.chickenHouse,
     description: translate("description.hen.house"),
+  },
+  Barn: {
+    image: SUNNYSIDE.building.barn,
+    description: translate("description.barn"),
   },
   Deli: {
     image: SUNNYSIDE.building.deli,

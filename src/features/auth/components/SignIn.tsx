@@ -5,7 +5,7 @@ import { Context } from "../lib/Provider";
 import { SUNNYSIDE } from "assets/sunnyside";
 import metamaskIcon from "assets/icons/metamask_pixel.png";
 import walletIcon from "assets/icons/wallet.png";
-import fslIcon from "assets/icons/fsl_id.svg";
+import fslIcon from "assets/icons/fsl_black.svg";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import world from "assets/icons/world.png";
 
@@ -447,27 +447,25 @@ export const SignIn: React.FC<{ type: "signin" | "signup" }> = ({ type }) => {
             </Button>
           )}
 
-          {promoCode?.toLowerCase().includes("fsl") && (
-            <Button
-              className="mb-1 py-2 text-sm relative"
-              onClick={() => {
-                setShowLoading(true);
-                window.location.href = `${CONFIG.API_URL}/auth/fsl/authorize`;
-              }}
+          <Button
+            className="mb-1 py-2 text-sm relative"
+            onClick={() => {
+              setShowLoading(true);
+              window.location.href = `${CONFIG.API_URL}/auth/fsl/authorize`;
+            }}
+          >
+            <Label
+              type="info"
+              className="absolute top-1/2 -translate-y-1/2 right-1"
             >
-              <Label
-                type="info"
-                className="absolute top-1/2 -translate-y-1/2 right-1"
-              >
-                {t("featured")}
-              </Label>
-              <img
-                src={fslIcon}
-                className="w-7 h-7 mobile:w-6 mobile:h-6  ml-2 mr-6 absolute left-0 top-1"
-              />
-              {"FSL"}
-            </Button>
-          )}
+              {t("featured")}
+            </Label>
+            <img
+              src={fslIcon}
+              className="w-10 h-10 left-[2px] mr-6 absolute top-0"
+            />
+            {"FSL ID"}
+          </Button>
         </>
       )}
 

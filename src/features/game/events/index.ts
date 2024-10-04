@@ -358,8 +358,34 @@ import {
   startCompetition,
   StartCompetitionAction,
 } from "./landExpansion/startCompetition";
+import {
+  shipmentRestock,
+  ShipmentRestockAction,
+} from "./landExpansion/shipmentRestocked";
+import {
+  speedUpRecipe,
+  InstantCookRecipe,
+} from "./landExpansion/speedUpRecipe";
+import {
+  speedUpExpansion,
+  InstantExpand,
+} from "./landExpansion/speedUpExpansion";
+import {
+  speedUpCollectible,
+  SpeedUpCollectible,
+} from "./landExpansion/speedUpCollectible";
+import {
+  speedUpBuilding,
+  SpeedUpBuilding,
+} from "./landExpansion/speedUpBuilding";
+import { buyAnimal, BuyAnimalAction } from "./landExpansion/buyAnimal";
 
 export type PlayingEvent =
+  | SpeedUpBuilding
+  | SpeedUpCollectible
+  | InstantExpand
+  | InstantCookRecipe
+  | ShipmentRestockAction
   | StartCompetitionAction
   | ClaimOfferAction
   | CompleteDailyChallengeAction
@@ -463,7 +489,8 @@ export type PlayingEvent =
   | ClaimFactionPrizeAction
   | FeedFactionPetAction
   | LeaveFactionAction
-  | BuyMoreDigsAction;
+  | BuyMoreDigsAction
+  | BuyAnimalAction;
 
 export type PlacementEvent =
   | ConstructBuildingAction
@@ -529,6 +556,10 @@ type Handlers<T> = {
 };
 
 export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
+  "building.spedUp": speedUpBuilding,
+  "collectible.spedUp": speedUpCollectible,
+  "expansion.spedUp": speedUpExpansion,
+  "recipe.spedUp": speedUpRecipe,
   "competition.started": startCompetition,
   "offer.claimed": claimOffer,
   "dailyChallenge.completed": completeDailyChallenge,
@@ -634,6 +665,8 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "factionShopItem.bought": buyFactionShopItem,
   "factionPet.fed": feedFactionPet,
   "desert.digsBought": buyMoreDigs,
+  "shipment.restocked": shipmentRestock,
+  "animal.bought": buyAnimal,
 };
 
 export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {
