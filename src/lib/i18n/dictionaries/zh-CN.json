@@ -3684,11 +3684,11 @@
   "marketplace.listing.success": "恭喜，您已成功上架待售商品。现在耐心等待 Bumpkin 买下它！",
   "marketplace.listing.failure": "哎呀，出了点问题。请重试。",
   "marketplace.sentToFarm": "这件商品已发送到你的农场",
-  "competition.intro.two": "我们将举办有史以来第一次使用ID的农业竞赛。",
   "competition.sponsored": "本次比赛由我们在FSL ID的朋友赞助。您将需要一个FSL ID钱包才能参与和领取奖品。",
   "competition.earnPoints": "赚取排行榜积分",
   "competition.earnPoints.how": "每当你完成以下任务时，你就会获得排行榜积分！",
   "competition.rules.two": "FSL积分将根据排名分配给前5,000名玩家。",
   "competition.rules.three": "SFL将根据排名分配给前5,000名玩家。",
-  "alr.claim": "已经申领了"
+  "alr.claim": "已经申领了",
+  "competition.intro.two": "我们将举办有史以来第一次使用FSL ID的农业竞赛。"
 }

@@ -3684,11 +3684,11 @@
   "marketplace.listing.success": "Tebrikler, ürününüzü satılık olarak başarıyla listelediniz. Şimdi sabırlı olun ve bir Bumpkin'in satın almasını bekleyin!",
   "marketplace.listing.failure": "Hata, bir şeyler ters gitti. Lütfen tekrar deneyin.",
   "marketplace.sentToFarm": "Bu ürün çiftliğinize gönderildi",
-  "competition.intro.two": "ID ile ilk çiftçilik yarışmasına ev sahipliği yapıyoruz.",
   "competition.sponsored": "Bu yarışma FSL ID\"deki arkadaşlarımız tarafından desteklenmektedir.. Katılmak ve ödüller talep etmek için bir FSL ID cüzdanına ihtiyacınız olacak.",
   "competition.earnPoints": "Liderlik tablosu puanları kazanın",
   "competition.earnPoints.how": "Aşağıdaki bir görevi her tamamladığınızda, liderlik tablosu puanları kazanırsınız!",
   "competition.rules.two": "FSL Puanları sıralamalarına göre en iyi 5.000 oyuncuya dağıtılacaktır.",
   "competition.rules.three": "SFL, sıralamalarına göre en iyi 5.000 oyuncuya dağıtılacak.",
-  "alr.claim": "Zaten Talep Edildi"
+  "alr.claim": "Zaten Talep Edildi",
+  "competition.intro.two": "FSL ID ile ilk çiftçilik yarışmasına ev sahipliği yapıyoruz."
 }

@@ -3684,11 +3684,11 @@
   "marketplace.listing.success": "おめでとうございます。商品の出品が完了しました。しばらくお待ちください。バンプキンが買ってくれるのを待ちましょう。",
   "marketplace.listing.failure": "おっと、何かがおかしくなりました。もう一度試してください。",
   "marketplace.sentToFarm": "この商品はあなたの農場に送られました",
-  "competition.intro.two": "IDを使った初めての農業コンテストを開催します。",
   "competition.sponsored": "このコンテストは、FSL IDの友人たちが主催しています。参加して賞品を受け取るにはFSL IDウォレットが必要です。",
   "competition.earnPoints": "リーダーボードポイントを獲得",
   "competition.earnPoints.how": "以下のタスクを完了するたびに、リーダーボードポイントを獲得できます！",
   "competition.rules.two": "FSLポイントは、ランキングに基づいて上位5,000人のプレイヤーに分配されます。",
   "competition.rules.three": "SFLは、ランキングに基づいて上位5,000人のプレーヤーに配布されます。",
-  "alr.claim": "すでに申請済み"
+  "alr.claim": "すでに申請済み",
+  "competition.intro.two": "FSL IDを使った初めての農業コンテストを開催します。"
 }

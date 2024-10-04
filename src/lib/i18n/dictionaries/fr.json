@@ -3684,11 +3684,11 @@
   "marketplace.listing.success": "Félicitations, vous avez mis en vente votre article avec succès. Maintenant, soyez patient et attendez qu'un Bumpkin l'achète !",
   "marketplace.listing.failure": "Oups, quelque chose s'est mal passé. Veuillez réessayer.",
   "marketplace.sentToFarm": "Cet article a été envoyé à votre ferme",
-  "competition.intro.two": "Nous organisons le tout premier concours agricole avec ID.",
   "competition.sponsored": "Ce concours est sponsorisé par nos amis de FSL ID. Vous aurez besoin d'un portefeuille FSL ID pour participer et réclamer des prix.",
   "competition.earnPoints": "Gagnez des points au classement",
   "competition.earnPoints.how": "Chaque fois que vous terminez une tâche ci-dessous, vous gagnez des points de classement !",
   "competition.rules.two": "Les points FSL seront distribués aux 5 000 meilleurs joueurs, en fonction de leur classement.",
   "competition.rules.three": "La SFL sera distribuée aux 5 000 meilleurs joueurs, en fonction de leur classement.",
-  "alr.claim": "Déjà réclamé"
+  "alr.claim": "Déjà réclamé",
+  "competition.intro.two": "Nous organisons le tout premier concours agricole avec FSL ID."
 }
