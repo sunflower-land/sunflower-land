@@ -1670,7 +1670,6 @@
   "add": "Tambah",
   "addSFL": "Tambahkan SFL",
   "add.liquidity": "Tambahkan Likuiditas",
-  "alr.claim": "Sudah Diklaim!",
   "alr.completed": "Sudah Selesai",
   "alr.crafted": "Sudah Dibuat!",
   "alr.minted": "Sudah dicetak!",
@@ -3685,10 +3684,16 @@
   "marketplace.listing.success": "Selamat, Anda telah berhasil mendaftarkan barang Anda untuk dijual. Sekarang bersabarlah dan tunggu Bumpkin membelinya!",
   "marketplace.listing.failure": "Ups, ada yang tidak beres. Silakan coba lagi.",
   "marketplace.sentToFarm": "Barang ini telah dikirim ke peternakan Anda",
-  "competition.intro.two": "Kami menyelenggarakan kompetisi pertanian pertama dengan ID.",
   "competition.sponsored": "Kompetisi ini disponsori oleh teman-teman kami di FSL ID. Anda akan memerlukan dompet ID FSL untuk berpartisipasi dan mengklaim hadiah.",
   "competition.earnPoints": "Dapatkan poin papan peringkat",
   "competition.earnPoints.how": "Setiap kali Anda menyelesaikan tugas di bawah ini, Anda mendapatkan poin papan peringkat!",
   "competition.rules.two": "Poin FSL akan didistribusikan ke 5.000 pemain teratas, berdasarkan peringkat mereka.",
-  "competition.rules.three": "SFL akan didistribusikan ke 5.000 pemain teratas, berdasarkan peringkat mereka."
+  "competition.rules.three": "SFL akan didistribusikan ke 5.000 pemain teratas, berdasarkan peringkat mereka.",
+  "alr.claim": "Sudah Diklaim",
+  "competition.intro.two": "Kami menyelenggarakan kompetisi pertanian pertama dengan FSL ID.",
+  "description.marty": "Seorang juara FSL Morchi.",
+  "description.morty": "Seekor Morchi ditemukan di Tanah Bunga Matahari!",
+  "description.miffy": "Morchi langka. Menggandakan XP selama Kompetisi FSL.",
+  "description.mog": "Morchi yang malas.",
+  "miffy.boost": "2x XP"
 }

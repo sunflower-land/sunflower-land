@@ -1670,7 +1670,6 @@
   "add": "추가",
   "addSFL": "SFL 추가",
   "add.liquidity": "유동성 추가",
-  "alr.claim": "이미 청구되었습니다!",
   "alr.completed": "이미 완료됨",
   "alr.crafted": "이미 제작되었습니다!",
   "alr.minted": "이미 발행되었습니다!",
@@ -3685,10 +3684,16 @@
   "marketplace.listing.success": "축하합니다. 판매 품목이 성공적으로 등록되었습니다.이제 인내심을 갖고 범프킨이 구매할 때까지 기다리세요!",
   "marketplace.listing.failure": "죄송합니다. 문제가 발생했습니다.다시 시도해 주세요.",
   "marketplace.sentToFarm": "이 품목은 농장으로 발송되었습니다",
-  "competition.intro.two": "신분증을 이용한 최초의 농업 대회를 개최하고 있습니다.",
   "competition.sponsored": "이 대회는 FSL ID의 친구들이 후원합니다.참가하고 상품을 받으려면 FSL ID 지갑이 필요합니다.",
   "competition.earnPoints": "순위표 포인트 적립",
   "competition.earnPoints.how": "아래 작업을 완료할 때마다 리더보드 포인트를 획득할 수 있습니다!",
   "competition.rules.two": "FSL 포인트는 랭킹에 따라 상위 5,000명의 플레이어에게 분배됩니다.",
-  "competition.rules.three": "SFL은 랭킹을 기준으로 상위 5,000명의 플레이어에게 분배됩니다."
+  "competition.rules.three": "SFL은 랭킹을 기준으로 상위 5,000명의 플레이어에게 분배됩니다.",
+  "alr.claim": "이미 청구됨",
+  "competition.intro.two": "우리는 FSL ID를 사용한 최초의 농업 대회를 개최하고 있습니다.",
+  "description.marty": "FSL 챔피언 모르치",
+  "description.morty": "선플라워 랜드에서 발견된 모르키!",
+  "description.miffy": "희귀한 모르치입니다.FSL 대회 기간 동안 XP가 두 배로 증가합니다.",
+  "description.mog": "게으른 모르치.",
+  "miffy.boost": "경험치 2배"
 }

@@ -1083,7 +1083,6 @@
   "add": "Adicionar",
   "addSFL": "Adicionar SFL",
   "add.liquidity": "Adicionar Liquidez",
-  "alr.claim": "Já Reivindicado",
   "alr.completed": "Já Feito",
   "alr.crafted": "Já Criado",
   "alr.minted": "Já Mintado",
@@ -3685,10 +3684,16 @@
   "marketplace.listing.success": "Parabéns, você listou seu item à venda com sucesso. Agora seja paciente e espere que um caipira o compre!",
   "marketplace.listing.failure": "Opa, algo deu errado. Por favor, tente novamente.",
   "marketplace.sentToFarm": "Este item foi enviado para sua fazenda",
-  "competition.intro.two": "Estamos organizando a primeira competição agrícola com ID.",
   "competition.sponsored": "Esta competição é patrocinada por nossos amigos da FSL ID. Você precisará de uma carteira FSL ID para participar e reivindicar prêmios.",
   "competition.earnPoints": "Ganhe pontos na tabela de classificação",
   "competition.earnPoints.how": "Toda vez que você completa uma tarefa abaixo, você ganha pontos na tabela de classificação!",
   "competition.rules.two": "Os pontos FSL serão distribuídos aos 5.000 melhores jogadores, com base em sua classificação.",
-  "competition.rules.three": "O SFL será distribuído aos 5.000 melhores jogadores, com base em sua classificação."
+  "competition.rules.three": "O SFL será distribuído aos 5.000 melhores jogadores, com base em sua classificação.",
+  "alr.claim": "Já reivindicado",
+  "competition.intro.two": "Estamos organizando a primeira competição agrícola com o FSL ID.",
+  "description.marty": "Um campeão da FSL, Morchi.",
+  "description.morty": "Um Morchi descoberto na Terra dos Girassóis!",
+  "description.miffy": "Um Morchi raro. Duplica a EXP durante a competição FSL.",
+  "description.mog": "Um Morchi preguiçoso.",
+  "miffy.boost": "2x XP"
 }

@@ -1670,7 +1670,6 @@
   "add": "Tambah",
   "addSFL": "Tambah SFL",
   "add.liquidity": "Tambah Kecairan",
-  "alr.claim": "Sudah dituntut!",
   "alr.completed": "Sudah Selesai",
   "alr.crafted": "Sudah Dibuat!",
   "alr.minted": "Sudah dicetak!",
@@ -3685,10 +3684,16 @@
   "marketplace.listing.success": "Tahniah, anda telah berjaya menyenaraikan item anda untuk dijual. Sekarang bersabar dan tunggu Bumpkin untuk membelinya!",
   "marketplace.listing.failure": "Oops, ada yang salah. Sila cuba lagi.",
   "marketplace.sentToFarm": "Item ini telah dihantar ke ladang anda",
-  "competition.intro.two": "Kami menganjurkan pertandingan pertanian pertama dengan ID.",
   "competition.sponsored": "Pertandingan ini ditaja oleh rakan-rakan kami di FSL ID. Anda memerlukan dompet ID FSL untuk mengambil bahagian dan menuntut hadiah.",
   "competition.earnPoints": "Dapatkan mata papan pendahulu",
   "competition.earnPoints.how": "Setiap kali anda menyelesaikan tugas di bawah, anda memperoleh mata papan pendahulu!",
   "competition.rules.two": "Mata FSL akan diedarkan kepada 5,000 pemain teratas, berdasarkan kedudukan mereka.",
-  "competition.rules.three": "SFL akan diedarkan kepada 5,000 pemain teratas, berdasarkan kedudukan mereka."
+  "competition.rules.three": "SFL akan diedarkan kepada 5,000 pemain teratas, berdasarkan kedudukan mereka.",
+  "alr.claim": "Sudah Dituntut",
+  "competition.intro.two": "Kami menganjurkan pertandingan pertanian pertama dengan ID FSL.",
+  "description.marty": "Seorang juara FSL Morchi.",
+  "description.morty": "Seorang Morchi ditemui di Tanah Bunga Matahari!",
+  "description.miffy": "Morchi yang jarang berlaku. Gandakan XP semasa Pertandingan FSL.",
+  "description.mog": "Morchi yang malas.",
+  "miffy.boost": "2x XP"
 }
