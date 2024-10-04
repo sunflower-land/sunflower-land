@@ -25,7 +25,6 @@ import {
 } from "features/game/types/factionShop";
 import { ItemsList } from "./components/ItemList";
 import { CONSUMABLES, FACTION_FOOD } from "features/game/types/consumables";
-import { hasFeatureAccess } from "lib/flags";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
 
@@ -130,7 +129,7 @@ export const FactionShop: React.FC<Props> = ({ onClose }) => {
   return (
     <CloseButtonPanel
       bumpkinParts={NPC_WEARABLES["eldric"]}
-      tabs={[{ icon: shopIcon, name: "Faction Shop" }]}
+      tabs={[{ icon: shopIcon, name: t("faction.shop.title") }]}
       onClose={onClose}
     >
       <div className="relative h-[450px] w-full">
@@ -158,14 +157,12 @@ export const FactionShop: React.FC<Props> = ({ onClose }) => {
             onItemClick={handleClickItem}
           />
           {/* Keys */}
-          {hasFeatureAccess(state, "TREASURE_UPDATES") && (
-            <ItemsList
-              itemsLabel="Keys"
-              type="keys"
-              items={keys}
-              onItemClick={handleClickItem}
-            />
-          )}
+          <ItemsList
+            itemsLabel="Keys"
+            type="keys"
+            items={keys}
+            onItemClick={handleClickItem}
+          />
         </div>
 
         <ModalOverlay

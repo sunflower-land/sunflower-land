@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Modal } from "components/ui/Modal";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
@@ -7,13 +7,29 @@ import { BuildingImageWrapper } from "../BuildingImageWrapper";
 import { BuildingProps } from "../Building";
 import { barnAudio, loadAudio } from "lib/utils/sfx";
 import { HEN_HOUSE_VARIANTS } from "features/island/lib/alternateArt";
+import { hasFeatureAccess } from "lib/flags";
+import { Context } from "features/game/GameProvider";
+import { MachineState } from "features/game/lib/gameMachine";
+import { GameState } from "features/game/types/game";
+import { useSelector } from "@xstate/react";
+import { useNavigate } from "react-router-dom";
+
+const _betaInventory = (state: MachineState) => {
+  const pass = state.context.state.inventory["Beta Pass"];
+
+  return { inventory: { "Beta Pass": pass } } as GameState;
+};
 
 export const ChickenHouse: React.FC<BuildingProps> = ({
   isBuilt,
   onRemove,
   island,
 }) => {
-  const [isOpen, setIsOpen] = React.useState(false);
+  const { gameService } = useContext(Context);
+  const [isOpen, setIsOpen] = useState(false);
+  const navigate = useNavigate();
+
+  const betaInventory = useSelector(gameService, _betaInventory);
 
   useEffect(() => {
     loadAudio([barnAudio]);
@@ -28,6 +44,12 @@ export const ChickenHouse: React.FC<BuildingProps> = ({
     if (isBuilt) {
       // Add future on click actions here
       barnAudio.play();
+
+      if (hasFeatureAccess(betaInventory, "ANIMAL_BUILDINGS")) {
+        navigate("/hen-house");
+        return;
+      }
+
       setIsOpen(true);
       return;
     }

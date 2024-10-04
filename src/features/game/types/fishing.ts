@@ -59,7 +59,7 @@ export type OldFishName = "Kraken Tentacle";
 export const PURCHASEABLE_BAIT: Record<PurchaseableBait, Tool> = {
   "Fishing Lure": {
     ingredients: {
-      "Block Buck": new Decimal(1),
+      Gem: new Decimal(10),
     },
     price: 0,
     description: translate("purchaseableBait.fishingLure.description"),

@@ -129,7 +129,7 @@ export const INITIAL_RESOURCES: Pick<
 };
 
 const INITIAL_STOCK: Inventory = {
-  "Sunflower Seed": new Decimal(400),
+  "Sunflower Seed": new Decimal(0),
   "Potato Seed": new Decimal(200),
   "Pumpkin Seed": new Decimal(100),
   "Carrot Seed": new Decimal(100),
@@ -556,7 +556,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     Beehive: new Decimal(1),
     Banana: new Decimal(12),
     Crimstone: new Decimal(20),
-    "Block Buck": new Decimal(200),
+    Gem: new Decimal(200),
     Gold: new Decimal("400"),
     Iron: new Decimal("800"),
     Stone: new Decimal("1600"),
@@ -871,6 +871,10 @@ export const STATIC_OFFLINE_FARM: GameState = {
         id: "1",
         readyAt: 0,
         createdAt: 0,
+        // crafting: {
+        //   name: "Pumpkin Soup",
+        //   readyAt: Date.now() + 25 * 60 * 1000,
+        // },
       },
     ],
   },
@@ -992,7 +996,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
             reward: {
               sfl: 0,
               items: {
-                "Block Buck": 3,
+                Gem: 3,
               },
               wearables: {},
             },
@@ -1116,7 +1120,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
             reward: {
               sfl: 0,
               items: {
-                "Block Buck": 1,
+                Gem: 1,
               },
               wearables: {},
             },
@@ -1214,7 +1218,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
             reward: {
               sfl: 0,
               items: {
-                "Block Buck": 1,
+                Gem: 1,
               },
               wearables: {},
             },
@@ -1312,7 +1316,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
             reward: {
               sfl: 0,
               items: {
-                "Block Buck": 1,
+                Gem: 1,
               },
               wearables: {},
             },

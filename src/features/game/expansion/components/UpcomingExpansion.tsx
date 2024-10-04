@@ -11,7 +11,6 @@ import { SUNNYSIDE } from "assets/sunnyside";
 
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { useActor } from "@xstate/react";
-import { gameAnalytics } from "lib/gameAnalytics";
 import { RequirementLabel } from "components/ui/RequirementsLabel";
 import Decimal from "decimal.js-light";
 import { getKeys } from "features/game/types/craftables";
@@ -30,7 +29,6 @@ import { expansionRequirements } from "features/game/events/landExpansion/reveal
 import { translate } from "lib/i18n/translate";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { ExpansionRequirements } from "components/ui/layouts/ExpansionRequirements";
-import { Button } from "components/ui/Button";
 import confetti from "canvas-confetti";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 
@@ -98,7 +96,7 @@ export const ExpandIcon: React.FC<ExpandIconProps> = ({
                   </div>
                 )}
                 {getKeys(requirements.resources ?? {})
-                  .filter((name) => name !== "Block Buck")
+                  .filter((name) => name !== "Gem")
                   .map((name) => (
                     <div className="mr-3 flex items-center mb-1" key={name}>
                       <RequirementLabel
@@ -246,27 +244,6 @@ export const UpcomingExpansion: React.FC = () => {
   const expansions =
     (gameState.context.state.inventory["Basic Land"]?.toNumber() ?? 3) + 1;
 
-  const onExpand = () => {
-    gameService.send("land.expanded");
-    gameService.send("SAVE");
-
-    const blockBucks = requirements?.resources["Block Buck"] ?? 0;
-    if (blockBucks) {
-      gameAnalytics.trackSink({
-        currency: "Block Buck",
-        amount: blockBucks,
-        item: "Basic Land",
-        type: "Fee",
-      });
-    }
-
-    gameAnalytics.trackMilestone({
-      event: `Farm:Expanding:Expansion${expansions}`,
-    });
-
-    setShowBumpkinModal(false);
-  };
-
   const onReveal = () => {
     gameService.send("land.revealed");
     gameService.send("SAVE");
@@ -334,18 +311,15 @@ export const UpcomingExpansion: React.FC = () => {
           onClose={() => setShowBumpkinModal(false)}
         >
           <ExpansionRequirements
+            state={state}
             inventory={state.inventory}
             coins={state.coins}
             bumpkin={state.bumpkin as Bumpkin}
             details={{
               description: translate("landscape.expansion.one"),
             }}
+            onClose={() => setShowBumpkinModal(false)}
             requirements={requirements as IExpansionRequirements}
-            actionView={
-              <Button onClick={onExpand} disabled={!canExpand}>
-                {t("expand")}
-              </Button>
-            }
           />
         </CloseButtonPanel>
       </Modal>

@@ -5,11 +5,43 @@ import { makeGame } from "../lib/transforms";
 
 const API_URL = CONFIG.API_URL;
 
+type EffectName =
+  | "marketplace.listingPurchased"
+  | "marketplace.listed"
+  | "marketplace.offerMade"
+  | "marketplace.offerAccepted"
+  | "marketplace.offerCancelled"
+  | "reward.airdropped";
+
+export type StateName =
+  | "marketplacePurchasing"
+  | "marketplaceListing"
+  | "marketplaceOffering"
+  | "marketplaceAccepting"
+  | "marketplaceCancelling"
+  | "airdroppingReward";
+
+export type StateNameWithStatus = `${StateName}Success` | `${StateName}Failed`;
+
+// StateName is the feature.progressive_tense_verb. This will be used as the gameMachine state.
+export const EFFECT_EVENTS: Record<EffectName, StateName> = {
+  "marketplace.listingPurchased": "marketplacePurchasing",
+  "marketplace.listed": "marketplaceListing",
+  "marketplace.offerMade": "marketplaceOffering",
+  "marketplace.offerAccepted": "marketplaceAccepting",
+  "marketplace.offerCancelled": "marketplaceCancelling",
+  "reward.airdropped": "airdroppingReward",
+};
+
+export interface Effect {
+  type: EffectName;
+}
+
 type Request = {
   farmId: number;
   token: string;
   transactionId: string;
-  effect: any;
+  effect: Effect;
 };
 
 export async function postEffect(

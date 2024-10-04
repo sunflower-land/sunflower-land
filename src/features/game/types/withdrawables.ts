@@ -102,6 +102,7 @@ const cropSeeds: Record<CropSeedName, () => boolean> = {
   "Radish Seed": () => false,
   "Wheat Seed": () => false,
   "Soybean Seed": () => false,
+  "Barley Seed": () => false,
 };
 
 const fruitSeed: Record<FruitSeedName, () => boolean> = {
@@ -134,6 +135,7 @@ const crops: Record<CropName, () => boolean> = {
   Radish: () => true,
   Wheat: () => true,
   Soybean: () => true,
+  Barley: () => false,
 };
 
 const fruits: Record<FruitName, () => boolean> = {
@@ -400,6 +402,7 @@ const coupons: Record<Coupons, () => boolean> = {
   "Red Envelope": () => false,
   "Love Letter": () => false,
   "Block Buck": () => false,
+  Gem: () => false,
   "Solar Flare Ticket": () => false,
   "Dawn Breaker Ticket": () => false,
   "Sunflower Supporter": () => false,
@@ -437,6 +440,7 @@ const buildings: Record<BuildingName, () => boolean> = {
   Bakery: () => false,
   Greenhouse: () => false,
   "Hen House": () => false,
+  Barn: () => false,
   Deli: () => false,
   "Smoothie Shack": () => false,
   Toolshed: () => false,
@@ -1611,4 +1615,7 @@ export const BUMPKIN_WITHDRAWABLES: Record<
   "Pumpkin Plaza Background": () => false,
   "Goblin Retreat Background": () => false,
   "Kingdom Background": () => false,
+
+  //Gam3s Cap
+  "Gam3s Cap": () => false,
 };

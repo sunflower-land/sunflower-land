@@ -49,6 +49,8 @@ export function makeGame(farm: any): GameState {
     expandedAt: farm.expandedAt,
     greenhouse: farm.greenhouse,
 
+    shipments: farm.shipments,
+
     bumpkin: farm.bumpkin,
     buildings: farm.buildings,
     fishing: farm.fishing ?? { wharf: {}, beach: {} },

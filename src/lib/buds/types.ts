@@ -1,5 +1,5 @@
 import { Coordinates } from "features/game/expansion/components/MapPlacement";
-import { CollectibleLocation } from "features/game/types/collectibles";
+import { PlaceableLocation } from "features/game/types/collectibles";
 
 export type Trait<T> = {
   name: T;
@@ -267,5 +267,5 @@ export type Bud = {
   aura: AuraTrait;
   ears: EarTrait;
   coordinates?: Coordinates;
-  location?: CollectibleLocation;
+  location?: PlaceableLocation;
 };

@@ -367,8 +367,7 @@ export const expansionRequirements = ({ game }: { game: GameState }) => {
     resources = getKeys(resources).reduce(
       (acc, key) => ({
         ...acc,
-        [key]:
-          key === "Block Buck" ? resources[key] : (resources[key] ?? 0) / 2,
+        [key]: key === "Gem" ? resources[key] : (resources[key] ?? 0) / 2,
       }),
       {},
     );
@@ -401,7 +400,7 @@ export function getRewards({
         id: "expansion-sixth-airdrop",
         items: {
           "Time Warp Totem": 1,
-          "Block Buck": 1,
+          Gem: 20,
         },
         message: "Woohoo, you discovered a gift!",
         sfl: 0,
@@ -418,7 +417,7 @@ export function getRewards({
   const blockBuckAirdrop = {
     createdAt,
     items: {
-      "Block Buck": 1,
+      Gem: 20,
     },
     sfl: 0,
     coins: 0,

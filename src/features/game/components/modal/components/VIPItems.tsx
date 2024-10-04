@@ -19,7 +19,6 @@ import { useSelector } from "@xstate/react";
 
 import lifeTimeFarmerBannerIcon from "assets/decorations/banners/lifetime_farmer_banner.png";
 import giftIcon from "assets/icons/gift.png";
-import blockBucksIcon from "assets/icons/block_buck.png";
 import xpIcon from "assets/icons/xp.png";
 import vipIcon from "assets/icons/vip.webp";
 import { Button } from "components/ui/Button";
@@ -82,7 +81,7 @@ export const VIPItems: React.FC<Props> = ({ onClose, onSkip }) => {
   const inventory = useSelector(gameService, _inventory);
   const farmId = useSelector(gameService, _farmId);
 
-  const blockBuckBalance = inventory["Block Buck"] ?? new Decimal(0);
+  const gemBalance = inventory["Gem"] ?? new Decimal(0);
   const seasonBannerImage = getSeasonalBannerImage();
   const seasonBanner = getSeasonalBanner();
   const previousBanner = getPreviousSeasonalBanner();
@@ -172,7 +171,7 @@ export const VIPItems: React.FC<Props> = ({ onClose, onSkip }) => {
     return (
       <Label
         type="warning"
-        icon={blockBucksIcon}
+        icon={ITEM_DETAILS.Gem.image}
         className="absolute right-1 bottom-1"
       >
         {getItemPrice(seasonBanner)}
@@ -204,19 +203,19 @@ export const VIPItems: React.FC<Props> = ({ onClose, onSkip }) => {
     return 0;
   };
 
-  const canAffordSeasonBanner = blockBuckBalance.gte(actualSeasonBannerPrice);
+  const canAffordSeasonBanner = gemBalance.gte(actualSeasonBannerPrice);
 
-  const canAffordLifetimeBanner = blockBuckBalance.gte(
+  const canAffordLifetimeBanner = gemBalance.gte(
     getItemPrice("Lifetime Farmer Banner"),
   );
 
   const getErrorLabel = () => {
     if (selected === "Lifetime Farmer Banner" && !canAffordLifetimeBanner) {
-      return <Label type="danger">{t("offer.not.enough.BlockBucks")}</Label>;
+      return <Label type="danger">{t("offer.not.enough.gems")}</Label>;
     }
 
     if (selected === seasonBanner && !canAffordSeasonBanner) {
-      return <Label type="danger">{t("offer.not.enough.BlockBucks")}</Label>;
+      return <Label type="danger">{t("offer.not.enough.gems")}</Label>;
     }
   };
 
@@ -270,7 +269,7 @@ export const VIPItems: React.FC<Props> = ({ onClose, onSkip }) => {
                 <>
                   <Label
                     type="warning"
-                    icon={blockBucksIcon}
+                    icon={ITEM_DETAILS.Gem.image}
                     className="absolute right-1 bottom-1"
                   >
                     {getItemPrice("Lifetime Farmer Banner")}
@@ -368,7 +367,7 @@ export const VIPItems: React.FC<Props> = ({ onClose, onSkip }) => {
                 <span>{`${t("total")} ${getItemPrice(
                   selected as VIPItem,
                 )}`}</span>
-                <img src={blockBucksIcon} className="w-6" />
+                <img src={ITEM_DETAILS.Gem.image} className="w-6" />
               </div>
             ) : hasLifeTimeBanner ? (
               <Label type="success">{t("season.free.with.lifetime")}</Label>
