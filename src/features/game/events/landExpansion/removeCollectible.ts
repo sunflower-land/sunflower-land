@@ -8,7 +8,7 @@ import {
 } from "./removeBuilding";
 import { REMOVAL_RESTRICTIONS } from "features/game/types/removeables";
 import { SEEDS } from "features/game/types/seeds";
-import { CollectibleLocation } from "features/game/types/collectibles";
+import { PlaceableLocation } from "features/game/types/collectibles";
 import { FLOWER_SEEDS } from "features/game/types/flowers";
 import { produce } from "immer";
 
@@ -24,7 +24,7 @@ export type RemoveCollectibleAction = {
   type: "collectible.removed";
   name: CollectibleName;
   id: string;
-  location: CollectibleLocation;
+  location: PlaceableLocation;
 };
 
 type Options = {

@@ -11,6 +11,7 @@ import {
   pixelGreenBorderStyle,
 } from "features/game/lib/style";
 import { SquareIcon } from "./SquareIcon";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 export type LabelType =
   | "default"
@@ -85,6 +86,7 @@ interface Props {
   icon?: string;
   iconWidth?: number;
   secondaryIcon?: string;
+  popup?: boolean; // if true the popup copied is shown when item is copied
   onClick?: () => void;
 }
 
@@ -96,8 +98,11 @@ export const Label: React.FC<Props> = ({
   icon,
   iconWidth,
   secondaryIcon,
+  popup,
   onClick,
 }) => {
+  const { t } = useAppTranslation();
+
   return (
     <div
       key={type}
@@ -120,6 +125,17 @@ export const Label: React.FC<Props> = ({
         ...style,
       }}
     >
+      {popup && (
+        <div
+          className="absolute -top-9 left-0 p-[3px] transition duration-400 pointer-events-none"
+          style={{
+            ...LABEL_STYLES[type].borderStyle,
+            background: LABEL_STYLES[type].background,
+          }}
+        >
+          {t("copied")}
+        </div>
+      )}
       {icon && (
         <SquareIcon
           icon={icon}

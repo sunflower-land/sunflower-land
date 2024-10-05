@@ -3,10 +3,11 @@ import { getBumpkinLevel } from "features/game/lib/level";
 import { getKeys } from "features/game/types/craftables";
 import {
   Bumpkin,
+  GameState,
   ExpansionRequirements as IExpansionRequirements,
   Inventory,
 } from "features/game/types/game";
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import { RequirementLabel } from "../RequirementsLabel";
 import { InlineDialogue } from "features/world/ui/TypingMessage";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -15,6 +16,17 @@ import { Label } from "../Label";
 import { secondsToString } from "lib/utils/time";
 import { InnerPanel } from "../Panel";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { useCountdown } from "lib/utils/hooks/useCountdown";
+import { ResizableBar } from "../ProgressBar";
+import { TimerDisplay } from "features/retreat/components/auctioneer/AuctionDetails";
+import { expansionRequirements } from "features/game/events/landExpansion/revealLand";
+import { Button } from "../Button";
+import { ITEM_DETAILS } from "features/game/types/images";
+import { hasFeatureAccess } from "lib/flags";
+import { gameAnalytics } from "lib/gameAnalytics";
+import { Context } from "features/game/GameProvider";
+import { craftingRequirementsMet } from "features/game/lib/craftingRequirement";
+import { getInstantGems } from "features/game/events/landExpansion/speedUpRecipe";
 /**
  * The props for the component.
  * @param gameState The game state.
@@ -28,7 +40,8 @@ interface Props {
   bumpkin: Bumpkin;
   details: DetailsProps;
   requirements: IExpansionRequirements;
-  actionView?: JSX.Element;
+  state: GameState;
+  onClose: () => void;
 }
 
 /**
@@ -49,13 +62,40 @@ export const ExpansionRequirements: React.FC<Props> = ({
   bumpkin,
   details,
   requirements,
-  actionView,
   coins,
+  state,
+  onClose,
 }: Props) => {
   const { t } = useAppTranslation();
+  const { gameService, showAnimations } = useContext(Context);
 
   const hasLevel =
     getBumpkinLevel(bumpkin.experience) >= requirements.bumpkinLevel;
+
+  const onExpand = () => {
+    gameService.send("land.expanded");
+    gameService.send("SAVE");
+
+    const blockBucks = requirements?.resources["Gem"] ?? 0;
+    if (blockBucks) {
+      gameAnalytics.trackSink({
+        currency: "Gem",
+        amount: blockBucks,
+        item: "Basic Land",
+        type: "Fee",
+      });
+    }
+
+    const expansions = (state.inventory["Basic Land"]?.toNumber() ?? 3) + 1;
+
+    gameAnalytics.trackMilestone({
+      event: `Farm:Expanding:Expansion${expansions}`,
+    });
+
+    onClose();
+  };
+
+  const canExpand = craftingRequirementsMet(state, requirements);
 
   return (
     <div className="flex flex-col justify-center">
@@ -123,7 +163,86 @@ export const ExpansionRequirements: React.FC<Props> = ({
           </>
         )}
       </div>
-      {actionView}
+      <Button onClick={onExpand} disabled={!canExpand}>
+        {t("expand")}
+      </Button>
     </div>
+  );
+};
+
+export const Expanding: React.FC<{
+  state: GameState;
+  onClose: () => void;
+  onInstantExpanded: () => void;
+}> = ({ state, onClose, onInstantExpanded }) => {
+  const { t } = useAppTranslation();
+  const readyAt = state.expansionConstruction?.readyAt ?? 0;
+
+  const requirements = expansionRequirements({ game: state });
+  const totalSeconds = requirements?.seconds ?? 0;
+  const secondsTillReady = (readyAt - Date.now()) / 1000;
+
+  const { days, ...ready } = useCountdown(readyAt ?? 0);
+
+  const gems = getInstantGems({
+    readyAt: readyAt as number,
+  });
+
+  const hasAccess =
+    hasFeatureAccess(state, "GEM_BOOSTS") && state.island.type !== "desert";
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (Date.now() > readyAt) {
+        onClose();
+      }
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <>
+      <div className="p-1 ">
+        <Label
+          type="default"
+          icon={SUNNYSIDE.icons.stopwatch}
+        >{`In progress`}</Label>
+        <p className="text-sm my-2">{t("crafting.expansionSoon")}</p>
+        <div className="flex items-center mb-1">
+          <div>
+            <div className="relative flex flex-col w-full">
+              <div className="flex items-center gap-x-1">
+                <ResizableBar
+                  percentage={(1 - secondsTillReady! / totalSeconds) * 100}
+                  type="progress"
+                />
+                <TimerDisplay time={ready} />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="flex">
+        <Button onClick={onClose}>{t("close")}</Button>
+        {hasAccess && (
+          <Button
+            disabled={!state.inventory.Gem?.gte(gems)}
+            className="relative ml-1"
+            onClick={onInstantExpanded}
+          >
+            {t("gems.speedUp")}
+            <Label
+              type={state.inventory.Gem?.gte(gems) ? "default" : "danger"}
+              icon={ITEM_DETAILS.Gem.image}
+              className="flex absolute right-0 -top-5"
+            >
+              {gems}
+            </Label>
+          </Button>
+        )}
+      </div>
+    </>
   );
 };

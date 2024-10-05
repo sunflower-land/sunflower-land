@@ -974,6 +974,45 @@ describe("deliver", () => {
 
     expect(state.coins).toEqual(120);
   });
+  it("add 20% coins bonus if has Forge-Ward Profits skill on Blacksmith's orders with Coins reward", () => {
+    const state = deliverOrder({
+      state: {
+        ...TEST_FARM,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          skills: {
+            "Forge-Ward Profits": 1,
+          },
+        },
+        inventory: {
+          Wood: new Decimal(50),
+        },
+        delivery: {
+          ...TEST_FARM.delivery,
+          fulfilledCount: 3,
+          orders: [
+            {
+              id: "123",
+              createdAt: 0,
+              readyAt: new Date("2023-10-31T15:00:00Z").getTime(),
+              from: "blacksmith",
+              items: {
+                Wood: 50,
+              },
+              reward: { coins: 100 },
+            },
+          ],
+        },
+      },
+      action: {
+        id: "123",
+        type: "order.delivered",
+      },
+      createdAt: new Date("2024-05-10T16:00:00Z").getTime(),
+    });
+
+    expect(state.coins).toEqual(120);
+  });
 
   it("does not add 20% coins bonus if has Betty's Friend skill on non Betty's orders with Coins reward", () => {
     const state = deliverOrder({
@@ -1031,7 +1070,7 @@ describe("deliver", () => {
               id: "123",
               createdAt: 0,
               readyAt: Date.now(),
-              from: "betty",
+              from: "tango",
               items: {
                 Orange: 5,
                 Grape: 2,
@@ -1093,5 +1132,44 @@ describe("deliver", () => {
     });
 
     expect(state.coins).toEqual(320);
+  });
+
+  it("gives a +50% coins bonus on completed orders from Corale if player has Fishy Fortune skill", () => {
+    const state = deliverOrder({
+      state: {
+        ...TEST_FARM,
+        coins: 0,
+        inventory: {
+          "Sunflower Cake": new Decimal(1),
+        },
+        delivery: {
+          ...TEST_FARM.delivery,
+          orders: [
+            {
+              id: "123",
+              createdAt: 0,
+              readyAt: Date.now(),
+              from: "corale",
+              items: {
+                "Sunflower Cake": 1,
+              },
+              reward: { coins: 320 },
+            },
+          ],
+        },
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          skills: {
+            "Fishy Fortune": 1,
+          },
+        },
+      },
+      action: {
+        id: "123",
+        type: "order.delivered",
+      },
+    });
+
+    expect(state.coins).toEqual(480);
   });
 });

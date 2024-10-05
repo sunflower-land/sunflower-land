@@ -280,6 +280,22 @@ describe("mineGold", () => {
       expect(time).toEqual(now - (GOLD_RECOVERY_TIME * 1000) / 2);
     });
 
+    it("applies a boost of -10% recovery time when Midas Sprint skill is active", () => {
+      const now = Date.now();
+      const time = getMinedAt({
+        game: {
+          ...TEST_FARM,
+          bumpkin: {
+            ...TEST_FARM.bumpkin,
+            skills: { "Midas Sprint": 1 },
+          },
+        },
+        createdAt: now,
+      });
+
+      expect(time).toEqual(now - GOLD_RECOVERY_TIME * 1000 * 0.1);
+    });
+
     it("applies a Ore Hourglass boost of -50% recovery time for 3 hours", () => {
       const now = Date.now();
       const time = getMinedAt({

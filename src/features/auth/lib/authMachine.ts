@@ -4,7 +4,6 @@ import { ERRORS, ErrorCode } from "lib/errors";
 
 import { saveReferrerId } from "../actions/createAccount";
 import { login, Token, decodeToken } from "../actions/login";
-import { oauthorise } from "../actions/oauth";
 import { randomID } from "lib/utils/random";
 import { onboardingAnalytics } from "lib/onboardingAnalytics";
 import { loadSession, savePromoCode } from "features/game/actions/loadSession";
@@ -164,7 +163,6 @@ export type BlockchainState = {
     | "authorising"
     | "visiting"
     | "verifying"
-    | "oauthorising"
     | "unauthorised"
     | "authorised"
     | "connected"
@@ -299,29 +297,11 @@ export const authMachine = createMachine(
           },
         },
       },
-      oauthorising: {
-        entry: "setTransactionId",
-        invoke: {
-          src: "oauthorise",
-          onDone: {
-            target: "connected",
-            actions: ["assignToken", "saveToken"],
-          },
-          onError: {
-            target: "unauthorised",
-            actions: "assignErrorMessage",
-          },
-        },
-      },
       authorised: {
         always: [
           {
             target: "noAccount",
             cond: (context) => !context.user.token?.farmId,
-          },
-          {
-            target: "oauthorising",
-            cond: "hasDiscordCode",
           },
           {
             target: "connected",
@@ -471,15 +451,6 @@ export const authMachine = createMachine(
           signature,
         });
 
-        return { token };
-      },
-      oauthorise: async (context) => {
-        const code = getDiscordCode() as string;
-        // Navigates to Discord OAuth Flow
-        const { token } = await oauthorise(
-          code,
-          context.transactionId as string,
-        );
         return { token };
       },
     },
