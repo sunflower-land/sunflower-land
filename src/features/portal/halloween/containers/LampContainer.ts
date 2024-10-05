@@ -2,22 +2,39 @@ import { BumpkinContainer } from "features/world/containers/BumpkinContainer";
 import { BaseScene } from "features/world/scenes/BaseScene";
 import { DarknessPipeline } from "../shaders/DarknessShader";
 import { STEP_PLAYER_LIGHT_RADIUS } from "../HalloweenConstants";
+import { MachineInterpreter } from "../lib/halloweenMachine";
 
 interface Props {
   x: number;
   y: number;
   scene: BaseScene;
   player?: BumpkinContainer;
+  portalService?: MachineInterpreter;
 }
 
 export class LampContainer extends Phaser.GameObjects.Container {
-  constructor({ x, y, scene, player }: Props) {
+  private portalService?: MachineInterpreter;
+
+  constructor({ x, y, scene, player, portalService }: Props) {
     super(scene, x, y);
     this.scene = scene;
+    this.portalService = portalService;
 
     // Sprite Lamp
-    const spriteName = "speech_bubble";
-    const lamp = scene.add.image(0, 0, spriteName);
+    const spriteName = "lamp";
+    const lamp = scene.add.sprite(0, 0, spriteName);
+
+    // Animation
+    this.scene.anims.create({
+      key: spriteName + "_action",
+      frames: this.scene.anims.generateFrameNumbers(spriteName, {
+        start: 0,
+        end: 3,
+      }),
+      repeat: -1,
+      frameRate: 10,
+    });
+    lamp.play(spriteName + "_action", true);
 
     scene.physics.add.existing(this);
 
@@ -33,6 +50,7 @@ export class LampContainer extends Phaser.GameObjects.Container {
 
     this.setSize(lamp.width, lamp.height);
     this.add(lamp);
+    this.setScale(0.8);
 
     scene.add.existing(this);
   }
@@ -54,6 +72,7 @@ export class LampContainer extends Phaser.GameObjects.Container {
       }
     }, 10);
     this.destroyLamp();
+    this.portalService?.send("COLLECT_LAMP");
   }
 
   private destroyLamp() {

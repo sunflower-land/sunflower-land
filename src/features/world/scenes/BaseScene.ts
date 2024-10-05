@@ -150,6 +150,10 @@ export abstract class BaseScene extends Phaser.Scene {
    */
   navMesh: PhaserNavMesh | undefined;
 
+  get isMoving() {
+    return this.movementAngle !== undefined && this.walkingSpeed !== 0;
+  }
+
   constructor(options: BaseSceneOptions) {
     if (!options.name) {
       throw new Error("Missing name in config");
@@ -828,9 +832,6 @@ export abstract class BaseScene extends Phaser.Scene {
 
     this.sendPositionToServer();
 
-    const isMoving =
-      this.movementAngle !== undefined && this.walkingSpeed !== 0;
-
     if (this.soundEffects) {
       this.soundEffects.forEach((audio) =>
         audio.setVolumeAndPan(
@@ -844,17 +845,17 @@ export abstract class BaseScene extends Phaser.Scene {
     }
 
     if (this.walkAudioController) {
-      this.walkAudioController.handleWalkSound(isMoving);
+      this.walkAudioController.handleWalkSound(this.isMoving);
     } else {
       // eslint-disable-next-line no-console
       console.error("walkAudioController is undefined");
     }
 
-    if (isMoving) {
-      this.currentPlayer.walk();
-    } else {
-      this.currentPlayer.idle();
-    }
+    // if (isMoving) {
+    //   this.currentPlayer.walk();
+    // } else {
+    //   this.currentPlayer.idle();
+    // }
 
     this.currentPlayer.setDepth(Math.floor(this.currentPlayer.y));
 

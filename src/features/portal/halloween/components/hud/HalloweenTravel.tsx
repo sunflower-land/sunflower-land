@@ -7,11 +7,11 @@ import worldIcon from "assets/icons/world.png";
 import { goHome } from "features/portal/lib/portalUtil";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { ConfirmationModal } from "components/ui/ConfirmationModal";
-import { PortalMachineState } from "../../lib/HalloweenMachine";
+import { PortalMachineState } from "../../lib/halloweenMachine";
 import { useSound } from "lib/utils/hooks/useSound";
 import classNames from "classnames";
 import { isTouchDevice } from "features/world/lib/device";
-import { FRUIT_DASH_NPC_WEREABLES } from "../../HalloweenConstants";
+import { HALLOWEEN_NPC_WEARABLES } from "../../HalloweenConstants";
 
 const _isPlaying = (state: PortalMachineState) => state.matches("playing");
 const _isJoystickActive = (state: PortalMachineState) =>
@@ -83,16 +83,16 @@ export const HalloweenTravel: React.FC = () => {
         </div>
       </div>
       <ConfirmationModal
-        bumpkinParts={FRUIT_DASH_NPC_WEREABLES["Felga"]}
+        bumpkinParts={HALLOWEEN_NPC_WEARABLES}
         show={showExitConfirmation}
         onHide={() => setShowExitConfirmation(false)}
-        messages={[t("fruit-dash.endGameConfirmation")]}
+        messages={[t("halloween.endGameConfirmation")]}
         onCancel={() => setShowExitConfirmation(false)}
         onConfirm={() => {
           portalService.send("END_GAME_EARLY");
           setShowExitConfirmation(false);
         }}
-        confirmButtonLabel={t("fruit-dash.endGame")}
+        confirmButtonLabel={t("halloween.endGame")}
       />
     </>
   );

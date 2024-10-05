@@ -269,6 +269,16 @@ export const STATIC_OFFLINE_FARM: GameState = {
           "Red Farmer Shirt": 1,
         },
       },
+      halloween: {
+        coins: 0,
+        startAt: new Date().getTime() - 500,
+        endAt: new Date().getTime() + 5000000,
+        score: 5,
+        items: {},
+        wearables: {
+          "Red Farmer Shirt": 1,
+        },
+      },
     },
   },
   mushrooms: {

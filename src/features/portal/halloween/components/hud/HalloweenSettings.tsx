@@ -6,10 +6,8 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useSound } from "lib/utils/hooks/useSound";
-// import { useIsDarkMode } from "lib/utils/hooks/useIsDarkMode";
-// import darkModeIcon from "assets/icons/dark_mode.png";
 import { PortalContext } from "../../lib/PortalProvider";
-import { PortalMachineState } from "../../lib/HalloweenMachine";
+import { PortalMachineState } from "../../lib/halloweenMachine";
 import { useSelector } from "@xstate/react";
 import classNames from "classnames";
 import { isTouchDevice } from "features/world/lib/device";
@@ -25,7 +23,6 @@ const _isJoystickActive = (state: PortalMachineState) =>
 
 export const HalloweenSettings: React.FC = () => {
   const { portalService } = useContext(PortalContext);
-  //const { isDarkMode, toggleDarkMode } = useIsDarkMode();
 
   const { isAudioMuted, toggleAudioMuted } = useIsAudioMuted();
 
@@ -114,24 +111,6 @@ export const HalloweenSettings: React.FC = () => {
         }}
       />,
     );
-
-  // const darkModeButton = (index: number) =>
-  //   settingButton(
-  //     index,
-  //     () => {
-  //       button.play();
-  //       toggleDarkMode();
-  //     },
-  //     <img
-  //       src={isDarkMode ? darkModeIcon : lightModeIcon}
-  //       className="absolute"
-  //       style={{
-  //         top: `${PIXEL_SCALE * 6}px`,
-  //         left: `${PIXEL_SCALE * 6}px`,
-  //         width: `${PIXEL_SCALE * 10}px`,
-  //       }}
-  //     />,
-  //   );
 
   const gearButton = (index: number) =>
     settingButton(

@@ -4,10 +4,11 @@ import { PortalContext } from "../../lib/PortalProvider";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Label } from "components/ui/Label";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { PortalMachineState } from "../../lib/HalloweenMachine";
+import { PortalMachineState } from "../../lib/halloweenMachine";
+import { secondsToString } from "lib/utils/time";
 
 const _target = (state: PortalMachineState) =>
-  state.context.state?.minigames.prizes["fruit-dash"]?.score ?? 0;
+  state.context.state?.minigames.prizes["halloween"]?.score ?? 0;
 const _score = (state: PortalMachineState) => state.context.score;
 
 export const HalloweenTarget: React.FC = () => {
@@ -25,8 +26,10 @@ export const HalloweenTarget: React.FC = () => {
       secondaryIcon={isTargetReached ? SUNNYSIDE.icons.confirm : undefined}
       type={isTargetReached ? "success" : "vibrant"}
     >
-      {t("fruit-dash.targetScore", {
-        target: target,
+      {t("halloween.targetScore", {
+        target: secondsToString(target, {
+          length: "full",
+        }),
       })}
     </Label>
   );

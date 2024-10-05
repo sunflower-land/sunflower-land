@@ -6,7 +6,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { secondsToString } from "lib/utils/time";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 import { Label } from "components/ui/Label";
-import { PortalMachineState } from "../../lib/HalloweenMachine";
+import { PortalMachineState } from "../../lib/halloweenMachine";
 
 const _startedAt = (state: PortalMachineState) => state.context.startedAt;
 

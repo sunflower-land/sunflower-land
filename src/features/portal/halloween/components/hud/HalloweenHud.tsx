@@ -5,12 +5,15 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { HudContainer } from "components/ui/HudContainer";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { PortalMachineState } from "../../lib/halloweenMachine";
+import { HalloweenTimeScore } from "./HalloweenTimeScore";
+import { HalloweenSettings } from "./HalloweenSettings";
+import { HalloweenTravel } from "./HalloweenTravel";
+import { HalloweenTarget } from "./HalloweenTarget";
+import { HalloweenInventory } from "./HalloweenInventory";
 import { useAchievementToast } from "../../providers/AchievementToastProvider";
 
 const _isJoystickActive = (state: PortalMachineState) =>
   state.context.isJoystickActive;
-// const _target = (state: PortalMachineState) =>
-//   state.context.state?.minigames.prizes["halloween"]?.score ?? 0;
 const _achievements = (state: PortalMachineState) =>
   state.context.state?.minigames.games["halloween"]?.achievements ?? {};
 const _isPlaying = (state: PortalMachineState) => state.matches("playing");
@@ -20,7 +23,6 @@ export const HalloweenHud: React.FC = () => {
   const { t } = useAppTranslation();
 
   const isJoystickActive = useSelector(portalService, _isJoystickActive);
-  // const target = useSelector(portalService, _target);
   const achievements = useSelector(portalService, _achievements);
   const isPlaying = useSelector(portalService, _isPlaying);
 
@@ -53,21 +55,14 @@ export const HalloweenHud: React.FC = () => {
             left: `${PIXEL_SCALE * 6}px`,
           }}
         >
-          {/* <HalloweenTarget />
-          <HalloweenScores /> */}
+          <HalloweenTarget />
+          <HalloweenTimeScore />
+          {/* <HalloweenScores /> */}
         </div>
 
-        {(!isJoystickActive || !isPlaying) && (
-          <>
-            {/* <HalloweenTravel />
-            <HalloweenSettings /> */}
-          </>
-        )}
-        {/* {isPlaying && (
-          <>
-            <HalloweenTimer />
-          </>
-        )} */}
+        <HalloweenTravel />
+        <HalloweenSettings />
+        <HalloweenInventory />
       </div>
     </HudContainer>
   );

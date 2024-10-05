@@ -33,7 +33,7 @@ export interface Context {
   state: GameState | undefined;
   score: number;
   lastScore: number;
-  axes: number;
+  lamps: number;
   startedAt: number;
   attemptsLeft: number;
 }
@@ -65,8 +65,8 @@ export type PortalEvent =
   | { type: "END_GAME_EARLY" }
   | { type: "GAME_OVER" }
   | GainPointsEvent
-  | { type: "COLLECT_AXE" }
-  | { type: "THROW_AXE" }
+  | { type: "COLLECT_LAMP" }
+  | { type: "DEAD_LAMP" }
   | UnlockAchievementsEvent;
 
 export type PortalState = {
@@ -101,7 +101,7 @@ const resetGameTransition = {
     target: "starting",
     actions: assign({
       score: () => 0,
-      axes: () => 0,
+      lamps: () => 0,
       startedAt: () => 0,
     }) as any,
   },
@@ -120,7 +120,7 @@ export const portalMachine = createMachine<Context, PortalEvent, PortalState>({
 
     score: 0,
     lastScore: 0,
-    axes: 0,
+    lamps: 0,
     attemptsLeft: 0,
     startedAt: 0,
   },
@@ -267,7 +267,7 @@ export const portalMachine = createMachine<Context, PortalEvent, PortalState>({
           actions: assign<Context>({
             startedAt: () => Date.now(),
             score: 0,
-            axes: 0,
+            lamps: 0,
             state: (context: any) => {
               startAttempt();
               return startMinigameAttempt({
@@ -286,37 +286,40 @@ export const portalMachine = createMachine<Context, PortalEvent, PortalState>({
 
     playing: {
       on: {
-        // GAIN_POINTS: {
-        //   actions: assign<Context, any>({
-        //     score: (context: Context, event: GainPointsEvent) => {
-        //       return context.score + event.points;
-        //     },
-        //   }),
-        // },
-        // COLLECT_AXE: {
-        //   actions: assign<Context, any>({
-        //     axes: (context: Context, event: GainPointsEvent) => {
-        //       return context.axes + 1;
-        //     },
-        //   }),
-        // },
-        // THROW_AXE: {
-        //   actions: assign<Context, any>({
-        //     axes: (context: Context, event: GainPointsEvent) => {
-        //       return context.axes - 1;
-        //     },
-        //   }),
-        // },
+        GAIN_POINTS: {
+          actions: assign<Context, any>({
+            score: (context: Context) => {
+              const secondsPassed = !context.startedAt
+                ? 0
+                : Math.max(Date.now() - context.startedAt, 0) / 1000;
+              return secondsPassed;
+            },
+          }),
+        },
+        COLLECT_LAMP: {
+          actions: assign<Context, any>({
+            lamps: (context: Context) => {
+              return context.lamps + 1;
+            },
+          }),
+        },
+        DEAD_LAMP: {
+          actions: assign<Context, any>({
+            lamps: (context: Context) => {
+              return context.lamps - 1;
+            },
+          }),
+        },
         END_GAME_EARLY: {
           actions: assign<Context, any>({
-            startedAt: (context: any) => 0,
-            lastScore: (context: any) => {
+            startedAt: () => 0,
+            lastScore: (context: Context) => {
               return context.score;
             },
-            state: (context: any) => {
+            state: (context: Context) => {
               submitScore({ score: Math.round(context.score) });
               return submitMinigameScore({
-                state: context.state,
+                state: context.state as any,
                 action: {
                   type: "minigame.scoreSubmitted",
                   score: Math.round(context.score),

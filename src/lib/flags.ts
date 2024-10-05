@@ -30,6 +30,7 @@ export type FeatureName =
   | "MARKETPLACE"
   | "ONBOARDING_REWARDS"
   | "FRUIT_DASH"
+  | "HALLOWEEN"
   | "TREASURE_UPDATES"
   | "NEW_RESOURCES_GE";
 
@@ -53,6 +54,7 @@ const featureFlags: Record<FeatureName, FeatureFlag> = {
   MARKETPLACE: testnetFeatureFlag,
   CROP_QUICK_SELECT: () => false,
   FRUIT_DASH: betaTimeBasedFeatureFlag(new Date("2024-09-10T00:00:00Z")),
+  HALLOWEEN: betaTimeBasedFeatureFlag(new Date("2024-10-31T00:00:00Z")),
   PORTALS: testnetFeatureFlag,
   JEST_TEST: defaultFeatureFlag,
   EASTER: () => false, // To re-enable next easter

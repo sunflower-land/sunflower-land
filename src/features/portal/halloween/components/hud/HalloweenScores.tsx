@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { useSelector } from "@xstate/react";
 import { PortalContext } from "../../lib/PortalProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { PortalMachineState } from "../../lib/HalloweenMachine";
+import { PortalMachineState } from "../../lib/halloweenMachine";
 
 const _score = (state: PortalMachineState) => state.context.score;
 const _axes = (state: PortalMachineState) => state.context.axes;
@@ -26,7 +26,7 @@ export const HalloweenScores: React.FC = () => {
           }}
         >
           <span>
-            {t("fruit-dash.score", {
+            {t("halloween.score", {
               score: Math.round(score),
             })}
           </span>
@@ -43,7 +43,7 @@ export const HalloweenScores: React.FC = () => {
           }}
         >
           <span>
-            {t("fruit-dash.axes", {
+            {t("halloween.axes", {
               axes: Math.round(axes),
             })}
           </span>

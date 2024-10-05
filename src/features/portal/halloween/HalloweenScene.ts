@@ -50,8 +50,21 @@ export class HalloweenScene extends BaseScene {
     this.setDefaultStates();
   }
 
+  private get isGameReady() {
+    return this.portalService?.state.matches("ready") === true;
+  }
+
+  public get portalService() {
+    return this.registry.get("portalService") as MachineInterpreter | undefined;
+  }
+
   preload() {
     super.preload();
+
+    this.load.spritesheet("lamp", "world/lamp.png", {
+      frameWidth: 14,
+      frameHeight: 20,
+    });
   }
 
   async create() {
@@ -87,6 +100,12 @@ export class HalloweenScene extends BaseScene {
       this.playerPosition = { x: currentX, y: currentY };
     }
 
+    this.loadBumpkinAnimations();
+
+    this.portalService?.send("GAIN_POINTS");
+
+    this.isGameReady && this.portalService?.send("START");
+
     super.update();
   }
 
@@ -116,6 +135,26 @@ export class HalloweenScene extends BaseScene {
       INITIAL_LAMPS_LIGHT_RADIUS,
     );
     darknessPipeline.lightRadius = [...playerLightRadius, ...lampsLightRadius];
+  }
+
+  private loadBumpkinAnimations() {
+    if (!this.currentPlayer) return;
+
+    const lamps = this.portalService?.state?.context?.lamps;
+
+    const itemBumpkinX = this.currentPlayer.directionFacing === "left" ? -1 : 1;
+
+    const animation = this.isMoving
+      ? lamps
+        ? "carry"
+        : "walk"
+      : lamps
+        ? "carryIdle"
+        : "idle";
+
+    this.currentPlayer.lamp?.setX(itemBumpkinX);
+    this.currentPlayer[animation]();
+    this.currentPlayer.lampVisibility(!!lamps);
   }
 
   private getNormalizedCoords(x: number, y: number) {
@@ -150,6 +189,7 @@ export class HalloweenScene extends BaseScene {
           y: lamp.y,
           scene: this,
           player: this.currentPlayer,
+          portalService: this.portalService,
         }),
     );
 
@@ -281,9 +321,5 @@ export class HalloweenScene extends BaseScene {
       return this.visibilityPolygon.compute(position, segments);
     }
     return null;
-  }
-
-  public get portalService() {
-    return this.registry.get("portalService") as MachineInterpreter | undefined;
   }
 }
