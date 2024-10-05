@@ -6,6 +6,7 @@ import {
   LandExpansionStoneMineAction,
   mineStone,
 } from "./stoneMine";
+import { TEST_BUMPKIN } from "features/game/lib/bumpkinData";
 
 const GAME_STATE: GameState = {
   ...TEST_FARM,
@@ -210,6 +211,27 @@ describe("getMinedAt", () => {
     });
 
     expect(time).toEqual(now - (STONE_RECOVERY_TIME * 1000) / 2);
+  });
+
+  it("reduces the cooldown time with Speed Miner Skill", () => {
+    const now = Date.now();
+
+    const time = getMinedAt({
+      skills: {
+        "Speed Miner": 1,
+      },
+      createdAt: now,
+      game: {
+        ...GAME_STATE,
+        bumpkin: {
+          ...TEST_BUMPKIN,
+          skills: {
+            "Speed Miner": 1,
+          },
+        },
+      },
+    });
+    expect(time).toEqual(now - STONE_RECOVERY_TIME * 0.2 * 1000);
   });
 
   it("time buffs are multiplicative", () => {

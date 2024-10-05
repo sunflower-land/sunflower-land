@@ -14,7 +14,7 @@ import classNames from "classnames";
 import { TravelButton } from "./components/deliveries/TravelButton";
 import { CodexButton } from "./components/codex/CodexButton";
 import { AuctionCountdown } from "features/retreat/components/auctioneer/AuctionCountdown";
-import { CollectibleLocation } from "features/game/types/collectibles";
+import { PlaceableLocation } from "features/game/types/collectibles";
 import { HudContainer } from "components/ui/HudContainer";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import Decimal from "decimal.js-light";
@@ -27,6 +27,7 @@ import marketplaceIcon from "assets/icons/shop_disc.png";
 import { hasFeatureAccess } from "lib/flags";
 import { useNavigate } from "react-router-dom";
 import { TransactionCountdown } from "./Transaction";
+import * as AuthProvider from "features/auth/lib/Provider";
 
 const _farmAddress = (state: MachineState) => state.context.farmAddress;
 const _showMarketplace = (state: MachineState) =>
@@ -39,8 +40,10 @@ const _showMarketplace = (state: MachineState) =>
 const HudComponent: React.FC<{
   isFarming: boolean;
   moveButtonsUp?: boolean;
-  location: CollectibleLocation;
+  location: PlaceableLocation;
 }> = ({ isFarming, location }) => {
+  const { authService } = useContext(AuthProvider.Context);
+
   const { gameService, shortcutItem, selectedItem } = useContext(Context);
   const [gameState] = useActor(gameService);
 
@@ -144,9 +147,7 @@ const HudComponent: React.FC<{
         <Balances
           sfl={gameState.context.state.balance}
           coins={gameState.context.state.coins}
-          blockBucks={
-            gameState.context.state.inventory["Block Buck"] ?? new Decimal(0)
-          }
+          gems={gameState.context.state.inventory["Gem"] ?? new Decimal(0)}
           onClick={handleBuyCurrenciesModal}
         />
 
@@ -175,7 +176,6 @@ const HudComponent: React.FC<{
           <SpecialEventCountdown />
           <SeasonBannerCountdown />
         </div>
-
         <div
           className="absolute z-50 flex flex-col justify-between"
           style={{

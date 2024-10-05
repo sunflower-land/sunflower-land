@@ -26,7 +26,11 @@ const Complete: React.FC<CompleteProps> = ({
   const { t } = useAppTranslation();
 
   if (alreadyComplete) {
-    return <Label type="info">{t("alr.completed")}</Label>;
+    return (
+      <Label type="success" icon={SUNNYSIDE.icons.confirm}>
+        {t("alr.completed")}
+      </Label>
+    );
   }
 
   return (
@@ -38,7 +42,7 @@ const Complete: React.FC<CompleteProps> = ({
         }
       >
         {`Trade for ${TICKETS_REWARDED} ${getSeasonalTicket()}${
-          TICKETS_REWARDED > 0 ? "s" : ""
+          TICKETS_REWARDED > 1 ? "s" : ""
         }`}
       </Button>
     </>
@@ -82,16 +86,11 @@ export const FlowerTrade: React.FC<Props> = ({ flowerShop, flowerCount }) => {
             />
           </div>
         </div>
-        <Label type="warning" className="my-1 mx-auto">
-          <div className="flex items-center">
-            <img src={SUNNYSIDE.icons.stopwatch} className="h-5 mr-1" />
-            <span>
-              {`${t("offer.end")} ${secondsToString(remainingSecondsInWeek, {
-                length: "medium",
-                removeTrailingZeros: true,
-              })}`}
-            </span>
-          </div>
+        <Label type="info" className="mb-2" icon={SUNNYSIDE.icons.stopwatch}>
+          {`${t("offer.end")} ${secondsToString(remainingSecondsInWeek, {
+            length: "medium",
+            removeTrailingZeros: true,
+          })}`}
         </Label>
       </div>
       <Complete

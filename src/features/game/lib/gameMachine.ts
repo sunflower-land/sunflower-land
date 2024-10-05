@@ -5,6 +5,7 @@ import {
   TransitionsConfig,
   State,
   send,
+  DoneInvokeEvent,
 } from "xstate";
 import {
   PLAYING_EVENTS,
@@ -50,7 +51,7 @@ import { loadGameStateForVisit } from "../actions/loadGameStateForVisit";
 import { randomID } from "lib/utils/random";
 
 import { buySFL } from "../actions/buySFL";
-import { CollectibleLocation } from "../types/collectibles";
+import { PlaceableLocation } from "../types/collectibles";
 import {
   getGameRulesLastRead,
   getIntroductionRead,
@@ -64,7 +65,7 @@ import {
   Currency,
   buyBlockBucks,
   buyBlockBucksMATIC,
-} from "../actions/buyBlockBucks";
+} from "../actions/buyGems";
 import { getSessionId } from "lib/blockchain/Session";
 import { BumpkinItem } from "../types/bumpkin";
 import { getAuctionResults } from "../actions/getAuctionResults";
@@ -87,7 +88,13 @@ import { setCachedMarketPrices } from "features/world/ui/market/lib/marketCache"
 import { MinigameName } from "../types/minigames";
 import { OFFLINE_FARM } from "./landData";
 import { isValidRedirect } from "features/portal/lib/portalUtil";
-import { postEffect } from "../actions/effect";
+import {
+  Effect,
+  EFFECT_EVENTS,
+  postEffect,
+  StateName,
+  StateNameWithStatus,
+} from "../actions/effect";
 import { TRANSACTION_SIGNATURES, TransactionName } from "../types/transactions";
 import { getKeys } from "../types/decorations";
 
@@ -98,6 +105,12 @@ const getRedirect = () => {
   const code = new URLSearchParams(window.location.search).get("redirect");
 
   return code;
+};
+
+const getError = () => {
+  const error = new URLSearchParams(window.location.search).get("error");
+
+  return error;
 };
 
 export type PastAction = GameEvent & {
@@ -133,6 +146,9 @@ export interface Context {
   paused?: boolean;
   verified?: boolean;
   purchases: Purchase[];
+  discordId?: string;
+  fslId?: string;
+  oauthNonce: string;
 }
 
 export type Moderation = {
@@ -162,13 +178,13 @@ type WalletUpdatedEvent = {
 };
 
 type BuyBlockBucksEvent = {
-  type: "BUY_BLOCK_BUCKS";
+  type: "BUY_GEMS";
   currency: Currency;
   amount: number;
 };
 
 type UpdateBlockBucksEvent = {
-  type: "UPDATE_BLOCK_BUCKS";
+  type: "UPDATE_GEMS";
   amount: number;
 };
 
@@ -182,7 +198,7 @@ type LandscapeEvent = {
   };
   multiple?: boolean;
   maximum?: number;
-  location: CollectibleLocation;
+  location: PlaceableLocation;
 };
 
 type VisitEvent = {
@@ -246,7 +262,8 @@ export type UpdateUsernameEvent = {
 
 type PostEffectEvent = {
   type: "POST_EFFECT";
-  effect: any;
+  effect: Effect;
+  authToken: string;
 };
 
 type TransactEvent = {
@@ -322,7 +339,8 @@ export type BlockchainEvent =
   | { type: "SAVE_SUCCESS" }
   | { type: "UPGRADE" }
   | { type: "CLOSE" }
-  | { type: "RANDOMISE" }; // Test only
+  | { type: "RANDOMISE" }
+  | Effect; // Test only
 
 // // For each game event, convert it to an XState event + handler
 const GAME_EVENT_HANDLERS: TransitionsConfig<Context, BlockchainEvent> =
@@ -397,6 +415,78 @@ const PLACEMENT_EVENT_HANDLERS: TransitionsConfig<Context, BlockchainEvent> =
     {},
   );
 
+const EFFECT_EVENT_HANDLERS: TransitionsConfig<Context, BlockchainEvent> =
+  getKeys(EFFECT_EVENTS).reduce(
+    (events, eventName) => ({
+      ...events,
+      [eventName]: {
+        target: EFFECT_EVENTS[eventName],
+      },
+    }),
+    {},
+  );
+
+const EFFECT_STATES = Object.values(EFFECT_EVENTS).reduce(
+  (states, stateName) => ({
+    ...states,
+    [`${stateName}Success`]: {
+      on: {
+        CONTINUE: { target: "playing" },
+      },
+    },
+    [`${stateName}Failure`]: {
+      on: {
+        CONTINUE: { target: "playing" },
+      },
+    },
+    [stateName]: {
+      entry: "setTransactionId",
+      invoke: {
+        src: async (context: Context, event: PostEffectEvent) => {
+          const { effect, authToken } = event;
+
+          if (context.actions.length > 0) {
+            await autosave({
+              farmId: Number(context.farmId),
+              sessionId: context.sessionId as string,
+              actions: context.actions,
+              token: authToken,
+              fingerprint: context.fingerprint as string,
+              deviceTrackerId: context.deviceTrackerId as string,
+              transactionId: context.transactionId as string,
+            });
+          }
+
+          const { gameState, data } = await postEffect({
+            farmId: Number(context.farmId),
+            effect,
+            token: authToken,
+            transactionId: context.transactionId as string,
+          });
+
+          return { state: gameState, response: data };
+        },
+        onDone: [
+          {
+            target: `${stateName}Success`,
+            actions: [
+              assign((_, event: DoneInvokeEvent<any>) => ({
+                actions: [],
+                state: event.data.state,
+              })),
+            ],
+          },
+        ],
+        onError: {
+          target: `${stateName}Failure`,
+          actions: "assignErrorMessage",
+        },
+      },
+    },
+  }),
+  {},
+);
+
 export type BlockchainState = {
   value:
     | "loading"
@@ -406,6 +496,7 @@ export type BlockchainState = {
     | "gameRules"
     | "portalling"
     | "introduction"
+    | "gems"
     | "playing"
     | "autosaving"
     | "buyingSFL"
@@ -413,6 +504,9 @@ export type BlockchainState = {
     | "revealed"
     | "genieRevealed"
     | "beanRevealed"
+    // | "effectPending"
+    | "effectSuccess"
+    | "effectFailure"
     | "error"
     | "refreshing"
     | "swarming"
@@ -444,7 +538,9 @@ export type BlockchainState = {
     | "blacklisted"
     | "provingPersonhood"
     | "somethingArrived"
-    | "randomising"; // TEST ONLY
+    | "randomising"
+    | StateName
+    | StateNameWithStatus; // TEST ONLY
   context: Context;
 };
 
@@ -532,6 +628,7 @@ export function startGame(authContext: AuthContext) {
       id: "gameMachine",
       initial: "loading",
       context: {
+        fslId: "123",
         farmId: Math.floor(Math.random() * 1000),
         actions: [],
         state: EMPTY,
@@ -544,14 +641,23 @@ export function startGame(authContext: AuthContext) {
         saveQueued: false,
         verified: !CONFIG.API_URL,
         purchases: [],
+        oauthNonce: "",
       },
       states: {
+        ...EFFECT_STATES,
         loading: {
           id: "loading",
           always: [
             {
               target: "loadLandToVisit",
               cond: () => window.location.href.includes("visit"),
+            },
+            {
+              target: "error",
+              cond: () => !!getError(),
+              actions: assign({
+                errorCode: (_) => getError() as ErrorCode,
+              }),
             },
             {
               target: "notifying",
@@ -591,6 +697,9 @@ export function startGame(authContext: AuthContext) {
                 wallet: response.wallet,
                 verified: response.verified,
                 purchases: response.purchases,
+                discordId: response.discordId,
+                fslId: response.fslId,
+                oauthNonce: response.oauthNonce,
               };
             },
             onDone: [
@@ -603,6 +712,7 @@ export function startGame(authContext: AuthContext) {
                 cond: () => !!portalName,
                 actions: ["assignGame"],
               },
+
               {
                 target: "notifying",
                 actions: ["assignGame", "assignUrl", "initialiseAnalytics"],
@@ -642,6 +752,7 @@ export function startGame(authContext: AuthContext) {
             },
           },
         },
+
         loadLandToVisit: {
           invoke: {
             src: async (_, event) => {
@@ -719,6 +830,13 @@ export function startGame(authContext: AuthContext) {
                   context.state.bumpkin?.experience === 0 &&
                   !getIntroductionRead()
                 );
+              },
+            },
+
+            {
+              target: "gems",
+              cond: (context) => {
+                return !!context.state.inventory["Block Buck"]?.gte(1);
               },
             },
 
@@ -951,6 +1069,7 @@ export function startGame(authContext: AuthContext) {
             ],
           },
           on: {
+            ...EFFECT_EVENT_HANDLERS,
             ...GAME_EVENT_HANDLERS,
             UPDATE_USERNAME: {
               actions: assign((context, event) => ({
@@ -966,7 +1085,7 @@ export function startGame(authContext: AuthContext) {
             TRANSACT: {
               target: "transacting",
             },
-            BUY_BLOCK_BUCKS: {
+            BUY_GEMS: {
               target: "buyingBlockBucks",
             },
             REVEAL: {
@@ -997,25 +1116,25 @@ export function startGame(authContext: AuthContext) {
               target: "buyingSFL",
             },
             LIST_TRADE: { target: "listing" },
-            POST_EFFECT: { target: "effect" },
+            // POST_EFFECT: { target: "effectPending" },
             DELETE_TRADE_LISTING: { target: "deleteTradeListing" },
             FULFILL_TRADE_LISTING: { target: "fulfillTradeListing" },
             SELL_MARKET_RESOURCE: { target: "sellMarketResource" },
-            UPDATE_BLOCK_BUCKS: {
+            UPDATE_GEMS: {
               actions: assign((context, event) => ({
                 state: {
                   ...context.state,
                   inventory: {
                     ...context.state.inventory,
-                    "Block Buck": (
-                      context.state.inventory["Block Buck"] ?? new Decimal(0)
-                    ).add(event.amount),
+                    Gem: (context.state.inventory["Gem"] ?? new Decimal(0)).add(
+                      event.amount,
+                    ),
                   },
                 },
                 purchases: [
                   ...context.purchases,
                   {
-                    id: "Block Buck",
+                    id: "Gem",
                     method: "XSOLLA",
                     purchasedAt: Date.now(),
                     usd: 1, // Placeholder
@@ -1181,15 +1300,15 @@ export function startGame(authContext: AuthContext) {
                   ...context.state,
                   inventory: {
                     ...context.state.inventory,
-                    "Block Buck": (
-                      context.state.inventory["Block Buck"] ?? new Decimal(0)
-                    ).add(event.data.amount),
+                    Gem: (context.state.inventory["Gem"] ?? new Decimal(0)).add(
+                      event.data.amount,
+                    ),
                   },
                 },
                 purchases: [
                   ...context.purchases,
                   {
-                    id: `${event.data.amount} Block Buck`,
+                    id: `${event.data.amount} Gem`,
                     method: "MATIC",
                     purchasedAt: Date.now(),
                     usd: 1, // Placeholder
@@ -1435,7 +1554,7 @@ export function startGame(authContext: AuthContext) {
             CONTINUE: "playing",
           },
         },
-        effect: {
+        effectPending: {
           entry: "setTransactionId",
           invoke: {
             src: async (context, event) => {
@@ -1464,7 +1583,7 @@ export function startGame(authContext: AuthContext) {
             },
             onDone: [
               {
-                target: "playing",
+                target: "effectSuccess",
                 actions: [
                   assign((_, event) => ({
                     actions: [],
@@ -1474,9 +1593,19 @@ export function startGame(authContext: AuthContext) {
               },
             ],
             onError: {
-              target: "error",
+              target: "effectFailure",
               actions: "assignErrorMessage",
             },
+          },
+        },
+        effectFailure: {
+          on: {
+            ACKNOWLEDGE: "playing",
+          },
+        },
+        effectSuccess: {
+          on: {
+            CONTINUE: "playing",
           },
         },
         deleteTradeListing: {
@@ -1775,6 +1904,18 @@ export function startGame(authContext: AuthContext) {
             ACKNOWLEDGE: {
               target: "notifying",
             },
+            "competition.started": (GAME_EVENT_HANDLERS as any)[
+              "competition.started"
+            ],
+          },
+        },
+
+        gems: {
+          on: {
+            ACKNOWLEDGE: {
+              target: "notifying",
+            },
+            "garbage.sold": (GAME_EVENT_HANDLERS as any)["garbage.sold"],
           },
         },
 
@@ -1951,6 +2092,9 @@ export function startGame(authContext: AuthContext) {
           nftId: (_, event) => event.data.nftId,
           verified: (_, event) => event.data.verified,
           purchases: (_, event) => event.data.purchases,
+          discordId: (_, event) => event.data.discordId,
+          fslId: (_, event) => event.data.fslId,
+          oauthNonce: (_, event) => event.data.oauthNonce,
         }),
         setTransactionId: assign<Context, any>({
           transactionId: () => randomID(),

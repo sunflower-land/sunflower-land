@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 
-import { redirectOAuth } from "features/auth/actions/oauth";
+import { discordOAuth } from "features/auth/actions/oauth";
 import * as Auth from "features/auth/lib/Provider";
 import budIcon from "assets/icons/bud.png";
 
@@ -17,7 +17,6 @@ import { addDiscordRole, DiscordRole } from "features/game/actions/discordRole";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { Context } from "features/game/GameProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { CONFIG } from "lib/config";
 
 const GROUPS: {
   channel: string;
@@ -61,18 +60,18 @@ export const Discord: React.FC = () => {
 
   const [state, setState] = useState<
     "idle" | "noDiscord" | "joining" | "joined" | "error"
-  >(authState.context.user.token?.discordId ? "idle" : "noDiscord");
+  >(gameState.context.discordId ? "idle" : "noDiscord");
 
   const inventory = gameState.context.state.inventory;
   const faction = gameState.context.state.faction?.name;
 
   const buds = gameState.context.state.buds;
   const oauth = () => {
-    redirectOAuth();
+    discordOAuth({ nonce: gameState.context.oauthNonce });
   };
 
   const addRole = async (role: DiscordRole) => {
-    if (!authState.context.user.token?.discordId) {
+    if (!gameState.context.discordId) {
       setState("noDiscord");
       return;
     }
@@ -91,9 +90,9 @@ export const Discord: React.FC = () => {
     }
   };
 
-  if (CONFIG.NETWORK === "amoy") {
-    return null;
-  }
+  // if (CONFIG.NETWORK === "amoy") {
+  //   return null;
+  // }
 
   if (state === "error") {
     return <span className="">{t("getContent.error")}</span>;

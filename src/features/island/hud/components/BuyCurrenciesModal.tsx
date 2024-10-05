@@ -3,7 +3,6 @@ import { Label } from "components/ui/Label";
 import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 
-import blockBuckIcon from "assets/icons/block_buck.png";
 import vipIcon from "assets/icons/vip.webp";
 import exchangeIcon from "assets/icons/exchange.png";
 import coinsIcon from "assets/icons/coins.webp";
@@ -21,17 +20,18 @@ import { MachineState } from "features/game/lib/gameMachine";
 import { useActor, useSelector } from "@xstate/react";
 import { onboardingAnalytics } from "lib/onboardingAnalytics";
 import { randomID } from "lib/utils/random";
-import { buyBlockBucksXsolla } from "features/game/actions/buyBlockBucks";
+import { buyBlockBucksXsolla as buyGemsXsolla } from "features/game/actions/buyGems";
 import {
-  BuyBlockBucks,
+  BuyGems,
   Price,
-} from "features/game/components/modal/components/BuyBlockBucks";
+} from "features/game/components/modal/components/BuyGems";
 import { Button } from "components/ui/Button";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { SquareIcon } from "components/ui/SquareIcon";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { VIPItems } from "../../../game/components/modal/components/VIPItems";
 import { PIXEL_SCALE } from "features/game/lib/constants";
+import { ITEM_DETAILS } from "features/game/types/images";
 
 const COIN_IMAGES = [coinsScattered, coinsIcon, coinsStack];
 
@@ -90,7 +90,7 @@ export const BuyCurrenciesModal: React.FC<Props> = ({
   };
 
   const onMaticBuy = async () => {
-    gameService.send("BUY_BLOCK_BUCKS", {
+    gameService.send("BUY_GEMS", {
       currency: "MATIC",
       amount: price?.amount,
     });
@@ -108,7 +108,7 @@ export const BuyCurrenciesModal: React.FC<Props> = ({
     try {
       const amount = price?.amount ?? 0;
 
-      const { url } = await buyBlockBucksXsolla({
+      const { url } = await buyGemsXsolla({
         amount,
         farmId,
         transactionId: randomID(),
@@ -125,7 +125,7 @@ export const BuyCurrenciesModal: React.FC<Props> = ({
   };
 
   const handleCreditCardSuccess = () => {
-    gameService.send("UPDATE_BLOCK_BUCKS", { amount: price?.amount });
+    gameService.send("UPDATE_GEMS", { amount: price?.amount });
     onClose();
   };
 
@@ -158,7 +158,7 @@ export const BuyCurrenciesModal: React.FC<Props> = ({
           }}
           onClose={onClose}
           tabs={[
-            { icon: blockBuckIcon, name: `Block Bucks` },
+            { icon: ITEM_DETAILS.Gem.image, name: `Gems` },
             { icon: exchangeIcon, name: `${t("sfl/coins")}` },
             { icon: vipIcon, name: "VIP" },
           ]}
@@ -167,8 +167,12 @@ export const BuyCurrenciesModal: React.FC<Props> = ({
             <div className="flex flex-col space-y-1">
               {!hideBuyBBLabel && (
                 <div className="flex justify-between pt-2 px-1">
-                  <Label icon={blockBuckIcon} type="default" className="ml-2">
-                    {`${t("transaction.buy.BlockBucks")}`}
+                  <Label
+                    icon={ITEM_DETAILS.Gem.image}
+                    type="default"
+                    className="ml-2"
+                  >
+                    {`${t("transaction.buy.gems")}`}
                   </Label>
                   <a
                     href="https://docs.sunflower-land.com/fundamentals/blockchain-fundamentals#block-bucks"
@@ -180,7 +184,7 @@ export const BuyCurrenciesModal: React.FC<Props> = ({
                   </a>
                 </div>
               )}
-              <BuyBlockBucks
+              <BuyGems
                 isSaving={autosaving}
                 price={price}
                 setPrice={setPrice}

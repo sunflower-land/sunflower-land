@@ -1,6 +1,6 @@
 import Decimal from "decimal.js-light";
 import { Dimensions } from "./buildings";
-import { Inventory } from "./game";
+import { BB_TO_GEM_RATIO, Inventory } from "./game";
 import { BoostTreasure, DecorationTreasure } from "./treasure";
 import { translate } from "lib/i18n/translate";
 import { Template } from "./templates";
@@ -205,7 +205,35 @@ export const DECORATION_TEMPLATES = {
     },
     isWithdrawable: () => false,
   },
-} as Record<string, Template>;
+  Miffy: {
+    dimensions: {
+      width: 1,
+      height: 1,
+    },
+    isWithdrawable: () => Date.now() > new Date("2024-11-01").getTime(),
+  },
+  Morty: {
+    dimensions: {
+      width: 1,
+      height: 1,
+    },
+    isWithdrawable: () => Date.now() > new Date("2024-11-01").getTime(),
+  },
+  Marty: {
+    dimensions: {
+      width: 2,
+      height: 1,
+    },
+    isWithdrawable: () => Date.now() > new Date("2024-11-01").getTime(),
+  },
+  Mog: {
+    dimensions: {
+      width: 1,
+      height: 1,
+    },
+    isWithdrawable: () => Date.now() > new Date("2024-11-01").getTime(),
+  },
+} satisfies Record<string, Template>;
 
 export type TemplateDecorationName = keyof typeof DECORATION_TEMPLATES;
 
@@ -813,7 +841,7 @@ export const LANDSCAPING_DECORATIONS: () => Record<
     coins: 200,
     ingredients: {
       Wood: new Decimal(3),
-      "Block Buck": new Decimal(1),
+      Gem: new Decimal(1 * BB_TO_GEM_RATIO),
     },
   },
   "Golden Maple": {
@@ -822,7 +850,7 @@ export const LANDSCAPING_DECORATIONS: () => Record<
     coins: 200,
     ingredients: {
       Wood: new Decimal(3),
-      "Block Buck": new Decimal(1),
+      Gem: new Decimal(1 * BB_TO_GEM_RATIO),
     },
   },
   "Crimson Cap": {

@@ -33,6 +33,13 @@ import {
   AUDIO_MUTED_EVENT,
   getAudioMutedSetting,
 } from "lib/utils/hooks/useIsAudioMuted";
+import { NightShaderPipeline } from "../shaders/nightShader";
+import {
+  PLAZA_SHADER_EVENT,
+  PlazaShader,
+  PlazaShaders,
+  getPlazaShaderSetting,
+} from "lib/utils/hooks/usePlazaShader";
 
 export type NPCBumpkin = {
   x: number;
@@ -177,6 +184,98 @@ export abstract class BaseScene extends Phaser.Scene {
     this.sound.mute = event.detail;
   };
 
+  /**
+   * Changes the shader when the event is triggered.
+   * @param event The event.
+   */
+  private onSetPlazaShader = (event: CustomEvent) => {
+    if (!this.cameras.main) return;
+
+    const plazaShader = event.detail as PlazaShader;
+
+    // reset shader if no shader is selected
+    if (plazaShader === "none" && this.cameras.main.hasPostPipeline) {
+      this.cameras.main.resetPostPipeline();
+      return;
+    }
+
+    const existingPipelines = this.cameras.main.postPipelines;
+    const existingSamePipelines = existingPipelines.filter(
+      (pipeline) => pipeline.name === plazaShader,
+    );
+    const existingOtherPipelines = existingPipelines.filter(
+      (pipeline) => pipeline.name !== plazaShader,
+    );
+
+    // add the shader if it doesn't exist
+    if (existingSamePipelines.length === 0) {
+      this.cameras.main.setPostPipeline(plazaShader);
+    }
+
+    // remove other shaders
+    if (existingOtherPipelines.length > 0) {
+      existingOtherPipelines.forEach((pipeline) =>
+        this.cameras.main.removePostPipeline(pipeline),
+      );
+    }
+  };
+
+  /**
+   * Initializes the shaders and listeners.
+   */
+  private initializeShaders = () => {
+    const rendererPipelines = (
+      this.renderer as Phaser.Renderer.WebGL.WebGLRenderer
+    ).pipelines;
+
+    // define all shaders here
+    const shaderActions: Record<PlazaShader, () => void> = {
+      none: () => undefined,
+      night: () =>
+        rendererPipelines?.addPostPipeline("night", NightShaderPipeline),
+      // add other shaders here
+    };
+
+    // add all shaders to pipeline
+    const plazaShaders = Object.keys(PlazaShaders) as PlazaShader[];
+    plazaShaders.forEach((shader) => {
+      shaderActions[shader]?.();
+    });
+
+    // add event listener for settings
+    window.addEventListener(PLAZA_SHADER_EVENT as any, this.onSetPlazaShader);
+    this.onSetPlazaShader({ detail: getPlazaShaderSetting() } as CustomEvent);
+  };
+
+  /**
+   * Updates the shaders.
+   */
+  updateShaders = () => {
+    // get pipeline
+    const nightShaderPipeline = this.cameras.main.getPostPipeline(
+      "night",
+    ) as NightShaderPipeline;
+    if (!nightShaderPipeline || !this.currentPlayer) return;
+
+    // calculate the player's position relative to the camera
+    const mapWidth = this.map.widthInPixels;
+    const mapHeight = this.map.heightInPixels;
+    const screenWidth = this.cameras.main.worldView.width;
+    const screenHeight = this.cameras.main.worldView.height;
+    const worldViewX = this.cameras.main.worldView.x;
+    const worldViewY = this.cameras.main.worldView.y;
+    const offsetX = Math.max(0, (screenWidth - mapWidth) / 2);
+    const offsetY = Math.max(0, (screenHeight - mapHeight) / 2);
+
+    const relativeX =
+      (this.currentPlayer.x - worldViewX + offsetX) / screenWidth;
+    const relativeY =
+      (this.currentPlayer.y - worldViewY + offsetY) / screenHeight;
+
+    // set light sources
+    nightShaderPipeline.lightSources = [{ x: relativeX, y: relativeY }];
+  };
+
   preload() {
     if (this.options.map?.json) {
       const json = {
@@ -195,6 +294,8 @@ export abstract class BaseScene extends Phaser.Scene {
     try {
       this.initialiseMap();
       this.initialiseSounds();
+
+      this.initializeShaders();
 
       // set audio mute state and listen for changes
       this.sound.mute = getAudioMutedSetting();
@@ -742,6 +843,7 @@ export abstract class BaseScene extends Phaser.Scene {
     this.switchScene();
     this.updatePlayer();
     this.updateOtherPlayers();
+    this.updateShaders();
     this.updateUsernames();
     this.updateFactions();
   }

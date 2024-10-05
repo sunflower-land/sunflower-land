@@ -25,9 +25,7 @@ export const PortalExampleHUD: React.FC = () => {
         <Balances
           sfl={portalState.context.state.balance}
           coins={portalState.context.state.coins}
-          blockBucks={
-            portalState.context.state.inventory["Block Buck"] ?? new Decimal(0)
-          }
+          gems={portalState.context.state.inventory["Gem"] ?? new Decimal(0)}
         />
         <Inventory
           state={portalState.context.state}

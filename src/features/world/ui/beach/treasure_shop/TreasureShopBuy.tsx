@@ -33,7 +33,6 @@ import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuff
 import lightning from "assets/icons/lightning.png";
 import { getToolPrice } from "features/game/events/landExpansion/craftTool";
 import { Keys } from "features/game/types/game";
-import { hasFeatureAccess } from "lib/flags";
 import { isMobile } from "mobile-device-detect";
 
 interface ToolContentProps {
@@ -250,10 +249,10 @@ const WearableContent: React.FC<WearableContentProps> = ({
       name: selectedName,
     });
 
-    if (selected.ingredients["Block Buck"]) {
+    if (selected.ingredients["Gem"]) {
       gameAnalytics.trackSink({
-        currency: "Block Buck",
-        amount: selected.ingredients["Block Buck"].toNumber() ?? 1,
+        currency: "Gem",
+        amount: selected.ingredients["Gem"].toNumber() ?? 1,
         item: selectedName,
         type: "Wearable",
       });
@@ -462,27 +461,23 @@ export const TreasureShopBuy: React.FC<Props> = ({ onClose }) => {
               );
             })}
           </div>
-          {hasFeatureAccess(state, "TREASURE_UPDATES") && (
-            <>
-              <Label type="default">{t("keys")}</Label>
-              <div className="flex flex-wrap mb-2">
-                {unlimitedKeys.map((name) => {
-                  return (
-                    <Box
-                      isSelected={selectedName === name}
-                      key={name}
-                      alternateIcon={
-                        COLLECTIBLE_BUFF_LABELS[name] ? lightning : undefined
-                      }
-                      onClick={() => setSelectedName(name)}
-                      count={inventory[name]}
-                      image={ITEM_DETAILS[name].image}
-                    />
-                  );
-                })}
-              </div>
-            </>
-          )}
+          <Label type="default">{t("keys")}</Label>
+          <div className="flex flex-wrap mb-2">
+            {unlimitedKeys.map((name) => {
+              return (
+                <Box
+                  isSelected={selectedName === name}
+                  key={name}
+                  alternateIcon={
+                    COLLECTIBLE_BUFF_LABELS[name] ? lightning : undefined
+                  }
+                  onClick={() => setSelectedName(name)}
+                  count={inventory[name]}
+                  image={ITEM_DETAILS[name].image}
+                />
+              );
+            })}
+          </div>
         </div>
       }
     />

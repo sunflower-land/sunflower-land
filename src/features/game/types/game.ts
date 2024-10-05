@@ -75,6 +75,8 @@ import { Rewards } from "./rewards";
 import { ExperimentName } from "lib/flags";
 import { CollectionName, MarketplaceTradeableName } from "./marketplace";
 import { GameTransaction } from "./transactions";
+import { CompetitionName, CompetitionProgress } from "./competitions";
+import { AnimalType } from "./animals";
 
 export type Reward = {
   coins?: number;
@@ -181,6 +183,8 @@ export type MutantChicken =
   | "Knight Chicken"
   | "Pharaoh Chicken";
 
+export const BB_TO_GEM_RATIO = 20;
+
 export type Coupons =
   | "Gold Pass"
   | "Trading Ticket"
@@ -191,6 +195,7 @@ export type Coupons =
   | "Red Envelope"
   | "Love Letter"
   | "Block Buck"
+  | "Gem"
   | "Sunflower Supporter"
   | "Potion Ticket"
   | "Bud Ticket"
@@ -208,6 +213,9 @@ export type Coupons =
 export type Keys = "Treasure Key" | "Rare Key" | "Luxury Key";
 
 export const COUPONS: Record<Coupons, { description: string }> = {
+  Gem: {
+    description: translate("description.gem"),
+  },
   "Gold Pass": {
     description: translate("description.gold.pass"),
   },
@@ -328,14 +336,16 @@ export type FactionBanner =
 
 export type GoldenCropEventItem = "Golden Crop";
 
+export type Skills = Partial<
+  Record<BumpkinSkillName, number> & Record<BumpkinRevampSkillName, number>
+>;
+
 export type Bumpkin = {
   id: number;
   equipped: BumpkinParts;
   tokenUri: string;
   experience: number;
-  skills: Partial<
-    Record<BumpkinSkillName, number> & Record<BumpkinRevampSkillName, number>
-  >;
+  skills: Skills;
   achievements?: Partial<Record<AchievementName, number>>;
   activity: Partial<Record<BumpkinActivityName, number>>;
   previousSkillsResetAt?: number;
@@ -967,7 +977,7 @@ export type Christmas = {
 
 export type Currency =
   | "SFL"
-  | "Block Buck"
+  | "Gem"
   | "Crimstone"
   | "Sunstone"
   | "Seasonal Ticket"
@@ -1134,10 +1144,33 @@ type KeysBoughtAt = Partial<Record<Keys, { boughtAt: number }>>;
 type Stores = "factionShop" | "treasureShop" | "megastore";
 export type KeysBought = Record<Stores, KeysBoughtAt>;
 
+export type AnimalBuildingKey = "henHouse" | "barn";
+
+export type AnimalState = {
+  id: string;
+  type: AnimalType;
+  state: "idle";
+  createdAt: number;
+  coordinates: Coordinates;
+};
+
+export type AnimalBuilding = {
+  level: number;
+  animals: Record<string, AnimalState>;
+};
+
 export interface GameState {
   home: Home;
 
   rewards: Rewards;
+
+  competitions: {
+    progress: Partial<Record<CompetitionName, CompetitionProgress>>;
+  };
+
+  shipments: {
+    restockedAt?: number;
+  };
 
   // There are more fields but unused
   transaction?: GameTransaction;
@@ -1295,6 +1328,8 @@ export interface GameState {
   desert: Desert;
 
   experiments: ExperimentName[];
+  henHouse?: AnimalBuilding;
+  barn?: AnimalBuilding;
 }
 
 export interface Context {

@@ -15,7 +15,6 @@ import {
 import { SplitScreenView } from "components/ui/SplitScreenView";
 import { CraftingRequirements } from "components/ui/layouts/CraftingRequirements";
 import { SUNNYSIDE } from "assets/sunnyside";
-import worldIcon from "assets/icons/world_small.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { getSeasonalTicket } from "features/game/types/seasons";
@@ -76,18 +75,6 @@ export const IslandBlacksmithItems: React.FC = () => {
     gameAnalytics.trackMilestone({
       event: `Crafting:Collectible:${selectedName}${count}`,
     });
-
-    if ((selectedItem?.ingredients ?? {})["Block Buck"]) {
-      gameAnalytics.trackSink({
-        currency: "Block Buck",
-        amount:
-          (
-            selectedItem?.ingredients["Block Buck"] ?? new Decimal(0)
-          ).toNumber() ?? 1,
-        item: selectedName,
-        type: "Collectible",
-      });
-    }
 
     if ((selectedItem?.ingredients ?? {})[getSeasonalTicket()]) {
       gameAnalytics.trackSink({
@@ -161,12 +148,6 @@ export const IslandBlacksmithItems: React.FC = () => {
                 />
               );
             })}
-          </div>
-          <div className="flex mt-2 mb-1">
-            <img src={worldIcon} className="h-5 mr-2" />
-            <p className="font-secondary text-[20px] leading-[14px]">
-              {t("statements.blacksmith.plaza")}
-            </p>
           </div>
         </div>
       }

@@ -20,34 +20,38 @@ import {
   getChestItems,
 } from "features/island/hud/components/inventory/utils/inventory";
 import { NumberInput } from "components/ui/NumberInput";
-import { TradeableSummary } from "./TradeableOffers";
 import { GameWallet } from "features/wallet/Wallet";
-import { Loading } from "features/auth/components";
 import { CONFIG } from "lib/config";
-import { waitFor } from "xstate/lib/waitFor";
-import confetti from "canvas-confetti";
 import { formatNumber } from "lib/utils/formatNumber";
 import { availableWardrobe } from "features/game/events/landExpansion/equip";
 import { InventoryItemName } from "features/game/types/game";
 import { BumpkinItem } from "features/game/types/bumpkin";
+import { TradeableSummary } from "./TradeableSummary";
 
-export const TradeableListItem: React.FC<{
+type TradeableListItemProps = {
+  authToken: string;
   tradeable?: TradeableDetails;
   farmId: number;
   display: TradeableDisplay;
   id: number;
   onClose: () => void;
-  onListingMade: () => void;
-}> = ({ tradeable, farmId, display, id, onClose, onListingMade }) => {
+};
+
+export const TradeableListItem: React.FC<TradeableListItemProps> = ({
+  authToken,
+  tradeable,
+  farmId,
+  display,
+  id,
+  onClose,
+}) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
   const { t } = useAppTranslation();
 
   const [isSigning, setIsSigning] = useState(false);
   const [showConfirmation, setShowConfirmation] = useState(false);
-  const [showSuccess, setShowSuccess] = useState(false);
   const [showItemInUseWarning, setShowItemInUseWarning] = useState(false);
-  const [isListing, setIsListing] = useState(false);
   const [price, setPrice] = useState(0);
 
   const { state } = gameState.context;
@@ -101,47 +105,26 @@ export const TradeableListItem: React.FC<{
   };
 
   const confirm = async ({ signature }: { signature?: string }) => {
-    setIsListing(true);
+    gameService.send("marketplace.listed", {
+      effect: {
+        type: "marketplace.listed",
+        itemId: id,
+        collection: display.type,
+        sfl: price,
+        signature,
+        quantity,
+        contract: CONFIG.MARKETPLACE_CONTRACT,
+      },
+      authToken,
+    });
 
-    try {
-      gameService.send("POST_EFFECT", {
-        effect: {
-          type: "marketplace.listed",
-          itemId: id,
-          collection: display.type,
-          sfl: price,
-          signature,
-          quantity,
-          contract: CONFIG.MARKETPLACE_CONTRACT,
-        },
-      });
-
-      await waitFor(
-        gameService,
-        (state) => {
-          if (state.matches("error")) throw new Error("Insert failed");
-          return state.matches("playing");
-        },
-        { timeout: 60 * 1000 },
-      );
-    } finally {
-      setIsListing(false);
-    }
-
-    confetti();
-    setShowSuccess(true);
+    onClose();
   };
 
   const sign = async () => {
     const signature = await signTypedData(config, {
       primaryType: "Listing",
       types: {
-        EIP712Domain: [
-          { name: "name", type: "string" },
-          { name: "version", type: "string" },
-          { name: "chainId", type: "uint256" },
-          { name: "verifyingContract", type: "address" },
-        ],
         Listing: [
           { name: "farmId", type: "uint256" },
           { name: "collection", type: "string" },
@@ -150,20 +133,26 @@ export const TradeableListItem: React.FC<{
           { name: "quantity", type: "uint256" },
           { name: "SFL", type: "uint256" },
         ],
+        EIP712Domain: [
+          { name: "name", type: "string" },
+          { name: "version", type: "string" },
+          { name: "chainId", type: "uint256" },
+          { name: "verifyingContract", type: "address" },
+        ],
+      },
+      message: {
+        farmId: BigInt(gameState.context.nftId as number),
+        collection: display.type,
+        itemId: BigInt(id),
+        item: display.name,
+        quantity: BigInt(quantity),
+        SFL: BigInt(price),
       },
       domain: {
         name: "TESTING",
         version: "1",
         chainId: BigInt(CONFIG.POLYGON_CHAIN_ID),
         verifyingContract: CONFIG.MARKETPLACE_CONTRACT as `0x${string}`,
-      },
-      message: {
-        farmId: BigInt(farmId),
-        collection: display.type,
-        itemId: BigInt(id),
-        item: display.name,
-        quantity: BigInt(quantity),
-        SFL: BigInt(price),
       },
     });
 
@@ -185,31 +174,6 @@ export const TradeableListItem: React.FC<{
       </div>
     );
   }
-
-  if (showSuccess) {
-    return (
-      <>
-        <div className="p-2">
-          <Label type="success" className="mb-2">
-            {t("success")}
-          </Label>
-          <p className="text-sm mb-2">
-            {t("marketplace.listedSuccess", { item: display.name })}
-          </p>
-        </div>
-        <Button
-          onClick={() => {
-            onListingMade();
-            onClose();
-          }}
-        >
-          {t("continue")}
-        </Button>
-      </>
-    );
-  }
-
-  if (isListing) return <Loading />;
 
   if (showConfirmation) {
     return (

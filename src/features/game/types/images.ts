@@ -16,10 +16,17 @@ import oliveSeed from "assets/greenhouse/olive_seed.webp";
 import rice from "assets/greenhouse/rice.webp";
 import riceSeed from "assets/greenhouse/rice_seed.webp";
 
+import gem from "assets/icons/gem.webp";
+
 import communityEgg from "assets/sfts/easter_donation_egg.webp";
 import hungryHare from "assets/sfts/hungryHare.png";
 
 // NFTs
+import marty from "assets/sfts/morchi_marty.webp";
+import miffy from "assets/sfts/morchi_miffy.webp";
+import mog from "assets/sfts/morchi_mog.webp";
+import morty from "assets/sfts/morchi_morty.webp";
+
 import grinxsHammer from "assets/sfts/grinx_hammer.png";
 import chickenCoop from "assets/sfts/chicken_coop.png";
 import christmasTree from "assets/sfts/christmas_tree.png";
@@ -804,6 +811,10 @@ export const ITEM_DETAILS: Items = {
     image: CROP_LIFECYCLE.Soybean.crop,
     description: CROPS.Soybean.description,
   },
+  Barley: {
+    image: CROP_LIFECYCLE.Barley.crop,
+    description: translate("description.barley"),
+  },
   "Sunflower Seed": {
     image: CROP_LIFECYCLE.Sunflower.seed,
     secondaryImage: CROP_LIFECYCLE.Sunflower.crop,
@@ -863,6 +874,10 @@ export const ITEM_DETAILS: Items = {
     image: CROP_LIFECYCLE.Wheat.seed,
     secondaryImage: CROP_LIFECYCLE.Wheat.crop,
     description: CROP_SEEDS["Wheat Seed"].description,
+  },
+  "Barley Seed": {
+    image: CROP_LIFECYCLE.Barley.seed,
+    description: translate("description.barley"),
   },
   "Magic Bean": {
     image: SUNNYSIDE.crops.magicBean,
@@ -1715,6 +1730,10 @@ export const ITEM_DETAILS: Items = {
   "Hen House": {
     image: SUNNYSIDE.building.chickenHouse,
     description: translate("description.hen.house"),
+  },
+  Barn: {
+    image: SUNNYSIDE.building.barn,
+    description: translate("description.barn"),
   },
   Deli: {
     image: SUNNYSIDE.building.deli,
@@ -4080,5 +4099,25 @@ export const ITEM_DETAILS: Items = {
   "Lamp Back": {
     image: lampBack,
     description: "",
+  },
+  Gem: {
+    image: gem,
+    description: translate("description.gem"),
+  },
+  Marty: {
+    image: marty,
+    description: translate("description.marty"),
+  },
+  Mog: {
+    image: mog,
+    description: translate("description.mog"),
+  },
+  Miffy: {
+    image: miffy,
+    description: translate("description.miffy"),
+  },
+  Morty: {
+    image: morty,
+    description: translate("description.morty"),
   },
 };

@@ -1,8 +1,7 @@
 import Decimal from "decimal.js-light";
 import { STONE_RECOVERY_TIME } from "features/game/lib/constants";
 import { trackActivity } from "features/game/types/bumpkinActivity";
-import { BumpkinSkillName } from "features/game/types/bumpkinSkills";
-import { GameState, Rock } from "../../types/game";
+import { GameState, Rock, Skills } from "../../types/game";
 import { isCollectibleActive } from "features/game/lib/collectibleBuilt";
 import { produce } from "immer";
 
@@ -18,7 +17,7 @@ type Options = {
 };
 
 type GetMinedAtArgs = {
-  skills: Partial<Record<BumpkinSkillName, number>>;
+  skills: Skills;
   createdAt: number;
   game: GameState;
 };
@@ -39,6 +38,10 @@ export function getMinedAt({
   let totalSeconds = STONE_RECOVERY_TIME;
 
   if (skills["Coal Face"]) {
+    totalSeconds = totalSeconds * 0.8;
+  }
+
+  if (skills["Speed Miner"]) {
     totalSeconds = totalSeconds * 0.8;
   }
 

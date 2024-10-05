@@ -7,7 +7,7 @@ import { getTimeLeft } from "lib/utils/time";
 import { loadAudio, miningFallAudio } from "lib/utils/sfx";
 import { InventoryItemName, Rock } from "features/game/types/game";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
-import { useSelector } from "@xstate/react";
+import { useActor, useSelector } from "@xstate/react";
 import { MachineState } from "features/game/lib/gameMachine";
 import Decimal from "decimal.js-light";
 import { DepletedIron } from "./components/DepletedIron";
@@ -45,6 +45,11 @@ export const Iron: React.FC<Props> = ({ id, index }) => {
   // When to hide the resource that pops out
   const [collecting, setCollecting] = useState(false);
   const [collectedAmount, setCollectedAmount] = useState<number>();
+  const [
+    {
+      context: { state },
+    },
+  ] = useActor(gameService);
 
   const divRef = useRef<HTMLDivElement>(null);
 
@@ -87,9 +92,14 @@ export const Iron: React.FC<Props> = ({ id, index }) => {
   const strike = () => {
     if (!hasTool) return;
 
-    setTouchCount((count) => count + 1);
     shortcutItem(tool);
 
+    if (state.bumpkin.skills["Tap Prospector"]) {
+      // insta-mine the mineral
+      return mine();
+    }
+
+    setTouchCount((count) => count + 1);
     // need to hit enough times to collect resource
     if (touchCount < HITS - 1) return;
 

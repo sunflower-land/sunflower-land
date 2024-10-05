@@ -122,10 +122,18 @@ const NextDrop: React.FC<{ auctions: AuctionItems }> = ({ auctions }) => {
           <Label className="-ml-1 mb-1" type="default">
             {t("season.codex.nextDrop")}
           </Label>
-          <Label
-            type="formula"
-            className=" mb-1"
-          >{`${nextDrop.supply} available`}</Label>
+          {getKeys(nextDrop.ingredients).map((name) => (
+            <Label
+              type="formula"
+              icon={nextDrop.sfl > 0 ? sfl : ITEM_DETAILS[name].image}
+              className="mb-1"
+              key={name}
+            >
+              {t("season.codex.nextDrop.available", {
+                dropSupply: nextDrop.supply,
+              })}
+            </Label>
+          ))}
         </div>
         <div className="flex justify-between items-start">
           <div className="flex w-full">
@@ -133,7 +141,7 @@ const NextDrop: React.FC<{ auctions: AuctionItems }> = ({ auctions }) => {
               <img src={image} className="h-full mx-auto" />
             </div>
             <div className="flex justify-between flex-1 flex-wrap">
-              <div>
+              <div className="mb-1">
                 <p className="text-sm mb-1">
                   {nextDrop.type === "collectible"
                     ? nextDrop.collectible
@@ -141,18 +149,49 @@ const NextDrop: React.FC<{ auctions: AuctionItems }> = ({ auctions }) => {
                 </p>
                 {buffLabel ? (
                   <div className="flex">
-                    <img src={lightning} className="h-4 mr-0.5" />
-                    <p className="text-xs">{buffLabel.shortDescription}</p>
+                    {isMobile ? (
+                      <Label
+                        type="vibrant"
+                        icon={lightning}
+                        style={{
+                          marginLeft: "4px",
+                        }}
+                      >
+                        {nextDrop.type === "collectible"
+                          ? t("collectible")
+                          : t("wearable")}
+                      </Label>
+                    ) : (
+                      <Label
+                        type={buffLabel.labelType}
+                        icon={buffLabel.boostTypeIcon}
+                        secondaryIcon={buffLabel.boostedItemIcon}
+                        style={{
+                          marginLeft: "4px",
+                        }}
+                      >
+                        {buffLabel.shortDescription}
+                      </Label>
+                    )}
                   </div>
                 ) : (
                   <div className="flex">
-                    <img src={SUNNYSIDE.icons.heart} className="h-4 mr-0.5" />
-                    <p className="text-xs">{t("collectibles")}</p>
+                    <Label
+                      type="default"
+                      icon={SUNNYSIDE.icons.heart}
+                      style={{
+                        marginLeft: "7px",
+                      }}
+                    >
+                      {nextDrop.type === "collectible"
+                        ? t("decoration")
+                        : t("cosmetic")}
+                    </Label>
                   </div>
                 )}
               </div>
-              <div className="flex flex-col items-end">
-                <TimerDisplay fontSize={10} time={starts} />
+              <div className="flex flex-col text-center mt-0.5 text-base">
+                <TimerDisplay time={starts} />
                 <span className="text-xs">
                   {new Date(nextDrop.startAt).toLocaleString().slice(0, -3)}
                 </span>
@@ -239,7 +278,11 @@ const Drops: React.FC<{
                   </div>
 
                   {drop.startAt > Date.now() ? (
-                    <Label type="formula">{`${drop.supply} available`}</Label>
+                    <Label type="formula">
+                      {t("season.codex.nextDrop.available", {
+                        dropSupply: drop.supply,
+                      })}
+                    </Label>
                   ) : (
                     <Label type="danger">{t("statements.soldOut")}</Label>
                   )}

@@ -6,6 +6,8 @@ import {
   Inventory,
   ExpansionConstruction,
   PlacedItem,
+  BB_TO_GEM_RATIO,
+  InventoryItemName,
 } from "../types/game";
 import { getKeys } from "../types/craftables";
 import { BumpkinParts, tokenUriBuilder } from "lib/utils/tokenUriBuilder";
@@ -52,7 +54,52 @@ export const makeMegaStoreAvailableDates = () => {
 export function isBuildingReady(building: PlacedItem[]) {
   return building.some((b) => b.readyAt <= Date.now());
 }
-export const INITIAL_STOCK = (state?: GameState): Inventory => {
+
+export type StockableName = Extract<
+  InventoryItemName,
+  | "Axe"
+  | "Pickaxe"
+  | "Stone Pickaxe"
+  | "Iron Pickaxe"
+  | "Gold Pickaxe"
+  | "Oil Drill"
+  | "Rod"
+  | "Sunflower Seed"
+  | "Potato Seed"
+  | "Pumpkin Seed"
+  | "Carrot Seed"
+  | "Cabbage Seed"
+  | "Soybean Seed"
+  | "Beetroot Seed"
+  | "Cauliflower Seed"
+  | "Parsnip Seed"
+  | "Eggplant Seed"
+  | "Corn Seed"
+  | "Radish Seed"
+  | "Wheat Seed"
+  | "Kale Seed"
+  | "Grape Seed"
+  | "Olive Seed"
+  | "Rice Seed"
+  | "Tomato Seed"
+  | "Blueberry Seed"
+  | "Orange Seed"
+  | "Apple Seed"
+  | "Banana Plant"
+  | "Lemon Seed"
+  | "Sunpetal Seed"
+  | "Bloom Seed"
+  | "Lily Seed"
+  | "Sand Shovel"
+  | "Sand Drill"
+  | "Chicken"
+  | "Magic Bean"
+  | "Immortal Pear"
+>;
+
+export const INITIAL_STOCK = (
+  state?: GameState,
+): Record<StockableName, Decimal> => {
   const tools = {
     Axe: new Decimal(200),
     Pickaxe: new Decimal(60),
@@ -65,16 +112,21 @@ export const INITIAL_STOCK = (state?: GameState): Inventory => {
 
   // increase in 50% tool stock if you have a toolshed
   if (state?.buildings.Toolshed && isBuildingReady(state.buildings.Toolshed)) {
-    for (const tool in tools) {
-      tools[tool as keyof typeof tools] = new Decimal(
-        Math.ceil(tools[tool as keyof typeof tools].toNumber() * 1.5),
-      );
-    }
+    getKeys(tools).forEach(
+      (tool) =>
+        (tools[tool] = new Decimal(Math.ceil(tools[tool].mul(1.5).toNumber()))),
+    );
   }
 
   // increase Axe stock by 20% if player has More Axes skill
   if (state?.bumpkin?.skills["More Axes"]) {
     tools.Axe = new Decimal(Math.ceil(tools.Axe.toNumber() * 1.2));
+  }
+
+  if (state?.bumpkin?.skills["More Picks"]) {
+    tools.Pickaxe = tools.Pickaxe.add(new Decimal(70));
+    tools["Stone Pickaxe"] = tools["Stone Pickaxe"].add(new Decimal(20));
+    tools["Iron Pickaxe"] = tools["Iron Pickaxe"].add(new Decimal(7));
   }
 
   const seeds: Record<SeedName, Decimal> = {
@@ -92,6 +144,7 @@ export const INITIAL_STOCK = (state?: GameState): Inventory => {
     "Radish Seed": new Decimal(40),
     "Wheat Seed": new Decimal(40),
     "Kale Seed": new Decimal(30),
+    "Barley Seed": new Decimal(30),
 
     "Grape Seed": new Decimal(10),
     "Olive Seed": new Decimal(10),
@@ -114,11 +167,10 @@ export const INITIAL_STOCK = (state?: GameState): Inventory => {
     isBuildingReady(state.buildings.Warehouse)
   ) {
     // Multiply each seed quantity by 1.2 and round up
-    for (const seed in seeds) {
-      seeds[seed as keyof typeof seeds] = new Decimal(
-        Math.ceil(seeds[seed as keyof typeof seeds].toNumber() * 1.2),
-      );
-    }
+    getKeys(seeds).forEach(
+      (seed) =>
+        (seeds[seed] = new Decimal(Math.ceil(seeds[seed].mul(1.2).toNumber()))),
+    );
   }
 
   return {
@@ -127,12 +179,9 @@ export const INITIAL_STOCK = (state?: GameState): Inventory => {
     // Seeds
     ...seeds,
 
-    Shovel: new Decimal(1),
-    "Rusty Shovel": new Decimal(100),
     "Sand Shovel": new Decimal(50),
     "Sand Drill": new Decimal(10),
     Chicken: new Decimal(5),
-
     "Magic Bean": new Decimal(5),
     "Immortal Pear": new Decimal(1),
   };
@@ -154,6 +203,7 @@ export const INVENTORY_LIMIT = (state?: GameState): Inventory => {
     "Radish Seed": new Decimal(100),
     "Wheat Seed": new Decimal(100),
     "Kale Seed": new Decimal(80),
+    "Barley Seed": new Decimal(80),
 
     "Tomato Seed": new Decimal(50),
     "Lemon Seed": new Decimal(45),
@@ -341,6 +391,11 @@ export const INITIAL_FARM: GameState = {
   balance: new Decimal(0),
   previousBalance: new Decimal(0),
   inventory: {
+    Marty: new Decimal(2),
+    Miffy: new Decimal(2),
+    Morty: new Decimal(2),
+    Mog: new Decimal(2),
+    "Lifetime Farmer Banner": new Decimal(1),
     "Town Center": new Decimal(1),
     Market: new Decimal(1),
     Workbench: new Decimal(1),
@@ -349,7 +404,7 @@ export const INITIAL_FARM: GameState = {
     Tree: new Decimal(getKeys(INITIAL_RESOURCES.trees).length),
     "Stone Rock": new Decimal(getKeys(INITIAL_RESOURCES.stones).length),
     Axe: new Decimal(10),
-    "Block Buck": new Decimal(1),
+    Gem: new Decimal(1 * BB_TO_GEM_RATIO),
     Rug: new Decimal(1),
     Wardrobe: new Decimal(1),
     Shovel: new Decimal(1),
@@ -357,6 +412,12 @@ export const INITIAL_FARM: GameState = {
   previousInventory: {},
   wardrobe: {},
   previousWardrobe: {},
+
+  competitions: {
+    progress: {},
+  },
+
+  shipments: {},
 
   bumpkin: INITIAL_BUMPKIN,
 
@@ -421,7 +482,7 @@ export const INITIAL_FARM: GameState = {
 
   createdAt: new Date().getTime(),
 
-  experiments: ["ONBOARDING_CHALLENGES"],
+  experiments: ["GEM_BOOSTS"],
 
   ...INITIAL_RESOURCES,
 
@@ -581,6 +642,10 @@ export const TEST_FARM: GameState = {
   minigames: {
     games: {},
     prizes: {},
+  },
+  shipments: {},
+  competitions: {
+    progress: {},
   },
   kingdomChores: {
     chores: [],
@@ -876,6 +941,7 @@ export const EMPTY: GameState = {
     games: {},
     prizes: {},
   },
+  shipments: {},
   previousInventory: {},
   chickens: {},
   stock: {},
@@ -885,6 +951,9 @@ export const EMPTY: GameState = {
   conversations: [],
   farmHands: {
     bumpkins: {},
+  },
+  competitions: {
+    progress: {},
   },
   kingdomChores: {
     chores: [],

@@ -23,6 +23,7 @@ export function makeGame(farm: any): GameState {
     ),
     wardrobe: farm.wardrobe,
     previousWardrobe: farm.previousWardrobe,
+    competitions: farm.competitions,
     stock: Object.keys(farm.stock).reduce(
       (items, item) => ({
         ...items,
@@ -47,6 +48,8 @@ export function makeGame(farm: any): GameState {
     expansionConstruction: farm.expansionConstruction,
     expandedAt: farm.expandedAt,
     greenhouse: farm.greenhouse,
+
+    shipments: farm.shipments,
 
     bumpkin: farm.bumpkin,
     buildings: farm.buildings,

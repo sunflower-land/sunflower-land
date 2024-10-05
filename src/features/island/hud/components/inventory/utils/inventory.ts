@@ -19,7 +19,7 @@ const PLACEABLE_DIMENSIONS = {
   ...RESOURCE_DIMENSIONS,
 };
 
-export const getListedItems = (
+export const getActiveListedItems = (
   state: GameState,
 ): Record<MarketplaceTradeableName, number> => {
   if (!state.trades.listings)
@@ -27,6 +27,8 @@ export const getListedItems = (
 
   return Object.values(state.trades.listings).reduce(
     (acc, listing) => {
+      if (listing.boughtAt && listing.buyerId) return acc;
+
       Object.entries(listing.items).forEach(([itemName, quantity]) => {
         const name = itemName as MarketplaceTradeableName;
 
@@ -62,18 +64,18 @@ export const getBasketItems = (inventory: Inventory) => {
 export const getChestBuds = (
   state: GameState,
 ): NonNullable<GameState["buds"]> => {
-  const listed = getListedItems(state);
+  const listed = getActiveListedItems(state);
 
   return Object.fromEntries(
     Object.entries(state.buds ?? {}).filter(
       ([id, bud]) =>
-        !bud.coordinates || !listed[`Bud #${id}` as MarketplaceTradeableName],
+        !bud.coordinates && !listed[`Bud #${id}` as MarketplaceTradeableName],
     ),
   );
 };
 
 export const getChestItems = (state: GameState) => {
-  const listedItems = getListedItems(state);
+  const listedItems = getActiveListedItems(state);
 
   const availableItems = getKeys(state.inventory).reduce((acc, itemName) => {
     if (itemName === "Tree") {

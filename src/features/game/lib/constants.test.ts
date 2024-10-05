@@ -49,6 +49,52 @@ describe("INITIAL_STOCK", () => {
     expect(INITIAL_STOCK(state).Rod).toEqual(new Decimal(75));
   });
 
+  it("increases stock of tools if More Picks skills is active", () => {
+    const state = {
+      ...TEST_FARM,
+      bumpkin: {
+        ...TEST_FARM.bumpkin,
+        skills: {
+          "More Picks": 1,
+        },
+      },
+    };
+
+    expect(INITIAL_STOCK(state).Pickaxe).toEqual(new Decimal(130));
+    expect(INITIAL_STOCK(state)["Stone Pickaxe"]).toEqual(new Decimal(40));
+    expect(INITIAL_STOCK(state)["Iron Pickaxe"]).toEqual(new Decimal(12));
+  });
+
+  it("increases stock of tools if Toolshed is placed and ready and More Picks skill is active", () => {
+    const state = {
+      ...TEST_FARM,
+      bumpkin: {
+        ...TEST_FARM.bumpkin,
+        skills: {
+          "More Picks": 1,
+        },
+      },
+      buildings: {
+        Toolshed: [
+          {
+            coordinates: { x: 0, y: 0 },
+            createdAt: 0,
+            readyAt: Date.now() - 1000,
+            id: "1",
+          },
+        ],
+      },
+    };
+
+    expect(INITIAL_STOCK(state).Axe).toEqual(new Decimal(300));
+    expect(INITIAL_STOCK(state).Pickaxe).toEqual(new Decimal(160));
+    expect(INITIAL_STOCK(state)["Stone Pickaxe"]).toEqual(new Decimal(50));
+    expect(INITIAL_STOCK(state)["Iron Pickaxe"]).toEqual(new Decimal(15));
+    expect(INITIAL_STOCK(state)["Gold Pickaxe"]).toEqual(new Decimal(8));
+    expect(INITIAL_STOCK(state)["Oil Drill"]).toEqual(new Decimal(8));
+    expect(INITIAL_STOCK(state).Rod).toEqual(new Decimal(75));
+  });
+
   it("does not increase stock of seeds if Warehouse is placed but NOT ready", () => {
     const state = {
       ...TEST_FARM,
