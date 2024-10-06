@@ -360,6 +360,8 @@ export type WarItems =
   | "Warrior Helmet"
   | "Warrior Pants";
 
+export type HalloweenItems = "Lamp Front" | "Lamp Side" | "Lamp Back";
+
 export type InventoryItemName =
   | CropName
   | CropSeedName
@@ -414,7 +416,8 @@ export type InventoryItemName =
   | WorkbenchToolName
   | FactionShopCollectibleName
   | FactionShopFoodName
-  | MutantFlowerName;
+  | MutantFlowerName
+  | HalloweenItems;
 
 export type Inventory = Partial<Record<InventoryItemName, Decimal>>;
 
@@ -916,6 +919,10 @@ export type MinigameHistory = {
   prizeClaimedAt?: number;
 };
 
+export type MinigameAchievement = {
+  unlockedAt: number;
+};
+
 export type Minigame = {
   highscore: number;
   purchases?: {
@@ -924,6 +931,7 @@ export type Minigame = {
     purchasedAt: number;
   }[];
   history: Record<string, MinigameHistory>;
+  achievements?: Record<string, MinigameAchievement>;
 };
 
 export type TradeListing = {

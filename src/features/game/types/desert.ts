@@ -129,7 +129,7 @@ export const DIGGING_FORMATIONS = {
     { x: 0, y: -1, name: "Stone" },
   ],
   PIRATE_BOUNTY: [{ x: 0, y: 0, name: "Pirate Bounty" }],
-} satisfies Record<string, DiggingFormation>;
+} as Record<string, DiggingFormation>;
 
 export const DAILY_ARTEFACT: Record<number, DiggingFormationName> = {
   0: "SUNDAY_ARTEFACT_FORMATION",

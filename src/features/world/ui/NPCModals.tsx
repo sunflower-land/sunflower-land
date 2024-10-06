@@ -26,6 +26,7 @@ import { KingdomChoresPanel } from "./factions/chores/KingdomChoresPanel";
 import { OuterPanel } from "components/ui/Panel";
 import { FactionKitchenPanel } from "./factions/FactionKitchenPanel";
 import { PortalNPCExample } from "features/portal/example/components/PortalNPCExample";
+import { HalloweenNPC } from "features/portal/halloween/components/npcs/HalloweenNPC";
 import { FlowerShop } from "./flowerShop/FlowerShop";
 import { FactionShop } from "./factionShop/FactionShop";
 import { FactionPetPanel } from "./factions/FactionPetPanel";
@@ -99,6 +100,7 @@ export const NPCModals: React.FC<Props> = ({ scene, id }) => {
             <ExampleDonations onClose={closeModal} />
           </CloseButtonPanel>
         )}
+        {npc === "portaller" && <HalloweenNPC onClose={closeModal} />}
         {npc === "portaller" && <PortalNPCExample onClose={closeModal} />}
         {npc === "poppy" && <FlowerShop onClose={closeModal} />}
         {npc === "frankie" && <DecorationShopItems onClose={closeModal} />}

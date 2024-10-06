@@ -13,6 +13,15 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { ITEM_IDS } from "features/game/types/bumpkin";
 import { CONFIG } from "lib/config";
 import { formatNumber } from "lib/utils/formatNumber";
+import { LampContainer } from "features/portal/halloween/containers/LampContainer";
+import {
+  ITEM_BUMPKIN,
+  MIN_PLAYER_LIGHT_RADIUS,
+  STEP_PLAYER_LIGHT_RADIUS,
+} from "features/portal/halloween/HalloweenConstants";
+import { BaseScene } from "../scenes/BaseScene";
+import { DarknessPipeline } from "features/portal/halloween/shaders/DarknessShader";
+import { MachineInterpreter } from "features/portal/halloween/lib/halloweenMachine";
 
 const NAME_ALIASES: Partial<Record<NPCName, string>> = {
   "pumpkin' pete": "pete",
@@ -48,6 +57,8 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
   // Animation Keys
   private idleSpriteKey: string | undefined;
   private walkingSpriteKey: string | undefined;
+  private carryingSpriteKey: string | undefined;
+  private carryingIdleSpriteKey: string | undefined;
   private idleAnimationKey: string | undefined;
   private walkingAnimationKey: string | undefined;
   private digAnimationKey: string | undefined;
@@ -56,7 +67,12 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
   private frontAuraKey: string | undefined;
   private frontAuraAnimationKey: string | undefined;
   private backAuraAnimationKey: string | undefined;
+  private carryingAnimationKey: string | undefined;
+  private carryingIdleAnimationKey: string | undefined;
   private direction: "left" | "right" = "right";
+
+  // Halloween
+  public lamp: LampContainer | null;
 
   constructor({
     scene,
@@ -87,6 +103,9 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
     this.silhouette = scene.add.sprite(0, 0, "silhouette");
     this.add(this.silhouette);
     this.sprite = this.silhouette;
+    this.lamp = null;
+
+    this.loadLamp();
 
     this.shadow = this.scene.add
       .sprite(0.5, 8, "shadow")
@@ -95,7 +114,7 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
 
     this.loadSprites(scene);
 
-    this.setSize(SQUARE_WIDTH, SQUARE_WIDTH);
+    this.setSize(SQUARE_WIDTH, SQUARE_WIDTH + 15);
 
     this.reaction = this.scene.add.group();
 
@@ -154,9 +173,13 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
     this.idleSpriteKey = `${keyName}-bumpkin-idle-sheet`;
     this.walkingSpriteKey = `${keyName}-bumpkin-walking-sheet`;
     this.idleAnimationKey = `${keyName}-bumpkin-idle`;
+    this.carryingSpriteKey = `${keyName}-bumpkin-carrying-sheet`;
+    this.carryingIdleSpriteKey = `${keyName}-bumpkin-carrying-idle-sheet`;
     this.walkingAnimationKey = `${keyName}-bumpkin-walking`;
     this.digAnimationKey = `${keyName}-bumpkin-dig`;
     this.drillAnimationKey = `${keyName}-bumpkin-drilling`;
+    this.carryingAnimationKey = `${keyName}-bumpkin-carrying`;
+    this.carryingIdleAnimationKey = `${keyName}-bumpkin-carrying-idle`;
 
     await buildNPCSheets({
       parts: this.clothing,
@@ -185,10 +208,10 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
 
       this.ready = true;
     } else {
-      const url = getAnimationUrl(this.clothing, "idle_small");
+      const url = getAnimationUrl(this.clothing, "idle");
       const idleLoader = scene.load.spritesheet(this.idleSpriteKey, url, {
-        frameWidth: 20,
-        frameHeight: 19,
+        frameWidth: 96,
+        frameHeight: 64,
       });
 
       idleLoader.once(Phaser.Loader.Events.COMPLETE, () => {
@@ -230,15 +253,55 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
     if (scene.textures.exists(this.walkingSpriteKey)) {
       this.createWalkingAnimation();
     } else {
-      const url = getAnimationUrl(this.clothing, "walking_small");
+      const url = getAnimationUrl(this.clothing, "walking");
       const walkingLoader = scene.load.spritesheet(this.walkingSpriteKey, url, {
-        frameWidth: 20,
-        frameHeight: 19,
+        frameWidth: 96,
+        frameHeight: 64,
       });
 
       walkingLoader.on(Phaser.Loader.Events.COMPLETE, () => {
         this.createWalkingAnimation();
         walkingLoader.removeAllListeners();
+      });
+    }
+
+    // Carry
+    if (scene.textures.exists(this.carryingSpriteKey)) {
+      this.createCarryingAnimation();
+    } else {
+      const url = getAnimationUrl(this.clothing, "carry_none");
+      const carryingLoader = scene.load.spritesheet(
+        this.carryingSpriteKey,
+        url,
+        {
+          frameWidth: 96,
+          frameHeight: 64,
+        },
+      );
+
+      carryingLoader.on(Phaser.Loader.Events.COMPLETE, () => {
+        this.createCarryingAnimation();
+        carryingLoader.removeAllListeners();
+      });
+    }
+
+    // Carry idle
+    if (scene.textures.exists(this.carryingIdleSpriteKey)) {
+      this.createCarryingIdleAnimation();
+    } else {
+      const url = getAnimationUrl(this.clothing, "carry_none_idle");
+      const carryingIdleLoader = scene.load.spritesheet(
+        this.carryingIdleSpriteKey,
+        url,
+        {
+          frameWidth: 96,
+          frameHeight: 64,
+        },
+      );
+
+      carryingIdleLoader.on(Phaser.Loader.Events.COMPLETE, () => {
+        this.createCarryingIdleAnimation();
+        carryingIdleLoader.removeAllListeners();
       });
     }
 
@@ -360,6 +423,40 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
       key: this.walkingAnimationKey,
       frames: this.scene.anims.generateFrameNumbers(
         this.walkingSpriteKey as string,
+        {
+          start: 0,
+          end: 7,
+        },
+      ),
+      repeat: -1,
+      frameRate: 10,
+    });
+  }
+
+  private createCarryingAnimation() {
+    if (!this.scene || !this.scene.anims) return;
+
+    this.scene.anims.create({
+      key: this.carryingAnimationKey,
+      frames: this.scene.anims.generateFrameNumbers(
+        this.carryingSpriteKey as string,
+        {
+          start: 0,
+          end: 7,
+        },
+      ),
+      repeat: -1,
+      frameRate: 10,
+    });
+  }
+
+  private createCarryingIdleAnimation() {
+    if (!this.scene || !this.scene.anims) return;
+
+    this.scene.anims.create({
+      key: this.carryingIdleAnimationKey,
+      frames: this.scene.anims.generateFrameNumbers(
+        this.carryingIdleSpriteKey as string,
         {
           start: 0,
           end: 7,
@@ -895,5 +992,88 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
         }
       },
     );
+  }
+
+  // Halloween
+  public carry() {
+    if (
+      this.sprite?.anims &&
+      this.scene?.anims.exists(this.carryingAnimationKey as string) &&
+      this.sprite?.anims.getName() !== this.carryingAnimationKey
+    ) {
+      try {
+        this.sprite.anims.play(this.carryingAnimationKey as string, true);
+      } catch (e) {
+        // eslint-disable-next-line no-console
+        console.log("Bumpkin Container: Error playing carry animation: ", e);
+      }
+    }
+  }
+
+  public carryIdle() {
+    if (
+      this.sprite?.anims &&
+      this.scene?.anims.exists(this.carryingIdleAnimationKey as string) &&
+      this.sprite?.anims.getName() !== this.carryingIdleAnimationKey
+    ) {
+      try {
+        this.sprite.anims.play(this.carryingIdleAnimationKey as string, true);
+      } catch (e) {
+        // eslint-disable-next-line no-console
+        console.log(
+          "Bumpkin Container: Error playing carry idle animation: ",
+          e,
+        );
+      }
+    }
+  }
+
+  public lampVisibility(value: boolean) {
+    this.lamp?.setVisible(value);
+  }
+
+  private loadLamp() {
+    this.lamp = new LampContainer({
+      x: ITEM_BUMPKIN.x,
+      y: ITEM_BUMPKIN.y,
+      scene: this.scene as BaseScene,
+    });
+    this.lamp.setVisible(false);
+    this.add(this.lamp);
+  }
+
+  private get portalService() {
+    return this.scene.registry.get("portalService") as
+      | MachineInterpreter
+      | undefined;
+  }
+
+  public updateLightRadius() {
+    const darknessPipeline = this.scene.cameras.main.getPostPipeline(
+      "DarknessPipeline",
+    ) as DarknessPipeline;
+
+    const finalStep =
+      MIN_PLAYER_LIGHT_RADIUS +
+      STEP_PLAYER_LIGHT_RADIUS * (this.portalService?.state.context.lamps || 0);
+
+    if (finalStep != darknessPipeline.lightRadius[0]) {
+      const step = (finalStep - darknessPipeline.lightRadius[0]) / 10;
+
+      const animationRadius = setInterval(() => {
+        darknessPipeline.lightRadius[0] += step;
+        if (step > 0) {
+          if (darknessPipeline.lightRadius[0] >= finalStep) {
+            darknessPipeline.lightRadius[0] = finalStep;
+            clearInterval(animationRadius);
+          }
+        } else if (step < 0) {
+          if (darknessPipeline.lightRadius[0] <= finalStep) {
+            darknessPipeline.lightRadius[0] = finalStep;
+            clearInterval(animationRadius);
+          }
+        }
+      }, 100);
+    }
   }
 }

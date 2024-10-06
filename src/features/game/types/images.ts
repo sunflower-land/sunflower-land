@@ -697,6 +697,11 @@ import macaw from "assets/sfts/macaw.webp";
 import butterfly from "assets/sfts/butterfly.webp";
 import squirrel from "assets/sfts/squirrel.webp";
 
+// Halloween
+import lampFront from "assets/halloween/lamp_front.gif";
+import lampSide from "assets/halloween/lamp_side.gif";
+import lampBack from "assets/halloween/lamp_back.gif";
+
 import { COUPONS, EASTER_EGG, FERTILISERS, InventoryItemName } from "./game";
 
 import { CROPS, CROP_SEEDS, GREENHOUSE_CROPS, GREENHOUSE_SEEDS } from "./crops";
@@ -4081,6 +4086,18 @@ export const ITEM_DETAILS: Items = {
   },
   "Scarab Beetle": {
     image: scarabBeetle,
+    description: "",
+  },
+  "Lamp Front": {
+    image: lampFront,
+    description: "",
+  },
+  "Lamp Side": {
+    image: lampSide,
+    description: "",
+  },
+  "Lamp Back": {
+    image: lampBack,
     description: "",
   },
   Gem: {

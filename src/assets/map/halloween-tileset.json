@@ -1,0 +1,15 @@
+[
+  {
+    "columns": 15,
+    "firstgid": 1,
+    "image": "labirinto_tileset.png",
+    "imageheight": 32,
+    "imagewidth": 480,
+    "margin": 0,
+    "name": "Sunnyside V3",
+    "spacing": 0,
+    "tilecount": 15,
+    "tileheight": 32,
+    "tilewidth": 32
+  }
+]

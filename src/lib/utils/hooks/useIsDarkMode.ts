@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 
 const LOCAL_STORAGE_KEY = "settings.darkMode";
-const DARK_MODE_EVENT = "darkModeChanged";
+export const DARK_MODE_EVENT = "darkModeChanged";
 
 export function cacheDarkModeSetting(value: boolean) {
   localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(value));
