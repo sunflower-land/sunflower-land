@@ -12,6 +12,7 @@ import {
   LAMPS_CONFIGURATION,
 } from "./HalloweenConstants";
 import { LampContainer } from "./containers/LampContainer";
+import { EventObject } from "xstate";
 
 export const NPCS: NPCBumpkin[] = [
   {
@@ -74,7 +75,7 @@ export class HalloweenScene extends BaseScene {
 
     super.create();
 
-    this.initializeShaders();
+    this.initShaders();
 
     // Important to first save the player and then the lamps
     this.currentPlayer && this.lightedItems.push(this.currentPlayer);
@@ -83,12 +84,25 @@ export class HalloweenScene extends BaseScene {
     this.createWalls();
 
     this.initialiseNPCs(NPCS);
+
+    // reload scene when player hit retry
+    const onRetry = (event: EventObject) => {
+      if (event.type === "RETRY") {
+        this.changeScene(this.sceneId);
+      }
+    };
+    this.portalService?.onEvent(onRetry);
+
+    // cleanup event listeners when scene is shut down
+    this.events.on("shutdown", () => {
+      this.portalService?.off(onRetry);
+    });
   }
 
   update() {
     if (!this.currentPlayer) return;
 
-    this.updateShaders();
+    this.adjustShaders();
 
     const { x: currentX = 0, y: currentY = 0 } = this.currentPlayer ?? {};
 
@@ -101,6 +115,8 @@ export class HalloweenScene extends BaseScene {
     }
 
     this.loadBumpkinAnimations();
+
+    this.currentPlayer.updateLightRadius();
 
     this.portalService?.send("GAIN_POINTS");
 
@@ -116,7 +132,7 @@ export class HalloweenScene extends BaseScene {
     this.visibilityPolygon = new VisibilityPolygon();
   }
 
-  private initializeShaders() {
+  private initShaders() {
     if (!this.currentPlayer) return;
 
     (
@@ -168,7 +184,7 @@ export class HalloweenScene extends BaseScene {
     return [xPos, yPos];
   }
 
-  private updateShaders = () => {
+  private adjustShaders = () => {
     const darknessPipeline = this.cameras.main.getPostPipeline(
       "DarknessPipeline",
     ) as DarknessPipeline;
@@ -187,9 +203,8 @@ export class HalloweenScene extends BaseScene {
         new LampContainer({
           x: lamp.x,
           y: lamp.y,
-          scene: this,
+          scene: this as BaseScene,
           player: this.currentPlayer,
-          portalService: this.portalService,
         }),
     );
 

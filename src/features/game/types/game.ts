@@ -360,6 +360,8 @@ export type WarItems =
   | "Warrior Helmet"
   | "Warrior Pants";
 
+export type HalloweenItems = "Lamp Front" | "Lamp Side" | "Lamp Back";
+
 export type InventoryItemName =
   | CropName
   | CropSeedName
@@ -414,7 +416,8 @@ export type InventoryItemName =
   | WorkbenchToolName
   | FactionShopCollectibleName
   | FactionShopFoodName
-  | MutantFlowerName;
+  | MutantFlowerName
+  | HalloweenItems;
 
 export type Inventory = Partial<Record<InventoryItemName, Decimal>>;
 

@@ -14,8 +14,14 @@ import { ITEM_IDS } from "features/game/types/bumpkin";
 import { CONFIG } from "lib/config";
 import { formatNumber } from "lib/utils/formatNumber";
 import { LampContainer } from "features/portal/halloween/containers/LampContainer";
-import { ITEM_BUMPKIN } from "features/portal/halloween/HalloweenConstants";
+import {
+  ITEM_BUMPKIN,
+  MIN_PLAYER_LIGHT_RADIUS,
+  STEP_PLAYER_LIGHT_RADIUS,
+} from "features/portal/halloween/HalloweenConstants";
 import { BaseScene } from "../scenes/BaseScene";
+import { DarknessPipeline } from "features/portal/halloween/shaders/DarknessShader";
+import { MachineInterpreter } from "features/portal/halloween/lib/halloweenMachine";
 
 const NAME_ALIASES: Partial<Record<NPCName, string>> = {
   "pumpkin' pete": "pete",
@@ -1034,5 +1040,40 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
     });
     this.lamp.setVisible(false);
     this.add(this.lamp);
+  }
+
+  private get portalService() {
+    return this.scene.registry.get("portalService") as
+      | MachineInterpreter
+      | undefined;
+  }
+
+  public updateLightRadius() {
+    const darknessPipeline = this.scene.cameras.main.getPostPipeline(
+      "DarknessPipeline",
+    ) as DarknessPipeline;
+
+    const finalStep =
+      MIN_PLAYER_LIGHT_RADIUS +
+      STEP_PLAYER_LIGHT_RADIUS * (this.portalService?.state.context.lamps || 0);
+
+    if (finalStep != darknessPipeline.lightRadius[0]) {
+      const step = (finalStep - darknessPipeline.lightRadius[0]) / 10;
+
+      const animationRadius = setInterval(() => {
+        darknessPipeline.lightRadius[0] += step;
+        if (step > 0) {
+          if (darknessPipeline.lightRadius[0] >= finalStep) {
+            darknessPipeline.lightRadius[0] = finalStep;
+            clearInterval(animationRadius);
+          }
+        } else if (step < 0) {
+          if (darknessPipeline.lightRadius[0] <= finalStep) {
+            darknessPipeline.lightRadius[0] = finalStep;
+            clearInterval(animationRadius);
+          }
+        }
+      }, 100);
+    }
   }
 }

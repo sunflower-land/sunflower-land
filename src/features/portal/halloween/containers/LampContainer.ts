@@ -1,24 +1,22 @@
 import { BumpkinContainer } from "features/world/containers/BumpkinContainer";
 import { BaseScene } from "features/world/scenes/BaseScene";
-import { DarknessPipeline } from "../shaders/DarknessShader";
-import { STEP_PLAYER_LIGHT_RADIUS } from "../HalloweenConstants";
 import { MachineInterpreter } from "../lib/halloweenMachine";
+import { MAX_PLAYER_LAMPS } from "../HalloweenConstants";
 
 interface Props {
   x: number;
   y: number;
   scene: BaseScene;
   player?: BumpkinContainer;
-  portalService?: MachineInterpreter;
 }
 
 export class LampContainer extends Phaser.GameObjects.Container {
-  private portalService?: MachineInterpreter;
+  private player?: BumpkinContainer;
 
-  constructor({ x, y, scene, player, portalService }: Props) {
+  constructor({ x, y, scene, player }: Props) {
     super(scene, x, y);
     this.scene = scene;
-    this.portalService = portalService;
+    this.player = player;
 
     // Sprite Lamp
     const spriteName = "lamp";
@@ -55,24 +53,21 @@ export class LampContainer extends Phaser.GameObjects.Container {
     scene.add.existing(this);
   }
 
+  private get portalService() {
+    return this.scene.registry.get("portalService") as
+      | MachineInterpreter
+      | undefined;
+  }
+
   private collectLamp() {
-    const darknessPipeline = this.scene.cameras.main.getPostPipeline(
-      "DarknessPipeline",
-    ) as DarknessPipeline;
+    if (this.portalService?.state.context.lamps === MAX_PLAYER_LAMPS) {
+      this.player?.speak("No more space!");
+      return;
+    }
 
-    const finalStep =
-      darknessPipeline.lightRadius[0] + STEP_PLAYER_LIGHT_RADIUS;
-    const step = STEP_PLAYER_LIGHT_RADIUS / 10;
-
-    const animationRadius = setInterval(() => {
-      darknessPipeline.lightRadius[0] += step;
-      if (darknessPipeline.lightRadius[0] >= finalStep) {
-        darknessPipeline.lightRadius[0] = finalStep;
-        clearInterval(animationRadius);
-      }
-    }, 10);
-    this.destroyLamp();
+    this.player?.stopSpeaking();
     this.portalService?.send("COLLECT_LAMP");
+    this.destroyLamp();
   }
 
   private destroyLamp() {

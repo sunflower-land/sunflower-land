@@ -13,6 +13,7 @@ import {
   DURATION_LAMP_SECONDS,
   LAMP_USAGE_MULTIPLIER_INTERVAL,
   MAX_LAMP_USAGE_MULTIPLIER,
+  MAX_PLAYER_LAMPS,
 } from "../../HalloweenConstants";
 
 const _lamps = (state: PortalMachineState) => state.context.lamps;
@@ -69,6 +70,7 @@ export const HalloweenInventory: React.FC = () => {
 
       <div className="relative flex flex-col items-center">
         <Box
+          countLabelType={lamps === MAX_PLAYER_LAMPS ? "danger" : "default"}
           count={new Decimal(lamps)}
           image={ITEM_DETAILS["Lamp Front"].image}
         />

@@ -22,7 +22,8 @@ export type LabelType =
   | "warning"
   | "vibrant"
   | "formula"
-  | "chill";
+  | "chill"
+  | "dead";
 
 export const LABEL_STYLES: Record<
   LabelType,
@@ -74,6 +75,11 @@ export const LABEL_STYLES: Record<
   },
   formula: {
     background: "#3c4665",
+    borderStyle: pixelFormulaBorderStyle,
+    textColour: "#ffffff",
+  },
+  dead: {
+    background: "#05080a",
     borderStyle: pixelFormulaBorderStyle,
     textColour: "#ffffff",
   },

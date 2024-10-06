@@ -3,7 +3,6 @@ import { useSelector } from "@xstate/react";
 import { PortalContext } from "../../lib/PortalProvider";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { HudContainer } from "components/ui/HudContainer";
-import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { PortalMachineState } from "../../lib/halloweenMachine";
 import { HalloweenTimeScore } from "./HalloweenTimeScore";
 import { HalloweenSettings } from "./HalloweenSettings";
@@ -11,6 +10,7 @@ import { HalloweenTravel } from "./HalloweenTravel";
 import { HalloweenTarget } from "./HalloweenTarget";
 import { HalloweenInventory } from "./HalloweenInventory";
 import { useAchievementToast } from "../../providers/AchievementToastProvider";
+import { HalloweenTimeDead } from "./HalloweenTimeDead";
 
 const _isJoystickActive = (state: PortalMachineState) =>
   state.context.isJoystickActive;
@@ -20,7 +20,6 @@ const _isPlaying = (state: PortalMachineState) => state.matches("playing");
 
 export const HalloweenHud: React.FC = () => {
   const { portalService } = useContext(PortalContext);
-  const { t } = useAppTranslation();
 
   const isJoystickActive = useSelector(portalService, _isJoystickActive);
   const achievements = useSelector(portalService, _achievements);
@@ -57,7 +56,7 @@ export const HalloweenHud: React.FC = () => {
         >
           <HalloweenTarget />
           <HalloweenTimeScore />
-          {/* <HalloweenScores /> */}
+          <HalloweenTimeDead />
         </div>
 
         <HalloweenTravel />

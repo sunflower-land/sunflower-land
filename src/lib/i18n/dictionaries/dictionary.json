@@ -806,6 +806,7 @@
   "halloween.targetScore": "Target Score: {{target}}",
   "halloween.inventory": "Inventory",
   "halloween.lampWear": "Wear x{{multiplier}}",
+  "halloween.lose": "You will lose in: {{time}}",
   "description.wicker.man": "Join hands and make a chain, the shadow of the Wicker Man will rise up again",
   "description.golden bonsai": "Goblins love bonsai too",
   "description.christmas.bear": "Santa's favorite",

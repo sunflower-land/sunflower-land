@@ -267,7 +267,7 @@ export const portalMachine = createMachine<Context, PortalEvent, PortalState>({
           actions: assign<Context>({
             startedAt: () => Date.now(),
             score: 0,
-            lamps: 0,
+            lamps: 3,
             state: (context: any) => {
               startAttempt();
               return startMinigameAttempt({

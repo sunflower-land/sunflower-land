@@ -378,8 +378,10 @@ export abstract class BaseScene extends Phaser.Scene {
     if (this.map.getObjectLayer("Collision")) {
       const collisionPolygons = this.map.createFromObjects("Collision", {
         scene: this,
+        classType: Phaser.GameObjects.Sprite,
       });
       collisionPolygons.forEach((polygon) => {
+        (polygon as Phaser.GameObjects.Sprite).setTint(0x000);
         this.colliders?.add(polygon);
         this.physics.world.enable(polygon);
         (polygon.body as Physics.Arcade.Body).setImmovable(true);
