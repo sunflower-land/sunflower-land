@@ -132,7 +132,7 @@ export const Discord: React.FC = () => {
       {t("getContent.getAccess")}
       {GROUPS.map((group) => (
         <OuterPanel key={group.channel} className="mt-2">
-          <div className="flex justify-between w-full mb-0.5">
+          <div className="flex justify-between w-full mb-1">
             <div>
               <Label type="default" className="text-sm">
                 {group.channel}
@@ -160,7 +160,7 @@ export const Discord: React.FC = () => {
       ))}
 
       <OuterPanel key="buds" className="mt-2">
-        <div className="flex justify-between w-full mb-0.5">
+        <div className="flex justify-between w-full mb-1">
           <div>
             <Label type="default" className="text-sm">
               {"#bud-clubhouse"}
@@ -182,7 +182,7 @@ export const Discord: React.FC = () => {
 
       {faction && (
         <OuterPanel key="faction" className="mt-2">
-          <div className="flex justify-between w-full mb-0.5">
+          <div className="flex justify-between w-full mb-1">
             <div>
               <Label type="default" className="text-sm">{`#${faction}`}</Label>
             </div>
