@@ -14,6 +14,7 @@ import { BumpkinParts, tokenUriBuilder } from "lib/utils/tokenUriBuilder";
 import { Equipped } from "../types/bumpkin";
 import { SeedName } from "../types/seeds";
 import { INITIAL_REWARDS } from "../types/rewards";
+import { makeAnimals } from "./animals";
 
 // Our "zoom" factor
 export const PIXEL_SCALE = 2.625;
@@ -611,6 +612,14 @@ export const INITIAL_FARM: GameState = {
       patterns: [],
     },
   },
+  henHouse: {
+    level: 0,
+    animals: makeAnimals(3, "Chicken"),
+  },
+  barn: {
+    level: 0,
+    animals: makeAnimals(3, "Cow"),
+  },
 };
 
 export const TEST_FARM: GameState = {
@@ -911,6 +920,14 @@ export const TEST_FARM: GameState = {
       grid: [],
     },
   },
+  henHouse: {
+    level: 0,
+    animals: makeAnimals(3, "Chicken"),
+  },
+  barn: {
+    level: 0,
+    animals: makeAnimals(3, "Cow"),
+  },
 };
 
 export const INITIAL_EQUIPPED: Equipped = {
@@ -1028,5 +1045,13 @@ export const EMPTY: GameState = {
       patterns: [],
       grid: [],
     },
+  },
+  henHouse: {
+    level: 0,
+    animals: makeAnimals(3, "Chicken"),
+  },
+  barn: {
+    level: 0,
+    animals: makeAnimals(3, "Cow"),
   },
 };
