@@ -1141,7 +1141,6 @@ type Stores = "factionShop" | "treasureShop" | "megastore";
 export type KeysBought = Record<Stores, KeysBoughtAt>;
 
 export type AnimalBuildingKey = "henHouse" | "barn";
-type AnimalState = "idle";
 export type AnimalResource =
   | "Egg"
   | "Leather"
@@ -1149,6 +1148,7 @@ export type AnimalResource =
   | "Merino Wool"
   | "Feather"
   | "Milk";
+export type AnimalState = "idle";
 
 export type Animal = {
   id: string;

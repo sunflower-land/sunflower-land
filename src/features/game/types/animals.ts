@@ -23,14 +23,14 @@ export const ANIMALS: Record<AnimalType, AnimalDetail> = {
     coins: 100,
     levelRequired: 14,
     buildingRequired: "Barn",
-    height: 1,
-    width: 1,
+    height: 2,
+    width: 2,
   },
   Sheep: {
     coins: 120,
     levelRequired: 18,
     buildingRequired: "Barn",
-    height: 1,
-    width: 1,
+    height: 2,
+    width: 2,
   },
 };
