@@ -3694,5 +3694,6 @@
   "description.morty": "Um Morchi descoberto na Terra dos Girassóis!",
   "description.miffy": "Um Morchi raro. Duplica a EXP durante a competição FSL.",
   "description.mog": "Um Morchi preguiçoso.",
-  "miffy.boost": "2x XP"
+  "miffy.boost": "2x XP",
+  "raffle.entry": "submeter"
 }

@@ -3694,5 +3694,6 @@
   "description.morty": "Un Morchi découvert à Sunflower Land !",
   "description.miffy": "Un Morchi rare. Double l'expérience pendant la compétition de FSL.",
   "description.mog": "Un Morchi paresseux.",
-  "miffy.boost": "2 fois XP"
+  "miffy.boost": "2 fois XP",
+  "raffle.entry": "entrée"
 }

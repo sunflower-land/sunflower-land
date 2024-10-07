@@ -3694,5 +3694,6 @@
   "description.morty": "在向日葵之地发现了莫奇！",
   "description.miffy": "稀有的 Morchi。在 FSL 比赛中将经验值翻倍。",
   "description.mog": "一个懒散的 Morchi。",
-  "miffy.boost": "2x XP"
+  "miffy.boost": "2x XP",
+  "raffle.entry": "条目"
 }

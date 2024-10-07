@@ -106,6 +106,7 @@
   "budBox.today": "Today - {{timeLeft}} left",
   "raffle.title": "Goblin Raffle",
   "raffle.description": "Each month, you have a chance to win rewards. Winners will be announced on Discord.",
+  "raffle.entry": "entry",
   "raffle.entries": "entries",
   "raffle.noTicket": "Missing Prize Ticket",
   "raffle.how": "You can collect Prize Tickets for free through special events and Bumpkin deliveries.",

@@ -3694,5 +3694,6 @@
   "description.morty": "ひまわりランドでモルチを発見！",
   "description.miffy": "珍しいモルチ。FSLコンペティション中はXPが2倍になります。",
   "description.mog": "怠惰なモルチ。",
-  "miffy.boost": "XP x 2"
+  "miffy.boost": "XP x 2",
+  "raffle.entry": "エントリ"
 }
