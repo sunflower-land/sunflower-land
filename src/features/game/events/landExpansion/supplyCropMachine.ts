@@ -273,8 +273,19 @@ export function supplyCropMachine({
 
   const cropName = seedsAdded.type.split(" ")[0] as CropName;
 
-  if (!isBasicCrop(cropName)) {
+  if (
+    !state.bumpkin.skills["Crop Extension Module"] &&
+    !isBasicCrop(cropName)
+  ) {
     throw new Error("You can only supply basic crop seeds!");
+  }
+
+  if (
+    !!state.bumpkin.skills["Crop Extension Module"] &&
+    !isBasicCrop(cropName) &&
+    !(cropName === "Cabbage" || cropName === "Carrot")
+  ) {
+    throw new Error("You can't supply these seeds");
   }
 
   const cropMachine = stateCopy.buildings["Crop Machine"][0];

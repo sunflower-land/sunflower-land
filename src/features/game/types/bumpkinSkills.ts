@@ -129,19 +129,19 @@ export type BumpkinRevampSkillName =
   | "Petalled Perk"
   | "Flowery Abode"
   // Oil
-  | "Oil Extraction"
   | "Swift Sizzle"
   | "Turbo Fry"
-  | "Oil Be Back"
-  | "Grease Lightning"
   | "Fry Frenzy"
   // Machinary
   | "Crop Processor Unit"
   | "Oil Gadget"
+  | "Oil Extraction"
   | "Crop Extension Module"
   | "Rapid Rig"
+  | "Oil Be Back"
   | "Field Extension Module"
-  | "Efficiency Extension Module";
+  | "Efficiency Extension Module"
+  | "Grease Lightning";
 
 export type BumpkinSkillTree =
   | "Crops"
@@ -1375,16 +1375,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
   },
 
   // Oil - Tier 1
-  "Oil Extraction": {
-    name: "Oil Extraction",
-    tree: "Oil",
-    requirements: {
-      points: 1,
-      skill: 0,
-    },
-    boosts: "+1 Oil",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
-  },
   "Swift Sizzle": {
     name: "Swift Sizzle",
     tree: "Oil",
@@ -1406,28 +1396,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     boosts: "Kitchen cooking speed with oil increased by 50%",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
-  "Oil Be Back": {
-    name: "Oil Be Back",
-    tree: "Oil",
-    requirements: {
-      points: 2,
-      skill: 2,
-    },
-    boosts: "Oil refills 5h faster",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
-  },
   // Oil - Tier 3
-  "Grease Lightning": {
-    name: "Grease Lightning",
-    tree: "Oil",
-    requirements: {
-      points: 3,
-      skill: 5,
-    },
-    boosts: "Ability to make empty oil wells instantly refill (1/96h)",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
-    power: true,
-  },
   "Fry Frenzy": {
     name: "Fry Frenzy",
     tree: "Oil",
@@ -1460,6 +1429,16 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     boosts: "Machine uses 10% less oil",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
+  "Oil Extraction": {
+    name: "Oil Extraction",
+    tree: "Machinary",
+    requirements: {
+      points: 1,
+      skill: 0,
+    },
+    boosts: "+1 Oil",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
   // Machinary - Tier 2
   "Crop Extension Module": {
     name: "Crop Extension Module",
@@ -1479,6 +1458,16 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
       skill: 2,
     },
     boosts: "Crops grow 20% faster",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
+  "Oil Be Back": {
+    name: "Oil Be Back",
+    tree: "Machinary",
+    requirements: {
+      points: 2,
+      skill: 2,
+    },
+    boosts: "Oil refill time reduced by 20%",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
   // Machinary - Tier 3
@@ -1501,6 +1490,17 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     },
     boosts: "Machine uses 15% less oil",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
+  "Grease Lightning": {
+    name: "Grease Lightning",
+    tree: "Machinary",
+    requirements: {
+      points: 3,
+      skill: 5,
+    },
+    boosts: "Ability to make empty oil wells instantly refill (1/96h)",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+    power: true,
   },
 };
 

@@ -2,7 +2,7 @@ import React, { useContext, useLayoutEffect, useState } from "react";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Modal } from "components/ui/Modal";
-import { CropMachineQueueItem } from "features/game/types/game";
+import { CropMachineQueueItem, GameState } from "features/game/types/game";
 import {
   CropMachineState,
   MachineInterpreter,
@@ -30,7 +30,7 @@ import Decimal from "decimal.js-light";
 import { CROP_SEEDS, CropName, CropSeedName } from "features/game/types/crops";
 import { isBasicCrop } from "features/game/events/landExpansion/harvest";
 import { getKeys } from "features/game/types/craftables";
-import { useSelector } from "@xstate/react";
+import { useActor, useSelector } from "@xstate/react";
 import { _paused, _running, _idle } from "./CropMachine";
 import { Context } from "features/game/GameProvider";
 import { MachineState } from "features/game/lib/gameMachine";
@@ -54,11 +54,15 @@ interface Props {
   onAddOil: (oil: number) => void;
 }
 
-const ALLOWED_SEEDS: CropSeedName[] = getKeys(CROP_SEEDS).filter((seed) => {
-  const crop = seed.split(" ")[0] as CropName;
-
-  return isBasicCrop(crop);
-});
+const ALLOWED_SEEDS = (state: GameState): CropSeedName[] =>
+  getKeys(CROP_SEEDS).filter((seed) => {
+    const crop = seed.split(" ")[0] as CropName;
+    return (
+      isBasicCrop(crop) ||
+      (state.bumpkin.skills["Crop Extension Module"] &&
+        (crop === "Carrot" || crop === "Cabbage"))
+    );
+  });
 
 const SEED_INCREMENT_AMOUNT = 10;
 const OIL_INCREMENT_AMOUNT = 1;
@@ -78,6 +82,12 @@ export const CropMachineModal: React.FC<Props> = ({
   onAddOil,
 }) => {
   const { gameService } = useContext(Context);
+
+  const [
+    {
+      context: { state },
+    },
+  ] = useActor(gameService);
 
   const growingCropPackIndex = useSelector(service, _growingCropPackIndex);
   const idle = useSelector(service, _idle);
@@ -317,7 +327,7 @@ export const CropMachineModal: React.FC<Props> = ({
                       {t("cropMachine.pickSeed")}
                     </Label>
                     <div className="flex">
-                      {ALLOWED_SEEDS.map((seed, index) => (
+                      {ALLOWED_SEEDS(state).map((seed, index) => (
                         <Box
                           key={`${seed}-${index}`}
                           image={ITEM_DETAILS[seed].image}
