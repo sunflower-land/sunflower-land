@@ -271,6 +271,14 @@ export const SUNNYSIDE = {
     layingEggSheet: `${CONFIG.PROTECTED_IMAGE_URL}/animals/chickens/laying-egg-sheet_2.png`,
     wheatOnGround: `${CONFIG.PROTECTED_IMAGE_URL}/animals/chickens/wheat_2.png`,
 
+    hungryCow: `${CONFIG.PROTECTED_IMAGE_URL}/animals/cows/hungry_cow.webp`,
+    happyCow: `${CONFIG.PROTECTED_IMAGE_URL}/animals/cows/happy_cow.webp`,
+    sickCow: `${CONFIG.PROTECTED_IMAGE_URL}/animals/cows/sick_cow.webp`,
+
+    hungrySheep: `${CONFIG.PROTECTED_IMAGE_URL}/animals/sheep/hungry_sheep.webp`,
+    happySheep: `${CONFIG.PROTECTED_IMAGE_URL}/animals/sheep/happy_sheep.webp`,
+    sickSheep: `${CONFIG.PROTECTED_IMAGE_URL}/animals/sheep/sick_sheep.webp`,
+
     bird: `${CONFIG.PROTECTED_IMAGE_URL}/animals/bird_sheet.png`,
   },
   //VFXs
