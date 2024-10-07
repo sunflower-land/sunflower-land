@@ -123,7 +123,7 @@ const RestockModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   const { t } = useAppTranslation();
   const { openModal } = useContext(ModalContext);
 
-  const { gameService } = useContext(Context);
+  const { gameService, showAnimations } = useContext(Context);
   const [gameState] = useActor(gameService);
 
   const canRestock = gameState.context.state.inventory["Gem"]?.gte(20);
@@ -142,8 +142,8 @@ const RestockModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
       item: "Stock",
       type: "Fee",
     });
-    confetti();
 
+    if (showAnimations) confetti();
     onClose();
   };
 
@@ -176,7 +176,7 @@ const ExperimentRestockModal: React.FC<{ onClose: () => void }> = ({
   const { t } = useAppTranslation();
   const { openModal } = useContext(ModalContext);
 
-  const { gameService } = useContext(Context);
+  const { gameService, showAnimations } = useContext(Context);
   const [gameState] = useActor(gameService);
 
   const hasGemExperiment = hasFeatureAccess(
@@ -202,15 +202,16 @@ const ExperimentRestockModal: React.FC<{ onClose: () => void }> = ({
       item: "Stock",
       type: "Fee",
     });
-    confetti();
 
+    if (showAnimations) confetti();
     onClose();
   };
 
   const replenish = () => {
     gameService.send("shipment.restocked");
+
+    if (showAnimations) confetti();
     onClose();
-    confetti();
   };
 
   const shipmentAt = useCountdown(
