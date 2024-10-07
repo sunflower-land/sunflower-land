@@ -3695,5 +3695,6 @@
   "description.morty": "선플라워 랜드에서 발견된 모르키!",
   "description.miffy": "희귀한 모르치입니다.FSL 대회 기간 동안 XP가 두 배로 증가합니다.",
   "description.mog": "게으른 모르치.",
-  "miffy.boost": "경험치 2배"
+  "miffy.boost": "경험치 2배",
+  "raffle.entry": "기입"
 }

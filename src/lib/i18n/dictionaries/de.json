@@ -3695,5 +3695,6 @@
   "description.morty": "Ein Morchi, der im Sonnenblumenland entdeckt wurde!",
   "description.miffy": "Ein seltener Morchi. Verdoppelt die XP während des FSL-Wettkampfs.",
   "description.mog": "Ein fauler Morchi.",
-  "miffy.boost": "2 x XP"
+  "miffy.boost": "2 x XP",
+  "raffle.entry": "Eintrag"
 }
