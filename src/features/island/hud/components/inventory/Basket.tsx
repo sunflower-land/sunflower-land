@@ -283,7 +283,7 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
             ITEM_DETAILS["White Carrot"].image,
           )}
           {itemsSection(t("resources"), resources, ITEM_DETAILS["Wood"].image)}
-          {itemsSection("Animal", animalResources, ITEM_DETAILS.Egg.image)}
+          {itemsSection(t("animal"), animalResources, ITEM_DETAILS.Egg.image)}
           {itemsSection(
             t("bait"),
             [...worm, ...purchaseableBait],
