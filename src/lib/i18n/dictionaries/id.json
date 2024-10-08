@@ -1974,9 +1974,7 @@
   "guide.compost.addEggs.confirmation": "Apakah Anda yakin ingin menambahkan {{noEggs}} Telur untuk mengurangi waktu produksi kompos sebesar {{time}}?",
   "guide.factionPet.one": "Setiap minggu hewan peliharaan akan meminta 3 makanan. Saat diberi makan, XP dari makanan akan masuk ke penghitungan XP total untuk faksi.",
   "guide.factionPet.three": "Jika faksi tidak mencapai tujuan maka hewan peliharaan akan tidur selama 1 minggu.",
-  "guide.factionPet.four": "Setelah faksi mencapai beruntun 2 minggu atau lebih, bonus XP akan diberikan kepada setiap anggota faksi yang berkontribusi ketika bumpkin mereka makan! Untuk menjadi anggota yang berkontribusi, Anda harus memberi makan hewan peliharaan setidaknya 1 dari setiap permintaan selama seminggu sebelumnya.",
   "guide.factionPet.five": "Anggota yang berkontribusi: Agar memenuhi syarat untuk potensi peningkatan beruntun di minggu berikutnya, pemain harus memenuhi salah satu permintaan setiap hewan peliharaan.",
-  "guide.factionPet.six": "Anda akan diberikan nilai untuk setiap makanan yang dikirim. Setiap kali Anda mengirimkan hadiah akan berkurang. Hadiah ini akan diatur ulang setiap hari. Pemain dengan bonus emblem akan mendapatkan bonus tambahan berdasarkan peringkat bonus faksi mereka.",
   "guide.streak.one": "Beruntun Minggu 2 dicapai = 10% XP selama minggu 3 & minggu 4*",
   "guide.streak.two": "Beruntun Minggu 4 dicapai = 20% XP selama minggu 5 & minggu 6*",
   "guide.streak.three": "Beruntun Minggu 6 dicapai = 30% XP selama minggu 7 & minggu 8*",
@@ -3695,5 +3693,7 @@
   "description.mog": "Morchi yang malas.",
   "miffy.boost": "2x XP",
   "raffle.entry": "masuk",
-  "competition.prizes.two": "50.000 SFL harus dimenangkan."
+  "competition.prizes.two": "50.000 SFL harus dimenangkan.",
+  "guide.factionPet.four": "Setelah faksi mencapai beruntun 2 minggu atau lebih, bonus XP akan diberikan kepada setiap anggota faksi yang berkontribusi ketika bumpkin mereka makan!",
+  "guide.factionPet.six": "Anda akan diberikan nilai untuk setiap makanan yang dikirim. Setiap kali Anda mengirimkan hadiah akan berkurang. Hadiah ini akan diatur ulang setiap hari. Pemain dengan bonus emblem akan mendapatkan bonus tambahan berdasarkan peringkat bonus faksi mereka."
 }

@@ -12,7 +12,10 @@ import { SkillCategoryList } from "./SkillCategoryList";
 
 import { SkillPathDetails } from "./SkillPathDetails";
 import { Label } from "components/ui/Label";
-import { findLevelRequiredForNextSkillPoint } from "features/game/lib/level";
+import {
+  findLevelRequiredForNextSkillPoint,
+  isMaxLevel,
+} from "features/game/lib/level";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
@@ -61,25 +64,8 @@ export const Skills: React.FC<Props> = ({ onBack, readonly }) => {
 
   const availableSkillPoints = getAvailableBumpkinSkillPoints(bumpkin);
 
-  const skillPointsInfo = () => {
-    const nextLevelWithSkillPoint =
-      findLevelRequiredForNextSkillPoint(experience);
-
-    return (
-      <div className="flex flex-wrap gap-1">
-        {availableSkillPoints > 0 && (
-          <Label type="default">
-            {t("skillPts")} {availableSkillPoints}
-          </Label>
-        )}
-        {nextLevelWithSkillPoint && (
-          <Label type="default" className="text-xxs px-1 whitespace-nowrap">
-            {t("nextSkillPtLvl")} {nextLevelWithSkillPoint}
-          </Label>
-        )}
-      </div>
-    );
-  };
+  const nextLevelWithSkillPoint =
+    findLevelRequiredForNextSkillPoint(experience);
 
   return (
     <div
@@ -103,7 +89,20 @@ export const Skills: React.FC<Props> = ({ onBack, readonly }) => {
           }}
           onClick={handleBack}
         />
-        {!readonly && skillPointsInfo()}
+        {!readonly && (
+          <div className="flex flex-wrap gap-1">
+            {availableSkillPoints > 0 && (
+              <Label type="default">
+                {t("skillPts")} {availableSkillPoints}
+              </Label>
+            )}
+            {nextLevelWithSkillPoint && !isMaxLevel(experience) && (
+              <Label type="default" className="text-xxs px-1 whitespace-nowrap">
+                {t("nextSkillPtLvl")} {nextLevelWithSkillPoint}
+              </Label>
+            )}
+          </div>
+        )}
       </div>
       {!selectedSkillPath && (
         <SkillCategoryList

@@ -1956,9 +1956,7 @@
   "guide.compost.addEggs.confirmation": "¿Estás seguro de que quieres agregar {{noEggs}} huevos para reducir el tiempo de producción de abono en {{time}}?",
   "guide.factionPet.one": "Cada semana la mascota solicitará 3 alimentos. Cuando se le dé de comer, la XP obtenida con la comida se sumará a la cantidad total de XP de la facción.",
   "guide.factionPet.three": "Si la facción no alcanza la meta, la mascota dormirá durante 1 semana.",
-  "guide.factionPet.four": "Cuando la facción alcance una racha de 2 o más semanas, se otorgará una bonificación de XP a cada miembro de la facción que contribuya cuando su conejita se coma! Para ser miembro contribuyente, tendréis que haber dado de comer a la mascota al menos una vez por cada solicitud que hayáis hecho durante la semana anterior.",
   "guide.factionPet.five": "Miembro colaborador: Para poder recibir posibles mejoras de racha en la semana siguiente, el jugador debe cumplir con una de las solicitudes de cada mascota.",
-  "guide.factionPet.six": "Se le otorgarán puntos por cada comida entregada. Cada vez que entregues, la recompensa se reducirá. Estas recompensas se restablecerán a diario. Los jugadores con una bonificación de emblema recibirán una bonificación adicional basada en el rango de bonificación de su facción.",
   "guide.streak.one": "Racha conseguida en la semana 2 = 10% de EXP durante la semana 3 y la semana 4*",
   "guide.streak.two": "Racha conseguida en la semana 4 = 20% de EXP durante la semana 5 y la semana 6*",
   "guide.streak.three": "Racha conseguida en la semana 6 = 30% de EXP durante las semanas 7 y 8*",
@@ -3695,5 +3693,7 @@
   "description.mog": "Un Morchi perezoso.",
   "miffy.boost": "2 veces XP",
   "raffle.entry": "entrada",
-  "competition.prizes.two": "50 000 SFL por ganar."
+  "competition.prizes.two": "50 000 SFL por ganar.",
+  "guide.factionPet.four": "Cuando la facción alcance una racha de 2 o más semanas, ¡se otorgará una bonificación de XP a cada miembro de la facción que contribuya cuando su conejita se coma!",
+  "guide.factionPet.six": "Se le otorgarán puntos por cada comida entregada. Cada vez que entregues la recompensa se reducirá. Estas recompensas se restablecerán a diario. Los jugadores con una bonificación de emblema recibirán una bonificación adicional basada en el rango de bonificación de su facción."
 }
