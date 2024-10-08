@@ -19,6 +19,7 @@ describe("shipmentRestocked", () => {
           restockedAt: new Date("2023-04-04").getTime(),
         },
       },
+      createdAt: now,
     });
 
     expect(state.shipments.restockedAt).toEqual(now);
@@ -43,6 +44,7 @@ describe("shipmentRestocked", () => {
           restockedAt: new Date("2023-04-04").getTime(),
         },
       },
+      createdAt: now,
     });
 
     expect(state.shipments.restockedAt).toEqual(now);
