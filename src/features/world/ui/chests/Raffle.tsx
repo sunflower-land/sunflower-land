@@ -67,7 +67,7 @@ export const Raffle: React.FC<Props> = ({ onClose }) => {
           </Label>
           {entries > 0 && (
             <Label icon={ITEM_DETAILS["Prize Ticket"].image} type="success">
-              {entries} {t("raffle.entries")}
+              {entries} {entries > 1 ? t("raffle.entries") : t("raffle.entry")}
             </Label>
           )}
         </div>

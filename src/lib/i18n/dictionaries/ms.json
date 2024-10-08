@@ -3324,7 +3324,6 @@
   "wishingWell.info.one": "Telaga berharap adalah tempat ajaib di mana ganjaran SFL boleh dibuat hanya dengan membuat hasrat!",
   "wishingWell.info.two": "Keinginan diberikan kepada petani yang menyediakan kecairan dalam permainan.",
   "wishingWell.info.three": "Nampaknya anda mempunyai token LP ajaib di dompet anda!",
-  "wishingWell.moreInfo": "Maklumat lanjut",
   "withdraw.proof": "Bukti kemanusiaan diperlukan untuk ciri ini. Sila ambil selfie yang cepat.",
   "withdraw.verification": "Mulakan Pengesahan",
   "withdraw.sync": "Anda hanya boleh menarik balik item yang telah anda segerakkan ke blockchain.",
@@ -3695,5 +3694,6 @@
   "description.morty": "Seorang Morchi ditemui di Tanah Bunga Matahari!",
   "description.miffy": "Morchi yang jarang berlaku. Gandakan XP semasa Pertandingan FSL.",
   "description.mog": "Morchi yang malas.",
-  "miffy.boost": "2x XP"
+  "miffy.boost": "2x XP",
+  "raffle.entry": "kemasukan"
 }

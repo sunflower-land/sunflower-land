@@ -3297,7 +3297,6 @@
   "welcome.offline": "Merhaba Bumpkin, Görünüşe göre çevrimiçi değilsin. Lütfen ağ bağlantınızı kontrol edin.",
   "wishingWell.sflRewardsReceived": "{{reward}} SFL aldınız!",
   "wishingWell.wish.comeBackAfter": "Ne kadar şanslı olduğunuzu görmek için {{nextWishTime}} geri gelin!",
-  "wishingWell.moreInfo": "Daha fazla bilgi",
   "withdraw.restricted": "Bazı öğeler geri çekilemez. Diğer öğeler kullanımdayken veya hala inşa edilirken kısıtlanabilir.",
   "world.newArea": "Yeni",
   "world.intro.missingDelivery": "Hmmm, görünüşe göre henüz bir teslimat için kaynak toplamamışsınız. Bu arada hala keşfedebilirsiniz.",
@@ -3695,5 +3694,6 @@
   "description.morty": "Ayçiçeği Ülkesinde bir Morchi keşfedildi!",
   "description.miffy": "Nadir bir Morchi. FSL Yarışması sırasında DP'yi ikiye katlar.",
   "description.mog": "Tembel bir Morchi.",
-  "miffy.boost": "2 kat Deneyim"
+  "miffy.boost": "2 kat Deneyim",
+  "raffle.entry": "giriş"
 }

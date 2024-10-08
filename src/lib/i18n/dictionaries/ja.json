@@ -3324,7 +3324,6 @@
   "wishingWell.info.one": "願いの井戸は、願い事をするだけでSFL報酬がもらえる魔法の場所です！",
   "wishingWell.info.two": "ゲームで流動性を提供した農家には願いが叶います。",
   "wishingWell.info.three": "ウォレットに魔法のLPトークンが入っているようです！",
-  "wishingWell.moreInfo": "詳細情報",
   "withdraw.proof": "この機能には人間性の証明が必要です。さっそく自撮りしてください。",
   "withdraw.verification": "検証を開始する",
   "withdraw.sync": "出金できるのは、ブロックチェーンに同期したアイテムのみです。",
@@ -3695,5 +3694,6 @@
   "description.morty": "ひまわりランドでモルチを発見！",
   "description.miffy": "珍しいモルチ。FSLコンペティション中はXPが2倍になります。",
   "description.mog": "怠惰なモルチ。",
-  "miffy.boost": "XP x 2"
+  "miffy.boost": "XP x 2",
+  "raffle.entry": "エントリ"
 }

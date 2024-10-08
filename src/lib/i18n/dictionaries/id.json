@@ -3324,7 +3324,6 @@
   "wishingWell.info.one": "Sumur harapan adalah tempat ajaib di mana hadiah SFL dapat dibuat hanya dengan membuat keinginan!",
   "wishingWell.info.two": "Keinginan diberikan kepada petani yang menyediakan likuiditas dalam permainan.",
   "wishingWell.info.three": "Sepertinya Anda memiliki token LP ajaib di dompet Anda!",
-  "wishingWell.moreInfo": "Info lebih lanjut",
   "withdraw.proof": "Bukti kemanusiaan diperlukan untuk fitur ini. Silakan ambil selfie cepat.",
   "withdraw.verification": "Mulai Verifikasi",
   "withdraw.sync": "Anda hanya dapat menarik item yang telah Anda sinkronkan ke blockchain.",
@@ -3695,5 +3694,6 @@
   "description.morty": "Seekor Morchi ditemukan di Tanah Bunga Matahari!",
   "description.miffy": "Morchi langka. Menggandakan XP selama Kompetisi FSL.",
   "description.mog": "Morchi yang malas.",
-  "miffy.boost": "2x XP"
+  "miffy.boost": "2x XP",
+  "raffle.entry": "masuk"
 }

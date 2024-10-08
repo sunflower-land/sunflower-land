@@ -3282,7 +3282,6 @@
   "wishingWell.info.one": "Il pozzo dei desideri è un luogo magico in cui è possibile ottenere premi SFL semplicemente esprimendo un desiderio!",
   "wishingWell.info.two": "I desideri vengono esauditi agli agricoltori che hanno fornito liquidità al gioco.",
   "wishingWell.info.three": "Sembra che tu abbia quei magici gettoni LP nel tuo portafoglio!",
-  "wishingWell.moreInfo": "Maggiori informazioni",
   "withdraw.proof": "Per questa funzionalità è necessaria una prova di umanità. Per favore, scattati un selfie veloce.",
   "withdraw.verification": "Inizia la verifica",
   "withdraw.sync": "Puoi prelevare solo gli articoli che hai sincronizzato con la blockchain.",
@@ -3695,5 +3694,6 @@
   "description.morty": "Un Morchi scoperto nella Terra dei Girasoli!",
   "description.miffy": "Un Morchi raro. Raddoppia gli XP durante la competizione FSL.",
   "description.mog": "Un pigro Morchi.",
-  "miffy.boost": "2x XP"
+  "miffy.boost": "2x XP",
+  "raffle.entry": "ingresso"
 }
