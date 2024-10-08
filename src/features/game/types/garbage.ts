@@ -1,3 +1,4 @@
+import { hasFeatureAccess } from "lib/flags";
 import { BB_TO_GEM_RATIO } from "./game";
 import { SeasonalTicket, SEASONS } from "./seasons";
 
@@ -137,13 +138,20 @@ export const GARBAGE: Record<GarbageName, Garbage> = {
         },
       }
     : ({} as { "Amber Fossil": { sellPrice: number; gems: number } })),
-  Chicken: {
-    sellPrice: 200,
-    gems: 0,
-  },
-  "Hen House": {
-    sellPrice: 800,
-    gems: 0,
-    limit: 1,
-  },
+  ...(hasFeatureAccess("CHICKEN_GARBO")
+    ? {
+        Chicken: {
+          sellPrice: 200,
+          gems: 0,
+        },
+        "Hen House": {
+          sellPrice: 800,
+          gems: 0,
+          limit: 1,
+        },
+      }
+    : ({} as {
+        Chicken: { sellPrice: number; gems: number };
+        "Hen House": { sellPrice: number; gems: number; limit: number };
+      })),
 };
