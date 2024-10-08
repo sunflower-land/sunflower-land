@@ -1,8 +1,7 @@
-import React, { useContext, useLayoutEffect } from "react";
+import React, { useContext, useLayoutEffect, useState } from "react";
 import { SUNNYSIDE } from "assets/sunnyside";
 
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
-import classNames from "classnames";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Button } from "components/ui/Button";
 import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
@@ -16,18 +15,22 @@ import { MapPlacement } from "features/game/expansion/components/MapPlacement";
 import { ANIMALS } from "features/game/types/animals";
 import { Chicken } from "./Chicken";
 
+import shopDisc from "assets/icons/shop_disc.png";
+import { AnimalBuildingModal } from "features/game/expansion/components/AnimalBuildingModal";
+
 const background = SUNNYSIDE.land.tent_inside;
 
 const _henHouse = (state: MachineState) => state.context.state.henHouse;
 
 export const HenHouseInside: React.FC = () => {
   const { gameService } = useContext(Context);
+  const [showModal, setShowModal] = useState(false);
+  const henHouse = useSelector(gameService, _henHouse);
+
   const { t } = useAppTranslation();
 
   const [scrollIntoView] = useScrollIntoView();
   const navigate = useNavigate();
-
-  const henHouse = useSelector(gameService, _henHouse);
 
   useLayoutEffect(() => {
     scrollIntoView(Section.GenesisBlock, "auto");
@@ -56,6 +59,11 @@ export const HenHouseInside: React.FC = () => {
 
   return (
     <>
+      <AnimalBuildingModal
+        buildingName="Hen House"
+        show={showModal}
+        onClose={() => setShowModal(false)}
+      />
       <>
         <div
           className="absolute bg-[#181425]"
@@ -66,7 +74,16 @@ export const HenHouseInside: React.FC = () => {
           }}
         >
           <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-            <div className={classNames("relative w-full h-full")}>
+            <div className={"relative w-full h-full"}>
+              <img
+                src={shopDisc}
+                alt="Buy Animals"
+                className="absolute top-7 right-8 cursor-pointer z-10"
+                style={{
+                  width: `${PIXEL_SCALE * 18}px`,
+                }}
+                onClick={() => setShowModal(true)}
+              />
               <img
                 src={background}
                 id={Section.GenesisBlock}

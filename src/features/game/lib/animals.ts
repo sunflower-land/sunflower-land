@@ -20,6 +20,7 @@ export function makeAnimals(count: number, type: AnimalType) {
     { x: 0, y: 0 },
     { x: animal.width, y: 0 },
   ];
+
   return new Array(count).fill(0).reduce(
     (animals, _, index) => {
       return {
