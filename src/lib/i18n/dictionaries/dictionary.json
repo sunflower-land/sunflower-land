@@ -2907,7 +2907,7 @@
   "nyonStatue.description": "The legendary knight responsible for clearing the goblins from the mines. Shortly after his victory he died by poisoning from a Goblin conspirator. The Sunflower Citizens erected this statue with his armor to commemorate his conquests.",
   "obsessionDialogue.line1": "Ah, the {{itemName}}! I only wish to see it, not possess. Show it to me, and {{seasonalTicket}}s will be your reward.",
   "obsessionDialogue.line2": "You've brought the {{itemName}}? I merely want to gaze upon it. Let me see, and {{seasonalTicket}}s shall be yours.",
-  "obsessionDialogue.line3": "Is that the {{itemName}} you have? A mere glance is all I desire. Fore this, you'll receive {{seasonalTicket}}s.",
+  "obsessionDialogue.line3": "Is that the {{itemName}} you have? A mere glance is all I desire. For this, you'll receive {{seasonalTicket}}s.",
   "obsessionDialogue.line4": "The {{itemName}}! I don't want to keep it, just to behold it. Show it to me, and {{seasonalTicket}}s are yours.",
   "obsessionDialogue.line5": "You offer a view of the {{itemName}}? All I ask is to see it briefly. For your generosity, {{seasonalTicket}}s will be granted to you.",
   "offer.okxOffer": "Howdy Farmer, I have an exclusive OKX offer for you!",
