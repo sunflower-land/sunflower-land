@@ -32,7 +32,10 @@ export const GarbageSale: React.FC = () => {
 
   const inventory = state.inventory;
 
-  const price = selected.sellPrice;
+  // Undefined if zero
+  const price = selected.sellPrice || undefined;
+  // Undefined if zero
+  const gems = selected.gems || undefined;
   const amount = inventory[selectedName] || new Decimal(0);
 
   const sell = (amount = 1) => {
@@ -40,19 +43,6 @@ export const GarbageSale: React.FC = () => {
       item: selectedName,
       amount,
     });
-  };
-
-  const Action = () => {
-    return (
-      <div className="flex space-x-1 w-full sm:flex-col sm:space-x-0 sm:space-y-1">
-        <Button disabled={amount.lt(1)} onClick={() => sell(1)}>
-          {t("sell.one")}
-        </Button>
-        <Button disabled={amount.lt(10)} onClick={() => sell(10)}>
-          {t("sell.ten")}
-        </Button>
-      </div>
-    );
   };
 
   return (
@@ -64,8 +54,9 @@ export const GarbageSale: React.FC = () => {
           }}
           properties={{
             coins: price,
+            gems: gems,
           }}
-          actionView={Action()}
+          actionView={<Action amount={amount} sell={sell} />}
         />
       }
       content={
@@ -82,5 +73,23 @@ export const GarbageSale: React.FC = () => {
         </>
       }
     />
+  );
+};
+
+const Action: React.FC<{
+  amount: Decimal;
+  sell: (amount?: number) => void;
+}> = ({ amount, sell }) => {
+  const { t } = useAppTranslation();
+
+  return (
+    <div className="flex space-x-1 w-full sm:flex-col sm:space-x-0 sm:space-y-1">
+      <Button disabled={amount.lt(1)} onClick={() => sell(1)}>
+        {t("sell.one")}
+      </Button>
+      <Button disabled={amount.lt(10)} onClick={() => sell(10)}>
+        {t("sell.ten")}
+      </Button>
+    </div>
   );
 };

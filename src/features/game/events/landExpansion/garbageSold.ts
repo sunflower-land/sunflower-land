@@ -41,6 +41,12 @@ export function sellGarbage({ state, action }: Options) {
       throw new Error("Insufficient quantity to sell");
     }
 
+    const limit = GARBAGE[item].limit ?? 0;
+
+    if (count.sub(amount).lessThan(limit)) {
+      throw new Error("Limit Reached");
+    }
+
     const coins = GARBAGE[item].sellPrice ?? 0;
     if (coins) {
       const coinsEarned = coins * amount;

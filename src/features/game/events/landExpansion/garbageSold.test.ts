@@ -171,4 +171,22 @@ describe("garbageSold", () => {
       amount,
     );
   });
+
+  it("throws an error if the limit is reached", () => {
+    expect(() =>
+      sellGarbage({
+        state: {
+          ...GAME_STATE,
+          inventory: {
+            "Hen House": new Decimal(1),
+          },
+        },
+        action: {
+          type: "garbage.sold",
+          item: "Hen House",
+          amount: 1,
+        },
+      }),
+    ).toThrow("Limit Reached");
+  });
 });

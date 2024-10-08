@@ -25,6 +25,7 @@ interface ItemDetailsProps {
 interface PropertiesProps {
   coins?: number;
   sfl?: Decimal;
+  gems?: number;
 }
 
 /**
@@ -48,48 +49,6 @@ export const ShopSellDetails: React.FC<Props> = ({
   properties,
   actionView,
 }: Props) => {
-  const getItemDetail = () => {
-    const item = ITEM_DETAILS[details.item];
-    const icon = item.image;
-    const title = details.item;
-    const description = item.description;
-
-    return (
-      <>
-        <div className="flex space-x-2 justify-start items-center sm:flex-col-reverse md:space-x-0">
-          {icon && (
-            <div className="sm:mt-2">
-              <SquareIcon icon={icon} width={14} />
-            </div>
-          )}
-          <span className="sm:text-center">{title}</span>
-        </div>
-        <span className="text-xs mb-2 sm:mt-1 whitespace-pre-line sm:text-center">
-          {description}
-        </span>
-      </>
-    );
-  };
-
-  const getProperties = () => {
-    if (!properties) return <></>;
-
-    return (
-      <div className="border-t border-white w-full mb-2 pt-2 flex justify-between gap-x-3 gap-y-2 flex-wrap sm:flex-col sm:items-center sm:flex-nowrap">
-        {/* Price display */}
-        {properties.coins !== undefined && (
-          <RequirementLabel
-            type="sellForCoins"
-            requirement={properties.coins}
-          />
-        )}
-        {!!properties.sfl && (
-          <RequirementLabel type="sellForSfl" requirement={properties.sfl} />
-        )}
-      </div>
-    );
-  };
-
   return (
     <div className="flex flex-col h-full justify-center">
       <div className="flex flex-col h-full px-1 py-0">
@@ -102,10 +61,52 @@ export const ShopSellDetails: React.FC<Props> = ({
             {formatDateRange(details.from, details.to as Date)}
           </Label>
         )}
-        {getItemDetail()}
-        {getProperties()}
+        <ItemDetails {...details} />
+        <ItemProperties {...properties} />
       </div>
       {actionView}
+    </div>
+  );
+};
+
+const ItemDetails: React.FC<ItemDetailsProps> = (details) => {
+  const item = ITEM_DETAILS[details.item];
+  const icon = item.image;
+  const title = details.item;
+  const description = item.description;
+
+  return (
+    <>
+      <div className="flex space-x-2 justify-start items-center sm:flex-col-reverse md:space-x-0">
+        {icon && (
+          <div className="sm:mt-2">
+            <SquareIcon icon={icon} width={14} />
+          </div>
+        )}
+        <span className="sm:text-center">{title}</span>
+      </div>
+      <span className="text-xs mb-2 sm:mt-1 whitespace-pre-line sm:text-center">
+        {description}
+      </span>
+    </>
+  );
+};
+
+const ItemProperties: React.FC<PropertiesProps> = (properties) => {
+  if (!properties) return <></>;
+
+  return (
+    <div className="border-t border-white w-full mb-2 pt-2 flex justify-between gap-x-3 gap-y-2 flex-wrap sm:flex-col sm:items-center sm:flex-nowrap">
+      {/* Price display */}
+      {properties.coins !== undefined && (
+        <RequirementLabel type="sellForCoins" requirement={properties.coins} />
+      )}
+      {properties.gems !== undefined && (
+        <RequirementLabel type="sellForGems" requirement={properties.gems} />
+      )}
+      {!!properties.sfl && (
+        <RequirementLabel type="sellForSfl" requirement={properties.sfl} />
+      )}
     </div>
   );
 };

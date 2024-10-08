@@ -7,6 +7,7 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import levelup from "assets/icons/level_up.png";
 import token from "assets/icons/sfl.webp";
 import coins from "assets/icons/coins.webp";
+import gems from "assets/icons/gem.webp";
 import { secondsToString } from "lib/utils/time";
 import classNames from "classnames";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -58,6 +59,16 @@ interface CoinsProps {
  */
 interface SellCoinsProps {
   type: "sellForCoins";
+  requirement: number;
+}
+
+/**
+ * The props for sell for Gems requirement label. Use this when selling the item gives players Gems.
+ * @param type The type is sell for Gems.
+ * @param requirement The Gems requirement.
+ */
+interface SellGemsProps {
+  type: "sellForGems";
   requirement: number;
 }
 
@@ -141,6 +152,7 @@ interface defaultProps {
 type Props = (
   | CoinsProps
   | SellCoinsProps
+  | SellGemsProps
   | SFLProps
   | SellSFLProps
   | ItemProps
@@ -172,6 +184,8 @@ export const RequirementLabel: React.FC<Props> = (props) => {
       case "coins":
       case "sellForCoins":
         return coins;
+      case "sellForGems":
+        return gems;
       case "sfl":
       case "sellForSfl":
         return token;
@@ -191,6 +205,7 @@ export const RequirementLabel: React.FC<Props> = (props) => {
     switch (props.type) {
       case "coins":
       case "sellForCoins":
+      case "sellForGems":
         return `${formatNumber(props.requirement)}`;
       case "sfl":
         return `${props.requirement.toNumber()}`;
@@ -240,6 +255,7 @@ export const RequirementLabel: React.FC<Props> = (props) => {
         return props.currentLevel >= props.requirement;
       case "sellForSfl":
       case "sellForCoins":
+      case "sellForGems":
       case "time":
       case "xp":
       case "harvests":

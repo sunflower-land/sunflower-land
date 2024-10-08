@@ -20,11 +20,15 @@ export type GarbageName =
   | "Earthworm"
   | "Grub"
   | "Red Wiggler"
-  | SeasonalTicket;
+  | SeasonalTicket
+  | "Chicken"
+  | "Hen House";
 
 export type Garbage = {
   sellPrice: number;
   gems: number;
+  // The limit is the number that are useful in game, you can't sell more than this
+  limit?: number;
 };
 
 export const GARBAGE: Record<GarbageName, Garbage> = {
@@ -133,4 +137,13 @@ export const GARBAGE: Record<GarbageName, Garbage> = {
         },
       }
     : ({} as { "Amber Fossil": { sellPrice: number; gems: number } })),
+  Chicken: {
+    sellPrice: 200,
+    gems: 0,
+  },
+  "Hen House": {
+    sellPrice: 800,
+    gems: 0,
+    limit: 1,
+  },
 };
