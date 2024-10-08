@@ -12,7 +12,7 @@ const COW_STATES: Record<AnimalState, string> = {
 };
 
 const _cow = (id: string) => (state: MachineState) =>
-  state.context.state.henHouse.animals[id];
+  state.context.state.barn.animals[id];
 
 export const Cow: React.FC<{ id: string }> = ({ id }) => {
   const { gameService } = useContext(Context);
@@ -21,22 +21,20 @@ export const Cow: React.FC<{ id: string }> = ({ id }) => {
 
   return (
     <div
-      id={`COW ${id}`}
-      className="relative flex items-center justify-center"
+      className="relative flex items-center justify-center cursor-pointer"
       style={{
         width: `${GRID_WIDTH_PX * 2}px`,
         height: `${GRID_WIDTH_PX * 2}px`,
       }}
     >
       <img
-        src={COW_STATES[cow.state]}
+        src={COW_STATES.idle}
         alt={`${capitalize(cow.state)} Cow`}
         style={{
           width: `${PIXEL_SCALE * 25}px`,
           top: `${PIXEL_SCALE * -5}px`,
           left: `${PIXEL_SCALE * 2}px`,
         }}
-        // className="absolute"
       />
     </div>
   );

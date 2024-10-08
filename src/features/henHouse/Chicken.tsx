@@ -20,7 +20,7 @@ export const Chicken: React.FC<{ id: string }> = ({ id }) => {
   const chicken = useSelector(gameService, _chicken(id));
 
   return (
-    <div id={`CHICKEN ${id}`} className="relative">
+    <div className="relative cursor-pointer">
       <img
         src={SUNNYSIDE.animals.chickenShadow}
         className="absolute"
