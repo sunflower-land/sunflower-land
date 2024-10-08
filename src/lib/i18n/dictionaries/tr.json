@@ -2981,9 +2981,7 @@
   "guide.compost.addEggs.confirmation": "Kompost üretim süresini {{time}} azaltmak için {{noEggs}} Yumurta eklemek istediğinizden emin misiniz?",
   "guide.factionPet.one": "Evcil hayvan her hafta 3 yiyecek isteyecektir. Beslendiğinde, yiyeceklerden elde edilen DP, fraksiyonun toplam DP sayısına gidecektir.",
   "guide.factionPet.three": "Eğer fraksiyon hedefe ulaşamazsa, evcil hayvan 1 hafta boyunca uyuyacaktır.",
-  "guide.factionPet.four": "Grup 2 veya daha fazla haftalık bir seriye ulaştığında, katkıda bulunan her fraksiyon üyesine, bumpkinleri yemek yediğinde bir DP bonusu verilecektir! Katkıda bulunan bir üye olmak için, evcil hayvanı önceki hafta boyunca her talepten en az 1 tanesini beslemiş olmanız gerekir.",
   "guide.factionPet.five": "Katkıda bulunan üye: Bir sonraki hafta potansiyel seri artışlara hak kazanmak için, bir oyuncunun her evcil hayvanın isteklerinden birini yerine getirmesi gerekir.",
-  "guide.factionPet.six": "Teslim edilen her yiyecek için not verilecektir. Her teslim ettiğinizde ödül azaltılacaktır. Bu ödüller günlük olarak sıfırlanacaktır. Amblem bonusu olan oyuncular, hizip bonus sıralamalarına göre ek bir bonus alacaklar.",
   "guide.streak.one": "2. hafta serisi elde edildi = 3. hafta ve hafta 4* boyunca %10 DP",
   "guide.streak.two": "4. hafta serisi elde edildi = 5. hafta ve 6. hafta boyunca %20 DP",
   "guide.streak.three": "6. hafta serisi elde edildi = 7. hafta ve 8. hafta boyunca %30 DP",
@@ -3695,5 +3693,7 @@
   "description.mog": "Tembel bir Morchi.",
   "miffy.boost": "2 kat Deneyim",
   "raffle.entry": "giriş",
-  "competition.prizes.two": "50.000 SFL kazanılacak."
+  "competition.prizes.two": "50.000 SFL kazanılacak.",
+  "guide.factionPet.four": "Grup 2 veya daha fazla haftalık bir seriye ulaştığında, katkıda bulunan her fraksiyon üyesine, bumpkinleri yemek yediğinde bir DP bonusu verilecektir!",
+  "guide.factionPet.six": "Teslim edilen her yiyecek için puan alacaksınız. Her teslim ettiğinizde ödül azaltılacaktır. Bu ödüller günlük olarak sıfırlanacaktır. Amblem bonusu olan oyuncular, hizip bonus sıralamalarına göre ek bir bonus alacaklar."
 }
