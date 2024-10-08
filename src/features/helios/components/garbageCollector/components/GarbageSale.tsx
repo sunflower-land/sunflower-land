@@ -34,9 +34,17 @@ export const GarbageSale: React.FC = () => {
 
   // Undefined if zero
   const price = selected.sellPrice || undefined;
-  // Undefined if zero
   const gems = selected.gems || undefined;
-  const amount = inventory[selectedName] || new Decimal(0);
+
+  const getAmount = (name: GarbageName) => {
+    const selected = GARBAGE[name];
+
+    let amount = inventory[name] || new Decimal(0);
+    if (amount.gte(selected.limit ?? 0)) {
+      amount = amount.minus(selected.limit ?? 0);
+    }
+    return amount;
+  };
 
   const sell = (amount = 1) => {
     gameService.send("garbage.sold", {
@@ -56,7 +64,7 @@ export const GarbageSale: React.FC = () => {
             coins: price,
             gems: gems,
           }}
-          actionView={<Action amount={amount} sell={sell} />}
+          actionView={<Action amount={getAmount(selectedName)} sell={sell} />}
         />
       }
       content={
@@ -67,7 +75,7 @@ export const GarbageSale: React.FC = () => {
               key={name}
               onClick={() => setSelectedName(name)}
               image={ITEM_DETAILS[name].image}
-              count={inventory[name] || new Decimal(0)}
+              count={getAmount(name)}
             />
           ))}
         </>
