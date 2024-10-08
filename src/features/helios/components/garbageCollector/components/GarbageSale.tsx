@@ -35,6 +35,7 @@ export const GarbageSale: React.FC = () => {
   // Undefined if zero
   const price = selected.sellPrice || undefined;
   const gems = selected.gems || undefined;
+  const items = selected.items || undefined;
 
   const getAmount = (name: GarbageName) => {
     const selected = GARBAGE[name];
@@ -62,7 +63,8 @@ export const GarbageSale: React.FC = () => {
           }}
           properties={{
             coins: price,
-            gems: gems,
+            gems,
+            items,
           }}
           actionView={<Action amount={getAmount(selectedName)} sell={sell} />}
         />

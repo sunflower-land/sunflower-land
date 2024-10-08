@@ -1,4 +1,4 @@
-import { InventoryItemName } from "features/game/types/game";
+import { Inventory, InventoryItemName } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import React from "react";
 import { RequirementLabel } from "../RequirementsLabel";
@@ -26,6 +26,7 @@ interface PropertiesProps {
   coins?: number;
   sfl?: Decimal;
   gems?: number;
+  items?: Inventory;
 }
 
 /**
@@ -106,6 +107,18 @@ const ItemProperties: React.FC<PropertiesProps> = (properties) => {
       )}
       {!!properties.sfl && (
         <RequirementLabel type="sellForSfl" requirement={properties.sfl} />
+      )}
+      {properties.items && (
+        <>
+          {Object.entries(properties.items).map(([name, amount]) => (
+            <RequirementLabel
+              key={name}
+              type="sellForItem"
+              requirement={amount.toNumber()}
+              item={name as InventoryItemName}
+            />
+          ))}
+        </>
       )}
     </div>
   );

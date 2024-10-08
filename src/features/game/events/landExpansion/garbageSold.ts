@@ -1,5 +1,6 @@
 import Decimal from "decimal.js-light";
 import { trackActivity } from "features/game/types/bumpkinActivity";
+import { getKeys } from "features/game/types/decorations";
 import { GameState } from "features/game/types/game";
 import { GARBAGE, GarbageName } from "features/game/types/garbage";
 import { produce } from "immer";
@@ -63,6 +64,16 @@ export function sellGarbage({ state, action }: Options) {
     if (gems) {
       const previous = game.inventory.Gem ?? new Decimal(0);
       game.inventory.Gem = previous.add(gems * amount);
+    }
+
+    const items = GARBAGE[item].items;
+    if (items) {
+      getKeys(items).forEach((itemName) => {
+        const previous = game.inventory[itemName] ?? new Decimal(0);
+        game.inventory[itemName] = previous.add(
+          GARBAGE[item].items?.[itemName] ?? 0,
+        );
+      });
     }
 
     bumpkin.activity = trackActivity(

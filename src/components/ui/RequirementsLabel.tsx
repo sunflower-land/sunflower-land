@@ -73,6 +73,18 @@ interface SellGemsProps {
 }
 
 /**
+ * The props for sell for Items requirement label. Use this when selling the item gives players Items.
+ * @param type The type is sell for items.
+ * @param item The item name.
+ * @param requirement The Items requirement.
+ */
+interface SellItemProps {
+  type: "sellForItem";
+  item: InventoryItemName;
+  requirement: number;
+}
+
+/**
  * The props for item requirement label.
  * @param type The type is item.
  * @param item The item name.
@@ -153,6 +165,7 @@ type Props = (
   | CoinsProps
   | SellCoinsProps
   | SellGemsProps
+  | SellItemProps
   | SFLProps
   | SellSFLProps
   | ItemProps
@@ -186,6 +199,8 @@ export const RequirementLabel: React.FC<Props> = (props) => {
         return coins;
       case "sellForGems":
         return gems;
+      case "sellForItem":
+        return ITEM_DETAILS[props.item].image;
       case "sfl":
       case "sellForSfl":
         return token;
@@ -206,6 +221,7 @@ export const RequirementLabel: React.FC<Props> = (props) => {
       case "coins":
       case "sellForCoins":
       case "sellForGems":
+      case "sellForItem":
         return `${formatNumber(props.requirement)}`;
       case "sfl":
         return `${props.requirement.toNumber()}`;
@@ -256,6 +272,7 @@ export const RequirementLabel: React.FC<Props> = (props) => {
       case "sellForSfl":
       case "sellForCoins":
       case "sellForGems":
+      case "sellForItem":
       case "time":
       case "xp":
       case "harvests":

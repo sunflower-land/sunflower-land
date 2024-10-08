@@ -1,7 +1,8 @@
 import { hasFeatureAccess } from "lib/flags";
-import { BB_TO_GEM_RATIO } from "./game";
+import { BB_TO_GEM_RATIO, Inventory } from "./game";
 import { SeasonalTicket, SEASONS } from "./seasons";
 import { TEST_FARM } from "../lib/constants";
+import Decimal from "decimal.js-light";
 
 export type GarbageName =
   | "Block Buck"
@@ -29,6 +30,7 @@ export type GarbageName =
 export type Garbage = {
   sellPrice: number;
   gems: number;
+  items?: Inventory;
   // The limit is the number that are useful in game, you can't sell more than this
   limit?: number;
 };
@@ -149,10 +151,21 @@ export const GARBAGE: Record<GarbageName, Garbage> = {
           sellPrice: 800,
           gems: 0,
           limit: 1,
+          items: {
+            Wood: new Decimal(200),
+            Iron: new Decimal(15),
+            Gold: new Decimal(15),
+            Egg: new Decimal(300),
+          },
         },
       }
     : ({} as {
         Chicken: { sellPrice: number; gems: number };
-        "Hen House": { sellPrice: number; gems: number; limit: number };
+        "Hen House": {
+          sellPrice: number;
+          gems: number;
+          limit: number;
+          items: Inventory;
+        };
       })),
 };
