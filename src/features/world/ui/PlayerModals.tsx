@@ -195,9 +195,9 @@ export const PlayerModals: React.FC<Props> = ({ game }) => {
               icon: SUNNYSIDE.icons.heart,
               name: "Trades",
             },
-            ...(gameService.getSnapshot().context.state.wardrobe[
+            ...(!!gameService.getSnapshot().context.state.wardrobe[
               "Gift Giver"
-            ] === 1 || CONFIG.NETWORK === "amoy"
+            ] || CONFIG.NETWORK === "amoy"
               ? [
                   {
                     icon: SUNNYSIDE.icons.search,
