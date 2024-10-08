@@ -271,10 +271,12 @@ export const SUNNYSIDE = {
     layingEggSheet: `${CONFIG.PROTECTED_IMAGE_URL}/animals/chickens/laying-egg-sheet_2.png`,
     wheatOnGround: `${CONFIG.PROTECTED_IMAGE_URL}/animals/chickens/wheat_2.png`,
 
+    cow: `${CONFIG.PROTECTED_IMAGE_URL}/animals/cows/cow_md.webp`,
     hungryCow: `${CONFIG.PROTECTED_IMAGE_URL}/animals/cows/hungry_cow.webp`,
     happyCow: `${CONFIG.PROTECTED_IMAGE_URL}/animals/cows/happy_cow.webp`,
     sickCow: `${CONFIG.PROTECTED_IMAGE_URL}/animals/cows/sick_cow.webp`,
 
+    sheep: `${CONFIG.PROTECTED_IMAGE_URL}/animals/sheep/sheep_md.webp`,
     hungrySheep: `${CONFIG.PROTECTED_IMAGE_URL}/animals/sheep/hungry_sheep.webp`,
     happySheep: `${CONFIG.PROTECTED_IMAGE_URL}/animals/sheep/happy_sheep.webp`,
     sickSheep: `${CONFIG.PROTECTED_IMAGE_URL}/animals/sheep/sick_sheep.webp`,
@@ -552,6 +554,7 @@ export const SUNNYSIDE = {
     milk: `${CONFIG.PROTECTED_IMAGE_URL}/resources/animals/milk.webp`,
     wool: `${CONFIG.PROTECTED_IMAGE_URL}/resources/animals/wool.webp`,
 
+    cow: `${CONFIG.PROTECTED_IMAGE_URL}/resources/cow.png`,
     //Treasures
     sand: `${CONFIG.PROTECTED_IMAGE_URL}/resources/treasures/sand.webp`,
     clam_shell: `${CONFIG.PROTECTED_IMAGE_URL}/resources/treasures/clam_shell.webp`,

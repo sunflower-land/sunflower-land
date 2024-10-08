@@ -1083,11 +1083,11 @@ export const ITEM_DETAILS: Items = {
     description: ANIMALS.Chicken.description,
   },
   Cow: {
-    image: SUNNYSIDE.icons.expression_confused,
+    image: SUNNYSIDE.animals.cow,
     description: ANIMALS.Cow.description,
   },
   Sheep: {
-    image: SUNNYSIDE.icons.expression_confused,
+    image: SUNNYSIDE.animals.sheep,
     description: ANIMALS.Sheep.description,
   },
   Pig: {
