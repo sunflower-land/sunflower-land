@@ -3328,7 +3328,6 @@
   "wishingWell.info.one": "许愿井是一个神奇的地方，只要许个愿就可以获得SFL奖励！",
   "wishingWell.info.two": "向在游戏中提供流动性的农民发放愿望。",
   "wishingWell.info.three": "看来你的钱包里有那些神奇的 LP 代币！",
-  "wishingWell.moreInfo": "更多信息",
   "withdraw.restricted": "有些物品无法撤回。其他物品在使用或仍在建造时可能会受到限制。",
   "world.newArea": "全新",
   "world.intro.missingDelivery": "嗯，看来你还没有为配送收集资源。在此期间你仍然可以探索。",
@@ -3620,7 +3619,6 @@
   "competition.farmerCompetition": "农民竞赛",
   "competition.hurry": "快点，在时间用完之前开始耕种！",
   "competition.prizes.one": "10,000 美元的 FSL 积分。",
-  "competition.prizes.two": "将赢取 50,000 SFL。",
   "competition.prizes.three": "所有参与者均有奖励。",
   "competition.connectFSL": "连接 FSL",
   "competition.bonusGift": "奖励礼物",
@@ -3695,5 +3693,7 @@
   "description.morty": "在向日葵之地发现了莫奇！",
   "description.miffy": "稀有的 Morchi。在 FSL 比赛中将经验值翻倍。",
   "description.mog": "一个懒散的 Morchi。",
-  "miffy.boost": "2x XP"
+  "miffy.boost": "2x XP",
+  "raffle.entry": "条目",
+  "competition.prizes.two": "将赢取 50,000 SFL。"
 }

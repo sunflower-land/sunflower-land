@@ -208,7 +208,7 @@ export const BuyGems: React.FC<Props> = ({
       <div className="flex flex-col w-full p-1">
         {startOfferSecondsLeft > 0 && (
           <ButtonPanel
-            onClick={() => setPrice({ amount: 25, usd: 0.99 })}
+            onClick={() => setPrice({ amount: 300, usd: 0.99 })}
             className="w-full mb-1"
           >
             <div className="flex justify-between">

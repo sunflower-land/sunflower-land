@@ -3321,7 +3321,6 @@
   "wishingWell.info.one": "소원의 우물은 소원을 빌기만 해도 SFL 보상을 받을 수 있는 마법의 장소입니다!",
   "wishingWell.info.two": "게임에서 유동성을 제공한 농부들에게 소원이 들어옵니다.",
   "wishingWell.info.three": "지갑에 마법의 LP 토큰이 있는 것 같네요!",
-  "wishingWell.moreInfo": "추가 정보",
   "withdraw.proof": "이 기능에는 인류 증명이 필요합니다.셀카를 잠깐 찍어주세요.",
   "withdraw.verification": "검증 시작",
   "withdraw.sync": "블록체인에 동기화한 항목만 인출할 수 있습니다.",
@@ -3620,7 +3619,6 @@
   "competition.farmerCompetition": "농부 경진대회",
   "competition.hurry": "시간이 다 가기 전에 서둘러 파밍을 시작하세요!",
   "competition.prizes.one": "미화 1만 달러의 FSL 포인트.",
-  "competition.prizes.two": "50,000 SFL을 획득할 예정입니다.",
   "competition.prizes.three": "모든 참가자에게 보너스 상품.",
   "competition.connectFSL": "FSL 연결",
   "competition.bonusGift": "보너스 기프트",
@@ -3695,5 +3693,7 @@
   "description.morty": "선플라워 랜드에서 발견된 모르키!",
   "description.miffy": "희귀한 모르치입니다.FSL 대회 기간 동안 XP가 두 배로 증가합니다.",
   "description.mog": "게으른 모르치.",
-  "miffy.boost": "경험치 2배"
+  "miffy.boost": "경험치 2배",
+  "raffle.entry": "기입",
+  "competition.prizes.two": "50,000 SFL을 획득할 예정입니다."
 }

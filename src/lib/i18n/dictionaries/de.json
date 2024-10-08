@@ -3318,7 +3318,6 @@
   "wishingWell.info.one": "Der Wunschbrunnen ist ein magischer Ort, an dem du dir SFL-Belohnungen verdienen kannst, indem du dir etwas wünschst!",
   "wishingWell.info.two": "Wünsche werden Landwirten erfüllt, die für Liquidität im Spiel gesorgt haben.",
   "wishingWell.info.three": "Sieht aus, als hättest du diese magischen LP-Token in deiner Brieftasche!",
-  "wishingWell.moreInfo": "Mehr Infos",
   "withdraw.proof": "Für diese Funktion ist ein Nachweis der Menschlichkeit erforderlich. Bitte mach ein kurzes Selfie.",
   "withdraw.verification": "Verifizierung starten",
   "withdraw.sync": "Sie können nur Artikel abheben, die Sie mit der Blockchain synchronisiert haben.",
@@ -3620,7 +3619,6 @@
   "competition.farmerCompetition": "Wettbewerb der Landwirte",
   "competition.hurry": "Beeil dich, fange an zu farmen, bevor die Zeit abläuft!",
   "competition.prizes.one": "FSL-Punkte im Wert von 10.000 USD.",
-  "competition.prizes.two": "50.000 SFL sind zu gewinnen.",
   "competition.prizes.three": "Bonuspreise für alle Teilnehmer.",
   "competition.connectFSL": "Verbinde FSL",
   "competition.bonusGift": "Bonus-Geschenk",
@@ -3695,5 +3693,7 @@
   "description.morty": "Ein Morchi, der im Sonnenblumenland entdeckt wurde!",
   "description.miffy": "Ein seltener Morchi. Verdoppelt die XP während des FSL-Wettkampfs.",
   "description.mog": "Ein fauler Morchi.",
-  "miffy.boost": "2 x XP"
+  "miffy.boost": "2 x XP",
+  "raffle.entry": "Eintrag",
+  "competition.prizes.two": "50.000 SFL sind zu gewinnen."
 }

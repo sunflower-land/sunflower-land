@@ -2289,7 +2289,6 @@
   "wishingWell.info.one": "O poço dos desejos é um lugar mágico onde as recompensas SFL podem ser feitas apenas fazendo um desejo!",
   "wishingWell.info.two": "Os desejos são concedidos aos fazendeiros que forneceram liquidez no jogo.",
   "wishingWell.info.three": "Parece que você tem esses tokens LP mágicos em sua carteira!",
-  "wishingWell.moreInfo": "Mais informações",
   "withdraw.proof": "A prova de humanidade é necessária para este recurso. Por favor, tire uma selfie rápida.",
   "withdraw.verification": "Iniciar Verificação",
   "withdraw.sync": "Você só pode retirar itens que sincronizou na blockchain.",
@@ -3620,7 +3619,6 @@
   "competition.farmerCompetition": "Competição de agricultores",
   "competition.hurry": "Corra, comece a cultivar antes que o tempo acabe!",
   "competition.prizes.one": "$10.000 USD em pontos FSL.",
-  "competition.prizes.two": "50.000 SFL a serem ganhos.",
   "competition.prizes.three": "Prêmios de bônus para todos os participantes.",
   "competition.connectFSL": "Conecte o FSL",
   "competition.bonusGift": "Presente de bônus",
@@ -3695,5 +3693,7 @@
   "description.morty": "Um Morchi descoberto na Terra dos Girassóis!",
   "description.miffy": "Um Morchi raro. Duplica a EXP durante a competição FSL.",
   "description.mog": "Um Morchi preguiçoso.",
-  "miffy.boost": "2x XP"
+  "miffy.boost": "2x XP",
+  "raffle.entry": "submeter",
+  "competition.prizes.two": "50.000 SFL a serem ganhos."
 }

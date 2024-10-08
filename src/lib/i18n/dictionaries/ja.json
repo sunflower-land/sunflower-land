@@ -3324,7 +3324,6 @@
   "wishingWell.info.one": "願いの井戸は、願い事をするだけでSFL報酬がもらえる魔法の場所です！",
   "wishingWell.info.two": "ゲームで流動性を提供した農家には願いが叶います。",
   "wishingWell.info.three": "ウォレットに魔法のLPトークンが入っているようです！",
-  "wishingWell.moreInfo": "詳細情報",
   "withdraw.proof": "この機能には人間性の証明が必要です。さっそく自撮りしてください。",
   "withdraw.verification": "検証を開始する",
   "withdraw.sync": "出金できるのは、ブロックチェーンに同期したアイテムのみです。",
@@ -3620,7 +3619,6 @@
   "competition.farmerCompetition": "ファーマーコンテスト",
   "competition.hurry": "急いで、時間がなくなる前に農業を始めましょう！",
   "competition.prizes.one": "1万米ドルのFSLポイント。",
-  "competition.prizes.two": "5万SFLが当選します。",
   "competition.prizes.three": "参加者全員にボーナス賞品をプレゼント。",
   "competition.connectFSL": "FSL を接続",
   "competition.bonusGift": "ボーナスギフト",
@@ -3695,5 +3693,7 @@
   "description.morty": "ひまわりランドでモルチを発見！",
   "description.miffy": "珍しいモルチ。FSLコンペティション中はXPが2倍になります。",
   "description.mog": "怠惰なモルチ。",
-  "miffy.boost": "XP x 2"
+  "miffy.boost": "XP x 2",
+  "raffle.entry": "エントリ",
+  "competition.prizes.two": "5万SFLが当選します。"
 }
