@@ -1,6 +1,7 @@
 import { hasFeatureAccess } from "lib/flags";
 import { BB_TO_GEM_RATIO } from "./game";
 import { SeasonalTicket, SEASONS } from "./seasons";
+import { TEST_FARM } from "../lib/constants";
 
 export type GarbageName =
   | "Block Buck"
@@ -138,7 +139,7 @@ export const GARBAGE: Record<GarbageName, Garbage> = {
         },
       }
     : ({} as { "Amber Fossil": { sellPrice: number; gems: number } })),
-  ...(hasFeatureAccess("CHICKEN_GARBO")
+  ...(hasFeatureAccess(TEST_FARM, "CHICKEN_GARBO")
     ? {
         Chicken: {
           sellPrice: 200,
