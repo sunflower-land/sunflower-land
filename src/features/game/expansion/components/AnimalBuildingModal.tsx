@@ -96,8 +96,6 @@ export const AnimalBuildingModal: React.FC<Props> = ({
   const atMaxCapacity =
     getAnimalCount() >= getAnimalCapacity(buildingKey, state);
 
-  console.log("image", ITEM_DETAILS.Chicken.image);
-
   return (
     <Modal show={show} onHide={onClose}>
       <CloseButtonPanel
