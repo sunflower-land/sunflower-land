@@ -81,9 +81,15 @@ export const AnimalBuildingModal: React.FC<Props> = ({
     onClose();
   };
 
-  const getAnimalCount = () => {
+  const getAnimalCount = (animalType: AnimalType) => {
     return Object.values(building.animals).filter(
-      (animal) => animal.type === selectedName,
+      (animal) => animal.type === animalType,
+    ).length;
+  };
+
+  const getTotalAnimalsInBuilding = () => {
+    return Object.values(building.animals).filter(
+      (animal) => ANIMALS[animal.type].buildingRequired === buildingName,
     ).length;
   };
 
@@ -94,7 +100,7 @@ export const AnimalBuildingModal: React.FC<Props> = ({
   };
 
   const atMaxCapacity =
-    getAnimalCount() >= getAnimalCapacity(buildingKey, state);
+    getTotalAnimalsInBuilding() >= getAnimalCapacity(buildingKey, state);
 
   return (
     <Modal show={show} onHide={onClose}>
@@ -145,7 +151,7 @@ export const AnimalBuildingModal: React.FC<Props> = ({
                     secondaryImage={
                       !hasRequiredLevel() ? SUNNYSIDE.icons.lock : undefined
                     }
-                    count={new Decimal(getAnimalCount())}
+                    count={new Decimal(getAnimalCount(name))}
                   />
                 ))}
               </div>

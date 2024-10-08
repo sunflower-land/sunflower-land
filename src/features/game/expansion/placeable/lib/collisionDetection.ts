@@ -730,7 +730,7 @@ export const pickRandomPositionInAnimalHouse = (
 
   const shuffled = shuffle(positionsInBounding);
 
-  const postion = shuffled.find(
+  const position = shuffled.find(
     (boundingBox) =>
       detectAnimalHouseCollision({
         state: gameState,
@@ -739,9 +739,9 @@ export const pickRandomPositionInAnimalHouse = (
       }) === false,
   );
 
-  if (!postion) {
+  if (!position) {
     throw new Error("No available position in animal house");
   }
 
-  return postion;
+  return position;
 };
