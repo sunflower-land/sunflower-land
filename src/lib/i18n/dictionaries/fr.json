@@ -3619,7 +3619,6 @@
   "competition.farmerCompetition": "Compétition paysanne",
   "competition.hurry": "Dépêchez-vous, commencez à cultiver avant la fin du temps imparti !",
   "competition.prizes.one": "10 000 dollars américains de points FSL.",
-  "competition.prizes.two": "50 000 SFL à gagner.",
   "competition.prizes.three": "Des prix bonus pour tous les participants.",
   "competition.connectFSL": "Connectez le FSL",
   "competition.bonusGift": "Cadeau bonus",
@@ -3695,5 +3694,6 @@
   "description.miffy": "Un Morchi rare. Double l'expérience pendant la compétition de FSL.",
   "description.mog": "Un Morchi paresseux.",
   "miffy.boost": "2 fois XP",
-  "raffle.entry": "entrée"
+  "raffle.entry": "entrée",
+  "competition.prizes.two": "50 000 SFL à gagner."
 }

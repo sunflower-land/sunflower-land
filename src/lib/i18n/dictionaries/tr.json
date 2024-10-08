@@ -3619,7 +3619,6 @@
   "competition.farmerCompetition": "Çiftçi yarışması",
   "competition.hurry": "Acele et, zaman dolmadan çiftçiliğe başla!",
   "competition.prizes.one": "10.000 ABD Doları tutarında FSL Puanı.",
-  "competition.prizes.two": "50.000 SFL kazanılacak.",
   "competition.prizes.three": "Tüm katılımcılar için bonus ödüller.",
   "competition.connectFSL": "FSL'yi bağlayın",
   "competition.bonusGift": "Bonus hediye",
@@ -3695,5 +3694,6 @@
   "description.miffy": "Nadir bir Morchi. FSL Yarışması sırasında DP'yi ikiye katlar.",
   "description.mog": "Tembel bir Morchi.",
   "miffy.boost": "2 kat Deneyim",
-  "raffle.entry": "giriş"
+  "raffle.entry": "giriş",
+  "competition.prizes.two": "50.000 SFL kazanılacak."
 }

@@ -3619,7 +3619,6 @@
   "competition.farmerCompetition": "Competição de agricultores",
   "competition.hurry": "Corra, comece a cultivar antes que o tempo acabe!",
   "competition.prizes.one": "$10.000 USD em pontos FSL.",
-  "competition.prizes.two": "50.000 SFL a serem ganhos.",
   "competition.prizes.three": "Prêmios de bônus para todos os participantes.",
   "competition.connectFSL": "Conecte o FSL",
   "competition.bonusGift": "Presente de bônus",
@@ -3695,5 +3694,6 @@
   "description.miffy": "Um Morchi raro. Duplica a EXP durante a competição FSL.",
   "description.mog": "Um Morchi preguiçoso.",
   "miffy.boost": "2x XP",
-  "raffle.entry": "submeter"
+  "raffle.entry": "submeter",
+  "competition.prizes.two": "50.000 SFL a serem ganhos."
 }

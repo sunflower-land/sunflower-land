@@ -3619,7 +3619,6 @@
   "competition.farmerCompetition": "Pertandingan petani",
   "competition.hurry": "Cepat, mulakan pertanian sebelum masa habis!",
   "competition.prizes.one": "$10,000 USD mata FSL.",
-  "competition.prizes.two": "50,000 SFL akan dimenangi.",
   "competition.prizes.three": "Hadiah bonus untuk semua peserta.",
   "competition.connectFSL": "Sambungkan FSL",
   "competition.bonusGift": "Hadiah bonus",
@@ -3695,5 +3694,6 @@
   "description.miffy": "Morchi yang jarang berlaku. Gandakan XP semasa Pertandingan FSL.",
   "description.mog": "Morchi yang malas.",
   "miffy.boost": "2x XP",
-  "raffle.entry": "kemasukan"
+  "raffle.entry": "kemasukan",
+  "competition.prizes.two": "50,000 SFL akan dimenangi."
 }

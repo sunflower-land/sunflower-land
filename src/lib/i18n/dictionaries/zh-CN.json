@@ -3619,7 +3619,6 @@
   "competition.farmerCompetition": "农民竞赛",
   "competition.hurry": "快点，在时间用完之前开始耕种！",
   "competition.prizes.one": "10,000 美元的 FSL 积分。",
-  "competition.prizes.two": "将赢取 50,000 SFL。",
   "competition.prizes.three": "所有参与者均有奖励。",
   "competition.connectFSL": "连接 FSL",
   "competition.bonusGift": "奖励礼物",
@@ -3695,5 +3694,6 @@
   "description.miffy": "稀有的 Morchi。在 FSL 比赛中将经验值翻倍。",
   "description.mog": "一个懒散的 Morchi。",
   "miffy.boost": "2x XP",
-  "raffle.entry": "条目"
+  "raffle.entry": "条目",
+  "competition.prizes.two": "将赢取 50,000 SFL。"
 }

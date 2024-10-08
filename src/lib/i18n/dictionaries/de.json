@@ -3619,7 +3619,6 @@
   "competition.farmerCompetition": "Wettbewerb der Landwirte",
   "competition.hurry": "Beeil dich, fange an zu farmen, bevor die Zeit abläuft!",
   "competition.prizes.one": "FSL-Punkte im Wert von 10.000 USD.",
-  "competition.prizes.two": "50.000 SFL sind zu gewinnen.",
   "competition.prizes.three": "Bonuspreise für alle Teilnehmer.",
   "competition.connectFSL": "Verbinde FSL",
   "competition.bonusGift": "Bonus-Geschenk",
@@ -3695,5 +3694,6 @@
   "description.miffy": "Ein seltener Morchi. Verdoppelt die XP während des FSL-Wettkampfs.",
   "description.mog": "Ein fauler Morchi.",
   "miffy.boost": "2 x XP",
-  "raffle.entry": "Eintrag"
+  "raffle.entry": "Eintrag",
+  "competition.prizes.two": "50.000 SFL sind zu gewinnen."
 }

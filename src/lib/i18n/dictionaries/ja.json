@@ -3619,7 +3619,6 @@
   "competition.farmerCompetition": "ファーマーコンテスト",
   "competition.hurry": "急いで、時間がなくなる前に農業を始めましょう！",
   "competition.prizes.one": "1万米ドルのFSLポイント。",
-  "competition.prizes.two": "5万SFLが当選します。",
   "competition.prizes.three": "参加者全員にボーナス賞品をプレゼント。",
   "competition.connectFSL": "FSL を接続",
   "competition.bonusGift": "ボーナスギフト",
@@ -3695,5 +3694,6 @@
   "description.miffy": "珍しいモルチ。FSLコンペティション中はXPが2倍になります。",
   "description.mog": "怠惰なモルチ。",
   "miffy.boost": "XP x 2",
-  "raffle.entry": "エントリ"
+  "raffle.entry": "エントリ",
+  "competition.prizes.two": "5万SFLが当選します。"
 }
