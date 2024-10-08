@@ -111,7 +111,6 @@ export const AnimalBuildingModal: React.FC<Props> = ({
               details={{
                 item: selectedName,
               }}
-              limit={getAnimalCapacity(buildingKey, state)}
               requirements={{
                 coins: ANIMALS[selectedName].coins,
                 showCoinsIfFree: true,
