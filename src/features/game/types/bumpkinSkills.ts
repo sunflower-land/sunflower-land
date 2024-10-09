@@ -132,7 +132,7 @@ export type BumpkinRevampSkillName =
   | "Swift Sizzle"
   | "Turbo Fry"
   | "Fry Frenzy"
-  // Machinary
+  // Machinery
   | "Crop Processor Unit"
   | "Oil Gadget"
   | "Oil Extraction"
@@ -161,7 +161,7 @@ export type BumpkinRevampSkillTree =
   | "Cooking"
   | "Bees & Flowers"
   | "Oil"
-  | "Machinary";
+  | "Machinery";
 
 export type BumpkinSkill = {
   name: BumpkinSkillName;
@@ -1408,10 +1408,10 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
 
-  // Machinary - Tier 1
+  // Machinery - Tier 1
   "Crop Processor Unit": {
     name: "Crop Processor Unit",
-    tree: "Machinary",
+    tree: "Machinery",
     requirements: {
       points: 1,
       skill: 0,
@@ -1421,7 +1421,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
   },
   "Oil Gadget": {
     name: "Oil Gadget",
-    tree: "Machinary",
+    tree: "Machinery",
     requirements: {
       points: 1,
       skill: 0,
@@ -1431,7 +1431,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
   },
   "Oil Extraction": {
     name: "Oil Extraction",
-    tree: "Machinary",
+    tree: "Machinery",
     requirements: {
       points: 1,
       skill: 0,
@@ -1439,10 +1439,10 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     boosts: "+1 Oil",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
-  // Machinary - Tier 2
+  // Machinery - Tier 2
   "Crop Extension Module": {
     name: "Crop Extension Module",
-    tree: "Machinary",
+    tree: "Machinery",
     requirements: {
       points: 2,
       skill: 2,
@@ -1452,7 +1452,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
   },
   "Rapid Rig": {
     name: "Rapid Rig",
-    tree: "Machinary",
+    tree: "Machinery",
     requirements: {
       points: 2,
       skill: 2,
@@ -1462,7 +1462,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
   },
   "Oil Be Back": {
     name: "Oil Be Back",
-    tree: "Machinary",
+    tree: "Machinery",
     requirements: {
       points: 2,
       skill: 2,
@@ -1470,10 +1470,10 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     boosts: "Oil refill time reduced by 20%",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
-  // Machinary - Tier 3
+  // Machinery - Tier 3
   "Field Extension Module": {
     name: "Field Extension Module",
-    tree: "Machinary",
+    tree: "Machinery",
     requirements: {
       points: 3,
       skill: 5,
@@ -1483,7 +1483,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
   },
   "Efficiency Extension Module": {
     name: "Efficiency Extension Module",
-    tree: "Machinary",
+    tree: "Machinery",
     requirements: {
       points: 3,
       skill: 5,
@@ -1493,7 +1493,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
   },
   "Grease Lightning": {
     name: "Grease Lightning",
-    tree: "Machinary",
+    tree: "Machinery",
     requirements: {
       points: 3,
       skill: 5,
