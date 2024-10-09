@@ -886,10 +886,7 @@
   "description.farm.dog": "농장 개를 데리고 양을 키우세요",
   "description.gold.egg": "밀을 필요로하지 않고 닭에게 먹이주기",
   "description.rooster": "돌연변이 닭을 떨어뜨릴 확률을 두 배로 높여줍니다",
-  "description.chicken": "알을 낳습니다.먹이려면 밀이 필요합니다.",
-  "description.cow": "우유를 생산합니다.먹이려면 밀이 필요합니다.",
   "description.pig": "분뇨를 생성합니다.먹이려면 밀이 필요합니다.",
-  "description.sheep": "양모를 생산합니다.먹이려면 밀이 필요합니다.",
   "description.basic.land": "기본 토지",
   "description.crop.plot": "농작물을 심을 빈 부지",
   "description.gold.rock": "금을 모으기 위한 채굴 가능한 암석",
@@ -2833,7 +2830,6 @@
   "nyonStatue.description": "광산에서 고블린을 제거하는 일을 담당한 전설의 기사.승리 후 얼마 지나지 않아 그는 고블린 공모자에게 독살당해 사망했습니다.선플라워 시티즌은 그의 정복을 기념하기 위해 그의 갑옷과 함께 이 동상을 세웠습니다.",
   "obsessionDialogue.line1": "아, {{itemName}}!보고 싶을 뿐, 소유하고 싶지는 않아요.보여주세요. {{seasonalTicket}} s가 보상이 될 거예요.",
   "obsessionDialogue.line2": "{{itemName}} 를 가져왔나요?그냥 보고 싶을 뿐이야.어디 보자. {{seasonalTicket}} s는 네 것이 될 거야.",
-  "obsessionDialogue.line3": "이게 당신이 가지고 있는 {{itemName}} 인가요?제가 원하는 건 그저 한 번 보는 것뿐입니다.이 경우 {{seasonalTicket}} 를 받게 됩니다.",
   "obsessionDialogue.line4": "{{itemName}}!보관하고 싶진 않아요. 그냥 보기 위해서요.보여주세요. {{seasonalTicket}} s는 당신 거예요.",
   "obsessionDialogue.line5": "{{itemName}} 의 전망을 제공합니까?제가 부탁하는 건 간단히 살펴보라는 것뿐입니다.여러분의 관대함에 따라 {{seasonalTicket}} 가 수여됩니다.",
   "offer.okxOffer": "안녕하세요 파머, 독점 OKX 혜택을 준비했습니다!",
@@ -3696,5 +3692,11 @@
   "competition.prizes.two": "50,000 SFL을 획득할 예정입니다.",
   "guide.factionPet.four": "진영이 2주 이상 연속으로 종료되면, 기여한 각 파벌 멤버에게 범프킨이 식사를 하면 XP 보너스가 지급됩니다!",
   "guide.factionPet.six": "배달된 각 음식에 대해 마크를 받게 됩니다.배달할 때마다 보상이 줄어듭니다.이 보상은 매일 초기화됩니다.엠블럼 보너스를 받은 플레이어는 진영 보너스 순위에 따라 추가 보너스를 받게 됩니다.",
-  "animal": "동물"
+  "animal": "동물",
+  "animals.buyAnimal": "동물 구매하기",
+  "animals.buildingIsFull": "{{buildingName}} 가 꽉 찼습니다!",
+  "description.chicken": "신선한 계란과 부드러운 깃털이 믿을 수 있는 공급원인 이 닭고기는 올바른 관리만 하면 기꺼이 제 역할을 해냅니다.",
+  "description.cow": "이 부드러운 젖소는 신선한 우유와 튼튼한 가죽을 제공합니다.푸짐한 음식과 애정으로 행복한 시간을 보내세요.",
+  "description.sheep": "이 푹신한 양은 일반 울과 고급스러운 메리노 울을 모두 제공합니다.아주 부드러운 결과를 위해 계속 사용하세요!",
+  "obsessionDialogue.line3": "이게 당신이 가지고 있는 {{itemName}} 인가요?내가 원하는 건 그저 한 번 보는 것뿐이야.이를 위해 {{seasonalTicket}} 를 받게 됩니다."
 }

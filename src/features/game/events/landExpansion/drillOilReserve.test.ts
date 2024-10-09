@@ -466,6 +466,39 @@ describe("drillOilReserve", () => {
 
     expect(reserve.oil.amount).toEqual(BASE_OIL_DROP_AMOUNT + boost);
   });
+  it("gives a +1 Bonus with Oil Extraction", () => {
+    const boost = 1;
+    const now = Date.now();
+
+    const game = drillOilReserve({
+      action: {
+        id: "1",
+        type: "oilReserve.drilled",
+      },
+      state: {
+        ...TEST_FARM,
+        bumpkin: { ...TEST_FARM.bumpkin, skills: { "Oil Extraction": 1 } },
+        inventory: { "Oil Drill": new Decimal(1) },
+        oilReserves: {
+          "1": {
+            x: 1,
+            y: 1,
+            height: 2,
+            width: 2,
+            createdAt: now,
+            drilled: 0,
+            oil: {
+              amount: 10,
+              drilledAt: 0,
+            },
+          },
+        },
+      },
+    });
+
+    const reserve = game.oilReserves["1"];
+    expect(reserve.oil.amount).toEqual(BASE_OIL_DROP_AMOUNT + boost);
+  });
 
   it("gives a +12.15 Bonus with Battle Fish, Knight Chicken, Oil Overalls and Oil Can", () => {
     const boost = 12.15;
@@ -533,7 +566,7 @@ describe("drillOilReserve", () => {
   });
 
   describe("getDrilledAt", () => {
-    it("replenishes oil faster with Dev Wrench", () => {
+    it("replenishes oil twice as fast with Dev Wrench", () => {
       const now = Date.now();
 
       const time = getDrilledAt({
@@ -551,6 +584,23 @@ describe("drillOilReserve", () => {
       });
 
       expect(time).toEqual(now - OIL_RESERVE_RECOVERY_TIME * 0.5 * 1000);
+    });
+
+    it("replenishes oil in 20% less time with Oil Be Back", () => {
+      const now = Date.now();
+
+      const time = getDrilledAt({
+        game: {
+          ...TEST_FARM,
+          bumpkin: {
+            ...TEST_BUMPKIN,
+            skills: { "Oil Be Back": 1 },
+          },
+        },
+        createdAt: now,
+      });
+
+      expect(time).toEqual(now - OIL_RESERVE_RECOVERY_TIME * 0.2 * 1000);
     });
   });
 });

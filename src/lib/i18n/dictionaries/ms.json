@@ -886,10 +886,7 @@
   "description.farm.dog": "Kambing domba dengan anjing ladang anda",
   "description.gold.egg": "Makan ayam tanpa memerlukan gandum",
   "description.rooster": "Gandakan peluang menjatuhkan ayam mutan",
-  "description.chicken": "Menghasilkan telur. Memerlukan gandum untuk memberi makan",
-  "description.cow": "Menghasilkan susu. Memerlukan gandum untuk memberi makan",
   "description.pig": "Menghasilkan baja. Memerlukan gandum untuk memberi makan",
-  "description.sheep": "Menghasilkan bulu. Memerlukan gandum untuk memberi makan",
   "description.basic.land": "Sekeping tanah asas",
   "description.crop.plot": "Plot kosong untuk menanam tanaman",
   "description.gold.rock": "Batu yang boleh ditambang untuk mengumpul emas",
@@ -2836,7 +2833,6 @@
   "nyonStatue.description": "Ksatria legenda yang bertanggungjawab membersihkan goblin dari lombong. Tidak lama selepas kemenangannya, dia meninggal kerana keracunan dari konspirator Goblin. Warganegara Bunga Matahari mendirikan patung ini dengan perisai untuk memperingati penaklukannya.",
   "obsessionDialogue.line1": "Ah, {{itemName}}! Saya hanya ingin melihatnya, bukan memiliki. Tunjukkan kepada saya, dan {{seasonalTicket}} s akan menjadi ganjaran anda.",
   "obsessionDialogue.line2": "Anda telah membawa {{itemName}}? Saya hanya mahu melihatnya. Biar saya lihat, dan {{seasonalTicket}} s akan menjadi milik anda.",
-  "obsessionDialogue.line3": "Adakah itu {{itemName}} yang anda ada? Pandangan semata-mata adalah semua yang saya inginkan. Sebelum ini, anda akan menerima {{seasonalTicket}} s.",
   "obsessionDialogue.line4": "{{itemName}}! Saya tidak mahu menyimpannya, hanya untuk melihatnya. Tunjukkan kepada saya, dan {{seasonalTicket}} s adalah milik anda.",
   "obsessionDialogue.line5": "Anda menawarkan pemandangan {{itemName}}? Apa yang saya minta ialah melihatnya secara ringkas. Untuk kemurahan hati anda, {{seasonalTicket}} s akan diberikan kepada anda.",
   "offer.okxOffer": "Hello Farmer, saya mempunyai tawaran OKX eksklusif untuk anda!",
@@ -3696,5 +3692,11 @@
   "competition.prizes.two": "50,000 SFL akan dimenangi.",
   "guide.factionPet.four": "Setelah puak mencapai serangan 2 atau lebih minggu, bonus XP akan diberikan kepada setiap ahli puak yang menyumbang apabila bumpkin mereka makan!",
   "guide.factionPet.six": "Anda akan dianugerahkan markah untuk setiap makanan yang dihantar. Setiap kali anda menyampaikan ganjaran akan dikurangkan. Ganjaran ini akan ditetapkan semula setiap hari. Pemain dengan bonus lambang akan mendapat bonus tambahan berdasarkan pangkat bonus puak mereka.",
-  "animal": "Haiwan"
+  "animal": "Haiwan",
+  "animals.buyAnimal": "Beli Haiwan",
+  "animals.buildingIsFull": "{{buildingName}} sudah penuh!",
+  "description.chicken": "Sumber telur segar dan bulu lembut yang boleh dipercayai, ayam ini dengan senang hati melakukan perganannya dengan penjagaan yang betul.",
+  "description.cow": "Lembu lembut ini menyediakan susu segar dan kulit tahan lama. Pastikan ia gembira dengan banyak makanan & kasih sayang.",
+  "description.sheep": "Domba berbulu ini menyediakan bulu biasa dan bulu merino mewah. Pastikan ia gembira untuk hasil yang paling lembut!",
+  "obsessionDialogue.line3": "Adakah itu {{itemName}} yang anda ada? Pandangan semata-mata adalah semua yang saya inginkan. Untuk ini, anda akan menerima {{seasonalTicket}} s."
 }

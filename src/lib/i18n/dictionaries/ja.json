@@ -886,10 +886,7 @@
   "description.farm.dog": "牧場の犬と一緒に羊の群れを飼おう",
   "description.gold.egg": "小麦を必要とせずに鶏に餌をやる",
   "description.rooster": "ミュータント・チキンを落とす確率が2倍になる",
-  "description.chicken": "卵を生産します。給餌には小麦が必要です。",
-  "description.cow": "牛乳を生産します。給餌には小麦が必要です。",
   "description.pig": "肥料を生産します。給餌には小麦が必要です。",
-  "description.sheep": "ウールを生産します。給餌には小麦が必要です。",
   "description.basic.land": "基本的な土地",
   "description.crop.plot": "作物を植えるための空き地",
   "description.gold.rock": "金を集めるための採掘可能な岩",
@@ -2836,7 +2833,6 @@
   "nyonStatue.description": "地雷からゴブリンを一掃した伝説の騎士。勝利して間もなく、彼はゴブリンの共謀者に毒殺されて死亡した。ヒマワリの市民たちは、彼の征服を記念して、彼の鎧を使ってこの像を建てました。",
   "obsessionDialogue.line1": "ああ、{{itemName}}！私はそれを見たいだけで、所有したいわけではない。私に見せてください。そうすれば {{seasonalTicket}} sが報酬になります。",
   "obsessionDialogue.line2": "{{itemName}} を持ってきましたか？ただじっと見つめたいだけです。見せて、{{seasonalTicket}} は君のものだ。",
-  "obsessionDialogue.line3": "それはあなたが持っている {{itemName}} ですか？一目見ただけでいいんだよ。これに対して、{{seasonalTicket}} が届きます。",
   "obsessionDialogue.line4": "ザ・{{itemName}}!見守るためだけに持っておきたくない。私に見せてください。{{seasonalTicket}} はあなたのものです。",
   "obsessionDialogue.line5": "{{itemName}} の景色が見えますか？私がお願いするのは、簡単に見てみることだけです。あなたのご厚意により、{{seasonalTicket}} が授与されます。",
   "offer.okxOffer": "ハウディファーマー、OKX限定のオファーがあります！",
@@ -3696,5 +3692,11 @@
   "competition.prizes.two": "5万SFLが当選します。",
   "guide.factionPet.four": "陣営が2週間以上連勝すると、貢献した各陣営メンバーのバンプキンが食べると、XPボーナスが与えられます！",
   "guide.factionPet.six": "配達された食品ごとにマークが付与されます。配達するたびに報酬が減ります。これらの報酬は毎日リセットされます。エンブレムボーナスを獲得したプレイヤーは、陣営ボーナスランクに応じて追加ボーナスを獲得できます。",
-  "animal": "動物"
+  "animal": "動物",
+  "animals.buyAnimal": "動物を購入",
+  "animals.buildingIsFull": "{{buildingName}} がいっぱいです！",
+  "description.chicken": "新鮮な卵と柔らかい羽毛の信頼できる供給源であるこの鶏肉は、適切な手入れをすれば喜んでその役割を果たします。",
+  "description.cow": "この優しい牛は、新鮮なミルクと丈夫な革を使用しています。たっぷりの食べ物と愛情を込めて幸せに保ちましょう。",
+  "description.sheep": "このふわふわの羊は、通常のウールと高級なメリノウールの両方を備えています。最高にソフトな仕上がりになるのでハッピーな状態を保ちましょう。",
+  "obsessionDialogue.line3": "それはあなたが持っている {{itemName}} ですか？一目見ただけでいいんだよ。これにより、{{seasonalTicket}} が届きます。"
 }
