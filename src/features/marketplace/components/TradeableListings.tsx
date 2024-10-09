@@ -54,7 +54,7 @@ export const TradeableListings: React.FC<TradeableListingsProps> = ({
   onListClick,
   onListClose,
 }) => {
-  const { gameService } = useContext(Context);
+  const { gameService, showAnimations } = useContext(Context);
   const { t } = useAppTranslation();
 
   const isListing = useSelector(gameService, _isListing);
@@ -73,7 +73,7 @@ export const TradeableListings: React.FC<TradeableListingsProps> = ({
     "marketplaceListing",
     "marketplaceListingSuccess",
     () => {
-      confetti();
+      if (showAnimations) confetti();
     },
   );
 

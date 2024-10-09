@@ -1083,11 +1083,11 @@ export const ITEM_DETAILS: Items = {
     description: ANIMALS.Chicken.description,
   },
   Cow: {
-    image: SUNNYSIDE.icons.expression_confused,
+    image: SUNNYSIDE.animals.cow,
     description: ANIMALS.Cow.description,
   },
   Sheep: {
-    image: SUNNYSIDE.icons.expression_confused,
+    image: SUNNYSIDE.animals.sheep,
     description: ANIMALS.Sheep.description,
   },
   Pig: {
@@ -4102,5 +4102,25 @@ export const ITEM_DETAILS: Items = {
   Morty: {
     image: morty,
     description: translate("description.morty"),
+  },
+  Leather: {
+    image: SUNNYSIDE.resource.leather,
+    description: "Resource you can collect from cows",
+  },
+  Wool: {
+    image: SUNNYSIDE.resource.wool,
+    description: "Resource you can collect from sheep",
+  },
+  "Merino Wool": {
+    image: SUNNYSIDE.resource.merino_wool,
+    description: "Rare resource you can collect from sheep",
+  },
+  Feather: {
+    image: SUNNYSIDE.resource.feather,
+    description: "Resource you can collect from chicken",
+  },
+  Milk: {
+    image: SUNNYSIDE.resource.milk,
+    description: "Resource you can collect from cows",
   },
 };

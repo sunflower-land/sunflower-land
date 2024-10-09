@@ -58,8 +58,7 @@ const InProgressBuilding: React.FC<Prop> = ({
   showTimers,
   island,
 }) => {
-  const { t } = useAppTranslation();
-  const { gameService } = useContext(Context);
+  const { gameService, showAnimations } = useContext(Context);
 
   const BuildingPlaced = BUILDING_COMPONENTS[name];
 
@@ -87,8 +86,9 @@ const InProgressBuilding: React.FC<Prop> = ({
       item: "Instant Build",
       type: "Fee",
     });
+
     setShowModal(false);
-    confetti();
+    if (showAnimations) confetti();
   };
 
   return (

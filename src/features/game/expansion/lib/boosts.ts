@@ -247,6 +247,13 @@ export const getFoodExpBoost = (
     boostedExp = boostedExp.mul(2);
   }
 
+  if (
+    isCollectibleBuilt({ name: "Miffy", game }) &&
+    createdAt < new Date("2024-11-01T00:00:00").getTime()
+  ) {
+    boostedExp = boostedExp.mul(2);
+  }
+
   boostedExp = boostedExp.mul(getBudExperienceBoosts(buds, food));
   boostedExp = boostedExp.mul(getFactionPetBoostMultiplier(game));
 
