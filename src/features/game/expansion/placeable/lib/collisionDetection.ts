@@ -55,7 +55,7 @@ const splitBoundingBox = (boundingBox: BoundingBox, height = 1, width = 1) => {
 
   return Array.from({ length: boxCount }).map((_, i) => ({
     x: boundingBox.x + (i % boundingBox.width),
-    y: boundingBox.y + Math.floor(i / boundingBox.width),
+    y: boundingBox.y - Math.floor(i / boundingBox.width),
     width,
     height,
   }));
@@ -215,19 +215,19 @@ const ANIMAL_HOUSE_BOUNDS: Record<
       height: 6,
       width: 6,
       x: -3,
-      y: -3,
+      y: 3,
     },
     1: {
       height: 8,
       width: 8,
       x: -4,
-      y: -4,
+      y: 4,
     },
     2: {
       height: 10,
       width: 10,
       x: -5,
-      y: -5,
+      y: 5,
     },
   },
   barn: {
@@ -235,19 +235,19 @@ const ANIMAL_HOUSE_BOUNDS: Record<
       height: 10,
       width: 10,
       x: -5,
-      y: -5,
+      y: 5,
     },
     1: {
       height: 12,
       width: 12,
       x: -6,
-      y: -6,
+      y: 6,
     },
     2: {
       height: 14,
       width: 14,
       x: -7,
-      y: -7,
+      y: 7,
     },
   },
 };
@@ -342,12 +342,7 @@ function detectAnimalHouseCollision({
   const building = state[buildingKey] as AnimalBuilding;
   const bounds = ANIMAL_HOUSE_BOUNDS[buildingKey][building.level];
 
-  const isOutside =
-    position.x < bounds.x ||
-    position.x + position.width > bounds.x + bounds.width ||
-    position.y > bounds.y + bounds.height ||
-    position.y - position.height < bounds.y;
-
+  const isOutside = !isOverlapping(position, bounds);
   if (isOutside) return true;
 
   // TODO: Add any static objects that are inside the animal houses eg. feeders
