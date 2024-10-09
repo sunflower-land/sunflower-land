@@ -10,6 +10,7 @@ type Props = {
   className?: string;
   onValueChange: (value: string) => void;
   icon?: string;
+  placeholder?: string;
 };
 
 export const TextInput: React.FC<Props> = ({
@@ -17,6 +18,7 @@ export const TextInput: React.FC<Props> = ({
   onValueChange,
   icon,
   className,
+  placeholder,
 }) => {
   const [isFocused, setIsFocused] = useState(false); // State for focus
 
@@ -44,7 +46,7 @@ export const TextInput: React.FC<Props> = ({
           borderImageSlice: isFocused ? "4 fill" : "4 4 4 4 fill",
         }}
         type="text"
-        placeholder="Search here..."
+        placeholder={placeholder ?? "Search here..."}
         value={value}
         onChange={(e: ChangeEvent<HTMLInputElement>) => {
           onValueChange(e.target.value);
