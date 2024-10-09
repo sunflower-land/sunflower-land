@@ -14,6 +14,7 @@ import {
   CropMachineQueueItem,
   GameState,
 } from "features/game/types/game";
+import { setPrecision } from "lib/utils/formatNumber";
 
 const GAME_STATE: GameState = { ...TEST_FARM, bumpkin: INITIAL_BUMPKIN };
 
@@ -1657,6 +1658,140 @@ describe("supplyCropMachine", () => {
       finalState.buildings["Crop Machine"]?.[0]?.queue?.[1].startTime,
     ).toBeGreaterThanOrEqual(now);
   });
+
+  it("increases Oil consumption per hour by 10% when Crop Processor Unit is active", () => {
+    const oilConsumedPerHour = OIL_PER_HOUR_CONSUMPTION({
+      ...GAME_STATE,
+      bumpkin: {
+        ...GAME_STATE.bumpkin,
+        skills: {
+          "Crop Processor Unit": 1,
+        },
+      },
+    });
+
+    expect(oilConsumedPerHour).toEqual(1.1);
+  });
+
+  it("increases Oil consumption per hour by 40% when Rapid Rig is active", () => {
+    const oilConsumedPerHour = OIL_PER_HOUR_CONSUMPTION({
+      ...GAME_STATE,
+      bumpkin: {
+        ...GAME_STATE.bumpkin,
+        skills: {
+          "Rapid Rig": 1,
+        },
+      },
+    });
+
+    expect(oilConsumedPerHour).toEqual(1.4);
+  });
+
+  it("increases Oil consumption per hour by 50% when Crop Processor Unit and Rapid Rig are active", () => {
+    const oilConsumedPerHour = OIL_PER_HOUR_CONSUMPTION({
+      ...GAME_STATE,
+      bumpkin: {
+        ...GAME_STATE.bumpkin,
+        skills: {
+          "Crop Processor Unit": 1,
+          "Rapid Rig": 1,
+        },
+      },
+    });
+
+    expect(oilConsumedPerHour).toEqual(1.5);
+  });
+
+  it("decreases Oil consumption per hour by 10% when Oil Gadget is active", () => {
+    const oilConsumedPerHour = OIL_PER_HOUR_CONSUMPTION({
+      ...GAME_STATE,
+      bumpkin: {
+        ...GAME_STATE.bumpkin,
+        skills: {
+          "Oil Gadget": 1,
+        },
+      },
+    });
+
+    expect(oilConsumedPerHour).toEqual(0.9);
+  });
+
+  it("decreases Oil consumption per hour by 30% when Efficiency Extension Module is active", () => {
+    const oilConsumedPerHour = OIL_PER_HOUR_CONSUMPTION({
+      ...GAME_STATE,
+      bumpkin: {
+        ...GAME_STATE.bumpkin,
+        skills: {
+          "Efficiency Extension Module": 1,
+        },
+      },
+    });
+
+    expect(oilConsumedPerHour).toEqual(0.7);
+  });
+
+  it("decreases Oil consumption per hour by 40% when Oil Gadget and Efficiency Extension Module are active", () => {
+    const oilConsumedPerHour = setPrecision(
+      OIL_PER_HOUR_CONSUMPTION({
+        ...GAME_STATE,
+        bumpkin: {
+          ...GAME_STATE.bumpkin,
+          skills: {
+            "Oil Gadget": 1,
+            "Efficiency Extension Module": 1,
+          },
+        },
+      }),
+    ).toNumber();
+
+    expect(oilConsumedPerHour).toEqual(0.6);
+  });
+
+  it("decreases Oil consumption per hour by 10% when Oil Gadget, Efficiency Extension Module, Crop Processor Unit and Rapid Rig are active", () => {
+    const oilConsumedPerHour = setPrecision(
+      OIL_PER_HOUR_CONSUMPTION({
+        ...GAME_STATE,
+        bumpkin: {
+          ...GAME_STATE.bumpkin,
+          skills: {
+            "Oil Gadget": 1,
+            "Efficiency Extension Module": 1,
+            "Crop Processor Unit": 1,
+            "Rapid Rig": 1,
+          },
+        },
+      }),
+    ).toNumber();
+
+    expect(oilConsumedPerHour).toEqual(0.9);
+  });
+
+  it("does not let player plant cabbage and carrot if player doesn't have Crop Extension Module", () => {
+    expect(() =>
+      supplyCropMachine({
+        state: {
+          ...GAME_STATE,
+          buildings: {
+            "Crop Machine": [
+              {
+                coordinates: { x: 0, y: 0 },
+                createdAt: 0,
+                readyAt: 0,
+                id: "0",
+                unallocatedOilTime: 3600000 + 1800000,
+                queue: [],
+              },
+            ],
+          },
+        },
+        action: {
+          type: "cropMachine.supplied",
+          seeds: { type: "Cabbage Seed", amount: 20 },
+        },
+        createdAt: Date.now(),
+      }),
+    ).toThrow("You can only supply basic crop seeds!");
+  });
 });
 
 describe("calculateCropTime", () => {
@@ -1666,6 +1801,57 @@ describe("calculateCropTime", () => {
       GAME_STATE,
     );
     expect(result).toBe((60 * 10 * 1000) / CROP_MACHINE_PLOTS);
+  });
+
+  it("reduces crop machine growth time by 5% with Crop Processor Unit", () => {
+    const result = calculateCropTime(
+      { type: "Sunflower Seed", amount: 10 },
+      {
+        ...GAME_STATE,
+        bumpkin: {
+          ...GAME_STATE.bumpkin,
+          skills: {
+            "Crop Processor Unit": 1,
+          },
+        },
+      },
+    );
+
+    expect(result).toBe((60 * 10 * 1000 * 0.95) / CROP_MACHINE_PLOTS);
+  });
+
+  it("reduces crop machine growth time by 20% with Rapid Rig", () => {
+    const result = calculateCropTime(
+      { type: "Sunflower Seed", amount: 10 },
+      {
+        ...GAME_STATE,
+        bumpkin: {
+          ...GAME_STATE.bumpkin,
+          skills: {
+            "Rapid Rig": 1,
+          },
+        },
+      },
+    );
+
+    expect(result).toBe((60 * 10 * 1000 * 0.8) / CROP_MACHINE_PLOTS);
+  });
+  it("reduces crop machine growth time by 24% with Crop Processor Unit and Rapid Rig", () => {
+    const result = calculateCropTime(
+      { type: "Sunflower Seed", amount: 10 },
+      {
+        ...GAME_STATE,
+        bumpkin: {
+          ...GAME_STATE.bumpkin,
+          skills: {
+            "Crop Processor Unit": 1,
+            "Rapid Rig": 1,
+          },
+        },
+      },
+    );
+
+    expect(result).toBe((60 * 10 * 1000 * 0.76) / CROP_MACHINE_PLOTS);
   });
 });
 

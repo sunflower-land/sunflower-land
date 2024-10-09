@@ -23,8 +23,9 @@ type Options = {
   createdAt?: number;
 };
 
-export const MAX_QUEUE_SIZE = (state: GameState): number =>
-  state.bumpkin.skills["Field Extension Module"] ? 10 : 5;
+export const MAX_QUEUE_SIZE = (state: GameState): number => {
+  return state.bumpkin.skills["Field Extension Module"] ? 10 : 5;
+};
 
 export const CROP_MACHINE_PLOTS = 10;
 export const OIL_PER_HOUR_CONSUMPTION = (state: GameState) => {
