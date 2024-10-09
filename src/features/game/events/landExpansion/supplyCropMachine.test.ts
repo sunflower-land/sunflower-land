@@ -490,7 +490,7 @@ describe("supplyCropMachine", () => {
       },
     });
 
-    const oilTime = 10 / OIL_PER_HOUR_CONSUMPTION;
+    const oilTime = 10 / OIL_PER_HOUR_CONSUMPTION(GAME_STATE);
     const oilTimeRemaining = oilTime * 60 * 60 * 1000;
 
     expect(
@@ -541,7 +541,8 @@ describe("supplyCropMachine", () => {
     });
 
     const sunflowerTime = (60 * 100 * 1000) / CROP_MACHINE_PLOTS; // 5 plots;
-    const oilTimeRemain = (10 / OIL_PER_HOUR_CONSUMPTION) * 60 * 60 * 1000;
+    const oilTimeRemain =
+      (10 / OIL_PER_HOUR_CONSUMPTION(GAME_STATE)) * 60 * 60 * 1000;
     const pack = result.buildings["Crop Machine"]?.[0]
       .queue?.[0] as CropMachineQueueItem;
     expect(pack.growTimeRemaining).toBe(0);
@@ -606,7 +607,8 @@ describe("supplyCropMachine", () => {
     });
 
     // 600 minutes of oil remaining
-    const oilTimeRemaining = (oil / OIL_PER_HOUR_CONSUMPTION) * 60 * 60 * 1000;
+    const oilTimeRemaining =
+      (oil / OIL_PER_HOUR_CONSUMPTION(GAME_STATE)) * 60 * 60 * 1000;
 
     const item1ReadyAt = now + sunflowerPackGrowTime;
     const item2ReadyAt = item1ReadyAt + potatoPackGrowTime;
@@ -659,8 +661,9 @@ describe("supplyCropMachine", () => {
       },
     };
 
-    const oil = OIL_PER_HOUR_CONSUMPTION / 2;
-    const oilTimeRemaining = (oil / OIL_PER_HOUR_CONSUMPTION) * 60 * 60 * 1000;
+    const oil = OIL_PER_HOUR_CONSUMPTION(GAME_STATE) / 2;
+    const oilTimeRemaining =
+      (oil / OIL_PER_HOUR_CONSUMPTION(GAME_STATE)) * 60 * 60 * 1000;
 
     const result = supplyCropMachine({
       state,
@@ -804,7 +807,8 @@ describe("supplyCropMachine", () => {
     };
 
     const oil = 10;
-    const oilMillis = (oil / OIL_PER_HOUR_CONSUMPTION) * 60 * 60 * 1000;
+    const oilMillis =
+      (oil / OIL_PER_HOUR_CONSUMPTION(GAME_STATE)) * 60 * 60 * 1000;
     const oilTimeRemaining = oilMillis - sunflowerTime * 2 - potatoTime;
 
     const result = supplyCropMachine({
@@ -1063,7 +1067,7 @@ describe("supplyCropMachine", () => {
     ]?.[0] as CropMachineBuilding;
 
     const secondPack = machine.queue?.[1] as CropMachineQueueItem;
-    const oilMillisAdded = getOilTimeInMillis(1);
+    const oilMillisAdded = getOilTimeInMillis(1, GAME_STATE);
 
     expect(secondPack.growTimeRemaining).toBe(0);
     expect(secondPack.growsUntil).toBeUndefined();
@@ -1124,7 +1128,7 @@ describe("supplyCropMachine", () => {
     ]?.[0] as CropMachineBuilding;
 
     const firstPack = machine.queue?.[0] as CropMachineQueueItem;
-    const oilMillisAdded = getOilTimeInMillis(1);
+    const oilMillisAdded = getOilTimeInMillis(1, GAME_STATE);
     const newUnallocatedOilTime = oilMillisAdded - packOneGrowTime / 2;
 
     expect(firstPack.growTimeRemaining).toBe(0);
@@ -1253,7 +1257,7 @@ describe("supplyCropMachine", () => {
     ]?.[0] as CropMachineBuilding;
 
     const firstPack = machine.queue?.[0] as CropMachineQueueItem;
-    const oilMillisAdded = getOilTimeInMillis(1);
+    const oilMillisAdded = getOilTimeInMillis(1, GAME_STATE);
 
     expect(firstPack.growTimeRemaining).toBe(10 * 60 * 1000); // 10 minutes
     expect(firstPack.growsUntil).toBeCloseTo(now + oilMillisAdded);
@@ -1344,7 +1348,7 @@ describe("supplyCropMachine", () => {
       "Crop Machine"
     ]?.[0] as CropMachineBuilding;
 
-    expect(machine.unallocatedOilTime).toBe(getOilTimeInMillis(1));
+    expect(machine.unallocatedOilTime).toBe(getOilTimeInMillis(1, GAME_STATE));
   });
 
   it("completely allocates when the oil time perfectly matches the grow time", () => {

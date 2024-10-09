@@ -115,7 +115,7 @@ export const CropMachineModal: React.FC<Props> = ({
   }, [show]);
 
   const getProjectedOilTimeMillis = () => {
-    const projectedOilTime = getOilTimeInMillis(totalOil);
+    const projectedOilTime = getOilTimeInMillis(totalOil, state);
     const projectedTotalOilTime = getTotalOilMillisInMachine(
       queue,
       unallocatedOilTime + projectedOilTime,
@@ -614,7 +614,7 @@ export const CropMachineModal: React.FC<Props> = ({
                     <span>
                       {t("cropMachine.totalRuntime", {
                         time: secondsToString(
-                          getOilTimeInMillis(totalOil) / 1000,
+                          getOilTimeInMillis(totalOil, state) / 1000,
                           {
                             length: "full",
                             isShortFormat: true,
