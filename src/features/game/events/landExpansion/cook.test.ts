@@ -601,6 +601,91 @@ describe("getReadyAt", () => {
 
     expect(time).toEqual(readyAt);
   });
+
+  it("applies 10% speed boost on Firepit with Fast Feasts skill", () => {
+    const now = Date.now();
+
+    const time = getReadyAt({
+      buildingId: "123",
+      item: "Boiled Eggs",
+      bumpkin: { ...INITIAL_BUMPKIN, skills: { "Fast Feasts": 1 } },
+      createdAt: now,
+      game: {
+        ...TEST_FARM,
+        bumpkin: { ...INITIAL_BUMPKIN, skills: { "Fast Feasts": 1 } },
+      },
+    });
+
+    const boost = COOKABLES["Boiled Eggs"].cookingSeconds * 0.1;
+
+    const readyAt =
+      now + (COOKABLES["Boiled Eggs"].cookingSeconds - boost) * 1000;
+
+    expect(time).toEqual(readyAt);
+  });
+
+  it("applies 10% speed boost on Kitchen with Fast Feasts skill", () => {
+    const now = Date.now();
+
+    const time = getReadyAt({
+      buildingId: "123",
+      item: "Sunflower Crunch",
+      bumpkin: { ...INITIAL_BUMPKIN, skills: { "Fast Feasts": 1 } },
+      createdAt: now,
+      game: {
+        ...TEST_FARM,
+        bumpkin: { ...INITIAL_BUMPKIN, skills: { "Fast Feasts": 1 } },
+      },
+    });
+
+    const boost = COOKABLES["Sunflower Crunch"].cookingSeconds * 0.1;
+
+    const readyAt =
+      now + (COOKABLES["Sunflower Crunch"].cookingSeconds - boost) * 1000;
+
+    expect(time).toEqual(readyAt);
+  });
+
+  it("applies a 40% speed boost on Fire Pit when using oil with Swift Sizzle skill", () => {
+    const now = Date.now();
+
+    const time = getReadyAt({
+      buildingId: "123",
+      item: "Boiled Eggs",
+      bumpkin: { ...INITIAL_BUMPKIN, skills: { "Swift Sizzle": 1 } },
+      createdAt: now,
+      game: {
+        ...TEST_FARM,
+        bumpkin: { ...INITIAL_BUMPKIN, skills: { "Swift Sizzle": 1 } },
+      },
+    });
+
+    const boost = COOKABLES["Boiled Eggs"].cookingSeconds * 0.4;
+
+    const readyAt =
+      now + (COOKABLES["Boiled Eggs"].cookingSeconds - boost) * 1000;
+
+    expect(time).toEqual(readyAt);
+  });
+
+  it("does not apply Swift Sizzle boost on Kitchen", () => {
+    const now = Date.now();
+
+    const time = getReadyAt({
+      buildingId: "123",
+      item: "Sunflower Crunch",
+      bumpkin: { ...INITIAL_BUMPKIN, skills: { "Swift Sizzle": 1 } },
+      createdAt: now,
+      game: {
+        ...TEST_FARM,
+        bumpkin: { ...INITIAL_BUMPKIN, skills: { "Swift Sizzle": 1 } },
+      },
+    });
+
+    const readyAt = now + COOKABLES["Sunflower Crunch"].cookingSeconds * 1000;
+
+    expect(time).toEqual(readyAt);
+  });
 });
 
 describe("getCookingOilBoost", () => {

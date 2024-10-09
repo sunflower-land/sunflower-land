@@ -3,8 +3,10 @@ import Decimal from "decimal.js-light";
 import { Bumpkin, GameState, Inventory } from "../../types/game";
 import { CROPS } from "../../types/crops";
 import {
+  COOKABLES,
   COOKABLE_CAKES,
   Consumable,
+  CookableName,
   FISH_CONSUMABLES,
   isCookable,
 } from "features/game/types/consumables";
@@ -117,14 +119,19 @@ export const hasSellBoost = (inventory: Inventory) => {
 /**
  * Get reduced cooking time from bumpkin skills.
  * @param seconds time to be decreased
+ * @param item to check for cooking boosts
  * @param bumpkin to check for skills
+ * @param game to check for wearables
  * @returns reduced cooking
  */
 export const getCookingTime = (
   seconds: number,
+  item: CookableName,
   bumpkin: Bumpkin | undefined,
   game: GameState,
 ): number => {
+  const buildingName = COOKABLES[item].building;
+
   let reducedSecs = new Decimal(seconds);
 
   // 10% reduction
@@ -158,6 +165,16 @@ export const getCookingTime = (
   }
 
   if (isCollectibleBuilt({ name: "Desert Gnome", game })) {
+    reducedSecs = reducedSecs.mul(0.9);
+  }
+
+  // 10% reduction on Fire Pit with Fast Feasts skill
+  if (buildingName === "Fire Pit" && bumpkin?.skills["Fast Feasts"]) {
+    reducedSecs = reducedSecs.mul(0.9);
+  }
+
+  // 10% reduction on Kitchen with Fast Feasts skill
+  if (buildingName === "Kitchen" && bumpkin?.skills["Fast Feasts"]) {
     reducedSecs = reducedSecs.mul(0.9);
   }
 
@@ -252,6 +269,11 @@ export const getFoodExpBoost = (
     createdAt < new Date("2024-11-01T00:00:00").getTime()
   ) {
     boostedExp = boostedExp.mul(2);
+  }
+
+  // Munching Mastery - 5% exp boost
+  if (skills["Munching Mastery"]) {
+    boostedExp = boostedExp.mul(1.05);
   }
 
   boostedExp = boostedExp.mul(getBudExperienceBoosts(buds, food));

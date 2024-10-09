@@ -1181,7 +1181,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
       points: 1,
       skill: 0,
     },
-    boosts: "Meals from Firepit, Kitchen cook 10% faster",
+    boosts: "Meals from Firepit and Kitchen cook 10% faster",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
   "Nom Nom": {

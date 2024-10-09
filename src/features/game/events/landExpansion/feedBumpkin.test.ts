@@ -657,4 +657,28 @@ describe("feedBumpkin", () => {
 
     jest.useRealTimers();
   });
+
+  it("gives 5% more experience with Munching Mastery skill", () => {
+    const result = feedBumpkin({
+      state: {
+        ...TEST_FARM,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          skills: { "Munching Mastery": 1 },
+        },
+        inventory: {
+          "Boiled Eggs": new Decimal(2),
+        },
+      },
+      action: {
+        type: "bumpkin.feed",
+        food: "Boiled Eggs",
+        amount: 1,
+      },
+    });
+
+    expect(result.bumpkin?.experience).toBe(
+      new Decimal(CONSUMABLES["Boiled Eggs"].experience).mul(1.05).toNumber(),
+    );
+  });
 });
