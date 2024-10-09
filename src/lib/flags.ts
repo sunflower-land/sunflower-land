@@ -60,7 +60,7 @@ const featureFlags: Record<FeatureName, FeatureFlag> = {
   JEST_TEST: defaultFeatureFlag,
   EASTER: () => false, // To re-enable next easter
   SKILLS_REVAMP: testnetFeatureFlag,
-  FSL: defaultFeatureFlag,
+  FSL: betaTimeBasedFeatureFlag(new Date("2024-10-10T00:00:00Z")),
   NEW_RESOURCES_GE: defaultFeatureFlag,
   ANIMAL_BUILDINGS: testnetFeatureFlag,
   BARLEY: testnetFeatureFlag,

@@ -2,15 +2,15 @@ import { getBumpkinLevel, isMaxLevel } from "./level";
 
 describe("getBumpkinLevel", () => {
   it("returns level 6 if the player is 1 exp away from level 7", () => {
-    const bumpkinExp = 3399;
+    const bumpkinExp = 2154;
     expect(Number(getBumpkinLevel(bumpkinExp))).toEqual(6);
   });
   it("returns level 7 if the player is 0 exp away from level 7", () => {
-    const bumpkinExp = 4582;
+    const bumpkinExp = 2155;
     expect(Number(getBumpkinLevel(bumpkinExp))).toEqual(7);
   });
   it("returns level 7 if the player is 1 exp above level 7", () => {
-    const bumpkinExp = 4583;
+    const bumpkinExp = 2156;
     expect(Number(getBumpkinLevel(bumpkinExp))).toEqual(7);
   });
 });

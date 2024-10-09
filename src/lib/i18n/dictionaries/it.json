@@ -1955,9 +1955,7 @@
   "guide.compost.addEggs.confirmation": "Sei sicuro di voler aggiungere {{noEggs}} uova per ridurre i tempi di produzione del compost di {{time}}?",
   "guide.factionPet.one": "Ogni settimana l'animale richiederà 3 alimenti. Una volta nutriti, gli XP contenuti nel cibo andranno a sommarsi al totale degli XP della fazione.",
   "guide.factionPet.three": "Se la fazione non raggiunge l'obiettivo, l'animale dormirà per 1 settimana.",
-  "guide.factionPet.four": "Una volta che la fazione avrà raggiunto una serie di 2 o più settimane, verrà assegnato un bonus di XP a ogni membro della fazione che contribuisce quando il suo pappagallo mangia! Per diventare un membro contributore, dovrai aver dato da mangiare all'animale domestico almeno una volta per ogni richiesta effettuata la settimana precedente.",
   "guide.factionPet.five": "Membro contributore: per avere diritto a potenziali incrementi di serie nella settimana successiva, un giocatore deve soddisfare una delle richieste di ogni animale domestico.",
-  "guide.factionPet.six": "Ti verranno assegnati dei punti per ogni alimento consegnato. Ogni volta che consegnerai la ricompensa verrà ridotta. Queste ricompense verranno azzerate giornalmente. I giocatori con un emblema bonus riceveranno un bonus aggiuntivo in base al rango del bonus di fazione.",
   "guide.streak.one": "Serie di vittorie nella seconda settimana raggiunta = 10% di XP durante la settimana 3 e la settimana 4*",
   "guide.streak.two": "Serie consecutiva della settimana 4 raggiunta = 20% di XP durante la settimana 5 e la settimana 6*",
   "guide.streak.three": "Serie consecutiva della settimana 6 raggiunta = 30% di XP durante la settimana 7 e la settimana 8*",
@@ -3695,5 +3693,7 @@
   "description.mog": "Un pigro Morchi.",
   "miffy.boost": "2x XP",
   "raffle.entry": "ingresso",
-  "competition.prizes.two": "50.000 SFL in palio."
+  "competition.prizes.two": "50.000 SFL in palio.",
+  "guide.factionPet.four": "Una volta che la fazione avrà raggiunto una serie di 2 o più settimane, verrà assegnato un bonus di XP a ogni membro della fazione che contribuisce quando il suo pappagallo mangia!",
+  "guide.factionPet.six": "Ti verranno assegnati dei punti per ogni cibo consegnato. Ogni volta che consegnerai la ricompensa verrà ridotta. Queste ricompense verranno azzerate giornalmente. I giocatori con un emblema bonus riceveranno un bonus aggiuntivo in base al rango del bonus di fazione."
 }

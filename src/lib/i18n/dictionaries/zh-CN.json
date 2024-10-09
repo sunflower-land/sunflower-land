@@ -2271,9 +2271,7 @@
   "guide.compost.addEggs.confirmation": "您确定要添加 {{noEggs}} 个鸡蛋来缩短 {{time}} 堆肥时间吗？",
   "guide.factionPet.one": "每周帮宠都会要求 3 种食物。喂食后，食物中的经验值将计入该帮派的总经验值。",
   "guide.factionPet.three": "如果帮派未达到目标，则宠物将入睡 1 周。",
-  "guide.factionPet.four": "一旦帮派达到 2 周或更长时间的连胜纪录，每位帮派成员在喂 Bumpkin 时都会获得 XP 加成！要成为贡献成员享受加成，您需要在前一周喂宠物的每份要求至少一次。",
   "guide.factionPet.five": "贡献成员：要想获得下周连胜 XP 加成的资格，您需要满足宠物的每一个要求至少一次。",
-  "guide.factionPet.six": "每交付一份食物，您都将获得分数。每次交付奖励都会减少。这些奖励将每天重置。拥有纹章加成的玩家将根据其阶衔加成获得额外奖励。",
   "guide.streak.one": "连续 2 周连胜 = 第 3 & 4 周 +10% XP*",
   "guide.streak.two": "连续 4 周连胜 = 第 5 & 6 周 +20% XP*",
   "guide.streak.three": "连续 6 周连胜 = 第 7 & 8 周 +30% XP*",
@@ -3695,5 +3693,7 @@
   "description.mog": "一个懒散的 Morchi。",
   "miffy.boost": "2x XP",
   "raffle.entry": "条目",
-  "competition.prizes.two": "将赢取 50,000 SFL。"
+  "competition.prizes.two": "将赢取 50,000 SFL。",
+  "guide.factionPet.four": "一旦阵营达到 2 周或更长时间的连胜纪录，每位派系成员在 bumpkin 吃东西时都会获得经验值加成！",
+  "guide.factionPet.six": "每交付一份食物，您都将获得分数。每次交付奖励都会减少。这些奖励将每天重置。拥有徽章奖励的玩家将根据其阵营奖励等级获得额外奖励。"
 }

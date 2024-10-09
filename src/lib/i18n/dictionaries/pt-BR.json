@@ -2949,9 +2949,7 @@
   "guide.compost.addEggs.confirmation": "Tem certeza de que deseja adicionar {{noEggs}} ovos para reduzir o tempo de produção de composto em {{time}}?",
   "guide.factionPet.one": "A cada semana, o animal solicitará 3 alimentos. Quando alimentada, a EXP da comida vai para a contagem total de XP da facção.",
   "guide.factionPet.three": "Se a facção não atingir a meta, o animal dormirá por 1 semana.",
-  "guide.factionPet.four": "Quando a facção atingir uma sequência de 2 ou mais semanas, um bônus de EXP será concedido a cada membro contribuinte da facção quando seu caipira comer! Para ser um membro colaborador, você precisará ter alimentado o animal de estimação com pelo menos 1 de cada solicitação durante a semana anterior.",
   "guide.factionPet.five": "Membro colaborador: Para se qualificar para possíveis aumentos de sequência na semana seguinte, o jogador precisa atender a uma das solicitações de cada animal de estimação.",
-  "guide.factionPet.six": "Você receberá notas por cada alimento entregue. Toda vez que você entregar, a recompensa será reduzida. Essas recompensas serão redefinidas diariamente. Jogadores com um bônus de emblema receberão um bônus adicional com base em sua classificação de bônus de facção.",
   "guide.streak.one": "Sequência alcançada na semana 2 = 10% de XP durante a semana 3 e a semana 4*",
   "guide.streak.two": "Sequência alcançada na semana 4 = 20% de XP durante a semana 5 e a semana 6*",
   "guide.streak.three": "Sequência alcançada na 6ª semana = 30% de XP durante a semana 7 e a semana 8*",
@@ -3695,5 +3693,7 @@
   "description.mog": "Um Morchi preguiçoso.",
   "miffy.boost": "2x XP",
   "raffle.entry": "submeter",
-  "competition.prizes.two": "50.000 SFL a serem ganhos."
+  "competition.prizes.two": "50.000 SFL a serem ganhos.",
+  "guide.factionPet.four": "Quando a facção atingir uma sequência de 2 ou mais semanas, um bônus de EXP será concedido a cada membro contribuinte da facção quando seu caipira comer!",
+  "guide.factionPet.six": "Você receberá notas por cada alimento entregue. Toda vez que você entregar, a recompensa será reduzida. Essas recompensas serão redefinidas diariamente. Jogadores com um bônus de emblema receberão um bônus adicional com base em sua classificação de bônus de facção."
 }

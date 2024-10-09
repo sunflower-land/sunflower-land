@@ -1974,9 +1974,7 @@
   "guide.compost.addEggs.confirmation": "Adakah anda pasti ingin menambah {{noEggs}} Telur untuk mengurangkan masa pengeluaran kompos sebanyak {{time}}?",
   "guide.factionPet.one": "Setiap minggu haiwan peliharaan akan meminta 3 makanan. Apabila diberi makan, XP dari makanan akan pergi ke jumlah XP untuk puak.",
   "guide.factionPet.three": "Sekiranya puak tidak mencapai matlamat maka haiwan peliharaan akan tidur selama 1 minggu.",
-  "guide.factionPet.four": "Setelah puak mencapai serangan 2 atau lebih minggu, bonus XP akan diberikan kepada setiap ahli puak yang menyumbang apabila bumpkin mereka makan! Untuk menjadi ahli penyumbang, anda perlu memberi makan haiwan kesayangan sekurang-kurangnya 1 daripada setiap permintaan pada minggu sebelumnya.",
   "guide.factionPet.five": "Ahli penyumbang: Untuk layak mendapat peningkatan potensi pada minggu berikutnya, pemain perlu memenuhi salah satu permintaan setiap haiwan peliharaan.",
-  "guide.factionPet.six": "Anda akan mendapat markah untuk setiap makanan yang dihantar. Setiap kali anda menyampaikan ganjaran akan dikurangkan. Ganjaran ini akan ditetapkan semula setiap hari. Pemain dengan bonus lambang akan mendapat bonus tambahan berdasarkan pangkat bonus puak mereka.",
   "guide.streak.one": "Rangkaian minggu 2 dicapai = 10% XP pada minggu 3 & minggu 4*",
   "guide.streak.two": "Rangkaian minggu 4 dicapai = 20% XP pada minggu 5 & minggu 6*",
   "guide.streak.three": "Rangkaian minggu 6 dicapai = 30% XP pada minggu 7 & minggu 8*",
@@ -3695,5 +3693,7 @@
   "description.mog": "Morchi yang malas.",
   "miffy.boost": "2x XP",
   "raffle.entry": "kemasukan",
-  "competition.prizes.two": "50,000 SFL akan dimenangi."
+  "competition.prizes.two": "50,000 SFL akan dimenangi.",
+  "guide.factionPet.four": "Setelah puak mencapai serangan 2 atau lebih minggu, bonus XP akan diberikan kepada setiap ahli puak yang menyumbang apabila bumpkin mereka makan!",
+  "guide.factionPet.six": "Anda akan dianugerahkan markah untuk setiap makanan yang dihantar. Setiap kali anda menyampaikan ganjaran akan dikurangkan. Ganjaran ini akan ditetapkan semula setiap hari. Pemain dengan bonus lambang akan mendapat bonus tambahan berdasarkan pangkat bonus puak mereka."
 }
