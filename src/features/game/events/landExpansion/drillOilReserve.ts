@@ -42,6 +42,10 @@ function getNextOilDropAmount(game: GameState, reserve: OilReserve) {
     amount = amount.add(10);
   }
 
+  if (game.bumpkin.skills["Oil Extraction"]) {
+    amount = amount.add(1);
+  }
+
   return amount.toDecimalPlaces(4).toNumber();
 }
 
@@ -65,12 +69,17 @@ type getDrilledAtArgs = {
 };
 
 export function getDrilledAt({ createdAt, game }: getDrilledAtArgs): number {
-  let time = createdAt;
-
+  let totalSeconds = OIL_RESERVE_RECOVERY_TIME;
   if (isWearableActive({ game, name: "Dev Wrench" })) {
-    time -= OIL_RESERVE_RECOVERY_TIME * 0.5 * 1000;
+    totalSeconds = totalSeconds * 0.5;
   }
-  return time;
+  if (game.bumpkin.skills["Oil Be Back"]) {
+    totalSeconds = totalSeconds * 0.8;
+  }
+
+  const buff = OIL_RESERVE_RECOVERY_TIME - totalSeconds;
+
+  return createdAt - buff * 1000;
 }
 
 export function drillOilReserve({
