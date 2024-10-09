@@ -54,7 +54,9 @@ export const GreenhouseOilModal: React.FC<Props> = ({ show, onHide }) => {
   const maxMachineOil = MACHINE_OIL_CAPACITY.lessThan(totalOil)
     ? MACHINE_OIL_CAPACITY
     : totalOil;
-  const maxAddedOil = maxMachineOil.sub(machineOil);
+  const maxAddedOil = maxMachineOil
+    .sub(machineOil)
+    .toDecimalPlaces(0, Decimal.ROUND_DOWN);
   const remainingOilToAdd = maxMachineOil.sub(newMachineOil);
 
   const decrementInterval = addedOil.greaterThan(DEFAULT_INCREMENT)
@@ -123,14 +125,20 @@ export const GreenhouseOilModal: React.FC<Props> = ({ show, onHide }) => {
             <Button
               className="w-12"
               onClick={() => setAddedOil((oil) => oil.minus(decrementInterval))}
-              disabled={addedOil.lessThanOrEqualTo(0)}
+              disabled={
+                decrementInterval.lessThanOrEqualTo(0) ||
+                addedOil.lessThanOrEqualTo(0)
+              }
             >
               {`-${formatNumber(decrementInterval)}`}
             </Button>
             <Button
               className="w-12"
               onClick={() => setAddedOil((oil) => oil.plus(incrementInterval))}
-              disabled={addedOil.greaterThanOrEqualTo(maxAddedOil)}
+              disabled={
+                incrementInterval.lessThanOrEqualTo(0) ||
+                addedOil.greaterThanOrEqualTo(maxAddedOil)
+              }
             >
               {`+${formatNumber(incrementInterval)}`}
             </Button>
