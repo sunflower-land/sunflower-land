@@ -25,6 +25,7 @@ import {
   getKeys,
 } from "./craftables";
 import {
+  AnimalResource,
   Coupons,
   EasterEgg,
   FertiliserName,
@@ -1099,7 +1100,17 @@ const mutantFlowers: Record<MutantFlowerName, () => boolean> = {
     canWithdrawTimebasedItem(SEASONS["Pharaoh's Treasure"].endDate),
 };
 
+const animalResources: Record<AnimalResource, () => boolean> = {
+  Egg: () => true,
+  Leather: () => false,
+  Wool: () => false,
+  "Merino Wool": () => false,
+  Feather: () => false,
+  Milk: () => false,
+};
+
 export const WITHDRAWABLES: Record<InventoryItemName, () => boolean> = {
+  ...animalResources,
   ...greenHouseCrop,
   ...greenHouseCropSeed,
   ...greenHouseFruitSeed,

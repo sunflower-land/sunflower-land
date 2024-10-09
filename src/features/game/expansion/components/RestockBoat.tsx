@@ -25,7 +25,7 @@ const canRestock = (state: MachineState) =>
 export const RestockBoat: React.FC = () => {
   const { t } = useAppTranslation();
   const [isOpen, setIsOpen] = useState(false);
-  const { gameService } = useContext(Context);
+  const { gameService, showAnimations } = useContext(Context);
 
   const expansionCount = useSelector(gameService, expansions);
   const showShip = useSelector(gameService, canRestock);
@@ -70,7 +70,8 @@ export const RestockBoat: React.FC = () => {
           <Button
             onClick={() => {
               gameService.send("shipment.restocked");
-              confetti();
+
+              if (showAnimations) confetti();
               setIsOpen(false);
             }}
           >

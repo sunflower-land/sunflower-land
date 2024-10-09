@@ -361,6 +361,7 @@ export type WarItems =
   | "Warrior Pants";
 
 export type InventoryItemName =
+  | AnimalResource
   | CropName
   | CropSeedName
   | BeanName
@@ -1140,18 +1141,26 @@ type Stores = "factionShop" | "treasureShop" | "megastore";
 export type KeysBought = Record<Stores, KeysBoughtAt>;
 
 export type AnimalBuildingKey = "henHouse" | "barn";
+export type AnimalResource =
+  | "Egg"
+  | "Leather"
+  | "Wool"
+  | "Merino Wool"
+  | "Feather"
+  | "Milk";
+export type AnimalState = "idle";
 
-export type AnimalState = {
+export type Animal = {
   id: string;
   type: AnimalType;
-  state: "idle";
+  state: AnimalState;
   createdAt: number;
   coordinates: Coordinates;
 };
 
 export type AnimalBuilding = {
   level: number;
-  animals: Record<string, AnimalState>;
+  animals: Record<string, Animal>;
 };
 
 export interface GameState {
@@ -1323,8 +1332,8 @@ export interface GameState {
   desert: Desert;
 
   experiments: ExperimentName[];
-  henHouse?: AnimalBuilding;
-  barn?: AnimalBuilding;
+  henHouse: AnimalBuilding;
+  barn: AnimalBuilding;
 }
 
 export interface Context {

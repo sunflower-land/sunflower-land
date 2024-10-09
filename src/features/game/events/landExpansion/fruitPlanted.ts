@@ -69,6 +69,11 @@ export function getFruitTime({
     seconds = seconds * 0.75;
   }
 
+  // Vine Velocity: 20% reduction
+  if (name === "Grape Seed" && game.bumpkin.skills["Vine Velocity"]) {
+    seconds = seconds * 0.8;
+  }
+
   return seconds;
 }
 
