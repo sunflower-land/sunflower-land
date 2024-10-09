@@ -100,8 +100,22 @@ export function calculateCropTime(
 }
 
 export function getOilTimeInMillis(oil: number, state: GameState) {
+  let oilPerIncrement = 1;
+
+  if (state.bumpkin.skills["Oil Gadget"]) {
+    oilPerIncrement -= 0.1;
+  }
+
+  if (state.bumpkin.skills["Efficiency Extension Module"]) {
+    oilPerIncrement -= 0.3;
+  }
+
+  const oilConsumedPerHour = oil / oilPerIncrement;
+
   // return the time in milliseconds
-  return (oil / OIL_PER_HOUR_CONSUMPTION(state)) * 60 * 60 * 1000;
+  return (
+    (oilConsumedPerHour / OIL_PER_HOUR_CONSUMPTION(state)) * 60 * 60 * 1000
+  );
 }
 
 export function getPackYieldAmount(

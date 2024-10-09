@@ -39,7 +39,7 @@ import lightning from "assets/icons/lightning.png";
 import { PackGrowthProgressBar } from "./components/PackGrowthProgressBar";
 import { TimeRemainingLabel } from "./components/TimeRemainingLabel";
 import { OilTank } from "./components/OilTank";
-import { formatNumber } from "lib/utils/formatNumber";
+import { formatNumber, setPrecision } from "lib/utils/formatNumber";
 import { isMobile } from "mobile-device-detect";
 
 interface Props {
@@ -65,7 +65,17 @@ const ALLOWED_SEEDS = (state: GameState): CropSeedName[] =>
   });
 
 const SEED_INCREMENT_AMOUNT = 10;
-const OIL_INCREMENT_AMOUNT = 1;
+export const OIL_INCREMENT_AMOUNT = (state: GameState) => {
+  let oilPerIncrement = 1;
+  if (state.bumpkin.skills["Oil Gadget"]) {
+    oilPerIncrement -= 0.1;
+  }
+
+  if (state.bumpkin.skills["Efficiency Extension Module"]) {
+    oilPerIncrement -= 0.3;
+  }
+  return setPrecision(oilPerIncrement).toNumber();
+};
 
 const _growingCropPackIndex = (state: CropMachineState) =>
   state.context.growingCropPackIndex;
@@ -142,11 +152,11 @@ export const CropMachineModal: React.FC<Props> = ({
   };
 
   const incrementOil = () => {
-    setTotalOil((prev) => prev + OIL_INCREMENT_AMOUNT);
+    setTotalOil((prev) => prev + OIL_INCREMENT_AMOUNT(state));
   };
 
   const decrementOil = () => {
-    setTotalOil((prev) => Math.max(prev - OIL_INCREMENT_AMOUNT, 0));
+    setTotalOil((prev) => Math.max(prev - OIL_INCREMENT_AMOUNT(state), 0));
   };
 
   const getMachineStatusLabel = () => {
@@ -189,7 +199,7 @@ export const CropMachineModal: React.FC<Props> = ({
 
     const oilBalance = inventory.Oil ?? new Decimal(0);
 
-    return totalOil + OIL_INCREMENT_AMOUNT <= oilBalance.toNumber();
+    return totalOil + OIL_INCREMENT_AMOUNT(state) <= oilBalance.toNumber();
   };
 
   const handleAddSeeds = () => {
@@ -626,15 +636,15 @@ export const CropMachineModal: React.FC<Props> = ({
                   </div>
                   <div className="flex items-center space-x-1 mr-2">
                     <Button
-                      className="w-11"
+                      className="w-auto"
                       disabled={totalOil === 0}
                       onClick={decrementOil}
-                    >{`-${OIL_INCREMENT_AMOUNT}`}</Button>
+                    >{`-${OIL_INCREMENT_AMOUNT(state)}`}</Button>
                     <Button
-                      className="w-11"
+                      className="w-auto ml-1"
                       onClick={incrementOil}
                       disabled={!canIncrementOil()}
-                    >{`+${OIL_INCREMENT_AMOUNT}`}</Button>
+                    >{`+${OIL_INCREMENT_AMOUNT(state)}`}</Button>
                   </div>
                 </div>
               </div>
