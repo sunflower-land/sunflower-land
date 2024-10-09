@@ -35,7 +35,6 @@ import {
 } from "features/game/events/landExpansion/plantGreenhouse";
 import { QuickSelect } from "./QuickSelect";
 import { SUNNYSIDE } from "assets/sunnyside";
-import classNames from "classnames";
 import { Label } from "components/ui/Label";
 import { secondsToString } from "lib/utils/time";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -83,7 +82,6 @@ export const GreenhousePot: React.FC<Props> = ({ id }) => {
   const [showQuickSelect, setShowQuickSelect] = useState(false);
   const [showTimeRemaining, setShowTimeRemaining] = useState(false);
   const [showOilWarning, setShowOilWarning] = useState(false);
-  const [pulsating, setPulsating] = useState(false);
   const harvested = useRef<GreenhousePlant>();
 
   const pots = useSelector(gameService, selectPots);
@@ -200,9 +198,7 @@ export const GreenhousePot: React.FC<Props> = ({ id }) => {
 
         <img
           src={emptyPot}
-          className={classNames("cursor-pointer hover:img-highlight", {
-            "animate-pulsate": showQuickSelect && pulsating,
-          })}
+          className="cursor-pointer hover:img-highlight"
           style={{
             width: `${PIXEL_SCALE * 28}px`,
           }}
