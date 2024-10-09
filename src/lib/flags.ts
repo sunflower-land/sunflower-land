@@ -1,4 +1,5 @@
 import { GameState } from "features/game/types/game";
+import { SEASONS } from "features/game/types/seasons";
 import { CONFIG } from "lib/config";
 
 const defaultFeatureFlag = ({ inventory }: GameState) =>
@@ -34,7 +35,8 @@ export type FeatureName =
   | "FSL"
   | "ANIMAL_BUILDINGS"
   | "BARLEY"
-  | "GEM_BOOSTS";
+  | "GEM_BOOSTS"
+  | "CHICKEN_GARBO";
 
 // Used for testing production features
 export const ADMIN_IDS = [1, 3, 51, 39488, 128727];
@@ -65,6 +67,7 @@ const featureFlags: Record<FeatureName, FeatureFlag> = {
   ANIMAL_BUILDINGS: testnetFeatureFlag,
   BARLEY: testnetFeatureFlag,
   GEM_BOOSTS: (game) => game.experiments.includes("GEM_BOOSTS"),
+  CHICKEN_GARBO: timeBasedFeatureFlag(SEASONS["Pharaoh's Treasure"].endDate),
 };
 
 export const hasFeatureAccess = (game: GameState, featureName: FeatureName) => {
