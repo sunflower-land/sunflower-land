@@ -272,6 +272,9 @@ export const SUNNYSIDE = {
     layingEggSheet: `${CONFIG.PROTECTED_IMAGE_URL}/animals/chickens/laying-egg-sheet_2.png`,
     wheatOnGround: `${CONFIG.PROTECTED_IMAGE_URL}/animals/chickens/wheat_2.png`,
 
+    // New Animals
+    chickenIdle: `${CONFIG.PROTECTED_IMAGE_URL}/animals/chickens/idle_chicken.gif`,
+    chickenAsleep: `${CONFIG.PROTECTED_IMAGE_URL}/animals/chickens/sleeping_chicken.gif`,
     cow: `${CONFIG.PROTECTED_IMAGE_URL}/animals/cows/cow_md.webp`,
     hungryCow: `${CONFIG.PROTECTED_IMAGE_URL}/animals/cows/hungry_cow.webp`,
     happyCow: `${CONFIG.PROTECTED_IMAGE_URL}/animals/cows/happy_cow.webp`,
@@ -411,6 +414,7 @@ export const SUNNYSIDE = {
     seedling: `${CONFIG.PROTECTED_IMAGE_URL}/icons/seedling.png`,
     seeds: `${CONFIG.PROTECTED_IMAGE_URL}/icons/seeds.png`,
     shop: `${CONFIG.PROTECTED_IMAGE_URL}/icons/shop.png`,
+    sleeping: `${CONFIG.PROTECTED_IMAGE_URL}/icons/sleeping.webp`,
     stopwatch: `${CONFIG.PROTECTED_IMAGE_URL}/icons/stopwatch.png`,
     sunflorea: `${CONFIG.PROTECTED_IMAGE_URL}/icons/sunflorea.png`,
     sword: `${CONFIG.PROTECTED_IMAGE_URL}/icons/sword.png`,
