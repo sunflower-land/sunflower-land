@@ -377,10 +377,13 @@ export const CropMachineModal: React.FC<Props> = ({
                           <span>
                             {t("cropMachine.growTime", {
                               time: secondsToString(
-                                calculateCropTime({
-                                  type: selectedSeed,
-                                  amount: totalSeeds,
-                                }) / 1000,
+                                calculateCropTime(
+                                  {
+                                    type: selectedSeed,
+                                    amount: totalSeeds,
+                                  },
+                                  state,
+                                ) / 1000,
                                 {
                                   length: "full",
                                   isShortFormat: true,
@@ -461,10 +464,13 @@ export const CropMachineModal: React.FC<Props> = ({
                       <span>
                         {t("cropMachine.growTime", {
                           time: secondsToString(
-                            calculateCropTime({
-                              type: `${selectedPack.crop} Seed`,
-                              amount: selectedPack.seeds,
-                            }) / 1000,
+                            calculateCropTime(
+                              {
+                                type: `${selectedPack.crop} Seed`,
+                                amount: selectedPack.seeds,
+                              },
+                              state,
+                            ) / 1000,
                             {
                               length: "full",
                               isShortFormat: true,

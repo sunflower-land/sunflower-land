@@ -69,13 +69,24 @@ export function getTotalOilMillisInMachine(
   return Math.max(oil, 0);
 }
 
-export function calculateCropTime(seeds: {
-  type: CropSeedName;
-  amount: number;
-}): number {
+export function calculateCropTime(
+  seeds: {
+    type: CropSeedName;
+    amount: number;
+  },
+  state: GameState,
+): number {
+  if (!state || !state.bumpkin) {
+    return 0; // Or some default value if state or bumpkin is undefined
+  }
+
   const cropName = seeds.type.split(" ")[0] as CropName;
 
-  const milliSeconds = CROPS[cropName].harvestSeconds * 1000;
+  let milliSeconds = CROPS[cropName].harvestSeconds * 1000;
+
+  if (state.bumpkin.skills?.["Crop Processor Unit"]) {
+    milliSeconds = milliSeconds * 0.95;
+  }
 
   return (milliSeconds * seeds.amount) / CROP_MACHINE_PLOTS;
 }
@@ -342,8 +353,8 @@ export function supplyCropMachine({
       amount: 0,
       // amount: getPackYieldAmount(seedsAdded.amount, crop, stateCopy),
       crop,
-      growTimeRemaining: calculateCropTime(seedsAdded),
-      totalGrowTime: calculateCropTime(seedsAdded),
+      growTimeRemaining: calculateCropTime(seedsAdded, state),
+      totalGrowTime: calculateCropTime(seedsAdded, state),
     });
     stateCopy.buildings["Crop Machine"][0].queue = queue;
   }

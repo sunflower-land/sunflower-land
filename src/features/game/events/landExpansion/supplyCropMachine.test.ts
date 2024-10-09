@@ -1657,7 +1657,10 @@ describe("supplyCropMachine", () => {
 
 describe("calculateCropTime", () => {
   it("calculates the time to harvest 10 Sunflower Seeds", () => {
-    const result = calculateCropTime({ type: "Sunflower Seed", amount: 10 });
+    const result = calculateCropTime(
+      { type: "Sunflower Seed", amount: 10 },
+      GAME_STATE,
+    );
     expect(result).toBe((60 * 10 * 1000) / CROP_MACHINE_PLOTS);
   });
 });
