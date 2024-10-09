@@ -115,8 +115,9 @@ export type BumpkinRevampSkillName =
   | "Juicy Boost"
   | "Double Nom"
   | "Instant Gratification"
-  | "Rapid Deli Dash"
+  | "Drive-Through Deli"
   | "Firey Jackpot"
+  | "Fry Frenzy"
   // Bees & Flowers
   | "Sweet Bonus"
   | "Hyper Bees"
@@ -134,7 +135,6 @@ export type BumpkinRevampSkillName =
   | "Turbo Fry"
   | "Oil Be Back"
   | "Grease Lightning"
-  | "Fry Frenzy"
   // Machinary
   | "Crop Processor Unit"
   | "Oil Gadget"
@@ -1249,14 +1249,14 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     image: SUNNYSIDE?.skills?.green_thumb_LE,
     power: true,
   },
-  "Rapid Deli Dash": {
-    name: "Rapid Deli Dash",
+  "Drive-Through Deli": {
+    name: "Drive-Through Deli",
     tree: "Cooking",
     requirements: {
       points: 3,
       skill: 5,
     },
-    boosts: "Meals from Deli cook 15% faster",
+    boosts: "+15% experience from eating Deli meals",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
   "Firey Jackpot": {
@@ -1267,6 +1267,16 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
       skill: 5,
     },
     boosts: "+20% Chance of +1 food from Firepit",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
+  "Fry Frenzy": {
+    name: "Fry Frenzy",
+    tree: "Cooking",
+    requirements: {
+      points: 3,
+      skill: 5,
+    },
+    boosts: "Deli cooking speed with oil increased by 60%",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
 
@@ -1427,16 +1437,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     boosts: "Ability to make empty oil wells instantly refill (1/96h)",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
     power: true,
-  },
-  "Fry Frenzy": {
-    name: "Fry Frenzy",
-    tree: "Oil",
-    requirements: {
-      points: 3,
-      skill: 5,
-    },
-    boosts: "Deli cooking speed with oil increased by 60%",
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
 
   // Machinary - Tier 1

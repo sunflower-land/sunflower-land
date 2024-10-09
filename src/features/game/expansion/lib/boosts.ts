@@ -286,6 +286,15 @@ export const getFoodExpBoost = (
     boostedExp = boostedExp.mul(1.1);
   }
 
+  // Drive-Through Deli - 15% exp boost on Deli
+  if (
+    isCookable(food) &&
+    food.building === "Deli" &&
+    skills["Drive-Through Deli"]
+  ) {
+    boostedExp = boostedExp.mul(1.15);
+  }
+
   boostedExp = boostedExp.mul(getBudExperienceBoosts(buds, food));
   boostedExp = boostedExp.mul(getFactionPetBoostMultiplier(game));
 

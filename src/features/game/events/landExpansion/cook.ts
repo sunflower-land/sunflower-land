@@ -87,6 +87,10 @@ export function getCookingOilBoost(
       modifiedTime *= 0.5;
     }
 
+    if (skills["Fry Frenzy"] && buildingName === "Deli") {
+      modifiedTime *= 0.4;
+    }
+
     return modifiedTime;
   };
 

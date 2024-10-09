@@ -169,7 +169,7 @@ describe("collect Recipes", () => {
     });
   });
 
-  it("50% chances to collect two times the amount with Double Nom skill", () => {
+  it("gives 50% chances to collect two times the amount with Double Nom skill", () => {
     const results = Array.from({ length: 10 }).map(() => {
       const state = collectRecipe({
         state: {
@@ -211,5 +211,93 @@ describe("collect Recipes", () => {
     });
 
     expect(results).toContainEqual(new Decimal(2));
+  });
+
+  it("gives 20% chance to collect two times the amount of food from Fire Pit with Firey Jackpot skill", () => {
+    const results = Array.from({ length: 10 }).map(() => {
+      const state = collectRecipe({
+        state: {
+          ...GAME_STATE,
+          balance: new Decimal(10),
+          inventory: {
+            Sunflower: new Decimal(22),
+          },
+          buildings: {
+            "Fire Pit": [
+              {
+                id: "123",
+                coordinates: { x: 1, y: 1 },
+                createdAt: 0,
+                readyAt: 0,
+                crafting: {
+                  name: "Boiled Eggs",
+                  readyAt: Date.now() - 5 * 1000,
+                },
+              },
+            ],
+          },
+          bumpkin: {
+            ...INITIAL_BUMPKIN,
+            skills: {
+              "Firey Jackpot": 1,
+            },
+          },
+        },
+        action: {
+          type: "recipe.collected",
+          building: "Fire Pit",
+          buildingId: "123",
+        },
+        createdAt: Date.now(),
+      });
+
+      return state.inventory["Boiled Eggs"];
+    });
+
+    expect(results).toContainEqual(new Decimal(2));
+  });
+
+  it("makes sure Firey Jackpot skill does not trigger on Deli", () => {
+    const results = Array.from({ length: 10 }).map(() => {
+      const state = collectRecipe({
+        state: {
+          ...GAME_STATE,
+          balance: new Decimal(10),
+          inventory: {
+            Sunflower: new Decimal(22),
+          },
+          buildings: {
+            Deli: [
+              {
+                id: "123",
+                coordinates: { x: 1, y: 1 },
+                createdAt: 0,
+                readyAt: 0,
+                crafting: {
+                  name: "Boiled Eggs",
+                  readyAt: Date.now() - 5 * 1000,
+                },
+              },
+            ],
+          },
+          bumpkin: {
+            ...INITIAL_BUMPKIN,
+            skills: {
+              "Firey Jackpot": 1,
+            },
+          },
+        },
+        action: {
+          type: "recipe.collected",
+          building: "Deli",
+          buildingId: "123",
+        },
+        createdAt: Date.now(),
+      });
+
+      return state.inventory["Boiled Eggs"];
+    });
+
+    expect(results).toContainEqual(new Decimal(1));
   });
 });

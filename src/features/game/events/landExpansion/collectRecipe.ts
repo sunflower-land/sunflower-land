@@ -20,9 +20,11 @@ type Options = {
 
 export function calculateAmount({
   game,
+  buildingName,
   amount,
 }: {
   game: GameState;
+  buildingName: BuildingName;
   amount: Decimal;
 }) {
   const { bumpkin } = game;
@@ -34,6 +36,15 @@ export function calculateAmount({
     if (doubleNomChance <= 50) {
       total = total.mul(2);
     }
+  }
+
+  // Firey Jackpot - 20% chance to double the amount of food collected from Fire Pit
+  if (
+    bumpkin.skills["Firey Jackpot"] &&
+    buildingName === "Fire Pit" &&
+    randomInt(1, 100) <= 20
+  ) {
+    total = total.mul(2);
   }
 
   return total;
@@ -75,7 +86,11 @@ export function collectRecipe({
     bumpkin.activity = trackActivity(`${recipe.name} Cooked`, bumpkin.activity);
 
     game.inventory[recipe.name] = consumableCount.add(
-      calculateAmount({ game, amount: new Decimal(1) }),
+      calculateAmount({
+        game,
+        buildingName: action.building,
+        amount: new Decimal(1),
+      }),
     );
 
     return game;

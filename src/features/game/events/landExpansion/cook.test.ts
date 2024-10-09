@@ -785,6 +785,28 @@ describe("getReadyAt", () => {
 
     expect(time).toEqual(readyAt);
   });
+
+  it("applies a 60% speed boost on Deli meals when using Oil with Fry Frenzy skill", () => {
+    const now = Date.now();
+
+    const time = getReadyAt({
+      buildingId: "123",
+      item: "Shroom Syrup",
+      bumpkin: { ...INITIAL_BUMPKIN, skills: { "Fry Frenzy": 1 } },
+      createdAt: now,
+      game: {
+        ...TEST_FARM,
+        bumpkin: { ...INITIAL_BUMPKIN, skills: { "Fry Frenzy": 1 } },
+      },
+    });
+
+    const boost = COOKABLES["Shroom Syrup"].cookingSeconds * 0.6;
+
+    const readyAt =
+      now + (COOKABLES["Shroom Syrup"].cookingSeconds - boost) * 1000;
+
+    expect(time).toEqual(readyAt);
+  });
 });
 
 describe("getCookingOilBoost", () => {

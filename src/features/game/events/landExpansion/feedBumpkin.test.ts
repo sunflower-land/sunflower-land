@@ -705,4 +705,28 @@ describe("feedBumpkin", () => {
       new Decimal(CONSUMABLES["Apple Juice"].experience).mul(1.1).toNumber(),
     );
   });
+
+  it("gives 15% more experience when eating Deli foods with Drive-Through Deli skill", () => {
+    const result = feedBumpkin({
+      state: {
+        ...TEST_FARM,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          skills: { "Drive-Through Deli": 1 },
+        },
+        inventory: {
+          "Shroom Syrup": new Decimal(2),
+        },
+      },
+      action: {
+        type: "bumpkin.feed",
+        food: "Shroom Syrup",
+        amount: 1,
+      },
+    });
+
+    expect(result.bumpkin?.experience).toBe(
+      new Decimal(CONSUMABLES["Shroom Syrup"].experience).mul(1.15).toNumber(),
+    );
+  });
 });
