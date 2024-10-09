@@ -265,6 +265,7 @@ export const SUNNYSIDE = {
     boxChicken: `${CONFIG.PROTECTED_IMAGE_URL}/animals/chickens/box_chicken.png`,
     hungryChicken: `${CONFIG.PROTECTED_IMAGE_URL}/animals/chickens/hungry_2.gif`,
     happyChicken: `${CONFIG.PROTECTED_IMAGE_URL}/animals/chickens/happy_2.gif`,
+    sadChicken: `${CONFIG.PROTECTED_IMAGE_URL}/animals/chickens/sad_2.gif`,
     walkingChickenSheet: `${CONFIG.PROTECTED_IMAGE_URL}/animals/chickens/walking_sheet_2.png`,
     sleepingChicken: `${CONFIG.PROTECTED_IMAGE_URL}/animals/chickens/sleeping_2.gif`,
     chickenShadow: `${CONFIG.PROTECTED_IMAGE_URL}/animals/chickens/chicken_shadow.png`,

@@ -7,8 +7,11 @@ import { useSelector } from "@xstate/react";
 import { capitalize } from "lib/utils/capitalize";
 import { AnimalState } from "features/game/types/game";
 
-const CHICKEN_STATES: Record<AnimalState, string> = {
+const CHICKEN_STATES: Record<AnimalState, string> & { sleeping: string } = {
   idle: SUNNYSIDE.animals.hungryChicken,
+  happy: SUNNYSIDE.animals.happyChicken,
+  sad: SUNNYSIDE.animals.sadChicken,
+  sleeping: SUNNYSIDE.animals.sleepingChicken,
 };
 
 const _chicken = (id: string) => (state: MachineState) =>
@@ -23,9 +26,17 @@ export const Chicken: React.FC<{ id: string }> = ({ id }) => {
     gameService.send({
       type: "animal.fed",
       animal: "Chicken",
-      food: "Hay",
+      food: "Kernel Blend",
       id: chicken.id,
     });
+  };
+
+  const getChickenStateImg = () => {
+    if (chicken.asleepAt + 24 * 60 * 60 * 1000 > Date.now()) {
+      return CHICKEN_STATES.sleeping;
+    }
+
+    return CHICKEN_STATES[chicken.state];
   };
 
   return (
@@ -40,7 +51,7 @@ export const Chicken: React.FC<{ id: string }> = ({ id }) => {
         }}
       />
       <img
-        src={CHICKEN_STATES[chicken.state]}
+        src={getChickenStateImg()}
         alt={`${capitalize(chicken.state)} Chicken`}
         style={{
           width: `${PIXEL_SCALE * 16}px`,

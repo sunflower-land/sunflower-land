@@ -147,6 +147,7 @@ export function feedAnimal({ state, action, createdAt }: Options): GameState {
     animal.experience += xp[food];
 
     animal.state = "sad";
+
     if (favouriteFood === food) {
       getKeys(ANIMAL_RESOURCE_DROP[action.animal][level]).forEach(
         (resource) => {
