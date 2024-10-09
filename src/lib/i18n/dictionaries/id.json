@@ -2833,7 +2833,6 @@
   "nyonStatue.description": "Ksatria legendaris yang bertanggung jawab untuk membersihkan goblin dari tambang. Tak lama setelah kemenangannya dia meninggal karena keracunan dari konspirator Goblin. Warga Bunga Matahari mendirikan patung ini dengan baju besinya untuk memperingati penaklukannya.",
   "obsessionDialogue.line1": "Ah, {{itemName}}! Aku hanya ingin melihatnya, bukan memilikinya. Tunjukkan kepada saya, dan {{seasonalTicket}} s akan menjadi hadiah Anda.",
   "obsessionDialogue.line2": "Anda telah membawa {{itemName}}? Saya hanya ingin menatapnya. Coba kulihat, dan {{seasonalTicket}} s akan menjadi milikmu.",
-  "obsessionDialogue.line3": "Apakah itu {{itemName}} yang Anda miliki? Sekadar pandangan adalah semua yang saya inginkan. Untuk ini, Anda akan menerima {{seasonalTicket}} s.",
   "obsessionDialogue.line4": "Itu {{itemName}}! Saya tidak ingin menyimpannya, hanya untuk melihatnya. Tunjukkan padaku, dan {{seasonalTicket}} s adalah milikmu.",
   "obsessionDialogue.line5": "Anda menawarkan tampilan {{itemName}}? Yang saya minta hanyalah melihatnya secara singkat. Untuk kemurahan hati Anda, {{seasonalTicket}} s akan diberikan kepada Anda.",
   "offer.okxOffer": "Halo Petani, saya punya penawaran OKX eksklusif untuk Anda!",
@@ -3698,5 +3697,6 @@
   "animals.buildingIsFull": "{{buildingName}} sudah penuh!",
   "description.chicken": "Sumber telur segar dan bulu lembut yang andal, ayam ini dengan senang hati melakukan bagiannya dengan perawatan yang tepat.",
   "description.cow": "Sapi yang lembut ini menyediakan susu segar dan kulit yang tahan lama. Jaga agar tetap bahagia dengan banyak makanan & kasih sayang.",
-  "description.sheep": "Domba berbulu ini menyediakan wol biasa dan wol merino mewah. Tetap senang untuk hasil yang paling lembut!"
+  "description.sheep": "Domba berbulu ini menyediakan wol biasa dan wol merino mewah. Tetap senang untuk hasil yang paling lembut!",
+  "obsessionDialogue.line3": "Apakah itu {{itemName}} yang Anda miliki? Sekadar pandangan adalah semua yang saya inginkan. Untuk ini, Anda akan menerima {{seasonalTicket}} s."
 }

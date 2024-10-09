@@ -2833,7 +2833,6 @@
   "nyonStatue.description": "地雷からゴブリンを一掃した伝説の騎士。勝利して間もなく、彼はゴブリンの共謀者に毒殺されて死亡した。ヒマワリの市民たちは、彼の征服を記念して、彼の鎧を使ってこの像を建てました。",
   "obsessionDialogue.line1": "ああ、{{itemName}}！私はそれを見たいだけで、所有したいわけではない。私に見せてください。そうすれば {{seasonalTicket}} sが報酬になります。",
   "obsessionDialogue.line2": "{{itemName}} を持ってきましたか？ただじっと見つめたいだけです。見せて、{{seasonalTicket}} は君のものだ。",
-  "obsessionDialogue.line3": "それはあなたが持っている {{itemName}} ですか？一目見ただけでいいんだよ。これに対して、{{seasonalTicket}} が届きます。",
   "obsessionDialogue.line4": "ザ・{{itemName}}!見守るためだけに持っておきたくない。私に見せてください。{{seasonalTicket}} はあなたのものです。",
   "obsessionDialogue.line5": "{{itemName}} の景色が見えますか？私がお願いするのは、簡単に見てみることだけです。あなたのご厚意により、{{seasonalTicket}} が授与されます。",
   "offer.okxOffer": "ハウディファーマー、OKX限定のオファーがあります！",
@@ -3698,5 +3697,6 @@
   "animals.buildingIsFull": "{{buildingName}} がいっぱいです！",
   "description.chicken": "新鮮な卵と柔らかい羽毛の信頼できる供給源であるこの鶏肉は、適切な手入れをすれば喜んでその役割を果たします。",
   "description.cow": "この優しい牛は、新鮮なミルクと丈夫な革を使用しています。たっぷりの食べ物と愛情を込めて幸せに保ちましょう。",
-  "description.sheep": "このふわふわの羊は、通常のウールと高級なメリノウールの両方を備えています。最高にソフトな仕上がりになるのでハッピーな状態を保ちましょう。"
+  "description.sheep": "このふわふわの羊は、通常のウールと高級なメリノウールの両方を備えています。最高にソフトな仕上がりになるのでハッピーな状態を保ちましょう。",
+  "obsessionDialogue.line3": "それはあなたが持っている {{itemName}} ですか？一目見ただけでいいんだよ。これにより、{{seasonalTicket}} が届きます。"
 }

@@ -2793,7 +2793,6 @@
   "nyonStatue.description": "El legendario caballero responsable de sacar a los duendes de las minas. Poco después de su victoria, murió envenenado por un conspirador goblin. Los Sunflower Citizens erigieron esta estatua con su armadura para conmemorar sus conquistas.",
   "obsessionDialogue.line1": "Ah, el {{itemName}}! Solo deseo verlo, no poseerlo. Muéstramelo y {{seasonalTicket}} s será tu recompensa.",
   "obsessionDialogue.line2": "¿Has traído el {{itemName}}? Solo quiero contemplarlo. Déjame ver, y {{seasonalTicket}} s será tuyo.",
-  "obsessionDialogue.line3": "¿Es ese el {{itemName}} que tienes? Lo único que deseo es una simple mirada. Para ello, recibirás {{seasonalTicket}} s.",
   "obsessionDialogue.line4": "El {{itemName}}! No quiero quedármelo, solo contemplarlo. Muéstramelo y los {{seasonalTicket}} serán tuyos.",
   "obsessionDialogue.line5": "¿Ofrecéis una vista del {{itemName}}? Todo lo que pido es que lo veas brevemente. Por su generosidad, se le concederán {{seasonalTicket}} s.",
   "offer.okxOffer": "Hola Farmer, tengo una oferta OKX exclusiva para ti!",
@@ -3698,5 +3697,6 @@
   "animals.buildingIsFull": "¡{{buildingName}} está lleno!",
   "description.chicken": "Una fuente confiable de huevos frescos y plumas suaves, este pollo hace su parte felizmente con el cuidado adecuado.",
   "description.cow": "Esta amable vaca proporciona leche fresca y cuero duradero. Manténgalo feliz con abundante comida y afecto.",
-  "description.sheep": "Esta esponjosa oveja proporciona tanto lana normal como lana merino lujosa. ¡Manténgalo feliz para obtener los mejores resultados!"
+  "description.sheep": "Esta esponjosa oveja proporciona tanto lana normal como lana merino lujosa. ¡Manténgalo feliz para obtener los mejores resultados!",
+  "obsessionDialogue.line3": "¿Es ese el {{itemName}} que tienes? Lo único que deseo es una simple mirada. Por ello, recibirás {{seasonalTicket}} s."
 }

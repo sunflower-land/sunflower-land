@@ -3198,7 +3198,6 @@
   "npcDialogues.pharaoh.intro3": "Salve, explorador. Eu sou o Faraó, guardião de segredos antigos. Você descobriu alguma relíquia que possa ajudar a resolver os mistérios do nosso passado?",
   "obsessionDialogue.line1": "Ah, o {{itemName}}! Eu só quero vê-la, não possuí-la. Mostre para mim e {{seasonalTicket}} s será sua recompensa.",
   "obsessionDialogue.line2": "Você trouxe o {{itemName}}? Eu só quero olhar para isso. Deixe-me ver, e {{seasonalTicket}} s será seu.",
-  "obsessionDialogue.line3": "Esse é o {{itemName}} que você tem? Um simples olhar é tudo o que eu desejo. Para isso, você receberá {{seasonalTicket}} s.",
   "obsessionDialogue.line4": "O {{itemName}}! Não quero guardá-la, só contemplá-la. Mostre para mim, e {{seasonalTicket}} s são seus.",
   "obsessionDialogue.line5": "Você oferece uma visão do {{itemName}}? Tudo o que peço é que o veja brevemente. Por sua generosidade, {{seasonalTicket}} s serão concedidos a você.",
   "offer.beginWithNFT": "Para começar, você precisará criar um Farm NFT gratuito. Isso incluirá:",
@@ -3698,5 +3697,6 @@
   "animals.buildingIsFull": "{{buildingName}} está cheio!",
   "description.chicken": "Uma fonte confiável de ovos frescos e penas macias, esta galinha faz sua parte alegremente com o cuidado certo.",
   "description.cow": "Esta vaca gentil fornece leite fresco e couro durável. Mantenha-o feliz com muita comida e carinho.",
-  "description.sheep": "Esta ovelha fofa fornece lã normal e lã merino luxuosa. Fique feliz para obter os melhores resultados!"
+  "description.sheep": "Esta ovelha fofa fornece lã normal e lã merino luxuosa. Fique feliz para obter os melhores resultados!",
+  "obsessionDialogue.line3": "Esse é o {{itemName}} que você tem? Um simples olhar é tudo o que eu desejo. Para isso, você receberá {{seasonalTicket}} s."
 }

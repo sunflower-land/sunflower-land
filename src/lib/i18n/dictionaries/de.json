@@ -2827,7 +2827,6 @@
   "nyonStatue.description": "Der legendäre Ritter, der dafür verantwortlich ist, die Kobolde aus den Minen zu vertreiben. Kurz nach seinem Sieg starb er an einer Vergiftung durch einen Goblin-Verschwörer. Die Sunflower Citizens errichteten diese Statue mit seiner Rüstung zum Gedenken an seine Eroberungen.",
   "obsessionDialogue.line1": "Ah, das {{itemName}}! Ich möchte es nur sehen, nicht besitzen. Zeig es mir und {{seasonalTicket}} s wird deine Belohnung sein.",
   "obsessionDialogue.line2": "Du hast das {{itemName}} mitgebracht? Ich will es mir nur ansehen. Lass mich sehen, und {{seasonalTicket}} s werden dir gehören.",
-  "obsessionDialogue.line3": "Ist das das {{itemName}}, das du hast? Ein bloßer Blick ist alles, was ich mir wünsche. Dafür erhalten Sie {{seasonalTicket}} s.",
   "obsessionDialogue.line4": "Das {{itemName}}! Ich will es nicht behalten, nur um es mir anzusehen. Zeig es mir und {{seasonalTicket}} s gehören dir.",
   "obsessionDialogue.line5": "Sie bieten einen Blick auf die {{itemName}}? Ich bitte nur darum, es mir kurz anzusehen. Für Ihre Großzügigkeit werden Ihnen {{seasonalTicket}} s gewährt.",
   "offer.okxOffer": "Hallo Farmer, ich habe ein exklusives OKX-Angebot für dich!",
@@ -3698,5 +3697,6 @@
   "animals.buildingIsFull": "{{buildingName}} ist voll!",
   "description.chicken": "Dieses Huhn ist eine zuverlässige Quelle für frische Eier und weiche Federn und leistet mit der richtigen Pflege gerne seinen Beitrag.",
   "description.cow": "Diese sanfte Kuh liefert frische Milch und strapazierfähiges Leder. Sorgen Sie mit viel Essen und Zuneigung dafür, dass es glücklich ist.",
-  "description.sheep": "Dieses flauschige Schaf bietet sowohl normale Wolle als auch luxuriöse Merinowolle. Machen Sie es glücklich, um die weichsten Ergebnisse zu erzielen!"
+  "description.sheep": "Dieses flauschige Schaf bietet sowohl normale Wolle als auch luxuriöse Merinowolle. Machen Sie es glücklich, um die weichsten Ergebnisse zu erzielen!",
+  "obsessionDialogue.line3": "Ist das das {{itemName}}, das du hast? Ein bloßer Blick ist alles, was ich mir wünsche. Dafür erhalten Sie {{seasonalTicket}} s."
 }
