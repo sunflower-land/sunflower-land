@@ -28,14 +28,27 @@ export const MAX_QUEUE_SIZE = (state: GameState): number =>
 
 export const CROP_MACHINE_PLOTS = 10;
 export const OIL_PER_HOUR_CONSUMPTION = (state: GameState) => {
-  let oilConsumption = 1;
+  let addtionalOil = 1;
   if (state.bumpkin.skills["Crop Processor Unit"]) {
-    oilConsumption += 0.1;
+    addtionalOil += 0.1;
   }
   if (state.bumpkin.skills["Rapid Rig"]) {
-    oilConsumption += 0.4;
+    addtionalOil += 0.4;
   }
-  return oilConsumption;
+
+  let oilReduction = 1;
+
+  if (state.bumpkin.skills["Oil Gadget"]) {
+    oilReduction -= 0.1;
+  }
+
+  if (state.bumpkin.skills["Efficiency Extension Module"]) {
+    oilReduction -= 0.3;
+  }
+
+  const oilConsumedPerHour = addtionalOil * oilReduction;
+
+  return oilConsumedPerHour;
 };
 // 2 days worth of oil
 export const MAX_OIL_CAPACITY_IN_HOURS = 48;
@@ -107,22 +120,8 @@ export function calculateCropTime(
 }
 
 export function getOilTimeInMillis(oil: number, state: GameState) {
-  let oilPerIncrement = 1;
-
-  if (state.bumpkin.skills["Oil Gadget"]) {
-    oilPerIncrement -= 0.1;
-  }
-
-  if (state.bumpkin.skills["Efficiency Extension Module"]) {
-    oilPerIncrement -= 0.3;
-  }
-
-  const oilConsumedPerHour = oil / oilPerIncrement;
-
   // return the time in milliseconds
-  return (
-    (oilConsumedPerHour / OIL_PER_HOUR_CONSUMPTION(state)) * 60 * 60 * 1000
-  );
+  return (oil / OIL_PER_HOUR_CONSUMPTION(state)) * 60 * 60 * 1000;
 }
 
 export function getPackYieldAmount(

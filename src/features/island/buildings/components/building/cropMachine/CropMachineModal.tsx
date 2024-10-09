@@ -18,6 +18,7 @@ import {
   AddSeedsInput,
   MAX_OIL_CAPACITY_IN_MILLIS,
   MAX_QUEUE_SIZE,
+  OIL_PER_HOUR_CONSUMPTION,
   calculateCropTime,
   getOilTimeInMillis,
   getTotalOilMillisInMachine,
@@ -65,17 +66,6 @@ const ALLOWED_SEEDS = (state: GameState): CropSeedName[] =>
   });
 
 const SEED_INCREMENT_AMOUNT = 10;
-export const OIL_INCREMENT_AMOUNT = (state: GameState) => {
-  let oilPerIncrement = 1;
-  if (state.bumpkin.skills["Oil Gadget"]) {
-    oilPerIncrement -= 0.1;
-  }
-
-  if (state.bumpkin.skills["Efficiency Extension Module"]) {
-    oilPerIncrement -= 0.3;
-  }
-  return setPrecision(oilPerIncrement).toNumber();
-};
 
 const _growingCropPackIndex = (state: CropMachineState) =>
   state.context.growingCropPackIndex;
@@ -152,11 +142,11 @@ export const CropMachineModal: React.FC<Props> = ({
   };
 
   const incrementOil = () => {
-    setTotalOil((prev) => prev + OIL_INCREMENT_AMOUNT(state));
+    setTotalOil((prev) => prev + OIL_PER_HOUR_CONSUMPTION(state));
   };
 
   const decrementOil = () => {
-    setTotalOil((prev) => Math.max(prev - OIL_INCREMENT_AMOUNT(state), 0));
+    setTotalOil((prev) => Math.max(prev - OIL_PER_HOUR_CONSUMPTION(state), 0));
   };
 
   const getMachineStatusLabel = () => {
@@ -199,7 +189,7 @@ export const CropMachineModal: React.FC<Props> = ({
 
     const oilBalance = inventory.Oil ?? new Decimal(0);
 
-    return totalOil + OIL_INCREMENT_AMOUNT(state) <= oilBalance.toNumber();
+    return totalOil + OIL_PER_HOUR_CONSUMPTION(state) <= oilBalance.toNumber();
   };
 
   const handleAddSeeds = () => {
@@ -628,7 +618,7 @@ export const CropMachineModal: React.FC<Props> = ({
                         time: secondsToString(
                           getOilTimeInMillis(totalOil, state) / 1000,
                           {
-                            length: "full",
+                            length: "medium",
                             isShortFormat: true,
                             removeTrailingZeros: true,
                           },
@@ -641,12 +631,12 @@ export const CropMachineModal: React.FC<Props> = ({
                       className="w-auto"
                       disabled={totalOil === 0}
                       onClick={decrementOil}
-                    >{`-${OIL_INCREMENT_AMOUNT(state)}`}</Button>
+                    >{`-${setPrecision(OIL_PER_HOUR_CONSUMPTION(state))}`}</Button>
                     <Button
                       className="w-auto ml-1"
                       onClick={incrementOil}
                       disabled={!canIncrementOil()}
-                    >{`+${OIL_INCREMENT_AMOUNT(state)}`}</Button>
+                    >{`+${setPrecision(OIL_PER_HOUR_CONSUMPTION(state))}`}</Button>
                   </div>
                 </div>
               </div>
