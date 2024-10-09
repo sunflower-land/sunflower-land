@@ -1425,6 +1425,61 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
   },
+  Leather: {
+    description: "",
+    decimals: 18,
+    attributes: [
+      { trait_type: "Purpose", value: "Resource" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/question_mark.png",
+    name: "Leather",
+  },
+  Wool: {
+    description: "",
+    decimals: 18,
+    attributes: [
+      { trait_type: "Purpose", value: "Resource" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/question_mark.png",
+    name: "Wool",
+  },
+  "Merino Wool": {
+    description: "",
+    decimals: 18,
+    attributes: [
+      { trait_type: "Purpose", value: "Resource" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/question_mark.png",
+    name: "Merino Wool",
+  },
+  Feather: {
+    description: "",
+    decimals: 18,
+    attributes: [
+      { trait_type: "Purpose", value: "Resource" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/question_mark.png",
+    name: "Feather",
+  },
+  Milk: {
+    description: "",
+    decimals: 18,
+    attributes: [
+      { trait_type: "Purpose", value: "Resource" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/question_mark.png",
+    name: "Milk",
+  },
   Gold: {
     name: "Gold",
     description:

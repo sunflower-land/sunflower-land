@@ -1,4 +1,4 @@
-import { CollectibleLocation } from "features/game/types/collectibles";
+import { PlaceableLocation } from "features/game/types/collectibles";
 import { GameState } from "features/game/types/game";
 import { produce } from "immer";
 
@@ -9,7 +9,7 @@ export type PlaceBudAction = {
     x: number;
     y: number;
   };
-  location: CollectibleLocation;
+  location: PlaceableLocation;
 };
 
 type Options = {

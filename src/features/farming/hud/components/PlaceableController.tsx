@@ -20,14 +20,14 @@ import {
 import { BUILDINGS_DIMENSIONS } from "features/game/types/buildings";
 import { ANIMAL_DIMENSIONS } from "features/game/types/craftables";
 import { isBudName } from "features/game/types/buds";
-import { CollectibleLocation } from "features/game/types/collectibles";
+import { PlaceableLocation } from "features/game/types/collectibles";
 import { Label } from "components/ui/Label";
 import { RESOURCE_DIMENSIONS } from "features/game/types/resources";
 import { LANDSCAPING_DECORATIONS } from "features/game/types/decorations";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {
-  location: CollectibleLocation;
+  location: PlaceableLocation;
 }
 
 export const PlaceableController: React.FC<Props> = ({ location }) => {

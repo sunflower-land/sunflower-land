@@ -1,5 +1,6 @@
 import { Dimensions } from "./craftables";
 import { translate } from "lib/i18n/translate";
+import { AnimalResource } from "./game";
 
 export type CommodityName =
   | "Wood"
@@ -64,6 +65,27 @@ export const COMMODITIES: Record<CommodityName, Commodity> = {
   },
   Oil: {
     description: translate("use.craft"),
+  },
+};
+
+export const ANIMAL_RESOURCES: Record<AnimalResource, Commodity> = {
+  Egg: {
+    description: "",
+  },
+  Leather: {
+    description: "",
+  },
+  Wool: {
+    description: "",
+  },
+  "Merino Wool": {
+    description: "",
+  },
+  Feather: {
+    description: "",
+  },
+  Milk: {
+    description: "",
   },
 };
 

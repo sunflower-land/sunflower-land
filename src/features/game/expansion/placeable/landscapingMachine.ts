@@ -17,7 +17,7 @@ import { RESOURCES } from "features/game/types/resources";
 import { ResourceName } from "features/game/types/resources";
 import { BudName, isBudName } from "features/game/types/buds";
 import { RESOURCE_MOVE_EVENTS } from "features/island/collectibles/MovableComponent";
-import { CollectibleLocation } from "features/game/types/collectibles";
+import { PlaceableLocation } from "features/game/types/collectibles";
 
 export const RESOURCE_PLACE_EVENTS: Partial<
   Record<ResourceName, GameEventName<PlacementEvent>>
@@ -96,7 +96,7 @@ type PlaceEvent = {
   type: "PLACE";
   nextOrigin?: Coordinates;
   nextWillCollide?: boolean;
-  location: CollectibleLocation;
+  location: PlaceableLocation;
 };
 
 type RemoveEvent = {
@@ -104,7 +104,7 @@ type RemoveEvent = {
   event: GameEventName<PlacementEvent>;
   id: string;
   name: PlaceableName;
-  location: CollectibleLocation;
+  location: PlaceableLocation;
 };
 
 type ConstructEvent = {

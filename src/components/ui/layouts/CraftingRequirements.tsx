@@ -84,6 +84,7 @@ interface RequirementsProps {
  * @param boost The available boost of the item.
  * @param requirements The item quantity requirement.
  * @param actionView The view for displaying the crafting action.
+ * @param label Information label for the item.
  */
 interface Props {
   gameState: GameState;
@@ -95,6 +96,7 @@ interface Props {
   limit?: number;
   actionView?: JSX.Element;
   hideDescription?: boolean;
+  label?: JSX.Element;
 }
 
 function getDetails(
@@ -147,6 +149,7 @@ export const CraftingRequirements: React.FC<Props> = ({
   requirements,
   actionView,
   hideDescription,
+  label,
 }: Props) => {
   const { t } = useAppTranslation();
   const getStock = () => {
@@ -188,7 +191,7 @@ export const CraftingRequirements: React.FC<Props> = ({
 
     return (
       <>
-        <div className="flex space-x-2 justify-start items-center sm:flex-col-reverse md:space-x-0">
+        <div className="flex space-x-2 justify-start items-center sm:flex-col-reverse md:space-x-0 mb-1">
           {icon && !!details.item && (
             <div className="sm:mt-2">
               <SquareIcon icon={icon} width={14} />
@@ -238,7 +241,7 @@ export const CraftingRequirements: React.FC<Props> = ({
     if (!requirements) return <></>;
 
     return (
-      <div className="border-t border-white w-full mb-2 pt-2 flex justify-between gap-x-3 gap-y-2 flex-wrap sm:flex-col sm:items-center sm:flex-nowrap">
+      <div className="border-t border-white w-full mb-2 pt-2 flex justify-between gap-x-3 gap-y-2 flex-wrap sm:flex-col sm:items-center sm:flex-nowrap my-1">
         {/* Item ingredients requirements */}
         {!!requirements.resources &&
           getKeys(requirements.resources).map((ingredientName, index) => (
@@ -303,6 +306,8 @@ export const CraftingRequirements: React.FC<Props> = ({
             requirement={requirements.level}
           />
         )}
+
+        {label}
       </div>
     );
   };

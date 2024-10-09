@@ -89,7 +89,7 @@ describe("instantCook", () => {
                 readyAt: 0,
                 crafting: {
                   name: "Mashed Potato",
-                  readyAt: Date.now(),
+                  readyAt: Date.now() + 30000,
                 },
               },
             ],
@@ -118,7 +118,7 @@ describe("instantCook", () => {
               readyAt: 0,
               crafting: {
                 name: "Mashed Potato",
-                readyAt: Date.now(),
+                readyAt: Date.now() + 30000,
               },
             },
           ],

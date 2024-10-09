@@ -18,6 +18,12 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import sflIcon from "assets/icons/sfl.webp";
 import { Button } from "components/ui/Button";
 import { gameAnalytics } from "lib/gameAnalytics";
+import { getAvailableBumpkinSkillPoints } from "features/game/events/landExpansion/choseSkill";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import {
+  findLevelRequiredForNextSkillPoint,
+  isMaxLevel,
+} from "features/game/lib/level";
 const iconList = {
   Crops: SUNNYSIDE.skills.crops,
   Trees: SUNNYSIDE.skills.trees,
@@ -34,14 +40,14 @@ const iconList = {
 };
 
 export const SkillCategoryList = ({
-  skillPointsInfo,
   onClick,
   onBack,
 }: {
-  skillPointsInfo: () => JSX.Element;
   onClick: (category: BumpkinRevampSkillTree) => void;
   onBack: () => void;
 }) => {
+  const { t } = useAppTranslation();
+
   const { gameService } = useContext(Context);
   const [
     {
@@ -52,6 +58,8 @@ export const SkillCategoryList = ({
     useState<boolean>(false);
 
   const { bumpkin } = state;
+  const experience = bumpkin?.experience || 0;
+  const availableSkillPoints = getAvailableBumpkinSkillPoints(bumpkin);
 
   // Functions
   const hasSkills = bumpkin?.skills
@@ -72,6 +80,9 @@ export const SkillCategoryList = ({
       event: "Bumpkin:SkillReset",
     });
   };
+
+  const nextLevelWithSkillPoint =
+    findLevelRequiredForNextSkillPoint(experience);
   return (
     <>
       <InnerPanel className="flex flex-col h-full overflow-y-auto scrollable max-h-96">
@@ -89,7 +100,18 @@ export const SkillCategoryList = ({
             }}
             onClick={onBack}
           />
-          {skillPointsInfo()}
+          <div className="flex flex-wrap gap-1">
+            {availableSkillPoints > 0 && (
+              <Label type="default">
+                {t("skillPts")} {availableSkillPoints}
+              </Label>
+            )}
+            {nextLevelWithSkillPoint && !isMaxLevel(experience) && (
+              <Label type="default" className="text-xxs px-1 whitespace-nowrap">
+                {t("nextSkillPtLvl")} {nextLevelWithSkillPoint}
+              </Label>
+            )}
+          </div>
         </div>
 
         {REVAMP_SKILL_TREE_CATEGORIES.map((category) => {

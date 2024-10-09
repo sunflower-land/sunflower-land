@@ -22,6 +22,11 @@ import communityEgg from "assets/sfts/easter_donation_egg.webp";
 import hungryHare from "assets/sfts/hungryHare.png";
 
 // NFTs
+import marty from "assets/sfts/morchi_marty.webp";
+import miffy from "assets/sfts/morchi_miffy.webp";
+import mog from "assets/sfts/morchi_mog.webp";
+import morty from "assets/sfts/morchi_morty.webp";
+
 import grinxsHammer from "assets/sfts/grinx_hammer.png";
 import chickenCoop from "assets/sfts/chicken_coop.png";
 import christmasTree from "assets/sfts/christmas_tree.png";
@@ -1078,11 +1083,11 @@ export const ITEM_DETAILS: Items = {
     description: ANIMALS.Chicken.description,
   },
   Cow: {
-    image: SUNNYSIDE.icons.expression_confused,
+    image: SUNNYSIDE.animals.cow,
     description: ANIMALS.Cow.description,
   },
   Sheep: {
-    image: SUNNYSIDE.icons.expression_confused,
+    image: SUNNYSIDE.animals.sheep,
     description: ANIMALS.Sheep.description,
   },
   Pig: {
@@ -4081,5 +4086,41 @@ export const ITEM_DETAILS: Items = {
   Gem: {
     image: gem,
     description: translate("description.gem"),
+  },
+  Marty: {
+    image: marty,
+    description: translate("description.marty"),
+  },
+  Mog: {
+    image: mog,
+    description: translate("description.mog"),
+  },
+  Miffy: {
+    image: miffy,
+    description: translate("description.miffy"),
+  },
+  Morty: {
+    image: morty,
+    description: translate("description.morty"),
+  },
+  Leather: {
+    image: SUNNYSIDE.resource.leather,
+    description: "Resource you can collect from cows",
+  },
+  Wool: {
+    image: SUNNYSIDE.resource.wool,
+    description: "Resource you can collect from sheep",
+  },
+  "Merino Wool": {
+    image: SUNNYSIDE.resource.merino_wool,
+    description: "Rare resource you can collect from sheep",
+  },
+  Feather: {
+    image: SUNNYSIDE.resource.feather,
+    description: "Resource you can collect from chicken",
+  },
+  Milk: {
+    image: SUNNYSIDE.resource.milk,
+    description: "Resource you can collect from cows",
   },
 };

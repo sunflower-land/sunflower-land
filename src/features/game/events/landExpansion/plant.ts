@@ -41,6 +41,7 @@ import { isWearableActive } from "features/game/lib/wearables";
 import { isGreenhouseCrop } from "./plantGreenhouse";
 import { FACTION_ITEMS } from "features/game/lib/factions";
 import { produce } from "immer";
+import { randomInt } from "lib/utils/random";
 
 export type LandExpansionPlantAction = {
   type: "seed.planted";
@@ -169,6 +170,16 @@ export function getCropTime({
     if (crop === "Radish" || crop === "Wheat" || crop === "Kale") {
       seconds = seconds * 0.9;
     }
+  }
+
+  // Olive Express: 20% reduction
+  if (crop === "Olive" && skills["Olive Express"]) {
+    seconds = seconds * 0.8;
+  }
+
+  // Rice Rocket: 20% reduction
+  if (crop === "Rice" && skills["Rice Rocket"]) {
+    seconds = seconds * 0.8;
   }
 
   return seconds;
@@ -616,6 +627,23 @@ export function getCropYieldAmount({
   // Olive
   if (crop === "Olive" && isWearableActive({ name: "Olive Shield", game })) {
     amount += 1;
+  }
+
+  // Olive Garden +0.2 yield
+  if (crop === "Olive" && skills["Olive Garden"]) {
+    amount += 0.2;
+  }
+
+  // Rice and Shine +0.2 yield
+  if (crop === "Rice" && skills["Rice and Shine"]) {
+    amount += 0.2;
+  }
+
+  // Greenhouse Gamble 5% chance of +1 yield
+  if (isGreenhouseCrop(crop) && bumpkin.skills["Greenhouse Gamble"]) {
+    if (randomInt(0, 20) === 1) {
+      amount += 1;
+    }
   }
 
   if (
