@@ -360,6 +360,20 @@ export type WarItems =
   | "Warrior Helmet"
   | "Warrior Pants";
 
+export type ExchangeDeal = {
+  id: string;
+  name: AnimalType;
+  expiresAt: number;
+  level: number;
+  coins?: number;
+  items?: Partial<Record<InventoryItemName, number>>;
+  soldAt?: number;
+};
+
+export type Exchange = {
+  deals: ExchangeDeal[];
+};
+
 export type InventoryItemName =
   | AnimalResource
   | CropName
@@ -1156,6 +1170,7 @@ export type Animal = {
   state: AnimalState;
   createdAt: number;
   coordinates: Coordinates;
+  experience: number;
 };
 
 export type AnimalBuilding = {
@@ -1300,6 +1315,8 @@ export interface GameState {
   kingdomChores: KingdomChores;
   mushrooms: Mushrooms;
   potionHouse?: PotionHouse;
+
+  exchange: Exchange;
 
   trades: {
     listings?: Record<string, TradeListing>;

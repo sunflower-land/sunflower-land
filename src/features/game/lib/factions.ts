@@ -77,16 +77,22 @@ export function getWeekNumber({
   return Math.floor(dayDifference / 7) + 1;
 }
 
-export function secondsTillWeekReset(): number {
+export function weekResetsAt(): number {
   const weekStart = getFactionWeek();
   const weekEnd = new Date(
     new Date(weekStart).getTime() + 7 * 24 * 60 * 60 * 1000,
   );
 
+  return weekEnd.getTime();
+}
+
+export function secondsTillWeekReset(): number {
+  const weekEnd = weekResetsAt();
+
   const currentTime = Date.now();
 
   // Calculate the time until the next faction week start in milliseconds
-  const timeUntilNextFactionWeek = weekEnd.getTime() - currentTime;
+  const timeUntilNextFactionWeek = weekEnd - currentTime;
 
   // Convert milliseconds to seconds
   const secondsUntilNextFactionWeek = timeUntilNextFactionWeek / 1000;

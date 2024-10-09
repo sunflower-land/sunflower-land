@@ -375,8 +375,10 @@ import {
   SpeedUpBuilding,
 } from "./landExpansion/speedUpBuilding";
 import { buyAnimal, BuyAnimalAction } from "./landExpansion/buyAnimal";
+import { sellAnimal, SellAnimalAction } from "./landExpansion/sellAnimal";
 
 export type PlayingEvent =
+  | SellAnimalAction
   | SpeedUpBuilding
   | SpeedUpCollectible
   | InstantExpand
@@ -551,6 +553,7 @@ type Handlers<T> = {
 };
 
 export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
+  "animal.sold": sellAnimal,
   "building.spedUp": speedUpBuilding,
   "collectible.spedUp": speedUpCollectible,
   "expansion.spedUp": speedUpExpansion,
