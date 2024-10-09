@@ -619,7 +619,9 @@ export const CropMachineModal: React.FC<Props> = ({
                 <div className="flex w-full justify-between">
                   <div className="flex flex-col justify-center text-xs space-y-1">
                     <span>
-                      {t("cropMachine.oilToAdd", { amount: totalOil })}
+                      {t("cropMachine.oilToAdd", {
+                        amount: setPrecision(totalOil),
+                      })}
                     </span>
                     <span>
                       {t("cropMachine.totalRuntime", {
