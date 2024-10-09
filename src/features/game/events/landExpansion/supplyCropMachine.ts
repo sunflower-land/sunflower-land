@@ -32,6 +32,9 @@ export const OIL_PER_HOUR_CONSUMPTION = (state: GameState) => {
   if (state.bumpkin.skills["Crop Processor Unit"]) {
     oilConsumption += 0.1;
   }
+  if (state.bumpkin.skills["Rapid Rig"]) {
+    oilConsumption += 0.4;
+  }
   return oilConsumption;
 };
 // 2 days worth of oil
@@ -94,6 +97,10 @@ export function calculateCropTime(
 
   if (state.bumpkin.skills?.["Crop Processor Unit"]) {
     milliSeconds = milliSeconds * 0.95;
+  }
+
+  if (state.bumpkin.skills?.["Rapid Rig"]) {
+    milliSeconds = milliSeconds * 0.8;
   }
 
   return (milliSeconds * seeds.amount) / CROP_MACHINE_PLOTS;

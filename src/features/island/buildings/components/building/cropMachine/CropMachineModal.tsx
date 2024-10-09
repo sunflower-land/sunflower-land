@@ -395,7 +395,7 @@ export const CropMachineModal: React.FC<Props> = ({
                                   state,
                                 ) / 1000,
                                 {
-                                  length: "full",
+                                  length: "medium",
                                   isShortFormat: true,
                                   removeTrailingZeros: true,
                                 },
@@ -482,7 +482,7 @@ export const CropMachineModal: React.FC<Props> = ({
                               state,
                             ) / 1000,
                             {
-                              length: "full",
+                              length: "medium",
                               isShortFormat: true,
                               removeTrailingZeros: true,
                             },
