@@ -90,7 +90,7 @@ export const CompetitionBoard: React.FC = () => {
       </MapPlacement>
       <Modal show={isOpen} onHide={() => setIsOpen(false)}>
         <CompetitionModal
-          competitionName="TESTING"
+          competitionName="FSL"
           onClose={() => setIsOpen(false)}
         />
       </Modal>
