@@ -470,4 +470,257 @@ describe("feedAnimal", () => {
       }),
     ).toThrow("Animal is asleep");
   });
+
+  it("feeds for free if Golden Egg is placed and feeding Chicken", () => {
+    const chickenId = "xyz";
+
+    const state = feedAnimal({
+      createdAt: now,
+      state: {
+        ...INITIAL_FARM,
+        inventory: {
+          ...INITIAL_FARM.inventory,
+          "Gold Egg": new Decimal(1),
+          Hay: new Decimal(1),
+        },
+        collectibles: {
+          "Gold Egg": [
+            {
+              coordinates: { x: 0, y: 0 },
+              createdAt: 0,
+              id: "1",
+              readyAt: 0,
+            },
+          ],
+        },
+        henHouse: {
+          ...INITIAL_FARM.henHouse,
+          animals: {
+            [chickenId]: {
+              coordinates: { x: 0, y: 0 },
+              id: chickenId,
+              type: "Chicken",
+              createdAt: 0,
+              state: "idle",
+              experience: 0,
+              asleepAt: 0,
+            },
+          },
+        },
+      },
+      action: {
+        type: "animal.fed",
+        animal: "Chicken",
+        id: chickenId,
+        food: "Hay",
+      },
+    });
+
+    expect(state.inventory.Hay).toStrictEqual(new Decimal(1));
+  });
+
+  it("picks the favourite food if Golden Egg is placed and feeding Chicken", () => {
+    const chickenId = "xyz";
+
+    const state = feedAnimal({
+      createdAt: now,
+      state: {
+        ...INITIAL_FARM,
+        inventory: {
+          ...INITIAL_FARM.inventory,
+          "Gold Egg": new Decimal(1),
+        },
+        collectibles: {
+          "Gold Egg": [
+            {
+              coordinates: { x: 0, y: 0 },
+              createdAt: 0,
+              id: "1",
+              readyAt: 0,
+            },
+          ],
+        },
+        henHouse: {
+          ...INITIAL_FARM.henHouse,
+          animals: {
+            [chickenId]: {
+              coordinates: { x: 0, y: 0 },
+              id: chickenId,
+              type: "Chicken",
+              createdAt: 0,
+              state: "idle",
+              experience: 0,
+              asleepAt: 0,
+            },
+          },
+        },
+      },
+      action: {
+        type: "animal.fed",
+        animal: "Chicken",
+        id: chickenId,
+        food: "Hay",
+      },
+    });
+
+    expect(state.henHouse.animals[chickenId].experience).toBe(20);
+  });
+
+  it("does not feed for free if Golden Egg is placed and feeding Cow", () => {
+    const cowId = "123";
+
+    expect(() =>
+      feedAnimal({
+        createdAt: now,
+        state: {
+          ...INITIAL_FARM,
+          inventory: {
+            ...INITIAL_FARM.inventory,
+            "Gold Egg": new Decimal(1),
+          },
+          collectibles: {
+            "Gold Egg": [
+              {
+                coordinates: { x: 0, y: 0 },
+                createdAt: 0,
+                id: "1",
+                readyAt: 0,
+              },
+            ],
+          },
+          barn: {
+            ...INITIAL_FARM.barn,
+            animals: {
+              [cowId]: {
+                coordinates: { x: 0, y: 0 },
+                id: cowId,
+                type: "Cow",
+                createdAt: 0,
+                state: "idle",
+                experience: 50,
+                asleepAt: 0,
+              },
+            },
+          },
+        },
+        action: {
+          type: "animal.fed",
+          animal: "Cow",
+          id: cowId,
+          food: "Hay",
+        },
+      }),
+    ).toThrow("Player does not have any Hay");
+  });
+
+  it("sets the state to happy if fed favourite food", () => {
+    const chickenId = "xyz";
+
+    const state = feedAnimal({
+      createdAt: now,
+      state: {
+        ...INITIAL_FARM,
+        inventory: {
+          ...INITIAL_FARM.inventory,
+          Hay: new Decimal(1),
+        },
+        henHouse: {
+          ...INITIAL_FARM.henHouse,
+          animals: {
+            [chickenId]: {
+              coordinates: { x: 0, y: 0 },
+              id: chickenId,
+              type: "Chicken",
+              createdAt: 0,
+              state: "idle",
+              experience: 50,
+              asleepAt: 0,
+            },
+          },
+        },
+      },
+      action: {
+        type: "animal.fed",
+        animal: "Chicken",
+        id: chickenId,
+        food: "Hay",
+      },
+    });
+
+    expect(state.henHouse.animals[chickenId].state).toBe("happy");
+  });
+
+  it("sets the state to sad not fed favourite food", () => {
+    const chickenId = "xyz";
+
+    const state = feedAnimal({
+      createdAt: now,
+      state: {
+        ...INITIAL_FARM,
+        inventory: {
+          ...INITIAL_FARM.inventory,
+          Hay: new Decimal(1),
+        },
+        henHouse: {
+          ...INITIAL_FARM.henHouse,
+          animals: {
+            [chickenId]: {
+              coordinates: { x: 0, y: 0 },
+              id: chickenId,
+              type: "Chicken",
+              createdAt: 0,
+              state: "idle",
+              experience: 0,
+              asleepAt: 0,
+            },
+          },
+        },
+      },
+      action: {
+        type: "animal.fed",
+        animal: "Chicken",
+        id: chickenId,
+        food: "Hay",
+      },
+    });
+
+    expect(state.henHouse.animals[chickenId].state).toBe("sad");
+  });
+
+  it("sets the state to idle if asleep", () => {
+    const chickenId = "xyz";
+
+    const state = feedAnimal({
+      createdAt: now,
+      state: {
+        ...INITIAL_FARM,
+        inventory: {
+          ...INITIAL_FARM.inventory,
+          "Kernel Blend": new Decimal(1),
+        },
+        henHouse: {
+          ...INITIAL_FARM.henHouse,
+          animals: {
+            [chickenId]: {
+              coordinates: { x: 0, y: 0 },
+              id: chickenId,
+              type: "Chicken",
+              createdAt: 0,
+              state: "sad",
+              experience: 0,
+              asleepAt: 0,
+            },
+          },
+        },
+      },
+      action: {
+        type: "animal.fed",
+        animal: "Chicken",
+        id: chickenId,
+        food: "Kernel Blend",
+      },
+    });
+
+    expect(state.henHouse.animals[chickenId].state).toBe("idle");
+  });
 });
