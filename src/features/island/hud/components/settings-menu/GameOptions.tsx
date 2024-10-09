@@ -178,7 +178,8 @@ const GameOptions: React.FC<ContentComponentProps> = ({
         )}
       </Button>
       {(CONFIG.NETWORK === "amoy" ||
-        !!gameService.state?.context?.state.wardrobe.Halo) && (
+        !!gameService.state?.context?.state.wardrobe.Halo ||
+        !!gameService.state?.context?.state.wardrobe["Gift Giver"]) && (
         <Button className="p-1 mb-1" onClick={() => onSubMenuClick("amoy")}>
           <span>{t("gameOptions.developerOptions")}</span>
         </Button>
@@ -192,12 +193,6 @@ const GameOptions: React.FC<ContentComponentProps> = ({
       <Button className="p-1 mb-1" onClick={() => onSubMenuClick("plaza")}>
         <span>{t("gameOptions.plazaSettings")}</span>
       </Button>
-      {(CONFIG.NETWORK === "amoy" ||
-        gameService.state.context.farmId === 1) && (
-        <Button className="p-1 mb-1" onClick={() => onSubMenuClick("admin")}>
-          <span>{`Admin`}</span>
-        </Button>
-      )}
       <Button className="p-1 mb-1" onClick={() => showConfirmLogoutModal(true)}>
         {t("gameOptions.logout")}
       </Button>
@@ -302,11 +297,6 @@ export const settingMenus: Record<SettingMenuId, SettingMenu> = {
     parent: "main",
     content: GameOptions,
   },
-  admin: {
-    title: `Admin`,
-    parent: "main",
-    content: AdminSettings,
-  },
   installApp: {
     title: translate("install.app"),
     parent: "main",
@@ -382,7 +372,12 @@ export const settingMenus: Record<SettingMenuId, SettingMenu> = {
     content: FontSettings,
   },
 
-  // Amoy Testnet Actions
+  // Developer Options
+  admin: {
+    title: `Admin`,
+    parent: "amoy",
+    content: AdminSettings,
+  },
   mainnetHoardingCheck: {
     title: "Hoarding Check (Mainnet)",
     parent: "amoy",
