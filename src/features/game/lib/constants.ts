@@ -438,6 +438,25 @@ export const INITIAL_FARM: GameState = {
     wearables: [],
   },
 
+  exchange: {
+    deals: [
+      {
+        id: "1",
+        name: "Chicken",
+        level: 1,
+        coins: 100,
+        expiresAt: Date.now() + 100 * 1000,
+      },
+      {
+        id: "2",
+        name: "Chicken",
+        level: 5,
+        expiresAt: Date.now() + 100 * 1000,
+        items: { Scroll: 1 },
+      },
+    ],
+  },
+
   mysteryPrizes: {},
   stockExpiry: {},
   mushrooms: {

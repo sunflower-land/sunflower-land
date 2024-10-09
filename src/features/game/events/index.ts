@@ -382,8 +382,10 @@ import {
   upgradeBuilding,
   UpgradeBuildingAction,
 } from "./landExpansion/upgradeBuilding";
+import { sellAnimal, SellAnimalAction } from "./landExpansion/sellAnimal";
 
 export type PlayingEvent =
+  | SellAnimalAction
   | SpeedUpBuilding
   | SpeedUpCollectible
   | FeedMixedAction
@@ -562,6 +564,7 @@ type Handlers<T> = {
 };
 
 export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
+  "animal.sold": sellAnimal,
   "building.spedUp": speedUpBuilding,
   "collectible.spedUp": speedUpCollectible,
   "expansion.spedUp": speedUpExpansion,

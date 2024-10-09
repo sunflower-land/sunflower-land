@@ -361,6 +361,19 @@ export type WarItems =
   | "Warrior Pants";
 
 export type LoveAnimalItem = "Petting Hand" | "Brush" | "Music Box";
+export type ExchangeDeal = {
+  id: string;
+  name: AnimalType;
+  expiresAt: number;
+  level: number;
+  coins?: number;
+  items?: Partial<Record<InventoryItemName, number>>;
+  soldAt?: number;
+};
+
+export type Exchange = {
+  deals: ExchangeDeal[];
+};
 
 export type InventoryItemName =
   | AnimalResource
@@ -1315,6 +1328,8 @@ export interface GameState {
   kingdomChores: KingdomChores;
   mushrooms: Mushrooms;
   potionHouse?: PotionHouse;
+
+  exchange: Exchange;
 
   trades: {
     listings?: Record<string, TradeListing>;

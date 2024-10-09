@@ -18,6 +18,22 @@ import { AnimalBuildingModal } from "features/game/expansion/components/animals/
 import { FeederMachine } from "features/feederMachine/FeederMachine";
 import { AnimalBuildingLevel } from "features/game/events/landExpansion/upgradeBuilding";
 import { UpgradeBuildingModal } from "features/game/expansion/components/UpgradeBuildingModal";
+import saleDisc from "assets/icons/sales_disc.webp";
+import { Modal } from "components/ui/Modal";
+import {
+  AnimalDeal,
+  AnimalExchange,
+  ExchangeHud,
+} from "features/barn/components/AnimalExchanges";
+import { CloseButtonPanel } from "features/game/components/CloseablePanel";
+import { Animal, ExchangeDeal } from "features/game/types/game";
+import { InnerPanel } from "components/ui/Panel";
+import { Label } from "components/ui/Label";
+import { isValidDeal } from "features/game/events/landExpansion/sellAnimal";
+import classNames from "classnames";
+import { HudContainer } from "components/ui/HudContainer";
+
+const background = SUNNYSIDE.land.tent_inside;
 
 const _henHouse = (state: MachineState) => state.context.state.henHouse;
 
@@ -34,6 +50,9 @@ export const HenHouseInside: React.FC = () => {
   const { gameService } = useContext(Context);
   const [showModal, setShowModal] = useState(false);
   const [showUpgradeModal, setShowUpgradeModal] = useState(false);
+  const [showExchange, setShowExchange] = useState(false);
+  const [deal, setDeal] = useState<ExchangeDeal>();
+  const [selected, setSelected] = useState<Animal>();
   const henHouse = useSelector(gameService, _henHouse);
   const level = henHouse.level as AnimalBuildingLevel;
 
@@ -48,8 +67,9 @@ export const HenHouseInside: React.FC = () => {
 
   const mapPlacements: Array<JSX.Element> = [];
 
-  const components = getKeys(henHouse.animals).map((id) => {
+  let components = getKeys(henHouse.animals).map((id) => {
     const animal = henHouse.animals[id];
+    const isValid = deal && isValidDeal({ animal, deal });
 
     return (
       <MapPlacement
@@ -60,7 +80,28 @@ export const HenHouseInside: React.FC = () => {
         width={ANIMALS.Chicken.width}
         z={1}
       >
-        <Chicken id={id} />
+        <div
+          className={classNames(
+            deal
+              ? {
+                  "opacity-50": !isValid,
+                  "cursor-pointer": isValid,
+                  "pointer-events-none": !isValid,
+                }
+              : {},
+          )}
+          onClick={(e) => {
+            if (deal) {
+              e.preventDefault();
+
+              if (!isValid) return;
+
+              setSelected(animal);
+            }
+          }}
+        >
+          <Chicken id={id} />
+        </div>
       </MapPlacement>
     );
   });
@@ -83,7 +124,30 @@ export const HenHouseInside: React.FC = () => {
         show={showUpgradeModal}
         onClose={() => setShowUpgradeModal(false)}
       />
-      <>
+      <Modal show={showExchange} onHide={() => setShowExchange(false)}>
+        <AnimalExchange
+          onExchanging={(deal) => {
+            setShowExchange(false);
+            setDeal(deal);
+          }}
+          type="Chicken"
+        />
+      </Modal>
+
+      <Modal show={!!selected} onHide={() => setSelected(undefined)}>
+        <AnimalDeal
+          onClose={() => {
+            setSelected(undefined);
+          }}
+          onSold={() => {
+            setDeal(undefined);
+            setSelected(undefined);
+            setShowExchange(true);
+          }}
+          deal={deal!}
+          animal={selected!}
+        />
+      </Modal>
         <div
           className="absolute bg-[#181425]"
           style={{
@@ -103,6 +167,37 @@ export const HenHouseInside: React.FC = () => {
                 }}
                 onClick={() => setShowModal(true)}
               />
+            <div className={"relative w-full h-full"}>
+              {!deal && (
+                <>
+                  <img
+                    src={shopDisc}
+                    alt="Buy Animals"
+                    className="absolute top-7 right-8 cursor-pointer z-10"
+                    style={{
+                      width: `${PIXEL_SCALE * 18}px`,
+                    }}
+                    onClick={() => setShowModal(true)}
+                  />
+                  <img
+                    src={saleDisc}
+                    alt="Buy Animals"
+                    className="absolute top-8 left-8 cursor-pointer z-10"
+                    style={{
+                      width: `${PIXEL_SCALE * 18}px`,
+                    }}
+                    onClick={() => setShowExchange(true)}
+                  />
+
+                  <Button
+                    className="absolute -bottom-16"
+                    onClick={() => navigate("/")}
+                  >
+                    {t("exit")}
+                  </Button>
+                </>
+              )}
+
               <img
                 src={SUNNYSIDE.icons.upgradeBuildingIcon}
                 alt="Upgrade Building"
@@ -119,6 +214,7 @@ export const HenHouseInside: React.FC = () => {
                 style={{
                   width: `${ANIMAL_HOUSE_IMAGES[level].width * PIXEL_SCALE}px`,
                   height: `${ANIMAL_HOUSE_IMAGES[level].height * PIXEL_SCALE}px`,
+                  opacity: deal ? 0.5 : 1,
                 }}
               />
 
@@ -134,19 +230,21 @@ export const HenHouseInside: React.FC = () => {
               </div>
 
               {mapPlacements.sort((a, b) => b.props.y - a.props.y)}
-
-              <Button
-                className="absolute -bottom-16"
-                onClick={() => navigate("/")}
-              >
-                {t("exit")}
-              </Button>
             </div>
           </div>
         </div>
-      </>
 
-      <Hud isFarming={false} location="home" />
+
+      {!deal && <Hud isFarming={false} location="home" />}
+
+      {deal && (
+        <ExchangeHud
+          deal={deal}
+          onClose={() => {
+            setDeal(undefined);
+          }}
+        />
+      )}
     </>
   );
 };
