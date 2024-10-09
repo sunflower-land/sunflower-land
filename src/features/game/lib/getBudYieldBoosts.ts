@@ -11,10 +11,10 @@ import {
   GreenHouseCropName,
 } from "../types/crops";
 import {
-  FRUIT,
-  FruitName,
   GREENHOUSE_FRUIT,
   GreenHouseFruitName,
+  PATCH_FRUIT,
+  PatchFruitName,
 } from "../types/fruits";
 import { GameState } from "../types/game";
 import { CommodityName, MushroomName } from "../types/resources";
@@ -22,7 +22,7 @@ import { CommodityName, MushroomName } from "../types/resources";
 export type Resource =
   | CommodityName
   | CropName
-  | FruitName
+  | PatchFruitName
   | MushroomName
   | GreenHouseCropName
   | GreenHouseFruitName;
@@ -40,7 +40,7 @@ const isMineral = (resource: Resource): boolean => {
 };
 
 const isFruit = (resource: Resource): boolean => {
-  return resource in FRUIT() || resource in GREENHOUSE_FRUIT();
+  return resource in PATCH_FRUIT() || resource in GREENHOUSE_FRUIT();
 };
 
 const getTypeBoost = (bud: Bud, resource: Resource): number => {

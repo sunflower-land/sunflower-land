@@ -10,10 +10,10 @@ import {
   TreasureCollectibleItem,
 } from "./collectibles";
 import {
-  FruitName,
-  FruitSeedName,
   GreenHouseFruitName,
   GreenHouseFruitSeedName,
+  PatchFruitName,
+  PatchFruitSeedName,
 } from "./fruits";
 import { GarbageName } from "./garbage";
 import { SeedName } from "./seeds";
@@ -42,9 +42,8 @@ type BuyableName =
 type SellableName =
   | CropName
   | Food
-  | FruitName
+  | PatchFruitName
   | BeachBountyTreasure
-  | FruitName
   | GarbageName
   | ExoticCropName;
 
@@ -53,13 +52,13 @@ type Edibles = Food | ConsumableName;
 
 export type HarvestEvent = `${
   | CropName
-  | FruitName
+  | PatchFruitName
   | FlowerName
   | GreenHouseCropName
   | GreenHouseFruitName
   | "Honey"} Harvested`;
-export type PlantEvent = `${CropName | FruitName} Planted`;
-export type FruitPlantEvent = `${FruitSeedName} Planted`;
+export type PlantEvent = `${CropName | PatchFruitName} Planted`;
+export type FruitPlantEvent = `${PatchFruitSeedName} Planted`;
 export type PlantFlowerEvent = `${FlowerSeedName} Planted`;
 export type CookEvent = `${Recipes} Cooked`;
 export type FedEvent = `${Edibles} Fed`;
