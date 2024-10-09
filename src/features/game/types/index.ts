@@ -344,6 +344,11 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   Sunstone: 638,
   Oil: 639,
   "Oil Reserve": 640,
+  Leather: 641,
+  Wool: 642,
+  "Merino Wool": 643,
+  Feather: 644,
+  Milk: 645,
 
   "Green Thumb": 701,
   "Barn Manager": 702,
@@ -826,6 +831,10 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   Squirrel: 2133,
   Macaw: 2134,
   Butterfly: 2135,
+  Marty: 2136,
+  Miffy: 2137,
+  Mog: 2138,
+  Morty: 2139,
 };
 
 // The reverse of above

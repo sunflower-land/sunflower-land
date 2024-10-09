@@ -1,7 +1,7 @@
 import { FERTILISERS, InventoryItemName } from "../types/game";
 import { SHOVELS, TOOLS } from "../types/craftables";
 import { CROPS, CROP_SEEDS, GREENHOUSE_CROPS } from "../types/crops";
-import { COMMODITIES } from "../types/resources";
+import { ANIMAL_RESOURCES, COMMODITIES } from "../types/resources";
 import { FRUIT, FRUIT_SEEDS, GREENHOUSE_FRUIT } from "../types/fruits";
 import { TREASURE_TOOLS } from "../types/tools";
 import { FLOWER_SEEDS } from "../types/flowers";
@@ -17,6 +17,7 @@ export function getItemUnit(name: InventoryItemName) {
     name in GREENHOUSE_CROPS ||
     name in GREENHOUSE_FRUIT() ||
     name in COMMODITIES ||
+    name in ANIMAL_RESOURCES ||
     name in CROP_SEEDS ||
     name in FRUIT_SEEDS() ||
     name in FLOWER_SEEDS() ||

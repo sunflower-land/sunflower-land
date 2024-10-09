@@ -26,7 +26,7 @@ import {
   COOKABLES,
   PIRATE_CAKE,
 } from "features/game/types/consumables";
-import { COMMODITIES } from "features/game/types/resources";
+import { ANIMAL_RESOURCES, COMMODITIES } from "features/game/types/resources";
 import { BEANS, EXOTIC_CROPS } from "features/game/types/beans";
 import {
   FRUIT,
@@ -161,7 +161,10 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
   const workbenchTools = getItems(WORKBENCH_TOOLS);
   const treasureTools = getItems(TREASURE_TOOLS);
   const exotic = getItems(BEANS());
-  const resources = getItems(COMMODITIES);
+  const resources = getItems(COMMODITIES).filter(
+    (resource) => resource !== "Egg",
+  );
+  const animalResources = getItems(ANIMAL_RESOURCES);
 
   // Sort all foods by Cooking Time and Building
   const foods = getItems(COOKABLES)
@@ -280,6 +283,7 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
             ITEM_DETAILS["White Carrot"].image,
           )}
           {itemsSection(t("resources"), resources, ITEM_DETAILS["Wood"].image)}
+          {itemsSection(t("animal"), animalResources, ITEM_DETAILS.Egg.image)}
           {itemsSection(
             t("bait"),
             [...worm, ...purchaseableBait],
