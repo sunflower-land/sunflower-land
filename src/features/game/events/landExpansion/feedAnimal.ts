@@ -4,6 +4,7 @@ import { ANIMALS, AnimalType } from "features/game/types/animals";
 import { AnimalFoodName, GameState, Inventory } from "features/game/types/game";
 import { makeAnimalBuildingKey } from "features/game/lib/animals";
 import { getKeys } from "features/game/types/craftables";
+import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 
 type AnimalLevel = 1 | 2 | 3;
 
@@ -102,16 +103,10 @@ type Options = {
   createdAt: number;
 };
 
-export function feedAnimal({
-  state,
-  action,
-  createdAt = Date.now(),
-}: Options): GameState {
+export function feedAnimal({ state, action, createdAt }: Options): GameState {
   return produce(state, (copy) => {
     const { buildingRequired } = ANIMALS[action.animal];
-
     const buildingKey = makeAnimalBuildingKey(buildingRequired);
-
     const animal = copy[buildingKey].animals[action.id];
 
     if (!animal) {
@@ -120,42 +115,39 @@ export function feedAnimal({
       );
     }
 
-    const inventoryAmount = copy.inventory[action.food] ?? new Decimal(0);
-    if (inventoryAmount.lt(1)) {
-      throw new Error(`Player does not have any ${action.food}`);
-    }
-
     if (createdAt < animal.asleepAt + 24 * 60 * 60 * 1000) {
       throw new Error("Animal is asleep");
     }
 
-    copy.inventory[action.food] = inventoryAmount.sub(1);
-
     const level = getAnimalLevel(animal.experience);
-    const food = ANIMAL_FOOD_EXPERIENCE[action.animal][level];
-    const xp = food[action.food];
-
-    animal.experience += xp;
-
-    console.log(
-      { level, food, xp, animalEXP: animal.experience },
-      getAnimalLevel(animal.experience),
-    );
-    if (level !== getAnimalLevel(animal.experience)) {
-      animal.asleepAt = createdAt;
-    }
-
-    const maxXp = Math.max(...Object.values(food));
-    const favouriteFoods = getKeys(food).filter(
-      (foodName) => food[foodName] === maxXp,
+    const xp = ANIMAL_FOOD_EXPERIENCE[action.animal][level];
+    const maxXp = Math.max(...Object.values(xp));
+    const favouriteFoods = getKeys(xp).filter(
+      (foodName) => xp[foodName] === maxXp,
     );
 
-    if (favouriteFoods.length !== 1) {
-      throw new Error("No favourite food");
-    }
+    if (favouriteFoods.length !== 1) throw new Error("No favourite food");
     const favouriteFood = favouriteFoods[0];
 
-    if (favouriteFood === action.food) {
+    const isChicken = action.animal === "Chicken";
+    const hasGoldenEggPlaced = isCollectibleBuilt({
+      name: "Gold Egg",
+      game: copy,
+    });
+
+    const food = isChicken && hasGoldenEggPlaced ? favouriteFood : action.food;
+    const requiredAmount = isChicken && hasGoldenEggPlaced ? 0 : 1;
+    const inventoryAmount = copy.inventory[food] ?? new Decimal(0);
+
+    if (inventoryAmount.lt(requiredAmount)) {
+      throw new Error(`Player does not have any ${food}`);
+    }
+
+    copy.inventory[food] = inventoryAmount.sub(requiredAmount);
+    animal.experience += xp[food];
+
+    animal.state = "sad";
+    if (favouriteFood === food) {
       getKeys(ANIMAL_RESOURCE_DROP[action.animal][level]).forEach(
         (resource) => {
           const amount = ANIMAL_RESOURCE_DROP[action.animal][level][resource];
@@ -164,6 +156,12 @@ export function feedAnimal({
           ).add(amount ?? new Decimal(0));
         },
       );
+      animal.state = "happy";
+    }
+
+    if (level !== getAnimalLevel(animal.experience)) {
+      animal.asleepAt = createdAt;
+      animal.state = "idle";
     }
 
     return copy;
