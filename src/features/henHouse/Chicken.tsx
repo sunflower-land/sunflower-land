@@ -19,8 +19,17 @@ export const Chicken: React.FC<{ id: string }> = ({ id }) => {
 
   const chicken = useSelector(gameService, _chicken(id));
 
+  const feedChicken = () => {
+    gameService.send({
+      type: "animal.fed",
+      animal: "Chicken",
+      food: "Hay",
+      id: chicken.id,
+    });
+  };
+
   return (
-    <div className="relative cursor-pointer">
+    <div className="relative cursor-pointer" onClick={feedChicken}>
       <img
         src={SUNNYSIDE.animals.chickenShadow}
         className="absolute"
