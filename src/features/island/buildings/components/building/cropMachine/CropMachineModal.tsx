@@ -228,7 +228,7 @@ export const CropMachineModal: React.FC<Props> = ({
   const selectedPack = queue[selectedPackIndex];
   const stackedQueue: (CropMachineQueueItem | null)[] = [
     ...queue,
-    ...new Array(MAX_QUEUE_SIZE - queue.length).fill(null),
+    ...new Array(MAX_QUEUE_SIZE(state) - queue.length).fill(null),
   ];
 
   return (
@@ -493,7 +493,12 @@ export const CropMachineModal: React.FC<Props> = ({
             >
               {t("cropMachine.seedPacks")}
             </Label>
-            <div className="flex mt-1">
+            <div
+              className="mt-1 grid gap-2 justify-start"
+              style={{
+                gridTemplateColumns: "repeat(5, max-content)",
+              }}
+            >
               {stackedQueue.map((item, index) => {
                 if (item === null)
                   return (

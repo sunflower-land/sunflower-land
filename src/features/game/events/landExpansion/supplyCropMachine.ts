@@ -23,7 +23,9 @@ type Options = {
   createdAt?: number;
 };
 
-export const MAX_QUEUE_SIZE = 5;
+export const MAX_QUEUE_SIZE = (state: GameState): number =>
+  state.bumpkin.skills["Field Extension Module"] ? 10 : 5;
+
 export const CROP_MACHINE_PLOTS = 10;
 export const OIL_PER_HOUR_CONSUMPTION = 1;
 // 2 days worth of oil
@@ -310,7 +312,7 @@ export function supplyCropMachine({
 
   const queue = cropMachine.queue ?? [];
 
-  if (seedsAdded.amount > 0 && queue.length + 1 > MAX_QUEUE_SIZE) {
+  if (seedsAdded.amount > 0 && queue.length + 1 > MAX_QUEUE_SIZE(state)) {
     throw new Error("Queue is full");
   }
 
