@@ -23,8 +23,6 @@ import { produce } from "immer";
 export const COLLECTIBLE_CRAFT_SECONDS: Partial<
   Record<CollectibleName, number>
 > = {
-  // AOE items
-  "Basic Scarecrow": 15,
   Bale: 60,
   "Scary Mike": 60,
 };

@@ -49,6 +49,7 @@ import { DEV_HoarderCheck } from "./developer-options/DEV_HoardingCheck";
 import { WalletAddressLabel } from "components/ui/WalletAddressLabel";
 import { PickServer } from "./plaza-settings/PickServer";
 import { PlazaShaderSettings } from "./plaza-settings/PlazaShaderSettings";
+import { AdminSettings } from "./general-settings/AdminSettings";
 
 export interface ContentComponentProps {
   onSubMenuClick: (id: SettingMenuId) => void;
@@ -177,7 +178,8 @@ const GameOptions: React.FC<ContentComponentProps> = ({
         )}
       </Button>
       {(CONFIG.NETWORK === "amoy" ||
-        !!gameService.state?.context?.state.wardrobe.Halo) && (
+        !!gameService.state?.context?.state.wardrobe.Halo ||
+        !!gameService.state?.context?.state.wardrobe["Gift Giver"]) && (
         <Button className="p-1 mb-1" onClick={() => onSubMenuClick("amoy")}>
           <span>{t("gameOptions.developerOptions")}</span>
         </Button>
@@ -259,6 +261,7 @@ export type SettingMenuId =
   | "blockchain"
   | "general"
   | "plaza"
+  | "admin"
 
   // Blockchain Settings
   | "deposit"
@@ -369,7 +372,12 @@ export const settingMenus: Record<SettingMenuId, SettingMenu> = {
     content: FontSettings,
   },
 
-  // Amoy Testnet Actions
+  // Developer Options
+  admin: {
+    title: `Admin`,
+    parent: "amoy",
+    content: AdminSettings,
+  },
   mainnetHoardingCheck: {
     title: "Hoarding Check (Mainnet)",
     parent: "amoy",

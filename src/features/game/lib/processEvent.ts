@@ -11,6 +11,8 @@ import {
   LANDSCAPING_DECORATIONS,
   LandscapingDecorationName,
 } from "../types/decorations";
+import { getActiveListedItems } from "features/island/hud/components/inventory/utils/inventory";
+import { KNOWN_IDS } from "../types";
 
 export const MAX_ITEMS: Inventory = {
   Sunflower: new Decimal("30000"),
@@ -27,6 +29,7 @@ export const MAX_ITEMS: Inventory = {
   Radish: new Decimal("4000"),
   Wheat: new Decimal("4000"),
   Kale: new Decimal("4000"),
+  Barley: new Decimal("4050"),
 
   Tomato: new Decimal(1200),
   Lemon: new Decimal(1000),
@@ -41,6 +44,11 @@ export const MAX_ITEMS: Inventory = {
 
   Chicken: new Decimal("20"),
   Egg: new Decimal("1700"),
+  Leather: new Decimal(1500),
+  Wool: new Decimal(1500),
+  "Merino Wool": new Decimal(1500),
+  Feather: new Decimal(1500),
+  Milk: new Decimal(1500),
 
   "Speed Chicken": new Decimal("5"),
   "Rich Chicken": new Decimal("5"),
@@ -66,6 +74,7 @@ export const MAX_ITEMS: Inventory = {
   "Radish Seed": new Decimal(170),
   "Wheat Seed": new Decimal(170),
   "Kale Seed": new Decimal(150),
+  "Barley Seed": new Decimal(150),
 
   "Tomato Seed": new Decimal(100),
   "Apple Seed": new Decimal(100),
@@ -363,21 +372,15 @@ export function checkProgress({ state, action, farmId }: ProcessEventArgs): {
   const inventory = newState.inventory;
   const auctionBid = newState.auctioneer.bid?.ingredients ?? {};
 
-  const listedItems: Partial<Record<InventoryItemName, number>> = {};
-
-  Object.values(newState.trades.listings ?? {}).forEach((listing) => {
-    const items = listing.items;
-
-    Object.entries(items).forEach(([itemName, amount]) => {
-      listedItems[itemName as InventoryItemName] =
-        (listedItems[itemName as InventoryItemName] ?? 0) + Number(amount);
-    });
-  });
+  const listedItems = getActiveListedItems(newState);
+  const listedInventoryItemNames = getKeys(listedItems).filter(
+    (name) => name in KNOWN_IDS,
+  ) as InventoryItemName[];
 
   // Check inventory amounts
   const validProgress = getKeys(inventory)
     .concat(getKeys(auctionBid))
-    .concat(getKeys(listedItems))
+    .concat(listedInventoryItemNames)
     .every((name) => {
       const inventoryAmount = inventory[name] ?? new Decimal(0);
       const auctionAmount = auctionBid[name] ?? new Decimal(0);

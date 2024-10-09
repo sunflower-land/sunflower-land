@@ -11,7 +11,12 @@ import { ErrorMessage } from "features/auth/ErrorMessage";
 import { Refreshing } from "features/auth/components/Refreshing";
 import { AddingSFL } from "features/auth/components/AddingSFL";
 import { Context } from "../GameProvider";
-import { INITIAL_SESSION, MachineState, StateValues } from "../lib/gameMachine";
+import {
+  BlockchainState,
+  INITIAL_SESSION,
+  MachineState,
+  StateValues,
+} from "../lib/gameMachine";
 import { ToastProvider } from "../toast/ToastProvider";
 import { ToastPanel } from "../toast/ToastPanel";
 import { Panel } from "components/ui/Panel";
@@ -21,7 +26,6 @@ import { Swarming } from "../components/Swarming";
 import { Cooldown } from "../components/Cooldown";
 import { Route, Routes } from "react-router-dom";
 import { Land } from "./Land";
-import { Helios } from "features/helios/Helios";
 import { VisitingHud } from "features/island/hud/VisitingHud";
 import { VisitLandExpansionForm } from "./components/VisitLandExpansionForm";
 
@@ -62,11 +66,32 @@ import { NPC_WEARABLES } from "lib/npcs";
 import { Transaction } from "features/island/hud/Transaction";
 import { Gems } from "./components/Gems";
 import { HenHouseInside } from "features/henHouse/HenHouseInside";
+import { BarnInside } from "features/barn/BarnInside";
+import { EFFECT_EVENTS } from "../actions/effect";
+import { TranslationKeys } from "lib/i18n/dictionaries/types";
+import { Button } from "components/ui/Button";
+
+function camelToDotCase(str: string): string {
+  return str.replace(/([a-z])([A-Z])/g, "$1.$2").toLowerCase() as string;
+}
 
 const land = SUNNYSIDE.land.island;
 
+const getModalStatesForEffects = () =>
+  Object.values(EFFECT_EVENTS).reduce(
+    (states, stateName) => ({
+      ...states,
+      [stateName]: true,
+      [`${stateName}Failure`]: true,
+      [`${stateName}Success`]: true,
+    }),
+    {} as Record<BlockchainState["value"], boolean>,
+  );
+
 export const AUTO_SAVE_INTERVAL = 1000 * 30; // autosave every 30 seconds
 const SHOW_MODAL: Record<StateValues, boolean> = {
+  ...getModalStatesForEffects(),
+  // Every new state should be added below here
   gems: true,
   loading: true,
   playing: false,
@@ -172,6 +197,16 @@ const somethingArrived = (state: MachineState) =>
   state.matches("somethingArrived");
 const isProvingPersonhood = (state: MachineState) =>
   state.matches("provingPersonhood");
+const isEffectPending = (state: MachineState) =>
+  Object.values(EFFECT_EVENTS).some((stateName) => state.matches(stateName));
+const isEffectSuccess = (state: MachineState) =>
+  Object.values(EFFECT_EVENTS).some((stateName) =>
+    state.matches(`${stateName}Success`),
+  );
+const isEffectFailure = (state: MachineState) =>
+  Object.values(EFFECT_EVENTS).some((stateName) =>
+    state.matches(`${stateName}Failure`),
+  );
 
 const GameContent: React.FC = () => {
   const { gameService } = useContext(Context);
@@ -236,8 +271,8 @@ const GameContent: React.FC = () => {
           <Route path="/farm" element={<Land />} />
           <Route path="/home" element={<Home />} />
           <Route path="/greenhouse" element={<GreenhouseInside />} />
+          <Route path="/barn" element={<BarnInside />} />
           <Route path="/hen-house" element={<HenHouseInside />} />
-          <Route path="/helios" element={<Helios key="helios" />} />
           <Route path="*" element={<IslandNotFound />} />
         </Routes>
       </div>
@@ -301,6 +336,9 @@ export const GameWrapper: React.FC = ({ children }) => {
   const playing = useSelector(gameService, isPlaying);
   const hasSomethingArrived = useSelector(gameService, somethingArrived);
   const hasBBs = useSelector(gameService, showGems);
+  const effectPending = useSelector(gameService, isEffectPending);
+  const effectSuccess = useSelector(gameService, isEffectSuccess);
+  const effectFailure = useSelector(gameService, isEffectFailure);
 
   const showPWAInstallPrompt = useSelector(authService, _showPWAInstallPrompt);
 
@@ -445,6 +483,10 @@ export const GameWrapper: React.FC = ({ children }) => {
       : undefined;
   };
 
+  const effectTranslationKey = camelToDotCase(
+    stateValue as string,
+  ) as TranslationKeys;
+
   return (
     <>
       <ToastProvider>
@@ -454,6 +496,43 @@ export const GameWrapper: React.FC = ({ children }) => {
           <Panel
             bumpkinParts={error ? NPC_WEARABLES["worried pete"] : undefined}
           >
+            {/* Effects */}
+            {effectPending && <Loading text={t(effectTranslationKey)} />}
+            {effectSuccess && (
+              <>
+                <div className="p-1.5">
+                  <Label type="success" className="mb-2">
+                    {t("success")}
+                  </Label>
+                  <p className="text-sm mb-2">{t(effectTranslationKey)}</p>
+                </div>
+                <Button
+                  onClick={() => {
+                    gameService.send("CONTINUE");
+                  }}
+                >
+                  {t("continue")}
+                </Button>
+              </>
+            )}
+            {effectFailure && (
+              <>
+                <div className="p-1.5">
+                  <Label type="danger" className="mb-2">
+                    {t("error")}
+                  </Label>
+                  <p className="text-sm mb-2">{t(effectTranslationKey)}</p>
+                </div>
+                <Button
+                  onClick={() => {
+                    gameService.send("CONTINUE");
+                  }}
+                >
+                  {t("close")}
+                </Button>
+              </>
+            )}
+
             {loading && <Loading />}
             {refreshing && <Refreshing />}
             {buyingSFL && <AddingSFL />}
@@ -461,7 +540,6 @@ export const GameWrapper: React.FC = ({ children }) => {
             {purchasing && <Purchasing />}
             {hoarding && <Hoarding />}
             {swarming && <Swarming />}
-
             {coolingDown && <Cooldown />}
             {gameRules && <Rules />}
             {transacting && <Transaction />}

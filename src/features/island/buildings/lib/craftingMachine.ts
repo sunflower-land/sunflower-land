@@ -37,7 +37,11 @@ type CollectEvent = {
   event: GameEventName<PlayingEvent>;
 };
 
-type CraftingEvent = CraftEvent | CollectEvent | { type: "TICK" };
+type CraftingEvent =
+  | CraftEvent
+  | CollectEvent
+  | { type: "TICK" }
+  | { type: "INSTANT" };
 
 export type MachineState = State<CraftingContext, CraftingEvent, CraftingState>;
 
@@ -102,6 +106,9 @@ export const craftingMachine = createMachine<
         on: {
           TICK: {
             actions: "updateSecondsTillReady",
+          },
+          INSTANT: {
+            target: "idle",
           },
         },
       },

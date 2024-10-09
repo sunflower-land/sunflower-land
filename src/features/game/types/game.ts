@@ -76,6 +76,7 @@ import { ExperimentName } from "lib/flags";
 import { CollectionName, MarketplaceTradeableName } from "./marketplace";
 import { GameTransaction } from "./transactions";
 import { CompetitionName, CompetitionProgress } from "./competitions";
+import { AnimalType } from "./animals";
 
 export type Reward = {
   coins?: number;
@@ -360,6 +361,7 @@ export type WarItems =
   | "Warrior Pants";
 
 export type InventoryItemName =
+  | AnimalResource
   | CropName
   | CropSeedName
   | BeanName
@@ -1138,6 +1140,29 @@ type KeysBoughtAt = Partial<Record<Keys, { boughtAt: number }>>;
 type Stores = "factionShop" | "treasureShop" | "megastore";
 export type KeysBought = Record<Stores, KeysBoughtAt>;
 
+export type AnimalBuildingKey = "henHouse" | "barn";
+export type AnimalResource =
+  | "Egg"
+  | "Leather"
+  | "Wool"
+  | "Merino Wool"
+  | "Feather"
+  | "Milk";
+export type AnimalState = "idle";
+
+export type Animal = {
+  id: string;
+  type: AnimalType;
+  state: AnimalState;
+  createdAt: number;
+  coordinates: Coordinates;
+};
+
+export type AnimalBuilding = {
+  level: number;
+  animals: Record<string, Animal>;
+};
+
 export interface GameState {
   home: Home;
 
@@ -1145,6 +1170,10 @@ export interface GameState {
 
   competitions: {
     progress: Partial<Record<CompetitionName, CompetitionProgress>>;
+  };
+
+  shipments: {
+    restockedAt?: number;
   };
 
   // There are more fields but unused
@@ -1303,6 +1332,8 @@ export interface GameState {
   desert: Desert;
 
   experiments: ExperimentName[];
+  henHouse: AnimalBuilding;
+  barn: AnimalBuilding;
 }
 
 export interface Context {

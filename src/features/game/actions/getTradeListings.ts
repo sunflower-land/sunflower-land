@@ -13,6 +13,7 @@ export type Listing = {
   createdAt: number;
   boughtAt?: number;
   boughtById?: number;
+  signature?: string;
 };
 
 export async function getTradeListings(

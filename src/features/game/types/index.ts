@@ -51,6 +51,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Olive Seed": 127,
   "Tomato Seed": 128,
   "Lemon Seed": 129,
+  "Barley Seed": 130,
 
   Sunflower: 201,
   Potato: 202,
@@ -108,6 +109,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   Olive: 254,
   Tomato: 255,
   Lemon: 256,
+  Barley: 257,
 
   Axe: 301,
   Pickaxe: 302,
@@ -342,6 +344,11 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   Sunstone: 638,
   Oil: 639,
   "Oil Reserve": 640,
+  Leather: 641,
+  Wool: 642,
+  "Merino Wool": 643,
+  Feather: 644,
+  Milk: 645,
 
   "Green Thumb": 701,
   "Barn Manager": 702,
@@ -500,6 +507,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   Manor: 1018,
   Greenhouse: 1019,
   "Crop Machine": 1020,
+  Barn: 1021,
 
   // Temporary Bumpkin items
   "Chef Apron": 1101,
@@ -823,6 +831,10 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   Squirrel: 2133,
   Macaw: 2134,
   Butterfly: 2135,
+  Marty: 2136,
+  Miffy: 2137,
+  Mog: 2138,
+  Morty: 2139,
 };
 
 // The reverse of above

@@ -31,6 +31,7 @@ import { ConfirmationModal } from "components/ui/ConfirmationModal";
 import { NPC_WEARABLES } from "lib/npcs";
 import { BulkSellModal } from "components/ui/BulkSellModal";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { hasFeatureAccess } from "lib/flags";
 
 export const isExoticCrop = (
   item: Crop | PatchFruit | ExoticCrop,
@@ -217,6 +218,10 @@ export const Crops: React.FC = () => {
             <div className="flex flex-wrap mb-2">
               {cropsAndFruits
                 .filter((crop) => !!crop.sellPrice && crop.name in CROPS)
+                .filter(
+                  (crop) =>
+                    crop.name !== "Barley" || hasFeatureAccess(state, "BARLEY"),
+                )
                 .map((item) => (
                   <Box
                     isSelected={selected.name === item.name}

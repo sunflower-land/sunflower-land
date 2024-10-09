@@ -20,6 +20,8 @@ import { Revealed } from "features/game/components/Revealed";
 import { ChestRevealing } from "./chests/ChestRevealing";
 import { secondsToString } from "lib/utils/time";
 import { secondsTillReset } from "features/helios/components/hayseedHank/HayseedHankV2";
+import { AdminSettings } from "features/island/hud/components/settings-menu/general-settings/AdminSettings";
+import { CONFIG } from "lib/config";
 
 type Player = {
   id: number;
@@ -154,6 +156,7 @@ interface Props {
 }
 
 export const PlayerModals: React.FC<Props> = ({ game }) => {
+  const { gameService } = useContext(Context);
   const [tab, setTab] = useState(0);
   const [player, setPlayer] = useState<Player>();
   const { t } = useAppTranslation();
@@ -192,6 +195,16 @@ export const PlayerModals: React.FC<Props> = ({ game }) => {
               icon: SUNNYSIDE.icons.heart,
               name: "Trades",
             },
+            ...(!!gameService.getSnapshot().context.state.wardrobe[
+              "Gift Giver"
+            ] || CONFIG.NETWORK === "amoy"
+              ? [
+                  {
+                    icon: SUNNYSIDE.icons.search,
+                    name: "Admin",
+                  },
+                ]
+              : []),
           ]}
         >
           {tab === 0 &&
@@ -202,6 +215,14 @@ export const PlayerModals: React.FC<Props> = ({ game }) => {
             ))}
           {tab === 1 && (
             <PlayerTrade onClose={closeModal} farmId={player?.id as number} />
+          )}
+          {tab === 2 && (
+            <AdminSettings
+              id={player?.id as number}
+              // Noops
+              onClose={alert}
+              onSubMenuClick={alert}
+            />
           )}
         </CloseButtonPanel>
       </Modal>

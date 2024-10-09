@@ -15,30 +15,46 @@ import { ITEM_ICONS } from "../inventory/Chest";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { hasRequiredIslandExpansion } from "features/game/lib/hasRequiredIslandExpansion";
-import { IslandType } from "features/game/types/game";
+import { GameState, IslandType } from "features/game/types/game";
 import { capitalize } from "lib/utils/capitalize";
+import { hasFeatureAccess } from "lib/flags";
 
 interface Props {
   onClose: () => void;
 }
 
-const VALID_BUILDINGS: BuildingName[] = [
-  "Kitchen" as BuildingName,
-  "Water Well" as BuildingName,
-  "Bakery" as BuildingName,
-  "Hen House" as BuildingName,
-  "Deli" as BuildingName,
-  "Smoothie Shack" as BuildingName,
-  "Toolshed" as BuildingName,
-  "Warehouse" as BuildingName,
-  "Compost Bin" as BuildingName,
-  "Turbo Composter" as BuildingName,
-  "Premium Composter" as BuildingName,
-  "Greenhouse" as BuildingName,
-  "Crop Machine" as BuildingName,
-].sort(
-  (a, b) => BUILDINGS[a][0].unlocksAtLevel - BUILDINGS[b][0].unlocksAtLevel,
-);
+const getValidBuildings = (state: GameState): BuildingName[] => {
+  const UNSORTED_BUILDINGS = [
+    "Kitchen",
+    "Water Well",
+    "Bakery",
+    "Hen House",
+    "Deli",
+    "Smoothie Shack",
+    "Toolshed",
+    "Warehouse",
+    "Compost Bin",
+    "Turbo Composter",
+    "Premium Composter",
+    "Greenhouse",
+    "Crop Machine",
+  ];
+
+  const CONDITIONAL_BUILDINGS = hasFeatureAccess(state, "ANIMAL_BUILDINGS")
+    ? ["Barn"]
+    : [];
+
+  const VALID_BUILDINGS = [
+    ...UNSORTED_BUILDINGS,
+    ...CONDITIONAL_BUILDINGS,
+  ].sort(
+    (a, b) =>
+      BUILDINGS[a as BuildingName][0].unlocksAtLevel -
+      BUILDINGS[b as BuildingName][0].unlocksAtLevel,
+  ) as BuildingName[];
+
+  return VALID_BUILDINGS;
+};
 
 export const Buildings: React.FC<Props> = ({ onClose }) => {
   const [selectedName, setSelectedName] = useState<BuildingName>("Water Well");
@@ -179,7 +195,7 @@ export const Buildings: React.FC<Props> = ({ onClose }) => {
       }
       content={
         <>
-          {VALID_BUILDINGS.map((name: BuildingName) => {
+          {getValidBuildings(state).map((name: BuildingName) => {
             const blueprints = BUILDINGS[name];
             const inventoryCount = inventory[name] || new Decimal(0);
             const nextIndex = blueprints[inventoryCount.toNumber()]

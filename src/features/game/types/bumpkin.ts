@@ -298,7 +298,8 @@ export type BumpkinHat =
   | "Bumpkin Crown"
   | "Goblin Crown"
   | "Nightshade Crown"
-  | "Sunflorian Crown";
+  | "Sunflorian Crown"
+  | "Gam3s Cap";
 
 export type BumpkinPant =
   | "Farmer Overalls"
@@ -835,6 +836,9 @@ export const ITEM_IDS: Record<BumpkinItem, number> = {
   "Pumpkin Plaza Background": 392,
   "Goblin Retreat Background": 393,
   "Kingdom Background": 394,
+
+  //GAM3S Wearable
+  "Gam3s Cap": 395,
 };
 
 // The reverse of above
@@ -1290,4 +1294,5 @@ export const BUMPKIN_ITEM_PART: Record<BumpkinItem, keyof Wallet> = {
   "Pumpkin Plaza Background": "background",
   "Goblin Retreat Background": "background",
   "Kingdom Background": "background",
+  "Gam3s Cap": "hat",
 };

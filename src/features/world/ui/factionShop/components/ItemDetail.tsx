@@ -38,8 +38,7 @@ interface ItemOverlayProps {
 
 const _inventory = (state: MachineState) => state.context.state.inventory;
 const _wardrobe = (state: MachineState) => state.context.state.wardrobe;
-const _pledgedFaction = (state: MachineState) =>
-  state.context.state.faction?.name;
+const _faction = (state: MachineState) => state.context.state.faction;
 const _keysBought = (state: MachineState) =>
   state.context.state.pumpkinPlaza.keysBought;
 
@@ -62,7 +61,8 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
 
   const inventory = useSelector(gameService, _inventory);
   const wardrobe = useSelector(gameService, _wardrobe);
-  const pledgedFaction = useSelector(gameService, _pledgedFaction);
+  const faction = useSelector(gameService, _faction);
+  const pledgedFaction = faction?.name;
   const keysBought = useSelector(gameService, _keysBought);
 
   const [imageWidth, setImageWidth] = useState<number>(0);
@@ -255,7 +255,7 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
                   <div
                     className="w-[40%] relative min-w-[40%] rounded-md overflow-hidden shadow-md mr-2 flex justify-center items-center h-32"
                     style={
-                      item?.type === "collectible"
+                      item?.type !== "wearable"
                         ? {
                             backgroundImage: `url(${SUNNYSIDE.ui.grey_background})`,
                             backgroundSize: "cover",
@@ -287,6 +287,11 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
                       {!!item?.faction &&
                         item.faction !== pledgedFaction &&
                         getFactionOnlyLabel(item.faction)}
+                      {!faction && !item?.faction && (
+                        <Label type="warning" className="whitespace-nowrap">
+                          {t("faction.shop.membersOnly")}
+                        </Label>
+                      )}
                       {!!wearableActive && !!wearableReq && (
                         <Label type="danger">
                           {t("kingdom.shop.helmet.currently.equipped", {
@@ -345,15 +350,17 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
                 </Button>
               )}
 
-              <Button
-                disabled={
-                  !canBuy() ||
-                  (item?.name && isKey(item?.name) && !!keysBoughtToday)
-                }
-                onClick={buttonHandler}
-              >
-                {getButtonLabel()}
-              </Button>
+              {!!faction && (
+                <Button
+                  disabled={
+                    !canBuy() ||
+                    (item?.name && isKey(item?.name) && !!keysBoughtToday)
+                  }
+                  onClick={buttonHandler}
+                >
+                  {getButtonLabel()}
+                </Button>
+              )}
             </div>
           )}
           {showSuccess && (

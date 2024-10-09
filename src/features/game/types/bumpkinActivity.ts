@@ -24,10 +24,13 @@ import { PurchaseableBait } from "./fishing";
 import { FlowerName, FlowerSeedName } from "./flowers";
 import { FactionShopItemName } from "./factionShop";
 import { ShopDecorationName, SeasonalDecorationName } from "./decorations";
+import { AnimalType } from "./animals";
 
 type BuyableName =
   | SeedName
+  // This Animal type will become legacy once Animals are released
   | Animal
+  | AnimalType
   | ShopDecorationName
   | SeasonalDecorationName
   | BeanName

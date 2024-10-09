@@ -14,5 +14,7 @@ jobs:
         run: yarn tsc
       - name: Run tests
         run: yarn test
+        env:
+          VITE_NETWORK: amoy
       - name: Run lint
         run: yarn lint

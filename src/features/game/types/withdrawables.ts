@@ -25,6 +25,7 @@ import {
   getKeys,
 } from "./craftables";
 import {
+  AnimalResource,
   Coupons,
   EasterEgg,
   FertiliserName,
@@ -102,6 +103,7 @@ const cropSeeds: Record<CropSeedName, () => boolean> = {
   "Radish Seed": () => false,
   "Wheat Seed": () => false,
   "Soybean Seed": () => false,
+  "Barley Seed": () => false,
 };
 
 const patchFruitSeed: Record<PatchFruitSeedName, () => boolean> = {
@@ -134,6 +136,7 @@ const crops: Record<CropName, () => boolean> = {
   Radish: () => true,
   Wheat: () => true,
   Soybean: () => true,
+  Barley: () => false,
 };
 
 const patchFruits: Record<PatchFruitName, () => boolean> = {
@@ -438,6 +441,7 @@ const buildings: Record<BuildingName, () => boolean> = {
   Bakery: () => false,
   Greenhouse: () => false,
   "Hen House": () => false,
+  Barn: () => false,
   Deli: () => false,
   "Smoothie Shack": () => false,
   Toolshed: () => false,
@@ -1096,7 +1100,17 @@ const mutantFlowers: Record<MutantFlowerName, () => boolean> = {
     canWithdrawTimebasedItem(SEASONS["Pharaoh's Treasure"].endDate),
 };
 
+const animalResources: Record<AnimalResource, () => boolean> = {
+  Egg: () => true,
+  Leather: () => false,
+  Wool: () => false,
+  "Merino Wool": () => false,
+  Feather: () => false,
+  Milk: () => false,
+};
+
 export const WITHDRAWABLES: Record<InventoryItemName, () => boolean> = {
+  ...animalResources,
   ...greenHouseCrop,
   ...greenHouseCropSeed,
   ...greenHouseFruitSeed,
@@ -1612,4 +1626,7 @@ export const BUMPKIN_WITHDRAWABLES: Record<
   "Pumpkin Plaza Background": () => false,
   "Goblin Retreat Background": () => false,
   "Kingdom Background": () => false,
+
+  //Gam3s Cap
+  "Gam3s Cap": () => false,
 };
