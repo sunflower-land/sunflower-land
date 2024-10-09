@@ -268,6 +268,42 @@ describe("cook", () => {
       }),
     );
   });
+
+  it("requires two times the food cook requirement with Double Nom skill", () => {
+    const state = cook({
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          Egg: new Decimal(10),
+        },
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          skills: { "Double Nom": 1 },
+        },
+        buildings: {
+          "Fire Pit": [
+            {
+              coordinates: {
+                x: 2,
+                y: 3,
+              },
+              readyAt: 1000,
+              createdAt: 1000,
+              id: "64eca77c-10fb-4088-a71f-3743b2ef6b16",
+              oil: 0,
+            },
+          ],
+        },
+      },
+      action: {
+        type: "recipe.cooked",
+        item: "Boiled Eggs",
+        buildingId: "64eca77c-10fb-4088-a71f-3743b2ef6b16",
+      },
+    });
+
+    expect(state.inventory["Egg"]).toEqual(new Decimal(0));
+  });
 });
 
 describe("getReadyAt", () => {
@@ -683,6 +719,69 @@ describe("getReadyAt", () => {
     });
 
     const readyAt = now + COOKABLES["Sunflower Crunch"].cookingSeconds * 1000;
+
+    expect(time).toEqual(readyAt);
+  });
+
+  it("applies a 10% speed boost on cakes with Frosted Cakes skill", () => {
+    const now = Date.now();
+
+    const time = getReadyAt({
+      buildingId: "123",
+      item: "Parsnip Cake",
+      bumpkin: { ...INITIAL_BUMPKIN, skills: { "Frosted Cakes": 1 } },
+      createdAt: now,
+      game: {
+        ...TEST_FARM,
+        bumpkin: { ...INITIAL_BUMPKIN, skills: { "Frosted Cakes": 1 } },
+      },
+    });
+
+    const boost = COOKABLES["Parsnip Cake"].cookingSeconds * 0.1;
+
+    const readyAt =
+      now + (COOKABLES["Parsnip Cake"].cookingSeconds - boost) * 1000;
+
+    expect(time).toEqual(readyAt);
+  });
+
+  it("applies a 50% speed boost on Kitchen when using oil with Turbo Fry skill", () => {
+    const now = Date.now();
+
+    const time = getReadyAt({
+      buildingId: "123",
+      item: "Sunflower Crunch",
+      bumpkin: { ...INITIAL_BUMPKIN, skills: { "Turbo Fry": 1 } },
+      createdAt: now,
+      game: {
+        ...TEST_FARM,
+        bumpkin: { ...INITIAL_BUMPKIN, skills: { "Turbo Fry": 1 } },
+      },
+    });
+
+    const boost = COOKABLES["Sunflower Crunch"].cookingSeconds * 0.5;
+
+    const readyAt =
+      now + (COOKABLES["Sunflower Crunch"].cookingSeconds - boost) * 1000;
+
+    expect(time).toEqual(readyAt);
+  });
+
+  it("does not apply Turbo Fry boost on Fire Pit", () => {
+    const now = Date.now();
+
+    const time = getReadyAt({
+      buildingId: "123",
+      item: "Boiled Eggs",
+      bumpkin: { ...INITIAL_BUMPKIN, skills: { "Turbo Fry": 1 } },
+      createdAt: now,
+      game: {
+        ...TEST_FARM,
+        bumpkin: { ...INITIAL_BUMPKIN, skills: { "Turbo Fry": 1 } },
+      },
+    });
+
+    const readyAt = now + COOKABLES["Boiled Eggs"].cookingSeconds * 1000;
 
     expect(time).toEqual(readyAt);
   });

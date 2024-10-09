@@ -178,6 +178,11 @@ export const getCookingTime = (
     reducedSecs = reducedSecs.mul(0.9);
   }
 
+  // 10% reduction on Cakes with Frosted Cakes skill
+  if (item in COOKABLE_CAKES && bumpkin?.skills["Frosted Cakes"]) {
+    reducedSecs = reducedSecs.mul(0.9);
+  }
+
   return reducedSecs.toNumber();
 };
 
@@ -274,6 +279,11 @@ export const getFoodExpBoost = (
   // Munching Mastery - 5% exp boost
   if (skills["Munching Mastery"]) {
     boostedExp = boostedExp.mul(1.05);
+  }
+
+  // Juicy Boost - 10% exp boost on juice
+  if (food.name.includes("Juice") && skills["Juicy Boost"]) {
+    boostedExp = boostedExp.mul(1.1);
   }
 
   boostedExp = boostedExp.mul(getBudExperienceBoosts(buds, food));

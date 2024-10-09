@@ -681,4 +681,28 @@ describe("feedBumpkin", () => {
       new Decimal(CONSUMABLES["Boiled Eggs"].experience).mul(1.05).toNumber(),
     );
   });
+
+  it("give 10% more experience when drinking juices with Juicy Boost skill", () => {
+    const result = feedBumpkin({
+      state: {
+        ...TEST_FARM,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          skills: { "Juicy Boost": 1 },
+        },
+        inventory: {
+          "Apple Juice": new Decimal(2),
+        },
+      },
+      action: {
+        type: "bumpkin.feed",
+        food: "Apple Juice",
+        amount: 1,
+      },
+    });
+
+    expect(result.bumpkin?.experience).toBe(
+      new Decimal(CONSUMABLES["Apple Juice"].experience).mul(1.1).toNumber(),
+    );
+  });
 });

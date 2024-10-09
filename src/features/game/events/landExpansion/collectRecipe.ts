@@ -4,6 +4,7 @@ import { trackActivity } from "features/game/types/bumpkinActivity";
 import { GameState } from "features/game/types/game";
 import { produce } from "immer";
 import { translate } from "lib/i18n/translate";
+import { randomInt } from "lib/utils/random";
 
 export type CollectRecipeAction = {
   type: "recipe.collected";
@@ -16,6 +17,27 @@ type Options = {
   action: CollectRecipeAction;
   createdAt?: number;
 };
+
+export function calculateAmount({
+  game,
+  amount,
+}: {
+  game: GameState;
+  amount: Decimal;
+}) {
+  const { bumpkin } = game;
+  let total = amount;
+
+  // Double Nom - 50% chance to double the amount of food collected
+  if (bumpkin.skills["Double Nom"]) {
+    const doubleNomChance = randomInt(1, 100);
+    if (doubleNomChance <= 50) {
+      total = total.mul(2);
+    }
+  }
+
+  return total;
+}
 
 export function collectRecipe({
   state,
@@ -52,7 +74,9 @@ export function collectRecipe({
 
     bumpkin.activity = trackActivity(`${recipe.name} Cooked`, bumpkin.activity);
 
-    game.inventory[recipe.name] = consumableCount.add(1);
+    game.inventory[recipe.name] = consumableCount.add(
+      calculateAmount({ game, amount: new Decimal(1) }),
+    );
 
     return game;
   });

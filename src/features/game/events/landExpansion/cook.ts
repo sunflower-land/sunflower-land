@@ -83,6 +83,10 @@ export function getCookingOilBoost(
       modifiedTime *= 0.6;
     }
 
+    if (skills["Turbo Fry"] && buildingName === "Kitchen") {
+      modifiedTime *= 0.5;
+    }
+
     return modifiedTime;
   };
 
@@ -180,7 +184,12 @@ export function cook({
     stateCopy.inventory = getKeys(ingredients).reduce(
       (inventory, ingredient) => {
         const count = inventory[ingredient] || new Decimal(0);
-        const amount = ingredients[ingredient] || new Decimal(0);
+        let amount = ingredients[ingredient] || new Decimal(0);
+
+        // Double Nom - 2x ingredients
+        if (bumpkin.skills["Double Nom"]) {
+          amount = amount.mul(2);
+        }
 
         if (count.lessThan(amount)) {
           throw new Error(`Insufficient ingredient: ${ingredient}`);

@@ -1,5 +1,5 @@
 import Decimal from "decimal.js-light";
-import { TEST_FARM } from "features/game/lib/constants";
+import { TEST_FARM, INITIAL_BUMPKIN } from "features/game/lib/constants";
 import { GameState, PlacedItem } from "features/game/types/game";
 import { collectRecipe } from "./collectRecipe";
 
@@ -167,5 +167,50 @@ describe("collect Recipes", () => {
       "Boiled Eggs": new Decimal(4),
       Sunflower: new Decimal(22),
     });
+  });
+
+  it("50% chances to collect two times the amount with Double Nom skill", () => {
+    // run the test 2 times and expect one of them to be 2 instead of 1
+    const results = Array.from({ length: 2 }).map(() => {
+      const state = collectRecipe({
+        state: {
+          ...GAME_STATE,
+          balance: new Decimal(10),
+          inventory: {
+            Sunflower: new Decimal(22),
+          },
+          buildings: {
+            "Fire Pit": [
+              {
+                id: "123",
+                coordinates: { x: 1, y: 1 },
+                createdAt: 0,
+                readyAt: 0,
+                crafting: {
+                  name: "Boiled Eggs",
+                  readyAt: Date.now() - 5 * 1000,
+                },
+              },
+            ],
+          },
+          bumpkin: {
+            ...INITIAL_BUMPKIN,
+            skills: {
+              "Double Nom": 1,
+            },
+          },
+        },
+        action: {
+          type: "recipe.collected",
+          building: "Fire Pit",
+          buildingId: "123",
+        },
+        createdAt: Date.now(),
+      });
+
+      return state.inventory["Boiled Eggs"];
+    });
+
+    expect(results).toContainEqual(new Decimal(2));
   });
 });
