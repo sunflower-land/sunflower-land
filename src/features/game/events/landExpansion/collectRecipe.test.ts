@@ -170,8 +170,7 @@ describe("collect Recipes", () => {
   });
 
   it("50% chances to collect two times the amount with Double Nom skill", () => {
-    // run the test 2 times and expect one of them to be 2 instead of 1
-    const results = Array.from({ length: 2 }).map(() => {
+    const results = Array.from({ length: 10 }).map(() => {
       const state = collectRecipe({
         state: {
           ...GAME_STATE,
