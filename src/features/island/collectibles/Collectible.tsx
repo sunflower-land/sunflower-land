@@ -61,7 +61,6 @@ const InProgressCollectible: React.FC<Props> = ({
   location,
   game,
 }) => {
-  const { t } = useAppTranslation();
   const { gameService, showAnimations } = useContext(Context);
   const CollectiblePlaced = COLLECTIBLE_COMPONENTS[name];
 

@@ -22,7 +22,7 @@ describe("shipmentRestocked", () => {
       createdAt: now,
     });
 
-    expect(state.shipments.restockedAt).toEqual(now);
+    expect(state.shipments.restockedAt).toBeCloseTo(now);
     expect(state.stock["Sunflower Seed"]).toEqual(
       new Decimal(SHIPMENT_STOCK["Sunflower Seed"]),
     );

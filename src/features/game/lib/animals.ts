@@ -1,4 +1,4 @@
-import { AnimalType } from "../types/animals";
+import { ANIMALS, AnimalType } from "../types/animals";
 import { BuildingName } from "../types/buildings";
 import { Animal, AnimalBuildingKey } from "../types/game";
 
@@ -13,11 +13,14 @@ export const makeAnimalBuildingKey = (
 };
 
 export function makeAnimals(count: number, type: AnimalType) {
+  const animal = ANIMALS[type];
+
   const positions = [
-    { x: -1, y: 0 },
+    { x: -animal.width, y: 0 },
     { x: 0, y: 0 },
-    { x: 1, y: 0 },
+    { x: animal.width, y: 0 },
   ];
+
   return new Array(count).fill(0).reduce(
     (animals, _, index) => {
       return {
