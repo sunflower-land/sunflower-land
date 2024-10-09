@@ -854,10 +854,7 @@
   "description.farm.dog": "农场狗狗能牧羊",
   "description.gold.egg": "无需小麦便能喂食鸡群",
   "description.rooster": "变种鸡出现的概率翻倍",
-  "description.chicken": "产出鸡蛋。需要喂养小麦。",
-  "description.cow": "产出牛奶。需要喂养小麦。",
   "description.pig": "产出粪肥。需要喂养小麦。",
-  "description.sheep": "产出羊毛。需要喂养小麦。",
   "description.basic.land": "一片基础岛地",
   "description.crop.plot": "一块空田以种庄稼",
   "description.gold.rock": "一片矿脉以收集黄金",
@@ -3696,5 +3693,10 @@
   "competition.prizes.two": "将赢取 50,000 SFL。",
   "guide.factionPet.four": "一旦阵营达到 2 周或更长时间的连胜纪录，每位派系成员在 bumpkin 吃东西时都会获得经验值加成！",
   "guide.factionPet.six": "每交付一份食物，您都将获得分数。每次交付奖励都会减少。这些奖励将每天重置。拥有徽章奖励的玩家将根据其阵营奖励等级获得额外奖励。",
-  "animal": "动物"
+  "animal": "动物",
+  "animals.buyAnimal": "购买动物",
+  "animals.buildingIsFull": "{{buildingName}} 已满！",
+  "description.chicken": "这只鸡是新鲜鸡蛋和柔软羽毛的可靠来源，只要小心谨慎，它就会愉快地发挥自己的作用。",
+  "description.cow": "这头温柔的奶牛提供新鲜的牛奶和耐用的皮革。用充足的食物和情感让它开心。",
+  "description.sheep": "这只毛茸茸的绵羊既提供普通羊毛，又提供奢华的美利奴羊毛。保持高兴，以获得最柔和的结果！"
 }

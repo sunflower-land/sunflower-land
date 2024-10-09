@@ -614,10 +614,7 @@
   "description.farm.dog": "Conduza ovelhas com seu cão de fazenda",
   "description.gold.egg": "Alimente as galinhas sem precisar de trigo",
   "description.rooster": "Dobra a chance de soltar uma galinha mutante",
-  "description.chicken": "Produz ovos. Requer trigo para alimentação",
-  "description.cow": "Produz leite. Requer trigo para alimentação",
   "description.pig": "Produz esterco. Requer trigo para alimentação",
-  "description.sheep": "Produz lã. Requer trigo para alimentação",
   "description.basic.land": "Um pedaço básico de terra",
   "description.crop.plot": "Um espaço vazio para plantar",
   "description.gold.rock": "Uma rocha minerável para coletar ouro",
@@ -3696,5 +3693,10 @@
   "competition.prizes.two": "50.000 SFL a serem ganhos.",
   "guide.factionPet.four": "Quando a facção atingir uma sequência de 2 ou mais semanas, um bônus de EXP será concedido a cada membro contribuinte da facção quando seu caipira comer!",
   "guide.factionPet.six": "Você receberá notas por cada alimento entregue. Toda vez que você entregar, a recompensa será reduzida. Essas recompensas serão redefinidas diariamente. Jogadores com um bônus de emblema receberão um bônus adicional com base em sua classificação de bônus de facção.",
-  "animal": "Animal"
+  "animal": "Animal",
+  "animals.buyAnimal": "Compre Animal",
+  "animals.buildingIsFull": "{{buildingName}} está cheio!",
+  "description.chicken": "Uma fonte confiável de ovos frescos e penas macias, esta galinha faz sua parte alegremente com o cuidado certo.",
+  "description.cow": "Esta vaca gentil fornece leite fresco e couro durável. Mantenha-o feliz com muita comida e carinho.",
+  "description.sheep": "Esta ovelha fofa fornece lã normal e lã merino luxuosa. Fique feliz para obter os melhores resultados!"
 }

@@ -637,10 +637,7 @@
   "description.farm.dog": "Çiftlik köpeğinizle koyun sürün",
   "description.gold.egg": "Tavukları buğdaya ihtiyaç duymadan besleyin",
   "description.rooster": "Mutant bir tavuğu düşürme şansını iki katına çıkarır",
-  "description.chicken": "Yumurta üretir. Beslemek için buğdaya ihtiyaç var",
-  "description.cow": "Süt üretir. Beslemek için buğdaya ihtiyaç var",
   "description.pig": "Gübre üretir. Beslemek için buğdaya ihtiyaç var",
-  "description.sheep": "Yün üretir. Beslemek için buğdaya ihtiyaç var",
   "description.basic.land": "Temel bir toprak parçası",
   "description.crop.plot": "Bitki yetiştirmek için boş bir arsa",
   "description.gold.rock": "Altın toplamak için kazılabilen bir kaya",
@@ -3696,5 +3693,10 @@
   "competition.prizes.two": "50.000 SFL kazanılacak.",
   "guide.factionPet.four": "Grup 2 veya daha fazla haftalık bir seriye ulaştığında, katkıda bulunan her fraksiyon üyesine, bumpkinleri yemek yediğinde bir DP bonusu verilecektir!",
   "guide.factionPet.six": "Teslim edilen her yiyecek için puan alacaksınız. Her teslim ettiğinizde ödül azaltılacaktır. Bu ödüller günlük olarak sıfırlanacaktır. Amblem bonusu olan oyuncular, hizip bonus sıralamalarına göre ek bir bonus alacaklar.",
-  "animal": "Hayvan"
+  "animal": "Hayvan",
+  "animals.buyAnimal": "Hayvan Satın Alın",
+  "animals.buildingIsFull": "{{buildingName}} dolu!",
+  "description.chicken": "Güvenilir bir taze yumurta ve yumuşak tüy kaynağı olan bu tavuk, doğru bakımla görevini mutlu bir şekilde yapıyor.",
+  "description.cow": "Bu nazik inek taze süt ve dayanıklı deri sağlar. Bol miktarda yiyecek ve sevgi ile mutlu edin.",
+  "description.sheep": "Bu kabarık koyun hem normal yün hem de lüks merinos yünü sağlar. En yumuşak sonuçlar için mutlu olun!"
 }

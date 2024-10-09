@@ -879,10 +879,7 @@
   "description.farm.dog": "Pastorea ovejas con tu perro de granja",
   "description.gold.egg": "Alimenta a los pollos sin necesidad de trigo",
   "description.rooster": "Duplica la probabilidad de dejar caer un pollo mutante",
-  "description.chicken": "Produce huevos. Requiere trigo para alimentarse",
-  "description.cow": "Produce leche. Requiere trigo para alimentarse",
   "description.pig": "Produce estiércol. Requiere trigo para alimentarse",
-  "description.sheep": "Produce lana. Requiere trigo para alimentarse",
   "description.basic.land": "Un terreno básico",
   "description.crop.plot": "Una parcela vacía para plantar cultivos",
   "description.gold.rock": "Una roca que se puede extraer para recolectar oro",
@@ -3696,5 +3693,10 @@
   "competition.prizes.two": "50 000 SFL por ganar.",
   "guide.factionPet.four": "Cuando la facción alcance una racha de 2 o más semanas, ¡se otorgará una bonificación de XP a cada miembro de la facción que contribuya cuando su conejita se coma!",
   "guide.factionPet.six": "Se le otorgarán puntos por cada comida entregada. Cada vez que entregues la recompensa se reducirá. Estas recompensas se restablecerán a diario. Los jugadores con una bonificación de emblema recibirán una bonificación adicional basada en el rango de bonificación de su facción.",
-  "animal": "Animal"
+  "animal": "Animal",
+  "animals.buyAnimal": "Comprar Animal",
+  "animals.buildingIsFull": "¡{{buildingName}} está lleno!",
+  "description.chicken": "Una fuente confiable de huevos frescos y plumas suaves, este pollo hace su parte felizmente con el cuidado adecuado.",
+  "description.cow": "Esta amable vaca proporciona leche fresca y cuero duradero. Manténgalo feliz con abundante comida y afecto.",
+  "description.sheep": "Esta esponjosa oveja proporciona tanto lana normal como lana merino lujosa. ¡Manténgalo feliz para obtener los mejores resultados!"
 }

@@ -886,10 +886,7 @@
   "description.farm.dog": "Hüten Sie Schafe mit Ihrem Farmhund",
   "description.gold.egg": "Füttern Sie Hühner, ohne Weizen zu benötigen",
   "description.rooster": "Verdoppelt die Wahrscheinlichkeit, ein mutiertes Huhn fallen zu lassen",
-  "description.chicken": "Produziert Eier. Benötigt Weizen zum Füttern",
-  "description.cow": "Produziert Milch. Benötigt Weizen zum Füttern",
   "description.pig": "Produziert Gülle. Benötigt Weizen zum Füttern",
-  "description.sheep": "Produziert Wolle. Benötigt Weizen zum Füttern",
   "description.basic.land": "Ein einfaches Stück Land",
   "description.crop.plot": "Ein leeres Grundstück, auf dem Getreide angebaut werden kann",
   "description.gold.rock": "Ein abbaubarer Stein, um Gold zu sammeln",
@@ -3696,5 +3693,10 @@
   "competition.prizes.two": "50.000 SFL sind zu gewinnen.",
   "guide.factionPet.four": "Sobald die Fraktion eine Serie von 2 oder mehr Wochen erreicht hat, erhält jedes beitragende Fraktionsmitglied einen EP-Bonus, wenn sein Bumpkin frisst!",
   "guide.factionPet.six": "Sie erhalten für jedes gelieferte Essen eine Note. Jedes Mal, wenn Sie liefern, wird die Belohnung reduziert. Diese Belohnungen werden täglich zurückgesetzt. Spieler mit einem Emblembonus erhalten einen zusätzlichen Bonus, der auf ihrem Fraktionsbonusrang basiert.",
-  "animal": "Tier"
+  "animal": "Tier",
+  "animals.buyAnimal": "Tier kaufen",
+  "animals.buildingIsFull": "{{buildingName}} ist voll!",
+  "description.chicken": "Dieses Huhn ist eine zuverlässige Quelle für frische Eier und weiche Federn und leistet mit der richtigen Pflege gerne seinen Beitrag.",
+  "description.cow": "Diese sanfte Kuh liefert frische Milch und strapazierfähiges Leder. Sorgen Sie mit viel Essen und Zuneigung dafür, dass es glücklich ist.",
+  "description.sheep": "Dieses flauschige Schaf bietet sowohl normale Wolle als auch luxuriöse Merinowolle. Machen Sie es glücklich, um die weichsten Ergebnisse zu erzielen!"
 }
