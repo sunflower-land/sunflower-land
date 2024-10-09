@@ -4,44 +4,33 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
-import { StylistWearables } from "features/world/ui/stylist/StylistWearables";
-import { BASIC_WEARABLES } from "features/game/types/stylist";
-import { OuterPanel } from "components/ui/Panel";
+import { Button } from "components/ui/Button";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { Label } from "components/ui/Label";
+import lockIcon from "assets/icons/lock.png";
 
-function hasOpened() {
-  return !!localStorage.getItem("hasOpenedWardrobe");
-}
-
-function acknowledge() {
-  localStorage.setItem("hasOpenedWardrobe", "true");
-}
 export const Wardrobe: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
 
+  const { t } = useAppTranslation();
+
   const open = () => {
     setShowModal(true);
-    acknowledge();
   };
 
   return (
     <>
       <Modal show={showModal} onHide={() => setShowModal(false)}>
-        <CloseButtonPanel container={OuterPanel}>
-          <StylistWearables wearables={BASIC_WEARABLES} />
+        <CloseButtonPanel>
+          <div className="p-2">
+            <Label type="default" icon={lockIcon} className="mb-2">
+              {t("coming.soon")}
+            </Label>
+            <p className="text-sm">{t("crafting.coming.soon")}</p>
+          </div>
+          <Button onClick={() => setShowModal(false)}>{t("close")}</Button>
         </CloseButtonPanel>
       </Modal>
-
-      {!hasOpened() && (
-        <img
-          src={SUNNYSIDE.icons.click_icon}
-          className="absolute bottom-0 right-0 z-20 cursor-pointer"
-          style={{
-            width: `${PIXEL_SCALE * 18}px`,
-            right: `${PIXEL_SCALE * -8}px`,
-          }}
-          onClick={open}
-        />
-      )}
 
       <img
         src={SUNNYSIDE.decorations.wardrobe}
