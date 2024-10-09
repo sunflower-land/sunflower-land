@@ -3695,5 +3695,6 @@
   "raffle.entry": "Eintrag",
   "competition.prizes.two": "50.000 SFL sind zu gewinnen.",
   "guide.factionPet.four": "Sobald die Fraktion eine Serie von 2 oder mehr Wochen erreicht hat, erhält jedes beitragende Fraktionsmitglied einen EP-Bonus, wenn sein Bumpkin frisst!",
-  "guide.factionPet.six": "Sie erhalten für jedes gelieferte Essen eine Note. Jedes Mal, wenn Sie liefern, wird die Belohnung reduziert. Diese Belohnungen werden täglich zurückgesetzt. Spieler mit einem Emblembonus erhalten einen zusätzlichen Bonus, der auf ihrem Fraktionsbonusrang basiert."
+  "guide.factionPet.six": "Sie erhalten für jedes gelieferte Essen eine Note. Jedes Mal, wenn Sie liefern, wird die Belohnung reduziert. Diese Belohnungen werden täglich zurückgesetzt. Spieler mit einem Emblembonus erhalten einen zusätzlichen Bonus, der auf ihrem Fraktionsbonusrang basiert.",
+  "animal": "Tier"
 }

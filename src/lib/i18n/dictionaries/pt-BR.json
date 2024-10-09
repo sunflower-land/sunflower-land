@@ -3695,5 +3695,6 @@
   "raffle.entry": "submeter",
   "competition.prizes.two": "50.000 SFL a serem ganhos.",
   "guide.factionPet.four": "Quando a facção atingir uma sequência de 2 ou mais semanas, um bônus de EXP será concedido a cada membro contribuinte da facção quando seu caipira comer!",
-  "guide.factionPet.six": "Você receberá notas por cada alimento entregue. Toda vez que você entregar, a recompensa será reduzida. Essas recompensas serão redefinidas diariamente. Jogadores com um bônus de emblema receberão um bônus adicional com base em sua classificação de bônus de facção."
+  "guide.factionPet.six": "Você receberá notas por cada alimento entregue. Toda vez que você entregar, a recompensa será reduzida. Essas recompensas serão redefinidas diariamente. Jogadores com um bônus de emblema receberão um bônus adicional com base em sua classificação de bônus de facção.",
+  "animal": "Animal"
 }

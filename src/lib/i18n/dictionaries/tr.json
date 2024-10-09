@@ -3695,5 +3695,6 @@
   "raffle.entry": "giriş",
   "competition.prizes.two": "50.000 SFL kazanılacak.",
   "guide.factionPet.four": "Grup 2 veya daha fazla haftalık bir seriye ulaştığında, katkıda bulunan her fraksiyon üyesine, bumpkinleri yemek yediğinde bir DP bonusu verilecektir!",
-  "guide.factionPet.six": "Teslim edilen her yiyecek için puan alacaksınız. Her teslim ettiğinizde ödül azaltılacaktır. Bu ödüller günlük olarak sıfırlanacaktır. Amblem bonusu olan oyuncular, hizip bonus sıralamalarına göre ek bir bonus alacaklar."
+  "guide.factionPet.six": "Teslim edilen her yiyecek için puan alacaksınız. Her teslim ettiğinizde ödül azaltılacaktır. Bu ödüller günlük olarak sıfırlanacaktır. Amblem bonusu olan oyuncular, hizip bonus sıralamalarına göre ek bir bonus alacaklar.",
+  "animal": "Hayvan"
 }

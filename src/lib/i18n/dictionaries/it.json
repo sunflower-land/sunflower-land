@@ -3695,5 +3695,6 @@
   "raffle.entry": "ingresso",
   "competition.prizes.two": "50.000 SFL in palio.",
   "guide.factionPet.four": "Una volta che la fazione avrà raggiunto una serie di 2 o più settimane, verrà assegnato un bonus di XP a ogni membro della fazione che contribuisce quando il suo pappagallo mangia!",
-  "guide.factionPet.six": "Ti verranno assegnati dei punti per ogni cibo consegnato. Ogni volta che consegnerai la ricompensa verrà ridotta. Queste ricompense verranno azzerate giornalmente. I giocatori con un emblema bonus riceveranno un bonus aggiuntivo in base al rango del bonus di fazione."
+  "guide.factionPet.six": "Ti verranno assegnati dei punti per ogni cibo consegnato. Ogni volta che consegnerai la ricompensa verrà ridotta. Queste ricompense verranno azzerate giornalmente. I giocatori con un emblema bonus riceveranno un bonus aggiuntivo in base al rango del bonus di fazione.",
+  "animal": "Animale"
 }
