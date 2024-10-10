@@ -361,7 +361,7 @@ export type WarItems =
   | "Warrior Pants";
 
 export type LoveAnimalItem = "Petting Hand" | "Brush" | "Music Box";
-export type ExchangeDeal = {
+export type BountyRequest = {
   id: string;
   name: AnimalType;
   expiresAt: number;
@@ -371,8 +371,8 @@ export type ExchangeDeal = {
   soldAt?: number;
 };
 
-export type Exchange = {
-  deals: ExchangeDeal[];
+export type Bounties = {
+  requests: BountyRequest[];
 };
 
 export type InventoryItemName =
@@ -1329,7 +1329,7 @@ export interface GameState {
   mushrooms: Mushrooms;
   potionHouse?: PotionHouse;
 
-  exchange: Exchange;
+  bounties: Bounties;
 
   trades: {
     listings?: Record<string, TradeListing>;

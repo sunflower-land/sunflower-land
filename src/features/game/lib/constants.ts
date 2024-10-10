@@ -438,8 +438,8 @@ export const INITIAL_FARM: GameState = {
     wearables: [],
   },
 
-  exchange: {
-    deals: [
+  bounties: {
+    requests: [
       {
         id: "1",
         name: "Chicken",

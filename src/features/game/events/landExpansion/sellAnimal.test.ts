@@ -21,8 +21,8 @@ describe("animal.sold", () => {
       sellAnimal({
         state: {
           ...INITIAL_FARM,
-          exchange: {
-            deals: [
+          bounties: {
+            requests: [
               {
                 id: "123",
                 coins: 100,
@@ -48,8 +48,8 @@ describe("animal.sold", () => {
       sellAnimal({
         state: {
           ...INITIAL_FARM,
-          exchange: {
-            deals: [
+          bounties: {
+            requests: [
               {
                 id: "123",
                 coins: 100,
@@ -74,8 +74,8 @@ describe("animal.sold", () => {
       sellAnimal({
         state: {
           ...INITIAL_FARM,
-          exchange: {
-            deals: [
+          bounties: {
+            requests: [
               {
                 id: "123",
                 coins: 100,
@@ -102,8 +102,8 @@ describe("animal.sold", () => {
     const state = sellAnimal({
       state: {
         ...INITIAL_FARM,
-        exchange: {
-          deals: [
+        bounties: {
+          requests: [
             {
               id: "123",
               coins: 100,
@@ -131,8 +131,8 @@ describe("animal.sold", () => {
     const state = sellAnimal({
       state: {
         ...INITIAL_FARM,
-        exchange: {
-          deals: [
+        bounties: {
+          requests: [
             {
               id: "123",
               coins: 100,
@@ -158,8 +158,8 @@ describe("animal.sold", () => {
     const state = sellAnimal({
       state: {
         ...INITIAL_FARM,
-        exchange: {
-          deals: [
+        bounties: {
+          requests: [
             {
               id: "123",
               items: { "Amber Fossil": 7 },
@@ -188,8 +188,8 @@ describe("animal.sold", () => {
     const state = sellAnimal({
       state: {
         ...INITIAL_FARM,
-        exchange: {
-          deals: [
+        bounties: {
+          requests: [
             {
               id: "123",
               coins: 100,
@@ -209,7 +209,7 @@ describe("animal.sold", () => {
       createdAt: now,
     });
 
-    const deal = state.exchange.deals.find((deal) => deal.id === "123");
+    const deal = state.bounties.requests.find((deal) => deal.id === "123");
     expect(deal?.soldAt).toEqual(now);
   });
 });

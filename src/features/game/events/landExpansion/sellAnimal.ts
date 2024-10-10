@@ -1,6 +1,6 @@
 import Decimal from "decimal.js-light";
 import { getKeys } from "features/game/types/decorations";
-import { Animal, ExchangeDeal, GameState } from "features/game/types/game";
+import { Animal, BountyRequest, GameState } from "features/game/types/game";
 import { getSeasonalTicket } from "features/game/types/seasons";
 import { produce } from "immer";
 
@@ -16,7 +16,7 @@ export function isValidDeal({
   deal,
 }: {
   animal: Animal;
-  deal: ExchangeDeal;
+  deal: BountyRequest;
 }) {
   if (animal.type !== deal.name) {
     return false;
@@ -31,7 +31,7 @@ export function isValidDeal({
 
 export type SellAnimalAction = {
   type: "animal.sold";
-  offerId: string;
+  requestId: string;
   animalId: string;
 };
 
@@ -47,39 +47,41 @@ export function sellAnimal({
   createdAt = Date.now(),
 }: Options): GameState {
   return produce(state, (game) => {
-    const deal = game.exchange.deals.find((deal) => deal.id === action.offerId);
+    const request = game.bounties.requests.find(
+      (deal) => deal.id === action.requestId,
+    );
 
-    if (!deal) {
-      throw new Error("Deal does not exist");
+    if (!request) {
+      throw new Error("Bounty does not exist");
     }
 
-    if (deal.soldAt) {
-      throw new Error("Deal already completed");
+    if (request.soldAt) {
+      throw new Error("Bounty already completed");
     }
 
-    const { animals } = deal.name === "Chicken" ? game.henHouse : game.barn;
+    const { animals } = request.name === "Chicken" ? game.henHouse : game.barn;
 
     const animal = animals[action.animalId];
     if (!animal) {
       throw new Error("Animal does not exist");
     }
 
-    if (!isValidDeal({ animal, deal })) {
+    if (!isValidDeal({ animal, deal: request })) {
       throw new Error("Animal does not meet requirements");
     }
 
     delete animals[action.animalId];
 
-    if (deal.coins) {
-      game.coins += deal.coins;
+    if (request.coins) {
+      game.coins += request.coins;
     }
 
-    getKeys(deal.items ?? {}).forEach((name) => {
+    getKeys(request.items ?? {}).forEach((name) => {
       const previous = game.inventory[name] ?? new Decimal(0);
-      game.inventory[name] = previous.add(deal.items?.[name] ?? 0);
+      game.inventory[name] = previous.add(request.items?.[name] ?? 0);
     });
 
-    deal.soldAt = createdAt;
+    request.soldAt = createdAt;
 
     return game;
   });
