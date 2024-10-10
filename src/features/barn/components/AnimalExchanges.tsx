@@ -6,7 +6,10 @@ import { HudContainer } from "components/ui/HudContainer";
 import { Label } from "components/ui/Label";
 import { ButtonPanel, InnerPanel, Panel } from "components/ui/Panel";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
-import { getAnimalLevel } from "features/game/events/landExpansion/sellAnimal";
+import {
+  getAnimalLevel,
+  isValidDeal,
+} from "features/game/events/landExpansion/sellAnimal";
 import { Context } from "features/game/GameProvider";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { secondsTillWeekReset, weekResetsAt } from "features/game/lib/factions";
@@ -31,6 +34,8 @@ export const AnimalExchange: React.FC<Props> = ({ type, onExchanging }) => {
   const { gameService } = useContext(Context);
   const exchange = useSelector(gameService, _exchange);
 
+  const state = gameService.getSnapshot().context.state;
+
   const deals = exchange.deals.filter((deal) => deal.name === type);
 
   const expiresAt = useCountdown(weekResetsAt());
@@ -53,9 +58,18 @@ export const AnimalExchange: React.FC<Props> = ({ type, onExchanging }) => {
             <p className="text-sm">There are no deals available right now.</p>
           )}
           {deals.map((deal) => {
+            const animals =
+              type === "Chicken" ? state.henHouse.animals : state.barn.animals;
+
+            const isDisabled = getKeys(animals).every(
+              (id) => !isValidDeal({ deal, animal: animals[id] }),
+            );
             return (
               <div key={deal.id} className="w-1/3 sm:w-1/4 pr-1.5">
-                <ButtonPanel onClick={() => onExchanging(deal)}>
+                <ButtonPanel
+                  disabled={isDisabled}
+                  onClick={() => onExchanging(deal)}
+                >
                   <div className="flex justify-center items-center my-2 mb-6">
                     <img
                       src={ITEM_DETAILS[deal.name].image}
@@ -68,6 +82,22 @@ export const AnimalExchange: React.FC<Props> = ({ type, onExchanging }) => {
                       </div>
                     </div>
                   </div>
+
+                  {!!deal.soldAt && (
+                    <Label
+                      type="success"
+                      icon={SUNNYSIDE.ui.coinsImg}
+                      className={"absolute -bottom-2 text-center p-1 "}
+                      style={{
+                        left: `${PIXEL_SCALE * -3}px`,
+                        right: `${PIXEL_SCALE * -3}px`,
+                        width: `calc(100% + ${PIXEL_SCALE * 6}px)`,
+                        height: "25px",
+                      }}
+                    >
+                      {deal.coins}
+                    </Label>
+                  )}
 
                   {!!deal.coins && (
                     <Label
@@ -128,7 +158,6 @@ export const AnimalDeal: React.FC<{
     });
 
     onSold();
-    confetti();
   };
 
   if (!deal || !animal) {

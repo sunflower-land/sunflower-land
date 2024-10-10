@@ -142,7 +142,6 @@ export const HenHouseInside: React.FC = () => {
           onSold={() => {
             setDeal(undefined);
             setSelected(undefined);
-            setShowExchange(true);
           }}
           deal={deal!}
           animal={selected!}
