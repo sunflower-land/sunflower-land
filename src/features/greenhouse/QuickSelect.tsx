@@ -1,7 +1,6 @@
 import PubSub from "pubsub-js";
 import { useSelector } from "@xstate/react";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { Label } from "components/ui/Label";
 import { InnerPanel } from "components/ui/Panel";
 import { Context } from "features/game/GameProvider";
 import { PIXEL_SCALE } from "features/game/lib/constants";
@@ -67,9 +66,6 @@ export const QuickSelect: React.FC<Props> = ({
     return (
       <div ref={ref}>
         <InnerPanel style={{ maxWidth: "295px" }} className="shadow-2xl">
-          <Label className="absolute -top-3 left-4" type="default" icon={icon}>
-            {t("quickSelect.label")}
-          </Label>
           <span className="text-xs p-0.5 py-1 font-secondary">
             {t("quickSelect.purchase", { name: type })}
           </span>
