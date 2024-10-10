@@ -10,11 +10,67 @@ import {
   AnimalMachineInterpreter,
   TState as AnimalMachineState,
 } from "features/game/lib/animalMachine";
+import { getAnimalFavoriteFood } from "features/game/lib/animals";
+import { ITEM_DETAILS } from "features/game/types/images";
+import { CSS } from "react-spring";
+import classNames from "classnames";
 
-const ANIMAL_EMOTION_ICONS: Record<AnimalMachineState["value"], string> = {
+type RequestBubbleProps = {
+  top: CSS.Properties["top"];
+  left: CSS.Properties["left"];
+  image: {
+    src: string;
+    height: number;
+    width: number;
+  };
+};
+
+const RequestBubble: React.FC<RequestBubbleProps> = ({ image, top, left }) => {
+  return (
+    <div
+      className="absolute flex justify-center items-center"
+      style={{
+        top,
+        left,
+
+        borderImage: `url(${SUNNYSIDE.ui.speechBorder})`,
+        borderStyle: "solid",
+        borderTopWidth: `${PIXEL_SCALE * 2}px`,
+        borderRightWidth: `${PIXEL_SCALE * 2}px`,
+        borderBottomWidth: `${PIXEL_SCALE * 4}px`,
+        borderLeftWidth: `${PIXEL_SCALE * 5}px`,
+
+        borderImageSlice: "2 2 4 5 fill",
+        imageRendering: "pixelated",
+        borderImageRepeat: "stretch",
+        minWidth: "30px",
+        minHeight: "30px",
+      }}
+    >
+      <div
+        className="absolute"
+        style={{
+          position: "absolute",
+          top: "50%",
+          left: "50%",
+          transform: "translate(-50%, -50%)",
+          marginLeft: "-3px",
+          height: `${image.height}px`,
+          width: `${image.width}px`,
+        }}
+      >
+        <img src={image.src} className="w-full h-full" />
+      </div>
+    </div>
+  );
+};
+
+const ANIMAL_EMOTION_ICONS: Record<
+  Exclude<AnimalMachineState["value"], "idle" | "initial">,
+  string
+> = {
   happy: SUNNYSIDE.icons.happy,
   sad: SUNNYSIDE.icons.sad,
-  idle: SUNNYSIDE.icons.expression_stress,
   sleeping: SUNNYSIDE.icons.sleeping,
 };
 
@@ -55,6 +111,11 @@ export const Chicken: React.FC<{ id: string }> = ({ id }) => {
     });
   };
 
+  if (chickenState === "initial") return null;
+
+  const favFood = getAnimalFavoriteFood("Chicken", chicken.experience);
+  const sleeping = chickenState === "sleeping";
+
   return (
     <div
       className="relative cursor-pointer w-full h-full"
@@ -72,26 +133,43 @@ export const Chicken: React.FC<{ id: string }> = ({ id }) => {
       />
       <img
         src={
-          chickenState === "sleeping"
+          sleeping
             ? SUNNYSIDE.animals.chickenAsleep
             : SUNNYSIDE.animals.chickenIdle
         }
         alt={`${capitalize(chickenState)} Chicken`}
         style={{
-          width: `${PIXEL_SCALE * 11}px`,
+          width: `${PIXEL_SCALE * (sleeping ? 13 : 11)}px`,
         }}
-        className="absolute ml-[1px] mt-[2px] top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+        className={classNames(
+          "absolute ml-[1px] top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2",
+          {
+            "mt-[2px]": !sleeping,
+            "mt-[4px]": sleeping,
+          },
+        )}
       />
-      <img
-        src={ANIMAL_EMOTION_ICONS[chickenState]}
-        alt={`${capitalize(chickenState)} Chicken`}
-        style={{
-          width: `${PIXEL_SCALE * (chickenState === "sleeping" ? 9 : 7)}px`,
-          top: -7,
-          right: -7,
-        }}
-        className="absolute"
-      />
+      {/* Emotion */}
+      {chickenState !== "idle" && (
+        <img
+          src={ANIMAL_EMOTION_ICONS[chickenState]}
+          alt={`${capitalize(chickenState)} Chicken`}
+          style={{
+            width: `${PIXEL_SCALE * (sleeping ? 9 : 7)}px`,
+            top: sleeping ? -8 : -7,
+            right: sleeping ? -8 : -7,
+          }}
+          className="absolute"
+        />
+      )}
+      {/* Request */}
+      {chickenState === "idle" && (
+        <RequestBubble
+          top={`${PIXEL_SCALE * -5.5}px`}
+          left={`${PIXEL_SCALE * 9.5}px`}
+          image={{ src: ITEM_DETAILS[favFood].image, height: 16, width: 16 }}
+        />
+      )}
     </div>
   );
 };
