@@ -45,9 +45,12 @@ export const AnimalExchange: React.FC<Props> = ({ type, onExchanging }) => {
   return (
     <CloseButtonPanel>
       <div className="p-2">
-        <Label className="mb-2" type="info" icon={SUNNYSIDE.icons.stopwatch}>
-          <TimerDisplay time={expiresAt} />
-        </Label>
+        <div className="flex justify-between items-center mb-2">
+          <Label type="default">Exchange board</Label>
+          <Label type="info" icon={SUNNYSIDE.icons.stopwatch}>
+            <TimerDisplay time={expiresAt} />
+          </Label>
+        </div>
 
         <p className="text-xs mb-2">
           Howdy Bumpkin, this week we are looking for the following animals.
@@ -61,11 +64,14 @@ export const AnimalExchange: React.FC<Props> = ({ type, onExchanging }) => {
             const animals =
               type === "Chicken" ? state.henHouse.animals : state.barn.animals;
 
-            const isDisabled = getKeys(animals).every(
-              (id) => !isValidDeal({ deal, animal: animals[id] }),
-            );
+            const isDisabled =
+              !!deal.soldAt ||
+              getKeys(animals).every(
+                (id) => !isValidDeal({ deal, animal: animals[id] }),
+              );
+
             return (
-              <div key={deal.id} className="w-1/3 sm:w-1/4 pr-1.5">
+              <div key={deal.id} className="w-1/3 sm:w-1/4 pr-1.5 pb-1.5">
                 <ButtonPanel
                   disabled={isDisabled}
                   onClick={() => onExchanging(deal)}
@@ -86,16 +92,14 @@ export const AnimalExchange: React.FC<Props> = ({ type, onExchanging }) => {
                   {!!deal.soldAt && (
                     <Label
                       type="success"
-                      icon={SUNNYSIDE.ui.coinsImg}
-                      className={"absolute -bottom-2 text-center p-1 "}
+                      className={"absolute -top-3.5 text-center p-1 "}
                       style={{
-                        left: `${PIXEL_SCALE * -3}px`,
                         right: `${PIXEL_SCALE * -3}px`,
-                        width: `calc(100% + ${PIXEL_SCALE * 6}px)`,
+                        // width: `calc(100% + ${PIXEL_SCALE * 6}px)`,
                         height: "25px",
                       }}
                     >
-                      {deal.coins}
+                      Sold
                     </Label>
                   )}
 
