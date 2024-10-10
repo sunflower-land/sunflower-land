@@ -2,13 +2,16 @@ import { produce } from "immer";
 import Decimal from "decimal.js-light";
 import { ANIMALS, AnimalType } from "features/game/types/animals";
 import { AnimalFoodName, GameState, Inventory } from "features/game/types/game";
-import { makeAnimalBuildingKey } from "features/game/lib/animals";
+import {
+  AnimalLevel,
+  getAnimalFavoriteFood,
+  getAnimalLevel,
+  makeAnimalBuildingKey,
+} from "features/game/lib/animals";
 import { getKeys } from "features/game/types/craftables";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 
-type AnimalLevel = 1 | 2 | 3;
-
-const ANIMAL_FOOD_EXPERIENCE: Record<
+export const ANIMAL_FOOD_EXPERIENCE: Record<
   AnimalType,
   Record<AnimalLevel, Record<AnimalFoodName, number>>
 > = {
@@ -84,12 +87,6 @@ const ANIMAL_RESOURCE_DROP: Record<
   },
 };
 
-const getAnimalLevel = (experience: number): AnimalLevel => {
-  if (experience >= 50) return 3;
-  if (experience >= 20) return 2;
-  return 1;
-};
-
 export type FeedAnimalAction = {
   type: "animal.fed";
   animal: AnimalType;
@@ -103,7 +100,11 @@ type Options = {
   createdAt: number;
 };
 
-export function feedAnimal({ state, action, createdAt }: Options): GameState {
+export function feedAnimal({
+  state,
+  action,
+  createdAt = Date.now(),
+}: Options): GameState {
   return produce(state, (copy) => {
     const { buildingRequired } = ANIMALS[action.animal];
     const buildingKey = makeAnimalBuildingKey(buildingRequired);
@@ -121,13 +122,10 @@ export function feedAnimal({ state, action, createdAt }: Options): GameState {
 
     const level = getAnimalLevel(animal.experience);
     const xp = ANIMAL_FOOD_EXPERIENCE[action.animal][level];
-    const maxXp = Math.max(...Object.values(xp));
-    const favouriteFoods = getKeys(xp).filter(
-      (foodName) => xp[foodName] === maxXp,
+    const favouriteFood = getAnimalFavoriteFood(
+      action.animal,
+      animal.experience,
     );
-
-    if (favouriteFoods.length !== 1) throw new Error("No favourite food");
-    const favouriteFood = favouriteFoods[0];
 
     const isChicken = action.animal === "Chicken";
     const hasGoldenEggPlaced = isCollectibleBuilt({

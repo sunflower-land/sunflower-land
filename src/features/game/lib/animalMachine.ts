@@ -6,7 +6,7 @@ interface TContext {
 }
 
 export type TState = {
-  value: "idle" | "happy" | "sad" | "sleeping";
+  value: "idle" | "happy" | "sad" | "sleeping" | "initial";
   context: TContext;
 };
 
@@ -35,15 +35,26 @@ export const animalMachine = createMachine<TContext, TEvent, TState>({
   id: "animalMachine",
 
   // Initial state
-  initial: "idle",
+  initial: "initial",
 
-  // Local context for entire machine
+  // Animal will be passed in on initialization of the machine
   context: {
     animal: undefined,
   },
 
   // State definitions
   states: {
+    initial: {
+      always: [
+        {
+          target: "sleeping",
+          cond: (context) => isAnimalSleeping(context),
+        },
+        {
+          target: "idle",
+        },
+      ],
+    },
     happy: {
       after: {
         5000: [
@@ -71,8 +82,15 @@ export const animalMachine = createMachine<TContext, TEvent, TState>({
         FEED: [
           {
             target: "happy",
-            // Only transition to 'searching' if the guard (cond) evaluates to true
-            cond: (context) => context.animal?.state === "happy", // or { type: 'searchValid' }
+            cond: (context) => context.animal?.state === "happy",
+            actions: assign({
+              animal: (_, event) => (event as AnimalFeedEvent).animal,
+            }),
+          },
+          {
+            target: "sleeping",
+            // If animal is idle after being fed that means they are sleeping
+            cond: (context) => context.animal?.state === "idle",
             actions: assign({
               animal: (_, event) => (event as AnimalFeedEvent).animal,
             }),

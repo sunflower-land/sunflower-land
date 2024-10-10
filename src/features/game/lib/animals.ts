@@ -1,5 +1,7 @@
+import { ANIMAL_FOOD_EXPERIENCE } from "../events/landExpansion/feedAnimal";
 import { ANIMALS, AnimalType } from "../types/animals";
 import { BuildingName } from "../types/buildings";
+import { getKeys } from "../types/decorations";
 import { Animal, AnimalBuildingKey } from "../types/game";
 
 export const makeAnimalBuildingKey = (
@@ -30,9 +32,34 @@ export function makeAnimals(count: number, type: AnimalType) {
           type,
           state: "idle",
           coordinates: positions[index],
+          experience: 0,
+          asleepAt: 0,
         },
       };
     },
     {} as Record<string, Animal>,
   );
 }
+
+export type AnimalLevel = 1 | 2 | 3;
+
+export const getAnimalLevel = (experience: number): AnimalLevel => {
+  if (experience >= 50) return 3;
+  if (experience >= 20) return 2;
+
+  return 1;
+};
+
+export const getAnimalFavoriteFood = (type: AnimalType, animalXP: number) => {
+  const level = getAnimalLevel(animalXP);
+  const xp = ANIMAL_FOOD_EXPERIENCE[type][level];
+  const maxXp = Math.max(...Object.values(xp));
+
+  const favouriteFoods = getKeys(xp).filter(
+    (foodName) => xp[foodName] === maxXp,
+  );
+
+  if (favouriteFoods.length !== 1) throw new Error("No favourite food");
+
+  return favouriteFoods[0];
+};
