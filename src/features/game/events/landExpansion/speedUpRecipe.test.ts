@@ -61,6 +61,7 @@ describe("instantCook", () => {
                 crafting: {
                   name: "Mashed Potato",
                   readyAt: 0,
+                  amount: new Decimal(1),
                 },
               },
             ],
@@ -90,6 +91,7 @@ describe("instantCook", () => {
                 crafting: {
                   name: "Mashed Potato",
                   readyAt: Date.now() + 30000,
+                  amount: new Decimal(1),
                 },
               },
             ],
@@ -119,6 +121,7 @@ describe("instantCook", () => {
               crafting: {
                 name: "Mashed Potato",
                 readyAt: Date.now() + 30000,
+                amount: new Decimal(1),
               },
             },
           ],
@@ -151,6 +154,7 @@ describe("instantCook", () => {
                 name: "Radish Cake",
                 readyAt:
                   now + BAKERY_COOKABLES["Radish Cake"].cookingSeconds * 1000,
+                amount: new Decimal(1),
               },
             },
           ],
@@ -183,6 +187,7 @@ describe("instantCook", () => {
                 readyAt:
                   now +
                   (BAKERY_COOKABLES["Radish Cake"].cookingSeconds / 2) * 1000,
+                amount: new Decimal(1),
               },
             },
           ],
@@ -212,6 +217,7 @@ describe("instantCook", () => {
               crafting: {
                 name: "Mashed Potato",
                 readyAt: Date.now(),
+                amount: new Decimal(1),
               },
             },
           ],

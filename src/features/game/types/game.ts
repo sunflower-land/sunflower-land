@@ -540,6 +540,7 @@ export type Mine = Position;
 export type BuildingProduct = {
   name: CookableName;
   readyAt: number;
+  amount: Decimal;
   boost?: Partial<Record<InventoryItemName, number>>;
 };
 

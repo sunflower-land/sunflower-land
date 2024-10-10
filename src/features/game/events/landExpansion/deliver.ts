@@ -216,6 +216,14 @@ export function getOrderSellPrice<T>(game: GameState, order: Order): T {
     mul += 0.5;
   }
 
+  // Nom Nom - 5% bonus with food orders
+  if (game.bumpkin?.skills["Nom Nom"]) {
+    const items = getKeys(order.items);
+    if (items.some((name) => name in COOKABLE_CAKES)) {
+      mul += 0.05;
+    }
+  }
+
   const items = getKeys(order.items);
   if (
     items.some((name) => name in COOKABLE_CAKES) &&

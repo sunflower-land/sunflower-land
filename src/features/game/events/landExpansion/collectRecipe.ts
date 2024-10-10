@@ -52,7 +52,7 @@ export function collectRecipe({
 
     bumpkin.activity = trackActivity(`${recipe.name} Cooked`, bumpkin.activity);
 
-    game.inventory[recipe.name] = consumableCount.add(1);
+    game.inventory[recipe.name] = consumableCount.add(recipe.amount);
 
     return game;
   });
