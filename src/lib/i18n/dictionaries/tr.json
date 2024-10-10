@@ -3223,7 +3223,6 @@
   "npcDialogues.pharaoh.intro3": "Selamlar kaşif. Ben Firavun'um, eski sırların koruyucusuyum. Geçmişimizin gizemlerini çözmede yardımcı olabilecek herhangi bir kalıntı keşfettin mi?",
   "obsessionDialogue.line1": "Ah, {{itemName}}! Sadece görmek istiyorum, sahip olmak değil. Bana göster ve {{seasonalTicket}} s senin ödülün olacak.",
   "obsessionDialogue.line2": "{{itemName}} getirdin mi? Sadece ona bakmak istiyorum. Bakayım, ve {{seasonalTicket}} s senin olacak.",
-  "obsessionDialogue.line3": "Sahip olduğunuz {{itemName}} bu mu? Tek istediğim sadece bir bakış. Bundan dolayı, {{seasonalTicket}} s alacaksınız.",
   "obsessionDialogue.line4": "{{itemName}}! Onu saklamak istemiyorum, sadece görmek için. Bana göster ve {{seasonalTicket}} s senindir.",
   "obsessionDialogue.line5": "{{itemName}} 'nin bir görünümünü sunuyorsunuz? Tek istediğim kısaca görmek. Cömertliğiniz için size {{seasonalTicket}} s verilecektir.",
   "offer.beginWithNFT": "Başlamak için ücretsiz bir Farm NFT basmanız gerekecek. Bu şunları içerecektir:",
@@ -3698,5 +3697,6 @@
   "animals.buildingIsFull": "{{buildingName}} dolu!",
   "description.chicken": "Güvenilir bir taze yumurta ve yumuşak tüy kaynağı olan bu tavuk, doğru bakımla görevini mutlu bir şekilde yapıyor.",
   "description.cow": "Bu nazik inek taze süt ve dayanıklı deri sağlar. Bol miktarda yiyecek ve sevgi ile mutlu edin.",
-  "description.sheep": "Bu kabarık koyun hem normal yün hem de lüks merinos yünü sağlar. En yumuşak sonuçlar için mutlu olun!"
+  "description.sheep": "Bu kabarık koyun hem normal yün hem de lüks merinos yünü sağlar. En yumuşak sonuçlar için mutlu olun!",
+  "obsessionDialogue.line3": "Sahip olduğunuz {{itemName}} bu mu? Tek istediğim sadece bir bakış. Bunun için {{seasonalTicket}} s alacaksınız."
 }

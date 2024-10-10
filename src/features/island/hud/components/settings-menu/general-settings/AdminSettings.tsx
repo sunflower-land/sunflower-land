@@ -8,6 +8,7 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import coinsIcon from "assets/icons/coins.webp";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Context } from "features/game/GameProvider";
+import { TextInput } from "components/ui/TextInput";
 
 export const AdminSettings: React.FC<
   ContentComponentProps & { id?: number }
@@ -17,6 +18,7 @@ export const AdminSettings: React.FC<
   const [farmId, setFarmId] = useState(id);
   const [coins, setCoins] = useState(0);
   const [gems, setGems] = useState(0);
+  const [message, setMessage] = useState("");
 
   const send = async () => {
     gameService.send("reward.airdropped", {
@@ -29,6 +31,7 @@ export const AdminSettings: React.FC<
             }
           : {},
         farmId,
+        message,
       },
       authToken: authService.state.context.user.rawToken as string,
     });
@@ -67,6 +70,16 @@ export const AdminSettings: React.FC<
           value={gems}
           onValueChange={(decimal) => setGems(decimal.toNumber())}
           maxDecimalPlaces={0}
+        />
+        <Label
+          type="default"
+          icon={SUNNYSIDE.icons.expression_chat}
+          className="my-1"
+        >{`Message`}</Label>
+        <TextInput
+          placeholder="Type your message..."
+          value={message}
+          onValueChange={(msg) => setMessage(msg)}
         />
       </div>
       <Button

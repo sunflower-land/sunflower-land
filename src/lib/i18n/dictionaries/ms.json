@@ -2833,7 +2833,6 @@
   "nyonStatue.description": "Ksatria legenda yang bertanggungjawab membersihkan goblin dari lombong. Tidak lama selepas kemenangannya, dia meninggal kerana keracunan dari konspirator Goblin. Warganegara Bunga Matahari mendirikan patung ini dengan perisai untuk memperingati penaklukannya.",
   "obsessionDialogue.line1": "Ah, {{itemName}}! Saya hanya ingin melihatnya, bukan memiliki. Tunjukkan kepada saya, dan {{seasonalTicket}} s akan menjadi ganjaran anda.",
   "obsessionDialogue.line2": "Anda telah membawa {{itemName}}? Saya hanya mahu melihatnya. Biar saya lihat, dan {{seasonalTicket}} s akan menjadi milik anda.",
-  "obsessionDialogue.line3": "Adakah itu {{itemName}} yang anda ada? Pandangan semata-mata adalah semua yang saya inginkan. Sebelum ini, anda akan menerima {{seasonalTicket}} s.",
   "obsessionDialogue.line4": "{{itemName}}! Saya tidak mahu menyimpannya, hanya untuk melihatnya. Tunjukkan kepada saya, dan {{seasonalTicket}} s adalah milik anda.",
   "obsessionDialogue.line5": "Anda menawarkan pemandangan {{itemName}}? Apa yang saya minta ialah melihatnya secara ringkas. Untuk kemurahan hati anda, {{seasonalTicket}} s akan diberikan kepada anda.",
   "offer.okxOffer": "Hello Farmer, saya mempunyai tawaran OKX eksklusif untuk anda!",
@@ -3698,5 +3697,6 @@
   "animals.buildingIsFull": "{{buildingName}} sudah penuh!",
   "description.chicken": "Sumber telur segar dan bulu lembut yang boleh dipercayai, ayam ini dengan senang hati melakukan perganannya dengan penjagaan yang betul.",
   "description.cow": "Lembu lembut ini menyediakan susu segar dan kulit tahan lama. Pastikan ia gembira dengan banyak makanan & kasih sayang.",
-  "description.sheep": "Domba berbulu ini menyediakan bulu biasa dan bulu merino mewah. Pastikan ia gembira untuk hasil yang paling lembut!"
+  "description.sheep": "Domba berbulu ini menyediakan bulu biasa dan bulu merino mewah. Pastikan ia gembira untuk hasil yang paling lembut!",
+  "obsessionDialogue.line3": "Adakah itu {{itemName}} yang anda ada? Pandangan semata-mata adalah semua yang saya inginkan. Untuk ini, anda akan menerima {{seasonalTicket}} s."
 }

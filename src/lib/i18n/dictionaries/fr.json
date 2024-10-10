@@ -1947,7 +1947,6 @@
   "nyonStatue.description": "Le chevalier légendaire responsable d'avoir débarrassé les gobelins des mines. Peu de temps après sa victoire, il est décédé empoisonné par un conspirateur gobelin. Les Citoyens du Tournesol ont érigé cette statue avec son armure pour commémorer ses conquêtes.",
   "obsessionDialogue.line1": "Ah, le {{itemName}} ! Je souhaite seulement le voir, pas le posséder. Montrez-le moi, et vous recevrez {{seasonalTicket}} en récompense.",
   "obsessionDialogue.line2": "Vous avez apporté le {{itemName}} ? Je veux simplement le contempler. Laissez-moi le voir, et les {{seasonalTicket}} seront vôtres.",
-  "obsessionDialogue.line3": "Est-ce le {{itemName}} que vous avez ? Un simple coup d'œil me suffit. Pour cela, vous recevrez {{seasonalTicket}}.",
   "obsessionDialogue.line4": "{{itemName}} ! Je ne veux pas le garder, juste le contempler. Montrez-le moi, et les {{seasonalTicket}} seront à vous.",
   "obsessionDialogue.line5": "Vous offrez une vue du {{itemName}} ? Tout ce que je demande, c'est de le voir brièvement. Pour votre générosité, des {{seasonalTicket}} vous seront accordés.",
   "offer.okxOffer": "Salut fermier, j'ai une offre exclusive OKX pour toi!",
@@ -3698,5 +3697,6 @@
   "animals.buildingIsFull": "{{buildingName}} est plein !",
   "description.chicken": "Source fiable d'œufs frais et de plumes douces, cette poule fait sa part avec plaisir avec les soins appropriés.",
   "description.cow": "Cette vache douce fournit du lait frais et du cuir résistant. Faites-le heureux avec beaucoup de nourriture et d'affection.",
-  "description.sheep": "Ce mouton moelleux fournit à la fois de la laine ordinaire et de la laine mérinos luxueuse. Faites-en plaisir pour des résultats des plus doux !"
+  "description.sheep": "Ce mouton moelleux fournit à la fois de la laine ordinaire et de la laine mérinos luxueuse. Faites-en plaisir pour des résultats des plus doux !",
+  "obsessionDialogue.line3": "Est-ce le {{itemName}} que vous avez ? Un simple coup d'œil est tout ce que je souhaite. Pour cela, vous recevrez {{seasonalTicket}} s."
 }

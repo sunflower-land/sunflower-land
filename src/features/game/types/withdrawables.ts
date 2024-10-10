@@ -5,10 +5,10 @@ import {
   GreenHouseCropSeedName,
 } from "./crops";
 import {
-  FruitName,
-  FruitSeedName,
   GreenHouseFruitName,
   GreenHouseFruitSeedName,
+  PatchFruitName,
+  PatchFruitSeedName,
 } from "./fruits";
 import {
   Animal,
@@ -106,7 +106,7 @@ const cropSeeds: Record<CropSeedName, () => boolean> = {
   "Barley Seed": () => false,
 };
 
-const fruitSeed: Record<FruitSeedName, () => boolean> = {
+const patchFruitSeed: Record<PatchFruitSeedName, () => boolean> = {
   "Apple Seed": () => false,
   "Blueberry Seed": () => false,
   "Orange Seed": () => false,
@@ -139,7 +139,7 @@ const crops: Record<CropName, () => boolean> = {
   Barley: () => false,
 };
 
-const fruits: Record<FruitName, () => boolean> = {
+const patchFruits: Record<PatchFruitName, () => boolean> = {
   Apple: () => true,
   Blueberry: () => true,
   Orange: () => true,
@@ -1116,10 +1116,10 @@ export const WITHDRAWABLES: Record<InventoryItemName, () => boolean> = {
   ...greenHouseFruitSeed,
   ...greenHouseFruit,
   ...crops,
-  ...fruits,
+  ...patchFruits,
   ...flowers,
   ...cropSeeds,
-  ...fruitSeed,
+  ...patchFruitSeed,
   ...flowerSeed,
   ...beans,
   ...questItems,

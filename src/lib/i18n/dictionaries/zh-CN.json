@@ -2996,7 +2996,6 @@
   "nyonStatue.description": "负责从地雷中清除地精的传奇骑士。获胜后不久，他死于哥布林阴谋者的毒害。向日葵公民用他的盔甲竖起了这座雕像，以纪念他的征服。",
   "obsessionDialogue.line1": "啊，{{itemName}}！我只想看到它，不想拥有。给我看，{{seasonalTicket}} s 将是你的奖励。",
   "obsessionDialogue.line2": "你带来了 {{itemName}} 吗？我只想凝视它。让我看看，{{seasonalTicket}} 将是你的。",
-  "obsessionDialogue.line3": "那是你的 {{itemName}} 吗？我只想看一眼。在此之前，您将收到 {{seasonalTicket}} s。",
   "obsessionDialogue.line4": "{{itemName}}!我不想保留它，只是为了看看。给我看，{{seasonalTicket}} 就是你的。",
   "obsessionDialogue.line5": "你提供了 {{itemName}} 的视图？我只想简单地看一看。为了您的慷慨解囊，我们将向您发放 {{seasonalTicket}} s。",
   "offer.okxOffer": "你好 Farmer，我有 OKX 独家优惠要给你！",
@@ -3698,5 +3697,6 @@
   "animals.buildingIsFull": "{{buildingName}} 已满！",
   "description.chicken": "这只鸡是新鲜鸡蛋和柔软羽毛的可靠来源，只要小心谨慎，它就会愉快地发挥自己的作用。",
   "description.cow": "这头温柔的奶牛提供新鲜的牛奶和耐用的皮革。用充足的食物和情感让它开心。",
-  "description.sheep": "这只毛茸茸的绵羊既提供普通羊毛，又提供奢华的美利奴羊毛。保持高兴，以获得最柔和的结果！"
+  "description.sheep": "这只毛茸茸的绵羊既提供普通羊毛，又提供奢华的美利奴羊毛。保持高兴，以获得最柔和的结果！",
+  "obsessionDialogue.line3": "那是你的 {{itemName}} 吗？我只想看一眼。为此，您将收到 {{seasonalTicket}} s。"
 }

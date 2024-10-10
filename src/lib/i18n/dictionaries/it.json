@@ -2791,7 +2791,6 @@
   "nyonStatue.description": "Il leggendario cavaliere responsabile dell'eliminazione dei goblin dalle miniere. Poco dopo la sua vittoria morì avvelenato da un cospiratore Goblin. I Sunflower Citizens eressero questa statua con la loro armatura per commemorare le sue conquiste.",
   "obsessionDialogue.line1": "Ah, il {{itemName}}! Vorrei solo vederlo, non possederlo. Mostramelo e {{seasonalTicket}} s sarà la tua ricompensa.",
   "obsessionDialogue.line2": "Hai portato il {{itemName}}? Voglio solo guardarlo. Fammi vedere e {{seasonalTicket}} s sarà tuo.",
-  "obsessionDialogue.line3": "È il {{itemName}} che hai? Un semplice sguardo è tutto ciò che desidero. A questo punto, riceverai {{seasonalTicket}} s.",
   "obsessionDialogue.line4": "Il {{itemName}}! Non voglio tenerlo, solo vederlo. Mostramelo e {{seasonalTicket}} sono tuoi.",
   "obsessionDialogue.line5": "Offrite una vista del {{itemName}}? Tutto ciò che chiedo è di vederlo brevemente. Per la tua generosità, ti saranno concessi {{seasonalTicket}}.",
   "offer.okxOffer": "Salve Farmer, ho un'offerta OKX esclusiva per te!",
@@ -3698,5 +3697,6 @@
   "animals.buildingIsFull": "{{buildingName}} è pieno!",
   "description.chicken": "Fonte affidabile di uova fresche e morbide piume, questo pollo fa volentieri la sua parte con la giusta cura.",
   "description.cow": "Questa delicata mucca fornisce latte fresco e pelle resistente. Rendila felice con cibo e affetto in abbondanza.",
-  "description.sheep": "Questa soffice pecora fornisce sia lana normale che lussuosa lana merino. Rendila felice per i risultati più delicati!"
+  "description.sheep": "Questa soffice pecora fornisce sia lana normale che lussuosa lana merino. Rendila felice per i risultati più delicati!",
+  "obsessionDialogue.line3": "È il {{itemName}} che hai? Un semplice sguardo è tutto ciò che desidero. Per questo, riceverai {{seasonalTicket}} s."
 }
