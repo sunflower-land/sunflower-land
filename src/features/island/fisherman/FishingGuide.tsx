@@ -6,6 +6,7 @@ import { CROP_LIFECYCLE } from "../plots/lib/plant";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { translate } from "lib/i18n/translate";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { Label } from "components/ui/Label";
 
 interface Props {
   onClose: () => void;
@@ -73,6 +74,21 @@ export const FishingGuide: React.FC<Props> = ({ onClose }) => {
       className="overflow-y-auto scrollable flex flex-wrap pt-1.5 pr-0.5"
     >
       <div className="flex flex-col gap-y-3 p-2">
+        <Label
+          type="info"
+          className="ml-1.5 -mt-2"
+          icon={SUNNYSIDE.icons.search}
+          onClick={() => {
+            window
+              .open(
+                "https://docs.sunflower-land.com/player-guides/fishing",
+                "_blank",
+              )
+              ?.focus();
+          }}
+        >
+          <span className="underline text-xxs">{t("docs")}</span>
+        </Label>
         <img
           src={SUNNYSIDE.tutorial.fishingTutorial}
           className="w-full rounded-lg"
