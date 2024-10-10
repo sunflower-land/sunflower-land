@@ -87,9 +87,10 @@ const ListTrade: React.FC<{
   inventory: Inventory;
   onList: (items: Items, sfl: number) => void;
   onCancel: () => void;
+  onBack: () => void;
   isSaving: boolean;
   floorPrices: FloorPrices;
-}> = ({ inventory, onList, onCancel, isSaving, floorPrices }) => {
+}> = ({ inventory, onList, onCancel, onBack, isSaving, floorPrices }) => {
   const { t } = useAppTranslation();
   const [selected, setSelected] = useState<InventoryItemName>();
   const [quantity, setQuantity] = useState(new Decimal(0));
@@ -100,7 +101,18 @@ const ListTrade: React.FC<{
   if (!selected) {
     return (
       <div className="space-y-2">
-        <div className="pl-2 py-2">
+        <div className="pl-1 py-2 flex items-center">
+          <img
+            src={SUNNYSIDE.icons.arrow_left}
+            className="self-start cursor-pointer mr-3"
+            style={{
+              top: `${PIXEL_SCALE * 2}px`,
+              left: `${PIXEL_SCALE * 2}px`,
+              width: `${PIXEL_SCALE * 11}px`,
+            }}
+            alt="back"
+            onClick={onBack}
+          />
           <Label icon={SUNNYSIDE.icons.basket} type="default">
             {t("bumpkinTrade.like.list")}
           </Label>
@@ -504,6 +516,7 @@ export const Trade: React.FC<{
       <ListTrade
         inventory={gameState.context.state.inventory}
         onCancel={() => setShowListing(false)}
+        onBack={() => setShowListing(false)}
         onList={onList}
         isSaving={gameState.matches("autosaving")}
         floorPrices={floorPrices}
