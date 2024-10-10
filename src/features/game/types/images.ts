@@ -4123,4 +4123,12 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.resource.milk,
     description: "Resource you can collect from cows",
   },
+  Hay: {
+    image: SUNNYSIDE.animalFoods.hay,
+    description: "Resource you can collect from cows",
+  },
+  "Kernel Blend": {
+    image: SUNNYSIDE.animalFoods.kernel_blend,
+    description: "Resource you can collect from cows",
+  },
 };
