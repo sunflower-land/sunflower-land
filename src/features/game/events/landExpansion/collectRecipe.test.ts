@@ -64,7 +64,7 @@ describe("collect Recipes", () => {
                 crafting: {
                   name: "Boiled Eggs",
                   readyAt: Date.now() + 60 * 1000,
-                  amount: new Decimal(1),
+                  amount: 1,
                 },
               },
             ],
@@ -89,7 +89,7 @@ describe("collect Recipes", () => {
       crafting: {
         name: "Boiled Eggs",
         readyAt: Date.now() - 5 * 1000,
-        amount: new Decimal(1),
+        amount: 1,
       },
     };
     const state = collectRecipe({
@@ -151,7 +151,7 @@ describe("collect Recipes", () => {
               crafting: {
                 name: "Boiled Eggs",
                 readyAt: Date.now() - 5 * 1000,
-                amount: new Decimal(1),
+                amount: 1,
               },
             },
           ],

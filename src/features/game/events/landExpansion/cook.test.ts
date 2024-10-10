@@ -51,7 +51,7 @@ describe("cook", () => {
                 crafting: {
                   name: "Boiled Eggs",
                   readyAt: Date.now() + 60 * 1000,
-                  amount: new Decimal(1),
+                  amount: 1,
                 },
               },
             ],
