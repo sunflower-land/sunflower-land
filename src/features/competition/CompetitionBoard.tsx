@@ -395,7 +395,7 @@ export const CompetitionLeaderboard: React.FC<{ name: CompetitionName }> = ({
           <CompetitionTable items={leaderboard} />
 
           {/* Only show miniboard if player isn't in the main leaderboard */}
-          {player && !miniboard.find((m) => m.id !== player.id) && (
+          {player && !leaderboard.find((m) => m.id !== player.id) && (
             <>
               <p className="text-center text-xs mb-2">{`...`}</p>
               <CompetitionTable items={miniboard} />
