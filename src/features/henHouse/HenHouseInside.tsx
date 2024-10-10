@@ -25,7 +25,7 @@ import {
   ExchangeHud,
 } from "features/barn/components/AnimalExchanges";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
-import { Animal, ExchangeDeal } from "features/game/types/game";
+import { Animal, BountyRequest } from "features/game/types/game";
 import { InnerPanel } from "components/ui/Panel";
 import { Label } from "components/ui/Label";
 import { isValidDeal } from "features/game/events/landExpansion/sellAnimal";
@@ -40,7 +40,7 @@ export const HenHouseInside: React.FC = () => {
   const { gameService } = useContext(Context);
   const [showModal, setShowModal] = useState(false);
   const [showExchange, setShowExchange] = useState(false);
-  const [deal, setDeal] = useState<ExchangeDeal>();
+  const [deal, setDeal] = useState<BountyRequest>();
   const [selected, setSelected] = useState<Animal>();
   const henHouse = useSelector(gameService, _henHouse);
 

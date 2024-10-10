@@ -1,6 +1,7 @@
 import { useSelector } from "@xstate/react";
 import { SUNNYSIDE } from "assets/sunnyside";
 import confetti from "canvas-confetti";
+import classNames from "classnames";
 import { Button } from "components/ui/Button";
 import { HudContainer } from "components/ui/HudContainer";
 import { Label } from "components/ui/Label";
@@ -16,18 +17,18 @@ import { secondsTillWeekReset, weekResetsAt } from "features/game/lib/factions";
 import { MachineState } from "features/game/lib/gameMachine";
 import { AnimalType } from "features/game/types/animals";
 import { getKeys } from "features/game/types/decorations";
-import { Animal, ExchangeDeal } from "features/game/types/game";
+import { Animal, BountyRequest } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { getSeasonalTicket } from "features/game/types/seasons";
 import { TimerDisplay } from "features/retreat/components/auctioneer/AuctionDetails";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
 import React, { useContext } from "react";
 
-const _exchange = (state: MachineState) => state.context.state.exchange;
+const _exchange = (state: MachineState) => state.context.state.bounties;
 
 interface Props {
   type: AnimalType;
-  onExchanging: (deal: ExchangeDeal) => void;
+  onExchanging: (deal: BountyRequest) => void;
 }
 
 export const AnimalExchange: React.FC<Props> = ({ type, onExchanging }) => {
@@ -36,7 +37,7 @@ export const AnimalExchange: React.FC<Props> = ({ type, onExchanging }) => {
 
   const state = gameService.getSnapshot().context.state;
 
-  const deals = exchange.deals.filter((deal) => deal.name === type);
+  const deals = exchange.requests.filter((deal) => deal.name === type);
 
   const expiresAt = useCountdown(weekResetsAt());
 
@@ -64,28 +65,39 @@ export const AnimalExchange: React.FC<Props> = ({ type, onExchanging }) => {
             const animals =
               type === "Chicken" ? state.henHouse.animals : state.barn.animals;
 
-            const isDisabled =
-              !!deal.soldAt ||
-              getKeys(animals).every(
-                (id) => !isValidDeal({ deal, animal: animals[id] }),
-              );
+            const isDisabled = getKeys(animals).every(
+              (id) => !isValidDeal({ deal, animal: animals[id] }),
+            );
 
             return (
-              <div key={deal.id} className="w-1/3 sm:w-1/4 pr-1.5 pb-1.5">
+              <div
+                key={deal.id}
+                className={classNames("w-1/3 sm:w-1/4 pr-1.5 pb-1.5", {
+                  "pointer-events-none": deal.soldAt,
+                })}
+              >
                 <ButtonPanel
-                  disabled={isDisabled}
+                  // disabled={isDisabled}
                   onClick={() => onExchanging(deal)}
                 >
                   <div className="flex justify-center items-center my-2 mb-6">
-                    <img
-                      src={ITEM_DETAILS[deal.name].image}
-                      className="w-8 mr-2"
-                    />
                     <div className="relative">
-                      <img src={SUNNYSIDE.icons.heart} className="h-8" />
-                      <div className="w-full h-full absolute inset-0 flex items-center justify-center">
-                        <p className="text-white text-xs">{deal.level}</p>
-                      </div>
+                      <img
+                        src={ITEM_DETAILS[deal.name].image}
+                        className="w-8 z-20"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="absolute top-0 -left-0.5">
+                    <img src={SUNNYSIDE.icons.heart} className="h-6" />
+                    <div className="w-full h-full absolute inset-0 flex items-center justify-center">
+                      <p
+                        className="text-white text-xs Teeny"
+                        style={{ fontSize: "18px" }}
+                      >
+                        {deal.level}
+                      </p>
                     </div>
                   </div>
 
@@ -148,7 +160,7 @@ export const AnimalExchange: React.FC<Props> = ({ type, onExchanging }) => {
 };
 
 export const AnimalDeal: React.FC<{
-  deal: ExchangeDeal;
+  deal: BountyRequest;
   animal: Animal;
   onClose: () => void;
   onSold: () => void;
@@ -205,7 +217,7 @@ export const AnimalDeal: React.FC<{
 };
 
 export const ExchangeHud: React.FC<{
-  deal: ExchangeDeal;
+  deal: BountyRequest;
   onClose: () => void;
 }> = ({ deal, onClose }) => {
   return (
