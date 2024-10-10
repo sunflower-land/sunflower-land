@@ -21,10 +21,10 @@ import { getBumpkinLevel } from "features/game/lib/level";
 import { SEEDS, SeedName } from "features/game/types/seeds";
 import { Bumpkin } from "features/game/types/game";
 import {
-  FRUIT,
-  FRUIT_SEEDS,
-  FruitSeedName,
   GREENHOUSE_FRUIT_SEEDS,
+  PATCH_FRUIT,
+  PATCH_FRUIT_SEEDS,
+  PatchFruitSeedName,
 } from "features/game/types/fruits";
 import { Restock } from "features/island/buildings/components/building/market/Restock";
 import { getFruitHarvests } from "features/game/events/landExpansion/utils";
@@ -217,9 +217,9 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
       return getFlowerTime(selectedName as FlowerSeedName, state);
     }
 
-    if (yields && yields in FRUIT())
+    if (yields && yields in PATCH_FRUIT())
       return getFruitPatchTime(
-        selectedName as FruitSeedName,
+        selectedName as PatchFruitSeedName,
         state,
         (state.bumpkin as Bumpkin)?.equipped ?? {},
       );
@@ -247,7 +247,7 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
   const getHarvestCount = () => {
     if (!yields) return undefined;
 
-    if (!(yields in FRUIT())) return undefined;
+    if (!(yields in PATCH_FRUIT())) return undefined;
 
     return getFruitHarvests(state);
   };
@@ -317,7 +317,7 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
           </Label>
           <div className="flex flex-wrap mb-2">
             {seeds
-              .filter((name) => name in FRUIT_SEEDS())
+              .filter((name) => name in PATCH_FRUIT_SEEDS())
               .map((name: SeedName) => (
                 <Box
                   isSelected={selectedName === name}

@@ -6,7 +6,10 @@ import {
   IRON_RECOVERY_TIME,
   STONE_RECOVERY_TIME,
 } from "features/game/lib/constants";
-import { FruitName, GreenHouseFruitName } from "features/game/types/fruits";
+import {
+  GreenHouseFruitName,
+  PatchFruitName,
+} from "features/game/types/fruits";
 import { GameState, InventoryItemName } from "features/game/types/game";
 import {
   CropName,
@@ -95,7 +98,7 @@ function beanIsPlanted(game: GameState): Restriction {
 
 export function areFruitsGrowing(
   game: GameState,
-  fruit: FruitName,
+  fruit: PatchFruitName,
 ): Restriction {
   const fruitGrowing = Object.values(game.fruitPatches ?? {}).some(
     (patch) => isFruitGrowing(patch) && patch.fruit?.name === fruit,

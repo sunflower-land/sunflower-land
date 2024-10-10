@@ -108,7 +108,7 @@ describe("startCompetition", () => {
           startedAt: now,
           initialProgress: {
             "Level up": 5,
-            "Expand island": 7,
+            "Expand island": 8,
             "Complete delivery": 177,
             "Complete chore": 13,
           },

@@ -3,7 +3,7 @@ import { getSellPrice } from "./boosts";
 import { TEST_FARM } from "features/game/lib/constants";
 import { CROPS } from "features/game/types/crops";
 import Decimal from "decimal.js-light";
-import { FRUIT } from "features/game/types/fruits";
+import { PATCH_FRUIT } from "features/game/types/fruits";
 
 describe("boosts", () => {
   it("applies crop shortage price", () => {
@@ -39,7 +39,7 @@ describe("boosts", () => {
   it("applies special event pricing", () => {
     expect(
       getSellPrice({
-        item: FRUIT().Tomato,
+        item: PATCH_FRUIT().Tomato,
         game: {
           ...TEST_FARM,
           specialEvents: {
@@ -60,13 +60,13 @@ describe("boosts", () => {
           },
         },
       }),
-    ).toEqual(FRUIT().Tomato.sellPrice * 1.05);
+    ).toEqual(PATCH_FRUIT().Tomato.sellPrice * 1.05);
   });
 
   it("does not apply special event pricing if ineligible", () => {
     expect(
       getSellPrice({
-        item: FRUIT().Tomato,
+        item: PATCH_FRUIT().Tomato,
         game: {
           ...TEST_FARM,
           specialEvents: {
@@ -87,7 +87,7 @@ describe("boosts", () => {
           },
         },
       }),
-    ).toEqual(FRUIT().Tomato.sellPrice);
+    ).toEqual(PATCH_FRUIT().Tomato.sellPrice);
   });
 
   it("applies Green Thumb boost to crop", () => {
@@ -113,7 +113,7 @@ describe("boosts", () => {
     const now = new Date();
     expect(
       getSellPrice({
-        item: FRUIT().Tomato,
+        item: PATCH_FRUIT().Tomato,
         game: {
           ...TEST_FARM,
           inventory: {
@@ -125,7 +125,7 @@ describe("boosts", () => {
         },
         now,
       }),
-    ).toEqual(FRUIT().Tomato.sellPrice);
+    ).toEqual(PATCH_FRUIT().Tomato.sellPrice);
   });
 
   it("applies Coin Swindler boost to crop", () => {
@@ -156,7 +156,7 @@ describe("boosts", () => {
     const now = new Date();
     expect(
       getSellPrice({
-        item: FRUIT().Tomato,
+        item: PATCH_FRUIT().Tomato,
         game: {
           ...TEST_FARM,
           bumpkin: {
@@ -173,7 +173,7 @@ describe("boosts", () => {
         },
         now,
       }),
-    ).toEqual(FRUIT().Tomato.sellPrice);
+    ).toEqual(PATCH_FRUIT().Tomato.sellPrice);
   });
 
   it("boosts are additive", () => {
