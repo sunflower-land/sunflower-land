@@ -38,9 +38,9 @@ export function calculateAmount({
     }
   }
 
-  // Firey Jackpot - 20% chance to double the amount of food collected from Fire Pit
+  // Fiery Jackpot - 20% chance to double the amount of food collected from Fire Pit
   if (
-    bumpkin.skills["Firey Jackpot"] &&
+    bumpkin.skills["Fiery Jackpot"] &&
     buildingName === "Fire Pit" &&
     randomInt(1, 100) <= 20
   ) {

@@ -213,7 +213,7 @@ describe("collect Recipes", () => {
     expect(results).toContainEqual(new Decimal(2));
   });
 
-  it("gives 20% chance to collect two times the amount of food from Fire Pit with Firey Jackpot skill", () => {
+  it("gives 20% chance to collect two times the amount of food from Fire Pit with Fiery Jackpot skill", () => {
     const results = Array.from({ length: 10 }).map(() => {
       const state = collectRecipe({
         state: {
@@ -239,7 +239,7 @@ describe("collect Recipes", () => {
           bumpkin: {
             ...INITIAL_BUMPKIN,
             skills: {
-              "Firey Jackpot": 1,
+              "Fiery Jackpot": 1,
             },
           },
         },
@@ -257,7 +257,7 @@ describe("collect Recipes", () => {
     expect(results).toContainEqual(new Decimal(2));
   });
 
-  it("makes sure Firey Jackpot skill does not trigger on Deli", () => {
+  it("makes sure Fiery Jackpot skill does not trigger on Deli", () => {
     const results = Array.from({ length: 10 }).map(() => {
       const state = collectRecipe({
         state: {
@@ -283,7 +283,7 @@ describe("collect Recipes", () => {
           bumpkin: {
             ...INITIAL_BUMPKIN,
             skills: {
-              "Firey Jackpot": 1,
+              "Fiery Jackpot": 1,
             },
           },
         },
