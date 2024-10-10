@@ -217,6 +217,8 @@ export function cook({
         createdAt,
         game: stateCopy,
       }),
+      // Placeholder - can be different from backend
+      amount: new Decimal(1),
     };
 
     const previousOilRemaining = building.oil || 0;
