@@ -3,8 +3,7 @@ name: Caching deploy
 on:
   push:
     branches:
-      - main
-
+      - poc/pwa-fallback
 jobs:
   deploy:
     environment: develop
