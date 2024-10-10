@@ -1669,6 +1669,7 @@
   "gameOptions.plazaSettings.noMutedPlayers": "You have no muted players.",
   "gameOptions.plazaSettings.changeServer": "Change server",
   "gameOptions.plazaSettings.shader": "Shader",
+  "gameOptions.plazaSettings.pickServer": "Pick Server",
   "plazaShader.none": "None",
   "plazaShader.night": "Night",
   "auction.winner": "Auction Winner!",
@@ -3698,5 +3699,10 @@
   "description.miffy": "A rare Morchi. Doubles XP during the FSL Competition.",
   "description.mog": "A lazy Morchi.",
   "miffy.boost": "2x XP",
-  "animal": "Animal"
+  "animal": "Animal",
+  "admin": "Admin",
+  "gems": "Gems",
+  "message": "Message",
+  "message.placeholder": "Type your message...",
+  "send": "Send"
 }

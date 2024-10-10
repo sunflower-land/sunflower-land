@@ -9,6 +9,7 @@ import coinsIcon from "assets/icons/coins.webp";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Context } from "features/game/GameProvider";
 import { TextInput } from "components/ui/TextInput";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 export const AdminSettings: React.FC<
   ContentComponentProps & { id?: number }
@@ -19,6 +20,8 @@ export const AdminSettings: React.FC<
   const [coins, setCoins] = useState(0);
   const [gems, setGems] = useState(0);
   const [message, setMessage] = useState("");
+
+  const { t } = useAppTranslation();
 
   const send = async () => {
     gameService.send("reward.airdropped", {
@@ -50,22 +53,18 @@ export const AdminSettings: React.FC<
           onValueChange={(decimal) => setFarmId(decimal.toNumber())}
           maxDecimalPlaces={0}
         />
-        <Label
-          type="default"
-          icon={coinsIcon}
-          className="my-1"
-        >{`Coins`}</Label>
+        <Label type="default" icon={coinsIcon} className="my-1">
+          {t("coins")}
+        </Label>
         <NumberInput
           value={coins}
           onValueChange={(decimal) => setCoins(decimal.toNumber())}
           maxDecimalPlaces={0}
         />
 
-        <Label
-          type="default"
-          icon={ITEM_DETAILS.Gem.image}
-          className="my-1"
-        >{`Gems`}</Label>
+        <Label type="default" icon={ITEM_DETAILS.Gem.image} className="my-1">
+          {t("gems")}
+        </Label>
         <NumberInput
           value={gems}
           onValueChange={(decimal) => setGems(decimal.toNumber())}
@@ -75,9 +74,11 @@ export const AdminSettings: React.FC<
           type="default"
           icon={SUNNYSIDE.icons.expression_chat}
           className="my-1"
-        >{`Message`}</Label>
+        >
+          {t("message")}
+        </Label>
         <TextInput
-          placeholder="Type your message..."
+          placeholder={t("message.placeholder")}
           value={message}
           onValueChange={(msg) => setMessage(msg)}
         />
@@ -87,7 +88,7 @@ export const AdminSettings: React.FC<
         disabled={!farmId || (!coins && !gems)}
         onClick={send}
       >
-        {`Send`}
+        {t("send")}
       </Button>
     </>
   );

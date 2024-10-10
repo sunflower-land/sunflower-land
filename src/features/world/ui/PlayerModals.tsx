@@ -189,11 +189,11 @@ export const PlayerModals: React.FC<Props> = ({ game }) => {
           tabs={[
             {
               icon: SUNNYSIDE.icons.player,
-              name: "Player",
+              name: t("player"),
             },
             {
               icon: SUNNYSIDE.icons.heart,
-              name: "Trades",
+              name: t("trades"),
             },
             ...(!!gameService.getSnapshot().context.state.wardrobe[
               "Gift Giver"
@@ -201,7 +201,7 @@ export const PlayerModals: React.FC<Props> = ({ game }) => {
               ? [
                   {
                     icon: SUNNYSIDE.icons.search,
-                    name: "Admin",
+                    name: t("admin"),
                   },
                 ]
               : []),
