@@ -287,6 +287,13 @@ export const SUNNYSIDE = {
 
     bird: `${CONFIG.PROTECTED_IMAGE_URL}/animals/bird_sheet.png`,
   },
+  animalFoods: {
+    hay: `${CONFIG.PROTECTED_IMAGE_URL}/animals/foods/hay.webp`,
+    kernel_blend: `${CONFIG.PROTECTED_IMAGE_URL}/animals/foods/kernel_blend.webp`,
+    nutribarley: `${CONFIG.PROTECTED_IMAGE_URL}/animals/foods/nutribarley.webp`,
+    mixed_grain: `${CONFIG.PROTECTED_IMAGE_URL}/animals/foods/mixed_grain.webp`,
+    fish_oil: `${CONFIG.PROTECTED_IMAGE_URL}/animals/foods/fish_oil.webp`,
+  },
   //VFXs
   vfx: {
     blinking: `${CONFIG.PROTECTED_IMAGE_URL}/vfx/blinking.png`,
@@ -398,6 +405,7 @@ export const SUNNYSIDE = {
     drag: `${CONFIG.PROTECTED_IMAGE_URL}/icons/drag.png`,
     dragging: `${CONFIG.PROTECTED_IMAGE_URL}/icons/dragging.png`,
     expand: `${CONFIG.PROTECTED_IMAGE_URL}/icons/expand.png`,
+    expression_stress: `${CONFIG.PROTECTED_IMAGE_URL}/icons/expression_stress.png`,
     expression_alerted: `${CONFIG.PROTECTED_IMAGE_URL}/icons/expression_alerted.png`,
     expression_chat: `${CONFIG.PROTECTED_IMAGE_URL}/icons/expression_chat.png`,
     expression_confused: `${CONFIG.PROTECTED_IMAGE_URL}/icons/expression_confused.png`,
