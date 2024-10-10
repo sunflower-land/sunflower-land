@@ -480,7 +480,22 @@ export const ComposterModal: React.FC<Props> = ({
         {tab === 0 && <Content />}
         {tab === 1 && (
           <>
-            <div className="p-2">
+            <div className="flex flex-col gap-y-1 p-2">
+              <Label
+                type="info"
+                className="ml-1.5 -mt-0.5 mb-2"
+                icon={SUNNYSIDE.icons.search}
+                onClick={() => {
+                  window
+                    .open(
+                      "https://docs.sunflower-land.com/player-guides/planting-and-harvesting/composting-and-fertilisers",
+                      "_blank",
+                    )
+                    ?.focus();
+                }}
+              >
+                <span className="underline text-xxs">{t("docs")}</span>
+              </Label>
               <img
                 src={SUNNYSIDE.tutorial.composting}
                 className="w-full mx-auto rounded-lg mb-2"
@@ -494,7 +509,6 @@ export const ComposterModal: React.FC<Props> = ({
                 </div>
                 <p className="text-xs  flex-1">
                   {t("guide.compost.placeCrops")}
-                  {"."}
                 </p>
               </div>
               <div className="flex mb-2">
@@ -503,7 +517,6 @@ export const ComposterModal: React.FC<Props> = ({
                 </div>
                 <p className="text-xs  flex-1">
                   {t("guide.compost.compostCycle")}
-                  {"."}
                 </p>
               </div>
               <div className="flex mb-2">
@@ -515,7 +528,6 @@ export const ComposterModal: React.FC<Props> = ({
                 </div>
                 <p className="text-xs flex-1">
                   {t("guide.compost.yieldsWorms")}
-                  {"."}
                 </p>
               </div>
               <div className="flex mb-2">
@@ -525,10 +537,7 @@ export const ComposterModal: React.FC<Props> = ({
                     className="h-6 mr-2 object-contain"
                   />
                 </div>
-                <p className="text-xs flex-1">
-                  {t("guide.compost.useEggs")}
-                  {"."}
-                </p>
+                <p className="text-xs flex-1">{t("guide.compost.useEggs")}</p>
               </div>
             </div>
             <Button
