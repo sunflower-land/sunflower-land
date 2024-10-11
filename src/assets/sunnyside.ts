@@ -265,23 +265,27 @@ export const SUNNYSIDE = {
     boxChicken: `${CONFIG.PROTECTED_IMAGE_URL}/animals/chickens/box_chicken.png`,
     hungryChicken: `${CONFIG.PROTECTED_IMAGE_URL}/animals/chickens/hungry_2.gif`,
     happyChicken: `${CONFIG.PROTECTED_IMAGE_URL}/animals/chickens/happy_2.gif`,
+    sadChicken: `${CONFIG.PROTECTED_IMAGE_URL}/animals/chickens/sad_2.gif`,
     walkingChickenSheet: `${CONFIG.PROTECTED_IMAGE_URL}/animals/chickens/walking_sheet_2.png`,
     sleepingChicken: `${CONFIG.PROTECTED_IMAGE_URL}/animals/chickens/sleeping_2.gif`,
     chickenShadow: `${CONFIG.PROTECTED_IMAGE_URL}/animals/chickens/chicken_shadow.png`,
     layingEggSheet: `${CONFIG.PROTECTED_IMAGE_URL}/animals/chickens/laying-egg-sheet_2.png`,
     wheatOnGround: `${CONFIG.PROTECTED_IMAGE_URL}/animals/chickens/wheat_2.png`,
 
+    // New Animals
+    chickenIdle: `${CONFIG.PROTECTED_IMAGE_URL}/animals/chickens/idle_chicken.gif`,
+    chickenAsleep: `${CONFIG.PROTECTED_IMAGE_URL}/animals/chickens/sleeping_chicken.gif`,
     cow: `${CONFIG.PROTECTED_IMAGE_URL}/animals/cows/cow_md.webp`,
-    hungryCow: `${CONFIG.PROTECTED_IMAGE_URL}/animals/cows/hungry_cow.webp`,
-    happyCow: `${CONFIG.PROTECTED_IMAGE_URL}/animals/cows/happy_cow.webp`,
-    sickCow: `${CONFIG.PROTECTED_IMAGE_URL}/animals/cows/sick_cow.webp`,
-
     sheep: `${CONFIG.PROTECTED_IMAGE_URL}/animals/sheep/sheep_md.webp`,
-    hungrySheep: `${CONFIG.PROTECTED_IMAGE_URL}/animals/sheep/hungry_sheep.webp`,
-    happySheep: `${CONFIG.PROTECTED_IMAGE_URL}/animals/sheep/happy_sheep.webp`,
-    sickSheep: `${CONFIG.PROTECTED_IMAGE_URL}/animals/sheep/sick_sheep.webp`,
 
     bird: `${CONFIG.PROTECTED_IMAGE_URL}/animals/bird_sheet.png`,
+  },
+  animalFoods: {
+    hay: `${CONFIG.PROTECTED_IMAGE_URL}/animals/foods/hay.webp`,
+    kernel_blend: `${CONFIG.PROTECTED_IMAGE_URL}/animals/foods/kernel_blend.webp`,
+    nutribarley: `${CONFIG.PROTECTED_IMAGE_URL}/animals/foods/nutribarley.webp`,
+    mixed_grain: `${CONFIG.PROTECTED_IMAGE_URL}/animals/foods/mixed_grain.webp`,
+    fish_oil: `${CONFIG.PROTECTED_IMAGE_URL}/animals/foods/fish_oil.webp`,
   },
   //VFXs
   vfx: {
@@ -394,6 +398,7 @@ export const SUNNYSIDE = {
     drag: `${CONFIG.PROTECTED_IMAGE_URL}/icons/drag.png`,
     dragging: `${CONFIG.PROTECTED_IMAGE_URL}/icons/dragging.png`,
     expand: `${CONFIG.PROTECTED_IMAGE_URL}/icons/expand.png`,
+    expression_stress: `${CONFIG.PROTECTED_IMAGE_URL}/icons/expression_stress.png`,
     expression_alerted: `${CONFIG.PROTECTED_IMAGE_URL}/icons/expression_alerted.png`,
     expression_chat: `${CONFIG.PROTECTED_IMAGE_URL}/icons/expression_chat.png`,
     expression_confused: `${CONFIG.PROTECTED_IMAGE_URL}/icons/expression_confused.png`,
@@ -410,6 +415,7 @@ export const SUNNYSIDE = {
     seedling: `${CONFIG.PROTECTED_IMAGE_URL}/icons/seedling.png`,
     seeds: `${CONFIG.PROTECTED_IMAGE_URL}/icons/seeds.png`,
     shop: `${CONFIG.PROTECTED_IMAGE_URL}/icons/shop.png`,
+    sleeping: `${CONFIG.PROTECTED_IMAGE_URL}/icons/sleeping.webp`,
     stopwatch: `${CONFIG.PROTECTED_IMAGE_URL}/icons/stopwatch.png`,
     sunflorea: `${CONFIG.PROTECTED_IMAGE_URL}/icons/sunflorea.png`,
     sword: `${CONFIG.PROTECTED_IMAGE_URL}/icons/sword.png`,

@@ -421,6 +421,22 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
   },
+  Hay: {
+    name: "Hay",
+    description: "",
+    decimals: 18,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/question_mark.png",
+    attributes: [],
+  },
+  "Kernel Blend": {
+    name: "Kernel Blend",
+    description: "",
+    decimals: 18,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/question_mark.png",
+    attributes: [],
+  },
   Kale: {
     name: "Kale",
     description: "A crop grown at Sunflower Land.\n\nA Bumpkin Power Food!",

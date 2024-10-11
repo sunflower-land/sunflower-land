@@ -246,6 +246,8 @@ describe("detectCollisions", () => {
               y: -1,
             },
             createdAt: 0,
+            experience: 0,
+            asleepAt: 0,
           },
           "124": {
             id: "124",
@@ -256,6 +258,8 @@ describe("detectCollisions", () => {
               y: 2,
             },
             createdAt: 0,
+            experience: 0,
+            asleepAt: 0,
           },
         },
       },
