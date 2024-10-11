@@ -93,6 +93,8 @@ const canWithdrawTimebasedItem = (availableAt: Date) => {
 const animalFood: Record<AnimalFoodName, () => boolean> = {
   Hay: () => false,
   "Kernel Blend": () => false,
+  NutriBarley: () => false,
+  "Mixed Grain": () => false,
 };
 
 const animalTools: Record<LoveAnimalItem, () => boolean> = {

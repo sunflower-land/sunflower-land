@@ -4147,4 +4147,12 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.animalFoods.kernel_blend,
     description: "Resource you can collect from cows",
   },
+  NutriBarley: {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: "Resource you can collect from cows",
+  },
+  "Mixed Grain": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: "Resource you can collect from cows",
+  },
 };

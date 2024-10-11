@@ -9611,6 +9611,22 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     image: "../public/erc1155/images/2135.png",
     name: "Butterfly",
   },
+  NutriBarley: {
+    description: "",
+    decimals: 0,
+    attributes: [],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/question_mark.png",
+    name: "NutriBarley",
+  },
+  "Mixed Grain": {
+    description: "",
+    decimals: 0,
+    attributes: [],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/question_mark.png",
+    name: "Mixed Grain",
+  },
 };
 
 export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {

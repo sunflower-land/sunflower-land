@@ -12,7 +12,7 @@ import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 
 export const ANIMAL_FOOD_EXPERIENCE: Record<
   AnimalType,
-  Record<AnimalLevel, Record<AnimalFoodName, number>>
+  Record<AnimalLevel, Partial<Record<AnimalFoodName, number>>>
 > = {
   Chicken: {
     1: {
@@ -144,7 +144,7 @@ export function feedAnimal({
     }
 
     copy.inventory[food] = inventoryAmount.sub(requiredAmount);
-    animal.experience += xp[food];
+    animal.experience += xp[food] ?? 0;
 
     animal.state = "sad";
 

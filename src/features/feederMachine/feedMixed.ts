@@ -36,6 +36,18 @@ export const ANIMAL_FOODS: Record<AnimalFoodName, Feed> = {
     price: 0,
     ingredients: {},
   },
+  NutriBarley: {
+    name: "NutriBarley",
+    description: "",
+    price: 0,
+    ingredients: {},
+  },
+  "Mixed Grain": {
+    name: "Mixed Grain",
+    description: "",
+    price: 0,
+    ingredients: {},
+  },
 };
 
 export function feedMixed({ state, action }: Options) {
