@@ -5,10 +5,10 @@ import {
   GreenHouseCropSeedName,
 } from "./crops";
 import {
-  FruitName,
-  FruitSeedName,
   GreenHouseFruitName,
   GreenHouseFruitSeedName,
+  PatchFruitName,
+  PatchFruitSeedName,
 } from "./fruits";
 import {
   Animal,
@@ -25,6 +25,7 @@ import {
   getKeys,
 } from "./craftables";
 import {
+  AnimalFoodName,
   AnimalResource,
   Coupons,
   EasterEgg,
@@ -88,6 +89,11 @@ const canWithdrawTimebasedItem = (availableAt: Date) => {
   return now >= availableAt;
 };
 
+const animalFood: Record<AnimalFoodName, () => boolean> = {
+  Hay: () => false,
+  "Kernel Blend": () => false,
+};
+
 const cropSeeds: Record<CropSeedName, () => boolean> = {
   "Beetroot Seed": () => false,
   "Cabbage Seed": () => false,
@@ -106,7 +112,7 @@ const cropSeeds: Record<CropSeedName, () => boolean> = {
   "Barley Seed": () => false,
 };
 
-const fruitSeed: Record<FruitSeedName, () => boolean> = {
+const patchFruitSeed: Record<PatchFruitSeedName, () => boolean> = {
   "Apple Seed": () => false,
   "Blueberry Seed": () => false,
   "Orange Seed": () => false,
@@ -139,7 +145,7 @@ const crops: Record<CropName, () => boolean> = {
   Barley: () => false,
 };
 
-const fruits: Record<FruitName, () => boolean> = {
+const patchFruits: Record<PatchFruitName, () => boolean> = {
   Apple: () => true,
   Blueberry: () => true,
   Orange: () => true,
@@ -1116,10 +1122,10 @@ export const WITHDRAWABLES: Record<InventoryItemName, () => boolean> = {
   ...greenHouseFruitSeed,
   ...greenHouseFruit,
   ...crops,
-  ...fruits,
+  ...patchFruits,
   ...flowers,
   ...cropSeeds,
-  ...fruitSeed,
+  ...patchFruitSeed,
   ...flowerSeed,
   ...beans,
   ...questItems,
@@ -1155,6 +1161,7 @@ export const WITHDRAWABLES: Record<InventoryItemName, () => boolean> = {
   ...beachBounty,
   ...resources,
   ...purchasables,
+  ...animalFood,
   "Basic Land": () => false,
   ...lanterns,
   ...megastore,

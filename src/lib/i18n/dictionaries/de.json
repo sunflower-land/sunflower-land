@@ -626,7 +626,6 @@
   "betty.market-intro.four": "Ernte diese Sonnenblumen und lass uns dein Farmimperium gründen.",
   "firepit-intro.one": "Herzlichen Glückwunsch Bumpkin... Du bist ein Naturtalent!",
   "firepit-intro.two": "Wenn du aufsteigen und neue Fähigkeiten freischalten willst, sammle Getreide und besuche meine Feuerstelle. Ich kann etwas nahrhaftes Essen für dich kochen.",
-  "firepit.increasedXP": "Höhere XP",
   "bruce-intro.headline": "Einführung in das Kochen",
   "bruce-intro.one": "Ich bin der Besitzer dieses schönen kleinen Bistros.",
   "bruce-intro.two": "Bring mir Ressourcen und ich werde alles kochen, was du essen kannst!",
@@ -3608,7 +3607,6 @@
   "competition.intro.three": "Fangen Sie noch heute an zu farmen und gewinnen Sie einen Anteil an FSL-Punkten im Wert von über 10.000$ und andere Preise.",
   "competition.areYouReady": "Bist du bereit?",
   "competition.join": "Möchtest du am Bauernwettbewerb teilnehmen und um Preise kämpfen?",
-  "competition.maybeLater": "Vielleicht später",
   "competition.letsGo": "Lass uns gehen!",
   "competition.farmerCompetition": "Wettbewerb der Landwirte",
   "competition.hurry": "Beeil dich, fange an zu farmen, bevor die Zeit abläuft!",
@@ -3698,5 +3696,6 @@
   "description.chicken": "Dieses Huhn ist eine zuverlässige Quelle für frische Eier und weiche Federn und leistet mit der richtigen Pflege gerne seinen Beitrag.",
   "description.cow": "Diese sanfte Kuh liefert frische Milch und strapazierfähiges Leder. Sorgen Sie mit viel Essen und Zuneigung dafür, dass es glücklich ist.",
   "description.sheep": "Dieses flauschige Schaf bietet sowohl normale Wolle als auch luxuriöse Merinowolle. Machen Sie es glücklich, um die weichsten Ergebnisse zu erzielen!",
-  "obsessionDialogue.line3": "Ist das das {{itemName}}, das du hast? Ein bloßer Blick ist alles, was ich mir wünsche. Dafür erhalten Sie {{seasonalTicket}} s."
+  "obsessionDialogue.line3": "Ist das das {{itemName}}, das du hast? Ein bloßer Blick ist alles, was ich mir wünsche. Dafür erhalten Sie {{seasonalTicket}} s.",
+  "competition.maybeLater": "Vielleicht später"
 }

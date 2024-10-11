@@ -3,9 +3,9 @@
 
 import "workbox-core";
 import { googleFontsCache, offlineFallback } from "workbox-recipes";
-import { registerRoute, setDefaultHandler } from "workbox-routing";
+import { registerRoute } from "workbox-routing";
 import { cleanupOutdatedCaches, precacheAndRoute } from "workbox-precaching";
-import { StaleWhileRevalidate, NetworkOnly } from "workbox-strategies";
+import { StaleWhileRevalidate } from "workbox-strategies";
 import { ExpirationPlugin } from "workbox-expiration";
 import { CONFIG } from "./lib/config";
 
@@ -50,9 +50,6 @@ if (import.meta.env.PROD) {
   // Google Fonts
   googleFontsCache();
 }
-
-// Network only default handler for all other fetch requests
-setDefaultHandler(new NetworkOnly());
 
 // Offline fallback html page
 offlineFallback();
