@@ -8,7 +8,11 @@ import { useActor } from "@xstate/react";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { getSellPrice } from "features/game/expansion/lib/boosts";
 import { setPrecision } from "lib/utils/formatNumber";
-import { Fruit, FRUIT, GREENHOUSE_FRUIT } from "features/game/types/fruits";
+import {
+  GREENHOUSE_FRUIT,
+  PATCH_FRUIT,
+  PatchFruit,
+} from "features/game/types/fruits";
 import { SplitScreenView } from "components/ui/SplitScreenView";
 import { ShopSellDetails } from "components/ui/layouts/ShopSellDetails";
 import lightning from "assets/icons/lightning.png";
@@ -30,13 +34,13 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { hasFeatureAccess } from "lib/flags";
 
 export const isExoticCrop = (
-  item: Crop | Fruit | ExoticCrop,
+  item: Crop | PatchFruit | ExoticCrop,
 ): item is ExoticCrop => {
   return item.name in EXOTIC_CROPS;
 };
 
 export const Crops: React.FC = () => {
-  const [selected, setSelected] = useState<Crop | Fruit | ExoticCrop>(
+  const [selected, setSelected] = useState<Crop | PatchFruit | ExoticCrop>(
     CROPS.Sunflower,
   );
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
@@ -76,7 +80,7 @@ export const Crops: React.FC = () => {
     }
   };
 
-  const displaySellPrice = (crop: Crop | Fruit | ExoticCrop) =>
+  const displaySellPrice = (crop: Crop | PatchFruit | ExoticCrop) =>
     isExoticCrop(crop)
       ? crop.sellPrice
       : getSellPrice({ item: crop, game: state });
@@ -125,7 +129,7 @@ export const Crops: React.FC = () => {
 
   const cropsAndFruits = Object.values({
     ...CROPS,
-    ...FRUIT(),
+    ...PATCH_FRUIT(),
     ...exotics,
     ...GREENHOUSE_FRUIT(),
     ...GREENHOUSE_CROPS,
@@ -236,7 +240,9 @@ export const Crops: React.FC = () => {
             </div>
             <div className="flex flex-wrap mb-2">
               {cropsAndFruits
-                .filter((crop) => !!crop.sellPrice && crop.name in FRUIT())
+                .filter(
+                  (crop) => !!crop.sellPrice && crop.name in PATCH_FRUIT(),
+                )
                 .map((item) => (
                   <Box
                     isSelected={selected.name === item.name}

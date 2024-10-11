@@ -6,10 +6,10 @@ import tomatoPlant from "assets/fruit/tomato/tomatoPlant.webp";
 import tomatoPlantReady from "assets/fruit/tomato/tomatoPlantReady.webp";
 
 import { SUNNYSIDE } from "assets/sunnyside";
-import { FruitName } from "features/game/types/fruits";
+import { PatchFruitName } from "features/game/types/fruits";
 import { CROP_LIFECYCLE } from "../plots/lib/plant";
 
-export type FruitLifecycle = {
+export type PatchFruitLifecycle = {
   seedling: string;
   halfway: string;
   almost: string;
@@ -22,7 +22,10 @@ export type FruitLifecycle = {
  * Fruits and their original prices
  * TODO - Replace deadTree images with the correct images
  */
-export const FRUIT_LIFECYCLE: Record<FruitName, FruitLifecycle> = {
+export const PATCH_FRUIT_LIFECYCLE: Record<
+  PatchFruitName,
+  PatchFruitLifecycle
+> = {
   Apple: {
     seedling: CROP_LIFECYCLE.Sunflower.seedling,
     halfway: CROP_LIFECYCLE.Sunflower.halfway,
