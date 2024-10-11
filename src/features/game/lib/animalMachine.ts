@@ -1,5 +1,6 @@
 import { assign, createMachine, Interpreter, State } from "xstate";
 import { Animal } from "../types/game";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 interface TContext {
   animal?: Animal;
@@ -23,6 +24,15 @@ export type AnimalMachineInterpreter = Interpreter<
   TEvent,
   MachineState
 >;
+
+export const ANIMAL_EMOTION_ICONS: Record<
+  Exclude<TState["value"], "idle" | "initial">,
+  string
+> = {
+  happy: SUNNYSIDE.icons.happy,
+  sad: SUNNYSIDE.icons.sad,
+  sleeping: SUNNYSIDE.icons.sleeping,
+};
 
 const isAnimalSleeping = (context: TContext) => {
   if (!context.animal) return false;

@@ -1,9 +1,8 @@
 import { produce } from "immer";
 import Decimal from "decimal.js-light";
-import { ANIMALS, AnimalType } from "features/game/types/animals";
+import { AnimalLevel, ANIMALS, AnimalType } from "features/game/types/animals";
 import { AnimalFoodName, GameState, Inventory } from "features/game/types/game";
 import {
-  AnimalLevel,
   getAnimalFavoriteFood,
   getAnimalLevel,
   makeAnimalBuildingKey,
@@ -97,7 +96,7 @@ export type FeedAnimalAction = {
 type Options = {
   state: Readonly<GameState>;
   action: FeedAnimalAction;
-  createdAt: number;
+  createdAt?: number;
 };
 
 export function feedAnimal({
@@ -120,7 +119,7 @@ export function feedAnimal({
       throw new Error("Animal is asleep");
     }
 
-    const level = getAnimalLevel(animal.experience);
+    const level = getAnimalLevel(animal.experience, animal.type);
     const xp = ANIMAL_FOOD_EXPERIENCE[action.animal][level];
     const favouriteFood = getAnimalFavoriteFood(
       action.animal,
@@ -158,7 +157,7 @@ export function feedAnimal({
       animal.state = "happy";
     }
 
-    if (level !== getAnimalLevel(animal.experience)) {
+    if (level !== getAnimalLevel(animal.experience, animal.type)) {
       animal.asleepAt = createdAt;
       animal.state = "idle";
     }
