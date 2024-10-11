@@ -10,60 +10,14 @@ import {
   AnimalMachineInterpreter,
   TState as AnimalMachineState,
 } from "features/game/lib/animalMachine";
-import { getAnimalFavoriteFood } from "features/game/lib/animals";
+import {
+  getAnimalFavoriteFood,
+  getAnimalLevel,
+} from "features/game/lib/animals";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { CSS } from "react-spring";
 import classNames from "classnames";
-
-type RequestBubbleProps = {
-  top: CSS.Properties["top"];
-  left: CSS.Properties["left"];
-  image: {
-    src: string;
-    height: number;
-    width: number;
-  };
-};
-
-const RequestBubble: React.FC<RequestBubbleProps> = ({ image, top, left }) => {
-  return (
-    <div
-      className="absolute flex justify-center items-center"
-      style={{
-        top,
-        left,
-
-        borderImage: `url(${SUNNYSIDE.ui.speechBorder})`,
-        borderStyle: "solid",
-        borderTopWidth: `${PIXEL_SCALE * 2}px`,
-        borderRightWidth: `${PIXEL_SCALE * 2}px`,
-        borderBottomWidth: `${PIXEL_SCALE * 4}px`,
-        borderLeftWidth: `${PIXEL_SCALE * 5}px`,
-
-        borderImageSlice: "2 2 4 5 fill",
-        imageRendering: "pixelated",
-        borderImageRepeat: "stretch",
-        minWidth: "30px",
-        minHeight: "30px",
-      }}
-    >
-      <div
-        className="absolute"
-        style={{
-          position: "absolute",
-          top: "50%",
-          left: "50%",
-          transform: "translate(-50%, -50%)",
-          marginLeft: "-3px",
-          height: `${image.height}px`,
-          width: `${image.width}px`,
-        }}
-      >
-        <img src={image.src} className="w-full h-full" />
-      </div>
-    </div>
-  );
-};
+import { LevelProgress } from "features/game/expansion/components/animals/LevelProgress";
+import { RequestBubble } from "features/game/expansion/components/animals/RequestBubble";
 
 const ANIMAL_EMOTION_ICONS: Record<
   Exclude<AnimalMachineState["value"], "idle" | "initial">,
@@ -115,6 +69,7 @@ export const Chicken: React.FC<{ id: string }> = ({ id }) => {
 
   const favFood = getAnimalFavoriteFood("Chicken", chicken.experience);
   const sleeping = chickenState === "sleeping";
+  const level = getAnimalLevel(chicken.experience);
 
   return (
     <div
@@ -165,11 +120,12 @@ export const Chicken: React.FC<{ id: string }> = ({ id }) => {
       {/* Request */}
       {chickenState === "idle" && (
         <RequestBubble
-          top={`${PIXEL_SCALE * -5.5}px`}
-          left={`${PIXEL_SCALE * 9.5}px`}
+          top={PIXEL_SCALE * -5.5}
+          left={PIXEL_SCALE * 9.5}
           image={{ src: ITEM_DETAILS[favFood].image, height: 16, width: 16 }}
         />
       )}
+      <LevelProgress level={level} className="bottom-2 left-0.5" />
     </div>
   );
 };
