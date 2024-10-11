@@ -10,10 +10,7 @@ import {
   AnimalMachineInterpreter,
   TState as AnimalMachineState,
 } from "features/game/lib/animalMachine";
-import {
-  getAnimalFavoriteFood,
-  getAnimalLevel,
-} from "features/game/lib/animals";
+import { getAnimalFavoriteFood } from "features/game/lib/animals";
 import { SUNNYSIDE } from "assets/sunnyside";
 import classNames from "classnames";
 import { RequestBubble } from "features/game/expansion/components/animals/RequestBubble";
@@ -37,6 +34,7 @@ export const Cow: React.FC<{ id: string }> = ({ id }) => {
     context: {
       animal: cow,
     },
+    devTools: true,
   }) as unknown as AnimalMachineInterpreter;
 
   const cowState = useSelector(cowService, _animalState);
@@ -45,11 +43,11 @@ export const Cow: React.FC<{ id: string }> = ({ id }) => {
     const updatedState = gameService.send({
       type: "animal.fed",
       animal: "Cow",
-      food: "Kernel Blend",
+      food: "Hay",
       id: cow.id,
     });
 
-    const updatedCow = updatedState.context.state.henHouse.animals[id];
+    const updatedCow = updatedState.context.state.barn.animals[id];
 
     cowService.send({
       type: "FEED",
@@ -61,7 +59,6 @@ export const Cow: React.FC<{ id: string }> = ({ id }) => {
 
   const favFood = getAnimalFavoriteFood("Cow", cow.experience);
   const sleeping = cowState === "sleeping";
-  const level = getAnimalLevel(cow.experience, "Cow");
 
   return (
     <div
@@ -87,11 +84,11 @@ export const Cow: React.FC<{ id: string }> = ({ id }) => {
       {cowState !== "idle" && (
         <img
           src={ANIMAL_EMOTION_ICONS[cowState]}
-          alt={`${capitalize(cowState)} Chicken`}
+          alt={`${capitalize(cowState)} Cow`}
           style={{
             width: `${PIXEL_SCALE * (sleeping ? 9 : 7)}px`,
-            top: 6,
-            right: 0,
+            top: sleeping ? 9 : 7,
+            right: sleeping ? -2 : 1,
           }}
           className="absolute"
         />
