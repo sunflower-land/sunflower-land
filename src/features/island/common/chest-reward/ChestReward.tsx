@@ -53,7 +53,7 @@ export const ChestReward: React.FC<Props> = ({
   const [opened, setOpened] = useState(isNew);
   const [loading, setLoading] = useState(false);
   const challenge = useRef<Challenge>(
-    (isSeasoned || (Math.random() > 0.3)) ? "chest" : "goblins",
+    isSeasoned || Math.random() > 0.3 ? "chest" : "goblins",
   );
 
   useEffect(() => {
