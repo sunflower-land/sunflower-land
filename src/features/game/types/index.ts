@@ -349,6 +349,8 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Merino Wool": 643,
   Feather: 644,
   Milk: 645,
+  Hay: 646,
+  "Kernel Blend": 647,
 
   "Green Thumb": 701,
   "Barn Manager": 702,

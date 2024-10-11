@@ -415,7 +415,8 @@ export type InventoryItemName =
   | WorkbenchToolName
   | FactionShopCollectibleName
   | FactionShopFoodName
-  | MutantFlowerName;
+  | MutantFlowerName
+  | AnimalFoodName;
 
 export type Inventory = Partial<Record<InventoryItemName, Decimal>>;
 
@@ -727,6 +728,8 @@ export type LanternName =
   | "Goblin Lantern"
   | "Betty Lantern"
   | "Bumpkin Lantern";
+
+export type AnimalFoodName = "Hay" | "Kernel Blend";
 
 export type Party = {
   fulfilledAt?: number;
@@ -1148,7 +1151,7 @@ export type AnimalResource =
   | "Merino Wool"
   | "Feather"
   | "Milk";
-export type AnimalState = "idle";
+export type AnimalState = "idle" | "happy" | "sad";
 
 export type Animal = {
   id: string;
@@ -1156,6 +1159,8 @@ export type Animal = {
   state: AnimalState;
   createdAt: number;
   coordinates: Coordinates;
+  experience: number;
+  asleepAt: number;
 };
 
 export type AnimalBuilding = {

@@ -121,6 +121,8 @@ export function buyAnimal({
       type: action.animal,
       coordinates: action.coordinates,
       createdAt,
+      experience: 0,
+      asleepAt: 0,
     };
 
     bumpkin.activity = trackActivity(
