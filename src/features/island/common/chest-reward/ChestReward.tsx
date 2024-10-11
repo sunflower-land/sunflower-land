@@ -31,8 +31,7 @@ type Challenge = "goblins" | "chest";
 const isNewGame = (state: MachineState) =>
   state.context.state.createdAt + 24 * 60 * 60 * 1000 > Date.now();
 
-// A player that should not have to do the goblins
-// challenge or be timed out for misclicking the chest.
+// A player that has been vetted and is engaged in the season.
 const isSeasonedPlayer = (state: MachineState) =>
   // - level 60+
   getBumpkinLevel(state.context.state.bumpkin?.experience ?? 0) &&
@@ -53,11 +52,11 @@ export const ChestReward: React.FC<Props> = ({
   const [opened, setOpened] = useState(isNew);
   const [loading, setLoading] = useState(false);
   const challenge = useRef<Challenge>(
-    isSeasoned || Math.random() > 0.3 ? "chest" : "goblins",
+    Math.random() > 0.3 ? "chest" : "goblins",
   );
 
   useEffect(() => {
-    if (reward && !isNew) {
+    if (reward && !isNew && !isSeasoned) {
       setLoading(true);
       setTimeout(() => setLoading(false), 500);
     }
@@ -74,10 +73,8 @@ export const ChestReward: React.FC<Props> = ({
 
   const fail = () => {
     close(false);
-    if (!isSeasoned) {
-      gameService.send("bot.detected");
-      gameService.send("REFRESH");
-    }
+    gameService.send("bot.detected");
+    gameService.send("REFRESH");
   };
 
   const close = (success: boolean) => {
