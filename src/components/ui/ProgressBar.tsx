@@ -109,7 +109,7 @@ export const ResizableBar: React.FC<{
  * Non-resizable bar that is used in the map.  Handles transparency well.
  * @param percentage Percentage of the bar (0 to 100).
  * @param type The bar type (determines what color it has).
- * @returns The non-rresizable bar.
+ * @returns The non-resizable bar.
  */
 export const Bar: React.FC<{ percentage: number; type: ProgressType }> = ({
   percentage,

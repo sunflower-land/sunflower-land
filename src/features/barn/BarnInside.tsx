@@ -17,7 +17,7 @@ import { Cow } from "./components/Cow";
 import { Sheep } from "./components/Sheep";
 
 import shopDisc from "assets/icons/shop_disc.png";
-import { AnimalBuildingModal } from "features/game/expansion/components/AnimalBuildingModal";
+import { AnimalBuildingModal } from "features/game/expansion/components/animals/AnimalBuildingModal";
 
 const background = SUNNYSIDE.land.tent_inside;
 
