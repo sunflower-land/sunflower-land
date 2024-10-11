@@ -35,8 +35,8 @@ const isNewGame = (state: MachineState) =>
 const isSeasonedPlayer = (state: MachineState) =>
   // - level 60+
   getBumpkinLevel(state.context.state.bumpkin?.experience ?? 0) &&
-  // - TODO: is verified (personhood verification)
-  true &&
+  // - verified (personhood verification)
+  state.context.verified &&
   // - has active seasonal banner
   hasActiveSeasonBanner({ game: state.context.state });
 
