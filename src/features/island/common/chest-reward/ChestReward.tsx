@@ -15,6 +15,8 @@ import { translate } from "lib/i18n/translate";
 import classNames from "classnames";
 import { useSelector } from "@xstate/react";
 import { MachineState } from "features/game/lib/gameMachine";
+import { getBumpkinLevel } from "features/game/lib/level";
+import { hasActiveSeasonBanner } from "features/game/lib/collectibleBuilt";
 
 interface Props {
   collectedItem?: InventoryItemName;
@@ -29,6 +31,16 @@ type Challenge = "goblins" | "chest";
 const isNewGame = (state: MachineState) =>
   state.context.state.createdAt + 24 * 60 * 60 * 1000 > Date.now();
 
+// A player that should not have to do the goblins
+// challenge or be timed out for misclicking the chest.
+const isSeasonedPlayer = (state: MachineState) =>
+  // - level 60+
+  getBumpkinLevel(state.context.state.bumpkin?.experience ?? 0) &&
+  // - TODO: is verified (personhood verification)
+  true &&
+  // - has active seasonal banner
+  hasActiveSeasonBanner({ game: state.context.state });
+
 export const ChestReward: React.FC<Props> = ({
   collectedItem,
   reward,
@@ -37,10 +49,11 @@ export const ChestReward: React.FC<Props> = ({
 }) => {
   const { gameService } = useContext(Context);
   const isNew = useSelector(gameService, isNewGame);
+  const isSeasoned = useSelector(gameService, isSeasonedPlayer);
   const [opened, setOpened] = useState(isNew);
   const [loading, setLoading] = useState(false);
   const challenge = useRef<Challenge>(
-    Math.random() > 0.3 ? "chest" : "goblins",
+    (isSeasoned || (Math.random() > 0.3)) ? "chest" : "goblins",
   );
 
   useEffect(() => {
@@ -61,8 +74,10 @@ export const ChestReward: React.FC<Props> = ({
 
   const fail = () => {
     close(false);
-    gameService.send("bot.detected");
-    gameService.send("REFRESH");
+    if (!isSeasoned) {
+      gameService.send("bot.detected");
+      gameService.send("REFRESH");
+    }
   };
 
   const close = (success: boolean) => {
