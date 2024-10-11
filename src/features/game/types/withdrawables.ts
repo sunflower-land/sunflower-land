@@ -25,6 +25,7 @@ import {
   getKeys,
 } from "./craftables";
 import {
+  AnimalFoodName,
   AnimalResource,
   Coupons,
   EasterEgg,
@@ -86,6 +87,11 @@ const canWithdrawTimebasedItem = (availableAt: Date) => {
   const now = new Date();
 
   return now >= availableAt;
+};
+
+const animalFood: Record<AnimalFoodName, () => boolean> = {
+  Hay: () => false,
+  "Kernel Blend": () => false,
 };
 
 const cropSeeds: Record<CropSeedName, () => boolean> = {
@@ -1155,6 +1161,7 @@ export const WITHDRAWABLES: Record<InventoryItemName, () => boolean> = {
   ...beachBounty,
   ...resources,
   ...purchasables,
+  ...animalFood,
   "Basic Land": () => false,
   ...lanterns,
   ...megastore,
