@@ -4156,4 +4156,8 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.animalFoods.mixed_grain,
     description: ANIMAL_FOODS["Mixed Grain"].description,
   },
+  "Crafting Box": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: "A box for crafting various items",
+  },
 };

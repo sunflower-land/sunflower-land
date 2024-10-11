@@ -899,6 +899,22 @@ export const STATIC_OFFLINE_FARM: GameState = {
         // },
       },
     ],
+    Workbench: [
+      {
+        coordinates: { x: -2, y: -6 },
+        id: "1",
+        readyAt: 0,
+        createdAt: 0,
+      },
+    ],
+    "Crafting Box": [
+      {
+        coordinates: { x: 1, y: -6 },
+        id: "1",
+        readyAt: 0,
+        createdAt: 0,
+      },
+    ],
   },
   collectibles: {},
   pumpkinPlaza: {

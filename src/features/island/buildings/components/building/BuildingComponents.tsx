@@ -38,6 +38,7 @@ import {
 import { Greenhouse } from "./greenhouse/Greenhouse";
 import { CropMachine } from "./cropMachine/CropMachine";
 import { Barn } from "./barn/Barn";
+import { CraftingBox } from "./craftingBox/CraftingBox";
 
 export interface BuildingProps {
   buildingId: string;
@@ -185,6 +186,7 @@ export const BUILDING_COMPONENTS: Record<
   "Crop Machine": ({ buildingId }: Pick<BuildingProps, "buildingId">) => (
     <CropMachine id={buildingId} />
   ),
+  "Crafting Box": CraftingBox,
 };
 
 export const READONLY_BUILDINGS: (
@@ -340,5 +342,8 @@ export const READONLY_BUILDINGS: (
         }}
       />
     </div>
+  ),
+  "Crafting Box": () => (
+    <img src={ITEM_DETAILS["Crafting Box"].image} className="absolute" />
   ),
 });

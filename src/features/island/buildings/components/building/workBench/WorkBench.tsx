@@ -31,6 +31,7 @@ export const WorkBench: React.FC<BuildingProps> = ({
   island,
 }) => {
   const { gameService } = useContext(Context);
+  // TODO: feat/crafting-box - remove this
   const [isOpen, setIsOpen] = useState(false);
   const showHelper = useSelector(gameService, needsHelp);
 

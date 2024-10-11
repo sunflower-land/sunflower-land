@@ -23,7 +23,8 @@ export type BuildingName =
   | "Greenhouse"
   | Home
   | "Crop Machine"
-  | "Barn";
+  | "Barn"
+  | "Crafting Box";
 
 export type Ingredient = {
   item: InventoryItemName;
@@ -485,6 +486,23 @@ export const BUILDINGS: Record<BuildingName, BuildingBluePrint[]> = {
       requiredIsland: "desert",
     },
   ],
+  "Crafting Box": [
+    {
+      unlocksAtLevel: 6,
+      coins: 0,
+      constructionSeconds: 60 * 60,
+      ingredients: [
+        {
+          item: "Wood",
+          amount: new Decimal(100),
+        },
+        {
+          item: "Stone",
+          amount: new Decimal(5),
+        },
+      ],
+    },
+  ],
 };
 
 export type Dimensions = { width: number; height: number };
@@ -511,4 +529,5 @@ export const BUILDINGS_DIMENSIONS: Record<BuildingName, Dimensions> = {
   Greenhouse: { width: 4, height: 4 },
   "Crop Machine": { width: 5, height: 4 },
   Barn: { width: 4, height: 4 },
+  "Crafting Box": { width: 1, height: 1 },
 };

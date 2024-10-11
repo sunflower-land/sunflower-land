@@ -77,6 +77,7 @@ import { CollectionName, MarketplaceTradeableName } from "./marketplace";
 import { GameTransaction } from "./transactions";
 import { CompetitionName, CompetitionProgress } from "./competitions";
 import { AnimalType } from "./animals";
+import { CraftableItem } from "./craftables";
 
 export type Reward = {
   coins?: number;
@@ -1363,6 +1364,13 @@ export interface GameState {
   experiments: ExperimentName[];
   henHouse: AnimalBuilding;
   barn: AnimalBuilding;
+
+  craftingBox: {
+    status: "pending" | "ready";
+    item?: CraftableItem;
+    startedAt: number;
+    readyAt: number;
+  };
 }
 
 export interface Context {
