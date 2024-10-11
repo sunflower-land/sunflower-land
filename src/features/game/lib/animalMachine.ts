@@ -1,6 +1,7 @@
 import { assign, createMachine, Interpreter, State } from "xstate";
 import { Animal } from "../types/game";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { ANIMAL_SLEEP_DURATION } from "../events/landExpansion/feedAnimal";
 
 interface TContext {
   animal?: Animal;
@@ -12,9 +13,8 @@ export type TState = {
 };
 
 type AnimalFeedEvent = { type: "FEED"; animal: Animal };
-type AnimalWakeUpEvent = { type: "WAKE_UP"; animal: Animal };
 
-type TEvent = AnimalFeedEvent | AnimalWakeUpEvent;
+type TEvent = AnimalFeedEvent | { type: "TICK" };
 
 type MachineState = State<TContext, TEvent, MachineState>;
 
@@ -37,7 +37,7 @@ export const ANIMAL_EMOTION_ICONS: Record<
 const isAnimalSleeping = (context: TContext) => {
   if (!context.animal) return false;
 
-  return context.animal.asleepAt + 24 * 60 * 60 * 1000 > Date.now();
+  return context.animal.asleepAt + ANIMAL_SLEEP_DURATION > Date.now();
 };
 
 export const animalMachine = createMachine<TContext, TEvent, TState>({
@@ -67,7 +67,7 @@ export const animalMachine = createMachine<TContext, TEvent, TState>({
     },
     happy: {
       after: {
-        5000: [
+        3000: [
           {
             target: "sleeping",
             cond: (context) => isAnimalSleeping(context),
@@ -78,7 +78,7 @@ export const animalMachine = createMachine<TContext, TEvent, TState>({
     },
     sad: {
       after: {
-        5000: [
+        3000: [
           {
             target: "sleeping",
             cond: (context) => isAnimalSleeping(context),
@@ -92,7 +92,7 @@ export const animalMachine = createMachine<TContext, TEvent, TState>({
         FEED: [
           {
             target: "happy",
-            cond: (context) => context.animal?.state === "happy",
+            cond: (_, event) => event.animal.state === "happy",
             actions: assign({
               animal: (_, event) => (event as AnimalFeedEvent).animal,
             }),
@@ -100,7 +100,7 @@ export const animalMachine = createMachine<TContext, TEvent, TState>({
           {
             target: "sleeping",
             // If animal is idle after being fed that means they are sleeping
-            cond: (context) => context.animal?.state === "idle",
+            cond: (_, event) => event.animal.state === "idle",
             actions: assign({
               animal: (_, event) => (event as AnimalFeedEvent).animal,
             }),
@@ -115,13 +115,24 @@ export const animalMachine = createMachine<TContext, TEvent, TState>({
       },
     },
     sleeping: {
-      on: {
-        WAKE_UP: {
-          target: "idle",
-          actions: assign({
-            animal: (_, event) => (event as AnimalWakeUpEvent).animal,
-          }),
+      invoke: {
+        src: () => (cb) => {
+          const interval = setInterval(() => {
+            cb("TICK");
+          }, 1000);
+
+          return () => {
+            clearInterval(interval);
+          };
         },
+      },
+      on: {
+        TICK: [
+          {
+            target: "idle",
+            cond: (context) => !isAnimalSleeping(context),
+          },
+        ],
       },
     },
   },

@@ -276,14 +276,7 @@ export const SUNNYSIDE = {
     chickenIdle: `${CONFIG.PROTECTED_IMAGE_URL}/animals/chickens/idle_chicken.gif`,
     chickenAsleep: `${CONFIG.PROTECTED_IMAGE_URL}/animals/chickens/sleeping_chicken.gif`,
     cow: `${CONFIG.PROTECTED_IMAGE_URL}/animals/cows/cow_md.webp`,
-    hungryCow: `${CONFIG.PROTECTED_IMAGE_URL}/animals/cows/hungry_cow.webp`,
-    happyCow: `${CONFIG.PROTECTED_IMAGE_URL}/animals/cows/happy_cow.webp`,
-    sickCow: `${CONFIG.PROTECTED_IMAGE_URL}/animals/cows/sick_cow.webp`,
-
     sheep: `${CONFIG.PROTECTED_IMAGE_URL}/animals/sheep/sheep_md.webp`,
-    hungrySheep: `${CONFIG.PROTECTED_IMAGE_URL}/animals/sheep/hungry_sheep.webp`,
-    happySheep: `${CONFIG.PROTECTED_IMAGE_URL}/animals/sheep/happy_sheep.webp`,
-    sickSheep: `${CONFIG.PROTECTED_IMAGE_URL}/animals/sheep/sick_sheep.webp`,
 
     bird: `${CONFIG.PROTECTED_IMAGE_URL}/animals/bird_sheet.png`,
   },

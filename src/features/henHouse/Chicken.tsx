@@ -92,7 +92,7 @@ export const Chicken: React.FC<{ id: string }> = ({ id }) => {
           "absolute ml-[1px] top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2",
           {
             "mt-[2px]": !sleeping,
-            "mt-[4px]": sleeping,
+            "mt-[3px]": sleeping,
           },
         )}
       />
@@ -120,7 +120,7 @@ export const Chicken: React.FC<{ id: string }> = ({ id }) => {
       <LevelProgress
         animal="Chicken"
         experience={chicken.experience}
-        className="bottom-2 left-1"
+        className="bottom-1.5 left-1"
       />
     </div>
   );
