@@ -15,16 +15,6 @@ export const FeederMachine: React.FC = () => {
         className="relative cursor-pointer hover:img-highlight"
         onClick={() => setFeederMachineModal(true)}
       >
-        <div
-          style={{
-            top: `${-6 * PIXEL_SCALE}px`,
-            width: "100%",
-            display: "flex",
-            justifyContent: "center",
-            whiteSpace: "nowrap",
-          }}
-          className="absolute z-10"
-        ></div>
         <img
           src={feederMachineImage}
           className="relative z-0"
