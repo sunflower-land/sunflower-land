@@ -86,6 +86,8 @@ const ANIMAL_RESOURCE_DROP: Record<
   },
 };
 
+export const ANIMAL_SLEEP_DURATION = 24 * 60 * 60 * 1000;
+
 export type FeedAnimalAction = {
   type: "animal.fed";
   animal: AnimalType;
@@ -115,7 +117,7 @@ export function feedAnimal({
       );
     }
 
-    if (createdAt < animal.asleepAt + 24 * 60 * 60 * 1000) {
+    if (createdAt < animal.asleepAt + ANIMAL_SLEEP_DURATION) {
       throw new Error("Animal is asleep");
     }
 
