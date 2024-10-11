@@ -6,6 +6,7 @@ import { Context } from "features/game/GameProvider";
 import { useInterpret, useSelector } from "@xstate/react";
 import { capitalize } from "lib/utils/capitalize";
 import {
+  ANIMAL_EMOTION_ICONS,
   animalMachine,
   AnimalMachineInterpreter,
   TState as AnimalMachineState,
@@ -18,15 +19,6 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import classNames from "classnames";
 import { LevelProgress } from "features/game/expansion/components/animals/LevelProgress";
 import { RequestBubble } from "features/game/expansion/components/animals/RequestBubble";
-
-const ANIMAL_EMOTION_ICONS: Record<
-  Exclude<AnimalMachineState["value"], "idle" | "initial">,
-  string
-> = {
-  happy: SUNNYSIDE.icons.happy,
-  sad: SUNNYSIDE.icons.sad,
-  sleeping: SUNNYSIDE.icons.sleeping,
-};
 
 const _animalState = (state: AnimalMachineState) =>
   // Casting here because we know the value is always a string rather than an object
@@ -69,7 +61,7 @@ export const Chicken: React.FC<{ id: string }> = ({ id }) => {
 
   const favFood = getAnimalFavoriteFood("Chicken", chicken.experience);
   const sleeping = chickenState === "sleeping";
-  const level = getAnimalLevel(chicken.experience);
+  const level = getAnimalLevel(chicken.experience, "Chicken");
 
   return (
     <div
@@ -125,7 +117,11 @@ export const Chicken: React.FC<{ id: string }> = ({ id }) => {
           image={{ src: ITEM_DETAILS[favFood].image, height: 16, width: 16 }}
         />
       )}
-      <LevelProgress level={level} className="bottom-2 left-0.5" />
+      <LevelProgress
+        animal="Chicken"
+        experience={chicken.experience}
+        className="bottom-2 left-1"
+      />
     </div>
   );
 };
