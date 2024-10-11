@@ -29,11 +29,11 @@ import {
 import { ANIMAL_RESOURCES, COMMODITIES } from "features/game/types/resources";
 import { BEANS, EXOTIC_CROPS } from "features/game/types/beans";
 import {
-  FRUIT,
-  FruitSeedName,
-  FRUIT_SEEDS,
   GREENHOUSE_FRUIT_SEEDS,
   GREENHOUSE_FRUIT,
+  PATCH_FRUIT,
+  PATCH_FRUIT_SEEDS,
+  PatchFruitSeedName,
 } from "features/game/types/fruits";
 import { SplitScreenView } from "components/ui/SplitScreenView";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -95,11 +95,11 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
 
   const selectedItem = selected ?? getKeys(basketMap)[0] ?? "Sunflower Seed";
 
-  const isFruitSeed = (
+  const isPatchFruitSeed = (
     selected: InventoryItemName,
-  ): selected is FruitSeedName => selected in FRUIT_SEEDS();
+  ): selected is PatchFruitSeedName => selected in PATCH_FRUIT_SEEDS();
   const isSeed = (selected: InventoryItemName): selected is SeedName =>
-    isFruitSeed(selected) ||
+    isPatchFruitSeed(selected) ||
     selected in CROP_SEEDS ||
     selected in FLOWER_SEEDS() ||
     selected in GREENHOUSE_SEEDS ||
@@ -111,7 +111,7 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
       return SEEDS()[seedName].plantSeconds;
     }
 
-    if (isFruitSeed(seedName)) {
+    if (isPatchFruitSeed(seedName)) {
       return getFruitPatchTime(
         seedName,
         gameState,
@@ -149,14 +149,14 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
   };
 
   const seeds = getItems(CROP_SEEDS);
-  const fruitSeeds = getItems(FRUIT_SEEDS());
+  const fruitSeeds = getItems(PATCH_FRUIT_SEEDS());
   const greenhouseSeeds = [
     ...getItems(GREENHOUSE_FRUIT_SEEDS()),
     ...getItems(GREENHOUSE_SEEDS),
   ];
   const flowerSeeds = getItems(FLOWER_SEEDS());
   const crops = [...getItems(CROPS), ...getItems(GREENHOUSE_CROPS)];
-  const fruits = [...getItems(FRUIT()), ...getItems(GREENHOUSE_FRUIT())];
+  const fruits = [...getItems(PATCH_FRUIT()), ...getItems(GREENHOUSE_FRUIT())];
   const flowers = getItems(FLOWERS);
   const workbenchTools = getItems(WORKBENCH_TOOLS);
   const treasureTools = getItems(TREASURE_TOOLS);
@@ -241,7 +241,7 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
               item: selectedItem,
             }}
             properties={{
-              harvests: isFruitSeed(selectedItem)
+              harvests: isPatchFruitSeed(selectedItem)
                 ? {
                     minHarvest: harvestCounts[0],
                     maxHarvest: harvestCounts[1],

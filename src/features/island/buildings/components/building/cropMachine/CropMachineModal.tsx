@@ -2,7 +2,7 @@ import React, { useContext, useLayoutEffect, useState } from "react";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Modal } from "components/ui/Modal";
-import { CropMachineQueueItem } from "features/game/types/game";
+import { CropMachineQueueItem, GameState } from "features/game/types/game";
 import {
   CropMachineState,
   MachineInterpreter,
@@ -18,6 +18,7 @@ import {
   AddSeedsInput,
   MAX_OIL_CAPACITY_IN_MILLIS,
   MAX_QUEUE_SIZE,
+  OIL_PER_HOUR_CONSUMPTION,
   calculateCropTime,
   getOilTimeInMillis,
   getTotalOilMillisInMachine,
@@ -30,7 +31,7 @@ import Decimal from "decimal.js-light";
 import { CROP_SEEDS, CropName, CropSeedName } from "features/game/types/crops";
 import { isBasicCrop } from "features/game/events/landExpansion/harvest";
 import { getKeys } from "features/game/types/craftables";
-import { useSelector } from "@xstate/react";
+import { useActor, useSelector } from "@xstate/react";
 import { _paused, _running, _idle } from "./CropMachine";
 import { Context } from "features/game/GameProvider";
 import { MachineState } from "features/game/lib/gameMachine";
@@ -39,7 +40,7 @@ import lightning from "assets/icons/lightning.png";
 import { PackGrowthProgressBar } from "./components/PackGrowthProgressBar";
 import { TimeRemainingLabel } from "./components/TimeRemainingLabel";
 import { OilTank } from "./components/OilTank";
-import { formatNumber } from "lib/utils/formatNumber";
+import { formatNumber, setPrecision } from "lib/utils/formatNumber";
 import { isMobile } from "mobile-device-detect";
 
 interface Props {
@@ -54,14 +55,17 @@ interface Props {
   onAddOil: (oil: number) => void;
 }
 
-const ALLOWED_SEEDS: CropSeedName[] = getKeys(CROP_SEEDS).filter((seed) => {
-  const crop = seed.split(" ")[0] as CropName;
-
-  return isBasicCrop(crop);
-});
+const ALLOWED_SEEDS = (state: GameState): CropSeedName[] =>
+  getKeys(CROP_SEEDS).filter((seed) => {
+    const crop = seed.split(" ")[0] as CropName;
+    return (
+      isBasicCrop(crop) ||
+      (state.bumpkin.skills["Crop Extension Module"] &&
+        (crop === "Carrot" || crop === "Cabbage"))
+    );
+  });
 
 const SEED_INCREMENT_AMOUNT = 10;
-const OIL_INCREMENT_AMOUNT = 1;
 
 const _growingCropPackIndex = (state: CropMachineState) =>
   state.context.growingCropPackIndex;
@@ -78,6 +82,12 @@ export const CropMachineModal: React.FC<Props> = ({
   onAddOil,
 }) => {
   const { gameService } = useContext(Context);
+
+  const [
+    {
+      context: { state },
+    },
+  ] = useActor(gameService);
 
   const growingCropPackIndex = useSelector(service, _growingCropPackIndex);
   const idle = useSelector(service, _idle);
@@ -105,7 +115,7 @@ export const CropMachineModal: React.FC<Props> = ({
   }, [show]);
 
   const getProjectedOilTimeMillis = () => {
-    const projectedOilTime = getOilTimeInMillis(totalOil);
+    const projectedOilTime = getOilTimeInMillis(totalOil, state);
     const projectedTotalOilTime = getTotalOilMillisInMachine(
       queue,
       unallocatedOilTime + projectedOilTime,
@@ -132,11 +142,11 @@ export const CropMachineModal: React.FC<Props> = ({
   };
 
   const incrementOil = () => {
-    setTotalOil((prev) => prev + OIL_INCREMENT_AMOUNT);
+    setTotalOil((prev) => prev + OIL_PER_HOUR_CONSUMPTION(state));
   };
 
   const decrementOil = () => {
-    setTotalOil((prev) => Math.max(prev - OIL_INCREMENT_AMOUNT, 0));
+    setTotalOil((prev) => Math.max(prev - OIL_PER_HOUR_CONSUMPTION(state), 0));
   };
 
   const getMachineStatusLabel = () => {
@@ -179,7 +189,7 @@ export const CropMachineModal: React.FC<Props> = ({
 
     const oilBalance = inventory.Oil ?? new Decimal(0);
 
-    return totalOil + OIL_INCREMENT_AMOUNT <= oilBalance.toNumber();
+    return totalOil + OIL_PER_HOUR_CONSUMPTION(state) <= oilBalance.toNumber();
   };
 
   const handleAddSeeds = () => {
@@ -218,7 +228,7 @@ export const CropMachineModal: React.FC<Props> = ({
   const selectedPack = queue[selectedPackIndex];
   const stackedQueue: (CropMachineQueueItem | null)[] = [
     ...queue,
-    ...new Array(MAX_QUEUE_SIZE - queue.length).fill(null),
+    ...new Array(MAX_QUEUE_SIZE(state) - queue.length).fill(null),
   ];
 
   return (
@@ -317,7 +327,7 @@ export const CropMachineModal: React.FC<Props> = ({
                       {t("cropMachine.pickSeed")}
                     </Label>
                     <div className="flex">
-                      {ALLOWED_SEEDS.map((seed, index) => (
+                      {ALLOWED_SEEDS(state).map((seed, index) => (
                         <Box
                           key={`${seed}-${index}`}
                           image={ITEM_DETAILS[seed].image}
@@ -367,12 +377,15 @@ export const CropMachineModal: React.FC<Props> = ({
                           <span>
                             {t("cropMachine.growTime", {
                               time: secondsToString(
-                                calculateCropTime({
-                                  type: selectedSeed,
-                                  amount: totalSeeds,
-                                }) / 1000,
+                                calculateCropTime(
+                                  {
+                                    type: selectedSeed,
+                                    amount: totalSeeds,
+                                  },
+                                  state,
+                                ) / 1000,
                                 {
-                                  length: "full",
+                                  length: "medium",
                                   isShortFormat: true,
                                   removeTrailingZeros: true,
                                 },
@@ -451,12 +464,15 @@ export const CropMachineModal: React.FC<Props> = ({
                       <span>
                         {t("cropMachine.growTime", {
                           time: secondsToString(
-                            calculateCropTime({
-                              type: `${selectedPack.crop} Seed`,
-                              amount: selectedPack.seeds,
-                            }) / 1000,
+                            calculateCropTime(
+                              {
+                                type: `${selectedPack.crop} Seed`,
+                                amount: selectedPack.seeds,
+                              },
+                              state,
+                            ) / 1000,
                             {
-                              length: "full",
+                              length: "medium",
                               isShortFormat: true,
                               removeTrailingZeros: true,
                             },
@@ -477,7 +493,12 @@ export const CropMachineModal: React.FC<Props> = ({
             >
               {t("cropMachine.seedPacks")}
             </Label>
-            <div className="flex mt-1">
+            <div
+              className="mt-1 grid gap-2 justify-start"
+              style={{
+                gridTemplateColumns: "repeat(5, max-content)",
+              }}
+            >
               {stackedQueue.map((item, index) => {
                 if (item === null)
                   return (
@@ -588,14 +609,16 @@ export const CropMachineModal: React.FC<Props> = ({
                 <div className="flex w-full justify-between">
                   <div className="flex flex-col justify-center text-xs space-y-1">
                     <span>
-                      {t("cropMachine.oilToAdd", { amount: totalOil })}
+                      {t("cropMachine.oilToAdd", {
+                        amount: setPrecision(totalOil),
+                      })}
                     </span>
                     <span>
                       {t("cropMachine.totalRuntime", {
                         time: secondsToString(
-                          getOilTimeInMillis(totalOil) / 1000,
+                          getOilTimeInMillis(totalOil, state) / 1000,
                           {
-                            length: "full",
+                            length: "medium",
                             isShortFormat: true,
                             removeTrailingZeros: true,
                           },
@@ -605,15 +628,15 @@ export const CropMachineModal: React.FC<Props> = ({
                   </div>
                   <div className="flex items-center space-x-1 mr-2">
                     <Button
-                      className="w-11"
+                      className="w-auto"
                       disabled={totalOil === 0}
                       onClick={decrementOil}
-                    >{`-${OIL_INCREMENT_AMOUNT}`}</Button>
+                    >{`-${setPrecision(OIL_PER_HOUR_CONSUMPTION(state))}`}</Button>
                     <Button
-                      className="w-11"
+                      className="w-auto ml-1"
                       onClick={incrementOil}
                       disabled={!canIncrementOil()}
-                    >{`+${OIL_INCREMENT_AMOUNT}`}</Button>
+                    >{`+${setPrecision(OIL_PER_HOUR_CONSUMPTION(state))}`}</Button>
                   </div>
                 </div>
               </div>

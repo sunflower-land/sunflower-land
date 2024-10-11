@@ -23,9 +23,34 @@ type Options = {
   createdAt?: number;
 };
 
-export const MAX_QUEUE_SIZE = 5;
+export const MAX_QUEUE_SIZE = (state: GameState): number => {
+  return state.bumpkin.skills["Field Extension Module"] ? 10 : 5;
+};
+
 export const CROP_MACHINE_PLOTS = 10;
-export const OIL_PER_HOUR_CONSUMPTION = 1;
+export const OIL_PER_HOUR_CONSUMPTION = (state: GameState) => {
+  let addtionalOil = 1;
+  if (state.bumpkin.skills["Crop Processor Unit"]) {
+    addtionalOil += 0.1;
+  }
+  if (state.bumpkin.skills["Rapid Rig"]) {
+    addtionalOil += 0.4;
+  }
+
+  let oilReduction = 1;
+
+  if (state.bumpkin.skills["Oil Gadget"]) {
+    oilReduction -= 0.1;
+  }
+
+  if (state.bumpkin.skills["Efficiency Extension Module"]) {
+    oilReduction -= 0.3;
+  }
+
+  const oilConsumedPerHour = addtionalOil * oilReduction;
+
+  return oilConsumedPerHour;
+};
 // 2 days worth of oil
 export const MAX_OIL_CAPACITY_IN_HOURS = 48;
 export const MAX_OIL_CAPACITY_IN_MILLIS = 48 * 60 * 60 * 1000;
@@ -69,20 +94,35 @@ export function getTotalOilMillisInMachine(
   return Math.max(oil, 0);
 }
 
-export function calculateCropTime(seeds: {
-  type: CropSeedName;
-  amount: number;
-}): number {
+export function calculateCropTime(
+  seeds: {
+    type: CropSeedName;
+    amount: number;
+  },
+  state: GameState,
+): number {
+  if (!state || !state.bumpkin) {
+    return 0; // Or some default value if state or bumpkin is undefined
+  }
+
   const cropName = seeds.type.split(" ")[0] as CropName;
 
-  const milliSeconds = CROPS[cropName].harvestSeconds * 1000;
+  let milliSeconds = CROPS[cropName].harvestSeconds * 1000;
+
+  if (state.bumpkin.skills?.["Crop Processor Unit"]) {
+    milliSeconds = milliSeconds * 0.95;
+  }
+
+  if (state.bumpkin.skills?.["Rapid Rig"]) {
+    milliSeconds = milliSeconds * 0.8;
+  }
 
   return (milliSeconds * seeds.amount) / CROP_MACHINE_PLOTS;
 }
 
-export function getOilTimeInMillis(oil: number) {
+export function getOilTimeInMillis(oil: number, state: GameState) {
   // return the time in milliseconds
-  return (oil / OIL_PER_HOUR_CONSUMPTION) * 60 * 60 * 1000;
+  return (oil / OIL_PER_HOUR_CONSUMPTION(state)) * 60 * 60 * 1000;
 }
 
 export function getPackYieldAmount(
@@ -273,8 +313,19 @@ export function supplyCropMachine({
 
   const cropName = seedsAdded.type.split(" ")[0] as CropName;
 
-  if (!isBasicCrop(cropName)) {
+  if (
+    !state.bumpkin.skills["Crop Extension Module"] &&
+    !isBasicCrop(cropName)
+  ) {
     throw new Error("You can only supply basic crop seeds!");
+  }
+
+  if (
+    !!state.bumpkin.skills["Crop Extension Module"] &&
+    !isBasicCrop(cropName) &&
+    !(cropName === "Cabbage" || cropName === "Carrot")
+  ) {
+    throw new Error("You can't supply these seeds");
   }
 
   const cropMachine = stateCopy.buildings["Crop Machine"][0];
@@ -288,7 +339,7 @@ export function supplyCropMachine({
 
   const queue = cropMachine.queue ?? [];
 
-  if (seedsAdded.amount > 0 && queue.length + 1 > MAX_QUEUE_SIZE) {
+  if (seedsAdded.amount > 0 && queue.length + 1 > MAX_QUEUE_SIZE(state)) {
     throw new Error("Queue is full");
   }
 
@@ -311,7 +362,7 @@ export function supplyCropMachine({
   );
 
   if (
-    oilMillisInMachine + getOilTimeInMillis(oilAdded) >
+    oilMillisInMachine + getOilTimeInMillis(oilAdded, state) >
     MAX_OIL_CAPACITY_IN_MILLIS
   ) {
     throw new Error("Oil capacity exceeded");
@@ -319,7 +370,8 @@ export function supplyCropMachine({
 
   if (oilAdded > 0) {
     cropMachine.unallocatedOilTime =
-      (cropMachine.unallocatedOilTime ?? 0) + getOilTimeInMillis(oilAdded);
+      (cropMachine.unallocatedOilTime ?? 0) +
+      getOilTimeInMillis(oilAdded, state);
   }
 
   const crop = seedsAdded.type.split(" ")[0] as CropName;
@@ -331,8 +383,8 @@ export function supplyCropMachine({
       amount: 0,
       // amount: getPackYieldAmount(seedsAdded.amount, crop, stateCopy),
       crop,
-      growTimeRemaining: calculateCropTime(seedsAdded),
-      totalGrowTime: calculateCropTime(seedsAdded),
+      growTimeRemaining: calculateCropTime(seedsAdded, state),
+      totalGrowTime: calculateCropTime(seedsAdded, state),
     });
     stateCopy.buildings["Crop Machine"][0].queue = queue;
   }

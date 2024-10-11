@@ -34,3 +34,23 @@ export const ANIMALS: Record<AnimalType, AnimalDetail> = {
     width: 2,
   },
 };
+
+export type AnimalLevel = 1 | 2 | 3;
+
+export const ANIMAL_LEVELS: Record<AnimalType, Record<AnimalLevel, number>> = {
+  Chicken: {
+    1: 0,
+    2: 20,
+    3: 50,
+  },
+  Cow: {
+    1: 0,
+    2: 20,
+    3: 50,
+  },
+  Sheep: {
+    1: 0,
+    2: 20,
+    3: 50,
+  },
+};

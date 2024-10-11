@@ -623,7 +623,6 @@
   "betty.market-intro.four": "Coseche esos girasoles y empecemos su imperio agrícola.",
   "firepit-intro.one": "Enhorabuena, Bumpkin... Tienes talento natural!",
   "firepit-intro.two": "Si quieres subir de nivel y desbloquear nuevas habilidades, recoge cosechas y visita mi pozo de fuego. Puedo cocinar algo nutritivo para ti.",
-  "firepit.increasedXP": "XP aumentado",
   "bruce-intro.headline": "Introducción a la cocina",
   "bruce-intro.one": "Soy el propietario de este pequeño y encantador bistró.",
   "bruce-intro.two": "Tráeme recursos y cocinaré toda la comida que puedas comer!",
@@ -3608,7 +3607,6 @@
   "competition.intro.three": "Empieza a cultivar hoy mismo para ganar una parte de más de 10 000$ en puntos FSL y otros premios.",
   "competition.areYouReady": "¿Estás listo?",
   "competition.join": "¿Quieres unirte al concurso de agricultores y competir por premios?",
-  "competition.maybeLater": "Tal vez más tarde",
   "competition.letsGo": "¡Vamos!",
   "competition.farmerCompetition": "Concurso de agricultores",
   "competition.hurry": "¡Date prisa, empieza a cultivar antes de que acabe el tiempo!",
@@ -3698,5 +3696,6 @@
   "description.chicken": "Una fuente confiable de huevos frescos y plumas suaves, este pollo hace su parte felizmente con el cuidado adecuado.",
   "description.cow": "Esta amable vaca proporciona leche fresca y cuero duradero. Manténgalo feliz con abundante comida y afecto.",
   "description.sheep": "Esta esponjosa oveja proporciona tanto lana normal como lana merino lujosa. ¡Manténgalo feliz para obtener los mejores resultados!",
-  "obsessionDialogue.line3": "¿Es ese el {{itemName}} que tienes? Lo único que deseo es una simple mirada. Por ello, recibirás {{seasonalTicket}} s."
+  "obsessionDialogue.line3": "¿Es ese el {{itemName}} que tienes? Lo único que deseo es una simple mirada. Por ello, recibirás {{seasonalTicket}} s.",
+  "competition.maybeLater": "Quizá más tarde"
 }

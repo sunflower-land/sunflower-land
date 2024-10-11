@@ -21,10 +21,10 @@ import { BumpkinActivityName } from "./bumpkinActivity";
 import { DecorationName } from "./decorations";
 import { BeanName, ExoticCropName, MutantCropName } from "./beans";
 import {
-  FruitName,
-  FruitSeedName,
   GreenHouseFruitName,
   GreenHouseFruitSeedName,
+  PatchFruitName,
+  PatchFruitSeedName,
 } from "./fruits";
 import { TreasureName } from "./treasure";
 import {
@@ -366,8 +366,8 @@ export type InventoryItemName =
   | CropSeedName
   | BeanName
   | MutantCropName
-  | FruitName
-  | FruitSeedName
+  | PatchFruitName
+  | PatchFruitSeedName
   | FlowerSeedName
   | GreenHouseFruitSeedName
   | GreenHouseFruitName
@@ -415,7 +415,8 @@ export type InventoryItemName =
   | WorkbenchToolName
   | FactionShopCollectibleName
   | FactionShopFoodName
-  | MutantFlowerName;
+  | MutantFlowerName
+  | AnimalFoodName;
 
 export type Inventory = Partial<Record<InventoryItemName, Decimal>>;
 
@@ -475,7 +476,7 @@ export type PlantedCrop = {
 };
 
 export type PlantedFruit = {
-  name: FruitName;
+  name: PatchFruitName;
   plantedAt: number;
   amount: number;
   harvestsLeft: number;
@@ -727,6 +728,8 @@ export type LanternName =
   | "Goblin Lantern"
   | "Betty Lantern"
   | "Bumpkin Lantern";
+
+export type AnimalFoodName = "Hay" | "Kernel Blend";
 
 export type Party = {
   fulfilledAt?: number;
@@ -1132,7 +1135,7 @@ export type Faction = {
 export type DonationItemName =
   | CropName
   | FishName
-  | FruitName
+  | PatchFruitName
   | CommodityName
   | Worm;
 
@@ -1148,7 +1151,7 @@ export type AnimalResource =
   | "Merino Wool"
   | "Feather"
   | "Milk";
-export type AnimalState = "idle";
+export type AnimalState = "idle" | "happy" | "sad";
 
 export type Animal = {
   id: string;
@@ -1156,6 +1159,8 @@ export type Animal = {
   state: AnimalState;
   createdAt: number;
   coordinates: Coordinates;
+  experience: number;
+  asleepAt: number;
 };
 
 export type AnimalBuilding = {

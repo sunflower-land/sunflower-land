@@ -36,7 +36,7 @@ const iconList = {
   Mining: SUNNYSIDE.skills.animals,
   "Bees & Flowers": SUNNYSIDE.skills.animals,
   Oil: SUNNYSIDE.skills.animals,
-  Machinary: SUNNYSIDE.skills.animals,
+  Machinery: SUNNYSIDE.skills.animals,
 };
 
 export const SkillCategoryList = ({

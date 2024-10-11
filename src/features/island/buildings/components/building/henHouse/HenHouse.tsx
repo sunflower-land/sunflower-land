@@ -13,11 +13,19 @@ import { MachineState } from "features/game/lib/gameMachine";
 import { GameState } from "features/game/types/game";
 import { useSelector } from "@xstate/react";
 import { useNavigate } from "react-router-dom";
+import { ANIMAL_SLEEP_DURATION } from "features/game/events/landExpansion/feedAnimal";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 const _betaInventory = (state: MachineState) => {
   const pass = state.context.state.inventory["Beta Pass"];
 
   return { inventory: { "Beta Pass": pass } } as GameState;
+};
+
+const _hasHungryChickens = (state: MachineState) => {
+  return Object.values(state.context.state.henHouse.animals).some(
+    (animal) => animal.asleepAt + ANIMAL_SLEEP_DURATION < Date.now(),
+  );
 };
 
 export const ChickenHouse: React.FC<BuildingProps> = ({
@@ -30,6 +38,7 @@ export const ChickenHouse: React.FC<BuildingProps> = ({
   const navigate = useNavigate();
 
   const betaInventory = useSelector(gameService, _betaInventory);
+  const hasHungryChickens = useSelector(gameService, _hasHungryChickens);
 
   useEffect(() => {
     loadAudio([barnAudio]);
@@ -62,6 +71,13 @@ export const ChickenHouse: React.FC<BuildingProps> = ({
   return (
     <>
       <BuildingImageWrapper name="Hen House" onClick={handleClick}>
+        {hasHungryChickens && (
+          <img
+            src={SUNNYSIDE.icons.expression_alerted}
+            className="absolute -top-2 ready left-1/2 transform -translate-x-1/2 z-20"
+            style={{ width: `${PIXEL_SCALE * 4}px` }}
+          />
+        )}
         <img
           src={HEN_HOUSE_VARIANTS[island]}
           className="absolute bottom-0 pointer-events-none"
