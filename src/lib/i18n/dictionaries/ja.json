@@ -626,7 +626,6 @@
   "betty.market-intro.four": "ひまわりを収穫して、農業帝国を始めましょう。",
   "firepit-intro.one": "おめでとう Bumpkin... 君は天才だ！",
   "firepit-intro.two": "レベルアップして新しい能力をアンロックしたい場合は、作物を集めて私のファイヤーピットに行ってください。栄養のある料理を作ってあげよう。",
-  "firepit.increasedXP": "経験値増加",
   "bruce-intro.headline": "クッキング紹介",
   "bruce-intro.one": "私はこの素敵な小さなビストロのオーナーです。",
   "bruce-intro.two": "資源を持ってきてくれれば、食べられる食べ物を全部作ってあげよう！",
@@ -3608,7 +3607,6 @@
   "competition.intro.three": "今すぐ農業を始めて、10,000ドル以上のFSLポイントやその他の賞品を獲得しましょう。",
   "competition.areYouReady": "準備はできていますか？",
   "competition.join": "ファーマーズコンペティションに参加して賞品を競いませんか？",
-  "competition.maybeLater": "多分後で",
   "competition.letsGo": "行こう！",
   "competition.farmerCompetition": "ファーマーコンテスト",
   "competition.hurry": "急いで、時間がなくなる前に農業を始めましょう！",
@@ -3698,5 +3696,6 @@
   "description.chicken": "新鮮な卵と柔らかい羽毛の信頼できる供給源であるこの鶏肉は、適切な手入れをすれば喜んでその役割を果たします。",
   "description.cow": "この優しい牛は、新鮮なミルクと丈夫な革を使用しています。たっぷりの食べ物と愛情を込めて幸せに保ちましょう。",
   "description.sheep": "このふわふわの羊は、通常のウールと高級なメリノウールの両方を備えています。最高にソフトな仕上がりになるのでハッピーな状態を保ちましょう。",
-  "obsessionDialogue.line3": "それはあなたが持っている {{itemName}} ですか？一目見ただけでいいんだよ。これにより、{{seasonalTicket}} が届きます。"
+  "obsessionDialogue.line3": "それはあなたが持っている {{itemName}} ですか？一目見ただけでいいんだよ。これにより、{{seasonalTicket}} が届きます。",
+  "competition.maybeLater": "たぶん後で"
 }
