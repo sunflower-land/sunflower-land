@@ -193,6 +193,7 @@ describe("instantCook", () => {
     expect(state.inventory.Gem).toEqual(new Decimal(86));
   });
   it("gives the player the food", () => {
+    const now = Date.now();
     const state = speedUpRecipe({
       action: {
         buildingId: "123",
@@ -211,11 +212,12 @@ describe("instantCook", () => {
               readyAt: 0,
               crafting: {
                 name: "Mashed Potato",
-                readyAt: Date.now(),
+                readyAt: now + 30000,
               },
             },
           ],
         },
+        createdAt: now,
       },
     });
 
