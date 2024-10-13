@@ -45,7 +45,7 @@ export const HalloweenHud: React.FC = () => {
   }, [achievements]);
 
   return (
-    <HudContainer zIndex={99999}>
+    <HudContainer>
       <div>
         <div
           className="absolute"

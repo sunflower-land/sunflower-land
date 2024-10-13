@@ -51,7 +51,7 @@ const AchievementToastProvider: React.FC = ({ children }) => {
   return (
     <AchievementToastContext.Provider value={{ showAchievementToasts }}>
       {children}
-      <HudContainer zIndex={99999}>
+      <HudContainer>
         <div className="absolute flex justify-center bottom-0 w-full pointer-events-none">
           <div
             className="absolute flex flex-col gap-1 items-center"
