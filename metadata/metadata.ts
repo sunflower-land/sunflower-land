@@ -635,6 +635,42 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
   },
+  "Petting Hand": {
+    name: "Petting Hand",
+    description:
+      "A tool used to pet animals.\n\nYou can craft a petting hand at the Blacksmith in the game.",
+    decimals: 18,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/314.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Tool" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
+  Brush: {
+    name: "Brush",
+    description:
+      "A tool used to brush animals.\n\nYou can craft a brush at the Blacksmith in the game.",
+    decimals: 18,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/315.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Tool" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
+  "Music Box": {
+    name: "Music Box",
+    description:
+      "A tool used to play music for animals.\n\nYou can craft a music box at the Blacksmith in the game.",
+    decimals: 18,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/316.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Tool" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
   Hammer: {
     name: "Hammer",
     description:

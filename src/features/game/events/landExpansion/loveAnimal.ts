@@ -50,7 +50,7 @@ export function loveAnimal({
       throw new Error(`Missing item, ${action.item}`);
     }
 
-    animal.experience += 2;
+    animal.experience += ITEM_XP[action.item];
     animal.lovedAt = createdAt;
 
     animal.item = getAnimalItem(
@@ -81,6 +81,12 @@ const ANIMAL_ITEM_CHANCES: Record<
     Brush: 3,
     "Music Box": 0,
   },
+};
+
+const ITEM_XP: Record<LoveAnimalItem, number> = {
+  "Petting Hand": 2,
+  Brush: 5,
+  "Music Box": 10,
 };
 
 function getAnimalItem(level: AnimalLevel, randomGenerator: () => number) {
