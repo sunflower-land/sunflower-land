@@ -24,8 +24,8 @@ const _hasHungryAnimals = (state: MachineState) => {
 const _animalsNeedLove = (state: MachineState) => {
   return Object.values(state.context.state.barn.animals).some(
     (animal) =>
-      animal.asleepAt + ANIMAL_NEEDS_LOVE_DURATION > Date.now() &&
-      animal.lovedAt + ANIMAL_NEEDS_LOVE_DURATION > Date.now(),
+      animal.asleepAt + ANIMAL_NEEDS_LOVE_DURATION < Date.now() &&
+      animal.lovedAt + ANIMAL_NEEDS_LOVE_DURATION < Date.now(),
   );
 };
 

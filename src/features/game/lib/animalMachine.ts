@@ -70,6 +70,11 @@ export const animalMachine = createMachine<TContext, TEvent, TState>({
     initial: {
       always: [
         {
+          target: "needsLove",
+          cond: (context) =>
+            isAnimalSleeping(context) && isAnimalNeedsLove(context),
+        },
+        {
           target: "sleeping",
           cond: (context) => isAnimalSleeping(context),
         },
