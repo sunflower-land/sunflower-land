@@ -54,6 +54,22 @@ export const Sheep: React.FC<{ id: string }> = ({ id }) => {
     });
   };
 
+  const loveSheep = () => {
+    const updatedState = gameService.send({
+      type: "animal.loved",
+      animal: "Sheep",
+      id: sheep.id,
+      item: "Petting Hand",
+    });
+
+    const updatedSheep = updatedState.context.state.barn.animals[id];
+
+    sheepService.send({
+      type: "LOVE",
+      animal: updatedSheep,
+    });
+  };
+
   if (sheepState === "initial") return null;
 
   const favFood = getAnimalFavoriteFood("Sheep", sheep.experience);
@@ -74,7 +90,7 @@ export const Sheep: React.FC<{ id: string }> = ({ id }) => {
         style={{
           width: `${PIXEL_SCALE * (sleeping ? 25 : 25)}px`,
         }}
-        onClick={feedSheep}
+        onClick={needsLove ? loveSheep : feedSheep}
         className={classNames(
           "absolute ml-[1px] mt-[2px] top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2",
         )}

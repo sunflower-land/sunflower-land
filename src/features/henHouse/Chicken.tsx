@@ -54,13 +54,19 @@ export const Chicken: React.FC<{ id: string }> = ({ id }) => {
     });
   };
 
-  const loveChicken = (e: React.MouseEvent) => {
-    e.stopPropagation(); // Prevent triggering the feedChicken function
-    gameService.send({
+  const loveChicken = () => {
+    const updatedState = gameService.send({
       type: "animal.loved",
       animal: "Chicken",
       id: chicken.id,
       item: "Petting Hand",
+    });
+
+    const updatedChicken = updatedState.context.state.henHouse.animals[id];
+
+    chickenService.send({
+      type: "LOVE",
+      animal: updatedChicken,
     });
   };
 
@@ -76,7 +82,7 @@ export const Chicken: React.FC<{ id: string }> = ({ id }) => {
       style={{
         height: `${PIXEL_SCALE * 19}px`,
       }}
-      onClick={feedChicken}
+      onClick={needsLove ? loveChicken : feedChicken}
     >
       <img
         src={SUNNYSIDE.animals.chickenShadow}
