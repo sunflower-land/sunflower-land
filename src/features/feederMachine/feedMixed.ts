@@ -14,7 +14,7 @@ export interface Feed {
   name: AnimalFoodName;
   description: string;
   ingredients: Inventory;
-  price: number; // coins
+  coins: number; // coins
   disabled?: boolean;
 }
 
@@ -27,25 +27,25 @@ export const ANIMAL_FOODS: Record<AnimalFoodName, Feed> = {
   Hay: {
     name: "Hay",
     description: "",
-    price: 0,
+    coins: 10,
     ingredients: {},
   },
   "Kernel Blend": {
     name: "Kernel Blend",
     description: "",
-    price: 0,
+    coins: 10,
     ingredients: {},
   },
   NutriBarley: {
     name: "NutriBarley",
     description: "",
-    price: 0,
+    coins: 10,
     ingredients: {},
   },
   "Mixed Grain": {
     name: "Mixed Grain",
     description: "",
-    price: 0,
+    coins: 10,
     ingredients: {},
   },
 };
@@ -65,9 +65,9 @@ export function feedMixed({ state, action }: Options) {
     throw new Error("You do not have a bumpkin!");
   }
 
-  const price = feed.price;
+  const { coins } = feed;
 
-  if (stateCopy.coins < price) {
+  if (stateCopy.coins < coins) {
     throw new Error("Insufficient Coins");
   }
 
@@ -99,14 +99,13 @@ export function feedMixed({ state, action }: Options) {
   bumpkin.activity = trackActivity(
     "Coins Spent",
     bumpkin.activity,
-    new Decimal(price),
+    new Decimal(coins),
   );
-  stateCopy.coins = stateCopy.coins - price;
+  stateCopy.coins -= coins;
   stateCopy.inventory = {
     ...subtractedInventory,
     [action.feed]: oldAmount.add(amount) as Decimal,
   };
-  stateCopy.stock[action.feed] = stateCopy.stock[action.feed]?.minus(amount);
 
   return stateCopy;
 }
