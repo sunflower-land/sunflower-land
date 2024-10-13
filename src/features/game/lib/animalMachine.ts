@@ -11,7 +11,14 @@ interface TContext {
 }
 
 export type TState = {
-  value: "idle" | "happy" | "sad" | "sleeping" | "needsLove" | "initial";
+  value:
+    | "idle"
+    | "happy"
+    | "sad"
+    | "loved"
+    | "sleeping"
+    | "needsLove"
+    | "initial";
   context: TContext;
 };
 
@@ -36,6 +43,7 @@ export const ANIMAL_EMOTION_ICONS: Record<
   happy: SUNNYSIDE.icons.happy,
   sad: SUNNYSIDE.icons.sad,
   sleeping: SUNNYSIDE.icons.sleeping,
+  loved: SUNNYSIDE.icons.heart,
 };
 
 const isAnimalSleeping = (context: TContext) => {
@@ -95,6 +103,17 @@ export const animalMachine = createMachine<TContext, TEvent, TState>({
       },
     },
     sad: {
+      after: {
+        3000: [
+          {
+            target: "sleeping",
+            cond: (context) => isAnimalSleeping(context),
+          },
+          { target: "idle" },
+        ],
+      },
+    },
+    loved: {
       after: {
         3000: [
           {
@@ -177,7 +196,7 @@ export const animalMachine = createMachine<TContext, TEvent, TState>({
           },
         ],
         LOVE: {
-          target: "sleeping",
+          target: "loved",
           actions: assign({
             animal: (_, event) => (event as AnimalLoveEvent).animal,
           }),
