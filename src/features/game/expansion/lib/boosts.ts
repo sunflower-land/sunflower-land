@@ -11,10 +11,10 @@ import {
   isCookable,
 } from "features/game/types/consumables";
 import {
+  hasActiveSeasonBanner,
   isCollectibleActive,
   isCollectibleBuilt,
 } from "features/game/lib/collectibleBuilt";
-import { getSeasonalBanner } from "features/game/types/seasons";
 import { getBudExperienceBoosts } from "features/game/lib/getBudExperienceBoosts";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { isWearableActive } from "features/game/lib/wearables";
@@ -255,10 +255,7 @@ export const getFoodExpBoost = (
     boostedExp = boostedExp.mul(1.2);
   }
 
-  if (
-    isCollectibleBuilt({ name: getSeasonalBanner(), game }) ||
-    isCollectibleBuilt({ name: "Lifetime Farmer Banner", game })
-  ) {
+  if (hasActiveSeasonBanner({ game })) {
     boostedExp = boostedExp.mul(1.1);
   }
 

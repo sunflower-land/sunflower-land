@@ -16,7 +16,7 @@ import { ANIMALS } from "features/game/types/animals";
 import { Chicken } from "./Chicken";
 
 import shopDisc from "assets/icons/shop_disc.png";
-import { AnimalBuildingModal } from "features/game/expansion/components/AnimalBuildingModal";
+import { AnimalBuildingModal } from "features/game/expansion/components/animals/AnimalBuildingModal";
 
 const background = SUNNYSIDE.land.tent_inside;
 

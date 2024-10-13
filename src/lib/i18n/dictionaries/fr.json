@@ -2585,7 +2585,6 @@
   "hank.choresFrozen": "Bon sang, on dirait que nous sommes tous rattrapés pour aujourd'hui. Prenez une petite pause et profitez du reste de la journée !",
   "firepit-intro.one": "Félicitations Bumpkin... Tu es un naturel !",
   "firepit-intro.two": "Si vous voulez monter de niveau et débloquer de nouvelles capacités, récoltez des cultures et visitez mon foyer. Je peux te préparer des aliments nutritifs.",
-  "firepit.increasedXP": "XP augmenté",
   "richie.challenge": "Défi",
   "richie.rewarded": "Félicitations, vous faites un pas de plus !",
   "richie.completed": "Terminé",
@@ -3608,7 +3607,6 @@
   "competition.intro.three": "Commencez à cultiver dès aujourd'hui pour gagner une part de plus de 10 000$ de points FSL et d'autres prix.",
   "competition.areYouReady": "Es-tu prêt ?",
   "competition.join": "Aimeriez-vous participer au concours des agriculteurs et concourir pour des prix ?",
-  "competition.maybeLater": "Peut-être plus tard",
   "competition.letsGo": "Allons-y !",
   "competition.farmerCompetition": "Compétition paysanne",
   "competition.hurry": "Dépêchez-vous, commencez à cultiver avant la fin du temps imparti !",
@@ -3698,5 +3696,6 @@
   "description.chicken": "Source fiable d'œufs frais et de plumes douces, cette poule fait sa part avec plaisir avec les soins appropriés.",
   "description.cow": "Cette vache douce fournit du lait frais et du cuir résistant. Faites-le heureux avec beaucoup de nourriture et d'affection.",
   "description.sheep": "Ce mouton moelleux fournit à la fois de la laine ordinaire et de la laine mérinos luxueuse. Faites-en plaisir pour des résultats des plus doux !",
-  "obsessionDialogue.line3": "Est-ce le {{itemName}} que vous avez ? Un simple coup d'œil est tout ce que je souhaite. Pour cela, vous recevrez {{seasonalTicket}} s."
+  "obsessionDialogue.line3": "Est-ce le {{itemName}} que vous avez ? Un simple coup d'œil est tout ce que je souhaite. Pour cela, vous recevrez {{seasonalTicket}} s.",
+  "competition.maybeLater": "Peut-être plus tard"
 }

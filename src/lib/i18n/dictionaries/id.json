@@ -626,7 +626,6 @@
   "betty.market-intro.four": "Panen Bunga Matahari itu dan mari kita mulai kerajaan pertanian Anda.",
   "firepit-intro.one": "Selamat Bumpkin... Anda alami!",
   "firepit-intro.two": "Jika Anda ingin naik level & membuka kemampuan baru, kumpulkan tanaman dan kunjungi lubang api saya. Aku bisa memasak makanan bergizi untukmu.",
-  "firepit.increasedXP": "Peningkatan XP",
   "bruce-intro.headline": "Pendahuluan Memasak",
   "bruce-intro.one": "Aku pemilik bistro kecil yang indah ini.",
   "bruce-intro.two": "Bawakan saya sumber daya dan saya akan memasak semua makanan yang bisa Anda makan!",
@@ -3608,7 +3607,6 @@
   "competition.intro.three": "Mulai bertani hari ini untuk memenangkan bagian lebih dari $10.000 poin FSL & hadiah lainnya.",
   "competition.areYouReady": "Apakah Anda siap?",
   "competition.join": "Apakah Anda ingin mengikuti kompetisi petani dan bersaing memperebutkan hadiah?",
-  "competition.maybeLater": "Mayber nanti",
   "competition.letsGo": "Ayo pergi!",
   "competition.farmerCompetition": "Kompetisi petani",
   "competition.hurry": "Cepat, mulailah bertani sebelum waktu habis!",
@@ -3698,5 +3696,6 @@
   "description.chicken": "Sumber telur segar dan bulu lembut yang andal, ayam ini dengan senang hati melakukan bagiannya dengan perawatan yang tepat.",
   "description.cow": "Sapi yang lembut ini menyediakan susu segar dan kulit yang tahan lama. Jaga agar tetap bahagia dengan banyak makanan & kasih sayang.",
   "description.sheep": "Domba berbulu ini menyediakan wol biasa dan wol merino mewah. Tetap senang untuk hasil yang paling lembut!",
-  "obsessionDialogue.line3": "Apakah itu {{itemName}} yang Anda miliki? Sekadar pandangan adalah semua yang saya inginkan. Untuk ini, Anda akan menerima {{seasonalTicket}} s."
+  "obsessionDialogue.line3": "Apakah itu {{itemName}} yang Anda miliki? Sekadar pandangan adalah semua yang saya inginkan. Untuk ini, Anda akan menerima {{seasonalTicket}} s.",
+  "competition.maybeLater": "Mungkin nanti"
 }

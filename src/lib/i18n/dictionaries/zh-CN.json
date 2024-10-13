@@ -582,7 +582,6 @@
   "home-intro.two": "在你冒险征程上找到的稀有收藏品可以就此安放。",
   "firepit-intro.one": "恭喜乡包佬……你真是能无师自通！",
   "firepit-intro.two": "如果你想升级并解锁新能力，收集庄稼来我这火坑。我可以给你整点营养佳肴。",
-  "firepit.increasedXP": "已增加 XP",
   "hank-intro.headline": "帮帮老人家？",
   "hank-intro.one": "哈喽喂，乡包佬！欢迎来到我们这小块桃园天堂。",
   "hank-intro.two": "我在这儿耕地已有 50 余年了，但帮手当然也不嫌少。",
@@ -3608,7 +3607,6 @@
   "competition.intro.three": "立即开始耕种，赢取超过10,000美元的FSL积分和其他奖品。",
   "competition.areYouReady": "你准备好了吗？",
   "competition.join": "你想参加农民竞赛并争夺奖品吗？",
-  "competition.maybeLater": "也许以后再说",
   "competition.letsGo": "我们走吧！",
   "competition.farmerCompetition": "农民竞赛",
   "competition.hurry": "快点，在时间用完之前开始耕种！",
@@ -3698,5 +3696,6 @@
   "description.chicken": "这只鸡是新鲜鸡蛋和柔软羽毛的可靠来源，只要小心谨慎，它就会愉快地发挥自己的作用。",
   "description.cow": "这头温柔的奶牛提供新鲜的牛奶和耐用的皮革。用充足的食物和情感让它开心。",
   "description.sheep": "这只毛茸茸的绵羊既提供普通羊毛，又提供奢华的美利奴羊毛。保持高兴，以获得最柔和的结果！",
-  "obsessionDialogue.line3": "那是你的 {{itemName}} 吗？我只想看一眼。为此，您将收到 {{seasonalTicket}} s。"
+  "obsessionDialogue.line3": "那是你的 {{itemName}} 吗？我只想看一眼。为此，您将收到 {{seasonalTicket}} s。",
+  "competition.maybeLater": "也许以后再说"
 }
