@@ -3416,6 +3416,8 @@
   "withdraw.bumpkin.wearing": "Your Bumpkin is currently wearing the following item(s) that can't be withdrawn. You will need to unequip them before you can withdraw.",
   "withdraw.buds": "Select Buds to withdraw",
   "withdraw.budRestricted": "Used in today's bud box",
+  "world.lvl.requirement": "Lvl {{lvl}}",
+  "world.factionMembersOnly": "Faction members only",
   "world.newArea": "New",
   "world.intro.one": "Howdy Bumpkin, welcome to the Pumpkin Plaza. Here Bumpkins from far and wide come together to trade, complete deliveries and play mini-games.",
   "world.intro.two": "Explore the Plaza and find Bumpkins who are waiting for your deliveries. In exchange, they will give you rewards!",
