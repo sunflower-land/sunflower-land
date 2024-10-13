@@ -57,6 +57,16 @@ export const Chicken: React.FC<{ id: string }> = ({ id }) => {
     });
   };
 
+  const loveChicken = (e: React.MouseEvent) => {
+    e.stopPropagation(); // Prevent triggering the feedChicken function
+    gameService.send({
+      type: "animal.loved",
+      animal: "Chicken",
+      id: chicken.id,
+      item: "Petting Hand",
+    });
+  };
+
   if (chickenState === "initial") return null;
 
   const favFood = getAnimalFavoriteFood("Chicken", chicken.experience);
@@ -115,6 +125,18 @@ export const Chicken: React.FC<{ id: string }> = ({ id }) => {
           top={PIXEL_SCALE * -5.5}
           left={PIXEL_SCALE * 9.5}
           image={{ src: ITEM_DETAILS[favFood].image, height: 16, width: 16 }}
+        />
+      )}
+      {/* Bulging disc with Petting Hand for sleeping chicken */}
+      {sleeping && (
+        <RequestBubble
+          top={PIXEL_SCALE * -5.5}
+          left={PIXEL_SCALE * 9.5}
+          image={{
+            src: SUNNYSIDE.icons.expression_confused,
+            height: 16,
+            width: 16,
+          }}
         />
       )}
       <LevelProgress
