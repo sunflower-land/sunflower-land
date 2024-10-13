@@ -87,6 +87,7 @@ const ANIMAL_RESOURCE_DROP: Record<
 };
 
 export const ANIMAL_SLEEP_DURATION = 24 * 60 * 60 * 1000;
+export const ANIMAL_NEEDS_LOVE_DURATION = 1000 * 60 * 60 * 8;
 
 export type FeedAnimalAction = {
   type: "animal.fed";

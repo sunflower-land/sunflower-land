@@ -17,10 +17,14 @@ export type LoveAnimalAction = {
 type Options = {
   state: Readonly<GameState>;
   action: LoveAnimalAction;
-  createdAt: number;
+  createdAt?: number;
 };
 
-export function loveAnimal({ state, action, createdAt }: Options): GameState {
+export function loveAnimal({
+  state,
+  action,
+  createdAt = Date.now(),
+}: Options): GameState {
   return produce(state, (copy) => {
     const { buildingRequired } = ANIMALS[action.animal];
     const buildingKey = makeAnimalBuildingKey(buildingRequired);

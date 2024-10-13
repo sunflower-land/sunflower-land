@@ -59,6 +59,7 @@ export const Cow: React.FC<{ id: string }> = ({ id }) => {
 
   const favFood = getAnimalFavoriteFood("Cow", cow.experience);
   const sleeping = cowState === "sleeping";
+  const needsLove = cowState === "needsLove";
 
   return (
     <div
@@ -81,7 +82,7 @@ export const Cow: React.FC<{ id: string }> = ({ id }) => {
         )}
       />
       {/* Emotion */}
-      {cowState !== "idle" && (
+      {cowState !== "idle" && !needsLove && (
         <img
           src={ANIMAL_EMOTION_ICONS[cowState]}
           alt={`${capitalize(cowState)} Cow`}
@@ -99,6 +100,17 @@ export const Cow: React.FC<{ id: string }> = ({ id }) => {
           top={PIXEL_SCALE * 0}
           left={PIXEL_SCALE * 24}
           image={{ src: ITEM_DETAILS[favFood].image, height: 16, width: 16 }}
+        />
+      )}
+      {needsLove && (
+        <RequestBubble
+          top={PIXEL_SCALE * 0}
+          left={PIXEL_SCALE * 24}
+          image={{
+            src: ITEM_DETAILS[cow.item].image,
+            height: 16,
+            width: 16,
+          }}
         />
       )}
       {/* Level Progress */}

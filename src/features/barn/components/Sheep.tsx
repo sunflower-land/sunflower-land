@@ -58,7 +58,7 @@ export const Sheep: React.FC<{ id: string }> = ({ id }) => {
 
   const favFood = getAnimalFavoriteFood("Sheep", sheep.experience);
   const sleeping = sheepState === "sleeping";
-
+  const needsLove = sheepState === "needsLove";
   return (
     <div
       className="relative flex items-center justify-center cursor-pointer"
@@ -80,7 +80,7 @@ export const Sheep: React.FC<{ id: string }> = ({ id }) => {
         )}
       />
       {/* Emotion */}
-      {sheepState !== "idle" && (
+      {sheepState !== "idle" && !needsLove && (
         <img
           src={ANIMAL_EMOTION_ICONS[sheepState]}
           alt={`${capitalize(sheepState)} Sheep`}
@@ -98,6 +98,17 @@ export const Sheep: React.FC<{ id: string }> = ({ id }) => {
           top={PIXEL_SCALE * 0}
           left={PIXEL_SCALE * 24}
           image={{ src: ITEM_DETAILS[favFood].image, height: 16, width: 16 }}
+        />
+      )}
+      {needsLove && (
+        <RequestBubble
+          top={PIXEL_SCALE * 0}
+          left={PIXEL_SCALE * 24}
+          image={{
+            src: ITEM_DETAILS[sheep.item].image,
+            height: 16,
+            width: 16,
+          }}
         />
       )}
       {/* Level Progress */}

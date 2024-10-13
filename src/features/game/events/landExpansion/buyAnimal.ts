@@ -123,6 +123,8 @@ export function buyAnimal({
       createdAt,
       experience: 0,
       asleepAt: 0,
+      lovedAt: 0,
+      item: "Petting Hand",
     };
 
     bumpkin.activity = trackActivity(

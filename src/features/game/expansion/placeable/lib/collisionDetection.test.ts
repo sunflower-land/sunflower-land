@@ -248,6 +248,8 @@ describe("detectCollisions", () => {
             createdAt: 0,
             experience: 0,
             asleepAt: 0,
+            lovedAt: 0,
+            item: "Petting Hand",
           },
           "124": {
             id: "124",
@@ -260,6 +262,8 @@ describe("detectCollisions", () => {
             createdAt: 0,
             experience: 0,
             asleepAt: 0,
+            lovedAt: 0,
+            item: "Petting Hand",
           },
         },
       },

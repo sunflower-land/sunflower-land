@@ -697,6 +697,10 @@ import macaw from "assets/sfts/macaw.webp";
 import butterfly from "assets/sfts/butterfly.webp";
 import squirrel from "assets/sfts/squirrel.webp";
 
+import pettingHand from "assets/animals/petting_hand.webp";
+import brush from "assets/animals/brush.webp";
+import musicBox from "assets/animals/music_box.webp";
+
 import { COUPONS, EASTER_EGG, FERTILISERS, InventoryItemName } from "./game";
 
 import { CROPS, CROP_SEEDS, GREENHOUSE_CROPS, GREENHOUSE_SEEDS } from "./crops";
@@ -1141,6 +1145,18 @@ export const ITEM_DETAILS: Items = {
   "Oil Drill": {
     image: oilDrill,
     description: TOOLS["Oil Drill"].description,
+  },
+  "Petting Hand": {
+    image: pettingHand,
+    description: "Petting Hand",
+  },
+  Brush: {
+    image: brush,
+    description: "Brush",
+  },
+  "Music Box": {
+    image: musicBox,
+    description: "Music Box",
   },
   "Block Buck": {
     image: blockBuck,

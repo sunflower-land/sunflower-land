@@ -1,20 +1,24 @@
 import { assign, createMachine, Interpreter, State } from "xstate";
 import { Animal } from "../types/game";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { ANIMAL_SLEEP_DURATION } from "../events/landExpansion/feedAnimal";
+import {
+  ANIMAL_NEEDS_LOVE_DURATION,
+  ANIMAL_SLEEP_DURATION,
+} from "../events/landExpansion/feedAnimal";
 
 interface TContext {
   animal?: Animal;
 }
 
 export type TState = {
-  value: "idle" | "happy" | "sad" | "sleeping" | "initial";
+  value: "idle" | "happy" | "sad" | "sleeping" | "needsLove" | "initial";
   context: TContext;
 };
 
 type AnimalFeedEvent = { type: "FEED"; animal: Animal };
+type AnimalLoveEvent = { type: "LOVE"; animal: Animal };
 
-type TEvent = AnimalFeedEvent | { type: "TICK" };
+type TEvent = AnimalFeedEvent | AnimalLoveEvent | { type: "TICK" };
 
 type MachineState = State<TContext, TEvent, MachineState>;
 
@@ -26,7 +30,7 @@ export type AnimalMachineInterpreter = Interpreter<
 >;
 
 export const ANIMAL_EMOTION_ICONS: Record<
-  Exclude<TState["value"], "idle" | "initial">,
+  Exclude<TState["value"], "idle" | "needsLove" | "initial">,
   string
 > = {
   happy: SUNNYSIDE.icons.happy,
@@ -38,6 +42,15 @@ const isAnimalSleeping = (context: TContext) => {
   if (!context.animal) return false;
 
   return context.animal.asleepAt + ANIMAL_SLEEP_DURATION > Date.now();
+};
+
+const isAnimalNeedsLove = (context: TContext) => {
+  if (!context.animal) return false;
+
+  return (
+    context.animal.asleepAt + ANIMAL_NEEDS_LOVE_DURATION < Date.now() &&
+    context.animal.lovedAt + ANIMAL_NEEDS_LOVE_DURATION < Date.now()
+  );
 };
 
 export const animalMachine = createMachine<TContext, TEvent, TState>({
@@ -132,7 +145,38 @@ export const animalMachine = createMachine<TContext, TEvent, TState>({
             target: "idle",
             cond: (context) => !isAnimalSleeping(context),
           },
+          {
+            target: "needsLove",
+            cond: (context) => isAnimalNeedsLove(context),
+          },
         ],
+      },
+    },
+    needsLove: {
+      invoke: {
+        src: () => (cb) => {
+          const interval = setInterval(() => {
+            cb("TICK");
+          }, 1000);
+
+          return () => {
+            clearInterval(interval);
+          };
+        },
+      },
+      on: {
+        TICK: [
+          {
+            target: "idle",
+            cond: (context) => !isAnimalSleeping(context),
+          },
+        ],
+        LOVE: {
+          target: "sleeping",
+          actions: assign({
+            animal: (_, event) => (event as AnimalLoveEvent).animal,
+          }),
+        },
       },
     },
   },

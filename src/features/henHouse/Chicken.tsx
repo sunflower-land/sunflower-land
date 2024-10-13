@@ -11,10 +11,7 @@ import {
   AnimalMachineInterpreter,
   TState as AnimalMachineState,
 } from "features/game/lib/animalMachine";
-import {
-  getAnimalFavoriteFood,
-  getAnimalLevel,
-} from "features/game/lib/animals";
+import { getAnimalFavoriteFood } from "features/game/lib/animals";
 import { ITEM_DETAILS } from "features/game/types/images";
 import classNames from "classnames";
 import { LevelProgress } from "features/game/expansion/components/animals/LevelProgress";
@@ -71,7 +68,7 @@ export const Chicken: React.FC<{ id: string }> = ({ id }) => {
 
   const favFood = getAnimalFavoriteFood("Chicken", chicken.experience);
   const sleeping = chickenState === "sleeping";
-  const level = getAnimalLevel(chicken.experience, "Chicken");
+  const needsLove = chickenState === "needsLove";
 
   return (
     <div
@@ -107,7 +104,7 @@ export const Chicken: React.FC<{ id: string }> = ({ id }) => {
         )}
       />
       {/* Emotion */}
-      {chickenState !== "idle" && (
+      {chickenState !== "idle" && !needsLove && (
         <img
           src={ANIMAL_EMOTION_ICONS[chickenState]}
           alt={`${capitalize(chickenState)} Chicken`}
@@ -127,18 +124,18 @@ export const Chicken: React.FC<{ id: string }> = ({ id }) => {
           image={{ src: ITEM_DETAILS[favFood].image, height: 16, width: 16 }}
         />
       )}
-      {/* Bulging disc with Petting Hand for sleeping chicken */}
-      {sleeping && (
+      {needsLove && (
         <RequestBubble
           top={PIXEL_SCALE * -5.5}
           left={PIXEL_SCALE * 9.5}
           image={{
-            src: SUNNYSIDE.icons.expression_confused,
+            src: ITEM_DETAILS[chicken.item].image,
             height: 16,
             width: 16,
           }}
         />
       )}
+      {/* Level Progress */}
       <LevelProgress
         animal="Chicken"
         experience={chicken.experience}
