@@ -14,19 +14,22 @@ export const LAMPS_CONFIGURATION: { x: number; y: number }[] = [
   { x: 385, y: 315 },
 ];
 
-export const TOTAL_LAMPS = LAMPS_CONFIGURATION.length;
+export const MAX_LAMPS_IN_MAP = 30;
 
 export const INITIAL_LAMPS_LIGHT_RADIUS = 0.3;
 export const MIN_PLAYER_LIGHT_RADIUS = 0.1;
 export const MAX_PLAYER_LIGHT_RADIUS = 0.6;
-export const MAX_PLAYER_LAMPS = 3;
+export const MAX_PLAYER_LAMPS = 10;
 export const STEP_PLAYER_LIGHT_RADIUS =
   (MAX_PLAYER_LIGHT_RADIUS - MIN_PLAYER_LIGHT_RADIUS) / MAX_PLAYER_LAMPS;
 
-export const DURATION_GAME_OVER_WITHOUT_LAMPS = 10; // 10 seconds
-export const DURATION_LAMP_SECONDS = 10; // 10 seconds
+export const DURATION_GAME_OVER_WITHOUT_LAMPS = 15; // 15 seconds
+export const DURATION_LAMP_SECONDS = 15; // 15 seconds
 export const LAMP_USAGE_MULTIPLIER_INTERVAL = 90; // 1 minute 30 seconds each multiplier
 export const MAX_LAMP_USAGE_MULTIPLIER = 3;
+
+export const LAMP_SPAWN_BASE_INTERVAL = 2; // 2 seconds
+export const LAMP_SPAWN_INCREASE_PERCENTAGE = 0.05;
 
 export const UNLIMITED_ATTEMPTS_SFL = 3;
 export const RESTOCK_ATTEMPTS_SFL = 1;

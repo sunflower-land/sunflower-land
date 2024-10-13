@@ -59,6 +59,7 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
   private walkingSpriteKey: string | undefined;
   private carryingSpriteKey: string | undefined;
   private carryingIdleSpriteKey: string | undefined;
+  private deathSpriteKey: string | undefined;
   private idleAnimationKey: string | undefined;
   private walkingAnimationKey: string | undefined;
   private digAnimationKey: string | undefined;
@@ -69,6 +70,7 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
   private backAuraAnimationKey: string | undefined;
   private carryingAnimationKey: string | undefined;
   private carryingIdleAnimationKey: string | undefined;
+  private deathAnimationKey: string | undefined;
   private direction: "left" | "right" = "right";
 
   // Halloween
@@ -175,11 +177,13 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
     this.idleAnimationKey = `${keyName}-bumpkin-idle`;
     this.carryingSpriteKey = `${keyName}-bumpkin-carrying-sheet`;
     this.carryingIdleSpriteKey = `${keyName}-bumpkin-carrying-idle-sheet`;
+    this.deathSpriteKey = `${keyName}-bumpkin-death-sheet`;
     this.walkingAnimationKey = `${keyName}-bumpkin-walking`;
     this.digAnimationKey = `${keyName}-bumpkin-dig`;
     this.drillAnimationKey = `${keyName}-bumpkin-drilling`;
     this.carryingAnimationKey = `${keyName}-bumpkin-carrying`;
     this.carryingIdleAnimationKey = `${keyName}-bumpkin-carrying-idle`;
+    this.deathAnimationKey = `${keyName}-bumpkin-death`;
 
     await buildNPCSheets({
       parts: this.clothing,
@@ -302,6 +306,22 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
       carryingIdleLoader.on(Phaser.Loader.Events.COMPLETE, () => {
         this.createCarryingIdleAnimation();
         carryingIdleLoader.removeAllListeners();
+      });
+    }
+
+    // Death
+    if (scene.textures.exists(this.deathSpriteKey)) {
+      this.createDeathAnimation();
+    } else {
+      const url = getAnimationUrl(this.clothing, "death");
+      const deathLoader = scene.load.spritesheet(this.deathSpriteKey, url, {
+        frameWidth: 96,
+        frameHeight: 64,
+      });
+
+      deathLoader.on(Phaser.Loader.Events.COMPLETE, () => {
+        this.createDeathAnimation();
+        deathLoader.removeAllListeners();
       });
     }
 
@@ -460,6 +480,23 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
         {
           start: 0,
           end: 7,
+        },
+      ),
+      repeat: -1,
+      frameRate: 10,
+    });
+  }
+
+  private createDeathAnimation() {
+    if (!this.scene || !this.scene.anims) return;
+
+    this.scene.anims.create({
+      key: this.deathAnimationKey,
+      frames: this.scene.anims.generateFrameNumbers(
+        this.deathSpriteKey as string,
+        {
+          start: 0,
+          end: 12,
         },
       ),
       repeat: -1,
@@ -1028,6 +1065,24 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
     }
   }
 
+  public dead() {
+    if (
+      this.sprite?.anims &&
+      this.scene?.anims.exists(this.deathAnimationKey as string) &&
+      this.sprite?.anims.getName() !== this.deathAnimationKey
+    ) {
+      try {
+        this.sprite.anims.play(this.deathAnimationKey as string, true);
+      } catch (e) {
+        // eslint-disable-next-line no-console
+        console.log(
+          "Bumpkin Container: Error playing carry idle animation: ",
+          e,
+        );
+      }
+    }
+  }
+
   public lampVisibility(value: boolean) {
     this.lamp?.setVisible(value);
   }
@@ -1036,6 +1091,7 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
     this.lamp = new LampContainer({
       x: ITEM_BUMPKIN.x,
       y: ITEM_BUMPKIN.y,
+      id: -1,
       scene: this.scene as BaseScene,
     });
     this.lamp.setVisible(false);
@@ -1062,7 +1118,7 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
 
       const animationRadius = setInterval(() => {
         darknessPipeline.lightRadius[0] += step;
-        if (step > 0) {
+        if (step >= 0) {
           if (darknessPipeline.lightRadius[0] >= finalStep) {
             darknessPipeline.lightRadius[0] = finalStep;
             clearInterval(animationRadius);

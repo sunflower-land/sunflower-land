@@ -5,6 +5,7 @@ import {
   DAILY_ATTEMPTS,
   RESTOCK_ATTEMPTS,
 } from "../HalloweenConstants";
+import { VisibilityPolygon } from "./visibilityPolygon";
 
 /**
  * Gets the number of attempts left for the minigame.
@@ -52,4 +53,21 @@ const getStartOfUTCDay = (date: Date) => {
   const startOfDay = new Date(date);
   startOfDay.setUTCHours(0, 0, 0, 0); // set time to midnight UTC
   return startOfDay.getTime();
+};
+
+export const createLightPolygon = (
+  x: number,
+  y: number,
+  visibilityPolygon: VisibilityPolygon,
+  polygonWalls: [number, number][][],
+) => {
+  let segments = visibilityPolygon.convertToSegments(polygonWalls);
+  segments = visibilityPolygon.breakIntersections(segments);
+  const position = [x, y];
+  if (
+    visibilityPolygon.inPolygon(position, polygonWalls[polygonWalls.length - 1])
+  ) {
+    return visibilityPolygon.compute(position, segments);
+  }
+  return null;
 };

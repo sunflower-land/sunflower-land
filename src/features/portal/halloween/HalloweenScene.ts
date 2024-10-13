@@ -8,11 +8,15 @@ import { VisibilityPolygon } from "./lib/visibilityPolygon";
 import {
   INITIAL_LAMPS_LIGHT_RADIUS,
   MIN_PLAYER_LIGHT_RADIUS,
-  TOTAL_LAMPS,
   LAMPS_CONFIGURATION,
+  LAMP_SPAWN_BASE_INTERVAL,
+  MAX_LAMPS_IN_MAP,
+  LAMP_SPAWN_INCREASE_PERCENTAGE,
 } from "./HalloweenConstants";
 import { LampContainer } from "./containers/LampContainer";
 import { EventObject } from "xstate";
+import { SPAWNS } from "features/world/lib/spawn";
+import { createLightPolygon } from "./lib/HalloweenUtils";
 
 export const NPCS: NPCBumpkin[] = [
   {
@@ -32,9 +36,13 @@ export class HalloweenScene extends BaseScene {
   private mask?: Phaser.Display.Masks.GeometryMask;
   private lightedItems!: Phaser.GameObjects.Container[];
   private polygons!: [number, number][][];
+  private polygonShapes!: Phaser.Geom.Polygon[];
   private playerPosition!: Coordinates;
   private lightGraphics?: Phaser.GameObjects.Graphics;
   private visibilityPolygon!: VisibilityPolygon;
+  private lampSpawnTime!: number;
+  private numLampsInMap!: number;
+  private deathDate!: Date | null;
 
   sceneId: SceneId = "halloween";
 
@@ -78,58 +86,117 @@ export class HalloweenScene extends BaseScene {
     this.initShaders();
 
     // Important to first save the player and then the lamps
-    this.currentPlayer && this.lightedItems.push(this.currentPlayer);
+    this.currentPlayer && (this.lightedItems[0] = this.currentPlayer);
     this.createMask();
-    this.createLamps();
     this.createWalls();
+    this.createAllLamps();
 
     this.initialiseNPCs(NPCS);
 
     // reload scene when player hit retry
     const onRetry = (event: EventObject) => {
       if (event.type === "RETRY") {
-        this.changeScene(this.sceneId);
+        this.isCameraFading = true;
+        this.cameras.main.fadeOut(500);
+        this.reset();
+        this.cameras.main.on(
+          "camerafadeoutcomplete",
+          () => {
+            this.cameras.main.fadeIn(500);
+            this.isCameraFading = false;
+          },
+          this,
+        );
       }
     };
     this.portalService?.onEvent(onRetry);
 
-    // cleanup event listeners when scene is shut down
-    this.events.on("shutdown", () => {
-      this.portalService?.off(onRetry);
+    // Prevent zoom
+    window.addEventListener(
+      "wheel",
+      function (e) {
+        if (e.ctrlKey) {
+          e.preventDefault();
+        }
+      },
+      { passive: false },
+    );
+    window.addEventListener("keydown", function (e) {
+      if (
+        (e.ctrlKey || e.metaKey) &&
+        (e.key === "+" || e.key === "-" || e.key === "=")
+      ) {
+        e.preventDefault();
+      }
+    });
+    document.addEventListener(
+      "touchstart",
+      function (e) {
+        if (e.touches.length > 1) {
+          e.preventDefault();
+        }
+      },
+      { passive: false },
+    );
+    document.addEventListener("gesturestart", function (e) {
+      e.preventDefault();
     });
   }
 
   update() {
     if (!this.currentPlayer) return;
 
-    this.adjustShaders();
+    if (this.portalService?.state.context.lamps === -1) {
+      this.endGame();
+    } else {
+      this.adjustShaders();
 
-    const { x: currentX = 0, y: currentY = 0 } = this.currentPlayer ?? {};
+      const { x: currentX = 0, y: currentY = 0 } = this.currentPlayer ?? {};
 
-    if (
-      this.playerPosition.x !== currentX ||
-      this.playerPosition.y !== currentY
-    ) {
-      this.renderAllLights();
-      this.playerPosition = { x: currentX, y: currentY };
+      if (
+        this.playerPosition.x !== currentX ||
+        this.playerPosition.y !== currentY
+      ) {
+        this.renderAllLights();
+        this.playerPosition = { x: currentX, y: currentY };
+      }
+
+      this.loadBumpkinAnimations();
+
+      this.setLampSpawnTime();
+
+      this.portalService?.send("GAIN_POINTS");
+
+      this.isGameReady && this.portalService?.send("START");
     }
 
-    this.loadBumpkinAnimations();
-
     this.currentPlayer.updateLightRadius();
-
-    this.portalService?.send("GAIN_POINTS");
-
-    this.isGameReady && this.portalService?.send("START");
 
     super.update();
   }
 
   private setDefaultStates() {
-    this.lightedItems = [];
+    this.lightedItems = Array(MAX_LAMPS_IN_MAP + 1).fill(null);
     this.polygons = [];
+    this.polygonShapes = [];
     this.playerPosition = { x: 0, y: 0 };
     this.visibilityPolygon = new VisibilityPolygon();
+    this.lampSpawnTime = LAMP_SPAWN_BASE_INTERVAL;
+    this.numLampsInMap = LAMPS_CONFIGURATION.length;
+    this.deathDate = null;
+  }
+
+  private reset() {
+    this.currentPlayer?.setPosition(
+      SPAWNS()[this.sceneId].default.x,
+      SPAWNS()[this.sceneId].default.y,
+    );
+    this.resetAllLamps();
+    this.lightedItems = Array(MAX_LAMPS_IN_MAP + 1).fill(null);
+    this.currentPlayer && (this.lightedItems[0] = this.currentPlayer);
+    this.createAllLamps();
+    this.lampSpawnTime = LAMP_SPAWN_BASE_INTERVAL;
+    this.deathDate = null;
   }
 
   private initShaders() {
@@ -147,7 +214,7 @@ export class HalloweenScene extends BaseScene {
     // Set initial values in the shader
     // First position: current player
     const playerLightRadius = [MIN_PLAYER_LIGHT_RADIUS];
-    const lampsLightRadius = new Array(TOTAL_LAMPS).fill(
+    const lampsLightRadius = new Array(MAX_LAMPS_IN_MAP).fill(
       INITIAL_LAMPS_LIGHT_RADIUS,
     );
     darknessPipeline.lightRadius = [...playerLightRadius, ...lampsLightRadius];
@@ -173,6 +240,30 @@ export class HalloweenScene extends BaseScene {
     this.currentPlayer.lampVisibility(!!lamps);
   }
 
+  private setLampSpawnTime() {
+    const score = Math.floor(this.portalService?.state.context.score || 0);
+    if (score >= this.lampSpawnTime) {
+      const increase = Math.floor(
+        LAMP_SPAWN_BASE_INTERVAL *
+          (1 +
+            LAMP_SPAWN_INCREASE_PERCENTAGE *
+              Math.floor(score / LAMP_SPAWN_BASE_INTERVAL)),
+      );
+      this.lampSpawnTime += increase;
+
+      this.numLampsInMap = this.lightedItems.filter((item, i) => {
+        if (i === 0) return false;
+        return item !== null && item?.x !== -9999 && item?.y !== -9999;
+      }).length;
+
+      if (this.numLampsInMap < MAX_LAMPS_IN_MAP) {
+        // console.log("Goal: ", this.lampSpawnTime, "Increase: ", increase);
+        // console.log("Lamps in the map", this.numLampsInMap);
+        this.createLamp();
+      }
+    }
+  }
+
   private getNormalizedCoords(x: number, y: number) {
     const xPos =
       ((x - this.cameras.main.worldView.x) / this.cameras.main.width) *
@@ -190,25 +281,72 @@ export class HalloweenScene extends BaseScene {
     ) as DarknessPipeline;
 
     this.lightedItems.forEach((light, i) => {
-      const [x, y] = this.getNormalizedCoords(light.x, light.y);
+      const coordinates = light
+        ? { x: light.x, y: light.y }
+        : { x: -9999, y: -9999 };
+      const [x, y] = this.getNormalizedCoords(coordinates.x, coordinates.y);
       darknessPipeline.lightSources[i] = { x: x, y: y };
     });
   };
 
-  private createLamps() {
+  private resetAllLamps() {
+    this.lightedItems.forEach((item, i) => {
+      if (i > 0) {
+        (item as LampContainer)?.destroyLamp();
+      }
+    });
+  }
+
+  private createLamp() {
+    let x: number, y: number, isInsidePolygon;
+    do {
+      x = Phaser.Math.Between(0, this.map.width * this.map.tileWidth);
+      y = Phaser.Math.Between(0, this.map.width * this.map.tileWidth);
+      isInsidePolygon = this.polygonShapes.some((shape) =>
+        Phaser.Geom.Polygon.Contains(shape, x, y),
+      );
+    } while (isInsidePolygon);
+
+    const index = this.lightedItems.findIndex(
+      (item) => item === null || (item?.x === -9999 && item?.y === -9999),
+    );
+
+    const lamp = new LampContainer({
+      x: x,
+      y: y,
+      id: index,
+      scene: this as BaseScene,
+      player: this.currentPlayer,
+      visibilityPolygon: this.visibilityPolygon,
+      polygonWalls: this.polygons,
+    });
+
+    this.lightedItems[index] = lamp;
+
+    // console.log("x: ", x, "y: ", y);
+    // console.log(this.lightedItems);
+  }
+
+  private createAllLamps() {
     if (!this.currentPlayer) return;
 
     const lamps = LAMPS_CONFIGURATION.map(
-      (lamp) =>
+      (lamp, i) =>
         new LampContainer({
           x: lamp.x,
           y: lamp.y,
+          id: i,
           scene: this as BaseScene,
           player: this.currentPlayer,
+          visibilityPolygon: this.visibilityPolygon,
+          polygonWalls: this.polygons,
         }),
     );
 
-    this.lightedItems = [...this.lightedItems, ...lamps];
+    const position = 1;
+    if (lamps.length + position <= this.lightedItems.length) {
+      this.lightedItems.splice(position, lamps.length, ...lamps);
+    }
   }
 
   private createWalls() {
@@ -222,10 +360,18 @@ export class HalloweenScene extends BaseScene {
     collisions?.forEach((collision) => {
       if (collision?.polygon) {
         const polygon: [number, number][] = [];
+        const polygonPoints: Phaser.Geom.Point[] = [];
         collision.polygon.forEach((position) => {
           polygon.push([collision.x + position.x, collision.y + position.y]);
+          polygonPoints.push(
+            new Phaser.Geom.Point(
+              collision.x + position.x,
+              collision.y + position.y,
+            ),
+          );
         });
         this.polygons.push(polygon);
+        this.polygonShapes.push(new Phaser.Geom.Polygon(polygonPoints));
       }
     });
 
@@ -263,7 +409,9 @@ export class HalloweenScene extends BaseScene {
         0,
         0,
       );
-      layer?.setMask(this.mask as Phaser.Display.Masks.GeometryMask);
+      if (layerData.name === "Ground") {
+        layer?.setMask(this.mask as Phaser.Display.Masks.GeometryMask);
+      }
 
       this.layers[layerData.name] = layer as Phaser.Tilemaps.TilemapLayer;
     });
@@ -274,8 +422,25 @@ export class HalloweenScene extends BaseScene {
 
     this.lightGraphics.clear();
     this.lightedItems.forEach((item) => {
+      if (!this.currentPlayer) return;
+      if (!item) return;
+
+      const normalizedX =
+        ((item.x - this.cameras.main.worldView.x) / this.cameras.main.width) *
+        this.cameras.main.zoom;
+      const normalizedY =
+        ((item.y - this.cameras.main.worldView.y) / this.cameras.main.height) *
+        this.cameras.main.zoom;
+
       // Position deleted x: -9999 and y: -9999
-      if (item.x !== -9999 && item.y !== -9999) {
+      if (
+        item.x !== -9999 &&
+        item.y !== -9999 &&
+        normalizedX >= -0.5 &&
+        normalizedX <= 1.5 &&
+        normalizedY >= -0.5 &&
+        normalizedY <= 1.5
+      ) {
         this.renderLight(item);
       }
     });
@@ -284,7 +449,15 @@ export class HalloweenScene extends BaseScene {
   private renderLight(item: Phaser.GameObjects.Container) {
     if (!this.lightGraphics) return;
 
-    const visibility = this.createLightPolygon(item.x, item.y);
+    const visibility =
+      item instanceof LampContainer
+        ? item.polygonLight
+        : createLightPolygon(
+            item.x,
+            item.y,
+            this.visibilityPolygon,
+            this.polygons,
+          );
 
     // begin a drawing path
     this.lightGraphics.beginPath();
@@ -301,20 +474,6 @@ export class HalloweenScene extends BaseScene {
           visibility[i % visibility.length][1],
         );
       }
-
-      // Make the walls visible
-      for (let i = 0; i < this.polygons.length - 1; i++) {
-        this.lightGraphics?.moveTo(
-          this.polygons[i][0][0],
-          this.polygons[i][0][1],
-        );
-        for (let j = 1; j < this.polygons[i].length; j++) {
-          this.lightGraphics?.lineTo(
-            this.polygons[i][j][0],
-            this.polygons[i][j][1],
-          );
-        }
-      }
     }
 
     // close, stroke and fill light polygon
@@ -323,18 +482,13 @@ export class HalloweenScene extends BaseScene {
     this.lightGraphics.strokePath();
   }
 
-  createLightPolygon(x: number, y: number) {
-    let segments = this.visibilityPolygon.convertToSegments(this.polygons);
-    segments = this.visibilityPolygon.breakIntersections(segments);
-    const position = [x, y];
-    if (
-      this.visibilityPolygon.inPolygon(
-        position,
-        this.polygons[this.polygons.length - 1],
-      )
-    ) {
-      return this.visibilityPolygon.compute(position, segments);
+  private endGame() {
+    this.isCameraFading = true;
+    this.currentPlayer?.dead();
+    if (!this.deathDate) {
+      this.deathDate = new Date(new Date().getTime() + 1200);
+    } else if (new Date().getTime() >= this.deathDate.getTime()) {
+      this.portalService?.send("GAME_OVER");
     }
-    return null;
   }
 }

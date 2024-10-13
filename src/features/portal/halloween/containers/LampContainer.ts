@@ -2,21 +2,39 @@ import { BumpkinContainer } from "features/world/containers/BumpkinContainer";
 import { BaseScene } from "features/world/scenes/BaseScene";
 import { MachineInterpreter } from "../lib/halloweenMachine";
 import { MAX_PLAYER_LAMPS } from "../HalloweenConstants";
+import { VisibilityPolygon } from "../lib/visibilityPolygon";
+import { createLightPolygon } from "../lib/HalloweenUtils";
 
 interface Props {
   x: number;
   y: number;
+  id: number;
   scene: BaseScene;
   player?: BumpkinContainer;
+  visibilityPolygon?: VisibilityPolygon;
+  polygonWalls?: [number, number][][];
 }
 
 export class LampContainer extends Phaser.GameObjects.Container {
   private player?: BumpkinContainer;
+  private visibilityPolygon?: VisibilityPolygon;
+  private polygonWalls?: [number, number][][];
+  polygonLight!: number[][] | null;
 
-  constructor({ x, y, scene, player }: Props) {
+  constructor({
+    x,
+    y,
+    id,
+    scene,
+    player,
+    visibilityPolygon,
+    polygonWalls,
+  }: Props) {
     super(scene, x, y);
     this.scene = scene;
     this.player = player;
+    this.visibilityPolygon = visibilityPolygon;
+    this.polygonWalls = polygonWalls;
 
     // Sprite Lamp
     const spriteName = "lamp";
@@ -24,7 +42,7 @@ export class LampContainer extends Phaser.GameObjects.Container {
 
     // Animation
     this.scene.anims.create({
-      key: spriteName + "_action",
+      key: `${spriteName}_${id}_action`,
       frames: this.scene.anims.generateFrameNumbers(spriteName, {
         start: 0,
         end: 3,
@@ -32,7 +50,7 @@ export class LampContainer extends Phaser.GameObjects.Container {
       repeat: -1,
       frameRate: 10,
     });
-    lamp.play(spriteName + "_action", true);
+    lamp.play(`${spriteName}_${id}_action`, true);
 
     scene.physics.add.existing(this);
 
@@ -46,6 +64,7 @@ export class LampContainer extends Phaser.GameObjects.Container {
       scene.physics.add.overlap(this, player, () => this.collectLamp());
     }
 
+    this.changePosition(x, y);
     this.setSize(lamp.width, lamp.height);
     this.add(lamp);
     this.setScale(0.8);
@@ -70,8 +89,21 @@ export class LampContainer extends Phaser.GameObjects.Container {
     this.destroyLamp();
   }
 
-  private destroyLamp() {
+  destroyLamp() {
     this.setPosition(-9999, -9999);
     this.destroy();
+  }
+
+  changePosition(x: number, y: number) {
+    if (!this.visibilityPolygon || !this.polygonWalls) return;
+
+    this.setX(x);
+    this.setY(y);
+    this.polygonLight = createLightPolygon(
+      x,
+      y,
+      this.visibilityPolygon,
+      this.polygonWalls,
+    );
   }
 }

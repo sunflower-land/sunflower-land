@@ -27,7 +27,7 @@ export const HalloweenTimeDead: React.FC = () => {
         setTimeLeft((prevTimeLeft) => {
           const newTimeLeft = prevTimeLeft - 1;
           if (newTimeLeft === 0) {
-            portalService.send("GAME_OVER");
+            portalService.send("DEAD_LAMP");
             clearInterval(intervalId);
           }
 

@@ -55,7 +55,7 @@ const SEND_PACKET_RATE = 10;
 const NAME_TAG_OFFSET_PX = 12;
 
 const HALLOWEEN_SQUARE_WIDTH = 32;
-const WALKING_SPEED = 50;
+export const WALKING_SPEED = 50;
 
 type BaseSceneOptions = {
   name: SceneId;
@@ -118,6 +118,7 @@ export abstract class BaseScene extends Phaser.Scene {
   colliders?: Phaser.GameObjects.Group;
   triggerColliders?: Phaser.GameObjects.Group;
   hiddenColliders?: Phaser.GameObjects.Group;
+  decorationColliders?: Phaser.GameObjects.Group;
 
   soundEffects: AudioController[] = [];
   walkAudioController?: WalkAudioController;
@@ -444,6 +445,8 @@ export abstract class BaseScene extends Phaser.Scene {
         (polygon.body as Physics.Arcade.Body).setImmovable(true);
       });
     }
+
+    this.decorationColliders = this.add.group();
 
     // Debugging purposes - display colliders in pink
     this.physics.world.drawDebug = false;
