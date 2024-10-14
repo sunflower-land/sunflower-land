@@ -109,7 +109,7 @@ export const WaterComponent: React.FC<Props> = ({
 
       <RestockBoat />
 
-      <CompetitionBoard />
+      {/* <CompetitionBoard /> */}
 
       <MapPlacement x={-5 - offset} y={2} width={4}>
         <LaTomatina event={gameState.specialEvents.current["La Tomatina"]} />

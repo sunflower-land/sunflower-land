@@ -1377,3 +1377,17 @@ th {
     content: "";
   }
 }
+
+/* For panning from left to right */
+@keyframes panLeftToRight {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(100px); /* Adjust based on desired panning distance */
+  }
+}
+
+.island {
+  animation: panLeftToRight 15s linear infinite;
+}

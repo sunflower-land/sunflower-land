@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { Modal } from "components/ui/Modal";
 import { useSelector } from "@xstate/react";
 
@@ -216,6 +216,7 @@ const GameContent: React.FC = () => {
   const visiting = useSelector(gameService, isVisiting);
   const landToVisitNotFound = useSelector(gameService, isLandToVisitNotFound);
   const { t } = useAppTranslation();
+
   if (landToVisitNotFound) {
     return (
       <>

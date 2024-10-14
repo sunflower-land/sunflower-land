@@ -97,6 +97,7 @@ import {
 } from "../actions/effect";
 import { TRANSACTION_SIGNATURES, TransactionName } from "../types/transactions";
 import { getKeys } from "../types/decorations";
+import { LAND_ONE } from "./demo";
 
 // Run at startup in case removed from query params
 const portalName = new URLSearchParams(window.location.search).get("portal");
@@ -631,7 +632,7 @@ export function startGame(authContext: AuthContext) {
         fslId: "123",
         farmId: Math.floor(Math.random() * 1000),
         actions: [],
-        state: EMPTY,
+        state: LAND_ONE,
         sessionId: INITIAL_SESSION,
         announcements: {},
         moderation: {

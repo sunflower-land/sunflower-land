@@ -1,4 +1,11 @@
-import React, { useContext, useLayoutEffect, useMemo } from "react";
+import React, {
+  useContext,
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { useSelector } from "@xstate/react";
 import classNames from "classnames";
 
@@ -42,6 +49,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { Marketplace } from "features/marketplace/Marketplace";
 import { useLocation } from "react-router-dom";
 import { createPortal } from "react-dom";
+import { DEMO_LANDS } from "../lib/demo";
 
 export const LAND_WIDTH = 6;
 
@@ -621,10 +629,51 @@ export const Land: React.FC = () => {
     return gameGridValue;
   }, [JSON.stringify(gameGridValue)]);
 
+  const landIndex = useRef(0);
+  const [isFading, setIsFading] = useState(false);
+
+  useEffect(() => {
+    const interval = setInterval(async () => {
+      setIsFading(true);
+
+      await new Promise((res) => setTimeout(res, 1000));
+
+      // Update island after fade out completes
+      landIndex.current = (landIndex.current + 1) % DEMO_LANDS.length;
+      const state = DEMO_LANDS[landIndex.current];
+
+      // Send state update to gameService
+      gameService.send("UPDATE", { state });
+
+      // Fade back in and restart panning
+      await new Promise((res) => setTimeout(res, 1000));
+
+      setIsFading(false);
+    }, 13000);
+
+    return () => clearInterval(interval);
+  }, [gameService]);
+
   return (
     <>
       <div
-        className="absolute"
+        className={classNames(
+          "absolute inset-0 w-full h-full bg-black duration-500  transition-opacity z-[9999]",
+          {
+            "opacity-0": !isFading,
+            "opacity-100": isFading,
+          },
+        )}
+        style={{
+          transitionDuration: "2s",
+        }}
+      >
+        <h1>FADING</h1>
+      </div>
+
+      <div
+        className="absolute island"
+        key={landIndex.current}
         style={{
           // dynamic gameboard
           width: `${gameboardDimensions.x * GRID_WIDTH_PX}px`,
@@ -632,6 +681,7 @@ export const Land: React.FC = () => {
           backgroundImage: `url(${SUNNYSIDE.decorations.ocean})`,
           backgroundSize: `${64 * PIXEL_SCALE}px`,
           imageRendering: "pixelated",
+          transform: "translateX(0)",
         }}
       >
         <BackgroundIslands
@@ -736,7 +786,7 @@ export const Land: React.FC = () => {
         </div>
       )}
 
-      {!landscaping && !visiting && <Hud isFarming={true} location="farm" />}
+      {/* {!landscaping && !visiting && <Hud isFarming={true} location="farm" />} */}
 
       {showMarketplace &&
         createPortal(
