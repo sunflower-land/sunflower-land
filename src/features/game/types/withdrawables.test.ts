@@ -66,7 +66,7 @@ describe("withdrawables", () => {
       const timers = jest.useFakeTimers();
       timers.setSystemTime(new Date("Thu August 7 2023 10:01:00 GMT+1000"));
 
-      const enabled = BUMPKIN_WITHDRAWABLES["Pan"]();
+      const enabled = BUMPKIN_WITHDRAWABLES["Rock Hammer"]();
       expect(enabled).toBeFalsy();
     });
 
@@ -74,7 +74,7 @@ describe("withdrawables", () => {
       const timers = jest.useFakeTimers();
       timers.setSystemTime(new Date("Thu July 7 2023 10:01:00 GMT+1000"));
 
-      const enabled = WITHDRAWABLES["Rice Panda"]();
+      const enabled = WITHDRAWABLES["Sand Golem"]();
       expect(enabled).toBeFalsy();
     });
 
