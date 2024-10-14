@@ -273,7 +273,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
         coins: 0,
         startAt: new Date().getTime() - 500,
         endAt: new Date().getTime() + 5000000,
-        score: 500,
+        score: 300 * 1000,
         items: {},
         wearables: {
           "Red Farmer Shirt": 1,

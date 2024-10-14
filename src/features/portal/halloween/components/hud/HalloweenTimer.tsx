@@ -3,7 +3,7 @@ import { useSelector } from "@xstate/react";
 import { PortalContext } from "../../lib/PortalProvider";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { secondsToString } from "lib/utils/time";
+import { millisecondsToString } from "lib/utils/time";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 import { Label } from "components/ui/Label";
 import { PortalMachineState } from "../../lib/halloweenMachine";
@@ -31,7 +31,7 @@ export const HalloweenTimer: React.FC = () => {
         right: `${PIXEL_SCALE * 3}px`,
       }}
     >
-      {secondsToString(secondsPassed, {
+      {millisecondsToString(secondsPassed, {
         length: "full",
       })}
     </Label>

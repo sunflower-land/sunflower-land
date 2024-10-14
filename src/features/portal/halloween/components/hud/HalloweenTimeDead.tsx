@@ -6,7 +6,7 @@ import { secondsToString } from "lib/utils/time";
 import { Label } from "components/ui/Label";
 import { PortalMachineState } from "../../lib/halloweenMachine";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { DURATION_GAME_OVER_WITHOUT_LAMPS } from "../../HalloweenConstants";
+import { DURATION_GAME_OVER_WITHOUT_LAMPS_SECONDS } from "../../HalloweenConstants";
 
 const _lamps = (state: PortalMachineState) => state.context.lamps;
 const _isPlaying = (state: PortalMachineState) => state.matches("playing");
@@ -19,14 +19,16 @@ export const HalloweenTimeDead: React.FC = () => {
   const lamps = useSelector(portalService, _lamps);
   const isPlaying = useSelector(portalService, _isPlaying);
 
-  const [timeLeft, setTimeLeft] = useState(DURATION_GAME_OVER_WITHOUT_LAMPS);
+  const [timeLeft, setTimeLeft] = useState(
+    DURATION_GAME_OVER_WITHOUT_LAMPS_SECONDS,
+  );
 
   useEffect(() => {
     if (lamps === 0) {
       const intervalId = setInterval(() => {
         setTimeLeft((prevTimeLeft) => {
           const newTimeLeft = prevTimeLeft - 1;
-          if (newTimeLeft === 0) {
+          if (newTimeLeft <= 0) {
             portalService.send("DEAD_LAMP");
             clearInterval(intervalId);
           }
@@ -37,7 +39,7 @@ export const HalloweenTimeDead: React.FC = () => {
 
       return () => clearInterval(intervalId);
     } else {
-      setTimeLeft(DURATION_GAME_OVER_WITHOUT_LAMPS);
+      setTimeLeft(DURATION_GAME_OVER_WITHOUT_LAMPS_SECONDS);
     }
   }, [lamps]);
 

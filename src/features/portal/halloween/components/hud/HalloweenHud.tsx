@@ -55,8 +55,12 @@ export const HalloweenHud: React.FC = () => {
           }}
         >
           <HalloweenTarget />
-          <HalloweenTimeScore />
-          <HalloweenTimeDead />
+          {isPlaying && (
+            <>
+              <HalloweenTimeScore />
+              <HalloweenTimeDead />
+            </>
+          )}
         </div>
 
         <HalloweenTravel />

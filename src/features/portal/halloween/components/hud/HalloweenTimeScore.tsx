@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { useSelector } from "@xstate/react";
 import { PortalContext } from "../../lib/PortalProvider";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { secondsToString } from "lib/utils/time";
+import { millisecondsToString } from "lib/utils/time";
 import { Label } from "components/ui/Label";
 import { PortalMachineState } from "../../lib/halloweenMachine";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -23,7 +23,7 @@ export const HalloweenTimeScore: React.FC = () => {
       type={"info"}
     >
       {t("halloween.score", {
-        score: secondsToString(score, {
+        score: millisecondsToString(score, {
           length: "full",
         }),
       })}

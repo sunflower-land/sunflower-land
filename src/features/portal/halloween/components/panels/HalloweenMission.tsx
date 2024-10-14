@@ -16,6 +16,7 @@ import { HalloweenGuide } from "./HalloweenGuide";
 import { SquareIcon } from "components/ui/SquareIcon";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { hasFeatureAccess } from "lib/flags";
+import { millisecondsToString } from "lib/utils/time";
 
 interface Props {
   mode: "introduction" | "success" | "failed";
@@ -88,23 +89,34 @@ export const HalloweenMission: React.FC<Props> = ({
                 {showScore && (
                   <span>
                     {t("halloween.score", {
-                      score: Math.round(lastScore),
+                      score: millisecondsToString(lastScore, {
+                        length: "full",
+                      }),
                     })}
                   </span>
                 )}
                 <span>
                   {t("halloween.bestToday", {
                     score: minigame?.history[dateKey]?.highscore
-                      ? Math.round(minigame?.history[dateKey]?.highscore)
+                      ? millisecondsToString(
+                          minigame?.history[dateKey]?.highscore,
+                          {
+                            length: "full",
+                          },
+                        )
                       : 0,
                   })}
                 </span>
                 <span>
                   {t("halloween.bestAllTime", {
-                    score: Object.values(minigame?.history ?? {}).reduce(
-                      (acc, { highscore }) =>
-                        Math.round(Math.max(acc, highscore)),
-                      0,
+                    score: millisecondsToString(
+                      Object.values(minigame?.history ?? {}).reduce(
+                        (acc, { highscore }) => Math.max(acc, highscore),
+                        0,
+                      ),
+                      {
+                        length: "full",
+                      },
                     ),
                   })}
                 </span>

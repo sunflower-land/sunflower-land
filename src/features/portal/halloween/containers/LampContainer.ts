@@ -4,6 +4,7 @@ import { MachineInterpreter } from "../lib/halloweenMachine";
 import { MAX_PLAYER_LAMPS } from "../HalloweenConstants";
 import { VisibilityPolygon } from "../lib/visibilityPolygon";
 import { createLightPolygon } from "../lib/HalloweenUtils";
+import { translate } from "lib/i18n/translate";
 
 interface Props {
   x: number;
@@ -80,7 +81,7 @@ export class LampContainer extends Phaser.GameObjects.Container {
 
   private collectLamp() {
     if (this.portalService?.state.context.lamps === MAX_PLAYER_LAMPS) {
-      this.player?.speak("No more space!");
+      this.player?.speak(translate("halloween.noMoreSpace"));
       return;
     }
 

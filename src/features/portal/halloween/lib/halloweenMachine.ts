@@ -291,7 +291,7 @@ export const portalMachine = createMachine<Context, PortalEvent, PortalState>({
             score: (context: Context) => {
               const secondsPassed = !context.startedAt
                 ? 0
-                : Math.max(Date.now() - context.startedAt, 0) / 1000;
+                : Math.max(Date.now() - context.startedAt, 0);
               return secondsPassed;
             },
           }),
@@ -337,7 +337,7 @@ export const portalMachine = createMachine<Context, PortalEvent, PortalState>({
               return context.score;
             },
             state: (context: any) => {
-              submitScore({ score: Math.round(context.score) });
+              submitScore({ score: context.score });
               return submitMinigameScore({
                 state: context.state,
                 action: {
