@@ -9,6 +9,7 @@ import { npcDialogues, defaultDialogue } from "../deliveries/dialogues";
 import { BeachBaitShop } from "../beach/BeachBaitShop";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { OuterPanel } from "components/ui/Panel";
+import fishingLure from "assets/composters/fishing_lure.png";
 
 interface Props {
   onClose: () => void;
@@ -36,11 +37,11 @@ export const Finn: React.FC<Props> = ({ onClose }) => {
             text: intro,
             actions: [
               {
-                text: t("buy"),
+                text: t("delivery"),
                 cb: () => handleConfirm(0),
               },
               {
-                text: t("delivery"),
+                text: t("buy"),
                 cb: () => handleConfirm(1),
               },
             ],
@@ -56,14 +57,14 @@ export const Finn: React.FC<Props> = ({ onClose }) => {
       bumpkinParts={NPC_WEARABLES.finn}
       container={OuterPanel}
       tabs={[
-        { icon: SUNNYSIDE.icons.heart, name: t("buy") },
         { icon: SUNNYSIDE.icons.expression_chat, name: t("delivery") },
+        { icon: fishingLure, name: t("buy") },
       ]}
       setCurrentTab={setTab}
       currentTab={tab}
     >
-      {tab === 0 && <BeachBaitShop />}
-      {tab === 1 && <DeliveryPanelContent npc="finn" />}
+      {tab === 0 && <DeliveryPanelContent npc="finn" />}
+      {tab === 1 && <BeachBaitShop />}
     </CloseButtonPanel>
   );
 };
