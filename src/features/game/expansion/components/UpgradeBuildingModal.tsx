@@ -76,9 +76,9 @@ export const UpgradeBuildingModal: React.FC<Props> = ({
             <Label
               type="default"
               icon={SUNNYSIDE.icons.hammer}
-              className="mb-2"
+              className="mb-2 ml-1"
             >
-              {t("upgrade")}
+              {t("upgrade.building", { building: buildingName })}
             </Label>
             <InlineDialogue
               message={t("upgrade.intro", {
@@ -91,13 +91,13 @@ export const UpgradeBuildingModal: React.FC<Props> = ({
             <Label
               type="default"
               icon={SUNNYSIDE.icons.basket}
-              className="ml-1 mb-2"
+              className="ml-2 mb-2"
             >
               {t("requirements")}
             </Label>
             <InnerPanel className="flex flex-wrap gap-2 w-full">
               {getKeys(requirements.items).map((itemName) => (
-                <div key={itemName} className="flex-shrink-0 mb-2 mr-2">
+                <div key={itemName} className="flex-shrink-0 gap-1">
                   <RequirementLabel
                     type="item"
                     item={itemName}
@@ -106,7 +106,7 @@ export const UpgradeBuildingModal: React.FC<Props> = ({
                   />
                 </div>
               ))}
-              <div className="flex-shrink-0 mb-2 mr-2">
+              <div className="flex-shrink-0 gap-1">
                 <RequirementLabel
                   type="coins"
                   balance={state.coins}
