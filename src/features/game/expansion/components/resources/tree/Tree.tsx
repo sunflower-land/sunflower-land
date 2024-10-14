@@ -127,7 +127,6 @@ export const Tree: React.FC<Props> = ({ id }) => {
     // need to hit enough times to collect resource
     if (touchCount < HITS - 1) return;
 
-    // increase touch count if there is a reward
     if (resource.wood.reward) {
       // they have touched enough!
       setReward(resource.wood.reward);
