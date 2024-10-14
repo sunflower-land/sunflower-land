@@ -60,7 +60,7 @@ export const FeederMachineModal: React.FC<Props> = ({ show, onClose }) => {
     <Modal show={show} onHide={onClose}>
       <CloseButtonPanel
         onClose={onClose}
-        tabs={[{ icon: SUNNYSIDE.resource.chicken, name: "Feeder Machine" }]}
+        tabs={[{ icon: SUNNYSIDE.animalFoods.hay, name: "Feeder Machine" }]}
       >
         <SplitScreenView
           panel={
