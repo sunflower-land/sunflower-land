@@ -25,6 +25,8 @@ import { DepletedTree } from "./components/DepletedTree";
 import { DepletingTree } from "./components/DepletingTree";
 import { RecoveredTree } from "./components/RecoveredTree";
 import { gameAnalytics } from "lib/gameAnalytics";
+import { getBumpkinLevel } from "features/game/lib/level";
+import { hasActiveSeasonBanner } from "features/game/lib/collectibleBuilt";
 
 const HITS = 3;
 const tool = "Axe";
@@ -55,6 +57,15 @@ const compareGame = (prev: GameState, next: GameState) =>
   isCollectibleBuilt({ name: "Foreman Beaver", game: prev }) ===
   isCollectibleBuilt({ name: "Foreman Beaver", game: next });
 
+// A player that has been vetted and is engaged in the season.
+const isSeasonedPlayer = (state: MachineState) =>
+  // - level 60+
+  getBumpkinLevel(state.context.state.bumpkin?.experience ?? 0) >= 60 &&
+  // - verified (personhood verification)
+  state.context.verified &&
+  // - has active seasonal banner
+  hasActiveSeasonBanner({ game: state.context.state });
+
 interface Props {
   id: string;
   index: number;
@@ -69,6 +80,8 @@ export const Tree: React.FC<Props> = ({ id }) => {
   // When to hide the resource that pops out
   const [collecting, setCollecting] = useState(false);
   const [collectedAmount, setCollectedAmount] = useState<number>();
+
+  const isSeasoned = useSelector(gameService, isSeasonedPlayer);
 
   const divRef = useRef<HTMLDivElement>(null);
 
@@ -129,7 +142,13 @@ export const Tree: React.FC<Props> = ({ id }) => {
 
     if (resource.wood.reward) {
       // they have touched enough!
-      setReward(resource.wood.reward);
+      if (isSeasoned) {
+        gameService.send("treeReward.collected", {
+          treeIndex: id,
+        });
+      } else {
+        setReward(resource.wood.reward);
+      }
       return;
     }
 
