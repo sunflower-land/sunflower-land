@@ -6,7 +6,7 @@ import { SplitScreenView } from "components/ui/SplitScreenView";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Context } from "features/game/GameProvider";
 import { AnimalFoodName } from "features/game/types/game";
-// import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import React, { useContext, useState } from "react";
 import { ANIMAL_FOODS } from "./feedMixed";
 import { getKeys } from "features/game/types/decorations";
@@ -20,7 +20,7 @@ interface Props {
 }
 
 export const FeederMachineModal: React.FC<Props> = ({ show, onClose }) => {
-  // const { t } = useAppTranslation();
+  const { t } = useAppTranslation();
   const { gameService, shortcutItem } = useContext(Context);
   const [selectedName, setSelectedName] = useState<AnimalFoodName>("Hay");
   const { coins, ingredients } = ANIMAL_FOODS[selectedName];
@@ -60,7 +60,9 @@ export const FeederMachineModal: React.FC<Props> = ({ show, onClose }) => {
     <Modal show={show} onHide={onClose}>
       <CloseButtonPanel
         onClose={onClose}
-        tabs={[{ icon: SUNNYSIDE.animalFoods.hay, name: "Feeder Machine" }]}
+        tabs={[
+          { icon: SUNNYSIDE.animalFoods.hay, name: t("feederMachine.title") },
+        ]}
       >
         <SplitScreenView
           panel={
@@ -77,7 +79,7 @@ export const FeederMachineModal: React.FC<Props> = ({ show, onClose }) => {
                     disabled={lessFunds() || lessIngredients()}
                     onClick={() => mix()}
                   >
-                    {`Mix 1`}
+                    {t("mix.one")}
                   </Button>
                 </div>
               }
