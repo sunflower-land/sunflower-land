@@ -1,7 +1,6 @@
 import Decimal from "decimal.js-light";
 import { getKeys } from "features/game/types/decorations";
 import { Animal, BountyRequest, GameState } from "features/game/types/game";
-import { getSeasonalTicket } from "features/game/types/seasons";
 import { produce } from "immer";
 
 // TEMP level function
@@ -91,6 +90,11 @@ export function sellAnimal({
         soldAt: createdAt,
       },
     ];
+
+    game.farmActivity = trackFarmActivity(
+      `${animal.type} Bountied`,
+      game.farmActivity,
+    );
 
     return game;
   });
