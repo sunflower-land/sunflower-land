@@ -1,8 +1,9 @@
 import cloneDeep from "lodash.clonedeep";
-import { Inventory, GameState, AnimalFoodName } from "features/game/types/game";
+import { GameState, AnimalFoodName } from "features/game/types/game";
 import Decimal from "decimal.js-light";
 import { trackActivity } from "features/game/types/bumpkinActivity";
 import { getKeys } from "features/game/types/decorations";
+import { ANIMAL_FOODS } from "features/game/types/animals";
 
 export type FeedMixedAction = {
   type: "feed.mixed";
@@ -10,50 +11,9 @@ export type FeedMixedAction = {
   amount?: number;
 };
 
-export interface Feed {
-  name: AnimalFoodName;
-  description: string;
-  ingredients: Inventory;
-  coins?: number; // coins
-  disabled?: boolean;
-}
-
 type Options = {
   state: Readonly<GameState>;
   action: FeedMixedAction;
-};
-
-export const ANIMAL_FOODS: Record<AnimalFoodName, Feed> = {
-  Hay: {
-    name: "Hay",
-    description: "",
-    ingredients: {
-      Corn: new Decimal(1),
-    },
-  },
-  "Kernel Blend": {
-    name: "Kernel Blend",
-    description: "",
-    ingredients: {
-      Wheat: new Decimal(1),
-    },
-  },
-  NutriBarley: {
-    name: "NutriBarley",
-    description: "",
-    ingredients: {
-      Barley: new Decimal(1),
-    },
-  },
-  "Mixed Grain": {
-    name: "Mixed Grain",
-    description: "",
-    ingredients: {
-      Wheat: new Decimal(1),
-      Corn: new Decimal(1),
-      Barley: new Decimal(1),
-    },
-  },
 };
 
 export function feedMixed({ state, action }: Options) {
