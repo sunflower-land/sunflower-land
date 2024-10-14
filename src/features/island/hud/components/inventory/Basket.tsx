@@ -60,7 +60,7 @@ import {
   SEED_TO_PLANT,
   getGreenhouseCropTime,
 } from "features/game/events/landExpansion/plantGreenhouse";
-import { ANIMAL_FOODS } from "features/feederMachine/feedMixed";
+import { ANIMAL_FOODS } from "features/game/types/animals";
 
 interface Prop {
   gameState: GameState;

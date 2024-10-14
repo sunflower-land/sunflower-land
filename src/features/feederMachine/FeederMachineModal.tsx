@@ -7,12 +7,12 @@ import { Context } from "features/game/GameProvider";
 import { AnimalFoodName } from "features/game/types/game";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import React, { useContext, useState } from "react";
-import { ANIMAL_FOODS } from "./feedMixed";
 import { getKeys } from "features/game/types/decorations";
 import { Box } from "components/ui/Box";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { Button } from "components/ui/Button";
 import { OuterPanel } from "components/ui/Panel";
+import { ANIMAL_FOODS } from "features/game/types/animals";
 
 interface Props {
   show: boolean;
