@@ -30,7 +30,6 @@ export type FeatureName =
   | "SKILLS_REVAMP"
   | "MARKETPLACE"
   | "ONBOARDING_REWARDS"
-  | "FRUIT_DASH"
   | "NEW_RESOURCES_GE"
   | "FSL"
   | "ANIMAL_BUILDINGS"
@@ -57,7 +56,6 @@ const featureFlags: Record<FeatureName, FeatureFlag> = {
     game.experiments.includes("ONBOARDING_CHALLENGES"),
   MARKETPLACE: testnetFeatureFlag,
   CROP_QUICK_SELECT: () => false,
-  FRUIT_DASH: betaTimeBasedFeatureFlag(new Date("2024-09-10T00:00:00Z")),
   PORTALS: testnetFeatureFlag,
   JEST_TEST: defaultFeatureFlag,
   EASTER: () => false, // To re-enable next easter
