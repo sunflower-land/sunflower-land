@@ -50,11 +50,10 @@ const obsessionDialogues = (itemName: string) => [
 
 export const Bert: React.FC<Props> = ({ onClose }) => {
   const { t } = useAppTranslation();
-  const dialogue = npcDialogues.bert || defaultDialogue;
-  const intro = useRandomItem(dialogue.intro);
-
   const [tab, setTab] = useState(0);
   const [confirmAction, setConfirmAction] = useState(false);
+  const dialogue = npcDialogues.bert || defaultDialogue;
+  const intro = useRandomItem(dialogue.intro);
 
   const handleConfirm = (tab: number) => {
     setConfirmAction(true);
@@ -91,8 +90,8 @@ export const Bert: React.FC<Props> = ({ onClose }) => {
       bumpkinParts={NPC_WEARABLES.bert}
       container={tab === 0 ? OuterPanel : undefined}
       tabs={[
-        { icon: SUNNYSIDE.icons.expression_chat, name: "Delivery" },
-        { icon: SUNNYSIDE.icons.wardrobe, name: "Obsession" },
+        { icon: SUNNYSIDE.icons.expression_chat, name: t("delivery") },
+        { icon: SUNNYSIDE.icons.wardrobe, name: t("obsession") },
       ]}
       setCurrentTab={setTab}
       currentTab={tab}
