@@ -182,6 +182,7 @@ export const Recipes: React.FC<Props> = ({
               ),
               timeSeconds: getCookingTime(
                 getCookingOilBoost(selected.name, state, buildingId).timeToCook,
+                selected.name,
                 state.bumpkin,
                 state,
               ),

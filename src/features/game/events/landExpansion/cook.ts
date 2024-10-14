@@ -55,6 +55,7 @@ export function getCookingOilBoost(
   game: GameState,
   buildingId?: string,
 ): { timeToCook: number; oilConsumed: number } {
+  const { bumpkin } = game;
   const buildingName = COOKABLES[item].building;
 
   if (!isCookingBuilding(buildingName) || !buildingId) {
@@ -66,12 +67,34 @@ export function getCookingOilBoost(
   );
 
   const itemCookingTime = COOKABLES[item].cookingSeconds;
-
   const itemOilConsumption = getOilConsumption(buildingName, item);
   const oilRemaining = building?.oil || 0;
 
   const boostValue = BUILDING_OIL_BOOSTS[buildingName];
-  const boostedCookingTime = itemCookingTime * (1 - boostValue);
+  let boostedCookingTime = itemCookingTime * (1 - boostValue);
+
+  const applySkillBoost = (
+    time: number,
+    skills: Record<string, any>,
+  ): number => {
+    let modifiedTime = time;
+
+    if (skills["Swift Sizzle"] && buildingName === "Fire Pit") {
+      modifiedTime *= 0.6;
+    }
+
+    if (skills["Turbo Fry"] && buildingName === "Kitchen") {
+      modifiedTime *= 0.5;
+    }
+
+    if (skills["Fry Frenzy"] && buildingName === "Deli") {
+      modifiedTime *= 0.4;
+    }
+
+    return modifiedTime;
+  };
+
+  boostedCookingTime = applySkillBoost(boostedCookingTime, bumpkin.skills);
 
   if (oilRemaining >= itemOilConsumption) {
     return { timeToCook: boostedCookingTime, oilConsumed: itemOilConsumption };
@@ -81,8 +104,13 @@ export function getCookingOilBoost(
   const effectiveBoostValue = (oilRemaining / itemOilConsumption) * boostValue;
   const partialBoostedCookingTime = itemCookingTime * (1 - effectiveBoostValue);
 
+  const finalCookingTime = applySkillBoost(
+    partialBoostedCookingTime,
+    bumpkin.skills,
+  );
+
   return {
-    timeToCook: partialBoostedCookingTime,
+    timeToCook: finalCookingTime,
     oilConsumed: (oilRemaining / itemOilConsumption) * itemOilConsumption,
   };
 }
@@ -96,7 +124,7 @@ export const getReadyAt = ({
 }: GetReadyAtArgs) => {
   const withOilBoost = getCookingOilBoost(item, game, buildingId).timeToCook;
 
-  const seconds = getCookingTime(withOilBoost, bumpkin, game);
+  const seconds = getCookingTime(withOilBoost, item, bumpkin, game);
 
   return createdAt + seconds * 1000;
 };
@@ -160,7 +188,12 @@ export function cook({
     stateCopy.inventory = getKeys(ingredients).reduce(
       (inventory, ingredient) => {
         const count = inventory[ingredient] || new Decimal(0);
-        const amount = ingredients[ingredient] || new Decimal(0);
+        let amount = ingredients[ingredient] || new Decimal(0);
+
+        // Double Nom - 2x ingredients
+        if (bumpkin.skills["Double Nom"]) {
+          amount = amount.mul(2);
+        }
 
         if (count.lessThan(amount)) {
           throw new Error(`Insufficient ingredient: ${ingredient}`);
@@ -184,6 +217,8 @@ export function cook({
         createdAt,
         game: stateCopy,
       }),
+      // Placeholder - can be different from backend
+      amount: 1,
     };
 
     const previousOilRemaining = building.oil || 0;
