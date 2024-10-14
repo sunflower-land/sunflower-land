@@ -23,7 +23,6 @@ import {
 } from "features/game/types/resources";
 import { PlaceableLocation } from "features/game/types/collectibles";
 import { ANIMALS, AnimalType } from "features/game/types/animals";
-import shuffle from "lodash.shuffle";
 
 type BoundingBox = Position;
 
@@ -211,12 +210,6 @@ const ANIMAL_HOUSE_BOUNDS: Record<
   Record<number, BoundingBox>
 > = {
   henHouse: {
-    0: {
-      height: 6,
-      width: 6,
-      x: -3,
-      y: 3,
-    },
     1: {
       height: 8,
       width: 8,
@@ -226,28 +219,34 @@ const ANIMAL_HOUSE_BOUNDS: Record<
     2: {
       height: 10,
       width: 10,
+      x: -4,
+      y: 4,
+    },
+    3: {
+      height: 12,
+      width: 12,
       x: -5,
       y: 5,
     },
   },
   barn: {
     0: {
-      height: 10,
-      width: 10,
-      x: -5,
-      y: 5,
-    },
-    1: {
-      height: 12,
-      width: 12,
+      height: 14,
+      width: 14,
       x: -6,
       y: 6,
     },
-    2: {
-      height: 14,
-      width: 14,
+    1: {
+      height: 16,
+      width: 16,
       x: -7,
       y: 7,
+    },
+    2: {
+      height: 18,
+      width: 18,
+      x: -8,
+      y: 8,
     },
   },
 };
@@ -723,9 +722,9 @@ export const pickRandomPositionInAnimalHouse = (
     ANIMALS[animal].width,
   );
 
-  const shuffled = shuffle(positionsInBounding);
+  // const shuffled = shuffle(positionsInBounding);
 
-  const position = shuffled.find(
+  const position = positionsInBounding.find(
     (boundingBox) =>
       detectAnimalHouseCollision({
         state: gameState,
