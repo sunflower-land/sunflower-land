@@ -1,10 +1,9 @@
 import Decimal from "decimal.js-light";
 import { STONE_RECOVERY_TIME } from "features/game/lib/constants";
 import { trackActivity } from "features/game/types/bumpkinActivity";
-import { BumpkinSkillName } from "features/game/types/bumpkinSkills";
-import cloneDeep from "lodash.clonedeep";
-import { GameState, Rock } from "../../types/game";
+import { GameState, Rock, Skills } from "../../types/game";
 import { isCollectibleActive } from "features/game/lib/collectibleBuilt";
+import { produce } from "immer";
 
 export type LandExpansionStoneMineAction = {
   type: "stoneRock.mined";
@@ -18,7 +17,7 @@ type Options = {
 };
 
 type GetMinedAtArgs = {
-  skills: Partial<Record<BumpkinSkillName, number>>;
+  skills: Skills;
   createdAt: number;
   game: GameState;
 };
@@ -42,6 +41,10 @@ export function getMinedAt({
     totalSeconds = totalSeconds * 0.8;
   }
 
+  if (skills["Speed Miner"]) {
+    totalSeconds = totalSeconds * 0.8;
+  }
+
   if (isCollectibleActive({ name: "Time Warp Totem", game })) {
     totalSeconds = totalSeconds * 0.5;
   }
@@ -60,44 +63,45 @@ export function mineStone({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  const stateCopy = cloneDeep(state);
-  const { stones, bumpkin, collectibles } = stateCopy;
-  const rock = stones?.[action.index];
+  return produce(state, (stateCopy) => {
+    const { stones, bumpkin, collectibles } = stateCopy;
+    const rock = stones?.[action.index];
 
-  if (!rock) {
-    throw new Error("Stone does not exist");
-  }
+    if (!rock) {
+      throw new Error("Stone does not exist");
+    }
 
-  if (bumpkin === undefined) {
-    throw new Error("You do not have a Bumpkin!");
-  }
+    if (bumpkin === undefined) {
+      throw new Error("You do not have a Bumpkin!");
+    }
 
-  if (!canMine(rock, createdAt)) {
-    throw new Error("Rock is still recovering");
-  }
+    if (!canMine(rock, createdAt)) {
+      throw new Error("Rock is still recovering");
+    }
 
-  const toolAmount = stateCopy.inventory["Pickaxe"] || new Decimal(0);
+    const toolAmount = stateCopy.inventory["Pickaxe"] || new Decimal(0);
 
-  if (toolAmount.lessThan(1)) {
-    throw new Error("No pickaxes left");
-  }
+    if (toolAmount.lessThan(1)) {
+      throw new Error("No pickaxes left");
+    }
 
-  const stoneMined = rock.stone.amount;
-  const amountInInventory = stateCopy.inventory.Stone || new Decimal(0);
+    const stoneMined = rock.stone.amount;
+    const amountInInventory = stateCopy.inventory.Stone || new Decimal(0);
 
-  rock.stone = {
-    minedAt: getMinedAt({
-      skills: bumpkin.skills,
-      createdAt: Date.now(),
-      game: stateCopy,
-    }),
-    amount: 2,
-  };
+    rock.stone = {
+      minedAt: getMinedAt({
+        skills: bumpkin.skills,
+        createdAt: Date.now(),
+        game: stateCopy,
+      }),
+      amount: 2,
+    };
 
-  stateCopy.inventory.Pickaxe = toolAmount.sub(1);
-  stateCopy.inventory.Stone = amountInInventory.add(stoneMined);
+    stateCopy.inventory.Pickaxe = toolAmount.sub(1);
+    stateCopy.inventory.Stone = amountInInventory.add(stoneMined);
 
-  bumpkin.activity = trackActivity("Stone Mined", bumpkin.activity);
+    bumpkin.activity = trackActivity("Stone Mined", bumpkin.activity);
 
-  return stateCopy;
+    return stateCopy;
+  });
 }

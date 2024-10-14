@@ -1,31 +1,28 @@
 import { CONFIG } from "lib/config";
-import Web3 from "web3";
-import { AbiItem } from "web3-utils";
-import SessionABI from "./abis/SunflowerLandSessionManager.json";
+import SessionABI from "./abis/SunflowerLandSessionManager";
 import { parseMetamaskError } from "./utils";
+import { readContract } from "@wagmi/core";
+import { config } from "features/wallet/WalletProvider";
 
 const address = CONFIG.SESSION_CONTRACT;
 
 export async function getSessionId(
-  web3: Web3,
   farmId: number,
   attempts = 0,
 ): Promise<string> {
-  const contract = new web3.eth.Contract(
-    SessionABI as AbiItem[],
-    address as string,
-  );
-
   await new Promise((res) => setTimeout(res, 3000 * attempts));
 
   try {
-    const sessionId = await contract.methods.getSessionId(farmId).call();
-
-    return sessionId;
+    return await readContract(config, {
+      abi: SessionABI,
+      address,
+      functionName: "getSessionId",
+      args: [BigInt(farmId)],
+    });
   } catch (e) {
     const error = parseMetamaskError(e);
     if (attempts < 3) {
-      return getSessionId(web3, farmId, attempts + 1);
+      return getSessionId(farmId, attempts + 1);
     }
 
     throw error;
@@ -36,18 +33,17 @@ export async function getSessionId(
  * Poll until data is ready
  */
 export async function getNextSessionId(
-  web3: Web3,
   account: string,
   farmId: number,
   oldSessionId: string,
 ): Promise<string> {
   await new Promise((res) => setTimeout(res, 3000));
 
-  const sessionId = await getSessionId(web3, farmId);
+  const sessionId = await getSessionId(farmId);
 
   // Try again
   if (sessionId === oldSessionId) {
-    return getNextSessionId(web3, account, farmId, oldSessionId);
+    return getNextSessionId(account, farmId, oldSessionId);
   }
 
   return sessionId;

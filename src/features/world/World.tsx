@@ -95,9 +95,12 @@ export const MMO: React.FC<MMOProps> = ({ isCommunity }) => {
   // We need to listen to events outside of MMO scope (Settings Panel)
   useEffect(() => {
     // Subscribe to the event
-    const eventSubscription = PubSub.subscribe("CHANGE_SERVER", () => {
-      mmoService.send("CHANGE_SERVER");
-    });
+    const eventSubscription = PubSub.subscribe(
+      "CHANGE_SERVER",
+      (message: string, data?: any) => {
+        mmoService.send("CHANGE_SERVER", { serverId: data.serverId });
+      },
+    );
 
     return () => {
       PubSub.unsubscribe(eventSubscription);
@@ -106,12 +109,11 @@ export const MMO: React.FC<MMOProps> = ({ isCommunity }) => {
 
   const isInitialising = useSelector(mmoService, _isMMOInitialising);
   const isConnecting = useSelector(mmoService, _isConnecting);
-  const isConnected = useSelector(mmoService, _isConnected);
   const isJoining = useSelector(mmoService, _isJoining);
   const isKicked = useSelector(mmoService, _isKicked);
+  const isConnected = useSelector(mmoService, _isConnected);
   const isIntroducting = useSelector(mmoService, _isIntroducing);
 
-  // If state is x, y or z then return Travel Screen
   const isTraveling =
     isInitialising || isConnecting || isConnected || isKicked || isJoining;
 
@@ -135,7 +137,7 @@ export const MMO: React.FC<MMOProps> = ({ isCommunity }) => {
   }
 
   if (!mmoService.state) {
-    return null;
+    return <></>;
   }
 
   // Otherwsie if connected, return Plaza Screen

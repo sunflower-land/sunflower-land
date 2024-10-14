@@ -1,10 +1,10 @@
 import Decimal from "decimal.js-light";
 import { trackActivity } from "features/game/types/bumpkinActivity";
-import cloneDeep from "lodash.clonedeep";
 import { BuildingName, BUILDINGS } from "../../types/buildings";
 import { GameState, PlacedItem } from "../../types/game";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { hasRequiredIslandExpansion } from "features/game/lib/hasRequiredIslandExpansion";
+import { produce } from "immer";
 
 export enum CONSTRUCT_BUILDING_ERRORS {
   NO_BUMPKIN = "You do not have a Bumpkin!",
@@ -34,83 +34,85 @@ export function constructBuilding({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  const stateCopy = cloneDeep(state) as GameState;
-  const { bumpkin, inventory, coins } = stateCopy;
+  return produce(state, (stateCopy) => {
+    const { bumpkin, inventory, coins } = stateCopy;
 
-  const buildingNumber = inventory[action.name]?.toNumber() ?? 0;
-  const building = BUILDINGS[action.name];
+    const buildingNumber = inventory[action.name]?.toNumber() ?? 0;
+    const building = BUILDINGS[action.name];
 
-  if (bumpkin === undefined) {
-    throw new Error(CONSTRUCT_BUILDING_ERRORS.NO_BUMPKIN);
-  }
+    if (bumpkin === undefined) {
+      throw new Error(CONSTRUCT_BUILDING_ERRORS.NO_BUMPKIN);
+    }
 
-  const allowedBuildings = building.filter(
-    ({ unlocksAtLevel }) =>
-      getBumpkinLevel(bumpkin.experience) >= unlocksAtLevel,
-  ).length;
+    const allowedBuildings = building.filter(
+      ({ unlocksAtLevel }) =>
+        getBumpkinLevel(bumpkin.experience) >= unlocksAtLevel,
+    ).length;
 
-  const buildingToConstruct = building[buildingNumber];
+    const buildingToConstruct = building[buildingNumber];
 
-  const built = stateCopy.inventory[action.name] || new Decimal(0);
-  if (built.gte(allowedBuildings)) {
-    throw new Error(CONSTRUCT_BUILDING_ERRORS.MAX_BUILDINGS_REACHED);
-  }
+    const built = stateCopy.inventory[action.name] || new Decimal(0);
+    if (built.gte(allowedBuildings)) {
+      throw new Error(CONSTRUCT_BUILDING_ERRORS.MAX_BUILDINGS_REACHED);
+    }
 
-  if (coins < buildingToConstruct.coins) {
-    throw new Error(CONSTRUCT_BUILDING_ERRORS.NOT_ENOUGH_COINS);
-  }
+    if (coins < buildingToConstruct.coins) {
+      throw new Error(CONSTRUCT_BUILDING_ERRORS.NOT_ENOUGH_COINS);
+    }
 
-  const requiredIsland = buildingToConstruct.requiredIsland;
+    const requiredIsland = buildingToConstruct.requiredIsland;
 
-  if (
-    requiredIsland &&
-    !hasRequiredIslandExpansion(stateCopy.island.type, requiredIsland)
-  ) {
-    throw new Error("You do not have the required island expansion");
-  }
+    if (
+      requiredIsland &&
+      !hasRequiredIslandExpansion(stateCopy.island.type, requiredIsland)
+    ) {
+      throw new Error("You do not have the required island expansion");
+    }
 
-  let missingIngredients: string[] = [];
+    let missingIngredients: string[] = [];
 
-  const inventoryMinusIngredients = buildingToConstruct.ingredients.reduce(
-    (inventory, ingredient) => {
-      const count = inventory[ingredient.item] || new Decimal(0);
+    const inventoryMinusIngredients = buildingToConstruct.ingredients.reduce(
+      (inventory, ingredient) => {
+        const count = inventory[ingredient.item] || new Decimal(0);
 
-      if (count.lessThan(ingredient.amount)) {
-        missingIngredients = [...missingIngredients, ingredient.item];
-      }
+        if (count.lessThan(ingredient.amount)) {
+          missingIngredients = [...missingIngredients, ingredient.item];
+        }
 
-      return {
-        ...inventory,
-        [ingredient.item]: count.sub(ingredient.amount),
-      };
-    },
-    stateCopy.inventory,
-  );
-
-  if (missingIngredients.length > 0) {
-    throw new Error(
-      `${
-        CONSTRUCT_BUILDING_ERRORS.NOT_ENOUGH_INGREDIENTS
-      }${missingIngredients.join(", ")}`,
+        return {
+          ...inventory,
+          [ingredient.item]: count.sub(ingredient.amount),
+        };
+      },
+      stateCopy.inventory,
     );
-  }
 
-  const buildingInventory = stateCopy.inventory[action.name] || new Decimal(0);
-  const placed = stateCopy.buildings[action.name] || [];
+    if (missingIngredients.length > 0) {
+      throw new Error(
+        `${
+          CONSTRUCT_BUILDING_ERRORS.NOT_ENOUGH_INGREDIENTS
+        }${missingIngredients.join(", ")}`,
+      );
+    }
 
-  const newBuilding: PlacedItem = {
-    id: action.id,
-    createdAt: createdAt,
-    coordinates: action.coordinates,
-    readyAt: createdAt + buildingToConstruct.constructionSeconds * 1000,
-  };
+    const buildingInventory =
+      stateCopy.inventory[action.name] || new Decimal(0);
+    const placed = stateCopy.buildings[action.name] || [];
 
-  bumpkin.activity = trackActivity("Building Constructed", bumpkin.activity);
+    const newBuilding: PlacedItem = {
+      id: action.id,
+      createdAt: createdAt,
+      coordinates: action.coordinates,
+      readyAt: createdAt + buildingToConstruct.constructionSeconds * 1000,
+    };
 
-  stateCopy.coins = coins - buildingToConstruct.coins;
-  stateCopy.inventory = inventoryMinusIngredients;
-  stateCopy.inventory[action.name] = buildingInventory.add(1);
-  stateCopy.buildings[action.name] = [...placed, newBuilding];
+    bumpkin.activity = trackActivity("Building Constructed", bumpkin.activity);
 
-  return stateCopy;
+    stateCopy.coins = coins - buildingToConstruct.coins;
+    stateCopy.inventory = inventoryMinusIngredients;
+    stateCopy.inventory[action.name] = buildingInventory.add(1);
+    stateCopy.buildings[action.name] = [...placed, newBuilding];
+
+    return stateCopy;
+  });
 }

@@ -1,6 +1,6 @@
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { SpeakingModal } from "features/game/components/SpeakingModal";
-import { NPCName, NPC_WEARABLES } from "lib/npcs";
+import { NPCName, NPC_WEARABLES, acknowledgeNPC } from "lib/npcs";
 import React, { useContext, useEffect, useState } from "react";
 import { Modal } from "components/ui/Modal";
 import { DeliveryPanel } from "./deliveries/DeliveryPanel";
@@ -10,10 +10,6 @@ import { Birdie } from "./npcs/Birdie";
 import { HayseedHankV2 } from "features/helios/components/hayseedHank/HayseedHankV2";
 import { PotionHouseShopItems } from "features/helios/components/potions/component/PotionHouseShopItems";
 import { Bert } from "./npcs/Bert";
-import {
-  CommunityDonations,
-  SpecialEventDonations,
-} from "./donations/Donations";
 import { Finn } from "./npcs/Finn";
 import { Mayor } from "./npcs/Mayor";
 import { DecorationShopItems } from "features/helios/components/decorations/component/DecorationShopItems";
@@ -35,11 +31,11 @@ import { FlowerShop } from "./flowerShop/FlowerShop";
 import { FactionShop } from "./factionShop/FactionShop";
 import { FactionPetPanel } from "./factions/FactionPetPanel";
 import { TreasureShop } from "./beach/treasure_shop/TreasureShop";
-import { GoldTooth } from "./npcs/GoldTooth";
-import { hasFeatureAccess } from "lib/flags";
 import { Context } from "features/game/GameProvider";
 import { Digby } from "./beach/Digby";
 import { CropsAndChickens } from "./portals/CropsAndChickens";
+import { ExampleDonations } from "./donations/ExampleDonations";
+import { NPCS_WITH_ALERTS } from "../containers/BumpkinContainer";
 
 class NpcModalManager {
   private listener?: (npc: NPCName, isOpen: boolean) => void;
@@ -80,6 +76,9 @@ export const NPCModals: React.FC<Props> = ({ scene, id }) => {
   }, []);
 
   const closeModal = () => {
+    if (npc && !!NPCS_WITH_ALERTS[npc]) {
+      acknowledgeNPC(npc);
+    }
     setNpc(undefined);
   };
 
@@ -98,7 +97,7 @@ export const NPCModals: React.FC<Props> = ({ scene, id }) => {
             onClose={closeModal}
             bumpkinParts={NPC_WEARABLES["flopsy"]}
           >
-            <CommunityDonations />
+            <ExampleDonations onClose={closeModal} />
           </CloseButtonPanel>
         )}
         {npc === "portaller" && <HalloweenNPC onClose={closeModal} />}
@@ -155,14 +154,6 @@ export const NPCModals: React.FC<Props> = ({ scene, id }) => {
             <GarbageCollectorModal />
           </CloseButtonPanel>
         )}
-        {npc === "gaucho" && (
-          <CloseButtonPanel
-            onClose={closeModal}
-            bumpkinParts={NPC_WEARABLES.gaucho}
-          >
-            <SpecialEventDonations />
-          </CloseButtonPanel>
-        )}
         {npc === "billy" && (
           <CloseButtonPanel
             onClose={closeModal}
@@ -179,17 +170,7 @@ export const NPCModals: React.FC<Props> = ({ scene, id }) => {
             <CropsAndChickens onClose={closeModal} />
           </CloseButtonPanel>
         )}
-        {npc === "jafar" &&
-          hasFeatureAccess(gameService.state.context.state, "TEST_DIGGING") && (
-            <TreasureShop onClose={closeModal} />
-          )}
-        {/* Remove on release */}
-        {npc === "goldtooth" &&
-          !hasFeatureAccess(
-            gameService.state.context.state,
-            "TEST_DIGGING",
-          ) && <GoldTooth onClose={closeModal} />}
-
+        {npc === "jafar" && <TreasureShop onClose={closeModal} />}
         {npc === "hank" && <HayseedHankV2 onClose={closeModal} />}
         {npc === "gabi" && (
           <CloseButtonPanel

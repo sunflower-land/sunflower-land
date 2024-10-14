@@ -57,7 +57,7 @@ export const SKILL_TREE: Record<
     conflicts: "Wrangler",
     requires: "Green Thumb",
     profession: "farming",
-    perks: ["Crops grow 10% faster", "Increase mutant crop chance"],
+    perks: ["Crops take 10% less time to grow", "Increase mutant crop chance"],
   },
   Wrangler: {
     level: 10,
@@ -65,7 +65,7 @@ export const SKILL_TREE: Record<
     requires: "Barn Manager",
     profession: "farming",
     perks: [
-      "Animals produce goods 10% faster",
+      "Animals take 10% less time to produce goods",
       "Increase mutant animal chance",
     ],
   },

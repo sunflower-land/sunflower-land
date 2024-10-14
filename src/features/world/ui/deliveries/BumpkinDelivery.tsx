@@ -34,7 +34,6 @@ import {
   getSeasonalBanner,
   getSeasonalTicket,
 } from "features/game/types/seasons";
-import { NpcDialogues } from "lib/i18n/dictionaries/types";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { BUMPKIN_FLOWER_BONUSES } from "features/game/types/gifts";
 import {
@@ -48,6 +47,7 @@ import { getSeasonChangeover } from "lib/utils/getSeasonWeek";
 import { SquareIcon } from "components/ui/SquareIcon";
 import { formatNumber } from "lib/utils/formatNumber";
 import { getBumpkinLevel } from "features/game/lib/level";
+import { TranslationKeys } from "lib/i18n/dictionaries/types";
 
 export const OrderCard: React.FC<{
   order: Order;
@@ -174,11 +174,11 @@ export const OrderCard: React.FC<{
 };
 
 type GiftResponse = {
-  flowerIntro: NpcDialogues;
-  flowerPositive: NpcDialogues;
-  flowerNegative: NpcDialogues;
-  flowerAverage: NpcDialogues;
-  reward: NpcDialogues;
+  flowerIntro: TranslationKeys;
+  flowerPositive: TranslationKeys;
+  flowerNegative: TranslationKeys;
+  flowerAverage: TranslationKeys;
+  reward: TranslationKeys;
 };
 
 const GIFT_RESPONSES: Partial<Record<NPCName, GiftResponse>> = {
@@ -300,7 +300,7 @@ export const Gifts: React.FC<{
   const { gameService } = useContext(Context);
 
   const [selected, setSelected] = useState<FlowerName>();
-  const [message, setMessage] = useState<NpcDialogues>(
+  const [message, setMessage] = useState<TranslationKeys>(
     GIFT_RESPONSES[name]?.flowerIntro ?? DEFAULT_DIALOGUE.flowerIntro,
   );
 
@@ -696,36 +696,38 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
 
           <InnerPanel>
             <div className="px-2 ">
-              <div className="flex flex-col sm:flex sm:justify-between sm:items-center mb-2 gap-1">
-                <Label type="default" icon={SUNNYSIDE.icons.expression_chat}>
-                  {t("delivery")}
-                </Label>
-
-                {delivery?.completedAt && (
-                  <Label
-                    style={{ whiteSpace: "nowrap" }}
-                    type="success"
-                    secondaryIcon={SUNNYSIDE.icons.confirm}
-                  >
-                    {t("completed")}
+              <div className="flex flex-col justify-between items-stretch mb-2 gap-1">
+                <div className="flex flex-row justify-between w-full">
+                  <Label type="default" icon={SUNNYSIDE.icons.expression_chat}>
+                    {t("delivery")}
                   </Label>
-                )}
-                {isLocked && (
-                  <Label type="danger" icon={SUNNYSIDE.icons.lock}>
-                    {`Lvl ${NPC_DELIVERY_LEVELS[npc as DeliveryNpcName]} required`}
-                  </Label>
-                )}
-                {!delivery?.completedAt && requiresSeasonPass && (
-                  <VIPAccess
-                    isVIP={hasVIP}
-                    onUpgrade={() => {
-                      onClose && onClose();
-                      openModal("BUY_BANNER");
-                    }}
-                  />
-                )}
+                  {delivery?.completedAt && (
+                    <Label
+                      style={{ whiteSpace: "nowrap" }}
+                      type="success"
+                      secondaryIcon={SUNNYSIDE.icons.confirm}
+                    >
+                      {t("completed")}
+                    </Label>
+                  )}
+                </div>
+                <div className="flex flex-row justify-between w-full">
+                  {!delivery?.completedAt && requiresSeasonPass && (
+                    <VIPAccess
+                      isVIP={hasVIP}
+                      onUpgrade={() => {
+                        onClose && onClose();
+                        openModal("BUY_BANNER");
+                      }}
+                    />
+                  )}
+                  {isLocked && (
+                    <Label type="danger" secondaryIcon={SUNNYSIDE.icons.lock}>
+                      {`Lvl ${NPC_DELIVERY_LEVELS[npc as DeliveryNpcName]} required`}
+                    </Label>
+                  )}
+                </div>
               </div>
-
               {!delivery && !isLocked && (
                 <p className="text-xs mb-1">{t("no.delivery.avl")}</p>
               )}

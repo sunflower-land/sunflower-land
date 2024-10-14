@@ -8,18 +8,31 @@ import shop from "assets/icons/shop.png";
 import factions from "assets/icons/factions.webp";
 import trophy from "assets/icons/trophy.png";
 import gift from "assets/icons/gift.png";
+import { BuffLabel } from "features/game/types";
+import { Label } from "components/ui/Label";
 interface NoticeboardItemProps {
-  items: { text: string; icon: string }[];
+  items: { text: string; icon: string; label?: BuffLabel }[];
+  iconWidth?: number;
 }
-export const NoticeboardItems: React.FC<NoticeboardItemProps> = ({ items }) => {
+export const NoticeboardItems: React.FC<NoticeboardItemProps> = ({
+  items,
+  iconWidth = 12,
+}) => {
   return (
     <>
       {items.map((item, index) => (
-        <div className="flex mb-2" key={index}>
-          <div className="w-12 flex justify-center">
+        <div className="flex mb-1 items-center" key={index}>
+          <div className={`w-${iconWidth} flex justify-center`}>
             <img src={item.icon} className="h-6 mr-2 object-contain" />
           </div>
-          <p className="text-xs  flex-1">{item.text}</p>
+          <div className="w-full">
+            <p className="text-xs  flex-1">{item.text}</p>
+            {item.label && (
+              <Label type={item.label.labelType}>
+                {item.label.shortDescription}
+              </Label>
+            )}
+          </div>
         </div>
       ))}
     </>

@@ -1,9 +1,9 @@
 import "lib/__mocks__/configMock";
 import Decimal from "decimal.js-light";
 import { INITIAL_BUMPKIN, TEST_FARM } from "features/game/lib/constants";
-import cloneDeep from "lodash.clonedeep";
 import { GameState, CropPlot } from "../../types/game";
 import { harvest } from "./harvest";
+import cloneDeep from "lodash.clonedeep";
 
 const GAME_STATE: GameState = {
   ...TEST_FARM,

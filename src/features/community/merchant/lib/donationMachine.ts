@@ -14,7 +14,7 @@ export interface Context {
 type DonateEvent = {
   type: "DONATE";
   donation: number;
-  to?: string;
+  to?: `0x${string}`;
 };
 
 type Event = DonateEvent | { type: "BOTTLE_CLICK" } | { type: "CLOSE" };
@@ -74,7 +74,10 @@ export const donationMachine = createMachine<Context, Event, DonationState>({
         src: async (_context: Context, event: any): Promise<void> => {
           const { donation, to } = event as DonateEvent;
 
-          await wallet.donate(donation, to || frogDonationAddress);
+          await wallet.donate(
+            donation,
+            to || (frogDonationAddress as `0x${string}`),
+          );
         },
         onDone: {
           target: "donated",

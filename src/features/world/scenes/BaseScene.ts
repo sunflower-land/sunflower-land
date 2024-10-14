@@ -2,7 +2,6 @@ import Phaser, { Physics } from "phaser";
 
 import VirtualJoystick from "phaser3-rex-plugins/plugins/virtualjoystick.js";
 
-import { SQUARE_WIDTH } from "features/game/lib/constants";
 import { BumpkinContainer } from "../containers/BumpkinContainer";
 import { interactableModalManager } from "../ui/InteractableModals";
 import { NPCName, NPC_WEARABLES } from "lib/npcs";
@@ -34,6 +33,13 @@ import {
   AUDIO_MUTED_EVENT,
   getAudioMutedSetting,
 } from "lib/utils/hooks/useIsAudioMuted";
+import { NightShaderPipeline } from "../shaders/nightShader";
+import {
+  PLAZA_SHADER_EVENT,
+  PlazaShader,
+  PlazaShaders,
+  getPlazaShaderSetting,
+} from "lib/utils/hooks/usePlazaShader";
 
 export type NPCBumpkin = {
   x: number;
@@ -47,6 +53,9 @@ export type NPCBumpkin = {
 // 3 Times per second send position to server
 const SEND_PACKET_RATE = 10;
 const NAME_TAG_OFFSET_PX = 12;
+
+const HALLOWEEN_SQUARE_WIDTH = 32;
+export const WALKING_SPEED = 50;
 
 type BaseSceneOptions = {
   name: SceneId;
@@ -89,6 +98,7 @@ export abstract class BaseScene extends Phaser.Scene {
 
   public joystick?: VirtualJoystick;
   private switchToScene?: SceneId;
+  public isCameraFading = false;
   private options: Required<BaseSceneOptions>;
 
   public map: Phaser.Tilemaps.Tilemap = {} as Phaser.Tilemaps.Tilemap;
@@ -108,6 +118,7 @@ export abstract class BaseScene extends Phaser.Scene {
   colliders?: Phaser.GameObjects.Group;
   triggerColliders?: Phaser.GameObjects.Group;
   hiddenColliders?: Phaser.GameObjects.Group;
+  decorationColliders?: Phaser.GameObjects.Group;
 
   soundEffects: AudioController[] = [];
   walkAudioController?: WalkAudioController;
@@ -147,6 +158,10 @@ export abstract class BaseScene extends Phaser.Scene {
    */
   navMesh: PhaserNavMesh | undefined;
 
+  get isMoving() {
+    return this.movementAngle !== undefined && this.walkingSpeed !== 0;
+  }
+
   constructor(options: BaseSceneOptions) {
     if (!options.name) {
       throw new Error("Missing name in config");
@@ -170,6 +185,98 @@ export abstract class BaseScene extends Phaser.Scene {
     this.sound.mute = event.detail;
   };
 
+  /**
+   * Changes the shader when the event is triggered.
+   * @param event The event.
+   */
+  private onSetPlazaShader = (event: CustomEvent) => {
+    if (!this.cameras.main) return;
+
+    const plazaShader = event.detail as PlazaShader;
+
+    // reset shader if no shader is selected
+    if (plazaShader === "none" && this.cameras.main.hasPostPipeline) {
+      this.cameras.main.resetPostPipeline();
+      return;
+    }
+
+    const existingPipelines = this.cameras.main.postPipelines;
+    const existingSamePipelines = existingPipelines.filter(
+      (pipeline) => pipeline.name === plazaShader,
+    );
+    const existingOtherPipelines = existingPipelines.filter(
+      (pipeline) => pipeline.name !== plazaShader,
+    );
+
+    // add the shader if it doesn't exist
+    if (existingSamePipelines.length === 0) {
+      this.cameras.main.setPostPipeline(plazaShader);
+    }
+
+    // remove other shaders
+    if (existingOtherPipelines.length > 0) {
+      existingOtherPipelines.forEach((pipeline) =>
+        this.cameras.main.removePostPipeline(pipeline),
+      );
+    }
+  };
+
+  /**
+   * Initializes the shaders and listeners.
+   */
+  private initializeShaders = () => {
+    const rendererPipelines = (
+      this.renderer as Phaser.Renderer.WebGL.WebGLRenderer
+    ).pipelines;
+
+    // define all shaders here
+    const shaderActions: Record<PlazaShader, () => void> = {
+      none: () => undefined,
+      night: () =>
+        rendererPipelines?.addPostPipeline("night", NightShaderPipeline),
+      // add other shaders here
+    };
+
+    // add all shaders to pipeline
+    const plazaShaders = Object.keys(PlazaShaders) as PlazaShader[];
+    plazaShaders.forEach((shader) => {
+      shaderActions[shader]?.();
+    });
+
+    // add event listener for settings
+    window.addEventListener(PLAZA_SHADER_EVENT as any, this.onSetPlazaShader);
+    this.onSetPlazaShader({ detail: getPlazaShaderSetting() } as CustomEvent);
+  };
+
+  /**
+   * Updates the shaders.
+   */
+  updateShaders = () => {
+    // get pipeline
+    const nightShaderPipeline = this.cameras.main.getPostPipeline(
+      "night",
+    ) as NightShaderPipeline;
+    if (!nightShaderPipeline || !this.currentPlayer) return;
+
+    // calculate the player's position relative to the camera
+    const mapWidth = this.map.widthInPixels;
+    const mapHeight = this.map.heightInPixels;
+    const screenWidth = this.cameras.main.worldView.width;
+    const screenHeight = this.cameras.main.worldView.height;
+    const worldViewX = this.cameras.main.worldView.x;
+    const worldViewY = this.cameras.main.worldView.y;
+    const offsetX = Math.max(0, (screenWidth - mapWidth) / 2);
+    const offsetY = Math.max(0, (screenHeight - mapHeight) / 2);
+
+    const relativeX =
+      (this.currentPlayer.x - worldViewX + offsetX) / screenWidth;
+    const relativeY =
+      (this.currentPlayer.y - worldViewY + offsetY) / screenHeight;
+
+    // set light sources
+    nightShaderPipeline.lightSources = [{ x: relativeX, y: relativeY }];
+  };
+
   preload() {
     if (this.options.map?.json) {
       const json = {
@@ -188,6 +295,8 @@ export abstract class BaseScene extends Phaser.Scene {
     try {
       this.initialiseMap();
       this.initialiseSounds();
+
+      this.initializeShaders();
 
       // set audio mute state and listen for changes
       this.sound.mute = getAudioMutedSetting();
@@ -258,10 +367,10 @@ export abstract class BaseScene extends Phaser.Scene {
     const tileset = this.map.addTilesetImage(
       "Sunnyside V3",
       this.options.map.imageKey ?? "tileset",
-      16,
-      16,
-      1,
-      2,
+      // 16,
+      // 16,
+      // 1,
+      // 2,
     ) as Phaser.Tilemaps.Tileset;
 
     // Set up collider layers
@@ -270,8 +379,10 @@ export abstract class BaseScene extends Phaser.Scene {
     if (this.map.getObjectLayer("Collision")) {
       const collisionPolygons = this.map.createFromObjects("Collision", {
         scene: this,
+        classType: Phaser.GameObjects.Sprite,
       });
       collisionPolygons.forEach((polygon) => {
+        (polygon as Phaser.GameObjects.Sprite).setTint(0x000);
         this.colliders?.add(polygon);
         this.physics.world.enable(polygon);
         (polygon.body as Physics.Arcade.Body).setImmovable(true);
@@ -335,39 +446,41 @@ export abstract class BaseScene extends Phaser.Scene {
       });
     }
 
+    this.decorationColliders = this.add.group();
+
     // Debugging purposes - display colliders in pink
     this.physics.world.drawDebug = false;
 
-    // Set up the Z layers to draw in correct order
-    const TOP_LAYERS = [
-      "Decorations Layer 1",
-      "Decorations Foreground",
-      "Decorations Layer 2",
-      "Decorations Layer 3",
-      "Decorations Layer 4",
-      "Building Layer 2",
-      "Building Layer 3",
-      "Building Layer 4",
-      "Club House Roof",
-      "Building Layer 4",
-      "Building Decorations 2",
-    ];
-    this.map.layers.forEach((layerData, idx) => {
-      if (layerData.name === "Crows") return;
+    // // Set up the Z layers to draw in correct order
+    // const TOP_LAYERS = [
+    //   "Decorations Layer 1",
+    //   "Decorations Foreground",
+    //   "Decorations Layer 2",
+    //   "Decorations Layer 3",
+    //   "Decorations Layer 4",
+    //   "Building Layer 2",
+    //   "Building Layer 3",
+    //   "Building Layer 4",
+    //   "Club House Roof",
+    //   "Building Layer 4",
+    //   "Building Decorations 2",
+    // ];
+    // this.map.layers.forEach((layerData, idx) => {
+    //   if (layerData.name === "Crows" || layerData.name === "NewLayer") return;
 
-      const layer = this.map.createLayer(layerData.name, [tileset], 0, 0);
-      if (TOP_LAYERS.includes(layerData.name)) {
-        layer?.setDepth(1000000);
-      }
+    //   const layer = this.map.createLayer(layerData.name, [tileset], 0, 0);
+    //   if (TOP_LAYERS.includes(layerData.name)) {
+    //     layer?.setDepth(1000000);
+    //   }
 
-      this.layers[layerData.name] = layer as Phaser.Tilemaps.TilemapLayer;
-    });
+    //   this.layers[layerData.name] = layer as Phaser.Tilemaps.TilemapLayer;
+    // });
 
     this.physics.world.setBounds(
       0,
       0,
-      this.map.width * SQUARE_WIDTH,
-      this.map.height * SQUARE_WIDTH,
+      this.map.width * HALLOWEEN_SQUARE_WIDTH,
+      this.map.height * HALLOWEEN_SQUARE_WIDTH,
     );
   }
 
@@ -377,19 +490,28 @@ export abstract class BaseScene extends Phaser.Scene {
     camera.setBounds(
       0,
       0,
-      this.map.width * SQUARE_WIDTH,
-      this.map.height * SQUARE_WIDTH,
+      this.map.width * HALLOWEEN_SQUARE_WIDTH,
+      this.map.height * HALLOWEEN_SQUARE_WIDTH,
     );
 
     camera.setZoom(this.zoom);
 
     // Center it on canvas
-    const offsetX = (window.innerWidth - this.map.width * 4 * SQUARE_WIDTH) / 2;
+    const offsetX =
+      (window.innerWidth - this.map.width * 4 * HALLOWEEN_SQUARE_WIDTH) / 2;
     const offsetY =
-      (window.innerHeight - this.map.height * 4 * SQUARE_WIDTH) / 2;
+      (window.innerHeight - this.map.height * 4 * HALLOWEEN_SQUARE_WIDTH) / 2;
     camera.setPosition(Math.max(offsetX, 0), Math.max(offsetY, 0));
 
-    camera.fadeIn();
+    camera.fadeIn(500);
+
+    camera.on(
+      "camerafadeincomplete",
+      () => {
+        this.isCameraFading = false;
+      },
+      this,
+    );
   }
 
   public initialiseMMO() {
@@ -651,7 +773,7 @@ export abstract class BaseScene extends Phaser.Scene {
 
           // Change scenes
           const warpTo = (obj2 as any).data?.list?.warp;
-          if (warpTo && this.currentPlayer?.isWalking) {
+          if (warpTo && !this.isCameraFading) {
             this.changeScene(warpTo);
           }
 
@@ -726,6 +848,7 @@ export abstract class BaseScene extends Phaser.Scene {
     this.switchScene();
     this.updatePlayer();
     this.updateOtherPlayers();
+    this.updateShaders();
     this.updateUsernames();
     this.updateFactions();
   }
@@ -747,7 +870,11 @@ export abstract class BaseScene extends Phaser.Scene {
     return (Math.atan2(y, x) * 180) / Math.PI;
   }
 
-  public walkingSpeed = 50;
+  get walkingSpeed() {
+    if (this.isCameraFading) return 0;
+
+    return WALKING_SPEED;
+  }
 
   updatePlayer() {
     if (!this.currentPlayer?.body) {
@@ -755,7 +882,7 @@ export abstract class BaseScene extends Phaser.Scene {
     }
 
     // Update faction
-    const faction = this.gameService?.state.context.state.faction?.name;
+    const faction = this.gameState.faction?.name;
 
     if (this.currentPlayer.faction !== faction) {
       this.currentPlayer.faction = faction;
@@ -812,9 +939,6 @@ export abstract class BaseScene extends Phaser.Scene {
 
     this.sendPositionToServer();
 
-    const isMoving =
-      this.movementAngle !== undefined && this.walkingSpeed !== 0;
-
     if (this.soundEffects) {
       this.soundEffects.forEach((audio) =>
         audio.setVolumeAndPan(
@@ -828,17 +952,17 @@ export abstract class BaseScene extends Phaser.Scene {
     }
 
     if (this.walkAudioController) {
-      this.walkAudioController.handleWalkSound(isMoving);
+      this.walkAudioController.handleWalkSound(this.isMoving);
     } else {
       // eslint-disable-next-line no-console
       console.error("walkAudioController is undefined");
     }
 
-    if (isMoving) {
-      this.currentPlayer.walk();
-    } else {
-      this.currentPlayer.idle();
-    }
+    // if (isMoving) {
+    //   this.currentPlayer.walk();
+    // } else {
+    //   this.currentPlayer.idle();
+    // }
 
     this.currentPlayer.setDepth(Math.floor(this.currentPlayer.y));
 
@@ -1067,7 +1191,7 @@ export abstract class BaseScene extends Phaser.Scene {
   }
 
   initialiseNPCs(npcs: NPCBumpkin[]) {
-    npcs.forEach((bumpkin, index) => {
+    npcs.forEach((bumpkin) => {
       const defaultClick = () => {
         const distance = Phaser.Math.Distance.BetweenPoints(
           container,
@@ -1075,7 +1199,7 @@ export abstract class BaseScene extends Phaser.Scene {
         );
 
         if (distance > 50) {
-          container.speak("You are too far away");
+          container.speak(translate("base.far.away"));
           return;
         }
         npcModalManager.open(bumpkin.npc);
@@ -1121,17 +1245,15 @@ export abstract class BaseScene extends Phaser.Scene {
    * @param {SceneId} scene The desired scene.
    */
   protected changeScene = (scene: SceneId) => {
-    const originalWalkingSpeed = this.walkingSpeed;
-    this.walkingSpeed = 0;
+    this.isCameraFading = true;
 
     this.currentPlayer?.stopSpeaking();
-    this.cameras.main.fadeOut(1000);
+    this.cameras.main.fadeOut(500);
 
     this.cameras.main.on(
       "camerafadeoutcomplete",
       () => {
         this.switchToScene = scene;
-        this.walkingSpeed = originalWalkingSpeed;
       },
       this,
     );

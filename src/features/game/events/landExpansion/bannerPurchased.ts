@@ -1,6 +1,5 @@
 import Decimal from "decimal.js-light";
-import cloneDeep from "lodash.clonedeep";
-import { GameState } from "../../types/game";
+import { BB_TO_GEM_RATIO, GameState } from "../../types/game";
 import {
   SEASONAL_BANNERS,
   SEASONS,
@@ -9,6 +8,7 @@ import {
   getSeasonByBanner,
   getSeasonalBanner,
 } from "features/game/types/seasons";
+import { produce } from "immer";
 
 export type PurchaseBannerAction = {
   type: "banner.purchased";
@@ -29,7 +29,7 @@ export function getBannerPrice(
   createdAt: number,
   farmId?: number,
 ): Decimal {
-  const lifeTimePrice = 740;
+  const lifeTimePrice = 740 * BB_TO_GEM_RATIO;
 
   if (banner === "Lifetime Farmer Banner") {
     return new Decimal(lifeTimePrice);
@@ -47,16 +47,16 @@ export function getBannerPrice(
   );
 
   if (weeksElapsed < 1) {
-    const previousBannerDiscount = hasPreviousBanner ? 15 : 0;
-    return new Decimal(75).sub(previousBannerDiscount);
+    const previousBannerDiscount = hasPreviousBanner ? 15 * BB_TO_GEM_RATIO : 0;
+    return new Decimal(75 * BB_TO_GEM_RATIO).sub(previousBannerDiscount);
   }
   if (weeksElapsed < 4) {
-    return new Decimal(100);
+    return new Decimal(100 * BB_TO_GEM_RATIO);
   }
   if (weeksElapsed < 8) {
-    return new Decimal(80);
+    return new Decimal(80 * BB_TO_GEM_RATIO);
   }
-  return new Decimal(60);
+  return new Decimal(60 * BB_TO_GEM_RATIO);
 }
 
 export function purchaseBanner({
@@ -65,67 +65,70 @@ export function purchaseBanner({
   createdAt = Date.now(),
   farmId,
 }: Options): GameState {
-  const stateCopy = cloneDeep(state);
-  const { bumpkin, inventory } = stateCopy;
+  return produce(state, (stateCopy) => {
+    const { bumpkin, inventory } = stateCopy;
 
-  if (!bumpkin) {
-    throw new Error("You do not have a Bumpkin!");
-  }
+    if (!bumpkin) {
+      throw new Error("You do not have a Bumpkin!");
+    }
 
-  const currentBlockBucks = inventory["Block Buck"] ?? new Decimal(0);
+    const currentBlockBucks = inventory["Gem"] ?? new Decimal(0);
 
-  if (action.name === "Lifetime Farmer Banner") {
-    if (inventory["Lifetime Farmer Banner"] !== undefined) {
+    if (action.name === "Lifetime Farmer Banner") {
+      if (inventory["Lifetime Farmer Banner"] !== undefined) {
+        throw new Error("You already have this banner");
+      }
+
+      const lifeTimePrice = 740 * BB_TO_GEM_RATIO;
+
+      if (currentBlockBucks.lessThan(lifeTimePrice)) {
+        throw new Error("Insufficient Gems");
+      }
+
+      stateCopy.inventory["Gem"] = currentBlockBucks.sub(lifeTimePrice);
+      stateCopy.inventory[action.name] = new Decimal(1);
+
+      return stateCopy;
+    }
+
+    if (!(action.name in SEASONAL_BANNERS)) {
+      throw new Error("Invalid banner");
+    }
+
+    if (inventory[action.name]) {
       throw new Error("You already have this banner");
     }
 
-    const lifeTimePrice = 740;
-
-    if (currentBlockBucks.lessThan(lifeTimePrice)) {
-      throw new Error("Insufficient Block Bucks");
+    const seasonBanner = getSeasonalBanner(new Date(createdAt));
+    if (action.name !== seasonBanner) {
+      throw new Error(
+        `Attempt to purchase ${action.name} in ${seasonBanner} Season`,
+      );
     }
 
-    stateCopy.inventory["Block Buck"] = currentBlockBucks.sub(lifeTimePrice);
+    const previousBanner = getPreviousSeasonalBanner(new Date(createdAt));
+    const hasPreviousBanner = (inventory[previousBanner] ?? new Decimal(0)).gt(
+      0,
+    );
+    const hasLifetimeBanner = (
+      inventory["Lifetime Farmer Banner"] ?? new Decimal(0)
+    ).gt(0);
+
+    const price = getBannerPrice(
+      action.name,
+      hasPreviousBanner,
+      hasLifetimeBanner,
+      createdAt,
+      farmId,
+    );
+
+    if (currentBlockBucks.lessThan(price)) {
+      throw new Error("Insufficient Gems");
+    }
+
+    stateCopy.inventory["Gem"] = currentBlockBucks.sub(price);
     stateCopy.inventory[action.name] = new Decimal(1);
 
     return stateCopy;
-  }
-
-  if (!(action.name in SEASONAL_BANNERS)) {
-    throw new Error("Invalid banner");
-  }
-
-  if (inventory[action.name]) {
-    throw new Error("You already have this banner");
-  }
-
-  const seasonBanner = getSeasonalBanner(new Date(createdAt));
-  if (action.name !== seasonBanner) {
-    throw new Error(
-      `Attempt to purchase ${action.name} in ${seasonBanner} Season`,
-    );
-  }
-
-  const previousBanner = getPreviousSeasonalBanner(new Date(createdAt));
-  const hasPreviousBanner = (inventory[previousBanner] ?? new Decimal(0)).gt(0);
-  const hasLifetimeBanner = (
-    inventory["Lifetime Farmer Banner"] ?? new Decimal(0)
-  ).gt(0);
-
-  const price = getBannerPrice(
-    action.name,
-    hasPreviousBanner,
-    hasLifetimeBanner,
-    createdAt,
-    farmId,
-  );
-
-  if (currentBlockBucks.lessThan(price)) {
-    throw new Error("Insufficient Block Bucks");
-  }
-
-  stateCopy.inventory["Block Buck"] = currentBlockBucks.sub(price);
-  stateCopy.inventory[action.name] = new Decimal(1);
-
-  return stateCopy;
+  });
 }

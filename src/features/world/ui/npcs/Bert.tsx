@@ -100,7 +100,11 @@ export const Bert: React.FC<Props> = ({ onClose }) => {
       obsessionCompletedAt >= currentObsession.startDate &&
       obsessionCompletedAt <= currentObsession.endDate
     ) {
-      return <Label type="info">{t("alr.completed")}</Label>;
+      return (
+        <Label type="success" icon={SUNNYSIDE.icons.confirm}>
+          {t("alr.completed")}
+        </Label>
+      );
     }
 
     return (
@@ -110,10 +114,10 @@ export const Bert: React.FC<Props> = ({ onClose }) => {
           onClick={() => gameService.send("bertObsession.completed")}
         >
           {`${t("claim")} ${reward} ${getSeasonalTicket()}${
-            reward > 0 ? "s" : ""
+            reward > 1 ? "s" : ""
           }`}
         </Button>
-        <span className="text-xs font-secondary text-center">
+        <span className="text-xs text-center">
           {t("bert.day", { seasonalTicket: getSeasonalTicket() })}
         </span>
       </>
@@ -163,7 +167,7 @@ export const Bert: React.FC<Props> = ({ onClose }) => {
       setCurrentTab={setTab}
       currentTab={tab}
     >
-      {tab === 0 && <DeliveryPanelContent npc="bert" onClose={onClose} />}
+      {tab === 0 && <DeliveryPanelContent npc="bert" />}
       {tab === 1 && (
         <div className="w-full flex flex-col items-center pt-0.5">
           {!currentObsession && (
@@ -187,14 +191,13 @@ export const Bert: React.FC<Props> = ({ onClose }) => {
               </div>
               <Label
                 type="info"
-                className="font-secondary mb-2"
+                className="mb-2"
                 icon={SUNNYSIDE.icons.stopwatch}
               >
-                {"Resets in "}
-                {secondsToString(resetSeconds, {
+                {`${t("offer.end")} ${secondsToString(resetSeconds, {
                   length: "medium",
                   removeTrailingZeros: true,
-                })}
+                })}`}
               </Label>
             </div>
           )}

@@ -25,26 +25,16 @@ import { formatNumber, setPrecision } from "lib/utils/formatNumber";
 import { hasVipAccess } from "features/game/lib/vipAccess";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { VIPAccess } from "features/game/components/VipAccess";
-import { getDayOfYear } from "lib/utils/time";
 import { NumberInput } from "components/ui/NumberInput";
 import {
   EMBLEM_TRADE_MINIMUMS,
   EMBLEM_TRADE_LIMITS,
 } from "features/game/actions/tradeLimits";
+import { PIXEL_SCALE } from "features/game/lib/constants";
+import { CannotTrade } from "../../CannotTrade";
+import { getRemainingListings } from "features/bumpkins/components/Trade";
 
-const MAX_NON_VIP_LISTINGS = 1;
 const MAX_SFL = 150;
-
-function getRemainingFreeListings(dailyListings: {
-  count: number;
-  date: number;
-}) {
-  if (dailyListings.date !== getDayOfYear(new Date())) {
-    return MAX_NON_VIP_LISTINGS;
-  }
-  return MAX_NON_VIP_LISTINGS - dailyListings.count;
-}
-
 type Items = Partial<Record<InventoryItemName, number>>;
 
 const ListTrade: React.FC<{
@@ -61,7 +51,9 @@ const ListTrade: React.FC<{
 
   const maxSFL = sfl.greaterThan(MAX_SFL);
 
-  const unitPrice = sfl.dividedBy(quantity);
+  const unitPrice = quantity.equals(0)
+    ? new Decimal(0)
+    : sfl.dividedBy(quantity);
   const tooLittle =
     !!quantity && quantity.lessThan(EMBLEM_TRADE_MINIMUMS[emblem] ?? 0);
 
@@ -195,7 +187,7 @@ const ListTrade: React.FC<{
             }}
           />
         </div>
-        <div className="flex-1 flex flex-col items-end ml-2">
+        <div className="flex-1 flex flex-col items-end">
           <div className="flex items-center">
             {sfl.greaterThan(MAX_SFL) && (
               <Label type="danger" className="my-1 ml-2 mr-1">
@@ -244,7 +236,7 @@ const ListTrade: React.FC<{
         <p className="text-xs">
           {quantity.equals(0)
             ? "0.0000 SFL"
-            : `${formatNumber(sfl.dividedBy(quantity), {
+            : `${formatNumber(unitPrice, {
                 decimalPlaces: 4,
                 showTrailingZeros: true,
               })} SFL`}
@@ -317,7 +309,7 @@ const TradeDetails: React.FC<{
               <div className="flex flex-wrap">
                 {getKeys(trade.items).map((name) => (
                   <Box
-                    image={ITEM_DETAILS[name].image}
+                    image={ITEM_DETAILS[name as InventoryItemName].image}
                     count={new Decimal(trade.items[name] ?? 0)}
                     disabled
                     key={name}
@@ -353,22 +345,24 @@ const TradeDetails: React.FC<{
           <div className="flex flex-wrap">
             {getKeys(trade.items).map((name) => (
               <Box
-                image={ITEM_DETAILS[name].image}
+                image={ITEM_DETAILS[name as InventoryItemName].image}
                 count={new Decimal(trade.items[name] ?? 0)}
                 disabled
                 key={name}
               />
             ))}
             <div>
-              <Label type="default" className="ml-1 mt-0.5">{`Listed`}</Label>
+              <Label type="default" className="ml-1 mt-0.5">
+                {t("bumpkinTrade.listed")}
+              </Label>
               <div className="flex items-center mr-0.5 mt-1">
                 <img src={token} className="h-6 mr-1" />
                 <p className="text-xs">{`${trade.sfl} SFL`}</p>
               </div>
             </div>
           </div>
-          <div className="flex flex-col justify-between h-full">
-            <Button className="mb-1" onClick={onCancel}>
+          <div className="flex items-center">
+            <Button onClick={onCancel}>
               {isOldListing ? "Cancel old" : t("cancel")}
             </Button>
           </div>
@@ -390,11 +384,9 @@ export const Trade: React.FC<{
   const [showListing, setShowListing] = useState(false);
 
   const isVIP = hasVipAccess(gameState.context.state.inventory);
-  const dailyListings = gameState.context.state.trades.dailyListings ?? {
-    count: 0,
-    date: 0,
-  };
-  const remainingListings = getRemainingFreeListings(dailyListings);
+  const remainingListings = getRemainingListings({
+    game: gameState.context.state,
+  });
   const hasListingsRemaining = isVIP || remainingListings > 0;
   // Show listings
   const trades = gameState.context.state.trades?.listings ?? {};
@@ -402,6 +394,13 @@ export const Trade: React.FC<{
   const level = getBumpkinLevel(
     gameState.context.state.bumpkin?.experience ?? 0,
   );
+
+  const emblemListings = getKeys(trades).filter((listingId) => {
+    return (
+      makeListingType(trades[listingId].items) ===
+      makeListingType({ [emblem]: 0 })
+    );
+  });
 
   const onList = (items: Items, sfl: number) => {
     gameService.send("LIST_TRADE", {
@@ -426,18 +425,7 @@ export const Trade: React.FC<{
   };
 
   if (level < 10) {
-    return (
-      <div className="relative">
-        <div className="p-1 flex flex-col items-center">
-          <img
-            src={SUNNYSIDE.icons.lock}
-            className="w-1/5 mx-auto my-2 img-highlight-heavy"
-          />
-          <p className="text-sm">{t("bumpkinTrade.minLevel")}</p>
-          <p className="text-xs mb-2">{t("statements.lvlUp")}</p>
-        </div>
-      </div>
-    );
+    return <CannotTrade />;
   }
 
   if (showListing) {
@@ -453,15 +441,14 @@ export const Trade: React.FC<{
     );
   }
 
-  if (getKeys(trades).length === 0) {
+  if (emblemListings.length === 0) {
     return (
       <div className="relative">
         <div className="pl-2 pt-2 space-y-1 sm:space-y-0 sm:flex items-center justify-between ml-1.5">
           <VIPAccess
             isVIP={isVIP}
-            onUpgrade={() => {
-              openModal("BUY_BANNER");
-            }}
+            onUpgrade={() => openModal("BUY_BANNER")}
+            text={t("bumpkinTrade.unlockMoreTrades")}
           />
           {!isVIP && (
             <Label
@@ -473,7 +460,7 @@ export const Trade: React.FC<{
                 : `${t("remaining.free.listings", {
                     listingsRemaining: hasListingsRemaining
                       ? remainingListings
-                      : "No",
+                      : t("no"),
                   })}`}
             </Label>
           )}
@@ -481,7 +468,9 @@ export const Trade: React.FC<{
         <div className="p-1 flex flex-col items-center">
           <img
             src={tradeIcon}
-            className="w-1/5 mx-auto my-2 img-highlight-heavy"
+            style={{
+              width: `${PIXEL_SCALE * 17}px`,
+            }}
           />
           <p className="text-sm">{t("bumpkinTrade.noTradeListed")}</p>
         </div>
@@ -501,9 +490,8 @@ export const Trade: React.FC<{
       <div className="pl-2 pt-2 space-y-1 sm:space-y-0 sm:flex items-center justify-between ml-1.5">
         <VIPAccess
           isVIP={isVIP}
-          onUpgrade={() => {
-            openModal("BUY_BANNER");
-          }}
+          onUpgrade={() => openModal("BUY_BANNER")}
+          text={t("bumpkinTrade.unlockMoreTrades")}
         />
         {!isVIP && (
           <Label
@@ -515,38 +503,31 @@ export const Trade: React.FC<{
               : `${t("remaining.free.listings", {
                   listingsRemaining: hasListingsRemaining
                     ? remainingListings
-                    : "No",
+                    : t("no"),
                 })}`}
           </Label>
         )}
       </div>
-      {getKeys(trades)
-        .filter((listingId) => {
-          return (
-            makeListingType(trades[listingId].items) ===
-            makeListingType({ [emblem]: 0 })
-          );
-        })
-        .map((listingId, index) => {
-          return (
-            <div className="mt-2" key={index}>
-              <TradeDetails
-                onCancel={() =>
-                  onCancel(listingId, makeListingType(trades[listingId].items))
-                }
-                onClaim={() => {
-                  gameService.send("trade.received", {
-                    tradeId: listingId,
-                  });
-                  gameService.send("SAVE");
-                }}
-                trade={trades[listingId]}
-                isOldListing={listingId.length < 38}
-              />
-            </div>
-          );
-        })}
-      {getKeys(trades).length < 3 && (
+      {emblemListings.map((listingId, index) => {
+        return (
+          <div className="mt-2" key={index}>
+            <TradeDetails
+              onCancel={() =>
+                onCancel(listingId, makeListingType(trades[listingId].items))
+              }
+              onClaim={() => {
+                gameService.send("trade.received", {
+                  tradeId: listingId,
+                });
+                gameService.send("SAVE");
+              }}
+              trade={trades[listingId]}
+              isOldListing={listingId.length < 38}
+            />
+          </div>
+        );
+      })}
+      {emblemListings.length < 3 && (
         <div className="relative mt-2">
           <Button
             onClick={() => setShowListing(true)}
@@ -556,7 +537,7 @@ export const Trade: React.FC<{
           </Button>
         </div>
       )}
-      {getKeys(trades).length >= 3 && (
+      {emblemListings.length >= 3 && (
         <div className="relative my-2">
           <Label type="danger" icon={SUNNYSIDE.icons.lock} className="mx-auto">
             {t("bumpkinTrade.maxListings")}

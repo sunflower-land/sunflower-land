@@ -14,7 +14,7 @@ import classNames from "classnames";
 import { TravelButton } from "./components/deliveries/TravelButton";
 import { CodexButton } from "./components/codex/CodexButton";
 import { AuctionCountdown } from "features/retreat/components/auctioneer/AuctionCountdown";
-import { CollectibleLocation } from "features/game/types/collectibles";
+import { PlaceableLocation } from "features/game/types/collectibles";
 import { HudContainer } from "components/ui/HudContainer";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import Decimal from "decimal.js-light";
@@ -24,9 +24,10 @@ import { useSound } from "lib/utils/hooks/useSound";
 import { SpecialEventCountdown } from "./SpecialEventCountdown";
 import { SeasonBannerCountdown } from "./SeasonBannerCountdown";
 import marketplaceIcon from "assets/icons/shop_disc.png";
-import { Modal } from "components/ui/Modal";
-import { Marketplace } from "features/marketplace/Marketplace";
 import { hasFeatureAccess } from "lib/flags";
+import { useNavigate } from "react-router-dom";
+import { TransactionCountdown } from "./Transaction";
+import * as AuthProvider from "features/auth/lib/Provider";
 
 const _farmAddress = (state: MachineState) => state.context.farmAddress;
 const _showMarketplace = (state: MachineState) =>
@@ -39,15 +40,17 @@ const _showMarketplace = (state: MachineState) =>
 const HudComponent: React.FC<{
   isFarming: boolean;
   moveButtonsUp?: boolean;
-  location: CollectibleLocation;
+  location: PlaceableLocation;
 }> = ({ isFarming, location }) => {
+  const { authService } = useContext(AuthProvider.Context);
+
   const { gameService, shortcutItem, selectedItem } = useContext(Context);
   const [gameState] = useActor(gameService);
 
   const farmAddress = useSelector(gameService, _farmAddress);
   const hasMarketplaceAccess = useSelector(gameService, _showMarketplace);
 
-  const [showMarketplace, setShowMarketplace] = useState(true);
+  const [showMarketplace, setShowMarketplace] = useState(false);
   const [showDepositModal, setShowDepositModal] = useState(false);
   const [showBuyCurrencies, setShowBuyCurrencies] = useState(false);
 
@@ -55,6 +58,8 @@ const HudComponent: React.FC<{
   const button = useSound("button");
 
   const autosaving = gameState.matches("autosaving");
+
+  const navigate = useNavigate();
 
   const handleDeposit = (
     args: Pick<DepositArgs, "sfl" | "itemIds" | "itemAmounts">,
@@ -142,9 +147,7 @@ const HudComponent: React.FC<{
         <Balances
           sfl={gameState.context.state.balance}
           coins={gameState.context.state.coins}
-          blockBucks={
-            gameState.context.state.inventory["Block Buck"] ?? new Decimal(0)
-          }
+          gems={gameState.context.state.inventory["Gem"] ?? new Decimal(0)}
           onClick={handleBuyCurrenciesModal}
         />
 
@@ -168,11 +171,11 @@ const HudComponent: React.FC<{
             left: `${PIXEL_SCALE * 28}px`,
           }}
         >
+          <TransactionCountdown />
           <AuctionCountdown />
           <SpecialEventCountdown />
           <SeasonBannerCountdown />
         </div>
-
         <div
           className="absolute z-50 flex flex-col justify-between"
           style={{
@@ -203,7 +206,9 @@ const HudComponent: React.FC<{
             <img
               src={marketplaceIcon}
               className="cursor-pointer absolute"
-              onClick={() => setShowMarketplace(true)}
+              onClick={() => {
+                navigate("/marketplace");
+              }}
               style={{
                 width: `${PIXEL_SCALE * 22}px`,
 
@@ -211,16 +216,6 @@ const HudComponent: React.FC<{
                 bottom: `${PIXEL_SCALE * 55}px`,
               }}
             />
-
-            {showMarketplace && (
-              <Modal
-                onHide={() => setShowMarketplace(false)}
-                fullscreen
-                show={showMarketplace}
-              >
-                <Marketplace onClose={() => setShowMarketplace(false)} />
-              </Modal>
-            )}
           </>
         )}
       </HudContainer>

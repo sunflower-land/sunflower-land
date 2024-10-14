@@ -102,6 +102,7 @@ const cropSeeds: Record<CropSeedName, () => boolean> = {
   "Radish Seed": () => false,
   "Wheat Seed": () => false,
   "Soybean Seed": () => false,
+  "Barley Seed": () => false,
 };
 
 const fruitSeed: Record<FruitSeedName, () => boolean> = {
@@ -134,6 +135,7 @@ const crops: Record<CropName, () => boolean> = {
   Radish: () => true,
   Wheat: () => true,
   Soybean: () => true,
+  Barley: () => false,
 };
 
 const fruits: Record<FruitName, () => boolean> = {
@@ -254,6 +256,13 @@ const heliosBlacksmith: Record<HeliosBlacksmithItem, () => boolean> = {
   Nana: () => true,
   "Soil Krabby": () => true,
   "Skill Shrimpy": () => true,
+  "Stone Beetle": () => false,
+  "Iron Beetle": () => false,
+  "Gold Beetle": () => false,
+  "Fairy Circle": () => false,
+  Squirrel: () => false,
+  Macaw: () => false,
+  Butterfly: () => false,
 };
 
 const treasureCollectible: Record<TreasureCollectibleItem, () => boolean> = {
@@ -393,6 +402,7 @@ const coupons: Record<Coupons, () => boolean> = {
   "Red Envelope": () => false,
   "Love Letter": () => false,
   "Block Buck": () => false,
+  Gem: () => false,
   "Solar Flare Ticket": () => false,
   "Dawn Breaker Ticket": () => false,
   "Sunflower Supporter": () => false,
@@ -430,6 +440,7 @@ const buildings: Record<BuildingName, () => boolean> = {
   Bakery: () => false,
   Greenhouse: () => false,
   "Hen House": () => false,
+  Barn: () => false,
   Deli: () => false,
   "Smoothie Shack": () => false,
   Toolshed: () => false,
@@ -601,8 +612,10 @@ const seasonalDecorations: Record<SeasonalDecorationName, () => boolean> = {
   "Battlecry Drum": () => false,
   "Golden Gallant": () => false,
   "Golden Guardian": () => false,
-  "Rookie Rook": () => false,
-  "Silver Sentinel": () => false,
+  "Rookie Rook": () =>
+    canWithdrawTimebasedItem(SEASONS["Pharaoh's Treasure"].endDate),
+  "Silver Sentinel": () =>
+    canWithdrawTimebasedItem(SEASONS["Pharaoh's Treasure"].endDate),
   "Silver Stallion": () => false,
 
   Blossombeard: () => false,
@@ -791,8 +804,8 @@ const goblinPirate: Record<GoblinPirateItemName, () => boolean> = {
   Karkinos: () => true,
   "Emerald Turtle": () => true,
   "Tin Turtle": () => true, // Mint ended
-  "Golden Bear Head": () => false,
-  "Parasaur Skull": () => false,
+  "Golden Bear Head": () => true, // Mint ended
+  "Parasaur Skull": () => true, // Mint ended
 };
 
 const treasureDecoration: Record<DecorationTreasure, () => boolean> = {
@@ -990,7 +1003,7 @@ const megastore: Record<MegaStoreCollectibleName, () => boolean> = {
   "Silver Squire": () => canWithdrawTimebasedItem(new Date("2024-08-01")),
   Cluckapult: () => canWithdrawTimebasedItem(new Date("2024-08-01")),
   "Bullseye Board": () => canWithdrawTimebasedItem(new Date("2024-08-01")),
-  "Twister Rug": () => canWithdrawTimebasedItem(new Date("2024-08-01")),
+  "Twister Rug": () => true,
 
   "Hapy Jar": () => canWithdrawTimebasedItem(new Date("2024-09-01")),
   "Duamutef Jar": () => canWithdrawTimebasedItem(new Date("2024-10-01")),
@@ -1249,14 +1262,13 @@ export const BUMPKIN_WITHDRAWABLES: Record<
   "Pineapple Shirt": () => true,
   "China Town Background": () => true,
   "Lion Dance Mask": () => true,
-  "Fruit Picker Shirt": () => true,
-  "Fruit Picker Apron": (state) =>
-    canWithdrawBoostedWearable("Fruit Picker Apron", state),
-  "Fruit Bowl": () => true,
-  "Striped Blue Shirt": () => true,
-  "Peg Leg": () => true,
-  "Pirate Potion": () => true,
-  "Pirate Hat": () => true,
+  "Fruit Picker Shirt": () => false,
+  "Fruit Picker Apron": () => false,
+  "Fruit Bowl": () => false,
+  "Striped Blue Shirt": () => false,
+  "Peg Leg": () => false,
+  "Pirate Potion": () => false,
+  "Pirate Hat": () => false,
   "Pirate General Coat": () => true,
   "Pirate Pants": () => true,
   "Pirate Leather Polo": () => true,
@@ -1298,8 +1310,8 @@ export const BUMPKIN_WITHDRAWABLES: Record<
   "Mushroom Lamp": () => false, // Not Launched
   "Mushroom Lights Background": () => false, // Not Launched
   "Mushroom Pants": () => false, // Not Launched
-  "Mushroom Shield": () => false, // Not Launched
-  "Mushroom Shoes": () => false, // Not Launched
+  "Mushroom Shield": () => true,
+  "Mushroom Shoes": () => true,
   "Mushroom Sweater": () => true,
   "Rash Vest": () => false, // Not Launched
   "Squid Hat": () => true,
@@ -1430,7 +1442,8 @@ export const BUMPKIN_WITHDRAWABLES: Record<
   "Ugly Christmas Sweater": () => true,
   "Candy Cane": () => true,
   "Elf Hat": () => true,
-  "Elf Potion": () => false,
+  "Elf Potion": () =>
+    canWithdrawTimebasedItem(SEASONS["Pharaoh's Treasure"].endDate),
   "Elf Shoes": () => false,
   "Elf Suit": () => true,
   "Santa Beard": () => true,
@@ -1451,7 +1464,7 @@ export const BUMPKIN_WITHDRAWABLES: Record<
   "Beekeeper Hat": (state) =>
     canWithdrawBoostedWearable("Beekeeper Hat", state),
   "Beekeeper Suit": () => true,
-  "Crimstone Boots": () => false,
+  "Crimstone Boots": () => true,
   "Crimstone Pants": () => true,
   "Crimstone Armor": (state) =>
     canWithdrawBoostedWearable("Crimstone Armor", state),
@@ -1597,4 +1610,12 @@ export const BUMPKIN_WITHDRAWABLES: Record<
   "Goblin Medallion": () => false,
   "Nightshade Medallion": () => false,
   "Sunflorian Medallion": () => false,
+
+  // Map Background
+  "Pumpkin Plaza Background": () => false,
+  "Goblin Retreat Background": () => false,
+  "Kingdom Background": () => false,
+
+  //Gam3s Cap
+  "Gam3s Cap": () => false,
 };

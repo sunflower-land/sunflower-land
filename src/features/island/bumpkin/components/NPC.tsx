@@ -41,6 +41,7 @@ export interface NPCProps {
   flip?: boolean;
   hideShadow?: boolean;
   preventZoom?: boolean;
+  width?: number; // Add width prop
 }
 
 export const NPC: React.FC<NPCProps & { onClick?: () => void }> = ({
@@ -49,14 +50,15 @@ export const NPC: React.FC<NPCProps & { onClick?: () => void }> = ({
   hideShadow,
   onClick,
   preventZoom,
+  width = PIXEL_SCALE * 16, // Default to original width if not passed
 }) => {
   const { scale } = useContext(ZoomContext);
-
   const [show, setShow] = useState(false);
 
   useEffect(() => {
     setShow(true);
   }, []);
+
   const idle = getAnimationUrl(parts, "idle_small");
   const auraBack =
     parts.aura &&
@@ -78,8 +80,8 @@ export const NPC: React.FC<NPCProps & { onClick?: () => void }> = ({
         })}
         onClick={() => !!onClick && onClick()}
         style={{
-          width: `${PIXEL_SCALE * 16}px`,
-          height: `${PIXEL_SCALE * 32}px`,
+          width: `${width}px`, // Use passed width for character
+          height: `${width * 2}px`, // Adjust height based on the width
         }}
       >
         <>
@@ -87,9 +89,9 @@ export const NPC: React.FC<NPCProps & { onClick?: () => void }> = ({
             <img
               src={shadow}
               style={{
-                width: `${PIXEL_SCALE * 15}px`,
-                top: `${PIXEL_SCALE * 20}px`,
-                left: `${PIXEL_SCALE * 1}px`,
+                width: `${width * 0.94}px`, // Scale shadow based on width
+                top: `${width * 1.25}px`,
+                left: `${width * 0.06}px`,
               }}
               className="absolute pointer-events-none"
             />
@@ -98,9 +100,9 @@ export const NPC: React.FC<NPCProps & { onClick?: () => void }> = ({
             <Spritesheet
               className="absolute w-full inset-0 pointer-events-none"
               style={{
-                width: `${PIXEL_SCALE * 20}px`,
-                top: `${PIXEL_SCALE * 2}px`,
-                left: `${PIXEL_SCALE * -2}px`,
+                width: `${width * 1.25}px`,
+                top: `${width * 0.125}px`,
+                left: `${width * -0.125}px`,
                 imageRendering: "pixelated" as const,
               }}
               image={auraBack}
@@ -116,9 +118,9 @@ export const NPC: React.FC<NPCProps & { onClick?: () => void }> = ({
           <Spritesheet
             className="absolute w-full inset-0 pointer-events-none"
             style={{
-              width: `${PIXEL_SCALE * 20}px`,
-              top: `${PIXEL_SCALE * 5}px`,
-              left: `${PIXEL_SCALE * -2}px`,
+              width: `${width * 1.25}px`,
+              top: `${width * 0.31}px`,
+              left: `${width * -0.125}px`,
               imageRendering: "pixelated" as const,
             }}
             image={idle}
@@ -134,9 +136,9 @@ export const NPC: React.FC<NPCProps & { onClick?: () => void }> = ({
             <Spritesheet
               className="absolute w-full inset-0 pointer-events-none"
               style={{
-                width: `${PIXEL_SCALE * 20}px`,
-                top: `${PIXEL_SCALE * 7}px`,
-                left: `${PIXEL_SCALE * -2}px`,
+                width: `${width * 1.25}px`,
+                top: `${width * 0.44}px`,
+                left: `${width * -0.125}px`,
                 imageRendering: "pixelated" as const,
               }}
               image={auraFront}

@@ -120,13 +120,14 @@ export function getFactionWeekday(now = Date.now()) {
   return day;
 }
 
-type OutfitPart = "hat" | "shirt" | "pants" | "shoes" | "tool";
+type OutfitPart = "crown" | "hat" | "shirt" | "pants" | "shoes" | "tool";
 
 export const FACTION_OUTFITS: Record<
   FactionName,
   Record<OutfitPart, BumpkinItem>
 > = {
   bumpkins: {
+    crown: "Bumpkin Crown",
     hat: "Bumpkin Helmet",
     shirt: "Bumpkin Armor",
     pants: "Bumpkin Pants",
@@ -134,6 +135,7 @@ export const FACTION_OUTFITS: Record<
     tool: "Bumpkin Sword",
   },
   goblins: {
+    crown: "Goblin Crown",
     hat: "Goblin Helmet",
     shirt: "Goblin Armor",
     pants: "Goblin Pants",
@@ -141,6 +143,7 @@ export const FACTION_OUTFITS: Record<
     tool: "Goblin Axe",
   },
   sunflorians: {
+    crown: "Sunflorian Crown",
     hat: "Sunflorian Helmet",
     shirt: "Sunflorian Armor",
     pants: "Sunflorian Pants",
@@ -148,6 +151,7 @@ export const FACTION_OUTFITS: Record<
     tool: "Sunflorian Sword",
   },
   nightshades: {
+    crown: "Nightshade Crown",
     hat: "Nightshade Helmet",
     shirt: "Nightshade Armor",
     pants: "Nightshade Pants",
@@ -156,6 +160,32 @@ export const FACTION_OUTFITS: Record<
   },
 };
 
+type MiscPart = "secondaryTool" | "wings" | "necklace";
+export const FACTION_ITEMS: Record<
+  FactionName,
+  Record<MiscPart, BumpkinItem>
+> = {
+  bumpkins: {
+    secondaryTool: "Bumpkin Shield",
+    wings: "Bumpkin Quiver",
+    necklace: "Bumpkin Medallion",
+  },
+  goblins: {
+    secondaryTool: "Goblin Shield",
+    wings: "Goblin Quiver",
+    necklace: "Goblin Medallion",
+  },
+  nightshades: {
+    secondaryTool: "Nightshade Shield",
+    wings: "Nightshade Quiver",
+    necklace: "Nightshade Medallion",
+  },
+  sunflorians: {
+    secondaryTool: "Sunflorian Shield",
+    wings: "Sunflorian Quiver",
+    necklace: "Sunflorian Medallion",
+  },
+};
 /**
  * Returns the total boost gained from faction wearables
  * @param game gameState
@@ -178,17 +208,27 @@ export function getFactionWearableBoostAmount(
     shoes: 0.05,
     tool: 0.1,
     hat: 0.1,
+    crown: 0.1,
     shirt: 0.2,
   };
 
   // Dynamically sets the boost based on the boost set for each wearable
-  (Object.keys(boosts) as (keyof typeof boosts)[]).forEach((wearable) => {
+  for (const wearable of Object.keys(boosts) as (keyof typeof boosts)[]) {
     const wearableName = FACTION_OUTFITS[factionName][wearable];
+
+    // Skip the hat boost if a crown is active
+    if (
+      wearable === "hat" &&
+      isWearableActive({ game, name: FACTION_OUTFITS[factionName].crown })
+    ) {
+      continue;
+    }
+
     if (isWearableActive({ game, name: wearableName })) {
       boost += baseAmount * boosts[wearable];
       boostLabels[wearableName] = `+${boosts[wearable] * 100}%`;
     }
-  });
+  }
 
   return [boost, boostLabels];
 }
@@ -269,6 +309,134 @@ export const BONUS_FACTION_PRIZES: Record<
         (acc, item, i) => ({
           ...acc,
           [i + 11]: item,
+        }),
+        {},
+      ),
+  },
+  "2024-08-26": {
+    1: {
+      items: {
+        "Luxury Key": 15,
+      },
+    },
+    2: {
+      items: {
+        "Luxury Key": 10,
+      },
+    },
+    3: {
+      items: {
+        "Luxury Key": 5,
+      },
+    },
+    4: {
+      items: {
+        "Luxury Key": 3,
+      },
+    },
+    5: {
+      items: {
+        "Luxury Key": 3,
+      },
+    },
+    // 6th - 10th
+    ...new Array(5)
+      .fill({
+        items: {
+          "Luxury Key": 2,
+        },
+      })
+      .reduce(
+        (acc, item, i) => ({
+          ...acc,
+          [i + 6]: item,
+        }),
+        {},
+      ),
+    // 11th - 50th
+    ...new Array(40)
+      .fill({
+        items: {
+          "Rare Key": 2,
+        },
+      })
+      .reduce(
+        (acc, item, i) => ({
+          ...acc,
+          [i + 11]: item,
+        }),
+        {},
+      ),
+  },
+  "2024-09-23": {
+    1: {
+      items: {
+        Mark: 30000,
+      },
+    },
+    2: {
+      items: {
+        Mark: 25000,
+      },
+    },
+    3: {
+      items: {
+        Mark: 20000,
+      },
+    },
+    // 4th to 6th
+    ...new Array(3)
+      .fill({
+        items: {
+          Mark: 15000,
+        },
+      })
+      .reduce(
+        (acc, item, i) => ({
+          ...acc,
+          [i + 4]: item,
+        }),
+        {},
+      ),
+    // 7th to 10th
+    ...new Array(4)
+      .fill({
+        items: {
+          Mark: 10000,
+        },
+      })
+      .reduce(
+        (acc, item, i) => ({
+          ...acc,
+          [i + 7]: item,
+        }),
+        {},
+      ),
+    // 11th to 25th
+    ...new Array(15)
+      .fill({
+        items: {
+          Mark: 5000,
+        },
+      })
+      .reduce(
+        (acc, item, i) => ({
+          ...acc,
+          [i + 11]: item,
+        }),
+        {},
+      ),
+    // 26th to 50th
+    ...new Array(25)
+      .fill({
+        items: {
+          Mark: 2500,
+        },
+      })
+      .reduce(
+        (acc, item, i) => ({
+          ...acc,
+          [i + 26]: item,
         }),
         {},
       ),
@@ -362,7 +530,7 @@ export const FACTION_PRIZES: (
   // 11th - 25th all get marks + 5 seasonal tickets
   ...new Array(15)
     .fill({
-      coins: 500,
+      coins: 15000,
       sfl: 50,
       items: {
         Mark: 2500,
@@ -376,20 +544,36 @@ export const FACTION_PRIZES: (
       }),
       {},
     ),
-  // 26th - 50th all get 5 seasonal tickets
+  // 26th - 50th all get 4 seasonal tickets
   ...new Array(25)
     .fill({
-      coins: 500,
-      sfl: 50,
+      coins: 10000,
+      sfl: 0,
       items: {
         Mark: 1500,
-        [ticket]: ticketsEnabled ? 5 : 0,
+        [ticket]: ticketsEnabled ? 4 : 0,
       },
     })
     .reduce(
       (acc, item, index) => ({
         ...acc,
         [index + 26]: item,
+      }),
+      {},
+    ),
+  // 51st - 100th get coins and marks
+  ...new Array(50)
+    .fill({
+      coins: 5000,
+      sfl: 0,
+      items: {
+        Mark: 500,
+      },
+    })
+    .reduce(
+      (acc, item, index) => ({
+        ...acc,
+        [index + 51]: item,
       }),
       {},
     ),

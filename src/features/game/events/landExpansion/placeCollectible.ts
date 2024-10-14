@@ -1,11 +1,11 @@
-import cloneDeep from "lodash.clonedeep";
 import {
   CollectibleName,
   COLLECTIBLES_DIMENSIONS,
 } from "../../types/craftables";
 import { GameState, PlacedItem } from "features/game/types/game";
 import { trackActivity } from "features/game/types/bumpkinActivity";
-import { CollectibleLocation } from "features/game/types/collectibles";
+import { PlaceableLocation } from "features/game/types/collectibles";
+import { produce } from "immer";
 
 export type PlaceCollectibleAction = {
   type: "collectible.placed";
@@ -15,7 +15,7 @@ export type PlaceCollectibleAction = {
     x: number;
     y: number;
   };
-  location: CollectibleLocation;
+  location: PlaceableLocation;
 };
 
 type Options = {
@@ -29,59 +29,58 @@ export function placeCollectible({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  const stateCopy = cloneDeep(state);
-  const { bumpkin } = stateCopy;
-  const collectible = action.name;
+  return produce(state, (stateCopy) => {
+    const { bumpkin } = stateCopy;
+    const collectible = action.name;
 
-  let collectibleItems =
-    action.location === "home"
-      ? stateCopy.home.collectibles[action.name]
-      : stateCopy.collectibles[action.name];
+    let collectibleItems =
+      action.location === "home"
+        ? stateCopy.home.collectibles[action.name]
+        : stateCopy.collectibles[action.name];
 
-  if (!collectibleItems) {
-    collectibleItems = [];
-  }
+    if (!collectibleItems) {
+      collectibleItems = [];
+    }
 
-  const inventoryItemBalance = stateCopy.inventory[collectible];
+    const inventoryItemBalance = stateCopy.inventory[collectible];
 
-  if (bumpkin === undefined) {
-    throw new Error("You do not have a Bumpkin!");
-  }
+    if (bumpkin === undefined) {
+      throw new Error("You do not have a Bumpkin!");
+    }
 
-  if (!inventoryItemBalance) {
-    throw new Error("You can't place an item that is not on the inventory");
-  }
+    if (!inventoryItemBalance) {
+      throw new Error("You can't place an item that is not on the inventory");
+    }
 
-  if (
-    collectibleItems &&
-    inventoryItemBalance?.lessThanOrEqualTo(collectibleItems.length)
-  ) {
-    throw new Error("This collectible is already placed");
-  }
+    if (
+      collectibleItems &&
+      inventoryItemBalance?.lessThanOrEqualTo(collectibleItems.length)
+    ) {
+      throw new Error("This collectible is already placed");
+    }
 
-  if (!(collectible in COLLECTIBLES_DIMENSIONS)) {
-    throw new Error("You cannot place this item");
-  }
+    if (!(collectible in COLLECTIBLES_DIMENSIONS)) {
+      throw new Error("You cannot place this item");
+    }
 
-  const newCollectiblePlacement: PlacedItem = {
-    id: action.id,
-    createdAt: createdAt,
-    coordinates: action.coordinates,
-    readyAt: createdAt,
-  };
+    const newCollectiblePlacement: PlacedItem = {
+      id: action.id,
+      createdAt: createdAt,
+      coordinates: action.coordinates,
+      readyAt: createdAt,
+    };
 
-  bumpkin.activity = trackActivity("Collectible Placed", bumpkin.activity);
+    bumpkin.activity = trackActivity("Collectible Placed", bumpkin.activity);
 
-  collectibleItems.push(newCollectiblePlacement);
+    collectibleItems.push(newCollectiblePlacement);
 
-  // Update stateCopy with the new collectibleItems
-  if (action.location === "home") {
-    stateCopy.home.collectibles[action.name] = collectibleItems;
-  } else {
-    stateCopy.collectibles[action.name] = collectibleItems;
-  }
+    // Update stateCopy with the new collectibleItems
+    if (action.location === "home") {
+      stateCopy.home.collectibles[action.name] = collectibleItems;
+    } else {
+      stateCopy.collectibles[action.name] = collectibleItems;
+    }
 
-  return {
-    ...stateCopy,
-  };
+    return stateCopy;
+  });
 }

@@ -27,12 +27,141 @@ export type BumpkinSkillName =
   | "Horse Whisperer"
   | "Buckaroo";
 
+export type BumpkinRevampSkillName =
+  // Crops
+  | "Green Thumb 2"
+  | "Young Farmer"
+  | "Experienced Farmer"
+  | "Efficient Bin"
+  | "Turbo Charged"
+  | "Old Farmer"
+  | "Strong Roots"
+  | "Coin Swindler"
+  | "Golden Sunflower"
+  | "Betty's Friend"
+  | "Chonky Scarecrow"
+  | "Horror Mike"
+  | "Instant Growth"
+  | "Acre Farm"
+  | "Hectare Farm"
+  | "Premium Worms"
+  | "Laurie's Gains"
+  // Fruit
+  | "Red Sour"
+  | "Fruitful Fumble"
+  | "Tropical Orchard"
+  | "Catchup"
+  | "Fruit Turbocharge"
+  | "Prime Produce"
+  | "Fruity Profit"
+  | "Fruity Rush Hour"
+  // Trees
+  | "Lumberjack's Extra"
+  | "Tree Charge"
+  | "More Axes"
+  | "Insta-Chop"
+  | "Fruity Woody"
+  | "Tough Tree"
+  | "Feller's Discount"
+  | "Tree Turnaround"
+  | "Tree Blitz"
+  // Fishing
+  | "Swift Decomposer"
+  | "Fisherman's 5 Fold"
+  | "Wormy Treat"
+  | "Grubby Treat"
+  | "Wriggly Treat"
+  | "Fishy Fortune"
+  | "Big Catch"
+  | "Composting Bonanza"
+  | "Frenzied Fish"
+  | "Composting Overhaul"
+  // Animals
+  | "Eggcellent Production"
+  | "Fowl Acceleration"
+  | "Bountiful Bales"
+  | "Hay Tree"
+  | "Cozy Coop"
+  | "Egg Rush"
+  // Greenhouse
+  | "Olive Garden"
+  | "Rice and Shine"
+  | "Grape Escape"
+  | "Olive Express"
+  | "Rice Rocket"
+  | "Vine Velocity"
+  | "Greenhouse Guru"
+  | "Greenhouse Gamble"
+  | "Slick Saver"
+  // Mining
+  | "Rock'N'Roll"
+  | "Iron Bumpkin"
+  | "Speed Miner"
+  | "Iron Hustle"
+  | "Tap Prospector"
+  | "Forge-Ward Profits"
+  | "Frugal Miner"
+  | "Fireside Alchemist"
+  | "Ferrous Favor"
+  | "Golden Touch"
+  | "Midas Sprint"
+  | "More Picks"
+  | "Fire Kissed"
+  // Cooking
+  | "Fast Feasts"
+  | "Nom Nom"
+  | "Munching Mastery"
+  | "Frosted Cakes"
+  | "Juicy Boost"
+  | "Double Nom"
+  | "Instant Gratification"
+  | "Rapid Deli Dash"
+  | "Firey Jackpot"
+  // Bees & Flowers
+  | "Sweet Bonus"
+  | "Hyper Bees"
+  | "Blooming Boost"
+  | "Buzzworthy Treats"
+  | "Blossom Bonding"
+  | "Pollen Power Up"
+  | "Bee Collective"
+  | "Flower Power"
+  | "Petalled Perk"
+  | "Flowery Abode"
+  // Oil
+  | "Oil Extraction"
+  | "Swift Sizzle"
+  | "Turbo Fry"
+  | "Oil Be Back"
+  | "Grease Lightning"
+  | "Fry Frenzy"
+  // Machinary
+  | "Crop Processor Unit"
+  | "Oil Gadget"
+  | "Crop Extension Module"
+  | "Rapid Rig"
+  | "Field Extension Module"
+  | "Efficiency Extension Module";
+
 export type BumpkinSkillTree =
   | "Crops"
   | "Trees"
   | "Rocks"
   | "Cooking"
   | "Animals";
+
+export type BumpkinRevampSkillTree =
+  | "Crops"
+  | "Fruit"
+  | "Trees"
+  | "Fishing"
+  | "Animals"
+  | "Greenhouse"
+  | "Mining"
+  | "Cooking"
+  | "Bees & Flowers"
+  | "Oil"
+  | "Machinary";
 
 export type BumpkinSkill = {
   name: BumpkinSkillName;
@@ -44,6 +173,19 @@ export type BumpkinSkill = {
   boosts: string;
   image: string;
   disabled?: boolean;
+};
+
+export type BumpkinSkillRevamp = {
+  name: BumpkinRevampSkillName;
+  tree: BumpkinRevampSkillTree;
+  requirements: {
+    points: number;
+    skill: number; // Number of skills required to unlock this skill (0 means it's a tier 1 skill)
+  };
+  boosts: string;
+  image: string;
+  disabled?: boolean;
+  power?: boolean;
 };
 
 export const BUMPKIN_SKILL_TREE: Record<BumpkinSkillName, BumpkinSkill> = {
@@ -266,20 +408,1126 @@ export const BUMPKIN_SKILL_TREE: Record<BumpkinSkillName, BumpkinSkill> = {
   },
 };
 
+export const BUMPKIN_REVAMP_SKILL_TREE: Record<
+  BumpkinRevampSkillName,
+  BumpkinSkillRevamp
+> = {
+  // Crops - Tier 1
+  "Green Thumb 2": {
+    name: "Green Thumb 2",
+    tree: "Crops",
+    requirements: {
+      points: 1,
+      skill: 0,
+    },
+    boosts: "5% reduced crop growth duration",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
+  "Young Farmer": {
+    name: "Young Farmer",
+    tree: "Crops",
+    requirements: {
+      points: 1,
+      skill: 0,
+    },
+    boosts: "+0.1 Basic Crop Yield (Sunflowers, Potatoes, Pumpkins)",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
+  "Experienced Farmer": {
+    name: "Experienced Farmer",
+    tree: "Crops",
+    requirements: {
+      points: 1,
+      skill: 0,
+    },
+    boosts:
+      "+0.1 Medium Crop Yield (Carrots, Cabbages, Soybeans, Beetroots, Cauliflowers, Parsnips)",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
+  "Efficient Bin": {
+    name: "Efficient Bin",
+    tree: "Crops",
+    requirements: {
+      points: 1,
+      skill: 0,
+    },
+    boosts: "+3 Sprout Mix when collecting from Compost Bin",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
+  "Turbo Charged": {
+    name: "Turbo Charged",
+    tree: "Crops",
+    requirements: {
+      points: 1,
+      skill: 0,
+    },
+    boosts: "+5 Fruitful Blend when collecting from Turbo Composter",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
+  "Old Farmer": {
+    name: "Old Farmer",
+    tree: "Crops",
+    requirements: {
+      points: 1,
+      skill: 0,
+    },
+    boosts: "+0.1 Advanded Crop Yield (Eggplants, Corn, Radish, Wheat, Kale)",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
+  // Crops - Tier 2
+  "Strong Roots": {
+    name: "Strong Roots",
+    tree: "Crops",
+    requirements: {
+      points: 2,
+      skill: 2,
+    },
+    boosts: "Radish, Wheat, Kale grow 10% faster",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
+  "Coin Swindler": {
+    name: "Coin Swindler",
+    tree: "Crops",
+    requirements: {
+      points: 2,
+      skill: 2,
+    },
+    boosts: "+10% coins to base value of plot crops in Betty's Market",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
+  "Golden Sunflower": {
+    name: "Golden Sunflower",
+    tree: "Crops",
+    requirements: {
+      points: 2,
+      skill: 2,
+    },
+    boosts:
+      "Chance of getting +0.35 gold when manually harvesting sunflowers (0.15%)",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
+  "Betty's Friend": {
+    name: "Betty's Friend",
+    tree: "Crops",
+    requirements: {
+      points: 2,
+      skill: 2,
+    },
+    boosts: "Betty Coin delivery revenue increased by 20%",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
+  "Chonky Scarecrow": {
+    name: "Chonky Scarecrow",
+    tree: "Crops",
+    requirements: {
+      points: 2,
+      skill: 2,
+    },
+    boosts: "Basic Scarecrow AOE increase size to 7x7",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
+  "Horror Mike": {
+    name: "Horror Mike",
+    tree: "Crops",
+    requirements: {
+      points: 2,
+      skill: 2,
+    },
+    boosts: "Scary Mike AOE increase size to 7x7",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
+  // Crops - Tier 3
+  "Instant Growth": {
+    name: "Instant Growth",
+    tree: "Crops",
+    requirements: {
+      points: 3,
+      skill: 5,
+    },
+    boosts:
+      "Ability to make all crops currently growing ready to be harvested (1/72h)",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+    power: true,
+  },
+  "Acre Farm": {
+    name: "Acre Farm",
+    tree: "Crops",
+    requirements: {
+      points: 3,
+      skill: 5,
+    },
+    boosts: "+1 Advanced crop yeild, -0.5 Basic and Medium crop yield",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
+  "Hectare Farm": {
+    name: "Hectare Farm",
+    tree: "Crops",
+    requirements: {
+      points: 3,
+      skill: 5,
+    },
+    boosts: "+1 Basic and Medium crop yield, -0.5 Advanced crop yield",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
+  "Premium Worms": {
+    name: "Premium Worms",
+    tree: "Crops",
+    requirements: {
+      points: 3,
+      skill: 5,
+    },
+    boosts: "+10 Rapid Root when collecting from Premium Composter",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
+  "Laurie's Gains": {
+    name: "Laurie's Gains",
+    tree: "Crops",
+    requirements: {
+      points: 3,
+      skill: 5,
+    },
+    boosts: "Laurie Crow AOE increase size to 7x7",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
+
+  // Fruit - Tier 1
+  "Red Sour": {
+    name: "Red Sour",
+    tree: "Fruit",
+    requirements: {
+      points: 1,
+      skill: 0,
+    },
+    boosts: "+0.1 Fruit Yield (Tomatoes, Lemons)",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
+  "Fruitful Fumble": {
+    name: "Fruitful Fumble",
+    tree: "Fruit",
+    requirements: {
+      points: 1,
+      skill: 0,
+    },
+    boosts: "+0.1 Basic Fruit Yield (Blueberries, Oranges)",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
+  "Tropical Orchard": {
+    name: "Tropical Orchard",
+    tree: "Fruit",
+    requirements: {
+      points: 1,
+      skill: 0,
+    },
+    boosts: "+0.1 Advanced Fruit Yield (Apples, Bananas)",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
+  // Fruit - Tier 2
+  Catchup: {
+    name: "Catchup",
+    tree: "Fruit",
+    requirements: {
+      points: 2,
+      skill: 2,
+    },
+    boosts: "Tomatoes & Lemons grows 10% faster",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
+  "Fruit Turbocharge": {
+    name: "Fruit Turbocharge",
+    tree: "Fruit",
+    requirements: {
+      points: 2,
+      skill: 2,
+    },
+    boosts: "Basic Fruit grows 10% faster (Blueberries, Oranges)",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
+  "Prime Produce": {
+    name: "Prime Produce",
+    tree: "Fruit",
+    requirements: {
+      points: 2,
+      skill: 2,
+    },
+    boosts: "Advanced Fruit grows 10% faster (Apples, Bananas)",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
+  // Fruit - Tier 3
+  "Fruity Profit": {
+    name: "Fruity Profit",
+    tree: "Fruit",
+    requirements: {
+      points: 3,
+      skill: 5,
+    },
+    boosts: "Tango Coin delivery revenue +50%",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
+  "Fruity Rush Hour": {
+    name: "Fruity Rush Hour",
+    tree: "Fruit",
+    requirements: {
+      points: 3,
+      skill: 5,
+    },
+    boosts:
+      "Ability to make all fruit currently growing ready to be harvested (1/72h)",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+    power: true,
+  },
+
+  // Trees - Tier 1
+  "Lumberjack's Extra": {
+    name: "Lumberjack's Extra",
+    tree: "Trees",
+    requirements: {
+      points: 1,
+      skill: 0,
+    },
+    boosts: "Trees drop +0.1 wood",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
+  "Tree Charge": {
+    name: "Tree Charge",
+    tree: "Trees",
+    requirements: {
+      points: 1,
+      skill: 0,
+    },
+    boosts: "Trees grow 10% quicker",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
+  "More Axes": {
+    name: "More Axes",
+    tree: "Trees",
+    requirements: {
+      points: 1,
+      skill: 0,
+    },
+    boosts: "Increased axe quantites per BB (?%)",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
+  "Insta-Chop": {
+    name: "Insta-Chop",
+    tree: "Trees",
+    requirements: {
+      points: 1,
+      skill: 0,
+    },
+    boosts: "1 Tap Tree Chop",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
+  // Trees - Tier 2
+  "Fruity Woody": {
+    name: "Fruity Woody",
+    tree: "Trees",
+    requirements: {
+      points: 2,
+      skill: 2,
+    },
+    boosts: "Fruit Trees and Bushes drop +1 wood when chopped",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
+  "Tough Tree": {
+    name: "Tough Tree",
+    tree: "Trees",
+    requirements: {
+      points: 2,
+      skill: 2,
+    },
+    boosts: "1/10 chance of +3 wood yield",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
+  "Feller's Discount": {
+    name: "Feller's Discount",
+    tree: "Trees",
+    requirements: {
+      points: 2,
+      skill: 2,
+    },
+    boosts: "Axes cost 10% less coins",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
+  // Trees - Tier 3
+  "Tree Turnaround": {
+    name: "Tree Turnaround",
+    tree: "Trees",
+    requirements: {
+      points: 3,
+      skill: 5,
+    },
+    boosts: "Insta Grow Chance (10%)",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
+  "Tree Blitz": {
+    name: "Tree Blitz",
+    tree: "Trees",
+    requirements: {
+      points: 3,
+      skill: 5,
+    },
+    boosts: "Ability to make all trees instantly grow (1/24h)",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+    power: true,
+  },
+
+  // Fishing - Tier 1
+  "Swift Decomposer": {
+    name: "Swift Decomposer",
+    tree: "Fishing",
+    requirements: {
+      points: 1,
+      skill: 0,
+    },
+    boosts: "Composter speed 10% quicker",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
+  "Fisherman's 5 Fold": {
+    name: "Fisherman's 5 Fold",
+    tree: "Fishing",
+    requirements: {
+      points: 1,
+      skill: 0,
+    },
+    boosts: "+5 Fishing daily limit",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
+  "Wormy Treat": {
+    name: "Wormy Treat",
+    tree: "Fishing",
+    requirements: {
+      points: 1,
+      skill: 0,
+    },
+    boosts: "+1 EarthWorm bait from composting",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
+  // Fishing - Tier 2
+  "Grubby Treat": {
+    name: "Grubby Treat",
+    tree: "Fishing",
+    requirements: {
+      points: 2,
+      skill: 2,
+    },
+    boosts: "+1 Grub bait from composting",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
+  "Wriggly Treat": {
+    name: "Wriggly Treat",
+    tree: "Fishing",
+    requirements: {
+      points: 2,
+      skill: 2,
+    },
+    boosts: "+1 Red Wriggler bait from composting",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
+  "Fishy Fortune": {
+    name: "Fishy Fortune",
+    tree: "Fishing",
+    requirements: {
+      points: 2,
+      skill: 2,
+    },
+    boosts: "+50% Fish deliveries SFL profit",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
+  "Big Catch": {
+    name: "Big Catch",
+    tree: "Fishing",
+    requirements: {
+      points: 2,
+      skill: 2,
+    },
+    boosts: "Increase bar for catching game",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
+  // Fishing - Tier 3
+  "Composting Bonanza": {
+    name: "Composting Bonanza",
+    tree: "Fishing",
+    requirements: {
+      points: 3,
+      skill: 5,
+    },
+    boosts: "+1 Bait from all composters",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
+  "Frenzied Fish": {
+    name: "Frenzied Fish",
+    tree: "Fishing",
+    requirements: {
+      points: 3,
+      skill: 5,
+    },
+    boosts: "+1 Yield furing fish frenzy",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
+  "Composting Overhaul": {
+    name: "Composting Overhaul",
+    tree: "Fishing",
+    requirements: {
+      points: 3,
+      skill: 5,
+    },
+    boosts:
+      "+2 Baits from all composters but reduced fertiliser drop (-5 Sprout Mixes, -5 Rapid Growth, -1 Fruit Blend)",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
+
+  // Animals - Tier 1
+  "Eggcellent Production": {
+    name: "Eggcellent Production",
+    tree: "Animals",
+    requirements: {
+      points: 1,
+      skill: 0,
+    },
+    boosts: "+0.1 Egg Yield",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
+  "Fowl Acceleration": {
+    name: "Fowl Acceleration",
+    tree: "Animals",
+    requirements: {
+      points: 1,
+      skill: 0,
+    },
+    boosts: "Chickens lay eggs 10% quicker",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
+  // Animals - Tier 2
+  "Bountiful Bales": {
+    name: "Bountiful Bales",
+    tree: "Animals",
+    requirements: {
+      points: 2,
+      skill: 2,
+    },
+    boosts: "Hay Bale effect increased to +0.4",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
+  "Hay Tree": {
+    name: "Hay Tree",
+    tree: "Animals",
+    requirements: {
+      points: 2,
+      skill: 2,
+    },
+    boosts: "Unlock 2nd Hay Bale",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
+  // Animals - Tier 3
+  "Cozy Coop": {
+    name: "Cozy Coop",
+    tree: "Animals",
+    requirements: {
+      points: 3,
+      skill: 5,
+    },
+    boosts: "+5 Hen capacity per House",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
+  "Egg Rush": {
+    name: "Egg Rush",
+    tree: "Animals",
+    requirements: {
+      points: 3,
+      skill: 5,
+    },
+    boosts:
+      "Ability to instantly reduce egg laying time by 10hours to chickens currently laying eggs (1/96h)",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+    power: true,
+  },
+
+  // Greenhouse - Tier 1
+  "Olive Garden": {
+    name: "Olive Garden",
+    tree: "Greenhouse",
+    requirements: {
+      points: 1,
+      skill: 0,
+    },
+    boosts: "+0.2 Olive Yield",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
+  "Rice and Shine": {
+    name: "Rice and Shine",
+    tree: "Greenhouse",
+    requirements: {
+      points: 1,
+      skill: 0,
+    },
+    boosts: "+0.2 Rice Yield",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
+  "Grape Escape": {
+    name: "Grape Escape",
+    tree: "Greenhouse",
+    requirements: {
+      points: 1,
+      skill: 0,
+    },
+    boosts: "+0.2 Grape Yield",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
+  // Greenhouse - Tier 2
+  "Olive Express": {
+    name: "Olive Express",
+    tree: "Greenhouse",
+    requirements: {
+      points: 2,
+      skill: 2,
+    },
+    boosts: "20% faster Olive growth",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
+  "Rice Rocket": {
+    name: "Rice Rocket",
+    tree: "Greenhouse",
+    requirements: {
+      points: 2,
+      skill: 2,
+    },
+    boosts: "20% faster Rice growth",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
+  "Vine Velocity": {
+    name: "Vine Velocity",
+    tree: "Greenhouse",
+    requirements: {
+      points: 2,
+      skill: 2,
+    },
+    boosts: "20% faster Grape growth",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
+  // Greenhouse - Tier 3
+  "Greenhouse Guru": {
+    name: "Greenhouse Guru",
+    tree: "Greenhouse",
+    requirements: {
+      points: 3,
+      skill: 5,
+    },
+    boosts:
+      "Ability to make all Greenhouse crops currently growing ready to be harvested (1/96h)",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+    power: true,
+  },
+  "Greenhouse Gamble": {
+    name: "Greenhouse Gamble",
+    tree: "Greenhouse",
+    requirements: {
+      points: 3,
+      skill: 5,
+    },
+    boosts: "5% Chances of +1 yield for Greenhouse crops/fruits",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
+  "Slick Saver": {
+    name: "Slick Saver",
+    tree: "Greenhouse",
+    requirements: {
+      points: 3,
+      skill: 5,
+    },
+    boosts: "Greenhouse plants need 1 less oil",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
+
+  // Mining - Tier 1
+  "Rock'N'Roll": {
+    name: "Rock'N'Roll",
+    tree: "Mining",
+    requirements: {
+      points: 1,
+      skill: 0,
+    },
+    boosts: "+0.1 Stone Yield",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
+  "Iron Bumpkin": {
+    name: "Iron Bumpkin",
+    tree: "Mining",
+    requirements: {
+      points: 1,
+      skill: 0,
+    },
+    boosts: "+0.1 Iron Yield",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
+  "Speed Miner": {
+    name: "Speed Miner",
+    tree: "Mining",
+    requirements: {
+      points: 1,
+      skill: 0,
+    },
+    boosts: "Stone recovers 10% faster",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
+  "Iron Hustle": {
+    name: "Iron Hustle",
+    tree: "Mining",
+    requirements: {
+      points: 1,
+      skill: 0,
+    },
+    boosts: "Iron recovers 10% faster",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
+  "Tap Prospector": {
+    name: "Tap Prospector",
+    tree: "Mining",
+    requirements: {
+      points: 1,
+      skill: 0,
+    },
+    boosts: "1 tap small mineral nodes",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
+  // Mining - Tier 2
+  "Forge-Ward Profits": {
+    name: "Forge-Ward Profits",
+    tree: "Mining",
+    requirements: {
+      points: 2,
+      skill: 2,
+    },
+    boosts: "+20% Blacksmith deliveries revenue",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
+  "Frugal Miner": {
+    name: "Frugal Miner",
+    tree: "Mining",
+    requirements: {
+      points: 2,
+      skill: 2,
+    },
+    boosts: "Pickaxes cost 20% less Coins",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
+  "Fireside Alchemist": {
+    name: "Fireside Alchemist",
+    tree: "Mining",
+    requirements: {
+      points: 2,
+      skill: 2,
+    },
+    boosts: "Crimstone recovers 5% faster",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
+  "Ferrous Favor": {
+    name: "Ferrous Favor",
+    tree: "Mining",
+    requirements: {
+      points: 2,
+      skill: 2,
+    },
+    boosts: "+1 Iron yield, -0.5 Stone yield",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
+  // Mining - Tier 3
+  "Golden Touch": {
+    name: "Golden Touch",
+    tree: "Mining",
+    requirements: {
+      points: 3,
+      skill: 5,
+    },
+    boosts: "+0.5 Gold Yield",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
+  "Midas Sprint": {
+    name: "Midas Sprint",
+    tree: "Mining",
+    requirements: {
+      points: 3,
+      skill: 5,
+    },
+    boosts: "Gold Recovers 10% faster",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
+  "More Picks": {
+    name: "More Picks",
+    tree: "Mining",
+    requirements: {
+      points: 3,
+      skill: 5,
+    },
+    boosts:
+      "Increase stock of pickaxe by 70, stone pickaxe by 20, iron pickaxe by 7",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
+  "Fire Kissed": {
+    name: "Fire Kissed",
+    tree: "Mining",
+    requirements: {
+      points: 3,
+      skill: 5,
+    },
+    boosts: "+1 Crimstone yield on 5th consecutive day",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
+
+  // Cooking - Tier 1
+  "Fast Feasts": {
+    name: "Fast Feasts",
+    tree: "Cooking",
+    requirements: {
+      points: 1,
+      skill: 0,
+    },
+    boosts: "Meals from Firepit, Kitchen cook 10% faster",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
+  "Nom Nom": {
+    name: "Nom Nom",
+    tree: "Cooking",
+    requirements: {
+      points: 1,
+      skill: 0,
+    },
+    boosts: "+5% Food deliveries revenue",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
+  "Munching Mastery": {
+    name: "Munching Mastery",
+    tree: "Cooking",
+    requirements: {
+      points: 1,
+      skill: 0,
+    },
+    boosts: "+5% Experience from eating meals",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
+  // Cooking - Tier 2
+  "Frosted Cakes": {
+    name: "Frosted Cakes",
+    tree: "Cooking",
+    requirements: {
+      points: 2,
+      skill: 2,
+    },
+    boosts: "Cakes cook 10% faster",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
+  "Juicy Boost": {
+    name: "Juicy Boost",
+    tree: "Cooking",
+    requirements: {
+      points: 2,
+      skill: 2,
+    },
+    boosts: "+10% experience from drinking juices",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
+  "Double Nom": {
+    name: "Double Nom",
+    tree: "Cooking",
+    requirements: {
+      points: 2,
+      skill: 2,
+    },
+    boosts:
+      "x1.5% more experience from eating food but requires 2x the ingredients",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
+  // Cooking - Tier 3
+  "Instant Gratification": {
+    name: "Instant Gratification",
+    tree: "Cooking",
+    requirements: {
+      points: 3,
+      skill: 5,
+    },
+    boosts:
+      "Ability make all meals currently cooking ready to be eaten (1/72h)",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+    power: true,
+  },
+  "Rapid Deli Dash": {
+    name: "Rapid Deli Dash",
+    tree: "Cooking",
+    requirements: {
+      points: 3,
+      skill: 5,
+    },
+    boosts: "Meals from Deli cook 15% faster",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
+  "Firey Jackpot": {
+    name: "Firey Jackpot",
+    tree: "Cooking",
+    requirements: {
+      points: 3,
+      skill: 5,
+    },
+    boosts: "+20% Chance of +1 food from Firepit",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
+
+  // Bees & Flowers - Tier 1
+  "Sweet Bonus": {
+    name: "Sweet Bonus",
+    tree: "Bees & Flowers",
+    requirements: {
+      points: 1,
+      skill: 0,
+    },
+    boosts: "+10% Honey on claim",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
+  "Hyper Bees": {
+    name: "Hyper Bees",
+    tree: "Bees & Flowers",
+    requirements: {
+      points: 1,
+      skill: 0,
+    },
+    boosts: "+0.1 Honey production speed",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
+  "Blooming Boost": {
+    name: "Blooming Boost",
+    tree: "Bees & Flowers",
+    requirements: {
+      points: 1,
+      skill: 0,
+    },
+    boosts: "Flowers grow 10% faster",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
+  // Bees & Flowers - Tier 2
+  "Buzzworthy Treats": {
+    name: "Buzzworthy Treats",
+    tree: "Bees & Flowers",
+    requirements: {
+      points: 2,
+      skill: 2,
+    },
+    boosts: "+10% Experience on food made with Honey",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
+  "Blossom Bonding": {
+    name: "Blossom Bonding",
+    tree: "Bees & Flowers",
+    requirements: {
+      points: 2,
+      skill: 2,
+    },
+    boosts: "Increased gifting effect of flowers, +2 relationship",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
+  "Pollen Power Up": {
+    name: "Pollen Power Up",
+    tree: "Bees & Flowers",
+    requirements: {
+      points: 2,
+      skill: 2,
+    },
+    boosts: "Pollination effect increases to +0.3 yield",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
+  // Bees & Flowers - Tier 3
+  "Bee Collective": {
+    name: "Bee Collective",
+    tree: "Bees & Flowers",
+    requirements: {
+      points: 3,
+      skill: 5,
+    },
+    boosts: "Guaranteed Bee Swarms but requires 6 more hours to produce",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
+  "Flower Power": {
+    name: "Flower Power",
+    tree: "Bees & Flowers",
+    requirements: {
+      points: 3,
+      skill: 5,
+    },
+    boosts: "Flowers grow 20% faster",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
+  "Petalled Perk": {
+    name: "Petalled Perk",
+    tree: "Bees & Flowers",
+    requirements: {
+      points: 3,
+      skill: 5,
+    },
+    boosts: "10% chance of +1 Flower",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
+  "Flowery Abode": {
+    name: "Flowery Abode",
+    tree: "Bees & Flowers",
+    requirements: {
+      points: 3,
+      skill: 5,
+    },
+    boosts: "Flower House (+1 Flower bed & Hive)",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
+
+  // Oil - Tier 1
+  "Oil Extraction": {
+    name: "Oil Extraction",
+    tree: "Oil",
+    requirements: {
+      points: 1,
+      skill: 0,
+    },
+    boosts: "+1 Oil",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
+  "Swift Sizzle": {
+    name: "Swift Sizzle",
+    tree: "Oil",
+    requirements: {
+      points: 1,
+      skill: 0,
+    },
+    boosts: "Firepit cooking speed with oil increased by 40%",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
+  // Oil - Tier 2
+  "Turbo Fry": {
+    name: "Turbo Fry",
+    tree: "Oil",
+    requirements: {
+      points: 2,
+      skill: 2,
+    },
+    boosts: "Kitchen cooking speed with oil increased by 50%",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
+  "Oil Be Back": {
+    name: "Oil Be Back",
+    tree: "Oil",
+    requirements: {
+      points: 2,
+      skill: 2,
+    },
+    boosts: "Oil refills 5h faster",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
+  // Oil - Tier 3
+  "Grease Lightning": {
+    name: "Grease Lightning",
+    tree: "Oil",
+    requirements: {
+      points: 3,
+      skill: 5,
+    },
+    boosts: "Ability to make empty oil wells instantly refill (1/96h)",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+    power: true,
+  },
+  "Fry Frenzy": {
+    name: "Fry Frenzy",
+    tree: "Oil",
+    requirements: {
+      points: 3,
+      skill: 5,
+    },
+    boosts: "Deli cooking speed with oil increased by 60%",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
+
+  // Machinary - Tier 1
+  "Crop Processor Unit": {
+    name: "Crop Processor Unit",
+    tree: "Machinary",
+    requirements: {
+      points: 1,
+      skill: 0,
+    },
+    boosts: "Crop grow 10% faster",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
+  "Oil Gadget": {
+    name: "Oil Gadget",
+    tree: "Machinary",
+    requirements: {
+      points: 1,
+      skill: 0,
+    },
+    boosts: "Machine uses 10% less oil",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
+  // Machinary - Tier 2
+  "Crop Extension Module": {
+    name: "Crop Extension Module",
+    tree: "Machinary",
+    requirements: {
+      points: 2,
+      skill: 2,
+    },
+    boosts: "Add Carrot and Cabbage seeds to machine",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
+  "Rapid Rig": {
+    name: "Rapid Rig",
+    tree: "Machinary",
+    requirements: {
+      points: 2,
+      skill: 2,
+    },
+    boosts: "Crops grow 20% faster",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
+  // Machinary - Tier 3
+  "Field Extension Module": {
+    name: "Field Extension Module",
+    tree: "Machinary",
+    requirements: {
+      points: 3,
+      skill: 5,
+    },
+    boosts: "+5 plots added to machine",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
+  "Efficiency Extension Module": {
+    name: "Efficiency Extension Module",
+    tree: "Machinary",
+    requirements: {
+      points: 3,
+      skill: 5,
+    },
+    boosts: "Machine uses 15% less oil",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
+};
+
 export const SKILL_TREE_CATEGORIES = Array.from(
   new Set(
     getKeys(BUMPKIN_SKILL_TREE).map((skill) => BUMPKIN_SKILL_TREE[skill].tree),
   ),
 );
 
-export const getSkills = (treeName: BumpkinSkillTree) => {
-  return getKeys(BUMPKIN_SKILL_TREE).reduce((treeSkills, skill) => {
-    if (BUMPKIN_SKILL_TREE[skill].tree === treeName) {
-      return [...treeSkills, BUMPKIN_SKILL_TREE[skill]];
-    }
+export const REVAMP_SKILL_TREE_CATEGORIES = Array.from(
+  new Set(
+    getKeys(BUMPKIN_REVAMP_SKILL_TREE).map(
+      (skill) => BUMPKIN_REVAMP_SKILL_TREE[skill].tree,
+    ),
+  ),
+);
 
-    return treeSkills;
-  }, [] as BumpkinSkill[]);
+export const getSkills = (treeName: BumpkinSkillTree) => {
+  return Object.values(BUMPKIN_SKILL_TREE).filter(
+    (skill) => skill.tree === treeName,
+  );
+};
+
+export const getRevampSkills = (treeName: BumpkinRevampSkillTree) => {
+  return Object.values(BUMPKIN_REVAMP_SKILL_TREE).filter(
+    (skill) => skill.tree === treeName,
+  );
 };
 
 export const createSkillPath = (skills: BumpkinSkill[]) => {
@@ -301,4 +1549,19 @@ export const createSkillPath = (skills: BumpkinSkill[]) => {
   }
 
   return path;
+};
+
+export const createRevampSkillPath = (skills: BumpkinSkillRevamp[]) => {
+  const skillsByTier: { [key: number]: BumpkinSkillRevamp[] } = {};
+
+  skills.forEach((skill) => {
+    const { requirements } = skill;
+    if (!skillsByTier[requirements.skill]) {
+      skillsByTier[requirements.skill] = [];
+    }
+
+    skillsByTier[requirements.skill].push(skill);
+  });
+
+  return skillsByTier;
 };

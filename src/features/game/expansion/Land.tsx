@@ -39,6 +39,9 @@ import { DynamicClouds } from "./components/DynamicClouds";
 import { StaticClouds } from "./components/StaticClouds";
 import { BackgroundIslands } from "./components/BackgroundIslands";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { Marketplace } from "features/marketplace/Marketplace";
+import { useLocation } from "react-router-dom";
+import { createPortal } from "react-dom";
 
 export const LAND_WIDTH = 6;
 
@@ -563,6 +566,9 @@ export const Land: React.FC = () => {
 
   const paused = useSelector(gameService, isPaused);
 
+  const { pathname } = useLocation();
+  const showMarketplace = pathname.includes("marketplace");
+
   const state = useSelector(gameService, selectGameState);
   const {
     expansionConstruction,
@@ -731,6 +737,26 @@ export const Land: React.FC = () => {
       )}
 
       {!landscaping && !visiting && <Hud isFarming={true} location="farm" />}
+
+      {showMarketplace &&
+        createPortal(
+          <div
+            data-html2canvas-ignore="true"
+            aria-label="Hud"
+            className="fixed inset-safe-area pointer-events-none z-10"
+          >
+            <div // Prevent click through
+              onMouseDown={(e) => e.stopPropagation()}
+              onMouseUp={(e) => e.stopPropagation()}
+              onTouchStart={(e) => e.stopPropagation()}
+              onTouchEnd={(e) => e.stopPropagation()}
+              className="pointer-events-auto w-full h-full"
+            >
+              <Marketplace />
+            </div>
+          </div>,
+          document.body,
+        )}
     </>
   );
 };

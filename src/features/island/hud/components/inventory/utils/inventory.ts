@@ -9,6 +9,7 @@ import {
 } from "features/game/types/craftables";
 import { getKeys } from "features/game/types/craftables";
 import { GameState, Inventory } from "features/game/types/game";
+import { MarketplaceTradeableName } from "features/game/types/marketplace";
 import { RESOURCE_DIMENSIONS } from "features/game/types/resources";
 import { setPrecision } from "lib/utils/formatNumber";
 
@@ -16,6 +17,32 @@ const PLACEABLE_DIMENSIONS = {
   ...BUILDINGS_DIMENSIONS,
   ...COLLECTIBLES_DIMENSIONS,
   ...RESOURCE_DIMENSIONS,
+};
+
+export const getActiveListedItems = (
+  state: GameState,
+): Record<MarketplaceTradeableName, number> => {
+  if (!state.trades.listings)
+    return {} as Record<MarketplaceTradeableName, number>;
+
+  return Object.values(state.trades.listings).reduce(
+    (acc, listing) => {
+      if (listing.boughtAt && listing.buyerId) return acc;
+
+      Object.entries(listing.items).forEach(([itemName, quantity]) => {
+        const name = itemName as MarketplaceTradeableName;
+
+        if (acc[name]) {
+          acc[name] += quantity as number;
+        } else {
+          acc[name] = quantity as number;
+        }
+      });
+
+      return acc;
+    },
+    {} as Record<MarketplaceTradeableName, number>,
+  );
 };
 
 export const getBasketItems = (inventory: Inventory) => {
@@ -37,12 +64,19 @@ export const getBasketItems = (inventory: Inventory) => {
 export const getChestBuds = (
   state: GameState,
 ): NonNullable<GameState["buds"]> => {
+  const listed = getActiveListedItems(state);
+
   return Object.fromEntries(
-    Object.entries(state.buds ?? {}).filter(([, bud]) => !bud.coordinates),
+    Object.entries(state.buds ?? {}).filter(
+      ([id, bud]) =>
+        !bud.coordinates && !listed[`Bud #${id}` as MarketplaceTradeableName],
+    ),
   );
 };
 
 export const getChestItems = (state: GameState) => {
+  const listedItems = getActiveListedItems(state);
+
   const availableItems = getKeys(state.inventory).reduce((acc, itemName) => {
     if (itemName === "Tree") {
       return {
@@ -168,6 +202,7 @@ export const getChestItems = (state: GameState) => {
             ?.minus(
               state.collectibles[itemName as CollectibleName]?.length ?? 0,
             )
+            ?.minus(listedItems[itemName] ?? 0)
             ?.minus(
               state.home.collectibles[itemName as CollectibleName]?.length ?? 0,
             ) ?? 0,

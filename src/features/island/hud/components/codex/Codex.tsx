@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { InnerPanel, OuterPanel } from "components/ui/Panel";
+import { OuterPanel } from "components/ui/Panel";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 import { Modal } from "components/ui/Modal";
@@ -22,13 +22,13 @@ import { Label } from "components/ui/Label";
 import classNames from "classnames";
 import { useSound } from "lib/utils/hooks/useSound";
 
-import trophy from "assets/icons/trophy.png";
 import factions from "assets/icons/factions.webp";
 import chores from "assets/icons/chores.webp";
-import { TicketsLeaderboard } from "./pages/TicketsLeaderboard";
 import { Leaderboards } from "features/game/expansion/components/leaderboard/actions/cache";
 import { fetchLeaderboardData } from "features/game/expansion/components/leaderboard/actions/leaderboard";
 import { FactionLeaderboard } from "./pages/FactionLeaderboard";
+import { Season } from "./pages/Season";
+import { getSeasonalTicket } from "features/game/types/seasons";
 
 interface Props {
   show: boolean;
@@ -119,6 +119,11 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
       count: incompleteChores + inCompleteKingdomChores,
     },
     {
+      name: "Leaderboard" as const,
+      icon: ITEM_DETAILS[getSeasonalTicket()].image,
+      count: 0,
+    },
+    {
       name: "Fish",
       icon: SUNNYSIDE.icons.fish,
       count: 0,
@@ -129,11 +134,6 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
       count: 0,
     },
 
-    {
-      name: "Leaderboard" as const,
-      icon: trophy,
-      count: 0,
-    },
     ...(state.faction
       ? [
           {
@@ -191,8 +191,7 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
                         type="default"
                         className="absolute -top-3 left-3 z-10"
                         style={{
-                          paddingLeft: "2.5px",
-                          paddingRight: "1.5px",
+                          padding: "0 2.5",
                           height: "24px",
                         }}
                       >
@@ -214,23 +213,17 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
             {currentTab === 0 && <Deliveries onClose={onHide} />}
             {currentTab === 1 && <Chores farmId={farmId} />}
             {currentTab === 2 && (
-              <Fish onMilestoneReached={handleMilestoneReached} />
+              <Season
+                id={id}
+                isLoading={data?.tickets === undefined}
+                data={data?.tickets ?? null}
+              />
             )}
             {currentTab === 3 && (
-              <Flowers onMilestoneReached={handleMilestoneReached} />
+              <Fish onMilestoneReached={handleMilestoneReached} />
             )}
             {currentTab === 4 && (
-              <InnerPanel
-                className={classNames(
-                  "flex flex-col h-full overflow-hidden overflow-y-auto scrollable",
-                )}
-              >
-                <TicketsLeaderboard
-                  id={id}
-                  isLoading={data?.tickets === undefined}
-                  data={data?.tickets ?? null}
-                />
-              </InnerPanel>
+              <Flowers onMilestoneReached={handleMilestoneReached} />
             )}
 
             {currentTab === 5 && state.faction && (

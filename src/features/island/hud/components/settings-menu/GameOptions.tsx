@@ -36,7 +36,7 @@ import { InstallAppModal } from "./general-settings/InstallAppModal";
 import { LanguageSwitcher } from "./general-settings/LanguageChangeModal";
 import { Share } from "./general-settings/Share";
 import { PlazaSettings } from "./plaza-settings/PlazaSettingsModal";
-import { AmoyTestnetActions } from "./amoy-actions/AmoyTestnetActions";
+import { DeveloperOptions } from "./developer-options/DeveloperOptions";
 import { Discord } from "./general-settings/DiscordModal";
 import { DepositWrapper } from "features/goblins/bank/components/Deposit";
 import { useSound } from "lib/utils/hooks/useSound";
@@ -44,8 +44,12 @@ import { AppearanceSettings } from "./general-settings/AppearanceSettings";
 import { FontSettings } from "./general-settings/FontSettings";
 import { ConfirmationModal } from "components/ui/ConfirmationModal";
 import ticket from "assets/icons/ticket.png";
-import { DEV_HoarderCheck } from "./amoy-actions/DEV_HoardingCheck";
+import lockIcon from "assets/icons/lock.png";
+import { DEV_HoarderCheck } from "./developer-options/DEV_HoardingCheck";
 import { WalletAddressLabel } from "components/ui/WalletAddressLabel";
+import { PickServer } from "./plaza-settings/PickServer";
+import { PlazaShaderSettings } from "./plaza-settings/PlazaShaderSettings";
+import { AdminSettings } from "./general-settings/AdminSettings";
 
 export interface ContentComponentProps {
   onSubMenuClick: (id: SettingMenuId) => void;
@@ -63,6 +67,8 @@ const GameOptions: React.FC<ContentComponentProps> = ({
   const { t } = useAppTranslation();
 
   const [isConfirmLogoutModalOpen, showConfirmLogoutModal] = useState(false);
+  const [showFarm, setShowFarm] = useState(false);
+  const [showNftId, setShowNftId] = useState(false);
 
   const copypaste = useSound("copypaste");
   const button = useSound("button");
@@ -96,6 +102,8 @@ const GameOptions: React.FC<ContentComponentProps> = ({
     walletService.send("RESET");
   };
 
+  const canRefresh = !gameService.state.context.state.transaction;
+
   return (
     <>
       {/* Root menu */}
@@ -104,8 +112,13 @@ const GameOptions: React.FC<ContentComponentProps> = ({
           <Label
             type="default"
             icon={SUNNYSIDE.icons.search}
+            popup={showFarm}
             className="mb-1 mr-4"
             onClick={() => {
+              setShowFarm(true);
+              setTimeout(() => {
+                setShowFarm(false);
+              }, 2000);
               copypaste.play();
               clipboard.copy(
                 gameService.state?.context?.farmId.toString() as string,
@@ -120,8 +133,13 @@ const GameOptions: React.FC<ContentComponentProps> = ({
             <Label
               type="default"
               icon={ticket}
+              popup={showNftId}
               className="mb-1 mr-4"
               onClick={() => {
+                setShowNftId(true);
+                setTimeout(() => {
+                  setShowNftId(false);
+                }, 2000);
                 copypaste.play();
                 clipboard.copy(
                   gameService.state?.context?.nftId?.toString() || "",
@@ -148,12 +166,21 @@ const GameOptions: React.FC<ContentComponentProps> = ({
           <span>{t("install.app")}</span>
         </Button>
       )}
-      <Button className="p-1 mb-1" onClick={refreshSession}>
+      <Button
+        disabled={!canRefresh}
+        className="p-1 mb-1 relative"
+        onClick={refreshSession}
+      >
         {t("gameOptions.blockchainSettings.refreshChain")}
+
+        {!canRefresh && (
+          <img src={lockIcon} className="absolute right-1 top-0.5 h-7" />
+        )}
       </Button>
-      {CONFIG.NETWORK === "amoy" && (
+      {(CONFIG.NETWORK === "amoy" ||
+        !!gameService.state?.context?.state.wardrobe.Halo) && (
         <Button className="p-1 mb-1" onClick={() => onSubMenuClick("amoy")}>
-          <span>{t("gameOptions.amoyActions")}</span>
+          <span>{t("gameOptions.developerOptions")}</span>
         </Button>
       )}
       <Button className="p-1 mb-1" onClick={() => onSubMenuClick("blockchain")}>
@@ -165,6 +192,12 @@ const GameOptions: React.FC<ContentComponentProps> = ({
       <Button className="p-1 mb-1" onClick={() => onSubMenuClick("plaza")}>
         <span>{t("gameOptions.plazaSettings")}</span>
       </Button>
+      {(CONFIG.NETWORK === "amoy" ||
+        gameService.state.context.farmId === 1) && (
+        <Button className="p-1 mb-1" onClick={() => onSubMenuClick("admin")}>
+          <span>{`Admin`}</span>
+        </Button>
+      )}
       <Button className="p-1 mb-1" onClick={() => showConfirmLogoutModal(true)}>
         {t("gameOptions.logout")}
       </Button>
@@ -233,6 +266,7 @@ export type SettingMenuId =
   | "blockchain"
   | "general"
   | "plaza"
+  | "admin"
 
   // Blockchain Settings
   | "deposit"
@@ -249,7 +283,11 @@ export type SettingMenuId =
 
   // Amoy Testnet Actions
   | "mainnetHoardingCheck"
-  | "amoyHoardingCheck";
+  | "amoyHoardingCheck"
+
+  // Plaza Settings
+  | "pickServer"
+  | "shader";
 
 interface SettingMenu {
   title: string;
@@ -264,15 +302,20 @@ export const settingMenus: Record<SettingMenuId, SettingMenu> = {
     parent: "main",
     content: GameOptions,
   },
+  admin: {
+    title: `Admin`,
+    parent: "main",
+    content: AdminSettings,
+  },
   installApp: {
     title: translate("install.app"),
     parent: "main",
     content: InstallAppModal,
   },
   amoy: {
-    title: translate("gameOptions.amoyActions"),
+    title: translate("gameOptions.developerOptions"),
     parent: "main",
-    content: AmoyTestnetActions,
+    content: DeveloperOptions,
   },
   blockchain: {
     title: translate("gameOptions.blockchainSettings"),
@@ -307,7 +350,7 @@ export const settingMenus: Record<SettingMenuId, SettingMenu> = {
     content: TransferAccount,
   },
   swapSFL: {
-    title: translate("gameOptions.blockchainSettings.swapMaticForSFL"),
+    title: translate("gameOptions.blockchainSettings.swapPOLForSFL"),
     parent: "blockchain",
     content: AddSFL,
   },
@@ -349,5 +392,17 @@ export const settingMenus: Record<SettingMenuId, SettingMenu> = {
     title: "Hoarding Check (Amoy)",
     parent: "amoy",
     content: (props) => <DEV_HoarderCheck {...props} network="amoy" />,
+  },
+
+  // Plaza Settings
+  pickServer: {
+    title: "Pick Server",
+    parent: "plaza",
+    content: PickServer,
+  },
+  shader: {
+    title: translate("gameOptions.plazaSettings.shader"),
+    parent: "plaza",
+    content: PlazaShaderSettings,
   },
 };

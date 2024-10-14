@@ -6,7 +6,7 @@ import catchTheKrakenBanner from "assets/decorations/banners/catch_the_kraken_ba
 import springBlossomBanner from "assets/decorations/banners/spring_banner.gif";
 import clashOfFactionsBanner from "assets/decorations/banners/clash_of_factions_banner.webp";
 import pharaohsTreasureBanner from "assets/decorations/banners/pharaohs_treasure_banner.webp";
-import { InventoryItemName } from "./game";
+import { BeachBountySeasonalArtefact } from "./treasure";
 
 export type SeasonName =
   | "Solar Flare"
@@ -90,7 +90,10 @@ export const SEASON_TICKET_NAME: Record<SeasonName, SeasonalTicket> = {
   "Pharaoh's Treasure": "Amber Fossil",
 };
 
-export const SEASON_ARTEFACT_NAME: Record<SeasonName, InventoryItemName> = {
+export const SEASON_ARTEFACT_NAME: Record<
+  SeasonName,
+  BeachBountySeasonalArtefact
+> = {
   "Solar Flare": "Scarab",
   "Dawn Breaker": "Scarab",
   "Witches' Eve": "Scarab",

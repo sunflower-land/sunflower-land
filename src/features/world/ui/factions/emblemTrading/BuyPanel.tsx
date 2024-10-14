@@ -27,6 +27,8 @@ import { getKeys } from "features/game/types/decorations";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { formatNumber } from "lib/utils/formatNumber";
 import token from "assets/icons/sfl.webp";
+import { PIXEL_SCALE } from "features/game/lib/constants";
+import { SquareIcon } from "components/ui/SquareIcon";
 
 const MAX_NON_VIP_PURCHASES = 3;
 
@@ -60,41 +62,38 @@ export const BuyPanel: React.FC<{
   const hasPurchasesRemaining = isVIP || remainingFreePurchases > 0;
 
   return (
-    <>
-      <div className="flex flex-col max-h-[400px] divide-brown-600">
-        <div className="pl-2 pt-2 space-y-1 sm:space-y-0 sm:flex items-center justify-between ml-1.5">
-          <VIPAccess
-            isVIP={isVIP}
-            onUpgrade={() => {
-              openModal("BUY_BANNER");
-            }}
+    <div className="flex flex-col divide-brown-600">
+      <div className="pl-2 pt-2 space-y-1 sm:space-y-0 sm:flex items-center justify-between ml-1.5">
+        <VIPAccess
+          isVIP={isVIP}
+          onUpgrade={() => openModal("BUY_BANNER")}
+          text={t("bumpkinTrade.unlockMoreTrades")}
+        />
+        {!isVIP && (
+          <Label
+            type={hasPurchasesRemaining ? "success" : "danger"}
+            className="-ml-2"
+          >
+            {remainingFreePurchases === 1
+              ? `${t("remaining.free.purchase")}`
+              : `${t("remaining.free.purchases", {
+                  purchasesRemaining: hasPurchasesRemaining
+                    ? remainingFreePurchases
+                    : t("no"),
+                })}`}
+          </Label>
+        )}
+      </div>
+      <div className="flex flex-col items-start justify-between mt-1">
+        <div className="flex overflow-y-auto relative w-full max-h-[400px] scrollable">
+          <ListView
+            emblem={emblem}
+            hasPurchasesRemaining={hasPurchasesRemaining}
+            setUpdatedAt={setUpdatedAt}
           />
-          {!isVIP && (
-            <Label
-              type={hasPurchasesRemaining ? "success" : "danger"}
-              className="-ml-2"
-            >
-              {remainingFreePurchases === 1
-                ? `${t("remaining.free.purchase")}`
-                : `${t("remaining.free.purchases", {
-                    purchasesRemaining: hasPurchasesRemaining
-                      ? remainingFreePurchases
-                      : t("no"),
-                  })}`}
-            </Label>
-          )}
-        </div>
-        <div className="flex flex-col min-h-[150px] items-start justify-between">
-          <div className="flex overflow-y-auto relative w-full mt-4">
-            <ListView
-              emblem={emblem}
-              hasPurchasesRemaining={hasPurchasesRemaining}
-              setUpdatedAt={setUpdatedAt}
-            />
-          </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
@@ -111,7 +110,7 @@ const ListView: React.FC<ListViewProps> = ({
 }) => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
-  const [warning, setWarning] = useState<"pendingTransaction" | "hoarding">();
+  const [warning, setWarning] = useState<"hoarding">();
   const [loading, setLoading] = useState(false);
   const [listings, setListings] = useState<Listing[]>([]);
   const [selectedListing, setSelectedListing] = useState<Listing>();
@@ -120,13 +119,15 @@ const ListView: React.FC<ListViewProps> = ({
   const [fulfillListing, setfulfillListing] = useState(false);
   const [
     {
-      context: { state, transaction, farmId },
+      context: { state, farmId },
     },
   ] = useActor(gameService);
   const inventory = state.inventory;
   const THIRTY_SECONDS = 1000 * 30;
 
   useEffect(() => {
+    if (fulfillListing) return;
+
     const load = async () => {
       setLoading(true);
       try {
@@ -141,13 +142,22 @@ const ListView: React.FC<ListViewProps> = ({
       }
       setLoading(false);
     };
+
     load();
+
     const interval = setInterval(load, THIRTY_SECONDS);
+
     return () => {
       clearInterval(interval);
       setUpdatedAt(undefined);
     };
-  }, [THIRTY_SECONDS, authState.context.user.rawToken, emblem, setUpdatedAt]);
+  }, [
+    THIRTY_SECONDS,
+    authState.context.user.rawToken,
+    emblem,
+    setUpdatedAt,
+    fulfillListing,
+  ]);
 
   const onConfirm = async (listing: Listing) => {
     setfulfillListing(true);
@@ -180,11 +190,6 @@ const ListView: React.FC<ListViewProps> = ({
       return;
     }
 
-    if (transaction && transaction.expiresAt > Date.now()) {
-      setWarning("pendingTransaction");
-      return;
-    }
-
     setSelectedListing(listing);
   };
 
@@ -194,9 +199,15 @@ const ListView: React.FC<ListViewProps> = ({
 
   if (listings.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center h-full w-full">
-        <div className="flex flex-col items-center justify-center pb-4">
-          <img src={SUNNYSIDE.icons.search} className="w-16 mx-auto my-2" />
+      <div className="flex flex-col items-center justify-center w-full">
+        <div className="flex flex-col items-center justify-center pb-2">
+          <img
+            src={SUNNYSIDE.icons.search}
+            className="mx-auto my-2"
+            style={{
+              width: `${PIXEL_SCALE * 13}px`,
+            }}
+          />
           <p className="text-sm">{t("trading.no.listings")}</p>
         </div>
       </div>
@@ -205,22 +216,24 @@ const ListView: React.FC<ListViewProps> = ({
 
   if (warning === "hoarding") {
     return (
-      <div className="p-1 flex flex-col items-center">
-        <img src={SUNNYSIDE.icons.lock} className="w-1/5 mb-2" />
+      <div className="flex flex-col items-center w-full">
+        <img
+          src={SUNNYSIDE.icons.lock}
+          className="mb-2"
+          style={{
+            width: `${PIXEL_SCALE * 12}px`,
+          }}
+        />
         <p className="text-sm mb-1 text-center">{t("playerTrade.max.item")}</p>
         <p className="text-xs mb-1 text-center">{t("playerTrade.Progress")}</p>
-      </div>
-    );
-  }
-
-  if (warning === "pendingTransaction") {
-    return (
-      <div className="p-1 flex flex-col items-center">
-        <img src={SUNNYSIDE.icons.timer} className="w-1/6 mb-2" />
-        <p className="text-sm mb-1 text-center">
-          {t("playerTrade.transaction")}
-        </p>
-        <p className="text-xs mb-1 text-center">{t("playerTrade.Please")}</p>
+        <Button
+          className="mt-2"
+          onClick={() => {
+            setWarning(undefined);
+          }}
+        >
+          {t("back")}
+        </Button>
       </div>
     );
   }
@@ -236,62 +249,56 @@ const ListView: React.FC<ListViewProps> = ({
     const unitPrice = selectedListing.sfl / listingItem;
 
     return (
-      <>
-        <div className="flex flex-col w-full p-2">
-          <img src={SUNNYSIDE.icons.confirm} className="mx-auto h-6 my-2" />
-          <p className="text-sm mb-2 text-center">
-            {t("trading.listing.fulfilled")}
-          </p>
-          <OuterPanel>
-            <div className="flex justify-between">
-              <div>
-                <div className="flex flex-wrap w-52 items-center">
-                  {getKeys(selectedListing.items).map((item, index) => (
-                    <Box
-                      image={ITEM_DETAILS[item].image}
-                      count={new Decimal(selectedListing.items[item] ?? 0)}
-                      disabled
-                      key={`items-${index}`}
-                    />
-                  ))}
-                  <div className="ml-1">
-                    <div className="flex items-center mb-1">
-                      <img src={token} className="h-6 mr-1" />
-                      <p className="text-xs">{`${selectedListing.sfl} SFL`}</p>
-                    </div>
-                    <p className="text-xxs">
-                      {t("bumpkinTrade.price/unit", {
-                        price: formatNumber(unitPrice, {
-                          decimalPlaces: 4,
-                          showTrailingZeros: true,
-                        }),
-                      })}
-                    </p>
+      <div className="flex flex-col w-full p-2">
+        <img src={SUNNYSIDE.icons.confirm} className="mx-auto h-6 my-2" />
+        <p className="text-sm mb-2 text-center">
+          {t("trading.listing.fulfilled")}
+        </p>
+        <OuterPanel>
+          <div className="flex justify-between">
+            <div>
+              <div className="flex flex-wrap w-52 items-center">
+                {getKeys(selectedListing.items).map((item, index) => (
+                  <Box
+                    image={ITEM_DETAILS[item].image}
+                    count={new Decimal(selectedListing.items[item] ?? 0)}
+                    disabled
+                    key={`items-${index}`}
+                  />
+                ))}
+                <div className="ml-1">
+                  <div className="flex items-center mb-1">
+                    <img src={token} className="h-6 mr-1" />
+                    <p className="text-xs">{`${formatNumber(selectedListing.sfl, { decimalPlaces: 4 })} SFL`}</p>
                   </div>
-                </div>
-              </div>
-
-              <div className="">
-                <div className="flex items-center mt-1  justify-end mr-0.5">
-                  <Label type="success" className="mb-4 capitalize">
-                    {t("purchased")}
-                  </Label>
+                  <p className="text-xxs">
+                    {t("bumpkinTrade.price/unit", {
+                      price: formatNumber(unitPrice, {
+                        decimalPlaces: 4,
+                        showTrailingZeros: true,
+                      }),
+                    })}
+                  </p>
                 </div>
               </div>
             </div>
-          </OuterPanel>
-          <Button
-            className="mt-2"
-            onClick={() => {
-              setLoading(false);
-              setfulfillListing(false);
-              setSelectedListing(undefined);
-            }}
-          >
-            {t("continue")}
-          </Button>
-        </div>
-      </>
+
+            <div className="flex items-start">
+              <Label type="success">{t("purchased")}</Label>
+            </div>
+          </div>
+        </OuterPanel>
+        <Button
+          className="mt-2"
+          onClick={() => {
+            setLoading(false);
+            setfulfillListing(false);
+            setSelectedListing(undefined);
+          }}
+        >
+          {t("continue")}
+        </Button>
+      </div>
     );
   }
 
@@ -330,7 +337,7 @@ const ListView: React.FC<ListViewProps> = ({
                     <div className="ml-1">
                       <div className="flex items-center mb-1">
                         <img src={token} className="h-6 mr-1" />
-                        <p className="text-xs">{`${listing.sfl} SFL`}</p>
+                        <p className="text-xs">{`${formatNumber(listing.sfl, { decimalPlaces: 4 })} SFL`}</p>
                       </div>
                       <p className="text-xxs">
                         {t("bumpkinTrade.price/unit", {
@@ -344,7 +351,7 @@ const ListView: React.FC<ListViewProps> = ({
                   </div>
                 </div>
 
-                <div>
+                <div className="flex items-center">
                   <ActionButtons
                     loading={loading}
                     listing={listing}
@@ -392,10 +399,8 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
 
   if (listing.farmId == farmId) {
     return (
-      <div className="flex items-center mt-1  justify-end mr-0.5">
-        <Label type="danger" className="mb-4">
-          {t("trading.your.listing")}
-        </Label>
+      <div className="flex items-start h-full">
+        <Label type="danger">{t("trading.your.listing")}</Label>
       </div>
     );
   }
@@ -403,9 +408,9 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
   if (selectedListing?.id == listing.id) {
     return (
       <Button disabled={loading} onClick={() => onConfirm(listing)}>
-        <div className="flex items-center">
-          <img src={SUNNYSIDE.icons.confirm} className="h-4 mr-1" />
-          <span className="text-xs">{t("confirm")}</span>
+        <div className="flex items-center gap-2">
+          <SquareIcon icon={SUNNYSIDE.icons.confirm} width={7} />
+          <span>{t("confirm")}</span>
         </div>
       </Button>
     );

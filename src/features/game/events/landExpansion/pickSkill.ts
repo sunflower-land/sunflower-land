@@ -5,7 +5,7 @@ import {
 } from "features/game/types/bumpkinSkills";
 import { getKeys } from "features/game/types/craftables";
 import { Bumpkin, GameState } from "features/game/types/game";
-import cloneDeep from "lodash.clonedeep";
+import { produce } from "immer";
 
 export type PickSkillAction = {
   type: "skill.picked";
@@ -24,41 +24,44 @@ export const getAvailableBumpkinSkillPoints = (bumpkin?: Bumpkin) => {
   const bumpkinLevel = getBumpkinLevel(bumpkin.experience);
   const totalSkillPoints = SKILL_POINTS[bumpkinLevel];
 
-  const allocatedSkillPoints = getKeys({ ...bumpkin.skills }).reduce(
-    (acc, skill) => {
+  const allocatedSkillPoints = getKeys({ ...bumpkin.skills } as Partial<
+    Record<BumpkinSkillName, number>
+  >).reduce((acc, skill) => {
+    if (BUMPKIN_SKILL_TREE[skill]) {
       return acc + BUMPKIN_SKILL_TREE[skill].requirements.points;
-    },
-    0,
-  );
+    }
+    return acc;
+  }, 0);
 
   return totalSkillPoints - allocatedSkillPoints;
 };
 
 export function pickSkill({ state, action, createdAt = Date.now() }: Options) {
-  const stateCopy = cloneDeep(state);
-  const { bumpkin } = stateCopy;
-  if (bumpkin == undefined) {
-    throw new Error("You do not have a Bumpkin!");
-  }
+  return produce(state, (stateCopy) => {
+    const { bumpkin } = stateCopy;
+    if (bumpkin == undefined) {
+      throw new Error("You do not have a Bumpkin!");
+    }
 
-  const availableSkillPoints = getAvailableBumpkinSkillPoints(bumpkin);
+    const availableSkillPoints = getAvailableBumpkinSkillPoints(bumpkin);
 
-  const requirements = BUMPKIN_SKILL_TREE[action.skill].requirements;
+    const requirements = BUMPKIN_SKILL_TREE[action.skill].requirements;
 
-  if (availableSkillPoints < requirements.points) {
-    throw new Error("You do not have enough skill points");
-  }
+    if (availableSkillPoints < requirements.points) {
+      throw new Error("You do not have enough skill points");
+    }
 
-  if (requirements.skill && !bumpkin.skills[requirements.skill]) {
-    throw new Error("Missing previous skill requirement");
-  }
-  const bumpkinHasSkill = bumpkin.skills[action.skill];
+    if (requirements.skill && !bumpkin.skills[requirements.skill]) {
+      throw new Error("Missing previous skill requirement");
+    }
+    const bumpkinHasSkill = bumpkin.skills[action.skill];
 
-  if (bumpkinHasSkill) {
-    throw new Error("You already have this skill");
-  }
+    if (bumpkinHasSkill) {
+      throw new Error("You already have this skill");
+    }
 
-  bumpkin.skills = { ...bumpkin.skills, [action.skill]: 1 };
+    bumpkin.skills = { ...bumpkin.skills, [action.skill]: 1 };
 
-  return stateCopy;
+    return stateCopy;
+  });
 }

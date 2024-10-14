@@ -1,10 +1,11 @@
+import { CollectibleName } from "features/game/types/craftables";
 import React from "react";
 
 interface Props {
   imgStyle?: React.CSSProperties;
   divStyle?: React.CSSProperties;
-  alt?: string;
-  image?: any;
+  alt?: CollectibleName;
+  image?: string;
 }
 
 export const ImageStyle: React.FC<Props> = ({

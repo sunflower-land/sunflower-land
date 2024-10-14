@@ -14,6 +14,10 @@ import { getKeys } from "features/game/types/decorations";
 import { ITEM_DETAILS } from "features/game/types/images";
 
 import lightning from "assets/icons/lightning.png";
+import {
+  acknowledgeSpecialEvent,
+  specialEventLastAcknowledged,
+} from "features/announcements/announcementsStorage";
 
 const _specialEvents = (state: MachineState) =>
   Object.entries(state.context.state.specialEvents.current)
@@ -24,7 +28,7 @@ const _specialEvents = (state: MachineState) =>
     .filter(([, specialEvent]) => (specialEvent?.startAt ?? 0) < Date.now());
 
 export const SpecialEventCountdown: React.FC = () => {
-  const { showAnimations, gameService } = useContext(Context);
+  const { gameService } = useContext(Context);
   const specialEvents = useSelector(gameService, _specialEvents);
 
   const [isClosed, setIsClosed] = useState(false);
@@ -33,16 +37,25 @@ export const SpecialEventCountdown: React.FC = () => {
 
   if (isClosed) return null;
 
+  const close = () => {
+    setIsClosed(true);
+    acknowledgeSpecialEvent();
+  };
+
   const specialEventDetails = specialEvents[0];
 
   if (!specialEventDetails || !specialEventDetails[1]) return null;
   const [specialEventName, specialEvent] = specialEventDetails;
 
+  const lastAcknowledged = specialEventLastAcknowledged();
+  if (lastAcknowledged && lastAcknowledged > new Date(specialEvent.startAt))
+    return null;
+
   const boostItem = getKeys(specialEvent.bonus ?? {})[0];
   const boostAmount = specialEvent.bonus?.[boostItem]?.saleMultiplier;
 
   return (
-    <InnerPanel className="flex justify-center" id="emblem-airdrop">
+    <InnerPanel className="flex justify-center max-w-[60vw]" id="special-event">
       <div>
         <div className="h-6 flex justify-between">
           {boostItem && (
@@ -60,7 +73,7 @@ export const SpecialEventCountdown: React.FC = () => {
           <img
             src={SUNNYSIDE.icons.close}
             className="h-5 cursor-pointer"
-            onClick={() => setIsClosed(true)}
+            onClick={close}
           />
         </div>
         <div>

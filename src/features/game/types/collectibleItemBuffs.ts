@@ -10,6 +10,11 @@ import { translate } from "lib/i18n/translate";
 export const COLLECTIBLE_BUFF_LABELS: Partial<
   Record<InventoryItemName, BuffLabel>
 > = {
+  Miffy: {
+    shortDescription: translate("miffy.boost"),
+    labelType: "info",
+    boostedItemIcon: powerup,
+  },
   // Crop Boosts
   "Basic Scarecrow": {
     shortDescription: translate("description.basic.scarecrow.boost"),
@@ -654,26 +659,26 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
   "Lemon Tea Bath": {
     shortDescription: translate("description.lemon.tea.bath.boost"),
     labelType: "info",
-    boostedItemIcon: SUNNYSIDE.icons.stopwatch,
-    boostTypeIcon: ITEM_DETAILS.Lemon.image,
+    boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+    boostedItemIcon: ITEM_DETAILS.Lemon.image,
   },
   "Tomato Clown": {
     shortDescription: translate("description.tomato.clown.boost"),
     labelType: "info",
-    boostedItemIcon: SUNNYSIDE.icons.stopwatch,
-    boostTypeIcon: ITEM_DETAILS.Tomato.image,
+    boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+    boostedItemIcon: ITEM_DETAILS.Tomato.image,
   },
   Cannonball: {
     shortDescription: translate("description.cannonball.boost"),
     labelType: "info",
-    boostedItemIcon: SUNNYSIDE.icons.stopwatch,
-    boostTypeIcon: ITEM_DETAILS.Tomato.image,
+    boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+    boostedItemIcon: ITEM_DETAILS.Tomato.image,
   },
   "Tomato Bombard": {
     shortDescription: translate("description.tomato.bombard.boost"),
     labelType: "success",
-    boostedItemIcon: powerup,
-    boostTypeIcon: ITEM_DETAILS.Tomato.image,
+    boostTypeIcon: powerup,
+    boostedItemIcon: ITEM_DETAILS.Tomato.image,
   },
   Camel: {
     shortDescription: translate("description.camel.boost"),
@@ -684,13 +689,53 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
   "Reveling Lemon": {
     shortDescription: translate("description.reveling.lemon.boost"),
     labelType: "success",
-    boostedItemIcon: powerup,
-    boostTypeIcon: ITEM_DETAILS.Lemon.image,
+    boostTypeIcon: powerup,
+    boostedItemIcon: ITEM_DETAILS.Lemon.image,
   },
   "Lemon Frog": {
     shortDescription: translate("description.lemon.frog.boost"),
     labelType: "info",
-    boostedItemIcon: SUNNYSIDE.icons.stopwatch,
-    boostTypeIcon: ITEM_DETAILS.Lemon.image,
+    boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+    boostedItemIcon: ITEM_DETAILS.Lemon.image,
+  },
+  "Stone Beetle": {
+    shortDescription: translate("description.stone.beetle.boost"),
+    labelType: "success",
+    boostTypeIcon: powerup,
+    boostedItemIcon: SUNNYSIDE.resource.stone,
+  },
+  "Iron Beetle": {
+    shortDescription: translate("description.iron.beetle.boost"),
+    labelType: "success",
+    boostTypeIcon: powerup,
+    boostedItemIcon: ITEM_DETAILS.Iron.image,
+  },
+  "Gold Beetle": {
+    shortDescription: translate("description.gold.beetle.boost"),
+    labelType: "success",
+    boostTypeIcon: powerup,
+    boostedItemIcon: ITEM_DETAILS.Gold.image,
+  },
+  "Fairy Circle": {
+    shortDescription: translate("description.fairy.circle.boost"),
+    labelType: "success",
+    boostTypeIcon: powerup,
+    boostedItemIcon: SUNNYSIDE.resource.wild_mushroom,
+  },
+  Squirrel: {
+    shortDescription: translate("description.squirrel.boost"),
+    labelType: "success",
+    boostTypeIcon: powerup,
+    boostedItemIcon: SUNNYSIDE.resource.wood,
+  },
+  Butterfly: {
+    shortDescription: translate("description.butterfly.boost"),
+    labelType: "success",
+    boostTypeIcon: powerup,
+  },
+  Macaw: {
+    shortDescription: translate("description.macaw.boost"),
+    labelType: "success",
+    boostTypeIcon: powerup,
   },
 };

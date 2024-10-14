@@ -1,6 +1,6 @@
-import { CollectibleLocation } from "features/game/types/collectibles";
+import { PlaceableLocation } from "features/game/types/collectibles";
 import { GameState } from "features/game/types/game";
-import cloneDeep from "lodash.clonedeep";
+import { produce } from "immer";
 
 export type PlaceBudAction = {
   type: "bud.placed";
@@ -9,7 +9,7 @@ export type PlaceBudAction = {
     x: number;
     y: number;
   };
-  location: CollectibleLocation;
+  location: PlaceableLocation;
 };
 
 type Options = {
@@ -23,16 +23,16 @@ export function placeBud({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  const copy = cloneDeep(state);
+  return produce(state, (copy) => {
+    const bud = copy.buds?.[Number(action.id)];
 
-  const bud = copy.buds?.[Number(action.id)];
+    if (!bud) throw new Error("This bud does not exist");
 
-  if (!bud) throw new Error("This bud does not exist");
+    if (bud.coordinates) throw new Error("This bud is already placed");
 
-  if (bud.coordinates) throw new Error("This bud is already placed");
+    bud.coordinates = action.coordinates;
+    bud.location = action.location;
 
-  bud.coordinates = action.coordinates;
-  bud.location = action.location;
-
-  return copy;
+    return copy;
+  });
 }

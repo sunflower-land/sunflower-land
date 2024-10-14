@@ -39,6 +39,7 @@ import { getImageUrl } from "lib/utils/getImageURLS";
 import { MachineState } from "features/game/lib/gameMachine";
 import { Context as GameContext } from "features/game/GameProvider";
 import { GameWallet } from "features/wallet/Wallet";
+import { formatEther } from "viem";
 
 const imageDomain = CONFIG.NETWORK === "mainnet" ? "buds" : "testnet-buds";
 
@@ -151,7 +152,7 @@ const DepositOptions: React.FC<Props> = ({
     if (status !== "loading") return;
     // Load balances from the user's personal wallet
     const loadBalances = async () => {
-      if (!wallet.myAccount) {
+      if (!wallet.getAccount()) {
         setStatus("error");
         // Notify parent that we're done loading
         onLoaded && onLoaded(false);
@@ -159,24 +160,18 @@ const DepositOptions: React.FC<Props> = ({
       }
 
       try {
-        const sflBalanceFn = sflBalanceOf(
-          wallet.web3Provider,
-          wallet.myAccount,
-        );
+        const sflBalanceFn = sflBalanceOf(wallet.getAccount() as `0x${string}`);
 
         const inventoryBalanceFn = getInventoryBalances(
-          wallet.web3Provider,
-          wallet.myAccount,
+          wallet.getAccount() as `0x${string}`,
         );
 
         const wearableBalanceFn = loadWardrobe(
-          wallet.web3Provider,
-          wallet.myAccount,
+          wallet.getAccount() as `0x${string}`,
         );
 
         const budBalanceFn = getBudsBalance(
-          wallet.web3Provider,
-          wallet.myAccount,
+          wallet.getAccount() as `0x${string}`,
         );
 
         const [sflBalance, inventoryBalance, wearableBalance, budBalance] =
@@ -187,7 +182,7 @@ const DepositOptions: React.FC<Props> = ({
             budBalanceFn,
           ]);
 
-        setSflBalance(new Decimal(fromWei(sflBalance)));
+        setSflBalance(new Decimal(formatEther(sflBalance)));
         setInventoryBalance(balancesToInventory(inventoryBalance));
         setWardrobeBalance(wearableBalance);
         setBudBalance(budBalance);
@@ -573,7 +568,9 @@ export const DepositModal: React.FC<DepositModalProps> = ({
 
 const _farmAddress = (state: MachineState) => state.context.farmAddress ?? "";
 
-export const DepositWrapper: React.FC = () => {
+export const DepositWrapper: React.FC<{ onClose: () => void }> = ({
+  onClose,
+}) => {
   const { gameService } = useContext(GameContext);
   const farmAddress = useSelector(gameService, _farmAddress);
 
@@ -583,5 +580,11 @@ export const DepositWrapper: React.FC = () => {
     gameService.send("DEPOSIT", args);
   };
 
-  return <Deposit farmAddress={farmAddress} onDeposit={handleDeposit} />;
+  return (
+    <Deposit
+      farmAddress={farmAddress}
+      onDeposit={handleDeposit}
+      onClose={onClose}
+    />
+  );
 };

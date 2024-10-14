@@ -1,6 +1,7 @@
 import Decimal from "decimal.js-light";
 import { GameState } from "features/game/types/game";
-import cloneDeep from "lodash.clonedeep";
+
+import { produce } from "immer";
 
 export type BuyMoreDigsAction = {
   type: "desert.digsBought";
@@ -16,19 +17,19 @@ const EXTRA_DIGS_AMOUNT = 5;
 export const GRID_DIG_SPOTS = 100;
 
 export function buyMoreDigs({ state }: Options) {
-  const game = cloneDeep(state);
+  return produce(state, (game) => {
+    const gems = game.inventory["Gem"] ?? new Decimal(0);
 
-  const blockBucks = game.inventory["Block Buck"] ?? new Decimal(0);
+    if (gems.lt(10)) {
+      throw new Error("Player does not have enough Gems to buy more digs");
+    }
 
-  if (blockBucks.lt(1)) {
-    throw new Error("Player does not have enough block bucks to buy more digs");
-  }
+    const extraDigs = game.desert.digging.extraDigs ?? 0;
 
-  const extraDigs = game.desert.digging.extraDigs ?? 0;
+    game.inventory["Gem"] = gems.sub(10);
 
-  game.inventory["Block Buck"] = blockBucks.sub(1);
+    game.desert.digging.extraDigs = extraDigs + EXTRA_DIGS_AMOUNT;
 
-  game.desert.digging.extraDigs = extraDigs + EXTRA_DIGS_AMOUNT;
-
-  return game;
+    return game;
+  });
 }

@@ -22,6 +22,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useLocation } from "react-router-dom";
 import { SpecialEventCountdown } from "./SpecialEventCountdown";
 import { DesertDiggingDisplay } from "./components/DesertDiggingDisplay";
+import { TransactionCountdown } from "./Transaction";
 
 /**
  * Heads up display - a concept used in games for the small overlaid display of information.
@@ -41,7 +42,7 @@ const HudComponent: React.FC = () => {
   const autosaving = gameState.matches("autosaving");
 
   const handleBuyCurrenciesModal = () => {
-    openModal("BUY_BLOCK_BUCKS");
+    openModal("BUY_GEMS");
   };
 
   const handleDepositModal = () => {
@@ -85,9 +86,7 @@ const HudComponent: React.FC = () => {
         onClick={farmAddress ? handleBuyCurrenciesModal : undefined}
         sfl={gameState.context.state.balance}
         coins={gameState.context.state.coins}
-        blockBucks={
-          gameState.context.state.inventory["Block Buck"] ?? new Decimal(0)
-        }
+        gems={gameState.context.state.inventory["Gem"] ?? new Decimal(0)}
       />
       <div
         className="absolute z-50 flex flex-col justify-between"
@@ -108,6 +107,8 @@ const HudComponent: React.FC = () => {
           left: `${PIXEL_SCALE * 28}px`,
         }}
       >
+        <TransactionCountdown />
+
         <AuctionCountdown />
         <SpecialEventCountdown />
       </div>

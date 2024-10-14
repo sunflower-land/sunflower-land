@@ -59,7 +59,7 @@ export type OldFishName = "Kraken Tentacle";
 export const PURCHASEABLE_BAIT: Record<PurchaseableBait, Tool> = {
   "Fishing Lure": {
     ingredients: {
-      "Block Buck": new Decimal(1),
+      Gem: new Decimal(10),
     },
     price: 0,
     description: translate("purchaseableBait.fishingLure.description"),
@@ -434,11 +434,18 @@ export function getDailyFishingCount(state: GameState): number {
   return state.fishing.dailyAttempts?.[today] ?? 0;
 }
 
-const DAILY_FISHING_ATTEMPT_LIMIT = 20;
 export function getDailyFishingLimit(game: GameState): number {
+  let limit = 20;
+
+  // +10 daily limit if player has Angler Waders
   if (isWearableActive({ name: "Angler Waders", game })) {
-    return DAILY_FISHING_ATTEMPT_LIMIT + 10;
+    limit += 10;
   }
 
-  return DAILY_FISHING_ATTEMPT_LIMIT;
+  // +5 daily limit if player had Fisherman's 5 Fold skill
+  if (game.bumpkin?.skills["Fisherman's 5 Fold"]) {
+    limit += 5;
+  }
+
+  return limit;
 }

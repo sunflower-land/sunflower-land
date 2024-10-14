@@ -27,7 +27,7 @@ import { getGameGrid } from "./lib/makeGrid";
 import { READONLY_BUILDINGS } from "features/island/buildings/components/building/BuildingComponents";
 import { ZoomContext } from "components/ZoomProvider";
 import { isBudName } from "features/game/types/buds";
-import { CollectibleLocation } from "features/game/types/collectibles";
+import { PlaceableLocation } from "features/game/types/collectibles";
 import { RESOURCE_DIMENSIONS } from "features/game/types/resources";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { IslandType } from "features/game/types/game";
@@ -93,7 +93,7 @@ export const getInitialCoordinates = (origin?: Coordinates) => {
 };
 
 interface Props {
-  location: CollectibleLocation;
+  location: PlaceableLocation;
 }
 export const Placeable: React.FC<Props> = ({ location }) => {
   const { scale } = useContext(ZoomContext);
@@ -221,10 +221,9 @@ export const Placeable: React.FC<Props> = ({ location }) => {
           >
             {showHint && (
               <div
-                className="flex absolute pointer-events-none"
+                className="flex absolute pointer-events-none z-50 bg-[#000000af] p-1 rounded w-max"
                 style={{
                   top: "-35px",
-                  width: "135px",
                 }}
               >
                 <img src={SUNNYSIDE.icons.drag} className="h-6 mr-2" />

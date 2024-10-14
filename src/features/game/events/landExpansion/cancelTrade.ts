@@ -1,7 +1,7 @@
-import cloneDeep from "lodash.clonedeep";
 import Decimal from "decimal.js-light";
-import { GameState } from "features/game/types/game";
+import { GameState, InventoryItemName } from "features/game/types/game";
 import { getKeys } from "features/game/types/craftables";
+import { produce } from "immer";
 
 export type CancelTradeAction = {
   type: "trade.cancelled";
@@ -19,26 +19,29 @@ export function cancelTrade({
   action,
   createdAt = Date.now(),
 }: Options) {
-  const game = cloneDeep(state) as GameState;
+  return produce(state, (game) => {
+    const trade = game.trades.listings?.[action.tradeId];
 
-  const trade = game.trades.listings?.[action.tradeId];
+    if (!trade) {
+      throw new Error(`Trade #${action.tradeId} does not exist`);
+    }
 
-  if (!trade) {
-    throw new Error(`Trade #${action.tradeId} does not exist`);
-  }
+    if (trade.boughtAt) {
+      throw new Error(`Trade #${action.tradeId} already bought`);
+    }
 
-  if (trade.boughtAt) {
-    throw new Error(`Trade #${action.tradeId} already bought`);
-  }
+    // Add items
+    getKeys(trade.items).forEach((name) => {
+      const previous =
+        game.inventory[name as InventoryItemName] ?? new Decimal(0);
+      game.inventory[name as InventoryItemName] = previous.add(
+        trade.items[name] ?? 0,
+      );
+    });
 
-  // Add items
-  getKeys(trade.items).forEach((name) => {
-    const previous = game.inventory[name] ?? new Decimal(0);
-    game.inventory[name] = previous.add(trade.items[name] ?? 0);
+    // Remove Trade
+    delete game.trades.listings?.[action.tradeId];
+
+    return game;
   });
-
-  // Remove Trade
-  delete game.trades.listings?.[action.tradeId];
-
-  return game;
 }

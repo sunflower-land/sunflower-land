@@ -1,5 +1,3 @@
-import cloneDeep from "lodash.clonedeep";
-
 import { GameState } from "../../types/game";
 import {
   CHUM_AMOUNTS,
@@ -13,6 +11,7 @@ import Decimal from "decimal.js-light";
 import { isWearableActive } from "features/game/lib/wearables";
 import { translate } from "lib/i18n/translate";
 import { trackActivity } from "features/game/types/bumpkinActivity";
+import { produce } from "immer";
 
 export type CastRodAction = {
   type: "rod.casted";
@@ -32,82 +31,83 @@ export function castRod({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  const game = cloneDeep(state) as GameState;
-  const { bumpkin } = game;
-  const now = new Date(createdAt);
-  const today = new Date(now).toISOString().split("T")[0];
-  const location = action.location;
+  return produce(state, (game) => {
+    const { bumpkin } = game;
+    const now = new Date(createdAt);
+    const today = new Date(now).toISOString().split("T")[0];
+    const location = action.location;
 
-  if (!bumpkin) {
-    throw new Error("You do not have a Bumpkin!");
-  }
-
-  if (getDailyFishingCount(game) >= getDailyFishingLimit(game)) {
-    throw new Error(translate("error.dailyAttemptsExhausted"));
-  }
-
-  const rodCount = game.inventory.Rod ?? new Decimal(0);
-  // Requires Rod
-  if (rodCount.lt(1) && !isWearableActive({ name: "Ancient Rod", game })) {
-    throw new Error(translate("error.missingRod"));
-  }
-
-  // Requires Bait
-  const baitCount = game.inventory[action.bait] ?? new Decimal(0);
-  if (baitCount.lt(1)) {
-    throw new Error(`Missing ${action.bait}`);
-  }
-
-  if (game.fishing[location].castedAt) {
-    throw new Error(translate("error.alreadyCasted"));
-  }
-
-  // Subtract Chum
-  if (action.chum) {
-    const chumAmount = CHUM_AMOUNTS[action.chum] ?? 0;
-    if (!chumAmount) {
-      throw new Error(`${action.chum} Axe is not a supported chum`);
+    if (!bumpkin) {
+      throw new Error("You do not have a Bumpkin!");
     }
 
-    const inventoryChum = game.inventory[action.chum] ?? new Decimal(0);
-
-    if (inventoryChum.lt(chumAmount)) {
-      throw new Error(`${translate("error.insufficientChum")}: ${action.chum}`);
+    if (getDailyFishingCount(game) >= getDailyFishingLimit(game)) {
+      throw new Error(translate("error.dailyAttemptsExhausted"));
     }
 
-    game.inventory[action.chum] = inventoryChum.sub(chumAmount);
-  }
+    const rodCount = game.inventory.Rod ?? new Decimal(0);
+    // Requires Rod
+    if (rodCount.lt(1) && !isWearableActive({ name: "Ancient Rod", game })) {
+      throw new Error(translate("error.missingRod"));
+    }
 
-  // Subtracts Rod
-  if (!isWearableActive({ name: "Ancient Rod", game })) {
-    game.inventory.Rod = rodCount.sub(1);
-  }
+    // Requires Bait
+    const baitCount = game.inventory[action.bait] ?? new Decimal(0);
+    if (baitCount.lt(1)) {
+      throw new Error(`Missing ${action.bait}`);
+    }
 
-  // Subtracts Bait
-  game.inventory[action.bait] = baitCount.sub(1);
+    if (game.fishing[location].castedAt) {
+      throw new Error(translate("error.alreadyCasted"));
+    }
 
-  // Casts Rod
-  game.fishing = {
-    ...game.fishing,
-    [location]: {
-      castedAt: createdAt,
-      bait: action.bait,
-      chum: action.chum,
-    },
-  };
+    // Subtract Chum
+    if (action.chum) {
+      const chumAmount = CHUM_AMOUNTS[action.chum] ?? 0;
+      if (!chumAmount) {
+        throw new Error(`${action.chum} Axe is not a supported chum`);
+      }
 
-  // Track daily attempts
-  if (game.fishing.dailyAttempts && game.fishing.dailyAttempts[today]) {
-    game.fishing.dailyAttempts[today] += 1;
-  } else {
-    game.fishing.dailyAttempts = {
-      [today]: 1,
+      const inventoryChum = game.inventory[action.chum] ?? new Decimal(0);
+
+      if (inventoryChum.lt(chumAmount)) {
+        throw new Error(
+          `${translate("error.insufficientChum")}: ${action.chum}`,
+        );
+      }
+
+      game.inventory[action.chum] = inventoryChum.sub(chumAmount);
+    }
+
+    // Subtracts Rod
+    if (!isWearableActive({ name: "Ancient Rod", game })) {
+      game.inventory.Rod = rodCount.sub(1);
+    }
+
+    // Subtracts Bait
+    game.inventory[action.bait] = baitCount.sub(1);
+
+    // Casts Rod
+    game.fishing = {
+      ...game.fishing,
+      [location]: {
+        castedAt: createdAt,
+        bait: action.bait,
+        chum: action.chum,
+      },
     };
-  }
 
-  bumpkin.activity = trackActivity("Rod Casted", bumpkin.activity);
+    // Track daily attempts
+    if (game.fishing.dailyAttempts && game.fishing.dailyAttempts[today]) {
+      game.fishing.dailyAttempts[today] += 1;
+    } else {
+      game.fishing.dailyAttempts = {
+        [today]: 1,
+      };
+    }
 
-  return {
-    ...game,
-  };
+    bumpkin.activity = trackActivity("Rod Casted", bumpkin.activity);
+
+    return game;
+  });
 }

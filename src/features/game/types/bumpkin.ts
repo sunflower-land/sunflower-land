@@ -15,7 +15,11 @@ export type BumpkinBackground =
   | "Valentine's Field Background"
   | "Festival of Colors Background"
   | "Desert Background"
-  | "Desert Camel Background";
+  | "Desert Camel Background"
+  | "Desert Camel Background"
+  | "Pumpkin Plaza Background"
+  | "Goblin Retreat Background"
+  | "Kingdom Background";
 
 export type BumpkinBody =
   | "Beige Farmer Potion"
@@ -294,7 +298,8 @@ export type BumpkinHat =
   | "Bumpkin Crown"
   | "Goblin Crown"
   | "Nightshade Crown"
-  | "Sunflorian Crown";
+  | "Sunflorian Crown"
+  | "Gam3s Cap";
 
 export type BumpkinPant =
   | "Farmer Overalls"
@@ -826,6 +831,14 @@ export const ITEM_IDS: Record<BumpkinItem, number> = {
   "Goblin Medallion": 389,
   "Nightshade Medallion": 390,
   "Sunflorian Medallion": 391,
+
+  // Map Background
+  "Pumpkin Plaza Background": 392,
+  "Goblin Retreat Background": 393,
+  "Kingdom Background": 394,
+
+  //GAM3S Wearable
+  "Gam3s Cap": 395,
 };
 
 // The reverse of above
@@ -1278,4 +1291,8 @@ export const BUMPKIN_ITEM_PART: Record<BumpkinItem, keyof Wallet> = {
   "Goblin Medallion": "necklace",
   "Nightshade Medallion": "necklace",
   "Sunflorian Medallion": "necklace",
+  "Pumpkin Plaza Background": "background",
+  "Goblin Retreat Background": "background",
+  "Kingdom Background": "background",
+  "Gam3s Cap": "hat",
 };

@@ -220,47 +220,150 @@ export const FLOWER_CROSS_BREED_DETAILS: Record<FlowerCrossBreedName, string> =
 
 type Flower = {
   seed: FlowerSeedName;
+  description: string;
 };
 
-const SUNPETAL_FLOWERS: Record<SunpetalFlowerName, { seed: "Sunpetal Seed" }> =
-  {
-    "Red Pansy": { seed: "Sunpetal Seed" },
-    "Yellow Pansy": { seed: "Sunpetal Seed" },
-    "Purple Pansy": { seed: "Sunpetal Seed" },
-    "White Pansy": { seed: "Sunpetal Seed" },
-    "Blue Pansy": { seed: "Sunpetal Seed" },
-    "Red Cosmos": { seed: "Sunpetal Seed" },
-    "Yellow Cosmos": { seed: "Sunpetal Seed" },
-    "Purple Cosmos": { seed: "Sunpetal Seed" },
-    "White Cosmos": { seed: "Sunpetal Seed" },
-    "Blue Cosmos": { seed: "Sunpetal Seed" },
-    "Prism Petal": { seed: "Sunpetal Seed" },
-  };
-const BLOOM_FLOWERS: Record<BloomFlowerName, { seed: "Bloom Seed" }> = {
-  "Red Balloon Flower": { seed: "Bloom Seed" },
-  "Yellow Balloon Flower": { seed: "Bloom Seed" },
-  "Purple Balloon Flower": { seed: "Bloom Seed" },
-  "White Balloon Flower": { seed: "Bloom Seed" },
-  "Blue Balloon Flower": { seed: "Bloom Seed" },
-  "Red Daffodil": { seed: "Bloom Seed" },
-  "Yellow Daffodil": { seed: "Bloom Seed" },
-  "Purple Daffodil": { seed: "Bloom Seed" },
-  "White Daffodil": { seed: "Bloom Seed" },
-  "Blue Daffodil": { seed: "Bloom Seed" },
-  "Celestial Frostbloom": { seed: "Bloom Seed" },
+const SUNPETAL_FLOWERS: Record<
+  SunpetalFlowerName,
+  Flower & { seed: "Sunpetal Seed" }
+> = {
+  "Red Pansy": {
+    seed: "Sunpetal Seed",
+    description: translate("description.red.pansy"),
+  },
+  "Yellow Pansy": {
+    seed: "Sunpetal Seed",
+    description: translate("description.yellow.pansy"),
+  },
+  "Purple Pansy": {
+    seed: "Sunpetal Seed",
+    description: translate("description.purple.pansy"),
+  },
+  "White Pansy": {
+    seed: "Sunpetal Seed",
+    description: translate("description.white.pansy"),
+  },
+  "Blue Pansy": {
+    seed: "Sunpetal Seed",
+    description: translate("description.blue.pansy"),
+  },
+  "Red Cosmos": {
+    seed: "Sunpetal Seed",
+    description: translate("description.red.cosmos"),
+  },
+  "Yellow Cosmos": {
+    seed: "Sunpetal Seed",
+    description: translate("description.yellow.cosmos"),
+  },
+  "Purple Cosmos": {
+    seed: "Sunpetal Seed",
+    description: translate("description.purple.cosmos"),
+  },
+  "White Cosmos": {
+    seed: "Sunpetal Seed",
+    description: translate("description.white.cosmos"),
+  },
+  "Blue Cosmos": {
+    seed: "Sunpetal Seed",
+    description: translate("description.blue.cosmos"),
+  },
+  "Prism Petal": {
+    seed: "Sunpetal Seed",
+    description: translate("description.prism.petal"),
+  },
 };
-const LILY_FLOWERS: Record<LilyFlowerName, { seed: "Lily Seed" }> = {
-  "Red Carnation": { seed: "Lily Seed" },
-  "Yellow Carnation": { seed: "Lily Seed" },
-  "Purple Carnation": { seed: "Lily Seed" },
-  "White Carnation": { seed: "Lily Seed" },
-  "Blue Carnation": { seed: "Lily Seed" },
-  "Red Lotus": { seed: "Lily Seed" },
-  "Yellow Lotus": { seed: "Lily Seed" },
-  "Purple Lotus": { seed: "Lily Seed" },
-  "White Lotus": { seed: "Lily Seed" },
-  "Blue Lotus": { seed: "Lily Seed" },
-  "Primula Enigma": { seed: "Lily Seed" },
+const BLOOM_FLOWERS: Record<BloomFlowerName, Flower & { seed: "Bloom Seed" }> =
+  {
+    "Red Balloon Flower": {
+      seed: "Bloom Seed",
+      description: translate("description.red.balloon.flower"),
+    },
+    "Yellow Balloon Flower": {
+      seed: "Bloom Seed",
+      description: translate("description.yellow.balloon.flower"),
+    },
+    "Purple Balloon Flower": {
+      seed: "Bloom Seed",
+      description: translate("description.purple.balloon.flower"),
+    },
+    "White Balloon Flower": {
+      seed: "Bloom Seed",
+      description: translate("description.white.balloon.flower"),
+    },
+    "Blue Balloon Flower": {
+      seed: "Bloom Seed",
+      description: translate("description.blue.balloon.flower"),
+    },
+    "Red Daffodil": {
+      seed: "Bloom Seed",
+      description: translate("description.red.daffodil"),
+    },
+    "Yellow Daffodil": {
+      seed: "Bloom Seed",
+      description: translate("description.yellow.daffodil"),
+    },
+    "Purple Daffodil": {
+      seed: "Bloom Seed",
+      description: translate("description.purple.daffodil"),
+    },
+    "White Daffodil": {
+      seed: "Bloom Seed",
+      description: translate("description.white.daffodil"),
+    },
+    "Blue Daffodil": {
+      seed: "Bloom Seed",
+      description: translate("description.blue.daffodil"),
+    },
+    "Celestial Frostbloom": {
+      seed: "Bloom Seed",
+      description: translate("description.celestial.frostbloom"),
+    },
+  };
+const LILY_FLOWERS: Record<LilyFlowerName, Flower & { seed: "Lily Seed" }> = {
+  "Red Carnation": {
+    seed: "Lily Seed",
+    description: translate("description.red.carnation"),
+  },
+  "Yellow Carnation": {
+    seed: "Lily Seed",
+    description: translate("description.yellow.carnation"),
+  },
+  "Purple Carnation": {
+    seed: "Lily Seed",
+    description: translate("description.purple.carnation"),
+  },
+  "White Carnation": {
+    seed: "Lily Seed",
+    description: translate("description.white.carnation"),
+  },
+  "Blue Carnation": {
+    seed: "Lily Seed",
+    description: translate("description.blue.carnation"),
+  },
+  "Red Lotus": {
+    seed: "Lily Seed",
+    description: translate("description.red.lotus"),
+  },
+  "Yellow Lotus": {
+    seed: "Lily Seed",
+    description: translate("description.yellow.lotus"),
+  },
+  "Purple Lotus": {
+    seed: "Lily Seed",
+    description: translate("description.purple.lotus"),
+  },
+  "White Lotus": {
+    seed: "Lily Seed",
+    description: translate("description.white.lotus"),
+  },
+  "Blue Lotus": {
+    seed: "Lily Seed",
+    description: translate("description.blue.lotus"),
+  },
+  "Primula Enigma": {
+    seed: "Lily Seed",
+    description: translate("description.primula.enigma"),
+  },
 };
 
 export const FLOWERS: Record<FlowerName, Flower> = {

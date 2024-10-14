@@ -18,6 +18,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { SUNNYSIDE } from "assets/sunnyside";
 import blockBuck from "assets/icons/block_buck.png";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
+import { BB_TO_GEM_RATIO } from "features/game/types/game";
 
 const isPromoting = (state: MachineState) => state.matches("specialOffer");
 const _inventory = (state: MachineState) => state.context.state.inventory;
@@ -70,10 +71,10 @@ export const PromotingModal: React.FC<Props> = ({
 
   const [showPurchased, setShowPurchased] = useState(hasPurchased);
 
-  let price = hasDiscount ? "35" : "50";
+  let price = hasDiscount ? 35 * BB_TO_GEM_RATIO : 50 * BB_TO_GEM_RATIO;
 
   if (!isPreSeason) {
-    price = "65";
+    price = 65 * BB_TO_GEM_RATIO;
   }
 
   const onCloseConfirmation = () => {
@@ -86,14 +87,14 @@ export const PromotingModal: React.FC<Props> = ({
   };
 
   const buyBlockBucks = () => {
-    openModal("BUY_BLOCK_BUCKS");
+    openModal("BUY_GEMS");
   };
 
   const Content = () => {
     if (showConfirmation) {
       return (
         <>
-          <p className="text-sm my-2">{`Are you sure you want to purchase the banner for ${price} Block Bucks?`}</p>
+          <p className="text-sm my-2">{`Are you sure you want to purchase the banner for ${price} Gems?`}</p>
           <div className="flex">
             <Button className="mr-1" onClick={onCloseConfirmation}>
               {t("no.thanks")}
@@ -118,17 +119,15 @@ export const PromotingModal: React.FC<Props> = ({
         <>
           <div className="p-2">
             <Label icon={SUNNYSIDE.icons.lock} type="danger" className="my-2">
-              {t("transaction.buy.BlockBucks")}
+              {t("transaction.buy.gems")}
             </Label>
-            <p className="text-sm my-2">{t("offer.not.enough.BlockBucks")}</p>
+            <p className="text-sm my-2">{t("offer.not.enough.gems")}</p>
           </div>
           <div className="flex">
             <Button className="mr-1" onClick={onCloseInsufficientBlockBucks}>
               {t("no.thanks")}
             </Button>
-            <Button onClick={buyBlockBucks}>
-              {t("transaction.buy.BlockBucks")}
-            </Button>
+            <Button onClick={buyBlockBucks}>{t("transaction.buy.gems")}</Button>
           </div>
         </>
       );
@@ -180,7 +179,7 @@ export const PromotingModal: React.FC<Props> = ({
 
     const msLeft = SEASONS["Spring Blossom"].startDate.getTime() - Date.now();
     const secondsLeft = msLeft / 1000;
-    const insufficientBlockBucks = !inventory["Block Buck"]?.gte(price);
+    const insufficientBlockBucks = !inventory["Gem"]?.gte(price);
 
     return (
       <>

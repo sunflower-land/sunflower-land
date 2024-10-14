@@ -129,7 +129,7 @@ export const INITIAL_RESOURCES: Pick<
 };
 
 const INITIAL_STOCK: Inventory = {
-  "Sunflower Seed": new Decimal(400),
+  "Sunflower Seed": new Decimal(0),
   "Potato Seed": new Decimal(200),
   "Pumpkin Seed": new Decimal(100),
   "Carrot Seed": new Decimal(100),
@@ -269,6 +269,16 @@ export const STATIC_OFFLINE_FARM: GameState = {
           "Red Farmer Shirt": 1,
         },
       },
+      halloween: {
+        coins: 0,
+        startAt: new Date().getTime() - 500,
+        endAt: new Date().getTime() + 5000000,
+        score: 500,
+        items: {},
+        wearables: {
+          "Red Farmer Shirt": 1,
+        },
+      },
     },
   },
   mushrooms: {
@@ -307,7 +317,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     spawnedAt: 0,
   },
   farmHands: { bumpkins: {} },
-  bumpkin: { ...TEST_BUMPKIN },
+  bumpkin: TEST_BUMPKIN,
   buds: {
     1: {
       aura: "Basic",
@@ -385,6 +395,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     },
   },
   inventory: {
+    "Basic Scarecrow": new Decimal(1),
     "Lemon Shark": new Decimal(1),
     "Beta Pass": new Decimal(1),
     "Paint Can": new Decimal(1),
@@ -393,6 +404,23 @@ export const STATIC_OFFLINE_FARM: GameState = {
     "Benevolence Flag": new Decimal(1),
     "Generosity Flag": new Decimal(1),
     "Devotion Flag": new Decimal(1),
+    "Camel Bone": new Decimal(1000),
+    Sand: new Decimal(1000),
+    Crab: new Decimal(1000),
+    "Old Bottle": new Decimal(1000),
+    "Sea Cucumber": new Decimal(1000),
+    Vase: new Decimal(1000),
+    Seaweed: new Decimal(1000),
+    "Cockle Shell": new Decimal(1000),
+    Starfish: new Decimal(1000),
+    "Iron Compass": new Decimal(1000),
+    "Wooden Compass": new Decimal(1000),
+    "Emerald Compass": new Decimal(1000),
+    Pipi: new Decimal(1000),
+    Hieroglyph: new Decimal(1000),
+    "Clam Shell": new Decimal(1000),
+    Coral: new Decimal(50),
+    Pearl: new Decimal(50),
     Rug: new Decimal(1),
     "Sunflorian Throne": new Decimal(1),
     "Nightshade Throne": new Decimal(1),
@@ -538,7 +566,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     Beehive: new Decimal(1),
     Banana: new Decimal(12),
     Crimstone: new Decimal(20),
-    "Block Buck": new Decimal(200),
+    Gem: new Decimal(200),
     Gold: new Decimal("400"),
     Iron: new Decimal("800"),
     Stone: new Decimal("1600"),
@@ -674,8 +702,16 @@ export const STATIC_OFFLINE_FARM: GameState = {
     "Goblin Silver Champion": new Decimal(1),
     // "Pharaoh's Treasure Banner": new Decimal(1),
 
-    "Pirate Bounty": new Decimal(1),
-    Scarab: new Decimal(1),
+    "Pirate Bounty": new Decimal(50),
+    Scarab: new Decimal(50),
+    "Reveling Lemon": new Decimal(1),
+    "Cactus King": new Decimal(1),
+    "Clay Tablet": new Decimal(1),
+
+    "Lemon Frog": new Decimal(1),
+    "Sand Golem": new Decimal(1),
+    "Scarab Beetle": new Decimal(1),
+    Sundial: new Decimal(1),
   },
   wardrobe: {
     "Tofu Mask": 1,
@@ -701,6 +737,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     "Coin Aura": 1,
     "Gift Giver": 1,
     "Desert Merchant Turban": 1,
+    Halo: 1,
   },
   previousWardrobe: {
     "Elf Suit": 1,
@@ -719,7 +756,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     "Sunflower Amulet": 2,
   },
 
-  createdAt: new Date("2024-06-16").getTime(),
+  createdAt: new Date().getTime(),
 
   conversations: ["hank-intro"],
 
@@ -844,6 +881,10 @@ export const STATIC_OFFLINE_FARM: GameState = {
         id: "1",
         readyAt: 0,
         createdAt: 0,
+        // crafting: {
+        //   name: "Pumpkin Soup",
+        //   readyAt: Date.now() + 25 * 60 * 1000,
+        // },
       },
     ],
   },
@@ -965,7 +1006,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
             reward: {
               sfl: 0,
               items: {
-                "Block Buck": 3,
+                Gem: 3,
               },
               wearables: {},
             },
@@ -1089,7 +1130,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
             reward: {
               sfl: 0,
               items: {
-                "Block Buck": 1,
+                Gem: 1,
               },
               wearables: {},
             },
@@ -1187,7 +1228,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
             reward: {
               sfl: 0,
               items: {
-                "Block Buck": 1,
+                Gem: 1,
               },
               wearables: {},
             },
@@ -1285,7 +1326,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
             reward: {
               sfl: 0,
               items: {
-                "Block Buck": 1,
+                Gem: 1,
               },
               wearables: {},
             },

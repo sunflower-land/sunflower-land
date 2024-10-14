@@ -1,11 +1,10 @@
-import cloneDeep from "lodash.clonedeep";
-
 import { GameState } from "features/game/types/game";
 import {
   ResourceName,
   RESOURCE_DIMENSIONS,
 } from "features/game/types/resources";
 import Decimal from "decimal.js-light";
+import { produce } from "immer";
 
 export type PlaceTreeAction = {
   type: "tree.placed";
@@ -28,28 +27,29 @@ export function placeTree({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  const game = cloneDeep(state) as GameState;
-  const available = (game.inventory.Tree || new Decimal(0)).minus(
-    Object.keys(game.trees).length,
-  );
+  return produce(state, (game) => {
+    const available = (game.inventory.Tree || new Decimal(0)).minus(
+      Object.keys(game.trees).length,
+    );
 
-  if (available.lt(1)) {
-    throw new Error("No trees available");
-  }
+    if (available.lt(1)) {
+      throw new Error("No trees available");
+    }
 
-  game.trees = {
-    ...game.trees,
-    [action.id as unknown as number]: {
-      createdAt: createdAt,
-      x: action.coordinates.x,
-      y: action.coordinates.y,
-      ...RESOURCE_DIMENSIONS["Tree"],
-      wood: {
-        amount: 1,
-        choppedAt: 0,
+    game.trees = {
+      ...game.trees,
+      [action.id as unknown as number]: {
+        createdAt: createdAt,
+        x: action.coordinates.x,
+        y: action.coordinates.y,
+        ...RESOURCE_DIMENSIONS["Tree"],
+        wood: {
+          amount: 1,
+          choppedAt: 0,
+        },
       },
-    },
-  };
+    };
 
-  return game;
+    return game;
+  });
 }

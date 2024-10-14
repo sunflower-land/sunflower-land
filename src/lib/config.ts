@@ -2,6 +2,8 @@ const NETWORK = import.meta.env.VITE_NETWORK as "mainnet" | "amoy";
 const DONATION_ADDRESS = import.meta.env.VITE_DONATION_ADDRESS;
 const TREASURY_ADDRESS = import.meta.env.VITE_TREASURY_ADDRESS as string;
 
+const PORTAL_DONATION_ADDRESS = import.meta.env.VITE_PORTAL_DONATION_ADDRESS;
+
 const POLYGON_CHAIN_ID = NETWORK === "mainnet" ? 137 : 80002;
 
 const API_URL = import.meta.env.VITE_API_URL;
@@ -42,8 +44,7 @@ const DAILY_REWARD_CONTRACT = import.meta.env
   .VITE_DAILY_REWARD_CONTRACT as string;
 const QUICKSWAP_ROUTER_CONTRACT = import.meta.env
   .VITE_QUICKSWAP_ROUTER_CONTRACT as string;
-const BUY_BLOCK_BUCKS_CONTRACT = import.meta.env
-  .VITE_BUY_BLOCK_BUCKS_CONTRACT as string;
+const BUY_GEMS_CONTRACT = import.meta.env.VITE_BUY_GEMS_CONTRACT as string;
 const WMATIC_CONTRACT = import.meta.env.VITE_WMATIC_CONTRACT as string;
 const DEPOSIT_CONTRACT = import.meta.env.VITE_DEPOSIT_CONTRACT as string;
 const BUD_DEPOSIT_CONTRACT = import.meta.env
@@ -74,6 +75,8 @@ const GAME_ANALYTICS_PUB_KEY = import.meta.env
 const PORTAL_APP = import.meta.env.VITE_PORTAL_APP as string;
 const PORTAL_GAME_URL = import.meta.env.VITE_PORTAL_GAME_URL as string;
 
+const MARKETPLACE_CONTRACT = import.meta.env
+  .VITE_MARKETPLACE_CONTRACT as string;
 const DEQUIPPER_CONTRACT = import.meta.env.VITE_DEQUIPPER_CONTRACT as string;
 const SEQUENCE_ACCESS_KEY = import.meta.env.VITE_SEQUENCE_ACCESS_KEY as string;
 
@@ -82,10 +85,13 @@ const ANIMATION_URL = import.meta.env.VITE_ANIMATION_URL as string;
 
 export const CONFIG = {
   DEQUIPPER_CONTRACT,
-
+  MARKETPLACE_CONTRACT,
   NETWORK,
   POLYGON_CHAIN_ID,
   DONATION_ADDRESS,
+
+  PORTAL_DONATION_ADDRESS,
+
   TREASURY_ADDRESS,
   API_URL,
   DISCORD_REDIRECT,
@@ -119,7 +125,7 @@ export const CONFIG = {
   LOST_AND_FOUND_CONTRACT,
   DEPOSIT_CONTRACT,
   BUD_DEPOSIT_CONTRACT,
-  BUY_BLOCK_BUCKS_CONTRACT,
+  BUY_GEMS_CONTRACT,
   ALCHEMY_RPC,
   GAME_CONTRACT,
   WITHDRAWAL_CONTRACT,

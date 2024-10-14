@@ -23,10 +23,7 @@ type Response = {
   isBlacklisted?: boolean;
   deviceTrackerId: string;
   announcements: Announcements;
-  transaction?: {
-    type: "withdraw_bumpkin";
-    expiresAt: number;
-  };
+
   verified: boolean;
   promoCode?: string;
   moderation: Moderation;
@@ -36,6 +33,9 @@ type Response = {
   wallet?: string;
   nftId?: number;
   purchases: Purchase[];
+  discordId?: string;
+  fslId?: string;
+  oauthNonce: string;
 };
 
 const API_URL = CONFIG.API_URL;
@@ -93,7 +93,6 @@ export async function loadSession(request: Request): Promise<Response> {
     isBlacklisted,
     deviceTrackerId,
     announcements,
-    transaction,
     verified,
     moderation,
     promoCode: promo,
@@ -105,6 +104,9 @@ export async function loadSession(request: Request): Promise<Response> {
     wallet,
     nftId,
     purchases,
+    discordId,
+    fslId,
+    oauthNonce,
   } = await sanitizeHTTPResponse<{
     farm: any;
     startedAt: string;
@@ -112,7 +114,6 @@ export async function loadSession(request: Request): Promise<Response> {
     deviceTrackerId: string;
     status?: "COOL_DOWN";
     announcements: Announcements;
-    transaction: { type: "withdraw_bumpkin"; expiresAt: number };
     verified: boolean;
     moderation: Moderation;
     promoCode?: string;
@@ -124,6 +125,9 @@ export async function loadSession(request: Request): Promise<Response> {
     linkedWallet?: string;
     wallet?: string;
     purchases: Purchase[];
+    discordId?: string;
+    fslId?: string;
+    oauthNonce: string;
   }>(response);
 
   saveSession(farm.id);
@@ -136,7 +140,6 @@ export async function loadSession(request: Request): Promise<Response> {
     isBlacklisted,
     deviceTrackerId,
     announcements,
-    transaction,
     verified,
     moderation,
     promoCode: promo,
@@ -145,6 +148,9 @@ export async function loadSession(request: Request): Promise<Response> {
     wallet,
     nftId,
     purchases,
+    fslId,
+    discordId,
+    oauthNonce,
   };
 }
 
@@ -178,7 +184,7 @@ export function saveSession(farmId: number) {
   const farmSession = {
     farmId,
     loggedInAt: Date.now(),
-    account: wallet.myAccount,
+    account: wallet.getAccount(),
   };
 
   const cacheKey = Buffer.from(JSON.stringify(farmSession)).toString("base64");

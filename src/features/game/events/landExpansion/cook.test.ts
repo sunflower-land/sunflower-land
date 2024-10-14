@@ -293,7 +293,7 @@ describe("getReadyAt", () => {
     expect(time).toEqual(readyAt);
   });
 
-  it("applies 10% speed boost with Rush Hour skill", () => {
+  it("applies 50% speed boost with Luna's Hat", () => {
     const now = Date.now();
 
     const time = getReadyAt({
@@ -318,6 +318,105 @@ describe("getReadyAt", () => {
 
     const readyAt =
       now + (COOKABLES["Boiled Eggs"].cookingSeconds - boost) * 1000;
+
+    expect(time).toEqual(readyAt);
+  });
+
+  it("applies 25% speed boost with Faction Medallion", () => {
+    const now = Date.now();
+
+    const time = getReadyAt({
+      buildingId: "1",
+      item: "Boiled Eggs",
+      bumpkin: {
+        ...INITIAL_BUMPKIN,
+        equipped: { ...INITIAL_BUMPKIN.equipped, necklace: "Goblin Medallion" },
+      },
+      createdAt: now,
+      game: {
+        ...TEST_FARM,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          equipped: {
+            ...INITIAL_BUMPKIN.equipped,
+            necklace: "Goblin Medallion",
+          },
+        },
+        faction: {
+          name: "goblins",
+          pledgedAt: 0,
+          history: {},
+          points: 0,
+        },
+      },
+    });
+
+    const boost = COOKABLES["Boiled Eggs"].cookingSeconds * 0.25;
+
+    const readyAt =
+      now + (COOKABLES["Boiled Eggs"].cookingSeconds - boost) * 1000;
+
+    expect(time).toEqual(readyAt);
+  });
+
+  it("does not apply 25% speed boost with Faction Medallion when pledged in different Faction", () => {
+    const now = Date.now();
+
+    const time = getReadyAt({
+      buildingId: "1",
+      item: "Boiled Eggs",
+      bumpkin: {
+        ...INITIAL_BUMPKIN,
+        equipped: { ...INITIAL_BUMPKIN.equipped, necklace: "Goblin Medallion" },
+      },
+      createdAt: now,
+      game: {
+        ...TEST_FARM,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          equipped: {
+            ...INITIAL_BUMPKIN.equipped,
+            necklace: "Goblin Medallion",
+          },
+        },
+        faction: {
+          name: "nightshades",
+          pledgedAt: 0,
+          history: {},
+          points: 0,
+        },
+      },
+    });
+
+    const readyAt = now + COOKABLES["Boiled Eggs"].cookingSeconds * 1000;
+
+    expect(time).toEqual(readyAt);
+  });
+
+  it("does not apply 25% speed boost with Faction Medallion when not pledged in a Faction", () => {
+    const now = Date.now();
+
+    const time = getReadyAt({
+      buildingId: "1",
+      item: "Boiled Eggs",
+      bumpkin: {
+        ...INITIAL_BUMPKIN,
+        equipped: { ...INITIAL_BUMPKIN.equipped, necklace: "Goblin Medallion" },
+      },
+      createdAt: now,
+      game: {
+        ...TEST_FARM,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          equipped: {
+            ...INITIAL_BUMPKIN.equipped,
+            necklace: "Goblin Medallion",
+          },
+        },
+      },
+    });
+
+    const readyAt = now + COOKABLES["Boiled Eggs"].cookingSeconds * 1000;
 
     expect(time).toEqual(readyAt);
   });

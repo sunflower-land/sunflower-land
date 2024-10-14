@@ -1,10 +1,10 @@
 import Decimal from "decimal.js-light";
 import { canMine } from "features/game/expansion/lib/utils";
-import cloneDeep from "lodash.clonedeep";
 import { IRON_RECOVERY_TIME } from "../../lib/constants";
 import { trackActivity } from "../../types/bumpkinActivity";
 import { GameState } from "../../types/game";
 import { isCollectibleActive } from "features/game/lib/collectibleBuilt";
+import { produce } from "immer";
 
 export type LandExpansionIronMineAction = {
   type: "ironRock.mined";
@@ -45,6 +45,10 @@ export function getMinedAt({ createdAt, game }: GetMinedAtArgs): number {
     totalSeconds = totalSeconds * 0.5;
   }
 
+  if (game.bumpkin.skills["Iron Hustle"]) {
+    totalSeconds = totalSeconds * 0.9;
+  }
+
   const buff = IRON_RECOVERY_TIME - totalSeconds;
 
   return createdAt - buff * 1000;
@@ -55,40 +59,41 @@ export function mineIron({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  const stateCopy = cloneDeep(state);
-  const { iron, bumpkin, collectibles } = stateCopy;
+  return produce(state, (stateCopy) => {
+    const { iron, bumpkin, collectibles } = stateCopy;
 
-  if (!bumpkin) {
-    throw new Error(MINE_ERRORS.NO_BUMPKIN);
-  }
+    if (!bumpkin) {
+      throw new Error(MINE_ERRORS.NO_BUMPKIN);
+    }
 
-  const ironRock = iron[action.index];
+    const ironRock = iron[action.index];
 
-  if (!ironRock) {
-    throw new Error(MINE_ERRORS.NO_IRON);
-  }
+    if (!ironRock) {
+      throw new Error(MINE_ERRORS.NO_IRON);
+    }
 
-  if (!canMine(ironRock, IRON_RECOVERY_TIME, createdAt)) {
-    throw new Error(MINE_ERRORS.STILL_RECOVERING);
-  }
+    if (!canMine(ironRock, IRON_RECOVERY_TIME, createdAt)) {
+      throw new Error(MINE_ERRORS.STILL_RECOVERING);
+    }
 
-  const toolAmount = stateCopy.inventory["Stone Pickaxe"] || new Decimal(0);
+    const toolAmount = stateCopy.inventory["Stone Pickaxe"] || new Decimal(0);
 
-  if (toolAmount.lessThan(1)) {
-    throw new Error(MINE_ERRORS.NO_PICKAXES);
-  }
+    if (toolAmount.lessThan(1)) {
+      throw new Error(MINE_ERRORS.NO_PICKAXES);
+    }
 
-  const ironMined = ironRock.stone.amount;
-  const amountInInventory = stateCopy.inventory.Iron || new Decimal(0);
+    const ironMined = ironRock.stone.amount;
+    const amountInInventory = stateCopy.inventory.Iron || new Decimal(0);
 
-  ironRock.stone = {
-    minedAt: getMinedAt({ createdAt, game: stateCopy }),
-    amount: 2,
-  };
-  bumpkin.activity = trackActivity("Iron Mined", bumpkin.activity);
+    ironRock.stone = {
+      minedAt: getMinedAt({ createdAt, game: stateCopy }),
+      amount: 2,
+    };
+    bumpkin.activity = trackActivity("Iron Mined", bumpkin.activity);
 
-  stateCopy.inventory["Stone Pickaxe"] = toolAmount.sub(1);
-  stateCopy.inventory.Iron = amountInInventory.add(ironMined);
+    stateCopy.inventory["Stone Pickaxe"] = toolAmount.sub(1);
+    stateCopy.inventory.Iron = amountInInventory.add(ironMined);
 
-  return stateCopy;
+    return stateCopy;
+  });
 }

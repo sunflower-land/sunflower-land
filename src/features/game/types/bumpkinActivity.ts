@@ -1,16 +1,20 @@
 import Decimal from "decimal.js-light";
 import { ConsumableName, CookableName } from "./consumables";
 import { Animal, Food, ToolName } from "./craftables";
-import { CropName, GreenHouseCropName } from "./crops";
-import { Bumpkin, LanternName } from "./game";
+import { CropName, GreenHouseCropName, GreenHouseCropSeedName } from "./crops";
+import { Bumpkin, Keys, LanternName, MegaStoreItemName } from "./game";
 import { BeanName, ExoticCropName } from "./beans";
 import {
   HeliosBlacksmithItem,
   PotionHouseItemName,
   TreasureCollectibleItem,
 } from "./collectibles";
-import { DecorationName } from "./decorations";
-import { FruitName, FruitSeedName, GreenHouseFruitName } from "./fruits";
+import {
+  FruitName,
+  FruitSeedName,
+  GreenHouseFruitName,
+  GreenHouseFruitSeedName,
+} from "./fruits";
 import { GarbageName } from "./garbage";
 import { SeedName } from "./seeds";
 import { TreasureToolName, WorkbenchToolName } from "./tools";
@@ -19,8 +23,22 @@ import { CompostName, ComposterName } from "./composters";
 import { PurchaseableBait } from "./fishing";
 import { FlowerName, FlowerSeedName } from "./flowers";
 import { FactionShopItemName } from "./factionShop";
+import { ShopDecorationName, SeasonalDecorationName } from "./decorations";
+import { AnimalType } from "./animals";
 
-type BuyableName = SeedName | Animal | DecorationName | BeanName;
+type BuyableName =
+  | SeedName
+  // This Animal type will become legacy once Animals are released
+  | Animal
+  | AnimalType
+  | ShopDecorationName
+  | SeasonalDecorationName
+  | BeanName
+  | MegaStoreItemName
+  | GreenHouseFruitSeedName
+  | GreenHouseCropSeedName
+  | FactionShopItemName;
+
 type SellableName =
   | CropName
   | Food
@@ -28,8 +46,7 @@ type SellableName =
   | BeachBountyTreasure
   | FruitName
   | GarbageName
-  | ExoticCropName
-  | FactionShopItemName;
+  | ExoticCropName;
 
 type Recipes = Food | CookableName;
 type Edibles = Food | ConsumableName;
@@ -55,6 +72,7 @@ export type CraftedEvent = `${
   | TreasureCollectibleItem
   | PotionHouseItemName
   | LanternName
+  | Keys
   | PurchaseableBait} Crafted`;
 export type ConsumableEvent = `${ConsumableName} Collected`;
 export type SellEvent = `${SellableName} Sold`;

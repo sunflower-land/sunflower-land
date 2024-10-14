@@ -89,4 +89,115 @@ describe("boosts", () => {
       }),
     ).toEqual(FRUIT().Tomato.sellPrice);
   });
+
+  it("applies Green Thumb boost to crop", () => {
+    const now = new Date();
+    expect(
+      getSellPrice({
+        item: CROPS.Sunflower,
+        game: {
+          ...TEST_FARM,
+          inventory: {
+            "Basic Land": new Decimal(3),
+            "Green Thumb": new Decimal(1),
+          },
+          // Game started over 2 hours ago
+          createdAt: now.getTime() - 2 * 60 * 60 * 1000 - 1,
+        },
+        now,
+      }),
+    ).toEqual(CROPS.Sunflower.sellPrice * 1.05);
+  });
+
+  it("does not apply Green Thumb boost to non crops", () => {
+    const now = new Date();
+    expect(
+      getSellPrice({
+        item: FRUIT().Tomato,
+        game: {
+          ...TEST_FARM,
+          inventory: {
+            "Basic Land": new Decimal(3),
+            "Green Thumb": new Decimal(1),
+          },
+          // Game started over 2 hours ago
+          createdAt: now.getTime() - 2 * 60 * 60 * 1000 - 1,
+        },
+        now,
+      }),
+    ).toEqual(FRUIT().Tomato.sellPrice);
+  });
+
+  it("applies Coin Swindler boost to crop", () => {
+    const now = new Date();
+    expect(
+      getSellPrice({
+        item: CROPS.Sunflower,
+        game: {
+          ...TEST_FARM,
+          bumpkin: {
+            ...TEST_FARM.bumpkin,
+            skills: {
+              "Coin Swindler": 1,
+            },
+          },
+          inventory: {
+            "Basic Land": new Decimal(3),
+          },
+          // Game started over 2 hours ago
+          createdAt: now.getTime() - 2 * 60 * 60 * 1000 - 1,
+        },
+        now,
+      }),
+    ).toEqual(CROPS.Sunflower.sellPrice * 1.1);
+  });
+
+  it("applies Coin Swindler boost to crop", () => {
+    const now = new Date();
+    expect(
+      getSellPrice({
+        item: FRUIT().Tomato,
+        game: {
+          ...TEST_FARM,
+          bumpkin: {
+            ...TEST_FARM.bumpkin,
+            skills: {
+              "Coin Swindler": 1,
+            },
+          },
+          inventory: {
+            "Basic Land": new Decimal(3),
+          },
+          // Game started over 2 hours ago
+          createdAt: now.getTime() - 2 * 60 * 60 * 1000 - 1,
+        },
+        now,
+      }),
+    ).toEqual(FRUIT().Tomato.sellPrice);
+  });
+
+  it("boosts are additive", () => {
+    const now = new Date();
+    expect(
+      getSellPrice({
+        item: CROPS.Sunflower,
+        game: {
+          ...TEST_FARM,
+          bumpkin: {
+            ...TEST_FARM.bumpkin,
+            skills: {
+              "Coin Swindler": 1,
+            },
+          },
+          inventory: {
+            "Basic Land": new Decimal(3),
+            "Green Thumb": new Decimal(1),
+          },
+          // Game started now
+          createdAt: Date.now() - 1 * 60 * 60 * 1000,
+        },
+        now,
+      }),
+    ).toEqual(CROPS.Sunflower.sellPrice * 2.15);
+  });
 });

@@ -1,8 +1,9 @@
-import { Equipped } from "features/game/types/bumpkin";
+import { BUMPKIN_ITEMS, Equipped } from "features/game/types/bumpkin";
 import { getKeys } from "features/game/types/craftables";
 import { Bumpkin, GameState, Wardrobe } from "features/game/types/game";
+import { MarketplaceTradeableName } from "features/game/types/marketplace";
+import { produce } from "immer";
 import { BumpkinParts } from "lib/utils/tokenUriBuilder";
-import cloneDeep from "lodash.clonedeep";
 
 export type EquipBumpkinAction = {
   type: "bumpkin.equipped";
@@ -20,18 +21,19 @@ export function equip({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  const game = cloneDeep(state);
-  const { bumpkin } = game;
+  return produce(state, (game) => {
+    const { bumpkin } = game;
 
-  if (bumpkin === undefined) {
-    throw new Error("You do not have a Bumpkin!");
-  }
+    if (bumpkin === undefined) {
+      throw new Error("You do not have a Bumpkin!");
+    }
 
-  assertEquipment({ game, equipment: action.equipment, bumpkin });
+    assertEquipment({ game, equipment: action.equipment, bumpkin });
 
-  bumpkin.equipped = action.equipment;
+    bumpkin.equipped = action.equipment;
 
-  return game;
+    return game;
+  });
 }
 
 export function assertEquipment({
@@ -80,10 +82,37 @@ export function assertEquipment({
   return true;
 }
 
+const getListedWearables = (
+  state: GameState,
+): Record<MarketplaceTradeableName, number> => {
+  if (!state.trades.listings)
+    return {} as Record<MarketplaceTradeableName, number>;
+
+  return Object.values(state.trades.listings).reduce(
+    (acc, listing) => {
+      Object.entries(listing.items).forEach(([itemName, quantity]) => {
+        if (itemName in BUMPKIN_ITEMS) {
+          const name = itemName as MarketplaceTradeableName;
+
+          if (acc[name]) {
+            acc[name] += quantity as number;
+          } else {
+            acc[name] = quantity as number;
+          }
+        }
+      });
+
+      return acc;
+    },
+    {} as Record<MarketplaceTradeableName, number>,
+  );
+};
+
 /**
  * Return the available (unequipped) wardrobe items
  */
 export function availableWardrobe(game: GameState): Wardrobe {
+  const listed = getListedWearables(game);
   // TODO check in use by farm hands
   const equipped = [
     game.bumpkin?.equipped as Equipped,
@@ -106,6 +135,10 @@ export function availableWardrobe(game: GameState): Wardrobe {
 
     if (inUse[name]) {
       amount -= inUse[name] ?? 0;
+    }
+
+    if (listed[name]) {
+      amount -= listed[name] ?? 0;
     }
 
     if (amount === 0) {

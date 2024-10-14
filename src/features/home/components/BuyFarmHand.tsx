@@ -7,7 +7,7 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Label } from "components/ui/Label";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { GameState } from "features/game/types/game";
+import { BB_TO_GEM_RATIO, GameState } from "features/game/types/game";
 import { ISLAND_BUMPKIN_CAPACITY } from "features/game/events/landExpansion/buyFarmHand";
 import { Panel } from "components/ui/Panel";
 import confetti from "canvas-confetti";
@@ -32,9 +32,9 @@ export const BuyFarmHand: React.FC<Props> = ({ onClose, gameState }) => {
   const capacity = ISLAND_BUMPKIN_CAPACITY[gameState.island.type];
   const farmHands = Object.keys(gameState.farmHands.bumpkins).length;
   const hasSpace = farmHands + 1 < capacity;
-  const cost = (farmHands + 2) * 5;
+  const cost = (farmHands + 2) * 5 * BB_TO_GEM_RATIO;
 
-  const hasBlockBucks = !!gameState.inventory["Block Buck"]?.gte(cost);
+  const hasGems = !!gameState.inventory["Gem"]?.gte(cost);
 
   const onAdd = () => {
     gameService.send("farmHand.bought");
@@ -44,7 +44,7 @@ export const BuyFarmHand: React.FC<Props> = ({ onClose, gameState }) => {
 
     if (!hasCoupon) {
       gameAnalytics.trackSink({
-        currency: "Block Buck",
+        currency: "Gem",
         amount: cost,
         item: "Farmhand",
         type: "Collectible",
@@ -82,11 +82,8 @@ export const BuyFarmHand: React.FC<Props> = ({ onClose, gameState }) => {
           <p className="text-sm">{t("buyFarmHand.confirmBuyAdditional")}</p>
           {!hasCoupon && (
             <div className="flex items-center my-2">
-              <img
-                src={ITEM_DETAILS["Block Buck"].image}
-                className="h-4 mr-2"
-              />
-              <p className="text-xs">{`${cost} Block Bucks`}</p>
+              <img src={ITEM_DETAILS["Gem"].image} className="h-4 mr-2" />
+              <p className="text-xs">{`${cost} Gems`}</p>
             </div>
           )}
 
@@ -127,8 +124,8 @@ export const BuyFarmHand: React.FC<Props> = ({ onClose, gameState }) => {
         />
         {!hasCoupon && (
           <div className="flex items-center my-2">
-            <img src={ITEM_DETAILS["Block Buck"].image} className="h-4 mr-2" />
-            <p className="text-xs">{`${cost} Block Bucks`}</p>
+            <img src={ITEM_DETAILS["Gem"].image} className="h-4 mr-2" />
+            <p className="text-xs">{`${cost} Gems`}</p>
           </div>
         )}
 
@@ -148,7 +145,7 @@ export const BuyFarmHand: React.FC<Props> = ({ onClose, gameState }) => {
         )}
       </div>
       <Button
-        disabled={!hasSpace || (!hasBlockBucks && !hasCoupon)}
+        disabled={!hasSpace || (!hasGems && !hasCoupon)}
         onClick={() => setShowConfirmation(true)}
       >
         {t("buyFarmHand.buyBumpkin")}

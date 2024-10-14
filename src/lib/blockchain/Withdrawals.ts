@@ -1,16 +1,25 @@
 import { CONFIG } from "lib/config";
-import Web3 from "web3";
-import { AbiItem } from "web3-utils";
-import WithdrawalABI from "./abis/Withdrawals.json";
-import { estimateGasPrice, parseMetamaskError } from "./utils";
+import WithdrawalABI from "./abis/Withdrawals";
 import { getNextSessionId, getSessionId } from "./Session";
-import { Withdrawals } from "./types/Withdrawals";
+import { waitForTransactionReceipt, writeContract } from "@wagmi/core";
+import { config } from "features/wallet/WalletProvider";
+import { saveTxHash } from "features/game/types/transactions";
 
 const address = CONFIG.WITHDRAWAL_CONTRACT;
 
+export type WithdrawSFLParams = {
+  signature: string;
+  sessionId: string;
+  nextSessionId: string;
+  farmId: number;
+  sender: string;
+  sfl: string;
+  deadline: number;
+  tax: number;
+};
+
 export async function withdrawSFLTransaction({
-  web3,
-  account,
+  sender,
   signature,
   sessionId,
   nextSessionId,
@@ -18,78 +27,44 @@ export async function withdrawSFLTransaction({
   farmId,
   tax,
   sfl,
-}: {
-  web3: Web3;
-  account: string;
+}: WithdrawSFLParams): Promise<string> {
+  const oldSessionId = sessionId;
+
+  const hash = await writeContract(config, {
+    abi: WithdrawalABI,
+    address: address as `0x${string}`,
+    functionName: "withdrawSFL",
+    args: [
+      signature as `0x${string}`,
+      sessionId as `0x${string}`,
+      nextSessionId as `0x${string}`,
+      BigInt(deadline),
+      BigInt(farmId),
+      BigInt(sfl),
+      BigInt(tax),
+    ],
+    account: sender as `0x${string}`,
+  });
+  saveTxHash({ event: "transaction.sflWithdrawn", hash, sessionId, deadline });
+
+  await waitForTransactionReceipt(config, { hash });
+
+  return await getNextSessionId(sender, farmId, oldSessionId);
+}
+
+export type WithdrawItemsParams = {
   signature: string;
   sessionId: string;
   nextSessionId: string;
-  deadline: number;
-  // Data
   farmId: number;
-  sfl: number;
-  tax: number;
-}): Promise<string> {
-  const oldSessionId = sessionId;
-  const gasPrice = await estimateGasPrice(web3);
-
-  await new Promise((resolve, reject) => {
-    (
-      new web3.eth.Contract(
-        WithdrawalABI as AbiItem[],
-        address as string,
-      ) as unknown as Withdrawals
-    ).methods
-      .withdrawSFL(
-        signature,
-        sessionId,
-        nextSessionId,
-        deadline,
-        farmId,
-        sfl,
-        tax,
-      )
-      .send({ from: account, gasPrice })
-      .on("error", function (error: any) {
-        const parsed = parseMetamaskError(error);
-        // eslint-disable-next-line no-console
-        console.log({ parsedIt: parsed });
-        reject(parsed);
-      })
-      .on("transactionHash", async (transactionHash: any) => {
-        // eslint-disable-next-line no-console
-        console.log({ transactionHash });
-        try {
-          // Sequence wallet doesn't resolve the receipt. Therefore
-          // We try to fetch it after we have a tx hash returned
-          // From Sequence.
-          const receipt: any =
-            await web3.eth.getTransactionReceipt(transactionHash);
-
-          if (receipt) resolve(receipt);
-        } catch (e) {
-          reject(e);
-        }
-      })
-      .on("receipt", function (receipt: any) {
-        // eslint-disable-next-line no-console
-        console.log({ receipt });
-        resolve(receipt);
-      });
-  });
-
-  const newSessionId = await getNextSessionId(
-    web3,
-    account,
-    farmId,
-    oldSessionId,
-  );
-  return newSessionId;
-}
+  sender: string;
+  deadline: number;
+  ids: number[];
+  amounts: string[];
+};
 
 export async function withdrawItemsTransaction({
-  web3,
-  account,
+  sender,
   signature,
   sessionId,
   nextSessionId,
@@ -97,78 +72,48 @@ export async function withdrawItemsTransaction({
   farmId,
   ids,
   amounts,
-}: {
-  web3: Web3;
-  account: string;
+}: WithdrawItemsParams): Promise<string> {
+  const oldSessionId = sessionId;
+
+  const hash = await writeContract(config, {
+    abi: WithdrawalABI,
+    address: address as `0x${string}`,
+    functionName: "withdrawItems",
+    args: [
+      signature as `0x${string}`,
+      sessionId as `0x${string}`,
+      nextSessionId as `0x${string}`,
+      BigInt(deadline),
+      BigInt(farmId),
+      ids.map(BigInt),
+      amounts.map(BigInt),
+    ],
+    account: sender as `0x${string}`,
+  });
+  saveTxHash({
+    event: "transaction.itemsWithdrawn",
+    hash,
+    sessionId,
+    deadline,
+  });
+  await waitForTransactionReceipt(config, { hash });
+
+  return await getNextSessionId(sender, farmId, oldSessionId);
+}
+
+export type WithdrawWearablesParams = {
   signature: string;
   sessionId: string;
   nextSessionId: string;
-  deadline: number;
-  // Data
   farmId: number;
   ids: number[];
   amounts: number[];
-}): Promise<string> {
-  const oldSessionId = sessionId;
-  const gasPrice = await estimateGasPrice(web3);
-
-  await new Promise((resolve, reject) => {
-    (
-      new web3.eth.Contract(
-        WithdrawalABI as AbiItem[],
-        address as string,
-      ) as unknown as Withdrawals
-    ).methods
-      .withdrawItems(
-        signature,
-        sessionId,
-        nextSessionId,
-        deadline,
-        farmId,
-        ids,
-        amounts,
-      )
-      .send({ from: account, gasPrice })
-      .on("error", function (error: any) {
-        const parsed = parseMetamaskError(error);
-        // eslint-disable-next-line no-console
-        console.log({ parsedIt: parsed });
-        reject(parsed);
-      })
-      .on("transactionHash", async (transactionHash: any) => {
-        // eslint-disable-next-line no-console
-        console.log({ transactionHash });
-        try {
-          // Sequence wallet doesn't resolve the receipt. Therefore
-          // We try to fetch it after we have a tx hash returned
-          // From Sequence.
-          const receipt: any =
-            await web3.eth.getTransactionReceipt(transactionHash);
-
-          if (receipt) resolve(receipt);
-        } catch (e) {
-          reject(e);
-        }
-      })
-      .on("receipt", function (receipt: any) {
-        // eslint-disable-next-line no-console
-        console.log({ receipt });
-        resolve(receipt);
-      });
-  });
-
-  const newSessionId = await getNextSessionId(
-    web3,
-    account,
-    farmId,
-    oldSessionId,
-  );
-  return newSessionId;
-}
+  sender: string;
+  deadline: number;
+};
 
 export async function withdrawWearablesTransaction({
-  web3,
-  account,
+  sender,
   signature,
   sessionId,
   nextSessionId,
@@ -176,157 +121,72 @@ export async function withdrawWearablesTransaction({
   farmId,
   ids,
   amounts,
-}: {
-  web3: Web3;
-  account: string;
+}: WithdrawWearablesParams): Promise<string> {
+  const oldSessionId = await getSessionId(farmId);
+
+  const hash = await writeContract(config, {
+    abi: WithdrawalABI,
+    address: address as `0x${string}`,
+    functionName: "withdrawWearables",
+    args: [
+      signature as `0x${string}`,
+      sessionId as `0x${string}`,
+      nextSessionId as `0x${string}`,
+      BigInt(deadline),
+      BigInt(farmId),
+      ids.map(BigInt),
+      amounts.map(BigInt),
+    ],
+    account: sender as `0x${string}`,
+  });
+  saveTxHash({
+    event: "transaction.wearablesWithdrawn",
+    hash,
+    sessionId,
+    deadline,
+  });
+  await waitForTransactionReceipt(config, { hash });
+
+  return await getNextSessionId(sender, farmId, oldSessionId);
+}
+
+export type WithdrawBudsParams = {
   signature: string;
   sessionId: string;
   nextSessionId: string;
-  deadline: number;
-  // Data
   farmId: number;
-  ids: number[];
-  amounts: number[];
-}): Promise<string> {
-  const oldSessionId = await getSessionId(web3, farmId);
-  const gasPrice = await estimateGasPrice(web3);
-
-  // eslint-disable-next-line no-console
-  console.log({
-    signature,
-    sessionId,
-    nextSessionId,
-    deadline,
-    farmId,
-    ids,
-    amounts,
-  });
-  await new Promise((resolve, reject) => {
-    (
-      new web3.eth.Contract(
-        WithdrawalABI as AbiItem[],
-        address as string,
-      ) as unknown as Withdrawals
-    ).methods
-      .withdrawWearables(
-        signature,
-        sessionId,
-        nextSessionId,
-        deadline,
-        farmId,
-        ids,
-        amounts,
-      )
-      .send({ from: account, gasPrice })
-      .on("error", function (error: any) {
-        const parsed = parseMetamaskError(error);
-        // eslint-disable-next-line no-console
-        console.log({ parsedIt: parsed });
-        reject(parsed);
-      })
-      .on("transactionHash", async (transactionHash: any) => {
-        // eslint-disable-next-line no-console
-        console.log({ transactionHash });
-        try {
-          // Sequence wallet doesn't resolve the receipt. Therefore
-          // We try to fetch it after we have a tx hash returned
-          // From Sequence.
-          const receipt: any =
-            await web3.eth.getTransactionReceipt(transactionHash);
-
-          if (receipt) resolve(receipt);
-        } catch (e) {
-          reject(e);
-        }
-      })
-      .on("receipt", function (receipt: any) {
-        // eslint-disable-next-line no-console
-        console.log({ receipt });
-        resolve(receipt);
-      });
-  });
-
-  const newSessionId = await getNextSessionId(
-    web3,
-    account,
-    farmId,
-    oldSessionId,
-  );
-  return newSessionId;
-}
+  sender: string;
+  deadline: number;
+  budIds: number[];
+};
 
 export async function withdrawBudsTransaction({
-  web3,
-  account,
+  sender,
   signature,
   sessionId,
   nextSessionId,
   deadline,
   farmId,
   budIds,
-}: {
-  web3: Web3;
-  account: string;
-  signature: string;
-  sessionId: string;
-  nextSessionId: string;
-  deadline: number;
-  // Data
-  farmId: number;
-  budIds: number[];
-}): Promise<string> {
-  const oldSessionId = await getSessionId(web3, farmId);
-  const gasPrice = await estimateGasPrice(web3);
+}: WithdrawBudsParams): Promise<string> {
+  const oldSessionId = await getSessionId(farmId);
 
-  await new Promise((resolve, reject) => {
-    (
-      new web3.eth.Contract(
-        WithdrawalABI as AbiItem[],
-        address as string,
-      ) as unknown as Withdrawals
-    ).methods
-      .withdrawBuds(
-        signature,
-        sessionId,
-        nextSessionId,
-        deadline,
-        farmId,
-        budIds,
-      )
-      .send({ from: account, gasPrice })
-      .on("error", function (error: any) {
-        const parsed = parseMetamaskError(error);
-        // eslint-disable-next-line no-console
-        console.log({ parsedIt: parsed });
-        reject(parsed);
-      })
-      .on("transactionHash", async (transactionHash: any) => {
-        // eslint-disable-next-line no-console
-        console.log({ transactionHash });
-        try {
-          // Sequence wallet doesn't resolve the receipt. Therefore
-          // We try to fetch it after we have a tx hash returned
-          // From Sequence.
-          const receipt: any =
-            await web3.eth.getTransactionReceipt(transactionHash);
-
-          if (receipt) resolve(receipt);
-        } catch (e) {
-          reject(e);
-        }
-      })
-      .on("receipt", function (receipt: any) {
-        // eslint-disable-next-line no-console
-        console.log({ receipt });
-        resolve(receipt);
-      });
+  const hash = await writeContract(config, {
+    abi: WithdrawalABI,
+    address: address as `0x${string}`,
+    functionName: "withdrawBuds",
+    args: [
+      signature as `0x${string}`,
+      sessionId as `0x${string}`,
+      nextSessionId as `0x${string}`,
+      BigInt(deadline),
+      BigInt(farmId),
+      budIds.map(BigInt),
+    ],
+    account: sender as `0x${string}`,
   });
+  saveTxHash({ event: "transaction.budWithdrawn", hash, sessionId, deadline });
+  await waitForTransactionReceipt(config, { hash });
 
-  const newSessionId = await getNextSessionId(
-    web3,
-    account,
-    farmId,
-    oldSessionId,
-  );
-  return newSessionId;
+  return await getNextSessionId(sender, farmId, oldSessionId);
 }
