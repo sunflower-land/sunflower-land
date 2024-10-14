@@ -33,11 +33,8 @@ export const getAnimalCapacity = (
   buildingKey: keyof GameState,
   game: GameState,
 ): number => {
-  // Level 0 = 10
   const DEFAULT_CAPACITY = 10;
-  // Each level increases capacity by 5
-  const EXTRA_CAPACITY = 5;
-  // Coop bonus capacity for each level
+  const EXTRA_CAPACITY_PER_LEVEL = 5;
   const COOP_BONUS_CAPACITY = 5;
 
   const building = game[buildingKey] as AnimalBuilding;
@@ -48,9 +45,11 @@ export const getAnimalCapacity = (
     game,
   });
 
-  const coopBonus = coopActive ? COOP_BONUS_CAPACITY : 0;
+  const baseCapacity =
+    DEFAULT_CAPACITY + (level - 1) * EXTRA_CAPACITY_PER_LEVEL;
+  const coopBonus = coopActive ? COOP_BONUS_CAPACITY * level : 0;
 
-  return DEFAULT_CAPACITY + level * (EXTRA_CAPACITY + coopBonus);
+  return baseCapacity + coopBonus;
 };
 
 export function buyAnimal({
