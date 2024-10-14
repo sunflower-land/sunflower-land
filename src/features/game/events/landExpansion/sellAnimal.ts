@@ -55,7 +55,10 @@ export function sellAnimal({
       throw new Error("Bounty does not exist");
     }
 
-    if (request.soldAt) {
+    const completed = game.bounties.completed.find(
+      (c) => c.id === action.requestId,
+    );
+    if (completed) {
       throw new Error("Bounty already completed");
     }
 
@@ -81,7 +84,13 @@ export function sellAnimal({
       game.inventory[name] = previous.add(request.items?.[name] ?? 0);
     });
 
-    request.soldAt = createdAt;
+    game.bounties.completed = [
+      ...game.bounties.completed,
+      {
+        id: request.id,
+        soldAt: createdAt,
+      },
+    ];
 
     return game;
   });

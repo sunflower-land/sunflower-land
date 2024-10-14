@@ -364,15 +364,14 @@ export type LoveAnimalItem = "Petting Hand" | "Brush" | "Music Box";
 export type BountyRequest = {
   id: string;
   name: AnimalType;
-  expiresAt: number;
   level: number;
   coins?: number;
   items?: Partial<Record<InventoryItemName, number>>;
-  soldAt?: number;
 };
 
 export type Bounties = {
   requests: BountyRequest[];
+  completed: { id: string; soldAt: number }[];
 };
 
 export type InventoryItemName =

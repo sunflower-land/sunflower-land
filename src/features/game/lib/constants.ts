@@ -439,54 +439,53 @@ export const INITIAL_FARM: GameState = {
   },
 
   bounties: {
+    completed: [
+      {
+        id: "1",
+        soldAt: 100000,
+      },
+    ],
     requests: [
       {
         id: "1",
         name: "Chicken",
         level: 1,
         coins: 100,
-        expiresAt: Date.now() + 100 * 1000,
       },
       {
         id: "3",
         name: "Chicken",
         level: 1,
         coins: 100,
-        expiresAt: Date.now() + 100 * 1000,
       },
       {
         id: "2",
         name: "Chicken",
         level: 5,
-        expiresAt: Date.now() + 100 * 1000,
         items: { Scroll: 1 },
       },
       {
         id: "2",
         name: "Chicken",
         level: 5,
-        expiresAt: Date.now() + 100 * 1000,
         items: { Scroll: 1 },
       },
       {
         id: "2",
         name: "Chicken",
         level: 5,
-        expiresAt: Date.now() + 100 * 1000,
         items: { Scroll: 1 },
       },
       {
         id: "2",
         name: "Chicken",
         level: 5,
-        expiresAt: Date.now() + 100 * 1000,
         items: { Scroll: 1 },
       },
       {
         id: "22",
         name: "Chicken",
         level: 1,
-        expiresAt: Date.now() + 100 * 1000,
         items: { Scroll: 1 },
       },
     ],

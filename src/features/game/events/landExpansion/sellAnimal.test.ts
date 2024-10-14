@@ -8,12 +8,12 @@ describe("animal.sold", () => {
       sellAnimal({
         state: INITIAL_FARM,
         action: {
-          offerId: "123",
+          requestId: "123",
           animalId: Object.keys(INITIAL_FARM.henHouse.animals)[0],
           type: "animal.sold",
         },
       }),
-    ).toThrow("Deal does not exist");
+    ).toThrow("Bounty does not exist");
   });
 
   it("requires deal not already made", () => {
@@ -22,26 +22,31 @@ describe("animal.sold", () => {
         state: {
           ...INITIAL_FARM,
           bounties: {
+            completed: [
+              {
+                id: "123",
+                soldAt: Date.now(),
+              },
+            ],
             requests: [
               {
                 id: "123",
                 coins: 100,
-                expiresAt: Date.now() + 500,
+
                 level: 1,
                 name: "Chicken",
-                soldAt: Date.now(),
               },
             ],
           },
         },
         action: {
-          offerId: "123",
+          requestId: "123",
           animalId: Object.keys(INITIAL_FARM.henHouse.animals)[0],
 
           type: "animal.sold",
         },
       }),
-    ).toThrow("Deal already completed");
+    ).toThrow("Bounty already completed");
   });
   it("requires player has a chicken", () => {
     expect(() =>
@@ -49,11 +54,12 @@ describe("animal.sold", () => {
         state: {
           ...INITIAL_FARM,
           bounties: {
+            completed: [],
             requests: [
               {
                 id: "123",
                 coins: 100,
-                expiresAt: Date.now() + 500,
+
                 level: 1,
                 name: "Chicken",
               },
@@ -61,7 +67,7 @@ describe("animal.sold", () => {
           },
         },
         action: {
-          offerId: "123",
+          requestId: "123",
           animalId: "678",
           type: "animal.sold",
         },
@@ -75,11 +81,12 @@ describe("animal.sold", () => {
         state: {
           ...INITIAL_FARM,
           bounties: {
+            completed: [],
             requests: [
               {
                 id: "123",
                 coins: 100,
-                expiresAt: Date.now() + 500,
+
                 level: 12,
                 name: "Chicken",
               },
@@ -87,7 +94,7 @@ describe("animal.sold", () => {
           },
         },
         action: {
-          offerId: "123",
+          requestId: "123",
           animalId: Object.keys(INITIAL_FARM.henHouse.animals)[0],
 
           type: "animal.sold",
@@ -103,11 +110,12 @@ describe("animal.sold", () => {
       state: {
         ...INITIAL_FARM,
         bounties: {
+          completed: [],
           requests: [
             {
               id: "123",
               coins: 100,
-              expiresAt: Date.now() + 500,
+
               level: 1,
               name: "Chicken",
             },
@@ -115,7 +123,7 @@ describe("animal.sold", () => {
         },
       },
       action: {
-        offerId: "123",
+        requestId: "123",
         animalId,
 
         type: "animal.sold",
@@ -132,11 +140,12 @@ describe("animal.sold", () => {
       state: {
         ...INITIAL_FARM,
         bounties: {
+          completed: [],
           requests: [
             {
               id: "123",
               coins: 100,
-              expiresAt: Date.now() + 500,
+
               level: 1,
               name: "Chicken",
             },
@@ -144,7 +153,7 @@ describe("animal.sold", () => {
         },
       },
       action: {
-        offerId: "123",
+        requestId: "123",
         animalId,
 
         type: "animal.sold",
@@ -159,11 +168,12 @@ describe("animal.sold", () => {
       state: {
         ...INITIAL_FARM,
         bounties: {
+          completed: [],
           requests: [
             {
               id: "123",
               items: { "Amber Fossil": 7 },
-              expiresAt: Date.now() + 500,
+
               level: 1,
               name: "Chicken",
             },
@@ -171,7 +181,7 @@ describe("animal.sold", () => {
         },
       },
       action: {
-        offerId: "123",
+        requestId: "123",
         animalId,
 
         type: "animal.sold",
@@ -189,11 +199,12 @@ describe("animal.sold", () => {
       state: {
         ...INITIAL_FARM,
         bounties: {
+          completed: [],
           requests: [
             {
               id: "123",
               coins: 100,
-              expiresAt: Date.now() + 500,
+
               level: 1,
               name: "Chicken",
             },
@@ -201,7 +212,7 @@ describe("animal.sold", () => {
         },
       },
       action: {
-        offerId: "123",
+        requestId: "123",
         animalId,
 
         type: "animal.sold",
@@ -209,7 +220,7 @@ describe("animal.sold", () => {
       createdAt: now,
     });
 
-    const deal = state.bounties.requests.find((deal) => deal.id === "123");
+    const deal = state.bounties.completed.find((deal) => deal.id === "123");
     expect(deal?.soldAt).toEqual(now);
   });
 });

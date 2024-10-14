@@ -1,4 +1,4 @@
-import React, { useContext, useLayoutEffect, useState } from "react";
+import React, { useContext, useEffect, useLayoutEffect, useState } from "react";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -22,9 +22,9 @@ import saleDisc from "assets/icons/sales_disc.webp";
 import { Modal } from "components/ui/Modal";
 import {
   AnimalDeal,
-  AnimalExchange,
+  AnimalBounties,
   ExchangeHud,
-} from "features/barn/components/AnimalExchanges";
+} from "features/barn/components/AnimalBounties";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Animal, BountyRequest } from "features/game/types/game";
 import { InnerPanel } from "components/ui/Panel";
@@ -32,6 +32,8 @@ import { Label } from "components/ui/Label";
 import { isValidDeal } from "features/game/events/landExpansion/sellAnimal";
 import classNames from "classnames";
 import { HudContainer } from "components/ui/HudContainer";
+import { NPC } from "features/island/bumpkin/components/NPC";
+import { NPC_WEARABLES } from "lib/npcs";
 
 const background = SUNNYSIDE.land.tent_inside;
 
@@ -125,7 +127,7 @@ export const HenHouseInside: React.FC = () => {
         onClose={() => setShowUpgradeModal(false)}
       />
       <Modal show={showExchange} onHide={() => setShowExchange(false)}>
-        <AnimalExchange
+        <AnimalBounties
           onExchanging={(deal) => {
             setShowExchange(false);
             setDeal(deal);
@@ -178,15 +180,15 @@ export const HenHouseInside: React.FC = () => {
                     }}
                     onClick={() => setShowModal(true)}
                   />
-                  <img
-                    src={saleDisc}
-                    alt="Buy Animals"
+                  <div
                     className="absolute top-8 left-8 cursor-pointer z-10"
                     style={{
                       width: `${PIXEL_SCALE * 18}px`,
                     }}
                     onClick={() => setShowExchange(true)}
-                  />
+                  >
+                    <GrabNab />
+                  </div>
 
                   <Button
                     className="absolute -bottom-16"
@@ -244,6 +246,99 @@ export const HenHouseInside: React.FC = () => {
           }}
         />
       )}
+    </>
+  );
+};
+
+const message = () => {
+  if (Math.random() < 0.05) return "Feast";
+
+  if (Math.random() < 0.2) return "Gobble";
+  if (Math.random() < 0.5) return "Crunch";
+  return "Tasty...";
+};
+const GrabNab: React.FC = () => {
+  const [hint, setHint] = useState(message());
+  const [state, setState] = useState<"idle" | "typing">("idle");
+
+  useEffect(() => {
+    const speak = async () => {
+      setState("typing");
+
+      await new Promise((res) => setTimeout(() => setState("idle"), 1000));
+    };
+
+    speak();
+  }, [hint]);
+
+  return (
+    <>
+      <div>
+        {hint && (
+          <div
+            className={"absolute uppercase"}
+            style={{
+              fontFamily: "Teeny",
+              color: "black",
+              textShadow: "none",
+              top: `${PIXEL_SCALE * -4}px`,
+              left: `${PIXEL_SCALE * 12}px`,
+
+              borderImage: `url(${SUNNYSIDE.ui.speechBorder})`,
+              borderStyle: "solid",
+              borderTopWidth: `${PIXEL_SCALE * 2}px`,
+              borderRightWidth: `${PIXEL_SCALE * 2}px`,
+              borderBottomWidth: `${PIXEL_SCALE * 4}px`,
+              borderLeftWidth: `${PIXEL_SCALE * 5}px`,
+
+              borderImageSlice: "2 2 4 5 fill",
+              imageRendering: "pixelated",
+              borderImageRepeat: "stretch",
+              fontSize: "8px",
+            }}
+          >
+            <div
+              style={{
+                height: "12px",
+                minWidth: "30px",
+              }}
+            >
+              {state === "idle" && (
+                <span
+                  className="whitespace-nowrap"
+                  style={{
+                    fontSize: "10px",
+                    position: "relative",
+                    bottom: "4px",
+                    left: "-2px",
+                    wordSpacing: "-4px",
+                    color: "#262b45",
+                  }}
+                >
+                  {hint}
+                </span>
+              )}
+
+              {state === "typing" && (
+                <span
+                  style={{
+                    fontSize: "10px",
+                    position: "relative",
+                    bottom: "4px",
+                    left: "-2px",
+                    wordSpacing: "-4px",
+                    color: "#262b45",
+                  }}
+                >
+                  {"..."}
+                </span>
+              )}
+            </div>
+          </div>
+        )}
+
+        <NPC parts={NPC_WEARABLES["grabnab"]} />
+      </div>
     </>
   );
 };

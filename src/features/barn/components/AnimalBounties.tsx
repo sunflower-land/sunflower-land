@@ -7,6 +7,7 @@ import { HudContainer } from "components/ui/HudContainer";
 import { Label } from "components/ui/Label";
 import { ButtonPanel, InnerPanel, Panel } from "components/ui/Panel";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
+import { SpeakingModal } from "features/game/components/SpeakingModal";
 import {
   getAnimalLevel,
   isValidDeal,
@@ -21,8 +22,9 @@ import { Animal, BountyRequest } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { getSeasonalTicket } from "features/game/types/seasons";
 import { TimerDisplay } from "features/retreat/components/auctioneer/AuctionDetails";
+import { NPC_WEARABLES } from "lib/npcs";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 
 const _exchange = (state: MachineState) => state.context.state.bounties;
 
@@ -31,9 +33,21 @@ interface Props {
   onExchanging: (deal: BountyRequest) => void;
 }
 
-export const AnimalExchange: React.FC<Props> = ({ type, onExchanging }) => {
+function acknowledgeIntro() {
+  localStorage.setItem(
+    "animal.bounties.acknowledged",
+    new Date().toISOString(),
+  );
+}
+
+function hasReadIntro() {
+  return !!localStorage.getItem("animal.bounties.acknowledged");
+}
+export const AnimalBounties: React.FC<Props> = ({ type, onExchanging }) => {
   const { gameService } = useContext(Context);
   const exchange = useSelector(gameService, _exchange);
+
+  const [showIntro, setShowIntro] = useState(!hasReadIntro());
 
   const state = gameService.getSnapshot().context.state;
 
@@ -43,19 +57,41 @@ export const AnimalExchange: React.FC<Props> = ({ type, onExchanging }) => {
 
   console.log({ expiresAt, reset: secondsTillWeekReset() });
 
+  if (showIntro) {
+    return (
+      <SpeakingModal
+        message={[
+          {
+            text: "Howdy Bumpkin. Mmmmmmm, it smells great in here!",
+          },
+          {
+            text: "The Goblins are on the lookout for some tasty......eh emmmm I mean friendly farming companions.",
+          },
+          {
+            text: "Each week I will have new deals for you. Bring me fresh animals and I will reward you handsomely.",
+          },
+        ]}
+        bumpkinParts={NPC_WEARABLES.grabnab}
+        onClose={() => {
+          acknowledgeIntro();
+          setShowIntro(false);
+        }}
+      />
+    );
+  }
+
   return (
-    <CloseButtonPanel>
-      <div className="p-2">
+    <CloseButtonPanel bumpkinParts={NPC_WEARABLES.grabnab}>
+      <div className="p-1">
         <div className="flex justify-between items-center mb-2">
-          <Label type="default">Exchange board</Label>
+          <Label type="default">Bounty board</Label>
           <Label type="info" icon={SUNNYSIDE.icons.stopwatch}>
             <TimerDisplay time={expiresAt} />
           </Label>
         </div>
 
         <p className="text-xs mb-2">
-          Howdy Bumpkin, this week we are looking for the following animals.
-          Wanna trade?
+          Trade this week's bounties before time runs out.
         </p>
         <div className="flex flex-wrap">
           {deals.length === 0 && (
@@ -69,11 +105,15 @@ export const AnimalExchange: React.FC<Props> = ({ type, onExchanging }) => {
               (id) => !isValidDeal({ deal, animal: animals[id] }),
             );
 
+            const isSold = !!state.bounties.completed.find(
+              (request) => request.id === deal.id,
+            );
+
             return (
               <div
                 key={deal.id}
                 className={classNames("w-1/3 sm:w-1/4 pr-1.5 pb-1.5", {
-                  "pointer-events-none": deal.soldAt,
+                  "pointer-events-none": isSold,
                 })}
               >
                 <ButtonPanel
@@ -101,7 +141,7 @@ export const AnimalExchange: React.FC<Props> = ({ type, onExchanging }) => {
                     </div>
                   </div>
 
-                  {!!deal.soldAt && (
+                  {!!isSold && (
                     <Label
                       type="success"
                       className={"absolute -top-3.5 text-center p-1 "}
@@ -169,8 +209,8 @@ export const AnimalDeal: React.FC<{
 
   const sell = () => {
     gameService.send("animal.sold", {
-      offerId: deal.id,
-      animalId: animal.id,
+      requestId: deal.id,
+      animalId: animal.id.toString(),
     });
 
     onSold();
