@@ -34,7 +34,6 @@ export const Cow: React.FC<{ id: string }> = ({ id }) => {
     context: {
       animal: cow,
     },
-    devTools: true,
   }) as unknown as AnimalMachineInterpreter;
 
   const cowState = useSelector(cowService, _animalState);
