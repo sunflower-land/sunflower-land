@@ -694,6 +694,10 @@ export const TEST_FARM: GameState = {
     "Basic Land": new Decimal(3),
   },
   previousInventory: {},
+  bounties: {
+    completed: [],
+    requests: [],
+  },
   rewards: INITIAL_REWARDS,
   minigames: {
     games: {},
@@ -993,6 +997,10 @@ export const EMPTY: GameState = {
     Stone: new Decimal(10),
   },
   bumpkin: INITIAL_BUMPKIN,
+  bounties: {
+    completed: [],
+    requests: [],
+  },
   rewards: INITIAL_REWARDS,
   experiments: [],
   minigames: {
