@@ -49,7 +49,7 @@ export const ChestReward: React.FC<Props> = ({
   const { gameService } = useContext(Context);
   const isNew = useSelector(gameService, isNewGame);
   const isSeasoned = useSelector(gameService, isSeasonedPlayer);
-  const [opened, setOpened] = useState(isNew);
+  const [opened, setOpened] = useState(isNew || isSeasoned);
   const [loading, setLoading] = useState(false);
   const challenge = useRef<Challenge>(
     Math.random() > 0.3 ? "chest" : "goblins",
