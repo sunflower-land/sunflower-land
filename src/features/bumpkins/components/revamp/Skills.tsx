@@ -7,18 +7,12 @@ import {
 
 import { SkillCategoryList } from "./SkillCategoryList";
 import { SkillPathDetails } from "./SkillPathDetails";
-import { SUNNYSIDE } from "assets/sunnyside";
-import { CloseButtonPanel } from "features/game/components/CloseablePanel";
-import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { OuterPanel } from "components/ui/Panel";
 
 interface Props {
-  onBack: () => void;
-  onClose: () => void;
   readonly: boolean;
 }
 
-export const Skills: React.FC<Props> = ({ onBack, readonly }) => {
+export const Skills: React.FC<Props> = ({ readonly }) => {
   const [selectedSkillPath, setSelectedSkillPath] =
     useState<BumpkinRevampSkillTree | null>(null);
   const [skillsInPath, setSkillsInTree] = useState<BumpkinSkillRevamp[]>([]);
@@ -35,15 +29,6 @@ export const Skills: React.FC<Props> = ({ onBack, readonly }) => {
     setSelectedSkillPath(null);
   };
 
-  const handleBack = () => {
-    if (selectedSkillPath) {
-      handleBackToSkillList();
-      return;
-    }
-
-    onBack();
-  };
-
   return (
     <div
       style={{
@@ -54,7 +39,6 @@ export const Skills: React.FC<Props> = ({ onBack, readonly }) => {
       {!selectedSkillPath && (
         <SkillCategoryList
           onClick={(category) => onSkillCategoryClickHandler(category)}
-          onBack={handleBack}
         />
       )}
       {selectedSkillPath && (
@@ -66,22 +50,5 @@ export const Skills: React.FC<Props> = ({ onBack, readonly }) => {
         />
       )}
     </div>
-  );
-};
-
-export const SkillsModal: React.FC<Props> = ({ onBack, onClose, readonly }) => {
-  const [tab, setTab] = useState(0);
-  const { t } = useAppTranslation();
-  return (
-    <CloseButtonPanel
-      currentTab={tab}
-      setCurrentTab={setTab}
-      tabs={[{ icon: SUNNYSIDE.badges.seedSpecialist, name: t("skills") }]}
-      onClose={onClose}
-      container={OuterPanel}
-    >
-      {/* @note: There is only one tab, no extra judgment is needed. */}
-      <Skills onBack={onBack} onClose={onClose} readonly={readonly} />
-    </CloseButtonPanel>
   );
 };
