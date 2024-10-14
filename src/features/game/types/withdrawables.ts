@@ -33,6 +33,7 @@ import {
   GameState,
   InventoryItemName,
   LanternName,
+  LoveAnimalItem,
   Points,
   SpecialEvent,
 } from "./game";
@@ -92,6 +93,12 @@ const canWithdrawTimebasedItem = (availableAt: Date) => {
 const animalFood: Record<AnimalFoodName, () => boolean> = {
   Hay: () => false,
   "Kernel Blend": () => false,
+};
+
+const animalTools: Record<LoveAnimalItem, () => boolean> = {
+  "Petting Hand": () => false,
+  Brush: () => false,
+  "Music Box": () => false,
 };
 
 const cropSeeds: Record<CropSeedName, () => boolean> = {
@@ -1162,6 +1169,7 @@ export const WITHDRAWABLES: Record<InventoryItemName, () => boolean> = {
   ...resources,
   ...purchasables,
   ...animalFood,
+  ...animalTools,
   "Basic Land": () => false,
   ...lanterns,
   ...megastore,

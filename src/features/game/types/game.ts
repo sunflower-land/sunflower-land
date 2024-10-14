@@ -360,6 +360,8 @@ export type WarItems =
   | "Warrior Helmet"
   | "Warrior Pants";
 
+export type LoveAnimalItem = "Petting Hand" | "Brush" | "Music Box";
+
 export type InventoryItemName =
   | AnimalResource
   | CropName
@@ -416,7 +418,8 @@ export type InventoryItemName =
   | FactionShopCollectibleName
   | FactionShopFoodName
   | MutantFlowerName
-  | AnimalFoodName;
+  | AnimalFoodName
+  | LoveAnimalItem;
 
 export type Inventory = Partial<Record<InventoryItemName, Decimal>>;
 
@@ -1161,6 +1164,8 @@ export type Animal = {
   coordinates: Coordinates;
   experience: number;
   asleepAt: number;
+  lovedAt: number;
+  item: LoveAnimalItem;
 };
 
 export type AnimalBuilding = {

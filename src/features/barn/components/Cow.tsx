@@ -55,10 +55,27 @@ export const Cow: React.FC<{ id: string }> = ({ id }) => {
     });
   };
 
+  const loveCow = () => {
+    const updatedState = gameService.send({
+      type: "animal.loved",
+      animal: "Cow",
+      id: cow.id,
+      item: "Petting Hand",
+    });
+
+    const updatedCow = updatedState.context.state.barn.animals[id];
+
+    cowService.send({
+      type: "LOVE",
+      animal: updatedCow,
+    });
+  };
+
   if (cowState === "initial") return null;
 
   const favFood = getAnimalFavoriteFood("Cow", cow.experience);
   const sleeping = cowState === "sleeping";
+  const needsLove = cowState === "needsLove";
 
   return (
     <div
@@ -75,13 +92,13 @@ export const Cow: React.FC<{ id: string }> = ({ id }) => {
         style={{
           width: `${PIXEL_SCALE * (sleeping ? 25 : 25)}px`,
         }}
-        onClick={feedCow}
+        onClick={needsLove ? loveCow : feedCow}
         className={classNames(
           "absolute ml-[1px] mt-[2px] top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2",
         )}
       />
       {/* Emotion */}
-      {cowState !== "idle" && (
+      {cowState !== "idle" && !needsLove && (
         <img
           src={ANIMAL_EMOTION_ICONS[cowState]}
           alt={`${capitalize(cowState)} Cow`}
@@ -99,6 +116,17 @@ export const Cow: React.FC<{ id: string }> = ({ id }) => {
           top={PIXEL_SCALE * 0}
           left={PIXEL_SCALE * 24}
           image={{ src: ITEM_DETAILS[favFood].image, height: 16, width: 16 }}
+        />
+      )}
+      {needsLove && (
+        <RequestBubble
+          top={PIXEL_SCALE * 0}
+          left={PIXEL_SCALE * 24}
+          image={{
+            src: ITEM_DETAILS[cow.item].image,
+            height: 16,
+            width: 16,
+          }}
         />
       )}
       {/* Level Progress */}
