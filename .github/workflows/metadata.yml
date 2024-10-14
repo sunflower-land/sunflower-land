@@ -3,7 +3,8 @@ name: Metadata
 on:
   push:
     branches:
-      - main
+      # - main
+      - feat/metadata-deploy
     paths:
       - metadata/metadata.ts
 
