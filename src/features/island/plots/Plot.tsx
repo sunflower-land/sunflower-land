@@ -37,6 +37,7 @@ import { Transition } from "@headlessui/react";
 import { QuickSelect } from "features/greenhouse/QuickSelect";
 import { formatNumber } from "lib/utils/formatNumber";
 import { hasFeatureAccess } from "lib/flags";
+import { hasActiveSeasonBanner } from "features/game/lib/collectibleBuilt";
 
 export function getYieldColour(yieldAmount: number) {
   if (yieldAmount < 2) {
@@ -84,6 +85,15 @@ const compareBuildings = (
 const _bumpkinLevel = (state: MachineState) =>
   getBumpkinLevel(state.context.state.bumpkin?.experience ?? 0);
 
+// A player that has been vetted and is engaged in the season.
+const isSeasonedPlayer = (state: MachineState) =>
+  // - level 60+
+  getBumpkinLevel(state.context.state.bumpkin?.experience ?? 0) >= 60 &&
+  // - verified (personhood verification)
+  state.context.verified &&
+  // - has active seasonal banner
+  hasActiveSeasonBanner({ game: state.context.state });
+
 interface Props {
   id: string;
   index: number;
@@ -113,6 +123,7 @@ export const Plot: React.FC<Props> = ({ id, index }) => {
   const harvestCount = useSelector(gameService, selectHarvests);
   const plantCount = useSelector(gameService, selectPlants);
   const soldCount = useSelector(gameService, selectCropsSold);
+  const isSeasoned = useSelector(gameService, isSeasonedPlayer);
   const harvested = useRef<PlantedCrop>();
   const [showHarvested, setShowHarvested] = useState(false);
 
@@ -210,14 +221,20 @@ export const Plot: React.FC<Props> = ({ id, index }) => {
       !!crop && isReadyToHarvest(now, crop, CROPS[crop.name]);
 
     if (crop?.reward && readyToHarvest) {
-      if (touchCount < 1) {
+      if (!isSeasoned && touchCount < 1) {
         // Add to touch count for reward pickup
         setTouchCount((count) => count + 1);
         return;
       }
 
       // They have touched enough!
-      setReward(crop.reward);
+      if (isSeasoned) {
+        gameService.send("cropReward.collected", {
+          plotIndex: id,
+        });
+      } else {
+        setReward(crop.reward);
+      }
 
       return;
     }
