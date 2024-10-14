@@ -24,9 +24,14 @@ type BuildingUpgradeCost = {
 
 export const BUILDING_UPGRADES: Record<
   AnimalBuildingType,
-  Record<Exclude<AnimalBuildingLevel, 1>, BuildingUpgradeCost>
+  Record<AnimalBuildingLevel, BuildingUpgradeCost>
 > = {
   "Hen House": {
+    // Level 1 is the default and does not require any upgrades
+    1: {
+      coins: 0,
+      items: {},
+    },
     2: {
       coins: 7500,
       items: {
@@ -48,6 +53,10 @@ export const BUILDING_UPGRADES: Record<
     },
   },
   Barn: {
+    1: {
+      coins: 0,
+      items: {},
+    },
     2: {
       coins: 10000,
       items: {

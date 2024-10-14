@@ -219,14 +219,14 @@ const ANIMAL_HOUSE_BOUNDS: Record<
     2: {
       height: 10,
       width: 10,
-      x: -4,
-      y: 4,
+      x: -5,
+      y: 5,
     },
     3: {
       height: 12,
       width: 12,
-      x: -5,
-      y: 5,
+      x: -6,
+      y: 6,
     },
   },
   barn: {
@@ -239,14 +239,14 @@ const ANIMAL_HOUSE_BOUNDS: Record<
     2: {
       height: 10,
       width: 10,
-      x: -4,
-      y: 4,
+      x: -5,
+      y: 5,
     },
     3: {
       height: 12,
       width: 12,
-      x: -5,
-      y: 5,
+      x: -6,
+      y: 6,
     },
   },
 };
@@ -721,8 +721,6 @@ export const pickRandomPositionInAnimalHouse = (
     ANIMALS[animal].height,
     ANIMALS[animal].width,
   );
-
-  // const shuffled = shuffle(positionsInBounding);
 
   const position = positionsInBounding.find(
     (boundingBox) =>

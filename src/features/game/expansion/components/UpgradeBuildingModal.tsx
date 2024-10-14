@@ -40,6 +40,9 @@ export const UpgradeBuildingModal: React.FC<Props> = ({
   const state = useSelector(gameService, _state);
   const { t } = useAppTranslation();
 
+  const maxLevel = getKeys(BUILDING_UPGRADES[buildingName]).length;
+  const isMaxLevel = level === maxLevel;
+
   const requirements = BUILDING_UPGRADES[buildingName][level];
 
   const upgrade = () => {
@@ -71,58 +74,80 @@ export const UpgradeBuildingModal: React.FC<Props> = ({
         bumpkinParts={NPC_WEARABLES.blacksmith}
         onClose={onClose}
       >
-        <div className="flex flex-col">
-          <div className="p-1">
-            <Label
-              type="default"
-              icon={SUNNYSIDE.icons.hammer}
-              className="mb-2 ml-1"
-            >
-              {t("upgrade.building", { building: buildingName })}
-            </Label>
-            <InlineDialogue
-              message={t("upgrade.intro", {
-                building: buildingName,
-                animals: "chickens",
-              })}
-            />
+        {isMaxLevel ? (
+          <div className="flex flex-col">
+            <div className="p-1 mb-2">
+              <Label
+                type="danger"
+                className="ml-1 mb-2"
+                icon={SUNNYSIDE.icons.hammer}
+              >
+                {t("max.level")}
+              </Label>
+              <InlineDialogue
+                message={t("building.isMaxLevel", {
+                  building: buildingName,
+                })}
+              />
+            </div>
+            <Button onClick={onClose}>{t("close")}</Button>
           </div>
-          <div className="flex flex-col items-start w-full mt-2">
-            <Label
-              type="default"
-              icon={SUNNYSIDE.icons.basket}
-              className="ml-2 mb-2"
-            >
-              {t("requirements")}
-            </Label>
-            <InnerPanel className="flex flex-wrap gap-2 w-full">
-              {getKeys(requirements.items).map((itemName) => (
-                <div key={itemName} className="flex-shrink-0 gap-1">
+        ) : (
+          <div className="flex flex-col">
+            <div className="p-1">
+              <Label
+                type="default"
+                icon={SUNNYSIDE.icons.hammer}
+                className="mb-2 ml-1"
+              >
+                {t("upgrade.building", { building: buildingName })}
+              </Label>
+              <InlineDialogue
+                message={t("upgrade.intro", {
+                  building: buildingName,
+                  animals: "chickens",
+                })}
+              />
+            </div>
+            <div className="flex flex-col items-start w-full mt-2">
+              <Label
+                type="default"
+                icon={SUNNYSIDE.icons.basket}
+                className="ml-2 mb-2"
+              >
+                {t("requirements")}
+              </Label>
+              <InnerPanel className="flex flex-wrap gap-2 w-full">
+                {getKeys(requirements.items).map((itemName) => (
+                  <div key={itemName} className="flex-shrink-0 gap-1">
+                    <RequirementLabel
+                      type="item"
+                      item={itemName}
+                      balance={state.inventory[itemName] ?? new Decimal(0)}
+                      requirement={
+                        requirements.items[itemName] ?? new Decimal(0)
+                      }
+                    />
+                  </div>
+                ))}
+                <div className="flex-shrink-0 gap-1">
                   <RequirementLabel
-                    type="item"
-                    item={itemName}
-                    balance={state.inventory[itemName] ?? new Decimal(0)}
-                    requirement={requirements.items[itemName] ?? new Decimal(0)}
+                    type="coins"
+                    balance={state.coins}
+                    requirement={requirements.coins}
                   />
                 </div>
-              ))}
-              <div className="flex-shrink-0 gap-1">
-                <RequirementLabel
-                  type="coins"
-                  balance={state.coins}
-                  requirement={requirements.coins}
-                />
-              </div>
-            </InnerPanel>
+              </InnerPanel>
+            </div>
+            <Button
+              className="mt-2"
+              onClick={upgrade}
+              disabled={!hasRequirements()}
+            >
+              {t("upgrade.building", { building: buildingName })}
+            </Button>
           </div>
-          <Button
-            className="mt-2"
-            onClick={upgrade}
-            disabled={!hasRequirements()}
-          >
-            {t("upgrade.building", { building: buildingName })}
-          </Button>
-        </div>
+        )}
       </CloseButtonPanel>
     </Modal>
   );

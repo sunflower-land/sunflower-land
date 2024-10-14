@@ -3710,5 +3710,7 @@
   "upgrade.intro": "Hey there bumpkin, looking to upgrade your {{building}} so you can get yourself some more {{animals}}?",
   "upgrade": "Upgrade",
   "animals.buy": "Buy {{animal}}",
-  "capacity": "Capacity"
+  "capacity": "Capacity",
+  "building.isMaxLevel": "Whoa, slow down there friend! Your {{building}} is already at the max level!",
+  "max.level": "Max level"
 }
