@@ -9,7 +9,7 @@ on:
       - metadata/metadata.ts
 
 jobs:
-  translate:
+  metadata:
     runs-on: ubuntu-latest
     environment: develop
     concurrency: testnet-metadata
