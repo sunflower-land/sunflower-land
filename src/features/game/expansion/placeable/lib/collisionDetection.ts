@@ -230,23 +230,23 @@ const ANIMAL_HOUSE_BOUNDS: Record<
     },
   },
   barn: {
-    0: {
-      height: 14,
-      width: 14,
-      x: -6,
-      y: 6,
-    },
     1: {
-      height: 16,
-      width: 16,
-      x: -7,
-      y: 7,
+      height: 8,
+      width: 8,
+      x: -4,
+      y: 4,
     },
     2: {
-      height: 18,
-      width: 18,
-      x: -8,
-      y: 8,
+      height: 10,
+      width: 10,
+      x: -4,
+      y: 4,
+    },
+    3: {
+      height: 12,
+      width: 12,
+      x: -5,
+      y: 5,
     },
   },
 };
