@@ -13,7 +13,7 @@ import { MachineState } from "features/game/lib/gameMachine";
 import classNames from "classnames";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
-export const DiscordBonus: React.FC<{ onClose: () => void }> = () => {
+export const TeaserAnimal: React.FC<{ onClose: () => void }> = () => {
   const { t } = useAppTranslation();
 
   return (
@@ -47,7 +47,7 @@ export const AnimalTeaser: React.FC = () => {
           bumpkinParts={NPC_WEARABLES["pumpkin' pete"]}
           onClose={() => setShowModal(false)}
         >
-          <DiscordBonus onClose={() => setShowModal(false)} />
+          <TeaserAnimal onClose={() => setShowModal(false)} />
         </CloseButtonPanel>
       </Modal>
 
