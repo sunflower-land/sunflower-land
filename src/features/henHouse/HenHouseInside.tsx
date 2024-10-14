@@ -25,13 +25,9 @@ import {
   AnimalBounties,
   ExchangeHud,
 } from "features/barn/components/AnimalBounties";
-import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Animal, BountyRequest } from "features/game/types/game";
-import { InnerPanel } from "components/ui/Panel";
-import { Label } from "components/ui/Label";
 import { isValidDeal } from "features/game/events/landExpansion/sellAnimal";
 import classNames from "classnames";
-import { HudContainer } from "components/ui/HudContainer";
 import { NPC } from "features/island/bumpkin/components/NPC";
 import { NPC_WEARABLES } from "lib/npcs";
 
@@ -69,7 +65,7 @@ export const HenHouseInside: React.FC = () => {
 
   const mapPlacements: Array<JSX.Element> = [];
 
-  let components = getKeys(henHouse.animals).map((id) => {
+  const components = getKeys(henHouse.animals).map((id) => {
     const animal = henHouse.animals[id];
     const isValid = deal && isValidDeal({ animal, deal });
 
@@ -257,8 +253,9 @@ const message = () => {
   if (Math.random() < 0.5) return "Crunch";
   return "Tasty...";
 };
+
 const GrabNab: React.FC = () => {
-  const [hint, setHint] = useState(message());
+  const [hint, _] = useState(message());
   const [state, setState] = useState<"idle" | "typing">("idle");
 
   useEffect(() => {

@@ -1,6 +1,5 @@
 import { useSelector } from "@xstate/react";
 import { SUNNYSIDE } from "assets/sunnyside";
-import confetti from "canvas-confetti";
 import classNames from "classnames";
 import { Button } from "components/ui/Button";
 import { HudContainer } from "components/ui/HudContainer";
@@ -8,20 +7,17 @@ import { Label } from "components/ui/Label";
 import { ButtonPanel, InnerPanel, Panel } from "components/ui/Panel";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { SpeakingModal } from "features/game/components/SpeakingModal";
-import {
-  getAnimalLevel,
-  isValidDeal,
-} from "features/game/events/landExpansion/sellAnimal";
+import { getAnimalLevel } from "features/game/events/landExpansion/sellAnimal";
 import { Context } from "features/game/GameProvider";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { secondsTillWeekReset, weekResetsAt } from "features/game/lib/factions";
+import { weekResetsAt } from "features/game/lib/factions";
 import { MachineState } from "features/game/lib/gameMachine";
 import { AnimalType } from "features/game/types/animals";
 import { getKeys } from "features/game/types/decorations";
 import { Animal, BountyRequest } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { getSeasonalTicket } from "features/game/types/seasons";
 import { TimerDisplay } from "features/retreat/components/auctioneer/AuctionDetails";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { NPC_WEARABLES } from "lib/npcs";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
 import React, { useContext, useState } from "react";
@@ -47,6 +43,8 @@ export const AnimalBounties: React.FC<Props> = ({ type, onExchanging }) => {
   const { gameService } = useContext(Context);
   const exchange = useSelector(gameService, _exchange);
 
+  const { t } = useAppTranslation();
+
   const [showIntro, setShowIntro] = useState(!hasReadIntro());
 
   const state = gameService.getSnapshot().context.state;
@@ -55,20 +53,18 @@ export const AnimalBounties: React.FC<Props> = ({ type, onExchanging }) => {
 
   const expiresAt = useCountdown(weekResetsAt());
 
-  console.log({ expiresAt, reset: secondsTillWeekReset() });
-
   if (showIntro) {
     return (
       <SpeakingModal
         message={[
           {
-            text: "Howdy Bumpkin. Mmmmmmm, it smells great in here!",
+            text: t("bounties.animal.intro.one"),
           },
           {
-            text: "The Goblins are on the lookout for some tasty......eh emmmm I mean friendly farming companions.",
+            text: t("bounties.animal.intro.two"),
           },
           {
-            text: "Each week I will have new deals for you. Bring me fresh animals and I will reward you handsomely.",
+            text: t("bounties.animal.intro.three"),
           },
         ]}
         bumpkinParts={NPC_WEARABLES.grabnab}
@@ -84,26 +80,20 @@ export const AnimalBounties: React.FC<Props> = ({ type, onExchanging }) => {
     <CloseButtonPanel bumpkinParts={NPC_WEARABLES.grabnab}>
       <div className="p-1">
         <div className="flex justify-between items-center mb-2">
-          <Label type="default">Bounty board</Label>
+          <Label type="default">{t("bounties.board")}</Label>
           <Label type="info" icon={SUNNYSIDE.icons.stopwatch}>
             <TimerDisplay time={expiresAt} />
           </Label>
         </div>
 
-        <p className="text-xs mb-2">
-          Trade this week's bounties before time runs out.
-        </p>
+        <p className="text-xs mb-2">{t("bounties.board.info")}</p>
         <div className="flex flex-wrap">
           {deals.length === 0 && (
-            <p className="text-sm">There are no deals available right now.</p>
+            <p className="text-sm">{t("bounties.board.empty")}</p>
           )}
           {deals.map((deal) => {
             const animals =
               type === "Chicken" ? state.henHouse.animals : state.barn.animals;
-
-            const isDisabled = getKeys(animals).every(
-              (id) => !isValidDeal({ deal, animal: animals[id] }),
-            );
 
             const isSold = !!state.bounties.completed.find(
               (request) => request.id === deal.id,
@@ -151,7 +141,7 @@ export const AnimalBounties: React.FC<Props> = ({ type, onExchanging }) => {
                         height: "25px",
                       }}
                     >
-                      Sold
+                      {t("bounties.sold")}
                     </Label>
                   )}
 
@@ -207,6 +197,7 @@ export const AnimalDeal: React.FC<{
 }> = ({ deal, animal, onClose, onSold }) => {
   const { gameService } = useContext(Context);
 
+  const { t } = useAppTranslation();
   const sell = () => {
     gameService.send("animal.sold", {
       requestId: deal.id,
@@ -244,13 +235,21 @@ export const AnimalDeal: React.FC<{
           })}
         </div>
 
-        <p>Are you sure you want to sell this animal for X?</p>
+        <p>
+          {deal.coins
+            ? t("bounties.sell.coins", { amount: deal.coins })
+            : t("bounties.sell.items", {
+                amount: getKeys(deal.items ?? {})
+                  .map((name) => `${deal.items?.[name]} x ${name}`)
+                  .join(" - "),
+              })}
+        </p>
       </div>
       <div className="flex">
         <Button className="mr-1" onClick={onClose}>
-          Cancel
+          {t("cancel")}
         </Button>
-        <Button onClick={sell}>Confirm</Button>
+        <Button onClick={sell}>{t("confirm")}</Button>
       </div>
     </Panel>
   );
@@ -260,6 +259,7 @@ export const ExchangeHud: React.FC<{
   deal: BountyRequest;
   onClose: () => void;
 }> = ({ deal, onClose }) => {
+  const { t } = useAppTranslation();
   return (
     <HudContainer>
       <div className="absolute items-start flex top-3 px-2 cursor-pointer z-10 w-full justify-between">
@@ -279,7 +279,9 @@ export const ExchangeHud: React.FC<{
               </Label>;
             })}
           </div>
-          <p className="text-xs">Select a {deal.name} to sell?</p>
+          <p className="text-xs">
+            {t("bounties.animal.select", { name: deal.name })}
+          </p>
         </InnerPanel>
 
         <img
