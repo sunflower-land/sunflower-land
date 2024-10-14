@@ -19,7 +19,6 @@ export interface Feed {
   description: string;
   ingredients: Inventory;
   coins?: number;
-  disabled?: boolean;
 }
 export const ANIMALS: Record<AnimalType, AnimalDetail> = {
   Chicken: {
