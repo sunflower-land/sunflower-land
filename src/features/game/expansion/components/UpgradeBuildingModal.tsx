@@ -15,14 +15,14 @@ import { RequirementLabel } from "components/ui/RequirementsLabel";
 import Decimal from "decimal.js-light";
 import {
   BUILDING_UPGRADES,
-  BuildingLevel,
+  AnimalBuildingLevel,
 } from "features/game/events/landExpansion/upgradeBuilding";
 import { AnimalBuildingType } from "features/game/types/animals";
 import { InlineDialogue } from "features/world/ui/TypingMessage";
 
 interface Props {
   buildingName: AnimalBuildingType;
-  level: Exclude<BuildingLevel, 1>;
+  level: Exclude<AnimalBuildingLevel, 1>;
   show: boolean;
   onClose: () => void;
 }

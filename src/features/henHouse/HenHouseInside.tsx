@@ -16,11 +16,11 @@ import { Chicken } from "./Chicken";
 import shopDisc from "assets/icons/shop_disc.png";
 import { AnimalBuildingModal } from "features/game/expansion/components/animals/AnimalBuildingModal";
 import { FeederMachine } from "features/feederMachine/FeederMachine";
-import { BuildingLevel } from "features/game/events/landExpansion/upgradeBuilding";
+import { AnimalBuildingLevel } from "features/game/events/landExpansion/upgradeBuilding";
 import { UpgradeBuildingModal } from "features/game/expansion/components/UpgradeBuildingModal";
 
 const HEN_HOUSE_IMAGES: Record<
-  BuildingLevel,
+  AnimalBuildingLevel,
   { src: string; height: number; width: number }
 > = {
   1: { src: SUNNYSIDE.land.animal_house_inside_one, height: 224, width: 192 },
@@ -35,7 +35,7 @@ export const HenHouseInside: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
   const [showUpgradeModal, setShowUpgradeModal] = useState(false);
   const henHouse = useSelector(gameService, _henHouse);
-  const level = henHouse.level as BuildingLevel;
+  const level = henHouse.level as AnimalBuildingLevel;
 
   const { t } = useAppTranslation();
 
@@ -67,7 +67,7 @@ export const HenHouseInside: React.FC = () => {
 
   mapPlacements.push(...components);
 
-  const nextLevel = Math.min(level + 1, 3) as Exclude<BuildingLevel, 1>;
+  const nextLevel = Math.min(level + 1, 3) as Exclude<AnimalBuildingLevel, 1>;
 
   return (
     <>

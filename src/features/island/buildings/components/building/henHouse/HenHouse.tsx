@@ -18,6 +18,7 @@ import {
   ANIMAL_SLEEP_DURATION,
 } from "features/game/events/landExpansion/feedAnimal";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { AnimalBuildingLevel } from "features/game/events/landExpansion/upgradeBuilding";
 
 const _betaInventory = (state: MachineState) => {
   const pass = state.context.state.inventory["Beta Pass"];
@@ -39,6 +40,10 @@ const _chickensNeedLove = (state: MachineState) => {
   );
 };
 
+const _buildingLevel = (state: MachineState) => {
+  return (state.context.state.henHouse.level ?? 1) as AnimalBuildingLevel;
+};
+
 export const ChickenHouse: React.FC<BuildingProps> = ({
   isBuilt,
   onRemove,
@@ -51,7 +56,7 @@ export const ChickenHouse: React.FC<BuildingProps> = ({
   const betaInventory = useSelector(gameService, _betaInventory);
   const hasHungryChickens = useSelector(gameService, _hasHungryChickens);
   const chickensNeedLove = useSelector(gameService, _chickensNeedLove);
-
+  const buildingLevel = useSelector(gameService, _buildingLevel);
   useEffect(() => {
     loadAudio([barnAudio]);
   }, []);
@@ -91,7 +96,7 @@ export const ChickenHouse: React.FC<BuildingProps> = ({
           />
         )}
         <img
-          src={HEN_HOUSE_VARIANTS[island]}
+          src={HEN_HOUSE_VARIANTS[island][buildingLevel]}
           className="absolute bottom-0 pointer-events-none"
           style={{
             width: `${PIXEL_SCALE * 61}px`,
