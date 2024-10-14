@@ -1,5 +1,4 @@
 import { useActor } from "@xstate/react";
-import { SUNNYSIDE } from "assets/sunnyside";
 import { CraftingRequirements } from "components/ui/layouts/CraftingRequirements";
 import { Modal } from "components/ui/Modal";
 import { SplitScreenView } from "components/ui/SplitScreenView";
@@ -13,6 +12,7 @@ import { getKeys } from "features/game/types/decorations";
 import { Box } from "components/ui/Box";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { Button } from "components/ui/Button";
+import { OuterPanel } from "components/ui/Panel";
 
 interface Props {
   show: boolean;
@@ -60,8 +60,9 @@ export const FeederMachineModal: React.FC<Props> = ({ show, onClose }) => {
     <Modal show={show} onHide={onClose}>
       <CloseButtonPanel
         onClose={onClose}
+        container={OuterPanel}
         tabs={[
-          { icon: SUNNYSIDE.animalFoods.hay, name: t("feederMachine.title") },
+          { icon: ITEM_DETAILS.Hay.image, name: t("feederMachine.title") },
         ]}
       >
         <SplitScreenView
