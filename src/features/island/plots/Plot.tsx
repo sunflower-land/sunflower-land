@@ -366,16 +366,18 @@ export const Plot: React.FC<Props> = ({ id, index }) => {
           pulsating={showQuickSelect && pulsating}
         />
       </div>
-      <ChestReward
-        collectedItem={crop?.name}
-        reward={reward}
-        onCollected={onCollectReward}
-        onOpen={() =>
-          gameService.send("cropReward.collected", {
-            plotIndex: id,
-          })
-        }
-      />
+      {reward && (
+        <ChestReward
+          collectedItem={crop?.name}
+          reward={reward}
+          onCollected={onCollectReward}
+          onOpen={() =>
+            gameService.send("cropReward.collected", {
+              plotIndex: id,
+            })
+          }
+        />
+      )}
 
       {/* Harvest Animation */}
       {showAnimations && (
