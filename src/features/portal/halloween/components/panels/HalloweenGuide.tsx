@@ -5,7 +5,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { SquareIcon } from "components/ui/SquareIcon";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { Label } from "components/ui/Label";
-import { ENEMIES_TABLE } from "../../HalloweenConstants";
+import { ENEMIES_TABLE, RESOURCES_TABLE } from "../../HalloweenConstants";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { useSound } from "lib/utils/hooks/useSound";
 
@@ -60,21 +60,21 @@ export const HalloweenGuide: React.FC<Props> = ({ onBack }) => {
         <Label type="default">{t("halloween.instructions")}</Label>
         <div>
           <div className="flex items-center mb-3 mx-2">
-            <SquareIcon icon={SUNNYSIDE.icons.stopwatch} width={7} />
+            <SquareIcon icon={ITEM_DETAILS["Lamp Front"].image} width={7} />
             <p className="text-xs ml-3 flex-1">
               {t("halloween.instructions1")}
             </p>
           </div>
 
           <div className="flex items-center mb-3 mx-2">
-            <SquareIcon icon={ITEM_DETAILS["Oil Reserve"].image} width={7} />
+            <SquareIcon icon={SUNNYSIDE.icons.stopwatch} width={7} />
             <p className="text-xs ml-3 flex-1">
               {t("halloween.instructions2")}
             </p>
           </div>
 
           <div className="flex items-center mb-3 mx-2">
-            <SquareIcon icon={ITEM_DETAILS["Apple"].image} width={7} />
+            <SquareIcon icon={ITEM_DETAILS["Pirate Bounty"].image} width={7} />
             <p className="text-xs ml-3 flex-1">
               {t("halloween.instructions3")}
             </p>
@@ -86,9 +86,44 @@ export const HalloweenGuide: React.FC<Props> = ({ onBack }) => {
               {t("halloween.instructions4")}
             </p>
           </div>
+
+          <div className="flex items-center mb-3 mx-2">
+            <SquareIcon icon={SUNNYSIDE.decorations.skull} width={7} />
+            <p className="text-xs ml-3 flex-1">
+              {t("halloween.instructions5")}
+            </p>
+          </div>
         </div>
-        {/* legend */}
-        <Label type="default">{t("halloween.powerups")}</Label>
+        {/* resources */}
+        <Label type="default">{t("halloween.resources")}</Label>
+        <table className="w-full text-xs table-fixed border-collapse">
+          <tbody>
+            {Object.values(RESOURCES_TABLE).map(
+              ({ item, description }, index) => (
+                <tr key={index}>
+                  <td
+                    style={{ border: "1px solid #b96f50" }}
+                    className="p-1.5 w-1/6"
+                  >
+                    <div className="flex items-center justify-center">
+                      {<SquareIcon icon={item} width={7} />}
+                    </div>
+                  </td>
+                  <td
+                    style={{ border: "1px solid #b96f50" }}
+                    className="p-1.5 w-5/6"
+                  >
+                    {t("halloween.scoreDescription", {
+                      description: description,
+                    })}
+                  </td>
+                </tr>
+              ),
+            )}
+          </tbody>
+        </table>
+        {/* enemies */}
+        <Label type="default">{t("halloween.enemies")}</Label>
         <table className="w-full text-xs table-fixed border-collapse">
           <tbody>
             {Object.values(ENEMIES_TABLE).map(

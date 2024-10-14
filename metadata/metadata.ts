@@ -9498,6 +9498,27 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     image: "../public/erc1155/images/2135.png",
     name: "Butterfly",
   },
+  "Lamp Back": {
+    description: "",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "",
+    attributes: [{ trait_type: "Tradable", value: "No" }],
+  },
+  "Lamp Front": {
+    description: "",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "",
+    attributes: [{ trait_type: "Tradable", value: "No" }],
+  },
+  "Lamp Side": {
+    description: "",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "",
+    attributes: [{ trait_type: "Tradable", value: "No" }],
+  },
 };
 
 export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {

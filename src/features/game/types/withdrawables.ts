@@ -29,6 +29,7 @@ import {
   EasterEgg,
   FertiliserName,
   GameState,
+  HalloweenItems,
   InventoryItemName,
   LanternName,
   Points,
@@ -1099,6 +1100,12 @@ const mutantFlowers: Record<MutantFlowerName, () => boolean> = {
     canWithdrawTimebasedItem(SEASONS["Pharaoh's Treasure"].endDate),
 };
 
+const halloween: Record<HalloweenItems, () => boolean> = {
+  "Lamp Back": () => false,
+  "Lamp Front": () => false,
+  "Lamp Side": () => false,
+};
+
 export const WITHDRAWABLES: Record<InventoryItemName, () => boolean> = {
   ...greenHouseCrop,
   ...greenHouseCropSeed,
@@ -1163,6 +1170,8 @@ export const WITHDRAWABLES: Record<InventoryItemName, () => boolean> = {
   ...interiors,
   ...factionBanners,
   ...factionShopCollectibles,
+
+  ...halloween,
 
   ...getKeys(DECORATION_TEMPLATES).reduce(
     (acc, key) => ({
