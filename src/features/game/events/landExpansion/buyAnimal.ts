@@ -45,11 +45,15 @@ export const getAnimalCapacity = (
     game,
   });
 
-  const baseCapacity =
-    DEFAULT_CAPACITY + (level - 1) * EXTRA_CAPACITY_PER_LEVEL;
-  const coopBonus = coopActive ? COOP_BONUS_CAPACITY * level : 0;
+  if (buildingKey === "henHouse") {
+    const baseCapacity =
+      DEFAULT_CAPACITY + (level - 1) * EXTRA_CAPACITY_PER_LEVEL;
+    const coopBonus = coopActive ? COOP_BONUS_CAPACITY * level : 0;
 
-  return baseCapacity + coopBonus;
+    return baseCapacity + coopBonus;
+  }
+
+  return DEFAULT_CAPACITY + (level - 1) * EXTRA_CAPACITY_PER_LEVEL;
 };
 
 export function buyAnimal({
