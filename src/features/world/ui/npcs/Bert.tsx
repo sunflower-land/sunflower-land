@@ -74,7 +74,7 @@ export const Bert: React.FC<Props> = ({ onClose }) => {
                 cb: () => handleConfirm(0),
               },
               {
-                text: "Obsessions",
+                text: t("obsession"),
                 cb: () => handleConfirm(1),
               },
             ],
