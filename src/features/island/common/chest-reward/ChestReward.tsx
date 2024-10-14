@@ -85,7 +85,7 @@ export const ChestReward: React.FC<Props> = ({
   const { items, sfl, coins } = reward;
 
   return (
-    <Modal show={true}>
+    <Modal show={true} onHide={opened ? () => close(true) : undefined}>
       <Panel>
         {loading && <Loading />}
         {opened ? (
