@@ -3705,5 +3705,8 @@
   "description.hay": "Dry grass used as animal feed or bedding.",
   "description.kernel.blend": "Blend of various grains for feed or consumption.",
   "description.nutribarley": "Barley-based nutritional supplement or feed.",
-  "description.mixed.grain": "Mixed grains or seeds for feeding or planting."
+  "description.mixed.grain": "Mixed grains or seeds for feeding or planting.",
+  "upgrade.building": "Upgrade {{building}}",
+  "upgrade.intro": "Hey there bumpkin, looking to upgrade your {{building}} so you can get yourself some more {{animals}} eh?",
+  "upgrade": "Upgrade"
 }

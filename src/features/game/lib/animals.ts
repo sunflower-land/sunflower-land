@@ -1,13 +1,14 @@
 import { ANIMAL_FOOD_EXPERIENCE } from "../events/landExpansion/feedAnimal";
 import {
   ANIMAL_LEVELS,
+  AnimalBuildingType,
   AnimalLevel,
   ANIMALS,
   AnimalType,
 } from "../types/animals";
 import { BuildingName } from "../types/buildings";
 import { getKeys } from "../types/decorations";
-import { Animal, AnimalBuildingKey } from "../types/game";
+import { Animal, AnimalBuilding, AnimalBuildingKey } from "../types/game";
 
 export const makeAnimalBuildingKey = (
   buildingName: Extract<BuildingName, "Hen House" | "Barn">,
@@ -19,33 +20,45 @@ export const makeAnimalBuildingKey = (
     .replace(/\s+/g, "") as AnimalBuildingKey;
 };
 
-export function makeAnimals(count: number, type: AnimalType) {
-  const animal = ANIMALS[type];
+export function makeAnimalBuilding(
+  building: AnimalBuildingType,
+): AnimalBuilding {
+  const DEFAULT_ANIMAL_COUNT = 3;
+
+  const animalType = getKeys(ANIMALS).find(
+    (animal) => ANIMALS[animal].buildingRequired === building,
+  );
+  const { width } = ANIMALS[animalType as AnimalType];
 
   const positions = [
-    { x: -animal.width, y: 0 },
+    { x: -width, y: 0 },
     { x: 0, y: 0 },
-    { x: animal.width, y: 0 },
+    { x: width, y: 0 },
   ];
 
-  return new Array(count)
+  const defaultAnimals = new Array(DEFAULT_ANIMAL_COUNT)
     .fill(0)
     .reduce<Record<string, Animal>>((animals, _, index) => {
       return {
         ...animals,
         [index]: {
           id: index.toString(),
-          type,
+          type: animalType,
           state: "idle",
           coordinates: positions[index],
-          experience: 0,
           asleepAt: 0,
-          lovedAt: 0,
+          experience: 0,
+          createdAt: Date.now(),
           item: "Petting Hand",
-          createdAt: 0,
+          lovedAt: 0,
         },
       };
     }, {});
+
+  return {
+    level: 1,
+    animals: defaultAnimals,
+  };
 }
 
 export const isMaxLevel = (animal: AnimalType, level: AnimalLevel) => {

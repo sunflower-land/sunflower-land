@@ -16,17 +16,15 @@ type Options = {
   createdAt?: number;
 };
 
-export type BuildingLevel = 2 | 3;
+export type BuildingLevel = 1 | 2 | 3;
+type BuildingUpgradeCost = {
+  coins: number;
+  items: Partial<Record<InventoryItemName, Decimal>>;
+};
 
-const BUILDING_UPGRADES: Record<
+export const BUILDING_UPGRADES: Record<
   AnimalBuildingType,
-  Record<
-    BuildingLevel,
-    {
-      coins: number;
-      items: Partial<Record<InventoryItemName, Decimal>>;
-    }
-  >
+  Record<Exclude<BuildingLevel, 1>, BuildingUpgradeCost>
 > = {
   "Hen House": {
     2: {
@@ -72,11 +70,7 @@ const BUILDING_UPGRADES: Record<
   },
 };
 
-export function upgradeBuilding({
-  state,
-  action,
-  createdAt = Date.now(),
-}: Options): GameState {
+export function upgradeBuilding({ state, action }: Options): GameState {
   return produce(state, (copy) => {
     const { buildings } = copy;
 
@@ -92,7 +86,7 @@ export function upgradeBuilding({
       throw new Error("Building is at max level");
     }
 
-    const nextLevel = (building.level + 1) as BuildingLevel;
+    const nextLevel = (building.level + 1) as Exclude<BuildingLevel, 1>;
     const upgradeCost = BUILDING_UPGRADES[action.buildingType][nextLevel];
 
     if (state.coins < upgradeCost.coins) {
