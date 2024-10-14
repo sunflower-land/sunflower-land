@@ -38,6 +38,7 @@ export const CraftingBox: React.FC = () => {
   const handleClose = () => setShowModal(false);
 
   const handleBoxSelect = (index: number) => {
+    if (craftingStatus === "pending") return;
     if (selectedItems[index] !== null) {
       setSelectedItems((prev) => {
         const newItems = [...prev];
@@ -63,6 +64,7 @@ export const CraftingBox: React.FC = () => {
   };
 
   const handleItemSelect = (itemName: InventoryItemName) => {
+    if (craftingStatus === "pending") return;
     if (selectedBoxIndex !== null) {
       setSelectedItems((prev) => {
         const newItems = [...prev];
@@ -74,6 +76,7 @@ export const CraftingBox: React.FC = () => {
   };
 
   const handleCraft = () => {
+    if (craftingStatus === "pending") return;
     const ingredients = selectedItems.reduce(
       (acc, item) => {
         if (item) {
@@ -97,17 +100,19 @@ export const CraftingBox: React.FC = () => {
     return updatedInventory;
   }, [inventory, selectedItems]);
 
+  const isPending = craftingStatus === "pending";
+
   return (
     <>
       <img
         src={SUNNYSIDE.icons.expression_confused}
         alt={t("crafting.craftingBox")}
-        className="cursor-pointer"
+        className={`cursor-pointer ${isPending ? "opacity-50" : ""}`}
         style={{
           width: `${PIXEL_SCALE * 16}px`,
           height: `${PIXEL_SCALE * 16}px`,
         }}
-        onClick={handleClick}
+        onClick={isPending ? undefined : handleClick}
       />
 
       <Modal show={showModal} onHide={handleClose}>
@@ -119,6 +124,7 @@ export const CraftingBox: React.FC = () => {
           ]}
           currentTab={currentTab}
           setCurrentTab={setCurrentTab}
+          disabled={isPending}
         >
           {currentTab === 0 && (
             <>
@@ -132,9 +138,8 @@ export const CraftingBox: React.FC = () => {
                       image={item ? ITEM_DETAILS[item]?.image : undefined}
                       key={`${index}-${item}`}
                       isSelected={selectedBoxIndex === index}
-                      onClick={() => {
-                        handleBoxSelect(index);
-                      }}
+                      onClick={() => handleBoxSelect(index)}
+                      disabled={isPending}
                     />
                   ))}
                 </div>
@@ -175,9 +180,9 @@ export const CraftingBox: React.FC = () => {
                     <Button
                       className="mt-2 whitespace-nowrap"
                       onClick={handleCraft}
-                      disabled={craftingStatus === "pending"}
+                      disabled={isPending}
                     >
-                      {`${t("craft")} 1`}
+                      {isPending ? t("crafting") : `${t("craft")} 1`}
                     </Button>
                   </div>
                 </div>
@@ -199,6 +204,7 @@ export const CraftingBox: React.FC = () => {
                         image={ITEM_DETAILS[inventoryItem]?.image}
                         onClick={() => handleItemSelect(inventoryItem)}
                         disabled={
+                          isPending ||
                           amount.lessThanOrEqualTo(0) ||
                           selectedBoxIndex === null
                         }
