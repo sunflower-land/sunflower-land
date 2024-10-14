@@ -192,16 +192,18 @@ export const Tree: React.FC<Props> = ({ id }) => {
       {chopped && <DepletedTree timeLeft={timeLeft} island={island} />}
 
       {/* Chest reward */}
-      <ChestReward
-        collectedItem={"Wood"}
-        reward={reward}
-        onCollected={onCollectChest}
-        onOpen={() =>
-          gameService.send("treeReward.collected", {
-            treeIndex: id,
-          })
-        }
-      />
+      {reward && (
+        <ChestReward
+          collectedItem={"Wood"}
+          reward={reward}
+          onCollected={onCollectChest}
+          onOpen={() =>
+            gameService.send("treeReward.collected", {
+              treeIndex: id,
+            })
+          }
+        />
+      )}
     </div>
   );
 };
