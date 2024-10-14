@@ -10,7 +10,6 @@ import { MachineState } from "features/game/lib/gameMachine";
 import { Label } from "components/ui/Label";
 import { InventoryItemName } from "features/game/types/game";
 import { Button } from "components/ui/Button";
-import { SimpleBox } from "features/island/hud/components/codex/SimpleBox";
 import { useTranslation } from "react-i18next";
 import { Box } from "components/ui/Box";
 import Decimal from "decimal.js-light";
@@ -27,6 +26,7 @@ export const CraftingBox: React.FC = () => {
   const [selectedItems, setSelectedItems] = useState<
     (InventoryItemName | null)[]
   >(Array(9).fill(null));
+  const [selectedBoxIndex, setSelectedBoxIndex] = useState<number | null>(0);
 
   const { gameService } = useContext(Context);
   const inventory = useSelector(gameService, _inventory);
@@ -37,23 +37,40 @@ export const CraftingBox: React.FC = () => {
   const handleClick = () => setShowModal(true);
   const handleClose = () => setShowModal(false);
 
-  const handleItemSelect = (itemName: InventoryItemName) => {
-    const emptyIndex = selectedItems.findIndex((item) => item === null);
-    if (emptyIndex !== -1) {
+  const handleBoxSelect = (index: number) => {
+    if (selectedItems[index] !== null) {
       setSelectedItems((prev) => {
         const newItems = [...prev];
-        newItems[emptyIndex] = itemName;
+        newItems[index] = null;
         return newItems;
       });
     }
+    setSelectedBoxIndex(index);
   };
 
-  const handleItemRemove = (index: number) => {
-    setSelectedItems((prev) => {
-      const newItems = [...prev];
-      newItems[index] = null;
-      return newItems;
-    });
+  const moveToNextAvailableBox = () => {
+    const nextIndex = selectedItems.findIndex(
+      (item, index) => item === null && index > (selectedBoxIndex ?? -1),
+    );
+    if (nextIndex !== -1) {
+      setSelectedBoxIndex(nextIndex);
+    } else {
+      const firstEmptyIndex = selectedItems.findIndex((item) => item === null);
+      setSelectedBoxIndex(
+        firstEmptyIndex !== -1 ? firstEmptyIndex : selectedBoxIndex,
+      );
+    }
+  };
+
+  const handleItemSelect = (itemName: InventoryItemName) => {
+    if (selectedBoxIndex !== null) {
+      setSelectedItems((prev) => {
+        const newItems = [...prev];
+        newItems[selectedBoxIndex] = itemName;
+        return newItems;
+      });
+      moveToNextAvailableBox();
+    }
   };
 
   const handleCraft = () => {
@@ -98,7 +115,7 @@ export const CraftingBox: React.FC = () => {
           onClose={handleClose}
           tabs={[
             { name: t("craft"), icon: SUNNYSIDE.icons.hammer },
-            { name: t("resources"), icon: SUNNYSIDE.icons.hammer },
+            { name: t("recipes"), icon: SUNNYSIDE.icons.basket },
           ]}
           currentTab={currentTab}
           setCurrentTab={setCurrentTab}
@@ -111,25 +128,14 @@ export const CraftingBox: React.FC = () => {
               <div className="flex space-x-2 sm:space-x-4 mb-2">
                 <div className="grid grid-cols-3 gap-1">
                   {selectedItems.map((item, index) => (
-                    <div key={index} className="relative">
-                      <SimpleBox
-                        image={item ? ITEM_DETAILS[item]?.image : undefined}
-                        key={`${index}-${item}`}
-                        onClick={() => handleItemRemove(index)}
-                        silhouette={false}
-                      />
-                      {item && (
-                        <img
-                          src={SUNNYSIDE.icons.close}
-                          className="absolute top-0 right-0 cursor-pointer"
-                          style={{
-                            width: `${PIXEL_SCALE * 8}px`,
-                            height: `${PIXEL_SCALE * 8}px`,
-                          }}
-                          onClick={() => handleItemRemove(index)}
-                        />
-                      )}
-                    </div>
+                    <Box
+                      image={item ? ITEM_DETAILS[item]?.image : undefined}
+                      key={`${index}-${item}`}
+                      isSelected={selectedBoxIndex === index}
+                      onClick={() => {
+                        handleBoxSelect(index);
+                      }}
+                    />
                   ))}
                 </div>
                 <div className="flex items-center justify-center">
@@ -143,7 +149,28 @@ export const CraftingBox: React.FC = () => {
                   />
                 </div>
                 <div className="flex flex-col items-center justify-center flex-grow">
+                  <div className="flex mb-1">
+                    {[...Array(3)].map((_, index) => (
+                      <img
+                        key={index}
+                        src={SUNNYSIDE.icons.expression_confused}
+                        alt="Question Mark"
+                        className="mx-0.5"
+                        style={{
+                          width: `${PIXEL_SCALE * 8}px`,
+                          height: `${PIXEL_SCALE * 8}px`,
+                        }}
+                      />
+                    ))}
+                  </div>
                   <Box image={SUNNYSIDE.icons.expression_confused} />
+                  <Label
+                    type="transparent"
+                    className="my-2"
+                    icon={SUNNYSIDE.icons.stopwatch}
+                  >
+                    {t("unknown")}
+                  </Label>
                   <div>
                     <Button
                       className="mt-2 whitespace-nowrap"
@@ -171,7 +198,10 @@ export const CraftingBox: React.FC = () => {
                         count={amount}
                         image={ITEM_DETAILS[inventoryItem]?.image}
                         onClick={() => handleItemSelect(inventoryItem)}
-                        disabled={amount.lessThanOrEqualTo(0)}
+                        disabled={
+                          amount.lessThanOrEqualTo(0) ||
+                          selectedBoxIndex === null
+                        }
                       />
                     );
                   })}
