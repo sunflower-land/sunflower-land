@@ -251,6 +251,9 @@ export const SUNNYSIDE = {
     tent_inside: `${CONFIG.PROTECTED_IMAGE_URL}/land/tent_inside.png`,
     house_inside: `${CONFIG.PROTECTED_IMAGE_URL}/land/house_inside.png`,
     manor_inside: `${CONFIG.PROTECTED_IMAGE_URL}/land/manor_inside.png`,
+    animal_house_inside_one: `${CONFIG.PROTECTED_IMAGE_URL}/land/animal_house_one.png`,
+    animal_house_inside_two: `${CONFIG.PROTECTED_IMAGE_URL}/land/animal_house_two.png`,
+    animal_house_inside_three: `${CONFIG.PROTECTED_IMAGE_URL}/land/animal_house_three.png`,
   },
   //Soil
   soil: {
@@ -475,6 +478,7 @@ export const SUNNYSIDE = {
     toolshedIcon: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/icons/toolshed_icon.png`,
     warehouseIcon: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/icons/warehouse_icon.png`,
     greenhouseIcon: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/icons/greenhouse_icon.webp`,
+    upgradeBuildingIcon: `${CONFIG.PROTECTED_IMAGE_URL}/icons/upgrade_building.webp`,
   },
   //NPCs
   npcs: {
