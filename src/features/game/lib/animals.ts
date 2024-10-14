@@ -28,8 +28,9 @@ export function makeAnimals(count: number, type: AnimalType) {
     { x: animal.width, y: 0 },
   ];
 
-  return new Array(count).fill(0).reduce(
-    (animals, _, index) => {
+  return new Array(count)
+    .fill(0)
+    .reduce<Record<string, Animal>>((animals, _, index) => {
       return {
         ...animals,
         [index]: {
@@ -39,11 +40,12 @@ export function makeAnimals(count: number, type: AnimalType) {
           coordinates: positions[index],
           experience: 0,
           asleepAt: 0,
+          lovedAt: 0,
+          item: "Petting Hand",
+          createdAt: 0,
         },
       };
-    },
-    {} as Record<string, Animal>,
-  );
+    }, {});
 }
 
 export const isMaxLevel = (animal: AnimalType, level: AnimalLevel) => {
