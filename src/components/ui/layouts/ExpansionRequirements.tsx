@@ -182,7 +182,7 @@ export const Expanding: React.FC<{
   const totalSeconds = requirements?.seconds ?? 0;
   const secondsTillReady = (readyAt - Date.now()) / 1000;
 
-  const { days, ...ready } = useCountdown(readyAt ?? 0);
+  const ready = useCountdown(readyAt ?? 0);
 
   const gems = getInstantGems({
     readyAt: readyAt as number,
