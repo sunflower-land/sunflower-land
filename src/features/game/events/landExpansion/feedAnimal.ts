@@ -12,48 +12,66 @@ import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 
 export const ANIMAL_FOOD_EXPERIENCE: Record<
   AnimalType,
-  Record<AnimalLevel, Partial<Record<AnimalFoodName, number>>>
+  Record<AnimalLevel, Record<AnimalFoodName, number>>
 > = {
   Chicken: {
     1: {
       Hay: 10,
       "Kernel Blend": 20,
+      NutriBarley: 0,
+      "Mixed Grain": 0,
     },
     2: {
       Hay: 15,
       "Kernel Blend": 30,
+      NutriBarley: 0,
+      "Mixed Grain": 0,
     },
     3: {
       Hay: 40,
       "Kernel Blend": 20,
+      NutriBarley: 0,
+      "Mixed Grain": 0,
     },
   },
   Cow: {
     1: {
       Hay: 10,
       "Kernel Blend": 20,
+      NutriBarley: 0,
+      "Mixed Grain": 0,
     },
     2: {
       Hay: 15,
       "Kernel Blend": 30,
+      NutriBarley: 0,
+      "Mixed Grain": 0,
     },
     3: {
       Hay: 40,
       "Kernel Blend": 20,
+      NutriBarley: 0,
+      "Mixed Grain": 0,
     },
   },
   Sheep: {
     1: {
       Hay: 10,
       "Kernel Blend": 20,
+      NutriBarley: 0,
+      "Mixed Grain": 0,
     },
     2: {
       Hay: 15,
       "Kernel Blend": 30,
+      NutriBarley: 0,
+      "Mixed Grain": 0,
     },
     3: {
       Hay: 40,
       "Kernel Blend": 20,
+      NutriBarley: 0,
+      "Mixed Grain": 0,
     },
   },
 };
@@ -144,7 +162,7 @@ export function feedAnimal({
     }
 
     copy.inventory[food] = inventoryAmount.sub(requiredAmount);
-    animal.experience += xp[food] ?? 0;
+    animal.experience += xp[food];
 
     animal.state = "sad";
 
