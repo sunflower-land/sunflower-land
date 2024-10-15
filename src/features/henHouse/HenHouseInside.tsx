@@ -18,9 +18,17 @@ import { AnimalBuildingModal } from "features/game/expansion/components/animals/
 import { FeederMachine } from "features/feederMachine/FeederMachine";
 import { AnimalBuildingLevel } from "features/game/events/landExpansion/upgradeBuilding";
 import { UpgradeBuildingModal } from "features/game/expansion/components/UpgradeBuildingModal";
-import { ANIMAL_HOUSE_IMAGES } from "features/game/lib/animals";
 
 const _henHouse = (state: MachineState) => state.context.state.henHouse;
+
+export const ANIMAL_HOUSE_IMAGES: Record<
+  AnimalBuildingLevel,
+  { src: string; height: number; width: number }
+> = {
+  1: { src: SUNNYSIDE.land.animal_house_inside_one, height: 224, width: 192 },
+  2: { src: SUNNYSIDE.land.animal_house_inside_two, height: 256, width: 224 },
+  3: { src: SUNNYSIDE.land.animal_house_inside_three, height: 288, width: 256 },
+};
 
 export const HenHouseInside: React.FC = () => {
   const { gameService } = useContext(Context);

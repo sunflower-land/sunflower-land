@@ -18,10 +18,10 @@ import { Sheep } from "./components/Sheep";
 import shopDisc from "assets/icons/shop_disc.png";
 import { AnimalBuildingModal } from "features/game/expansion/components/animals/AnimalBuildingModal";
 import { FeederMachine } from "features/feederMachine/FeederMachine";
-import { ANIMAL_HOUSE_IMAGES } from "features/game/lib/animals";
 import { AnimalBuildingLevel } from "features/game/events/landExpansion/upgradeBuilding";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { UpgradeBuildingModal } from "features/game/expansion/components/UpgradeBuildingModal";
+import { ANIMAL_HOUSE_IMAGES } from "features/henHouse/HenHouseInside";
 
 const _barn = (state: MachineState) => state.context.state.barn;
 

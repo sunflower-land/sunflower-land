@@ -1,4 +1,3 @@
-import { SUNNYSIDE } from "assets/sunnyside";
 import { ANIMAL_FOOD_EXPERIENCE } from "../events/landExpansion/feedAnimal";
 import {
   ANIMAL_LEVELS,
@@ -10,16 +9,6 @@ import {
 import { BuildingName } from "../types/buildings";
 import { getKeys } from "../types/decorations";
 import { Animal, AnimalBuilding, AnimalBuildingKey } from "../types/game";
-import { AnimalBuildingLevel } from "../events/landExpansion/upgradeBuilding";
-
-export const ANIMAL_HOUSE_IMAGES: Record<
-  AnimalBuildingLevel,
-  { src: string; height: number; width: number }
-> = {
-  1: { src: SUNNYSIDE.land.animal_house_inside_one, height: 224, width: 192 },
-  2: { src: SUNNYSIDE.land.animal_house_inside_two, height: 256, width: 224 },
-  3: { src: SUNNYSIDE.land.animal_house_inside_three, height: 288, width: 256 },
-};
 
 export const makeAnimalBuildingKey = (
   buildingName: Extract<BuildingName, "Hen House" | "Barn">,
