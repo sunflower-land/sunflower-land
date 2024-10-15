@@ -21,10 +21,10 @@ import { BumpkinActivityName } from "./bumpkinActivity";
 import { DecorationName } from "./decorations";
 import { BeanName, ExoticCropName, MutantCropName } from "./beans";
 import {
-  FruitName,
-  FruitSeedName,
   GreenHouseFruitName,
   GreenHouseFruitSeedName,
+  PatchFruitName,
+  PatchFruitSeedName,
 } from "./fruits";
 import { TreasureName } from "./treasure";
 import {
@@ -360,15 +360,18 @@ export type WarItems =
   | "Warrior Helmet"
   | "Warrior Pants";
 
+export type LoveAnimalItem = "Petting Hand" | "Brush" | "Music Box";
+
 export type HalloweenItems = "Lamp Front" | "Lamp Side" | "Lamp Back";
 
 export type InventoryItemName =
+  | AnimalResource
   | CropName
   | CropSeedName
   | BeanName
   | MutantCropName
-  | FruitName
-  | FruitSeedName
+  | PatchFruitName
+  | PatchFruitSeedName
   | FlowerSeedName
   | GreenHouseFruitSeedName
   | GreenHouseFruitName
@@ -417,6 +420,8 @@ export type InventoryItemName =
   | FactionShopCollectibleName
   | FactionShopFoodName
   | MutantFlowerName
+  | AnimalFoodName
+  | LoveAnimalItem
   | HalloweenItems;
 
 export type Inventory = Partial<Record<InventoryItemName, Decimal>>;
@@ -477,7 +482,7 @@ export type PlantedCrop = {
 };
 
 export type PlantedFruit = {
-  name: FruitName;
+  name: PatchFruitName;
   plantedAt: number;
   amount: number;
   harvestsLeft: number;
@@ -542,6 +547,7 @@ export type Mine = Position;
 export type BuildingProduct = {
   name: CookableName;
   readyAt: number;
+  amount?: number;
   boost?: Partial<Record<InventoryItemName, number>>;
 };
 
@@ -729,6 +735,12 @@ export type LanternName =
   | "Goblin Lantern"
   | "Betty Lantern"
   | "Bumpkin Lantern";
+
+export type AnimalFoodName =
+  | "Hay"
+  | "Kernel Blend"
+  | "NutriBarley"
+  | "Mixed Grain";
 
 export type Party = {
   fulfilledAt?: number;
@@ -1139,7 +1151,7 @@ export type Faction = {
 export type DonationItemName =
   | CropName
   | FishName
-  | FruitName
+  | PatchFruitName
   | CommodityName
   | Worm;
 
@@ -1148,18 +1160,30 @@ type Stores = "factionShop" | "treasureShop" | "megastore";
 export type KeysBought = Record<Stores, KeysBoughtAt>;
 
 export type AnimalBuildingKey = "henHouse" | "barn";
+export type AnimalResource =
+  | "Egg"
+  | "Leather"
+  | "Wool"
+  | "Merino Wool"
+  | "Feather"
+  | "Milk";
+export type AnimalState = "idle" | "happy" | "sad";
 
-export type AnimalState = {
+export type Animal = {
   id: string;
   type: AnimalType;
-  state: "idle";
+  state: AnimalState;
   createdAt: number;
   coordinates: Coordinates;
+  experience: number;
+  asleepAt: number;
+  lovedAt: number;
+  item: LoveAnimalItem;
 };
 
 export type AnimalBuilding = {
   level: number;
-  animals: Record<string, AnimalState>;
+  animals: Record<string, Animal>;
 };
 
 export interface GameState {
@@ -1331,8 +1355,8 @@ export interface GameState {
   desert: Desert;
 
   experiments: ExperimentName[];
-  henHouse?: AnimalBuilding;
-  barn?: AnimalBuilding;
+  henHouse: AnimalBuilding;
+  barn: AnimalBuilding;
 }
 
 export interface Context {

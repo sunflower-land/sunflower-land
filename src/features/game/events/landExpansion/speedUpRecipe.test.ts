@@ -61,6 +61,7 @@ describe("instantCook", () => {
                 crafting: {
                   name: "Mashed Potato",
                   readyAt: 0,
+                  amount: 1,
                 },
               },
             ],
@@ -89,7 +90,8 @@ describe("instantCook", () => {
                 readyAt: 0,
                 crafting: {
                   name: "Mashed Potato",
-                  readyAt: Date.now(),
+                  readyAt: Date.now() + 30000,
+                  amount: 1,
                 },
               },
             ],
@@ -118,7 +120,8 @@ describe("instantCook", () => {
               readyAt: 0,
               crafting: {
                 name: "Mashed Potato",
-                readyAt: Date.now(),
+                readyAt: Date.now() + 30000,
+                amount: 1,
               },
             },
           ],
@@ -151,6 +154,7 @@ describe("instantCook", () => {
                 name: "Radish Cake",
                 readyAt:
                   now + BAKERY_COOKABLES["Radish Cake"].cookingSeconds * 1000,
+                amount: 1,
               },
             },
           ],
@@ -183,6 +187,7 @@ describe("instantCook", () => {
                 readyAt:
                   now +
                   (BAKERY_COOKABLES["Radish Cake"].cookingSeconds / 2) * 1000,
+                amount: 1,
               },
             },
           ],
@@ -193,6 +198,7 @@ describe("instantCook", () => {
     expect(state.inventory.Gem).toEqual(new Decimal(86));
   });
   it("gives the player the food", () => {
+    const now = Date.now();
     const state = speedUpRecipe({
       action: {
         buildingId: "123",
@@ -211,11 +217,13 @@ describe("instantCook", () => {
               readyAt: 0,
               crafting: {
                 name: "Mashed Potato",
-                readyAt: Date.now(),
+                readyAt: now + 30000,
+                amount: 1,
               },
             },
           ],
         },
+        createdAt: now,
       },
     });
 

@@ -3,7 +3,7 @@ import React from "react";
 import { getTimeLeft } from "lib/utils/time";
 import { PlantedFruit } from "features/game/types/game";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
-import { FRUIT, FRUIT_SEEDS } from "features/game/types/fruits";
+import { PATCH_FRUIT_SEEDS, PATCH_FRUIT } from "features/game/types/fruits";
 import { FruitSoil } from "./FruitSoil";
 
 import { FruitSeedling } from "./FruitSeedling";
@@ -28,8 +28,8 @@ const getFruitTreeStatus = (plantedFruit?: PlantedFruit): FruitTreeStatus => {
   // Dead tree/bush
   if (!harvestsLeft) return { stage: "Dead" };
 
-  const { seed } = FRUIT()[name];
-  const { plantSeconds } = FRUIT_SEEDS()[seed];
+  const { seed } = PATCH_FRUIT()[name];
+  const { plantSeconds } = PATCH_FRUIT_SEEDS()[seed];
 
   if (harvestedAt) {
     const replenishingTimeLeft = getTimeLeft(harvestedAt, plantSeconds);
@@ -88,7 +88,7 @@ export const FruitTree: React.FC<Props> = ({
   if (treeStatus.stage === "Dead") {
     return (
       <div className="absolute w-full h-full" onClick={removeTree}>
-        <DeadTree fruitName={name} hasAxes={hasAxes} />
+        <DeadTree patchFruitName={name} hasAxes={hasAxes} />
       </div>
     );
   }
@@ -97,7 +97,7 @@ export const FruitTree: React.FC<Props> = ({
   if (treeStatus.stage === "Seedling" && !!treeStatus.timeLeft) {
     return (
       <div className="absolute w-full h-full" onClick={fertilise}>
-        <FruitSeedling fruitName={name} timeLeft={treeStatus.timeLeft} />
+        <FruitSeedling patchFruitName={name} timeLeft={treeStatus.timeLeft} />
       </div>
     );
   }
@@ -107,7 +107,7 @@ export const FruitTree: React.FC<Props> = ({
     return (
       <div className="absolute w-full h-full" onClick={fertilise}>
         <ReplenishingTree
-          fruitName={name}
+          patchFruitName={name}
           timeLeft={treeStatus.timeLeft}
           playShakeAnimation={playShakingAnimation}
         />
@@ -118,7 +118,7 @@ export const FruitTree: React.FC<Props> = ({
   // Ready tree
   return (
     <div className="absolute w-full h-full" onClick={harvestFruit}>
-      <ReplenishedTree fruitName={name} />
+      <ReplenishedTree patchFruitName={name} />
     </div>
   );
 };

@@ -7,6 +7,7 @@ export type CropName =
   | "Pumpkin"
   | "Carrot"
   | "Cabbage"
+  | "Soybean"
   | "Beetroot"
   | "Cauliflower"
   | "Parsnip"
@@ -15,7 +16,6 @@ export type CropName =
   | "Radish"
   | "Wheat"
   | "Kale"
-  | "Soybean"
   | "Barley";
 
 export type Crop = {

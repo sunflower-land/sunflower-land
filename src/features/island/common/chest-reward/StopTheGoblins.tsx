@@ -8,7 +8,7 @@ import { getKeys } from "features/game/types/craftables";
 
 import { randomBoolean, randomDouble, randomInt } from "lib/utils/random";
 import { Label } from "components/ui/Label";
-import { FRUIT } from "features/game/types/fruits";
+import { PATCH_FRUIT } from "features/game/types/fruits";
 import { CONSUMABLES } from "features/game/types/consumables";
 import { COMMODITIES } from "features/game/types/resources";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -76,7 +76,7 @@ const generateImages = (
   if (isMoonSeekerMode) {
     resourceImages = [
       ...getKeys(CROPS),
-      ...getKeys(FRUIT()),
+      ...getKeys(PATCH_FRUIT()),
       ...getKeys(COMMODITIES),
     ];
     resourceImages = resourceImages.filter(

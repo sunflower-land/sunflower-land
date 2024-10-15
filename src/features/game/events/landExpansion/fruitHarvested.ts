@@ -9,11 +9,11 @@ import {
   trackActivity,
 } from "features/game/types/bumpkinActivity";
 import {
-  FRUIT,
-  FruitName,
-  FRUIT_SEEDS,
-  Fruit,
   GreenHouseFruitName,
+  PATCH_FRUIT,
+  PATCH_FRUIT_SEEDS,
+  PatchFruit,
+  PatchFruitName,
 } from "features/game/types/fruits";
 import { Bumpkin, GameState, PlantedFruit } from "features/game/types/game";
 import { getTimeLeft } from "lib/utils/time";
@@ -24,6 +24,7 @@ import { isWearableActive } from "features/game/lib/wearables";
 import { isGreenhouseFruit } from "./plantGreenhouse";
 import { FACTION_ITEMS } from "features/game/lib/factions";
 import { produce } from "immer";
+import { randomInt } from "lib/utils/random";
 
 export type HarvestFruitAction = {
   type: "fruit.harvested";
@@ -39,10 +40,10 @@ type Options = {
 export const isFruitReadyToHarvest = (
   createdAt: number,
   plantedFruit: PlantedFruit,
-  fruitDetails: Fruit,
+  fruitDetails: PatchFruit,
 ) => {
-  const { seed } = FRUIT()[fruitDetails.name];
-  const { plantSeconds } = FRUIT_SEEDS()[seed];
+  const { seed } = PATCH_FRUIT()[fruitDetails.name];
+  const { plantSeconds } = PATCH_FRUIT_SEEDS()[seed];
 
   return (
     createdAt -
@@ -54,7 +55,7 @@ export const isFruitReadyToHarvest = (
 };
 
 type FruitYield = {
-  name: FruitName | GreenHouseFruitName;
+  name: GreenHouseFruitName | PatchFruitName;
   game: GameState;
   fertiliser?: FruitCompostName;
 };
@@ -66,8 +67,8 @@ export function isFruitGrowing(patch: FruitPatch) {
   const { name, amount, harvestsLeft, harvestedAt, plantedAt } = fruit;
   if (!harvestsLeft) return false;
 
-  const { seed } = FRUIT()[name];
-  const { plantSeconds } = FRUIT_SEEDS()[seed];
+  const { seed } = PATCH_FRUIT()[name];
+  const { plantSeconds } = PATCH_FRUIT_SEEDS()[seed];
 
   if (harvestedAt) {
     const replenishingTimeLeft = getTimeLeft(harvestedAt, plantSeconds);
@@ -78,17 +79,17 @@ export function isFruitGrowing(patch: FruitPatch) {
   return growingTimeLeft > 0;
 }
 
-const isFruit = (resource: Resource): resource is FruitName => {
-  return resource in FRUIT();
+const isFruit = (resource: Resource): resource is PatchFruitName => {
+  return resource in PATCH_FRUIT();
 };
 
 // Basic = Blueberry & Orange - Skill
-const isBasicFruit = (resource: Resource): resource is FruitName => {
+const isBasicFruit = (resource: Resource): resource is PatchFruitName => {
   return resource === "Blueberry" || resource === "Orange";
 };
 
 // Advanced = Apple, Banana - Skill
-const isAdvancedFruit = (resource: Resource): resource is FruitName => {
+const isAdvancedFruit = (resource: Resource): resource is PatchFruitName => {
   return resource === "Apple" || resource === "Banana";
 };
 
@@ -136,6 +137,11 @@ export function getFruitYield({ name, game, fertiliser }: FruitYield) {
 
   if (bumpkin.skills["Tropical Orchard"] && isAdvancedFruit(name)) {
     amount += 0.1;
+  }
+
+  // Grape Escape +0.2 yield
+  if (name === "Grape" && bumpkin.skills["Grape Escape"]) {
+    amount += 0.2;
   }
 
   //Faction Quiver
@@ -208,6 +214,13 @@ export function getFruitYield({ name, game, fertiliser }: FruitYield) {
     amount += 2;
   }
 
+  // Greenhouse Gamble 5% chance of +1 yield
+  if (isGreenhouseFruit(name) && bumpkin.skills["Greenhouse Gamble"]) {
+    if (randomInt(0, 20) === 1) {
+      amount += 1;
+    }
+  }
+
   amount += getBudYieldBoosts(game.buds ?? {}, name);
 
   return amount;
@@ -237,8 +250,8 @@ export function harvestFruit({
 
     const { name, plantedAt, harvestsLeft, harvestedAt, amount } = patch.fruit;
 
-    const { seed } = FRUIT()[name];
-    const { plantSeconds } = FRUIT_SEEDS()[seed];
+    const { seed } = PATCH_FRUIT()[name];
+    const { plantSeconds } = PATCH_FRUIT_SEEDS()[seed];
 
     if (createdAt - plantedAt < plantSeconds * 1000) {
       throw new Error("Not ready");

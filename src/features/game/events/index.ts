@@ -375,10 +375,14 @@ import {
   SpeedUpBuilding,
 } from "./landExpansion/speedUpBuilding";
 import { buyAnimal, BuyAnimalAction } from "./landExpansion/buyAnimal";
+import { feedAnimal, FeedAnimalAction } from "./landExpansion/feedAnimal";
+import { loveAnimal, LoveAnimalAction } from "./landExpansion/loveAnimal";
+import { feedMixed, FeedMixedAction } from "features/feederMachine/feedMixed";
 
 export type PlayingEvent =
   | SpeedUpBuilding
   | SpeedUpCollectible
+  | FeedMixedAction
   | InstantExpand
   | InstantCookRecipe
   | ShipmentRestockAction
@@ -485,7 +489,9 @@ export type PlayingEvent =
   | FeedFactionPetAction
   | LeaveFactionAction
   | BuyMoreDigsAction
-  | BuyAnimalAction;
+  | BuyAnimalAction
+  | FeedAnimalAction
+  | LoveAnimalAction;
 
 export type PlacementEvent =
   | ConstructBuildingAction
@@ -661,6 +667,9 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "desert.digsBought": buyMoreDigs,
   "shipment.restocked": shipmentRestock,
   "animal.bought": buyAnimal,
+  "animal.fed": feedAnimal,
+  "animal.loved": loveAnimal,
+  "feed.mixed": feedMixed,
 };
 
 export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {

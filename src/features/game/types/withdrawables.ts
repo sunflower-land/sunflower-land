@@ -5,10 +5,10 @@ import {
   GreenHouseCropSeedName,
 } from "./crops";
 import {
-  FruitName,
-  FruitSeedName,
   GreenHouseFruitName,
   GreenHouseFruitSeedName,
+  PatchFruitName,
+  PatchFruitSeedName,
 } from "./fruits";
 import {
   Animal,
@@ -25,6 +25,8 @@ import {
   getKeys,
 } from "./craftables";
 import {
+  AnimalFoodName,
+  AnimalResource,
   Coupons,
   EasterEgg,
   FertiliserName,
@@ -32,6 +34,7 @@ import {
   HalloweenItems,
   InventoryItemName,
   LanternName,
+  LoveAnimalItem,
   Points,
   SpecialEvent,
 } from "./game";
@@ -88,6 +91,19 @@ const canWithdrawTimebasedItem = (availableAt: Date) => {
   return now >= availableAt;
 };
 
+const animalFood: Record<AnimalFoodName, () => boolean> = {
+  Hay: () => false,
+  "Kernel Blend": () => false,
+  NutriBarley: () => false,
+  "Mixed Grain": () => false,
+};
+
+const animalTools: Record<LoveAnimalItem, () => boolean> = {
+  "Petting Hand": () => false,
+  Brush: () => false,
+  "Music Box": () => false,
+};
+
 const cropSeeds: Record<CropSeedName, () => boolean> = {
   "Beetroot Seed": () => false,
   "Cabbage Seed": () => false,
@@ -106,7 +122,7 @@ const cropSeeds: Record<CropSeedName, () => boolean> = {
   "Barley Seed": () => false,
 };
 
-const fruitSeed: Record<FruitSeedName, () => boolean> = {
+const patchFruitSeed: Record<PatchFruitSeedName, () => boolean> = {
   "Apple Seed": () => false,
   "Blueberry Seed": () => false,
   "Orange Seed": () => false,
@@ -139,7 +155,7 @@ const crops: Record<CropName, () => boolean> = {
   Barley: () => false,
 };
 
-const fruits: Record<FruitName, () => boolean> = {
+const patchFruits: Record<PatchFruitName, () => boolean> = {
   Apple: () => true,
   Blueberry: () => true,
   Orange: () => true,
@@ -761,8 +777,8 @@ const soldOut: Record<SoldOutCollectibleName, () => boolean> = {
   "Pharaoh Gnome": () => canWithdrawTimebasedItem(new Date("2024-10-15")), // Last Auction 14th October
   "Lemon Tea Bath": () => canWithdrawTimebasedItem(new Date("2024-10-09")), // Last Auction 9th October
   "Tomato Clown": () => canWithdrawTimebasedItem(new Date("2024-10-06")), // Last Auction 5th October
-  Pyramid: () => canWithdrawTimebasedItem(new Date("2024-09-27")), // Last Auction 26th September
-  Oasis: () => canWithdrawTimebasedItem(new Date("2024-09-24")), // Last Auction 23rd September
+  Pyramid: () => true,
+  Oasis: () => true,
 };
 
 const achievementDecoration: Record<AchievementDecorationName, () => boolean> =
@@ -1000,18 +1016,18 @@ const megastore: Record<MegaStoreCollectibleName, () => boolean> = {
   "Golden Garrison": () => true,
   "Trainee Target": () => true,
   "Chess Rug": () => true,
-  "Rice Panda": () => canWithdrawTimebasedItem(new Date("2024-08-01")),
-  "Silver Squire": () => canWithdrawTimebasedItem(new Date("2024-08-01")),
-  Cluckapult: () => canWithdrawTimebasedItem(new Date("2024-08-01")),
-  "Bullseye Board": () => canWithdrawTimebasedItem(new Date("2024-08-01")),
+  "Rice Panda": () => true,
+  "Silver Squire": () => true,
+  Cluckapult: () => true,
+  "Bullseye Board": () => true,
   "Twister Rug": () => true,
 
-  "Hapy Jar": () => canWithdrawTimebasedItem(new Date("2024-09-01")),
+  "Hapy Jar": () => true,
   "Duamutef Jar": () => canWithdrawTimebasedItem(new Date("2024-10-01")),
   "Qebehsenuef Jar": () => canWithdrawTimebasedItem(new Date("2024-11-01")),
-  "Imsety Jar": () => canWithdrawTimebasedItem(new Date("2024-09-01")),
-  Cannonball: () => canWithdrawTimebasedItem(new Date("2024-09-01")),
-  Sarcophagus: () => canWithdrawTimebasedItem(new Date("2024-09-01")),
+  "Imsety Jar": () => true,
+  Cannonball: () => true,
+  Sarcophagus: () => true,
   "Clay Tablet": () => canWithdrawTimebasedItem(new Date("2024-10-01")),
   "Snake in Jar": () => canWithdrawTimebasedItem(new Date("2024-10-01")),
   "Reveling Lemon": () => canWithdrawTimebasedItem(new Date("2024-10-01")),
@@ -1100,6 +1116,15 @@ const mutantFlowers: Record<MutantFlowerName, () => boolean> = {
     canWithdrawTimebasedItem(SEASONS["Pharaoh's Treasure"].endDate),
 };
 
+const animalResources: Record<AnimalResource, () => boolean> = {
+  Egg: () => true,
+  Leather: () => false,
+  Wool: () => false,
+  "Merino Wool": () => false,
+  Feather: () => false,
+  Milk: () => false,
+};
+
 const halloween: Record<HalloweenItems, () => boolean> = {
   "Lamp Back": () => false,
   "Lamp Front": () => false,
@@ -1107,15 +1132,16 @@ const halloween: Record<HalloweenItems, () => boolean> = {
 };
 
 export const WITHDRAWABLES: Record<InventoryItemName, () => boolean> = {
+  ...animalResources,
   ...greenHouseCrop,
   ...greenHouseCropSeed,
   ...greenHouseFruitSeed,
   ...greenHouseFruit,
   ...crops,
-  ...fruits,
+  ...patchFruits,
   ...flowers,
   ...cropSeeds,
-  ...fruitSeed,
+  ...patchFruitSeed,
   ...flowerSeed,
   ...beans,
   ...questItems,
@@ -1151,6 +1177,8 @@ export const WITHDRAWABLES: Record<InventoryItemName, () => boolean> = {
   ...beachBounty,
   ...resources,
   ...purchasables,
+  ...animalFood,
+  ...animalTools,
   "Basic Land": () => false,
   ...lanterns,
   ...megastore,
@@ -1415,7 +1443,7 @@ export const BUMPKIN_WITHDRAWABLES: Record<
   Trident: () => false,
   "Bucket O' Worms": () => false,
   "Coconut Mask": () => false,
-  "Crab Trap": () => canWithdrawTimebasedItem(new Date("2024-09-01")),
+  "Crab Trap": () => true,
   "Seaside Tank Top": () => true,
   "Fish Trap": () => false,
   "Fishing Pants": () => true,
@@ -1513,16 +1541,14 @@ export const BUMPKIN_WITHDRAWABLES: Record<
 
   // Clash of Factions Auction
   "Non La Hat": (state) => canWithdrawBoostedWearable("Non La Hat", state), // Last Auction 2024/06/29
-  "Oil Can": (state) =>
-    canWithdrawTimebasedItem(new Date("2024-07-18")) &&
-    canWithdrawBoostedWearable("Oil Can", state), // Last Auction 2024/07/17
+  "Oil Can": (state) => canWithdrawBoostedWearable("Oil Can", state), // Last Auction 2024/07/17
   "Olive Shield": (state) => canWithdrawBoostedWearable("Olive Shield", state), // Last Auction 2024/07/05
-  "Paw Shield": () => canWithdrawTimebasedItem(new Date("2024-07-24")), // Last Auction 2024/07/23
-  Pan: () => canWithdrawTimebasedItem(new Date("2024-07-21")), // Last Auction 2024/07/20
+  "Paw Shield": () => true,
+  Pan: () => true,
   // Clash of Factions Megastore
   "Royal Robe": () => true,
   Crown: () => true,
-  "Soybean Onesie": () => canWithdrawTimebasedItem(new Date("2024-08-01")),
+  "Soybean Onesie": () => true,
   "Tofu Mask": (state) => canWithdrawBoostedWearable("Tofu Mask", state),
   "Olive Royalty Shirt": (state) =>
     canWithdrawBoostedWearable("Olive Royalty Shirt", state),
@@ -1559,11 +1585,11 @@ export const BUMPKIN_WITHDRAWABLES: Record<
   "Royal Braids": () => false,
 
   // Pharaoh's Treasure
-  "Pharaoh Headdress": () => canWithdrawTimebasedItem(new Date("2024-09-01")),
+  "Pharaoh Headdress": () => true,
   "Camel Onesie": (state) =>
     canWithdrawTimebasedItem(new Date("2024-10-01")) &&
     canWithdrawBoostedWearable("Camel Onesie", state),
-  "Explorer Shirt": () => canWithdrawTimebasedItem(new Date("2024-09-01")),
+  "Explorer Shirt": () => true,
   "Explorer Shorts": () => canWithdrawTimebasedItem(new Date("2024-10-01")),
   "Oil Overalls": (state) =>
     canWithdrawTimebasedItem(new Date("2024-10-27")) &&
@@ -1574,7 +1600,7 @@ export const BUMPKIN_WITHDRAWABLES: Record<
   "Rock Hammer": () => canWithdrawTimebasedItem(new Date("2024-11-01")),
   "Explorer Hat": () => canWithdrawTimebasedItem(new Date("2024-10-01")),
   "Oil Protection Hat": () => false,
-  "Amber Amulet": () => canWithdrawTimebasedItem(new Date("2024-09-01")),
+  "Amber Amulet": () => true,
   "Sun Scarab Amulet": () => false,
   "Desert Background": () => canWithdrawTimebasedItem(new Date("2024-09-30")), // Last Auction 29th September
   "Desert Merchant Turban": () => false,
@@ -1582,7 +1608,7 @@ export const BUMPKIN_WITHDRAWABLES: Record<
   "Desert Merchant Suit": () => false,
   "Desert Camel Background": () =>
     canWithdrawTimebasedItem(new Date("2024-11-01")),
-  "Water Gourd": () => canWithdrawTimebasedItem(new Date("2024-09-01")),
+  "Water Gourd": () => true,
   "Rocket Onesie": () => false,
   "Coin Aura": () => false,
   "Ankh Shirt": () => canWithdrawTimebasedItem(new Date("2024-10-01")),

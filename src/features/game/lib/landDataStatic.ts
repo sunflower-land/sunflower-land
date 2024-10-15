@@ -334,7 +334,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
       type: "Woodlands",
     },
   },
-  coins: 10,
+  coins: 10000,
   balance: new Decimal(100.1023810291823),
   previousBalance: new Decimal(0),
   previousInventory: {
@@ -854,7 +854,29 @@ export const STATIC_OFFLINE_FARM: GameState = {
       {
         coordinates: {
           x: -5,
-          y: -2,
+          y: 7,
+        },
+        createdAt: 0,
+        id: "1",
+        readyAt: 0,
+      },
+    ],
+    "Hen House": [
+      {
+        coordinates: {
+          x: 4,
+          y: 6,
+        },
+        createdAt: 0,
+        id: "1",
+        readyAt: 0,
+      },
+    ],
+    Barn: [
+      {
+        coordinates: {
+          x: 9,
+          y: 10,
         },
         createdAt: 0,
         id: "1",

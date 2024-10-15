@@ -12,7 +12,7 @@ import { NPCName } from "lib/npcs";
 import { getSeasonChangeover } from "lib/utils/getSeasonWeek";
 import { isWearableActive } from "features/game/lib/wearables";
 import { FACTION_OUTFITS } from "features/game/lib/factions";
-import { FRUIT, FruitName } from "features/game/types/fruits";
+import { PATCH_FRUIT, PatchFruitName } from "features/game/types/fruits";
 import { produce } from "immer";
 
 export const TICKET_REWARDS: Record<QuestNPCName, number> = {
@@ -29,7 +29,7 @@ export const TICKET_REWARDS: Record<QuestNPCName, number> = {
   pharaoh: 5,
 };
 
-const isFruit = (name: FruitName) => name in FRUIT();
+const isFruit = (name: PatchFruitName) => name in PATCH_FRUIT();
 
 export function generateDeliveryTickets({
   game,
@@ -202,7 +202,7 @@ export function getOrderSellPrice<T>(game: GameState, order: Order): T {
     order.from === "tango"
   ) {
     const items = getKeys(order.items);
-    if (items.some((name) => isFruit(name as FruitName))) {
+    if (items.some((name) => isFruit(name as PatchFruitName))) {
       mul += 0.5;
     }
   }
@@ -214,6 +214,14 @@ export function getOrderSellPrice<T>(game: GameState, order: Order): T {
     order.from === "corale"
   ) {
     mul += 0.5;
+  }
+
+  // Nom Nom - 5% bonus with food orders
+  if (game.bumpkin?.skills["Nom Nom"]) {
+    const items = getKeys(order.items);
+    if (items.some((name) => name in COOKABLE_CAKES)) {
+      mul += 0.05;
+    }
   }
 
   const items = getKeys(order.items);

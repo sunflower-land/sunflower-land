@@ -1,17 +1,17 @@
 import Decimal from "decimal.js-light";
 import { detectCollision } from "features/game/expansion/placeable/lib/collisionDetection";
+import { makeAnimalBuildingKey } from "features/game/lib/animals";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { getBumpkinLevel } from "features/game/lib/level";
-import { ANIMALS, AnimalType } from "features/game/types/animals";
+import {
+  AnimalBuildingType,
+  ANIMALS,
+  AnimalType,
+} from "features/game/types/animals";
 import { trackActivity } from "features/game/types/bumpkinActivity";
 import { getKeys } from "features/game/types/decorations";
-import {
-  AnimalBuilding,
-  AnimalBuildingKey,
-  GameState,
-} from "features/game/types/game";
+import { AnimalBuilding, GameState } from "features/game/types/game";
 import { produce } from "immer";
-import { toCamelCase } from "lib/utils/toCamelCase";
 
 export type BuyAnimalAction = {
   type: "animal.bought";
@@ -86,18 +86,12 @@ export function buyAnimal({
       );
     }
 
-    const buildingKey = toCamelCase(buildingRequired) as AnimalBuildingKey;
-    const building = copy[buildingKey] as AnimalBuilding;
-
-    // This should not happen as this field will be added when a building is placed but just in case
-    if (!building) {
-      throw new Error(
-        `You do not have a ${buildingRequired} on your gameState`,
-      );
-    }
+    const buildingKey = makeAnimalBuildingKey(
+      buildingRequired as AnimalBuildingType,
+    );
 
     const capacity = getAnimalCapacity(buildingKey, copy);
-    const totalAnimalsInBuilding = getKeys(building.animals).length;
+    const totalAnimalsInBuilding = getKeys(copy[buildingKey].animals).length;
 
     if (totalAnimalsInBuilding >= capacity) {
       throw new Error("You do not have the capacity for this animal");
@@ -121,12 +115,16 @@ export function buyAnimal({
 
     copy.coins -= price;
 
-    building.animals[action.id] = {
+    copy[buildingKey].animals[action.id] = {
       id: action.id,
       state: "idle",
       type: action.animal,
       coordinates: action.coordinates,
       createdAt,
+      experience: 0,
+      asleepAt: 0,
+      lovedAt: 0,
+      item: "Petting Hand",
     };
 
     bumpkin.activity = trackActivity(
