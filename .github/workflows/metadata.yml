@@ -37,7 +37,9 @@ jobs:
           git config --global user.email "metadata@sunflower-land.com"
 
       - name: Pull latest changes
-        run: git pull origin main
+        run: |
+          git fetch origin
+          git pull origin fix/pull-changes-before-commit
 
       - uses: EndBug/add-and-commit@v9
         with:

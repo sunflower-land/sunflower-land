@@ -46,7 +46,7 @@ jobs:
       - name: Pull latest changes
         run: |
           git fetch origin
-          git pull origin main
+          git pull origin fix/pull-changes-before-commit
 
       - uses: EndBug/add-and-commit@v9
         with:
