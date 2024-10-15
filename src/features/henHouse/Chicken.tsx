@@ -25,7 +25,10 @@ const _animalState = (state: AnimalMachineState) =>
 const _chicken = (id: string) => (state: MachineState) =>
   state.context.state.henHouse.animals[id];
 
-export const Chicken: React.FC<{ id: string }> = ({ id }) => {
+export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
+  id,
+  disabled,
+}) => {
   const { gameService } = useContext(Context);
 
   const chicken = useSelector(gameService, _chicken(id));
@@ -39,6 +42,8 @@ export const Chicken: React.FC<{ id: string }> = ({ id }) => {
   const chickenState = useSelector(chickenService, _animalState);
 
   const feedChicken = () => {
+    if (disabled) return;
+
     const updatedState = gameService.send({
       type: "animal.fed",
       animal: "Chicken",
@@ -55,6 +60,8 @@ export const Chicken: React.FC<{ id: string }> = ({ id }) => {
   };
 
   const loveChicken = () => {
+    if (disabled) return;
+
     const updatedState = gameService.send({
       type: "animal.loved",
       animal: "Chicken",

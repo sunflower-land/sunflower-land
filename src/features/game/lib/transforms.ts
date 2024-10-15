@@ -31,6 +31,7 @@ export function makeGame(farm: any): GameState {
       }),
       {} as Record<InventoryItemName, Decimal>,
     ),
+    bounties: farm.bounties,
     island: farm.island,
     home: farm.home,
     createdAt: farm.createdAt,

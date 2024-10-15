@@ -438,6 +438,59 @@ export const INITIAL_FARM: GameState = {
     wearables: [],
   },
 
+  bounties: {
+    completed: [
+      {
+        id: "1",
+        soldAt: 100000,
+      },
+    ],
+    requests: [
+      {
+        id: "1",
+        name: "Chicken",
+        level: 1,
+        coins: 100,
+      },
+      {
+        id: "3",
+        name: "Chicken",
+        level: 1,
+        coins: 100,
+      },
+      {
+        id: "2",
+        name: "Chicken",
+        level: 5,
+        items: { Scroll: 1 },
+      },
+      {
+        id: "2",
+        name: "Chicken",
+        level: 5,
+        items: { Scroll: 1 },
+      },
+      {
+        id: "2",
+        name: "Chicken",
+        level: 5,
+        items: { Scroll: 1 },
+      },
+      {
+        id: "2",
+        name: "Chicken",
+        level: 5,
+        items: { Scroll: 1 },
+      },
+      {
+        id: "22",
+        name: "Chicken",
+        level: 1,
+        items: { Scroll: 1 },
+      },
+    ],
+  },
+
   mysteryPrizes: {},
   stockExpiry: {},
   mushrooms: {
@@ -641,6 +694,10 @@ export const TEST_FARM: GameState = {
     "Basic Land": new Decimal(3),
   },
   previousInventory: {},
+  bounties: {
+    completed: [],
+    requests: [],
+  },
   rewards: INITIAL_REWARDS,
   minigames: {
     games: {},
@@ -940,6 +997,10 @@ export const EMPTY: GameState = {
     Stone: new Decimal(10),
   },
   bumpkin: INITIAL_BUMPKIN,
+  bounties: {
+    completed: [],
+    requests: [],
+  },
   rewards: INITIAL_REWARDS,
   experiments: [],
   minigames: {
