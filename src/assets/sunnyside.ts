@@ -335,6 +335,7 @@ export const SUNNYSIDE = {
     warehouse: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/warehouse.png`,
     fruitPatchDirt: `${CONFIG.PROTECTED_IMAGE_URL}/fruit/fruit_patch.png`,
     barn: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/barn_sm.webp`,
+    feederMachine: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/feeder_machine.webp`,
 
     //DESERT
     desertFirePit: `${CONFIG.PROTECTED_IMAGE_URL}/desert/buildings/fire_pit.webp`,

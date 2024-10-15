@@ -733,7 +733,11 @@ export type LanternName =
   | "Betty Lantern"
   | "Bumpkin Lantern";
 
-export type AnimalFoodName = "Hay" | "Kernel Blend";
+export type AnimalFoodName =
+  | "Hay"
+  | "Kernel Blend"
+  | "NutriBarley"
+  | "Mixed Grain";
 
 export type Party = {
   fulfilledAt?: number;

@@ -2,7 +2,13 @@ import Decimal from "decimal.js-light";
 import { ConsumableName, CookableName } from "./consumables";
 import { Animal, Food, ToolName } from "./craftables";
 import { CropName, GreenHouseCropName, GreenHouseCropSeedName } from "./crops";
-import { Bumpkin, Keys, LanternName, MegaStoreItemName } from "./game";
+import {
+  AnimalFoodName,
+  Bumpkin,
+  Keys,
+  LanternName,
+  MegaStoreItemName,
+} from "./game";
 import { BeanName, ExoticCropName } from "./beans";
 import {
   HeliosBlacksmithItem,
@@ -80,6 +86,7 @@ export type ComposterCollectEvent = `${CompostName} Collected`;
 export type CompostedEvent = `${ComposterName} Collected`;
 export type PlantGreenHouseFruitEvent = `${GreenHouseFruitName} Planted`;
 export type PlantGreenHouseCropEvent = `${GreenHouseCropName} Planted`;
+export type AnimalFeedMixedEvent = `${AnimalFoodName} Mixed`;
 
 export type BumpkinActivityName =
   | PlantGreenHouseFruitEvent
@@ -96,6 +103,7 @@ export type BumpkinActivityName =
   | PlantFlowerEvent
   | TreasureEvent
   | CompostedEvent
+  | AnimalFeedMixedEvent
   // Resources
   | "Tree Chopped"
   | "Stone Mined"

@@ -18,6 +18,7 @@ import { Sheep } from "./components/Sheep";
 
 import shopDisc from "assets/icons/shop_disc.png";
 import { AnimalBuildingModal } from "features/game/expansion/components/animals/AnimalBuildingModal";
+import { FeederMachine } from "features/feederMachine/FeederMachine";
 
 const background = SUNNYSIDE.land.tent_inside;
 
@@ -102,6 +103,18 @@ export const BarnInside: React.FC = () => {
                   height: `${192 * PIXEL_SCALE}px`,
                 }}
               />
+
+              <div
+                className="absolute"
+                style={{
+                  left: `${10 * PIXEL_SCALE}px`,
+                  top: `${0 * PIXEL_SCALE}px`,
+                  width: `${30 * PIXEL_SCALE}px`,
+                }}
+              >
+                <FeederMachine />
+              </div>
+
               {mapPlacements.sort((a, b) => a.props.y - b.props.y)}
               <div
                 className="absolute"
