@@ -27,7 +27,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     image: "../public/erc1155/images/101.png",
     attributes: [
       { trait_type: "Purpose", value: "Seed" },
-      // { trait_type: "Tradable", value: "No" },
+      { trait_type: "Tradable", value: "No" },
     ],
   },
   "Beetroot Seed": {
