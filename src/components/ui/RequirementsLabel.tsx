@@ -1,6 +1,6 @@
 import Decimal from "decimal.js-light";
 import { InventoryItemName } from "features/game/types/game";
-import React, { useContext } from "react";
+import React from "react";
 import { LABEL_STYLES, Label } from "./Label";
 import { SquareIcon } from "./SquareIcon";
 import { ITEM_DETAILS } from "features/game/types/images";
@@ -14,8 +14,6 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { formatNumber } from "lib/utils/formatNumber";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { BumpkinItem } from "features/game/types/bumpkin";
-import { useActor } from "@xstate/react";
-import { Context } from "features/game/GameProvider";
 
 /**
  * The props for SFL requirement label. Use this when the item costs SFL.
@@ -184,13 +182,6 @@ type Props = (
  */
 export const RequirementLabel: React.FC<Props> = (props) => {
   const { t } = useAppTranslation();
-  const { gameService } = useContext(Context);
-
-  const [
-    {
-      context: { state },
-    },
-  ] = useActor(gameService);
 
   const getIcon = () => {
     switch (props.type) {

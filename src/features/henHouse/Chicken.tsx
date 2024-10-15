@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { PIXEL_SCALE } from "features/game/lib/constants";
+import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import { MachineState } from "features/game/lib/gameMachine";
 import { Context } from "features/game/GameProvider";
 import { useInterpret, useSelector } from "@xstate/react";
@@ -42,7 +42,7 @@ export const Chicken: React.FC<{ id: string }> = ({ id }) => {
     const updatedState = gameService.send({
       type: "animal.fed",
       animal: "Chicken",
-      food: "Kernel Blend",
+      food: "Hay",
       id: chicken.id,
     });
 
@@ -78,75 +78,83 @@ export const Chicken: React.FC<{ id: string }> = ({ id }) => {
 
   return (
     <div
-      className="relative cursor-pointer w-full h-full"
+      className="relative cursor-pointer w-full h-full flex items-center justify-center"
       style={{
-        height: `${PIXEL_SCALE * 19}px`,
+        width: `${GRID_WIDTH_PX * 2}px`,
+        height: `${GRID_WIDTH_PX * 2}px`,
       }}
       onClick={needsLove ? loveChicken : feedChicken}
     >
-      <img
-        src={SUNNYSIDE.animals.chickenShadow}
-        className="bottom-0 absolute left-1/2 transform -translate-x-1/2"
+      <div
+        className="relative w-full h-full"
         style={{
-          width: `${PIXEL_SCALE * 13}px`,
+          height: `${PIXEL_SCALE * 19}px`,
         }}
-      />
-      <img
-        src={
-          sleeping
-            ? SUNNYSIDE.animals.chickenAsleep
-            : SUNNYSIDE.animals.chickenIdle
-        }
-        alt={`${capitalize(chickenState)} Chicken`}
-        style={{
-          width: `${PIXEL_SCALE * (sleeping ? 13 : 11)}px`,
-        }}
-        className={classNames(
-          "absolute ml-[1px] top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2",
-          {
-            "mt-[2px]": !sleeping,
-            "mt-[3px]": sleeping,
-          },
-        )}
-      />
-      {/* Emotion */}
-      {chickenState !== "idle" && !needsLove && (
+      >
         <img
-          src={ANIMAL_EMOTION_ICONS[chickenState]}
+          src={SUNNYSIDE.animals.chickenShadow}
+          className="bottom-0 absolute left-1/2 transform -translate-x-1/2"
+          style={{
+            width: `${PIXEL_SCALE * 13}px`,
+          }}
+        />
+        <img
+          src={
+            sleeping
+              ? SUNNYSIDE.animals.chickenAsleep
+              : SUNNYSIDE.animals.chickenIdle
+          }
           alt={`${capitalize(chickenState)} Chicken`}
           style={{
-            width: `${PIXEL_SCALE * (sleeping ? 9 : 7)}px`,
-            top: sleeping ? -8 : -7,
-            right: sleeping ? -8 : -7,
+            width: `${PIXEL_SCALE * (sleeping ? 13 : 11)}px`,
           }}
-          className="absolute"
+          className={classNames(
+            "absolute ml-[1px] top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2",
+            {
+              "mt-[2px]": !sleeping,
+              "mt-[3px]": sleeping,
+            },
+          )}
         />
-      )}
-      {/* Request */}
-      {chickenState === "idle" && (
-        <RequestBubble
-          top={PIXEL_SCALE * -5.5}
-          left={PIXEL_SCALE * 9.5}
-          image={{ src: ITEM_DETAILS[favFood].image, height: 16, width: 16 }}
+        {/* Emotion */}
+        {chickenState !== "idle" && !needsLove && (
+          <img
+            src={ANIMAL_EMOTION_ICONS[chickenState]}
+            alt={`${capitalize(chickenState)} Chicken`}
+            style={{
+              width: `${PIXEL_SCALE * (sleeping ? 9 : 7)}px`,
+              top: sleeping ? -8 : -4,
+              right: sleeping ? 0 : 8,
+            }}
+            className="absolute"
+          />
+        )}
+        {/* Request */}
+        {chickenState === "idle" && (
+          <RequestBubble
+            top={PIXEL_SCALE * -5.5}
+            left={PIXEL_SCALE * 18}
+            image={{ src: ITEM_DETAILS[favFood].image, height: 16, width: 16 }}
+          />
+        )}
+        {needsLove && (
+          <RequestBubble
+            top={PIXEL_SCALE * -5.5}
+            left={PIXEL_SCALE * 9.5}
+            image={{
+              src: ITEM_DETAILS[chicken.item].image,
+              height: 16,
+              width: 16,
+            }}
+          />
+        )}
+        {/* Level Progress */}
+        <LevelProgress
+          animal="Chicken"
+          experience={chicken.experience}
+          className="bottom-1 left-1/2 transform -translate-x-1/2"
         />
-      )}
-      {needsLove && (
-        <RequestBubble
-          top={PIXEL_SCALE * -5.5}
-          left={PIXEL_SCALE * 9.5}
-          image={{
-            src: ITEM_DETAILS[chicken.item].image,
-            height: 16,
-            width: 16,
-          }}
-        />
-      )}
-      {/* Level Progress */}
-      <LevelProgress
-        animal="Chicken"
-        experience={chicken.experience}
-        className="bottom-1.5 left-1"
-      />
+      </div>
     </div>
   );
 };

@@ -378,6 +378,10 @@ import { buyAnimal, BuyAnimalAction } from "./landExpansion/buyAnimal";
 import { feedAnimal, FeedAnimalAction } from "./landExpansion/feedAnimal";
 import { loveAnimal, LoveAnimalAction } from "./landExpansion/loveAnimal";
 import { feedMixed, FeedMixedAction } from "features/feederMachine/feedMixed";
+import {
+  upgradeBuilding,
+  UpgradeBuildingAction,
+} from "./landExpansion/upgradeBuilding";
 
 export type PlayingEvent =
   | SpeedUpBuilding
@@ -491,7 +495,8 @@ export type PlayingEvent =
   | BuyMoreDigsAction
   | BuyAnimalAction
   | FeedAnimalAction
-  | LoveAnimalAction;
+  | LoveAnimalAction
+  | UpgradeBuildingAction;
 
 export type PlacementEvent =
   | ConstructBuildingAction
@@ -670,6 +675,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "animal.fed": feedAnimal,
   "animal.loved": loveAnimal,
   "feed.mixed": feedMixed,
+  "building.upgraded": upgradeBuilding,
 };
 
 export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {

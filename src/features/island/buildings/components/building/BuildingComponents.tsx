@@ -224,7 +224,7 @@ export const READONLY_BUILDINGS: (
   ),
   "Hen House": () => (
     <img
-      src={HEN_HOUSE_VARIANTS[island]}
+      src={HEN_HOUSE_VARIANTS[island][1] as string}
       className="absolute bottom-0"
       style={{
         width: `${PIXEL_SCALE * 61}px`,
