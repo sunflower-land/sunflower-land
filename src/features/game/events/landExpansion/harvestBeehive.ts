@@ -54,6 +54,8 @@ const applySwarmBoostToCrops = (
 };
 
 export const getHoneyMultiplier = (game: GameState) => {
+  const { bumpkin } = game;
+
   let multiplier = 1;
 
   if (isWearableActive({ name: "Bee Suit", game })) {
@@ -62,6 +64,10 @@ export const getHoneyMultiplier = (game: GameState) => {
 
   if (isWearableActive({ name: "Honeycomb Shield", game })) {
     multiplier += 1;
+  }
+
+  if (bumpkin.skills["Sweet Bonus"]) {
+    multiplier += 0.1;
   }
 
   return multiplier;
