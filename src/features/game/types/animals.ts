@@ -1,6 +1,7 @@
 import Decimal from "decimal.js-light";
 import { BuildingName } from "./buildings";
 import { AnimalFoodName, Inventory } from "./game";
+import { translate } from "lib/i18n/translate";
 
 export type AnimalBuildingType = Extract<BuildingName, "Barn" | "Hen House">;
 
@@ -67,28 +68,28 @@ export const ANIMAL_LEVELS: Record<AnimalType, Record<AnimalLevel, number>> = {
 export const ANIMAL_FOODS: Record<AnimalFoodName, Feed> = {
   Hay: {
     name: "Hay",
-    description: "",
+    description: translate("description.hay"),
     ingredients: {
       Corn: new Decimal(1),
     },
   },
   "Kernel Blend": {
     name: "Kernel Blend",
-    description: "",
+    description: translate("description.kernel.blend"),
     ingredients: {
       Wheat: new Decimal(1),
     },
   },
   NutriBarley: {
     name: "NutriBarley",
-    description: "",
+    description: translate("description.nutribarley"),
     ingredients: {
       Barley: new Decimal(1),
     },
   },
   "Mixed Grain": {
     name: "Mixed Grain",
-    description: "",
+    description: translate("description.mixed.grain"),
     ingredients: {
       Wheat: new Decimal(1),
       Corn: new Decimal(1),

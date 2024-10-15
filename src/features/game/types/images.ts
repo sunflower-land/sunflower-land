@@ -740,6 +740,7 @@ import { translate } from "lib/i18n/translate";
 import { BASIC_DECORATIONS } from "./decorations";
 import { SELLABLE_TREASURE } from "./treasure";
 import { TREASURE_COLLECTIBLE_ITEM } from "./collectibles";
+import { ANIMAL_FOODS } from "./animals";
 
 export interface ItemDetails {
   description: string;
@@ -4141,18 +4142,18 @@ export const ITEM_DETAILS: Items = {
   },
   Hay: {
     image: SUNNYSIDE.animalFoods.hay,
-    description: "",
+    description: ANIMAL_FOODS.Hay.description,
   },
   "Kernel Blend": {
     image: SUNNYSIDE.animalFoods.kernel_blend,
-    description: "",
+    description: ANIMAL_FOODS["Kernel Blend"].description,
   },
   NutriBarley: {
     image: SUNNYSIDE.animalFoods.nutribarley,
-    description: "",
+    description: ANIMAL_FOODS.NutriBarley.description,
   },
   "Mixed Grain": {
     image: SUNNYSIDE.animalFoods.mixed_grain,
-    description: "",
+    description: ANIMAL_FOODS["Mixed Grain"].description,
   },
 };
