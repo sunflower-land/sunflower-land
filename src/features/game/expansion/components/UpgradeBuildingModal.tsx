@@ -22,7 +22,8 @@ import { InlineDialogue } from "features/world/ui/TypingMessage";
 
 interface Props {
   buildingName: AnimalBuildingType;
-  level: Exclude<AnimalBuildingLevel, 1>;
+  currentLevel: AnimalBuildingLevel;
+  nextLevel: AnimalBuildingLevel;
   show: boolean;
   onClose: () => void;
 }
@@ -31,7 +32,8 @@ const _state = (state: MachineState) => state.context.state;
 
 export const UpgradeBuildingModal: React.FC<Props> = ({
   buildingName,
-  level,
+  currentLevel,
+  nextLevel,
   onClose,
   show,
 }) => {
@@ -41,9 +43,8 @@ export const UpgradeBuildingModal: React.FC<Props> = ({
   const { t } = useAppTranslation();
 
   const maxLevel = getKeys(BUILDING_UPGRADES[buildingName]).length;
-  const isMaxLevel = level === maxLevel;
-
-  const requirements = BUILDING_UPGRADES[buildingName][level];
+  const isMaxLevel = currentLevel === maxLevel;
+  const requirements = BUILDING_UPGRADES[buildingName][nextLevel];
 
   const upgrade = () => {
     // Implement the upgrade logic here

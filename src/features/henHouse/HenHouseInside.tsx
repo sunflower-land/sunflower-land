@@ -78,7 +78,8 @@ export const HenHouseInside: React.FC = () => {
       />
       <UpgradeBuildingModal
         buildingName="Hen House"
-        level={nextLevel}
+        currentLevel={level}
+        nextLevel={nextLevel}
         show={showUpgradeModal}
         onClose={() => setShowUpgradeModal(false)}
       />

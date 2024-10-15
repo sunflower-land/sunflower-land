@@ -80,8 +80,9 @@ export const BarnInside: React.FC = () => {
         onClose={() => setShowModal(false)}
       />
       <UpgradeBuildingModal
-        buildingName="Hen House"
-        level={nextLevel}
+        buildingName="Barn"
+        currentLevel={level}
+        nextLevel={nextLevel}
         show={showUpgradeModal}
         onClose={() => setShowUpgradeModal(false)}
       />
