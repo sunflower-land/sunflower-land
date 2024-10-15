@@ -73,7 +73,6 @@ export const ANIMAL_FOODS: Record<AnimalFoodName, Feed> = {
       Corn: new Decimal(1),
     },
   },
-
   "Kernel Blend": {
     name: "Kernel Blend",
     description: translate("description.kernel.blend"),
