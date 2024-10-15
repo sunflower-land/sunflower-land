@@ -3704,5 +3704,6 @@
   "description.hay": "乾いた草は動物飼料や寝具として使用されます。",
   "description.kernel.blend": "飼料用または消費用のさまざまな穀物のブレンド。",
   "description.nutribarley": "大麦ベースの栄養補助食品または飼料。",
-  "description.mixed.grain": "給餌または植栽用の混合穀物または種子。"
+  "description.mixed.grain": "給餌または植栽用の混合穀物または種子。",
+  "mix.one": "ミックス 1"
 }
