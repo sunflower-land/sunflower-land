@@ -56,7 +56,6 @@ export const ChestReward: React.FC<Props> = ({
 
   const open = () => {
     setOpened(true);
-    onOpen();
   };
 
   const fail = () => {
@@ -93,7 +92,10 @@ export const ChestReward: React.FC<Props> = ({
               coins: coins ?? 0,
               message: translate("reward.woohoo"),
             }}
-            onClose={() => close(true)}
+            onClose={() => {
+              onOpen();
+              close(true);
+            }}
           />
         ) : (
           <div
