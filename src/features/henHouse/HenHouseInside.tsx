@@ -18,7 +18,6 @@ import { AnimalBuildingModal } from "features/game/expansion/components/animals/
 import { FeederMachine } from "features/feederMachine/FeederMachine";
 import { AnimalBuildingLevel } from "features/game/events/landExpansion/upgradeBuilding";
 import { UpgradeBuildingModal } from "features/game/expansion/components/UpgradeBuildingModal";
-import saleDisc from "assets/icons/sales_disc.webp";
 import { Modal } from "components/ui/Modal";
 import {
   AnimalDeal,
