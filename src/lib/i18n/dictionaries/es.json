@@ -3712,5 +3712,15 @@
   "animals.buy": "Comprar {{animal}}",
   "capacity": "Capacidad",
   "building.isMaxLevel": "¡Vaya, más despacio, amigo! ¡Tu {{building}} ya está en el nivel máximo!",
-  "max.level": "Nivel máximo"
+  "max.level": "Nivel máximo",
+  "bounties.animal.intro.one": "¡Hola, Bumpkin! ¡Mmmmmm, algo huele muy bien aquí!",
+  "bounties.animal.intro.two": "Los duendes están *muy* interesados en encontrar algo... ejem... Nuevos compañeros de granja *amigables*.",
+  "bounties.animal.intro.three": "Cada semana, tendré nuevas ofertas para ti. Tráeme tus mejores animales y haré que valga la pena. Simplemente... ¡no hagas demasiadas preguntas!",
+  "bounties.board": "Tablero de recompensas",
+  "bounties.board.info": "Opere con las recompensas de esta semana antes de que acabe el tiempo.",
+  "bounties.board.empty": "No hay ofertas disponibles en este momento.",
+  "bounties.sold": "Vendido",
+  "bounties.sell.coins": "¿Estás seguro de que quieres vender este animal por monedas de {{amount}}?",
+  "bounties.sell.items": "¿Estás seguro de que quieres vender este animal por {{amount}}?",
+  "bounties.animal.select": "Selecciona un {{name}} para vender."
 }

@@ -3712,5 +3712,15 @@
   "animals.buy": "购买 {{animal}}",
   "capacity": "容量",
   "building.isMaxLevel": "哇，慢点朋友！你的 {{building}} 已经达到最高等级了！",
-  "max.level": "最高等级"
+  "max.level": "最高等级",
+  "bounties.animal.intro.one": "你好 Bumpkin！嗯嗯，这里有东西闻起来很好吃！",
+  "bounties.animal.intro.two": "哥布林*非常*有兴趣找一些... 哎哟...*友好*新的农业伙伴。",
+  "bounties.animal.intro.three": "每周，我都会为你提供新的优惠。把你最好的动物带给我，我会让你花点时间的。只是... 不要问太多问题！",
+  "bounties.board": "赏金板",
+  "bounties.board.info": "在时间用完之前交易本周的赏金。",
+  "bounties.board.empty": "目前没有优惠可用。",
+  "bounties.sold": "已售出",
+  "bounties.sell.coins": "你确定要以 {{amount}} 金币出售这只动物吗？",
+  "bounties.sell.items": "你确定要以 [0@/美元] 的价格出售这种动物吗？",
+  "bounties.animal.select": "选择 {{name}} 进行出售。"
 }

@@ -3712,5 +3712,15 @@
   "animals.buy": "{{animal}} を購入",
   "capacity": "キャパシティ",
   "building.isMaxLevel": "おい、そこの速度を落とせ！あなたの {{building}} は既に最大レベルに達しています！",
-  "max.level": "最大レベル"
+  "max.level": "最大レベル",
+  "bounties.animal.intro.one": "やあ、バンプキン！うーん、ここは何かすごくおいしい匂いがする！",
+  "bounties.animal.intro.two": "ゴブリン達は探すことに*非常に*興味を持っている... エヘン...*親しみやすい*新しい農業仲間。",
+  "bounties.animal.intro.three": "毎週、新しいお得な情報をお届けします。最高の動物を連れてきてくれれば、それに見合うようにしてあげよう。ただ... あまり質問しないで！",
+  "bounties.board": "バウンティボード",
+  "bounties.board.info": "時間切れになる前に今週のバウンティをトレードしましょう。",
+  "bounties.board.empty": "現在ご利用いただけるお得な情報はありません。",
+  "bounties.sold": "売却",
+  "bounties.sell.coins": "本当にこの動物を {{amount}} コインで売りたいですか？",
+  "bounties.sell.items": "本当にこの動物を {{amount}} で売ってもよろしいですか？",
+  "bounties.animal.select": "売却する {{name}} を選択してください。"
 }

@@ -3712,5 +3712,15 @@
   "animals.buy": "Acheter {{animal}}",
   "capacity": "Capacité",
   "building.isMaxLevel": "Waouh, ralentis, mon ami ! Votre {{building}} est déjà au niveau maximum !",
-  "max.level": "Niveau maximum"
+  "max.level": "Niveau maximum",
+  "bounties.animal.intro.one": "Bonjour Bumpkin ! Mmmmmm, il y a quelque chose qui sent vraiment bon ici !",
+  "bounties.animal.intro.two": "Les gobelins sont *très* intéressés à en trouver... heu... de nouveaux compagnons agricoles *sympathiques*.",
+  "bounties.animal.intro.three": "Chaque semaine, je vous proposerai de nouvelles offres. Amenez-moi vos plus beaux animaux, et je ferai en sorte que cela en vaille la peine. Juste... ne posez pas trop de questions !",
+  "bounties.board": "Tableau Bounty",
+  "bounties.board.info": "Échangez les primes de cette semaine avant la fin du temps imparti.",
+  "bounties.board.empty": "Aucune offre n'est disponible pour le moment.",
+  "bounties.sold": "Vendu",
+  "bounties.sell.coins": "Êtes-vous sûr de vouloir vendre cet animal pour des pièces de {{amount}} ?",
+  "bounties.sell.items": "Êtes-vous sûr de vouloir vendre cet animal pour {{amount}} ?",
+  "bounties.animal.select": "Sélectionnez un {{name}} pour vendre."
 }

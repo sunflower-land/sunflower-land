@@ -3712,5 +3712,15 @@
   "animals.buy": "Beli {{animal}}",
   "capacity": "Kapasiti",
   "building.isMaxLevel": "Whoa, perlahankan sana kawan! {{building}} anda sudah berada di tahap maksimum!",
-  "max.level": "Tahap maksimum"
+  "max.level": "Tahap maksimum",
+  "bounties.animal.intro.one": "Hello Bumpkin! Mmmmm, sesuatu yang berbau sangat enak di sini!",
+  "bounties.animal.intro.two": "Orang Goblin* sunggu* berminat mencari beberapa... ahem... *ramah* sahabat pertanian baru.",
+  "bounties.animal.intro.three": "Setiap minggu, saya akan mempunyai tawaran baru untuk anda. Bawa saya haiwan terbaik anda, dan saya akan menjadikannya berbaloi untuk masa anda. Hanya... jangan tanya terlalu banyak soalan!",
+  "bounties.board": "Papan Bounty",
+  "bounties.board.info": "Berdagang hadiah minggu ini sebelum masa habis.",
+  "bounties.board.empty": "Tiada tawaran tersedia sekarang.",
+  "bounties.sold": "Dijual",
+  "bounties.sell.coins": "Adakah anda pasti ingin menjual haiwan ini untuk duit syiling {{amount}}?",
+  "bounties.sell.items": "Adakah anda pasti ingin menjual haiwan ini untuk {{amount}}?",
+  "bounties.animal.select": "Pilih {{name}} untuk dijual."
 }

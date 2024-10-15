@@ -3712,5 +3712,15 @@
   "animals.buy": "Buy {{animal}}",
   "capacity": "Capacity",
   "building.isMaxLevel": "Whoa, slow down there friend! Your {{building}} is already at the max level!",
-  "max.level": "Max level"
+  "max.level": "Max level",
+  "bounties.animal.intro.one": "Howdy Bumpkin! Mmmmmm, something smells mighty tasty in here!",
+  "bounties.animal.intro.two": "The Goblins are *very* interested in finding some... ahem... *friendly* new farming companions.",
+  "bounties.animal.intro.three": "Every week, I'll have fresh deals for you. Bring me your finest animals, and I'll make it worth your while. Just... don't ask too many questions!",
+  "bounties.board": "Bounty board",
+  "bounties.board.info": "Trade this week's bounties before time runs out.",
+  "bounties.board.empty": "There are no deals available right now.",
+  "bounties.sold": "Sold",
+  "bounties.sell.coins": "Are you sure you want to sell this animal for {{amount}} coins?",
+  "bounties.sell.items": "Are you sure you want to sell this animal for {{amount}}?",
+  "bounties.animal.select": "Select a {{name}} to sell."
 }

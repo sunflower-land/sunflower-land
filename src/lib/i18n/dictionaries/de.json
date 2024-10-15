@@ -3712,5 +3712,15 @@
   "animals.buy": "Kaufen Sie {{animal}}",
   "capacity": "Kapazität",
   "building.isMaxLevel": "Whoa, fahr langsamer, Freund! Dein {{building}} ist bereits auf dem höchsten Level!",
-  "max.level": "Maximaler Pegel"
+  "max.level": "Maximaler Pegel",
+  "bounties.animal.intro.one": "Hallo Bumpkin! Hmmmmm, hier riecht etwas unglaublich lecker!",
+  "bounties.animal.intro.two": "Die Goblins sind *sehr* daran interessiert, welche zu finden... ähem... *freundliche* neue Farmgefährten.",
+  "bounties.animal.intro.three": "Jede Woche habe ich neue Angebote für dich. Bring mir deine besten Tiere und ich werde dafür sorgen, dass es sich für dich lohnt. Stell einfach nicht zu viele Fragen!",
+  "bounties.board": "Bounty-Board",
+  "bounties.board.info": "Handeln Sie mit den Prämien dieser Woche, bevor die Zeit abläuft.",
+  "bounties.board.empty": "Derzeit sind keine Angebote verfügbar.",
+  "bounties.sold": "Verkauft",
+  "bounties.sell.coins": "Bist du sicher, dass du dieses Tier für {{amount}} -Münzen verkaufen willst?",
+  "bounties.sell.items": "Bist du sicher, dass du dieses Tier für {{amount}} verkaufen willst?",
+  "bounties.animal.select": "Wählen Sie {{name}} aus, um zu verkaufen."
 }
