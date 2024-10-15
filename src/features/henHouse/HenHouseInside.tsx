@@ -90,6 +90,8 @@ export const HenHouseInside: React.FC = () => {
           )}
           onClick={(e) => {
             if (deal) {
+              // Stop other clicks
+              e.stopPropagation();
               e.preventDefault();
 
               if (!isValid) return;
@@ -98,7 +100,7 @@ export const HenHouseInside: React.FC = () => {
             }
           }}
         >
-          <Chicken id={id} />
+          <Chicken disabled={!!deal} id={id} />
         </div>
       </MapPlacement>
     );
