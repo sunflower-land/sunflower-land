@@ -148,8 +148,8 @@ export const Tree: React.FC<Props> = ({ id }) => {
         });
       } else {
         setReward(resource.wood.reward);
+        return;
       }
-      return;
     }
 
     // can collect resources otherwise
