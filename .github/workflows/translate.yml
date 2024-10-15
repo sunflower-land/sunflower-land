@@ -3,8 +3,7 @@ name: Translate
 on:
   push:
     branches:
-      # - main
-      - fix/pull-changes-before-commit
+      - main
     paths:
       - src/lib/i18n/dictionaries/dictionary.json
 
@@ -40,13 +39,13 @@ jobs:
 
       - name: Configure Git user
         run: |
-          git config --global user.name "Metadata Bot"
-          git config --global user.email "metadata@sunflower-land.com"
+          git config --global user.name "Translator Bot"
+          git config --global user.email "translator@sunflower-land.com"
 
       - name: Pull latest changes
         run: |
           git fetch origin
-          git pull origin fix/pull-changes-before-commit
+          git pull origin main
 
       - uses: EndBug/add-and-commit@v9
         with:

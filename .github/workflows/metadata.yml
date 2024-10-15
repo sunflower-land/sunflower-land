@@ -3,8 +3,7 @@ name: Metadata
 on:
   push:
     branches:
-      # - main
-      - fix/pull-changes-before-commit
+      - main
     paths:
       - metadata/metadata.ts
 
@@ -39,7 +38,7 @@ jobs:
       - name: Pull latest changes
         run: |
           git fetch origin
-          git pull origin fix/pull-changes-before-commit
+          git pull origin main
 
       - uses: EndBug/add-and-commit@v9
         with:
