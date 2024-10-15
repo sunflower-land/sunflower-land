@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { Game, AUTO } from "phaser";
-import { useSelector } from "@xstate/react";
+import { useActor, useSelector } from "@xstate/react";
 import NinePatchPlugin from "phaser3-rex-plugins/plugins/ninepatch-plugin.js";
 import VirtualJoystickPlugin from "phaser3-rex-plugins/plugins/virtualjoystick-plugin.js";
 import { PhaserNavMeshPlugin } from "phaser-navmesh";
@@ -106,6 +106,12 @@ export const PhaserComponent: React.FC<Props> = ({
   const { authService } = useContext(AuthProvider.Context);
   const { gameService, selectedItem, shortcutItem } = useContext(Context);
 
+  const [
+    {
+      context: { state },
+    },
+  ] = useActor(gameService);
+
   const { toastsList } = useContext(ToastContext);
 
   const [messages, setMessages] = useState<Message[]>([]);
@@ -152,12 +158,10 @@ export const PhaserComponent: React.FC<Props> = ({
     });
 
     // Set up moderator by looking if bumpkin has Halo hat equipped and Beta Pass in inventory
-    const bumpkin = gameService.state.context.state.bumpkin;
-    const hasBetaPass = !!inventory["Beta Pass"];
+    const { wardrobe } = state;
+    const isModerator = !!inventory["Beta Pass"] && !!wardrobe.Halo;
 
-    bumpkin?.equipped?.hat === "Halo" && hasBetaPass
-      ? setIsModerator(true)
-      : setIsModerator(false); // I know i know this is a bit useless but useful for debugging rofl
+    isModerator ? setIsModerator(true) : setIsModerator(false); // I know i know this is a bit useless but useful for debugging rofl
 
     // Check if user is muted and if so, apply mute details to isMuted state
     const userModLogs = gameService.state.context.moderation;
