@@ -3697,5 +3697,20 @@
   "description.cow": "Questa delicata mucca fornisce latte fresco e pelle resistente. Rendila felice con cibo e affetto in abbondanza.",
   "description.sheep": "Questa soffice pecora fornisce sia lana normale che lussuosa lana merino. Rendila felice per i risultati più delicati!",
   "obsessionDialogue.line3": "È il {{itemName}} che hai? Un semplice sguardo è tutto ciò che desidero. Per questo, riceverai {{seasonalTicket}} s.",
-  "competition.maybeLater": "Forse più tardi"
+  "competition.maybeLater": "Forse più tardi",
+  "world.lvl.requirement": "Livello {{lvl}}",
+  "world.factionMembersOnly": "Solo membri della fazione",
+  "feederMachine.title": "Macchina alimentatrice",
+  "mix.one": "Miscela 1",
+  "description.hay": "Erba secca usata come mangime per animali o lettiera.",
+  "description.kernel.blend": "Miscela di vari cereali per l'alimentazione o il consumo.",
+  "description.nutribarley": "Integratore alimentare o mangime a base di orzo.",
+  "description.mixed.grain": "Cereali o semi misti per l'alimentazione o la semina.",
+  "upgrade.building": "Aggiorna {{building}}",
+  "upgrade.intro": "Ciao ciao, stai cercando di aggiornare il tuo {{building}} in modo da poterti procurare ancora {{animals}}?",
+  "upgrade": "Aggiornamento",
+  "animals.buy": "Acquista {{animal}}",
+  "capacity": "Capacità",
+  "building.isMaxLevel": "Wow, rallenta, amico! Il tuo {{building}} è già al livello massimo!",
+  "max.level": "Livello massimo"
 }

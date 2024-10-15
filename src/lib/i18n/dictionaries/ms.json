@@ -3697,5 +3697,20 @@
   "description.cow": "Lembu lembut ini menyediakan susu segar dan kulit tahan lama. Pastikan ia gembira dengan banyak makanan & kasih sayang.",
   "description.sheep": "Domba berbulu ini menyediakan bulu biasa dan bulu merino mewah. Pastikan ia gembira untuk hasil yang paling lembut!",
   "obsessionDialogue.line3": "Adakah itu {{itemName}} yang anda ada? Pandangan semata-mata adalah semua yang saya inginkan. Untuk ini, anda akan menerima {{seasonalTicket}} s.",
-  "competition.maybeLater": "Mungkin kemudian"
+  "competition.maybeLater": "Mungkin kemudian",
+  "world.lvl.requirement": "Lvl {{lvl}}",
+  "world.factionMembersOnly": "Ahli puak sahaja",
+  "feederMachine.title": "Mesin Pengumpan",
+  "mix.one": "Campurkan 1",
+  "description.hay": "Rumput kering digunakan sebagai makanan haiwan atau tempat tidur.",
+  "description.kernel.blend": "Campuran pelbagai bijirin untuk makanan atau penggunaan.",
+  "description.nutribarley": "Suplemen pemakanan atau makanan berasaskan Barley.",
+  "description.mixed.grain": "Biji-bijian atau biji campuran untuk memberi makan atau penanaman.",
+  "upgrade.building": "Naik taraf {{building}}",
+  "upgrade.intro": "Hei bumpkin, ingin menaik taraf {{building}} anda supaya anda boleh mendapatkan lebih banyak lagi {{animals}}?",
+  "upgrade": "Naik taraf",
+  "animals.buy": "Beli {{animal}}",
+  "capacity": "Kapasiti",
+  "building.isMaxLevel": "Whoa, perlahankan sana kawan! {{building}} anda sudah berada di tahap maksimum!",
+  "max.level": "Tahap maksimum"
 }

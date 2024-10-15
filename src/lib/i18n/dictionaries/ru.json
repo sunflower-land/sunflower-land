@@ -3697,5 +3697,20 @@
   "description.cow": "Эта нежная корова обеспечивает свежее молоко и прочную кожу. Порадуйте ее большим количеством еды и ласки.",
   "description.sheep": "Эта пушистая овца обеспечивает как обычную шерсть, так и роскошную шерсть мериноса. Радуйтесь самым мягким результатам!",
   "obsessionDialogue.line3": "Это то {{itemName}}, которое у вас есть? Мне нужен только один взгляд. За это вы получите {{seasonalTicket}} s.",
-  "competition.maybeLater": "Может, позже"
+  "competition.maybeLater": "Может, позже",
+  "world.lvl.requirement": "Уровень {{lvl}}",
+  "world.factionMembersOnly": "Только члены фракции",
+  "feederMachine.title": "Фидерная машина",
+  "mix.one": "Смешайте 1",
+  "description.hay": "Сухая трава используется в качестве корма для животных или подстилки.",
+  "description.kernel.blend": "Смесь различных злаков для кормления или потребления.",
+  "description.nutribarley": "Пищевая добавка или корм на основе ячменя.",
+  "description.mixed.grain": "Смешанные зерна или семена для подкормки или посадки.",
+  "upgrade.building": "Апгрейд {{building}}",
+  "upgrade.intro": "Привет, чувак, хочешь улучшить свой {{building}}, чтобы купить себе еще {{animals}}?",
+  "upgrade": "Обновить",
+  "animals.buy": "Купить {{animal}}",
+  "capacity": "Вместимость",
+  "building.isMaxLevel": "Ух, притормозите, друг! Ваш {{building}} уже на максимальном уровне!",
+  "max.level": "Максимальный уровень"
 }

@@ -3697,5 +3697,20 @@
   "description.cow": "Diese sanfte Kuh liefert frische Milch und strapazierfähiges Leder. Sorgen Sie mit viel Essen und Zuneigung dafür, dass es glücklich ist.",
   "description.sheep": "Dieses flauschige Schaf bietet sowohl normale Wolle als auch luxuriöse Merinowolle. Machen Sie es glücklich, um die weichsten Ergebnisse zu erzielen!",
   "obsessionDialogue.line3": "Ist das das {{itemName}}, das du hast? Ein bloßer Blick ist alles, was ich mir wünsche. Dafür erhalten Sie {{seasonalTicket}} s.",
-  "competition.maybeLater": "Vielleicht später"
+  "competition.maybeLater": "Vielleicht später",
+  "world.lvl.requirement": "Stufe {{lvl}}",
+  "world.factionMembersOnly": "Nur Fraktionsmitglieder",
+  "feederMachine.title": "Feeder-Maschine",
+  "mix.one": "Mischen Sie 1",
+  "description.hay": "Trockenes Gras, das als Tierfutter oder Einstreu verwendet wird.",
+  "description.kernel.blend": "Mischung verschiedener Getreidearten für Futter oder Verzehr.",
+  "description.nutribarley": "Nahrungsergänzungsmittel oder Futtermittel auf Gerstenbasis.",
+  "description.mixed.grain": "Gemischte Körner oder Samen zum Füttern oder Pflanzen.",
+  "upgrade.building": "Aktualisierung {{building}}",
+  "upgrade.intro": "Hallo Bumpkin, möchtest du dein {{building}} upgraden, damit du dir noch mehr {{animals}} besorgen kannst?",
+  "upgrade": "Aufrüsten",
+  "animals.buy": "Kaufen Sie {{animal}}",
+  "capacity": "Kapazität",
+  "building.isMaxLevel": "Whoa, fahr langsamer, Freund! Dein {{building}} ist bereits auf dem höchsten Level!",
+  "max.level": "Maximaler Pegel"
 }

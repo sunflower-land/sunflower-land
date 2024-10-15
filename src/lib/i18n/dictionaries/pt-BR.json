@@ -3697,5 +3697,20 @@
   "description.cow": "Esta vaca gentil fornece leite fresco e couro durável. Mantenha-o feliz com muita comida e carinho.",
   "description.sheep": "Esta ovelha fofa fornece lã normal e lã merino luxuosa. Fique feliz para obter os melhores resultados!",
   "obsessionDialogue.line3": "Esse é o {{itemName}} que você tem? Um simples olhar é tudo o que eu desejo. Para isso, você receberá {{seasonalTicket}} s.",
-  "competition.maybeLater": "Talvez mais tarde"
+  "competition.maybeLater": "Talvez mais tarde",
+  "world.lvl.requirement": "Nvel {{lvl}}",
+  "world.factionMembersOnly": "Somente membros da facção",
+  "feederMachine.title": "Máquina alimentadora",
+  "mix.one": "Misturar 1",
+  "description.hay": "Capim seco usado como ração animal ou cama.",
+  "description.kernel.blend": "Mistura de vários grãos para alimentação ou consumo.",
+  "description.nutribarley": "Suplemento nutricional ou ração à base de cevada.",
+  "description.mixed.grain": "Mistura de grãos ou sementes para alimentação ou plantio.",
+  "upgrade.building": "Atualização {{building}}",
+  "upgrade.intro": "Olá, caipira, quer atualizar seu {{building}} para conseguir mais {{animals}}?",
+  "upgrade": "Atualizar",
+  "animals.buy": "Comprar {{animal}}",
+  "capacity": "Capacidade",
+  "building.isMaxLevel": "Uau, vá devagar, amigo! Seu {{building}} já está no nível máximo!",
+  "max.level": "Nível máximo"
 }
