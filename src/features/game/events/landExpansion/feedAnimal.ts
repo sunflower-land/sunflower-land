@@ -18,42 +18,60 @@ export const ANIMAL_FOOD_EXPERIENCE: Record<
     1: {
       Hay: 10,
       "Kernel Blend": 20,
+      NutriBarley: 0,
+      "Mixed Grain": 0,
     },
     2: {
       Hay: 15,
       "Kernel Blend": 30,
+      NutriBarley: 0,
+      "Mixed Grain": 0,
     },
     3: {
       Hay: 40,
       "Kernel Blend": 20,
+      NutriBarley: 0,
+      "Mixed Grain": 0,
     },
   },
   Cow: {
     1: {
       Hay: 10,
       "Kernel Blend": 20,
+      NutriBarley: 0,
+      "Mixed Grain": 0,
     },
     2: {
       Hay: 15,
       "Kernel Blend": 30,
+      NutriBarley: 0,
+      "Mixed Grain": 0,
     },
     3: {
       Hay: 40,
       "Kernel Blend": 20,
+      NutriBarley: 0,
+      "Mixed Grain": 0,
     },
   },
   Sheep: {
     1: {
       Hay: 10,
       "Kernel Blend": 20,
+      NutriBarley: 0,
+      "Mixed Grain": 0,
     },
     2: {
       Hay: 15,
       "Kernel Blend": 30,
+      NutriBarley: 0,
+      "Mixed Grain": 0,
     },
     3: {
       Hay: 40,
       "Kernel Blend": 20,
+      NutriBarley: 0,
+      "Mixed Grain": 0,
     },
   },
 };

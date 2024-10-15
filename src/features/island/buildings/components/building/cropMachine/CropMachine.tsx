@@ -165,6 +165,11 @@ export const CropMachine: React.FC<Props> = ({ id }) => {
             </div>
           )}
           <img
+            src={SUNNYSIDE.building.shadowCropMachine}
+            className="absolute bottom-0 right-1"
+            style={{ width: `${PIXEL_SCALE * 80}px` }}
+          />
+          <img
             src={SUNNYSIDE.building.idleMachine}
             className="w-full absolute"
             style={{
@@ -174,11 +179,6 @@ export const CropMachine: React.FC<Props> = ({ id }) => {
           />
           {(running || paused) && (
             <>
-              <img
-                src={SUNNYSIDE.building.shadowCropMachine}
-                className="absolute bottom-0 right-1"
-                style={{ width: `${PIXEL_SCALE * 80}px` }}
-              />
               <div id="cropMachine" className="border-1 border-black">
                 {growingCropPackStage === "planting" && (
                   <Planting paused={paused} />

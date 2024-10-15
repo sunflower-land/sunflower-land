@@ -377,10 +377,12 @@ import {
 import { buyAnimal, BuyAnimalAction } from "./landExpansion/buyAnimal";
 import { feedAnimal, FeedAnimalAction } from "./landExpansion/feedAnimal";
 import { loveAnimal, LoveAnimalAction } from "./landExpansion/loveAnimal";
+import { feedMixed, FeedMixedAction } from "features/feederMachine/feedMixed";
 
 export type PlayingEvent =
   | SpeedUpBuilding
   | SpeedUpCollectible
+  | FeedMixedAction
   | InstantExpand
   | InstantCookRecipe
   | ShipmentRestockAction
@@ -667,6 +669,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "animal.bought": buyAnimal,
   "animal.fed": feedAnimal,
   "animal.loved": loveAnimal,
+  "feed.mixed": feedMixed,
 };
 
 export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {

@@ -60,6 +60,7 @@ import {
   SEED_TO_PLANT,
   getGreenhouseCropTime,
 } from "features/game/events/landExpansion/plantGreenhouse";
+import { ANIMAL_FOODS } from "features/game/types/animals";
 
 interface Prop {
   gameState: GameState;
@@ -165,6 +166,7 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
     (resource) => resource !== "Egg",
   );
   const animalResources = getItems(ANIMAL_RESOURCES);
+  const animalFeeds = getItems(ANIMAL_FOODS);
 
   // Sort all foods by Cooking Time and Building
   const foods = getItems(COOKABLES)
@@ -284,6 +286,7 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
           )}
           {itemsSection(t("resources"), resources, ITEM_DETAILS["Wood"].image)}
           {itemsSection(t("animal"), animalResources, ITEM_DETAILS.Egg.image)}
+          {itemsSection("Feeds", animalFeeds, ITEM_DETAILS.Hay.image)}
           {itemsSection(
             t("bait"),
             [...worm, ...purchaseableBait],

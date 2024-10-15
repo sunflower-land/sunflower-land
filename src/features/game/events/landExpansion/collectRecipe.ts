@@ -38,6 +38,7 @@ export function collectRecipe({
     }
 
     const recipe = building.crafting;
+    const amount = new Decimal(recipe?.amount || 1);
     if (!recipe) {
       throw new Error(translate("error.buildingNotCooking"));
     }
@@ -52,7 +53,7 @@ export function collectRecipe({
 
     bumpkin.activity = trackActivity(`${recipe.name} Cooked`, bumpkin.activity);
 
-    game.inventory[recipe.name] = consumableCount.add(1);
+    game.inventory[recipe.name] = consumableCount.add(amount);
 
     return game;
   });
