@@ -26,7 +26,8 @@ export const CraftingBox: React.FC = () => {
   const [selectedItems, setSelectedItems] = useState<
     (InventoryItemName | null)[]
   >(Array(9).fill(null));
-  const [selectedBoxIndex, setSelectedBoxIndex] = useState<number | null>(0);
+  const [selectedResource, setSelectedResource] =
+    useState<InventoryItemName | null>(null);
 
   const { gameService } = useContext(Context);
   const inventory = useSelector(gameService, _inventory);
@@ -39,40 +40,22 @@ export const CraftingBox: React.FC = () => {
 
   const handleBoxSelect = (index: number) => {
     if (craftingStatus === "pending") return;
-    if (selectedItems[index] !== null) {
-      setSelectedItems((prev) => {
-        const newItems = [...prev];
+    setSelectedItems((prev) => {
+      const newItems = [...prev];
+      if (newItems[index] !== null) {
+        // If the box contains any resource, clear it
         newItems[index] = null;
-        return newItems;
-      });
-    }
-    setSelectedBoxIndex(index);
+      } else if (selectedResource) {
+        // If the box is empty and a resource is selected, add the selected resource
+        newItems[index] = selectedResource;
+      }
+      return newItems;
+    });
   };
 
-  const moveToNextAvailableBox = () => {
-    const nextIndex = selectedItems.findIndex(
-      (item, index) => item === null && index > (selectedBoxIndex ?? -1),
-    );
-    if (nextIndex !== -1) {
-      setSelectedBoxIndex(nextIndex);
-    } else {
-      const firstEmptyIndex = selectedItems.findIndex((item) => item === null);
-      setSelectedBoxIndex(
-        firstEmptyIndex !== -1 ? firstEmptyIndex : selectedBoxIndex,
-      );
-    }
-  };
-
-  const handleItemSelect = (itemName: InventoryItemName) => {
+  const handleResourceSelect = (itemName: InventoryItemName) => {
     if (craftingStatus === "pending") return;
-    if (selectedBoxIndex !== null) {
-      setSelectedItems((prev) => {
-        const newItems = [...prev];
-        newItems[selectedBoxIndex] = itemName;
-        return newItems;
-      });
-      moveToNextAvailableBox();
-    }
+    setSelectedResource(itemName);
   };
 
   const handleCraft = () => {
@@ -124,7 +107,6 @@ export const CraftingBox: React.FC = () => {
           ]}
           currentTab={currentTab}
           setCurrentTab={setCurrentTab}
-          disabled={isPending}
         >
           {currentTab === 0 && (
             <>
@@ -137,9 +119,8 @@ export const CraftingBox: React.FC = () => {
                     <Box
                       image={item ? ITEM_DETAILS[item]?.image : undefined}
                       key={`${index}-${item}`}
-                      isSelected={selectedBoxIndex === index}
                       onClick={() => handleBoxSelect(index)}
-                      disabled={isPending}
+                      disabled={isPending || !selectedResource}
                     />
                   ))}
                 </div>
@@ -202,12 +183,9 @@ export const CraftingBox: React.FC = () => {
                         key={itemName}
                         count={amount}
                         image={ITEM_DETAILS[inventoryItem]?.image}
-                        onClick={() => handleItemSelect(inventoryItem)}
-                        disabled={
-                          isPending ||
-                          amount.lessThanOrEqualTo(0) ||
-                          selectedBoxIndex === null
-                        }
+                        isSelected={selectedResource === inventoryItem}
+                        onClick={() => handleResourceSelect(inventoryItem)}
+                        disabled={isPending || amount.lessThanOrEqualTo(0)}
                       />
                     );
                   })}
