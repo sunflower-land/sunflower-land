@@ -147,25 +147,25 @@ export const HenHouseInside: React.FC = () => {
           animal={selected!}
         />
       </Modal>
-        <div
-          className="absolute bg-[#181425]"
-          style={{
-            width: `${84 * GRID_WIDTH_PX}px`,
-            height: `${56 * GRID_WIDTH_PX}px`,
-            imageRendering: "pixelated",
-          }}
-        >
-          <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-            <div className="relative w-full h-full">
-              <img
-                src={shopDisc}
-                alt="Buy Animals"
-                className="absolute top-[18px] right-[18px] cursor-pointer z-10"
-                style={{
-                  width: `${PIXEL_SCALE * 18}px`,
-                }}
-                onClick={() => setShowModal(true)}
-              />
+      <div
+        className="absolute bg-[#181425]"
+        style={{
+          width: `${84 * GRID_WIDTH_PX}px`,
+          height: `${56 * GRID_WIDTH_PX}px`,
+          imageRendering: "pixelated",
+        }}
+      >
+        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+          <div className="relative w-full h-full">
+            <img
+              src={shopDisc}
+              alt="Buy Animals"
+              className="absolute top-[18px] right-[18px] cursor-pointer z-10"
+              style={{
+                width: `${PIXEL_SCALE * 18}px`,
+              }}
+              onClick={() => setShowModal(true)}
+            />
             <div className={"relative w-full h-full"}>
               {!deal && (
                 <>
@@ -179,7 +179,7 @@ export const HenHouseInside: React.FC = () => {
                     onClick={() => setShowModal(true)}
                   />
                   <div
-                    className="absolute top-8 left-8 cursor-pointer z-10"
+                    className="absolute bottom-32 left-8 cursor-pointer z-10"
                     style={{
                       width: `${PIXEL_SCALE * 18}px`,
                     }}
@@ -232,7 +232,7 @@ export const HenHouseInside: React.FC = () => {
             </div>
           </div>
         </div>
-
+      </div>
 
       {!deal && <Hud isFarming={false} location="home" />}
 
