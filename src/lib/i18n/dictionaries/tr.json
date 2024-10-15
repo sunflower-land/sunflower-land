@@ -3697,5 +3697,12 @@
   "description.cow": "Bu nazik inek taze süt ve dayanıklı deri sağlar. Bol miktarda yiyecek ve sevgi ile mutlu edin.",
   "description.sheep": "Bu kabarık koyun hem normal yün hem de lüks merinos yünü sağlar. En yumuşak sonuçlar için mutlu olun!",
   "obsessionDialogue.line3": "Sahip olduğunuz {{itemName}} bu mu? Tek istediğim sadece bir bakış. Bunun için {{seasonalTicket}} s alacaksınız.",
-  "competition.maybeLater": "Belki daha sonra"
+  "competition.maybeLater": "Belki daha sonra",
+  "world.lvl.requirement": "Lvl {{lvl}}",
+  "world.factionMembersOnly": "Sadece grup üyeleri",
+  "feederMachine.title": "Besleyici Makinası",
+  "description.hay": "Hayvan yemi veya yatak takımı olarak kullanılan kuru ot.",
+  "description.kernel.blend": "Yem veya tüketim için çeşitli tahılların karışımı.",
+  "description.nutribarley": "Armut bazlı besin takviyesi veya yem.",
+  "description.mixed.grain": "Besleme veya dikim için karışık tahıllar veya tohumlar."
 }

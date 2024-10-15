@@ -3697,5 +3697,12 @@
   "description.cow": "Sapi yang lembut ini menyediakan susu segar dan kulit yang tahan lama. Jaga agar tetap bahagia dengan banyak makanan & kasih sayang.",
   "description.sheep": "Domba berbulu ini menyediakan wol biasa dan wol merino mewah. Tetap senang untuk hasil yang paling lembut!",
   "obsessionDialogue.line3": "Apakah itu {{itemName}} yang Anda miliki? Sekadar pandangan adalah semua yang saya inginkan. Untuk ini, Anda akan menerima {{seasonalTicket}} s.",
-  "competition.maybeLater": "Mungkin nanti"
+  "competition.maybeLater": "Mungkin nanti",
+  "world.lvl.requirement": "Tingkat {{lvl}}",
+  "world.factionMembersOnly": "Hanya anggota Fraksi",
+  "feederMachine.title": "Mesin Pengumpan",
+  "description.hay": "Rumput kering digunakan sebagai pakan ternak atau alas tidur.",
+  "description.kernel.blend": "Campuran berbagai biji-bijian untuk pakan atau konsumsi.",
+  "description.nutribarley": "Suplemen atau pakan nutrisi berbasis rumput.",
+  "description.mixed.grain": "Campuran biji-bijian atau biji untuk diberi makan atau ditanam."
 }

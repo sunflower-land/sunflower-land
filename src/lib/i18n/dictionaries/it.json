@@ -3697,5 +3697,12 @@
   "description.cow": "Questa delicata mucca fornisce latte fresco e pelle resistente. Rendila felice con cibo e affetto in abbondanza.",
   "description.sheep": "Questa soffice pecora fornisce sia lana normale che lussuosa lana merino. Rendila felice per i risultati più delicati!",
   "obsessionDialogue.line3": "È il {{itemName}} che hai? Un semplice sguardo è tutto ciò che desidero. Per questo, riceverai {{seasonalTicket}} s.",
-  "competition.maybeLater": "Forse più tardi"
+  "competition.maybeLater": "Forse più tardi",
+  "world.lvl.requirement": "Livello {{lvl}}",
+  "world.factionMembersOnly": "Solo membri della fazione",
+  "feederMachine.title": "Macchina alimentatrice",
+  "description.hay": "Erba secca usata come mangime per animali o lettiera.",
+  "description.kernel.blend": "Miscela di vari cereali per l'alimentazione o il consumo.",
+  "description.nutribarley": "Integratore alimentare o mangime a base di orzo.",
+  "description.mixed.grain": "Cereali o semi misti per l'alimentazione o la semina."
 }
