@@ -232,6 +232,7 @@ export const Plot: React.FC<Props> = ({ id, index }) => {
         gameService.send("cropReward.collected", {
           plotIndex: id,
         });
+        harvestCrop(crop);
       } else {
         setReward(crop.reward);
       }
