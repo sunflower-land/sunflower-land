@@ -1174,7 +1174,7 @@ export type AnimalResource =
   | "Merino Wool"
   | "Feather"
   | "Milk";
-export type AnimalState = "idle" | "happy" | "sad";
+export type AnimalState = "idle" | "happy" | "sad" | "levelUp";
 
 export type Animal = {
   id: string;
