@@ -1,5 +1,6 @@
 import { ANIMAL_FOOD_EXPERIENCE } from "../events/landExpansion/feedAnimal";
 import {
+  ANIMAL_FOODS,
   ANIMAL_LEVELS,
   AnimalBuildingType,
   AnimalLevel,
@@ -8,7 +9,13 @@ import {
 } from "../types/animals";
 import { BuildingName } from "../types/buildings";
 import { getKeys } from "../types/decorations";
-import { Animal, AnimalBuilding, AnimalBuildingKey } from "../types/game";
+import {
+  Animal,
+  AnimalBuilding,
+  AnimalBuildingKey,
+  AnimalFoodName,
+  InventoryItemName,
+} from "../types/game";
 
 export const makeAnimalBuildingKey = (
   buildingName: Extract<BuildingName, "Hen House" | "Barn">,
@@ -94,4 +101,8 @@ export function getAnimalFavoriteFood(type: AnimalType, animalXP: number) {
   if (favouriteFoods.length !== 1) throw new Error("No favourite food");
 
   return favouriteFoods[0];
+}
+
+export function isAnimalFood(item: InventoryItemName): item is AnimalFoodName {
+  return getKeys(ANIMAL_FOODS).includes(item as AnimalFoodName);
 }

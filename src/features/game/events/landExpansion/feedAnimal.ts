@@ -7,7 +7,6 @@ import {
   getAnimalLevel,
   makeAnimalBuildingKey,
 } from "features/game/lib/animals";
-import { getKeys } from "features/game/types/craftables";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 
 export const ANIMAL_FOOD_EXPERIENCE: Record<
@@ -76,7 +75,7 @@ export const ANIMAL_FOOD_EXPERIENCE: Record<
   },
 };
 
-const ANIMAL_RESOURCE_DROP: Record<
+export const ANIMAL_RESOURCE_DROP: Record<
   AnimalType,
   Record<AnimalLevel, Inventory>
 > = {
@@ -167,20 +166,11 @@ export function feedAnimal({
     animal.state = "sad";
 
     if (favouriteFood === food) {
-      getKeys(ANIMAL_RESOURCE_DROP[action.animal][level]).forEach(
-        (resource) => {
-          const amount = ANIMAL_RESOURCE_DROP[action.animal][level][resource];
-          copy.inventory[resource] = (
-            copy.inventory[resource] ?? new Decimal(0)
-          ).add(amount ?? new Decimal(0));
-        },
-      );
       animal.state = "happy";
     }
 
     if (level !== getAnimalLevel(animal.experience, animal.type)) {
-      animal.asleepAt = createdAt;
-      animal.state = "idle";
+      animal.state = "levelUp";
     }
 
     return copy;
