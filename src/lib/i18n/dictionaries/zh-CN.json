@@ -3697,12 +3697,5 @@
   "description.cow": "这头温柔的奶牛提供新鲜的牛奶和耐用的皮革。用充足的食物和情感让它开心。",
   "description.sheep": "这只毛茸茸的绵羊既提供普通羊毛，又提供奢华的美利奴羊毛。保持高兴，以获得最柔和的结果！",
   "obsessionDialogue.line3": "那是你的 {{itemName}} 吗？我只想看一眼。为此，您将收到 {{seasonalTicket}} s。",
-  "competition.maybeLater": "也许以后再说",
-  "world.lvl.requirement": "等级 {{lvl}}",
-  "world.factionMembersOnly": "仅限派系成员",
-  "feederMachine.title": "馈线机",
-  "description.hay": "干草用作动物饲料或床上用品。",
-  "description.kernel.blend": "混合各种谷物供饲料或食用。",
-  "description.nutribarley": "以大麦为基础的营养补充剂或饲料。",
-  "description.mixed.grain": "用于喂养或种植的混合谷物或种子。"
+  "competition.maybeLater": "也许以后再说"
 }

@@ -3697,12 +3697,5 @@
   "description.cow": "이 부드러운 젖소는 신선한 우유와 튼튼한 가죽을 제공합니다.푸짐한 음식과 애정으로 행복한 시간을 보내세요.",
   "description.sheep": "이 푹신한 양은 일반 울과 고급스러운 메리노 울을 모두 제공합니다.아주 부드러운 결과를 위해 계속 사용하세요!",
   "obsessionDialogue.line3": "이게 당신이 가지고 있는 {{itemName}} 인가요?내가 원하는 건 그저 한 번 보는 것뿐이야.이를 위해 {{seasonalTicket}} 를 받게 됩니다.",
-  "competition.maybeLater": "아마 나중에",
-  "world.lvl.requirement": "레벨 {{lvl}}",
-  "world.factionMembersOnly": "팩션 멤버 전용",
-  "feederMachine.title": "피더 머신",
-  "description.hay": "마른 잔디는 동물 사료 또는 침구로 사용됩니다.",
-  "description.kernel.blend": "사료용 또는 식용으로 다양한 곡물을 혼합합니다.",
-  "description.nutribarley": "보리 기반 영양 보충제 또는 사료.",
-  "description.mixed.grain": "먹이거나 심기 위한 혼합 곡물 또는 씨앗."
+  "competition.maybeLater": "아마 나중에"
 }

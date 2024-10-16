@@ -3697,12 +3697,5 @@
   "description.cow": "Lembu lembut ini menyediakan susu segar dan kulit tahan lama. Pastikan ia gembira dengan banyak makanan & kasih sayang.",
   "description.sheep": "Domba berbulu ini menyediakan bulu biasa dan bulu merino mewah. Pastikan ia gembira untuk hasil yang paling lembut!",
   "obsessionDialogue.line3": "Adakah itu {{itemName}} yang anda ada? Pandangan semata-mata adalah semua yang saya inginkan. Untuk ini, anda akan menerima {{seasonalTicket}} s.",
-  "competition.maybeLater": "Mungkin kemudian",
-  "world.lvl.requirement": "Lvl {{lvl}}",
-  "world.factionMembersOnly": "Ahli puak sahaja",
-  "feederMachine.title": "Mesin Pengumpan",
-  "description.hay": "Rumput kering digunakan sebagai makanan haiwan atau tempat tidur.",
-  "description.kernel.blend": "Campuran pelbagai bijirin untuk makanan atau penggunaan.",
-  "description.nutribarley": "Suplemen pemakanan atau makanan berasaskan Barley.",
-  "description.mixed.grain": "Biji-bijian atau biji campuran untuk memberi makan atau penanaman."
+  "competition.maybeLater": "Mungkin kemudian"
 }

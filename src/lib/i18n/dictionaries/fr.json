@@ -3697,12 +3697,5 @@
   "description.cow": "Cette vache douce fournit du lait frais et du cuir résistant. Faites-le heureux avec beaucoup de nourriture et d'affection.",
   "description.sheep": "Ce mouton moelleux fournit à la fois de la laine ordinaire et de la laine mérinos luxueuse. Faites-en plaisir pour des résultats des plus doux !",
   "obsessionDialogue.line3": "Est-ce le {{itemName}} que vous avez ? Un simple coup d'œil est tout ce que je souhaite. Pour cela, vous recevrez {{seasonalTicket}} s.",
-  "competition.maybeLater": "Peut-être plus tard",
-  "world.lvl.requirement": "Niveau {{lvl}}",
-  "world.factionMembersOnly": "Membres de la faction uniquement",
-  "feederMachine.title": "Machine d'alimentation",
-  "description.hay": "Herbe sèche utilisée comme nourriture pour animaux ou comme litière.",
-  "description.kernel.blend": "Mélange de différentes céréales destinées à l'alimentation animale ou à la consommation.",
-  "description.nutribarley": "Complément nutritionnel ou aliment à base d'orge.",
-  "description.mixed.grain": "Mélange de céréales ou de graines pour l'alimentation ou la plantation."
+  "competition.maybeLater": "Peut-être plus tard"
 }

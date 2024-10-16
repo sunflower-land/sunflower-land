@@ -3697,12 +3697,5 @@
   "description.cow": "この優しい牛は、新鮮なミルクと丈夫な革を使用しています。たっぷりの食べ物と愛情を込めて幸せに保ちましょう。",
   "description.sheep": "このふわふわの羊は、通常のウールと高級なメリノウールの両方を備えています。最高にソフトな仕上がりになるのでハッピーな状態を保ちましょう。",
   "obsessionDialogue.line3": "それはあなたが持っている {{itemName}} ですか？一目見ただけでいいんだよ。これにより、{{seasonalTicket}} が届きます。",
-  "competition.maybeLater": "たぶん後で",
-  "world.lvl.requirement": "レベル {{lvl}}",
-  "world.factionMembersOnly": "ファクションメンバーのみ",
-  "feederMachine.title": "フィーダーマシン",
-  "description.hay": "乾いた草は動物飼料や寝具として使用されます。",
-  "description.kernel.blend": "飼料用または消費用のさまざまな穀物のブレンド。",
-  "description.nutribarley": "大麦ベースの栄養補助食品または飼料。",
-  "description.mixed.grain": "給餌または植栽用の混合穀物または種子。"
+  "competition.maybeLater": "たぶん後で"
 }
