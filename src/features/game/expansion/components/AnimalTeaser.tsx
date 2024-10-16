@@ -37,7 +37,7 @@ export const AnimalTeaser: React.FC = () => {
 
   let yOffset = 1.5;
   if (expansions >= 12) {
-    yOffset = 0;
+    yOffset = -2;
   }
 
   return (

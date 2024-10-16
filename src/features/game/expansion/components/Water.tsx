@@ -46,10 +46,9 @@ export const WaterComponent: React.FC<Props> = ({
       }}
     >
       {/* Decorations */}
+      {<AnimalTeaser />}
 
       {CONFIG.NETWORK === "mainnet" && <DiscordBoat />}
-
-      {<AnimalTeaser />}
 
       {/* Goblin swimming */}
       <MapPlacement x={-6 - offset} y={-1} width={6}>
