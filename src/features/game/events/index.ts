@@ -336,6 +336,10 @@ import {
   SkipKingdomChoreAction,
 } from "./landExpansion/skipKingdomChore";
 import { leaveFaction, LeaveFactionAction } from "./landExpansion/leaveFaction";
+import {
+  unlockMinigameAchievements,
+  UnlockMinigameAchievementsAction,
+} from "./minigames/unlockMinigameAchievements";
 import { BuyMoreDigsAction, buyMoreDigs } from "./landExpansion/buyMoreDigs";
 import {
   completeDailyChallenge,
@@ -482,6 +486,7 @@ export type PlayingEvent =
   | PurchaseMinigameAction
   | StartMinigameAttemptAction
   | SubmitMinigameScoreAction
+  | UnlockMinigameAchievementsAction
   | SupplyCropMachineAction
   | HarvestCropMachineAction
   | SupplyCookingOilAction
@@ -581,6 +586,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "minigame.prizeClaimed": claimMinigamePrize,
   "minigame.attemptStarted": startMinigameAttempt,
   "minigame.scoreSubmitted": submitMinigameScore,
+  "minigame.achievementsUnlocked": unlockMinigameAchievements,
   "airdrop.claimed": claimAirdrop,
   "bot.detected": detectBot,
   "seed.planted": landExpansionPlant,
