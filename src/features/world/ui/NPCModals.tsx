@@ -6,6 +6,7 @@ import { Modal } from "components/ui/Modal";
 import { DeliveryPanel } from "./deliveries/DeliveryPanel";
 import { SceneId } from "../mmoMachine";
 
+import { Sheep } from "./npcs/Sheep";
 import { Birdie } from "./npcs/Birdie";
 import { HayseedHankV2 } from "features/helios/components/hayseedHank/HayseedHankV2";
 import { PotionHouseShopItems } from "features/helios/components/potions/component/PotionHouseShopItems";
@@ -90,6 +91,21 @@ export const NPCModals: React.FC<Props> = ({ scene, id }) => {
         show={!!npc && !isSeparateModal}
         onHide={closeModal}
       >
+        {npc === "chase" && (
+          <SpeakingModal
+            onClose={closeModal}
+            bumpkinParts={NPC_WEARABLES["chase"]}
+            message={[
+              {
+                text: t("npcDialogues.chase.intro1"),
+              },
+              {
+                text: t("npcDialogues.chase.intro2"),
+              },
+            ]}
+          />
+        )}
+        {npc === "sheep" && <Sheep onClose={closeModal} />}
         {npc === "flopsy" && (
           <CloseButtonPanel
             title="Enjoying Easter?"
