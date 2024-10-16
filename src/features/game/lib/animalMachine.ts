@@ -92,6 +92,23 @@ export const animalMachine = createMachine<TContext, TEvent, TState>({
       ],
     },
     happy: {
+      on: {
+        FEED: [
+          {
+            target: "happy",
+            cond: (_, event) => event.animal.state === "happy",
+            actions: assign({
+              animal: (_, event) => (event as AnimalFeedEvent).animal,
+            }),
+          },
+          {
+            target: "sad",
+            actions: assign({
+              animal: (_, event) => (event as AnimalFeedEvent).animal,
+            }),
+          },
+        ],
+      },
       after: {
         3000: [
           {
@@ -103,6 +120,23 @@ export const animalMachine = createMachine<TContext, TEvent, TState>({
       },
     },
     sad: {
+      on: {
+        FEED: [
+          {
+            target: "happy",
+            cond: (_, event) => event.animal.state === "happy",
+            actions: assign({
+              animal: (_, event) => (event as AnimalFeedEvent).animal,
+            }),
+          },
+          {
+            target: "sad",
+            actions: assign({
+              animal: (_, event) => (event as AnimalFeedEvent).animal,
+            }),
+          },
+        ],
+      },
       after: {
         3000: [
           {
@@ -130,14 +164,6 @@ export const animalMachine = createMachine<TContext, TEvent, TState>({
           {
             target: "happy",
             cond: (_, event) => event.animal.state === "happy",
-            actions: assign({
-              animal: (_, event) => (event as AnimalFeedEvent).animal,
-            }),
-          },
-          {
-            target: "sleeping",
-            // If animal is idle after being fed that means they are sleeping
-            cond: (_, event) => event.animal.state === "idle",
             actions: assign({
               animal: (_, event) => (event as AnimalFeedEvent).animal,
             }),

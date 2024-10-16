@@ -15,8 +15,6 @@ import { translate } from "lib/i18n/translate";
 import classNames from "classnames";
 import { useSelector } from "@xstate/react";
 import { MachineState } from "features/game/lib/gameMachine";
-import { getBumpkinLevel } from "features/game/lib/level";
-import { hasActiveSeasonBanner } from "features/game/lib/collectibleBuilt";
 
 interface Props {
   collectedItem?: InventoryItemName;
@@ -31,15 +29,6 @@ type Challenge = "goblins" | "chest";
 const isNewGame = (state: MachineState) =>
   state.context.state.createdAt + 24 * 60 * 60 * 1000 > Date.now();
 
-// A player that has been vetted and is engaged in the season.
-const isSeasonedPlayer = (state: MachineState) =>
-  // - level 60+
-  getBumpkinLevel(state.context.state.bumpkin?.experience ?? 0) >= 60 &&
-  // - verified (personhood verification)
-  state.context.verified &&
-  // - has active seasonal banner
-  hasActiveSeasonBanner({ game: state.context.state });
-
 export const ChestReward: React.FC<Props> = ({
   collectedItem,
   reward,
@@ -48,15 +37,14 @@ export const ChestReward: React.FC<Props> = ({
 }) => {
   const { gameService } = useContext(Context);
   const isNew = useSelector(gameService, isNewGame);
-  const isSeasoned = useSelector(gameService, isSeasonedPlayer);
-  const [opened, setOpened] = useState(isNew || isSeasoned);
+  const [opened, setOpened] = useState(isNew);
   const [loading, setLoading] = useState(false);
   const challenge = useRef<Challenge>(
     Math.random() > 0.3 ? "chest" : "goblins",
   );
 
   useEffect(() => {
-    if (reward && !isNew && !isSeasoned) {
+    if (reward && !isNew) {
       setLoading(true);
       setTimeout(() => setLoading(false), 500);
     }
@@ -68,7 +56,6 @@ export const ChestReward: React.FC<Props> = ({
 
   const open = () => {
     setOpened(true);
-    onOpen();
   };
 
   const fail = () => {
@@ -85,7 +72,7 @@ export const ChestReward: React.FC<Props> = ({
   const { items, sfl, coins } = reward;
 
   return (
-    <Modal show={true}>
+    <Modal show={true} onHide={opened ? () => close(true) : undefined}>
       <Panel>
         {loading && <Loading />}
         {opened ? (
@@ -105,7 +92,10 @@ export const ChestReward: React.FC<Props> = ({
               coins: coins ?? 0,
               message: translate("reward.woohoo"),
             }}
-            onClose={() => close(true)}
+            onClose={() => {
+              onOpen();
+              close(true);
+            }}
           />
         ) : (
           <div

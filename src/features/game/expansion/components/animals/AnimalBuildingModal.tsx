@@ -109,6 +109,7 @@ export const AnimalBuildingModal: React.FC<Props> = ({
         tabs={[{ name: t("animals.buyAnimal"), icon: coinsIcon }]}
         currentTab={currentTab}
         setCurrentTab={setCurrentTab}
+        className="relative"
       >
         <SplitScreenView
           panel={
@@ -134,7 +135,9 @@ export const AnimalBuildingModal: React.FC<Props> = ({
                   disabled={!hasRequiredLevel || atMaxCapacity}
                   onClick={handleBuyAnimal}
                   className="w-full"
-                >{`Buy ${selectedName}`}</Button>
+                >
+                  {t("animals.buy", { animal: selectedName })}
+                </Button>
               }
             />
           }
@@ -155,6 +158,15 @@ export const AnimalBuildingModal: React.FC<Props> = ({
                   />
                 ))}
               </div>
+              <Label
+                type={atMaxCapacity ? "danger" : "info"}
+                className="absolute bottom-3 left-2"
+              >
+                {`${getAnimalCount(selectedName)}/${getAnimalCapacity(
+                  buildingKey,
+                  state,
+                )} ${t("capacity")}`}
+              </Label>
             </div>
           }
         />

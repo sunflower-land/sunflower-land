@@ -402,7 +402,7 @@ export const BUMPKIN_ITEM_BUFF_LABELS: Partial<Record<BumpkinItem, BuffLabel>> =
       shortDescription: translate("bumpkinItemBuff.ancient.shovel.boost"),
       labelType: "vibrant",
       boostTypeIcon: lightning,
-      boostedItemIcon: ITEM_DETAILS.Oil.image,
+      boostedItemIcon: ITEM_DETAILS["Sand Shovel"].image,
     },
     "Oil Overalls": {
       shortDescription: translate("bumpkinItemBuff.oil.overalls.boost"),

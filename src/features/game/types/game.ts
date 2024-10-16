@@ -361,6 +361,18 @@ export type WarItems =
   | "Warrior Pants";
 
 export type LoveAnimalItem = "Petting Hand" | "Brush" | "Music Box";
+export type BountyRequest = {
+  id: string;
+  name: AnimalType;
+  level: number;
+  coins?: number;
+  items?: Partial<Record<InventoryItemName, number>>;
+};
+
+export type Bounties = {
+  requests: BountyRequest[];
+  completed: { id: string; soldAt: number }[];
+};
 
 export type InventoryItemName =
   | AnimalResource
@@ -1315,6 +1327,8 @@ export interface GameState {
   kingdomChores: KingdomChores;
   mushrooms: Mushrooms;
   potionHouse?: PotionHouse;
+
+  bounties: Bounties;
 
   trades: {
     listings?: Record<string, TradeListing>;

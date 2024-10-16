@@ -26,8 +26,8 @@ export const ANIMALS: Record<AnimalType, AnimalDetail> = {
     coins: 50,
     levelRequired: 6,
     buildingRequired: "Hen House",
-    height: 1,
-    width: 1,
+    height: 2,
+    width: 2,
   },
   Cow: {
     coins: 100,

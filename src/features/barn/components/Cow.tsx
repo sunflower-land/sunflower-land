@@ -34,7 +34,6 @@ export const Cow: React.FC<{ id: string }> = ({ id }) => {
     context: {
       animal: cow,
     },
-    devTools: true,
   }) as unknown as AnimalMachineInterpreter;
 
   const cowState = useSelector(cowService, _animalState);
@@ -113,15 +112,15 @@ export const Cow: React.FC<{ id: string }> = ({ id }) => {
       {/* Request */}
       {cowState === "idle" && (
         <RequestBubble
-          top={PIXEL_SCALE * 0}
-          left={PIXEL_SCALE * 24}
+          top={PIXEL_SCALE * 1}
+          left={PIXEL_SCALE * 25}
           image={{ src: ITEM_DETAILS[favFood].image, height: 16, width: 16 }}
         />
       )}
       {needsLove && (
         <RequestBubble
           top={PIXEL_SCALE * 0}
-          left={PIXEL_SCALE * 24}
+          left={PIXEL_SCALE * 25}
           image={{
             src: ITEM_DETAILS[cow.item].image,
             height: 16,

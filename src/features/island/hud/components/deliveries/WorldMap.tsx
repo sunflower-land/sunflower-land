@@ -90,7 +90,7 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
       >
         <img
           src={SUNNYSIDE.icons.lock}
-          className="h-4 sm:h-6 ml-1 img-highlight-heavy"
+          className="h-4 sm:h-6 ml-1 img-highlight"
         />
       </div>
       <div
@@ -106,7 +106,7 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
       >
         <img
           src={SUNNYSIDE.icons.lock}
-          className="h-4 sm:h-6 ml-1 img-highlight-heavy"
+          className="h-4 sm:h-6 ml-1 img-highlight"
         />
       </div>
 
@@ -273,9 +273,10 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
           height: "18%",
           border: showDebugBorders ? "2px solid red" : "",
           position: "absolute",
-          left: "24%",
-          bottom: "42%",
+          left: "23%",
+          bottom: "51%",
         }}
+        className="flex justify-center items-center"
       >
         <Label className="shadow-md" type="vibrant">
           <span className="text-xxs sm:text-sm">{t("world.newArea")}</span>

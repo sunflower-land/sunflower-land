@@ -14,7 +14,7 @@ import { BumpkinParts, tokenUriBuilder } from "lib/utils/tokenUriBuilder";
 import { Equipped } from "../types/bumpkin";
 import { SeedName } from "../types/seeds";
 import { INITIAL_REWARDS } from "../types/rewards";
-import { makeAnimals } from "./animals";
+import { makeAnimalBuilding } from "./animals";
 
 // Our "zoom" factor
 export const PIXEL_SCALE = 2.625;
@@ -438,6 +438,59 @@ export const INITIAL_FARM: GameState = {
     wearables: [],
   },
 
+  bounties: {
+    completed: [
+      {
+        id: "1",
+        soldAt: 100000,
+      },
+    ],
+    requests: [
+      {
+        id: "1",
+        name: "Chicken",
+        level: 1,
+        coins: 100,
+      },
+      {
+        id: "3",
+        name: "Chicken",
+        level: 1,
+        coins: 100,
+      },
+      {
+        id: "2",
+        name: "Chicken",
+        level: 5,
+        items: { Scroll: 1 },
+      },
+      {
+        id: "2",
+        name: "Chicken",
+        level: 5,
+        items: { Scroll: 1 },
+      },
+      {
+        id: "2",
+        name: "Chicken",
+        level: 5,
+        items: { Scroll: 1 },
+      },
+      {
+        id: "2",
+        name: "Chicken",
+        level: 5,
+        items: { Scroll: 1 },
+      },
+      {
+        id: "22",
+        name: "Chicken",
+        level: 1,
+        items: { Scroll: 1 },
+      },
+    ],
+  },
+
   mysteryPrizes: {},
   stockExpiry: {},
   mushrooms: {
@@ -612,14 +665,8 @@ export const INITIAL_FARM: GameState = {
       patterns: [],
     },
   },
-  henHouse: {
-    level: 0,
-    animals: makeAnimals(3, "Chicken"),
-  },
-  barn: {
-    level: 0,
-    animals: makeAnimals(3, "Cow"),
-  },
+  henHouse: makeAnimalBuilding("Hen House"),
+  barn: makeAnimalBuilding("Barn"),
 };
 
 export const TEST_FARM: GameState = {
@@ -647,6 +694,10 @@ export const TEST_FARM: GameState = {
     "Basic Land": new Decimal(3),
   },
   previousInventory: {},
+  bounties: {
+    completed: [],
+    requests: [],
+  },
   rewards: INITIAL_REWARDS,
   minigames: {
     games: {},
@@ -920,14 +971,8 @@ export const TEST_FARM: GameState = {
       grid: [],
     },
   },
-  henHouse: {
-    level: 0,
-    animals: makeAnimals(3, "Chicken"),
-  },
-  barn: {
-    level: 0,
-    animals: makeAnimals(3, "Cow"),
-  },
+  henHouse: makeAnimalBuilding("Hen House"),
+  barn: makeAnimalBuilding("Barn"),
 };
 
 export const INITIAL_EQUIPPED: Equipped = {
@@ -952,6 +997,10 @@ export const EMPTY: GameState = {
     Stone: new Decimal(10),
   },
   bumpkin: INITIAL_BUMPKIN,
+  bounties: {
+    completed: [],
+    requests: [],
+  },
   rewards: INITIAL_REWARDS,
   experiments: [],
   minigames: {
@@ -1046,12 +1095,6 @@ export const EMPTY: GameState = {
       grid: [],
     },
   },
-  henHouse: {
-    level: 0,
-    animals: makeAnimals(3, "Chicken"),
-  },
-  barn: {
-    level: 0,
-    animals: makeAnimals(3, "Cow"),
-  },
+  henHouse: makeAnimalBuilding("Hen House"),
+  barn: makeAnimalBuilding("Barn"),
 };

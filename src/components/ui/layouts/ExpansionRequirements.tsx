@@ -67,7 +67,7 @@ export const ExpansionRequirements: React.FC<Props> = ({
   onClose,
 }: Props) => {
   const { t } = useAppTranslation();
-  const { gameService, showAnimations } = useContext(Context);
+  const { gameService } = useContext(Context);
 
   const hasLevel =
     getBumpkinLevel(bumpkin.experience) >= requirements.bumpkinLevel;

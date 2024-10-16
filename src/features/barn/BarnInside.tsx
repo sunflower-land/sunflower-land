@@ -1,5 +1,4 @@
 import React, { useContext, useLayoutEffect, useState } from "react";
-import { SUNNYSIDE } from "assets/sunnyside";
 
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -19,8 +18,10 @@ import { Sheep } from "./components/Sheep";
 import shopDisc from "assets/icons/shop_disc.png";
 import { AnimalBuildingModal } from "features/game/expansion/components/animals/AnimalBuildingModal";
 import { FeederMachine } from "features/feederMachine/FeederMachine";
-
-const background = SUNNYSIDE.land.tent_inside;
+import { AnimalBuildingLevel } from "features/game/events/landExpansion/upgradeBuilding";
+import { SUNNYSIDE } from "assets/sunnyside";
+import { UpgradeBuildingModal } from "features/game/expansion/components/UpgradeBuildingModal";
+import { ANIMAL_HOUSE_IMAGES } from "features/henHouse/HenHouseInside";
 
 const _barn = (state: MachineState) => state.context.state.barn;
 
@@ -34,7 +35,9 @@ const BARN_ANIMAL_COMPONENTS: Record<BarnAnimal, React.FC<{ id: string }>> = {
 export const BarnInside: React.FC = () => {
   const { gameService } = useContext(Context);
   const [showModal, setShowModal] = useState(false);
+  const [showUpgradeModal, setShowUpgradeModal] = useState(false);
   const barn = useSelector(gameService, _barn);
+  const level = barn.level as AnimalBuildingLevel;
 
   const [scrollIntoView] = useScrollIntoView();
   const navigate = useNavigate();
@@ -67,12 +70,21 @@ export const BarnInside: React.FC = () => {
 
   mapPlacements.push(...components);
 
+  const nextLevel = Math.min(level + 1, 3) as Exclude<AnimalBuildingLevel, 1>;
+
   return (
     <>
       <AnimalBuildingModal
         buildingName="Barn"
         show={showModal}
         onClose={() => setShowModal(false)}
+      />
+      <UpgradeBuildingModal
+        buildingName="Barn"
+        currentLevel={level}
+        nextLevel={nextLevel}
+        show={showUpgradeModal}
+        onClose={() => setShowUpgradeModal(false)}
       />
       <>
         <div
@@ -88,19 +100,28 @@ export const BarnInside: React.FC = () => {
               <img
                 src={shopDisc}
                 alt="Buy Animals"
-                className="absolute top-7 right-8 cursor-pointer z-10"
+                className="absolute top-[18px] right-[18px] cursor-pointer z-10"
                 style={{
                   width: `${PIXEL_SCALE * 18}px`,
                 }}
                 onClick={() => setShowModal(true)}
               />
               <img
-                src={background}
+                src={SUNNYSIDE.icons.upgradeBuildingIcon}
+                alt="Upgrade Building"
+                className="absolute bottom-[44px] right-[18px] cursor-pointer z-10"
+                style={{
+                  width: `${PIXEL_SCALE * 16}px`,
+                }}
+                onClick={() => setShowUpgradeModal(true)}
+              />
+              <img
+                src={ANIMAL_HOUSE_IMAGES[level].src}
                 id={Section.GenesisBlock}
                 className="relative z-0"
                 style={{
-                  width: `${176 * PIXEL_SCALE}px`,
-                  height: `${192 * PIXEL_SCALE}px`,
+                  width: `${ANIMAL_HOUSE_IMAGES[level].width * PIXEL_SCALE}px`,
+                  height: `${ANIMAL_HOUSE_IMAGES[level].height * PIXEL_SCALE}px`,
                 }}
               />
 
@@ -116,15 +137,6 @@ export const BarnInside: React.FC = () => {
               </div>
 
               {mapPlacements.sort((a, b) => a.props.y - b.props.y)}
-              <div
-                className="absolute"
-                style={{
-                  width: `${176 * PIXEL_SCALE}px`,
-                  height: `${192 * PIXEL_SCALE}px`,
-                }}
-              >
-                {/* {makeGridOverlay()} */}
-              </div>
 
               <Button
                 className="absolute -bottom-16"
