@@ -41,7 +41,7 @@ const _chickensNeedLove = (state: MachineState) => {
 };
 
 const _buildingLevel = (state: MachineState) => {
-  return (state.context.state.henHouse.level ?? 1) as AnimalBuildingLevel;
+  return (state.context.state.henHouse.level || 1) as AnimalBuildingLevel;
 };
 
 export const ChickenHouse: React.FC<BuildingProps> = ({
