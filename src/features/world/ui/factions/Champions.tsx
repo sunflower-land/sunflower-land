@@ -13,7 +13,7 @@ import {
   BONUS_FACTION_PRIZES,
   FACTION_PRIZES,
   getFactionScores,
-  getFactionWeek,
+  getWeekKey,
   getPreviousWeek,
   getWeekNumber,
 } from "features/game/lib/factions";
@@ -223,7 +223,7 @@ export const ChampionsPrizes: React.FC = () => {
   ] = useActor(gameService);
   const currentFaction = state.faction?.name;
 
-  const week = getFactionWeek();
+  const week = getWeekKey();
   const ticket = getSeasonalTicket(new Date(week));
 
   const { startDate, endDate } = SEASONS["Pharaoh's Treasure"];

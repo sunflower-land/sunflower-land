@@ -4,7 +4,7 @@ import {
   START_DATE,
   calculatePoints,
   getFactionWearableBoostAmount,
-  getFactionWeek,
+  getWeekKey,
   getFactionWeekday,
 } from "features/game/lib/factions";
 import { BoostType, BoostValue } from "features/game/types/boosts";
@@ -84,7 +84,7 @@ export function deliverFactionKitchen({
 
     inventory[request.item] = resourceBalance.minus(request.amount);
 
-    const week = getFactionWeek({ date: new Date(createdAt) });
+    const week = getWeekKey({ date: new Date(createdAt) });
     const day = getFactionWeekday(createdAt);
     const marksBalance = inventory["Mark"] ?? new Decimal(0);
     const fulfilledToday = request.dailyFulfilled[day] ?? 0;
