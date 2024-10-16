@@ -60,17 +60,8 @@ export const CraftingBox: React.FC = () => {
 
   const handleCraft = () => {
     if (craftingStatus === "pending") return;
-    const ingredients = selectedItems.reduce(
-      (acc, item) => {
-        if (item) {
-          acc[item] = (acc[item] || 0) + 1;
-        }
-        return acc;
-      },
-      {} as Partial<Record<InventoryItemName, number>>,
-    );
 
-    gameService.send("crafting.started", { ingredients });
+    gameService.send("crafting.started", { ingredients: selectedItems });
   };
 
   const remainingInventory = useMemo(() => {

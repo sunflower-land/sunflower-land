@@ -28,10 +28,17 @@ describe("startCrafting", () => {
   it("starts crafting", () => {
     const action: StartCraftingAction = {
       type: "crafting.started",
-      ingredients: {
-        Wood: 2,
-        Stone: 1,
-      },
+      ingredients: [
+        "Wood",
+        "Wood",
+        "Stone",
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+      ],
     };
 
     const newState = startCrafting({ state: gameState, action });
@@ -44,10 +51,17 @@ describe("startCrafting", () => {
 
     const action: StartCraftingAction = {
       type: "crafting.started",
-      ingredients: {
-        Wood: 2,
-        Stone: 1,
-      },
+      ingredients: [
+        "Wood",
+        "Wood",
+        "Stone",
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+      ],
     };
 
     expect(() => startCrafting({ state: gameState, action })).toThrow(
@@ -64,14 +78,54 @@ describe("startCrafting", () => {
 
     const action: StartCraftingAction = {
       type: "crafting.started",
-      ingredients: {
-        Wood: 2,
-        Stone: 1,
-      },
+      ingredients: [
+        "Wood",
+        "Wood",
+        "Stone",
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+      ],
     };
 
     expect(() => startCrafting({ state: gameState, action })).toThrow(
       "There's already an ongoing crafting",
+    );
+  });
+
+  it("throws an error if the player provides less than 9 ingredients", () => {
+    const action: StartCraftingAction = {
+      type: "crafting.started",
+      ingredients: ["Wood", "Wood", "Stone"],
+    };
+
+    expect(() => startCrafting({ state: gameState, action })).toThrow(
+      "You must provide 9 ingredients",
+    );
+  });
+
+  it("throws an error if the player provides more than 9 ingredients", () => {
+    const action: StartCraftingAction = {
+      type: "crafting.started",
+      ingredients: [
+        "Wood",
+        "Wood",
+        "Stone",
+        "Wood",
+        "Wood",
+        "Stone",
+        "Wood",
+        "Wood",
+        "Stone",
+        "Wood",
+      ],
+    };
+
+    expect(() => startCrafting({ state: gameState, action })).toThrow(
+      "You must provide 9 ingredients",
     );
   });
 });

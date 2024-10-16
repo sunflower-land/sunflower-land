@@ -3,7 +3,7 @@ import { produce } from "immer";
 
 export type StartCraftingAction = {
   type: "crafting.started";
-  ingredients: Partial<Record<InventoryItemName, number>>;
+  ingredients: (InventoryItemName | null)[];
 };
 
 type Options = {
@@ -19,6 +19,10 @@ export function startCrafting({
 }: Options): GameState {
   return produce(state, (copy) => {
     const { ingredients } = action;
+
+    if (ingredients.length !== 9) {
+      throw new Error("You must provide 9 ingredients");
+    }
 
     // Check if player has the Crafting Box
     const isBuildingBuilt = (copy.buildings["Crafting Box"]?.length ?? 0) > 0;
