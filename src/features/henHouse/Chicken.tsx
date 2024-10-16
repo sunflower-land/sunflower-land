@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import { MachineState } from "features/game/lib/gameMachine";
@@ -11,11 +11,16 @@ import {
   AnimalMachineInterpreter,
   TState as AnimalMachineState,
 } from "features/game/lib/animalMachine";
-import { getAnimalFavoriteFood } from "features/game/lib/animals";
+import { getAnimalFavoriteFood, isAnimalFood } from "features/game/lib/animals";
 import { ITEM_DETAILS } from "features/game/types/images";
 import classNames from "classnames";
 import { LevelProgress } from "features/game/expansion/components/animals/LevelProgress";
 import { RequestBubble } from "features/game/expansion/components/animals/RequestBubble";
+import { Transition } from "@headlessui/react";
+import { QuickSelect } from "features/greenhouse/QuickSelect";
+import { getKeys } from "features/game/types/decorations";
+import { ANIMAL_FOODS } from "features/game/types/animals";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 const _animalState = (state: AnimalMachineState) =>
   // Casting here because we know the value is always a string rather than an object
@@ -29,8 +34,8 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
   id,
   disabled,
 }) => {
-  const { gameService } = useContext(Context);
-
+  const { gameService, selectedItem } = useContext(Context);
+  const { t } = useAppTranslation();
   const chicken = useSelector(gameService, _chicken(id));
 
   const chickenService = useInterpret(animalMachine, {
@@ -41,22 +46,26 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
 
   const chickenState = useSelector(chickenService, _animalState);
 
-  const feedChicken = () => {
+  const [showQuickSelect, setShowQuickSelect] = useState(false);
+
+  const feedChicken = (item = selectedItem) => {
     if (disabled) return;
 
-    const updatedState = gameService.send({
-      type: "animal.fed",
-      animal: "Chicken",
-      food: "Hay",
-      id: chicken.id,
-    });
+    if (item && isAnimalFood(item)) {
+      const updatedState = gameService.send({
+        type: "animal.fed",
+        animal: "Chicken",
+        food: item,
+        id: chicken.id,
+      });
 
-    const updatedChicken = updatedState.context.state.henHouse.animals[id];
+      const updatedChicken = updatedState.context.state.henHouse.animals[id];
 
-    chickenService.send({
-      type: "FEED",
-      animal: updatedChicken,
-    });
+      chickenService.send({
+        type: "FEED",
+        animal: updatedChicken,
+      });
+    }
   };
 
   const loveChicken = () => {
@@ -77,6 +86,22 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
     });
   };
 
+  const handleClick = () => {
+    if (needsLove) {
+      loveChicken();
+      return;
+    }
+
+    if (chickenState === "sleeping") return;
+
+    if (selectedItem && isAnimalFood(selectedItem)) {
+      feedChicken(selectedItem);
+      setShowQuickSelect(false);
+    } else {
+      setShowQuickSelect(true);
+    }
+  };
+
   if (chickenState === "initial") return null;
 
   const favFood = getAnimalFavoriteFood("Chicken", chicken.experience);
@@ -85,13 +110,44 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
 
   return (
     <div
-      className="relative cursor-pointer w-full h-full flex items-center justify-center"
+      className={classNames(
+        "relative cursor-pointer w-full h-full flex items-center justify-center",
+        {
+          "cursor-not-allowed": !needsLove && sleeping,
+        },
+      )}
       style={{
         width: `${GRID_WIDTH_PX * 2}px`,
         height: `${GRID_WIDTH_PX * 2}px`,
       }}
-      onClick={needsLove ? loveChicken : feedChicken}
+      onClick={handleClick}
     >
+      {/* Quick Select */}
+      <Transition
+        appear={true}
+        show={showQuickSelect}
+        enter="transition-opacity  duration-300"
+        enterFrom="opacity-0"
+        enterTo="opacity-100"
+        leave="transition-opacity duration-300"
+        leaveFrom="opacity-100"
+        leaveTo="opacity-0"
+        className="flex top-[-35px] left-[50%] absolute z-40 shadow-md"
+      >
+        <QuickSelect
+          options={getKeys(ANIMAL_FOODS).map((food) => ({
+            name: food,
+            icon: food,
+            showSecondaryImage: false,
+          }))}
+          onClose={() => setShowQuickSelect(false)}
+          onSelected={(food) => {
+            feedChicken(food);
+            setShowQuickSelect(false);
+          }}
+          type={t("quickSelect.greenhouseSeeds")}
+        />
+      </Transition>
       <div
         className="relative w-full h-full"
         style={{

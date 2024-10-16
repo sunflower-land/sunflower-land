@@ -162,11 +162,10 @@ export const GreenhousePot: React.FC<Props> = ({ id }) => {
           className="flex top-[-200%] left-[50%] absolute z-40 shadow-md"
         >
           <QuickSelect
-            icon={SUNNYSIDE.icons.seeds}
             options={[
-              { name: "Grape Seed", icon: "Grape" },
-              { name: "Rice Seed", icon: "Rice" },
-              { name: "Olive Seed", icon: "Olive" },
+              { name: "Grape Seed", icon: "Grape", showSecondaryImage: true },
+              { name: "Rice Seed", icon: "Rice", showSecondaryImage: true },
+              { name: "Olive Seed", icon: "Olive", showSecondaryImage: true },
             ]}
             onClose={() => setShowQuickSelect(false)}
             onSelected={(seed) => {

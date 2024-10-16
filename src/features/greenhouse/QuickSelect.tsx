@@ -11,8 +11,11 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import React, { useContext, useEffect, useRef } from "react";
 
 interface Props {
-  icon: string;
-  options: { name: InventoryItemName; icon: InventoryItemName }[];
+  options: {
+    name: InventoryItemName;
+    icon: InventoryItemName;
+    showSecondaryImage: boolean;
+  }[];
   onClose: () => void;
   onSelected?: (name: InventoryItemName) => void;
   type: string;
@@ -21,13 +24,12 @@ interface Props {
 const selectInventory = (state: MachineState) => state.context.state.inventory;
 
 export const QuickSelect: React.FC<Props> = ({
-  icon,
   options,
   onClose,
   onSelected,
   type,
 }) => {
-  const { gameService, selectedItem, shortcutItem } = useContext(Context);
+  const { gameService, shortcutItem } = useContext(Context);
   const ref = useRef<HTMLDivElement>(null); // Create a ref to the component
   const inventory = useSelector(gameService, selectInventory);
 
@@ -86,42 +88,45 @@ export const QuickSelect: React.FC<Props> = ({
         transform: "translatex(-50%)",
       }}
     >
-      {available.slice(0, 3).map(({ name, icon }, index) => (
-        <div
-          style={{
-            width: `${PIXEL_SCALE * 18}px`,
-            height: `${PIXEL_SCALE * 19}px`,
-            top:
-              (discLength === 3 && index === 1) ||
-              (discLength === 4 && index >= 1)
-                ? `${PIXEL_SCALE * -6}px`
-                : 0,
-          }}
-          className="flex items-center justify-center relative mr-1 cursor-pointer"
-          onClick={() => select(name)}
-          key={name}
-        >
-          <img
-            src={SUNNYSIDE.icons.disc}
-            className="absolute w-full h-full inset-0"
-          />
-          <img
-            src={ITEM_DETAILS[icon as InventoryItemName].image}
-            className="z-10 -mt-1"
+      {available
+        .slice(0, 3)
+        .map(({ name, icon, showSecondaryImage }, index) => (
+          <div
             style={{
-              width: `${PIXEL_SCALE * 10}px`,
+              width: `${PIXEL_SCALE * 18}px`,
+              height: `${PIXEL_SCALE * 19}px`,
+              top:
+                (discLength === 3 && index === 1) ||
+                (discLength === 4 && index >= 1)
+                  ? `${PIXEL_SCALE * -6}px`
+                  : 0,
             }}
-          />
-
-          <img
-            src={ITEM_DETAILS[name].image}
-            className="z-10 absolute top-0 right-0"
-            style={{
-              width: `${PIXEL_SCALE * 6}px`,
-            }}
-          />
-        </div>
-      ))}
+            className="flex items-center justify-center relative mr-1 cursor-pointer"
+            onClick={() => select(name)}
+            key={name}
+          >
+            <img
+              src={SUNNYSIDE.icons.disc}
+              className="absolute w-full h-full inset-0"
+            />
+            <img
+              src={ITEM_DETAILS[icon as InventoryItemName].image}
+              className="z-10 -mt-1"
+              style={{
+                width: `${PIXEL_SCALE * 10}px`,
+              }}
+            />
+            {showSecondaryImage && (
+              <img
+                src={ITEM_DETAILS[name].image}
+                className="z-10 absolute top-0 right-0"
+                style={{
+                  width: `${PIXEL_SCALE * 6}px`,
+                }}
+              />
+            )}
+          </div>
+        ))}
       {showBasket && (
         <div
           style={{
