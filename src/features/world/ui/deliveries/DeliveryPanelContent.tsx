@@ -66,11 +66,7 @@ export const OrderCards: React.FC<OrderCardsProps> = ({
         {orders.map((order) => {
           const canDeliver = hasRequirementsCheck(order);
 
-          const tickets = generateDeliveryTickets({
-            game,
-            npc: order.from,
-            order,
-          });
+          const tickets = generateDeliveryTickets({ game, order });
 
           return (
             <OuterPanel

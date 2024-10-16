@@ -74,7 +74,7 @@ export const OrderCard: React.FC<{
   const canDeliver = hasRequirementsCheck(order);
   const { t } = useAppTranslation();
 
-  const tickets = generateDeliveryTickets({ game, npc: order.from, order });
+  const tickets = generateDeliveryTickets({ game, order });
 
   return (
     <>
@@ -605,11 +605,7 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
   const positive = useRandomItem(dialogue.positiveDelivery);
   const noOrder = useRandomItem(dialogue.noOrder);
 
-  const tickets = generateDeliveryTickets({
-    game,
-    npc,
-    order: delivery as Order,
-  });
+  const tickets = generateDeliveryTickets({ game, order: delivery as Order });
 
   let message = intro;
 

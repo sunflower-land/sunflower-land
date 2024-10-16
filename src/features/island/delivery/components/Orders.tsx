@@ -141,11 +141,7 @@ export const OrderCard: React.FC<OrderCardProps> = ({
 }) => {
   const { coins, balance: sfl, inventory } = gameState;
 
-  const tickets = generateDeliveryTickets({
-    game: gameState,
-    npc: order.from,
-    order,
-  });
+  const tickets = generateDeliveryTickets({ game: gameState, order });
 
   return (
     <div className="py-1 px-1" key={order.id}>
@@ -756,7 +752,6 @@ export const DeliveryOrders: React.FC<Props> = ({
                     {`${
                       generateDeliveryTickets({
                         game: gameState,
-                        npc: previewOrder.from,
                         order: previewOrder,
                       }) || makeRewardAmountForLabel(previewOrder)
                     } ${
@@ -838,7 +833,6 @@ export const DeliveryOrders: React.FC<Props> = ({
           {ticketTasksAreFrozen &&
             !!generateDeliveryTickets({
               game: gameState,
-              npc: previewOrder.from,
               order: previewOrder,
             }) && (
               <Label
