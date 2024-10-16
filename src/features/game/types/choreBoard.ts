@@ -3,6 +3,7 @@ import { GameState, InventoryItemName } from "./game";
 import { getWeekKey } from "../lib/factions";
 import { getKeys } from "./decorations";
 import { ITEM_DETAILS } from "./images";
+import { translate } from "lib/i18n/translate";
 
 export type ChoreNPCName = Extract<
   NPCName,
@@ -51,11 +52,11 @@ export const CHORE_DETAILS: Record<
   { icon: string; description: string }
 > = {
   CHOP_1_TREE: {
-    description: "Chop 1 Tree",
+    description: translate("chore.chop.1.tree"),
     icon: ITEM_DETAILS.Axe.image,
   },
   CHOP_2_TREE: {
-    description: "Chop 2 Trees",
+    description: translate("chore.chop.2.trees"),
     icon: ITEM_DETAILS.Axe.image,
   },
 };

@@ -245,9 +245,9 @@ export const ChoreBoard: React.FC = () => {
             )}
 
             {previewChore.completedAt && (
-              <div className="flex">
-                <img src={SUNNYSIDE.icons.confirm} className="mr-2 h-4" />
-                <p className="text-xxs">{t("chores.completed")}</p>
+              <div className="flex items-center">
+                <img src={SUNNYSIDE.icons.confirm} className="mr-2 h-6" />
+                <p className="text-sm">{t("chores.completed")}</p>
               </div>
             )}
           </div>
@@ -287,6 +287,12 @@ export const ChoreCard: React.FC<{
         <Label type={"warning"} className="flex absolute -right-2 -top-4">
           {chore.reward.items[getSeasonalTicket()] ?? 0}
         </Label>
+
+        {chore.completedAt && (
+          <div className="absolute -bottom-4 left-0 w-full flex justify-center">
+            <img src={SUNNYSIDE.icons.confirm} className="h-6" />
+          </div>
+        )}
         <div className="flex flex-col">
           <div className="flex items-center">
             <div className="relative mb-2 mr-0.5 ">
@@ -297,16 +303,6 @@ export const ChoreCard: React.FC<{
             </div>
           </div>
         </div>
-
-        {chore.completedAt && (
-          <Label
-            type="success"
-            className="absolute -bottom-2 text-center mt-1 p-1 left-[-8px] z-10 h-6"
-            style={{ width: "calc(100% + 15px)" }}
-          >
-            <img src={SUNNYSIDE.icons.confirm} className="h-4" />
-          </Label>
-        )}
 
         <div className="w-full flex justify-center">
           <span className="text-xs line-clamp-2 text-center truncate">
@@ -373,7 +369,7 @@ export const LockedChoreCard: React.FC<{
           style={{
             left: `${PIXEL_SCALE * -3}px`,
             right: `${PIXEL_SCALE * -3}px`,
-            width: `calc(100% + ${PIXEL_SCALE * 6}px)`,
+            width: `calc(100% + 16px)`,
             height: "25px",
           }}
         >
