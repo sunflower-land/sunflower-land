@@ -35,7 +35,8 @@ export type FeatureName =
   | "ANIMAL_BUILDINGS"
   | "BARLEY"
   | "GEM_BOOSTS"
-  | "CHICKEN_GARBO";
+  | "CHICKEN_GARBO"
+  | "SEASONAL_TIERS";
 
 // Used for testing production features
 export const ADMIN_IDS = [1, 3, 51, 39488, 128727];
@@ -54,6 +55,7 @@ export type ExperimentName = "ONBOARDING_CHALLENGES" | "GEM_BOOSTS";
 const featureFlags: Record<FeatureName, FeatureFlag> = {
   ONBOARDING_REWARDS: (game) =>
     game.experiments.includes("ONBOARDING_CHALLENGES"),
+  SEASONAL_TIERS: testnetFeatureFlag,
   MARKETPLACE: testnetFeatureFlag,
   CROP_QUICK_SELECT: () => false,
   PORTALS: testnetFeatureFlag,

@@ -31,21 +31,29 @@ describe("buySeasonalItem", () => {
     ).toThrow("Item not found in the seasonal store");
   });
 
-  // Update all other test cases to include the date parameter
-  // For example:
-
-  it("throws an error if the item has already been crafted (collectible)", () => {
-    const stateCopy = {
-      ...mockState,
-      inventory: {
-        ...mockState.inventory,
-        "Basic Bear": new Decimal(1),
-      },
-    };
-
+  it("throws an error if the player doesn't have enough SFL", () => {
+    const poorState = { ...mockState, balance: new Decimal(0) };
     expect(() =>
       buySeasonalItem({
-        state: stateCopy,
+        state: poorState,
+        action: {
+          type: "seasonalItem.bought",
+          name: "Treasure Key",
+          tier: "basic",
+        },
+        createdAt: mockDate,
+      }),
+    ).toThrow("Insufficient SFL");
+  });
+
+  it("throws an error if the player doesn't have enough items", () => {
+    const lowInventoryState = {
+      ...mockState,
+      inventory: { Wood: new Decimal(0) },
+    };
+    expect(() =>
+      buySeasonalItem({
+        state: lowInventoryState,
         action: {
           type: "seasonalItem.bought",
           name: "Basic Bear",
@@ -53,7 +61,35 @@ describe("buySeasonalItem", () => {
         },
         createdAt: mockDate,
       }),
-    ).toThrow("This item has already been crafted");
+    ).toThrow("Insufficient Wood");
+  });
+
+  it("subtracts SFL when buying an item", () => {
+    const result = buySeasonalItem({
+      state: mockState,
+      action: {
+        type: "seasonalItem.bought",
+        name: "Treasure Key",
+        tier: "basic",
+      },
+      createdAt: mockDate,
+    });
+
+    expect(result.balance).toEqual(new Decimal(999));
+  });
+
+  it("subtracts items when buying an item", () => {
+    const result = buySeasonalItem({
+      state: mockState,
+      action: {
+        type: "seasonalItem.bought",
+        name: "Basic Bear",
+        tier: "basic",
+      },
+      createdAt: mockDate,
+    });
+
+    expect(result.inventory.Wood).toEqual(new Decimal(99));
   });
 
   it("successfully buys a collectible item", () => {

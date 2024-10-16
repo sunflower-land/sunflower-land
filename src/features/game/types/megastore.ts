@@ -81,9 +81,9 @@ const PHARAOH_ITEMS: SeasonalStoreItem[] = [
     collectible: "Treasure Key",
     cost: {
       items: {
-        Wood: 1,
+        Wood: 0,
       },
-      sfl: 0,
+      sfl: 1,
     },
   },
 ];

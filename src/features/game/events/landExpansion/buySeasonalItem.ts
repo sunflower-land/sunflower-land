@@ -54,17 +54,6 @@ export function buySeasonalItem({
       throw new Error("Item not found in the seasonal store");
     }
 
-    // Check if the item has already been crafted
-    if (isCollectible(item)) {
-      if (draft.inventory[item.collectible]) {
-        throw new Error("This item has already been crafted");
-      }
-    } else {
-      if (draft.wardrobe[item.wearable]) {
-        throw new Error("This item has already been crafted");
-      }
-    }
-
     const seasonalCollectiblesCrafted = getKeys(draft.inventory).filter(
       (itemName) =>
         tierItems.some((item) =>
@@ -127,7 +116,7 @@ export function buySeasonalItem({
     for (const [itemName, amount] of Object.entries(items)) {
       draft.inventory[itemName as InventoryItemName] = (
         draft.inventory[itemName as InventoryItemName] || new Decimal(0)
-      ).plus(amount);
+      ).minus(amount);
     }
 
     // Add item to inventory
