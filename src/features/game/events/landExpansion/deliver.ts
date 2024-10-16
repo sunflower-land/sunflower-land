@@ -33,16 +33,14 @@ const isFruit = (name: PatchFruitName) => name in PATCH_FRUIT();
 
 export function generateDeliveryTickets({
   game,
-  npc,
   now = new Date(),
   order,
 }: {
   game: GameState;
-  npc: NPCName;
   now?: Date;
   order: Order;
 }) {
-  let amount = TICKET_REWARDS[npc as QuestNPCName];
+  let amount = TICKET_REWARDS[order.from as QuestNPCName];
 
   if (!amount) {
     return 0;
@@ -293,7 +291,6 @@ export function deliverOrder({
 
     const tickets = generateDeliveryTickets({
       game,
-      npc: order.from,
       now: new Date(createdAt),
       order,
     });
