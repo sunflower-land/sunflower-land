@@ -387,6 +387,10 @@ import {
   startCrafting,
   StartCraftingAction,
 } from "./landExpansion/startCrafting";
+import {
+  collectCrafting,
+  CollectCraftingAction,
+} from "./landExpansion/collectCrafting";
 
 export type PlayingEvent =
   | SellAnimalAction
@@ -503,7 +507,8 @@ export type PlayingEvent =
   | FeedAnimalAction
   | LoveAnimalAction
   | UpgradeBuildingAction
-  | StartCraftingAction;
+  | StartCraftingAction
+  | CollectCraftingAction;
 
 export type PlacementEvent =
   | ConstructBuildingAction
@@ -685,6 +690,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "feed.mixed": feedMixed,
   "building.upgraded": upgradeBuilding,
   "crafting.started": startCrafting,
+  "crafting.collected": collectCrafting,
 };
 
 export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {

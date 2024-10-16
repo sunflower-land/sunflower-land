@@ -1365,8 +1365,8 @@ export interface GameState {
   barn: AnimalBuilding;
 
   craftingBox: {
-    status: "pending" | "ready";
-    item?: CraftableName;
+    status: "pending" | "idle" | "crafting";
+    item?: InventoryItemName;
     startedAt: number;
     readyAt: number;
   };
