@@ -3734,5 +3734,7 @@
   "chores.completeChoresToEarn": "Complete chores for Bumpkins to earn {{seasonalTicket}}s.",
   "chores.lockedChore": "Lvl {{level}}",
   "chores.completed": "Completed",
-  "chores.complete": "Complete"
+  "chores.complete": "Complete",
+  "chore.chop.1.tree": "Chop 1 Tree",
+  "chore.chop.2.trees": "Chop 2 Trees"
 }
