@@ -29,6 +29,8 @@ import { fetchLeaderboardData } from "features/game/expansion/components/leaderb
 import { FactionLeaderboard } from "./pages/FactionLeaderboard";
 import { Season } from "./pages/Season";
 import { getSeasonalTicket } from "features/game/types/seasons";
+import { hasFeatureAccess } from "lib/flags";
+import { ChoreBoard } from "./pages/ChoreBoard";
 
 interface Props {
   show: boolean;
@@ -211,7 +213,18 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
               })}
             > */}
             {currentTab === 0 && <Deliveries onClose={onHide} />}
-            {currentTab === 1 && <Chores farmId={farmId} />}
+            {currentTab === 1 && (
+              <>
+                {hasFeatureAccess(
+                  gameService.getSnapshot().context.state,
+                  "CHORE_BOARD",
+                ) ? (
+                  <ChoreBoard />
+                ) : (
+                  <Chores farmId={farmId} />
+                )}
+              </>
+            )}
             {currentTab === 2 && (
               <Season
                 id={id}
