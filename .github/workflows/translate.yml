@@ -37,6 +37,16 @@ jobs:
       - name: Run translation script
         run: yarn translate
 
+      - name: Configure Git user
+        run: |
+          git config --global user.name "Translator Bot"
+          git config --global user.email "translator@sunflower-land.com"
+
+      - name: Pull latest changes
+        run: |
+          git fetch origin
+          git pull origin main
+
       - uses: EndBug/add-and-commit@v9
         with:
           message: "[BOT] Update translations [skip ci]"
