@@ -3722,5 +3722,6 @@
   "bounties.sold": "売却",
   "bounties.sell.coins": "本当にこの動物を {{amount}} コインで売りたいですか？",
   "bounties.sell.items": "本当にこの動物を {{amount}} で売ってもよろしいですか？",
-  "bounties.animal.select": "売却する {{name}} を選択してください。"
+  "bounties.animal.select": "売却する {{name}} を選択してください。",
+  "obsession": "強迫観念"
 }

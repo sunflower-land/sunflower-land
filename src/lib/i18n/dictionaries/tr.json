@@ -3722,5 +3722,6 @@
   "bounties.sold": "Satıldı",
   "bounties.sell.coins": "Bu hayvanı {{amount}} paraya satmak istediğinizden emin misiniz?",
   "bounties.sell.items": "Bu hayvanı {{amount}} karşılığında satmak istediğinizden emin misiniz?",
-  "bounties.animal.select": "Satmak için bir {{name}} seçin."
+  "bounties.animal.select": "Satmak için bir {{name}} seçin.",
+  "obsession": "Takıntı"
 }

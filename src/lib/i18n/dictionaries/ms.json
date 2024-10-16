@@ -3722,5 +3722,6 @@
   "bounties.sold": "Dijual",
   "bounties.sell.coins": "Adakah anda pasti ingin menjual haiwan ini untuk duit syiling {{amount}}?",
   "bounties.sell.items": "Adakah anda pasti ingin menjual haiwan ini untuk {{amount}}?",
-  "bounties.animal.select": "Pilih {{name}} untuk dijual."
+  "bounties.animal.select": "Pilih {{name}} untuk dijual.",
+  "obsession": "Obsesi"
 }

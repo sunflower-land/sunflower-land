@@ -3722,5 +3722,6 @@
   "bounties.sold": "Vendido",
   "bounties.sell.coins": "Tem certeza de que quer vender esse animal por {{amount}} moedas?",
   "bounties.sell.items": "Tem certeza de que quer vender esse animal por {{amount}}?",
-  "bounties.animal.select": "Selecione um {{name}} para vender."
+  "bounties.animal.select": "Selecione um {{name}} para vender.",
+  "obsession": "Obsessão"
 }
