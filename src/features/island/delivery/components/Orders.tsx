@@ -144,6 +144,7 @@ export const OrderCard: React.FC<OrderCardProps> = ({
   const tickets = generateDeliveryTickets({
     game: gameState,
     npc: order.from,
+    order,
   });
 
   return (
@@ -756,6 +757,7 @@ export const DeliveryOrders: React.FC<Props> = ({
                       generateDeliveryTickets({
                         game: gameState,
                         npc: previewOrder.from,
+                        order: previewOrder,
                       }) || makeRewardAmountForLabel(previewOrder)
                     } ${
                       previewOrder.reward.coins
@@ -837,6 +839,7 @@ export const DeliveryOrders: React.FC<Props> = ({
             !!generateDeliveryTickets({
               game: gameState,
               npc: previewOrder.from,
+              order: previewOrder,
             }) && (
               <Label
                 type="danger"

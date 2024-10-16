@@ -35,10 +35,12 @@ export function generateDeliveryTickets({
   game,
   npc,
   now = new Date(),
+  order,
 }: {
   game: GameState;
   npc: NPCName;
   now?: Date;
+  order: Order;
 }) {
   let amount = TICKET_REWARDS[npc as QuestNPCName];
 
@@ -51,6 +53,10 @@ export function generateDeliveryTickets({
     !!game.inventory["Lifetime Farmer Banner"]
   ) {
     amount += 2;
+  }
+  // Leave this at the end as it will multiply the whole amount by 2
+  if (order.doubleDelivery === true) {
+    amount *= 2;
   }
 
   return amount;
@@ -241,6 +247,10 @@ export function getOrderSellPrice<T>(game: GameState, order: Order): T {
   ) {
     mul += 0.25;
   }
+  // Leave this at the end as it will multiply the whole amount by 2
+  if (order.doubleDelivery === true) {
+    mul *= 2;
+  }
 
   if (order.reward.sfl) {
     return new Decimal(order.reward.sfl ?? 0).mul(mul) as T;
@@ -285,6 +295,7 @@ export function deliverOrder({
       game,
       npc: order.from,
       now: new Date(createdAt),
+      order,
     });
     const isTicketOrder = tickets > 0;
 
