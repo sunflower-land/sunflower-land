@@ -64,7 +64,7 @@ export const AnimalTeaser: React.FC = () => {
       >
         <img src={boat} className="absolute top-0 right-0 w-full" />
         <img
-          src={SUNNYSIDE.animals.cow_large}
+          src={SUNNYSIDE.animals.cowReady}
           style={{
             top: `${PIXEL_SCALE * 7}px`,
             right: `${PIXEL_SCALE * 15}px`,
