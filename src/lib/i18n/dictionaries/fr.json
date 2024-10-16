@@ -3723,5 +3723,6 @@
   "bounties.sell.coins": "Êtes-vous sûr de vouloir vendre cet animal pour des pièces de {{amount}} ?",
   "bounties.sell.items": "Êtes-vous sûr de vouloir vendre cet animal pour {{amount}} ?",
   "bounties.animal.select": "Sélectionnez un {{name}} pour vendre.",
-  "obsession": "Obsession"
+  "obsession": "Obsession",
+  "teaser.intro": "Les animaux arrivent à Sunflower Land. Préparez vos ressources pour le 1er novembre !"
 }

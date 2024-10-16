@@ -3723,5 +3723,6 @@
   "bounties.sell.coins": "你确定要以 {{amount}} 金币出售这只动物吗？",
   "bounties.sell.items": "你确定要以 [0@/美元] 的价格出售这种动物吗？",
   "bounties.animal.select": "选择 {{name}} 进行出售。",
-  "obsession": "痴迷"
+  "obsession": "痴迷",
+  "teaser.intro": "动物们来到向日葵乐园。为 11 月 1 日准备好资源！"
 }

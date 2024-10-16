@@ -3723,5 +3723,6 @@
   "bounties.sell.coins": "本当にこの動物を {{amount}} コインで売りたいですか？",
   "bounties.sell.items": "本当にこの動物を {{amount}} で売ってもよろしいですか？",
   "bounties.animal.select": "売却する {{name}} を選択してください。",
-  "obsession": "強迫観念"
+  "obsession": "強迫観念",
+  "teaser.intro": "ひまわりランドに動物たちがやってくる。11月1日に向けて資源を準備しよう！"
 }
