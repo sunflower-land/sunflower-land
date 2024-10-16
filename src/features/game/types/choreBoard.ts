@@ -2,8 +2,9 @@ import { NPCName } from "lib/npcs";
 import { GameState, InventoryItemName } from "./game";
 import { getWeekKey } from "../lib/factions";
 import { getKeys } from "./decorations";
+import { ITEM_DETAILS } from "./images";
 
-type ChoreNPCName = Extract<
+export type ChoreNPCName = Extract<
   NPCName,
   | "pumpkin' pete"
   | "bert"
@@ -34,21 +35,39 @@ type ChoreTask = {
   progress: (game: GameState) => number;
 };
 
-const CHORES = {
+export const NPC_CHORES = {
   CHOP_1_TREE: {
     requirement: 1,
     progress: (game: GameState) => game.bumpkin.activity["Tree Chopped"] ?? 0,
   },
+  CHOP_2_TREE: {
+    requirement: 2,
+    progress: (game: GameState) => game.bumpkin.activity["Tree Chopped"] ?? 0,
+  },
 } satisfies Record<string, ChoreTask>;
 
-type ChoreName = keyof typeof CHORES;
+export const CHORE_DETAILS: Record<
+  ChoreName,
+  { icon: string; description: string }
+> = {
+  CHOP_1_TREE: {
+    description: "Chop 1 Tree",
+    icon: ITEM_DETAILS.Axe.image,
+  },
+  CHOP_2_TREE: {
+    description: "Chop 2 Trees",
+    icon: ITEM_DETAILS.Axe.image,
+  },
+};
+
+type ChoreName = keyof typeof NPC_CHORES;
 
 type ChoreDetails = {
   name: ChoreName;
   reward: { items: Partial<Record<InventoryItemName, number>> };
 };
 
-type NpcChore = ChoreDetails & {
+export type NpcChore = ChoreDetails & {
   initialProgress: number;
   startedAt: number;
   completedAt?: number;
@@ -107,7 +126,7 @@ function makeChoreBoard({
       ) {
         existing = {
           ...chores[name],
-          initialProgress: CHORES[chores[name].name].progress(game),
+          initialProgress: NPC_CHORES[chores[name].name].progress(game),
           startedAt: now,
         };
       }
@@ -124,3 +143,40 @@ function makeChoreBoard({
     chores: progress,
   };
 }
+
+export function getChoreProgress({
+  chore,
+  game,
+}: {
+  chore: NpcChore;
+  game: GameState;
+}) {
+  const progress = NPC_CHORES[chore.name].progress(game);
+
+  return progress - chore.initialProgress;
+}
+
+export const NPC_CHORE_UNLOCKS: Record<ChoreNPCName, number> = {
+  "pumpkin' pete": 1,
+  betty: 1,
+  blacksmith: 1,
+  peggy: 3,
+  corale: 7,
+  tango: 13,
+  "old salty": 15,
+  victoria: 30,
+  grimbly: 10,
+  grimtooth: 10,
+  gambit: 10,
+  jester: 10,
+  pharaoh: 10,
+  timmy: 10,
+  tywin: 10,
+  cornwell: 10,
+  finn: 10,
+  finley: 10,
+  miranda: 10,
+  raven: 10,
+  grubnuk: 10,
+  bert: 10,
+};
