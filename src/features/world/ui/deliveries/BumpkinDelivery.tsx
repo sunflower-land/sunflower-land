@@ -11,6 +11,7 @@ import coinsImg from "assets/icons/coins.webp";
 import gift from "assets/icons/gift.png";
 import token from "assets/icons/sfl.webp";
 import chest from "assets/icons/chest.png";
+import lightning from "assets/icons/lightning.png";
 
 import { InlineDialogue } from "../TypingMessage";
 import Decimal from "decimal.js-light";
@@ -698,9 +699,18 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
             <div className="px-2 ">
               <div className="flex flex-col justify-between items-stretch mb-2 gap-1">
                 <div className="flex flex-row justify-between w-full">
-                  <Label type="default" icon={SUNNYSIDE.icons.expression_chat}>
-                    {t("delivery")}
-                  </Label>
+                  {delivery?.doubleDelivery === true ? (
+                    <Label type="vibrant" icon={lightning}>
+                      {`Double Rewards Delivery`}
+                    </Label>
+                  ) : (
+                    <Label
+                      type="default"
+                      icon={SUNNYSIDE.icons.expression_chat}
+                    >
+                      {t("delivery")}
+                    </Label>
+                  )}
                   {delivery?.completedAt && (
                     <Label
                       style={{ whiteSpace: "nowrap" }}
