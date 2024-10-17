@@ -20,10 +20,8 @@ import { Button } from "components/ui/Button";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { getAvailableBumpkinSkillPoints } from "features/game/events/landExpansion/choseSkill";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import {
-  findLevelRequiredForNextSkillPoint,
-  isMaxLevel,
-} from "features/game/lib/level";
+import { ONE_DAY, secondsToString } from "lib/utils/time";
+
 const iconList = {
   Crops: SUNNYSIDE.skills.crops,
   Trees: SUNNYSIDE.skills.trees,
@@ -41,10 +39,8 @@ const iconList = {
 
 export const SkillCategoryList = ({
   onClick,
-  onBack,
 }: {
   onClick: (category: BumpkinRevampSkillTree) => void;
-  onBack: () => void;
 }) => {
   const { t } = useAppTranslation();
 
@@ -65,24 +61,38 @@ export const SkillCategoryList = ({
   const hasSkills = bumpkin?.skills
     ? Object.keys(bumpkin.skills).length > 0
     : false;
-  const threeMonthsSinceLastReset = bumpkin?.previousSkillsResetAt
-    ? new Date(bumpkin.previousSkillsResetAt).getTime() + 7776000000 <
-      Date.now()
-    : true; // 90 days in milliseconds, yeah I know..
+  const lastResetDate = bumpkin?.previousSkillsResetAt || null;
+  const threeMonthsSinceLastReset = lastResetDate
+    ? new Date().getTime() - new Date(lastResetDate).getTime() >=
+      90 * 24 * 60 * 60 * 1000
+    : true;
   const enoughSfl = state.balance.toNumber() >= 10;
 
   const handleSkillsReset = () => {
     setShowSkillsResetModal(false);
     gameService.send("skills.reset");
 
-    // can be useful later?
     gameAnalytics.trackMilestone({
       event: "Bumpkin:SkillReset",
     });
   };
 
-  const nextLevelWithSkillPoint =
-    findLevelRequiredForNextSkillPoint(experience);
+  const getTimeUntilNextReset = () => {
+    if (!lastResetDate) return "";
+    const nextResetDate =
+      new Date(lastResetDate).getTime() + 90 * ONE_DAY * 1000;
+    const timeLeftInSeconds = Math.max(
+      (nextResetDate - new Date().getTime()) / 1000,
+      0,
+    );
+
+    return secondsToString(timeLeftInSeconds, {
+      length: "short",
+      isShortFormat: true,
+      removeTrailingZeros: true,
+    });
+  };
+
   return (
     <>
       <InnerPanel className="flex flex-col h-full overflow-y-auto scrollable max-h-96">
@@ -90,30 +100,14 @@ export const SkillCategoryList = ({
           className="flex flex-row my-2 items-center"
           style={{ margin: `${PIXEL_SCALE * 2}px` }}
         >
-          <img
-            src={SUNNYSIDE.icons.arrow_left}
-            className="cursor-pointer"
-            alt="back"
-            style={{
-              width: `${PIXEL_SCALE * 11}px`,
-              marginRight: `${PIXEL_SCALE * 4}px`,
-            }}
-            onClick={onBack}
-          />
           <div className="flex flex-wrap gap-1">
             {availableSkillPoints > 0 && (
               <Label type="default">
-                {t("skillPts")} {availableSkillPoints}
-              </Label>
-            )}
-            {nextLevelWithSkillPoint && !isMaxLevel(experience) && (
-              <Label type="default" className="text-xxs px-1 whitespace-nowrap">
-                {t("nextSkillPtLvl")} {nextLevelWithSkillPoint}
+                {`You have ${availableSkillPoints} skill point${availableSkillPoints > 1 ? "s" : ""}`}
               </Label>
             )}
           </div>
         </div>
-
         {REVAMP_SKILL_TREE_CATEGORIES.map((category) => {
           const skills = getRevampSkills(category);
           const icon = iconList[skills[0].tree];
@@ -178,7 +172,7 @@ export const SkillCategoryList = ({
                 icon={SUNNYSIDE.icons.stopwatch}
                 className="mb-2"
               >
-                {"Can't reset skills yet"}
+                {`${getTimeUntilNextReset()} until you can reset your skills again`}
               </Label>
             )}
             {!enoughSfl && (
