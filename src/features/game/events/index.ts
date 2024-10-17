@@ -395,6 +395,10 @@ import {
   completeNPCChore,
   CompleteNPCChoreAction,
 } from "./landExpansion/completeNPCChore";
+import {
+  levelUpAnimal,
+  LevelUpAnimalAction,
+} from "./landExpansion/levelUpAnimal";
 
 export type PlayingEvent =
   | SellAnimalAction
@@ -513,7 +517,8 @@ export type PlayingEvent =
   | UpgradeBuildingAction
   | StartCraftingAction
   | CollectCraftingAction
-  | CompleteNPCChoreAction;
+  | CompleteNPCChoreAction
+  | LevelUpAnimalAction;
 
 export type PlacementEvent =
   | ConstructBuildingAction
@@ -697,6 +702,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "crafting.started": startCrafting,
   "crafting.collected": collectCrafting,
   "chore.fulfilled": completeNPCChore,
+  "animal.leveledUp": levelUpAnimal,
 };
 
 export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {

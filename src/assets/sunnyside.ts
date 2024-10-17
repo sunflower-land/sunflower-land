@@ -278,9 +278,15 @@ export const SUNNYSIDE = {
     // New Animals
     chickenIdle: `${CONFIG.PROTECTED_IMAGE_URL}/animals/chickens/idle_chicken.gif`,
     chickenAsleep: `${CONFIG.PROTECTED_IMAGE_URL}/animals/chickens/sleeping_chicken.gif`,
-    cow: `${CONFIG.PROTECTED_IMAGE_URL}/animals/cows/cow_md.webp`,
+    chickenReady: `${CONFIG.PROTECTED_IMAGE_URL}/animals/chickens/ready.webp`,
+    cowIdle: `${CONFIG.PROTECTED_IMAGE_URL}/animals/cows/idle.webp`,
     cowReady: `${CONFIG.PROTECTED_IMAGE_URL}/animals/cows/ready.webp`,
-    sheep: `${CONFIG.PROTECTED_IMAGE_URL}/animals/sheep/sheep_md.webp`,
+    cowSleeping: `${CONFIG.PROTECTED_IMAGE_URL}/animals/cows/sleeping.webp`,
+    cowFed: `${CONFIG.PROTECTED_IMAGE_URL}/animals/cows/fed.webp`,
+    sheepIdle: `${CONFIG.PROTECTED_IMAGE_URL}/animals/sheep/idle.webp`,
+    sheepReady: `${CONFIG.PROTECTED_IMAGE_URL}/animals/sheep/ready.webp`,
+    sheepSleeping: `${CONFIG.PROTECTED_IMAGE_URL}/animals/sheep/sleeping.webp`,
+    sheepFed: `${CONFIG.PROTECTED_IMAGE_URL}/animals/sheep/fed.webp`,
 
     bird: `${CONFIG.PROTECTED_IMAGE_URL}/animals/bird_sheet.png`,
   },

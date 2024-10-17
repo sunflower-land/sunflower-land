@@ -18,14 +18,20 @@ export type TState = {
     | "loved"
     | "sleeping"
     | "needsLove"
-    | "initial";
+    | "initial"
+    | "leveledUp";
   context: TContext;
 };
 
 type AnimalFeedEvent = { type: "FEED"; animal: Animal };
 type AnimalLoveEvent = { type: "LOVE"; animal: Animal };
+type AnimalLevelUpEvent = { type: "LEVEL_UP"; animal: Animal };
 
-type TEvent = AnimalFeedEvent | AnimalLoveEvent | { type: "TICK" };
+type TEvent =
+  | AnimalFeedEvent
+  | AnimalLoveEvent
+  | AnimalLevelUpEvent
+  | { type: "TICK" };
 
 type MachineState = State<TContext, TEvent, MachineState>;
 
@@ -40,6 +46,7 @@ export const ANIMAL_EMOTION_ICONS: Record<
   Exclude<TState["value"], "idle" | "needsLove" | "initial">,
   string
 > = {
+  leveledUp: SUNNYSIDE.icons.expression_confused,
   happy: SUNNYSIDE.icons.happy,
   sad: SUNNYSIDE.icons.sad,
   sleeping: SUNNYSIDE.icons.sleeping,
@@ -78,6 +85,10 @@ export const animalMachine = createMachine<TContext, TEvent, TState>({
     initial: {
       always: [
         {
+          target: "levelUp",
+          cond: (context) => context.animal?.state === "levelUp",
+        },
+        {
           target: "needsLove",
           cond: (context) =>
             isAnimalSleeping(context) && isAnimalNeedsLove(context),
@@ -90,6 +101,16 @@ export const animalMachine = createMachine<TContext, TEvent, TState>({
           target: "idle",
         },
       ],
+    },
+    levelUp: {
+      on: {
+        LEVEL_UP: {
+          target: "sleeping",
+          actions: assign({
+            animal: (_, event) => (event as AnimalLevelUpEvent).animal,
+          }),
+        },
+      },
     },
     happy: {
       on: {
@@ -110,7 +131,7 @@ export const animalMachine = createMachine<TContext, TEvent, TState>({
         ],
       },
       after: {
-        3000: [
+        1500: [
           {
             target: "sleeping",
             cond: (context) => isAnimalSleeping(context),
@@ -138,7 +159,7 @@ export const animalMachine = createMachine<TContext, TEvent, TState>({
         ],
       },
       after: {
-        3000: [
+        1500: [
           {
             target: "sleeping",
             cond: (context) => isAnimalSleeping(context),
@@ -149,7 +170,7 @@ export const animalMachine = createMachine<TContext, TEvent, TState>({
     },
     loved: {
       after: {
-        3000: [
+        1500: [
           {
             target: "sleeping",
             cond: (context) => isAnimalSleeping(context),
