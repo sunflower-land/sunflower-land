@@ -1525,7 +1525,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
       points: 3,
       skill: 5,
     },
-    boosts: "Machine uses 15% less oil",
+    boosts: "Machine uses 30% less oil",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
   "Grease Lightning": {
