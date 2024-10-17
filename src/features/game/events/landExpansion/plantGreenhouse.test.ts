@@ -1667,7 +1667,7 @@ describe("plantGreenhouse", () => {
     });
   });
 
-  it("boosts Grape growth speed by 20% with Vine Velocity skill", () => {
+  it("boosts Grape growth speed by 10% with Vine Velocity skill", () => {
     const now = Date.now();
     const state = plantGreenhouse({
       action: {
@@ -1710,7 +1710,7 @@ describe("plantGreenhouse", () => {
       plant: {
         amount: 1,
         name: "Grape",
-        plantedAt: now - GREENHOUSE_CROP_TIME_SECONDS.Grape * 0.2 * 1000,
+        plantedAt: now - GREENHOUSE_CROP_TIME_SECONDS.Grape * 0.1 * 1000,
       },
     });
   });
