@@ -40,7 +40,8 @@ export function generateDeliveryTickets({
   now?: Date;
   order: Order;
 }) {
-  let amount = TICKET_REWARDS[order.from as QuestNPCName];
+  const npc = order.from;
+  let amount = TICKET_REWARDS[npc as QuestNPCName];
 
   if (!amount) {
     return 0;
