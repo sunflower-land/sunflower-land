@@ -97,6 +97,10 @@ export function startComposter({
       produceAmount -= 5;
     }
 
+    if (skills["More With Less"]) {
+      produceAmount -= 1;
+    }
+
     // start the production
     buildings[0].producing = {
       items: {
