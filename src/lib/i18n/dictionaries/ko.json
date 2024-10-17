@@ -712,7 +712,6 @@
   "description.white.carrot": "창백한 뿌리를 가진 창백한 당근",
   "description.warty.goblin.pumpkin": "사마귀로 뒤덮인 기발한 호박",
   "description.adirondack.potato": "견고한 스퍼드, 애디론댁 스타일!",
-  "description.purple.cauliflower": "장엄한 보라색 콜리플라워",
   "description.chiogga": "무지개 비트!",
   "description.golden.helios": "햇살이 내리쬐는 웅장함!",
   "description.black.magic": "어둡고 신비로운 꽃!",
@@ -3728,5 +3727,7 @@
   "npcDialogues.chase.intro1": "안녕 범프킨!11월 1일에 선플라워 랜드에 동물들이 찾아옵니다.",
   "npcDialogues.chase.intro2": "하지만 저는 약간 곤란한 상황에 처해 있습니다.제 무리가 불가사의하게 사라졌어요. 마치 허공에서 사라진 것 같아요!",
   "npcDialogues.sheep.intro1": "찾아줘서 고마워요!한 순간은 카우보이와 함께 양인 척 하고 있었는데, 다음 순간에는 여기 왔어요.",
-  "npcDialogues.sheep.intro2": "내가 기억하는 건 깜박이는 불빛과 이상한 소리뿐이야..."
+  "npcDialogues.sheep.intro2": "내가 기억하는 건 깜박이는 불빛과 이상한 소리뿐이야...",
+  "description.purple.cauliflower": "장엄한 보라색 콜리플라워",
+  "crafting": "크래프팅"
 }

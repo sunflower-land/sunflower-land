@@ -712,7 +712,6 @@
   "description.white.carrot": "Lobak pucat dengan akar pucat",
   "description.warty.goblin.pumpkin": "Labu yang aneh dan ditutup dengan kakak",
   "description.adirondack.potato": "Spud lasak, gaya Adirondack!",
-  "description.purple.cauliflower": "Kembang kol ungu yang indah",
   "description.chiogga": "Bit pelangi!",
   "description.golden.helios": "Kegagungan yang dicium matahari!",
   "description.black.magic": "Bunga gelap dan misteri!",
@@ -3728,5 +3727,7 @@
   "npcDialogues.chase.intro1": "Hello Bumpkin! Haiwan akan datang ke Tanah Sunflower pada 1 November.",
   "npcDialogues.chase.intro2": "Walau bagaimanapun, saya sedikit acar. Kawanan saya telah hilang secara misterius - seperti mereka hilang dari udara nipis!",
   "npcDialogues.sheep.intro1": "Terima kasih kerana mencari saya! Suatu saat saya berpura-pura menjadi domba dengan Cowboy dan pada saat berikutnya saya berada di sini.",
-  "npcDialogues.sheep.intro2": "Apa yang saya ingat adalah lampu berkelip dan bunyi aneh..."
+  "npcDialogues.sheep.intro2": "Apa yang saya ingat adalah lampu berkelip dan bunyi aneh...",
+  "description.purple.cauliflower": "Kembang kol ungu yang indah",
+  "crafting": "Kerajinan"
 }

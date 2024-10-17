@@ -712,7 +712,6 @@
   "description.white.carrot": "Wortel pucat dengan akar pucat",
   "description.warty.goblin.pumpkin": "Labu aneh yang tertutup kutil",
   "description.adirondack.potato": "Sebuah spud kasar, gaya Adirondack!",
-  "description.purple.cauliflower": "Kembang kol ungu yang agung",
   "description.chiogga": "Bit pelangi!",
   "description.golden.helios": "Kemegahan yang dicium matahari!",
   "description.black.magic": "Bunga gelap dan misterius!",
@@ -3728,5 +3727,7 @@
   "npcDialogues.chase.intro1": "Halo Bumpkin! Hewan akan datang ke Sunflower Land pada 1 November.",
   "npcDialogues.chase.intro2": "Namun saya sedikit terganggu. Kawanan saya menghilang secara misterius - seolah-olah mereka menghilang begitu saja!",
   "npcDialogues.sheep.intro1": "Terima kasih telah menemukan saya! Suatu saat saya berpura-pura menjadi domba dengan Koboi dan saat berikutnya saya ada di sini.",
-  "npcDialogues.sheep.intro2": "Yang saya ingat adalah lampu berkedip dan suara-suara aneh..."
+  "npcDialogues.sheep.intro2": "Yang saya ingat adalah lampu berkedip dan suara-suara aneh...",
+  "description.purple.cauliflower": "Kembang kol ungu yang agung",
+  "crafting": "Kerajinan"
 }

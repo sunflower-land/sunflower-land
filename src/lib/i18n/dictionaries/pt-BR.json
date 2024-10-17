@@ -472,7 +472,6 @@
   "description.white.carrot": "Uma cenoura pálida com raízes pálidas",
   "description.warty.goblin.pumpkin": "Uma abóbora coberta de verrugas e whimsical",
   "description.adirondack.potato": "Um tubérculo robusto, estilo Adirondack!",
-  "description.purple.cauliflower": "Um repolho roxo real",
   "description.chiogga": "Uma beterraba arco-íris!",
   "description.golden.helios": "Grandeza beijada pelo sol!",
   "description.black.magic": "Uma flor escura e misteriosa!",
@@ -3728,5 +3727,7 @@
   "npcDialogues.chase.intro1": "Olá, Bumpkin! Os animais chegarão à Terra do Girassol em 1º de novembro.",
   "npcDialogues.chase.intro2": "No entanto, estou em apuros. Meu rebanho desapareceu misteriosamente - é como se eles tivessem desaparecido do nada!",
   "npcDialogues.sheep.intro1": "Obrigado por me encontrar! Em um momento eu estava fingindo ser uma ovelha com o Cowboy e no momento seguinte eu estava aqui.",
-  "npcDialogues.sheep.intro2": "Tudo que eu lembro são luzes piscando e ruídos estranhos..."
+  "npcDialogues.sheep.intro2": "Tudo que eu lembro são luzes piscando e ruídos estranhos...",
+  "description.purple.cauliflower": "Uma majestosa couve-flor roxa",
+  "crafting": "Elaboração"
 }

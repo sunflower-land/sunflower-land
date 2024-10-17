@@ -708,7 +708,6 @@
   "description.white.carrot": "Una carota pallida con radici chiare",
   "description.warty.goblin.pumpkin": "Una zucca stravagante ricoperta di verruche",
   "description.adirondack.potato": "Una patata robusta, in stile Adirondack!",
-  "description.purple.cauliflower": "Un cavolfiore viola regale",
   "description.chiogga": "Una barbabietola arcobaleno!",
   "description.golden.helios": "Grandiosità baciata dal sole!",
   "description.black.magic": "Un fiore oscuro e misterioso!",
@@ -3728,5 +3727,7 @@
   "npcDialogues.chase.intro1": "Salve Bumpkin! Gli animali arriveranno a Sunflower Land il primo novembre.",
   "npcDialogues.chase.intro2": "Tuttavia sono un po' nei guai. La mia mandria è misteriosamente scomparsa, è come se fosse scomparsa dal nulla!",
   "npcDialogues.sheep.intro1": "Grazie per avermi trovato! Un momento facevo finta di essere una pecora con il Cowboy e un attimo dopo ero qui.",
-  "npcDialogues.sheep.intro2": "Ricordo solo luci lampeggianti e strani rumori..."
+  "npcDialogues.sheep.intro2": "Ricordo solo luci lampeggianti e strani rumori...",
+  "description.purple.cauliflower": "Un cavolfiore viola regale",
+  "crafting": "Artigianato"
 }

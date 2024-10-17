@@ -681,7 +681,6 @@
   "description.white.carrot": "白胡萝卜。一根浅色的胡萝卜，有浅色的根",
   "description.warty.goblin.pumpkin": "疣粒哥布林南瓜。一个异想天开、长满疣的南瓜",
   "description.adirondack.potato": "阿迪朗达克土豆。坚固的马铃薯，阿迪朗达克风格！",
-  "description.purple.cauliflower": "紫色花椰菜。高贵的紫色花椰菜",
   "description.chiogga": "意大利甜菜根。彩虹甜菜！",
   "description.golden.helios": "金叵罗。阳光亲吻的宏伟！",
   "description.black.magic": "黑魔花。一朵黑暗而神秘的花！",
@@ -3728,5 +3727,7 @@
   "npcDialogues.chase.intro1": "你好 Bumpkin！动物将于11月1日来到向日葵乐园。",
   "npcDialogues.chase.intro2": "但是我有点困惑。我的牛群神秘地失踪了 —— 就像他们凭空消失一样！",
   "npcDialogues.sheep.intro1": "谢谢你找到我！有一刻我假装自己是牛仔队的绵羊，下一刻我就在这里。",
-  "npcDialogues.sheep.intro2": "我只记得闪烁的灯光和奇怪的声音..."
+  "npcDialogues.sheep.intro2": "我只记得闪烁的灯光和奇怪的声音...",
+  "description.purple.cauliflower": "一朵富丽堂皇的紫花椰菜",
+  "crafting": "手工制作"
 }

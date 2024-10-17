@@ -632,7 +632,6 @@
   "description.white.carrot": "Бледная морковь с бледными корнями",
   "description.warty.goblin.pumpkin": "Причудливая, покрытая бородавками тыква",
   "description.adirondack.potato": "Прочный картофель, в стиле адирондак!",
-  "description.purple.cauliflower": "Царская фиолетовая цветная капуста",
   "description.chiogga": "Радужная свекла!",
   "description.golden.helios": "Загорелое чудо!",
   "description.black.magic": "Мрачный и таинственный цветок!",
@@ -3728,5 +3727,7 @@
   "npcDialogues.chase.intro1": "Привет, Бампкин! Животные придут на Землю Подсолнухов 1 ноября.",
   "npcDialogues.chase.intro2": "Тем не менее, я немного не в себе. Мое стадо таинственным образом пропало без вести — как будто оно исчезло из воздуха!",
   "npcDialogues.sheep.intro1": "Спасибо, что нашли меня! В одно мгновение я притворялся овцой вместе с Ковбоем, а в следующий момент я оказался здесь.",
-  "npcDialogues.sheep.intro2": "Помню только мигающие огни и странные звуки..."
+  "npcDialogues.sheep.intro2": "Помню только мигающие огни и странные звуки...",
+  "description.purple.cauliflower": "Королевская фиолетовая цветная капуста",
+  "crafting": "Крафтинг"
 }

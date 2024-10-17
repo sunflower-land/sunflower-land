@@ -709,7 +709,6 @@
   "description.white.carrot": "Una zanahoria pálida con raíces pálidas",
   "description.warty.goblin.pumpkin": "Una calabaza caprichosa cubierta de verrugas",
   "description.adirondack.potato": "Una patata robusta al estilo Adirondack!",
-  "description.purple.cauliflower": "Una majestuosa coliflor morada",
   "description.chiogga": "Una remolacha arcoíris!",
   "description.golden.helios": "Grandeza bañada por el sol!",
   "description.black.magic": "Una flor oscura y misteriosa!",
@@ -3728,5 +3727,7 @@
   "npcDialogues.chase.intro1": "¡Hola, Bumpkin! Los animales llegarán a Sunflower Land el 1 de noviembre.",
   "npcDialogues.chase.intro2": "Sin embargo, estoy en un lío. Mi manada ha desaparecido misteriosamente, ¡es como si hubiera desaparecido de la nada!",
   "npcDialogues.sheep.intro1": "¡Gracias por encontrarme! En un momento estaba fingiendo ser una oveja con el Cowboy y al momento siguiente estaba aquí.",
-  "npcDialogues.sheep.intro2": "Todo lo que recuerdo son luces parpadeantes y ruidos extraños..."
+  "npcDialogues.sheep.intro2": "Todo lo que recuerdo son luces parpadeantes y ruidos extraños...",
+  "description.purple.cauliflower": "Una majestuosa coliflor morada",
+  "crafting": "Elaboración"
 }

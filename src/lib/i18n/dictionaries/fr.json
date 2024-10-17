@@ -497,7 +497,6 @@
   "description.white.carrot": "Une carotte pâle aux racines pâles",
   "description.warty.goblin.pumpkin": "Une pumpkin fantaisiste et verruqueuse",
   "description.adirondack.potato": "Une potato robuste, style Adirondack!",
-  "description.purple.cauliflower": "Un Cauliflower pourpre royal",
   "description.chiogga": "Une betterave arc-en-ciel!",
   "description.golden.helios": "Majesté baignée de soleil!",
   "description.black.magic": "Une fleur sombre et mystérieuse!",
@@ -3728,5 +3727,7 @@
   "npcDialogues.chase.intro1": "Bonjour Bumpkin ! Les animaux arriveront à Sunflower Land le 1er novembre.",
   "npcDialogues.chase.intro2": "Cependant, je suis un peu dans le pétrin. Mon troupeau a mystérieusement disparu. C'est comme s'il avait disparu de nulle part !",
   "npcDialogues.sheep.intro1": "Merci de m'avoir trouvée ! Un moment, je faisais semblant d'être un mouton avec le Cowboy et l'instant d'après, j'étais là.",
-  "npcDialogues.sheep.intro2": "Je ne me souviens que de lumières clignotantes et de bruits étranges..."
+  "npcDialogues.sheep.intro2": "Je ne me souviens que de lumières clignotantes et de bruits étranges...",
+  "description.purple.cauliflower": "Un chou-fleur violet royal",
+  "crafting": "Artisanat"
 }

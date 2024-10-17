@@ -503,7 +503,6 @@
   "description.white.carrot": "Soluk kökleri olan soluk bir havuç",
   "description.warty.goblin.pumpkin": "Tuhaf, siğillerle kaplı bir balkabağı",
   "description.adirondack.potato": "Sağlam bir patates, Adirondack tarzı!",
-  "description.purple.cauliflower": "Muhteşem bir mor karnabahar",
   "description.chiogga": "Gökkuşağı pancarı!",
   "description.golden.helios": "Güneşin öptüğü ihtişam!",
   "description.black.magic": "Karanlık ve gizemli bir çiçek!",
@@ -3728,5 +3727,7 @@
   "npcDialogues.chase.intro1": "Merhaba Bumpkin! Hayvanlar 1 Kasım'da Ayçiçeği Ülkesine geliyor.",
   "npcDialogues.chase.intro2": "Ancak biraz turşu içindeyim. Sürüm gizemli bir şekilde kayboldu - sanki havadan kaybolmuşlar gibi!",
   "npcDialogues.sheep.intro1": "Beni bulduğun için teşekkürler! Bir an Kovboy'la koyun gibi davranıyordum ve ertesi an buradaydım.",
-  "npcDialogues.sheep.intro2": "Hatırladığım tek şey yanıp sönen ışıklar ve garip sesler..."
+  "npcDialogues.sheep.intro2": "Hatırladığım tek şey yanıp sönen ışıklar ve garip sesler...",
+  "description.purple.cauliflower": "Muhteşem mor karnabahar",
+  "crafting": "İşçilik"
 }

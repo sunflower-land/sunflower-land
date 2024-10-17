@@ -712,7 +712,6 @@
   "description.white.carrot": "Eine blasse Karotte mit blassen Wurzeln",
   "description.warty.goblin.pumpkin": "Ein skurriler, warzenbedeckter Kürbis",
   "description.adirondack.potato": "Ein robuster Spud im Adirondack-Stil!",
-  "description.purple.cauliflower": "Ein königlicher lila Blumenkohl",
   "description.chiogga": "Eine Regenbogenrübe!",
   "description.golden.helios": "Sonnengeküsste Pracht!",
   "description.black.magic": "Eine dunkle und geheimnisvolle Blume!",
@@ -3728,5 +3727,7 @@
   "npcDialogues.chase.intro1": "Hallo Bumpkin! Tiere kommen am 1. November nach Sunflower Land.",
   "npcDialogues.chase.intro2": "Ich stecke jedoch in einer kleinen Zwickmühle. Meine Herde ist auf mysteriöse Weise verschwunden - es ist, als wären sie aus dem Nichts verschwunden!",
   "npcDialogues.sheep.intro1": "Danke, dass du mich gefunden hast! In einem Moment habe ich so getan, als wäre ich ein Schaf beim Cowboy und im nächsten Moment war ich hier.",
-  "npcDialogues.sheep.intro2": "Ich erinnere mich nur an blinkende Lichter und seltsame Geräusche..."
+  "npcDialogues.sheep.intro2": "Ich erinnere mich nur an blinkende Lichter und seltsame Geräusche...",
+  "description.purple.cauliflower": "Ein königlicher lila Blumenkohl",
+  "crafting": "Basteln"
 }
