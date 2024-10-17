@@ -177,9 +177,9 @@ export function getCropTime({
     seconds = seconds * 0.9;
   }
 
-  // Rice Rocket: 20% reduction
+  // Rice Rocket: 10% reduction
   if (crop === "Rice" && skills["Rice Rocket"]) {
-    seconds = seconds * 0.8;
+    seconds = seconds * 0.9;
   }
 
   return seconds;

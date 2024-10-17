@@ -1619,7 +1619,7 @@ describe("plantGreenhouse", () => {
     });
   });
 
-  it("boosts Rice growth speed by 20% with Rice Rocket skill", () => {
+  it("boosts Rice growth speed by 10% with Rice Rocket skill", () => {
     const now = Date.now();
     const state = plantGreenhouse({
       action: {
@@ -1662,7 +1662,7 @@ describe("plantGreenhouse", () => {
       plant: {
         amount: 1,
         name: "Rice",
-        plantedAt: now - GREENHOUSE_CROP_TIME_SECONDS.Rice * 0.2 * 1000,
+        plantedAt: now - GREENHOUSE_CROP_TIME_SECONDS.Rice * 0.1 * 1000,
       },
     });
   });

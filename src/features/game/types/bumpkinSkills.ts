@@ -1022,7 +1022,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
       points: 2,
       skill: 2,
     },
-    boosts: "20% faster Rice growth",
+    boosts: "10% faster Rice growth",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
   "Vine Velocity": {
