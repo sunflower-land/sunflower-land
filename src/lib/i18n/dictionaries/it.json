@@ -3724,5 +3724,9 @@
   "bounties.sell.items": "Sei sicuro di voler vendere questo animale per {{amount}}?",
   "bounties.animal.select": "Seleziona un {{name}} da vendere.",
   "obsession": "Ossessione",
-  "teaser.intro": "Gli animali stanno arrivando a Sunflower Land. Prepara le tue risorse per il 1° novembre!"
+  "teaser.intro": "Gli animali stanno arrivando a Sunflower Land. Prepara le tue risorse per il 1° novembre!",
+  "npcDialogues.chase.intro1": "Salve Bumpkin! Gli animali arriveranno a Sunflower Land il primo novembre.",
+  "npcDialogues.chase.intro2": "Tuttavia sono un po' nei guai. La mia mandria è misteriosamente scomparsa, è come se fosse scomparsa dal nulla!",
+  "npcDialogues.sheep.intro1": "Grazie per avermi trovato! Un momento facevo finta di essere una pecora con il Cowboy e un attimo dopo ero qui.",
+  "npcDialogues.sheep.intro2": "Ricordo solo luci lampeggianti e strani rumori..."
 }

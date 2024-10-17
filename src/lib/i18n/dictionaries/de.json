@@ -3724,5 +3724,9 @@
   "bounties.sell.items": "Bist du sicher, dass du dieses Tier für {{amount}} verkaufen willst?",
   "bounties.animal.select": "Wählen Sie {{name}} aus, um zu verkaufen.",
   "obsession": "Besessenheit",
-  "teaser.intro": "Tiere kommen nach Sunflower Land. Bereitet eure Ressourcen für den 1. November vor!"
+  "teaser.intro": "Tiere kommen nach Sunflower Land. Bereitet eure Ressourcen für den 1. November vor!",
+  "npcDialogues.chase.intro1": "Hallo Bumpkin! Tiere kommen am 1. November nach Sunflower Land.",
+  "npcDialogues.chase.intro2": "Ich stecke jedoch in einer kleinen Zwickmühle. Meine Herde ist auf mysteriöse Weise verschwunden - es ist, als wären sie aus dem Nichts verschwunden!",
+  "npcDialogues.sheep.intro1": "Danke, dass du mich gefunden hast! In einem Moment habe ich so getan, als wäre ich ein Schaf beim Cowboy und im nächsten Moment war ich hier.",
+  "npcDialogues.sheep.intro2": "Ich erinnere mich nur an blinkende Lichter und seltsame Geräusche..."
 }

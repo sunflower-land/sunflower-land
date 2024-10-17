@@ -3724,5 +3724,9 @@
   "bounties.sell.items": "你确定要以 [0@/美元] 的价格出售这种动物吗？",
   "bounties.animal.select": "选择 {{name}} 进行出售。",
   "obsession": "痴迷",
-  "teaser.intro": "动物们来到向日葵乐园。为 11 月 1 日准备好资源！"
+  "teaser.intro": "动物们来到向日葵乐园。为 11 月 1 日准备好资源！",
+  "npcDialogues.chase.intro1": "你好 Bumpkin！动物将于11月1日来到向日葵乐园。",
+  "npcDialogues.chase.intro2": "但是我有点困惑。我的牛群神秘地失踪了 —— 就像他们凭空消失一样！",
+  "npcDialogues.sheep.intro1": "谢谢你找到我！有一刻我假装自己是牛仔队的绵羊，下一刻我就在这里。",
+  "npcDialogues.sheep.intro2": "我只记得闪烁的灯光和奇怪的声音..."
 }

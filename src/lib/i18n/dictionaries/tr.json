@@ -3724,5 +3724,9 @@
   "bounties.sell.items": "Bu hayvanı {{amount}} karşılığında satmak istediğinizden emin misiniz?",
   "bounties.animal.select": "Satmak için bir {{name}} seçin.",
   "obsession": "Takıntı",
-  "teaser.intro": "Hayvanlar Ayçiçeği Ülkesine geliyor. Kaynaklarınızı 1 Kasım'a hazırlayın!"
+  "teaser.intro": "Hayvanlar Ayçiçeği Ülkesine geliyor. Kaynaklarınızı 1 Kasım'a hazırlayın!",
+  "npcDialogues.chase.intro1": "Merhaba Bumpkin! Hayvanlar 1 Kasım'da Ayçiçeği Ülkesine geliyor.",
+  "npcDialogues.chase.intro2": "Ancak biraz turşu içindeyim. Sürüm gizemli bir şekilde kayboldu - sanki havadan kaybolmuşlar gibi!",
+  "npcDialogues.sheep.intro1": "Beni bulduğun için teşekkürler! Bir an Kovboy'la koyun gibi davranıyordum ve ertesi an buradaydım.",
+  "npcDialogues.sheep.intro2": "Hatırladığım tek şey yanıp sönen ışıklar ve garip sesler..."
 }

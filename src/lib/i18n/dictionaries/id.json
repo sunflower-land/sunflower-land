@@ -3724,5 +3724,9 @@
   "bounties.sell.items": "Apakah Anda yakin ingin menjual hewan ini seharga {{amount}}?",
   "bounties.animal.select": "Pilih {{name}} untuk dijual.",
   "obsession": "Obsesi",
-  "teaser.intro": "Hewan datang ke Tanah Bunga Matahari. Siapkan sumber daya Anda untuk 1 November!"
+  "teaser.intro": "Hewan datang ke Tanah Bunga Matahari. Siapkan sumber daya Anda untuk 1 November!",
+  "npcDialogues.chase.intro1": "Halo Bumpkin! Hewan akan datang ke Sunflower Land pada 1 November.",
+  "npcDialogues.chase.intro2": "Namun saya sedikit terganggu. Kawanan saya menghilang secara misterius - seolah-olah mereka menghilang begitu saja!",
+  "npcDialogues.sheep.intro1": "Terima kasih telah menemukan saya! Suatu saat saya berpura-pura menjadi domba dengan Koboi dan saat berikutnya saya ada di sini.",
+  "npcDialogues.sheep.intro2": "Yang saya ingat adalah lampu berkedip dan suara-suara aneh..."
 }
