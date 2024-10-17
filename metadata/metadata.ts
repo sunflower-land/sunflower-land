@@ -14765,4 +14765,81 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
     image: "../public/wearables/images/395.png",
     name: "Gam3s Cap",
   },
+  "Cowboy Hat": {
+    description: "",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Hat" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/396.png",
+    name: "Cowboy Hat",
+  },
+  "Cowboy Shirt": {
+    description: "",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Shirt" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/397.png",
+    name: "Cowboy Shirt",
+  },
+  "Cowboy Trouser": {
+    description: "",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Pants" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/398.png",
+    name: "Cowboy Trouser",
+  },
+  "Cowboy Boots": {
+    description: "",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Shoes" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/399.png",
+    name: "Cowboy Boots",
+  },
+  "Infernal Bullwhip": {
+    description: "",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Tool" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/400.png",
+    name: "Infernal Bullwhip",
+  },
+  "White Sheep Onesie": {
+    description: "",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Onesie" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/401.png",
+    name: "White Sheep Onesie",
+  },
+  "Black Sheep Onesie": {
+    description: "",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Onesie" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/402.png",
+    name: "Black Sheep Onesie",
+  },
 };
