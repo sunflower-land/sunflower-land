@@ -1363,6 +1363,13 @@ export interface GameState {
   experiments: ExperimentName[];
   henHouse: AnimalBuilding;
   barn: AnimalBuilding;
+
+  craftingBox: {
+    status: "pending" | "idle" | "crafting";
+    item?: InventoryItemName;
+    startedAt: number;
+    readyAt: number;
+  };
 }
 
 export interface Context {

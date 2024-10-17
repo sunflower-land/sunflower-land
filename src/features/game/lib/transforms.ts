@@ -118,5 +118,6 @@ export function makeGame(farm: any): GameState {
     transaction: farm.transaction,
     henHouse: farm.henHouse,
     barn: farm.barn,
+    craftingBox: farm.craftingBox,
   };
 }

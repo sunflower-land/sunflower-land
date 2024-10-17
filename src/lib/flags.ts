@@ -36,7 +36,8 @@ export type FeatureName =
   | "BARLEY"
   | "GEM_BOOSTS"
   | "CHICKEN_GARBO"
-  | "SEASONAL_TIERS";
+  | "SEASONAL_TIERS"
+  | "CRAFTING_BOX";
 
 // Used for testing production features
 export const ADMIN_IDS = [1, 3, 51, 39488, 128727];
@@ -68,6 +69,7 @@ const featureFlags: Record<FeatureName, FeatureFlag> = {
   BARLEY: testnetFeatureFlag,
   GEM_BOOSTS: (game) => game.experiments.includes("GEM_BOOSTS"),
   CHICKEN_GARBO: timeBasedFeatureFlag(SEASONS["Pharaoh's Treasure"].endDate),
+  CRAFTING_BOX: timeBasedFeatureFlag(new Date("2024-10-11T00:00:00Z")),
 };
 
 export const hasFeatureAccess = (game: GameState, featureName: FeatureName) => {
