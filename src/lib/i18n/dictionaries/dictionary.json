@@ -3746,5 +3746,7 @@
   "double.rewards.deliveries": "Double Rewards Deliveries",
   "double.rewards.delivery": "Double Rewards Delivery",
   "2x.rewards": "2x Rewards",
-  "quickSelect.animalFeed": "Click on your feeder machine to prepare some animal feed."
+  "quickSelect.animalFeed": "Prepare some animal feed.",
+  "wakesIn": "Wakes in {{time}}",
+  "animal.noFoodMessage": "No {{food}} available"
 }
