@@ -640,7 +640,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
       points: 2,
       skill: 2,
     },
-    boosts: "Basic Fruit grows 10% faster (Blueberries, Oranges)",
+    boosts: "Blueberries & Oranges grows 10% faster",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
   "Prime Produce": {
@@ -650,7 +650,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
       points: 2,
       skill: 2,
     },
-    boosts: "Advanced Fruit grows 10% faster (Apples, Bananas)",
+    boosts: "Apples & Bananas grows 10% faster",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
   // Fruit - Tier 3
