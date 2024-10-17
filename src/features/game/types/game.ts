@@ -796,6 +796,7 @@ export type Delivery = {
     total: number;
     claimedAt?: number;
   };
+  doubleDelivery: boolean;
 };
 
 export type DailyRewards = {
