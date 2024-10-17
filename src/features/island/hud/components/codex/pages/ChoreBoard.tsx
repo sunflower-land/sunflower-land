@@ -25,7 +25,6 @@ import React, { useContext, useState } from "react";
 import { getSeasonalTicket } from "features/game/types/seasons";
 import { ITEM_DETAILS } from "features/game/types/images";
 import {
-  CHORE_DETAILS,
   ChoreNPCName,
   getChoreProgress,
   NPC_CHORE_UNLOCKS,
@@ -40,6 +39,7 @@ import lockIcon from "assets/icons/lock.png";
 import giftIcon from "assets/icons/gift.png";
 
 import { GameState } from "features/game/types/game";
+import { CHORE_DETAILS } from "../lib/choreDetails";
 export const ChoreBoard: React.FC = () => {
   const { gameService } = useContext(Context);
 
