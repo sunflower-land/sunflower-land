@@ -661,7 +661,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
       points: 3,
       skill: 5,
     },
-    boosts: "Tango Coin delivery revenue +50%",
+    boosts: "Tango Coins revenue doubled",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
   "Fruity Rush Hour": {
