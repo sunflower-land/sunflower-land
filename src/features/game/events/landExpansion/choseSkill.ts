@@ -48,9 +48,9 @@ const applySkillRewards = (state: GameState, skill: BumpkinRevampSkillName) => {
   rewards.forEach(({ category, item, amount }) => {
     switch (category) {
       case "inventory":
-        state.inventory[item] = state.inventory[item]
-          ? state.inventory[item].add(amount)
-          : new Decimal(amount);
+        state.inventory[item] = (state.inventory[item] ?? new Decimal(0)).add(
+          amount,
+        );
         break;
       default:
         throw new Error(`Unknown reward category: ${category}`);
