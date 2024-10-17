@@ -47,7 +47,7 @@ export const Sheep: React.FC<Props> = ({ onClose }) => {
     onClose();
   };
 
-  if (showGG && !hasOpened) {
+  if (showGG) {
     return (
       <>
         <Modal show={showGG} onHide={closeModal}>
