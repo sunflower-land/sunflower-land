@@ -799,7 +799,7 @@ export const ITEM_DETAILS: Items = {
   },
   Radish: {
     image: CROP_LIFECYCLE.Radish.crop,
-    description: CROPS.Corn.description,
+    description: CROPS.Radish.description,
   },
   Wheat: {
     image: CROP_LIFECYCLE.Wheat.crop,
@@ -987,7 +987,7 @@ export const ITEM_DETAILS: Items = {
   },
   Banana: {
     image: banana,
-    description: PATCH_FRUIT().Orange.description,
+    description: PATCH_FRUIT().Banana.description,
   },
   Tomato: {
     image: tomato,
