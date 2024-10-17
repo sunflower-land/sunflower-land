@@ -503,7 +503,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
       points: 2,
       skill: 2,
     },
-    boosts: "+10% coins to base value of plot crops in Betty's Market",
+    boosts: "+10% coins when selling crops (Seed Shop)",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
   "Golden Sunflower": {
