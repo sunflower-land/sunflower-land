@@ -746,7 +746,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
       points: 2,
       skill: 2,
     },
-    boosts: "Axes cost 10% less coins",
+    boosts: "Axes cost 20% less coins",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
   "Money Tree": {
