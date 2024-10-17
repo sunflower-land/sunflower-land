@@ -706,7 +706,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
       points: 1,
       skill: 0,
     },
-    boosts: "Increased axe quantites per Gem (+50)",
+    boosts: "Increase stock of axes by 50",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
   "Insta-Chop": {
