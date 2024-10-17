@@ -115,7 +115,7 @@ export const MilestonePanel: React.FC<{
                   right: "-14px",
                 }}
                 className={classNames("absolute", {
-                  ready: percentageComplete === 100,
+                  ready: percentageComplete === 100 && !isClaimed,
                 })}
               />
             </div>
