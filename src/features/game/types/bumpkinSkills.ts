@@ -138,6 +138,7 @@ export type BumpkinRevampSkillName =
   | "Crop Processor Unit"
   | "Oil Gadget"
   | "Oil Extraction"
+  | "Leak-Proof Tank"
   | "Crop Extension Module"
   | "Rapid Rig"
   | "Oil Be Back"
@@ -1463,6 +1464,16 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
       skill: 0,
     },
     boosts: "+1 Oil when collecting from reserves",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
+  "Leak-Proof Tank": {
+    name: "Leak-Proof Tank",
+    tree: "Machinery",
+    requirements: {
+      points: 1,
+      skill: 0,
+    },
+    boosts: "Triple oil tank capacity",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
   // Machinery - Tier 2
