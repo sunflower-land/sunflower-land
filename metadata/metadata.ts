@@ -9633,6 +9633,14 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     image: "../public/erc1155/images/2135.png",
     name: "Butterfly",
   },
+  "Crafting Box": {
+    description: "A box that allows you to craft items",
+    decimals: 0,
+    attributes: [{ trait_type: "Tradable", value: "No" }],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/1022.png",
+    name: "Crafting Box",
+  },
 };
 
 export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
