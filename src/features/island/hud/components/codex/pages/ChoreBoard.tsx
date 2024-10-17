@@ -288,6 +288,14 @@ export const ChoreCard: React.FC<{
           {chore.reward.items[getSeasonalTicket()] ?? 0}
         </Label>
 
+        {!chore.completedAt &&
+          getChoreProgress({
+            chore,
+            game,
+          }) >= NPC_CHORES[chore.name].requirement && (
+            <img src={giftIcon} className="h-6 absolute -top-4 -left-3" />
+          )}
+
         {chore.completedAt && (
           <div className="absolute -bottom-4 left-0 w-full flex justify-center">
             <img src={SUNNYSIDE.icons.confirm} className="h-6" />
@@ -324,12 +332,6 @@ export const ChoreCard: React.FC<{
               type="progress"
               outerDimensions={{ width: 16, height: 7.5 }}
             />
-            {getChoreProgress({
-              chore,
-              game,
-            }) >= NPC_CHORES[chore.name].requirement && (
-              <img src={giftIcon} className="h-6 absolute -top-1 right-1.5" />
-            )}
           </div>
         )}
       </ButtonPanel>
