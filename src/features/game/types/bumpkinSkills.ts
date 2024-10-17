@@ -1273,8 +1273,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
       points: 2,
       skill: 2,
     },
-    boosts:
-      "x1.5% more experience from eating food but requires 2x the ingredients",
+    boosts: "50% chance of +1 food but requires 2x the ingredients",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
   "Turbo Fry": {
