@@ -82,7 +82,7 @@ export function startComposter({
     let produceAmount = composterDetails[action.building].produceAmount;
 
     if (skills["Efficient Bin"] && action.building === "Compost Bin") {
-      produceAmount += 3;
+      produceAmount += 5;
     }
 
     if (skills["Turbo Charged"] && action.building === "Turbo Composter") {

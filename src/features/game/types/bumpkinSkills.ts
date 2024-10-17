@@ -462,7 +462,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
       points: 1,
       skill: 0,
     },
-    boosts: "+3 Sprout Mix when collecting from Compost Bin",
+    boosts: "+5 Sprout Mix when collecting from Compost Bin",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
   "Turbo Charged": {
