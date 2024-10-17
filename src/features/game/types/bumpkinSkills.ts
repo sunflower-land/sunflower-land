@@ -882,7 +882,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
       points: 3,
       skill: 5,
     },
-    boosts: "+1 Yield furing fish frenzy",
+    boosts: "+1 Yield during fish frenzy",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
   "Composting Overhaul": {
