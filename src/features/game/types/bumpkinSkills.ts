@@ -715,7 +715,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
       points: 1,
       skill: 0,
     },
-    boosts: "1 Tap Tree Chop",
+    boosts: "1 Tap Trees",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
   // Trees - Tier 2
