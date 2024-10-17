@@ -630,4 +630,48 @@ describe("harvestBeehive", () => {
     });
     expect(gameState.inventory.Honey).toEqual(new Decimal(1.1));
   });
+
+  it("adds +0.3 yield on pollinated crops with Pollen Power Up skill", () => {
+    const state = harvestBeehive({
+      state: {
+        ...TEST_FARM,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          skills: {
+            "Pollen Power Up": 1,
+          },
+        },
+        beehives: {
+          "1234": {
+            ...DEFAULT_BEEHIVE,
+            swarm: true,
+            honey: {
+              updatedAt: 0,
+              produced: DEFAULT_HONEY_PRODUCTION_TIME,
+            },
+          },
+        },
+        crops: {
+          "987": {
+            height: 1,
+            width: 1,
+            x: 0,
+            y: -2,
+            createdAt: 0,
+            crop: {
+              name: "Potato",
+              amount: 1,
+              plantedAt: 0,
+            },
+          },
+        },
+      },
+      action: {
+        type: "beehive.harvested",
+        id: "1234",
+      },
+    });
+
+    expect(state.crops?.["987"].crop?.amount).toEqual(1.5);
+  });
 });
