@@ -157,6 +157,47 @@ export const CraftingBox: React.FC = () => {
     }
   };
 
+  const handleDragStart = (
+    e: React.DragEvent<HTMLDivElement>,
+    itemName: InventoryItemName,
+  ) => {
+    if (!VALID_CRAFTING_RESOURCES.includes(itemName)) {
+      e.preventDefault();
+      return;
+    }
+
+    e.dataTransfer.setData("application/json", JSON.stringify({ itemName }));
+  };
+
+  const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+  };
+
+  const handleDrop = (e: React.DragEvent<HTMLDivElement>, index: number) => {
+    e.preventDefault();
+
+    try {
+      const data = JSON.parse(e.dataTransfer.getData("application/json"));
+      const itemName = data.itemName as InventoryItemName;
+
+      if (
+        craftingStatus === "pending" ||
+        !VALID_CRAFTING_RESOURCES.includes(itemName) ||
+        remainingInventory[itemName]?.lessThanOrEqualTo(0)
+      )
+        return;
+
+      setSelectedItems((prev) => {
+        const newItems = [...prev];
+        newItems[index] = itemName;
+        return newItems;
+      });
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error("Invalid drag data", error);
+    }
+  };
+
   return (
     <>
       <div className="absolute bottom-0">
@@ -192,10 +233,12 @@ export const CraftingBox: React.FC = () => {
                 <div className="grid grid-cols-3 gap-1 flex-shrink-0">
                   {selectedItems.map((item, index) => (
                     <Box
-                      image={item ? ITEM_DETAILS[item]?.image : undefined}
                       key={`${index}-${item}`}
+                      image={item ? ITEM_DETAILS[item]?.image : undefined}
                       onClick={() => handleBoxSelect(index)}
-                      disabled={isPending || !selectedResource}
+                      onDragOver={handleDragOver}
+                      onDrop={(e) => handleDrop(e, index)}
+                      disabled={isPending}
                     />
                   ))}
                 </div>
@@ -322,14 +365,20 @@ export const CraftingBox: React.FC = () => {
                     const amount =
                       remainingInventory[inventoryItem] || new Decimal(0);
                     return (
-                      <Box
+                      <div
                         key={itemName}
-                        count={amount}
-                        image={ITEM_DETAILS[inventoryItem]?.image}
-                        isSelected={selectedResource === inventoryItem}
-                        onClick={() => handleResourceSelect(inventoryItem)}
-                        disabled={isPending || amount.lessThanOrEqualTo(0)}
-                      />
+                        draggable={!isPending && amount.greaterThan(0)}
+                        onDragStart={(e) => handleDragStart(e, inventoryItem)}
+                        className="m-1 flex"
+                      >
+                        <Box
+                          count={amount}
+                          image={ITEM_DETAILS[inventoryItem]?.image}
+                          isSelected={selectedResource === inventoryItem}
+                          onClick={() => handleResourceSelect(inventoryItem)}
+                          disabled={isPending || amount.lessThanOrEqualTo(0)}
+                        />
+                      </div>
                     );
                   })}
                 </div>
