@@ -726,7 +726,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
       points: 2,
       skill: 2,
     },
-    boosts: "Fruit Trees and Bushes drop +1 wood when chopped",
+    boosts: "Fruit plants drop +1 wood when chopped",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
   "Tough Tree": {
