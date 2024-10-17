@@ -851,7 +851,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
       points: 2,
       skill: 2,
     },
-    boosts: "+50% Fish deliveries SFL profit",
+    boosts: "Corale deliveries coin revenue increased by 50%",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
   "Big Catch": {
