@@ -1400,7 +1400,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
       points: 3,
       skill: 5,
     },
-    boosts: "Guaranteed Bee Swarms but requires 6 more hours to produce",
+    boosts: "Increased Bee Swarm chance by 20%",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
   "Flower Power": {
@@ -1442,7 +1442,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
       points: 1,
       skill: 0,
     },
-    boosts: "Crop grow 10% faster",
+    boosts: "Crop Machine grow time reduced by 5% but consumes 10% more oil",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
   "Oil Gadget": {
