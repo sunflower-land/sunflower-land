@@ -2,6 +2,7 @@ import "lib/__mocks__/configMock";
 import { TEST_FARM, INITIAL_BUMPKIN } from "features/game/lib/constants";
 import { LEVEL_EXPERIENCE } from "features/game/lib/level";
 import { choseSkill } from "./choseSkill";
+import Decimal from "decimal.js-light";
 
 describe("choseSkill", () => {
   const dateNow = Date.now();
@@ -57,6 +58,34 @@ describe("choseSkill", () => {
     expect(result.bumpkin?.skills).toEqual({
       "Young Farmer": 1,
       "Green Thumb 2": 1,
+    });
+  });
+
+  it("adds a Flower Bed & Beehive to the inventory when claiming Flowery Abode", () => {
+    const result = choseSkill({
+      state: {
+        ...TEST_FARM,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          experience: LEVEL_EXPERIENCE[50],
+          skills: {
+            "Sweet Bonus": 1,
+            "Hyper Bees": 1,
+            "Blooming Boost": 1,
+            "Buzzworthy Treats": 1,
+            "Blossom Bonding": 1,
+            "Pollen Power Up": 1,
+          },
+        },
+        inventory: {},
+      },
+      action: { type: "skill.chosen", skill: "Flowery Abode" },
+      createdAt: dateNow,
+    });
+
+    expect(result.inventory).toEqual({
+      "Flower Bed": new Decimal(1),
+      Beehive: new Decimal(1),
     });
   });
 });

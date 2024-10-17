@@ -1,9 +1,14 @@
+import Decimal from "decimal.js-light";
 import { getBumpkinLevel } from "features/game/lib/level";
 import {
   BumpkinRevampSkillName,
   BUMPKIN_REVAMP_SKILL_TREE,
 } from "features/game/types/bumpkinSkills";
-import { Bumpkin, GameState } from "features/game/types/game";
+import {
+  Bumpkin,
+  GameState,
+  InventoryItemName,
+} from "features/game/types/game";
 import cloneDeep from "lodash.clonedeep";
 
 export type ChoseSkillAction = {
@@ -15,6 +20,44 @@ type Options = {
   state: GameState;
   action: ChoseSkillAction;
   createdAt?: number;
+};
+
+type RewardCategory = "inventory";
+
+interface SkillReward {
+  category: RewardCategory;
+  item: InventoryItemName;
+  amount: Decimal;
+}
+
+const skillRewards: Partial<Record<BumpkinRevampSkillName, SkillReward[]>> = {
+  "Flowery Abode": [
+    { category: "inventory", item: "Flower Bed", amount: new Decimal(1) },
+    { category: "inventory", item: "Beehive", amount: new Decimal(1) },
+  ],
+};
+
+/**
+ * Handles applying skill rewards to the game state, allowing rewards to be placed in
+ * different categories such as inventory, bumpkin, etc. (for future use).
+ */
+const applySkillRewards = (state: GameState, skill: BumpkinRevampSkillName) => {
+  const rewards = skillRewards[skill];
+  if (!rewards) return state;
+
+  rewards.forEach(({ category, item, amount }) => {
+    switch (category) {
+      case "inventory":
+        state.inventory[item] = state.inventory[item]
+          ? state.inventory[item].add(amount)
+          : new Decimal(amount);
+        break;
+      default:
+        throw new Error(`Unknown reward category: ${category}`);
+    }
+  });
+
+  return state;
 };
 
 export const getAvailableBumpkinSkillPoints = (bumpkin?: Bumpkin) => {
@@ -32,6 +75,7 @@ export const getAvailableBumpkinSkillPoints = (bumpkin?: Bumpkin) => {
 export function choseSkill({ state, action, createdAt = Date.now() }: Options) {
   const stateCopy = cloneDeep(state);
   const { bumpkin } = stateCopy;
+
   if (bumpkin == undefined) {
     throw new Error("You do not have a Bumpkin!");
   }
@@ -54,7 +98,11 @@ export function choseSkill({ state, action, createdAt = Date.now() }: Options) {
   if (bumpkinHasSkill) {
     throw new Error("You already have this skill");
   }
-
+  // Add the selected skill to the bumpkin's skills
   bumpkin.skills = { ...bumpkin.skills, [action.skill]: 1 };
+
+  // Apply skill rewards if any
+  applySkillRewards(stateCopy, action.skill);
+
   return stateCopy;
 }

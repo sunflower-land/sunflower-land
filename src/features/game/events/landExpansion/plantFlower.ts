@@ -53,6 +53,10 @@ export const getFlowerTime = (seed: FlowerSeedName, game: GameState) => {
     seconds *= 0.9;
   }
 
+  if (bumpkin.skills["Flower Power"]) {
+    seconds *= 0.8;
+  }
+
   return seconds;
 };
 
