@@ -820,7 +820,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
       points: 1,
       skill: 0,
     },
-    boosts: "10% chance of +1 fish when fishing",
+    boosts: "10% chance of +1 fish",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
   // Fishing - Tier 2
