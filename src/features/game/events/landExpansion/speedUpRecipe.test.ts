@@ -162,7 +162,7 @@ describe("instantCook", () => {
       },
     });
 
-    expect(state.inventory.Gem).toEqual(new Decimal(84));
+    expect(state.inventory.Gem).toEqual(new Decimal(60));
   });
   it("charges half the gems for a half finished radish cake", () => {
     const now = Date.now();
@@ -195,7 +195,7 @@ describe("instantCook", () => {
       },
     });
 
-    expect(state.inventory.Gem).toEqual(new Decimal(86));
+    expect(state.inventory.Gem).toEqual(new Decimal(75));
   });
   it("gives the player the food", () => {
     const now = Date.now();
