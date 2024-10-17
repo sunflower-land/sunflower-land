@@ -1097,7 +1097,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
       points: 1,
       skill: 0,
     },
-    boosts: "Stone recovers 10% faster",
+    boosts: "Stone recovers 20% faster",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
   "Iron Hustle": {
