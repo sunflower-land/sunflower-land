@@ -13,6 +13,7 @@ import { Button } from "components/ui/Button";
 import { useTranslation } from "react-i18next";
 import { Box } from "components/ui/Box";
 import Decimal from "decimal.js-light";
+import { SquareIcon } from "components/ui/SquareIcon";
 
 const VALID_CRAFTING_RESOURCES = ["Wood", "Stone", "Iron", "Gold"];
 
@@ -25,15 +26,10 @@ const _craftingReadyAt = (state: MachineState) =>
   state.context.state.craftingBox.readyAt;
 
 export const CraftingBox: React.FC = () => {
-  const [showModal, setShowModal] = useState(true);
+  const [showModal, setShowModal] = useState(false);
   const [currentTab, setCurrentTab] = useState(0);
-  const [remainingTime, setRemainingTime] = useState<number | null>(null);
 
-  const [selectedResource, setSelectedResource] =
-    useState<InventoryItemName | null>(null);
-  const [selectedItems, setSelectedItems] = useState<
-    (InventoryItemName | null)[]
-  >(Array(9).fill(null));
+  const { t } = useTranslation();
 
   const { gameService } = useContext(Context);
   const inventory = useSelector(gameService, _inventory);
@@ -41,18 +37,30 @@ export const CraftingBox: React.FC = () => {
   const craftedItem = useSelector(gameService, _craftedItem);
   const craftingReadyAt = useSelector(gameService, _craftingReadyAt);
 
-  const { t } = useTranslation();
+  const [remainingTime, setRemainingTime] = useState<number | null>(null);
+  const [failedAttempt, setFailedAttempt] = useState(false);
+
+  const [selectedResource, setSelectedResource] =
+    useState<InventoryItemName | null>(null);
+  const [selectedItems, setSelectedItems] = useState<
+    (InventoryItemName | null)[]
+  >(Array(9).fill(null));
+
+  const processRemainingTime = () => {
+    const now = Date.now();
+    const remaining = Math.max(0, craftingReadyAt - now);
+    setRemainingTime(remaining);
+
+    return remaining;
+  };
 
   useEffect(() => {
     if (craftingStatus === "crafting" && craftingReadyAt) {
-      const interval = setInterval(() => {
-        const now = Date.now();
-        const remaining = Math.max(0, craftingReadyAt - now);
-        setRemainingTime(remaining);
+      processRemainingTime();
 
-        if (remaining <= 0) {
-          clearInterval(interval);
-        }
+      const interval = setInterval(() => {
+        const remaining = processRemainingTime();
+        if (remaining <= 0) clearInterval(interval);
       }, 1000);
 
       return () => clearInterval(interval);
@@ -60,6 +68,27 @@ export const CraftingBox: React.FC = () => {
       setRemainingTime(null);
     }
   }, [craftingStatus, craftingReadyAt]);
+
+  useEffect(() => {
+    if (showModal === false) {
+      setFailedAttempt(false);
+      return;
+    }
+
+    if (craftingStatus === "pending") {
+      setFailedAttempt(true);
+    }
+
+    if (craftingStatus === "crafting") {
+      setFailedAttempt(false);
+    }
+  }, [craftingStatus, showModal]);
+
+  useEffect(() => {
+    if (craftingStatus !== "pending") {
+      setFailedAttempt(false);
+    }
+  }, [selectedItems]);
 
   const formatTime = (ms: number) => {
     const seconds = Math.floor(ms / 1000);
@@ -78,12 +107,14 @@ export const CraftingBox: React.FC = () => {
     return updatedInventory;
   }, [inventory, selectedItems]);
 
-  const isPending = craftingStatus === "pending";
-  const isReady = remainingTime !== null && remainingTime <= 0;
-
   const isCraftingBoxEmpty = useMemo(() => {
     return selectedItems.every((item) => item === null);
   }, [selectedItems]);
+
+  const isPending = craftingStatus === "pending";
+  const isCrafting = craftingStatus === "crafting";
+  const isIdle = craftingStatus === "idle";
+  const isReady = remainingTime !== null && remainingTime <= 0;
 
   const handleOpen = () => {
     gameService.send("SAVE");
@@ -128,16 +159,18 @@ export const CraftingBox: React.FC = () => {
 
   return (
     <>
-      <img
-        src={SUNNYSIDE.icons.expression_confused}
-        alt={t("crafting.craftingBox")}
-        className={`cursor-pointer ${isPending ? "opacity-50" : ""}`}
-        style={{
-          width: `${PIXEL_SCALE * 16}px`,
-          height: `${PIXEL_SCALE * 16}px`,
-        }}
-        onClick={isPending ? undefined : handleOpen}
-      />
+      <div className="absolute bottom-0">
+        <img
+          src={ITEM_DETAILS["Crafting Box"].image}
+          alt={t("crafting.craftingBox")}
+          className={`cursor-pointer hover:img-highlight`}
+          style={{
+            width: `${PIXEL_SCALE * 46}px`,
+            bottom: `${PIXEL_SCALE * 0}px`,
+          }}
+          onClick={isPending ? undefined : handleOpen}
+        />
+      </div>
 
       <Modal show={showModal} onHide={handleClose}>
         <CloseButtonPanel
@@ -154,8 +187,9 @@ export const CraftingBox: React.FC = () => {
               <Label type="default" className="mb-1">
                 {t("craft")}
               </Label>
-              <div className="flex space-x-2 sm:space-x-4 mb-2">
-                <div className="grid grid-cols-3 gap-1">
+              <div className="flex mb-2">
+                {/** Crafting Grid */}
+                <div className="grid grid-cols-3 gap-1 flex-shrink-0">
                   {selectedItems.map((item, index) => (
                     <Box
                       image={item ? ITEM_DETAILS[item]?.image : undefined}
@@ -165,7 +199,8 @@ export const CraftingBox: React.FC = () => {
                     />
                   ))}
                 </div>
-                <div className="flex items-center justify-center">
+                {/** Arrow */}
+                <div className="flex items-center justify-center flex-grow">
                   <img
                     src={SUNNYSIDE.icons.arrow_right}
                     className="pointer-events-none mb-2"
@@ -175,57 +210,80 @@ export const CraftingBox: React.FC = () => {
                     }}
                   />
                 </div>
+
+                {/** Crafting Result */}
                 <div className="flex flex-col items-center justify-center flex-grow">
-                  {craftedItem ? (
+                  {craftedItem && (
                     <>
+                      <Label
+                        type="default"
+                        className="mt-2 mb-1"
+                        icon={SUNNYSIDE.icons.hammer}
+                      >
+                        {craftedItem}
+                      </Label>
                       <Box
                         image={ITEM_DETAILS[craftedItem]?.image}
                         count={new Decimal(1)}
                       />
-                      <Label type="default" className="mt-2">
-                        {t(craftedItem ?? "")}
-                      </Label>
-                    </>
-                  ) : (
-                    <>
-                      <div className="flex mb-1">
-                        {[...Array(3)].map((_, index) => (
-                          <img
-                            key={index}
-                            src={SUNNYSIDE.icons.expression_confused}
-                            alt="Question Mark"
-                            className="mx-0.5"
-                            style={{
-                              width: `${PIXEL_SCALE * 8}px`,
-                              height: `${PIXEL_SCALE * 8}px`,
-                            }}
-                          />
-                        ))}
-                      </div>
-                      <Box image={SUNNYSIDE.icons.expression_confused} />
                     </>
                   )}
-                  {remainingTime !== null ? (
-                    <Label
-                      type="transparent"
-                      className="my-2"
-                      icon={SUNNYSIDE.icons.stopwatch}
-                    >
-                      {formatTime(remainingTime)}
-                    </Label>
-                  ) : (
-                    craftingStatus !== "crafting" && (
+                  {!craftedItem && (
+                    <>
+                      <Label
+                        type="default"
+                        icon={
+                          isPending
+                            ? SUNNYSIDE.icons.hammer
+                            : failedAttempt
+                              ? SUNNYSIDE.icons.cancel
+                              : SUNNYSIDE.icons.search
+                        }
+                        className="mt-2 mb-1"
+                      >
+                        {isPending
+                          ? "Pending"
+                          : failedAttempt
+                            ? "Failed"
+                            : "Unknown"}
+                      </Label>
+                      <Box
+                        image={
+                          isPending
+                            ? SUNNYSIDE.icons.expression_confused
+                            : undefined
+                        }
+                        key={`box-${isPending}`}
+                      />
+                    </>
+                  )}
+
+                  <div className="flex items-center justify-center">
+                    {remainingTime !== null && (
                       <Label
                         type="transparent"
-                        className="my-2"
+                        className="ml-3 my-1"
                         icon={SUNNYSIDE.icons.stopwatch}
                       >
-                        {t("unknown")}
+                        {remainingTime ? formatTime(remainingTime) : "Ready"}
                       </Label>
-                    )
-                  )}
+                    )}
+                    {remainingTime === null && (
+                      <Label
+                        type="transparent"
+                        className="ml-3 my-1"
+                        icon={SUNNYSIDE.icons.stopwatch}
+                      >
+                        <SquareIcon
+                          icon={SUNNYSIDE.icons.expression_confused}
+                          width={7}
+                        />
+                      </Label>
+                    )}
+                  </div>
+
                   <div>
-                    {craftingStatus === "crafting" && !isReady && (
+                    {(isCrafting || isPending) && !isReady && (
                       <Button
                         className="mt-2 whitespace-nowrap"
                         disabled={true}
@@ -233,7 +291,7 @@ export const CraftingBox: React.FC = () => {
                         {t("crafting")}
                       </Button>
                     )}
-                    {craftingStatus === "crafting" && isReady && (
+                    {isCrafting && isReady && (
                       <Button
                         className="mt-2 whitespace-nowrap"
                         onClick={handleCollect}
@@ -241,7 +299,7 @@ export const CraftingBox: React.FC = () => {
                         {t("collect")}
                       </Button>
                     )}
-                    {craftingStatus === "idle" && (
+                    {isIdle && (
                       <Button
                         className="mt-2 whitespace-nowrap"
                         onClick={handleCraft}

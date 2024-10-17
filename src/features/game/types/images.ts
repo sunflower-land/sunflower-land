@@ -701,6 +701,8 @@ import pettingHand from "assets/animals/petting_hand.webp";
 import brush from "assets/animals/brush.webp";
 import musicBox from "assets/animals/music_box.webp";
 
+import craftingBox from "assets/buildings/crafting_table.webp";
+
 import { COUPONS, EASTER_EGG, FERTILISERS, InventoryItemName } from "./game";
 
 import { CROPS, CROP_SEEDS, GREENHOUSE_CROPS, GREENHOUSE_SEEDS } from "./crops";
@@ -4157,7 +4159,7 @@ export const ITEM_DETAILS: Items = {
     description: ANIMAL_FOODS["Mixed Grain"].description,
   },
   "Crafting Box": {
-    image: SUNNYSIDE.icons.expression_confused,
+    image: craftingBox,
     description: "A box for crafting various items",
   },
 };

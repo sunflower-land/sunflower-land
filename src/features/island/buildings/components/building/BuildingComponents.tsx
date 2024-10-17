@@ -344,6 +344,14 @@ export const READONLY_BUILDINGS: (
     </div>
   ),
   "Crafting Box": () => (
-    <img src={ITEM_DETAILS["Crafting Box"].image} className="absolute" />
+    <div className="absolute bottom-0">
+      <img
+        src={ITEM_DETAILS["Crafting Box"].image}
+        style={{
+          width: `${PIXEL_SCALE * 46}px`,
+          bottom: `${PIXEL_SCALE * 0}px`,
+        }}
+      />
+    </div>
   ),
 });

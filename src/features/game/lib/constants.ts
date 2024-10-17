@@ -668,7 +668,7 @@ export const INITIAL_FARM: GameState = {
   henHouse: makeAnimalBuilding("Hen House"),
   barn: makeAnimalBuilding("Barn"),
   craftingBox: {
-    status: "ready",
+    status: "idle",
     startedAt: 0,
     readyAt: 0,
   },
@@ -979,7 +979,7 @@ export const TEST_FARM: GameState = {
   henHouse: makeAnimalBuilding("Hen House"),
   barn: makeAnimalBuilding("Barn"),
   craftingBox: {
-    status: "ready",
+    status: "idle",
     startedAt: 0,
     readyAt: 0,
   },
@@ -1108,7 +1108,7 @@ export const EMPTY: GameState = {
   henHouse: makeAnimalBuilding("Hen House"),
   barn: makeAnimalBuilding("Barn"),
   craftingBox: {
-    status: "ready",
+    status: "idle",
     startedAt: 0,
     readyAt: 0,
   },

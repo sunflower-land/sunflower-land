@@ -529,5 +529,5 @@ export const BUILDINGS_DIMENSIONS: Record<BuildingName, Dimensions> = {
   Greenhouse: { width: 4, height: 4 },
   "Crop Machine": { width: 5, height: 4 },
   Barn: { width: 4, height: 4 },
-  "Crafting Box": { width: 1, height: 1 },
+  "Crafting Box": { width: 3, height: 2 },
 };
