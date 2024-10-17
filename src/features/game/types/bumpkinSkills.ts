@@ -1494,7 +1494,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
       points: 2,
       skill: 2,
     },
-    boosts: "Crops grow 20% faster",
+    boosts: "Crops grow 20% faster but consumes 40% more oil",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
   "Oil Be Back": {
