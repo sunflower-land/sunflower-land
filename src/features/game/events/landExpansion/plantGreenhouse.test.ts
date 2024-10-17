@@ -1571,7 +1571,7 @@ describe("plantGreenhouse", () => {
     });
   });
 
-  it("boosts Olive growth speed by 20% with Olive Express skill", () => {
+  it("boosts Olive growth speed by 10% with Olive Express skill", () => {
     const now = Date.now();
     const state = plantGreenhouse({
       action: {
@@ -1614,7 +1614,7 @@ describe("plantGreenhouse", () => {
       plant: {
         amount: 1,
         name: "Olive",
-        plantedAt: now - GREENHOUSE_CROP_TIME_SECONDS.Olive * 0.2 * 1000,
+        plantedAt: now - GREENHOUSE_CROP_TIME_SECONDS.Olive * 0.1 * 1000,
       },
     });
   });

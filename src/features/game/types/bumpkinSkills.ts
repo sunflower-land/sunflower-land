@@ -1012,7 +1012,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
       points: 2,
       skill: 2,
     },
-    boosts: "20% faster Olive growth",
+    boosts: "10% faster Olive growth",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
   "Rice Rocket": {
