@@ -3723,5 +3723,6 @@
   "bounties.sell.coins": "Tem certeza de que quer vender esse animal por {{amount}} moedas?",
   "bounties.sell.items": "Tem certeza de que quer vender esse animal por {{amount}}?",
   "bounties.animal.select": "Selecione um {{name}} para vender.",
-  "obsession": "Obsessão"
+  "obsession": "Obsessão",
+  "teaser.intro": "Animais estão chegando à Terra dos Girassóis. Prepare seus recursos para 1º de novembro!"
 }

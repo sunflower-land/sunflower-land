@@ -394,6 +394,13 @@ img {
   transition-timing-function: linear;
 }
 
+.tease_boat {
+  animation-duration: 50s;
+  animation-name: boating;
+  animation-iteration-count: infinite;
+  transition-timing-function: linear;
+}
+
 @keyframes boating {
   0% {
     transform: translateX(-850px);

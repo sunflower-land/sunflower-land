@@ -3723,5 +3723,6 @@
   "bounties.sell.coins": "Apakah Anda yakin ingin menjual hewan ini dengan koin {{amount}}?",
   "bounties.sell.items": "Apakah Anda yakin ingin menjual hewan ini seharga {{amount}}?",
   "bounties.animal.select": "Pilih {{name}} untuk dijual.",
-  "obsession": "Obsesi"
+  "obsession": "Obsesi",
+  "teaser.intro": "Hewan datang ke Tanah Bunga Matahari. Siapkan sumber daya Anda untuk 1 November!"
 }

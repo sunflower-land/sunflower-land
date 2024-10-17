@@ -3723,5 +3723,6 @@
   "bounties.sell.coins": "정말 이 동물을 {{amount}} 코인에 팔고 싶으신가요?",
   "bounties.sell.items": "정말 이 동물을 {{amount}} 에 팔고 싶으세요?",
   "bounties.animal.select": "판매할 {{name}} 를 선택합니다.",
-  "obsession": "강박 관념"
+  "obsession": "강박 관념",
+  "teaser.intro": "동물들이 선플라워 랜드에 오고 있습니다.11월 1일에 쓸 자원을 준비하세요!"
 }

@@ -3723,5 +3723,6 @@
   "bounties.sell.coins": "Bu hayvanı {{amount}} paraya satmak istediğinizden emin misiniz?",
   "bounties.sell.items": "Bu hayvanı {{amount}} karşılığında satmak istediğinizden emin misiniz?",
   "bounties.animal.select": "Satmak için bir {{name}} seçin.",
-  "obsession": "Takıntı"
+  "obsession": "Takıntı",
+  "teaser.intro": "Hayvanlar Ayçiçeği Ülkesine geliyor. Kaynaklarınızı 1 Kasım'a hazırlayın!"
 }

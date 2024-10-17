@@ -3723,5 +3723,6 @@
   "bounties.sold": "Sold",
   "bounties.sell.coins": "Are you sure you want to sell this animal for {{amount}} coins?",
   "bounties.sell.items": "Are you sure you want to sell this animal for {{amount}}?",
-  "bounties.animal.select": "Select a {{name}} to sell."
+  "bounties.animal.select": "Select a {{name}} to sell.",
+  "teaser.intro": "Animals are coming to Sunflower Land. Prepare your resources for November 1st!"
 }
