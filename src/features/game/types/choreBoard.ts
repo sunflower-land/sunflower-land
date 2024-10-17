@@ -2,8 +2,6 @@ import { NPCName } from "lib/npcs";
 import { GameState, InventoryItemName } from "./game";
 import { getWeekKey } from "../lib/factions";
 import { getKeys } from "./decorations";
-import { ITEM_DETAILS } from "./images";
-import { translate } from "lib/i18n/translate";
 
 export type ChoreNPCName = Extract<
   NPCName,
@@ -47,21 +45,7 @@ export const NPC_CHORES = {
   },
 } satisfies Record<string, ChoreTask>;
 
-export const CHORE_DETAILS: Record<
-  ChoreName,
-  { icon: string; description: string }
-> = {
-  CHOP_1_TREE: {
-    description: translate("chore.chop.1.tree"),
-    icon: ITEM_DETAILS.Axe.image,
-  },
-  CHOP_2_TREE: {
-    description: translate("chore.chop.2.trees"),
-    icon: ITEM_DETAILS.Axe.image,
-  },
-};
-
-type ChoreName = keyof typeof NPC_CHORES;
+export type ChoreName = keyof typeof NPC_CHORES;
 
 type ChoreDetails = {
   name: ChoreName;
