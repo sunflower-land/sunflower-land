@@ -125,6 +125,14 @@ export const Tree: React.FC<Props> = ({ id }) => {
 
   useUiRefresher({ active: chopped });
 
+  const claimAnyReward = () => {
+    if (resource.wood.reward) {
+      gameService.send("treeReward.collected", {
+        treeIndex: id,
+      });
+    }
+  };
+
   const shake = () => {
     if (!hasTool) return;
 
@@ -134,6 +142,7 @@ export const Tree: React.FC<Props> = ({ id }) => {
 
     if (game.bumpkin.skills["Insta-Chop"]) {
       // insta-chop the tree
+      claimAnyReward();
       chop();
     }
 
@@ -143,9 +152,7 @@ export const Tree: React.FC<Props> = ({ id }) => {
     if (resource.wood.reward) {
       // they have touched enough!
       if (isSeasoned) {
-        gameService.send("treeReward.collected", {
-          treeIndex: id,
-        });
+        claimAnyReward();
       } else {
         setReward(resource.wood.reward);
         return;
@@ -216,11 +223,7 @@ export const Tree: React.FC<Props> = ({ id }) => {
           collectedItem={"Wood"}
           reward={reward}
           onCollected={onCollectChest}
-          onOpen={() =>
-            gameService.send("treeReward.collected", {
-              treeIndex: id,
-            })
-          }
+          onOpen={claimAnyReward}
         />
       )}
     </div>

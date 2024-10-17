@@ -77,7 +77,7 @@ const PlayerDetails: React.FC<{ player: Player }> = ({ player }) => {
   );
 };
 
-const PlayerGift: React.FC<{ player: Player }> = ({ player }) => {
+export const PlayerGift: React.FC<{ player: Player }> = ({ player }) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 

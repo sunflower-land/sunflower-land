@@ -12,6 +12,8 @@ import { NPCName } from "lib/npcs";
 import { FactionName } from "features/game/types/game";
 import { translate } from "lib/i18n/translate";
 
+import { EVENT_BUMPKINS, sheepPlace } from "../ui/npcs/Sheep"; // Remove after released
+
 export type FactionNPC = {
   npc: NPCName;
   x: number;
@@ -113,6 +115,12 @@ export const PLAZA_BUMPKINS: NPCBumpkin[] = [
     x: 442,
     y: 173,
     npc: "mayor",
+    direction: "left",
+  },
+  {
+    x: 845,
+    y: 270,
+    npc: "chase",
     direction: "left",
   },
 ];
@@ -260,6 +268,11 @@ export class PlazaScene extends BaseScene {
     tradingBoardIcon.setDepth(1000000);
 
     this.initialiseNPCs(PLAZA_BUMPKINS);
+
+    // Remove after release
+    if (sheepPlace() === this.sceneId) {
+      this.initialiseNPCs(EVENT_BUMPKINS);
+    }
 
     if (!this.joystick && !localStorage.getItem("mmo_introduction.read")) {
       this.arrows = this.add

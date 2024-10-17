@@ -467,6 +467,7 @@ const buildings: Record<BuildingName, () => boolean> = {
   House: () => false,
   Manor: () => false,
   "Crop Machine": () => false,
+  "Crafting Box": () => false,
 };
 
 const fertilisers: Record<FertiliserName, () => boolean> = {
@@ -1644,4 +1645,12 @@ export const BUMPKIN_WITHDRAWABLES: Record<
 
   //Gam3s Cap
   "Gam3s Cap": () => false,
+
+  "Cowboy Hat": () => false,
+  "Cowboy Shirt": () => false,
+  "Cowboy Trouser": () => false,
+  "Cowboy Boots": () => false,
+  "Infernal Bullwhip": () => false,
+  "White Sheep Onesie": () => false,
+  "Black Sheep Onesie": () => false,
 };

@@ -127,7 +127,8 @@ export type BumpkinShirt =
   | "Bumpkin Armor"
   | "Sunflorian Armor"
   | "Explorer Shirt"
-  | "Ankh Shirt";
+  | "Ankh Shirt"
+  | "Cowboy Shirt";
 
 export type BumpkinCoat =
   | "Chef Apron"
@@ -179,7 +180,8 @@ export type BumpkinTool =
   | "Dev Wrench"
   | "Rock Hammer"
   | "Water Gourd"
-  | "Ancient Shovel";
+  | "Ancient Shovel"
+  | "Infernal Bullwhip";
 
 export type BumpkinShoe =
   | "Black Farmer Boots"
@@ -200,7 +202,8 @@ export type BumpkinShoe =
   | "Nightshade Sabatons"
   | "Sunflorian Sabatons"
   | "Bumpkin Sabatons"
-  | "Desert Merchant Shoes";
+  | "Desert Merchant Shoes"
+  | "Cowboy Boots";
 
 export type BumpkinNecklace =
   | "Sunflower Amulet"
@@ -299,7 +302,8 @@ export type BumpkinHat =
   | "Goblin Crown"
   | "Nightshade Crown"
   | "Sunflorian Crown"
-  | "Gam3s Cap";
+  | "Gam3s Cap"
+  | "Cowboy Hat";
 
 export type BumpkinPant =
   | "Farmer Overalls"
@@ -334,8 +338,8 @@ export type BumpkinPant =
   | "Sunflorian Pants"
   | "Explorer Shorts"
   | "Oil Overalls"
-  | "Grape Pants";
-
+  | "Grape Pants"
+  | "Cowboy Trouser";
 export type BumpkinDress =
   | "Royal Dress"
   | "Cupid Dress"
@@ -386,7 +390,9 @@ export type BumpkinOnesie =
   | "Banana Onesie"
   | "Soybean Onesie"
   | "Camel Onesie"
-  | "Rocket Onesie";
+  | "Rocket Onesie"
+  | "White Sheep Onesie"
+  | "Black Sheep Onesie";
 
 // Goes over clothes
 export type BumpkinSuit =
@@ -839,6 +845,14 @@ export const ITEM_IDS: Record<BumpkinItem, number> = {
 
   //GAM3S Wearable
   "Gam3s Cap": 395,
+
+  "Cowboy Hat": 396,
+  "Cowboy Shirt": 397,
+  "Cowboy Trouser": 398,
+  "Cowboy Boots": 399,
+  "Infernal Bullwhip": 400,
+  "White Sheep Onesie": 401,
+  "Black Sheep Onesie": 402,
 };
 
 // The reverse of above
@@ -1295,4 +1309,11 @@ export const BUMPKIN_ITEM_PART: Record<BumpkinItem, keyof Wallet> = {
   "Goblin Retreat Background": "background",
   "Kingdom Background": "background",
   "Gam3s Cap": "hat",
+  "Cowboy Hat": "hat",
+  "Cowboy Shirt": "shirt",
+  "Cowboy Trouser": "pants",
+  "Cowboy Boots": "shoes",
+  "Infernal Bullwhip": "tool",
+  "White Sheep Onesie": "onesie",
+  "Black Sheep Onesie": "onesie",
 };

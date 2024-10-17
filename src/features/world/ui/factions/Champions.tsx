@@ -215,11 +215,21 @@ type PrizeRow = FactionPrize & { from: number; to?: number };
 
 export const ChampionsPrizes: React.FC = () => {
   const { t } = useAppTranslation();
+  const { gameService } = useContext(Context);
+  const [
+    {
+      context: { state },
+    },
+  ] = useActor(gameService);
+  const currentFaction = state.faction?.name;
 
   const week = getFactionWeek();
   const ticket = getSeasonalTicket(new Date(week));
+
+  const { startDate, endDate } = SEASONS["Pharaoh's Treasure"];
   const isPharaohsTreasure =
-    new Date(week) >= new Date(SEASONS["Pharaoh's Treasure"].startDate);
+    new Date(week) >= new Date(startDate) &&
+    new Date(week) <= new Date(endDate);
 
   const MONTHLY_PRIZES = BONUS_FACTION_PRIZES[week];
 
@@ -289,7 +299,8 @@ export const ChampionsPrizes: React.FC = () => {
       <table className="w-full text-xs table-auto border-collapse">
         <tbody>
           {prizes.map((prize, index) => {
-            const trophy = TROPHIES["goblins"][index + 1];
+            const trophy =
+              currentFaction && TROPHIES[currentFaction][index + 1];
             const bonus = MONTHLY_PRIZES?.[prize.from];
 
             return (
