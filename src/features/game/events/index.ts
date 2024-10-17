@@ -383,6 +383,10 @@ import {
   UpgradeBuildingAction,
 } from "./landExpansion/upgradeBuilding";
 import { sellAnimal, SellAnimalAction } from "./landExpansion/sellAnimal";
+import {
+  completeNPCChore,
+  CompleteNPCChoreAction,
+} from "./landExpansion/completeNPCChore";
 
 export type PlayingEvent =
   | SellAnimalAction
@@ -498,7 +502,8 @@ export type PlayingEvent =
   | BuyAnimalAction
   | FeedAnimalAction
   | LoveAnimalAction
-  | UpgradeBuildingAction;
+  | UpgradeBuildingAction
+  | CompleteNPCChoreAction;
 
 export type PlacementEvent =
   | ConstructBuildingAction
@@ -679,6 +684,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "animal.loved": loveAnimal,
   "feed.mixed": feedMixed,
   "building.upgraded": upgradeBuilding,
+  "chore.fulfilled": completeNPCChore,
 };
 
 export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {

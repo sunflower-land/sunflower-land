@@ -77,6 +77,7 @@ import { CollectionName, MarketplaceTradeableName } from "./marketplace";
 import { GameTransaction } from "./transactions";
 import { CompetitionName, CompetitionProgress } from "./competitions";
 import { AnimalType } from "./animals";
+import { ChoreBoard } from "./choreBoard";
 
 export type Reward = {
   coins?: number;
@@ -1194,6 +1195,8 @@ export interface GameState {
   home: Home;
 
   rewards: Rewards;
+
+  choreBoard: ChoreBoard;
 
   competitions: {
     progress: Partial<Record<CompetitionName, CompetitionProgress>>;

@@ -2,7 +2,7 @@ import Decimal from "decimal.js-light";
 import { getFactionRankBoostAmount } from "features/game/lib/factionRanks";
 import {
   getFactionWearableBoostAmount,
-  getFactionWeek,
+  getWeekKey,
 } from "features/game/lib/factions";
 import { BoostType, BoostValue } from "features/game/types/boosts";
 import { Bumpkin, GameState, KingdomChores } from "features/game/types/game";
@@ -127,7 +127,7 @@ export function completeKingdomChore({
     inventory["Mark"] = previousMarks.add(marks);
 
     // Add to history
-    const week = getFactionWeek({ date: new Date(createdAt) });
+    const week = getWeekKey({ date: new Date(createdAt) });
     const factionHistory = faction.history[week] ?? { score: 0, petXP: 0 };
     factionHistory.score += marks;
 
