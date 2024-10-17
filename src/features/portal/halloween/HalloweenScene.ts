@@ -1,7 +1,7 @@
 import mapJson from "assets/map/halloween.json";
 import tilesetConfig from "assets/map/halloween-tileset.json";
 import { SceneId } from "features/world/mmoMachine";
-import { BaseScene, NPCBumpkin } from "features/world/scenes/BaseScene";
+import { BaseScene, NPCBumpkin, HALLOWEEN_SQUARE_WIDTH } from "features/world/scenes/BaseScene";
 import { MachineInterpreter } from "./lib/halloweenMachine";
 import { DarknessPipeline } from "./shaders/DarknessShader";
 import { VisibilityPolygon } from "./lib/visibilityPolygon";
@@ -43,6 +43,11 @@ export class HalloweenScene extends BaseScene {
   private lampSpawnTime!: number;
   private numLampsInMap!: number;
   private deathDate!: Date | null;
+  private carrot_sunflowers: Phaser.Physics.Arcade.Sprite[] = [];
+  private lastSpawnTime: number = 0; // Time tracker for enemy spawning
+  private updateInterval: number = 120000; // 120 seconds
+  private spawnCount: number = 10; // Track the number of enemies spawned in the current minute
+  private maxEnemiesPerMinute: number = 50; // Maximum enemies to spawn each minute
 
   sceneId: SceneId = "halloween";
 
@@ -74,6 +79,21 @@ export class HalloweenScene extends BaseScene {
       frameWidth: 14,
       frameHeight: 20,
     });
+
+    this.load.spritesheet("carrot_sunflower", "world/carrot_sunflower.png", {
+      frameWidth: 15,
+      frameHeight: 18,
+    });
+
+    this.load.spritesheet("carrot_sunflower1", "world/carrot_sunflower1.png", {
+      frameWidth: 15,
+      frameHeight: 18,
+    });
+
+    this.load.spritesheet("poof", "world/poof.png", {
+      frameWidth: 15,
+      frameHeight: 18,
+    });
   }
 
   async create() {
@@ -84,6 +104,8 @@ export class HalloweenScene extends BaseScene {
     super.create();
 
     this.initShaders();
+
+    this.physics.world.drawDebug = false;
 
     // Important to first save the player and then the lamps
     this.currentPlayer && (this.lightedItems[0] = this.currentPlayer);
@@ -161,6 +183,9 @@ export class HalloweenScene extends BaseScene {
         this.playerPosition = { x: currentX, y: currentY };
       }
 
+      this.enemy_1();
+      this.faceDirectionEnemy_1();
+
       this.loadBumpkinAnimations();
 
       this.setLampSpawnTime();
@@ -174,6 +199,93 @@ export class HalloweenScene extends BaseScene {
 
     super.update();
   }
+
+// Enemy_1 (Carrot Sunflower)
+enemy_1() {
+  const currentTime = this.time.now;
+
+  // Reset spawn count after a minute
+  if (currentTime - this.lastSpawnTime > this.updateInterval) {
+      console.log(`Enemy count has been reset. Total enemies spawned: ${this.spawnCount}`);
+      this.spawnCount = 0;
+      this.lastSpawnTime = currentTime;
+  }
+
+  // Spawn enemies up to the maximum limit
+  while (this.spawnCount < this.maxEnemiesPerMinute) {
+      const randomX = Phaser.Math.Between(0, this.map.widthInPixels - HALLOWEEN_SQUARE_WIDTH);
+      const randomY = Phaser.Math.Between(0, this.map.heightInPixels - HALLOWEEN_SQUARE_WIDTH);
+      const carrot_sunflower = this.createEnemy_1(randomX, randomY);
+
+      if (this.currentPlayer) {
+          this.physics.add.collider(carrot_sunflower, this.currentPlayer, () => this.handleCollision(carrot_sunflower));
+      }
+      this.spawnCount++;
+  }
+}
+
+createEnemy_1(x: number, y: number) {
+  const carrot_sunflower = this.physics.add.sprite(x, y, "carrot_sunflower")
+      .setSize(HALLOWEEN_SQUARE_WIDTH, HALLOWEEN_SQUARE_WIDTH)
+      .setVelocity(Phaser.Math.Between(10, 20), Phaser.Math.Between(10, 20))
+      .setCollideWorldBounds(true)
+      .setBounce(1, 1);
+  
+  this.carrot_sunflowers.push(carrot_sunflower);
+  this.AnimationEnemy_1();
+  console.log(`Spawned Carrot Sunflower #${this.spawnCount + 1}:`, { x, y });
+  return carrot_sunflower;
+}
+
+AnimationEnemy_1() {
+  ["carrot_sunflower", "carrot_sunflower1"].forEach(key => {
+      if (!this.anims.exists(`${key}_anim`)) {
+          this.anims.create({
+              key: `${key}_anim`,
+              frames: this.anims.generateFrameNumbers(key, { start: 0, end: 8 }),
+              repeat: -1,
+              frameRate: 10,
+          });
+      }
+  });
+}
+
+// Handle collision with carrot_sunflower
+handleCollision(carrot_sunflower: Phaser.Physics.Arcade.Sprite) {
+  const { x, y } = carrot_sunflower;
+  const poof = this.add.sprite(x, y, "poof").play("poof_anim", true);
+  
+  if (!this.anims.exists("poof_anim")) {
+      this.anims.create({
+          key: "poof_anim",
+          frames: this.anims.generateFrameNumbers("poof", { start: 0, end: 7 }),
+          repeat: 0,
+          frameRate: 10,
+      });
+  }
+
+  poof.play("poof_anim", true);
+
+  poof.on("animationcomplete", () => poof.destroy());
+  carrot_sunflower.destroy();
+  this.carrot_sunflowers = this.carrot_sunflowers.filter(sprite => sprite !== carrot_sunflower);
+  this.currentPlayer && this.handleDimEffect();
+}
+
+handleDimEffect() {
+  const darknessPipeline = this.cameras.main.getPostPipeline("DarknessPipeline") as DarknessPipeline;
+  darknessPipeline.lightRadius[0] = 0; // Dim the light immediately
+}
+
+// Animation Direction of Enemy_1
+faceDirectionEnemy_1() {
+  this.carrot_sunflowers.forEach(carrot_sunflower => {
+      if (carrot_sunflower.body) {
+          const animKey = carrot_sunflower.body.velocity.x > 0 ? "carrot_sunflower1_anim" : "carrot_sunflower_anim";
+          carrot_sunflower.play(animKey, true);
+      }
+  });
+}
 
   private setDefaultStates() {
     this.lightedItems = Array(MAX_LAMPS_IN_MAP + 1).fill(null);
