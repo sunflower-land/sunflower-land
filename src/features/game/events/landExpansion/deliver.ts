@@ -167,7 +167,6 @@ export function populateOrders(
       id: isSkipped ? "skipping" : Date.now().toString(),
       items: {},
       reward: {},
-      doubleDelivery: false,
     };
 
     orders.push(fakeOrder);

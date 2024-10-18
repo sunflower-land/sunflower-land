@@ -943,7 +943,6 @@ export const STATIC_OFFLINE_FARM: GameState = {
         items: {
           Sunflower: 20,
         },
-        doubleDelivery: false,
       },
     ],
 

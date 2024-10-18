@@ -770,7 +770,6 @@ export type Order = {
   createdAt: number;
   readyAt: number;
   completedAt?: number;
-  doubleDelivery: boolean;
 };
 
 type QuestNPCName =

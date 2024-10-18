@@ -639,7 +639,6 @@ export const INITIAL_FARM: GameState = {
         items: {
           Sunflower: 30,
         },
-        doubleDelivery: false,
       },
       {
         createdAt: Date.now(),
@@ -653,7 +652,6 @@ export const INITIAL_FARM: GameState = {
         items: {
           "Pumpkin Soup": 1,
         },
-        doubleDelivery: false,
       },
       {
         createdAt: Date.now(),
@@ -667,7 +665,6 @@ export const INITIAL_FARM: GameState = {
         items: {
           "Mashed Potato": 2,
         },
-        doubleDelivery: false,
       },
     ],
     milestone: {
