@@ -41,6 +41,12 @@ export function generateDeliveryTickets({
   now?: Date;
 }) {
   let amount = TICKET_REWARDS[npc as QuestNPCName];
+  const completedAt = game.npcs?.[npc]?.deliveryCompletedAt;
+
+  const hasClaimedBonus =
+    !!completedAt &&
+    new Date(completedAt).toISOString().substring(0, 10) ===
+      new Date().toISOString().substring(0, 10);
 
   if (!amount) {
     return 0;
@@ -53,7 +59,7 @@ export function generateDeliveryTickets({
     amount += 2;
   }
   // Leave this at the end as it will multiply the whole amount by 2
-  if (game.delivery.doubleDelivery === true) {
+  if (game.delivery.doubleDelivery === true && !hasClaimedBonus) {
     amount *= 2;
   }
 

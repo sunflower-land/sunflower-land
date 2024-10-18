@@ -637,6 +637,13 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
   const deliveryFrozen = ticketTasksAreFrozen && isTicketOrder;
   const acceptGifts = !!getNextGift({ game, npc });
 
+  const completedAt = game.npcs?.[npc]?.deliveryCompletedAt;
+
+  const hasClaimedBonus =
+    !!completedAt &&
+    new Date(completedAt).toISOString().substring(0, 10) ===
+      new Date().toISOString().substring(0, 10);
+
   if (gift) {
     return (
       <InnerPanel>
@@ -699,7 +706,7 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
             <div className="px-2 ">
               <div className="flex flex-col justify-between items-stretch mb-2 gap-1">
                 <div className="flex flex-row justify-between w-full">
-                  {game.delivery.doubleDelivery === true ? (
+                  {game.delivery.doubleDelivery === true && !hasClaimedBonus ? (
                     <Label type="vibrant" icon={lightning}>
                       {`Double Rewards Delivery`}
                     </Label>

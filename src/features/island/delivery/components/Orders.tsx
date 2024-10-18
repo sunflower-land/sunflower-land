@@ -347,7 +347,12 @@ export const DeliveryOrders: React.FC<Props> = ({
   if (!previewOrder) {
     previewOrder = orders[0];
   }
+  const completedAt = state.npcs?.[previewOrder.from]?.deliveryCompletedAt;
 
+  const hasClaimedBonus =
+    !!completedAt &&
+    new Date(completedAt).toISOString().substring(0, 10) ===
+      new Date().toISOString().substring(0, 10);
   const canSkip =
     getDayOfYear(new Date()) !== getDayOfYear(new Date(previewOrder.createdAt));
 
@@ -774,7 +779,7 @@ export const DeliveryOrders: React.FC<Props> = ({
                   </span>
                 </Label>
               </div>
-              {state.delivery.doubleDelivery === true && (
+              {state.delivery.doubleDelivery === true && !hasClaimedBonus && (
                 <Label type="vibrant" icon={lightning}>
                   {`2x Rewards`}
                 </Label>
