@@ -3729,5 +3729,12 @@
   "faction.claimEmblems.thankYou": "Grazie {{player}} per il tuo contributo al {{Faction}}! Prendi questi emblemi, rappresentano la tua proprietà della fazione!",
   "faction.claimEmblems.claimMessage": "Hai contribuito con {{count}} punti fazione. Il tuo grado era {{rank}}. Sei tra i primi {{percentile}}% di {{Faction}}.",
   "flower.breed.yellowCarnation": "Le zucche non apprezzano il garofano giallo.",
-  "noBumpkin.bumpkinHelp": "Hai bisogno di un Bumpkin per aiutarti a piantare, raccogliere, tagliare, estrarre ed espandere la tua terra. Presto sarà disponibile il supporto per aggiungere un Bumpkin!"
+  "noBumpkin.bumpkinHelp": "Hai bisogno di un Bumpkin per aiutarti a piantare, raccogliere, tagliare, estrarre ed espandere la tua terra. Presto sarà disponibile il supporto per aggiungere un Bumpkin!",
+  "chores.weeklyChores": "Lavori settimanali",
+  "chores.completeChoresToEarn": "Completa le faccende per far guadagnare {{seasonalTicket}} a Bumpkins.",
+  "chores.lockedChore": "Livello {{level}}",
+  "chores.completed": "Completato",
+  "chores.complete": "Completo",
+  "chore.chop.1.tree": "Taglia 1 albero",
+  "chore.chop.2.trees": "Taglia 2 alberi"
 }

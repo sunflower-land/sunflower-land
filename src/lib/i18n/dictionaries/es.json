@@ -3729,5 +3729,12 @@
   "faction.claimEmblems.thankYou": "¡Gracias {{player}} por tus contribuciones al {{Faction}}! Llévate estos emblemas, ¡representan que eres el dueño de la facción!",
   "faction.claimEmblems.claimMessage": "Has aportado {{count}} puntos de facción. Tu rango era {{rank}}. Estás entre los {{percentile}}% más altos de {{Faction}}.",
   "flower.breed.yellowCarnation": "Los palomitas no valoran el clavel amarillo.",
-  "noBumpkin.bumpkinHelp": "Necesitas un Bumpkin que te ayude a plantar, cosechar, cortar, extraer y expandir tu tierra. ¡Pronto habrá soporte para añadir un Bumpkin!"
+  "noBumpkin.bumpkinHelp": "Necesitas un Bumpkin que te ayude a plantar, cosechar, cortar, extraer y expandir tu tierra. ¡Pronto habrá soporte para añadir un Bumpkin!",
+  "chores.weeklyChores": "Tareas semanales",
+  "chores.completeChoresToEarn": "Completa tareas para Bumpkins y gana {{seasonalTicket}} s.",
+  "chores.lockedChore": "Nivel {{level}}",
+  "chores.completed": "Completado",
+  "chores.complete": "Completa",
+  "chore.chop.1.tree": "Corta 1 árbol",
+  "chore.chop.2.trees": "Corta 2 árboles"
 }

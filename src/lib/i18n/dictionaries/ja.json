@@ -3729,5 +3729,12 @@
   "faction.claimEmblems.thankYou": "{{Faction}} にご協力いただき、ありがとうございます {{player}}！これらのエンブレムは、あなたが陣営を所有していることを表しています！",
   "faction.claimEmblems.claimMessage": "ファクションポイントを {{count}} 貢献しました。あなたのランクは {{rank}} でした。あなたは {{Faction}} の {{percentile}}% の上位にいます。",
   "flower.breed.yellowCarnation": "バンプキンは黄色いカーネーションを大切にしません。",
-  "noBumpkin.bumpkinHelp": "土地を植えたり、収穫したり、切り刻んだり、掘ったり、土地を広げたりするには、バンプキンが必要です。バンプキンを追加するためのサポートが間もなく開始されます！"
+  "noBumpkin.bumpkinHelp": "土地を植えたり、収穫したり、切り刻んだり、掘ったり、土地を広げたりするには、バンプキンが必要です。バンプキンを追加するためのサポートが間もなく開始されます！",
+  "chores.weeklyChores": "ウィークリー雑用",
+  "chores.completeChoresToEarn": "バンプキンズの雑用を完了して {{seasonalTicket}} を稼ぎましょう。",
+  "chores.lockedChore": "レベル {{level}}",
+  "chores.completed": "完了しました",
+  "chores.complete": "完了",
+  "chore.chop.1.tree": "チョップ・ワン・ツリー",
+  "chore.chop.2.trees": "木を2本切る"
 }

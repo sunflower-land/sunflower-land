@@ -3729,5 +3729,12 @@
   "npcDialogues.chase.intro2": "However I'm in a bit of a pickle. My herd has mysteriously gone missing - it's like they disappeared out of thin air!",
   "npcDialogues.sheep.intro1": "Thanks for finding me! One moment I was pretending to be a sheep with the Cowboy and the next moment I was here.",
   "npcDialogues.sheep.intro2": "All I remember is flashing lights and strange noises...",
-  "teaser.intro": "Animals are coming to Sunflower Land. Prepare your resources for November 1st!"
+  "teaser.intro": "Animals are coming to Sunflower Land. Prepare your resources for November 1st!",
+  "chores.weeklyChores": "Weekly Chores",
+  "chores.completeChoresToEarn": "Complete chores for Bumpkins to earn {{seasonalTicket}}s.",
+  "chores.lockedChore": "Lvl {{level}}",
+  "chores.completed": "Completed",
+  "chores.complete": "Complete",
+  "chore.chop.1.tree": "Chop 1 Tree",
+  "chore.chop.2.trees": "Chop 2 Trees"
 }
