@@ -61,7 +61,6 @@ export const BarnInside: React.FC = () => {
         y={animal.coordinates.y}
         height={ANIMALS.Chicken.height}
         width={ANIMALS.Chicken.width}
-        z={1}
       >
         <Component id={id} />
       </MapPlacement>

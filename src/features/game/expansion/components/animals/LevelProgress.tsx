@@ -10,6 +10,7 @@ import { getAnimalLevel, isMaxLevel } from "features/game/lib/animals";
 import { TState } from "features/game/lib/animalMachine";
 import { Transition } from "@headlessui/react";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import classNames from "classnames";
 
 type Props = {
   animal: AnimalType;
@@ -91,7 +92,9 @@ export const LevelProgress = ({
           <img
             src={SUNNYSIDE.icons.heart}
             alt={`Level ${level}`}
-            className="w-full"
+            className={classNames("w-full", {
+              "img-highlight": animalState === "ready",
+            })}
           />
 
           <div className="absolute top-1/2 left-1/2 leading-3 transform -translate-x-1/2 -translate-y-1/2 -mt-[1px] text-[16px] text-white">
