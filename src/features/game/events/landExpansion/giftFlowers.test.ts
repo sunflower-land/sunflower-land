@@ -95,4 +95,28 @@ describe("giftBumpkin", () => {
 
     expect(state.npcs?.betty?.friendship?.points).toEqual(8);
   });
+
+  it("gives +2 relationship from flowers with Blossom Bonding Skill", () => {
+    const state = giftFlowers({
+      state: {
+        ...TEST_FARM,
+        bumpkin: {
+          ...TEST_FARM.bumpkin,
+          skills: {
+            "Blossom Bonding": 1,
+          },
+        },
+        inventory: {
+          "Red Pansy": new Decimal(1),
+        },
+      },
+      action: {
+        flower: "Red Pansy",
+        type: "flowers.gifted",
+        bumpkin: "betty",
+      },
+    });
+
+    expect(state.npcs?.betty?.friendship?.points).toEqual(10);
+  });
 });
