@@ -46,7 +46,6 @@ export const HenHouseInside: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
   const [showUpgradeModal, setShowUpgradeModal] = useState(false);
   const [showExchange, setShowExchange] = useState(false);
-  const [showQuickSelect, setShowQuickSelect] = useState(false);
   const [deal, setDeal] = useState<BountyRequest>();
   const [selected, setSelected] = useState<Animal>();
   const henHouse = useSelector(gameService, _henHouse);

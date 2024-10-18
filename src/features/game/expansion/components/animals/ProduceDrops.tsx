@@ -1,8 +1,11 @@
 import React from "react";
 import { InventoryItemName } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { AnimalLevel, AnimalType } from "features/game/types/animals";
-import { ANIMAL_RESOURCE_DROP } from "features/game/events/landExpansion/feedAnimal";
+import {
+  ANIMAL_RESOURCE_DROP,
+  AnimalLevel,
+  AnimalType,
+} from "features/game/types/animals";
 
 interface Props {
   animalType: AnimalType;

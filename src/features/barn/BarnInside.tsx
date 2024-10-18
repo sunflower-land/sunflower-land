@@ -22,12 +22,21 @@ import { AnimalBuildingLevel } from "features/game/events/landExpansion/upgradeB
 import { SUNNYSIDE } from "assets/sunnyside";
 import { UpgradeBuildingModal } from "features/game/expansion/components/UpgradeBuildingModal";
 import { ANIMAL_HOUSE_IMAGES } from "features/henHouse/HenHouseInside";
+import { Animal, BountyRequest } from "features/game/types/game";
+import { AnimalDeal } from "./components/AnimalBounties";
+import { Modal } from "components/ui/Modal";
+import { AnimalBounties } from "./components/AnimalBounties";
+import classNames from "classnames";
+import { isValidDeal } from "features/game/events/landExpansion/sellAnimal";
 
 const _barn = (state: MachineState) => state.context.state.barn;
 
 type BarnAnimal = Exclude<AnimalType, "Chicken">;
 
-const BARN_ANIMAL_COMPONENTS: Record<BarnAnimal, React.FC<{ id: string }>> = {
+const BARN_ANIMAL_COMPONENTS: Record<
+  BarnAnimal,
+  React.FC<{ id: string; disabled: boolean }>
+> = {
   Cow: Cow,
   Sheep: Sheep,
 };
@@ -36,6 +45,9 @@ export const BarnInside: React.FC = () => {
   const { gameService } = useContext(Context);
   const [showModal, setShowModal] = useState(false);
   const [showUpgradeModal, setShowUpgradeModal] = useState(false);
+  const [showExchange, setShowExchange] = useState(false);
+  const [selected, setSelected] = useState<Animal>();
+  const [deal, setDeal] = useState<BountyRequest>();
   const barn = useSelector(gameService, _barn);
   const level = barn.level as AnimalBuildingLevel;
 
@@ -52,6 +64,7 @@ export const BarnInside: React.FC = () => {
 
   const components = getKeys(barn.animals).map((id) => {
     const animal = barn.animals[id];
+    const isValid = deal && isValidDeal({ animal, deal });
     const Component = BARN_ANIMAL_COMPONENTS[animal.type as BarnAnimal];
 
     return (
@@ -62,7 +75,26 @@ export const BarnInside: React.FC = () => {
         height={ANIMALS.Chicken.height}
         width={ANIMALS.Chicken.width}
       >
-        <Component id={id} />
+        <div
+          className={classNames({
+            "opacity-50": deal && !isValid,
+            "cursor-pointer": deal && isValid,
+            "pointer-events-none": deal && !isValid,
+          })}
+          onClick={(e) => {
+            if (deal) {
+              // Stop other clicks
+              e.stopPropagation();
+              e.preventDefault();
+
+              if (!isValid) return;
+
+              setSelected(animal);
+            }
+          }}
+        >
+          <Component id={id} disabled={!!deal} />
+        </div>
       </MapPlacement>
     );
   });
@@ -85,6 +117,29 @@ export const BarnInside: React.FC = () => {
         show={showUpgradeModal}
         onClose={() => setShowUpgradeModal(false)}
       />
+      <Modal show={showExchange} onHide={() => setShowExchange(false)}>
+        {/* TODO: FIX FOR BARN ANIMALS */}
+        <AnimalBounties
+          onExchanging={(deal) => {
+            setShowExchange(false);
+            setDeal(deal);
+          }}
+          type="Cow"
+        />
+      </Modal>
+
+      <Modal show={!!deal} onHide={() => setDeal(undefined)}>
+        <AnimalDeal
+          onClose={() => {
+            setDeal(undefined);
+          }}
+          onSold={() => {
+            setDeal(undefined);
+          }}
+          deal={deal!}
+          animal={selected!}
+        />
+      </Modal>
       <>
         <div
           className="absolute bg-[#181425]"
