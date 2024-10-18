@@ -2,7 +2,7 @@ import Decimal from "decimal.js-light";
 import { INITIAL_BUMPKIN, TEST_FARM } from "features/game/lib/constants";
 import {
   START_DATE,
-  getFactionWeek,
+  getWeekKey,
   getFactionWeekday,
 } from "features/game/lib/factions";
 import { Faction, GameState } from "features/game/types/game";
@@ -23,7 +23,7 @@ describe("feedFactionPet", () => {
   afterEach(() => jest.useRealTimers());
 
   const startTime = START_DATE.getTime();
-  const week = getFactionWeek({ date: START_DATE });
+  const week = getWeekKey({ date: START_DATE });
 
   it("throws an error if the faction pet feature is not active yet", () => {
     expect(() => {

@@ -1,7 +1,7 @@
 import { INITIAL_BUMPKIN, TEST_FARM } from "features/game/lib/constants";
 import { completeKingdomChore } from "./completeKingdomChore";
 import Decimal from "decimal.js-light";
-import { getFactionWeek } from "features/game/lib/factions";
+import { getWeekKey } from "features/game/lib/factions";
 import { GameState } from "features/game/types/game";
 
 const state: GameState = {
@@ -501,7 +501,7 @@ describe("kingdomChore.completed", () => {
       },
     });
 
-    const week = getFactionWeek({ date: new Date(now) });
+    const week = getWeekKey({ date: new Date(now) });
     expect(result.faction?.history[week].score).toBe(
       new Decimal(3).mul(5.05).toNumber(),
     );
