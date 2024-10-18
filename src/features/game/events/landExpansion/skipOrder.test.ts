@@ -34,7 +34,6 @@ describe("skipOrder", () => {
       items: {},
       readyAt: 0,
       reward: {},
-      doubleDelivery: false,
     };
 
     const state = skipOrder({
@@ -68,7 +67,6 @@ describe("skipOrder", () => {
       items: {},
       readyAt: 0,
       reward: {},
-      doubleDelivery: false,
     };
 
     expect(() =>
@@ -104,7 +102,6 @@ describe("skipOrder", () => {
       items: {},
       readyAt: 0,
       reward: {},
-      doubleDelivery: false,
     };
 
     const order2: Order = {
@@ -114,7 +111,6 @@ describe("skipOrder", () => {
       items: {},
       readyAt: 0,
       reward: {},
-      doubleDelivery: false,
     };
 
     const state = skipOrder({
@@ -150,7 +146,6 @@ describe("skipOrder", () => {
       items: {},
       readyAt: 0,
       reward: {},
-      doubleDelivery: false,
     };
 
     const state = skipOrder({
