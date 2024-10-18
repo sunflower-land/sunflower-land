@@ -132,7 +132,7 @@ export const SkillPathDetails: React.FC<Props> = ({
         <div className="flex flex-col h-full justify-between">
           {/* Header */}
           <div className="flex flex-col h-full px-1 py-0">
-            <div className="flex space-x-2 justify-start items-center sm:flex-col-reverse md:space-x-0">
+            <div className="flex space-x-2 justify-start items-center sm:flex-col-reverse md:space-x-0 sm:py-0 py-2">
               <div className="sm:mt-2">
                 <SquareIcon icon={selectedSkill.image} width={14} />
               </div>
@@ -143,20 +143,40 @@ export const SkillPathDetails: React.FC<Props> = ({
             </span>
           </div>
 
-          {/* Claim Button */}
+          {/* Claim/Claimed/Use Button */}
           <div className="flex space-x-1 sm:space-x-0 sm:space-y-1 sm:flex-col w-full">
-            <Button
-              disabled={
-                missingPointRequirement ||
-                missingSkillsRequirement ||
-                hasSelectedSkill ||
-                selectedSkill.disabled ||
-                readonly
-              }
-              onClick={() => setShowConfirmationModal(true)}
-            >
-              {hasSelectedSkill ? "Claimed" : "Claim"}
-            </Button>
+            {!hasSelectedSkill && (
+              <Button
+                disabled={
+                  missingPointRequirement ||
+                  missingSkillsRequirement ||
+                  hasSelectedSkill ||
+                  selectedSkill.disabled ||
+                  readonly
+                }
+                onClick={() => setShowConfirmationModal(true)}
+              >
+                {"Claim"}
+              </Button>
+            )}
+
+            {hasSelectedSkill && !selectedSkill.power && (
+              <Button
+                disabled={true}
+                onClick={() => setShowConfirmationModal(true)}
+              >
+                {"Claimed"}
+              </Button>
+            )}
+
+            {hasSelectedSkill && selectedSkill.power && (
+              <Button
+                disabled={true}
+                onClick={() => setShowConfirmationModal(true)}
+              >
+                {"Use"}
+              </Button>
+            )}
           </div>
 
           {/* Confirmation Modal */}
