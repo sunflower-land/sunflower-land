@@ -199,11 +199,10 @@ export const CraftingBox: React.FC = () => {
     }
   };
 
-  if (
-    !hasFeatureAccess(gameService.getSnapshot().context.state, "CRAFTING_BOX")
-  ) {
-    return <p className="text-sm">{t("coming.soon")}</p>;
-  }
+  const hasAccess = hasFeatureAccess(
+    gameService.getSnapshot().context.state,
+    "CRAFTING_BOX",
+  );
 
   return (
     <>
@@ -230,166 +229,180 @@ export const CraftingBox: React.FC = () => {
           currentTab={currentTab}
           setCurrentTab={setCurrentTab}
         >
-          {currentTab === 0 && (
+          {!hasAccess ? (
+            <p className="text-sm">{t("coming.soon")}</p>
+          ) : (
             <>
-              <Label type="default" className="mb-1">
-                {t("craft")}
-              </Label>
-              <div className="flex mb-2">
-                {/** Crafting Grid */}
-                <div className="grid grid-cols-3 gap-1 flex-shrink-0">
-                  {selectedItems.map((item, index) => (
-                    <Box
-                      key={`${index}-${item}`}
-                      image={item ? ITEM_DETAILS[item]?.image : undefined}
-                      onClick={() => handleBoxSelect(index)}
-                      onDragOver={handleDragOver}
-                      onDrop={(e) => handleDrop(e, index)}
-                      disabled={isPending}
-                    />
-                  ))}
-                </div>
-                {/** Arrow */}
-                <div className="flex items-center justify-center flex-grow">
-                  <img
-                    src={SUNNYSIDE.icons.arrow_right}
-                    className="pointer-events-none mb-2"
-                    style={{
-                      width: `${PIXEL_SCALE * 8}px`,
-                      height: `${PIXEL_SCALE * 8}px`,
-                    }}
-                  />
-                </div>
-
-                {/** Crafting Result */}
-                <div className="flex flex-col items-center justify-center flex-grow">
-                  {craftedItem && (
-                    <>
-                      <Label
-                        type="default"
-                        className="mt-2 mb-1"
-                        icon={SUNNYSIDE.icons.hammer}
-                      >
-                        {craftedItem}
-                      </Label>
-                      <Box
-                        image={ITEM_DETAILS[craftedItem]?.image}
-                        count={new Decimal(1)}
-                      />
-                    </>
-                  )}
-                  {!craftedItem && (
-                    <>
-                      <Label
-                        type="default"
-                        icon={
-                          isPending
-                            ? SUNNYSIDE.icons.hammer
-                            : failedAttempt
-                              ? SUNNYSIDE.icons.cancel
-                              : SUNNYSIDE.icons.search
-                        }
-                        className="mt-2 mb-1"
-                      >
-                        {isPending
-                          ? "Pending"
-                          : failedAttempt
-                            ? "Failed"
-                            : "Unknown"}
-                      </Label>
-                      <Box
-                        image={
-                          isPending
-                            ? SUNNYSIDE.icons.expression_confused
-                            : undefined
-                        }
-                        key={`box-${isPending}`}
-                      />
-                    </>
-                  )}
-
-                  <div className="flex items-center justify-center">
-                    {remainingTime !== null && (
-                      <Label
-                        type="transparent"
-                        className="ml-3 my-1"
-                        icon={SUNNYSIDE.icons.stopwatch}
-                      >
-                        {remainingTime ? formatTime(remainingTime) : "Ready"}
-                      </Label>
-                    )}
-                    {remainingTime === null && (
-                      <Label
-                        type="transparent"
-                        className="ml-3 my-1"
-                        icon={SUNNYSIDE.icons.stopwatch}
-                      >
-                        <SquareIcon
-                          icon={SUNNYSIDE.icons.expression_confused}
-                          width={7}
-                        />
-                      </Label>
-                    )}
-                  </div>
-
-                  <div>
-                    {(isCrafting || isPending) && !isReady && (
-                      <Button
-                        className="mt-2 whitespace-nowrap"
-                        disabled={true}
-                      >
-                        {t("crafting")}
-                      </Button>
-                    )}
-                    {isCrafting && isReady && (
-                      <Button
-                        className="mt-2 whitespace-nowrap"
-                        onClick={handleCollect}
-                      >
-                        {t("collect")}
-                      </Button>
-                    )}
-                    {isIdle && (
-                      <Button
-                        className="mt-2 whitespace-nowrap"
-                        onClick={handleCraft}
-                        disabled={isCraftingBoxEmpty}
-                      >
-                        {`${t("craft")} 1`}
-                      </Button>
-                    )}
-                  </div>
-                </div>
-              </div>
-
-              <div className="flex flex-col">
-                <Label type="default" className="mb-1">
-                  {t("resources")}
-                </Label>
-                <div className="flex flex-wrap max-h-48 overflow-y-auto">
-                  {VALID_CRAFTING_RESOURCES.map((itemName) => {
-                    const inventoryItem = itemName as InventoryItemName;
-                    const amount =
-                      remainingInventory[inventoryItem] || new Decimal(0);
-                    return (
-                      <div
-                        key={itemName}
-                        draggable={!isPending && amount.greaterThan(0)}
-                        onDragStart={(e) => handleDragStart(e, inventoryItem)}
-                        className="m-1 flex"
-                      >
+              {currentTab === 0 && (
+                <>
+                  <Label type="default" className="mb-1">
+                    {t("craft")}
+                  </Label>
+                  <div className="flex mb-2">
+                    {/** Crafting Grid */}
+                    <div className="grid grid-cols-3 gap-1 flex-shrink-0">
+                      {selectedItems.map((item, index) => (
                         <Box
-                          count={amount}
-                          image={ITEM_DETAILS[inventoryItem]?.image}
-                          isSelected={selectedResource === inventoryItem}
-                          onClick={() => handleResourceSelect(inventoryItem)}
-                          disabled={isPending || amount.lessThanOrEqualTo(0)}
+                          key={`${index}-${item}`}
+                          image={item ? ITEM_DETAILS[item]?.image : undefined}
+                          onClick={() => handleBoxSelect(index)}
+                          onDragOver={handleDragOver}
+                          onDrop={(e) => handleDrop(e, index)}
+                          disabled={isPending}
                         />
+                      ))}
+                    </div>
+                    {/** Arrow */}
+                    <div className="flex items-center justify-center flex-grow">
+                      <img
+                        src={SUNNYSIDE.icons.arrow_right}
+                        className="pointer-events-none mb-2"
+                        style={{
+                          width: `${PIXEL_SCALE * 8}px`,
+                          height: `${PIXEL_SCALE * 8}px`,
+                        }}
+                      />
+                    </div>
+
+                    {/** Crafting Result */}
+                    <div className="flex flex-col items-center justify-center flex-grow">
+                      {craftedItem && (
+                        <>
+                          <Label
+                            type="default"
+                            className="mt-2 mb-1"
+                            icon={SUNNYSIDE.icons.hammer}
+                          >
+                            {craftedItem}
+                          </Label>
+                          <Box
+                            image={ITEM_DETAILS[craftedItem]?.image}
+                            count={new Decimal(1)}
+                          />
+                        </>
+                      )}
+                      {!craftedItem && (
+                        <>
+                          <Label
+                            type="default"
+                            icon={
+                              isPending
+                                ? SUNNYSIDE.icons.hammer
+                                : failedAttempt
+                                  ? SUNNYSIDE.icons.cancel
+                                  : SUNNYSIDE.icons.search
+                            }
+                            className="mt-2 mb-1"
+                          >
+                            {isPending
+                              ? "Pending"
+                              : failedAttempt
+                                ? "Failed"
+                                : "Unknown"}
+                          </Label>
+                          <Box
+                            image={
+                              isPending
+                                ? SUNNYSIDE.icons.expression_confused
+                                : undefined
+                            }
+                            key={`box-${isPending}`}
+                          />
+                        </>
+                      )}
+
+                      <div className="flex items-center justify-center">
+                        {remainingTime !== null && (
+                          <Label
+                            type="transparent"
+                            className="ml-3 my-1"
+                            icon={SUNNYSIDE.icons.stopwatch}
+                          >
+                            {remainingTime
+                              ? formatTime(remainingTime)
+                              : "Ready"}
+                          </Label>
+                        )}
+                        {remainingTime === null && (
+                          <Label
+                            type="transparent"
+                            className="ml-3 my-1"
+                            icon={SUNNYSIDE.icons.stopwatch}
+                          >
+                            <SquareIcon
+                              icon={SUNNYSIDE.icons.expression_confused}
+                              width={7}
+                            />
+                          </Label>
+                        )}
                       </div>
-                    );
-                  })}
-                </div>
-              </div>
+
+                      <div>
+                        {(isCrafting || isPending) && !isReady && (
+                          <Button
+                            className="mt-2 whitespace-nowrap"
+                            disabled={true}
+                          >
+                            {t("crafting")}
+                          </Button>
+                        )}
+                        {isCrafting && isReady && (
+                          <Button
+                            className="mt-2 whitespace-nowrap"
+                            onClick={handleCollect}
+                          >
+                            {t("collect")}
+                          </Button>
+                        )}
+                        {isIdle && (
+                          <Button
+                            className="mt-2 whitespace-nowrap"
+                            onClick={handleCraft}
+                            disabled={isCraftingBoxEmpty}
+                          >
+                            {`${t("craft")} 1`}
+                          </Button>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="flex flex-col">
+                    <Label type="default" className="mb-1">
+                      {t("resources")}
+                    </Label>
+                    <div className="flex flex-wrap max-h-48 overflow-y-auto">
+                      {VALID_CRAFTING_RESOURCES.map((itemName) => {
+                        const inventoryItem = itemName as InventoryItemName;
+                        const amount =
+                          remainingInventory[inventoryItem] || new Decimal(0);
+                        return (
+                          <div
+                            key={itemName}
+                            draggable={!isPending && amount.greaterThan(0)}
+                            onDragStart={(e) =>
+                              handleDragStart(e, inventoryItem)
+                            }
+                            className="m-1 flex"
+                          >
+                            <Box
+                              count={amount}
+                              image={ITEM_DETAILS[inventoryItem]?.image}
+                              isSelected={selectedResource === inventoryItem}
+                              onClick={() =>
+                                handleResourceSelect(inventoryItem)
+                              }
+                              disabled={
+                                isPending || amount.lessThanOrEqualTo(0)
+                              }
+                            />
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                </>
+              )}
             </>
           )}
         </CloseButtonPanel>
