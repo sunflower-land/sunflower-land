@@ -1571,7 +1571,7 @@ describe("plantGreenhouse", () => {
     });
   });
 
-  it("boosts Olive growth speed by 20% with Olive Express skill", () => {
+  it("boosts Olive growth speed by 10% with Olive Express skill", () => {
     const now = Date.now();
     const state = plantGreenhouse({
       action: {
@@ -1614,12 +1614,12 @@ describe("plantGreenhouse", () => {
       plant: {
         amount: 1,
         name: "Olive",
-        plantedAt: now - GREENHOUSE_CROP_TIME_SECONDS.Olive * 0.2 * 1000,
+        plantedAt: now - GREENHOUSE_CROP_TIME_SECONDS.Olive * 0.1 * 1000,
       },
     });
   });
 
-  it("boosts Rice growth speed by 20% with Rice Rocket skill", () => {
+  it("boosts Rice growth speed by 10% with Rice Rocket skill", () => {
     const now = Date.now();
     const state = plantGreenhouse({
       action: {
@@ -1662,12 +1662,12 @@ describe("plantGreenhouse", () => {
       plant: {
         amount: 1,
         name: "Rice",
-        plantedAt: now - GREENHOUSE_CROP_TIME_SECONDS.Rice * 0.2 * 1000,
+        plantedAt: now - GREENHOUSE_CROP_TIME_SECONDS.Rice * 0.1 * 1000,
       },
     });
   });
 
-  it("boosts Grape growth speed by 20% with Vine Velocity skill", () => {
+  it("boosts Grape growth speed by 10% with Vine Velocity skill", () => {
     const now = Date.now();
     const state = plantGreenhouse({
       action: {
@@ -1710,7 +1710,7 @@ describe("plantGreenhouse", () => {
       plant: {
         amount: 1,
         name: "Grape",
-        plantedAt: now - GREENHOUSE_CROP_TIME_SECONDS.Grape * 0.2 * 1000,
+        plantedAt: now - GREENHOUSE_CROP_TIME_SECONDS.Grape * 0.1 * 1000,
       },
     });
   });

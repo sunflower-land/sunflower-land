@@ -203,7 +203,7 @@ export function getOrderSellPrice<T>(game: GameState, order: Order): T {
   ) {
     const items = getKeys(order.items);
     if (items.some((name) => isFruit(name as PatchFruitName))) {
-      mul += 0.5;
+      mul += 1;
     }
   }
 

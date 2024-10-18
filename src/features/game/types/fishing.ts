@@ -447,5 +447,10 @@ export function getDailyFishingLimit(game: GameState): number {
     limit += 5;
   }
 
+  // +10 daily limit if player has the More With Less skill
+  if (game.bumpkin?.skills["More With Less"]) {
+    limit += 10;
+  }
+
   return limit;
 }
