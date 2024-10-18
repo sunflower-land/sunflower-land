@@ -142,7 +142,7 @@ export const OrderCard: React.FC<OrderCardProps> = ({
 }) => {
   const { coins, balance: sfl, inventory } = state;
 
-  const tickets = generateDeliveryTickets({ game: state, order });
+  const tickets = generateDeliveryTickets({ game: state, npc: order.from });
 
   return (
     <div className="py-1 px-1" key={order.id}>
@@ -436,7 +436,7 @@ export const DeliveryOrders: React.FC<Props> = ({
         <div className="p-1">
           <div className="flex justify-between gap-1 flex-row w-full">
             <Label type="default">{t("deliveries")}</Label>
-            {delivery.doubleDelivery === true && (
+            {state.delivery.doubleDelivery === true && (
               <Label type="vibrant" icon={lightning}>
                 {`Double Rewards Deliveries`}
               </Label>
@@ -762,7 +762,7 @@ export const DeliveryOrders: React.FC<Props> = ({
                     {`${
                       generateDeliveryTickets({
                         game: state,
-                        order: previewOrder,
+                        npc: previewOrder.from,
                       }) || makeRewardAmountForLabel(previewOrder)
                     } ${
                       previewOrder.reward.coins
@@ -774,7 +774,7 @@ export const DeliveryOrders: React.FC<Props> = ({
                   </span>
                 </Label>
               </div>
-              {previewOrder.doubleDelivery === true && (
+              {state.delivery.doubleDelivery === true && (
                 <Label type="vibrant" icon={lightning}>
                   {`2x Rewards`}
                 </Label>
@@ -848,7 +848,7 @@ export const DeliveryOrders: React.FC<Props> = ({
           {ticketTasksAreFrozen &&
             !!generateDeliveryTickets({
               game: state,
-              order: previewOrder,
+              npc: previewOrder.from,
             }) && (
               <Label
                 type="danger"
