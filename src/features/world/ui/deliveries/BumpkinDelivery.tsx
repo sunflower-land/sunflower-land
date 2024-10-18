@@ -708,7 +708,7 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
                 <div className="flex flex-row justify-between w-full">
                   {game.delivery.doubleDelivery === true && !hasClaimedBonus ? (
                     <Label type="vibrant" icon={lightning}>
-                      {`Double Rewards Delivery`}
+                      {t("double.rewards.delivery")}
                     </Label>
                   ) : (
                     <Label

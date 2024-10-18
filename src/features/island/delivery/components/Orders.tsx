@@ -443,7 +443,7 @@ export const DeliveryOrders: React.FC<Props> = ({
             <Label type="default">{t("deliveries")}</Label>
             {state.delivery.doubleDelivery === true && (
               <Label type="vibrant" icon={lightning}>
-                {`Double Rewards Deliveries`}
+                {t("double.rewards.deliveries")}
               </Label>
             )}
           </div>
@@ -782,7 +782,7 @@ export const DeliveryOrders: React.FC<Props> = ({
               <div className="mb-1">
                 {state.delivery.doubleDelivery === true && !hasClaimedBonus && (
                   <Label type="vibrant" icon={lightning}>
-                    {`2x Rewards`}
+                    {t("2x.rewards")}
                   </Label>
                 )}
               </div>
