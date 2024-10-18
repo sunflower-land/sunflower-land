@@ -69,7 +69,7 @@ const featureFlags: Record<FeatureName, FeatureFlag> = {
   BARLEY: testnetFeatureFlag,
   GEM_BOOSTS: (game) => game.experiments.includes("GEM_BOOSTS"),
   CHICKEN_GARBO: timeBasedFeatureFlag(SEASONS["Pharaoh's Treasure"].endDate),
-  CRAFTING_BOX: () => false, //timeBasedFeatureFlag(new Date("2024-11-01T00:00:00Z")),
+  CRAFTING_BOX: timeBasedFeatureFlag(new Date("2024-11-01T00:00:00Z")),
 };
 
 export const hasFeatureAccess = (game: GameState, featureName: FeatureName) => {
