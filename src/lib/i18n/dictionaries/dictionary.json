@@ -3748,5 +3748,6 @@
   "2x.rewards": "2x Rewards",
   "quickSelect.animalFeed": "Prepare some animal feed.",
   "wakesIn": "Wakes in {{time}}",
-  "animal.noFoodMessage": "No {{food}} available"
+  "animal.noFoodMessage": "No {{food}} available",
+  "levelUp": "Level Up!"
 }
