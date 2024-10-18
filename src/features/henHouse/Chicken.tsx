@@ -23,10 +23,10 @@ import { RequestBubble } from "features/game/expansion/components/animals/Reques
 import { Transition } from "@headlessui/react";
 import { QuickSelect } from "features/greenhouse/QuickSelect";
 import { getKeys } from "features/game/types/decorations";
-import { ANIMAL_FOODS, AnimalLevel } from "features/game/types/animals";
+import { ANIMAL_FOODS } from "features/game/types/animals";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { AnimalFoodName, InventoryItemName } from "features/game/types/game";
-import { ANIMAL_RESOURCE_DROP } from "features/game/events/landExpansion/feedAnimal";
+import { AnimalFoodName } from "features/game/types/game";
+import { ProduceDrops } from "features/game/expansion/components/animals/ProduceDrops";
 
 export const CHICKEN_EMOTION_ICONS: Record<
   Exclude<TState["value"], "idle" | "needsLove" | "initial">,
@@ -39,31 +39,31 @@ export const CHICKEN_EMOTION_ICONS: Record<
 > = {
   ready: {
     icon: SUNNYSIDE.icons.expression_ready,
-    width: 8,
+    width: PIXEL_SCALE * 8,
     top: PIXEL_SCALE * -3.3,
     right: PIXEL_SCALE * 3.7,
   },
   happy: {
     icon: SUNNYSIDE.icons.happy,
-    width: 7,
+    width: PIXEL_SCALE * 7,
     top: PIXEL_SCALE * -1.3,
     right: PIXEL_SCALE * 3.7,
   },
   sad: {
     icon: SUNNYSIDE.icons.sad,
-    width: 7,
+    width: PIXEL_SCALE * 7,
     top: PIXEL_SCALE * -1.3,
     right: PIXEL_SCALE * 3.7,
   },
   loved: {
     icon: SUNNYSIDE.icons.heart,
-    width: 10,
+    width: PIXEL_SCALE * 10,
     top: PIXEL_SCALE * -3.3,
     right: PIXEL_SCALE * 3.7,
   },
   sleeping: {
     icon: SUNNYSIDE.icons.sleeping,
-    width: 9,
+    width: PIXEL_SCALE * 9,
     top: PIXEL_SCALE * -3.5,
     right: PIXEL_SCALE * 2,
   },
@@ -149,7 +149,7 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
     });
   };
 
-  const handleClick = () => {
+  const handleClick = async () => {
     if (disabled) return;
 
     if (needsLove) return loveChicken();
@@ -158,10 +158,12 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
 
     if (ready) {
       setShowDrops(true);
-      setTimeout(() => {
-        setShowDrops(false);
-        claimProduce();
-      }, 1500);
+
+      await new Promise((resolve) => setTimeout(resolve, 900));
+
+      claimProduce();
+      setShowDrops(false);
+
       return;
     }
 
@@ -199,9 +201,6 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
   if (chickenState === "initial") return null;
 
   const level = getAnimalLevel(chicken.experience, "Chicken");
-  const previousLevel = Math.max(level - 1, 1) as AnimalLevel;
-  const dropItems = ANIMAL_RESOURCE_DROP.Chicken[previousLevel];
-  const itemEntries = Object.entries(dropItems);
 
   return (
     <>
@@ -220,25 +219,13 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
             height: `${PIXEL_SCALE * 19}px`,
           }}
         >
-          {showDrops &&
-            itemEntries.map(([item, amount], index) => (
-              <div
-                key={item}
-                className="flex items-center justify-center absolute bottom-0 left-1/2 -translate-x-1/2 bounce-drop"
-                style={
-                  {
-                    "--drop-delay": `${index * 400}ms`,
-                  } as React.CSSProperties
-                }
-              >
-                <span className="text-xs">{`+${amount}`}</span>
-                <img
-                  src={ITEM_DETAILS[item as InventoryItemName]?.image}
-                  alt={item}
-                  className="w-4"
-                />
-              </div>
-            ))}
+          {showDrops && (
+            <ProduceDrops
+              currentLevel={level}
+              animalType="Chicken"
+              className="bottom-0 left-1/2 -translate-x-1/2"
+            />
+          )}
 
           <img
             src={SUNNYSIDE.animals.chickenShadow}
@@ -267,7 +254,7 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
               src={CHICKEN_EMOTION_ICONS[chickenState].icon}
               alt={`${capitalize(chickenState)} Chicken`}
               style={{
-                width: `${PIXEL_SCALE * CHICKEN_EMOTION_ICONS[chickenState].width}px`,
+                width: `${CHICKEN_EMOTION_ICONS[chickenState].width}px`,
                 top: CHICKEN_EMOTION_ICONS[chickenState].top,
                 right: CHICKEN_EMOTION_ICONS[chickenState].right,
               }}
@@ -332,7 +319,6 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
           emptyMessage={t("animal.noFoodMessage")}
         />
       </Transition>
-      {/* Produce Drops */}
     </>
   );
 };

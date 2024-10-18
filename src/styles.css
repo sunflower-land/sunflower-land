@@ -1436,7 +1436,7 @@ th {
 .bounce-drop {
   animation-name: bounce-drop;
   transform-origin: center bottom;
-  animation-duration: 1s;
+  animation-duration: 0.9s;
   animation-fill-mode: forwards;
   animation-delay: var(--drop-delay, 0s);
 }

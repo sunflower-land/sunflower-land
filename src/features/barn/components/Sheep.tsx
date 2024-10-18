@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import { MachineState } from "features/game/lib/gameMachine";
@@ -10,12 +10,23 @@ import {
   AnimalMachineInterpreter,
   TState as AnimalMachineState,
 } from "features/game/lib/animalMachine";
-import { getAnimalFavoriteFood } from "features/game/lib/animals";
+import {
+  getAnimalFavoriteFood,
+  getAnimalLevel,
+  isAnimalFood,
+} from "features/game/lib/animals";
 import classNames from "classnames";
 import { RequestBubble } from "features/game/expansion/components/animals/RequestBubble";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { LevelProgress } from "features/game/expansion/components/animals/LevelProgress";
 import { ANIMAL_EMOTION_ICONS } from "./Cow";
+import { AnimalFoodName } from "features/game/types/game";
+import { QuickSelect } from "features/greenhouse/QuickSelect";
+import { Transition } from "@headlessui/react";
+import { getKeys } from "features/game/types/craftables";
+import { ANIMAL_FOODS } from "features/game/types/animals";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { ProduceDrops } from "features/game/expansion/components/animals/ProduceDrops";
 
 const _animalState = (state: AnimalMachineState) =>
   // Casting here because we know the value is always a string rather than an object
@@ -25,8 +36,11 @@ const _animalState = (state: AnimalMachineState) =>
 const _sheep = (id: string) => (state: MachineState) =>
   state.context.state.barn.animals[id];
 
-export const Sheep: React.FC<{ id: string }> = ({ id }) => {
-  const { gameService } = useContext(Context);
+export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
+  id,
+  disabled,
+}) => {
+  const { gameService, selectedItem } = useContext(Context);
 
   const sheep = useSelector(gameService, _sheep(id));
 
@@ -37,18 +51,22 @@ export const Sheep: React.FC<{ id: string }> = ({ id }) => {
   }) as unknown as AnimalMachineInterpreter;
 
   const sheepState = useSelector(sheepService, _animalState);
+
+  const [showDrops, setShowDrops] = useState(false);
+  const [showQuickSelect, setShowQuickSelect] = useState(false);
+
+  const { t } = useAppTranslation();
+
   const favFood = getAnimalFavoriteFood("Sheep", sheep.experience);
   const sleeping = sheepState === "sleeping";
   const needsLove = sheepState === "needsLove";
   const ready = sheepState === "ready";
-  const happy = sheepState === "happy";
-  const idle = sheepState === "idle";
 
-  const feedSheep = () => {
+  const feedSheep = (item = selectedItem) => {
     const updatedState = gameService.send({
       type: "animal.fed",
       animal: "Sheep",
-      food: "Kernel Blend",
+      food: item as AnimalFoodName,
       id: sheep.id,
     });
 
@@ -76,6 +94,48 @@ export const Sheep: React.FC<{ id: string }> = ({ id }) => {
     });
   };
 
+  const claimProduce = () => {
+    const updatedState = gameService.send({
+      type: "produce.claimed",
+      animal: "Sheep",
+      id: sheep.id,
+    });
+
+    const updatedSheep = updatedState.context.state.barn.animals[id];
+
+    sheepService.send({
+      type: "CLAIM_PRODUCE",
+      animal: updatedSheep,
+    });
+  };
+
+  const handleClick = async () => {
+    if (disabled) return;
+
+    if (needsLove) return loveSheep();
+
+    if (sleeping) return;
+
+    if (ready) {
+      setShowDrops(true);
+
+      await new Promise((resolve) => setTimeout(resolve, 900));
+
+      claimProduce();
+      setShowDrops(false);
+      return;
+    }
+
+    if (selectedItem && isAnimalFood(selectedItem)) {
+      feedSheep(selectedItem);
+      setShowQuickSelect(false);
+
+      return;
+    }
+
+    setShowQuickSelect(true);
+  };
+
   const animalImageInfo = () => {
     if (ready) {
       return {
@@ -99,6 +159,8 @@ export const Sheep: React.FC<{ id: string }> = ({ id }) => {
 
   if (sheepState === "initial") return null;
 
+  const level = getAnimalLevel(sheep.experience, "Sheep");
+
   return (
     <div
       className="relative flex items-center justify-center cursor-pointer"
@@ -107,57 +169,92 @@ export const Sheep: React.FC<{ id: string }> = ({ id }) => {
         height: `${GRID_WIDTH_PX * 2}px`,
       }}
     >
-      <img
-        // NOTE: Update to cow sleeping when available
-        src={animalImageInfo().image}
-        alt={`${capitalize(sheepState)} Sheep`}
-        style={{
-          width: `${PIXEL_SCALE * animalImageInfo().width}px`,
-        }}
-        onClick={needsLove ? loveSheep : feedSheep}
-        className={classNames(
-          "absolute ml-[1px] mt-[2px] top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2",
+      <div className="relative w-full h-full">
+        {showDrops && (
+          <ProduceDrops
+            currentLevel={level}
+            animalType="Sheep"
+            className="bottom-0 left-5 top-4"
+          />
         )}
-      />
-      {/* Emotion */}
-      {sheepState !== "idle" && !needsLove && (
         <img
-          src={ANIMAL_EMOTION_ICONS[sheepState].icon}
+          // NOTE: Update to cow sleeping when available
+          src={animalImageInfo().image}
           alt={`${capitalize(sheepState)} Sheep`}
           style={{
-            width: `${ANIMAL_EMOTION_ICONS[sheepState].width}px`,
-            top: ANIMAL_EMOTION_ICONS[sheepState].top,
-            right: ANIMAL_EMOTION_ICONS[sheepState].right,
+            width: `${PIXEL_SCALE * animalImageInfo().width}px`,
           }}
-          className="absolute"
+          onClick={handleClick}
+          className={classNames(
+            "absolute ml-[1px] mt-[2px] top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2",
+          )}
         />
-      )}
-      {/* Request */}
-      {sheepState === "idle" && (
-        <RequestBubble
-          top={PIXEL_SCALE * 0}
-          left={PIXEL_SCALE * 24}
-          image={{ src: ITEM_DETAILS[favFood].image, height: 16, width: 16 }}
+        {/* Emotion */}
+        {sheepState !== "idle" && !needsLove && (
+          <img
+            src={ANIMAL_EMOTION_ICONS[sheepState].icon}
+            alt={`${capitalize(sheepState)} Sheep`}
+            style={{
+              width: `${ANIMAL_EMOTION_ICONS[sheepState].width}px`,
+              top: ANIMAL_EMOTION_ICONS[sheepState].top,
+              right: ANIMAL_EMOTION_ICONS[sheepState].right,
+            }}
+            className="absolute"
+          />
+        )}
+        {/* Request */}
+        {sheepState === "idle" && (
+          <RequestBubble
+            top={PIXEL_SCALE * 0}
+            left={PIXEL_SCALE * 24}
+            image={{ src: ITEM_DETAILS[favFood].image, height: 16, width: 16 }}
+          />
+        )}
+        {needsLove && (
+          <RequestBubble
+            top={PIXEL_SCALE * 0}
+            left={PIXEL_SCALE * 24}
+            image={{
+              src: ITEM_DETAILS[sheep.item].image,
+              height: 16,
+              width: 16,
+            }}
+          />
+        )}
+        {/* Level Progress */}
+        <LevelProgress
+          animal="Sheep"
+          animalState={sheepState}
+          experience={sheep.experience}
+          className="bottom-3 left-1/2 transform -translate-x-1/2"
         />
-      )}
-      {needsLove && (
-        <RequestBubble
-          top={PIXEL_SCALE * 0}
-          left={PIXEL_SCALE * 24}
-          image={{
-            src: ITEM_DETAILS[sheep.item].image,
-            height: 16,
-            width: 16,
+      </div>
+      {/* Quick Select */}
+      <Transition
+        appear={true}
+        show={showQuickSelect}
+        enter="transition-opacity  duration-300"
+        enterFrom="opacity-0"
+        enterTo="opacity-100"
+        leave="transition-opacity duration-300"
+        leaveFrom="opacity-100"
+        leaveTo="opacity-0"
+        className="flex top-[-20px] left-[50%] z-40 absolute"
+      >
+        <QuickSelect
+          options={getKeys(ANIMAL_FOODS).map((food) => ({
+            name: food,
+            icon: food,
+            showSecondaryImage: false,
+          }))}
+          onClose={() => setShowQuickSelect(false)}
+          onSelected={(food) => {
+            feedSheep(food);
+            setShowQuickSelect(false);
           }}
+          emptyMessage={t("animal.noFoodMessage")}
         />
-      )}
-      {/* Level Progress */}
-      <LevelProgress
-        animal="Sheep"
-        animalState={sheep.state}
-        experience={sheep.experience}
-        className="bottom-3 left-1/2 transform -translate-x-1/2 ml-1"
-      />
+      </Transition>
     </div>
   );
 };

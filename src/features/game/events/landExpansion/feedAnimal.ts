@@ -92,14 +92,23 @@ export const ANIMAL_RESOURCE_DROP: Record<
     },
   },
   Cow: {
-    1: {},
-    2: {},
-    3: {},
+    1: {
+      Milk: new Decimal(1),
+      Leather: new Decimal(1),
+    },
+    2: {
+      Milk: new Decimal(1),
+      Leather: new Decimal(1),
+    },
+    3: {
+      Milk: new Decimal(1),
+      Leather: new Decimal(1),
+    },
   },
   Sheep: {
-    1: {},
-    2: {},
-    3: {},
+    1: { Wool: new Decimal(1), "Merino Wool": new Decimal(1) },
+    2: { Wool: new Decimal(1), "Merino Wool": new Decimal(1) },
+    3: { Wool: new Decimal(1), "Merino Wool": new Decimal(1) },
   },
 };
 
