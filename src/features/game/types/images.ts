@@ -743,6 +743,7 @@ import { BASIC_DECORATIONS } from "./decorations";
 import { SELLABLE_TREASURE } from "./treasure";
 import { TREASURE_COLLECTIBLE_ITEM } from "./collectibles";
 import { ANIMAL_FOODS } from "./animals";
+import { hasSeasonEnded } from "./seasons";
 
 export interface ItemDetails {
   description: string;
@@ -752,6 +753,7 @@ export interface ItemDetails {
   howToGetItem?: string[];
   // TODO: Extend this as the codex grows eg. Resource etc
   itemType?: "collectible";
+  availability?: string;
 }
 
 type Items = Record<InventoryItemName | AchievementName, ItemDetails>;
@@ -3067,48 +3069,58 @@ export const ITEM_DETAILS: Items = {
     howToGetItem: [translate("ocean.fishing"), translate("beach.fishing")],
     itemType: "collectible",
     description: translate("description.twilight.anglerfish"),
+    availability: translate("permanent"),
   },
   "Starlight Tuna": {
     image: startlightTuna,
     howToGetItem: [translate("ocean.fishing"), translate("beach.fishing")],
     itemType: "collectible",
     description: translate("description.starlight.tuna"),
+    availability: translate("permanent"),
   },
   "Radiant Ray": {
     image: radiantRay,
     howToGetItem: [translate("ocean.fishing"), translate("beach.fishing")],
     itemType: "collectible",
     description: translate("description.radiant.ray"),
+    availability: translate("permanent"),
   },
   "Phantom Barracuda": {
     image: phantomBarracuda,
     howToGetItem: [translate("ocean.fishing"), translate("beach.fishing")],
     itemType: "collectible",
     description: translate("description.phantom.barracuda"),
+    availability: translate("permanent"),
   },
   "Gilded Swordfish": {
     image: gildedSwordfish,
     howToGetItem: [translate("ocean.fishing"), translate("beach.fishing")],
     itemType: "collectible",
     description: translate("description.gilded.swordfish"),
+    availability: translate("permanent"),
   },
   "Crimson Carp": {
     image: crimsonCarp,
-    howToGetItem: [translate("ocean.fishing"), translate("beach.fishing")],
+    howToGetItem: [translate("howToGetThisItem.crimsonCarp")],
     itemType: "collectible",
     description: translate("description.crimson.carp"),
+    availability: translate("seasonal"),
   },
   "Battle Fish": {
     image: battleFish,
-    howToGetItem: [translate("ocean.fishing"), translate("beach.fishing")],
+    howToGetItem: [translate("howToGetThisItem.battleFish")],
     itemType: "collectible",
     description: translate("description.battle.fish"),
+    availability: translate("seasonal"),
   },
   "Lemon Shark": {
     image: lemonShark,
-    howToGetItem: [translate("ocean.fishing"), translate("beach.fishing")],
+    howToGetItem: hasSeasonEnded("Pharaoh's Treasure")
+      ? [translate("howToGetThisItem.lemonShark")]
+      : [translate("ocean.fishing"), translate("beach.fishing")],
     itemType: "collectible",
     description: translate("description.lemon.shark.boost"),
+    availability: translate("seasonal"),
   },
   "Kraken Tentacle": {
     image: krakenTentacle,
