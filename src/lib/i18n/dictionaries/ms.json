@@ -3729,5 +3729,12 @@
   "faction.claimEmblems.thankYou": "Terima kasih {{player}} atas sumbangan anda kepada {{Faction}}! Ambil lambang ini, mereka mewakili pemilikan puak anda!",
   "faction.claimEmblems.claimMessage": "Anda menyumbang mata puak {{count}}. Pangkat anda ialah {{rank}}. Anda berada di bahagian atas {{percentile}}% daripada {{Faction}}.",
   "flower.breed.yellowCarnation": "Bumpkins tidak menghargai anyelir kuning.",
-  "noBumpkin.bumpkinHelp": "Anda memerlukan Bumpkin untuk membantu anda menanam, menuai, memotong, lombong dan mengembangkan tanah anda. Sokongan akan datang tidak lama lagi untuk menambah Bumpkin!"
+  "noBumpkin.bumpkinHelp": "Anda memerlukan Bumpkin untuk membantu anda menanam, menuai, memotong, lombong dan mengembangkan tanah anda. Sokongan akan datang tidak lama lagi untuk menambah Bumpkin!",
+  "chores.weeklyChores": "Kerja Mingguan",
+  "chores.completeChoresToEarn": "Lengkapkan tugas untuk Bumpkins memperoleh {{seasonalTicket}} s.",
+  "chores.lockedChore": "Lvl {{level}}",
+  "chores.completed": "Selesai",
+  "chores.complete": "Lengkap",
+  "chore.chop.1.tree": "Potong 1 Pokok",
+  "chore.chop.2.trees": "Potong 2 Pokok"
 }

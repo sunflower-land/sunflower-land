@@ -6,7 +6,7 @@ import {
   getCachedLeaderboardData,
 } from "./cache";
 import { FactionName, MazeAttempt } from "features/game/types/game";
-import { getFactionWeek } from "features/game/lib/factions";
+import { getWeekKey } from "features/game/lib/factions";
 import { CompetitionName } from "features/game/types/competitions";
 import { BumpkinParts } from "lib/utils/tokenUriBuilder";
 
@@ -168,8 +168,7 @@ export async function getChampionsLeaderboard<T>({
     duration: KINGDOM_LEADERBOARD_CACHE,
   });
 
-  const isCorrectWeek =
-    cache?.week === getFactionWeek({ date: new Date(date) });
+  const isCorrectWeek = cache?.week === getWeekKey({ date: new Date(date) });
 
   if (cache && isCorrectWeek) {
     return cache;
