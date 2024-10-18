@@ -1267,6 +1267,7 @@ describe("deliver", () => {
               doubleDelivery: true,
             },
           ],
+          doubleDelivery: true,
         },
       },
       action: {
@@ -1303,6 +1304,7 @@ describe("deliver", () => {
               doubleDelivery: true,
             },
           ],
+          doubleDelivery: true,
         },
       },
       action: {
@@ -1333,6 +1335,7 @@ describe("deliver", () => {
               doubleDelivery: true,
             },
           ],
+          doubleDelivery: true,
         },
       },
       action: {
