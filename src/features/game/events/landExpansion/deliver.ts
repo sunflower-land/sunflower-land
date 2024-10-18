@@ -52,6 +52,10 @@ export function generateDeliveryTickets({
   ) {
     amount += 2;
   }
+  // Leave this at the end as it will multiply the whole amount by 2
+  if (game.delivery.doubleDelivery === true) {
+    amount *= 2;
+  }
 
   return amount;
 }
@@ -239,6 +243,10 @@ export function getOrderSellPrice<T>(game: GameState, order: Order): T {
     isWearableActive({ game, name: FACTION_OUTFITS[factionName].crown })
   ) {
     mul += 0.25;
+  }
+  // Leave this at the end as it will multiply the whole amount by 2
+  if (game.delivery.doubleDelivery === true) {
+    mul *= 2;
   }
 
   if (order.reward.sfl) {

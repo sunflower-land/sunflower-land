@@ -644,6 +644,7 @@ export const INITIAL_FARM: GameState = {
       goal: 10,
       total: 10,
     },
+    doubleDelivery: false,
   },
   farmActivity: {},
   milestones: {},
@@ -833,6 +834,7 @@ export const TEST_FARM: GameState = {
       goal: 10,
       total: 10,
     },
+    doubleDelivery: false,
   },
   auctioneer: {},
   buildings: {
@@ -1050,6 +1052,7 @@ export const EMPTY: GameState = {
       goal: 10,
       total: 10,
     },
+    doubleDelivery: false,
   },
   home: { collectibles: {} },
   island: { type: "basic" },
