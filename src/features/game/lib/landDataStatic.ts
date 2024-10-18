@@ -951,6 +951,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
       total: 10,
       claimedAt: new Date("2024-02-15").getTime(),
     },
+    doubleDelivery: false,
   },
 
   ...INITIAL_RESOURCES,

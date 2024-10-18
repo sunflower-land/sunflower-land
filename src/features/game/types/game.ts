@@ -795,6 +795,7 @@ export type Delivery = {
     total: number;
     claimedAt?: number;
   };
+  doubleDelivery: boolean;
 };
 
 export type DailyRewards = {
@@ -840,6 +841,7 @@ export type NPCS = Partial<Record<NPCName, NPCData>>;
 
 export type NPCData = {
   deliveryCount: number;
+  deliveryCompletedAt?: number;
   questCompletedAt?: number;
   friendship?: {
     updatedAt: number;
