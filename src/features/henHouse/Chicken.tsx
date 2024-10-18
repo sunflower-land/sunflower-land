@@ -6,12 +6,16 @@ import { Context } from "features/game/GameProvider";
 import { useInterpret, useSelector } from "@xstate/react";
 import { capitalize } from "lib/utils/capitalize";
 import {
-  ANIMAL_EMOTION_ICONS,
   animalMachine,
   AnimalMachineInterpreter,
   TState as AnimalMachineState,
+  TState,
 } from "features/game/lib/animalMachine";
-import { getAnimalFavoriteFood, isAnimalFood } from "features/game/lib/animals";
+import {
+  getAnimalFavoriteFood,
+  getAnimalLevel,
+  isAnimalFood,
+} from "features/game/lib/animals";
 import { ITEM_DETAILS } from "features/game/types/images";
 import classNames from "classnames";
 import { LevelProgress } from "features/game/expansion/components/animals/LevelProgress";
@@ -19,9 +23,51 @@ import { RequestBubble } from "features/game/expansion/components/animals/Reques
 import { Transition } from "@headlessui/react";
 import { QuickSelect } from "features/greenhouse/QuickSelect";
 import { getKeys } from "features/game/types/decorations";
-import { ANIMAL_FOODS } from "features/game/types/animals";
+import { ANIMAL_FOODS, AnimalLevel } from "features/game/types/animals";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import Decimal from "decimal.js-light";
+import { AnimalFoodName, InventoryItemName } from "features/game/types/game";
+import { ANIMAL_RESOURCE_DROP } from "features/game/events/landExpansion/feedAnimal";
+
+export const CHICKEN_EMOTION_ICONS: Record<
+  Exclude<TState["value"], "idle" | "needsLove" | "initial">,
+  {
+    icon: string;
+    width: number;
+    top: number;
+    right: number;
+  }
+> = {
+  ready: {
+    icon: SUNNYSIDE.icons.expression_ready,
+    width: 8,
+    top: PIXEL_SCALE * -3.3,
+    right: PIXEL_SCALE * 3.7,
+  },
+  happy: {
+    icon: SUNNYSIDE.icons.happy,
+    width: 7,
+    top: PIXEL_SCALE * -1.3,
+    right: PIXEL_SCALE * 3.7,
+  },
+  sad: {
+    icon: SUNNYSIDE.icons.sad,
+    width: 7,
+    top: PIXEL_SCALE * -1.3,
+    right: PIXEL_SCALE * 3.7,
+  },
+  loved: {
+    icon: SUNNYSIDE.icons.heart,
+    width: 10,
+    top: PIXEL_SCALE * -3.3,
+    right: PIXEL_SCALE * 3.7,
+  },
+  sleeping: {
+    icon: SUNNYSIDE.icons.sleeping,
+    width: 9,
+    top: PIXEL_SCALE * -3.5,
+    right: PIXEL_SCALE * 2,
+  },
+};
 
 const _animalState = (state: AnimalMachineState) =>
   // Casting here because we know the value is always a string rather than an object
@@ -30,7 +76,6 @@ const _animalState = (state: AnimalMachineState) =>
 
 const _chicken = (id: string) => (state: MachineState) =>
   state.context.state.henHouse.animals[id];
-const _inventory = (state: MachineState) => state.context.state.inventory;
 
 export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
   id,
@@ -39,7 +84,6 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
   const { gameService, selectedItem } = useContext(Context);
   const { t } = useAppTranslation();
   const chicken = useSelector(gameService, _chicken(id));
-  const inventory = useSelector(gameService, _inventory);
 
   const chickenService = useInterpret(animalMachine, {
     context: {
@@ -50,30 +94,28 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
   const chickenState = useSelector(chickenService, _animalState);
 
   const [showQuickSelect, setShowQuickSelect] = useState(false);
+  const [showDrops, setShowDrops] = useState(false);
 
   const favFood = getAnimalFavoriteFood("Chicken", chicken.experience);
   const sleeping = chickenState === "sleeping";
   const needsLove = chickenState === "needsLove";
-  const inventoryCount = selectedItem
-    ? inventory[selectedItem] ?? new Decimal(0)
-    : new Decimal(0);
+  const ready = chickenState === "ready";
+  const idle = chickenState === "idle";
 
   const feedChicken = (item = selectedItem) => {
-    if (item && isAnimalFood(item)) {
-      const updatedState = gameService.send({
-        type: "animal.fed",
-        animal: "Chicken",
-        food: item,
-        id: chicken.id,
-      });
+    const updatedState = gameService.send({
+      type: "animal.fed",
+      animal: "Chicken",
+      food: item as AnimalFoodName,
+      id: chicken.id,
+    });
 
-      const updatedChicken = updatedState.context.state.henHouse.animals[id];
+    const updatedChicken = updatedState.context.state.henHouse.animals[id];
 
-      chickenService.send({
-        type: "FEED",
-        animal: updatedChicken,
-      });
-    }
+    chickenService.send({
+      type: "FEED",
+      animal: updatedChicken,
+    });
   };
 
   const loveChicken = () => {
@@ -92,9 +134,9 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
     });
   };
 
-  const levelUpChicken = () => {
+  const claimProduce = () => {
     const updatedState = gameService.send({
-      type: "animal.leveledUp",
+      type: "produce.claimed",
       animal: "Chicken",
       id: chicken.id,
     });
@@ -102,7 +144,7 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
     const updatedChicken = updatedState.context.state.henHouse.animals[id];
 
     chickenService.send({
-      type: "LEVEL_UP",
+      type: "CLAIM_PRODUCE",
       animal: updatedChicken,
     });
   };
@@ -112,9 +154,16 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
 
     if (needsLove) return loveChicken();
 
-    if (chickenState === "sleeping") return;
+    if (sleeping) return;
 
-    if (chickenState === "leveledUp") return levelUpChicken();
+    if (ready) {
+      setShowDrops(true);
+      setTimeout(() => {
+        setShowDrops(false);
+        claimProduce();
+      }, 1500);
+      return;
+    }
 
     if (selectedItem && isAnimalFood(selectedItem)) {
       feedChicken(selectedItem);
@@ -126,19 +175,33 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
     setShowQuickSelect(true);
   };
 
-  const animalImage = () => {
-    if (chickenState === "leveledUp") {
-      return SUNNYSIDE.animals.chickenReady;
+  const animalImageInfo = () => {
+    if (ready) {
+      return {
+        image: SUNNYSIDE.animals.chickenReady,
+        width: PIXEL_SCALE * 13,
+      };
     }
 
-    if (chickenState === "sleeping") {
-      return SUNNYSIDE.animals.chickenAsleep;
+    if (sleeping) {
+      return {
+        image: SUNNYSIDE.animals.chickenAsleep,
+        width: PIXEL_SCALE * 13,
+      };
     }
 
-    return SUNNYSIDE.animals.chickenIdle;
+    return {
+      image: SUNNYSIDE.animals.chickenIdle,
+      width: PIXEL_SCALE * 11,
+    };
   };
 
   if (chickenState === "initial") return null;
+
+  const level = getAnimalLevel(chicken.experience, "Chicken");
+  const previousLevel = Math.max(level - 1, 1) as AnimalLevel;
+  const dropItems = ANIMAL_RESOURCE_DROP.Chicken[previousLevel];
+  const itemEntries = Object.entries(dropItems);
 
   return (
     <>
@@ -157,6 +220,26 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
             height: `${PIXEL_SCALE * 19}px`,
           }}
         >
+          {showDrops &&
+            itemEntries.map(([item, amount], index) => (
+              <div
+                key={item}
+                className="flex items-center justify-center absolute bottom-0 left-1/2 -translate-x-1/2 bounce-drop"
+                style={
+                  {
+                    "--drop-delay": `${index * 400}ms`,
+                  } as React.CSSProperties
+                }
+              >
+                <span className="text-xs">{`+${amount}`}</span>
+                <img
+                  src={ITEM_DETAILS[item as InventoryItemName]?.image}
+                  alt={item}
+                  className="w-4"
+                />
+              </div>
+            ))}
+
           <img
             src={SUNNYSIDE.animals.chickenShadow}
             className="bottom-0 absolute left-1/2 transform -translate-x-1/2"
@@ -165,28 +248,28 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
             }}
           />
           <img
-            src={animalImage()}
+            src={animalImageInfo().image}
             alt={`${capitalize(chickenState)} Chicken`}
             style={{
-              width: `${PIXEL_SCALE * (sleeping ? 13 : 11)}px`,
+              width: `${animalImageInfo().width}px`,
             }}
             className={classNames(
               "absolute ml-[1px] top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2",
               {
-                "mt-[2px]": !sleeping,
-                "mt-[3px]": sleeping,
+                "mt-[2px]": !sleeping && !ready,
+                "mt-[3px]": sleeping || ready,
               },
             )}
           />
           {/* Emotion */}
-          {chickenState !== "idle" && !needsLove && (
+          {!idle && !needsLove && (
             <img
-              src={ANIMAL_EMOTION_ICONS[chickenState]}
+              src={CHICKEN_EMOTION_ICONS[chickenState].icon}
               alt={`${capitalize(chickenState)} Chicken`}
               style={{
-                width: `${PIXEL_SCALE * (sleeping ? 9 : 7)}px`,
-                top: sleeping ? -8 : -4,
-                right: sleeping ? 0 : 8,
+                width: `${PIXEL_SCALE * CHICKEN_EMOTION_ICONS[chickenState].width}px`,
+                top: CHICKEN_EMOTION_ICONS[chickenState].top,
+                right: CHICKEN_EMOTION_ICONS[chickenState].right,
               }}
               className="absolute"
             />
@@ -217,8 +300,9 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
           {/* Level Progress */}
           <LevelProgress
             animal="Chicken"
+            animalState={chickenState}
             experience={chicken.experience}
-            className="bottom-1 left-1/2 transform -translate-x-1/2"
+            className="bottom-1 left-1/2 transform -translate-x-1/2 -ml-0.5"
           />
         </div>
       </div>
@@ -245,9 +329,10 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
             feedChicken(food);
             setShowQuickSelect(false);
           }}
-          emptyMessage={`No feed available`}
+          emptyMessage={t("animal.noFoodMessage")}
         />
       </Transition>
+      {/* Produce Drops */}
     </>
   );
 };

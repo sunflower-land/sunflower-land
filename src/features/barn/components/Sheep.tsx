@@ -6,7 +6,6 @@ import { Context } from "features/game/GameProvider";
 import { useInterpret, useSelector } from "@xstate/react";
 import { capitalize } from "lib/utils/capitalize";
 import {
-  ANIMAL_EMOTION_ICONS,
   animalMachine,
   AnimalMachineInterpreter,
   TState as AnimalMachineState,
@@ -16,6 +15,7 @@ import classNames from "classnames";
 import { RequestBubble } from "features/game/expansion/components/animals/RequestBubble";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { LevelProgress } from "features/game/expansion/components/animals/LevelProgress";
+import { ANIMAL_EMOTION_ICONS } from "./Cow";
 
 const _animalState = (state: AnimalMachineState) =>
   // Casting here because we know the value is always a string rather than an object
@@ -37,6 +37,12 @@ export const Sheep: React.FC<{ id: string }> = ({ id }) => {
   }) as unknown as AnimalMachineInterpreter;
 
   const sheepState = useSelector(sheepService, _animalState);
+  const favFood = getAnimalFavoriteFood("Sheep", sheep.experience);
+  const sleeping = sheepState === "sleeping";
+  const needsLove = sheepState === "needsLove";
+  const ready = sheepState === "ready";
+  const happy = sheepState === "happy";
+  const idle = sheepState === "idle";
 
   const feedSheep = () => {
     const updatedState = gameService.send({
@@ -70,11 +76,29 @@ export const Sheep: React.FC<{ id: string }> = ({ id }) => {
     });
   };
 
+  const animalImageInfo = () => {
+    if (ready) {
+      return {
+        image: SUNNYSIDE.animals.sheepReady,
+        width: PIXEL_SCALE * 13,
+      };
+    }
+
+    if (sleeping) {
+      return {
+        image: SUNNYSIDE.animals.sheepSleeping,
+        width: PIXEL_SCALE * 13,
+      };
+    }
+
+    return {
+      image: SUNNYSIDE.animals.sheepIdle,
+      width: PIXEL_SCALE * 11,
+    };
+  };
+
   if (sheepState === "initial") return null;
 
-  const favFood = getAnimalFavoriteFood("Sheep", sheep.experience);
-  const sleeping = sheepState === "sleeping";
-  const needsLove = sheepState === "needsLove";
   return (
     <div
       className="relative flex items-center justify-center cursor-pointer"
@@ -85,10 +109,10 @@ export const Sheep: React.FC<{ id: string }> = ({ id }) => {
     >
       <img
         // NOTE: Update to cow sleeping when available
-        src={sleeping ? SUNNYSIDE.animals.sheep : SUNNYSIDE.animals.sheep}
+        src={animalImageInfo().image}
         alt={`${capitalize(sheepState)} Sheep`}
         style={{
-          width: `${PIXEL_SCALE * (sleeping ? 25 : 25)}px`,
+          width: `${PIXEL_SCALE * animalImageInfo().width}px`,
         }}
         onClick={needsLove ? loveSheep : feedSheep}
         className={classNames(
@@ -98,12 +122,12 @@ export const Sheep: React.FC<{ id: string }> = ({ id }) => {
       {/* Emotion */}
       {sheepState !== "idle" && !needsLove && (
         <img
-          src={ANIMAL_EMOTION_ICONS[sheepState]}
+          src={ANIMAL_EMOTION_ICONS[sheepState].icon}
           alt={`${capitalize(sheepState)} Sheep`}
           style={{
-            width: `${PIXEL_SCALE * (sleeping ? 9 : 7)}px`,
-            top: sleeping ? 9 : 7,
-            right: sleeping ? -2 : 1,
+            width: `${ANIMAL_EMOTION_ICONS[sheepState].width}px`,
+            top: ANIMAL_EMOTION_ICONS[sheepState].top,
+            right: ANIMAL_EMOTION_ICONS[sheepState].right,
           }}
           className="absolute"
         />
@@ -130,6 +154,7 @@ export const Sheep: React.FC<{ id: string }> = ({ id }) => {
       {/* Level Progress */}
       <LevelProgress
         animal="Sheep"
+        animalState={sheep.state}
         experience={sheep.experience}
         className="bottom-3 left-1/2 transform -translate-x-1/2 ml-1"
       />

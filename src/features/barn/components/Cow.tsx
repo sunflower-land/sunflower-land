@@ -5,10 +5,10 @@ import { Context } from "features/game/GameProvider";
 import { useInterpret, useSelector } from "@xstate/react";
 import { capitalize } from "lib/utils/capitalize";
 import {
-  ANIMAL_EMOTION_ICONS,
   animalMachine,
   AnimalMachineInterpreter,
   TState as AnimalMachineState,
+  TState,
 } from "features/game/lib/animalMachine";
 import { getAnimalFavoriteFood } from "features/game/lib/animals";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -16,6 +16,47 @@ import classNames from "classnames";
 import { RequestBubble } from "features/game/expansion/components/animals/RequestBubble";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { LevelProgress } from "features/game/expansion/components/animals/LevelProgress";
+
+export const ANIMAL_EMOTION_ICONS: Record<
+  Exclude<TState["value"], "idle" | "needsLove" | "initial">,
+  {
+    icon: string;
+    width: number;
+    top: number;
+    right: number;
+  }
+> = {
+  ready: {
+    icon: SUNNYSIDE.icons.expression_confused,
+    width: PIXEL_SCALE * 9,
+    top: PIXEL_SCALE * -8,
+    right: PIXEL_SCALE * 0,
+  },
+  loved: {
+    icon: SUNNYSIDE.icons.heart,
+    width: PIXEL_SCALE * 7,
+    top: PIXEL_SCALE * -4,
+    right: PIXEL_SCALE * 8,
+  },
+  sleeping: {
+    icon: SUNNYSIDE.icons.sleeping,
+    width: PIXEL_SCALE * 9,
+    top: PIXEL_SCALE * -8,
+    right: PIXEL_SCALE * 0,
+  },
+  happy: {
+    icon: SUNNYSIDE.icons.happy,
+    width: PIXEL_SCALE * 7,
+    top: PIXEL_SCALE * -4,
+    right: PIXEL_SCALE * 8,
+  },
+  sad: {
+    icon: SUNNYSIDE.icons.sad,
+    width: PIXEL_SCALE * 7,
+    top: PIXEL_SCALE * -4,
+    right: PIXEL_SCALE * 8,
+  },
+};
 
 const _animalState = (state: AnimalMachineState) =>
   // Casting here because we know the value is always a string rather than an object
@@ -37,6 +78,12 @@ export const Cow: React.FC<{ id: string }> = ({ id }) => {
   }) as unknown as AnimalMachineInterpreter;
 
   const cowState = useSelector(cowService, _animalState);
+
+  const favFood = getAnimalFavoriteFood("Cow", cow.experience);
+  const sleeping = cowState === "sleeping";
+  const needsLove = cowState === "needsLove";
+  const ready = cowState === "ready";
+  const idle = cowState === "idle";
 
   const feedCow = () => {
     const updatedState = gameService.send({
@@ -70,11 +117,28 @@ export const Cow: React.FC<{ id: string }> = ({ id }) => {
     });
   };
 
-  if (cowState === "initial") return null;
+  const animalImageInfo = () => {
+    if (ready) {
+      return {
+        image: SUNNYSIDE.animals.cowReady,
+        width: PIXEL_SCALE * 13,
+      };
+    }
 
-  const favFood = getAnimalFavoriteFood("Cow", cow.experience);
-  const sleeping = cowState === "sleeping";
-  const needsLove = cowState === "needsLove";
+    if (sleeping) {
+      return {
+        image: SUNNYSIDE.animals.cowSleeping,
+        width: PIXEL_SCALE * 13,
+      };
+    }
+
+    return {
+      image: SUNNYSIDE.animals.cowIdle,
+      width: PIXEL_SCALE * 11,
+    };
+  };
+
+  if (cowState === "initial") return null;
 
   return (
     <div
@@ -86,10 +150,10 @@ export const Cow: React.FC<{ id: string }> = ({ id }) => {
     >
       <img
         // NOTE: Update to cow sleeping when available
-        src={sleeping ? SUNNYSIDE.animals.cow : SUNNYSIDE.animals.cow}
+        src={animalImageInfo().image}
         alt={`${capitalize(cowState)} Cow`}
         style={{
-          width: `${PIXEL_SCALE * (sleeping ? 25 : 25)}px`,
+          width: `${PIXEL_SCALE * animalImageInfo().width}px`,
         }}
         onClick={needsLove ? loveCow : feedCow}
         className={classNames(
@@ -99,12 +163,12 @@ export const Cow: React.FC<{ id: string }> = ({ id }) => {
       {/* Emotion */}
       {cowState !== "idle" && !needsLove && (
         <img
-          src={ANIMAL_EMOTION_ICONS[cowState]}
+          src={ANIMAL_EMOTION_ICONS[cowState].icon}
           alt={`${capitalize(cowState)} Cow`}
           style={{
-            width: `${PIXEL_SCALE * (sleeping ? 9 : 7)}px`,
-            top: sleeping ? 9 : 7,
-            right: sleeping ? -2 : 1,
+            width: `${ANIMAL_EMOTION_ICONS[cowState].width}px`,
+            top: ANIMAL_EMOTION_ICONS[cowState].top,
+            right: ANIMAL_EMOTION_ICONS[cowState].right,
           }}
           className="absolute"
         />
@@ -131,6 +195,7 @@ export const Cow: React.FC<{ id: string }> = ({ id }) => {
       {/* Level Progress */}
       <LevelProgress
         animal="Cow"
+        animalState={cow.state}
         experience={cow.experience}
         className="bottom-3 left-1/2 transform -translate-x-1/2 ml-1"
       />
