@@ -14,6 +14,7 @@ import { useTranslation } from "react-i18next";
 import { Box } from "components/ui/Box";
 import Decimal from "decimal.js-light";
 import { SquareIcon } from "components/ui/SquareIcon";
+import { hasFeatureAccess } from "lib/flags";
 
 const VALID_CRAFTING_RESOURCES = ["Wood", "Stone", "Iron", "Gold"];
 
@@ -197,6 +198,12 @@ export const CraftingBox: React.FC = () => {
       console.error("Invalid drag data", error);
     }
   };
+
+  if (
+    !hasFeatureAccess(gameService.getSnapshot().context.state, "CRAFTING_BOX")
+  ) {
+    return <p className="text-sm">{t("coming.soon")}</p>;
+  }
 
   return (
     <>
