@@ -3101,18 +3101,14 @@ export const ITEM_DETAILS: Items = {
   },
   "Crimson Carp": {
     image: crimsonCarp,
-    howToGetItem: [
-      `It was obtainable through gameplay in some of the past seasons.`,
-    ],
+    howToGetItem: [translate("howToGetThisItem.crimsonCarp")],
     itemType: "collectible",
     description: translate("description.crimson.carp"),
     availability: translate("seasonal"),
   },
   "Battle Fish": {
     image: battleFish,
-    howToGetItem: [
-      `It was obtainable through gameplay in Clash of Faction season.`,
-    ],
+    howToGetItem: [translate("howToGetThisItem.battleFish")],
     itemType: "collectible",
     description: translate("description.battle.fish"),
     availability: translate("seasonal"),
@@ -3120,7 +3116,7 @@ export const ITEM_DETAILS: Items = {
   "Lemon Shark": {
     image: lemonShark,
     howToGetItem: hasSeasonEnded("Pharaoh's Treasure")
-      ? [`It was obtainable through gameplay in Pharaoh's Treasure season.`]
+      ? [translate("howToGetThisItem.lemonShark")]
       : [translate("ocean.fishing"), translate("beach.fishing")],
     itemType: "collectible",
     description: translate("description.lemon.shark.boost"),
