@@ -33,14 +33,13 @@ const isFruit = (name: PatchFruitName) => name in PATCH_FRUIT();
 
 export function generateDeliveryTickets({
   game,
+  npc,
   now = new Date(),
-  order,
 }: {
   game: GameState;
+  npc: NPCName;
   now?: Date;
-  order: Order;
 }) {
-  const npc = order.from;
   let amount = TICKET_REWARDS[npc as QuestNPCName];
 
   if (!amount) {
@@ -54,7 +53,7 @@ export function generateDeliveryTickets({
     amount += 2;
   }
   // Leave this at the end as it will multiply the whole amount by 2
-  if (order.doubleDelivery === true) {
+  if (game.delivery.doubleDelivery === true) {
     amount *= 2;
   }
 
@@ -247,7 +246,7 @@ export function getOrderSellPrice<T>(game: GameState, order: Order): T {
     mul += 0.25;
   }
   // Leave this at the end as it will multiply the whole amount by 2
-  if (order.doubleDelivery === true) {
+  if (game.delivery.doubleDelivery === true) {
     mul *= 2;
   }
 
@@ -292,8 +291,8 @@ export function deliverOrder({
 
     const tickets = generateDeliveryTickets({
       game,
+      npc: order.from,
       now: new Date(createdAt),
-      order,
     });
     const isTicketOrder = tickets > 0;
 

@@ -75,7 +75,7 @@ export const OrderCard: React.FC<{
   const canDeliver = hasRequirementsCheck(order);
   const { t } = useAppTranslation();
 
-  const tickets = generateDeliveryTickets({ game, order });
+  const tickets = generateDeliveryTickets({ game, npc: order.from });
 
   return (
     <>
@@ -606,7 +606,7 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
   const positive = useRandomItem(dialogue.positiveDelivery);
   const noOrder = useRandomItem(dialogue.noOrder);
 
-  const tickets = generateDeliveryTickets({ game, order: delivery as Order });
+  const tickets = generateDeliveryTickets({ game, npc });
 
   let message = intro;
 
@@ -699,7 +699,7 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
             <div className="px-2 ">
               <div className="flex flex-col justify-between items-stretch mb-2 gap-1">
                 <div className="flex flex-row justify-between w-full">
-                  {delivery?.doubleDelivery === true ? (
+                  {game.delivery.doubleDelivery === true ? (
                     <Label type="vibrant" icon={lightning}>
                       {`Double Rewards Delivery`}
                     </Label>
