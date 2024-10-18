@@ -170,7 +170,7 @@ export function feedAnimal({
     }
 
     if (level !== getAnimalLevel(animal.experience, animal.type)) {
-      animal.state = "levelUp";
+      animal.state = "ready";
     }
 
     return copy;
