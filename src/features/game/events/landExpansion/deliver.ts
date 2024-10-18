@@ -387,7 +387,10 @@ export function deliverOrder({
 
     game.npcs = {
       ...npcs,
-      [order.from]: npc,
+      [order.from]: {
+        ...npc,
+        deliveryCompletedAt: createdAt,
+      },
     };
 
     // bumpkin.activity = trackActivity(`${order.from} Delivered`, 1);
