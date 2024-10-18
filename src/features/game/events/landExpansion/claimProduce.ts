@@ -1,10 +1,13 @@
 import Decimal from "decimal.js-light";
 import { produce } from "immer";
-import { ANIMALS, AnimalType } from "features/game/types/animals";
+import {
+  ANIMAL_RESOURCE_DROP,
+  ANIMALS,
+  AnimalType,
+} from "features/game/types/animals";
 import { GameState } from "features/game/types/game";
 import { getAnimalLevel } from "features/game/lib/animals";
 import { makeAnimalBuildingKey } from "features/game/lib/animals";
-import { ANIMAL_RESOURCE_DROP } from "./feedAnimal";
 import { getKeys } from "features/game/types/craftables";
 
 export type ClaimProduceAction = {

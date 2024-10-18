@@ -21,7 +21,7 @@ describe("claimProduce", () => {
               type: "Chicken",
               createdAt: 0,
               state: "ready",
-              experience: 20,
+              experience: 60,
               asleepAt: 0,
               lovedAt: 0,
               item: "Petting Hand",
@@ -37,7 +37,7 @@ describe("claimProduce", () => {
     });
 
     expect(state.henHouse.animals[chickenId].state).toBe("idle");
-    expect(state.henHouse.animals[chickenId].experience).toBe(20);
+    expect(state.henHouse.animals[chickenId].experience).toBe(60);
     expect(state.inventory.Egg).toStrictEqual(new Decimal(1));
   });
 
@@ -76,6 +76,4 @@ describe("claimProduce", () => {
       }),
     ).toThrow("Animal is not ready to claim produce");
   });
-
-  // ... other tests ...
 });

@@ -1,116 +1,17 @@
 import { produce } from "immer";
 import Decimal from "decimal.js-light";
-import { AnimalLevel, ANIMALS, AnimalType } from "features/game/types/animals";
-import { AnimalFoodName, GameState, Inventory } from "features/game/types/game";
+import {
+  ANIMAL_FOOD_EXPERIENCE,
+  ANIMALS,
+  AnimalType,
+} from "features/game/types/animals";
+import { AnimalFoodName, GameState } from "features/game/types/game";
 import {
   getAnimalFavoriteFood,
   getAnimalLevel,
   makeAnimalBuildingKey,
 } from "features/game/lib/animals";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
-
-export const ANIMAL_FOOD_EXPERIENCE: Record<
-  AnimalType,
-  Record<AnimalLevel, Record<AnimalFoodName, number>>
-> = {
-  Chicken: {
-    1: {
-      Hay: 10,
-      "Kernel Blend": 20,
-      NutriBarley: 0,
-      "Mixed Grain": 0,
-    },
-    2: {
-      Hay: 15,
-      "Kernel Blend": 30,
-      NutriBarley: 0,
-      "Mixed Grain": 0,
-    },
-    3: {
-      Hay: 40,
-      "Kernel Blend": 20,
-      NutriBarley: 0,
-      "Mixed Grain": 0,
-    },
-  },
-  Cow: {
-    1: {
-      Hay: 10,
-      "Kernel Blend": 20,
-      NutriBarley: 0,
-      "Mixed Grain": 0,
-    },
-    2: {
-      Hay: 15,
-      "Kernel Blend": 30,
-      NutriBarley: 0,
-      "Mixed Grain": 0,
-    },
-    3: {
-      Hay: 40,
-      "Kernel Blend": 20,
-      NutriBarley: 0,
-      "Mixed Grain": 0,
-    },
-  },
-  Sheep: {
-    1: {
-      Hay: 10,
-      "Kernel Blend": 20,
-      NutriBarley: 0,
-      "Mixed Grain": 0,
-    },
-    2: {
-      Hay: 15,
-      "Kernel Blend": 30,
-      NutriBarley: 0,
-      "Mixed Grain": 0,
-    },
-    3: {
-      Hay: 40,
-      "Kernel Blend": 20,
-      NutriBarley: 0,
-      "Mixed Grain": 0,
-    },
-  },
-};
-
-export const ANIMAL_RESOURCE_DROP: Record<
-  AnimalType,
-  Record<AnimalLevel, Inventory>
-> = {
-  Chicken: {
-    1: {
-      Egg: new Decimal(1),
-    },
-    2: {
-      Egg: new Decimal(2),
-    },
-    3: {
-      Egg: new Decimal(2),
-      Feather: new Decimal(1),
-    },
-  },
-  Cow: {
-    1: {
-      Milk: new Decimal(1),
-      Leather: new Decimal(1),
-    },
-    2: {
-      Milk: new Decimal(1),
-      Leather: new Decimal(1),
-    },
-    3: {
-      Milk: new Decimal(1),
-      Leather: new Decimal(1),
-    },
-  },
-  Sheep: {
-    1: { Wool: new Decimal(1), "Merino Wool": new Decimal(1) },
-    2: { Wool: new Decimal(1), "Merino Wool": new Decimal(1) },
-    3: { Wool: new Decimal(1), "Merino Wool": new Decimal(1) },
-  },
-};
 
 export const ANIMAL_SLEEP_DURATION = 24 * 60 * 60 * 1000;
 export const ANIMAL_NEEDS_LOVE_DURATION = 1000 * 60 * 60 * 8;
@@ -149,11 +50,15 @@ export function feedAnimal({
     }
 
     const level = getAnimalLevel(animal.experience, animal.type);
-    const xp = ANIMAL_FOOD_EXPERIENCE[action.animal][level];
+    const { xp: foodXp, quantity: foodQuantity } =
+      ANIMAL_FOOD_EXPERIENCE[action.animal][level][action.food];
+
     const favouriteFood = getAnimalFavoriteFood(
       action.animal,
       animal.experience,
     );
+    const favouriteFoodXp =
+      ANIMAL_FOOD_EXPERIENCE[action.animal][level][favouriteFood];
 
     const isChicken = action.animal === "Chicken";
     const hasGoldenEggPlaced = isCollectibleBuilt({
@@ -162,15 +67,20 @@ export function feedAnimal({
     });
 
     const food = isChicken && hasGoldenEggPlaced ? favouriteFood : action.food;
-    const requiredAmount = isChicken && hasGoldenEggPlaced ? 0 : 1;
+    const requiredAmount = isChicken && hasGoldenEggPlaced ? 0 : foodQuantity;
     const inventoryAmount = copy.inventory[food] ?? new Decimal(0);
 
     if (inventoryAmount.lt(requiredAmount)) {
-      throw new Error(`Player does not have any ${food}`);
+      throw new Error(`Player does not have enough ${food}`);
     }
 
     copy.inventory[food] = inventoryAmount.sub(requiredAmount);
-    animal.experience += xp[food];
+
+    // Update XP calculation for chickens with Gold Egg
+    const xpToAdd =
+      isChicken && hasGoldenEggPlaced ? favouriteFoodXp.xp : foodXp;
+
+    animal.experience += xpToAdd;
 
     animal.state = "sad";
 
