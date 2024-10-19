@@ -27,6 +27,7 @@ import { getKeys } from "features/game/types/craftables";
 import { ANIMAL_FOODS } from "features/game/types/animals";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { ProduceDrops } from "features/game/expansion/components/animals/ProduceDrops";
+import { useSound } from "lib/utils/hooks/useSound";
 
 const _animalState = (state: AnimalMachineState) =>
   // Casting here because we know the value is always a string rather than an object
@@ -55,6 +56,11 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
   const [showDrops, setShowDrops] = useState(false);
   const [showQuickSelect, setShowQuickSelect] = useState(false);
 
+  // Sounds
+  const { play: playFeedAnimal } = useSound("feed_animal", true);
+  const { play: playSheepCollect } = useSound("sheep_collect", true);
+  const { play: playLevelUp } = useSound("level_up", true);
+
   const { t } = useAppTranslation();
 
   const favFood = getAnimalFavoriteFood("Sheep", sheep.experience);
@@ -71,6 +77,8 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
     });
 
     const updatedSheep = updatedState.context.state.barn.animals[id];
+
+    playFeedAnimal();
 
     sheepService.send({
       type: "FEED",

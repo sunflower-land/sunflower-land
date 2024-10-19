@@ -27,6 +27,7 @@ import { QuickSelect } from "features/greenhouse/QuickSelect";
 import { Transition } from "@headlessui/react";
 import { ANIMAL_FOODS } from "features/game/types/animals";
 import { useTranslation } from "react-i18next";
+import { useSound } from "lib/utils/hooks/useSound";
 
 export const ANIMAL_EMOTION_ICONS: Record<
   Exclude<TState["value"], "idle" | "needsLove" | "initial">,
@@ -98,6 +99,9 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
   const [showDrops, setShowDrops] = useState(false);
   const [showQuickSelect, setShowQuickSelect] = useState(false);
 
+  // Sounds
+  const { play: playFeedAnimal } = useSound("feed_animal", true);
+
   const favFood = getAnimalFavoriteFood("Cow", cow.experience);
   const sleeping = cowState === "sleeping";
   const needsLove = cowState === "needsLove";
@@ -112,6 +116,8 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
     });
 
     const updatedCow = updatedState.context.state.barn.animals[id];
+
+    playFeedAnimal();
 
     cowService.send({
       type: "FEED",

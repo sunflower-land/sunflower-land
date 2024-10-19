@@ -27,6 +27,7 @@ import { ANIMAL_FOODS } from "features/game/types/animals";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { AnimalFoodName } from "features/game/types/game";
 import { ProduceDrops } from "features/game/expansion/components/animals/ProduceDrops";
+import { useSound } from "lib/utils/hooks/useSound";
 
 export const CHICKEN_EMOTION_ICONS: Record<
   Exclude<TState["value"], "idle" | "needsLove" | "initial">,
@@ -102,6 +103,12 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
   const ready = chickenState === "ready";
   const idle = chickenState === "idle";
 
+  // Sounds
+  const { play: playFeedAnimal } = useSound("feed_animal");
+  const { play: playChickenCollect } = useSound("chicken_collect");
+  const { play: playProduceDrop } = useSound("produce_drop");
+  const { play: playLevelUp } = useSound("level_up");
+
   const feedChicken = (item = selectedItem) => {
     const updatedState = gameService.send({
       type: "animal.fed",
@@ -116,6 +123,8 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
       type: "FEED",
       animal: updatedChicken,
     });
+
+    playFeedAnimal();
   };
 
   const loveChicken = () => {
@@ -134,7 +143,7 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
     });
   };
 
-  const claimProduce = () => {
+  const claimProduce = async () => {
     const updatedState = gameService.send({
       type: "produce.claimed",
       animal: "Chicken",
@@ -158,9 +167,13 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
 
     if (ready) {
       setShowDrops(true);
+      playProduceDrop();
+      await new Promise((resolve) => setTimeout(resolve, 500));
+      playChickenCollect();
 
       await new Promise((resolve) => setTimeout(resolve, 900));
 
+      playLevelUp();
       claimProduce();
       setShowDrops(false);
 
