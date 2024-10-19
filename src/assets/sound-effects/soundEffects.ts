@@ -53,7 +53,7 @@ export const SOUNDS = {
   animals: {
     chicken_collect: `${CONFIG.PROTECTED_IMAGE_URL}/sfx/Animals/Bird/Bird_Chicken_Cluck_Chirp_Vocalization_1.mp3`,
     cow_collect: `${CONFIG.PROTECTED_IMAGE_URL}/sfx/Animals/Cow/Farm_Game_Animal_Cow_Moo_1_Moan_Call_Field.mp3`,
-    sheep_collect: `${CONFIG.PROTECTED_IMAGE_URL}/sfx/Animals/Sheep/Farm_Game_Animal_Sheep_Baa_1_Vocalization_Sheep_Field.mp3`,
+    sheep_collect: `${CONFIG.PROTECTED_IMAGE_URL}/sfx/Animals/Sheep/Farm_Game_Animal_Sheep_Call_Baaa_1.mp3`,
     produce_drop: `${CONFIG.PROTECTED_IMAGE_URL}/sfx/Menu_UI/Collects/Farm_Game_User_Interface_Collect_Item_1_Click_Pop_Fun_Cartoon.mp3`,
     feed_animal: `${CONFIG.PROTECTED_IMAGE_URL}/sfx/Farming/Eat/Farm_Game_Farming_Eat_Organic_Food_Chew_Consume_Player_Chomp_Bite_Fruit_Veg_4_Short.mp3`,
   },

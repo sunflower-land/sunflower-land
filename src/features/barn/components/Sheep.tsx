@@ -57,9 +57,11 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
   const [showQuickSelect, setShowQuickSelect] = useState(false);
 
   // Sounds
+  // Sounds
   const { play: playFeedAnimal } = useSound("feed_animal", true);
   const { play: playSheepCollect } = useSound("sheep_collect", true);
-  const { play: playLevelUp } = useSound("level_up", true);
+  const { play: playProduceDrop } = useSound("produce_drop");
+  const { play: playLevelUp } = useSound("level_up");
 
   const { t } = useAppTranslation();
 
@@ -78,12 +80,12 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
 
     const updatedSheep = updatedState.context.state.barn.animals[id];
 
-    playFeedAnimal();
-
     sheepService.send({
       type: "FEED",
       animal: updatedSheep,
     });
+
+    playFeedAnimal();
   };
 
   const loveSheep = () => {
@@ -126,11 +128,14 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
 
     if (ready) {
       setShowDrops(true);
-
+      playProduceDrop();
       await new Promise((resolve) => setTimeout(resolve, 900));
-
+      playSheepCollect();
+      await new Promise((resolve) => setTimeout(resolve, 500));
+      playLevelUp();
       claimProduce();
       setShowDrops(false);
+
       return;
     }
 

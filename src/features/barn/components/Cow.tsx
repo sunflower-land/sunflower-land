@@ -101,6 +101,9 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
 
   // Sounds
   const { play: playFeedAnimal } = useSound("feed_animal", true);
+  const { play: playCowCollect } = useSound("cow_collect", true);
+  const { play: playProduceDrop } = useSound("produce_drop");
+  const { play: playLevelUp } = useSound("level_up");
 
   const favFood = getAnimalFavoriteFood("Cow", cow.experience);
   const sleeping = cowState === "sleeping";
@@ -117,12 +120,12 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
 
     const updatedCow = updatedState.context.state.barn.animals[id];
 
-    playFeedAnimal();
-
     cowService.send({
       type: "FEED",
       animal: updatedCow,
     });
+
+    playFeedAnimal();
   };
 
   const loveCow = () => {
@@ -165,9 +168,11 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
 
     if (ready) {
       setShowDrops(true);
-
+      playProduceDrop();
       await new Promise((resolve) => setTimeout(resolve, 900));
-
+      playCowCollect();
+      await new Promise((resolve) => setTimeout(resolve, 500));
+      playLevelUp();
       claimProduce();
       setShowDrops(false);
 
