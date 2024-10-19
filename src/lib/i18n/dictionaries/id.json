@@ -3740,5 +3740,6 @@
   "howToGetThisItem.crimsonCarp": "Itu dapat diperoleh melalui gameplay di beberapa musim terakhir.",
   "howToGetThisItem.battleFish": "Itu dapat diperoleh melalui gameplay di musim Clash of Faction.",
   "howToGetThisItem.lemonShark": "Itu bisa diperoleh melalui gameplay di musim Pharaoh's Treasure.",
-  "permanent": "Permanen"
+  "permanent": "Permanen",
+  "npcDialogues.sheep.intro3": "Oh, Anda menerima hadiah untuk hari ini, kembalilah {{timeLeft}} dan saya akan memberi Anda satu hadiah lagi."
 }

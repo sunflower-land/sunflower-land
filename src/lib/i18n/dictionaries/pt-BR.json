@@ -3740,5 +3740,6 @@
   "howToGetThisItem.crimsonCarp": "Foi obtido por meio de jogabilidade em algumas das temporadas anteriores.",
   "howToGetThisItem.battleFish": "Foi obtido por meio da jogabilidade na temporada de Clash of Faction.",
   "howToGetThisItem.lemonShark": "Foi obtido por meio da jogabilidade na temporada Pharaoh's Treasure.",
-  "permanent": "Permanente"
+  "permanent": "Permanente",
+  "npcDialogues.sheep.intro3": "Oh, você recebeu um presente de hoje, volte em {{timeLeft}} e eu lhe darei mais um presente."
 }

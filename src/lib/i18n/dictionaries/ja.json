@@ -3740,5 +3740,6 @@
   "howToGetThisItem.crimsonCarp": "過去の一部のシーズンでは、ゲームプレイを通じて入手できました。",
   "howToGetThisItem.battleFish": "クラッシュ・オブ・ファクションシーズンのゲームプレイで入手できました。",
   "howToGetThisItem.lemonShark": "ファラオのトレジャーシーズンのゲームプレイで入手できました。",
-  "permanent": "パーマネント"
+  "permanent": "パーマネント",
+  "npcDialogues.sheep.intro3": "ああ、今日のプレゼントを受け取りました。{{timeLeft}} に戻ってきてください。もう一つプレゼントをあげます。"
 }
