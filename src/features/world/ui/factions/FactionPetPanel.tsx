@@ -21,7 +21,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { TypingMessage } from "../TypingMessage";
 import {
   calculatePoints,
-  getFactionWeek,
+  getWeekKey,
   getFactionWeekEndTime,
   getFactionWeekday,
 } from "features/game/lib/factions";
@@ -63,7 +63,7 @@ export const PET_SLEEP_DURATION = 7 * 24 * 60 * 60 * 1000;
 
 const PetSleeping = ({ onWake }: { onWake: () => void }) => {
   const { t } = useAppTranslation();
-  const week = getFactionWeek({ date: new Date() });
+  const week = getWeekKey({ date: new Date() });
   const beginningOfWeek = new Date(week).getTime();
   const wakeTime = beginningOfWeek + PET_SLEEP_DURATION;
   const [secondsTillWakeUp, setSecondsTillWakeUp] = useState(
@@ -148,7 +148,7 @@ export const FactionPetPanel: React.FC<Props> = ({ onClose }) => {
   const inventory = useSelector(gameService, _inventory);
   const autosaving = useSelector(gameService, _autosaving);
 
-  const week = getFactionWeek({ date: new Date() });
+  const week = getWeekKey({ date: new Date() });
   const pet = faction.pet as FactionPet;
   const collectivePet = faction.history[week].collectivePet as CollectivePet;
   const now = Date.now();
@@ -247,7 +247,7 @@ export const FactionPetPanel: React.FC<Props> = ({ onClose }) => {
     (request) => getKeys(request.dailyFulfilled).length > 0,
   );
 
-  const lastWeek = getFactionWeek({
+  const lastWeek = getWeekKey({
     date: new Date(new Date(week).getTime() - 7 * 24 * 60 * 60 * 1000),
   });
   const isStreakWeek =

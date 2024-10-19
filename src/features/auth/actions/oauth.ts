@@ -19,7 +19,7 @@ export const connectToFSL = ({ nonce }: { nonce: string }) => {
   const redirect = encodeURIComponent(`${baseUrl}/oauth/fsl`);
   const appKey = "RWi72tQ1oz8i";
   const state = nonce; //
-  const url = `https://id.fsl.com/api/account/oauth/authorize?response_type=code&appkey=${appKey}&redirect_uri=${redirect}&state=${state}&scope=basic%20wallet`;
+  const url = `https://id.fsl.com/api/account/oauth/authorize?response_type=code&appkey=${appKey}&redirect_uri=${redirect}&state=${state}&scope=basic%20wallet&is_app=1`;
 
   window.location.href = url;
 };

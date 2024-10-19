@@ -3729,5 +3729,16 @@
   "faction.claimEmblems.thankYou": "Merci {{player}} pour votre contribution au {{Faction}} ! Prenez ces emblèmes, ils représentent votre appartenance à la faction !",
   "faction.claimEmblems.claimMessage": "Vous avez apporté {{count}} points de faction. Votre rang était {{rank}}. Vous êtes dans le top {{percentile}} % de {{Faction}}.",
   "flower.breed.yellowCarnation": "Les Bumpkins n'apprécient pas l'œillet jaune.",
-  "noBumpkin.bumpkinHelp": "Vous avez besoin d'un Bumpkin pour vous aider à planter, récolter, couper, exploiter et agrandir vos terres. L'assistance sera bientôt disponible pour ajouter un Bumpkin !"
+  "noBumpkin.bumpkinHelp": "Vous avez besoin d'un Bumpkin pour vous aider à planter, récolter, couper, exploiter et agrandir vos terres. L'assistance sera bientôt disponible pour ajouter un Bumpkin !",
+  "chores.weeklyChores": "Tâches hebdomadaires",
+  "chores.completeChoresToEarn": "Accomplissez les corvées pour que Bumpkins gagne {{seasonalTicket}} s.",
+  "chores.lockedChore": "Niveau {{level}}",
+  "chores.completed": "Terminé",
+  "chores.complete": "Achevée",
+  "chore.chop.1.tree": "Coupez 1 arbre",
+  "chore.chop.2.trees": "Abattez 2 arbres",
+  "howToGetThisItem.crimsonCarp": "Il a été possible de l'obtenir par le biais du gameplay au cours de certaines des dernières saisons.",
+  "howToGetThisItem.battleFish": "Il était possible de l'obtenir en jouant pendant la saison de Clash of Faction.",
+  "howToGetThisItem.lemonShark": "Il était possible de l'obtenir en jouant pendant la saison du Trésor de Pharaon.",
+  "permanent": "Permanente"
 }

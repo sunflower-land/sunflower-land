@@ -3729,5 +3729,16 @@
   "faction.claimEmblems.thankYou": "{{Faction}} 에 기여해 주셔서 감사합니다 {{player}}!이 엠블럼을 가져가세요. 이 엠블럼은 진영의 소유권을 나타냅니다!",
   "faction.claimEmblems.claimMessage": "{{count}} 팩션 포인트를 기여했습니다.순위는 {{rank}} 였습니다.귀하는 {{Faction}} 의 상위 {{percentile}} %에 속합니다.",
   "flower.breed.yellowCarnation": "범프킨은 노란 카네이션을 소중히 여기지 않아요.",
-  "noBumpkin.bumpkinHelp": "땅을 심고, 수확하고, 자르고, 채굴하고, 확장하는 데 도움이 되는 범프킨이 필요합니다.범프킨 추가 지원이 곧 제공될 예정입니다!"
+  "noBumpkin.bumpkinHelp": "땅을 심고, 수확하고, 자르고, 채굴하고, 확장하는 데 도움이 되는 범프킨이 필요합니다.범프킨 추가 지원이 곧 제공될 예정입니다!",
+  "chores.weeklyChores": "주간 집안일",
+  "chores.completeChoresToEarn": "범프킨의 집안일을 완료하여 {{seasonalTicket}} 를 벌세요.",
+  "chores.lockedChore": "레벨 {{level}}",
+  "chores.completed": "완료됨",
+  "chores.complete": "완료",
+  "chore.chop.1.tree": "나무 1그루를 자릅니다",
+  "chore.chop.2.trees": "나무 2그루를 자르세요",
+  "howToGetThisItem.crimsonCarp": "지난 시즌에는 게임플레이를 통해 획득할 수 있었습니다.",
+  "howToGetThisItem.battleFish": "클래시 오브 팩션 시즌의 게임 플레이를 통해 얻을 수 있었습니다.",
+  "howToGetThisItem.lemonShark": "파라오의 보물 시즌의 게임 플레이를 통해 얻을 수 있었습니다.",
+  "permanent": "영구적입니다"
 }

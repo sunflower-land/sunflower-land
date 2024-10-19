@@ -3729,5 +3729,16 @@
   "faction.claimEmblems.thankYou": "{{Faction}} 'ye katkılarınız için teşekkür ederiz {{player}}! Bu amblemleri alın, hizip mülkiyetinizi temsil ediyorlar!",
   "faction.claimEmblems.claimMessage": "{{count}} hizip puanlarına katkıda bulundun. Sıralamanız {{rank}} idi. {{Faction}} 'in {{percentile}} 'nin en üstündesiniz.",
   "flower.breed.yellowCarnation": "Bumpkins sarı karanfile değer vermez.",
-  "noBumpkin.bumpkinHelp": "Toprağınızı ekmenize, hasat etmenize, doğramanıza, madenciliğine ve genişletmenize yardımcı olacak bir Bumpkin'e ihtiyacınız var. Destek yakında bir Bumpkin eklemek için geliyor!"
+  "noBumpkin.bumpkinHelp": "Toprağınızı ekmenize, hasat etmenize, doğramanıza, madenciliğine ve genişletmenize yardımcı olacak bir Bumpkin'e ihtiyacınız var. Destek yakında bir Bumpkin eklemek için geliyor!",
+  "chores.weeklyChores": "Haftalık Ev İşleri",
+  "chores.completeChoresToEarn": "Bumpkins'in {{seasonalTicket}} s kazanması için işleri tamamlayın.",
+  "chores.lockedChore": "Lvl {{level}}",
+  "chores.completed": "Tamamlandı",
+  "chores.complete": "Tamamlandı",
+  "chore.chop.1.tree": "1 Ağaç doğrayın",
+  "chore.chop.2.trees": "2 Ağaç doğrayın",
+  "howToGetThisItem.crimsonCarp": "Geçmiş sezonların bazılarında oyun yoluyla elde edilebilirdi.",
+  "howToGetThisItem.battleFish": "Clash of Faction sezonunda oynanarak elde edilebilirdi.",
+  "howToGetThisItem.lemonShark": "Firavun'un Hazinesi sezonunda oynanarak elde edilebilirdi.",
+  "permanent": "Kalıcı"
 }

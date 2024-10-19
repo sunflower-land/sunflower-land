@@ -3729,5 +3729,16 @@
   "faction.claimEmblems.thankYou": "Danke {{player}} für deine Beiträge zum {{Faction}}! Nehmt diese Embleme, sie stehen für euer Eigentum an der Fraktion!",
   "faction.claimEmblems.claimMessage": "Du hast {{count}} Fraktionspunkte beigesteuert. Dein Rang war {{rank}}. Sie gehören zu den obersten {{percentile}}% von {{Faction}}.",
   "flower.breed.yellowCarnation": "Bumpkins schätzen die gelbe Nelke nicht.",
-  "noBumpkin.bumpkinHelp": "Du brauchst einen Bumpkin, der dir hilft, dein Land zu pflanzen, zu ernten, zu hacken, abzubauen und zu erweitern. Unterstützung wird bald verfügbar sein, um einen Bumpkin hinzuzufügen!"
+  "noBumpkin.bumpkinHelp": "Du brauchst einen Bumpkin, der dir hilft, dein Land zu pflanzen, zu ernten, zu hacken, abzubauen und zu erweitern. Unterstützung wird bald verfügbar sein, um einen Bumpkin hinzuzufügen!",
+  "chores.weeklyChores": "Wöchentliche Hausarbeiten",
+  "chores.completeChoresToEarn": "Erledige Aufgaben für Bumpkins, um {{seasonalTicket}} s zu verdienen.",
+  "chores.lockedChore": "Stufe {{level}}",
+  "chores.completed": "Abgeschlossen",
+  "chores.complete": "Vollständig",
+  "chore.chop.1.tree": "Schneide 1 Baum",
+  "chore.chop.2.trees": "Hacke 2 Bäume",
+  "howToGetThisItem.crimsonCarp": "Es war in einigen der vergangenen Saisons über das Gameplay erhältlich.",
+  "howToGetThisItem.battleFish": "Es war in der Clash of Faction-Saison im Gameplay erhältlich.",
+  "howToGetThisItem.lemonShark": "Es war in der Pharaoh's Treasure-Saison im Gameplay erhältlich.",
+  "permanent": "Dauerhaft"
 }

@@ -3729,5 +3729,16 @@
   "faction.claimEmblems.thankYou": "Obrigado {{player}} por suas contribuições para o {{Faction}}! Pegue esses emblemas, eles representam sua propriedade da facção!",
   "faction.claimEmblems.claimMessage": "Você contribuiu com {{count}} pontos de facção. Sua classificação foi {{rank}}. Você está no topo {{percentile}}% de {{Faction}}.",
   "flower.breed.yellowCarnation": "Os caipiras não valorizam o cravo amarelo.",
-  "noBumpkin.bumpkinHelp": "Você precisa de um caipira para ajudá-lo a plantar, colher, cortar, minerar e expandir sua terra. O suporte estará disponível em breve para adicionar um Bumpkin!"
+  "noBumpkin.bumpkinHelp": "Você precisa de um caipira para ajudá-lo a plantar, colher, cortar, minerar e expandir sua terra. O suporte estará disponível em breve para adicionar um Bumpkin!",
+  "chores.weeklyChores": "Tarefas semanais",
+  "chores.completeChoresToEarn": "Complete as tarefas de Bumpkins para ganhar {{seasonalTicket}} s.",
+  "chores.lockedChore": "Nvel {{level}}",
+  "chores.completed": "Concluído",
+  "chores.complete": "Completo",
+  "chore.chop.1.tree": "Corte 1 árvore",
+  "chore.chop.2.trees": "Corte 2 árvores",
+  "howToGetThisItem.crimsonCarp": "Foi obtido por meio de jogabilidade em algumas das temporadas anteriores.",
+  "howToGetThisItem.battleFish": "Foi obtido por meio da jogabilidade na temporada de Clash of Faction.",
+  "howToGetThisItem.lemonShark": "Foi obtido por meio da jogabilidade na temporada Pharaoh's Treasure.",
+  "permanent": "Permanente"
 }
