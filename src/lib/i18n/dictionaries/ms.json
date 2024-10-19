@@ -3736,5 +3736,9 @@
   "chores.completed": "Selesai",
   "chores.complete": "Lengkap",
   "chore.chop.1.tree": "Potong 1 Pokok",
-  "chore.chop.2.trees": "Potong 2 Pokok"
+  "chore.chop.2.trees": "Potong 2 Pokok",
+  "howToGetThisItem.crimsonCarp": "Ia dapat diperoleh melalui permainan dalam beberapa musim lalu.",
+  "howToGetThisItem.battleFish": "Ia boleh diperolehi melalui permainan dalam musim Clash of Faction.",
+  "howToGetThisItem.lemonShark": "Ia boleh diperolehi melalui permainan dalam musim Pharaoh's Treasure.",
+  "permanent": "kekal"
 }

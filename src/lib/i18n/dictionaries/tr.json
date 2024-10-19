@@ -3736,5 +3736,9 @@
   "chores.completed": "Tamamlandı",
   "chores.complete": "Tamamlandı",
   "chore.chop.1.tree": "1 Ağaç doğrayın",
-  "chore.chop.2.trees": "2 Ağaç doğrayın"
+  "chore.chop.2.trees": "2 Ağaç doğrayın",
+  "howToGetThisItem.crimsonCarp": "Geçmiş sezonların bazılarında oyun yoluyla elde edilebilirdi.",
+  "howToGetThisItem.battleFish": "Clash of Faction sezonunda oynanarak elde edilebilirdi.",
+  "howToGetThisItem.lemonShark": "Firavun'un Hazinesi sezonunda oynanarak elde edilebilirdi.",
+  "permanent": "Kalıcı"
 }

@@ -3736,5 +3736,9 @@
   "chores.completed": "Completado",
   "chores.complete": "Completa",
   "chore.chop.1.tree": "Corta 1 árbol",
-  "chore.chop.2.trees": "Corta 2 árboles"
+  "chore.chop.2.trees": "Corta 2 árboles",
+  "howToGetThisItem.crimsonCarp": "Se podía obtener a través del juego en algunas de las temporadas pasadas.",
+  "howToGetThisItem.battleFish": "Se podía obtener jugando en la temporada de Clash of Faction.",
+  "howToGetThisItem.lemonShark": "Se podía obtener jugando en la temporada de Pharaoh's Treasure.",
+  "permanent": "Permanente"
 }

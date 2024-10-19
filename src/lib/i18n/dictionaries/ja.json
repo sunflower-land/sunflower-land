@@ -3736,5 +3736,9 @@
   "chores.completed": "完了しました",
   "chores.complete": "完了",
   "chore.chop.1.tree": "チョップ・ワン・ツリー",
-  "chore.chop.2.trees": "木を2本切る"
+  "chore.chop.2.trees": "木を2本切る",
+  "howToGetThisItem.crimsonCarp": "過去の一部のシーズンでは、ゲームプレイを通じて入手できました。",
+  "howToGetThisItem.battleFish": "クラッシュ・オブ・ファクションシーズンのゲームプレイで入手できました。",
+  "howToGetThisItem.lemonShark": "ファラオのトレジャーシーズンのゲームプレイで入手できました。",
+  "permanent": "パーマネント"
 }

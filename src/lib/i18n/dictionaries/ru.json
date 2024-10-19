@@ -3736,5 +3736,9 @@
   "chores.completed": "Завершено",
   "chores.complete": "Завершить",
   "chore.chop.1.tree": "Отрежьте 1 дерево",
-  "chore.chop.2.trees": "Срубите 2 дерева"
+  "chore.chop.2.trees": "Срубите 2 дерева",
+  "howToGetThisItem.crimsonCarp": "В некоторых прошлых сезонах его можно было получить с помощью геймплея.",
+  "howToGetThisItem.battleFish": "Это стало возможным благодаря геймплею сезона Clash of Faction.",
+  "howToGetThisItem.lemonShark": "Его можно было получить в игровом режиме в сезоне «Сокровища Фараона».",
+  "permanent": "Постоянный"
 }

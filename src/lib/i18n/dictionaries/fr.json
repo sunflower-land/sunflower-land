@@ -3736,5 +3736,9 @@
   "chores.completed": "Terminé",
   "chores.complete": "Achevée",
   "chore.chop.1.tree": "Coupez 1 arbre",
-  "chore.chop.2.trees": "Abattez 2 arbres"
+  "chore.chop.2.trees": "Abattez 2 arbres",
+  "howToGetThisItem.crimsonCarp": "Il a été possible de l'obtenir par le biais du gameplay au cours de certaines des dernières saisons.",
+  "howToGetThisItem.battleFish": "Il était possible de l'obtenir en jouant pendant la saison de Clash of Faction.",
+  "howToGetThisItem.lemonShark": "Il était possible de l'obtenir en jouant pendant la saison du Trésor de Pharaon.",
+  "permanent": "Permanente"
 }
