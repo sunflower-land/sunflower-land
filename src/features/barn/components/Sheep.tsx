@@ -218,15 +218,16 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
         {/* Request */}
         {sheepState === "idle" && (
           <RequestBubble
-            top={PIXEL_SCALE * 0}
-            left={PIXEL_SCALE * 24}
+            top={PIXEL_SCALE * 2}
+            left={PIXEL_SCALE * 23}
             image={{ src: ITEM_DETAILS[favFood].image, height: 16, width: 16 }}
+            quantity={3}
           />
         )}
         {needsLove && (
           <RequestBubble
-            top={PIXEL_SCALE * 0}
-            left={PIXEL_SCALE * 24}
+            top={PIXEL_SCALE * 2}
+            left={PIXEL_SCALE * 23}
             image={{
               src: ITEM_DETAILS[sheep.item].image,
               height: 16,

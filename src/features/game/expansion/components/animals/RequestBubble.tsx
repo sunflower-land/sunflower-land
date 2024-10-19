@@ -10,16 +10,20 @@ type RequestBubbleProps = {
     height: number;
     width: number;
   };
+  quantity?: number;
 };
 
 export const RequestBubble: React.FC<RequestBubbleProps> = ({
   image,
   top,
   left,
+  quantity,
 }) => {
+  const parentWidth = image.width + (quantity ? 15 : 0) + PIXEL_SCALE * 5;
+
   return (
     <div
-      className="absolute flex justify-center items-center"
+      className="absolute inline-flex justify-center items-center z-40"
       style={{
         top: `${top}px`,
         left: `${left}px`,
@@ -34,23 +38,18 @@ export const RequestBubble: React.FC<RequestBubbleProps> = ({
         borderImageSlice: "2 2 4 5 fill",
         imageRendering: "pixelated",
         borderImageRepeat: "stretch",
-        minWidth: "30px",
-        minHeight: "30px",
+        width: `${parentWidth}px`,
+        // No need for explicit width or height
       }}
     >
       <div
-        className="absolute"
+        className="flex justify-center items-center"
         style={{
-          position: "absolute",
-          top: "50%",
-          left: "50%",
-          transform: "translate(-50%, -50%)",
-          marginLeft: "-3px",
-          height: `${image.height}px`,
-          width: `${image.width}px`,
+          marginLeft: `-${(PIXEL_SCALE * 5) / 2}px`,
         }}
       >
-        <img src={image.src} className="w-full h-full" />
+        <img src={image.src} style={{ width: `${image.width}px` }} />
+        {quantity && <p className="text-xxs">{`x${quantity}`}</p>}
       </div>
     </div>
   );

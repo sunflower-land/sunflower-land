@@ -258,14 +258,15 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
         {cowState === "idle" && (
           <RequestBubble
             top={PIXEL_SCALE * 1}
-            left={PIXEL_SCALE * 25}
+            left={PIXEL_SCALE * 23}
             image={{ src: ITEM_DETAILS[favFood].image, height: 16, width: 16 }}
+            quantity={5}
           />
         )}
         {needsLove && (
           <RequestBubble
             top={PIXEL_SCALE * 1}
-            left={PIXEL_SCALE * 25}
+            left={PIXEL_SCALE * 23}
             image={{
               src: ITEM_DETAILS[cow.item].image,
               height: 16,
