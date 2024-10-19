@@ -39,7 +39,6 @@ export const RequestBubble: React.FC<RequestBubbleProps> = ({
         imageRendering: "pixelated",
         borderImageRepeat: "stretch",
         width: `${parentWidth}px`,
-        // No need for explicit width or height
       }}
     >
       <div
