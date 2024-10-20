@@ -3741,5 +3741,6 @@
   "howToGetThisItem.battleFish": "Se podía obtener jugando en la temporada de Clash of Faction.",
   "howToGetThisItem.lemonShark": "Se podía obtener jugando en la temporada de Pharaoh's Treasure.",
   "permanent": "Permanente",
-  "npcDialogues.sheep.intro3": "Oh, has recibido un regalo para hoy, vuelve en {{timeLeft}} y te daré un regalo más."
+  "npcDialogues.sheep.intro3": "Oh, has recibido un regalo para hoy, vuelve en {{timeLeft}} y te daré un regalo más.",
+  "faction.noAccess": "Sin acceso"
 }

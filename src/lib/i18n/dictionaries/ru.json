@@ -3741,5 +3741,6 @@
   "howToGetThisItem.battleFish": "Это стало возможным благодаря геймплею сезона Clash of Faction.",
   "howToGetThisItem.lemonShark": "Его можно было получить в игровом режиме в сезоне «Сокровища Фараона».",
   "permanent": "Постоянный",
-  "npcDialogues.sheep.intro3": "О, вы получили подарок на сегодня, вернитесь через {{timeLeft}}, и я сделаю вам еще один подарок."
+  "npcDialogues.sheep.intro3": "О, вы получили подарок на сегодня, вернитесь через {{timeLeft}}, и я сделаю вам еще один подарок.",
+  "faction.noAccess": "Нет доступа"
 }

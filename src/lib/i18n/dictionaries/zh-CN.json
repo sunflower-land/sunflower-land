@@ -3741,5 +3741,6 @@
   "howToGetThisItem.battleFish": "在《派系冲突》赛季中，它可以通过游戏获得。",
   "howToGetThisItem.lemonShark": "它是通过法老宝藏季的游戏玩法获得的。",
   "permanent": "永久",
-  "npcDialogues.sheep.intro3": "哦，你收到了今天的礼物，在 {{timeLeft}} 回来，我会再给你一份礼物。"
+  "npcDialogues.sheep.intro3": "哦，你收到了今天的礼物，在 {{timeLeft}} 回来，我会再给你一份礼物。",
+  "faction.noAccess": "无法访问"
 }

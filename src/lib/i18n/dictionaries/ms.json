@@ -3741,5 +3741,6 @@
   "howToGetThisItem.battleFish": "Ia boleh diperolehi melalui permainan dalam musim Clash of Faction.",
   "howToGetThisItem.lemonShark": "Ia boleh diperolehi melalui permainan dalam musim Pharaoh's Treasure.",
   "permanent": "kekal",
-  "npcDialogues.sheep.intro3": "Oh, anda menerima hadiah untuk hari ini, kembali ke {{timeLeft}} dan saya akan memberi anda satu hadiah lagi."
+  "npcDialogues.sheep.intro3": "Oh, anda menerima hadiah untuk hari ini, kembali ke {{timeLeft}} dan saya akan memberi anda satu hadiah lagi.",
+  "faction.noAccess": "Tiada Akses"
 }

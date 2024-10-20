@@ -3741,5 +3741,6 @@
   "howToGetThisItem.battleFish": "클래시 오브 팩션 시즌의 게임 플레이를 통해 얻을 수 있었습니다.",
   "howToGetThisItem.lemonShark": "파라오의 보물 시즌의 게임 플레이를 통해 얻을 수 있었습니다.",
   "permanent": "영구적입니다",
-  "npcDialogues.sheep.intro3": "아, 오늘 선물을 받으셨군요. {{timeLeft}} 로 돌아오시면 선물 하나 더 드릴게요."
+  "npcDialogues.sheep.intro3": "아, 오늘 선물을 받으셨군요. {{timeLeft}} 로 돌아오시면 선물 하나 더 드릴게요.",
+  "faction.noAccess": "접근 불가"
 }
