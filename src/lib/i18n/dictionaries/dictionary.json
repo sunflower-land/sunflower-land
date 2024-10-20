@@ -3742,5 +3742,8 @@
   "chores.completed": "Completed",
   "chores.complete": "Complete",
   "chore.chop.1.tree": "Chop 1 Tree",
-  "chore.chop.2.trees": "Chop 2 Trees"
+  "chore.chop.2.trees": "Chop 2 Trees",
+  "double.rewards.deliveries": "Double Rewards Deliveries",
+  "double.rewards.delivery": "Double Rewards Delivery",
+  "2x.rewards": "2x Rewards"
 }
