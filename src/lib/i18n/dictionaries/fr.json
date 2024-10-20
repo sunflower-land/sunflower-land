@@ -3742,5 +3742,8 @@
   "howToGetThisItem.lemonShark": "Il était possible de l'obtenir en jouant pendant la saison du Trésor de Pharaon.",
   "permanent": "Permanente",
   "npcDialogues.sheep.intro3": "Oh, tu as reçu un cadeau pour aujourd'hui, reviens en {{timeLeft}} et je t'offrirai un autre cadeau.",
-  "faction.noAccess": "Pas d'accès"
+  "faction.noAccess": "Pas d'accès",
+  "double.rewards.deliveries": "Livraisons doublées avec récompenses",
+  "double.rewards.delivery": "Livraison de récompenses doubles",
+  "2x.rewards": "2 fois plus de récompenses"
 }

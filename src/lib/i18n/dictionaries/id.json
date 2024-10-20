@@ -3742,5 +3742,8 @@
   "howToGetThisItem.lemonShark": "Itu bisa diperoleh melalui gameplay di musim Pharaoh's Treasure.",
   "permanent": "Permanen",
   "npcDialogues.sheep.intro3": "Oh, Anda menerima hadiah untuk hari ini, kembalilah {{timeLeft}} dan saya akan memberi Anda satu hadiah lagi.",
-  "faction.noAccess": "Tidak ada Akses"
+  "faction.noAccess": "Tidak ada Akses",
+  "double.rewards.deliveries": "Pengiriman Hadiah Ganda",
+  "double.rewards.delivery": "Pengiriman Hadiah Ganda",
+  "2x.rewards": "Hadiah 2x"
 }

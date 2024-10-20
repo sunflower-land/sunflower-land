@@ -3742,5 +3742,8 @@
   "howToGetThisItem.lemonShark": "파라오의 보물 시즌의 게임 플레이를 통해 얻을 수 있었습니다.",
   "permanent": "영구적입니다",
   "npcDialogues.sheep.intro3": "아, 오늘 선물을 받으셨군요. {{timeLeft}} 로 돌아오시면 선물 하나 더 드릴게요.",
-  "faction.noAccess": "접근 불가"
+  "faction.noAccess": "접근 불가",
+  "double.rewards.deliveries": "더블 리워드 배송",
+  "double.rewards.delivery": "더블 리워드 배송",
+  "2x.rewards": "리워드 2배"
 }

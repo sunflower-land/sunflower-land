@@ -3742,5 +3742,8 @@
   "howToGetThisItem.lemonShark": "Es war in der Pharaoh's Treasure-Saison im Gameplay erhältlich.",
   "permanent": "Dauerhaft",
   "npcDialogues.sheep.intro3": "Oh, du hast ein Geschenk für heute erhalten, komm zurück in {{timeLeft}} und ich gebe dir noch ein Geschenk.",
-  "faction.noAccess": "Kein Zugriff"
+  "faction.noAccess": "Kein Zugriff",
+  "double.rewards.deliveries": "Doppelte Prämienlieferungen",
+  "double.rewards.delivery": "Lieferung doppelter Prämien",
+  "2x.rewards": "2x Prämien"
 }
