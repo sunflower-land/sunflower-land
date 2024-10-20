@@ -3740,5 +3740,6 @@
   "howToGetThisItem.crimsonCarp": "Il a été possible de l'obtenir par le biais du gameplay au cours de certaines des dernières saisons.",
   "howToGetThisItem.battleFish": "Il était possible de l'obtenir en jouant pendant la saison de Clash of Faction.",
   "howToGetThisItem.lemonShark": "Il était possible de l'obtenir en jouant pendant la saison du Trésor de Pharaon.",
-  "permanent": "Permanente"
+  "permanent": "Permanente",
+  "npcDialogues.sheep.intro3": "Oh, tu as reçu un cadeau pour aujourd'hui, reviens en {{timeLeft}} et je t'offrirai un autre cadeau."
 }

@@ -3740,5 +3740,6 @@
   "howToGetThisItem.crimsonCarp": "В некоторых прошлых сезонах его можно было получить с помощью геймплея.",
   "howToGetThisItem.battleFish": "Это стало возможным благодаря геймплею сезона Clash of Faction.",
   "howToGetThisItem.lemonShark": "Его можно было получить в игровом режиме в сезоне «Сокровища Фараона».",
-  "permanent": "Постоянный"
+  "permanent": "Постоянный",
+  "npcDialogues.sheep.intro3": "О, вы получили подарок на сегодня, вернитесь через {{timeLeft}}, и я сделаю вам еще один подарок."
 }
