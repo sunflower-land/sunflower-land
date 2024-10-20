@@ -37,6 +37,7 @@ interface Props {
 const _joinedFaction = (state: MachineState) => state.context.state.faction;
 const _username = (state: MachineState) => state.context.state.username;
 const _farmId = (state: MachineState) => state.context.farmId;
+const sflCostReverse = SFL_COST.reverse();
 
 export const JoinFaction: React.FC<Props> = ({ faction, onClose }) => {
   const { gameService } = useContext(Context);
@@ -84,7 +85,7 @@ export const JoinFaction: React.FC<Props> = ({ faction, onClose }) => {
       });
 
       const position = totals.indexOf(faction);
-      const fee = SFL_COST.reverse()[position] ?? 10;
+      const fee = sflCostReverse[position] ?? 10;
       setCost(fee);
       setIsLoading(false);
     };
