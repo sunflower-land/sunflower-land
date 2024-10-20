@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { Bar } from "components/ui/ProgressBar";
+import { AnimatedBar } from "components/ui/ProgressBar";
 import {
   ANIMAL_LEVELS,
   AnimalLevel,
@@ -82,7 +82,7 @@ export const LevelProgress = ({
 
       <div className={`absolute w-10 ${className}`}>
         <div className="absolute left-1">
-          <Bar percentage={getProgressPercentage()} type="progress" />
+          <AnimatedBar percentage={getProgressPercentage()} type="progress" />
         </div>
         <div
           className={`absolute w-5 z-50 -left-1 top-0 ${
