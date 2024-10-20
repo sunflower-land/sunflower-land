@@ -3736,5 +3736,11 @@
   "chores.completed": "Abgeschlossen",
   "chores.complete": "Vollständig",
   "chore.chop.1.tree": "Schneide 1 Baum",
-  "chore.chop.2.trees": "Hacke 2 Bäume"
+  "chore.chop.2.trees": "Hacke 2 Bäume",
+  "howToGetThisItem.crimsonCarp": "Es war in einigen der vergangenen Saisons über das Gameplay erhältlich.",
+  "howToGetThisItem.battleFish": "Es war in der Clash of Faction-Saison im Gameplay erhältlich.",
+  "howToGetThisItem.lemonShark": "Es war in der Pharaoh's Treasure-Saison im Gameplay erhältlich.",
+  "permanent": "Dauerhaft",
+  "npcDialogues.sheep.intro3": "Oh, du hast ein Geschenk für heute erhalten, komm zurück in {{timeLeft}} und ich gebe dir noch ein Geschenk.",
+  "faction.noAccess": "Kein Zugriff"
 }

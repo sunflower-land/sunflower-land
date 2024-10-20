@@ -3736,5 +3736,11 @@
   "chores.completed": "Concluído",
   "chores.complete": "Completo",
   "chore.chop.1.tree": "Corte 1 árvore",
-  "chore.chop.2.trees": "Corte 2 árvores"
+  "chore.chop.2.trees": "Corte 2 árvores",
+  "howToGetThisItem.crimsonCarp": "Foi obtido por meio de jogabilidade em algumas das temporadas anteriores.",
+  "howToGetThisItem.battleFish": "Foi obtido por meio da jogabilidade na temporada de Clash of Faction.",
+  "howToGetThisItem.lemonShark": "Foi obtido por meio da jogabilidade na temporada Pharaoh's Treasure.",
+  "permanent": "Permanente",
+  "npcDialogues.sheep.intro3": "Oh, você recebeu um presente de hoje, volte em {{timeLeft}} e eu lhe darei mais um presente.",
+  "faction.noAccess": "Sem acesso"
 }

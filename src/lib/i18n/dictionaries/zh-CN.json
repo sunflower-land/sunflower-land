@@ -3736,5 +3736,11 @@
   "chores.completed": "已完成",
   "chores.complete": "已完成",
   "chore.chop.1.tree": "砍掉 1 棵树",
-  "chore.chop.2.trees": "砍掉 2 棵树"
+  "chore.chop.2.trees": "砍掉 2 棵树",
+  "howToGetThisItem.crimsonCarp": "在过去的某些赛季中，它是通过游戏玩法获得的。",
+  "howToGetThisItem.battleFish": "在《派系冲突》赛季中，它可以通过游戏获得。",
+  "howToGetThisItem.lemonShark": "它是通过法老宝藏季的游戏玩法获得的。",
+  "permanent": "永久",
+  "npcDialogues.sheep.intro3": "哦，你收到了今天的礼物，在 {{timeLeft}} 回来，我会再给你一份礼物。",
+  "faction.noAccess": "无法访问"
 }
