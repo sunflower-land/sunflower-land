@@ -1209,6 +1209,7 @@
   "faction.restrited.area": "Hold up farmer! This castle is off limits to you. Only the {{faction}} are allowed here.",
   "faction.not.pledged": "Hmm. It looks like you haven't pledged to a faction yet. Would you like to join the {{faction}}?",
   "faction.cost": "Show your allegiance and join the {{faction}}. Entry to the faction costs {{cost}} SFL.",
+  "faction.noAccess": "No Access",
   "faction.pledge.reward": "In exchange, you will receive a {{banner}} and entry to our house.",
   "faction.welcome": "Welcome to the {{faction}}!",
   "faction.greeting.goblins": "Hail the Goblin King!",
