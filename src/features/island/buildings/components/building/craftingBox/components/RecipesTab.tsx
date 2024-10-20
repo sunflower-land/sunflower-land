@@ -1,28 +1,34 @@
 import React, { useState, useMemo } from "react";
 import { useSelector } from "@xstate/react";
-import { MachineState } from "features/game/lib/gameMachine";
+import {
+  MachineInterpreter,
+  MachineState,
+} from "features/game/lib/gameMachine";
 import { Label } from "components/ui/Label";
 import { useTranslation } from "react-i18next";
 import { TextInput } from "components/ui/TextInput";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { secondsToString } from "lib/utils/time";
-import { Box } from "components/ui/Box";
 import { OuterPanel } from "components/ui/Panel";
 import classNames from "classnames";
 import { SquareIcon } from "components/ui/SquareIcon";
 import { Recipe, RecipeItemName, Recipes } from "features/game/lib/crafting";
 import { InventoryItemName } from "features/game/types/game";
+import { SimpleBox } from "features/island/hud/components/codex/SimpleBox";
 
 const _craftingBoxRecipes = (state: MachineState) =>
   state.context.state.craftingBox.recipes;
 
 interface Props {
-  gameService: any;
-  setCurrentTab: (tab: number) => void;
+  gameService: MachineInterpreter;
+  handleSetupRecipe: (recipe: Recipe) => void;
 }
 
-export const RecipesTab: React.FC<Props> = ({ gameService, setCurrentTab }) => {
+export const RecipesTab: React.FC<Props> = ({
+  gameService,
+  handleSetupRecipe,
+}) => {
   const { t } = useTranslation();
 
   const recipes = useSelector(gameService, _craftingBoxRecipes);
@@ -38,11 +44,6 @@ export const RecipesTab: React.FC<Props> = ({ gameService, setCurrentTab }) => {
       return acc;
     }, {} as Recipes);
   }, [recipes, searchTerm]);
-
-  const handleSetupRecipe = (recipe: Recipe) => {
-    // Implement the logic to set up the recipe
-    setCurrentTab(0); // Switch to the craft tab
-  };
 
   return (
     <div className="flex flex-col">
@@ -78,8 +79,10 @@ export const RecipesTab: React.FC<Props> = ({ gameService, setCurrentTab }) => {
             </div>
             <div className="flex items-start justify-between">
               <div className="flex flex-col items-center mr-2">
-                <Box
+                <SimpleBox
                   image={ITEM_DETAILS[recipeName as InventoryItemName]?.image}
+                  onClick={() => handleSetupRecipe(recipe)}
+                  silhouette={false}
                 />
                 <div className="flex mt-1">
                   <img
