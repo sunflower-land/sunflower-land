@@ -34,6 +34,7 @@ export const AnimalTeaser: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
   const { gameService } = useContext(Context);
   const expansions = useSelector(gameService, _expansions);
+  const { showAnimations } = useContext(Context);
 
   let yOffset = 1.5;
   if (expansions >= 12) {
@@ -53,7 +54,7 @@ export const AnimalTeaser: React.FC = () => {
 
       <div
         className={classNames("absolute cursor-pointer  left-0", {
-          tease_boat: true,
+          tease_boat: showAnimations,
         })}
         onClick={() => setShowModal(true)}
         style={{
