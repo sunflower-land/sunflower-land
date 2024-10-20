@@ -701,7 +701,7 @@ export function pickEmptyPosition({
       detectCollision({
         state: gameState,
         position,
-        location: "barn",
+        location: "farm",
         name: "Basic Bear", // Just assume the item is 1x1
       }) === false,
   );
