@@ -30,7 +30,15 @@ export function collectCrafting({
       throw new Error("Item is not ready");
     }
 
-    copy.inventory[item] = (copy.inventory[item] || new Decimal(0)).plus(1);
+    if (item.collectible) {
+      copy.inventory[item.collectible] = (
+        copy.inventory[item.collectible] || new Decimal(0)
+      ).plus(1);
+    }
+
+    if (item.wearable) {
+      copy.wardrobe[item.wearable] = (copy.wardrobe[item.wearable] || 0) + 1;
+    }
 
     copy.craftingBox.status = "idle";
     copy.craftingBox.item = undefined;

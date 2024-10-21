@@ -1,12 +1,14 @@
 import Decimal from "decimal.js-light";
 import { GameState } from "features/game/types/game";
 import { startCrafting, StartCraftingAction } from "./startCrafting";
+import { INITIAL_FARM } from "features/game/lib/constants";
 
 describe("startCrafting", () => {
   let gameState: GameState;
 
   beforeEach(() => {
     gameState = {
+      ...INITIAL_FARM,
       buildings: {
         "Crafting Box": [
           {
@@ -21,19 +23,64 @@ describe("startCrafting", () => {
         Wood: new Decimal(10),
         Stone: new Decimal(10),
       },
-      craftingBox: {},
-    } as GameState;
+      craftingBox: {
+        status: "idle",
+        startedAt: 0,
+        readyAt: 0,
+        recipes: {},
+      },
+    };
   });
 
-  it("starts crafting", () => {
+  it("sets the crafting status to pending", () => {
     const action: StartCraftingAction = {
       type: "crafting.started",
       ingredients: [
-        "Wood",
-        "Wood",
-        "Stone",
         null,
         null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        { collectible: "Stone" },
+      ],
+    };
+
+    const newState = startCrafting({ state: gameState, action });
+
+    expect(newState.craftingBox.status).toBe("pending");
+  });
+
+  it("if recipes exists - sets the crafting status to crafting", () => {
+    gameState.craftingBox.recipes = {
+      "Dirt Path": {
+        name: "Dirt Path",
+        type: "collectible",
+        ingredients: [
+          null,
+          null,
+          null,
+          null,
+          { collectible: "Stone" },
+          null,
+          null,
+          null,
+          null,
+        ],
+        time: 0,
+      },
+    };
+
+    const action: StartCraftingAction = {
+      type: "crafting.started",
+      ingredients: [
+        null,
+        null,
+        null,
+        null,
+        { collectible: "Stone" },
         null,
         null,
         null,
@@ -43,7 +90,7 @@ describe("startCrafting", () => {
 
     const newState = startCrafting({ state: gameState, action });
 
-    expect(newState.craftingBox.status).toBe("pending");
+    expect(newState.craftingBox.status).toBe("crafting");
   });
 
   it("throws an error if the player doesn't have a Crafting Box", () => {
@@ -52,9 +99,9 @@ describe("startCrafting", () => {
     const action: StartCraftingAction = {
       type: "crafting.started",
       ingredients: [
-        "Wood",
-        "Wood",
-        "Stone",
+        { collectible: "Wood" },
+        { collectible: "Wood" },
+        { collectible: "Stone" },
         null,
         null,
         null,
@@ -74,14 +121,15 @@ describe("startCrafting", () => {
       status: "pending",
       startedAt: Date.now(),
       readyAt: Date.now() + 60000,
+      recipes: {},
     };
 
     const action: StartCraftingAction = {
       type: "crafting.started",
       ingredients: [
-        "Wood",
-        "Wood",
-        "Stone",
+        { collectible: "Wood" },
+        { collectible: "Wood" },
+        { collectible: "Stone" },
         null,
         null,
         null,
@@ -99,7 +147,11 @@ describe("startCrafting", () => {
   it("throws an error if the player provides less than 9 ingredients", () => {
     const action: StartCraftingAction = {
       type: "crafting.started",
-      ingredients: ["Wood", "Wood", "Stone"],
+      ingredients: [
+        { collectible: "Wood" },
+        { collectible: "Wood" },
+        { collectible: "Stone" },
+      ],
     };
 
     expect(() => startCrafting({ state: gameState, action })).toThrow(
@@ -111,21 +163,102 @@ describe("startCrafting", () => {
     const action: StartCraftingAction = {
       type: "crafting.started",
       ingredients: [
-        "Wood",
-        "Wood",
-        "Stone",
-        "Wood",
-        "Wood",
-        "Stone",
-        "Wood",
-        "Wood",
-        "Stone",
-        "Wood",
+        { collectible: "Wood" },
+        { collectible: "Wood" },
+        { collectible: "Stone" },
+        { collectible: "Wood" },
+        { collectible: "Wood" },
+        { collectible: "Stone" },
+        { collectible: "Wood" },
+        { collectible: "Wood" },
+        { collectible: "Stone" },
+        { collectible: "Wood" },
       ],
     };
 
     expect(() => startCrafting({ state: gameState, action })).toThrow(
       "You must provide 9 ingredients",
     );
+  });
+
+  it("if recipes exists - throws if the player doesn't have the ingredients", () => {
+    gameState.craftingBox.recipes = {
+      "Dirt Path": {
+        name: "Dirt Path",
+        type: "collectible",
+        ingredients: [
+          null,
+          null,
+          null,
+          null,
+          { collectible: "Stone" },
+          null,
+          null,
+          null,
+          null,
+        ],
+        time: 0,
+      },
+    };
+    gameState.inventory.Stone = new Decimal(0);
+
+    const action: StartCraftingAction = {
+      type: "crafting.started",
+      ingredients: [
+        null,
+        null,
+        null,
+        null,
+        { collectible: "Stone" },
+        null,
+        null,
+        null,
+        null,
+      ],
+    };
+
+    expect(() => startCrafting({ state: gameState, action })).toThrow(
+      "You do not have the ingredients to craft this item",
+    );
+  });
+
+  it("if recipes exists - subtracts the ingredients from the player's inventory", () => {
+    gameState.craftingBox.recipes = {
+      "Dirt Path": {
+        name: "Dirt Path",
+        type: "collectible",
+        ingredients: [
+          null,
+          null,
+          null,
+          null,
+          { collectible: "Stone" },
+          null,
+          null,
+          null,
+          null,
+        ],
+        time: 0,
+      },
+    };
+
+    const action: StartCraftingAction = {
+      type: "crafting.started",
+      ingredients: [
+        null,
+        null,
+        null,
+        null,
+        { collectible: "Stone" },
+        null,
+        null,
+        null,
+        null,
+      ],
+    };
+
+    const state = startCrafting({ state: gameState, action });
+
+    expect(state.inventory.Stone).toStrictEqual(new Decimal(9));
   });
 });
