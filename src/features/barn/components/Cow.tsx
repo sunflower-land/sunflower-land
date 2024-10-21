@@ -181,6 +181,9 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
     }
 
     if (ready) {
+      // If we are already animating, don't trigger again
+      if (showDrops) return;
+
       setShowDrops(true);
       playProduceDrop();
       await new Promise((resolve) => setTimeout(resolve, 900));
@@ -304,6 +307,8 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
           animalState={cowState}
           experience={cow.experience}
           className="bottom-3 left-1/2 transform -translate-x-1/2"
+          // Don't block level up UI with wakes in panel if accidentally clicked
+          onLevelUp={() => setShowWakesIn(false)}
         />
         {sleeping && showWakesIn && (
           <WakesIn asleepAt={cow.asleepAt} className="-top-10" />

@@ -29,6 +29,8 @@ import { AnimalFoodName } from "features/game/types/game";
 import { ProduceDrops } from "features/game/expansion/components/animals/ProduceDrops";
 import { useSound } from "lib/utils/hooks/useSound";
 import { WakesIn } from "features/game/expansion/components/animals/WakesIn";
+import { InfoPopover } from "features/island/common/InfoPopover";
+import Decimal from "decimal.js-light";
 
 export const CHICKEN_EMOTION_ICONS: Record<
   Exclude<TState["value"], "idle" | "needsLove" | "initial">,
@@ -78,6 +80,8 @@ const _animalState = (state: AnimalMachineState) =>
 
 const _chicken = (id: string) => (state: MachineState) =>
   state.context.state.henHouse.animals[id];
+const _foodInInventory = (food: AnimalFoodName) => (state: MachineState) =>
+  state.context.state.inventory[food] ?? new Decimal(0);
 
 export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
   id,
@@ -86,6 +90,10 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
   const { gameService, selectedItem } = useContext(Context);
   const { t } = useAppTranslation();
   const chicken = useSelector(gameService, _chicken(id));
+  const foodInInventory = useSelector(
+    gameService,
+    _foodInInventory(selectedItem as AnimalFoodName),
+  );
 
   const chickenService = useInterpret(animalMachine, {
     context: {
@@ -98,6 +106,7 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
   const [showQuickSelect, setShowQuickSelect] = useState(false);
   const [showDrops, setShowDrops] = useState(false);
   const [showWakesIn, setShowWakesIn] = useState(false);
+  const [showNotEnoughFood, setShowNotEnoughFood] = useState(false);
 
   const favFood = getAnimalFavoriteFood("Chicken", chicken.experience);
   const sleeping = chickenState === "sleeping";
@@ -171,6 +180,9 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
     }
 
     if (ready) {
+      // If we are already animating, don't trigger again
+      if (showDrops) return;
+
       setShowDrops(true);
       playProduceDrop();
       await new Promise((resolve) => setTimeout(resolve, 500));
@@ -186,6 +198,13 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
     }
 
     if (selectedItem && isAnimalFood(selectedItem)) {
+      // Minimum amount of food to feed the chicken      // Minimum amount of food to feed the sheep
+      if (foodInInventory.lt(1)) {
+        setShowNotEnoughFood(true);
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+        setShowNotEnoughFood(false);
+        return;
+      }
       feedChicken(selectedItem);
       setShowQuickSelect(false);
 
@@ -310,9 +329,23 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
             animalState={chickenState}
             experience={chicken.experience}
             className="bottom-1 left-1/2 transform -translate-x-1/2 -ml-0.5"
+            // Don't block level up UI with wakes in panel if accidentally clicked
+            onLevelUp={() => setShowWakesIn(false)}
           />
           {sleeping && showWakesIn && (
             <WakesIn asleepAt={chicken.asleepAt} className="-top-9" />
+          )}
+          {/* Not enough food */}
+          {showNotEnoughFood && (
+            <InfoPopover showPopover className="-top-5">
+              <p className="text-xxs text-center">
+                {t(
+                  foodInInventory.lt(1)
+                    ? "animal.noFoodMessage"
+                    : "animal.notEnoughFood",
+                )}
+              </p>
+            </InfoPopover>
           )}
         </div>
       </div>

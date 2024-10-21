@@ -17,6 +17,7 @@ type Props = {
   animalState: TState["value"];
   experience: number;
   className?: string;
+  onLevelUp: () => void;
 };
 
 export const LevelProgress = ({
@@ -24,6 +25,7 @@ export const LevelProgress = ({
   animal,
   animalState,
   className,
+  onLevelUp,
 }: Props) => {
   const [prevAnimalState, setPrevAnimalState] = useState(animalState);
   const [showLevelUp, setShowLevelUp] = useState(false);
@@ -31,13 +33,14 @@ export const LevelProgress = ({
 
   useEffect(() => {
     if (prevAnimalState === "ready" && animalState === "sleeping") {
+      onLevelUp();
       setShowLevelUp(true);
       setTimeout(() => {
         setShowLevelUp(false);
       }, 600);
     }
     setPrevAnimalState(animalState);
-  }, [animalState, prevAnimalState]);
+  }, [animalState, prevAnimalState, onLevelUp]);
 
   const level = getAnimalLevel(experience, animal);
 
