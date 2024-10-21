@@ -5,7 +5,11 @@ import {
   ANIMALS,
   AnimalType,
 } from "features/game/types/animals";
-import { AnimalFoodName, GameState } from "features/game/types/game";
+import {
+  AnimalFoodName,
+  AnimalMedicineName,
+  GameState,
+} from "features/game/types/game";
 import {
   getAnimalFavoriteFood,
   getAnimalLevel,
@@ -20,7 +24,7 @@ export type FeedAnimalAction = {
   type: "animal.fed";
   animal: AnimalType;
   id: string;
-  food: AnimalFoodName;
+  item: AnimalFoodName | AnimalMedicineName;
 };
 
 type Options = {
@@ -49,13 +53,34 @@ export function feedAnimal({
       throw new Error("Animal is asleep");
     }
 
+    // Handle curing sick animal
+    if (action.item === "Barn Delight") {
+      if (animal.state !== "sick") {
+        throw new Error("Cannot cure a healthy animal");
+      }
+
+      const barnDelightAmount =
+        copy.inventory["Barn Delight"] ?? new Decimal(0);
+
+      if (barnDelightAmount.lt(1)) {
+        throw new Error("Not enough Barn Delight to cure the animal");
+      }
+
+      copy.inventory["Barn Delight"] = barnDelightAmount.sub(1);
+      animal.state = "idle";
+
+      return copy; // Early return after curing
+    }
+
     if (animal.state === "sick") {
       throw new Error("Cannot feed a sick animal");
     }
 
     const level = getAnimalLevel(animal.experience, animal.type);
     const { xp: foodXp, quantity: foodQuantity } =
-      ANIMAL_FOOD_EXPERIENCE[action.animal][level][action.food];
+      ANIMAL_FOOD_EXPERIENCE[action.animal][level][
+        action.item as AnimalFoodName
+      ];
 
     const favouriteFood = getAnimalFavoriteFood(
       action.animal,
@@ -70,7 +95,7 @@ export function feedAnimal({
       game: copy,
     });
 
-    const food = isChicken && hasGoldenEggPlaced ? favouriteFood : action.food;
+    const food = isChicken && hasGoldenEggPlaced ? favouriteFood : action.item;
     const requiredAmount = isChicken && hasGoldenEggPlaced ? 0 : foodQuantity;
     const inventoryAmount = copy.inventory[food] ?? new Decimal(0);
 

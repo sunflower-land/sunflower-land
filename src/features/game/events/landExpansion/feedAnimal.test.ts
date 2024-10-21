@@ -37,7 +37,7 @@ describe("feedAnimal", () => {
         type: "animal.fed",
         animal: "Chicken",
         id: chickenId,
-        food: "Hay",
+        item: "Hay",
       },
     });
 
@@ -76,7 +76,7 @@ describe("feedAnimal", () => {
         type: "animal.fed",
         animal: "Chicken",
         id: chickenId,
-        food: "Kernel Blend",
+        item: "Kernel Blend",
       },
     });
 
@@ -115,7 +115,7 @@ describe("feedAnimal", () => {
         type: "animal.fed",
         animal: "Chicken",
         id: chickenId,
-        food: "Kernel Blend",
+        item: "Kernel Blend",
       },
     });
 
@@ -154,7 +154,7 @@ describe("feedAnimal", () => {
         type: "animal.fed",
         animal: "Cow",
         id: cowId,
-        food: "Kernel Blend",
+        item: "Kernel Blend",
       },
     });
 
@@ -180,7 +180,7 @@ describe("feedAnimal", () => {
           type: "animal.fed",
           animal: "Cow",
           id: "123",
-          food: "Kernel Blend",
+          item: "Kernel Blend",
         },
       }),
     ).toThrow("Animal 123 not found in building barn");
@@ -215,7 +215,7 @@ describe("feedAnimal", () => {
           type: "animal.fed",
           animal: "Cow",
           id: cowId,
-          food: "Kernel Blend",
+          item: "Kernel Blend",
         },
       }),
     ).toThrow("Player does not have enough Kernel Blend");
@@ -253,7 +253,7 @@ describe("feedAnimal", () => {
         type: "animal.fed",
         animal: "Cow",
         id: cowId,
-        food: "Kernel Blend",
+        item: "Kernel Blend",
       },
     });
 
@@ -293,7 +293,7 @@ describe("feedAnimal", () => {
           type: "animal.fed",
           animal: "Chicken",
           id: chickenId,
-          food: "Kernel Blend",
+          item: "Kernel Blend",
         },
       }),
     ).toThrow("Animal is asleep");
@@ -342,7 +342,7 @@ describe("feedAnimal", () => {
         type: "animal.fed",
         animal: "Chicken",
         id: chickenId,
-        food: "Hay",
+        item: "Hay",
       },
     });
 
@@ -391,7 +391,7 @@ describe("feedAnimal", () => {
         type: "animal.fed",
         animal: "Chicken",
         id: chickenId,
-        food: "Hay",
+        item: "Hay",
       },
     });
 
@@ -441,7 +441,7 @@ describe("feedAnimal", () => {
           type: "animal.fed",
           animal: "Cow",
           id: cowId,
-          food: "Hay",
+          item: "Hay",
         },
       }),
     ).toThrow("Player does not have enough Hay");
@@ -479,7 +479,7 @@ describe("feedAnimal", () => {
         type: "animal.fed",
         animal: "Chicken",
         id: chickenId,
-        food: "Kernel Blend",
+        item: "Kernel Blend",
       },
     });
 
@@ -518,7 +518,7 @@ describe("feedAnimal", () => {
         type: "animal.fed",
         animal: "Chicken",
         id: chickenId,
-        food: "Hay",
+        item: "Hay",
       },
     });
 
@@ -557,14 +557,129 @@ describe("feedAnimal", () => {
         type: "animal.fed",
         animal: "Chicken",
         id: chickenId,
-        food: "Kernel Blend",
+        item: "Kernel Blend",
       },
     });
 
     expect(state.henHouse.animals[chickenId].state).toBe("ready");
   });
+  it("cures a sick animal with Barn Delight", () => {
+    const chickenId = "xyz";
 
-  it("throws if the animal is sick", () => {
+    const state = feedAnimal({
+      createdAt: now,
+      state: {
+        ...INITIAL_FARM,
+        inventory: {
+          ...INITIAL_FARM.inventory,
+          "Barn Delight": new Decimal(1),
+        },
+        henHouse: {
+          ...INITIAL_FARM.henHouse,
+          animals: {
+            [chickenId]: {
+              coordinates: { x: 0, y: 0 },
+              id: chickenId,
+              type: "Chicken",
+              createdAt: 0,
+              state: "sick",
+              experience: 0,
+              asleepAt: 0,
+              lovedAt: 0,
+              item: "Petting Hand",
+            },
+          },
+        },
+      },
+      action: {
+        type: "animal.fed",
+        animal: "Chicken",
+        id: chickenId,
+        item: "Barn Delight",
+      },
+    });
+
+    expect(state.henHouse.animals[chickenId].state).toBe("idle");
+    expect(state.inventory["Barn Delight"]).toStrictEqual(new Decimal(0));
+    expect(state.henHouse.animals[chickenId].experience).toBe(0);
+  });
+
+  it("throws an error when trying to cure a healthy animal", () => {
+    const chickenId = "xyz";
+
+    expect(() =>
+      feedAnimal({
+        createdAt: now,
+        state: {
+          ...INITIAL_FARM,
+          inventory: {
+            ...INITIAL_FARM.inventory,
+            "Barn Delight": new Decimal(1),
+          },
+          henHouse: {
+            ...INITIAL_FARM.henHouse,
+            animals: {
+              [chickenId]: {
+                coordinates: { x: 0, y: 0 },
+                id: chickenId,
+                type: "Chicken",
+                createdAt: 0,
+                state: "idle",
+                experience: 0,
+                asleepAt: 0,
+                lovedAt: 0,
+                item: "Petting Hand",
+              },
+            },
+          },
+        },
+        action: {
+          type: "animal.fed",
+          animal: "Chicken",
+          id: chickenId,
+          item: "Barn Delight",
+        },
+      }),
+    ).toThrow("Cannot cure a healthy animal");
+  });
+
+  it("throws an error when trying to cure without Barn Delight", () => {
+    const chickenId = "xyz";
+
+    expect(() =>
+      feedAnimal({
+        createdAt: now,
+        state: {
+          ...INITIAL_FARM,
+          henHouse: {
+            ...INITIAL_FARM.henHouse,
+            animals: {
+              [chickenId]: {
+                coordinates: { x: 0, y: 0 },
+                id: chickenId,
+                type: "Chicken",
+                createdAt: 0,
+                state: "sick",
+                experience: 0,
+                asleepAt: 0,
+                lovedAt: 0,
+                item: "Petting Hand",
+              },
+            },
+          },
+        },
+        action: {
+          type: "animal.fed",
+          animal: "Chicken",
+          id: chickenId,
+          item: "Barn Delight",
+        },
+      }),
+    ).toThrow("Not enough Barn Delight to cure the animal");
+  });
+
+  // Update the existing test for feeding a sick animal
+  it("throws if the animal is sick and not fed Barn Delight", () => {
     const chickenId = "xyz";
 
     expect(() =>
@@ -597,7 +712,7 @@ describe("feedAnimal", () => {
           type: "animal.fed",
           animal: "Chicken",
           id: chickenId,
-          food: "Kernel Blend",
+          item: "Kernel Blend",
         },
       }),
     ).toThrow("Cannot feed a sick animal");
