@@ -363,7 +363,7 @@ export const CraftTab: React.FC<Props> = ({
 
       {/** Wearables */}
       <div className="flex flex-col">
-        <Label type="default" className="mb-1">
+        <Label type="default" className="mb-1 ml-1 mt-1">
           {t("wearables")}
         </Label>
         <div className="flex flex-wrap max-h-48 overflow-y-auto">
