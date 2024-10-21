@@ -28,6 +28,9 @@ import { Transition } from "@headlessui/react";
 import { ANIMAL_FOODS } from "features/game/types/animals";
 import { useTranslation } from "react-i18next";
 import { useSound } from "lib/utils/hooks/useSound";
+import { WakesIn } from "features/game/expansion/components/animals/WakesIn";
+import Decimal from "decimal.js-light";
+import { InfoPopover } from "features/island/common/InfoPopover";
 
 export const ANIMAL_EMOTION_ICONS: Record<
   Exclude<TState["value"], "idle" | "needsLove" | "initial">,
@@ -77,6 +80,8 @@ const _animalState = (state: AnimalMachineState) =>
 
 const _cow = (id: string) => (state: MachineState) =>
   state.context.state.barn.animals[id];
+const _foodInInventory = (food: AnimalFoodName) => (state: MachineState) =>
+  state.context.state.inventory[food] ?? new Decimal(0);
 
 export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
   id,
@@ -93,11 +98,17 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
   }) as unknown as AnimalMachineInterpreter;
 
   const cowState = useSelector(cowService, _animalState);
+  const foodInInventory = useSelector(
+    gameService,
+    _foodInInventory(selectedItem as AnimalFoodName),
+  );
 
   const { t } = useTranslation();
 
   const [showDrops, setShowDrops] = useState(false);
   const [showQuickSelect, setShowQuickSelect] = useState(false);
+  const [showWakesIn, setShowWakesIn] = useState(false);
+  const [showNotEnoughFood, setShowNotEnoughFood] = useState(false);
 
   // Sounds
   const { play: playFeedAnimal } = useSound("feed_animal", true);
@@ -164,7 +175,10 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
 
     if (needsLove) return loveCow();
 
-    if (sleeping) return;
+    if (sleeping) {
+      setShowWakesIn((prev) => !prev);
+      return;
+    }
 
     if (ready) {
       setShowDrops(true);
@@ -180,6 +194,14 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
     }
 
     if (selectedItem && isAnimalFood(selectedItem)) {
+      // Minimum amount of food to feed the cow
+      if (foodInInventory.lt(5)) {
+        setShowNotEnoughFood(true);
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+        setShowNotEnoughFood(false);
+        return;
+      }
+
       feedCow(selectedItem);
       setShowQuickSelect(false);
 
@@ -221,6 +243,8 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
         width: `${GRID_WIDTH_PX * 2}px`,
         height: `${GRID_WIDTH_PX * 2}px`,
       }}
+      onMouseLeave={() => showWakesIn && setShowWakesIn(false)}
+      onTouchEnd={() => showWakesIn && setShowWakesIn(false)}
     >
       <div className="relative w-full h-full">
         {showDrops && (
@@ -281,6 +305,23 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
           experience={cow.experience}
           className="bottom-3 left-1/2 transform -translate-x-1/2"
         />
+        {sleeping && showWakesIn && (
+          <WakesIn asleepAt={cow.asleepAt} className="-top-10" />
+        )}
+        {/* Not enough food */}
+        {showNotEnoughFood && (
+          <InfoPopover showPopover className="-top-5">
+            <div className="flex flex-col items-center">
+              <p className="text-xxs text-center">
+                {t(
+                  foodInInventory.lt(1)
+                    ? "animal.noFoodMessage"
+                    : "animal.notEnoughFood",
+                )}
+              </p>
+            </div>
+          </InfoPopover>
+        )}
       </div>
       {/* Quick Select */}
       <Transition

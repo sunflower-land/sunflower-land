@@ -28,6 +28,9 @@ import { ANIMAL_FOODS } from "features/game/types/animals";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { ProduceDrops } from "features/game/expansion/components/animals/ProduceDrops";
 import { useSound } from "lib/utils/hooks/useSound";
+import { WakesIn } from "features/game/expansion/components/animals/WakesIn";
+import { InfoPopover } from "features/island/common/InfoPopover";
+import Decimal from "decimal.js-light";
 
 const _animalState = (state: AnimalMachineState) =>
   // Casting here because we know the value is always a string rather than an object
@@ -36,6 +39,8 @@ const _animalState = (state: AnimalMachineState) =>
 
 const _sheep = (id: string) => (state: MachineState) =>
   state.context.state.barn.animals[id];
+const _foodInInventory = (food: AnimalFoodName) => (state: MachineState) =>
+  state.context.state.inventory[food] ?? new Decimal(0);
 
 export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
   id,
@@ -52,11 +57,16 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
   }) as unknown as AnimalMachineInterpreter;
 
   const sheepState = useSelector(sheepService, _animalState);
+  const foodInInventory = useSelector(
+    gameService,
+    _foodInInventory(selectedItem as AnimalFoodName),
+  );
 
   const [showDrops, setShowDrops] = useState(false);
   const [showQuickSelect, setShowQuickSelect] = useState(false);
+  const [showWakesIn, setShowWakesIn] = useState(false);
+  const [showNotEnoughFood, setShowNotEnoughFood] = useState(false);
 
-  // Sounds
   // Sounds
   const { play: playFeedAnimal } = useSound("feed_animal", true);
   const { play: playSheepCollect } = useSound("sheep_collect", true);
@@ -124,7 +134,10 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
 
     if (needsLove) return loveSheep();
 
-    if (sleeping) return;
+    if (sleeping) {
+      setShowWakesIn((prev) => !prev);
+      return;
+    }
 
     if (ready) {
       setShowDrops(true);
@@ -140,6 +153,14 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
     }
 
     if (selectedItem && isAnimalFood(selectedItem)) {
+      // Minimum amount of food to feed the sheep
+      if (foodInInventory.lt(3)) {
+        setShowNotEnoughFood(true);
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+        setShowNotEnoughFood(false);
+        return;
+      }
+
       feedSheep(selectedItem);
       setShowQuickSelect(false);
 
@@ -181,6 +202,8 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
         width: `${GRID_WIDTH_PX * 2}px`,
         height: `${GRID_WIDTH_PX * 2}px`,
       }}
+      onMouseLeave={() => showWakesIn && setShowWakesIn(false)}
+      onTouchEnd={() => showWakesIn && setShowWakesIn(false)}
     >
       <div className="relative w-full h-full">
         {showDrops && (
@@ -242,6 +265,21 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
           experience={sheep.experience}
           className="bottom-3 left-1/2 transform -translate-x-1/2"
         />
+        {sleeping && showWakesIn && (
+          <WakesIn asleepAt={sheep.asleepAt} className="-top-10" />
+        )}
+        {/* Not enough food */}
+        {showNotEnoughFood && (
+          <InfoPopover showPopover className="-top-5">
+            <p className="text-xxs text-center">
+              {t(
+                foodInInventory.lt(1)
+                  ? "animal.noFoodMessage"
+                  : "animal.notEnoughFood",
+              )}
+            </p>
+          </InfoPopover>
+        )}
       </div>
       {/* Quick Select */}
       <Transition

@@ -3747,7 +3747,8 @@
   "double.rewards.delivery": "Double Rewards Delivery",
   "2x.rewards": "2x Rewards",
   "quickSelect.animalFeed": "Prepare some animal feed.",
-  "wakesIn": "Wakes in {{time}}",
+  "wakesIn": "Wakes in:",
   "animal.noFoodMessage": "No food available",
-  "levelUp": "Level Up!"
+  "levelUp": "Level Up!",
+  "animal.notEnoughFood": "Not enough food"
 }

@@ -28,6 +28,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { AnimalFoodName } from "features/game/types/game";
 import { ProduceDrops } from "features/game/expansion/components/animals/ProduceDrops";
 import { useSound } from "lib/utils/hooks/useSound";
+import { WakesIn } from "features/game/expansion/components/animals/WakesIn";
 
 export const CHICKEN_EMOTION_ICONS: Record<
   Exclude<TState["value"], "idle" | "needsLove" | "initial">,
@@ -96,6 +97,7 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
 
   const [showQuickSelect, setShowQuickSelect] = useState(false);
   const [showDrops, setShowDrops] = useState(false);
+  const [showWakesIn, setShowWakesIn] = useState(false);
 
   const favFood = getAnimalFavoriteFood("Chicken", chicken.experience);
   const sleeping = chickenState === "sleeping";
@@ -163,7 +165,10 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
 
     if (needsLove) return loveChicken();
 
-    if (sleeping) return;
+    if (sleeping) {
+      setShowWakesIn((prev) => !prev);
+      return;
+    }
 
     if (ready) {
       setShowDrops(true);
@@ -225,6 +230,8 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
           zIndex: 10,
         }}
         onClick={handleClick}
+        onMouseLeave={() => showWakesIn && setShowWakesIn(false)}
+        onTouchEnd={() => showWakesIn && setShowWakesIn(false)}
       >
         <div
           className="relative w-full h-full"
@@ -304,6 +311,9 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
             experience={chicken.experience}
             className="bottom-1 left-1/2 transform -translate-x-1/2 -ml-0.5"
           />
+          {sleeping && showWakesIn && (
+            <WakesIn asleepAt={chicken.asleepAt} className="-top-9" />
+          )}
         </div>
       </div>
       {/* Quick Select */}
