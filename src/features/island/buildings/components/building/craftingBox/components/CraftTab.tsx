@@ -19,6 +19,7 @@ import { Recipe, RecipeIngredient } from "features/game/lib/crafting";
 import { findMatchingRecipe } from "features/game/events/landExpansion/startCrafting";
 import { getImageUrl } from "lib/utils/getImageURLS";
 import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
+import { useSound } from "lib/utils/hooks/useSound";
 
 const VALID_CRAFTING_RESOURCES: InventoryItemName[] = [
   "Wood",
@@ -75,6 +76,12 @@ export const CraftTab: React.FC<Props> = ({
   const isCrafting = craftingStatus === "crafting";
   const isIdle = craftingStatus === "idle";
   const isReady = remainingTime !== null && remainingTime <= 0;
+
+  const button = useSound("button");
+  const selectIngredient = (ingredient: RecipeIngredient | null) => {
+    button.play();
+    setSelectedIngredient(ingredient);
+  };
 
   const processRemainingTime = () => {
     const now = Date.now();
@@ -229,7 +236,7 @@ export const CraftTab: React.FC<Props> = ({
   };
 
   const handleIngredientSelect = (ingredient: RecipeIngredient) => {
-    setSelectedIngredient(ingredient);
+    selectIngredient(ingredient);
   };
 
   const handleCraft = () => {

@@ -10,6 +10,7 @@ import { CraftTab } from "./components/CraftTab";
 import { RecipesTab } from "./components/RecipesTab";
 import { hasFeatureAccess } from "lib/flags";
 import { Recipe, RecipeIngredient } from "features/game/lib/crafting";
+import { useSound } from "lib/utils/hooks/useSound";
 
 export const CraftingBox: React.FC = () => {
   const [showModal, setShowModal] = useState(true);
@@ -33,13 +34,20 @@ export const CraftingBox: React.FC = () => {
     gameService.getSnapshot().context.state,
     "CRAFTING_BOX",
   );
+  const button = useSound("button");
+
   const handleSetupRecipe = (recipe: Recipe) => {
     const paddedIngredients = [
       ...recipe.ingredients,
       ...Array(9).fill(null),
     ].slice(0, 9);
-    setSelectedItems(paddedIngredients);
+    selectItems(paddedIngredients);
     setCurrentTab(0); // Switch to the craft tab
+  };
+
+  const selectItems = (items: (RecipeIngredient | null)[]) => {
+    button.play();
+    setSelectedItems(items);
   };
 
   return (
@@ -71,7 +79,7 @@ export const CraftingBox: React.FC = () => {
             <CraftTab
               gameService={gameService}
               selectedItems={selectedItems}
-              setSelectedItems={setSelectedItems}
+              setSelectedItems={selectItems}
             />
           )}
           {currentTab === 1 && (
