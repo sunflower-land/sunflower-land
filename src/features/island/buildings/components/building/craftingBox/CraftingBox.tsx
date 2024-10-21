@@ -13,7 +13,7 @@ import { Recipe, RecipeIngredient } from "features/game/lib/crafting";
 import { useSound } from "lib/utils/hooks/useSound";
 
 export const CraftingBox: React.FC = () => {
-  const [showModal, setShowModal] = useState(true);
+  const [showModal, setShowModal] = useState(false);
   const [currentTab, setCurrentTab] = useState(0);
 
   const { t } = useTranslation();
@@ -52,12 +52,19 @@ export const CraftingBox: React.FC = () => {
 
   return (
     <>
-      <div className="absolute bottom-0">
+      <div
+        className="absolute bottom-0"
+        style={{
+          width: `${PIXEL_SCALE * 16 * 3}px`,
+          bottom: `${PIXEL_SCALE * 0}px`,
+        }}
+      >
         <img
           src={ITEM_DETAILS["Crafting Box"].image}
           alt={t("crafting.craftingBox")}
-          className={`cursor-pointer hover:img-highlight`}
+          className={`cursor-pointer hover:img-highlight absolute`}
           style={{
+            left: `${PIXEL_SCALE * -1}px`,
             width: `${PIXEL_SCALE * 46}px`,
             bottom: `${PIXEL_SCALE * 0}px`,
           }}
