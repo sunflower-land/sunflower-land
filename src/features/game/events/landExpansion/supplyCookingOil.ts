@@ -22,6 +22,7 @@ export const BUILDING_DAILY_OIL_CAPACITY: Record<CookingBuildingName, number> =
   {
     "Fire Pit": 2,
     Kitchen: 10,
+    "Smoothie Shack": 16,
     Bakery: 20,
     Deli: 24,
   };
