@@ -91,7 +91,7 @@ export const FlowerBounties: React.FC<Props> = ({ onClose }) => {
         </div>
 
         <p className="text-xs mb-2">{t("bounties.board.info")}</p>
-        <div className="flex flex-wrap items-start">
+        <div className="flex flex-wrap">
           {deals.length === 0 && (
             <p className="text-sm">{t("bounties.board.empty")}</p>
           )}
