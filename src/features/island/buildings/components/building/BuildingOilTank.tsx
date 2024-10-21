@@ -30,7 +30,7 @@ import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 
 interface OilTankProps {
   currentlyCooking: CookableName | undefined;
-  buildingName: BuildingName;
+  buildingName: CookingBuildingName;
   buildingId: string;
 }
 
