@@ -391,7 +391,7 @@ export const settingMenus: Record<SettingMenuId, SettingMenu> = {
 
   // Plaza Settings
   pickServer: {
-    title: "Pick Server",
+    title: translate("gameOptions.plazaSettings.pickServer"),
     parent: "plaza",
     content: PickServer,
   },
