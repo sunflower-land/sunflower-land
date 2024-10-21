@@ -14,7 +14,7 @@ import { weekResetsAt } from "features/game/lib/factions";
 import { MachineState } from "features/game/lib/gameMachine";
 import { AnimalType } from "features/game/types/animals";
 import { getKeys } from "features/game/types/decorations";
-import { Animal, BountyRequest } from "features/game/types/game";
+import { Animal, AnimalBounty, BountyRequest } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { TimerDisplay } from "features/retreat/components/auctioneer/AuctionDetails";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -26,7 +26,7 @@ const _exchange = (state: MachineState) => state.context.state.bounties;
 
 interface Props {
   type: AnimalType;
-  onExchanging: (deal: BountyRequest) => void;
+  onExchanging: (deal: AnimalBounty) => void;
 }
 
 function acknowledgeIntro() {
@@ -49,7 +49,9 @@ export const AnimalBounties: React.FC<Props> = ({ type, onExchanging }) => {
 
   const state = gameService.getSnapshot().context.state;
 
-  const deals = exchange.requests.filter((deal) => deal.name === type);
+  const deals = exchange.requests.filter(
+    (deal) => deal.name === type,
+  ) as AnimalBounty[];
 
   const expiresAt = useCountdown(weekResetsAt());
 
@@ -256,7 +258,7 @@ export const AnimalDeal: React.FC<{
 };
 
 export const ExchangeHud: React.FC<{
-  deal: BountyRequest;
+  deal: AnimalBounty;
   onClose: () => void;
 }> = ({ deal, onClose }) => {
   const { t } = useAppTranslation();
