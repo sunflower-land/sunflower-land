@@ -3,6 +3,7 @@ import { translate } from "lib/i18n/translate";
 import { CookingBuildingName } from "features/game/types/buildings";
 import Decimal from "decimal.js-light";
 import { produce } from "immer";
+import { getKeys } from "features/game/types/craftables";
 
 export type SupplyCookingOilAction = {
   type: "cookingOil.supplied";
@@ -22,6 +23,7 @@ export const BUILDING_DAILY_OIL_CAPACITY: Record<CookingBuildingName, number> =
   {
     "Fire Pit": 2,
     Kitchen: 10,
+    "Smoothie Shack": 16,
     Bakery: 20,
     Deli: 24,
   };
@@ -35,6 +37,9 @@ export function supplyCookingOil({
     const buildings = stateCopy.buildings[action.building];
     if (!buildings) {
       throw new Error(translate("error.buildingNotExist"));
+    }
+    if (!getKeys(BUILDING_DAILY_OIL_CAPACITY).includes(action.building)) {
+      throw new Error("Building not eligible for cooking");
     }
 
     const building = buildings.find((b) => b.id === action.buildingId);
