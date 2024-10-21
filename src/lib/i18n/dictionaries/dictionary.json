@@ -3745,5 +3745,10 @@
   "chore.chop.2.trees": "Chop 2 Trees",
   "double.rewards.deliveries": "Double Rewards Deliveries",
   "double.rewards.delivery": "Double Rewards Delivery",
-  "2x.rewards": "2x Rewards"
+  "2x.rewards": "2x Rewards",
+  "quickSelect.animalFeed": "Prepare some animal feed.",
+  "wakesIn": "Wakes in:",
+  "animal.noFoodMessage": "No food available",
+  "levelUp": "Level Up!",
+  "animal.notEnoughFood": "Not enough food"
 }

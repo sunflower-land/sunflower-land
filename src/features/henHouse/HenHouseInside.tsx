@@ -30,8 +30,6 @@ import classNames from "classnames";
 import { NPC } from "features/island/bumpkin/components/NPC";
 import { NPC_WEARABLES } from "lib/npcs";
 
-const background = SUNNYSIDE.land.tent_inside;
-
 const _henHouse = (state: MachineState) => state.context.state.henHouse;
 
 export const ANIMAL_HOUSE_IMAGES: Record<
@@ -75,18 +73,13 @@ export const HenHouseInside: React.FC = () => {
         y={animal.coordinates.y}
         height={ANIMALS.Chicken.height}
         width={ANIMALS.Chicken.width}
-        z={1}
       >
         <div
-          className={classNames(
-            deal
-              ? {
-                  "opacity-50": !isValid,
-                  "cursor-pointer": isValid,
-                  "pointer-events-none": !isValid,
-                }
-              : {},
-          )}
+          className={classNames({
+            "opacity-50": deal && !isValid,
+            "cursor-pointer": deal && isValid,
+            "pointer-events-none": deal && !isValid,
+          })}
           onClick={(e) => {
             if (deal) {
               // Stop other clicks
@@ -156,22 +149,13 @@ export const HenHouseInside: React.FC = () => {
       >
         <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
           <div className="relative w-full h-full">
-            <img
-              src={shopDisc}
-              alt="Buy Animals"
-              className="absolute top-[18px] right-[18px] cursor-pointer z-10"
-              style={{
-                width: `${PIXEL_SCALE * 18}px`,
-              }}
-              onClick={() => setShowModal(true)}
-            />
             <div className={"relative w-full h-full"}>
               {!deal && (
                 <>
                   <img
                     src={shopDisc}
                     alt="Buy Animals"
-                    className="absolute top-7 right-8 cursor-pointer z-10"
+                    className="absolute top-[18px] right-[18px] cursor-pointer z-10"
                     style={{
                       width: `${PIXEL_SCALE * 18}px`,
                     }}

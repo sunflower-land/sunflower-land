@@ -44,7 +44,7 @@ describe("feedAnimal", () => {
     expect(state.henHouse.animals[chickenId].experience).toBe(10);
   });
 
-  it("gives 20 experience feeding kernel blend to a level 1 chicken", () => {
+  it("gives 60 experience feeding kernel blend to a level 1 chicken", () => {
     const chickenId = "xyz";
 
     const state = feedAnimal({
@@ -80,10 +80,10 @@ describe("feedAnimal", () => {
       },
     });
 
-    expect(state.henHouse.animals[chickenId].experience).toBe(20);
+    expect(state.henHouse.animals[chickenId].experience).toBe(60);
   });
 
-  it("gives 30 experience feeding kernel blend to a level 2 chicken", () => {
+  it("gives 60 experience feeding kernel blend to a level 2 chicken", () => {
     const chickenId = "xyz";
 
     const state = feedAnimal({
@@ -119,7 +119,7 @@ describe("feedAnimal", () => {
       },
     });
 
-    expect(state.henHouse.animals[chickenId].experience).toBe(50);
+    expect(state.henHouse.animals[chickenId].experience).toBe(80);
   });
 
   it("feeds a cow", () => {
@@ -131,7 +131,7 @@ describe("feedAnimal", () => {
         ...INITIAL_FARM,
         inventory: {
           ...INITIAL_FARM.inventory,
-          "Kernel Blend": new Decimal(1),
+          "Kernel Blend": new Decimal(5),
         },
         barn: {
           ...INITIAL_FARM.barn,
@@ -218,7 +218,7 @@ describe("feedAnimal", () => {
           food: "Kernel Blend",
         },
       }),
-    ).toThrow("Player does not have any Kernel Blend");
+    ).toThrow("Player does not have enough Kernel Blend");
   });
 
   it("subtracts food from player inventory", () => {
@@ -230,7 +230,7 @@ describe("feedAnimal", () => {
         ...INITIAL_FARM,
         inventory: {
           ...INITIAL_FARM.inventory,
-          "Kernel Blend": new Decimal(2),
+          "Kernel Blend": new Decimal(6),
         },
         barn: {
           ...INITIAL_FARM.barn,
@@ -258,202 +258,6 @@ describe("feedAnimal", () => {
     });
 
     expect(state.inventory["Kernel Blend"]).toStrictEqual(new Decimal(1));
-  });
-
-  it("drops an egg if fed kernel blend to a level 1 chicken", () => {
-    const chickenId = "xyz";
-
-    const state = feedAnimal({
-      createdAt: now,
-      state: {
-        ...INITIAL_FARM,
-        inventory: {
-          ...INITIAL_FARM.inventory,
-          "Kernel Blend": new Decimal(1),
-        },
-        henHouse: {
-          ...INITIAL_FARM.henHouse,
-          animals: {
-            [chickenId]: {
-              coordinates: { x: 0, y: 0 },
-              id: chickenId,
-              type: "Chicken",
-              createdAt: 0,
-              state: "idle",
-              experience: 0,
-              asleepAt: 0,
-              lovedAt: 0,
-              item: "Petting Hand",
-            },
-          },
-        },
-      },
-      action: {
-        type: "animal.fed",
-        animal: "Chicken",
-        id: chickenId,
-        food: "Kernel Blend",
-      },
-    });
-
-    expect(state.inventory.Egg).toStrictEqual(new Decimal(1));
-  });
-
-  it("does not drop an egg if fed hay to a level 1 chicken", () => {
-    const chickenId = "xyz";
-
-    const state = feedAnimal({
-      createdAt: now,
-      state: {
-        ...INITIAL_FARM,
-        inventory: {
-          ...INITIAL_FARM.inventory,
-          Hay: new Decimal(1),
-        },
-        henHouse: {
-          ...INITIAL_FARM.henHouse,
-          animals: {
-            [chickenId]: {
-              coordinates: { x: 0, y: 0 },
-              id: chickenId,
-              type: "Chicken",
-              createdAt: 0,
-              state: "idle",
-              experience: 0,
-              asleepAt: 0,
-              lovedAt: 0,
-              item: "Petting Hand",
-            },
-          },
-        },
-      },
-      action: {
-        type: "animal.fed",
-        animal: "Chicken",
-        id: chickenId,
-        food: "Hay",
-      },
-    });
-
-    expect(state.inventory.Egg).toBeUndefined();
-  });
-
-  it("drops two eggs and one feather if fed hay to a level 3 chicken", () => {
-    const chickenId = "xyz";
-
-    const state = feedAnimal({
-      createdAt: now,
-      state: {
-        ...INITIAL_FARM,
-        inventory: {
-          ...INITIAL_FARM.inventory,
-          Hay: new Decimal(1),
-        },
-        henHouse: {
-          ...INITIAL_FARM.henHouse,
-          animals: {
-            [chickenId]: {
-              coordinates: { x: 0, y: 0 },
-              id: chickenId,
-              type: "Chicken",
-              createdAt: 0,
-              state: "idle",
-              experience: 50,
-              asleepAt: 0,
-              lovedAt: 0,
-              item: "Petting Hand",
-            },
-          },
-        },
-      },
-      action: {
-        type: "animal.fed",
-        animal: "Chicken",
-        id: chickenId,
-        food: "Hay",
-      },
-    });
-
-    expect(state.inventory.Egg).toStrictEqual(new Decimal(2));
-    expect(state.inventory.Feather).toStrictEqual(new Decimal(1));
-  });
-
-  it("updates asleepAt when levelling up", () => {
-    const chickenId = "xyz";
-
-    const state = feedAnimal({
-      createdAt: now,
-      state: {
-        ...INITIAL_FARM,
-        inventory: {
-          ...INITIAL_FARM.inventory,
-          "Kernel Blend": new Decimal(1),
-        },
-        henHouse: {
-          ...INITIAL_FARM.henHouse,
-          animals: {
-            [chickenId]: {
-              coordinates: { x: 0, y: 0 },
-              id: chickenId,
-              type: "Chicken",
-              createdAt: 0,
-              state: "idle",
-              experience: 20,
-              asleepAt: 0,
-              lovedAt: 0,
-              item: "Petting Hand",
-            },
-          },
-        },
-      },
-      action: {
-        type: "animal.fed",
-        animal: "Chicken",
-        id: chickenId,
-        food: "Kernel Blend",
-      },
-    });
-
-    expect(state.henHouse.animals[chickenId].asleepAt).toBe(now);
-  });
-
-  it("does not update asleepAt when not levelling up", () => {
-    const chickenId = "xyz";
-
-    const state = feedAnimal({
-      createdAt: now,
-      state: {
-        ...INITIAL_FARM,
-        inventory: {
-          ...INITIAL_FARM.inventory,
-          "Kernel Blend": new Decimal(1),
-        },
-        henHouse: {
-          ...INITIAL_FARM.henHouse,
-          animals: {
-            [chickenId]: {
-              coordinates: { x: 0, y: 0 },
-              id: chickenId,
-              type: "Chicken",
-              createdAt: 0,
-              state: "idle",
-              experience: 50,
-              asleepAt: 0,
-              lovedAt: 0,
-              item: "Petting Hand",
-            },
-          },
-        },
-      },
-      action: {
-        type: "animal.fed",
-        animal: "Chicken",
-        id: chickenId,
-        food: "Kernel Blend",
-      },
-    });
-
-    expect(state.henHouse.animals[chickenId].asleepAt).toBe(0);
   });
 
   it("throws if the animal is asleep", () => {
@@ -591,7 +395,7 @@ describe("feedAnimal", () => {
       },
     });
 
-    expect(state.henHouse.animals[chickenId].experience).toBe(20);
+    expect(state.henHouse.animals[chickenId].experience).toBe(60);
   });
 
   it("does not feed for free if Golden Egg is placed and feeding Cow", () => {
@@ -640,7 +444,7 @@ describe("feedAnimal", () => {
           food: "Hay",
         },
       }),
-    ).toThrow("Player does not have any Hay");
+    ).toThrow("Player does not have enough Hay");
   });
 
   it("sets the state to happy if fed favourite food", () => {
@@ -652,7 +456,7 @@ describe("feedAnimal", () => {
         ...INITIAL_FARM,
         inventory: {
           ...INITIAL_FARM.inventory,
-          Hay: new Decimal(1),
+          "Kernel Blend": new Decimal(1),
         },
         henHouse: {
           ...INITIAL_FARM.henHouse,
@@ -663,7 +467,7 @@ describe("feedAnimal", () => {
               type: "Chicken",
               createdAt: 0,
               state: "idle",
-              experience: 50,
+              experience: 120,
               asleepAt: 0,
               lovedAt: 0,
               item: "Petting Hand",
@@ -675,7 +479,7 @@ describe("feedAnimal", () => {
         type: "animal.fed",
         animal: "Chicken",
         id: chickenId,
-        food: "Hay",
+        food: "Kernel Blend",
       },
     });
 
@@ -721,7 +525,7 @@ describe("feedAnimal", () => {
     expect(state.henHouse.animals[chickenId].state).toBe("sad");
   });
 
-  it("sets the state to idle if asleep", () => {
+  it("sets the state to ready when levelling up", () => {
     const chickenId = "xyz";
 
     const state = feedAnimal({
@@ -740,8 +544,8 @@ describe("feedAnimal", () => {
               id: chickenId,
               type: "Chicken",
               createdAt: 0,
-              state: "sad",
-              experience: 0,
+              state: "idle",
+              experience: 20,
               asleepAt: 0,
               lovedAt: 0,
               item: "Petting Hand",
@@ -757,6 +561,6 @@ describe("feedAnimal", () => {
       },
     });
 
-    expect(state.henHouse.animals[chickenId].state).toBe("idle");
+    expect(state.henHouse.animals[chickenId].state).toBe("ready");
   });
 });
