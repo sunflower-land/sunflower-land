@@ -3745,5 +3745,10 @@
   "faction.noAccess": "Pas d'accès",
   "double.rewards.deliveries": "Livraisons doublées avec récompenses",
   "double.rewards.delivery": "Livraison de récompenses doubles",
-  "2x.rewards": "2 fois plus de récompenses"
+  "2x.rewards": "2 fois plus de récompenses",
+  "quickSelect.animalFeed": "Préparez de la nourriture pour animaux.",
+  "wakesIn": "Se réveille :",
+  "animal.noFoodMessage": "Pas de nourriture disponible",
+  "levelUp": "Passez au niveau supérieur !",
+  "animal.notEnoughFood": "Pas assez de nourriture"
 }

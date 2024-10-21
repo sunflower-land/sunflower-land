@@ -3745,5 +3745,10 @@
   "faction.noAccess": "无法访问",
   "double.rewards.deliveries": "双倍奖励配送",
   "double.rewards.delivery": "双倍奖励交付",
-  "2x.rewards": "2x 奖励"
+  "2x.rewards": "2x 奖励",
+  "quickSelect.animalFeed": "准备一些动物饲料。",
+  "wakesIn": "醒来了：",
+  "animal.noFoodMessage": "没有食物可用",
+  "levelUp": "升级！",
+  "animal.notEnoughFood": "食物不足"
 }

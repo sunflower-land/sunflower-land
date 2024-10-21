@@ -3745,5 +3745,10 @@
   "faction.noAccess": "アクセスなし",
   "double.rewards.deliveries": "ダブルリワード配信",
   "double.rewards.delivery": "ダブルリワード配信",
-  "2x.rewards": "2倍リワード"
+  "2x.rewards": "2倍リワード",
+  "quickSelect.animalFeed": "動物用飼料を用意してください。",
+  "wakesIn": "ウェイクイン:",
+  "animal.noFoodMessage": "お食事はありません",
+  "levelUp": "レベルアップ！",
+  "animal.notEnoughFood": "食べ物が足りない"
 }

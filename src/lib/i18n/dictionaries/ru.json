@@ -3745,5 +3745,10 @@
   "faction.noAccess": "Нет доступа",
   "double.rewards.deliveries": "Доставка двойных вознаграждений",
   "double.rewards.delivery": "Доставка двойных вознаграждений",
-  "2x.rewards": "Двукратное вознаграждение"
+  "2x.rewards": "Двукратное вознаграждение",
+  "quickSelect.animalFeed": "Приготовьте немного корма для животных.",
+  "wakesIn": "Просыпается в:",
+  "animal.noFoodMessage": "Еда недоступна",
+  "levelUp": "Повышайте уровень!",
+  "animal.notEnoughFood": "Недостаточно еды"
 }

@@ -3745,5 +3745,10 @@
   "faction.noAccess": "Tiada Akses",
   "double.rewards.deliveries": "Penghantaran Ganjaran Berganda",
   "double.rewards.delivery": "Penghantaran Ganjaran Berganda",
-  "2x.rewards": "Ganjaran 2x"
+  "2x.rewards": "Ganjaran 2x",
+  "quickSelect.animalFeed": "Sediakan makanan haiwan.",
+  "wakesIn": "Bangun dalam:",
+  "animal.noFoodMessage": "Tiada makanan tersedia",
+  "levelUp": "Tingkat Tingkat!",
+  "animal.notEnoughFood": "Tidak cukup makanan"
 }

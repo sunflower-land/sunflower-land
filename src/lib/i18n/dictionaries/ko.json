@@ -3745,5 +3745,10 @@
   "faction.noAccess": "접근 불가",
   "double.rewards.deliveries": "더블 리워드 배송",
   "double.rewards.delivery": "더블 리워드 배송",
-  "2x.rewards": "리워드 2배"
+  "2x.rewards": "리워드 2배",
+  "quickSelect.animalFeed": "동물 사료를 준비하십시오.",
+  "wakesIn": "웨이크 인:",
+  "animal.noFoodMessage": "음식 제공 불가",
+  "levelUp": "레벨 업!",
+  "animal.notEnoughFood": "식량이 부족합니다"
 }

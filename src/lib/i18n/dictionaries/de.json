@@ -3745,5 +3745,10 @@
   "faction.noAccess": "Kein Zugriff",
   "double.rewards.deliveries": "Doppelte Prämienlieferungen",
   "double.rewards.delivery": "Lieferung doppelter Prämien",
-  "2x.rewards": "2x Prämien"
+  "2x.rewards": "2x Prämien",
+  "quickSelect.animalFeed": "Bereite etwas Tierfutter zu.",
+  "wakesIn": "Wacht auf in:",
+  "animal.noFoodMessage": "Kein Essen verfügbar",
+  "levelUp": "Steigen Sie auf!",
+  "animal.notEnoughFood": "Nicht genug zu essen"
 }

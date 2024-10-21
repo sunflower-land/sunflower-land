@@ -3745,5 +3745,10 @@
   "faction.noAccess": "Sem acesso",
   "double.rewards.deliveries": "Entregas de recompensas em dobro",
   "double.rewards.delivery": "Entrega dupla de recompensas",
-  "2x.rewards": "2x Recompensas"
+  "2x.rewards": "2x Recompensas",
+  "quickSelect.animalFeed": "Prepare um pouco de ração animal.",
+  "wakesIn": "Acorda em:",
+  "animal.noFoodMessage": "Não há comida disponível",
+  "levelUp": "Suba de nível!",
+  "animal.notEnoughFood": "Comida insuficiente"
 }
