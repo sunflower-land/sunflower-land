@@ -67,13 +67,17 @@ export const CraftTab: React.FC<Props> = ({
   const craftingStatus = useSelector(gameService, _craftingStatus);
   const craftingReadyAt = useSelector(gameService, _craftingReadyAt);
   const recipes = useSelector(gameService, _craftingBoxRecipes);
-
+  const craftingItem = useSelector(gameService, _craftingItem);
   const [remainingTime, setRemainingTime] = useState<number | null>(null);
   const [failedAttempt, setFailedAttempt] = useState(false);
 
+  const itemName = craftingItem?.collectible ?? craftingItem?.wearable;
+
   const [selectedIngredient, setSelectedIngredient] =
     useState<RecipeIngredient | null>(null);
-  const [currentRecipe, setCurrentRecipe] = useState<Recipe | null>(null);
+  const [currentRecipe, setCurrentRecipe] = useState<Recipe | null>(
+    itemName ? recipes[itemName] ?? null : null,
+  );
 
   const isPending = craftingStatus === "pending";
   const isCrafting = craftingStatus === "crafting";
@@ -152,6 +156,8 @@ export const CraftTab: React.FC<Props> = ({
    * Find the recipe that matches the selected items
    */
   useEffect(() => {
+    if (isCrafting || isPending) return;
+
     const foundRecipe = findMatchingRecipe(selectedItems, recipes);
 
     if (foundRecipe) {

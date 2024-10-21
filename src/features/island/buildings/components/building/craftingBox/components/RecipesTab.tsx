@@ -19,6 +19,8 @@ import { ITEM_IDS } from "features/game/types/bumpkin";
 
 const _craftingBoxRecipes = (state: MachineState) =>
   state.context.state.craftingBox.recipes;
+const _craftingStatus = (state: MachineState) =>
+  state.context.state.craftingBox.status;
 
 interface Props {
   gameService: MachineInterpreter;
@@ -32,6 +34,10 @@ export const RecipesTab: React.FC<Props> = ({
   const { t } = useTranslation();
 
   const recipes = useSelector(gameService, _craftingBoxRecipes);
+
+  const craftingStatus = useSelector(gameService, _craftingStatus);
+  const isPending = craftingStatus === "pending";
+  const isCrafting = craftingStatus === "crafting";
 
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -70,8 +76,16 @@ export const RecipesTab: React.FC<Props> = ({
                 <ButtonPanel
                   className={classNames(
                     "flex items-center relative mb-1 cursor-pointer !p-0",
+                    {
+                      "cursor-not-allowed": isPending || isCrafting,
+                    },
                   )}
-                  onClick={() => handleSetupRecipe(recipe)}
+                  onClick={
+                    isPending || isCrafting
+                      ? undefined
+                      : () => handleSetupRecipe(recipe)
+                  }
+                  disabled={isPending || isCrafting}
                 >
                   <SquareIcon icon={SUNNYSIDE.icons.hammer} width={5} />
                 </ButtonPanel>
@@ -81,8 +95,15 @@ export const RecipesTab: React.FC<Props> = ({
               <div className="flex flex-col mr-2">
                 <div className="flex">
                   <ButtonPanel
-                    onClick={() => handleSetupRecipe(recipe)}
-                    className="!p-0"
+                    onClick={
+                      isPending || isCrafting
+                        ? undefined
+                        : () => handleSetupRecipe(recipe)
+                    }
+                    className={classNames("!p-0", {
+                      "cursor-not-allowed": isPending || isCrafting,
+                    })}
+                    disabled={isPending || isCrafting}
                   >
                     {recipe.type === "collectible" && (
                       <img
