@@ -11,6 +11,13 @@ import { RecipesTab } from "./components/RecipesTab";
 import { hasFeatureAccess } from "lib/flags";
 import { Recipe, RecipeIngredient } from "features/game/lib/crafting";
 import { useSound } from "lib/utils/hooks/useSound";
+import { MachineState } from "features/game/lib/gameMachine";
+import { useSelector } from "@xstate/react";
+
+const _craftingItem = (state: MachineState) =>
+  state.context.state.craftingBox.item;
+const _craftingBoxRecipes = (state: MachineState) =>
+  state.context.state.craftingBox.recipes;
 
 export const CraftingBox: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
@@ -20,9 +27,19 @@ export const CraftingBox: React.FC = () => {
 
   const { gameService } = useContext(Context);
 
-  const [selectedItems, setSelectedItems] = useState<
-    (RecipeIngredient | null)[]
-  >(Array(9).fill(null));
+  const craftingItem = useSelector(gameService, _craftingItem);
+  const recipes = useSelector(gameService, _craftingBoxRecipes);
+
+  // Determine the current recipe if any
+  const itemName = craftingItem?.collectible ?? craftingItem?.wearable;
+  const currentRecipe = itemName ? recipes[itemName] ?? null : null;
+  const paddedIngredients = [
+    ...(currentRecipe?.ingredients ?? []),
+    ...Array(9).fill(null),
+  ].slice(0, 9);
+
+  const [selectedItems, setSelectedItems] =
+    useState<(RecipeIngredient | null)[]>(paddedIngredients);
 
   const handleOpen = () => {
     gameService.send("SAVE");

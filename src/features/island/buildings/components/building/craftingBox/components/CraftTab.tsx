@@ -67,22 +67,20 @@ export const CraftTab: React.FC<Props> = ({
   const craftingStatus = useSelector(gameService, _craftingStatus);
   const craftingReadyAt = useSelector(gameService, _craftingReadyAt);
   const recipes = useSelector(gameService, _craftingBoxRecipes);
-  const craftingItem = useSelector(gameService, _craftingItem);
   const [remainingTime, setRemainingTime] = useState<number | null>(null);
   const [failedAttempt, setFailedAttempt] = useState(false);
 
-  const itemName = craftingItem?.collectible ?? craftingItem?.wearable;
-
+  const [currentRecipe, setCurrentRecipe] = useState<Recipe | null>(null);
   const [selectedIngredient, setSelectedIngredient] =
     useState<RecipeIngredient | null>(null);
-  const [currentRecipe, setCurrentRecipe] = useState<Recipe | null>(
-    itemName ? recipes[itemName] ?? null : null,
-  );
 
   const isPending = craftingStatus === "pending";
   const isCrafting = craftingStatus === "crafting";
   const isIdle = craftingStatus === "idle";
-  const isReady = remainingTime !== null && remainingTime <= 0;
+  const isReady =
+    craftingStatus === "crafting" &&
+    remainingTime !== null &&
+    remainingTime <= 0;
 
   const button = useSound("button");
   const selectIngredient = (ingredient: RecipeIngredient | null) => {
@@ -156,14 +154,13 @@ export const CraftTab: React.FC<Props> = ({
    * Find the recipe that matches the selected items
    */
   useEffect(() => {
-    if (isCrafting || isPending) return;
-
     const foundRecipe = findMatchingRecipe(selectedItems, recipes);
 
     if (foundRecipe) {
       setCurrentRecipe(foundRecipe);
     } else {
       setCurrentRecipe(null);
+      setRemainingTime(null);
     }
   }, [selectedItems, recipes]);
 
@@ -264,9 +261,13 @@ export const CraftTab: React.FC<Props> = ({
 
   return (
     <>
-      <Label type="default" className="mb-1">
-        {t("craft")}
-      </Label>
+      <div className="flex pl-1 pt-1">
+        <CraftStatus
+          isPending={isPending}
+          isCrafting={isCrafting}
+          isReady={isReady}
+        />
+      </div>
       <div className="flex mb-2">
         {/** Crafting Grid */}
         <div className="grid grid-cols-3 gap-1 flex-shrink-0">
@@ -287,6 +288,7 @@ export const CraftTab: React.FC<Props> = ({
             />
           ))}
         </div>
+
         {/** Arrow */}
         <div className="flex items-center justify-center flex-grow">
           <img
@@ -307,27 +309,27 @@ export const CraftTab: React.FC<Props> = ({
             failedAttempt={failedAttempt}
           />
           <CraftTimer
-            remainingTime={
-              isIdle && currentRecipe ? currentRecipe.time : remainingTime
-            }
+            recipe={currentRecipe}
+            remainingTime={remainingTime}
             isIdle={isIdle}
             key={currentRecipe?.name}
           />
-          <CraftButton
-            isIdle={isIdle}
-            isCrafting={isCrafting}
-            isPending={isPending}
-            isReady={isReady}
-            handleCollect={handleCollect}
-            handleCraft={handleCraft}
-            isCraftingBoxEmpty={isCraftingBoxEmpty}
-          />
+          <div>
+            <CraftButton
+              isCrafting={isCrafting}
+              isPending={isPending}
+              isReady={isReady}
+              handleCollect={handleCollect}
+              handleCraft={handleCraft}
+              isCraftingBoxEmpty={isCraftingBoxEmpty}
+            />
+          </div>
         </div>
       </div>
 
       {/** Resources */}
       <div className="flex flex-col">
-        <Label type="default" className="mb-1">
+        <Label type="default" className="mb-1 ml-1">
           {t("resources")}
         </Label>
         <div className="flex flex-wrap max-h-48 overflow-y-auto">
@@ -390,6 +392,36 @@ export const CraftTab: React.FC<Props> = ({
   );
 };
 
+const CraftStatus: React.FC<{
+  isPending: boolean;
+  isCrafting: boolean;
+  isReady: boolean;
+}> = ({ isPending, isCrafting, isReady }) => {
+  const { t } = useTranslation();
+
+  if (isReady) {
+    return (
+      <Label type="success" className="mb-1">
+        {t("crafting.readyToCollect")}
+      </Label>
+    );
+  }
+
+  if (isPending || isCrafting) {
+    return (
+      <Label type="warning" className="mb-1">
+        {t("crafting.inProgress")}
+      </Label>
+    );
+  }
+
+  return (
+    <Label type="default" className="mb-1">
+      {t("crafting.selectIngredients")}
+    </Label>
+  );
+};
+
 const CraftDetails: React.FC<{
   recipe: Recipe | null;
   isPending: boolean;
@@ -412,9 +444,9 @@ const CraftDetails: React.FC<{
           className="mt-2 mb-1"
         >
           {isPending
-            ? t("pending")
+            ? t("crafting")
             : failedAttempt
-              ? t("failed")
+              ? t("crafting.noRecipe")
               : t("unknown")}
         </Label>
         <Box
@@ -442,40 +474,81 @@ const CraftDetails: React.FC<{
   );
 };
 
-const CraftTimer: React.FC<{
-  remainingTime: number | null;
-  isIdle: boolean;
-}> = ({ remainingTime, isIdle }) => {
+const RecipeLabelContent: React.FC<{ recipe: Recipe | null }> = ({
+  recipe,
+}) => {
   const { t } = useTranslation();
 
+  if (!recipe) {
+    return <SquareIcon icon={SUNNYSIDE.icons.expression_confused} width={7} />;
+  }
+
+  if (recipe.time === 0) {
+    return <span>{t("instant")}</span>;
+  }
+
   return (
-    <div className="flex items-center justify-center">
-      {
-        <Label
-          type="transparent"
-          className="ml-3 my-1"
-          icon={SUNNYSIDE.icons.stopwatch}
-        >
-          {remainingTime === null && (
-            <SquareIcon icon={SUNNYSIDE.icons.expression_confused} width={7} />
-          )}
-          {remainingTime !== null &&
-            (remainingTime > 0
-              ? secondsToString(remainingTime / 1000, {
-                  length: "short",
-                  isShortFormat: true,
-                })
-              : isIdle
-                ? t("instant")
-                : t("Ready"))}
-        </Label>
-      }
-    </div>
+    <span>
+      {secondsToString(recipe.time / 1000, {
+        length: "short",
+        isShortFormat: true,
+      })}
+    </span>
+  );
+};
+
+const InProgressLabelContent: React.FC<{ remainingTime: number | null }> = ({
+  remainingTime,
+}) => {
+  const { t } = useTranslation();
+
+  if (remainingTime === null) {
+    return <SquareIcon icon={SUNNYSIDE.icons.expression_confused} width={7} />;
+  }
+
+  if (remainingTime === 0) {
+    return <span>{t("ready")}</span>;
+  }
+
+  return (
+    <span>
+      {secondsToString(remainingTime / 1000, {
+        length: "short",
+        isShortFormat: true,
+      })}
+    </span>
+  );
+};
+
+const CraftTimer: React.FC<{
+  recipe: Recipe | null;
+  remainingTime: number | null;
+  isIdle: boolean;
+}> = ({ recipe, remainingTime, isIdle }) => {
+  if (isIdle) {
+    return (
+      <Label
+        type="transparent"
+        className="ml-3 my-1"
+        icon={SUNNYSIDE.icons.stopwatch}
+      >
+        <RecipeLabelContent recipe={recipe} />
+      </Label>
+    );
+  }
+
+  return (
+    <Label
+      type="transparent"
+      className="ml-3 my-1"
+      icon={SUNNYSIDE.icons.stopwatch}
+    >
+      <InProgressLabelContent remainingTime={remainingTime} />
+    </Label>
   );
 };
 
 const CraftButton: React.FC<{
-  isIdle: boolean;
   isCrafting: boolean;
   isPending: boolean;
   isReady: boolean;
@@ -483,7 +556,6 @@ const CraftButton: React.FC<{
   handleCraft: () => void;
   isCraftingBoxEmpty: boolean;
 }> = ({
-  isIdle,
   isCrafting,
   isPending,
   isReady,
@@ -493,27 +565,29 @@ const CraftButton: React.FC<{
 }) => {
   const { t } = useTranslation();
 
+  if (isCrafting && isReady) {
+    return (
+      <Button className="mt-2 whitespace-nowrap" onClick={handleCollect}>
+        {t("collect")}
+      </Button>
+    );
+  }
+
+  if (isCrafting || isPending) {
+    return (
+      <Button className="mt-2 whitespace-nowrap" disabled={true}>
+        {t("crafting")}
+      </Button>
+    );
+  }
+
   return (
-    <div>
-      {(isCrafting || isPending) && !isReady && (
-        <Button className="mt-2 whitespace-nowrap" disabled={true}>
-          {t("crafting")}
-        </Button>
-      )}
-      {isCrafting && isReady && (
-        <Button className="mt-2 whitespace-nowrap" onClick={handleCollect}>
-          {t("collect")}
-        </Button>
-      )}
-      {isIdle && (
-        <Button
-          className="mt-2 whitespace-nowrap"
-          onClick={handleCraft}
-          disabled={isCraftingBoxEmpty}
-        >
-          {`${t("craft")} 1`}
-        </Button>
-      )}
-    </div>
+    <Button
+      className="mt-2 whitespace-nowrap"
+      onClick={handleCraft}
+      disabled={isCraftingBoxEmpty}
+    >
+      {`${t("craft")} 1`}
+    </Button>
   );
 };
