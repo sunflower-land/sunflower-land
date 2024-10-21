@@ -367,13 +367,24 @@ export type WarItems =
   | "Warrior Pants";
 
 export type LoveAnimalItem = "Petting Hand" | "Brush" | "Music Box";
-export type BountyRequest = {
+
+type Bounty = {
   id: string;
-  name: AnimalType;
-  level: number;
+  name: InventoryItemName;
   coins?: number;
   items?: Partial<Record<InventoryItemName, number>>;
 };
+
+export type AnimalBounty = Bounty & {
+  name: AnimalType;
+  level: number;
+};
+
+export type FlowerBounty = Bounty & {
+  name: FlowerName;
+};
+
+export type BountyRequest = AnimalBounty | FlowerBounty;
 
 export type Bounties = {
   requests: BountyRequest[];

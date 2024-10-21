@@ -54,6 +54,7 @@ const featureFlags = {
   GEM_BOOSTS: (game: GameState) => game.experiments.includes("GEM_BOOSTS"),
   CHICKEN_GARBO: timeBasedFeatureFlag(SEASONS["Pharaoh's Treasure"].endDate),
   CRAFTING_BOX: timeBasedFeatureFlag(new Date("2024-11-01T00:00:00Z")),
+  FLOWER_BOUNTIES: timeBasedFeatureFlag(new Date("2024-11-01T00:00:00Z")),
 } satisfies Record<string, FeatureFlag>;
 
 export type FeatureName = keyof typeof featureFlags;

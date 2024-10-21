@@ -4,7 +4,7 @@ import { AnimalType } from "./animals";
 
 export type CaughtEvent = `${InventoryItemName} Caught`;
 export type HarvestedEvent = `${FlowerName} Harvested`;
-export type BountiedEvent = `${AnimalType} Bountied`;
+export type BountiedEvent = `${AnimalType | FlowerName} Bountied`;
 
 export type FarmActivityName = CaughtEvent | HarvestedEvent | BountiedEvent;
 
