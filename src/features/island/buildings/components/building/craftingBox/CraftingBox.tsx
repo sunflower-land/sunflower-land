@@ -75,18 +75,24 @@ export const CraftingBox: React.FC = () => {
           currentTab={currentTab}
           setCurrentTab={setCurrentTab}
         >
-          {currentTab === 0 && (
-            <CraftTab
-              gameService={gameService}
-              selectedItems={selectedItems}
-              setSelectedItems={selectItems}
-            />
-          )}
-          {currentTab === 1 && (
-            <RecipesTab
-              gameService={gameService}
-              handleSetupRecipe={handleSetupRecipe}
-            />
+          {!hasAccess ? (
+            <p className="text-sm">{t("coming.soon")}</p>
+          ) : (
+            <>
+              {currentTab === 0 && (
+                <CraftTab
+                  gameService={gameService}
+                  selectedItems={selectedItems}
+                  setSelectedItems={selectItems}
+                />
+              )}
+              {currentTab === 1 && (
+                <RecipesTab
+                  gameService={gameService}
+                  handleSetupRecipe={handleSetupRecipe}
+                />
+              )}
+            </>
           )}
         </CloseButtonPanel>
       </Modal>
