@@ -1,6 +1,6 @@
 import Decimal from "decimal.js-light";
 import { BuildingName } from "./buildings";
-import { AnimalFoodName, Inventory } from "./game";
+import { AnimalFoodName, AnimalMedicineName, Inventory } from "./game";
 import { translate } from "lib/i18n/translate";
 
 export type AnimalBuildingType = Extract<BuildingName, "Barn" | "Hen House">;
@@ -16,7 +16,8 @@ type AnimalDetail = {
 };
 
 export interface Feed {
-  name: AnimalFoodName;
+  name: AnimalFoodName | AnimalMedicineName;
+  type: "food" | "medicine";
   description: string;
   ingredients: Inventory;
   coins?: number;
@@ -120,9 +121,10 @@ export const ANIMAL_LEVELS: Record<AnimalType, Record<AnimalLevel, number>> = {
   },
 };
 
-export const ANIMAL_FOODS: Record<AnimalFoodName, Feed> = {
+export const ANIMAL_FOODS: Record<AnimalFoodName | AnimalMedicineName, Feed> = {
   Hay: {
     name: "Hay",
+    type: "food",
     description: translate("description.hay"),
     ingredients: {
       Corn: new Decimal(1),
@@ -130,6 +132,7 @@ export const ANIMAL_FOODS: Record<AnimalFoodName, Feed> = {
   },
   "Kernel Blend": {
     name: "Kernel Blend",
+    type: "food",
     description: translate("description.kernel.blend"),
     ingredients: {
       Wheat: new Decimal(1),
@@ -137,6 +140,7 @@ export const ANIMAL_FOODS: Record<AnimalFoodName, Feed> = {
   },
   NutriBarley: {
     name: "NutriBarley",
+    type: "food",
     description: translate("description.nutribarley"),
     ingredients: {
       Barley: new Decimal(1),
@@ -144,6 +148,7 @@ export const ANIMAL_FOODS: Record<AnimalFoodName, Feed> = {
   },
   "Mixed Grain": {
     name: "Mixed Grain",
+    type: "food",
     description: translate("description.mixed.grain"),
     ingredients: {
       Wheat: new Decimal(1),
@@ -151,11 +156,26 @@ export const ANIMAL_FOODS: Record<AnimalFoodName, Feed> = {
       Barley: new Decimal(1),
     },
   },
+  "Barn Delight": {
+    name: "Barn Delight",
+    type: "medicine",
+    description: translate("description.barn.delight"),
+    ingredients: {
+      Egg: new Decimal(10),
+      Iron: new Decimal(1),
+    },
+  },
 };
 
 export const ANIMAL_FOOD_EXPERIENCE: Record<
   AnimalType,
-  Record<AnimalLevel, Record<AnimalFoodName, { xp: number; quantity: number }>>
+  Record<
+    AnimalLevel,
+    Record<
+      Exclude<AnimalFoodName, "Barn Delight">,
+      { xp: number; quantity: number }
+    >
+  >
 > = {
   Chicken: {
     0: {

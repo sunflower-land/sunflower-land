@@ -448,6 +448,7 @@ export type InventoryItemName =
   | FactionShopFoodName
   | MutantFlowerName
   | AnimalFoodName
+  | AnimalMedicineName
   | LoveAnimalItem;
 
 export type Inventory = Partial<Record<InventoryItemName, Decimal>>;
@@ -766,8 +767,9 @@ export type AnimalFoodName =
   | "Hay"
   | "Kernel Blend"
   | "NutriBarley"
-  | "Mixed Grain"
-  | "Barn Delight";
+  | "Mixed Grain";
+
+export type AnimalMedicineName = "Barn Delight";
 
 export type Party = {
   fulfilledAt?: number;
