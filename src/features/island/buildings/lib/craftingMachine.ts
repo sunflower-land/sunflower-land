@@ -109,6 +109,7 @@ export const craftingMachine = createMachine<
           },
           INSTANT: {
             target: "idle",
+            actions: ["clearCraftingDetails"],
           },
         },
       },
