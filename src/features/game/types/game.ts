@@ -766,7 +766,8 @@ export type AnimalFoodName =
   | "Hay"
   | "Kernel Blend"
   | "NutriBarley"
-  | "Mixed Grain";
+  | "Mixed Grain"
+  | "Barn Delight";
 
 export type Party = {
   fulfilledAt?: number;

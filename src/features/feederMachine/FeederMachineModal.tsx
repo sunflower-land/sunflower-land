@@ -4,7 +4,7 @@ import { Modal } from "components/ui/Modal";
 import { SplitScreenView } from "components/ui/SplitScreenView";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Context } from "features/game/GameProvider";
-import { AnimalFoodName } from "features/game/types/game";
+import { AnimalFoodName, AnimalMedicineName } from "features/game/types/game";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import React, { useContext, useState } from "react";
 import { getKeys } from "features/game/types/decorations";
@@ -22,7 +22,9 @@ interface Props {
 export const FeederMachineModal: React.FC<Props> = ({ show, onClose }) => {
   const { t } = useAppTranslation();
   const { gameService, shortcutItem } = useContext(Context);
-  const [selectedName, setSelectedName] = useState<AnimalFoodName>("Hay");
+  const [selectedName, setSelectedName] = useState<
+    AnimalFoodName | AnimalMedicineName
+  >("Hay");
   const { coins, ingredients } = ANIMAL_FOODS[selectedName];
 
   const [
@@ -31,9 +33,9 @@ export const FeederMachineModal: React.FC<Props> = ({ show, onClose }) => {
     },
   ] = useActor(gameService);
 
-  const onFeedClick = (feed: AnimalFoodName) => {
-    setSelectedName(feed);
-    shortcutItem(feed);
+  const onSelect = (item: AnimalFoodName | AnimalMedicineName) => {
+    setSelectedName(item);
+    shortcutItem(item);
   };
 
   const lessIngredients = (amount = 1) =>
@@ -88,14 +90,14 @@ export const FeederMachineModal: React.FC<Props> = ({ show, onClose }) => {
           }
           content={
             <>
-              {getKeys(ANIMAL_FOODS).map((feed) => {
+              {getKeys(ANIMAL_FOODS).map((item) => {
                 return (
                   <Box
-                    key={feed}
-                    isSelected={selectedName === feed}
-                    onClick={() => onFeedClick(feed)}
-                    image={ITEM_DETAILS[feed].image}
-                    count={state.inventory[feed]}
+                    key={item}
+                    isSelected={selectedName === item}
+                    onClick={() => onSelect(item)}
+                    image={ITEM_DETAILS[item].image}
+                    count={state.inventory[item]}
                   />
                 );
               })}
