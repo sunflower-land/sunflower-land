@@ -35,7 +35,17 @@ describe("startCrafting", () => {
   it("sets the crafting status to pending", () => {
     const action: StartCraftingAction = {
       type: "crafting.started",
-      ingredients: [null, null, null, null, null, null, null, null, "Stone"],
+      ingredients: [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        { collectible: "Stone" },
+      ],
     };
 
     const newState = startCrafting({ state: gameState, action });
@@ -46,14 +56,36 @@ describe("startCrafting", () => {
   it("if recipes exists - sets the crafting status to crafting", () => {
     gameState.craftingBox.recipes = {
       "Dirt Path": {
-        ingredients: [null, null, null, null, "Stone", null, null, null, null],
+        name: "Dirt Path",
+        type: "collectible",
+        ingredients: [
+          null,
+          null,
+          null,
+          null,
+          { collectible: "Stone" },
+          null,
+          null,
+          null,
+          null,
+        ],
         time: 0,
       },
     };
 
     const action: StartCraftingAction = {
       type: "crafting.started",
-      ingredients: [null, null, null, null, "Stone", null, null, null, null],
+      ingredients: [
+        null,
+        null,
+        null,
+        null,
+        { collectible: "Stone" },
+        null,
+        null,
+        null,
+        null,
+      ],
     };
 
     const newState = startCrafting({ state: gameState, action });
@@ -67,9 +99,9 @@ describe("startCrafting", () => {
     const action: StartCraftingAction = {
       type: "crafting.started",
       ingredients: [
-        "Wood",
-        "Wood",
-        "Stone",
+        { collectible: "Wood" },
+        { collectible: "Wood" },
+        { collectible: "Stone" },
         null,
         null,
         null,
@@ -95,9 +127,9 @@ describe("startCrafting", () => {
     const action: StartCraftingAction = {
       type: "crafting.started",
       ingredients: [
-        "Wood",
-        "Wood",
-        "Stone",
+        { collectible: "Wood" },
+        { collectible: "Wood" },
+        { collectible: "Stone" },
         null,
         null,
         null,
@@ -115,7 +147,11 @@ describe("startCrafting", () => {
   it("throws an error if the player provides less than 9 ingredients", () => {
     const action: StartCraftingAction = {
       type: "crafting.started",
-      ingredients: ["Wood", "Wood", "Stone"],
+      ingredients: [
+        { collectible: "Wood" },
+        { collectible: "Wood" },
+        { collectible: "Stone" },
+      ],
     };
 
     expect(() => startCrafting({ state: gameState, action })).toThrow(
@@ -127,16 +163,16 @@ describe("startCrafting", () => {
     const action: StartCraftingAction = {
       type: "crafting.started",
       ingredients: [
-        "Wood",
-        "Wood",
-        "Stone",
-        "Wood",
-        "Wood",
-        "Stone",
-        "Wood",
-        "Wood",
-        "Stone",
-        "Wood",
+        { collectible: "Wood" },
+        { collectible: "Wood" },
+        { collectible: "Stone" },
+        { collectible: "Wood" },
+        { collectible: "Wood" },
+        { collectible: "Stone" },
+        { collectible: "Wood" },
+        { collectible: "Wood" },
+        { collectible: "Stone" },
+        { collectible: "Wood" },
       ],
     };
 
@@ -148,7 +184,19 @@ describe("startCrafting", () => {
   it("if recipes exists - throws if the player doesn't have the ingredients", () => {
     gameState.craftingBox.recipes = {
       "Dirt Path": {
-        ingredients: [null, null, null, null, "Stone", null, null, null, null],
+        name: "Dirt Path",
+        type: "collectible",
+        ingredients: [
+          null,
+          null,
+          null,
+          null,
+          { collectible: "Stone" },
+          null,
+          null,
+          null,
+          null,
+        ],
         time: 0,
       },
     };
@@ -156,7 +204,17 @@ describe("startCrafting", () => {
 
     const action: StartCraftingAction = {
       type: "crafting.started",
-      ingredients: [null, null, null, null, "Stone", null, null, null, null],
+      ingredients: [
+        null,
+        null,
+        null,
+        null,
+        { collectible: "Stone" },
+        null,
+        null,
+        null,
+        null,
+      ],
     };
 
     expect(() => startCrafting({ state: gameState, action })).toThrow(
@@ -167,14 +225,36 @@ describe("startCrafting", () => {
   it("if recipes exists - subtracts the ingredients from the player's inventory", () => {
     gameState.craftingBox.recipes = {
       "Dirt Path": {
-        ingredients: [null, null, null, null, "Stone", null, null, null, null],
+        name: "Dirt Path",
+        type: "collectible",
+        ingredients: [
+          null,
+          null,
+          null,
+          null,
+          { collectible: "Stone" },
+          null,
+          null,
+          null,
+          null,
+        ],
         time: 0,
       },
     };
 
     const action: StartCraftingAction = {
       type: "crafting.started",
-      ingredients: [null, null, null, null, "Stone", null, null, null, null],
+      ingredients: [
+        null,
+        null,
+        null,
+        null,
+        { collectible: "Stone" },
+        null,
+        null,
+        null,
+        null,
+      ],
     };
 
     const state = startCrafting({ state: gameState, action });

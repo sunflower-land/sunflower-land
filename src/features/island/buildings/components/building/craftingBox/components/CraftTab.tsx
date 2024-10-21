@@ -15,7 +15,10 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { secondsToString } from "lib/utils/time";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { SquareIcon } from "components/ui/SquareIcon";
-import { RecipeItemName } from "features/game/lib/crafting";
+import { Recipe, RecipeIngredient } from "features/game/lib/crafting";
+import { findMatchingRecipe } from "features/game/events/landExpansion/startCrafting";
+import { getImageUrl } from "lib/utils/getImageURLS";
+import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
 
 const VALID_CRAFTING_RESOURCES = ["Wood", "Stone", "Iron", "Gold"];
 
@@ -31,8 +34,8 @@ const _craftingBoxRecipes = (state: MachineState) =>
 
 interface Props {
   gameService: MachineInterpreter;
-  selectedItems: (InventoryItemName | null)[];
-  setSelectedItems: (items: (InventoryItemName | null)[]) => void;
+  selectedItems: (RecipeIngredient | null)[];
+  setSelectedItems: (items: (RecipeIngredient | null)[]) => void;
 }
 
 export const CraftTab: React.FC<Props> = ({
@@ -44,7 +47,6 @@ export const CraftTab: React.FC<Props> = ({
 
   const inventory = useSelector(gameService, _inventory);
   const craftingStatus = useSelector(gameService, _craftingStatus);
-  const craftedItem = useSelector(gameService, _craftedItem);
   const craftingReadyAt = useSelector(gameService, _craftingReadyAt);
   const recipes = useSelector(gameService, _craftingBoxRecipes);
 
@@ -53,9 +55,7 @@ export const CraftTab: React.FC<Props> = ({
 
   const [selectedResource, setSelectedResource] =
     useState<InventoryItemName | null>(null);
-  const [currentRecipe, setCurrentRecipe] = useState<RecipeItemName | null>(
-    null,
-  );
+  const [currentRecipe, setCurrentRecipe] = useState<Recipe | null>(null);
 
   const isPending = craftingStatus === "pending";
   const isCrafting = craftingStatus === "crafting";
@@ -73,8 +73,9 @@ export const CraftTab: React.FC<Props> = ({
   const remainingInventory = useMemo(() => {
     const updatedInventory = { ...inventory };
     selectedItems.forEach((item) => {
-      if (item && updatedInventory[item]) {
-        updatedInventory[item] = updatedInventory[item].minus(1);
+      const collectible = item?.collectible;
+      if (collectible && updatedInventory[collectible]) {
+        updatedInventory[collectible] = updatedInventory[collectible].minus(1);
       }
     });
     return updatedInventory;
@@ -117,19 +118,12 @@ export const CraftTab: React.FC<Props> = ({
    */
   useEffect(() => {
     if (isCrafting) return;
-    const foundRecipe = Object.entries(recipes).find(([_, recipe]) =>
-      recipe.ingredients.every(
-        (ingredient, index) => ingredient === selectedItems[index],
-      ),
-    );
+    const foundRecipe = findMatchingRecipe(selectedItems, recipes);
 
     if (foundRecipe) {
-      const [recipeName, recipe] = foundRecipe;
-      setCurrentRecipe(recipeName as RecipeItemName);
-      setRemainingTime(recipe.time);
+      setCurrentRecipe(foundRecipe);
     } else {
       setCurrentRecipe(null);
-      setRemainingTime(null);
     }
   }, [selectedItems, recipes]);
 
@@ -250,11 +244,16 @@ export const CraftTab: React.FC<Props> = ({
         {/** Crafting Result */}
         <div className="flex flex-col items-center justify-center flex-grow">
           <CraftDetails
-            recipe={isIdle ? currentRecipe : craftedItem ?? null}
+            recipe={currentRecipe}
             isPending={isPending}
             failedAttempt={failedAttempt}
           />
-          <CraftTimer remainingTime={remainingTime} isIdle={isIdle} />
+          <CraftTimer
+            remainingTime={
+              isIdle && currentRecipe ? currentRecipe.time : remainingTime
+            }
+            isIdle={isIdle}
+          />
           <CraftButton
             isIdle={isIdle}
             isCrafting={isCrafting}
@@ -300,7 +299,7 @@ export const CraftTab: React.FC<Props> = ({
 };
 
 const CraftDetails: React.FC<{
-  recipe: InventoryItemName | null;
+  recipe: Recipe | null;
   isPending: boolean;
   failedAttempt: boolean;
 }> = ({ recipe, isPending, failedAttempt }) => {
@@ -331,9 +330,16 @@ const CraftDetails: React.FC<{
   return (
     <>
       <Label type="default" className="mt-2 mb-1" icon={SUNNYSIDE.icons.hammer}>
-        {recipe}
+        {recipe.name}
       </Label>
-      <Box image={ITEM_DETAILS[recipe]?.image} count={new Decimal(1)} />
+      <Box
+        image={
+          recipe.type === "collectible"
+            ? ITEM_DETAILS[recipe.name as InventoryItemName].image
+            : getImageUrl(ITEM_IDS[recipe.name as BumpkinItem])
+        }
+        count={new Decimal(1)}
+      />
     </>
   );
 };

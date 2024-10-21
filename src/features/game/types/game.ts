@@ -78,7 +78,11 @@ import { GameTransaction } from "./transactions";
 import { CompetitionName, CompetitionProgress } from "./competitions";
 import { AnimalType } from "./animals";
 import { ChoreBoard } from "./choreBoard";
-import { RecipeItemName, Recipes } from "../lib/crafting";
+import {
+  RecipeCollectibleName,
+  Recipes,
+  RecipeWearableName,
+} from "../lib/crafting";
 
 export type Reward = {
   coins?: number;
@@ -1372,7 +1376,15 @@ export interface GameState {
 
   craftingBox: {
     status: "pending" | "idle" | "crafting";
-    item?: RecipeItemName;
+    item?:
+      | {
+          collectible: RecipeCollectibleName;
+          wearable?: never;
+        }
+      | {
+          collectible?: never;
+          wearable: RecipeWearableName;
+        };
     startedAt: number;
     readyAt: number;
     recipes: Partial<Recipes>;

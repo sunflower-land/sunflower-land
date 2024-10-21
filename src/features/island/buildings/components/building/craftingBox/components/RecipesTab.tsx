@@ -10,12 +10,11 @@ import { TextInput } from "components/ui/TextInput";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { secondsToString } from "lib/utils/time";
-import { OuterPanel } from "components/ui/Panel";
+import { ButtonPanel } from "components/ui/Panel";
 import classNames from "classnames";
 import { SquareIcon } from "components/ui/SquareIcon";
 import { Recipe, RecipeItemName, Recipes } from "features/game/lib/crafting";
 import { InventoryItemName } from "features/game/types/game";
-import { SimpleBox } from "features/island/hud/components/codex/SimpleBox";
 
 const _craftingBoxRecipes = (state: MachineState) =>
   state.context.state.craftingBox.recipes;
@@ -63,27 +62,31 @@ export const RecipesTab: React.FC<Props> = ({
             className="flex flex-col p-2 bg-brown-200 rounded-lg border border-brown-400"
           >
             <div className="flex justify-between">
-              <Label type="transparent" className="">
+              <Label type="transparent" className="mb-1">
                 {recipeName}
               </Label>
               <div>
-                <OuterPanel
+                <ButtonPanel
                   className={classNames(
-                    "flex items-center relative p-0.5 mb-1 cursor-pointer",
+                    "flex items-center relative mb-1 cursor-pointer !p-0",
                   )}
                   onClick={() => handleSetupRecipe(recipe)}
                 >
-                  <SquareIcon icon={SUNNYSIDE.icons.hammer} width={3} />
-                </OuterPanel>
+                  <SquareIcon icon={SUNNYSIDE.icons.hammer} width={5} />
+                </ButtonPanel>
               </div>
             </div>
             <div className="flex items-start justify-between">
-              <div className="flex flex-col items-center mr-2">
-                <SimpleBox
-                  image={ITEM_DETAILS[recipeName as InventoryItemName]?.image}
-                  onClick={() => handleSetupRecipe(recipe)}
-                  silhouette={false}
-                />
+              <div className="flex flex-col mr-2">
+                <div className="flex">
+                  <ButtonPanel onClick={() => handleSetupRecipe(recipe)}>
+                    <img
+                      src={ITEM_DETAILS[recipeName as InventoryItemName]?.image}
+                      alt={recipeName}
+                      className="w-5 h-5 object-contain"
+                    />
+                  </ButtonPanel>
+                </div>
                 <div className="flex mt-1">
                   <img
                     src={SUNNYSIDE.icons.stopwatch}

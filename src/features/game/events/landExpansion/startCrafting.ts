@@ -1,12 +1,11 @@
 import Decimal from "decimal.js-light";
-import { RecipeItemName } from "features/game/lib/crafting";
-import { getKeys } from "features/game/types/craftables";
-import { GameState, InventoryItemName } from "features/game/types/game";
+import { Recipe, RecipeIngredient, Recipes } from "features/game/lib/crafting";
+import { GameState } from "features/game/types/game";
 import { produce } from "immer";
 
 export type StartCraftingAction = {
   type: "crafting.started";
-  ingredients: (InventoryItemName | null)[];
+  ingredients: (RecipeIngredient | null)[];
 };
 
 type Options = {
@@ -42,11 +41,8 @@ export function startCrafting({
     }
 
     // Find matching recipe
-    const craftedItem = findMatchingRecipe(
-      ingredients,
-      copy.craftingBox.recipes,
-    );
-    if (!craftedItem) {
+    const recipe = findMatchingRecipe(ingredients, copy.craftingBox.recipes);
+    if (!recipe) {
       copy.craftingBox.status = "pending";
       copy.craftingBox.startedAt = createdAt;
       copy.craftingBox.readyAt = createdAt;
@@ -56,39 +52,87 @@ export function startCrafting({
     // Subtract the ingredients from the player's inventory
     ingredients.forEach((ingredient) => {
       if (ingredient) {
-        const inventoryCount = copy.inventory[ingredient] ?? new Decimal(0);
-        if (inventoryCount.lte(1)) {
-          throw new Error("You do not have the ingredients to craft this item");
+        if (ingredient.collectible) {
+          const inventoryCount =
+            copy.inventory[ingredient.collectible] ?? new Decimal(0);
+          if (inventoryCount.lte(1)) {
+            throw new Error(
+              "You do not have the ingredients to craft this item",
+            );
+          }
+          copy.inventory[ingredient.collectible] = inventoryCount.minus(1);
         }
-        copy.inventory[ingredient] = inventoryCount.minus(1);
+
+        if (ingredient.wearable) {
+          const wardrobeCount = copy.wardrobe[ingredient.wearable] ?? 0;
+          if (wardrobeCount <= 1) {
+            throw new Error(
+              "You do not have the ingredients to craft this item",
+            );
+          }
+          copy.wardrobe[ingredient.wearable] = wardrobeCount - 1;
+        }
       }
     });
 
     copy.craftingBox = {
       status: "crafting",
       startedAt: createdAt,
-      readyAt: createdAt + copy.craftingBox.recipes[craftedItem]!.time,
-      item: craftedItem,
+      readyAt: createdAt + recipe.time,
+      item:
+        recipe.type === "collectible"
+          ? { collectible: recipe.name }
+          : { wearable: recipe.name },
       recipes: {
         ...copy.craftingBox.recipes,
-        [craftedItem]: copy.craftingBox.recipes[craftedItem]!,
+        [recipe.name]: recipe,
       },
     };
   });
 }
 
-// Updated function to find matching recipe
-function findMatchingRecipe(
-  ingredients: (InventoryItemName | null)[],
-  recipes: GameState["craftingBox"]["recipes"],
-): RecipeItemName | undefined {
-  return getKeys(recipes).find(
-    (item) =>
-      recipes[item]?.ingredients.every(
-        (ingredient, i) => ingredient === ingredients[i],
-      ) &&
-      recipes[item]?.ingredients
-        .slice(recipes[item]?.ingredients.length)
-        .every((item) => item === null),
-  );
+export function findMatchingRecipe(
+  ingredients: (RecipeIngredient | null)[],
+  recipes: Partial<Recipes>,
+): Recipe | undefined {
+  for (const recipe of Object.values(recipes)) {
+    // Check if every ingredient matches
+    const ingredientsMatch = recipe.ingredients.every(
+      (recipeIngredient, index) => {
+        const playerIngredient = ingredients[index];
+
+        if (recipeIngredient === null && playerIngredient === null) {
+          return true;
+        }
+
+        if (recipeIngredient === null || playerIngredient === null) {
+          return false;
+        }
+
+        if (
+          "collectible" in recipeIngredient &&
+          "collectible" in playerIngredient
+        ) {
+          return recipeIngredient.collectible === playerIngredient.collectible;
+        }
+
+        if ("wearable" in recipeIngredient && "wearable" in playerIngredient) {
+          return recipeIngredient.wearable === playerIngredient.wearable;
+        }
+
+        return false;
+      },
+    );
+
+    // Check if the recipe is padded with nulls up to 9
+    const isPaddedCorrectly = ingredients
+      .slice(recipe.ingredients.length)
+      .every((item) => item === null);
+
+    if (ingredientsMatch && isPaddedCorrectly) {
+      return recipe;
+    }
+  }
+
+  return undefined;
 }
