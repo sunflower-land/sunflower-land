@@ -10,6 +10,8 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { FlowerTrade } from "./FlowerTrade";
 import Decimal from "decimal.js-light";
+import { hasFeatureAccess } from "lib/flags";
+import { FlowerBounties } from "./FlowerBounties";
 
 const desiredFlowerDialogues = (desiredFlowerName: string) => [
   `${translate("flowerShop.desired.dreaming", {
@@ -44,6 +46,10 @@ export const FlowerShop: React.FC<Props> = ({ onClose }) => {
   const [tab, setTab] = useState(0);
 
   const [confirmAction, setConfirmAction] = useState(false);
+
+  if (hasFeatureAccess(gameService.state.context.state, "FLOWER_BOUNTIES")) {
+    return <FlowerBounties onClose={onClose} />;
+  }
 
   if (flowerShop === undefined) {
     return (
