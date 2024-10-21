@@ -91,7 +91,7 @@ export const FlowerBounties: React.FC<Props> = ({ onClose }) => {
         </div>
 
         <p className="text-xs mb-2">{t("bounties.board.info")}</p>
-        <div className="flex flex-wrap">
+        <div className="flex flex-wrap items-start">
           {deals.length === 0 && (
             <p className="text-sm">{t("bounties.board.empty")}</p>
           )}
@@ -111,6 +111,7 @@ export const FlowerBounties: React.FC<Props> = ({ onClose }) => {
               >
                 <ButtonPanel
                   disabled={isDisabled}
+                  className="h-full"
                   onClick={() => {
                     if (isDisabled) {
                       return;
@@ -119,12 +120,15 @@ export const FlowerBounties: React.FC<Props> = ({ onClose }) => {
                   }}
                 >
                   <div className="flex justify-center items-center my-2 mb-6">
-                    <div className="relative">
+                    <div className="relative mr-2">
                       <img
                         src={ITEM_DETAILS[deal.name].image}
-                        className="w-8 z-20"
+                        className="h-8 z-20"
                       />
                     </div>
+                    <span className="text-xxs flex-1 text-left leading-snug">
+                      {deal.name}
+                    </span>
                   </div>
 
                   {!!isSold && (
