@@ -46,6 +46,11 @@ import { NPC_WEARABLES } from "lib/npcs";
 import { ConfirmationModal } from "components/ui/ConfirmationModal";
 import { formatNumber, setPrecision } from "lib/utils/formatNumber";
 import { hasFeatureAccess } from "lib/flags";
+import {
+  isAdvancedCrop,
+  isBasicCrop,
+  isMediumCrop,
+} from "features/game/events/landExpansion/harvest";
 
 interface Props {
   onClose: () => void;
@@ -289,11 +294,66 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
             type="default"
             className="ml-2 mb-1"
           >
-            {t("crops")}
+            {`Basic Crops`}
           </Label>
           <div className="flex flex-wrap mb-2">
             {seeds
               .filter((name) => name in CROP_SEEDS)
+              .filter((name) => isBasicCrop(name.split(" ")[0] as CropName))
+              .filter(
+                (name) =>
+                  name !== "Barley Seed" || hasFeatureAccess(state, "BARLEY"),
+              )
+              .map((name: SeedName) => (
+                <Box
+                  isSelected={selectedName === name}
+                  key={name}
+                  onClick={() => onSeedClick(name)}
+                  image={ITEM_DETAILS[name].image}
+                  showOverlay={isSeedLocked(name)}
+                  secondaryImage={
+                    isSeedLocked(name) ? SUNNYSIDE.icons.lock : undefined
+                  }
+                  count={inventory[name]}
+                />
+              ))}
+          </div>
+          <Label
+            icon={CROP_LIFECYCLE.Carrot.crop}
+            type="default"
+            className="ml-2 mb-1"
+          >
+            {`Medium Crops`}
+          </Label>
+          <div className="flex flex-wrap mb-2">
+            {seeds
+              .filter((name) => name in CROP_SEEDS)
+              .filter((name) => isMediumCrop(name.split(" ")[0] as CropName))
+              .map((name: SeedName) => (
+                <Box
+                  isSelected={selectedName === name}
+                  key={name}
+                  onClick={() => onSeedClick(name)}
+                  image={ITEM_DETAILS[name].image}
+                  showOverlay={isSeedLocked(name)}
+                  secondaryImage={
+                    isSeedLocked(name) ? SUNNYSIDE.icons.lock : undefined
+                  }
+                  count={inventory[name]}
+                />
+              ))}
+          </div>
+          <Label
+            icon={CROP_LIFECYCLE.Kale.crop}
+            type="default"
+            className="ml-2 mb-1"
+          >
+            {`Advanced Crops`}
+          </Label>
+          <div className="flex flex-wrap mb-2">
+            {seeds
+              .filter((name) => name in CROP_SEEDS)
+              .filter((name) => isAdvancedCrop(name.split(" ")[0] as CropName))
               .filter(
                 (name) =>
                   name !== "Barley Seed" || hasFeatureAccess(state, "BARLEY"),
