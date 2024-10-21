@@ -84,7 +84,7 @@ export const JoinFaction: React.FC<Props> = ({ faction, onClose }) => {
       });
 
       const position = totals.indexOf(faction);
-      const fee = SFL_COST.reverse()[position] ?? 10;
+      const fee = [...SFL_COST].reverse()[position] ?? 10;
       setCost(fee);
       setIsLoading(false);
     };
