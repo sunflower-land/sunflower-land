@@ -3750,5 +3750,9 @@
   "wakesIn": "Uyanıyor:",
   "animal.noFoodMessage": "Yiyecek yok",
   "levelUp": "Seviye Atla!",
-  "animal.notEnoughFood": "Yeterli yiyecek yok"
+  "animal.notEnoughFood": "Yeterli yiyecek yok",
+  "gameOptions.plazaSettings.pickServer": "Sunucu Seç",
+  "gameOptions.plazaSettings.pickServer.loading": "Sunucular yükleniyor...",
+  "gameOptions.plazaSettings.pickServer.noServer": "Sunucu bulunamadı",
+  "gameOptions.plazaSettings.pickServer.select": "Varsayılan olarak istediğiniz sunucuyu seçin."
 }

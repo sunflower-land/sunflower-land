@@ -3750,5 +3750,9 @@
   "wakesIn": "Bangun dalam:",
   "animal.noFoodMessage": "Tiada makanan tersedia",
   "levelUp": "Tingkat Tingkat!",
-  "animal.notEnoughFood": "Tidak cukup makanan"
+  "animal.notEnoughFood": "Tidak cukup makanan",
+  "gameOptions.plazaSettings.pickServer": "Pilih Pelayan",
+  "gameOptions.plazaSettings.pickServer.loading": "Memuatkan pelayan...",
+  "gameOptions.plazaSettings.pickServer.noServer": "Tiada pelayan ditemui",
+  "gameOptions.plazaSettings.pickServer.select": "Pilih pelayan yang anda mahu sebagai lalai anda."
 }

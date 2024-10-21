@@ -3750,5 +3750,9 @@
   "wakesIn": "Se réveille :",
   "animal.noFoodMessage": "Pas de nourriture disponible",
   "levelUp": "Passez au niveau supérieur !",
-  "animal.notEnoughFood": "Pas assez de nourriture"
+  "animal.notEnoughFood": "Pas assez de nourriture",
+  "gameOptions.plazaSettings.pickServer": "Choisissez un serveur",
+  "gameOptions.plazaSettings.pickServer.loading": "Chargement des serveurs...",
+  "gameOptions.plazaSettings.pickServer.noServer": "Aucun serveur n'a été trouvé",
+  "gameOptions.plazaSettings.pickServer.select": "Sélectionnez le serveur que vous souhaitez utiliser par défaut."
 }

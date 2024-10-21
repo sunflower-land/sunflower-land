@@ -3750,5 +3750,9 @@
   "wakesIn": "Просыпается в:",
   "animal.noFoodMessage": "Еда недоступна",
   "levelUp": "Повышайте уровень!",
-  "animal.notEnoughFood": "Недостаточно еды"
+  "animal.notEnoughFood": "Недостаточно еды",
+  "gameOptions.plazaSettings.pickServer": "Выберите сервер",
+  "gameOptions.plazaSettings.pickServer.loading": "Загрузка серверов...",
+  "gameOptions.plazaSettings.pickServer.noServer": "Серверы не найдены",
+  "gameOptions.plazaSettings.pickServer.select": "Выберите сервер, который вы хотите использовать по умолчанию."
 }
