@@ -3750,5 +3750,9 @@
   "wakesIn": "Bangun di:",
   "animal.noFoodMessage": "Tidak ada makanan yang tersedia",
   "levelUp": "Naik Level!",
-  "animal.notEnoughFood": "Tidak cukup makanan"
+  "animal.notEnoughFood": "Tidak cukup makanan",
+  "gameOptions.plazaSettings.pickServer": "Pilih Server",
+  "gameOptions.plazaSettings.pickServer.loading": "Memuat server...",
+  "gameOptions.plazaSettings.pickServer.noServer": "Tidak ada server yang ditemukan",
+  "gameOptions.plazaSettings.pickServer.select": "Pilih server yang Anda inginkan sebagai default Anda."
 }

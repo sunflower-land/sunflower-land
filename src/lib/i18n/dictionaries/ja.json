@@ -3750,5 +3750,9 @@
   "wakesIn": "ウェイクイン:",
   "animal.noFoodMessage": "お食事はありません",
   "levelUp": "レベルアップ！",
-  "animal.notEnoughFood": "食べ物が足りない"
+  "animal.notEnoughFood": "食べ物が足りない",
+  "gameOptions.plazaSettings.pickServer": "サーバーを選択",
+  "gameOptions.plazaSettings.pickServer.loading": "サーバーをロード中...",
+  "gameOptions.plazaSettings.pickServer.noServer": "サーバーが見つかりません",
+  "gameOptions.plazaSettings.pickServer.select": "デフォルトとして必要なサーバーを選択します。"
 }

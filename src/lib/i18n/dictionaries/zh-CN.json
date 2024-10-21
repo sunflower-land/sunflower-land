@@ -3750,5 +3750,9 @@
   "wakesIn": "醒来了：",
   "animal.noFoodMessage": "没有食物可用",
   "levelUp": "升级！",
-  "animal.notEnoughFood": "食物不足"
+  "animal.notEnoughFood": "食物不足",
+  "gameOptions.plazaSettings.pickServer": "选择服务器",
+  "gameOptions.plazaSettings.pickServer.loading": "正在加载服务器...",
+  "gameOptions.plazaSettings.pickServer.noServer": "未找到服务器",
+  "gameOptions.plazaSettings.pickServer.select": "选择您想要的服务器作为默认服务器。"
 }
