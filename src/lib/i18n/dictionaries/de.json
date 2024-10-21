@@ -3741,5 +3741,14 @@
   "howToGetThisItem.battleFish": "Es war in der Clash of Faction-Saison im Gameplay erhältlich.",
   "howToGetThisItem.lemonShark": "Es war in der Pharaoh's Treasure-Saison im Gameplay erhältlich.",
   "permanent": "Dauerhaft",
-  "npcDialogues.sheep.intro3": "Oh, du hast ein Geschenk für heute erhalten, komm zurück in {{timeLeft}} und ich gebe dir noch ein Geschenk."
+  "npcDialogues.sheep.intro3": "Oh, du hast ein Geschenk für heute erhalten, komm zurück in {{timeLeft}} und ich gebe dir noch ein Geschenk.",
+  "faction.noAccess": "Kein Zugriff",
+  "double.rewards.deliveries": "Doppelte Prämienlieferungen",
+  "double.rewards.delivery": "Lieferung doppelter Prämien",
+  "2x.rewards": "2x Prämien",
+  "quickSelect.animalFeed": "Bereite etwas Tierfutter zu.",
+  "wakesIn": "Wacht auf in:",
+  "animal.noFoodMessage": "Kein Essen verfügbar",
+  "levelUp": "Steigen Sie auf!",
+  "animal.notEnoughFood": "Nicht genug zu essen"
 }

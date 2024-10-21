@@ -10,24 +10,38 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import React, { useContext, useEffect, useRef } from "react";
 
-interface Props {
-  icon: string;
-  options: { name: InventoryItemName; icon: InventoryItemName }[];
+type BaseProps = {
+  options: {
+    name: InventoryItemName;
+    icon: InventoryItemName;
+    showSecondaryImage: boolean;
+  }[];
   onClose: () => void;
   onSelected?: (name: InventoryItemName) => void;
+};
+
+type PropsWithType = BaseProps & {
   type: string;
-}
+  emptyMessage?: never;
+};
+
+type PropsWithEmptyMessage = BaseProps & {
+  type?: never;
+  emptyMessage: string;
+};
+
+type Props = PropsWithType | PropsWithEmptyMessage;
 
 const selectInventory = (state: MachineState) => state.context.state.inventory;
 
 export const QuickSelect: React.FC<Props> = ({
-  icon,
   options,
   onClose,
   onSelected,
-  type,
+  type = "", // Provide a default empty string
+  emptyMessage,
 }) => {
-  const { gameService, selectedItem, shortcutItem } = useContext(Context);
+  const { gameService, shortcutItem } = useContext(Context);
   const ref = useRef<HTMLDivElement>(null); // Create a ref to the component
   const inventory = useSelector(gameService, selectInventory);
 
@@ -64,10 +78,11 @@ export const QuickSelect: React.FC<Props> = ({
 
   if (available.length === 0) {
     return (
-      <div ref={ref}>
+      <div ref={ref} className="absolute">
         <InnerPanel style={{ maxWidth: "295px" }} className="shadow-2xl">
           <span className="text-xs p-0.5 py-1 font-secondary">
-            {t("quickSelect.purchase", { name: type })}
+            {emptyMessage ||
+              t("quickSelect.purchase", { name: type || "item" })}
           </span>
         </InnerPanel>
       </div>
@@ -80,48 +95,51 @@ export const QuickSelect: React.FC<Props> = ({
   return (
     <div
       ref={ref}
-      className="flex"
+      className="flex shadow-md"
       style={{
         left: `50%`,
         transform: "translatex(-50%)",
       }}
     >
-      {available.slice(0, 3).map(({ name, icon }, index) => (
-        <div
-          style={{
-            width: `${PIXEL_SCALE * 18}px`,
-            height: `${PIXEL_SCALE * 19}px`,
-            top:
-              (discLength === 3 && index === 1) ||
-              (discLength === 4 && index >= 1)
-                ? `${PIXEL_SCALE * -6}px`
-                : 0,
-          }}
-          className="flex items-center justify-center relative mr-1 cursor-pointer"
-          onClick={() => select(name)}
-          key={name}
-        >
-          <img
-            src={SUNNYSIDE.icons.disc}
-            className="absolute w-full h-full inset-0"
-          />
-          <img
-            src={ITEM_DETAILS[icon as InventoryItemName].image}
-            className="z-10 -mt-1"
+      {available
+        .slice(0, 3)
+        .map(({ name, icon, showSecondaryImage }, index) => (
+          <div
             style={{
-              width: `${PIXEL_SCALE * 10}px`,
+              width: `${PIXEL_SCALE * 18}px`,
+              height: `${PIXEL_SCALE * 19}px`,
+              top:
+                (discLength === 3 && index === 1) ||
+                (discLength === 4 && index >= 1)
+                  ? `${PIXEL_SCALE * -6}px`
+                  : 0,
             }}
-          />
-
-          <img
-            src={ITEM_DETAILS[name].image}
-            className="z-10 absolute top-0 right-0"
-            style={{
-              width: `${PIXEL_SCALE * 6}px`,
-            }}
-          />
-        </div>
-      ))}
+            className="flex items-center justify-center relative mr-1 cursor-pointer"
+            onClick={() => select(name)}
+            key={name}
+          >
+            <img
+              src={SUNNYSIDE.icons.disc}
+              className="absolute w-full h-full inset-0"
+            />
+            <img
+              src={ITEM_DETAILS[icon as InventoryItemName].image}
+              className="z-10 -mt-1"
+              style={{
+                width: `${PIXEL_SCALE * 10}px`,
+              }}
+            />
+            {showSecondaryImage && (
+              <img
+                src={ITEM_DETAILS[name].image}
+                className="z-10 absolute top-0 right-0"
+                style={{
+                  width: `${PIXEL_SCALE * 6}px`,
+                }}
+              />
+            )}
+          </div>
+        ))}
       {showBasket && (
         <div
           style={{
@@ -144,23 +162,6 @@ export const QuickSelect: React.FC<Props> = ({
           />
         </div>
       )}
-      {/* //       <Box
-      //         key={name}
-      //         count={inventory[name]}
-      //         image={ITEM_DETAILS[name].image}
-      //         secondaryImage={icon ? ITEM_DETAILS[icon].image : undefined}
-      //         disabled={!inventory[name]?.gte(1)}
-      //         onClick={() => select(name)}
-      //         isSelected={selectedItem === name}
-      //       />
-      //     ))}
-      //     {available.length === 0 && (
-      //       <span className="text-xs p-0.5 py-1 font-secondary">
-      //         {t("quickSelect.purchase", { name: type })}
-      //       </span>
-      //     )}
-      //   </div>
-      // </InnerPanel> */}
     </div>
   );
 };

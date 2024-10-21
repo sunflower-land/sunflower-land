@@ -265,7 +265,7 @@ describe("loveAnimal", () => {
               lovedAt: 0,
               coordinates: { x: 0, y: 0 },
               createdAt: 0,
-              experience: 0,
+              experience: 200,
               state: "idle",
               item: "Music Box",
             },

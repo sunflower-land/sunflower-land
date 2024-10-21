@@ -84,7 +84,7 @@ export const JoinFaction: React.FC<Props> = ({ faction, onClose }) => {
       });
 
       const position = totals.indexOf(faction);
-      const fee = SFL_COST.reverse()[position] ?? 10;
+      const fee = [...SFL_COST].reverse()[position] ?? 10;
       setCost(fee);
       setIsLoading(false);
     };
@@ -123,7 +123,7 @@ export const JoinFaction: React.FC<Props> = ({ faction, onClose }) => {
         <div className="flex flex-col p-2 pt-1 space-y-2">
           <div className="flex justify-between">
             <Label type="default">{capitalize(faction)}</Label>
-            <Label type="danger">{`No Access`}</Label>
+            <Label type="danger">{t("faction.noAccess")}</Label>
           </div>
           <span className="text-xs sm:text-sm">
             {t("faction.restrited.area", { faction: capitalize(faction) })}
@@ -144,7 +144,7 @@ export const JoinFaction: React.FC<Props> = ({ faction, onClose }) => {
           <div className="flex flex-col px-2 py-1 space-y-2">
             <div className="flex justify-between">
               <Label type="default">{capitalize(faction)}</Label>
-              <Label type="danger">{`No Access`}</Label>
+              <Label type="danger">{t("faction.noAccess")}</Label>
             </div>
             <span className="text-xs sm:text-sm">
               <InlineDialogue message={intro} />

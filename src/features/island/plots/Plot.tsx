@@ -326,10 +326,10 @@ export const Plot: React.FC<Props> = ({ id, index }) => {
         className="flex top-[-255%] left-[50%] absolute z-40"
       >
         <QuickSelect
-          icon={SUNNYSIDE.icons.seeds}
           options={getKeys(CROP_SEEDS).map((seed) => ({
             name: seed as InventoryItemName,
             icon: CROP_SEEDS[seed].yield as InventoryItemName,
+            showSecondaryImage: true,
           }))}
           onClose={() => setShowQuickSelect(false)}
           onSelected={(seed) => {

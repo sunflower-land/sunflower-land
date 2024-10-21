@@ -3741,5 +3741,14 @@
   "howToGetThisItem.battleFish": "Это стало возможным благодаря геймплею сезона Clash of Faction.",
   "howToGetThisItem.lemonShark": "Его можно было получить в игровом режиме в сезоне «Сокровища Фараона».",
   "permanent": "Постоянный",
-  "npcDialogues.sheep.intro3": "О, вы получили подарок на сегодня, вернитесь через {{timeLeft}}, и я сделаю вам еще один подарок."
+  "npcDialogues.sheep.intro3": "О, вы получили подарок на сегодня, вернитесь через {{timeLeft}}, и я сделаю вам еще один подарок.",
+  "faction.noAccess": "Нет доступа",
+  "double.rewards.deliveries": "Доставка двойных вознаграждений",
+  "double.rewards.delivery": "Доставка двойных вознаграждений",
+  "2x.rewards": "Двукратное вознаграждение",
+  "quickSelect.animalFeed": "Приготовьте немного корма для животных.",
+  "wakesIn": "Просыпается в:",
+  "animal.noFoodMessage": "Еда недоступна",
+  "levelUp": "Повышайте уровень!",
+  "animal.notEnoughFood": "Недостаточно еды"
 }

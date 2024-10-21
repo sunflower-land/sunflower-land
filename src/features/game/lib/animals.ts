@@ -1,5 +1,6 @@
-import { ANIMAL_FOOD_EXPERIENCE } from "../events/landExpansion/feedAnimal";
 import {
+  ANIMAL_FOOD_EXPERIENCE,
+  ANIMAL_FOODS,
   ANIMAL_LEVELS,
   AnimalBuildingType,
   AnimalLevel,
@@ -8,7 +9,13 @@ import {
 } from "../types/animals";
 import { BuildingName } from "../types/buildings";
 import { getKeys } from "../types/decorations";
-import { Animal, AnimalBuilding, AnimalBuildingKey } from "../types/game";
+import {
+  Animal,
+  AnimalBuilding,
+  AnimalBuildingKey,
+  AnimalFoodName,
+  InventoryItemName,
+} from "../types/game";
 
 export const makeAnimalBuildingKey = (
   buildingName: Extract<BuildingName, "Hen House" | "Barn">,
@@ -68,7 +75,7 @@ export const isMaxLevel = (animal: AnimalType, level: AnimalLevel) => {
 export function getAnimalLevel(experience: number, animal: AnimalType) {
   const levels = ANIMAL_LEVELS[animal];
 
-  let currentLevel: AnimalLevel = 1;
+  let currentLevel: AnimalLevel = 0;
 
   // Iterate through the levels and find the appropriate one
   for (const [level, xpThreshold] of Object.entries(levels)) {
@@ -84,14 +91,18 @@ export function getAnimalLevel(experience: number, animal: AnimalType) {
 
 export function getAnimalFavoriteFood(type: AnimalType, animalXP: number) {
   const level = getAnimalLevel(animalXP, type);
-  const xp = ANIMAL_FOOD_EXPERIENCE[type][level];
-  const maxXp = Math.max(...Object.values(xp));
+  const levelFood = ANIMAL_FOOD_EXPERIENCE[type][level];
+  const maxXp = Math.max(...Object.values(levelFood).map((level) => level.xp));
 
-  const favouriteFoods = getKeys(xp).filter(
-    (foodName) => xp[foodName] === maxXp,
+  const favouriteFoods = getKeys(levelFood).filter(
+    (foodName) => levelFood[foodName].xp === maxXp,
   );
 
   if (favouriteFoods.length !== 1) throw new Error("No favourite food");
 
   return favouriteFoods[0];
+}
+
+export function isAnimalFood(item: InventoryItemName): item is AnimalFoodName {
+  return getKeys(ANIMAL_FOODS).includes(item as AnimalFoodName);
 }

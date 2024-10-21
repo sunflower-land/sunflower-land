@@ -66,6 +66,11 @@ const ANIMAL_ITEM_CHANCES: Record<
   AnimalLevel,
   Record<LoveAnimalItem, number>
 > = {
+  0: {
+    "Petting Hand": 0,
+    Brush: 0,
+    "Music Box": 0,
+  },
   1: {
     "Petting Hand": 10,
     Brush: 0,
@@ -80,6 +85,66 @@ const ANIMAL_ITEM_CHANCES: Record<
     "Petting Hand": 7,
     Brush: 3,
     "Music Box": 0,
+  },
+  4: {
+    "Petting Hand": 6,
+    Brush: 3,
+    "Music Box": 1,
+  },
+  5: {
+    "Petting Hand": 5,
+    Brush: 4,
+    "Music Box": 1,
+  },
+  6: {
+    "Petting Hand": 5,
+    Brush: 3,
+    "Music Box": 2,
+  },
+  7: {
+    "Petting Hand": 4,
+    Brush: 4,
+    "Music Box": 2,
+  },
+  8: {
+    "Petting Hand": 4,
+    Brush: 3,
+    "Music Box": 3,
+  },
+  9: {
+    "Petting Hand": 3,
+    Brush: 4,
+    "Music Box": 3,
+  },
+  10: {
+    "Petting Hand": 3,
+    Brush: 3,
+    "Music Box": 4,
+  },
+  11: {
+    "Petting Hand": 2,
+    Brush: 4,
+    "Music Box": 4,
+  },
+  12: {
+    "Petting Hand": 2,
+    Brush: 3,
+    "Music Box": 5,
+  },
+  13: {
+    "Petting Hand": 1,
+    Brush: 4,
+    "Music Box": 5,
+  },
+  14: {
+    "Petting Hand": 1,
+    Brush: 3,
+    "Music Box": 6,
+  },
+  15: {
+    "Petting Hand": 1,
+    Brush: 2,
+    "Music Box": 7,
   },
 };
 

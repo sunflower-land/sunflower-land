@@ -3741,5 +3741,14 @@
   "howToGetThisItem.battleFish": "Clash of Faction sezonunda oynanarak elde edilebilirdi.",
   "howToGetThisItem.lemonShark": "Firavun'un Hazinesi sezonunda oynanarak elde edilebilirdi.",
   "permanent": "Kalıcı",
-  "npcDialogues.sheep.intro3": "Oh, bugün için bir hediye aldın, geri gel {{timeLeft}} ve sana bir hediye daha vereceğim."
+  "npcDialogues.sheep.intro3": "Oh, bugün için bir hediye aldın, geri gel {{timeLeft}} ve sana bir hediye daha vereceğim.",
+  "faction.noAccess": "Erişim Yok",
+  "double.rewards.deliveries": "Çifte Ödül Teslimatları",
+  "double.rewards.delivery": "Çifte Ödül Teslimatı",
+  "2x.rewards": "2x Ödül",
+  "quickSelect.animalFeed": "Hayvan yemi hazırlayın.",
+  "wakesIn": "Uyanıyor:",
+  "animal.noFoodMessage": "Yiyecek yok",
+  "levelUp": "Seviye Atla!",
+  "animal.notEnoughFood": "Yeterli yiyecek yok"
 }

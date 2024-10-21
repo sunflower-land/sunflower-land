@@ -1209,6 +1209,7 @@
   "faction.restrited.area": "Hold up farmer! This castle is off limits to you. Only the {{faction}} are allowed here.",
   "faction.not.pledged": "Hmm. It looks like you haven't pledged to a faction yet. Would you like to join the {{faction}}?",
   "faction.cost": "Show your allegiance and join the {{faction}}. Entry to the faction costs {{cost}} SFL.",
+  "faction.noAccess": "No Access",
   "faction.pledge.reward": "In exchange, you will receive a {{banner}} and entry to our house.",
   "faction.welcome": "Welcome to the {{faction}}!",
   "faction.greeting.goblins": "Hail the Goblin King!",
@@ -3741,5 +3742,13 @@
   "chores.completed": "Completed",
   "chores.complete": "Complete",
   "chore.chop.1.tree": "Chop 1 Tree",
-  "chore.chop.2.trees": "Chop 2 Trees"
+  "chore.chop.2.trees": "Chop 2 Trees",
+  "double.rewards.deliveries": "Double Rewards Deliveries",
+  "double.rewards.delivery": "Double Rewards Delivery",
+  "2x.rewards": "2x Rewards",
+  "quickSelect.animalFeed": "Prepare some animal feed.",
+  "wakesIn": "Wakes in:",
+  "animal.noFoodMessage": "No food available",
+  "levelUp": "Level Up!",
+  "animal.notEnoughFood": "Not enough food"
 }

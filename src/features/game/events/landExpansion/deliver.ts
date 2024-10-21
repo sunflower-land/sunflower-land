@@ -53,6 +53,17 @@ export function generateDeliveryTickets({
     amount += 2;
   }
 
+  const completedAt = game.npcs?.[npc]?.deliveryCompletedAt;
+
+  const hasClaimedBonus =
+    !!completedAt &&
+    new Date(completedAt).toISOString().substring(0, 10) ===
+      new Date().toISOString().substring(0, 10);
+  // Leave this at the end as it will multiply the whole amount by 2
+  if (game.delivery.doubleDelivery === true && !hasClaimedBonus) {
+    amount *= 2;
+  }
+
   return amount;
 }
 
@@ -241,6 +252,17 @@ export function getOrderSellPrice<T>(game: GameState, order: Order): T {
     mul += 0.25;
   }
 
+  const completedAt = game.npcs?.[order.from]?.deliveryCompletedAt;
+
+  const hasClaimedBonus =
+    !!completedAt &&
+    new Date(completedAt).toISOString().substring(0, 10) ===
+      new Date().toISOString().substring(0, 10);
+  // Leave this at the end as it will multiply the whole amount by 2
+  if (game.delivery.doubleDelivery === true && !hasClaimedBonus) {
+    mul *= 2;
+  }
+
   if (order.reward.sfl) {
     return new Decimal(order.reward.sfl ?? 0).mul(mul) as T;
   }
@@ -379,7 +401,10 @@ export function deliverOrder({
 
     game.npcs = {
       ...npcs,
-      [order.from]: npc,
+      [order.from]: {
+        ...npc,
+        deliveryCompletedAt: createdAt,
+      },
     };
 
     // bumpkin.activity = trackActivity(`${order.from} Delivered`, 1);
