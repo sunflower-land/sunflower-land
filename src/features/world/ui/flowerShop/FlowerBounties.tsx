@@ -2,20 +2,17 @@ import { useSelector } from "@xstate/react";
 import { SUNNYSIDE } from "assets/sunnyside";
 import classNames from "classnames";
 import { Button } from "components/ui/Button";
-import { HudContainer } from "components/ui/HudContainer";
 import { Label } from "components/ui/Label";
-import { ButtonPanel, InnerPanel, Panel } from "components/ui/Panel";
+import { ButtonPanel, Panel } from "components/ui/Panel";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { SpeakingModal } from "features/game/components/SpeakingModal";
-import { getAnimalLevel } from "features/game/events/landExpansion/sellAnimal";
 import { Context } from "features/game/GameProvider";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { weekResetsAt } from "features/game/lib/factions";
 import { MachineState } from "features/game/lib/gameMachine";
-import { AnimalType } from "features/game/types/animals";
 import { getKeys } from "features/game/types/decorations";
-import { FlowerName, FLOWERS } from "features/game/types/flowers";
-import { Animal, BountyRequest } from "features/game/types/game";
+import { FLOWERS } from "features/game/types/flowers";
+import { BountyRequest } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { TimerDisplay } from "features/retreat/components/auctioneer/AuctionDetails";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -75,17 +72,19 @@ export const FlowerBounties: React.FC<Props> = ({ onClose }) => {
     );
   }
 
-  const sell = () => {};
-
   if (deal) {
-    return <Deal deal={deal} onClose={onClose} onSold={sell} />;
+    return (
+      <Deal deal={deal} onClose={() => setDeal(undefined)} onSold={onClose} />
+    );
   }
 
   return (
     <CloseButtonPanel bumpkinParts={NPC_WEARABLES.poppy} onClose={onClose}>
       <div className="p-1">
-        <div className="flex justify-between items-center mb-2">
-          <Label type="default">{t("bounties.board")}</Label>
+        <div className="flex flex-wrap items-center mb-2">
+          <Label type="default" className="mr-2">
+            {t("bounties.board")}
+          </Label>
           <Label type="info" icon={SUNNYSIDE.icons.stopwatch}>
             <TimerDisplay time={expiresAt} />
           </Label>
@@ -101,6 +100,8 @@ export const FlowerBounties: React.FC<Props> = ({ onClose }) => {
               (request) => request.id === deal.id,
             );
 
+            const isDisabled = isSold || !state.inventory[deal.name]?.gt(0);
+
             return (
               <div
                 key={deal.id}
@@ -109,8 +110,13 @@ export const FlowerBounties: React.FC<Props> = ({ onClose }) => {
                 })}
               >
                 <ButtonPanel
-                  // disabled={isDisabled}
-                  onClick={() => setDeal(deal)}
+                  disabled={isDisabled}
+                  onClick={() => {
+                    if (isDisabled) {
+                      return;
+                    }
+                    setDeal(deal);
+                  }}
                 >
                   <div className="flex justify-center items-center my-2 mb-6">
                     <div className="relative">
@@ -200,7 +206,7 @@ const Deal: React.FC<{
   }
 
   return (
-    <Panel>
+    <Panel bumpkinParts={NPC_WEARABLES.poppy}>
       <div className="p-2">
         <div className="mb-2 flex flex-wrap">
           <Label
@@ -208,7 +214,7 @@ const Deal: React.FC<{
             icon={ITEM_DETAILS[deal.name].image}
             className="mr-2"
           >
-            {name}
+            {deal.name}
           </Label>
           {!!deal.coins && (
             <Label type="warning" icon={SUNNYSIDE.ui.coinsImg}>

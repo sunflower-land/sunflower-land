@@ -3763,5 +3763,7 @@
   "crafting.inProgress": "In progress",
   "crafting.noRecipe": "No recipe",
   "ready": "Ready",
-  "instant": "Instant"
+  "instant": "Instant",
+  "bounties.flower.intro.one": "Howdy Bumpkin! We've got a bounty on flowers this week.",
+  "bounties.flower.intro.two": "Bring me your finest flowers, and I'll make it worth your while."
 }

@@ -327,6 +327,7 @@ export const SUNNYSIDE = {
   building: {
     smoke: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/smoke.gif`,
     wishingwell: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/wishing_well.png`,
+    bountyBoard: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/bounty_board.png`,
     //BASIC
     firePit: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/fire_pit.png`,
     kitchen: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/kitchen.png`,
