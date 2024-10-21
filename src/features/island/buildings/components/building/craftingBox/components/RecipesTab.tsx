@@ -14,7 +14,8 @@ import { ButtonPanel } from "components/ui/Panel";
 import classNames from "classnames";
 import { SquareIcon } from "components/ui/SquareIcon";
 import { Recipe, RecipeItemName, Recipes } from "features/game/lib/crafting";
-import { InventoryItemName } from "features/game/types/game";
+import { getImageUrl } from "lib/utils/getImageURLS";
+import { ITEM_IDS } from "features/game/types/bumpkin";
 
 const _craftingBoxRecipes = (state: MachineState) =>
   state.context.state.craftingBox.recipes;
@@ -56,14 +57,14 @@ export const RecipesTab: React.FC<Props> = ({
         className="mb-2"
       />
       <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 overflow-y-auto max-h-96">
-        {Object.entries(filteredRecipes || {}).map(([recipeName, recipe]) => (
+        {Object.values(filteredRecipes || {}).map((recipe) => (
           <div
-            key={recipeName}
+            key={recipe.name}
             className="flex flex-col p-2 bg-brown-200 rounded-lg border border-brown-400"
           >
             <div className="flex justify-between">
               <Label type="transparent" className="mb-1">
-                {recipeName}
+                {recipe.name}
               </Label>
               <div>
                 <ButtonPanel
@@ -79,12 +80,23 @@ export const RecipesTab: React.FC<Props> = ({
             <div className="flex items-start justify-between">
               <div className="flex flex-col mr-2">
                 <div className="flex">
-                  <ButtonPanel onClick={() => handleSetupRecipe(recipe)}>
-                    <img
-                      src={ITEM_DETAILS[recipeName as InventoryItemName]?.image}
-                      alt={recipeName}
-                      className="w-5 h-5 object-contain"
-                    />
+                  <ButtonPanel
+                    onClick={() => handleSetupRecipe(recipe)}
+                    className="!p-0"
+                  >
+                    {recipe.type === "collectible" && (
+                      <img
+                        src={ITEM_DETAILS[recipe.name]?.image}
+                        alt={recipe.name}
+                        className="w-6 h-6 object-contain"
+                      />
+                    )}
+                    {recipe.type === "wearable" && (
+                      <img
+                        src={getImageUrl(ITEM_IDS[recipe.name])}
+                        className="w-6 h-6 object-contain"
+                      />
+                    )}
                   </ButtonPanel>
                 </div>
                 <div className="flex mt-1">
@@ -113,10 +125,15 @@ export const RecipesTab: React.FC<Props> = ({
                         key={index}
                         className="w-6 h-6 bg-brown-600 rounded border border-brown-700 flex items-center justify-center"
                       >
-                        {ingredient && (
+                        {ingredient?.collectible && (
                           <img
-                            src={ITEM_DETAILS[ingredient]?.image}
-                            alt={ingredient}
+                            src={ITEM_DETAILS[ingredient.collectible]?.image}
+                            className="w-5 h-5 object-contain"
+                          />
+                        )}
+                        {ingredient?.wearable && (
+                          <img
+                            src={getImageUrl(ITEM_IDS[ingredient.wearable])}
                             className="w-5 h-5 object-contain"
                           />
                         )}

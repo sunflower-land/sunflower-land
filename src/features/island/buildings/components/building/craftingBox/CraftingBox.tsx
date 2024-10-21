@@ -5,18 +5,11 @@ import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Context } from "features/game/GameProvider";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { MachineState } from "features/game/lib/gameMachine";
 import { useTranslation } from "react-i18next";
 import { CraftTab } from "./components/CraftTab";
 import { RecipesTab } from "./components/RecipesTab";
 import { hasFeatureAccess } from "lib/flags";
-import { Recipe } from "features/game/lib/crafting";
-import { InventoryItemName } from "features/game/types/game";
-
-const _craftingStatus = (state: MachineState) =>
-  state.context.state.craftingBox.status;
-const _craftingReadyAt = (state: MachineState) =>
-  state.context.state.craftingBox.readyAt;
+import { Recipe, RecipeIngredient } from "features/game/lib/crafting";
 
 export const CraftingBox: React.FC = () => {
   const [showModal, setShowModal] = useState(true);
@@ -27,7 +20,7 @@ export const CraftingBox: React.FC = () => {
   const { gameService } = useContext(Context);
 
   const [selectedItems, setSelectedItems] = useState<
-    (InventoryItemName | null)[]
+    (RecipeIngredient | null)[]
   >(Array(9).fill(null));
 
   const handleOpen = () => {
