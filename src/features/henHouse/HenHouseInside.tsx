@@ -24,7 +24,7 @@ import {
   AnimalBounties,
   ExchangeHud,
 } from "features/barn/components/AnimalBounties";
-import { Animal, BountyRequest } from "features/game/types/game";
+import { Animal, AnimalBounty } from "features/game/types/game";
 import { isValidDeal } from "features/game/events/landExpansion/sellAnimal";
 import classNames from "classnames";
 import { NPC } from "features/island/bumpkin/components/NPC";
@@ -46,7 +46,7 @@ export const HenHouseInside: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
   const [showUpgradeModal, setShowUpgradeModal] = useState(false);
   const [showExchange, setShowExchange] = useState(false);
-  const [deal, setDeal] = useState<BountyRequest>();
+  const [deal, setDeal] = useState<AnimalBounty>();
   const [selected, setSelected] = useState<Animal>();
   const henHouse = useSelector(gameService, _henHouse);
   const level = henHouse.level as AnimalBuildingLevel;
