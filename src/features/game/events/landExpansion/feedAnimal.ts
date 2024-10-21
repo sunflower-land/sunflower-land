@@ -49,6 +49,10 @@ export function feedAnimal({
       throw new Error("Animal is asleep");
     }
 
+    if (animal.state === "sick") {
+      throw new Error("Cannot feed a sick animal");
+    }
+
     const level = getAnimalLevel(animal.experience, animal.type);
     const { xp: foodXp, quantity: foodQuantity } =
       ANIMAL_FOOD_EXPERIENCE[action.animal][level][action.food];

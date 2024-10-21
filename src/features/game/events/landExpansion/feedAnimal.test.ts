@@ -563,4 +563,43 @@ describe("feedAnimal", () => {
 
     expect(state.henHouse.animals[chickenId].state).toBe("ready");
   });
+
+  it("throws if the animal is sick", () => {
+    const chickenId = "xyz";
+
+    expect(() =>
+      feedAnimal({
+        createdAt: now,
+        state: {
+          ...INITIAL_FARM,
+          inventory: {
+            ...INITIAL_FARM.inventory,
+            "Kernel Blend": new Decimal(1),
+          },
+          henHouse: {
+            ...INITIAL_FARM.henHouse,
+            animals: {
+              [chickenId]: {
+                coordinates: { x: 0, y: 0 },
+                id: chickenId,
+                type: "Chicken",
+                createdAt: 0,
+                state: "sick",
+                experience: 0,
+                asleepAt: 0,
+                lovedAt: 0,
+                item: "Petting Hand",
+              },
+            },
+          },
+        },
+        action: {
+          type: "animal.fed",
+          animal: "Chicken",
+          id: chickenId,
+          food: "Kernel Blend",
+        },
+      }),
+    ).toThrow("Cannot feed a sick animal");
+  });
 });
