@@ -45,6 +45,9 @@ const _craftingReadyAt = (state: MachineState) =>
   state.context.state.craftingBox.readyAt;
 const _craftingBoxRecipes = (state: MachineState) =>
   state.context.state.craftingBox.recipes;
+const _craftingItem = (state: MachineState) =>
+  state.context.state.craftingBox.item;
+
 const _wardrobe = (state: MachineState) => state.context.state.wardrobe;
 interface Props {
   gameService: MachineInterpreter;
@@ -149,7 +152,6 @@ export const CraftTab: React.FC<Props> = ({
    * Find the recipe that matches the selected items
    */
   useEffect(() => {
-    if (isCrafting) return;
     const foundRecipe = findMatchingRecipe(selectedItems, recipes);
 
     if (foundRecipe) {
@@ -303,6 +305,7 @@ export const CraftTab: React.FC<Props> = ({
               isIdle && currentRecipe ? currentRecipe.time : remainingTime
             }
             isIdle={isIdle}
+            key={currentRecipe?.name}
           />
           <CraftButton
             isIdle={isIdle}
@@ -386,6 +389,8 @@ const CraftDetails: React.FC<{
   isPending: boolean;
   failedAttempt: boolean;
 }> = ({ recipe, isPending, failedAttempt }) => {
+  const { t } = useTranslation();
+
   if (!recipe) {
     return (
       <>
@@ -400,7 +405,11 @@ const CraftDetails: React.FC<{
           }
           className="mt-2 mb-1"
         >
-          {isPending ? "Pending" : failedAttempt ? "Failed" : "Unknown"}
+          {isPending
+            ? t("pending")
+            : failedAttempt
+              ? t("failed")
+              : t("unknown")}
         </Label>
         <Box
           image={isPending ? SUNNYSIDE.icons.expression_confused : undefined}
@@ -431,6 +440,8 @@ const CraftTimer: React.FC<{
   remainingTime: number | null;
   isIdle: boolean;
 }> = ({ remainingTime, isIdle }) => {
+  const { t } = useTranslation();
+
   return (
     <div className="flex items-center justify-center">
       {
@@ -449,8 +460,8 @@ const CraftTimer: React.FC<{
                   isShortFormat: true,
                 })
               : isIdle
-                ? "Instant"
-                : "Ready")}
+                ? t("instant")
+                : t("Ready"))}
         </Label>
       }
     </div>

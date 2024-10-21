@@ -51,7 +51,7 @@ export const RecipesTab: React.FC<Props> = ({
         {t("recipes")}
       </Label>
       <TextInput
-        placeholder={t("search.recipes")}
+        placeholder={t("search")}
         value={searchTerm}
         onValueChange={(value) => setSearchTerm(value)}
         className="mb-2"

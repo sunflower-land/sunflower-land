@@ -1883,6 +1883,7 @@
   "sale": "Sale",
   "save": "Save",
   "saving": "Saving",
+  "search": "Search",
   "searching": "Searching",
   "seeds": "Seeds",
   "selected": "Selected",
@@ -2952,6 +2953,7 @@
   "orderhelp.SkipIn": "Skip in",
   "orderhelp.NoRight": "Not Right Now",
   "orderhelp.ticket.deliveries.closed": "Ticket deliveries are currently closed",
+  "pending": "Pending",
   "pending.calcul": "The results are being calculated.",
   "pending.comeback": "Come back later.",
   "personHood.Details": "Failed Loading Personhood Details",
@@ -3750,5 +3752,6 @@
   "wakesIn": "Wakes in:",
   "animal.noFoodMessage": "No food available",
   "levelUp": "Level Up!",
-  "animal.notEnoughFood": "Not enough food"
+  "animal.notEnoughFood": "Not enough food",
+  "unknown": "Unknown"
 }
