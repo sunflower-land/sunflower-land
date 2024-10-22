@@ -3707,8 +3707,6 @@
   "bounties.board.info": "Échangez les primes de cette semaine avant la fin du temps imparti.",
   "bounties.board.empty": "Aucune offre n'est disponible pour le moment.",
   "bounties.sold": "Vendu",
-  "bounties.sell.coins": "Êtes-vous sûr de vouloir vendre cet animal pour des pièces de {{amount}} ?",
-  "bounties.sell.items": "Êtes-vous sûr de vouloir vendre cet animal pour {{amount}} ?",
   "bounties.animal.select": "Sélectionnez un {{name}} pour vendre.",
   "obsession": "Obsession",
   "teaser.intro": "Les animaux arrivent à Sunflower Land. Préparez vos ressources pour le 1er novembre !",
@@ -3754,5 +3752,18 @@
   "gameOptions.plazaSettings.pickServer": "Choisissez un serveur",
   "gameOptions.plazaSettings.pickServer.loading": "Chargement des serveurs...",
   "gameOptions.plazaSettings.pickServer.noServer": "Aucun serveur n'a été trouvé",
-  "gameOptions.plazaSettings.pickServer.select": "Sélectionnez le serveur que vous souhaitez utiliser par défaut."
+  "gameOptions.plazaSettings.pickServer.select": "Sélectionnez le serveur que vous souhaitez utiliser par défaut.",
+  "search": "Rechercher",
+  "pending": "En attente",
+  "unknown": "Inconnu",
+  "crafting.selectIngredients": "Sélectionnez les ingrédients",
+  "crafting.readyToCollect": "Prêt à collectionner",
+  "crafting.noRecipe": "Pas de recette",
+  "ready": "Prêt",
+  "instant": "Instantané",
+  "bounties.sell.coins": "Êtes-vous sûr de vouloir le vendre pour des pièces {{amount}} ?",
+  "bounties.sell.items": "Êtes-vous sûr de vouloir le vendre pour {{amount}} ?",
+  "crafting.inProgress": "En cours",
+  "bounties.flower.intro.one": "Bonjour Bumpkin ! Nous avons une prime sur les fleurs cette semaine.",
+  "bounties.flower.intro.two": "Apportez-moi vos plus belles fleurs, et je ferai en sorte que cela en vaille la peine."
 }

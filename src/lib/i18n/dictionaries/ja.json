@@ -3707,8 +3707,6 @@
   "bounties.board.info": "時間切れになる前に今週のバウンティをトレードしましょう。",
   "bounties.board.empty": "現在ご利用いただけるお得な情報はありません。",
   "bounties.sold": "売却",
-  "bounties.sell.coins": "本当にこの動物を {{amount}} コインで売りたいですか？",
-  "bounties.sell.items": "本当にこの動物を {{amount}} で売ってもよろしいですか？",
   "bounties.animal.select": "売却する {{name}} を選択してください。",
   "obsession": "強迫観念",
   "teaser.intro": "ひまわりランドに動物たちがやってくる。11月1日に向けて資源を準備しよう！",
@@ -3754,5 +3752,18 @@
   "gameOptions.plazaSettings.pickServer": "サーバーを選択",
   "gameOptions.plazaSettings.pickServer.loading": "サーバーをロード中...",
   "gameOptions.plazaSettings.pickServer.noServer": "サーバーが見つかりません",
-  "gameOptions.plazaSettings.pickServer.select": "デフォルトとして必要なサーバーを選択します。"
+  "gameOptions.plazaSettings.pickServer.select": "デフォルトとして必要なサーバーを選択します。",
+  "search": "検索",
+  "pending": "保留中",
+  "unknown": "不明",
+  "crafting.selectIngredients": "材料を選択する",
+  "crafting.readyToCollect": "すぐに集められます",
+  "crafting.noRecipe": "レシピなし",
+  "ready": "準備完了",
+  "instant": "インスタント",
+  "bounties.sell.coins": "これを {{amount}} コインで売ってもよろしいですか？",
+  "bounties.sell.items": "これを {{amount}} で売ってもよろしいですか？",
+  "crafting.inProgress": "進行中",
+  "bounties.flower.intro.one": "やあ、バンプキン！今週は花に恵まれるんだ。",
+  "bounties.flower.intro.two": "最高級の花を持ってきてくれれば、それだけの価値があるものにしてあげよう。"
 }

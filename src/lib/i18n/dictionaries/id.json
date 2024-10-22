@@ -3707,8 +3707,6 @@
   "bounties.board.info": "Perdagangkan hadiah minggu ini sebelum waktu habis.",
   "bounties.board.empty": "Tidak ada penawaran yang tersedia saat ini.",
   "bounties.sold": "Terjual",
-  "bounties.sell.coins": "Apakah Anda yakin ingin menjual hewan ini dengan koin {{amount}}?",
-  "bounties.sell.items": "Apakah Anda yakin ingin menjual hewan ini seharga {{amount}}?",
   "bounties.animal.select": "Pilih {{name}} untuk dijual.",
   "obsession": "Obsesi",
   "teaser.intro": "Hewan datang ke Tanah Bunga Matahari. Siapkan sumber daya Anda untuk 1 November!",
@@ -3754,5 +3752,18 @@
   "gameOptions.plazaSettings.pickServer": "Pilih Server",
   "gameOptions.plazaSettings.pickServer.loading": "Memuat server...",
   "gameOptions.plazaSettings.pickServer.noServer": "Tidak ada server yang ditemukan",
-  "gameOptions.plazaSettings.pickServer.select": "Pilih server yang Anda inginkan sebagai default Anda."
+  "gameOptions.plazaSettings.pickServer.select": "Pilih server yang Anda inginkan sebagai default Anda.",
+  "search": "Cari",
+  "pending": "Tertunda",
+  "unknown": "Tidak diketahui",
+  "crafting.selectIngredients": "Pilih bahan",
+  "crafting.readyToCollect": "Siap untuk mengumpulkan",
+  "crafting.noRecipe": "Tidak ada resep",
+  "ready": "Siap",
+  "instant": "Instan",
+  "bounties.sell.coins": "Apakah Anda yakin ingin menjual ini untuk koin {{amount}}?",
+  "bounties.sell.items": "Apakah Anda yakin ingin menjual ini seharga {{amount}}?",
+  "crafting.inProgress": "Dalam proses",
+  "bounties.flower.intro.one": "Halo Bumpkin! Kami mendapat hadiah bunga minggu ini.",
+  "bounties.flower.intro.two": "Bawakan aku bunga terbaikmu, dan aku akan membuatnya sepadan dengan waktumu."
 }

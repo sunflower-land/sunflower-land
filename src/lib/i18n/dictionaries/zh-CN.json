@@ -3707,8 +3707,6 @@
   "bounties.board.info": "在时间用完之前交易本周的赏金。",
   "bounties.board.empty": "目前没有优惠可用。",
   "bounties.sold": "已售出",
-  "bounties.sell.coins": "你确定要以 {{amount}} 金币出售这只动物吗？",
-  "bounties.sell.items": "你确定要以 [0@/美元] 的价格出售这种动物吗？",
   "bounties.animal.select": "选择 {{name}} 进行出售。",
   "obsession": "痴迷",
   "teaser.intro": "动物们来到向日葵乐园。为 11 月 1 日准备好资源！",
@@ -3754,5 +3752,18 @@
   "gameOptions.plazaSettings.pickServer": "选择服务器",
   "gameOptions.plazaSettings.pickServer.loading": "正在加载服务器...",
   "gameOptions.plazaSettings.pickServer.noServer": "未找到服务器",
-  "gameOptions.plazaSettings.pickServer.select": "选择您想要的服务器作为默认服务器。"
+  "gameOptions.plazaSettings.pickServer.select": "选择您想要的服务器作为默认服务器。",
+  "search": "搜寻",
+  "pending": "待处理",
+  "unknown": "未知",
+  "crafting.selectIngredients": "选择食材",
+  "crafting.readyToCollect": "准备收集",
+  "crafting.noRecipe": "没有食谱",
+  "ready": "准备好了",
+  "instant": "即时",
+  "bounties.sell.coins": "你确定要以 {{amount}} 硬币出售这个吗？",
+  "bounties.sell.items": "你确定要以 [0@/美元] 的价格出售这个吗？",
+  "crafting.inProgress": "进行中",
+  "bounties.flower.intro.one": "你好 Bumpkin！本周我们有鲜花赏金。",
+  "bounties.flower.intro.two": "把你最好的花带给我，我会让你花点时间的。"
 }

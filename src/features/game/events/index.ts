@@ -396,11 +396,13 @@ import {
   CompleteNPCChoreAction,
 } from "./landExpansion/completeNPCChore";
 import { claimProduce, ClaimProduceAction } from "./landExpansion/claimProduce";
+import { sellBounty, SellBountyAction } from "./landExpansion/sellBounty";
 
 export type PlayingEvent =
   | SellAnimalAction
   | SpeedUpBuilding
   | SpeedUpCollectible
+  | SellBountyAction
   | FeedMixedAction
   | InstantExpand
   | InstantCookRecipe
@@ -586,6 +588,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "collectible.spedUp": speedUpCollectible,
   "expansion.spedUp": speedUpExpansion,
   "recipe.spedUp": speedUpRecipe,
+  "bounty.sold": sellBounty,
   "competition.started": startCompetition,
   "offer.claimed": claimOffer,
   "dailyChallenge.completed": completeDailyChallenge,

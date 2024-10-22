@@ -145,6 +145,16 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
           },
         ]
       : []),
+
+    ...(hasFeatureAccess(state, "CHORE_BOARD")
+      ? [
+          {
+            name: "Chore Board" as const,
+            icon: chores,
+            count: 0,
+          },
+        ]
+      : []),
   ];
 
   return (
@@ -215,14 +225,7 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
             {currentTab === 0 && <Deliveries onClose={onHide} />}
             {currentTab === 1 && (
               <>
-                {hasFeatureAccess(
-                  gameService.getSnapshot().context.state,
-                  "CHORE_BOARD",
-                ) ? (
-                  <ChoreBoard />
-                ) : (
-                  <Chores farmId={farmId} />
-                )}
+                <Chores farmId={farmId} />
               </>
             )}
             {currentTab === 2 && (
@@ -246,6 +249,12 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
                 playerId={id}
                 faction={state.faction.name}
               />
+            )}
+
+            {currentTab === 6 && (
+              <>
+                <ChoreBoard />
+              </>
             )}
           </div>
         </OuterPanel>

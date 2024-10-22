@@ -344,10 +344,18 @@ export const READONLY_BUILDINGS: (
     </div>
   ),
   "Crafting Box": () => (
-    <div className="absolute bottom-0">
+    <div
+      className="absolute bottom-0"
+      style={{
+        width: `${PIXEL_SCALE * 16 * 3}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+      }}
+    >
       <img
         src={ITEM_DETAILS["Crafting Box"].image}
+        className="w-full absolute"
         style={{
+          left: `${PIXEL_SCALE * -1}px`,
           width: `${PIXEL_SCALE * 46}px`,
           bottom: `${PIXEL_SCALE * 0}px`,
         }}
