@@ -699,6 +699,7 @@ export const INITIAL_FARM: GameState = {
     status: "idle",
     startedAt: 0,
     readyAt: 0,
+    recipes: {},
   },
 };
 
@@ -1013,6 +1014,7 @@ export const TEST_FARM: GameState = {
     status: "idle",
     startedAt: 0,
     readyAt: 0,
+    recipes: {},
   },
 };
 
@@ -1145,5 +1147,6 @@ export const EMPTY: GameState = {
     status: "idle",
     startedAt: 0,
     readyAt: 0,
+    recipes: {},
   },
 };
