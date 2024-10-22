@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { ITEM_IDS } from "features/game/types/bumpkin";
 import { BUMPKIN_ITEM_BUFF_LABELS } from "features/game/types/bumpkinItemBuffs";
@@ -17,6 +17,8 @@ import { MegaStoreMonthly } from "./MegaStoreMonthly";
 import { MegaStoreSeasonal } from "./MegaStoreSeasonal";
 import { MachineState } from "features/game/lib/gameMachine";
 import { SeasonalStore } from "./SeasonalStore";
+import { hasFeatureAccess } from "lib/flags";
+import { Context } from "features/game/GameProvider";
 
 interface Props {
   onClose: () => void;
@@ -57,8 +59,26 @@ export const _megastore = (state: MachineState) =>
   state.context.state.megastore;
 
 export const MegaStore: React.FC<Props> = ({ onClose }) => {
+  const { gameService } = useContext(Context);
   const { t } = useAppTranslation();
   const [tab, setTab] = useState(0);
+
+  // Update logic after release
+  if (
+    hasFeatureAccess(gameService.getSnapshot().context.state, "SEASONAL_TIERS")
+  ) {
+    return (
+      <CloseButtonPanel
+        bumpkinParts={NPC_WEARABLES.stella}
+        tabs={[{ icon: shopIcon, name: "Seasonal Store" }]}
+        onClose={onClose}
+        currentTab={tab}
+        setCurrentTab={setTab}
+      >
+        {tab === 0 && <SeasonalStore />}
+      </CloseButtonPanel>
+    );
+  }
 
   return (
     <CloseButtonPanel
@@ -66,7 +86,6 @@ export const MegaStore: React.FC<Props> = ({ onClose }) => {
       tabs={[
         { icon: shopIcon, name: t("monthly") },
         { icon: lightning, name: t("seasonal") },
-        { icon: shopIcon, name: "Seasonal Store" },
       ]}
       onClose={onClose}
       currentTab={tab}
@@ -74,7 +93,6 @@ export const MegaStore: React.FC<Props> = ({ onClose }) => {
     >
       {tab === 0 && <MegaStoreMonthly />}
       {tab === 1 && <MegaStoreSeasonal />}
-      {tab === 2 && <SeasonalStore />}
     </CloseButtonPanel>
   );
 };

@@ -111,8 +111,6 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
       : (item as SeasonalStoreCollectible).collectible
     : undefined;
 
-  // Ensure `keysBought` is properly initialized
-
   const isKey = (name: InventoryItemName): name is Keys =>
     name in ARTEFACT_SHOP_KEYS;
   const keysBoughtAt = keysBought?.megastore[itemName as Keys]?.boughtAt;
@@ -123,7 +121,6 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
 
   const keysAmountBoughtToday = keysBoughtToday ? 1 : 0;
 
-  // if (!isWearable) console.log(isKey(itemName as InventoryItemName));
   const description = getItemDescription(item);
   const { sfl = 0 } = item?.cost || {};
   const itemReq = item?.cost?.items;
@@ -163,8 +160,6 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
   };
 
   const canBuy = () => {
-    // if (keysBoughtToday) return false;
-
     if (!item) return false;
 
     if (keysBoughtToday) return false;
