@@ -3754,5 +3754,14 @@
   "gameOptions.plazaSettings.pickServer": "Pilih Server",
   "gameOptions.plazaSettings.pickServer.loading": "Memuat server...",
   "gameOptions.plazaSettings.pickServer.noServer": "Tidak ada server yang ditemukan",
-  "gameOptions.plazaSettings.pickServer.select": "Pilih server yang Anda inginkan sebagai default Anda."
+  "gameOptions.plazaSettings.pickServer.select": "Pilih server yang Anda inginkan sebagai default Anda.",
+  "search": "Cari",
+  "pending": "Tertunda",
+  "unknown": "Tidak diketahui",
+  "crafting.selectIngredients": "Pilih bahan",
+  "crafting.readyToCollect": "Siap untuk mengumpulkan",
+  "crafting.inProgress": "Sedang Berjalan",
+  "crafting.noRecipe": "Tidak ada resep",
+  "ready": "Siap",
+  "instant": "Instan"
 }

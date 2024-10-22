@@ -3754,5 +3754,14 @@
   "gameOptions.plazaSettings.pickServer": "Choisissez un serveur",
   "gameOptions.plazaSettings.pickServer.loading": "Chargement des serveurs...",
   "gameOptions.plazaSettings.pickServer.noServer": "Aucun serveur n'a été trouvé",
-  "gameOptions.plazaSettings.pickServer.select": "Sélectionnez le serveur que vous souhaitez utiliser par défaut."
+  "gameOptions.plazaSettings.pickServer.select": "Sélectionnez le serveur que vous souhaitez utiliser par défaut.",
+  "search": "Rechercher",
+  "pending": "En attente",
+  "unknown": "Inconnu",
+  "crafting.selectIngredients": "Sélectionnez les ingrédients",
+  "crafting.readyToCollect": "Prêt à collectionner",
+  "crafting.inProgress": "En cours",
+  "crafting.noRecipe": "Pas de recette",
+  "ready": "Prêt",
+  "instant": "Instantané"
 }

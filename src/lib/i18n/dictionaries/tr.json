@@ -3754,5 +3754,14 @@
   "gameOptions.plazaSettings.pickServer": "Sunucu Seç",
   "gameOptions.plazaSettings.pickServer.loading": "Sunucular yükleniyor...",
   "gameOptions.plazaSettings.pickServer.noServer": "Sunucu bulunamadı",
-  "gameOptions.plazaSettings.pickServer.select": "Varsayılan olarak istediğiniz sunucuyu seçin."
+  "gameOptions.plazaSettings.pickServer.select": "Varsayılan olarak istediğiniz sunucuyu seçin.",
+  "search": "Arama",
+  "pending": "Beklemede",
+  "unknown": "Bilinmeyen",
+  "crafting.selectIngredients": "Malzemeleri seçin",
+  "crafting.readyToCollect": "Toplamaya hazır",
+  "crafting.inProgress": "Devredilmekte",
+  "crafting.noRecipe": "Tarif yok",
+  "ready": "Hazır",
+  "instant": "Anında"
 }

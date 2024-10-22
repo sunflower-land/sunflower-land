@@ -3754,5 +3754,14 @@
   "gameOptions.plazaSettings.pickServer": "서버 선택",
   "gameOptions.plazaSettings.pickServer.loading": "서버 로드 중...",
   "gameOptions.plazaSettings.pickServer.noServer": "서버를 찾을 수 없음",
-  "gameOptions.plazaSettings.pickServer.select": "기본 서버로 사용할 서버를 선택합니다."
+  "gameOptions.plazaSettings.pickServer.select": "기본 서버로 사용할 서버를 선택합니다.",
+  "search": "검색",
+  "pending": "보류 중",
+  "unknown": "알 수 없음",
+  "crafting.selectIngredients": "재료 선택",
+  "crafting.readyToCollect": "수집 준비 완료",
+  "crafting.inProgress": "진행 중",
+  "crafting.noRecipe": "레시피 없음",
+  "ready": "준비 완료",
+  "instant": "인스턴트"
 }

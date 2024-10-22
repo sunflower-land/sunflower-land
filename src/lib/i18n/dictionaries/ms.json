@@ -3754,5 +3754,14 @@
   "gameOptions.plazaSettings.pickServer": "Pilih Pelayan",
   "gameOptions.plazaSettings.pickServer.loading": "Memuatkan pelayan...",
   "gameOptions.plazaSettings.pickServer.noServer": "Tiada pelayan ditemui",
-  "gameOptions.plazaSettings.pickServer.select": "Pilih pelayan yang anda mahu sebagai lalai anda."
+  "gameOptions.plazaSettings.pickServer.select": "Pilih pelayan yang anda mahu sebagai lalai anda.",
+  "search": "Cari",
+  "pending": "Tunggu",
+  "unknown": "Tidak diketahui",
+  "crafting.selectIngredients": "Pilih bahan",
+  "crafting.readyToCollect": "Bersedia untuk mengumpul",
+  "crafting.inProgress": "Dalam Pembangunan",
+  "crafting.noRecipe": "Tiada resipi",
+  "ready": "Sedia",
+  "instant": "Segera"
 }

@@ -3754,5 +3754,14 @@
   "gameOptions.plazaSettings.pickServer": "サーバーを選択",
   "gameOptions.plazaSettings.pickServer.loading": "サーバーをロード中...",
   "gameOptions.plazaSettings.pickServer.noServer": "サーバーが見つかりません",
-  "gameOptions.plazaSettings.pickServer.select": "デフォルトとして必要なサーバーを選択します。"
+  "gameOptions.plazaSettings.pickServer.select": "デフォルトとして必要なサーバーを選択します。",
+  "search": "検索",
+  "pending": "保留中",
+  "unknown": "不明",
+  "crafting.selectIngredients": "材料を選択する",
+  "crafting.readyToCollect": "すぐに集められます",
+  "crafting.inProgress": "進行中",
+  "crafting.noRecipe": "レシピなし",
+  "ready": "準備完了",
+  "instant": "インスタント"
 }

@@ -3754,5 +3754,14 @@
   "gameOptions.plazaSettings.pickServer": "Выберите сервер",
   "gameOptions.plazaSettings.pickServer.loading": "Загрузка серверов...",
   "gameOptions.plazaSettings.pickServer.noServer": "Серверы не найдены",
-  "gameOptions.plazaSettings.pickServer.select": "Выберите сервер, который вы хотите использовать по умолчанию."
+  "gameOptions.plazaSettings.pickServer.select": "Выберите сервер, который вы хотите использовать по умолчанию.",
+  "search": "Поиск",
+  "pending": "В ожидании",
+  "unknown": "Неизвестно",
+  "crafting.selectIngredients": "Выберите ингредиенты",
+  "crafting.readyToCollect": "Готовы к сбору",
+  "crafting.inProgress": "В разработке",
+  "crafting.noRecipe": "Нет рецепта",
+  "ready": "Готово",
+  "instant": "Немедленное"
 }

@@ -3754,5 +3754,14 @@
   "gameOptions.plazaSettings.pickServer": "选择服务器",
   "gameOptions.plazaSettings.pickServer.loading": "正在加载服务器...",
   "gameOptions.plazaSettings.pickServer.noServer": "未找到服务器",
-  "gameOptions.plazaSettings.pickServer.select": "选择您想要的服务器作为默认服务器。"
+  "gameOptions.plazaSettings.pickServer.select": "选择您想要的服务器作为默认服务器。",
+  "search": "搜寻",
+  "pending": "待处理",
+  "unknown": "未知",
+  "crafting.selectIngredients": "选择食材",
+  "crafting.readyToCollect": "准备收集",
+  "crafting.inProgress": "进行中",
+  "crafting.noRecipe": "没有食谱",
+  "ready": "准备好了",
+  "instant": "即时"
 }
