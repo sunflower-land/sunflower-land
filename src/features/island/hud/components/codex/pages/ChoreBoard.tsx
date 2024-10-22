@@ -25,7 +25,6 @@ import React, { useContext, useState } from "react";
 import { getSeasonalTicket } from "features/game/types/seasons";
 import { ITEM_DETAILS } from "features/game/types/images";
 import {
-  ChoreNPCName,
   getChoreProgress,
   NPC_CHORE_UNLOCKS,
   NPC_CHORES,
@@ -40,6 +39,7 @@ import giftIcon from "assets/icons/gift.png";
 
 import { GameState } from "features/game/types/game";
 import { CHORE_DETAILS } from "../lib/choreDetails";
+import { generateChoreRewards } from "features/game/events/landExpansion/completeNPCChore";
 export const ChoreBoard: React.FC = () => {
   const { gameService } = useContext(Context);
 
@@ -121,7 +121,7 @@ export const ChoreBoard: React.FC = () => {
 
         <div className="grid grid-cols-3 sm:grid-cols-4 w-full ">
           {getKeys(chores)
-            .filter((npc) => level >= NPC_CHORE_UNLOCKS[npc as ChoreNPCName])
+            .filter((npc) => level >= NPC_CHORE_UNLOCKS[npc as NPCName])
             .map((chore) => (
               <ChoreCard
                 key={chore}
@@ -239,7 +239,11 @@ export const ChoreBoard: React.FC = () => {
                   icon={ITEM_DETAILS[getSeasonalTicket()].image}
                   className="flex absolute right-0 -top-5"
                 >
-                  {previewChore.reward.items[getSeasonalTicket()] ?? 0}
+                  {generateChoreRewards({
+                    game: gameService.state.context.state,
+                    chore: previewChore,
+                    now: new Date(),
+                  })[getSeasonalTicket()] ?? 0}
                 </Label>
               </Button>
             )}
@@ -273,7 +277,11 @@ export const ChoreCard: React.FC<{
   onClick: (npc: NPCName) => void;
   game: GameState;
 }> = ({ npc, chore, selected, onClick, game }) => {
-  const tickets = chore.reward.items[getSeasonalTicket()];
+  const rewards = generateChoreRewards({
+    game,
+    chore,
+    now: new Date(),
+  });
 
   return (
     <div className="py-1 px-1" key={npc}>
@@ -285,7 +293,7 @@ export const ChoreCard: React.FC<{
         style={{ paddingBottom: "10px" }}
       >
         <Label type={"warning"} className="flex absolute -right-2 -top-4">
-          {chore.reward.items[getSeasonalTicket()] ?? 0}
+          {rewards[getSeasonalTicket()] ?? 0}
         </Label>
 
         {!chore.completedAt &&
@@ -376,7 +384,7 @@ export const LockedChoreCard: React.FC<{
           }}
         >
           {t("chores.lockedChore", {
-            level: NPC_CHORE_UNLOCKS[npc as ChoreNPCName],
+            level: NPC_CHORE_UNLOCKS[npc as NPCName],
           })}
         </Label>
       </ButtonPanel>
