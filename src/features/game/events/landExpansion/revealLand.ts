@@ -347,6 +347,16 @@ export function revealLand({
     game.airdrops = [...previous, ...rewards];
 
     game.inventory = inventory;
+
+    // TODO DEBUG CODE feat/beds
+    game.craftingBox.acknowledgements["Basic Hair"] = false;
+    game.craftingBox.recipes["Basic Hair"] = {
+      name: "Basic Hair",
+      type: "wearable",
+      ingredients: [{ collectible: "Wood" }],
+      time: 0,
+    };
+
     return game;
   });
 }

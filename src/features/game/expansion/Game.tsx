@@ -70,6 +70,7 @@ import { BarnInside } from "features/barn/BarnInside";
 import { EFFECT_EVENTS } from "../actions/effect";
 import { TranslationKeys } from "lib/i18n/dictionaries/types";
 import { Button } from "components/ui/Button";
+import { CraftingDiscovery } from "features/island/buildings/components/building/craftingBox/CraftingDiscovery";
 
 function camelToDotCase(str: string): string {
   return str.replace(/([a-z])([A-Z])/g, "$1.$2").toLowerCase() as string;
@@ -578,6 +579,8 @@ export const GameWrapper: React.FC = ({ children }) => {
             </Panel>
           </Modal>
         )}
+
+        <CraftingDiscovery />
 
         {children}
       </ToastProvider>

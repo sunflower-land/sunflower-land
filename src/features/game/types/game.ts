@@ -1402,6 +1402,7 @@ export interface GameState {
     startedAt: number;
     readyAt: number;
     recipes: Partial<Recipes>;
+    acknowledgements: Partial<Record<string, boolean>>;
   };
 }
 
