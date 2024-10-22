@@ -1,6 +1,5 @@
 import { NPC_WEARABLES, NPCName } from "lib/npcs";
 import { GameState, InventoryItemName } from "./game";
-import { getWeekKey } from "../lib/factions";
 import { getKeys } from "./decorations";
 import { FarmActivityName } from "./farmActivity";
 import { BumpkinActivityName } from "./bumpkinActivity";
