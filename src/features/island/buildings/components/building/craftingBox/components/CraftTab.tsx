@@ -20,6 +20,8 @@ import { findMatchingRecipe } from "features/game/events/landExpansion/startCraf
 import { getImageUrl } from "lib/utils/getImageURLS";
 import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
 import { useSound } from "lib/utils/hooks/useSound";
+import { ModalOverlay } from "components/ui/ModalOverlay";
+import { InnerPanel } from "components/ui/Panel";
 
 const VALID_CRAFTING_RESOURCES: InventoryItemName[] = [
   "Wood",
@@ -45,8 +47,6 @@ const _craftingReadyAt = (state: MachineState) =>
   state.context.state.craftingBox.readyAt;
 const _craftingBoxRecipes = (state: MachineState) =>
   state.context.state.craftingBox.recipes;
-const _craftingItem = (state: MachineState) =>
-  state.context.state.craftingBox.item;
 
 const _wardrobe = (state: MachineState) => state.context.state.wardrobe;
 interface Props {
@@ -67,12 +67,13 @@ export const CraftTab: React.FC<Props> = ({
   const craftingStatus = useSelector(gameService, _craftingStatus);
   const craftingReadyAt = useSelector(gameService, _craftingReadyAt);
   const recipes = useSelector(gameService, _craftingBoxRecipes);
+
   const [remainingTime, setRemainingTime] = useState<number | null>(null);
   const [failedAttempt, setFailedAttempt] = useState(false);
-
   const [currentRecipe, setCurrentRecipe] = useState<Recipe | null>(null);
   const [selectedIngredient, setSelectedIngredient] =
     useState<RecipeIngredient | null>(null);
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
 
   const isPending = craftingStatus === "pending";
   const isCrafting = craftingStatus === "crafting";
@@ -83,6 +84,7 @@ export const CraftTab: React.FC<Props> = ({
     remainingTime <= 0;
 
   const button = useSound("button");
+
   const selectIngredient = (ingredient: RecipeIngredient | null) => {
     button.play();
     setSelectedIngredient(ingredient);
@@ -117,6 +119,10 @@ export const CraftTab: React.FC<Props> = ({
     });
     return updatedWardrobe;
   }, [wardrobe, selectedItems]);
+
+  const isCraftingBoxEmpty = useMemo(() => {
+    return selectedItems.every((item) => item === null);
+  }, [selectedItems]);
 
   /** Countdown timer */
   useEffect(() => {
@@ -163,10 +169,6 @@ export const CraftTab: React.FC<Props> = ({
       setRemainingTime(null);
     }
   }, [selectedItems, recipes]);
-
-  const isCraftingBoxEmpty = useMemo(() => {
-    return selectedItems.every((item) => item === null);
-  }, [selectedItems]);
 
   const hasIngredient = (ingredient: RecipeIngredient) =>
     (ingredient.collectible &&
@@ -245,6 +247,11 @@ export const CraftTab: React.FC<Props> = ({
   };
 
   const handleCraft = () => {
+    setShowConfirmModal(true);
+  };
+
+  const confirmCraft = () => {
+    setShowConfirmModal(false);
     if (craftingStatus === "pending") return;
 
     gameService.send("crafting.started", {
@@ -254,9 +261,7 @@ export const CraftTab: React.FC<Props> = ({
   };
 
   const handleCollect = () => {
-    if (isReady) {
-      gameService.send("crafting.collected");
-    }
+    gameService.send("crafting.collected");
   };
 
   return (
@@ -388,6 +393,61 @@ export const CraftTab: React.FC<Props> = ({
           })}
         </div>
       </div>
+
+      <ModalOverlay
+        show={showConfirmModal}
+        onBackdropClick={() => setShowConfirmModal(false)}
+      >
+        <InnerPanel className="shadow">
+          <div className="flex items-center w-full">
+            <div style={{ width: `${PIXEL_SCALE * 9}px` }} />
+            <span className="flex-1 text-center">{`${t("confirm")} ${t("craft")} ${currentRecipe?.name ?? ""}`}</span>
+            <img
+              src={SUNNYSIDE.icons.close}
+              className="cursor-pointer"
+              onClick={() => setShowConfirmModal(false)}
+              style={{
+                width: `${PIXEL_SCALE * 9}px`,
+              }}
+            />
+          </div>
+
+          <div className="flex justify-around">
+            <div className="flex justify-center">
+              <div className="grid grid-cols-3 gap-1 w-48 h-48">
+                {selectedItems.map((item, index) => (
+                  <Box
+                    key={`${index}-${item}`}
+                    image={
+                      item?.collectible
+                        ? ITEM_DETAILS[item.collectible]?.image
+                        : item?.wearable
+                          ? getImageUrl(ITEM_IDS[item.wearable])
+                          : undefined
+                    }
+                  />
+                ))}
+              </div>
+            </div>
+            <div className="flex flex-col items-center justify-center">
+              <CraftDetails
+                recipe={currentRecipe}
+                isPending={isPending}
+                failedAttempt={failedAttempt}
+              />
+              <CraftTimer
+                recipe={currentRecipe}
+                remainingTime={remainingTime}
+                isIdle={isIdle}
+                key={currentRecipe?.name}
+              />
+            </div>
+          </div>
+          <Button className="mt-2" onClick={() => confirmCraft()}>
+            {t("craft")}
+          </Button>
+        </InnerPanel>
+      </ModalOverlay>
     </>
   );
 };
@@ -450,7 +510,7 @@ const CraftDetails: React.FC<{
               : t("unknown")}
         </Label>
         <Box
-          image={isPending ? SUNNYSIDE.icons.expression_confused : undefined}
+          image={SUNNYSIDE.icons.expression_confused}
           key={`box-${isPending}`}
         />
       </>
