@@ -123,11 +123,6 @@ export const PLAZA_BUMPKINS: NPCBumpkin[] = [
     npc: "chase",
     direction: "left",
   },
-  {
-    x: 380,
-    y: 450,
-    npc: "test stella",
-  },
 ];
 
 export class PlazaScene extends BaseScene {
