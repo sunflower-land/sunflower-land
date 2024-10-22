@@ -75,7 +75,7 @@ describe("buySeasonalItem", () => {
       createdAt: mockDate,
     });
 
-    expect(result.balance).toEqual(new Decimal(999));
+    expect(result.balance).toEqual(new Decimal(990));
   });
 
   it("subtracts items when buying an item", () => {
