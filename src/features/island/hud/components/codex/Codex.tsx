@@ -136,21 +136,21 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
       count: 0,
     },
 
-    ...(hasFeatureAccess(state, "CHORE_BOARD")
-      ? [
-          {
-            name: "Chore Board" as const,
-            icon: chores,
-            count: 0,
-          },
-        ]
-      : []),
-
     ...(state.faction
       ? [
           {
             name: "Marks" as const,
             icon: factions,
+            count: 0,
+          },
+        ]
+      : []),
+
+    ...(hasFeatureAccess(state, "CHORE_BOARD")
+      ? [
+          {
+            name: "Chore Board" as const,
+            icon: chores,
             count: 0,
           },
         ]
@@ -242,19 +242,19 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
               <Flowers onMilestoneReached={handleMilestoneReached} />
             )}
 
-            {currentTab === 5 && (
-              <>
-                <ChoreBoard />
-              </>
-            )}
-
-            {currentTab === 6 && state.faction && (
+            {currentTab === 5 && state.faction && (
               <FactionLeaderboard
                 leaderboard={data?.kingdom ?? null}
                 isLoading={data?.kingdom === undefined}
                 playerId={id}
                 faction={state.faction.name}
               />
+            )}
+
+            {currentTab === 6 && (
+              <>
+                <ChoreBoard />
+              </>
             )}
           </div>
         </OuterPanel>
