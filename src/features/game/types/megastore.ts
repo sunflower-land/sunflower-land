@@ -79,7 +79,7 @@ const PHARAOH_ITEMS: SeasonalStoreItem[] = [
 
 const RARE_PHARAOH_ITEMS: SeasonalStoreItem[] = [
   {
-    wearable: "Parlour Hair",
+    wearable: "Rancher Hair",
     cost: {
       items: {
         Wood: 1,
@@ -89,7 +89,7 @@ const RARE_PHARAOH_ITEMS: SeasonalStoreItem[] = [
     },
   },
   {
-    wearable: "Beige Farmer Potion",
+    wearable: "Axe",
     cost: {
       items: {
         Wood: 1,
@@ -154,7 +154,7 @@ export const MEGASTORE: Record<SeasonName, SeasonalStore> = {
     },
     epic: {
       items: EPIC_PHARAOH_ITEMS,
-      requirement: 4,
+      requirement: 3,
     },
   },
 };
