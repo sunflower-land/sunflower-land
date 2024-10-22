@@ -74,7 +74,7 @@ export const FlowerBounties: React.FC<Props> = ({ onClose }) => {
 
   if (deal) {
     return (
-      <Deal deal={deal} onClose={() => setDeal(undefined)} onSold={onClose} />
+      <Deal deal={deal} onClose={() => setDeal(undefined)} onSold={() => setDeal(undefined)} />
     );
   }
 
