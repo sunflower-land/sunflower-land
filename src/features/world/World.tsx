@@ -10,6 +10,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { SceneId } from "./mmoMachine";
 import { SUNNYSIDE } from "assets/sunnyside";
 import PubSub from "pubsub-js";
+import { getBumpkinLevel } from "features/game/lib/level";
 
 import {
   MachineInterpreter as MMOMachineInterpreter,
@@ -61,6 +62,11 @@ const SCENE_ACCESS: Partial<Record<SceneId, (game: GameState) => boolean>> = {
   sunflorian_house: (game) => game.faction?.name === "sunflorians",
   bumpkin_house: (game) => game.faction?.name === "bumpkins",
   nightshade_house: (game) => game.faction?.name === "nightshades",
+  plaza: (game) => getBumpkinLevel(game.bumpkin?.experience ?? 0) >= 2,
+  beach: (game) => getBumpkinLevel(game.bumpkin?.experience ?? 0) >= 4,
+  retreat: (game) => getBumpkinLevel(game.bumpkin?.experience ?? 0) >= 5,
+  woodlands: (game) => getBumpkinLevel(game.bumpkin?.experience ?? 0) >= 6,
+  kingdom: (game) => getBumpkinLevel(game.bumpkin?.experience ?? 0) >= 7,
 };
 
 export const MMO: React.FC<MMOProps> = ({ isCommunity }) => {
