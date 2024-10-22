@@ -25,7 +25,6 @@ import React, { useContext, useState } from "react";
 import { getSeasonalTicket } from "features/game/types/seasons";
 import { ITEM_DETAILS } from "features/game/types/images";
 import {
-  ChoreNPCName,
   getChoreProgress,
   NPC_CHORE_UNLOCKS,
   NPC_CHORES,
@@ -121,7 +120,7 @@ export const ChoreBoard: React.FC = () => {
 
         <div className="grid grid-cols-3 sm:grid-cols-4 w-full ">
           {getKeys(chores)
-            .filter((npc) => level >= NPC_CHORE_UNLOCKS[npc as ChoreNPCName])
+            .filter((npc) => level >= NPC_CHORE_UNLOCKS[npc as NPCName])
             .map((chore) => (
               <ChoreCard
                 key={chore}
@@ -376,7 +375,7 @@ export const LockedChoreCard: React.FC<{
           }}
         >
           {t("chores.lockedChore", {
-            level: NPC_CHORE_UNLOCKS[npc as ChoreNPCName],
+            level: NPC_CHORE_UNLOCKS[npc as NPCName],
           })}
         </Label>
       </ButtonPanel>
