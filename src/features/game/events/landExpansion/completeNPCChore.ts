@@ -91,7 +91,7 @@ export function generateChoreRewards({
   chore: NpcChore;
   now: Date;
 }) {
-  let items = chore.reward.items ?? {};
+  const items = Object.assign({}, chore.reward.items) ?? {};
 
   if (!items[getSeasonalTicket(now)]) return items;
 
