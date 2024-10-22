@@ -136,6 +136,16 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
       count: 0,
     },
 
+    ...(hasFeatureAccess(state, "CHORE_BOARD")
+      ? [
+          {
+            name: "Chore Board" as const,
+            icon: chores,
+            count: 0,
+          },
+        ]
+      : []),
+
     ...(state.faction
       ? [
           {
@@ -215,14 +225,7 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
             {currentTab === 0 && <Deliveries onClose={onHide} />}
             {currentTab === 1 && (
               <>
-                {hasFeatureAccess(
-                  gameService.getSnapshot().context.state,
-                  "CHORE_BOARD",
-                ) ? (
-                  <ChoreBoard />
-                ) : (
-                  <Chores farmId={farmId} />
-                )}
+                <Chores farmId={farmId} />
               </>
             )}
             {currentTab === 2 && (
@@ -239,7 +242,13 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
               <Flowers onMilestoneReached={handleMilestoneReached} />
             )}
 
-            {currentTab === 5 && state.faction && (
+            {currentTab === 5 && (
+              <>
+                <ChoreBoard />
+              </>
+            )}
+
+            {currentTab === 6 && state.faction && (
               <FactionLeaderboard
                 leaderboard={data?.kingdom ?? null}
                 isLoading={data?.kingdom === undefined}
