@@ -13,6 +13,7 @@ import { FactionName } from "features/game/types/game";
 import { translate } from "lib/i18n/translate";
 
 import { EVENT_BUMPKINS, sheepPlace } from "../ui/npcs/Sheep"; // Remove after released
+import { hasFeatureAccess } from "lib/flags";
 
 export type FactionNPC = {
   npc: NPCName;
@@ -293,6 +294,16 @@ export class PlazaScene extends BaseScene {
       this.add.sprite(106, 140, "key_disc").setDepth(1000000000);
     } else {
       this.add.sprite(106, 140, "locked_disc").setDepth(1000000000);
+    }
+
+    if (hasFeatureAccess(this.gameState, "FLOWER_BOUNTIES")) {
+      // Add an invisible clickable square at x and y coords
+      const clickableSquare = this.add.rectangle(775, 248, 16, 16, 0, 0);
+      clickableSquare
+        .setInteractive({ cursor: "pointer" })
+        .on("pointerdown", () => {
+          interactableModalManager.open("flower_bounties");
+        });
     }
 
     // Sprites
