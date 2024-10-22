@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 // import { getItemBuffLabel, getItemImage } from "../MegaStore";
 import { getItemImage, getItemBuffLabel } from "../SeasonalStore";
 import { Label } from "components/ui/Label";
@@ -58,7 +58,6 @@ export const ItemsList: React.FC<Props> = ({
 
   const inventory = useSelector(gameService, _inventory);
   const wardrobe = useSelector(gameService, _wardrobe);
-  const [isHovered, setIsHovered] = useState(false);
 
   const getBalanceOfItem = (item: SeasonalStoreItem): number => {
     // Handling all types or specific ones if provided
@@ -245,11 +244,7 @@ export const ItemsList: React.FC<Props> = ({
                   }}
                   onClick={() => onItemClick(item, tier)}
                 >
-                  <div
-                    onMouseEnter={() => setIsHovered(true)}
-                    onMouseLeave={() => setIsHovered(false)}
-                    className="flex relative justify-center items-center w-full h-full"
-                  >
+                  <div className="flex relative justify-center items-center w-full h-full">
                     <SquareIcon icon={getItemImage(item)} width={20} />
                     {buff && (
                       <img
@@ -264,8 +259,7 @@ export const ItemsList: React.FC<Props> = ({
                     {balanceOfItem > 0 &&
                       (tier === "basic" ||
                         (tier === "rare" && isRareUnlocked) ||
-                        (tier === "epic" && isEpicUnlocked)) &&
-                      (!isHovered ? (
+                        (tier === "epic" && isEpicUnlocked)) && (
                         <img
                           src={SUNNYSIDE.icons.confirm}
                           className="absolute -right-2 -top-3"
@@ -274,14 +268,7 @@ export const ItemsList: React.FC<Props> = ({
                           }}
                           alt="crop"
                         />
-                      ) : (
-                        <Label
-                          type="default"
-                          className="px-0.5 text-xxs absolute -top-2 -right-[10px]"
-                        >
-                          {balanceOfItem}
-                        </Label>
-                      ))}
+                      )}
 
                     {((tier === "rare" && !isRareUnlocked) ||
                       (tier === "epic" && !isEpicUnlocked)) && (
