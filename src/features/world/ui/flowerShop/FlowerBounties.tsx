@@ -74,7 +74,11 @@ export const FlowerBounties: React.FC<Props> = ({ onClose }) => {
 
   if (deal) {
     return (
-      <Deal deal={deal} onClose={() => setDeal(undefined)} onSold={() => setDeal(undefined)} />
+      <Deal
+        deal={deal}
+        onClose={() => setDeal(undefined)}
+        onSold={() => setDeal(undefined)}
+      />
     );
   }
 
@@ -226,11 +230,11 @@ const Deal: React.FC<{
             </Label>
           )}
 
-          {getKeys(deal.items ?? {}).map((name) => 
+          {getKeys(deal.items ?? {}).map((name) => (
             <Label key={name} type="warning" icon={ITEM_DETAILS[name].image}>
               {deal.items?.[name]}
             </Label>
-          )}
+          ))}
         </div>
 
         <p>
