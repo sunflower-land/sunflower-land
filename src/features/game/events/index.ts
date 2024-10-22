@@ -397,6 +397,10 @@ import {
 } from "./landExpansion/completeNPCChore";
 import { claimProduce, ClaimProduceAction } from "./landExpansion/claimProduce";
 import { sellBounty, SellBountyAction } from "./landExpansion/sellBounty";
+import {
+  buySeasonalItem,
+  BuySeasonalItemAction,
+} from "./landExpansion/buySeasonalItem";
 
 export type PlayingEvent =
   | SellAnimalAction
@@ -517,7 +521,8 @@ export type PlayingEvent =
   | StartCraftingAction
   | CollectCraftingAction
   | CompleteNPCChoreAction
-  | ClaimProduceAction;
+  | ClaimProduceAction
+  | BuySeasonalItemAction;
 
 export type PlacementEvent =
   | ConstructBuildingAction
@@ -703,6 +708,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "crafting.collected": collectCrafting,
   "chore.fulfilled": completeNPCChore,
   "produce.claimed": claimProduce,
+  "seasonalItem.bought": buySeasonalItem,
 };
 
 export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {

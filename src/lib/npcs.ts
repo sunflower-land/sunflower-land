@@ -106,7 +106,7 @@ export type NPCName =
   | "pharaoh"
   | "worried pete"
   | "chase" //cowboy
-  | "sheep"; //sheep
+  | "sheep"; //sheep;
 
 export const NPC_WEARABLES: Record<NPCName, Equipped> = {
   richie: {

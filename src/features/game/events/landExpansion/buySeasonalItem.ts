@@ -1,6 +1,6 @@
 import Decimal from "decimal.js-light";
 import { getKeys } from "features/game/types/craftables";
-import { GameState, InventoryItemName } from "features/game/types/game";
+import { GameState, InventoryItemName, Keys } from "features/game/types/game";
 
 import { produce } from "immer";
 import { getCurrentSeason } from "features/game/types/seasons";
@@ -11,8 +11,9 @@ import {
   SeasonalStoreCollectible,
   SeasonalStoreItem,
 } from "features/game/types/megastore";
+import { ARTEFACT_SHOP_KEYS } from "features/game/types/collectibles";
 
-function isCollectible(
+export function isCollectible(
   item: SeasonalStoreItem,
 ): item is SeasonalStoreCollectible {
   return "collectible" in item;
@@ -35,7 +36,7 @@ export function buySeasonalItem({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  return produce(state, (draft) => {
+  return produce(state, (stateCopy) => {
     const { name, tier } = action;
 
     const currentSeason = getCurrentSeason(new Date(createdAt));
@@ -47,25 +48,37 @@ export function buySeasonalItem({
 
     const tierItems = seasonalStore[tier].items;
     const item = tierItems.find((item) =>
-      isCollectible(item) ? item.collectible === name : item.wearable === name,
+      item
+        ? isCollectible(item)
+          ? item.collectible === name
+          : item.wearable === name
+        : undefined,
     );
 
     if (!item) {
       throw new Error("Item not found in the seasonal store");
     }
 
-    const seasonalCollectiblesCrafted = getKeys(draft.inventory).filter(
+    const tierData =
+      tier === "basic"
+        ? seasonalStore["basic"].items
+        : tier === "rare"
+          ? seasonalStore["basic"].items
+          : tier === "epic"
+            ? seasonalStore["rare"].items
+            : seasonalStore["basic"].items;
+    const seasonalCollectiblesCrafted = getKeys(stateCopy.inventory).filter(
       (itemName) =>
-        tierItems.some((item) =>
+        tierData.some((item) =>
           "wearable" in item
             ? item.wearable === itemName
             : item.collectible === itemName,
         ),
     ).length;
 
-    const seasonalWearablesCrafted = getKeys(draft.wardrobe).filter(
+    const seasonalWearablesCrafted = getKeys(stateCopy.wardrobe).filter(
       (itemName) =>
-        tierItems.some((item) =>
+        tierData.some((item) =>
           "wearable" in item
             ? item.wearable === itemName
             : item.collectible === itemName,
@@ -99,33 +112,67 @@ export function buySeasonalItem({
     // Check if player has enough resources
     const { sfl, items } = item.cost;
 
-    if (draft.balance.lessThan(sfl)) {
+    if (stateCopy.balance.lessThan(sfl)) {
       throw new Error("Insufficient SFL");
     }
 
     for (const [itemName, amount] of Object.entries(items)) {
       const inventoryAmount =
-        draft.inventory[itemName as InventoryItemName] || new Decimal(0);
+        stateCopy.inventory[itemName as InventoryItemName] || new Decimal(0);
       if (inventoryAmount.lessThan(amount)) {
         throw new Error(`Insufficient ${itemName}`);
       }
     }
 
     // Deduct resources
-    draft.balance = draft.balance.minus(sfl);
+    stateCopy.balance = stateCopy.balance.minus(sfl);
     for (const [itemName, amount] of Object.entries(items)) {
-      draft.inventory[itemName as InventoryItemName] = (
-        draft.inventory[itemName as InventoryItemName] || new Decimal(0)
+      stateCopy.inventory[itemName as InventoryItemName] = (
+        stateCopy.inventory[itemName as InventoryItemName] || new Decimal(0)
       ).minus(amount);
     }
 
     // Add item to inventory
     if (isCollectible(item)) {
-      draft.inventory[item.collectible] = new Decimal(1);
+      const current = stateCopy.inventory[item.collectible] ?? new Decimal(0);
+
+      stateCopy.inventory[item.collectible] = current.add(1);
     } else {
-      draft.wardrobe[item.wearable] = 1;
+      const current = stateCopy.wardrobe[item.wearable] ?? 0;
+
+      stateCopy.wardrobe[item.wearable] = current + 1;
     }
 
-    return draft;
+    const isKey = (name: InventoryItemName): name is Keys =>
+      name in ARTEFACT_SHOP_KEYS;
+
+    // This is where the key is bought
+
+    if (isKey(name as InventoryItemName)) {
+      const keyBoughtAt =
+        stateCopy.pumpkinPlaza.keysBought?.megastore[name as Keys]?.boughtAt;
+      if (keyBoughtAt) {
+        const currentTime = new Date(createdAt).toISOString().slice(0, 10);
+        const lastBoughtTime = new Date(keyBoughtAt).toISOString().slice(0, 10);
+
+        if (currentTime === lastBoughtTime) {
+          throw new Error("Already bought today");
+        }
+      }
+      // Ensure `keysBought` is properly initialized
+      if (!stateCopy.pumpkinPlaza.keysBought) {
+        stateCopy.pumpkinPlaza.keysBought = {
+          treasureShop: {},
+          megastore: {},
+          factionShop: {},
+        };
+      }
+
+      stateCopy.pumpkinPlaza.keysBought.megastore[name as Keys] = {
+        boughtAt: createdAt,
+      };
+    }
+
+    return stateCopy;
   });
 }
