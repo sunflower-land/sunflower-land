@@ -218,6 +218,11 @@ export const STATIC_OFFLINE_FARM: GameState = {
     pots: {},
     oil: 50,
   },
+  faction: {
+    name: "goblins",
+    history: {},
+    pledgedAt: 100,
+  },
   home: {
     collectibles: {
       Wardrobe: [
