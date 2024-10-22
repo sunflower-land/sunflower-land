@@ -4051,5 +4051,6 @@
   "chore.cook.5.carrot.cakes": "Cook 5 Carrot Cakes",
   "chore.cook.4.cabbage.cakes": "Cook 4 Cabbage Cakes",
   "megaStore.msg1": "Welcome to my seasonal store. Gather resources & exchange them for rare items before time runs out!",
-  "megaStore.tier.requirements": "Buy {{requirements}} more items to unlock {{tier}} items."
+  "megaStore.tier.requirements": "Buy {{requirements}} more items to unlock {{tier}} items.",
+  "animal.noBarnDelight": "No Barn Delight available"
 }
