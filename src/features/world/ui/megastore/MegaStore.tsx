@@ -16,6 +16,7 @@ import { getImageUrl } from "lib/utils/getImageURLS";
 import { MegaStoreMonthly } from "./MegaStoreMonthly";
 import { MegaStoreSeasonal } from "./MegaStoreSeasonal";
 import { MachineState } from "features/game/lib/gameMachine";
+import { SeasonalStore } from "./SeasonalStore";
 
 interface Props {
   onClose: () => void;
@@ -65,6 +66,7 @@ export const MegaStore: React.FC<Props> = ({ onClose }) => {
       tabs={[
         { icon: shopIcon, name: t("monthly") },
         { icon: lightning, name: t("seasonal") },
+        { icon: shopIcon, name: "Seasonal Store" },
       ]}
       onClose={onClose}
       currentTab={tab}
@@ -72,6 +74,7 @@ export const MegaStore: React.FC<Props> = ({ onClose }) => {
     >
       {tab === 0 && <MegaStoreMonthly />}
       {tab === 1 && <MegaStoreSeasonal />}
+      {tab === 2 && <SeasonalStore />}
     </CloseButtonPanel>
   );
 };
