@@ -17,7 +17,6 @@ import {
 } from "features/game/lib/animals";
 import classNames from "classnames";
 import { RequestBubble } from "features/game/expansion/components/animals/RequestBubble";
-import { ITEM_DETAILS } from "features/game/types/images";
 import { LevelProgress } from "features/game/expansion/components/animals/LevelProgress";
 import { ANIMAL_EMOTION_ICONS } from "./Cow";
 import { AnimalFoodName } from "features/game/types/game";
@@ -79,12 +78,14 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
   const sleeping = sheepState === "sleeping";
   const needsLove = sheepState === "needsLove";
   const ready = sheepState === "ready";
+  const sick = sheepState === "sick";
+  const idle = sheepState === "idle";
 
   const feedSheep = (item = selectedItem) => {
     const updatedState = gameService.send({
       type: "animal.fed",
       animal: "Sheep",
-      food: item as AnimalFoodName,
+      item: item as AnimalFoodName,
       id: sheep.id,
     });
 
@@ -229,7 +230,7 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
           )}
         />
         {/* Emotion */}
-        {sheepState !== "idle" && !needsLove && (
+        {!idle && !needsLove && !sick && (
           <img
             src={ANIMAL_EMOTION_ICONS[sheepState].icon}
             alt={`${capitalize(sheepState)} Sheep`}
@@ -242,11 +243,19 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
           />
         )}
         {/* Request */}
-        {sheepState === "idle" && (
+        {idle && (
           <RequestBubble
             top={PIXEL_SCALE * 2}
             left={PIXEL_SCALE * 23}
-            image={{ src: ITEM_DETAILS[favFood].image, height: 16, width: 16 }}
+            request={favFood}
+            quantity={3}
+          />
+        )}
+        {sick && (
+          <RequestBubble
+            top={PIXEL_SCALE * 3}
+            left={PIXEL_SCALE * 23}
+            request={favFood}
             quantity={3}
           />
         )}
@@ -254,11 +263,7 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
           <RequestBubble
             top={PIXEL_SCALE * 2}
             left={PIXEL_SCALE * 23}
-            image={{
-              src: ITEM_DETAILS[sheep.item].image,
-              height: 16,
-              width: 16,
-            }}
+            request={sheep.item}
           />
         )}
         {/* Level Progress */}

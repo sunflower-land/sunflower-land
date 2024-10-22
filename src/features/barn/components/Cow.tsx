@@ -18,7 +18,6 @@ import {
 import { SUNNYSIDE } from "assets/sunnyside";
 import classNames from "classnames";
 import { RequestBubble } from "features/game/expansion/components/animals/RequestBubble";
-import { ITEM_DETAILS } from "features/game/types/images";
 import { LevelProgress } from "features/game/expansion/components/animals/LevelProgress";
 import { ProduceDrops } from "features/game/expansion/components/animals/ProduceDrops";
 import { AnimalFoodName } from "features/game/types/game";
@@ -33,7 +32,7 @@ import Decimal from "decimal.js-light";
 import { InfoPopover } from "features/island/common/InfoPopover";
 
 export const ANIMAL_EMOTION_ICONS: Record<
-  Exclude<TState["value"], "idle" | "needsLove" | "initial">,
+  Exclude<TState["value"], "idle" | "needsLove" | "initial" | "sick">,
   {
     icon: string;
     width: number;
@@ -120,12 +119,14 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
   const sleeping = cowState === "sleeping";
   const needsLove = cowState === "needsLove";
   const ready = cowState === "ready";
+  const idle = cowState === "idle";
+  const sick = cowState === "sick";
 
   const feedCow = (item = selectedItem) => {
     const updatedState = gameService.send({
       type: "animal.fed",
       animal: "Cow",
-      food: item as AnimalFoodName,
+      item: item as AnimalFoodName,
       id: cow.id,
     });
 
@@ -229,6 +230,13 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
       };
     }
 
+    if (sick) {
+      return {
+        image: SUNNYSIDE.animals.cowSick,
+        width: PIXEL_SCALE * 11,
+      };
+    }
+
     return {
       image: SUNNYSIDE.animals.cowIdle,
       width: PIXEL_SCALE * 11,
@@ -269,7 +277,7 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
           )}
         />
         {/* Emotion */}
-        {cowState !== "idle" && !needsLove && (
+        {!idle && !needsLove && !sick && (
           <img
             src={ANIMAL_EMOTION_ICONS[cowState].icon}
             alt={`${capitalize(cowState)} Cow`}
@@ -282,23 +290,26 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
           />
         )}
         {/* Request */}
-        {cowState === "idle" && (
+        {idle && (
           <RequestBubble
             top={PIXEL_SCALE * 1}
             left={PIXEL_SCALE * 23}
-            image={{ src: ITEM_DETAILS[favFood].image, height: 16, width: 16 }}
+            request={favFood}
             quantity={5}
+          />
+        )}
+        {sick && (
+          <RequestBubble
+            top={PIXEL_SCALE * 2}
+            left={PIXEL_SCALE * 23}
+            request="Barn Delight"
           />
         )}
         {needsLove && (
           <RequestBubble
             top={PIXEL_SCALE * 1}
             left={PIXEL_SCALE * 23}
-            image={{
-              src: ITEM_DETAILS[cow.item].image,
-              height: 16,
-              width: 16,
-            }}
+            request={cow.item}
           />
         )}
         {/* Level Progress */}

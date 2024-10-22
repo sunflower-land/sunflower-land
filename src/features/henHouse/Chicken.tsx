@@ -16,7 +16,6 @@ import {
   getAnimalLevel,
   isAnimalFood,
 } from "features/game/lib/animals";
-import { ITEM_DETAILS } from "features/game/types/images";
 import classNames from "classnames";
 import { LevelProgress } from "features/game/expansion/components/animals/LevelProgress";
 import { RequestBubble } from "features/game/expansion/components/animals/RequestBubble";
@@ -33,7 +32,7 @@ import { InfoPopover } from "features/island/common/InfoPopover";
 import Decimal from "decimal.js-light";
 
 export const CHICKEN_EMOTION_ICONS: Record<
-  Exclude<TState["value"], "idle" | "needsLove" | "initial">,
+  Exclude<TState["value"], "idle" | "needsLove" | "initial" | "sick">,
   {
     icon: string;
     width: number;
@@ -113,6 +112,7 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
   const needsLove = chickenState === "needsLove";
   const ready = chickenState === "ready";
   const idle = chickenState === "idle";
+  const sick = chickenState === "sick";
 
   // Sounds
   const { play: playFeedAnimal } = useSound("feed_animal");
@@ -124,7 +124,7 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
     const updatedState = gameService.send({
       type: "animal.fed",
       animal: "Chicken",
-      food: item as AnimalFoodName,
+      item: item as AnimalFoodName,
       id: chicken.id,
     });
 
@@ -229,6 +229,13 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
       };
     }
 
+    if (sick) {
+      return {
+        image: SUNNYSIDE.animals.chickenSick,
+        width: PIXEL_SCALE * 11,
+      };
+    }
+
     return {
       image: SUNNYSIDE.animals.chickenIdle,
       width: PIXEL_SCALE * 11,
@@ -288,7 +295,7 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
             )}
           />
           {/* Emotion */}
-          {!idle && !needsLove && (
+          {!idle && !needsLove && !sick && (
             <img
               src={CHICKEN_EMOTION_ICONS[chickenState].icon}
               alt={`${capitalize(chickenState)} Chicken`}
@@ -301,26 +308,25 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
             />
           )}
           {/* Request */}
-          {chickenState === "idle" && (
+          {idle && (
             <RequestBubble
               top={PIXEL_SCALE * -5.5}
               left={PIXEL_SCALE * 18}
-              image={{
-                src: ITEM_DETAILS[favFood].image,
-                height: 16,
-                width: 16,
-              }}
+              request={favFood}
+            />
+          )}
+          {sick && (
+            <RequestBubble
+              top={PIXEL_SCALE * -3.5}
+              left={PIXEL_SCALE * 20}
+              request="Barn Delight"
             />
           )}
           {needsLove && (
             <RequestBubble
-              top={PIXEL_SCALE * -5.5}
+              top={PIXEL_SCALE * -4.5}
               left={PIXEL_SCALE * 9.5}
-              image={{
-                src: ITEM_DETAILS[chicken.item].image,
-                height: 16,
-                width: 16,
-              }}
+              request={chicken.item}
             />
           )}
           {/* Level Progress */}
@@ -362,17 +368,29 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
         className="flex top-[-20px] left-[50%] z-40 absolute"
       >
         <QuickSelect
-          options={getKeys(ANIMAL_FOODS).map((food) => ({
-            name: food,
-            icon: food,
-            showSecondaryImage: false,
-          }))}
+          options={
+            !sick
+              ? getKeys(ANIMAL_FOODS).map((food) => ({
+                  name: food,
+                  icon: food,
+                  showSecondaryImage: false,
+                }))
+              : [
+                  {
+                    name: "Barn Delight",
+                    icon: "Barn Delight",
+                    showSecondaryImage: false,
+                  },
+                ]
+          }
           onClose={() => setShowQuickSelect(false)}
           onSelected={(food) => {
             feedChicken(food);
             setShowQuickSelect(false);
           }}
-          emptyMessage={t("animal.noFoodMessage")}
+          emptyMessage={t(
+            sick ? "animal.noBarnDelight" : "animal.noFoodMessage",
+          )}
         />
       </Transition>
     </>
