@@ -3707,8 +3707,6 @@
   "bounties.board.info": "Berdagang hadiah minggu ini sebelum masa habis.",
   "bounties.board.empty": "Tiada tawaran tersedia sekarang.",
   "bounties.sold": "Dijual",
-  "bounties.sell.coins": "Adakah anda pasti ingin menjual haiwan ini untuk duit syiling {{amount}}?",
-  "bounties.sell.items": "Adakah anda pasti ingin menjual haiwan ini untuk {{amount}}?",
   "bounties.animal.select": "Pilih {{name}} untuk dijual.",
   "obsession": "Obsesi",
   "teaser.intro": "Haiwan akan datang ke Tanah Bunga Matahari. Sediakan sumber anda untuk 1 November!",
@@ -3760,8 +3758,12 @@
   "unknown": "Tidak diketahui",
   "crafting.selectIngredients": "Pilih bahan",
   "crafting.readyToCollect": "Bersedia untuk mengumpul",
-  "crafting.inProgress": "Dalam Pembangunan",
   "crafting.noRecipe": "Tiada resipi",
   "ready": "Sedia",
-  "instant": "Segera"
+  "instant": "Segera",
+  "bounties.sell.coins": "Adakah anda pasti ingin menjual ini untuk duit syiling {{amount}}?",
+  "bounties.sell.items": "Adakah anda pasti ingin menjual ini untuk {{amount}}?",
+  "crafting.inProgress": "Dalam proses",
+  "bounties.flower.intro.one": "Hello Bumpkin! Kami mendapat hadiah untuk bunga minggu ini.",
+  "bounties.flower.intro.two": "Bawa saya bunga terbaik anda, dan saya akan menjadikannya berbaloi untuk masa anda."
 }

@@ -3733,8 +3733,8 @@
   "bounties.board.info": "Trade this week's bounties before time runs out.",
   "bounties.board.empty": "There are no deals available right now.",
   "bounties.sold": "Sold",
-  "bounties.sell.coins": "Are you sure you want to sell this animal for {{amount}} coins?",
-  "bounties.sell.items": "Are you sure you want to sell this animal for {{amount}}?",
+  "bounties.sell.coins": "Are you sure you want to sell this for {{amount}} coins?",
+  "bounties.sell.items": "Are you sure you want to sell this for {{amount}}?",
   "bounties.animal.select": "Select a {{name}} to sell.",
   "npcDialogues.chase.intro1": "Howdy Bumpkin! Animals are coming to Sunflower Land on November 1st.",
   "npcDialogues.chase.intro2": "However I'm in a bit of a pickle. My herd has mysteriously gone missing - it's like they disappeared out of thin air!",
@@ -3760,8 +3760,10 @@
   "unknown": "Unknown",
   "crafting.selectIngredients": "Select ingredients",
   "crafting.readyToCollect": "Ready to collect",
-  "crafting.inProgress": "In Progress",
+  "crafting.inProgress": "In progress",
   "crafting.noRecipe": "No recipe",
   "ready": "Ready",
-  "instant": "Instant"
+  "instant": "Instant",
+  "bounties.flower.intro.one": "Howdy Bumpkin! We've got a bounty on flowers this week.",
+  "bounties.flower.intro.two": "Bring me your finest flowers, and I'll make it worth your while."
 }

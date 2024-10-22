@@ -3707,8 +3707,6 @@
   "bounties.board.info": "Opere con las recompensas de esta semana antes de que acabe el tiempo.",
   "bounties.board.empty": "No hay ofertas disponibles en este momento.",
   "bounties.sold": "Vendido",
-  "bounties.sell.coins": "¿Estás seguro de que quieres vender este animal por monedas de {{amount}}?",
-  "bounties.sell.items": "¿Estás seguro de que quieres vender este animal por {{amount}}?",
   "bounties.animal.select": "Selecciona un {{name}} para vender.",
   "obsession": "Obsesión",
   "teaser.intro": "Los animales están llegando a Sunflower Land. ¡Prepara tus recursos para el 1 de noviembre!",
@@ -3760,8 +3758,12 @@
   "unknown": "Desconocido",
   "crafting.selectIngredients": "Seleccione los ingredientes",
   "crafting.readyToCollect": "Listo para recoger",
-  "crafting.inProgress": "En progreso",
   "crafting.noRecipe": "Sin receta",
   "ready": "Listo",
-  "instant": "Al instante"
+  "instant": "Al instante",
+  "bounties.sell.coins": "¿Estás seguro de que quieres venderlo por monedas de {{amount}}?",
+  "bounties.sell.items": "¿Estás seguro de que quieres venderlo por {{amount}}?",
+  "crafting.inProgress": "En progreso",
+  "bounties.flower.intro.one": "¡Hola, Bumpkin! Tenemos una recompensa en flores esta semana.",
+  "bounties.flower.intro.two": "Tráeme tus mejores flores y haré que valga la pena."
 }

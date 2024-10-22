@@ -3707,8 +3707,6 @@
   "bounties.board.info": "Negocie as recompensas desta semana antes que o tempo acabe.",
   "bounties.board.empty": "Não há ofertas disponíveis no momento.",
   "bounties.sold": "Vendido",
-  "bounties.sell.coins": "Tem certeza de que quer vender esse animal por {{amount}} moedas?",
-  "bounties.sell.items": "Tem certeza de que quer vender esse animal por {{amount}}?",
   "bounties.animal.select": "Selecione um {{name}} para vender.",
   "obsession": "Obsessão",
   "teaser.intro": "Animais estão chegando à Terra dos Girassóis. Prepare seus recursos para 1º de novembro!",
@@ -3760,8 +3758,12 @@
   "unknown": "Desconhecido",
   "crafting.selectIngredients": "Selecione os ingredientes",
   "crafting.readyToCollect": "Pronto para coletar",
-  "crafting.inProgress": "Em andamento",
   "crafting.noRecipe": "Sem receita",
   "ready": "Pronto",
-  "instant": "Instantâneo"
+  "instant": "Instantâneo",
+  "bounties.sell.coins": "Tem certeza de que quer vender isso por moedas de {{amount}}?",
+  "bounties.sell.items": "Tem certeza de que quer vender isso por {{amount}}?",
+  "crafting.inProgress": "Em andamento",
+  "bounties.flower.intro.one": "Olá, Bumpkin! Temos uma recompensa por flores esta semana.",
+  "bounties.flower.intro.two": "Traga-me suas melhores flores, e eu farei com que valha a pena."
 }

@@ -3707,8 +3707,6 @@
   "bounties.board.info": "Торгуйте наградами на этой неделе до истечения времени.",
   "bounties.board.empty": "На данный момент предложений нет.",
   "bounties.sold": "Продано",
-  "bounties.sell.coins": "Вы действительно хотите продать это животное за монеты {{amount}}?",
-  "bounties.sell.items": "Вы действительно хотите продать это животное за {{amount}}?",
   "bounties.animal.select": "Выберите {{name}} для продажи.",
   "obsession": "Одержимость",
   "teaser.intro": "Животные прибывают на Землю Подсолнухов. Подготовьте ресурсы к 1 ноября!",
@@ -3760,8 +3758,12 @@
   "unknown": "Неизвестно",
   "crafting.selectIngredients": "Выберите ингредиенты",
   "crafting.readyToCollect": "Готовы к сбору",
-  "crafting.inProgress": "В разработке",
   "crafting.noRecipe": "Нет рецепта",
   "ready": "Готово",
-  "instant": "Немедленное"
+  "instant": "Немедленное",
+  "bounties.sell.coins": "Вы действительно хотите продать это за монеты {{amount}}?",
+  "bounties.sell.items": "Вы действительно хотите продать это за {{amount}}?",
+  "crafting.inProgress": "В процессе",
+  "bounties.flower.intro.one": "Привет, Бампкин! На этой неделе у нас в подарок цветы.",
+  "bounties.flower.intro.two": "Принесите мне свои лучшие цветы, и я сделаю так, чтобы они того стоили."
 }

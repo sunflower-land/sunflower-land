@@ -3707,8 +3707,6 @@
   "bounties.board.info": "Zaman dolmadan bu haftanın ödüllerini takas edin.",
   "bounties.board.empty": "Şu anda mevcut hiçbir fırsat yok.",
   "bounties.sold": "Satıldı",
-  "bounties.sell.coins": "Bu hayvanı {{amount}} paraya satmak istediğinizden emin misiniz?",
-  "bounties.sell.items": "Bu hayvanı {{amount}} karşılığında satmak istediğinizden emin misiniz?",
   "bounties.animal.select": "Satmak için bir {{name}} seçin.",
   "obsession": "Takıntı",
   "teaser.intro": "Hayvanlar Ayçiçeği Ülkesine geliyor. Kaynaklarınızı 1 Kasım'a hazırlayın!",
@@ -3760,8 +3758,12 @@
   "unknown": "Bilinmeyen",
   "crafting.selectIngredients": "Malzemeleri seçin",
   "crafting.readyToCollect": "Toplamaya hazır",
-  "crafting.inProgress": "Devredilmekte",
   "crafting.noRecipe": "Tarif yok",
   "ready": "Hazır",
-  "instant": "Anında"
+  "instant": "Anında",
+  "bounties.sell.coins": "Bunu {{amount}} para karşılığında satmak istediğinizden emin misiniz?",
+  "bounties.sell.items": "Bunu {{amount}} karşılığında satmak istediğinizden emin misiniz?",
+  "crafting.inProgress": "Devamında",
+  "bounties.flower.intro.one": "Merhaba Bumpkin! Bu hafta çiçeklerden ödül aldık.",
+  "bounties.flower.intro.two": "Bana en güzel çiçeklerini getir, ben de buna değerim."
 }
