@@ -171,41 +171,43 @@ export const HenHouseInside: React.FC = () => {
                 <FeederMachine />
               </div>
 
-              {getKeys(henHouse.animals).map((id) => {
-                const animal = henHouse.animals[id];
-                const isValid = deal && isValidDeal({ animal, deal });
+              {getKeys(henHouse.animals)
+                .map((id) => {
+                  const animal = henHouse.animals[id];
+                  const isValid = deal && isValidDeal({ animal, deal });
 
-                return (
-                  <MapPlacement
-                    key={`chicken-${id}`}
-                    x={animal.coordinates.x}
-                    y={animal.coordinates.y}
-                    height={ANIMALS.Chicken.height}
-                    width={ANIMALS.Chicken.width}
-                  >
-                    <div
-                      className={classNames({
-                        "opacity-50": deal && !isValid,
-                        "cursor-pointer": deal && isValid,
-                        "pointer-events-none": deal && !isValid,
-                      })}
-                      onClick={(e) => {
-                        if (deal) {
-                          // Stop other clicks
-                          e.stopPropagation();
-                          e.preventDefault();
-
-                          if (!isValid) return;
-
-                          setSelected(animal);
-                        }
-                      }}
+                  return (
+                    <MapPlacement
+                      key={`chicken-${id}`}
+                      x={animal.coordinates.x}
+                      y={animal.coordinates.y}
+                      height={ANIMALS.Chicken.height}
+                      width={ANIMALS.Chicken.width}
                     >
-                      <Chicken disabled={!!deal} id={id} />
-                    </div>
-                  </MapPlacement>
-                );
-              })}
+                      <div
+                        className={classNames({
+                          "opacity-50": deal && !isValid,
+                          "cursor-pointer": deal && isValid,
+                          "pointer-events-none": deal && !isValid,
+                        })}
+                        onClick={(e) => {
+                          if (deal) {
+                            // Stop other clicks
+                            e.stopPropagation();
+                            e.preventDefault();
+
+                            if (!isValid) return;
+
+                            setSelected(animal);
+                          }
+                        }}
+                      >
+                        <Chicken disabled={!!deal} id={id} />
+                      </div>
+                    </MapPlacement>
+                  );
+                })
+                .sort((a, b) => a.props.y - b.props.y)}
             </div>
           </div>
         </div>
