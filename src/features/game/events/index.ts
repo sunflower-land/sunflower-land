@@ -396,11 +396,17 @@ import {
   CompleteNPCChoreAction,
 } from "./landExpansion/completeNPCChore";
 import { claimProduce, ClaimProduceAction } from "./landExpansion/claimProduce";
+import { sellBounty, SellBountyAction } from "./landExpansion/sellBounty";
+import {
+  buySeasonalItem,
+  BuySeasonalItemAction,
+} from "./landExpansion/buySeasonalItem";
 
 export type PlayingEvent =
   | SellAnimalAction
   | SpeedUpBuilding
   | SpeedUpCollectible
+  | SellBountyAction
   | FeedMixedAction
   | InstantExpand
   | InstantCookRecipe
@@ -515,7 +521,8 @@ export type PlayingEvent =
   | StartCraftingAction
   | CollectCraftingAction
   | CompleteNPCChoreAction
-  | ClaimProduceAction;
+  | ClaimProduceAction
+  | BuySeasonalItemAction;
 
 export type PlacementEvent =
   | ConstructBuildingAction
@@ -586,6 +593,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "collectible.spedUp": speedUpCollectible,
   "expansion.spedUp": speedUpExpansion,
   "recipe.spedUp": speedUpRecipe,
+  "bounty.sold": sellBounty,
   "competition.started": startCompetition,
   "offer.claimed": claimOffer,
   "dailyChallenge.completed": completeDailyChallenge,
@@ -700,6 +708,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "crafting.collected": collectCrafting,
   "chore.fulfilled": completeNPCChore,
   "produce.claimed": claimProduce,
+  "seasonalItem.bought": buySeasonalItem,
 };
 
 export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {

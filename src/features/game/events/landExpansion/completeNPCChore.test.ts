@@ -159,4 +159,59 @@ describe("completeNPCChore", () => {
 
     expect(newState.npcs?.["pumpkin' pete"]?.friendship?.points).toBe(1);
   });
+
+  it("provides normal ticket rewards", () => {
+    const state: GameState = {
+      ...TEST_FARM,
+      bumpkin: {
+        ...INITIAL_BUMPKIN,
+        activity: { "Tree Chopped": 1 },
+      },
+      choreBoard: {
+        chores: {
+          "pumpkin' pete": {
+            ...CHORE,
+            reward: { items: { ["Amber Fossil"]: 1 } },
+          },
+        },
+      },
+    };
+
+    const newState = completeNPCChore({
+      state,
+      action: { type: "chore.fulfilled", npcName: "pumpkin' pete" },
+      createdAt: new Date("2024-10-22").getTime(),
+    });
+
+    expect(newState.inventory["Amber Fossil"]).toEqual(new Decimal(1));
+  });
+
+  it("provides VIP ticket rewards", () => {
+    const state: GameState = {
+      ...TEST_FARM,
+      bumpkin: {
+        ...INITIAL_BUMPKIN,
+        activity: { "Tree Chopped": 1 },
+      },
+      inventory: {
+        "Lifetime Farmer Banner": new Decimal(1),
+      },
+      choreBoard: {
+        chores: {
+          "pumpkin' pete": {
+            ...CHORE,
+            reward: { items: { ["Amber Fossil"]: 1 } },
+          },
+        },
+      },
+    };
+
+    const newState = completeNPCChore({
+      state,
+      action: { type: "chore.fulfilled", npcName: "pumpkin' pete" },
+      createdAt: new Date("2024-10-22").getTime(),
+    });
+
+    expect(newState.inventory["Amber Fossil"]).toEqual(new Decimal(3));
+  });
 });

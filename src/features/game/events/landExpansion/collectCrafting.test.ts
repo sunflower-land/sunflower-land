@@ -8,10 +8,11 @@ describe("collectCrafting", () => {
       state: {
         ...INITIAL_FARM,
         craftingBox: {
-          item: "Dirt Path",
+          item: { collectible: "Dirt Path" },
           readyAt: 1,
           startedAt: 1,
           status: "crafting",
+          recipes: {},
         },
       },
       action: {
@@ -27,10 +28,11 @@ describe("collectCrafting", () => {
       state: {
         ...INITIAL_FARM,
         craftingBox: {
-          item: "Dirt Path",
+          item: { collectible: "Dirt Path" },
           readyAt: 1,
           startedAt: 1,
           status: "crafting",
+          recipes: {},
         },
       },
       action: {
@@ -46,10 +48,11 @@ describe("collectCrafting", () => {
       state: {
         ...INITIAL_FARM,
         craftingBox: {
-          item: "Dirt Path",
+          item: { collectible: "Dirt Path" },
           readyAt: 1,
           startedAt: 1,
           status: "crafting",
+          recipes: {},
         },
       },
       action: {
@@ -68,10 +71,11 @@ describe("collectCrafting", () => {
         state: {
           ...INITIAL_FARM,
           craftingBox: {
-            item: "Dirt Path",
+            item: { collectible: "Dirt Path" },
             readyAt: now + 1000,
             startedAt: now,
             status: "crafting",
+            recipes: {},
           },
         },
         action: {

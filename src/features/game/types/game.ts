@@ -78,6 +78,11 @@ import { GameTransaction } from "./transactions";
 import { CompetitionName, CompetitionProgress } from "./competitions";
 import { AnimalType } from "./animals";
 import { ChoreBoard } from "./choreBoard";
+import {
+  RecipeCollectibleName,
+  Recipes,
+  RecipeWearableName,
+} from "../lib/crafting";
 
 export type Reward = {
   coins?: number;
@@ -362,13 +367,24 @@ export type WarItems =
   | "Warrior Pants";
 
 export type LoveAnimalItem = "Petting Hand" | "Brush" | "Music Box";
-export type BountyRequest = {
+
+type Bounty = {
   id: string;
-  name: AnimalType;
-  level: number;
+  name: InventoryItemName;
   coins?: number;
   items?: Partial<Record<InventoryItemName, number>>;
 };
+
+export type AnimalBounty = Bounty & {
+  name: AnimalType;
+  level: number;
+};
+
+export type FlowerBounty = Bounty & {
+  name: FlowerName;
+};
+
+export type BountyRequest = AnimalBounty | FlowerBounty;
 
 export type Bounties = {
   requests: BountyRequest[];
@@ -1371,9 +1387,18 @@ export interface GameState {
 
   craftingBox: {
     status: "pending" | "idle" | "crafting";
-    item?: InventoryItemName;
+    item?:
+      | {
+          collectible: RecipeCollectibleName;
+          wearable?: never;
+        }
+      | {
+          collectible?: never;
+          wearable: RecipeWearableName;
+        };
     startedAt: number;
     readyAt: number;
+    recipes: Partial<Recipes>;
   };
 }
 

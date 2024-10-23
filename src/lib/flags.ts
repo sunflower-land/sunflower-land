@@ -37,10 +37,10 @@ export type ExperimentName = "ONBOARDING_CHALLENGES" | "GEM_BOOSTS";
  * Do not delete JEST_TEST.
  */
 const featureFlags = {
-  CHORE_BOARD: timeBasedFeatureFlag(new Date("2024-11-01T00:00:00Z")),
+  CHORE_BOARD: defaultFeatureFlag,
   ONBOARDING_REWARDS: (game: GameState) =>
     game.experiments.includes("ONBOARDING_CHALLENGES"),
-  SEASONAL_TIERS: testnetFeatureFlag,
+  SEASONAL_TIERS: timeBasedFeatureFlag(new Date("2024-11-01T00:00:00Z")),
   MARKETPLACE: testnetFeatureFlag,
   CROP_QUICK_SELECT: () => false,
   PORTALS: testnetFeatureFlag,
@@ -53,7 +53,8 @@ const featureFlags = {
   BARLEY: testnetFeatureFlag,
   GEM_BOOSTS: (game: GameState) => game.experiments.includes("GEM_BOOSTS"),
   CHICKEN_GARBO: timeBasedFeatureFlag(SEASONS["Pharaoh's Treasure"].endDate),
-  CRAFTING_BOX: timeBasedFeatureFlag(new Date("2024-11-01T00:00:00Z")),
+  CRAFTING_BOX: betaTimeBasedFeatureFlag(new Date("2024-11-01T00:00:00Z")),
+  FLOWER_BOUNTIES: timeBasedFeatureFlag(new Date("2024-11-01T00:00:00Z")),
 } satisfies Record<string, FeatureFlag>;
 
 export type FeatureName = keyof typeof featureFlags;

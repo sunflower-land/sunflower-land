@@ -7,6 +7,10 @@ import {
 } from "features/game/types/choreBoard";
 import { produce } from "immer";
 import { NPCName } from "lib/npcs";
+import {
+  getSeasonalBanner,
+  getSeasonalTicket,
+} from "features/game/types/seasons";
 
 export type CompleteNPCChoreAction = {
   type: "chore.fulfilled";
@@ -47,8 +51,14 @@ export function completeNPCChore({
     // Mark chore as completed
     chore.completedAt = createdAt;
 
+    const items = generateChoreRewards({
+      game: draft,
+      chore,
+      now: new Date(createdAt),
+    });
+
     // Add rewards to inventory
-    Object.entries(chore.reward.items).forEach(([itemName, amount]) => {
+    Object.entries(items).forEach(([itemName, amount]) => {
       draft.inventory[itemName as InventoryItemName] = (
         draft.inventory[itemName as InventoryItemName] || new Decimal(0)
       ).add(amount);
@@ -70,4 +80,27 @@ export function completeNPCChore({
 
     return draft;
   });
+}
+
+export function generateChoreRewards({
+  game,
+  chore,
+  now = new Date(),
+}: {
+  game: GameState;
+  chore: NpcChore;
+  now: Date;
+}) {
+  const items = Object.assign({}, chore.reward.items) ?? {};
+
+  if (!items[getSeasonalTicket(now)]) return items;
+
+  if (
+    !!game.inventory[getSeasonalBanner(now)] ||
+    !!game.inventory["Lifetime Farmer Banner"]
+  ) {
+    items[getSeasonalTicket(now)] = (items[getSeasonalTicket(now)] ?? 0) + 2;
+  }
+
+  return items;
 }

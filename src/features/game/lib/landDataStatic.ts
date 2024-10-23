@@ -218,6 +218,11 @@ export const STATIC_OFFLINE_FARM: GameState = {
     pots: {},
     oil: 50,
   },
+  faction: {
+    name: "goblins",
+    history: {},
+    pledgedAt: 100,
+  },
   home: {
     collectibles: {
       Wardrobe: [
@@ -749,6 +754,28 @@ export const STATIC_OFFLINE_FARM: GameState = {
   createdAt: new Date().getTime(),
 
   conversations: ["hank-intro"],
+
+  bounties: {
+    completed: [],
+    requests: [
+      {
+        id: "1",
+        name: "Chicken",
+        level: 2,
+        coins: 100,
+      },
+      {
+        id: "2",
+        name: "Red Balloon Flower",
+        coins: 100,
+      },
+      {
+        id: "3",
+        name: "White Pansy",
+        items: { Scroll: 1 },
+      },
+    ],
+  },
 
   fishing: {
     dailyAttempts: {},
