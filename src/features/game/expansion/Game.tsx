@@ -580,8 +580,6 @@ export const GameWrapper: React.FC = ({ children }) => {
           </Modal>
         )}
 
-        <CraftingDiscovery />
-
         {children}
       </ToastProvider>
     </>

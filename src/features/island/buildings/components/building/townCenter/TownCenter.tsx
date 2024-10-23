@@ -11,6 +11,7 @@ import { BuildingImageWrapper } from "../BuildingImageWrapper";
 import { DailyReward } from "features/game/expansion/components/dailyReward/DailyReward";
 import { useNavigate } from "react-router-dom";
 import { HomeBumpkins } from "../house/HomeBumpkins";
+import { CraftingDiscovery } from "../craftingBox/CraftingDiscovery";
 
 export const TownCenter: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
   const { gameService, showAnimations } = useContext(Context);
@@ -70,6 +71,7 @@ export const TownCenter: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
         style={{ left: `${PIXEL_SCALE * 16}px`, top: `${PIXEL_SCALE * 14}px` }}
       >
         <DailyReward />
+        <CraftingDiscovery />
       </div>
       <div
         className="absolute w-full"

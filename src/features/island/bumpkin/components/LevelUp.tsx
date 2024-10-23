@@ -1,3 +1,4 @@
+import React from "react";
 import {
   FacebookIcon,
   FacebookShareButton,
@@ -9,8 +10,6 @@ import {
   XIcon,
 } from "react-share";
 
-import React from "react";
-import { Button } from "components/ui/Button";
 import { Equipped } from "features/game/types/bumpkin";
 import { onboardingAnalytics } from "lib/onboardingAnalytics";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -27,6 +26,8 @@ import {
 } from "features/game/expansion/lib/expansionRequirements";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { SEEDS } from "features/game/types/seeds";
+import { SpeakingText } from "features/game/components/SpeakingModal";
+import confetti from "canvas-confetti";
 
 const BONUS_UNLOCKS: Record<number, { text: string; icon: string }[]> = {
   3: [
@@ -161,12 +162,13 @@ interface Props {
   onClose: () => void;
   wearables: Equipped;
 }
+
 export const LevelUp: React.FC<Props> = ({ level, onClose, wearables }) => {
   const { t } = useAppTranslation();
+
   const shareMessage = `Just reached level ${level} in Sunflower Land! So proud of my progress in this game. 🌻🚀 \n\n https://www.sunflower-land.com \n\n #SunflowerLand #LevelUp`;
 
   const clicked = (method: "Reddit" | "Twitter" | "Telegram" | "Facebook") => {
-    // https://developers.google.com/analytics/devguides/collection/ga4/reference/events?sjid=18434190870996612736-AP&client_type=gtag#share
     onboardingAnalytics.logEvent("share", {
       method,
       content_type: "text",
@@ -175,71 +177,125 @@ export const LevelUp: React.FC<Props> = ({ level, onClose, wearables }) => {
   };
 
   const unlocks = LEVEL_UP_UNLOCKS[level] ?? [];
+  const recipeUnlocked = { name: "Green Bed", description: "Sleep well" }; // Example recipe, replace with actual data
 
-  return (
-    <div className="flex flex-col items-center">
-      <p className="text-sm my-1 text-center">
-        {LEVEL_UP_MESSAGES[level] ?? "Wow, I am lost for words!"}
-      </p>
-      {unlocks.length > 0 && (
-        <div className="mt-2">
-          <p className="text-xxs text-center">{t("unlocked")}</p>
-          <div className="flex flex-wrap justify-center items-center mt-2 space-x-3">
-            {unlocks.map((unlock) => (
-              <Label
-                key={unlock.text}
-                className="mb-2"
-                type="default"
-                icon={unlock.icon}
-              >
-                {unlock.text}
-              </Label>
-            ))}
-          </div>
+  const pages = [
+    // Level up message with imagery
+    {
+      text: LEVEL_UP_MESSAGES[level] ?? "Wow, I am lost for words!",
+      jsx: (
+        <div className="flex flex-col items-center p-2">
+          <img
+            src={SUNNYSIDE.icons.arrow_up}
+            alt="Level Up"
+            className="w-20 h-20 mb-2"
+          />
+          <Label type="success" className="text-center mb-2">
+            {t("levelUp.congratulations", { level })}
+          </Label>
+          <p className="text-sm text-center">You have 2 unlocks!</p>
         </div>
-      )}
-      {level >= 6 && (
-        <>
-          <div className="flex mb-1 underline">
-            <p className="text-xxs">{t("share")}</p>
+      ),
+      onShow: () => confetti(),
+    },
+    // Unlocked items
+    ...unlocks.map((unlock) => ({
+      text: "New Item",
+      jsx: (
+        <div className="flex flex-col items-center p-2">
+          <Label type="warning" icon={SUNNYSIDE.icons.search}>
+            {t("new.species")}
+          </Label>
+          <span className="text-sm mb-2">{unlock.text}</span>
+          <img src={unlock.icon} className="h-12 mb-2" />
+          <span className="text-xs text-center mb-2">{unlock.text}</span>
+        </div>
+      ),
+      onShow: () => confetti(),
+    })),
+    // Recipe unlocked
+    {
+      text: "Recipe Unlocked",
+      jsx: (
+        <div className="flex flex-col items-center p-2">
+          <Label type="warning" icon={SUNNYSIDE.icons.search}>
+            Recipe Unlocked
+          </Label>
+          <span className="text-sm mb-2">{recipeUnlocked.name}</span>
+          <span className="text-xs text-center mb-2">
+            {recipeUnlocked.description}
+          </span>
+        </div>
+      ),
+      onShow: () => confetti(),
+    },
+    // Summary with share buttons
+    {
+      text: "Level Up Summary",
+      jsx: (
+        <div className="p-2">
+          <p className="text-sm mb-2 text-center">
+            {t("levelUp.summary", { level })}
+          </p>
+          <div className="flex flex-wrap justify-center mb-2">
+            {unlocks.map((unlock, index) => (
+              <div key={index} className="flex flex-col items-center m-1">
+                <img src={unlock.icon} className="h-6 mb-1" />
+                <span className="text-xs text-center">{unlock.text}</span>
+              </div>
+            ))}
+            {recipeUnlocked && (
+              <div className="flex flex-col items-center m-1">
+                <img src={SUNNYSIDE.icons.hammer} className="h-6 mb-1" />
+                <span className="text-xs text-center">
+                  {recipeUnlocked.name}
+                </span>
+              </div>
+            )}
           </div>
-          <div className="flex">
-            <TwitterShareButton
-              url={" "}
-              title={shareMessage}
-              className="mr-1"
-              onClick={() => clicked("Twitter")}
-            >
-              <XIcon size={40} round />
-            </TwitterShareButton>
-            <TelegramShareButton
-              url={" "}
-              title={shareMessage}
-              className="mr-1"
-              onClick={() => clicked("Telegram")}
-            >
-              <TelegramIcon size={40} round />
-            </TelegramShareButton>
-            <FacebookShareButton
-              url={"sunflower-land.com"}
-              className="mr-1"
-              onClick={() => clicked("Facebook")}
-            >
-              <FacebookIcon size={40} round />
-            </FacebookShareButton>
-            <RedditShareButton
-              url={" "}
-              title={shareMessage}
-              onClick={() => clicked("Reddit")}
-            >
-              <RedditIcon size={40} round />
-            </RedditShareButton>
-          </div>
-        </>
-      )}
-      <Button className="mt-2" onClick={onClose}>
-        {t("ok")}
-      </Button>
-    </div>
-  );
+          {level >= 6 && (
+            <>
+              <div className="flex justify-center mb-1 underline">
+                <p className="text-xxs">{t("share")}</p>
+              </div>
+              <div className="flex justify-center">
+                <TwitterShareButton
+                  url={" "}
+                  title={shareMessage}
+                  className="mr-1"
+                  onClick={() => clicked("Twitter")}
+                >
+                  <XIcon size={40} round />
+                </TwitterShareButton>
+                <TelegramShareButton
+                  url={" "}
+                  title={shareMessage}
+                  className="mr-1"
+                  onClick={() => clicked("Telegram")}
+                >
+                  <TelegramIcon size={40} round />
+                </TelegramShareButton>
+                <FacebookShareButton
+                  url={"sunflower-land.com"}
+                  className="mr-1"
+                  onClick={() => clicked("Facebook")}
+                >
+                  <FacebookIcon size={40} round />
+                </FacebookShareButton>
+                <RedditShareButton
+                  url={" "}
+                  title={shareMessage}
+                  onClick={() => clicked("Reddit")}
+                >
+                  <RedditIcon size={40} round />
+                </RedditShareButton>
+              </div>
+            </>
+          )}
+        </div>
+      ),
+    },
+  ];
+
+  return <SpeakingText onClose={onClose} message={pages} />;
 };
