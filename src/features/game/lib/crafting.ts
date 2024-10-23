@@ -1,5 +1,5 @@
 import { BumpkinItem } from "../types/bumpkin";
-import { InventoryItemName } from "../types/game";
+import { BedName, InventoryItemName } from "../types/game";
 
 export type RecipeCollectibleName = Extract<
   | "Dirt Path"
@@ -13,7 +13,8 @@ export type RecipeCollectibleName = Extract<
   | "Basic Bear"
   | "Bonnie's Tombstone"
   | "Grubnash's Tombstone"
-  | "Town Sign",
+  | "Town Sign"
+  | BedName,
   InventoryItemName
 >;
 

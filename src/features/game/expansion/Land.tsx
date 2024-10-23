@@ -42,6 +42,11 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { Marketplace } from "features/marketplace/Marketplace";
 import { useLocation } from "react-router-dom";
 import { createPortal } from "react-dom";
+import { pickEmptyPosition } from "./placeable/lib/collisionDetection";
+import { EXPANSION_ORIGINS, LAND_SIZE } from "./lib/constants";
+
+import { Recipe } from "features/island/recipes/Recipe";
+import Decimal from "decimal.js-light";
 
 export const LAND_WIDTH = 6;
 
@@ -68,6 +73,54 @@ type IslandElementArgs = {
   buds: GameState["buds"];
   beehives: GameState["beehives"];
   oilReserves: GameState["oilReserves"];
+};
+
+const getRecipeLocation = (game: GameState, level: number) => {
+  const expansionBoundaries = {
+    x: EXPANSION_ORIGINS[level - 1].x - LAND_SIZE / 2,
+    y: EXPANSION_ORIGINS[level - 1].y + LAND_SIZE / 2,
+    width: LAND_SIZE,
+    height: LAND_SIZE,
+  };
+
+  return pickEmptyPosition({
+    bounding: expansionBoundaries,
+    gameState: game,
+  });
+};
+
+// Recursive function to find the recipe locations
+const getRecipeLocations = (game: GameState): Coordinates[] => {
+  const expansions = [1, 4];
+
+  const findRecipeLocation = (
+    game: GameState,
+    level: number,
+    direction: 1 | -1 = 1,
+    depth: number = 0,
+  ): Coordinates | null => {
+    if (
+      level <= 0 ||
+      (game.inventory["Basic Land"] ?? new Decimal(0)).lt(level)
+    ) {
+      return null;
+    }
+
+    const location = getRecipeLocation(game, level);
+    if (location) return location;
+
+    const nextLevel = level + direction * (depth + 1);
+    const oppositeDirection = (direction * -1) as 1 | -1;
+
+    return (
+      findRecipeLocation(game, nextLevel, direction, depth + 1) ||
+      findRecipeLocation(game, level + oppositeDirection, oppositeDirection)
+    );
+  };
+
+  return expansions
+    .map((level) => findRecipeLocation(game, level))
+    .filter(Boolean) as Coordinates[];
 };
 
 const getIslandElements = ({
@@ -552,6 +605,20 @@ const getIslandElements = ({
       );
     }),
   );
+
+  getRecipeLocations(game).forEach((location) => {
+    mapPlacements.push(
+      <MapPlacement
+        key={`recipe-${location.x}-${location.y}`}
+        x={location.x}
+        y={location.y}
+        height={16}
+        width={16}
+      >
+        <Recipe />
+      </MapPlacement>,
+    );
+  });
 
   return mapPlacements;
 };

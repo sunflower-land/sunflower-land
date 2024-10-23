@@ -449,7 +449,8 @@ export type InventoryItemName =
   | MutantFlowerName
   | AnimalFoodName
   | AnimalMedicineName
-  | LoveAnimalItem;
+  | LoveAnimalItem
+  | BedName;
 
 export type Inventory = Partial<Record<InventoryItemName, Decimal>>;
 
@@ -770,6 +771,16 @@ export type AnimalFoodName =
   | "Mixed Grain";
 
 export type AnimalMedicineName = "Barn Delight";
+
+export type BedName =
+  | "Basic Bed"
+  | "Purple Bed"
+  | "Yellow Bed"
+  | "Green Bed"
+  | "Cow Bed"
+  | "Luxury Bed"
+  | "Fruity Bed"
+  | "Golden Bed";
 
 export type Party = {
   fulfilledAt?: number;

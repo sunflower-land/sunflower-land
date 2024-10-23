@@ -467,10 +467,10 @@ export function getRewards({
   }
 
   // Expansion Refunds
-  if (game.island.type === "spring") {
+  if (game.island.type === "basic") {
     const expectedLand = expansions.add(5);
 
-    if (expectedLand.lte(game.island.previousExpansions ?? 0)) {
+    if (expectedLand.lte(game.island.previousExpansions ?? 0) || true) {
       const refund = EXPANSION_REQUIREMENTS.basic[expectedLand.toNumber()];
 
       const expansionBoundaries = {

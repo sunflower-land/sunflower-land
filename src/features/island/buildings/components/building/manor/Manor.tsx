@@ -13,7 +13,6 @@ import { useNavigate } from "react-router-dom";
 import { Section } from "lib/utils/hooks/useScrollIntoView";
 import { HomeBumpkins } from "../house/HomeBumpkins";
 import { MANOR_VARIANTS } from "features/island/lib/alternateArt";
-import { CraftingDiscovery } from "../craftingBox/CraftingDiscovery";
 
 export const Manor: React.FC<BuildingProps> = ({
   isBuilt,
@@ -82,7 +81,6 @@ export const Manor: React.FC<BuildingProps> = ({
         }}
       >
         <DailyReward />
-        <CraftingDiscovery />
       </div>
 
       <div

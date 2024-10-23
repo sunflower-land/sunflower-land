@@ -71,7 +71,6 @@ export const TownCenter: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
         style={{ left: `${PIXEL_SCALE * 16}px`, top: `${PIXEL_SCALE * 14}px` }}
       >
         <DailyReward />
-        <CraftingDiscovery />
       </div>
       <div
         className="absolute w-full"

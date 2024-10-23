@@ -12,7 +12,6 @@ import { DailyReward } from "features/game/expansion/components/dailyReward/Dail
 import { useNavigate } from "react-router-dom";
 import { Section } from "lib/utils/hooks/useScrollIntoView";
 import { HomeBumpkins } from "./HomeBumpkins";
-import { CraftingDiscovery } from "../craftingBox/CraftingDiscovery";
 
 export const House: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
   const { gameService, showAnimations } = useContext(Context);
@@ -74,7 +73,6 @@ export const House: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
         style={{ left: `${PIXEL_SCALE * 7}px`, top: `${PIXEL_SCALE * -16}px` }}
       >
         <DailyReward />
-        <CraftingDiscovery />
       </div>
 
       <div
