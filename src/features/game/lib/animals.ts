@@ -14,6 +14,7 @@ import {
   AnimalBuilding,
   AnimalBuildingKey,
   AnimalFoodName,
+  AnimalMedicineName,
   InventoryItemName,
 } from "../types/game";
 
@@ -104,5 +105,15 @@ export function getAnimalFavoriteFood(type: AnimalType, animalXP: number) {
 }
 
 export function isAnimalFood(item: InventoryItemName): item is AnimalFoodName {
-  return getKeys(ANIMAL_FOODS).includes(item as AnimalFoodName);
+  return getKeys(ANIMAL_FOODS)
+    .filter((food) => ANIMAL_FOODS[food].type === "food")
+    .includes(item as AnimalFoodName);
+}
+
+export function isAnimalMedicine(
+  item: InventoryItemName,
+): item is AnimalMedicineName {
+  return getKeys(ANIMAL_FOODS)
+    .filter((food) => ANIMAL_FOODS[food].type === "medicine")
+    .includes(item as AnimalMedicineName);
 }

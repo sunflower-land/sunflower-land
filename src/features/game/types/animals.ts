@@ -15,9 +15,11 @@ type AnimalDetail = {
   width: number;
 };
 
+export type FeedType = "food" | "medicine";
+
 export interface Feed {
   name: AnimalFoodName | AnimalMedicineName;
-  type: "food" | "medicine";
+  type: FeedType;
   description: string;
   ingredients: Inventory;
   coins?: number;

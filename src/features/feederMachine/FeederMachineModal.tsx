@@ -12,12 +12,18 @@ import { Box } from "components/ui/Box";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { Button } from "components/ui/Button";
 import { OuterPanel } from "components/ui/Panel";
-import { ANIMAL_FOODS } from "features/game/types/animals";
+import { ANIMAL_FOODS, Feed, FeedType } from "features/game/types/animals";
+import { Label } from "components/ui/Label";
 
 interface Props {
   show: boolean;
   onClose: () => void;
 }
+
+const FOOD_TYPE_TERMS = {
+  food: "feeder.foodTypes.food",
+  medicine: "feeder.foodTypes.medicine",
+} as const;
 
 export const FeederMachineModal: React.FC<Props> = ({ show, onClose }) => {
   const { t } = useAppTranslation();
@@ -26,6 +32,18 @@ export const FeederMachineModal: React.FC<Props> = ({ show, onClose }) => {
     AnimalFoodName | AnimalMedicineName
   >("Hay");
   const { coins, ingredients } = ANIMAL_FOODS[selectedName];
+
+  const groupedItems = getKeys(ANIMAL_FOODS).reduce(
+    (acc, item) => {
+      const type = ANIMAL_FOODS[item].type;
+      if (!acc[type]) {
+        acc[type] = [];
+      }
+      acc[type].push(ANIMAL_FOODS[item]);
+      return acc;
+    },
+    {} as Record<FeedType, Feed[]>,
+  );
 
   const [
     {
@@ -51,7 +69,7 @@ export const FeederMachineModal: React.FC<Props> = ({ show, onClose }) => {
 
   const mix = (amount = 1) => {
     gameService.send("feed.mixed", {
-      feed: selectedName,
+      item: selectedName,
       amount,
     });
 
@@ -89,19 +107,26 @@ export const FeederMachineModal: React.FC<Props> = ({ show, onClose }) => {
             />
           }
           content={
-            <>
-              {getKeys(ANIMAL_FOODS).map((item) => {
-                return (
-                  <Box
-                    key={item}
-                    isSelected={selectedName === item}
-                    onClick={() => onSelect(item)}
-                    image={ITEM_DETAILS[item].image}
-                    count={state.inventory[item]}
-                  />
-                );
-              })}
-            </>
+            <div className="flex flex-col">
+              {Object.entries(groupedItems).map(([type, items]) => (
+                <div key={type} className="flex flex-col">
+                  <Label type="default" className="mb-1">
+                    {t(FOOD_TYPE_TERMS[type as FeedType])}
+                  </Label>
+                  <div className="flex flex-wrap mb-2">
+                    {items.map((item) => (
+                      <Box
+                        key={item.name}
+                        isSelected={selectedName === item.name}
+                        onClick={() => onSelect(item.name)}
+                        image={ITEM_DETAILS[item.name].image}
+                        count={state.inventory[item.name]}
+                      />
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
           }
         />
       </CloseButtonPanel>
