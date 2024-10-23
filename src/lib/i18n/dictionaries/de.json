@@ -3746,7 +3746,6 @@
   "wakesIn": "Wacht auf in:",
   "animal.noFoodMessage": "Kein Essen verfügbar",
   "levelUp": "Steigen Sie auf!",
-  "animal.notEnoughFood": "Nicht genug zu essen",
   "gameOptions.plazaSettings.pickServer": "Server auswählen",
   "gameOptions.plazaSettings.pickServer.loading": "Server werden geladen...",
   "gameOptions.plazaSettings.pickServer.noServer": "Keine Server gefunden",
@@ -4050,5 +4049,10 @@
   "chore.cook.5.carrot.cakes": "Koche 5 Karottenkuchen",
   "chore.cook.4.cabbage.cakes": "Koche 4 Kohlkuchen",
   "megaStore.msg1": "Willkommen in meinem saisonalen Geschäft. Sammle Ressourcen und tausche sie gegen seltene Gegenstände ein, bevor die Zeit abläuft!",
-  "megaStore.tier.requirements": "Kaufe {{requirements}} weitere Artikel, um {{tier}} Artikel freizuschalten."
+  "megaStore.tier.requirements": "Kaufe {{requirements}} weitere Artikel, um {{tier}} Artikel freizuschalten.",
+  "description.barn.delight": "Ein magisches Elixier, das Tierkrankheiten heilt.",
+  "animal.notEnoughFood": "Nicht genug Essen verfügbar",
+  "feeder.foodTypes.food": "Essen",
+  "feeder.foodTypes.medicine": "Medizin",
+  "animal.noMedicine": "Kein Medikament verfügbar"
 }

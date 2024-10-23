@@ -3746,7 +3746,6 @@
   "wakesIn": "Bangun dalam:",
   "animal.noFoodMessage": "Tiada makanan tersedia",
   "levelUp": "Tingkat Tingkat!",
-  "animal.notEnoughFood": "Tidak cukup makanan",
   "gameOptions.plazaSettings.pickServer": "Pilih Pelayan",
   "gameOptions.plazaSettings.pickServer.loading": "Memuatkan pelayan...",
   "gameOptions.plazaSettings.pickServer.noServer": "Tiada pelayan ditemui",
@@ -4050,5 +4049,10 @@
   "chore.cook.5.carrot.cakes": "Masak 5 Kek Wortel",
   "chore.cook.4.cabbage.cakes": "Masak 4 Kek Kubis",
   "megaStore.msg1": "Selamat datang ke kedai bermusim saya. Kumpulkan sumber & tukarkannya dengan barang langka sebelum masa habis!",
-  "megaStore.tier.requirements": "Beli {{requirements}} lebih banyak item untuk membuka kunci item {{tier}}."
+  "megaStore.tier.requirements": "Beli {{requirements}} lebih banyak item untuk membuka kunci item {{tier}}.",
+  "description.barn.delight": "Elixir ajaib yang menyembuhkan penyakit haiwan.",
+  "animal.notEnoughFood": "Tidak cukup makanan yang tersedia",
+  "feeder.foodTypes.food": "Makanan",
+  "feeder.foodTypes.medicine": "Perubatan",
+  "animal.noMedicine": "Tiada ubat tersedia"
 }

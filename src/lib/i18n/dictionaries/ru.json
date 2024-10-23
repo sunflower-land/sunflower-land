@@ -3746,7 +3746,6 @@
   "wakesIn": "Просыпается в:",
   "animal.noFoodMessage": "Еда недоступна",
   "levelUp": "Повышайте уровень!",
-  "animal.notEnoughFood": "Недостаточно еды",
   "gameOptions.plazaSettings.pickServer": "Выберите сервер",
   "gameOptions.plazaSettings.pickServer.loading": "Загрузка серверов...",
   "gameOptions.plazaSettings.pickServer.noServer": "Серверы не найдены",
@@ -4050,5 +4049,10 @@
   "chore.cook.5.carrot.cakes": "Приготовьте 5 морковных пирогов",
   "chore.cook.4.cabbage.cakes": "Приготовьте 4 капустных пирога",
   "megaStore.msg1": "Добро пожаловать в мой сезонный магазин. Собирайте ресурсы и обменивайте их на редкие предметы до истечения времени!",
-  "megaStore.tier.requirements": "Купите {{requirements}} больше предметов, чтобы разблокировать {{tier}} предметы."
+  "megaStore.tier.requirements": "Купите {{requirements}} больше предметов, чтобы разблокировать {{tier}} предметы.",
+  "description.barn.delight": "Волшебный эликсир, излечивающий болезни животных.",
+  "animal.notEnoughFood": "Недостаточно еды",
+  "feeder.foodTypes.food": "Еда",
+  "feeder.foodTypes.medicine": "Медицина",
+  "animal.noMedicine": "Лекарства нет"
 }

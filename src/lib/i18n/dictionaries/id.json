@@ -3746,7 +3746,6 @@
   "wakesIn": "Bangun di:",
   "animal.noFoodMessage": "Tidak ada makanan yang tersedia",
   "levelUp": "Naik Level!",
-  "animal.notEnoughFood": "Tidak cukup makanan",
   "gameOptions.plazaSettings.pickServer": "Pilih Server",
   "gameOptions.plazaSettings.pickServer.loading": "Memuat server...",
   "gameOptions.plazaSettings.pickServer.noServer": "Tidak ada server yang ditemukan",
@@ -4050,5 +4049,10 @@
   "chore.cook.5.carrot.cakes": "Masak 5 Kue Wortel",
   "chore.cook.4.cabbage.cakes": "Masak 4 Kue Kubis",
   "megaStore.msg1": "Selamat datang di toko musiman saya. Kumpulkan sumber daya & tukarkan dengan barang-barang langka sebelum waktu habis!",
-  "megaStore.tier.requirements": "Beli lebih banyak item {{requirements}} untuk membuka item {{tier}}."
+  "megaStore.tier.requirements": "Beli lebih banyak item {{requirements}} untuk membuka item {{tier}}.",
+  "description.barn.delight": "Obat mujarab ajaib yang menyembuhkan penyakit hewan.",
+  "animal.notEnoughFood": "Tidak cukup makanan yang tersedia",
+  "feeder.foodTypes.food": "Makanan",
+  "feeder.foodTypes.medicine": "Obat",
+  "animal.noMedicine": "Tidak ada obat yang tersedia"
 }

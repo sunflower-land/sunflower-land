@@ -3746,7 +3746,6 @@
   "wakesIn": "醒来了：",
   "animal.noFoodMessage": "没有食物可用",
   "levelUp": "升级！",
-  "animal.notEnoughFood": "食物不足",
   "gameOptions.plazaSettings.pickServer": "选择服务器",
   "gameOptions.plazaSettings.pickServer.loading": "正在加载服务器...",
   "gameOptions.plazaSettings.pickServer.noServer": "未找到服务器",
@@ -4050,5 +4049,10 @@
   "chore.cook.5.carrot.cakes": "煮 5 个胡萝卜蛋糕",
   "chore.cook.4.cabbage.cakes": "煮 4 个白菜蛋糕",
   "megaStore.msg1": "欢迎来到我的季节性商店。在时间耗尽之前，收集资源并用它们兑换稀有物品！",
-  "megaStore.tier.requirements": "购买 {{requirements}} 更多物品即可解锁 {{tier}} 件物品。"
+  "megaStore.tier.requirements": "购买 {{requirements}} 更多物品即可解锁 {{tier}} 件物品。",
+  "description.barn.delight": "一种治疗动物疾病的神奇长生不老药。",
+  "animal.notEnoughFood": "没有足够的食物可用",
+  "feeder.foodTypes.food": "食物",
+  "feeder.foodTypes.medicine": "医学",
+  "animal.noMedicine": "没有可用的药物"
 }

@@ -3746,7 +3746,6 @@
   "wakesIn": "Uyanıyor:",
   "animal.noFoodMessage": "Yiyecek yok",
   "levelUp": "Seviye Atla!",
-  "animal.notEnoughFood": "Yeterli yiyecek yok",
   "gameOptions.plazaSettings.pickServer": "Sunucu Seç",
   "gameOptions.plazaSettings.pickServer.loading": "Sunucular yükleniyor...",
   "gameOptions.plazaSettings.pickServer.noServer": "Sunucu bulunamadı",
@@ -4050,5 +4049,10 @@
   "chore.cook.5.carrot.cakes": "5 Havuçlu Kek pişirin",
   "chore.cook.4.cabbage.cakes": "4 Lahanalı Kek Pişir",
   "megaStore.msg1": "Sezonluk mağazama hoş geldiniz. Zaman dolmadan kaynakları toplayın ve nadir eşyalarla değiştirin!",
-  "megaStore.tier.requirements": "{{tier}} öğelerinin kilidini açmak için {{requirements}} daha fazla öğe satın alın."
+  "megaStore.tier.requirements": "{{tier}} öğelerinin kilidini açmak için {{requirements}} daha fazla öğe satın alın.",
+  "description.barn.delight": "Hayvan hastalıklarını iyileştiren büyülü bir iksir.",
+  "animal.notEnoughFood": "Yeterli yiyecek yok",
+  "feeder.foodTypes.food": "Gıda",
+  "feeder.foodTypes.medicine": "Tıp",
+  "animal.noMedicine": "İlaç yok"
 }

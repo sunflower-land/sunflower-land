@@ -3746,7 +3746,6 @@
   "wakesIn": "ウェイクイン:",
   "animal.noFoodMessage": "お食事はありません",
   "levelUp": "レベルアップ！",
-  "animal.notEnoughFood": "食べ物が足りない",
   "gameOptions.plazaSettings.pickServer": "サーバーを選択",
   "gameOptions.plazaSettings.pickServer.loading": "サーバーをロード中...",
   "gameOptions.plazaSettings.pickServer.noServer": "サーバーが見つかりません",
@@ -4050,5 +4049,10 @@
   "chore.cook.5.carrot.cakes": "キャロットケーキを5個作る",
   "chore.cook.4.cabbage.cakes": "キャベツケーキを4個作る",
   "megaStore.msg1": "私の季節限定ストアへようこそ。時間がなくなる前に資源を集めてレアアイテムと交換しよう！",
-  "megaStore.tier.requirements": "{{requirements}} 個のアイテムを追加購入すると、{{tier}} 個のアイテムがアンロックされます。"
+  "megaStore.tier.requirements": "{{requirements}} 個のアイテムを追加購入すると、{{tier}} 個のアイテムがアンロックされます。",
+  "description.barn.delight": "動物の病気を治す魔法のエリクサー。",
+  "animal.notEnoughFood": "食べ物が足りない",
+  "feeder.foodTypes.food": "食べ物",
+  "feeder.foodTypes.medicine": "医学",
+  "animal.noMedicine": "お薬はありません"
 }

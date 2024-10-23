@@ -3746,7 +3746,6 @@
   "wakesIn": "Si sveglia in:",
   "animal.noFoodMessage": "Nessun cibo disponibile",
   "levelUp": "Sali di livello!",
-  "animal.notEnoughFood": "Cibo insufficiente",
   "gameOptions.plazaSettings.pickServer": "Scegli server",
   "gameOptions.plazaSettings.pickServer.loading": "Caricamento dei server...",
   "gameOptions.plazaSettings.pickServer.noServer": "Nessun server trovato",
@@ -4050,5 +4049,10 @@
   "chore.cook.5.carrot.cakes": "Cuoci 5 torte alle carote",
   "chore.cook.4.cabbage.cakes": "Cuoci 4 torte al cavolo",
   "megaStore.msg1": "Benvenuto nel mio negozio stagionale. Raccogli risorse e scambiale con oggetti rari prima che scada il tempo!",
-  "megaStore.tier.requirements": "Acquista {{requirements}} altri oggetti per sbloccare {{tier}} articoli."
+  "megaStore.tier.requirements": "Acquista {{requirements}} altri oggetti per sbloccare {{tier}} articoli.",
+  "description.barn.delight": "Un elisir magico che cura le malattie degli animali.",
+  "animal.notEnoughFood": "Non c'è abbastanza cibo disponibile",
+  "feeder.foodTypes.food": "Cibo",
+  "feeder.foodTypes.medicine": "Medicina",
+  "animal.noMedicine": "Nessun medicinale disponibile"
 }
