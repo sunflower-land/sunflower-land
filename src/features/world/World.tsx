@@ -82,10 +82,10 @@ export const MMO: React.FC<MMOProps> = ({ isCommunity }) => {
 
   const setRestrictionMessage = (area: SceneId) => {
     const messages: Record<string, string> = {
-      goblin_house: `Goblins Only`,
-      sunflorian_house: `Sunflorians Only`,
-      bumpkin_house: `Bumpkins Only`,
-      nightshade_house: `Nightshades Only`,
+      goblin_house: t("warning.factinHouse.goblinsOnly"),
+      sunflorian_house: t("warning.factinHouse.sunfloriansOnly"),
+      bumpkin_house: t("warning.factinHouse.bumpkinsOnly"),
+      nightshade_house: t("warning.factinHouse.nightshadesOnly"),
       plaza: t("warning.level.required", { lvl: 2 }),
       beach: t("warning.level.required", { lvl: 4 }),
       retreat: t("warning.level.required", { lvl: 5 }),
@@ -93,7 +93,7 @@ export const MMO: React.FC<MMOProps> = ({ isCommunity }) => {
       kingdom: t("warning.level.required", { lvl: 7 }),
     };
 
-    return messages[area] || `Restricted Area`;
+    return messages[area] || t("warning.restrictedArea");
   };
 
   const mmoService = useInterpret(mmoMachine, {
