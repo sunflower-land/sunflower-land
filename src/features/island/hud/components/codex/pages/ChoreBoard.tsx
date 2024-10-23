@@ -35,11 +35,16 @@ import { ResizableBar } from "components/ui/ProgressBar";
 import { Button } from "components/ui/Button";
 import { getBumpkinLevel } from "features/game/lib/level";
 import lockIcon from "assets/icons/lock.png";
-import giftIcon from "assets/icons/gift.png";
 
 import { GameState } from "features/game/types/game";
 import { CHORE_DETAILS } from "../lib/choreDetails";
 import { generateChoreRewards } from "features/game/events/landExpansion/completeNPCChore";
+
+const formatNumber = (num: number, decimals = 2) => {
+  // Check if the number has a fractional part
+  return num % 1 === 0 ? num : num.toFixed(decimals);
+};
+
 export const ChoreBoard: React.FC = () => {
   const { gameService } = useContext(Context);
 
@@ -119,7 +124,7 @@ export const ChoreBoard: React.FC = () => {
           })}
         </p>
 
-        <div className="grid grid-cols-3 sm:grid-cols-4 w-full ">
+        <div className="grid grid-cols-2 sm:grid-cols-3 w-full ">
           {getKeys(chores)
             .filter((npc) => level >= NPC_CHORE_UNLOCKS[npc as NPCName])
             .map((chore) => (
@@ -210,12 +215,14 @@ export const ChoreBoard: React.FC = () => {
               <Label type="default">
                 {CHORE_DETAILS[previewChore.name].description}
               </Label>
-              <p>{`${Math.min(
-                getChoreProgress({
-                  chore: previewChore,
-                  game: gameService.state.context.state,
-                }),
-                NPC_CHORES[previewChore.name].requirement,
+              <p>{`${formatNumber(
+                Math.min(
+                  getChoreProgress({
+                    chore: previewChore,
+                    game: gameService.state.context.state,
+                  }),
+                  NPC_CHORES[previewChore.name].requirement,
+                ),
               )}/${NPC_CHORES[previewChore.name].requirement}`}</p>
             </div>
 
@@ -287,12 +294,17 @@ export const ChoreCard: React.FC<{
     <div className="py-1 px-1" key={npc}>
       <ButtonPanel
         onClick={() => onClick(npc)}
-        className={classNames("w-full relative", {
-          "sm:!bg-brown-200": npc === selected,
+        className={classNames("w-full relative cursor-pointer", {
+          "!bg-red": !!chore.completedAt,
         })}
-        style={{ paddingBottom: "10px" }}
+        frozen={!!chore.completedAt}
+        style={{ paddingBottom: chore.completedAt ? "16px" : "10px" }}
       >
-        <Label type={"warning"} className="flex absolute -right-2 -top-4">
+        <Label
+          type={"warning"}
+          icon={ITEM_DETAILS[getSeasonalTicket()].image}
+          className="flex absolute -right-2 -top-4"
+        >
           {rewards[getSeasonalTicket()] ?? 0}
         </Label>
 
@@ -301,7 +313,10 @@ export const ChoreCard: React.FC<{
             chore,
             game,
           }) >= NPC_CHORES[chore.name].requirement && (
-            <img src={giftIcon} className="h-6 absolute -top-4 -left-3" />
+            <img
+              src={SUNNYSIDE.icons.heart}
+              className="h-6 absolute -top-4 -left-3"
+            />
           )}
 
         {chore.completedAt && (
@@ -310,12 +325,12 @@ export const ChoreCard: React.FC<{
           </div>
         )}
         <div className="flex flex-col">
-          <div className="flex items-center">
+          <div className="flex items-center justify-center">
             <div className="relative mb-2 mr-0.5 ">
               <NPCIcon parts={NPC_WEARABLES[npc]} />
             </div>
-            <div className="flex flex-col items-center flex-1">
-              <img className="h-8" src={CHORE_DETAILS[chore.name].icon} />
+            <div className="flex flex-col items-center">
+              <img className="h-6" src={CHORE_DETAILS[chore.name].icon} />
             </div>
           </div>
         </div>

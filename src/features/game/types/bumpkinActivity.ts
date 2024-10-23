@@ -4,6 +4,7 @@ import { Animal, Food, ToolName } from "./craftables";
 import { CropName, GreenHouseCropName, GreenHouseCropSeedName } from "./crops";
 import {
   AnimalFoodName,
+  AnimalMedicineName,
   Bumpkin,
   Keys,
   LanternName,
@@ -86,7 +87,10 @@ export type ComposterCollectEvent = `${CompostName} Collected`;
 export type CompostedEvent = `${ComposterName} Collected`;
 export type PlantGreenHouseFruitEvent = `${GreenHouseFruitName} Planted`;
 export type PlantGreenHouseCropEvent = `${GreenHouseCropName} Planted`;
-export type AnimalFeedMixedEvent = `${AnimalFoodName} Mixed`;
+export type AnimalFeedMixedEvent =
+  `${AnimalFoodName | AnimalMedicineName} Mixed`;
+export type AnimalFeedEvent = `${Animal} Fed`;
+export type AnimalCuredEvent = `${Animal} Cured`;
 
 export type BumpkinActivityName =
   | PlantGreenHouseFruitEvent
@@ -104,6 +108,8 @@ export type BumpkinActivityName =
   | TreasureEvent
   | CompostedEvent
   | AnimalFeedMixedEvent
+  | AnimalFeedEvent
+  | AnimalCuredEvent
   // Resources
   | "Tree Chopped"
   | "Stone Mined"

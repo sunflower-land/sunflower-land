@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import { MachineState } from "features/game/lib/gameMachine";
 import { Context } from "features/game/GameProvider";
@@ -18,10 +18,13 @@ import {
 import { SUNNYSIDE } from "assets/sunnyside";
 import classNames from "classnames";
 import { RequestBubble } from "features/game/expansion/components/animals/RequestBubble";
-import { ITEM_DETAILS } from "features/game/types/images";
 import { LevelProgress } from "features/game/expansion/components/animals/LevelProgress";
 import { ProduceDrops } from "features/game/expansion/components/animals/ProduceDrops";
-import { AnimalFoodName } from "features/game/types/game";
+import {
+  AnimalFoodName,
+  AnimalMedicineName,
+  InventoryItemName,
+} from "features/game/types/game";
 import { getKeys } from "features/game/types/craftables";
 import { QuickSelect } from "features/greenhouse/QuickSelect";
 import { Transition } from "@headlessui/react";
@@ -31,9 +34,10 @@ import { useSound } from "lib/utils/hooks/useSound";
 import { WakesIn } from "features/game/expansion/components/animals/WakesIn";
 import Decimal from "decimal.js-light";
 import { InfoPopover } from "features/island/common/InfoPopover";
+import { REQUIRED_FOOD_QTY } from "features/game/events/landExpansion/feedAnimal";
 
 export const ANIMAL_EMOTION_ICONS: Record<
-  Exclude<TState["value"], "idle" | "needsLove" | "initial">,
+  Exclude<TState["value"], "idle" | "needsLove" | "initial" | "sick">,
   {
     icon: string;
     width: number;
@@ -80,8 +84,7 @@ const _animalState = (state: AnimalMachineState) =>
 
 const _cow = (id: string) => (state: MachineState) =>
   state.context.state.barn.animals[id];
-const _foodInInventory = (food: AnimalFoodName) => (state: MachineState) =>
-  state.context.state.inventory[food] ?? new Decimal(0);
+const _inventory = (state: MachineState) => state.context.state.inventory;
 
 export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
   id,
@@ -97,11 +100,18 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
     },
   }) as unknown as AnimalMachineInterpreter;
 
-  const cowState = useSelector(cowService, _animalState);
-  const foodInInventory = useSelector(
-    gameService,
-    _foodInInventory(selectedItem as AnimalFoodName),
-  );
+  const cowMachineState = useSelector(cowService, _animalState);
+  const inventory = useSelector(gameService, _inventory);
+
+  useEffect(() => {
+    if (cow.state === "sick" && cowMachineState !== "sick") {
+      cowService.send({
+        type: "SICK",
+        animal: cow,
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [cow.state]);
 
   const { t } = useTranslation();
 
@@ -109,23 +119,26 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
   const [showQuickSelect, setShowQuickSelect] = useState(false);
   const [showWakesIn, setShowWakesIn] = useState(false);
   const [showNotEnoughFood, setShowNotEnoughFood] = useState(false);
-
+  const [showNoMedicine, setShowNoMedicine] = useState(false);
   // Sounds
   const { play: playFeedAnimal } = useSound("feed_animal", true);
   const { play: playCowCollect } = useSound("cow_collect", true);
   const { play: playProduceDrop } = useSound("produce_drop");
   const { play: playLevelUp } = useSound("level_up");
+  const { play: playCureAnimal } = useSound("cure_animal");
 
   const favFood = getAnimalFavoriteFood("Cow", cow.experience);
-  const sleeping = cowState === "sleeping";
-  const needsLove = cowState === "needsLove";
-  const ready = cowState === "ready";
+  const sleeping = cowMachineState === "sleeping";
+  const needsLove = cowMachineState === "needsLove";
+  const ready = cowMachineState === "ready";
+  const idle = cowMachineState === "idle";
+  const sick = cowMachineState === "sick";
 
-  const feedCow = (item = selectedItem) => {
+  const feedCow = (item?: InventoryItemName) => {
     const updatedState = gameService.send({
       type: "animal.fed",
       animal: "Cow",
-      food: item as AnimalFoodName,
+      item: item ? (item as AnimalFoodName) : undefined,
       id: cow.id,
     });
 
@@ -170,10 +183,62 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
     });
   };
 
+  const cureCow = (item?: InventoryItemName) => {
+    const updatedState = gameService.send({
+      type: "animal.fed",
+      animal: "Cow",
+      item: item ? (item as AnimalMedicineName) : undefined,
+      id: cow.id,
+    });
+
+    const updatedCow = updatedState.context.state.barn.animals[id];
+
+    cowService.send({
+      type: "CURE",
+      animal: updatedCow,
+    });
+  };
+
+  const onSickClick = async () => {
+    const hasMedicineSelected = selectedItem === "Barn Delight";
+    const medicineCount = inventory["Barn Delight"] ?? new Decimal(0);
+    const hasEnoughMedicine = medicineCount.gte(1);
+
+    if (hasMedicineSelected && hasEnoughMedicine) {
+      playCureAnimal();
+      cureCow("Barn Delight");
+      setShowQuickSelect(false);
+    } else if (!hasMedicineSelected && hasEnoughMedicine) {
+      setShowQuickSelect(true);
+    } else {
+      setShowNoMedicine(true);
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+      setShowNoMedicine(false);
+    }
+    return;
+  };
+
+  const onReadyClick = async () => {
+    setShowDrops(true);
+    playProduceDrop();
+    await new Promise((resolve) => setTimeout(resolve, 500));
+    playCowCollect();
+
+    await new Promise((resolve) => setTimeout(resolve, 900));
+
+    playLevelUp();
+    claimProduce();
+    setShowDrops(false);
+
+    return;
+  };
+
   const handleClick = async () => {
     if (disabled) return;
 
     if (needsLove) return loveCow();
+
+    if (sick) return onSickClick();
 
     if (sleeping) {
       setShowWakesIn((prev) => !prev);
@@ -181,24 +246,18 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
     }
 
     if (ready) {
-      // If we are already animating, don't trigger again
+      // Already animating
       if (showDrops) return;
-
-      setShowDrops(true);
-      playProduceDrop();
-      await new Promise((resolve) => setTimeout(resolve, 900));
-      playCowCollect();
-      await new Promise((resolve) => setTimeout(resolve, 500));
-      playLevelUp();
-      claimProduce();
-      setShowDrops(false);
-
-      return;
+      return onReadyClick();
     }
 
-    if (selectedItem && isAnimalFood(selectedItem)) {
-      // Minimum amount of food to feed the cow
-      if (foodInInventory.lt(5)) {
+    const hasFoodSelected = selectedItem && isAnimalFood(selectedItem);
+
+    if (hasFoodSelected) {
+      const foodCount =
+        inventory[selectedItem as AnimalFoodName] ?? new Decimal(0);
+      // 5 is the amount of food needed to feed the cow
+      if (foodCount.lt(REQUIRED_FOOD_QTY.Cow)) {
         setShowNotEnoughFood(true);
         await new Promise((resolve) => setTimeout(resolve, 1000));
         setShowNotEnoughFood(false);
@@ -212,6 +271,31 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
     }
 
     setShowQuickSelect(true);
+  };
+
+  const handleQuickSelect = async (item: InventoryItemName) => {
+    if (sick) {
+      setShowQuickSelect(false);
+      // wait for quick select to close
+      await new Promise((resolve) => setTimeout(resolve, 300));
+      playCureAnimal();
+      cureCow(item);
+
+      return;
+    }
+
+    const foodCount = inventory[item as AnimalFoodName] ?? new Decimal(0);
+
+    if (foodCount.lt(REQUIRED_FOOD_QTY.Cow)) {
+      setShowQuickSelect(false);
+      setShowNotEnoughFood(true);
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+      setShowNotEnoughFood(false);
+      return;
+    }
+
+    feedCow(item);
+    setShowQuickSelect(false);
   };
 
   const animalImageInfo = () => {
@@ -229,13 +313,20 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
       };
     }
 
+    if (sick) {
+      return {
+        image: SUNNYSIDE.animals.cowSick,
+        width: PIXEL_SCALE * 11,
+      };
+    }
+
     return {
       image: SUNNYSIDE.animals.cowIdle,
       width: PIXEL_SCALE * 11,
     };
   };
 
-  if (cowState === "initial") return null;
+  if (cowMachineState === "initial") return null;
 
   const level = getAnimalLevel(cow.experience, "Cow");
 
@@ -259,7 +350,7 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
         )}
         <img
           src={animalImageInfo().image}
-          alt={`${capitalize(cowState)} Cow`}
+          alt={`${capitalize(cowMachineState)} Cow`}
           style={{
             width: `${PIXEL_SCALE * animalImageInfo().width}px`,
           }}
@@ -269,42 +360,45 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
           )}
         />
         {/* Emotion */}
-        {cowState !== "idle" && !needsLove && (
+        {!idle && !needsLove && !sick && (
           <img
-            src={ANIMAL_EMOTION_ICONS[cowState].icon}
-            alt={`${capitalize(cowState)} Cow`}
+            src={ANIMAL_EMOTION_ICONS[cowMachineState].icon}
+            alt={`${capitalize(cowMachineState)} Cow`}
             style={{
-              width: `${ANIMAL_EMOTION_ICONS[cowState].width}px`,
-              top: ANIMAL_EMOTION_ICONS[cowState].top,
-              right: ANIMAL_EMOTION_ICONS[cowState].right,
+              width: `${ANIMAL_EMOTION_ICONS[cowMachineState].width}px`,
+              top: ANIMAL_EMOTION_ICONS[cowMachineState].top,
+              right: ANIMAL_EMOTION_ICONS[cowMachineState].right,
             }}
             className="absolute"
           />
         )}
         {/* Request */}
-        {cowState === "idle" && (
+        {idle && (
           <RequestBubble
             top={PIXEL_SCALE * 1}
             left={PIXEL_SCALE * 23}
-            image={{ src: ITEM_DETAILS[favFood].image, height: 16, width: 16 }}
-            quantity={5}
+            request={favFood}
+            quantity={REQUIRED_FOOD_QTY.Cow}
+          />
+        )}
+        {sick && (
+          <RequestBubble
+            top={PIXEL_SCALE * 2}
+            left={PIXEL_SCALE * 23}
+            request="Barn Delight"
           />
         )}
         {needsLove && (
           <RequestBubble
             top={PIXEL_SCALE * 1}
             left={PIXEL_SCALE * 23}
-            image={{
-              src: ITEM_DETAILS[cow.item].image,
-              height: 16,
-              width: 16,
-            }}
+            request={cow.item}
           />
         )}
         {/* Level Progress */}
         <LevelProgress
           animal="Cow"
-          animalState={cowState}
+          animalState={cowMachineState}
           experience={cow.experience}
           className="bottom-3 left-1/2 transform -translate-x-1/2"
           // Don't block level up UI with wakes in panel if accidentally clicked
@@ -315,16 +409,25 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
         )}
         {/* Not enough food */}
         {showNotEnoughFood && (
-          <InfoPopover showPopover className="-top-5">
+          <InfoPopover
+            showPopover
+            className="-top-12 left-1/2 transform -translate-x-1/2"
+          >
             <div className="flex flex-col items-center">
-              <p className="text-xxs text-center">
-                {t(
-                  foodInInventory.lt(1)
-                    ? "animal.noFoodMessage"
-                    : "animal.notEnoughFood",
-                )}
+              <p className="text-xs p-0.5 py-1 font-secondary">
+                {t("animal.notEnoughFood")}
               </p>
             </div>
+          </InfoPopover>
+        )}
+        {showNoMedicine && (
+          <InfoPopover
+            showPopover
+            className="-top-12 left-1/2 transform -translate-x-1/2"
+          >
+            <p className="text-xs p-0.5 py-1 font-secondary">
+              {t("animal.noMedicine")}
+            </p>
           </InfoPopover>
         )}
       </div>
@@ -341,17 +444,32 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
         className="flex top-[-20px] left-[50%] z-40 absolute"
       >
         <QuickSelect
-          options={getKeys(ANIMAL_FOODS).map((food) => ({
-            name: food,
-            icon: food,
-            showSecondaryImage: false,
-          }))}
+          options={
+            !sick
+              ? getKeys(ANIMAL_FOODS)
+                  .filter(
+                    (food) =>
+                      ANIMAL_FOODS[food].type === "food" &&
+                      (inventory[food] ?? new Decimal(0)).gte(
+                        REQUIRED_FOOD_QTY.Cow,
+                      ),
+                  )
+                  .map((food) => ({
+                    name: food,
+                    icon: food,
+                    showSecondaryImage: false,
+                  }))
+              : [
+                  {
+                    name: "Barn Delight",
+                    icon: "Barn Delight",
+                    showSecondaryImage: false,
+                  },
+                ]
+          }
           onClose={() => setShowQuickSelect(false)}
-          onSelected={(food) => {
-            feedCow(food);
-            setShowQuickSelect(false);
-          }}
-          emptyMessage={t("animal.noFoodMessage")}
+          onSelected={(item) => handleQuickSelect(item)}
+          emptyMessage={t(sick ? "animal.noMedicine" : "animal.noFoodMessage")}
         />
       </Transition>
     </div>
