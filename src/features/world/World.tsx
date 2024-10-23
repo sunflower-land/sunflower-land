@@ -161,7 +161,7 @@ export const MMO: React.FC<MMOProps> = ({ isCommunity }) => {
   }
 
   if (!mmoService.state) {
-    return <></>;
+    return <WorldHud />;
   }
 
   // Otherwsie if connected, return Plaza Screen
@@ -183,6 +183,7 @@ export const MMO: React.FC<MMOProps> = ({ isCommunity }) => {
           }}
         />
       </Modal>
+      <WorldHud />
     </>
   );
 };
@@ -246,7 +247,6 @@ export const Explore: React.FC<Props> = ({ isCommunity = false }) => {
     >
       <GameWrapper>
         {!isLoading && <MMO isCommunity={isCommunity} />}
-        <WorldHud />
       </GameWrapper>
     </div>
   );
