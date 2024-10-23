@@ -1,5 +1,4 @@
 import { GameState } from "features/game/types/game";
-import { SEASONS } from "features/game/types/seasons";
 import { CONFIG } from "lib/config";
 
 const defaultFeatureFlag = ({ inventory }: GameState) =>
@@ -49,10 +48,10 @@ const featureFlags = {
   SKILLS_REVAMP: testnetFeatureFlag,
   FSL: betaTimeBasedFeatureFlag(new Date("2024-10-10T00:00:00Z")),
   NEW_RESOURCES_GE: defaultFeatureFlag,
-  ANIMAL_BUILDINGS: testnetFeatureFlag,
-  BARLEY: testnetFeatureFlag,
+  ANIMAL_BUILDINGS: betaTimeBasedFeatureFlag(new Date("2024-11-01T00:00:00Z")),
+  BARLEY: betaTimeBasedFeatureFlag(new Date("2024-11-01T00:00:00Z")),
   GEM_BOOSTS: (game: GameState) => game.experiments.includes("GEM_BOOSTS"),
-  CHICKEN_GARBO: timeBasedFeatureFlag(SEASONS["Pharaoh's Treasure"].endDate),
+  CHICKEN_GARBO: betaTimeBasedFeatureFlag(new Date("2024-11-01T00:00:00Z")),
   CRAFTING_BOX: betaTimeBasedFeatureFlag(new Date("2024-11-01T00:00:00Z")),
   FLOWER_BOUNTIES: timeBasedFeatureFlag(new Date("2024-11-01T00:00:00Z")),
 } satisfies Record<string, FeatureFlag>;
