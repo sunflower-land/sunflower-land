@@ -35,6 +35,7 @@ import { WakesIn } from "features/game/expansion/components/animals/WakesIn";
 import { InfoPopover } from "features/island/common/InfoPopover";
 import Decimal from "decimal.js-light";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
+import { REQUIRED_FOOD_QTY } from "features/game/events/landExpansion/feedAnimal";
 
 export const CHICKEN_EMOTION_ICONS: Record<
   Exclude<TState["value"], "idle" | "needsLove" | "initial" | "sick">,
@@ -255,7 +256,7 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
     const hasFoodSelected = selectedItem && isAnimalFood(selectedItem);
 
     if (hasFoodSelected) {
-      if (inventoryCount.lt(1)) {
+      if (inventoryCount.lt(REQUIRED_FOOD_QTY.Chicken)) {
         setShowNotEnoughFood(true);
         await new Promise((resolve) => setTimeout(resolve, 1000));
         setShowNotEnoughFood(false);
@@ -465,7 +466,7 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
                   .filter(
                     (food) =>
                       ANIMAL_FOODS[food].type === "food" &&
-                      inventoryCount.gte(1),
+                      inventoryCount.gte(REQUIRED_FOOD_QTY.Chicken),
                   )
                   .map((food) => ({
                     name: food,

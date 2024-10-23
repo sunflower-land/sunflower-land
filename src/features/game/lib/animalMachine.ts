@@ -180,7 +180,7 @@ export const animalMachine = createMachine<TContext, TEvent, TState>({
         ],
       },
       after: {
-        1500: [
+        2000: [
           {
             target: "sleeping",
             cond: (context) => isAnimalSleeping(context),
@@ -222,7 +222,7 @@ export const animalMachine = createMachine<TContext, TEvent, TState>({
         ],
       },
       after: {
-        1500: [
+        2000: [
           {
             target: "sleeping",
             cond: (context) => isAnimalSleeping(context),
@@ -233,7 +233,7 @@ export const animalMachine = createMachine<TContext, TEvent, TState>({
     },
     loved: {
       after: {
-        1500: [
+        2000: [
           {
             target: "sleeping",
             cond: (context) => isAnimalSleeping(context),

@@ -21,6 +21,12 @@ import { trackActivity } from "features/game/types/bumpkinActivity";
 export const ANIMAL_SLEEP_DURATION = 24 * 60 * 60 * 1000;
 export const ANIMAL_NEEDS_LOVE_DURATION = 1000 * 60 * 60 * 8;
 
+export const REQUIRED_FOOD_QTY: Record<AnimalType, number> = {
+  Chicken: 1,
+  Sheep: 3,
+  Cow: 5,
+};
+
 export type FeedAnimalAction = {
   type: "animal.fed";
   animal: AnimalType;
@@ -99,7 +105,7 @@ export function feedAnimal({
     if (isChicken && hasGoldenEggPlaced) {
       const favouriteFoodXp =
         ANIMAL_FOOD_EXPERIENCE[action.animal][level][favouriteFood];
-      animal.experience += favouriteFoodXp.xp;
+      animal.experience += favouriteFoodXp;
 
       animal.state = "happy";
 
@@ -121,8 +127,8 @@ export function feedAnimal({
       throw new Error("No food provided");
     }
 
-    const { xp: foodXp, quantity: foodQuantity } =
-      ANIMAL_FOOD_EXPERIENCE[action.animal][level][food];
+    const foodXp = ANIMAL_FOOD_EXPERIENCE[action.animal][level][food];
+    const foodQuantity = REQUIRED_FOOD_QTY[action.animal];
 
     const inventoryAmount = copy.inventory[food] ?? new Decimal(0);
 

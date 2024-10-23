@@ -93,10 +93,10 @@ export function getAnimalLevel(experience: number, animal: AnimalType) {
 export function getAnimalFavoriteFood(type: AnimalType, animalXP: number) {
   const level = getAnimalLevel(animalXP, type);
   const levelFood = ANIMAL_FOOD_EXPERIENCE[type][level];
-  const maxXp = Math.max(...Object.values(levelFood).map((level) => level.xp));
+  const maxXp = Math.max(...Object.values(levelFood));
 
   const favouriteFoods = getKeys(levelFood).filter(
-    (foodName) => levelFood[foodName].xp === maxXp,
+    (foodName) => levelFood[foodName] === maxXp,
   );
 
   if (favouriteFoods.length !== 1) throw new Error("No favourite food");

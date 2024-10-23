@@ -34,6 +34,7 @@ import { useSound } from "lib/utils/hooks/useSound";
 import { WakesIn } from "features/game/expansion/components/animals/WakesIn";
 import Decimal from "decimal.js-light";
 import { InfoPopover } from "features/island/common/InfoPopover";
+import { REQUIRED_FOOD_QTY } from "features/game/events/landExpansion/feedAnimal";
 
 export const ANIMAL_EMOTION_ICONS: Record<
   Exclude<TState["value"], "idle" | "needsLove" | "initial" | "sick">,
@@ -75,8 +76,6 @@ export const ANIMAL_EMOTION_ICONS: Record<
     right: PIXEL_SCALE * 1.1,
   },
 };
-
-const FOOD_NEEDED = 5;
 
 const _animalState = (state: AnimalMachineState) =>
   // Casting here because we know the value is always a string rather than an object
@@ -258,7 +257,7 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
       const foodCount =
         inventory[selectedItem as AnimalFoodName] ?? new Decimal(0);
       // 5 is the amount of food needed to feed the cow
-      if (foodCount.lt(FOOD_NEEDED)) {
+      if (foodCount.lt(REQUIRED_FOOD_QTY.Cow)) {
         setShowNotEnoughFood(true);
         await new Promise((resolve) => setTimeout(resolve, 1000));
         setShowNotEnoughFood(false);
@@ -287,7 +286,7 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
 
     const foodCount = inventory[item as AnimalFoodName] ?? new Decimal(0);
 
-    if (foodCount.lt(FOOD_NEEDED)) {
+    if (foodCount.lt(REQUIRED_FOOD_QTY.Cow)) {
       setShowQuickSelect(false);
       setShowNotEnoughFood(true);
       await new Promise((resolve) => setTimeout(resolve, 1000));
@@ -379,7 +378,7 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
             top={PIXEL_SCALE * 1}
             left={PIXEL_SCALE * 23}
             request={favFood}
-            quantity={5}
+            quantity={REQUIRED_FOOD_QTY.Cow}
           />
         )}
         {sick && (
@@ -451,7 +450,9 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
                   .filter(
                     (food) =>
                       ANIMAL_FOODS[food].type === "food" &&
-                      (inventory[food] ?? new Decimal(0)).gte(FOOD_NEEDED),
+                      (inventory[food] ?? new Decimal(0)).gte(
+                        REQUIRED_FOOD_QTY.Cow,
+                      ),
                   )
                   .map((food) => ({
                     name: food,
