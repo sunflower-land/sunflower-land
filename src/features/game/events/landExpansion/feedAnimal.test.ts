@@ -299,6 +299,42 @@ describe("feedAnimal", () => {
     ).toThrow("Animal is asleep");
   });
 
+  it("throws an error if no food is provided and no Golden Egg is placed", () => {
+    const chickenId = "xyz";
+
+    expect(() =>
+      feedAnimal({
+        createdAt: now,
+        state: {
+          ...INITIAL_FARM,
+          inventory: {},
+          collectibles: {},
+          henHouse: {
+            ...INITIAL_FARM.henHouse,
+            animals: {
+              [chickenId]: {
+                coordinates: { x: 0, y: 0 },
+                id: chickenId,
+                type: "Chicken",
+                createdAt: 0,
+                state: "idle",
+                experience: 0,
+                asleepAt: 0,
+                lovedAt: 0,
+                item: "Petting Hand",
+              },
+            },
+          },
+        },
+        action: {
+          type: "animal.fed",
+          animal: "Chicken",
+          id: chickenId,
+        },
+      }),
+    ).toThrow("No food provided");
+  });
+
   it("feeds for free if Golden Egg is placed and feeding Chicken", () => {
     const chickenId = "xyz";
 
@@ -342,7 +378,6 @@ describe("feedAnimal", () => {
         type: "animal.fed",
         animal: "Chicken",
         id: chickenId,
-        item: "Hay",
       },
     });
 
@@ -391,7 +426,6 @@ describe("feedAnimal", () => {
         type: "animal.fed",
         animal: "Chicken",
         id: chickenId,
-        item: "Hay",
       },
     });
 
@@ -716,5 +750,56 @@ describe("feedAnimal", () => {
         },
       }),
     ).toThrow("Cannot feed a sick animal");
+  });
+
+  it("increments the bumpkin activity when feeding an animal", () => {
+    const state = feedAnimal({
+      createdAt: now,
+      state: {
+        ...INITIAL_FARM,
+        inventory: {
+          ...INITIAL_FARM.inventory,
+          "Kernel Blend": new Decimal(1),
+        },
+      },
+      action: {
+        type: "animal.fed",
+        animal: "Chicken",
+        id: "0",
+        item: "Kernel Blend",
+      },
+    });
+
+    expect(state.bumpkin?.activity["Chicken Fed"]).toBe(1);
+  });
+
+  it("increments the bumpkin activity when curing an animal", () => {
+    const state = feedAnimal({
+      createdAt: now,
+      state: {
+        ...INITIAL_FARM,
+        inventory: {
+          ...INITIAL_FARM.inventory,
+          "Barn Delight": new Decimal(1),
+        },
+        henHouse: {
+          ...INITIAL_FARM.henHouse,
+          animals: {
+            "0": {
+              ...INITIAL_FARM.henHouse.animals["0"],
+              state: "sick",
+            },
+          },
+        },
+      },
+      action: {
+        type: "animal.fed",
+        animal: "Chicken",
+        id: "0",
+        item: "Barn Delight",
+      },
+    });
+
+    expect(state.bumpkin?.activity["Chicken Cured"]).toBe(1);
   });
 });

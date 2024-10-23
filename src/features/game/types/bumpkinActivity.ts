@@ -89,6 +89,8 @@ export type PlantGreenHouseFruitEvent = `${GreenHouseFruitName} Planted`;
 export type PlantGreenHouseCropEvent = `${GreenHouseCropName} Planted`;
 export type AnimalFeedMixedEvent =
   `${AnimalFoodName | AnimalMedicineName} Mixed`;
+export type AnimalFeedEvent = `${Animal} Fed`;
+export type AnimalCuredEvent = `${Animal} Cured`;
 
 export type BumpkinActivityName =
   | PlantGreenHouseFruitEvent
@@ -106,6 +108,8 @@ export type BumpkinActivityName =
   | TreasureEvent
   | CompostedEvent
   | AnimalFeedMixedEvent
+  | AnimalFeedEvent
+  | AnimalCuredEvent
   // Resources
   | "Tree Chopped"
   | "Stone Mined"

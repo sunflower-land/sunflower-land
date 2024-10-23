@@ -16,6 +16,7 @@ import {
   makeAnimalBuildingKey,
 } from "features/game/lib/animals";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
+import { trackActivity } from "features/game/types/bumpkinActivity";
 
 export const ANIMAL_SLEEP_DURATION = 24 * 60 * 60 * 1000;
 export const ANIMAL_NEEDS_LOVE_DURATION = 1000 * 60 * 60 * 8;
@@ -24,7 +25,7 @@ export type FeedAnimalAction = {
   type: "animal.fed";
   animal: AnimalType;
   id: string;
-  item: AnimalFoodName | AnimalMedicineName;
+  item?: AnimalFoodName | AnimalMedicineName;
 };
 
 type Options = {
@@ -69,47 +70,69 @@ export function feedAnimal({
       copy.inventory["Barn Delight"] = barnDelightAmount.sub(1);
       animal.state = "idle";
 
+      copy.bumpkin.activity = trackActivity(
+        `${action.animal} Cured`,
+        copy.bumpkin.activity,
+      );
+
       return copy; // Early return after curing
     }
 
+    // Handle feeding
     if (animal.state === "sick") {
       throw new Error("Cannot feed a sick animal");
     }
 
     const level = getAnimalLevel(animal.experience, animal.type);
-    const { xp: foodXp, quantity: foodQuantity } =
-      ANIMAL_FOOD_EXPERIENCE[action.animal][level][
-        action.item as AnimalFoodName
-      ];
-
-    const favouriteFood = getAnimalFavoriteFood(
-      action.animal,
-      animal.experience,
-    );
-    const favouriteFoodXp =
-      ANIMAL_FOOD_EXPERIENCE[action.animal][level][favouriteFood];
-
+    const food = action.item as AnimalFoodName;
     const isChicken = action.animal === "Chicken";
     const hasGoldenEggPlaced = isCollectibleBuilt({
       name: "Gold Egg",
       game: copy,
     });
+    const favouriteFood = getAnimalFavoriteFood(
+      action.animal,
+      animal.experience,
+    );
 
-    const food = isChicken && hasGoldenEggPlaced ? favouriteFood : action.item;
-    const requiredAmount = isChicken && hasGoldenEggPlaced ? 0 : foodQuantity;
+    // Handle Golden Egg Free Food
+    if (isChicken && hasGoldenEggPlaced) {
+      const favouriteFoodXp =
+        ANIMAL_FOOD_EXPERIENCE[action.animal][level][favouriteFood];
+      animal.experience += favouriteFoodXp.xp;
+
+      animal.state = "happy";
+
+      if (level !== getAnimalLevel(animal.experience, animal.type)) {
+        animal.state = "ready";
+      }
+
+      copy.bumpkin.activity = trackActivity(
+        `${action.animal} Fed`,
+        copy.bumpkin.activity,
+      );
+
+      // Early return
+      return copy;
+    }
+
+    // Regular feeding logic
+    if (!food) {
+      throw new Error("No food provided");
+    }
+
+    const { xp: foodXp, quantity: foodQuantity } =
+      ANIMAL_FOOD_EXPERIENCE[action.animal][level][food];
+
     const inventoryAmount = copy.inventory[food] ?? new Decimal(0);
 
-    if (inventoryAmount.lt(requiredAmount)) {
+    if (inventoryAmount.lt(foodQuantity)) {
       throw new Error(`Player does not have enough ${food}`);
     }
 
-    copy.inventory[food] = inventoryAmount.sub(requiredAmount);
+    copy.inventory[food] = inventoryAmount.sub(foodQuantity);
 
-    // Update XP calculation for chickens with Gold Egg
-    const xpToAdd =
-      isChicken && hasGoldenEggPlaced ? favouriteFoodXp.xp : foodXp;
-
-    animal.experience += xpToAdd;
+    animal.experience += foodXp;
 
     animal.state = "sad";
 
@@ -120,6 +143,11 @@ export function feedAnimal({
     if (level !== getAnimalLevel(animal.experience, animal.type)) {
       animal.state = "ready";
     }
+
+    copy.bumpkin.activity = trackActivity(
+      `${action.animal} Fed`,
+      copy.bumpkin.activity,
+    );
 
     return copy;
   });
