@@ -80,7 +80,7 @@ export const MMO: React.FC<MMOProps> = ({ isCommunity }) => {
   const navigate = useNavigate();
   const { t } = useAppTranslation();
 
-  const setRestrictionMessage = (area: string) => {
+  const setRestrictionMessage = (area: SceneId) => {
     const messages: Record<string, string> = {
       goblin_house: `Goblins Only`,
       sunflorian_house: `Sunflorians Only`,
@@ -93,7 +93,7 @@ export const MMO: React.FC<MMOProps> = ({ isCommunity }) => {
       kingdom: t("warning.level.required", { lvl: 7 }),
     };
 
-    return messages[area];
+    return messages[area] || `Restricted Area`;
   };
 
   const mmoService = useInterpret(mmoMachine, {
@@ -154,7 +154,7 @@ export const MMO: React.FC<MMOProps> = ({ isCommunity }) => {
           onClose={() => {
             navigate(`/`);
           }}
-          message={setRestrictionMessage(name || `Access denied!`)}
+          message={setRestrictionMessage(name as SceneId)}
         />
       </Panel>
     );
