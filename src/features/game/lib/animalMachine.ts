@@ -17,6 +17,7 @@ export type TState = {
     | "loved"
     | "sleeping"
     | "needsLove"
+    | "sick"
     | "initial"
     | "ready";
   context: TContext;
@@ -24,12 +25,16 @@ export type TState = {
 
 type AnimalFeedEvent = { type: "FEED"; animal: Animal };
 type AnimalLoveEvent = { type: "LOVE"; animal: Animal };
+type AnimalCureEvent = { type: "CURE"; animal: Animal };
+type AnimalSickEvent = { type: "SICK"; animal: Animal };
 type AnimalClaimProduceEvent = { type: "CLAIM_PRODUCE"; animal: Animal };
 
 type TEvent =
   | AnimalFeedEvent
   | AnimalLoveEvent
   | AnimalClaimProduceEvent
+  | AnimalSickEvent
+  | AnimalCureEvent
   | { type: "TICK" };
 
 type MachineState = State<TContext, TEvent, MachineState>;
@@ -67,11 +72,33 @@ export const animalMachine = createMachine<TContext, TEvent, TState>({
   context: {
     animal: undefined,
   },
-
+  on: {
+    // Sickness can happen at any time so it will be handled here.
+    // If the animal is sleeping or needs love, it will not be moved into the sick state.
+    SICK: [
+      {
+        target: "sick",
+        cond: (context) => {
+          return !isAnimalSleeping(context) && !isAnimalNeedsLove(context);
+        },
+        actions: assign({
+          animal: (_, event) => (event as AnimalSickEvent).animal,
+        }),
+      },
+      {
+        actions: assign({
+          animal: (_, event) => {
+            return (event as AnimalSickEvent).animal;
+          },
+        }),
+      },
+    ],
+  },
   // State definitions
   states: {
     initial: {
       always: [
+        // Even if the animal is sick, it can still be ready to claim produce
         {
           target: "ready",
           cond: (context) => context.animal?.state === "ready",
@@ -81,14 +108,34 @@ export const animalMachine = createMachine<TContext, TEvent, TState>({
           cond: (context) =>
             isAnimalSleeping(context) && isAnimalNeedsLove(context),
         },
+        // Even if the animal is sick, it can still be sleeping
         {
           target: "sleeping",
           cond: (context) => isAnimalSleeping(context),
         },
         {
+          target: "sick",
+          cond: (context) => {
+            return (
+              !isAnimalSleeping(context) && context.animal?.state === "sick"
+            );
+          },
+        },
+        {
           target: "idle",
         },
       ],
+    },
+    sick: {
+      id: "sick",
+      on: {
+        CURE: {
+          target: "idle",
+          actions: assign({
+            animal: (_, event) => (event as AnimalCureEvent).animal,
+          }),
+        },
+      },
     },
     ready: {
       on: {
@@ -133,7 +180,7 @@ export const animalMachine = createMachine<TContext, TEvent, TState>({
         ],
       },
       after: {
-        1500: [
+        2000: [
           {
             target: "sleeping",
             cond: (context) => isAnimalSleeping(context),
@@ -175,7 +222,7 @@ export const animalMachine = createMachine<TContext, TEvent, TState>({
         ],
       },
       after: {
-        1500: [
+        2000: [
           {
             target: "sleeping",
             cond: (context) => isAnimalSleeping(context),
@@ -186,7 +233,7 @@ export const animalMachine = createMachine<TContext, TEvent, TState>({
     },
     loved: {
       after: {
-        1500: [
+        2000: [
           {
             target: "sleeping",
             cond: (context) => isAnimalSleeping(context),
@@ -243,6 +290,11 @@ export const animalMachine = createMachine<TContext, TEvent, TState>({
       on: {
         TICK: [
           {
+            target: "sick",
+            cond: (context) =>
+              !isAnimalSleeping(context) && context.animal?.state === "sick",
+          },
+          {
             target: "idle",
             cond: (context) => !isAnimalSleeping(context),
           },
@@ -270,6 +322,11 @@ export const animalMachine = createMachine<TContext, TEvent, TState>({
           {
             target: "idle",
             cond: (context) => !isAnimalSleeping(context),
+          },
+          {
+            target: "sick",
+            cond: (context) =>
+              !isAnimalSleeping(context) && context.animal?.state === "sick",
           },
         ],
         LOVE: {

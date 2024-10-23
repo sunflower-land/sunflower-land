@@ -60,47 +60,6 @@ export const BarnInside: React.FC = () => {
     scrollIntoView(Section.GenesisBlock, "auto");
   }, []);
 
-  const mapPlacements: Array<JSX.Element> = [];
-
-  const components = getKeys(barn.animals).map((id) => {
-    const animal = barn.animals[id];
-    const isValid = deal && isValidDeal({ animal, deal });
-    const Component = BARN_ANIMAL_COMPONENTS[animal.type as BarnAnimal];
-
-    return (
-      <MapPlacement
-        key={`${animal.type.toLowerCase()}-${id}`}
-        x={animal.coordinates.x}
-        y={animal.coordinates.y}
-        height={ANIMALS.Chicken.height}
-        width={ANIMALS.Chicken.width}
-      >
-        <div
-          className={classNames({
-            "opacity-50": deal && !isValid,
-            "cursor-pointer": deal && isValid,
-            "pointer-events-none": deal && !isValid,
-          })}
-          onClick={(e) => {
-            if (deal) {
-              // Stop other clicks
-              e.stopPropagation();
-              e.preventDefault();
-
-              if (!isValid) return;
-
-              setSelected(animal);
-            }
-          }}
-        >
-          <Component id={id} disabled={!!deal} />
-        </div>
-      </MapPlacement>
-    );
-  });
-
-  mapPlacements.push(...components);
-
   const nextLevel = Math.min(level + 1, 3) as Exclude<AnimalBuildingLevel, 1>;
 
   return (
@@ -190,7 +149,45 @@ export const BarnInside: React.FC = () => {
                 <FeederMachine />
               </div>
 
-              {mapPlacements.sort((a, b) => a.props.y - b.props.y)}
+              {getKeys(barn.animals)
+                .map((id) => {
+                  const animal = barn.animals[id];
+                  const isValid = deal && isValidDeal({ animal, deal });
+                  const Component =
+                    BARN_ANIMAL_COMPONENTS[animal.type as BarnAnimal];
+
+                  return (
+                    <MapPlacement
+                      key={`${animal.type.toLowerCase()}-${id}`}
+                      x={animal.coordinates.x}
+                      y={animal.coordinates.y}
+                      height={ANIMALS.Chicken.height}
+                      width={ANIMALS.Chicken.width}
+                    >
+                      <div
+                        className={classNames({
+                          "opacity-50": deal && !isValid,
+                          "cursor-pointer": deal && isValid,
+                          "pointer-events-none": deal && !isValid,
+                        })}
+                        onClick={(e) => {
+                          if (deal) {
+                            // Stop other clicks
+                            e.stopPropagation();
+                            e.preventDefault();
+
+                            if (!isValid) return;
+
+                            setSelected(animal);
+                          }
+                        }}
+                      >
+                        <Component id={id} disabled={!!deal} />
+                      </div>
+                    </MapPlacement>
+                  );
+                })
+                .sort((a, b) => a.props.y - b.props.y)}
 
               <Button
                 className="absolute -bottom-16"

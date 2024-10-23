@@ -17,8 +17,6 @@ import {
 import { useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
 import lightning from "assets/icons/lightning.png";
-import { hasFeatureAccess } from "lib/flags";
-import { SeasonalStore } from "./SeasonalStore";
 
 export const MegaStoreMonthly: React.FC<{
   readonly?: boolean;
@@ -52,12 +50,6 @@ export const MegaStoreMonthly: React.FC<{
   );
 
   const { t } = useAppTranslation();
-
-  if (
-    hasFeatureAccess(gameService.getSnapshot().context.state, "SEASONAL_TIERS")
-  ) {
-    return <SeasonalStore />;
-  }
 
   return (
     <div className="relative h-full w-full">

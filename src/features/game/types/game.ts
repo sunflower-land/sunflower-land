@@ -448,6 +448,7 @@ export type InventoryItemName =
   | FactionShopFoodName
   | MutantFlowerName
   | AnimalFoodName
+  | AnimalMedicineName
   | LoveAnimalItem;
 
 export type Inventory = Partial<Record<InventoryItemName, Decimal>>;
@@ -767,6 +768,8 @@ export type AnimalFoodName =
   | "Kernel Blend"
   | "NutriBarley"
   | "Mixed Grain";
+
+export type AnimalMedicineName = "Barn Delight";
 
 export type Party = {
   fulfilledAt?: number;
@@ -1190,7 +1193,7 @@ export type AnimalResource =
   | "Merino Wool"
   | "Feather"
   | "Milk";
-export type AnimalState = "idle" | "happy" | "sad" | "ready";
+export type AnimalState = "idle" | "happy" | "sad" | "ready" | "sick";
 
 export type Animal = {
   id: string;

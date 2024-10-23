@@ -26,6 +26,7 @@ import {
 } from "./craftables";
 import {
   AnimalFoodName,
+  AnimalMedicineName,
   AnimalResource,
   Coupons,
   EasterEgg,
@@ -95,6 +96,10 @@ const animalFood: Record<AnimalFoodName, () => boolean> = {
   "Kernel Blend": () => false,
   NutriBarley: () => false,
   "Mixed Grain": () => false,
+};
+
+const animalMedicine: Record<AnimalMedicineName, () => boolean> = {
+  "Barn Delight": () => false,
 };
 
 const animalTools: Record<LoveAnimalItem, () => boolean> = {
@@ -1126,6 +1131,7 @@ const animalResources: Record<AnimalResource, () => boolean> = {
 };
 
 export const WITHDRAWABLES: Record<InventoryItemName, () => boolean> = {
+  ...animalMedicine,
   ...animalResources,
   ...greenHouseCrop,
   ...greenHouseCropSeed,
