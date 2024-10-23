@@ -1437,6 +1437,5 @@ export const STATIC_OFFLINE_FARM: GameState = {
     startedAt: 0,
     readyAt: 0,
     recipes: {},
-    acknowledgements: {},
   },
 };

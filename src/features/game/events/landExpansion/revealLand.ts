@@ -347,16 +347,6 @@ export function revealLand({
     game.airdrops = [...previous, ...rewards];
 
     game.inventory = inventory;
-
-    // TODO DEBUG CODE feat/beds
-    game.craftingBox.acknowledgements["Basic Hair"] = false;
-    game.craftingBox.recipes["Basic Hair"] = {
-      name: "Basic Hair",
-      type: "wearable",
-      ingredients: [{ collectible: "Wood" }],
-      time: 0,
-    };
-
     return game;
   });
 }
@@ -467,10 +457,10 @@ export function getRewards({
   }
 
   // Expansion Refunds
-  if (game.island.type === "basic") {
+  if (game.island.type === "spring") {
     const expectedLand = expansions.add(5);
 
-    if (expectedLand.lte(game.island.previousExpansions ?? 0) || true) {
+    if (expectedLand.lte(game.island.previousExpansions ?? 0)) {
       const refund = EXPANSION_REQUIREMENTS.basic[expectedLand.toNumber()];
 
       const expansionBoundaries = {

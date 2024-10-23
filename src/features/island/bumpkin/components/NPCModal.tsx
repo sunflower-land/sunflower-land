@@ -20,7 +20,7 @@ import { Equipped } from "features/game/types/bumpkin";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { BuildingName } from "features/game/types/buildings";
-import { OuterPanel, Panel } from "components/ui/Panel";
+import { OuterPanel } from "components/ui/Panel";
 
 interface Props {
   isOpen: boolean;
@@ -88,7 +88,19 @@ export const NPCModal: React.FC<Props> = ({ isOpen, onClose }) => {
       }}
     >
       {showLevelUp ? (
-        <Panel bumpkinParts={state.bumpkin?.equipped}>
+        <CloseButtonPanel
+          onClose={() => {
+            onClose();
+
+            if (bumpkinLevel.current === 2) {
+              openModal("SECOND_LEVEL");
+            }
+
+            setTimeout(() => setShowLevelUp(false), 500);
+          }}
+          title="Level up!"
+          bumpkinParts={state.bumpkin?.equipped}
+        >
           <LevelUp
             level={bumpkinLevel.current}
             onClose={() => {
@@ -102,7 +114,7 @@ export const NPCModal: React.FC<Props> = ({ isOpen, onClose }) => {
             }}
             wearables={state.bumpkin?.equipped as Equipped}
           />
-        </Panel>
+        </CloseButtonPanel>
       ) : (
         <CloseButtonPanel
           onClose={onClose}

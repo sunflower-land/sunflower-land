@@ -28,6 +28,7 @@ import {
   AnimalFoodName,
   AnimalMedicineName,
   AnimalResource,
+  BedName,
   Coupons,
   EasterEgg,
   FertiliserName,
@@ -1130,6 +1131,17 @@ const animalResources: Record<AnimalResource, () => boolean> = {
   Milk: () => false,
 };
 
+const beds: Record<BedName, () => boolean> = {
+  "Basic Bed": () => false,
+  "Sturdy Bed": () => false,
+  "Floral Bed": () => false,
+  "Fisher Bed": () => false,
+  "Pirate Bed": () => false,
+  "Cow Bed": () => false,
+  "Desert Bed": () => false,
+  "Royal Bed": () => false,
+};
+
 export const WITHDRAWABLES: Record<InventoryItemName, () => boolean> = {
   ...animalMedicine,
   ...animalResources,
@@ -1198,6 +1210,7 @@ export const WITHDRAWABLES: Record<InventoryItemName, () => boolean> = {
   ...interiors,
   ...factionBanners,
   ...factionShopCollectibles,
+  ...beds,
 
   ...getKeys(DECORATION_TEMPLATES).reduce(
     (acc, key) => ({

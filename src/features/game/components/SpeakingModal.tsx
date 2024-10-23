@@ -11,7 +11,6 @@ export type Message = {
   text: string;
   jsx?: JSX.Element;
   actions?: { text: string; cb: () => void }[];
-  onShow?: () => void;
 };
 
 interface Props {
@@ -189,10 +188,6 @@ export const SpeakingText: React.FC<Pick<Props, "message" | "onClose">> = ({
 
     return () => window.removeEventListener("keydown", handleKeyPressed);
   }, [handleClick]);
-
-  useEffect(() => {
-    message[currentMessage]?.onShow?.();
-  }, [currentMessage]);
 
   const showActions =
     (currentTextEnded || forceShowFullMessage) &&

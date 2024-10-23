@@ -1,6 +1,6 @@
 import { produce } from "immer";
 import Decimal from "decimal.js-light";
-import { RecipeItemName } from "features/game/lib/crafting";
+import { RecipeItemName, RECIPES } from "features/game/lib/crafting";
 import { GameState } from "features/game/types/game";
 
 export type DiscoverRecipeAction = {
@@ -14,8 +14,10 @@ type Options = {
   createdAt?: number;
 };
 
-const REQUIRED_LAND_COUNT: Partial<Record<RecipeItemName, number>> = {
+export const REQUIRED_LAND_COUNT: Partial<Record<RecipeItemName, number>> = {
   "Basic Bed": 6,
+  "Sturdy Bed": 10,
+  "Floral Bed": 12,
 };
 
 export function discoverRecipe({
@@ -32,6 +34,8 @@ export function discoverRecipe({
     ) {
       throw new Error("Insufficient Basic Land");
     }
+
+    copy.craftingBox.recipes[action.recipe] = RECIPES[action.recipe];
 
     return copy;
   });

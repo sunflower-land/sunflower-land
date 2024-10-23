@@ -774,13 +774,13 @@ export type AnimalMedicineName = "Barn Delight";
 
 export type BedName =
   | "Basic Bed"
-  | "Purple Bed"
-  | "Yellow Bed"
-  | "Green Bed"
+  | "Sturdy Bed"
+  | "Floral Bed"
+  | "Fisher Bed"
+  | "Pirate Bed"
   | "Cow Bed"
-  | "Luxury Bed"
-  | "Fruity Bed"
-  | "Golden Bed";
+  | "Desert Bed"
+  | "Royal Bed";
 
 export type Party = {
   fulfilledAt?: number;
@@ -1413,7 +1413,6 @@ export interface GameState {
     startedAt: number;
     readyAt: number;
     recipes: Partial<Recipes>;
-    acknowledgements: Partial<Record<string, boolean>>;
   };
 }
 
