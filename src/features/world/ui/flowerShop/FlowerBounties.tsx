@@ -155,7 +155,7 @@ export const FlowerBounties: React.FC<Props> = ({ onClose }) => {
                         })}
 
                       {!!isSold && (
-                        <Label type="success">{t("bounties.sold")}</Label>
+                        <Label type="success">{t("completed")}</Label>
                       )}
                     </div>
                   </div>
