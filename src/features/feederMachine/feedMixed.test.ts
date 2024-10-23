@@ -10,7 +10,7 @@ describe("feedMixed", () => {
         state: INITIAL_FARM,
         action: {
           type: "feed.mixed",
-          feed: "Sunflower Seed" as AnimalFoodName,
+          item: "Sunflower Seed" as AnimalFoodName,
           amount: 1,
         },
       }),
@@ -25,7 +25,7 @@ describe("feedMixed", () => {
         },
         action: {
           type: "feed.mixed",
-          feed: "Hay",
+          item: "Hay",
           amount: 1,
         },
       }),
@@ -43,11 +43,32 @@ describe("feedMixed", () => {
       },
       action: {
         type: "feed.mixed",
-        feed: "Hay",
+        item: "Hay",
         amount: 1,
       },
     });
     expect(state.inventory.Hay).toEqual(new Decimal(1));
     expect(state.inventory.Corn).toEqual(new Decimal(99));
+  });
+
+  it("mixes Barn Delight correctly", () => {
+    const state = feedMixed({
+      state: {
+        ...INITIAL_FARM,
+        coins: 0,
+        inventory: {
+          Egg: new Decimal(10),
+          Iron: new Decimal(1),
+        },
+      },
+      action: {
+        type: "feed.mixed",
+        item: "Barn Delight",
+        amount: 1,
+      },
+    });
+    expect(state.inventory["Barn Delight"]).toEqual(new Decimal(1));
+    expect(state.inventory.Egg).toEqual(new Decimal(0));
+    expect(state.inventory.Iron).toEqual(new Decimal(0));
   });
 });

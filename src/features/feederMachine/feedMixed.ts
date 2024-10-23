@@ -1,4 +1,8 @@
-import { GameState, AnimalFoodName } from "features/game/types/game";
+import {
+  GameState,
+  AnimalFoodName,
+  AnimalMedicineName,
+} from "features/game/types/game";
 import Decimal from "decimal.js-light";
 import { trackActivity } from "features/game/types/bumpkinActivity";
 import { getKeys } from "features/game/types/decorations";
@@ -7,7 +11,7 @@ import { produce } from "immer";
 
 export type FeedMixedAction = {
   type: "feed.mixed";
-  feed: AnimalFoodName;
+  item: AnimalFoodName | AnimalMedicineName;
   amount?: number;
 };
 
@@ -24,7 +28,7 @@ export function feedMixed({ state, action }: Options) {
       throw new Error("Bumpkin not found");
     }
 
-    const { feed, amount } = action;
+    const { item: feed, amount } = action;
 
     const selectedItem = ANIMAL_FOODS[feed];
 

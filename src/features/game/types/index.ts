@@ -356,6 +356,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Kernel Blend": 647,
   NutriBarley: 648,
   "Mixed Grain": 649,
+  "Barn Delight": 650,
 
   "Green Thumb": 701,
   "Barn Manager": 702,

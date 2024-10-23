@@ -465,6 +465,17 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     image: "../public/erc1155/images/question_mark.png",
     name: "Mixed Grain",
   },
+  "Barn Delight": {
+    name: "Barn Delight",
+    description: "A magical elixir that cures animal sickness.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/question_mark.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Medicine" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
   Kale: {
     name: "Kale",
     description: "A crop grown at Sunflower Land.\n\nA Bumpkin Power Food!",

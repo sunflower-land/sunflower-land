@@ -4174,4 +4174,8 @@ export const ITEM_DETAILS: Items = {
     image: craftingBox,
     description: "A box for crafting various items",
   },
+  "Barn Delight": {
+    image: SUNNYSIDE.animalFoods.barn_delight,
+    description: "A magical elixir that cures animal sickness.",
+  },
 };
