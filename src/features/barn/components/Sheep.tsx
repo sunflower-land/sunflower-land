@@ -245,7 +245,7 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
         {/* Request */}
         {idle && (
           <RequestBubble
-            top={PIXEL_SCALE * 2}
+            top={PIXEL_SCALE * 1}
             left={PIXEL_SCALE * 23}
             request={favFood}
             quantity={3}
@@ -253,7 +253,7 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
         )}
         {sick && (
           <RequestBubble
-            top={PIXEL_SCALE * 3}
+            top={PIXEL_SCALE * 2}
             left={PIXEL_SCALE * 23}
             request={favFood}
             quantity={3}
@@ -261,7 +261,7 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
         )}
         {needsLove && (
           <RequestBubble
-            top={PIXEL_SCALE * 2}
+            top={PIXEL_SCALE * 1}
             left={PIXEL_SCALE * 23}
             request={sheep.item}
           />

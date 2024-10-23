@@ -16,7 +16,6 @@ type BaseProps = {
     icon: InventoryItemName;
     showSecondaryImage: boolean;
   }[];
-  emptyPanelClassName?: string;
   onClose: () => void;
   onSelected?: (name: InventoryItemName) => void;
 };
@@ -39,7 +38,6 @@ export const QuickSelect: React.FC<Props> = ({
   options,
   onClose,
   onSelected,
-  emptyPanelClassName,
   type = "", // Provide a default empty string
   emptyMessage,
 }) => {
@@ -93,7 +91,7 @@ export const QuickSelect: React.FC<Props> = ({
     return (
       <div
         ref={ref}
-        className={`absolute transition-opacity duration-300 ${emptyPanelClassName}`}
+        className="absolute transition-opacity duration-300"
         style={{ opacity: showEmptyPanel ? 1 : 0 }}
         onTransitionEnd={() => {
           if (!showEmptyPanel) onClose();

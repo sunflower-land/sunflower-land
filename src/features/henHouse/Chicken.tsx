@@ -406,8 +406,8 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
           )}
           {needsLove && (
             <RequestBubble
-              top={PIXEL_SCALE * -4.5}
-              left={PIXEL_SCALE * 9.5}
+              top={PIXEL_SCALE * -3.5}
+              left={PIXEL_SCALE * 20}
               request={chicken.item}
             />
           )}
@@ -425,19 +425,23 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
           )}
           {/* Not enough food */}
           {showNotEnoughFood && (
-            <InfoPopover showPopover className="-top-6">
-              <p className="text-xxs text-center">
-                {t(
-                  inventoryCount.lt(1)
-                    ? "animal.noFoodMessage"
-                    : "animal.notEnoughFood",
-                )}
+            <InfoPopover
+              showPopover
+              className="-top-10 left-1/2 transform -translate-x-1/2"
+            >
+              <p className="text-xs p-0.5 py-1 font-secondary">
+                {t("animal.notEnoughFood")}
               </p>
             </InfoPopover>
           )}
           {showNoMedicine && (
-            <InfoPopover showPopover className="-top-10">
-              <p className="text-xxs text-center">{t("animal.noMedicine")}</p>
+            <InfoPopover
+              showPopover
+              className="-top-10 left-1/2 transform -translate-x-1/2"
+            >
+              <p className="text-xs p-0.5 py-1 font-secondary">
+                {t("animal.noMedicine")}
+              </p>
             </InfoPopover>
           )}
         </div>
@@ -455,11 +459,14 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
         className="flex top-[-20px] left-[50%] z-40 absolute"
       >
         <QuickSelect
-          emptyPanelClassName="-top-6"
           options={
             !sick
               ? getKeys(ANIMAL_FOODS)
-                  .filter((food) => ANIMAL_FOODS[food].type === "food")
+                  .filter(
+                    (food) =>
+                      ANIMAL_FOODS[food].type === "food" &&
+                      inventoryCount.gte(1),
+                  )
                   .map((food) => ({
                     name: food,
                     icon: food,
