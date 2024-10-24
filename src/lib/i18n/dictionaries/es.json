@@ -1378,7 +1378,6 @@
   "quest.all.fish": "Descubre cada pez básico, avanzado y experto",
   "quest.300.fish": "Captura 300 peces",
   "quest.1500.fish": "Captura 1500 peces",
-  "quest.marine.marvel": "Atrapa cada Marvel de los Marines",
   "quest.5.fish": "Captura 5 de cada pez",
   "quest.sunpetal.savant": "Descubre 12 variantes de Sunpetal",
   "quest.bloom.bigshot": "Descubre 12 variantes de Bloom",
@@ -4065,5 +4064,6 @@
   "description.desertBed": "Una cama desierta, un peón de granja puede dormir aquí.",
   "description.royalBed": "Una cama real, un peón de granja puede dormir aquí.",
   "craftingBox.newRecipeDiscovered": "¡Nueva receta descubierta!",
-  "craftingBox.craftThisItem": "Fabrica este objeto en la caja de fabricación."
+  "craftingBox.craftThisItem": "Fabrica este objeto en la caja de fabricación.",
+  "quest.marine.marvel": "Atrapa todas las maravillas marinas permanentes"
 }

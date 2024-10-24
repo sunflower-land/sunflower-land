@@ -889,7 +889,6 @@
   "quest.all.fish": "Descubra cada peixe básico, avançado e especialista",
   "quest.300.fish": "Capture 300 peixes",
   "quest.1500.fish": "Capture 1500 peixes",
-  "quest.marine.marvel": "Capture cada Marine Marvel",
   "quest.5.fish": "Capture 5 de cada peixe",
   "quest.sunpetal.savant": "Descubra 12 variantes de Sunpetal",
   "quest.bloom.bigshot": "Descubra 12 variantes de Bloom",
@@ -4065,5 +4064,6 @@
   "description.desertBed": "Um leito no deserto, um fazendeiro pode dormir aqui.",
   "description.royalBed": "Uma cama real, um fazendeiro pode dormir aqui.",
   "craftingBox.newRecipeDiscovered": "Nova receita descoberta!",
-  "craftingBox.craftThisItem": "Crie este item na caixa de fabricação."
+  "craftingBox.craftThisItem": "Crie este item na caixa de fabricação.",
+  "quest.marine.marvel": "Pegue cada maravilha marinha permanente"
 }

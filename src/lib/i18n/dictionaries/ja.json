@@ -1394,7 +1394,6 @@
   "quest.all.fish": "基本魚、上級魚、専門魚をそれぞれ発見してください",
   "quest.300.fish": "300匹の魚を釣ろう",
   "quest.1500.fish": "1500匹の魚を釣ろう",
-  "quest.marine.marvel": "各マリン・マーベルをキャッチ",
   "quest.5.fish": "すべての魚を5匹釣る",
   "quest.sunpetal.savant": "サンペタルのバリエーションを12種類発見しよう",
   "quest.bloom.bigshot": "ブルームのバリエーションを12種類発見しよう",
@@ -4065,5 +4064,6 @@
   "description.desertBed": "砂漠のベッド、農家の片手ならここで眠れます。",
   "description.royalBed": "ロイヤルベッド、農家の片方はここで眠れます。",
   "craftingBox.newRecipeDiscovered": "新レシピ発見！",
-  "craftingBox.craftThisItem": "このアイテムをクラフトボックスでクラフトしてください。"
+  "craftingBox.craftThisItem": "このアイテムをクラフトボックスでクラフトしてください。",
+  "quest.marine.marvel": "パーマネント・マリン・マーベルを全部キャッチ"
 }

@@ -1394,7 +1394,6 @@
   "quest.all.fish": "기본, 고급, 전문 물고기를 각각 발견하세요",
   "quest.300.fish": "물고기 300마리를 잡으세요",
   "quest.1500.fish": "물고기 1500마리를 잡으세요",
-  "quest.marine.marvel": "각 마린 마블을 감상하세요",
   "quest.5.fish": "모든 물고기를 5마리씩 잡으세요",
   "quest.sunpetal.savant": "12가지 선페탈 변종을 발견하세요",
   "quest.bloom.bigshot": "12가지 블룸 변종을 발견하세요",
@@ -4065,5 +4064,6 @@
   "description.desertBed": "사막 침대 하나, 농장 일꾼 한 명이 여기서 잘 수 있어요.",
   "description.royalBed": "왕실 침대 하나, 농장 주인 한 명이 여기서 잘 수 있어요.",
   "craftingBox.newRecipeDiscovered": "새로운 레시피 발견!",
-  "craftingBox.craftThisItem": "제작 상자에서 이 아이템을 제작하세요."
+  "craftingBox.craftThisItem": "제작 상자에서 이 아이템을 제작하세요.",
+  "quest.marine.marvel": "모든 영구 마블 마블을 감상하세요"
 }

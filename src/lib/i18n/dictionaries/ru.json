@@ -1301,7 +1301,6 @@
   "quest.all.fish": "Открой каждую базовую, продвинутую и экспертную рыбу",
   "quest.300.fish": "Вылови 300 рыб",
   "quest.1500.fish": "Вылови 1500 рыб",
-  "quest.marine.marvel": "Вылови каждое морское чудище",
   "quest.5.fish": "Вылови по 5 штук каждой рыбы",
   "quest.sunpetal.savant": "Открой 12 разновидностей с Sunpetal",
   "quest.bloom.bigshot": "Открой 12 разновидностей с Bloom",
@@ -4065,5 +4064,6 @@
   "description.desertBed": "Кровать в пустыне, здесь может спать один фермер.",
   "description.royalBed": "Королевская кровать, здесь может спать один фермер.",
   "craftingBox.newRecipeDiscovered": "Обнаружен новый рецепт!",
-  "craftingBox.craftThisItem": "Изготовьте этот предмет в коробке для рукоделия."
+  "craftingBox.craftThisItem": "Изготовьте этот предмет в коробке для рукоделия.",
+  "quest.marine.marvel": "Поймайте каждое постоянное морское чудо"
 }

@@ -1377,7 +1377,6 @@
   "quest.all.fish": "Scopri tutti i pesci base, avanzati ed esperti",
   "quest.300.fish": "Cattura 300 pesci",
   "quest.1500.fish": "Cattura 1500 pesci",
-  "quest.marine.marvel": "Cattura tutte le meraviglie marine",
   "quest.5.fish": "Cattura 5 pesci per ogni",
   "quest.sunpetal.savant": "Scopri 12 varianti Sunpetal",
   "quest.bloom.bigshot": "Scopri 12 varianti di Bloom",
@@ -4065,5 +4064,6 @@
   "description.desertBed": "Un letto nel deserto, un contadino può dormire qui.",
   "description.royalBed": "Un letto regale, un contadino può dormire qui.",
   "craftingBox.newRecipeDiscovered": "Nuova ricetta scoperta!",
-  "craftingBox.craftThisItem": "Crea questo oggetto nella scatola di lavorazione."
+  "craftingBox.craftThisItem": "Crea questo oggetto nella scatola di lavorazione.",
+  "quest.marine.marvel": "Cattura tutte le meraviglie marine permanenti"
 }

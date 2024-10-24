@@ -1394,7 +1394,6 @@
   "quest.all.fish": "Temui setiap ikan asas, lanjutan dan pakar",
   "quest.300.fish": "Tangkap 300 ikan",
   "quest.1500.fish": "Tangkap 1500 ikan",
-  "quest.marine.marvel": "Tangkap setiap Marine Marvel",
   "quest.5.fish": "Tangkap 5 daripada setiap ikan",
   "quest.sunpetal.savant": "Temui 12 varian Sunpetal",
   "quest.bloom.bigshot": "Temui 12 varian Bloom",
@@ -4065,5 +4064,6 @@
   "description.desertBed": "Tempat tidur padang pasir, satu tangan ladang boleh tidur di sini.",
   "description.royalBed": "Sebuah katil diraja, satu tangan ladang boleh tidur di sini.",
   "craftingBox.newRecipeDiscovered": "Resipi Baru Ditemui!",
-  "craftingBox.craftThisItem": "Buat item ini di kotak kerajinan."
+  "craftingBox.craftThisItem": "Buat item ini di kotak kerajinan.",
+  "quest.marine.marvel": "Tangkap setiap Marvel Marin tetap"
 }

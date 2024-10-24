@@ -913,7 +913,6 @@
   "quest.all.fish": "Découvrez chaque poisson de base, avancé et expert",
   "quest.300.fish": "Attrapez 300 poissons",
   "quest.1500.fish": "Attrapez 1500 poissons",
-  "quest.marine.marvel": "Attrapez chaque merveille marine",
   "quest.5.fish": "Attrapez 5 exemplaires de chaque poisson",
   "quest.sunpetal.savant": "Découvrez 12 variantes de Sunpetal",
   "quest.bloom.bigshot": "Découvrez 12 variantes de Bloom",
@@ -4065,5 +4064,6 @@
   "description.desertBed": "Dans un lit désertique, un ouvrier de ferme peut y dormir.",
   "description.royalBed": "Un lit royal, un ouvrier de ferme peut y dormir.",
   "craftingBox.newRecipeDiscovered": "Une nouvelle recette a été découverte !",
-  "craftingBox.craftThisItem": "Fabriquez cet objet dans la boîte de bricolage."
+  "craftingBox.craftThisItem": "Fabriquez cet objet dans la boîte de bricolage.",
+  "quest.marine.marvel": "Attrapez chaque Marine Marvel permanente"
 }

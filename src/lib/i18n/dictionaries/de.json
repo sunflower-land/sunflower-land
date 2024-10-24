@@ -1394,7 +1394,6 @@
   "quest.all.fish": "Entdecke jeden einfachen, fortgeschrittenen und erfahrenen Fisch",
   "quest.300.fish": "Fang 300 Fische",
   "quest.1500.fish": "Fange 1500 Fische",
-  "quest.marine.marvel": "Fangen Sie jedes Marine Marvel",
   "quest.5.fish": "Fange 5 von jedem Fisch",
   "quest.sunpetal.savant": "Entdecke 12 Sunpetal-Varianten",
   "quest.bloom.bigshot": "Entdecke 12 Bloom-Varianten",
@@ -4065,5 +4064,6 @@
   "description.desertBed": "Ein Wüstenbett, ein Landarbeiter kann hier schlafen.",
   "description.royalBed": "Ein königliches Bett, ein Landarbeiter kann hier schlafen.",
   "craftingBox.newRecipeDiscovered": "Neues Rezept entdeckt!",
-  "craftingBox.craftThisItem": "Stelle diesen Gegenstand in der Bastelkiste her."
+  "craftingBox.craftThisItem": "Stelle diesen Gegenstand in der Bastelkiste her.",
+  "quest.marine.marvel": "Fange jedes permanente Meereswunder"
 }

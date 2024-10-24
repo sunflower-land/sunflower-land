@@ -1235,7 +1235,6 @@
   "quest.all.fish": "捕获每种基础、进阶和专业级鱼类",
   "quest.300.fish": "捕获 300 条鱼",
   "quest.1500.fish": "捕获 1500 条鱼",
-  "quest.marine.marvel": "抓住每个海洋奇珍",
   "quest.5.fish": "每种鱼都抓 5 条",
   "quest.sunpetal.savant": "发现 12 种日光瓣变体",
   "quest.bloom.bigshot": "发现 12 种绽放花变体",
@@ -4065,5 +4064,6 @@
   "description.desertBed": "沙漠床，一个农民可以睡在这里。",
   "description.royalBed": "一张皇家床，一个农场工人可以睡在这里。",
   "craftingBox.newRecipeDiscovered": "发现了新食谱！",
-  "craftingBox.craftThisItem": "在制作箱中制作此物品。"
+  "craftingBox.craftThisItem": "在制作箱中制作此物品。",
+  "quest.marine.marvel": "捕捉每一个永久的海洋奇迹"
 }
