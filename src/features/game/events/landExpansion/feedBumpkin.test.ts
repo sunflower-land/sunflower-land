@@ -729,4 +729,52 @@ describe("feedBumpkin", () => {
       new Decimal(CONSUMABLES["Shroom Syrup"].experience).mul(1.15).toNumber(),
     );
   });
+
+  it("gives 10% more experience when eating food made with Honey with Buzzworthy Treats skill", () => {
+    const result = feedBumpkin({
+      state: {
+        ...TEST_FARM,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          skills: { "Buzzworthy Treats": 1 },
+        },
+        inventory: {
+          "Honey Cake": new Decimal(2),
+        },
+      },
+      action: {
+        type: "bumpkin.feed",
+        food: "Honey Cake",
+        amount: 1,
+      },
+    });
+
+    expect(result.bumpkin?.experience).toBe(
+      new Decimal(CONSUMABLES["Honey Cake"].experience).mul(1.1).toNumber(),
+    );
+  });
+
+  it("does not apply Buzzworthy Treats on food made without Honey", () => {
+    const result = feedBumpkin({
+      state: {
+        ...TEST_FARM,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          skills: { "Buzzworthy Treats": 1 },
+        },
+        inventory: {
+          "Boiled Eggs": new Decimal(2),
+        },
+      },
+      action: {
+        type: "bumpkin.feed",
+        food: "Boiled Eggs",
+        amount: 1,
+      },
+    });
+
+    expect(result.bumpkin?.experience).toBe(
+      new Decimal(CONSUMABLES["Boiled Eggs"].experience).toNumber(),
+    );
+  });
 });

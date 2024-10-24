@@ -45,6 +45,11 @@ export function isCropShortage({ game }: { game: GameState }) {
   return true;
 }
 
+export function isFoodMadeWithHoney(food: Consumable) {
+  const cookable = COOKABLES[food.name as CookableName];
+  return cookable ? cookable.ingredients.Honey : false;
+}
+
 export const CROP_SHORTAGE_HOURS = 2;
 
 /**
@@ -290,6 +295,10 @@ export const getFoodExpBoost = (
     skills["Drive-Through Deli"]
   ) {
     boostedExp = boostedExp.mul(1.15);
+  }
+
+  if (isFoodMadeWithHoney(food) && skills["Buzzworthy Treats"]) {
+    boostedExp = boostedExp.mul(1.1);
   }
 
   boostedExp = boostedExp.mul(getBudExperienceBoosts(buds, food));
