@@ -22,10 +22,9 @@ import { AnimalBuildingLevel } from "features/game/events/landExpansion/upgradeB
 import { SUNNYSIDE } from "assets/sunnyside";
 import { UpgradeBuildingModal } from "features/game/expansion/components/UpgradeBuildingModal";
 import { ANIMAL_HOUSE_IMAGES } from "features/henHouse/HenHouseInside";
-import { Animal, AnimalBounty, BountyRequest } from "features/game/types/game";
+import { Animal, AnimalBounty } from "features/game/types/game";
 import { AnimalDeal, ExchangeHud } from "./components/AnimalBounties";
 import { Modal } from "components/ui/Modal";
-import { AnimalBounties } from "./components/AnimalBounties";
 import classNames from "classnames";
 import { isValidDeal } from "features/game/events/landExpansion/sellAnimal";
 
@@ -110,24 +109,6 @@ export const BarnInside: React.FC = () => {
           <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
             <div className="relative w-full h-full">
               <img
-                src={shopDisc}
-                alt="Buy Animals"
-                className="absolute top-[18px] right-[18px] cursor-pointer z-10"
-                style={{
-                  width: `${PIXEL_SCALE * 18}px`,
-                }}
-                onClick={() => setShowModal(true)}
-              />
-              <img
-                src={SUNNYSIDE.icons.upgradeBuildingIcon}
-                alt="Upgrade Building"
-                className="absolute bottom-[44px] right-[18px] cursor-pointer z-10"
-                style={{
-                  width: `${PIXEL_SCALE * 16}px`,
-                }}
-                onClick={() => setShowUpgradeModal(true)}
-              />
-              <img
                 src={ANIMAL_HOUSE_IMAGES[level].src}
                 id={Section.GenesisBlock}
                 className="relative z-0"
@@ -155,8 +136,6 @@ export const BarnInside: React.FC = () => {
                   const isValid = deal && isValidDeal({ animal, deal });
                   const Component =
                     BARN_ANIMAL_COMPONENTS[animal.type as BarnAnimal];
-
-                  console.log({ id, isValid, deal });
 
                   return (
                     <MapPlacement
@@ -190,13 +169,35 @@ export const BarnInside: React.FC = () => {
                   );
                 })
                 .sort((a, b) => a.props.y - b.props.y)}
+              {!deal && (
+                <>
+                  <img
+                    src={shopDisc}
+                    alt="Buy Animals"
+                    className="absolute top-[18px] right-[18px] cursor-pointer z-10"
+                    style={{
+                      width: `${PIXEL_SCALE * 18}px`,
+                    }}
+                    onClick={() => setShowModal(true)}
+                  />
+                  <img
+                    src={SUNNYSIDE.icons.upgradeBuildingIcon}
+                    alt="Upgrade Building"
+                    className="absolute bottom-[44px] right-[18px] cursor-pointer z-10"
+                    style={{
+                      width: `${PIXEL_SCALE * 16}px`,
+                    }}
+                    onClick={() => setShowUpgradeModal(true)}
+                  />
 
-              <Button
-                className="absolute -bottom-16"
-                onClick={() => navigate("/")}
-              >
-                {t("exit")}
-              </Button>
+                  <Button
+                    className="absolute -bottom-16"
+                    onClick={() => navigate("/")}
+                  >
+                    {t("exit")}
+                  </Button>
+                </>
+              )}
             </div>
           </div>
         </div>
