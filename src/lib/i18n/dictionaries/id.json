@@ -4054,5 +4054,16 @@
   "animal.notEnoughFood": "Tidak cukup makanan yang tersedia",
   "feeder.foodTypes.food": "Makanan",
   "feeder.foodTypes.medicine": "Obat",
-  "animal.noMedicine": "Tidak ada obat yang tersedia"
+  "animal.noMedicine": "Tidak ada obat yang tersedia",
+  "description.craftingBox": "Kotak untuk membuat berbagai barang.",
+  "description.basicBed": "Tempat tidur dasar, satu petani bisa tidur di sini.",
+  "description.sturdyBed": "Tempat tidur yang kokoh, satu petani bisa tidur di sini.",
+  "description.floralBed": "Tempat tidur bunga, satu petani bisa tidur di sini.",
+  "description.fisherBed": "Tempat tidur nelayan, seorang petani bisa tidur di sini.",
+  "description.pirateBed": "Tempat tidur bajak laut, satu petani bisa tidur di sini.",
+  "description.cowBed": "Tempat tidur sapi, satu petani bisa tidur di sini.",
+  "description.desertBed": "Tempat tidur gurun, seorang petani bisa tidur di sini.",
+  "description.royalBed": "Tempat tidur kerajaan, satu petani bisa tidur di sini.",
+  "craftingBox.newRecipeDiscovered": "Resep Baru Ditemukan!",
+  "craftingBox.craftThisItem": "Buat item ini di kotak kerajinan."
 }

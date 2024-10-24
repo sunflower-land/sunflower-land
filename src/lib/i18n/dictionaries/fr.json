@@ -4054,5 +4054,16 @@
   "animal.notEnoughFood": "Pas assez de nourriture disponible",
   "feeder.foodTypes.food": "Nourriture",
   "feeder.foodTypes.medicine": "Médecine",
-  "animal.noMedicine": "Aucun médicament disponible"
+  "animal.noMedicine": "Aucun médicament disponible",
+  "description.craftingBox": "Une boîte pour fabriquer divers objets.",
+  "description.basicBed": "Un lit de base, un ouvrier de ferme peut y dormir.",
+  "description.sturdyBed": "Un lit solide, un ouvrier de ferme peut y dormir.",
+  "description.floralBed": "Un parterre de fleurs, un ouvrier de ferme peut y dormir.",
+  "description.fisherBed": "Un lit de pêcheur, un ouvrier de ferme peut y dormir.",
+  "description.pirateBed": "Un lit de pirate, un ouvrier de ferme peut y dormir.",
+  "description.cowBed": "Un poulailler, un ouvrier de ferme peut y dormir.",
+  "description.desertBed": "Dans un lit désertique, un ouvrier de ferme peut y dormir.",
+  "description.royalBed": "Un lit royal, un ouvrier de ferme peut y dormir.",
+  "craftingBox.newRecipeDiscovered": "Une nouvelle recette a été découverte !",
+  "craftingBox.craftThisItem": "Fabriquez cet objet dans la boîte de bricolage."
 }

@@ -4054,5 +4054,16 @@
   "animal.notEnoughFood": "Tidak cukup makanan yang tersedia",
   "feeder.foodTypes.food": "Makanan",
   "feeder.foodTypes.medicine": "Perubatan",
-  "animal.noMedicine": "Tiada ubat tersedia"
+  "animal.noMedicine": "Tiada ubat tersedia",
+  "description.craftingBox": "Kotak untuk membuat pelbagai barangan.",
+  "description.basicBed": "Katil asas, satu tangan ladang boleh tidur di sini.",
+  "description.sturdyBed": "Tempat tidur yang kukuh, satu tangan ladang boleh tidur di sini.",
+  "description.floralBed": "Katil bunga, satu tangan ladang boleh tidur di sini.",
+  "description.fisherBed": "Tempat tidur nelayan, satu tangan ladang boleh tidur di sini.",
+  "description.pirateBed": "Tempat tidur lanun, satu tangan ladang boleh tidur di sini.",
+  "description.cowBed": "Tempat tidur lembu, satu tangan ladang boleh tidur di sini.",
+  "description.desertBed": "Tempat tidur padang pasir, satu tangan ladang boleh tidur di sini.",
+  "description.royalBed": "Sebuah katil diraja, satu tangan ladang boleh tidur di sini.",
+  "craftingBox.newRecipeDiscovered": "Resipi Baru Ditemui!",
+  "craftingBox.craftThisItem": "Buat item ini di kotak kerajinan."
 }

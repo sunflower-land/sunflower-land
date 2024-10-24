@@ -4054,5 +4054,16 @@
   "animal.notEnoughFood": "Non c'è abbastanza cibo disponibile",
   "feeder.foodTypes.food": "Cibo",
   "feeder.foodTypes.medicine": "Medicina",
-  "animal.noMedicine": "Nessun medicinale disponibile"
+  "animal.noMedicine": "Nessun medicinale disponibile",
+  "description.craftingBox": "Una scatola per creare vari oggetti.",
+  "description.basicBed": "Un letto semplice, un contadino può dormire qui.",
+  "description.sturdyBed": "Un letto robusto, un contadino può dormire qui.",
+  "description.floralBed": "Un letto floreale, un contadino può dormire qui.",
+  "description.fisherBed": "Un letto da pescatore, un contadino può dormire qui.",
+  "description.pirateBed": "Un letto da pirata, un contadino può dormire qui.",
+  "description.cowBed": "Una cuccia per mucche, un contadino può dormire qui.",
+  "description.desertBed": "Un letto nel deserto, un contadino può dormire qui.",
+  "description.royalBed": "Un letto regale, un contadino può dormire qui.",
+  "craftingBox.newRecipeDiscovered": "Nuova ricetta scoperta!",
+  "craftingBox.craftThisItem": "Crea questo oggetto nella scatola di lavorazione."
 }

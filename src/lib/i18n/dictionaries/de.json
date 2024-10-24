@@ -4054,5 +4054,16 @@
   "animal.notEnoughFood": "Nicht genug Essen verfügbar",
   "feeder.foodTypes.food": "Essen",
   "feeder.foodTypes.medicine": "Medizin",
-  "animal.noMedicine": "Kein Medikament verfügbar"
+  "animal.noMedicine": "Kein Medikament verfügbar",
+  "description.craftingBox": "Eine Kiste zum Basteln verschiedener Gegenstände.",
+  "description.basicBed": "Ein einfaches Bett, ein Landarbeiter kann hier schlafen.",
+  "description.sturdyBed": "Ein stabiles Bett, ein Landarbeiter kann hier schlafen.",
+  "description.floralBed": "Ein Blumenbeet, ein Landarbeiter kann hier schlafen.",
+  "description.fisherBed": "Ein Fischerbett, ein Landarbeiter kann hier schlafen.",
+  "description.pirateBed": "Ein Piratenbett, ein Landarbeiter kann hier schlafen.",
+  "description.cowBed": "Ein Kuhbett, ein Landarbeiter kann hier schlafen.",
+  "description.desertBed": "Ein Wüstenbett, ein Landarbeiter kann hier schlafen.",
+  "description.royalBed": "Ein königliches Bett, ein Landarbeiter kann hier schlafen.",
+  "craftingBox.newRecipeDiscovered": "Neues Rezept entdeckt!",
+  "craftingBox.craftThisItem": "Stelle diesen Gegenstand in der Bastelkiste her."
 }

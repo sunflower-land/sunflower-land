@@ -4054,5 +4054,16 @@
   "animal.notEnoughFood": "没有足够的食物可用",
   "feeder.foodTypes.food": "食物",
   "feeder.foodTypes.medicine": "医学",
-  "animal.noMedicine": "没有可用的药物"
+  "animal.noMedicine": "没有可用的药物",
+  "description.craftingBox": "用于制作各种物品的盒子。",
+  "description.basicBed": "一张基本的床，一个农民可以在这里睡觉。",
+  "description.sturdyBed": "一张坚固的床，一个农民可以在这里睡觉。",
+  "description.floralBed": "一张花坛，一个农民可以在这里睡觉。",
+  "description.fisherBed": "一个渔床，一个农场工人可以睡在这里。",
+  "description.pirateBed": "海盗床，一个农场工可以睡在这里。",
+  "description.cowBed": "牛床，一个农场工人可以睡在这里。",
+  "description.desertBed": "沙漠床，一个农民可以睡在这里。",
+  "description.royalBed": "一张皇家床，一个农场工人可以睡在这里。",
+  "craftingBox.newRecipeDiscovered": "发现了新食谱！",
+  "craftingBox.craftThisItem": "在制作箱中制作此物品。"
 }

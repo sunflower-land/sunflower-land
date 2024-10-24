@@ -4054,5 +4054,16 @@
   "animal.notEnoughFood": "食べ物が足りない",
   "feeder.foodTypes.food": "食べ物",
   "feeder.foodTypes.medicine": "医学",
-  "animal.noMedicine": "お薬はありません"
+  "animal.noMedicine": "お薬はありません",
+  "description.craftingBox": "様々なアイテムを作るための箱。",
+  "description.basicBed": "ベーシックなベッド、農家の片方はここで眠れます。",
+  "description.sturdyBed": "頑丈なベッド、農家の片手ならここで眠れます。",
+  "description.floralBed": "花柄のベッド、農家の片手ならここで眠れます。",
+  "description.fisherBed": "漁師用のベッド、農家の片方はここで眠れます。",
+  "description.pirateBed": "海賊のベッド、農家の片方はここで眠れます。",
+  "description.cowBed": "牛のベッド、農家の片手ならここで眠れます。",
+  "description.desertBed": "砂漠のベッド、農家の片手ならここで眠れます。",
+  "description.royalBed": "ロイヤルベッド、農家の片方はここで眠れます。",
+  "craftingBox.newRecipeDiscovered": "新レシピ発見！",
+  "craftingBox.craftThisItem": "このアイテムをクラフトボックスでクラフトしてください。"
 }

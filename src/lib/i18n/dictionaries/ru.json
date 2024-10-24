@@ -4054,5 +4054,16 @@
   "animal.notEnoughFood": "Недостаточно еды",
   "feeder.foodTypes.food": "Еда",
   "feeder.foodTypes.medicine": "Медицина",
-  "animal.noMedicine": "Лекарства нет"
+  "animal.noMedicine": "Лекарства нет",
+  "description.craftingBox": "Коробка для изготовления различных предметов.",
+  "description.basicBed": "Простая кровать, здесь может спать одна фермерская рука.",
+  "description.sturdyBed": "Прочная кровать, здесь может спать один фермер.",
+  "description.floralBed": "Цветочная клумба, здесь может спать одна рука фермера.",
+  "description.fisherBed": "Ложе для рыбака, здесь может спать один фермер.",
+  "description.pirateBed": "Пиратская кровать, здесь может спать один фермер.",
+  "description.cowBed": "Коровья кровать, здесь может спать один фермер.",
+  "description.desertBed": "Кровать в пустыне, здесь может спать один фермер.",
+  "description.royalBed": "Королевская кровать, здесь может спать один фермер.",
+  "craftingBox.newRecipeDiscovered": "Обнаружен новый рецепт!",
+  "craftingBox.craftThisItem": "Изготовьте этот предмет в коробке для рукоделия."
 }

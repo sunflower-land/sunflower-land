@@ -4054,5 +4054,16 @@
   "animal.notEnoughFood": "No hay suficiente comida disponible",
   "feeder.foodTypes.food": "Comida",
   "feeder.foodTypes.medicine": "Medicina",
-  "animal.noMedicine": "No hay medicamentos disponibles"
+  "animal.noMedicine": "No hay medicamentos disponibles",
+  "description.craftingBox": "Una caja para fabricar varios objetos.",
+  "description.basicBed": "Una cama básica, un peón de granja puede dormir aquí.",
+  "description.sturdyBed": "Una cama sólida, un peón de granja puede dormir aquí.",
+  "description.floralBed": "Una cama con flores, un peón de granja puede dormir aquí.",
+  "description.fisherBed": "Una cama de pescador, un peón de granja puede dormir aquí.",
+  "description.pirateBed": "Una cama pirata, un peón de granja puede dormir aquí.",
+  "description.cowBed": "Una cama para vacas, un peón de granja puede dormir aquí.",
+  "description.desertBed": "Una cama desierta, un peón de granja puede dormir aquí.",
+  "description.royalBed": "Una cama real, un peón de granja puede dormir aquí.",
+  "craftingBox.newRecipeDiscovered": "¡Nueva receta descubierta!",
+  "craftingBox.craftThisItem": "Fabrica este objeto en la caja de fabricación."
 }
