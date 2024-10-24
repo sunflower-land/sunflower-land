@@ -74,7 +74,7 @@ export function feedMixed({ state, action }: Options) {
     copy.coins -= price;
     copy.inventory = {
       ...subtractedInventory,
-      [feed]: oldAmount.add(1),
+      [feed]: oldAmount.add(amount ?? 0),
     };
 
     return copy;

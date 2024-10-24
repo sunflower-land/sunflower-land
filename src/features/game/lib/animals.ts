@@ -55,7 +55,7 @@ export function makeAnimalBuilding(
           state: "idle",
           coordinates: positions[index],
           asleepAt: 0,
-          experience: 0,
+          experience: 1000,
           createdAt: Date.now(),
           item: "Petting Hand",
           lovedAt: 0,
