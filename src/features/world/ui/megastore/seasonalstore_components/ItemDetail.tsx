@@ -5,7 +5,7 @@ import Decimal from "decimal.js-light";
 import { InventoryItemName, Keys } from "features/game/types/game";
 
 import { Context } from "features/game/GameProvider";
-import { useSelector } from "@xstate/react";
+import { useActor, useSelector } from "@xstate/react";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { InnerPanel } from "components/ui/Panel";
 import classNames from "classnames";
@@ -16,6 +16,8 @@ import { gameAnalytics } from "lib/gameAnalytics";
 import { MachineState } from "features/game/lib/gameMachine";
 import {
   getCurrentSeason,
+  getSeasonalArtefact,
+  getSeasonalTicket,
   // getSeasonalTicket,
 } from "features/game/types/seasons";
 import confetti from "canvas-confetti";
@@ -30,6 +32,7 @@ import {
 import { getItemDescription } from "../SeasonalStore";
 import { getKeys } from "features/game/types/craftables";
 import { ARTEFACT_SHOP_KEYS } from "features/game/types/collectibles";
+import { SFLDiscount } from "features/game/lib/SFLDiscount";
 
 interface ItemOverlayProps {
   item: SeasonalStoreItem | null;
@@ -67,6 +70,12 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
   const [imageWidth, setImageWidth] = useState<number>(0);
   const [showSuccess, setShowSuccess] = useState<boolean>(false);
   const [confirmBuy, setConfirmBuy] = useState<boolean>(false);
+  //For Discount
+  const [
+    {
+      context: { state },
+    },
+  ] = useActor(gameService);
 
   const createdAt = Date.now();
   const currentSeason = getCurrentSeason(new Date(createdAt));
@@ -143,22 +152,6 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
     imgElement.src = image;
   }, []);
 
-  const getBalanceOfItem = (item: SeasonalStoreItem | null): number => {
-    if (!item) return 0;
-
-    if (isWearable) {
-      return (
-        wardrobe[(item as SeasonalStoreWearable).wearable as BumpkinItem] ?? 0
-      );
-    }
-
-    return (
-      inventory[
-        (item as SeasonalStoreCollectible).collectible as InventoryItemName
-      ] ?? new Decimal(0)
-    ).toNumber();
-  };
-
   const canBuy = () => {
     if (!item) return false;
 
@@ -167,9 +160,6 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
       if (tier === "rare" && !isRareUnlocked) return false;
       if (tier === "epic" && !isEpicUnlocked) return false;
     }
-    // if (item.currency === "SFL") {
-    //   return sflBalance.greaterThanOrEqualTo(item.price);
-    // }
     if (itemReq) {
       const hasRequirements = getKeys(itemReq).every((name) => {
         const amount = itemReq[name] || new Decimal(0);
@@ -181,22 +171,32 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
       if (!hasRequirements) return false;
     }
     if (item) return sflBalance.greaterThanOrEqualTo(new Decimal(sfl));
-
-    // const currency =
-    //   item.currency === "Seasonal Ticket" ? getSeasonalTicket() : item.currency;
   };
 
   const trackAnalytics = () => {
     if (!item) return;
     const type = isWearable ? "Wearable" : "Collectible";
-    const currency = "SFL";
+    const currency =
+      item.cost.sfl !== 0
+        ? "SFL"
+        : item.cost.sfl === 0 &&
+            (item.cost?.items[getSeasonalTicket()] ?? 0 > 0)
+          ? "Seasonal Ticket"
+          : "SFL";
+    const price =
+      item.cost.sfl !== 0
+        ? sfl
+        : item.cost.sfl === 0 &&
+            (item.cost?.items[getSeasonalTicket()] ?? 0 > 0)
+          ? item.cost?.items[getSeasonalTicket()] ?? 0
+          : sfl;
     const itemName = isWearable
       ? ((item as SeasonalStoreWearable).wearable as BumpkinItem)
       : ((item as SeasonalStoreCollectible).collectible as InventoryItemName);
 
     gameAnalytics.trackSink({
       currency,
-      amount: sfl,
+      amount: price,
       item: itemName,
       type,
     });
@@ -245,24 +245,6 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
 
     return t("megaStore.collectible");
   };
-  const balanceOfItem = getBalanceOfItem(item);
-
-  // const getLimitLabel = () => {
-  //   if (!item?.limit) return;
-
-  //   if (balanceOfItem >= item.limit) {
-  //     return (
-  //       <Label
-  //         type="danger"
-  //         className="absolute bottom-1 right-1 text-xxs"
-  //       >{`${t("limit")}: ${balanceOfItem}/${item.limit}`}</Label> //t
-  //     );
-  //   }
-
-  //   <span className="absolute bottom-1 right-2 text-xxs">{`${t(
-  //     "limit",
-  //   )}: ${balanceOfItem}/${item.limit}`}</span>; //t
-  // };
 
   const getButtonLabel = () => {
     if (confirmBuy) return `${t("confirm")} ${t("buy")}`; //t
@@ -270,11 +252,41 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
     return `${t("buy")} ${isWearable ? "wearable" : "collectible"}`;
   };
 
-  // const currency =
-  //   item?.currency === "Seasonal Ticket"
-  //     ? getSeasonalTicket()
-  //     : (item?.currency as InventoryItemName);
+  const getCurrencyName = (item: SeasonalStoreItem) => {
+    const currencyName =
+      item.cost.sfl === 0 && (item.cost?.items[getSeasonalTicket()] ?? 0 > 0)
+        ? getSeasonalTicket()
+        : item.cost.sfl === 0 &&
+            (item.cost?.items[getSeasonalArtefact()] ?? 0 > 0)
+          ? getSeasonalArtefact()
+          : Object.keys(item.cost.items)[0];
+    return currencyName as InventoryItemName;
+  };
+  const getCurrencyBalance = (item: SeasonalStoreItem) => {
+    const currencyItem =
+      item.cost.sfl === 0 && (item.cost?.items[getSeasonalTicket()] ?? 0 > 0)
+        ? getSeasonalTicket()
+        : item.cost.sfl === 0 &&
+            (item.cost?.items[getSeasonalArtefact()] ?? 0 > 0)
+          ? getSeasonalArtefact()
+          : Object.keys(item.cost.items)[0];
 
+    return inventory[currencyItem as InventoryItemName] ?? new Decimal(0);
+  };
+  const getCurrency = (item: SeasonalStoreItem) => {
+    const currency =
+      item.cost.sfl === 0 && (item.cost?.items[getSeasonalTicket()] ?? 0 > 0)
+        ? getSeasonalTicket()
+        : getSeasonalArtefact();
+    const currencyItem =
+      item.cost.sfl === 0 && (item.cost?.items[currency] ?? 0 > 0)
+        ? item.cost?.items[currency]
+        : item.cost?.items[
+            Object.keys(item.cost.items)[0] as InventoryItemName
+          ];
+
+    return currencyItem;
+  };
   return (
     <InnerPanel className="shadow">
       {isVisible && (
@@ -339,33 +351,72 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
                     )}
                     <span className="text-xs leading-none">{description}</span>
 
-                    {itemReq && (
-                      <div className="flex flex-1 content-start flex-col flex-wrap">
-                        {getKeys(itemReq).map((itemName, index) => {
-                          return (
-                            <RequirementLabel
-                              key={index}
-                              className={" "}
-                              type="item"
-                              item={itemName}
-                              showLabel
-                              balance={inventory[itemName] ?? new Decimal(0)}
-                              requirement={new Decimal(itemReq[itemName] ?? 0)}
-                            />
-                          );
-                        })}
-                      </div>
-                    )}
-                    {item && sfl && (
-                      <div className="flex flex-1 items-end">
-                        {/* SFL */}
-                        <RequirementLabel
-                          type="sfl"
-                          balance={sflBalance}
-                          requirement={new Decimal(item.cost.sfl)}
-                        />
-                      </div>
-                    )}
+                    {itemReq &&
+                      (sfl !== 0 ? (
+                        <div className="flex flex-1 content-start flex-col flex-wrap">
+                          {getKeys(itemReq).map((itemName, index) => {
+                            return (
+                              <RequirementLabel
+                                key={index}
+                                type="item"
+                                item={itemName}
+                                showLabel
+                                balance={inventory[itemName] ?? new Decimal(0)}
+                                requirement={
+                                  new Decimal(itemReq[itemName] ?? 0)
+                                }
+                              />
+                            );
+                          })}
+                        </div>
+                      ) : (
+                        <div className="flex flex-1 content-start flex-col flex-wrap">
+                          {getKeys(itemReq)
+                            .slice(1)
+                            .map((itemName, index) => {
+                              return (
+                                <RequirementLabel
+                                  key={index}
+                                  type="item"
+                                  item={itemName}
+                                  showLabel
+                                  balance={
+                                    inventory[itemName] ?? new Decimal(0)
+                                  }
+                                  requirement={
+                                    new Decimal(itemReq[itemName] ?? 0)
+                                  }
+                                />
+                              );
+                            })}
+                        </div>
+                      ))}
+                    {item &&
+                      (sfl !== 0 ? (
+                        <div className="flex flex-1 items-end">
+                          {/* SFL */}
+                          <RequirementLabel
+                            type="sfl"
+                            balance={sflBalance}
+                            requirement={SFLDiscount(
+                              state,
+                              new Decimal(item.cost.sfl),
+                            )}
+                          />
+                        </div>
+                      ) : (
+                        <div className="flex flex-1 items-end">
+                          {/* Ticket/Artefact/Item */}
+                          <RequirementLabel
+                            type={"item"}
+                            item={getCurrencyName(item)}
+                            balance={getCurrencyBalance(item)}
+                            requirement={
+                              new Decimal(getCurrency(item) ?? new Decimal(0))
+                            }
+                          />
+                        </div>
+                      ))}
                   </div>
                 </div>
               </div>

@@ -12,6 +12,7 @@ import {
   SeasonalStoreItem,
 } from "features/game/types/megastore";
 import { ARTEFACT_SHOP_KEYS } from "features/game/types/collectibles";
+import { SFLDiscount } from "features/game/lib/SFLDiscount";
 
 export function isCollectible(
   item: SeasonalStoreItem,
@@ -112,7 +113,9 @@ export function buySeasonalItem({
     // Check if player has enough resources
     const { sfl, items } = item.cost;
 
-    if (stateCopy.balance.lessThan(sfl)) {
+    const _sfl = SFLDiscount(state, new Decimal(sfl));
+
+    if (stateCopy.balance.lessThan(_sfl)) {
       throw new Error("Insufficient SFL");
     }
 
@@ -125,7 +128,7 @@ export function buySeasonalItem({
     }
 
     // Deduct resources
-    stateCopy.balance = stateCopy.balance.minus(sfl);
+    stateCopy.balance = stateCopy.balance.minus(_sfl);
     for (const [itemName, amount] of Object.entries(items)) {
       stateCopy.inventory[itemName as InventoryItemName] = (
         stateCopy.inventory[itemName as InventoryItemName] || new Decimal(0)
