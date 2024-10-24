@@ -99,6 +99,7 @@ export abstract class BaseScene extends Phaser.Scene {
   public joystick?: VirtualJoystick;
   private switchToScene?: SceneId;
   public isCameraFading = false;
+  public isSlowedDown = false;
   private options: Required<BaseSceneOptions>;
 
   public map: Phaser.Tilemaps.Tilemap = {} as Phaser.Tilemaps.Tilemap;
@@ -143,6 +144,8 @@ export abstract class BaseScene extends Phaser.Scene {
   currentTick = 0;
 
   zoom = window.innerWidth < 500 ? 3 : 4;
+
+  velocity = WALKING_SPEED;
 
   layers: Record<string, Phaser.Tilemaps.TilemapLayer> = {};
 
@@ -871,9 +874,7 @@ export abstract class BaseScene extends Phaser.Scene {
   }
 
   get walkingSpeed() {
-    if (this.isCameraFading) return 0;
-
-    return WALKING_SPEED;
+    return this.velocity;
   }
 
   updatePlayer() {
