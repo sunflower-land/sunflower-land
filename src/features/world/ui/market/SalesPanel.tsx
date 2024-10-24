@@ -28,6 +28,7 @@ import { VIPAccess } from "features/game/components/VipAccess";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { ListingCategoryCard } from "components/ui/ListingCategoryCard";
 import { hasFeatureAccess } from "lib/flags";
+import { SpeakingText } from "features/game/components/SpeakingModal";
 
 export const MARKET_BUNDLES: Record<TradeableName, number> = {
   Sunflower: 2000,
@@ -86,7 +87,8 @@ export const SalesPanel: React.FC<{
       }
     | undefined;
   loadingNewPrices: boolean;
-}> = ({ marketPrices, loadingNewPrices }) => {
+  onClose?: () => void;
+}> = ({ marketPrices, loadingNewPrices, onClose }) => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
 
@@ -153,6 +155,17 @@ export const SalesPanel: React.FC<{
     state.inventory[selected]?.gte(MARKET_BUNDLES[selected]) && unitPrice !== 0;
 
   const hasPrices = !!marketPrices;
+
+  return (
+    <SpeakingText
+      message={[
+        {
+          text: t("goblinTrade.closedForBusiness"),
+        },
+      ]}
+      onClose={() => onClose?.()}
+    />
+  );
 
   if (warning === "hoarding") {
     return (

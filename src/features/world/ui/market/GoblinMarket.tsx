@@ -67,7 +67,11 @@ export const GoblinMarket: React.FC<Props> = ({ onClose }) => {
       onClose={selling ? undefined : onClose}
       tabs={[{ icon: SUNNYSIDE.icons.search, name: t("sell") }]}
     >
-      <SalesPanel marketPrices={marketPrices} loadingNewPrices={loading} />
+      <SalesPanel
+        marketPrices={marketPrices}
+        loadingNewPrices={loading}
+        onClose={selling ? undefined : onClose}
+      />
     </CloseButtonPanel>
   );
 };
