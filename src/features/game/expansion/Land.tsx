@@ -48,7 +48,11 @@ import { EXPANSION_ORIGINS, LAND_SIZE } from "./lib/constants";
 import { Recipe } from "features/island/recipes/Recipe";
 import Decimal from "decimal.js-light";
 import { RecipeItemName } from "../lib/crafting";
-import { REQUIRED_LAND_COUNT } from "../events/landExpansion/discoverRecipe";
+import {
+  canDiscoverRecipe,
+  RECIPE_UNLOCKS,
+} from "../events/landExpansion/discoverRecipe";
+import { hasFeatureAccess } from "lib/flags";
 
 export const LAND_WIDTH = 6;
 
@@ -95,8 +99,7 @@ const findRecipeLocation = (
   game: GameState,
   recipe: RecipeItemName,
   level: number,
-  direction: 1 | -1 = 1,
-  depth = 0,
+  direction: 1 | -1,
 ): (Coordinates & { recipe: RecipeItemName }) | null => {
   if (
     !level ||
@@ -109,32 +112,39 @@ const findRecipeLocation = (
   const location = getRecipeLocation(game, level);
   if (location) return { ...location, recipe };
 
-  const nextLevel = level + direction * (depth + 1);
-  const oppositeDirection = (direction * -1) as 1 | -1;
+  const nextLevel = level + direction;
 
-  return (
-    findRecipeLocation(game, recipe, nextLevel, direction, depth + 1) ||
-    findRecipeLocation(
-      game,
-      recipe,
-      level + oppositeDirection,
-      oppositeDirection,
-    )
-  );
+  return findRecipeLocation(game, recipe, nextLevel, direction);
 };
 
 // Recursive function to find the recipe locations
 const getRecipeLocations = (game: GameState) => {
-  return getKeys(REQUIRED_LAND_COUNT)
+  return getKeys(RECIPE_UNLOCKS)
     .filter((recipe) => !game.craftingBox.recipes[recipe])
-    .filter((recipe) =>
-      (game.inventory["Basic Land"] ?? new Decimal(0)).gte(
-        REQUIRED_LAND_COUNT[recipe] ?? Infinity,
-      ),
-    )
-    .map((recipe) =>
-      findRecipeLocation(game, recipe, REQUIRED_LAND_COUNT[recipe]!),
-    )
+    .filter((recipe) => canDiscoverRecipe(game, recipe))
+    .map((recipe) => {
+      const recipeUnlock = RECIPE_UNLOCKS[recipe];
+      return (
+        findRecipeLocation(
+          game,
+          recipe,
+          Math.min(
+            recipeUnlock!.expansion,
+            game.inventory["Basic Land"]?.toNumber() ?? 0,
+          ),
+          1,
+        ) ||
+        findRecipeLocation(
+          game,
+          recipe,
+          Math.min(
+            recipeUnlock!.expansion,
+            game.inventory["Basic Land"]?.toNumber() ?? 0,
+          ),
+          -1,
+        )
+      );
+    })
     .filter(Boolean) as (Coordinates & { recipe: RecipeItemName })[];
 };
 
@@ -621,19 +631,21 @@ const getIslandElements = ({
     }),
   );
 
-  getRecipeLocations(game).forEach((recipe) => {
-    mapPlacements.push(
-      <MapPlacement
-        key={`recipe-${recipe.recipe}`}
-        x={recipe.x}
-        y={recipe.y}
-        height={16}
-        width={16}
-      >
-        <Recipe recipe={recipe.recipe} />
-      </MapPlacement>,
-    );
-  });
+  if (hasFeatureAccess(game, "BEDS")) {
+    getRecipeLocations(game).forEach((recipe) => {
+      mapPlacements.push(
+        <MapPlacement
+          key={`recipe-${recipe.recipe}`}
+          x={recipe.x}
+          y={recipe.y}
+          height={16}
+          width={16}
+        >
+          <Recipe recipe={recipe.recipe} />
+        </MapPlacement>,
+      );
+    });
+  }
 
   return mapPlacements;
 };

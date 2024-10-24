@@ -60,7 +60,7 @@ export const Recipe: React.FC<{ recipe: RecipeItemName }> = ({ recipe }) => {
   return (
     <>
       <img
-        className="cursor-pointer animate-float"
+        className="cursor-pointer animate-float hover:img-highlight "
         onClick={() => setIsModalOpen(true)}
         src={page}
         style={{

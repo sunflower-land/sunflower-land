@@ -1,7 +1,11 @@
 import { produce } from "immer";
 import Decimal from "decimal.js-light";
 import { RecipeItemName, RECIPES } from "features/game/lib/crafting";
-import { GameState } from "features/game/types/game";
+import {
+  GameState,
+  ISLAND_EXPANSIONS,
+  IslandType,
+} from "features/game/types/game";
 
 export type DiscoverRecipeAction = {
   type: "recipe.discovered";
@@ -14,10 +18,36 @@ type Options = {
   createdAt?: number;
 };
 
-export const REQUIRED_LAND_COUNT: Partial<Record<RecipeItemName, number>> = {
-  "Basic Bed": 6,
-  "Sturdy Bed": 10,
-  "Floral Bed": 12,
+export const RECIPE_UNLOCKS: Partial<
+  Record<RecipeItemName, { island: IslandType; expansion: number }>
+> = {
+  "Basic Bed": {
+    island: "basic",
+    expansion: 6,
+  },
+  "Sturdy Bed": { island: "spring", expansion: 1 },
+  "Floral Bed": { island: "spring", expansion: 12 },
+};
+
+export const canDiscoverRecipe = (state: GameState, recipe: RecipeItemName) => {
+  const currentIsland = state.island.type;
+
+  const currentIslandIndex = ISLAND_EXPANSIONS.findIndex(
+    (name) => name === currentIsland,
+  );
+  const alreadyVisibleIslands = ISLAND_EXPANSIONS.slice(0, currentIslandIndex);
+
+  const recipeUnlock = RECIPE_UNLOCKS[recipe];
+  if (!recipeUnlock) return false;
+
+  if (alreadyVisibleIslands.includes(recipeUnlock.island)) return true;
+
+  return (
+    recipeUnlock.island === currentIsland &&
+    (state.inventory["Basic Land"] ?? new Decimal(0)).gte(
+      recipeUnlock.expansion,
+    )
+  );
 };
 
 export function discoverRecipe({
@@ -26,12 +56,10 @@ export function discoverRecipe({
   createdAt = Date.now(),
 }: Options): GameState {
   return produce(state, (copy) => {
-    const requiredLandCount = REQUIRED_LAND_COUNT[action.recipe];
-    if (!requiredLandCount) throw new Error("Recipe cannot be discovered");
+    const recipeUnlock = RECIPE_UNLOCKS[action.recipe];
+    if (!recipeUnlock) throw new Error("Recipe cannot be discovered");
 
-    if (
-      (copy.inventory["Basic Land"] ?? new Decimal(0)).lt(requiredLandCount)
-    ) {
+    if (!canDiscoverRecipe(copy, action.recipe)) {
       throw new Error("Insufficient Basic Land");
     }
 

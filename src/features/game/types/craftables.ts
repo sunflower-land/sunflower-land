@@ -1,6 +1,6 @@
 import Decimal from "decimal.js-light";
 import { CropSeedName } from "./crops";
-import { FactionBanner, InventoryItemName, LanternName } from "./game";
+import { BedName, FactionBanner, InventoryItemName, LanternName } from "./game";
 import { Section } from "lib/utils/hooks/useScrollIntoView";
 import { Flag, FLAGS } from "./flags";
 import { LimitedItemType } from ".";
@@ -21,6 +21,7 @@ import { SeasonalBanner } from "./seasons";
 import { EpicFlowerName, MutantFlowerName } from "./flowers";
 import { translate } from "lib/i18n/translate";
 import { FactionShopCollectibleName } from "./factionShop";
+import { BEDS } from "./beds";
 
 export { FLAGS };
 
@@ -217,7 +218,8 @@ export type CollectibleName =
   | "Lifetime Farmer Banner"
   | FactionShopCollectibleName
   | TreasureCollectibleItem
-  | MutantFlowerName;
+  | MutantFlowerName
+  | BedName;
 
 export type ToolName =
   | "Axe"
@@ -1084,6 +1086,14 @@ const flagsDimension = getKeys(FLAGS).reduce(
   {} as Record<Flag, Dimensions>,
 );
 
+const bedsDimension = getKeys(BEDS).reduce(
+  (previous, bedName) => ({
+    ...previous,
+    [bedName]: { width: 1, height: 2 },
+  }),
+  {} as Record<BedName, Dimensions>,
+);
+
 export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   // Salesman Items
   "Wicker Man": { width: 1, height: 1 },
@@ -1091,6 +1101,7 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
 
   // Flags
   ...flagsDimension,
+  ...bedsDimension,
 
   ...DECORATION_DIMENSIONS,
 

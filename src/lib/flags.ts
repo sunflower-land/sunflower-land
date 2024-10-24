@@ -54,6 +54,7 @@ const featureFlags = {
   CHICKEN_GARBO: betaTimeBasedFeatureFlag(new Date("2024-11-01T00:00:00Z")),
   CRAFTING_BOX: betaTimeBasedFeatureFlag(new Date("2024-11-01T00:00:00Z")),
   FLOWER_BOUNTIES: timeBasedFeatureFlag(new Date("2024-11-01T00:00:00Z")),
+  BEDS: timeBasedFeatureFlag(new Date("2024-11-01T00:00:00Z")),
 } satisfies Record<string, FeatureFlag>;
 
 export type FeatureName = keyof typeof featureFlags;
