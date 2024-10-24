@@ -921,7 +921,6 @@
   "quest.all.fish": "Temel, gelişmiş ve uzman balıkların her birini keşfedin",
   "quest.300.fish": "300 balık yakala",
   "quest.1500.fish": "1500 balık yakala",
-  "quest.marine.marvel": "Her Deniz Marvelini yakalayınl",
   "quest.5.fish": "Her balıktan 5'er tane yakala",
   "quest.sunpetal.savant": "12 Sunpetal çeşidini keşfedin",
   "quest.bloom.bigshot": "12 Bloom çeşidini keşfedin",
@@ -4054,5 +4053,17 @@
   "animal.notEnoughFood": "Yeterli yiyecek yok",
   "feeder.foodTypes.food": "Gıda",
   "feeder.foodTypes.medicine": "Tıp",
-  "animal.noMedicine": "İlaç yok"
+  "animal.noMedicine": "İlaç yok",
+  "description.craftingBox": "Çeşitli eşyaları hazırlamak için bir kutu.",
+  "description.basicBed": "Basit bir yatak, bir çiftçi burada uyuyabilir.",
+  "description.sturdyBed": "Sağlam bir yatak, bir çiftçi burada uyuyabilir.",
+  "description.floralBed": "Çiçekli bir yatak, bir çiftçi burada uyuyabilir.",
+  "description.fisherBed": "Bir balıkçı yatağı, bir çiftçi burada uyuyabilir.",
+  "description.pirateBed": "Bir korsan yatağı, bir çiftçi burada uyuyabilir.",
+  "description.cowBed": "Bir inek yatağı, bir çiftçi burada uyuyabilir.",
+  "description.desertBed": "Bir çöl yatağı, bir çiftçi burada uyuyabilir.",
+  "description.royalBed": "Kraliyet yatağı, bir çiftçi burada uyuyabilir.",
+  "craftingBox.newRecipeDiscovered": "Yeni Tarif Keşfedildi!",
+  "craftingBox.craftThisItem": "Bu öğeyi zanaat kutusunda üretin.",
+  "quest.marine.marvel": "Her kalıcı Deniz Harikasını yakalayın"
 }

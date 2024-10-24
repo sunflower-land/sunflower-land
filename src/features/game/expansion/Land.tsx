@@ -42,6 +42,17 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { Marketplace } from "features/marketplace/Marketplace";
 import { useLocation } from "react-router-dom";
 import { createPortal } from "react-dom";
+import { pickEmptyPosition } from "./placeable/lib/collisionDetection";
+import { EXPANSION_ORIGINS, LAND_SIZE } from "./lib/constants";
+
+import { Recipe } from "features/island/recipes/Recipe";
+import Decimal from "decimal.js-light";
+import { RecipeItemName } from "../lib/crafting";
+import {
+  canDiscoverRecipe,
+  RECIPE_UNLOCKS,
+} from "../events/landExpansion/discoverRecipe";
+import { hasFeatureAccess } from "lib/flags";
 
 export const LAND_WIDTH = 6;
 
@@ -68,6 +79,73 @@ type IslandElementArgs = {
   buds: GameState["buds"];
   beehives: GameState["beehives"];
   oilReserves: GameState["oilReserves"];
+};
+
+const getRecipeLocation = (game: GameState, level: number) => {
+  const expansionBoundaries = {
+    x: EXPANSION_ORIGINS[level - 1].x - LAND_SIZE / 2,
+    y: EXPANSION_ORIGINS[level - 1].y + LAND_SIZE / 2,
+    width: LAND_SIZE,
+    height: LAND_SIZE,
+  };
+
+  return pickEmptyPosition({
+    bounding: expansionBoundaries,
+    gameState: game,
+  });
+};
+
+const findRecipeLocation = (
+  game: GameState,
+  recipe: RecipeItemName,
+  level: number,
+  direction: 1 | -1,
+): (Coordinates & { recipe: RecipeItemName }) | null => {
+  if (
+    !level ||
+    level <= 0 ||
+    (game.inventory["Basic Land"] ?? new Decimal(0)).lt(level)
+  ) {
+    return null;
+  }
+
+  const location = getRecipeLocation(game, level);
+  if (location) return { ...location, recipe };
+
+  const nextLevel = level + direction;
+
+  return findRecipeLocation(game, recipe, nextLevel, direction);
+};
+
+// Recursive function to find the recipe locations
+const getRecipeLocations = (game: GameState) => {
+  return getKeys(RECIPE_UNLOCKS)
+    .filter((recipe) => !game.craftingBox.recipes[recipe])
+    .filter((recipe) => canDiscoverRecipe(game, recipe))
+    .map((recipe) => {
+      const recipeUnlock = RECIPE_UNLOCKS[recipe];
+      return (
+        findRecipeLocation(
+          game,
+          recipe,
+          Math.min(
+            recipeUnlock!.expansion,
+            game.inventory["Basic Land"]?.toNumber() ?? 0,
+          ),
+          1,
+        ) ||
+        findRecipeLocation(
+          game,
+          recipe,
+          Math.min(
+            recipeUnlock!.expansion,
+            game.inventory["Basic Land"]?.toNumber() ?? 0,
+          ),
+          -1,
+        )
+      );
+    })
+    .filter(Boolean) as (Coordinates & { recipe: RecipeItemName })[];
 };
 
 const getIslandElements = ({
@@ -552,6 +630,22 @@ const getIslandElements = ({
       );
     }),
   );
+
+  if (hasFeatureAccess(game, "BEDS")) {
+    getRecipeLocations(game).forEach((recipe) => {
+      mapPlacements.push(
+        <MapPlacement
+          key={`recipe-${recipe.recipe}`}
+          x={recipe.x}
+          y={recipe.y}
+          height={16}
+          width={16}
+        >
+          <Recipe recipe={recipe.recipe} />
+        </MapPlacement>,
+      );
+    });
+  }
 
   return mapPlacements;
 };

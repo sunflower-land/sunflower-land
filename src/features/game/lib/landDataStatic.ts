@@ -529,7 +529,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     "Town Center": new Decimal(1),
     Market: new Decimal(1),
     Workbench: new Decimal(1),
-    "Basic Land": new Decimal(16),
+    "Basic Land": new Decimal(3),
     "Gold Pass": new Decimal(1),
     "Crop Plot": new Decimal(OFFLINE_FARM_CROPS),
     "Water Well": new Decimal(4),
@@ -1430,5 +1430,12 @@ export const STATIC_OFFLINE_FARM: GameState = {
   dailyFactionDonationRequest: {
     resource: "Sunflower",
     amount: new Decimal(1000),
+  },
+  craftingBox: {
+    status: "idle",
+    item: undefined,
+    startedAt: 0,
+    readyAt: 0,
+    recipes: {},
   },
 };

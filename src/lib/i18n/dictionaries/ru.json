@@ -1301,7 +1301,6 @@
   "quest.all.fish": "Открой каждую базовую, продвинутую и экспертную рыбу",
   "quest.300.fish": "Вылови 300 рыб",
   "quest.1500.fish": "Вылови 1500 рыб",
-  "quest.marine.marvel": "Вылови каждое морское чудище",
   "quest.5.fish": "Вылови по 5 штук каждой рыбы",
   "quest.sunpetal.savant": "Открой 12 разновидностей с Sunpetal",
   "quest.bloom.bigshot": "Открой 12 разновидностей с Bloom",
@@ -4054,5 +4053,17 @@
   "animal.notEnoughFood": "Недостаточно еды",
   "feeder.foodTypes.food": "Еда",
   "feeder.foodTypes.medicine": "Медицина",
-  "animal.noMedicine": "Лекарства нет"
+  "animal.noMedicine": "Лекарства нет",
+  "description.craftingBox": "Коробка для изготовления различных предметов.",
+  "description.basicBed": "Простая кровать, здесь может спать одна фермерская рука.",
+  "description.sturdyBed": "Прочная кровать, здесь может спать один фермер.",
+  "description.floralBed": "Цветочная клумба, здесь может спать одна рука фермера.",
+  "description.fisherBed": "Ложе для рыбака, здесь может спать один фермер.",
+  "description.pirateBed": "Пиратская кровать, здесь может спать один фермер.",
+  "description.cowBed": "Коровья кровать, здесь может спать один фермер.",
+  "description.desertBed": "Кровать в пустыне, здесь может спать один фермер.",
+  "description.royalBed": "Королевская кровать, здесь может спать один фермер.",
+  "craftingBox.newRecipeDiscovered": "Обнаружен новый рецепт!",
+  "craftingBox.craftThisItem": "Изготовьте этот предмет в коробке для рукоделия.",
+  "quest.marine.marvel": "Поймайте каждое постоянное морское чудо"
 }

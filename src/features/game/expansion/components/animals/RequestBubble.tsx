@@ -77,7 +77,7 @@ export const RequestBubble: React.FC<RequestBubbleProps> = ({
   const parentWidth = image.width + (quantity ? 15 : 0) + leftBorderWidth;
   return (
     <div
-      className="absolute inline-flex justify-center items-center z-40"
+      className="absolute inline-flex justify-center items-center z-10"
       style={{
         top: `${top}px`,
         left: `${left}px`,

@@ -889,7 +889,6 @@
   "quest.all.fish": "Descubra cada peixe básico, avançado e especialista",
   "quest.300.fish": "Capture 300 peixes",
   "quest.1500.fish": "Capture 1500 peixes",
-  "quest.marine.marvel": "Capture cada Marine Marvel",
   "quest.5.fish": "Capture 5 de cada peixe",
   "quest.sunpetal.savant": "Descubra 12 variantes de Sunpetal",
   "quest.bloom.bigshot": "Descubra 12 variantes de Bloom",
@@ -4054,5 +4053,17 @@
   "animal.notEnoughFood": "Não há comida suficiente disponível",
   "feeder.foodTypes.food": "Comida",
   "feeder.foodTypes.medicine": "Remédio",
-  "animal.noMedicine": "Nenhum medicamento disponível"
+  "animal.noMedicine": "Nenhum medicamento disponível",
+  "description.craftingBox": "Uma caixa para criar vários itens.",
+  "description.basicBed": "Uma cama básica, um fazendeiro pode dormir aqui.",
+  "description.sturdyBed": "Uma cama resistente, um fazendeiro pode dormir aqui.",
+  "description.floralBed": "Um canteiro de flores, um fazendeiro pode dormir aqui.",
+  "description.fisherBed": "Uma cama de pescador, um fazendeiro pode dormir aqui.",
+  "description.pirateBed": "Uma cama de pirata, um fazendeiro pode dormir aqui.",
+  "description.cowBed": "Uma cama de vaca, um fazendeiro pode dormir aqui.",
+  "description.desertBed": "Um leito no deserto, um fazendeiro pode dormir aqui.",
+  "description.royalBed": "Uma cama real, um fazendeiro pode dormir aqui.",
+  "craftingBox.newRecipeDiscovered": "Nova receita descoberta!",
+  "craftingBox.craftThisItem": "Crie este item na caixa de fabricação.",
+  "quest.marine.marvel": "Pegue cada maravilha marinha permanente"
 }

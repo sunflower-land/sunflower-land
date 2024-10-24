@@ -1394,7 +1394,6 @@
   "quest.all.fish": "기본, 고급, 전문 물고기를 각각 발견하세요",
   "quest.300.fish": "물고기 300마리를 잡으세요",
   "quest.1500.fish": "물고기 1500마리를 잡으세요",
-  "quest.marine.marvel": "각 마린 마블을 감상하세요",
   "quest.5.fish": "모든 물고기를 5마리씩 잡으세요",
   "quest.sunpetal.savant": "12가지 선페탈 변종을 발견하세요",
   "quest.bloom.bigshot": "12가지 블룸 변종을 발견하세요",
@@ -4054,5 +4053,17 @@
   "animal.notEnoughFood": "식량이 충분하지 않음",
   "feeder.foodTypes.food": "음식",
   "feeder.foodTypes.medicine": "의학",
-  "animal.noMedicine": "사용할 수 있는 약이 없습니다."
+  "animal.noMedicine": "사용할 수 있는 약이 없습니다.",
+  "description.craftingBox": "다양한 아이템을 제작할 수 있는 상자입니다.",
+  "description.basicBed": "기본 침대 하나, 농장 손 한 명이 여기서 잘 수 있어요.",
+  "description.sturdyBed": "튼튼한 침대 하나, 농장 손 한 명이 여기서 잘 수 있어요.",
+  "description.floralBed": "꽃무늬 침대 하나, 농장의 손 한 명이 여기서 잘 수 있어요.",
+  "description.fisherBed": "피셔 침대 하나, 농장 주인 한 명이 여기서 잘 수 있어요.",
+  "description.pirateBed": "해적 침대 하나, 농장 일꾼 한 명이 여기서 잘 수 있어요.",
+  "description.cowBed": "소 침대 하나, 농장 주인 한 명이 여기서 잘 수 있어요.",
+  "description.desertBed": "사막 침대 하나, 농장 일꾼 한 명이 여기서 잘 수 있어요.",
+  "description.royalBed": "왕실 침대 하나, 농장 주인 한 명이 여기서 잘 수 있어요.",
+  "craftingBox.newRecipeDiscovered": "새로운 레시피 발견!",
+  "craftingBox.craftThisItem": "제작 상자에서 이 아이템을 제작하세요.",
+  "quest.marine.marvel": "모든 영구 마블 마블을 감상하세요"
 }
