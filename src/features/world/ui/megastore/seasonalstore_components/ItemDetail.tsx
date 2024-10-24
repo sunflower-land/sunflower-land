@@ -176,14 +176,27 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
   const trackAnalytics = () => {
     if (!item) return;
     const type = isWearable ? "Wearable" : "Collectible";
-    const currency = "SFL";
+    const currency =
+      item.cost.sfl !== 0
+        ? "SFL"
+        : item.cost.sfl === 0 &&
+            (item.cost?.items[getSeasonalTicket()] ?? 0 > 0)
+          ? "Seasonal Ticket"
+          : "SFL";
+    const price =
+      item.cost.sfl !== 0
+        ? sfl
+        : item.cost.sfl === 0 &&
+            (item.cost?.items[getSeasonalTicket()] ?? 0 > 0)
+          ? item.cost?.items[getSeasonalTicket()] ?? 0
+          : sfl;
     const itemName = isWearable
       ? ((item as SeasonalStoreWearable).wearable as BumpkinItem)
       : ((item as SeasonalStoreCollectible).collectible as InventoryItemName);
 
     gameAnalytics.trackSink({
       currency,
-      amount: sfl,
+      amount: price,
       item: itemName,
       type,
     });
@@ -266,9 +279,11 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
         ? getSeasonalTicket()
         : getSeasonalArtefact();
     const currencyItem =
-      item.cost.sfl === 0
+      item.cost.sfl === 0 && (item.cost?.items[currency] ?? 0 > 0)
         ? item.cost?.items[currency]
-        : Object.keys(item.cost.items)[0];
+        : item.cost?.items[
+            Object.keys(item.cost.items)[0] as InventoryItemName
+          ];
 
     return currencyItem;
   };

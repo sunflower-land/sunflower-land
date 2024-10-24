@@ -137,9 +137,11 @@ export const ItemsList: React.FC<Props> = ({
         ? getSeasonalTicket()
         : getSeasonalArtefact();
     const currencyItem =
-      item.cost.sfl === 0 && item.cost?.items[currency] !== 0
+      item.cost.sfl === 0 && (item.cost?.items[currency] ?? 0 > 0)
         ? item.cost?.items[currency]
-        : Object.keys(item.cost.items)[0];
+        : item.cost?.items[
+            Object.keys(item.cost.items)[0] as InventoryItemName
+          ];
 
     return currencyItem;
   };
