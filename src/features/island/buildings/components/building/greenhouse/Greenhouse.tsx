@@ -88,8 +88,7 @@ export const Greenhouse: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
                 key={index}
                 src={ITEM_DETAILS[plant].image}
                 className={
-                  "img-highlight-heavy w-8" +
-                  (showAnimations ? " ready" : "")
+                  "img-highlight-heavy w-8" + (showAnimations ? " ready" : "")
                 }
               />
             ))}

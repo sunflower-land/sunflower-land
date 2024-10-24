@@ -155,7 +155,7 @@ export const Composter: React.FC<Props> = ({ name }) => {
         >
           <img
             src={SUNNYSIDE.icons.expression_alerted}
-            className={(showAnimations ? "ready" : "")}
+            className={showAnimations ? "ready" : ""}
             style={{
               width: `${PIXEL_SCALE * 4}px`,
             }}
