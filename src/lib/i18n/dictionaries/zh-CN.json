@@ -4065,6 +4065,5 @@
   "description.desertBed": "沙漠床，一个农民可以睡在这里。",
   "description.royalBed": "一张皇家床，一个农场工人可以睡在这里。",
   "craftingBox.newRecipeDiscovered": "发现了新食谱！",
-  "craftingBox.craftThisItem": "在制作箱中制作此物品。",
-  "goblinTrade.closedForBusiness": "对不起，我现在不营业！"
+  "craftingBox.craftThisItem": "在制作箱中制作此物品。"
 }

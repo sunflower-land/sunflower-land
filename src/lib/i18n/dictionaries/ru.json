@@ -4065,6 +4065,5 @@
   "description.desertBed": "Кровать в пустыне, здесь может спать один фермер.",
   "description.royalBed": "Королевская кровать, здесь может спать один фермер.",
   "craftingBox.newRecipeDiscovered": "Обнаружен новый рецепт!",
-  "craftingBox.craftThisItem": "Изготовьте этот предмет в коробке для рукоделия.",
-  "goblinTrade.closedForBusiness": "Простите, я сейчас закрыт для работы!"
+  "craftingBox.craftThisItem": "Изготовьте этот предмет в коробке для рукоделия."
 }

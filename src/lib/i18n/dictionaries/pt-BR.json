@@ -4065,6 +4065,5 @@
   "description.desertBed": "Um leito no deserto, um fazendeiro pode dormir aqui.",
   "description.royalBed": "Uma cama real, um fazendeiro pode dormir aqui.",
   "craftingBox.newRecipeDiscovered": "Nova receita descoberta!",
-  "craftingBox.craftThisItem": "Crie este item na caixa de fabricação.",
-  "goblinTrade.closedForBusiness": "Desculpe, estou fechado para negócios agora!"
+  "craftingBox.craftThisItem": "Crie este item na caixa de fabricação."
 }

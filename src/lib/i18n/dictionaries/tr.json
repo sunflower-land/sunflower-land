@@ -4065,6 +4065,5 @@
   "description.desertBed": "Bir çöl yatağı, bir çiftçi burada uyuyabilir.",
   "description.royalBed": "Kraliyet yatağı, bir çiftçi burada uyuyabilir.",
   "craftingBox.newRecipeDiscovered": "Yeni Tarif Keşfedildi!",
-  "craftingBox.craftThisItem": "Bu öğeyi zanaat kutusunda üretin.",
-  "goblinTrade.closedForBusiness": "Üzgünüm, şu anda iş için kapalıyım!"
+  "craftingBox.craftThisItem": "Bu öğeyi zanaat kutusunda üretin."
 }

@@ -4065,6 +4065,5 @@
   "description.desertBed": "砂漠のベッド、農家の片手ならここで眠れます。",
   "description.royalBed": "ロイヤルベッド、農家の片方はここで眠れます。",
   "craftingBox.newRecipeDiscovered": "新レシピ発見！",
-  "craftingBox.craftThisItem": "このアイテムをクラフトボックスでクラフトしてください。",
-  "goblinTrade.closedForBusiness": "すみません、ただいま休業中です！"
+  "craftingBox.craftThisItem": "このアイテムをクラフトボックスでクラフトしてください。"
 }
