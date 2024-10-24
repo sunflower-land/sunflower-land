@@ -1431,7 +1431,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
       points: 3,
       skill: 5,
     },
-    boosts: "Flower House (+1 Flower bed & Hive)",
+    boosts: "Honey speed increased by +0.5 but yield reduced by -0.5",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
 

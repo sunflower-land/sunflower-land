@@ -33,6 +33,10 @@ const getHoneyProductionSpeed = (game: GameState) => {
     speed += 0.1;
   }
 
+  if (bumpkin.skills["Flowery Abode"]) {
+    speed += 0.5;
+  }
+
   return speed;
 };
 
@@ -137,7 +141,6 @@ const updateProducedHoney = ({ game, createdAt }: UpdateBeehives) => {
       const honey = Math.max(end - start, 0);
 
       const rate = attachedFlower.rate ?? 1;
-
       const totalHoney = honey * rate;
       hive.honey.produced += totalHoney;
     });
