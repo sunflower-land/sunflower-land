@@ -38,7 +38,7 @@ const _animalsNeedLove = (state: MachineState) => {
 };
 
 export const Barn: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
-  const { gameService } = useContext(Context);
+  const { gameService, showAnimations } = useContext(Context);
 
   const navigate = useNavigate();
 
@@ -69,7 +69,10 @@ export const Barn: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
         {(hasHungryAnimals || animalsNeedLove || hasAwakeSickAnimals) && (
           <img
             src={SUNNYSIDE.icons.expression_alerted}
-            className="absolute -top-2 ready -ml-[5px] left-1/2 transform -translate-x-1/2 z-20"
+            className={
+              "absolute -top-2 -ml-[5px] left-1/2 transform -translate-x-1/2 z-20" +
+              (showAnimations ? " ready" : "")
+            }
             style={{ width: `${PIXEL_SCALE * 4}px` }}
           />
         )}

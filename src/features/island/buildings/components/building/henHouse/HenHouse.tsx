@@ -57,7 +57,7 @@ export const ChickenHouse: React.FC<BuildingProps> = ({
   onRemove,
   island,
 }) => {
-  const { gameService } = useContext(Context);
+  const { gameService, showAnimations } = useContext(Context);
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
 
@@ -100,7 +100,10 @@ export const ChickenHouse: React.FC<BuildingProps> = ({
         {(hasHungryChickens || chickensNeedLove || hasAwakeSickChickens) && (
           <img
             src={SUNNYSIDE.icons.expression_alerted}
-            className="absolute -top-2 ready left-1/2 transform -translate-x-1/2 z-20"
+            className={
+              "absolute -top-2 left-1/2 transform -translate-x-1/2 z-20" +
+              (showAnimations ? " ready" : "")
+            }
             style={{ width: `${PIXEL_SCALE * 4}px` }}
           />
         )}

@@ -44,7 +44,7 @@ interface Props {
 }
 
 export const CropMachine: React.FC<Props> = ({ id }) => {
-  const { gameService } = useContext(Context);
+  const { gameService, showAnimations } = useContext(Context);
   const [showModal, setShowModal] = useState(false);
 
   const cropMachine = useSelector(
@@ -159,7 +159,10 @@ export const CropMachine: React.FC<Props> = ({ id }) => {
                 <img
                   key={index}
                   src={ITEM_DETAILS[crop].image}
-                  className="img-highlight-heavy w-8 ready m-0.5"
+                  className={
+                    "img-highlight-heavy w-8 m-0.5" +
+                    (showAnimations ? " ready" : "")
+                  }
                 />
               ))}
             </div>
