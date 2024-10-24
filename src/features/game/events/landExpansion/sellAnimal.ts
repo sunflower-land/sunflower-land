@@ -1,15 +1,9 @@
 import Decimal from "decimal.js-light";
+import { getAnimalLevel } from "features/game/lib/animals";
 import { getKeys } from "features/game/types/decorations";
 import { trackFarmActivity } from "features/game/types/farmActivity";
 import { Animal, BountyRequest, GameState } from "features/game/types/game";
 import { produce } from "immer";
-
-// TEMP level function
-export function getAnimalLevel({ animal }: { animal: Animal }) {
-  if (animal.experience < 5) return 1;
-
-  return 2;
-}
 
 export function isValidDeal({
   animal,
@@ -22,7 +16,7 @@ export function isValidDeal({
     return false;
   }
 
-  if (getAnimalLevel({ animal }) < deal.level) {
+  if (getAnimalLevel(animal.experience, animal.type) < deal.level) {
     return false;
   }
 

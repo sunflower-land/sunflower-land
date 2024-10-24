@@ -45,7 +45,6 @@ export const HenHouseInside: React.FC = () => {
   const { gameService } = useContext(Context);
   const [showModal, setShowModal] = useState(false);
   const [showUpgradeModal, setShowUpgradeModal] = useState(false);
-  const [showExchange, setShowExchange] = useState(false);
   const [deal, setDeal] = useState<AnimalBounty>();
   const [selected, setSelected] = useState<Animal>();
   const henHouse = useSelector(gameService, _henHouse);
@@ -64,11 +63,17 @@ export const HenHouseInside: React.FC = () => {
 
   return (
     <>
-      <AnimalBuildingModal
-        buildingName="Hen House"
-        show={showModal}
-        onClose={() => setShowModal(false)}
-      />
+      <Modal show={showModal} onHide={() => setShowModal(false)}>
+        <AnimalBuildingModal
+          buildingName="Hen House"
+          show={showModal}
+          onClose={() => setShowModal(false)}
+          onExchanging={(deal) => {
+            setShowModal(false);
+            setDeal(deal);
+          }}
+        />
+      </Modal>
       <UpgradeBuildingModal
         buildingName="Hen House"
         currentLevel={level}
@@ -76,15 +81,6 @@ export const HenHouseInside: React.FC = () => {
         show={showUpgradeModal}
         onClose={() => setShowUpgradeModal(false)}
       />
-      <Modal show={showExchange} onHide={() => setShowExchange(false)}>
-        <AnimalBounties
-          onExchanging={(deal) => {
-            setShowExchange(false);
-            setDeal(deal);
-          }}
-          type="Chicken"
-        />
-      </Modal>
 
       <Modal show={!!selected} onHide={() => setSelected(undefined)}>
         <AnimalDeal
@@ -121,15 +117,6 @@ export const HenHouseInside: React.FC = () => {
                     }}
                     onClick={() => setShowModal(true)}
                   />
-                  <div
-                    className="absolute bottom-32 left-8 cursor-pointer z-10"
-                    style={{
-                      width: `${PIXEL_SCALE * 18}px`,
-                    }}
-                    onClick={() => setShowExchange(true)}
-                  >
-                    <GrabNab />
-                  </div>
 
                   <Button
                     className="absolute -bottom-16"

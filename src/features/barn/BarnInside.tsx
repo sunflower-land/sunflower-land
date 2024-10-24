@@ -22,8 +22,8 @@ import { AnimalBuildingLevel } from "features/game/events/landExpansion/upgradeB
 import { SUNNYSIDE } from "assets/sunnyside";
 import { UpgradeBuildingModal } from "features/game/expansion/components/UpgradeBuildingModal";
 import { ANIMAL_HOUSE_IMAGES } from "features/henHouse/HenHouseInside";
-import { Animal, BountyRequest } from "features/game/types/game";
-import { AnimalDeal } from "./components/AnimalBounties";
+import { Animal, AnimalBounty, BountyRequest } from "features/game/types/game";
+import { AnimalDeal, ExchangeHud } from "./components/AnimalBounties";
 import { Modal } from "components/ui/Modal";
 import { AnimalBounties } from "./components/AnimalBounties";
 import classNames from "classnames";
@@ -45,9 +45,9 @@ export const BarnInside: React.FC = () => {
   const { gameService } = useContext(Context);
   const [showModal, setShowModal] = useState(false);
   const [showUpgradeModal, setShowUpgradeModal] = useState(false);
-  const [showExchange, setShowExchange] = useState(false);
   const [selected, setSelected] = useState<Animal>();
-  const [deal, setDeal] = useState<BountyRequest>();
+  const [deal, setDeal] = useState<AnimalBounty>();
+
   const barn = useSelector(gameService, _barn);
   const level = barn.level as AnimalBuildingLevel;
 
@@ -64,11 +64,18 @@ export const BarnInside: React.FC = () => {
 
   return (
     <>
-      <AnimalBuildingModal
-        buildingName="Barn"
-        show={showModal}
-        onClose={() => setShowModal(false)}
-      />
+      <Modal show={showModal} onHide={() => setShowModal(false)}>
+        <AnimalBuildingModal
+          buildingName="Barn"
+          show={showModal}
+          onClose={() => setShowModal(false)}
+          onExchanging={(deal) => {
+            setShowModal(false);
+            setDeal(deal);
+          }}
+        />
+      </Modal>
+
       <UpgradeBuildingModal
         buildingName="Barn"
         currentLevel={level}
@@ -76,24 +83,16 @@ export const BarnInside: React.FC = () => {
         show={showUpgradeModal}
         onClose={() => setShowUpgradeModal(false)}
       />
-      <Modal show={showExchange} onHide={() => setShowExchange(false)}>
-        {/* TODO: FIX FOR BARN ANIMALS */}
-        <AnimalBounties
-          onExchanging={(deal) => {
-            setShowExchange(false);
-            setDeal(deal);
-          }}
-          type="Cow"
-        />
-      </Modal>
 
-      <Modal show={!!deal} onHide={() => setDeal(undefined)}>
+      <Modal show={!!selected} onHide={() => setDeal(undefined)}>
         <AnimalDeal
           onClose={() => {
             setDeal(undefined);
+            setSelected(undefined);
           }}
           onSold={() => {
             setDeal(undefined);
+            setSelected(undefined);
           }}
           deal={deal!}
           animal={selected!}
@@ -135,6 +134,7 @@ export const BarnInside: React.FC = () => {
                 style={{
                   width: `${ANIMAL_HOUSE_IMAGES[level].width * PIXEL_SCALE}px`,
                   height: `${ANIMAL_HOUSE_IMAGES[level].height * PIXEL_SCALE}px`,
+                  opacity: deal ? 0.5 : 1,
                 }}
               />
 
@@ -155,6 +155,8 @@ export const BarnInside: React.FC = () => {
                   const isValid = deal && isValidDeal({ animal, deal });
                   const Component =
                     BARN_ANIMAL_COMPONENTS[animal.type as BarnAnimal];
+
+                  console.log({ id, isValid, deal });
 
                   return (
                     <MapPlacement
@@ -200,7 +202,16 @@ export const BarnInside: React.FC = () => {
         </div>
       </>
 
-      <Hud isFarming={false} location="home" />
+      {!deal && <Hud isFarming={false} location="home" />}
+
+      {deal && (
+        <ExchangeHud
+          deal={deal}
+          onClose={() => {
+            setDeal(undefined);
+          }}
+        />
+      )}
     </>
   );
 };
