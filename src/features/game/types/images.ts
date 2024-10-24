@@ -4219,4 +4219,36 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.animalFoods.barn_delight,
     description: "A magical elixir that cures animal sickness.",
   },
+  Cushion: {
+    image: SUNNYSIDE.crafting.cushion,
+    description: "",
+  },
+  Timber: {
+    image: SUNNYSIDE.crafting.timber,
+    description: "",
+  },
+  "Bee Box": {
+    image: SUNNYSIDE.crafting.beeBox,
+    description: "",
+  },
+  Crimsteel: {
+    image: SUNNYSIDE.crafting.crimsteel,
+    description: "",
+  },
+  "Merino Cushion": {
+    image: SUNNYSIDE.crafting.merinoCushion,
+    description: "",
+  },
+  "Ocean's Treasure": {
+    image: SUNNYSIDE.crafting.oceanTreasure,
+    description: "",
+  },
+  "Royal Bedding": {
+    image: SUNNYSIDE.crafting.royalBedding,
+    description: "",
+  },
+  "Royal Ornament": {
+    image: SUNNYSIDE.crafting.royalOrnament,
+    description: "",
+  },
 };
