@@ -703,6 +703,14 @@ import musicBox from "assets/animals/music_box.webp";
 
 import craftingBox from "assets/buildings/crafting_table.webp";
 
+import sturdyBed from "assets/bumpkins/sturdy_bed.webp";
+import desertBed from "assets/bumpkins/desert_bed.webp";
+import fisherBed from "assets/bumpkins/fisher_bed.webp";
+import floralBed from "assets/bumpkins/flower_bed.webp";
+import pirateBed from "assets/bumpkins/pirate_bed.webp";
+import royalBed from "assets/bumpkins/royal_bed.webp";
+import cowBed from "assets/bumpkins/cow_bed.webp";
+
 import { COUPONS, EASTER_EGG, FERTILISERS, InventoryItemName } from "./game";
 
 import { CROPS, CROP_SEEDS, GREENHOUSE_CROPS, GREENHOUSE_SEEDS } from "./crops";
@@ -4172,7 +4180,40 @@ export const ITEM_DETAILS: Items = {
   },
   "Crafting Box": {
     image: craftingBox,
-    description: "A box for crafting various items",
+    description: translate("description.craftingBox"),
+  },
+
+  "Basic Bed": {
+    image: SUNNYSIDE.decorations.bed,
+    description: translate("description.basicBed"),
+  },
+  "Sturdy Bed": {
+    image: sturdyBed,
+    description: translate("description.sturdyBed"),
+  },
+  "Floral Bed": {
+    image: floralBed,
+    description: translate("description.floralBed"),
+  },
+  "Fisher Bed": {
+    image: fisherBed,
+    description: translate("description.fisherBed"),
+  },
+  "Pirate Bed": {
+    image: pirateBed,
+    description: translate("description.pirateBed"),
+  },
+  "Cow Bed": {
+    image: cowBed,
+    description: translate("description.cowBed"),
+  },
+  "Desert Bed": {
+    image: desertBed,
+    description: translate("description.desertBed"),
+  },
+  "Royal Bed": {
+    image: royalBed,
+    description: translate("description.royalBed"),
   },
   "Barn Delight": {
     image: SUNNYSIDE.animalFoods.barn_delight,

@@ -401,6 +401,21 @@ function detectMushroomCollision(state: GameState, boundingBox: BoundingBox) {
   );
 }
 
+function detectAirdropCollision(state: GameState, boundingBox: BoundingBox) {
+  const { airdrops } = state;
+  if (!airdrops) return false;
+
+  return airdrops.some(
+    (airdrop) =>
+      !!airdrop.coordinates &&
+      isOverlapping(boundingBox, {
+        ...airdrop.coordinates,
+        width: 1,
+        height: 1,
+      }),
+  );
+}
+
 enum Direction {
   Left,
   Right,
@@ -542,7 +557,8 @@ export function detectCollision({
     detectPlaceableCollision(state, position, item) ||
     detectLandCornerCollision(expansions, position) ||
     detectChickenCollision(state, position) ||
-    detectMushroomCollision(state, position)
+    detectMushroomCollision(state, position) ||
+    detectAirdropCollision(state, position)
   );
 }
 

@@ -401,6 +401,10 @@ import {
   buySeasonalItem,
   BuySeasonalItemAction,
 } from "./landExpansion/buySeasonalItem";
+import {
+  discoverRecipe,
+  DiscoverRecipeAction,
+} from "./landExpansion/discoverRecipe";
 
 export type PlayingEvent =
   | SellAnimalAction
@@ -522,7 +526,8 @@ export type PlayingEvent =
   | CollectCraftingAction
   | CompleteNPCChoreAction
   | ClaimProduceAction
-  | BuySeasonalItemAction;
+  | BuySeasonalItemAction
+  | DiscoverRecipeAction;
 
 export type PlacementEvent =
   | ConstructBuildingAction
@@ -709,6 +714,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "chore.fulfilled": completeNPCChore,
   "produce.claimed": claimProduce,
   "seasonalItem.bought": buySeasonalItem,
+  "recipe.discovered": discoverRecipe,
 };
 
 export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {
