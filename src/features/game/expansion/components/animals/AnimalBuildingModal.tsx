@@ -77,8 +77,6 @@ export const AnimalBuildingModal: React.FC<Props> = ({
         y: position.y,
       },
     });
-
-    onClose();
   };
 
   const getAnimalCount = (animalType: AnimalType) => {
