@@ -5,11 +5,13 @@ import * as Auth from "features/auth/lib/Provider";
 import { Button } from "components/ui/Button";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { Label } from "components/ui/Label";
 
 interface Props {
   onClose: () => void;
+  message?: string;
 }
-export const Forbidden: React.FC<Props> = ({ onClose }) => {
+export const Forbidden: React.FC<Props> = ({ onClose, message }) => {
   const { authService } = useContext(Auth.Context);
   const { t } = useAppTranslation();
 
@@ -27,6 +29,10 @@ export const Forbidden: React.FC<Props> = ({ onClose }) => {
       <span className="text-xs mt-2 mb-2">
         {t("error.forbidden.goblinVillage")}
       </span>
+      <Label type="danger" icon={SUNNYSIDE.icons.lock}>
+        <span className="text-xs">{message}</span>
+      </Label>
+
       <Button className="mt-2" onClick={onClose}>
         {t("back")}
       </Button>

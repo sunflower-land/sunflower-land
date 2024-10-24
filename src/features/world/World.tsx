@@ -10,6 +10,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { SceneId } from "./mmoMachine";
 import { SUNNYSIDE } from "assets/sunnyside";
 import PubSub from "pubsub-js";
+import { getBumpkinLevel } from "features/game/lib/level";
 
 import {
   MachineInterpreter as MMOMachineInterpreter,
@@ -61,6 +62,11 @@ const SCENE_ACCESS: Partial<Record<SceneId, (game: GameState) => boolean>> = {
   sunflorian_house: (game) => game.faction?.name === "sunflorians",
   bumpkin_house: (game) => game.faction?.name === "bumpkins",
   nightshade_house: (game) => game.faction?.name === "nightshades",
+  plaza: (game) => getBumpkinLevel(game.bumpkin?.experience ?? 0) >= 2,
+  beach: (game) => getBumpkinLevel(game.bumpkin?.experience ?? 0) >= 4,
+  retreat: (game) => getBumpkinLevel(game.bumpkin?.experience ?? 0) >= 5,
+  woodlands: (game) => getBumpkinLevel(game.bumpkin?.experience ?? 0) >= 6,
+  kingdom: (game) => getBumpkinLevel(game.bumpkin?.experience ?? 0) >= 7,
 };
 
 export const MMO: React.FC<MMOProps> = ({ isCommunity }) => {
@@ -72,6 +78,23 @@ export const MMO: React.FC<MMOProps> = ({ isCommunity }) => {
 
   const { name } = useParams();
   const navigate = useNavigate();
+  const { t } = useAppTranslation();
+
+  const setRestrictionMessage = (area: SceneId) => {
+    const messages: Record<string, string> = {
+      goblin_house: t("warning.factinHouse.goblinsOnly"),
+      sunflorian_house: t("warning.factinHouse.sunfloriansOnly"),
+      bumpkin_house: t("warning.factinHouse.bumpkinsOnly"),
+      nightshade_house: t("warning.factinHouse.nightshadesOnly"),
+      plaza: t("warning.level.required", { lvl: 2 }),
+      beach: t("warning.level.required", { lvl: 4 }),
+      retreat: t("warning.level.required", { lvl: 5 }),
+      woodlands: t("warning.level.required", { lvl: 6 }),
+      kingdom: t("warning.level.required", { lvl: 7 }),
+    };
+
+    return messages[area] || t("warning.restrictedArea");
+  };
 
   const mmoService = useInterpret(mmoMachine, {
     context: {
@@ -131,13 +154,14 @@ export const MMO: React.FC<MMOProps> = ({ isCommunity }) => {
           onClose={() => {
             navigate(`/`);
           }}
+          message={setRestrictionMessage(name as SceneId)}
         />
       </Panel>
     );
   }
 
   if (!mmoService.state) {
-    return <></>;
+    return <WorldHud />;
   }
 
   // Otherwsie if connected, return Plaza Screen
@@ -159,6 +183,7 @@ export const MMO: React.FC<MMOProps> = ({ isCommunity }) => {
           }}
         />
       </Modal>
+      <WorldHud />
     </>
   );
 };
@@ -222,7 +247,6 @@ export const Explore: React.FC<Props> = ({ isCommunity = false }) => {
     >
       <GameWrapper>
         {!isLoading && <MMO isCommunity={isCommunity} />}
-        <WorldHud />
       </GameWrapper>
     </div>
   );
