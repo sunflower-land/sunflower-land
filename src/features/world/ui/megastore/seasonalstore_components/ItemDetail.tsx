@@ -152,22 +152,6 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
     imgElement.src = image;
   }, []);
 
-  const getBalanceOfItem = (item: SeasonalStoreItem | null): number => {
-    if (!item) return 0;
-
-    if (isWearable) {
-      return (
-        wardrobe[(item as SeasonalStoreWearable).wearable as BumpkinItem] ?? 0
-      );
-    }
-
-    return (
-      inventory[
-        (item as SeasonalStoreCollectible).collectible as InventoryItemName
-      ] ?? new Decimal(0)
-    ).toNumber();
-  };
-
   const canBuy = () => {
     if (!item) return false;
 
@@ -176,9 +160,6 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
       if (tier === "rare" && !isRareUnlocked) return false;
       if (tier === "epic" && !isEpicUnlocked) return false;
     }
-    // if (item.currency === "SFL") {
-    //   return sflBalance.greaterThanOrEqualTo(item.price);
-    // }
     if (itemReq) {
       const hasRequirements = getKeys(itemReq).every((name) => {
         const amount = itemReq[name] || new Decimal(0);
@@ -190,9 +171,6 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
       if (!hasRequirements) return false;
     }
     if (item) return sflBalance.greaterThanOrEqualTo(new Decimal(sfl));
-
-    // const currency =
-    //   item.currency === "Seasonal Ticket" ? getSeasonalTicket() : item.currency;
   };
 
   const trackAnalytics = () => {
