@@ -102,6 +102,12 @@ export const FeederMachineModal: React.FC<Props> = ({ show, onClose }) => {
                   >
                     {t("mix.one")}
                   </Button>
+                  <Button
+                    disabled={lessFunds(10) || lessIngredients(10)}
+                    onClick={() => mix(10)}
+                  >
+                    {t("mix.ten")}
+                  </Button>
                 </div>
               }
             />
