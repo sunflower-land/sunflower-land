@@ -8,6 +8,7 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { shortenCount } from "lib/utils/formatNumber";
 import {
   getCurrentSeason,
+  getSeasonalArtefact,
   getSeasonalTicket,
 } from "features/game/types/seasons";
 
@@ -16,10 +17,10 @@ import lightning from "assets/icons/lightning.png";
 import lock from "assets/icons/lock.png";
 
 import { ITEM_DETAILS } from "features/game/types/images";
-import { Currency, InventoryItemName } from "features/game/types/game";
+import { InventoryItemName } from "features/game/types/game";
 import { Context } from "features/game/GameProvider";
 import { MachineState } from "features/game/lib/gameMachine";
-import { useSelector } from "@xstate/react";
+import { useActor, useSelector } from "@xstate/react";
 import { BumpkinItem } from "features/game/types/bumpkin";
 import Decimal from "decimal.js-light";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -32,6 +33,7 @@ import {
 import { getKeys } from "features/game/types/craftables";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { ResizableBar } from "components/ui/ProgressBar";
+import { SFLDiscount } from "features/game/lib/SFLDiscount";
 
 interface Props {
   itemsLabel?: string;
@@ -58,6 +60,12 @@ export const ItemsList: React.FC<Props> = ({
 
   const inventory = useSelector(gameService, _inventory);
   const wardrobe = useSelector(gameService, _wardrobe);
+  //For Discount
+  const [
+    {
+      context: { state },
+    },
+  ] = useActor(gameService);
 
   const getBalanceOfItem = (item: SeasonalStoreItem): number => {
     // Handling all types or specific ones if provided
@@ -106,13 +114,34 @@ export const ItemsList: React.FC<Props> = ({
       })
     : items; // If no type provided, show all items
 
-  const getCurrencyIcon = (currency: Currency) => {
-    if (currency === "SFL") return token;
+  const getCurrencyIcon = (item: SeasonalStoreItem) => {
+    if (item.cost.sfl !== 0) return token;
 
     const currencyItem =
-      currency === "Seasonal Ticket" ? getSeasonalTicket() : currency;
+      item.cost.sfl === 0 && (item.cost?.items[getSeasonalTicket()] ?? 0 > 0)
+        ? getSeasonalTicket()
+        : item.cost.sfl === 0 &&
+            (item.cost?.items[getSeasonalArtefact()] ?? 0 > 0)
+          ? getSeasonalArtefact()
+          : Object.keys(item.cost.items)[0];
 
     return ITEM_DETAILS[currencyItem as InventoryItemName].image;
+  };
+
+  const getCurrency = (item: SeasonalStoreItem) => {
+    if (item.cost.sfl !== 0)
+      return shortenCount(SFLDiscount(state, new Decimal(item.cost.sfl)));
+
+    const currency =
+      item.cost.sfl === 0 && (item.cost?.items[getSeasonalTicket()] ?? 0 > 0)
+        ? getSeasonalTicket()
+        : getSeasonalArtefact();
+    const currencyItem =
+      item.cost.sfl === 0 && item.cost?.items[currency] !== 0
+        ? item.cost?.items[currency]
+        : Object.keys(item.cost.items)[0];
+
+    return currencyItem;
   };
   const createdAt = Date.now();
   const currentSeason = getCurrentSeason(new Date(createdAt));
@@ -164,7 +193,9 @@ export const ItemsList: React.FC<Props> = ({
 
   const sortedItems = filteredItems
     .slice()
-    .sort((a, b) => Number(a.cost.sfl - b.cost.sfl));
+    .sort((a, b) =>
+      Number((getCurrency(a) as number) - (getCurrency(b) as number)),
+    );
   const { t } = useAppTranslation();
 
   return (
@@ -284,7 +315,7 @@ export const ItemsList: React.FC<Props> = ({
                     {/* Price */}
                     <div className="absolute px-4 bottom-3 -left-4 object-contain">
                       <Label
-                        icon={getCurrencyIcon("SFL")}
+                        icon={getCurrencyIcon(item)}
                         type="warning"
                         className={"text-xxs absolute center text-center p-1 "}
                         style={{
@@ -292,7 +323,7 @@ export const ItemsList: React.FC<Props> = ({
                           height: "24px",
                         }}
                       >
-                        {shortenCount(item.cost.sfl)}
+                        {getCurrency(item)}
                       </Label>
                     </div>
                   </div>
