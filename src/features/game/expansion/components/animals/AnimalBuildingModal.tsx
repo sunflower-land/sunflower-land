@@ -80,8 +80,15 @@ export const AnimalBuildingModal: React.FC<Props> = ({
   };
 
   const getAnimalCount = (animalType: AnimalType) => {
+    if (animalType === "Chicken") {
+      return Object.values(building.animals).filter(
+        (animal) => animal.type === animalType,
+      ).length;
+    }
+
+    // Sheep and cow are combined inside barn
     return Object.values(building.animals).filter(
-      (animal) => animal.type === animalType,
+      (animal) => animal.type !== "Chicken",
     ).length;
   };
 
