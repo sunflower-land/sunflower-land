@@ -10,7 +10,6 @@ import { getAnimalLevel } from "features/game/lib/animals";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { weekResetsAt } from "features/game/lib/factions";
 import { MachineState } from "features/game/lib/gameMachine";
-import { AnimalType } from "features/game/types/animals";
 import { getKeys } from "features/game/types/decorations";
 import {
   Animal,
@@ -21,9 +20,8 @@ import {
 import { ITEM_DETAILS } from "features/game/types/images";
 import { TimerDisplay } from "features/retreat/components/auctioneer/AuctionDetails";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { NPC_WEARABLES } from "lib/npcs";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 
 const _exchange = (state: MachineState) => state.context.state.bounties;
 
@@ -43,8 +41,6 @@ export const AnimalBounties: React.FC<Props> = ({ type, onExchanging }) => {
   const deals = exchange.requests.filter((deal) =>
     type.includes(deal.name),
   ) as AnimalBounty[];
-
-  console.log({ type, deals, exchange });
 
   const expiresAt = useCountdown(weekResetsAt());
 

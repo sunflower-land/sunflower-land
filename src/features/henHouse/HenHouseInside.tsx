@@ -21,7 +21,6 @@ import { UpgradeBuildingModal } from "features/game/expansion/components/Upgrade
 import { Modal } from "components/ui/Modal";
 import {
   AnimalDeal,
-  AnimalBounties,
   ExchangeHud,
 } from "features/barn/components/AnimalBounties";
 import { Animal, AnimalBounty } from "features/game/types/game";

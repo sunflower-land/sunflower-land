@@ -1,6 +1,5 @@
 import React, { useContext, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
-import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { SplitScreenView } from "components/ui/SplitScreenView";
 import { Context } from "features/game/GameProvider";
