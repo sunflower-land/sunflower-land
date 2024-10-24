@@ -129,7 +129,7 @@ export const ANIMAL_FOODS: Record<AnimalFoodName | AnimalMedicineName, Feed> = {
     type: "food",
     description: translate("description.hay"),
     ingredients: {
-      Corn: new Decimal(1),
+      Wheat: new Decimal(1),
     },
   },
   "Kernel Blend": {
@@ -137,7 +137,7 @@ export const ANIMAL_FOODS: Record<AnimalFoodName | AnimalMedicineName, Feed> = {
     type: "food",
     description: translate("description.kernel.blend"),
     ingredients: {
-      Wheat: new Decimal(1),
+      Corn: new Decimal(1),
     },
   },
   NutriBarley: {
