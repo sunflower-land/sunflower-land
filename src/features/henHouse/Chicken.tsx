@@ -336,7 +336,6 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
         style={{
           width: `${GRID_WIDTH_PX * 2}px`,
           height: `${GRID_WIDTH_PX * 2}px`,
-          zIndex: 10,
         }}
         onClick={handleClick}
         onMouseLeave={() => showWakesIn && setShowWakesIn(false)}
@@ -422,13 +421,13 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
             onLevelUp={() => setShowWakesIn(false)}
           />
           {sleeping && showWakesIn && (
-            <WakesIn asleepAt={chicken.asleepAt} className="-top-9" />
+            <WakesIn asleepAt={chicken.asleepAt} className="-top-9 z-20" />
           )}
           {/* Not enough food */}
           {showNotEnoughFood && (
             <InfoPopover
               showPopover
-              className="-top-10 left-1/2 transform -translate-x-1/2"
+              className="-top-10 left-1/2 transform -translate-x-1/2 z-20"
             >
               <p className="text-xs p-0.5 py-1 font-secondary">
                 {t("animal.notEnoughFood")}
@@ -438,7 +437,7 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
           {showNoMedicine && (
             <InfoPopover
               showPopover
-              className="-top-10 left-1/2 transform -translate-x-1/2"
+              className="-top-10 left-1/2 transform -translate-x-1/2 z-20"
             >
               <p className="text-xs p-0.5 py-1 font-secondary">
                 {t("animal.noMedicine")}
