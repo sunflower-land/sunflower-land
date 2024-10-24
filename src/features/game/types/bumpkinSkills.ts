@@ -465,16 +465,6 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     boosts: translate("skill.efficientBin"),
     image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
-  "Turbo Charged": {
-    name: "Turbo Charged",
-    tree: "Crops",
-    requirements: {
-      points: 1,
-      skill: 0,
-    },
-    boosts: translate("skill.turboCharged"),
-    image: SUNNYSIDE?.skills?.green_thumb_LE,
-  },
   "Old Farmer": {
     name: "Old Farmer",
     tree: "Crops",
@@ -618,6 +608,16 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
       skill: 0,
     },
     boosts: "+0.1 Advanced Fruit Yield (Apples, Bananas)",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
+  "Turbo Charged": {
+    name: "Turbo Charged",
+    tree: "Crops",
+    requirements: {
+      points: 1,
+      skill: 0,
+    },
+    boosts: translate("skill.turboCharged"),
     image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
   // Fruit - Tier 2
