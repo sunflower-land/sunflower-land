@@ -4065,5 +4065,6 @@
   "description.desertBed": "Ein Wüstenbett, ein Landarbeiter kann hier schlafen.",
   "description.royalBed": "Ein königliches Bett, ein Landarbeiter kann hier schlafen.",
   "craftingBox.newRecipeDiscovered": "Neues Rezept entdeckt!",
-  "craftingBox.craftThisItem": "Stelle diesen Gegenstand in der Bastelkiste her."
+  "craftingBox.craftThisItem": "Stelle diesen Gegenstand in der Bastelkiste her.",
+  "goblinTrade.closedForBusiness": "Es tut mir leid, ich habe gerade geschlossen!"
 }

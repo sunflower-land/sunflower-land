@@ -4065,5 +4065,6 @@
   "description.desertBed": "Dans un lit désertique, un ouvrier de ferme peut y dormir.",
   "description.royalBed": "Un lit royal, un ouvrier de ferme peut y dormir.",
   "craftingBox.newRecipeDiscovered": "Une nouvelle recette a été découverte !",
-  "craftingBox.craftThisItem": "Fabriquez cet objet dans la boîte de bricolage."
+  "craftingBox.craftThisItem": "Fabriquez cet objet dans la boîte de bricolage.",
+  "goblinTrade.closedForBusiness": "Je suis désolée, je suis fermée pour le moment !"
 }

@@ -4065,5 +4065,6 @@
   "description.desertBed": "Un letto nel deserto, un contadino può dormire qui.",
   "description.royalBed": "Un letto regale, un contadino può dormire qui.",
   "craftingBox.newRecipeDiscovered": "Nuova ricetta scoperta!",
-  "craftingBox.craftThisItem": "Crea questo oggetto nella scatola di lavorazione."
+  "craftingBox.craftThisItem": "Crea questo oggetto nella scatola di lavorazione.",
+  "goblinTrade.closedForBusiness": "Mi dispiace, sono chiuso per lavoro in questo momento!"
 }
