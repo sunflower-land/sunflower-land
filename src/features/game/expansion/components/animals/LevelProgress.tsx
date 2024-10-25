@@ -85,7 +85,7 @@ export const LevelProgress = ({
 
       <div className={`absolute w-10 ${className}`}>
         <div className="absolute left-1">
-          <AnimatedBar percentage={getProgressPercentage()} type="health" />
+          <AnimatedBar percentage={getProgressPercentage()} type="progress" />
         </div>
         <div
           className={`absolute w-5 z-50 -left-1 top-0 ${
