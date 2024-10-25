@@ -28,6 +28,7 @@ import { isValidDeal } from "features/game/events/landExpansion/sellAnimal";
 import classNames from "classnames";
 import { NPC } from "features/island/bumpkin/components/NPC";
 import { NPC_WEARABLES } from "lib/npcs";
+import { EXTERIOR_ISLAND_BG } from "features/barn/BarnInside";
 
 const _henHouse = (state: MachineState) => state.context.state.henHouse;
 
@@ -100,6 +101,10 @@ export const HenHouseInside: React.FC = () => {
           width: `${84 * GRID_WIDTH_PX}px`,
           height: `${56 * GRID_WIDTH_PX}px`,
           imageRendering: "pixelated",
+          backgroundImage: `url(${EXTERIOR_ISLAND_BG[gameService.getSnapshot().context.state.island.type]})`,
+          backgroundRepeat: "repeat",
+          backgroundPosition: "center",
+          backgroundSize: `${96 * PIXEL_SCALE}px ${96 * PIXEL_SCALE}px`,
         }}
       >
         <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
