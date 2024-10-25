@@ -11,6 +11,7 @@ import { getKeys } from "features/game/types/decorations";
 import { BedName } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { BED_FARMHAND_COUNT } from "features/game/types/beds";
 
 interface BedProps {
   name: BedName;
@@ -19,23 +20,12 @@ interface BedProps {
 const BED_WIDTH: Record<BedName, number> = {
   "Basic Bed": 16,
   "Floral Bed": 16,
-  "Fisher Bed": 20,
+  "Fisher Bed": 22,
   "Cow Bed": 22,
   "Sturdy Bed": 18,
   "Pirate Bed": 16,
   "Desert Bed": 16,
   "Royal Bed": 16,
-};
-
-const BED_FARMHAND_COUNT: Record<BedName, number> = {
-  "Basic Bed": 1,
-  "Fisher Bed": 2,
-  "Floral Bed": 3,
-  "Sturdy Bed": 4,
-  "Desert Bed": 5,
-  "Cow Bed": 6,
-  "Pirate Bed": 7,
-  "Royal Bed": 8,
 };
 
 const _farmhands = (state: MachineState) =>
@@ -103,14 +93,13 @@ export const Bed: React.FC<BedProps> = ({ name }) => {
         </CloseButtonPanel>
       </Modal>
       <div
-        className="relative"
+        className="relative h-full"
         style={{
           width: `${PIXEL_SCALE * BED_WIDTH[name]}px`,
-          height: `${PIXEL_SCALE * 19}px`,
         }}
       >
         <img
-          className="absolute bottom-0"
+          className="absolute bottom-2"
           src={ITEM_DETAILS[name].image}
           alt={name}
           style={{
