@@ -3226,8 +3226,6 @@
   "season.codex.intro": "Ganhe {{ticket}} s para criar itens colecionáveis e vestíveis exclusivos para sua fazenda nesta temporada limitada... Corra antes que o tempo acabe!",
   "season.codex.howToEarn": "Como ganhar {{ticket}} s?",
   "season.codex.howToEarn.one": "Visite a praça e entregue recursos para Bumpkins.",
-  "season.codex.howToEarn.two": "Complete as tarefas de Hank.",
-  "season.codex.howToEarn.three": "Compita na competição de facções.",
   "season.codex.nextDrop": "Próxima entrega",
   "season.codex.seasonalDrops": "Quedas sazonais",
   "season.codex.seasonalDrops.description": "Compita com outros pelos itens mais raros! Visite o leiloeiro na praça para obter mais detalhes.",
@@ -4070,5 +4068,7 @@
   "description.bullRunBanner": "Um banner que celebra a temporada de Bull Run.",
   "description.cowSkull": "Um crânio antigo.",
   "description.horseshoe": "Uma ferradura valiosa - troque por recompensas!",
-  "crafting.coming.soon": "Um novo sistema de criação está chegando à Sunflower Land... 1º de novembro!"
+  "crafting.coming.soon": "Um novo sistema de criação está chegando à Sunflower Land... 1º de novembro!",
+  "season.codex.howToEarn.two": "Complete tarefas para Bumpkins.",
+  "season.codex.howToEarn.three": "Troque recompensas por animais e flores!"
 }

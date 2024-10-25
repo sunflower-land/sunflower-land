@@ -3003,8 +3003,6 @@
   "season.codex.intro": "이 기간 한정 시즌에 {{ticket}} s를 적립하여 농장을 위한 독점 수집품과 웨어러블을 만드세요... 시간이 끝나기 전에 서두르세요!",
   "season.codex.howToEarn": "{{ticket}} 를 어떻게 벌 수 있나요?",
   "season.codex.howToEarn.one": "광장을 방문하여 범킨스에게 자원을 전달하세요.",
-  "season.codex.howToEarn.two": "행크의 집안일을 완료하세요.",
-  "season.codex.howToEarn.three": "진영 경쟁에서 경쟁하세요.",
   "season.codex.nextDrop": "넥스트 드롭",
   "season.codex.seasonalDrops": "시즌 드랍",
   "season.codex.seasonalDrops.description": "가장 희귀한 아이템을 놓고 다른 사람들과 경쟁하세요!자세한 내용은 광장에 있는 경매인을 방문하십시오.",
@@ -4070,5 +4068,7 @@
   "description.bullRunBanner": "불런 시즌을 기념하는 배너입니다.",
   "description.cowSkull": "고대의 해골.",
   "description.horseshoe": "귀중한 말굽 - 보상으로 교환하세요!",
-  "crafting.coming.soon": "11월 1일에 선플라워 랜드에 새로운 제작 시스템이 등장합니다!"
+  "crafting.coming.soon": "11월 1일에 선플라워 랜드에 새로운 제작 시스템이 등장합니다!",
+  "season.codex.howToEarn.two": "범프킨의 집안일을 완료하세요.",
+  "season.codex.howToEarn.three": "동물과 꽃 현상금을 거래하세요!"
 }

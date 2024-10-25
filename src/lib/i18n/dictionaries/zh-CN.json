@@ -3102,8 +3102,6 @@
   "season.codex.intro": "在这个限定季节里赚取 {{ticket}} s，为你的农场铸造专属收藏品和穿戴品... 在时间不多之前赶快行动吧！",
   "season.codex.howToEarn": "如何赚取 {{ticket}} s？",
   "season.codex.howToEarn.one": "参观广场，向 Bumpkins 运送资源。",
-  "season.codex.howToEarn.two": "完成汉克的琐事。",
-  "season.codex.howToEarn.three": "参加派系竞赛。",
   "season.codex.nextDrop": "下一次掉落",
   "season.codex.seasonalDrops": "季节性掉宝",
   "season.codex.seasonalDrops.description": "与其他人争夺最稀有的物品！更多详情请访问广场的拍卖行。",
@@ -4070,5 +4068,7 @@
   "description.bullRunBanner": "一面庆祝牛市奔跑季的旗帜。",
   "description.cowSkull": "一个古老的头骨。",
   "description.horseshoe": "一只珍贵的马蹄铁-兑换奖励！",
-  "crafting.coming.soon": "向日葵乐园即将推出全新的制作系统... 11 月 1 日！"
+  "crafting.coming.soon": "向日葵乐园即将推出全新的制作系统... 11 月 1 日！",
+  "season.codex.howToEarn.two": "为 Bumpkins 完成家务。",
+  "season.codex.howToEarn.three": "交易动物和花卉赏金！"
 }

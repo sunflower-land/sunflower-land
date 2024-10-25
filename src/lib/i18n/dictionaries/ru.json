@@ -2875,8 +2875,6 @@
   "season.codex.intro": "Зарабатывай {{ticket}}, чтобы создавать эксклюзивную одежду и коллекционные предметы для твоей фермы в этом сезоне...Поторопись, пока время не истекло!",
   "season.codex.howToEarn": "Как получить {{ticket}}?",
   "season.codex.howToEarn.one": "Посещай плазу и доставляй ресурсы бампкинам.",
-  "season.codex.howToEarn.two": "Завершай список дел Hank'а.",
-  "season.codex.howToEarn.three": "Соревнуйся в фракционных состязаниях.",
   "season.codex.nextDrop": "Следующий аукцион",
   "season.codex.seasonalDrops": "Сезонные аукционы",
   "season.codex.seasonalDrops.description": "Соревнуйся с другими игроками за самые редкие предметы! За подробностями обращайся к Auctioneer на плазе.",
@@ -4070,5 +4068,7 @@
   "description.bullRunBanner": "Баннер, посвященный сезону Bull Run.",
   "description.cowSkull": "Древний череп.",
   "description.horseshoe": "Ценная подкова — обмен на награды!",
-  "crafting.coming.soon": "Новая система крафта появится в Sunflower Land... 1 ноября!"
+  "crafting.coming.soon": "Новая система крафта появится в Sunflower Land... 1 ноября!",
+  "season.codex.howToEarn.two": "Выполните работу по дому для Бампкинса.",
+  "season.codex.howToEarn.three": "Торгуйте наградами за животных и цветы!"
 }

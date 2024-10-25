@@ -3006,8 +3006,6 @@
   "season.codex.intro": "Dapatkan {{ticket}} s untuk membuat koleksi eksklusif & pakaian yang dapat dikenakan untuk pertanian Anda di musim terbatas ini... Cepat sebelum waktu habis!",
   "season.codex.howToEarn": "Bagaimana cara mendapatkan {{ticket}} s?",
   "season.codex.howToEarn.one": "Kunjungi plaza & kirimkan sumber daya ke Bumpkins.",
-  "season.codex.howToEarn.two": "Selesaikan tugas Hank.",
-  "season.codex.howToEarn.three": "Bersaing dalam kompetisi faksi.",
   "season.codex.nextDrop": "Jatuh Berikutnya",
   "season.codex.seasonalDrops": "Penurunan Musiman",
   "season.codex.seasonalDrops.description": "Bersaing dengan orang lain untuk item paling langka! Kunjungi Lelang di plaza untuk lebih jelasnya.",
@@ -4070,5 +4068,7 @@
   "description.bullRunBanner": "Spanduk yang merayakan musim Bull Run.",
   "description.cowSkull": "Tengkorak kuno.",
   "description.horseshoe": "Tapal kuda yang berharga - tukar hadiah!",
-  "crafting.coming.soon": "Sistem kerajinan baru akan datang ke Sunflower Land... 1 November!"
+  "crafting.coming.soon": "Sistem kerajinan baru akan datang ke Sunflower Land... 1 November!",
+  "season.codex.howToEarn.two": "Selesaikan tugas untuk Bumpkins.",
+  "season.codex.howToEarn.three": "Perdagangkan hadiah hewan dan bunga!"
 }
