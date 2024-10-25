@@ -53,7 +53,7 @@ export function feedMixed({ state, action }: Options) {
         }
         return {
           ...inventory,
-          [ingredient]: count.sub(requiredIngredients.mul(amount)),
+          [ingredient]: count.sub(requiredIngredients.mul(amount).toNumber()),
         };
       },
       copy.inventory,
