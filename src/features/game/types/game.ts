@@ -1216,6 +1216,7 @@ export type Animal = {
   asleepAt: number;
   lovedAt: number;
   item: LoveAnimalItem;
+  multiplier?: number;
 };
 
 export type AnimalBuilding = {

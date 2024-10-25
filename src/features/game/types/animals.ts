@@ -1,7 +1,13 @@
 import Decimal from "decimal.js-light";
 import { BuildingName } from "./buildings";
-import { AnimalFoodName, AnimalMedicineName, Inventory } from "./game";
+import {
+  AnimalFoodName,
+  AnimalMedicineName,
+  AnimalResource,
+  Inventory,
+} from "./game";
 import { translate } from "lib/i18n/translate";
+import { getKeys } from "./decorations";
 
 export type AnimalBuildingType = Extract<BuildingName, "Barn" | "Hen House">;
 
@@ -471,7 +477,7 @@ export const ANIMAL_FOOD_EXPERIENCE: Record<
 
 export const ANIMAL_RESOURCE_DROP: Record<
   AnimalType,
-  Record<AnimalLevel, Inventory>
+  Record<AnimalLevel, Partial<Record<AnimalResource, Decimal>>>
 > = {
   Chicken: {
     0: {},
@@ -654,3 +660,17 @@ export const ANIMAL_RESOURCE_DROP: Record<
     },
   },
 };
+
+export function getUniqueAnimalResources(): AnimalResource[] {
+  const uniqueResources = new Set<AnimalResource>();
+
+  Object.values(ANIMAL_RESOURCE_DROP).forEach((animalLevels) => {
+    Object.values(animalLevels).forEach((inventory) => {
+      getKeys(inventory).forEach((resource) => {
+        uniqueResources.add(resource);
+      });
+    });
+  });
+
+  return Array.from(uniqueResources);
+}
