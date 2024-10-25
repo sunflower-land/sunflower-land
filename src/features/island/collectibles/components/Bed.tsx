@@ -28,14 +28,14 @@ const BED_WIDTH: Record<BedName, number> = {
 };
 
 const BED_FARMHAND_COUNT: Record<BedName, number> = {
-  "Basic Bed": 0,
-  "Fisher Bed": 1,
-  "Floral Bed": 2,
-  "Sturdy Bed": 3,
-  "Desert Bed": 4,
-  "Cow Bed": 5,
-  "Pirate Bed": 6,
-  "Royal Bed": 7,
+  "Basic Bed": 1,
+  "Fisher Bed": 2,
+  "Floral Bed": 3,
+  "Sturdy Bed": 4,
+  "Desert Bed": 5,
+  "Cow Bed": 6,
+  "Pirate Bed": 7,
+  "Royal Bed": 8,
 };
 
 const _farmhands = (state: MachineState) =>
@@ -118,9 +118,9 @@ export const Bed: React.FC<BedProps> = ({ name }) => {
             left: `-${((BED_WIDTH[name] - 16) * PIXEL_SCALE) / 2}px`,
           }}
         />
-
         {canSleepHere && (
           <img
+            id="bed-icon"
             src={SUNNYSIDE.icons.click_icon}
             className="z-10 absolute animate-pulsate hover:img-highlight"
             onClick={() => setShowModal(true)}
