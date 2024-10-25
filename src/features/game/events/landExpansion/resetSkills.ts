@@ -30,12 +30,22 @@ export function resetSkills({
   }
 
   // Check if allowed to reset skills (once per 3 months)
-  if (bumpkin.previousSkillsResetAt) {
+  /* if (bumpkin.previousSkillsResetAt) {
     const threeMonthsAgo = new Date();
     threeMonthsAgo.setMonth(threeMonthsAgo.getMonth() - 3);
 
     if (bumpkin.previousSkillsResetAt > threeMonthsAgo.getTime()) {
       throw new Error("You can only reset your skills once every 3 months");
+    }
+  } */
+
+  // Temp remove of fn above, for testing purposes we move to a 5min limit
+  if (bumpkin.previousSkillsResetAt) {
+    const fiveMinutesAgo = new Date();
+    fiveMinutesAgo.setMinutes(fiveMinutesAgo.getMinutes() - 5);
+
+    if (bumpkin.previousSkillsResetAt > fiveMinutesAgo.getTime()) {
+      throw new Error("You can only reset your skills once every 5 minutes");
     }
   }
 
