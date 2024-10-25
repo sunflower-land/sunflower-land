@@ -37,6 +37,7 @@ import {
   LanternName,
   LoveAnimalItem,
   Points,
+  RecipeCraftableName,
   SpecialEvent,
 } from "./game";
 import { BeanName, ExoticCropName, MutantCropName } from "./beans";
@@ -1142,6 +1143,20 @@ const beds: Record<BedName, () => boolean> = {
   "Royal Bed": () => false,
 };
 
+const recipeCraftables: Record<RecipeCraftableName, () => boolean> = {
+  Cushion: () => false,
+  Timber: () => false,
+  "Bee Box": () => false,
+  Crimsteel: () => false,
+  "Merino Cushion": () => false,
+  "Kelp Fibre": () => false,
+  "Hardened Leather": () => false,
+  "Synthetic Fabric": () => false,
+  "Ocean's Treasure": () => false,
+  "Royal Bedding": () => false,
+  "Royal Ornament": () => false,
+};
+
 export const WITHDRAWABLES: Record<InventoryItemName, () => boolean> = {
   ...animalMedicine,
   ...animalResources,
@@ -1211,6 +1226,7 @@ export const WITHDRAWABLES: Record<InventoryItemName, () => boolean> = {
   ...factionBanners,
   ...factionShopCollectibles,
   ...beds,
+  ...recipeCraftables,
 
   ...getKeys(DECORATION_TEMPLATES).reduce(
     (acc, key) => ({
