@@ -9,13 +9,14 @@ export const BullRunBanner: React.FC = () => {
       className="absolute pointer-events-none"
       style={{
         width: `${PIXEL_SCALE * 22}px`,
-        top: `${PIXEL_SCALE * -3}px`,
+        top: `${PIXEL_SCALE * -5}px`,
+        left: `${PIXEL_SCALE * -1.5}px`,
       }}
     >
       <img
         src={banner}
         style={{
-          width: `${PIXEL_SCALE * 16}px`,
+          width: `${PIXEL_SCALE * 20}px`,
         }}
         alt="Bull Run Banner"
       />

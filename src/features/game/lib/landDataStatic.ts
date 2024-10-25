@@ -390,6 +390,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     },
   },
   inventory: {
+    "Bull Run Banner": new Decimal(1),
     "Basic Scarecrow": new Decimal(1),
     "Lemon Shark": new Decimal(1),
     "Beta Pass": new Decimal(1),
