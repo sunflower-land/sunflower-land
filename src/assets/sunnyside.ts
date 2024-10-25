@@ -315,7 +315,7 @@ export const SUNNYSIDE = {
     kelpFibre: `${CONFIG.PROTECTED_IMAGE_URL}/crafting/kelp_fibre.webp`,
     hardenedLeather: `${CONFIG.PROTECTED_IMAGE_URL}/crafting/hardened_leather.webp`,
     syntheticFabric: `${CONFIG.PROTECTED_IMAGE_URL}/crafting/synthetic_fabric.webp`,
-    oceanTreasure: `${CONFIG.PROTECTED_IMAGE_URL}/crafting/ocean_treasure_2.webp`,
+    oceansTreasure: `${CONFIG.PROTECTED_IMAGE_URL}/crafting/oceans_treasure_2.webp`,
     royalBedding: `${CONFIG.PROTECTED_IMAGE_URL}/crafting/royal_bedding.webp`,
     royalOrnament: `${CONFIG.PROTECTED_IMAGE_URL}/crafting/royal_ornament.webp`,
   },

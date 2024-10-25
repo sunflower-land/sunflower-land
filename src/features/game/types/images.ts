@@ -4256,7 +4256,7 @@ export const ITEM_DETAILS: Items = {
     description: "",
   },
   "Ocean's Treasure": {
-    image: SUNNYSIDE.crafting.oceanTreasure,
+    image: SUNNYSIDE.crafting.oceansTreasure,
     description: "",
   },
   "Royal Bedding": {
@@ -4265,6 +4265,18 @@ export const ITEM_DETAILS: Items = {
   },
   "Royal Ornament": {
     image: SUNNYSIDE.crafting.royalOrnament,
+    description: "",
+  },
+  "Kelp Fibre": {
+    image: SUNNYSIDE.crafting.kelpFibre,
+    description: "",
+  },
+  "Hardened Leather": {
+    image: SUNNYSIDE.crafting.hardenedLeather,
+    description: "",
+  },
+  "Synthetic Fabric": {
+    image: SUNNYSIDE.crafting.syntheticFabric,
     description: "",
   },
 };

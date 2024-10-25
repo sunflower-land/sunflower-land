@@ -4070,5 +4070,7 @@
   "description.bullRunBanner": "A banner that celebrates the Bull Run season.",
   "description.cowSkull": "An ancient skull.",
   "description.horseshoe": "A valuable horseshoe - exchange for rewards!",
-  "crafting.coming.soon": "A new crafting system is coming to Sunflower Land...November 1st!"
+  "crafting.coming.soon": "A new crafting system is coming to Sunflower Land...November 1st!",
+  "unlock.farmhand": "Unlock Farmhand",
+  "description.unlockFarmhand": "This {{name}} allows you to unlock a new farmhand to help on your farm."
 }
