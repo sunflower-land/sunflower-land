@@ -4066,5 +4066,8 @@
   "craftingBox.newRecipeDiscovered": "Une nouvelle recette a été découverte !",
   "craftingBox.craftThisItem": "Fabriquez cet objet dans la boîte de bricolage.",
   "quest.marine.marvel": "Attrapez chaque Marine Marvel permanente",
-  "mix.ten": "Mélangez 10"
+  "mix.ten": "Mélangez 10",
+  "description.bullRunBanner": "Une bannière qui célèbre la saison de Bull Run.",
+  "description.cowSkull": "Un crâne ancien.",
+  "description.horseshoe": "Un précieux fer à cheval, à échanger contre des récompenses !"
 }

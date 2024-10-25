@@ -4066,5 +4066,8 @@
   "craftingBox.newRecipeDiscovered": "¡Nueva receta descubierta!",
   "craftingBox.craftThisItem": "Fabrica este objeto en la caja de fabricación.",
   "quest.marine.marvel": "Atrapa todas las maravillas marinas permanentes",
-  "mix.ten": "Mezcla 10"
+  "mix.ten": "Mezcla 10",
+  "description.bullRunBanner": "Una pancarta que celebra la temporada de Bull Run.",
+  "description.cowSkull": "Una calavera antigua.",
+  "description.horseshoe": "Una herradura valiosa: ¡cámbiala por recompensas!"
 }

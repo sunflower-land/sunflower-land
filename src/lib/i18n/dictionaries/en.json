@@ -4066,5 +4066,8 @@
   "description.desertBed": "A desert bed, one farm hand can sleep here.",
   "description.royalBed": "A royal bed, one farm hand can sleep here.",
   "craftingBox.newRecipeDiscovered": "New Recipe Discovered!",
-  "craftingBox.craftThisItem": "Craft this item at the crafting box."
+  "craftingBox.craftThisItem": "Craft this item at the crafting box.",
+  "description.bullRunBanner": "A banner that celebrates the Bull Run season.",
+  "description.cowSkull": "An ancient skull.",
+  "description.horseshoe": "A valuable horseshoe - exchange for rewards!"
 }

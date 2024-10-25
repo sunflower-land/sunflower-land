@@ -4066,5 +4066,8 @@
   "craftingBox.newRecipeDiscovered": "Yeni Tarif Keşfedildi!",
   "craftingBox.craftThisItem": "Bu öğeyi zanaat kutusunda üretin.",
   "quest.marine.marvel": "Her kalıcı Deniz Harikasını yakalayın",
-  "mix.ten": "Karışım 10"
+  "mix.ten": "Karışım 10",
+  "description.bullRunBanner": "Bull Run sezonunu kutlayan bir afiş.",
+  "description.cowSkull": "Eski bir kafatası.",
+  "description.horseshoe": "Değerli bir at nalı - ödüller için takas edin!"
 }
