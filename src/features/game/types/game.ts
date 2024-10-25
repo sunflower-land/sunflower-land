@@ -321,6 +321,9 @@ export const COUPONS: Record<Coupons, { description: string }> = {
   Mark: {
     description: translate("description.faction.mark"),
   },
+  Horseshoe: {
+    description: translate("description.horseshoe"),
+  },
 };
 
 export type Purchase = {
