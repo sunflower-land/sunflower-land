@@ -28,7 +28,7 @@ export function feedMixed({ state, action }: Options) {
       throw new Error("Bumpkin not found");
     }
 
-    const { item: feed, amount } = action;
+    const { item: feed, amount = 1 } = action;
 
     const selectedItem = ANIMAL_FOODS[feed];
 
@@ -45,15 +45,16 @@ export function feedMixed({ state, action }: Options) {
     const subtractedInventory = getKeys(selectedItem.ingredients)?.reduce(
       (inventory, ingredient) => {
         const count = inventory[ingredient] ?? new Decimal(0);
-        const requiredIngredients =
-          selectedItem.ingredients[ingredient] ?? new Decimal(0);
+        const requiredIngredients = new Decimal(
+          selectedItem.ingredients[ingredient] ?? 0,
+        ).mul(amount);
 
         if (count.lessThan(requiredIngredients)) {
           throw new Error(`Insufficient Ingredient: ${ingredient}`);
         }
         return {
           ...inventory,
-          [ingredient]: count.sub(requiredIngredients.mul(amount ?? 0).toNumber()),
+          [ingredient]: count.sub(requiredIngredients),
         };
       },
       copy.inventory,
