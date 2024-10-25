@@ -79,22 +79,15 @@ export const AnimalBounties: React.FC<Props> = ({ type, onExchanging }) => {
                     <div className="relative">
                       <img
                         src={ITEM_DETAILS[deal.name].image}
-                        className="w-8 z-20"
+                        className="w-10 z-20"
                       />
                     </div>
                   </div>
 
-                  <div className="absolute top-0 -left-0.5">
-                    <img src={SUNNYSIDE.icons.heart} className="h-6" />
-                    <div className="w-full h-full absolute inset-0 flex items-center justify-center">
-                      <p
-                        className="text-white text-xs Teeny"
-                        style={{ fontSize: "18px" }}
-                      >
-                        {deal.level}
-                      </p>
-                    </div>
-                  </div>
+                  <Label
+                    type="formula"
+                    className="absolute -top-3.5  -left-2"
+                  >{`Lvl ${deal.level}`}</Label>
 
                   {!!isSold && (
                     <Label
