@@ -3,7 +3,7 @@
  */
 
 import Decimal from "decimal.js-light";
-import { Inventory, IslandType } from "./game";
+import { Inventory, IslandType, LoveAnimalItem } from "./game";
 import { translate } from "lib/i18n/translate";
 
 export type WorkbenchToolName =
@@ -109,5 +109,26 @@ export const TREASURE_TOOLS: Record<TreasureToolName, Tool> = {
       Crimstone: new Decimal(1),
       Wood: new Decimal(5),
     },
+  },
+};
+
+export const LOVE_ANIMAL_TOOLS: Record<LoveAnimalItem, Tool> = {
+  "Petting Hand": {
+    name: "Petting Hand",
+    description: translate("description.petting.hand"),
+    price: 0,
+    ingredients: {},
+  },
+  Brush: {
+    name: "Brush",
+    description: translate("description.brush"),
+    price: 2000,
+    ingredients: {},
+  },
+  "Music Box": {
+    name: "Music Box",
+    description: translate("description.music.box"),
+    price: 50000,
+    ingredients: {},
   },
 };
