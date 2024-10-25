@@ -1215,6 +1215,7 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Witches' Eve Banner": { width: 1, height: 2 },
   "Dawn Breaker Banner": { width: 1, height: 2 },
   "Solar Flare Banner": { width: 1, height: 2 },
+  "Bull Run Banner": { width: 1, height: 2 },
   "Human War Banner": { width: 1, height: 2 },
   "Goblin War Banner": { width: 1, height: 2 },
   "Catch the Kraken Banner": { width: 1, height: 2 },

@@ -333,6 +333,7 @@ import { ImageStyle } from "./components/template/ImageStyle";
 import { LemonShark } from "./components/LemonShark";
 import { BattleFish } from "./components/BattleFish";
 import { TomatoBombard } from "./components/TomatoBombard";
+import { BullRunBanner } from "./components/BullRunBanner";
 
 export const COLLECTIBLE_COMPONENTS: Record<
   CollectibleName | "Bud",
@@ -543,6 +544,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Clash of Factions Banner": ClashOfFactionsBanner,
   "Lifetime Farmer Banner": LifetimeFarmerBanner,
   "Pharaoh's Treasure Banner": PharaohsTreasureBanner,
+  "Bull Run Banner": BullRunBanner,
 
   "Bonnie's Tombstone": BonniesTombstone,
   "Chestnut Fungi Stool": ChestnutFungiStool,
