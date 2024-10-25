@@ -155,6 +155,16 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
           },
         ]
       : []),
+
+    ...(hasFeatureAccess(state, "ANIMAL_BUILDINGS")
+      ? [
+          {
+            name: "Bull Run" as const,
+            icon: ITEM_DETAILS.Horseshoe.image,
+            count: 0,
+          },
+        ]
+      : []),
   ];
 
   return (
@@ -233,6 +243,7 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
                 id={id}
                 isLoading={data?.tickets === undefined}
                 data={data?.tickets ?? null}
+                season={"Pharaoh's Treasure"}
               />
             )}
             {currentTab === 3 && (
@@ -255,6 +266,15 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
               <>
                 <ChoreBoard />
               </>
+            )}
+
+            {currentTab === 7 && (
+              <Season
+                id={id}
+                isLoading={data?.tickets === undefined}
+                data={data?.tickets ?? null}
+                season={"Bull Run"}
+              />
             )}
           </div>
         </OuterPanel>
