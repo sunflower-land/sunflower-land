@@ -3,6 +3,7 @@ import {
   isBasicCrop,
   isMediumCrop,
 } from "../events/landExpansion/harvest";
+import { getUniqueAnimalResources } from "../types/animals";
 import { Bud, StemTrait, TypeTrait } from "../types/buds";
 import {
   CROPS,
@@ -16,7 +17,7 @@ import {
   PATCH_FRUIT,
   PatchFruitName,
 } from "../types/fruits";
-import { GameState } from "../types/game";
+import { AnimalResource, GameState } from "../types/game";
 import { CommodityName, MushroomName } from "../types/resources";
 
 export type Resource =
@@ -25,7 +26,8 @@ export type Resource =
   | PatchFruitName
   | MushroomName
   | GreenHouseCropName
-  | GreenHouseFruitName;
+  | GreenHouseFruitName
+  | AnimalResource;
 
 export const isPlotCrop = (resource: Resource): resource is CropName => {
   return resource in CROPS;
@@ -33,6 +35,12 @@ export const isPlotCrop = (resource: Resource): resource is CropName => {
 
 export const isCrop = (resource: Resource): resource is CropName => {
   return resource in CROPS || resource in GREENHOUSE_CROPS;
+};
+
+export const isAnimalProduce = (
+  resource: Resource,
+): resource is AnimalResource => {
+  return getUniqueAnimalResources().includes(resource as AnimalResource);
 };
 
 const isMineral = (resource: Resource): boolean => {
@@ -66,7 +74,7 @@ const getTypeBoost = (bud: Bud, resource: Resource): number => {
     return 0.2;
   }
 
-  if (resource === "Egg" && hasType("Retreat")) {
+  if (isAnimalProduce(resource) && hasType("Retreat")) {
     return 0.2;
   }
 

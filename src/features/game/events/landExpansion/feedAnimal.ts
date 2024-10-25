@@ -13,6 +13,7 @@ import {
 import {
   getAnimalFavoriteFood,
   getAnimalLevel,
+  getBoostedFoodQuantity,
   makeAnimalBuildingKey,
 } from "features/game/lib/animals";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
@@ -129,14 +130,19 @@ export function feedAnimal({
 
     const foodXp = ANIMAL_FOOD_EXPERIENCE[action.animal][level][food];
     const foodQuantity = REQUIRED_FOOD_QTY[action.animal];
+    const boostedFoodQuantity = getBoostedFoodQuantity({
+      animalType: action.animal,
+      foodQuantity,
+      game: copy,
+    });
 
     const inventoryAmount = copy.inventory[food] ?? new Decimal(0);
 
-    if (inventoryAmount.lt(foodQuantity)) {
+    if (inventoryAmount.lt(boostedFoodQuantity)) {
       throw new Error(`Player does not have enough ${food}`);
     }
 
-    copy.inventory[food] = inventoryAmount.sub(foodQuantity);
+    copy.inventory[food] = inventoryAmount.sub(boostedFoodQuantity);
 
     animal.experience += foodXp;
 

@@ -6,7 +6,11 @@ import {
   AnimalType,
 } from "features/game/types/animals";
 import { GameState } from "features/game/types/game";
-import { getAnimalLevel } from "features/game/lib/animals";
+import {
+  getAnimalLevel,
+  getBoostedAsleepAt,
+  getResourceDropAmount,
+} from "features/game/lib/animals";
 import { makeAnimalBuildingKey } from "features/game/lib/animals";
 import { getKeys } from "features/game/types/craftables";
 
@@ -45,14 +49,29 @@ export function claimProduce({
     const level = getAnimalLevel(animal.experience, animal.type);
 
     getKeys(ANIMAL_RESOURCE_DROP[action.animal][level]).forEach((resource) => {
-      const amount = ANIMAL_RESOURCE_DROP[action.animal][level][resource];
+      const baseAmount = ANIMAL_RESOURCE_DROP[action.animal][level][
+        resource
+      ] as Decimal;
+      const boostedAmount = getResourceDropAmount({
+        game: copy,
+        animalType: action.animal,
+        baseAmount: baseAmount.toNumber(),
+        resource,
+        multiplier: animal.multiplier ?? 0,
+      });
+
       copy.inventory[resource] = (
         copy.inventory[resource] ?? new Decimal(0)
-      ).add(amount ?? new Decimal(0));
+      ).add(boostedAmount ?? new Decimal(0));
     });
 
-    animal.asleepAt = createdAt;
+    animal.asleepAt = getBoostedAsleepAt({
+      animalType: animal.type,
+      createdAt,
+      game: copy,
+    });
     animal.state = "idle";
+    animal.multiplier = 1;
 
     return copy;
   });

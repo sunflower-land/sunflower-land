@@ -597,6 +597,7 @@ describe("feedAnimal", () => {
 
     expect(state.henHouse.animals[chickenId].state).toBe("ready");
   });
+
   it("cures a sick animal with Barn Delight", () => {
     const chickenId = "xyz";
 
@@ -712,7 +713,6 @@ describe("feedAnimal", () => {
     ).toThrow("Not enough Barn Delight to cure the animal");
   });
 
-  // Update the existing test for feeding a sick animal
   it("throws if the animal is sick and not fed Barn Delight", () => {
     const chickenId = "xyz";
 
@@ -801,5 +801,36 @@ describe("feedAnimal", () => {
     });
 
     expect(state.bumpkin?.activity["Chicken Cured"]).toBe(1);
+  });
+
+  it("takes 10% less food to feed a chicken if a user has a Fat Chicken placed", () => {
+    const state = feedAnimal({
+      createdAt: now,
+      state: {
+        ...INITIAL_FARM,
+        inventory: {
+          "Fat Chicken": new Decimal(1),
+          Hay: new Decimal(1),
+        },
+        collectibles: {
+          "Fat Chicken": [
+            {
+              coordinates: { x: 0, y: 0 },
+              createdAt: 0,
+              id: "1",
+              readyAt: 0,
+            },
+          ],
+        },
+      },
+      action: {
+        type: "animal.fed",
+        animal: "Chicken",
+        id: "0",
+        item: "Hay",
+      },
+    });
+
+    expect(state.inventory.Hay).toEqual(new Decimal(0.1));
   });
 });
