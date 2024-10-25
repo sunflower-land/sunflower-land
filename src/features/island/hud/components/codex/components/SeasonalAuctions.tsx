@@ -14,7 +14,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Loading } from "features/auth/components";
 import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
 import { getKeys } from "features/game/types/decorations";
-import { getCurrentSeason, SEASONS } from "features/game/types/seasons";
+import { SeasonName, SEASONS } from "features/game/types/seasons";
 import { ButtonPanel, InnerPanel, OuterPanel } from "components/ui/Panel";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { getImageUrl } from "lib/utils/getImageURLS";
@@ -42,8 +42,13 @@ type AuctionItems = Record<BumpkinItem | InventoryItemName, AuctionDetail>;
 /**
  * Aggregates the seasonal auction items
  */
-function getSeasonalAuctions({ auctions }: { auctions: Auction[] }) {
-  const season = getCurrentSeason();
+function getSeasonalAuctions({
+  auctions,
+  season,
+}: {
+  auctions: Auction[];
+  season: SeasonName;
+}) {
   const { startDate, endDate } = SEASONS[season];
 
   // Aggregate supplies
@@ -299,9 +304,14 @@ const Drops: React.FC<{
 interface Props {
   gameState: GameState;
   farmId: number;
+  season: SeasonName;
 }
 
-export const SeasonalAuctions: React.FC<Props> = ({ farmId, gameState }) => {
+export const SeasonalAuctions: React.FC<Props> = ({
+  farmId,
+  gameState,
+  season,
+}) => {
   const { t } = useAppTranslation();
   const { authService } = useContext(AuthProvider.Context);
   const [authState] = useActor(authService);
@@ -342,6 +352,7 @@ export const SeasonalAuctions: React.FC<Props> = ({ farmId, gameState }) => {
 
   const auctionItems = getSeasonalAuctions({
     auctions: auctioneerState.context.auctions,
+    season,
   });
 
   return (
