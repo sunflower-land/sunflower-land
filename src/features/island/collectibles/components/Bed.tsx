@@ -11,7 +11,7 @@ import { getKeys } from "features/game/types/decorations";
 import { BedName } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { BED_FARMHAND_COUNT } from "features/game/types/beds";
+import { BED_FARMHAND_COUNT, BEDS } from "features/game/types/beds";
 
 interface BedProps {
   name: BedName;
@@ -48,19 +48,23 @@ export const Bed: React.FC<BedProps> = ({ name }) => {
 
   // The main bumpkin + the farmhands that are already on the bed
   const bumpkinCount = getKeys(farmhands).length + 1;
-  const uniqueBedCollectibles = getKeys(collectibles)
-    .filter((collectible) => collectible in BED_FARMHAND_COUNT)
-    .filter((collectible) => (collectibles[collectible]?.length ?? 0) > 0);
-  const uniqueHomeBedCollectibles = getKeys(homeCollectibles)
-    .filter((collectible) => collectible in BED_FARMHAND_COUNT)
-    .filter((collectible) => (homeCollectibles[collectible]?.length ?? 0) > 0);
-  const uniqueBedCount = new Set([
+  const uniqueBedCollectibles = getKeys(collectibles).filter(
+    (collectible) => collectible in BED_FARMHAND_COUNT,
+  );
+  const uniqueHomeBedCollectibles = getKeys(homeCollectibles).filter(
+    (collectible) => collectible in BED_FARMHAND_COUNT,
+  );
+  const uniqueBeds = new Set([
     ...uniqueBedCollectibles,
     ...uniqueHomeBedCollectibles,
-  ]).size;
+  ]);
 
-  const canSleepHere =
-    bumpkinCount < uniqueBedCount && BED_FARMHAND_COUNT[name] > bumpkinCount;
+  const beds = getKeys(BEDS)
+    .filter((bedName) => uniqueBeds.has(bedName))
+    .reverse();
+  const availableBeds = beds.length - bumpkinCount;
+
+  const canSleepHere = beds.indexOf(name) < availableBeds;
 
   return (
     <>

@@ -2,12 +2,12 @@ import { BedName } from "./game";
 
 export const BEDS: Record<BedName, string> = {
   "Basic Bed": "",
-  "Sturdy Bed": "",
-  "Floral Bed": "",
   "Fisher Bed": "",
-  "Pirate Bed": "",
-  "Cow Bed": "",
+  "Floral Bed": "",
+  "Sturdy Bed": "",
   "Desert Bed": "",
+  "Cow Bed": "",
+  "Pirate Bed": "",
   "Royal Bed": "",
 };
 

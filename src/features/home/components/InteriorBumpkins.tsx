@@ -8,10 +8,8 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { getKeys } from "features/game/types/craftables";
 import { BumpkinEquip } from "features/bumpkins/components/BumpkinEquip";
 import { Context } from "features/game/GameProvider";
-import { Label } from "components/ui/Label";
 import { Button } from "components/ui/Button";
 import { BumpkinParts } from "lib/utils/tokenUriBuilder";
-import { ISLAND_BUMPKIN_CAPACITY } from "features/game/events/landExpansion/buyFarmHand";
 import { BuyFarmHand } from "./BuyFarmHand";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { hasFeatureAccess } from "lib/flags";
@@ -36,7 +34,7 @@ export const InteriorBumpkins: React.FC<Props> = ({ game }) => {
 
   return (
     <>
-      <div className="flex justify-between">
+      <div className="flex justify-between items-end">
         <div className="flex">
           <div
             className="mr-2 cursor-pointer"
@@ -91,14 +89,9 @@ export const InteriorBumpkins: React.FC<Props> = ({ game }) => {
             </div>
           ))}
         </div>
-        <div className="space-y-1">
-          <Label type="chill" icon={SUNNYSIDE.icons.player}>
-            {`${getKeys(farmHands).length + 1}/${
-              ISLAND_BUMPKIN_CAPACITY[game.island.type]
-            } Bumpkins`}
-          </Label>
+        <div>
           <Button onClick={() => setShowBuyFarmHandModal(true)} className="h-8">
-            <span>{t("add")}</span>
+            <span>{`${t("add")} ${t("farmHand")}`}</span>
           </Button>
         </div>
       </div>
