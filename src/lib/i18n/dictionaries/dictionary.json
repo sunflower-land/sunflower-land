@@ -4065,5 +4065,7 @@
   "description.desertBed": "A desert bed, one farm hand can sleep here.",
   "description.royalBed": "A royal bed, one farm hand can sleep here.",
   "craftingBox.newRecipeDiscovered": "New Recipe Discovered!",
-  "craftingBox.craftThisItem": "Craft this item at the crafting box."
+  "craftingBox.craftThisItem": "Craft this item at the crafting box.",
+  "unlock.farmhand": "Unlock Farmhand",
+  "description.unlockFarmhand": "This {{name}} allows you to unlock a new farmhand to help on your farm."
 }
