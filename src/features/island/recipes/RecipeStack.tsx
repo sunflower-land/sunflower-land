@@ -66,7 +66,7 @@ export const RecipeStack: React.FC<{ recipes: RecipeItemName[] }> = ({
 
       <Modal show={isModalOpen} onHide={handleClose}>
         <Panel>
-          <div className="flex justify-center items-center space-y-2">
+          <div className="flex flex-wrap justify-center items-center space-y-2">
             {recipes.map((recipe) => {
               const recipeImage = getRecipeImage(recipe);
               const recipeDescription = getRecipeDescription(recipe);
@@ -79,7 +79,7 @@ export const RecipeStack: React.FC<{ recipes: RecipeItemName[] }> = ({
                   <Label type="warning" icon={page}>
                     {t("craftingBox.newRecipeDiscovered")}
                   </Label>
-                  <span className="text-sm mb-2">{recipe}</span>
+                  <span className="text-sm mb-2 mt-1">{recipe}</span>
                   <img src={recipeImage} className="h-12 mb-2" />
                   <span className="text-xs text-center mb-2">
                     {recipeDescription}

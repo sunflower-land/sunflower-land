@@ -33,6 +33,7 @@ const _farmhands = (state: MachineState) =>
 const _collectibles = (state: MachineState) => state.context.state.collectibles;
 const _homeCollectibles = (state: MachineState) =>
   state.context.state.home.collectibles;
+const _isLandscaping = (state: MachineState) => state.matches("landscaping");
 
 export const Bed: React.FC<BedProps> = ({ name }) => {
   const { gameService } = useContext(Context);
@@ -43,6 +44,7 @@ export const Bed: React.FC<BedProps> = ({ name }) => {
   const farmhands = useSelector(gameService, _farmhands);
   const collectibles = useSelector(gameService, _collectibles);
   const homeCollectibles = useSelector(gameService, _homeCollectibles);
+  const isLandscaping = useSelector(gameService, _isLandscaping);
 
   // The main bumpkin + the farmhands that are already on the bed
   const bumpkinCount = getKeys(farmhands).length + 1;
@@ -107,7 +109,7 @@ export const Bed: React.FC<BedProps> = ({ name }) => {
             left: `-${((BED_WIDTH[name] - 16) * PIXEL_SCALE) / 2}px`,
           }}
         />
-        {canSleepHere && (
+        {canSleepHere && !isLandscaping && (
           <img
             id="bed-icon"
             src={SUNNYSIDE.icons.click_icon}
