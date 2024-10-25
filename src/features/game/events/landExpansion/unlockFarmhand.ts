@@ -5,7 +5,6 @@ import { GameState } from "features/game/types/game";
 import { produce } from "immer";
 
 export const FARMHANDS: Equipped[] = [
-  // Female
   {
     background: "Farm Background",
     body: "Beige Farmer Potion",
@@ -15,7 +14,6 @@ export const FARMHANDS: Equipped[] = [
     shirt: "Yellow Farmer Shirt",
     pants: "Farmer Overalls",
   },
-  // Male
   {
     background: "Farm Background",
     body: "Dark Brown Farmer Potion",
@@ -25,17 +23,15 @@ export const FARMHANDS: Equipped[] = [
     shirt: "Red Farmer Shirt",
     pants: "Farmer Overalls",
   },
-  // Female
   {
     background: "Farm Background",
-    body: "Beige Farmer Potion",
-    hair: "Brown Rancher Hair",
+    body: "Light Brown Farmer Potion",
+    hair: "Blondie",
     shoes: "Black Farmer Boots",
     tool: "Farmer Pitchfork",
     shirt: "Blue Farmer Shirt",
     pants: "Farmer Overalls",
   },
-  // Male
   {
     background: "Farm Background",
     body: "Goblin Potion",
@@ -45,27 +41,24 @@ export const FARMHANDS: Equipped[] = [
     shirt: "Yellow Farmer Shirt",
     pants: "Farmer Overalls",
   },
-  // Female
   {
     background: "Farm Background",
-    body: "Light Brown Farmer Potion",
-    hair: "Blondie",
+    body: "Dark Brown Farmer Potion",
+    hair: "Brown Rancher Hair",
     shoes: "Black Farmer Boots",
     tool: "Farmer Pitchfork",
     shirt: "Red Farmer Shirt",
     pants: "Farmer Overalls",
   },
-  // Male
   {
     background: "Farm Background",
-    body: "Dark Brown Farmer Potion",
+    body: "Light Brown Farmer Potion",
     hair: "Basic Hair",
     shoes: "Black Farmer Boots",
     tool: "Farmer Pitchfork",
     shirt: "Blue Farmer Shirt",
     pants: "Farmer Overalls",
   },
-  // Female
   {
     background: "Farm Background",
     body: "Goblin Potion",
