@@ -14,6 +14,8 @@ import { BumpkinParts } from "lib/utils/tokenUriBuilder";
 import { ISLAND_BUMPKIN_CAPACITY } from "features/game/events/landExpansion/buyFarmHand";
 import { BuyFarmHand } from "./BuyFarmHand";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { hasFeatureAccess } from "lib/flags";
+import { ITEM_DETAILS } from "features/game/types/images";
 
 interface Props {
   game: GameState;
@@ -29,6 +31,8 @@ export const InteriorBumpkins: React.FC<Props> = ({ game }) => {
   const bumpkin = game.bumpkin as Bumpkin;
 
   const farmHands = game.farmHands.bumpkins;
+
+  const hasBedsAccess = hasFeatureAccess(game, "BEDS");
 
   return (
     <>
@@ -103,10 +107,45 @@ export const InteriorBumpkins: React.FC<Props> = ({ game }) => {
         show={showBuyFarmHand}
         onHide={() => setShowBuyFarmHandModal(false)}
       >
-        <BuyFarmHand
-          gameState={game}
-          onClose={() => setShowBuyFarmHandModal(false)}
-        />
+        {hasBedsAccess ? (
+          <CloseButtonPanel
+            onClose={() => setShowBuyFarmHandModal(false)}
+            title={"Beds Needed!"}
+          >
+            <div className="flex flex-col items-center">
+              <div className="p-2">
+                <div className="flex justify-center mb-2">
+                  <img
+                    src={ITEM_DETAILS["Basic Bed"].image}
+                    className="w-12 mx-1"
+                  />
+                  <img
+                    src={ITEM_DETAILS["Sturdy Bed"].image}
+                    className="w-12 mx-1"
+                  />
+                  <img
+                    src={ITEM_DETAILS["Floral Bed"].image}
+                    className="w-12 mx-1"
+                  />
+                </div>
+                <p className="text-sm mb-2">
+                  {t("bedsMigration.bedsNeededDescription")}
+                </p>
+                <p className="text-sm mb-2">
+                  {t("bedsMigration.bedsNeededDescription2")}
+                </p>
+              </div>
+              <Button onClick={() => setShowBuyFarmHandModal(false)}>
+                {t("close")}
+              </Button>
+            </div>
+          </CloseButtonPanel>
+        ) : (
+          <BuyFarmHand
+            gameState={game}
+            onClose={() => setShowBuyFarmHandModal(false)}
+          />
+        )}
       </Modal>
 
       <Modal

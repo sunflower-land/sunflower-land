@@ -4072,5 +4072,8 @@
   "description.horseshoe": "A valuable horseshoe - exchange for rewards!",
   "crafting.coming.soon": "A new crafting system is coming to Sunflower Land...November 1st!",
   "unlock.farmhand": "Unlock Farmhand",
-  "description.unlockFarmhand": "This {{name}} allows you to unlock a new farmhand to help on your farm."
+  "description.unlockFarmhand": "This {{name}} allows you to unlock a new farmhand to help on your farm.",
+  "bedsMigration.bedsNeeded": "Beds Needed!",
+  "bedsMigration.bedsNeededDescription": "Farm hands need beds in order to work on the farm.",
+  "bedsMigration.bedsNeededDescription2": "Place beds to hire more farmhands!"
 }
