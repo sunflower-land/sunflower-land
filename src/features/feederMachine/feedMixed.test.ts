@@ -16,6 +16,7 @@ describe("feedMixed", () => {
       }),
     ).toThrow("Item is not a feed!");
   });
+
   it("does not mix feed if there's not enough ingredients", () => {
     expect(() =>
       feedMixed({
@@ -29,7 +30,7 @@ describe("feedMixed", () => {
           amount: 1,
         },
       }),
-    ).toThrow("Insufficient Ingredient: Corn");
+    ).toThrow("Insufficient Ingredient: Wheat");
   });
 
   it("adds the feed into inventory", () => {
@@ -38,7 +39,7 @@ describe("feedMixed", () => {
         ...INITIAL_FARM,
         coins: 0,
         inventory: {
-          Corn: new Decimal(100),
+          Wheat: new Decimal(100),
         },
       },
       action: {
@@ -48,7 +49,7 @@ describe("feedMixed", () => {
       },
     });
     expect(state.inventory.Hay).toEqual(new Decimal(1));
-    expect(state.inventory.Corn).toEqual(new Decimal(99));
+    expect(state.inventory.Wheat).toEqual(new Decimal(99));
   });
 
   it("mixes Barn Delight correctly", () => {
