@@ -88,32 +88,32 @@ export const Tools: React.FC<Props> = ({ onClose }) => {
     shortcutItem(selectedName);
   };
 
-  const stock = isLoveAnimalTool(selectedName)
-    ? new Decimal(1)
-    : state.stock[selectedName] || new Decimal(0);
+  const craftAnimalTool = (event: SyntheticEvent, amount: number) => {
+    event.stopPropagation();
+    gameService.send("tool.crafted", {
+      tool: selectedName,
+      amount,
+    });
+    shortcutItem(selectedName);
+  };
+
+  const stock = state.stock[selectedName] || new Decimal(0);
 
   const bulkToolCraftAmount = makeBulkBuyTools(stock);
   const { t } = useAppTranslation();
-
-  const getLabel = () => {
-    if (
-      isLoveAnimalTool(selectedName) &&
-      (inventory[selectedName] ?? new Decimal(0)).gte(1)
-    ) {
-      return <Label type="danger">{`Barn is full!`}</Label>;
-    }
-
-    return undefined;
-  };
 
   const getAction = () => {
     if (isLoveAnimalTool(selectedName)) {
       return (
         <Button
-          disabled={(inventory[selectedName] ?? new Decimal(0)).gte(1)}
-          onClick={handleBuyAnimal}
+          disabled={
+            (inventory[selectedName] ?? new Decimal(0)).gte(1) || lessFunds()
+          }
+          onClick={(e) => craftAnimalTool(e, 1)}
           className="w-full"
-        >{`Buy ${selectedName}`}</Button>
+        >
+          {t("craft")}
+        </Button>
       );
     }
 
@@ -166,15 +166,15 @@ export const Tools: React.FC<Props> = ({ onClose }) => {
       panel={
         <CraftingRequirements
           gameState={state}
-          stock={stock}
+          stock={isLoveAnimalTool(selectedName) ? undefined : stock}
           details={{
             item: selectedName,
           }}
+          limit={isLoveAnimalTool(selectedName) ? 1 : undefined}
           requirements={{
             coins: price,
             resources: selected.ingredients,
           }}
-          label={getLabel()}
           actionView={getAction()}
         />
       }
