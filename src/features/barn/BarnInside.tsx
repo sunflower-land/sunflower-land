@@ -16,17 +16,24 @@ import { Cow } from "./components/Cow";
 import { Sheep } from "./components/Sheep";
 
 import shopDisc from "assets/icons/shop_disc.png";
+
 import { AnimalBuildingModal } from "features/game/expansion/components/animals/AnimalBuildingModal";
 import { FeederMachine } from "features/feederMachine/FeederMachine";
 import { AnimalBuildingLevel } from "features/game/events/landExpansion/upgradeBuilding";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { UpgradeBuildingModal } from "features/game/expansion/components/UpgradeBuildingModal";
 import { ANIMAL_HOUSE_IMAGES } from "features/henHouse/HenHouseInside";
-import { Animal, AnimalBounty } from "features/game/types/game";
+import { Animal, AnimalBounty, IslandType } from "features/game/types/game";
 import { AnimalDeal, ExchangeHud } from "./components/AnimalBounties";
 import { Modal } from "components/ui/Modal";
 import classNames from "classnames";
 import { isValidDeal } from "features/game/events/landExpansion/sellAnimal";
+
+export const EXTERIOR_ISLAND_BG: Record<IslandType, string> = {
+  basic: SUNNYSIDE.land.basic_building_bg,
+  spring: SUNNYSIDE.land.spring_building_bg,
+  desert: SUNNYSIDE.land.desert_building_bg,
+};
 
 const _barn = (state: MachineState) => state.context.state.barn;
 
@@ -104,6 +111,10 @@ export const BarnInside: React.FC = () => {
             width: `${84 * GRID_WIDTH_PX}px`,
             height: `${56 * GRID_WIDTH_PX}px`,
             imageRendering: "pixelated",
+            backgroundImage: `url(${EXTERIOR_ISLAND_BG[gameService.getSnapshot().context.state.island.type]})`,
+            backgroundRepeat: "repeat",
+            backgroundPosition: "center",
+            backgroundSize: `${96 * PIXEL_SCALE}px ${96 * PIXEL_SCALE}px`,
           }}
         >
           <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">

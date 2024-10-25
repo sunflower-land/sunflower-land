@@ -255,6 +255,10 @@ export const SUNNYSIDE = {
     animal_house_inside_one: `${CONFIG.PROTECTED_IMAGE_URL}/land/animal_house_one.png`,
     animal_house_inside_two: `${CONFIG.PROTECTED_IMAGE_URL}/land/animal_house_two.png`,
     animal_house_inside_three: `${CONFIG.PROTECTED_IMAGE_URL}/land/animal_house_three.png`,
+
+    basic_building_bg: `${CONFIG.PROTECTED_IMAGE_URL}/land/basic_building_bg.png`,
+    spring_building_bg: `${CONFIG.PROTECTED_IMAGE_URL}/land/spring_building_bg.png`,
+    desert_building_bg: `${CONFIG.PROTECTED_IMAGE_URL}/land/desert_building_bg.png`,
   },
   //Soil
   soil: {
