@@ -16,6 +16,7 @@ describe("feedMixed", () => {
       }),
     ).toThrow("Item is not a feed!");
   });
+
   it("does not mix feed if there's not enough ingredients", () => {
     expect(() =>
       feedMixed({
@@ -29,7 +30,7 @@ describe("feedMixed", () => {
           amount: 1,
         },
       }),
-    ).toThrow("Insufficient Ingredient: Corn");
+    ).toThrow("Insufficient Ingredient: Wheat");
   });
 
   it("adds the feed into inventory", () => {
@@ -38,7 +39,7 @@ describe("feedMixed", () => {
         ...INITIAL_FARM,
         coins: 0,
         inventory: {
-          Corn: new Decimal(100),
+          Wheat: new Decimal(100),
         },
       },
       action: {
@@ -48,7 +49,7 @@ describe("feedMixed", () => {
       },
     });
     expect(state.inventory.Hay).toEqual(new Decimal(1));
-    expect(state.inventory.Corn).toEqual(new Decimal(99));
+    expect(state.inventory.Wheat).toEqual(new Decimal(99));
   });
 
   it("mixes Barn Delight correctly", () => {
@@ -70,5 +71,44 @@ describe("feedMixed", () => {
     expect(state.inventory["Barn Delight"]).toEqual(new Decimal(1));
     expect(state.inventory.Egg).toEqual(new Decimal(0));
     expect(state.inventory.Iron).toEqual(new Decimal(0));
+  });
+
+  it("removes the ingredients for 1 x Kernel Blend from inventory", () => {
+    const state = feedMixed({
+      state: {
+        ...INITIAL_FARM,
+        coins: 0,
+        inventory: {
+          Corn: new Decimal(10),
+        },
+      },
+      action: {
+        type: "feed.mixed",
+        item: "Kernel Blend",
+        amount: 1,
+      },
+    });
+
+    expect(state.inventory.Corn).toEqual(new Decimal(9));
+  });
+
+  it("removes the ingredients for 10 x Kernel Blend from inventory", () => {
+    const state = feedMixed({
+      state: {
+        ...INITIAL_FARM,
+        coins: 0,
+        inventory: {
+          Corn: new Decimal(15),
+        },
+      },
+      action: {
+        type: "feed.mixed",
+        item: "Kernel Blend",
+        amount: 10,
+      },
+    });
+
+    expect(state.inventory.Corn).toEqual(new Decimal(5));
+    expect(state.inventory["Kernel Blend"]).toEqual(new Decimal(10));
   });
 });
