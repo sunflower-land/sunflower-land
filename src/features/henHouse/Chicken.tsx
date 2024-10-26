@@ -411,15 +411,6 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
               request={chicken.item}
             />
           )}
-          {/* Level Progress */}
-          <LevelProgress
-            animal="Chicken"
-            animalState={chickenMachineState}
-            experience={chicken.experience}
-            className="bottom-1 left-1/2 transform -translate-x-1/2 -ml-0.5"
-            // Don't block level up UI with wakes in panel if accidentally clicked
-            onLevelUp={() => setShowWakesIn(false)}
-          />
           {sleeping && showWakesIn && (
             <WakesIn asleepAt={chicken.asleepAt} className="-top-9 z-20" />
           )}
@@ -446,6 +437,15 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
           )}
         </div>
       </div>
+      {/* Level Progress */}
+      <LevelProgress
+        animal="Chicken"
+        animalState={chickenMachineState}
+        experience={chicken.experience}
+        className="absolute bottom-1 left-1/2 transform -translate-x-1/2"
+        // Don't block level up UI with wakes in panel if accidentally clicked
+        onLevelUp={() => setShowWakesIn(false)}
+      />
       {/* Quick Select */}
       <Transition
         appear={true}

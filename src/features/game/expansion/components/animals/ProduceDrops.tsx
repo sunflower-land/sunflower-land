@@ -9,7 +9,7 @@ import {
 
 interface Props {
   animalType: AnimalType;
-  currentLevel: number;
+  currentLevel: AnimalLevel;
   className?: string;
 }
 
@@ -18,30 +18,31 @@ export const ProduceDrops: React.FC<Props> = ({
   animalType,
   className,
 }) => {
-  const previousLevel = Math.max(currentLevel - 1, 1) as AnimalLevel;
-  const dropItems = ANIMAL_RESOURCE_DROP[animalType][previousLevel];
+  const dropItems = ANIMAL_RESOURCE_DROP[animalType][currentLevel];
   const itemEntries = Object.entries(dropItems);
 
   return (
     <>
-      {itemEntries.map(([item, amount], index) => (
-        <div
-          key={item}
-          className={`flex items-center justify-center absolute bounce-drop ${className}`}
-          style={
-            {
-              "--drop-delay": `${index * 400}ms`,
-            } as React.CSSProperties
-          }
-        >
-          <span className="text-xs yield-text">{`+${amount}`}</span>
-          <img
-            src={ITEM_DETAILS[item as InventoryItemName]?.image}
-            alt={item}
-            className="w-4 img-highlight mb-0.5"
-          />
-        </div>
-      ))}
+      {itemEntries.map(([item, amount], index) => {
+        return (
+          <div
+            key={item}
+            className={`flex items-center justify-center absolute bounce-drop ${className}`}
+            style={
+              {
+                "--drop-delay": `${index * 400}ms`,
+              } as React.CSSProperties
+            }
+          >
+            <span className="text-xs yield-text">{`+${amount}`}</span>
+            <img
+              src={ITEM_DETAILS[item as InventoryItemName]?.image}
+              alt={item}
+              className="w-4 img-highlight mb-0.5"
+            />
+          </div>
+        );
+      })}
     </>
   );
 };
