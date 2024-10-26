@@ -73,7 +73,6 @@ export const BarnInside: React.FC = () => {
       <Modal show={showModal} onHide={() => setShowModal(false)}>
         <AnimalBuildingModal
           buildingName="Barn"
-          show={showModal}
           onClose={() => setShowModal(false)}
           onExchanging={(deal) => {
             setShowModal(false);

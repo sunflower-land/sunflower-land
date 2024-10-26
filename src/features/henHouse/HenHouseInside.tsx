@@ -66,7 +66,6 @@ export const HenHouseInside: React.FC = () => {
       <Modal show={showModal} onHide={() => setShowModal(false)}>
         <AnimalBuildingModal
           buildingName="Hen House"
-          show={showModal}
           onClose={() => setShowModal(false)}
           onExchanging={(deal) => {
             setShowModal(false);
