@@ -30,6 +30,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import classNames from "classnames";
+import { Button } from "components/ui/Button";
 
 // Lazy load routes
 const World = lazy(() =>
@@ -179,11 +180,15 @@ export const Navigation: React.FC = () => {
                       path="/goblins"
                       element={
                         <Splash>
-                          <Forbidden
-                            onClose={() => {
+                          <Forbidden />
+                          <Button
+                            className="mt-1"
+                            onClick={() => {
                               authService.send("RETURN");
                             }}
-                          />
+                          >
+                            {t("back")}
+                          </Button>
                         </Splash>
                       }
                     />
