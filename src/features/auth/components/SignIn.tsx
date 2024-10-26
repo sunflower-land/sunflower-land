@@ -32,6 +32,7 @@ import {
 } from "features/wallet/WalletProvider";
 import { useActor } from "@xstate/react";
 import { useConnect } from "wagmi";
+import { fslAuthorization } from "../actions/oauth";
 
 const CONTENT_HEIGHT = 365;
 
@@ -451,7 +452,11 @@ export const SignIn: React.FC<{ type: "signin" | "signup" }> = ({ type }) => {
             className="mb-1 py-2 text-sm relative"
             onClick={() => {
               setShowLoading(true);
-              window.location.href = `${CONFIG.API_URL}/auth/fsl/authorize`;
+              fslAuthorization.signIn().then((code) => {
+                if (code) {
+                  window.location.href = `${CONFIG.API_URL}/auth/fsl/callback?code=${code}`;
+                }
+              });
             }}
           >
             <Label

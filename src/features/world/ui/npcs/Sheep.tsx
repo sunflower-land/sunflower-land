@@ -11,6 +11,8 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
 import { NPCBumpkin } from "features/world/scenes/BaseScene";
+import { secondsTillReset } from "features/helios/components/hayseedHank/HayseedHankV2";
+import { secondsToString } from "lib/utils/time";
 
 type Player = {
   id: number;
@@ -80,6 +82,14 @@ export const Sheep: React.FC<Props> = ({ onClose }) => {
           },
           {
             text: t("npcDialogues.sheep.intro2"),
+          },
+          {
+            text: t("npcDialogues.sheep.intro3", {
+              timeLeft: secondsToString(secondsTillReset(), {
+                length: "medium",
+                removeTrailingZeros: true,
+              }),
+            }),
           },
         ]}
       />

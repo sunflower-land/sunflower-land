@@ -59,6 +59,7 @@ export const SUNNYSIDE = {
     desert_digging: `${CONFIG.PROTECTED_IMAGE_URL}/announcements/desert.webp`,
     factions: `${CONFIG.PROTECTED_IMAGE_URL}/announcements/factions.png`,
     desertSeason: `${CONFIG.PROTECTED_IMAGE_URL}/announcements/desert_season.png`,
+    bullRunSeason: `${CONFIG.PROTECTED_IMAGE_URL}/announcements/bull_run_season.png`,
     pharaohSeasonRares: `${CONFIG.PROTECTED_IMAGE_URL}/announcements/pharaoh_seasonal_rares.png`,
   },
   //Badges(Pre-LandExpansion Skills)
@@ -254,6 +255,10 @@ export const SUNNYSIDE = {
     animal_house_inside_one: `${CONFIG.PROTECTED_IMAGE_URL}/land/animal_house_one.png`,
     animal_house_inside_two: `${CONFIG.PROTECTED_IMAGE_URL}/land/animal_house_two.png`,
     animal_house_inside_three: `${CONFIG.PROTECTED_IMAGE_URL}/land/animal_house_three.png`,
+
+    basic_building_bg: `${CONFIG.PROTECTED_IMAGE_URL}/land/basic_building_bg.png`,
+    spring_building_bg: `${CONFIG.PROTECTED_IMAGE_URL}/land/spring_building_bg.png`,
+    desert_building_bg: `${CONFIG.PROTECTED_IMAGE_URL}/land/desert_building_bg.png`,
   },
   //Soil
   soil: {
@@ -278,9 +283,18 @@ export const SUNNYSIDE = {
     // New Animals
     chickenIdle: `${CONFIG.PROTECTED_IMAGE_URL}/animals/chickens/idle_chicken.gif`,
     chickenAsleep: `${CONFIG.PROTECTED_IMAGE_URL}/animals/chickens/sleeping_chicken.gif`,
-    cow: `${CONFIG.PROTECTED_IMAGE_URL}/animals/cows/cow_md.webp`,
+    chickenReady: `${CONFIG.PROTECTED_IMAGE_URL}/animals/chickens/ready.webp`,
+    chickenSick: `${CONFIG.PROTECTED_IMAGE_URL}/animals/chickens/sick.webp`,
+    cowIdle: `${CONFIG.PROTECTED_IMAGE_URL}/animals/cows/idle.webp`,
     cowReady: `${CONFIG.PROTECTED_IMAGE_URL}/animals/cows/ready.webp`,
-    sheep: `${CONFIG.PROTECTED_IMAGE_URL}/animals/sheep/sheep_md.webp`,
+    cowSleeping: `${CONFIG.PROTECTED_IMAGE_URL}/animals/cows/sleeping.webp`,
+    cowFed: `${CONFIG.PROTECTED_IMAGE_URL}/animals/cows/fed.webp`,
+    cowSick: `${CONFIG.PROTECTED_IMAGE_URL}/animals/cows/sick.webp`,
+    sheepIdle: `${CONFIG.PROTECTED_IMAGE_URL}/animals/sheep/idle.webp`,
+    sheepReady: `${CONFIG.PROTECTED_IMAGE_URL}/animals/sheep/ready.webp`,
+    sheepSleeping: `${CONFIG.PROTECTED_IMAGE_URL}/animals/sheep/sleeping.webp`,
+    sheepFed: `${CONFIG.PROTECTED_IMAGE_URL}/animals/sheep/fed.webp`,
+    sheepSick: `${CONFIG.PROTECTED_IMAGE_URL}/animals/sheep/sick.webp`,
 
     bird: `${CONFIG.PROTECTED_IMAGE_URL}/animals/bird_sheet.png`,
   },
@@ -290,6 +304,7 @@ export const SUNNYSIDE = {
     nutribarley: `${CONFIG.PROTECTED_IMAGE_URL}/animals/foods/nutribarley.webp`,
     mixed_grain: `${CONFIG.PROTECTED_IMAGE_URL}/animals/foods/mixed_grain.webp`,
     fish_oil: `${CONFIG.PROTECTED_IMAGE_URL}/animals/foods/fish_oil.webp`,
+    barn_delight: `${CONFIG.PROTECTED_IMAGE_URL}/animals/foods/barn_delight.webp`,
   },
   //VFXs
   vfx: {
@@ -321,6 +336,7 @@ export const SUNNYSIDE = {
   building: {
     smoke: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/smoke.gif`,
     wishingwell: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/wishing_well.png`,
+    bountyBoard: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/bounty_board.png`,
     //BASIC
     firePit: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/fire_pit.png`,
     kitchen: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/kitchen.png`,
@@ -407,6 +423,7 @@ export const SUNNYSIDE = {
     expression_alerted: `${CONFIG.PROTECTED_IMAGE_URL}/icons/expression_alerted.png`,
     expression_chat: `${CONFIG.PROTECTED_IMAGE_URL}/icons/expression_chat.png`,
     expression_confused: `${CONFIG.PROTECTED_IMAGE_URL}/icons/expression_confused.png`,
+    expression_ready: `${CONFIG.PROTECTED_IMAGE_URL}/icons/expression_confused-1.png`,
     fish: `${CONFIG.PROTECTED_IMAGE_URL}/icons/fish.png`,
     hammer: `${CONFIG.PROTECTED_IMAGE_URL}/icons/hammer.png`,
     heart: `${CONFIG.PROTECTED_IMAGE_URL}/icons/heart.png`,

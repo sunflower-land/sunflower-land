@@ -356,6 +356,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Kernel Blend": 647,
   NutriBarley: 648,
   "Mixed Grain": 649,
+  "Barn Delight": 650,
 
   "Green Thumb": 701,
   "Barn Manager": 702,
@@ -405,6 +406,9 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Pharaoh's Treasure Banner": 746,
   "Amber Fossil": 747,
   Gem: 748,
+  "Bull Run Banner": 749,
+  "Cow Skull": 750,
+  Horseshoe: 751,
 
   "Australian Flag": 801,
   "Belgian Flag": 802,
@@ -843,6 +847,16 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   Miffy: 2137,
   Mog: 2138,
   Morty: 2139,
+
+  // Animal Season
+  "Basic Bed": 2140,
+  "Sturdy Bed": 2141,
+  "Floral Bed": 2142,
+  "Fisher Bed": 2143,
+  "Pirate Bed": 2144,
+  "Cow Bed": 2145,
+  "Desert Bed": 2146,
+  "Royal Bed": 2147,
 };
 
 // The reverse of above

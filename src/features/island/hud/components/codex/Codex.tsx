@@ -29,6 +29,8 @@ import { fetchLeaderboardData } from "features/game/expansion/components/leaderb
 import { FactionLeaderboard } from "./pages/FactionLeaderboard";
 import { Season } from "./pages/Season";
 import { getSeasonalTicket } from "features/game/types/seasons";
+import { hasFeatureAccess } from "lib/flags";
+import { ChoreBoard } from "./pages/ChoreBoard";
 
 interface Props {
   show: boolean;
@@ -143,6 +145,26 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
           },
         ]
       : []),
+
+    ...(hasFeatureAccess(state, "CHORE_BOARD")
+      ? [
+          {
+            name: "Chore Board" as const,
+            icon: chores,
+            count: 0,
+          },
+        ]
+      : []),
+
+    ...(hasFeatureAccess(state, "ANIMAL_BUILDINGS")
+      ? [
+          {
+            name: "Bull Run" as const,
+            icon: ITEM_DETAILS.Horseshoe.image,
+            count: 0,
+          },
+        ]
+      : []),
   ];
 
   return (
@@ -211,12 +233,17 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
               })}
             > */}
             {currentTab === 0 && <Deliveries onClose={onHide} />}
-            {currentTab === 1 && <Chores farmId={farmId} />}
+            {currentTab === 1 && (
+              <>
+                <Chores farmId={farmId} />
+              </>
+            )}
             {currentTab === 2 && (
               <Season
                 id={id}
                 isLoading={data?.tickets === undefined}
                 data={data?.tickets ?? null}
+                season={"Pharaoh's Treasure"}
               />
             )}
             {currentTab === 3 && (
@@ -232,6 +259,21 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
                 isLoading={data?.kingdom === undefined}
                 playerId={id}
                 faction={state.faction.name}
+              />
+            )}
+
+            {currentTab === 6 && (
+              <>
+                <ChoreBoard />
+              </>
+            )}
+
+            {currentTab === 7 && (
+              <Season
+                id={id}
+                isLoading={data?.tickets === undefined}
+                data={data?.tickets ?? null}
+                season={"Bull Run"}
               />
             )}
           </div>

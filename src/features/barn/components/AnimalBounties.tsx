@@ -5,79 +5,47 @@ import { Button } from "components/ui/Button";
 import { HudContainer } from "components/ui/HudContainer";
 import { Label } from "components/ui/Label";
 import { ButtonPanel, InnerPanel, Panel } from "components/ui/Panel";
-import { CloseButtonPanel } from "features/game/components/CloseablePanel";
-import { SpeakingModal } from "features/game/components/SpeakingModal";
-import { getAnimalLevel } from "features/game/events/landExpansion/sellAnimal";
 import { Context } from "features/game/GameProvider";
+import { getAnimalLevel } from "features/game/lib/animals";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { weekResetsAt } from "features/game/lib/factions";
 import { MachineState } from "features/game/lib/gameMachine";
-import { AnimalType } from "features/game/types/animals";
 import { getKeys } from "features/game/types/decorations";
-import { Animal, BountyRequest } from "features/game/types/game";
+import {
+  Animal,
+  AnimalBounty,
+  BountyRequest,
+  InventoryItemName,
+} from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { TimerDisplay } from "features/retreat/components/auctioneer/AuctionDetails";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { NPC_WEARABLES } from "lib/npcs";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 
 const _exchange = (state: MachineState) => state.context.state.bounties;
 
 interface Props {
-  type: AnimalType;
-  onExchanging: (deal: BountyRequest) => void;
+  type: InventoryItemName[];
+  onExchanging: (deal: AnimalBounty) => void;
 }
 
-function acknowledgeIntro() {
-  localStorage.setItem(
-    "animal.bounties.acknowledged",
-    new Date().toISOString(),
-  );
-}
-
-function hasReadIntro() {
-  return !!localStorage.getItem("animal.bounties.acknowledged");
-}
 export const AnimalBounties: React.FC<Props> = ({ type, onExchanging }) => {
   const { gameService } = useContext(Context);
   const exchange = useSelector(gameService, _exchange);
 
   const { t } = useAppTranslation();
 
-  const [showIntro, setShowIntro] = useState(!hasReadIntro());
-
   const state = gameService.getSnapshot().context.state;
 
-  const deals = exchange.requests.filter((deal) => deal.name === type);
+  const deals = exchange.requests.filter((deal) =>
+    type.includes(deal.name),
+  ) as AnimalBounty[];
 
   const expiresAt = useCountdown(weekResetsAt());
 
-  if (showIntro) {
-    return (
-      <SpeakingModal
-        message={[
-          {
-            text: t("bounties.animal.intro.one"),
-          },
-          {
-            text: t("bounties.animal.intro.two"),
-          },
-          {
-            text: t("bounties.animal.intro.three"),
-          },
-        ]}
-        bumpkinParts={NPC_WEARABLES.grabnab}
-        onClose={() => {
-          acknowledgeIntro();
-          setShowIntro(false);
-        }}
-      />
-    );
-  }
-
   return (
-    <CloseButtonPanel bumpkinParts={NPC_WEARABLES.grabnab}>
+    <InnerPanel>
       <div className="p-1">
         <div className="flex justify-between items-center mb-2">
           <Label type="default">{t("bounties.board")}</Label>
@@ -92,9 +60,6 @@ export const AnimalBounties: React.FC<Props> = ({ type, onExchanging }) => {
             <p className="text-sm">{t("bounties.board.empty")}</p>
           )}
           {deals.map((deal) => {
-            const animals =
-              type === "Chicken" ? state.henHouse.animals : state.barn.animals;
-
             const isSold = !!state.bounties.completed.find(
               (request) => request.id === deal.id,
             );
@@ -114,22 +79,15 @@ export const AnimalBounties: React.FC<Props> = ({ type, onExchanging }) => {
                     <div className="relative">
                       <img
                         src={ITEM_DETAILS[deal.name].image}
-                        className="w-8 z-20"
+                        className="w-10 z-20"
                       />
                     </div>
                   </div>
 
-                  <div className="absolute top-0 -left-0.5">
-                    <img src={SUNNYSIDE.icons.heart} className="h-6" />
-                    <div className="w-full h-full absolute inset-0 flex items-center justify-center">
-                      <p
-                        className="text-white text-xs Teeny"
-                        style={{ fontSize: "18px" }}
-                      >
-                        {deal.level}
-                      </p>
-                    </div>
-                  </div>
+                  <Label
+                    type="formula"
+                    className="absolute -top-3.5  -left-2"
+                  >{`Lvl ${deal.level}`}</Label>
 
                   {!!isSold && (
                     <Label
@@ -185,7 +143,7 @@ export const AnimalBounties: React.FC<Props> = ({ type, onExchanging }) => {
           })}
         </div>
       </div>
-    </CloseButtonPanel>
+    </InnerPanel>
   );
 };
 
@@ -220,7 +178,7 @@ export const AnimalDeal: React.FC<{
             icon={ITEM_DETAILS[animal.type].image}
             className="mr-2"
           >
-            {`Lvl ${getAnimalLevel({ animal })} ${animal.type}`}
+            {`Lvl ${getAnimalLevel(animal.experience, animal.type)} ${animal.type}`}
           </Label>
           {!!deal.coins && (
             <Label type="warning" icon={SUNNYSIDE.ui.coinsImg}>
@@ -256,7 +214,7 @@ export const AnimalDeal: React.FC<{
 };
 
 export const ExchangeHud: React.FC<{
-  deal: BountyRequest;
+  deal: AnimalBounty;
   onClose: () => void;
 }> = ({ deal, onClose }) => {
   const { t } = useAppTranslation();

@@ -15,6 +15,8 @@ import { Equipped } from "../types/bumpkin";
 import { SeedName } from "../types/seeds";
 import { INITIAL_REWARDS } from "../types/rewards";
 import { makeAnimalBuilding } from "./animals";
+import { ChoreBoard } from "../types/choreBoard";
+import { getSeasonalTicket } from "../types/seasons";
 
 // Our "zoom" factor
 export const PIXEL_SCALE = 2.625;
@@ -387,6 +389,29 @@ export const INITIAL_BUMPKIN: Bumpkin = {
   activity: {},
 };
 
+export const INITIAL_CHORE_BOARD: ChoreBoard = {
+  chores: {
+    "pumpkin' pete": {
+      name: "CHOP_1_TREE",
+      reward: { items: { [getSeasonalTicket()]: 1 } },
+      initialProgress: 0,
+      startedAt: Date.now(),
+    },
+    betty: {
+      name: "CHOP_2_TREE",
+      reward: { items: { [getSeasonalTicket()]: 2 } },
+      initialProgress: 0,
+      startedAt: Date.now(),
+    },
+    finley: {
+      name: "CHOP_1_TREE",
+      reward: { items: { [getSeasonalTicket()]: 2 } },
+      initialProgress: 0,
+      startedAt: Date.now(),
+    },
+  },
+};
+
 export const INITIAL_FARM: GameState = {
   coins: 0,
   balance: new Decimal(0),
@@ -413,6 +438,8 @@ export const INITIAL_FARM: GameState = {
   previousInventory: {},
   wardrobe: {},
   previousWardrobe: {},
+
+  choreBoard: INITIAL_CHORE_BOARD,
 
   competitions: {
     progress: {},
@@ -448,7 +475,7 @@ export const INITIAL_FARM: GameState = {
     requests: [
       {
         id: "1",
-        name: "Chicken",
+        name: "Cow",
         level: 1,
         coins: 100,
       },
@@ -644,6 +671,7 @@ export const INITIAL_FARM: GameState = {
       goal: 10,
       total: 10,
     },
+    doubleDelivery: false,
   },
   farmActivity: {},
   milestones: {},
@@ -671,6 +699,7 @@ export const INITIAL_FARM: GameState = {
     status: "idle",
     startedAt: 0,
     readyAt: 0,
+    recipes: {},
   },
 };
 
@@ -703,6 +732,8 @@ export const TEST_FARM: GameState = {
     completed: [],
     requests: [],
   },
+  choreBoard: INITIAL_CHORE_BOARD,
+
   rewards: INITIAL_REWARDS,
   minigames: {
     games: {},
@@ -833,6 +864,7 @@ export const TEST_FARM: GameState = {
       goal: 10,
       total: 10,
     },
+    doubleDelivery: false,
   },
   auctioneer: {},
   buildings: {
@@ -982,6 +1014,7 @@ export const TEST_FARM: GameState = {
     status: "idle",
     startedAt: 0,
     readyAt: 0,
+    recipes: {},
   },
 };
 
@@ -1020,6 +1053,8 @@ export const EMPTY: GameState = {
   shipments: {},
   previousInventory: {},
   chickens: {},
+  choreBoard: INITIAL_CHORE_BOARD,
+
   stock: {},
   stockExpiry: {},
   wardrobe: {},
@@ -1050,6 +1085,7 @@ export const EMPTY: GameState = {
       goal: 10,
       total: 10,
     },
+    doubleDelivery: false,
   },
   home: { collectibles: {} },
   island: { type: "basic" },
@@ -1111,5 +1147,6 @@ export const EMPTY: GameState = {
     status: "idle",
     startedAt: 0,
     readyAt: 0,
+    recipes: {},
   },
 };

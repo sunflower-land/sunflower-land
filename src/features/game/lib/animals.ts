@@ -1,5 +1,7 @@
-import { ANIMAL_FOOD_EXPERIENCE } from "../events/landExpansion/feedAnimal";
+import { ANIMAL_SLEEP_DURATION } from "../events/landExpansion/feedAnimal";
 import {
+  ANIMAL_FOOD_EXPERIENCE,
+  ANIMAL_FOODS,
   ANIMAL_LEVELS,
   AnimalBuildingType,
   AnimalLevel,
@@ -8,7 +10,19 @@ import {
 } from "../types/animals";
 import { BuildingName } from "../types/buildings";
 import { getKeys } from "../types/decorations";
-import { Animal, AnimalBuilding, AnimalBuildingKey } from "../types/game";
+import {
+  Animal,
+  AnimalBuilding,
+  AnimalBuildingKey,
+  AnimalFoodName,
+  AnimalMedicineName,
+  AnimalResource,
+  GameState,
+  InventoryItemName,
+} from "../types/game";
+import { isCollectibleBuilt } from "./collectibleBuilt";
+import { getBudYieldBoosts } from "./getBudYieldBoosts";
+import { isWearableActive } from "./wearables";
 
 export const makeAnimalBuildingKey = (
   buildingName: Extract<BuildingName, "Hen House" | "Barn">,
@@ -47,7 +61,7 @@ export function makeAnimalBuilding(
           state: "idle",
           coordinates: positions[index],
           asleepAt: 0,
-          experience: 0,
+          experience: 1000,
           createdAt: Date.now(),
           item: "Petting Hand",
           lovedAt: 0,
@@ -68,7 +82,7 @@ export const isMaxLevel = (animal: AnimalType, level: AnimalLevel) => {
 export function getAnimalLevel(experience: number, animal: AnimalType) {
   const levels = ANIMAL_LEVELS[animal];
 
-  let currentLevel: AnimalLevel = 1;
+  let currentLevel: AnimalLevel = 0;
 
   // Iterate through the levels and find the appropriate one
   for (const [level, xpThreshold] of Object.entries(levels)) {
@@ -84,14 +98,159 @@ export function getAnimalLevel(experience: number, animal: AnimalType) {
 
 export function getAnimalFavoriteFood(type: AnimalType, animalXP: number) {
   const level = getAnimalLevel(animalXP, type);
-  const xp = ANIMAL_FOOD_EXPERIENCE[type][level];
-  const maxXp = Math.max(...Object.values(xp));
+  const levelFood = ANIMAL_FOOD_EXPERIENCE[type][level];
+  const maxXp = Math.max(...Object.values(levelFood));
 
-  const favouriteFoods = getKeys(xp).filter(
-    (foodName) => xp[foodName] === maxXp,
+  const favouriteFoods = getKeys(levelFood).filter(
+    (foodName) => levelFood[foodName] === maxXp,
   );
 
   if (favouriteFoods.length !== 1) throw new Error("No favourite food");
 
   return favouriteFoods[0];
+}
+
+export function isAnimalFood(item: InventoryItemName): item is AnimalFoodName {
+  return getKeys(ANIMAL_FOODS)
+    .filter((food) => ANIMAL_FOODS[food].type === "food")
+    .includes(item as AnimalFoodName);
+}
+
+export function isAnimalMedicine(
+  item: InventoryItemName,
+): item is AnimalMedicineName {
+  return getKeys(ANIMAL_FOODS)
+    .filter((food) => ANIMAL_FOODS[food].type === "medicine")
+    .includes(item as AnimalMedicineName);
+}
+
+export type ResourceDropAmountArgs = {
+  game: GameState;
+  animalType: AnimalType;
+  resource: AnimalResource;
+  baseAmount: number;
+  multiplier: number;
+};
+
+function getEggYieldBoosts(game: GameState) {
+  let boost = 0;
+
+  if (isCollectibleBuilt({ name: "Chicken Coop", game })) {
+    boost += 1;
+  }
+
+  if (isCollectibleBuilt({ name: "Rich Chicken", game })) {
+    boost += 0.1;
+  }
+
+  if (isCollectibleBuilt({ name: "Undead Rooster", game })) {
+    boost += 0.1;
+  }
+
+  if (isCollectibleBuilt({ name: "Ayam Cemani", game })) {
+    boost += 0.2;
+  }
+
+  if (isCollectibleBuilt({ name: "Bale", game })) {
+    boost += 0.1;
+  }
+
+  return boost;
+}
+
+export function getResourceDropAmount({
+  game,
+  animalType,
+  resource,
+  baseAmount,
+  multiplier,
+}: ResourceDropAmountArgs) {
+  let amount = baseAmount;
+
+  const { bumpkin, buds = {} } = game;
+
+  const isChicken = animalType === "Chicken";
+
+  // Egg yield boosts
+  if (isChicken && resource === "Egg") {
+    amount += getEggYieldBoosts(game);
+  }
+
+  // Cattlegrim boosts all produce
+  if (isWearableActive({ name: "Cattlegrim", game })) {
+    amount += 0.25;
+  }
+
+  // Barn Manager boosts all produce
+  if (game.inventory["Barn Manager"]?.gt(0)) {
+    amount += 0.1;
+  }
+
+  // Free Range boosts all produce
+  if (bumpkin.skills["Free Range"]) {
+    amount += 0.1;
+  }
+
+  amount += getBudYieldBoosts(buds, resource);
+
+  if (multiplier) amount *= multiplier;
+
+  return Number(amount.toFixed(2));
+}
+
+export function getBoostedFoodQuantity({
+  animalType,
+  foodQuantity,
+  game,
+}: {
+  animalType: AnimalType;
+  foodQuantity: number;
+  game: GameState;
+}) {
+  if (
+    animalType === "Chicken" &&
+    isCollectibleBuilt({ name: "Fat Chicken", game })
+  ) {
+    return foodQuantity * 0.9;
+  }
+
+  return foodQuantity;
+}
+
+export function getBoostedAsleepAt({
+  animalType,
+  createdAt,
+  game,
+}: {
+  animalType: AnimalType;
+  createdAt: number;
+  game: GameState;
+}) {
+  let asleepAt = createdAt;
+  const sleepDuration = ANIMAL_SLEEP_DURATION;
+  const { bumpkin } = game;
+
+  const isChicken = animalType === "Chicken";
+
+  if (isChicken) {
+    if (isCollectibleBuilt({ name: "Speed Chicken", game })) {
+      asleepAt -= sleepDuration * 0.1;
+    }
+
+    if (isCollectibleBuilt({ name: "El Pollo Veloz", game })) {
+      asleepAt -= 4 * 60 * 60 * 1000;
+    }
+  }
+
+  // Applies to all animals
+  if (game.inventory["Wrangler"]?.gt(0)) {
+    asleepAt -= sleepDuration * 0.1;
+  }
+
+  // Applies to all animals
+  if (bumpkin.skills["Stable Hand"]) {
+    asleepAt -= sleepDuration * 0.1;
+  }
+
+  return asleepAt;
 }

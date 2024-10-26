@@ -18,6 +18,39 @@ type Metadata = {
 };
 
 export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
+  "Bull Run Banner": {
+    name: "Bull Run Banner",
+    description: "A banner that celebrates the Bull Run season.",
+    decimals: 18,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/749.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Banner" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
+  Horseshoe: {
+    name: "Horseshoe",
+    description: "A valuable token to exchange for rewards!",
+    decimals: 18,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/750.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Resource" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
+  "Cow Skull": {
+    name: "Cow Skull",
+    description: "An ancient skull.",
+    decimals: 18,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/101.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Seed" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
   "Sunflower Seed": {
     name: "Sunflower Seed",
     description:
@@ -464,6 +497,17 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/question_mark.png",
     name: "Mixed Grain",
+  },
+  "Barn Delight": {
+    name: "Barn Delight",
+    description: "A magical elixir that cures animal sickness.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/question_mark.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Medicine" },
+      { trait_type: "Tradable", value: "No" },
+    ],
   },
   Kale: {
     name: "Kale",
@@ -9640,6 +9684,70 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/1022.png",
     name: "Crafting Box",
+  },
+  "Basic Bed": {
+    description: "A basic bed for your Bumpkin to rest.",
+    decimals: 0,
+    attributes: [{ trait_type: "Tradable", value: "No" }],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2140.png",
+    name: "Basic Bed",
+  },
+  "Sturdy Bed": {
+    description: "A sturdy bed for your Bumpkin to rest.",
+    decimals: 0,
+    attributes: [{ trait_type: "Tradable", value: "No" }],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2141.png",
+    name: "Sturdy Bed",
+  },
+  "Floral Bed": {
+    description: "A floral bed for your Bumpkin to rest.",
+    decimals: 0,
+    attributes: [{ trait_type: "Tradable", value: "No" }],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2142.png",
+    name: "Floral Bed",
+  },
+  "Fisher Bed": {
+    description: "A fisherman's bed for your Bumpkin to rest.",
+    decimals: 0,
+    attributes: [{ trait_type: "Tradable", value: "No" }],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2143.png",
+    name: "Fisher Bed",
+  },
+  "Pirate Bed": {
+    description: "A pirate bed for your Bumpkin to rest.",
+    decimals: 0,
+    attributes: [{ trait_type: "Tradable", value: "No" }],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2144.png",
+    name: "Pirate Bed",
+  },
+  "Cow Bed": {
+    description: "A cow bed for your Bumpkin to rest.",
+    decimals: 0,
+    attributes: [{ trait_type: "Tradable", value: "No" }],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2145.png",
+    name: "Cow Bed",
+  },
+  "Desert Bed": {
+    description: "A desert bed for your Bumpkin to rest.",
+    decimals: 0,
+    attributes: [{ trait_type: "Tradable", value: "No" }],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2146.png",
+    name: "Desert Bed",
+  },
+  "Royal Bed": {
+    description: "A royal bed for your Bumpkin to rest.",
+    decimals: 0,
+    attributes: [{ trait_type: "Tradable", value: "No" }],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2147.png",
+    name: "Royal Bed",
   },
 };
 

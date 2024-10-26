@@ -703,6 +703,18 @@ import musicBox from "assets/animals/music_box.webp";
 
 import craftingBox from "assets/buildings/crafting_table.webp";
 
+import sturdyBed from "assets/bumpkins/sturdy_bed.webp";
+import desertBed from "assets/bumpkins/desert_bed.webp";
+import fisherBed from "assets/bumpkins/fisher_bed.webp";
+import floralBed from "assets/bumpkins/flower_bed.webp";
+import pirateBed from "assets/bumpkins/pirate_bed.webp";
+import royalBed from "assets/bumpkins/royal_bed.webp";
+import cowBed from "assets/bumpkins/cow_bed.webp";
+
+import horseshoe from "assets/icons/horseshoe.webp";
+import cowSkull from "assets/community/arcade/greedy_goblin/images/skull.png";
+import bullsRunBanner from "assets/decorations/banners/bull_run_banner.webp";
+
 import { COUPONS, EASTER_EGG, FERTILISERS, InventoryItemName } from "./game";
 
 import { CROPS, CROP_SEEDS, GREENHOUSE_CROPS, GREENHOUSE_SEEDS } from "./crops";
@@ -743,6 +755,7 @@ import { BASIC_DECORATIONS } from "./decorations";
 import { SELLABLE_TREASURE } from "./treasure";
 import { TREASURE_COLLECTIBLE_ITEM } from "./collectibles";
 import { ANIMAL_FOODS } from "./animals";
+import { hasSeasonEnded } from "./seasons";
 
 export interface ItemDetails {
   description: string;
@@ -752,6 +765,7 @@ export interface ItemDetails {
   howToGetItem?: string[];
   // TODO: Extend this as the codex grows eg. Resource etc
   itemType?: "collectible";
+  availability?: string;
 }
 
 type Items = Record<InventoryItemName | AchievementName, ItemDetails>;
@@ -799,7 +813,7 @@ export const ITEM_DETAILS: Items = {
   },
   Radish: {
     image: CROP_LIFECYCLE.Radish.crop,
-    description: CROPS.Corn.description,
+    description: CROPS.Radish.description,
   },
   Wheat: {
     image: CROP_LIFECYCLE.Wheat.crop,
@@ -987,7 +1001,7 @@ export const ITEM_DETAILS: Items = {
   },
   Banana: {
     image: banana,
-    description: PATCH_FRUIT().Orange.description,
+    description: PATCH_FRUIT().Banana.description,
   },
   Tomato: {
     image: tomato,
@@ -1090,11 +1104,11 @@ export const ITEM_DETAILS: Items = {
     description: ANIMALS.Chicken.description,
   },
   Cow: {
-    image: SUNNYSIDE.animals.cow,
+    image: SUNNYSIDE.animals.cowIdle,
     description: ANIMALS.Cow.description,
   },
   Sheep: {
-    image: SUNNYSIDE.animals.sheep,
+    image: SUNNYSIDE.animals.sheepIdle,
     description: ANIMALS.Sheep.description,
   },
   Pig: {
@@ -3067,48 +3081,58 @@ export const ITEM_DETAILS: Items = {
     howToGetItem: [translate("ocean.fishing"), translate("beach.fishing")],
     itemType: "collectible",
     description: translate("description.twilight.anglerfish"),
+    availability: translate("permanent"),
   },
   "Starlight Tuna": {
     image: startlightTuna,
     howToGetItem: [translate("ocean.fishing"), translate("beach.fishing")],
     itemType: "collectible",
     description: translate("description.starlight.tuna"),
+    availability: translate("permanent"),
   },
   "Radiant Ray": {
     image: radiantRay,
     howToGetItem: [translate("ocean.fishing"), translate("beach.fishing")],
     itemType: "collectible",
     description: translate("description.radiant.ray"),
+    availability: translate("permanent"),
   },
   "Phantom Barracuda": {
     image: phantomBarracuda,
     howToGetItem: [translate("ocean.fishing"), translate("beach.fishing")],
     itemType: "collectible",
     description: translate("description.phantom.barracuda"),
+    availability: translate("permanent"),
   },
   "Gilded Swordfish": {
     image: gildedSwordfish,
     howToGetItem: [translate("ocean.fishing"), translate("beach.fishing")],
     itemType: "collectible",
     description: translate("description.gilded.swordfish"),
+    availability: translate("permanent"),
   },
   "Crimson Carp": {
     image: crimsonCarp,
-    howToGetItem: [translate("ocean.fishing"), translate("beach.fishing")],
+    howToGetItem: [translate("howToGetThisItem.crimsonCarp")],
     itemType: "collectible",
     description: translate("description.crimson.carp"),
+    availability: translate("seasonal"),
   },
   "Battle Fish": {
     image: battleFish,
-    howToGetItem: [translate("ocean.fishing"), translate("beach.fishing")],
+    howToGetItem: [translate("howToGetThisItem.battleFish")],
     itemType: "collectible",
     description: translate("description.battle.fish"),
+    availability: translate("seasonal"),
   },
   "Lemon Shark": {
     image: lemonShark,
-    howToGetItem: [translate("ocean.fishing"), translate("beach.fishing")],
+    howToGetItem: hasSeasonEnded("Pharaoh's Treasure")
+      ? [translate("howToGetThisItem.lemonShark")]
+      : [translate("ocean.fishing"), translate("beach.fishing")],
     itemType: "collectible",
     description: translate("description.lemon.shark.boost"),
+    availability: translate("seasonal"),
   },
   "Kraken Tentacle": {
     image: krakenTentacle,
@@ -4160,6 +4184,55 @@ export const ITEM_DETAILS: Items = {
   },
   "Crafting Box": {
     image: craftingBox,
-    description: "A box for crafting various items",
+    description: translate("description.craftingBox"),
+  },
+
+  "Basic Bed": {
+    image: SUNNYSIDE.decorations.bed,
+    description: translate("description.basicBed"),
+  },
+  "Sturdy Bed": {
+    image: sturdyBed,
+    description: translate("description.sturdyBed"),
+  },
+  "Floral Bed": {
+    image: floralBed,
+    description: translate("description.floralBed"),
+  },
+  "Fisher Bed": {
+    image: fisherBed,
+    description: translate("description.fisherBed"),
+  },
+  "Pirate Bed": {
+    image: pirateBed,
+    description: translate("description.pirateBed"),
+  },
+  "Cow Bed": {
+    image: cowBed,
+    description: translate("description.cowBed"),
+  },
+  "Desert Bed": {
+    image: desertBed,
+    description: translate("description.desertBed"),
+  },
+  "Royal Bed": {
+    image: royalBed,
+    description: translate("description.royalBed"),
+  },
+  "Barn Delight": {
+    image: SUNNYSIDE.animalFoods.barn_delight,
+    description: "A magical elixir that cures animal sickness.",
+  },
+  "Bull Run Banner": {
+    image: bullsRunBanner,
+    description: translate("description.bullRunBanner"),
+  },
+  "Cow Skull": {
+    image: cowSkull,
+    description: translate("description.cowSkull"),
+  },
+  Horseshoe: {
+    image: horseshoe,
+    description: translate("description.horseshoe"),
   },
 };

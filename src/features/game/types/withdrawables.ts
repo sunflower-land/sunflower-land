@@ -26,7 +26,9 @@ import {
 } from "./craftables";
 import {
   AnimalFoodName,
+  AnimalMedicineName,
   AnimalResource,
+  BedName,
   Coupons,
   EasterEgg,
   FertiliserName,
@@ -95,6 +97,10 @@ const animalFood: Record<AnimalFoodName, () => boolean> = {
   "Kernel Blend": () => false,
   NutriBarley: () => false,
   "Mixed Grain": () => false,
+};
+
+const animalMedicine: Record<AnimalMedicineName, () => boolean> = {
+  "Barn Delight": () => false,
 };
 
 const animalTools: Record<LoveAnimalItem, () => boolean> = {
@@ -443,6 +449,7 @@ const coupons: Record<Coupons, () => boolean> = {
   "Nightshade Emblem": () => false,
   "Sunflorian Emblem": () => false,
   Mark: () => false,
+  Horseshoe: () => false,
 };
 
 const buildings: Record<BuildingName, () => boolean> = {
@@ -862,6 +869,7 @@ const beachBounty: Record<BeachBountyTreasure, () => boolean> = {
   Sand: () => false,
   Scarab: () => false,
   Vase: () => false,
+  "Cow Skull": () => false,
 };
 
 const eventDecoration: Record<EventDecorationName, () => boolean> = {
@@ -914,6 +922,7 @@ const purchasables: Record<PurchasableItems, () => boolean> = {
   "Clash of Factions Banner": () => false,
   "Lifetime Farmer Banner": () => false,
   "Pharaoh's Treasure Banner": () => false,
+  "Bull Run Banner": () => false,
 };
 
 const potionHouse: Record<
@@ -1125,7 +1134,19 @@ const animalResources: Record<AnimalResource, () => boolean> = {
   Milk: () => false,
 };
 
+const beds: Record<BedName, () => boolean> = {
+  "Basic Bed": () => false,
+  "Sturdy Bed": () => false,
+  "Floral Bed": () => false,
+  "Fisher Bed": () => false,
+  "Pirate Bed": () => false,
+  "Cow Bed": () => false,
+  "Desert Bed": () => false,
+  "Royal Bed": () => false,
+};
+
 export const WITHDRAWABLES: Record<InventoryItemName, () => boolean> = {
+  ...animalMedicine,
   ...animalResources,
   ...greenHouseCrop,
   ...greenHouseCropSeed,
@@ -1192,6 +1213,7 @@ export const WITHDRAWABLES: Record<InventoryItemName, () => boolean> = {
   ...interiors,
   ...factionBanners,
   ...factionShopCollectibles,
+  ...beds,
 
   ...getKeys(DECORATION_TEMPLATES).reduce(
     (acc, key) => ({

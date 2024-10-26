@@ -1,4 +1,4 @@
-import { useSelector } from "@xstate/react";
+import { useActor, useSelector } from "@xstate/react";
 import { SUNNYSIDE } from "assets/sunnyside";
 import React, { useContext, useEffect, useState } from "react";
 import classNames from "classnames";
@@ -8,6 +8,7 @@ import worldIcon from "assets/icons/world_small.png";
 import token from "assets/icons/sfl.webp";
 import chest from "assets/icons/chest.png";
 import lock from "assets/icons/lock.png";
+import lightning from "assets/icons/lightning.png";
 
 import { DynamicNFT } from "features/bumpkins/components/DynamicNFT";
 import { Context } from "features/game/GameProvider";
@@ -111,18 +112,18 @@ export function hasOrderRequirements({
 
 const makeRewardAmountForLabel = ({
   order,
-  gameState,
+  state,
 }: {
   order: Order;
-  gameState: GameState;
+  state: GameState;
 }) => {
   if (order.reward.sfl !== undefined) {
-    const sfl = getOrderSellPrice<Decimal>(gameState, order);
+    const sfl = getOrderSellPrice<Decimal>(state, order);
 
     return formatNumber(sfl, { decimalPlaces: 4 });
   }
 
-  const coins = getOrderSellPrice<number>(gameState, order);
+  const coins = getOrderSellPrice<number>(state, order);
 
   return formatNumber(coins);
 };
@@ -131,20 +132,17 @@ export type OrderCardProps = {
   order: Order;
   selected: Order;
   onClick: (id: string) => void;
-  gameState: GameState;
+  state: GameState;
 };
 export const OrderCard: React.FC<OrderCardProps> = ({
   order,
   selected,
   onClick,
-  gameState,
+  state,
 }) => {
-  const { coins, balance: sfl, inventory } = gameState;
+  const { coins, balance: sfl, inventory } = state;
 
-  const tickets = generateDeliveryTickets({
-    game: gameState,
-    npc: order.from,
-  });
+  const tickets = generateDeliveryTickets({ game: state, npc: order.from });
 
   return (
     <div className="py-1 px-1" key={order.id}>
@@ -210,7 +208,7 @@ export const OrderCard: React.FC<OrderCardProps> = ({
               height: "25px",
             }}
           >
-            {`${`${makeRewardAmountForLabel({ order, gameState })}`}`}
+            {`${`${makeRewardAmountForLabel({ order, state })}`}`}
           </Label>
         )}
         {!order.completedAt && order.reward.coins !== undefined && (
@@ -225,7 +223,7 @@ export const OrderCard: React.FC<OrderCardProps> = ({
               height: "25px",
             }}
           >
-            {`${makeRewardAmountForLabel({ order, gameState })}`}
+            {`${makeRewardAmountForLabel({ order, state })}`}
           </Label>
         )}
         {!order.completedAt && !!tickets && (
@@ -330,7 +328,11 @@ export const DeliveryOrders: React.FC<Props> = ({
   const [showSkipDialog, setShowSkipDialog] = useState(false);
   const [isRevealing, setIsRevealing] = useState(false);
 
-  const gameState = gameService.state.context.state;
+  const [
+    {
+      context: { state },
+    },
+  ] = useActor(gameService);
 
   const orders = delivery.orders
     .filter((order) => Date.now() >= order.readyAt)
@@ -345,7 +347,12 @@ export const DeliveryOrders: React.FC<Props> = ({
   if (!previewOrder) {
     previewOrder = orders[0];
   }
+  const completedAt = state.npcs?.[previewOrder.from]?.deliveryCompletedAt;
 
+  const hasClaimedBonus =
+    !!completedAt &&
+    new Date(completedAt).toISOString().substring(0, 10) ===
+      new Date().toISOString().substring(0, 10);
   const canSkip =
     getDayOfYear(new Date()) !== getDayOfYear(new Date(previewOrder.createdAt));
 
@@ -366,12 +373,12 @@ export const DeliveryOrders: React.FC<Props> = ({
 
   const makeRewardAmountForLabel = (order: Order) => {
     if (order.reward.sfl !== undefined) {
-      const sfl = getOrderSellPrice<Decimal>(gameState, order);
+      const sfl = getOrderSellPrice<Decimal>(state, order);
 
       return formatNumber(sfl, { decimalPlaces: 4 });
     }
 
-    const coins = getOrderSellPrice<number>(gameState, order);
+    const coins = getOrderSellPrice<number>(state, order);
 
     return formatNumber(coins);
   };
@@ -398,7 +405,7 @@ export const DeliveryOrders: React.FC<Props> = ({
     ticketTasksAreClosing,
   } = getSeasonChangeover({ id: gameService.state.context.farmId });
 
-  const level = getBumpkinLevel(gameState.bumpkin?.experience ?? 0);
+  const level = getBumpkinLevel(state.bumpkin?.experience ?? 0);
 
   const coinOrders = orders.filter((order) => order.reward.coins);
   const sflOrders = orders.filter((order) => order.reward.sfl);
@@ -432,8 +439,13 @@ export const DeliveryOrders: React.FC<Props> = ({
         )}
       >
         <div className="p-1">
-          <div className="flex justify-between gap-1">
+          <div className="flex justify-between gap-1 flex-row w-full">
             <Label type="default">{t("deliveries")}</Label>
+            {state.delivery.doubleDelivery === true && (
+              <Label type="vibrant" icon={lightning}>
+                {t("double.rewards.deliveries")}
+              </Label>
+            )}
           </div>
           <p className="my-2 ml-1 text-xs">{t("deliveries.intro")}</p>
         </div>
@@ -449,7 +461,7 @@ export const DeliveryOrders: React.FC<Props> = ({
           {coinOrders.map((order) => {
             return (
               <OrderCard
-                gameState={gameState}
+                state={state}
                 key={order.id}
                 order={order}
                 selected={previewOrder}
@@ -500,7 +512,7 @@ export const DeliveryOrders: React.FC<Props> = ({
           {ticketOrders.map((order) => {
             return (
               <OrderCard
-                gameState={gameState}
+                state={state}
                 key={order.id}
                 order={order}
                 selected={previewOrder}
@@ -528,7 +540,7 @@ export const DeliveryOrders: React.FC<Props> = ({
           {sflOrders.map((order) => {
             return (
               <OrderCard
-                gameState={gameState}
+                state={state}
                 key={order.id}
                 order={order}
                 selected={previewOrder}
@@ -754,7 +766,7 @@ export const DeliveryOrders: React.FC<Props> = ({
                   <span className={!isMobile ? "text-xxs" : ""}>
                     {`${
                       generateDeliveryTickets({
-                        game: gameState,
+                        game: state,
                         npc: previewOrder.from,
                       }) || makeRewardAmountForLabel(previewOrder)
                     } ${
@@ -767,56 +779,69 @@ export const DeliveryOrders: React.FC<Props> = ({
                   </span>
                 </Label>
               </div>
-              {!previewOrder.completedAt &&
-                hasOrderRequirements({
-                  order: previewOrder,
-                  sfl,
-                  coins,
-                  inventory,
-                }) && (
-                  <Button
-                    className="!text-xs !mt-0 !-mb-1"
-                    onClick={() => {
-                      gameService.send("SAVE");
-                      onClose();
-                      {
-                        if (
-                          RETREAT_BUMPKINS.includes(
-                            previewOrder?.from as NPCName,
-                          )
-                        ) {
-                          navigate("/world/retreat");
-                        } else if (
-                          BEACH_BUMPKINS.includes(previewOrder?.from as NPCName)
-                        ) {
-                          navigate("/world/beach");
-                        } else if (
-                          KINGDOM_BUMPKINS.includes(
-                            previewOrder?.from as NPCName,
-                          )
-                        ) {
-                          navigate("/world/kingdom");
-                        } else {
-                          navigate("/world/plaza");
+              <div className="mb-1">
+                {state.delivery.doubleDelivery === true && !hasClaimedBonus && (
+                  <Label type="vibrant" icon={lightning}>
+                    {t("2x.rewards")}
+                  </Label>
+                )}
+              </div>
+              <div>
+                {!previewOrder.completedAt &&
+                  hasOrderRequirements({
+                    order: previewOrder,
+                    sfl,
+                    coins,
+                    inventory,
+                  }) && (
+                    <Button
+                      className="!text-xs !mt-0 !-mb-1"
+                      onClick={() => {
+                        gameService.send("SAVE");
+                        onClose();
+                        {
+                          if (
+                            RETREAT_BUMPKINS.includes(
+                              previewOrder?.from as NPCName,
+                            )
+                          ) {
+                            navigate("/world/retreat");
+                          } else if (
+                            BEACH_BUMPKINS.includes(
+                              previewOrder?.from as NPCName,
+                            )
+                          ) {
+                            navigate("/world/beach");
+                          } else if (
+                            KINGDOM_BUMPKINS.includes(
+                              previewOrder?.from as NPCName,
+                            )
+                          ) {
+                            navigate("/world/kingdom");
+                          } else {
+                            navigate("/world/plaza");
+                          }
                         }
-                      }
-                    }}
-                  >
-                    {t("world.travelTo", {
-                      location: RETREAT_BUMPKINS.includes(
-                        previewOrder?.from as NPCName,
-                      )
-                        ? t("world.retreat")
-                        : BEACH_BUMPKINS.includes(previewOrder?.from as NPCName)
-                          ? t("world.beach")
-                          : KINGDOM_BUMPKINS.includes(
+                      }}
+                    >
+                      {t("world.travelTo", {
+                        location: RETREAT_BUMPKINS.includes(
+                          previewOrder?.from as NPCName,
+                        )
+                          ? t("world.retreat")
+                          : BEACH_BUMPKINS.includes(
                                 previewOrder?.from as NPCName,
                               )
-                            ? t("world.kingdom")
-                            : t("world.plaza"),
-                    })}
-                  </Button>
-                )}
+                            ? t("world.beach")
+                            : KINGDOM_BUMPKINS.includes(
+                                  previewOrder?.from as NPCName,
+                                )
+                              ? t("world.kingdom")
+                              : t("world.plaza"),
+                      })}
+                    </Button>
+                  )}
+              </div>
               {previewOrder.completedAt ? (
                 <div className="flex">
                   <img src={SUNNYSIDE.icons.confirm} className="mr-2 h-4" />
@@ -835,7 +860,7 @@ export const DeliveryOrders: React.FC<Props> = ({
           )}
           {ticketTasksAreFrozen &&
             !!generateDeliveryTickets({
-              game: gameState,
+              game: state,
               npc: previewOrder.from,
             }) && (
               <Label

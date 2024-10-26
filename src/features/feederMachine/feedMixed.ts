@@ -1,4 +1,8 @@
-import { GameState, AnimalFoodName } from "features/game/types/game";
+import {
+  GameState,
+  AnimalFoodName,
+  AnimalMedicineName,
+} from "features/game/types/game";
 import Decimal from "decimal.js-light";
 import { trackActivity } from "features/game/types/bumpkinActivity";
 import { getKeys } from "features/game/types/decorations";
@@ -7,7 +11,7 @@ import { produce } from "immer";
 
 export type FeedMixedAction = {
   type: "feed.mixed";
-  feed: AnimalFoodName;
+  item: AnimalFoodName | AnimalMedicineName;
   amount?: number;
 };
 
@@ -24,7 +28,7 @@ export function feedMixed({ state, action }: Options) {
       throw new Error("Bumpkin not found");
     }
 
-    const { feed, amount } = action;
+    const { item: feed, amount = 1 } = action;
 
     const selectedItem = ANIMAL_FOODS[feed];
 
@@ -41,8 +45,9 @@ export function feedMixed({ state, action }: Options) {
     const subtractedInventory = getKeys(selectedItem.ingredients)?.reduce(
       (inventory, ingredient) => {
         const count = inventory[ingredient] ?? new Decimal(0);
-        const requiredIngredients =
-          selectedItem.ingredients[ingredient] ?? new Decimal(0);
+        const requiredIngredients = new Decimal(
+          selectedItem.ingredients[ingredient] ?? 0,
+        ).mul(amount);
 
         if (count.lessThan(requiredIngredients)) {
           throw new Error(`Insufficient Ingredient: ${ingredient}`);
@@ -70,7 +75,7 @@ export function feedMixed({ state, action }: Options) {
     copy.coins -= price;
     copy.inventory = {
       ...subtractedInventory,
-      [feed]: oldAmount.add(1),
+      [feed]: oldAmount.add(amount ?? 0),
     };
 
     return copy;

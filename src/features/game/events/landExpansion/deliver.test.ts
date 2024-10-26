@@ -1211,4 +1211,105 @@ describe("deliver", () => {
 
     expect(state.coins).toEqual(336);
   });
+  it("gives 100% more Coins profit on completed deliveries if double delivery is active", () => {
+    const state = deliverOrder({
+      state: {
+        ...TEST_FARM,
+        coins: 0,
+        inventory: {
+          Orange: new Decimal(5),
+          Grape: new Decimal(2),
+        },
+        delivery: {
+          ...TEST_FARM.delivery,
+          orders: [
+            {
+              id: "123",
+              createdAt: 0,
+              readyAt: Date.now(),
+              from: "tango",
+              items: {
+                Orange: 5,
+                Grape: 2,
+              },
+              reward: { coins: 320 },
+            },
+          ],
+          doubleDelivery: true,
+        },
+      },
+      action: {
+        id: "123",
+        type: "order.delivered",
+      },
+    });
+
+    expect(state.coins).toEqual(640);
+  });
+
+  it("gives 100% more SFL profit on completed deliveries if double delivery is active", () => {
+    const state = deliverOrder({
+      state: {
+        ...TEST_FARM,
+        coins: 0,
+        inventory: {
+          Orange: new Decimal(5),
+          Grape: new Decimal(2),
+        },
+        delivery: {
+          ...TEST_FARM.delivery,
+          orders: [
+            {
+              id: "123",
+              createdAt: 0,
+              readyAt: Date.now(),
+              from: "guria",
+              items: {
+                Orange: 5,
+                Grape: 2,
+              },
+              reward: { sfl: 1 },
+            },
+          ],
+          doubleDelivery: true,
+        },
+      },
+      action: {
+        id: "123",
+        type: "order.delivered",
+      },
+    });
+
+    expect(state.balance).toEqual(new Decimal(2));
+  });
+
+  it("gives 100% more seasonal ticket on completed deliveries if double delivery is active", () => {
+    const state = deliverOrder({
+      state: {
+        ...TEST_FARM,
+        coins: 6400,
+        inventory: { "Amber Fossil": new Decimal(0) },
+        delivery: {
+          ...TEST_FARM.delivery,
+          orders: [
+            {
+              id: "123",
+              createdAt: 0,
+              readyAt: Date.now(),
+              from: "tywin",
+              items: { coins: 6400 },
+              reward: {},
+            },
+          ],
+          doubleDelivery: true,
+        },
+      },
+      action: {
+        id: "123",
+        type: "order.delivered",
+      },
+    });
+
+    expect(state.inventory[getSeasonalTicket()]).toEqual(new Decimal(10));
+  });
 });

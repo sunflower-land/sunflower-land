@@ -21,16 +21,14 @@ import { UpgradeBuildingModal } from "features/game/expansion/components/Upgrade
 import { Modal } from "components/ui/Modal";
 import {
   AnimalDeal,
-  AnimalBounties,
   ExchangeHud,
 } from "features/barn/components/AnimalBounties";
-import { Animal, BountyRequest } from "features/game/types/game";
+import { Animal, AnimalBounty } from "features/game/types/game";
 import { isValidDeal } from "features/game/events/landExpansion/sellAnimal";
 import classNames from "classnames";
 import { NPC } from "features/island/bumpkin/components/NPC";
 import { NPC_WEARABLES } from "lib/npcs";
-
-const background = SUNNYSIDE.land.tent_inside;
+import { EXTERIOR_ISLAND_BG } from "features/barn/BarnInside";
 
 const _henHouse = (state: MachineState) => state.context.state.henHouse;
 
@@ -47,8 +45,7 @@ export const HenHouseInside: React.FC = () => {
   const { gameService } = useContext(Context);
   const [showModal, setShowModal] = useState(false);
   const [showUpgradeModal, setShowUpgradeModal] = useState(false);
-  const [showExchange, setShowExchange] = useState(false);
-  const [deal, setDeal] = useState<BountyRequest>();
+  const [deal, setDeal] = useState<AnimalBounty>();
   const [selected, setSelected] = useState<Animal>();
   const henHouse = useSelector(gameService, _henHouse);
   const level = henHouse.level as AnimalBuildingLevel;
@@ -62,60 +59,21 @@ export const HenHouseInside: React.FC = () => {
     scrollIntoView(Section.GenesisBlock, "auto");
   }, []);
 
-  const mapPlacements: Array<JSX.Element> = [];
-
-  const components = getKeys(henHouse.animals).map((id) => {
-    const animal = henHouse.animals[id];
-    const isValid = deal && isValidDeal({ animal, deal });
-
-    return (
-      <MapPlacement
-        key={`chicken-${id}`}
-        x={animal.coordinates.x}
-        y={animal.coordinates.y}
-        height={ANIMALS.Chicken.height}
-        width={ANIMALS.Chicken.width}
-        z={1}
-      >
-        <div
-          className={classNames(
-            deal
-              ? {
-                  "opacity-50": !isValid,
-                  "cursor-pointer": isValid,
-                  "pointer-events-none": !isValid,
-                }
-              : {},
-          )}
-          onClick={(e) => {
-            if (deal) {
-              // Stop other clicks
-              e.stopPropagation();
-              e.preventDefault();
-
-              if (!isValid) return;
-
-              setSelected(animal);
-            }
-          }}
-        >
-          <Chicken disabled={!!deal} id={id} />
-        </div>
-      </MapPlacement>
-    );
-  });
-
-  mapPlacements.push(...components);
-
   const nextLevel = Math.min(level + 1, 3) as Exclude<AnimalBuildingLevel, 1>;
 
   return (
     <>
-      <AnimalBuildingModal
-        buildingName="Hen House"
-        show={showModal}
-        onClose={() => setShowModal(false)}
-      />
+      <Modal show={showModal} onHide={() => setShowModal(false)}>
+        <AnimalBuildingModal
+          buildingName="Hen House"
+          show={showModal}
+          onClose={() => setShowModal(false)}
+          onExchanging={(deal) => {
+            setShowModal(false);
+            setDeal(deal);
+          }}
+        />
+      </Modal>
       <UpgradeBuildingModal
         buildingName="Hen House"
         currentLevel={level}
@@ -123,15 +81,6 @@ export const HenHouseInside: React.FC = () => {
         show={showUpgradeModal}
         onClose={() => setShowUpgradeModal(false)}
       />
-      <Modal show={showExchange} onHide={() => setShowExchange(false)}>
-        <AnimalBounties
-          onExchanging={(deal) => {
-            setShowExchange(false);
-            setDeal(deal);
-          }}
-          type="Chicken"
-        />
-      </Modal>
 
       <Modal show={!!selected} onHide={() => setSelected(undefined)}>
         <AnimalDeal
@@ -152,40 +101,26 @@ export const HenHouseInside: React.FC = () => {
           width: `${84 * GRID_WIDTH_PX}px`,
           height: `${56 * GRID_WIDTH_PX}px`,
           imageRendering: "pixelated",
+          backgroundImage: `url(${EXTERIOR_ISLAND_BG[gameService.getSnapshot().context.state.island.type]})`,
+          backgroundRepeat: "repeat",
+          backgroundPosition: "center",
+          backgroundSize: `${96 * PIXEL_SCALE}px ${96 * PIXEL_SCALE}px`,
         }}
       >
         <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
           <div className="relative w-full h-full">
-            <img
-              src={shopDisc}
-              alt="Buy Animals"
-              className="absolute top-[18px] right-[18px] cursor-pointer z-10"
-              style={{
-                width: `${PIXEL_SCALE * 18}px`,
-              }}
-              onClick={() => setShowModal(true)}
-            />
             <div className={"relative w-full h-full"}>
               {!deal && (
                 <>
                   <img
                     src={shopDisc}
                     alt="Buy Animals"
-                    className="absolute top-7 right-8 cursor-pointer z-10"
+                    className="absolute top-[18px] right-[18px] cursor-pointer z-10"
                     style={{
                       width: `${PIXEL_SCALE * 18}px`,
                     }}
                     onClick={() => setShowModal(true)}
                   />
-                  <div
-                    className="absolute bottom-32 left-8 cursor-pointer z-10"
-                    style={{
-                      width: `${PIXEL_SCALE * 18}px`,
-                    }}
-                    onClick={() => setShowExchange(true)}
-                  >
-                    <GrabNab />
-                  </div>
 
                   <Button
                     className="absolute -bottom-16"
@@ -227,7 +162,43 @@ export const HenHouseInside: React.FC = () => {
                 <FeederMachine />
               </div>
 
-              {mapPlacements.sort((a, b) => b.props.y - a.props.y)}
+              {getKeys(henHouse.animals)
+                .map((id) => {
+                  const animal = henHouse.animals[id];
+                  const isValid = deal && isValidDeal({ animal, deal });
+
+                  return (
+                    <MapPlacement
+                      key={`chicken-${id}`}
+                      x={animal.coordinates.x}
+                      y={animal.coordinates.y}
+                      height={ANIMALS.Chicken.height}
+                      width={ANIMALS.Chicken.width}
+                    >
+                      <div
+                        className={classNames({
+                          "opacity-50": deal && !isValid,
+                          "cursor-pointer": deal && isValid,
+                          "pointer-events-none": deal && !isValid,
+                        })}
+                        onClick={(e) => {
+                          if (deal) {
+                            // Stop other clicks
+                            e.stopPropagation();
+                            e.preventDefault();
+
+                            if (!isValid) return;
+
+                            setSelected(animal);
+                          }
+                        }}
+                      >
+                        <Chicken disabled={!!deal} id={id} />
+                      </div>
+                    </MapPlacement>
+                  );
+                })
+                .sort((a, b) => a.props.y - b.props.y)}
             </div>
           </div>
         </div>

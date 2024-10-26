@@ -123,6 +123,42 @@ const HOWLERS = {
     preload: false,
     volume: 0.07,
   }),
+  // animals
+  chicken_collect: new Howl({
+    src: SOUNDS.animals.chicken_collect,
+    preload: false,
+    volume: 0.05,
+  }),
+  cow_collect: new Howl({
+    src: SOUNDS.animals.cow_collect,
+    preload: false,
+    volume: 0.05,
+  }),
+  sheep_collect: new Howl({
+    src: SOUNDS.animals.sheep_collect,
+    preload: false,
+    volume: 0.05,
+  }),
+  produce_drop: new Howl({
+    src: SOUNDS.animals.produce_drop,
+    preload: false,
+    volume: 0.1,
+  }),
+  feed_animal: new Howl({
+    src: SOUNDS.animals.feed_animal,
+    preload: false,
+    volume: 0.05,
+  }),
+  level_up: new Howl({
+    src: SOUNDS.notifications.level_up,
+    preload: false,
+    volume: 0.05,
+  }),
+  cure_animal: new Howl({
+    src: SOUNDS.animals.cure_animal,
+    preload: false,
+    volume: 0.05,
+  }),
 };
 
 let lastSoundPlayedAt = 0;

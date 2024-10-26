@@ -1,117 +1,38 @@
 import { produce } from "immer";
 import Decimal from "decimal.js-light";
-import { AnimalLevel, ANIMALS, AnimalType } from "features/game/types/animals";
-import { AnimalFoodName, GameState, Inventory } from "features/game/types/game";
+import {
+  ANIMAL_FOOD_EXPERIENCE,
+  ANIMALS,
+  AnimalType,
+} from "features/game/types/animals";
+import {
+  AnimalFoodName,
+  AnimalMedicineName,
+  GameState,
+} from "features/game/types/game";
 import {
   getAnimalFavoriteFood,
   getAnimalLevel,
+  getBoostedFoodQuantity,
   makeAnimalBuildingKey,
 } from "features/game/lib/animals";
-import { getKeys } from "features/game/types/craftables";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
-
-export const ANIMAL_FOOD_EXPERIENCE: Record<
-  AnimalType,
-  Record<AnimalLevel, Record<AnimalFoodName, number>>
-> = {
-  Chicken: {
-    1: {
-      Hay: 10,
-      "Kernel Blend": 20,
-      NutriBarley: 0,
-      "Mixed Grain": 0,
-    },
-    2: {
-      Hay: 15,
-      "Kernel Blend": 30,
-      NutriBarley: 0,
-      "Mixed Grain": 0,
-    },
-    3: {
-      Hay: 40,
-      "Kernel Blend": 20,
-      NutriBarley: 0,
-      "Mixed Grain": 0,
-    },
-  },
-  Cow: {
-    1: {
-      Hay: 10,
-      "Kernel Blend": 20,
-      NutriBarley: 0,
-      "Mixed Grain": 0,
-    },
-    2: {
-      Hay: 15,
-      "Kernel Blend": 30,
-      NutriBarley: 0,
-      "Mixed Grain": 0,
-    },
-    3: {
-      Hay: 40,
-      "Kernel Blend": 20,
-      NutriBarley: 0,
-      "Mixed Grain": 0,
-    },
-  },
-  Sheep: {
-    1: {
-      Hay: 10,
-      "Kernel Blend": 20,
-      NutriBarley: 0,
-      "Mixed Grain": 0,
-    },
-    2: {
-      Hay: 15,
-      "Kernel Blend": 30,
-      NutriBarley: 0,
-      "Mixed Grain": 0,
-    },
-    3: {
-      Hay: 40,
-      "Kernel Blend": 20,
-      NutriBarley: 0,
-      "Mixed Grain": 0,
-    },
-  },
-};
-
-const ANIMAL_RESOURCE_DROP: Record<
-  AnimalType,
-  Record<AnimalLevel, Inventory>
-> = {
-  Chicken: {
-    1: {
-      Egg: new Decimal(1),
-    },
-    2: {
-      Egg: new Decimal(2),
-    },
-    3: {
-      Egg: new Decimal(2),
-      Feather: new Decimal(1),
-    },
-  },
-  Cow: {
-    1: {},
-    2: {},
-    3: {},
-  },
-  Sheep: {
-    1: {},
-    2: {},
-    3: {},
-  },
-};
+import { trackActivity } from "features/game/types/bumpkinActivity";
 
 export const ANIMAL_SLEEP_DURATION = 24 * 60 * 60 * 1000;
 export const ANIMAL_NEEDS_LOVE_DURATION = 1000 * 60 * 60 * 8;
+
+export const REQUIRED_FOOD_QTY: Record<AnimalType, number> = {
+  Chicken: 1,
+  Sheep: 3,
+  Cow: 5,
+};
 
 export type FeedAnimalAction = {
   type: "animal.fed";
   animal: AnimalType;
   id: string;
-  food: AnimalFoodName;
+  item?: AnimalFoodName | AnimalMedicineName;
 };
 
 type Options = {
@@ -140,48 +61,105 @@ export function feedAnimal({
       throw new Error("Animal is asleep");
     }
 
-    const level = getAnimalLevel(animal.experience, animal.type);
-    const xp = ANIMAL_FOOD_EXPERIENCE[action.animal][level];
-    const favouriteFood = getAnimalFavoriteFood(
-      action.animal,
-      animal.experience,
-    );
+    // Handle curing sick animal
+    if (action.item === "Barn Delight") {
+      if (animal.state !== "sick") {
+        throw new Error("Cannot cure a healthy animal");
+      }
 
+      const barnDelightAmount =
+        copy.inventory["Barn Delight"] ?? new Decimal(0);
+
+      if (barnDelightAmount.lt(1)) {
+        throw new Error("Not enough Barn Delight to cure the animal");
+      }
+
+      copy.inventory["Barn Delight"] = barnDelightAmount.sub(1);
+      animal.state = "idle";
+
+      copy.bumpkin.activity = trackActivity(
+        `${action.animal} Cured`,
+        copy.bumpkin.activity,
+      );
+
+      return copy; // Early return after curing
+    }
+
+    // Handle feeding
+    if (animal.state === "sick") {
+      throw new Error("Cannot feed a sick animal");
+    }
+
+    const level = getAnimalLevel(animal.experience, animal.type);
+    const food = action.item as AnimalFoodName;
     const isChicken = action.animal === "Chicken";
     const hasGoldenEggPlaced = isCollectibleBuilt({
       name: "Gold Egg",
       game: copy,
     });
+    const favouriteFood = getAnimalFavoriteFood(
+      action.animal,
+      animal.experience,
+    );
 
-    const food = isChicken && hasGoldenEggPlaced ? favouriteFood : action.food;
-    const requiredAmount = isChicken && hasGoldenEggPlaced ? 0 : 1;
-    const inventoryAmount = copy.inventory[food] ?? new Decimal(0);
+    // Handle Golden Egg Free Food
+    if (isChicken && hasGoldenEggPlaced) {
+      const favouriteFoodXp =
+        ANIMAL_FOOD_EXPERIENCE[action.animal][level][favouriteFood];
+      animal.experience += favouriteFoodXp;
 
-    if (inventoryAmount.lt(requiredAmount)) {
-      throw new Error(`Player does not have any ${food}`);
+      animal.state = "happy";
+
+      if (level !== getAnimalLevel(animal.experience, animal.type)) {
+        animal.state = "ready";
+      }
+
+      copy.bumpkin.activity = trackActivity(
+        `${action.animal} Fed`,
+        copy.bumpkin.activity,
+      );
+
+      // Early return
+      return copy;
     }
 
-    copy.inventory[food] = inventoryAmount.sub(requiredAmount);
-    animal.experience += xp[food];
+    // Regular feeding logic
+    if (!food) {
+      throw new Error("No food provided");
+    }
+
+    const foodXp = ANIMAL_FOOD_EXPERIENCE[action.animal][level][food];
+    const foodQuantity = REQUIRED_FOOD_QTY[action.animal];
+    const boostedFoodQuantity = getBoostedFoodQuantity({
+      animalType: action.animal,
+      foodQuantity,
+      game: copy,
+    });
+
+    const inventoryAmount = copy.inventory[food] ?? new Decimal(0);
+
+    if (inventoryAmount.lt(boostedFoodQuantity)) {
+      throw new Error(`Player does not have enough ${food}`);
+    }
+
+    copy.inventory[food] = inventoryAmount.sub(boostedFoodQuantity);
+
+    animal.experience += foodXp;
 
     animal.state = "sad";
 
     if (favouriteFood === food) {
-      getKeys(ANIMAL_RESOURCE_DROP[action.animal][level]).forEach(
-        (resource) => {
-          const amount = ANIMAL_RESOURCE_DROP[action.animal][level][resource];
-          copy.inventory[resource] = (
-            copy.inventory[resource] ?? new Decimal(0)
-          ).add(amount ?? new Decimal(0));
-        },
-      );
       animal.state = "happy";
     }
 
     if (level !== getAnimalLevel(animal.experience, animal.type)) {
-      animal.asleepAt = createdAt;
-      animal.state = "idle";
+      animal.state = "ready";
     }
+
+    copy.bumpkin.activity = trackActivity(
+      `${action.animal} Fed`,
+      copy.bumpkin.activity,
+    );
 
     return copy;
   });

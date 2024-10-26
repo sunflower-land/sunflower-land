@@ -106,7 +106,7 @@ export type NPCName =
   | "pharaoh"
   | "worried pete"
   | "chase" //cowboy
-  | "sheep"; //sheep
+  | "sheep"; //sheep;
 
 export const NPC_WEARABLES: Record<NPCName, Equipped> = {
   richie: {
@@ -925,11 +925,13 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
   // Flower expert
   poppy: {
     body: "Beige Farmer Potion",
-    dress: "Antique Dress",
+    dress: "Blue Monarch Dress",
+    wings: "Butterfly Wings",
     background: "Mountain View Background",
     hair: "Brown Long Hair",
     tool: "Farmer Pitchfork",
     shoes: "Brown Boots",
+    hat: "Flower Crown",
   },
   // Beekeeper
   stevie: {

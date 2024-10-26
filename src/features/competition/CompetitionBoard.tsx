@@ -316,6 +316,17 @@ export const CompetitionModal: React.FC<{
                 ]}
               />
             </div>
+
+            <a
+              href={
+                "https://docs.sunflower-land.com/player-guides/special-events/fsl-id-farmer-competition#rewards"
+              }
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline text-xxs pb-1 pt-0.5 hover:text-blue-500 mb-1"
+            >
+              {t("read.more")}
+            </a>
           </InnerPanel>
         </>
       )}

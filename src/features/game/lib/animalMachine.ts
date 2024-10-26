@@ -1,6 +1,5 @@
 import { assign, createMachine, Interpreter, State } from "xstate";
 import { Animal } from "../types/game";
-import { SUNNYSIDE } from "assets/sunnyside";
 import {
   ANIMAL_NEEDS_LOVE_DURATION,
   ANIMAL_SLEEP_DURATION,
@@ -18,14 +17,25 @@ export type TState = {
     | "loved"
     | "sleeping"
     | "needsLove"
-    | "initial";
+    | "sick"
+    | "initial"
+    | "ready";
   context: TContext;
 };
 
 type AnimalFeedEvent = { type: "FEED"; animal: Animal };
 type AnimalLoveEvent = { type: "LOVE"; animal: Animal };
+type AnimalCureEvent = { type: "CURE"; animal: Animal };
+type AnimalSickEvent = { type: "SICK"; animal: Animal };
+type AnimalClaimProduceEvent = { type: "CLAIM_PRODUCE"; animal: Animal };
 
-type TEvent = AnimalFeedEvent | AnimalLoveEvent | { type: "TICK" };
+type TEvent =
+  | AnimalFeedEvent
+  | AnimalLoveEvent
+  | AnimalClaimProduceEvent
+  | AnimalSickEvent
+  | AnimalCureEvent
+  | { type: "TICK" };
 
 type MachineState = State<TContext, TEvent, MachineState>;
 
@@ -35,16 +45,6 @@ export type AnimalMachineInterpreter = Interpreter<
   TEvent,
   MachineState
 >;
-
-export const ANIMAL_EMOTION_ICONS: Record<
-  Exclude<TState["value"], "idle" | "needsLove" | "initial">,
-  string
-> = {
-  happy: SUNNYSIDE.icons.happy,
-  sad: SUNNYSIDE.icons.sad,
-  sleeping: SUNNYSIDE.icons.sleeping,
-  loved: SUNNYSIDE.icons.heart,
-};
 
 const isAnimalSleeping = (context: TContext) => {
   if (!context.animal) return false;
@@ -72,24 +72,80 @@ export const animalMachine = createMachine<TContext, TEvent, TState>({
   context: {
     animal: undefined,
   },
-
+  on: {
+    // Sickness can happen at any time so it will be handled here.
+    // If the animal is sleeping or needs love, it will not be moved into the sick state.
+    SICK: [
+      {
+        target: "sick",
+        cond: (context) => {
+          return !isAnimalSleeping(context) && !isAnimalNeedsLove(context);
+        },
+        actions: assign({
+          animal: (_, event) => (event as AnimalSickEvent).animal,
+        }),
+      },
+      {
+        actions: assign({
+          animal: (_, event) => {
+            return (event as AnimalSickEvent).animal;
+          },
+        }),
+      },
+    ],
+  },
   // State definitions
   states: {
     initial: {
       always: [
+        // Even if the animal is sick, it can still be ready to claim produce
+        {
+          target: "ready",
+          cond: (context) => context.animal?.state === "ready",
+        },
         {
           target: "needsLove",
           cond: (context) =>
             isAnimalSleeping(context) && isAnimalNeedsLove(context),
         },
+        // Even if the animal is sick, it can still be sleeping
         {
           target: "sleeping",
           cond: (context) => isAnimalSleeping(context),
         },
         {
+          target: "sick",
+          cond: (context) => {
+            return (
+              !isAnimalSleeping(context) && context.animal?.state === "sick"
+            );
+          },
+        },
+        {
           target: "idle",
         },
       ],
+    },
+    sick: {
+      id: "sick",
+      on: {
+        CURE: {
+          target: "idle",
+          actions: assign({
+            animal: (_, event) => (event as AnimalCureEvent).animal,
+          }),
+        },
+      },
+    },
+    ready: {
+      on: {
+        CLAIM_PRODUCE: {
+          target: "sleeping",
+          actions: assign({
+            animal: (_, event) => (event as AnimalClaimProduceEvent).animal,
+          }),
+        },
+      },
     },
     happy: {
       on: {
@@ -103,6 +159,20 @@ export const animalMachine = createMachine<TContext, TEvent, TState>({
           },
           {
             target: "sad",
+            cond: (_, event) => event.animal.state === "sad",
+            actions: assign({
+              animal: (_, event) => (event as AnimalFeedEvent).animal,
+            }),
+          },
+          {
+            target: "ready",
+            cond: (_, event) => event.animal.state === "ready",
+            actions: assign({
+              animal: (_, event) => (event as AnimalFeedEvent).animal,
+            }),
+          },
+          {
+            target: "idle",
             actions: assign({
               animal: (_, event) => (event as AnimalFeedEvent).animal,
             }),
@@ -110,7 +180,7 @@ export const animalMachine = createMachine<TContext, TEvent, TState>({
         ],
       },
       after: {
-        3000: [
+        2000: [
           {
             target: "sleeping",
             cond: (context) => isAnimalSleeping(context),
@@ -131,6 +201,20 @@ export const animalMachine = createMachine<TContext, TEvent, TState>({
           },
           {
             target: "sad",
+            cond: (_, event) => event.animal.state === "sad",
+            actions: assign({
+              animal: (_, event) => (event as AnimalFeedEvent).animal,
+            }),
+          },
+          {
+            target: "ready",
+            cond: (_, event) => event.animal.state === "ready",
+            actions: assign({
+              animal: (_, event) => (event as AnimalFeedEvent).animal,
+            }),
+          },
+          {
+            target: "idle",
             actions: assign({
               animal: (_, event) => (event as AnimalFeedEvent).animal,
             }),
@@ -138,7 +222,7 @@ export const animalMachine = createMachine<TContext, TEvent, TState>({
         ],
       },
       after: {
-        3000: [
+        2000: [
           {
             target: "sleeping",
             cond: (context) => isAnimalSleeping(context),
@@ -149,7 +233,7 @@ export const animalMachine = createMachine<TContext, TEvent, TState>({
     },
     loved: {
       after: {
-        3000: [
+        2000: [
           {
             target: "sleeping",
             cond: (context) => isAnimalSleeping(context),
@@ -170,6 +254,20 @@ export const animalMachine = createMachine<TContext, TEvent, TState>({
           },
           {
             target: "sad",
+            cond: (_, event) => event.animal.state === "sad",
+            actions: assign({
+              animal: (_, event) => (event as AnimalFeedEvent).animal,
+            }),
+          },
+          {
+            target: "ready",
+            cond: (_, event) => event.animal.state === "ready",
+            actions: assign({
+              animal: (_, event) => (event as AnimalFeedEvent).animal,
+            }),
+          },
+          {
+            target: "idle",
             actions: assign({
               animal: (_, event) => (event as AnimalFeedEvent).animal,
             }),
@@ -191,6 +289,11 @@ export const animalMachine = createMachine<TContext, TEvent, TState>({
       },
       on: {
         TICK: [
+          {
+            target: "sick",
+            cond: (context) =>
+              !isAnimalSleeping(context) && context.animal?.state === "sick",
+          },
           {
             target: "idle",
             cond: (context) => !isAnimalSleeping(context),
@@ -219,6 +322,11 @@ export const animalMachine = createMachine<TContext, TEvent, TState>({
           {
             target: "idle",
             cond: (context) => !isAnimalSleeping(context),
+          },
+          {
+            target: "sick",
+            cond: (context) =>
+              !isAnimalSleeping(context) && context.animal?.state === "sick",
           },
         ],
         LOVE: {

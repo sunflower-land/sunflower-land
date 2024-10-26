@@ -53,19 +53,8 @@ const PHARAOH_ITEMS: SeasonalStoreItem[] = [
   {
     wearable: "Red Farmer Shirt",
     cost: {
-      items: {
-        Wood: 1,
-      },
-      sfl: 0,
-    },
-  },
-  {
-    wearable: "Blue Farmer Shirt",
-    cost: {
-      items: {
-        Wood: 1,
-      },
-      sfl: 0,
+      items: {},
+      sfl: 5,
     },
   },
   {
@@ -74,16 +63,76 @@ const PHARAOH_ITEMS: SeasonalStoreItem[] = [
       items: {
         Wood: 1,
       },
-      sfl: 0,
+      sfl: 10,
     },
   },
   {
     collectible: "Treasure Key",
     cost: {
       items: {
-        Wood: 0,
+        Wood: 100,
       },
-      sfl: 1,
+      sfl: 10,
+    },
+  },
+];
+
+const RARE_PHARAOH_ITEMS: SeasonalStoreItem[] = [
+  {
+    wearable: "Rancher Hair",
+    cost: {
+      items: {
+        Wood: 1,
+        Stone: 1,
+      },
+      sfl: 10,
+    },
+  },
+  {
+    wearable: "Axe",
+    cost: {
+      items: {
+        Wood: 1,
+      },
+      sfl: 5,
+    },
+  },
+  {
+    wearable: "Yellow Farmer Shirt",
+    cost: {
+      items: {
+        Wood: 1,
+      },
+      sfl: 10,
+    },
+  },
+  {
+    collectible: "Rare Key",
+    cost: {
+      items: {
+        Wood: 250,
+      },
+      sfl: 20,
+    },
+  },
+];
+const EPIC_PHARAOH_ITEMS: SeasonalStoreItem[] = [
+  {
+    wearable: "Blue Farmer Shirt",
+    cost: {
+      items: {
+        Wood: 1,
+      },
+      sfl: 2,
+    },
+  },
+  {
+    collectible: "Luxury Key",
+    cost: {
+      items: {
+        Wood: 500,
+      },
+      sfl: 50,
     },
   },
 ];
@@ -100,12 +149,13 @@ export const MEGASTORE: Record<SeasonName, SeasonalStore> = {
       items: PHARAOH_ITEMS,
     },
     rare: {
-      items: PHARAOH_ITEMS,
+      items: RARE_PHARAOH_ITEMS,
       requirement: 3,
     },
     epic: {
-      items: PHARAOH_ITEMS,
-      requirement: 7,
+      items: EPIC_PHARAOH_ITEMS,
+      requirement: 3,
     },
   },
+  "Bull Run": EMPTY_SEASONAL_STORE,
 };

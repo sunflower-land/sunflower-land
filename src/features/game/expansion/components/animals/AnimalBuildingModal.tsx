@@ -1,6 +1,5 @@
 import React, { useContext, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
-import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { SplitScreenView } from "components/ui/SplitScreenView";
 import { Context } from "features/game/GameProvider";
@@ -17,7 +16,7 @@ import {
 import { Box } from "components/ui/Box";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { AnimalBuildingKey } from "features/game/types/game";
+import { AnimalBounty, AnimalBuildingKey } from "features/game/types/game";
 import Decimal from "decimal.js-light";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { getAnimalCapacity } from "features/game/events/landExpansion/buyAnimal";
@@ -27,11 +26,27 @@ import { pickRandomPositionInAnimalHouse } from "features/game/expansion/placeab
 import coinsIcon from "assets/icons/coins.webp";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { makeAnimalBuildingKey } from "features/game/lib/animals";
+import { AnimalBounties } from "features/barn/components/AnimalBounties";
+import { SpeakingModal } from "features/game/components/SpeakingModal";
+import { NPC_WEARABLES } from "lib/npcs";
+import { OuterPanel } from "components/ui/Panel";
+
+function acknowledgeIntro() {
+  localStorage.setItem(
+    "animal.bounties.acknowledged",
+    new Date().toISOString(),
+  );
+}
+
+function hasReadIntro() {
+  return !!localStorage.getItem("animal.bounties.acknowledged");
+}
 
 type Props = {
   show: boolean;
   buildingName: AnimalBuildingType;
   onClose: () => void;
+  onExchanging: (deal: AnimalBounty) => void;
 };
 
 const _state = (state: MachineState) => state.context.state;
@@ -43,8 +58,10 @@ export const AnimalBuildingModal: React.FC<Props> = ({
   show,
   buildingName,
   onClose,
+  onExchanging,
 }) => {
   const { gameService } = useContext(Context);
+  const [showIntro, setShowIntro] = useState(!hasReadIntro());
 
   const state = useSelector(gameService, _state);
   const bumpkin = useSelector(gameService, _bumpkin);
@@ -77,13 +94,18 @@ export const AnimalBuildingModal: React.FC<Props> = ({
         y: position.y,
       },
     });
-
-    onClose();
   };
 
   const getAnimalCount = (animalType: AnimalType) => {
+    if (animalType === "Chicken") {
+      return Object.values(building.animals).filter(
+        (animal) => animal.type === animalType,
+      ).length;
+    }
+
+    // Sheep and cow are combined inside barn
     return Object.values(building.animals).filter(
-      (animal) => animal.type === animalType,
+      (animal) => animal.type !== "Chicken",
     ).length;
   };
 
@@ -102,15 +124,42 @@ export const AnimalBuildingModal: React.FC<Props> = ({
   const atMaxCapacity =
     getTotalAnimalsInBuilding() >= getAnimalCapacity(buildingKey, state);
 
+  if (showIntro) {
+    return (
+      <SpeakingModal
+        message={[
+          {
+            text: t("bounties.animal.intro.one"),
+          },
+          {
+            text: t("bounties.animal.intro.two"),
+          },
+          {
+            text: t("bounties.animal.intro.three"),
+          },
+        ]}
+        bumpkinParts={NPC_WEARABLES.grabnab}
+        onClose={() => {
+          acknowledgeIntro();
+          setShowIntro(false);
+        }}
+      />
+    );
+  }
+
   return (
-    <Modal show={show} onHide={onClose}>
-      <CloseButtonPanel
-        onClose={onClose}
-        tabs={[{ name: t("animals.buyAnimal"), icon: coinsIcon }]}
-        currentTab={currentTab}
-        setCurrentTab={setCurrentTab}
-        className="relative"
-      >
+    <CloseButtonPanel
+      onClose={onClose}
+      tabs={[
+        { name: t("buy"), icon: coinsIcon },
+        { name: t("sell"), icon: SUNNYSIDE.icons.death },
+      ]}
+      currentTab={currentTab}
+      setCurrentTab={setCurrentTab}
+      className="relative"
+      container={OuterPanel}
+    >
+      {currentTab === 0 && (
         <SplitScreenView
           panel={
             <CraftingRequirements
@@ -170,7 +219,14 @@ export const AnimalBuildingModal: React.FC<Props> = ({
             </div>
           }
         />
-      </CloseButtonPanel>
-    </Modal>
+      )}
+
+      {currentTab === 1 && (
+        <AnimalBounties
+          type={buildingName === "Barn" ? ["Cow", "Sheep"] : ["Chicken"]}
+          onExchanging={onExchanging}
+        />
+      )}
+    </CloseButtonPanel>
   );
 };

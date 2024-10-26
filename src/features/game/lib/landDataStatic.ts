@@ -218,6 +218,11 @@ export const STATIC_OFFLINE_FARM: GameState = {
     pots: {},
     oil: 50,
   },
+  faction: {
+    name: "goblins",
+    history: {},
+    pledgedAt: 100,
+  },
   home: {
     collectibles: {
       Wardrobe: [
@@ -385,6 +390,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     },
   },
   inventory: {
+    "Bull Run Banner": new Decimal(1),
     "Basic Scarecrow": new Decimal(1),
     "Lemon Shark": new Decimal(1),
     "Beta Pass": new Decimal(1),
@@ -524,7 +530,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     "Town Center": new Decimal(1),
     Market: new Decimal(1),
     Workbench: new Decimal(1),
-    "Basic Land": new Decimal(16),
+    "Basic Land": new Decimal(3),
     "Gold Pass": new Decimal(1),
     "Crop Plot": new Decimal(OFFLINE_FARM_CROPS),
     "Water Well": new Decimal(4),
@@ -750,6 +756,52 @@ export const STATIC_OFFLINE_FARM: GameState = {
 
   conversations: ["hank-intro"],
 
+  bounties: {
+    completed: [],
+    requests: [
+      {
+        id: "1",
+        name: "Cow",
+        level: 2,
+        coins: 100,
+      },
+      {
+        id: "1",
+        name: "Sheep",
+        level: 2,
+        coins: 100,
+      },
+      {
+        id: "1c",
+        name: "Cow",
+        level: 1,
+        coins: 100,
+      },
+      {
+        id: "1e",
+        name: "Chicken",
+        level: 1,
+        coins: 100,
+      },
+      {
+        id: "1ef",
+        name: "Chicken",
+        level: 1,
+        coins: 150,
+      },
+      {
+        id: "2",
+        name: "Red Balloon Flower",
+        coins: 100,
+      },
+      {
+        id: "3",
+        name: "White Pansy",
+        items: { Scroll: 1 },
+      },
+    ],
+  },
+
   fishing: {
     dailyAttempts: {},
     weather: "Full Moon",
@@ -951,6 +1003,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
       total: 10,
       claimedAt: new Date("2024-02-15").getTime(),
     },
+    doubleDelivery: false,
   },
 
   ...INITIAL_RESOURCES,
@@ -1402,5 +1455,12 @@ export const STATIC_OFFLINE_FARM: GameState = {
   dailyFactionDonationRequest: {
     resource: "Sunflower",
     amount: new Decimal(1000),
+  },
+  craftingBox: {
+    status: "idle",
+    item: undefined,
+    startedAt: 0,
+    readyAt: 0,
+    recipes: {},
   },
 };
