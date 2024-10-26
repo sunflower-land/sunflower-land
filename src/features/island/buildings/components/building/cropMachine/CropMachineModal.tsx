@@ -130,7 +130,7 @@ export const CropMachineModal: React.FC<Props> = ({
     const projectedTotalOilTime = getProjectedOilTimeMillis();
     const newProjectedTotalOilTime = projectedTotalOilTime + ONE_HOUR_IN_MILLIS;
 
-    return newProjectedTotalOilTime <= MAX_OIL_CAPACITY_IN_MILLIS;
+    return newProjectedTotalOilTime <= MAX_OIL_CAPACITY_IN_MILLIS(state);
   };
 
   const incrementSeeds = (amount = 1) => {
@@ -542,6 +542,7 @@ export const CropMachineModal: React.FC<Props> = ({
             </div>
             {show && (
               <OilTank
+                state={state}
                 stopped={paused || idle}
                 queue={queue}
                 unallocatedOilTime={unallocatedOilTime}
