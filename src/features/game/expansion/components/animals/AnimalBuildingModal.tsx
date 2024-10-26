@@ -43,7 +43,6 @@ function hasReadIntro() {
 }
 
 type Props = {
-  show: boolean;
   buildingName: AnimalBuildingType;
   onClose: () => void;
   onExchanging: (deal: AnimalBounty) => void;
@@ -55,7 +54,6 @@ const _building = (buildingKey: AnimalBuildingKey) => (state: MachineState) =>
   state.context.state[buildingKey];
 
 export const AnimalBuildingModal: React.FC<Props> = ({
-  show,
   buildingName,
   onClose,
   onExchanging,
@@ -96,30 +94,20 @@ export const AnimalBuildingModal: React.FC<Props> = ({
     });
   };
 
-  const getAnimalCount = (animalType: AnimalType) => {
-    if (animalType === "Chicken") {
-      return Object.values(building.animals).filter(
-        (animal) => animal.type === animalType,
-      ).length;
-    }
-
-    // Sheep and cow are combined inside barn
-    return Object.values(building.animals).filter(
-      (animal) => animal.type !== "Chicken",
+  const getAnimalCount = (animalType: AnimalType) =>
+    Object.values(building.animals).filter(
+      (animal) => animal.type === animalType,
     ).length;
-  };
 
-  const getTotalAnimalsInBuilding = () => {
-    return Object.values(building.animals).filter(
+  const getTotalAnimalsInBuilding = () =>
+    Object.values(building.animals).filter(
       (animal) => ANIMALS[animal.type].buildingRequired === buildingName,
     ).length;
-  };
 
   const bumpkinLevel = getBumpkinLevel(bumpkin.experience);
 
-  const hasRequiredLevel = () => {
-    return bumpkinLevel >= ANIMALS[selectedName].levelRequired;
-  };
+  const hasRequiredLevel = () =>
+    bumpkinLevel >= ANIMALS[selectedName].levelRequired;
 
   const atMaxCapacity =
     getTotalAnimalsInBuilding() >= getAnimalCapacity(buildingKey, state);
@@ -211,7 +199,7 @@ export const AnimalBuildingModal: React.FC<Props> = ({
                 type={atMaxCapacity ? "danger" : "info"}
                 className="absolute bottom-3 left-2"
               >
-                {`${getAnimalCount(selectedName)}/${getAnimalCapacity(
+                {`${getTotalAnimalsInBuilding()}/${getAnimalCapacity(
                   buildingKey,
                   state,
                 )} ${t("capacity")}`}
