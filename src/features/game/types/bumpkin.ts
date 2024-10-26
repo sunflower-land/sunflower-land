@@ -16,7 +16,6 @@ export type BumpkinBackground =
   | "Festival of Colors Background"
   | "Desert Background"
   | "Desert Camel Background"
-  | "Desert Camel Background"
   | "Pumpkin Plaza Background"
   | "Goblin Retreat Background"
   | "Kingdom Background";
