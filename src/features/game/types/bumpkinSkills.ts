@@ -142,6 +142,7 @@ export type BumpkinRevampSkillName =
   | "Crop Extension Module"
   | "Rapid Rig"
   | "Oil Be Back"
+  | "Field Expansion Module"
   | "Field Extension Module"
   | "Efficiency Extension Module"
   | "Grease Lightning";
@@ -1505,6 +1506,16 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
     image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
   // Machinery - Tier 3
+  "Field Expansion Module": {
+    name: "Field Expansion Module",
+    tree: "Machinery",
+    requirements: {
+      points: 3,
+      skill: 5,
+    },
+    boosts: "+5 packs added to machine",
+    image: SUNNYSIDE?.skills?.green_thumb_LE,
+  },
   "Field Extension Module": {
     name: "Field Extension Module",
     tree: "Machinery",
