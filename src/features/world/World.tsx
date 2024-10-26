@@ -29,6 +29,7 @@ import { WorldHud } from "features/island/hud/WorldHud";
 import { Loading } from "features/auth/components";
 import { GameState } from "features/game/types/game";
 import { Forbidden } from "features/auth/components/Forbidden";
+import { IslandNotFound } from "features/game/expansion/components/IslandNotFound";
 
 interface Props {
   isCommunity?: boolean;
@@ -58,6 +59,7 @@ const _isIntroducing = (state: MMOMachineState) =>
 
 type MMOProps = { isCommunity: boolean };
 
+// we should add new areas in SCENE_ACCESS to prevent <IslandNotFound />
 const SCENE_ACCESS: Partial<Record<SceneId, (game: GameState) => boolean>> = {
   goblin_house: (game) => game.faction?.name === "goblins",
   sunflorian_house: (game) => game.faction?.name === "sunflorians",
@@ -145,6 +147,12 @@ export const MMO: React.FC<MMOProps> = ({ isCommunity }) => {
     return <TravelScreen mmoService={mmoService} />;
   }
 
+  // If typed wrong URL (after ".../world/")
+  if (!SCENE_ACCESS[name as SceneId]) {
+    return <IslandNotFound />;
+  }
+
+  // If entered a restricted area that are not allowed
   if (
     SCENE_ACCESS[name as SceneId] &&
     !SCENE_ACCESS[name as SceneId]?.(gameState.context.state)
