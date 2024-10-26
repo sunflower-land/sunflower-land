@@ -16,18 +16,24 @@ import { Cow } from "./components/Cow";
 import { Sheep } from "./components/Sheep";
 
 import shopDisc from "assets/icons/shop_disc.png";
+
 import { AnimalBuildingModal } from "features/game/expansion/components/animals/AnimalBuildingModal";
 import { FeederMachine } from "features/feederMachine/FeederMachine";
 import { AnimalBuildingLevel } from "features/game/events/landExpansion/upgradeBuilding";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { UpgradeBuildingModal } from "features/game/expansion/components/UpgradeBuildingModal";
 import { ANIMAL_HOUSE_IMAGES } from "features/henHouse/HenHouseInside";
-import { Animal, BountyRequest } from "features/game/types/game";
-import { AnimalDeal } from "./components/AnimalBounties";
+import { Animal, AnimalBounty, IslandType } from "features/game/types/game";
+import { AnimalDeal, ExchangeHud } from "./components/AnimalBounties";
 import { Modal } from "components/ui/Modal";
-import { AnimalBounties } from "./components/AnimalBounties";
 import classNames from "classnames";
 import { isValidDeal } from "features/game/events/landExpansion/sellAnimal";
+
+export const EXTERIOR_ISLAND_BG: Record<IslandType, string> = {
+  basic: SUNNYSIDE.land.basic_building_bg,
+  spring: SUNNYSIDE.land.spring_building_bg,
+  desert: SUNNYSIDE.land.desert_building_bg,
+};
 
 const _barn = (state: MachineState) => state.context.state.barn;
 
@@ -45,9 +51,9 @@ export const BarnInside: React.FC = () => {
   const { gameService } = useContext(Context);
   const [showModal, setShowModal] = useState(false);
   const [showUpgradeModal, setShowUpgradeModal] = useState(false);
-  const [showExchange, setShowExchange] = useState(false);
   const [selected, setSelected] = useState<Animal>();
-  const [deal, setDeal] = useState<BountyRequest>();
+  const [deal, setDeal] = useState<AnimalBounty>();
+
   const barn = useSelector(gameService, _barn);
   const level = barn.level as AnimalBuildingLevel;
 
@@ -64,11 +70,17 @@ export const BarnInside: React.FC = () => {
 
   return (
     <>
-      <AnimalBuildingModal
-        buildingName="Barn"
-        show={showModal}
-        onClose={() => setShowModal(false)}
-      />
+      <Modal show={showModal} onHide={() => setShowModal(false)}>
+        <AnimalBuildingModal
+          buildingName="Barn"
+          onClose={() => setShowModal(false)}
+          onExchanging={(deal) => {
+            setShowModal(false);
+            setDeal(deal);
+          }}
+        />
+      </Modal>
+
       <UpgradeBuildingModal
         buildingName="Barn"
         currentLevel={level}
@@ -76,24 +88,16 @@ export const BarnInside: React.FC = () => {
         show={showUpgradeModal}
         onClose={() => setShowUpgradeModal(false)}
       />
-      <Modal show={showExchange} onHide={() => setShowExchange(false)}>
-        {/* TODO: FIX FOR BARN ANIMALS */}
-        <AnimalBounties
-          onExchanging={(deal) => {
-            setShowExchange(false);
-            setDeal(deal);
-          }}
-          type="Cow"
-        />
-      </Modal>
 
-      <Modal show={!!deal} onHide={() => setDeal(undefined)}>
+      <Modal show={!!selected} onHide={() => setDeal(undefined)}>
         <AnimalDeal
           onClose={() => {
             setDeal(undefined);
+            setSelected(undefined);
           }}
           onSold={() => {
             setDeal(undefined);
+            setSelected(undefined);
           }}
           deal={deal!}
           animal={selected!}
@@ -106,28 +110,14 @@ export const BarnInside: React.FC = () => {
             width: `${84 * GRID_WIDTH_PX}px`,
             height: `${56 * GRID_WIDTH_PX}px`,
             imageRendering: "pixelated",
+            backgroundImage: `url(${EXTERIOR_ISLAND_BG[gameService.getSnapshot().context.state.island.type]})`,
+            backgroundRepeat: "repeat",
+            backgroundPosition: "center",
+            backgroundSize: `${96 * PIXEL_SCALE}px ${96 * PIXEL_SCALE}px`,
           }}
         >
           <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
             <div className="relative w-full h-full">
-              <img
-                src={shopDisc}
-                alt="Buy Animals"
-                className="absolute top-[18px] right-[18px] cursor-pointer z-10"
-                style={{
-                  width: `${PIXEL_SCALE * 18}px`,
-                }}
-                onClick={() => setShowModal(true)}
-              />
-              <img
-                src={SUNNYSIDE.icons.upgradeBuildingIcon}
-                alt="Upgrade Building"
-                className="absolute bottom-[44px] right-[18px] cursor-pointer z-10"
-                style={{
-                  width: `${PIXEL_SCALE * 16}px`,
-                }}
-                onClick={() => setShowUpgradeModal(true)}
-              />
               <img
                 src={ANIMAL_HOUSE_IMAGES[level].src}
                 id={Section.GenesisBlock}
@@ -135,6 +125,7 @@ export const BarnInside: React.FC = () => {
                 style={{
                   width: `${ANIMAL_HOUSE_IMAGES[level].width * PIXEL_SCALE}px`,
                   height: `${ANIMAL_HOUSE_IMAGES[level].height * PIXEL_SCALE}px`,
+                  opacity: deal ? 0.5 : 1,
                 }}
               />
 
@@ -188,19 +179,50 @@ export const BarnInside: React.FC = () => {
                   );
                 })
                 .sort((a, b) => a.props.y - b.props.y)}
+              {!deal && (
+                <>
+                  <img
+                    src={shopDisc}
+                    alt="Buy Animals"
+                    className="absolute top-[18px] right-[18px] cursor-pointer z-10"
+                    style={{
+                      width: `${PIXEL_SCALE * 18}px`,
+                    }}
+                    onClick={() => setShowModal(true)}
+                  />
+                  <img
+                    src={SUNNYSIDE.icons.upgradeBuildingIcon}
+                    alt="Upgrade Building"
+                    className="absolute bottom-[44px] right-[18px] cursor-pointer z-10"
+                    style={{
+                      width: `${PIXEL_SCALE * 16}px`,
+                    }}
+                    onClick={() => setShowUpgradeModal(true)}
+                  />
 
-              <Button
-                className="absolute -bottom-16"
-                onClick={() => navigate("/")}
-              >
-                {t("exit")}
-              </Button>
+                  <Button
+                    className="absolute -bottom-16"
+                    onClick={() => navigate("/")}
+                  >
+                    {t("exit")}
+                  </Button>
+                </>
+              )}
             </div>
           </div>
         </div>
       </>
 
-      <Hud isFarming={false} location="home" />
+      {!deal && <Hud isFarming={false} location="home" />}
+
+      {deal && (
+        <ExchangeHud
+          deal={deal}
+          onClose={() => {
+            setDeal(undefined);
+          }}
+        />
+      )}
     </>
   );
 };

@@ -711,6 +711,10 @@ import pirateBed from "assets/bumpkins/pirate_bed.webp";
 import royalBed from "assets/bumpkins/royal_bed.webp";
 import cowBed from "assets/bumpkins/cow_bed.webp";
 
+import horseshoe from "assets/icons/horseshoe.webp";
+import cowSkull from "assets/community/arcade/greedy_goblin/images/skull.png";
+import bullsRunBanner from "assets/decorations/banners/bull_run_banner.webp";
+
 import { COUPONS, EASTER_EGG, FERTILISERS, InventoryItemName } from "./game";
 
 import { CROPS, CROP_SEEDS, GREENHOUSE_CROPS, GREENHOUSE_SEEDS } from "./crops";
@@ -4218,5 +4222,17 @@ export const ITEM_DETAILS: Items = {
   "Barn Delight": {
     image: SUNNYSIDE.animalFoods.barn_delight,
     description: "A magical elixir that cures animal sickness.",
+  },
+  "Bull Run Banner": {
+    image: bullsRunBanner,
+    description: translate("description.bullRunBanner"),
+  },
+  "Cow Skull": {
+    image: cowSkull,
+    description: translate("description.cowSkull"),
+  },
+  Horseshoe: {
+    image: horseshoe,
+    description: translate("description.horseshoe"),
   },
 };

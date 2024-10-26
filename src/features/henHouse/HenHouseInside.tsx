@@ -21,7 +21,6 @@ import { UpgradeBuildingModal } from "features/game/expansion/components/Upgrade
 import { Modal } from "components/ui/Modal";
 import {
   AnimalDeal,
-  AnimalBounties,
   ExchangeHud,
 } from "features/barn/components/AnimalBounties";
 import { Animal, AnimalBounty } from "features/game/types/game";
@@ -29,6 +28,7 @@ import { isValidDeal } from "features/game/events/landExpansion/sellAnimal";
 import classNames from "classnames";
 import { NPC } from "features/island/bumpkin/components/NPC";
 import { NPC_WEARABLES } from "lib/npcs";
+import { EXTERIOR_ISLAND_BG } from "features/barn/BarnInside";
 
 const _henHouse = (state: MachineState) => state.context.state.henHouse;
 
@@ -45,7 +45,6 @@ export const HenHouseInside: React.FC = () => {
   const { gameService } = useContext(Context);
   const [showModal, setShowModal] = useState(false);
   const [showUpgradeModal, setShowUpgradeModal] = useState(false);
-  const [showExchange, setShowExchange] = useState(false);
   const [deal, setDeal] = useState<AnimalBounty>();
   const [selected, setSelected] = useState<Animal>();
   const henHouse = useSelector(gameService, _henHouse);
@@ -64,11 +63,16 @@ export const HenHouseInside: React.FC = () => {
 
   return (
     <>
-      <AnimalBuildingModal
-        buildingName="Hen House"
-        show={showModal}
-        onClose={() => setShowModal(false)}
-      />
+      <Modal show={showModal} onHide={() => setShowModal(false)}>
+        <AnimalBuildingModal
+          buildingName="Hen House"
+          onClose={() => setShowModal(false)}
+          onExchanging={(deal) => {
+            setShowModal(false);
+            setDeal(deal);
+          }}
+        />
+      </Modal>
       <UpgradeBuildingModal
         buildingName="Hen House"
         currentLevel={level}
@@ -76,15 +80,6 @@ export const HenHouseInside: React.FC = () => {
         show={showUpgradeModal}
         onClose={() => setShowUpgradeModal(false)}
       />
-      <Modal show={showExchange} onHide={() => setShowExchange(false)}>
-        <AnimalBounties
-          onExchanging={(deal) => {
-            setShowExchange(false);
-            setDeal(deal);
-          }}
-          type="Chicken"
-        />
-      </Modal>
 
       <Modal show={!!selected} onHide={() => setSelected(undefined)}>
         <AnimalDeal
@@ -105,6 +100,10 @@ export const HenHouseInside: React.FC = () => {
           width: `${84 * GRID_WIDTH_PX}px`,
           height: `${56 * GRID_WIDTH_PX}px`,
           imageRendering: "pixelated",
+          backgroundImage: `url(${EXTERIOR_ISLAND_BG[gameService.getSnapshot().context.state.island.type]})`,
+          backgroundRepeat: "repeat",
+          backgroundPosition: "center",
+          backgroundSize: `${96 * PIXEL_SCALE}px ${96 * PIXEL_SCALE}px`,
         }}
       >
         <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
@@ -121,15 +120,6 @@ export const HenHouseInside: React.FC = () => {
                     }}
                     onClick={() => setShowModal(true)}
                   />
-                  <div
-                    className="absolute bottom-32 left-8 cursor-pointer z-10"
-                    style={{
-                      width: `${PIXEL_SCALE * 18}px`,
-                    }}
-                    onClick={() => setShowExchange(true)}
-                  >
-                    <GrabNab />
-                  </div>
 
                   <Button
                     className="absolute -bottom-16"

@@ -3110,8 +3110,8 @@
   "season.codex.intro": "Earn {{ticket}}s to craft exclusive collectibles & wearables for your farm in this limited season...Hurry before time runs out!",
   "season.codex.howToEarn": "How to earn {{ticket}}s?",
   "season.codex.howToEarn.one": "Visit the plaza & deliver resources to Bumpkins.",
-  "season.codex.howToEarn.two": "Complete Hank's chores.",
-  "season.codex.howToEarn.three": "Compete in the faction competition.",
+  "season.codex.howToEarn.two": "Complete chores for Bumpkins.",
+  "season.codex.howToEarn.three": "Trade animal and flower bounties!",
   "season.codex.nextDrop": "Next Drop",
   "season.codex.nextDrop.available": "{{dropSupply}} available",
   "season.codex.seasonalDrops": "Seasonal Drops",
@@ -3720,6 +3720,7 @@
   "obsession": "Obsession",
   "feederMachine.title": "Feeder Machine",
   "mix.one": "Mix 1",
+  "mix.ten": "Mix 10",
   "description.hay": "Dry grass used as animal feed or bedding.",
   "description.kernel.blend": "Blend of various grains for feed or consumption.",
   "description.nutribarley": "Barley-based nutritional supplement or feed.",
@@ -4070,5 +4071,9 @@
   "description.desertBed": "A desert bed, one farm hand can sleep here.",
   "description.royalBed": "A royal bed, one farm hand can sleep here.",
   "craftingBox.newRecipeDiscovered": "New Recipe Discovered!",
-  "craftingBox.craftThisItem": "Craft this item at the crafting box."
+  "craftingBox.craftThisItem": "Craft this item at the crafting box.",
+  "description.bullRunBanner": "A banner that celebrates the Bull Run season.",
+  "description.cowSkull": "An ancient skull.",
+  "description.horseshoe": "A valuable horseshoe - exchange for rewards!",
+  "crafting.coming.soon": "A new crafting system is coming to Sunflower Land...November 1st!"
 }

@@ -3000,8 +3000,6 @@
   "season.codex.intro": "Verdiene {{ticket}} s, um in dieser limitierten Saison exklusive Sammlerstücke und Wearables für deine Farm herzustellen... Beeil dich, bevor die Zeit abläuft!",
   "season.codex.howToEarn": "Wie verdiene ich {{ticket}} s?",
   "season.codex.howToEarn.one": "Besucht den Platz und liefert Ressourcen an Bumpkins.",
-  "season.codex.howToEarn.two": "Erledige Hanks Aufgaben.",
-  "season.codex.howToEarn.three": "Nimm am Fraktionswettbewerb teil.",
   "season.codex.nextDrop": "Nächster Drop",
   "season.codex.seasonalDrops": "Saisonale Drops",
   "season.codex.seasonalDrops.description": "Konkurrieren Sie mit anderen um die seltensten Gegenstände! Besuchen Sie den Auktionator auf dem Platz für weitere Informationen.",
@@ -4065,5 +4063,12 @@
   "description.royalBed": "Ein königliches Bett, ein Landarbeiter kann hier schlafen.",
   "craftingBox.newRecipeDiscovered": "Neues Rezept entdeckt!",
   "craftingBox.craftThisItem": "Stelle diesen Gegenstand in der Bastelkiste her.",
-  "quest.marine.marvel": "Fange jedes permanente Meereswunder"
+  "quest.marine.marvel": "Fange jedes permanente Meereswunder",
+  "mix.ten": "10 mischen",
+  "description.bullRunBanner": "Ein Banner, das die Bull Run-Saison feiert.",
+  "description.cowSkull": "Ein uralter Schädel.",
+  "description.horseshoe": "Ein wertvolles Hufeisen — gegen Prämien eintauschen!",
+  "crafting.coming.soon": "Ein neues Handwerkssystem kommt nach Sunflower Land... am 1. November!",
+  "season.codex.howToEarn.two": "Erledige die Hausarbeiten für Bumpkins.",
+  "season.codex.howToEarn.three": "Tauschen Sie Tier- und Blumenprämien ein!"
 }

@@ -3241,8 +3241,6 @@
   "season.codex.intro": "Bu sınırlı sezonda çiftliğiniz için özel koleksiyon ve giyilebilir ürünler üretmek için {{ticket}} s kazanın... Zaman dolmadan acele edin!",
   "season.codex.howToEarn": "{{ticket}} s nasıl kazanılır?",
   "season.codex.howToEarn.one": "Plazayı ziyaret edin ve kaynakları Bumpkins'e teslim edin.",
-  "season.codex.howToEarn.two": "Hank'ın işlerini tamamla.",
-  "season.codex.howToEarn.three": "Fraksiyon yarışmasında yarışın.",
   "season.codex.nextDrop": "Sonraki damla",
   "season.codex.seasonalDrops": "Mevsimsel Düşüşler",
   "season.codex.seasonalDrops.description": "En nadir öğeler için başkalarıyla rekabet edin! Daha fazla ayrıntı için plazadaki Müzayedeci\"yi ziyaret edin.",
@@ -4065,5 +4063,12 @@
   "description.royalBed": "Kraliyet yatağı, bir çiftçi burada uyuyabilir.",
   "craftingBox.newRecipeDiscovered": "Yeni Tarif Keşfedildi!",
   "craftingBox.craftThisItem": "Bu öğeyi zanaat kutusunda üretin.",
-  "quest.marine.marvel": "Her kalıcı Deniz Harikasını yakalayın"
+  "quest.marine.marvel": "Her kalıcı Deniz Harikasını yakalayın",
+  "mix.ten": "Karışım 10",
+  "description.bullRunBanner": "Bull Run sezonunu kutlayan bir afiş.",
+  "description.cowSkull": "Eski bir kafatası.",
+  "description.horseshoe": "Değerli bir at nalı - ödüller için takas edin!",
+  "crafting.coming.soon": "Ayçiçeği Ülkesine yeni bir zanaat sistemi geliyor... 1 Kasım!",
+  "season.codex.howToEarn.two": "Bumpkins için işleri tamamla.",
+  "season.codex.howToEarn.three": "Hayvan ve çiçek ödüllerini takas et!"
 }

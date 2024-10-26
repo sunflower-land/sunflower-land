@@ -390,6 +390,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     },
   },
   inventory: {
+    "Bull Run Banner": new Decimal(1),
     "Basic Scarecrow": new Decimal(1),
     "Lemon Shark": new Decimal(1),
     "Beta Pass": new Decimal(1),
@@ -760,9 +761,33 @@ export const STATIC_OFFLINE_FARM: GameState = {
     requests: [
       {
         id: "1",
-        name: "Chicken",
+        name: "Cow",
         level: 2,
         coins: 100,
+      },
+      {
+        id: "1",
+        name: "Sheep",
+        level: 2,
+        coins: 100,
+      },
+      {
+        id: "1c",
+        name: "Cow",
+        level: 1,
+        coins: 100,
+      },
+      {
+        id: "1e",
+        name: "Chicken",
+        level: 1,
+        coins: 100,
+      },
+      {
+        id: "1ef",
+        name: "Chicken",
+        level: 1,
+        coins: 150,
       },
       {
         id: "2",

@@ -475,7 +475,7 @@ export const INITIAL_FARM: GameState = {
     requests: [
       {
         id: "1",
-        name: "Chicken",
+        name: "Cow",
         level: 1,
         coins: 100,
       },

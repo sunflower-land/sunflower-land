@@ -449,6 +449,7 @@ const coupons: Record<Coupons, () => boolean> = {
   "Nightshade Emblem": () => false,
   "Sunflorian Emblem": () => false,
   Mark: () => false,
+  Horseshoe: () => false,
 };
 
 const buildings: Record<BuildingName, () => boolean> = {
@@ -868,6 +869,7 @@ const beachBounty: Record<BeachBountyTreasure, () => boolean> = {
   Sand: () => false,
   Scarab: () => false,
   Vase: () => false,
+  "Cow Skull": () => false,
 };
 
 const eventDecoration: Record<EventDecorationName, () => boolean> = {
@@ -920,6 +922,7 @@ const purchasables: Record<PurchasableItems, () => boolean> = {
   "Clash of Factions Banner": () => false,
   "Lifetime Farmer Banner": () => false,
   "Pharaoh's Treasure Banner": () => false,
+  "Bull Run Banner": () => false,
 };
 
 const potionHouse: Record<

@@ -157,4 +157,5 @@ export const MEGASTORE: Record<SeasonName, SeasonalStore> = {
       requirement: 3,
     },
   },
+  "Bull Run": EMPTY_SEASONAL_STORE,
 };

@@ -3006,8 +3006,6 @@
   "season.codex.intro": "この限定シーズンに {{ticket}} を獲得して、農場限定の収集品やウェアラブルを作ってください... 時間がなくなる前に急いでください！",
   "season.codex.howToEarn": "{{ticket}} sを稼ぐにはどうすればいいですか？",
   "season.codex.howToEarn.one": "広場を訪れ、バンプキンズに資源を届けてください。",
-  "season.codex.howToEarn.two": "ハンクの雑用を完了してください。",
-  "season.codex.howToEarn.three": "ファクションコンペティションに参加してください。",
   "season.codex.nextDrop": "ネクストドロップ",
   "season.codex.seasonalDrops": "シーズンドロップ",
   "season.codex.seasonalDrops.description": "他の人と競い合って、最も希少なアイテムを手に入れましょう！詳細については、広場の競売人を訪ねてください。",
@@ -4065,5 +4063,12 @@
   "description.royalBed": "ロイヤルベッド、農家の片方はここで眠れます。",
   "craftingBox.newRecipeDiscovered": "新レシピ発見！",
   "craftingBox.craftThisItem": "このアイテムをクラフトボックスでクラフトしてください。",
-  "quest.marine.marvel": "パーマネント・マリン・マーベルを全部キャッチ"
+  "quest.marine.marvel": "パーマネント・マリン・マーベルを全部キャッチ",
+  "mix.ten": "ミックス 10",
+  "description.bullRunBanner": "ブルランシーズンを祝うバナー。",
+  "description.cowSkull": "古代の頭蓋骨。",
+  "description.horseshoe": "貴重な馬蹄形-報酬と交換しよう！",
+  "crafting.coming.soon": "サンフラワーランドに新しいクラフトシステムがやってきます... 11月1日！",
+  "season.codex.howToEarn.two": "バンプキンズの雑用を全部やりましょう。",
+  "season.codex.howToEarn.three": "動物や花の賞金を交換しよう！"
 }
