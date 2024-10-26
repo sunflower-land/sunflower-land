@@ -105,7 +105,7 @@ export const Bed: React.FC<BedProps> = ({ name }) => {
         }}
       >
         <img
-          className="absolute bottom-2"
+          className="absolute bottom-0"
           src={ITEM_DETAILS[name].image}
           alt={name}
           style={{
