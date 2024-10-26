@@ -30,6 +30,8 @@ import { AnimalBounties } from "features/barn/components/AnimalBounties";
 import { SpeakingModal } from "features/game/components/SpeakingModal";
 import { NPC_WEARABLES } from "lib/npcs";
 import { OuterPanel } from "components/ui/Panel";
+import classNames from "classnames";
+import { isMobile } from "mobile-device-detect";
 
 function acknowledgeIntro() {
   localStorage.setItem(
@@ -180,7 +182,11 @@ export const AnimalBuildingModal: React.FC<Props> = ({
           }
           content={
             <div className="pl-1">
-              <div className="flex flex-wrap mb-2">
+              <div
+                className={classNames("flex flex-wrap", {
+                  "mb-8": isMobile,
+                })}
+              >
                 {animals.map((name: AnimalType) => (
                   <Box
                     isSelected={selectedName === name}
