@@ -11,6 +11,7 @@ import { SceneId } from "./mmoMachine";
 import { SUNNYSIDE } from "assets/sunnyside";
 import PubSub from "pubsub-js";
 import { getBumpkinLevel } from "features/game/lib/level";
+import { Button } from "components/ui/Button";
 
 import {
   MachineInterpreter as MMOMachineInterpreter,
@@ -150,12 +151,15 @@ export const MMO: React.FC<MMOProps> = ({ isCommunity }) => {
   ) {
     return (
       <Panel>
-        <Forbidden
-          onClose={() => {
+        <Forbidden message={setRestrictionMessage(name as SceneId)} />
+        <Button
+          className="mt-1"
+          onClick={() => {
             navigate(`/`);
           }}
-          message={setRestrictionMessage(name as SceneId)}
-        />
+        >
+          {t("back")}
+        </Button>
       </Panel>
     );
   }
