@@ -167,7 +167,12 @@ export function getCropTime({
   }
 
   if (skills["Strong Roots"]) {
-    if (crop === "Radish" || crop === "Wheat" || crop === "Kale") {
+    if (
+      crop === "Radish" ||
+      crop === "Wheat" ||
+      crop === "Kale" ||
+      crop === "Barley"
+    ) {
       seconds = seconds * 0.9;
     }
   }
