@@ -482,7 +482,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE: Record<
       points: 1,
       skill: 0,
     },
-    boosts: "+0.1 Advanded Crop Yield (Eggplants, Corn, Radish, Wheat, Kale)",
+    boosts: "+0.1 Advanced Crop Yield (Eggplants, Corn, Radish, Wheat, Kale)",
     image: SUNNYSIDE?.skills?.green_thumb_LE,
   },
   // Crops - Tier 2
