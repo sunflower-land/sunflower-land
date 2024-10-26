@@ -292,7 +292,8 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
       <div className="relative w-full h-full">
         {showDrops && (
           <ProduceDrops
-            currentLevel={level}
+            multiplier={sheep.multiplier ?? 0}
+            level={level}
             animalType="Sheep"
             className="bottom-0 left-5 top-4"
           />

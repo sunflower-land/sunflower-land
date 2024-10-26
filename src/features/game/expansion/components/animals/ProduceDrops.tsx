@@ -1,29 +1,48 @@
-import React from "react";
-import { InventoryItemName } from "features/game/types/game";
+import React, { useContext } from "react";
+import { AnimalResource, InventoryItemName } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import {
   ANIMAL_RESOURCE_DROP,
   AnimalLevel,
   AnimalType,
 } from "features/game/types/animals";
+import { getResourceDropAmount } from "features/game/lib/animals";
+import { Context } from "features/game/GameProvider";
+import { useSelector } from "@xstate/react";
+import { MachineState } from "features/game/lib/gameMachine";
 
 interface Props {
   animalType: AnimalType;
-  currentLevel: AnimalLevel;
+  level: AnimalLevel;
+  multiplier: number;
   className?: string;
 }
 
+const _game = (state: MachineState) => state.context.state;
+
 export const ProduceDrops: React.FC<Props> = ({
-  currentLevel,
+  level,
   animalType,
+  multiplier,
   className,
 }) => {
-  const dropItems = ANIMAL_RESOURCE_DROP[animalType][currentLevel];
+  const { gameService } = useContext(Context);
+  const game = useSelector(gameService, _game);
+
+  const dropItems = ANIMAL_RESOURCE_DROP[animalType][level];
   const itemEntries = Object.entries(dropItems);
 
   return (
     <>
       {itemEntries.map(([item, amount], index) => {
+        const boostedAmount = getResourceDropAmount({
+          game,
+          animalType,
+          baseAmount: amount.toNumber(),
+          resource: item as AnimalResource,
+          multiplier,
+        });
+
         return (
           <div
             key={item}
@@ -34,7 +53,7 @@ export const ProduceDrops: React.FC<Props> = ({
               } as React.CSSProperties
             }
           >
-            <span className="text-xs yield-text">{`+${amount}`}</span>
+            <span className="text-xs yield-text">{`+${boostedAmount}`}</span>
             <img
               src={ITEM_DETAILS[item as InventoryItemName]?.image}
               alt={item}
