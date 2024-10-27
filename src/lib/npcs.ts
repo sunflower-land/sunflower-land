@@ -805,7 +805,7 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     pants: "Brown Suspenders",
     shirt: "Trial Tee",
     tool: "Hammer",
-    background: "Farm Background",
+    background: "Forest Background",
     shoes: "Black Farmer Boots",
   },
   // Placeholder fisherman
@@ -1171,7 +1171,7 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     pants: "Cowboy Trouser",
     shirt: "Cowboy Shirt",
     tool: "Infernal Bullwhip",
-    background: "Farm Background",
+    background: "Pumpkin Plaza Background",
     shoes: "Cowboy Boots",
   },
   sheep: {
