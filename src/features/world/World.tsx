@@ -158,17 +158,19 @@ export const MMO: React.FC<MMOProps> = ({ isCommunity }) => {
     !SCENE_ACCESS[name as SceneId]?.(gameState.context.state)
   ) {
     return (
-      <Panel>
-        <Forbidden message={setRestrictionMessage(name as SceneId)} />
-        <Button
-          className="mt-1"
-          onClick={() => {
-            navigate(`/`);
-          }}
-        >
-          {t("back")}
-        </Button>
-      </Panel>
+      <Modal dialogClassName="max-w-[330px]" show>
+        <Panel>
+          <Forbidden message={setRestrictionMessage(name as SceneId)} />
+          <Button
+            className="mt-1"
+            onClick={() => {
+              navigate(`/`);
+            }}
+          >
+            {t("islandNotFound.takeMeHome")}
+          </Button>
+        </Panel>
+      </Modal>
     );
   }
 
