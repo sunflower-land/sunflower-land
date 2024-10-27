@@ -13,6 +13,7 @@ import {
 } from "features/game/lib/animals";
 import { makeAnimalBuildingKey } from "features/game/lib/animals";
 import { getKeys } from "features/game/types/craftables";
+import { trackActivity } from "features/game/types/bumpkinActivity";
 
 export type ClaimProduceAction = {
   type: "produce.claimed";
@@ -63,6 +64,11 @@ export function claimProduce({
       copy.inventory[resource] = (
         copy.inventory[resource] ?? new Decimal(0)
       ).add(boostedAmount ?? new Decimal(0));
+
+      copy.bumpkin.activity = trackActivity(
+        `${resource} Collected`,
+        copy.bumpkin.activity,
+      );
     });
 
     animal.asleepAt = getBoostedAsleepAt({

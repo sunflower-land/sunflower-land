@@ -943,4 +943,67 @@ describe("claimProduce", () => {
 
     expect(state.barn.animals["0"].asleepAt).toEqual(boostedAsleepAt);
   });
+
+  it("tracks the bumpkin activity when a resource is collected", () => {
+    const chickenId = "123";
+
+    const newState = claimProduce({
+      state: {
+        ...INITIAL_FARM,
+        inventory: {
+          "Barn Manager": new Decimal(1),
+          "Rich Chicken": new Decimal(1),
+          "Chicken Coop": new Decimal(1),
+          Bale: new Decimal(1),
+        },
+        collectibles: {
+          "Rich Chicken": [
+            {
+              id: "rich",
+              createdAt: now,
+              coordinates: { x: 0, y: 0 },
+              readyAt: now,
+            },
+          ],
+          "Chicken Coop": [
+            {
+              id: "coop",
+              createdAt: now,
+              coordinates: { x: 0, y: 0 },
+              readyAt: now,
+            },
+          ],
+          Bale: [
+            {
+              id: "bale",
+              createdAt: now,
+              coordinates: { x: 0, y: 0 },
+              readyAt: now,
+            },
+          ],
+        },
+        henHouse: {
+          ...INITIAL_FARM.henHouse,
+          animals: {
+            [chickenId]: {
+              coordinates: { x: 0, y: 0 },
+              id: chickenId,
+              type: "Chicken",
+              createdAt: 0,
+              state: "ready",
+              experience: 120,
+              asleepAt: 0,
+              lovedAt: 0,
+              item: "Petting Hand",
+            },
+          },
+        },
+      },
+      action: { type: "produce.claimed", animal: "Chicken", id: chickenId },
+      createdAt: now,
+    });
+
+    expect(newState.bumpkin.activity["Egg Collected"]).toEqual(1);
+    expect(newState.bumpkin.activity["Feather Collected"]).toEqual(1);
+  });
 });
