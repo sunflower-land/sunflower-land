@@ -8,12 +8,12 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { getKeys } from "features/game/types/craftables";
 import { BumpkinEquip } from "features/bumpkins/components/BumpkinEquip";
 import { Context } from "features/game/GameProvider";
-import { Label } from "components/ui/Label";
 import { Button } from "components/ui/Button";
 import { BumpkinParts } from "lib/utils/tokenUriBuilder";
-import { ISLAND_BUMPKIN_CAPACITY } from "features/game/events/landExpansion/buyFarmHand";
 import { BuyFarmHand } from "./BuyFarmHand";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { hasFeatureAccess } from "lib/flags";
+import { ITEM_DETAILS } from "features/game/types/images";
 
 interface Props {
   game: GameState;
@@ -30,9 +30,11 @@ export const InteriorBumpkins: React.FC<Props> = ({ game }) => {
 
   const farmHands = game.farmHands.bumpkins;
 
+  const hasBedsAccess = hasFeatureAccess(game, "BEDS");
+
   return (
     <>
-      <div className="flex justify-between">
+      <div className="flex justify-between items-end">
         <div className="flex">
           <div
             className="mr-2 cursor-pointer"
@@ -87,14 +89,9 @@ export const InteriorBumpkins: React.FC<Props> = ({ game }) => {
             </div>
           ))}
         </div>
-        <div className="space-y-1">
-          <Label type="chill" icon={SUNNYSIDE.icons.player}>
-            {`${getKeys(farmHands).length + 1}/${
-              ISLAND_BUMPKIN_CAPACITY[game.island.type]
-            } Bumpkins`}
-          </Label>
+        <div>
           <Button onClick={() => setShowBuyFarmHandModal(true)} className="h-8">
-            <span>{t("add")}</span>
+            <span>{`${t("add")} ${t("farmHand")}`}</span>
           </Button>
         </div>
       </div>
@@ -103,10 +100,45 @@ export const InteriorBumpkins: React.FC<Props> = ({ game }) => {
         show={showBuyFarmHand}
         onHide={() => setShowBuyFarmHandModal(false)}
       >
-        <BuyFarmHand
-          gameState={game}
-          onClose={() => setShowBuyFarmHandModal(false)}
-        />
+        {hasBedsAccess ? (
+          <CloseButtonPanel
+            onClose={() => setShowBuyFarmHandModal(false)}
+            title={"Beds Needed!"}
+          >
+            <div className="flex flex-col items-center">
+              <div className="p-2">
+                <div className="flex justify-center mb-2">
+                  <img
+                    src={ITEM_DETAILS["Basic Bed"].image}
+                    className="w-12 mx-1"
+                  />
+                  <img
+                    src={ITEM_DETAILS["Sturdy Bed"].image}
+                    className="w-12 mx-1"
+                  />
+                  <img
+                    src={ITEM_DETAILS["Floral Bed"].image}
+                    className="w-12 mx-1"
+                  />
+                </div>
+                <p className="text-sm mb-2">
+                  {t("bedsMigration.bedsNeededDescription")}
+                </p>
+                <p className="text-sm mb-2">
+                  {t("bedsMigration.bedsNeededDescription2")}
+                </p>
+              </div>
+              <Button onClick={() => setShowBuyFarmHandModal(false)}>
+                {t("close")}
+              </Button>
+            </div>
+          </CloseButtonPanel>
+        ) : (
+          <BuyFarmHand
+            gameState={game}
+            onClose={() => setShowBuyFarmHandModal(false)}
+          />
+        )}
       </Modal>
 
       <Modal

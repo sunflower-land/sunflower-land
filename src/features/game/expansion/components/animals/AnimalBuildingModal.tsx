@@ -203,7 +203,7 @@ export const AnimalBuildingModal: React.FC<Props> = ({
               </div>
               <Label
                 type={atMaxCapacity ? "danger" : "info"}
-                className="absolute bottom-3 left-2"
+                className="absolute bottom-3 sm:bottom-2 left-2"
               >
                 {`${getTotalAnimalsInBuilding()}/${getAnimalCapacity(
                   buildingKey,

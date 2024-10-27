@@ -4070,5 +4070,11 @@
   "season.codex.howToEarn.two": "Bumpkins için işleri tamamla.",
   "season.codex.howToEarn.three": "Hayvan ve çiçek ödüllerini takas et!",
   "description.el.pollo.veloz.one": "Tavuklarınız 2 saat daha hızlı yumurta bırakacak!",
-  "description.el.pollo.veloz.two": "Şu yumurtaları bana ver, çabuk! Tavuklar 2 saat daha kısa uyurlar."
+  "description.el.pollo.veloz.two": "Şu yumurtaları bana ver, çabuk! Tavuklar 2 saat daha kısa uyurlar.",
+  "unlock.farmhand": "Farmhand'ın kilidini açın",
+  "description.unlockFarmhand": "Bu {{name}}, çiftliğinize yardımcı olmak için yeni bir çiftlik işçisinin kilidini açmanıza olanak tanır.",
+  "bedsMigration.bedsNeeded": "Yataklar Gerekli!",
+  "bedsMigration.bedsNeededDescription": "Çiftlik ellerinin çiftlikte çalışmak için yataklara ihtiyacı var.",
+  "bedsMigration.bedsNeededDescription2": "Daha fazla çiftçi kiralamak için yatak yerleştirin!",
+  "farmHand": "Çiftlik El"
 }

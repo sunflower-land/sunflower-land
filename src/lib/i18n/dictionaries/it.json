@@ -4070,5 +4070,11 @@
   "season.codex.howToEarn.two": "Faccende complete per Bumpkins.",
   "season.codex.howToEarn.three": "Scambia ricompense per animali e fiori!",
   "description.el.pollo.veloz.one": "Le tue galline deporranno le uova 2 ore più velocemente!",
-  "description.el.pollo.veloz.two": "Dammi quelle uova, velocemente! I polli dormono due ore in meno."
+  "description.el.pollo.veloz.two": "Dammi quelle uova, velocemente! I polli dormono due ore in meno.",
+  "unlock.farmhand": "Sblocca Farmhand",
+  "description.unlockFarmhand": "Questo {{name}} ti consente di sbloccare un nuovo bracciante che ti aiuti nella tua fattoria.",
+  "bedsMigration.bedsNeeded": "Letti necessari!",
+  "bedsMigration.bedsNeededDescription": "I braccianti hanno bisogno di letti per lavorare nella fattoria.",
+  "bedsMigration.bedsNeededDescription2": "Posiziona i letti per assumere altri braccianti agricoli!",
+  "farmHand": "Mano della fattoria"
 }

@@ -4070,5 +4070,11 @@
   "season.codex.howToEarn.two": "为 Bumpkins 完成家务。",
   "season.codex.howToEarn.three": "交易动物和花卉赏金！",
   "description.el.pollo.veloz.one": "你的鸡产卵速度会加快 2 小时！",
-  "description.el.pollo.veloz.two": "快点把那些鸡蛋给我！鸡的睡眠时间缩短了 2 个小时。"
+  "description.el.pollo.veloz.two": "快点把那些鸡蛋给我！鸡的睡眠时间缩短了 2 个小时。",
+  "unlock.farmhand": "解锁 Farmhand",
+  "description.unlockFarmhand": "此 {{name}} 允许你解锁一个新的农场工人来帮助你的农场。",
+  "bedsMigration.bedsNeeded": "需要床！",
+  "bedsMigration.bedsNeededDescription": "农民需要床才能在农场工作。",
+  "bedsMigration.bedsNeededDescription2": "放置床位以雇用更多的农民！",
+  "farmHand": "农场之手"
 }

@@ -4070,5 +4070,11 @@
   "season.codex.howToEarn.two": "Terminez les corvées pour Bumpkins.",
   "season.codex.howToEarn.three": "Échangez des primes d'animaux et de fleurs !",
   "description.el.pollo.veloz.one": "Vos poules pondront 2 heures plus vite !",
-  "description.el.pollo.veloz.two": "Donne-moi ces œufs, vite ! Les poulets dorment 2 heures de moins."
+  "description.el.pollo.veloz.two": "Donne-moi ces œufs, vite ! Les poulets dorment 2 heures de moins.",
+  "unlock.farmhand": "Débloquez Farmhand",
+  "description.unlockFarmhand": "Ce {{name}} vous permet de débloquer un nouvel ouvrier agricole pour vous aider dans votre ferme.",
+  "bedsMigration.bedsNeeded": "Des lits sont nécessaires !",
+  "bedsMigration.bedsNeededDescription": "Les ouvriers agricoles ont besoin de lits pour travailler à la ferme.",
+  "bedsMigration.bedsNeededDescription2": "Placez des lits pour engager plus d'ouvriers agricoles !",
+  "farmHand": "Farm Hand"
 }

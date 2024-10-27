@@ -4070,5 +4070,11 @@
   "season.codex.howToEarn.two": "범프킨의 집안일을 완료하세요.",
   "season.codex.howToEarn.three": "동물과 꽃 현상금을 거래하세요!",
   "description.el.pollo.veloz.one": "닭이 2 시간 더 빨리 알을 낳을 것입니다!",
-  "description.el.pollo.veloz.two": "빨리 달걀 내놔!닭은 잠을 2시간 더 짧게 자요."
+  "description.el.pollo.veloz.two": "빨리 달걀 내놔!닭은 잠을 2시간 더 짧게 자요.",
+  "unlock.farmhand": "팜핸드 잠금 해제",
+  "description.unlockFarmhand": "이 {{name}} 를 사용하면 새 농부의 잠금을 해제하여 농장을 도울 수 있습니다.",
+  "bedsMigration.bedsNeeded": "침대가 필요해요!",
+  "bedsMigration.bedsNeededDescription": "농장주들이 농장에서 일하려면 침대가 필요합니다.",
+  "bedsMigration.bedsNeededDescription2": "더 많은 농부를 고용하려면 침대를 배치하세요!",
+  "farmHand": "팜 핸드"
 }
