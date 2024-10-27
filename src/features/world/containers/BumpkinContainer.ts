@@ -126,7 +126,7 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
       const text = NAME_ALIASES[name as NPCName] ?? name;
       const label = new Label(this.scene, text.toUpperCase());
       this.add(label);
-      label.setPosition(label.width / 2, -16);
+      label.setPosition(label.width / 2, -20);
       if (
         !!NPCS_WITH_ALERTS[name as NPCName] &&
         !acknowledgedNPCs()[name as NPCName] &&
