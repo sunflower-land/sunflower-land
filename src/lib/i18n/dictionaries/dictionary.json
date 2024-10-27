@@ -4077,7 +4077,7 @@
   "bedsMigration.bedsNeededDescription": "Farm hands need beds in order to work on the farm.",
   "bedsMigration.bedsNeededDescription2": "Place beds to hire more farmhands!",
   "farmHand": "Farm Hand",
-  "description.petting.hand": "A hand that pets animals. Use this to show affection to your animals.",
-  "description.brush": "A brush that pets animals. Use this to show affection your animals.",
-  "description.music.box": "A music box that plays music. Use this to show affection your animals."
+  "description.petting.hand": "Pets animals. Use this to show affection to your animals.",
+  "description.brush": "Animal Brush. Use this to show affection your animals.",
+  "description.music.box": "Plays music to animals. Use this to show affection your animals."
 }
