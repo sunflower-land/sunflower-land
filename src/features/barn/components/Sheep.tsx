@@ -292,7 +292,8 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
       <div className="relative w-full h-full">
         {showDrops && (
           <ProduceDrops
-            currentLevel={level}
+            multiplier={sheep.multiplier ?? 0}
+            level={level}
             animalType="Sheep"
             className="bottom-0 left-5 top-4"
           />
@@ -345,15 +346,6 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
             request={sheep.item}
           />
         )}
-        {/* Level Progress */}
-        <LevelProgress
-          animal="Sheep"
-          animalState={sheepState}
-          experience={sheep.experience}
-          className="bottom-3 left-1/2 transform -translate-x-1/2"
-          // Don't block level up UI with wakes in panel if accidentally clicked
-          onLevelUp={() => setShowWakesIn(false)}
-        />
         {sleeping && showWakesIn && (
           <WakesIn asleepAt={sheep.asleepAt} className="-top-10" />
         )}
@@ -381,6 +373,15 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
           </InfoPopover>
         )}
       </div>
+      {/* Level Progress */}
+      <LevelProgress
+        animal="Sheep"
+        animalState={sheepState}
+        experience={sheep.experience}
+        className="absolute -bottom-2.5 left-1/2 transform -translate-x-1/2 ml-1"
+        // Don't block level up UI with wakes in panel if accidentally clicked
+        onLevelUp={() => setShowWakesIn(false)}
+      />
       {/* Quick Select */}
       <Transition
         appear={true}

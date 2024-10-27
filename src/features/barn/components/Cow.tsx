@@ -343,7 +343,8 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
       <div className="relative w-full h-full">
         {showDrops && (
           <ProduceDrops
-            currentLevel={level}
+            multiplier={cow.multiplier ?? 0}
+            level={level}
             animalType="Cow"
             className="bottom-0 left-4 top-4"
           />
@@ -395,16 +396,7 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
             request={cow.item}
           />
         )}
-        {/* Level Progress */}
-        <LevelProgress
-          animal="Cow"
-          animalState={cowMachineState}
-          experience={cow.experience}
-          className="bottom-3 left-1/2 transform -translate-x-1/2"
-          // Don't block level up UI with wakes in panel if accidentally clicked
-          onLevelUp={() => setShowWakesIn(false)}
-        />
-        {sleeping && showWakesIn && (
+        {(sleeping || needsLove) && showWakesIn && (
           <WakesIn asleepAt={cow.asleepAt} className="-top-10" />
         )}
         {/* Not enough food */}
@@ -431,6 +423,15 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
           </InfoPopover>
         )}
       </div>
+      {/* Level Progress */}
+      <LevelProgress
+        animal="Cow"
+        animalState={cowMachineState}
+        experience={cow.experience}
+        className="absolute -bottom-2.5 left-1/2 transform -translate-x-1/2 ml-1"
+        // Don't block level up UI with wakes in panel if accidentally clicked
+        onLevelUp={() => setShowWakesIn(false)}
+      />
       {/* Quick Select */}
       <Transition
         appear={true}

@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { SUNNYSIDE } from "assets/sunnyside";
 import { AnimatedBar } from "components/ui/ProgressBar";
 import {
   ANIMAL_LEVELS,
@@ -10,7 +9,6 @@ import { getAnimalLevel, isMaxLevel } from "features/game/lib/animals";
 import { TState } from "features/game/lib/animalMachine";
 import { Transition } from "@headlessui/react";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import classNames from "classnames";
 
 type Props = {
   animal: AnimalType;
@@ -83,24 +81,15 @@ export const LevelProgress = ({
         </span>
       </Transition>
 
-      <div className={`absolute w-10 ${className}`}>
-        <div className="absolute left-1">
-          <AnimatedBar percentage={getProgressPercentage()} type="progress" />
-        </div>
+      <div className={`${className}`}>
+        <AnimatedBar percentage={getProgressPercentage()} type="progress" />
         <div
-          className={`absolute w-5 z-50 -left-1 top-0 ${
-            animalState === "ready" ? "pulse-no-fade" : ""
-          }`}
+          className="absolute z-50 text-right yield-text right-[85%] ml-0.5 top-[11px] leading-3 transform -translate-y-1/2 text-[16px] text-white"
+          style={{ color: "#71e358" }}
         >
-          <img
-            src={SUNNYSIDE.icons.heart}
-            alt={`Level ${level}`}
-            className={classNames("w-full", {
-              "img-highlight": animalState === "ready",
-            })}
-          />
-
-          <div className="absolute top-1/2 left-1/2 leading-3 transform -translate-x-1/2 -translate-y-1/2 -mt-[1px] text-[16px] text-white">
+          <div
+            className={`relative ${animalState === "ready" ? "pulse-no-fade" : ""}`}
+          >
             {displayLevel}
           </div>
         </div>

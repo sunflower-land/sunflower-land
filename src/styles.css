@@ -753,6 +753,8 @@ img {
 
 .pulse-no-fade {
   animation: pulse-no-fade 1s infinite;
+  transform-origin: center; /* Ensures scaling originates from center */
+  display: inline-block;
 }
 
 @keyframes subtle-pulse {
@@ -760,7 +762,7 @@ img {
     transform: scale(1);
   }
   50% {
-    transform: scale(1.05);
+    transform: scale(1.1);
   }
   100% {
     transform: scale(1);
