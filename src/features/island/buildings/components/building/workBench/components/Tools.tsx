@@ -26,6 +26,7 @@ import { Label } from "components/ui/Label";
 import { capitalize } from "lib/utils/capitalize";
 import { IslandType, LoveAnimalItem } from "features/game/types/game";
 import { getToolPrice } from "features/game/events/landExpansion/craftTool";
+import { hasFeatureAccess } from "lib/flags";
 
 interface Props {
   onClose: (e?: SyntheticEvent) => void;
@@ -199,17 +200,21 @@ export const Tools: React.FC<Props> = ({ onClose }) => {
               />
             );
           })}
-          {getKeys(LOVE_ANIMAL_TOOLS).map((toolName) => {
-            return (
-              <Box
-                isSelected={selectedName === toolName}
-                key={toolName}
-                image={ITEM_DETAILS[toolName].image}
-                onClick={() => onToolClick(toolName)}
-                count={inventory[toolName]}
-              />
-            );
-          })}
+          {hasFeatureAccess(state, "ANIMAL_BUILDINGS") && (
+            <>
+              {getKeys(LOVE_ANIMAL_TOOLS).map((toolName) => {
+                return (
+                  <Box
+                    isSelected={selectedName === toolName}
+                    key={toolName}
+                    image={ITEM_DETAILS[toolName].image}
+                    onClick={() => onToolClick(toolName)}
+                    count={inventory[toolName]}
+                  />
+                );
+              })}
+            </>
+          )}
         </>
       }
     />
