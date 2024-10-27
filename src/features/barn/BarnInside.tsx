@@ -1,4 +1,4 @@
-import React, { useContext, useLayoutEffect, useState } from "react";
+import React, { useContext, useLayoutEffect, useState, useMemo } from "react";
 
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -10,7 +10,7 @@ import { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
 import { getKeys } from "features/game/types/decorations";
-import { MapPlacement } from "features/game/expansion/components/MapPlacement";
+// import { MapPlacement } from "features/game/expansion/components/MapPlacement";
 import { ANIMALS, AnimalType } from "features/game/types/animals";
 import { Cow } from "./components/Cow";
 import { Sheep } from "./components/Sheep";
@@ -28,6 +28,8 @@ import { AnimalDeal, ExchangeHud } from "./components/AnimalBounties";
 import { Modal } from "components/ui/Modal";
 import classNames from "classnames";
 import { isValidDeal } from "features/game/events/landExpansion/sellAnimal";
+import { MapPlacement } from "features/game/expansion/components/MapPlacement";
+import { ANIMAL_HOUSE_BOUNDS } from "features/game/expansion/placeable/lib/collisionDetection";
 
 export const EXTERIOR_ISLAND_BG: Record<IslandType, string> = {
   basic: SUNNYSIDE.land.basic_building_bg,
@@ -67,6 +69,35 @@ export const BarnInside: React.FC = () => {
   }, []);
 
   const nextLevel = Math.min(level + 1, 3) as Exclude<AnimalBuildingLevel, 1>;
+
+  const {
+    x: floorX,
+    y: floorY,
+    height: floorHeight,
+    width: floorWidth,
+  } = ANIMAL_HOUSE_BOUNDS.barn[level];
+
+  // Organise the animals neatly in the barn
+  const organizedAnimals = useMemo(() => {
+    const animals = getKeys(barn.animals).map((id) => ({
+      ...barn.animals[id],
+    }));
+
+    const maxAnimalsPerRow = Math.floor(floorWidth / ANIMALS.Cow.width);
+    const verticalGap = 0.5; // Add a 0.5 grid unit gap between rows
+
+    return animals.map((animal, index) => {
+      const row = Math.floor(index / maxAnimalsPerRow);
+      const col = index % maxAnimalsPerRow;
+      return {
+        ...animal,
+        coordinates: {
+          x: col * ANIMALS.Cow.width,
+          y: row * (ANIMALS.Cow.height + verticalGap),
+        },
+      };
+    });
+  }, [barn.animals, floorWidth]);
 
   return (
     <>
@@ -140,45 +171,51 @@ export const BarnInside: React.FC = () => {
                 <FeederMachine />
               </div>
 
-              {getKeys(barn.animals)
-                .map((id) => {
-                  const animal = barn.animals[id];
-                  const isValid = deal && isValidDeal({ animal, deal });
-                  const Component =
-                    BARN_ANIMAL_COMPONENTS[animal.type as BarnAnimal];
+              <MapPlacement
+                x={floorX}
+                y={floorY}
+                height={floorHeight}
+                width={floorWidth}
+              >
+                <div className="flex flex-wrap w-full h-full">
+                  {organizedAnimals.map((animal) => {
+                    const isValid = deal && isValidDeal({ animal, deal });
+                    const Component =
+                      BARN_ANIMAL_COMPONENTS[animal.type as BarnAnimal];
+                    const { width, height } = ANIMALS[animal.type];
 
-                  return (
-                    <MapPlacement
-                      key={`${animal.type.toLowerCase()}-${id}`}
-                      x={animal.coordinates.x}
-                      y={animal.coordinates.y}
-                      height={ANIMALS.Chicken.height}
-                      width={ANIMALS.Chicken.width}
-                    >
+                    return (
                       <div
-                        className={classNames({
+                        id={`${animal.type.toLowerCase()}-${animal.id}`}
+                        key={`${animal.type.toLowerCase()}-${animal.id}`}
+                        className={classNames("relative", {
                           "opacity-50": deal && !isValid,
                           "cursor-pointer": deal && isValid,
                           "pointer-events-none": deal && !isValid,
                         })}
+                        style={{
+                          position: "absolute",
+                          left: `${animal.coordinates.x * GRID_WIDTH_PX}px`,
+                          top: `${animal.coordinates.y * GRID_WIDTH_PX}px`,
+                          width: `${width * GRID_WIDTH_PX}px`,
+                          height: `${height * GRID_WIDTH_PX}px`,
+                        }}
                         onClick={(e) => {
                           if (deal) {
-                            // Stop other clicks
                             e.stopPropagation();
                             e.preventDefault();
-
                             if (!isValid) return;
-
                             setSelected(animal);
                           }
                         }}
                       >
-                        <Component id={id} disabled={!!deal} />
+                        <Component id={animal.id} disabled={!!deal} />
                       </div>
-                    </MapPlacement>
-                  );
-                })
-                .sort((a, b) => a.props.y - b.props.y)}
+                    );
+                  })}
+                </div>
+              </MapPlacement>
+
               {!deal && (
                 <>
                   <img
