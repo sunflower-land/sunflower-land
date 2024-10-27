@@ -205,7 +205,7 @@ export const HOME_BOUNDS: Record<IslandType, BoundingBox> = {
   },
 };
 
-const ANIMAL_HOUSE_BOUNDS: Record<
+export const ANIMAL_HOUSE_BOUNDS: Record<
   AnimalBuildingKey,
   Record<number, BoundingBox>
 > = {

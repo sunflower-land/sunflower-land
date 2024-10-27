@@ -390,6 +390,8 @@ export const STATIC_OFFLINE_FARM: GameState = {
     },
   },
   inventory: {
+    Hay: new Decimal(100),
+    "Kernel Blend": new Decimal(100),
     "Rich Chicken": new Decimal(1),
     Wrangler: new Decimal(1),
     "Bull Run Banner": new Decimal(1),
@@ -466,7 +468,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     Pickaxe: new Decimal(100),
     Warehouse: new Decimal(1),
     Wheat: new Decimal(100),
-    Oil: new Decimal(100),
+    Oil: new Decimal(250),
     "Sand Shovel": new Decimal(1),
     "Sand Drill": new Decimal(1),
     Manor: new Decimal(1),
@@ -562,7 +564,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     Egg: new Decimal(12),
     Beehive: new Decimal(1),
     Banana: new Decimal(12),
-    Crimstone: new Decimal(100),
+    Crimstone: new Decimal(50),
     Gem: new Decimal(200),
     Gold: new Decimal("400"),
     Iron: new Decimal("800"),
@@ -763,13 +765,13 @@ export const STATIC_OFFLINE_FARM: GameState = {
       {
         id: "1",
         name: "Cow",
-        level: 2,
+        level: 3,
         coins: 100,
       },
       {
         id: "1",
         name: "Sheep",
-        level: 2,
+        level: 3,
         coins: 100,
       },
       {
