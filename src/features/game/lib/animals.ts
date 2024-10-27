@@ -238,7 +238,7 @@ export function getBoostedAsleepAt({
     }
 
     if (isCollectibleBuilt({ name: "El Pollo Veloz", game })) {
-      asleepAt -= 4 * 60 * 60 * 1000;
+      asleepAt -= 2 * 60 * 60 * 1000;
     }
   }
 

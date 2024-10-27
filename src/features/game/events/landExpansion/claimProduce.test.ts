@@ -752,7 +752,7 @@ describe("claimProduce", () => {
       },
     });
 
-    const fourHoursInMs = 4 * 60 * 60 * 1000;
+    const fourHoursInMs = 2 * 60 * 60 * 1000;
     const boostedAsleepAt = now - fourHoursInMs;
 
     expect(state.henHouse.animals["0"].asleepAt).toEqual(boostedAsleepAt);
