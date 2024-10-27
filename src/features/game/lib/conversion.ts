@@ -11,6 +11,8 @@ import {
 
 import { TREASURE_TOOLS } from "../types/tools";
 import { FLOWER_SEEDS } from "../types/flowers";
+import { ANIMAL_FOODS } from "../types/animals";
+import { RECIPE_CRAFTABLES } from "./crafting";
 
 /**
  * Tradeable items use 18 decimals for decimal point storage
@@ -30,7 +32,9 @@ export function getItemUnit(name: InventoryItemName) {
     name in TOOLS ||
     name in TREASURE_TOOLS ||
     name in SHOVELS ||
-    name in FERTILISERS
+    name in FERTILISERS ||
+    name in ANIMAL_FOODS ||
+    name in RECIPE_CRAFTABLES
   ) {
     return "ether";
   }
