@@ -4070,5 +4070,11 @@
   "season.codex.howToEarn.two": "Выполните работу по дому для Бампкинса.",
   "season.codex.howToEarn.three": "Торгуйте наградами за животных и цветы!",
   "description.el.pollo.veloz.one": "Ваши цыплята будут откладывать яйца на 2 часа быстрее!",
-  "description.el.pollo.veloz.two": "Быстро дайте мне эти яйца! Цыплята спят на 2 часа короче."
+  "description.el.pollo.veloz.two": "Быстро дайте мне эти яйца! Цыплята спят на 2 часа короче.",
+  "unlock.farmhand": "Разблокируйте Farmhand",
+  "description.unlockFarmhand": "Это {{name}} позволит вам найти нового фермера, который поможет вам на ферме.",
+  "bedsMigration.bedsNeeded": "Нужны кровати!",
+  "bedsMigration.bedsNeededDescription": "Работникам фермы нужны кровати для работы на ферме.",
+  "bedsMigration.bedsNeededDescription2": "Разместите кровати, чтобы нанять больше фермеров!",
+  "farmHand": "Фермерская рука"
 }

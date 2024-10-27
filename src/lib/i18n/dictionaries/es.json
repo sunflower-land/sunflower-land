@@ -4070,5 +4070,11 @@
   "season.codex.howToEarn.two": "Completa las tareas para Bumpkins.",
   "season.codex.howToEarn.three": "¡Intercambia recompensas de animales y flores!",
   "description.el.pollo.veloz.one": "¡Tus gallinas pondrán huevos 2 horas más rápido!",
-  "description.el.pollo.veloz.two": "¡Deme esos huevos, rápido! Los pollos duermen 2 horas menos."
+  "description.el.pollo.veloz.two": "¡Deme esos huevos, rápido! Los pollos duermen 2 horas menos.",
+  "unlock.farmhand": "Desbloquea Farmhand",
+  "description.unlockFarmhand": "Este {{name}} te permite desbloquear un nuevo peón para ayudarte en tu granja.",
+  "bedsMigration.bedsNeeded": "¡Se necesitan camas!",
+  "bedsMigration.bedsNeededDescription": "Los peones necesitan camas para poder trabajar en la granja.",
+  "bedsMigration.bedsNeededDescription2": "¡Coloca camas para contratar más peones!",
+  "farmHand": "Mano de granja"
 }

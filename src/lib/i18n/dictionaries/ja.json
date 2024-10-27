@@ -4070,5 +4070,11 @@
   "season.codex.howToEarn.two": "バンプキンズの雑用を全部やりましょう。",
   "season.codex.howToEarn.three": "動物や花の賞金を交換しよう！",
   "description.el.pollo.veloz.one": "鶏は2時間早く産卵します！",
-  "description.el.pollo.veloz.two": "早く、その卵をよこせ！ニワトリの睡眠時間は2時間短くなります。"
+  "description.el.pollo.veloz.two": "早く、その卵をよこせ！ニワトリの睡眠時間は2時間短くなります。",
+  "unlock.farmhand": "ファームハンドをアンロック",
+  "description.unlockFarmhand": "この {{name}} を使うと、農場を手伝ってくれる新しいファームハンドをアンロックできます。",
+  "bedsMigration.bedsNeeded": "ベッドが必要です！",
+  "bedsMigration.bedsNeededDescription": "農家の人が農場で働くにはベッドが必要だ。",
+  "bedsMigration.bedsNeededDescription2": "ベッドを置いて農夫をもっと雇おう！",
+  "farmHand": "ファームハンド"
 }

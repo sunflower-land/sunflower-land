@@ -4070,5 +4070,11 @@
   "season.codex.howToEarn.two": "Selesaikan tugas untuk Bumpkins.",
   "season.codex.howToEarn.three": "Perdagangkan hadiah hewan dan bunga!",
   "description.el.pollo.veloz.one": "Ayam Anda akan bertelur 2 jam lebih cepat!",
-  "description.el.pollo.veloz.two": "Berikan telur itu, cepat! Ayam tidur 2 jam lebih pendek."
+  "description.el.pollo.veloz.two": "Berikan telur itu, cepat! Ayam tidur 2 jam lebih pendek.",
+  "unlock.farmhand": "Buka kunci Farmhand",
+  "description.unlockFarmhand": "{{name}} ini memungkinkan Anda membuka kunci petani baru untuk membantu pertanian Anda.",
+  "bedsMigration.bedsNeeded": "Tempat Tidur Dibutuhkan!",
+  "bedsMigration.bedsNeededDescription": "Tangan petani membutuhkan tempat tidur untuk bekerja di pertanian.",
+  "bedsMigration.bedsNeededDescription2": "Tempatkan tempat tidur untuk menyewa lebih banyak petani!",
+  "farmHand": "Tangan Pertanian"
 }

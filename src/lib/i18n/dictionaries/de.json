@@ -4070,5 +4070,11 @@
   "season.codex.howToEarn.two": "Erledige die Hausarbeiten für Bumpkins.",
   "season.codex.howToEarn.three": "Tauschen Sie Tier- und Blumenprämien ein!",
   "description.el.pollo.veloz.one": "Ihre Hühner legen Eier 2 Stunden schneller!",
-  "description.el.pollo.veloz.two": "Gib mir die Eier, schnell! Hühner schlafen 2 Stunden kürzer."
+  "description.el.pollo.veloz.two": "Gib mir die Eier, schnell! Hühner schlafen 2 Stunden kürzer.",
+  "unlock.farmhand": "Farmhand freischalten",
+  "description.unlockFarmhand": "Mit {{name}} kannst du einen neuen Farmarbeiter freischalten, der auf deiner Farm hilft.",
+  "bedsMigration.bedsNeeded": "Betten werden benötigt!",
+  "bedsMigration.bedsNeededDescription": "Farmarbeiter brauchen Betten, um auf dem Hof arbeiten zu können.",
+  "bedsMigration.bedsNeededDescription2": "Platziere Betten, um mehr Landarbeiter einzustellen!",
+  "farmHand": "Landarbeiter"
 }
