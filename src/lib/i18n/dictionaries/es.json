@@ -4076,5 +4076,8 @@
   "bedsMigration.bedsNeeded": "¡Se necesitan camas!",
   "bedsMigration.bedsNeededDescription": "Los peones necesitan camas para poder trabajar en la granja.",
   "bedsMigration.bedsNeededDescription2": "¡Coloca camas para contratar más peones!",
-  "farmHand": "Mano de granja"
+  "farmHand": "Mano de granja",
+  "description.petting.hand": "Animales de compañía. Utilízalo para mostrar afecto a tus animales.",
+  "description.brush": "Cepillo para animales. Utilízalo para demostrar afecto a tus animales.",
+  "description.music.box": "Toca música para los animales. Utilízala para mostrar afecto a tus animales."
 }

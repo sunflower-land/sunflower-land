@@ -4076,5 +4076,8 @@
   "bedsMigration.bedsNeeded": "Des lits sont nécessaires !",
   "bedsMigration.bedsNeededDescription": "Les ouvriers agricoles ont besoin de lits pour travailler à la ferme.",
   "bedsMigration.bedsNeededDescription2": "Placez des lits pour engager plus d'ouvriers agricoles !",
-  "farmHand": "Farm Hand"
+  "farmHand": "Farm Hand",
+  "description.petting.hand": "Animaux de compagnie. Utilisez-le pour montrer de l'affection à vos animaux.",
+  "description.brush": "Brosse pour animaux Utilisez-le pour montrer de l'affection à vos animaux.",
+  "description.music.box": "Joue de la musique aux animaux. Utilisez-le pour montrer de l'affection à vos animaux."
 }

@@ -4076,5 +4076,8 @@
   "bedsMigration.bedsNeeded": "Katil Diperlukan!",
   "bedsMigration.bedsNeededDescription": "Tangan ladang memerlukan katil untuk bekerja di ladang.",
   "bedsMigration.bedsNeededDescription2": "Letakkan katil untuk menyewa lebih banyak petani ladang!",
-  "farmHand": "Tangan Ladang"
+  "farmHand": "Tangan Ladang",
+  "description.petting.hand": "Haiwan haiwan peliharaan. Gunakan ini untuk menunjukkan kasih sayang kepada haiwan anda.",
+  "description.brush": "Berus Haiwan. Gunakan ini untuk menunjukkan kasih sayang haiwan anda.",
+  "description.music.box": "Memainkan muzik kepada haiwan. Gunakan ini untuk menunjukkan kasih sayang haiwan anda."
 }

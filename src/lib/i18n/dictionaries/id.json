@@ -4076,5 +4076,8 @@
   "bedsMigration.bedsNeeded": "Tempat Tidur Dibutuhkan!",
   "bedsMigration.bedsNeededDescription": "Tangan petani membutuhkan tempat tidur untuk bekerja di pertanian.",
   "bedsMigration.bedsNeededDescription2": "Tempatkan tempat tidur untuk menyewa lebih banyak petani!",
-  "farmHand": "Tangan Pertanian"
+  "farmHand": "Tangan Pertanian",
+  "description.petting.hand": "Hewan peliharaan. Gunakan ini untuk menunjukkan kasih sayang kepada hewan Anda.",
+  "description.brush": "Sikat Hewan. Gunakan ini untuk menunjukkan kasih sayang hewan Anda.",
+  "description.music.box": "Memutar musik untuk hewan. Gunakan ini untuk menunjukkan kasih sayang hewan Anda."
 }

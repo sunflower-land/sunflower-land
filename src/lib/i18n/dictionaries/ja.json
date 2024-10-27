@@ -4076,5 +4076,8 @@
   "bedsMigration.bedsNeeded": "ベッドが必要です！",
   "bedsMigration.bedsNeededDescription": "農家の人が農場で働くにはベッドが必要だ。",
   "bedsMigration.bedsNeededDescription2": "ベッドを置いて農夫をもっと雇おう！",
-  "farmHand": "ファームハンド"
+  "farmHand": "ファームハンド",
+  "description.petting.hand": "ペット、動物。これを使って動物への愛情を示しましょう。",
+  "description.brush": "アニマルブラシ。これを使って動物への愛情を示しましょう。",
+  "description.music.box": "動物に音楽をかけます。これを使って動物への愛情を示しましょう。"
 }

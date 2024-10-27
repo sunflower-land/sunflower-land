@@ -4076,5 +4076,8 @@
   "bedsMigration.bedsNeeded": "需要床！",
   "bedsMigration.bedsNeededDescription": "农民需要床才能在农场工作。",
   "bedsMigration.bedsNeededDescription2": "放置床位以雇用更多的农民！",
-  "farmHand": "农场之手"
+  "farmHand": "农场之手",
+  "description.petting.hand": "宠物动物。用它来表达对动物的爱意。",
+  "description.brush": "动物画笔。用它来表达对动物的爱意。",
+  "description.music.box": "为动物播放音乐。用它来表达对动物的爱意。"
 }

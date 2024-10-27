@@ -4076,5 +4076,8 @@
   "bedsMigration.bedsNeeded": "Letti necessari!",
   "bedsMigration.bedsNeededDescription": "I braccianti hanno bisogno di letti per lavorare nella fattoria.",
   "bedsMigration.bedsNeededDescription2": "Posiziona i letti per assumere altri braccianti agricoli!",
-  "farmHand": "Mano della fattoria"
+  "farmHand": "Mano della fattoria",
+  "description.petting.hand": "Animali domestici. Usalo per mostrare affetto ai tuoi animali.",
+  "description.brush": "Spazzola per animali. Usalo per mostrare affetto ai tuoi animali.",
+  "description.music.box": "Suona musica per gli animali. Usalo per mostrare affetto ai tuoi animali."
 }

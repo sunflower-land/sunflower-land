@@ -4076,5 +4076,8 @@
   "bedsMigration.bedsNeeded": "Camas necessárias!",
   "bedsMigration.bedsNeededDescription": "Os fazendeiros precisam de camas para trabalhar na fazenda.",
   "bedsMigration.bedsNeededDescription2": "Coloque camas para contratar mais fazendeiros!",
-  "farmHand": "Farm Hand"
+  "farmHand": "Farm Hand",
+  "description.petting.hand": "Animais de estimação. Use isso para mostrar afeto aos seus animais.",
+  "description.brush": "Escova para animais. Use isso para mostrar afeto aos seus animais.",
+  "description.music.box": "Toca música para animais. Use isso para mostrar afeto aos seus animais."
 }
