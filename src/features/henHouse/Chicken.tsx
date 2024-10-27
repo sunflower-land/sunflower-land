@@ -118,6 +118,8 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
   }, [chicken.state]);
 
   const [showQuickSelect, setShowQuickSelect] = useState(false);
+  const [showAffectionQuickSelect, setShowAffectionQuickSelect] =
+    useState(false);
   const [showDrops, setShowDrops] = useState(false);
   const [showWakesIn, setShowWakesIn] = useState(false);
   const [showNotEnoughFood, setShowNotEnoughFood] = useState(false);
@@ -156,11 +158,16 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
   };
 
   const loveChicken = () => {
+    if (selectedItem !== chicken.item) {
+      setShowAffectionQuickSelect(true);
+      return;
+    }
+
     const updatedState = gameService.send({
       type: "animal.loved",
       animal: "Chicken",
       id: chicken.id,
-      item: "Petting Hand",
+      item: chicken.item,
     });
 
     const updatedChicken = updatedState.context.state.henHouse.animals[id];
@@ -484,6 +491,32 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
           onClose={() => setShowQuickSelect(false)}
           onSelected={(item) => handleQuickSelect(item)}
           emptyMessage={t(sick ? "animal.noMedicine" : "animal.noFoodMessage")}
+        />
+      </Transition>
+      <Transition
+        appear={true}
+        show={showAffectionQuickSelect}
+        enter="transition-opacity  duration-300"
+        enterFrom="opacity-0"
+        enterTo="opacity-100"
+        leave="transition-opacity duration-300"
+        leaveFrom="opacity-100"
+        leaveTo="opacity-0"
+        className="flex top-[-20px] left-[50%] z-40 absolute"
+      >
+        <QuickSelect
+          options={[
+            {
+              name: chicken.item,
+              icon: chicken.item,
+              showSecondaryImage: false,
+            },
+          ]}
+          onClose={() => setShowAffectionQuickSelect(false)}
+          onSelected={() => loveChicken()}
+          emptyMessage={t("animal.toolRequired", {
+            tool: chicken.item,
+          })}
         />
       </Transition>
     </>
