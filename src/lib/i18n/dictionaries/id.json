@@ -138,8 +138,6 @@
   "description.rich.chicken.one": "Ayam Anda sekarang akan menghasilkan 10% lebih banyak telur.",
   "description.rich.chicken.two": "Menghasilkan 10% lebih banyak telur",
   "description.ayam.cemani": "Ayam paling langka yang ada!",
-  "description.el.pollo.veloz.one": "Ayam Anda akan bertelur 4 jam lebih cepat!",
-  "description.el.pollo.veloz.two": "Berikan telur itu, cepat! Peningkatan kecepatan 4 jam pada bertelur.",
   "description.banana.chicken": "Ayam yang meningkatkan pisang. Betapa dunia yang kita tinggali.",
   "description.pharaoh.chicken": "Ayam yang berkuasa, +1 Dig.",
   "description.lab.grow.pumpkin": "+0,3 Hasil Labu",
@@ -4070,5 +4068,7 @@
   "description.horseshoe": "Tapal kuda yang berharga - tukar hadiah!",
   "crafting.coming.soon": "Sistem kerajinan baru akan datang ke Sunflower Land... 1 November!",
   "season.codex.howToEarn.two": "Selesaikan tugas untuk Bumpkins.",
-  "season.codex.howToEarn.three": "Perdagangkan hadiah hewan dan bunga!"
+  "season.codex.howToEarn.three": "Perdagangkan hadiah hewan dan bunga!",
+  "description.el.pollo.veloz.one": "Ayam Anda akan bertelur 2 jam lebih cepat!",
+  "description.el.pollo.veloz.two": "Berikan telur itu, cepat! Ayam tidur 2 jam lebih pendek."
 }

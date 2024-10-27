@@ -138,8 +138,6 @@
   "description.rich.chicken.one": "Ihre Hühner geben jetzt 10% mehr Eier.",
   "description.rich.chicken.two": "Ergibt 10% mehr Eier",
   "description.ayam.cemani": "Das seltenste Huhn, das es gibt!",
-  "description.el.pollo.veloz.one": "Ihre Hühner legen 4 Stunden schneller Eier!",
-  "description.el.pollo.veloz.two": "Gib mir die Eier, schnell! 4 Stunden Geschwindigkeitsschub beim Eierlegen.",
   "description.banana.chicken": "Ein Huhn, das Bananen stärkt. In was für einer Welt leben wir.",
   "description.pharaoh.chicken": "Ein herrschendes Huhn, +1 Dig.",
   "description.lab.grow.pumpkin": "+0.3 Kürbisertrag",
@@ -4070,5 +4068,7 @@
   "description.horseshoe": "Ein wertvolles Hufeisen — gegen Prämien eintauschen!",
   "crafting.coming.soon": "Ein neues Handwerkssystem kommt nach Sunflower Land... am 1. November!",
   "season.codex.howToEarn.two": "Erledige die Hausarbeiten für Bumpkins.",
-  "season.codex.howToEarn.three": "Tauschen Sie Tier- und Blumenprämien ein!"
+  "season.codex.howToEarn.three": "Tauschen Sie Tier- und Blumenprämien ein!",
+  "description.el.pollo.veloz.one": "Ihre Hühner legen Eier 2 Stunden schneller!",
+  "description.el.pollo.veloz.two": "Gib mir die Eier, schnell! Hühner schlafen 2 Stunden kürzer."
 }

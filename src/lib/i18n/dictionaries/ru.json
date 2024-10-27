@@ -137,8 +137,6 @@
   "description.rich.chicken.one": "Твои куры теперь будут производить на 10% больше яиц.",
   "description.rich.chicken.two": "Производится на 10% больше яиц",
   "description.ayam.cemani": "Самая редкая курица на свете!",
-  "description.el.pollo.veloz.one": "Твои куры будут нести яйца на 4 часа быстрее!",
-  "description.el.pollo.veloz.two": "Дай мне эти яйца, быстро! Яйца несутся на 4 часа быстрее.",
   "description.banana.chicken": "Курица, которая повышает урожай бананов. В каком мире мы живем.",
   "description.pharaoh.chicken": "Цыпленок - Фараон, +1 копка.",
   "description.lab.grow.pumpkin": "+0.3 к урожаю Тыквы",
@@ -4070,5 +4068,7 @@
   "description.horseshoe": "Ценная подкова — обмен на награды!",
   "crafting.coming.soon": "Новая система крафта появится в Sunflower Land... 1 ноября!",
   "season.codex.howToEarn.two": "Выполните работу по дому для Бампкинса.",
-  "season.codex.howToEarn.three": "Торгуйте наградами за животных и цветы!"
+  "season.codex.howToEarn.three": "Торгуйте наградами за животных и цветы!",
+  "description.el.pollo.veloz.one": "Ваши цыплята будут откладывать яйца на 2 часа быстрее!",
+  "description.el.pollo.veloz.two": "Быстро дайте мне эти яйца! Цыплята спят на 2 часа короче."
 }

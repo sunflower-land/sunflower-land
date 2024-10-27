@@ -137,8 +137,6 @@
   "description.rich.chicken.one": "Le tue galline ora produrranno il 10% in più di uova.",
   "description.rich.chicken.two": "Produce il 10% in più di uova",
   "description.ayam.cemani": "Il pollo più raro che esista!",
-  "description.el.pollo.veloz.one": "Le tue galline deporranno le uova 4 ore più velocemente!",
-  "description.el.pollo.veloz.two": "Dammi quelle uova, velocemente! 4 ore di aumento della velocità di deposizione delle uova.",
   "description.banana.chicken": "Un pollo che fa crescere le banane. In che mondo viviamo.",
   "description.pharaoh.chicken": "Una gallina dominante, +1 Dig.",
   "description.lab.grow.pumpkin": "+0.3 Rendimento in zucca",
@@ -4070,5 +4068,7 @@
   "description.horseshoe": "Un prezioso ferro di cavallo: in cambio di ricompense!",
   "crafting.coming.soon": "Un nuovo sistema di creazione è in arrivo in Sunflower Land... il 1 novembre!",
   "season.codex.howToEarn.two": "Faccende complete per Bumpkins.",
-  "season.codex.howToEarn.three": "Scambia ricompense per animali e fiori!"
+  "season.codex.howToEarn.three": "Scambia ricompense per animali e fiori!",
+  "description.el.pollo.veloz.one": "Le tue galline deporranno le uova 2 ore più velocemente!",
+  "description.el.pollo.veloz.two": "Dammi quelle uova, velocemente! I polli dormono due ore in meno."
 }
