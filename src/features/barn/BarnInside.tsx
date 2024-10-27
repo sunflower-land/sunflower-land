@@ -10,7 +10,6 @@ import { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
 import { getKeys } from "features/game/types/decorations";
-// import { MapPlacement } from "features/game/expansion/components/MapPlacement";
 import { ANIMALS, AnimalType } from "features/game/types/animals";
 import { Cow } from "./components/Cow";
 import { Sheep } from "./components/Sheep";
@@ -79,9 +78,19 @@ export const BarnInside: React.FC = () => {
 
   // Organise the animals neatly in the barn
   const organizedAnimals = useMemo(() => {
-    const animals = getKeys(barn.animals).map((id) => ({
-      ...barn.animals[id],
-    }));
+    // First, group animals by type and sort within each group
+    const animals = getKeys(barn.animals)
+      .map((id) => ({
+        ...barn.animals[id],
+      }))
+      // Group by type first (Cow, then Sheep)
+      .sort((a, b) => b.experience - a.experience)
+      .sort((a, b) => {
+        if (a.type === b.type) {
+          return a.experience - b.experience;
+        }
+        return a.type === "Cow" ? -1 : 1;
+      });
 
     const maxAnimalsPerRow = Math.floor(floorWidth / ANIMALS.Cow.width);
     const verticalGap = 0.5; // Add a 0.5 grid unit gap between rows
@@ -97,7 +106,7 @@ export const BarnInside: React.FC = () => {
         },
       };
     });
-  }, [barn.animals, floorWidth]);
+  }, [getKeys(barn.animals).length, floorWidth]);
 
   return (
     <>
