@@ -306,6 +306,19 @@ export const SUNNYSIDE = {
     fish_oil: `${CONFIG.PROTECTED_IMAGE_URL}/animals/foods/fish_oil.webp`,
     barn_delight: `${CONFIG.PROTECTED_IMAGE_URL}/animals/foods/barn_delight.webp`,
   },
+  crafting: {
+    cushion: `${CONFIG.PROTECTED_IMAGE_URL}/crafting/cushion.webp`,
+    timber: `${CONFIG.PROTECTED_IMAGE_URL}/crafting/timber.webp`,
+    beeBox: `${CONFIG.PROTECTED_IMAGE_URL}/crafting/bee_box.webp`,
+    crimsteel: `${CONFIG.PROTECTED_IMAGE_URL}/crafting/crimsteel.webp`,
+    merinoCushion: `${CONFIG.PROTECTED_IMAGE_URL}/crafting/merino_cushion.webp`,
+    kelpFibre: `${CONFIG.PROTECTED_IMAGE_URL}/crafting/kelp_fibre.webp`,
+    hardenedLeather: `${CONFIG.PROTECTED_IMAGE_URL}/crafting/hardened_leather.webp`,
+    syntheticFabric: `${CONFIG.PROTECTED_IMAGE_URL}/crafting/synthetic_fabric.webp`,
+    oceansTreasure: `${CONFIG.PROTECTED_IMAGE_URL}/crafting/oceans_treasure_2.webp`,
+    royalBedding: `${CONFIG.PROTECTED_IMAGE_URL}/crafting/royal_bedding.webp`,
+    royalOrnament: `${CONFIG.PROTECTED_IMAGE_URL}/crafting/royal_ornament.webp`,
+  },
   //VFXs
   vfx: {
     blinking: `${CONFIG.PROTECTED_IMAGE_URL}/vfx/blinking.png`,

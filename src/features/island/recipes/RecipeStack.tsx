@@ -9,13 +9,8 @@ import { useTranslation } from "react-i18next";
 import { Label } from "components/ui/Label";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { Context } from "features/game/GameProvider";
-import { MachineState } from "features/game/lib/gameMachine";
-import { useSelector } from "@xstate/react";
 import { ITEM_IDS } from "features/game/types/bumpkin";
 import { getImageUrl } from "lib/utils/getImageURLS";
-
-const _recipes = (state: MachineState) =>
-  state.context.state.craftingBox.recipes;
 
 const getRecipeImage = (recipe: RecipeItemName) => {
   const recipeDetails = RECIPES[recipe];
@@ -37,14 +32,12 @@ const getRecipeDescription = (recipe: RecipeItemName) => {
     : "";
 };
 
-export const Recipe: React.FC<{ recipe: RecipeItemName }> = ({ recipe }) => {
+export const RecipeStack: React.FC<{ recipes: RecipeItemName[] }> = ({
+  recipes,
+}) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const { gameService } = useContext(Context);
-  const recipes = useSelector(gameService, _recipes);
-
-  const recipeImage = getRecipeImage(recipe);
-  const recipeDescription = getRecipeDescription(recipe);
 
   const { t } = useTranslation();
 
@@ -53,7 +46,9 @@ export const Recipe: React.FC<{ recipe: RecipeItemName }> = ({ recipe }) => {
   };
 
   const handleAccept = () => {
-    gameService.send("recipe.discovered", { recipe });
+    recipes.forEach((recipe) => {
+      gameService.send("recipe.discovered", { recipe });
+    });
     handleClose();
   };
 
@@ -71,20 +66,30 @@ export const Recipe: React.FC<{ recipe: RecipeItemName }> = ({ recipe }) => {
 
       <Modal show={isModalOpen} onHide={handleClose}>
         <Panel>
-          <div className="flex flex-col justify-center items-center space-y-2">
-            <div className="flex flex-col justify-center items-center">
-              <Label type="warning" icon={page}>
-                {t("craftingBox.newRecipeDiscovered")}
-              </Label>
-              <span className="text-sm mb-2">{recipe}</span>
-              <img src={recipeImage} className="h-12 mb-2" />
-              <span className="text-xs text-center mb-2">
-                {recipeDescription}
-              </span>
-              <span className="text-xs text-center mb-2">
-                {t("craftingBox.craftThisItem")}
-              </span>
-            </div>
+          <div className="flex flex-wrap justify-center items-center space-y-2">
+            {recipes.map((recipe) => {
+              const recipeImage = getRecipeImage(recipe);
+              const recipeDescription = getRecipeDescription(recipe);
+
+              return (
+                <div
+                  className="flex flex-col justify-center items-center"
+                  key={recipe}
+                >
+                  <Label type="warning" icon={page}>
+                    {t("craftingBox.newRecipeDiscovered")}
+                  </Label>
+                  <span className="text-sm mb-2 mt-1">{recipe}</span>
+                  <img src={recipeImage} className="h-12 mb-2" />
+                  <span className="text-xs text-center mb-2">
+                    {recipeDescription}
+                  </span>
+                  <span className="text-xs text-center mb-2">
+                    {t("craftingBox.craftThisItem")}
+                  </span>
+                </div>
+              );
+            })}
           </div>
           <Button onClick={handleAccept}>{t("confirm")}</Button>
         </Panel>

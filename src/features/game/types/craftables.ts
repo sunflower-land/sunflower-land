@@ -1089,7 +1089,7 @@ const flagsDimension = getKeys(FLAGS).reduce(
 const bedsDimension = getKeys(BEDS).reduce(
   (previous, bedName) => ({
     ...previous,
-    [bedName]: { width: 1, height: 2 },
+    [bedName]: { width: 1, height: 1 },
   }),
   {} as Record<BedName, Dimensions>,
 );

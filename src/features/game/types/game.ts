@@ -453,7 +453,8 @@ export type InventoryItemName =
   | AnimalFoodName
   | AnimalMedicineName
   | LoveAnimalItem
-  | BedName;
+  | BedName
+  | RecipeCraftableName;
 
 export type Inventory = Partial<Record<InventoryItemName, Decimal>>;
 
@@ -784,6 +785,19 @@ export type BedName =
   | "Cow Bed"
   | "Desert Bed"
   | "Royal Bed";
+
+export type RecipeCraftableName =
+  | "Cushion"
+  | "Timber"
+  | "Bee Box"
+  | "Crimsteel"
+  | "Merino Cushion"
+  | "Kelp Fibre"
+  | "Hardened Leather"
+  | "Synthetic Fabric"
+  | "Ocean's Treasure"
+  | "Royal Bedding"
+  | "Royal Ornament";
 
 export type Party = {
   fulfilledAt?: number;
