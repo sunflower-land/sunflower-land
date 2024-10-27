@@ -102,8 +102,6 @@
   "description.rich.chicken.one": "Seus frangos agora renderão 10% mais ovos.",
   "description.rich.chicken.two": "Rende 10% mais ovos",
   "description.ayam.cemani": "O frango mais raro que existe!",
-  "description.el.pollo.veloz.one": "Seus frangos botarão ovos 4 horas mais rápido!",
-  "description.el.pollo.veloz.two": "Dê-me esses ovos rápido! Aumento de velocidade de 4 horas na postura de ovos.",
   "description.banana.chicken": "Um frango que impulsiona bananas. Em que mundo vivemos?!",
   "description.lab.grow.pumpkin": "+0,3 Rendimento de Abóbora",
   "description.lab.grown.radish": "+0,4 Rendimento de Rabanete",
@@ -4070,5 +4068,7 @@
   "description.horseshoe": "Uma ferradura valiosa - troque por recompensas!",
   "crafting.coming.soon": "Um novo sistema de criação está chegando à Sunflower Land... 1º de novembro!",
   "season.codex.howToEarn.two": "Complete tarefas para Bumpkins.",
-  "season.codex.howToEarn.three": "Troque recompensas por animais e flores!"
+  "season.codex.howToEarn.three": "Troque recompensas por animais e flores!",
+  "description.el.pollo.veloz.one": "Suas galinhas colocarão ovos 2 horas mais rápido!",
+  "description.el.pollo.veloz.two": "Me dê esses ovos, rápido! As galinhas dormem 2 horas a menos."
 }

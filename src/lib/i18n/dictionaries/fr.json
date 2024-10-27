@@ -119,8 +119,6 @@
   "description.rich.chicken.one": "Vos poules produiront désormais 10% de plus d'œufs.",
   "description.rich.chicken.two": "Produit 10% de plus d'œufs",
   "description.ayam.cemani": "La poule la plus rare qui existe!",
-  "description.el.pollo.veloz.one": "Vos poules pondront des œufs 4 heures plus rapidement!",
-  "description.el.pollo.veloz.two": "Donnez-moi ces œufs, vite ! Boost de vitesse de 4 heures sur la ponte des œufs.",
   "description.banana.chicken": "Une poule qui booste les bananes. Quel monde nous vivons.",
   "description.lab.grow.pumpkin": "+0,3 de rendement en pumpkins",
   "description.lab.grown.radish": "+0,4 de rendement en Radish",
@@ -4070,5 +4068,7 @@
   "description.horseshoe": "Un précieux fer à cheval, à échanger contre des récompenses !",
   "crafting.coming.soon": "Un nouveau système d'artisanat arrive à Sunflower Land... le 1er novembre !",
   "season.codex.howToEarn.two": "Terminez les corvées pour Bumpkins.",
-  "season.codex.howToEarn.three": "Échangez des primes d'animaux et de fleurs !"
+  "season.codex.howToEarn.three": "Échangez des primes d'animaux et de fleurs !",
+  "description.el.pollo.veloz.one": "Vos poules pondront 2 heures plus vite !",
+  "description.el.pollo.veloz.two": "Donne-moi ces œufs, vite ! Les poulets dorment 2 heures de moins."
 }

@@ -136,8 +136,6 @@
   "description.rich.chicken.one": "你的鸡产蛋量会提高 10%。",
   "description.rich.chicken.two": "产蛋量提高 10%",
   "description.ayam.cemani": "世上最稀有的鸡！",
-  "description.el.pollo.veloz.one": "你的鸡下蛋速度会加快 4 小时。",
-  "description.el.pollo.veloz.two": "交出那些蛋，快！鸡的下蛋速度加快 4 小时。",
   "description.banana.chicken": "一只能让香蕉增加产量的鸡。我们这世界可真奇妙。",
   "description.lab.grow.pumpkin": "+0.3 南瓜产量",
   "description.lab.grown.radish": "+0.4 小萝卜产量",
@@ -4070,5 +4068,7 @@
   "description.horseshoe": "一只珍贵的马蹄铁-兑换奖励！",
   "crafting.coming.soon": "向日葵乐园即将推出全新的制作系统... 11 月 1 日！",
   "season.codex.howToEarn.two": "为 Bumpkins 完成家务。",
-  "season.codex.howToEarn.three": "交易动物和花卉赏金！"
+  "season.codex.howToEarn.three": "交易动物和花卉赏金！",
+  "description.el.pollo.veloz.one": "你的鸡产卵速度会加快 2 小时！",
+  "description.el.pollo.veloz.two": "快点把那些鸡蛋给我！鸡的睡眠时间缩短了 2 个小时。"
 }

@@ -138,8 +138,6 @@
   "description.rich.chicken.one": "鶏の産卵量が 10% 増えます。",
   "description.rich.chicken.two": "産卵量が 10% 増えます",
   "description.ayam.cemani": "現存する最も希少なチキン！",
-  "description.el.pollo.veloz.one": "鶏は4時間早く産卵します！",
-  "description.el.pollo.veloz.two": "早く、その卵をよこせ！産卵速度が4時間速くなる",
   "description.banana.chicken": "バナナを美味しくするチキン。私たちはなんて素晴らしい世界に住んでいるのでしょう。",
   "description.pharaoh.chicken": "ルーリングチキン、+1ディグ",
   "description.lab.grow.pumpkin": "+0.3 パンプキン生産量",
@@ -4070,5 +4068,7 @@
   "description.horseshoe": "貴重な馬蹄形-報酬と交換しよう！",
   "crafting.coming.soon": "サンフラワーランドに新しいクラフトシステムがやってきます... 11月1日！",
   "season.codex.howToEarn.two": "バンプキンズの雑用を全部やりましょう。",
-  "season.codex.howToEarn.three": "動物や花の賞金を交換しよう！"
+  "season.codex.howToEarn.three": "動物や花の賞金を交換しよう！",
+  "description.el.pollo.veloz.one": "鶏は2時間早く産卵します！",
+  "description.el.pollo.veloz.two": "早く、その卵をよこせ！ニワトリの睡眠時間は2時間短くなります。"
 }

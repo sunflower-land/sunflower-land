@@ -76,6 +76,31 @@ describe("claimProduce", () => {
     ).toThrow("Animal is not ready to claim produce");
   });
 
+  it("gives the correct amount of produce for the level eg. cow achieving level 4 should drop 2x milk & 1x leather", () => {
+    const cowId = "123";
+
+    const newState = claimProduce({
+      state: {
+        ...INITIAL_FARM,
+        barn: {
+          ...INITIAL_FARM.barn,
+          animals: {
+            [cowId]: {
+              ...INITIAL_FARM.barn.animals[cowId],
+              experience: 1200,
+              state: "ready",
+            },
+          },
+        },
+      },
+      action: { type: "produce.claimed", animal: "Cow", id: cowId },
+      createdAt: now,
+    });
+
+    expect(newState.inventory.Milk).toEqual(new Decimal(2));
+    expect(newState.inventory.Leather).toEqual(new Decimal(1));
+  });
+
   it("gives 2x eggs for chickens when Chicken Coop is placed", () => {
     const chickenId = "123";
 
@@ -727,7 +752,7 @@ describe("claimProduce", () => {
       },
     });
 
-    const fourHoursInMs = 4 * 60 * 60 * 1000;
+    const fourHoursInMs = 2 * 60 * 60 * 1000;
     const boostedAsleepAt = now - fourHoursInMs;
 
     expect(state.henHouse.animals["0"].asleepAt).toEqual(boostedAsleepAt);

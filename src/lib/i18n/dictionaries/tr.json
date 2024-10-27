@@ -115,8 +115,6 @@
   "description.rich.chicken.one": "Tavukların artık 10% daha fazla yumurta verecek.",
   "description.rich.chicken.two": "10% daha fazla yumurta verimi",
   "description.ayam.cemani": "Var olan en nadir tavuk!",
-  "description.el.pollo.veloz.one": "Tavukların 4 saat daha hızlı yumurtlayacak!",
-  "description.el.pollo.veloz.two": "Şu yumurtaları bana ver,çabuk! Yumurtlamada 4 saatlik hız artışı.",
   "description.banana.chicken": "Muzları artıran bir tavuk. Nasıl bir dünyada yaşıyoruz.",
   "description.lab.grow.pumpkin": "+0.3 Kabak Verimi",
   "description.lab.grown.radish": "+0.4 Turp Verimi",
@@ -4070,5 +4068,7 @@
   "description.horseshoe": "Değerli bir at nalı - ödüller için takas edin!",
   "crafting.coming.soon": "Ayçiçeği Ülkesine yeni bir zanaat sistemi geliyor... 1 Kasım!",
   "season.codex.howToEarn.two": "Bumpkins için işleri tamamla.",
-  "season.codex.howToEarn.three": "Hayvan ve çiçek ödüllerini takas et!"
+  "season.codex.howToEarn.three": "Hayvan ve çiçek ödüllerini takas et!",
+  "description.el.pollo.veloz.one": "Tavuklarınız 2 saat daha hızlı yumurta bırakacak!",
+  "description.el.pollo.veloz.two": "Şu yumurtaları bana ver, çabuk! Tavuklar 2 saat daha kısa uyurlar."
 }

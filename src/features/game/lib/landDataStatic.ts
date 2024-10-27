@@ -390,6 +390,8 @@ export const STATIC_OFFLINE_FARM: GameState = {
     },
   },
   inventory: {
+    "Rich Chicken": new Decimal(1),
+    Wrangler: new Decimal(1),
     "Bull Run Banner": new Decimal(1),
     "Basic Scarecrow": new Decimal(1),
     "Lemon Shark": new Decimal(1),
@@ -499,7 +501,6 @@ export const STATIC_OFFLINE_FARM: GameState = {
     Baozi: new Decimal(10),
     Goblet: new Decimal(1),
     "Prize Ticket": new Decimal(10),
-    "Rich Chicken": new Decimal(1),
     "Fat Chicken": new Decimal(2),
     "Speed Chicken": new Decimal(2),
     "Mashed Potato": new Decimal(1),

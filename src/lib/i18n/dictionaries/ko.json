@@ -138,8 +138,6 @@
   "description.rich.chicken.one": "이제 닭이 10% 더 많은 알을 낳을 것입니다.",
   "description.rich.chicken.two": "알을 10% 더 많이 생산합니다.",
   "description.ayam.cemani": "현존하는 가장 희귀한 닭!",
-  "description.el.pollo.veloz.one": "닭이 4 시간 더 빨리 알을 낳을 것입니다!",
-  "description.el.pollo.veloz.two": "빨리 달걀 내놔!알을 낳는 속도가 4시간 빨라집니다.",
   "description.banana.chicken": "바나나를 부스트하는 치킨.우리가 살고 있는 세상은 정말 대단합니다.",
   "description.pharaoh.chicken": "최고의 치킨, +1 디그.",
   "description.lab.grow.pumpkin": "+0.3 호박 수확량",
@@ -4070,5 +4068,7 @@
   "description.horseshoe": "귀중한 말굽 - 보상으로 교환하세요!",
   "crafting.coming.soon": "11월 1일에 선플라워 랜드에 새로운 제작 시스템이 등장합니다!",
   "season.codex.howToEarn.two": "범프킨의 집안일을 완료하세요.",
-  "season.codex.howToEarn.three": "동물과 꽃 현상금을 거래하세요!"
+  "season.codex.howToEarn.three": "동물과 꽃 현상금을 거래하세요!",
+  "description.el.pollo.veloz.one": "닭이 2 시간 더 빨리 알을 낳을 것입니다!",
+  "description.el.pollo.veloz.two": "빨리 달걀 내놔!닭은 잠을 2시간 더 짧게 자요."
 }
