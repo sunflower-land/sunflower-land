@@ -1466,4 +1466,20 @@ export const STATIC_OFFLINE_FARM: GameState = {
     readyAt: 0,
     recipes: {},
   },
+  henHouse: {
+    level: 1,
+    animals: {
+      abc: {
+        asleepAt: Date.now() - 9 * 60 * 60 * 1000,
+        experience: 0,
+        id: "abc",
+        type: "Chicken",
+        createdAt: Date.now() - 9 * 60 * 60 * 1000,
+        coordinates: { x: 0, y: 0 },
+        lovedAt: 0,
+        state: "happy",
+        item: "Petting Hand",
+      },
+    },
+  },
 };
