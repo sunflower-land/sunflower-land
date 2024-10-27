@@ -70,6 +70,7 @@ import { BarnInside } from "features/barn/BarnInside";
 import { EFFECT_EVENTS } from "../actions/effect";
 import { TranslationKeys } from "lib/i18n/dictionaries/types";
 import { Button } from "components/ui/Button";
+import { Ocean } from "features/world/ui/Ocean";
 
 function camelToDotCase(str: string): string {
   return str.replace(/([a-z])([A-Z])/g, "$1.$2").toLowerCase() as string;
@@ -273,7 +274,14 @@ const GameContent: React.FC = () => {
           <Route path="/greenhouse" element={<GreenhouseInside />} />
           <Route path="/barn" element={<BarnInside />} />
           <Route path="/hen-house" element={<HenHouseInside />} />
-          <Route path="*" element={<IslandNotFound />} />
+          <Route
+            path="*"
+            element={
+              <Ocean>
+                <IslandNotFound />
+              </Ocean>
+            }
+          />
         </Routes>
       </div>
     </>
