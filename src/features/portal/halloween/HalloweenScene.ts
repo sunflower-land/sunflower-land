@@ -1,7 +1,11 @@
 import mapJson from "assets/map/halloween.json";
 import tilesetConfig from "assets/map/halloween-tileset.json";
 import { SceneId } from "features/world/mmoMachine";
-import { BaseScene, NPCBumpkin, HALLOWEEN_SQUARE_WIDTH } from "features/world/scenes/BaseScene";
+import {
+  BaseScene,
+  NPCBumpkin,
+  HALLOWEEN_SQUARE_WIDTH,
+} from "features/world/scenes/BaseScene";
 import { MachineInterpreter } from "./lib/halloweenMachine";
 import { DarknessPipeline } from "./shaders/DarknessShader";
 import { VisibilityPolygon } from "./lib/visibilityPolygon";
@@ -17,6 +21,7 @@ import { LampContainer } from "./containers/LampContainer";
 import { EventObject } from "xstate";
 import { SPAWNS } from "features/world/lib/spawn";
 import { createLightPolygon } from "./lib/HalloweenUtils";
+import { Physics } from "phaser";
 
 export const NPCS: NPCBumpkin[] = [
   {
@@ -45,20 +50,23 @@ export class HalloweenScene extends BaseScene {
   private deathDate!: Date | null;
   private ghost_enemies: Phaser.Physics.Arcade.Sprite[] = [];
   private zombie_enemies: Phaser.Physics.Arcade.Sprite[] = [];
-  private lastSpawnTime: number = 0; 
-  private dalaySpawnTime: number = 10000; // 10 seconds dalay spawn time of the enemies in the beginning
-  private updateInterval: number = 120000; // 120 seconds time reset spawn count
-  private minGhostPerMin: number = 10; // Minimum number of ghost enemies spawned
-  private maxGhostPerMin: number = 20; // Maximum ghost enemies to spawn
-  private minZombiePerMin: number = 10 // Minimun number of zombie enemies spawned
-  private maxZombiePerMin: number = 20; // Maximum zombie enemies to spawn
-  private SetSlowDown: number = 0.5; // Reduce player's velocity to 50%
-  private setSlowdownDuration: number = 5000; // Slow down for 5 seconds (5000 milliseconds)
-  private accumulatedSlowdown: number = 0; // Track total accumulated slowdown time
+  private lastSpawnTime = 0;
+  private dalaySpawnTime = 10000; // 10 seconds dalay spawn time of the enemies in the beginning
+  private updateInterval = 120000; // 120 seconds time reset spawn count
+  private minGhostPerMin = 10; // Minimum number of ghost enemies spawned
+  private maxGhostPerMin = 20; // Maximum ghost enemies to spawn
+  private minZombiePerMin = 10; // Minimun number of zombie enemies spawned
+  private maxZombiePerMin = 20; // Maximum zombie enemies to spawn
+  private SetSlowDown = 0.5; // Reduce player's velocity to 50%
+  private setSlowdownDuration = 5000; // Slow down for 5 seconds (5000 milliseconds)
+  private accumulatedSlowdown = 0; // Track total accumulated slowdown time
   private slowdownTimeout: any = null;
-  private setVisionRange: number = 200; // Set the vision zombies
+  private setVisionRange = 200; // Set the vision zombies
 
   sceneId: SceneId = "halloween";
+  private backgroundMusic!: Phaser.Sound.BaseSound;
+  private zombieSound!: Phaser.Sound.BaseSound;
+  private ghostSound!: Phaser.Sound.BaseSound;
 
   constructor() {
     super({
@@ -83,6 +91,10 @@ export class HalloweenScene extends BaseScene {
 
   preload() {
     super.preload();
+
+    this.load.audio("backgroundMusic", "/world/background-music.mp3");
+    this.load.audio("ghostSound", "/world/ghost-sound.wav");
+    this.load.audio("zombieSound", "/world/zombie-sound.wav");
 
     this.load.spritesheet("lamp", "world/lamp.png", {
       frameWidth: 14,
@@ -128,6 +140,22 @@ export class HalloweenScene extends BaseScene {
     super.create();
 
     this.initShaders();
+
+    this.backgroundMusic = this.sound.add("backgroundMusic", {
+      loop: true,
+      volume: 0.02,
+    });
+    this.backgroundMusic.play();
+    this.ghostSound = this.sound.add("ghostSound", {
+      loop: true,
+      volume: 0.0,
+    });
+    this.ghostSound.play();
+    this.zombieSound = this.sound.add("zombieSound", {
+      loop: true,
+      volume: 0.0,
+    });
+    this.zombieSound.play();
 
     // this.AnimationEnemy_2();  // Create zombie animations
 
@@ -192,7 +220,6 @@ export class HalloweenScene extends BaseScene {
   }
 
   update() {
-    
     if (!this.currentPlayer) return;
 
     if (this.portalService?.state.context.lamps === -1) {
@@ -210,18 +237,18 @@ export class HalloweenScene extends BaseScene {
         this.playerPosition = { x: currentX, y: currentY };
       }
 
-
       this.enemy_1();
       this.faceDirectionEnemy_1();
 
-      this.enemy_2()
-      this.checkZombiesInsideWalls()
+      this.enemy_2();
+      this.checkZombiesInsideWalls();
       this.faceDirectionEnemy_2();
 
       this.loadBumpkinAnimations();
 
       this.setLampSpawnTime();
-
+      this.handleZombieSound();
+      this.handleGhostSound();
       this.portalService?.send("GAIN_POINTS");
 
       this.isGameReady && this.portalService?.send("START");
@@ -232,249 +259,362 @@ export class HalloweenScene extends BaseScene {
     super.update();
   }
 
+  // Enemy_1 (ghost_enemy)
+  enemy_1() {
+    // Delay the spawning of enemies by 10 seconds at the start
+    this.time.delayedCall(
+      this.dalaySpawnTime,
+      () => {
+        const currentTime = this.time.now;
 
-// Enemy_1 (ghost_enemy)
-enemy_1() {
-  // Delay the spawning of enemies by 10 seconds at the start
-  this.time.delayedCall(this.dalaySpawnTime, () => {
-    const currentTime = this.time.now;
-
-    // Reset spawn count after a minute
-    if (currentTime - this.lastSpawnTime > this.updateInterval) {
-        // console.log(`Enemy count has been reset. Total enemies spawned: ${this.minGhostPerMin}`);
-        this.minGhostPerMin = 0;
-        this.lastSpawnTime = currentTime;
-    }
-
-    // Spawn enemies up to the maximum limit
-    while (this.minGhostPerMin < this.maxGhostPerMin) {
-        const randomX = Phaser.Math.Between(0, this.map.widthInPixels - HALLOWEEN_SQUARE_WIDTH);
-        const randomY = Phaser.Math.Between(0, this.map.heightInPixels - HALLOWEEN_SQUARE_WIDTH);
-        const ghost_enemy = this.createEnemy_1(randomX, randomY);
-
-        if (this.currentPlayer) {
-            this.physics.add.collider(ghost_enemy, this.currentPlayer, () => this.handleCollision(ghost_enemy));
+        // Reset spawn count after a minute
+        if (currentTime - this.lastSpawnTime > this.updateInterval) {
+          // console.log(`Enemy count has been reset. Total enemies spawned: ${this.minGhostPerMin}`);
+          this.minGhostPerMin = 0;
+          this.lastSpawnTime = currentTime;
         }
-        this.minGhostPerMin++;
-    }
-  }, [], this);
-}
 
-createEnemy_1(x: number, y: number) {
-  const enemy1 = this.physics.add.sprite(x, y, "enemy1")
+        // Spawn enemies up to the maximum limit
+        while (this.minGhostPerMin < this.maxGhostPerMin) {
+          const randomX = Phaser.Math.Between(
+            0,
+            this.map.widthInPixels - HALLOWEEN_SQUARE_WIDTH,
+          );
+          const randomY = Phaser.Math.Between(
+            0,
+            this.map.heightInPixels - HALLOWEEN_SQUARE_WIDTH,
+          );
+          const ghost_enemy = this.createEnemy_1(randomX, randomY);
+
+          if (this.currentPlayer) {
+            this.physics.add.collider(ghost_enemy, this.currentPlayer, () =>
+              this.handleCollision(ghost_enemy),
+            );
+          }
+          this.minGhostPerMin++;
+        }
+      },
+      [],
+      this,
+    );
+  }
+
+  createEnemy_1(x: number, y: number) {
+    const enemy1 = this.physics.add
+      .sprite(x, y, "enemy1")
       .setSize(HALLOWEEN_SQUARE_WIDTH, HALLOWEEN_SQUARE_WIDTH)
       .setVelocity(Phaser.Math.Between(10, 20), Phaser.Math.Between(10, 20))
       .setCollideWorldBounds(true)
       .setBounce(1, 1);
-  
-  this.ghost_enemies.push(enemy1);
-  this.AnimationEnemy_1();
-  console.log(`Spawned ghost #${this.minGhostPerMin + 1}:`, { x, y });
-  return enemy1;
-}
 
-AnimationEnemy_1() {
-  ["ghost_enemy_1", "ghost_enemy_2"].forEach(key => {
-      if (!this.anims.exists(`${key}_anim`)) {
-          this.anims.create({
-              key: `${key}_anim`,
-              frames: this.anims.generateFrameNumbers(key, { start: 0, end: 12 }),
-              repeat: -1,
-              frameRate: 10,
-          });
-      }
-  });
-}
-
-// Handle collision with ghost_enemy
-handleCollision( ghost_enemy: Phaser.Physics.Arcade.Sprite) {
-  const { x, y } =  ghost_enemy;
-  const poof_1 = this.add.sprite(x, y, "poof_1").play("poof_1_anim", true);
-  
-  if (!this.anims.exists("poof_1_anim")) {
-      this.anims.create({
-          key: "poof_1_anim",
-          frames: this.anims.generateFrameNumbers("poof_1", { start: 0, end: 11 }),
-          repeat: 0,
-          frameRate: 10,
-      });
+    this.ghost_enemies.push(enemy1);
+    this.AnimationEnemy_1();
+    console.log(`Spawned ghost #${this.minGhostPerMin + 1}:`, { x, y });
+    return enemy1;
   }
 
-  poof_1.play("poof_1_anim", true);
-
-  poof_1.on("animationcomplete", () => poof_1.destroy());
-  ghost_enemy.destroy();
-  this.ghost_enemies = this.ghost_enemies.filter(sprite => sprite !==  ghost_enemy);
-  this.currentPlayer && this.handleDimEffect();
-}
-
-handleDimEffect() {
-  const darknessPipeline = this.cameras.main.getPostPipeline("DarknessPipeline") as DarknessPipeline;
-  darknessPipeline.lightRadius[0] = 0; // Dim the light immediately
-}
-
-// Animation Direction of Enemy_1
-faceDirectionEnemy_1() {
-  this.ghost_enemies.forEach(ghost_enemy => {
-      if ( ghost_enemy.body) {
-          const animKey =  ghost_enemy.body.velocity.x > 0 ? "ghost_enemy_1_anim" : "ghost_enemy_2_anim";
-           ghost_enemy.play(animKey, true);
-      }
-  });
-}
-
-// Enemy_2 (zombie_enemy)
-enemy_2() {
-  this.time.delayedCall(this.dalaySpawnTime, () => {
-    const currentTime = this.time.now;
-
-    if (currentTime - this.lastSpawnTime > this.updateInterval) {
-      console.log(`Enemy count has been reset. Total enemies spawned: ${this.minZombiePerMin}`);
-      this.minZombiePerMin = 0;
-      this.lastSpawnTime = currentTime;
-    }
-
-    while (this.minZombiePerMin < this.maxZombiePerMin) {
-      const randomX = Phaser.Math.Between(0, this.map.widthInPixels - HALLOWEEN_SQUARE_WIDTH);
-      const randomY = Phaser.Math.Between(0, this.map.heightInPixels - HALLOWEEN_SQUARE_WIDTH);
-      const zombie_enemy = this.createEnemy_2(randomX, randomY);
-
-      if (this.currentPlayer) {
-        this.physics.add.collider(zombie_enemy, this.currentPlayer, () => this.handleCollisionZombie(zombie_enemy));
-      }
-
-      this.minZombiePerMin++;
-    }
-  }, [], this);
-}
-
-createEnemy_2(x: number, y: number) {  
-  let isInsidePolygon = false;
-  do {
-    x = Phaser.Math.Between(0, this.map.width * this.map.tileWidth);
-    y = Phaser.Math.Between(0, this.map.width * this.map.tileWidth);
-    isInsidePolygon = this.polygonShapes.some((shape) =>
-      Phaser.Geom.Polygon.Contains(shape, x, y)
-    );
-  } while (isInsidePolygon);
-
-  const enemy2 = this.physics.add.sprite(x, y, "enemy2")
-    .setSize(HALLOWEEN_SQUARE_WIDTH, HALLOWEEN_SQUARE_WIDTH)
-    .setVelocity(Phaser.Math.Between(10, 15))
-    .setCollideWorldBounds(true)
-    .setBounce(1, 1);
-  
-  this.zombie_enemies.push(enemy2);
-  this.AnimationEnemy_2(); 
-  this.handleZombieCollisions(enemy2);
-  console.log(`Spawned Zombie #${this.minZombiePerMin + 1}:`, { x, y });
-  return enemy2;
-}
-
-handleZombieCollisions(newZombie: Phaser.Physics.Arcade.Sprite) {
-  this.zombie_enemies.forEach((existingZombie) => {
-    if (existingZombie !== newZombie) {
-      this.physics.add.collider(newZombie, existingZombie);
-    }
-  });
-}
-
-AnimationEnemy_2() {
-  ["zombie_enemy_1", "zombie_enemy_2"].forEach(key => {
+  AnimationEnemy_1() {
+    ["ghost_enemy_1", "ghost_enemy_2"].forEach((key) => {
       if (!this.anims.exists(`${key}_anim`)) {
-          this.anims.create({
-              key: `${key}_anim`,
-              frames: this.anims.generateFrameNumbers(key, { start: 0, end: 7 }),
-              repeat: -1,
-              frameRate: 10,
-          });
+        this.anims.create({
+          key: `${key}_anim`,
+          frames: this.anims.generateFrameNumbers(key, { start: 0, end: 12 }),
+          repeat: -1,
+          frameRate: 10,
+        });
       }
-  });
-}
-
-handleCollisionZombie(zombie_enemy: Phaser.Physics.Arcade.Sprite) {
-  const { x, y } = zombie_enemy;
-  const zombie_death = this.add.sprite(x, y, "zombie_death").play("zombie_death_anim", true);
-
-  if (!this.anims.exists("zombie_death_anim")) {
-    this.anims.create({ 
-      key: "zombie_death_anim",
-      frames: this.anims.generateFrameNumbers("zombie_death", { start: 0, end: 12 }),
-      repeat: 0,
-      frameRate: 10,
     });
   }
 
-  zombie_death.play("zombie_death_anim", true);
-  zombie_death.on("animationcomplete", () => zombie_death.destroy());
-  zombie_enemy.destroy();
-  this.zombie_enemies = this.zombie_enemies.filter(sprite => sprite !== zombie_enemy);
-  this.handlePlayerEnemyCollision();
-}
+  // Handle collision with ghost_enemy
+  handleCollision(ghost_enemy: Phaser.Physics.Arcade.Sprite) {
+    const { x, y } = ghost_enemy;
+    const poof_1 = this.add.sprite(x, y, "poof_1").play("poof_1_anim", true);
 
-handlePlayerEnemyCollision() {
-  if (this.currentPlayer && this.currentPlayer.body) {
+    if (!this.anims.exists("poof_1_anim")) {
+      this.anims.create({
+        key: "poof_1_anim",
+        frames: this.anims.generateFrameNumbers("poof_1", {
+          start: 0,
+          end: 11,
+        }),
+        repeat: 0,
+        frameRate: 10,
+      });
+    }
+
+    poof_1.play("poof_1_anim", true);
+
+    poof_1.on("animationcomplete", () => poof_1.destroy());
+    ghost_enemy.destroy();
+    this.ghost_enemies = this.ghost_enemies.filter(
+      (sprite) => sprite !== ghost_enemy,
+    );
+    this.currentPlayer && this.handleDimEffect();
+  }
+
+  handleDimEffect() {
+    const darknessPipeline = this.cameras.main.getPostPipeline(
+      "DarknessPipeline",
+    ) as DarknessPipeline;
+    darknessPipeline.lightRadius[0] = 0; // Dim the light immediately
+  }
+
+  // Animation Direction of Enemy_1
+  faceDirectionEnemy_1() {
+    this.ghost_enemies.forEach((ghost_enemy) => {
+      if (ghost_enemy.body) {
+        const animKey =
+          ghost_enemy.body.velocity.x > 0
+            ? "ghost_enemy_1_anim"
+            : "ghost_enemy_2_anim";
+        ghost_enemy.play(animKey, true);
+      }
+    });
+  }
+
+  // Enemy_2 (zombie_enemy)
+  enemy_2() {
+    this.time.delayedCall(
+      this.dalaySpawnTime,
+      () => {
+        const currentTime = this.time.now;
+
+        if (currentTime - this.lastSpawnTime > this.updateInterval) {
+          console.log(
+            `Enemy count has been reset. Total enemies spawned: ${this.minZombiePerMin}`,
+          );
+          this.minZombiePerMin = 0;
+          this.lastSpawnTime = currentTime;
+        }
+
+        while (this.minZombiePerMin < this.maxZombiePerMin) {
+          const randomX = Phaser.Math.Between(
+            0,
+            this.map.widthInPixels - HALLOWEEN_SQUARE_WIDTH,
+          );
+          const randomY = Phaser.Math.Between(
+            0,
+            this.map.heightInPixels - HALLOWEEN_SQUARE_WIDTH,
+          );
+          const zombie_enemy = this.createEnemy_2(randomX, randomY);
+
+          if (this.currentPlayer) {
+            this.physics.add.collider(zombie_enemy, this.currentPlayer, () =>
+              this.handleCollisionZombie(zombie_enemy),
+            );
+          }
+
+          this.minZombiePerMin++;
+        }
+      },
+      [],
+      this,
+    );
+  }
+
+  createEnemy_2(x: number, y: number) {
+    let isInsidePolygon = false;
+    do {
+      x = Phaser.Math.Between(0, this.map.width * this.map.tileWidth);
+      y = Phaser.Math.Between(0, this.map.width * this.map.tileWidth);
+      isInsidePolygon = this.polygonShapes.some((shape) =>
+        Phaser.Geom.Polygon.Contains(shape, x, y),
+      );
+    } while (isInsidePolygon);
+
+    const enemy2 = this.physics.add
+      .sprite(x, y, "enemy2")
+      .setSize(HALLOWEEN_SQUARE_WIDTH, HALLOWEEN_SQUARE_WIDTH)
+      .setVelocity(Phaser.Math.Between(10, 15))
+      .setCollideWorldBounds(true)
+      .setBounce(1, 1);
+
+    this.zombie_enemies.push(enemy2);
+    this.AnimationEnemy_2();
+    this.handleZombieCollisions(enemy2);
+    console.log(`Spawned Zombie #${this.minZombiePerMin + 1}:`, { x, y });
+    return enemy2;
+  }
+
+  handleZombieCollisions(newZombie: Phaser.Physics.Arcade.Sprite) {
+    this.zombie_enemies.forEach((existingZombie) => {
+      if (existingZombie !== newZombie) {
+        this.physics.add.collider(newZombie, existingZombie);
+      }
+    });
+  }
+
+  AnimationEnemy_2() {
+    ["zombie_enemy_1", "zombie_enemy_2"].forEach((key) => {
+      if (!this.anims.exists(`${key}_anim`)) {
+        this.anims.create({
+          key: `${key}_anim`,
+          frames: this.anims.generateFrameNumbers(key, { start: 0, end: 7 }),
+          repeat: -1,
+          frameRate: 10,
+        });
+      }
+    });
+  }
+
+  handleCollisionZombie(zombie_enemy: Phaser.Physics.Arcade.Sprite) {
+    const { x, y } = zombie_enemy;
+    const zombie_death = this.add
+      .sprite(x, y, "zombie_death")
+      .play("zombie_death_anim", true);
+
+    if (!this.anims.exists("zombie_death_anim")) {
+      this.anims.create({
+        key: "zombie_death_anim",
+        frames: this.anims.generateFrameNumbers("zombie_death", {
+          start: 0,
+          end: 12,
+        }),
+        repeat: 0,
+        frameRate: 10,
+      });
+    }
+
+    zombie_death.play("zombie_death_anim", true);
+    zombie_death.on("animationcomplete", () => zombie_death.destroy());
+    zombie_enemy.destroy();
+    this.zombie_enemies = this.zombie_enemies.filter(
+      (sprite) => sprite !== zombie_enemy,
+    );
+    this.handlePlayerEnemyCollision();
+  }
+
+  handlePlayerEnemyCollision() {
+    if (this.currentPlayer && this.currentPlayer.body) {
       const originalVelocity = this.velocity;
-      this.velocity *= this.SetSlowDown; 
+      this.velocity *= this.SetSlowDown;
 
-      this.accumulatedSlowdown += this.setSlowdownDuration; 
-      
+      this.accumulatedSlowdown += this.setSlowdownDuration;
+
       if (this.slowdownTimeout) {
         clearTimeout(this.slowdownTimeout);
       }
 
       this.slowdownTimeout = setTimeout(() => {
         if (this.currentPlayer) {
-          this.velocity = originalVelocity; 
+          this.velocity = originalVelocity;
           this.accumulatedSlowdown = 0;
         }
       }, this.accumulatedSlowdown);
     }
-}
+  }
 
-faceDirectionEnemy_2() {
-  const visionRange = this.setVisionRange; 
-  this.zombie_enemies.forEach((zombie) => {
-    if (this.currentPlayer && zombie.body) {
-      const distanceToPlayer = Phaser.Math.Distance.Between(
-        zombie.x,
-        zombie.y,
-        this.currentPlayer.x,
-        this.currentPlayer.y
-      );
+  handleZombieSound() {
+    let z_e: number | Physics.Arcade.Sprite | null = null;
+    let zDis = 10000;
+    let distance;
 
-      if (distanceToPlayer <= visionRange) {
-        this.physics.moveToObject(zombie, this.currentPlayer, 15);
-        if (zombie.body.velocity.x > 0) {
-          zombie.play("zombie_enemy_1_anim", true);
-        } else if (zombie.body.velocity.x < 0) {
-          zombie.play("zombie_enemy_2_anim", true);
-        }
-      } else {
-        zombie.setVelocity(0, 0);
-      }
-    }
-  });
-}
-
-checkZombiesInsideWalls() {
-  this.zombie_enemies.forEach((zombie) => {
-    if (zombie.body && this.currentPlayer) {
-      const isInsidePolygon = this.polygonShapes.some((shape) =>
-        Phaser.Geom.Polygon.Contains(shape, zombie.x, zombie.y)
-      );
-
-      if (isInsidePolygon) {
-        zombie.setVelocity(
-          -zombie.body.velocity.x, 
-          -zombie.body.velocity.y
+    this.zombie_enemies.forEach((zombie_enemy) => {
+      if (this.currentPlayer && zombie_enemy) {
+        distance = Phaser.Math.Distance.Between(
+          this.currentPlayer.x,
+          this.currentPlayer.y,
+          zombie_enemy.x,
+          zombie_enemy.y,
         );
-        zombie.x += zombie.body.velocity.x * 0.1;
-        zombie.y += zombie.body.velocity.y * 0.1;
+        if (distance < zDis) {
+          z_e = zombie_enemy;
+          zDis = distance;
+        }
       }
+    });
+
+    const canHearDistance = 150;
+    const maxVolume = 1;
+    const minVolume = 0.0;
+
+    let volume = minVolume;
+    if (zDis < canHearDistance) {
+      volume = Phaser.Math.Linear(maxVolume, minVolume, zDis / canHearDistance);
+    } else {
+      volume = 0.0;
     }
-  });
-}
+
+    (this.zombieSound as any).setVolume(volume);
+    console.log(zDis);
+  }
+
+  handleGhostSound() {
+    let z_e: number | Physics.Arcade.Sprite | null = null;
+    let zDis = 10000;
+    let distance;
+
+    this.ghost_enemies.forEach((ghost_enemy) => {
+      if (this.currentPlayer && ghost_enemy) {
+        distance = Phaser.Math.Distance.Between(
+          this.currentPlayer.x,
+          this.currentPlayer.y,
+          ghost_enemy.x,
+          ghost_enemy.y,
+        );
+        if (distance < zDis) {
+          z_e = ghost_enemy;
+          zDis = distance;
+        }
+      }
+    });
+
+    const canHearDistance = 150;
+    const maxVolume = 0.5;
+    const minVolume = 0.0;
+
+    let volume = minVolume;
+    if (zDis < canHearDistance) {
+      volume = Phaser.Math.Linear(maxVolume, minVolume, zDis / canHearDistance);
+    } else {
+      volume = 0.0;
+    }
+
+    (this.ghostSound as any).setVolume(volume);
+    //console.log(zDis)
+  }
+
+  faceDirectionEnemy_2() {
+    const visionRange = this.setVisionRange;
+    this.zombie_enemies.forEach((zombie) => {
+      if (this.currentPlayer && zombie.body) {
+        const distanceToPlayer = Phaser.Math.Distance.Between(
+          zombie.x,
+          zombie.y,
+          this.currentPlayer.x,
+          this.currentPlayer.y,
+        );
+
+        if (distanceToPlayer <= visionRange) {
+          this.physics.moveToObject(zombie, this.currentPlayer, 15);
+          if (zombie.body.velocity.x > 0) {
+            zombie.play("zombie_enemy_1_anim", true);
+          } else if (zombie.body.velocity.x < 0) {
+            zombie.play("zombie_enemy_2_anim", true);
+          }
+        } else {
+          zombie.setVelocity(0, 0);
+        }
+      }
+    });
+  }
+
+  checkZombiesInsideWalls() {
+    this.zombie_enemies.forEach((zombie) => {
+      if (zombie.body && this.currentPlayer) {
+        const isInsidePolygon = this.polygonShapes.some((shape) =>
+          Phaser.Geom.Polygon.Contains(shape, zombie.x, zombie.y),
+        );
+
+        if (isInsidePolygon) {
+          zombie.setVelocity(-zombie.body.velocity.x, -zombie.body.velocity.y);
+          zombie.x += zombie.body.velocity.x * 0.1;
+          zombie.y += zombie.body.velocity.y * 0.1;
+        }
+      }
+    });
+  }
 
   private setDefaultStates() {
     this.lightedItems = Array(MAX_LAMPS_IN_MAP + 1).fill(null);
