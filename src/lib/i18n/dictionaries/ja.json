@@ -255,7 +255,6 @@
   "description.rooster.boost": "2x ミュータント・チキンの確率",
   "description.undead.rooster.boost": "+0.1 エッグ",
   "description.chicken.coop.boost": "産卵量+1、鶏小屋1つにつきチキンリミット+5",
-  "description.gold.egg.boost": "小麦なしで鶏に餌をやる",
   "description.woody.beaver.boost": "+20% ウッド",
   "description.apprentice.beaver.boost": "木材 +20%、樹木回復時間 -50%",
   "description.foreman.beaver.boost": "木材 +20%、樹木回復時間 -50%、斧なしで木を切る",
@@ -4080,5 +4079,6 @@
   "description.petting.hand": "ペット、動物。これを使って動物への愛情を示しましょう。",
   "description.brush": "アニマルブラシ。これを使って動物への愛情を示しましょう。",
   "description.music.box": "動物に音楽をかけます。これを使って動物への愛情を示しましょう。",
-  "animal.toolRequired": "{{tool}} が必要です"
+  "animal.toolRequired": "{{tool}} が必要です",
+  "description.gold.egg.boost": "鶏に無料で餌をやる"
 }

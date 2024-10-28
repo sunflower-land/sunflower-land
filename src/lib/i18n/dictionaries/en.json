@@ -265,7 +265,7 @@
   "description.rooster.boost": "2x Chance of Mutant Chicken",
   "description.undead.rooster.boost": "+0.1 Egg",
   "description.chicken.coop.boost": "+1 Egg Yield; +5 Chicken Limit per Hen House",
-  "description.gold.egg.boost": "Feed Chickens without Wheat",
+  "description.gold.egg.boost": "Feed Chickens for free",
   "description.woody.beaver.boost": "+20% Wood",
   "description.apprentice.beaver.boost": "+20% Wood; -50% Tree Recovery Time",
   "description.foreman.beaver.boost": "+20% Wood; -50% Tree Recovery Time; Chop Trees without Axes",

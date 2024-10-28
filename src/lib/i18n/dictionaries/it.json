@@ -254,7 +254,6 @@
   "description.rooster.boost": "2x Possibilità di un pollo mutante",
   "description.undead.rooster.boost": "+0,1 uovo",
   "description.chicken.coop.boost": "+1 resa in uova; +5 polli per pollaio",
-  "description.gold.egg.boost": "Dai da mangiare ai polli senza frumento",
   "description.woody.beaver.boost": "+20% legno",
   "description.apprentice.beaver.boost": "+20% legno; -50% tempo di recupero dell'albero",
   "description.foreman.beaver.boost": "+20% legno; -50% tempo di recupero degli alberi; Taglia alberi senza asce",
@@ -4080,5 +4079,6 @@
   "description.petting.hand": "Animali domestici. Usalo per mostrare affetto ai tuoi animali.",
   "description.brush": "Spazzola per animali. Usalo per mostrare affetto ai tuoi animali.",
   "description.music.box": "Suona musica per gli animali. Usalo per mostrare affetto ai tuoi animali.",
-  "animal.toolRequired": "{{tool}} Obbligatorio"
+  "animal.toolRequired": "{{tool}} Obbligatorio",
+  "description.gold.egg.boost": "Dai da mangiare ai polli gratis"
 }

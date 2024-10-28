@@ -232,7 +232,6 @@
   "description.el.pollo.veloz.boost": "-4ч времени производства Яиц",
   "description.rooster.boost": "2x шанс на курицу-мутанта",
   "description.chicken.coop.boost": "+1 к производству Яиц; +5 к лимиту Кур на Hen House",
-  "description.gold.egg.boost": "Для кормления кур не требуется Пшеница",
   "description.apprentice.beaver.boost": "+20% Дерева; -50% времени восстановления Деревьев",
   "description.foreman.beaver.boost": "+20% Дерева; -50% времени восстановления Деревьев; для рубки деревьев не требуются топоры",
   "description.rock.golem.boost": "10% шанс на +2 Камень",
@@ -4080,5 +4079,6 @@
   "description.petting.hand": "Домашние животные. Используйте это, чтобы выразить привязанность к своим животным.",
   "description.brush": "Щетка для животных. Используйте ее, чтобы выразить любовь к своим животным.",
   "description.music.box": "Играет музыку для животных. Используйте это, чтобы выразить любовь к своим животным.",
-  "animal.toolRequired": "{{tool}} Обязательно"
+  "animal.toolRequired": "{{tool}} Обязательно",
+  "description.gold.egg.boost": "Кормите цыплят бесплатно"
 }

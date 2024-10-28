@@ -255,7 +255,6 @@
   "description.rooster.boost": "뮤턴트 치킨 확률 2배",
   "description.undead.rooster.boost": "+0.1 에그",
   "description.chicken.coop.boost": "계란 생산량 +1, 암탉 사육장당 닭 한도 +5 마리",
-  "description.gold.egg.boost": "밀을 넣지 않은 닭에게 먹이주기",
   "description.woody.beaver.boost": "+20% 우드",
   "description.apprentice.beaver.boost": "목재 20% 증가, 나무 회복 시간 -50%",
   "description.foreman.beaver.boost": "나무 20% 증가, 나무 회복 시간 -50%, 도끼를 사용하지 않고 나무 자르기",
@@ -4080,5 +4079,6 @@
   "description.petting.hand": "애완 동물.이를 사용해 동물에게 애정을 표현하세요.",
   "description.brush": "애니멀 브러쉬.이 제품을 사용해 동물에게 애정을 표현하세요.",
   "description.music.box": "동물에게 음악을 재생합니다.이를 사용해 동물에게 애정을 표현하세요.",
-  "animal.toolRequired": "{{tool}} 필수"
+  "animal.toolRequired": "{{tool}} 필수",
+  "description.gold.egg.boost": "닭에게 무료로 먹이주기"
 }

@@ -255,7 +255,6 @@
   "description.rooster.boost": "2x Chance auf Mutant Chicken",
   "description.undead.rooster.boost": "+0.1 Ei",
   "description.chicken.coop.boost": "+1 Eierertrag; +5 Hühnerlimit pro Hühnerstall",
-  "description.gold.egg.boost": "Hühner ohne Weizen füttern",
   "description.woody.beaver.boost": "+20% Holz",
   "description.apprentice.beaver.boost": "+20% Holz; -50% Erholungszeit der Bäume",
   "description.foreman.beaver.boost": "+20% Holz; -50% Baumerholungszeit; Bäume ohne Äxte fällen",
@@ -4080,5 +4079,6 @@
   "description.petting.hand": "Haustiere Tiere. Verwenden Sie dies, um Ihren Tieren Zuneigung zu zeigen.",
   "description.brush": "Tierbürste. Verwenden Sie dies, um Ihren Tieren Zuneigung zu zeigen.",
   "description.music.box": "Spielt Musik für Tiere. Benutze das, um deinen Tieren Zuneigung zu zeigen.",
-  "animal.toolRequired": "{{tool}} Erforderlich"
+  "animal.toolRequired": "{{tool}} Erforderlich",
+  "description.gold.egg.boost": "Hühner kostenlos füttern"
 }
