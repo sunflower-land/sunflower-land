@@ -4080,5 +4080,14 @@
   "description.petting.hand": "Pets animals. Use this to show affection to your animals.",
   "description.brush": "Animal Brush. Use this to show affection your animals.",
   "description.music.box": "Plays music to animals. Use this to show affection your animals.",
-  "animal.toolRequired": "{{tool}} Required"
+  "animal.toolRequired": "{{tool}} Required",
+  "halloween.sacrifice.intro.one": "Ah, the secrets of the bears... Few know, but in the shadows and midnight whispers, the bears carry a deep, ancient magic.",
+  "halloween.sacrifice.intro.two": "It's not an art for everyone, but if sacrifices are made to the summoning circle something more responds in turn.",
+  "halloween.sacrifice.intro.three": "A new bear, of a kind the dark forest has kept hidden, manifests as an unexpected gift, a reflection of the offering. But beware: the spirits are fickle, and the sacrifice has its cost... every spell has its price.",
+  "halloween.sacrifice.suggestion": "Remember to choose carefully which bears you want to sacrifice.",
+  "halloween.sacrifice.select.bears": "Select bears to sacrifice",
+  "halloween.sacrifice.sacrifice": "Sacrifice",
+  "halloween.sacrifice.empty": "You don't have any bears to sacrifice",
+  "easterEgg.halloweenBook": "?????",
+  "easterEgg.halloweenBookText": "There are places older than time itself, and others where the light doesn't shine. You shouldn't be here. In this forest, the trees whisper secrets of forgotten times and shadows lurk everywhere, patiently waiting for a chance to devour any source of light that dares to shine. There's no place for adventurers or the curious like you around here..."
 }

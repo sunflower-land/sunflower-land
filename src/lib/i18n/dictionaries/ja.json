@@ -4080,5 +4080,7 @@
   "description.petting.hand": "ペット、動物。これを使って動物への愛情を示しましょう。",
   "description.brush": "アニマルブラシ。これを使って動物への愛情を示しましょう。",
   "description.music.box": "動物に音楽をかけます。これを使って動物への愛情を示しましょう。",
-  "animal.toolRequired": "{{tool}} が必要です"
+  "animal.toolRequired": "{{tool}} が必要です",
+  "easterEgg.halloweenBook": "?????",
+  "easterEgg.halloweenBookText": "時間よりも古い場所もあれば、光の当たらない場所もある。ここにいてはいけない。この森では、木々が忘れ去られた時代の秘密をささやき、影がいたるところに潜み、光を放とうとする光源を食い尽くすチャンスを辛抱強く待っている。ここに冒険者の居場所はない...。"
 }

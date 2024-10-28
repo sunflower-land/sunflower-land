@@ -122,7 +122,8 @@ type InteractableName =
   | "desert_book_1"
   | "desert_book_2"
   | "desert_book_3"
-  | "desert_book_4";
+  | "desert_book_4"
+  | "halloween_book";
 
 class InteractableModalManager {
   private listener?: (name: InteractableName, isOpen: boolean) => void;
@@ -792,6 +793,17 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
               {t("easterEgg.goldtoothsDiary")}
             </Label>
             <InlineDialogue message={t("easterEgg.desertBook4")} />
+          </div>
+        </CloseButtonPanel>
+      </Modal>
+
+      <Modal show={interactable === "halloween_book"} onHide={closeModal}>
+        <CloseButtonPanel onClose={closeModal}>
+          <div className="p-2">
+            <Label type="default" className="mb-2">
+              {t("easterEgg.halloweenBook")}
+            </Label>
+            <InlineDialogue message={t("easterEgg.halloweenBookText")} />
           </div>
         </CloseButtonPanel>
       </Modal>

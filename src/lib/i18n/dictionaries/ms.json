@@ -4080,5 +4080,7 @@
   "description.petting.hand": "Haiwan haiwan peliharaan. Gunakan ini untuk menunjukkan kasih sayang kepada haiwan anda.",
   "description.brush": "Berus Haiwan. Gunakan ini untuk menunjukkan kasih sayang haiwan anda.",
   "description.music.box": "Memainkan muzik kepada haiwan. Gunakan ini untuk menunjukkan kasih sayang haiwan anda.",
-  "animal.toolRequired": "{{tool}} Diperlukan"
+  "animal.toolRequired": "{{tool}} Diperlukan",
+  "easterEgg.halloweenBook": "?????",
+  "easterEgg.halloweenBookText": "Terdapat tempat yang lebih tua daripada masa itu sendiri, dan tempat lain di mana cahaya tidak bersinar. Anda tidak sepatutnya berada di sini. Di hutan ini, pokok-pokok membisikkan rahsia masa yang dilupakan dan bayang-bayang mengintai di mana-mana, dengan sabar menunggu peluang untuk membaham mana-mana sumber cahaya yang berani bersinar. Tiada tempat untuk pengembara di sini..."
 }

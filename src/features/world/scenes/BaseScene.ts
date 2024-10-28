@@ -359,9 +359,12 @@ export abstract class BaseScene extends Phaser.Scene {
       key: this.options.name,
     });
 
+    const tilesetKey = this.options.map?.tilesetUrl ?? "Sunnyside V3";
+    const imageKey = this.options.map?.imageKey ?? "tileset";
+
     const tileset = this.map.addTilesetImage(
-      "Sunnyside V3",
-      this.options.map.imageKey ?? "tileset",
+      tilesetKey,
+      imageKey,
       16,
       16,
       1,

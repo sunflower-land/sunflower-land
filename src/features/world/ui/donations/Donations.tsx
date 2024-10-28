@@ -29,7 +29,7 @@ export const Donations: React.FC<Props> = ({
 
   const [state, send] = useMachine(donationMachine);
 
-  const [donation, setDonation] = useState(new Decimal(1));
+  const [donation, setDonation] = useState(new Decimal(3));
 
   const onDonationChange = (value: Decimal) => {
     setDonation(value);

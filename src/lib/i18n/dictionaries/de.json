@@ -4080,5 +4080,7 @@
   "description.petting.hand": "Haustiere Tiere. Verwenden Sie dies, um Ihren Tieren Zuneigung zu zeigen.",
   "description.brush": "Tierbürste. Verwenden Sie dies, um Ihren Tieren Zuneigung zu zeigen.",
   "description.music.box": "Spielt Musik für Tiere. Benutze das, um deinen Tieren Zuneigung zu zeigen.",
-  "animal.toolRequired": "{{tool}} Erforderlich"
+  "animal.toolRequired": "{{tool}} Erforderlich",
+  "easterEgg.halloweenBook": "?????",
+  "easterEgg.halloweenBookText": "Es gibt Orte, die älter sind als die Zeit selbst, und andere, wo das Licht nicht scheint. Du solltest nicht hier sein. In diesem Wald flüstern die Bäume Geheimnisse aus vergessenen Zeiten, und überall lauern Schatten, die geduldig auf eine Gelegenheit warten, jede Lichtquelle zu verschlingen, die es wagt, zu scheinen. Hier ist kein Platz für Abenteurer..."
 }

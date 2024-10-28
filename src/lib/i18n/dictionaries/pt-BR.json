@@ -4080,5 +4080,7 @@
   "description.petting.hand": "Animais de estimação. Use isso para mostrar afeto aos seus animais.",
   "description.brush": "Escova para animais. Use isso para mostrar afeto aos seus animais.",
   "description.music.box": "Toca música para animais. Use isso para mostrar afeto aos seus animais.",
-  "animal.toolRequired": "{{tool}} Obrigatório"
+  "animal.toolRequired": "{{tool}} Obrigatório",
+  "easterEgg.halloweenBook": "?????",
+  "easterEgg.halloweenBookText": "Há lugares mais antigos que o próprio tempo e outros onde a luz não brilha. Você não deveria estar aqui. Nesta floresta, as árvores sussurram segredos de tempos esquecidos e as sombras se escondem por toda parte, esperando pacientemente por uma chance de devorar qualquer fonte de luz que ouse brilhar. Não há lugar para aventureiros ou curiosos como você por aqui..."
 }

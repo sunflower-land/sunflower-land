@@ -4080,5 +4080,7 @@
   "description.petting.hand": "Animaux de compagnie. Utilisez-le pour montrer de l'affection à vos animaux.",
   "description.brush": "Brosse pour animaux Utilisez-le pour montrer de l'affection à vos animaux.",
   "description.music.box": "Joue de la musique aux animaux. Utilisez-le pour montrer de l'affection à vos animaux.",
-  "animal.toolRequired": "{{tool}} Obligatoire"
+  "animal.toolRequired": "{{tool}} Obligatoire",
+  "easterEgg.halloweenBook": "?????",
+  "easterEgg.halloweenBookText": "Il y a des endroits plus anciens que le temps lui-même, et d'autres où la lumière ne brille pas. Vous ne devriez pas être ici. Dans cette forêt, les arbres murmurent des secrets de temps oubliés et les ombres se cachent partout, attendant patiemment l'occasion de dévorer toute source de lumière qui ose briller. Les aventuriers n'ont pas leur place ici..."
 }

@@ -4080,5 +4080,7 @@
   "description.petting.hand": "애완 동물.이를 사용해 동물에게 애정을 표현하세요.",
   "description.brush": "애니멀 브러쉬.이 제품을 사용해 동물에게 애정을 표현하세요.",
   "description.music.box": "동물에게 음악을 재생합니다.이를 사용해 동물에게 애정을 표현하세요.",
-  "animal.toolRequired": "{{tool}} 필수"
+  "animal.toolRequired": "{{tool}} 필수",
+  "easterEgg.halloweenBook": "?????",
+  "easterEgg.halloweenBookText": "시간보다 오래된 곳도 있고, 빛이 비치지 않는 곳도 있습니다. 당신은 여기 오면 안 돼요. 이 숲에서는 나무들이 잊혀진 시간의 비밀을 속삭이고, 그림자가 곳곳에 숨어 감히 빛을 비추는 모든 것을 삼킬 기회를 참을성 있게 기다립니다. 이곳에는 모험가를 위한 자리가 없습니다..."
 }
