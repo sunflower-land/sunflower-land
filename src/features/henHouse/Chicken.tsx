@@ -28,6 +28,7 @@ import {
   AnimalFoodName,
   AnimalMedicineName,
   InventoryItemName,
+  LoveAnimalItem,
 } from "features/game/types/game";
 import { ProduceDrops } from "features/game/expansion/components/animals/ProduceDrops";
 import { useSound } from "lib/utils/hooks/useSound";
@@ -118,6 +119,8 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
   }, [chicken.state]);
 
   const [showQuickSelect, setShowQuickSelect] = useState(false);
+  const [showAffectionQuickSelect, setShowAffectionQuickSelect] =
+    useState(false);
   const [showDrops, setShowDrops] = useState(false);
   const [showWakesIn, setShowWakesIn] = useState(false);
   const [showNotEnoughFood, setShowNotEnoughFood] = useState(false);
@@ -129,7 +132,7 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
   const ready = chickenMachineState === "ready";
   const idle = chickenMachineState === "idle";
   const sick = chickenMachineState === "sick";
-
+  const loved = chickenMachineState === "loved";
   // Sounds
   const { play: playFeedAnimal } = useSound("feed_animal");
   const { play: playChickenCollect } = useSound("chicken_collect");
@@ -155,12 +158,21 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
     playFeedAnimal();
   };
 
-  const loveChicken = () => {
+  const onLoveClick = () => {
+    if (selectedItem !== chicken.item || inventoryCount.lt(1)) {
+      setShowAffectionQuickSelect(true);
+      return;
+    }
+
+    loveChicken(selectedItem);
+  };
+
+  const loveChicken = (item = selectedItem) => {
     const updatedState = gameService.send({
       type: "animal.loved",
       animal: "Chicken",
       id: chicken.id,
-      item: "Petting Hand",
+      item: item as LoveAnimalItem,
     });
 
     const updatedChicken = updatedState.context.state.henHouse.animals[id];
@@ -169,6 +181,8 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
       type: "LOVE",
       animal: updatedChicken,
     });
+
+    playFeedAnimal();
   };
 
   const claimProduce = async () => {
@@ -237,8 +251,9 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
 
   const handleClick = async () => {
     if (disabled) return;
+    if (loved) return;
 
-    if (needsLove) return loveChicken();
+    if (needsLove) return onLoveClick();
 
     if (sick) return onSickClick();
 
@@ -484,6 +499,35 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
           onClose={() => setShowQuickSelect(false)}
           onSelected={(item) => handleQuickSelect(item)}
           emptyMessage={t(sick ? "animal.noMedicine" : "animal.noFoodMessage")}
+        />
+      </Transition>
+      <Transition
+        appear={true}
+        show={showAffectionQuickSelect}
+        enter="transition-opacity  duration-300"
+        enterFrom="opacity-0"
+        enterTo="opacity-100"
+        leave="transition-opacity duration-300"
+        leaveFrom="opacity-100"
+        leaveTo="opacity-0"
+        className="flex top-[-20px] left-[50%] z-40 absolute"
+      >
+        <QuickSelect
+          options={[
+            {
+              name: chicken.item,
+              icon: chicken.item,
+              showSecondaryImage: false,
+            },
+          ]}
+          onClose={() => setShowAffectionQuickSelect(false)}
+          onSelected={() => {
+            setShowAffectionQuickSelect(false);
+            loveChicken(chicken.item);
+          }}
+          emptyMessage={t("animal.toolRequired", {
+            tool: chicken.item,
+          })}
         />
       </Transition>
     </>
