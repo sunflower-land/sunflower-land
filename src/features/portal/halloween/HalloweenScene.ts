@@ -34,6 +34,7 @@ import { LampContainer } from "./containers/LampContainer";
 import { EventObject } from "xstate";
 import { SPAWNS } from "features/world/lib/spawn";
 import { createLightPolygon } from "./lib/HalloweenUtils";
+import { Physics } from "phaser";
 
 // export const NPCS: NPCBumpkin[] = [
 //   {
@@ -79,6 +80,9 @@ export class HalloweenScene extends BaseScene {
   private lastAttempt!: number;
 
   sceneId: SceneId = "halloween";
+  private backgroundMusic!: Phaser.Sound.BaseSound;
+  private zombieSound!: Phaser.Sound.BaseSound;
+  private ghostSound!: Phaser.Sound.BaseSound;
 
   constructor() {
     super({
@@ -107,6 +111,10 @@ export class HalloweenScene extends BaseScene {
 
   preload() {
     super.preload();
+
+    this.load.audio("backgroundMusic", "/world/background-music.mp3");
+    this.load.audio("ghostSound", "/world/ghost-sound.wav");
+    this.load.audio("zombieSound", "/world/zombie-sound.wav");
 
     this.load.spritesheet("lamp", "world/lamp.png", {
       frameWidth: 14,
@@ -152,6 +160,22 @@ export class HalloweenScene extends BaseScene {
     super.create();
 
     this.initShaders();
+
+    this.backgroundMusic = this.sound.add("backgroundMusic", {
+      loop: true,
+      volume: 0.02,
+    });
+    this.backgroundMusic.play();
+    this.ghostSound = this.sound.add("ghostSound", {
+      loop: true,
+      volume: 0.0,
+    });
+    this.ghostSound.play();
+    this.zombieSound = this.sound.add("zombieSound", {
+      loop: true,
+      volume: 0.0,
+    });
+    this.zombieSound.play();
 
     // this.AnimationEnemy_2();  // Create zombie animations
 
@@ -250,7 +274,8 @@ export class HalloweenScene extends BaseScene {
       this.loadBumpkinAnimations();
 
       this.setLampSpawnTime();
-
+      this.handleZombieSound();
+      this.handleGhostSound();
       this.portalService?.send("GAIN_POINTS");
 
       if (this.isGameReady) {
@@ -507,6 +532,76 @@ export class HalloweenScene extends BaseScene {
         }
       }, this.accumulatedSlowdown);
     }
+  }
+
+  handleZombieSound() {
+    let z_e: number | Physics.Arcade.Sprite | null = null;
+    let zDis = 10000;
+    let distance;
+
+    this.zombie_enemies.forEach((zombie_enemy) => {
+      if (this.currentPlayer && zombie_enemy) {
+        distance = Phaser.Math.Distance.Between(
+          this.currentPlayer.x,
+          this.currentPlayer.y,
+          zombie_enemy.x,
+          zombie_enemy.y,
+        );
+        if (distance < zDis) {
+          z_e = zombie_enemy;
+          zDis = distance;
+        }
+      }
+    });
+
+    const canHearDistance = 150;
+    const maxVolume = 1;
+    const minVolume = 0.0;
+
+    let volume = minVolume;
+    if (zDis < canHearDistance) {
+      volume = Phaser.Math.Linear(maxVolume, minVolume, zDis / canHearDistance);
+    } else {
+      volume = 0.0;
+    }
+
+    (this.zombieSound as any).setVolume(volume);
+    console.log(zDis);
+  }
+
+  handleGhostSound() {
+    let z_e: number | Physics.Arcade.Sprite | null = null;
+    let zDis = 10000;
+    let distance;
+
+    this.ghost_enemies.forEach((ghost_enemy) => {
+      if (this.currentPlayer && ghost_enemy) {
+        distance = Phaser.Math.Distance.Between(
+          this.currentPlayer.x,
+          this.currentPlayer.y,
+          ghost_enemy.x,
+          ghost_enemy.y,
+        );
+        if (distance < zDis) {
+          z_e = ghost_enemy;
+          zDis = distance;
+        }
+      }
+    });
+
+    const canHearDistance = 150;
+    const maxVolume = 0.5;
+    const minVolume = 0.0;
+
+    let volume = minVolume;
+    if (zDis < canHearDistance) {
+      volume = Phaser.Math.Linear(maxVolume, minVolume, zDis / canHearDistance);
+    } else {
+      volume = 0.0;
+    }
+
+    (this.ghostSound as any).setVolume(volume);
+    //console.log(zDis)
   }
 
   faceDirectionEnemy_2() {
