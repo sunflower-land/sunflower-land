@@ -7,7 +7,11 @@ import { Button } from "components/ui/Button";
 import { Context } from "features/game/GameProvider";
 import { ITEM_DETAILS } from "features/game/types/images";
 
-import { WorkbenchToolName, WORKBENCH_TOOLS } from "features/game/types/tools";
+import {
+  WorkbenchToolName,
+  WORKBENCH_TOOLS,
+  LOVE_ANIMAL_TOOLS,
+} from "features/game/types/tools";
 import { getKeys } from "features/game/types/craftables";
 import { Restock } from "features/island/buildings/components/building/market/Restock";
 import { SplitScreenView } from "components/ui/SplitScreenView";
@@ -20,15 +24,24 @@ import { hasRequiredIslandExpansion } from "features/game/lib/hasRequiredIslandE
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Label } from "components/ui/Label";
 import { capitalize } from "lib/utils/capitalize";
-import { IslandType } from "features/game/types/game";
+import { IslandType, LoveAnimalItem } from "features/game/types/game";
 import { getToolPrice } from "features/game/events/landExpansion/craftTool";
+import { hasFeatureAccess } from "lib/flags";
 
 interface Props {
   onClose: (e?: SyntheticEvent) => void;
 }
 
+const isLoveAnimalTool = (
+  toolName: WorkbenchToolName | LoveAnimalItem,
+): toolName is LoveAnimalItem => {
+  return toolName in LOVE_ANIMAL_TOOLS;
+};
+
 export const Tools: React.FC<Props> = ({ onClose }) => {
-  const [selectedName, setSelectedName] = useState<WorkbenchToolName>("Axe");
+  const [selectedName, setSelectedName] = useState<
+    WorkbenchToolName | LoveAnimalItem
+  >("Axe");
   const { gameService, shortcutItem } = useContext(Context);
 
   const [
@@ -37,7 +50,10 @@ export const Tools: React.FC<Props> = ({ onClose }) => {
     },
   ] = useActor(gameService);
 
-  const selected = WORKBENCH_TOOLS[selectedName];
+  const selected = isLoveAnimalTool(selectedName)
+    ? LOVE_ANIMAL_TOOLS[selectedName]
+    : WORKBENCH_TOOLS[selectedName];
+
   const inventory = state.inventory;
   const price = getToolPrice(selected, 1, state);
 
@@ -52,7 +68,7 @@ export const Tools: React.FC<Props> = ({ onClose }) => {
     return state.coins < price * amount;
   };
 
-  const onToolClick = (toolName: WorkbenchToolName) => {
+  const onToolClick = (toolName: WorkbenchToolName | LoveAnimalItem) => {
     setSelectedName(toolName);
     shortcutItem(toolName);
   };
@@ -73,11 +89,35 @@ export const Tools: React.FC<Props> = ({ onClose }) => {
     shortcutItem(selectedName);
   };
 
+  const craftAnimalTool = (event: SyntheticEvent, amount: number) => {
+    event.stopPropagation();
+    gameService.send("tool.crafted", {
+      tool: selectedName,
+      amount,
+    });
+    shortcutItem(selectedName);
+  };
+
   const stock = state.stock[selectedName] || new Decimal(0);
 
   const bulkToolCraftAmount = makeBulkBuyTools(stock);
   const { t } = useAppTranslation();
+
   const getAction = () => {
+    if (isLoveAnimalTool(selectedName)) {
+      return (
+        <Button
+          disabled={
+            (inventory[selectedName] ?? new Decimal(0)).gte(1) || lessFunds()
+          }
+          onClick={(e) => craftAnimalTool(e, 1)}
+          className="w-full"
+        >
+          {t("craft")}
+        </Button>
+      );
+    }
+
     if (
       !hasRequiredIslandExpansion(state.island.type, selected.requiredIsland)
     ) {
@@ -127,10 +167,11 @@ export const Tools: React.FC<Props> = ({ onClose }) => {
       panel={
         <CraftingRequirements
           gameState={state}
-          stock={stock}
+          stock={isLoveAnimalTool(selectedName) ? undefined : stock}
           details={{
             item: selectedName,
           }}
+          limit={isLoveAnimalTool(selectedName) ? 1 : undefined}
           requirements={{
             coins: price,
             resources: selected.ingredients,
@@ -159,6 +200,21 @@ export const Tools: React.FC<Props> = ({ onClose }) => {
               />
             );
           })}
+          {hasFeatureAccess(state, "ANIMAL_BUILDINGS") && (
+            <>
+              {getKeys(LOVE_ANIMAL_TOOLS).map((toolName) => {
+                return (
+                  <Box
+                    isSelected={selectedName === toolName}
+                    key={toolName}
+                    image={ITEM_DETAILS[toolName].image}
+                    onClick={() => onToolClick(toolName)}
+                    count={inventory[toolName]}
+                  />
+                );
+              })}
+            </>
+          )}
         </>
       }
     />

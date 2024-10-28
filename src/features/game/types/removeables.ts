@@ -10,7 +10,11 @@ import {
   GreenHouseFruitName,
   PatchFruitName,
 } from "features/game/types/fruits";
-import { GameState, InventoryItemName } from "features/game/types/game";
+import {
+  BedName,
+  GameState,
+  InventoryItemName,
+} from "features/game/types/game";
 import {
   CropName,
   GREENHOUSE_CROPS,
@@ -34,6 +38,7 @@ import { DEFAULT_HONEY_PRODUCTION_TIME } from "../lib/updateBeehives";
 import { translate } from "lib/i18n/translate";
 import { canDrillOilReserve } from "../events/landExpansion/drillOilReserve";
 import { getKeys } from "./decorations";
+import { BED_FARMHAND_COUNT } from "./beds";
 
 export type Restriction = [boolean, string];
 type RemoveCondition = (gameState: GameState) => Restriction;
@@ -373,6 +378,21 @@ function hasSeedsCropsInMachine(game: GameState): Restriction {
   ];
 }
 
+export function isFarmhandUsingBed(
+  bedName: BedName,
+  game: GameState,
+): Restriction {
+  const isLastBed =
+    (game.collectibles[bedName]?.length ?? 0) +
+      (game.home.collectibles[bedName]?.length ?? 0) <=
+    1;
+
+  const farmHandCount = getKeys(game.farmHands.bumpkins).length + 1;
+  const farmHandInBed = farmHandCount >= BED_FARMHAND_COUNT[bedName];
+
+  return [isLastBed && farmHandInBed, "Farmhand is using bed"];
+}
+
 export const REMOVAL_RESTRICTIONS: Partial<
   Record<InventoryItemName, RemoveCondition>
 > = {
@@ -531,6 +551,15 @@ export const REMOVAL_RESTRICTIONS: Partial<
   "Lemon Shark": (game) => areFruitsGrowing(game, "Lemon"),
   "Lemon Frog": (game) => areFruitsGrowing(game, "Lemon"),
   "Reveling Lemon": (game) => areFruitsGrowing(game, "Lemon"),
+
+  "Basic Bed": (game) => isFarmhandUsingBed("Basic Bed", game),
+  "Fisher Bed": (game) => isFarmhandUsingBed("Fisher Bed", game),
+  "Floral Bed": (game) => isFarmhandUsingBed("Floral Bed", game),
+  "Sturdy Bed": (game) => isFarmhandUsingBed("Sturdy Bed", game),
+  "Desert Bed": (game) => isFarmhandUsingBed("Desert Bed", game),
+  "Cow Bed": (game) => isFarmhandUsingBed("Cow Bed", game),
+  "Pirate Bed": (game) => isFarmhandUsingBed("Pirate Bed", game),
+  "Royal Bed": (game) => isFarmhandUsingBed("Royal Bed", game),
 };
 
 export const BUD_REMOVAL_RESTRICTIONS: Record<

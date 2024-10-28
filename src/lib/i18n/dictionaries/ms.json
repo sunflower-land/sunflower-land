@@ -4070,5 +4070,15 @@
   "season.codex.howToEarn.two": "Kerja lengkap untuk Bumpkins.",
   "season.codex.howToEarn.three": "Berdagang hadiah haiwan dan bunga!",
   "description.el.pollo.veloz.one": "Ayam anda akan bertelur 2 jam lebih cepat!",
-  "description.el.pollo.veloz.two": "Berikan saya telur itu, cepat! Ayam tidur 2 jam lebih pendek."
+  "description.el.pollo.veloz.two": "Berikan saya telur itu, cepat! Ayam tidur 2 jam lebih pendek.",
+  "unlock.farmhand": "Buka kunci Farmhand",
+  "description.unlockFarmhand": "{{name}} ini membolehkan anda membuka kunci ladang baharu untuk membantu di ladang anda.",
+  "bedsMigration.bedsNeeded": "Katil Diperlukan!",
+  "bedsMigration.bedsNeededDescription": "Tangan ladang memerlukan katil untuk bekerja di ladang.",
+  "bedsMigration.bedsNeededDescription2": "Letakkan katil untuk menyewa lebih banyak petani ladang!",
+  "farmHand": "Tangan Ladang",
+  "description.petting.hand": "Haiwan haiwan peliharaan. Gunakan ini untuk menunjukkan kasih sayang kepada haiwan anda.",
+  "description.brush": "Berus Haiwan. Gunakan ini untuk menunjukkan kasih sayang haiwan anda.",
+  "description.music.box": "Memainkan muzik kepada haiwan. Gunakan ini untuk menunjukkan kasih sayang haiwan anda.",
+  "animal.toolRequired": "{{tool}} Diperlukan"
 }

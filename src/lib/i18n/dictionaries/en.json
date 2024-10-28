@@ -4070,5 +4070,15 @@
   "description.bullRunBanner": "A banner that celebrates the Bull Run season.",
   "description.cowSkull": "An ancient skull.",
   "description.horseshoe": "A valuable horseshoe - exchange for rewards!",
-  "crafting.coming.soon": "A new crafting system is coming to Sunflower Land...November 1st!"
+  "crafting.coming.soon": "A new crafting system is coming to Sunflower Land...November 1st!",
+  "unlock.farmhand": "Unlock Farmhand",
+  "description.unlockFarmhand": "This {{name}} allows you to unlock a new farmhand to help on your farm.",
+  "bedsMigration.bedsNeeded": "Beds Needed!",
+  "bedsMigration.bedsNeededDescription": "Farm hands need beds in order to work on the farm.",
+  "bedsMigration.bedsNeededDescription2": "Place beds to hire more farmhands!",
+  "farmHand": "Farm Hand",
+  "description.petting.hand": "Pets animals. Use this to show affection to your animals.",
+  "description.brush": "Animal Brush. Use this to show affection your animals.",
+  "description.music.box": "Plays music to animals. Use this to show affection your animals.",
+  "animal.toolRequired": "{{tool}} Required"
 }

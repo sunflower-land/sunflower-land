@@ -37,7 +37,31 @@ const VALID_CRAFTING_RESOURCES: InventoryItemName[] = [
   "Carrot",
   "Radish",
   "Leather",
+  "Honey",
+  "Red Pansy",
+  "Blue Pansy",
+  "Yellow Pansy",
+  "Crimstone",
+  "Merino Wool",
+  "Seaweed",
+  "Oil",
+  "Coral",
+  "Pirate Bounty",
+  "Synthetic Fabric",
+  "Gold",
+  "Basic Bed",
+  "Sturdy Bed",
+  "Prism Petal",
+  "Celestial Frostbloom",
+  "Primula Enigma",
+  "Crimsteel",
+  "Hardened Leather",
+  "Vase",
+  "Ocean's Treasure",
+  "Royal Bedding",
+  "Royal Ornament",
 ];
+
 const VALID_CRAFTING_WEARABLES: BumpkinItem[] = ["Basic Hair", "Farmer Pants"];
 
 const _inventory = (state: MachineState) => state.context.state.inventory;

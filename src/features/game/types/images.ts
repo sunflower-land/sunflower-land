@@ -749,7 +749,7 @@ import {
   WAR_BANNERS,
   WAR_TENT_ITEMS,
 } from "./craftables";
-import { TREASURE_TOOLS } from "./tools";
+import { LOVE_ANIMAL_TOOLS, TREASURE_TOOLS } from "./tools";
 import { translate } from "lib/i18n/translate";
 import { BASIC_DECORATIONS } from "./decorations";
 import { SELLABLE_TREASURE } from "./treasure";
@@ -1165,15 +1165,15 @@ export const ITEM_DETAILS: Items = {
   },
   "Petting Hand": {
     image: pettingHand,
-    description: "Petting Hand",
+    description: LOVE_ANIMAL_TOOLS["Petting Hand"].description,
   },
   Brush: {
     image: brush,
-    description: "Brush",
+    description: LOVE_ANIMAL_TOOLS["Brush"].description,
   },
   "Music Box": {
     image: musicBox,
-    description: "Music Box",
+    description: LOVE_ANIMAL_TOOLS["Music Box"].description,
   },
   "Block Buck": {
     image: blockBuck,
@@ -4234,5 +4234,49 @@ export const ITEM_DETAILS: Items = {
   Horseshoe: {
     image: horseshoe,
     description: translate("description.horseshoe"),
+  },
+  Cushion: {
+    image: SUNNYSIDE.crafting.cushion,
+    description: "",
+  },
+  Timber: {
+    image: SUNNYSIDE.crafting.timber,
+    description: "",
+  },
+  "Bee Box": {
+    image: SUNNYSIDE.crafting.beeBox,
+    description: "",
+  },
+  Crimsteel: {
+    image: SUNNYSIDE.crafting.crimsteel,
+    description: "",
+  },
+  "Merino Cushion": {
+    image: SUNNYSIDE.crafting.merinoCushion,
+    description: "",
+  },
+  "Ocean's Treasure": {
+    image: SUNNYSIDE.crafting.oceansTreasure,
+    description: "",
+  },
+  "Royal Bedding": {
+    image: SUNNYSIDE.crafting.royalBedding,
+    description: "",
+  },
+  "Royal Ornament": {
+    image: SUNNYSIDE.crafting.royalOrnament,
+    description: "",
+  },
+  "Kelp Fibre": {
+    image: SUNNYSIDE.crafting.kelpFibre,
+    description: "",
+  },
+  "Hardened Leather": {
+    image: SUNNYSIDE.crafting.hardenedLeather,
+    description: "",
+  },
+  "Synthetic Fabric": {
+    image: SUNNYSIDE.crafting.syntheticFabric,
+    description: "",
   },
 };

@@ -23,6 +23,7 @@ import {
   AnimalFoodName,
   AnimalMedicineName,
   InventoryItemName,
+  LoveAnimalItem,
 } from "features/game/types/game";
 import { QuickSelect } from "features/greenhouse/QuickSelect";
 import { Transition } from "@headlessui/react";
@@ -44,6 +45,8 @@ const _animalState = (state: AnimalMachineState) =>
 const _sheep = (id: string) => (state: MachineState) =>
   state.context.state.barn.animals[id];
 const _inventory = (state: MachineState) => state.context.state.inventory;
+const _inventoryCount = (item: InventoryItemName) => (state: MachineState) =>
+  state.context.state.inventory[item] ?? new Decimal(0);
 
 export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
   id,
@@ -52,7 +55,10 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
   const { gameService, selectedItem } = useContext(Context);
 
   const sheep = useSelector(gameService, _sheep(id));
-
+  const inventoryCount = useSelector(
+    gameService,
+    _inventoryCount(selectedItem as AnimalFoodName),
+  );
   const sheepService = useInterpret(animalMachine, {
     context: {
       animal: sheep,
@@ -64,6 +70,8 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
 
   const [showDrops, setShowDrops] = useState(false);
   const [showQuickSelect, setShowQuickSelect] = useState(false);
+  const [showAffectionQuickSelect, setShowAffectionQuickSelect] =
+    useState(false);
   const [showWakesIn, setShowWakesIn] = useState(false);
   const [showNotEnoughFood, setShowNotEnoughFood] = useState(false);
   const [showNoMedicine, setShowNoMedicine] = useState(false);
@@ -82,6 +90,7 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
   const ready = sheepState === "ready";
   const sick = sheepState === "sick";
   const idle = sheepState === "idle";
+  const loved = sheepState === "loved";
 
   const feedSheep = (item?: InventoryItemName) => {
     const updatedState = gameService.send({
@@ -101,12 +110,21 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
     playFeedAnimal();
   };
 
-  const loveSheep = () => {
+  const onLoveClick = () => {
+    if (selectedItem !== sheep.item || inventoryCount.lt(1)) {
+      setShowAffectionQuickSelect(true);
+      return;
+    }
+
+    loveSheep(selectedItem);
+  };
+
+  const loveSheep = (item = selectedItem) => {
     const updatedState = gameService.send({
       type: "animal.loved",
       animal: "Sheep",
       id: sheep.id,
-      item: "Petting Hand",
+      item: item as LoveAnimalItem,
     });
 
     const updatedSheep = updatedState.context.state.barn.animals[id];
@@ -115,6 +133,8 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
       type: "LOVE",
       animal: updatedSheep,
     });
+
+    playFeedAnimal();
   };
 
   const claimProduce = () => {
@@ -184,8 +204,9 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
 
   const handleClick = async () => {
     if (disabled) return;
+    if (loved) return;
 
-    if (needsLove) return loveSheep();
+    if (needsLove) return onLoveClick();
 
     if (sick) return onSickClick();
 
@@ -421,6 +442,35 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
           onClose={() => setShowQuickSelect(false)}
           onSelected={(item) => handleQuickSelect(item)}
           emptyMessage={t(sick ? "animal.noMedicine" : "animal.noFoodMessage")}
+        />
+      </Transition>
+      <Transition
+        appear={true}
+        show={showAffectionQuickSelect}
+        enter="transition-opacity  duration-300"
+        enterFrom="opacity-0"
+        enterTo="opacity-100"
+        leave="transition-opacity duration-300"
+        leaveFrom="opacity-100"
+        leaveTo="opacity-0"
+        className="flex top-[-20px] left-[50%] z-40 absolute"
+      >
+        <QuickSelect
+          options={[
+            {
+              name: sheep.item,
+              icon: sheep.item,
+              showSecondaryImage: false,
+            },
+          ]}
+          onClose={() => setShowAffectionQuickSelect(false)}
+          onSelected={() => {
+            setShowAffectionQuickSelect(false);
+            loveSheep(sheep.item);
+          }}
+          emptyMessage={t("animal.toolRequired", {
+            tool: sheep.item,
+          })}
         />
       </Transition>
     </div>

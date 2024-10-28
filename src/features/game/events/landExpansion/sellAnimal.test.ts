@@ -48,6 +48,7 @@ describe("animal.sold", () => {
       }),
     ).toThrow("Bounty already completed");
   });
+
   it("requires player has a chicken", () => {
     expect(() =>
       sellAnimal({
@@ -109,6 +110,16 @@ describe("animal.sold", () => {
     const state = sellAnimal({
       state: {
         ...INITIAL_FARM,
+        henHouse: {
+          ...INITIAL_FARM.henHouse,
+          animals: {
+            ...INITIAL_FARM.henHouse.animals,
+            [animalId]: {
+              ...INITIAL_FARM.henHouse.animals[animalId],
+              experience: 1000,
+            },
+          },
+        },
         bounties: {
           completed: [],
           requests: [
@@ -139,6 +150,16 @@ describe("animal.sold", () => {
     const state = sellAnimal({
       state: {
         ...INITIAL_FARM,
+        henHouse: {
+          ...INITIAL_FARM.henHouse,
+          animals: {
+            ...INITIAL_FARM.henHouse.animals,
+            [animalId]: {
+              ...INITIAL_FARM.henHouse.animals[animalId],
+              experience: 1000,
+            },
+          },
+        },
         bounties: {
           completed: [],
           requests: [
@@ -162,11 +183,22 @@ describe("animal.sold", () => {
 
     expect(state.coins).toEqual(100);
   });
+
   it("exchanges tickets", () => {
     const animalId = Object.keys(INITIAL_FARM.henHouse.animals)[0];
     const state = sellAnimal({
       state: {
         ...INITIAL_FARM,
+        henHouse: {
+          ...INITIAL_FARM.henHouse,
+          animals: {
+            ...INITIAL_FARM.henHouse.animals,
+            [animalId]: {
+              ...INITIAL_FARM.henHouse.animals[animalId],
+              experience: 1000,
+            },
+          },
+        },
         bounties: {
           completed: [],
           requests: [
@@ -198,6 +230,16 @@ describe("animal.sold", () => {
     const state = sellAnimal({
       state: {
         ...INITIAL_FARM,
+        henHouse: {
+          ...INITIAL_FARM.henHouse,
+          animals: {
+            ...INITIAL_FARM.henHouse.animals,
+            [animalId]: {
+              ...INITIAL_FARM.henHouse.animals[animalId],
+              experience: 1000,
+            },
+          },
+        },
         bounties: {
           completed: [],
           requests: [

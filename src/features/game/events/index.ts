@@ -405,6 +405,10 @@ import {
   discoverRecipe,
   DiscoverRecipeAction,
 } from "./landExpansion/discoverRecipe";
+import {
+  unlockFarmhand,
+  UnlockFarmhandAction,
+} from "./landExpansion/unlockFarmhand";
 
 export type PlayingEvent =
   | SellAnimalAction
@@ -527,7 +531,8 @@ export type PlayingEvent =
   | CompleteNPCChoreAction
   | ClaimProduceAction
   | BuySeasonalItemAction
-  | DiscoverRecipeAction;
+  | DiscoverRecipeAction
+  | UnlockFarmhandAction;
 
 export type PlacementEvent =
   | ConstructBuildingAction
@@ -715,6 +720,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "produce.claimed": claimProduce,
   "seasonalItem.bought": buySeasonalItem,
   "recipe.discovered": discoverRecipe,
+  "farmHand.unlocked": unlockFarmhand,
 };
 
 export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {

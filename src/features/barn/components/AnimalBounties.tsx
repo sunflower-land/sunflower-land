@@ -37,25 +37,29 @@ export const AnimalBounties: React.FC<Props> = ({ type, onExchanging }) => {
   const { t } = useAppTranslation();
 
   const state = gameService.getSnapshot().context.state;
+  const { requests = [] } = exchange;
 
-  const deals = exchange.requests.filter((deal) =>
+  const deals = requests.filter((deal) =>
     type.includes(deal.name),
   ) as AnimalBounty[];
 
   const expiresAt = useCountdown(weekResetsAt());
+  const hasDeals = deals.length > 0;
 
   return (
     <InnerPanel>
       <div className="p-1">
         <div className="flex justify-between items-center mb-2">
           <Label type="default">{t("bounties.board")}</Label>
-          <Label type="info" icon={SUNNYSIDE.icons.stopwatch}>
-            <TimerDisplay time={expiresAt} />
-          </Label>
+          {hasDeals && (
+            <Label type="info" icon={SUNNYSIDE.icons.stopwatch}>
+              <TimerDisplay time={expiresAt} />
+            </Label>
+          )}
         </div>
 
-        <p className="text-xs mb-2">{t("bounties.board.info")}</p>
-        <div className="flex flex-wrap">
+        {hasDeals && <p className="text-xs mb-2">{t("bounties.board.info")}</p>}
+        <div className="flex flex-wrap mb-2">
           {deals.length === 0 && (
             <p className="text-sm">{t("bounties.board.empty")}</p>
           )}

@@ -334,6 +334,7 @@ import { LemonShark } from "./components/LemonShark";
 import { BattleFish } from "./components/BattleFish";
 import { TomatoBombard } from "./components/TomatoBombard";
 import { BullRunBanner } from "./components/BullRunBanner";
+import { Bed } from "./components/Bed";
 
 export const COLLECTIBLE_COMPONENTS: Record<
   CollectibleName | "Bud",
@@ -1237,111 +1238,14 @@ export const COLLECTIBLE_COMPONENTS: Record<
       alt="Scarab Beetle"
     />
   ),
-  "Basic Bed": (props: CollectibleProps) => (
-    <ImageStyle
-      {...props}
-      divStyle={{
-        width: `${PIXEL_SCALE * 16}px`,
-        bottom: `${PIXEL_SCALE * 0}px`,
-        left: `${PIXEL_SCALE * 0}px`,
-      }}
-      imgStyle={{
-        width: `${PIXEL_SCALE * 16}px`,
-      }}
-      image={ITEM_DETAILS["Basic Bed"].image}
-      alt="Basic Bed"
-    />
-  ),
-  "Sturdy Bed": (props: CollectibleProps) => (
-    <ImageStyle
-      {...props}
-      divStyle={{
-        width: `${PIXEL_SCALE * 16}px`,
-        bottom: `${PIXEL_SCALE * 0}px`,
-        left: `${PIXEL_SCALE * 0}px`,
-      }}
-      imgStyle={{
-        width: `${PIXEL_SCALE * 16}px`,
-      }}
-      image={ITEM_DETAILS["Sturdy Bed"].image}
-      alt="Sturdy Bed"
-    />
-  ),
-  "Floral Bed": (props: CollectibleProps) => (
-    <ImageStyle
-      {...props}
-      divStyle={{
-        width: `${PIXEL_SCALE * 16}px`,
-        bottom: `${PIXEL_SCALE * 0}px`,
-        left: `${PIXEL_SCALE * 0}px`,
-      }}
-      imgStyle={{
-        width: `${PIXEL_SCALE * 16}px`,
-      }}
-      image={ITEM_DETAILS["Floral Bed"].image}
-      alt="Floral Bed"
-    />
-  ),
-  "Fisher Bed": (props: CollectibleProps) => (
-    <ImageStyle
-      {...props}
-      divStyle={{
-        width: `${PIXEL_SCALE * 16}px`,
-        bottom: `${PIXEL_SCALE * 0}px`,
-        left: `${PIXEL_SCALE * 0}px`,
-      }}
-      image={ITEM_DETAILS["Fisher Bed"].image}
-      alt="Fisher Bed"
-    />
-  ),
-  "Pirate Bed": (props: CollectibleProps) => (
-    <ImageStyle
-      {...props}
-      divStyle={{
-        width: `${PIXEL_SCALE * 16}px`,
-        bottom: `${PIXEL_SCALE * 0}px`,
-        left: `${PIXEL_SCALE * 0}px`,
-      }}
-      image={ITEM_DETAILS["Pirate Bed"].image}
-      alt="Pirate Bed"
-    />
-  ),
-  "Cow Bed": (props: CollectibleProps) => (
-    <ImageStyle
-      {...props}
-      divStyle={{
-        width: `${PIXEL_SCALE * 16}px`,
-        bottom: `${PIXEL_SCALE * 0}px`,
-        left: `${PIXEL_SCALE * 0}px`,
-      }}
-      image={ITEM_DETAILS["Cow Bed"].image}
-      alt="Cow Bed"
-    />
-  ),
-  "Desert Bed": (props: CollectibleProps) => (
-    <ImageStyle
-      {...props}
-      divStyle={{
-        width: `${PIXEL_SCALE * 16}px`,
-        bottom: `${PIXEL_SCALE * 0}px`,
-        left: `${PIXEL_SCALE * 0}px`,
-      }}
-      image={ITEM_DETAILS["Desert Bed"].image}
-      alt="Desert Bed"
-    />
-  ),
-  "Royal Bed": (props: CollectibleProps) => (
-    <ImageStyle
-      {...props}
-      divStyle={{
-        width: `${PIXEL_SCALE * 16}px`,
-        bottom: `${PIXEL_SCALE * 0}px`,
-        left: `${PIXEL_SCALE * 0}px`,
-      }}
-      image={ITEM_DETAILS["Royal Bed"].image}
-      alt="Royal Bed"
-    />
-  ),
+  "Basic Bed": (props: CollectibleProps) => <Bed name="Basic Bed" />,
+  "Sturdy Bed": (props: CollectibleProps) => <Bed name="Sturdy Bed" />,
+  "Floral Bed": (props: CollectibleProps) => <Bed name="Floral Bed" />,
+  "Fisher Bed": (props: CollectibleProps) => <Bed name="Fisher Bed" />,
+  "Pirate Bed": (props: CollectibleProps) => <Bed name="Pirate Bed" />,
+  "Cow Bed": (props: CollectibleProps) => <Bed name="Cow Bed" />,
+  "Desert Bed": (props: CollectibleProps) => <Bed name="Desert Bed" />,
+  "Royal Bed": (props: CollectibleProps) => <Bed name="Royal Bed" />,
 };
 // Need readonly versions for some troublesome components while in design mode
 

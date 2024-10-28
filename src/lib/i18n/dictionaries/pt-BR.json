@@ -4070,5 +4070,15 @@
   "season.codex.howToEarn.two": "Complete tarefas para Bumpkins.",
   "season.codex.howToEarn.three": "Troque recompensas por animais e flores!",
   "description.el.pollo.veloz.one": "Suas galinhas colocarão ovos 2 horas mais rápido!",
-  "description.el.pollo.veloz.two": "Me dê esses ovos, rápido! As galinhas dormem 2 horas a menos."
+  "description.el.pollo.veloz.two": "Me dê esses ovos, rápido! As galinhas dormem 2 horas a menos.",
+  "unlock.farmhand": "Desbloqueie Farmhand",
+  "description.unlockFarmhand": "Isso {{name}} permite que você desbloqueie um novo fazendeiro para ajudar na sua fazenda.",
+  "bedsMigration.bedsNeeded": "Camas necessárias!",
+  "bedsMigration.bedsNeededDescription": "Os fazendeiros precisam de camas para trabalhar na fazenda.",
+  "bedsMigration.bedsNeededDescription2": "Coloque camas para contratar mais fazendeiros!",
+  "farmHand": "Farm Hand",
+  "description.petting.hand": "Animais de estimação. Use isso para mostrar afeto aos seus animais.",
+  "description.brush": "Escova para animais. Use isso para mostrar afeto aos seus animais.",
+  "description.music.box": "Toca música para animais. Use isso para mostrar afeto aos seus animais.",
+  "animal.toolRequired": "{{tool}} Obrigatório"
 }
