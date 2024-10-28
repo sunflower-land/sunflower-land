@@ -213,30 +213,63 @@ export const CraftTab: React.FC<Props> = ({
   const handleDragStart = (
     e: React.DragEvent<HTMLDivElement>,
     ingredient: RecipeIngredient,
+    sourceIndex?: number,
   ) => {
-    if (isPending || isCrafting || !hasIngredient(ingredient)) {
+    if (isPending || isCrafting) {
+      e.preventDefault();
+      return;
+    }
+
+    // If dragging from grid, check if there's an ingredient
+    if (sourceIndex !== undefined && !selectedItems[sourceIndex]) {
+      e.preventDefault();
+      return;
+    }
+
+    // If dragging from resources, check if player has the ingredient
+    if (sourceIndex === undefined && !hasIngredient(ingredient)) {
       e.preventDefault();
       return;
     }
 
     setSelectedIngredient(ingredient);
-    e.dataTransfer.setData("application/json", JSON.stringify(ingredient));
+    e.dataTransfer.setData(
+      "application/json",
+      JSON.stringify({ ingredient, sourceIndex }),
+    );
   };
 
-  const handleDrop = (e: React.DragEvent<HTMLDivElement>, index: number) => {
+  const handleDrop = (
+    e: React.DragEvent<HTMLDivElement>,
+    targetIndex: number,
+  ) => {
     try {
       const data = JSON.parse(e.dataTransfer.getData("application/json"));
-      const ingredient = data as RecipeIngredient;
+      const { ingredient, sourceIndex } = data as {
+        ingredient: RecipeIngredient;
+        sourceIndex?: number;
+      };
 
+      // If dragging from resources, check if player has enough
       if (
-        craftingStatus === "pending" &&
+        sourceIndex === undefined &&
         ingredient.collectible &&
         remainingInventory[ingredient.collectible]?.lessThanOrEqualTo(0)
-      )
+      ) {
         return;
+      }
 
       const newSelectedItems = [...selectedItems];
-      newSelectedItems[index] = ingredient;
+
+      // If dragging between grid squares, swap the ingredients
+      if (sourceIndex !== undefined) {
+        newSelectedItems[sourceIndex] = newSelectedItems[targetIndex];
+        newSelectedItems[targetIndex] = ingredient;
+      } else {
+        // If dragging from resources, just place the ingredient
+        newSelectedItems[targetIndex] = ingredient;
+      }
+
       setSelectedItems(newSelectedItems);
     } catch (error) {
       // eslint-disable-next-line no-console
@@ -319,20 +352,28 @@ export const CraftTab: React.FC<Props> = ({
         {/** Crafting Grid */}
         <div className="grid grid-cols-3 gap-1 flex-shrink-0">
           {selectedItems.map((item, index) => (
-            <Box
+            <div
+              className="flex "
               key={`${index}-${item}`}
-              image={
-                item?.collectible
-                  ? ITEM_DETAILS[item.collectible]?.image
-                  : item?.wearable
-                    ? getImageUrl(ITEM_IDS[item.wearable])
-                    : undefined
+              draggable={!isPending && !!item}
+              onDragStart={(e) =>
+                handleDragStart(e, item as RecipeIngredient, index)
               }
-              onClick={() => handleBoxSelect(index)}
               onDragOver={handleDragOver}
               onDrop={(e) => handleDrop(e, index)}
-              disabled={isPending}
-            />
+            >
+              <Box
+                image={
+                  item?.collectible
+                    ? ITEM_DETAILS[item.collectible]?.image
+                    : item?.wearable
+                      ? getImageUrl(ITEM_IDS[item.wearable])
+                      : undefined
+                }
+                onClick={() => handleBoxSelect(index)}
+                disabled={isPending}
+              />
+            </div>
           ))}
         </div>
 
