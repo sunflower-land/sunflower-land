@@ -126,7 +126,7 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
       const text = NAME_ALIASES[name as NPCName] ?? name;
       const label = new Label(this.scene, text.toUpperCase());
       this.add(label);
-      label.setPosition(label.width / 2, -20);
+      label.setPosition(label.width / 2, -16);
       if (
         !!NPCS_WITH_ALERTS[name as NPCName] &&
         !acknowledgedNPCs()[name as NPCName] &&
@@ -1131,5 +1131,26 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
         }
       }, 100);
     }
+  }
+
+  public addLabel(quantity: number) {
+    this.stopSpeaking();
+
+    this.reaction.clear(true, true);
+
+    const label = this.scene.add.bitmapText(
+      -2,
+      -25,
+      "Teeny Tiny Pixls",
+      `${quantity > 0 ? "+" : "-"}${Math.abs(quantity)}`,
+      4,
+      1,
+    );
+
+    label.setTintFill(0xffffff);
+    this.add(label);
+    this.reaction.add(label);
+
+    this.destroyReaction();
   }
 }

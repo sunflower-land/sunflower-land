@@ -43,7 +43,7 @@ export const HalloweenInventory: React.FC = () => {
           setProgress((newTimeLeft / DURATION_LAMP_SECONDS) * 100);
 
           if (newTimeLeft <= 0 && lamps > 0) {
-            portalService.send("DEAD_LAMP");
+            portalService.send("DEAD_LAMP", { lamps: 1 });
             setProgress(100);
             return DURATION_LAMP_SECONDS;
           } else if (newTimeLeft <= 0 && lamps === 0) {

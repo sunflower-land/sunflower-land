@@ -4,7 +4,6 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { HalloweenMission } from "./HalloweenMission";
-import { HalloweenDonations } from "./HalloweenDonations";
 import { HALLOWEEN_NPC_WEARABLES } from "../../HalloweenConstants";
 
 interface Props {
@@ -35,10 +34,6 @@ export const HalloweenRulesPanel: React.FC<Props> = ({
           icon: SUNNYSIDE.icons.plant,
           name: t("halloween.mission"),
         },
-        {
-          icon: SUNNYSIDE.icons.heart,
-          name: t("donate"),
-        },
       ]}
     >
       <>
@@ -51,7 +46,6 @@ export const HalloweenRulesPanel: React.FC<Props> = ({
             onConfirm={onConfirm}
           />
         )}
-        {tab === 1 && <HalloweenDonations />}
       </>
     </CloseButtonPanel>
   );

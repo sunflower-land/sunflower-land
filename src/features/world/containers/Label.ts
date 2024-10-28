@@ -10,8 +10,8 @@ export class Label extends Phaser.GameObjects.Container {
     const width = text.length * 4 - 1;
 
     const name = scene.add.bitmapText(
-      -width / 2 + 1,
-      2,
+      -width / 2,
+      1,
       "Teeny Tiny Pixls",
       text,
       5,

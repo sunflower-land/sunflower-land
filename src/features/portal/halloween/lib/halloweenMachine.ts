@@ -53,6 +53,11 @@ type SetJoystickActiveEvent = {
   isJoystickActive: boolean;
 };
 
+type DeadLampEvent = {
+  type: "DEAD_LAMP";
+  lamps: number;
+};
+
 export type PortalEvent =
   | SetJoystickActiveEvent
   | { type: "START" }
@@ -66,7 +71,7 @@ export type PortalEvent =
   | { type: "GAME_OVER" }
   | GainPointsEvent
   | { type: "COLLECT_LAMP" }
-  | { type: "DEAD_LAMP" }
+  | DeadLampEvent
   | UnlockAchievementsEvent;
 
 export type PortalState = {
@@ -305,8 +310,8 @@ export const portalMachine = createMachine<Context, PortalEvent, PortalState>({
         },
         DEAD_LAMP: {
           actions: assign<Context, any>({
-            lamps: (context: Context) => {
-              return context.lamps - 1;
+            lamps: (context: Context, event: DeadLampEvent) => {
+              return context.lamps - event.lamps;
             },
           }),
         },

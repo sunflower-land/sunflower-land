@@ -11,14 +11,14 @@ export class SpeechBubble extends Phaser.GameObjects.Container {
     const formattedText = this.wordWrap(text, MAX_CHARS_PER_LINE);
 
     this.text = scene.add
-      .bitmapText(0, 0, "pixelmix", formattedText, 3.5)
+      .bitmapText(0, 2, "pixelmix", formattedText, 3.5)
       .setMaxWidth(MAX_WIDTH);
 
     const bounds = this.text.getBounds();
 
     this.bubble = (this.scene.add as any).rexNinePatch({
       x: bounds.centerX - 0.3,
-      y: bounds.centerY + 0.5,
+      y: bounds.centerY - 0.3,
       width: bounds.width + 6,
       height: bounds.height + 4,
       key: "speech_bubble",
