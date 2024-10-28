@@ -275,3 +275,17 @@ export const RECIPES: Recipes = {
     type: "collectible",
   },
 };
+
+export const RECIPE_CRAFTABLES: Record<RecipeCraftableName, null> = {
+  Cushion: null,
+  Timber: null,
+  "Bee Box": null,
+  Crimsteel: null,
+  "Merino Cushion": null,
+  "Kelp Fibre": null,
+  "Hardened Leather": null,
+  "Synthetic Fabric": null,
+  "Ocean's Treasure": null,
+  "Royal Bedding": null,
+  "Royal Ornament": null,
+};
