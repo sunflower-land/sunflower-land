@@ -911,7 +911,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
   "Gold Egg": {
     name: "Gold Egg",
     description:
-      "A golden egg. What lays inside is known to be the bearer of good fortune.\n\n\n\nFeed chickens without wheat.",
+      "A golden egg. What lays inside is known to be the bearer of good fortune.\n\n\n\nFeed chickens for free.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/409.gif",
