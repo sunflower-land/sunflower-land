@@ -50,7 +50,7 @@ GET https://api.sunflower-land.com/community/farms
 }
 ```
 
-Use the `next_cursor` to fetch the net page of farms.
+Use the `next_cursor` to fetch the next page of farms.
 
 ```
 GET https://api.sunflower-land.com/community/farms?cursor=abcd
