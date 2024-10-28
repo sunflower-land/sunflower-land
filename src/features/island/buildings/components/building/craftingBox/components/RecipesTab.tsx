@@ -94,7 +94,7 @@ export const RecipesTab: React.FC<Props> = ({
         onValueChange={(value) => setSearchTerm(value)}
         className="mb-2"
       />
-      <div className="overflow-y-auto max-h-96">
+      <div className="overflow-y-auto max-h-96 scrollable">
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
           {Object.values(filteredRecipes || {}).map((recipe) => {
             const canCraft = hasRequiredIngredients(recipe);

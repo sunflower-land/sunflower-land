@@ -418,7 +418,7 @@ export const CraftTab: React.FC<Props> = ({
         </div>
       </div>
 
-      <div className="flex flex-col max-h-72 overflow-y-auto">
+      <div className="flex flex-col max-h-72 overflow-y-auto scrollable">
         <Label type="default" className="mb-1 ml-1">
           {t("resources")}
         </Label>
