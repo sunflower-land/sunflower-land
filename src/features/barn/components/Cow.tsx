@@ -24,6 +24,7 @@ import {
   AnimalFoodName,
   AnimalMedicineName,
   InventoryItemName,
+  LoveAnimalItem,
 } from "features/game/types/game";
 import { getKeys } from "features/game/types/craftables";
 import { QuickSelect } from "features/greenhouse/QuickSelect";
@@ -85,6 +86,8 @@ const _animalState = (state: AnimalMachineState) =>
 const _cow = (id: string) => (state: MachineState) =>
   state.context.state.barn.animals[id];
 const _inventory = (state: MachineState) => state.context.state.inventory;
+const _inventoryCount = (item: InventoryItemName) => (state: MachineState) =>
+  state.context.state.inventory[item] ?? new Decimal(0);
 
 export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
   id,
@@ -93,6 +96,10 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
   const { gameService, selectedItem } = useContext(Context);
 
   const cow = useSelector(gameService, _cow(id));
+  const inventoryCount = useSelector(
+    gameService,
+    _inventoryCount(selectedItem as AnimalFoodName),
+  );
 
   const cowService = useInterpret(animalMachine, {
     context: {
@@ -117,6 +124,8 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
 
   const [showDrops, setShowDrops] = useState(false);
   const [showQuickSelect, setShowQuickSelect] = useState(false);
+  const [showAffectionQuickSelect, setShowAffectionQuickSelect] =
+    useState(false);
   const [showWakesIn, setShowWakesIn] = useState(false);
   const [showNotEnoughFood, setShowNotEnoughFood] = useState(false);
   const [showNoMedicine, setShowNoMedicine] = useState(false);
@@ -133,6 +142,7 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
   const ready = cowMachineState === "ready";
   const idle = cowMachineState === "idle";
   const sick = cowMachineState === "sick";
+  const loved = cowMachineState === "loved";
 
   const feedCow = (item?: InventoryItemName) => {
     const updatedState = gameService.send({
@@ -152,12 +162,21 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
     playFeedAnimal();
   };
 
-  const loveCow = () => {
+  const onLoveClick = () => {
+    if (selectedItem !== cow.item || inventoryCount.lt(1)) {
+      setShowAffectionQuickSelect(true);
+      return;
+    }
+
+    loveCow(selectedItem);
+  };
+
+  const loveCow = (item = selectedItem) => {
     const updatedState = gameService.send({
       type: "animal.loved",
       animal: "Cow",
       id: cow.id,
-      item: "Petting Hand",
+      item: item as LoveAnimalItem,
     });
 
     const updatedCow = updatedState.context.state.barn.animals[id];
@@ -166,6 +185,8 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
       type: "LOVE",
       animal: updatedCow,
     });
+
+    playFeedAnimal();
   };
 
   const claimProduce = () => {
@@ -235,8 +256,9 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
 
   const handleClick = async () => {
     if (disabled) return;
+    if (loved) return;
 
-    if (needsLove) return loveCow();
+    if (needsLove) return onLoveClick();
 
     if (sick) return onSickClick();
 
@@ -471,6 +493,35 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
           onClose={() => setShowQuickSelect(false)}
           onSelected={(item) => handleQuickSelect(item)}
           emptyMessage={t(sick ? "animal.noMedicine" : "animal.noFoodMessage")}
+        />
+      </Transition>
+      <Transition
+        appear={true}
+        show={showAffectionQuickSelect}
+        enter="transition-opacity  duration-300"
+        enterFrom="opacity-0"
+        enterTo="opacity-100"
+        leave="transition-opacity duration-300"
+        leaveFrom="opacity-100"
+        leaveTo="opacity-0"
+        className="flex top-[-20px] left-[50%] z-40 absolute"
+      >
+        <QuickSelect
+          options={[
+            {
+              name: cow.item,
+              icon: cow.item,
+              showSecondaryImage: false,
+            },
+          ]}
+          onClose={() => setShowAffectionQuickSelect(false)}
+          onSelected={() => {
+            setShowAffectionQuickSelect(false);
+            loveCow(cow.item);
+          }}
+          emptyMessage={t("animal.toolRequired", {
+            tool: cow.item,
+          })}
         />
       </Transition>
     </div>

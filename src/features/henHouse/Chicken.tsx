@@ -28,6 +28,7 @@ import {
   AnimalFoodName,
   AnimalMedicineName,
   InventoryItemName,
+  LoveAnimalItem,
 } from "features/game/types/game";
 import { ProduceDrops } from "features/game/expansion/components/animals/ProduceDrops";
 import { useSound } from "lib/utils/hooks/useSound";
@@ -131,7 +132,7 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
   const ready = chickenMachineState === "ready";
   const idle = chickenMachineState === "idle";
   const sick = chickenMachineState === "sick";
-
+  const loved = chickenMachineState === "loved";
   // Sounds
   const { play: playFeedAnimal } = useSound("feed_animal");
   const { play: playChickenCollect } = useSound("chicken_collect");
@@ -157,17 +158,21 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
     playFeedAnimal();
   };
 
-  const loveChicken = () => {
-    if (selectedItem !== chicken.item) {
+  const onLoveClick = () => {
+    if (selectedItem !== chicken.item || inventoryCount.lt(1)) {
       setShowAffectionQuickSelect(true);
       return;
     }
 
+    loveChicken(selectedItem);
+  };
+
+  const loveChicken = (item = selectedItem) => {
     const updatedState = gameService.send({
       type: "animal.loved",
       animal: "Chicken",
       id: chicken.id,
-      item: chicken.item,
+      item: item as LoveAnimalItem,
     });
 
     const updatedChicken = updatedState.context.state.henHouse.animals[id];
@@ -176,6 +181,8 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
       type: "LOVE",
       animal: updatedChicken,
     });
+
+    playFeedAnimal();
   };
 
   const claimProduce = async () => {
@@ -244,8 +251,9 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
 
   const handleClick = async () => {
     if (disabled) return;
+    if (loved) return;
 
-    if (needsLove) return loveChicken();
+    if (needsLove) return onLoveClick();
 
     if (sick) return onSickClick();
 
@@ -513,7 +521,10 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
             },
           ]}
           onClose={() => setShowAffectionQuickSelect(false)}
-          onSelected={() => loveChicken()}
+          onSelected={() => {
+            setShowAffectionQuickSelect(false);
+            loveChicken(chicken.item);
+          }}
           emptyMessage={t("animal.toolRequired", {
             tool: chicken.item,
           })}
