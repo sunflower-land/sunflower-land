@@ -4079,5 +4079,6 @@
   "farmHand": "Farm Hand",
   "description.petting.hand": "Animais de estimação. Use isso para mostrar afeto aos seus animais.",
   "description.brush": "Escova para animais. Use isso para mostrar afeto aos seus animais.",
-  "description.music.box": "Toca música para animais. Use isso para mostrar afeto aos seus animais."
+  "description.music.box": "Toca música para animais. Use isso para mostrar afeto aos seus animais.",
+  "animal.toolRequired": "{{tool}} Obrigatório"
 }

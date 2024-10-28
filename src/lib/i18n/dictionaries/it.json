@@ -4079,5 +4079,6 @@
   "farmHand": "Mano della fattoria",
   "description.petting.hand": "Animali domestici. Usalo per mostrare affetto ai tuoi animali.",
   "description.brush": "Spazzola per animali. Usalo per mostrare affetto ai tuoi animali.",
-  "description.music.box": "Suona musica per gli animali. Usalo per mostrare affetto ai tuoi animali."
+  "description.music.box": "Suona musica per gli animali. Usalo per mostrare affetto ai tuoi animali.",
+  "animal.toolRequired": "{{tool}} Obbligatorio"
 }

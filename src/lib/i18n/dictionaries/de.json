@@ -4079,5 +4079,6 @@
   "farmHand": "Landarbeiter",
   "description.petting.hand": "Haustiere Tiere. Verwenden Sie dies, um Ihren Tieren Zuneigung zu zeigen.",
   "description.brush": "Tierbürste. Verwenden Sie dies, um Ihren Tieren Zuneigung zu zeigen.",
-  "description.music.box": "Spielt Musik für Tiere. Benutze das, um deinen Tieren Zuneigung zu zeigen."
+  "description.music.box": "Spielt Musik für Tiere. Benutze das, um deinen Tieren Zuneigung zu zeigen.",
+  "animal.toolRequired": "{{tool}} Erforderlich"
 }

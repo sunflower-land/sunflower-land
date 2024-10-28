@@ -4079,5 +4079,6 @@
   "farmHand": "Tangan Pertanian",
   "description.petting.hand": "Hewan peliharaan. Gunakan ini untuk menunjukkan kasih sayang kepada hewan Anda.",
   "description.brush": "Sikat Hewan. Gunakan ini untuk menunjukkan kasih sayang hewan Anda.",
-  "description.music.box": "Memutar musik untuk hewan. Gunakan ini untuk menunjukkan kasih sayang hewan Anda."
+  "description.music.box": "Memutar musik untuk hewan. Gunakan ini untuk menunjukkan kasih sayang hewan Anda.",
+  "animal.toolRequired": "{{tool}} Diperlukan"
 }

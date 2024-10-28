@@ -4079,5 +4079,6 @@
   "farmHand": "Mano de granja",
   "description.petting.hand": "Animales de compañía. Utilízalo para mostrar afecto a tus animales.",
   "description.brush": "Cepillo para animales. Utilízalo para demostrar afecto a tus animales.",
-  "description.music.box": "Toca música para los animales. Utilízala para mostrar afecto a tus animales."
+  "description.music.box": "Toca música para los animales. Utilízala para mostrar afecto a tus animales.",
+  "animal.toolRequired": "{{tool}} Obligatorio"
 }

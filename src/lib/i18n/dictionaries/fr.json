@@ -4079,5 +4079,6 @@
   "farmHand": "Farm Hand",
   "description.petting.hand": "Animaux de compagnie. Utilisez-le pour montrer de l'affection à vos animaux.",
   "description.brush": "Brosse pour animaux Utilisez-le pour montrer de l'affection à vos animaux.",
-  "description.music.box": "Joue de la musique aux animaux. Utilisez-le pour montrer de l'affection à vos animaux."
+  "description.music.box": "Joue de la musique aux animaux. Utilisez-le pour montrer de l'affection à vos animaux.",
+  "animal.toolRequired": "{{tool}} Obligatoire"
 }

@@ -4079,5 +4079,6 @@
   "farmHand": "ファームハンド",
   "description.petting.hand": "ペット、動物。これを使って動物への愛情を示しましょう。",
   "description.brush": "アニマルブラシ。これを使って動物への愛情を示しましょう。",
-  "description.music.box": "動物に音楽をかけます。これを使って動物への愛情を示しましょう。"
+  "description.music.box": "動物に音楽をかけます。これを使って動物への愛情を示しましょう。",
+  "animal.toolRequired": "{{tool}} が必要です"
 }

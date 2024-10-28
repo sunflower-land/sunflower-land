@@ -4079,5 +4079,6 @@
   "farmHand": "农场之手",
   "description.petting.hand": "宠物动物。用它来表达对动物的爱意。",
   "description.brush": "动物画笔。用它来表达对动物的爱意。",
-  "description.music.box": "为动物播放音乐。用它来表达对动物的爱意。"
+  "description.music.box": "为动物播放音乐。用它来表达对动物的爱意。",
+  "animal.toolRequired": "{{tool}} 必填项"
 }
