@@ -5,7 +5,11 @@ import {
   MachineState,
 } from "features/game/lib/gameMachine";
 import { Label } from "components/ui/Label";
-import { InventoryItemName } from "features/game/types/game";
+import {
+  Inventory,
+  InventoryItemName,
+  Wardrobe,
+} from "features/game/types/game";
 import { Button } from "components/ui/Button";
 import { useTranslation } from "react-i18next";
 import { Box } from "components/ui/Box";
@@ -21,7 +25,7 @@ import { getImageUrl } from "lib/utils/getImageURLS";
 import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
 import { useSound } from "lib/utils/hooks/useSound";
 import { ModalOverlay } from "components/ui/ModalOverlay";
-import { InnerPanel } from "components/ui/Panel";
+import { ButtonPanel, InnerPanel } from "components/ui/Panel";
 
 const VALID_CRAFTING_RESOURCES: InventoryItemName[] = [
   "Wood",
@@ -288,14 +292,28 @@ export const CraftTab: React.FC<Props> = ({
     gameService.send("crafting.collected");
   };
 
+  const handleClearIngredients = () => {
+    button.play();
+    setSelectedItems(Array(9).fill(null));
+    setSelectedIngredient(null);
+  };
+
   return (
     <>
       <div className="flex pl-1 pt-1">
-        <CraftStatus
-          isPending={isPending}
-          isCrafting={isCrafting}
-          isReady={isReady}
-        />
+        <div className="flex justify-between items-center w-full mr-1">
+          <CraftStatus
+            isPending={isPending}
+            isCrafting={isCrafting}
+            isReady={isReady}
+          />
+          <ButtonPanel
+            disabled={isPending || isCrafting || isCraftingBoxEmpty}
+            onClick={handleClearIngredients}
+          >
+            <SquareIcon icon={SUNNYSIDE.icons.cancel} width={5} />
+          </ButtonPanel>
+        </div>
       </div>
       <div className="flex mb-2">
         {/** Crafting Grid */}
@@ -351,17 +369,19 @@ export const CraftTab: React.FC<Props> = ({
               handleCollect={handleCollect}
               handleCraft={handleCraft}
               isCraftingBoxEmpty={isCraftingBoxEmpty}
+              selectedItems={selectedItems}
+              inventory={inventory}
+              wardrobe={wardrobe}
             />
           </div>
         </div>
       </div>
 
-      {/** Resources */}
-      <div className="flex flex-col">
+      <div className="flex flex-col max-h-72 overflow-y-auto">
         <Label type="default" className="mb-1 ml-1">
           {t("resources")}
         </Label>
-        <div className="flex flex-wrap max-h-48 overflow-y-auto">
+        <div className="flex flex-wrap">
           {VALID_CRAFTING_RESOURCES.map((itemName) => {
             const amount = remainingInventory[itemName] || new Decimal(0);
             return (
@@ -388,14 +408,10 @@ export const CraftTab: React.FC<Props> = ({
             );
           })}
         </div>
-      </div>
-
-      {/** Wearables */}
-      <div className="flex flex-col">
         <Label type="default" className="mb-1 ml-1 mt-1">
           {t("wearables")}
         </Label>
-        <div className="flex flex-wrap max-h-48 overflow-y-auto">
+        <div className="flex flex-wrap">
           {VALID_CRAFTING_WEARABLES.map((itemName) => {
             const amount = remainingWardrobe[itemName] || 0;
             return (
@@ -639,6 +655,9 @@ const CraftButton: React.FC<{
   handleCollect: () => void;
   handleCraft: () => void;
   isCraftingBoxEmpty: boolean;
+  selectedItems: (RecipeIngredient | null)[];
+  inventory: Inventory;
+  wardrobe: Wardrobe;
 }> = ({
   isCrafting,
   isPending,
@@ -646,8 +665,25 @@ const CraftButton: React.FC<{
   handleCollect,
   handleCraft,
   isCraftingBoxEmpty,
+  selectedItems,
+  inventory,
+  wardrobe,
 }) => {
   const { t } = useTranslation();
+
+  const hasRequiredIngredients = useMemo(() => {
+    return selectedItems.every((ingredient) => {
+      if (!ingredient) return true;
+
+      if (ingredient.collectible) {
+        return (inventory[ingredient.collectible] ?? new Decimal(0)).gte(1);
+      }
+      if (ingredient.wearable) {
+        return (wardrobe[ingredient.wearable] ?? 0) >= 1;
+      }
+      return true;
+    });
+  }, [selectedItems, inventory, wardrobe]);
 
   if (isCrafting && isReady) {
     return (
@@ -669,7 +705,7 @@ const CraftButton: React.FC<{
     <Button
       className="mt-2 whitespace-nowrap"
       onClick={handleCraft}
-      disabled={isCraftingBoxEmpty}
+      disabled={isCraftingBoxEmpty || !hasRequiredIngredients}
     >
       {`${t("craft")} 1`}
     </Button>
