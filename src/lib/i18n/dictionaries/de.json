@@ -255,7 +255,6 @@
   "description.rooster.boost": "2x Chance auf Mutant Chicken",
   "description.undead.rooster.boost": "+0.1 Ei",
   "description.chicken.coop.boost": "+1 Eierertrag; +5 Hühnerlimit pro Hühnerstall",
-  "description.gold.egg.boost": "Hühner ohne Weizen füttern",
   "description.woody.beaver.boost": "+20% Holz",
   "description.apprentice.beaver.boost": "+20% Holz; -50% Erholungszeit der Bäume",
   "description.foreman.beaver.boost": "+20% Holz; -50% Baumerholungszeit; Bäume ohne Äxte fällen",
@@ -4082,5 +4081,6 @@
   "description.music.box": "Spielt Musik für Tiere. Benutze das, um deinen Tieren Zuneigung zu zeigen.",
   "animal.toolRequired": "{{tool}} Erforderlich",
   "easterEgg.halloweenBook": "?????",
-  "easterEgg.halloweenBookText": "Es gibt Orte, die älter sind als die Zeit selbst, und andere, wo das Licht nicht scheint. Du solltest nicht hier sein. In diesem Wald flüstern die Bäume Geheimnisse aus vergessenen Zeiten, und überall lauern Schatten, die geduldig auf eine Gelegenheit warten, jede Lichtquelle zu verschlingen, die es wagt, zu scheinen. Hier ist kein Platz für Abenteurer..."
+  "easterEgg.halloweenBookText": "Es gibt Orte, die älter sind als die Zeit selbst, und andere, wo das Licht nicht scheint. Du solltest nicht hier sein. In diesem Wald flüstern die Bäume Geheimnisse aus vergessenen Zeiten, und überall lauern Schatten, die geduldig auf eine Gelegenheit warten, jede Lichtquelle zu verschlingen, die es wagt, zu scheinen. Hier ist kein Platz für Abenteurer...",
+  "description.gold.egg.boost": "Hühner kostenlos füttern"
 }

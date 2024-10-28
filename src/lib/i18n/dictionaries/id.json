@@ -255,7 +255,6 @@
   "description.rooster.boost": "2x Peluang Ayam Mutan",
   "description.undead.rooster.boost": "+0.1 Telur",
   "description.chicken.coop.boost": "+1 Hasil Telur; +5 Batas Ayam per Rumah Ayam",
-  "description.gold.egg.boost": "Beri makan ayam tanpa gandum",
   "description.woody.beaver.boost": "+20% Kayu",
   "description.apprentice.beaver.boost": "+20% Kayu; -50% Waktu Pemulihan Pohon",
   "description.foreman.beaver.boost": "+20% Kayu; -50% Waktu Pemulihan Pohon; Memotong Pohon tanpa Kapak",
@@ -4082,5 +4081,6 @@
   "description.music.box": "Memutar musik untuk hewan. Gunakan ini untuk menunjukkan kasih sayang hewan Anda.",
   "animal.toolRequired": "{{tool}} Diperlukan",
   "easterEgg.halloweenBook": "?????",
-  "easterEgg.halloweenBookText": "Ada tempat yang lebih tua dari waktu itu sendiri, dan tempat lain yang cahayanya tidak bersinar. Anda tidak seharusnya berada di sini. Di hutan ini, pepohonan membisikkan rahasia masa lalu yang terlupakan dan bayang-bayang mengintai di mana-mana, dengan sabar menunggu kesempatan untuk melahap sumber cahaya apa pun yang berani bersinar. Tidak ada tempat bagi para petualang di sini..."
+  "easterEgg.halloweenBookText": "Ada tempat yang lebih tua dari waktu itu sendiri, dan tempat lain yang cahayanya tidak bersinar. Anda tidak seharusnya berada di sini. Di hutan ini, pepohonan membisikkan rahasia masa lalu yang terlupakan dan bayang-bayang mengintai di mana-mana, dengan sabar menunggu kesempatan untuk melahap sumber cahaya apa pun yang berani bersinar. Tidak ada tempat bagi para petualang di sini...",
+  "description.gold.egg.boost": "Beri makan ayam secara gratis"
 }

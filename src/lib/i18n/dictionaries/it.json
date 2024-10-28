@@ -254,7 +254,6 @@
   "description.rooster.boost": "2x Possibilità di un pollo mutante",
   "description.undead.rooster.boost": "+0,1 uovo",
   "description.chicken.coop.boost": "+1 resa in uova; +5 polli per pollaio",
-  "description.gold.egg.boost": "Dai da mangiare ai polli senza frumento",
   "description.woody.beaver.boost": "+20% legno",
   "description.apprentice.beaver.boost": "+20% legno; -50% tempo di recupero dell'albero",
   "description.foreman.beaver.boost": "+20% legno; -50% tempo di recupero degli alberi; Taglia alberi senza asce",
@@ -4082,5 +4081,6 @@
   "description.music.box": "Suona musica per gli animali. Usalo per mostrare affetto ai tuoi animali.",
   "animal.toolRequired": "{{tool}} Obbligatorio",
   "easterEgg.halloweenBook": "?????",
-  "easterEgg.halloweenBookText": "Ci sono luoghi più antichi del tempo stesso, e altri in cui la luce non brilla. Non dovreste essere qui. In questa foresta, gli alberi sussurrano segreti di tempi dimenticati e le ombre sono in agguato ovunque, aspettando pazientemente di poter divorare qualsiasi fonte di luce che osi brillare. Qui non c'è posto per gli avventurieri..."
+  "easterEgg.halloweenBookText": "Ci sono luoghi più antichi del tempo stesso, e altri in cui la luce non brilla. Non dovreste essere qui. In questa foresta, gli alberi sussurrano segreti di tempi dimenticati e le ombre sono in agguato ovunque, aspettando pazientemente di poter divorare qualsiasi fonte di luce che osi brillare. Qui non c'è posto per gli avventurieri...",
+  "description.gold.egg.boost": "Dai da mangiare ai polli gratis"
 }

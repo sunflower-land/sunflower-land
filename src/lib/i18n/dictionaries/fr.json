@@ -216,7 +216,6 @@
   "description.el.pollo.veloz.boost": "-4h Temps de production des Eggs",
   "description.rooster.boost": "Chance x2 d'obtenir un poulet mutant",
   "description.chicken.coop.boost": "+1 Rendement en Eggs ; +5 Limite de poulets par poulailler",
-  "description.gold.egg.boost": "Nourrir les poulets sans Wheat",
   "description.apprentice.beaver.boost": "+20% Wood ; -50% Temps de récupération des arbres",
   "description.foreman.beaver.boost": "+20% Wood ; -50% Temps de récupération des arbres ; Couper les arbres sans haches",
   "description.tunnel.mole.boost": "+0.25 Pierre",
@@ -4082,5 +4081,6 @@
   "description.music.box": "Joue de la musique aux animaux. Utilisez-le pour montrer de l'affection à vos animaux.",
   "animal.toolRequired": "{{tool}} Obligatoire",
   "easterEgg.halloweenBook": "?????",
-  "easterEgg.halloweenBookText": "Il y a des endroits plus anciens que le temps lui-même, et d'autres où la lumière ne brille pas. Vous ne devriez pas être ici. Dans cette forêt, les arbres murmurent des secrets de temps oubliés et les ombres se cachent partout, attendant patiemment l'occasion de dévorer toute source de lumière qui ose briller. Les aventuriers n'ont pas leur place ici..."
+  "easterEgg.halloweenBookText": "Il y a des endroits plus anciens que le temps lui-même, et d'autres où la lumière ne brille pas. Vous ne devriez pas être ici. Dans cette forêt, les arbres murmurent des secrets de temps oubliés et les ombres se cachent partout, attendant patiemment l'occasion de dévorer toute source de lumière qui ose briller. Les aventuriers n'ont pas leur place ici...",
+  "description.gold.egg.boost": "Nourrissez les poulets gratuitement"
 }

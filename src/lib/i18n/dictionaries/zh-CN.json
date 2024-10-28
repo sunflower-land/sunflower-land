@@ -253,7 +253,6 @@
   "description.rooster.boost": "变种鸡出现几率提升 2 倍",
   "description.undead.rooster.boost": "+0.1 鸡蛋",
   "description.chicken.coop.boost": "+1 鸡蛋产量；每个鸡舍的养鸡数量上限 +5",
-  "description.gold.egg.boost": "喂鸡不再需要小麦",
   "description.woody.beaver.boost": "+20% 木头",
   "description.apprentice.beaver.boost": "+20% 木头；-50% 树木恢复时间",
   "description.foreman.beaver.boost": "+20% 木头；-50% 树木恢复时间；砍树不再需要斧头",
@@ -4082,5 +4081,6 @@
   "description.music.box": "为动物播放音乐。用它来表达对动物的爱意。",
   "animal.toolRequired": "{{tool}} 必填项",
   "easterEgg.halloweenBook": "?????",
-  "easterEgg.halloweenBookText": "有些地方比时间本身还要久远，有些地方则没有光明。你不该来这里 在这片森林里，树木悄悄诉说着被遗忘时代的秘密 到处都潜伏着阴影 耐心等待机会吞噬任何敢于闪耀的光源 这里没有冒险者的容身之地..."
+  "easterEgg.halloweenBookText": "有些地方比时间本身还要久远，有些地方则没有光明。你不该来这里 在这片森林里，树木悄悄诉说着被遗忘时代的秘密 到处都潜伏着阴影 耐心等待机会吞噬任何敢于闪耀的光源 这里没有冒险者的容身之地...",
+  "description.gold.egg.boost": "免费喂鸡"
 }

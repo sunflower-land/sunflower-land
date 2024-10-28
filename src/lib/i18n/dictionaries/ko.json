@@ -255,7 +255,6 @@
   "description.rooster.boost": "뮤턴트 치킨 확률 2배",
   "description.undead.rooster.boost": "+0.1 에그",
   "description.chicken.coop.boost": "계란 생산량 +1, 암탉 사육장당 닭 한도 +5 마리",
-  "description.gold.egg.boost": "밀을 넣지 않은 닭에게 먹이주기",
   "description.woody.beaver.boost": "+20% 우드",
   "description.apprentice.beaver.boost": "목재 20% 증가, 나무 회복 시간 -50%",
   "description.foreman.beaver.boost": "나무 20% 증가, 나무 회복 시간 -50%, 도끼를 사용하지 않고 나무 자르기",
@@ -4082,5 +4081,6 @@
   "description.music.box": "동물에게 음악을 재생합니다.이를 사용해 동물에게 애정을 표현하세요.",
   "animal.toolRequired": "{{tool}} 필수",
   "easterEgg.halloweenBook": "?????",
-  "easterEgg.halloweenBookText": "시간보다 오래된 곳도 있고, 빛이 비치지 않는 곳도 있습니다. 당신은 여기 오면 안 돼요. 이 숲에서는 나무들이 잊혀진 시간의 비밀을 속삭이고, 그림자가 곳곳에 숨어 감히 빛을 비추는 모든 것을 삼킬 기회를 참을성 있게 기다립니다. 이곳에는 모험가를 위한 자리가 없습니다..."
+  "easterEgg.halloweenBookText": "시간보다 오래된 곳도 있고, 빛이 비치지 않는 곳도 있습니다. 당신은 여기 오면 안 돼요. 이 숲에서는 나무들이 잊혀진 시간의 비밀을 속삭이고, 그림자가 곳곳에 숨어 감히 빛을 비추는 모든 것을 삼킬 기회를 참을성 있게 기다립니다. 이곳에는 모험가를 위한 자리가 없습니다...",
+  "description.gold.egg.boost": "닭에게 무료로 먹이주기"
 }

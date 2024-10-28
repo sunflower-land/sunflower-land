@@ -210,7 +210,6 @@
   "description.rooster.boost": "Chance 2x de Galinha Mutante",
   "description.undead.rooster.boost": "+0.1 Ovo",
   "description.chicken.coop.boost": "+1 Rendimento de Ovos; +5 Limite de Galinhas por Galinheiro",
-  "description.gold.egg.boost": "Alimente as Galinhas sem Trigo",
   "description.woody.beaver.boost": "+20% Madeira",
   "description.apprentice.beaver.boost": "+20% Madeira; -50% Tempo de Recuperação de Árvores",
   "description.foreman.beaver.boost": "+20% Madeira; -50% Tempo de Recuperação de Árvores; Corte Árvores sem Machados",
@@ -4082,5 +4081,6 @@
   "description.music.box": "Toca música para animais. Use isso para mostrar afeto aos seus animais.",
   "animal.toolRequired": "{{tool}} Obrigatório",
   "easterEgg.halloweenBook": "?????",
-  "easterEgg.halloweenBookText": "Há lugares mais antigos que o próprio tempo e outros onde a luz não brilha. Você não deveria estar aqui. Nesta floresta, as árvores sussurram segredos de tempos esquecidos e as sombras se escondem por toda parte, esperando pacientemente por uma chance de devorar qualquer fonte de luz que ouse brilhar. Não há lugar para aventureiros ou curiosos como você por aqui..."
+  "easterEgg.halloweenBookText": "Há lugares mais antigos que o próprio tempo e outros onde a luz não brilha. Você não deveria estar aqui. Nesta floresta, as árvores sussurram segredos de tempos esquecidos e as sombras se escondem por toda parte, esperando pacientemente por uma chance de devorar qualquer fonte de luz que ouse brilhar. Não há lugar para aventureiros ou curiosos como você por aqui...",
+  "description.gold.egg.boost": "Alimente galinhas de graça"
 }

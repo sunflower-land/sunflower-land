@@ -224,7 +224,6 @@
   "description.rooster.boost": "2x Mutant Tavuk Şansı",
   "description.undead.rooster.boost": "+0.1 Yumurta",
   "description.chicken.coop.boost": "+1 Yumurta Verimi; Her Tavuk Bümesi başına +5 Tavuk Limiti",
-  "description.gold.egg.boost": "Tavukları Buğdaysız Besle",
   "description.woody.beaver.boost": "+20% Odun",
   "description.apprentice.beaver.boost": "+20% Odun; -50% Ağaç Yenilenme Süresi",
   "description.foreman.beaver.boost": "+20% Odun; -50% Ağaç Yenilenme Süresi; Ağaçları Baltasız Kes",
@@ -4082,5 +4081,6 @@
   "description.music.box": "Hayvanlara müzik çalar. Bunu hayvanlarınıza şefkat göstermek için kullanın.",
   "animal.toolRequired": "{{tool}} Gerekli",
   "easterEgg.halloweenBook": "?????",
-  "easterEgg.halloweenBookText": "Zamanın kendisinden daha eski yerler ve ışığın parlamadığı başka yerler vardır. Burada olmamalısınız. Bu ormanda ağaçlar unutulmuş zamanların sırlarını fısıldar ve gölgeler her yerde pusuya yatmış, parlamaya cesaret eden her ışık kaynağını yutmak için sabırla fırsat kollar. Burada maceracılara yer yok..."
+  "easterEgg.halloweenBookText": "Zamanın kendisinden daha eski yerler ve ışığın parlamadığı başka yerler vardır. Burada olmamalısınız. Bu ormanda ağaçlar unutulmuş zamanların sırlarını fısıldar ve gölgeler her yerde pusuya yatmış, parlamaya cesaret eden her ışık kaynağını yutmak için sabırla fırsat kollar. Burada maceracılara yer yok...",
+  "description.gold.egg.boost": "Tavukları ücretsiz besleyin"
 }
