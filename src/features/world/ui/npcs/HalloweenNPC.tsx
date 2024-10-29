@@ -153,6 +153,9 @@ export const HalloweenNPC: React.FC<Props> = ({ onClose }) => {
           {
             text: t("halloween.sacrifice.intro.three"),
           },
+          {
+            text: t("halloween.sacrifice.intro.four"),
+          },
         ]}
         onClose={() => setShowIntro(false)}
         bumpkinParts={NPC_WEARABLES.luna}

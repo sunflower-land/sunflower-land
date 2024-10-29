@@ -5,7 +5,6 @@ import { BaseScene, NPCBumpkin } from "./BaseScene";
 import { interactableModalManager } from "../ui/InteractableModals";
 import { Label } from "../containers/Label";
 import { translate } from "lib/i18n/translate";
-import { HalloweenNPC } from "../ui/npcs/HalloweenNPC";
 
 const BUMPKINS: NPCBumpkin[] = [
   {
