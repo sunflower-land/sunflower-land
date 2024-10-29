@@ -349,6 +349,44 @@ describe("claimProduce", () => {
     expect(newState.inventory.Leather).toEqual(new Decimal(1.25));
   });
 
+  it("gives +0.5 yield for Milk for cows when a Milk Apron is being worn", () => {
+    const cowId = "123";
+
+    const newState = claimProduce({
+      state: {
+        ...INITIAL_FARM,
+        bumpkin: {
+          ...INITIAL_FARM.bumpkin,
+          equipped: {
+            ...INITIAL_FARM.bumpkin?.equipped,
+            coat: "Milk Apron",
+          },
+        },
+        barn: {
+          ...INITIAL_FARM.barn,
+          animals: {
+            [cowId]: {
+              coordinates: { x: 0, y: 0 },
+              id: cowId,
+              type: "Cow",
+              createdAt: 0,
+              state: "ready",
+              experience: 360,
+              asleepAt: 0,
+              lovedAt: 0,
+              item: "Petting Hand",
+            },
+          },
+        },
+      },
+      action: { type: "produce.claimed", animal: "Cow", id: cowId },
+      createdAt: now,
+    });
+
+    expect(newState.inventory.Milk).toEqual(new Decimal(1.5));
+    expect(newState.inventory.Leather).toEqual(new Decimal(1));
+  });
+
   it("gives +0.25 yield for all produce for sheep when a Cattlegrim is being worn", () => {
     const sheepId = "123";
 
@@ -837,6 +875,42 @@ describe("claimProduce", () => {
     expect(state.henHouse.animals["0"].asleepAt).toEqual(boostedAsleepAt);
   });
 
+  it("reduces the sleep time by 20% if Dream Scarf is worn and ready", () => {
+    const state = claimProduce({
+      createdAt: now,
+      state: {
+        ...INITIAL_FARM,
+        bumpkin: {
+          ...INITIAL_FARM.bumpkin,
+          equipped: {
+            ...INITIAL_FARM.bumpkin?.equipped,
+            necklace: "Dream Scarf",
+          },
+        },
+        barn: {
+          ...INITIAL_FARM.barn,
+          animals: {
+            "0": {
+              ...INITIAL_FARM.barn.animals["0"],
+              state: "ready",
+              type: "Sheep",
+              experience: 60,
+            },
+          },
+        },
+      },
+      action: {
+        type: "produce.claimed",
+        animal: "Sheep",
+        id: "0",
+      },
+    });
+
+    const boostedAsleepAt = now - ANIMAL_SLEEP_DURATION * 0.2;
+
+    expect(state.barn.animals["0"].asleepAt).toEqual(boostedAsleepAt);
+  });
+
   it("reduces the sleep time by 10% for a Cow if player has Wrangler skill", () => {
     const state = claimProduce({
       createdAt: now,
@@ -851,6 +925,7 @@ describe("claimProduce", () => {
             "0": {
               ...INITIAL_FARM.barn.animals["0"],
               state: "ready",
+              type: "Cow",
               experience: 60,
             },
           },
